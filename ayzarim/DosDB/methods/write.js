@@ -9,7 +9,9 @@ const awtsmoosBinary =  require("../awtsmoosBinary/awtsmoosBinaryJSON/index.js")
 
 var fs = require("fs").promises;
 var path = require("path");
-
+var ensureDir = () => {
+	
+}
 module.exports = {
     /**
 	 * @method write
@@ -23,37 +25,54 @@ module.exports = {
         id, record, 
         opts = {}
     ) {
-		const isDir = !record;
-		const filePath = await this.getAwtsmoosFilePath(id, isDir, opts?.override);
-   
-		await this.ensureDir(filePath, isDir);
-		if(isDir) return;
 		
+		const isDir = !record;
 		try {
-			if(record instanceof Buffer) {
+			if(
+				typeof record === "string" ||
+				record instanceof Buffer
+			) {
 				try {
-					await this.delete(filePath);
-				} catch (e) {}
-				await fs.writeFile(filePath, record);
+					const filePath = await this.getAwtsmoosFilePath(id, isDir, false);
+			   
+					await this.ensureDir(filePath, isDir);
+					if(isDir) return;
+					await this.delete(id);
+					
+					await fs.writeFile(filePath, record);
+				} catch (e) {
+					return {
+						error: e.stack,
+						type: "regular file write",
+						filePath,
+						record
+					};;
+				}
+				
+			
 			} else if(typeof record === "object") {
 				
 				
 				try {
+					
+					
+					const filePath = await this.getAwtsmoosFilePath(id, isDir);
+			   
+					await this.ensureDir(filePath, isDir);
+					if(isDir) return;
 					return await this.writeAsBinaryFormat(filePath, record, opts);
 				} catch(e) {
 					console.log("WHAT",e);
 					return {
-						error: e.stack
+						error: e.stack,
+						type: "awtsmoos file write",
+						filePath,
+						record
 					};;
 				}
 				
 				
-			} else if(typeof record === "string") {
-				try {
-					await this.delete(id);
-				} catch (e) {}
-				await fs.writeFile(filePath, record + "", "utf8");
-			}
+			} 
 		} catch (e) {
 			return {
 				error: e.stack

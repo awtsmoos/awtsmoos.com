@@ -25,7 +25,7 @@ export default class Chai extends Tzomayach {
     _originalSpeed = this._speed;
     _movementSpeed = this._speed;
     
-    jumpHeight = 27
+    jumpHeight = 16
 
     get speed () {
         return this._speed;
@@ -434,58 +434,52 @@ export default class Chai extends Tzomayach {
         }
     }
     
-    placeObject() {
-	    const worldRotation = new THREE.Quaternion();
-	    this.activeObject.mesh.getWorldQuaternion(worldRotation);
-	    
-	    var golem = this.activeObject.mesh.awtsmoosGolem;
-	    var position = new THREE.Vector3();
-	    this.activeObject.mesh.getWorldPosition(position); // Use world position
-	
-	    var {x,y,z} = this.activeObject.mesh.rotation;
-	    var rotation = {x,y,z};
-	    var scale = this.activeObject.mesh.scale;
-	    
-	    // Check if the currently held object came from the inventory
-	    let itemUsedInfo = null;
-	    if (this.inventory && this.selectedInventorySlot !== null) {
-	        const slot = this.inventory.slots[this.selectedInventorySlot];
-	        if (slot && slot.item === 'Brick') {
-	             itemUsedInfo = {
-	                slotIndex: this.selectedInventorySlot
-	            };
-	        }
-	    }
-	    
-	    // If an item was used to create this block, remove one from the inventory
-	    if (itemUsedInfo) {
-	        this.inventory.removeItem(itemUsedInfo.slotIndex, 1);
-	        
-	        // If the stack is now empty, deselect the slot
-	        if (!this.inventory.slots[itemUsedInfo.slotIndex]) {
-	            this.selectedInventorySlot = null;
-	        }
-	    }
-	
-	    // Now, create the permanent object in the world
-	    this.olam.loadNivrayim({
-	        Domem: {
-	            ["BH_"+Date.now()+"_block"]: {
-	                position,
-	                scale,
-	                rotation,
-	                isSolid:true,
-	                interactable: true,
-	                ...(golem ? {
-	                    golem
-	                } : {})
-	            }
-	        }
-	    });
-	
-	    this.removeObject(); // This will clear activeObject from the ray
-	    this.activeObject = null;
-	}
+    
+	async placeObject() {
+    if (!this.activeObject || !this.activeObject.mesh) return;
+
+    const golem = this.activeObject.mesh.awtsmoosGolem;
+    if (!golem) return;
+
+    const position = new THREE.Vector3();
+    const scale = new THREE.Vector3();
+    this.activeObject.mesh.getWorldPosition(position);
+    this.activeObject.mesh.getWorldScale(scale);
+
+    // Get rotation directly from the source of truth for the character's facing direction.
+    // This works for both 1st and 3rd person.
+    const rotation = new THREE.Euler(0, this.modelMesh.rotation.y, 0);
+
+    if (this.inventory && this.selectedInventorySlot !== null) {
+        const slot = this.inventory.slots[this.selectedInventorySlot];
+        if (slot && slot.item === 'Brick') {
+            this.inventory.removeItem(this.selectedInventorySlot, 1);
+            if (!this.inventory.slots[this.selectedInventorySlot]) {
+                this.selectedInventorySlot = null;
+            }
+        }
+    }
+
+    // --- B"H ---
+    // CALL THE NEW, DEDICATED METHOD
+    await this.olam.addObject('Domem', {
+        // We no longer need a dynamic name for the key inside the method
+        position,
+        scale,
+        rotation,
+        golem,
+        isSolid: true,
+        interactable: true,
+        name: "BH_permanent_block_" + Date.now()
+    });
+    // --- B"H ---
+
+    this.removeObject();
+    this.activeObject = null;
+}
+
+
+
     removeRay() {
         // Remove existing ray and associated object
         if (this.activeObject) {

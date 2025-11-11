@@ -569,6 +569,21 @@ export default class {
                 var golem = nivra.golem || {};
                 var mesh = await this.generateThreeJsMesh(golem);
 		mesh.name = nivra.name;
+		
+		    if (nivra.position) {
+		        mesh.position.copy(nivra.position.vector3());
+		    }
+		    if (nivra.rotation) {
+		        // Use Euler angles as your Domem class does
+		        mesh.rotation.set(nivra.rotation.x || 0, nivra.rotation.y || 0, nivra.rotation.z || 0);
+		    }
+		    if (nivra.scale) {
+		        mesh.scale.copy(nivra.scale.vector3());
+		    }
+		    
+		    // VERY IMPORTANT: Update the mesh's world matrix after transforming it.
+		    // The octree uses this matrix to get the final vertex positions for collision geometry.
+		    mesh.updateMatrixWorld(true);
                 if (nivra.isSolid) {
                     // This is a dynamic, solid object. Add it to the OctreeWorld synchronously.
                     // DO NOT use event listeners here. This must be immediate.

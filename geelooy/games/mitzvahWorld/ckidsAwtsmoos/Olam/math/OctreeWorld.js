@@ -70,31 +70,85 @@ export class OctreeWorld {
         this.#intakeQueue.push({ group });
     }
     
+    
+    
     /**
-     * B"H
-     * Synchronously adds a single dynamic object to the physics world.
-     * This bypasses the async intake queue for immediate updates.
-     * @param {THREE.Mesh} mesh - The mesh to add.
-     */
-    addObject(mesh) {
+ * B"H
+ * Synchronously adds a single dynamic object to the physics world.
+ * This bypasses the async intake queue for immediate updates.
+ * @param {THREE.Mesh} mesh - The mesh to add.
+ */
+addObject(mesh) {
         if (!this.#root || !mesh) return;
 
-       // Find the exact leaf node this object belongs in.
         const leafNode = this.#findLeafNodeAtPoint(this.#root, mesh.position);
 
         if (leafNode) {
-            // 3. Add the new mesh's geometry to the node's collection.
-            leafNode.physicsMeshGroup.add(physicsClone);
-
-            // 4. Immediately and synchronously rebuild the physics for THIS NODE ONLY.
-            //    This is the crucial step that prevents the race condition.
-            this.#buildNodePhysics(leafNode, true);
-		
+            console.log(`[OctreeWorld] Found leaf node for new object. Triggering synchronous rebuild.`);
+            this.#synchronouslyRebuildNode(leafNode, mesh); // Call the new, dedicated function
             console.log(`[OctreeWorld] Dynamically added "${mesh.name}" to physics node.`);
         } else {
             console.warn(`[OctreeWorld] Could not find a physics node for dynamic object: ${mesh.name}`);
         }
     }
+ #buildNodePhysics(node) {
+        if (node.state === NODE_STATE.READY) return; // Already done
+        
+        if (!node.physics) node.physics = new AwtsmoosOctree();
+        else node.physics.clear();
+        
+        node.physics.box.copy(node.box);
+        node.physics._isManaged = true;
+        
+        if (node.physicsMeshGroup.children.length > 0) {
+            node.physicsMeshGroup.userData.isPreTransformed = true;
+            node.physics.fromGraphNode(node.physicsMeshGroup);
+            node.physics.build();
+            console.log(`[OctreeWorld] ASYNC build complete for node. Triangle count: ${node.physics.getTotalTriangleCount()}`);
+        }
+        
+        node.state = NODE_STATE.READY;
+    }
+    
+     /**
+     * B"H
+     * This new function ONLY handles synchronous rebuilds for dynamic objects.
+     * It safely handles all cases: adding to an empty node, or adding to a node
+     * that already contains the static world geometry.
+     */
+    #synchronouslyRebuildNode(node, newMesh) {
+    console.log(`[OctreeWorld] SURGICAL INSERTION triggered for node.`);
+
+    // If the node hasn't even been built for the first time, do a proper async build.
+    // This is a safety check and should not normally be hit for this use case.
+    if (node.state !== NODE_STATE.READY) {
+        console.warn('[OctreeWorld] addObject called on a node that was not ready. Performing a full sync build as a fallback.');
+        node.physicsMeshGroup.add(newMesh);
+        this.#buildNodePhysics(node); // Fallback to the original async build function, but run it now.
+        return;
+    }
+    
+    // --- The Lightning-Fast Path ---
+    // The node's physics are already built. We will just add triangles.
+
+    const geometry = newMesh.geometry;
+    const positionAttribute = geometry.getAttribute('position');
+
+    // Extract the 12 triangles from our new brick mesh. This is extremely fast.
+    if (positionAttribute) {
+        for (let i = 0; i < positionAttribute.count; i += 3) {
+            const v1 = new THREE.Vector3().fromBufferAttribute(positionAttribute, i).applyMatrix4(newMesh.matrixWorld);
+            const v2 = new THREE.Vector3().fromBufferAttribute(positionAttribute, i + 1).applyMatrix4(newMesh.matrixWorld);
+            const v3 = new THREE.Vector3().fromBufferAttribute(positionAttribute, i + 2).applyMatrix4(newMesh.matrixWorld);
+            const newTriangle = new THREE.Triangle(v1, v2, v3);
+            
+            // Call our new surgical method for each triangle.
+            node.physics.addTriangle(newTriangle);
+        }
+    }
+
+    console.log(`[OctreeWorld] SURGICAL INSERTION complete. Total triangles in node now: ${node.physics.getTotalTriangleCount()}`);
+}
 
 
     /**
@@ -297,26 +351,7 @@ export class OctreeWorld {
         }
     }
 
-    #buildNodePhysics(node, buildRightAway=false) {
-        if (node.state === NODE_STATE.READY) return;
-        
-        if (!node.physics) node.physics = new AwtsmoosOctree();
-        else node.physics.clear();
-        
-        node.physics.box.copy(node.box);
-        node.physics._isManaged = true;
-        
-        if (node.physicsMeshGroup.children.length > 0) {
-            node.physicsMeshGroup.userData.isPreTransformed = true;
-            node.physics.fromGraphNode(node.physicsMeshGroup);
-          //  if(buildRightAway)
-	        node.physics.build();
-	        console.log("Built?",node);
-        }
-        
-        node.state = NODE_STATE.READY;
-        
-    }
+    
 
     #subdivide(node) {
         if (node.type === 'BRANCH') return;

@@ -19,7 +19,7 @@ module.exports = {
      * @param {boolean} [isDir=false] - If true, treats the path as a directory.
      * @returns {Promise<string>} - The resolved, absolute, and safe path.
      */
-    async getAwtsmoosFilePath(id, isDir = false) {
+    async getAwtsmoosFilePath(id, isDir = false, automaticallyAddAwtsmoos=true) {
         if (typeof id !== "string" || !id) {
              if (logs) console.log(`[PATH_WARN] Received non-string or empty ID: ${id}. Returning as-is.`);
              return id; 
@@ -104,7 +104,7 @@ module.exports = {
 
         if (logs) console.log("[PATH_FINAL] Path not found. Returning resolved path for CREATE operation.");
          
-        return awtsmoosJsonPath;//resolvedPath;
+        return automaticallyAddAwtsmoos ? awtsmoosJsonPath : resolvedPath;
     },
 
 

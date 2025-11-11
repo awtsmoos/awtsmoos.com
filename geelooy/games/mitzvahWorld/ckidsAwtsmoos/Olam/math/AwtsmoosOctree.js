@@ -73,6 +73,53 @@ export class Octree {
 	    this.#allTriangles.push(...triangles);
 	    this.#isBuilt = false;
 	}
+	
+	/**
+	     * B"H - NEW METHOD 1 of 2
+	     * Surgically inserts a single triangle into the already-built octree.
+	     * This is the key to our performance boost.
+	     */
+	    addTriangle(triangle) {
+	        // First, add the triangle to the master data array. This is a very fast operation.
+	        // We temporarily "un-build" the flat array to do this.
+	        const newTriangles = [...this.#allTriangles, triangle];
+	        this.#allTriangles = newTriangles;
+	        
+	        // Re-create the flat data array. This is much faster than re-traversing meshes.
+	        this.#worldTrianglesData = new Float32Array(newTriangles.length * 9);
+	        for (let i = 0; i < newTriangles.length; i++) {
+	            const tri = newTriangles[i];
+	            const baseIndex = i * 9;
+	            this.#worldTrianglesData[baseIndex] = tri.a.x; this.#worldTrianglesData[baseIndex+1] = tri.a.y; this.#worldTrianglesData[baseIndex+2] = tri.a.z;
+	            this.#worldTrianglesData[baseIndex+3] = tri.b.x; this.#worldTrianglesData[baseIndex+4] = tri.b.y; this.#worldTrianglesData[baseIndex+5] = tri.b.z;
+	            this.#worldTrianglesData[baseIndex+6] = tri.c.x; this.#worldTrianglesData[baseIndex+7] = tri.c.y; this.#worldTrianglesData[baseIndex+8] = tri.c.z;
+	        }
+	
+	        const newTriangleIndex = newTriangles.length - 1;
+	
+	        // Now, find the correct leaf node(s) and insert the index.
+	        this._insertTriangleRecursive(this, newTriangleIndex, triangle);
+	    }
+	    
+	    /**
+     * B"H - NEW METHOD 2 of 2
+     * The recursive helper function that traverses the tree to find the right leaf.
+     */
+    _insertTriangleRecursive(node, triangleIndex, triangle) {
+        if (!node.box.intersectsTriangle(triangle)) {
+            return;
+        }
+
+        if (node.subTrees.length === 0) {
+            // This is a leaf node, add the triangle index here.
+            node.triangles.push(triangleIndex);
+        } else {
+            // This is a branch node, recurse into children.
+            for (const subTree of node.subTrees) {
+                this._insertTriangleRecursive(subTree, triangleIndex, triangle);
+            }
+        }
+    }
 
 	fromGraphNode(group) {
 	    // For normal scene objects, we MUST update the world matrix.
@@ -85,6 +132,7 @@ export class Octree {
 	
 	    group.traverse((obj) => {
 	        if (obj.isMesh === true) {
+		        //console.log(`[AwtsmoosOctree] Processing mesh "${obj.name}" to extract triangles.`); // LOG 4
 	            if (this.#allTriangles.some(tri => tri.sourceMesh === obj)) {
 	                this.removeMesh(obj);
 	            }
@@ -317,6 +365,19 @@ export class Octree {
 			}
 		}
 		return false;
+	}
+	
+	/**
+	 * B"H
+	 * Diagnostic helper to count all triangles this octree and its subtrees are managing.
+	 * @returns {number}
+	 */
+	getTotalTriangleCount() {
+	    let count = this.triangles.length;
+	    for (const subTree of this.subTrees) {
+	        count += subTree.getTotalTriangleCount();
+	    }
+	    return count;
 	}
 	
 	#getTriangleCount() { return this.#worldTrianglesData ? this.#worldTrianglesData.length / 9 : 0; }

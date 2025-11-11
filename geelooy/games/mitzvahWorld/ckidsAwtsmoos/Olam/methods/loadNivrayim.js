@@ -6,6 +6,59 @@
 import Utils from '../../utils.js'
 import * as AWTSMOOS from '../../awtsmoosCkidsGames.js';
 export default class {
+
+
+	async addObject(type, options) {
+        if (!AWTSMOOS[type]) {
+            console.error(`Olam.addObject: Type "${type}" does not exist.`);
+            return;
+        }
+
+        // 1. Create the logical object (Nivra)
+        const nivra = new AWTSMOOS[type](options, this);
+        let mesh;
+
+        // 2. Create the visual object (Mesh)
+        if (options.golem) {
+            mesh = await this.generateThreeJsMesh(options.golem);
+            mesh.name = nivra.name;
+            nivra.mesh = mesh;
+            mesh.nivraAwtsmoos = nivra;
+
+            // 3. APPLY TRANSFORMATIONS DIRECTLY - This is the most critical step.
+            if (options.position) mesh.position.copy(options.position);
+            if (options.rotation) mesh.rotation.copy(options.rotation); // It takes the Euler directly.
+            if (options.scale) mesh.scale.copy(options.scale);
+
+            // 4. Update the world matrix BEFORE passing to physics.
+            mesh.updateMatrixWorld(true);
+
+            // 5. Add to physics and scene.
+            if (options.isSolid) {
+                this.worldOctree.addObject(mesh);
+            }
+            if (options.interactable) {
+                this.interactiveOctree.fromGraphNode(mesh);
+            }
+            this.nivrayimGroup.add(mesh);
+            
+        } else if (options.path) {
+            // Logic for adding GLBs dynamically at runtime can be added here in the future.
+            // For now, this ensures your brick-placing is fixed.
+            console.error("Dynamic GLB adding not fully implemented in this path yet. Use primitives with 'golem'.");
+            return;
+        } else {
+             console.error("addObject requires either a 'golem' or a 'path'.");
+             return;
+        }
+        
+        // 6. Finalize the object.
+        this.nivrayim.push(nivra);
+        await nivra.ready();
+        await nivra.afterBriyah();
+        return nivra;
+    }
+
     async loadNivrayim(nivrayim) {
         
         /**
