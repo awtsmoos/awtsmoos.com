@@ -23,7 +23,11 @@ activeConsole: null, // B"H
 	
     saveSession() {
         const persistableWorkspaces = State.workspaces
-            .filter(ws => ws.type === 'github' || ws.type === 'indexeddb')
+            .filter(
+	            ws => ws.type === 'github' 
+	            || ws.type === 'indexeddb'
+	            || ws.type === 'ssh'
+            )
             .map(ws => {
                 // We must remove non-serializable properties like 'handle'
                 const { handle, ...serializableWs } = ws;
@@ -408,6 +412,7 @@ setupEventListeners() {
         const contentHTML = /*html*/`
             <div id="workspace-options">
                 <button class="menu-button" data-action="local"><svg class="svg-icon"><use href="#icon-laptop"></use></svg> Local Folder</button>
+                <button class="menu-button" data-action="ssh"><svg class="svg-icon"><use href="#icon-ssh"></use></svg> SSH Connection</button>
                 <button class="menu-button" data-action="github"><svg class="svg-icon"><use href="#icon-github"></use></svg> GitHub Repository</button>
                 <button class="menu-button" data-action="idb"><svg class="svg-icon"><use href="#icon-brain"></use></svg> Browser Storage</button>
             </div>`;
@@ -427,6 +432,7 @@ setupEventListeners() {
             DOM.genericDialog.classList.remove('visible');
             switch (action) {
                 case 'local': this.addLocalWorkspace(); break;
+                case 'ssh': this.addSshWorkspace(); break;
                 case 'github': this.addGithubWorkspace(); break;
                 case 'idb': this.addIdbWorkspace(); break;
             }
@@ -447,6 +453,96 @@ setupEventListeners() {
             if (e.name !== 'AbortError') UI.showToast(`Could not open directory: ${e.message}`, 'error');
         }
     },
+    
+    async addSshWorkspace() {
+	    const dialogHTML = `
+	        <div id="ssh-form">
+	            <label for="ssh-host">Host/Domain</label>
+	            <input type="text" id="ssh-host" placeholder="example.com">
+	            
+	            <label for="ssh-user">Username</label>
+	            <input type="text" id="ssh-user" placeholder="root">
+	
+	            <label for="ssh-auth-method">Auth Method</label>
+	            <select id="ssh-auth-method">
+	                <option value="password" selected>Password</option>
+	                <option value="pem">PEM Private Key</option>
+	            </select>
+	
+	            <div id="ssh-password-container">
+	                <label for="ssh-password">Password</label>
+	                <input type="password" id="ssh-password">
+	            </div>
+	
+	            <div id="ssh-pem-container" style="display:none;">
+	                <label for="ssh-pem-file">Private Key File</label>
+	                <input type="file" id="ssh-pem-file" accept=".pem">
+	            </div>
+	
+	            <label for="ssh-path">Initial Path (optional)</label>
+	            <input type="text" id="ssh-path" value="/" placeholder="/var/www/html">
+	        </div>
+	    `;
+	
+	    // Show the dialog and wait for the user to submit
+	    const result = await UI.showDialog({
+	        title: 'New SSH Connection',
+	        contentHTML: dialogHTML,
+	        okText: 'Connect',
+	        cancelText: 'Cancel'
+	    });
+	
+	    if (!result) return; // User cancelled
+	
+	    // Add the event listener to the dialog *after* it has been created
+	    const authSelect = document.getElementById('ssh-auth-method');
+	    const passContainer = document.getElementById('ssh-password-container');
+	    const pemContainer = document.getElementById('ssh-pem-container');
+	    authSelect.onchange = () => {
+	        passContainer.style.display = authSelect.value === 'password' ? 'block' : 'none';
+	        pemContainer.style.display = authSelect.value === 'pem' ? 'block' : 'none';
+	    };
+	
+	    // Gather data from the form
+	    const host = document.getElementById('ssh-host').value;
+	    const user = document.getElementById('ssh-user').value;
+	    const authMethod = document.getElementById('ssh-auth-method').value;
+	    const path = document.getElementById('ssh-path').value || '/';
+	    
+	    if (!host || !user) {
+	        UI.showToast("Host and Username are required.", "error");
+	        return;
+	    }
+	
+	    const wsData = {
+	        name: `⚡ ${user}@${host}`,
+	        type: 'ssh',
+	        sshInfo: { host, user, authMethod, initialPath: path }
+	    };
+	
+	    try {
+	        if (authMethod === 'password') {
+	            const password = document.getElementById('ssh-password').value;
+	            if (!password) throw new Error("Password is required.");
+	            wsData.sshInfo.password = btoa(password); // btoa is for transport, NOT security.
+	        } else {
+	            const file = document.getElementById('ssh-pem-file').files[0];
+	            if (!file) throw new Error("PEM file is required.");
+	            wsData.sshInfo.pem = await file.text();
+	        }
+	        
+	        UI.showLoading("Verifying connection...");
+	        await FileSystemProvider.SSH._api('connect', wsData.sshInfo, {});
+	        UI.showToast("Connection successful!", 'success');
+	
+	        Workspaces.add(wsData);
+	
+	    } catch (e) {
+	        UI.showToast(`Failed: ${e.message}`, 'error');
+	    } finally {
+	        UI.hideLoading();
+	    }
+	},
 
     addIdbWorkspace() {
         Workspaces.add({ name: '🧠 Browser Storage', type: 'indexeddb' });

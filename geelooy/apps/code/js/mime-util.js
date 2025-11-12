@@ -21,6 +21,7 @@ const MimeMap = {
     '.py':   { type: 'text', mime: 'text/x-python' },
     '.sh':   { type: 'text', mime: 'application/x-sh' },
     '.c':    { type: 'text', mime: 'text/x-c' },
+    '.cc':    { type: 'text', mime: 'text/x-c' },
     '.cpp':  { type: 'text', mime: 'text/x-c++' },
     '.h':    { type: 'text', mime: 'text/x-h' },
     '.java': { type: 'text', mime: 'text/x-java-source' },

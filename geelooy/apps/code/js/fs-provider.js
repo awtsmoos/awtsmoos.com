@@ -16,6 +16,7 @@ export const FileSystemProvider = {
         try {
             switch (item.type) {
                 case 'local': return this.Local.list(item);
+                case 'ssh': return this.SSH.list(item);
                 case 'indexeddb': return this.IndexedDB.list(item);
                 case 'github': return this.GitHub.list(item);
                 case 'osfolder': return this.OSFolder.list(item);
@@ -41,6 +42,7 @@ export const FileSystemProvider = {
         try {
             switch (item.type) {
                 case 'local': return this.Local.read(item);
+                case 'ssh': return this.SSH.read(item);
                 case 'indexeddb': return this.IndexedDB.read(item);
                 case 'github': return this.GitHub.read(item);
                 case 'postmessage': return this.PostMessage.read(item);
@@ -52,6 +54,7 @@ export const FileSystemProvider = {
         try {
             switch (item.type) {
                 case 'local': return this.Local.write(item, content);
+                case 'ssh': return this.SSH.write(item, content);
                 case 'indexeddb': return this.IndexedDB.write(item, content);
                 case 'github': return this.GitHub.write(item, content, commitMessage);
                 case 'postmessage': return this.PostMessage.write(item, content);
@@ -64,6 +67,7 @@ export const FileSystemProvider = {
         try {
             switch (parentDir.type) {
                 case 'local': return this.Local.create(parentDir, name, kind);
+                case 'ssh': return this.SSH.create(parentDir, name, kind);
                 case 'indexeddb': return this.IndexedDB.create(parentDir, name, kind);
                 case 'github': return this.GitHub.create(parentDir, name, kind);
                 case 'osfolder': return this.OSFolder. create(parentDir, name, kind);
@@ -74,6 +78,7 @@ export const FileSystemProvider = {
         try {
             switch (item.type) {
                 case 'local': return this.Local.delete(item);
+                case 'ssh': return this.SSH.delete(item);
                 case 'indexeddb': return this.IndexedDB.delete(item);
                 case 'github': return this.GitHub.delete(item);
                 case 'osfolder': return this.OSFolder. write(item, content);
@@ -627,135 +632,218 @@ read: async function({ path }) {
     
     
     // In fs-provider.js, add this new provider object
-PostMessage: {
-    // We don't need to read, as the content is provided on load.
-    async read(item) {
-        console.log("PostMessage Provider: Read called, but content is pre-loaded.");
-        return item.content || ''; 
-    },
-
-    // This is the crucial part: it sends the save command to the OS.
-    async write(item, content) {
-        return new Promise((resolve, reject) => {
-            console.log("PostMessage Provider: Sending save request to OS.", { item, content });
-            
-            // The OS will listen for this specific message type
-            window.parent.postMessage({
-                type: 'saveFile',
-                payload: {
-                    content: content,
-                    saveContext: item.saveContext // The OS-specific path info
-                }
-            }, '*'); // Use a specific origin in production
-
-            // Listen for a success/error response from the OS
-            const responseListener = (event) => {
-                if (event.data.type === 'saveSuccess') {
-                    window.removeEventListener('message', responseListener);
-                    resolve();
-                } else if (event.data.type === 'saveError') {
-                    window.removeEventListener('message', responseListener);
-                    reject(new Error(event.data.error));
-                }
-            };
-            window.addEventListener('message', responseListener);
-        });
-    },
-
-    // These operations are not supported in this mode, as the OS handles them.
-    async list(item) { throw new Error('File listing is not supported in embedded mode.'); },
-    async create(parentDir, name, kind) { throw new Error('File creation is not supported in embedded mode.'); },
-    async delete(item) { throw new Error('File deletion is not supported in embedded mode.'); }
-},
-
-
-
-
-
-    
-
-
-
-OSFolder: {
-    // Helper function to send a request and wait for a response
-    _requestFromOS(type, payload) {
-        return new Promise((resolve, reject) => {
-            const requestId = State.postMessageRequestId++;
-            State.postMessagePendingRequests.set(requestId, { resolve, reject });
-            
-            window.parent.postMessage({ type, payload, requestId }, '*');
-            
-            setTimeout(() => {
-                if (State.postMessagePendingRequests.has(requestId)) {
-                    State.postMessagePendingRequests.delete(requestId);
-                    reject(new Error(`Request timed out: ${type}`));
-                }
-            }, 10000);
-        });
-    },
-    
-    // --- THIS IS THE CORRECTED FUNCTION ---
-    async list(item) {
-        // Step 1: Find the corresponding workspace in the state using the workspaceId.
-        const workspace = State.workspaces.find(ws => ws.id === item.workspaceId);
-
-        // Safety check: If we can't find the workspace, we can't proceed.
-        if (!workspace || workspace.type !== 'osfolder') {
-            console.error("OSFolder provider could not find a valid workspace for item:", item);
-            throw new Error("Could not find OS folder workspace.");
-        }
-
-        // Step 2: Get the REAL base path from the workspace object.
-        // This is the crucial link, e.g., "desktop.folder/add from new chabad library.folder"
-        const basePath = workspace.path;
-
-        // Step 3: Translate the editor's path into the OS's absolute path.
-        // If the editor asks for the root ('/'), we use the basePath.
-        // If it asks for a sub-path like '/folderA', we append it to the basePath.
-        const pathForOSRequest = basePath + (item.path === '/' ? '' : item.path);
-
-        // Step 4: Make the request to the OS using the true, fully-qualified path.
-        const response = await this._requestFromOS('requestFolderList', { path: pathForOSRequest });
-
-        // Step 5: Map the response. For each child item the OS returns,
-        // we construct its full path so the editor can work with it for subsequent actions.
-        return response.items.map(name => ({
-            name,
-            kind: name.endsWith('.folder') ? 'directory' : 'file',
-            // The path for the child is its parent's full path plus its own name.
-            path: `${pathForOSRequest}/${name}`
-        }));
-    },
-
-    async read(item) {
-        const parentPath = item.path.substring(0, item.path.lastIndexOf('/'));
-        const response = await this._requestFromOS('requestFileContent', { path: parentPath, fileName: item.name });
-        return response.content;
-    },
-    
-    async write(item, content) {
-   
-        await this._requestFromOS('requestFileWrite', {
-            fullPath: item.path,
-            content: content
-        });
-    },
-
-    async create(parentDir, name, kind) {
-        await this._requestFromOS('requestItemCreate', {
-            parentPath: parentDir.path,
-            name: name,
-            kind: kind
-        });
-    },
-    
-    async delete(item) {
-         await this._requestFromOS('requestItemDelete', {
-            fullPath: item.path,
-            kind: item.kind
-        });
-    }
-},
+	PostMessage: {
+	    // We don't need to read, as the content is provided on load.
+	    async read(item) {
+	        console.log("PostMessage Provider: Read called, but content is pre-loaded.");
+	        return item.content || ''; 
+	    },
+	
+	    // This is the crucial part: it sends the save command to the OS.
+	    async write(item, content) {
+	        return new Promise((resolve, reject) => {
+	            console.log("PostMessage Provider: Sending save request to OS.", { item, content });
+	            
+	            // The OS will listen for this specific message type
+	            window.parent.postMessage({
+	                type: 'saveFile',
+	                payload: {
+	                    content: content,
+	                    saveContext: item.saveContext // The OS-specific path info
+	                }
+	            }, '*'); // Use a specific origin in production
+	
+	            // Listen for a success/error response from the OS
+	            const responseListener = (event) => {
+	                if (event.data.type === 'saveSuccess') {
+	                    window.removeEventListener('message', responseListener);
+	                    resolve();
+	                } else if (event.data.type === 'saveError') {
+	                    window.removeEventListener('message', responseListener);
+	                    reject(new Error(event.data.error));
+	                }
+	            };
+	            window.addEventListener('message', responseListener);
+	        });
+	    },
+	
+	    // These operations are not supported in this mode, as the OS handles them.
+	    async list(item) { throw new Error('File listing is not supported in embedded mode.'); },
+	    async create(parentDir, name, kind) { throw new Error('File creation is not supported in embedded mode.'); },
+	    async delete(item) { throw new Error('File deletion is not supported in embedded mode.'); }
+	},
+	
+	
+	
+	
+	
+	    
+	
+	
+	
+	OSFolder: {
+	    // Helper function to send a request and wait for a response
+	    _requestFromOS(type, payload) {
+	        return new Promise((resolve, reject) => {
+	            const requestId = State.postMessageRequestId++;
+	            State.postMessagePendingRequests.set(requestId, { resolve, reject });
+	            
+	            window.parent.postMessage({ type, payload, requestId }, '*');
+	            
+	            setTimeout(() => {
+	                if (State.postMessagePendingRequests.has(requestId)) {
+	                    State.postMessagePendingRequests.delete(requestId);
+	                    reject(new Error(`Request timed out: ${type}`));
+	                }
+	            }, 10000);
+	        });
+	    },
+	    
+	    // --- THIS IS THE CORRECTED FUNCTION ---
+	    async list(item) {
+	        // Step 1: Find the corresponding workspace in the state using the workspaceId.
+	        const workspace = State.workspaces.find(ws => ws.id === item.workspaceId);
+	
+	        // Safety check: If we can't find the workspace, we can't proceed.
+	        if (!workspace || workspace.type !== 'osfolder') {
+	            console.error("OSFolder provider could not find a valid workspace for item:", item);
+	            throw new Error("Could not find OS folder workspace.");
+	        }
+	
+	        // Step 2: Get the REAL base path from the workspace object.
+	        // This is the crucial link, e.g., "desktop.folder/add from new chabad library.folder"
+	        const basePath = workspace.path;
+	
+	        // Step 3: Translate the editor's path into the OS's absolute path.
+	        // If the editor asks for the root ('/'), we use the basePath.
+	        // If it asks for a sub-path like '/folderA', we append it to the basePath.
+	        const pathForOSRequest = basePath + (item.path === '/' ? '' : item.path);
+	
+	        // Step 4: Make the request to the OS using the true, fully-qualified path.
+	        const response = await this._requestFromOS('requestFolderList', { path: pathForOSRequest });
+	
+	        // Step 5: Map the response. For each child item the OS returns,
+	        // we construct its full path so the editor can work with it for subsequent actions.
+	        return response.items.map(name => ({
+	            name,
+	            kind: name.endsWith('.folder') ? 'directory' : 'file',
+	            // The path for the child is its parent's full path plus its own name.
+	            path: `${pathForOSRequest}/${name}`
+	        }));
+	    },
+	
+	    async read(item) {
+	        const parentPath = item.path.substring(0, item.path.lastIndexOf('/'));
+	        const response = await this._requestFromOS('requestFileContent', { path: parentPath, fileName: item.name });
+	        return response.content;
+	    },
+	    
+	    async write(item, content) {
+	   
+	        await this._requestFromOS('requestFileWrite', {
+	            fullPath: item.path,
+	            content: content
+	        });
+	    },
+	
+	    async create(parentDir, name, kind) {
+	        await this._requestFromOS('requestItemCreate', {
+	            parentPath: parentDir.path,
+	            name: name,
+	            kind: kind
+	        });
+	    },
+	    
+	    async delete(item) {
+	         await this._requestFromOS('requestItemDelete', {
+	            fullPath: item.path,
+	            kind: item.kind
+	        });
+	    }
+	},
+	
+	
+	SSH: {
+	    // A helper to make API calls to your Node.js server
+	    async _api(endpoint, sshInfo, body) {
+	        const { host, user } = sshInfo;
+	        const url = `/api/ssh/${endpoint}/${encodeURIComponent(user)}/${encodeURIComponent(host)}`;
+	        
+	        const formData = new URLSearchParams();
+	        
+	        // This logic sends the correct credential to the API
+	        if (sshInfo.authMethod === 'password' && sshInfo.password) {
+	            formData.append('password', atob(sshInfo.password));
+	        } else if (sshInfo.authMethod === 'pem' && sshInfo.pem) {
+	            // This part is for if you add PEM support back later
+	            // The current Node.js code doesn't use it, but it's good to have.
+	            formData.append('pem', sshInfo.pem); 
+	        } else {
+	            throw new Error("Missing credentials for SSH request.");
+	        }
+	
+	        for (const key in body) {
+	            formData.append(key, body[key]);
+	        }
+	
+	        const response = await fetch(url, {
+	            method: 'POST',
+	            body: formData
+	        });
+	
+	        if (!response.ok) {
+	            throw new Error(`API Error: ${response.statusText}`);
+	        }
+	        
+	        const result = await response.json();
+	        if (!result.success) {
+	            throw new Error(result.message || 'An unknown error occurred on the server.');
+	        }
+	        return result;
+	    },
+	
+	    async list(item) {
+	        const workspace = State.workspaces.find(ws => ws.id === item.workspaceId);
+	        const fullPath = (workspace.sshInfo.initialPath + (item.path === '/' ? '' : item.path)).replace(/\/+/g, '/');
+	        const result = await this._api('getFolderList', workspace.sshInfo, { folderPath: fullPath });
+	        return result.files.map(file => ({
+	            name: file.name,
+	            kind: file.kind,
+	            path: (item.path === '/' ? '' : item.path) + '/' + file.name
+	        }));
+	    },
+	
+	    async read(item) {
+	        const workspace = State.workspaces.find(ws => ws.id === item.workspaceId);
+	        const fullPath = (workspace.sshInfo.initialPath + item.path).replace(/\/+/g, '/');
+	        const result = await this._api('getFileContent', workspace.sshInfo, { filePath: fullPath });
+	        return result.content;
+	    },
+	
+	    async write(item, content) {
+	        const workspace = State.workspaces.find(ws => ws.id === item.workspaceId);
+	        const fullPath = (workspace.sshInfo.initialPath + item.path).replace(/\/+/g, '/');
+	        await this._api('writeFile', workspace.sshInfo, { filePath: fullPath, content: content });
+	    },
+	
+	    async create(parentDir, name, kind) {
+	        const workspace = State.workspaces.find(ws => ws.id === parentDir.workspaceId);
+	        const parentFullPath = (workspace.sshInfo.initialPath + (parentDir.path === '/' ? '' : parentDir.path)).replace(/\/+/g, '/');
+	        const newFullPath = `${parentFullPath}/${name}`;
+	
+	        if (kind === 'directory') {
+	            await this._api('makeFolder', workspace.sshInfo, { folderPath: newFullPath });
+	        } else {
+	            await this._api('writeFile', workspace.sshInfo, { filePath: newFullPath, content: '' });
+	        }
+	    },
+	
+	    async delete(item) {
+	        const workspace = State.workspaces.find(ws => ws.id === item.workspaceId);
+	        const fullPath = (workspace.sshInfo.initialPath + item.path).replace(/\/+/g, '/');
+	        await this._api('deleteAtPath', workspace.sshInfo, { deletePath: fullPath });
+	    }
+	},
 
 
 

@@ -66,7 +66,8 @@ renderWorkspace(ws, container) {
 
         const icon = ws.isClone ? 'git-folder' : 
                      ws.type === 'local' ? 'laptop' : 
-                     ws.type === 'github' ? 'github' : 'brain';
+                     ws.type === 'github' ? 'github' : 
+                     ws.type === 'ssh' ? 'ssh' : 'brain';
 
         wsRoot.innerHTML = /*html*/ `
             <div class="workspace-header">
