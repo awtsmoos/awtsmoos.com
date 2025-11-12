@@ -34,9 +34,12 @@ class KeterClient extends EventEmitter {
       },
       onHeader: (header) => this.emit('banner', header.identRaw),
       onHandshakeComplete: () => {
-        this.emit('ready');
-        // After handshake, we MUST request the user authentication service and then WAIT.
-        this._protocol.requestService('ssh-userauth');
+        // Now that handshake is complete, queue up the service request on the next tick
+        // to ensure the internal protocol state has fully settled.
+        process.nextTick(() => {
+            this.emit('ready');
+            this._protocol.requestService('ssh-userauth');
+        });
       },
       debug: config.debug,
     };

@@ -326,7 +326,7 @@ class KexHandler {
       this._protocol._onWrite,
       this._protocol
     );
-    this._protocol._cipher.outSeqno = 0n;
+    this._protocol._cipher.outSeqno = 0;
 
     // SETUP INBOUND DECRYPTION
     this._protocol._decipher = new GevurahDecipher(
@@ -338,7 +338,7 @@ class KexHandler {
         this._protocol._onPayload.bind(this._protocol)
     );
     this._protocol._decipher._setDebug(this._protocol._debug); 
-    this._protocol._decipher.inSeqno = 0n;
+    this._protocol._decipher.inSeqno = 0;
     this._debug && this._debug('State Change: Switched to new Cipher and Decipher.');
 
     // STEP 6: Now that we are fully prepared for the encrypted world, send NEWKEYS.
