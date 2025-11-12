@@ -144,9 +144,9 @@ registerCustomMenus(menuConfigs) {
 	    // --- B"H - NEW: DYNAMIC TOGGLE FOR AWTSMOOS FILES ---
 	    if (activeTab && activeTab.item.name.toLowerCase().endsWith('.awtsmoosjson')) {
 		    menuItems.push({ 
-		        label: activeTab.isBinaryView ? 'View as JSON' : 'View as Hex', 
+		        label: activeTab.isHexView ? 'View as JSON' : 'View as Hex', 
 		        action: 'toggle-awtsmoos-view', 
-		        icon: activeTab.isBinaryView ? 'eye' : 'brain-circuit' 
+		        icon: activeTab.isHexView ? 'eye' : 'brain-circuit' 
 		    });
 		}
 	    // --- END NEW ---
@@ -272,7 +272,7 @@ registerCustomMenus(menuConfigs) {
                 case 'download': Tabs.downloadActive(); break;
                 case 'toggle-awtsmoos-view': {
 	                if (!activeTab) break;
-	                activeTab.isBinaryView = !activeTab.isBinaryView;
+	                activeTab.isHexView = !activeTab.isHexView;
 	                activeTab.forceReload = true; // Flag to force reprocessing of content
 	                Tabs.activate(activeTab.id);
 	                break;

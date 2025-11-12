@@ -313,16 +313,23 @@ function makeHashTableFromMetadata(metadataTable) {
 	const serializedEntryBuffers = metadataTable.map(serializeMetadataEntry);
 	const serializedMetadata = serializeArray(serializedEntryBuffers);
 	const metaOfMeta = (() => {
-		const o = MAGIC_ARRAY.length,
-			h = serializedMetadata[o];
-		const aLS = unpackLength((h >> 2) & 3);
-		const aL = new DataView(serializedMetadata.buffer, serializedMetadata.byteOffset)
-			.getUint32(serializedMetadata.length - aLS, false);
-		return {
-			oS: unpackLength(h & 3),
-			aLS,
-			aL
-		};
+	    const o = MAGIC_ARRAY.length,
+	        h = serializedMetadata[o];
+	    const aLS = unpackLength((h >> 2) & 3);
+	    const view = new DataView(serializedMetadata.buffer, serializedMetadata.byteOffset);
+	    let aL;
+	    switch (aLS) {
+	        case 1: aL = view.getUint8(serializedMetadata.length - aLS); break;
+	        case 2: aL = view.getUint16(serializedMetadata.length - aLS, false); break;
+	        case 4: aL = view.getUint32(serializedMetadata.length - aLS, false); break;
+	        case 8: aL = Number(view.getBigUint64(serializedMetadata.length - aLS, false)); break;
+	        default: aL = 0;
+	    }
+	    return {
+	        oS: unpackLength(h & 3),
+	        aLS,
+	        aL
+	    };
 	})();
 	const hashTableSize = metadataTable.length * 2;
 	const hashTableEntrySize = metaOfMeta.oS;
@@ -342,8 +349,16 @@ function makeHashTableFromMetadata(metadataTable) {
 			index = (index + 1) % hashTableSize;
 		}
 		const iTS = serializedMetadata.length - metaOfMeta.aLS - (metaOfMeta.aL * metaOfMeta.oS);
-		const valOffset = new DataView(serializedMetadata.buffer, serializedMetadata.byteOffset)
-			.getUint32(iTS + i * metaOfMeta.oS, false);
+		const view = new DataView(serializedMetadata.buffer, serializedMetadata.byteOffset);
+		const offsetInIndexTable = iTS + i * metaOfMeta.oS;
+		let valOffset;
+		switch (metaOfMeta.oS) {
+		    case 1: valOffset = view.getUint8(offsetInIndexTable); break;
+		    case 2: valOffset = view.getUint16(offsetInIndexTable, false); break;
+		    case 4: valOffset = view.getUint32(offsetInIndexTable, false); break;
+		    case 8: valOffset = Number(view.getBigUint64(offsetInIndexTable, false)); break;
+		    default: valOffset = 0;
+		}	
 		writeToBuffer(hashBuffer, valOffset, metaOfMeta.oS, index * metaOfMeta.oS);
 	});
 	return {
