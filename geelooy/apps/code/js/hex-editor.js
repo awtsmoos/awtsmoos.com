@@ -9,7 +9,7 @@
 
 import { UI } from './ui.js';
 import { Clipboard } from './clipboard.js';
-import { State } from './state.js';
+import { State, DOM } from './state.js';
 
 const BYTES_PER_LINE = 16;
 const LINE_HEIGHT = 24;

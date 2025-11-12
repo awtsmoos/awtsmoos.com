@@ -970,3 +970,76 @@ body.is-resizing {
 .hex-nav-pad button:hover{background-color:var(--color-border);color:var(--neon-cyan)}
 .hex-nav-pad button[data-action=up]{grid-area:up} .hex-nav-pad button[data-action=down]{grid-area:down} .hex-nav-pad button[data-action=left]{grid-area:left} .hex-nav-pad button[data-action=right]{grid-area:right}
 @media (min-width:769px){.hex-nav-pad{display:none !important}}
+
+
+/* B"H - THE DATA ALTAR */
+
+#data-altar-container {
+    height: 100%;
+    overflow: auto;
+    background: 
+        radial-gradient(ellipse at center, rgba(10, 12, 20, 0.95) 0%, #02040a 70%),
+        repeating-linear-gradient(0deg, rgba(0, 246, 255, 0.05), rgba(0, 246, 255, 0.05) 1px, transparent 1px, transparent 20px);
+    padding: 30px;
+    font-size: 1.1em;
+    animation: altar-breathe 15s ease-in-out infinite;
+}
+
+@keyframes altar-breathe {
+    0%, 100% { background-color: #02040a; }
+    50% { background-color: #121522; }
+}
+
+.altar-node {
+    margin-left: 2em;
+    padding-left: 1em;
+    border-left: 1px solid rgba(255, 0, 255, 0.2);
+    position: relative;
+}
+
+.altar-node::before {
+    content: '';
+    position: absolute;
+    left: -5px;
+    top: 0.7em;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--neon-magenta);
+    box-shadow: 0 0 8px var(--glow-magenta);
+    opacity: 0.5;
+}
+
+.altar-key {
+    color: var(--neon-cyan);
+    text-shadow: 0 0 5px var(--glow-cyan);
+    font-weight: bold;
+}
+
+.altar-brace {
+    color: var(--color-text-tertiary);
+    font-weight: normal;
+}
+
+.altar-value {
+    outline: none;
+    padding: 2px 4px;
+    border-radius: 3px;
+    transition: all 0.2s ease;
+}
+
+.altar-node[data-type="string"] .altar-value { color: var(--neon-lime); }
+.altar-node[data-type="number"] .altar-value { color: #ffae57; }
+.altar-node[data-type="boolean"] .altar-value { color: var(--neon-magenta); font-weight: bold; }
+.altar-node[data-type="null"] .altar-value { color: var(--color-text-tertiary); font-style: italic; }
+
+.altar-value:focus {
+    background: rgba(168, 255, 0, 0.2);
+    box-shadow: 0 0 10px var(--glow-lime);
+    color: white;
+}
+
+.altar-node details summary {
+    cursor: pointer;
+    list-style: none; /* Hide default triangle */
+}

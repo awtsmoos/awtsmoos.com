@@ -89,6 +89,7 @@ DOM.mobileSidebarToggle = document.getElementById('sidebar-toggle-btn'); // <-- 
     
     DOM.selectionMenu = document.getElementById('selection-menu');
     DOM.hexNavPad = document.getElementById('hex-nav-pad');
+    DOM.dataAltarContainer = document.getElementById("data-altar-container");
 
 	DOM.hexEditorWrapper = document.getElementById('hex-editor-wrapper');
 }

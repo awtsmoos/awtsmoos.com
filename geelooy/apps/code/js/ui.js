@@ -114,6 +114,7 @@ export const UI = {
     },
     
     switchView(viewName) { // Can be 'editor', 'preview', 'console', or 'empty'
+        if (viewName !== 'editor') DOM.keyboardHelper.classList.remove('is-visible');
         DOM.editorWrapper.classList.add('hidden');
         DOM.previewer.classList.add('hidden');
         DOM.consoleHost.classList.add('hidden');
@@ -129,6 +130,8 @@ export const UI = {
             case 'console':
                 DOM.consoleHost.classList.remove('hidden');
                 break;
+                
+            case 'altar': DOM.dataAltarContainer.classList.remove('hidden'); break;
             case 'empty':
                 DOM.emptyEditorMessage.classList.remove('hidden');
                 break;

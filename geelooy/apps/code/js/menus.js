@@ -137,9 +137,24 @@ registerCustomMenus(menuConfigs) {
 	        { label: 'Download', action: 'download', icon: 'download', disabled: !activeTab },
 	    ];
 	    
-	    if (activeTab && (activeTab.item.name.endsWith('.html') || activeTab.item.name.endsWith('.htm'))) {
+	    if (
+	    activeTab && 
+	    (activeTab.item.name.toLowerCase().endsWith('.html')
+	     || activeTab.item.name.toLowerCase().endsWith('.htm'))) {
 	        menuItems.push({ label: 'Preview HTML', action: 'view-html', icon: 'eye' });
 	    }
+	    
+	    if (activeTab && (
+	    activeTab.item.name.toLowerCase().endsWith('.json') 
+	    || activeTab.item.name.toLowerCase().endsWith('.awtsmoosjson')) 
+	    && !activeTab.isHexView
+	    ) {
+		    menuItems.push({ 
+		        label: activeTab.isAltarView ? 'Reconstitute to Text' : 'Transmute to Altar', 
+		        action: 'toggle-altar-view', 
+		        icon: 'brain-circuit' 
+		    });
+		}
 	
 	    // --- B"H - NEW: DYNAMIC TOGGLE FOR AWTSMOOS FILES ---
 	    if (activeTab && activeTab.item.name.toLowerCase().endsWith('.awtsmoosjson')) {
@@ -245,7 +260,8 @@ registerCustomMenus(menuConfigs) {
         'new-file', 'new-folder', 'start-selection',
          'copy-single', 'paste', 'delete-workspace', 'delete',
          
-         'toggle-hex-view'
+         'toggle-hex-view',
+         'toggle-altar-view'
     ];
     
     if (!builtInActions.includes(action)) {
@@ -367,6 +383,13 @@ registerCustomMenus(menuConfigs) {
                     }
                     break;
                 }
+                
+                case 'toggle-altar-view': {
+		    if (!activeTab) break;
+		    activeTab.isAltarView = !activeTab.isAltarView;
+		    Tabs.activate(activeTab.id, true); // The 'true' forces a full view refresh
+		    break;
+		}
                 
                 case 'start-selection':
                     State.contextEvent = event; // Store the event for positioning the selection menu.

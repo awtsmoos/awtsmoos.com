@@ -10,7 +10,7 @@ import { MimeUtil } from './mime-util.js';
 import { detachWorkerRequestHandler, detachDynamicAssetHandler } from './html-preview-processor.js';
 import { App } from './app.js';
 import { Console } from "./Console.js";
-
+import { DataAltar } from './DataAltar.js';
 import { AwtsmoosHandler } from './awtsmoos-handler.js';
 function downloadFile(filename, content) {
     const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
@@ -115,64 +115,127 @@ create(item, isNewFile = false, shouldSave = true) {
         this.activate(newTab.id);
     },
     
-    async activate(tabId) {
-    // Save state of the previously active tab (This part is correct)
-    const currentTab = State.tabs.find(t => t.id === State.activeTabId);
-    if (currentTab) {
-        if (currentTab.isHexView && State.hexEditorInstance?.isDirty()) {
-            currentTab.arrayBuffer = State.hexEditorInstance.getUpdatedArrayBuffer();
-            currentTab.rawContent = new Blob([currentTab.arrayBuffer]);
-            currentTab.isDirty = true;
-        } else if (currentTab.fileType === 'text' && !currentTab.isHexView) {
-            currentTab.content = Editor.getContent();
-        }
-        currentTab.scrollPos = DOM.editor.scrollTop || 0;
-    }
-
-    State.activeTabId = tabId;
-    const tab = State.tabs.find(t => t.id === tabId);
-
-    if (!tab) {
-        UI.switchView('empty'); StatusBar.clear(); this.render(); App.saveSession(); return;
-    }
-
-    // --- Step 1: Load and Prepare Content (This block is now correct) ---
-    if (tab.content === null || tab.forceReload) {
-        UI.showLoading(`Opening ${tab.item.name}...`);
-        try {
-            const fileContent = tab.rawContent || await FileSystemProvider.read(tab.item);
-            tab.rawContent = fileContent;
-
-            const arrayBuffer = (fileContent instanceof Blob) 
-                ? await fileContent.arrayBuffer() 
-                : (typeof fileContent === 'string' ? new TextEncoder().encode(fileContent).buffer : (fileContent.isBinary ? atob(fileContent.base64Content) : fileContent));
-            tab.arrayBuffer = arrayBuffer;
-
-            if (tab.item.name.endsWith('awtsmoosJSON')) {
-                tab.isAwtsmoos = true;
-                if (!tab.isHexView) {
-                    try {
-                        tab.content = await AwtsmoosHandler.decodeContent(fileContent);
-                        console.log("B\"H: Parsed .awtsmoosJSON:", JSON.parse(tab.content));
-                    } catch (parseError) {
-                        UI.showToast(`Parse failed: ${parseError.message}. Showing Hex view.`, 'error', 5000);
-                        tab.isHexView = true; // Force into hex view on failure
-                    }
-                }
-            } else if (tab.fileType === 'text') {
-                tab.content = await new Blob([arrayBuffer]).text();
-            } else {
-                tab.content = fileContent;
-            }
-
-        } catch (e) {
-            UI.showToast(`Error opening ${tab.item.name}: ${e.message}`, 'error');
-            this.close(tab.id, true); return;
-        } finally {
-            UI.hideLoading();
-            tab.forceReload = false;
-        }
-    }
+	async activate(tabId, forceViewChange = false) {
+	    // --- Step 1: Save the state of the tab we are leaving ---
+	    const currentTab = State.tabs.find(t => t.id === State.activeTabId);
+	    if (currentTab) {
+	        if (currentTab.isHexView && State.hexEditorInstance?.isDirty()) {
+	            // Save updated binary from hex editor
+	            currentTab.arrayBuffer = State.hexEditorInstance.getUpdatedArrayBuffer();
+	            currentTab.rawContent = new Blob([currentTab.arrayBuffer]);
+	            currentTab.isDirty = true;
+	        } else if (!currentTab.isAltarView) { 
+	            // Save text content ONLY if we are not leaving the Altar
+	            currentTab.content = Editor.getContent();
+	        }
+	        currentTab.scrollPos = DOM.editor.scrollTop || 0;
+	    }
+	
+	    State.activeTabId = tabId;
+	    const tab = State.tabs.find(t => t.id === tabId);
+	
+	    // Handle case where no tab is active (e.g., last tab closed)
+	    if (!tab) {
+	        UI.switchView('empty');
+	        StatusBar.clear();
+	        this.render();
+	        App.saveSession();
+	        return;
+	    }
+	
+	    // --- Step 2: The Ritual of Reconstitution ---
+	    // If we are leaving an Altar view, we must first convert its live data back to text.
+	    if (currentTab && currentTab.isAltarView && !tab.isAltarView) {
+	        try {
+	            currentTab.content = JSON.stringify(currentTab.liveDataObject, null, '\t');
+	            currentTab.isDirty = true; // Mark as dirty since the text has been regenerated
+	        } catch (e) {
+	            UI.showToast("Critical Error: Failed to reconstitute JSON from Altar.", "error");
+	            console.error("Reconstitution failed:", e);
+	        }
+	        currentTab.liveDataObject = null; // Purge the live data object
+	    }
+	
+	    // --- Step 3: Load File Content if Necessary ---
+	    // This block is preserved from your original code to handle all file loading.
+	    if (tab.content === null || tab.forceReload) {
+	        UI.showLoading(`Opening ${tab.item.name}...`);
+	        try {
+	            const fileContent = tab.rawContent || await FileSystemProvider.read(tab.item);
+	            tab.rawContent = fileContent;
+	
+	            const arrayBuffer = (fileContent instanceof Blob) 
+	                ? await fileContent.arrayBuffer() 
+	                : (typeof fileContent === 'string' ? new TextEncoder().encode(fileContent).buffer : (fileContent.isBinary ? atob(fileContent.base64Content) : fileContent));
+	            tab.arrayBuffer = arrayBuffer;
+	
+	            if (tab.item.name.toLowerCase().endsWith('awtsmoosjson')) {
+	                tab.isAwtsmoos = true;
+	                if (!tab.isHexView) {
+	                    try {
+	                        tab.content = await AwtsmoosHandler.decodeContent(fileContent);
+	                    } catch (parseError) {
+	                        UI.showToast(`Parse failed: ${parseError.message}. Showing Hex view.`, 'error', 5000);
+	                        tab.isHexView = true; // Force into hex view on failure
+	                    }
+	                }
+	            } else if (tab.fileType === 'text') {
+	                tab.content = await new Blob([arrayBuffer]).text();
+	            } else {
+	                tab.content = fileContent; // For binary previews like images
+	            }
+	
+	        } catch (e) {
+	            UI.showToast(`Error opening ${tab.item.name}: ${e.message}`, 'error');
+	            this.close(tab.id, true); return;
+	        } finally {
+	            UI.hideLoading();
+	            tab.forceReload = false;
+	        }
+	    }
+	
+	    // --- Step 4: Manifest the Correct View (The Altar, The Hex Editor, or The Scribe's Desk) ---
+	    if (tab.isAltarView) {
+	        // --- The Ritual of Transmutation ---
+	        if (!tab.liveDataObject || forceViewChange) {
+	            try {
+	                UI.showLoading("Transmuting text to living data...");
+	                tab.liveDataObject = JSON.parse(tab.content);
+	                UI.hideLoading();
+	            } catch (e) {
+	                UI.hideLoading();
+	                UI.showToast("JSON is malformed; cannot perform transmutation.", "error", 5000);
+	                tab.isAltarView = false; // The ritual failed, revert the state
+	                Editor.showTextEditor(tab.content || '', tab.item.name, tab.scrollPos || 0);
+	                this.render(); // Re-render to fix the menu text
+	                return;
+	            }
+	        }
+	        UI.switchView('altar');
+	        DataAltar.manifest(tab.liveDataObject);
+	
+	    } else if (tab.isHexView) {
+	        // Show the Hex Editor for any file toggled to this view
+	        UI.switchView('hex');
+	        State.hexEditorInstance.load(tab.arrayBuffer);
+	
+	    } else {
+	        // The default view logic for text files and binary previews
+	        const fileInfo = { type: tab.fileType, name: tab.item.name };
+	        switch (tab.fileType) {
+	            case 'text':
+	                Editor.showTextEditor(tab.content || '', tab.item.name, tab.scrollPos || 0);
+	                break;
+	            default: // For images, pdfs, etc.
+	                Editor.showPreviewer(tab.rawContent, fileInfo, tab.id);
+	                break;
+	        }
+	    }
+	
+	    // --- Step 5: Finalize the UI ---
+	    this.render();
+	    App.saveSession();
+	},
 
     // --- B"H - STEP 2: THE CRITICAL, MISSING ROUTING LOGIC ---
     // This is the decision point that was missing before.
