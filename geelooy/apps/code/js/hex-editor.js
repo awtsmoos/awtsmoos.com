@@ -365,7 +365,7 @@ export class HexEditor {
 
     this.inspector.style.top = `${inspectorTop}px`;
     this.inspector.style.left = `${inspectorLeft}px`;
-},
+}
 
 
 	_ensureVisible() {
@@ -396,5 +396,5 @@ export class HexEditor {
 	        this.container.scrollTop = newScrollTop;
 	    }
 	    // If neither of these is true, the line is already visible, so we do nothing.
-	},
+	}
 }
