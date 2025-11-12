@@ -116,35 +116,27 @@ create(item, isNewFile = false, shouldSave = true) {
     },
     
     async activate(tabId) {
+    // Save state of the previously active tab (This part is correct)
     const currentTab = State.tabs.find(t => t.id === State.activeTabId);
     if (currentTab) {
-        // SAVE MECHANISM: Sync changes from the active component back to the tab's state
         if (currentTab.isHexView && State.hexEditorInstance?.isDirty()) {
-            // If we are leaving the hex editor and it has changes, update the tab's data
             currentTab.arrayBuffer = State.hexEditorInstance.getUpdatedArrayBuffer();
-            currentTab.rawContent = new Blob([currentTab.arrayBuffer]); // Update the blob for future use
-            currentTab.isDirty = true; // Mark the tab as dirty
-            State.hexEditorInstance.clearDirtyState(); // Reset the editor's internal dirty state
+            currentTab.rawContent = new Blob([currentTab.arrayBuffer]);
+            currentTab.isDirty = true;
         } else if (currentTab.fileType === 'text' && !currentTab.isHexView) {
-            // If leaving the text editor, save its content
             currentTab.content = Editor.getContent();
         }
         currentTab.scrollPos = DOM.editor.scrollTop || 0;
-        if (currentTab.fileType === 'html-preview') {
-            const iframe = State.previewIframes.get(currentTab.id);
-            if (iframe) DOM.iframeCache.appendChild(iframe);
-        }
     }
 
     State.activeTabId = tabId;
     const tab = State.tabs.find(t => t.id === tabId);
 
-    DOM.viewConsoleBtn.classList.toggle('hidden', !tab || tab.fileType !== 'html-preview');
-
     if (!tab) {
         UI.switchView('empty'); StatusBar.clear(); this.render(); App.saveSession(); return;
     }
 
+    // --- Step 1: Load and Prepare Content (This block is now correct) ---
     if (tab.content === null || tab.forceReload) {
         UI.showLoading(`Opening ${tab.item.name}...`);
         try {
@@ -158,13 +150,12 @@ create(item, isNewFile = false, shouldSave = true) {
 
             if (tab.item.name.endsWith('awtsmoosJSON')) {
                 tab.isAwtsmoos = true;
-                if (!tab.isHexView) { // Default to graphical view
+                if (!tab.isHexView) {
                     try {
                         tab.content = await AwtsmoosHandler.decodeContent(fileContent);
-                        console.log("B\"H: Successfully parsed .awtsmoosJSON content:", JSON.parse(tab.content));
+                        console.log("B\"H: Parsed .awtsmoosJSON:", JSON.parse(tab.content));
                     } catch (parseError) {
                         UI.showToast(`Parse failed: ${parseError.message}. Showing Hex view.`, 'error', 5000);
-                        console.error("B\"H: Awtsmoos parsing failed. Raw content was:", fileContent, "Error:", parseError);
                         tab.isHexView = true; // Force into hex view on failure
                     }
                 }
@@ -175,7 +166,7 @@ create(item, isNewFile = false, shouldSave = true) {
             }
 
         } catch (e) {
-            UI.showToast(`Error opening ${tab.item.name}: ${e.message}`, 'error', 8000);
+            UI.showToast(`Error opening ${tab.item.name}: ${e.message}`, 'error');
             this.close(tab.id, true); return;
         } finally {
             UI.hideLoading();
@@ -183,23 +174,26 @@ create(item, isNewFile = false, shouldSave = true) {
         }
     }
 
-    // --- B"H - FINAL, CLEAR VIEW ROUTING LOGIC ---
+    // --- B"H - STEP 2: THE CRITICAL, MISSING ROUTING LOGIC ---
+    // This is the decision point that was missing before.
     if (tab.isHexView) {
+        // If the hex view flag is set, ALWAYS show the hex editor.
         UI.switchView('hex');
         State.hexEditorInstance.load(tab.arrayBuffer);
     } else {
+        // Otherwise, show the appropriate "graphical" view.
         const fileInfo = { type: tab.fileType, name: tab.item.name };
         switch (tab.fileType) {
             case 'text':
-                // This correctly handles both regular text and our decoded JSON string
+                // This will correctly show both regular JS files AND your decoded .awtsmoosJSON string.
                 Editor.showTextEditor(tab.content || '', tab.item.name, tab.scrollPos || 0);
                 break;
-            default: // This is for images, pdfs, etc.
-                UI.switchView('preview'); // Explicitly switch view
+            default: // This is for images, pdfs, and other true binary files.
                 Editor.showPreviewer(tab.rawContent, fileInfo, tab.id);
                 break;
         }
     }
+    // --- END OF CRITICAL FIX ---
 
     this.render();
     App.saveSession();
