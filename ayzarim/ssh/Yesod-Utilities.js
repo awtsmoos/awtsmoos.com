@@ -2,7 +2,57 @@
 // Yesod-Utilities.js: Foundation - Low-Level Tools
 
 'use strict';
+const Poly1305 = (() => {
+    const BI_ZERO = BigInt(0);
+    const P = BigInt('0x3fffffffffffffffffffffffffffffffb'); // 2^130 - 5
 
+    const leToBigInt = (buf) => {
+        let n = BI_ZERO;
+        for (let i = buf.length - 1; i >= 0; i--) {
+            n = (n << BigInt(8)) + BigInt(buf[i]);
+        }
+        return n;
+    };
+
+    const bigIntToLe = (n, len) => {
+        const buf = Buffer.alloc(len);
+        for (let i = 0; i < len; i++) {
+            buf[i] = Number(n & BigInt(0xff));
+            n >>= BigInt(8);
+        }
+        return buf;
+    };
+
+    return {
+        tag: (key, data) => {
+            const r_buf = key.slice(0, 16);
+            const s_buf = key.slice(16, 32);
+
+            r_buf[3] &= 15; r_buf[7] &= 15; r_buf[11] &= 15; r_buf[15] &= 15;
+            r_buf[4] &= 252; r_buf[8] &= 252; r_buf[12] &= 252;
+
+            const r = leToBigInt(r_buf);
+            const s = leToBigInt(s_buf);
+
+            let a = BI_ZERO;
+            const block_size = 16;
+
+            for (let i = 0; i < data.length; i += block_size) {
+                const block = data.slice(i, i + block_size);
+                const n_buf = Buffer.alloc(block.length + 1, 0);
+                block.copy(n_buf, 0);
+                n_buf[block.length] = 1;
+
+                const n = leToBigInt(n_buf);
+                a += n;
+                a = (r * a) % P;
+            }
+
+            const final_tag_n = a + s;
+            return bigIntToLe(final_tag_n, 16);
+        }
+    };
+})();
 const zlib = require('zlib');
 
 function readUInt32BE(buf, offset = 0) {
@@ -101,5 +151,6 @@ module.exports = {
   ZlibPacketReader,
   ZlibPacketWriter,
   PacketReader,
+  Poly1305 ,
   PacketWriter
 };
