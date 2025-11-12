@@ -237,32 +237,51 @@ setupEventListeners() {
 	
     // B"H - UNIFIED RESIZER LOGIC (REMOVED THE SCREEN SIZE CHECK)
 	if (resizer) {
-	    const minWidth = 2;
-	    const maxWidth = 800;
-		
-		var sidebarW = localStorage.awtsmoosSidebarWidth;
-		if(!isNaN(sidebarW) && !appContainer.classList.contains('sidebar-collapsed')) {
-		    appContainer.style.gridTemplateColumns = `${sidebarW}px 1fr`;
-		}
+        const minWidth = 2;
+        const maxWidth = 800;
+        
+        var sidebarW = localStorage.awtsmoosSidebarWidth;
+        if (!isNaN(sidebarW) && !appContainer.classList.contains('sidebar-collapsed')) {
+            appContainer.style.gridTemplateColumns = `${sidebarW}px 1fr`;
+        }
 
-	    const handleMouseMove = (e) => {
-	        let newWidth = Math.max(minWidth, Math.min(e.clientX, maxWidth));
-	        appContainer.style.gridTemplateColumns = `${newWidth}px 1fr`;
-	        localStorage.awtsmoosSidebarWidth = newWidth;
-	    };
-	
-	    const handleMouseUp = () => {
-	        document.body.classList.remove('is-resizing');
-	        document.removeEventListener('mousemove', handleMouseMove);
-	        document.removeEventListener('mouseup', handleMouseUp);
-	    };
-	
-	    resizer.addEventListener('mousedown', (e) => {
-	        e.preventDefault();
-	        document.body.classList.add('is-resizing');
-	        document.addEventListener('mousemove', handleMouseMove);
-	        document.addEventListener('mouseup', handleMouseUp);
-	    });
+        // Unified handler for move events
+        const handleMove = (e) => {
+            // Use clientX for mouse events, and the first touch's clientX for touch events
+            const clientX = e.clientX ?? e.touches?.[0]?.clientX;
+            if (clientX === undefined) return;
+
+            let newWidth = Math.max(minWidth, Math.min(clientX, maxWidth));
+            appContainer.style.gridTemplateColumns = `${newWidth}px 1fr`;
+            localStorage.awtsmoosSidebarWidth = newWidth;
+        };
+
+        // Unified handler for ending the resize
+        const handleEnd = () => {
+            document.body.classList.remove('is-resizing');
+            // Remove both sets of listeners
+            document.removeEventListener('mousemove', handleMove);
+            document.removeEventListener('mouseup', handleEnd);
+            document.removeEventListener('touchmove', handleMove);
+            document.removeEventListener('touchend', handleEnd);
+        };
+
+        // Unified handler for starting the resize
+        const handleStart = (e) => {
+            // Prevent default to stop scrolling on touch and text selection on mouse
+            e.preventDefault();
+            
+            document.body.classList.add('is-resizing');
+            // Add listeners for both mouse and touch events
+            document.addEventListener('mousemove', handleMove);
+            document.addEventListener('mouseup', handleEnd);
+            document.addEventListener('touchmove', handleMove);
+            document.addEventListener('touchend', handleEnd);
+        };
+
+        // Attach listeners for both mouse and touch events to the resizer element
+        resizer.addEventListener('mousedown', handleStart);
+        resizer.addEventListener('touchstart', handleStart, { passive: false }); // Use passive: false to allow preventDefault
     }
 
     // B"H - REMOVED the "click outside to close" logic as it was part of the old mobile-only behavior.

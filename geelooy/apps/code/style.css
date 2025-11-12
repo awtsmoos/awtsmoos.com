@@ -495,20 +495,7 @@
     
     /* --- B"H - UNIFIED RESPONSIVE STYLES --- */
 	@media (max-width: 768px) {
-	    .app-container { 
-	        /* The only rule needed is to switch to a single column layout */
-	        grid-template-columns: 1fr; 
-	    }
-	
-	    /* B"H - REMOVED all the old mobile-specific rules for .sidebar, .sidebar-overlay, etc. */
-	    /* They are no longer needed as the desktop grid behavior now applies everywhere. */
 	    
-	    .main-content,
-	    .top-panel,
-	    .status-bar {
-	        /* Ensure these elements correctly align in the single column layout */
-	        grid-column: 1 / 2;
-	    }
 	
 	    .status-bar {
 	        font-size: 0.8em;
@@ -836,8 +823,8 @@ body.is-resizing {
 /* Hide the resizer on mobile, as this is a desktop-only feature */
 @media (max-width: 768px) {
     .sidebar-resizer {
-        display: none;
-    }
+	    width: 10px; /* Wider for easier touch targeting */
+	}
 }
 
 
