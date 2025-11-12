@@ -119,17 +119,19 @@ async activate(tabId, forceViewChange = false) {
     // --- Step 1: Save the state of the tab we are leaving ---
     const currentTab = State.tabs.find(t => t.id === State.activeTabId);
     if (currentTab) {
-        if (currentTab.isHexView && State.hexEditorInstance?.isDirty()) {
+        
+        // If we are leaving an Altar view, ALWAYS stringify its current state
+        // back to the master tab.content property.
+        if (currentTab.isAltarView) {
+            currentTab.content = JSON.stringify(currentTab.liveDataObject, null, '\t');
+        } 
+        // Handle other view types as before.
+        else if (currentTab.isHexView && State.hexEditorInstance?.isDirty()) {
             currentTab.arrayBuffer = State.hexEditorInstance.getUpdatedArrayBuffer();
             currentTab.rawContent = new Blob([currentTab.arrayBuffer]);
             currentTab.isDirty = true;
-        } else if (currentTab.isAltarView) {
-            // RITUAL OF RECONSTITUTION (Partial)
-            // If the data is dirty, turn it back into text before switching.
-            if(currentTab.isDirty) {
-                 currentTab.content = JSON.stringify(currentTab.liveDataObject, null, '\t');
-            }
         } else { 
+            // This handles the text editor view without interfering with the Altar.
             currentTab.content = Editor.getContent();
         }
         currentTab.scrollPos = DOM.editor.scrollTop || 0;
