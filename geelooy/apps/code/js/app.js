@@ -13,6 +13,10 @@ import { Workspaces } from './workspaces.js';
 import { Menus } from './menus.js';
 import { FindReplace } from './find-replace.js';
 import { CustomMenu } from './custom-menu.js';
+
+import { HexEditor } from './hex-editor.js';
+
+
 export const App = {
     getTabString: () => State.useTabs ? '\t' : '    ',
 activeConsole: null, // B"H 
@@ -89,7 +93,7 @@ activeConsole: null, // B"H
         UI.showLoading("VIVID X Initializing...");
         
         
-        
+       
         
         
         
@@ -119,6 +123,8 @@ activeConsole: null, // B"H
         Tabs.activate(State.activeTabId || null);
         FindReplace.init();
         Editor.init();
+        
+        State.hexEditorInstance = new HexEditor(DOM.hexEditorWrapper, DOM.hexNavPad);
         
         UI.hideLoading();
         UI.showToast("Welcome to VIVID X // Profound Edition", 'success');

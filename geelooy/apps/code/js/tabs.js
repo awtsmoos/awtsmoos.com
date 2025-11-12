@@ -114,91 +114,96 @@ create(item, isNewFile = false, shouldSave = true) {
         State.tabs.push(newTab);
         this.activate(newTab.id);
     },
-
     
-	// B"H - IN: /js/tabs.js - REPLACE the entire 'activate' function
- async activate(tabId) {
-        const currentTab = State.tabs.find(t => t.id === State.activeTabId);
-        if (currentTab) {
-            if (currentTab.fileType === 'text' && !currentTab.isBinaryView) {
-                currentTab.content = Editor.getContent();
-            }
-            currentTab.scrollPos = DOM.editor.scrollTop;
-            if (currentTab.fileType === 'html-preview') {
-                const iframe = State.previewIframes.get(currentTab.id);
-                if (iframe) DOM.iframeCache.appendChild(iframe);
-            }
+    async activate(tabId) {
+    const currentTab = State.tabs.find(t => t.id === State.activeTabId);
+    if (currentTab) {
+        // SAVE MECHANISM: Sync changes from the active component back to the tab's state
+        if (currentTab.isHexView && State.hexEditorInstance?.isDirty()) {
+            // If we are leaving the hex editor and it has changes, update the tab's data
+            currentTab.arrayBuffer = State.hexEditorInstance.getUpdatedArrayBuffer();
+            currentTab.rawContent = new Blob([currentTab.arrayBuffer]); // Update the blob for future use
+            currentTab.isDirty = true; // Mark the tab as dirty
+            State.hexEditorInstance.clearDirtyState(); // Reset the editor's internal dirty state
+        } else if (currentTab.fileType === 'text' && !currentTab.isHexView) {
+            // If leaving the text editor, save its content
+            currentTab.content = Editor.getContent();
         }
-    
-        State.activeTabId = tabId;
-        const tab = State.tabs.find(t => t.id === tabId);
-
-        DOM.viewConsoleBtn.classList.toggle('hidden', !tab || tab.fileType !== 'html-preview');
-
-        if (!tab) {
-            UI.switchView('empty'); StatusBar.clear(); this.render(); App.saveSession(); return;
+        currentTab.scrollPos = DOM.editor.scrollTop || 0;
+        if (currentTab.fileType === 'html-preview') {
+            const iframe = State.previewIframes.get(currentTab.id);
+            if (iframe) DOM.iframeCache.appendChild(iframe);
         }
+    }
 
-        // --- B"H - NEW, CORRECTED LOADING & DECODING LOGIC ---
-        if (tab.content === null || tab.forceReload) {
-            UI.showLoading(`Opening ${tab.item.name}...`);
-            try {
-                // Always get the pristine raw content first
-                const fileContent = tab.rawContent || await FileSystemProvider.read(tab.item);
-                tab.rawContent = fileContent; // Store the original binary/blob content
-                
-                // Now, decide what the display content ('tab.content') should be
-                if (tab.item.name.endsWith('awtsmoosJSON')) {
-                    tab.isAwtsmoos = true; // Mark tab as special
-                    if (tab.isBinaryView) {
-                        tab.content = await AwtsmoosHandler.binaryToHexView(fileContent);
-                    } else {
-                        try {
-                            tab.content = await AwtsmoosHandler.decodeContent(fileContent);
-	                         console.log("B\"H: Successfully parsed .awtsmoosJSON content:", JSON.parse(tab.content));
-            
-                        } catch (parseError) {
-                            UI.showToast(`Parse failed: ${parseError.message}. Showing Hex view.`, 'error', 5000);
-                            tab.isBinaryView = true; // Force into hex view on failure
-                            tab.content = await AwtsmoosHandler.binaryToHexView(fileContent);
-                        }
+    State.activeTabId = tabId;
+    const tab = State.tabs.find(t => t.id === tabId);
+
+    DOM.viewConsoleBtn.classList.toggle('hidden', !tab || tab.fileType !== 'html-preview');
+
+    if (!tab) {
+        UI.switchView('empty'); StatusBar.clear(); this.render(); App.saveSession(); return;
+    }
+
+    if (tab.content === null || tab.forceReload) {
+        UI.showLoading(`Opening ${tab.item.name}...`);
+        try {
+            const fileContent = tab.rawContent || await FileSystemProvider.read(tab.item);
+            tab.rawContent = fileContent;
+
+            const arrayBuffer = (fileContent instanceof Blob) 
+                ? await fileContent.arrayBuffer() 
+                : (typeof fileContent === 'string' ? new TextEncoder().encode(fileContent).buffer : (fileContent.isBinary ? atob(fileContent.base64Content) : fileContent));
+            tab.arrayBuffer = arrayBuffer;
+
+            if (tab.item.name.endsWith('awtsmoosJSON')) {
+                tab.isAwtsmoos = true;
+                if (!tab.isHexView) { // Default to graphical view
+                    try {
+                        tab.content = await AwtsmoosHandler.decodeContent(fileContent);
+                        console.log("B\"H: Successfully parsed .awtsmoosJSON content:", JSON.parse(tab.content));
+                    } catch (parseError) {
+                        UI.showToast(`Parse failed: ${parseError.message}. Showing Hex view.`, 'error', 5000);
+                        console.error("B\"H: Awtsmoos parsing failed. Raw content was:", fileContent, "Error:", parseError);
+                        tab.isHexView = true; // Force into hex view on failure
                     }
-                } else if (fileContent instanceof Blob) {
-                    // For regular text files that are loaded as Blobs
-                    tab.content = await fileContent.text();
-                } else {
-                    // For content that is already a string (e.g., from postMessage)
-                    tab.content = fileContent;
                 }
-
-            } catch (e) {
-                UI.showToast(`Error opening ${tab.item.name}: ${e.message}`, 'error', 8000);
-                this.close(tab.id, true); return;
-            } finally {
-                UI.hideLoading();
-                tab.forceReload = false;
+            } else if (tab.fileType === 'text') {
+                tab.content = await new Blob([arrayBuffer]).text();
+            } else {
+                tab.content = fileContent;
             }
+
+        } catch (e) {
+            UI.showToast(`Error opening ${tab.item.name}: ${e.message}`, 'error', 8000);
+            this.close(tab.id, true); return;
+        } finally {
+            UI.hideLoading();
+            tab.forceReload = false;
         }
+    }
 
+    // --- B"H - FINAL, CLEAR VIEW ROUTING LOGIC ---
+    if (tab.isHexView) {
+        UI.switchView('hex');
+        State.hexEditorInstance.load(tab.arrayBuffer);
+    } else {
         const fileInfo = { type: tab.fileType, name: tab.item.name };
-
         switch (tab.fileType) {
-            case 'console': UI.switchView('console'); /* ... existing console logic ... */ break;
-            case 'html-preview': Editor.showPreviewer(tab.content, fileInfo, tab.id); break;
-            
-            // This case will now correctly handle BOTH regular text files and your decoded .awtsmoosJSON strings.
             case 'text':
+                // This correctly handles both regular text and our decoded JSON string
                 Editor.showTextEditor(tab.content || '', tab.item.name, tab.scrollPos || 0);
                 break;
-                
-            default: // This now correctly handles ONLY true binary files like images/PDFs
-                Editor.showPreviewer(tab.rawContent, fileInfo, tab.id); // Use rawContent for previewers
+            default: // This is for images, pdfs, etc.
+                UI.switchView('preview'); // Explicitly switch view
+                Editor.showPreviewer(tab.rawContent, fileInfo, tab.id);
                 break;
         }
+    }
 
-        this.render();
-        App.saveSession();
-    },
+    this.render();
+    App.saveSession();
+},
     
     async close(tabId, force = false) {
         const tabIndex = State.tabs.findIndex(t => t.id === tabId);
@@ -273,49 +278,89 @@ create(item, isNewFile = false, shouldSave = true) {
         if (!tab.isDirty) return UI.showToast('No changes to save.', 'info');
         await this.save(tab);
     },
-
+    
     async save(tab) {
-        UI.showToast(`Saving ${tab.item.name}...`);
-  
-        try {
-            let contentToSave;
-            if (tab.id === State.activeTabId) {
-                contentToSave = Editor.getContent();
-            } else {
-                contentToSave = tab.content;
-            }
-
-            // --- B"H - CORRECTED ENCODING LOGIC ---
-            if (tab.isAwtsmoos && !tab.isBinaryView) {
-                UI.showLoading('Encoding to binary...');
-                contentToSave = await AwtsmoosHandler.encodeContent(contentToSave);
-                tab.rawContent = new Blob([contentToSave]); 
-            }
-            
-            let commitMessage;
-            if (tab.item.type === 'github') {
-                commitMessage = await UI.showDialog({ 
-                    title: 'Commit Changes', hasTextarea: true, 
-                    textareaContent: `B"H\nUpdate ${tab.item.name}`, 
-                    okText: 'Commit & Save',
-                    message: `Enter commit message for "${tab.item.name}".`
-                });
-                if (commitMessage === null) throw new Error("Save cancelled.");
-            }
-                 
-            await FileSystemProvider.write(tab.item, contentToSave, commitMessage);
-            
-            tab.isDirty = false;
-            if(!tab.isBinaryView) { tab.content = contentToSave; }
-            
-            UI.showToast(`Saved "${tab.item.name}"`, 'success');
-            this.render();
-        } catch (e) {
-            UI.showToast(`Save failed: ${e.message}`, 'error');
-        } finally {
-            UI.hideLoading();
-        }
-    },
+	    UI.showToast(`Saving ${tab.item.name}...`);
+	    let originalContent = tab.content; // Keep a reference in case of failure
+	
+	    try {
+	        let contentToSave;
+	
+	        // --- B"H - STEP 1: Determine the correct content to save ---
+	        if (tab.isHexView) {
+	            // SCENARIO 1: Saving from the Hex Editor
+	            // The source of truth is the Hex Editor component itself.
+	            if (tab.id === State.activeTabId && State.hexEditorInstance?.isDirty()) {
+	                // If the active tab is our target and the editor has changes, get the updated binary data.
+	                contentToSave = State.hexEditorInstance.getUpdatedArrayBuffer();
+	            } else {
+	                // Otherwise, use the binary data already stored on the tab object.
+	                contentToSave = tab.arrayBuffer;
+	            }
+	        } else if (tab.isAwtsmoos) {
+	            // SCENARIO 2: Saving an .awtsmoosJSON file from the JSON (text) view.
+	            // We need to encode the text from the editor back into binary.
+	            UI.showLoading('Encoding to binary...');
+	            const editorContent = (tab.id === State.activeTabId) ? Editor.getContent() : tab.content;
+	            contentToSave = await AwtsmoosHandler.encodeContent(editorContent);
+	        } else {
+	            // SCENARIO 3: Saving a regular text file.
+	            // The source of truth is the standard text editor.
+	            contentToSave = (tab.id === State.activeTabId) ? Editor.getContent() : tab.content;
+	        }
+	
+	        if (contentToSave === undefined || contentToSave === null) {
+	            throw new Error("Content to save is missing or invalid.");
+	        }
+	
+	        // --- STEP 2: Handle GitHub commit message if necessary ---
+	        let commitMessage;
+	        if (tab.item.type === 'github') {
+	            commitMessage = await UI.showDialog({ 
+	                title: 'Commit Changes', 
+	                hasTextarea: true, 
+	                textareaContent: `B"H\nUpdate ${tab.item.name}`, 
+	                okText: 'Commit & Save',
+	                message: `Enter commit message for "${tab.item.name}".`
+	            });
+	            if (commitMessage === null) { // User cancelled the dialog
+	                throw new Error("Save cancelled by user.");
+	            }
+	        }
+	             
+	        // --- STEP 3: Write the file to the filesystem ---
+	        await FileSystemProvider.write(tab.item, contentToSave, commitMessage);
+	        
+	        // --- STEP 4: Update the tab's state after a successful save ---
+	        tab.isDirty = false;
+	
+	        if (tab.isHexView) {
+	            // If we saved from hex, update the tab's stored ArrayBuffer and clear the editor's dirty state.
+	            tab.arrayBuffer = contentToSave;
+	            tab.rawContent = new Blob([contentToSave]);
+	            State.hexEditorInstance?.clearDirtyState();
+	        } else if (tab.isAwtsmoos) {
+	            // If we saved an awtsmoos file from JSON, update its stored binary content.
+	            tab.arrayBuffer = contentToSave.buffer;
+	            tab.rawContent = new Blob([contentToSave]);
+	        } else {
+	            // For regular text files, update the string content.
+	            tab.content = contentToSave;
+	        }
+	
+	        UI.showToast(`Saved "${tab.item.name}"`, 'success');
+	        this.render(); // Re-render tab bar to remove the "dirty" indicator.
+	
+	    } catch (e) {
+	        // If anything fails, show an error and restore the original content if needed.
+	        tab.content = originalContent; 
+	        UI.showToast(`Save failed: ${e.message}`, 'error');
+	        console.error("SAVE FAILED:", e);
+	    } finally {
+	        // Always hide any loading indicators.
+	        UI.hideLoading();
+	    }
+	},
 
     async saveAs(tab) {
         try {

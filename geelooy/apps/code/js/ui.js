@@ -29,13 +29,11 @@ export const UI = {
         }, 10);
     },
     // B"H
-// FILE: js/ui.js
-
-// REPLACE your existing showDialog method with this one.
+    
     showDialog: ({ title, message, hasInput = false, inputType = 'text', placeholder = '', hasTextarea = false, textareaContent = '', okText = 'OK', cancelText = 'Cancel', contentHTML = '' }) => {
         return new Promise(resolve => {
             const dialog = DOM.genericDialog;
-            // THE FIX: The outer div now has both a class and an ID of "dialog-content"
+            //  The outer div now has both a class and an ID of "dialog-content"
             dialog.innerHTML = `
                 <div class="dialog-content" id="dialog-content">
                     <h3>${title}</h3>
@@ -120,7 +118,7 @@ export const UI = {
         DOM.previewer.classList.add('hidden');
         DOM.consoleHost.classList.add('hidden');
         DOM.emptyEditorMessage.classList.add('hidden');
-
+	DOM.hexEditorWrapper.classList.add('hidden');
         switch(viewName) {
             case 'editor':
                 DOM.editorWrapper.classList.remove('hidden');
@@ -134,6 +132,8 @@ export const UI = {
             case 'empty':
                 DOM.emptyEditorMessage.classList.remove('hidden');
                 break;
+                
+            case 'hex': DOM.hexEditorWrapper.classList.remove('hidden'); break;
         }
     },
     syncScroll: () => DOM.lineNumbers.scrollTop = DOM.editor.scrollTop

@@ -12,7 +12,7 @@ export const State = {
     workspaces: [],
     nextWorkspaceId: 0,
     contextTarget: null,
-    
+    hexEditorInstance: null,
     
     postMessageRequestId: 0,
     postMessagePendingRequests: new Map(),
@@ -88,8 +88,9 @@ DOM.mobileSidebarToggle = document.getElementById('sidebar-toggle-btn'); // <-- 
     DOM.iframeCache = document.getElementById('iframe-cache');
     
     DOM.selectionMenu = document.getElementById('selection-menu');
+    DOM.hexNavPad = document.getElementById('hex-nav-pad');
 
-
+	DOM.hexEditorWrapper = document.getElementById('hex-editor-wrapper');
 }
 
 

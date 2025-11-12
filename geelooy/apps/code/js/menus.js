@@ -243,7 +243,9 @@ registerCustomMenus(menuConfigs) {
           'toggle-awtsmoos-view',
            'copy-all', 'copy-all-contents',
         'new-file', 'new-folder', 'start-selection',
-         'copy-single', 'paste', 'delete-workspace', 'delete'
+         'copy-single', 'paste', 'delete-workspace', 'delete',
+         
+         'toggle-hex-view'
     ];
     
     if (!builtInActions.includes(action)) {
@@ -304,7 +306,13 @@ registerCustomMenus(menuConfigs) {
                 case 'settings': App.showSettings(); break;
                 case 'toggle-keyboard-helper': DOM.keyboardHelper.classList.toggle('is-visible'); break;
                 case 'toggle-fullscreen': App.toggleFullscreen(); break;
-                
+                case 'toggle-hex-view': {
+	                if (!activeTab) break;
+	                activeTab.isHexView = !activeTab.isHexView; // Just flip the switch
+	                activeTab.forceReload = true; // Tell the tab to re-process its content
+	                Tabs.activate(activeTab.id);
+	                break;
+	            }
                 // --- Editor Actions ---
                 case 'select-all': 
                     if (State.activeTabId !== null) { DOM.editor.focus(); DOM.editor.select(); }
