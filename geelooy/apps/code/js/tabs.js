@@ -116,22 +116,27 @@ create(item, isNewFile = false, shouldSave = true) {
     },
     
 async activate(tabId, forceViewChange = false) {
-    // --- Step 1: Save the state of the tab we are leaving ---
+     // --- Step 1: Save the state of the tab we are leaving ---
     const currentTab = State.tabs.find(t => t.id === State.activeTabId);
     if (currentTab) {
-        
-        // If we are leaving an Altar view, ALWAYS stringify its current state
-        // back to the master tab.content property.
-        if (currentTab.isAltarView) {
+        // This is the source of truth for which component is currently displayed.
+        const isEditorVisible = !DOM.editorWrapper.classList.contains('hidden');
+
+        // The logic is now tied to what is actually on screen.
+        if (currentTab.isAltarView && !isEditorVisible) {
+            // If we are leaving what was an Altar view...
             currentTab.content = JSON.stringify(currentTab.liveDataObject, null, '\t');
         } 
-        // Handle other view types as before.
-        else if (currentTab.isHexView && State.hexEditorInstance?.isDirty()) {
-            currentTab.arrayBuffer = State.hexEditorInstance.getUpdatedArrayBuffer();
-            currentTab.rawContent = new Blob([currentTab.arrayBuffer]);
-            currentTab.isDirty = true;
-        } else { 
-            // This handles the text editor view without interfering with the Altar.
+        else if (currentTab.isHexView) {
+            // If we are leaving the Hex view...
+            if(State.hexEditorInstance?.isDirty()) {
+                currentTab.arrayBuffer = State.hexEditorInstance.getUpdatedArrayBuffer();
+                currentTab.rawContent = new Blob([currentTab.arrayBuffer]);
+                currentTab.isDirty = true;
+            }
+        } 
+        else if (currentTab.fileType === 'text' && isEditorVisible) {
+            // CRITICAL: Only save from the main editor if it was the component being displayed.
             currentTab.content = Editor.getContent();
         }
         currentTab.scrollPos = DOM.editor.scrollTop || 0;

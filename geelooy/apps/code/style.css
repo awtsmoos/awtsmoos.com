@@ -64,10 +64,28 @@
     }
     .app-container { 
         display: grid; grid-template-rows: auto 1fr auto; 
-        grid-template-columns: 300px 1fr; height: 100vh; height: 100dvh; 
+        grid-template-columns: 300px 1fr;
+         height: 100vh; height: 100dvh; 
         background-color: var(--color-bg-primary); 
         opacity: 0; animation: appFadeIn 0.5s ease forwards;
     }
+    
+    
+    /* B"H - DESKTOP SIDEBAR COLLAPSE LOGIC */
+
+	
+	
+	.app-container.sidebar-collapsed {
+	    grid-template-columns: 0 1fr !important;
+	}
+	.app-container.sidebar-collapsed .sidebar-resizer {
+	    display: none;
+	}
+	
+	.app-container.sidebar-collapsed .sidebar {
+	    border-right-width: 0;
+	    overflow: hidden; /* Prevents content from showing during transition */
+	}
     @keyframes appFadeIn { to { opacity: 1; } }
 
     .top-panel {
@@ -513,18 +531,6 @@
     }
     
     
-    /* B"H - DESKTOP SIDEBAR COLLAPSE LOGIC */
-.app-container.sidebar-collapsed {
-    grid-template-columns: 0 1fr !important;
-}
-.app-container.sidebar-collapsed .sidebar-resizer {
-    display: none;
-}
-
-.app-container.sidebar-collapsed .sidebar {
-    border-right-width: 0;
-    overflow: hidden; /* Prevents content from showing during transition */
-}
 
 
 
@@ -1028,6 +1034,8 @@ body.is-resizing {
     border-radius: 3px;
     margin-left: 0.5em;
     cursor: text;
+    white-space: pre-wrap;
+    display: block;
 }
 .altar-value[contenteditable="true"]:focus {
     background: rgba(168, 255, 0, 0.2);
