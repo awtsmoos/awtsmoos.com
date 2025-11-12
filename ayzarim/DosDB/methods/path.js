@@ -42,25 +42,31 @@ module.exports = {
         if (finalRelativeCheck.startsWith('..') || path.isAbsolute(finalRelativeCheck)) {
             throw new Error(`Path traversal attempt detected: ${id}`);
         }
-	    
+	
         if (isDir) {
             return resolvedPath;
         }
         
         // --- MORE ROBUST File Existence Priority Checks ---
         
-        // Priority 1: Check for .awtsmoosJSON file first, as it's the primary data format.
         const awtsmoosJsonPath = `${resolvedPath}.awtsmoosJSON`;
+        // Priority 1: Check for the path AS-IS, but ensure it is a FILE, not a directory.
+        
+        try {
+            const stat = await fs.stat(resolvedPath);
+            if (stat.isFile()) return resolvedPath;
+            if(stat.isDirectory()) return resolvedPath;
+        } catch {}
+        
+        // Priority 2: Check for .awtsmoosJSON file 2nd
+        //because if not then it wouldn't realize regular files
+        
         try {
             const stat = await fs.stat(awtsmoosJsonPath);
             if (stat.isFile()) return awtsmoosJsonPath;
         } catch {}
 
-        // Priority 2: Check for the path AS-IS, but ensure it is a FILE, not a directory.
-        try {
-            const stat = await fs.stat(resolvedPath);
-            if (stat.isFile()) return resolvedPath;
-        } catch {}
+        
 
         // Priority 3: Check for .json as a fallback.
         const jsonPath = `${resolvedPath}.json`;
@@ -70,7 +76,10 @@ module.exports = {
         } catch {}
 
         // If no file is found, return the default path for a CREATE operation.
-        return automaticallyAddAwtsmoos ? awtsmoosJsonPath : resolvedPath;
+        var final = automaticallyAddAwtsmoos ? awtsmoosJsonPath : resolvedPath;
+        
+        console.log("\n\nPATH", final );
+        return final
     },
 
 

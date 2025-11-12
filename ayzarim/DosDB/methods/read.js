@@ -75,6 +75,7 @@ module.exports = {
         keepJSON: false,
         extra: false
     }) {
+    //console.log("WHAT",id)
         const keepJSON = options.keepJSON;
         try {
             if(!options || typeof options !== "object") {
@@ -82,6 +83,8 @@ module.exports = {
             }
             const filePath = await this.getAwtsmoosFilePath(id);
             const statObj = await fs.stat(filePath);
+            
+            //console.log("awtsPath",filePath);
             if(options.access) return statObj;
             if(options.meta) return statObj.birthtime;
             
