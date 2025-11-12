@@ -4,7 +4,7 @@
 
 import { DOM, State } from './state.js';
 import { UI } from './ui.js';
-
+import { Tabs } from './tabs.js';
 export const DataAltar = {
     liveDataObject: null,
 
@@ -29,6 +29,15 @@ export const DataAltar = {
         DOM.dataAltarContainer.innerHTML = '';
         DOM.dataAltarContainer.classList.add('hidden'); // Ensure it's hidden
         // Detach listeners if you want to be extra clean, but it's not strictly necessary
+    },
+    
+    _setDirty() {
+        const activeTab = State.tabs.find(t => t.id === State.activeTabId);
+        // Only proceed if the tab isn't already marked as dirty
+        if (activeTab && !activeTab.isDirty) {
+            activeTab.isDirty = true;
+            Tabs.render(); // Re-render the tab bar to show the pink circle
+        }
     },
 
     /**
@@ -105,35 +114,31 @@ export const DataAltar = {
     
     _getTrueTextContent(element) {
         let text = '';
-        // The childNodes list gives us both text and <br> elements.
         element.childNodes.forEach(node => {
             if (node.nodeType === Node.TEXT_NODE) {
-                // If it's a piece of text, add it.
                 text += node.textContent;
             } else if (node.nodeName === 'BR') {
-                // If it's a <br> tag, add a newline character.
                 text += '\n';
             }
         });
-        return text;
+        // THE FIX: Before returning, remove all invisible anchor characters from the data.
+        return text.replace(/\uFEFF/g, '');
     },
 
-    _createValueElement(data, type, path) {
-        const valueEl = document.createElement('span');
+     _createValueElement(data, type, path) {
+        // THE FIX: We now create a TEXTAREA.
+        const valueEl = document.createElement('textarea');
         valueEl.className = 'altar-value';
-        valueEl.contentEditable = true;
         valueEl.spellcheck = false;
+        valueEl.rows = 1; // Start with a single line
+        valueEl.value = String(data) || '';
 
-        // THE FIX: Convert data with '\n' into visible HTML with '<br>' for rendering.
-        const stringData = String(data) || '';
-        valueEl.innerHTML = stringData.replace(/\n/g, '<br>');
+        // Trigger an initial resize to match the content
+        setTimeout(() => {
+            valueEl.style.height = 'auto';
+            valueEl.style.height = `${valueEl.scrollHeight}px`;
+        }, 0);
 
-        // If the element is completely empty, add a single <br> to ensure it has height
-        // and that the cursor has a stable place to start, fixing the "first press" bug.
-        if (valueEl.innerHTML === '') {
-            valueEl.innerHTML = '<br>';
-        }
-        
         return valueEl;
     },
     
@@ -147,10 +152,10 @@ export const DataAltar = {
         return btn;
     },
 
-    _attachEventListeners() {
+     _attachEventListeners() {
         if (DOM.dataAltarContainer.dataset.listenerAttached) return;
 
-        // Handles button clicks (delete, add, change type)
+        // Handles button clicks
         DOM.dataAltarContainer.addEventListener('click', e => {
             const target = e.target.closest('button.altar-action-btn');
             if (!target) return;
@@ -164,40 +169,38 @@ export const DataAltar = {
             }
         });
 
-        // Handles committing data when you click away
+        // Handles committing data
         DOM.dataAltarContainer.addEventListener('blur', e => {
-            const target = e.target.closest('[contenteditable="true"]');
+            const target = e.target.closest('[contenteditable="true"], .altar-value');
             if (!target) return;
             const path = target.closest('.altar-node').dataset.path;
+            
             if (target.classList.contains('altar-key')) {
                 this._editKey(path, target.textContent);
             } else if (target.classList.contains('altar-value')) {
-                // We now pass the element itself, not just its text content.
+                // The target is our textarea
                 this._editValue(path, target);
             }
         }, true);
         
-        // Handles REAL-TIME preview updates as you type, cut, or paste
+        // Handles auto-sizing the textarea and updating the preview
         DOM.dataAltarContainer.addEventListener('input', e => {
-            const target = e.target.closest('.altar-value[contenteditable="true"]');
-            if (!target) return;
+            const target = e.target.closest('.altar-value');
+            if (!target || target.tagName !== 'TEXTAREA') return;
+
+            // --- THE AUTO-SIZING LOGIC ---
+            target.style.height = 'auto';
+            target.style.height = `${target.scrollHeight}px`;
+            
+            // --- The PREVIEW LOGIC ---
             const node = target.closest('.altar-node');
             const preview = node?.querySelector('.altar-preview');
             if (!preview) return;
-
-            // THE FIX: Use the browser's reliable 'innerText' property.
-            let newText = target.innerText;
             
-            // EDGE CASE FIX: If the editor only contains a single line break,
-            // innerText can be an empty string. We correct this.
-            if (target.innerHTML === '<br>') {
-                newText = '\n';
-            }
-
+            const newText = target.value; // Simple and reliable
             const type = node.dataset.type;
             let previewText = newText;
             if (type === 'string') {
-                // Now correctly handles tabs as well for the preview.
                 previewText = `"${newText.replace(/\n/g, '\\n').replace(/\t/g, '\\t')}"`;
             }
 
@@ -207,46 +210,17 @@ export const DataAltar = {
             preview.textContent = previewText;
         });
 
-        // Handles inserting \n and \t correctly.
+        // Only handle TAB for textareas now. The browser handles Enter perfectly.
         DOM.dataAltarContainer.addEventListener('keydown', e => {
-            const target = e.target.closest('[contenteditable="true"]');
+            const target = e.target.closest('textarea.altar-value');
             if (!target) return;
 
-            if (e.key === 'Enter' && !e.shiftKey) {
-                // This is the definitive fix. We abandon the unreliable execCommand.
-                e.preventDefault();
-
-                // Get the current cursor position (the selection).
-                const selection = window.getSelection();
-                if (!selection.rangeCount) return;
-                const range = selection.getRangeAt(0);
-
-                // Delete any selected text, just in case.
-                range.deleteContents();
-
-                // Create a <br> element ourselves. We are now in full control.
-                const br = document.createElement('br');
-                range.insertNode(br);
-
-                // CRITICAL: We must manually move the cursor to be *after* the new <br>.
-                // This creates a stable position for the next keypress and ensures the visual line break.
-                range.setStartAfter(br);
-                range.collapse(true);
-
-                // Apply our new cursor position to the document's selection.
-                selection.removeAllRanges();
-                selection.addRange(range);
-
-                // Manually trigger the 'input' event so our real-time preview updates instantly.
-                target.dispatchEvent(new Event('input', { bubbles: true }));
-            }
-            
             if (e.key === 'Tab') {
                 e.preventDefault();
-                // execCommand is reliable for simple text insertion, so we keep it here.
-                document.execCommand('insertText', false, '\t');
-                // Manually trigger the input event for the tab character.
-                target.dispatchEvent(new Event('input', { bubbles: true }));
+                const start = target.selectionStart;
+                const end = target.selectionEnd;
+                target.value = target.value.substring(0, start) + '\t' + target.value.substring(end);
+                target.selectionStart = target.selectionEnd = start + 1;
             }
         });
 
@@ -272,14 +246,15 @@ export const DataAltar = {
             }
         }
         
-        const activeTab = State.tabs.find(t => t.id === State.activeTabId);
-        if (activeTab) activeTab.isDirty = true;
+        this._setDirty();
     },
 
     _getPathValue(path) {
         return path.split('.').slice(1).reduce((obj, key) => obj?.[key], this.liveDataObject);
     },
     
+    // In js/DataAltar.js, replace your _editKey function
+
     _editKey(path, newKeyName) {
         const cleanNewKey = newKeyName.trim();
         const parentPath = path.substring(0, path.lastIndexOf('.'));
@@ -288,7 +263,6 @@ export const DataAltar = {
 
         const parent = this._getPathValue(parentPath);
         if (Array.isArray(parent) || !parent || parent.hasOwnProperty(cleanNewKey)) {
-             // Revert in UI if invalid
              const node = DOM.dataAltarContainer.querySelector(`[data-path="${path}"]`);
              if (node) node.querySelector('.altar-key').textContent = oldKeyName;
              UI.showToast(Array.isArray(parent) ? "Cannot rename array index." : "Key already exists.", "error");
@@ -299,27 +273,19 @@ export const DataAltar = {
         delete parent[oldKeyName];
         parent[cleanNewKey] = value;
         
-        // Targeted DOM Update
         const node = DOM.dataAltarContainer.querySelector(`[data-path="${path}"]`);
         if (node) {
             const newPath = `${parentPath}.${cleanNewKey}`;
             node.dataset.path = newPath;
-            // Update paths of all action buttons on this node
             node.querySelectorAll('[data-path]').forEach(el => el.dataset.path = newPath);
         }
         
-        const activeTab = State.tabs.find(t => t.id === State.activeTabId);
-        if (activeTab) activeTab.isDirty = true;
+        this._setDirty(); 
     },
     
-    _editValue(path, element) {
-        // THE FIX: Use innerText here as well for consistency.
-        let newValue = element.innerText;
-
-        // EDGE CASE FIX: Ensure a single newline is saved correctly.
-        if (element.innerHTML === '<br>') {
-            newValue = '\n';
-        }
+     _editValue(path, element) {
+        //  Simply read the .value property. No bugs, no hacks.
+        const newValue = element.value;
 
         const dataType = this._getPathValue(path)?.constructor;
         let castValue = newValue;
@@ -332,7 +298,6 @@ export const DataAltar = {
 
         this._updateData(path, castValue);
     },
-
     _deleteProperty(path) {
         this._updateData(path, null, 'delete');
         // Targeted DOM Update: Just remove the element.
@@ -341,22 +306,21 @@ export const DataAltar = {
         // We might need to refresh the parent's count here, but for now this is a huge improvement.
     },
 
+    // In js/DataAltar.js, replace your _addProperty function
+
     async _addProperty(path) {
         const parent = this._getPathValue(path);
         const isArray = Array.isArray(parent);
         let newKey = isArray ? parent.length : await UI.showDialog({ title: "Enter New Key", hasInput: true, placeholder: "property_name" });
 
         if (newKey !== null && newKey !== '' && !parent.hasOwnProperty(newKey)) {
-             parent[newKey] = null; // Add a null value by default
-             const activeTab = State.tabs.find(t => t.id === State.activeTabId);
-             if (activeTab) activeTab.isDirty = true;
+             parent[newKey] = null; 
+             this._setDirty(); 
              
-             // Targeted DOM Update
              const parentNode = DOM.dataAltarContainer.querySelector(`[data-path="${path}"]`);
              if(parentNode) {
                  const contentWrapper = parentNode.querySelector('.altar-content');
                  const newNode = this._createNode(null, newKey, `${path}.${newKey}`, true);
-                 // Insert before the 'add' button
                  contentWrapper.insertBefore(newNode, contentWrapper.lastChild);
              }
         }

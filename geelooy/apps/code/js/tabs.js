@@ -301,39 +301,52 @@ async activate(tabId, forceViewChange = false) {
     
     async save(tab) {
 	    UI.showToast(`Saving ${tab.item.name}...`);
-	    let originalContent = tab.content; // Keep a reference in case of failure
-	
+	    
 	    try {
 	        let contentToSave;
-	
-	        // --- B"H - STEP 1: Determine the correct content to save ---
-	        if (tab.isHexView) {
-	            // SCENARIO 1: Saving from the Hex Editor
-	            // The source of truth is the Hex Editor component itself.
-	            if (tab.id === State.activeTabId && State.hexEditorInstance?.isDirty()) {
-	                // If the active tab is our target and the editor has changes, get the updated binary data.
+	        let textContent;
+
+	        // --- STEP 1: Get the most up-to-date content based on the CURRENT view ---
+	        if (tab.id === State.activeTabId) {
+	            // The tab to save is currently active. Find out which view is visible.
+	            const isAltarVisible = !DOM.dataAltarContainer.classList.contains('hidden');
+
+	            if (tab.isHexView) {
+	                // If in Hex view, get the binary data directly.
 	                contentToSave = State.hexEditorInstance.getUpdatedArrayBuffer();
+	            } else if (isAltarVisible && tab.isAltarView) {
+	                // THE FIX: If the Altar is visible, stringify its live data object.
+	                textContent = JSON.stringify(DataAltar.liveDataObject, null, '\t');
 	            } else {
-	                // Otherwise, use the binary data already stored on the tab object.
-	                contentToSave = tab.arrayBuffer;
+	                // Otherwise, we are in the standard text editor view.
+	                textContent = Editor.getContent();
 	            }
-	        } else if (tab.isAwtsmoos) {
-	            // SCENARIO 2: Saving an .awtsmoosJSON file from the JSON (text) view.
-	            // We need to encode the text from the editor back into binary.
-	            UI.showLoading('Encoding to binary...');
-	            const editorContent = (tab.id === State.activeTabId) ? Editor.getContent() : tab.content;
-	            contentToSave = await AwtsmoosHandler.encodeContent(editorContent);
 	        } else {
-	            // SCENARIO 3: Saving a regular text file.
-	            // The source of truth is the standard text editor.
-	            contentToSave = (tab.id === State.activeTabId) ? Editor.getContent() : tab.content;
+	            // The tab to save is NOT active (e.g., closing another unsaved tab).
+	            // The content already stored on the tab object is the source of truth.
+	            if (tab.isHexView) {
+	                contentToSave = tab.arrayBuffer;
+	            } else {
+	                textContent = tab.content;
+	            }
+	        }
+
+	        // --- STEP 2: Process the gathered content for saving ---
+	        if (tab.isAwtsmoos && !tab.isHexView) {
+	            // If it's an .awtsmoosJSON file viewed as text (Altar or regular),
+	            // it MUST be encoded back to binary before saving.
+	            UI.showLoading('Encoding to binary...');
+	            contentToSave = await AwtsmoosHandler.encodeContent(textContent);
+	        } else if (contentToSave === undefined) {
+	            // If contentToSave is not set yet, it's a regular text file.
+	            contentToSave = textContent;
+	        }
+
+	        if (contentToSave === undefined) {
+	            throw new Error("Content to save is missing.");
 	        }
 	
-	        if (contentToSave === undefined || contentToSave === null) {
-	            throw new Error("Content to save is missing or invalid.");
-	        }
-	
-	        // --- STEP 2: Handle GitHub commit message if necessary ---
+	        // --- STEP 3: Handle GitHub commit message if necessary ---
 	        let commitMessage;
 	        if (tab.item.type === 'github') {
 	            commitMessage = await UI.showDialog({ 
@@ -343,41 +356,37 @@ async activate(tabId, forceViewChange = false) {
 	                okText: 'Commit & Save',
 	                message: `Enter commit message for "${tab.item.name}".`
 	            });
-	            if (commitMessage === null) { // User cancelled the dialog
+	            if (commitMessage === null) {
 	                throw new Error("Save cancelled by user.");
 	            }
 	        }
 	             
-	        // --- STEP 3: Write the file to the filesystem ---
+	        // --- STEP 4: Write the file to the filesystem ---
 	        await FileSystemProvider.write(tab.item, contentToSave, commitMessage);
 	        
-	        // --- STEP 4: Update the tab's state after a successful save ---
+	        // --- STEP 5: Update the tab's state after a successful save ---
 	        tab.isDirty = false;
 	
 	        if (tab.isHexView) {
-	            // If we saved from hex, update the tab's stored ArrayBuffer and clear the editor's dirty state.
 	            tab.arrayBuffer = contentToSave;
 	            tab.rawContent = new Blob([contentToSave]);
-	            State.hexEditorInstance?.clearDirtyState();
+	            if (tab.id === State.activeTabId) State.hexEditorInstance?.clearDirtyState();
 	        } else if (tab.isAwtsmoos) {
-	            // If we saved an awtsmoos file from JSON, update its stored binary content.
 	            tab.arrayBuffer = contentToSave.buffer;
 	            tab.rawContent = new Blob([contentToSave]);
+	            tab.content = textContent; // Update the decoded text content as well
 	        } else {
-	            // For regular text files, update the string content.
-	            tab.content = contentToSave;
+	            // For regular text files, just update the string content.
+	            tab.content = textContent;
 	        }
 	
 	        UI.showToast(`Saved "${tab.item.name}"`, 'success');
 	        this.render(); // Re-render tab bar to remove the "dirty" indicator.
 	
 	    } catch (e) {
-	        // If anything fails, show an error and restore the original content if needed.
-	        tab.content = originalContent; 
 	        UI.showToast(`Save failed: ${e.message}`, 'error');
 	        console.error("SAVE FAILED:", e);
 	    } finally {
-	        // Always hide any loading indicators.
 	        UI.hideLoading();
 	    }
 	},

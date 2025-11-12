@@ -1037,12 +1037,57 @@ body.is-resizing {
     white-space: pre-wrap;
     display: block;
 }
+
+.altar-value[contenteditable="true"] {
+    min-height: 1.7em; /* Matches the line-height of the editor */
+    display: block; /* Ensures min-height is respected */
+}
+
 .altar-value[contenteditable="true"]:focus {
     background: rgba(168, 255, 0, 0.2);
     box-shadow: 0 0 10px var(--glow-lime);
 }
 
+/* THE HACK: This forces an invisible, permanent newline at the end of the element. */
+/* This makes the browser's innerText serialization completely predictable. */
+.altar-value[contenteditable="true"]::after {
+    content: "\A";
+    white-space: pre;
+}
+
+.altar-content > .altar-value {
+    /* This is now the base styling for our text area */
+    display: block;
+    background: transparent;
+    border: none;
+    outline: none;
+    resize: none;
+    overflow-y: hidden; /* Hide the scrollbar since it auto-sizes */
+    
+    /* Inherit the visual style of the Altar */
+    width: 100%;
+    font: inherit;
+    font-family: var(--font-code);
+    line-height: 1.6;
+    padding: 2px 4px;
+    margin-left: 0.5em;
+    border-radius: 3px;
+    
+    /* Make the text color match the type */
+    color: var(--neon-lime); /* Default for string */
+}
+
+
+.altar-content > .altar-value:focus {
+    /* A simple, clean focus indicator */
+    background: rgba(168, 255, 0, 0.2);
+    box-shadow: 0 0 10px var(--glow-lime);
+}
+
+
+
 .altar-node[data-type="string"] .altar-value { color: var(--neon-lime); }
+
 .altar-node[data-type="number"] .altar-value { color: #ffae57; }
 .altar-node[data-type="boolean"] .altar-value { color: var(--neon-magenta); font-weight: bold; }
 .altar-node[data-type="null"] .altar-value { color: var(--color-text-tertiary); font-style: italic; }
