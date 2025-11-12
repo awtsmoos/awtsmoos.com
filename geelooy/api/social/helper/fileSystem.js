@@ -279,7 +279,7 @@ async function readFolder({$i}) {
             keepJSON: true
         })
         /*if (!folderContents) return er({ message: "Folder not found", code: "FOLDER_NOT_FOUND" });*/
-	console.log("Getting", folderPath, path, folderContents)
+	//console.log("Getting", folderPath, path, folderContents)
         return folderContents || [];  // List files and folders
     } catch(e) {
         return er({ message: "System Error", code: "SYSTEM", details:e.stack });

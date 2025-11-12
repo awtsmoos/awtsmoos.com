@@ -78,7 +78,7 @@ module.exports = {
         // If no file is found, return the default path for a CREATE operation.
         var final = automaticallyAddAwtsmoos ? awtsmoosJsonPath : resolvedPath;
         
-        console.log("\n\nPATH", final );
+        //console.log("\n\nPATH", final );
         return final
     },
 
