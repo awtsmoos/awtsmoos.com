@@ -977,55 +977,55 @@ body.is-resizing {
 #data-altar-container {
     height: 100%;
     overflow: auto;
-    background: 
-        radial-gradient(ellipse at center, rgba(10, 12, 20, 0.95) 0%, #02040a 70%),
-        repeating-linear-gradient(0deg, rgba(0, 246, 255, 0.05), rgba(0, 246, 255, 0.05) 1px, transparent 1px, transparent 20px);
-    padding: 30px;
+    background: radial-gradient(ellipse at center, rgba(10, 12, 20, 0.95) 0%, #02040a 70%);
+    padding: 20px 30px;
     font-size: 1.1em;
+    font-family: var(--font-code);
     animation: altar-breathe 15s ease-in-out infinite;
 }
 
-@keyframes altar-breathe {
-    0%, 100% { background-color: #02040a; }
-    50% { background-color: #121522; }
-}
-
 .altar-node {
-    margin-left: 2em;
-    padding-left: 1em;
-    border-left: 1px solid rgba(255, 0, 255, 0.2);
+    padding-left: 2em;
     position: relative;
+    border-left: 1px solid rgba(255, 0, 255, 0.2);
 }
 
-.altar-node::before {
-    content: '';
-    position: absolute;
-    left: -5px;
-    top: 0.7em;
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: var(--neon-magenta);
-    box-shadow: 0 0 8px var(--glow-magenta);
-    opacity: 0.5;
+.altar-row {
+    display: flex;
+    align-items: center;
+    min-height: 28px;
+    padding: 2px 0;
+}
+.altar-row:hover {
+    background: rgba(168, 255, 0, 0.05);
+}
+.altar-row:hover .altar-action-btn {
+    opacity: 1;
 }
 
 .altar-key {
     color: var(--neon-cyan);
-    text-shadow: 0 0 5px var(--glow-cyan);
     font-weight: bold;
+    padding: 2px 4px;
+    border-radius: 3px;
+    outline: none;
+    cursor: text;
 }
-
-.altar-brace {
-    color: var(--color-text-tertiary);
-    font-weight: normal;
+.altar-key:focus {
+    background: rgba(0, 246, 255, 0.2);
+    box-shadow: 0 0 10px var(--glow-cyan);
 }
 
 .altar-value {
     outline: none;
     padding: 2px 4px;
     border-radius: 3px;
-    transition: all 0.2s ease;
+    margin-left: 0.5em;
+    cursor: text;
+}
+.altar-value[contenteditable="true"]:focus {
+    background: rgba(168, 255, 0, 0.2);
+    box-shadow: 0 0 10px var(--glow-lime);
 }
 
 .altar-node[data-type="string"] .altar-value { color: var(--neon-lime); }
@@ -1033,13 +1033,38 @@ body.is-resizing {
 .altar-node[data-type="boolean"] .altar-value { color: var(--neon-magenta); font-weight: bold; }
 .altar-node[data-type="null"] .altar-value { color: var(--color-text-tertiary); font-style: italic; }
 
-.altar-value:focus {
-    background: rgba(168, 255, 0, 0.2);
-    box-shadow: 0 0 10px var(--glow-lime);
-    color: white;
-}
-
-.altar-node details summary {
+details summary {
     cursor: pointer;
     list-style: none; /* Hide default triangle */
+}
+details summary::-webkit-details-marker { display: none; }
+
+.altar-action-btn {
+    font-family: var(--font-code);
+    background: none;
+    border: 1px solid var(--color-border);
+    color: var(--color-text-tertiary);
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    line-height: 20px;
+    text-align: center;
+    cursor: pointer;
+    margin-left: 8px;
+    opacity: 0.2;
+    transition: all 0.15s ease;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+.altar-action-btn:hover {
+    opacity: 1 !important;
+    transform: scale(1.2);
+    box-shadow: 0 0 10px var(--glow-cyan);
+    border-color: var(--neon-cyan);
+    color: var(--neon-cyan);
+}
+.action-delete-property:hover {
+    color: var(--color-accent-danger);
+    border-color: var(--color-accent-danger);
+    box-shadow: 0 0 10px var(--color-accent-danger);
 }
