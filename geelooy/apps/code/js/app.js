@@ -211,17 +211,21 @@ setupEventListeners() {
     if (DOM.mobileSidebarToggle) {
         DOM.mobileSidebarToggle.onclick = (e) => {
             e.stopPropagation();
-            // This now ALWAYS toggles the desktop-style collapse, regardless of screen size.
-            appContainer.classList.toggle('sidebar-collapsed');
             
-            // Restore width if we are un-collapsing
-            if (!appContainer.classList.contains("sidebar-collapsed")) {
-                var sidebarW = localStorage.awtsmoosSidebarWidth;
-                if (!isNaN(sidebarW)) {
-                    appContainer.style.gridTemplateColumns = `${sidebarW}px 1fr`;
-                }
+            if (appContainer.classList.contains('sidebar-collapsed')) {
+                // --- BEHAVIOR: UN-COLLAPSING ---
+                appContainer.classList.remove('sidebar-collapsed');
+                
+                // Restore to the last known width, with a sensible default.
+                const lastWidth = parseInt(localStorage.awtsmoosSidebarWidth, 10) || 300;
+                appContainer.style.gridTemplateColumns = `${lastWidth}px 1fr`;
+
             } else {
-                appContainer.style.gridTemplateColumns = ''; // Reset to CSS default when collapsed
+                // --- BEHAVIOR: COLLAPSING ---
+                appContainer.classList.add('sidebar-collapsed');
+
+                // CRITICAL: Remove the inline style to let the CSS class take full control.
+                appContainer.style.gridTemplateColumns = '';
             }
         };
     }
@@ -237,51 +241,42 @@ setupEventListeners() {
 	
     // B"H - UNIFIED RESIZER LOGIC (REMOVED THE SCREEN SIZE CHECK)
 	if (resizer) {
-        const minWidth = 2;
+        // You cannot manually resize smaller than this. Only the button can fully collapse.
+        const minManualWidth = 50;
         const maxWidth = 800;
         
-        var sidebarW = localStorage.awtsmoosSidebarWidth;
-        if (!isNaN(sidebarW) && !appContainer.classList.contains('sidebar-collapsed')) {
-            appContainer.style.gridTemplateColumns = `${sidebarW}px 1fr`;
-        }
-
-        // Unified handler for move events
         const handleMove = (e) => {
-            // Use clientX for mouse events, and the first touch's clientX for touch events
+            // This check prevents resizing while the sidebar is fully collapsed.
+            if (appContainer.classList.contains('sidebar-collapsed')) return;
+
             const clientX = e.clientX ?? e.touches?.[0]?.clientX;
             if (clientX === undefined) return;
 
-            let newWidth = Math.max(minWidth, Math.min(clientX, maxWidth));
+            // Enforce the minimum and maximum manual resize widths.
+            let newWidth = Math.max(minManualWidth, Math.min(clientX, maxWidth));
             appContainer.style.gridTemplateColumns = `${newWidth}px 1fr`;
             localStorage.awtsmoosSidebarWidth = newWidth;
         };
 
-        // Unified handler for ending the resize
         const handleEnd = () => {
             document.body.classList.remove('is-resizing');
-            // Remove both sets of listeners
             document.removeEventListener('mousemove', handleMove);
             document.removeEventListener('mouseup', handleEnd);
             document.removeEventListener('touchmove', handleMove);
             document.removeEventListener('touchend', handleEnd);
         };
 
-        // Unified handler for starting the resize
         const handleStart = (e) => {
-            // Prevent default to stop scrolling on touch and text selection on mouse
             e.preventDefault();
-            
             document.body.classList.add('is-resizing');
-            // Add listeners for both mouse and touch events
             document.addEventListener('mousemove', handleMove);
             document.addEventListener('mouseup', handleEnd);
             document.addEventListener('touchmove', handleMove);
             document.addEventListener('touchend', handleEnd);
         };
 
-        // Attach listeners for both mouse and touch events to the resizer element
         resizer.addEventListener('mousedown', handleStart);
-        resizer.addEventListener('touchstart', handleStart, { passive: false }); // Use passive: false to allow preventDefault
+        resizer.addEventListener('touchstart', handleStart, { passive: false });
     }
 
     // B"H - REMOVED the "click outside to close" logic as it was part of the old mobile-only behavior.

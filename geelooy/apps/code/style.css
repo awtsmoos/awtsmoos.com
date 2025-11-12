@@ -140,6 +140,7 @@
     transition: transform var(--timing-med) ease, width var(--timing-med) ease; flex-shrink: 0;
     position: relative;
     z-index: 3200;
+    overflow: hidden;
     
 
 }
@@ -515,6 +516,9 @@
     /* B"H - DESKTOP SIDEBAR COLLAPSE LOGIC */
 .app-container.sidebar-collapsed {
     grid-template-columns: 0 1fr !important;
+}
+.app-container.sidebar-collapsed .sidebar-resizer {
+    display: none;
 }
 
 .app-container.sidebar-collapsed .sidebar {
