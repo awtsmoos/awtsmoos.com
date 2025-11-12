@@ -218,24 +218,23 @@ class KexHandler {
     const msgType = payload[0];
     
     if (msgType === MESSAGE.KEXDH_REPLY) {
+      // This is the big one, it triggers the key derivation and state change.
       this._handleDhReply(payload);
     } else if (msgType === MESSAGE.NEWKEYS) {
-      this._protocol._decipher = new GevurahDecipher(this.negotiated.scCipher, this.negotiated.scMAC, this._sc_iv, this._sc_key, this._sc_mac_key, this._protocol._onPayload);
-      this._protocol._decipher.inSeqno = 0n;
-      this._debug && this._debug('Inbound: NEWKEYS. Switched to new decipher.');
+      // By the time we get this message, it has already been successfully decrypted.
+      // All we need to do now is signal that the handshake is fully complete.
+      this._debug && this._debug('Inbound: NEWKEYS successfully decrypted.');
       this._protocol._onHandshakeComplete();
     } else {
+      // Any other message during key exchange is a protocol error.
       throw new Error(`Unexpected KEX message type: ${msgType}`);
     }
   }
 
   _handleDhReply(payload) {
     this._debug && this._debug('Key Exchange: Processing KEXDH_REPLY.');
-    // --------------------------------------------------------------------
-    //  STEP 1: Parse the incoming KEXDH_REPLY packet from the server.
-    // --------------------------------------------------------------------
-    // This packet contains the server's public host key (K_S), its ephemeral
-    // public key (f), and the signature of the exchange hash.
+    
+    // STEP 1: Parse the incoming KEXDH_REPLY packet
     const reader = {
       buffer: payload,
       pos: 1,
@@ -247,16 +246,12 @@ class KexHandler {
         return data;
       }
     };
-    
     const K_S = reader.readString();
-    const serverEphPub = reader.readString(); // This is 'f'
+    const serverEphPub = reader.readString();
     const signatureBlob = reader.readString();
 
-    // --------------------------------------------------------------------
-    //  STEP 2: Compute the shared secret 'K' using Diffie-Hellman.
-    // --------------------------------------------------------------------
-    // This combines our private key with the server's ephemeral public key.
-    let secret; // This will become 'K'
+    // STEP 2: Compute the shared secret 'K'
+    let secret;
     switch (this.negotiated.kex) {
         case 'curve25519-sha256':
         case 'curve25519-sha256@libssh.org':
@@ -269,9 +264,6 @@ class KexHandler {
         default:
             throw new Error(`Unsupported KEX for secret computation: ${this.negotiated.kex}`);
     }
-    
-    // Format the shared secret 'K' as a Multi-Precision Integer (mpint) as required by the RFC.
-    // This involves adding a leading zero byte if the most significant bit is set.
     let secretMpint = secret;
     if (secret[0] & 0x80) {
       secretMpint = Buffer.concat([Buffer.alloc(1), secret]);
@@ -280,11 +272,7 @@ class KexHandler {
     this._kex_secret.writeUInt32BE(secretMpint.length, 0);
     secretMpint.copy(this._kex_secret, 4);
 
-    // --------------------------------------------------------------------
-    //  STEP 3: Calculate the Exchange Hash 'H'. THIS IS THE CRITICAL PART.
-    // --------------------------------------------------------------------
-    // 'H' is the hash of a precise sequence of 8 data items. All 'string'
-    // items must be prefixed with their length. Our helper handles this.
+    // STEP 3: Calculate the Exchange Hash 'H'
     const hash = createHash('sha256');
     const hashString = (buf) => {
         const lenBuf = Buffer.alloc(4);
@@ -292,66 +280,43 @@ class KexHandler {
         hash.update(lenBuf);
         hash.update(buf);
     };
-
-    // The 8 components of the hash, in exact RFC 4253 order:
-    hashString(this._protocol._identRaw);                      // 1. V_C: Client version string
-    hashString(Buffer.from(this._protocol._remoteIdentRaw));    // 2. V_S: Server version string
-    hashString(this._kexinit_payload);                         // 3. I_C: Client KEXINIT payload
-    hashString(this._remote_kexinit_payload);                  // 4. I_S: Server KEXINIT payload
-    hashString(K_S);                                           // 5. K_S: Server public host key
-
-    // === THE SYNTHESIS AND FINAL CORRECTION ===
-    // My previous error was failing to correctly format 'e' (our ephemeral
-    // public key) as a standard SSH 'string'. This version unifies the
-    // logic, using the same trusted helper for ALL string components.
+    hashString(this._protocol._identRaw);
+    hashString(Buffer.from(this._protocol._remoteIdentRaw));
+    hashString(this._kexinit_payload);
+    hashString(this._remote_kexinit_payload);
+    hashString(K_S);
     const clientEphPub = this._dh.publicKey.export({ type: 'spki', format: 'der' }).slice(-32);
-    hashString(clientEphPub);                                  // 6. e:   Client ephemeral public key
-
-    hashString(serverEphPub);                                  // 7. f:   Server ephemeral public key
-    hash.update(this._kex_secret);                             // 8. K:   The shared secret itself
-
+    hashString(clientEphPub);
+    hashString(serverEphPub);
+    hash.update(this._kex_secret);
     this._exchange_hash = hash.digest();
-    
-    // The session_id is the exchange hash from the first key exchange.
     if (!this.sessionID) {
       this.sessionID = this._exchange_hash;
     }
 
-    // --------------------------------------------------------------------
-    //  STEP 4: Verify the server's signature.
-    // --------------------------------------------------------------------
-    // This proves we are talking to the correct server and not a MITM attacker.
-    // The server signs 'H' with its long-term private host key. We verify
-    // with the public host key (K_S) it sent us.
+    // STEP 4: Verify the server's signature
     const sigReader = { buffer: signatureBlob, pos: 0, readString: reader.readString };
     const sigAlgo = sigReader.readString().toString('ascii');
     const signature = sigReader.readString();
-    
     this._debug && this._debug(`Verifying signature with algorithm: ${sigAlgo}`);
-    
     const parsedHostKey = parseKeyForVerification(K_S);
     if (parsedHostKey instanceof Error) throw parsedHostKey;
-
     const verified = parsedHostKey.verify(this._exchange_hash, signature);
     if (!verified) {
-      // If this fails, the hash is likely still wrong. This debug output is critical.
-      this._debug && this._debug(`CRITICAL: Server signature verification FAILED.`);
-      this._debug && this._debug(`Calculated Exchange Hash (H): ${this._exchange_hash.toString('hex')}`);
-      throw new Error('Host key signature verification failed. The exchange hash is likely incorrect.');
+      throw new Error('Host key signature verification failed.');
     }
     this._debug && this._debug('Server signature verified successfully.');
 
-    // --------------------------------------------------------------------
-    //  STEP 5: Derive keys and transition to the encrypted state.
-    // --------------------------------------------------------------------
+    // STEP 5: Derive all necessary keys from the exchange hash
     this._deriveKeys();
-    
-    // Tell the server we are switching to encrypted mode.
-    const newKeysPacket = Buffer.from([MESSAGE.NEWKEYS]);
-    this._protocol.sendPacket(newKeysPacket);
-    this._debug && this._debug('Outbound: Sending NEWKEYS. Switched to new cipher.');
-    
-    // Switch our own outbound traffic to use the newly derived keys.
+
+    // ======================= THE FINAL STATE TRANSITION FIX =======================
+    // The moment we decide to send an encrypted packet, we MUST be ready to
+    // receive an encrypted packet. We instantiate BOTH the cipher and decipher now.
+    // This resolves the race condition.
+    // ==============================================================================
+
+    // SETUP OUTBOUND ENCRYPTION
     this._protocol._cipher = new GevurahCipher(
       this.negotiated.csCipher,
       this.negotiated.csMAC,
@@ -362,6 +327,23 @@ class KexHandler {
       this._protocol
     );
     this._protocol._cipher.outSeqno = 0n;
+
+    // SETUP INBOUND DECRYPTION
+    this._protocol._decipher = new GevurahDecipher(
+        this.negotiated.scCipher,
+        this.negotiated.scMAC,
+        this._sc_iv,
+        this._sc_key,
+        this._sc_mac_key,
+        this._protocol._onPayload.bind(this._protocol)
+    );
+    this._protocol._decipher.inSeqno = 0n;
+    this._debug && this._debug('State Change: Switched to new Cipher and Decipher.');
+
+    // STEP 6: Now that we are fully prepared for the encrypted world, send NEWKEYS.
+    const newKeysPacket = Buffer.from([MESSAGE.NEWKEYS]);
+    this._protocol.sendPacket(newKeysPacket);
+    this._debug && this._debug('Outbound: Sending NEWKEYS.');
   }
   
    _deriveKeys() {
