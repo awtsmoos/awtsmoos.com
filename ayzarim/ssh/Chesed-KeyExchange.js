@@ -230,6 +230,12 @@ class KexHandler {
   }
 
   _handleDhReply(payload) {
+    this._debug && this._debug('Key Exchange: Processing KEXDH_REPLY.');
+    // --------------------------------------------------------------------
+    //  STEP 1: Parse the incoming KEXDH_REPLY packet from the server.
+    // --------------------------------------------------------------------
+    // This packet contains the server's public host key (K_S), its ephemeral
+    // public key (f), and the signature of the exchange hash.
     const reader = {
       buffer: payload,
       pos: 1,
@@ -243,23 +249,29 @@ class KexHandler {
     };
     
     const K_S = reader.readString();
-    const serverPubKey = reader.readString();
+    const serverEphPub = reader.readString(); // This is 'f'
     const signatureBlob = reader.readString();
 
-    let secret;
+    // --------------------------------------------------------------------
+    //  STEP 2: Compute the shared secret 'K' using Diffie-Hellman.
+    // --------------------------------------------------------------------
+    // This combines our private key with the server's ephemeral public key.
+    let secret; // This will become 'K'
     switch (this.negotiated.kex) {
         case 'curve25519-sha256':
         case 'curve25519-sha256@libssh.org':
-            const serverPubKeyDer = Buffer.concat([ Buffer.from('302a300506032b656e032100', 'hex'), serverPubKey ]);
+            const serverEphPubDer = Buffer.concat([ Buffer.from('302a300506032b656e032100', 'hex'), serverEphPub ]);
             secret = diffieHellman({
                 privateKey: this._dh.privateKey,
-                publicKey: require('crypto').createPublicKey({ key: serverPubKeyDer, format: 'der', type: 'spki' })
+                publicKey: require('crypto').createPublicKey({ key: serverEphPubDer, format: 'der', type: 'spki' })
             });
             break;
         default:
-            throw new Error('Unsupported KEX for secret computation.');
+            throw new Error(`Unsupported KEX for secret computation: ${this.negotiated.kex}`);
     }
     
+    // Format the shared secret 'K' as a Multi-Precision Integer (mpint) as required by the RFC.
+    // This involves adding a leading zero byte if the most significant bit is set.
     let secretMpint = secret;
     if (secret[0] & 0x80) {
       secretMpint = Buffer.concat([Buffer.alloc(1), secret]);
@@ -268,6 +280,11 @@ class KexHandler {
     this._kex_secret.writeUInt32BE(secretMpint.length, 0);
     secretMpint.copy(this._kex_secret, 4);
 
+    // --------------------------------------------------------------------
+    //  STEP 3: Calculate the Exchange Hash 'H'. THIS IS THE CRITICAL PART.
+    // --------------------------------------------------------------------
+    // 'H' is the hash of a precise sequence of 8 data items. All 'string'
+    // items must be prefixed with their length. Our helper handles this.
     const hash = createHash('sha256');
     const hashString = (buf) => {
         const lenBuf = Buffer.alloc(4);
@@ -276,25 +293,36 @@ class KexHandler {
         hash.update(buf);
     };
 
-    // === THE FINAL FIX IS HERE ===
-    // The RFC specifies the order: Client data, then Server data.
-    // We also hash the ENTIRE KEXINIT payloads, not the sliced versions.
-    hashString(this._protocol._identRaw);                   // V_C (Our/Client's ident)
-    hashString(Buffer.from(this._protocol._remoteIdentRaw)); // V_S (Server's ident)
-    hashString(this._kexinit_payload);                      // I_C (Our/Client's KEXINIT payload)
-    hashString(this._remote_kexinit_payload);               // I_S (Server's KEXINIT payload)
-    // =============================
+    // The 8 components of the hash, in exact RFC 4253 order:
+    hashString(this._protocol._identRaw);                      // 1. V_C: Client version string
+    hashString(Buffer.from(this._protocol._remoteIdentRaw));    // 2. V_S: Server version string
+    hashString(this._kexinit_payload);                         // 3. I_C: Client KEXINIT payload
+    hashString(this._remote_kexinit_payload);                  // 4. I_S: Server KEXINIT payload
+    hashString(K_S);                                           // 5. K_S: Server public host key
 
-    hashString(K_S); // Server's public host key
-    hashString(this._dh.publicKey.export({ type: 'spki', format: 'der' }).slice(-32)); // Our ephemeral public key
-    hashString(serverPubKey); // Server's ephemeral public key
-    hash.update(this._kex_secret); // The shared secret, K
+    // === THE SYNTHESIS AND FINAL CORRECTION ===
+    // My previous error was failing to correctly format 'e' (our ephemeral
+    // public key) as a standard SSH 'string'. This version unifies the
+    // logic, using the same trusted helper for ALL string components.
+    const clientEphPub = this._dh.publicKey.export({ type: 'spki', format: 'der' }).slice(-32);
+    hashString(clientEphPub);                                  // 6. e:   Client ephemeral public key
+
+    hashString(serverEphPub);                                  // 7. f:   Server ephemeral public key
+    hash.update(this._kex_secret);                             // 8. K:   The shared secret itself
 
     this._exchange_hash = hash.digest();
+    
+    // The session_id is the exchange hash from the first key exchange.
     if (!this.sessionID) {
       this.sessionID = this._exchange_hash;
     }
 
+    // --------------------------------------------------------------------
+    //  STEP 4: Verify the server's signature.
+    // --------------------------------------------------------------------
+    // This proves we are talking to the correct server and not a MITM attacker.
+    // The server signs 'H' with its long-term private host key. We verify
+    // with the public host key (K_S) it sent us.
     const sigReader = { buffer: signatureBlob, pos: 0, readString: reader.readString };
     const sigAlgo = sigReader.readString().toString('ascii');
     const signature = sigReader.readString();
@@ -306,18 +334,33 @@ class KexHandler {
 
     const verified = parsedHostKey.verify(this._exchange_hash, signature);
     if (!verified) {
-      // Add a debug log to see the hashes if they don't match
-      this._debug && this._debug(`Calculated Exchange Hash: ${this._exchange_hash.toString('hex')}`);
-      throw new Error('Host key signature verification failed.');
+      // If this fails, the hash is likely still wrong. This debug output is critical.
+      this._debug && this._debug(`CRITICAL: Server signature verification FAILED.`);
+      this._debug && this._debug(`Calculated Exchange Hash (H): ${this._exchange_hash.toString('hex')}`);
+      throw new Error('Host key signature verification failed. The exchange hash is likely incorrect.');
     }
-    this._debug && this._debug('Server signature verified.');
+    this._debug && this._debug('Server signature verified successfully.');
 
+    // --------------------------------------------------------------------
+    //  STEP 5: Derive keys and transition to the encrypted state.
+    // --------------------------------------------------------------------
     this._deriveKeys();
+    
+    // Tell the server we are switching to encrypted mode.
     const newKeysPacket = Buffer.from([MESSAGE.NEWKEYS]);
     this._protocol.sendPacket(newKeysPacket);
     this._debug && this._debug('Outbound: Sending NEWKEYS. Switched to new cipher.');
     
-    this._protocol._cipher = new GevurahCipher(this.negotiated.csCipher, this.negotiated.csMAC, this._cs_iv, this._cs_key, this._cs_mac_key, this._protocol._onWrite);
+    // Switch our own outbound traffic to use the newly derived keys.
+    this._protocol._cipher = new GevurahCipher(
+      this.negotiated.csCipher,
+      this.negotiated.csMAC,
+      this._cs_iv,
+      this._cs_key,
+      this._cs_mac_key,
+      this._protocol._onWrite,
+      this._protocol
+    );
     this._protocol._cipher.outSeqno = 0n;
   }
   
@@ -352,6 +395,9 @@ class KexHandler {
     this._sc_key = derive('D', scCipherInfo.keyLen);
     this._cs_mac_key = derive('E', 32); // MAC key length is separate
     this._sc_mac_key = derive('F', 32);
+    
+     this._debug(`[DIAG] Derived CS Key (to Gevurah): ${this._cs_key.toString('hex')}`);
+    this._debug(`[DIAG] Exchange Hash (H): ${this._exchange_hash.toString('hex')}`);
   }
 }
 

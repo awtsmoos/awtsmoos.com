@@ -19,14 +19,16 @@ module.exports = {
      * @param {boolean} [isDir=false] - If true, treats the path as a directory.
      * @returns {Promise<string>} - The resolved, absolute, and safe path.
      */
-    async getAwtsmoosFilePath(id, isDir = false, automaticallyAddAwtsmoos=true) {
+    // This is the definitive version of the function in /BH/awtsmoos.com/ayzarim/DosDB/methods/path.js
+    async getAwtsmoosFilePath(id, isDir = false, automaticallyAddAwtsmoos = true) {
         if (typeof id !== 'string' || !id) {
-             return id; 
+            return id;
         }
 
         const mainDir = path.resolve(this.directory || process.cwd());
         let workingId;
 
+        // --- Robust path resolution logic (This part is correct and remains) ---
         const candidateAbsolutePath = path.resolve('/', id);
         const relativeFromMainDir = path.relative(mainDir, candidateAbsolutePath);
 
@@ -42,44 +44,67 @@ module.exports = {
         if (finalRelativeCheck.startsWith('..') || path.isAbsolute(finalRelativeCheck)) {
             throw new Error(`Path traversal attempt detected: ${id}`);
         }
-	
+
+        // --- THE NEW, FINAL, INSANELY ROBUST PATH FINDING LOGIC ---
+
+        // PRIORITY 0: If the caller explicitly says it's a directory, we're done.
         if (isDir) {
             return resolvedPath;
         }
         
-        // --- MORE ROBUST File Existence Priority Checks ---
+    //    console.log("Reading",resolvedPath);
         
-        const awtsmoosJsonPath = `${resolvedPath}.awtsmoosJSON`;
-        // Priority 1: Check for the path AS-IS, but ensure it is a FILE, not a directory.
-        
+        // PRIORITY 1: DISCOVERY. Check if the path AS GIVEN exists as either a file OR a directory.
         try {
             const stat = await fs.stat(resolvedPath);
-            if (stat.isFile()) return resolvedPath;
-            if(stat.isDirectory()) return resolvedPath;
-        } catch {}
-        
-        // Priority 2: Check for .awtsmoosJSON file 2nd
-        //because if not then it wouldn't realize regular files
-        
+            // If it exists "as is", THAT is what the user is referring to.
+            // This correctly handles both `image.png` and `my_folder` when isDir=false.
+            if (stat.isFile() || stat.isDirectory()) {
+                return resolvedPath;
+            }
+        } catch (e) {
+            // This is the expected case when nothing exists at the path "as is".
+            // We will now proceed to hunt for data file extensions.
+            if (e.code !== 'ENOENT') {
+                 // Log unexpected errors but continue the search.
+                console.error(`DosDB: Unexpected error during initial stat for ${resolvedPath}:`, e);
+            }
+        }
+
+        // PRIORITY 2: Hunt for data file extensions (ONLY if PRIORITY 1 failed).
+        // This handles cases where you request a data record by ID, e.g., get("prateem").
+        const awtsmoosJsonPath = `${resolvedPath}.awtsmoosJSON`;
         try {
             const stat = await fs.stat(awtsmoosJsonPath);
-            if (stat.isFile()) return awtsmoosJsonPath;
+            if (stat.isFile()) {
+                return awtsmoosJsonPath;
+            }
         } catch {}
 
-        
-
-        // Priority 3: Check for .json as a fallback.
+        // PRIORITY 3: Fallback check for .json.
         const jsonPath = `${resolvedPath}.json`;
         try {
             const stat = await fs.stat(jsonPath);
-            if (stat.isFile()) return jsonPath;
+            if (stat.isFile()) {
+                return jsonPath;
+            }
         } catch {}
 
-        // If no file is found, return the default path for a CREATE operation.
-        var final = automaticallyAddAwtsmoos ? awtsmoosJsonPath : resolvedPath;
-        
-        //console.log("\n\nPATH", final );
-        return final
+        // --- FINAL CASE: Nothing was found. This must be a WRITE/CREATE operation. ---
+        // We now return the path that SHOULD be created.
+        if (automaticallyAddAwtsmoos) {
+            // Prevent the double-extension bug.
+            if (path.extname(resolvedPath).match(/\.(awtsmoosjson|json)$/i)) {
+                // The input was "file.awtsmoosJSON" but it didn't exist. Use this path for creation.
+                return resolvedPath;
+            } else {
+                // The input was "file". Default to creating the .awtsmoosJSON version.
+                return awtsmoosJsonPath;
+            }
+        } else {
+            // The caller does not want automatic extension handling (e.g., for writing plain text files).
+            return resolvedPath;
+        }
     },
 
 
