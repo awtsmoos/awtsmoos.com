@@ -163,9 +163,10 @@ class ChochmahProtocol extends EventEmitter {
     this.sendPacket(payload);
   }
   
-  sendPacket(payload) {
+   sendPacket(payload) {
     this._debug && this._debug(`>>>> OUTBOUND: Sending message type ${payload[0]}`);
-    // The cipher is now solely responsible for all framing (length, padding, etc.)
+    // The cipher is now solely responsible for all framing and concatenation.
+    // We pass the RAW logical payload.
     this._cipher.encrypt(payload);
   }
   

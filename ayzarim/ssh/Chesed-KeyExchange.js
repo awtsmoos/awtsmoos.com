@@ -337,6 +337,7 @@ class KexHandler {
         this._sc_mac_key,
         this._protocol._onPayload.bind(this._protocol)
     );
+    this._protocol._decipher._setDebug(this._protocol._debug); 
     this._protocol._decipher.inSeqno = 0n;
     this._debug && this._debug('State Change: Switched to new Cipher and Decipher.');
 
