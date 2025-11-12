@@ -208,34 +208,44 @@ setupEventListeners() {
     }
 
     // B"H - UNIFIED SIDEBAR TOGGLE LOGIC
-    if (DOM.mobileSidebarToggle) {
-        DOM.mobileSidebarToggle.onclick = (e) => {
-            e.stopPropagation();
-            
-            if (appContainer.classList.contains('sidebar-collapsed')) {
-                // --- BEHAVIOR: UN-COLLAPSING ---
-                appContainer.classList.remove('sidebar-collapsed');
-                
-                // Restore to the last known width, with a sensible default.
-                const lastWidth = parseInt(localStorage.awtsmoosSidebarWidth, 10) || 300;
-                appContainer.style.gridTemplateColumns = `${lastWidth}px 1fr`;
+    
 
-            } else {
-                // --- BEHAVIOR: COLLAPSING ---
-                appContainer.classList.add('sidebar-collapsed');
-
-                // CRITICAL: Remove the inline style to let the CSS class take full control.
-                appContainer.style.gridTemplateColumns = '';
-            }
-        };
-    }
-
-    if (sidebarCollapseBtn) {
-        sidebarCollapseBtn.onclick = (e) => {
-            e.stopPropagation();
-            appContainer.classList.toggle('sidebar-collapsed');
-        };
-    }
+	const toggleSidebar = (e) => {
+	e.stopPropagation();
+	
+	if (appContainer.classList.contains('sidebar-collapsed')) {
+	    // --- BEHAVIOR: UN-COLLAPSING ---
+	    appContainer.classList.remove('sidebar-collapsed');
+	    
+	    // Restore to the last known width, with a sensible default.
+	    const lastWidth = parseInt(localStorage.awtsmoosSidebarWidth, 10) || 300;
+	    appContainer.style.gridTemplateColumns = `${lastWidth}px 1fr`;
+	
+	} else {
+	    // --- BEHAVIOR: COLLAPSING ---
+	    const sidebarRect = DOM.sidebar.getBoundingClientRect();
+	
+	    // Before collapsing, save the current width IF it's not already collapsed.
+	    // This prevents saving a width of '0' if the button is clicked twice quickly.
+	    if (sidebarRect.width > 0) {
+	         localStorage.awtsmoosSidebarWidth = sidebarRect.width;
+	    }
+	    
+	    appContainer.classList.add('sidebar-collapsed');
+	    
+	    // CRITICAL: Remove any inline style to let the CSS class take full control and force the width to 0.
+	    appContainer.style.gridTemplateColumns = '';
+	}
+	};
+	
+	// Now, we assign our single, perfect function to both buttons.
+	if (DOM.mobileSidebarToggle) {
+	DOM.mobileSidebarToggle.onclick = toggleSidebar;
+	}
+	
+	if (sidebarCollapseBtn) {
+	sidebarCollapseBtn.onclick = toggleSidebar;
+	}
     
     const resizer = document.getElementById('sidebar-resizer');
 	

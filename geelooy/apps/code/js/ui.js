@@ -74,6 +74,16 @@ export const UI = {
                     cleanupAndResolve(cloneButton.dataset.wsId);
                     return;
                 }
+                
+                // B"H
+                
+                const typeButton = e.target.closest('button[data-type]');
+                if (typeButton) {
+                    cleanupAndResolve(typeButton.dataset.type);
+                    return;
+                }
+                
+                
                 // Check for GitHub repo list buttons
                 const repoButton = e.target.closest('button[data-repo-full-name]');
                 if (repoButton) {
