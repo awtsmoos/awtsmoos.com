@@ -115,6 +115,7 @@ create(item, isNewFile = false, shouldSave = true) {
         this.activate(newTab.id);
     },
     
+	// B"H - Replace the ENTIRE activate function in tabs.js with this one.
 	async activate(tabId, forceViewChange = false) {
 	    // --- Step 1: Save the state of the tab we are leaving ---
 	    const currentTab = State.tabs.find(t => t.id === State.activeTabId);
@@ -236,31 +237,6 @@ create(item, isNewFile = false, shouldSave = true) {
 	    this.render();
 	    App.saveSession();
 	},
-
-    // --- B"H - STEP 2: THE CRITICAL, MISSING ROUTING LOGIC ---
-    // This is the decision point that was missing before.
-    if (tab.isHexView) {
-        // If the hex view flag is set, ALWAYS show the hex editor.
-        UI.switchView('hex');
-        State.hexEditorInstance.load(tab.arrayBuffer);
-    } else {
-        // Otherwise, show the appropriate "graphical" view.
-        const fileInfo = { type: tab.fileType, name: tab.item.name };
-        switch (tab.fileType) {
-            case 'text':
-                // This will correctly show both regular JS files AND your decoded .awtsmoosJSON string.
-                Editor.showTextEditor(tab.content || '', tab.item.name, tab.scrollPos || 0);
-                break;
-            default: // This is for images, pdfs, and other true binary files.
-                Editor.showPreviewer(tab.rawContent, fileInfo, tab.id);
-                break;
-        }
-    }
-    // --- END OF CRITICAL FIX ---
-
-    this.render();
-    App.saveSession();
-},
     
     async close(tabId, force = false) {
         const tabIndex = State.tabs.findIndex(t => t.id === tabId);
