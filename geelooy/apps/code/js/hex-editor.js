@@ -319,6 +319,82 @@ export class HexEditor {
         this.inspector.innerHTML = inspectors.join('');
     }
 
-    _updateInputPosition() { /* ... (Same as before) ... */ }
-    _ensureVisible() { /* ... (Same as before) ... */ }
+    _updateInputPosition() {
+    const selectedEl = this.content.querySelector('span.selected');
+
+    // If the selected byte is not currently rendered/visible, hide overlays.
+    if (!selectedEl) {
+        this._inputHandler.style.left = '-9999px';
+        this.inspector.style.display = 'none'; // Hide the inspector
+        return;
+    }
+
+    const containerRect = this.container.getBoundingClientRect();
+    const elRect = selectedEl.getBoundingClientRect();
+    const isHexColumn = selectedEl.dataset.column === 'hex';
+
+    // --- Position the hidden input handler (for typing) ---
+    const inputTop = elRect.top - containerRect.top + this.container.scrollTop;
+    const inputLeft = elRect.left - containerRect.left;
+    this._inputHandler.style.top = `${inputTop}px`;
+    this._inputHandler.style.left = `${inputLeft}px`;
+    this._inputHandler.style.width = isHexColumn ? `${elRect.width}px` : '1ch';
+
+    // --- Dynamically position the inspector ---
+    this.inspector.style.display = 'grid'; // Make sure it's visible
+    const inspectorRect = this.inspector.getBoundingClientRect();
+    
+    // Position it above the selected element, with a small offset
+    let inspectorTop = elRect.top - containerRect.top - inspectorRect.height - 8 + this.container.scrollTop;
+    
+    // If positioning it above would push it off-screen, position it below instead
+    if (inspectorTop < this.container.scrollTop) {
+        inspectorTop = elRect.bottom - containerRect.top + 8 + this.container.scrollTop;
+    }
+
+    let inspectorLeft = elRect.left - containerRect.left;
+
+    // Prevent it from going off the right edge of the container
+    if (inspectorLeft + inspectorRect.width > containerRect.width) {
+        inspectorLeft = containerRect.width - inspectorRect.width - 16;
+    }
+    // Prevent it from going off the left edge
+    if (inspectorLeft < 0) {
+        inspectorLeft = 16;
+    }
+
+    this.inspector.style.top = `${inspectorTop}px`;
+    this.inspector.style.left = `${inspectorLeft}px`;
+},
+
+
+	_ensureVisible() {
+	    // Safety check: If no byte is selected, there's nothing to do.
+	    if (this.selectedIndex < 0) {
+	        return;
+	    }
+	
+	    // 1. Calculate the Y position (in pixels) of the line containing the selected byte.
+	    const lineIndex = Math.floor(this.selectedIndex / BYTES_PER_LINE);
+	    const targetLineTop = lineIndex * LINE_HEIGHT;
+	    const targetLineBottom = targetLineTop + LINE_HEIGHT;
+	
+	    // 2. Get the current visible area of the scrollable container.
+	    const viewTop = this.container.scrollTop;
+	    const viewBottom = viewTop + this.container.clientHeight;
+	
+	    // 3. Check if the target line is outside the visible area and scroll if needed.
+	    if (targetLineTop < viewTop) {
+	        // The line is scrolled ABOVE the visible area.
+	        // Action: Scroll the container so the target line is at the top.
+	        this.container.scrollTop = targetLineTop;
+	
+	    } else if (targetLineBottom > viewBottom) {
+	        // The line is scrolled BELOW the visible area.
+	        // Action: Scroll the container so the target line is at the bottom.
+	        const newScrollTop = targetLineBottom - this.container.clientHeight;
+	        this.container.scrollTop = newScrollTop;
+	    }
+	    // If neither of these is true, the line is already visible, so we do nothing.
+	},
 }
