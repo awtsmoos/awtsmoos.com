@@ -35,13 +35,13 @@ function update() {
     }
     
     // --- MOVEMENT RESPONSIVENESS IMPROVEMENT ---
-    // Increased lerp factor from 0.08 to 0.2 for a much snappier feel.
-    const newVx = lerp(State.player.vx, targetVx, 0.2);
-    const newVy = lerp(State.player.vy, targetVy, 0.2);
-    State.setPlayerVelocity(newVx, newVy);
+    // Set velocity directly for 1:1 control feel, removing interpolation (lerp).
+    State.setPlayerVelocity(targetVx, targetVy);
+    // ---
+
     State.updatePlayerPosition();
     State.checkPlayerBounds(canvas.width);
-    // ---
+
 
     if (State.player.isTikkun && State.player.tikkunTimer > 0) {
         State.decrementTikkunTimer();

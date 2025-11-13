@@ -62,9 +62,10 @@ export function updateEntities(cameraY, cameraSpeed, canvasWidth, gameOverCallba
                 } else {
                     gameOverCallback();
                 }
-            } else if (e.type === 'chai' || e.type === 'tzomeach') {
-                gameOverCallback();
             }
+            // --- DIFFICULTY ADJUSTMENT ---
+            // Removed the `else if` that checked for 'chai' or 'tzomeach' collision.
+            // Now, colliding with plants or animals will NOT result in a game over.
         }
     });
 }
