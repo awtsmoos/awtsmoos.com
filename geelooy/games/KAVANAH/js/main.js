@@ -8,8 +8,26 @@ import * as Entities from './entities.js';
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 
-// This variable will hold the offset between the player and the touch point.
 let touchOffset = null;
+let sanctifyTimer = 0; // Timer to control when new letters become sacred.
+
+// --- NEW: Tikkun Activation Function ---
+function activateTikkun() {
+    const player = State.getPlayer();
+    if (player.tikkun < player.maxTikkun) return;
+
+    player.tikkun = 0;
+    player.isTikkun = true;
+    player.tikkunTimer = 200; // Visual effect duration
+
+    // Make ALL letters on screen sacred!
+    State.getEntities().forEach(e => {
+        if (e.type === 'otiot') {
+            e.isSacred = true;
+            e.sacredLife = 300; // Give them a fresh lifespan
+        }
+    });
+}
 
 function update() {
     State.incrementTime();
@@ -18,39 +36,39 @@ function update() {
     const cameraSpeed = 2 + State.getAscension() / 8000;
     State.moveCamera(cameraSpeed);
     
-    // --- DIRECT DRAG MOVEMENT LOGIC ---
+    // --- Direct Drag Movement Logic ---
     const player = State.getPlayer();
     const pointer = Controls.getPointerState();
     const cameraY = State.getCameraY();
 
     if (pointer.isActive) {
-        // If this is the first frame of a drag, calculate and store the offset.
         if (touchOffset === null) {
             touchOffset = {
                 x: pointer.x - player.x,
-                y: pointer.y - (player.y - cameraY) // y-offset is in screen space
+                y: pointer.y - (player.y - cameraY)
             };
         }
-
-        // Update the player's position to maintain the offset from the pointer.
         let targetPlayerX = pointer.x - touchOffset.x;
         let targetPlayerScreenY = pointer.y - touchOffset.y;
-
-        // Set the player's new world coordinates.
         State.setPlayerPosition(targetPlayerX, targetPlayerScreenY + cameraY);
-
     } else {
-        // If the pointer is released, reset the offset.
         touchOffset = null;
     }
     
     State.checkPlayerBounds(canvas.width);
-    // --- END DIRECT DRAG LOGIC ---
-
-    if (State.player.isTikkun && State.player.tikkunTimer > 0) {
+    
+    // --- Gameplay Logic Update ---
+    if (player.isTikkun && player.tikkunTimer > 0) {
         State.decrementTikkunTimer();
     } else {
         State.endTikkun();
+    }
+    
+    // Make a new letter glow periodically
+    sanctifyTimer++;
+    if (sanctifyTimer > 35 - Math.min(30, State.getAscension() / 1000)) {
+        Entities.sanctifyRandomLetter();
+        sanctifyTimer = 0;
     }
 
     Entities.generateEntities(canvas.width, cameraY);
@@ -62,7 +80,7 @@ function update() {
 function gameOver() {
     if (State.getGameState() !== 'playing') return;
     State.setGameState('gameOver');
-    touchOffset = null; // Ensure offset is cleared on game over
+    touchOffset = null;
     const ascension = State.getAscension();
     let bestAscension = State.getBestAscension();
 
@@ -92,11 +110,13 @@ function resizeCanvas() {
 
 window.addEventListener('resize', resizeCanvas);
 
+// --- Pass the new Tikkun function to the controls ---
 Controls.setupControls(canvas, 
     () => { // onGameStart
         State.init(canvas.width, canvas.height);
         State.setGameState('playing');
-    }
+    },
+    activateTikkun // onTikkun
 );
 
 resizeCanvas();

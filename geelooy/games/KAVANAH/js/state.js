@@ -15,15 +15,12 @@ export function init(canvasWidth, canvasHeight) {
         x: canvasWidth / 2,
         y: canvasHeight * 0.8,
         radius: 15,
-        vx: 0,
-        vy: 0,
-        attunement: 'chesed',
         tikkun: 0,
         maxTikkun: 100,
         isTikkun: false,
         tikkunTimer: 0,
-        combo: 0,
-        lastHarvestClass: 'none'
+        combo: 0
+        // REMOVED: attunement, lastHarvestClass
     };
     entities = [];
     particles = [];
@@ -34,7 +31,6 @@ export function init(canvasWidth, canvasHeight) {
     gameState = 'waiting';
 }
 
-// --- FIX: Restored all getter functions needed by other modules ---
 export const getPlayer = () => player;
 export const getEntities = () => entities;
 export const getParticles = () => particles;
@@ -46,7 +42,6 @@ export const getBestAscension = () => bestAscension;
 
 
 export const setGameState = (newState) => { gameState = newState; };
-export const setPlayerVelocity = (vx, vy) => { player.vx = vx; player.vy = vy; };
 export const setBestAscension = (newBest) => { bestAscension = newBest; };
 export const setPlayerPosition = (newX, newY) => { player.x = newX; player.y = newY; };
 
@@ -57,15 +52,7 @@ export const decrementTikkunTimer = () => { player.tikkunTimer--; };
 export const endTikkun = () => { player.isTikkun = false; };
 export const movePlayer = (dx, dy) => { player.x += dx; player.y += dy; };
 
-
-export function updatePlayerPosition() {
-    player.x += player.vx;
-    player.y += player.vy;
-}
-
 export function checkPlayerBounds(canvasWidth) {
-    // Ensure player cannot go off the bottom of the screen when idle
     player.y = Math.min(player.y, cameraY + window.innerHeight - player.radius);
-    // Keep player within horizontal bounds
     player.x = Math.max(player.radius, Math.min(canvasWidth - player.radius, player.x));
 }
