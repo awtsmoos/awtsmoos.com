@@ -9,11 +9,12 @@ import { Particle } from './classes/Particle.js';
 // --- Entity Generation ---
 
 export function generateEntities(canvasWidth, cameraY) {
-    const { entities, ascension } = State;
+    const { entities, ascension, getGroundY } = State;
     const y_spawn = cameraY - 100;
     const difficulty = Math.min(10, 1 + ascension / 6000);
+    const groundY = getGroundY();
 
-    // Spawn letters
+    // --- Always spawn Otiot (Domem) ---
     if (Math.random() < 0.08 * difficulty) {
         entities.push(new Otiot({ 
             x: Math.random() * canvasWidth, 
@@ -23,11 +24,11 @@ export function generateEntities(canvasWidth, cameraY) {
         }));
     }
     
-    // Spawn plants
-    if (Math.random() < 0.05) {
+    // --- Spawn Tzomeach (Plants) from the ground after reaching Ascension 500 ---
+    if (ascension > 500 && Math.random() < 0.05) {
         entities.push(new Tzomeach({ 
             x: Math.random() * canvasWidth, 
-            y: cameraY + window.innerHeight, 
+            y: groundY, // Spawn AT the ground level
             size: 40,
             height: 10,
             maxHeight: 50 + Math.random() * 100, 
@@ -36,13 +37,13 @@ export function generateEntities(canvasWidth, cameraY) {
         }));
     }
 
-    // Spawn animals
-    if (Math.random() < 0.03 * difficulty) {
+    // --- Spawn Chai (Animals) from the ground after reaching Ascension 1500 ---
+    if (ascension > 1500 && Math.random() < 0.03 * difficulty) {
         entities.push(new Chai({
             x: Math.random() * canvasWidth,
-            y: cameraY + window.innerHeight - 20,
+            y: groundY - 10, // Spawn just above the ground
             size: 30,
-            vx: (Math.random() - 0.5) * 4 + 1, // Ensure they always have some horizontal speed
+            vx: (Math.random() - 0.5) * 4 + 1,
             vy: -2 - Math.random() * 3,
             emoji: ANIMAL_EMOJIS[Math.floor(Math.random() * ANIMAL_EMOJIS.length)]
         }));
@@ -50,11 +51,10 @@ export function generateEntities(canvasWidth, cameraY) {
 }
 
 // --- Main Update Loop ---
-
+// (No changes to the rest of this file, the logic remains sound)
 export function updateEntities(cameraY, cameraSpeed, canvasWidth, gameOverCallback) {
     const { player, entities, particles } = State;
 
-    // Loop backwards to allow for safe removal of entities
     for (let i = entities.length - 1; i >= 0; i--) {
         const entity = entities[i];
         
@@ -64,32 +64,25 @@ export function updateEntities(cameraY, cameraSpeed, canvasWidth, gameOverCallba
             handleCollision(entity, player, particles, cameraSpeed, gameOverCallback);
         }
 
-        // Remove entities that are marked for removal or are off-screen
-        if (entity.toRemove || entity.y > cameraY + window.innerHeight + 100) {
+        if (entity.toRemove || entity.y < cameraY - 200) { // Adjusted culling for upward-growing entities
             entities.splice(i, 1);
         }
     }
 }
 
-// --- Collision Handling ---
-
 function handleCollision(entity, player, particles, cameraSpeed, gameOverCallback) {
     if (entity.type === 'otiot') {
-        // --- CORE FIX: Only sacred letters have a collision effect ---
         if (entity.isSacred) {
             player.combo++;
             player.tikkun = Math.min(player.maxTikkun, player.tikkun + 5 + player.combo * 0.5);
             State.updateAscension(player.combo * 2);
             createExplosion(entity.x, entity.y, cameraSpeed, particles);
-            entity.toRemove = true; // Mark for removal
+            entity.toRemove = true;
         }
-        // Non-sacred letters now do absolutely nothing upon collision. This removes the gray particles and the lag.
     } else if (entity.type === 'chai' || entity.type === 'tzomeach') {
         gameOverCallback();
     }
 }
-
-// --- Particle Effects ---
 
 function createExplosion(x, y, cameraSpeed, particles) {
     for (let j = 0; j < 60; j++) {
@@ -105,8 +98,6 @@ function createExplosion(x, y, cameraSpeed, particles) {
         }));
     }
 }
-
-// --- Global Entity Functions ---
 
 export function sanctifyRandomLetter() {
     const nonSacredLetters = State.getEntities().filter(e => e.type === 'otiot' && !e.isSacred);

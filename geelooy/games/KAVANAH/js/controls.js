@@ -13,27 +13,27 @@ export const getPointerState = () => pointer;
 
 function handlePointerDown(coords, onGameStart, onTikkun) {
     const gameState = State.getGameState();
-    
-    if (gameState === 'waiting' || gameState === 'gameOver') {
-        onGameStart();
+    const canvas = document.getElementById('gameCanvas');
+    const x = coords.clientX;
+    const y = coords.clientY;
+
+    if (gameState === 'waiting' || gameState === 'gameOver' || gameState === 'teachings') {
+        onGameStart(x, y); // Pass coordinates to the start handler
         return;
     }
 
-    const canvas = document.getElementById('gameCanvas');
     const btnSize = Math.min(100, canvas.width * 0.12);
-    const x = coords.clientX;
-    const y = coords.clientY;
     const player = State.getPlayer();
 
     // Check if the Tikkun button was pressed
-    if (y > canvas.height - btnSize && x > canvas.width/2 - btnSize/2 && x < canvas.width/2 + btnSize/2) {
+    if (y > canvas.height - btnSize - 10 && x > canvas.width/2 - btnSize/2 && x < canvas.width/2 + btnSize/2) {
         if (player.tikkun >= player.maxTikkun) {
             onTikkun();
         }
     } else { // Otherwise, it's for movement
         pointer.isActive = true;
-        pointer.x = coords.clientX;
-        pointer.y = coords.clientY;
+        pointer.x = x;
+        pointer.y = y;
     }
 }
 
@@ -65,7 +65,6 @@ export function setupControls(canvas, onGameStart, onTikkun) {
         }
     };
 
-    // Add new, correct listeners
     canvas.addEventListener('pointerdown', onDown, { passive: false });
     canvas.addEventListener('touchstart', onDown, { passive: false });
 
@@ -74,4 +73,4 @@ export function setupControls(canvas, onGameStart, onTikkun) {
 
     window.addEventListener('pointerup', handlePointerUp);
     window.addEventListener('touchend', handlePointerUp);
-}
+}```

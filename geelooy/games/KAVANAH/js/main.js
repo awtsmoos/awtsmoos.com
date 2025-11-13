@@ -10,7 +10,7 @@ const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 
 let touchOffset = null;
-let sanctifyTimer = 0; // Timer to control when new letters become sacred.
+let sanctifyTimer = 0;
 
 // --- Tikkun Activation Function ---
 function activateTikkun() {
@@ -19,28 +19,25 @@ function activateTikkun() {
 
     player.tikkun = 0;
     player.isTikkun = true;
-    player.tikkunTimer = 200; // Visual effect duration
+    player.tikkunTimer = 200;
 
     const particles = State.getParticles();
 
-    // Make ALL letters on screen sacred and have plants release life energy
     State.getEntities().forEach(e => {
         if (e.type === 'otiot') {
-            e.isSacred = true;
-            e.sacredLife = 300; // Give them a fresh lifespan
+            e.sanctify();
         }
-        // --- NEW: Plants now have a positive interaction ---
         if (e.type === 'tzomeach') {
             for(let i = 0; i < 20; i++) {
                 particles.push(new Particle({
-                    x: e.x, y: e.y - e.size / 2,
-                    color: `hsl(120, 100%, ${70 + Math.random()*30}%)`, // Life-like green
+                    x: e.x, y: e.y - e.height,
+                    color: `hsl(120, 100%, ${70 + Math.random()*30}%)`,
                     size: Math.random() * 4 + 2,
                     vx: (Math.random() - 0.5) * 4,
-                    vy: -2 - Math.random() * 3, // Drift upwards
+                    vy: -2 - Math.random() * 3,
                     life: 90 + Math.random() * 50,
                     drag: 0.96,
-                    gravity: -0.04 // Slight anti-gravity
+                    gravity: -0.04
                 }));
             }
         }
@@ -48,13 +45,14 @@ function activateTikkun() {
 }
 
 function update() {
+    const gameState = State.getGameState();
+    if (gameState === 'waiting' || gameState === 'teachings') return; // Don't update game logic on menu screens
+
     State.incrementTime();
-    if (State.getGameState() !== 'playing') return;
 
     const cameraSpeed = 2 + State.getAscension() / 8000;
     State.moveCamera(cameraSpeed);
     
-    // --- Direct Drag Movement Logic ---
     const player = State.getPlayer();
     const pointer = Controls.getPointerState();
     const cameraY = State.getCameraY();
@@ -75,14 +73,12 @@ function update() {
     
     State.checkPlayerBounds(canvas.width);
     
-    // --- Gameplay Logic Update ---
     if (player.isTikkun && player.tikkunTimer > 0) {
         State.decrementTikkunTimer();
     } else {
         State.endTikkun();
     }
     
-    // Make a new letter glow periodically
     sanctifyTimer++;
     if (sanctifyTimer > 35 - Math.min(30, State.getAscension() / 1000)) {
         Entities.sanctifyRandomLetter();
@@ -120,21 +116,38 @@ function gameLoop() {
 function resizeCanvas() {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
-    if (State.getGameState() !== 'playing') {
-        State.init(canvas.width, canvas.height);
-    }
+    State.init(canvas.width, canvas.height); // Always re-init on resize for clean state
     Drawing.draw(ctx, canvas.width, canvas.height);
 }
 
 window.addEventListener('resize', resizeCanvas);
 
-// --- Pass the new Tikkun function to the controls ---
 Controls.setupControls(canvas, 
-    () => { // onGameStart
-        State.init(canvas.width, canvas.height);
-        State.setGameState('playing');
+    (x, y) => { // onGameStart now receives coordinates
+        const { gameState, menuButtons } = State.getUIState();
+        if (gameState === 'waiting') {
+            // Check if 'Start' button is clicked
+            const startBtn = menuButtons.start;
+            if (x > startBtn.x && x < startBtn.x + startBtn.w && y > startBtn.y && y < startBtn.y + startBtn.h) {
+                State.setGameState('playing');
+            }
+            // Check if 'Teachings' button is clicked
+            const teachingsBtn = menuButtons.teachings;
+            if (x > teachingsBtn.x && x < teachingsBtn.x + teachingsBtn.w && y > teachingsBtn.y && y < teachingsBtn.y + teachingsBtn.h) {
+                State.setGameState('teachings');
+            }
+        } else if (gameState === 'teachings') {
+             // Check if 'Back' button is clicked
+            const backBtn = menuButtons.back;
+             if (x > backBtn.x && x < backBtn.x + backBtn.w && y > backBtn.y && y < backBtn.y + backBtn.h) {
+                State.setGameState('waiting');
+            }
+        } else if (gameState === 'gameOver') {
+            State.init(canvas.width, canvas.height);
+            State.setGameState('playing');
+        }
     },
-    activateTikkun // onTikkun
+    activateTikkun
 );
 
 resizeCanvas();
