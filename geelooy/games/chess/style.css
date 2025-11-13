@@ -21,6 +21,7 @@ padding: 6px;
 max-height: 40px;
 white-space:pre-wrap;
 
+
 }
 .hidden {
 display: none;
@@ -53,8 +54,9 @@ display: none;
 #message {
     
     left: 0;
-    max-width: 70vw;
+    max-width: 90vw;
     min-height: 5em;
+    margin-left: 5vw; 
     font-size: 1.2em;
     font-weight: bold;
     text-align: center;
@@ -81,7 +83,7 @@ display: none;
 
 .captured-pieces-container {
     height: 90px; /* Increased height for two rows */
-    width: 100%; /* Use full width up to max-width */
+    width: 90vw; /* Use full width up to max-width */
     max-width: 500px;
     padding-left: 10px;
     box-sizing: border-box;
