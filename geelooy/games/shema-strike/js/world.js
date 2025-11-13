@@ -5,7 +5,7 @@
 class World {
     constructor(canvas) {
         this.canvas = canvas;
-        this.width = canvas.width * 6;
+        this.width = canvas.width * 12;
         this.height = canvas.height;
         this.groundHeight = 175;
         this.groundPattern = this.createGroundPattern();

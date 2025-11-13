@@ -38,6 +38,7 @@ class Controls {
         });
     }
 
+    //B"H
     setupMobileControls() {
         const joyArea = document.getElementById('joystick-area');
         const joyThumb = document.getElementById('joystick-thumb');
@@ -62,11 +63,17 @@ class Controls {
                     const dist = Math.min(Math.sqrt(x*x + y*y), maxDist);
                     const angle = Math.atan2(y, x);
 
-                    joyThumb.style.transform = `translate(${Math.cos(angle) * dist + radius - joyThumb.offsetWidth/2}px, ${Math.sin(angle) * dist + radius - joyThumb.offsetHeight/2}px)`;
+                    // B"H --- THE FIX ---
+                    // The thumb is centered via CSS. This transform needs to add to that centering.
+                    // We use calc() to combine the -50% (for centering the thumb itself) with the
+                    // pixel offset calculated from the touch input.
+                    const offsetX = Math.cos(angle) * dist;
+                    const offsetY = Math.sin(angle) * dist;
+                    joyThumb.style.transform = `translate(calc(-50% + ${offsetX}px), calc(-50% + ${offsetY}px))`;
 
-                    this.left = Math.cos(angle) * (dist/maxDist) < -0.3;
-                    this.right = Math.cos(angle) * (dist/maxDist) > 0.3;
-                    this.jump = Math.sin(angle) * (dist/maxDist) < -0.5;
+                    this.left = (offsetX / maxDist) < -0.3;
+                    this.right = (offsetX / maxDist) > 0.3;
+                    this.jump = (offsetY / maxDist) < -0.5;
                 }
             }
         }, { passive: false });
@@ -75,6 +82,7 @@ class Controls {
             for (let touch of e.changedTouches) {
                 if (touch.identifier === joyTouchId) {
                     joyTouchId = null;
+                    // Reset to the default centered position.
                     joyThumb.style.transform = `translate(-50%, -50%)`;
                     this.left = this.right = this.jump = false;
                     break;
