@@ -8,45 +8,44 @@ import * as Entities from './entities.js';
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 
+// This variable will hold the offset between the player and the touch point.
+let touchOffset = null;
+
 function update() {
     State.incrementTime();
     if (State.getGameState() !== 'playing') return;
 
     const cameraSpeed = 2 + State.getAscension() / 8000;
+    State.moveCamera(cameraSpeed);
     
-    // --- MOVEMENT LOGIC OVERHAUL ---
+    // --- DIRECT DRAG MOVEMENT LOGIC ---
     const player = State.getPlayer();
     const pointer = Controls.getPointerState();
+    const cameraY = State.getCameraY();
 
-    // Store camera position before it moves
-    const oldCameraY = State.getCameraY();
-    State.moveCamera(cameraSpeed);
-    const newCameraY = State.getCameraY();
-    
     if (pointer.isActive) {
-        // The previous logic failed at high speeds. This new logic works in screen-space to ensure 1:1 control.
-        
-        // 1. Get player's current position on the screen.
-        let playerScreenY = player.y - oldCameraY;
-        
-        // 2. Get the user's directional input.
-        const delta = Controls.getAndResetPointerDelta();
+        // If this is the first frame of a drag, calculate and store the offset.
+        if (touchOffset === null) {
+            touchOffset = {
+                x: pointer.x - player.x,
+                y: pointer.y - (player.y - cameraY) // y-offset is in screen space
+            };
+        }
 
-        // 3. Apply the input delta directly to the screen position.
-        player.x += delta.x;
-        playerScreenY += delta.y;
-        
-        // 4. Clamp the player's screen position so they can't leave the viewport.
-        playerScreenY = Math.max(player.radius, Math.min(playerScreenY, canvas.height - player.radius));
+        // Update the player's position to maintain the offset from the pointer.
+        let targetPlayerX = pointer.x - touchOffset.x;
+        let targetPlayerScreenY = pointer.y - touchOffset.y;
 
-        // 5. Convert the new, clamped screen position back to a world position for rendering.
-        player.y = playerScreenY + newCameraY;
+        // Set the player's new world coordinates.
+        State.setPlayerPosition(targetPlayerX, targetPlayerScreenY + cameraY);
 
+    } else {
+        // If the pointer is released, reset the offset.
+        touchOffset = null;
     }
     
-    // Pass pointer state to bounds check to avoid conflicting logic.
-    State.checkPlayerBounds(canvas.width, pointer.isActive);
-    // --- END MOVEMENT LOGIC OVERHAUL ---
+    State.checkPlayerBounds(canvas.width);
+    // --- END DIRECT DRAG LOGIC ---
 
     if (State.player.isTikkun && State.player.tikkunTimer > 0) {
         State.decrementTikkunTimer();
@@ -54,8 +53,8 @@ function update() {
         State.endTikkun();
     }
 
-    Entities.generateEntities(canvas.width, State.getCameraY());
-    Entities.updateEntities(State.getCameraY(), cameraSpeed, canvas.width, gameOver);
+    Entities.generateEntities(canvas.width, cameraY);
+    Entities.updateEntities(cameraY, cameraSpeed, canvas.width, gameOver);
     Entities.updateParticles();
 }
 
@@ -63,6 +62,7 @@ function update() {
 function gameOver() {
     if (State.getGameState() !== 'playing') return;
     State.setGameState('gameOver');
+    touchOffset = null; // Ensure offset is cleared on game over
     const ascension = State.getAscension();
     let bestAscension = State.getBestAscension();
 

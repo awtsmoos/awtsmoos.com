@@ -3,27 +3,20 @@
 
 import * as State from './state.js';
 
-// This new state object tracks pointer activity and movement deltas frame-over-frame.
+// This state object now tracks pointer activity and its current screen coordinates.
 let pointer = {
     isActive: false,
-    lastX: 0,
-    lastY: 0,
-    deltaX: 0,
-    deltaY: 0
+    x: 0,
+    y: 0
 };
 
-export const getPointerState = () => ({ isActive: pointer.isActive });
+// Returns the entire pointer state object.
+export const getPointerState = () => pointer;
 
-// This function is called by main.js to get the accumulated movement and reset it for the next frame.
-export function getAndResetPointerDelta() {
-    const delta = { x: pointer.deltaX, y: pointer.deltaY };
-    pointer.deltaX = 0;
-    pointer.deltaY = 0;
-    return delta;
-}
+// The delta system has been removed as it was the source of the issue.
 
 export function setupControls(canvas, onGameStart) {
-    canvas.addEventListener('pointerdown', e => {
+    const handlePointerDown = (e) => {
         e.preventDefault();
         const gameState = State.getGameState();
         
@@ -51,33 +44,31 @@ export function setupControls(canvas, onGameStart) {
             }
         } else { // Movement area
             pointer.isActive = true;
-            pointer.lastX = e.clientX;
-            pointer.lastY = e.clientY;
+            pointer.x = e.clientX;
+            pointer.y = e.clientY;
         }
-    });
+    };
 
-    canvas.addEventListener('pointermove', e => {
+    const handlePointerMove = (e) => {
         e.preventDefault();
         if (pointer.isActive) {
-            const currentX = e.clientX;
-            const currentY = e.clientY;
-
-            // Accumulate the distance moved since the last frame.
-            pointer.deltaX += currentX - pointer.lastX;
-            pointer.deltaY += currentY - pointer.lastY;
-
-            // Update the last position for the next move event.
-            pointer.lastX = currentX;
-            pointer.lastY = currentY;
+            pointer.x = e.clientX;
+            pointer.y = e.clientY;
         }
-    });
+    };
 
-    window.addEventListener('pointerup', () => {
-        // Deactivate movement when the pointer is lifted.
+    const handlePointerUp = () => {
         if (pointer.isActive) {
             pointer.isActive = false;
-            pointer.deltaX = 0;
-            pointer.deltaY = 0;
         }
-    });
+    };
+
+    canvas.addEventListener('pointerdown', handlePointerDown);
+    canvas.addEventListener('touchstart', (e) => handlePointerDown(e.touches[0]), { passive: false });
+
+    canvas.addEventListener('pointermove', handlePointerMove);
+    canvas.addEventListener('touchmove', (e) => handlePointerMove(e.touches[0]), { passive: false });
+
+    window.addEventListener('pointerup', handlePointerUp);
+    window.addEventListener('touchend', handlePointerUp);
 }

@@ -1,74 +1,103 @@
 // B"H
-// Manages the core state of the game.
 
-export let player;
-export let entities;
-export let particles;
-export let cameraY;
-export let gameState = 'waiting';
-export let time;
-export let ascension;
-export let bestAscension;
+import * as State from './state.js';
+import * as Drawing from './drawing.js';
+import * as Controls from './controls.js';
+import * as Entities from './entities.js';
 
-export function init(canvasWidth, canvasHeight) {
-    player = {
-        x: canvasWidth / 2,
-        y: canvasHeight * 0.8,
-        radius: 15,
-        vx: 0,
-        vy: 0,
-        attunement: 'chesed',
-        tikkun: 0,
-        maxTikkun: 100,
-        isTikkun: false,
-        tikkunTimer: 0,
-        combo: 0,
-        lastHarvestClass: 'none'
-    };
-    entities = [];
-    particles = [];
-    ascension = 0;
-    bestAscension = localStorage.getItem('kavanahBestAscension') || 0;
-    cameraY = 0;
-    time = 0;
-    gameState = 'waiting';
-}
+const canvas = document.getElementById('gameCanvas');
+const ctx = canvas.getContext('2d');
 
-export const getPlayer = () => player;
-export const getEntities = () => entities;
-export const getParticles = () => particles;
-export const getCameraY = () => cameraY;
-export const getGameState = () => gameState;
-export const getTime = () => time;
-export const getAscension = () => ascension;
-export const getBestAscension = () => bestAscension;
+// This variable will hold the offset between the player and the touch point.
+let touchOffset = null;
 
+function update() {
+    State.incrementTime();
+    if (State.getGameState() !== 'playing') return;
 
-export const setGameState = (newState) => { gameState = newState; };
-export const setPlayerVelocity = (vx, vy) => { player.vx = vx; player.vy = vy; };
-export const setBestAscension = (newBest) => { bestAscension = newBest; };
-export const setPlayerPosition = (newX, newY) => { player.x = newX; player.y = newY; };
+    const cameraSpeed = 2 + State.getAscension() / 8000;
+    State.moveCamera(cameraSpeed);
+    
+    // --- DIRECT DRAG MOVEMENT LOGIC ---
+    const player = State.getPlayer();
+    const pointer = Controls.getPointerState();
+    const cameraY = State.getCameraY();
 
-export const incrementTime = () => { time++; };
-export const moveCamera = (speed) => { cameraY -= speed; };
-export const updateAscension = (amount) => { ascension += amount; };
-export const decrementTikkunTimer = () => { player.tikkunTimer--; };
-export const endTikkun = () => { player.isTikkun = false; };
-export const movePlayer = (dx, dy) => { player.x += dx; player.y += dy; };
+    if (pointer.isActive) {
+        // If this is the first frame of a drag, calculate and store the offset.
+        if (touchOffset === null) {
+            touchOffset = {
+                x: pointer.x - player.x,
+                y: pointer.y - (player.y - cameraY) // y-offset is in screen space
+            };
+        }
 
+        // Update the player's position to maintain the offset from the pointer.
+        let targetPlayerX = pointer.x - touchOffset.x;
+        let targetPlayerScreenY = pointer.y - touchOffset.y;
 
-export function updatePlayerPosition() {
-    player.x += player.vx;
-    player.y += player.vy;
-}
+        // Set the player's new world coordinates.
+        State.setPlayerPosition(targetPlayerX, targetPlayerScreenY + cameraY);
 
-export function checkPlayerBounds(canvasWidth, pointerIsActive) {
-    // If the pointer is active, the new logic in main.js handles Y-bounds.
-    // This clamp only runs when the player is idle, allowing them to be pushed by the camera.
-    if (!pointerIsActive) {
-        player.y = Math.min(player.y, cameraY + window.innerHeight - player.radius);
+    } else {
+        // If the pointer is released, reset the offset.
+        touchOffset = null;
     }
     
-    // Keep player within horizontal bounds always.
-    player.x = Math.max(player.radius, Math.min(canvasWidth - player.radius, player.x));
+    State.checkPlayerBounds(canvas.width);
+    // --- END DIRECT DRAG LOGIC ---
+
+    if (State.player.isTikkun && State.player.tikkunTimer > 0) {
+        State.decrementTikkunTimer();
+    } else {
+        State.endTikkun();
+    }
+
+    Entities.generateEntities(canvas.width, cameraY);
+    Entities.updateEntities(cameraY, cameraSpeed, canvas.width, gameOver);
+    Entities.updateParticles();
 }
+
+
+function gameOver() {
+    if (State.getGameState() !== 'playing') return;
+    State.setGameState('gameOver');
+    touchOffset = null; // Ensure offset is cleared on game over
+    const ascension = State.getAscension();
+    let bestAscension = State.getBestAscension();
+
+    if (ascension > bestAscension) {
+        bestAscension = ascension;
+        localStorage.setItem('kavanahBestAscension', bestAscension);
+        State.setBestAscension(bestAscension);
+    }
+    Entities.createGameOverParticles(State.player.x, State.player.y);
+    setTimeout(() => State.init(canvas.width, canvas.height), 750);
+}
+
+function gameLoop() {
+    update();
+    Drawing.draw(ctx, canvas.width, canvas.height);
+    requestAnimationFrame(gameLoop);
+}
+
+function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    if (State.getGameState() !== 'playing') {
+        State.init(canvas.width, canvas.height);
+    }
+    Drawing.draw(ctx, canvas.width, canvas.height);
+}
+
+window.addEventListener('resize', resizeCanvas);
+
+Controls.setupControls(canvas, 
+    () => { // onGameStart
+        State.init(canvas.width, canvas.height);
+        State.setGameState('playing');
+    }
+);
+
+resizeCanvas();
+gameLoop();
