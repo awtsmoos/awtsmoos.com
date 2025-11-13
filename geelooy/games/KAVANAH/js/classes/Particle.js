@@ -28,6 +28,11 @@ export class Particle {
     draw(ctx) {
         const alpha = Math.max(0, this.life / this.initialLife);
         ctx.globalAlpha = alpha;
+
+        // --- NEW: Add a very small, performant glow ONLY to particles ---
+        ctx.shadowColor = this.color;
+        ctx.shadowBlur = 5;
+
         if (this.text) {
             ctx.font = `${this.size * (this.life/this.initialLife)}px Arial`;
             ctx.fillStyle = this.color;
@@ -38,6 +43,8 @@ export class Particle {
             ctx.arc(this.x, this.y, Math.max(0, this.size * alpha), 0, Math.PI * 2);
             ctx.fill();
         }
+        
+        ctx.shadowBlur = 0; // Reset shadow for next element
         ctx.globalAlpha = 1.0; // Reset global alpha
     }
 }

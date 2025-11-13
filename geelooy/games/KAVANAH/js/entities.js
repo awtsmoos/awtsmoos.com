@@ -1,103 +1,135 @@
 // B"H
-// Manages generation and updates for all non-player entities.
+// Manages the collection of all non-player entities.
 
 import { HEBREW_LETTERS, PLANT_EMOJIS, ANIMAL_EMOJIS } from './constants.js';
 import * as State from './state.js';
+import { Otiot, Tzomeach, Chai } from './classes/Entity.js';
 import { Particle } from './classes/Particle.js';
+
+// --- Entity Generation ---
 
 export function generateEntities(canvasWidth, cameraY) {
     const { entities, ascension } = State;
     const y_spawn = cameraY - 100;
     const difficulty = Math.min(10, 1 + ascension / 6000);
 
-    // --- FEWER LETTERS: Reduced the spawn rate significantly ---
+    // Spawn letters
     if (Math.random() < 0.08 * difficulty) {
-        entities.push({ 
-            type: 'otiot', 
+        entities.push(new Otiot({ 
             x: Math.random() * canvasWidth, 
             y: y_spawn, 
             size: 40, 
-            letter: HEBREW_LETTERS[Math.floor(Math.random()*22)],
-            isSacred: false,
-            sacredLife: 0
-        });
+            letter: HEBREW_LETTERS[Math.floor(Math.random() * 22)]
+        }));
     }
     
-    if (Math.random() < 0.05) entities.push({ type: 'tzomeach', x: Math.random()*canvasWidth, y: cameraY + window.innerHeight, size: 20, maxSize: 50+Math.random()*100, growthRate: 0.1, emoji: PLANT_EMOJIS[Math.floor(Math.random()*PLANT_EMOJIS.length)] });
-    if (Math.random() < 0.03 * difficulty) entities.push({ type: 'chai', x: Math.random()*canvasWidth, y: cameraY + window.innerHeight - 20, size: 30, vx: (Math.random()-0.5)*5, vy: -2 - Math.random()*3, emoji: ANIMAL_EMOJIS[Math.floor(Math.random()*ANIMAL_EMOJIS.length)] });
+    // Spawn plants
+    if (Math.random() < 0.05) {
+        entities.push(new Tzomeach({ 
+            x: Math.random() * canvasWidth, 
+            y: cameraY + window.innerHeight, 
+            size: 40,
+            height: 10,
+            maxHeight: 50 + Math.random() * 100, 
+            growthRate: 0.1, 
+            emoji: PLANT_EMOJIS[Math.floor(Math.random() * PLANT_EMOJIS.length)] 
+        }));
+    }
+
+    // Spawn animals
+    if (Math.random() < 0.03 * difficulty) {
+        entities.push(new Chai({
+            x: Math.random() * canvasWidth,
+            y: cameraY + window.innerHeight - 20,
+            size: 30,
+            vx: (Math.random() - 0.5) * 4 + 1, // Ensure they always have some horizontal speed
+            vy: -2 - Math.random() * 3,
+            emoji: ANIMAL_EMOJIS[Math.floor(Math.random() * ANIMAL_EMOJIS.length)]
+        }));
+    }
 }
+
+// --- Main Update Loop ---
+
+export function updateEntities(cameraY, cameraSpeed, canvasWidth, gameOverCallback) {
+    const { player, entities, particles } = State;
+
+    // Loop backwards to allow for safe removal of entities
+    for (let i = entities.length - 1; i >= 0; i--) {
+        const entity = entities[i];
+        
+        entity.update(cameraSpeed, particles, player, canvasWidth);
+
+        if (entity.collidesWith(player)) {
+            handleCollision(entity, player, particles, cameraSpeed, gameOverCallback);
+        }
+
+        // Remove entities that are marked for removal or are off-screen
+        if (entity.toRemove || entity.y > cameraY + window.innerHeight + 100) {
+            entities.splice(i, 1);
+        }
+    }
+}
+
+// --- Collision Handling ---
+
+function handleCollision(entity, player, particles, cameraSpeed, gameOverCallback) {
+    if (entity.type === 'otiot') {
+        if (entity.isSacred) {
+            player.combo++;
+            player.tikkun = Math.min(player.maxTikkun, player.tikkun + 5 + player.combo * 0.5);
+            State.updateAscension(player.combo * 2);
+            createExplosion(entity.x, entity.y, cameraSpeed, particles);
+            entity.toRemove = true; // Mark for removal
+        } else {
+            player.combo = 0; 
+            createPuff(entity.x, entity.y, cameraSpeed, particles);
+        }
+    } else if (entity.type === 'chai' || entity.type === 'tzomeach') {
+        gameOverCallback();
+    }
+}
+
+// --- Particle Effects ---
+
+function createExplosion(x, y, cameraSpeed, particles) {
+    for (let j = 0; j < 60; j++) {
+        particles.push(new Particle({
+            x, y,
+            color: `hsl(${45 + Math.random()*15}, 100%, ${60 + Math.random()*40}%)`,
+            size: Math.random() * 5 + 1,
+            vx: (Math.random() - 0.5) * 18,
+            vy: (Math.random() - 0.5) * 18 - cameraSpeed,
+            life: 70 + Math.random() * 30,
+            drag: 0.96,
+            gravity: 0.25
+        }));
+    }
+}
+
+function createPuff(x, y, cameraSpeed, particles) {
+    for (let j = 0; j < 10; j++) {
+        particles.push(new Particle({
+            x, y,
+            color: '#444',
+            size: Math.random() * 2,
+            vx: (Math.random() - 0.5) * 4,
+            vy: (Math.random() - 0.5) * 4 - cameraSpeed,
+            life: 30,
+            drag: 0.9,
+            gravity: 0.1
+        }));
+    }
+}
+
+// --- Global Entity Functions ---
 
 export function sanctifyRandomLetter() {
     const nonSacredLetters = State.getEntities().filter(e => e.type === 'otiot' && !e.isSacred);
     if (nonSacredLetters.length > 0) {
         const letterToSanctify = nonSacredLetters[Math.floor(Math.random() * nonSacredLetters.length)];
-        letterToSanctify.isSacred = true;
-        letterToSanctify.sacredLife = 350; // How long it stays glowing
+        letterToSanctify.sanctify();
     }
-}
-
-export function updateEntities(cameraY, cameraSpeed, canvasWidth, gameOverCallback) {
-    const { player, entities, particles } = State;
-
-    entities.forEach((e, i) => {
-        if (e.y > cameraY + window.innerHeight + 100) { entities.splice(i, 1); return; }
-        
-        if (e.type === 'tzomeach') { e.y -= cameraSpeed; if (e.size < e.maxSize) e.size += e.growthRate; }
-        if (e.type === 'chai') { e.y -= cameraSpeed; e.x += e.vx; e.y += e.vy; if (e.x < 0 || e.x > canvasWidth) e.vx *= -1; }
-        if (e.type === 'otiot' && e.isSacred) {
-            e.sacredLife--;
-            if (e.sacredLife <= 0) e.isSacred = false;
-        }
-
-        const distSq = (player.x - e.x)**2 + (player.y - e.y)**2;
-        const hitDist = player.radius;
-
-        // --- COLLISION LOGIC CHANGE: More precise, circle-based hitboxes. ---
-        if (distSq < (hitDist + e.size / 2)**2) {
-            if (e.type === 'otiot') { // Check for letter type first
-                if (e.isSacred) {
-                    // SUCCESS: Player collected a SACRED letter.
-                    player.combo++;
-                    player.tikkun = Math.min(player.maxTikkun, player.tikkun + 5 + player.combo * 0.5);
-                    State.updateAscension(player.combo * 2);
-                    
-                    // --- EXPLOSION for sacred letter ---
-                    for(let j=0; j<60; j++) {
-                        particles.push(new Particle({
-                            x: e.x, y: e.y,
-                            color: `hsl(${45 + Math.random()*15}, 100%, ${60 + Math.random()*40}%)`, // Shades of Gold/Yellow
-                            size: Math.random() * 5 + 1,
-                            vx: (Math.random() - 0.5) * 18,
-                            vy: (Math.random() - 0.5) * 18 - cameraSpeed,
-                            life: 70 + Math.random() * 30,
-                            drag: 0.96,
-                            gravity: 0.25
-                        }));
-                    }
-                    entities.splice(i, 1);
-                } else {
-                    // --- FEEDBACK for non-sacred letter collision ---
-                    // Provide a visual cue and reset combo, but don't remove letter.
-                    player.combo = 0; 
-                    for(let j=0; j<10; j++) {
-                        particles.push(new Particle({
-                            x: e.x, y: e.y,
-                            color: '#444',
-                            size: Math.random() * 2,
-                            vx: (Math.random() - 0.5) * 4,
-                            vy: (Math.random() - 0.5) * 4 - cameraSpeed,
-                            life: 30,
-                            drag: 0.9,
-                            gravity: 0.1
-                        }));
-                    }
-                }
-            } else if (e.type === 'chai' || e.type === 'tzomeach') {
-                // GAME OVER: Hit an actual obstacle
-                gameOverCallback();
-            }
-        }
-    });
 }
 
 export function updateParticles() {
