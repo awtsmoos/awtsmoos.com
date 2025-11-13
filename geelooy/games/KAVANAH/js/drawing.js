@@ -7,7 +7,12 @@ function drawButton(ctx, button, text, isActive = false) {
     ctx.strokeStyle = isActive ? '#FFFF00' : '#FFF';
     ctx.lineWidth = 2;
     ctx.strokeRect(button.x, button.y, button.w, button.h);
+    
+    // --- FIX: Make button text visible ---
     ctx.fillStyle = '#FFF';
+    ctx.font = '3vh "Courier New"';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
     ctx.fillText(text, button.x + button.w / 2, button.y + button.h / 2);
 }
 
@@ -16,53 +21,46 @@ function drawMainMenu(ctx, canvasWidth, canvasHeight) {
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     
+    ctx.fillStyle = '#FFF';
     ctx.font = '5vh "Times New Roman"';
     ctx.fillText("KAVANAH", canvasWidth / 2, canvasHeight * 0.25);
     
-    ctx.font = '3vh "Courier New"';
     drawButton(ctx, menuButtons.start, "Begin Ascent");
     drawButton(ctx, menuButtons.teachings, "Teachings");
 }
 
+// --- REWORKED: Scrollable Teachings Screen ---
 function drawTeachings(ctx, canvasWidth, canvasHeight) {
     const { menuButtons } = State.getUIState();
+    const { text, scrollY } = State.getTeachingsState();
+    
+    ctx.fillStyle = '#FFF'; // Ensure text is visible
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
 
     ctx.font = '4vh "Times New Roman"';
-    ctx.fillText("The Four Worlds", canvasWidth / 2, canvasHeight * 0.15);
+    ctx.fillText("The Four Worlds", canvasWidth / 2, canvasHeight * 0.1);
 
-    ctx.font = '2.2vh "Courier New"';
+    ctx.save();
+    ctx.rect(0, canvasHeight * 0.15, canvasWidth, canvasHeight * 0.7);
+    ctx.clip();
+
+    ctx.font = '2.5vh "Times New Roman"';
     ctx.textAlign = 'left';
     const textX = canvasWidth * 0.1;
-    const textWidth = canvasWidth * 0.8;
-    let textY = canvasHeight * 0.25;
+    let textY = canvasHeight * 0.20 - scrollY;
 
-    const lines = [
-        "This game is based on the four levels of creation:",
-        "",
-        "DOMEM (Inanimate): The letters. The fundamental,",
-        "silent potential of reality.",
-        "",
-        "TZOMEACH (Vegetative): The plants which grow",
-        "upwards, representing emotions and attributes.",
-        "",
-        "CHAI (Living): The animals, representing the",
-        "more complex life force.",
-        "",
-        "MEDABER (Speaking): The human soul. You.",
-        "Your purpose is to descend and find the holiness",
-        "within the letters to achieve TIKKUN (Rectification)."
-    ];
-
-    lines.forEach(line => {
+    text.forEach(line => {
         ctx.fillText(line, textX, textY);
-        textY += 30;
+        textY += 30; // Line height
     });
+    
+    ctx.restore();
     
     ctx.textAlign = 'center';
     drawButton(ctx, menuButtons.back, "Back");
 }
+
 
 function drawGameUI(ctx, canvasWidth, canvasHeight) {
     const { player, ascension, bestAscension, time } = State;
@@ -95,7 +93,6 @@ function drawGameUI(ctx, canvasWidth, canvasHeight) {
     }
     ctx.globalAlpha = 1;
 
-    // --- VISIBILITY: Increased font size for UI ---
     ctx.font = '3.5vh "Courier New", monospace'; 
     ctx.fillStyle = '#FFF';
     ctx.textAlign = 'left'; ctx.fillText(`ASCENSION: ${Math.floor(ascension)}`, 20, 40);
@@ -104,7 +101,6 @@ function drawGameUI(ctx, canvasWidth, canvasHeight) {
     
     if (player.combo > 2) {
         const cameraY = State.getCameraY();
-        // --- VISIBILITY: Increased combo font size ---
         ctx.font = `${Math.min(18, 5 + player.combo * 0.6)}vh "Courier New"`;
         ctx.fillStyle = `hsla(${45 + player.combo*5}, 100%, 70%, 0.9)`;
         ctx.fillText(`x${player.combo}`, player.x, player.y - cameraY - 70);
@@ -114,15 +110,15 @@ function drawGameUI(ctx, canvasWidth, canvasHeight) {
 function drawGround(ctx, canvasWidth) {
     const groundY = State.getGroundY();
     const gradient = ctx.createLinearGradient(0, groundY, 0, groundY + 80);
-    gradient.addColorStop(0, '#0F3D0C'); // Dark green
-    gradient.addColorStop(1, '#051404'); // Deeper green
+    gradient.addColorStop(0, '#0F3D0C');
+    gradient.addColorStop(1, '#051404');
     ctx.fillStyle = gradient;
     ctx.fillRect(0, groundY, canvasWidth, 200);
 }
 
 
 export function draw(ctx, canvasWidth, canvasHeight) {
-    const { player, entities, particles, cameraY, time, gameState, ascension } = State;
+    const { player, entities, particles, cameraY, time, gameState } = State;
     
     ctx.fillStyle = '#010002';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
@@ -139,7 +135,7 @@ export function draw(ctx, canvasWidth, canvasHeight) {
     ctx.save();
     ctx.translate(0, -cameraY);
     
-    drawGround(ctx, canvasWidth); // Draw ground from the start
+    drawGround(ctx, canvasWidth);
 
     entities.forEach(e => e.draw(ctx));
     particles.forEach(p => p.draw(ctx));
@@ -149,7 +145,6 @@ export function draw(ctx, canvasWidth, canvasHeight) {
         ctx.fillStyle = finalColor;
         ctx.beginPath(); ctx.arc(player.x, player.y, player.radius, 0, Math.PI * 2); ctx.fill();
         
-        // --- GAMEPLAY: New Tikkun visual ---
         if(player.isTikkun) {
             ctx.fillStyle = `hsla(${time*2 % 360}, 100%, 70%, 0.25)`;
             ctx.beginPath(); ctx.arc(player.x, player.y, player.radius * 4, 0, Math.PI*2); ctx.fill();

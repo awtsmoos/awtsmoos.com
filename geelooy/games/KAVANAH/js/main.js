@@ -4,22 +4,24 @@ import * as State from './state.js';
 import * as Drawing from './drawing.js';
 import * as Controls from './controls.js';
 import * as Entities from './entities.js';
-import { Particle } from './classes/Particle.js';
 
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 
 let touchOffset = null;
 let sanctifyTimer = 0;
+// --- For scrolling teachings ---
+let lastPointerY = null;
+let isDragging = false;
 
-// --- GAMEPLAY: Tikkun Activation Rework ---
+
 function activateTikkun() {
     const player = State.getPlayer();
     if (player.tikkun < player.maxTikkun) return;
 
     player.tikkun = 0;
     player.isTikkun = true;
-    player.tikkunTimer = 250; // A bit longer duration
+    player.tikkunTimer = 250;
 }
 
 function update() {
@@ -47,7 +49,6 @@ function update() {
         State.setPlayerPosition(targetPlayerX, targetPlayerScreenY + cameraY);
     } else {
         touchOffset = null;
-        // Reset combo if player lifts finger and is not in Tikkun mode
         if (player.combo > 0 && !player.isTikkun) {
             player.combo = 0;
         }
@@ -59,11 +60,12 @@ function update() {
         State.decrementTikkunTimer();
     } else if (player.isTikkun && player.tikkunTimer <= 0) {
         State.endTikkun();
-        player.combo = 0; // Reset combo after Tikkun ends
+        player.combo = 0;
     }
     
     sanctifyTimer++;
-    if (sanctifyTimer > 45 - Math.min(40, State.getAscension() / 1000)) {
+    // --- DIFFICULTY: Faster sanctification to keep game possible ---
+    if (sanctifyTimer > 40 - Math.min(35, State.getAscension() / 500)) {
         Entities.sanctifyRandomLetter();
         sanctifyTimer = 0;
     }
@@ -87,7 +89,7 @@ function gameOver() {
         State.setBestAscension(bestAscension);
     }
     Entities.createGameOverParticles(State.player.x, State.player.y);
-    setTimeout(() => State.init(canvas.width, canvas.height), 750);
+    setTimeout(() => State.init(canvas.width, canvas.height, ctx), 750);
 }
 
 function gameLoop() {
@@ -99,34 +101,62 @@ function gameLoop() {
 function resizeCanvas() {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
-    State.init(canvas.width, canvas.height); 
+    State.init(canvas.width, canvas.height, ctx); 
     Drawing.draw(ctx, canvas.width, canvas.height);
 }
 
 window.addEventListener('resize', resizeCanvas);
 
-Controls.setupControls(canvas, 
-    (x, y) => {
-        const { gameState, menuButtons } = State.getUIState();
-        if (gameState === 'waiting') {
-            const startBtn = menuButtons.start;
-            if (x > startBtn.x && x < startBtn.x + startBtn.w && y > startBtn.y && y < startBtn.y + startBtn.h) {
-                State.setGameState('playing');
-            }
-            const teachingsBtn = menuButtons.teachings;
-            if (x > teachingsBtn.x && x < teachingsBtn.x + teachingsBtn.w && y > teachingsBtn.y && y < teachingsBtn.y + teachingsBtn.h) {
-                State.setGameState('teachings');
-            }
-        } else if (gameState === 'teachings') {
-            const backBtn = menuButtons.back;
-             if (x > backBtn.x && x < backBtn.x + backBtn.w && y > backBtn.y && y < backBtn.y + backBtn.h) {
-                State.setGameState('waiting');
-            }
-        } else if (gameState === 'gameOver') {
-            State.init(canvas.width, canvas.height);
+
+// --- REWORKED: Controls to handle scrolling in 'teachings' state ---
+function handleStart(x, y) {
+    const { gameState, menuButtons } = State.getUIState();
+
+    isDragging = false;
+    lastPointerY = y;
+
+    if (gameState === 'waiting') {
+        const startBtn = menuButtons.start;
+        if (x > startBtn.x && x < startBtn.x + startBtn.w && y > startBtn.y && y < startBtn.y + startBtn.h) {
             State.setGameState('playing');
         }
-    },
+        const teachingsBtn = menuButtons.teachings;
+        if (x > teachingsBtn.x && x < teachingsBtn.x + teachingsBtn.w && y > teachingsBtn.y && y < teachingsBtn.y + teachingsBtn.h) {
+            State.setGameState('teachings');
+        }
+    } else if (gameState === 'teachings') {
+        const backBtn = menuButtons.back;
+        if (x > backBtn.x && x < backBtn.x + backBtn.w && y > backBtn.y && y < backBtn.y + backBtn.h) {
+            State.setGameState('waiting');
+        } else {
+            isDragging = true;
+        }
+    } else if (gameState === 'gameOver') {
+        State.init(canvas.width, canvas.height, ctx);
+        State.setGameState('playing');
+    }
+}
+
+function handleMove(y) {
+    if (State.getGameState() === 'teachings' && isDragging) {
+        const { scrollY, scrollMax } = State.getTeachingsState();
+        const deltaY = y - lastPointerY;
+        const newScrollY = Math.max(0, Math.min(scrollMax, scrollY - deltaY));
+        State.setTeachingsScroll(newScrollY);
+        lastPointerY = y;
+    }
+}
+
+function handleEnd() {
+    isDragging = false;
+    lastPointerY = null;
+}
+
+Controls.setupControls(
+    canvas,
+    handleStart,
+    handleMove,
+    handleEnd,
     activateTikkun
 );
 
