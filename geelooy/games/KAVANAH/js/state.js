@@ -54,6 +54,7 @@ export const moveCamera = (speed) => { cameraY -= speed; };
 export const updateAscension = (amount) => { ascension += amount; };
 export const decrementTikkunTimer = () => { player.tikkunTimer--; };
 export const endTikkun = () => { player.isTikkun = false; };
+export const movePlayer = (dx, dy) => { player.x += dx; player.y += dy; };
 
 
 export function updatePlayerPosition() {
@@ -62,6 +63,8 @@ export function updatePlayerPosition() {
 }
 
 export function checkPlayerBounds(canvasWidth) {
+    // Ensure player cannot go off the bottom of the screen
     player.y = Math.min(player.y, cameraY + window.innerHeight - player.radius);
+    // Keep player within horizontal bounds
     player.x = Math.max(player.radius, Math.min(canvasWidth - player.radius, player.x));
 }

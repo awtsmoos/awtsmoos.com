@@ -3,11 +3,24 @@
 
 import * as State from './state.js';
 
-let touchAnchor = null;
-let controlVector = { x: 0, y: 0 };
+// This new state object tracks pointer activity and movement deltas frame-over-frame.
+let pointer = {
+    isActive: false,
+    lastX: 0,
+    lastY: 0,
+    deltaX: 0,
+    deltaY: 0
+};
 
-export const getTouchAnchor = () => touchAnchor;
-export const getControlVector = () => controlVector;
+export const getPointerState = () => ({ isActive: pointer.isActive });
+
+// This function is called by main.js to get the accumulated movement and reset it for the next frame.
+export function getAndResetPointerDelta() {
+    const delta = { x: pointer.deltaX, y: pointer.deltaY };
+    pointer.deltaX = 0;
+    pointer.deltaY = 0;
+    return delta;
+}
 
 export function setupControls(canvas, onGameStart) {
     canvas.addEventListener('pointerdown', e => {
@@ -25,7 +38,7 @@ export function setupControls(canvas, onGameStart) {
         const player = State.getPlayer();
 
         if (y > canvas.height - btnSize) { // Button area
-            if (x < btnSize) { 
+             if (x < btnSize) { 
                 player.attunement = 'gevurah'; 
                 player.combo = 0; 
             } else if (x > canvas.width - btnSize) { 
@@ -37,28 +50,34 @@ export function setupControls(canvas, onGameStart) {
                 player.tikkun = 0;
             }
         } else { // Movement area
-            // Anchor the touch location and the player's starting position for direct 1-to-1 movement.
-            touchAnchor = { 
-                x: e.clientX, 
-                y: e.clientY,
-                playerStartX: player.x,
-                playerStartY: player.y
-            };
-            controlVector = { x: 0, y: 0 };
+            pointer.isActive = true;
+            pointer.lastX = e.clientX;
+            pointer.lastY = e.clientY;
         }
     });
 
     canvas.addEventListener('pointermove', e => {
         e.preventDefault();
-        // If we have an anchor, calculate the vector for movement
-        if (touchAnchor) {
-            controlVector = { x: e.clientX - touchAnchor.x, y: e.clientY - touchAnchor.y };
+        if (pointer.isActive) {
+            const currentX = e.clientX;
+            const currentY = e.clientY;
+
+            // Accumulate the distance moved since the last frame.
+            pointer.deltaX += currentX - pointer.lastX;
+            pointer.deltaY += currentY - pointer.lastY;
+
+            // Update the last position for the next move event.
+            pointer.lastX = currentX;
+            pointer.lastY = currentY;
         }
     });
 
-    // Use a window event listener for pointerup to catch cases where the user drags off the canvas
     window.addEventListener('pointerup', () => {
-        // Release the anchor when the touch ends, causing the player to stop.
-        touchAnchor = null;
+        // Deactivate movement when the pointer is lifted.
+        if (pointer.isActive) {
+            pointer.isActive = false;
+            pointer.deltaX = 0;
+            pointer.deltaY = 0;
+        }
     });
 }

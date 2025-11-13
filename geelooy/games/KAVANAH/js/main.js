@@ -14,35 +14,26 @@ function update() {
 
     const cameraSpeed = 2 + State.getAscension() / 8000;
     State.moveCamera(cameraSpeed);
-    State.updateAscension(cameraSpeed * 0.1);
-
-    // --- DIRECT POSITIONAL MOVEMENT REWORK ---
-    // The previous velocity-based system felt indirect. This new system maps the
-    // player's position directly to the user's finger movement for a true 1-to-1 feel.
-    const player = State.getPlayer();
-    const touchAnchor = Controls.getTouchAnchor();
-
-    if (touchAnchor) {
-        // Get the current drag distance from the starting touch point.
-        const controlVector = Controls.getControlVector();
-        
-        // The player's new position is their starting position plus the drag distance.
-        const newX = touchAnchor.playerStartX + controlVector.x;
-        const newY = touchAnchor.playerStartY + controlVector.y;
-        
-        // Set the player's position directly.
-        State.setPlayerPosition(newX, newY);
-
-    } else {
-        // When not touching, ensure player has no residual velocity.
-        State.setPlayerVelocity(0, 0);
-    }
     
-    // Applies any velocity (which is 0 during touch control) and keeps player in bounds.
-    State.updatePlayerPosition();
+    // --- DIRECT RELATIVE MOVEMENT & GRAVITY REMOVAL ---
+    // This new system makes the player immune to camera scroll ("gravity") while being controlled.
+    // Movement is now based on the finger's delta from the last frame for a 1:1 feel.
+    const player = State.getPlayer();
+    const pointer = Controls.getPointerState();
+
+    if (pointer.isActive) {
+        // 1. Counteract the camera scroll to remove "gravity".
+        // This keeps the player stationary on the screen if the finger is not moving.
+        player.y += cameraSpeed;
+
+        // 2. Apply the finger's movement delta from the last frame.
+        const delta = Controls.getAndResetPointerDelta();
+        State.movePlayer(delta.x, delta.y);
+    }
+    // If pointer is not active, the player is not moved and will "fall" with the camera scroll.
+    
     State.checkPlayerBounds(canvas.width);
     // ---
-
 
     if (State.player.isTikkun && State.player.tikkunTimer > 0) {
         State.decrementTikkunTimer();
@@ -92,8 +83,7 @@ Controls.setupControls(canvas,
     () => { // onGameStart
         State.init(canvas.width, canvas.height);
         State.setGameState('playing');
-    },
-    gameOver 
+    }
 );
 
 resizeCanvas();
