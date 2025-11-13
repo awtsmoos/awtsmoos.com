@@ -14,13 +14,14 @@ export function generateEntities(canvasWidth, cameraY) {
     const y_spawn = cameraY - 100;
     const difficulty = Math.min(10, 1 + ascension / 6000);
 
-    // --- GAME BALANCE ADJUSTMENT ---
-    // Reduced the base spawn probability from 0.3 to 0.15 to make the
-    // beginning of the game more manageable and provide a smoother difficulty curve.
     if (Math.random() < 0.15 * difficulty) {
         const type = Math.random() < 0.5 ? 'chesed' : 'gevurah';
         const pattern = Math.random();
-        if (pattern < 0.6) { // Stream
+        
+        // --- BETTER START MECHANIC ---
+        // Only allow the easier 'stream' pattern until the player reaches a certain score.
+        // This prevents the difficult wall patterns from appearing too early.
+        if (pattern < 0.6 || ascension < 1000) { // Stream
             const startX = Math.random() * canvasWidth;
             for (let i = 0; i < 4; i++) entities.push({ type: 'otiot', class: type, x: startX + (Math.random()-0.5)*200, y: y_spawn - i * 90, size: 35, letter: HEBREW_LETTERS[Math.floor(Math.random()*22)] });
         } else { // Alternating Wall

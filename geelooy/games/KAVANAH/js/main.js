@@ -17,37 +17,37 @@ function update() {
     State.moveCamera(cameraSpeed);
     State.updateAscension(cameraSpeed * 0.1);
 
-    // --- Player Movement ---
-    let finalVx = 0;
-    let finalVy = 0;
+    // --- ACCELERATION-BASED MOVEMENT REWORK ---
+    let targetVx = 0;
+    let targetVy = 0;
     const touchAnchor = Controls.getTouchAnchor();
     const controlVector = Controls.getControlVector();
 
+    // If the player is touching the screen for movement...
     if (touchAnchor) {
-        const maxControlDist = 100; // Max distance from anchor for full speed
+        const maxControlDist = 120; // The max distance from the anchor for full speed
         const dist = Math.hypot(controlVector.x, controlVector.y);
-        const deadZone = 5; // Small dead zone to prevent accidental drift
+        const deadZone = 10;
 
         if (dist > deadZone) {
             const clampedDist = Math.min(dist, maxControlDist);
             const angle = Math.atan2(controlVector.y, controlVector.x);
-            const maxSpeed = 10;
-            
-            // Speed is proportional to how far you drag from the anchor
-            const speed = (clampedDist / maxControlDist) * maxSpeed;
-
-            finalVx = Math.cos(angle) * speed;
-            finalVy = Math.sin(angle) * speed;
+            const maxSpeed = 12;
+            // Calculate target velocity based on how far the finger is from the anchor
+            targetVx = Math.cos(angle) * (clampedDist / maxControlDist) * maxSpeed;
+            targetVy = Math.sin(angle) * (clampedDist / maxControlDist) * maxSpeed;
         }
     }
-
-    // --- MOVEMENT FIX ---
-    // Set velocity directly instead of using lerp. This provides immediate,
-    // responsive control and fixes the bug where the player would not move.
-    State.setPlayerVelocity(finalVx, finalVy);
-    // ---
+    
+    // Smoothly interpolate from current velocity to the target velocity for an acceleration effect.
+    const player = State.getPlayer();
+    const lerpFactor = 0.08; 
+    player.vx = lerp(player.vx, targetVx, lerpFactor);
+    player.vy = lerp(player.vy, targetVy, lerpFactor);
 
     State.updatePlayerPosition();
+    // ---
+
     State.checkPlayerBounds(canvas.width);
 
 
@@ -75,7 +75,7 @@ function gameOver() {
         State.setBestAscension(bestAscension);
     }
     Entities.createGameOverParticles(State.player.x, State.player.y);
-    setTimeout(() => State.init(canvas.width, canvas.height), 2000);
+    setTimeout(() => State.init(canvas.width, canvas.height), 750);
 }
 
 function gameLoop() {
@@ -90,7 +90,6 @@ function resizeCanvas() {
     if (State.getGameState() !== 'playing') {
         State.init(canvas.width, canvas.height);
     }
-    // Re-draw immediately on resize
     Drawing.draw(ctx, canvas.width, canvas.height);
 }
 
@@ -101,9 +100,8 @@ Controls.setupControls(canvas,
         State.init(canvas.width, canvas.height);
         State.setGameState('playing');
     },
-    gameOver // onGameOver (passed as a function reference)
+    gameOver 
 );
 
-// Initial setup
 resizeCanvas();
 gameLoop();

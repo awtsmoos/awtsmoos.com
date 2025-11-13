@@ -51,8 +51,9 @@ export function setupControls(canvas, onGameStart) {
         }
     });
 
+    // Use a window event listener for pointerup to catch cases where the user drags off the canvas
     window.addEventListener('pointerup', () => {
-        // Release the anchor when the touch ends
+        // Release the anchor when the touch ends, causing the player to decelerate
         touchAnchor = null;
     });
 }
