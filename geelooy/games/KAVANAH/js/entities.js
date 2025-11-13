@@ -75,16 +75,15 @@ export function updateEntities(cameraY, cameraSpeed, canvasWidth, gameOverCallba
 
 function handleCollision(entity, player, particles, cameraSpeed, gameOverCallback) {
     if (entity.type === 'otiot') {
+        // --- CORE FIX: Only sacred letters have a collision effect ---
         if (entity.isSacred) {
             player.combo++;
             player.tikkun = Math.min(player.maxTikkun, player.tikkun + 5 + player.combo * 0.5);
             State.updateAscension(player.combo * 2);
             createExplosion(entity.x, entity.y, cameraSpeed, particles);
             entity.toRemove = true; // Mark for removal
-        } else {
-            player.combo = 0; 
-            createPuff(entity.x, entity.y, cameraSpeed, particles);
         }
+        // Non-sacred letters now do absolutely nothing upon collision. This removes the gray particles and the lag.
     } else if (entity.type === 'chai' || entity.type === 'tzomeach') {
         gameOverCallback();
     }
@@ -103,21 +102,6 @@ function createExplosion(x, y, cameraSpeed, particles) {
             life: 70 + Math.random() * 30,
             drag: 0.96,
             gravity: 0.25
-        }));
-    }
-}
-
-function createPuff(x, y, cameraSpeed, particles) {
-    for (let j = 0; j < 10; j++) {
-        particles.push(new Particle({
-            x, y,
-            color: '#444',
-            size: Math.random() * 2,
-            vx: (Math.random() - 0.5) * 4,
-            vy: (Math.random() - 0.5) * 4 - cameraSpeed,
-            life: 30,
-            drag: 0.9,
-            gravity: 0.1
         }));
     }
 }
