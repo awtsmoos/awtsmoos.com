@@ -26,21 +26,23 @@ canvas {
     color: #FFF;
     z-index: 10;
     box-sizing: border-box;
+
+    /* --- FIX 2.0: Use Flexbox for a robust layout --- */
+    display: flex;
+    flex-direction: column;
+    padding: 2vh 0; /* Add some padding at the top and bottom */
 }
 
 #teachings-screen .content {
-    /* --- FIX: Absolutely position the text area to reserve space for the button --- */
-    position: absolute;
-    top: 5vh;
-    bottom: 15vh; /* Reserve 15vh at the bottom for the button and spacing */
-    left: 50%;
-    transform: translateX(-50%);
-    
+    /* Let this area grow to fill available space and scroll if needed */
+    flex: 1; 
+    overflow-y: auto; 
+
+    /* Centering and width */
     width: 90%;
     max-width: 600px;
-    overflow-y: auto; /* Enable vertical scrolling ONLY for this content area */
+    margin: 0 auto;
     padding-right: 15px; /* For scrollbar spacing */
-    box-sizing: border-box;
 }
 
 #teachings-screen h1 {
@@ -63,12 +65,11 @@ canvas {
 }
 
 #back-button {
-    /* --- FIX: Absolutely position the button at the bottom of the screen --- */
-    position: absolute;
-    bottom: 5vh;
-    left: 50%;
-    transform: translateX(-50%);
-
+    /* This button will now sit naturally at the bottom */
+    flex-shrink: 0; /* Prevent the button from shrinking */
+    display: block;
+    margin: 20px auto 0 auto; /* Top margin, and centered horizontally */
+    
     width: 60vw;
     max-width: 300px;
     height: 60px;
@@ -87,3 +88,4 @@ canvas {
 .hidden {
     display: none !important;
 }
+
