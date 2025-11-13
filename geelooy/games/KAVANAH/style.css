@@ -37,6 +37,7 @@ canvas {
     /* Let this area grow to fill available space and scroll if needed */
     flex: 1; 
     overflow-y: auto; 
+    max-height:60vh;
 
     /* Centering and width */
     width: 90%;
@@ -69,7 +70,7 @@ canvas {
     flex-shrink: 0; /* Prevent the button from shrinking */
     display: block;
     margin: 20px auto 0 auto; /* Top margin, and centered horizontally */
-    
+    z-index:37733838;
     width: 60vw;
     max-width: 300px;
     height: 60px;
