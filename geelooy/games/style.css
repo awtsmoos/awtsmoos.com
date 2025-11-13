@@ -15,7 +15,9 @@ canvas {
 }
 
 /* --- Teachings Screen Styles --- */
-
+#teachings-screen::before{
+content:'B"H'
+}
 #teachings-screen {
     position: absolute;
     top: 0;
