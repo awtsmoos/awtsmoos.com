@@ -17,7 +17,9 @@ function update() {
     State.moveCamera(cameraSpeed);
     State.updateAscension(cameraSpeed * 0.1);
 
-    // --- ACCELERATION-BASED MOVEMENT REWORK ---
+    // --- RESPONSIVE MOVEMENT FIX ---
+    // The previous acceleration-based system was unplayable.
+    // This new system sets velocity directly for immediate, responsive control.
     let targetVx = 0;
     let targetVy = 0;
     const touchAnchor = Controls.getTouchAnchor();
@@ -39,11 +41,10 @@ function update() {
         }
     }
     
-    // Smoothly interpolate from current velocity to the target velocity for an acceleration effect.
+    // Set velocity directly instead of using lerp for an instant, responsive feel.
     const player = State.getPlayer();
-    const lerpFactor = 0.08; 
-    player.vx = lerp(player.vx, targetVx, lerpFactor);
-    player.vy = lerp(player.vy, targetVy, lerpFactor);
+    player.vx = targetVx;
+    player.vy = targetVy;
 
     State.updatePlayerPosition();
     // ---

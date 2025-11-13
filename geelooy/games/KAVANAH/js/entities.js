@@ -18,9 +18,6 @@ export function generateEntities(canvasWidth, cameraY) {
         const type = Math.random() < 0.5 ? 'chesed' : 'gevurah';
         const pattern = Math.random();
         
-        // --- BETTER START MECHANIC ---
-        // Only allow the easier 'stream' pattern until the player reaches a certain score.
-        // This prevents the difficult wall patterns from appearing too early.
         if (pattern < 0.6 || ascension < 1000) { // Stream
             const startX = Math.random() * canvasWidth;
             for (let i = 0; i < 4; i++) entities.push({ type: 'otiot', class: type, x: startX + (Math.random()-0.5)*200, y: y_spawn - i * 90, size: 35, letter: HEBREW_LETTERS[Math.floor(Math.random()*22)] });
@@ -65,6 +62,10 @@ export function updateEntities(cameraY, cameraSpeed, canvasWidth, gameOverCallba
                 } else {
                     gameOverCallback();
                 }
+            } else if (e.type === 'chai' || e.type === 'tzomeach') {
+                // --- GAME OVER LOGIC FIX ---
+                // This was missing. Now, colliding with these entities ends the game.
+                gameOverCallback();
             }
         }
     });
