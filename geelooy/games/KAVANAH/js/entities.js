@@ -11,38 +11,38 @@ import { Particle } from './classes/Particle.js';
 export function generateEntities(canvasWidth, cameraY) {
     const { entities, ascension, getGroundY } = State;
     const y_spawn = cameraY - 100;
-    const difficulty = Math.min(10, 1 + ascension / 6000);
+    const difficulty = Math.min(10, 1 + ascension / 3000); // Slower difficulty ramp
     const groundY = getGroundY();
 
     // --- Always spawn Otiot (Domem) ---
-    if (Math.random() < 0.08 * difficulty) {
+    if (Math.random() < 0.09 * difficulty) {
         entities.push(new Otiot({ 
             x: Math.random() * canvasWidth, 
             y: y_spawn, 
-            size: 40, 
+            size: 60, // Increased size
             letter: HEBREW_LETTERS[Math.floor(Math.random() * 22)]
         }));
     }
     
-    // --- Spawn Tzomeach (Plants) from the ground after reaching Ascension 500 ---
-    if (ascension > 500 && Math.random() < 0.05) {
+    // --- GAMEPLAY: Spawn Tzomeach (Plants) from the start ---
+    if (Math.random() < 0.01 * difficulty) {
         entities.push(new Tzomeach({ 
             x: Math.random() * canvasWidth, 
-            y: groundY, // Spawn AT the ground level
-            size: 40,
+            y: groundY, 
+            size: 60, // Increased size
             height: 10,
-            maxHeight: 50 + Math.random() * 100, 
-            growthRate: 0.1, 
+            maxHeight: 80 + Math.random() * 150, 
+            growthRate: 0.15, 
             emoji: PLANT_EMOJIS[Math.floor(Math.random() * PLANT_EMOJIS.length)] 
         }));
     }
 
-    // --- Spawn Chai (Animals) from the ground after reaching Ascension 1500 ---
-    if (ascension > 1500 && Math.random() < 0.03 * difficulty) {
+    // --- GAMEPLAY: Spawn Chai (Animals) from the start ---
+    if (Math.random() < 0.005 * difficulty) {
         entities.push(new Chai({
             x: Math.random() * canvasWidth,
-            y: groundY - 10, // Spawn just above the ground
-            size: 30,
+            y: groundY - 10, 
+            size: 50, // Increased size
             vx: (Math.random() - 0.5) * 4 + 1,
             vy: -2 - Math.random() * 3,
             emoji: ANIMAL_EMOJIS[Math.floor(Math.random() * ANIMAL_EMOJIS.length)]
@@ -50,8 +50,7 @@ export function generateEntities(canvasWidth, cameraY) {
     }
 }
 
-// --- Main Update Loop ---
-// (No changes to the rest of this file, the logic remains sound)
+
 export function updateEntities(cameraY, cameraSpeed, canvasWidth, gameOverCallback) {
     const { player, entities, particles } = State;
 
@@ -64,7 +63,8 @@ export function updateEntities(cameraY, cameraSpeed, canvasWidth, gameOverCallba
             handleCollision(entity, player, particles, cameraSpeed, gameOverCallback);
         }
 
-        if (entity.toRemove || entity.y < cameraY - 200) { // Adjusted culling for upward-growing entities
+        // Culling for entities that go off-screen
+        if (entity.toRemove || entity.y > cameraY + window.innerHeight + 200 || entity.y < cameraY - 200) {
             entities.splice(i, 1);
         }
     }
@@ -72,7 +72,9 @@ export function updateEntities(cameraY, cameraSpeed, canvasWidth, gameOverCallba
 
 function handleCollision(entity, player, particles, cameraSpeed, gameOverCallback) {
     if (entity.type === 'otiot') {
-        if (entity.isSacred) {
+        // --- GAMEPLAY: Reworked Tikkun Logic ---
+        // Collect if the letter is sacred OR if the player is in Tikkun mode
+        if (entity.isSacred || player.isTikkun) {
             player.combo++;
             player.tikkun = Math.min(player.maxTikkun, player.tikkun + 5 + player.combo * 0.5);
             State.updateAscension(player.combo * 2);
@@ -80,12 +82,15 @@ function handleCollision(entity, player, particles, cameraSpeed, gameOverCallbac
             entity.toRemove = true;
         }
     } else if (entity.type === 'chai' || entity.type === 'tzomeach') {
-        gameOverCallback();
+        if (!player.isTikkun) { // Invincible during Tikkun
+            gameOverCallback();
+        }
     }
 }
 
 function createExplosion(x, y, cameraSpeed, particles) {
-    for (let j = 0; j < 60; j++) {
+    // --- PERFORMANCE: Reduced particle count ---
+    for (let j = 0; j < 25; j++) {
         particles.push(new Particle({
             x, y,
             color: `hsl(${45 + Math.random()*15}, 100%, ${60 + Math.random()*40}%)`,

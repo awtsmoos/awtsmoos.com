@@ -12,41 +12,19 @@ const ctx = canvas.getContext('2d');
 let touchOffset = null;
 let sanctifyTimer = 0;
 
-// --- Tikkun Activation Function ---
+// --- GAMEPLAY: Tikkun Activation Rework ---
 function activateTikkun() {
     const player = State.getPlayer();
     if (player.tikkun < player.maxTikkun) return;
 
     player.tikkun = 0;
     player.isTikkun = true;
-    player.tikkunTimer = 200;
-
-    const particles = State.getParticles();
-
-    State.getEntities().forEach(e => {
-        if (e.type === 'otiot') {
-            e.sanctify();
-        }
-        if (e.type === 'tzomeach') {
-            for(let i = 0; i < 20; i++) {
-                particles.push(new Particle({
-                    x: e.x, y: e.y - e.height,
-                    color: `hsl(120, 100%, ${70 + Math.random()*30}%)`,
-                    size: Math.random() * 4 + 2,
-                    vx: (Math.random() - 0.5) * 4,
-                    vy: -2 - Math.random() * 3,
-                    life: 90 + Math.random() * 50,
-                    drag: 0.96,
-                    gravity: -0.04
-                }));
-            }
-        }
-    });
+    player.tikkunTimer = 250; // A bit longer duration
 }
 
 function update() {
     const gameState = State.getGameState();
-    if (gameState === 'waiting' || gameState === 'teachings') return; // Don't update game logic on menu screens
+    if (gameState === 'waiting' || gameState === 'teachings') return;
 
     State.incrementTime();
 
@@ -69,18 +47,23 @@ function update() {
         State.setPlayerPosition(targetPlayerX, targetPlayerScreenY + cameraY);
     } else {
         touchOffset = null;
+        // Reset combo if player lifts finger and is not in Tikkun mode
+        if (player.combo > 0 && !player.isTikkun) {
+            player.combo = 0;
+        }
     }
     
     State.checkPlayerBounds(canvas.width);
     
     if (player.isTikkun && player.tikkunTimer > 0) {
         State.decrementTikkunTimer();
-    } else {
+    } else if (player.isTikkun && player.tikkunTimer <= 0) {
         State.endTikkun();
+        player.combo = 0; // Reset combo after Tikkun ends
     }
     
     sanctifyTimer++;
-    if (sanctifyTimer > 35 - Math.min(30, State.getAscension() / 1000)) {
+    if (sanctifyTimer > 45 - Math.min(40, State.getAscension() / 1000)) {
         Entities.sanctifyRandomLetter();
         sanctifyTimer = 0;
     }
@@ -116,28 +99,25 @@ function gameLoop() {
 function resizeCanvas() {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
-    State.init(canvas.width, canvas.height); // Always re-init on resize for clean state
+    State.init(canvas.width, canvas.height); 
     Drawing.draw(ctx, canvas.width, canvas.height);
 }
 
 window.addEventListener('resize', resizeCanvas);
 
 Controls.setupControls(canvas, 
-    (x, y) => { // onGameStart now receives coordinates
+    (x, y) => {
         const { gameState, menuButtons } = State.getUIState();
         if (gameState === 'waiting') {
-            // Check if 'Start' button is clicked
             const startBtn = menuButtons.start;
             if (x > startBtn.x && x < startBtn.x + startBtn.w && y > startBtn.y && y < startBtn.y + startBtn.h) {
                 State.setGameState('playing');
             }
-            // Check if 'Teachings' button is clicked
             const teachingsBtn = menuButtons.teachings;
             if (x > teachingsBtn.x && x < teachingsBtn.x + teachingsBtn.w && y > teachingsBtn.y && y < teachingsBtn.y + teachingsBtn.h) {
                 State.setGameState('teachings');
             }
         } else if (gameState === 'teachings') {
-             // Check if 'Back' button is clicked
             const backBtn = menuButtons.back;
              if (x > backBtn.x && x < backBtn.x + backBtn.w && y > backBtn.y && y < backBtn.y + backBtn.h) {
                 State.setGameState('waiting');

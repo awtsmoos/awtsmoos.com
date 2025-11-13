@@ -39,8 +39,8 @@ export class Otiot extends Entity {
             this.sacredLife--;
             if (this.sacredLife <= 0) this.isSacred = false;
 
-            // Create the performant particle aura
-            if (Math.random() > 0.4) {
+            // Create the performant particle aura (with reduced rate)
+            if (Math.random() > 0.6) { // Reduced particle spawn rate
                 particles.push(new Particle({
                     x: this.x + (Math.random() - 0.5) * this.size,
                     y: this.y + (Math.random() - 0.5) * this.size,
