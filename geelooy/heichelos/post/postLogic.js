@@ -37,6 +37,11 @@ import {
 	init
 } from "/heichelos/post/commentLogic.js"
 
+import AIServiceHandler from "/ai/aiService.js";
+var service = new AIServiceHandler();
+window.awtsmoosAi = async (...args) => await service.awtsmoosAi(...args);
+window.AIServiceHandler  = AIServiceHandler ;
+
 var letters = "קראטוןםפשדגכעיחלךףזסבהנמצתץ";
 var endMarker = '׃'
 var pth = location.pathname.split("/");

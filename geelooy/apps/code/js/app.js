@@ -94,7 +94,26 @@ activeConsole: null, // B"H
     },
 
     async initialize() {
-        UI.showLoading("VIVID X Initializing...");
+	const isPostMessageProto = new URLSearchParams(window.location.search).get('env') === 'postmessage';
+	
+	if (isPostMessageProto) {
+	    const appContainer = document.querySelector('.app-container');
+	    const sidebarCollapseBtn = document.getElementById('sidebar-collapse-btn');
+	    const resizer = document.getElementById('sidebar-resizer');
+	
+	    // 1. Force the sidebar to be collapsed.
+	    if (appContainer) {
+	        appContainer.classList.add('sidebar-collapsed');
+	    }
+	
+	    // 2. Hide the buttons that expand it.
+	    if (sidebarCollapseBtn) sidebarCollapseBtn.style.display = 'none';
+	    if (DOM.mobileSidebarToggle) DOM.mobileSidebarToggle.style.display = 'none'; // Hides the mobile button too.
+	
+	    // 3. Hide the resizer to prevent manual expansion.
+	    if (resizer) resizer.style.display = 'none';
+	}    
+        UI.showLoading("Awtsmoos Editor Initializing...");
         
         
        

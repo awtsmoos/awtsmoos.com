@@ -271,7 +271,10 @@ ${prompt}
         var {
             prompt,
             onstream = null,
-            full=false
+            full=false,
+            temperature,
+		topP,
+		topK
         } = params;
         if(typeof(ob) == "string") {
             prompt = ob;
@@ -280,7 +283,10 @@ ${prompt}
         
         var txt = await simpleGeminiResponse({
             prompt, onstream,
-            apiKey
+            apiKey,
+            temperature,
+		topP,
+		topK
         });
         var json = JSON.parse(txt)
         var resp = json.map(q=>q.candidates.map(w=>w.content.parts[0].text).join("")).join("").trim();
@@ -303,10 +309,13 @@ function blankPrompt(userMessage) {
         };
 }
 async function simpleGeminiResponse({
-    prompt, 
-    apiKey=null,
-    remember = false,
-    onstream = {}
+	prompt, 
+	apiKey=null,
+	remember = false,
+	onstream = {},
+	temperature,
+	  topP,
+	  topK
 }={}) {
     var key = apiKey;
     if(!key) return null;
@@ -314,7 +323,10 @@ async function simpleGeminiResponse({
     var ch = blankPrompt(prompt);
     var resp = await getGeminiResponse(
         ch, apiKey, {
-            onstream
+            onstream,
+		temperature,
+		topP,
+		topK
         }
     );
     return resp;
@@ -322,10 +334,13 @@ async function simpleGeminiResponse({
 
 
 async function getGeminiResponse(chat, apiKey, {
-  onstream = {}
+  onstream = {},
+  temperature = 0.2,
+  topP= 0.95,
+  topK= 40
 }={}) {
  
-  const endpoint = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:streamGenerateContent?key='+apiKey; // Gemini API endpoint
+  const endpoint = 'https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash-lite:streamGenerateContent?key='+apiKey; // Gemini API endpoint
 
   // Prepare the request headers
   const headers = {
@@ -333,8 +348,14 @@ async function getGeminiResponse(chat, apiKey, {
   };
   
   // Prepare the request body
-  const requestBody = chat
-
+   const requestBody = {
+    ...chat, // 
+    "generationConfig": {
+      temperature,   // LOW temperature. Forces focus and reduces hallucinations. The most important setting.
+      topP,           // Standard value.
+      topK             // Standard value.
+    }
+  };
   try {
     // Send the request to the Gemini API with fetch
     const response = await fetch(`${endpoint}`, {

@@ -3,6 +3,12 @@ import AIService from "/ai/aiService.js";
 import aiify from "./aiPics.js"
 import { AwtsmoosPrompt } from "./alerts.js";
 import parseHebrew from "./text/parsing/splitText.js"
+
+import AIServiceHandler from "/ai/aiService.js";
+
+var service = new AIServiceHandler();
+window.awtsmoosAi = async (...args) => await service.awtsmoosAi(...args);
+window.aiService = service;
 /*import {
 	generateContent,
 	content,
@@ -870,6 +876,7 @@ async function traverseSeries({
 	}
 	
 	var first = await getSeries(seriesId, heichelId);
+	console.log("got series",first);
 	var pth = Array.from(path);
 	if(typeof(callbackForSeries) == "function") {
 		callbackForSeries({
@@ -908,8 +915,9 @@ async function traverseSeries({
 				await (async (i) => {
 					var b = first.posts[i];
 					var post = await getPost(
-						first, i, heichelId
-					)
+						first.id, i, heichelId
+					);
+					//console.log("Got post",post  );
 					await callbackForEachPost({
 						heichelId, seriesId,
 						postId: b,

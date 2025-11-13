@@ -121,10 +121,10 @@ async function handleFetch(request) {
                     (serverMeta.stateHash !== localMeta?.stateHash);
 
         if (isStale) {
-            console.log(`%c[SW] Stale: ${request.url}`, 'color: orange');
+          //  console.log(`%c[SW] Stale: ${request.url}`, 'color: orange');
             return fetchAndUpdate(request, serverMeta);
         } else {
-            console.log(`%c[SW] Fresh (from cache): ${request.url}`, 'color: green');
+         //   console.log(`%c[SW] Fresh (from cache): ${request.url}`, 'color: green');
             const cachedResponse = await caches.match(request);
             // Self-heal: If it's missing from cache for any reason, fetch it again.
             return cachedResponse || fetchAndUpdate(request, serverMeta);
