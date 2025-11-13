@@ -18,32 +18,33 @@ function update() {
     State.updateAscension(cameraSpeed * 0.1);
 
     // --- Player Movement ---
-    let targetVx = 0, targetVy = 0;
+    let finalVx = 0;
+    let finalVy = 0;
     const touchAnchor = Controls.getTouchAnchor();
     const controlVector = Controls.getControlVector();
 
-    // If the player is touching the screen for movement...
     if (touchAnchor) {
-        const maxControlDist = 150; // The max distance from the anchor for full speed
+        const maxControlDist = 100; // Max distance from anchor for full speed
         const dist = Math.hypot(controlVector.x, controlVector.y);
+        const deadZone = 5; // Small dead zone to prevent accidental drift
 
-        if (dist > 10) { // Dead zone to prevent drift
+        if (dist > deadZone) {
             const clampedDist = Math.min(dist, maxControlDist);
             const angle = Math.atan2(controlVector.y, controlVector.x);
-            const maxSpeed = 12;
-            // Calculate target velocity based on how far the finger is from the anchor
-            targetVx = Math.cos(angle) * (clampedDist / maxControlDist) * maxSpeed;
-            targetVy = Math.sin(angle) * (clampedDist / maxControlDist) * maxSpeed;
+            const maxSpeed = 10;
+            
+            // Speed is proportional to how far you drag from the anchor
+            const speed = (clampedDist / maxControlDist) * maxSpeed;
+
+            finalVx = Math.cos(angle) * speed;
+            finalVy = Math.sin(angle) * speed;
         }
     }
-    
-    // --- MOVEMENT SMOOTHING IMPROVEMENT ---
-    // Smoothly interpolate from current velocity to the target velocity.
-    // This prevents teleporting and jerky stops, creating a fluid feel.
-    // A higher lerp factor (0.2) makes it very responsive.
-    const newVx = lerp(State.player.vx, targetVx, 0.2);
-    const newVy = lerp(State.player.vy, targetVy, 0.2);
-    State.setPlayerVelocity(newVx, newVy);
+
+    // --- MOVEMENT FIX ---
+    // Set velocity directly instead of using lerp. This provides immediate,
+    // responsive control and fixes the bug where the player would not move.
+    State.setPlayerVelocity(finalVx, finalVy);
     // ---
 
     State.updatePlayerPosition();
