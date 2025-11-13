@@ -13,27 +13,40 @@ function update() {
     if (State.getGameState() !== 'playing') return;
 
     const cameraSpeed = 2 + State.getAscension() / 8000;
-    State.moveCamera(cameraSpeed);
     
-    // --- DIRECT RELATIVE MOVEMENT & GRAVITY REMOVAL ---
-    // This new system makes the player immune to camera scroll ("gravity") while being controlled.
-    // Movement is now based on the finger's delta from the last frame for a 1:1 feel.
+    // --- MOVEMENT LOGIC OVERHAUL ---
     const player = State.getPlayer();
     const pointer = Controls.getPointerState();
 
-    if (pointer.isActive) {
-        // 1. Counteract the camera scroll to remove "gravity".
-        // This keeps the player stationary on the screen if the finger is not moving.
-        player.y += cameraSpeed;
-
-        // 2. Apply the finger's movement delta from the last frame.
-        const delta = Controls.getAndResetPointerDelta();
-        State.movePlayer(delta.x, delta.y);
-    }
-    // If pointer is not active, the player is not moved and will "fall" with the camera scroll.
+    // Store camera position before it moves
+    const oldCameraY = State.getCameraY();
+    State.moveCamera(cameraSpeed);
+    const newCameraY = State.getCameraY();
     
-    State.checkPlayerBounds(canvas.width);
-    // ---
+    if (pointer.isActive) {
+        // The previous logic failed at high speeds. This new logic works in screen-space to ensure 1:1 control.
+        
+        // 1. Get player's current position on the screen.
+        let playerScreenY = player.y - oldCameraY;
+        
+        // 2. Get the user's directional input.
+        const delta = Controls.getAndResetPointerDelta();
+
+        // 3. Apply the input delta directly to the screen position.
+        player.x += delta.x;
+        playerScreenY += delta.y;
+        
+        // 4. Clamp the player's screen position so they can't leave the viewport.
+        playerScreenY = Math.max(player.radius, Math.min(playerScreenY, canvas.height - player.radius));
+
+        // 5. Convert the new, clamped screen position back to a world position for rendering.
+        player.y = playerScreenY + newCameraY;
+
+    }
+    
+    // Pass pointer state to bounds check to avoid conflicting logic.
+    State.checkPlayerBounds(canvas.width, pointer.isActive);
+    // --- END MOVEMENT LOGIC OVERHAUL ---
 
     if (State.player.isTikkun && State.player.tikkunTimer > 0) {
         State.decrementTikkunTimer();

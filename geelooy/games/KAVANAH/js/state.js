@@ -62,9 +62,13 @@ export function updatePlayerPosition() {
     player.y += player.vy;
 }
 
-export function checkPlayerBounds(canvasWidth) {
-    // Ensure player cannot go off the bottom of the screen
-    player.y = Math.min(player.y, cameraY + window.innerHeight - player.radius);
-    // Keep player within horizontal bounds
+export function checkPlayerBounds(canvasWidth, pointerIsActive) {
+    // If the pointer is active, the new logic in main.js handles Y-bounds.
+    // This clamp only runs when the player is idle, allowing them to be pushed by the camera.
+    if (!pointerIsActive) {
+        player.y = Math.min(player.y, cameraY + window.innerHeight - player.radius);
+    }
+    
+    // Keep player within horizontal bounds always.
     player.x = Math.max(player.radius, Math.min(canvasWidth - player.radius, player.x));
 }
