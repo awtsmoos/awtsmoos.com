@@ -37,8 +37,13 @@ export function setupControls(canvas, onGameStart) {
                 player.tikkun = 0;
             }
         } else { // Movement area
-            // Set the anchor point for movement control
-            touchAnchor = { x, y };
+            // Anchor the touch location and the player's starting position for direct 1-to-1 movement.
+            touchAnchor = { 
+                x: e.clientX, 
+                y: e.clientY,
+                playerStartX: player.x,
+                playerStartY: player.y
+            };
             controlVector = { x: 0, y: 0 };
         }
     });
@@ -53,7 +58,7 @@ export function setupControls(canvas, onGameStart) {
 
     // Use a window event listener for pointerup to catch cases where the user drags off the canvas
     window.addEventListener('pointerup', () => {
-        // Release the anchor when the touch ends, causing the player to decelerate
+        // Release the anchor when the touch ends, causing the player to stop.
         touchAnchor = null;
     });
 }

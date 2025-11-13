@@ -4,7 +4,6 @@ import * as State from './state.js';
 import * as Drawing from './drawing.js';
 import * as Controls from './controls.js';
 import * as Entities from './entities.js';
-import { lerp } from './utils.js';
 
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
@@ -17,39 +16,32 @@ function update() {
     State.moveCamera(cameraSpeed);
     State.updateAscension(cameraSpeed * 0.1);
 
-    // --- RESPONSIVE MOVEMENT FIX ---
-    // The previous acceleration-based system was unplayable.
-    // This new system sets velocity directly for immediate, responsive control.
-    let targetVx = 0;
-    let targetVy = 0;
+    // --- DIRECT POSITIONAL MOVEMENT REWORK ---
+    // The previous velocity-based system felt indirect. This new system maps the
+    // player's position directly to the user's finger movement for a true 1-to-1 feel.
+    const player = State.getPlayer();
     const touchAnchor = Controls.getTouchAnchor();
-    const controlVector = Controls.getControlVector();
 
-    // If the player is touching the screen for movement...
     if (touchAnchor) {
-        const maxControlDist = 120; // The max distance from the anchor for full speed
-        const dist = Math.hypot(controlVector.x, controlVector.y);
-        const deadZone = 10;
+        // Get the current drag distance from the starting touch point.
+        const controlVector = Controls.getControlVector();
+        
+        // The player's new position is their starting position plus the drag distance.
+        const newX = touchAnchor.playerStartX + controlVector.x;
+        const newY = touchAnchor.playerStartY + controlVector.y;
+        
+        // Set the player's position directly.
+        State.setPlayerPosition(newX, newY);
 
-        if (dist > deadZone) {
-            const clampedDist = Math.min(dist, maxControlDist);
-            const angle = Math.atan2(controlVector.y, controlVector.x);
-            const maxSpeed = 12;
-            // Calculate target velocity based on how far the finger is from the anchor
-            targetVx = Math.cos(angle) * (clampedDist / maxControlDist) * maxSpeed;
-            targetVy = Math.sin(angle) * (clampedDist / maxControlDist) * maxSpeed;
-        }
+    } else {
+        // When not touching, ensure player has no residual velocity.
+        State.setPlayerVelocity(0, 0);
     }
     
-    // Set velocity directly instead of using lerp for an instant, responsive feel.
-    const player = State.getPlayer();
-    player.vx = targetVx;
-    player.vy = targetVy;
-
+    // Applies any velocity (which is 0 during touch control) and keeps player in bounds.
     State.updatePlayerPosition();
-    // ---
-
     State.checkPlayerBounds(canvas.width);
+    // ---
 
 
     if (State.player.isTikkun && State.player.tikkunTimer > 0) {

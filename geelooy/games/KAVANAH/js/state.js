@@ -47,6 +47,7 @@ export const getBestAscension = () => bestAscension;
 export const setGameState = (newState) => { gameState = newState; };
 export const setPlayerVelocity = (vx, vy) => { player.vx = vx; player.vy = vy; };
 export const setBestAscension = (newBest) => { bestAscension = newBest; };
+export const setPlayerPosition = (newX, newY) => { player.x = newX; player.y = newY; };
 
 export const incrementTime = () => { time++; };
 export const moveCamera = (speed) => { cameraY -= speed; };
