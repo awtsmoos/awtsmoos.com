@@ -4,6 +4,7 @@ import * as State from './state.js';
 import * as Drawing from './drawing.js';
 import * as Controls from './controls.js';
 import * as Entities from './entities.js';
+import { Particle } from './classes/Particle.js';
 
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
@@ -11,7 +12,7 @@ const ctx = canvas.getContext('2d');
 let touchOffset = null;
 let sanctifyTimer = 0; // Timer to control when new letters become sacred.
 
-// --- NEW: Tikkun Activation Function ---
+// --- Tikkun Activation Function ---
 function activateTikkun() {
     const player = State.getPlayer();
     if (player.tikkun < player.maxTikkun) return;
@@ -20,11 +21,28 @@ function activateTikkun() {
     player.isTikkun = true;
     player.tikkunTimer = 200; // Visual effect duration
 
-    // Make ALL letters on screen sacred!
+    const particles = State.getParticles();
+
+    // Make ALL letters on screen sacred and have plants release life energy
     State.getEntities().forEach(e => {
         if (e.type === 'otiot') {
             e.isSacred = true;
             e.sacredLife = 300; // Give them a fresh lifespan
+        }
+        // --- NEW: Plants now have a positive interaction ---
+        if (e.type === 'tzomeach') {
+            for(let i = 0; i < 20; i++) {
+                particles.push(new Particle({
+                    x: e.x, y: e.y - e.size / 2,
+                    color: `hsl(120, 100%, ${70 + Math.random()*30}%)`, // Life-like green
+                    size: Math.random() * 4 + 2,
+                    vx: (Math.random() - 0.5) * 4,
+                    vy: -2 - Math.random() * 3, // Drift upwards
+                    life: 90 + Math.random() * 50,
+                    drag: 0.96,
+                    gravity: -0.04 // Slight anti-gravity
+                }));
+            }
         }
     });
 }

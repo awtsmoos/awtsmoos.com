@@ -52,31 +52,46 @@ export function updateEntities(cameraY, cameraSpeed, canvasWidth, gameOverCallba
         const distSq = (player.x - e.x)**2 + (player.y - e.y)**2;
         const hitDist = player.radius;
 
-        if (distSq < (hitDist + e.size)**2) {
-            // --- CORE LOGIC CHANGE ---
-            if (e.type === 'otiot' && e.isSacred) {
-                // SUCCESS: Player collected a SACRED letter.
-                player.combo++;
-                player.tikkun = Math.min(player.maxTikkun, player.tikkun + 5 + player.combo * 0.5);
-                State.updateAscension(player.combo * 2);
-                
-                // --- INTENSE INSANE EXPLOSION ---
-                for(let j=0; j<60; j++) {
-                    particles.push(new Particle({
-                        x: e.x, y: e.y,
-                        color: `hsl(${45 + Math.random()*15}, 100%, ${60 + Math.random()*40}%)`, // Shades of Gold/Yellow
-                        size: Math.random() * 5 + 1,
-                        vx: (Math.random() - 0.5) * 18,
-                        vy: (Math.random() - 0.5) * 18 - cameraSpeed,
-                        life: 70 + Math.random() * 30,
-                        drag: 0.96,
-                        gravity: 0.25
-                    }));
+        // --- COLLISION LOGIC CHANGE: More precise, circle-based hitboxes. ---
+        if (distSq < (hitDist + e.size / 2)**2) {
+            if (e.type === 'otiot') { // Check for letter type first
+                if (e.isSacred) {
+                    // SUCCESS: Player collected a SACRED letter.
+                    player.combo++;
+                    player.tikkun = Math.min(player.maxTikkun, player.tikkun + 5 + player.combo * 0.5);
+                    State.updateAscension(player.combo * 2);
+                    
+                    // --- EXPLOSION for sacred letter ---
+                    for(let j=0; j<60; j++) {
+                        particles.push(new Particle({
+                            x: e.x, y: e.y,
+                            color: `hsl(${45 + Math.random()*15}, 100%, ${60 + Math.random()*40}%)`, // Shades of Gold/Yellow
+                            size: Math.random() * 5 + 1,
+                            vx: (Math.random() - 0.5) * 18,
+                            vy: (Math.random() - 0.5) * 18 - cameraSpeed,
+                            life: 70 + Math.random() * 30,
+                            drag: 0.96,
+                            gravity: 0.25
+                        }));
+                    }
+                    entities.splice(i, 1);
+                } else {
+                    // --- FEEDBACK for non-sacred letter collision ---
+                    // Provide a visual cue and reset combo, but don't remove letter.
+                    player.combo = 0; 
+                    for(let j=0; j<10; j++) {
+                        particles.push(new Particle({
+                            x: e.x, y: e.y,
+                            color: '#444',
+                            size: Math.random() * 2,
+                            vx: (Math.random() - 0.5) * 4,
+                            vy: (Math.random() - 0.5) * 4 - cameraSpeed,
+                            life: 30,
+                            drag: 0.9,
+                            gravity: 0.1
+                        }));
+                    }
                 }
-
-                entities.splice(i, 1);
-            // NOTE: There is no 'else'. Touching a non-sacred letter does NOTHING.
-
             } else if (e.type === 'chai' || e.type === 'tzomeach') {
                 // GAME OVER: Hit an actual obstacle
                 gameOverCallback();

@@ -51,19 +51,28 @@ export function draw(ctx, canvasWidth, canvasHeight) {
         ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
         if (e.type === 'otiot') {
             if (e.isSacred) {
-                // --- MORE INTENSE GLOW ---
-                const glow = 35 + Math.sin(time/5)*15;
+                // --- NEW VIBRANT, MULTI-LAYERED GLOW ---
+                const glow = 25 + Math.sin(time/7)*10;
+                ctx.font = `${e.size}px "Times New Roman"`;
+
+                // Layer 1: A wide, soft, golden haze
                 ctx.shadowBlur = glow;
                 ctx.shadowColor = '#FFD700';
-                ctx.fillStyle = '#FFFFFF';
+                ctx.fillStyle = '#FFFFFF'; // The core letter color
+                ctx.fillText(e.letter, e.x, e.y);
+
+                // Layer 2: A tighter, brighter core glow
+                ctx.shadowBlur = 10;
+                ctx.shadowColor = '#FFFFFF';
+                ctx.fillText(e.letter, e.x, e.y);
             } else {
                 // --- MORE AMBIENT NON-SACRED LETTERS ---
                 ctx.shadowBlur = 0;
                 ctx.globalAlpha = 0.3;
                 ctx.fillStyle = '#300842';
+                ctx.font = `${e.size}px "Times New Roman"`;
+                ctx.fillText(e.letter, e.x, e.y);
             }
-            ctx.font = `${e.size}px "Times New Roman"`;
-            ctx.fillText(e.letter, e.x, e.y);
             ctx.globalAlpha = 1.0; 
         } else {
             ctx.shadowBlur = 10; ctx.shadowColor = '#000';
