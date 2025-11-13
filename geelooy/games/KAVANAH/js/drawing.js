@@ -2,7 +2,7 @@
 // Handles all canvas drawing operations.
 
 import * as State from './state.js';
-import { getTouchAnchor, getControlVector } from './controls.js';
+// Removed the broken import for 'getTouchAnchor' and 'getControlVector' from './controls.js'
 
 function drawUI(ctx, canvasWidth, canvasHeight) {
     const { player, gameState, ascension, bestAscension, time } = {
@@ -48,8 +48,10 @@ export function draw(ctx, canvasWidth, canvasHeight) {
     const cameraY = State.getCameraY();
     const time = State.getTime();
     const gameState = State.getGameState();
-    const touchAnchor = getTouchAnchor();
-    const controlVector = getControlVector();
+    
+    // --- FIX: The variables below were from the old control system and caused the crash. They have been removed. ---
+    // const touchAnchor = getTouchAnchor();
+    // const controlVector = getControlVector();
 
     ctx.globalCompositeOperation = 'source-over';
     ctx.fillStyle = '#010002';
@@ -89,11 +91,14 @@ export function draw(ctx, canvasWidth, canvasHeight) {
     }
     ctx.restore();
     
+    // --- FIX: The code to draw the touch anchor UI has been removed as it relied on the old system. ---
+    /*
     if (touchAnchor) {
         ctx.strokeStyle = 'rgba(255,255,255,0.2)'; ctx.lineWidth = 2;
         ctx.beginPath(); ctx.arc(touchAnchor.x, touchAnchor.y, 20, 0, Math.PI*2); ctx.stroke();
         ctx.beginPath(); ctx.moveTo(touchAnchor.x, touchAnchor.y); ctx.lineTo(touchAnchor.x + controlVector.x, touchAnchor.y + controlVector.y); ctx.stroke();
     }
+    */
 
     drawUI(ctx, canvasWidth, canvasHeight);
 }
