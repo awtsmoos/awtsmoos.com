@@ -25,17 +25,17 @@ export class Particle {
         this.life--;
     }
 
-    draw(ctx, cameraY) {
+    draw(ctx) {
         const alpha = Math.max(0, this.life / this.initialLife);
         ctx.globalAlpha = alpha;
         if (this.text) {
             ctx.font = `${this.size * (this.life/this.initialLife)}px Arial`;
             ctx.fillStyle = this.color;
-            ctx.fillText(this.text, this.x, this.y - cameraY);
+            ctx.fillText(this.text, this.x, this.y);
         } else {
             ctx.fillStyle = this.color;
             ctx.beginPath();
-            ctx.arc(this.x, this.y - cameraY, Math.max(0, this.size * alpha), 0, Math.PI * 2);
+            ctx.arc(this.x, this.y, Math.max(0, this.size * alpha), 0, Math.PI * 2);
             ctx.fill();
         }
         ctx.globalAlpha = 1.0; // Reset global alpha
