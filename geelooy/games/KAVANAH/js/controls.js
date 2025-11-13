@@ -73,4 +73,4 @@ export function setupControls(canvas, onGameStart, onTikkun) {
 
     window.addEventListener('pointerup', handlePointerUp);
     window.addEventListener('touchend', handlePointerUp);
-}```
+} // <--- ADD THIS CLOSING BRACE
