@@ -8,12 +8,12 @@ import * as Entities from './entities.js';
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 
+// --- NEW: Get references to HTML elements ---
+const teachingsScreen = document.getElementById('teachings-screen');
+const backButton = document.getElementById('back-button');
+
 let touchOffset = null;
 let sanctifyTimer = 0;
-// --- For scrolling teachings ---
-let lastPointerY = null;
-let isDragging = false;
-
 
 function activateTikkun() {
     const player = State.getPlayer();
@@ -26,7 +26,8 @@ function activateTikkun() {
 
 function update() {
     const gameState = State.getGameState();
-    if (gameState === 'waiting' || gameState === 'teachings') return;
+    // Game logic only runs if the state is 'playing'
+    if (gameState !== 'playing') return;
 
     State.incrementTime();
 
@@ -64,7 +65,6 @@ function update() {
     }
     
     sanctifyTimer++;
-    // --- DIFFICULTY: Faster sanctification to keep game possible ---
     if (sanctifyTimer > 40 - Math.min(35, State.getAscension() / 500)) {
         Entities.sanctifyRandomLetter();
         sanctifyTimer = 0;
@@ -89,7 +89,7 @@ function gameOver() {
         State.setBestAscension(bestAscension);
     }
     Entities.createGameOverParticles(State.player.x, State.player.y);
-    setTimeout(() => State.init(canvas.width, canvas.height, ctx), 750);
+    setTimeout(() => State.init(canvas.width, canvas.height), 750);
 }
 
 function gameLoop() {
@@ -101,20 +101,15 @@ function gameLoop() {
 function resizeCanvas() {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
-    State.init(canvas.width, canvas.height, ctx); 
+    State.init(canvas.width, canvas.height); 
     Drawing.draw(ctx, canvas.width, canvas.height);
 }
 
 window.addEventListener('resize', resizeCanvas);
 
-
-// --- REWORKED: Controls to handle scrolling in 'teachings' state ---
-function handleStart(x, y) {
+// --- Event handler for clicks on the canvas ---
+function handleGameStart(x, y) {
     const { gameState, menuButtons } = State.getUIState();
-
-    isDragging = false;
-    lastPointerY = y;
-
     if (gameState === 'waiting') {
         const startBtn = menuButtons.start;
         if (x > startBtn.x && x < startBtn.x + startBtn.w && y > startBtn.y && y < startBtn.y + startBtn.h) {
@@ -122,43 +117,23 @@ function handleStart(x, y) {
         }
         const teachingsBtn = menuButtons.teachings;
         if (x > teachingsBtn.x && x < teachingsBtn.x + teachingsBtn.w && y > teachingsBtn.y && y < teachingsBtn.y + teachingsBtn.h) {
+            // --- NEW: Show HTML screen ---
             State.setGameState('teachings');
-        }
-    } else if (gameState === 'teachings') {
-        const backBtn = menuButtons.back;
-        if (x > backBtn.x && x < backBtn.x + backBtn.w && y > backBtn.y && y < backBtn.y + backBtn.h) {
-            State.setGameState('waiting');
-        } else {
-            isDragging = true;
+            teachingsScreen.classList.remove('hidden');
         }
     } else if (gameState === 'gameOver') {
-        State.init(canvas.width, canvas.height, ctx);
+        State.init(canvas.width, canvas.height);
         State.setGameState('playing');
     }
 }
 
-function handleMove(y) {
-    if (State.getGameState() === 'teachings' && isDragging) {
-        const { scrollY, scrollMax } = State.getTeachingsState();
-        const deltaY = y - lastPointerY;
-        const newScrollY = Math.max(0, Math.min(scrollMax, scrollY - deltaY));
-        State.setTeachingsScroll(newScrollY);
-        lastPointerY = y;
-    }
-}
+// --- NEW: Event listener for HTML back button ---
+backButton.addEventListener('click', () => {
+    teachingsScreen.classList.add('hidden');
+    State.setGameState('waiting');
+});
 
-function handleEnd() {
-    isDragging = false;
-    lastPointerY = null;
-}
-
-Controls.setupControls(
-    canvas,
-    handleStart,
-    handleMove,
-    handleEnd,
-    activateTikkun
-);
+Controls.setupControls(canvas, handleGameStart, activateTikkun);
 
 resizeCanvas();
 gameLoop();

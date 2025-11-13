@@ -3,12 +3,11 @@
 
 import * as State from './state.js';
 
-function drawButton(ctx, button, text, isActive = false) {
-    ctx.strokeStyle = isActive ? '#FFFF00' : '#FFF';
+function drawButton(ctx, button, text) {
+    ctx.strokeStyle = '#FFF';
     ctx.lineWidth = 2;
     ctx.strokeRect(button.x, button.y, button.w, button.h);
     
-    // --- FIX: Make button text visible ---
     ctx.fillStyle = '#FFF';
     ctx.font = '3vh "Courier New"';
     ctx.textAlign = 'center';
@@ -28,39 +27,6 @@ function drawMainMenu(ctx, canvasWidth, canvasHeight) {
     drawButton(ctx, menuButtons.start, "Begin Ascent");
     drawButton(ctx, menuButtons.teachings, "Teachings");
 }
-
-// --- REWORKED: Scrollable Teachings Screen ---
-function drawTeachings(ctx, canvasWidth, canvasHeight) {
-    const { menuButtons } = State.getUIState();
-    const { text, scrollY } = State.getTeachingsState();
-    
-    ctx.fillStyle = '#FFF'; // Ensure text is visible
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-
-    ctx.font = '4vh "Times New Roman"';
-    ctx.fillText("The Four Worlds", canvasWidth / 2, canvasHeight * 0.1);
-
-    ctx.save();
-    ctx.rect(0, canvasHeight * 0.15, canvasWidth, canvasHeight * 0.7);
-    ctx.clip();
-
-    ctx.font = '2.5vh "Times New Roman"';
-    ctx.textAlign = 'left';
-    const textX = canvasWidth * 0.1;
-    let textY = canvasHeight * 0.20 - scrollY;
-
-    text.forEach(line => {
-        ctx.fillText(line, textX, textY);
-        textY += 30; // Line height
-    });
-    
-    ctx.restore();
-    
-    ctx.textAlign = 'center';
-    drawButton(ctx, menuButtons.back, "Back");
-}
-
 
 function drawGameUI(ctx, canvasWidth, canvasHeight) {
     const { player, ascension, bestAscension, time } = State;
@@ -116,19 +82,20 @@ function drawGround(ctx, canvasWidth) {
     ctx.fillRect(0, groundY, canvasWidth, 200);
 }
 
-
 export function draw(ctx, canvasWidth, canvasHeight) {
     const { player, entities, particles, cameraY, time, gameState } = State;
     
     ctx.fillStyle = '#010002';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
+    // Only draw the main menu if the state is 'waiting'
     if (gameState === 'waiting') {
         drawMainMenu(ctx, canvasWidth, canvasHeight);
         return;
     }
+    
+    // Don't draw anything else if teachings are active
     if (gameState === 'teachings') {
-        drawTeachings(ctx, canvasWidth, canvasHeight);
         return;
     }
 

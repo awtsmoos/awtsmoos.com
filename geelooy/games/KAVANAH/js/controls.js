@@ -11,24 +11,23 @@ let pointer = {
 
 export const getPointerState = () => pointer;
 
-function handlePointerDown(coords, onStart, onTikkun) {
+function handlePointerDown(coords, onGameStart, onTikkun) {
     const gameState = State.getGameState();
     const x = coords.clientX;
     const y = coords.clientY;
     
-    onStart(x, y); // General start handler
+    onGameStart(x, y); // Handles menu clicks
 
     if (gameState === 'playing') {
         const btnSize = Math.min(100, document.getElementById('gameCanvas').width * 0.12);
         const btnY = document.getElementById('gameCanvas').height - btnSize - 10;
         const player = State.getPlayer();
 
-        // Check if the Tikkun button was pressed
         if (y > btnY) {
             if (player.tikkun >= player.maxTikkun) {
                 onTikkun();
             }
-        } else { // Otherwise, it's for movement
+        } else {
             pointer.isActive = true;
             pointer.x = x;
             pointer.y = y;
@@ -36,49 +35,40 @@ function handlePointerDown(coords, onStart, onTikkun) {
     }
 }
 
-function handlePointerMove(coords, onMove) {
-    const gameState = State.getGameState();
-    const x = coords.clientX;
-    const y = coords.clientY;
-
-    onMove(y); // General move handler (for scrolling)
-
-    if (gameState === 'playing' && pointer.isActive) {
-        pointer.x = x;
-        pointer.y = y;
+function handlePointerMove(coords) {
+    if (pointer.isActive) {
+        pointer.x = coords.clientX;
+        pointer.y = coords.clientY;
     }
 }
 
-function handlePointerUp(onEnd) {
-    onEnd(); // General end handler
+function handlePointerUp() {
     if (pointer.isActive) {
         pointer.isActive = false;
     }
 }
 
-export function setupControls(canvas, onStart, onMove, onEnd, onTikkun) {
+export function setupControls(canvas, onGameStart, onTikkun) {
     const onDown = (e) => {
         e.preventDefault();
         const coords = e.touches ? e.touches[0] : e;
-        handlePointerDown(coords, onStart, onTikkun);
+        handlePointerDown(coords, onGameStart, onTikkun);
     };
 
-    const onMoveWrapper = (e) => {
+    const onMove = (e) => {
         e.preventDefault();
-        const coords = e.touches ? e.touches[0] : e;
-        handlePointerMove(coords, onMove);
+        if (pointer.isActive) {
+            const coords = e.touches ? e.touches[0] : e;
+            handlePointerMove(coords);
+        }
     };
-
-    const onUp = () => {
-        handlePointerUp(onEnd);
-    }
 
     canvas.addEventListener('pointerdown', onDown, { passive: false });
     canvas.addEventListener('touchstart', onDown, { passive: false });
 
-    canvas.addEventListener('pointermove', onMoveWrapper, { passive: false });
-    canvas.addEventListener('touchmove', onMoveWrapper, { passive: false });
+    canvas.addEventListener('pointermove', onMove, { passive: false });
+    canvas.addEventListener('touchmove', onMove, { passive: false });
 
-    window.addEventListener('pointerup', onUp, { passive: false });
-    window.addEventListener('touchend', onUp, { passive: false });
+    window.addEventListener('pointerup', handlePointerUp);
+    window.addEventListener('touchend', handlePointerUp);
 }
