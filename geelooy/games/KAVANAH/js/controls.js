@@ -3,72 +3,100 @@
 
 import * as State from './state.js';
 
-// This state object now tracks pointer activity and its current screen coordinates.
 let pointer = {
     isActive: false,
     x: 0,
     y: 0
 };
 
-// Returns the entire pointer state object.
 export const getPointerState = () => pointer;
 
-// The delta system has been removed as it was the source of the issue.
+// --- FIX: The handler functions no longer call e.preventDefault themselves ---
+function handlePointerDown(coords) {
+    const gameState = State.getGameState();
+    
+    if (gameState === 'waiting' || gameState === 'gameOver') {
+        // This is handled by the event listener now, which calls onGameStart.
+        return;
+    }
+
+    const btnSize = Math.min(100, window.innerWidth * 0.12);
+    const x = coords.clientX;
+    const y = coords.clientY;
+    const player = State.getPlayer();
+
+    if (y > window.innerHeight - btnSize) { // Button area
+         if (x < btnSize) { 
+            player.attunement = 'gevurah'; 
+            player.combo = 0; 
+        } else if (x > window.innerWidth - btnSize) { 
+            player.attunement = 'chesed'; 
+            player.combo = 0; 
+        } else if (player.tikkun >= player.maxTikkun && x > window.innerWidth/2 - btnSize/2 && x < window.innerWidth/2 + btnSize/2) {
+            player.isTikkun = true; 
+            player.tikkunTimer = 400; 
+            player.tikkun = 0;
+        }
+    } else { // Movement area
+        pointer.isActive = true;
+        pointer.x = coords.clientX;
+        pointer.y = coords.clientY;
+    }
+}
+
+function handlePointerMove(coords) {
+    if (pointer.isActive) {
+        pointer.x = coords.clientX;
+        pointer.y = coords.clientY;
+    }
+}
+
+function handlePointerUp() {
+    if (pointer.isActive) {
+        pointer.isActive = false;
+    }
+}
 
 export function setupControls(canvas, onGameStart) {
-    const handlePointerDown = (e) => {
+    // --- FIX: Event listeners now correctly handle the event object (e) ---
+    // They call preventDefault on 'e' and pass the correct coordinate object to the handler.
+
+    const onDown = (e) => {
         e.preventDefault();
         const gameState = State.getGameState();
-        
         if (gameState === 'waiting' || gameState === 'gameOver') {
             onGameStart();
-            return;
-        }
-
-        const btnSize = Math.min(100, canvas.width * 0.12);
-        const x = e.clientX;
-        const y = e.clientY;
-        const player = State.getPlayer();
-
-        if (y > canvas.height - btnSize) { // Button area
-             if (x < btnSize) { 
-                player.attunement = 'gevurah'; 
-                player.combo = 0; 
-            } else if (x > canvas.width - btnSize) { 
-                player.attunement = 'chesed'; 
-                player.combo = 0; 
-            } else if (player.tikkun >= player.maxTikkun && x > canvas.width/2 - btnSize/2 && x < canvas.width/2 + btnSize/2) {
-                player.isTikkun = true; 
-                player.tikkunTimer = 400; 
-                player.tikkun = 0;
-            }
-        } else { // Movement area
-            pointer.isActive = true;
-            pointer.x = e.clientX;
-            pointer.y = e.clientY;
+        } else {
+            const coords = e.touches ? e.touches[0] : e;
+            handlePointerDown(coords);
         }
     };
 
-    const handlePointerMove = (e) => {
+    const onMove = (e) => {
         e.preventDefault();
-        if (pointer.isActive) {
-            pointer.x = e.clientX;
-            pointer.y = e.clientY;
-        }
+        const coords = e.touches ? e.touches[0] : e;
+        handlePointerMove(coords);
     };
 
-    const handlePointerUp = () => {
-        if (pointer.isActive) {
-            pointer.isActive = false;
-        }
+    const onUp = () => {
+        handlePointerUp();
     };
 
-    canvas.addEventListener('pointerdown', handlePointerDown);
-    canvas.addEventListener('touchstart', (e) => handlePointerDown(e.touches[0]), { passive: false });
+    // Clear old listeners if any
+    canvas.removeEventListener('pointerdown', onDown);
+    canvas.removeEventListener('touchstart', onDown);
+    canvas.removeEventListener('pointermove', onMove);
+    canvas.removeEventListener('touchmove', onMove);
+    window.removeEventListener('pointerup', onUp);
+    window.removeEventListener('touchend', onUp);
 
-    canvas.addEventListener('pointermove', handlePointerMove);
-    canvas.addEventListener('touchmove', (e) => handlePointerMove(e.touches[0]), { passive: false });
+    // Add new, correct listeners
+    canvas.addEventListener('pointerdown', onDown, { passive: false });
+    canvas.addEventListener('touchstart', onDown, { passive: false });
 
-    window.addEventListener('pointerup', handlePointerUp);
-    window.addEventListener('touchend', handlePointerUp);
+    canvas.addEventListener('pointermove', onMove, { passive: false });
+    canvas.addEventListener('touchmove', onMove, { passive: false });
+
+    window.addEventListener('pointerup', onUp);
+    window.addEventListener('touchend', onUp);
 }
