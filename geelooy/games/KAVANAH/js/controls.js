@@ -37,6 +37,7 @@ export function setupControls(canvas, onGameStart) {
                 player.tikkun = 0;
             }
         } else { // Movement area
+            // Set the anchor point for movement control
             touchAnchor = { x, y };
             controlVector = { x: 0, y: 0 };
         }
@@ -44,12 +45,14 @@ export function setupControls(canvas, onGameStart) {
 
     canvas.addEventListener('pointermove', e => {
         e.preventDefault();
+        // If we have an anchor, calculate the vector for movement
         if (touchAnchor) {
             controlVector = { x: e.clientX - touchAnchor.x, y: e.clientY - touchAnchor.y };
         }
     });
 
     window.addEventListener('pointerup', () => {
+        // Release the anchor when the touch ends
         touchAnchor = null;
     });
 }

@@ -14,8 +14,10 @@ export function generateEntities(canvasWidth, cameraY) {
     const y_spawn = cameraY - 100;
     const difficulty = Math.min(10, 1 + ascension / 6000);
 
-    // Domem (Letters)
-    if (Math.random() < 0.3 * difficulty) {
+    // --- GAME BALANCE ADJUSTMENT ---
+    // Reduced the base spawn probability from 0.3 to 0.15 to make the
+    // beginning of the game more manageable and provide a smoother difficulty curve.
+    if (Math.random() < 0.15 * difficulty) {
         const type = Math.random() < 0.5 ? 'chesed' : 'gevurah';
         const pattern = Math.random();
         if (pattern < 0.6) { // Stream
@@ -63,9 +65,6 @@ export function updateEntities(cameraY, cameraSpeed, canvasWidth, gameOverCallba
                     gameOverCallback();
                 }
             }
-            // --- DIFFICULTY ADJUSTMENT ---
-            // Removed the `else if` that checked for 'chai' or 'tzomeach' collision.
-            // Now, colliding with plants or animals will NOT result in a game over.
         }
     });
 }

@@ -22,21 +22,28 @@ function update() {
     const touchAnchor = Controls.getTouchAnchor();
     const controlVector = Controls.getControlVector();
 
+    // If the player is touching the screen for movement...
     if (touchAnchor) {
-        const maxControlDist = 150;
+        const maxControlDist = 150; // The max distance from the anchor for full speed
         const dist = Math.hypot(controlVector.x, controlVector.y);
-        if (dist > 10) {
+
+        if (dist > 10) { // Dead zone to prevent drift
             const clampedDist = Math.min(dist, maxControlDist);
             const angle = Math.atan2(controlVector.y, controlVector.x);
             const maxSpeed = 12;
+            // Calculate target velocity based on how far the finger is from the anchor
             targetVx = Math.cos(angle) * (clampedDist / maxControlDist) * maxSpeed;
             targetVy = Math.sin(angle) * (clampedDist / maxControlDist) * maxSpeed;
         }
     }
     
-    // --- MOVEMENT RESPONSIVENESS IMPROVEMENT ---
-    // Set velocity directly for 1:1 control feel, removing interpolation (lerp).
-    State.setPlayerVelocity(targetVx, targetVy);
+    // --- MOVEMENT SMOOTHING IMPROVEMENT ---
+    // Smoothly interpolate from current velocity to the target velocity.
+    // This prevents teleporting and jerky stops, creating a fluid feel.
+    // A higher lerp factor (0.2) makes it very responsive.
+    const newVx = lerp(State.player.vx, targetVx, 0.2);
+    const newVy = lerp(State.player.vy, targetVy, 0.2);
+    State.setPlayerVelocity(newVx, newVy);
     // ---
 
     State.updatePlayerPosition();
