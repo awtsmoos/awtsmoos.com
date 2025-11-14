@@ -56,7 +56,7 @@ function addImageGallery(images, parent) {
 		
 		images.forEach(image => {
 		    const img = document.createElement("img");
-		    img.src = image.medium || image.img;
+		    img.src = image.medium || image.img || image;
 		    img.alt = "Comment Image";
 		    img.dataset.fullImageUrl = image.img || "";
 		    img.onclick = () => openImageViewer(img.dataset.fullImageUrl);
@@ -115,6 +115,10 @@ async function makeHTMLFromComment({
 	}
 	if(comment?.content?.title) {
 		comment.dayuh.title = comment?.content?.title;
+		comment.content = comment.content.text;
+		
+	}
+	if(Array.isArray(comment?.content?.text)) {
 		comment.content = comment.content.text;
 	}
 	if(comment?.dayuh?.title) {
