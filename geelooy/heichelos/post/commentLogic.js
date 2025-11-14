@@ -1506,5 +1506,6 @@ async function init({
 }
 export {
 	init,
-	loadRootComments
+	loadRootComments,
+	indexSwitch
 }
