@@ -1012,45 +1012,46 @@ async function updateCommentHeader() {
 		+ (curVerseDisplay)
 	)
 }
+// B"H - REVISED FUNCTION
 async function indexSwitch() {
-	console.log( "LOL")
-	var idxNum = getIdx();
-	currentVerse = idxNum;
-	if(!currentVerse && idxNum !== 0) {
-		currentVerse = "root"
-		
-	}
-	
-    // B"H - NEW: Clear all existing inline comments before adding new ones
-    document.querySelectorAll(".commentator.inline").forEach(el => el.remove());
-    inlineComments = {}; // Clear the tracking object as well
+    var idxNum = getIdx();
+    var newVerse = (idxNum === null) ? "root" : idxNum;
 
-	var al = getInlineAliases()
-	var subSec = getSubIdx();
-	for(var alias of al) {
-		var comments = await getCommentsOfAlias({
-			seriesId: window?.post?.parentSeriesId,
-			postId: post.id,
-			heichelId: post.heichel.id,
-			aliasId: alias,
-			fromCache: true,
-			get: {
-				verseSection: currentVerse,
-				map: true,
-			}
-		})
-		addCommentsInline(comments, alias)
-	}
-	if(curTab) {
-		if(curTab == "root" ) {
-			reloadRoot();
-			
-			await updateCommentHeader();
-			return;
-		}
-		
-		curTab?.awtsRefresh?.();	
-	}
+    // Only proceed if the verse has actually changed
+    if (currentVerse === newVerse) return;
+    currentVerse = newVerse;
+
+    // Clear all existing inline comments before adding new ones
+    document.querySelectorAll(".commentator.inline").forEach(el => el.remove());
+    inlineComments = {}; // Clear the tracking object
+
+    var al = getInlineAliases();
+    var subSec = getSubIdx();
+    for (var alias of al) {
+        var comments = await getCommentsOfAlias({
+            seriesId: window?.post?.parentSeriesId,
+            postId: post.id,
+            heichelId: post.heichel.id,
+            aliasId: alias,
+            fromCache: false, // Use fresh data during navigation
+            get: {
+                verseSection: currentVerse,
+                map: true,
+            }
+        });
+        addCommentsInline(comments, alias);
+    }
+
+    // If the comment panel is open, refresh it
+    if (curTab) {
+        // B"H - FIX: Explicitly reload the root comment list when scrolling back to root
+        if (curTab === "root" || newVerse === "root") {
+            await reloadRoot();
+        } else {
+            curTab?.awtsRefresh?.();
+        }
+        await updateCommentHeader();
+    }
 }
 
 function getSubIdx() {
@@ -1109,8 +1110,13 @@ async function reloadRoot() {
 	
 }
 window.reloadRoot = reloadRoot;
-// B"H - NEW HELPER FUNCTION
-// This creates and places the container for root-level comments at the top of the post.
+
+
+
+
+// B"H
+// This creates and places the container for root-level comments right after the post title.
+
 function createAndPlaceRootCommentHolder(alias) {
     const postContent = document.getElementById("realPost");
     if (!postContent) return null;
@@ -1118,11 +1124,10 @@ function createAndPlaceRootCommentHolder(alias) {
     // Check if a holder for this alias already exists at the root level
     let inlineHolder = postContent.querySelector(".commentator.inline.root-comments-holder[data-alias='" + alias + "']");
     if (inlineHolder) {
-        // It exists, so just return the inner container for appending new comments
         return inlineHolder.querySelector(".comments-holder-inline");
     }
 
-    // It doesn't exist, so we create it from scratch
+    // Create the entire holder from scratch
     inlineHolder = document.createElement("div");
     inlineHolder.className = "commentator inline root-comments-holder";
     inlineHolder.dataset.alias = alias;
@@ -1142,19 +1147,26 @@ function createAndPlaceRootCommentHolder(alias) {
     commentHolder.classList.add("comments-holder-inline");
     inlineHolder.appendChild(commentHolder);
 
-    // --- This is the crucial placement logic ---
-    const firstSection = postContent.querySelector(".section");
-    if (firstSection) {
-        // Insert the new holder BEFORE the first numbered section
-        postContent.insertBefore(inlineHolder, firstSection);
+    // --- CRUCIAL PLACEMENT LOGIC ---
+    // Use the reliable ".post-title" as the anchor for insertion.
+    const postTitle = postContent.querySelector(".post-title");
+    if (postTitle && postTitle.nextSibling) {
+        // Insert the holder after the title, before the next element.
+        postTitle.parentNode.insertBefore(inlineHolder, postTitle.nextSibling);
+    } else if (postTitle) {
+        // If title is the last element, just append to its parent.
+        postTitle.parentNode.appendChild(inlineHolder);
     } else {
-        // If there are no sections, just append it (as a fallback)
-        postContent.appendChild(inlineHolder);
+        // Fallback: If no title, prepend to the very beginning of the post content.
+        postContent.prepend(inlineHolder);
     }
 
-    // Return the inner container where comments will be placed
     return commentHolder;
 }
+
+
+
+
 function getPostId(currentVerse) {
 	var sectionInfo = window?.sectionData[currentVerse];
 	var commentPost = post.id;

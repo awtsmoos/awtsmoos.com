@@ -34,7 +34,7 @@ import {
 
 import {
 	loadRootComments,
-	init
+	init, indexSwitch 
 } from "/heichelos/post/commentLogic.js"
 
 import AIServiceHandler from "/ai/aiService.js";
@@ -330,6 +330,8 @@ try {
 		);
 			
 	})();
+	
+	 await indexSwitch();
 } catch (e) {
 	realPost.innerHTML =
 		"Problem loading! Check console (CTRL+SHIFT+I)"
