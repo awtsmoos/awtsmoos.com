@@ -684,26 +684,19 @@ async function showAllComments({
 
 var inlineComments = {}//arrays by alias
 
+// B"H - REVISED FUNCTION
 function addCommentsInline(comments, alias) {
     console.log("adding inline comments", comments, alias);
 
-    // B"H - NEW: Handle "root" comments separately
+    // Handle "root" comments using the new dedicated function
     const rootComments = comments.filter(c => c?.dayuh?.verseSection === "root");
     if (rootComments.length > 0) {
-        const postContent = document.getElementById("realPost");
-        if (postContent) {
-            let rootCommentHolder = postContent.querySelector(".root-comments-holder[data-alias='" + alias + "']");
-            if (!rootCommentHolder) {
-                // Use makeInlineCommentHolder and prepend it to the post
-                rootCommentHolder = makeInlineCommentHolder(alias, postContent);
-                rootCommentHolder.classList.add("root-comments-holder"); // for easy selection
-                postContent.prepend(rootCommentHolder);
-            }
-
+        const rootCommentHolder = createAndPlaceRootCommentHolder(alias);
+        if (rootCommentHolder) {
             rootComments.forEach(c => {
                 if (!inlineComments[alias]) inlineComments[alias] = [];
-                const ind = inlineComments[alias].find(w => w.id == c.id);
-                if (!ind) {
+                // Ensure we don't add duplicate comments
+                if (!inlineComments[alias].find(w => w.id == c.id)) {
                     inlineComments[alias].push(c);
                     const incom = makeInlineComment(alias, c);
                     rootCommentHolder.appendChild(incom);
@@ -712,7 +705,7 @@ function addCommentsInline(comments, alias) {
         }
     }
 
-    // Existing logic for numbered sections
+    // Existing logic for numbered sections (no changes needed here)
     var sections = Array.from(document.querySelectorAll(".section"));
     sections.forEach(w => {
         var idx = w.dataset.idx;
@@ -721,7 +714,6 @@ function addCommentsInline(comments, alias) {
         ));
 
         if (!com?.length) return;
-
         var commentHolder = null;
         var subSecs = {};
         var inlineCommentHolder = null;
@@ -734,7 +726,6 @@ function addCommentsInline(comments, alias) {
             if (!ind) {
                 inlineComments[alias].push(c);
                 var incom = makeInlineComment(alias, c);
-
                 var sub = ((c?.dayuh?.subSectionIndex));
 
                 if (sub || sub === 0) {
@@ -762,16 +753,15 @@ function addCommentsInline(comments, alias) {
                     }
                     commentHolder.appendChild(incom);
                 }
-            } else {
-                console.log("Found already", com, ind, c);
             }
         });
     });
 
+    // Update URL parameter (no changes needed here)
     var p = getInlineAliases();
     var ali = p.indexOf(alias);
     if (ali < 0) {
-        p.push(alias);
+      p.push(alias);
     }
     if (p.length) {
         updateQueryStringParameter("inline", JSON.stringify(p));
@@ -1119,7 +1109,52 @@ async function reloadRoot() {
 	
 }
 window.reloadRoot = reloadRoot;
+// B"H - NEW HELPER FUNCTION
+// This creates and places the container for root-level comments at the top of the post.
+function createAndPlaceRootCommentHolder(alias) {
+    const postContent = document.getElementById("realPost");
+    if (!postContent) return null;
 
+    // Check if a holder for this alias already exists at the root level
+    let inlineHolder = postContent.querySelector(".commentator.inline.root-comments-holder[data-alias='" + alias + "']");
+    if (inlineHolder) {
+        // It exists, so just return the inner container for appending new comments
+        return inlineHolder.querySelector(".comments-holder-inline");
+    }
+
+    // It doesn't exist, so we create it from scratch
+    inlineHolder = document.createElement("div");
+    inlineHolder.className = "commentator inline root-comments-holder";
+    inlineHolder.dataset.alias = alias;
+
+    var inHeader = document.createElement("div");
+    inHeader.classList.add("alias-name");
+    var a = document.createElement("a");
+    a.href = "/@" + alias;
+    if (!isFirstCharacterHebrew(alias)) {
+        inHeader.classList.add("en");
+    }
+    a.textContent = "@" + alias;
+    inHeader.appendChild(a);
+    inlineHolder.appendChild(inHeader);
+
+    var commentHolder = document.createElement("div");
+    commentHolder.classList.add("comments-holder-inline");
+    inlineHolder.appendChild(commentHolder);
+
+    // --- This is the crucial placement logic ---
+    const firstSection = postContent.querySelector(".section");
+    if (firstSection) {
+        // Insert the new holder BEFORE the first numbered section
+        postContent.insertBefore(inlineHolder, firstSection);
+    } else {
+        // If there are no sections, just append it (as a fallback)
+        postContent.appendChild(inlineHolder);
+    }
+
+    // Return the inner container where comments will be placed
+    return commentHolder;
+}
 function getPostId(currentVerse) {
 	var sectionInfo = window?.sectionData[currentVerse];
 	var commentPost = post.id;
