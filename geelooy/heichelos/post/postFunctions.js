@@ -743,6 +743,7 @@ async function interpretPostDayuh(post) {
             sectionId++;
 
         }
+        initializeFootnotes()
     }
 }
 
@@ -1231,6 +1232,78 @@ function removeAwtsmoosPage(arr) {
     }
     return arr;
 }
+
+/**
+ * @method createFootnoteOverlay
+ * @description Creates and displays an overlay with the provided footnote content.
+ * @param {string} content - The HTML content of the footnote.
+ */
+function createFootnoteOverlay(content) {
+    // Remove any existing overlay first
+    const existingOverlay = document.getElementById('footnote-overlay');
+    if (existingOverlay) {
+        existingOverlay.remove();
+    }
+
+    // Create the overlay container
+    const overlay = document.createElement('div');
+    overlay.id = 'footnote-overlay';
+    
+
+    // Create the content box
+    const contentBox = document.createElement('div');
+    contentBox.className = "awtsmoosFootnote";
+    
+    contentBox.innerHTML = content;
+
+    // Close overlay when clicking the background, but not the box itself
+    overlay.addEventListener('click', () => {
+        overlay.remove();
+    });
+    contentBox.addEventListener('click', (e) => {
+        e.stopPropagation();
+    });
+
+    overlay.appendChild(contentBox);
+    document.body.appendChild(overlay);
+}
+
+
+/**
+ * @method initializeFootnotes
+ * @description Checks for footnotes in the post meta and sets up click events for <sup> tags.
+ */
+function initializeFootnotes() {
+    const footnotes = window.post?.dayuh?.meta?.footnotes;
+
+    // Check if footnotes exist and is an array
+    if (!footnotes || !Array.isArray(footnotes)) {
+        return;
+    }
+
+    // Find all <sup> elements within the main post content area
+    const supElements = document.querySelectorAll('#realPost sup');
+
+    supElements.forEach(sup => {
+        sup.style.cursor = 'pointer'; // Make it look clickable
+        sup.title = 'View footnote'; // Add a tooltip
+
+        sup.addEventListener('click', (event) => {
+            event.stopPropagation(); // Prevent other click events from firing
+
+            const footnoteId = sup.innerText.trim();
+            const matchingFootnote = footnotes.find(f => String(f.id) === String(footnoteId));
+
+            if (matchingFootnote) {
+                createFootnoteOverlay(matchingFootnote.content);
+            } else {
+                console.warn(`Footnote with ID "${footnoteId}" not found.`);
+            }
+        });
+    });
+}
+
+
 export {getLinkHrefOfEditing, makeNavBars, addTab,
 appendHTML,
 makeInfoHTML, loadFontSize, adjustFontSize, startHighlighting, updateQueryStringParameter, interpretPostDayuh, scrollToActiveEl, isFirstCharacterHebrew

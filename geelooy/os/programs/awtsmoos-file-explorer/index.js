@@ -413,8 +413,40 @@ async function syncSidebarToPath(path) {
         const menuButtons = createElement({
             tag: 'div', attributes: { class: 'menu-buttons' },
             children: [
-                { tag: "button", html: "New File", on: { click: () => showInputDialog({ title: 'Enter New File Name', callback: async (name) => { await os.createFile({ path: state.currentPath, title: name }); await renderFiles(state.currentPath, body); }})}},
-                { tag: "button", html: "New Folder", on: { 
+                { tag: "button", html: "New File", on: {
+	                click: () => 
+	                showInputDialog({
+	                title: 'Enter New File Name', 
+	                callback: async (name) => { 
+		                var extO = name.lastIndexOf(".")
+		                var ext = ""
+		                if(extO > 0) {
+			                ext = name.substring(extO)
+		                }
+		                var defCont = 'B"H\nContent of ' + name;
+		                if(ext == ".html") {
+			                defCont = 
+			                "<!--B\"H-->\n"+
+			                "<!DOCTYPE html>\n"+
+			                "<html>\n\t<head>\n\t"+
+			                "<meta charset=\"utf-8\">\n"+
+			                "\t</head>\n\t" + 
+			                "<body>\n\t\n\t\t\n\t\n\t" +
+			                "</body>\n</html>";
+		                } else if(
+			                true
+			                //extO == ".js"
+			         ) {
+			                defCont = "/*\n" + defCont + "\n*/";
+		                }
+		                await os.createFile({ 
+		                path: state.currentPath, 
+		                title: name,
+		                content:defCont
+	                });
+	                await renderFiles(state.currentPath, body);
+	         }})}},
+                { tag: "button", html: "New Folder?", on: { 
                     click: () => showInputDialog({ title: 'Enter New Folder Name', callback: async (name) => { 
                         await os.createFolder({ path: state.currentPath, title: name }); 
                         

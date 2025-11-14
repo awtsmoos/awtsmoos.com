@@ -353,7 +353,8 @@ async function getGeminiResponse(chat, apiKey, {
     "generationConfig": {
       temperature,   // LOW temperature. Forces focus and reduces hallucinations. The most important setting.
       topP,           // Standard value.
-      topK             // Standard value.
+      topK,             // Standard value.
+       "maxOutputTokens": 65536
     }
   };
   try {

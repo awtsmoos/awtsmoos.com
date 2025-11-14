@@ -87,6 +87,7 @@ export default class AwtsmoosOS {
     }
 
     async createFile({path, title, content=""}) {
+	console.log("writing FILE",path);
         await this.db.Koysayv(path, title, content);
         await this.showFilesAtPath({
             path
@@ -443,7 +444,7 @@ function makeDraggable(selector) {
 
 function sortFoldersFirst(arr) {
     // Separate strings ending in '.folder'
-    console.log(window.arr=arr,"searching")
+    //console.log(window.arr=arr,"searching")
     const folders = arr.filter(item => item.endsWith('.folder')).sort();
     
     // Get the remaining strings in their original order

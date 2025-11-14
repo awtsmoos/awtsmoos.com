@@ -49,31 +49,28 @@ export const Tabs = {
         this.activate(consoleTab.id);
     },
 
-    // In tabs.js, replace the 'create' method
-create(item, isNewFile = false, shouldSave = true) {
-    const uniquePath = this.getUniquePath(item);
-    const existingTab = State.tabs.find(t => t.uniquePath === uniquePath);
-    if (existingTab) {
-        this.activate(existingTab.id);
-        return;
-    }
-    const newTab = {
-        id: State.nextTabId++,
-        item,
-        // --- THIS IS THE KEY CHANGE ---
-        // If content is passed in the item (from postMessage), use it.
-        // Otherwise, set it to null to be loaded from the file system.
-        content: item.content !== undefined ? item.content : (isNewFile ? '' : null),
-        isDirty: isNewFile || item.content !== undefined,
-        // --- END CHANGE ---
-        uniquePath,
-        scrollPos: 0,
-        fileType: MimeUtil.getInfo(item.name).type,
-    };
-    State.tabs.push(newTab);
-    if (shouldSave) App.saveSession();
-    this.activate(newTab.id);
-},
+    
+    
+    async create(item, isNewFile = false, shouldSave = true) {
+	    const uniquePath = this.getUniquePath(item);
+	    const existingTab = State.tabs.find(t => t.uniquePath === uniquePath);
+	    if (existingTab) {
+	        await this.activate(existingTab.id);
+	        return;
+	    }
+	    const newTab = {
+	        id: State.nextTabId++,
+	        item,
+	        content: item.content !== undefined ? item.content : (isNewFile ? '' : null),
+	        isDirty: isNewFile || item.content !== undefined,
+	        uniquePath,
+	        scrollPos: 0,
+	        fileType: MimeUtil.getInfo(item.name).type,
+	    };
+	    State.tabs.push(newTab);
+	    if (shouldSave) App.saveSession();
+	    await this.activate(newTab.id); 
+	},
 
     createPreview(originalItem, content) {
         const uniquePath = `preview::${this.getUniquePath(originalItem)}`;
@@ -146,7 +143,10 @@ async activate(tabId, forceViewChange = false) {
     const tab = State.tabs.find(t => t.id === tabId);
 
     if (!tab) {
-        UI.switchView('empty'); StatusBar.clear(); this.render(); App.saveSession(); return;
+        UI.switchView('empty');
+         StatusBar.clear();
+          this.render();
+          App.saveSession(); return;
     }
 
     // --- Step 2: Load File Content if Necessary ---
@@ -196,7 +196,7 @@ async activate(tabId, forceViewChange = false) {
         } catch (e) {
             UI.showToast("JSON is malformed; cannot perform transmutation.", "error", 5000);
             tab.isAltarView = false; // Ritual failed, revert the state
-            Editor.showTextEditor(tab.content || '', tab.item.name, tab.scrollPos || 0);
+            await Editor.showTextEditor(tab.content || '', tab.item.name, tab.scrollPos || 0);
         }
     } else if (tab.isHexView) {
         UI.switchView('hex');
@@ -211,7 +211,7 @@ async activate(tabId, forceViewChange = false) {
         DataAltar.demanifest(); // Explicitly hide the altar
         const fileInfo = { type: tab.fileType, name: tab.item.name };
         if (tab.fileType === 'text') {
-            Editor.showTextEditor(tab.content || '', tab.item.name, tab.scrollPos || 0);
+            await Editor.showTextEditor(tab.content || '', tab.item.name, tab.scrollPos || 0);
         } else {
             Editor.showPreviewer(tab.rawContent, fileInfo, tab.id);
         }

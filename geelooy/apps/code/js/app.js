@@ -97,21 +97,23 @@ activeConsole: null, // B"H
 	const isPostMessageProto = new URLSearchParams(window.location.search).get('env') === 'postmessage';
 	
 	if (isPostMessageProto) {
-	    const appContainer = document.querySelector('.app-container');
-	    const sidebarCollapseBtn = document.getElementById('sidebar-collapse-btn');
-	    const resizer = document.getElementById('sidebar-resizer');
-	
-	    // 1. Force the sidebar to be collapsed.
-	    if (appContainer) {
-	        appContainer.classList.add('sidebar-collapsed');
-	    }
-	
-	    // 2. Hide the buttons that expand it.
-	    if (sidebarCollapseBtn) sidebarCollapseBtn.style.display = 'none';
-	    if (DOM.mobileSidebarToggle) DOM.mobileSidebarToggle.style.display = 'none'; // Hides the mobile button too.
-	
-	    // 3. Hide the resizer to prevent manual expansion.
-	    if (resizer) resizer.style.display = 'none';
+	    setTimeout(() => {const appContainer = document.querySelector('.app-container');
+		    const sidebarCollapseBtn = document.getElementById('sidebar-collapse-btn');
+		    const resizer = document.getElementById('sidebar-resizer');
+		
+		    // 1. Force the sidebar to be collapsed.
+		    if (appContainer) {
+		        appContainer.classList.add('sidebar-collapsed');
+		    }
+		
+		    // 2. Hide the buttons that expand it.
+		    if (sidebarCollapseBtn) sidebarCollapseBtn.style.display = 'none';
+		    if (DOM.mobileSidebarToggle) DOM.mobileSidebarToggle.style.display = 'none'; // Hides the mobile button too.
+		
+		    // 3. Hide the resizer to prevent manual expansion.
+		    if (resizer) resizer.style.display = 'none';
+		    console.log("DID?")
+	    }, 1000)
 	}    
         UI.showLoading("Awtsmoos Editor Initializing...");
         
@@ -150,7 +152,7 @@ activeConsole: null, // B"H
         State.hexEditorInstance = new HexEditor(DOM.hexEditorWrapper, DOM.hexNavPad);
         
         UI.hideLoading();
-        UI.showToast("Welcome to VIVID X // Profound Edition", 'success');
+        UI.showToast("Welcome the Awtsmoos Code Editor", 'success');
     },
 
     saveSettings: () => {
@@ -167,7 +169,7 @@ activeConsole: null, // B"H
     },
 
 setupEventListeners() {
-    window.addEventListener('message', (event) => {
+    window.addEventListener('message', async (event) => {
         const { type, payload, requestId, error } = event.data;
         if (State.postMessagePendingRequests.has(requestId)) {
             const { resolve, reject } = State.postMessagePendingRequests.get(requestId);
@@ -175,15 +177,44 @@ setupEventListeners() {
             if (error) { reject(new Error(error)); } else { resolve(payload); }
             return;
         }
-        if (type === 'loadFile') {
-            const { fileName, content, saveContext } = payload;
-            const externalWorkspace = { name: `OS File`, type: 'postmessage' };
-            Workspaces.add(externalWorkspace, false);
-            const wsId = State.workspaces[State.workspaces.length - 1].id;
-            const fileItem = { name: fileName, path: fileName, kind: 'file', type: 'postmessage', workspaceId: wsId, saveContext, content };
-            Tabs.create(fileItem, false, false);
-            return;
-        }
+	if (type === 'loadFile') {
+    //--- START of added code ---
+
+    // 1. UI Modifications: Collapse sidebar and hide controls.
+    // This is done every time a file is loaded in this mode to ensure the state.
+    const appContainer = document.querySelector('.app-container');
+    const sidebarCollapseBtn = document.getElementById('sidebar-collapse-btn');
+    const resizer = document.getElementById('sidebar-resizer');
+    var tb = document?.querySelector(".tab-bar");
+    if(tb) tb.style.display = "none";
+    if (appContainer) appContainer.classList.add('sidebar-collapsed');
+    if (sidebarCollapseBtn) sidebarCollapseBtn.style.display = 'none';
+    if (DOM.mobileSidebarToggle) DOM.mobileSidebarToggle.style.display = 'none';
+    if (resizer) resizer.style.display = 'none';
+    //if (DOM.tabBar) DOM.tabBar.style.display = 'none';
+
+    // 2. State Reset: Clear previous state to ensure only the new file is shown.
+    
+    // --- END of added code ---
+
+
+    // --- THIS IS THE ORIGINAL, UNTOUCHED, WORKING LOGIC ---
+    const { fileName, content, saveContext } = payload;
+    const externalWorkspace = { name: `OS File`, type: 'postmessage' };
+    Workspaces.add(externalWorkspace, false);
+    const wsId = State.workspaces[State.workspaces.length - 1].id;
+    const fileItem = { name: fileName, path: fileName, kind: 'file', type: 'postmessage', workspaceId: wsId, saveContext, content };
+    
+    
+	   await Tabs.create(fileItem, false, false);  
+	   const newTab = State.tabs[State.tabs.length - 1];
+    if (newTab) {
+        // Forcefully activate it to ensure the editor view updates.
+        Tabs.activate(newTab.id);
+    }
+
+    return;
+}
         if (type === 'loadFolderAsWorkspace') {
             const { folderName, folderPath } = payload;
             State.workspaces = [];

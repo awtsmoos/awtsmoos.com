@@ -121,8 +121,9 @@ export default ({ os, system, fileName, content, path }) => {
                                 system.makeToast("Not logged in with an alias!");
                                 break;
                             }
-                           // const { osPath, osFileName } = context;
-                            const fullPath = context//`${osPath}/${osFileName}`;
+                            const { osPath, osFileName } = context;
+                           console.log(context)
+                            const fullPath = `${osPath}/${osFileName}`;
                             const publicUrl = `${location.origin}/api/social/aliases/${curAlias}/fileSystem/readFile?${new URLSearchParams({ path: fullPath })}`;
     
                             if (action === 'copy-public-url') {

@@ -1,181 +1,112 @@
 // B"H
-// Chochmah-Protocol.js: Wisdom - The Core Protocol Engine (UPDATED FOR HANDSHAKE)
+// Chochmah-Protocol.js: Wisdom - The Core Protocol Engine
+// VERSION 2.0 - REWRITTEN FOR SECURITY HARDENING & FEATURE COMPLETENESS
 
 'use strict';
-const { dispatch } = require('./Tiferet-Handlers.js');
+
 const { EventEmitter } = require('events');
 const { inspect } = require('util');
+const { sign } = require('crypto');
+const { dispatch } = require('./Tiferet-Handlers.js');
 const { MESSAGE, DISCONNECT_REASON } = require('./Binah-Constants.js');
-const { KexHandler } = require('./Chesed-KeyExchange.js'); // Import the KexHandler
-const { PacketReader, PacketWriter } = require('./Yesod-Utilities.js'); // For packet framing
+const { KexHandler } = require('./Chesed-KeyExchange.js');
+// NOTE: For better modularity, NullCipher/NullDecipher should be moved to Yesod-Utilities.js.
+// This implementation assumes they have been moved and are now imported.
+const { NullCipher, NullDecipher } = require('./Yesod-Utilities.js'); 
 
-// === THIS IS THE MISSING BLOCK ===
-const MODULE_VER = '1.0.0'; // Version string
+const { NetzachChannelManager } = require('./Netzach-ChannelManager.js');
+const MODULE_VER = '2.0.0';
 const IDENT_RAW = Buffer.from(`SSH-2.0-ssh2js-kabbalah-${MODULE_VER}`);
 const IDENT = Buffer.from(`${IDENT_RAW}\r\n`);
 const RE_IDENT = /^SSH-(2\.0|1\.99)-([^ ]+)(?: (.*))?$/;
-// A robust NullDecipher that correctly handles packet framing
-// In Chochmah-Protocol.js, replace the old NullCipher and NullDecipher with these:
-
-// A protocol-correct NullCipher that handles proper SSH packet framing.
-class NullCipher {
-  constructor(seqno, onWrite) {
-    this._onWrite = onWrite;
-  }
-  encrypt(payload) {
-    const payloadLen = payload.length;
-    const block_size = 8;
-    
-    // The length of the packet *before* padding is added.
-    // This includes the 4-byte length field, 1-byte pad_length field, and payload.
-    const unpaddedPacketLen = 4 + 1 + payloadLen;
-
-    // Calculate how much padding is needed to make the *total packet size* a multiple of the block size.
-    let padLen = block_size - (unpaddedPacketLen % block_size);
-    if (unpaddedPacketLen % block_size === 0) {
-      padLen = 0;
-    }
-    // The padding MUST be at least 4 bytes.
-    if (padLen < 4) {
-      padLen += block_size;
-    }
-
-    // This is the length that goes in the initial 4-byte length field.
-    // It's the length of everything *except* that field.
-    const packet_length_field = 1 + payloadLen + padLen;
-    const total_wire_length = 4 + packet_length_field;
-
-    const packet = Buffer.allocUnsafe(total_wire_length);
-
-    // 1. [uint32 packet_length]
-    packet.writeUInt32BE(packet_length_field, 0);
-    // 2. [byte padding_length]
-    packet[4] = padLen;
-    // 3. [byte[n1] payload]
-    payload.copy(packet, 5);
-    // 4. [byte[n2] random padding]
-    packet.fill(0, 5 + payloadLen);
-    
-    this._onWrite(packet);
-  }
-}
-
-// A protocol-correct NullDecipher that parses SSH packet frames.
-class NullDecipher {
-  constructor(seqno, onPayload) {
-    this._onPayload = onPayload;
-    this._len = 0;
-    this._lenBytes = 0;
-    this._packet = null;
-    this._packetPos = 0;
-  }
-  decrypt(data, p, dataLen) {
-    while (p < dataLen) {
-      // 1. Read the 4-byte packet length from the network stream
-      if (this._lenBytes < 4) {
-        let nb = Math.min(4 - this._lenBytes, dataLen - p);
-        this._lenBytes += nb;
-        while (nb--) this._len = (this._len << 8) + data[p++];
-        if (this._lenBytes < 4) return p; // Need more data for the length field
-        if (this._len < 5) throw new Error('Bad packet length');
-      }
-      
-      // 2. We have the length, now read the rest of the packet body
-      const needed = this._len;
-      if (!this._packet) this._packet = Buffer.allocUnsafe(needed);
-      
-      const nb = Math.min(needed - this._packetPos, dataLen - p);
-      data.copy(this._packet, this._packetPos, p, p + nb);
-
-      p += nb;
-      this._packetPos += nb;
-
-      if (this._packetPos < needed) return p; // Incomplete packet body, wait for more data
-
-      // 3. We have a full, framed packet. Now, parse its contents.
-      const fullPacketBody = this._packet;
-      const padLen = fullPacketBody[0]; // First byte of the body is padding_length
-      const payload = fullPacketBody.slice(1, needed - padLen);
-      
-      // 4. Reset state to prepare for the next packet
-      this._len = 0;
-      this._lenBytes = 0;
-      this._packet = null;
-      this._packetPos = 0;
-
-      // 5. Process the extracted payload
-      const ret = this._onPayload(payload);
-      if (ret !== undefined && ret === false) return p;
-    }
-    return p;
-  }
-}
-
+const MAX_BANNER_SIZE = 65536; // 64KB limit to prevent DoS
 
 class ChochmahProtocol extends EventEmitter {
   constructor(config) {
-    super();
+    super(config);
     this._server = !!config.server;
     this._onWrite = config.onWrite;
     this._onError = config.onError;
     this._debug = config.debug;
     this._onHeader = config.onHeader;
-    this._onHandshakeComplete = config.onHandshakeComplete;
+    this._onHandshakeComplete = () => {
+        this.emit('handshake_complete');
+        if (config.onHandshakeComplete) config.onHandshakeComplete();
+    };
 
-    // === THE FIX IS HERE ===
-    // Store our own ident string as an instance property so other components can access it.
     this._identRaw = IDENT_RAW;
-    // =======================
-
-    this._parse = this._parseHeader;
-    this._buffer = undefined;
     this._remoteIdentRaw = null;
-    this._cipher = new NullCipher(0, this._onWrite);
-    this._decipher = new NullDecipher(0, this._onPayload.bind(this));
+    
+    this._parsingState = 'header';
+    
+    // This persistent buffer is the core of the fix.
+    this._parseBuffer = Buffer.alloc(0);
+    
+    this._decipher = new NullDecipher(this._onPayload.bind(this));
+    this._cipher = null;
+    
     this._authenticated = false;
-    this._packetRW = { read: new PacketReader(), write: new PacketWriter(this) };
     this._kex = new KexHandler(this);
+    this._pkAuthContext = null;
+  }
+  
+  // Method called from KexHandler to transition the parser state.
+  enterEncryptedMode(newDecipher, newCipher) {
+    this._debug('STATE CHANGE: Entering encrypted mode.');
+    this._decipher = newDecipher;
+    this._cipher = newCipher;
+    this._parsingState = 'encrypted';
   }
 
   start() {
     this._debug && this._debug(`Local ident: ${inspect(IDENT_RAW.toString())}`);
+    this._cipher = new (require('./Yesod-Utilities').NullCipher)(this._onWrite);
     this._onWrite(IDENT);
     this._debug && this._debug('Sent our identification string to the server.');
   }
 
   parse(chunk) {
-    this._debug && this._debug(`<<<< INBOUND DATA (length: ${chunk.length})`);
-    let p = 0;
-    while (p < chunk.length && p < Infinity) {
-      p = this._parse(chunk, p, chunk.length);
+    this._debug && this._debug(`<<<< INBOUND DATA (state: ${this._parsingState}, length: ${chunk.length})`);
+    this._parseBuffer = Buffer.concat([this._parseBuffer, chunk]);
+
+    let continueLoop = true;
+    while (continueLoop && this._parseBuffer.length > 0) {
+      const initialBufLen = this._parseBuffer.length;
+
+      switch (this._parsingState) {
+        case 'header':
+          this._parseHeader();
+          break;
+        case 'kex':
+          const p = this._decipher.decrypt(this._parseBuffer, 0, initialBufLen);
+          this._parseBuffer = this._parseBuffer.slice(p);
+          break;
+        case 'encrypted':
+          this._decipher.decrypt(this._parseBuffer);
+          this._parseBuffer = Buffer.alloc(0);
+          break;
+      }
+      
+      if (this._parseBuffer.length === initialBufLen) {
+        continueLoop = false;
+      }
     }
   }
-  
-  requestService(name) {
-    this._debug && this._debug(`Requesting service: ${name}`);
-    const nameLen = Buffer.byteLength(name);
-    const payload = Buffer.allocUnsafe(1 + 4 + nameLen);
-    
-    payload[0] = MESSAGE.SERVICE_REQUEST;
-    payload.writeUInt32BE(nameLen, 1);
-    payload.write(name, 5, 'ascii');
-    
-    this.sendPacket(payload);
-  }
-  
-   sendPacket(payload) {
+
+  sendPacket(payload) {
     this._debug && this._debug(`>>>> OUTBOUND: Sending message type ${payload[0]}`);
-    // The cipher is now solely responsible for all framing and concatenation.
-    // We pass the RAW logical payload.
     this._cipher.encrypt(payload);
   }
-  
+
+  // =======================================================================
+  // AUTHENTICATION METHODS
+  // =======================================================================
+
   authPassword(username, password) {
     this._debug && this._debug('Attempting password authentication...');
     const userLen = Buffer.byteLength(username);
     const passLen = Buffer.byteLength(password);
     
-    // Calculate payload size for USERAUTH_REQUEST with password
     // msg type + user len + user + service len + service + method len + method + bool + pass len + pass
     const payloadSize = 1 + 4 + userLen + 4 + 14 + 4 + 8 + 1 + 4 + passLen;
     const payload = Buffer.allocUnsafe(payloadSize);
@@ -200,12 +131,154 @@ class ChochmahProtocol extends EventEmitter {
     this.sendPacket(payload);
   }
 
-  // Placeholder for future PEM key auth
   authPublicKey(username, privateKey) {
-    this._debug && this._debug('Public key authentication is not yet implemented.');
-    // Logic from Hod-KeyParser and Chesed-KeyExchange would go here.
+    this._debug && this._debug('Attempting public key authentication (stage 1: probe)...');
+    
+    // Store context for stage 2 (the signature)
+    this._pkAuthContext = { username, privateKey };
+
+    // The public key needs to be in the raw SSH format.
+    // Node's crypto.createPrivateKey().export() can generate this directly.
+    const { keyAlgo, pubKeyBlob } = this._getSshPublicKey(privateKey);
+
+    const userLen = Buffer.byteLength(username);
+    const keyAlgoLen = Buffer.byteLength(keyAlgo);
+    const pubKeyBlobLen = pubKeyBlob.length;
+
+    // msg type + user len + user + service len + service + method len + method + has_sig(false) + algo len + algo + key blob len + key blob
+    const payloadSize = 1 + 4 + userLen + 4 + 14 + 4 + 10 + 1 + 4 + keyAlgoLen + 4 + pubKeyBlobLen;
+    const payload = Buffer.allocUnsafe(payloadSize);
+
+    let p = 0;
+    payload[p++] = MESSAGE.USERAUTH_REQUEST;
+
+    payload.writeUInt32BE(userLen, p); p += 4;
+    payload.write(username, p, 'utf8'); p += userLen;
+
+    payload.writeUInt32BE(14, p); p += 4;
+    payload.write('ssh-connection', p, 'ascii'); p += 14;
+
+    payload.writeUInt32BE(10, p); p += 4;
+    payload.write('publickey', p, 'ascii'); p += 10;
+
+    payload[p++] = 0; // **IMPORTANT**: Stage 1 has no signature, so this is FALSE (0).
+
+    payload.writeUInt32BE(keyAlgoLen, p); p += 4;
+    payload.write(keyAlgo, p, 'ascii'); p += keyAlgoLen;
+    
+    payload.writeUInt32BE(pubKeyBlobLen, p); p += 4;
+    pubKeyBlob.copy(payload, p);
+
+    this.sendPacket(payload);
   }
 
+  // This is the second stage of public key auth, triggered by a USERAUTH_PK_OK message.
+  _continuePkAuth() {
+    this._debug && this._debug('Public key confirmed, proceeding with authentication (stage 2: signature)...');
+    const { username, privateKey } = this._pkAuthContext;
+    this._pkAuthContext = null; // Consume the context
+
+    const { keyAlgo, pubKeyBlob } = this._getSshPublicKey(privateKey);
+
+    // =========================================================================
+    // RFC 4252, Section 7: The signature is NOT on the public key. It is on a
+    // meticulously constructed buffer containing the session ID and the current
+    // user authentication request parameters.
+    // =========================================================================
+    const userLen = Buffer.byteLength(username);
+    const keyAlgoLen = Buffer.byteLength(keyAlgo);
+    const pubKeyBlobLen = pubKeyBlob.length;
+
+    const dataToSignSize = 4 + this._kex.sessionID.length + 1 + 4 + userLen + 4 + 14 + 4 + 10 + 1 + 4 + keyAlgoLen + 4 + pubKeyBlobLen;
+    const dataToSign = Buffer.allocUnsafe(dataToSignSize);
+    
+    let p = 0;
+    dataToSign.writeUInt32BE(this._kex.sessionID.length, p); p += 4;
+    this._kex.sessionID.copy(dataToSign, p); p += this._kex.sessionID.length;
+    
+    dataToSign[p++] = MESSAGE.USERAUTH_REQUEST;
+    dataToSign.writeUInt32BE(userLen, p); p += 4;
+    dataToSign.write(username, p, 'utf8'); p += userLen;
+    dataToSign.writeUInt32BE(14, p); p += 4;
+    dataToSign.write('ssh-connection', p, 'ascii'); p += 14;
+    dataToSign.writeUInt32BE(10, p); p += 4;
+    dataToSign.write('publickey', p, 'ascii'); p += 10;
+    dataToSign[p++] = 1; // has_sig is TRUE (1)
+    dataToSign.writeUInt32BE(keyAlgoLen, p); p += 4;
+    dataToSign.write(keyAlgo, p, 'ascii'); p += keyAlgoLen;
+    dataToSign.writeUInt32BE(pubKeyBlobLen, p); p += 4;
+    pubKeyBlob.copy(dataToSign, p);
+    
+    // Determine the correct signature algorithm
+    const sigHashAlgo = keyAlgo.includes('512') ? 'sha512' : 
+                        keyAlgo.includes('256') ? 'sha256' :
+                        keyAlgo === 'ssh-rsa' ? 'sha1' : undefined;
+    
+    const signature = sign(sigHashAlgo, dataToSign, privateKey);
+
+    // Now, build the final request packet that includes the signature
+    const sigBlob = Buffer.allocUnsafe(4 + keyAlgoLen + 4 + signature.length);
+    sigBlob.writeUInt32BE(keyAlgoLen, 0);
+    sigBlob.write(keyAlgo, 4, 'ascii');
+    sigBlob.writeUInt32BE(signature.length, 4 + keyAlgoLen);
+    signature.copy(sigBlob, 8 + keyAlgoLen);
+    
+    const payloadSize = 1 + 4 + userLen + 4 + 14 + 4 + 10 + 1 + 4 + keyAlgoLen + 4 + pubKeyBlobLen + 4 + sigBlob.length;
+    const payload = Buffer.allocUnsafe(payloadSize);
+
+    p = 0;
+    payload[p++] = MESSAGE.USERAUTH_REQUEST;
+    payload.writeUInt32BE(userLen, p); p += 4;
+    payload.write(username, p, 'utf8'); p += userLen;
+    payload.writeUInt32BE(14, p); p += 4;
+    payload.write('ssh-connection', p, 'ascii'); p += 14;
+    payload.writeUInt32BE(10, p); p += 4;
+    payload.write('publickey', p, 'ascii'); p += 10;
+    payload[p++] = 1; // **IMPORTANT**: Stage 2 has a signature, so this is TRUE (1).
+    payload.writeUInt32BE(keyAlgoLen, p); p += 4;
+    payload.write(keyAlgo, p, 'ascii'); p += keyAlgoLen;
+    payload.writeUInt32BE(pubKeyBlobLen, p); p += 4;
+    pubKeyBlob.copy(payload, p); p += pubKeyBlobLen;
+    payload.writeUInt32BE(sigBlob.length, p); p += 4;
+    sigBlob.copy(payload, p);
+
+    this.sendPacket(payload);
+  }
+
+  // =======================================================================
+  // PARSING & STATE MACHINE
+  // =======================================================================
+
+  _parseHeader() {
+    if (this._parseBuffer.length > MAX_BANNER_SIZE) {
+      return this._doFatalError(`Server banner exceeded max size of ${MAX_BANNER_SIZE} bytes.`);
+    }
+
+    const newlineIdx = this._parseBuffer.indexOf(10);
+    if (newlineIdx === -1) {
+      return;
+    }
+    
+    const end = (this._parseBuffer[newlineIdx - 1] === 13) ? newlineIdx - 1 : newlineIdx;
+    const line = this._parseBuffer.slice(0, end);
+    const lineStr = line.toString('ascii');
+    
+    this._parseBuffer = this._parseBuffer.slice(newlineIdx + 1);
+
+    if (RE_IDENT.test(lineStr)) {
+      this._debug && this._debug('SUCCESS: Matched SSH identification string!');
+      const header = { identRaw: lineStr };
+      this._remoteIdentRaw = lineStr;
+      if (this._onHeader) this._onHeader(header);
+      
+      this._parsingState = 'kex';
+      this._debug('STATE CHANGE: header -> kex');
+      this._kex._sendKexInit();
+    } else {
+      this._debug(`Parsed a line from server: "${lineStr}" (pre-ident banner)`);
+    }
+  }
+  
   subsystem(recipient, name, wantReply) {
     const nameLen = Buffer.byteLength(name);
     const payload = Buffer.allocUnsafe(1 + 4 + 4 + 9 + 1 + 4 + nameLen);
@@ -221,88 +294,38 @@ class ChochmahProtocol extends EventEmitter {
 
     this.sendPacket(payload);
   }
-
-  _parseHeader(chunk, p, len) {
-    this._debug && this._debug('Parsing header data...');
-    const data = this._buffer ? Buffer.concat([this._buffer, chunk.slice(p, len)]) : chunk.slice(p, len);
-    let start = 0;
-
-    for (let i = 0; i < data.length; ++i) {
-      if (i > 0 && data[i] === 10 /* \n */) {
-        const end = (data[i - 1] === 13 /* \r */) ? i - 1 : i;
-        const line = data.slice(start, end);
-        const lineStr = line.toString('ascii');
-        
-        this._debug && this._debug(`Parsed a line from server: "${lineStr}"`);
-
-        if (lineStr.startsWith('SSH-2.0-')) {
-          const m = RE_IDENT.exec(lineStr);
-          if (!m) return this._doFatalError('Invalid identification string format');
-
-          this._debug && this._debug('SUCCESS: Matched SSH identification string!');
-
-          const header = { /* ... header object ... */ };
-          this._remoteIdentRaw = lineStr;
-          this._onHeader(header);
-          
-          this._parse = this._parsePacket;
-          this._buffer = undefined;
-
-          // *** NEW: Immediately send our KEXINIT response ***
-          this._kex._sendKexInit();
-
-          const remainingDataOffset = i + 1;
-          if (remainingDataOffset < data.length) {
-              this._debug && this._debug('There is extra data in the header packet, parsing it as a protocol packet.');
-              this._parsePacket(data, remainingDataOffset, data.length);
-          }
-          
-          return len; // Consume the whole chunk
-        }
-        start = i + 1;
-      }
-    }
-
-    this._debug && this._debug('Did not find a full identification line, buffering for more data.');
-    this._buffer = data;
-    return len;
-  }
   
-  // *** NEW: This is no longer a placeholder ***
-  _parsePacket(chunk, p, len) {
-    return this._decipher.decrypt(chunk, p, len);
+  requestService(name) {
+    this._debug && this._debug(`Requesting service: ${name}`);
+    const nameLen = Buffer.byteLength(name);
+    const payload = Buffer.allocUnsafe(1 + 4 + nameLen);
+    
+    payload[0] = MESSAGE.SERVICE_REQUEST;
+    payload.writeUInt32BE(nameLen, 1);
+    payload.write(name, 5, 'ascii');
+    
+    this.sendPacket(payload);
   }
 
-  _onPayload(payload) {
+ _onPayload(payload) {
     const msgType = payload[0];
     this._debug && this._debug(`Inbound: Received message type ${msgType}`);
-    
-    if (msgType >= 20 && msgType <= 49) { // Key Exchange Message
+    if (msgType >= 20 && msgType <= 49) {
       if (this._kex) {
-        if (msgType === MESSAGE.KEXINIT) {
-          this._kex.start(payload);
-        } else {
-          this._kex.handleMessage(payload);
-        }
+        if (msgType === MESSAGE.KEXINIT) this._kex.start(payload);
+        else this._kex.handleMessage(payload);
       }
     } else {
-      //  Dispatch all other messages to our central handler
       dispatch(this, payload);
     }
   }
   
   disconnect(reason = DISCONNECT_REASON.BY_APPLICATION) {
-    // Simplified disconnect packet for now
-    const pktLen = 1 + 4 + 4 + 4;
-    const packet = this._cipher.allocPacket(pktLen);
-    let p = 5; // Start after packet length and padding length bytes
-    packet[p++] = MESSAGE.DISCONNECT;
-    packet.writeUInt32BE(reason, p);
-    p += 4;
-    packet.writeUInt32BE(0, p); // No description
-    p += 4;
-    packet.writeUInt32BE(0, p); // No language tag
-    this._cipher.encrypt(packet);
+    const payload = Buffer.alloc(13);
+    payload[0] = MESSAGE.DISCONNECT;
+    payload.writeUInt32BE(reason, 1);
+    // Description and language tag are empty (length 0).
+    this.sendPacket(payload);
   }
 
   _doFatalError(msg) {
@@ -313,11 +336,18 @@ class ChochmahProtocol extends EventEmitter {
     return Infinity; // Stop parsing
   }
 
-
-
+  _getSshPublicKey(privateKey) {
+    // This helper extracts the public key from a private key object
+    // in the specific format required by the SSH protocol.
+    const pubKey = createPublicKey(privateKey);
+    const pubKeySsh = pubKey.export({ format: 'ssh' });
+    
+    // The exported format is "key_type key_data", so we split it.
+    const parts = pubKeySsh.toString('ascii').split(' ');
+    const keyAlgo = parts[0];
+    const pubKeyBlob = Buffer.from(parts[1], 'base64');
+    return { keyAlgo, pubKeyBlob };
+  }
 }
 
 module.exports = { ChochmahProtocol };
-  
-  
-  

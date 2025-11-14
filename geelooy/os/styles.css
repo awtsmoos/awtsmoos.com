@@ -1,203 +1,249 @@
 /*B"H*/
-body,html {
-    width:100%;
-    height:100%;
+
+/* --- General Body and HTML --- */
+body, html {
+    width: 100%;
+    height: 100%;
 }
+
 body {
     margin: 0;
     padding: 0;
     overflow: hidden;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #0082c8;
+    /* Windows XP's primary font for that authentic feel */
+    font-family: 'Tahoma', 'Segoe UI', Geneva, Verdana, sans-serif;
+    /* A deep, modern version of the Bliss background blue */
+    background-color: #0d47a1;
 }
+
+/* 
+================================================================
+  TASKBAR STYLES (MODERN "LUNA" THEME)
+================================================================
+*/
 #start-bar {
     position: fixed;
     bottom: 0;
     width: 100%;
-    background: #333399;
+    /* 
+      A rich, glossy gradient inspired by Windows XP's Luna theme,
+      but with more depth and a modern shine effect.
+    */
+    background: linear-gradient(to top, #0053a4, #0078d7 60%, #4ca4fe);
     color: white;
-    display: flex; /* This is the key part */
+    display: flex;
     align-items: center;
-    height: 50px;
+    height: 38px; /* A sleeker, more modern height */
     z-index: 1000;
-    box-shadow: 0px -5px 15px rgba(0, 0, 0, 0.8), 0px 5px 10px rgba(0, 0, 0, 0.5);
-    border-top: 2px solid #fff;
-    border-bottom: 3px solid #ccc;
-    border-radius: 20px 20px 0 0;
-    padding: 0 5px; /* Add some padding */
+    /* A sharp top border to create a "glass" effect */
+    border-top: 1px solid #7cbbff;
+    padding: 0 5px;
     gap: 5px;
+    /* Add a subtle shadow to lift it off the desktop */
+    box-shadow: 0 -2px 15px rgba(0, 0, 0, 0.3);
 }
 
+
+/* 
+================================================================
+  THE NEW START BUTTON (NO IMAGES, PURE CSS & INSANE ANIMATIONS)
+================================================================
+*/
 #start-button {
-    background: #000080;
+    /* --- Base Styling & Positioning --- */
+    order: 2; /* This forces it to the right side */
+    background: transparent; /* The real background is on the pseudo-elements */
     color: white;
     border: none;
-    padding: 12px 25px;
+    padding: 0;
     cursor: pointer;
     font-size: 18px;
     font-weight: bold;
-    border-radius: 8px;
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.7);
+    font-family: 'Trebuchet MS', sans-serif;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+    z-index: 1;
+    position: relative; /* Crucial for pseudo-element positioning */
+    width: 130px;
+    height: 100%;
+    transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* --- The Main Button Shape (The Green Part) --- */
+#start-button::before {
+    content: 'start';
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    
+    /* The iconic green XP gradient, but richer */
+    background: linear-gradient(135deg, #28a745, #218838);
+    
+    /* This creates the unique curved shape on the left */
+    clip-path: polygon(20% 0%, 100% 0%, 100% 100%, 0% 100%);
+    
+    border-radius: 0 10px 10px 0;
+    box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.2);
     transition: all 0.3s ease;
-    position: relative;
-    z-index: 999;
-    transform-origin: center;
-    box-sizing: border-box;
+}
+
+/* --- The "Windows Orb" Effect (The Blue Part) --- */
+#start-button::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 10%; /* Positions it in the angled part */
+    transform: translateY(-50%);
+    width: 28px;
+    height: 28px;
+    
+    /* A vivid, glowing blue orb gradient */
+    background: radial-gradient(circle, #00aaff, #007bff);
+    border-radius: 50%;
+    box-shadow: 0 0 10px #00aaff, inset 0 0 5px white, 0 0 15px rgba(0, 0, 0, 0.5);
+    transition: all 0.3s ease;
+    z-index: 2;
+}
+
+/* 
+---------------------------------
+   VIVID & EXTREME ANIMATIONS
+---------------------------------
+*/
+
+/* The animation for the glowing orb */
+@keyframes insaneGlow {
+    0%, 100% {
+        box-shadow: 0 0 10px #00aaff, inset 0 0 5px white, 0 0 15px rgba(0,0,0,0.5);
+        transform: translateY(-50%) scale(1);
+    }
+    50% {
+        box-shadow: 0 0 25px #00aaff, 0 0 40px #ffffff, inset 0 0 10px white, 0 0 25px rgba(0,0,0,0.5);
+        transform: translateY(-50%) scale(1.1);
+    }
 }
 
 #start-button:hover {
-    background: #ffcc00;
-    color: #333;
-    box-shadow: 0px 10px 20px rgba(255, 204, 0, 0.6), 0px 5px 15px rgba(0, 0, 0, 0.4);
-    transform: scale(1.1) rotate(5deg);
+    transform: scale(1.05); /* Lifts the whole button */
 }
 
+/* Make the green part brighter and shift the orb on hover */
+#start-button:hover::before {
+    background: linear-gradient(135deg, #2fbd52, #28a745);
+}
+
+#start-button:hover::after {
+    /* Start the insane glowing animation */
+    animation: insaneGlow 1.5s infinite;
+    left: 12%; /* Make it slide slightly */
+}
+
+/* On click, create a satisfying "press-in" effect */
 #start-button:active {
-    background: #ffaa00;
-    box-shadow: 0px 15px 30px rgba(255, 170, 0, 0.7), 0px 10px 20px rgba(0, 0, 0, 0.5);
-    transform: scale(1.05) rotate(-5deg);
+    transform: scale(0.98);
+    transition-duration: 0.1s;
+}
+
+#start-button:active::before {
+    background: linear-gradient(135deg, #218838, #1e7e34);
+    box-shadow: inset 0 0 25px rgba(0, 0, 0, 0.5);
+}
+
+#start-button:active::after {
+    transform: translateY(-50%) scale(0.9);
+    box-shadow: 0 0 5px #00aaff, inset 0 0 15px rgba(0,0,0,0.8);
 }
 
 
-
+/* 
+================================================================
+  THE WINDOWS XP START MENU
+================================================================
+*/
 #start-menu {
-    position: fixed;
-    bottom: 70px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: #333;
-    border-radius: 10px;
-    box-shadow: 0px 15px 30px rgba(0, 0, 0, 0.7), 0px 5px 15px rgba(0, 0, 0, 0.5);
-    width: 250px;
     display: none;
-    animation: menuAppear 1s ease-out forwards;
+    position: fixed;
+    bottom: 42px;
+    /* Position it to align with the right-side start button */
+    right: 5px;
+    left: auto;
+    transform: none;
+    
+    background: linear-gradient(to bottom, #f0f8ff, #d6e4f7);
+    border: 1px solid #707070;
+    box-shadow: 5px -5px 15px rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    width: 320px;
     z-index: 999;
+    
+    /* A more dramatic "unfolding" animation */
+    animation: menuUnfold 0.4s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+    transform-origin: bottom right;
 }
 
-@keyframes menuAppear {
+@keyframes menuUnfold {
     0% {
         opacity: 0;
-        transform: translateX(-50%) scale(0.5);
+        transform: scale(0.8) translateY(20px);
     }
     100% {
         opacity: 1;
-        transform: translateX(-50%) scale(1);
+        transform: scale(1) translateY(0);
     }
 }
 
 #menu-items {
     list-style-type: none;
     margin: 0;
-    padding: 0;
+    padding: 8px;
 }
 
 #menu-items li {
-    color: white;
-    padding: 12px 16px;
+    /* Changed to a dark color for better readability on light background */
+    color: #1e395b;
+    padding: 10px 15px;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 14px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    transition: all 0.2s ease;
     font-weight: bold;
-    text-transform: uppercase;
-    border-bottom: 1px solid #555;
-    transition: all 0.3s ease;
 }
 
+/* A modern, clean hover effect */
 #menu-items li:hover {
-    background: #ffcc00;
-    color: #333;
-    transform: scale(1.05) rotate(3deg);
+    background: linear-gradient(to top, #0078d7, #2491f5);
+    color: white;
+    transform: translateX(5px);
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+    border-color: #005a9e;
 }
 
 #menu-items li:active {
-    background: #ffaa00;
-    transform: scale(0.95);
+    transform: scale(0.97) translateX(2px);
+    background: #005a9e;
+    transition-duration: 0.1s;
 }
 
+
+/* --- Remaining and Taskbar Styles --- */
 .hidden {
     display: none;
 }
 
-@media (max-width: 768px) {
-    #start-bar {
-        height: 45px;
-        border-radius: 15px 15px 0 0;
-    }
-
-    #start-button {
-        padding: 10px 18px;
-        font-size: 16px;
-    }
-
-    #start-menu {
-        width: 200px;
-    }
-}
-
-    #start-button:active {
-        transform: scale(1) rotate(0deg);
-    }
-
-
-#desktop {
-    width: 100%;
-    height: 100vh;
-    background-color: #f0f0f0;
-    position: relative;
-    overflow: hidden;
-    transition: background-color 0.3s ease;
-}
-
-#desktop.drag-over {
-    background-color: #cce5ff; /* Highlight color */
-    border: 2px dashed #007bff; /* Fancy border */
-    box-shadow: 0 0 15px #007bff; /* Glow effect */
-    cursor: copy; /* Indicates drop action */
-}
-
-#desktop .drag-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(0, 0, 0, 0.6);
-    color: white;
-    font-size: 2rem;
-    font-weight: bold;
-    z-index: 2;
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-#desktop .drag-overlay.visible {
-    opacity: 1;
-}
-.desktop {
-    height:100%;
-}
-
-
-/* --- Taskbar Styles --- */
-
-/* This rule tells the task area to be first visually and grow */
 .task-area {
-    order: 1; /* Places it before the button */
-    flex-grow: 1; /* Takes up all available space */
+    order: 1;
+    flex-grow: 1;
     display: flex;
     height: 100%;
     align-items: center;
     gap: 4px;
     overflow-x: auto;
     overflow-y: hidden;
-}
-
-/* This rule forces the Start button to the far right */
-#start-button {
-    order: 2; /* Places it after the task area */
 }
 
 /* Hide scrollbar for a cleaner look */
@@ -209,14 +255,15 @@ body {
 }
 
 .task-item {
-    background: linear-gradient(to bottom, #0058ee, #0035d0);
+    background: rgba(255, 255, 255, 0.2);
     color: white;
     font-family: 'Tahoma', sans-serif;
     font-size: 13px;
-    font-weight: bold;
-    border: 1px solid #082b6b;
+    border: 1px solid rgba(255, 255, 255, 0.3);
     border-radius: 4px;
-    padding: 5px 10px;
+    padding: 3px 10px;
+    height: 28px;
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1);
     cursor: pointer;
     flex-shrink: 0;
     max-width: 160px;
@@ -226,43 +273,17 @@ body {
     display: flex;
     align-items: center;
     gap: 5px;
+    transition: background 0.2s ease;
 }
 
 .task-item:hover {
-    filter: brightness(1.2);
+    background: rgba(255, 255, 255, 0.3);
 }
 
-.task-item.stacked::after {
-    content: attr(data-count);
-    background-color: rgba(255, 255, 255, 0.3);
-    border-radius: 3px;
-    padding: 1px 4px;
-    font-size: 11px;
-    margin-left: 5px;
+#desktop {
+    width: 100%;
+    height: calc(100vh - 38px);
+    position: relative;
+    overflow: hidden;
+    transition: background-color 0.3s ease;
 }
-
-.task-group-popup {
-    position: absolute;
-    bottom: 55px;
-    background: #f0f0f0;
-    border: 1px solid #707070;
-    box-shadow: 2px -2px 5px rgba(0,0,0,0.3);
-    z-index: 1001;
-    min-width: 180px;
-}
-
-.task-group-popup-item {
-    padding: 8px 12px;
-    font-size: 13px;
-    cursor: pointer;
-}
-
-.task-group-popup-item:hover {
-    background: #0078d7;
-    color: white;
-}
-
-
-
-
-

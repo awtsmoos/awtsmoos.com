@@ -84,24 +84,26 @@ module.exports = {
 
   // Cryptographic Algorithm Information
   CIPHER_INFO: {
-    'chacha20-poly1305@openssh.com': cipherInfo('chacha20', 8, 64, 0, 16, 0, CIPHER_STREAM),
-    'aes128-gcm@openssh.com': cipherInfo('aes-128-gcm', 16, 16, 12, 16, 0, CIPHER_STREAM),
-    'aes256-gcm@openssh.com': cipherInfo('aes-256-gcm', 16, 32, 12, 16, 0, CIPHER_STREAM),
-    'aes128-ctr': cipherInfo('aes-128-ctr', 16, 16, 16, 0, 0, CIPHER_STREAM),
-    'aes192-ctr': cipherInfo('aes-192-ctr', 16, 24, 16, 0, 0, CIPHER_STREAM),
-    'aes256-ctr': cipherInfo('aes-256-ctr', 16, 32, 16, 0, 0, CIPHER_STREAM),
-    'aes128-cbc': cipherInfo('aes-128-cbc', 16, 16, 0, 0, 0, 0),
-    'aes256-cbc': cipherInfo('aes-256-cbc', 16, 32, 0, 0, 0, 0),
-    '3des-cbc': cipherInfo('des-ede3-cbc', 8, 24, 0, 0, 0, 0),
+    //                                               keyLen, ivLen
+    //                                                        |
+    'chacha20-poly1305@openssh.com': cipherInfo('chacha20', 8, 64, 12, 16, 0, CIPHER_STREAM), // <-- FIX: ivLen MUST be 12 for chacha20
+    'aes128-gcm@openssh.com':        cipherInfo('aes-128-gcm', 16, 16, 12, 16, 0, CIPHER_STREAM),
+    'aes256-gcm@openssh.com':        cipherInfo('aes-256-gcm', 16, 32, 12, 16, 0, CIPHER_STREAM),
+    'aes128-ctr':                    cipherInfo('aes-128-ctr', 16, 16, 16, 0, 0, CIPHER_STREAM),
+    'aes192-ctr':                    cipherInfo('aes-192-ctr', 16, 24, 16, 0, 0, CIPHER_STREAM),
+    'aes256-ctr':                    cipherInfo('aes-256-ctr', 16, 32, 16, 0, 0, CIPHER_STREAM),
+    'aes128-cbc':                    cipherInfo('aes-128-cbc', 16, 16, 0, 0, 0, 0),
+    'aes256-cbc':                    cipherInfo('aes-256-cbc', 16, 32, 0, 0, 0, 0),
+    '3des-cbc':                      cipherInfo('des-ede3-cbc', 8, 24, 0, 0, 0, 0),
   },
   
   MAC_INFO: {
     'hmac-sha2-256-etm@openssh.com': macInfo('sha256', 32, 32, true),
     'hmac-sha2-512-etm@openssh.com': macInfo('sha512', 64, 64, true),
-    'hmac-sha1-etm@openssh.com': macInfo('sha1', 20, 20, true),
-    'hmac-sha2-256': macInfo('sha256', 32, 32, false),
-    'hmac-sha2-512': macInfo('sha512', 64, 64, false),
-    'hmac-sha1': macInfo('sha1', 20, 20, false),
+    'hmac-sha1-etm@openssh.com':     macInfo('sha1', 20, 20, true),
+    'hmac-sha2-256':                 macInfo('sha256', 32, 32, false),
+    'hmac-sha2-512':                 macInfo('sha512', 64, 64, false),
+    'hmac-sha1':                     macInfo('sha1', 20, 20, false),
   },
 
   // Default Algorithm Lists for KEXINIT

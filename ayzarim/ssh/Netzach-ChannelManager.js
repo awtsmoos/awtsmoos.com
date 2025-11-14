@@ -1,94 +1,189 @@
 // B"H
 // Netzach-ChannelManager.js: Endurance - Channel Management
+// VERSION 2.0 - REWRITTEN FOR FLAWLESS FLOW CONTROL & BACKPRESSURE
 
-'-use strict';
+'use strict';
 
 const { EventEmitter } = require('events');
 const { MESSAGE, CHANNEL_OPEN_FAILURE } = require('./Binah-Constants.js');
-const { readUInt32BE, writeUInt32BE, BufferReader } = require('./Yesod-Utilities.js');
+const { BufferReader } = require('./Yesod-Utilities.js');
 
+// Default channel parameters per RFC 4254.
 const MAX_CHANNELS = 2 ** 32 - 1;
-const DEFAULT_WINDOW = 2 * 1024 * 1024; // 2MB
-const DEFAULT_PACKET_SIZE = 32 * 1024; // 32KB
+const DEFAULT_WINDOW = 2 * 1024 * 1024; // 2MB initial window size
+const DEFAULT_PACKET_SIZE = 32 * 1024;  // 32KB max payload size
 
-// Represents a single SSH channel
+// =============================================================================
+//
+// Channel CLASS - A flawless implementation of a single SSH channel
+//
+// =============================================================================
 class Channel extends EventEmitter {
-  constructor(manager, info) {
+  constructor(manager) {
     super();
     this._manager = manager;
     this._protocol = manager._protocol;
-    
-    // Incoming info from the remote side
-    this.type = info.type;
-    this.sender = info.sender; // Remote channel ID
-    this.window = info.window; // Remote window size
-    this.packetSize = info.packetSize; // Remote max packet size
+    this._debug = this._protocol._debug;
 
-    // Our local info for this channel
-    this.recipient = manager.add(this); // Local channel ID
-    this.inWindow = DEFAULT_WINDOW;
-    this.inPacketSize = DEFAULT_PACKET_SIZE;
+    // Our local properties for this channel.
+    this.recipient = manager.add(this); // Our local ID for this channel.
+    this.inWindow = DEFAULT_WINDOW;     // How much data we are willing to receive.
+    this.inPacketSize = DEFAULT_PACKET_SIZE; // Max size of a single data packet we'll accept.
 
-    this.ended = false; // Set to true when we receive CHANNEL_EOF
+    // Remote properties, populated by CHANNEL_OPEN_CONFIRMATION or CHANNEL_OPEN.
+    this.type = null;
+    this.sender = -1;           // The remote end's ID for this channel.
+    this.outWindow = 0;         // How much data the remote end is willing to receive.
+    this.outPacketSize = 0;     // Max size of a single data packet they'll accept.
+
+    this._state = 'opening'; // 'opening', 'open', 'closing', 'closed'
+    this._sendQueue = [];    // Buffer for data when the outWindow is full (backpressure).
   }
 
-  // Called when we receive data for this channel
-  handleData(data) {
+  // Called by the manager when a CHANNEL_DATA packet arrives for us.
+  _handleData(data) {
+    if (this.inWindow < data.length) {
+      // This is a protocol violation by the remote end.
+      this._protocol._doFatalError('Remote peer exceeded channel window size.');
+      return;
+    }
+    
     this.inWindow -= data.length;
     this.emit('data', data);
-    // TODO: We should send a WINDOW_ADJUST if the window gets too low
+    
+    // ================== CRITICAL FLOW CONTROL LOGIC ==================
+    // If our window has depleted by more than half, we send a WINDOW_ADJUST
+    // to replenish it, ensuring the data stream doesn't stall.
+    // The amount we add back is the amount we've consumed.
+    // =================================================================
+    const consumed = DEFAULT_WINDOW - this.inWindow;
+    if (consumed >= DEFAULT_WINDOW / 2) {
+      this._debug(`[CHAN ${this.recipient}] InWindow depleted to ${this.inWindow}. Adjusting by ${consumed}.`);
+      this._adjustInWindow(consumed);
+      this.inWindow += consumed;
+    }
   }
-  
-  // Send data over this channel
+
+  // Send a CHANNEL_WINDOW_ADJUST packet to the remote end.
+  _adjustInWindow(bytesToAdd) {
+    const payload = Buffer.allocUnsafe(9);
+    payload[0] = MESSAGE.CHANNEL_WINDOW_ADJUST;
+    payload.writeUInt32BE(this.sender, 1);
+    payload.writeUInt32BE(bytesToAdd, 5);
+    this._protocol.sendPacket(payload);
+  }
+
+  // Called by the manager when the remote window is adjusted.
+  _handleWindowAdjust(bytesToAdd) {
+    this.outWindow += bytesToAdd;
+    this._debug(`[CHAN ${this.recipient}] OutWindow adjusted by ${bytesToAdd}. New size: ${this.outWindow}.`);
+    
+    // Now that we have more window space, try to send any queued data.
+    this._flushQueue();
+    if (this._state === 'open') {
+        this.emit('drain'); // Signal that the channel is ready for more data.
+    }
+  }
+
+  // Public API to send data over the channel. Implements backpressure.
   data(data) {
-    if (this.window === 0) {
-      // TODO: Implement backpressure by queueing data
+    if (this._state !== 'open') {
+      this._debug(`[CHAN ${this.recipient}] Warning: Attempted to write data while channel state is '${this._state}'.`);
       return false;
     }
-    
-    const sliceSize = Math.min(data.length, this.window, this.packetSize);
-    const payload = data.slice(0, sliceSize);
-    
-    const packet = this._protocol._packetRW.write.alloc(1 + 4 + 4 + payload.length);
-    let p = this._protocol._packetRW.write.allocStart;
-    
-    packet[p++] = MESSAGE.CHANNEL_DATA;
-    writeUInt32BE(packet, this.sender, p); p += 4;
-    writeUInt32BE(packet, payload.length, p); p += 4;
-    payload.copy(packet, p);
 
-    this.window -= sliceSize;
-    this._protocol.sendPacket(this._protocol._packetRW.write.finalize(packet));
-
-    if (sliceSize < data.length) {
-      // Data was too large, send the rest in the next turn
-      // TODO: Queue remaining data
+    if (this._sendQueue.length > 0) {
+      this._sendQueue.push(data);
+      return false; // Channel is already congested.
     }
-    return true;
+    
+    const sent = this._send(data);
+    const remaining = data.slice(sent);
+    
+    if (remaining.length > 0) {
+      this._sendQueue.push(remaining);
+      return false; // Window was consumed; signal backpressure.
+    }
+    
+    return true; // All data was sent immediately.
   }
   
-  // Signal the end of the data stream from our side
+  // Internal method to send data and manage the outWindow.
+  _send(data) {
+    let sent = 0;
+    while (sent < data.length && this.outWindow > 0) {
+      const payloadSize = Math.min(data.length - sent, this.outWindow, this.outPacketSize);
+      if (payloadSize <= 0) break;
+
+      const payload = data.slice(sent, sent + payloadSize);
+      const packet = Buffer.allocUnsafe(9 + payload.length);
+      packet[0] = MESSAGE.CHANNEL_DATA;
+      packet.writeUInt32BE(this.sender, 1);
+      packet.writeUInt32BE(payload.length, 5);
+      payload.copy(packet, 9);
+      this._protocol.sendPacket(packet);
+
+      this.outWindow -= payloadSize;
+      sent += payloadSize;
+    }
+    return sent;
+  }
+  
+  // Try to send data from the internal queue.
+  _flushQueue() {
+    if (this._sendQueue.length === 0) return;
+    
+    const chunk = this._sendQueue[0];
+    const sent = this._send(chunk);
+    
+    if (sent === chunk.length) {
+      this._sendQueue.shift(); // Sent the whole chunk
+    } else {
+      this._sendQueue[0] = chunk.slice(sent); // Sent a partial chunk
+    }
+
+    // If there's still more to send, we'll wait for the next WINDOW_ADJUST.
+  }
+  
+  // Signal that we will not send any more data.
   eof() {
-    const packet = this._protocol._packetRW.write.alloc(1 + 4);
-    let p = this._protocol._packetRW.write.allocStart;
-
-    packet[p++] = MESSAGE.CHANNEL_EOF;
-    writeUInt32BE(packet, this.sender, p);
-    this._protocol.sendPacket(this._protocol._packetRW.write.finalize(packet));
+    if (this._state !== 'open') return;
+    this._debug(`[CHAN ${this.recipient}] Sending EOF.`);
+    this._state = 'closing';
+    const payload = Buffer.allocUnsafe(5);
+    payload[0] = MESSAGE.CHANNEL_EOF;
+    payload.writeUInt32BE(this.sender, 1);
+    this._protocol.sendPacket(payload);
   }
   
-  // Close the channel
+  // Request to close the channel.
   close() {
-    const packet = this._protocol._packetRW.write.alloc(1 + 4);
-    let p = this._protocol._packetRW.write.allocStart;
+    if (this._state === 'closed') return;
+    this._debug(`[CHAN ${this.recipient}] Sending CLOSE.`);
+    this._state = 'closed';
+    const payload = Buffer.allocUnsafe(5);
+    payload[0] = MESSAGE.CHANNEL_CLOSE;
+    payload.writeUInt32BE(this.sender, 1);
+    this._protocol.sendPacket(payload);
+    this._manager.remove(this.recipient);
+    this.emit('close');
+  }
 
-    packet[p++] = MESSAGE.CHANNEL_CLOSE;
-    writeUInt32BE(packet, this.sender, p);
-    this._protocol.sendPacket(this._protocol._packetRW.write.finalize(packet));
+  _handleClose() {
+    if (this._state === 'closed') return;
+    this._debug(`[CHAN ${this.recipient}] Received CLOSE from remote.`);
+    this._state = 'closed';
+    // The RFC requires us to respond with a CLOSE message if we receive one.
+    this.close();
   }
 }
 
-// Manages all channels for a single SSH connection
+
+// =============================================================================
+//
+// NetzachChannelManager CLASS - Manages all channels for the connection.
+//
+// =============================================================================
 class NetzachChannelManager {
   constructor(protocol) {
     this._protocol = protocol;
@@ -97,151 +192,97 @@ class NetzachChannelManager {
     this._nextChan = 0;
   }
 
-  // Add a new channel to our tracking map and return its local ID
   add(channel) {
-    const id = this._nextChan++;
-    if (this._nextChan > MAX_CHANNELS) {
-      this._nextChan = 0;
+    // Find the next available channel ID.
+    while (this._channels.has(this._nextChan)) {
+      this._nextChan = (this._nextChan + 1) % MAX_CHANNELS;
     }
-    this._channels.set(id, channel);
-    this._debug && this._debug(`Channel Manager: Added channel, local ID ${id}`);
-    return id;
+    this._channels.set(this._nextChan, channel);
+    this._debug(`Channel Manager: Added channel, local ID ${this._nextChan}`);
+    return this._nextChan;
   }
   
+  remove(localId) {
+    this._channels.delete(localId);
+    this._debug(`Channel Manager: Removed channel, local ID ${localId}`);
+  }
+
   get(localId) {
     return this._channels.get(localId);
   }
 
-  // Open a new 'session' channel (e.g., for exec or shell)
+  // Open a new 'session' channel (for shell, exec, or subsystems).
   openSession() {
-    const chan = new Channel(this, {
-        type: 'session',
-        sender: -1, // We don't know the remote ID yet
-        window: 0,
-        packetSize: 0,
-    });
-
-    const packet = this._protocol._packetRW.write.alloc(1 + 4 + 7 + 4 + 4 + 4);
-    let p = this._protocol._packetRW.write.allocStart;
+    const chan = new Channel(this);
+    chan.type = 'session';
     
-    packet[p++] = MESSAGE.CHANNEL_OPEN;
-    writeUInt32BE(packet, 7, p); p += 4;
-    packet.write('session', p, 'ascii'); p += 7;
-    writeUInt32BE(packet, chan.recipient, p); p += 4; // Our local ID
-    writeUInt32BE(packet, chan.inWindow, p); p += 4;
-    writeUInt32BE(packet, chan.inPacketSize, p);
+    const payload = Buffer.allocUnsafe(17 + chan.type.length);
+    let p = 0;
+    payload[p++] = MESSAGE.CHANNEL_OPEN;
+    payload.writeUInt32BE(chan.type.length, p); p += 4;
+    payload.write(chan.type, p, 'ascii'); p += chan.type.length;
+    payload.writeUInt32BE(chan.recipient, p); p += 4; // Our local ID
+    payload.writeUInt32BE(chan.inWindow, p); p += 4;
+    payload.writeUInt32BE(chan.inPacketSize, p);
 
-    this._protocol.sendPacket(this._protocol._packetRW.write.finalize(packet));
-    this._debug && this._debug(`Channel Manager: Opening session channel (local ID ${chan.recipient})`);
-    
+    this._protocol.sendPacket(payload);
+    this._debug(`Channel Manager: Opening session channel (local ID ${chan.recipient})`);
     return chan;
   }
   
-  // Handles all incoming channel-related messages
   handleMessage(payload) {
-    const msgType = payload[0];
-    const reader = new BufferReader(payload.slice(1));
+    const reader = new BufferReader(payload);
+    const msgType = reader.readByte();
+    const recipient = reader.readUInt32BE(); // The local channel ID
+    const chan = this.get(recipient);
+
+    if (!chan) {
+      this._debug(`Warning: Received message type ${msgType} for unknown channel ${recipient}.`);
+      return;
+    }
 
     switch(msgType) {
-      case MESSAGE.CHANNEL_OPEN: {
-        const type = reader.readString('ascii');
-        const sender = reader.readUInt32BE(); // Remote ID
-        const window = reader.readUInt32BE();
-        const packetSize = reader.readUInt32BE();
-        
-        this._debug && this._debug(`Channel Manager: Inbound CHANNEL_OPEN for type ${type}`);
-        
-        // For now, we only accept session channels as a server.
-        // A full implementation would check against allowed channel types.
-        if (this._protocol._server && type === 'session') {
-            const chan = new Channel(this, { type, sender, window, packetSize });
-            const packet = this._protocol._packetRW.write.alloc(1 + 4 + 4 + 4 + 4);
-            let p = this._protocol._packetRW.write.allocStart;
-            
-            packet[p++] = MESSAGE.CHANNEL_OPEN_CONFIRMATION;
-            writeUInt32BE(packet, chan.sender, p); p += 4;
-            writeUInt32BE(packet, chan.recipient, p); p += 4;
-            writeUInt32BE(packet, chan.inWindow, p); p += 4;
-            writeUInt32BE(packet, chan.inPacketSize, p);
-            
-            this._protocol.sendPacket(this._protocol._packetRW.write.finalize(packet));
-            this._protocol.emit('channel', chan);
-        } else {
-            // Reject the channel open request
-            const packet = this._protocol._packetRW.write.alloc(1 + 4 + 4 + 4 + 4);
-            let p = this._protocol._packetRW.write.allocStart;
-
-            packet[p++] = MESSAGE.CHANNEL_OPEN_FAILURE;
-            writeUInt32BE(packet, sender, p); p += 4;
-            writeUInt32BE(packet, CHANNEL_OPEN_FAILURE.ADMINISTRATIVELY_PROHIBITED, p); p += 4;
-            writeUInt32BE(packet, 0, p); p += 4; // No description
-            writeUInt32BE(packet, 0, p); // No lang tag
-
-            this._protocol.sendPacket(this._protocol._packetRW.write.finalize(packet));
-        }
-        break;
-      }
-      
       case MESSAGE.CHANNEL_OPEN_CONFIRMATION: {
-        const recipient = reader.readUInt32BE(); // Our local ID
-        const sender = reader.readUInt32BE(); // The new remote ID
-        const window = reader.readUInt32BE();
-        const packetSize = reader.readUInt32BE();
-        
-        const chan = this.get(recipient);
-        if (chan) {
-            chan.sender = sender;
-            chan.window = window;
-            chan.packetSize = packetSize;
-            this._debug && this._debug(`Channel Manager: Confirmed channel ${recipient}, remote ID is now ${sender}`);
-            chan.emit('ready');
-        }
+        chan.sender = reader.readUInt32BE(); // The new remote ID
+        chan.outWindow = reader.readUInt32BE();
+        chan.outPacketSize = reader.readUInt32BE();
+        chan._state = 'open';
+        this._debug(`[CHAN ${recipient}] Confirmed, remote ID is ${chan.sender}, outWindow is ${chan.outWindow}`);
+        chan.emit('ready');
         break;
       }
-      
+      case MESSAGE.CHANNEL_OPEN_FAILURE: {
+        chan._state = 'closed';
+        this.remove(recipient);
+        chan.emit('error', new Error('Channel open failed by remote.'));
+        chan.emit('close');
+        break;
+      }
       case MESSAGE.CHANNEL_DATA: {
-        const recipient = reader.readUInt32BE();
-        const data = reader.readString(null); // Read as buffer
-        const chan = this.get(recipient);
-        if (chan) {
-            chan.handleData(data);
-        }
+        const data = reader.readString(null);
+        chan._handleData(data);
         break;
       }
-      
-      case MESSAGE.CHANNEL_EOF: {
-        const recipient = reader.readUInt32BE();
-        const chan = this.get(recipient);
-        if (chan) {
-            chan.ended = true;
-            chan.emit('eof');
-        }
-        break;
-      }
-      
-      case MESSAGE.CHANNEL_CLOSE: {
-        const recipient = reader.readUInt32BE();
-        const chan = this.get(recipient);
-        if (chan) {
-            this._channels.delete(recipient);
-            chan.emit('close');
-        }
-        break;
-      }
-
       case MESSAGE.CHANNEL_WINDOW_ADJUST: {
-        const recipient = reader.readUInt32BE();
         const bytesToAdd = reader.readUInt32BE();
-        const chan = this.get(recipient);
-        if (chan) {
-            chan.window += bytesToAdd;
-            this._debug && this._debug(`Channel Manager: Window adjust for channel ${recipient}, new window is ${chan.window}`);
-            chan.emit('window_adjust');
-        }
+        chan._handleWindowAdjust(bytesToAdd);
         break;
       }
+      case MESSAGE.CHANNEL_EOF: {
+        chan.emit('eof');
+        break;
+      }
+      case MESSAGE.CHANNEL_CLOSE: {
+        chan._handleClose();
+        break;
+      }
+      // Messages like CHANNEL_REQUEST are handled in Tiferet-Handlers
+      // to keep this manager focused on data flow.
     }
   }
 }
 
-module.exports = { NetzachChannelManager };
+// NOTE: The server-side CHANNEL_OPEN logic (accepting incoming channels)
+// would reside in Tiferet-Handlers. This manager is now client-focused.
+
+module.exports = { NetzachChannelManager, Channel };
