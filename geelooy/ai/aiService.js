@@ -169,7 +169,8 @@ ${prompt}
         promptFunction: async (userMessage, {
           onstream = null,
           ondone = null,
-          remember = false
+          remember = false,
+          model
         }={}) => {
           var key = await this.getKey();
           if(!self.geminiChatCache) self.geminiChatCache = blankPrompt(userMessage)
@@ -179,8 +180,10 @@ ${prompt}
       
           var amount = ""
           
-          const resp = await getGeminiResponse({contents:this.geminiChatCache.contents}, window.geminiApiKey, {
-           
+          const resp = await getGeminiResponse({
+          contents:this.geminiChatCache.contents},
+           window.geminiApiKey, {
+	      model,
               onstream(resp) {
                   try {
                     
@@ -273,6 +276,7 @@ ${prompt}
             onstream = null,
             full=false,
             temperature,
+            model,
 		topP,
 		topK
         } = params;
@@ -286,6 +290,7 @@ ${prompt}
             apiKey,
             temperature,
 		topP,
+		model,
 		topK
         });
         var json = JSON.parse(txt)
@@ -315,7 +320,8 @@ async function simpleGeminiResponse({
 	onstream = {},
 	temperature,
 	  topP,
-	  topK
+	  topK,
+	  model
 }={}) {
     var key = apiKey;
     if(!key) return null;
@@ -326,6 +332,7 @@ async function simpleGeminiResponse({
             onstream,
 		temperature,
 		topP,
+		model,
 		topK
         }
     );
@@ -337,10 +344,13 @@ async function getGeminiResponse(chat, apiKey, {
   onstream = {},
   temperature = 0.2,
   topP= 0.95,
-  topK= 40
+  topK= 40,
+  maxOutputTokens=65536,
+  model="gemini-2.5-flash-lite",
+  thinkingBudget=0
 }={}) {
  
-  const endpoint = 'https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash-lite:streamGenerateContent?key='+apiKey; // Gemini API endpoint
+  const endpoint = 'https://generativelanguage.googleapis.com/v1beta/models/'+model+':streamGenerateContent?key='+apiKey; // Gemini API endpoint
 
   // Prepare the request headers
   const headers = {
@@ -350,11 +360,15 @@ async function getGeminiResponse(chat, apiKey, {
   // Prepare the request body
    const requestBody = {
     ...chat, // 
+    
     "generationConfig": {
       temperature,   // LOW temperature. Forces focus and reduces hallucinations. The most important setting.
       topP,           // Standard value.
       topK,             // Standard value.
-       "maxOutputTokens": 65536
+       maxOutputTokens,
+       "thinkingConfig": {
+        thinkingBudget // 0 val Disables thinking for gemini-2.5-flash-lite
+      },
     }
   };
   try {

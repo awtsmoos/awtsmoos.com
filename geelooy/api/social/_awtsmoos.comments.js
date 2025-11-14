@@ -155,6 +155,17 @@ module.exports = ({
      * PUT: Edit a comment on the post (requires full context in body).
      * DELETE: Delete ALL comments on the post (requires seriesId in body).
      * GET: Not allowed (use specific alias endpoint or /aliases).
+     
+     can be array
+     [
+	     {
+	        content,
+	        dayuh: {
+	            verseSection: "root" or number
+	        }
+	    }
+	    ...
+    ]
      */
     "/heichelos/:heichel/post/:post/comments/": async vars => {
         if ($i.request.method == "GET") {

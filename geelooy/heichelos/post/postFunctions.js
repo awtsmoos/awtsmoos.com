@@ -1292,10 +1292,14 @@ function initializeFootnotes() {
             event.stopPropagation(); // Prevent other click events from firing
 
             const footnoteId = sup.innerText.trim();
-            const matchingFootnote = footnotes.find(f => String(f.id) === String(footnoteId));
+            const matchingFootnote = footnotes
+	            .find(f => String(f.id) === String(footnoteId));
 
             if (matchingFootnote) {
-                createFootnoteOverlay(matchingFootnote.content);
+                createFootnoteOverlay(
+	                matchingFootnote.content ||
+	                matchingFootnote?.paragraphs?.join("<br>")
+	       );
             } else {
                 console.warn(`Footnote with ID "${footnoteId}" not found.`);
             }

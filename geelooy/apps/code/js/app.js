@@ -462,7 +462,8 @@ setupEventListeners() {
         const contentHTML = /*html*/`
             <div id="workspace-options">
                 <button class="menu-button" data-action="local"><svg class="svg-icon"><use href="#icon-laptop"></use></svg> Local Folder</button>
-                <button class="menu-button" data-action="ssh"><svg class="svg-icon"><use href="#icon-ssh"></use></svg> SSH Connection</button>
+                <!--<button class="menu-button" data-action="ssh"><svg class="svg-icon"><use href="#icon-ssh"></use></svg> SSH Connection</button>-->
+                
                 <button class="menu-button" data-action="github"><svg class="svg-icon"><use href="#icon-github"></use></svg> GitHub Repository</button>
                 <button class="menu-button" data-action="idb"><svg class="svg-icon"><use href="#icon-brain"></use></svg> Browser Storage</button>
             </div>`;

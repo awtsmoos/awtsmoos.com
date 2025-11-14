@@ -113,9 +113,17 @@ async function makeHTMLFromComment({
 		}
 		cmCont.appendChild(commentText);
 	}
+	if(comment?.content?.title) {
+		comment.dayuh.title = comment?.content?.title;
+		comment.content = comment.content.text;
+	}
 	if(comment?.dayuh?.title) {
 		var commentTitle = makeTitleDiv(comment?.dayuh?.title)
 		cmCont.appendChild(commentTitle);
+	}
+	if(Array.isArray(comment.content)) {
+		comment.dayuh.sections = comment.content;
+		comment.content = null;
 	}
 	if(comment.content) {
 		forEachTxt(comment.content)
