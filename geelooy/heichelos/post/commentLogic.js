@@ -32,7 +32,7 @@ var loadingHTML = /*html*/`<div class="center loading">
 </div>`;
 
 
-var currentVerse = 0;
+var currentVerse = null;
 var data = {
 	aliases: null
 }
@@ -1006,13 +1006,17 @@ async function updateCommentHeader() {
 		+ (curVerseDisplay)
 	)
 }
-// B"H - REVISED FUNCTION
+
+// B"H - FULLY REVISED AND CORRECTED FUNCTION
 async function indexSwitch() {
     var idxNum = getIdx();
+    // B"H - FIX: Correctly determine the new verse state.
     var newVerse = (!idxNum && idxNum !== 0) ? "root" : idxNum;
 
-    // Only proceed if the verse has actually changed
-    if (currentVerse === newVerse) return;
+    // B"H - FIX: The guard clause now works correctly with the initial `null` state.
+    if (currentVerse === newVerse) {
+        return;
+    }
     currentVerse = newVerse;
 
     // Clear all existing inline comments before adding new ones
@@ -1020,16 +1024,17 @@ async function indexSwitch() {
     inlineComments = {}; // Clear the tracking object
 
     var al = getInlineAliases();
-    var subSec = getSubIdx();
     for (var alias of al) {
         var comments = await getCommentsOfAlias({
+            // B"H - FIX: Consistently use window.post to avoid ReferenceError
             seriesId: window?.post?.parentSeriesId,
-            postId: post.id,
-            heichelId: post.heichel.id,
+            postId: window?.post?.id,
+            heichelId: window?.post?.heichel.id,
             aliasId: alias,
-            fromCache: false, // Use fresh data during navigation
+            fromCache: false,
             get: {
-                verseSection: currentVerse,
+                // B"H - FIX: Fetch comments for the NEW verse, not the old one.
+                verseSection: newVerse, 
                 map: true,
             }
         });
@@ -1038,7 +1043,6 @@ async function indexSwitch() {
 
     // If the comment panel is open, refresh it
     if (curTab) {
-        // B"H - FIX: Explicitly reload the root comment list when scrolling back to root
         if (curTab === "root" || newVerse === "root") {
             await reloadRoot();
         } else {

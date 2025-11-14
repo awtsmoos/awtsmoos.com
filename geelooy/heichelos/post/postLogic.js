@@ -328,10 +328,10 @@ try {
 			    }, '', url.href);
 			}
 		);
-			
+		
+		 await indexSwitch();	
 	})();
 	
-	 await indexSwitch();
 } catch (e) {
 	realPost.innerHTML =
 		"Problem loading! Check console (CTRL+SHIFT+I)"
