@@ -1230,8 +1230,8 @@ async function getAndSaveAliases(full=false) {
 	
 	var verseSection = getIdx();
 	
-	if(!verseSection) {
-		verseSection = 0;	
+	if(!verseSection && verseSection  !== 0) {
+		verseSection = "root";	
 	}
 	var commentPost = window?.post?.id;
 	if(!data.aliases) {

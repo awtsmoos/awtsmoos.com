@@ -25,7 +25,6 @@ const MetadataDB = {
         });
     },
     async get(url) {
-        // This function is already safe, returning null on failure.
         try {
             const db = await this._getDB();
             return new Promise(resolve => {
@@ -40,8 +39,6 @@ const MetadataDB = {
         }
     },
     async set(metadata) {
-        // ENHANCED RESILIENCE: A failure to write to the DB should not
-        // crash the entire response. We catch errors here.
         try {
             const db = await this._getDB();
             const tx = db.transaction('metadata', 'readwrite').objectStore('metadata');
@@ -49,7 +46,6 @@ const MetadataDB = {
             return tx.done;
         } catch (e) {
             console.error("Failed to write to IndexedDB", e);
-            // We resolve successfully so the main flow continues uninterrupted.
             return Promise.resolve();
         }
     }
@@ -72,9 +68,29 @@ self.addEventListener('activate', (event) => {
     );
 });
 
-// --- Fetch Interception (Unchanged) ---
+// --- Fetch Interception (MODIFIED TO PREVENT LOGIC LOOP) ---
 self.addEventListener('fetch', (event) => {
     const { request } = event;
+
+    // --- NEW: LOGIC GUARD ---
+    // This is the critical fix. If an incoming request already has our internal
+    // status header, it means the client is making a request that it shouldn't be.
+    // We must prevent this from entering our main logic to avoid a loop where
+    // we would cache and serve the JSON metadata response itself.
+    if (request.headers.has(STATUS_HEADER)) {
+        // Sanitize the request by removing our internal header.
+        const newHeaders = new Headers(request.headers);
+        newHeaders.delete(STATUS_HEADER);
+        const cleanRequest = new Request(request, { headers: newHeaders });
+
+        // Fulfill the user's requirement: "ALWAYS default to getting page again".
+        // We bypass the intelligent check and go straight to the network.
+        console.warn('[SW] Sanitizing a request with status header. Fetching fresh from network.');
+        event.respondWith(fetchAndCache(cleanRequest));
+        return; // Stop further processing of this event.
+    }
+    // --- END OF FIX ---
+
 
     if (
         request.method !== 'GET' ||
@@ -121,25 +137,19 @@ async function handleFetch(request) {
                     (serverMeta.stateHash !== localMeta?.stateHash);
 
         if (isStale) {
-          //  console.log(`%c[SW] Stale: ${request.url}`, 'color: orange');
             return fetchAndUpdate(request, serverMeta);
         } else {
-         //   console.log(`%c[SW] Fresh (from cache): ${request.url}`, 'color: green');
             const cachedResponse = await caches.match(request);
-            // Self-heal: If it's missing from cache for any reason, fetch it again.
             return cachedResponse || fetchAndUpdate(request, serverMeta);
         }
 
     } catch (error) {
         // --- 3. CACHE AS LAST RESORT ---
-        // This block now correctly catches ALL network failures, including those
-        // from fetchAndUpdate, ensuring the user is truly offline.
         console.warn(`%c[SW] Network failed. Serving from cache for ${request.url}`, 'color: grey');
         const cachedResponse = await caches.match(request);
         if (cachedResponse) {
             return cachedResponse;
         }
-        // Only return this if we are offline AND the item is not in the cache.
         return new Response('Network unavailable and resource not found in cache.', {
             status: 404,
             statusText: 'Not Found'
@@ -162,13 +172,11 @@ function createStatusRequest(request) {
 
 /**
  * The standard network fallback. It does not handle metadata. (Unchanged)
- * This function is already resilient because it doesn't catch its own errors.
  */
 async function fetchAndCache(request) {
     const networkResponse = await fetch(request);
     if (networkResponse && networkResponse.ok) {
         const cache = await caches.open(CACHE_NAME);
-        // Important: Use clone() because a response body can only be read once.
         await cache.put(request, networkResponse.clone());
     }
     return networkResponse;
@@ -176,18 +184,12 @@ async function fetchAndCache(request) {
 
 /**
  * The full update process, now made resilient.
- * It fetches the resource and updates both Cache and IndexedDB.
  */
 async function fetchAndUpdate(request, metadata) {
-    
-    // If this fetch fails, the error will now be correctly caught by the
-    // main try/catch block in handleFetch().
     const networkResponse = await fetch(request);
 
     if (networkResponse && networkResponse.ok) {
         const cache = await caches.open(CACHE_NAME);
-        // We clone the response to store one copy in the cache and return the
-        // other copy to the browser.
         await cache.put(request, networkResponse.clone());
         await MetadataDB.set({ url: request.url, ...metadata });
     }
