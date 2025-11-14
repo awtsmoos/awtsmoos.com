@@ -886,35 +886,48 @@ function getInlineAliases() {
   }
 }
 
+// B"H - REVISED FUNCTION WITH AUTOMATIC SCROLLING
 function hideCommentsInline(comments, alias) {
 	var inl = inlineComments[alias]
 	if(inl) {
 		inlineComments[alias] = null;
 	}
-  const url = new URL(window.location);
-  var inline = document.querySelectorAll(
-    ".commentator.inline[data-alias='" + alias + "']"
-  )
-  .forEach(w=>w.parentNode.removeChild(w));
+    const url = new URL(window.location);
+    var inline = document.querySelectorAll(
+        ".commentator.inline[data-alias='" + alias + "']"
+    )
+    .forEach(w=>w.parentNode.removeChild(w));
   
-  var p = getInlineAliases();
-  if(!p.length) {
-     // Get the current URL
-    
-    
-    // Update the query parameter
-    url.searchParams.delete("inline");
-  } else {
-     var idx = p.indexOf(alias);
-     if(idx > -1) {
-       p.splice(idx, 1);
-       updateQueryStringParameter("inline", JSON.stringify(p));
-     }
-  }
+    var p = getInlineAliases();
+    if(!p.length) {
+        url.searchParams.delete("inline");
+    } else {
+        var idx = p.indexOf(alias);
+        if(idx > -1) {
+            p.splice(idx, 1);
+            updateQueryStringParameter("inline", JSON.stringify(p));
+        }
+    }
 
-  
-  // Push the new URL to the history
-  //window.history.pushState({ path: url.href }, '', url.href);
+    // B"H - NEW: Automatic scrolling logic after hiding comments.
+    // First, determine which verse section these comments belonged to.
+    if (comments && comments.length > 0) {
+        const verseSection = comments[0]?.dayuh?.verseSection;
+        let targetElement = null;
+
+        if (verseSection === undefined || verseSection === null) {
+            // If it was a root comment, our target is the first real verse section.
+            targetElement = document.querySelector(".section[data-idx='0']");
+        } else {
+            // If it was a numbered verse, our target is that same verse section.
+            targetElement = document.querySelector(`.section[data-idx='${verseSection}']`);
+        }
+
+        // If we found a logical target, scroll to it smoothly.
+        if (targetElement) {
+            targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    }
 }
 
 function areCommentsInline() {
