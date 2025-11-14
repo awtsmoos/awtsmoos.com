@@ -685,101 +685,97 @@ async function showAllComments({
 var inlineComments = {}//arrays by alias
 
 function addCommentsInline(comments, alias) {
-    
-    	console.log("adding inline comments",comments,alias)
-	var sections= Array. from(document
-	.querySelectorAll(".section"));
+    console.log("adding inline comments", comments, alias);
 
-	sections. forEach(w=>{
-		var idx=w. dataset.idx
-		var com= comments. filter(c=>(
-			c?.dayuh?.verseSection == idx
-		
-		))
-		
-		if(!com?.length) return console. log("NOTHING", com, idx, w, comments, alias);
-		//console.log("Doing comments",com)
-		var commentHolder = null
-		var subSecs = {}
-		var inlineCommentHolder = null;
-		com. forEach(c=>{
-			if(!inlineComments[alias]) {
-				inlineComments[alias] = [];
-			}
-			var ind = inlineComments[alias].find(w => w.id == c.id)
-			
-			if(!ind) {
-				inlineComments[alias].push(c);
-				var incom = makeInlineComment(alias, c);
-				
-				var sub = (
-					(c?.dayuh?.subSectionIndex)
-					//(c?.dayuh?.subSection || c?.dayuh?.subSection === 0)
-				);
-			
-				
+    // B"H - NEW: Handle "root" comments separately
+    const rootComments = comments.filter(c => c?.dayuh?.verseSection === "root");
+    if (rootComments.length > 0) {
+        const postContent = document.getElementById("realPost");
+        if (postContent) {
+            let rootCommentHolder = postContent.querySelector(".root-comments-holder[data-alias='" + alias + "']");
+            if (!rootCommentHolder) {
+                // Use makeInlineCommentHolder and prepend it to the post
+                rootCommentHolder = makeInlineCommentHolder(alias, postContent);
+                rootCommentHolder.classList.add("root-comments-holder"); // for easy selection
+                postContent.prepend(rootCommentHolder);
+            }
 
-				if(sub || sub === 0) {
-					
-					if(!subSecs[sub]) {
-						subSecs[sub] = []
+            rootComments.forEach(c => {
+                if (!inlineComments[alias]) inlineComments[alias] = [];
+                const ind = inlineComments[alias].find(w => w.id == c.id);
+                if (!ind) {
+                    inlineComments[alias].push(c);
+                    const incom = makeInlineComment(alias, c);
+                    rootCommentHolder.appendChild(incom);
+                }
+            });
+        }
+    }
 
-						var ob = {
-							div: document.createElement(
-								"div"
-							),
-							sub,
-							first: c
-						}
-						ob.div.classList.add("sub-section");
-						ob.div.dataset["subSectionComments"]
-						=sub;
-						subSecs[sub].push(ob);
-						var subSecDiv = w.querySelector(
-							".sub-awtsmoos[data-idx='"
-								+sub+
-							"']"	
-						);
-						if(subSecDiv) {
-							inlineCommentHolder = 
-								makeInlineCommentHolder(
-									alias, subSecDiv
-								);
-						}
-						
-					}
-					if(inlineCommentHolder) {
-						inlineCommentHolder.appendChild(incom);
-					}
-				//	console.log("Appended", c, com )
-				} else {
-					if(!commentHolder) {
-						commentHolder = makeInlineCommentHolder(alias, w);
-					}
-					commentHolder.appendChild(incom);
-				//	console.log("Added",window.ch=commentHolder,window.inc = incom);
-				}
-			} else {
-				console.log("Found already", com, ind, c)
-			}
-	
-		})
-      
-    
-    
-    
+    // Existing logic for numbered sections
+    var sections = Array.from(document.querySelectorAll(".section"));
+    sections.forEach(w => {
+        var idx = w.dataset.idx;
+        var com = comments.filter(c => (
+            c?.dayuh?.verseSection == idx
+        ));
 
+        if (!com?.length) return;
+
+        var commentHolder = null;
+        var subSecs = {};
+        var inlineCommentHolder = null;
+        com.forEach(c => {
+            if (!inlineComments[alias]) {
+                inlineComments[alias] = [];
+            }
+            var ind = inlineComments[alias].find(w => w.id == c.id);
+
+            if (!ind) {
+                inlineComments[alias].push(c);
+                var incom = makeInlineComment(alias, c);
+
+                var sub = ((c?.dayuh?.subSectionIndex));
+
+                if (sub || sub === 0) {
+                    if (!subSecs[sub]) {
+                        subSecs[sub] = [];
+                        var ob = {
+                            div: document.createElement("div"),
+                            sub,
+                            first: c
+                        };
+                        ob.div.classList.add("sub-section");
+                        ob.div.dataset["subSectionComments"] = sub;
+                        subSecs[sub].push(ob);
+                        var subSecDiv = w.querySelector(".sub-awtsmoos[data-idx='" + sub + "']");
+                        if (subSecDiv) {
+                            inlineCommentHolder = makeInlineCommentHolder(alias, subSecDiv);
+                        }
+                    }
+                    if (inlineCommentHolder) {
+                        inlineCommentHolder.appendChild(incom);
+                    }
+                } else {
+                    if (!commentHolder) {
+                        commentHolder = makeInlineCommentHolder(alias, w);
+                    }
+                    commentHolder.appendChild(incom);
+                }
+            } else {
+                console.log("Found already", com, ind, c);
+            }
+        });
     });
+
     var p = getInlineAliases();
-	var ali = p.indexOf(alias);
-	if(ali < 0) {
-	  p.push(alias);
-	  
-	}
-	if(p.length) {
-		updateQueryStringParameter("inline", JSON.stringify(p));
-	}
-	//console.log("Looking",p,alias);
+    var ali = p.indexOf(alias);
+    if (ali < 0) {
+        p.push(alias);
+    }
+    if (p.length) {
+        updateQueryStringParameter("inline", JSON.stringify(p));
+    }
 }
 
 function makeTooltip(msg=null) {
@@ -1034,7 +1030,11 @@ async function indexSwitch() {
 		currentVerse = "root"
 		
 	}
-	//currentVerse = parseInt(currentVerse);
+	
+    // B"H - NEW: Clear all existing inline comments before adding new ones
+    document.querySelectorAll(".commentator.inline").forEach(el => el.remove());
+    inlineComments = {}; // Clear the tracking object as well
+
 	var al = getInlineAliases()
 	var subSec = getSubIdx();
 	for(var alias of al) {
@@ -1047,29 +1047,8 @@ async function indexSwitch() {
 			get: {
 				verseSection: currentVerse,
 				map: true,
-				/*propertyMap: JSON.stringify({
-					//var subSec = getSubSecIdx();
-					
-					content: true,
-					dayuh: true,
-					...(
-						subSec || subSec === 0 ? {
-							dayuh: {
-								verseSection: true,
-								subSectionIndex: {
-									equals: subSec
-								},
-								
-							
-								
-							}
-						} : {}
-					)
-				})*/
-					
 			}
 		})
-		//console.log("trying to add",comments)
 		addCommentsInline(comments, alias)
 	}
 	if(curTab) {
@@ -1108,6 +1087,28 @@ function getSubSecIdx() {
 	return idx;
 }
 async function reloadRoot() {
+    // B"H - MODIFIED: Clear caches to force a refresh of commentators and comments
+    var verseSection = getIdx();
+    if (verseSection === null) {
+        verseSection = "root";
+    }
+
+    // Clear the alias list cache for the current verse/root
+    if (data.aliases && data.aliases[verseSection]) {
+        delete data.aliases[verseSection];
+    }
+    
+    // Clear the comment cache for all aliases on this verse/root
+    if (window.commentsOfAliasCache?.heichelos?.[post.heichel.id]?.series?.[post.parentSeriesId]?.posts?.[post.id]) {
+        var aliasesCache = window.commentsOfAliasCache.heichelos[post.heichel.id].series[post.parentSeriesId].posts[post.id].aliases;
+        for (const alias in aliasesCache) {
+            if (aliasesCache[alias].verseSections?.[verseSection]) {
+                delete aliasesCache[alias].verseSections[verseSection];
+            }
+        }
+    }
+
+
 	return await loadRootComments({
 		post, 
 		mainParent, 
