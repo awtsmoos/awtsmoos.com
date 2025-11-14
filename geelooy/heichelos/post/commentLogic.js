@@ -684,18 +684,17 @@ async function showAllComments({
 
 var inlineComments = {}//arrays by alias
 
-// B"H - REVISED FUNCTION
+// B"H - CORRECTED FILTERING LOGIC
 function addCommentsInline(comments, alias) {
     console.log("adding inline comments", comments, alias);
 
-    // Handle "root" comments using the new dedicated function
-    const rootComments = comments.filter(c => c?.dayuh?.verseSection === "root");
+    // Filter for root comments by checking for an UNDEFINED or NULL verseSection
+    const rootComments = comments.filter(c => c?.dayuh?.verseSection === undefined || c?.dayuh?.verseSection === null);
     if (rootComments.length > 0) {
         const rootCommentHolder = createAndPlaceRootCommentHolder(alias);
         if (rootCommentHolder) {
             rootComments.forEach(c => {
                 if (!inlineComments[alias]) inlineComments[alias] = [];
-                // Ensure we don't add duplicate comments
                 if (!inlineComments[alias].find(w => w.id == c.id)) {
                     inlineComments[alias].push(c);
                     const incom = makeInlineComment(alias, c);
@@ -705,7 +704,7 @@ function addCommentsInline(comments, alias) {
         }
     }
 
-    // Existing logic for numbered sections (no changes needed here)
+    // Existing logic for numbered sections remains the same and works correctly
     var sections = Array.from(document.querySelectorAll(".section"));
     sections.forEach(w => {
         var idx = w.dataset.idx;
@@ -731,11 +730,7 @@ function addCommentsInline(comments, alias) {
                 if (sub || sub === 0) {
                     if (!subSecs[sub]) {
                         subSecs[sub] = [];
-                        var ob = {
-                            div: document.createElement("div"),
-                            sub,
-                            first: c
-                        };
+                        var ob = { div: document.createElement("div"), sub, first: c };
                         ob.div.classList.add("sub-section");
                         ob.div.dataset["subSectionComments"] = sub;
                         subSecs[sub].push(ob);
@@ -757,7 +752,6 @@ function addCommentsInline(comments, alias) {
         });
     });
 
-    // Update URL parameter (no changes needed here)
     var p = getInlineAliases();
     var ali = p.indexOf(alias);
     if (ali < 0) {
@@ -1015,7 +1009,7 @@ async function updateCommentHeader() {
 // B"H - REVISED FUNCTION
 async function indexSwitch() {
     var idxNum = getIdx();
-    var newVerse = (idxNum === null) ? "root" : idxNum;
+    var newVerse = (!idxNum && idxNum !== 0) ? "root" : idxNum;
 
     // Only proceed if the verse has actually changed
     if (currentVerse === newVerse) return;
