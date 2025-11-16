@@ -724,88 +724,89 @@ async function showAllComments({
 
 var inlineComments = {}//arrays by alias
 
-// B"H - REWRITTEN AND CORRECTED FUNCTION
+// B"H - REWRITTEN FOR CORRECTNESS AND COMPLETENESS
 function addCommentsInline(comments, alias) {
-    console.log(`[Inline Render] Attempting to render ${comments.length} inline comments for alias: ${alias}`);
+    console.log(`[Inline Render] Processing ${comments.length} comments for alias: ${alias}`);
 
     if (!comments || comments.length === 0) {
-        return; // Nothing to do.
+        return; // Nothing to render.
     }
 
-    // All comments passed in are for the same verse. Determine which one.
-    const verseSection = comments[0]?.dayuh?.verseSection;
-
-    // --- Handle Root Comments (comments on the post as a whole) ---
-    if (verseSection === undefined || verseSection === null) {
-        const rootCommentHolder = createAndPlaceRootCommentHolder(alias);
-        if (rootCommentHolder) {
-            comments.forEach(c => {
-                if (!inlineComments[alias]) inlineComments[alias] = [];
-                if (!inlineComments[alias].find(w => w.id === c.id)) {
-                    inlineComments[alias].push(c);
-                    const incom = makeInlineComment(alias, c);
-                    rootCommentHolder.appendChild(incom);
-                }
-            });
+    // --- Step 1: Group ALL comments by their verse section ---
+    // This is the core fix. We no longer assume the array has only one type of comment.
+    const commentsByVerse = comments.reduce((acc, comment) => {
+        const verseKey = comment?.dayuh?.verseSection ?? 'root';
+        if (!acc[verseKey]) {
+            acc[verseKey] = [];
         }
-        return; // Finished with root comments
-    }
-
-    // --- Handle Verse-Specific Comments ---
-    const targetSectionElement = document.querySelector(`.section[data-idx='${verseSection}']`);
-    if (!targetSectionElement) {
-        console.error(`[Inline Render] Could not find target section element for verseSection: ${verseSection}`);
-        return;
-    }
-
-    // Group comments by their sub-section index for efficient processing
-    const commentsBySubSection = comments.reduce((acc, comment) => {
-        const subIdx = comment?.dayuh?.subSectionIndex ?? 'main';
-        if (!acc[subIdx]) {
-            acc[subIdx] = [];
-        }
-        acc[subIdx].push(comment);
+        acc[verseKey].push(comment);
         return acc;
     }, {});
 
-    // Process each group of comments (main verse and any sub-sections)
-    for (const subSectionKey in commentsBySubSection) {
-        let parentElementForComments;
-        let commentHolder;
+    // --- Step 2: Process each group of comments independently ---
+    for (const verseKey in commentsByVerse) {
+        const commentsForThisVerse = commentsByVerse[verseKey];
 
-        if (subSectionKey === 'main') {
-            parentElementForComments = targetSectionElement;
-        } else {
-            parentElementForComments = targetSectionElement.querySelector(`.sub-awtsmoos[data-idx='${subSectionKey}']`);
+        // --- Handle "Root" Comments (no specific verse) ---
+        if (verseKey === 'root') {
+            const rootCommentHolder = createAndPlaceRootCommentHolder(alias);
+            if (rootCommentHolder) {
+                commentsForThisVerse.forEach(c => {
+                    if (!inlineComments[alias]) inlineComments[alias] = [];
+                    // Check if comment is already rendered before adding
+                    if (!inlineComments[alias].find(w => w.id === c.id)) {
+                        inlineComments[alias].push(c);
+                        const incom = makeInlineComment(alias, c);
+                        rootCommentHolder.appendChild(incom);
+                    }
+                });
+            }
+            continue; // Move to the next verse group
         }
 
-        if (parentElementForComments) {
-            // Find or create the main container for this alias's comments
-            commentHolder = parentElementForComments.querySelector(`.commentator.inline[data-alias='${alias}'] .comments-holder-inline`);
-            if (!commentHolder) {
-                commentHolder = makeInlineCommentHolder(alias, parentElementForComments);
-            }
-            
-            // Append the actual comments
-            commentsBySubSection[subSectionKey].forEach(c => {
-                if (!inlineComments[alias]) inlineComments[alias] = [];
-                if (!inlineComments[alias].find(w => w.id === c.id)) {
-                    inlineComments[alias].push(c);
-                    const incom = makeInlineComment(alias, c);
-                    commentHolder.appendChild(incom);
+        // --- Handle Verse-Specific Comments ---
+        const targetSectionElement = document.querySelector(`.section[data-idx='${verseKey}']`);
+        if (!targetSectionElement) {
+            console.error(`[Inline Render] Could not find HTML element for verse section: ${verseKey}`);
+            continue; // Skip this group if the HTML element isn't found
+        }
+
+        // Perform a secondary grouping for sub-sections within this verse
+        const commentsBySubSection = commentsForThisVerse.reduce((acc, comment) => {
+            const subIdx = comment?.dayuh?.subSection ?? 'main';
+            if (!acc[subIdx]) acc[subIdx] = [];
+            acc[subIdx].push(comment);
+            return acc;
+        }, {});
+
+        // Render comments for each sub-section (or 'main' section)
+        for (const subSectionKey in commentsBySubSection) {
+            const parentElement = (subSectionKey === 'main')
+                ? targetSectionElement
+                : targetSectionElement.querySelector(`.sub-awtsmoos[data-idx='${subSectionKey}']`);
+
+            if (parentElement) {
+                let commentHolder = parentElement.querySelector(`.commentator.inline[data-alias='${alias}'] .comments-holder-inline`);
+                if (!commentHolder) {
+                    commentHolder = makeInlineCommentHolder(alias, parentElement);
                 }
-            });
-        } else {
-            console.warn(`[Inline Render] Could not find parent element for sub-section key: ${subSectionKey} in verse ${verseSection}`);
+
+                commentsBySubSection[subSectionKey].forEach(c => {
+                    if (!inlineComments[alias]) inlineComments[alias] = [];
+                    if (!inlineComments[alias].find(w => w.id === c.id)) {
+                        inlineComments[alias].push(c);
+                        const incom = makeInlineComment(alias, c);
+                        commentHolder.appendChild(incom);
+                    }
+                });
+            }
         }
     }
-    
-    // Ensure alias is marked as inline in the URL
+
+    // --- Step 3: Finalize URL ---
     var p = getInlineAliases();
     if (!p.includes(alias)) {
-      p.push(alias);
-    }
-    if (p.length) {
+        p.push(alias);
         updateQueryStringParameter("inline", JSON.stringify(p));
     }
 }
