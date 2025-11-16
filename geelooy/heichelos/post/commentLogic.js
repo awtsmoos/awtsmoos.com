@@ -829,72 +829,94 @@ function makeTooltip(msg=null) {
 	
 }
 
+// B"H - REWRITTEN AND ROBUST makeInlineComment FUNCTION
 function makeInlineComment(alias, comment) {
-	var content = comment.content
-	var incom= document
-	.createElement("div")
-	
-	
-	incom.className="inline-comment"
-	//var hdr = document.createElement("")
-	if(
-		comment?.dayuh?.verseSection && !
-		comment?.dayuh?.hideVerseNumber
-	) {
-		var num = document.createElement("div");
-		num.textContent = comment?.dayuh?.verseSection;
-		num.classList = "awtsmoos-number";
+    // --- Main container for the inline comment ---
+    var incom = document.createElement("div");
+    incom.className = "inline-comment";
 
-	}
-	//commentHolder.appendChild(incom);
-	var comContent = document.createElement("div")
-	if(comment.dayuh?.title) {
-		var t = makeTitleDiv(comment?.dayuh?.title);
-		comContent.appendChild(t);
-	}
-	if(content) {
-		if(!isFirstCharacterHebrew(content)) {
-			incom.classList.add("en")
-		}
-		comContent.innerHTML += markdownToHtml(content||"");
-	}
-	if(comment?.dayuh?.sections) {
-		comment?.dayuh?.sections.forEach(q => {
-			var txt = q?.text || q || "";
-			if(!txt) return;
-			var sec = document.createElement("div");
-			sec.className ="awtsmoos-comment-section";
-			
+    // --- Tooltip for opening the side panel ---
+    var tool = makeTooltip("Open Comment");
+    tool.addEventListener("click", async () => {
+        var c = await openCommentsPanelToAlias(alias);
+        if (!c) return;
+        var con = c.querySelector(`.comment-content[data-cid="${comment.id}"]`);
+        if (con) {
+            con.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    });
+    incom.appendChild(tool);
 
-			if(isFirstCharacterHebrew(txt)) {
-				sec.classList.add("heb")
-			}
-			sec.innerHTML = markdownToHtml(txt)
-			comContent.appendChild(sec)
-		})
-	}
-	var tool = makeTooltip("Open Comment");
-	tool.addEventListener("click", async () => {
-		console.log("Trying",alias)
-		var c = await openCommentsPanelToAlias(alias)
-		if(!c) return console.log("Strange",c,alias,comment);
-		var con = c.querySelector(`.comment-content[data-cid="${
-			comment.id
-		}"]`);
-		if(con) {
-			console.log("Doing",window.con = con,window.comm = comment);
-			con?.scrollIntoView();
-		} else {
-			
-			console.log("Didn't get",c,comment,window.c=c,window.comment=comment)
-		}
-	})
-	incom.appendChild(tool);
-	incom.appendChild(comContent);
-	var images = comment?.dayuh?.images;
-	addImageGallery(images,incom);
-	
-	return incom;
+    // --- Content container that will hold all text and titles ---
+    var comContent = document.createElement("div");
+    incom.appendChild(comContent);
+
+    // --- Unified Rendering Logic ---
+    // This logic correctly handles the "flexible structure" of the comment data.
+
+    // 1. Handle the main title from dayuh, if it exists.
+    if (comment?.dayuh?.title) {
+        var t = makeTitleDiv(comment.dayuh.title);
+        comContent.appendChild(t);
+    }
+
+    // 2. Handle a simple string in `comment.content`.
+    if (comment.content && typeof comment.content === 'string') {
+        let textDiv = document.createElement('div');
+        textDiv.innerHTML = markdownToHtml(comment.content);
+        if (isFirstCharacterHebrew(comment.content)) {
+            incom.classList.add("heb");
+        } else {
+            incom.classList.add("en");
+        }
+        comContent.appendChild(textDiv);
+    }
+    
+    // 3. Collect all sections from both `comment.content` (if it's an array)
+    //    and `comment.dayuh.sections`.
+    var sectionsToRender = [];
+    if (Array.isArray(comment.content)) {
+        sectionsToRender = sectionsToRender.concat(comment.content);
+    }
+    if (Array.isArray(comment.dayuh?.sections)) {
+        sectionsToRender = sectionsToRender.concat(comment.dayuh.sections);
+    }
+
+    // 4. Render all collected sections correctly.
+    if (sectionsToRender.length > 0) {
+        sectionsToRender.forEach(sectionData => {
+            // A section can be a simple string OR an object like { text: "...", title: "..." }
+            const txt = sectionData?.text || sectionData || "";
+            const sectionTitle = sectionData?.title;
+
+            if (!txt && !sectionTitle) return; // Skip empty/invalid sections
+
+            var sec = document.createElement("div");
+            sec.className = "awtsmoos-comment-section";
+
+            if (sectionTitle) {
+                sec.appendChild(makeTitleDiv(sectionTitle));
+            }
+            
+            if (txt) {
+                let textDiv = document.createElement('div');
+                textDiv.innerHTML = markdownToHtml(txt);
+                sec.appendChild(textDiv);
+            }
+
+            if (isFirstCharacterHebrew(txt)) {
+                sec.classList.add("heb");
+            }
+            
+            comContent.appendChild(sec);
+        });
+    }
+
+    // --- Image Gallery (handles images from dayuh) ---
+    var images = comment?.dayuh?.images;
+    addImageGallery(images, incom);
+
+    return incom;
 }
 function makeInlineCommentHolder(alias, parent) {
 	var inlineHolder = document.createElement("div")
