@@ -1337,34 +1337,55 @@ async function loadRootComments({
 
 /**
  * The data engine for the side panel. It fetches and caches the master list of 
- * all commentators for a given verse. The `forceFresh` parameter allows us to
- * command it to bypass its own cache and get a definitive list from the server.
+ * all commentators for a given verse. This version is hardened with a guard
+ * clause to prevent crashes during initial page load.
  */
 async function getAndSaveAliases(full = false, forceFresh = false) {
+    
+    // This is the entire fix. Before doing anything, we check if the necessary
+    // global `post` object and its nested `heichel` property are ready.
+    if (!window.post || !window.post.heichel) {
+        // If they are not ready, it's too early to make the API call.
+        // We stop immediately and return an empty array to prevent a crash.
+        console.warn("[Guard] getAndSaveAliases called before window.post.heichel was ready. Returning empty list.");
+        return [];
+    }
+    // -----
+
     var verseSection = getIdx();
     if (!verseSection && verseSection !== 0) verseSection = "root";
 
-    // Respect the cache for performance, unless explicitly told not to.
+    if (!data.aliases) data.aliases = {};
+
     if (!forceFresh && data.aliases[verseSection]) {
-        console.log(`[Cache Hit] Using cached master commentator list for verse ${verseSection}.`);
         const cachedData = data.aliases[verseSection].aliases;
-        return full ? cachedData : cachedData.map(w => w?.id || w);
+        if (Array.isArray(cachedData)) {
+            return full ? cachedData : cachedData.map(w => w?.id || w);
+        }
     }
 
-    // --- Active Discovery ---
-    console.log(`[Discovery] Fetching fresh master commentator list for verse ${verseSection}.`);
-    var aliases = await getCommentsByAlias({
-        seriesId: window?.post?.parentSeriesId,
-        postId: window?.post?.id,
-        heichelId: window?.post?.heichel.id,
-        fromCache: false, // CRITICAL: This bypasses the utils.js cache.
-        get: { verseSection, map: true }
-    });
+    var aliases = []; // Default to an empty array for safety.
+    try {
+        const result = await getCommentsByAlias({
+            seriesId: window.post.parentSeriesId,
+            postId: window.post.id,
+            heichelId: window.post.heichel.id, // This is now safe to access.
+            fromCache: false,
+            get: { verseSection, map: true }
+        });
 
-    // Store the definitive, fresh result. This is now the Source of Truth for this verse.
-    data.aliases[verseSection] = { aliases: aliases || [], lastModified: Date.now() };
+        if (Array.isArray(result)) {
+            aliases = result;
+        } else {
+            console.warn(`[Data Integrity] getCommentsByAlias returned a non-array for verse ${verseSection}. Defaulting to empty.`);
+        }
+    } catch (error) {
+        console.error(`[Data Integrity] Critical error fetching commentator list for verse ${verseSection}:`, error);
+    }
 
-    return Array.isArray(aliases) ? aliases.map(w => w?.id || w) : [];
+    data.aliases[verseSection] = { aliases, lastModified: Date.now() };
+
+    return full ? aliases : aliases.map(w => w?.id || w);
 }
 
 function makeAddCommentSection(par) {
