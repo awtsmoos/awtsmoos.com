@@ -856,39 +856,41 @@ async function updateCommentHeader() {
  */
 
 
+// B"H - THE CORRECT AND FINAL indexSwitch
 async function indexSwitch() {
     var idxNum = getIdx();
     var newVerse = (!idxNum && idxNum !== 0) ? "root" : idxNum;
 
-    if (currentVerse === newVerse) return;
+    if (currentVerse === newVerse) return; // Performance guard
     console.log(`[Conductor] Verse changed to ${newVerse}. Starting synchronization.`);
     currentVerse = newVerse;
 
-    // --- 1. REMEMBER STATE ---
+    // --- 1. REMEMBER STATE & INVALIDATE CACHE ---
     const activeAliasId = window.curTab?.awtsHeader?.textContent?.trim()?.substring(1);
+    invalidateVerseCache(newVerse); // Force all subsequent fetches to be fresh.
 
     // --- 2. SYNCHRONIZE SIDE PANEL ---
     if (window.commentTab && window.commentTab.isOpen) {
-        // CRITICAL FIX: Update the header text FIRST.
+        // CRITICAL FIX: Update the main comment panel header. This fixes the stuck "verse X" text.
         await updateCommentHeader();
         
-        // Rebuild the commentator button list for the new verse.
+        // CRITICAL FIX: Rebuild the commentator list for the new verse.
         const newTabs = await makeCommentatorList(window.parent, window.tabComment);
 
-        // If an alias tab was open before, find its new instance and open it automatically.
-        // This is the fix for the automatic panel content update.
+        // CRITICAL FIX: If an alias tab was open, find its new instance and open it.
+        // This forces the panel content to update automatically on scroll.
         if (activeAliasId) {
             const tabToReopen = newTabs.find(t => t.awtsHeader.textContent.trim().substring(1) === activeAliasId);
-            tabToReopen?.open();
+            if (tabToReopen) {
+                tabToReopen.open();
+            }
         }
     }
 
     // --- 3. SYNCHRONIZE INLINE VIEW (Persistent & Additive) ---
     const inlineAliases = getInlineAliases();
     if (inlineAliases.length > 0) {
-        invalidateVerseCache(newVerse);
-        const commentators = await getAndSaveAliases(true);
-
+        const commentators = await getAndSaveAliases(true); // Get fresh data
         for (const aliasData of commentators) {
             const aliasId = aliasData.id;
             if (!inlineAliases.includes(aliasId)) continue;
@@ -912,73 +914,67 @@ async function indexSwitch() {
 
 
 // B"H - THE NEW, ROBUST RENDERING ENGINE, REBUILT WITH THE ORIGINAL COMPLEX LOGIC
+// B"H - THE NEW, ROBUST RENDERING ENGINE, REBUILT WITH THE ORIGINAL COMPLEX LOGIC
 function populateCommentElement(comment, parentElement) {
     parentElement.innerHTML = ''; // Start with a clean slate.
 
     // --- Step 1: Data Normalization ---
-    // Create a clean, predictable structure from the "millions of ways" the data can be.
-    let normalized = {
-        title: null,
-        content: null,
-        sections: [],
-        images: []
-    };
+    // Create a temporary, clean comment object to handle the "millions of ways" the data can be.
+    let normalizedComment = JSON.parse(JSON.stringify(comment));
 
-    // Safely extract data into the normalized object
-    if (comment?.dayuh?.title && typeof comment.dayuh.title === 'string') {
-        normalized.title = comment.dayuh.title;
+    // Handle legacy structures by merging them into a consistent format.
+    if (normalizedComment?.content?.title) {
+        normalizedComment.dayuh.title = normalizedComment.content.title;
     }
-    if (comment?.content?.title && typeof comment.content.title === 'string') {
-        normalized.title = comment.content.title; // Override if present in this legacy format
+    if (Array.isArray(normalizedComment?.content?.text)) {
+        normalizedComment.content = normalizedComment.content.text;
     }
-    if (comment.content && typeof comment.content === 'string') {
-        normalized.content = comment.content;
-    }
-    if (Array.isArray(comment.content)) {
-        normalized.sections.push(...comment.content);
-    }
-    if (Array.isArray(comment.dayuh?.sections)) {
-        normalized.sections.push(...comment.dayuh.sections);
-    }
-    if (Array.isArray(comment.dayuh?.images)) {
-        normalized.images.push(...comment.dayuh.images);
+    // This is the key normalization that was missing:
+    if (Array.isArray(normalizedComment.content)) {
+        if (!Array.isArray(normalizedComment.dayuh.sections)) {
+            normalizedComment.dayuh.sections = [];
+        }
+        normalizedComment.dayuh.sections.push(...normalizedComment.content);
+        normalizedComment.content = null; // Nullify after moving to prevent double rendering
     }
 
     // --- Step 2: Render from the clean, normalized object ---
-    
+
     // Render title
-    if (normalized.title) {
-        parentElement.appendChild(makeTitleDiv(normalized.title));
+    if (normalizedComment?.dayuh?.title && typeof normalizedComment.dayuh.title === 'string') {
+        parentElement.appendChild(makeTitleDiv(normalizedComment.dayuh.title));
     }
 
-    // Render main content
-    if (normalized.content) {
+    // Render main content string, if it exists
+    if (normalizedComment.content && typeof normalizedComment.content === 'string') {
         const textDiv = document.createElement("div");
-        textDiv.innerHTML = markdownToHtml(sanitizeComment(normalized.content));
+        textDiv.innerHTML = markdownToHtml(sanitizeComment(normalizedComment.content));
         parentElement.appendChild(textDiv);
     }
     
-    // Render all sections
-    normalized.sections.forEach(sectionData => {
-        const txt = sectionData?.text || (typeof sectionData === 'string' ? sectionData : "");
-        const sectionTitle = sectionData?.title;
-        if (!txt && !sectionTitle) return;
+    // Render all sections from dayuh.sections
+    if (Array.isArray(normalizedComment.dayuh?.sections)) {
+        normalizedComment.dayuh.sections.forEach(sectionData => {
+            const txt = sectionData?.text || (typeof sectionData === 'string' ? sectionData : "");
+            const sectionTitle = sectionData?.title;
+            if (!txt && !sectionTitle) return;
 
-        const sec = document.createElement("div");
-        sec.className = "awtsmoos-comment-section";
-        if (sectionTitle && typeof sectionTitle === 'string') {
-            sec.appendChild(makeTitleDiv(sectionTitle));
-        }
-        if (txt) {
-            const textDiv = document.createElement('div');
-            textDiv.innerHTML = markdownToHtml(sanitizeComment(txt));
-            sec.appendChild(textDiv);
-        }
-        parentElement.appendChild(sec);
-    });
+            const sec = document.createElement("div");
+            sec.className = "awtsmoos-comment-section";
+            if (sectionTitle && typeof sectionTitle === 'string') {
+                sec.appendChild(makeTitleDiv(sectionTitle));
+            }
+            if (txt) {
+                const textDiv = document.createElement('div');
+                textDiv.innerHTML = markdownToHtml(sanitizeComment(txt));
+                sec.appendChild(textDiv);
+            }
+            parentElement.appendChild(sec);
+        });
+    }
 
     // Render images
-    addImageGallery(normalized.images, parentElement);
+    addImageGallery(normalizedComment?.dayuh?.images, parentElement);
 
     // --- Step 3: Set Language Direction Safely ---
     const topLevelContainer = parentElement.closest('.comment-content, .inline-comment');
