@@ -126,9 +126,9 @@ class CommentSection {
         this.buttonContainer.appendChild(this.submitBtn);
     }
 
+    // B"H
     async submitComment() {
-        const content = this.commentBox.innerText;
-        
+        const content = this.commentBox.innerText.trim();
         const images = this.imgResults.map(q=>q?.success ? ({
             medium: q?.data?.medium?.url,
             thumbnail: q?.data?.thumb?.url,
@@ -136,89 +136,89 @@ class CommentSection {
             height: q?.data?.height,
             width: q?.data?.width,
             size: q.data?.size
-        }) : null).filter(Boolean);//[...this.galleryContainer.querySelectorAll("img")].map((img) => img.src);
+        }) : null).filter(Boolean);
 
-        if (!content) {
+        if (!content && images.length === 0) {
             alert("Comment cannot be empty.");
             return;
         }
 
-        
-        // Perform submit logic here
-        console.log({ content, images });
-        var submitBtn = this.submitBtn;
-        submitBtn.textContent = "Submitting comment...";
+        this.submitBtn.innerText = "Submitting...";
+        this.submitBtn.disabled = true;
+
         try {
-            var currentAlias = window.currentAlias || window.curAlias;
+            const currentAlias = window.currentAlias || window.curAlias;
             if (!currentAlias) {
-                await AwtsmoosPrompt.go({
-                    isAlert: true,
-                    headerTxt: "Don't have current alias",
-                });
+                await AwtsmoosPrompt.go({ isAlert: true, headerTxt: "Current alias is not set. Please log in." });
                 return;
             }
-            var s = new URLSearchParams(location.search);
-            var idx = s.get("idx");
-            var ob = {
-                images
-            };
-            if (idx !== null) {
-                idx = parseInt(idx);
-                if(!isNaN(idx))
-                    ob.verseSection = idx;
-            }
-            var sub = s.get("sub");
-            if(sub !== null) 
-                sub = parseInt(sub);
+
+            const s = new URLSearchParams(location.search);
+            const idx = s.get("idx");
+            const sub = s.get("sub");
+            const verseSection = idx !== null ? parseInt(idx) : "root";
+
+            let dayuhObject = { images };
+            if (idx !== null) dayuhObject.verseSection = parseInt(idx);
+            if (sub !== null) dayuhObject.subSection = parseInt(sub);
             
-            if(!isNaN(sub))
-                ob.subSection = sub;
-            
-            var json = await (
-                await fetch(location.origin + `/api/social/heichelos/${window.post?.heichel?.id}/post/${window.post?.id}/comments/`, {
-                    method: "POST",
-                    body: new URLSearchParams({
-                        aliasId: currentAlias,
-                        content: this.commentBox.innerText,
-                        seriesId: window?.post?.parentSeriesId,
-                        dayuh: JSON.stringify(ob),
-                    }),
-                })
-            ).json();
-            if (json.success) {
-                await AwtsmoosPrompt.go({
-                    isAlert: true,
-                    headerTxt: "You did it! Your comment appears below.",
-                });
-                submitBtn.textContent = "Submit Comment";
+            const response = await fetch(location.origin + `/api/social/heichelos/${window.post?.heichel?.id}/post/${window.post?.id}/comments/`, {
+                method: "POST",
+                body: new URLSearchParams({
+                    aliasId: currentAlias,
+                    content: content,
+                    seriesId: window?.post?.parentSeriesId,
+                    dayuh: JSON.stringify(dayuhObject),
+                }),
+            });
+
+            const json = await response.json();
+
+            // --- NEW, SIMPLIFIED SUCCESS LOGIC ---
+            // The server response contains the new comment's ID in `details.id`.
+            if (json.success && json.details?.id) {
+                const newCommentId = json.details.id;
                 
-            } else if (json.error) {
-                await AwtsmoosPrompt.go({
-                    isAlert: true,
-                    headerTxt: "There was an issue: " + json.error,
+                // Construct the full comment object from the data we just sent and the ID we received.
+                // This is needed for the instant inline update.
+                const newCommentData = {
+                    id: newCommentId,
+                    author: currentAlias,
+                    content: content,
+                    dayuh: dayuhObject
+                };
+
+                // Hand off to the conductor and let it handle everything.
+                await window.commentLogic.handleNewComment({
+                    aliasId: currentAlias,
+                    verseSection: verseSection,
+                    commentId: newCommentId,
+                    newCommentData: newCommentData 
                 });
-                
+
+                // Reset this component's UI now that the job is done.
+                this.commentBox.innerText = "";
+                this.galleryContainer.innerHTML = "";
+                this.galleryContainer.style.display = "none";
+                this.commentBox.style.display = "none";
+                this.buttonContainer.style.display = "none";
+                this.btn.style.display = "block";
+                this.imgResults = [];
+
+            } else {
+                const errorMessage = json.error || "An unknown error occurred on the server.";
+                await AwtsmoosPrompt.go({ isAlert: true, headerTxt: "Submission failed: " + errorMessage });
             }
         } catch (e) {
-            console.log(e);
-            await AwtsmoosPrompt.go({
-                isAlert: true,
-                headerTxt: "Something went wrong",
-            });
-          
+            console.error(e);
+            await AwtsmoosPrompt.go({ isAlert: true, headerTxt: "A network or script error occurred." });
+        } finally {
+            this.submitBtn.innerText = "Comment";
+            this.submitBtn.disabled = false;
         }
-      //  submitBtn.textContent = oh;
-        window?.curTab?.awtsRefresh?.();
-        reloadRoot();
-
-        // Reset UI
-        this.commentBox.innerText = "";
-        this.galleryContainer.innerHTML = "";
-        this.galleryContainer.style.display = "none";
-        this.commentBox.style.display = "none";
-        this.buttonContainer.style.display = "none";
-        this.btn.style.display = "block";
     }
+
+
 
     // Dynamically inject enhanced CSS
     injectCSS() {

@@ -1,18 +1,23 @@
 /**
  * B"H
  *
- * Resilient Service Worker for Awtsmoos
+ * Resilient Service Worker for Awtsmoos - "Guaranteed Freshness" Strategy
  *
- * This version preserves the original "Intelligent Network-First" strategy while
- * hardening it against crashes and unexpected failures. It ensures that a valid
- * response or a cached asset is always returned, preventing generic browser errors.
+ * This service worker is designed to be both fast and extremely safe by leveraging
+ * the existing server-side status check.
+ *
+ * THE CORE RULE:
+ * Any failure or uncertainty during the freshness check (e.g., a network blip,
+ * a server error, malformed JSON) immediately triggers a fallback to fetch the
+ * live version from the network. The cache is only used if it can be proven
+ * to be 100% fresh, or if the user is completely offline.
  */
 
-const CACHE_NAME = 'awtsmoos-cache-v8'; // Incremented version
-const DB_NAME = 'awtsmoos-metadata-v8'; // Incremented version
+const CACHE_NAME = 'awtsmoos-cache-v11'; // Incremented for a clean update
+const DB_NAME = 'awtsmoos-metadata-v11'; // Incremented for a clean update
 const STATUS_HEADER = 'Awtsmoos-File-Status';
 
-// --- IndexedDB Helper (Hardened for Resilience) ---
+// --- IndexedDB Helper (Unchanged from your original robust version) ---
 const MetadataDB = {
     _db: null,
     async _getDB() {
@@ -27,11 +32,11 @@ const MetadataDB = {
     async get(url) {
         try {
             const db = await this._getDB();
+            const tx = db.transaction('metadata', 'readonly').objectStore('metadata');
+            const req = tx.get(url);
             return new Promise(resolve => {
-                const tx = db.transaction('metadata', 'readonly').objectStore('metadata');
-                const req = tx.get(url);
                 req.onsuccess = () => resolve(req.result);
-                req.onerror = () => resolve(null);
+                req.onerror = () => resolve(null); // Resolve null on error
             });
         } catch (e) {
             console.error("Failed to get from IndexedDB", e);
@@ -42,7 +47,7 @@ const MetadataDB = {
         try {
             const db = await this._getDB();
             const tx = db.transaction('metadata', 'readwrite').objectStore('metadata');
-            tx.put(metadata);
+            await tx.put(metadata);
             return tx.done;
         } catch (e) {
             console.error("Failed to write to IndexedDB", e);
@@ -51,7 +56,7 @@ const MetadataDB = {
     }
 };
 
-// --- Service Worker Lifecycle (Unchanged) ---
+// --- Service Worker Lifecycle (Standard and correct) ---
 self.addEventListener('install', (event) => {
     console.log('[SW] Install Event.');
     event.waitUntil(self.skipWaiting());
@@ -62,136 +67,138 @@ self.addEventListener('activate', (event) => {
     event.waitUntil(
         caches.keys().then((cacheNames) => {
             return Promise.all(
-                cacheNames.filter(name => name !== CACHE_NAME).map(name => caches.delete(name))
+                cacheNames
+                    .filter(name => name !== CACHE_NAME)
+                    .map(name => caches.delete(name))
             );
         }).then(() => self.clients.claim())
     );
 });
 
-// --- Fetch Interception (MODIFIED TO PREVENT LOGIC LOOP) ---
+// --- Fetch Interception ---
 self.addEventListener('fetch', (event) => {
     const { request } = event;
 
-    // --- NEW: LOGIC GUARD ---
-    // This is the critical fix. If an incoming request already has our internal
-    // status header, it means the client is making a request that it shouldn't be.
-    // We must prevent this from entering our main logic to avoid a loop where
-    // we would cache and serve the JSON metadata response itself.
-    if (request.headers.has(STATUS_HEADER)) {
-        // Sanitize the request by removing our internal header.
-        const newHeaders = new Headers(request.headers);
-        newHeaders.delete(STATUS_HEADER);
-        const cleanRequest = new Request(request, { headers: newHeaders });
-
-        // Fulfill the user's requirement: "ALWAYS default to getting page again".
-        // We bypass the intelligent check and go straight to the network.
-        console.warn('[SW] Sanitizing a request with status header. Fetching fresh from network.');
-        event.respondWith(fetchAndCache(cleanRequest));
-        return; // Stop further processing of this event.
-    }
-    // --- END OF FIX ---
-
-
-    if (
-        request.method !== 'GET' ||
-        ![
-            self.location.origin,
-            "https://awtsmoos.com",
-            "https://www.awtsmoos.com",
-        ].includes(
-            new URL(request.url).origin,
-        )
-    ) {
+    // Only handle GET requests for our own origin.
+    if (request.method !== 'GET' || !request.url.startsWith(self.location.origin)) {
         return;
     }
+
+    // This is the entry point to our robust logic.
     event.respondWith(handleFetch(request));
 });
 
-
 /**
- * The main fetch handler with the original resilient logic.
+ * The main fetch handler with the hardened "Cache, but Verify" logic.
  */
 async function handleFetch(request) {
-    // This main try/catch is the ultimate safety net for ANY network failure.
     try {
-        // --- 1. ATTEMPT INTELLIGENT CHECK ---
+        // --- STEP 1: ATTEMPT THE INTELLIGENT VERIFICATION ---
         const statusRequest = createStatusRequest(request);
         const statusResponse = await fetch(statusRequest, { cache: 'no-store' });
 
+        // DOUBT CHECK #1: Did the server respond with an error?
         if (!statusResponse.ok) {
-            console.warn(`[SW] Status check failed for ${request.url}. Falling back to direct network fetch.`);
-            return fetchAndCache(request);
+            console.warn(`[SW] Status check failed with server error ${statusResponse.status}. Defaulting to live fetch.`);
+            // If there's doubt, we go straight to the network.
+            return await fetchAndCacheFallback(request);
         }
 
         let serverMeta;
         try {
             serverMeta = await statusResponse.json();
         } catch (e) {
-            console.warn(`[SW] Server sent non-JSON status for ${request.url}. Falling back to network.`);
-            return fetchAndCache(request);
+            // DOUBT CHECK #2: Did the server send invalid JSON?
+            console.warn(`[SW] Server sent non-JSON status. Defaulting to live fetch.`);
+            // If there's doubt, we go straight to the network.
+            return await fetchAndCacheFallback(request);
         }
 
         const localMeta = await MetadataDB.get(request.url);
-        const isStale = (serverMeta.logicModified > (localMeta?.logicModified || 0)) ||
-                    (serverMeta.dataModified > (localMeta?.dataModified || 0)) ||
-                    (serverMeta.stateHash !== localMeta?.stateHash);
+
+        // --- STEP 2: COMPARE METADATA TO DETERMINE FRESHNESS ---
+        // This is the core comparison logic, using all three server metrics.
+        const isStale = !localMeta ||
+                        (serverMeta.logicModified > localMeta.logicModified) ||
+                        (serverMeta.dataModified > localMeta.dataModified) ||
+                        (serverMeta.stateHash !== localMeta.stateHash);
 
         if (isStale) {
-            return fetchAndUpdate(request, serverMeta);
+            // Cache is stale or non-existent, so we must fetch the live version.
+            console.log(`[SW] Cache is stale. Fetching live version for: ${request.url}`);
+            return await fetchAndUpdateMetadata(request, serverMeta);
         } else {
+            // Cache is GUARANTEED LEGIT. Serve from cache.
+            console.log(`[SW] Cache is fresh. Serving from cache for: ${request.url}`);
             const cachedResponse = await caches.match(request);
-            return cachedResponse || fetchAndUpdate(request, serverMeta);
+            
+            // If for some reason the cache was cleared by the browser, fetch live as a fallback.
+            return cachedResponse || await fetchAndUpdateMetadata(request, serverMeta);
         }
 
     } catch (error) {
-        // --- 3. CACHE AS LAST RESORT ---
-        console.warn(`%c[SW] Network failed. Serving from cache for ${request.url}`, 'color: grey');
-        const cachedResponse = await caches.match(request);
-        if (cachedResponse) {
-            return cachedResponse;
+        // --- STEP 3: THE ULTIMATE FAILSAFE (NETWORK FAILURE DURING STATUS CHECK) ---
+        // This 'catch' block runs if the `fetch(statusRequest)` fails entirely (e.g., user is offline).
+        console.warn(`[SW] Status check network error (${error.message}). Defaulting to live fetch attempt.`);
+        
+        try {
+            // As per the rule, we FIRST attempt to get the live version.
+            return await fetchAndCacheFallback(request);
+        } catch (networkError) {
+            // If (and ONLY if) the live attempt also fails, we fall back to the cache as a last resort.
+            console.error(`[SW] Final network fetch failed. Serving from cache as last resort for: ${request.url}`);
+            const cachedResponse = await caches.match(request);
+            
+            // If there's nothing in the cache, we must return a proper offline response.
+            return cachedResponse || new Response('Network unavailable and resource not found in cache.', {
+                status: 404,
+                statusText: 'Not Found'
+            });
         }
-        return new Response('Network unavailable and resource not found in cache.', {
-            status: 404,
-            statusText: 'Not Found'
-        });
     }
 }
 
 /**
- * Creates the special request used to check for metadata. (Unchanged)
+ * Creates the special request used to check for metadata.
  */
 function createStatusRequest(request) {
     const newHeaders = new Headers(request.headers);
     newHeaders.append(STATUS_HEADER, 'true');
+    // Ensure we don't send cookies from other origins with the status request
+    // Note: The 'credentials' property is part of the Request object constructor options
     return new Request(request.url, {
-        method: request.method,
+        method: 'GET',
         headers: newHeaders,
-        redirect: 'manual'
+        redirect: 'manual',
+        credentials: request.credentials, // Preserve credentials setting
     });
 }
 
 /**
- * The standard network fallback. It does not handle metadata. (Unchanged)
+ * Fetches the live resource, updates the cache, AND updates the metadata in IndexedDB.
+ * This is the primary function for updating stale content.
  */
-async function fetchAndCache(request) {
+async function fetchAndUpdateMetadata(request, metadata) {
     const networkResponse = await fetch(request);
+
     if (networkResponse && networkResponse.ok) {
         const cache = await caches.open(CACHE_NAME);
+        // We use await here to ensure these operations complete before returning.
         await cache.put(request, networkResponse.clone());
+        await MetadataDB.set({ url: request.url, ...metadata });
     }
     return networkResponse;
 }
 
 /**
- * The full update process, now made resilient.
+ * A simpler network fallback. It fetches and caches but does NOT handle metadata.
+ * This is used when the intelligent check system fails and we just need to get the file.
  */
-async function fetchAndUpdate(request, metadata) {
+async function fetchAndCacheFallback(request) {
     const networkResponse = await fetch(request);
-
     if (networkResponse && networkResponse.ok) {
         const cache = await caches.open(CACHE_NAME);
         await cache.put(request, networkResponse.clone());
-        await MetadataDB.set({ url: request.url, ...metadata });
     }
     return networkResponse;
 }

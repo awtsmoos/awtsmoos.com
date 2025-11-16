@@ -5,6 +5,13 @@ for posts
 .commentTitle {
     font-weight: bold;
 }
+.highlight-new-comment {
+    transition: background-color 1.5s ease-out;
+    background-color: rgba(255, 240, 150, 0.4); /* A soft, pleasant yellow */
+    border: 1px solid rgba(220, 180, 0, 0.3);
+    border-radius: 4px;
+}
+
 
 .awtsmoos-comment-section.heb {
     padding: 5px;
