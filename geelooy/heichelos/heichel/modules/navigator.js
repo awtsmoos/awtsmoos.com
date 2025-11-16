@@ -105,18 +105,24 @@ export class HeichelNavigator {
         this.updateURL();
     }
     
-    async deleteItems(items) {
+    async deleteItems(items, clear=false) {
         if (!items || items.length === 0) return;
         const itemStr = items.length === 1 ? `"${items[0].title || items[0].type}"` : `${items.length} items`;
         if (!confirm(`Are you sure you want to delete ${itemStr}? This cannot be undone.`)) return;
         
         ui.notify('Deleting...', 'info');
-
-        const results = await api.deleteContent({
-            heichelId: appState.heichelId,
-            aliasId: window.curAlias,
-            itemsToDelete: items,
-        });
+	
+        const results = !clear ? 
+	        await api.deleteContent({
+	            heichelId: appState.heichelId,
+	            aliasId: window.curAlias,
+	            itemsToDelete: items,
+	        })
+	: await api.clearSeries({
+	            heichelId: appState.heichelId,
+	            aliasId: window.curAlias,
+	            itemsToDelete: items,
+	        })
 
         const failures = results.filter(r => !r.success);
         if (failures.length > 0) {
@@ -137,6 +143,7 @@ export class HeichelNavigator {
     
     deleteSelectedItems = () => this.deleteItems(Array.from(appState.selectedItems.values()));
     deleteSingleItem = (item) => this.deleteItems([item]);
+    clearSingleItem = (item) => this.deleteItems([item], true);
     
     switchView = (newView, force = false) => {
         if (!force && this.currentView === newView) return;

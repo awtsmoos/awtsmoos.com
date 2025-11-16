@@ -39,6 +39,12 @@ export function showContextMenu(iconElement, item, navigator) {
         'Edit': () => notify(`Editing "${item.title}" is not yet implemented.`, 'info'),
         'Share': shareAction
     };
+    
+    if(item.type == "series") {
+	    actions["Clear"] = () => navigatorInstance.clearSingleItem(item);
+    }
+    
+    console.log(item)
 
     for (const [label,action] of Object.entries(actions)) {
         const menuItem = document.createElement('div');

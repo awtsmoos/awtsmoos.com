@@ -196,9 +196,14 @@ function showContextMenu(event, item) {
     const actions = {
         'Edit': () => notify(`Editing "${item.title}" is not yet fully implemented.`),
         'Delete': () => heichelNavigator.deleteSingleItem(item),
+        
         'Share': () => notify('Sharing is not yet implemented.')
     };
-
+	
+    if(item.type == "series") {
+    
+	    actions['Clear'] = () => heichelNavigator.clearSingleItem(item),
+    }
     for(const [label, action] of Object.entries(actions)) {
         const menuItem = document.createElement('div');
         menuItem.className = 'context-menu-item';

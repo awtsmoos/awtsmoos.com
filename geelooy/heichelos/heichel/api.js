@@ -146,6 +146,27 @@ export async function deleteContent(data) {
     return results;
 }
 
+
+export async function clearSeries(data) {
+    const {heichelId, aliasId, itemsToDelete} = data;
+    const results = [];
+    for (const item of itemsToDelete) {
+        
+        let reqUrl = item.type === 'series' 
+            ? `${BASE_API_URL}heichelos/${heichelId}/series/${item.parentId}/clearSubSeries/${item.id}`
+            : null;
+	
+	if(!reqUrl ) return;
+        const result = await postData(reqUrl, new URLSearchParams({ aliasId }));
+        
+        results.push({
+            success: (result && (result.success || typeof result.deletedCount !== 'undefined' || result.ok)),
+            item
+        });
+    }
+    return results;
+}
+
 export function generateInputId(title) {
     if (!title) return `item-${Date.now()}`;
     const cleaned = title.replace(/[^a-zA-Z0-9\u0590-\u05FF\s-]/g, ' ').trim();

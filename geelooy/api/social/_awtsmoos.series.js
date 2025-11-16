@@ -337,6 +337,33 @@ module.exports = ({ $i, userid } = {}) => ({
             seriesId: v.seriesId               // The series to be deleted
         });
     },
+    
+    /**
+     * @endpoint DELETE /heichelos/:heichel/series/:parentSeriesId/deleteSubSeries/:seriesId
+     * @description Explicitly deletes a sub-series from a known parent.
+     * @requires Body: { aliasId }
+     */
+    "/heichelos/:heichel/series/:parentSeriesId/clearSubSeries/:seriesId": async (v) => {
+        // This endpoint can be triggered by POST (forms) or DELETE (JS clients)
+        if ($i.request.method !== "DELETE" && $i.request.method !== "POST") {
+            return er({ code: "METHOD_NOT_ALLOWED" });
+        }
+         
+        // Get authorizing aliasId from the request body
+        if (!$i.$_DELETE) $i.$_DELETE = $i.$_POST || {};
+        const aliasId = $i.$_POST.aliasId || $i.$_DELETE.aliasId;
+        if (!aliasId) return er({code: "AUTH_NEEDED", details: "aliasId required"});
+        $i.$_POST.aliasId = aliasId; // Ensure it's available for the helper
+
+        return deleteSeriesFromHeichel({
+            $i,
+            userid,
+            heichelId: v.heichel,
+            deleteSelf: false,
+            parentSeriesId: v.parentSeriesId, // <-- The EXPLICIT parent is now passed in
+            seriesId: v.seriesId               // The series to be deleted
+        });
+    },
 
 
     /**

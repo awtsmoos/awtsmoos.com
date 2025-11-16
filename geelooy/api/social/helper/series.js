@@ -532,15 +532,22 @@ async function getSubSeries({ $i, heichelId, parentSeriesId, withDetails = true 
  * for itself and all its contents (posts, comments, and all alias references).
  * @returns {Promise<Array<object>>} A promise resolving to an array of task objects.
  */
-async function compileFullDeletionTasksForSingleSeries({ $i, heichelId, seriesId, parentBreadcrumb }) {
+async function compileFullDeletionTasksForSingleSeries({
+	$i, 
+	heichelId, 
+	seriesId, 
+	parentBreadcrumb,
+	deleteSelf = true
+}) {
     const tasks = [];
     const db = $i.db;
 
     // --- Part 1: Get data needed for cleanup ---
     let postsData = {};
     const seriesPrateem = (await db.get(seriesPrateemPath(heichelId, seriesId), { propertyMap: { author: true } }).catch(() => null));
+    var postsPath = seriesPostsPath(heichelId, seriesId)
     try {
-        postsData = await db.get(seriesPostsPath(heichelId, seriesId)) || {};
+        postsData = await db.get(postsPath) || {};
     } catch (e) { /* Fails gracefully if posts object doesn't exist */ }
     
     // --- THE FIX: Construct the breadcrumb from the known parent's breadcrumb ---
@@ -570,15 +577,22 @@ async function compileFullDeletionTasksForSingleSeries({ $i, heichelId, seriesId
     }
     
     // --- Part 3: Generate tasks for the series itself ---
-    if (seriesPrateem?.author) {
-        tasks.push({
-            operation: 'REMOVE_FROM_ARRAY',
-            params: { path: aliasSeriesTrackingPath(seriesPrateem.author, heichelId), conditions: { exact: { selfEquals: seriesId } }, options: { deleteSelfIfEmpty: true } }
-        });
+    
+    if(deleteSelf) {
+	    if (seriesPrateem?.author) {
+	        tasks.push({
+	            operation: 'REMOVE_FROM_ARRAY',
+	            params: { path: aliasSeriesTrackingPath(seriesPrateem.author, heichelId), conditions: { exact: { selfEquals: seriesId } }, options: { deleteSelfIfEmpty: true } }
+	        });
+	    }
+	    tasks.push({ operation: 'DELETE_PATH', params: { path: seriesBasePath(heichelId, seriesId) } });
+	    tasks.push({ operation: 'DELETE_PATH', params: { path: `${sp}/heichelos/${heichelId}/comments/atSeries/${seriesId}` } });
     }
-    tasks.push({ operation: 'DELETE_PATH', params: { path: seriesBasePath(heichelId, seriesId) } });
-    tasks.push({ operation: 'DELETE_PATH', params: { path: `${sp}/heichelos/${heichelId}/comments/atSeries/${seriesId}` } });
-
+    
+    tasks.push({
+        operation: 'DELETE_PATH',
+        params: { path: postsPath  }
+    });
     // --- Part 4 (Recursive Call): Compile tasks for all children of this series ---
     try {
         const subSeriesIds = await db.get(seriesSubSeriesPath(heichelId, seriesId));
@@ -596,7 +610,13 @@ async function compileFullDeletionTasksForSingleSeries({ $i, heichelId, seriesId
 // 
 
 
-async function deleteSeriesFromHeichel({ $i, heichelId, seriesId, parentSeriesId, userid }) {
+async function deleteSeriesFromHeichel({$i, 
+	heichelId, 
+	seriesId, 
+	parentSeriesId, 
+	userid,
+	deleteSelf = true
+}) {
     const aliasId = $i.$_POST.aliasId;
     if (!aliasId || !parentSeriesId || seriesId === "root") return er({ message: "Invalid parameters for deletion." });
 
@@ -604,8 +624,7 @@ async function deleteSeriesFromHeichel({ $i, heichelId, seriesId, parentSeriesId
     if (!isAuthorized) return er({ code: "NO_AUTH" });
 
     try {
-        // --- This function is now a simple and powerful orchestrator ---
-
+      
         // Step 1: Create the top-level UNLINK task.
         const unlinkTask = {
             operation: 'REMOVE_FROM_ARRAY',
@@ -622,24 +641,31 @@ async function deleteSeriesFromHeichel({ $i, heichelId, seriesId, parentSeriesId
         }
 
         // Step 3: Recursively compile all cleanup tasks for the series and its descendants.
-        const contentCleanupTasks = await compileFullDeletionTasksForSingleSeries({
+        var contentCleanupTasks = await compileFullDeletionTasksForSingleSeries({
             $i,
             heichelId,
-            seriesId: seriesId,
-            parentBreadcrumb: parentBreadcrumb // Provide the starting context
+            seriesId,
+            deleteSelf,
+            parentBreadcrumb // Provide the starting context
         });
+        
+        if(deleteSelf) {
+	        contentCleanupTasks  = [unlinkTask, ...contentCleanupTasks]
+        }
 
         // Step 4: Create and queue the job.
         const { jobId } = await $i.createJob({
-            description: `Fully delete series '${seriesId}' from parent '${parentSeriesId}'.`,
-            tasks: [unlinkTask, ...contentCleanupTasks],
+            description: `Fully ${deleteSelf ? 
+	            "delete" : "empty"} series '${seriesId}' from parent '${parentSeriesId}'.`,
+            tasks: contentCleanupTasks ,
             requestedBy: aliasId
         });
         
         return { 
             success: { 
                 message: "Series deletion has been queued. All content and references will be removed shortly.",
-                jobId: jobId 
+                jobId: jobId ,
+                deleteSelf
             } 
         };
     } catch (e) {
