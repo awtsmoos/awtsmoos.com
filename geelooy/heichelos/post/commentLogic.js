@@ -133,7 +133,8 @@ async function makeHTMLFromComment({ comment, aliasId, tab }) {
     // Call the unified engine to do the rendering
     populateCommentElement(comment, commentText);
 
-    // ... (rest of the function for the three-dot menu remains unchanged) ...
+    
+	
 	// Three-dot menu
 	var menuContainer = document.createElement("div");
 	menuContainer.className = "menu-container";
@@ -1000,57 +1001,86 @@ async function indexSwitch() {
 
 
 
-// B"H - NEW UNIFIED RENDERING ENGINE
+// B"H - THE NEW, ROBUST RENDERING ENGINE, REBUILT WITH THE ORIGINAL COMPLEX LOGIC
 function populateCommentElement(comment, parentElement) {
-    // This function contains the robust logic to handle any comment structure.
-    
-    // 1. Handle main title from dayuh.
-    if (comment?.dayuh?.title) {
-        parentElement.appendChild(makeTitleDiv(comment.dayuh.title));
+    // This function is now as complex as the original to handle all data structures.
+    parentElement.innerHTML = ''; // Start with a clean slate.
+
+    // --- Data Normalization Step ---
+    // Create a temporary, clean comment object to avoid modifying the original cache.
+    let normalizedComment = JSON.parse(JSON.stringify(comment));
+
+    // Handle legacy structures by merging them into a consistent format.
+    if (normalizedComment?.content?.title) {
+        normalizedComment.dayuh.title = normalizedComment.content.title;
+    }
+    if (Array.isArray(normalizedComment?.content?.text)) {
+        normalizedComment.content = normalizedComment.content.text;
     }
 
-    // 2. Handle simple `content` string.
-    if (comment.content && typeof comment.content === 'string') {
-        let textDiv = document.createElement('div');
-        textDiv.innerHTML = markdownToHtml(comment.content);
+    // --- Rendering from the Normalized Object ---
+
+    // 1. Render the main title from dayuh, if it exists.
+    if (normalizedComment?.dayuh?.title && typeof normalizedComment.dayuh.title === 'string') {
+        parentElement.appendChild(makeTitleDiv(normalizedComment.dayuh.title));
+    }
+
+    // 2. Render the primary `content` if it's a simple string.
+    if (normalizedComment.content && typeof normalizedComment.content === 'string') {
+        const textDiv = document.createElement("div");
+        textDiv.innerHTML = markdownToHtml(sanitizeComment(normalizedComment.content));
         parentElement.appendChild(textDiv);
     }
-
-    // 3. Gather all sections from both `content` (if array) and `dayuh.sections`.
-    let sectionsToRender = [];
-    if (Array.isArray(comment.content)) sectionsToRender.push(...comment.content);
-    if (Array.isArray(comment.dayuh?.sections)) sectionsToRender.push(...comment.dayuh.sections);
     
-    // 4. Render all collected sections.
-    sectionsToRender.forEach(sectionData => {
-        const txt = sectionData?.text || sectionData || "";
-        const sectionTitle = sectionData?.title;
-        if (!txt && !sectionTitle) return;
+    // 3. Gather ALL sections from both `content` (if it's an array) and `dayuh.sections`.
+    let sectionsToRender = [];
+    if (Array.isArray(normalizedComment.content)) {
+        sectionsToRender.push(...normalizedComment.content);
+    }
+    if (Array.isArray(normalizedComment.dayuh?.sections)) {
+        sectionsToRender.push(...normalizedComment.dayuh.sections);
+    }
 
-        var sec = document.createElement("div");
-        sec.className = "awtsmoos-comment-section";
-        if (sectionTitle) sec.appendChild(makeTitleDiv(sectionTitle));
-        if (txt) {
-            let textDiv = document.createElement('div');
-            textDiv.innerHTML = markdownToHtml(txt);
-            sec.appendChild(textDiv);
+    // 4. Render the collected sections with careful type-checking.
+    if (sectionsToRender.length > 0) {
+        sectionsToRender.forEach(sectionData => {
+            const txt = sectionData?.text || (typeof sectionData === 'string' ? sectionData : "");
+            const sectionTitle = sectionData?.title;
+
+            if (!txt && !sectionTitle) return; // Skip empty/invalid sections
+
+            const sec = document.createElement("div");
+            sec.className = "awtsmoos-comment-section";
+
+            // SAFEGUARD: Only create a title if it's a valid string.
+            if (sectionTitle && typeof sectionTitle === 'string') {
+                sec.appendChild(makeTitleDiv(sectionTitle));
+            }
+            
+            if (txt) {
+                const textDiv = document.createElement('div');
+                textDiv.innerHTML = markdownToHtml(sanitizeComment(txt));
+                sec.appendChild(textDiv);
+            }
+            parentElement.appendChild(sec);
+        });
+    }
+
+    // 5. Render images.
+    addImageGallery(normalizedComment?.dayuh?.images, parentElement);
+
+    // 6. Reliably set language direction on the ultimate parent container.
+    const topLevelContainer = parentElement.closest('.comment-content, .inline-comment');
+    if (topLevelContainer) {
+        topLevelContainer.classList.remove("heb", "en"); // Reset state
+        // This call is now 100% safe because .innerText is always a string.
+        if (isFirstCharacterHebrew(parentElement.innerText)) {
+            topLevelContainer.classList.add("heb");
+        } else {
+            topLevelContainer.classList.add("en");
         }
-        if (isFirstCharacterHebrew(txt)) sec.classList.add("heb");
-        parentElement.appendChild(sec);
-    });
-
-    // 5. Handle images.
-    addImageGallery(comment?.dayuh?.images, parentElement);
-
-    // 6. Set language direction class on the top-level element.
-    const primaryText = comment.content || sectionsToRender.join(" ");
-    if (isFirstCharacterHebrew(primaryText)) {
-        parentElement.classList.add("heb");
-    } else {
-        parentElement.classList.add("en");
     }
 }
-
 
 function getSubIdx() {
 	var s = new URLSearchParams(location.search)
