@@ -117,83 +117,23 @@ function makeTitleDiv(title) {
 	}
 	return commentTitle
 }
-async function makeHTMLFromComment({
-	comment,
-	aliasId,
-	tab
-}) {
-	
+// B"H - UPDATED to use the new rendering engine
+async function makeHTMLFromComment({ comment, aliasId, tab }) {
+    // Create the main container for the side-panel comment
+    var cmCont = document.createElement("div");
+    cmCont.className = "comment-content";
+    cmCont.dataset.cid = comment.id;
+    tab.appendChild(cmCont);
 
-	// Create main comment container
-	var cmCont = document.createElement("div");
-	cmCont.className = "comment-content";
-	cmCont.dataset.cid = comment.id;
-	tab.appendChild(cmCont);
+    // Create the content area that will be populated
+    var commentText = document.createElement("div");
+    commentText.className = "comment-text";
+    cmCont.appendChild(commentText);
 
-	function forEachTxt(content, title="", section=false) {
-		// Add the comment text
-		var commentTitle = null;
-		if(title) {
-			
-			commentTitle = makeTitleDiv(title)
-			cmCont.appendChild(commentTitle);
-		}
-		
-		var commentText = document.createElement("div");
-		commentText.className = "comment-text"+ (section?" section" : "");
-		if(content)
-			commentText.innerHTML = markdownToHtml(sanitizeComment(content||""));
-		else {
-			console.log("No content?",content,title)
-		}
-		if(!isFirstCharacterHebrew(content)) {
-			cmCont.classList.add("en")
-		} else {
-			cmCont.classList.add('heb')
-		}
-		cmCont.appendChild(commentText);
-	}
-	if(comment?.content?.title) {
-		comment.dayuh.title = comment?.content?.title;
-		comment.content = comment.content.text;
-		
-	}
-	if(Array.isArray(comment?.content?.text)) {
-		comment.content = comment.content.text;
-	}
-	if(comment?.dayuh?.title) {
-		var commentTitle = makeTitleDiv(comment?.dayuh?.title)
-		cmCont.appendChild(commentTitle);
-	}
-	if(Array.isArray(comment.content)) {
-		comment.dayuh.sections = comment.content;
-		comment.content = null;
-	}
-	if(comment.content) {
-		forEachTxt(comment.content)
-	}
-	if(Array.isArray(comment.dayuh.sections)) {
-		comment.dayuh.sections.forEach(s => {
-			forEachTxt(s?.text || s,s.title,true);
-		})
-		
-	}
+    // Call the unified engine to do the rendering
+    populateCommentElement(comment, commentText);
 
-	// Display images if available
-	var d = comment?.dayuh;
-	const images = d?.images;
-	
-	addImageGallery(images,cmCont);
-	// Optional sections
-	
-	/*var sc = d ? d.sections : null;
-	if (sc) sc.forEach(q => {
-		var cs = document.createElement("div");
-		cs.className = "comment-section";
-		cs.innerHTML = markdownToHtml(sanitizeComment(q));
-		cmCont.appendChild(cs);
-	});*/
-
+    // ... (rest of the function for the three-dot menu remains unchanged) ...
 	// Three-dot menu
 	var menuContainer = document.createElement("div");
 	menuContainer.className = "menu-container";
@@ -210,8 +150,6 @@ async function makeHTMLFromComment({
 	menuContainer.appendChild(menuOptions);
 
 	// Menu options
-
-	
 	var opts = ["Reply", "Copy"];
 	if(window?.curAlias == comment.author) {
 		opts = opts.concat(["Edit", "Add Audio", "Delete"])
@@ -222,64 +160,63 @@ async function makeHTMLFromComment({
 			opts.push("Add Timesheet")
 		}
 		opts.push("Play");
-		
-		
 		var bucket = tr["bucket"]
 		var path = tr["path"]
 		if(!bucket || !path) {
 			console.log("No bucket",comment)
 			return
 		}
-		// Create the audio element
 		var audio = document.createElement("audio");
-		audio.controls = true; // Adds play, pause, volume controls
+		audio.controls = true; 
 		audio.src = `https://${bucket}.awtsmoos.com/${path}`;
-		audio.style.display = "none"; // Initially hidden
+		audio.style.display = "none"; 
 		audio.dataset.awtsmoosAudio = comment.id
-		// Append the audio player to the DOM
 		cmCont.appendChild(audio);
-	
-	
 	}
 	opts.forEach(option => {
 		var menuItem = document.createElement("div");
 		menuItem.className = "menu-item";
 		menuItem.innerText = option;
-		menuItem.onclick = () => handleMenuOption(option, comment, menuItem); // Call a function for each option
+		menuItem.onclick = () => handleMenuOption(option, comment, menuItem);
 		menuOptions.appendChild(menuItem);
 	});
 
-	// Toggle the menu when clicking the three dots
 	menuButton.onclick = (e) => {
-		e.stopPropagation(); // Prevent other click handlers from triggering
+		e.stopPropagation(); 
 		menuOptions.style.display = menuOptions.style.display === "none" ? "block" : "none";
 	};
 
-	// Close menu when clicking outside
 	document.addEventListener("click", (e) => {
 		if (!menuContainer.contains(e.target)) {
 			menuOptions.style.display = "none";
 		}
 	});
-/*
-	// Handle single-click and long-click on the comment text
-	let clickTimeout;
-	commentText.onmousedown = (e) => {
-		clickTimeout = setTimeout(() => {
-			// Long-click action
-			handleLongClick(comment);
-		}, 500); // Long-click delay (500ms)
-	};
-
-	commentText.onmouseup = (e) => {
-		clearTimeout(clickTimeout); // Cancel long-click if released early
-		// Single-click action
-		handleClick(comment);
-	};*/
-
-	
 
 	return comment;
+}
+
+
+// B"H - UPDATED to use the new rendering engine
+function makeInlineComment(alias, comment) {
+    var incom = document.createElement("div");
+    incom.className = "inline-comment";
+
+    var tool = makeTooltip("Open Comment");
+    tool.addEventListener("click", async () => {
+        var c = await openCommentsPanelToAlias(alias);
+        if (!c) return;
+        var con = c.querySelector(`.comment-content[data-cid="${comment.id}"]`);
+        if (con) con.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+    incom.appendChild(tool);
+
+    var comContent = document.createElement("div");
+    incom.appendChild(comContent);
+
+    // Call the unified engine to do the rendering
+    populateCommentElement(comment, comContent);
+
+    return incom;
 }
 
 function openImageViewer(url) {
@@ -829,95 +766,7 @@ function makeTooltip(msg=null) {
 	
 }
 
-// B"H - REWRITTEN AND ROBUST makeInlineComment FUNCTION
-function makeInlineComment(alias, comment) {
-    // --- Main container for the inline comment ---
-    var incom = document.createElement("div");
-    incom.className = "inline-comment";
 
-    // --- Tooltip for opening the side panel ---
-    var tool = makeTooltip("Open Comment");
-    tool.addEventListener("click", async () => {
-        var c = await openCommentsPanelToAlias(alias);
-        if (!c) return;
-        var con = c.querySelector(`.comment-content[data-cid="${comment.id}"]`);
-        if (con) {
-            con.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
-    });
-    incom.appendChild(tool);
-
-    // --- Content container that will hold all text and titles ---
-    var comContent = document.createElement("div");
-    incom.appendChild(comContent);
-
-    // --- Unified Rendering Logic ---
-    // This logic correctly handles the "flexible structure" of the comment data.
-
-    // 1. Handle the main title from dayuh, if it exists.
-    if (comment?.dayuh?.title) {
-        var t = makeTitleDiv(comment.dayuh.title);
-        comContent.appendChild(t);
-    }
-
-    // 2. Handle a simple string in `comment.content`.
-    if (comment.content && typeof comment.content === 'string') {
-        let textDiv = document.createElement('div');
-        textDiv.innerHTML = markdownToHtml(comment.content);
-        if (isFirstCharacterHebrew(comment.content)) {
-            incom.classList.add("heb");
-        } else {
-            incom.classList.add("en");
-        }
-        comContent.appendChild(textDiv);
-    }
-    
-    // 3. Collect all sections from both `comment.content` (if it's an array)
-    //    and `comment.dayuh.sections`.
-    var sectionsToRender = [];
-    if (Array.isArray(comment.content)) {
-        sectionsToRender = sectionsToRender.concat(comment.content);
-    }
-    if (Array.isArray(comment.dayuh?.sections)) {
-        sectionsToRender = sectionsToRender.concat(comment.dayuh.sections);
-    }
-
-    // 4. Render all collected sections correctly.
-    if (sectionsToRender.length > 0) {
-        sectionsToRender.forEach(sectionData => {
-            // A section can be a simple string OR an object like { text: "...", title: "..." }
-            const txt = sectionData?.text || sectionData || "";
-            const sectionTitle = sectionData?.title;
-
-            if (!txt && !sectionTitle) return; // Skip empty/invalid sections
-
-            var sec = document.createElement("div");
-            sec.className = "awtsmoos-comment-section";
-
-            if (sectionTitle) {
-                sec.appendChild(makeTitleDiv(sectionTitle));
-            }
-            
-            if (txt) {
-                let textDiv = document.createElement('div');
-                textDiv.innerHTML = markdownToHtml(txt);
-                sec.appendChild(textDiv);
-            }
-
-            if (isFirstCharacterHebrew(txt)) {
-                sec.classList.add("heb");
-            }
-            
-            comContent.appendChild(sec);
-        });
-    }
-
-    // --- Image Gallery (handles images from dayuh) ---
-    var images = comment?.dayuh?.images;
-    addImageGallery(images, incom);
-
-    return incom;
-}
 function makeInlineCommentHolder(alias, parent) {
 	var inlineHolder = document.createElement("div")
 	inlineHolder.classList.add("commentator","inline");
@@ -1103,54 +952,104 @@ async function updateCommentHeader() {
  * The Master Conductor that runs on every scroll. It discovers the true state
  * of the new verse and synchronizes all UI components to match it.
  */
+// B"H - CORRECTED AND SIMPLIFIED indexSwitch
 async function indexSwitch() {
     var idxNum = getIdx();
     var newVerse = (!idxNum && idxNum !== 0) ? "root" : idxNum;
 
     if (currentVerse === newVerse) return; // Performance guard
-    
+
     console.log(`[Conductor] Verse changed to ${newVerse}. Starting synchronization.`);
     currentVerse = newVerse;
-    
-    // --- 1. DISCOVERY PHASE ---
-    // Establish the Single Source of Truth for the new verse.
-    await getAndSaveAliases(false, true); // `true` forces a fresh fetch.
 
-    // --- 2. SYNCHRONIZATION PHASE ---
-
-    // A) Synchronize Side Panel UI
+    // --- 1. Synchronize Side Panel UI (The Correct Way) ---
+    // If the main comment tab is open, completely reload it to show the new verse's commentators.
     if (window.commentTab && window.commentTab.isOpen) {
-        console.log("[Sync] Panel is open. Rebuilding commentator list.");
-        await makeCommentatorList(parent, tabComment);
-        curTab?.awtsRefresh?.(); 
+        // Calling loadRootComments is the most reliable way to refresh the entire panel.
+        await loadRootComments({
+            post: window.post,
+            mainParent: window.mainParent,
+            parent: window.parent,
+            tab: window.tabComment
+        });
     }
 
-    // B) Synchronize Inline View UI (Additive)
+    // --- 2. Synchronize Inline View UI ---
     const inlineAliases = getInlineAliases();
     if (inlineAliases.length > 0) {
-        const masterList = (data.aliases[newVerse]?.aliases || []).map(w => w.id);
-        const relevantAliases = masterList.filter(alias => inlineAliases.includes(alias));
-
-        for (const alias of relevantAliases) {
-            const memoryKey = `${alias}-${newVerse}`;
-            if (loadedInlineVerses[memoryKey]) continue;
-
-            console.log(`[Sync] Rendering inline comments for relevant alias: ${alias}`);
-            const comments = await getCommentsOfAlias({
-                seriesId: window?.post?.parentSeriesId,
-                postId: window?.post?.id,
-                heichelId: window?.post?.heichel.id,
-                aliasId: alias,
-                fromCache: true, 
-                get: { verseSection: newVerse, map: true }
-            });
-
-            addCommentsInline(comments, alias);
-            loadedInlineVerses[memoryKey] = true;
+        // Invalidate the cache to ensure we get fresh data for the new verse.
+        invalidateVerseCache(newVerse); 
+        const commentators = await getAndSaveAliases(true); // Get full alias objects for the new verse
+        
+        for (const aliasData of commentators) {
+            const aliasId = aliasData.id;
+            if (inlineAliases.includes(aliasId)) {
+                const comments = await getCommentsOfAlias({
+                    seriesId: window?.post?.parentSeriesId,
+                    postId: window?.post?.id,
+                    heichelId: window?.post?.heichel.id,
+                    aliasId: aliasId,
+                    get: { verseSection: newVerse, map: true }
+                });
+                addCommentsInline(comments, aliasId);
+            }
         }
     }
 }
 
+
+
+
+// B"H - NEW UNIFIED RENDERING ENGINE
+function populateCommentElement(comment, parentElement) {
+    // This function contains the robust logic to handle any comment structure.
+    
+    // 1. Handle main title from dayuh.
+    if (comment?.dayuh?.title) {
+        parentElement.appendChild(makeTitleDiv(comment.dayuh.title));
+    }
+
+    // 2. Handle simple `content` string.
+    if (comment.content && typeof comment.content === 'string') {
+        let textDiv = document.createElement('div');
+        textDiv.innerHTML = markdownToHtml(comment.content);
+        parentElement.appendChild(textDiv);
+    }
+
+    // 3. Gather all sections from both `content` (if array) and `dayuh.sections`.
+    let sectionsToRender = [];
+    if (Array.isArray(comment.content)) sectionsToRender.push(...comment.content);
+    if (Array.isArray(comment.dayuh?.sections)) sectionsToRender.push(...comment.dayuh.sections);
+    
+    // 4. Render all collected sections.
+    sectionsToRender.forEach(sectionData => {
+        const txt = sectionData?.text || sectionData || "";
+        const sectionTitle = sectionData?.title;
+        if (!txt && !sectionTitle) return;
+
+        var sec = document.createElement("div");
+        sec.className = "awtsmoos-comment-section";
+        if (sectionTitle) sec.appendChild(makeTitleDiv(sectionTitle));
+        if (txt) {
+            let textDiv = document.createElement('div');
+            textDiv.innerHTML = markdownToHtml(txt);
+            sec.appendChild(textDiv);
+        }
+        if (isFirstCharacterHebrew(txt)) sec.classList.add("heb");
+        parentElement.appendChild(sec);
+    });
+
+    // 5. Handle images.
+    addImageGallery(comment?.dayuh?.images, parentElement);
+
+    // 6. Set language direction class on the top-level element.
+    const primaryText = comment.content || sectionsToRender.join(" ");
+    if (isFirstCharacterHebrew(primaryText)) {
+        parentElement.classList.add("heb");
+    } else {
+        parentElement.classList.add("en");
+    }
+}
 
 
 function getSubIdx() {
