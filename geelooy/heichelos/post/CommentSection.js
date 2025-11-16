@@ -174,37 +174,20 @@ class CommentSection {
 
             const json = await response.json();
 
-            // --- NEW, SIMPLIFIED SUCCESS LOGIC ---
+            
+            
             // The server response contains the new comment's ID in `details.id`.
             if (json.success && json.details?.id) {
                 const newCommentId = json.details.id;
-                
-                // Construct the full comment object from the data we just sent and the ID we received.
-                // This is needed for the instant inline update.
-                const newCommentData = {
-                    id: newCommentId,
-                    author: currentAlias,
-                    content: content,
-                    dayuh: dayuhObject
-                };
-
-                // Hand off to the conductor and let it handle everything.
-                await window.commentLogic.handleNewComment({
-                    aliasId: currentAlias,
-                    verseSection: verseSection,
-                    commentId: newCommentId,
-                    newCommentData: newCommentData 
-                });
-
-                // Reset this component's UI now that the job is done.
-                this.commentBox.innerText = "";
-                this.galleryContainer.innerHTML = "";
-                this.galleryContainer.style.display = "none";
-                this.commentBox.style.display = "none";
-                this.buttonContainer.style.display = "none";
-                this.btn.style.display = "block";
-                this.imgResults = [];
-
+		    const newCommentData = { id: newCommentId, author: currentAlias, content: content, dayuh: dayuhObject };
+		
+		    // Hand off ALL UI work to the conductor.
+		    await window.commentLogic.handleNewComment({
+		        aliasId: currentAlias,
+		        verseSection: verseSection,
+		        commentId: newCommentId,
+		        newCommentData: newCommentData
+		    });
             } else {
                 const errorMessage = json.error || "An unknown error occurred on the server.";
                 await AwtsmoosPrompt.go({ isAlert: true, headerTxt: "Submission failed: " + errorMessage });

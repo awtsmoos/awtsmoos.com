@@ -43,27 +43,28 @@ var data = {
 
 
 /**
- * Surgically removes all cached data for a specific verse section from all layers.
- * @param {string|number} verseSection The verse ID ('root', 0, 1, etc.) to invalidate.
+ * The master cache clearing function. Surgically removes all cached data for a 
+ * specific verse section from all three client-side layers. This is the key
+ * to forcing a fresh data load.
  */
 function invalidateVerseCache(verseSection) {
     if (verseSection === null || verseSection === undefined) {
         verseSection = "root";
     }
-    console.log(`[Cache] Invalidating all caches for verseSection: ${verseSection}`);
+    console.log(`[Cache] Invalidating ALL caches for verseSection: ${verseSection}`);
 
-    // 1. Invalidate the Component-Level Cache (commentator list)
-    if (data.aliases && data.aliases[verseSection]) {
+    // 1. Invalidate the Component-Level Cache (our "Source of Truth")
+    if (data.aliases) {
         delete data.aliases[verseSection];
     }
     
-    // 2. Invalidate the API Utility Cache for the list of commentators
+    // 2. Invalidate the API Utility Cache for commentator lists (from utils.js)
     const aliasCachePath = window.aliasCommentsCache?.heichelos?.[post.heichel.id]?.series?.[post.parentSeriesId]?.posts?.[post.id];
     if (aliasCachePath?.verseSections?.[verseSection]) {
         delete aliasCachePath.verseSections[verseSection];
     }
     
-    // 3. Invalidate the API Utility Cache for the actual comments of every alias
+    // 3. Invalidate the API Utility Cache for actual comments (from utils.js)
     const commentsCachePath = window.commentsOfAliasCache?.heichelos?.[post.heichel.id]?.series?.[post.parentSeriesId]?.posts?.[post.id];
     if (commentsCachePath?.aliases) {
         for (const alias in commentsCachePath.aliases) {
@@ -73,7 +74,6 @@ function invalidateVerseCache(verseSection) {
         }
     }
 }
-
 
 
 function sanitizeComment(cnt) {
@@ -1068,53 +1068,56 @@ async function updateCommentHeader() {
 
 
 
+/**
+ * The Master Conductor that runs on every scroll. It discovers the true state
+ * of the new verse and synchronizes all UI components to match it.
+ */
 async function indexSwitch() {
     var idxNum = getIdx();
     var newVerse = (!idxNum && idxNum !== 0) ? "root" : idxNum;
 
-    var verseHasChanged = (currentVerse !== newVerse);
-    currentVerse = newVerse;
-
-    // 1. ALWAYS Synchronize the Comment Panel if it is open
-    // This ensures the panel view (commentator list AND content) always matches the active verse.
-    if (verseHasChanged && window.commentTab && window.commentTab.isOpen) {
-        console.log(`[Sync Panel] Verse changed to ${newVerse}. Forcing panel refresh.`);
-        await reloadRoot(); // reloadRoot will handle its own cache invalidation.
-    }
-
-    // 2. Additively Render Inline Comments
-    var inlineAliases = getInlineAliases();
-    if (inlineAliases.length === 0) return; // Nothing to do if not reading inline.
-
-    // Check our memory: Have we already loaded this verse? If so, do nothing more.
-    if (loadedInlineVerses[newVerse]) {
-        console.log(`[Inline] Comments for verse ${newVerse} are already rendered. Aborting further action.`);
-        return;
-    }
-
-    console.log(`[Inline] Verse ${newVerse} not yet rendered. Fetching and adding comments.`);
+    if (currentVerse === newVerse) return; // Performance guard
     
-    // Since this is the first time rendering this verse in this session,
-    // force a fresh fetch by invalidating its cache.
-    invalidateVerseCache(newVerse);
+    console.log(`[Conductor] Verse changed to ${newVerse}. Starting synchronization.`);
+    currentVerse = newVerse;
+    
+    // --- 1. DISCOVERY PHASE ---
+    // Establish the Single Source of Truth for the new verse.
+    await getAndSaveAliases(false, true); // `true` forces a fresh fetch.
 
-    for (var alias of inlineAliases) {
-        var comments = await getCommentsOfAlias({
-            seriesId: window?.post?.parentSeriesId,
-            postId: window?.post?.id,
-            heichelId: window?.post?.heichel.id,
-            aliasId: alias,
-            fromCache: false, // Explicitly bypass cache for this first render.
-            get: {
-                verseSection: newVerse, 
-                map: true,
-            }
-        });
-        addCommentsInline(comments, alias); // This function just adds to the DOM.
+    // --- 2. SYNCHRONIZATION PHASE ---
+
+    // A) Synchronize Side Panel UI
+    if (window.commentTab && window.commentTab.isOpen) {
+        console.log("[Sync] Panel is open. Rebuilding commentator list.");
+        await makeCommentatorList(parent, tabComment);
+        curTab?.awtsRefresh?.(); 
     }
 
-    // 3. Update our memory so we don't render this verse again.
-    loadedInlineVerses[newVerse] = true;
+    // B) Synchronize Inline View UI (Additive)
+    const inlineAliases = getInlineAliases();
+    if (inlineAliases.length > 0) {
+        const masterList = (data.aliases[newVerse]?.aliases || []).map(w => w.id);
+        const relevantAliases = masterList.filter(alias => inlineAliases.includes(alias));
+
+        for (const alias of relevantAliases) {
+            const memoryKey = `${alias}-${newVerse}`;
+            if (loadedInlineVerses[memoryKey]) continue;
+
+            console.log(`[Sync] Rendering inline comments for relevant alias: ${alias}`);
+            const comments = await getCommentsOfAlias({
+                seriesId: window?.post?.parentSeriesId,
+                postId: window?.post?.id,
+                heichelId: window?.post?.heichel.id,
+                aliasId: alias,
+                fromCache: true, 
+                get: { verseSection: newVerse, map: true }
+            });
+
+            addCommentsInline(comments, alias);
+            loadedInlineVerses[memoryKey] = true;
+        }
+    }
 }
 
 
@@ -1332,53 +1335,36 @@ async function loadRootComments({
 	
 }
 
-async function getAndSaveAliases(full=false) {
-	
-	var verseSection = getIdx();
-	
-	if(!verseSection && verseSection  !== 0) {
-		verseSection = "root";	
-	}
-	var commentPost = window?.post?.id;
-	if(!data.aliases) {
-		data.aliases = {}	
-	}
-	var savedAliases = data?.aliases?.[verseSection];
-/*	if(savedAliases) return full ? 
-		savedAliases.aliases : savedAliases.map(;*/
-	var subSec = getSubSecIdx();
-	var aliases = await getCommentsByAlias({
-		seriesId: window?.post?.parentSeriesId,
-		postId: window?.post?.id,
-		heichelId: window?.post?.heichel.id,
-		fromCache: true,
-		get: {
-			verseSection,
-			map: true,
-			/*propertyMap: JSON.stringify({
-				...(
-					subSec || subSec === 0 ? {
-						dayuh: {
-							subSectionIndex: {
-								equals: subSec
-							},
-							
-							
-							
-						}
-					} : {}
-				)
-			})*/
-		}
-	});
-	var aliasIDs = Array.isArray(aliases) ? aliases.map(w=>w?.id || w) : [];
-	if(!data.aliases[verseSection]) {
-		data.aliases[verseSection] = {
-			aliases,
-			lastModified: Date.now()
-		}
-	}
-	return aliasIDs;
+/**
+ * The data engine for the side panel. It fetches and caches the master list of 
+ * all commentators for a given verse. The `forceFresh` parameter allows us to
+ * command it to bypass its own cache and get a definitive list from the server.
+ */
+async function getAndSaveAliases(full = false, forceFresh = false) {
+    var verseSection = getIdx();
+    if (!verseSection && verseSection !== 0) verseSection = "root";
+
+    // Respect the cache for performance, unless explicitly told not to.
+    if (!forceFresh && data.aliases[verseSection]) {
+        console.log(`[Cache Hit] Using cached master commentator list for verse ${verseSection}.`);
+        const cachedData = data.aliases[verseSection].aliases;
+        return full ? cachedData : cachedData.map(w => w?.id || w);
+    }
+
+    // --- Active Discovery ---
+    console.log(`[Discovery] Fetching fresh master commentator list for verse ${verseSection}.`);
+    var aliases = await getCommentsByAlias({
+        seriesId: window?.post?.parentSeriesId,
+        postId: window?.post?.id,
+        heichelId: window?.post?.heichel.id,
+        fromCache: false, // CRITICAL: This bypasses the utils.js cache.
+        get: { verseSection, map: true }
+    });
+
+    // Store the definitive, fresh result. This is now the Source of Truth for this verse.
+    data.aliases[verseSection] = { aliases: aliases || [], lastModified: Date.now() };
+
+    return Array.isArray(aliases) ? aliases.map(w => w?.id || w) : [];
 }
 
 function makeAddCommentSection(par) {
@@ -1387,82 +1373,52 @@ function makeAddCommentSection(par) {
 	par.appendChild(div);
 	var c = new CommentSection(div);
 }
-async function makeCommentatorList(actualTab, tab, all=false) {
-	var commentorList = document.createElement("div")
-	commentorList.classList.add("commentors")
-	actualTab.innerHTML = "";
-	makeAddCommentSection(actualTab);
-	actualTab.appendChild(commentorList);
-	commentorList.innerHTML =
-		loadingHTML;
-	var sectionInfo = window?.sectionData[currentVerse];
-	console.log("Getting aliases")
-	var aliases = await getAndSaveAliases()
-	console.log("Got",aliases)
-	commentorList.innerHTML = ""
-	
-	window.aliasesOfComments =
-		aliases;
-	
-	if (!Array.isArray(aliases) || !
-		aliases.length) {
-		commentorList.innerHTML =
-			"No commentators yet!"
-		return [];
-	}
-	var tabs = [];
-	aliases.forEach(w => {
-		var com = document
-			.createElement(
-				"div")
-		com.className =
-			"comment"
-		
-	
-		var alias = w;
-		/**
-			parent: mainParent,
-			btnParent: actualTab,
-			tabParent: tab,
+/**
+ * Renders the side panel's list of commentator buttons. It is now a "slave"
+ * to the `data.aliases` cache, which is our Source of Truth. It no longer
+ * fetches its own data.
+ */
+async function makeCommentatorList(actualTab, tab) {
+    var commentorList = document.createElement("div");
+    commentorList.classList.add("commentors");
+    actualTab.innerHTML = "";
+    makeAddCommentSection(actualTab);
+    actualTab.appendChild(commentorList);
+    
+    // Fetch the Source of Truth. This may use the cache or get fresh data
+    // depending on whether it was invalidated.
+    var aliases = await getAndSaveAliases();
+    
+    console.log(`[Panel Sync] Rebuilding commentator list UI with ${aliases.length} aliases.`);
+    window.aliasesOfComments = aliases;
 
-  		**/
-		var tab = addTab({
-			header: "@" +
-				alias,
-			btnParent: actualTab,
+    if (!aliases.length) {
+        commentorList.innerHTML = "Be the first to comment on this verse!";
+        return [];
+    }
+
+    var tabs = [];
+    aliases.forEach(alias => {
+        var tab = addTab({
+            header: "@" + alias,
+            btnParent: actualTab,
 			addClasses: true,
-			
 			parent:mainParent,
 			tabParent: tab,
-			content: "Hi",
-			async onswitch({tab}) {
-				curTab = "root"//tab;
-				await reloadRoot()
-				console.log("par?",tab,tab.actual)
-			
-			},
-			
-			async onopen({
-				actualTab, tab
-			}) {
+			content: "Loading...",
+			async onopen({ actualTab }) {
 				curTab = tab;
-				window.curTab = curTab
-				commentorList.innerHTML = loadingHTML;
+				window.curTab = curTab;
 				openCommentsOfAlias({
 					alias,
-					//tab, 
 					actualTab,
-					mainParent,
 					post,
-					all
 				})
 			}
-		})
-		console.log("Adding tab",window.tabs=tabs,tab);
-		tabs.push(tab);
-		
-	})
-	return tabs;
+        });
+        tabs.push(tab);
+    });
+    return tabs;
 }
 async function selectAndUpload({heichel, series, postId, verseNum, author, type="audio"}) {
     // Create a file input element
@@ -1573,44 +1529,37 @@ function invalidateInlineTracker(verseSection) {
 }
 
 
-// --- 
-
+/**
+ * The high-level conductor for the "new comment" user experience. It is called
+ * from outside this module to trigger a complete and synchronized UI update.
+ */
 async function handleNewComment({ aliasId, verseSection, commentId, newCommentData }) {
-    console.log(`[Conductor] Orchestrating UI update for new comment ${commentId} by ${aliasId}`);
+    console.log(`[Finale] Orchestrating UI for new comment ${commentId} by ${aliasId}`);
     
-    // A) Invalidate all caches for the target verse. This is the most crucial step.
+    // 1. Invalidate everything for the target verse.
     invalidateVerseCache(verseSection);
-    
-    // B) Update Inline View: If the user is viewing their own alias inline, add the comment now.
+
+    // 2. Handle Inline Update immediately.
     if (isAliasInline(aliasId) && newCommentData) {
-        console.log("[Conductor] Alias is inline, adding new comment directly to DOM.");
+        const memoryKey = `${aliasId}-${verseSection}`;
+        delete loadedInlineVerses[memoryKey]; // Invalidate inline memory to force re-render.
+        console.log("[Finale] Alias is inline, adding new comment directly to DOM.");
         addCommentsInline([newCommentData], aliasId);
-        // Also update the state tracker so it doesn't re-render over this.
-        loadedInlineVerses[verseSection] = true;
+        loadedInlineVerses[memoryKey] = true; // Re-set memory.
     }
 
-    // C) Refresh and Navigate the Panel
-    // 1. Rebuild the commentator list and refresh the panel content.
+    // 3. Rebuild, open, and navigate the panel.
     await reloadRoot();
-    
-    // 2. Programmatically open the panel and switch to the correct alias tab.
     const aliasTab = await openCommentsPanelToAlias(aliasId, true);
-    
-    // 3. Scroll to the new comment inside the panel.
     if (aliasTab && commentId) {
-        // A short timeout gives the browser a moment to render the new elements from reloadRoot.
         setTimeout(() => {
-            const newCommentElement = aliasTab.querySelector(`.comment-content[data-cid="${commentId}"]`);
-            if (newCommentElement) {
-                console.log(`[Conductor] Scrolling panel to new comment element.`);
-                newCommentElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                // Add a temporary highlight for clear visual feedback.
-                newCommentElement.classList.add('highlight-new-comment');
-                setTimeout(() => newCommentElement.classList.remove('highlight-new-comment'), 2500);
-            } else {
-                console.warn(`[Conductor] Could not find new comment element with ID ${commentId} to scroll to.`);
+            const newEl = aliasTab.querySelector(`.comment-content[data-cid="${commentId}"]`);
+            if (newEl) {
+                newEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                newEl.classList.add('highlight-new-comment');
+                setTimeout(() => newEl.classList.remove('highlight-new-comment'), 2500);
             }
-        }, 250); // Increased timeout slightly for reliability
+        }, 300);
     }
 }
 
