@@ -545,6 +545,7 @@ async function countCommentsOfAlias(alias) {
 
 
 
+// B"H - CORRECTED to render ALL comments in the panel
 async function showAllComments({
 	alias,
 	post,
@@ -557,195 +558,95 @@ async function showAllComments({
 		postId: post.id,
 		heichelId: post.heichel.id,
 		aliasId: alias,
-		fromCache: true,
+		fromCache: true, // Use cache for speed on manual clicks
 		get: {
 			verseSection: currentVerse,
 			map: true,
-			/*propertyMap: JSON.stringify({
-				content: true,
-				author: true,
-				dayuh: {
-					verseSection: true,
-					sections: true,
-					images: true,
-					title: true,
-					...(
-						subSec || subSec === 0 ? {	
-							subSectionIndex: {
-								equals: subSec
-							},
-						
-							
-						} : {}
-					)
-				}
-			})*/
-				
 		}
 	});
-	if(Array.isArray(coms)) {
-	  coms = coms.reverse()
-      
-    
-	} else {
-		return console.log("No comments")
-	}
-	if(coms.length == 0) {
-		tab.innerHTML = "No comments yet from this user";
-		return
-	}
-	tab.innerHTML = "";
-	var ri = document. createElement("div")
-	ri.className = "btn"
-	//
-	var comments= []
-	console. log("got", window.j=comments)
 
-	ri. textContent = "read inline"
-	ri. onclick = ()=>{
-		
-		toggleInlineForComments(
-			comments, alias  
-		);
-		if(isAliasInline(alias)) {
-			ri.textContent = "Hide inline";
-		
-		} else {
-			ri.textContent = "Read inline";
-		}
-		
-
+	if (!Array.isArray(coms) || coms.length === 0) {
+		tab.innerHTML = "No comments yet from this user.";
+		return;
 	}
-	tab.innerHTML = loadingHTML;
-	
 
-	
-	for(var comment of coms) {
-		//var postId = getPostId(currentVerse)
-		/*
-		var comment = await getComment({
-			heichelId: post.heichel.id,
-			commentId:w,
-			postId,
-			seriesId: getSeriesId(currentVerse),
-			aliasId: alias,
-			parentType: "post",
-			parentId: postId,
-		});
-		comment.id = w;*/
-		
-	//	if(comment?.content?.trim() || comment?.dayuh?.images?.length)
-			comments.push(comment);
-		
-	}
-	
-	tab.innerHTML = "";
+	tab.innerHTML = ""; // Clear previous content
+
+	var ri = document.createElement("div");
+	ri.className = "btn";
+	ri.textContent = isAliasInline(alias) ? "Hide inline" : "Read inline";
+	ri.onclick = () => {
+		toggleInlineForComments(coms, alias);
+		ri.textContent = isAliasInline(alias) ? "Hide inline" : "Read inline";
+	};
 	tab.appendChild(ri);
-	comments = comments.reverse()
-	for(var c of comments) {
-		var com= await makeHTMLFromComment({
-			comment: c,
-			aliasId: alias,
-			
-			tab
-		})
-	}
 
-	
-  if(isAliasInline(alias)) {
-    ri.textContent = "Hide inline";
-    
-  } else {
-    ri.textContent = "Read inline";
-  }
+    // CRITICAL FIX: Loop through every comment and render it. No premature exits.
+    coms.forEach(c => {
+        makeHTMLFromComment({
+            comment: c,
+            aliasId: alias,
+            tab
+        });
+    });
 }
 
 var inlineComments = {}//arrays by alias
 
-// B"H - REWRITTEN FOR CORRECTNESS AND COMPLETENESS
+// B"H - CORRECTED to render ALL inline comments without premature exit
 function addCommentsInline(comments, alias) {
-    console.log(comments,`[Inline Render] Processing ${comments.length} comments for alias: ${alias}`);
+    console.log(`[Inline Render] Processing ${comments.length} comments for alias: ${alias}`);
+    if (!comments || comments.length === 0) return;
 
-    if (!comments || comments.length === 0) {
-        return; // Nothing to render.
-    }
-
-    // --- Step 1: Group ALL comments by their verse section ---
-    // This is the core fix. We no longer assume the array has only one type of comment.
+    // --- Group ALL comments by their verse section. This is the key. ---
     const commentsByVerse = comments.reduce((acc, comment) => {
         const verseKey = comment?.dayuh?.verseSection ?? 'root';
-        if (!acc[verseKey]) {
-            acc[verseKey] = [];
-        }
+        if (!acc[verseKey]) acc[verseKey] = [];
         acc[verseKey].push(comment);
         return acc;
     }, {});
 
-    // --- Step 2: Process each group of comments independently ---
+    // --- Process each group independently ---
     for (const verseKey in commentsByVerse) {
         const commentsForThisVerse = commentsByVerse[verseKey];
 
-        // --- Handle "Root" Comments (no specific verse) ---
+        // Handle "Root" Comments
         if (verseKey === 'root') {
             const rootCommentHolder = createAndPlaceRootCommentHolder(alias);
             if (rootCommentHolder) {
                 commentsForThisVerse.forEach(c => {
-                    if (!inlineComments[alias]) inlineComments[alias] = [];
-                    // Check if comment is already rendered before adding
-                    if (!inlineComments[alias].find(w => w.id === c.id)) {
-                        inlineComments[alias].push(c);
+                    if (!rootCommentHolder.querySelector(`[data-cid='${c.id}']`)) { // Prevent duplicates
                         const incom = makeInlineComment(alias, c);
+                        incom.dataset.cid = c.id; // Mark the element with the ID
                         rootCommentHolder.appendChild(incom);
                     }
                 });
             }
-            continue; // Move to the next verse group
+            continue; // CRITICAL: Continue to the next group
         }
 
-        // --- Handle Verse-Specific Comments ---
+        // Handle Verse-Specific Comments
         const targetSectionElement = document.querySelector(`.section[data-idx='${verseKey}']`);
-        if (!targetSectionElement) {
-            console.error(`[Inline Render] Could not find HTML element for verse section: ${verseKey}`);
-            continue; // Skip this group if the HTML element isn't found
-        }
+        if (!targetSectionElement) continue;
 
-        // Perform a secondary grouping for sub-sections within this verse
-        const commentsBySubSection = commentsForThisVerse.reduce((acc, comment) => {
-            const subIdx = comment?.dayuh?.subSection ?? 'main';
-            if (!acc[subIdx]) acc[subIdx] = [];
-            acc[subIdx].push(comment);
-            return acc;
-        }, {});
-
-        // Render comments for each sub-section (or 'main' section)
-        for (const subSectionKey in commentsBySubSection) {
-            const parentElement = (subSectionKey === 'main')
+        commentsForThisVerse.forEach(c => {
+            const subIdx = c?.dayuh?.subSection ?? 'main';
+            const parentElement = (subIdx === 'main')
                 ? targetSectionElement
-                : targetSectionElement.querySelector(`.sub-awtsmoos[data-idx='${subSectionKey}']`);
-
+                : targetSectionElement.querySelector(`.sub-awtsmoos[data-idx='${subIdx}']`);
+            
             if (parentElement) {
                 let commentHolder = parentElement.querySelector(`.commentator.inline[data-alias='${alias}'] .comments-holder-inline`);
                 if (!commentHolder) {
                     commentHolder = makeInlineCommentHolder(alias, parentElement);
                 }
-
-                commentsBySubSection[subSectionKey].forEach(c => {
-                    if (!inlineComments[alias]) inlineComments[alias] = [];
-                    if (!inlineComments[alias].find(w => w.id === c.id)) {
-                        inlineComments[alias].push(c);
-                        const incom = makeInlineComment(alias, c);
-                        commentHolder.appendChild(incom);
-                    }
-                });
+                if (!commentHolder.querySelector(`[data-cid='${c.id}']`)) { // Prevent duplicates
+                    const incom = makeInlineComment(alias, c);
+                    incom.dataset.cid = c.id; // Mark the element with the ID
+                    commentHolder.appendChild(incom);
+                }
             }
-        }
-    }
-
-    // --- Step 3: Finalize URL ---
-    var p = getInlineAliases();
-    if (!p.includes(alias)) {
-        p.push(alias);
-        updateQueryStringParameter("inline", JSON.stringify(p));
+        });
     }
 }
 
@@ -953,127 +854,136 @@ async function updateCommentHeader() {
  * The Master Conductor that runs on every scroll. It discovers the true state
  * of the new verse and synchronizes all UI components to match it.
  */
-// B"H - CORRECTED AND SIMPLIFIED indexSwitch
+
+
 async function indexSwitch() {
     var idxNum = getIdx();
     var newVerse = (!idxNum && idxNum !== 0) ? "root" : idxNum;
 
-    if (currentVerse === newVerse) return; // Performance guard
-
+    if (currentVerse === newVerse) return;
     console.log(`[Conductor] Verse changed to ${newVerse}. Starting synchronization.`);
     currentVerse = newVerse;
 
-    // --- 1. Synchronize Side Panel UI (The Correct Way) ---
-    // If the main comment tab is open, completely reload it to show the new verse's commentators.
+    // --- 1. REMEMBER STATE ---
+    const activeAliasId = window.curTab?.awtsHeader?.textContent?.trim()?.substring(1);
+
+    // --- 2. SYNCHRONIZE SIDE PANEL ---
     if (window.commentTab && window.commentTab.isOpen) {
-        // Calling loadRootComments is the most reliable way to refresh the entire panel.
-        await loadRootComments({
-            post: window.post,
-            mainParent: window.mainParent,
-            parent: window.parent,
-            tab: window.tabComment
-        });
+        // CRITICAL FIX: Update the header text FIRST.
+        await updateCommentHeader();
+        
+        // Rebuild the commentator button list for the new verse.
+        const newTabs = await makeCommentatorList(window.parent, window.tabComment);
+
+        // If an alias tab was open before, find its new instance and open it automatically.
+        // This is the fix for the automatic panel content update.
+        if (activeAliasId) {
+            const tabToReopen = newTabs.find(t => t.awtsHeader.textContent.trim().substring(1) === activeAliasId);
+            tabToReopen?.open();
+        }
     }
 
-    // --- 2. Synchronize Inline View UI ---
+    // --- 3. SYNCHRONIZE INLINE VIEW (Persistent & Additive) ---
     const inlineAliases = getInlineAliases();
     if (inlineAliases.length > 0) {
-        // Invalidate the cache to ensure we get fresh data for the new verse.
-        invalidateVerseCache(newVerse); 
-        const commentators = await getAndSaveAliases(true); // Get full alias objects for the new verse
-        
+        invalidateVerseCache(newVerse);
+        const commentators = await getAndSaveAliases(true);
+
         for (const aliasData of commentators) {
             const aliasId = aliasData.id;
-            if (inlineAliases.includes(aliasId)) {
-                const comments = await getCommentsOfAlias({
-                    seriesId: window?.post?.parentSeriesId,
-                    postId: window?.post?.id,
-                    heichelId: window?.post?.heichel.id,
-                    aliasId: aliasId,
-                    get: { verseSection: newVerse, map: true }
-                });
-                addCommentsInline(comments, aliasId);
-            }
+            if (!inlineAliases.includes(aliasId)) continue;
+
+            const cacheKey = `${aliasId}-${newVerse}`;
+            if (loadedInlineVerses[cacheKey]) continue; // Respect persistence
+
+            const comments = await getCommentsOfAlias({
+                seriesId: window?.post?.parentSeriesId,
+                postId: window?.post?.id,
+                heichelId: window?.post?.heichel.id,
+                aliasId: aliasId,
+                get: { verseSection: newVerse, map: true }
+            });
+
+            addCommentsInline(comments, aliasId);
+            loadedInlineVerses[cacheKey] = true;
         }
     }
 }
 
 
-
-
 // B"H - THE NEW, ROBUST RENDERING ENGINE, REBUILT WITH THE ORIGINAL COMPLEX LOGIC
 function populateCommentElement(comment, parentElement) {
-    // This function is now as complex as the original to handle all data structures.
     parentElement.innerHTML = ''; // Start with a clean slate.
 
-    // --- Data Normalization Step ---
-    // Create a temporary, clean comment object to avoid modifying the original cache.
-    let normalizedComment = JSON.parse(JSON.stringify(comment));
+    // --- Step 1: Data Normalization ---
+    // Create a clean, predictable structure from the "millions of ways" the data can be.
+    let normalized = {
+        title: null,
+        content: null,
+        sections: [],
+        images: []
+    };
 
-    // Handle legacy structures by merging them into a consistent format.
-    if (normalizedComment?.content?.title) {
-        normalizedComment.dayuh.title = normalizedComment.content.title;
+    // Safely extract data into the normalized object
+    if (comment?.dayuh?.title && typeof comment.dayuh.title === 'string') {
+        normalized.title = comment.dayuh.title;
     }
-    if (Array.isArray(normalizedComment?.content?.text)) {
-        normalizedComment.content = normalizedComment.content.text;
+    if (comment?.content?.title && typeof comment.content.title === 'string') {
+        normalized.title = comment.content.title; // Override if present in this legacy format
+    }
+    if (comment.content && typeof comment.content === 'string') {
+        normalized.content = comment.content;
+    }
+    if (Array.isArray(comment.content)) {
+        normalized.sections.push(...comment.content);
+    }
+    if (Array.isArray(comment.dayuh?.sections)) {
+        normalized.sections.push(...comment.dayuh.sections);
+    }
+    if (Array.isArray(comment.dayuh?.images)) {
+        normalized.images.push(...comment.dayuh.images);
     }
 
-    // --- Rendering from the Normalized Object ---
-
-    // 1. Render the main title from dayuh, if it exists.
-    if (normalizedComment?.dayuh?.title && typeof normalizedComment.dayuh.title === 'string') {
-        parentElement.appendChild(makeTitleDiv(normalizedComment.dayuh.title));
+    // --- Step 2: Render from the clean, normalized object ---
+    
+    // Render title
+    if (normalized.title) {
+        parentElement.appendChild(makeTitleDiv(normalized.title));
     }
 
-    // 2. Render the primary `content` if it's a simple string.
-    if (normalizedComment.content && typeof normalizedComment.content === 'string') {
+    // Render main content
+    if (normalized.content) {
         const textDiv = document.createElement("div");
-        textDiv.innerHTML = markdownToHtml(sanitizeComment(normalizedComment.content));
+        textDiv.innerHTML = markdownToHtml(sanitizeComment(normalized.content));
         parentElement.appendChild(textDiv);
     }
     
-    // 3. Gather ALL sections from both `content` (if it's an array) and `dayuh.sections`.
-    let sectionsToRender = [];
-    if (Array.isArray(normalizedComment.content)) {
-        sectionsToRender.push(...normalizedComment.content);
-    }
-    if (Array.isArray(normalizedComment.dayuh?.sections)) {
-        sectionsToRender.push(...normalizedComment.dayuh.sections);
-    }
+    // Render all sections
+    normalized.sections.forEach(sectionData => {
+        const txt = sectionData?.text || (typeof sectionData === 'string' ? sectionData : "");
+        const sectionTitle = sectionData?.title;
+        if (!txt && !sectionTitle) return;
 
-    // 4. Render the collected sections with careful type-checking.
-    if (sectionsToRender.length > 0) {
-        sectionsToRender.forEach(sectionData => {
-            const txt = sectionData?.text || (typeof sectionData === 'string' ? sectionData : "");
-            const sectionTitle = sectionData?.title;
+        const sec = document.createElement("div");
+        sec.className = "awtsmoos-comment-section";
+        if (sectionTitle && typeof sectionTitle === 'string') {
+            sec.appendChild(makeTitleDiv(sectionTitle));
+        }
+        if (txt) {
+            const textDiv = document.createElement('div');
+            textDiv.innerHTML = markdownToHtml(sanitizeComment(txt));
+            sec.appendChild(textDiv);
+        }
+        parentElement.appendChild(sec);
+    });
 
-            if (!txt && !sectionTitle) return; // Skip empty/invalid sections
+    // Render images
+    addImageGallery(normalized.images, parentElement);
 
-            const sec = document.createElement("div");
-            sec.className = "awtsmoos-comment-section";
-
-            // SAFEGUARD: Only create a title if it's a valid string.
-            if (sectionTitle && typeof sectionTitle === 'string') {
-                sec.appendChild(makeTitleDiv(sectionTitle));
-            }
-            
-            if (txt) {
-                const textDiv = document.createElement('div');
-                textDiv.innerHTML = markdownToHtml(sanitizeComment(txt));
-                sec.appendChild(textDiv);
-            }
-            parentElement.appendChild(sec);
-        });
-    }
-
-    // 5. Render images.
-    addImageGallery(normalizedComment?.dayuh?.images, parentElement);
-
-    // 6. Reliably set language direction on the ultimate parent container.
+    // --- Step 3: Set Language Direction Safely ---
     const topLevelContainer = parentElement.closest('.comment-content, .inline-comment');
     if (topLevelContainer) {
-        topLevelContainer.classList.remove("heb", "en"); // Reset state
-        // This call is now 100% safe because .innerText is always a string.
+        topLevelContainer.classList.remove("heb", "en");
         if (isFirstCharacterHebrew(parentElement.innerText)) {
             topLevelContainer.classList.add("heb");
         } else {
@@ -1081,7 +991,6 @@ function populateCommentElement(comment, parentElement) {
         }
     }
 }
-
 function getSubIdx() {
 	var s = new URLSearchParams(location.search)
 	var idx = s.get("sub")
