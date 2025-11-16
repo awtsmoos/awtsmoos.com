@@ -726,7 +726,7 @@ var inlineComments = {}//arrays by alias
 
 // B"H - REWRITTEN FOR CORRECTNESS AND COMPLETENESS
 function addCommentsInline(comments, alias) {
-    console.log(`[Inline Render] Processing ${comments.length} comments for alias: ${alias}`);
+    console.log(comments,`[Inline Render] Processing ${comments.length} comments for alias: ${alias}`);
 
     if (!comments || comments.length === 0) {
         return; // Nothing to render.
