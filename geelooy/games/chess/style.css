@@ -212,7 +212,7 @@ body {
     gap: 10px; /* Space between elements */
 }
 #openingNameDisplay {
-    max-height: 3em;
+    height: 3em;
     width: 95vw;
     max-width: 500px;
     font-size: 1.2em;
