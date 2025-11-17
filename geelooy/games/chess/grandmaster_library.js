@@ -788,8 +788,7 @@ const sourceBook = [
 { name: "Caro-Kann: Panov-Botvinnik Attack Main Line", pgn: "1. e4 c6 2. d4 d5 3. exd5 cxd5 4. c4 Nf6 5. Nc3 e6 6. Nf3 Bb4" },
 { name: "Catalan: Open, Classical Main Line", pgn: "1. d4 Nf6 2. c4 e6 3. g3 d5 4. Bg2 dxc4 5. Nf3 Be7 6. O-O O-O 7. Qc2 a6 8. a4 Bd7 9. Qxc4 Bc6 10. Bg5" },
 { name: "Pirc Defense: Classical (Two Knights) System", pgn: "1. e4 d6 2. d4 Nf6 3. Nc3 g6 4. Nf3 Bg7 5. Be2 O-O 6. O-O" },
-{ name: "Sicilian Defense: Accelerated
-    
+
     
 
 
