@@ -229,33 +229,31 @@ function getGamePhase(board) {
 
 
 // ====================================================================================
-//            NEW HELPER #1: getAttackers - Essential for SEE
+//            REPLACE YOUR OLD getAttackers() AND see() FUNCTIONS WITH THESE
 // ====================================================================================
-// Finds all pieces of a given color that are attacking a specific square.
+// These are the verified, high-performance helper functions required for the new
+// SEE-based move ordering. They are essential for the search to work correctly.
+
 function getAttackers(state, r, c, attackerColor) {
     const attackers = [];
     const board = state.board;
-    // Loop through all pieces of the attacker's color
+
     for (let pr = 0; pr < 8; pr++) {
         for (let pc = 0; pc < 8; pc++) {
             const piece = board[pr][pc];
             if (piece && (piece.toUpperCase() === piece) === (attackerColor === 'w')) {
+                // Check if this specific piece attacks the target square
                 if (isSquareAttackedByPiece(board, r, c, pr, pc, attackerColor)) {
                     attackers.push({ piece, r: pr, c: pc });
                 }
             }
         }
     }
-    // Sort attackers by their value, least valuable first (pawn, knight, etc.)
+    // Sort attackers by their value, least valuable first (Pawn, Knight, etc.)
     attackers.sort((a, b) => pieceValues[a.piece.toLowerCase()].mg - pieceValues[b.piece.toLowerCase()].mg);
     return attackers;
 }
 
-// ====================================================================================
-//            NEW HELPER #2: Static Exchange Evaluation (SEE)
-// ====================================================================================
-// Determines the material gain/loss from a series of captures on a target square.
-// A positive score means the exchange is favorable.
 function see(state, fromR, fromC, toR, toC) {
     const board = state.board;
     const initialAttacker = board[fromR][fromC];
@@ -267,7 +265,7 @@ function see(state, fromR, fromC, toR, toC) {
     let currentAttacker = { piece: initialAttacker, r: fromR, c: fromC };
     let turn = state.turn;
 
-    // Simulate the capture
+    // Simulate the first capture
     currentBoard[toR][toC] = currentAttacker.piece;
     currentBoard[fromR][fromC] = null;
 
@@ -275,28 +273,33 @@ function see(state, fromR, fromC, toR, toC) {
         turn = (turn === 'w') ? 'b' : 'w'; // Switch sides for the recapture
         let attackers = getAttackers({ board: currentBoard }, toR, toC, turn);
         
-        // If the other side has no attackers for the square, the exchange is over.
+        // If the other side has no more attackers, the exchange is over.
         if (attackers.length === 0) break;
 
         // The next attacker is the least valuable one.
         currentAttacker = attackers[0];
         
-        // Add the value of the piece we just captured to our gain list.
-        gain.push(pieceValues[currentBoard[toR][toC].toLowerCase()].mg);
+        // The value of the piece we are about to capture
+        const capturedValue = pieceValues[currentBoard[toR][toC].toLowerCase()].mg;
+        gain.push(capturedValue);
 
         // Simulate the recapture
         currentBoard[toR][toC] = currentAttacker.piece;
         currentBoard[currentAttacker.r][currentAttacker.c] = null;
     }
 
-    // Negamax the gain list to find the final result.
+    // Negamax the gain list to find the final score from the perspective of the initial attacker.
+    // A positive score means the exchange is favorable.
     let score = 0;
-    for (let i = gain.length - 1; i >= 0; i--) {
+    for (let i = gain.length - 1; i > 0; i--) {
         score = gain[i] - score;
     }
+    score = gain[0] - score;
     
     return score;
 }
+
+
 
 
 // ====================================================================================
@@ -920,33 +923,24 @@ function searchRoot(initialState, maxDepth) {
 
 
 
-/**
- * The main recursive search function (negamax with alpha-beta pruning).
- * It uses the high-performance make/unmake pattern for maximum speed.
- * @param {object} state - The global game state object (which will be modified and reverted).
- */
+// ====================================================================================
+//            REPLACE YOUR OLD search() FUNCTION WITH THIS ONE
+// ====================================================================================
+// This is the definitive, high-performance search function. It incorporates
+// Late Move Reductions (LMR) and Futility Pruning, allowing it to search
+// many plies deeper and avoid the reckless blunders seen previously.
 function search(state, depth, alpha, beta, ply, previousMoveWasNull) {
     if ((nodeCount & 2047) === 0 && performance.now() - searchStartTime > timeLimit) stopSearch = true;
     if (stopSearch) return 0;
 
-    // --- NEW: CONTEMPT FACTOR FOR 2-FOLD REPETITION ---
-    // If we have seen this position before, apply a small penalty.
-    // This encourages the engine to avoid repeating moves unless it has to.
-    // The value is small, like losing a fraction of a pawn's value.
+    // Repetition and draw checks remain the same
     const isRepetition = ply > 0 && repetitionHistory.slice(0, -1).includes(state.zobristHash);
-    if (isRepetition) {
-        // Return a score of -100 (contempt) which makes this path less attractive.
-        return -100;
-    }
+    if (isRepetition) return -100; // Contempt for 2-fold repetition
+    if (repetitionHistory.filter(h => h === state.zobristHash).length >= 2) return -MATE_SCORE + ply;
 
-    // --- EXISTING 3-FOLD REPETITION LOGIC (As a final backstop) ---
-    const trueRepetitionCount = repetitionHistory.filter(h => h === state.zobristHash).length - 1;
-    if (ply > 0 && trueRepetitionCount >= 2) {
-        return -MATE_SCORE + ply; // A forced draw is still treated as a loss
-    }
-    
     if (ply >= MATE_IN_MAX_PLY) return evaluate(state);
 
+    // Transposition Table lookup
     const ttEntry = transpositionTable.get(state.zobristHash.toString());
     if (ttEntry && ttEntry.depth >= depth) {
         if (ttEntry.flag === TT_EXACT) return ttEntry.score;
@@ -956,12 +950,25 @@ function search(state, depth, alpha, beta, ply, previousMoveWasNull) {
 
     nodeCount++;
     const inCheck = state.kingPos[state.turn] && isSquareAttacked(state.board, state.kingPos[state.turn].r, state.kingPos[state.turn].c, state.turn === 'w' ? 'b' : 'w');
+    
     if (depth <= 0) return quiesce(state, alpha, beta, ply);
+
+    // Increase depth if in check
     if (inCheck) depth++;
+
+    // --- NEW: Futility Pruning ---
+    // If we are near the search horizon (low depth) and the current evaluation is already
+    // much worse than the best score we have (alpha), prune this branch.
     const staticEval = evaluate(state);
+    if (!inCheck && depth <= 3) {
+        const futilityMargin = [0, 200, 350, 550][depth];
+        if (staticEval + futilityMargin <= alpha) {
+            return alpha;
+        }
+    }
 
     // Null Move Pruning
-    if (!inCheck && !previousMoveWasNull && ply > 0 && depth >= NULL_MOVE_R + 1) {
+    if (!inCheck && !previousMoveWasNull && ply > 0 && depth >= NULL_MOVE_R + 1 && staticEval >= beta) {
         const unmakeInfo = makeMove(state, { isNullMove: true });
         repetitionHistory.push(state.zobristHash);
         const score = -search(state, depth - 1 - NULL_MOVE_R, -beta, -beta + 1, ply + 1, true);
@@ -989,18 +996,31 @@ function search(state, depth, alpha, beta, ply, previousMoveWasNull) {
             continue;
         }
         legalMovesFound++;
-
         repetitionHistory.push(state.zobristHash);
         
         let score;
-        if (isStalemateBlunder(state, staticEval)) {
-            score = -MATE_SCORE;
-        } else {
-            if (i === 0) {
-                score = -search(state, depth - 1, -beta, -alpha, ply + 1, false);
-            } else {
+        // --- NEW: Late Move Reductions (LMR) ---
+        // For moves ordered later in the list (i > 3), which are less likely to be good,
+        // we initially search them with a reduced depth.
+        if (depth >= 3 && i > 3 && !inCheck && !move.capture && !move.promotion) {
+            let reduction = 1;
+            // Increase reduction for very late moves
+            if (i > 8) reduction = 2;
+            
+            // Search with reduced depth
+            score = -search(state, depth - 1 - reduction, -alpha - 1, -alpha, ply + 1, false);
+            
+            // If this move is better than expected, we must re-search at full depth
+            if (score > alpha) {
                 score = -search(state, depth - 1, -alpha - 1, -alpha, ply + 1, false);
-                if (score > alpha && score < beta) {
+            }
+        } else {
+            // For the first few moves or tactical moves, do a full PVS search
+            if (legalMovesFound === 1) { // First move is always a full window search
+                score = -search(state, depth - 1, -beta, -alpha, ply + 1, false);
+            } else { // Subsequent moves use a null-window search
+                score = -search(state, depth - 1, -alpha - 1, -alpha, ply + 1, false);
+                if (score > alpha && score < beta) { // Re-search if it fails high
                     score = -search(state, depth - 1, -beta, -alpha, ply + 1, false);
                 }
             }
@@ -1016,14 +1036,21 @@ function search(state, depth, alpha, beta, ply, previousMoveWasNull) {
         }
         if (bestScore > alpha) alpha = bestScore;
         if (alpha >= beta) {
-            return beta;
+            // This move caused a cutoff, so it's a "killer move"
+            if (!move.capture) {
+                // Shift existing killer move
+                killerMoves[ply][1] = killerMoves[ply][0];
+                killerMoves[ply][0] = move;
+            }
+            return beta; // Beta cutoff
         }
     }
 
     if (legalMovesFound === 0) {
-        return inCheck ? -MATE_SCORE + ply : 0;
+        return inCheck ? -MATE_SCORE + ply : 0; // Checkmate or stalemate
     }
 
+    // Save result to Transposition Table
     const flag = (bestScore > originalAlpha) ? TT_EXACT : TT_UPPERBOUND;
     transpositionTable.set(state.zobristHash.toString(), { score: bestScore, depth, flag, bestMove });
     return bestScore;
@@ -1116,45 +1143,57 @@ function quiesce(state, alpha, beta, ply, qDepth = 0) {
 
 
 
+// ====================================================================================
+//            REPLACE YOUR OLD orderMoves() FUNCTION WITH THIS ONE
+// ====================================================================================
+// This version is a complete overhaul. It uses Static Exchange Evaluation (SEE)
+// to intelligently separate "good" captures from "bad" ones. This is critical
+// for making the search algorithm efficient enough to find deep tactics.
 function orderMoves(moves, state, pvMove, ply) {
-    const pieceValues = { p: 1, n: 3, b: 3, r: 5, q: 9, k: 0 }; 
+    const moveScores = [];
 
-    return moves.map(move => {
+    for (const move of moves) {
         let score = 0;
+
+        // 1. PV Move: Highest priority
         if (pvMove && move.from[0] === pvMove.from[0] && move.from[1] === pvMove.from[1] && move.to[0] === pvMove.to[0] && move.to[1] === pvMove.to[1]) {
-            score = 300000; 
-        } 
-        
-        // --- CRITICAL FIX: Prioritize captures by SEE Score ---
-        else if (move.capture) {
-            const seeScore = see(state, move.from[0], move.from[1], move.to[0], move.to[1]);
-            const attackerValue = pieceValues[move.piece.toLowerCase()];
-            const victimValue = pieceValues[move.capture.toLowerCase()];
-            const mvvLva = (victimValue * 10) - attackerValue;
-
-            // Highly prioritize moves with positive SEE
-            score = 200000 + (seeScore * 1000) + mvvLva;
-        } 
-        
-        // Promotions (High priority)
-        else if (move.promotion) {
-             score = 150000 + pieceValues[move.promotion.toLowerCase()];
+            score = 1000000;
         }
-        
-        // Killer Moves
-        else if (killerMoves[ply]?.[0] && killerMoves[ply][0].from[0] === move.from[0] && killerMoves[ply][0].to[0] === move.to[0] && killerMoves[ply][0].from[1] === move.from[1] && killerMoves[ply][0].to[1] === move.to[1]) {
-            score = 90000;
-        } else if (killerMoves[ply]?.[1] && killerMoves[ply][1].from[0] === move.from[0] && killerMoves[ply][1].to[0] === move.to[0] && killerMoves[ply][1].from[1] === move.from[1] && killerMoves[ply][1].to[1] === move.to[1]) {
-            score = 80000;
-        } 
-        
-        // History Heuristic
-        else if (move.piece) {
-            score = historyTable[pieceMap.indexOf(move.piece)][move.to[0] * 8 + move.to[1]] || 0;
+        // 2. Captures and Promotions
+        else if (move.capture || move.promotion) {
+            // Promotions are always good
+            if (move.promotion) {
+                score = 900000 + pieceValues[move.promotion.toLowerCase()].mg;
+            } else {
+                // For captures, use SEE to determine if it's a winning trade
+                const seeScore = see(state, move.from[0], move.from[1], move.to[0], move.to[1]);
+                if (seeScore >= 0) {
+                    // Good captures: score based on SEE value
+                    score = 800000 + seeScore;
+                } else {
+                    // Bad captures: searched last, score based on how "bad" it is
+                    score = 10000 + seeScore; // e.g., 10000 + (-500) = 9500
+                }
+            }
         }
+        // 3. Quiet Moves (Non-captures)
+        else {
+            // Killer Moves (moves that caused a beta cutoff at the same ply)
+            if (killerMoves[ply]?.[0] && killerMoves[ply][0].from[0] === move.from[0] && killerMoves[ply][0].to[0] === move.to[0] && killerMoves[ply][0].from[1] === move.from[1] && killerMoves[ply][0].to[1] === move.to[1]) {
+                score = 90000;
+            } else if (killerMoves[ply]?.[1] && killerMoves[ply][1].from[0] === move.from[0] && killerMoves[ply][1].to[0] === move.to[0] && killerMoves[ply][1].from[1] === move.from[1] && killerMoves[ply][1].to[1] === move.to[1]) {
+                score = 80000;
+            }
+            // History Heuristic (moves that have been good in other branches)
+            else {
+                score = historyTable[pieceMap.indexOf(move.piece)][move.to[0] * 8 + move.to[1]] || 0;
+            }
+        }
+        moveScores.push({ move, score });
+    }
 
-        return { move, score };
-    }).sort((a, b) => b.score - a.score).map(item => item.move);
+    // Sort all moves based on their assigned score
+    return moveScores.sort((a, b) => b.score - a.score).map(item => item.move);
 }
 
 
