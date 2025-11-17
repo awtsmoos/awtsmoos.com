@@ -499,7 +499,7 @@ function evaluateStrategicBonuses(state, color, pieceData, friendlyPawnFiles, en
         if (bishop.r !== startRank) score.add(new TaperedScore(30, 15)); // Increased bonus
     }
     if ((isWhite ? pieceData.B : pieceData.b).length >= 2) {
-        score.add(new TaperedScore(50, 75)); // Bishop pair bonus
+        score.add(new TaperedScore(85, 110)); // Bishop pair bonus
     }
     for (const rook of (isWhite ? pieceData.R : pieceData.r)) {
         if (!friendlyPawnFiles.has(rook.c)) {
@@ -968,10 +968,38 @@ function search(state, depth, alpha, beta, ply, previousMoveWasNull) {
     if (stopSearch) return 0;
 
     // Repetition and draw checks remain the same
-    const isRepetition = ply > 0 && repetitionHistory.slice(0, -1).includes(state.zobristHash);
-    if (isRepetition) return -100; // Contempt for 2-fold repetition
-    if (repetitionHistory.filter(h => h === state.zobristHash).length >= 2) return -MATE_SCORE + ply;
+    /* B"H */
 
+	// --- DYNAMIC CONTEMPT FACTOR (FIX FOR FORCED DRAWS) ---
+	// This logic prevents the engine from accepting a draw in a winning position.
+	const isRepetition = ply > 0 && repetitionHistory.includes(state.zobristHash);
+	if (isRepetition) {
+	    // We've found a repetition. Is it a good or bad thing?
+	    // Get a quick evaluation of the current position to find out.
+	    const currentEval = evaluate(state);
+	    
+	    // If we are in a winning position (eval > 150), a draw is a failure.
+	    // Return a negative "contempt" score to discourage it.
+	    if (currentEval > 150) {
+	        return -200;
+	    }
+	    
+	    // If we are in a losing position (eval < -150), a draw is a success.
+	    // Return a positive score to encourage it.
+	    if (currentEval < -150) {
+	        return 200;
+	    }
+	    
+	    // If the position is roughly equal, a draw is neutral. Return 0.
+	    return 0; 
+	}
+	// This part handles the forced 3-fold repetition leading to an immediate draw claim.
+	if (repetitionHistory.filter(h => h === state.zobristHash).length >= 2) {
+	    return 0; // A forced draw is always 0.
+	}
+	    
+    
+    
     if (ply >= MATE_IN_MAX_PLY) return evaluate(state);
 
     // Transposition Table lookup
