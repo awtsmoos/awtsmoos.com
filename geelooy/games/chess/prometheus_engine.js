@@ -1555,22 +1555,18 @@ case 'analyze_pgn':
                 const evalAfterMove = evaluate(game.currentState);
                 const evalDrop = (game.currentState.turn === 'b' ? 1 : -1) * (bestMoveEval - evalAfterMove);
 
-                // --- NEW COMPREHENSIVE CLASSIFICATION LOGIC ---
-                let classification = 'good'; // Default
+                let classification = 'good';
                 if (evalDrop > 250) {
                     classification = 'blunder';
                 } else if (evalDrop > 90) {
                     classification = 'mistake';
                 } else if (evalDrop <= 15) {
-                    // This was the best or a nearly-best move.
                     classification = 'best';
                 }
                 
-                // Check for brilliant sacrifices
                 if (evalDrop < -50 && actualMove.capturedPiece && pieceValues[actualMove.capturedPiece.toLowerCase()].mg > pieceValues[actualMove.piece.toLowerCase()].mg) {
                      classification = 'brilliant';
                 }
-
 
                 // --- STREAM THE RESULT FOR THIS MOVE ---
                 self.postMessage({

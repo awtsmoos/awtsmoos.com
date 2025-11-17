@@ -528,27 +528,32 @@ function drawHintArrow(from, to) {
     const toX = BOARD_PADDING + to[1] * SQUARE_SIZE + SQUARE_SIZE / 2;
     const toY = BOARD_PADDING + to[0] * SQUARE_SIZE + SQUARE_SIZE / 2;
     
-    const headlen = 25; // Made the head larger for better visibility
     const angle = Math.atan2(toY - fromY, toX - fromX);
+    const headlen = 28; // A larger head
+    const lineWidth = 14;
+
+    // Calculate the point where the line shaft should end (shortened)
+    const shaftEndX = toX - (headlen / 2) * Math.cos(angle);
+    const shaftEndY = toY - (headlen / 2) * Math.sin(angle);
 
     analysisContext.save();
     analysisContext.strokeStyle = 'rgba(14, 204, 53, 0.8)';
     analysisContext.fillStyle = 'rgba(14, 204, 53, 0.8)';
-    analysisContext.lineWidth = 12;
-    analysisContext.lineCap = 'butt'; // Use a flat end for the line, NOT 'round'
-    
-    // 1. Draw the line shaft first
+    analysisContext.lineWidth = lineWidth;
+    analysisContext.lineCap = 'round';
+
+    // 1. Draw the shortened line shaft
     analysisContext.beginPath();
     analysisContext.moveTo(fromX, fromY);
-    analysisContext.lineTo(toX, toY);
+    analysisContext.lineTo(shaftEndX, shaftEndY);
     analysisContext.stroke();
 
-    // 2. Draw the arrowhead on top of the flat line end
+    // 2. Draw a wider arrowhead at the very end
     analysisContext.beginPath();
     analysisContext.moveTo(toX, toY);
-    // Use a wider angle (PI/6) to make the head larger than the shaft
-    analysisContext.lineTo(toX - headlen * Math.cos(angle - Math.PI / 6), toY - headlen * Math.sin(angle - Math.PI / 6));
-    analysisContext.lineTo(toX - headlen * Math.cos(angle + Math.PI / 6), toY - headlen * Math.sin(angle + Math.PI / 6));
+    // Use a wider angle (PI/5) for a fatter arrowhead
+    analysisContext.lineTo(toX - headlen * Math.cos(angle - Math.PI / 5), toY - headlen * Math.sin(angle - Math.PI / 5));
+    analysisContext.lineTo(toX - headlen * Math.cos(angle + Math.PI / 5), toY - headlen * Math.sin(angle + Math.PI / 5));
     analysisContext.closePath();
     analysisContext.fill();
     
@@ -1283,33 +1288,37 @@ function drawAnalysisBoard() {
 	/* B"H */
 
 	function drawMoveArrow(from, to) {
-    // Offset all coordinates by the padding
     const fromX = BOARD_PADDING + from[1] * SQUARE_SIZE + SQUARE_SIZE / 2;
     const fromY = BOARD_PADDING + from[0] * SQUARE_SIZE + SQUARE_SIZE / 2;
     const toX = BOARD_PADDING + to[1] * SQUARE_SIZE + SQUARE_SIZE / 2;
     const toY = BOARD_PADDING + to[0] * SQUARE_SIZE + SQUARE_SIZE / 2;
     
-    const headlen = 25; // Made the head larger for better visibility
     const angle = Math.atan2(toY - fromY, toX - fromX);
+    const headlen = 28; // A larger head
+    const lineWidth = 14;
+
+    // Calculate the point where the line shaft should end (shortened)
+    const shaftEndX = toX - (headlen / 2) * Math.cos(angle);
+    const shaftEndY = toY - (headlen / 2) * Math.sin(angle);
 
     analysisContext.save();
     analysisContext.strokeStyle = 'rgba(20, 150, 255, 0.7)';
     analysisContext.fillStyle = 'rgba(20, 150, 255, 0.7)';
-    analysisContext.lineWidth = 12;
-    analysisContext.lineCap = 'butt'; // Use a flat end for the line, NOT 'round'
+    analysisContext.lineWidth = lineWidth;
+    analysisContext.lineCap = 'round'; // Round cap looks good on the start of the line
 
-    // 1. Draw the line shaft first
+    // 1. Draw the shortened line shaft
     analysisContext.beginPath();
     analysisContext.moveTo(fromX, fromY);
-    analysisContext.lineTo(toX, toY);
+    analysisContext.lineTo(shaftEndX, shaftEndY);
     analysisContext.stroke();
 
-    // 2. Draw the arrowhead on top of the flat line end
+    // 2. Draw a wider arrowhead at the very end
     analysisContext.beginPath();
     analysisContext.moveTo(toX, toY);
-    // Use a wider angle (PI/6) to make the head larger than the shaft
-    analysisContext.lineTo(toX - headlen * Math.cos(angle - Math.PI / 6), toY - headlen * Math.sin(angle - Math.PI / 6));
-    analysisContext.lineTo(toX - headlen * Math.cos(angle + Math.PI / 6), toY - headlen * Math.sin(angle + Math.PI / 6));
+    // Use a wider angle (PI/5) for a fatter arrowhead
+    analysisContext.lineTo(toX - headlen * Math.cos(angle - Math.PI / 5), toY - headlen * Math.sin(angle - Math.PI / 5));
+    analysisContext.lineTo(toX - headlen * Math.cos(angle + Math.PI / 5), toY - headlen * Math.sin(angle + Math.PI / 5));
     analysisContext.closePath();
     analysisContext.fill();
     
