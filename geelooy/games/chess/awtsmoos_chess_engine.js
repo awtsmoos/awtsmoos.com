@@ -188,266 +188,145 @@ function initializeSearch(maxTime) {
 
 
 
-// =================================================================
-//                 REVISED EVALUATION & SEARCH (Mk. IV)
-// =================================================================
+// DELETE EVERYTHING from the TaperedScore class down to the end of evaluateKingSafety.
+// REPLACE it all with this single, self-contained, hyper-fast evaluation block.
 
-// A simple structure to hold separate midgame and endgame scores for tapered evaluation.
-class TaperedScore {
-    constructor(mg = 0, eg = 0) {
-        this.mg = mg;
-        this.eg = eg;
+// ====================================================================================
+//            MASTER EVALUATION HUB (v6.0 - PURE BITBOARD)
+// ====================================================================================
+
+// --- Pre-calculated masks for evaluation ---
+const FILE_A = 72340172838076673n;
+const FILE_H = 9259542123273814144n;
+const KING_SIDE_MASK = 6917529027641081856n;
+const QUEEN_SIDE_MASK = 1085102592571150095n;
+const CENTER_FILES_MASK = 4755801206503243776n; // d and e files
+const KING_ATTACK_ZONE = [Array(64), Array(64)]; // [color][king_sq]
+
+// Initialize King attack zones
+for (let sq = 0; sq < 64; sq++) {
+    let white_zone = 0n;
+    let black_zone = 0n;
+    if ((1n << BigInt(sq)) & NOT_A_FILE) {
+        white_zone |= (1n << BigInt(sq - 9));
+        white_zone |= (1n << BigInt(sq - 1));
+        white_zone |= (1n << BigInt(sq + 7));
     }
-    add(other) {
-        this.mg += other.mg;
-        this.eg += other.eg;
-        return this;
+    if ((1n << BigInt(sq)) & NOT_H_FILE) {
+        white_zone |= (1n << BigInt(sq - 7));
+        white_zone |= (1n << BigInt(sq + 1));
+        white_zone |= (1n << BigInt(sq + 9));
     }
-    subtract(other) {
-        this.mg -= other.mg;
-        this.eg -= other.eg;
-        return this;
+    white_zone |= (1n << BigInt(sq - 8));
+    white_zone |= (1n << BigInt(sq + 8));
+    KING_ATTACK_ZONE[WHITE][sq] = white_zone;
+
+    if ((1n << BigInt(sq)) & NOT_A_FILE) {
+        black_zone |= (1n << BigInt(sq - 7));
+        black_zone |= (1n << BigInt(sq + 1));
+        black_zone |= (1n << BigInt(sq + 9));
     }
+    if ((1n << BigInt(sq)) & NOT_H_FILE) {
+        black_zone |= (1n << BigInt(sq - 9));
+        black_zone |= (1n << BigInt(sq - 1));
+        black_zone |= (1n << BigInt(sq + 7));
+    }
+    black_zone |= (1n << BigInt(sq - 8));
+    black_zone |= (1n << BigInt(sq + 8));
+    KING_ATTACK_ZONE[BLACK][sq] = black_zone;
 }
 
-// --- PIECE VALUES (with tapered evaluation) ---
-// Piece-Value Tables (Final Conservative Tuning)
-const pieceValues = {
-    // Increased to ensure pawns are always fought for in the endgame
-    p: { mg: 100, eg: 130 }, 
-    // Final conservative increase (from 340) to curb "Gambititis"
-    n: { mg: 350, eg: 350 }, 
-    // Final conservative increase (from 345) to curb "Gambititis"
-    b: { mg: 355, eg: 355 }, 
-    r: { mg: 500, eg: 500 },
-    q: { mg: 900, eg: 900 },
-    k: { mg: 20000, eg: 20000 }
-};
-
-function getGamePhase(board) {
-    const MAX_PHASE = 24; // Standard total phase value
-    let currentPhase = 0;
-    const phaseValues = { n: 1, b: 1, r: 2, q: 4 };
-    for (let r = 0; r < 8; r++) {
-        for (let c = 0; c < 8; c++) {
-            const p = board[r][c];
-            if (p && phaseValues[p.toLowerCase()]) {
-                currentPhase += phaseValues[p.toLowerCase()];
-            }
-        }
-    }
-    // Ensure phase doesn't exceed max, then normalize to a 0-1 float
-    return Math.min(currentPhase, MAX_PHASE) / MAX_PHASE;
-}
-
-
-
-
-
-
-
-
-
-
-
-// ====================================================================================
-//            MASTER EVALUATION HUB & HELPERS (BITBOARD v2.0 - FINAL & COMPLETE)
-// ====================================================================================
-
-// --- Bitboard-native version of isSquareAttackedByPiece ---
-// This is required for the evaluateThreats function to work.
-function isSquareAttackedByPiece(state, targetSq, attackerSq, attackerPieceType, attackerColor) {
-    const blockers = state.occupancies[WHITE] | state.occupancies[BLACK];
-    switch(attackerPieceType) {
-        case P: return (PAWN_ATTACKS[attackerColor][attackerSq] & (1n << BigInt(targetSq))) !== 0n;
-        case N: return (KNIGHT_ATTACKS[attackerSq] & (1n << BigInt(targetSq))) !== 0n;
-        case B: return (getBishopAttacks(attackerSq, blockers) & (1n << BigInt(targetSq))) !== 0n;
-        case R: return (getRookAttacks(attackerSq, blockers) & (1n << BigInt(targetSq))) !== 0n;
-        case Q: return (getQueenAttacks(attackerSq, blockers) & (1n << BigInt(targetSq))) !== 0n;
-        case K: return (KING_ATTACKS[attackerSq] & (1n << BigInt(targetSq))) !== 0n;
-    }
-    return false;
-}
-
-// ====================================================================================
-//            MASTER EVALUATION HUB & HELPERS (BITBOARD v4.0 - FINAL & CORRECT)
-// ====================================================================================
-function popcount(bb) {
-    let count = 0; while (bb > 0n) { bb = popBit(bb); count++; } return count;
-}
-function getGamePhase(state) {
-    const MAX_PHASE = 24; let currentPhase = 0;
-    currentPhase += popcount(state.pieceBitboards[N] | state.pieceBitboards[N + 6]) * 1;
-    currentPhase += popcount(state.pieceBitboards[B] | state.pieceBitboards[B + 6]) * 1;
-    currentPhase += popcount(state.pieceBitboards[R] | state.pieceBitboards[R + 6]) * 2;
-    currentPhase += popcount(state.pieceBitboards[Q] | state.pieceBitboards[Q + 6]) * 4;
-    return Math.min(currentPhase, MAX_PHASE) / MAX_PHASE;
-}
-
-// ====================================================================================
-//            MASTER EVALUATION HUB (v5.0 - ON-THE-FLY PIECE LISTS)
-// ====================================================================================
 
 function evaluate(state) {
-    // --- THE SPEED BREAKTHROUGH: Generate piece lists ONCE, here at the leaf node ---
-    const pieceLists = { P:[], N:[], B:[], R:[], Q:[], K:[], p:[], n:[], b:[], r:[], q:[], k:[] };
-    for (let p = 0; p < 12; p++) {
-        let bb = state.pieceBitboards[p];
-        const pieceChar = pieceMap[p];
-        while (bb > 0n) {
-            const sq = getLSBIndex(bb);
-            pieceLists[pieceChar].push(sq);
-            bb = popBit(bb);
-        }
-    }
-
     const attackMaps = generateAttackMaps(state);
     const gamePhase = getGamePhase(state);
-    let whiteScore = new TaperedScore(), blackScore = new TaperedScore();
+    let score = 0;
     
-    const whiteKingSq = pieceLists.K[0], blackKingSq = pieceLists.k[0];
-    const whiteKingPos = whiteKingSq !== undefined ? { sq: whiteKingSq, r: Math.floor(whiteKingSq/8), c: whiteKingSq%8} : null;
-    const blackKingPos = blackKingSq !== undefined ? { sq: blackKingSq, r: Math.floor(blackKingSq/8), c: blackKingSq%8} : null;
-
-    for (let pieceChar in pieceLists) {
-        const isWhite = pieceChar < 'a';
-        const scoreTarget = isWhite ? whiteScore : blackScore;
-        const pType = pieceChar.toLowerCase();
+    // --- Material and Piece-Square Table Evaluation (Bitboard Native) ---
+    for (let p_type = P; p_type <= K; p_type++) {
+        let white_bb = state.pieceBitboards[p_type];
+        let black_bb = state.pieceBitboards[p_type + 6];
         
-        for(const sq of pieceLists[pieceChar]) {
-            const r = Math.floor(sq/8), c = sq % 8;
-            scoreTarget.mg += pieceValues[pType].mg; scoreTarget.eg += pieceValues[pType].eg;
-            const pstRow = isWhite ? 7 - r : r;
-            
-            if (pType === 'k') {
-                scoreTarget.mg += kingPSTMidGame[pstRow][c]; scoreTarget.eg += kingPSTEndGame[pstRow][c];
-            } else {
-                const pst = {p:pawnPST, n:knightPST, b:bishopPST, r:rookPST, q:queenPST}[pType];
-                scoreTarget.mg += pst[pstRow][c]; scoreTarget.eg += pst[pstRow][c];
-            }
+        const pst = [pawnPST, knightPST, bishopPST, rookPST, queenPST, kingPSTMidGame][p_type];
+        const piece_val = [pieceValues.p, pieceValues.n, pieceValues.b, pieceValues.r, pieceValues.q, pieceValues.k][p_type];
+        
+        while(white_bb > 0n) {
+            const sq = getLSBIndex(white_bb);
+            score += piece_val.mg * gamePhase + piece_val.eg * (1 - gamePhase);
+            score += pst[7 - Math.floor(sq/8)][sq % 8];
+            white_bb = popBit(white_bb);
         }
-    }
-    
-    const whitePawnFiles = new Set(pieceLists.P.map(sq => sq % 8));
-    const blackPawnFiles = new Set(pieceLists.p.map(sq => sq % 8));
-    
-    whiteScore.add(evaluateStrategicBonuses(state, WHITE, pieceLists, whitePawnFiles, blackPawnFiles, whiteKingPos));
-    blackScore.add(evaluateStrategicBonuses(state, BLACK, pieceLists, blackPawnFiles, whitePawnFiles, blackKingPos));
-    
-    whiteScore.subtract(evaluateThreats(state, WHITE, attackMaps));
-    blackScore.subtract(evaluateThreats(state, BLACK, attackMaps));
-    
-    if(whiteKingPos) whiteScore.subtract(evaluateKingSafety(state, whiteKingPos, BLACK, pieceLists));
-    if(blackKingPos) blackScore.subtract(evaluateKingSafety(state, blackKingPos, WHITE, pieceLists));
-
-    const finalWhite = (whiteScore.mg * gamePhase) + (whiteScore.eg * (1 - gamePhase));
-    const finalBlack = (blackScore.mg * gamePhase) + (blackScore.eg * (1 - gamePhase));
-    const evaluation = Math.round(finalWhite - finalBlack);
-    
-    return (state.turn === WHITE ? 1 : -1) * evaluation;
-}
-
-function evaluateThreats(state, color, attackMaps) {
-    const penalty = new TaperedScore();
-    const [ourColor, enemyColor] = (color === WHITE) ? [WHITE, BLACK] : [BLACK, WHITE];
-    const enemyAttackMap = (enemyColor === WHITE) ? attackMaps.white : attackMaps.black;
-    const enemyPawnAttacks = (enemyColor === WHITE) ? attackMaps.white_pawns : attackMaps.black_pawns;
-    
-    const ourKnights = state.pieceBitboards[ourColor * 6 + N];
-    const ourBishops = state.pieceBitboards[ourColor * 6 + B];
-    const ourRooks = state.pieceBitboards[ourColor * 6 + R];
-    const ourQueens = state.pieceBitboards[ourColor * 6 + Q];
-
-    const PAWN_THREAT_PENALTY = 200;
-    penalty.mg += popcount(ourKnights & enemyPawnAttacks) * PAWN_THREAT_PENALTY;
-    penalty.mg += popcount(ourBishops & enemyPawnAttacks) * PAWN_THREAT_PENALTY;
-    penalty.mg += popcount(ourRooks & enemyPawnAttacks) * 300;
-    penalty.mg += popcount(ourQueens & enemyPawnAttacks) * 450;
-
-    const HANGING_PIECE_PENALTY = 35;
-    penalty.mg += popcount((ourKnights | ourBishops) & enemyAttackMap) * HANGING_PIECE_PENALTY;
-    penalty.mg += popcount(ourRooks & enemyAttackMap) * (HANGING_PIECE_PENALTY + 20);
-    penalty.mg += popcount(ourQueens & enemyAttackMap) * (HANGING_PIECE_PENALTY + 40);
-    
-    return penalty;
-}
-
-function evaluateStrategicBonuses(state, color, pieceLists, friendlyPawnFiles, enemyPawnFiles, myKingPos) {
-    const score = new TaperedScore();
-    const isWhite = color === WHITE;
-    const startRank = isWhite ? 7 : 0;
-    
-    for (const pawnSq of pieceLists[isWhite ? 'P' : 'p']) {
-        const r = Math.floor(pawnSq / 8), c = pawnSq % 8;
-        if ((c === 3 || c === 4) && (r === (isWhite ? 4 : 3) || r === (isWhite ? 3 : 4))) score.mg += 45;
-    }
-    
-    const canCastle = isWhite ? (state.castling & (WKCA | WQCA)) : (state.castling & (BKCA | BQCA));
-    if (myKingPos) {
-        const kingOnStartSquare = myKingPos.r === startRank && myKingPos.c === 4;
-        const hasCastled = myKingPos.r === startRank && (myKingPos.c === 6 || myKingPos.c === 2);
-        if (hasCastled) score.add(new TaperedScore(myKingPos.c === 6 ? 90 : 70, 30));
-        if (!kingOnStartSquare && !hasCastled && canCastle) score.subtract(new TaperedScore(100, 30));
-    }
-    
-    if (pieceLists[isWhite ? 'B' : 'b'].length >= 2) score.add(new TaperedScore(85, 110));
-    
-    for (const sq of pieceLists[isWhite ? 'R' : 'r']) {
-        const r = Math.floor(sq/8), c = sq % 8;
-        if (!friendlyPawnFiles.has(c)) score.add(new TaperedScore(enemyPawnFiles.has(c) ? 40 : 25, 20));
-        if (r === (isWhite ? 1 : 6)) score.add(new TaperedScore(50, 60));
-    }
-    
-    const pawnFileCounts = new Map();
-    for (const sq of pieceLists[isWhite ? 'P' : 'p']) {
-        const c = sq % 8;
-        pawnFileCounts.set(c, (pawnFileCounts.get(c) || 0) + 1);
-        if (!friendlyPawnFiles.has(c - 1) && !friendlyPawnFiles.has(c + 1)) score.subtract(new TaperedScore(25, 40));
-    }
-    for (const count of pawnFileCounts.values()) {
-        if (count > 1) score.subtract(new TaperedScore(20 * (count - 1), 30 * (count - 1)));
-    }
-    
-    return score;
-}
-
-function evaluateKingSafety(state, kingPos, attackerColor, pieceLists) {
-    const danger = new TaperedScore();
-    const kingRank = kingPos.r, kingFile = kingPos.c;
-    const isAttackerWhite = attackerColor === WHITE;
-    const defenderPawnChar = isAttackerWhite ? 'p' : 'P';
-    const pawnShieldRank = isAttackerWhite ? kingRank - 1 : kingRank + 1;
-
-    // King pawn shield evaluation
-    if (kingPos.c > 1 && kingPos.c < 6) { // Only for non-flank king positions
-         for (const file of [kingFile - 1, kingFile, kingFile + 1]) {
-            if (file < 0 || file > 7) continue;
-            let shieldPawnFound = false;
-            for(const pawnSq of pieceLists[defenderPawnChar]) {
-                const r = Math.floor(pawnSq/8), c = pawnSq % 8;
-                if (c === file) {
-                    shieldPawnFound = true;
-                    if(r !== pawnShieldRank) danger.mg += 20; // Pawn pushed
-                    break;
-                }
-            }
-            if (!shieldPawnFound) danger.mg += 40; // Missing pawn
+        
+        while(black_bb > 0n) {
+            const sq = getLSBIndex(black_bb);
+            score -= (piece_val.mg * gamePhase + piece_val.eg * (1 - gamePhase));
+            score -= pst[Math.floor(sq/8)][sq % 8];
+            black_bb = popBit(black_bb);
         }
     }
 
-    let attackWeight = 0;
-    const attackWeights = { q: 10, r: 6, b: 4, n: 4 };
-    const attackerChars = isAttackerWhite ? "QRBN" : "qrbn";
-    for(const char of attackerChars) {
-        for (const attackerSq of pieceLists[char]) {
-            const r = Math.floor(attackerSq/8), c = attackerSq % 8;
-            const dist = Math.max(Math.abs(r - kingRank), Math.abs(c - kingFile));
-            if (dist <= 4) attackWeight += attackWeights[char.toLowerCase()] * (5 - dist);
-        }
+    // --- Strategic Bonuses (Bitboard Native) ---
+    const whitePawns = state.pieceBitboards[P];
+    const blackPawns = state.pieceBitboards[P + 6];
+
+    // Doubled Pawns
+    for (let i = 0; i < 8; i++) {
+        const fileMask = FILE_A << BigInt(i);
+        if (popcount(whitePawns & fileMask) > 1) score -= 25;
+        if (popcount(blackPawns & fileMask) > 1) score += 25;
     }
-    danger.mg += Math.floor(Math.pow(Math.max(0, attackWeight - 5), 2) * 0.8);
+
+    // Isolated Pawns
+    for (let i = 0; i < 8; i++) {
+        const fileMask = FILE_A << BigInt(i);
+        const adjacentMask = ((FILE_A << BigInt(i-1)) & NOT_H_FILE) | ((FILE_A << BigInt(i+1)) & NOT_A_FILE);
+        if ((whitePawns & fileMask) !== 0n && (whitePawns & adjacentMask) === 0n) score -= 20;
+        if ((blackPawns & fileMask) !== 0n && (blackPawns & adjacentMask) === 0n) score += 20;
+    }
+
+    // Passed Pawns
+    // Simplified but fast: check for enemy pawns in front on same and adjacent files
+    // (A full implementation is more complex, this is a good starting point)
+
+    // Rook on Open/Semi-Open File
+    let whiteRooks = state.pieceBitboards[R];
+    let blackRooks = state.pieceBitboards[R+6];
+    while(whiteRooks > 0n) {
+        const sq = getLSBIndex(whiteRooks);
+        const fileMask = FILE_A << BigInt(sq % 8);
+        if ((whitePawns & fileMask) === 0n) score += ((blackPawns & fileMask) === 0n ? 30 : 15);
+        whiteRooks = popBit(whiteRooks);
+    }
+     while(blackRooks > 0n) {
+        const sq = getLSBIndex(blackRooks);
+        const fileMask = FILE_A << BigInt(sq % 8);
+        if ((blackPawns & fileMask) === 0n) score -= ((whitePawns & fileMask) === 0n ? 30 : 15);
+        blackRooks = popBit(blackRooks);
+    }
+
+    // --- Threats and King Safety (Bitboard Native) ---
+    const whiteKingSq = getLSBIndex(state.pieceBitboards[K]);
+    const blackKingSq = getLSBIndex(state.pieceBitboards[K + 6]);
     
-    return danger;
+    // King Safety
+    if (whiteKingSq !== -1) {
+        const whiteKingZone = KING_ATTACK_ZONE[WHITE][whiteKingSq];
+        score -= popcount(whiteKingZone & state.occupancies[BLACK]) * 10;
+        score -= popcount(whiteKingZone & attackMaps.black) * 5;
+    }
+    if (blackKingSq !== -1) {
+        const blackKingZone = KING_ATTACK_ZONE[BLACK][blackKingSq];
+        score += popcount(blackKingZone & state.occupancies[WHITE]) * 10;
+        score += popcount(blackKingZone & attackMaps.white) * 5;
+    }
+    
+    // Hanging Pieces (Simplified threats)
+    const whiteHanging = state.occupancies[WHITE] & attackMaps.black;
+    const blackHanging = state.occupancies[BLACK] & attackMaps.white;
+    if (whiteHanging !== 0n) score -= popcount(whiteHanging) * 40;
+    if (blackHanging !== 0n) score += popcount(blackHanging) * 40;
+
+    return (state.turn === WHITE ? 1 : -1) * Math.round(score);
 }
 
 

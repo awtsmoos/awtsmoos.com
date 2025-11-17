@@ -123,14 +123,18 @@ function isSquareAttacked(state, sq, attackerColor) {
 }
 
 
+// REPLACE the createGameState function in helpers.js with this lean version.
+
 function createGameState(fen) {
     initializeAll();
+    // THE RADICAL CHANGE: The state object NO LONGER contains pieceLists.
     const state = {
         pieceBitboards: Array(12).fill(0n),
         occupancies: Array(3).fill(0n),
-        pieceLists: { P:[], N:[], B:[], R:[], Q:[], K:[], p:[], n:[], b:[], r:[], q:[], k:[] },
-        board: Array(64).fill(null), // Flat board array
-        turn: WHITE, enpassant: -1, castling: 0,
+        board: Array(64).fill(null), // The board array is still useful for move ordering.
+        turn: WHITE, 
+        enpassant: -1, 
+        castling: 0,
     };
     const fenParts = fen.split(' ');
     let rank = 0, file = 0;
@@ -140,15 +144,17 @@ function createGameState(fen) {
         else {
             const sq = rank * 8 + file;
             const piece = pieceMap.indexOf(char);
-            const color = (piece > 5) ? BLACK : WHITE;
             state.pieceBitboards[piece] |= (1n << BigInt(sq));
-            state.occupancies[color] |= (1n << BigInt(sq));
-            state.pieceLists[char].push(sq);
             state.board[sq] = char;
             file++;
         }
     }
+    
+    // Calculate occupancies AFTER all pieces are placed
+    state.occupancies[WHITE] = state.pieceBitboards[P] | state.pieceBitboards[N] | state.pieceBitboards[B] | state.pieceBitboards[R] | state.pieceBitboards[Q] | state.pieceBitboards[K];
+    state.occupancies[BLACK] = state.pieceBitboards[P+6] | state.pieceBitboards[N+6] | state.pieceBitboards[B+6] | state.pieceBitboards[R+6] | state.pieceBitboards[Q+6] | state.pieceBitboards[K+6];
     state.occupancies[2] = state.occupancies[WHITE] | state.occupancies[BLACK];
+    
     state.turn = (fenParts[1] === 'w') ? WHITE : BLACK;
     if (fenParts[2].includes('K')) state.castling |= WKCA;
     if (fenParts[2].includes('Q')) state.castling |= WQCA;
