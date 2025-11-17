@@ -1,50 +1,63 @@
-/*B'H
+/*B"H
 */
 
-/* --- MODIFIED: The body is now locked to the viewport size and uses grid to perfectly center the game. --- */
+/* --- ADDED: Master viewport lock. This prevents the entire page from ever scrolling. --- */
 html, body {
     height: 100vh;
     width: 100vw;
-    overflow: hidden; /* This is the master lock. The page itself will never scroll. */
+    overflow: hidden;
     margin: 0;
-    display: grid;
-    place-items: center; /* A modern way to perfectly center a single child element. */
     background-color: #2c2f33;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     -webkit-tap-highlight-color: transparent;
 }
 
-.hidden {
-    display: none;
+body {
+    display: grid; /* Use grid to perfectly center content */
+    place-items: center;
+    color: #fff;
 }
 
-/* --- MODIFIED: The game container is now a CSS Grid, giving us total control over the layout. --- */
+/* --- MODIFIED: The .hidden class is now the sole controller of visibility. --- */
+.hidden {
+    display: none !important; /* The !important flag ensures this rule always wins, fixing the menu overlap. */
+}
+
+/* --- MODIFIED: The game container is now a robust grid layout. --- */
 #gameContainer {
     display: grid;
-    /* This defines our 5 rows: Top captures, button, board, message, bottom captures */
-    grid-template-rows: min-content auto 1fr auto min-content;
-    gap: 5px; /* Adds a small space between all elements */
-    height: 100vh; /* The container will take up the full screen height */
+    /* Defines 5 rows: top captures, button, board, message, bottom captures */
+    grid-template-rows: auto auto 1fr auto auto;
+    gap: 5px; /* A small space between elements */
+    height: 100vh; /* Fill the entire screen vertically */
     width: 100%;
-    max-width: 500px; /* Constrains the width to match the board */
+    max-width: 500px; /* Constrain width */
     box-sizing: border-box;
-    padding: 10px 0;
+    padding: 5px 0;
 }
 
-/* --- MODIFIED: Assign grid rows to each element --- */
+/* --- ADDED: Assign each game element to its correct row in the grid. --- */
 .captured-pieces-container:first-of-type { grid-row: 1; }
 #drawButton { grid-row: 2; }
-#chessContainer { grid-row: 3; display: flex; align-items: center; justify-content: center; } /* The board takes all remaining space */
+#chessContainer { 
+    grid-row: 3; 
+    display: flex; /* These ensure the canvas stays centered in the available space */
+    align-items: center; 
+    justify-content: center;
+    min-height: 0; /* A fix for flexbox in some browsers to allow shrinking */
+}
 #message { grid-row: 4; }
 .captured-pieces-container:last-of-type { grid-row: 5; }
 
 
-#chessContainer, .menu {
-    display: block; /* Use block/flex/grid as needed, just not none */
-}
+/* --- MODIFIED: Menus are now styled to work correctly when toggled by the JS. --- */
 .menu {
+    display: flex; /* This is the default display when made visible by JS */
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
+
 .menu-button {
     padding: 15px 30px;
     font-size: 20px;
@@ -54,27 +67,27 @@ html, body {
     border: none;
     border-radius: 8px;
     transition: background-color 0.3s;
-    margin: 0 auto; /* Center the button within its grid row */
+    margin: 10px;
     width: 250px;
 }
 .menu-button:hover {
     background-color: #45a049;
 }
 
-/* MODIFIED: Message box has a fixed height and scrolls vertically. */
+/* MODIFIED: Fixed height and internal scrolling */
 #message {
-    height: 4.5em; /* Fixed height for ~2 lines of text */
-    overflow-y: auto; /* Its own personal scrollbar */
+    height: 4.5em; 
+    overflow-y: auto; 
     white-space: pre-wrap;
     padding: 6px;
     box-sizing: border-box;
     width: 100%;
-    max-width: 500px;
     font-size: 1.2em;
     font-weight: bold;
     text-align: center;
     border: 1px solid #444;
     border-radius: 5px;
+    flex-shrink: 0;
 }
 
 #gameOverOverlay {
@@ -97,21 +110,15 @@ html, body {
     text-shadow: 2px 2px 4px #000;
 }
 
-/* MODIFIED: Captured pieces containers now scroll horizontally. */
 .captured-pieces-container {
     height: 90px;
     width: 100%;
-    max-width: 500px;
     box-sizing: border-box;
     font-size: 28px;
     color: #ccc;
     display: flex;
     align-items: center;
-    overflow-x: auto; /* The crucial part: enable horizontal scrolling */
+    overflow-x: auto;
     overflow-y: hidden;
-}
-
-/* ADDED: Ensures the canvas doesn't shrink, forcing the horizontal scrollbar to appear. */
-.captured-pieces-container canvas {
     flex-shrink: 0;
 }
