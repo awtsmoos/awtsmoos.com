@@ -240,17 +240,6 @@ function getGamePhase(board) {
     return Math.min(currentPhase, MAX_PHASE) / MAX_PHASE;
 }
 
-// MAIN EVALUATION HUB
-
-
-
-// ====================================================================================
-//            REPLACE YOUR OLD getAttackers() AND see() FUNCTIONS WITH THESE
-// ====================================================================================
-// These are the verified, high-performance helper functions required for the new
-// SEE-based move ordering. They are essential for the search to work correctly.
-
-
 
 
 
@@ -636,7 +625,7 @@ self.onmessage = function(e) {
                 return;
             }
 
-            const searchResult = searchRoot(state, 99, maxTime || 10000);
+            const searchResult = searchRoot(state, 99, maxTime || 4200);
             
             postMessage({
                 type: 'move_result',

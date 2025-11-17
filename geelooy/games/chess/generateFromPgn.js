@@ -34,16 +34,16 @@ class PgnConverter {
         fen += ' 0 1'; return fen;
     }
 
-    // REPLACE this function in generateFromPgn.js
+// REPLACE this function in generateFromPgn.js
 parseSan(san) {
-    // Keep a reference to the FEN *before* the move for logging purposes
     const fenForErrorLogging = this.toFen();
-    
+    const originalSan = san;
     san = san.replace(/[+#?!]/g, '');
     if (['1-0', '0-1', '1/2-1/2', '*'].includes(san)) return null;
 
     const legalMoves = generateMoves(this.currentState);
 
+    // 1. Handle Castling first, as it has unique notation
     if (san === 'O-O') {
         const move = legalMoves.find(m => getMoveCastling(m) && getMoveTo(m) > getMoveFrom(m));
         if (move) return move;
@@ -52,73 +52,71 @@ parseSan(san) {
         const move = legalMoves.find(m => getMoveCastling(m) && getMoveTo(m) < getMoveFrom(m));
         if (move) return move;
     }
+
+    // 2. Use a robust regex to parse the move notation into named parts
+    // This handles piece moves like "Nxd5", "Rfe1", "Qh4", etc.
+    const sanRegex = /^(?<piece>[NBRQK])?(?<from_file>[a-h])?(?<from_rank>[1-8])?x?(?<to_sq>[a-h][1-8])(=(?<promo>[NBRQ]))?/;
+    let match = san.match(sanRegex);
     
-    let promotionType = null;
-    if (san.includes('=')) {
-        promotionType = 'PNBRQ'.indexOf(san.slice(-1).toUpperCase());
-        san = san.slice(0, -2);
-    }
-
-    const toMatch = san.match(/([a-h][1-8])$/);
-    if (!toMatch) {
-        // --- NEW DEBUG LOGGING ---
-        console.groupCollapsed(`%cDEBUG: Could not find destination square in SAN: "${san}"`, 'color: orange; font-weight: bold;');
-        console.log("FEN:", fenForErrorLogging);
-        console.log("All Legal Moves Generated:", legalMoves.map(m => `from: ${getMoveFrom(m)}, to: ${getMoveTo(m)}`));
-        console.groupEnd();
-        return null;
-    }
-    const toSq = (8 - parseInt(toMatch[0][1])) * 8 + (toMatch[0].charCodeAt(0) - 'a'.charCodeAt(0));
-
-    const isCapture = san.includes('x');
-    const pieceChar = (san[0] >= 'A' && san[0] <= 'Z') ? san[0] : 'P';
-    const pieceType = 'PNBRQK'.indexOf(pieceChar);
-    
-    const fromHint = san.replace('x', '').replace(toMatch[0], '').substring(pieceType === P ? 0 : 1);
-
-    const candidateMoves = [];
-    for(const move of legalMoves) {
-        if (getMovePiece(move) !== pieceType || getMoveTo(move) !== toSq) continue;
-        if (promotionType !== null && getMovePromoted(move) !== promotionType) continue;
-        if (isCapture && !getMoveCapture(move)) continue;
-
-        if (fromHint) {
-            const fromSq = getMoveFrom(move);
-            const fromFile = 'abcdefgh'[fromSq % 8];
-            const fromRank = (8 - Math.floor(fromSq / 8)).toString();
-            let hintMatch = true;
-            for (const char of fromHint) {
-                if (char !== fromFile && char !== fromRank) {
-                    hintMatch = false;
-                    break;
-                }
-            }
-            if (!hintMatch) continue;
+    // If the main regex fails, it's likely a pawn move (e.g., "e4", "dxc5")
+    if (!match) {
+        const pawnRegex = /^(?<from_file>[a-h])?x?(?<to_sq>[a-h][1-8])(=(?<promo>[NBRQ]))?/;
+        const pawnMatch = san.match(pawnRegex);
+        if (pawnMatch) {
+            // Reconstruct the match object with 'P' as the piece
+             match = { groups: { ...pawnMatch.groups, piece: 'P' } };
+        } else {
+            // The SAN is malformed or unparsable
+            return null; 
         }
-        candidateMoves.push(move);
-    }
-    
-    if (candidateMoves.length === 1) return candidateMoves[0];
-    
-    // If we're here, we either found 0 or multiple candidates.
-    if (candidateMoves.length === 0) {
-        // --- NEW DEBUG LOGGING ---
-        console.groupCollapsed(`%cDEBUG: No matching legal move found for SAN: "${san}"`, 'color: orange; font-weight: bold;');
-        console.log("FEN:", fenForErrorLogging);
-        console.log("All Legal Moves Generated:", legalMoves.map(m => {
-            return {
-                from: getMoveFrom(m), to: getMoveTo(m), piece: pieceMap[getMovePiece(m) + (this.currentState.turn === BLACK ? 6 : 0)], 
-                promo: getMovePromoted(m), capture: getMoveCapture(m), castle: getMoveCastling(m)
-            };
-        }));
-        console.groupEnd();
-        return null; // This will trigger the original error log
     }
 
-    // If still ambiguous, it means multiple pieces of the same type can move to the square.
-    // This is rare in valid PGNs but we return the first match for robustness.
-    if (candidateMoves.length > 1) return candidateMoves[0];
+    const groups = match.groups;
+    const pieceType = 'PNBRQK'.indexOf(groups.piece || 'P');
+    const toSq = (8 - parseInt(groups.to_sq[1])) * 8 + (groups.to_sq.charCodeAt(0) - 'a'.charCodeAt(0));
+    const isCapture = san.includes('x');
+    const promotionType = groups.promo ? 'PNBRQ'.indexOf(groups.promo) : null;
 
+    // 3. Filter candidate moves from the legal moves list
+    const candidateMoves = legalMoves.filter(move => {
+        // Basic checks: piece type, destination square, capture flag, promotion
+        if (getMovePiece(move) !== pieceType) return false;
+        if (getMoveTo(move) !== toSq) return false;
+        if (isCapture && !getMoveCapture(move)) return false;
+        // This is a special case for pawn moves: if SAN doesn't have 'x', it cannot be a capture.
+        if (!isCapture && getMoveCapture(move) && pieceType === P) return false; 
+        if (promotionType !== null && getMovePromoted(move) !== promotionType) return false;
+
+        // Disambiguation checks using 'from' hints
+        const fromSq = getMoveFrom(move);
+        const fromFile = String.fromCharCode('a'.charCodeAt(0) + (fromSq % 8));
+        const fromRank = (8 - Math.floor(fromSq / 8)).toString();
+
+        if (groups.from_file && groups.from_file !== fromFile) return false;
+        if (groups.from_rank && groups.from_rank !== fromRank) return false;
+
+        return true;
+    });
+
+    // 4. Return the result
+    if (candidateMoves.length === 1) {
+        return candidateMoves[0];
+    }
+    
+    // If there are multiple candidates, the PGN was ambiguous (e.g., "Nd5" when two knights can go there).
+    // For robustness, we'll just return the first one found.
+    if (candidateMoves.length > 1) {
+        return candidateMoves[0];
+    }
+
+    // If we found no candidates after all that, log the error with the new detailed info.
+    // (This part is for debugging and should no longer be hit after this fix)
+    console.groupCollapsed(`%cDEBUG: No matching legal move found for SAN: "${originalSan}"`, 'color: red; font-weight: bold;');
+    console.log("FEN:", fenForErrorLogging);
+    console.log("Parsed Info:", { pieceType, toSq, isCapture, promotionType, from_file: groups.from_file, from_rank: groups.from_rank });
+    console.log("All Legal Moves Generated:", legalMoves);
+    console.groupEnd();
+    
     return null;
 }
 
