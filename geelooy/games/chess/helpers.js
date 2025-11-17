@@ -207,15 +207,24 @@ function makeMove(state, move) {
         state.pieceLists[pieceMap[capturedPieceFull]].splice(state.pieceLists[pieceMap[capturedPieceFull]].indexOf(ep_capture_sq), 1);
     }
     
-    // Handle promotions
-    if (promoted) {
-        const promotedChar = pieceMap[side*6 + promoted];
-        state.pieceBitboards[side * 6 + P] ^= (1n << BigInt(to)); // remove pawn
-        state.pieceBitboards[side * 6 + promoted] ^= (1n << BigInt(to)); // add promoted piece
-        state.board[to] = promotedChar;
-        state.pieceLists[pieceChar].pop(); // remove pawn from list
-        state.pieceLists[promotedChar].push(to); // add promoted piece to list
+    
+    /* B"H */
+if (promoted) {
+    const promotedChar = pieceMap[side*6 + promoted];
+    state.pieceBitboards[side * 6 + P] ^= (1n << BigInt(to)); // remove pawn
+    state.pieceBitboards[side * 6 + promoted] ^= (1n << BigInt(to)); // add promoted piece
+    state.board[to] = promotedChar;
+
+    // --- FIX START ---
+    // Replace .pop() with a targeted splice to remove the correct pawn
+    const pawnIndex = state.pieceLists[pieceChar].indexOf(to);
+    if (pawnIndex > -1) {
+        state.pieceLists[pieceChar].splice(pawnIndex, 1);
     }
+    // --- FIX END ---
+
+    state.pieceLists[promotedChar].push(to); // add promoted piece to list
+}
 
     // Handle castling
     if (getMoveCastling(move)) {
@@ -272,13 +281,21 @@ function unmakeMove(state) {
 
     // Undo promotion
     if (promoted) {
-        const promotedChar = pieceMap[side*6 + promoted];
-        state.pieceBitboards[side * 6 + P] ^= (1n << BigInt(to));
-        state.pieceBitboards[side * 6 + promoted] ^= (1n << BigInt(to));
-        state.board[from] = pieceChar; // Already done, but for clarity
-        state.pieceLists[promotedChar].pop();
-        state.pieceLists[pieceChar].push(from);
+    const promotedChar = pieceMap[side*6 + promoted];
+    state.pieceBitboards[side * 6 + P] ^= (1n << BigInt(to));
+    state.pieceBitboards[side * 6 + promoted] ^= (1n << BigInt(to));
+    state.board[from] = pieceChar; 
+
+    // --- FIX START ---
+    // Replace .pop() with a targeted splice to remove the promoted piece
+    const promotedIndex = state.pieceLists[promotedChar].indexOf(to);
+    if (promotedIndex > -1) {
+        state.pieceLists[promotedChar].splice(promotedIndex, 1);
     }
+    // --- FIX END ---
+    
+    state.pieceLists[pieceChar].push(from);
+}
     
     // Undo castling
     if (getMoveCastling(move)) {
@@ -301,47 +318,38 @@ function unmakeMove(state) {
     state.enpassant = unmakeInfo.enpassant;
 }
 
-function isSquareAttackedByPiece(board, tr, tc, pr, pc, attackerColor) {
-    const p = board[pr*8+pc];
-    if (!p) return false;
-    const pType = p.toLowerCase();
-    const isWhiteAttacker = (p.toUpperCase() === p);
-    
-    if ((isWhiteAttacker && attackerColor === BLACK) || (!isWhiteAttacker && attackerColor === WHITE)) return false;
 
-    const dr = tr - pr, dc = tc - pc;
+/* B"H */
 
-    if (pType === 'p') {
-        const dir = isWhiteAttacker ? -1 : 1;
-        return dr === dir && Math.abs(dc) === 1;
-    }
-    if (pType === 'n') {
-        const absDr = Math.abs(dr), absDc = Math.abs(dc);
-        return (absDr === 2 && absDc === 1) || (absDr === 1 && absDc === 2);
-    }
-    if (pType === 'k') { return Math.abs(dr) <= 1 && Math.abs(dc) <= 1; }
-    if (dr === 0 || dc === 0) {
-        if (pType === 'r' || pType === 'q') {
-            const stepR = dr === 0 ? 0 : (dr > 0 ? 1 : -1), stepC = dc === 0 ? 0 : (dc > 0 ? 1 : -1);
-            for (let i = 1; i < 8; i++) {
-                const nR = pr + i * stepR, nC = pc + i * stepC;
-                if (nR === tr && nC === tc) return true;
-                if (board[nR*8+nC]) break;
-            }
-        }
-    }
-    if (Math.abs(dr) === Math.abs(dc)) {
-        if (pType === 'b' || pType === 'q') {
-            const stepR = dr > 0 ? 1 : -1, stepC = dc > 0 ? 1 : -1;
-            for (let i = 1; i < 8; i++) {
-                const nR = pr + i * stepR, nC = pc + i * stepC;
-                if (nR === tr && nC === tc) return true;
-                if (board[nR*8+nC]) break;
-            }
-        }
-    }
+
+/**
+ * Checks if a specific square is attacked by a piece of a given color, using bitboards.
+ * This is the single, correct, high-performance version for the entire engine.
+ * @param {object} state - The current game state object with all bitboards.
+ * @param {number} sq - The square to check (0-63).
+ * @param {number} attackerColor - The color of the attacker (WHITE or BLACK).
+ * @returns {boolean} - True if the square is attacked, false otherwise.
+ */
+function isSquareAttacked(state, sq, attackerColor) {
+    const enemyColor = attackerColor === WHITE ? BLACK : WHITE;
+    const blockers = state.occupancies[WHITE] | state.occupancies[BLACK];
+
+    // Check for attacks by pawns, knights, and king of the attackerColor
+    if ((PAWN_ATTACKS[enemyColor][sq] & state.pieceBitboards[attackerColor * 6 + P]) !== 0n) return true;
+    if ((KNIGHT_ATTACKS[sq] & state.pieceBitboards[attackerColor * 6 + N]) !== 0n) return true;
+    if ((KING_ATTACKS[sq] & state.pieceBitboards[attackerColor * 6 + K]) !== 0n) return true;
+
+    // Check for attacks by sliding pieces (bishops, rooks, queens)
+    const bishopsQueens = state.pieceBitboards[attackerColor * 6 + B] | state.pieceBitboards[attackerColor * 6 + Q];
+    if ((getBishopAttacks(sq, blockers) & bishopsQueens) !== 0n) return true;
+
+    const rooksQueens = state.pieceBitboards[attackerColor * 6 + R] | state.pieceBitboards[attackerColor * 6 + Q];
+    if ((getRookAttacks(sq, blockers) & rooksQueens) !== 0n) return true;
+
+    // If no attacks are found
     return false;
 }
+
 
 // --- MOVE ENCODING/DECODING ---
 const encodeMove = (from, to, piece, promoted, capture, double, enpassant, castling) => (from) | (to << 6) | (piece << 12) | (promoted << 16) | (capture << 20) | (double << 21) | (enpassant << 22) | (castling << 23);
