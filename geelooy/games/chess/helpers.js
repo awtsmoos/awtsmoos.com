@@ -51,7 +51,20 @@ const deBruijn64 = 0x07EDD5E59A4E28C2n;
 
 
 
-const bishopRelevantBits = [6, 5, 5, 5, 5, 5, 5, 6, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 7, 7, 7, 7, 5, 5, 5, 5, 7, 9, 9, 7, 5, 5, 5, 5, 7, 9, 9, 7, 5, 5, 5, 5, 7, 7, 7, 7, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 6, 5, 5, 5, 5, 5, 5, 6];
+// REPLACE your old bishopRelevantBits array with this one.
+// This is the smoking gun - the values here now correctly match the mask generation logic.
+const bishopRelevantBits = [
+    6, 5, 5, 5, 5, 5, 5, 6, 
+    5, 5, 5, 5, 5, 5, 5, 5, 
+    5, 5, 7, 7, 7, 7, 5, 5, 
+    5, 5, 7, 7, 7, 7, 5, 5, 
+    5, 5, 7, 7, 7, 7, 5, 5, 
+    5, 5, 7, 7, 7, 7, 5, 5, 
+    5, 5, 5, 5, 5, 5, 5, 5, 
+    6, 5, 5, 5, 5, 5, 5, 6
+];
+
+// Your rookRelevantBits array is correct, no change needed there.
 const rookRelevantBits   = [
     12, 11, 11, 11, 11, 11, 11, 12,
     11, 10, 10, 10, 10, 10, 10, 11,
@@ -62,6 +75,10 @@ const rookRelevantBits   = [
     11, 10, 10, 10, 10, 10, 10, 11,
     12, 11, 11, 11, 11, 11, 11, 12
 ];
+
+
+
+
 const bishopMagics = [
   0x40040844404084n,   0x20040844404084n,   0x10040844404084n,   0x8040844404084n,
   0x4040844404084n,    0x2040844404084n,    0x1040844404084n,    0x840844404084n,
