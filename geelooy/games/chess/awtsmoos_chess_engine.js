@@ -2,7 +2,7 @@
 /* B"H */
 
 // =================================================================
-//                 THE PROMETHEUS CHESS ENGINE (Mk. III - UNIFIED)
+//                 THE AWTSMOOS CHESS(ED) ENGINE (Mk. III - UNIFIED)
 // =================================================================
 // This version is structurally refactored to use a single, shared
 // helpers file for all core logic, ensuring 100% consistency between
@@ -21,7 +21,6 @@ importScripts('punishment_library.js');
 //                 OPENING BOOK PROCESSING LOGIC
 // =================================================================
 /* B"H */
-// REPLACE the entire opening book section at the top of prometheus_engine.js with this block.
 
 // =================================================================
 //                 OPENING BOOK PROCESSING LOGIC
@@ -343,18 +342,21 @@ function evaluate(state) {
 // ====================================================================================
 
 
+/* B"H */
+
 /**
  * Orders moves for a given position to improve alpha-beta pruning efficiency.
- * This version uses bitboards to determine capture values (MVV-LVA).
- * @param {number[]} moves - An array of legal moves.
+ * MVV-LVA (Most Valuable Victim - Least Valuable Attacker) is used for captures.
+ * @param {number[]} moves - An array of pseudo-legal moves.
  * @param {object} state - The current game state.
  * @param {number} ply - The current search depth (ply).
  * @returns {number[]} The sorted array of moves.
  */
 function orderMoves(moves, state, ply) {
     const moveScores = [];
-    const hashMoveEntry = transpositionTable.get(state.zobristHash.toString());
-    const hashMove = hashMoveEntry ? hashMoveEntry.move : 0;
+    const hashEntry = transpositionTable.get(state.zobristHash.toString());
+    const hashMove = hashEntry ? hashEntry.move : 0;
+    const pieceValues = [100, 350, 355, 500, 900, 20000];
 
     for (const move of moves) {
         let score = 0;
@@ -374,14 +376,11 @@ function orderMoves(moves, state, ply) {
                     }
                 }
             }
-
-            const victimValue = [100, 350, 355, 500, 900, 20000][victimType];
-            const attackerValue = [100, 350, 355, 500, 900, 20000][attackerType];
-            score = (victimValue * 10) - attackerValue + 1000000;
+            score = (pieceValues[victimType] * 10) - pieceValues[attackerType] + 1000000;
         } else {
-            if (killerMoves[ply][0] === move) {
+            if (killerMoves[ply] && killerMoves[ply][0] === move) {
                 score = 900000;
-            } else if (killerMoves[ply][1] === move) {
+            } else if (killerMoves[ply] && killerMoves[ply][1] === move) {
                 score = 850000;
             } else {
                 score = historyTable[getMovePiece(move) + (state.turn * 6)][getMoveTo(move)];
@@ -389,7 +388,7 @@ function orderMoves(moves, state, ply) {
         }
         
         if (getMovePromoted(move)) {
-            score += 90000; // Bonus for promotion
+            score += pieceValues[getMovePromoted(move)] * 100; // Promotion bonus
         }
 
         moveScores.push({ move, score });
@@ -398,25 +397,34 @@ function orderMoves(moves, state, ply) {
     return moveScores.sort((a, b) => b.score - a.score).map(ms => ms.move);
 }
 
+/**
+ * Quiescence search to stabilize the evaluation by only searching tactical moves (captures, promotions).
+ * @param {object} state - The game state.
+ * @param {number} alpha - The alpha value for the search window.
+ * @param {number} beta - The beta value for the search window.
+ * @returns {number} The evaluated score of the position.
+ */
 function quiesce(state, alpha, beta) {
-    nodeCount++;
     if ((nodeCount & 2047) === 0 && performance.now() - searchStartTime > timeLimit) {
         stopSearch = true;
     }
     if (stopSearch) return 0;
+    nodeCount++;
+    
+    // Repetition check for quiescence to avoid infinite loops in rare cases
+    for (let i = moveStackPtr - 2; i >= 0; i -= 2) {
+        if (moveStack[i].zobristHash === state.zobristHash) return CONTEMPT_FACTOR;
+    }
 
     const stand_pat = evaluate(state);
     if (stand_pat >= beta) return beta;
     if (alpha < stand_pat) alpha = stand_pat;
 
-    // --- THE FINAL PERFORMANCE FIX: Call the specialized tactical move generator ---
     const moves = generateTacticalMoves(state);
-    const orderedMoves = orderMoves(moves, state, 0);
+    const orderedMoves = orderMoves(moves, state, 0); // Ply 0 for q-search move ordering
 
     for (const move of orderedMoves) {
-        // No need to filter here anymore, as the list only contains tactical moves.
         const unmakeInfo = makeMove(state, move);
-        
         const kingSq = getLSBIndex(state.pieceBitboards[(state.turn ^ 1) * 6 + K]);
         if (isSquareAttacked_lean(state, kingSq, state.turn)) {
             unmakeMove(state, unmakeInfo);
@@ -434,29 +442,41 @@ function quiesce(state, alpha, beta) {
 }
 
 
+/**
+ * The core alpha-beta search function with PVS, transposition tables, and other enhancements.
+ * @param {object} state - The game state.
+ * @param {number} depth - The remaining depth to search.
+ * @param {number} alpha - The alpha value.
+ * @param {number} beta - The beta value.
+ * @param {number} ply - The current ply from the root.
+ * @returns {number} The evaluated score of the position.
+ */
 function search(state, depth, alpha, beta, ply) {
     if (depth <= 0) {
         return quiesce(state, alpha, beta);
     }
 
-    nodeCount++;
     if ((nodeCount & 2047) === 0 && performance.now() - searchStartTime > timeLimit) {
         stopSearch = true;
     }
     if (stopSearch) return 0;
+    nodeCount++;
     
-    if (ply > 0) { // Repetition check
-        for (let i = moveStackPtr - 2; i >= 0; i -= 2) {
-            if (moveStack[i].zobristHash === state.zobristHash) return CONTEMPT_FACTOR;
-        }
+    // Repetition check
+    for (let i = moveStackPtr - 2; i >= 0; i -= 2) {
+        if (moveStack[i].zobristHash === state.zobristHash) return CONTEMPT_FACTOR;
     }
 
     const ttEntry = transpositionTable.get(state.zobristHash.toString());
     if (ply > 0 && ttEntry && ttEntry.depth >= depth) {
-        if (ttEntry.flag === TT_EXACT) return ttEntry.score;
-        if (ttEntry.flag === TT_LOWERBOUND) alpha = Math.max(alpha, ttEntry.score);
-        else if (ttEntry.flag === TT_UPPERBOUND) beta = Math.min(beta, ttEntry.score);
-        if (alpha >= beta) return ttEntry.score;
+        let score = ttEntry.score;
+        if (score > MATE_SCORE - MATE_IN_MAX_PLY) score -= ply;
+        if (score < -MATE_SCORE + MATE_IN_MAX_PLY) score += ply;
+
+        if (ttEntry.flag === TT_EXACT) return score;
+        if (ttEntry.flag === TT_LOWERBOUND) alpha = Math.max(alpha, score);
+        else if (ttEntry.flag === TT_UPPERBOUND) beta = Math.min(beta, score);
+        if (alpha >= beta) return score;
     }
 
     const moves = generateMoves(state);
@@ -470,7 +490,7 @@ function search(state, depth, alpha, beta, ply) {
     for (const move of orderedMoves) {
         const unmakeInfo = makeMove(state, move);
         
-        // --- PERFORMANCE FIX: Use the lean check inside the main search loop ---
+        // This is the performance critical legality check.
         const kingSq = getLSBIndex(state.pieceBitboards[(state.turn ^ 1) * 6 + K]);
         if (isSquareAttacked_lean(state, kingSq, state.turn)) {
             unmakeMove(state, unmakeInfo);
@@ -481,7 +501,7 @@ function search(state, depth, alpha, beta, ply) {
         let score;
         if (legalMovesFound === 1) {
             score = -search(state, depth - 1, -beta, -alpha, ply + 1);
-        } else {
+        } else { // Principal Variation Search (PVS)
             score = -search(state, depth - 1, -alpha - 1, -alpha, ply + 1);
             if (score > alpha && score < beta) {
                 score = -search(state, depth - 1, -beta, -alpha, ply + 1);
@@ -503,7 +523,9 @@ function search(state, depth, alpha, beta, ply) {
 
         if (alpha >= beta) {
             if (!getMoveCapture(move)) {
-                killerMoves[ply][1] = killerMoves[ply][0];
+                if(killerMoves[ply] && killerMoves[ply][0] !== move) {
+                    killerMoves[ply][1] = killerMoves[ply][0];
+                }
                 killerMoves[ply][0] = move;
                 historyTable[getMovePiece(move) + ((state.turn^1) * 6)][getMoveTo(move)] += depth * depth;
             }
@@ -514,18 +536,19 @@ function search(state, depth, alpha, beta, ply) {
 
     if (legalMovesFound === 0) {
         const kingInCheck = isSquareAttacked_lean(state, getLSBIndex(state.pieceBitboards[state.turn * 6 + K]), state.turn ^ 1);
-        return kingInCheck ? -MATE_SCORE + ply : 0;
+        return kingInCheck ? -MATE_SCORE + ply : 0; // Checkmate or stalemate
     }
 
-    transpositionTable.set(state.zobristHash.toString(), { score: bestScore, depth: depth, flag: ttFlag, move: bestMoveForNode });
+    if (bestMoveForNode) {
+       transpositionTable.set(state.zobristHash.toString(), { score: bestScore, depth: depth, flag: ttFlag, move: bestMoveForNode });
+    }
+    
     return bestScore;
 }
 
 
 /**
  * The root of the search function, using iterative deepening.
- * This version is corrected to use the hyper-optimized `isSquareAttacked_lean`
- * for legality checking at the root, which is the final major performance fix.
  * @param {object} initialState - The starting game state for the search.
  * @param {number} maxDepth - The maximum depth to search.
  * @param {number} maxTime - The maximum time in milliseconds to search.
@@ -533,54 +556,51 @@ function search(state, depth, alpha, beta, ply) {
  */
 function searchRoot(initialState, maxDepth, maxTime) {
     initializeSearch(maxTime);
-    
-    let bestMove = 0;
-    let bestScore = -Infinity;
+    let bestMove = 0, bestScore = -Infinity;
 
     for (let currentDepth = 1; currentDepth <= maxDepth; currentDepth++) {
+        let alpha = -Infinity, beta = Infinity;
+        
+        // Generate and order moves once per depth at the root
         const moves = generateMoves(initialState);
         const orderedMoves = orderMoves(moves, initialState, 0);
 
-        if (orderedMoves.length === 0) break;
-
-        let alpha = -Infinity;
-        let beta = Infinity;
         let legalMovesSearched = 0;
-        
+        let currentBestMoveForDepth = 0;
+
         for (const move of orderedMoves) {
-            makeMove(initialState, move);
+            const unmakeInfo = makeMove(initialState, move);
             
-            // THE FINAL FIX: This now calls the hyper-optimized _lean function.
-            // After we make a move, the turn flips. We check if our OWN king
-            // (the king of the color that just moved) is now under attack.
             const kingColor = initialState.turn ^ 1;
             const kingSq = getLSBIndex(initialState.pieceBitboards[kingColor * 6 + K]);
-            
             if (isSquareAttacked_lean(initialState, kingSq, initialState.turn)) {
-                unmakeMove(initialState); // The move was illegal, so we unmake and skip.
+                unmakeMove(initialState, unmakeInfo);
                 continue;
             }
             legalMovesSearched++;
 
-            // If the move is legal, proceed with the search.
             const score = -search(initialState, currentDepth - 1, -beta, -alpha, 1);
-            unmakeMove(initialState);
+            unmakeMove(initialState, unmakeInfo);
 
             if (stopSearch) break;
 
             if (score > bestScore) {
                 bestScore = score;
                 bestMove = move;
-                
-                if (score > alpha) {
-                    alpha = score;
-                }
+                currentBestMoveForDepth = move; // Track best move for this iteration
+            }
+            
+            if (score > alpha) {
+                alpha = score;
             }
         }
         
         if (stopSearch || legalMovesSearched === 0) {
             break;
         }
+
+        // Post intermediate results if you have a UI that can handle it
+        // self.postMessage({ type: 'info', depth: currentDepth, score: bestScore, bestMove: decodeMove(bestMove, initialState.turn), nodes: nodeCount });
 
         if (Math.abs(bestScore) > MATE_SCORE - MATE_IN_MAX_PLY) {
             break; 
@@ -589,7 +609,6 @@ function searchRoot(initialState, maxDepth, maxTime) {
 
     return { bestMove, score: bestScore };
 }
-
 
 
 

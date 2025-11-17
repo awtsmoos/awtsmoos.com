@@ -1,7 +1,7 @@
 /* B"H */
 
 // =================================================================
-//                 PROMETHEUS - CORE HELPERS (BITBOARD v2.0 - VERIFIED)
+//                 PROMETHEUS - CORE HELPERS (BITBOARD v3.0 - OPTIMIZED)
 // =================================================================
 
 // --- CONSTANTS ---
@@ -16,12 +16,23 @@ const NOT_H_FILE = 9187201950435737471n;
 const NOT_HG_FILE = 4557430888798830399n;
 const NOT_AB_FILE = 18229723555195321596n;
 
+/**
+ * Gets the index of the least significant bit in a bitboard.
+ * @param {bigint} bb The bitboard.
+ * @returns {number} The index of the LSB (0-63), or -1 if the bitboard is empty.
+ */
 function getLSBIndex(bb) {
     if (bb === 0n) return -1;
     let index = 0;
     while (!((bb >> BigInt(index)) & 1n)) { index++; }
     return index;
 }
+
+/**
+ * Clears the least significant bit from a bitboard.
+ * @param {bigint} bb The bitboard.
+ * @returns {bigint} The bitboard with the LSB removed.
+ */
 function popBit(bb) { return bb & (bb - 1n); }
 
 // --- PRE-CALCULATED ATTACK TABLES ---
@@ -35,6 +46,10 @@ var zobristCastlingKeys = Array(16).fill(0n);
 var zobristEnpassantKeys = Array(64).fill(0n);
 var zobristTurnKey = 0n;
 
+/**
+ * Initializes Zobrist keys for hashing board positions if they haven't been already.
+ * Uses a simple pseudo-random number generator for deterministic keys.
+ */
 function initializeZobristKeys() {
     if (zobristTurnKey !== 0n) return;
     const pseudoRandom = (() => { let seed = 19880128; return () => seed = (seed * 16807) % 2147483647; })();
@@ -45,6 +60,11 @@ function initializeZobristKeys() {
     zobristTurnKey = random64();
 }
 
+/**
+ * Calculates the Zobrist hash for a given game state.
+ * @param {object} state The game state object.
+ * @returns {bigint} The Zobrist hash.
+ */
 function calculateZobristHash(state) {
     let hash = 0n;
     for(let p = 0; p < 12; p++) {
@@ -62,7 +82,10 @@ function calculateZobristHash(state) {
 }
 
 
-// --- INITIALIZE ALL PRE-CALCULATED DATA ---
+/**
+ * Initializes all pre-calculated data such as attack tables and Zobrist keys.
+ * This function is idempotent and safe to call multiple times.
+ */
 function initializeAll() {
     if (KNIGHT_ATTACKS.length > 0) return;
     initializeZobristKeys();
@@ -111,11 +134,8 @@ function getRookAttacks(sq, blockers) {
 function getQueenAttacks(sq, blockers) { return getRookAttacks(sq, blockers) | getBishopAttacks(sq, blockers); }
 
 
-
-
 /**
  * Creates a new game state object from a FEN string.
- * This is a performance-critical version that EXCLUDES the redundant 8x8 board array.
  * All operations will be performed directly on the bitboards for maximum speed.
  * @param {string} fen - The Forsyth-Edwards Notation string representing the position.
  * @returns {object} The initialized game state object.
@@ -181,129 +201,7 @@ let moveStack = Array(256).fill(0);
 let moveStackPtr = 0;
 
 /**
- * Performs a move on the board state, updating only bitboards. This is hyper-optimized for the search loop.
- * @param {object} state - The game state.
- * @param {number} move - The encoded move integer.
- */
-function makeMove(state, move) {
-    const from = getMoveFrom(move);
-    const to = getMoveTo(move);
-    const piece = getMovePiece(move);
-    const promoted = getMovePromoted(move);
-    const side = state.turn;
-    const enemy = side ^ 1;
-    
-    // --- Store state for unmakeMove. The hash must be from *before* the move. ---
-    const capturedPieceType = findCapturedPieceType(state, to);
-    moveStack[moveStackPtr++] = { 
-        move, 
-        castling: state.castling, 
-        enpassant: state.enpassant, 
-        capturedPiece: capturedPieceType, 
-        zobristHash: state.zobristHash 
-    };
-
-    const from_bb = 1n << BigInt(from);
-    const to_bb = 1n << BigInt(to);
-    
-    // --- 1. Move the piece ---
-    state.pieceBitboards[side * 6 + piece] ^= (from_bb | to_bb);
-    state.occupancies[side] ^= (from_bb | to_bb);
-
-    // --- 2. Handle captures ---
-    if (getMoveCapture(move)) {
-        if (getMoveEnpassant(move)) {
-            const captured_pawn_sq = (side === WHITE) ? to + 8 : to - 8;
-            const captured_bb = 1n << BigInt(captured_pawn_sq);
-            state.pieceBitboards[enemy * 6 + P] ^= captured_bb;
-            state.occupancies[enemy] ^= captured_bb;
-        } else {
-            state.pieceBitboards[enemy * 6 + capturedPieceType] ^= to_bb;
-            state.occupancies[enemy] ^= to_bb;
-        }
-    }
-
-    // --- 3. Handle promotions ---
-    if (promoted) {
-        state.pieceBitboards[side * 6 + P] ^= to_bb; // Remove pawn
-        state.pieceBitboards[side * 6 + promoted] ^= to_bb; // Add promoted piece
-    }
-
-    // --- 4. Handle castling ---
-    if (getMoveCastling(move)) {
-        let rook_from, rook_to;
-        if (to === 62)      { rook_from = 63; rook_to = 61; } // WK
-        else if (to === 58) { rook_from = 56; rook_to = 59; } // WQ
-        else if (to === 6)  { rook_from = 7;  rook_to = 5; }  // BK
-        else                { rook_from = 0;  rook_to = 3; }  // BQ
-        state.pieceBitboards[side * 6 + R] ^= ((1n << BigInt(rook_from)) | (1n << BigInt(rook_to)));
-        state.occupancies[side] ^= ((1n << BigInt(rook_from)) | (1n << BigInt(rook_to)));
-    }
-    
-    // --- 5. Update global state properties ---
-    state.occupancies[2] = state.occupancies[WHITE] | state.occupancies[BLACK];
-    state.castling &= castling_rights[from] & castling_rights[to];
-    state.enpassant = getMoveDouble(move) ? (side === WHITE ? from - 8 : from + 8) : -1;
-    state.turn ^= 1;
-    state.zobristHash = calculateZobristHash(state); // Recalculate hash for the new position
-}
-
-/**
- * Reverts a move on the board state using only bitboard operations.
- * @param {object} state - The game state.
- */
-function unmakeMove(state) {
-    const { move, castling, enpassant, capturedPiece, zobristHash } = moveStack[--moveStackPtr];
-    
-    state.turn ^= 1;
-    const from = getMoveFrom(move), to = getMoveTo(move), piece = getMovePiece(move), promoted = getMovePromoted(move);
-    const side = state.turn, enemy = side ^ 1;
-
-    // --- 1. Reverse piece move ---
-    const from_bb = 1n << BigInt(from);
-    const to_bb = 1n << BigInt(to);
-    state.pieceBitboards[side * 6 + piece] ^= (from_bb | to_bb);
-    state.occupancies[side] ^= (from_bb | to_bb);
-
-    // --- 2. Reverse promotion ---
-    if (promoted) {
-        state.pieceBitboards[side * 6 + P] ^= to_bb;
-        state.pieceBitboards[side * 6 + promoted] ^= to_bb;
-    }
-    
-    // --- 3. Restore captured piece ---
-    if (getMoveCapture(move)) {
-        if (getMoveEnpassant(move)) {
-            const captured_pawn_sq = (side === WHITE) ? to + 8 : to - 8;
-            const captured_bb = 1n << BigInt(captured_pawn_sq);
-            state.pieceBitboards[enemy * 6 + P] ^= captured_bb;
-            state.occupancies[enemy] ^= captured_bb;
-        } else {
-            state.pieceBitboards[enemy * 6 + capturedPiece] ^= to_bb;
-            state.occupancies[enemy] ^= to_bb;
-        }
-    }
-    
-    // --- 4. Reverse castling ---
-    if (getMoveCastling(move)) {
-        let rook_from, rook_to;
-        if (to === 62)      { rook_from = 63; rook_to = 61; }
-        else if (to === 58) { rook_from = 56; rook_to = 59; }
-        else if (to === 6)  { rook_from = 7;  rook_to = 5; }
-        else                { rook_from = 0;  rook_to = 3; }
-        state.pieceBitboards[side * 6 + R] ^= ((1n << BigInt(rook_from)) | (1n << BigInt(rook_to)));
-        state.occupancies[side] ^= ((1n << BigInt(rook_from)) | (1n << BigInt(rook_to)));
-    }
-    
-    // --- 5. Restore global state from stack ---
-    state.occupancies[2] = state.occupancies[WHITE] | state.occupancies[BLACK];
-    state.castling = castling;
-    state.enpassant = enpassant;
-    state.zobristHash = zobristHash; // Restore hash directly, it's faster
-}
-
-/**
- * Finds which piece type is on a given square for a given side.
+ * Finds which piece type is on a given square for a given side. Used to identify captured pieces.
  * @param {object} state The game state.
  * @param {number} sq The square index.
  * @returns {number | null} The piece type (P, N, B, R, Q, K) or null if no piece is found.
@@ -316,55 +214,114 @@ function findCapturedPieceType(state, sq) {
             return p_type;
         }
     }
-    return null; // Should not happen for a valid capture
+    return null; // Should not happen for a valid capture, except en passant
 }
-/* B"H */
 
 /**
- * Generates bitboard maps of all attacked squares for both players.
- * @param {object} state - The current game state.
- * @returns {object} An object { white: BigInt, black: BigInt, white_pawns: BigInt, black_pawns: BigInt }
+ * Performs a move on the board state, updating only bitboards. This is hyper-optimized for the search loop.
+ * @param {object} state - The game state.
+ * @param {number} move - The encoded move integer.
+ * @returns {object} Information needed to unmake the move.
  */
-function generateAttackMaps(state) {
-    const maps = { white: 0n, black: 0n, white_pawns: 0n, black_pawns: 0n };
-    const blockers = state.occupancies[2];
+function makeMove(state, move) {
+    const from = getMoveFrom(move), to = getMoveTo(move), piece = getMovePiece(move), promoted = getMovePromoted(move);
+    const side = state.turn, enemy = side ^ 1;
+    const from_bb = 1n << BigInt(from), to_bb = 1n << BigInt(to);
+    
+    // Store state for unmakeMove. The hash must be from *before* the move.
+    const unmakeInfo = { 
+        move, 
+        castling: state.castling, 
+        enpassant: state.enpassant, 
+        capturedPiece: P, // Default for en passant
+        zobristHash: state.zobristHash 
+    };
+    
+    state.pieceBitboards[side * 6 + piece] ^= (from_bb | to_bb);
+    state.occupancies[side] ^= (from_bb | to_bb);
 
-    for (let piece = P; piece <= K; piece++) {
-        // White pieces
-        let bb = state.pieceBitboards[piece];
-        while (bb > 0n) {
-            const sq = getLSBIndex(bb);
-            switch (piece) {
-                case P: maps.white_pawns |= PAWN_ATTACKS[WHITE][sq]; break;
-                case N: maps.white |= KNIGHT_ATTACKS[sq]; break;
-                case B: maps.white |= getBishopAttacks(sq, blockers); break;
-                case R: maps.white |= getRookAttacks(sq, blockers); break;
-                case Q: maps.white |= getQueenAttacks(sq, blockers); break;
-                case K: maps.white |= KING_ATTACKS[sq]; break;
-            }
-            bb = popBit(bb);
-        }
-
-        // Black pieces
-        bb = state.pieceBitboards[piece + 6];
-        while (bb > 0n) {
-            const sq = getLSBIndex(bb);
-            switch (piece) {
-                case P: maps.black_pawns |= PAWN_ATTACKS[BLACK][sq]; break;
-                case N: maps.black |= KNIGHT_ATTACKS[sq]; break;
-                case B: maps.black |= getBishopAttacks(sq, blockers); break;
-                case R: maps.black |= getRookAttacks(sq, blockers); break;
-                case Q: maps.black |= getQueenAttacks(sq, blockers); break;
-                case K: maps.black |= KING_ATTACKS[sq]; break;
-            }
-            bb = popBit(bb);
+    if (getMoveCapture(move)) {
+        if (getMoveEnpassant(move)) {
+            const captured_pawn_sq = (side === WHITE) ? to + 8 : to - 8;
+            state.pieceBitboards[enemy * 6 + P] ^= (1n << BigInt(captured_pawn_sq));
+            state.occupancies[enemy] ^= (1n << BigInt(captured_pawn_sq));
+        } else {
+            unmakeInfo.capturedPiece = findCapturedPieceType(state, to);
+            state.pieceBitboards[enemy * 6 + unmakeInfo.capturedPiece] ^= to_bb;
+            state.occupancies[enemy] ^= to_bb;
         }
     }
-    // Combine pawn and piece attacks for the final map
-    maps.white |= maps.white_pawns;
-    maps.black |= maps.black_pawns;
+    if (promoted) {
+        state.pieceBitboards[side * 6 + P] ^= to_bb;
+        state.pieceBitboards[side * 6 + promoted] ^= to_bb;
+    }
+    if (getMoveCastling(move)) {
+        let rook_from, rook_to;
+        if (to === 62) { rook_from = 63; rook_to = 61; }
+        else if (to === 58) { rook_from = 56; rook_to = 59; }
+        else if (to === 6) { rook_from = 7; rook_to = 5; }
+        else { rook_from = 0; rook_to = 3; }
+        state.pieceBitboards[side * 6 + R] ^= ((1n << BigInt(rook_from)) | (1n << BigInt(rook_to)));
+        state.occupancies[side] ^= ((1n << BigInt(rook_from)) | (1n << BigInt(rook_to)));
+    }
     
-    return maps;
+    state.occupancies[2] = state.occupancies[WHITE] | state.occupancies[BLACK];
+    state.castling &= castling_rights[from] & castling_rights[to];
+    state.enpassant = getMoveDouble(move) ? (side === WHITE ? from - 8 : from + 8) : -1;
+    state.turn ^= 1;
+    state.zobristHash = calculateZobristHash(state);
+    
+    // We now use a move stack instead of returning unmake info to avoid object creation overhead.
+    moveStack[moveStackPtr++] = unmakeInfo;
+    return unmakeInfo; // Return for compatibility if needed elsewhere, though the stack is faster for search.
+}
+
+
+/**
+ * Reverts a move on the board state using info from the move stack. Optimized for search.
+ * @param {object} state - The game state.
+ * @param {object} unmakeInfo - The unmake information from the move stack.
+ */
+function unmakeMove(state, unmakeInfo) {
+    const { move, castling, enpassant, capturedPiece, zobristHash } = unmakeInfo;
+    
+    state.turn ^= 1;
+    const from = getMoveFrom(move), to = getMoveTo(move), piece = getMovePiece(move), promoted = getMovePromoted(move);
+    const side = state.turn, enemy = side ^ 1;
+    const from_bb = 1n << BigInt(from), to_bb = 1n << BigInt(to);
+
+    state.pieceBitboards[side * 6 + piece] ^= (from_bb | to_bb);
+    state.occupancies[side] ^= (from_bb | to_bb);
+
+    if (promoted) {
+        state.pieceBitboards[side * 6 + P] ^= to_bb;
+        state.pieceBitboards[side * 6 + promoted] ^= to_bb;
+    }
+    if (getMoveCapture(move)) {
+        if (getMoveEnpassant(move)) {
+            const captured_pawn_sq = (side === WHITE) ? to + 8 : to - 8;
+            state.pieceBitboards[enemy * 6 + P] ^= (1n << BigInt(captured_pawn_sq));
+            state.occupancies[enemy] ^= (1n << BigInt(captured_pawn_sq));
+        } else {
+            state.pieceBitboards[enemy * 6 + capturedPiece] ^= to_bb;
+            state.occupancies[enemy] ^= to_bb;
+        }
+    }
+    if (getMoveCastling(move)) {
+        let rook_from, rook_to;
+        if (to === 62) { rook_from = 63; rook_to = 61; }
+        else if (to === 58) { rook_from = 56; rook_to = 59; }
+        else if (to === 6) { rook_from = 7; rook_to = 5; }
+        else { rook_from = 0; rook_to = 3; }
+        state.pieceBitboards[side * 6 + R] ^= ((1n << BigInt(rook_from)) | (1n << BigInt(rook_to)));
+        state.occupancies[side] ^= ((1n << BigInt(rook_from)) | (1n << BigInt(rook_to)));
+    }
+    
+    state.occupancies[2] = state.occupancies[WHITE] | state.occupancies[BLACK];
+    state.castling = castling;
+    state.enpassant = enpassant;
+    state.zobristHash = zobristHash;
+    moveStackPtr--; // Pop from the stack
 }
 
 
@@ -382,12 +339,10 @@ function isSquareAttacked_lean(state, sq, attackerColor) {
     const enemyColor = attackerColor ^ 1;
     const blockers = state.occupancies[2];
 
-    // Check for pawn, knight, and king attacks (these are simple lookups)
     if ((PAWN_ATTACKS[enemyColor][sq] & state.pieceBitboards[attackerColor * 6 + P]) !== 0n) return true;
     if ((KNIGHT_ATTACKS[sq] & state.pieceBitboards[attackerColor * 6 + N]) !== 0n) return true;
     if ((KING_ATTACKS[sq] & state.pieceBitboards[attackerColor * 6 + K]) !== 0n) return true;
 
-    // Check for sliding piece attacks (rooks, bishops, queens)
     const rooksAndQueens = state.pieceBitboards[attackerColor * 6 + R] | state.pieceBitboards[attackerColor * 6 + Q];
     if ((getRookAttacks(sq, blockers) & rooksAndQueens) !== 0n) return true;
 
@@ -396,111 +351,6 @@ function isSquareAttacked_lean(state, sq, attackerColor) {
 
     return false;
 }
-
-
-
-/**
- * Generates tactical moves (captures and promotions) for quiescence search.
- * This version includes the corrected pawn rank calculation.
- * @param {object} state - The current game state.
- * @returns {number[]} An array of encoded tactical moves.
- */
-function generateTacticalMoves(state) {
-    const moves = [];
-    const side = state.turn;
-    const enemy = side ^ 1;
-    const blockers = state.occupancies[2];
-
-    // --- Pawn Captures & Promotions ---
-    let pawns = state.pieceBitboards[side * 6 + P];
-    while (pawns > 0n) {
-        const from = getLSBIndex(pawns);
-        // THE CRITICAL FIX: Correctly calculate rank from the current player's perspective.
-        const rank = side === WHITE ? (7 - Math.floor(from / 8)) : Math.floor(from / 8);
-
-        // Check for promotion pushes (always tactical)
-        if (rank === 6) {
-            const to_push = side === WHITE ? from - 8 : from + 8;
-            if (to_push >= 0 && to_push < 64 && !((blockers >> BigInt(to_push)) & 1n)) {
-                moves.push(encodeMove(from, to_push, P, Q, 0, 0, 0, 0));
-                moves.push(encodeMove(from, to_push, P, R, 0, 0, 0, 0));
-                moves.push(encodeMove(from, to_push, P, B, 0, 0, 0, 0));
-                moves.push(encodeMove(from, to_push, P, N, 0, 0, 0, 0));
-            }
-        }
-        
-        // Check for all captures (including promotion captures)
-        let attacks = PAWN_ATTACKS[side][from] & state.occupancies[enemy];
-        while (attacks > 0n) {
-            const to_cap = getLSBIndex(attacks);
-            if (rank === 6) {
-                 moves.push(encodeMove(from, to_cap, P, Q, 1, 0, 0, 0));
-                 moves.push(encodeMove(from, to_cap, P, R, 1, 0, 0, 0));
-                 moves.push(encodeMove(from, to_cap, P, B, 1, 0, 0, 0));
-                 moves.push(encodeMove(from, to_cap, P, N, 1, 0, 0, 0));
-            } else {
-                moves.push(encodeMove(from, to_cap, P, 0, 1, 0, 0, 0));
-            }
-            attacks = popBit(attacks);
-        }
-
-        // Check for en passant
-        if (state.enpassant !== -1 && (PAWN_ATTACKS[side][from] & (1n << BigInt(state.enpassant))) !== 0n) {
-            moves.push(encodeMove(from, state.enpassant, P, 0, 1, 0, 1, 0));
-        }
-        pawns = popBit(pawns);
-    }
-
-    // --- Other Piece Captures ---
-    const pieces = [N, B, R, Q, K];
-    for (const piece of pieces) {
-        let bitboard = state.pieceBitboards[side * 6 + piece];
-        while (bitboard > 0n) {
-            const from = getLSBIndex(bitboard);
-            let attacks = 0n;
-            switch(piece) {
-                case N: attacks = KNIGHT_ATTACKS[from]; break;
-                case B: attacks = getBishopAttacks(from, blockers); break;
-                case R: attacks = getRookAttacks(from, blockers); break;
-                case Q: attacks = getQueenAttacks(from, blockers); break;
-                case K: attacks = KING_ATTACKS[from]; break;
-            }
-            attacks &= state.occupancies[enemy]; // Intersect with enemy pieces only
-            while (attacks > 0n) {
-                const to = getLSBIndex(attacks);
-                moves.push(encodeMove(from, to, piece, 0, 1, 0, 0, 0));
-                attacks = popBit(attacks);
-            }
-            bitboard = popBit(bitboard);
-        }
-    }
-    return moves;
-}
-
-
-/**
- * Checks if a specific square is attacked by a piece of a given color, using bitboards.
- * This is the single, correct, high-performance version for the entire engine.
- * @param {object} state - The current game state object with all bitboards.
- * @param {number} sq - The square to check (0-63).
- * @param {number} attackerColor - The color of the attacker (WHITE or BLACK).
- * @returns {boolean} - True if the square is attacked, false otherwise.
- */
-
-function isSquareAttacked(state, sq, attackerColor) {
-    if (sq < 0 || sq > 63) return false;
-
-    // This is now the single point of attack generation.
-    const attackMaps = generateAttackMaps(state);
-    const targetBit = 1n << BigInt(sq);
-
-    if (attackerColor === WHITE) {
-        return (attackMaps.white & targetBit) !== 0n;
-    } else {
-        return (attackMaps.black & targetBit) !== 0n;
-    }
-}
-
 
 // --- MOVE ENCODING/DECODING ---
 const encodeMove = (from, to, piece, promoted, capture, double, enpassant, castling) => (from) | (to << 6) | (piece << 12) | (promoted << 16) | (capture << 20) | (double << 21) | (enpassant << 22) | (castling << 23);
@@ -515,99 +365,62 @@ const getMoveCastling = (move) => (move >> 23) & 1;
 
 /**
  * Generates all pseudo-legal moves for the current position.
- * This corrected version fixes the pawn rank calculation, which was the
- * source of the PGN parsing errors.
  * @param {object} state - The current game state.
  * @returns {number[]} An array of encoded moves.
  */
 function generateMoves(state) {
     const moves = [];
-    const side = state.turn;
-    const enemy = side ^ 1;
+    const side = state.turn, enemy = side ^ 1;
     const blockers = state.occupancies[2];
 
-    // --- Pawn Moves ---
     let pawns = state.pieceBitboards[side * 6 + P];
     while (pawns > 0n) {
         const from = getLSBIndex(pawns);
-        // THE CRITICAL FIX: Correctly calculate rank from the current player's perspective.
         const rank = side === WHITE ? (7 - Math.floor(from / 8)) : Math.floor(from / 8);
-
-        // Single and Double Pushes
         const one_step = side === WHITE ? from - 8 : from + 8;
         if (one_step >= 0 && one_step < 64 && !((blockers >> BigInt(one_step)) & 1n)) {
-            if (rank === 6) { // Promotion on push
-                moves.push(encodeMove(from, one_step, P, Q, 0, 0, 0, 0));
-                moves.push(encodeMove(from, one_step, P, R, 0, 0, 0, 0));
-                moves.push(encodeMove(from, one_step, P, B, 0, 0, 0, 0));
-                moves.push(encodeMove(from, one_step, P, N, 0, 0, 0, 0));
+            if (rank === 6) {
+                moves.push(encodeMove(from, one_step, P, Q, 0, 0, 0, 0), encodeMove(from, one_step, P, R, 0, 0, 0, 0), encodeMove(from, one_step, P, B, 0, 0, 0, 0), encodeMove(from, one_step, P, N, 0, 0, 0, 0));
             } else {
                 moves.push(encodeMove(from, one_step, P, 0, 0, 0, 0, 0));
             }
-            if (rank === 1) { // Double Push from starting rank
+            if (rank === 1) {
                 const two_steps = side === WHITE ? from - 16 : from + 16;
-                if (!((blockers >> BigInt(two_steps)) & 1n)) {
-                    moves.push(encodeMove(from, two_steps, P, 0, 0, 1, 0, 0));
-                }
+                if (!((blockers >> BigInt(two_steps)) & 1n)) moves.push(encodeMove(from, two_steps, P, 0, 0, 1, 0, 0));
             }
         }
-        // Captures
         let attacks = PAWN_ATTACKS[side][from] & state.occupancies[enemy];
         while (attacks > 0n) {
             const to = getLSBIndex(attacks);
-            if (rank === 6) { // Promotion on capture
-                moves.push(encodeMove(from, to, P, Q, 1, 0, 0, 0));
-                moves.push(encodeMove(from, to, P, R, 1, 0, 0, 0));
-                moves.push(encodeMove(from, to, P, B, 1, 0, 0, 0));
-                moves.push(encodeMove(from, to, P, N, 1, 0, 0, 0));
+            if (rank === 6) {
+                moves.push(encodeMove(from, to, P, Q, 1, 0, 0, 0), encodeMove(from, to, P, R, 1, 0, 0, 0), encodeMove(from, to, P, B, 1, 0, 0, 0), encodeMove(from, to, P, N, 1, 0, 0, 0));
             } else {
                 moves.push(encodeMove(from, to, P, 0, 1, 0, 0, 0));
             }
             attacks = popBit(attacks);
         }
-        // En Passant
         if (state.enpassant !== -1 && (PAWN_ATTACKS[side][from] & (1n << BigInt(state.enpassant))) !== 0n) {
             moves.push(encodeMove(from, state.enpassant, P, 0, 1, 0, 1, 0));
         }
         pawns = popBit(pawns);
     }
-
-    // --- Castling (NO SAFETY CHECKS) ---
     if (side === WHITE) {
-        if ((state.castling & WKCA) && !((blockers >> 61n) & 1n) && !((blockers >> 62n) & 1n)) {
-            moves.push(encodeMove(60, 62, K, 0, 0, 0, 0, 1));
-        }
-        if ((state.castling & WQCA) && !((blockers >> 59n) & 1n) && !((blockers >> 58n) & 1n) && !((blockers >> 57n) & 1n)) {
-            moves.push(encodeMove(60, 58, K, 0, 0, 0, 0, 1));
-        }
+        if ((state.castling & WKCA) && !((blockers >> 61n) & 1n) && !((blockers >> 62n) & 1n) && !isSquareAttacked_lean(state, 60, BLACK) && !isSquareAttacked_lean(state, 61, BLACK)) moves.push(encodeMove(60, 62, K, 0, 0, 0, 0, 1));
+        if ((state.castling & WQCA) && !((blockers >> 59n) & 1n) && !((blockers >> 58n) & 1n) && !((blockers >> 57n) & 1n) && !isSquareAttacked_lean(state, 60, BLACK) && !isSquareAttacked_lean(state, 59, BLACK)) moves.push(encodeMove(60, 58, K, 0, 0, 0, 0, 1));
     } else {
-        if ((state.castling & BKCA) && !((blockers >> 5n) & 1n) && !((blockers >> 6n) & 1n)) {
-            moves.push(encodeMove(4, 6, K, 0, 0, 0, 0, 1));
-        }
-        if ((state.castling & BQCA) && !((blockers >> 3n) & 1n) && !((blockers >> 2n) & 1n) && !((blockers >> 1n) & 1n)) {
-            moves.push(encodeMove(4, 2, K, 0, 0, 0, 0, 1));
-        }
+        if ((state.castling & BKCA) && !((blockers >> 5n) & 1n) && !((blockers >> 6n) & 1n) && !isSquareAttacked_lean(state, 4, WHITE) && !isSquareAttacked_lean(state, 5, WHITE)) moves.push(encodeMove(4, 6, K, 0, 0, 0, 0, 1));
+        if ((state.castling & BQCA) && !((blockers >> 3n) & 1n) && !((blockers >> 2n) & 1n) && !((blockers >> 1n) & 1n) && !isSquareAttacked_lean(state, 4, WHITE) && !isSquareAttacked_lean(state, 3, WHITE)) moves.push(encodeMove(4, 2, K, 0, 0, 0, 0, 1));
     }
-
-    // --- All Other Piece Moves ---
     const pieces = [N, B, R, Q, K];
     for (const piece of pieces) {
         let bitboard = state.pieceBitboards[side * 6 + piece];
         while (bitboard > 0n) {
             const from = getLSBIndex(bitboard);
-            let attacks = 0n;
-            switch (piece) {
-                case N: attacks = KNIGHT_ATTACKS[from]; break;
-                case B: attacks = getBishopAttacks(from, blockers); break;
-                case R: attacks = getRookAttacks(from, blockers); break;
-                case Q: attacks = getQueenAttacks(from, blockers); break;
-                case K: attacks = KING_ATTACKS[from]; break;
-            }
+            let attacks = (piece === N) ? KNIGHT_ATTACKS[from] : (piece === B) ? getBishopAttacks(from, blockers) : (piece === R) ? getRookAttacks(from, blockers) : (piece === Q) ? getQueenAttacks(from, blockers) : KING_ATTACKS[from];
             attacks &= ~state.occupancies[side];
             while (attacks > 0n) {
                 const to = getLSBIndex(attacks);
-                const isCapture = (state.occupancies[enemy] & (1n << BigInt(to))) !== 0n;
-                moves.push(encodeMove(from, to, piece, 0, isCapture ? 1 : 0, 0, 0, 0));
+                moves.push(encodeMove(from, to, piece, 0, ((state.occupancies[enemy] >> BigInt(to)) & 1n), 0, 0, 0));
                 attacks = popBit(attacks);
             }
             bitboard = popBit(bitboard);
@@ -616,3 +429,53 @@ function generateMoves(state) {
     return moves;
 }
 
+/**
+ * Generates only tactical moves (captures and promotions) for the quiescence search.
+ * @param {object} state - The current game state.
+ * @returns {number[]} An array of encoded tactical moves.
+ */
+function generateTacticalMoves(state) {
+    const moves = [];
+    const side = state.turn, enemy = side ^ 1;
+    const blockers = state.occupancies[2];
+
+    let pawns = state.pieceBitboards[side * 6 + P];
+    while (pawns > 0n) {
+        const from = getLSBIndex(pawns);
+        const rank = side === WHITE ? (7 - Math.floor(from / 8)) : Math.floor(from / 8);
+        const one_step = side === WHITE ? from - 8 : from + 8;
+        if (rank === 6 && one_step >= 0 && one_step < 64 && !((blockers >> BigInt(one_step)) & 1n)) {
+            moves.push(encodeMove(from, one_step, P, Q, 0, 0, 0, 0), encodeMove(from, one_step, P, R, 0, 0, 0, 0), encodeMove(from, one_step, P, B, 0, 0, 0, 0), encodeMove(from, one_step, P, N, 0, 0, 0, 0));
+        }
+        let attacks = PAWN_ATTACKS[side][from] & state.occupancies[enemy];
+        while (attacks > 0n) {
+            const to = getLSBIndex(attacks);
+            if (rank === 6) {
+                moves.push(encodeMove(from, to, P, Q, 1, 0, 0, 0), encodeMove(from, to, P, R, 1, 0, 0, 0), encodeMove(from, to, P, B, 1, 0, 0, 0), encodeMove(from, to, P, N, 1, 0, 0, 0));
+            } else {
+                moves.push(encodeMove(from, to, P, 0, 1, 0, 0, 0));
+            }
+            attacks = popBit(attacks);
+        }
+        if (state.enpassant !== -1 && (PAWN_ATTACKS[side][from] & (1n << BigInt(state.enpassant))) !== 0n) {
+            moves.push(encodeMove(from, state.enpassant, P, 0, 1, 0, 1, 0));
+        }
+        pawns = popBit(pawns);
+    }
+    const pieces = [N, B, R, Q, K];
+    for (const piece of pieces) {
+        let bitboard = state.pieceBitboards[side * 6 + piece];
+        while (bitboard > 0n) {
+            const from = getLSBIndex(bitboard);
+            let attacks = (piece === N) ? KNIGHT_ATTACKS[from] : (piece === B) ? getBishopAttacks(from, blockers) : (piece === R) ? getRookAttacks(from, blockers) : (piece === Q) ? getQueenAttacks(from, blockers) : KING_ATTACKS[from];
+            attacks &= state.occupancies[enemy];
+            while (attacks > 0n) {
+                const to = getLSBIndex(attacks);
+                moves.push(encodeMove(from, to, piece, 0, 1, 0, 0, 0));
+                attacks = popBit(attacks);
+            }
+            bitboard = popBit(bitboard);
+        }
+    }
+    return moves;
+}
