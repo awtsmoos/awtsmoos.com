@@ -476,6 +476,8 @@ function orderMoves(moves, state, ply) {
     return moveScores.sort((a,b) => b.score - a.score).map(ms => ms.move);
 }
 
+// REPLACE the quiesce function in awtsmoos_chess_engine.js with this corrected version.
+
 function quiesce(state, alpha, beta) {
     nodeCount++;
     if ((nodeCount & 2047) === 0 && performance.now() - searchStartTime > timeLimit) {
@@ -483,15 +485,26 @@ function quiesce(state, alpha, beta) {
     }
     if (stopSearch) return 0;
 
+    // 1. Get the "standing pat" score. This is the score if we do nothing.
+    // It serves as our initial best score (alpha), but we will NOT use it to
+    // immediately exit the function (beta cutoff). This is the key fix.
     const stand_pat = evaluate(state);
-    if (stand_pat >= beta) return beta;
-    if (alpha < stand_pat) alpha = stand_pat;
+    if (stand_pat > alpha) {
+        alpha = stand_pat;
+    }
+    
+    // If this position is already better than what the opponent can achieve,
+    // we can prune here. This is the correct place for the beta cutoff.
+    if (alpha >= beta) {
+        return beta;
+    }
 
+    // 2. Now, generate and search ONLY tactical moves (captures and promotions).
     const moves = generateMoves(state);
     const orderedMoves = orderMoves(moves, state, 0); // Ply 0 for quiescence moves
 
     for (const move of orderedMoves) {
-        // --- Quiescence search now considers all captures and promotions ---
+        // Only consider captures and promotions in the quiescence search.
         if (!getMoveCapture(move) && !getMovePromoted(move)) continue;
 
         const unmakeInfo = makeMove(state, move);
@@ -503,13 +516,21 @@ function quiesce(state, alpha, beta) {
             continue;
         }
 
+        // 3. Recursively call quiesce to see the opponent's tactical reply.
         const score = -quiesce(state, -beta, -alpha);
         unmakeMove(state, unmakeInfo);
         if (stopSearch) return 0;
 
-        if (score >= beta) return beta;
-        if (score > alpha) alpha = score;
+        // 4. Update alpha-beta bounds based on the result of the tactical sequence.
+        if (score >= beta) {
+            return beta; // This capture is too good; the opponent won't allow it.
+        }
+        if (score > alpha) {
+            alpha = score;
+        }
     }
+
+    // Return the best score found after exploring all tactical possibilities.
     return alpha;
 }
 
