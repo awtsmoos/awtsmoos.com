@@ -212,7 +212,7 @@ body {
     gap: 10px; /* Space between elements */
 }
 #openingNameDisplay {
-    height: 2em;
+    max-height: 3em;
     width: 95vw;
     max-width: 500px;
     font-size: 1.2em;
@@ -220,12 +220,13 @@ body {
     color: #e6c37f;
     text-align: center;
     text-shadow: 1px 1px 3px #000;
-    white-space: nowrap;
+    white-space: pre-wrap;
     overflow: hidden;
-    text-overflow: ellipsis;
+    word-wrap: normal;
+    hyphens: auto;
     flex-shrink: 0;
     border-bottom: 1px solid rgba(230, 195, 127, 0.2);
-    padding-bottom: 5px;
+    padding-bottom: 1px;
 }
 #analysis-board-wrapper {
     width: 95vw;
