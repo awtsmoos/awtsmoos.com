@@ -504,6 +504,80 @@ function generateMoves(state) {
     return moves;
 }
 
+
+function generateTacticalMoves(state) {
+    const moves = [];
+    const side = state.turn;
+    const enemy = side ^ 1;
+    const blockers = state.occupancies[2];
+
+    // --- Pawn Captures & Promotions ---
+    let pawns = state.pieceBitboards[side * 6 + P];
+    while(pawns > 0n) {
+        const from = getLSBIndex(pawns);
+        const rank = Math.floor(from / 8);
+
+        // Check for promotions (which are always tactical)
+        const to_push = side === WHITE ? from - 8 : from + 8;
+        if (to_push >= 0 && to_push < 64 && !((blockers >> BigInt(to_push)) & 1n)) {
+            if ((side === WHITE && rank === 1) || (side === BLACK && rank === 6)) {
+                moves.push(encodeMove(from, to_push, P, Q, 0,0,0,0)); 
+                moves.push(encodeMove(from, to_push, P, R, 0,0,0,0));
+                moves.push(encodeMove(from, to_push, P, B, 0,0,0,0));
+                moves.push(encodeMove(from, to_push, P, N, 0,0,0,0));
+            }
+        }
+        
+        // Check for captures
+        let attacks = PAWN_ATTACKS[side][from] & state.occupancies[enemy];
+        while(attacks > 0n) {
+            const to_cap = getLSBIndex(attacks);
+            if ((side === WHITE && rank === 1) || (side === BLACK && rank === 6)) {
+                 moves.push(encodeMove(from, to_cap, P, Q, 1,0,0,0)); moves.push(encodeMove(from, to_cap, P, R, 1,0,0,0));
+                 moves.push(encodeMove(from, to_cap, P, B, 1,0,0,0)); moves.push(encodeMove(from, to_cap, P, N, 1,0,0,0));
+            } else {
+                moves.push(encodeMove(from, to_cap, P, 0, 1,0,0,0));
+            }
+            attacks = popBit(attacks);
+        }
+
+        // Check for en passant
+        if (state.enpassant !== -1) {
+            if ((PAWN_ATTACKS[side][from] & (1n << BigInt(state.enpassant))) !== 0n) {
+                moves.push(encodeMove(from, state.enpassant, P, 0, 1,0,1,0));
+            }
+        }
+        pawns = popBit(pawns);
+    }
+
+    // --- Other Piece Captures ---
+    const pieces = [N, B, R, Q, K];
+    for (const piece of pieces) {
+        let bitboard = state.pieceBitboards[side * 6 + piece];
+        while (bitboard > 0n) {
+            const from = getLSBIndex(bitboard);
+            let attacks = 0n;
+            switch(piece) {
+                case N: attacks = KNIGHT_ATTACKS[from]; break;
+                case B: attacks = getBishopAttacks(from, blockers); break;
+                case R: attacks = getRookAttacks(from, blockers); break;
+                case Q: attacks = getQueenAttacks(from, blockers); break;
+                case K: attacks = KING_ATTACKS[from]; break;
+            }
+            // Intersect with enemy pieces to find captures ONLY
+            attacks &= state.occupancies[enemy];
+            while (attacks > 0n) {
+                const to = getLSBIndex(attacks);
+                moves.push(encodeMove(from, to, piece, 0, 1, 0,0,0));
+                attacks = popBit(attacks);
+            }
+            bitboard = popBit(bitboard);
+        }
+    }
+    return moves;
+}
+
+
 /**
  * Checks if a specific square is attacked by a piece of a given color, using bitboards.
  * This is the single, correct, high-performance version for the entire engine.

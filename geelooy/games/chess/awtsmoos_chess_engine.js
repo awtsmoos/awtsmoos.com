@@ -484,7 +484,6 @@ function orderMoves(moves, state, ply) {
     return moveScores.sort((a,b) => b.score - a.score).map(ms => ms.move);
 }
 
-// REPLACE the quiesce AND search functions in awtsmoos_chess_engine.js with this final, optimized block.
 
 function quiesce(state, alpha, beta) {
     nodeCount++;
@@ -497,15 +496,14 @@ function quiesce(state, alpha, beta) {
     if (stand_pat >= beta) return beta;
     if (alpha < stand_pat) alpha = stand_pat;
 
-    const moves = generateMoves(state);
+    // --- THE FINAL PERFORMANCE FIX: Call the specialized tactical move generator ---
+    const moves = generateTacticalMoves(state);
     const orderedMoves = orderMoves(moves, state, 0);
 
     for (const move of orderedMoves) {
-        if (!getMoveCapture(move) && !getMovePromoted(move)) continue;
-
+        // No need to filter here anymore, as the list only contains tactical moves.
         const unmakeInfo = makeMove(state, move);
         
-        // --- PERFORMANCE FIX: Use the lean check inside the search loop ---
         const kingSq = getLSBIndex(state.pieceBitboards[(state.turn ^ 1) * 6 + K]);
         if (isSquareAttacked_lean(state, kingSq, state.turn)) {
             unmakeMove(state, unmakeInfo);
