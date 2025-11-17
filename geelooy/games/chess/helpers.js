@@ -399,6 +399,111 @@ function generateAttackMaps(state) {
     return maps;
 }
 
+
+// ADD THIS NEW FUNCTION anywhere in helpers.js. Do NOT delete the old isSquareAttacked.
+function isSquareAttacked_lean(state, sq, attackerColor) {
+    if (sq < 0 || sq > 63) return false;
+
+    const enemyColor = attackerColor === WHITE ? BLACK : WHITE;
+    const blockers = state.occupancies[WHITE] | state.occupancies[BLACK];
+
+    // Check for attacks by pawns, knights, and king of the attackerColor
+    if ((PAWN_ATTACKS[enemyColor][sq] & state.pieceBitboards[attackerColor * 6 + P]) !== 0n) return true;
+    if ((KNIGHT_ATTACKS[sq] & state.pieceBitboards[attackerColor * 6 + N]) !== 0n) return true;
+    if ((KING_ATTACKS[sq] & state.pieceBitboards[attackerColor * 6 + K]) !== 0n) return true;
+
+    // Check for attacks by sliding pieces (bishops, rooks, queens)
+    const bishopsQueens = state.pieceBitboards[attackerColor * 6 + B] | state.pieceBitboards[attackerColor * 6 + Q];
+    if ((getBishopAttacks(sq, blockers) & bishopsQueens) !== 0n) return true;
+
+    const rooksQueens = state.pieceBitboards[attackerColor * 6 + R] | state.pieceBitboards[attackerColor * 6 + Q];
+    if ((getRookAttacks(sq, blockers) & rooksQueens) !== 0n) return true;
+
+    return false;
+}
+
+// NOW, REPLACE the entire generateMoves function in helpers.js with this version.
+function generateMoves(state) {
+    const moves = [];
+    const side = state.turn;
+    const enemy = side ^ 1;
+    const blockers = state.occupancies[2];
+
+    // --- Pawn Moves --- (No changes here)
+    let pawns = state.pieceBitboards[side * 6 + P];
+    while(pawns > 0n) {
+        const from = getLSBIndex(pawns);
+        const to = side === WHITE ? from - 8 : from + 8;
+        if (to >= 0 && to < 64 && !((blockers >> BigInt(to)) & 1n)) {
+            if ((side === WHITE && from >= 8 && from <= 15) || (side === BLACK && from >= 48 && from <= 55)) {
+                moves.push(encodeMove(from, to, P, Q, 0,0,0,0)); moves.push(encodeMove(from, to, P, R, 0,0,0,0));
+                moves.push(encodeMove(from, to, P, B, 0,0,0,0)); moves.push(encodeMove(from, to, P, N, 0,0,0,0));
+            } else { moves.push(encodeMove(from, to, P, 0, 0,0,0,0)); }
+            if ((side === WHITE && from >= 48 && from <= 55) || (side === BLACK && from >= 8 && from <= 15)) {
+                const two_to = side === WHITE ? from - 16 : from + 16;
+                if (!((blockers >> BigInt(two_to)) & 1n)) { moves.push(encodeMove(from, two_to, P, 0, 0,1,0,0)); }
+            }
+        }
+        let attacks = PAWN_ATTACKS[side][from] & state.occupancies[enemy];
+        while(attacks > 0n) {
+            const to_cap = getLSBIndex(attacks);
+            if ((side === WHITE && from >= 8 && from <= 15) || (side === BLACK && from >= 48 && from <= 55)) {
+                 moves.push(encodeMove(from, to_cap, P, Q, 1,0,0,0)); moves.push(encodeMove(from, to_cap, P, R, 1,0,0,0));
+                 moves.push(encodeMove(from, to_cap, P, B, 1,0,0,0)); moves.push(encodeMove(from, to_cap, P, N, 1,0,0,0));
+            } else { moves.push(encodeMove(from, to_cap, P, 0, 1,0,0,0)); }
+            attacks = popBit(attacks);
+        }
+        if (state.enpassant !== -1) {
+            if ((PAWN_ATTACKS[side][from] & (1n << BigInt(state.enpassant))) !== 0n) {
+                moves.push(encodeMove(from, state.enpassant, P, 0, 1,0,1,0));
+            }
+        }
+        pawns = popBit(pawns);
+    }
+
+    // --- Castling --- // THIS SECTION IS THE FIX
+    if (side === WHITE) {
+        if ((state.castling & WKCA) && !((blockers >> 61n) & 1n) && !((blockers >> 62n) & 1n)) {
+            if (!isSquareAttacked_lean(state, 60, BLACK) && !isSquareAttacked_lean(state, 61, BLACK)) moves.push(encodeMove(60, 62, K, 0, 0,0,0,1));
+        }
+        if ((state.castling & WQCA) && !((blockers >> 59n) & 1n) && !((blockers >> 58n) & 1n) && !((blockers >> 57n) & 1n)) {
+            if (!isSquareAttacked_lean(state, 60, BLACK) && !isSquareAttacked_lean(state, 59, BLACK)) moves.push(encodeMove(60, 58, K, 0, 0,0,0,1));
+        }
+    } else { // Black's Castling
+        if ((state.castling & BKCA) && !((blockers >> 5n) & 1n) && !((blockers >> 6n) & 1n)) {
+            if (!isSquareAttacked_lean(state, 4, WHITE) && !isSquareAttacked_lean(state, 5, WHITE)) moves.push(encodeMove(4, 6, K, 0, 0,0,0,1));
+        }
+        if ((state.castling & BQCA) && !((blockers >> 3n) & 1n) && !((blockers >> 2n) & 1n) && !((blockers >> 1n) & 1n)) {
+            if (!isSquareAttacked_lean(state, 4, WHITE) && !isSquareAttacked_lean(state, 3, WHITE)) moves.push(encodeMove(4, 2, K, 0, 0,0,0,1));
+        }
+    }
+
+    // --- Other Piece Moves --- (No changes here)
+    const pieces = [N, B, R, Q, K];
+    for (const piece of pieces) {
+        let bitboard = state.pieceBitboards[side * 6 + piece];
+        while (bitboard > 0n) {
+            const from = getLSBIndex(bitboard);
+            let attacks = 0n;
+            switch(piece) {
+                case N: attacks = KNIGHT_ATTACKS[from]; break;
+                case B: attacks = getBishopAttacks(from, blockers); break;
+                case R: attacks = getRookAttacks(from, blockers); break;
+                case Q: attacks = getQueenAttacks(from, blockers); break;
+                case K: attacks = KING_ATTACKS[from]; break;
+            }
+            attacks &= ~state.occupancies[side];
+            while (attacks > 0n) {
+                const to = getLSBIndex(attacks);
+                moves.push(encodeMove(from, to, piece, 0, (state.occupancies[enemy] & (1n << BigInt(to))) !== 0n ? 1 : 0, 0,0,0));
+                attacks = popBit(attacks);
+            }
+            bitboard = popBit(bitboard);
+        }
+    }
+    return moves;
+}
+
 /**
  * Checks if a specific square is attacked by a piece of a given color, using bitboards.
  * This is the single, correct, high-performance version for the entire engine.

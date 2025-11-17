@@ -429,7 +429,6 @@ function evaluateKingSafety(state, kingPos, attackerColor, pieceLists) {
 }
 
 
-// ADD this new function anywhere in helpers.js
 
 
 
@@ -485,7 +484,7 @@ function orderMoves(moves, state, ply) {
     return moveScores.sort((a,b) => b.score - a.score).map(ms => ms.move);
 }
 
-// REPLACE the quiesce function in awtsmoos_chess_engine.js with this corrected version.
+// REPLACE the quiesce AND search functions in awtsmoos_chess_engine.js with this final, optimized block.
 
 function quiesce(state, alpha, beta) {
     nodeCount++;
@@ -494,52 +493,32 @@ function quiesce(state, alpha, beta) {
     }
     if (stopSearch) return 0;
 
-    // 1. Get the "standing pat" score. This is the score if we do nothing.
-    // It serves as our initial best score (alpha), but we will NOT use it to
-    // immediately exit the function (beta cutoff). This is the key fix.
     const stand_pat = evaluate(state);
-    if (stand_pat > alpha) {
-        alpha = stand_pat;
-    }
-    
-    // If this position is already better than what the opponent can achieve,
-    // we can prune here. This is the correct place for the beta cutoff.
-    if (alpha >= beta) {
-        return beta;
-    }
+    if (stand_pat >= beta) return beta;
+    if (alpha < stand_pat) alpha = stand_pat;
 
-    // 2. Now, generate and search ONLY tactical moves (captures and promotions).
     const moves = generateMoves(state);
-    const orderedMoves = orderMoves(moves, state, 0); // Ply 0 for quiescence moves
+    const orderedMoves = orderMoves(moves, state, 0);
 
     for (const move of orderedMoves) {
-        // Only consider captures and promotions in the quiescence search.
         if (!getMoveCapture(move) && !getMovePromoted(move)) continue;
 
         const unmakeInfo = makeMove(state, move);
         
-        // Ensure the move is legal (doesn't leave king in check)
+        // --- PERFORMANCE FIX: Use the lean check inside the search loop ---
         const kingSq = getLSBIndex(state.pieceBitboards[(state.turn ^ 1) * 6 + K]);
-        if (isSquareAttacked(state, kingSq, state.turn)) {
+        if (isSquareAttacked_lean(state, kingSq, state.turn)) {
             unmakeMove(state, unmakeInfo);
             continue;
         }
 
-        // 3. Recursively call quiesce to see the opponent's tactical reply.
         const score = -quiesce(state, -beta, -alpha);
         unmakeMove(state, unmakeInfo);
         if (stopSearch) return 0;
 
-        // 4. Update alpha-beta bounds based on the result of the tactical sequence.
-        if (score >= beta) {
-            return beta; // This capture is too good; the opponent won't allow it.
-        }
-        if (score > alpha) {
-            alpha = score;
-        }
+        if (score >= beta) return beta;
+        if (score > alpha) alpha = score;
     }
-
-    // Return the best score found after exploring all tactical possibilities.
     return alpha;
 }
 
@@ -555,38 +534,34 @@ function search(state, depth, alpha, beta, ply) {
     }
     if (stopSearch) return 0;
     
-    // Check for threefold repetition
-    if (ply > 0) {
-        let count = 0;
+    if (ply > 0) { // Repetition check
         for (let i = moveStackPtr - 2; i >= 0; i -= 2) {
-            if (moveStack[i].zobristHash === state.zobristHash) {
-                count++;
-                if (count >= 1) return CONTEMPT_FACTOR; // Return a draw score
-            }
+            if (moveStack[i].zobristHash === state.zobristHash) return CONTEMPT_FACTOR;
         }
     }
 
     const ttEntry = transpositionTable.get(state.zobristHash.toString());
-    if (ttEntry && ttEntry.depth >= depth) {
+    if (ply > 0 && ttEntry && ttEntry.depth >= depth) {
         if (ttEntry.flag === TT_EXACT) return ttEntry.score;
         if (ttEntry.flag === TT_LOWERBOUND) alpha = Math.max(alpha, ttEntry.score);
         else if (ttEntry.flag === TT_UPPERBOUND) beta = Math.min(beta, ttEntry.score);
         if (alpha >= beta) return ttEntry.score;
     }
 
-    let bestScore = -Infinity;
-    let ttFlag = TT_UPPERBOUND;
-    
     const moves = generateMoves(state);
     const orderedMoves = orderMoves(moves, state, ply);
+    
     let legalMovesFound = 0;
+    let bestScore = -Infinity;
+    let ttFlag = TT_UPPERBOUND;
     let bestMoveForNode = 0;
 
     for (const move of orderedMoves) {
         const unmakeInfo = makeMove(state, move);
         
+        // --- PERFORMANCE FIX: Use the lean check inside the main search loop ---
         const kingSq = getLSBIndex(state.pieceBitboards[(state.turn ^ 1) * 6 + K]);
-        if (isSquareAttacked(state, kingSq, state.turn)) {
+        if (isSquareAttacked_lean(state, kingSq, state.turn)) {
             unmakeMove(state, unmakeInfo);
             continue;
         }
@@ -594,13 +569,10 @@ function search(state, depth, alpha, beta, ply) {
 
         let score;
         if (legalMovesFound === 1) {
-            // First move is a full search (Principal Variation Search)
             score = -search(state, depth - 1, -beta, -alpha, ply + 1);
         } else {
-            // Subsequent moves use a faster "zero window" search
             score = -search(state, depth - 1, -alpha - 1, -alpha, ply + 1);
             if (score > alpha && score < beta) {
-                // If it fails high, we must re-search with the full window
                 score = -search(state, depth - 1, -beta, -alpha, ply + 1);
             }
         }
@@ -619,23 +591,22 @@ function search(state, depth, alpha, beta, ply) {
         }
 
         if (alpha >= beta) {
-            if (!getMoveCapture(move)) { // Only non-captures are stored as killer moves
+            if (!getMoveCapture(move)) {
                 killerMoves[ply][1] = killerMoves[ply][0];
                 killerMoves[ply][0] = move;
                 historyTable[getMovePiece(move) + ((state.turn^1) * 6)][getMoveTo(move)] += depth * depth;
             }
             transpositionTable.set(state.zobristHash.toString(), { score: beta, depth: depth, flag: TT_LOWERBOUND, move: move });
-            return beta; // Beta cutoff
+            return beta;
         }
     }
 
     if (legalMovesFound === 0) {
-        const kingInCheck = isSquareAttacked(state, getLSBIndex(state.pieceBitboards[state.turn * 6 + K]), state.turn ^ 1);
-        return kingInCheck ? -MATE_SCORE + ply : 0; // Checkmate or stalemate
+        const kingInCheck = isSquareAttacked_lean(state, getLSBIndex(state.pieceBitboards[state.turn * 6 + K]), state.turn ^ 1);
+        return kingInCheck ? -MATE_SCORE + ply : 0;
     }
 
     transpositionTable.set(state.zobristHash.toString(), { score: bestScore, depth: depth, flag: ttFlag, move: bestMoveForNode });
-
     return bestScore;
 }
 
