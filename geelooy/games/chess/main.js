@@ -1000,35 +1000,30 @@ document.addEventListener('DOMContentLoaded', () => {
 	}
 	
 	/* B"H */
-
-	/* B"H */
-
-// --- REVISED & FIXED: displayAnalysisPosition (Correct Indexing) ---
-
 	function displayAnalysisPosition(index) {
-	    // Boundary check to prevent errors
+	    // Boundary check
 	    if (index < -1 || index >= analysisState.moves.length) {
 	        return;
 	    }
 	    
 	    analysisState.currentMoveIndex = index;
-	    drawAnalysisBoard(); // This correctly uses index + 1, so it's fine.
+	    drawAnalysisBoard();
 	
-	    
-	    const positionIndex = index + 1; // Create a clear variable for the current position's index.
-	
-	    // 1. Get the opening name that the worker identified for this position.
+	    // --- REFINED LOGIC FOR DYNAMIC HEADER ---
+	    const positionIndex = index + 1; // 0 is the starting position
 	    const bookName = analysisState.openingNames[positionIndex];
 	
-	    // 2. Check for specific, non-generic names.
-	    //    "Unknown" is added in case the engine returns that for out-of-book positions.
-	    const isKnownOpening = bookName && bookName !== "Starting Position" && bookName !== "Unknown";
+	    // Define a "common sense" limit for how long an opening name should be displayed.
+	    // 24 ply = 12 moves for each player.
+	    const OPENING_PHASE_MOVE_LIMIT = 24; 
+	
+	    // An opening is "known" if it has a specific name AND we are within the move limit.
+	    const isKnownOpening = bookName && bookName !== "Starting Position" && positionIndex < OPENING_PHASE_MOVE_LIMIT;
 	
 	    if (isKnownOpening) {
 	        openingNameDisplay.textContent = bookName;
 	    } else {
-	        // 3. If we are "out of book," determine the game phase.
-	        //    Handle the very first position (index 0) as a special case.
+	        // If not a known opening, or if we are past the move limit, determine game phase.
 	        if (positionIndex === 0) {
 	            openingNameDisplay.textContent = "Starting Position";
 	        } else {
@@ -1046,7 +1041,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	        }
 	    }
 	    
-	    // Update the highlighting in the move list (this part remains the same)
+	    // Update move list highlighting (no changes here)
 	    document.querySelectorAll('.move-text-item').forEach(item => {
 	        item.classList.remove('current-move');
 	        if (parseInt(item.dataset.moveIndex) === index) {

@@ -1480,29 +1480,31 @@ self.onmessage = function(e) {
 	    const openingNames = ["Starting Position"];
 	    let lastKnownOpening = "Starting Position";
 	
-	    for (const san of movesSAN) {
-	        // Use the powerful, existing parser. This is the core of the improvement.
-	        const move = validator.parseSan(san);
-	        if (!move) {
-	            postMessage({ type: 'analysis_error', message: `Invalid PGN: Could not parse move "${san}"` });
-	            return; // Abort on error
-	        }
-	        
-	        // Apply the move to the internal board state.
-	        validator.applyMove(move);
-	        validatedMoves.push(move);
-	        
-	        const newFen = validator.toFen();
-	        boardHistory.push(newFen);
-	
-	        // 3. Check the engine's opening book for the resulting position's name.
-	        const currentHash = calculateZobristHash(validator.currentState).toString();
-	        const bookEntry = openingBook.get(currentHash);
-	        if (bookEntry && bookEntry.name) {
-	            lastKnownOpening = bookEntry.name;
-	        }
-	        openingNames.push(lastKnownOpening);
-	    }
+	    /* B"H */
+		
+		for (const san of movesSAN) {
+		    const move = validator.parseSan(san);
+		    if (!move) {
+		        postMessage({ type: 'analysis_error', message: `Invalid PGN: Could not parse move "${san}"` });
+		        return; // Stop processing
+		    }
+		    
+		    validator.applyMove(move);
+		    validatedMoves.push(move);
+		    
+		    const newFen = validator.toFen();
+		    boardHistory.push(newFen);
+		
+		    // This is the fix: We do a fresh lookup and push null if it's not found.
+		    const currentHash = calculateZobristHash(validator.currentState).toString();
+		    const bookEntry = openingBook.get(currentHash);
+		    
+		    if (bookEntry && bookEntry.name) {
+		        openingNames.push(bookEntry.name); // Push the specific name for THIS position
+		    } else {
+		        openingNames.push(null); // CRITICAL: Push null if the position is out of book
+		    }
+		}
 	
 	    // 4. Send the complete, validated package back to the main thread.
 	    postMessage({
