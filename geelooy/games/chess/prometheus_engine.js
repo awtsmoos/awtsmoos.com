@@ -156,6 +156,22 @@ const kingPSTMidGame=[[-30,-40,-40,-50,-50,-40,-40,-30],[-30,-40,-40,-50,-50,-40
 // 
 const kingPSTEndGame=[[-50,-40,-30,-20,-20,-30,-40,-50],[-30,-20,-10,0,0,-10,-20,-30],[-30,-10,20,30,30,20,-10,-30],[-30,-10,30,40,40,30,-10,-30],[-30,-10,30,40,40,30,-10,-30],[-30,-10,20,30,30,20,-10,-30],[-30,-30,0,0,0,0,-30,-30],[-50,-30,-30,-30,-30,-30,-30,-50]];
 
+
+// =================================================================
+//                 SEARCH INITIALIZATION HELPER
+// =================================================================
+// This function sets up all necessary variables for a search.
+function initializeSearch(maxTime) {
+    searchStartTime = performance.now();
+    timeLimit = maxTime || 4000; // Use provided time or default to 4 seconds
+    stopSearch = false;
+    nodeCount = 0;
+    transpositionTable = new Map();
+    killerMoves = Array(MATE_IN_MAX_PLY + 1).fill(null).map(() => [null, null]);
+    historyTable = Array(12).fill(null).map(() => Array(64).fill(0));
+    repetitionHistory = []; // Reset repetition history for the new search
+}
+
 // =================================================================
 //                 EVALUATION & SEARCH (UNCHANGED)
 // =================================================================
@@ -1365,27 +1381,20 @@ self.onmessage = function(e) {
             DEBUG_MODE = e.data.debug;
             break;
             
-        case 'calculate_move':
+        case 'calculate_move': {
             // Ensure initialization has happened before trying to calculate.
             if (!isInitialized) {
                 console.error("Engine received calculate_move command before it was initialized.");
-                // As a fallback, initialize now, though this is the slow behavior we are avoiding.
                 initializeEngine();
             }
 
             const { fen, maxDepth, maxTime } = e.data;
 
-            // --- Search Initialization ---
-            searchStartTime = performance.now();
-            timeLimit = maxTime || 4000;
-            stopSearch = false;
-            nodeCount = 0;
-            transpositionTable = new Map();
-            killerMoves = Array(MATE_IN_MAX_PLY + 1).fill(null).map(() => [null, null]);
-            historyTable = Array(12).fill(null).map(() => Array(64).fill(0));
+            // --- Use the new helper to initialize the search ---
+            initializeSearch(maxTime);
 
             const initialState = createGameState(fen);
-            repetitionHistory = [initialState.zobristHash];
+            repetitionHistory.push(initialState.zobristHash);
             
             const currentHash = initialState.zobristHash.toString();
             if (DEBUG_MODE) {
@@ -1412,7 +1421,7 @@ self.onmessage = function(e) {
                     if (DEBUG_MODE) console.log(`**MAIN BOOK HIT**: Playing standard opening.`);
                     const randomVerifiedMove = verifiedBookMoves[Math.floor(Math.random() * verifiedBookMoves.length)];
                     postMessage({ type: 'move_result', bestMove: randomVerifiedMove, score: `Book Move: ${openingName}`, timeTaken: 0, nodesSearched: 0 });
-                    return; // Exit after finding a move
+                    return;
                 }
             } 
             
@@ -1434,7 +1443,7 @@ self.onmessage = function(e) {
                     if (DEBUG_MODE) console.log(`**PUNISHMENT BOOK HIT**: Responding to opponent's mistake.`);
                     const randomVerifiedMove = verifiedBookMoves[Math.floor(Math.random() * verifiedBookMoves.length)];
                     postMessage({ type: 'move_result', bestMove: randomVerifiedMove, score: `Punish Move: ${trapName}`, timeTaken: 0, nodesSearched: 0 });
-                    return; // Exit after finding a move
+                    return;
                 }
             }
             
@@ -1451,6 +1460,7 @@ self.onmessage = function(e) {
                 nodesSearched: nodeCount
             });
             break;
+        }
             
             
             /* B"H */
@@ -1518,63 +1528,64 @@ case 'analyze_pgn':
         openingNames: openingNames
     });
     break;
-    // DELETE the old 'run_full_analysis' case and REPLACE it with this:
-case 'run_engine_analysis': {
-    if (!lastParsedGame) {
-        postMessage({ type: 'analysis_error', message: "No PGN has been loaded to analyze." });
-        return;
-    }
+    case 'run_engine_analysis': {
+            if (!lastParsedGame) {
+                postMessage({ type: 'analysis_error', message: "No PGN has been loaded to analyze." });
+                return;
+            }
 
-    console.log("Starting full game analysis from cached data...");
-    
-    const { moves, initialFen } = lastParsedGame;
-    const analysisResults = [];
-    
-    const game = new PgnConverter();
-    game.currentState = createGameState(initialFen);
+            console.log("Starting full game analysis from cached data...");
+            
+            // --- Use the new helper to initialize the search environment ---
+            initializeSearch(99999999); // Use a very large time limit for analysis
 
-    for (const actualMove of moves) {
-        // Get the evaluation of the position BEFORE the move
-        const evalBeforeMove = -evaluate(game.currentState);
+            const { moves, initialFen } = lastParsedGame;
+            const analysisResults = [];
+            
+            const game = new PgnConverter();
+            game.currentState = createGameState(initialFen);
 
-        // Find the best possible move in this position
-        const searchResult = searchRoot(game.currentState, 3); // Shallow search is fast
-        const bestMoveEval = searchResult.score;
+            for (const actualMove of moves) {
+                // Initialize repetition history for this specific position's search
+                repetitionHistory = [game.currentState.zobristHash];
+                
+                // Get the evaluation of the position BEFORE the move
+                const evalBeforeMove = -evaluate(game.currentState);
 
-        // Apply the ACTUAL move from the game
-        game.applyMove(actualMove);
-        
-        // Get the evaluation of the position AFTER the actual move
-        const evalAfterMove = evaluate(game.currentState);
+                // Find the best possible move in this position
+                const searchResult = searchRoot(game.currentState, 3); // Shallow search is fast
+                const bestMoveEval = searchResult.score;
 
-        const evalDrop = (game.currentState.turn === 'b' ? 1 : -1) * (bestMoveEval - evalAfterMove);
+                // Apply the ACTUAL move from the game
+                game.applyMove(actualMove);
+                
+                // Get the evaluation of the position AFTER the actual move
+                const evalAfterMove = evaluate(game.currentState);
 
-        let classification = 'good';
-        if (evalDrop > 200) {
-            classification = 'blunder';
-        } else if (evalDrop > 80) {
-            classification = 'mistake';
-        } else if (bestMoveEval > 50 && actualMove.capturedPiece && pieceValues[actualMove.capturedPiece.toLowerCase()].mg > pieceValues[actualMove.piece.toLowerCase()].mg) {
-            classification = 'brilliant';
+                const evalDrop = (game.currentState.turn === 'b' ? 1 : -1) * (bestMoveEval - evalAfterMove);
+
+                let classification = 'good';
+                if (evalDrop > 200) {
+                    classification = 'blunder';
+                } else if (evalDrop > 80) {
+                    classification = 'mistake';
+                } else if (bestMoveEval > 50 && actualMove.capturedPiece && pieceValues[actualMove.capturedPiece.toLowerCase()].mg > pieceValues[actualMove.piece.toLowerCase()].mg) {
+                    classification = 'brilliant';
+                }
+
+                analysisResults.push({
+                    classification: classification,
+                    bestMove: searchResult.bestMove
+                });
+            }
+
+            self.postMessage({
+                type: 'full_analysis_complete',
+                results: analysisResults
+            });
+            console.log("Full game analysis complete.");
+            break;
         }
-
-        analysisResults.push({
-            classification: classification,
-            bestMove: searchResult.bestMove
-        });
-    }
-
-    self.postMessage({
-        type: 'full_analysis_complete',
-        results: analysisResults
-    });
-    console.log("Full game analysis complete.");
-    break;
-
-        
-    
-    
-    }
     
     
     
