@@ -791,6 +791,13 @@ function decodeMove(move, turn) {
     };
 }
 
+/*B"H*/
+
+/**
+ * Main message handler for the chess engine worker.
+ * It routes commands for initialization, move calculation, and analysis.
+ * This version ensures all performance numbers are formatted correctly before being sent to the UI.
+ */
 self.onmessage = function(e) {
     const { command } = e.data;
     switch (command) {
@@ -806,26 +813,22 @@ self.onmessage = function(e) {
             const bookEntry = openingBook.get(hash) || punishmentBook.get(hash);
 
             if (bookEntry && bookEntry.moves.length > 0) {
-                const randomMove = bookEntry.moves[Math.floor(Math.random() * bookEntry.moves.length)];
-                postMessage({ type: 'move_result', bestMove: randomMove, score: `Book Move: ${bookEntry.name}`, timeTaken: 0, nodesSearched: 0 });
+                postMessage({ type: 'move_result', bestMove: bookEntry.moves[Math.floor(Math.random() * bookEntry.moves.length)], score: `Book Move: ${bookEntry.name}`, timeTaken: "0.00", nodesSearched: 0, evalPercent: "0.0" });
                 return;
             }
 
             const searchResult = searchRoot(state, 99, maxTime || 4200);
             
-            /**
-             * @description Add the new evaluationTime metric to the final result message.
-             */
             const totalTime = (performance.now() - searchStartTime);
             
+            // CORRECTED: All numerical data is now rounded using toFixed() for clean output.
             postMessage({
                 type: 'move_result',
                 bestMove: searchResult.bestMove ? decodeMove(searchResult.bestMove, state.turn) : null,
                 score: searchResult.score,
-                timeTaken: totalTime ,
-                evalPercent: ((evaluationTime / totalTime) * 100).toFixed(1), 
-                evaluationTime: evaluationTime.toFixed(2), 
-                nodesSearched: nodeCount
+                timeTaken: totalTime.toFixed(2),
+                nodesSearched: nodeCount,
+                evalPercent: totalTime > 0 ? ((evaluationTime / totalTime) * 100).toFixed(1) : "0.0"
             });
             break;
         }
@@ -911,5 +914,3 @@ self.onmessage = function(e) {
         }
     }
 };
-
-
