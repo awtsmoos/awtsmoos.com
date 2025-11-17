@@ -27,15 +27,6 @@ function randomMagic() {
 
 
 // --- Pre-computed Magic Numbers & Data Structures ---
-/*B"H*/
-
-/**
- * =================================================================
- *               COMPLETE MAGIC BITBOARD CONSTANTS
- * This block replaces all previous versions to fix initialization errors.
- * All arrays now contain the correct 64 elements.
- * =================================================================
- */
 
 /*B"H*/
 /**
@@ -45,6 +36,20 @@ function randomMagic() {
  * initialization crash. This replaces all previous incomplete versions.
  * =================================================================
  */
+ 
+ const lsb_64_table = [
+    63,  0, 58,  1, 59, 47, 53,  2,
+    60, 39, 48, 27, 54, 33, 42,  3,
+    61, 51, 37, 40, 49, 18, 28, 20,
+    55, 30, 34, 11, 43, 14, 22,  4,
+    62, 57, 46, 52, 38, 26, 32, 41,
+    50, 36, 17, 19, 29, 10, 13, 21,
+    56, 45, 25, 31, 35, 16,  9, 12,
+    44, 24, 15,  8, 23,  7,  6,  5
+];
+const deBruijn64 = 0x07EDD5E59A4E28C2n;
+
+
 
 const bishopRelevantBits = [6, 5, 5, 5, 5, 5, 5, 6, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 7, 7, 7, 7, 5, 5, 5, 5, 7, 9, 9, 7, 5, 5, 5, 5, 7, 9, 9, 7, 5, 5, 5, 5, 7, 7, 7, 7, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 6, 5, 5, 5, 5, 5, 5, 6];
 const rookRelevantBits   = [
@@ -172,15 +177,14 @@ const NOT_HG_FILE = 4557430888798830399n;
 const NOT_AB_FILE = 18229723555195321596n;
 
 /**
- * Gets the index of the least significant bit in a bitboard.
+ * Gets the index of the least significant bit in a bitboard using a De Bruijn bitscan.
  * @param {bigint} bb The bitboard.
  * @returns {number} The index of the LSB (0-63), or -1 if the bitboard is empty.
  */
 function getLSBIndex(bb) {
     if (bb === 0n) return -1;
-    let index = 0;
-    while (!((bb >> BigInt(index)) & 1n)) { index++; }
-    return index;
+    const index = Number((((bb & -bb) * deBruijn64)) >> 58n);
+    return lsb_64_table[index];
 }
 
 /**

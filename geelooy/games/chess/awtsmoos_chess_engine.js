@@ -429,14 +429,36 @@ function evaluate(state, attackMaps) {
     if (popcount(state.pieceBitboards[B]) >= 2) score += 50;
     if (popcount(state.pieceBitboards[B+6]) >= 2) score -= 50;
 
-    // --- King Safety (Now using passed-in attack maps) ---
-    const whiteKingSq = getLSBIndex(state.pieceBitboards[K]);
-    if (whiteKingSq !== -1) score -= popcount(KING_ATTACK_ZONE[WHITE][whiteKingSq] & attackMaps.black) * 8;
-    const blackKingSq = getLSBIndex(state.pieceBitboards[K + 6]);
-    if (blackKingSq !== -1) score += popcount(KING_ATTACK_ZONE[BLACK][blackKingSq] & attackMaps.white) * 8;
-    
-    evaluationTime += performance.now() - evalStartTime;
-    return (state.turn === WHITE ? 1 : -1) * score;
+    // --- King Safety (Optimized to not require pre-calculated attack maps) ---
+	const blockers = state.occupancies[2];
+	
+	const whiteKingSq = getLSBIndex(state.pieceBitboards[K]);
+	if (whiteKingSq !== -1) {
+	    const kingZone = KING_ATTACK_ZONE[WHITE][whiteKingSq];
+	    // Get all black pieces that attack squares in the king's zone
+	    const attackers = (getBishopAttacks(whiteKingSq, blockers) & (state.pieceBitboards[B + 6] | state.pieceBitboards[Q + 6])) |
+	                      (getRookAttacks(whiteKingSq, blockers) & (state.pieceBitboards[R + 6] | state.pieceBitboards[Q + 6])) |
+	                      (KNIGHT_ATTACKS[whiteKingSq] & state.pieceBitboards[N + 6]) |
+	                      (PAWN_ATTACKS[WHITE][whiteKingSq] & state.pieceBitboards[P + 6]);
+	    // Penalize based on the number of unique attackers near the king
+	    score -= popcount(kingZone & attackers) * 8;
+	}
+	
+	const blackKingSq = getLSBIndex(state.pieceBitboards[K + 6]);
+	if (blackKingSq !== -1) {
+	    const kingZone = KING_ATTACK_ZONE[BLACK][blackKingSq];
+	    // Get all white pieces that attack squares in the king's zone
+	    const attackers = (getBishopAttacks(blackKingSq, blockers) & (state.pieceBitboards[B] | state.pieceBitboards[Q])) |
+	                      (getRookAttacks(blackKingSq, blockers) & (state.pieceBitboards[R] | state.pieceBitboards[Q])) |
+	                      (KNIGHT_ATTACKS[blackKingSq] & state.pieceBitboards[N]) |
+	                      (PAWN_ATTACKS[BLACK][blackKingSq] & state.pieceBitboards[P]);
+	    // Add bonus based on the number of unique attackers near the opponent king
+	    score += popcount(kingZone & attackers) * 8;
+	}
+	
+	evaluationTime += performance.now() - evalStartTime;
+	return (state.turn === WHITE ? 1 : -1) * score;
+
 }
 
 /**
@@ -448,9 +470,9 @@ function quiesce(state, alpha, beta) {
     if (stopSearch) return 0;
     nodeCount++;
 
-    // Generate attack maps ONCE, then pass them to evaluate.
-    const attackMaps = generateAttackMaps(state);
-    const stand_pat = evaluate(state, attackMaps);
+    
+    
+    const stand_pat = evaluate(state);
 
     if (stand_pat >= beta) return beta;
     if (alpha < stand_pat) alpha = stand_pat;
