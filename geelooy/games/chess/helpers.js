@@ -181,56 +181,67 @@ function makeMove(state, move) {
     const side = state.turn, enemy = side ^ 1;
     const pieceChar = pieceMap[side*6 + piece];
 
-    let capturedPiece = -1, capturedChar = state.board[to];
-    if(capturedChar) capturedPiece = pieceMap.indexOf(capturedChar) % 6;
-    if(getMoveEnpassant(move)) capturedPiece = P;
-    
-    moveStack[moveStackPtr++] = { move, castling: state.castling, enpassant: state.enpassant, capturedPiece, zobristHash: state.zobristHash };
+    // Store state for unmakeMove
+    const capturedChar = state.board[to];
+    let capturedPiece = -1;
+    if (capturedChar) {
+        capturedPiece = pieceMap.indexOf(capturedChar) % 6;
+    } else if (getMoveEnpassant(move)) {
+        capturedPiece = P;
+    }
+    moveStack[moveStackPtr++] = { move, castling: state.castling, enpassant: state.enpassant, capturedPiece };
 
-    // --- Zobrist Updates ---
-    state.zobristHash ^= zobristPieceKeys[side * 6 + piece][from]; // remove piece from 'from'
+    // --- 1. MOVE THE PIECE ---
+    const from_bb = 1n << BigInt(from);
+    const to_bb = 1n << BigInt(to);
+    const from_to_bb = from_bb | to_bb;
 
-    // --- Move piece on all data structures ---
-    const from_to_bb = (1n << BigInt(from)) | (1n << BigInt(to));
+    // Update the piece's own bitboard and the side's occupancy
     state.pieceBitboards[side * 6 + piece] ^= from_to_bb;
     state.occupancies[side] ^= from_to_bb;
-    state.occupancies[2] ^= from_to_bb;
-    state.board[from] = null; state.board[to] = pieceChar;
+
+    // Update the board array
+    state.board[from] = null;
+    state.board[to] = pieceChar;
+    
+    // Update piece list
     state.pieceLists[pieceChar].splice(state.pieceLists[pieceChar].indexOf(from), 1);
     state.pieceLists[pieceChar].push(to);
 
-    // --- Handle captures ---
+    // --- 2. HANDLE CAPTURES ---
     if (capturedPiece !== -1) {
         const ep_capture_sq = getMoveEnpassant(move) ? (side === WHITE ? to + 8 : to - 8) : to;
         const captured_bb = 1n << BigInt(ep_capture_sq);
         const capturedPieceFull = enemy * 6 + capturedPiece;
+        
+        // Remove captured piece from its bitboards
         state.pieceBitboards[capturedPieceFull] ^= captured_bb;
         state.occupancies[enemy] ^= captured_bb;
-        state.occupancies[2] ^= captured_bb; // Occupancy was updated for the move, now update for capture
+        
+        // Update board array
         state.board[ep_capture_sq] = null;
+        
+        // Update piece list
         state.pieceLists[pieceMap[capturedPieceFull]].splice(state.pieceLists[pieceMap[capturedPieceFull]].indexOf(ep_capture_sq), 1);
-        state.zobristHash ^= zobristPieceKeys[capturedPieceFull][ep_capture_sq]; // remove captured piece
-    }
-    
-    // --- Handle Promotions ---
-    if (promoted) {
-        const promotedChar = pieceMap[side*6 + promoted];
-        state.pieceBitboards[side * 6 + P] ^= (1n << BigInt(to)); // remove pawn from 'to'
-        state.pieceBitboards[side * 6 + promoted] ^= (1n << BigInt(to)); // add promoted piece to 'to'
-        state.board[to] = promotedChar;
-        // The pawn was already moved to the 'to' square in pieceLists, so we just need to find it and remove it.
-        const pawnIndex = state.pieceLists[pieceChar].indexOf(to);
-        if (pawnIndex > -1) {
-            state.pieceLists[pieceChar].splice(pawnIndex, 1);
-        }
-        state.pieceLists[promotedChar].push(to);
-        state.zobristHash ^= zobristPieceKeys[side * 6 + P][to]; // XOR out pawn at 'to'
-        state.zobristHash ^= zobristPieceKeys[side * 6 + promoted][to]; // XOR in promoted piece at 'to'
-    } else {
-         state.zobristHash ^= zobristPieceKeys[side * 6 + piece][to]; // add piece to 'to'
     }
 
-    // --- Handle castling ---
+    // --- 3. HANDLE PROMOTIONS ---
+    if (promoted) {
+        const promotedChar = pieceMap[side*6 + promoted];
+        // Remove the pawn from the 'to' square
+        state.pieceBitboards[side * 6 + P] ^= to_bb;
+        // Add the new piece to the 'to' square
+        state.pieceBitboards[side * 6 + promoted] ^= to_bb;
+        
+        state.board[to] = promotedChar;
+        
+        // Update piece lists
+        const pawnIndex = state.pieceLists[pieceChar].indexOf(to);
+        if (pawnIndex > -1) state.pieceLists[pieceChar].splice(pawnIndex, 1);
+        state.pieceLists[promotedChar].push(to);
+    }
+
+    // --- 4. HANDLE CASTLING ---
     if (getMoveCastling(move)) {
         let rook_from, rook_to;
         if (to === 62) { rook_from = 63; rook_to = 61; } // WK
@@ -239,27 +250,25 @@ function makeMove(state, move) {
         else { rook_from = 0; rook_to = 3; } // BQ
         const rook_from_to_bb = (1n << BigInt(rook_from)) | (1n << BigInt(rook_to));
         const rookChar = side === WHITE ? 'R' : 'r';
+
+        // Update rook bitboards
         state.pieceBitboards[side * 6 + R] ^= rook_from_to_bb;
         state.occupancies[side] ^= rook_from_to_bb;
-        state.occupancies[2] ^= rook_from_to_bb;
+        
+        // Update board array for rook
         state.board[rook_from] = null; state.board[rook_to] = rookChar;
+        
+        // Update rook piece list
         state.pieceLists[rookChar].splice(state.pieceLists[rookChar].indexOf(rook_from), 1);
         state.pieceLists[rookChar].push(rook_to);
-        state.zobristHash ^= zobristPieceKeys[side * 6 + R][rook_from]; // XOR out rook from original sq
-        state.zobristHash ^= zobristPieceKeys[side * 6 + R][rook_to]; // XOR in rook to new sq
     }
-
-    // --- Update Game State & Final Zobrist Hashes ---
-    if(state.enpassant !== -1) state.zobristHash ^= zobristEnpassantKeys[state.enpassant];
-    state.zobristHash ^= zobristCastlingKeys[state.castling];
     
+    // --- 5. RECALCULATE MASTER OCCUPANCY & UPDATE STATE ---
+    // This is the robust fix: recalculate the total occupancy from the individual ones.
+    state.occupancies[2] = state.occupancies[WHITE] | state.occupancies[BLACK];
+
     state.castling &= castling_rights[from] & castling_rights[to];
     state.enpassant = getMoveDouble(move) ? (side === WHITE ? from - 8 : from + 8) : -1;
-    
-    if(state.enpassant !== -1) state.zobristHash ^= zobristEnpassantKeys[state.enpassant];
-    state.zobristHash ^= zobristCastlingKeys[state.castling];
-    state.zobristHash ^= zobristTurnKey;
-    
     state.turn ^= 1;
 }
 /* B"H */
