@@ -283,15 +283,28 @@ function getGamePhase(state) {
     currentPhase += popcount(state.pieceBitboards[Q] | state.pieceBitboards[Q + 6]) * 4;
     return Math.min(currentPhase, MAX_PHASE) / MAX_PHASE;
 }
-// REPLACE the old evaluate AND evaluateThreats functions in awtsmoos_chess_engine.js with this new block.
+
+// ====================================================================================
+//            MASTER EVALUATION HUB (v5.0 - ON-THE-FLY PIECE LISTS)
+// ====================================================================================
 
 function evaluate(state) {
-    // --- PERFORMANCE FIX: Generate attack maps ONCE for the entire evaluation ---
-    const attackMaps = generateAttackMaps(state);
+    // --- THE SPEED BREAKTHROUGH: Generate piece lists ONCE, here at the leaf node ---
+    const pieceLists = { P:[], N:[], B:[], R:[], Q:[], K:[], p:[], n:[], b:[], r:[], q:[], k:[] };
+    for (let p = 0; p < 12; p++) {
+        let bb = state.pieceBitboards[p];
+        const pieceChar = pieceMap[p];
+        while (bb > 0n) {
+            const sq = getLSBIndex(bb);
+            pieceLists[pieceChar].push(sq);
+            bb = popBit(bb);
+        }
+    }
 
+    const attackMaps = generateAttackMaps(state);
     const gamePhase = getGamePhase(state);
     let whiteScore = new TaperedScore(), blackScore = new TaperedScore();
-    const pieceLists = state.pieceLists;
+    
     const whiteKingSq = pieceLists.K[0], blackKingSq = pieceLists.k[0];
     const whiteKingPos = whiteKingSq !== undefined ? { sq: whiteKingSq, r: Math.floor(whiteKingSq/8), c: whiteKingSq%8} : null;
     const blackKingPos = blackKingSq !== undefined ? { sq: blackKingSq, r: Math.floor(blackKingSq/8), c: blackKingSq%8} : null;
@@ -300,27 +313,27 @@ function evaluate(state) {
         const isWhite = pieceChar < 'a';
         const scoreTarget = isWhite ? whiteScore : blackScore;
         const pType = pieceChar.toLowerCase();
-        const pieceIdx = pieceMap.indexOf(pieceChar);
+        
         for(const sq of pieceLists[pieceChar]) {
             const r = Math.floor(sq/8), c = sq % 8;
             scoreTarget.mg += pieceValues[pType].mg; scoreTarget.eg += pieceValues[pType].eg;
             const pstRow = isWhite ? 7 - r : r;
-            const pieceTypeIndex = pieceIdx % 6;
-            if (pieceTypeIndex === K) {
+            
+            if (pType === 'k') {
                 scoreTarget.mg += kingPSTMidGame[pstRow][c]; scoreTarget.eg += kingPSTEndGame[pstRow][c];
             } else {
-                const pst = [pawnPST, knightPST, bishopPST, rookPST, queenPST][pieceTypeIndex];
+                const pst = {p:pawnPST, n:knightPST, b:bishopPST, r:rookPST, q:queenPST}[pType];
                 scoreTarget.mg += pst[pstRow][c]; scoreTarget.eg += pst[pstRow][c];
             }
         }
     }
+    
     const whitePawnFiles = new Set(pieceLists.P.map(sq => sq % 8));
     const blackPawnFiles = new Set(pieceLists.p.map(sq => sq % 8));
     
     whiteScore.add(evaluateStrategicBonuses(state, WHITE, pieceLists, whitePawnFiles, blackPawnFiles, whiteKingPos));
     blackScore.add(evaluateStrategicBonuses(state, BLACK, pieceLists, blackPawnFiles, whitePawnFiles, blackKingPos));
     
-    // --- Pass the pre-calculated attack maps to the helper functions ---
     whiteScore.subtract(evaluateThreats(state, WHITE, attackMaps));
     blackScore.subtract(evaluateThreats(state, BLACK, attackMaps));
     
@@ -330,44 +343,45 @@ function evaluate(state) {
     const finalWhite = (whiteScore.mg * gamePhase) + (whiteScore.eg * (1 - gamePhase));
     const finalBlack = (blackScore.mg * gamePhase) + (blackScore.eg * (1 - gamePhase));
     const evaluation = Math.round(finalWhite - finalBlack);
+    
     return (state.turn === WHITE ? 1 : -1) * evaluation;
 }
 
 function evaluateThreats(state, color, attackMaps) {
     const penalty = new TaperedScore();
-
     const [ourColor, enemyColor] = (color === WHITE) ? [WHITE, BLACK] : [BLACK, WHITE];
     const enemyAttackMap = (enemyColor === WHITE) ? attackMaps.white : attackMaps.black;
     const enemyPawnAttacks = (enemyColor === WHITE) ? attackMaps.white_pawns : attackMaps.black_pawns;
     
-    // Get bitboards for our major and minor pieces
     const ourKnights = state.pieceBitboards[ourColor * 6 + N];
     const ourBishops = state.pieceBitboards[ourColor * 6 + B];
     const ourRooks = state.pieceBitboards[ourColor * 6 + R];
     const ourQueens = state.pieceBitboards[ourColor * 6 + Q];
 
-    // Penalize our pieces being attacked by their pawns (a very significant threat)
-    const PAWN_THREAT_PENALTY = 200; // A high, flat penalty for being attacked by a pawn
+    const PAWN_THREAT_PENALTY = 200;
     penalty.mg += popcount(ourKnights & enemyPawnAttacks) * PAWN_THREAT_PENALTY;
     penalty.mg += popcount(ourBishops & enemyPawnAttacks) * PAWN_THREAT_PENALTY;
     penalty.mg += popcount(ourRooks & enemyPawnAttacks) * 300;
     penalty.mg += popcount(ourQueens & enemyPawnAttacks) * 450;
 
-    // Apply a smaller penalty for any piece being on a square controlled by any enemy piece.
-    // This correctly identifies hanging or poorly-placed pieces.
-    const HANGING_PIECE_PENALTY = 35; // A smaller, general penalty
+    const HANGING_PIECE_PENALTY = 35;
     penalty.mg += popcount((ourKnights | ourBishops) & enemyAttackMap) * HANGING_PIECE_PENALTY;
     penalty.mg += popcount(ourRooks & enemyAttackMap) * (HANGING_PIECE_PENALTY + 20);
     penalty.mg += popcount(ourQueens & enemyAttackMap) * (HANGING_PIECE_PENALTY + 40);
     
     return penalty;
 }
+
 function evaluateStrategicBonuses(state, color, pieceLists, friendlyPawnFiles, enemyPawnFiles, myKingPos) {
-    const score = new TaperedScore(); const isWhite = color === WHITE; const startRank = isWhite ? 7 : 0;
+    const score = new TaperedScore();
+    const isWhite = color === WHITE;
+    const startRank = isWhite ? 7 : 0;
+    
     for (const pawnSq of pieceLists[isWhite ? 'P' : 'p']) {
         const r = Math.floor(pawnSq / 8), c = pawnSq % 8;
         if ((c === 3 || c === 4) && (r === (isWhite ? 4 : 3) || r === (isWhite ? 3 : 4))) score.mg += 45;
     }
+    
     const canCastle = isWhite ? (state.castling & (WKCA | WQCA)) : (state.castling & (BKCA | BQCA));
     if (myKingPos) {
         const kingOnStartSquare = myKingPos.r === startRank && myKingPos.c === 4;
@@ -375,47 +389,54 @@ function evaluateStrategicBonuses(state, color, pieceLists, friendlyPawnFiles, e
         if (hasCastled) score.add(new TaperedScore(myKingPos.c === 6 ? 90 : 70, 30));
         if (!kingOnStartSquare && !hasCastled && canCastle) score.subtract(new TaperedScore(100, 30));
     }
-    for (const sq of pieceLists[isWhite ? 'N' : 'n']) { if (Math.floor(sq/8) !== startRank) score.add(new TaperedScore(30, 15)); }
-    for (const sq of pieceLists[isWhite ? 'B' : 'b']) { if (Math.floor(sq/8) !== startRank) score.add(new TaperedScore(30, 15)); }
+    
     if (pieceLists[isWhite ? 'B' : 'b'].length >= 2) score.add(new TaperedScore(85, 110));
+    
     for (const sq of pieceLists[isWhite ? 'R' : 'r']) {
         const r = Math.floor(sq/8), c = sq % 8;
         if (!friendlyPawnFiles.has(c)) score.add(new TaperedScore(enemyPawnFiles.has(c) ? 40 : 25, 20));
         if (r === (isWhite ? 1 : 6)) score.add(new TaperedScore(50, 60));
     }
+    
     const pawnFileCounts = new Map();
     for (const sq of pieceLists[isWhite ? 'P' : 'p']) {
-        const c = sq % 8; pawnFileCounts.set(c, (pawnFileCounts.get(c) || 0) + 1);
+        const c = sq % 8;
+        pawnFileCounts.set(c, (pawnFileCounts.get(c) || 0) + 1);
         if (!friendlyPawnFiles.has(c - 1) && !friendlyPawnFiles.has(c + 1)) score.subtract(new TaperedScore(25, 40));
     }
-    for (const count of pawnFileCounts.values()) { if (count > 1) score.subtract(new TaperedScore(20 * (count - 1), 30 * (count - 1))); }
+    for (const count of pawnFileCounts.values()) {
+        if (count > 1) score.subtract(new TaperedScore(20 * (count - 1), 30 * (count - 1)));
+    }
+    
     return score;
 }
-
-
-
-
-
-
-
 
 function evaluateKingSafety(state, kingPos, attackerColor, pieceLists) {
     const danger = new TaperedScore();
     const kingRank = kingPos.r, kingFile = kingPos.c;
     const isAttackerWhite = attackerColor === WHITE;
-    const defenderPawnChar = isAttackerWhite ? 'p' : 'P', pawnShieldRank = isAttackerWhite ? 5 : 2;
-    if (kingRank === (isAttackerWhite ? 7 : 0)) {
-        for (const file of [kingFile - 1, kingFile, kingFile + 1]) {
+    const defenderPawnChar = isAttackerWhite ? 'p' : 'P';
+    const pawnShieldRank = isAttackerWhite ? kingRank - 1 : kingRank + 1;
+
+    // King pawn shield evaluation
+    if (kingPos.c > 1 && kingPos.c < 6) { // Only for non-flank king positions
+         for (const file of [kingFile - 1, kingFile, kingFile + 1]) {
             if (file < 0 || file > 7) continue;
             let shieldPawnFound = false;
-            for (const pawnSq of pieceLists[defenderPawnChar]) {
+            for(const pawnSq of pieceLists[defenderPawnChar]) {
                 const r = Math.floor(pawnSq/8), c = pawnSq % 8;
-                if (c === file) { shieldPawnFound = true; if (Math.abs(r - pawnShieldRank) > 1) danger.mg += 25; break; }
+                if (c === file) {
+                    shieldPawnFound = true;
+                    if(r !== pawnShieldRank) danger.mg += 20; // Pawn pushed
+                    break;
+                }
             }
-            if (!shieldPawnFound) danger.mg += 60;
+            if (!shieldPawnFound) danger.mg += 40; // Missing pawn
         }
     }
-    let attackWeight = 0; const attackWeights = { q: 10, r: 6, b: 4, n: 4 };
+
+    let attackWeight = 0;
+    const attackWeights = { q: 10, r: 6, b: 4, n: 4 };
     const attackerChars = isAttackerWhite ? "QRBN" : "qrbn";
     for(const char of attackerChars) {
         for (const attackerSq of pieceLists[char]) {
@@ -424,10 +445,10 @@ function evaluateKingSafety(state, kingPos, attackerColor, pieceLists) {
             if (dist <= 4) attackWeight += attackWeights[char.toLowerCase()] * (5 - dist);
         }
     }
-    danger.mg += Math.pow(attackWeight, 1.5); danger.eg += attackWeight * 2;
+    danger.mg += Math.floor(Math.pow(Math.max(0, attackWeight - 5), 2) * 0.8);
+    
     return danger;
 }
-
 
 
 
