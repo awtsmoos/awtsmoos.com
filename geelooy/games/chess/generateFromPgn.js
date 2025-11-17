@@ -125,36 +125,74 @@ parseSan(san) {
 function generateRawBook(source, onProgress) {
     const converter = new PgnConverter();
     const bookMap = new Map();
+
     for (const [index, opening] of source.entries()) {
         converter.reset();
         const moves = opening.pgn.replace(/(\d+\.)/g, '').trim().split(/\s+/).filter(Boolean);
+        let isValidLine = true;
+        
+        // This temporary map stores the data for this line only if it's valid
+        const tempLineData = new Map();
+
         for (const san of moves) {
             const fenBeforeMove = converter.toFen();
-            const hash = calculateZobristHash(converter.currentState);
+            const hash = "placeholder"; // Hash is not critical for parsing/validation
             const move = converter.parseSan(san);
+
             if (move == null) {
-                if (!['1-0', '0-1', '1/2-1/2', '*'].includes(san)) { console.error(`Could not parse SAN "${san}" in opening "${opening.name}" from FEN "${fenBeforeMove}".`); }
-                break;
+                // If any move is invalid, mark the entire PGN line as bad and stop processing it.
+                if (!['1-0', '0-1', '1/2-1/2', '*'].includes(san)) {
+                    console.error(`Validation Error: Could not parse SAN "${san}" in opening "${opening.name}" from FEN "${fenBeforeMove}". This opening line will be skipped.`);
+                }
+                isValidLine = false;
+                break; // Stop processing this invalid line
             }
-            const hashString = hash.toString();
-            if (!bookMap.has(hashString)) { bookMap.set(hashString, [fenBeforeMove, opening.name]); }
-            const entry = bookMap.get(hashString);
+
+            const hashString = fenBeforeMove; // Use FEN as a temporary key
+            if (!tempLineData.has(hashString)) {
+                tempLineData.set(hashString, [fenBeforeMove, opening.name]);
+            }
+            
+            const entry = tempLineData.get(hashString);
             const fromSq = getMoveFrom(move), toSq = getMoveTo(move), promotedPiece = getMovePromoted(move);
             const thinMove = {
                 from: [Math.floor(fromSq/8), fromSq%8], to: [Math.floor(toSq/8), toSq%8],
                 promotion: promotedPiece ? pieceMap[promotedPiece].toLowerCase() : undefined
             };
-            if (!entry.slice(2).some(m => m.from[0] === thinMove.from[0] && m.from[1] === thinMove.from[1] && m.to[0] === thinMove.to[0] && m.to[1] === thinMove.to[1] && m.promotion === thinMove.promotion)) {
+
+            // This check prevents duplicate moves if different lines converge on the same position
+            if (!entry.slice(2).some(m => 
+                m.from[0] === thinMove.from[0] && m.from[1] === thinMove.from[1] &&
+                m.to[0] === thinMove.to[0] && m.to[1] === thinMove.to[1] &&
+                m.promotion === thinMove.promotion)) {
                 entry.push(thinMove);
             }
             converter.applyMove(move);
         }
+
+        
+        // Only if the entire line was processed successfully, merge its data into the main bookMap.
+        if (isValidLine) {
+            for (const [key, value] of tempLineData.entries()) {
+                if (!bookMap.has(key)) {
+                    bookMap.set(key, value);
+                } else {
+                    // If the position already exists, merge moves to prevent duplicates
+                    const existingEntry = bookMap.get(key);
+                    for(let i = 2; i < value.length; i++) {
+                        const newMove = value[i];
+                         if (!existingEntry.slice(2).some(m => 
+                            m.from[0] === newMove.from[0] && m.from[1] === newMove.from[1] &&
+                            m.to[0] === newMove.to[0] && m.to[1] === newMove.to[1] &&
+                            m.promotion === newMove.promotion)) {
+                            existingEntry.push(newMove);
+                        }
+                    }
+                }
+            }
+        }
+        
         if (onProgress) onProgress(index + 1);
     }
     return Array.from(bookMap.values());
 }
-
-if (typeof self !== 'undefined') {
-    self.PgnConverter = PgnConverter;
-}
-
