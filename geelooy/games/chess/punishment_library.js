@@ -853,7 +853,7 @@ const punishmentBookSource = [
 { name: "Refute: The Polish Opening, Birmingham Gambit", pgn: "1. b4 c5" },
 { name: "Refute: The Durkin Opening (Sodium Attack)", pgn: "1. Na3 e5 2. c4" },
 { name: "Refute: The Creepy Crawly Formation", pgn: "1. a3 h6 2. e4" },
-{ name: "Refute: The St. George Defense, 3.c4", pgn: "1. e4 a6 2. d4 b5 3. c4" },
+{ name: "Refute: The George Defense, 3.c4", pgn: "1. e4 a6 2. d4 b5 3. c4" },
 { name: "Refute: The Owen's Defense, Matovinsky Gambit", pgn: "1. e4 b6 2. d4 Bb7 3. f3 e5" },
 { name: "Refute: The Nimzowitsch Defense, Wheeler Gambit", pgn: "1. e4 Nc6 2. b4" },
 { name: "Refute: The Scandinavian Defense, Blackburne-Kloosterboer Gambit", pgn: "1. e4 d5 2. exd5 c6" },
@@ -1022,7 +1022,7 @@ const punishmentBookSource = [
 { name: "Refute: The Hippopotamus Defense", pgn: "1. e4 b6 2. d4 Bb7 3. Bd3 e6 4. c4" },
 { name: "Refute: The Fried Fox / Pork Chop Opening", pgn: "1. f3 e5 2. Kf2 Bc5+ 3. e3 d5" },
 { name: "Refute: The Crab Opening (a4 & h4)", pgn: "1. a4 e5 2. h4 d5" },
-{ name: "Refute: The St. George Defense", pgn: "1. e4 a6 2. d4 b5 3. Nf3 Bb7 4. Bd3" },
+{ name: "Refute: The George Defense", pgn: "1. e4 a6 2. d4 b5 3. Nf3 Bb7 4. Bd3" },
 { name: "Refute: The English Defense", pgn: "1. d4 e6 2. c4 b6 3. e4 Bb7 4. Bd3 f5 5. exf5" },
 
 // --- VI. More Deep & Instructive Variations of Blunders ---

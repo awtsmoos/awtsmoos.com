@@ -188,7 +188,7 @@ const sourceBook = [
     // --- Rare & Tricky Lines ---
     { name: "Alekhine's Defense: Scandinavian Variation", pgn: "1. e4 Nf6 2. Nc3 d5 3. exd5 Nxd5 4. Bc4 Nb6" },
     { name: "Nimzowitsch Defense", pgn: "1. e4 Nc6 2. d4 d5 3. Nc3 dxe4 4. d5" },
-    { name: "St. George Defense", pgn: "1. e4 a6 2. d4 b5 3. Nf3 Bb7" },
+    { name: "George Defense", pgn: "1. e4 a6 2. d4 b5 3. Nf3 Bb7" },
     { name: "Polish Defense", pgn: "1. d4 b5 2. e4 Bb7 3. f3 a6" },
     { name: "Robatsch (Modern) Defense", pgn: "1. e4 g6 2. d4 Bg7 3. c4 d6 4. Nc3 Nc6 5. Be3" },
     { name: "Scandinavian Defense: Portuguese Variation", pgn: "1. e4 d5 2. exd5 Nf6 3. d4 Bg4 4. Be2" },
