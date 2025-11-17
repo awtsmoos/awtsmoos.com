@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	const canvasContext = canvas.getContext('2d');
 	
 	const declareDrawButton = document.getElementById('declareDrawButton');
-	
+	const runAnalysisButton = document.getElementById('runAnalysisButton');
 	
 	const capturedByBlackCanvas = document.getElementById('capturedByBlackCanvas');
 	const capturedByWhiteCanvas = document.getElementById('capturedByWhiteCanvas');
@@ -207,6 +207,13 @@ aiWorker.onmessage = function(e) {
             
         case 'analysis_error':
             alert(e.data.message);
+            break;
+            
+            
+        case 'full_analysis_complete':
+            analysisState.classifications = e.data.results;
+            updateMoveListWithAnalysis();
+            displayAnalysisPosition(analysisState.currentMoveIndex); // Refresh view
             break;
     }
 };
@@ -477,6 +484,78 @@ aiWorker.onmessage = function(e) {
 			}
 		}
 	}
+	
+	
+	// Add this new function in main.js
+function updateMoveListWithAnalysis() {
+    const moveElements = document.querySelectorAll('.move-text-item');
+    const icons = {
+        brilliant: '⭐',
+        good: '', // No icon for good moves to keep it clean
+        mistake: '⚠️',
+        blunder: '❌'
+    };
+
+    moveElements.forEach((el, index) => {
+        const result = analysisState.classifications[index];
+        if (result && icons[result.classification]) {
+            // Ensure we don't add icons multiple times
+            if (!el.querySelector('.move-icon')) {
+                const iconSpan = document.createElement('span');
+                iconSpan.className = 'move-icon';
+                iconSpan.textContent = icons[result.classification] + ' ';
+                el.prepend(iconSpan);
+            }
+        }
+    });
+}
+
+
+
+function drawHintArrow(fromM, to) {
+    const fromX = BOARD_PADDING + fromM[1] * SQUARE_SIZE + SQUARE_SIZE / 2;
+    const fromY = BOARD_PADDING + fromM[0] * SQUARE_SIZE + SQUARE_SIZE / 2;
+    const toX = BOARD_PADDING + to[1] * SQUARE_SIZE + SQUARE_SIZE / 2;
+    const toY = BOARD_PADDING + to[0] * SQUARE_SIZE + SQUARE_SIZE / 2;
+
+    const headlen = 20;
+    const angle = Math.atan2(toY - fromY, toX - fromX);
+
+    analysisContext.save();
+    // Use a green, dashed line for the hint
+    analysisContext.strokeStyle = 'rgba(14, 204, 53, 0.8)';
+    analysisContext.lineWidth = 10;
+    analysisContext.setLineDash([20, 15]); // Dashed line effect
+    analysisContext.lineCap = 'round';
+    
+    analysisContext.beginPath();
+    analysisContext.moveTo(fromX, fromY);
+    analysisContext.lineTo(toX, toY);
+    analysisContext.stroke();
+    
+    analysisContext.restore();
+}
+
+// Now, update drawAnalysisBoard to call it
+function drawAnalysisBoard() {
+    // ... (all your existing drawing code)
+
+    if (analysisState.currentMoveIndex > -1) {
+        const move = analysisState.moves[analysisState.currentMoveIndex];
+        drawMoveArrow(move.from, move.to); // The actual move in blue
+
+        // ADD THIS BLOCK to draw the hint
+        const analysisResult = analysisState.classifications[analysisState.currentMoveIndex];
+        if (analysisResult && (analysisResult.classification === 'mistake' || analysisResult.classification === 'blunder')) {
+            const bestMove = analysisResult.bestMove;
+            if (bestMove) {
+                drawHintArrow(bestMove.from, bestMove.to); // The suggestion in green
+            }
+        }
+    }
+}
+
+
 	
 	/**
 	 * Generates the Standard Algebraic Notation (SAN) for a move, resolving ambiguity.
@@ -983,7 +1062,8 @@ aiWorker.onmessage = function(e) {
 	        moves: [],
 	        boardHistory: [],
 	        openingNames: [],
-	        currentMoveIndex: -1
+	        currentMoveIndex: -1,
+	        classifications: [] // To store results like { classification: 'blunder', bestMove: ... }
 	    };
 	    moveListContainer.innerHTML = '';
 	    openingNameDisplay.textContent = '';
@@ -1320,19 +1400,42 @@ aiWorker.onmessage = function(e) {
 	    pgnFileInput.click();
 	};
 	
-	pgnFileInput.onchange = (event) => {
-	    const file = event.target.files[0];
-	    if (!file) return;
-	
-	    const reader = new FileReader();
-	    reader.onload = (e) => {
-	        const pgnText = e.target.result;
-	        // Send the raw PGN text to the worker for processing
-	        aiWorker.postMessage({ command: 'analyze_pgn', pgnText: pgnText });
-	    };
-	    reader.readAsText(file);
-	    event.target.value = '';
-	};
+	// At the bottom with other event listeners
+runAnalysisButton.onclick = () => {
+    if (analysisState.moves.length === 0) {
+        alert("Please load a PGN first.");
+        return;
+    }
+    
+    // Show a loading indicator
+    openingNameDisplay.textContent = "Analyzing game, please wait...";
+
+    // We need the original PGN text to send to the worker
+    // Let's modify the file reader to store it.
+    // In the `pgnFileInput.onchange` event:
+    // const pgnText = e.target.result;
+    // analysisState.rawPgn = pgnText; // Store it
+    // Then we can send it here:
+    aiWorker.postMessage({
+        command: 'run_full_analysis',
+        pgnText: analysisState.rawPgn // You'll need to store the raw PGN when loaded
+    });
+};
+
+
+pgnFileInput.onchange = (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+        const pgnText = e.target.result;
+        analysisState.rawPgn = pgnText; // STORE THE RAW PGN
+        aiWorker.postMessage({ command: 'analyze_pgn', pgnText: pgnText });
+    };
+    reader.readAsText(file);
+    event.target.value = '';
+};
 	
 	prevMoveButton.onclick = () => {
 	    displayAnalysisPosition(analysisState.currentMoveIndex - 1);
