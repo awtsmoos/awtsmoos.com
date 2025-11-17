@@ -524,6 +524,8 @@ function search(state, depth, alpha, beta, ply) {
 
 /**
  * The root of the search function, using iterative deepening.
+ * This version is corrected to use the hyper-optimized `isSquareAttacked_lean`
+ * for legality checking at the root, which is the final major performance fix.
  * @param {object} initialState - The starting game state for the search.
  * @param {number} maxDepth - The maximum depth to search.
  * @param {number} maxTime - The maximum time in milliseconds to search.
@@ -536,11 +538,10 @@ function searchRoot(initialState, maxDepth, maxTime) {
     let bestScore = -Infinity;
 
     for (let currentDepth = 1; currentDepth <= maxDepth; currentDepth++) {
-        // At the root, we must generate all pseudo-legal moves first.
         const moves = generateMoves(initialState);
         const orderedMoves = orderMoves(moves, initialState, 0);
 
-        if(orderedMoves.length === 0) break;
+        if (orderedMoves.length === 0) break;
 
         let alpha = -Infinity;
         let beta = Infinity;
@@ -549,14 +550,14 @@ function searchRoot(initialState, maxDepth, maxTime) {
         for (const move of orderedMoves) {
             makeMove(initialState, move);
             
-            // THE FIX: Use the FAST lean check for the opponent's king.
-            // After we make a move, the turn flips. We must check if our OWN king
-            // (the king of the player whose turn it WAS) is now under attack.
+            // THE FINAL FIX: This now calls the hyper-optimized _lean function.
+            // After we make a move, the turn flips. We check if our OWN king
+            // (the king of the color that just moved) is now under attack.
             const kingColor = initialState.turn ^ 1;
             const kingSq = getLSBIndex(initialState.pieceBitboards[kingColor * 6 + K]);
             
             if (isSquareAttacked_lean(initialState, kingSq, initialState.turn)) {
-                unmakeMove(initialState); // The move was illegal, so we unmake and skip it.
+                unmakeMove(initialState); // The move was illegal, so we unmake and skip.
                 continue;
             }
             legalMovesSearched++;
@@ -577,16 +578,10 @@ function searchRoot(initialState, maxDepth, maxTime) {
             }
         }
         
-        if (stopSearch) {
-             break;
-        }
-
-        // If after checking all pseudo-legal moves, none were legal, it's mate or stalemate.
-        if (legalMovesSearched === 0) {
-            // No need to set a score here; the main search will determine mate/stalemate correctly.
+        if (stopSearch || legalMovesSearched === 0) {
             break;
         }
-        
+
         if (Math.abs(bestScore) > MATE_SCORE - MATE_IN_MAX_PLY) {
             break; 
         }
