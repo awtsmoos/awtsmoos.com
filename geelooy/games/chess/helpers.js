@@ -47,8 +47,7 @@ function randomMagic() {
     56, 45, 25, 31, 35, 16,  9, 12,
     44, 24, 15,  8, 23,  7,  6,  5
 ];
-const deBruijn64 = 0x07EDD5E59A4E28C2n;
-
+const deBruijn64 = 0x03f79d71b4cb0a89n;
 
 
 /*B"H*/
