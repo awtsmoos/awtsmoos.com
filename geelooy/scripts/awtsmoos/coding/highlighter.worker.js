@@ -1,91 +1,109 @@
 /**
  * @ B"H
  * @file highlighter.worker.js
- * @description The Neshama (Soul). This is the pure, unbreakable state machine,
- * living in its own world, unburdened by the concerns of the physical DOM.
- * Its sole purpose is to receive text and return the light of highlighted HTML.
+ * @version 2.0 (Olam HaYetzirah - The World of Formation)
+ * @description The Neshama (Soul). This version is enhanced with the Sefirah of Da'at (Knowledge/Memory).
+ * It no longer re-processes the entire text on every scroll. Instead, it maintains the full text in its
+ * own state and caches the highlighter's state at the end of each line. When a scroll event occurs,
+ * it finds the closest pre-computed state and begins highlighting from there, resulting in a
+ * massive performance gain for large documents.
  */
 
 // --- Worker State ---
-let language = 'js';
+let language = 'js'; // Default language, will be updated by 'setText' message.
+let lines = [];
+let lineStatesCache = []; // The cache for Da'at (Knowledge)
+
+/**
+ * @function getClosestCachedState
+ * @description Searches backwards from a given line to find the nearest valid cached state.
+ * @param {number} startLine - The line index to start searching from.
+ * @returns {{state: object, line: number}} - The cached state and the line number it corresponds to.
+ */
+function getClosestCachedState(startLine) {
+	for (let i = Math.min(startLine, lineStatesCache.length - 1); i >= 0; i--) {
+		if (lineStatesCache[i]) {
+			// Deep copy the state to prevent mutation of the cache
+			return { state: JSON.parse(JSON.stringify(lineStatesCache[i])), line: i };
+		}
+	}
+	// If no cache is found, return the initial state at line -1 (to start processing from line 0).
+	return { state: _getInitialState(), line: -1 };
+}
 
 // --- Worker Message Handler ---
-/**
- * @file highlighter.worker.js
- * @description The Neshama (Soul). This is the pure, unbreakable state machine.
- */
 self.onmessage = (e) => {
-	const {
-		type,
-		text,
-		firstLineToRender,
-		numLinesToRender,
-		language: newLanguage,
-		requestId,
-		scrollTopAtRequest,
-		scrollLeftAtRequest
-	} = e.data;
+	const { type, requestId } = e.data;
 
-	if (type === 'highlight') {
-		const lines = text.split(
-			'\n');
-		language = newLanguage;
-
-		let state =
-			_getInitialState();
-
-		// Fast-forward state to the first visible line
-		for (let i = 0; i <
-			firstLineToRender; i++
-			) {
-			state =
-				_getHighlightResult(
-					lines[i] || '',
-					state)
-				.state;
-		}
-
-		// Highlight only the visible lines
-		const highlightedLines = [];
-		for (let i = 0; i <
-			numLinesToRender; i++) {
-			const lineIndex =
-				firstLineToRender +
-				i;
-			if (lineIndex < lines
-				.length) {
-				const result =
-					_getHighlightResult(
-						lines[
-							lineIndex
-							] || '',
-						state);
-				highlightedLines
-					.push(result
-						.html);
-				state = result
-				.state;
-			} else {
-				highlightedLines
-					.push(
-					null); // Signal end of content
+	switch (type) {
+		/**
+		 * Handles the initial setting or updating of the entire text content.
+		 * This invalidates and clears all existing caches.
+		 */
+		case 'setText':
+			{
+				language = e.data.language || 'js'; // Update language
+				lines = e.data.text.split('\n');
+				lineStatesCache = []; // Clear the memory upon receiving new text.
+				break;
 			}
-		}
 
-		// The soul returns the original coordinate with the result.
-		self.postMessage({
-			type: 'highlightResult',
-			htmlLines: highlightedLines,
-			requestId: requestId,
-			// Return the original coordinate. The Soul provides the Body with spatial awareness.
-			responseFirstLine: firstLineToRender,
-			// Pass the original scroll coordinates back, untouched.
-			scrollTopAtRequest: scrollTopAtRequest,
-			scrollLeftAtRequest: scrollLeftAtRequest
+		/**
+		 * The primary highlighting request, now optimized to use the cache.
+		 */
+		case 'highlight':
+			{
+				const {
+					firstLineToRender,
+					numLinesToRender,
+					scrollTopAtRequest,
+					scrollLeftAtRequest
+				} = e.data;
 
-		});
+				if (lines.length === 0) return; // Nothing to highlight
+
+				// Find the closest known state before the rendering area.
+				const { state: currentState, line: startLine } = getClosestCachedState(firstLineToRender - 1);
+
+				// Process lines from the last cached point to the start of the render area, caching as we go.
+				for (let i = startLine + 1; i < firstLineToRender; i++) {
+					// We only need to process and cache. No need to check if it exists,
+                    // as getClosestCachedState ensures we start after a cached line.
+					const result = _getHighlightResult(lines[i] || '', currentState);
+					lineStatesCache[i] = JSON.parse(JSON.stringify(result.state)); // Deep copy state into cache
+				}
+
+				// Now, highlight only the visible lines for the response.
+				const highlightedLines = [];
+				for (let i = 0; i < numLinesToRender; i++) {
+					const lineIndex = firstLineToRender + i;
+					if (lineIndex < lines.length) {
+						const result = _getHighlightResult(lines[lineIndex] || '', currentState);
+						highlightedLines.push(result.html);
+						
+						// Update cache for the lines we just rendered, if not already present.
+						if(!lineStatesCache[lineIndex]) {
+							lineStatesCache[lineIndex] = JSON.parse(JSON.stringify(result.state));
+						}
+
+					} else {
+						highlightedLines.push(null); // Signal end of content
+					}
+				}
+
+				self.postMessage({
+					type: 'highlightResult',
+					htmlLines: highlightedLines,
+					requestId: requestId,
+					responseFirstLine: firstLineToRender,
+					scrollTopAtRequest: scrollTopAtRequest,
+					scrollLeftAtRequest: scrollLeftAtRequest
+				});
+				break;
+			}
 	}
 };
+
 
 // --- ALL HIGHLIGHTING LOGIC IS NOW SELF-CONTAINED IN THE WORKER ---
 // (The following functions are the exact same "Soul" logic as before,
@@ -112,10 +130,12 @@ function _getHighlightResult(line,
 	};
 	let html = '';
 	let i = 0;
+	// Create a deep copy of the state for this line's processing to avoid side-effects
+	let processingState = JSON.parse(JSON.stringify(state));
 	while (i < line.length) {
 		const i_before = i;
 		const res = _getToken(line, i,
-			state);
+			processingState);
 		html += res.html;
 		i = res.newIndex;
 		if (i === i_before) {
@@ -124,7 +144,7 @@ function _getHighlightResult(line,
 	}
 	return {
 		html: html || '&nbsp;',
-		state
+		state: processingState
 	};
 }
 
@@ -361,7 +381,7 @@ function _getJSToken(line, i, state) {
 	}
 	const ctlK = new Set(['import',
 		'as', 'from', 'export',
-		'throw ',
+		'throw',
 		'instanceof',
 		'default',
 		'async', 'function',
@@ -373,7 +393,8 @@ function _getJSToken(line, i, state) {
 		'catch', 'finally',
 		'class', 'extends',
 		'get', 'set', 'typeof',
-		'of'
+		'of',
+		'delete'
 	]);
 	const defK = new Set(['const',
 		'let', 'var', 'true',
@@ -666,35 +687,24 @@ function _getCssToken(line, i, state) {
 }
 
 // --- Helper Functions ---
-/**
- * @B"H
- * Finds the next unescaped occurrence of a substring.
- * @param {string} line The string to search in.
- * @param {string} searchString The substring to search for.
- * @param {number} startIndex The index to start the search from.
- * @returns {number} The index of the found substring, or -1 if not found.
- */
 function _findUnescaped(line, searchString, startIndex) {
     for (let i = startIndex; i < line.length; i++) {
         if (line.substring(i).startsWith(searchString)) {
-            // Check if the character is escaped.
             if (i > 0 && line[i - 1] === '\\') {
-                // Count preceding backslashes to see if the escape is itself escaped (e.g., "\\").
                 let backslashCount = 0;
                 let p = i - 1;
                 while (p >= 0 && line[p] === '\\') {
                     backslashCount++;
                     p--;
                 }
-                // If the number of backslashes is odd, the character is escaped.
                 if (backslashCount % 2 !== 0) {
-                    continue; // Skip this one, it's escaped.
+                    continue; 
                 }
             }
-            return i; // Found an unescaped occurrence.
+            return i; 
         }
     }
-    return -1; // Not found.
+    return -1; 
 }
 
 function _escape(s) {

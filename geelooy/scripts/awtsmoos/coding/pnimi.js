@@ -349,15 +349,18 @@ unindentSelection() {
 
 	/** @private @async @function _update - Prepares state and triggers a render. */
 	async _update() {
+		// The `makeQuickWorker` is no longer needed here as the main thread
+		// can split the lines just as fast for its own purposes (caret calculation).
 		const txt = this.textarea.value;
-		try {
-			this.lines = await makeQuickWorker(val => val.split("\n"), txt);
-			
-			
-		} catch (e) {
-			this.lines = txt.split("\n");
-			
-			console.error("Quick worker failed for line splitting, falling back.", e, this.lines);
+		this.lines = txt.split("\n");
+
+		// Inform the worker of the new reality. It will clear its cache.
+		if (this.highlighterWorker) {
+			this.highlighterWorker.postMessage({
+				type: 'setText',
+				text: txt,
+				language: this.language
+			});
 		}
 
 		// --- CHANGE IS HERE ---
@@ -385,8 +388,8 @@ unindentSelection() {
 
 	/**
 	 * @private @function _render
-	 * @description Gathers scroll state and dispatches a request to the worker.
-	 * It NO LONGER manipulates the DOM to prevent race conditions.
+	 * @description Gathers scroll state and dispatches a *lightweight* request to the worker.
+	 * It no longer sends the document text, as the worker already has it.
 	 */
 	_render() {
 		if (!this.lines || !this.lineHeight || !this.highlighterWorker) return;
@@ -398,21 +401,19 @@ unindentSelection() {
 		const firstVisibleLine = Math.floor(scrollTop / this.lineHeight);
 		const firstLineToRender = Math.max(0, firstVisibleLine - BUFFER_LINES);
 
-		// This is still important for discarding wildly out-of-date responses.
 		this.currentFirstLine = firstLineToRender;
 
 		const requestId = ++this.latestRequestId;
 
-		// --- CRITICAL CHANGE ---
-		// We now send the EXACT scrollTop and scrollLeft at the moment of the request.
+		
+		
+		// The message is now very small, containing only render coordinates.
+		// The 'text' property is gone.
 		this.highlighterWorker.postMessage({
 			type: 'highlight',
-			text: this.textarea.value,
-			language: this.language,
 			firstLineToRender: firstLineToRender,
 			numLinesToRender: this.viewportDivs.length,
 			requestId: requestId,
-			// Send the exact scroll coordinates with the request.
 			scrollTopAtRequest: scrollTop,
 			scrollLeftAtRequest: scrollLeft
 		});
@@ -463,18 +464,27 @@ unindentSelection() {
 
 	/**
 	 * @private @function _initializeHighlightingWorker
-	 * @description Summons the soul from its separate realm (`highlighter.worker.js`).
+	 * @description Summons the soul from its separate realm (`highlighter.worker.js`)
+	 * and provides it with the initial text content to populate its memory.
 	 */
 	_initializeHighlightingWorker() {
 		try {
-			// The modern, bundler-friendly way to load a worker from an external file.
-			this.highlighterWorker = new Worker(new URL('./highlighter.worker.js', import.meta.url), {
+			this.highlighterWorker = new Worker(new URL('./highlighter.worker.js',
+				import.meta.url), {
 				type: 'module'
 			});
 			this.highlighterWorker.onmessage = this._onWorkerMessage.bind(this);
 			this.highlighterWorker.onerror = (e) => {
-			 console.error("Error from highlighting worker:", e);
-			 }
+				console.error("Error from highlighting worker:", e);
+			}
+
+			// Send the initial text and language to the worker to prime its state.
+			this.highlighterWorker.postMessage({
+				type: 'setText',
+				text: this.textarea.value,
+				language: this.language
+			});
+
 		} catch (e) {
 			console.error("Failed to initialize the highlighting worker. Highlighting will be disabled.", e);
 		}
