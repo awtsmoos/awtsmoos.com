@@ -1581,7 +1581,3 @@ self.onmessage = function(e) {
     }
 }
 
-
-
-
-.
