@@ -50,73 +50,62 @@ class PgnConverter {
         return fen;
     }
 
+    // IN generateFromPgn.js, REPLACE the parseSan function:
+
     parseSan(san) {
+        // Clean up the SAN string
         const originalSan = san;
         san = san.replace(/[+#?!]/g, '');
 
         if (['1-0', '0-1', '1/2-1/2', '*'].includes(san)) return null;
 
-        // Generate all legal moves from the current position
         const legalMoves = generateMoves(this.currentState);
 
         // Handle Castling
-        if (san === 'O-O') {
-            for (const move of legalMoves) {
-                if (getMoveCastling(move) && getMoveTo(move) > getMoveFrom(move)) return move;
-            }
-        }
-        if (san === 'O-O-O') {
-            for (const move of legalMoves) {
-                if (getMoveCastling(move) && getMoveTo(move) < getMoveFrom(move)) return move;
-            }
-        }
+        if (san === 'O-O') return legalMoves.find(m => getMoveCastling(m) && getMoveTo(m) > getMoveFrom(m));
+        if (san === 'O-O-O') return legalMoves.find(m => getMoveCastling(m) && getMoveTo(m) < getMoveFrom(m));
 
-        // Decode the parts of the SAN string
-        const sanStripped = san.replace('x', '').replace('=', '');
-        const toMatch = sanStripped.match(/([a-h][1-8])$/);
+        // 1. Identify the core components of the move string
+        const pieceType = (san[0] >= 'A' && san[0] <= 'Z') ? 'PNBRQK'.indexOf(san[0]) : P;
+        const toMatch = san.match(/([a-h][1-8])/);
         if (!toMatch) return null;
-
-        const toSq = (8 - parseInt(toMatch[0][1])) * 8 + (toMatch[0].charCodeAt(0) - 'a'.charCodeAt(0));
+        const toSq = (8 - parseInt(toMatch[1][1])) * 8 + (toMatch[1][0].charCodeAt(0) - 'a'.charCodeAt(0));
         
-        let pieceType = (san[0] >= 'A' && san[0] <= 'Z') ? 'PNBRQK'.indexOf(san[0]) : P;
-        let promotionType = 0;
-        if (san.includes('=')) {
-            promotionType = 'PNBRQ'.indexOf(san.slice(-1));
-        }
+        const promotionChar = san.includes('=') ? san.slice(-1) : null;
+        const promotionType = promotionChar ? 'PNBRQ'.indexOf(promotionChar.toUpperCase()) : 0;
 
-        const fromHint = sanStripped.substring(0, sanStripped.length - 2);
+        // Isolate the disambiguation part (e.g., 'R' from 'Rfe1', '5' from 'N5d7')
+        const disambiguationHint = san.replace('x', '').replace(/([a-h][1-8])/, '').replace(/=[QRBN]/, '').substring(pieceType === P ? 0 : 1);
 
-        // Filter the legal moves to find the single matching move
-        const candidateMoves = [];
+        // 2. Filter legal moves based on the parsed information
         for (const move of legalMoves) {
-            // Must be the right piece type moving to the right square
+            // Must be the right piece type and destination
             if (getMovePiece(move) !== pieceType || getMoveTo(move) !== toSq) continue;
-            // Must have the right promotion piece, if specified
+            
+            // If it's a promotion, it must match
             if (promotionType && getMovePromoted(move) !== promotionType) continue;
 
-            // Apply disambiguation rules if a hint (like 'Rfe1' or 'N5d7') is present
-            if (fromHint) {
+            // Apply disambiguation hint if it exists
+            if (disambiguationHint) {
                 const fromSq = getMoveFrom(move);
                 const fromFile = 'abcdefgh'[fromSq % 8];
                 const fromRank = (8 - Math.floor(fromSq / 8)).toString();
-                let match = true;
-                for (const char of fromHint) {
-                    if (fromFile !== char && fromRank !== char) {
-                        match = false;
+
+                let hintMatch = true;
+                for (const char of disambiguationHint) {
+                    if (char !== fromFile && char !== fromRank) {
+                        hintMatch = false;
                         break;
                     }
                 }
-                if (!match) continue;
+                if (!hintMatch) continue;
             }
             
-            candidateMoves.push(move);
+            // If we've passed all checks, this is our move
+            return move;
         }
 
-        if (candidateMoves.length === 1) {
-            return candidateMoves[0];
-        }
-
-        // If we found 0 or >1 moves, the PGN is either invalid or ambiguous.
+        // If no move was found after checking all legal moves, the PGN is invalid.
         return null;
     }
 

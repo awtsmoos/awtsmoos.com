@@ -491,7 +491,7 @@ function evaluate(state) {
     }
     
     const whitePawnFiles = new Set(pieceListsArray[P].map(sq => sq % 8));
-    const blackPawnFiles = new Set(pieceListsArray[p].map(sq => sq % 8));
+    const blackPawnFiles = new Set(pieceListsArray[P+6].map(sq => sq % 8));
 
     // --- 2. Advanced Strategic Bonuses ---
     whiteScore.add(evaluateStrategicBonuses(state, WHITE, pieceListsArray, whitePawnFiles, blackPawnFiles, whiteKingPos));
