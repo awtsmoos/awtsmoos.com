@@ -931,20 +931,18 @@ function initializeEngine() {
     self.postMessage({ type: 'initialization_complete' });
 }
 
-// IN prometheus_engine.js, REPLACE the decodeMove function and the self.onmessage function:
+// IN prometheus_engine.js, REPLACE decodeMove and self.onmessage:
 
-function decodeMove(move, state) {
+function decodeMove(move, turn) {
     const from = getMoveFrom(move);
     const to = getMoveTo(move);
     const promoted = getMovePromoted(move);
-    // *** CRITICAL FIX: The color for promotion depends on whose turn it IS, not whose turn it WILL BE ***
     return {
         from: [Math.floor(from / 8), from % 8],
         to: [Math.floor(to / 8), to % 8],
-        promotion: promoted ? pieceMap[promoted + (state.turn === WHITE ? 0 : 6)] : null
+        promotion: promoted ? pieceMap[promoted + (turn === BLACK ? 6 : 0)] : null
     };
 }
-
 
 self.onmessage = function(e) {
     const { command } = e.data;
@@ -952,50 +950,46 @@ self.onmessage = function(e) {
         case 'initialize':
             initializeEngine();
             break;
-
         case 'calculate_move': {
             if (!isInitialized) { initializeEngine(); }
             const { fen, maxTime } = e.data;
-            const state = createGameState(fen);
+            let state = createGameState(fen);
             
             const hash = state.zobristHash.toString();
             const bookEntry = openingBook.get(hash) || punishmentBook.get(hash);
 
-            if (bookEntry) {
+            if (bookEntry && bookEntry.moves.length > 0) {
                 const randomMove = bookEntry.moves[Math.floor(Math.random() * bookEntry.moves.length)];
                 postMessage({ type: 'move_result', bestMove: randomMove, score: `Book Move: ${bookEntry.name}`, timeTaken: 0, nodesSearched: 0 });
                 return;
             }
 
             const searchResult = searchRoot(state, 99, maxTime || 10000);
+            
             postMessage({
                 type: 'move_result',
-                bestMove: searchResult.bestMove ? decodeMove(searchResult.bestMove, state) : null,
+                bestMove: searchResult.bestMove ? decodeMove(searchResult.bestMove, state.turn) : null,
                 score: searchResult.score,
                 timeTaken: (performance.now() - searchStartTime).toFixed(2),
                 nodesSearched: nodeCount
             });
             break;
         }
-
         case 'analyze_pgn': {
             const { pgnText } = e.data;
             const converter = new PgnConverter();
             const movesSAN = pgnText.replace(/\[.*?\]\s*|{.*?}|\d+\.\s*|\$\d+/g, '').replace(/\s+/g, ' ').trim().split(' ');
-
             const validatedMoves = [];
             const boardHistory = [converter.toFen()];
-            const openingNames = [];
 
             for (const san of movesSAN) {
-                if(!san || ['1-0', '0-1', '1/2-1/2', '*'].includes(san)) continue;
+                if (!san || ['1-0', '0-1', '1/2-1/2', '*'].includes(san)) continue;
                 const move = converter.parseSan(san);
                 if (move == null) {
                     postMessage({ type: 'analysis_error', message: `Invalid PGN: Could not parse move "${san}"` });
                     return;
                 }
-                
-                const decodedMove = decodeMove(move, converter.currentState);
+                const decodedMove = decodeMove(move, converter.currentState.turn);
                 converter.applyMove(move);
                 decodedMove.san = san;
                 validatedMoves.push(decodedMove);
@@ -1006,7 +1000,6 @@ self.onmessage = function(e) {
             postMessage({ type: 'analysis_result', ...lastParsedGame });
             break;
         }
-
         case 'run_engine_analysis': {
             if (!lastParsedGame) break;
             console.log("Starting bitboard game analysis...");
@@ -1028,33 +1021,25 @@ self.onmessage = function(e) {
                 });
                 
                 if (actualMoveInt === undefined) {
-                    console.error("Could not match played move to a legal move!", actualMoveObj, state);
-                    if(legalMoves.length > 0) makeMove(state, legalMoves[0]);
+                    console.error("Could not match played move to a legal move!", actualMoveObj);
+                    if (legalMoves.length > 0) makeMove(state, legalMoves[0]);
                     continue;
                 }
-                
-                // This logic is now clean and should work correctly
-                let classification = 'good';
-                let bestMoveFound = actualMoveInt;
-                
-                const searchResult = searchRoot(state, 99, ANALYSIS_THINKING_TIME);
-                
-                if(searchResult.bestMove !== actualMoveInt) {
-                    const bestMoveEval = searchResult.score;
-                    bestMoveFound = searchResult.bestMove;
 
+                let classification = 'best';
+                const searchResult = searchRoot(state, 99, ANALYSIS_THINKING_TIME);
+                let bestMoveFound = searchResult.bestMove;
+
+                if (bestMoveFound !== actualMoveInt) {
+                    const bestMoveEval = searchResult.score;
                     moveStackPtr = 0;
                     makeMove(state, actualMoveInt);
                     const scoreForUserMove = -searchRoot(state, 99, ANALYSIS_THINKING_TIME).score;
                     unmakeMove(state);
-
                     const evalDrop = bestMoveEval - scoreForUserMove;
                     if (evalDrop > BLUNDER_THRESHOLD) classification = 'blunder';
                     else if (evalDrop > MISTAKE_THRESHOLD) classification = 'mistake';
                     else if (evalDrop > BEST_MOVE_TOLERANCE) classification = 'good';
-                    else classification = 'best';
-                } else {
-                    classification = 'best';
                 }
                 
                 self.postMessage({
@@ -1062,7 +1047,7 @@ self.onmessage = function(e) {
                     index: i,
                     result: {
                         classification: classification,
-                        bestMove: decodeMove(bestMoveFound, state)
+                        bestMove: decodeMove(bestMoveFound, state.turn)
                     }
                 });
                 makeMove(state, actualMoveInt);
