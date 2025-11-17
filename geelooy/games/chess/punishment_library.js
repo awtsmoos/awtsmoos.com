@@ -1487,6 +1487,128 @@ const punishmentBookSource = [
 // WHY: The most solid and reliable way for Black to meet the Torre, neutralizing all of White's early tricks.
 
 
+// =================================================================
+//         THE ULTIMATE BLUNDER ANNIHILATION PACK (v5.0)
+// =================================================================
+// This pack is designed to instantly punish the most common strategic
+// and tactical mistakes made by beginner and intermediate players.
+
+// --- I. Punishing Violations of Opening Principles ---
+
+{ name: "Punish: Beginner Blunder: Moving f-pawn", pgn: "1. e4 e5 2. f3 d5 3. exd5 Qxd5" },
+// WHY: 1...f6 or 1.f3 are terrible moves that weaken the king. This shows the correct central break to immediately seize the advantage.
+
+{ name: "Punish: Beginner Blunder: Early Queen Move (Wayward Queen)", pgn: "1. e4 e5 2. Qh5 Nc6 3. Bc4 g6 4. Qf3 Nf6" },
+// WHY: The engine must know the standard, safe refutation to the Scholar's Mate attack without panicking.
+
+{ name: "Punish: Beginner Blunder: Moving Edge Pawns (a6/h6)", pgn: "1. e4 a6 2. d4 d5" },
+// WHY: When the opponent wastes a tempo moving a wing pawn, the correct response is to immediately seize the center with d4.
+
+{ name: "Punish: Beginner Blunder: Not Developing Pieces", pgn: "1. e4 e5 2. Nf3 a6 3. d4 d6 4. Bc4" },
+// WHY: If the opponent plays passive pawn moves, the engine should know to rapidly develop its pieces to active squares to build an overwhelming initiative.
+
+{ name: "Punish: Beginner Blunder: Moving Knights to the Rim", pgn: "1. e4 e5 2. Nf3 Nc6 3. Nh4 d5" },
+// WHY: "A knight on the rim is dim." The engine should punish this by challenging the misplaced knight and controlling the center.
+
+{ name: "Punish: Beginner Blunder: Blocking in Bishops", pgn: "1. d4 d5 2. e3 Bf5 3. c4" },
+// WHY: When Black plays ...Bf5 before ...e6, White must know to challenge the bishop and the center immediately with c4. The PGN shows the correct idea.
+
+{ name: "Punish: Beginner Blunder: Copycat Moves", pgn: "1. e4 e5 2. Nf3 Nf6 3. Nxe5 Nxe4 4. Qe2" },
+// WHY: A very common beginner trap. If Black mindlessly copies with 3...Nxe4?, White wins material with 4.Qe2. This is the punishment.
+
+
+// --- II. Punishing Common Tactical Oversights ---
+
+{ name: "Punish: Greco's Mate Pattern Setup", pgn: "1. e4 e5 2. Nf3 Nc6 3. Bc4 Bc5 4. O-O Nf6 5. Re1 O-O 6. c3 d6 7. d4 Bb6 8. h3 h6 9. a4 a6 10. Na3 exd4 11. cxd4 Re8 12. Qb3" },
+// WHY: This is not an opening, but a common middlegame setup. The engine must recognize the pattern of sacrificing the rook on h8 after Bxh6. This line leads to a position where such tactics are possible.
+
+{ name: "Punish: Smothered Mate Pattern Setup", pgn: "1. e4 e5 2. Nf3 Nc6 3. Bc4 Nd4 4. Ng5 Qg5" },
+// WHY: This teaches the engine to recognize the classic Queen + Knight mating patterns (Nf7#, etc.).
+
+{ name: "Punish: Back Rank Mate Blunder (Setup)", pgn: "1. e4 e5 2. Nf3 Nc6 3. d4 exd4 4. Nxd4 Nf6 5. Nc3 Bb4 6. Nxc6 bxc6 7. Bd3 O-O 8. O-O d5 9. exd5 cxd5 10. Bg5 c6 11. Qf3 Bd6 12. Bxf6 Qxf6 13. Qxf6 gxf6 14. Ne2 Rb8 15. b3" },
+// WHY: A long line that leads to a common endgame blunder scenario. If Black does not create an escape square (`luft`) for their king, they can fall for a back-rank mate. This line drills that awareness.
+
+{ name: "Punish: Hanging Piece Punishment (Setup)", pgn: "1. e4 c5 2. Nf3 d6 3. d4 cxd4 4. Nxd4 Nf6 5. Nc3 a6 6. Be2 e6 7. O-O Be7 8. Be3 Qc7 9. f4 O-O 10. Kh1 b5 11. a3 Bb7" },
+// WHY: This teaches the engine to be vigilant. At any point, if a piece is left undefended, it should be captured. This line leads to a complex middlegame where such blunders are common.
+
+{ name: "Punish: Fork Pattern Recognition", pgn: "1. e4 e5 2. Nf3 d6 3. Bc4 Be7 4. Nc3 Nf6 5. d4 Nbd7 6. O-O O-O 7. Qe2 c6 8. a4 Qc7 9. Bg5" },
+// WHY: This line creates the potential for knight forks on d7 or f7 and bishop forks. It's a training pattern for tactical vision.
+
+{ name: "Punish: Skewer Pattern Recognition", pgn: "1. d4 d5 2. c4 e6 3. Nc3 Nf6 4. Bg5 Be7 5. e3 O-O 6. Nf3 Nbd7 7. Rc1 c6 8. Bd3 dxc4 9. Bxc4 Nd5 10. Bxe7 Qxe7 11. O-O Nxc3 12. Rxc3 e5" },
+// WHY: Leads to positions where rooks and queens can create skewers along ranks and files, a critical tactical motif.
+
+{ name: "Punish: Pin and Win Pattern", pgn: "1. e4 c5 2. Nf3 Nc6 3. d4 cxd4 4. Nxd4 Nf6 5. Nc3 e5 6. Ndb5 d6 7. Bg5 a6 8. Na3 b5 9. Nd5" },
+// WHY: The Sveshnikov is a masterclass in pins. The Bg5 pin is the entire basis of the variation. This deepens the engine's understanding of this crucial tactic.
+
+
+// --- III. Refuting More Unsound Gambits & Dubious Setups ---
+
+{ name: "Refute: Danish Gambit (Goering Variation)", pgn: "1. e4 e5 2. d4 exd4 3. c3 dxc3 4. Nxc3 d6" },
+// WHY: A solid and safe way for Black to handle the Danish, simply giving back one pawn to complete development and get a good game.
+
+{ name: "Refute: Albin Countergambit (Spassky Variation)", pgn: "1. d4 d5 2. c4 e5 3. dxe5 d4 4. Nf3 Nc6 5. a3" },
+// WHY: The modern, calm approach for White. It avoids all of Black's tactical tricks and guarantees a small but lasting advantage.
+
+{ name: "Refute: King's Gambit (Rosentreter Gambit)", pgn: "1. e4 e5 2. f4 exf4 3. Nf3 g5 4. d4 g4 5. Ne5 Qh4+ 6. g3 fxg3 7. Qxg4 Qxg4 8. Nxg4 d5" },
+// WHY: A very sharp line where Black must know the correct defense to survive and win.
+
+{ name: "Refute: Sicilian Defense (Morphy Gambit)", pgn: "1. e4 c5 2. d4 cxd4 3. Nf3 Nc6 4. Nxd4 e5 5. Nb5 a6" },
+// WHY: An old and not very dangerous line, but the engine should know the simple and effective response.
+
+{ name: "Refute: Englund Gambit (Zilbermints Gambit)", pgn: "1. d4 e5 2. dxe5 Nc6 3. Nf3 Nge7 4. Bf4 Ng6 5. Bg3" },
+// WHY: One of the many tricky but unsound follow-ups to the Englund. The engine must know to calmly defend the e5 pawn and develop.
+
+{ name: "Refute: Budapest Gambit (Alekhine Variation)", pgn: "1. d4 Nf6 2. c4 e5 3. dxe5 Ng4 4. e4 Nxe5 5. f4" },
+// WHY: White's most aggressive and principled response, seizing a huge space advantage in the center.
+
+{ name: "Refute: Halloween Gambit (Main Refutation)", pgn: "1. e4 e5 2. Nf3 Nc6 3. Nc3 Nf6 4. Nxe5 Nxe5 5. d4 Nc6 6. d5 Ne5 7. f4 Ng6 8. e5 Ng8" },
+// WHY: The most common online gambit. This is the theoretically correct refutation that leaves Black with a winning advantage.
+
+{ name: "Refute: Scotch Gambit (Relfsson Gambit)", pgn: "1. e4 e5 2. Nf3 Nc6 3. d4 exd4 4. Bc4 Bb4+ 5. c3 dxc3 6. O-O" },
+// WHY: Black should accept this gambit and then develop simply to consolidate the extra pawn.
+
+{ name: "Refute: Vienna Game (Hamppe-Muzio Gambit)", pgn: "1. e4 e5 2. Nc3 Nc6 3. f4 exf4 4. Nf3 g5 5. Bc4 g4 6. O-O gxf3 7. Qxf3 Ne5" },
+// WHY: The critical defensive move for Black, which refutes White's attack.
+
+{ name: "Refute: Elephant Gambit (Maroczy Gambit)", pgn: "1. e4 e5 2. Nf3 d5 3. exd5 Bd6 4. Nc3" },
+// WHY: White's best response, developing calmly and preparing to exploit the weaknesses in Black's position.
+
+{ name: "Refute: Latvian Gambit (Svedenborg Variation)", pgn: "1. e4 e5 2. Nf3 f5 3. Nc3" },
+// WHY: A simple, strong, and safe way for White to get a large advantage against the unsound Latvian.
+
+
+// --- IV. Deepening Refutations for Intermediate Blunders ---
+
+{ name: "Punish: Benoni Defense (The Snake Benoni)", pgn: "1. d4 Nf6 2. c4 c5 3. d5 e6 4. Nc3 exd5 5. cxd5 Bd6 6. e4" },
+// WHY: A strange bishop development that is easily punished by White's central space grab.
+
+{ name: "Punish: Trompowsky Attack (Raptor Variation Refuted)", pgn: "1. d4 Nf6 2. Bg5 Ne4 3. h4 c5 4. dxc5 Qa5+ 5. Nd2" },
+// WHY: The Raptor (3.h4) is a hyper-aggressive idea. This calm response for Black refutes the attack and takes over the initiative.
+
+{ name: "Punish: London System (Pereyra Gambit)", pgn: "1. d4 d5 2. Bf4 Nf6 3. e3 c5 4. c3 Nc6 5. Nf3 Qb6 6. Qb3" },
+// WHY: A solid way for White to neutralize Black's early queen sortie and keep the typical London advantage.
+
+{ name: "Punish: Sicilian, Alapin (Barmen Defense)", pgn: "1. e4 c5 2. c3 d5 3. exd5 Qxd5 4. d4 Nc6 5. Nf3 Bf5 6. Be3" },
+// WHY: A tricky setup for Black. White's simple development is the best way to prove an advantage.
+
+{ name: "Punish: French Defense (Milner-Barry Gambit)", pgn: "1. e4 e6 2. d4 d5 3. e5 c5 4. c3 Nc6 5. Nf3 Qb6 6. Bd3 cxd4 7. O-O" },
+// WHY: Black must not play 7...dxc3? due to 8.Nxc3 with a crushing attack. This PGN shows White correctly setting up the gambit.
+
+{ name: "Punish: Caro-Kann (Gurgenidze Gambit)", pgn: "1. e4 c6 2. d4 d5 3. Nc3 b5 4. exd5 b4 5. Ne4" },
+// WHY: A dubious wing gambit. White simply develops the knight and gets a better position.
+
+{ name: "Punish: King's Indian Attack (Keres Variation)", pgn: "1. g3 e5 2. Bg2 d5 3. Nf3 e4 4. Nd4" },
+// WHY: A solid way to handle Black's central push against the KIA.
+
+{ name: "Punish: Pirc Defense (Kholmov System)", pgn: "1. e4 d6 2. d4 Nf6 3. Nc3 g6 4. Bc4 Bg7 5. Qe2" },
+// WHY: A dangerous attacking system against the Pirc that the engine must know how to execute.
+
+{ name: "Punish: English Opening (Bellon Gambit)", pgn: "1. c4 e5 2. Nc3 Nf6 3. Nf3 e4 4. Ng5 b5 5. Ngxe4" },
+// WHY: White should simply call Black's bluff, capture the pawn, and enjoy a better position.
+
+{ name: "Punish: Torre Attack (Classical Defense)", pgn: "1. d4 Nf6 2. Nf3 e6 3. Bg5 d5 4. Nbd2 Be7" },
+// WHY: The most solid and reliable way for Black to meet the Torre, neutralizing all of White's early tricks.
+
 
 
 
