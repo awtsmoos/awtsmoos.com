@@ -2498,6 +2498,136 @@ const punishmentBookSource = [
 
 
 
+/* B"H */
+
+// =================================================================
+//         THE GRANDMASTER'S ENCYCLOPEDIA OF ERRORS (v6.0 - FINAL)
+// =================================================================
+// This definitive collection covers the most famous and instructive traps,
+// gambits, and blunders in chess history, ensuring the engine can
+// instantly annihilate any known, unsound idea.
+
+// --- I. Famous "Named" Traps Every Strong Player Must Know ---
+
+{ name: "The Rubinstein Trap (in QGD)", pgn: "1. d4 d5 2. c4 e6 3. Nc3 Nf6 4. Bg5 Be7 5. e3 O-O 6. Nf3 Nbd7 7. Qc2 c5 8. cxd5 Nxd5 9. Bxe7 Qxe7 10. Nxd5 exd5 11. dxc5 Nxc5 12. Be2 Bg4 13. O-O Rac8 14. Rac1 Ne4 15. Qd3" },
+// WHY: A deep positional trap. If White plays 15.Qxc8??, Black wins with 15...Rxc8 16.Rxc8+ Bxc8. This PGN shows the engine correctly avoiding the trap.
+
+{ name: "The Tarrasch Trap (in QGD)", pgn: "1. d4 d5 2. c4 e6 3. Nc3 c5 4. cxd5 exd5 5. Nf3 Nc6 6. g3 Nf6 7. Bg2 Be7 8. O-O O-O 9. Bg5 cxd4 10. Nxd4 h6 11. Be3 Re8 12. Qb3 Na5" },
+// WHY: After this move, White can blunder with 13.Qc2?? allowing 13...Ng4 winning the bishop pair. The PGN shows the correct setup for Black.
+
+{ name: "The Waskow-Steinitz Trap (in Ruy Lopez)", pgn: "1. e4 e5 2. Nf3 Nc6 3. Bb5 d6 4. d4 Bd7 5. O-O Nf6 6. Re1 Be7 7. c3 O-O 8. Nbd2 a6 9. Ba4 b5 10. Bc2 Re8 11. a4" },
+// WHY: This line sets a deep trap. If White gets greedy later, Black can win material. It teaches the engine to recognize long-term tactical possibilities.
+
+{ name: "The Mayet Trap (in King's Gambit)", pgn: "1. e4 e5 2. f4 exf4 3. Nf3 g5 4. Bc4 Bg7 5. d4 d6 6. c3 h6 7. O-O Nc6 8. g3" },
+// WHY: A common trap where White sacrifices a pawn to open the g-file for a crushing attack. This PGN shows White setting up the idea.
+
+{ name: "The K-T-N Trap (in Caro-Kann)", pgn: "1. e4 c6 2. d4 d5 3. Nc3 dxe4 4. Nxe4 Nf6 5. Nxf6+ exf6 6. c3 Bd6 7. Bd3 O-O 8. Qc2 Re8+ 9. Ne2 h5" },
+// WHY: Black must play 9...h5! If they play 9...h6??, they fall into a classic trap with 10.Bxh6 gxh6 11.Qd2, and White's attack is overwhelming. This PGN shows the correct defense.
+
+{ name: "The Obukhiv-Byvshev Trap (in Sicilian)", pgn: "1. e4 c5 2. Nf3 d6 3. d4 cxd4 4. Nxd4 Nf6 5. Nc3 a6 6. Be3 e5 7. Nb3 Be6 8. f3 Be7 9. Qd2 O-O 10. O-O-O Nbd7 11. g4 b5 12. g5 b4 13. gxf6" },
+// WHY: A deep trap in the Najdorf. White sacrifices a piece for a pawn storm, and Black must defend precisely. This PGN shows the critical moment.
+
+
+// --- II. Annihilating More Dubious Gambits ---
+
+{ name: "The Cochrane Gambit Refuted", pgn: "1. e4 e5 2. Nf3 Nf6 3. Nxe5 d6 4. Nxf7 Kxf7 5. Nc3 c5" },
+// WHY: A critical knight sacrifice in the Petroff. This calm move for Black is considered one of the best ways to consolidate and prove the sacrifice was unsound.
+
+{ name: "The Muzio Gambit Refuted", pgn: "1. e4 e5 2. f4 exf4 3. Nf3 g5 4. Bc4 g4 5. O-O gxf3 6. Qxf3 Qf6 7. e5 Qxe5" },
+// WHY: The most aggressive version of the King's Gambit. This is the main line refutation where Black grabs material and defends.
+
+{ name: "The Reti Gambit", pgn: "1. e4 e5 2. Nf3 d5 3. exd5 e4 4. Qe2 f5 5. d3" },
+// WHY: A sharp counter-gambit. White's moves are the most principled way to fight for an advantage.
+
+{ name: "The Villemson Gambit", pgn: "1. e4 e5 2. d4 d5 3. exd5 exd4 4. c4" },
+// WHY: An obscure gambit that is easily refuted by Black's simple development and central control.
+
+{ name: "The Charlick Gambit Refuted", pgn: "1. d4 e5 2. dxe5 d6 3. exd6 Bxd6 4. Nf3 Nf6" },
+// WHY: An unsound version of the Englund gambit. White simply develops and enjoys a safe, extra pawn.
+
+{ name: "The Diemer-Duhm Gambit Refuted", pgn: "1. d4 d5 2. e4 dxe4 3. c4 e5 4. d5 f5 5. Nc3" },
+// WHY: A strange gambit that gives Black a very strong pawn center. White must play carefully, as shown.
+
+{ name: "The From's Gambit: Lasker Variation", pgn: "1. f4 e5 2. fxe5 d6 3. exd6 Bxd6 4. Nf3 g5 5. g3" },
+// WHY: 4...g5 is Black's most dangerous try. 5.g3 is the solid, correct response for White to neutralize the attack.
+
+
+// --- III. Exploiting Common Strategic Blunders ---
+
+{ name: "Strategic Blunder: Premature Fianchetto", pgn: "1. e4 g6 2. d4 Bg7 3. c4 d6 4. Nc3 e5 5. d5" },
+// WHY: If Black plays a hypermodern setup too passively, White must know to seize the entire center with pawns, getting a massive space advantage.
+
+{ name: "Strategic Blunder: Giving up the Bishop Pair for free", pgn: "1. e4 e5 2. Nf3 Nc6 3. Bb5 a6 4. Ba4 Nf6 5. O-O Be7 6. Bxc6 dxc6" },
+// WHY: While the Ruy Lopez Exchange is sound, this PGN serves as a template. The engine should learn to avoid trading its bishop for a knight without a clear strategic reason (like shattering pawn structure).
+
+{ name: "Strategic Blunder: Allowing an Isolated Queen's Pawn", pgn: "1. d4 d5 2. c4 e6 3. Nc3 Nf6 4. Nf3 c5 5. cxd5 exd5 6. Bg5" },
+// WHY: This is the main line of the Tarrasch Defense. It is sound, but the engine must know how to play against the resulting Isolated Queen's Pawn (IQP), by blockading it and attacking it.
+
+{ name: "Strategic Blunder: Creating a weak King Position", pgn: "1. e4 e5 2. Nf3 Nc6 3. Bc4 h6 4. d4" },
+// WHY: A move like 3...h6 is a common beginner mistake. It's not a tactical blunder, but it's a waste of time. The engine must punish it by immediately striking in the center.
+
+{ name: "Strategic Blunder: Misplacing Pieces", pgn: "1. d4 Nf6 2. c4 e6 3. Nc3 Bb4 4. Qc2 O-O 5. a3 Bxc3+ 6. Qxc3 b6 7. Bg5 h6 8. Bh4 g5" },
+// WHY: In the Nimzo-Indian, 8...g5 is a major positional blunder that creates permanent weaknesses around the king. This PGN shows White correctly inducing this error.
+
+// --- IV. Annihilating More Truly Bad Openings ---
+
+{ name: "The Amar Opening (Ammonia/Paris Opening) Refuted", pgn: "1. Nh3 d5 2. g3 e5" },
+// WHY: 1.Nh3 is a terrible move. Black must simply take the center.
+
+{ name: "The Ware Opening Refuted", pgn: "1. a4 e5 2. d4 exd4" },
+// WHY: Punishes another wasted tempo by occupying and then opening the center.
+
+{ name: "The Clemenz Opening Refuted", pgn: "1. h3 e5 2. d4 exd4" },
+// WHY: Same principle as above. Seize the center against passive wing moves.
+
+{ name: "The Mieses Opening Refuted", pgn: "1. d3 e5 2. e4 d5" },
+// WHY: Allows Black to get a favorable version of an e4-e5 opening.
+
+{ name: "The Kadas Opening Refuted", pgn: "1. h4 e5 2. d4" },
+// WHY: The same punishment principle applies.
+
+{ name: "The Desprez Opening (1.h4) Refuted", pgn: "1. h4 e5 2. d4" },
+// WHY: Instantly refuting the flank move with a central push.
+
+{ name: "The Global Opening (1.h3 a6) Refuted", pgn: "1. h3 a6 2. e4 e5 3. d4" },
+// WHY: If both sides waste tempi, the engine (as either White or Black) should know to be the first to occupy the center.
+
+// --- V. Final Set of Instructive Punishments ---
+
+{ name: "Sicilian Defense: The Mengarini Gambit", pgn: "1. e4 c5 2. a3 Nc6 3. d4 cxd4 4. Nf3" },
+// WHY: A rare and harmless gambit. Black should just continue with normal development.
+
+{ name: "French Defense: The La Bourdonnais Variation", pgn: "1. e4 e6 2. f4 d5 3. e5 c5" },
+// WHY: This is a passive version of the King's Gambit against the French. Black's moves are the most principled response.
+
+{ name: "Queen's Gambit Declined: The Albin-Chatard-Alekhine Attack", pgn: "1. d4 d5 2. c4 e6 3. Nc3 Nf6 4. Bg5 Be7 5. e3 h6 6. h4" },
+// WHY: A dubious attacking idea. Black should not be afraid and should call White's bluff by capturing with 6...hxg5.
+
+{ name: "Englund Gambit: The Hartlaub-Charlick Gambit", pgn: "1. d4 e5 2. dxe5 d6 3. exd6 Bxd6" },
+// WHY: Another unsound branch of the Englund. White is simply a pawn up for free.
+
+{ name: "Benoni Defense: The Cormorant Gambit", pgn: "1. d4 Nf6 2. c4 c5 3. d5 b5 4. cxb5 a6 5. b6" },
+// WHY: An interesting way for White to decline the Benko Gambit, creating unique positional problems for Black.
+
+{ name: "Alekhine's Defense: The Brooklyn Attack", pgn: "1. e4 Nf6 2. e5 Ng8 3. d4 d5" },
+// WHY: A timid retreat. White should seize the entire center and get a huge advantage.
+
+{ name: "Giuoco Piano: The Lucchini Gambit", pgn: "1. e4 e5 2. Nf3 Nc6 3. Bc4 Bc5 4. d4 exd4 5. Ng5" },
+// WHY: A flawed attacking idea. Black defends easily and enjoys the extra pawn.
+
+{ name: "King's Indian Defense: The Normal Defense", pgn: "1. d4 Nf6 2. c4 g6 3. Nc3 Bg7 4. e4 d6 5. Nf3 O-O 6. Be2 Na6" },
+// WHY: A passive knight move that allows White to get a pleasant space advantage.
+
+{ name: "Ruy Lopez: The Columbus Gambit", pgn: "1. e4 e5 2. Nf3 Nc6 3. Bb5 a6 4. Ba4 b5 5. Bb3 Na5 6. O-O" },
+// WHY: Black wastes time to trade off the 'Spanish Bishop'. White should ignore it and continue developing to get a better position.
+
+{ name: "Sicilian Defense: The Snyder Variation", pgn: "1. e4 c5 2. b3 Nc6 3. Bb2 e5" },
+// WHY: Black strikes in the center to punish White's slow wing-based setup.
+
+{ name: "Four Knights Game: The Halloween Gambit Accepted", pgn: "1. e4 e5 2. Nf3 Nc6 3. Nc3 Nf6 4. Nxe5 Nxe5 5. d4 Ng6 6. e5 Ng8 7. Bc4" },
+// WHY: This shows the correct way for White to follow up after Black correctly accepts and defends against the Halloween Gambit. White gets strong compensation for the piece.
+
+
 
 
 
