@@ -283,7 +283,12 @@ function getGamePhase(state) {
     currentPhase += popcount(state.pieceBitboards[Q] | state.pieceBitboards[Q + 6]) * 4;
     return Math.min(currentPhase, MAX_PHASE) / MAX_PHASE;
 }
+// REPLACE the old evaluate AND evaluateThreats functions in awtsmoos_chess_engine.js with this new block.
+
 function evaluate(state) {
+    // --- PERFORMANCE FIX: Generate attack maps ONCE for the entire evaluation ---
+    const attackMaps = generateAttackMaps(state);
+
     const gamePhase = getGamePhase(state);
     let whiteScore = new TaperedScore(), blackScore = new TaperedScore();
     const pieceLists = state.pieceLists;
@@ -314,8 +319,11 @@ function evaluate(state) {
     
     whiteScore.add(evaluateStrategicBonuses(state, WHITE, pieceLists, whitePawnFiles, blackPawnFiles, whiteKingPos));
     blackScore.add(evaluateStrategicBonuses(state, BLACK, pieceLists, blackPawnFiles, whitePawnFiles, blackKingPos));
-    whiteScore.subtract(evaluateThreats(state, WHITE, pieceLists));
-    blackScore.subtract(evaluateThreats(state, BLACK, pieceLists));
+    
+    // --- Pass the pre-calculated attack maps to the helper functions ---
+    whiteScore.subtract(evaluateThreats(state, WHITE, attackMaps));
+    blackScore.subtract(evaluateThreats(state, BLACK, attackMaps));
+    
     if(whiteKingPos) whiteScore.subtract(evaluateKingSafety(state, whiteKingPos, BLACK, pieceLists));
     if(blackKingPos) blackScore.subtract(evaluateKingSafety(state, blackKingPos, WHITE, pieceLists));
 
@@ -323,6 +331,36 @@ function evaluate(state) {
     const finalBlack = (blackScore.mg * gamePhase) + (blackScore.eg * (1 - gamePhase));
     const evaluation = Math.round(finalWhite - finalBlack);
     return (state.turn === WHITE ? 1 : -1) * evaluation;
+}
+
+function evaluateThreats(state, color, attackMaps) {
+    const penalty = new TaperedScore();
+
+    const [ourColor, enemyColor] = (color === WHITE) ? [WHITE, BLACK] : [BLACK, WHITE];
+    const enemyAttackMap = (enemyColor === WHITE) ? attackMaps.white : attackMaps.black;
+    const enemyPawnAttacks = (enemyColor === WHITE) ? attackMaps.white_pawns : attackMaps.black_pawns;
+    
+    // Get bitboards for our major and minor pieces
+    const ourKnights = state.pieceBitboards[ourColor * 6 + N];
+    const ourBishops = state.pieceBitboards[ourColor * 6 + B];
+    const ourRooks = state.pieceBitboards[ourColor * 6 + R];
+    const ourQueens = state.pieceBitboards[ourColor * 6 + Q];
+
+    // Penalize our pieces being attacked by their pawns (a very significant threat)
+    const PAWN_THREAT_PENALTY = 200; // A high, flat penalty for being attacked by a pawn
+    penalty.mg += popcount(ourKnights & enemyPawnAttacks) * PAWN_THREAT_PENALTY;
+    penalty.mg += popcount(ourBishops & enemyPawnAttacks) * PAWN_THREAT_PENALTY;
+    penalty.mg += popcount(ourRooks & enemyPawnAttacks) * 300;
+    penalty.mg += popcount(ourQueens & enemyPawnAttacks) * 450;
+
+    // Apply a smaller penalty for any piece being on a square controlled by any enemy piece.
+    // This correctly identifies hanging or poorly-placed pieces.
+    const HANGING_PIECE_PENALTY = 35; // A smaller, general penalty
+    penalty.mg += popcount((ourKnights | ourBishops) & enemyAttackMap) * HANGING_PIECE_PENALTY;
+    penalty.mg += popcount(ourRooks & enemyAttackMap) * (HANGING_PIECE_PENALTY + 20);
+    penalty.mg += popcount(ourQueens & enemyAttackMap) * (HANGING_PIECE_PENALTY + 40);
+    
+    return penalty;
 }
 function evaluateStrategicBonuses(state, color, pieceLists, friendlyPawnFiles, enemyPawnFiles, myKingPos) {
     const score = new TaperedScore(); const isWhite = color === WHITE; const startRank = isWhite ? 7 : 0;
@@ -358,39 +396,6 @@ function evaluateStrategicBonuses(state, color, pieceLists, friendlyPawnFiles, e
 
 
 
-function evaluateThreats(state, color, pieceLists) {
-    const penalty = new TaperedScore();
-    const attackMaps = generateAttackMaps(state);
-
-    const [ourColor, enemyColor] = (color === WHITE) ? [WHITE, BLACK] : [BLACK, WHITE];
-    const enemyAttackMap = (enemyColor === WHITE) ? attackMaps.white : attackMaps.black;
-
-    // Check for attacks on our valuable pieces by their pawns
-    const enemyPawnAttacks = (enemyColor === WHITE) ? attackMaps.white_pawns : attackMaps.black_pawns;
-    const ourKnights = state.pieceBitboards[ourColor * 6 + N];
-    const ourBishops = state.pieceBitboards[ourColor * 6 + B];
-    const ourRooks = state.pieceBitboards[ourColor * 6 + R];
-    const ourQueens = state.pieceBitboards[ourColor * 6 + Q];
-
-    penalty.mg += popcount(ourKnights & enemyPawnAttacks) * 150; // Pawn attacking a knight is very bad
-    penalty.mg += popcount(ourBishops & enemyPawnAttacks) * 150; // Pawn attacking a bishop
-    penalty.mg += popcount(ourRooks & enemyPawnAttacks) * 250;   // Pawn attacking a rook
-    penalty.mg += popcount(ourQueens & enemyPawnAttacks) * 400;  // Pawn attacking a queen
-
-    // Check for hanging pieces (attacked by a lesser piece)
-    // Example: A knight attacking a rook
-    const enemyKnightAttacks = attackMaps[(enemyColor === WHITE) ? 'white' : 'black'] & ~enemyPawnAttacks; // Approximate non-pawn attacks
-    
-    // This is a simplified but fast heuristic for general threats.
-    // We penalize any piece that is on a square controlled by the enemy.
-    const minorPenalty = 20;
-    penalty.mg += popcount(ourKnights & enemyAttackMap) * minorPenalty;
-    penalty.mg += popcount(ourBishops & enemyAttackMap) * minorPenalty;
-    penalty.mg += popcount(ourRooks & enemyAttackMap) * 40; // Rooks are more valuable targets
-    penalty.mg += popcount(ourQueens & enemyAttackMap) * 50; // Queens are most valuable
-
-    return penalty;
-}
 
 
 
