@@ -1534,54 +1534,58 @@ case 'analyze_pgn':
                 return;
             }
 
-            console.log("Starting full game analysis from cached data...");
+            console.log("Starting real-time game analysis from cached data...");
             
-            // --- Use the new helper to initialize the search environment ---
             initializeSearch(99999999); // Use a very large time limit for analysis
 
             const { moves, initialFen } = lastParsedGame;
-            const analysisResults = [];
-            
             const game = new PgnConverter();
             game.currentState = createGameState(initialFen);
 
-            for (const actualMove of moves) {
-                // Initialize repetition history for this specific position's search
+            for (let i = 0; i < moves.length; i++) {
+                const actualMove = moves[i];
                 repetitionHistory = [game.currentState.zobristHash];
                 
-                // Get the evaluation of the position BEFORE the move
-                const evalBeforeMove = -evaluate(game.currentState);
-
-                // Find the best possible move in this position
-                const searchResult = searchRoot(game.currentState, 3); // Shallow search is fast
+                const searchResult = searchRoot(game.currentState, 3);
                 const bestMoveEval = searchResult.score;
+                const bestMoveFound = searchResult.bestMove;
 
-                // Apply the ACTUAL move from the game
                 game.applyMove(actualMove);
                 
-                // Get the evaluation of the position AFTER the actual move
                 const evalAfterMove = evaluate(game.currentState);
-
                 const evalDrop = (game.currentState.turn === 'b' ? 1 : -1) * (bestMoveEval - evalAfterMove);
 
-                let classification = 'good';
-                if (evalDrop > 200) {
+                // --- NEW COMPREHENSIVE CLASSIFICATION LOGIC ---
+                let classification = 'good'; // Default
+                if (evalDrop > 250) {
                     classification = 'blunder';
-                } else if (evalDrop > 80) {
+                } else if (evalDrop > 90) {
                     classification = 'mistake';
-                } else if (bestMoveEval > 50 && actualMove.capturedPiece && pieceValues[actualMove.capturedPiece.toLowerCase()].mg > pieceValues[actualMove.piece.toLowerCase()].mg) {
-                    classification = 'brilliant';
+                } else if (evalDrop <= 15) {
+                    // This was the best or a nearly-best move.
+                    classification = 'best';
+                }
+                
+                // Check for brilliant sacrifices
+                if (evalDrop < -50 && actualMove.capturedPiece && pieceValues[actualMove.capturedPiece.toLowerCase()].mg > pieceValues[actualMove.piece.toLowerCase()].mg) {
+                     classification = 'brilliant';
                 }
 
-                analysisResults.push({
-                    classification: classification,
-                    bestMove: searchResult.bestMove
+
+                // --- STREAM THE RESULT FOR THIS MOVE ---
+                self.postMessage({
+                    type: 'analysis_update',
+                    index: i,
+                    result: {
+                        classification: classification,
+                        bestMove: bestMoveFound
+                    }
                 });
             }
 
+            // --- SEND A FINAL "FINISHED" MESSAGE ---
             self.postMessage({
-                type: 'full_analysis_complete',
-                results: analysisResults
+                type: 'analysis_finished'
             });
             console.log("Full game analysis complete.");
             break;

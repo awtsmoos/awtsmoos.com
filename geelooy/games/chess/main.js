@@ -210,11 +210,21 @@ aiWorker.onmessage = function(e) {
             break;
             
             
-        case 'full_analysis_complete':
-            analysisState.classifications = e.data.results;
-            updateMoveListWithAnalysis();
-            displayAnalysisPosition(analysisState.currentMoveIndex); // Refresh view
+        case 'analysis_update': {
+            const { index, result } = e.data;
+            // Store the result
+            analysisState.classifications[index] = result;
+            // Update the UI for just this one move
+            updateSingleMoveWithAnalysis(index, result);
             break;
+        }
+            
+        case 'analysis_finished': {
+            openingNameDisplay.textContent = "Analysis Complete!";
+            // Re-draw the currently viewed move in case its hint needs to be shown
+            displayAnalysisPosition(analysisState.currentMoveIndex);
+            break;
+        }
     }
 };
 
@@ -1317,6 +1327,37 @@ function drawAnalysisBoard() {
 	    return board;
 	}
 	
+	function updateSingleMoveWithAnalysis(index, result) {
+    const moveElements = document.querySelectorAll('.move-text-item');
+    const targetElement = Array.from(moveElements).find(el => parseInt(el.dataset.moveIndex) === index);
+
+    if (!targetElement) return;
+
+    // Define all icons, including for good moves
+    const icons = {
+        brilliant: '⭐', // Star for brilliant
+        best: '✅',      // Checkmark for best
+        good: '✓',       // Smaller check for good
+        mistake: '⚠️',    // Warning for mistake
+        blunder: '❌'     // X for blunder
+    };
+
+    const icon = icons[result.classification];
+
+    if (icon) {
+        // Remove any existing icon before adding a new one
+        const existingIcon = targetElement.querySelector('.move-icon');
+        if (existingIcon) existingIcon.remove();
+
+        const iconSpan = document.createElement('span');
+        iconSpan.className = 'move-icon';
+        iconSpan.textContent = icon + ' ';
+        targetElement.prepend(iconSpan);
+    }
+}
+	
+	
+	
 	/**
 	 * Calculates the game phase based on the pieces on the board.
 	 * Returns a value from 1.0 (full opening) to 0.0 (late endgame).
@@ -1408,9 +1449,12 @@ runAnalysisButton.onclick = () => {
         return;
     }
     
+    // Clear previous analysis icons and data
+    analysisState.classifications = [];
+    document.querySelectorAll('.move-icon').forEach(icon => icon.remove());
+    
     openingNameDisplay.textContent = "Analyzing game, please wait...";
 
-    // Send the new, simpler command. No need to send the PGN again!
     aiWorker.postMessage({
         command: 'run_engine_analysis'
     });
