@@ -1534,6 +1534,9 @@ case 'analyze_pgn':
 
 
 
+/* B"H */
+
+// --- REPLACE the 'run_engine_analysis' case with this DEFINITIVE, LOGICALLY SOUND version ---
 case 'run_engine_analysis': {
     if (!lastParsedGame) {
         postMessage({ type: 'analysis_error', message: "No PGN has been loaded to analyze." });
@@ -1542,6 +1545,8 @@ case 'run_engine_analysis': {
 
     console.log("Starting real-time game analysis from cached data...");
     
+    // Set a consistent depth for all analysis searches
+    const ANALYSIS_DEPTH = 3;
     initializeSearch(99999999); 
 
     const { moves, initialFen, openingNames } = lastParsedGame;
@@ -1557,38 +1562,60 @@ case 'run_engine_analysis': {
         let classification = 'good';
         let bestMoveFound = null;
 
+        // --- STEP 1: HANDLE CHECKMATES AND BOOK MOVES (NO SEARCH NEEDED) ---
+        const unmakeInfoForMateCheck = makeMove(game.currentState, actualMove);
+        const legalMovesForOpponent = generateLegalMoves(game.currentState);
+        const opponentKingPos = game.currentState.kingPos[game.currentState.turn];
+        const isCheckmate = legalMovesForOpponent.length === 0 && opponentKingPos && isSquareAttacked(game.currentState.board, opponentKingPos.r, opponentKingPos.c, game.currentState.turn === 'w' ? 'b' : 'w');
+        unmakeMove(game.currentState, unmakeInfoForMateCheck);
+
         const isBookMove = openingNames[i + 1] !== null && i < 30;
 
-        if (isBookMove) {
+        if (isCheckmate || isBookMove) {
             classification = 'best';
             bestMoveFound = actualMove;
         } else {
-            repetitionHistory = [game.currentState.zobristHash];
+            // --- STEP 2: PERFORM COMPARATIVE DEEP SEARCH FOR NON-TRIVIAL MOVES ---
             
-            // Get the evaluation of the current position and the engine's best move
-            const searchResult = searchRoot(game.currentState, 3);
+            // Search 1: Find the absolute best move and its true search score.
+            repetitionHistory = [game.currentState.zobristHash];
+            const searchResult = searchRoot(game.currentState, ANALYSIS_DEPTH);
             const bestMoveEval = searchResult.score;
             bestMoveFound = searchResult.bestMove;
 
-            // Apply the player's move to a temporary state to see its evaluation
-            const unmakeInfo = makeMove(game.currentState, actualMove);
-            // The eval is from the next player's perspective, so we negate it to get the value for the current player
-            const evalAfterUserMove = -evaluate(game.currentState); 
-            unmakeMove(game.currentState, unmakeInfo);
-            
-            // This is the crucial value: the difference in score between the best move and the played move.
-            const evalDrop = bestMoveEval - evalAfterUserMove;
+            // *** THE CRUCIAL SANITY CHECK ***
+            // If the engine's best move is the same as the move played, it MUST be a 'best' move.
+            // This overrides any potential floating-point weirdness in the search scores.
+            const playedIsBest = bestMoveFound && actualMove &&
+                                 bestMoveFound.from[0] === actualMove.from[0] &&
+                                 bestMoveFound.from[1] === actualMove.from[1] &&
+                                 bestMoveFound.to[0] === actualMove.to[0] &&
+                                 bestMoveFound.to[1] === actualMove.to[1];
 
-            if (evalDrop > BLUNDER_THRESHOLD) {
-                classification = 'blunder';
-            } else if (evalDrop > MISTAKE_THRESHOLD) {
-                classification = 'mistake';
-            } else if (evalDrop <= BEST_MOVE_TOLERANCE) {
+            if (playedIsBest) {
                 classification = 'best';
-                // If the played move is within tolerance, the "best move" IS the played move.
-                bestMoveFound = actualMove; 
+                bestMoveFound = actualMove;
             } else {
-                classification = 'good';
+                // Search 2: Get the true search score for the move the user ACTUALLY played.
+                const unmakeInfo = makeMove(game.currentState, actualMove);
+                // We get the score by running the same search function from the resulting position.
+                // The score is negated because the turn has flipped. This gives us an apples-to-apples comparison.
+                const scoreForUserMove = -search(game.currentState, ANALYSIS_DEPTH - 1, -Infinity, Infinity, 1, false);
+                unmakeMove(game.currentState, unmakeInfo);
+                
+                // Now we compare two deep search scores, which is logically sound.
+                const evalDrop = bestMoveEval - scoreForUserMove;
+
+                if (evalDrop > BLUNDER_THRESHOLD) {
+                    classification = 'blunder';
+                } else if (evalDrop > MISTAKE_THRESHOLD) {
+                    classification = 'mistake';
+                } else if (evalDrop <= BEST_MOVE_TOLERANCE) {
+                    classification = 'best';
+                    bestMoveFound = actualMove; 
+                } else {
+                    classification = 'good';
+                }
             }
         }
 
@@ -1599,7 +1626,7 @@ case 'run_engine_analysis': {
             index: i,
             result: {
                 classification: classification,
-                bestMove: bestMoveFound // This is now guaranteed to be correct.
+                bestMove: bestMoveFound
             }
         });
     }
