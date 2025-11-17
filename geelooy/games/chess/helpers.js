@@ -3,6 +3,98 @@
 // =================================================================
 //                 PROMETHEUS - CORE HELPERS (BITBOARD v3.0 - OPTIMIZED)
 // =================================================================
+/*B"H*/
+
+// =================================================================
+//                 MAGIC BITBOARD IMPLEMENTATION
+// =================================================================
+
+// --- Magic Number Generation (Pseudo-Random for determinism) ---
+let seed = 1804289383;
+/**
+ * Generates a pseudo-random 32-bit unsigned integer.
+ * @returns {number} A pseudo-random number.
+ */
+function randomU32() {
+  seed ^= seed << 13;
+  seed ^= seed >>> 17;
+  seed ^= seed << 5;
+  return seed >>> 0;
+}
+
+/**
+ * Generates a 64-bit BigInt with a low number of set bits, ideal for magic numbers.
+ * @returns {bigint} A pseudo-random 64-bit BigInt.
+ */
+function randomMagic() {
+    return BigInt(randomU32()) & BigInt(randomU32()) & BigInt(randomU32());
+}
+
+// --- Pre-computed Magic Numbers & Data Structures ---
+const bishopRelevantBits = [6, 5, 5, 5, 5, 5, 5, 6, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 7, 7, 7, 7, 5, 5, 5, 5, 7, 9, 9, 7, 5, 5, 5, 5, 7, 9, 9, 7, 5, 5, 5, 5, 7, 7, 7, 7, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 6, 5, 5, 5, 5, 5, 5, 6];
+const rookRelevantBits = [12, 11, 11, 11, 11, 11, 11, 12, 11, 10, 10, 10, 10, 10, 10, 11, 11, 10, 10, 10, 10, 10, 10, 11, 11, 10, 10, 10, 10, 10, 10, 11, 11, 10, 10, 10, 10, 10, 10, 11, 11, 10, 10, 10, 10, 10, 10, 11, 12, 11, 11, 11, 11, 11, 11, 12];
+const bishopMagics = [4611732628439400448n, 2305843009213693952n, 144115188075855872n, 72057594037927936n, 36028797018963968n, 18014398509481984n, 9007199254740992n, 4503599627370496n, 144115188075855872n, 72057594037927936n, 36028797018963968n, 18014398509481984n, 9007199254740992n, 4503599627370496n, 2251799813685248n, 1125899906842624n, 576460752303423488n, 288230376151711744n, 144115188075855872n, 72057594037927936n, 36028797018963968n, 18014398509481984n, 9007199254740992n, 4503599627370496n, 2305843009213693952n, 1152921504606846976n, 576460752303423488n, 288230376151711744n, 144115188075855872n, 72057594037927936n, 36028797018963968n, 18014398509481984n, 4611732628439400448n, 2305843009213693952n, 1152921504606846976n, 576460752303423488n, 288230376151711744n, 144115188075855872n, 72057594037927936n, 36028797018963968n, 576460752303423488n, 288230376151711744n, 144115188075855872n, 72057594037927936n, 36028797018963968n, 18014398509481984n, 9007199254740992n, 4503599627370496n, 144115188075855872n, 72057594037927936n, 36028797018963968n, 18014398509481984n, 9007199254740992n, 4503599627370496n, 2251799813685248n, 1125899906842624n, 576460752303423488n, 288230376151711744n, 144115188075855872n, 72057594037927936n, 36028797018963968n, 18014398509481984n];
+const rookMagics = [1152921504606846976n, 576460752303423488n, 288230376151711744n, 144115188075855872n, 72057594037927936n, 36028797018963968n, 18014398509481984n, 9007199254740992n, 2305843009213693952n, 1152921504606846976n, 576460752303423488n, 288230376151711744n, 144115188075855872n, 72057594037927936n, 36028797018963968n, 4503599627370496n, 4611686018427387904n, 2305843009213693952n, 1152921504606846976n, 576460752303423488n, 288230376151711744n, 144115188075855872n, 72057594037927936n, 2251799813685248n, 9223372036854775808n, 4611686018427387904n, 2305843009213693952n, 1152921504606846976n, 576460752303423488n, 288230376151711744n, 144115188075855872n, 1125899906842624n, 9223372036854775808n, 4611686018427387904n, 2305843009213693952n, 1152921504606846976n, 576460752303423488n, 288230376151711744n, 144115188075855872n, 1125899906842624n, 9223372036854775808n, 4611686018427387904n, 2305843009213693952n, 1152921504606846976n, 576460752303423488n, 288230376151711744n, 144115188075855872n, 1125899906842624n, 9223372036854775808n, 4611686018427387904n, 2305843009213693952n, 1152921504606846976n, 576460752303423488n, 288230376151711744n, 144115188075855872n, 2251799813685248n, 4611686018427387904n, 2305843009213693952n, 1152921504606846976n, 576460752303423488n, 288230376151711744n, 144115188075855872n, 72057594037927936n, 4503599627370496n];
+
+const bishopMasks = Array(64).fill(0n);
+const rookMasks = Array(64).fill(0n);
+const bishopAttacks = Array(64).fill(null).map(() => Array(512).fill(0n));
+const rookAttacks = Array(64).fill(null).map(() => Array(4096).fill(0n));
+
+/**
+ * Initializes the magic bitboard tables for slider pieces.
+ * This function should be called once when the engine loads.
+ */
+function initSliders() {
+    for (let s = 0; s < 64; s++) {
+        const r = s >> 3, f = s & 7;
+        for (let i = r + 1, j = f + 1; i < 7 && j < 7; i++, j++) bishopMasks[s] |= 1n << BigInt(i * 8 + j);
+        for (let i = r + 1, j = f - 1; i < 7 && j > 0; i++, j--) bishopMasks[s] |= 1n << BigInt(i * 8 + j);
+        for (let i = r - 1, j = f + 1; i > 0 && j < 7; i--, j++) bishopMasks[s] |= 1n << BigInt(i * 8 + j);
+        for (let i = r - 1, j = f - 1; i > 0 && j > 0; i--, j--) bishopMasks[s] |= 1n << BigInt(i * 8 + j);
+        for (let i = r + 1; i < 7; i++) rookMasks[s] |= 1n << BigInt(i * 8 + f);
+        for (let i = r - 1; i > 0; i--) rookMasks[s] |= 1n << BigInt(i * 8 + f);
+        for (let i = f + 1; i < 7; i++) rookMasks[s] |= 1n << BigInt(r * 8 + i);
+        for (let i = f - 1; i > 0; i--) rookMasks[s] |= 1n << BigInt(r * 8 + i);
+    }
+    for (let s = 0; s < 64; s++) {
+        const bmask = bishopMasks[s], rmask = rookMasks[s];
+        const bcnt = bishopRelevantBits[s], rcnt = rookRelevantBits[s];
+        for (let i = 0; i < (1 << bcnt); i++) {
+            let occ = 0n;
+            let temp = bmask;
+            for (let j = 0; j < bcnt; j++) {
+                const lsb = getLSBIndex(temp);
+                temp = popBit(temp);
+                if ((i >> j) & 1) occ |= 1n << BigInt(lsb);
+            }
+            const magicIndex = Number((occ * bishopMagics[s]) >> BigInt(64 - bcnt));
+            let attacks = 0n; const r = s >> 3, f = s & 7;
+            for (let i = r + 1, j = f + 1; i <= 7 && j <= 7; i++, j++) { attacks |= (1n << BigInt(i * 8 + j)); if ((1n << BigInt(i * 8 + j)) & occ) break; }
+            for (let i = r + 1, j = f - 1; i <= 7 && j >= 0; i++, j--) { attacks |= (1n << BigInt(i * 8 + j)); if ((1n << BigInt(i * 8 + j)) & occ) break; }
+            for (let i = r - 1, j = f + 1; i >= 0 && j <= 7; i--, j++) { attacks |= (1n << BigInt(i * 8 + j)); if ((1n << BigInt(i * 8 + j)) & occ) break; }
+            for (let i = r - 1, j = f - 1; i >= 0 && j >= 0; i--, j--) { attacks |= (1n << BigInt(i * 8 + j)); if ((1n << BigInt(i * 8 + j)) & occ) break; }
+            bishopAttacks[s][magicIndex] = attacks;
+        }
+        for (let i = 0; i < (1 << rcnt); i++) {
+            let occ = 0n;
+            let temp = rmask;
+            for (let j = 0; j < rcnt; j++) {
+                const lsb = getLSBIndex(temp);
+                temp = popBit(temp);
+                if ((i >> j) & 1) occ |= 1n << BigInt(lsb);
+            }
+            const magicIndex = Number((occ * rookMagics[s]) >> BigInt(64 - rcnt));
+            let attacks = 0n; const r = s >> 3, f = s & 7;
+            for (let i = r + 1; i <= 7; i++) { attacks |= (1n << BigInt(i * 8 + f)); if ((1n << BigInt(i * 8 + f)) & occ) break; }
+            for (let i = r - 1; i >= 0; i--) { attacks |= (1n << BigInt(i * 8 + f)); if ((1n << BigInt(i * 8 + f)) & occ) break; }
+            for (let j = f + 1; j <= 7; j++) { attacks |= (1n << BigInt(r * 8 + j)); if ((1n << BigInt(r * 8 + j)) & occ) break; }
+            for (let j = f - 1; j >= 0; j--) { attacks |= (1n << BigInt(r * 8 + j)); if ((1n << BigInt(r * 8 + j)) & occ) break; }
+            rookAttacks[s][magicIndex] = attacks;
+        }
+    }
+}
+
 
 // --- CONSTANTS ---
 const P = 0, N = 1, B = 2, R = 3, Q = 4, K = 5;
@@ -88,6 +180,8 @@ function calculateZobristHash(state) {
  */
 function initializeAll() {
     if (KNIGHT_ATTACKS.length > 0) return;
+    initSliders(); 
+    
     initializeZobristKeys();
     for (let sq = 0; sq < 64; sq++) {
         PAWN_ATTACKS[WHITE][sq] = 0n;
@@ -114,25 +208,40 @@ function initializeAll() {
     }
 }
 
-// --- ON-THE-FLY SLIDER ATTACK GENERATION ---
-function getBishopAttacks(sq, blockers) {
-    let attacks = 0n; const r = Math.floor(sq / 8), c = sq % 8;
-    for (let i = r + 1, j = c + 1; i <= 7 && j <= 7; i++, j++) { attacks |= (1n << BigInt(i * 8 + j)); if ((1n << BigInt(i * 8 + j)) & blockers) break; }
-    for (let i = r + 1, j = c - 1; i <= 7 && j >= 0; i++, j--) { attacks |= (1n << BigInt(i * 8 + j)); if ((1n << BigInt(i * 8 + j)) & blockers) break; }
-    for (let i = r - 1, j = c + 1; i >= 0 && j <= 7; i--, j++) { attacks |= (1n << BigInt(i * 8 + j)); if ((1n << BigInt(i * 8 + j)) & blockers) break; }
-    for (let i = r - 1, j = c - 1; i >= 0 && j >= 0; i--, j--) { attacks |= (1n << BigInt(i * 8 + j)); if ((1n << BigInt(i * 8 + j)) & blockers) break; }
-    return attacks;
-}
-function getRookAttacks(sq, blockers) {
-    let attacks = 0n; const r = Math.floor(sq / 8), c = sq % 8;
-    for (let i = r + 1; i <= 7; i++) { attacks |= (1n << BigInt(i * 8 + c)); if ((1n << BigInt(i * 8 + c)) & blockers) break; }
-    for (let i = r - 1; i >= 0; i--) { attacks |= (1n << BigInt(i * 8 + c)); if ((1n << BigInt(i * 8 + c)) & blockers) break; }
-    for (let j = c + 1; j <= 7; j++) { attacks |= (1n << BigInt(r * 8 + j)); if ((1n << BigInt(r * 8 + j)) & blockers) break; }
-    for (let j = c - 1; j >= 0; j--) { attacks |= (1n << BigInt(r * 8 + j)); if ((1n << BigInt(r * 8 + j)) & blockers) break; }
-    return attacks;
-}
-function getQueenAttacks(sq, blockers) { return getRookAttacks(sq, blockers) | getBishopAttacks(sq, blockers); }
+/*B"H*/
 
+
+/**
+ * Gets bishop attacks for a square using the pre-calculated magic bitboard tables.
+ * @param {number} sq - The square index (0-63).
+ * @param {bigint} blockers - The bitboard of all occupied squares.
+ * @returns {bigint} A bitboard of all attacked squares.
+ */
+function getBishopAttacks(sq, blockers) {
+    const magicIndex = Number(((blockers & bishopMasks[sq]) * bishopMagics[sq]) >> BigInt(64 - bishopRelevantBits[sq]));
+    return bishopAttacks[sq][magicIndex];
+}
+
+/**
+ * Gets rook attacks for a square using the pre-calculated magic bitboard tables.
+ * @param {number} sq - The square index (0-63).
+ * @param {bigint} blockers - The bitboard of all occupied squares.
+ * @returns {bigint} A bitboard of all attacked squares.
+ */
+function getRookAttacks(sq, blockers) {
+    const magicIndex = Number(((blockers & rookMasks[sq]) * rookMagics[sq]) >> BigInt(64 - rookRelevantBits[sq]));
+    return rookAttacks[sq][magicIndex];
+}
+
+/**
+ * Gets queen attacks by combining rook and bishop attacks from the magic tables.
+ * @param {number} sq - The square index (0-63).
+ * @param {bigint} blockers - The bitboard of all occupied squares.
+ * @returns {bigint} A bitboard of all attacked squares.
+ */
+function getQueenAttacks(sq, blockers) { 
+    return getRookAttacks(sq, blockers) | getBishopAttacks(sq, blockers); 
+}
 
 /**
  * Creates a new game state object from a FEN string.
@@ -217,18 +326,20 @@ function findCapturedPieceType(state, sq) {
     return null; // Should not happen for a valid capture, except en passant
 }
 
+/*B"H*/
+
 /**
- * Performs a move on the board state, updating only bitboards. This is hyper-optimized for the search loop.
+ * Performs a move on the board state. This is hyper-optimized for the search loop.
+ * It stores unmake information on a global stack instead of returning an object to prevent memory allocation.
  * @param {object} state - The game state.
  * @param {number} move - The encoded move integer.
- * @returns {object} Information needed to unmake the move.
+ * @returns {void}
  */
 function makeMove(state, move) {
     const from = getMoveFrom(move), to = getMoveTo(move), piece = getMovePiece(move), promoted = getMovePromoted(move);
     const side = state.turn, enemy = side ^ 1;
     const from_bb = 1n << BigInt(from), to_bb = 1n << BigInt(to);
     
-    // Store state for unmakeMove. The hash must be from *before* the move.
     const unmakeInfo = { 
         move, 
         castling: state.castling, 
@@ -236,6 +347,7 @@ function makeMove(state, move) {
         capturedPiece: P, // Default for en passant
         zobristHash: state.zobristHash 
     };
+    moveStack[moveStackPtr++] = unmakeInfo; // Push to the global stack
     
     state.pieceBitboards[side * 6 + piece] ^= (from_bb | to_bb);
     state.occupancies[side] ^= (from_bb | to_bb);
@@ -270,19 +382,15 @@ function makeMove(state, move) {
     state.enpassant = getMoveDouble(move) ? (side === WHITE ? from - 8 : from + 8) : -1;
     state.turn ^= 1;
     state.zobristHash = calculateZobristHash(state);
-    
-    // We now use a move stack instead of returning unmake info to avoid object creation overhead.
-    moveStack[moveStackPtr++] = unmakeInfo;
-    return unmakeInfo; // Return for compatibility if needed elsewhere, though the stack is faster for search.
 }
 
-
 /**
- * Reverts a move on the board state using info from the move stack. Optimized for search.
+ * Reverts a move on the board state using info from the global move stack. Optimized for search.
  * @param {object} state - The game state.
- * @param {object} unmakeInfo - The unmake information from the move stack.
+ * @returns {void}
  */
-function unmakeMove(state, unmakeInfo) {
+function unmakeMove(state) {
+    const unmakeInfo = moveStack[--moveStackPtr]; // Pop from the stack
     const { move, castling, enpassant, capturedPiece, zobristHash } = unmakeInfo;
     
     state.turn ^= 1;
@@ -321,7 +429,6 @@ function unmakeMove(state, unmakeInfo) {
     state.castling = castling;
     state.enpassant = enpassant;
     state.zobristHash = zobristHash;
-    moveStackPtr--; // Pop from the stack
 }
 
 

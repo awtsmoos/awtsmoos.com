@@ -490,110 +490,145 @@ function quiesce(state, alpha, beta) {
 }
 
 
+/*B"H*/
 /**
  * The core alpha-beta search function with PVS, transposition tables, and other enhancements.
+ * This version is fully optimized to prevent memory allocation and use fast TT lookups.
  * @param {object} state - The game state.
  * @param {number} depth - The remaining depth to search.
- * @param {number} alpha - The alpha value.
- * @param {number} beta - The beta value.
- * @param {number} ply - The current ply from the root.
- * @returns {number} The evaluated score of the position.
+ * @param {number} alpha - The lower bound of the search window.
+ * @param {number} beta - The upper bound of the search window.
+ * @param {number} ply - The current ply from the root, used for mate score adjustment.
+ * @returns {number} The evaluated score of the position relative to the side to move.
  */
 function search(state, depth, alpha, beta, ply) {
+    // --- 1. Base Cases and Exit Conditions ---
+
+    // If we've reached a terminal node in this branch, switch to quiescence search.
     if (depth <= 0) {
         return quiesce(state, alpha, beta);
     }
 
+    // Periodically check if the allotted time has been exceeded.
     if ((nodeCount & 2047) === 0 && performance.now() - searchStartTime > timeLimit) {
         stopSearch = true;
     }
-    if (stopSearch) return 0;
+    if (stopSearch) {
+        return 0; // Bail out immediately if the stop signal is received.
+    }
     nodeCount++;
-    
-    // Repetition check
+
+    // Check for threefold repetition. A repeated position is usually a draw.
+    // We check every other move for the same color's turn.
     for (let i = moveStackPtr - 2; i >= 0; i -= 2) {
-        if (moveStack[i].zobristHash === state.zobristHash) return CONTEMPT_FACTOR;
+        if (moveStack[i].zobristHash === state.zobristHash) {
+            return CONTEMPT_FACTOR; // Return a slight penalty to discourage bland draws.
+        }
     }
 
-    const ttEntry = transpositionTable.get(state.zobristHash.toString());
+    // --- 2. Transposition Table Lookup ---
+
+    const ttEntry = transpositionTable.get(state.zobristHash);
     if (ply > 0 && ttEntry && ttEntry.depth >= depth) {
         let score = ttEntry.score;
+
+        // Adjust mate scores from the TT. A mate found at a deeper ply (e.g., ply 5)
+        // is better than the same mate found at the root (ply 1).
         if (score > MATE_SCORE - MATE_IN_MAX_PLY) score -= ply;
         if (score < -MATE_SCORE + MATE_IN_MAX_PLY) score += ply;
 
         if (ttEntry.flag === TT_EXACT) return score;
         if (ttEntry.flag === TT_LOWERBOUND) alpha = Math.max(alpha, score);
         else if (ttEntry.flag === TT_UPPERBOUND) beta = Math.min(beta, score);
-        if (alpha >= beta) return score;
+        
+        if (alpha >= beta) return score; // The stored value caused a cutoff.
     }
+
+    // --- 3. Move Generation and Iteration ---
 
     const moves = generateMoves(state);
     const orderedMoves = orderMoves(moves, state, ply);
     
     let legalMovesFound = 0;
     let bestScore = -Infinity;
-    let ttFlag = TT_UPPERBOUND;
+    let ttFlag = TT_UPPERBOUND; // Assume we won't raise alpha.
     let bestMoveForNode = 0;
 
     for (const move of orderedMoves) {
-        const unmakeInfo = makeMove(state, move);
+        makeMove(state, move);
         
-        // This is the performance critical legality check.
+        // A move is only legal if it does not leave the king in check.
         const kingSq = getLSBIndex(state.pieceBitboards[(state.turn ^ 1) * 6 + K]);
         if (isSquareAttacked_lean(state, kingSq, state.turn)) {
-            unmakeMove(state, unmakeInfo);
+            unmakeMove(state);
             continue;
         }
         legalMovesFound++;
 
+        // --- 4. Recursive Search Call (with PVS) ---
         let score;
         if (legalMovesFound === 1) {
+            // First move: Perform a full-window search. This establishes the principal variation.
             score = -search(state, depth - 1, -beta, -alpha, ply + 1);
-        } else { // Principal Variation Search (PVS)
+        } else {
+            // Subsequent moves: Assume they are worse and test with a minimal "zero-window".
             score = -search(state, depth - 1, -alpha - 1, -alpha, ply + 1);
+            
+            // If the zero-window search failed high (score > alpha), it means this move is
+            // better than our current best. We must re-search with a full window.
             if (score > alpha && score < beta) {
                 score = -search(state, depth - 1, -beta, -alpha, ply + 1);
             }
         }
 
-        unmakeMove(state, unmakeInfo);
-        if (stopSearch) return 0;
+        unmakeMove(state);
 
+        if (stopSearch) return 0; // Check again after the recursive call.
+
+        // --- 5. Alpha-Beta Pruning Logic ---
         if (score > bestScore) {
             bestScore = score;
             bestMoveForNode = move;
         }
 
         if (bestScore > alpha) {
-            ttFlag = TT_EXACT;
+            ttFlag = TT_EXACT; // We have found a new best move, so this is a PV-node.
             alpha = bestScore;
         }
 
         if (alpha >= beta) {
+            // This move is too good; the opponent will not allow this line. Prune the rest.
             if (!getMoveCapture(move)) {
+                // Store quiet moves that cause cutoffs as "killer moves".
                 if(killerMoves[ply] && killerMoves[ply][0] !== move) {
                     killerMoves[ply][1] = killerMoves[ply][0];
                 }
                 killerMoves[ply][0] = move;
+                // Reward this quiet move in the history table.
                 historyTable[getMovePiece(move) + ((state.turn^1) * 6)][getMoveTo(move)] += depth * depth;
             }
-            transpositionTable.set(state.zobristHash.toString(), { score: beta, depth: depth, flag: TT_LOWERBOUND, move: move });
+            // Store this position in the TT as a lower bound.
+            transpositionTable.set(state.zobristHash, { score: beta, depth: depth, flag: TT_LOWERBOUND, move: move });
             return beta;
         }
     }
 
+    // --- 6. Handle Checkmate and Stalemate ---
+
     if (legalMovesFound === 0) {
         const kingInCheck = isSquareAttacked_lean(state, getLSBIndex(state.pieceBitboards[state.turn * 6 + K]), state.turn ^ 1);
-        return kingInCheck ? -MATE_SCORE + ply : 0; // Checkmate or stalemate
+        // If there are no legal moves, it's either checkmate or stalemate.
+        // Add ply to the score so the engine prefers faster mates.
+        return kingInCheck ? -MATE_SCORE + ply : 0;
     }
 
+    // --- 7. Store Final Result in Transposition Table ---
     if (bestMoveForNode) {
-       transpositionTable.set(state.zobristHash.toString(), { score: bestScore, depth: depth, flag: ttFlag, move: bestMoveForNode });
+       transpositionTable.set(state.zobristHash, { score: bestScore, depth: depth, flag: ttFlag, move: bestMoveForNode });
     }
     
     return bestScore;
 }
-
 
 /**
  * The root of the search function, using iterative deepening.
