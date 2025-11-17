@@ -207,7 +207,8 @@ const NOT_AB_FILE = 18229723555195321596n;
  */
 function getLSBIndex(bb) {
     if (bb === 0n) return -1;
-    const index = Number((((bb & -bb) * deBruijn64)) >> 58n);
+    const index = Number(((((bb & -bb) * deBruijn64)) & 0xffffffffffffffffn) >> 58n);
+    
     return lsb_64_table[index];
 }
 
