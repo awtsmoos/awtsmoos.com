@@ -610,6 +610,7 @@ function drawAnalysisBoard() {
 
         // 2. THIS IS THE MISSING LOGIC: Check for analysis and draw the hint arrow
         const analysisResult = analysisState.classifications[analysisState.currentMoveIndex];
+        console. log("moves",analysisResult)
         if (analysisResult && (analysisResult.classification === 'mistake' || analysisResult.classification === 'blunder')) {
             const bestMove = analysisResult.bestMove;
             if (bestMove && bestMove.from && bestMove.to) {
