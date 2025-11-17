@@ -845,57 +845,22 @@ function isStalemateBlunder(state, currentEval) {
 
 
 
-// =================================================================
-//                 ADVANCED SEARCH & MOVE ORDERING (Mk. V)
-// =================================================================
 // ====================================================================================
-//    FINAL, COMPLETE, AND OPTIMIZED SEARCH FUNCTIONS (MAKE/UNMAKE ARCHITECTURE)
+//            REPLACE YOUR OLD searchRoot() FUNCTION WITH THIS ONE
 // ====================================================================================
-// This block contains the three core functions for the high-performance search.
-// Replace your old searchRoot, search, and quiesce functions with these.
-
-/**
- * The root of the search. It manages the iterative deepening loop and calls the main search function.
- * This is the only function that should be called from the main worker thread.
- * @param {object} initialState - The starting game state for the search.
- * @param {number} maxDepth - The maximum depth for iterative deepening.
- * @returns {object} The best move found and the final evaluation.
- */
-// ====================================================================================
-//                 FINAL SEARCH WITH NULL MOVE RECURSION GUARD
-// ====================================================================================
-
-// ====================================================================================
-//            FINAL, ROBUST, AND STABLE searchRoot (ASPIRATION WINDOWS REMOVED)
-// ====================================================================================
-
-// ====================================================================================
-//            FINAL, ROBUST searchRoot WITH CORRECT ASPIRATION WINDOWS
-// ====================================================================================
-// This version correctly implements aspiration windows, restoring search speed
-// and depth without causing an infinite loop.
-
-// ====================================================================================
-//            FINAL, ROBUST, AND CORRECT searchRoot (STABLE AND FAST)
-// ====================================================================================
-// This version uses a simple, standard, and bug-free iterative deepening loop.
-// It will restore the engine's performance and playing strength.
-
-// ====================================================================================
-//            BUGFIXED & CORRECT searchRoot (STABLE AND FAST)
-// ====================================================================================
-// This version removes the incorrect repetition history management that was causing
-// the "0 nodes searched" bug.
+// This version adds dynamic time management to think harder when tempted to repeat.
 function searchRoot(initialState, maxDepth) {
     let bestMove = null;
     let bestScore = -Infinity;
     const moves = generateLegalMoves(initialState);
+    const ABSOLUTE_MAX_TIME = 7000; // The hard 7-second ceiling you requested
 
     if (moves.length === 0) {
         return { bestMove: null, score: evaluate(initialState) };
     }
 
-    const timerId = setTimeout(() => { stopSearch = true; }, timeLimit - 50);
+    let timerId = setTimeout(() => { stopSearch = true; }, timeLimit - 50);
+    let repetitionFoundAsBestMove = false; // Flag to track if we're settling on a repetition
 
     for (let currentDepth = 1; currentDepth <= maxDepth; currentDepth++) {
         const orderedMoves = orderMoves(moves, initialState, bestMove, 0);
@@ -908,27 +873,8 @@ function searchRoot(initialState, maxDepth) {
         for (let i = 0; i < orderedMoves.length; i++) {
             const move = orderedMoves[i];
             
-            
             if (stopSearch) break;
 
-            // === NEW: FUTILITY PRUNING LOGIC ===
-        // We only apply this heuristic if:
-        // - We are not in check.
-        // - We are in the late-middle to endgame (ply > 0).
-        // - The move is a quiet move (not a capture or promotion).
-        // - The search depth is low (we are near the horizon).
-       /* if (!inCheck && ply > 0 && !move.capture && !move.promotion && depth <= 3) {
-            const futilityMargin = [0, 150, 350, 550][depth]; // Margin increases as depth gets shallower
-            
-            // If the current evaluation plus the margin is still worse than alpha,
-            // this move is unlikely to be good enough, so we skip (prune) it.
-            if (staticEval + futilityMargin <= alpha) {
-                continue; // Prune this move
-            }
-            }
-            */
-            
-            
             const unmakeInfo = makeMove(initialState, move);
             let score;
 
@@ -957,8 +903,38 @@ function searchRoot(initialState, maxDepth) {
             }
         }
 
+        // *** NEW LOGIC: After searching a depth, check if the best move is a repetition ***
+        repetitionFoundAsBestMove = false; // Reset flag for this depth
+        if (bestMoveForThisDepth) {
+            const unmakeInfo = makeMove(initialState, bestMoveForThisDepth);
+            if (repetitionHistory.includes(initialState.zobristHash)) {
+                 if (DEBUG_MODE) console.warn(`Engine wants to repeat at depth ${currentDepth}. Will consider extending time.`);
+                 repetitionFoundAsBestMove = true;
+            }
+            unmakeMove(initialState, unmakeInfo);
+        }
+
+        // *** MODIFIED LOGIC: Check time and decide whether to extend ***
         if (stopSearch) {
-            break;
+            const elapsedTime = performance.now() - searchStartTime;
+            // If we are about to stop due to time, BUT our best move is a repetition,
+            // AND we are under the absolute time limit, then we grant an extension.
+            if (repetitionFoundAsBestMove && elapsedTime < ABSOLUTE_MAX_TIME) {
+                if (DEBUG_MODE) console.log(`REPETITION PENALTY: Extending search time to ${ABSOLUTE_MAX_TIME}ms max.`);
+                
+                // Keep searching by resetting the stop flag
+                stopSearch = false;
+                
+                // Update the global time limit to the new hard ceiling
+                timeLimit = ABSOLUTE_MAX_TIME;
+                
+                // Clear the old timer and set a new one for the remaining time
+                clearTimeout(timerId);
+                timerId = setTimeout(() => { stopSearch = true; }, timeLimit - elapsedTime);
+            } else {
+                // Otherwise, if no repetition or time is truly up, break as normal
+                break;
+            }
         }
 
         bestMove = bestMoveForThisDepth;
@@ -1028,40 +1004,30 @@ function searchRoot(initialState, maxDepth) {
 // The ONLY change is to the return value inside the repetition block to make the
 // engine avoid draws when it is winning.
 
+// ====================================================================================
+//            REPLACE YOUR OLD search() FUNCTION WITH THIS ONE
+// ====================================================================================
+// This version adds a 'contempt' factor to discourage repetitions early.
 function search(state, depth, alpha, beta, ply, previousMoveWasNull) {
     if ((nodeCount & 2047) === 0 && performance.now() - searchStartTime > timeLimit) stopSearch = true;
     if (stopSearch) return 0;
-    
-    const trueRepetitionCount = repetitionHistory.filter(h => h === state.zobristHash).length - 1;
-    // --- CRITICALLY FIXED REPETITION AND ANTI-DRAW LOGIC ---
-    if (ply > 0 && trueRepetitionCount >= 2) { 
-        const staticEval = evaluate(state);
-        
-        // Anti-Draw: If anyone has an advantage, the draw is a loss of the game
-        if (Math.abs(staticEval) > 0) {
-             return -MATE_SCORE + ply; 
-        }
-        
-        // If 0.00, it's still a catastrophic loss of the game to prevent future repetitions
-        return -MATE_SCORE + ply; 
-    }
-    
-    
-    
-    // 2. Imminent Repetition Penalty (2nd instance - The Final Gate)
-    // When the engine plays a move that brings the repetition count to 1 (meaning the position
-    // has already occurred once before), we apply a progressive penalty.
-    if (ply > 0 && trueRepetitionCount === 1) { 
-        const staticEval = evaluate(state);
-        
-        // Penalize the draw heavily, but not as severely as the final draw.
-        // This makes the engine prefer a unique move.
-        // Penalty: A full Rook of positional value.
-        if (staticEval > 0) return -500; // If winning, -500 penalty
-        if (staticEval < 0) return 500;  // If losing, +500 bonus
-    }
-    // --- END OF FIX ---
 
+    // --- NEW: CONTEMPT FACTOR FOR 2-FOLD REPETITION ---
+    // If we have seen this position before, apply a small penalty.
+    // This encourages the engine to avoid repeating moves unless it has to.
+    // The value is small, like losing a fraction of a pawn's value.
+    const isRepetition = ply > 0 && repetitionHistory.slice(0, -1).includes(state.zobristHash);
+    if (isRepetition) {
+        // Return a score of -100 (contempt) which makes this path less attractive.
+        return -100;
+    }
+
+    // --- EXISTING 3-FOLD REPETITION LOGIC (As a final backstop) ---
+    const trueRepetitionCount = repetitionHistory.filter(h => h === state.zobristHash).length - 1;
+    if (ply > 0 && trueRepetitionCount >= 2) {
+        return -MATE_SCORE + ply; // A forced draw is still treated as a loss
+    }
+    
     if (ply >= MATE_IN_MAX_PLY) return evaluate(state);
 
     const ttEntry = transpositionTable.get(state.zobristHash.toString());
@@ -1077,7 +1043,7 @@ function search(state, depth, alpha, beta, ply, previousMoveWasNull) {
     if (inCheck) depth++;
     const staticEval = evaluate(state);
 
-    // Null Move Pruning (Logic assumed correct with the make/unmake fix)
+    // Null Move Pruning
     if (!inCheck && !previousMoveWasNull && ply > 0 && depth >= NULL_MOVE_R + 1) {
         const unmakeInfo = makeMove(state, { isNullMove: true });
         repetitionHistory.push(state.zobristHash);
@@ -1099,7 +1065,6 @@ function search(state, depth, alpha, beta, ply, previousMoveWasNull) {
         const move = orderedMoves[i];
         const unmakeInfo = makeMove(state, move);
         
-        // Legality check
         const originalTurn = state.turn === 'w' ? 'b' : 'w';
         const kingPos = state.kingPos[originalTurn];
         if (kingPos && isSquareAttacked(state.board, kingPos.r, kingPos.c, state.turn)) {
@@ -1114,7 +1079,6 @@ function search(state, depth, alpha, beta, ply, previousMoveWasNull) {
         if (isStalemateBlunder(state, staticEval)) {
             score = -MATE_SCORE;
         } else {
-            // PVS/LMR
             if (i === 0) {
                 score = -search(state, depth - 1, -beta, -alpha, ply + 1, false);
             } else {
