@@ -600,26 +600,20 @@ function drawAnalysisBoard() {
         }
     }
     
-    // --- DRAW ARROWS (LOGIC NOW CORRECTLY INCLUDED) ---
+    // --- DRAW ARROWS ---
     if (analysisState.currentMoveIndex > -1) {
-        // 1. Draw the actual move played (the blue arrow you like)
+        // 1. Draw the actual move played (blue arrow)
         const move = analysisState.moves[analysisState.currentMoveIndex];
         if (move) {
             drawMoveArrow(move.from, move.to);
         }
 
-        // 2. THIS IS THE MISSING LOGIC: Check for analysis and draw the hint arrow
+        // 2. Check for analysis and draw the hint arrow (green arrow)
         const analysisResult = analysisState.classifications[analysisState.currentMoveIndex];
-        console. log("moves",analysisResult)
         if (analysisResult && (analysisResult.classification === 'mistake' || analysisResult.classification === 'blunder')) {
             const bestMove = analysisResult.bestMove;
             if (bestMove && bestMove.from && bestMove.to) {
-                // Draw the better move (the green arrow)
                 drawHintArrow(bestMove.from, bestMove.to); 
-            } else {
-            
-            console. log("nope",bestMove)
-            
             }
         }
     }
@@ -1004,7 +998,7 @@ function drawAnalysisBoard() {
 		gameState.isAnimating = true;
 		const isWhiteView = gameState.gameMode !== 'pva' || gameState.playerColor === 'w';
 		const startRow = isWhiteView ? move.from[0] : 7 - move.from[0],
-			startCol = isWhiteView ? move.from[1] : 7 - move.from[1];
+			startCol = isWhiteView ? move.from[1] : 7 - from[1];
 		const endRow = isWhiteView ? move.to[0] : 7 - move.to[0],
 			endCol = isWhiteView ? move.to[1] : 7 - move.to[1];
 		animationState = {
@@ -1152,8 +1146,6 @@ function drawAnalysisBoard() {
 
 	
 	function displayAnalysisPosition(index) {
-	console
-	.log("analysis", index, analysisState)
 	    // Boundary check
 	    if (index < -1 || index >= analysisState.moves.length) {
 	        return;
@@ -1211,91 +1203,7 @@ function drawAnalysisBoard() {
 	}
 	
 	/* B"H */
-
-	function drawAnalysisBoard() {
-	    analysisCanvas.width = SIZE;
-	    analysisCanvas.height = SIZE;
-	    const fen = analysisState.boardHistory[analysisState.currentMoveIndex + 1];
-	    const boardData = getBoardFromFen(fen); // Using your existing helper function
 	
-	    // --- NEW: Draw Coordinates ---
-	    analysisContext.fillStyle = '#c7c7c7';
-	    analysisContext.font = 'bold 14px Arial';
-	    analysisContext.textAlign = 'center';
-	    analysisContext.textBaseline = 'middle';
-	    
-	    for (let i = 0; i < 8; i++) {
-	        // Draw file labels (a-h)
-	        const file = String.fromCharCode('a'.charCodeAt(0) + i);
-	        const x = BOARD_PADDING + i * SQUARE_SIZE + SQUARE_SIZE / 2;
-	        analysisContext.fillText(file, x, BOARD_PADDING / 2);
-	        analysisContext.fillText(file, x, SIZE - BOARD_PADDING / 2);
-	        
-	        // Draw rank labels (1-8)
-	        const rank = (8 - i).toString();
-	        const y = BOARD_PADDING + i * SQUARE_SIZE + SQUARE_SIZE / 2;
-	        analysisContext.fillText(rank, BOARD_PADDING / 2, y);
-	        analysisContext.fillText(rank, SIZE - BOARD_PADDING / 2, y);
-	    }
-	
-	    // --- REVISED: Draw Squares & Pieces with Padding Offset ---
-	    for (let r = 0; r < 8; r++) {
-	        for (let c = 0; c < 8; c++) {
-	            const squareX = BOARD_PADDING + c * SQUARE_SIZE;
-	            const squareY = BOARD_PADDING + r * SQUARE_SIZE;
-	
-	            analysisContext.fillStyle = (r + c) % 2 === 0 ? '#f0d9b5' : '#b58863';
-	            analysisContext.fillRect(squareX, squareY, SQUARE_SIZE, SQUARE_SIZE);
-	            
-	            const piece = boardData[r][c];
-	            if (piece) {
-	                renderPiece(analysisContext, piece, squareX + SQUARE_SIZE / 2, squareY + SQUARE_SIZE / 2, SQUARE_SIZE);
-	            }
-	        }
-	    }
-	    
-	    if (analysisState.currentMoveIndex > -1) {
-	        const move = analysisState.moves[analysisState.currentMoveIndex];
-	        drawMoveArrow(move.from, move.to);
-	    }
-	}
-	
-	function drawHintArrow(from, to) {
-    // Offset all coordinates by the padding
-    const fromX = BOARD_PADDING + from[1] * SQUARE_SIZE + SQUARE_SIZE / 2;
-    const fromY = BOARD_PADDING + from[0] * SQUARE_SIZE + SQUARE_SIZE / 2;
-    const toX = BOARD_PADDING + to[1] * SQUARE_SIZE + SQUARE_SIZE / 2;
-    const toY = BOARD_PADDING + to[0] * SQUARE_SIZE + SQUARE_SIZE / 2;
-    
-    const headlen = 20;
-    const angle = Math.atan2(toY - fromY, toX - fromX);
-
-    analysisContext.save();
-    // Use a distinct "suggestion" color (green)
-    analysisContext.strokeStyle = 'rgba(14, 204, 53, 0.7)';
-    analysisContext.fillStyle = 'rgba(14, 204, 53, 0.7)';
-    analysisContext.lineWidth = 12;
-    analysisContext.lineCap = 'round';
-    
-    analysisContext.beginPath();
-    analysisContext.moveTo(fromX, fromY);
-    analysisContext.lineTo(toX, toY);
-    analysisContext.stroke();
-
-    // Draw arrowhead
-    analysisContext.beginPath();
-    analysisContext.moveTo(toX, toY);
-    analysisContext.lineTo(toX - headlen * Math.cos(angle - Math.PI / 7), toY - headlen * Math.sin(angle - Math.PI / 7));
-    analysisContext.lineTo(toX - headlen * Math.cos(angle + Math.PI / 7), toY - headlen * Math.sin(angle + Math.PI / 7));
-    analysisContext.closePath();
-    analysisContext.fill();
-    
-    analysisContext.restore();
-}
-	
-	
-	/* B"H */
-
 	function drawMoveArrow(from, to) {
     const fromX = BOARD_PADDING + from[1] * SQUARE_SIZE + SQUARE_SIZE / 2;
     const fromY = BOARD_PADDING + from[0] * SQUARE_SIZE + SQUARE_SIZE / 2;
