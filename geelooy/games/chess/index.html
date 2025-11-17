@@ -9,7 +9,10 @@
 </head>
 <body>
 
-    <!-- ADDED: Loading Screen -->
+    <!-- B"H Inscription in the top-left corner -->
+    <div id="bh-fuse">B"H</div>
+
+    <!-- Loading Screen -->
     <div id="loadingScreen" class="menu" style="display: flex;">
         <h2 id="loadingText">Loading Engine... 0%</h2>
         <div id="progressBar">
@@ -17,26 +20,27 @@
         </div>
     </div>
 
-    <div id="mainMenu" class="menu" style="display: none;">
+    <!-- Main Menu -->
+    <div id="mainMenu" class="menu">
         <button id="playVsAiButton" class="menu-button">Player vs AI</button>
         <button id="playVsPlayerButton" class="menu-button">Player vs Player</button>
         <button id="aiVsAiButton" class="menu-button">AI vs AI</button>
+        <button id="teachingsButton" class="menu-button">Teachings</button>
     </div>
 
+    <!-- Color Selection Menu -->
     <div id="colorSelectionMenu" class="menu">
         <button id="playAsWhiteButton" class="menu-button">Play as White</button>
         <button id="playAsBlackButton" class="menu-button">Play as Black</button>
     </div>
     
-     
+    <!-- Main Game Container -->
     <div id="gameContainer" class="hidden">
         <div class="captured-pieces-container">
-            <!-- The canvas is very wide to prevent pieces from wrapping -->
             <canvas id="capturedByBlackCanvas" height="90" width="500"></canvas>
         </div>
         <button id="drawButton" class="menu-button">Offer / Claim Draw</button>
     
-        <!-- ADDED WRAPPER: This div isolates the CSS layout from the JS visibility controls. -->
         <div id="board-wrapper">
             <div id="chessContainer">
                 <canvas id="chessCanvas"></canvas>
@@ -45,7 +49,6 @@
 
         <div id="message"></div>
         <div class="captured-pieces-container">
-            <!-- The canvas is very wide to prevent pieces from wrapping -->
             <canvas id="capturedByWhiteCanvas" height="90" width="500"></canvas>
         </div>
         <div id="gameOverOverlay">
@@ -57,9 +60,20 @@
         </div>
     </div>
 
-    <script src="main.js" defer></script>
-<script src="/register.js"></script>
-      
+    <!-- Teachings Screen -->
+    <div id="teachingsScreen" class="menu">
+        <div class="teachings-content">
+            <h2 class="teachings-title">The Secret of the Game</h2>
+            <div id="teachingsText">
+                <!-- Content will be loaded by JavaScript -->
+            </div>
+        </div>
+        <button id="backToMenuButton" class="menu-button">Back</button>
+    </div>
 
+    <!-- Scripts (main.js is a module to import teachings) -->
+    <script src="main.js" type="module" defer></script>
+    <script src="/register.js"></script>
+      
 </body>
 </html>

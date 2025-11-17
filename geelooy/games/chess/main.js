@@ -4,6 +4,7 @@
 //         MAIN THREAD (UI/CANVAS/EVENTS - STABLE REWRITE)
 // =================================================================
 
+import { teachingsNovel } from './teachings.js';
 document.addEventListener('DOMContentLoaded', () => {
 	// --- DOM Element References ---
 	const canvas = document.getElementById('chessCanvas');
@@ -33,6 +34,11 @@ document.addEventListener('DOMContentLoaded', () => {
 	const aiVsAiButton = document.getElementById('aiVsAiButton');
 	const playAsWhiteButton = document.getElementById('playAsWhiteButton');
 	const playAsBlackButton = document.getElementById('playAsBlackButton');
+	
+	const teachingsButton = document.getElementById('teachingsButton');
+	const teachingsScreen = document.getElementById('teachingsScreen');
+	const backToMenuButton = document.getElementById('backToMenuButton');
+	const teachingsText = document.getElementById('teachingsText');
 
 	// --- Constants and State ---
 	const SIZE = Math.min(window.innerWidth - 20, window.innerHeight - 350, 500);
@@ -977,6 +983,19 @@ document.addEventListener('DOMContentLoaded', () => {
 	playAsBlackButton.onclick = () => startGame('pva', 'b');
 	playVsPlayerButton.onclick = () => startGame('pvp');
 	aiVsAiButton.onclick = () => startGame('ava');
+	
+	
+	teachingsButton.onclick = () => {
+	    mainMenu.style.display = 'none';
+	    teachingsText.textContent = teachingsNovel; // Load the novel text
+	    teachingsScreen.style.display = 'flex';
+	    teachingsText.scrollTop = 0; // Ensure it starts at the top
+	};
+	
+	backToMenuButton.onclick = () => {
+	    teachingsScreen.style.display = 'none';
+	    mainMenu.style.display = 'flex';
+	};
 
 	// --- INITIATE ENGINE LOADING ON STARTUP ---
 	resetGameState();
