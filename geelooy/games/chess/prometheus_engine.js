@@ -13,23 +13,7 @@ importScripts('grandmaster_library.js');
 importScripts('punishment_library.js');
 /* B"H */
 
-// ---  Helper function for PGN Analysis ---
-function parsePgnForAnalysis(pgnText) {
-    const fenMatch = pgnText.match(/\[FEN\s+"(.*?)"\]/);
-    const initialFen = fenMatch ? fenMatch[1] : "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
 
-    let moveText = pgnText
-        .replace(/\[.*?\]\s*/g, '')
-        .replace(/\{.*?\}/g, '')
-        .replace(/\d+\.\s*/g, '')
-        .replace(/\$\d+/g, '')
-        .replace(/\s+/g, ' ')
-        .trim();
-    
-    const moves = moveText.split(' ').filter(m => m && !['1-0', '0-1', '1/2-1/2', '*'].includes(m));
-
-    return { initialFen, movesSAN: moves };
-}
 
 
 // =================================================================
@@ -1474,50 +1458,59 @@ self.onmessage = function(e) {
             
             /* B"H */
 
-// --- Add this new case to your `switch (command)` statement ---
-case 'analyze_pgn':
-    const { pgnText } = e.data;
-    const { initialFen, movesSAN } = parsePgnForAnalysis(pgnText);
+/* B"H */
 
-    const validator = new PgnConverter();
-    validator.currentState = createGameState(initialFen);
 
-    const validatedMoves = [];
-    const boardHistory = [initialFen];
-    const openingNames = ["Starting Position"]; // The name for the initial position
-
-    let lastKnownOpening = "Starting Position";
-
-    for (const san of movesSAN) {
-        const move = validator.parseSan(san);
-        if (!move) {
-            postMessage({ type: 'analysis_error', message: `Invalid PGN: Could not parse move "${san}"` });
-            return; // Stop processing
-        }
-        
-        validator.applyMove(move);
-        validatedMoves.push(move); // Store the full move object
-        
-        const newFen = validator.toFen();
-        boardHistory.push(newFen);
-
-        // Check the opening book for the new position
-        const currentHash = calculateZobristHash(validator.currentState).toString();
-        if (openingBook.has(currentHash)) {
-            const bookEntry = openingBook.get(currentHash);
-            lastKnownOpening = bookEntry.name;
-        }
-        openingNames.push(lastKnownOpening);
-    }
-
-    // Send all the processed data back to the main thread in one package
-    postMessage({
-        type: 'analysis_result',
-        initialFen: initialFen,
-        moves: validatedMoves,
-        boardHistory: boardHistory,
-        openingNames: openingNames
-    });
-    break;
+	case 'analyze_pgn':
+	    const { pgnText } = e.data;
+	
+	    // 1. Clean the PGN text to get the initial FEN and a simple list of SAN moves.
+	    // This part is still needed to separate headers from moves.
+	    const fenMatch = pgnText.match(/\[FEN\s+"(.*?)"\]/);
+	    const initialFen = fenMatch ? fenMatch[1] : "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+	    let moveText = pgnText.replace(/\[.*?\]\s*|{.*?}|\d+\.\s*|\$\d+/g, '').replace(/\s+/g, ' ').trim();
+	    const movesSAN = moveText.split(' ').filter(m => m && !['1-0', '0-1', '1/2-1/2', '*'].includes(m));
+	
+	    // 2. Use the engine's OWN PgnConverter to validate and process the game.
+	    const validator = new PgnConverter();
+	    validator.currentState = createGameState(initialFen);
+	
+	    const validatedMoves = [];
+	    const boardHistory = [initialFen];
+	    const openingNames = ["Starting Position"];
+	    let lastKnownOpening = "Starting Position";
+	
+	    for (const san of movesSAN) {
+	        // Use the powerful, existing parser. This is the core of the improvement.
+	        const move = validator.parseSan(san);
+	        if (!move) {
+	            postMessage({ type: 'analysis_error', message: `Invalid PGN: Could not parse move "${san}"` });
+	            return; // Abort on error
+	        }
+	        
+	        // Apply the move to the internal board state.
+	        validator.applyMove(move);
+	        validatedMoves.push(move);
+	        
+	        const newFen = validator.toFen();
+	        boardHistory.push(newFen);
+	
+	        // 3. Check the engine's opening book for the resulting position's name.
+	        const currentHash = calculateZobristHash(validator.currentState).toString();
+	        const bookEntry = openingBook.get(currentHash);
+	        if (bookEntry && bookEntry.name) {
+	            lastKnownOpening = bookEntry.name;
+	        }
+	        openingNames.push(lastKnownOpening);
+	    }
+	
+	    // 4. Send the complete, validated package back to the main thread.
+	    postMessage({
+	        type: 'analysis_result',
+	        moves: validatedMoves,
+	        boardHistory: boardHistory,
+	        openingNames: openingNames
+	    });
+	    break;
     }
 };
