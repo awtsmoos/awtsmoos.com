@@ -564,7 +564,7 @@ function drawAnalysisBoard() {
     analysisCanvas.width = SIZE;
     analysisCanvas.height = SIZE;
     const fen = analysisState.boardHistory[analysisState.currentMoveIndex + 1];
-    if (!fen) return;
+    if (!fen) return; // Safety check
     
     const boardData = getBoardFromFen(fen);
 
@@ -600,19 +600,25 @@ function drawAnalysisBoard() {
         }
     }
     
-    // --- DRAW ARROWS (LOGIC NOW INCLUDED) ---
+    // --- DRAW ARROWS (LOGIC NOW CORRECTLY INCLUDED) ---
     if (analysisState.currentMoveIndex > -1) {
-        // 1. Draw the actual move played (now a full blue arrow)
+        // 1. Draw the actual move played (the blue arrow you like)
         const move = analysisState.moves[analysisState.currentMoveIndex];
-        drawMoveArrow(move.from, move.to);
+        if (move) {
+            drawMoveArrow(move.from, move.to);
+        }
 
-        // 2. Check for analysis and draw the hint arrow if it was a bad move
+        // 2. THIS IS THE MISSING LOGIC: Check for analysis and draw the hint arrow
         const analysisResult = analysisState.classifications[analysisState.currentMoveIndex];
         if (analysisResult && (analysisResult.classification === 'mistake' || analysisResult.classification === 'blunder')) {
             const bestMove = analysisResult.bestMove;
-            if (bestMove) {
-                // Draw the better move (now a full green arrow)
+            if (bestMove && bestMove.from && bestMove.to) {
+                // Draw the better move (the green arrow)
                 drawHintArrow(bestMove.from, bestMove.to); 
+            } else {
+            
+            console. log("nope",bestMove)
+            
             }
         }
     }
