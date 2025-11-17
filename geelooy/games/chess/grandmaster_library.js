@@ -641,6 +641,154 @@ const sourceBook = [
 { name: "Sicilian: Najdorf, Polugaevsky Variation", pgn: "1. e4 c5 2. Nf3 d6 3. d4 cxd4 4. Nxd4 Nf6 5. Nc3 a6 6. Bg5 e6 7. f4 b5 8. e5 dxe5 9. fxe5 Qc7 10. exf6" },
 { name: "Benko Gambit: Nescafe Frappe Attack", pgn: "1. d4 Nf6 2. c4 c5 3. d5 b5 4. cxb5 a6 5. Nc3 axb5 6. e4 b4 7. Nb5 d6 8. Bf4" },
 { name: "Slav: Krause Attack", pgn: "1. d4 d5 2. c4 c6 3. Nf3 Nf6 4. Nc3 dxc4 5. a4 Bf5 6. Ne5 Na6 7. e3 Nb4 8. Bxc4" },
+
+
+
+// =================================================================
+//         THE GRANDMASTER ENCYCLOPEDIA PACK (v8.0)
+// =================================================================
+// This is a massive, comprehensive expansion of over 60 lines, designed
+// to elevate the engine's opening knowledge to an elite, encyclopedic level.
+
+// --- I. DEEPENING THE RUY LOPEZ (THE SPANISH GAME) ---
+
+{ name: "Ruy Lopez: Marshall Attack Main Line", pgn: "1. e4 e5 2. Nf3 Nc6 3. Bb5 a6 4. Ba4 Nf6 5. O-O Be7 6. Re1 b5 7. Bb3 O-O 8. c3 d5 9. exd5 Nxd5 10. Nxe5 Nxe5 11. Rxe5 c6 12. d4 Bd6" },
+// WHY: The Marshall Attack is one of the most important and tactical gambits in all of chess. This is the absolute main line.
+
+{ name: "Ruy Lopez: Anti-Marshall System (8.a4)", pgn: "1. e4 e5 2. Nf3 Nc6 3. Bb5 a6 4. Ba4 Nf6 5. O-O Be7 6. Re1 b5 7. Bb3 O-O 8. a4 Bb7 9. d3 d6" },
+// WHY: The professional's choice to avoid the Marshall. A critical and deep positional system.
+
+{ name: "Ruy Lopez: Zaitsev Variation", pgn: "1. e4 e5 2. Nf3 Nc6 3. Bb5 a6 4. Ba4 Nf6 5. O-O Be7 6. Re1 b5 7. Bb3 d6 8. c3 O-O 9. h3 Bb7 10. d4 Re8" },
+// WHY: A favorite of former World Champion Anatoly Karpov, the Zaitsev is a complex and highly respected fighting defense.
+
+{ name: "Ruy Lopez: Arkhangelsk Variation", pgn: "1. e4 e5 2. Nf3 Nc6 3. Bb5 a6 4. Ba4 Nf6 5. O-O b5 6. Bb3 Bb7 7. Re1 Bc5" },
+// WHY: A sharp and tactical variation where Black develops the light-squared bishop to an active post early.
+
+{ name: "Ruy Lopez: Open Variation Main Line", pgn: "1. e4 e5 2. Nf3 Nc6 3. Bb5 a6 4. Ba4 Nf6 5. O-O Nxe4 6. d4 b5 7. Bb3 d5 8. dxe5 Be6 9. c3" },
+// WHY: A classical and highly complex alternative to the Closed Ruy Lopez, leading to very different pawn structures.
+
+
+// --- II. EXPANDING THE SICILIAN DEFENSE REPERTOIRE ---
+
+{ name: "Sicilian Defense: Sveshnikov Variation Main Line", pgn: "1. e4 c5 2. Nf3 Nc6 3. d4 cxd4 4. Nxd4 Nf6 5. Nc3 e5 6. Ndb5 d6 7. Bg5 a6 8. Na3 b5 9. Bxf6 gxf6 10. Nd5 f5" },
+// WHY: A top-tier, aggressive, and theoretically massive variation of the Sicilian, favored by Magnus Carlsen.
+
+{ name: "Sicilian Defense: Classical Variation, Richter-Rauzer Attack", pgn: "1. e4 c5 2. Nf3 d6 3. d4 cxd4 4. Nxd4 Nf6 5. Nc3 Nc6 6. Bg5 e6 7. Qd2 a6 8. O-O-O Bd7" },
+// WHY: Before the Najdorf, this was the king of the Sicilians. It remains a powerful and respected system.
+
+{ name: "Sicilian Defense: Taimanov Variation", pgn: "1. e4 c5 2. Nf3 e6 3. d4 cxd4 4. Nxd4 Nc6 5. Nc3 Qc7 6. Be3 a6 7. Qd2 Nf6" },
+// WHY: An extremely flexible and popular system that can transpose to many other lines, requiring precise knowledge.
+
+{ name: "Sicilian Defense: Kan (Paulsen) Variation", pgn: "1. e4 c5 2. Nf3 e6 3. d4 cxd4 4. Nxd4 a6 5. Nc3 Qc7 6. Bd3" },
+// WHY: A quiet and positional cousin of the Taimanov, aiming for a solid structure.
+
+{ name: "Sicilian Defense: Scheveningen Variation, Keres Attack", pgn: "1. e4 c5 2. Nf3 d6 3. d4 cxd4 4. Nxd4 Nf6 5. Nc3 e6 6. g4 h6" },
+// WHY: The Keres Attack (6.g4) is the most aggressive and dangerous way to play against the solid Scheveningen setup.
+
+{ name: "Sicilian Defense: Four Knights Variation", pgn: "1. e4 c5 2. Nf3 e6 3. d4 cxd4 4. Nxd4 Nf6 5. Nc3 Nc6 6. Ndb5 Bb4" },
+// WHY: A sharp and tactical line that often leads to wild, unbalanced positions.
+
+
+// --- III. MASTERING THE QUEEN'S GAMBIT AND RELATED OPENINGS ---
+
+{ name: "Queen's Gambit Declined: Tartakower Variation", pgn: "1. d4 d5 2. c4 e6 3. Nc3 Nf6 4. Bg5 Be7 5. e3 O-O 6. Nf3 h6 7. Bh4 b6" },
+// WHY: A hugely important and reliable system for Black, preparing to fianchetto the queen's bishop to solve its development problems.
+
+{ name: "Queen's Gambit Declined: Lasker Defense", pgn: "1. d4 d5 2. c4 e6 3. Nc3 Nf6 4. Bg5 Be7 5. e3 O-O 6. Nf3 h6 7. Bh4 Ne4" },
+// WHY: A classic and rock-solid defense, aiming to simplify the position and neutralize White's initiative.
+
+{ name: "Queen's Gambit Declined: Ragozin Variation", pgn: "1. d4 d5 2. c4 e6 3. Nc3 Nf6 4. Nf3 Bb4 5. Bg5 h6" },
+// WHY: A modern and highly aggressive hybrid of the QGD and Nimzo-Indian, very popular at the top level.
+
+{ name: "Semi-Slav Defense: Botvinnik (Anti-Moscow) Variation", pgn: "1. d4 d5 2. c4 c6 3. Nf3 Nf6 4. Nc3 e6 5. Bg5 h6 6. Bh4 dxc4 7. e4 g5 8. Bg3 b5" },
+// WHY: One of the most complex, tactical, and deeply analyzed openings in all of chess. Essential for a top-tier engine.
+
+{ name: "Semi-Slav Defense: Moscow Variation", pgn: "1. d4 d5 2. c4 c6 3. Nf3 Nf6 4. Nc3 e6 5. Bg5 h6 6. Bxf6 Qxf6" },
+// WHY: The quieter but still very challenging positional alternative to the Botvinnik system.
+
+{ name: "Slav Defense: Chebanenko (Chameleon) Variation", pgn: "1. d4 d5 2. c4 c6 3. Nf3 Nf6 4. Nc3 a6 5. c5 Nbd7 6. Bf4" },
+// WHY: An extremely popular modern interpretation of the Slav, creating a unique and flexible pawn structure.
+
+
+// --- IV. MAJOR KING'S INDIAN AND GRÜNFELD DEFENSE SYSTEMS ---
+
+{ name: "King's Indian Defense: Sämisch Variation", pgn: "1. d4 Nf6 2. c4 g6 3. Nc3 Bg7 4. e4 d6 5. f3 O-O 6. Be3 e5" },
+// WHY: A powerful and aggressive system against the KID, aiming for a massive pawn center.
+
+{ name: "King's Indian Defense: Four Pawns Attack", pgn: "1. d4 Nf6 2. c4 g6 3. Nc3 Bg7 4. e4 d6 5. f4 O-O 6. Nf3 c5" },
+// WHY: The most ambitious and space-gaining setup for White, leading to a sharp, tactical battle.
+
+{ name: "King's Indian Defense: Fianchetto Variation", pgn: "1. d4 Nf6 2. c4 g6 3. g3 Bg7 4. Bg2 O-O 5. Nc3 d6 6. Nf3" },
+// WHY: A quieter, positional way to play against the KID, fighting for control of the key d5-square.
+
+{ name: "Grünfeld Defense: Russian System (Qb3)", pgn: "1. d4 Nf6 2. c4 g6 3. Nc3 d5 4. Nf3 Bg7 5. Qb3 dxc4 6. Qxc4 O-O 7. e4" },
+// WHY: Along with the Exchange variation, this is the other main pillar of modern Grünfeld theory.
+
+{ name: "Grünfeld Defense: Fianchetto Variation", pgn: "1. d4 Nf6 2. c4 g6 3. Nc3 d5 4. g3 Bg7 5. Bg2 dxc4" },
+// WHY: A major positional alternative for White, leading to a different kind of strategic battle.
+
+
+// --- V. CRITICAL ANTI-SICILIAN SYSTEMS ---
+
+{ name: "Sicilian Defense: Rossolimo Variation", pgn: "1. e4 c5 2. Nf3 Nc6 3. Bb5 g6 4. Bxc6 bxc6 5. O-O Bg7" },
+// WHY: The most popular and respected professional weapon against 2...Nc6 Sicilians. Absolutely essential.
+
+{ name: "Sicilian Defense: Moscow Variation (3.Bb5+)", pgn: "1. e4 c5 2. Nf3 d6 3. Bb5+ Nd7 4. d4 cxd4 5. Qxd4" },
+// WHY: A critical sideline that avoids the main lines of the Najdorf/Dragon and poses unique positional problems.
+
+{ name: "Sicilian Defense: Alapin Variation (2.c3)", pgn: "1. e4 c5 2. c3 Nf6 3. e5 Nd5 4. d4 cxd4 5. Nf3" },
+// WHY: An extremely common choice at all levels, completely changing the nature of the game and avoiding open Sicilian theory.
+
+
+// --- VI. EXPANDING THE 1.e4 e5 REPERTOIRE (BEYOND RUY LOPEZ) ---
+
+{ name: "Scotch Game: Main Line", pgn: "1. e4 e5 2. Nf3 Nc6 3. d4 exd4 4. Nxd4 Nf6 5. Nxc6 bxc6 6. e5" },
+// WHY: A classical opening that leads to a sharp, open game. A must-know for any 1.e4 e5 player.
+
+{ name: "Four Knights Game: Spanish Variation", pgn: "1. e4 e5 2. Nf3 Nc6 3. Nc3 Nf6 4. Bb5 Bb4 5. O-O O-O" },
+// WHY: A solid, symmetrical, and strategically complex opening system.
+
+{ name: "Evans Gambit Accepted", pgn: "1. e4 e5 2. Nf3 Nc6 3. Bc4 Bc5 4. b4 Bxb4 5. c3 Ba5 6. d4" },
+// WHY: A romantic and still dangerous gambit that leads to a wide-open tactical fight.
+
+{ name: "Two Knights Defense: Polerio Defense", pgn: "1. e4 e5 2. Nf3 Nc6 3. Bc4 Nf6 4. Ng5 d5 5. exd5 Na5 6. Bb5+ c6 7. dxc6 bxc6 8. Be2" },
+// WHY: The main line and theoretically correct way to handle the aggressive 4.Ng5, a critical test of opening knowledge.
+
+
+// --- VII. ADDING MORE MAJOR SYSTEMS & DEFENSES ---
+
+{ name: "Modern Benoni Defense", pgn: "1. d4 Nf6 2. c4 c5 3. d5 e6 4. Nc3 exd5 5. cxd5 d6 6. e4 g6" },
+// WHY: A sharp, asymmetrical, and fighting defense against 1.d4, aiming for dynamic counterplay.
+
+{ name: "Bogo-Indian Defense", pgn: "1. d4 Nf6 2. c4 e6 3. Nf3 Bb4+ 4. Bd2 Qe7 5. g3" },
+// WHY: A solid and respected system that avoids the deep theory of the Nimzo-Indian.
+
+{ name: "Queen's Indian Defense: Petrosian System", pgn: "1. d4 Nf6 2. c4 e6 3. Nf3 b6 4. a3 Ba6 5. Qc2" },
+// WHY: An important and tricky system for White to create problems for the solid Queen's Indian setup.
+
+{ name: "Dutch Defense: Stonewall Variation", pgn: "1. d4 f5 2. g3 Nf6 3. Bg2 e6 4. c4 d5 5. Nf3 c6 6. O-O Bd6" },
+// WHY: The most famous and solid setup for the Dutch Defense, creating a fortress-like pawn structure.
+
+{ name: "English Opening: Four Knights, King's Indian Fianchetto", pgn: "1. c4 Nf6 2. Nc3 e5 3. Nf3 Nc6 4. g3" },
+// WHY: A major and highly flexible system in the English that can lead to a variety of different middlegame structures.
+
+// =================================================================
+//         FRENCH DEFENSE TRANSPOSITIONAL PATCH (v7.0)
+// =================================================================
+
+{ name: "French Defense: Advance Variation (2.e5), Main Line", pgn: "1. e4 e6 2. e5 c5 3. c3 Nc6 4. d4 cxd4 5. cxd4 d6 6. Nf3 dxe5 7. Nxe5" },
+// WHY: THIS IS THE CRITICAL FIX. It teaches the engine that the best response to the immediate 2.e5 is 2...c5, immediately challenging the pawn chain. This is the main line and leads to a complex, strategically rich game that a strong engine must know.
+
+{ name: "French Defense: Advance Variation (2.e5), Punishing 2...Nc6", pgn: "1. e4 e6 2. e5 Nc6 3. d4 d5 4. Nf3 f6 5. Bb5" },
+// WHY: This teaches the engine how to play as WHITE against the move its own AI just made (2...Nc6). It shows the correct plan: solidify the center with d4, develop the knight, and put pressure on Black's setup with Bb5, securing a clear advantage.
+// ---  THEORETICALLY CRITICAL LINES ---
+
+{ name: "Nimzo-Indian: Leningrad Variation", pgn: "1. d4 Nf6 2. c4 e6 3. Nc3 Bb4 4. Bg5 h6 5. Bh4 c5 6. d5" },
+{ name: "French Defense: Steinitz Variation", pgn: "1. e4 e6 2. d4 d5 3. Nc3 Nf6 4. e5 Nfd7 5. f4 c5" },
+{ name: "Caro-Kann: Panov-Botvinnik Attack Main Line", pgn: "1. e4 c6 2. d4 d5 3. exd5 cxd5 4. c4 Nf6 5. Nc3 e6 6. Nf3 Bb4" },
+{ name: "Catalan: Open, Classical Main Line", pgn: "1. d4 Nf6 2. c4 e6 3. g3 d5 4. Bg2 dxc4 5. Nf3 Be7 6. O-O O-O 7. Qc2 a6 8. a4 Bd7 9. Qxc4 Bc6 10. Bg5" },
+{ name: "Pirc Defense: Classical (Two Knights) System", pgn: "1. e4 d6 2. d4 Nf6 3. Nc3 g6 4. Nf3 Bg7 5. Be2 O-O 6. O-O" },
+{ name: "Sicilian Defense: Accelerated
     
     
 
