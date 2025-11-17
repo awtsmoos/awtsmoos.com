@@ -177,23 +177,51 @@ function initializeSearch(maxTime) {
 //                 EVALUATION & SEARCH (UNCHANGED)
 // =================================================================
 
-// **NEW: TACTICAL MOVE GENERATOR (INCLUDES CHECKS)**
-// **CORRECTED AND OPTIMIZED TACTICAL MOVE GENERATOR**
-// ====================================================================================
-//            Smarter Tactical Move Generation for Quiescence Search
-// ====================================================================================
-// Now includes checks and direct attacks on valuable pieces to improve tactical vision.
-
-
-
-
-
-// DELETE EVERYTHING from the TaperedScore class down to the end of evaluateKingSafety.
-// REPLACE it all with this single, self-contained, hyper-fast evaluation block.
+// DELETE EVERYTHING from the "TaperedScore" class definition (or its preceding comment)
+// all the way down to the end of the last evaluation helper function.
+// REPLACE it all with this single, self-contained, and correct evaluation engine block.
 
 // ====================================================================================
-//            MASTER EVALUATION HUB (v6.0 - PURE BITBOARD)
+//            MASTER EVALUATION HUB (v7.0 - FINAL & COMPLETE)
 // ====================================================================================
+
+// --- TAPERED EVALUATION HELPERS (RESTORED) ---
+class TaperedScore {
+    constructor(mg = 0, eg = 0) { this.mg = mg; this.eg = eg; }
+    add(other) { this.mg += other.mg; this.eg += other.eg; return this; }
+    subtract(other) { this.mg -= other.mg; this.eg -= other.eg; return this; }
+}
+
+const pieceValues = {
+    p: { mg: 100, eg: 130 }, 
+    n: { mg: 350, eg: 350 }, 
+    b: { mg: 355, eg: 355 }, 
+    r: { mg: 500, eg: 500 },
+    q: { mg: 900, eg: 900 },
+    k: { mg: 20000, eg: 20000 }
+};
+
+// --- BITBOARD-NATIVE HELPER FUNCTIONS (RESTORED & OPTIMIZED) ---
+function popcount(bb) {
+    let count = 0;
+    while (bb > 0n) {
+        bb &= (bb - 1n);
+        count++;
+    }
+    return count;
+}
+
+function getGamePhase(state) {
+    const MAX_PHASE = 24; 
+    let currentPhase = 0;
+    // Calculate phase based on non-pawn, non-king pieces
+    currentPhase += popcount(state.pieceBitboards[N] | state.pieceBitboards[N + 6]) * 1;
+    currentPhase += popcount(state.pieceBitboards[B] | state.pieceBitboards[B + 6]) * 1;
+    currentPhase += popcount(state.pieceBitboards[R] | state.pieceBitboards[R + 6]) * 2;
+    currentPhase += popcount(state.pieceBitboards[Q] | state.pieceBitboards[Q + 6]) * 4;
+    // Return a value from 1.0 (opening) to 0.0 (endgame)
+    return Math.min(currentPhase, MAX_PHASE) / MAX_PHASE;
+}
 
 // --- Pre-calculated masks for evaluation ---
 const FILE_A = 72340172838076673n;
@@ -205,62 +233,43 @@ const KING_ATTACK_ZONE = [Array(64), Array(64)]; // [color][king_sq]
 
 // Initialize King attack zones
 for (let sq = 0; sq < 64; sq++) {
-    let white_zone = 0n;
-    let black_zone = 0n;
-    if ((1n << BigInt(sq)) & NOT_A_FILE) {
-        white_zone |= (1n << BigInt(sq - 9));
-        white_zone |= (1n << BigInt(sq - 1));
-        white_zone |= (1n << BigInt(sq + 7));
-    }
-    if ((1n << BigInt(sq)) & NOT_H_FILE) {
-        white_zone |= (1n << BigInt(sq - 7));
-        white_zone |= (1n << BigInt(sq + 1));
-        white_zone |= (1n << BigInt(sq + 9));
-    }
-    white_zone |= (1n << BigInt(sq - 8));
-    white_zone |= (1n << BigInt(sq + 8));
-    KING_ATTACK_ZONE[WHITE][sq] = white_zone;
-
-    if ((1n << BigInt(sq)) & NOT_A_FILE) {
-        black_zone |= (1n << BigInt(sq - 7));
-        black_zone |= (1n << BigInt(sq + 1));
-        black_zone |= (1n << BigInt(sq + 9));
-    }
-    if ((1n << BigInt(sq)) & NOT_H_FILE) {
-        black_zone |= (1n << BigInt(sq - 9));
-        black_zone |= (1n << BigInt(sq - 1));
-        black_zone |= (1n << BigInt(sq + 7));
-    }
-    black_zone |= (1n << BigInt(sq - 8));
-    black_zone |= (1n << BigInt(sq + 8));
-    KING_ATTACK_ZONE[BLACK][sq] = black_zone;
+    let zone = KING_ATTACKS[sq];
+    if ((1n << BigInt(sq)) & NOT_A_FILE) zone |= KING_ATTACKS[sq - 1];
+    if ((1n << BigInt(sq)) & NOT_H_FILE) zone |= KING_ATTACKS[sq + 1];
+    KING_ATTACK_ZONE[WHITE][sq] = zone;
+    KING_ATTACK_ZONE[BLACK][sq] = zone;
 }
 
-
+// --- THE PURE BITBOARD EVALUATION FUNCTION ---
 function evaluate(state) {
     const attackMaps = generateAttackMaps(state);
     const gamePhase = getGamePhase(state);
     let score = 0;
     
-    // --- Material and Piece-Square Table Evaluation (Bitboard Native) ---
+    // --- Material and Piece-Square Table Evaluation ---
     for (let p_type = P; p_type <= K; p_type++) {
         let white_bb = state.pieceBitboards[p_type];
         let black_bb = state.pieceBitboards[p_type + 6];
         
         const pst = [pawnPST, knightPST, bishopPST, rookPST, queenPST, kingPSTMidGame][p_type];
+        const king_pst_eg = kingPSTEndGame;
         const piece_val = [pieceValues.p, pieceValues.n, pieceValues.b, pieceValues.r, pieceValues.q, pieceValues.k][p_type];
         
         while(white_bb > 0n) {
             const sq = getLSBIndex(white_bb);
+            const r = 7 - Math.floor(sq/8), c = sq % 8;
             score += piece_val.mg * gamePhase + piece_val.eg * (1 - gamePhase);
-            score += pst[7 - Math.floor(sq/8)][sq % 8];
+            if (p_type === K) score += king_pst_eg[r][c] * (1-gamePhase) + pst[r][c] * gamePhase;
+            else score += pst[r][c];
             white_bb = popBit(white_bb);
         }
         
         while(black_bb > 0n) {
             const sq = getLSBIndex(black_bb);
+            const r = Math.floor(sq/8), c = sq % 8;
             score -= (piece_val.mg * gamePhase + piece_val.eg * (1 - gamePhase));
-            score -= pst[Math.floor(sq/8)][sq % 8];
+            if (p_type === K) score -= king_pst_eg[r][c] * (1-gamePhase) + pst[r][c] * gamePhase;
+            else score -= pst[r][c];
             black_bb = popBit(black_bb);
         }
     }
@@ -269,40 +278,43 @@ function evaluate(state) {
     const whitePawns = state.pieceBitboards[P];
     const blackPawns = state.pieceBitboards[P + 6];
 
-    // Doubled Pawns
+    // Doubled & Isolated Pawns
     for (let i = 0; i < 8; i++) {
         const fileMask = FILE_A << BigInt(i);
-        if (popcount(whitePawns & fileMask) > 1) score -= 25;
-        if (popcount(blackPawns & fileMask) > 1) score += 25;
-    }
+        const w_pawns_on_file = popcount(whitePawns & fileMask);
+        const b_pawns_on_file = popcount(blackPawns & fileMask);
+        if (w_pawns_on_file > 1) score -= 25 * (w_pawns_on_file -1);
+        if (b_pawns_on_file > 1) score += 25 * (b_pawns_on_file -1);
 
-    // Isolated Pawns
-    for (let i = 0; i < 8; i++) {
-        const fileMask = FILE_A << BigInt(i);
-        const adjacentMask = ((FILE_A << BigInt(i-1)) & NOT_H_FILE) | ((FILE_A << BigInt(i+1)) & NOT_A_FILE);
-        if ((whitePawns & fileMask) !== 0n && (whitePawns & adjacentMask) === 0n) score -= 20;
-        if ((blackPawns & fileMask) !== 0n && (blackPawns & adjacentMask) === 0n) score += 20;
+        if (w_pawns_on_file > 0) {
+            const adjacentMask = ((FILE_A << BigInt(i-1)) & NOT_H_FILE) | ((FILE_A << BigInt(i+1)) & NOT_A_FILE);
+            if ((whitePawns & adjacentMask) === 0n) score -= 20;
+        }
+        if (b_pawns_on_file > 0) {
+            const adjacentMask = ((FILE_A << BigInt(i-1)) & NOT_H_FILE) | ((FILE_A << BigInt(i+1)) & NOT_A_FILE);
+            if ((blackPawns & adjacentMask) === 0n) score += 20;
+        }
     }
-
-    // Passed Pawns
-    // Simplified but fast: check for enemy pawns in front on same and adjacent files
-    // (A full implementation is more complex, this is a good starting point)
 
     // Rook on Open/Semi-Open File
     let whiteRooks = state.pieceBitboards[R];
-    let blackRooks = state.pieceBitboards[R+6];
     while(whiteRooks > 0n) {
         const sq = getLSBIndex(whiteRooks);
         const fileMask = FILE_A << BigInt(sq % 8);
         if ((whitePawns & fileMask) === 0n) score += ((blackPawns & fileMask) === 0n ? 30 : 15);
         whiteRooks = popBit(whiteRooks);
     }
+    let blackRooks = state.pieceBitboards[R+6];
      while(blackRooks > 0n) {
         const sq = getLSBIndex(blackRooks);
         const fileMask = FILE_A << BigInt(sq % 8);
         if ((blackPawns & fileMask) === 0n) score -= ((whitePawns & fileMask) === 0n ? 30 : 15);
         blackRooks = popBit(blackRooks);
     }
+
+    // Bishop Pair
+    if (popcount(state.pieceBitboards[B]) >= 2) score += 50;
+    if (popcount(state.pieceBitboards[B+6]) >= 2) score -= 50;
 
     // --- Threats and King Safety (Bitboard Native) ---
     const whiteKingSq = getLSBIndex(state.pieceBitboards[K]);
@@ -311,22 +323,15 @@ function evaluate(state) {
     // King Safety
     if (whiteKingSq !== -1) {
         const whiteKingZone = KING_ATTACK_ZONE[WHITE][whiteKingSq];
-        score -= popcount(whiteKingZone & state.occupancies[BLACK]) * 10;
-        score -= popcount(whiteKingZone & attackMaps.black) * 5;
+        score -= popcount(whiteKingZone & attackMaps.black) * 8; // Penalty for each enemy attack near king
     }
     if (blackKingSq !== -1) {
         const blackKingZone = KING_ATTACK_ZONE[BLACK][blackKingSq];
-        score += popcount(blackKingZone & state.occupancies[WHITE]) * 10;
-        score += popcount(blackKingZone & attackMaps.white) * 5;
+        score += popcount(blackKingZone & attackMaps.white) * 8; // Bonus for attacking near enemy king
     }
     
-    // Hanging Pieces (Simplified threats)
-    const whiteHanging = state.occupancies[WHITE] & attackMaps.black;
-    const blackHanging = state.occupancies[BLACK] & attackMaps.white;
-    if (whiteHanging !== 0n) score -= popcount(whiteHanging) * 40;
-    if (blackHanging !== 0n) score += popcount(blackHanging) * 40;
-
-    return (state.turn === WHITE ? 1 : -1) * Math.round(score);
+    // Final score adjustment based on whose turn it is
+    return (state.turn === WHITE ? 1 : -1) * score;
 }
 
 
