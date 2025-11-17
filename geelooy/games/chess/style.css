@@ -5,25 +5,18 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start; /* MODIFIED: Aligns content to the top, allowing it to scroll down naturally. */
     min-height: 100vh;
     margin: 0;
-    overflow: hidden;
+    /* REMOVED: overflow: hidden; -- This was the primary cause of the bug, preventing the lower captured pieces bar from appearing on smaller screens. */
     background-color: #2c2f33;
     color: #fff;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     -webkit-tap-highlight-color: transparent;
 }
 
-#message {
-overflow-y: scroll;
+/* REMOVED: The first of two conflicting #message rules was removed from here. */
 
-padding: 6px;
-max-height: 40px;
-white-space:pre-wrap;
-
-
-}
 .hidden {
 display: none;
 }
@@ -52,16 +45,29 @@ display: none;
 .menu-button:hover {
     background-color: #45a049;
 }
+
+/* --- ADDED: Consolidated and Fixed Message Style --- */
+/* The two old, conflicting #message rules have been replaced by this single, corrected one. */
 #message {
+    overflow-y: auto; /* Shows scrollbar only if content overflows */
+    white-space: pre-wrap;
+    padding: 6px;
+    box-sizing: border-box;
+
+    /* A fixed height that accommodates two lines of text as requested */
+    height: 42px; 
     
-    left: 0;
-    max-width: 90vw;
-    min-height: 5em;
-    margin-left: 5vw; 
+    /* Centering and width consistent with the board */
+    width: 90vw;
+    max-width: 500px;
+    margin: 5px auto;
+    
+    /* Font styles from original rules */
     font-size: 1.2em;
     font-weight: bold;
     text-align: center;
 }
+
 #gameOverOverlay {
     position: absolute;
     top: 0;
@@ -95,8 +101,3 @@ display: none;
     display: flex; /* Helps center the canvas */
     justify-content: center;
 }
-
-
-
-
-
