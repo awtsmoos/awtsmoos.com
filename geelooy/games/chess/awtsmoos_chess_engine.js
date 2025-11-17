@@ -286,9 +286,6 @@ function generateAttackMaps(state) {
 }
 
 
-// --- THE PURE BITBOARD EVALUATION FUNCTION ---
-function evaluate(state) {
-//... rest of the function is unchanged
 
 // --- THE PURE BITBOARD EVALUATION FUNCTION ---
 function evaluate(state) {
