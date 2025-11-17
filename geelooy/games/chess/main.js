@@ -135,7 +135,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	}
 
 	// --- AI Worker ---
-	const aiWorker = new Worker('prometheus_engine.js');
+	const aiWorker = new Worker('awtsmoos_chess_engine.js');
 	
     /* B"H */
 

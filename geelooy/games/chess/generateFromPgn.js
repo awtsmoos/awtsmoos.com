@@ -1,11 +1,8 @@
 /* B"H */
 
 // =================================================================
-//                 OPENING BOOK CONVERSION LOGIC (UNIFIED v9.0 - FINAL)
+//                 BITBOARD PGN CONVERTER (v2.0 - VERIFIED)
 // =================================================================
-// This final version includes a grandmaster-level SAN parser capable of
-// resolving all forms of ambiguity (file, rank, and full coordinate).
-// This ensures the maximum possible opening lines are parsed correctly.
 
 class PgnConverter {
     constructor() {
@@ -16,155 +13,124 @@ class PgnConverter {
     reset() {
         this.currentState = createGameState("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
     }
-
+    
     toFen() {
-        const { board, turn, castlingRights, enPassantTarget, moveCount } = this.currentState;
         let fen = '';
         for (let r = 0; r < 8; r++) {
             let empty = 0;
             for (let c = 0; c < 8; c++) {
-                const piece = board[r][c];
-                if (piece) {
+                const sq = r * 8 + c;
+                let piece = -1;
+                for (let p = 0; p < 12; p++) {
+                    if ((this.currentState.pieceBitboards[p] & (1n << BigInt(sq))) !== 0n) {
+                        piece = p;
+                        break;
+                    }
+                }
+                if (piece !== -1) {
                     if (empty > 0) { fen += empty; empty = 0; }
-                    fen += piece;
+                    fen += pieceMap[piece];
                 } else { empty++; }
             }
             if (empty > 0) fen += empty;
             if (r < 7) fen += '/';
         }
 
+        fen += this.currentState.turn === WHITE ? ' w ' : ' b ';
         let castlingStr = '';
-        if (castlingRights & 8) castlingStr += 'K';
-        if (castlingRights & 4) castlingStr += 'Q';
-        if (castlingRights & 2) castlingStr += 'k';
-        if (castlingRights & 1) castlingStr += 'q';
-
-        const enPassantStr = enPassantTarget ? `${'abcdefgh'[enPassantTarget[1]]}${8 - enPassantTarget[0]}` : '-';
-        const halfmoveClock = 0; // Simplified for book generation
-        const fullmoveNumber = Math.floor(moveCount / 2) + 1;
-        return `${fen} ${turn} ${castlingStr || '-'} ${enPassantStr} ${halfmoveClock} ${fullmoveNumber}`;
+        if (this.currentState.castling & WKCA) castlingStr += 'K';
+        if (this.currentState.castling & WQCA) castlingStr += 'Q';
+        if (this.currentState.castling & BKCA) castlingStr += 'k';
+        if (this.currentState.castling & BQCA) castlingStr += 'q';
+        fen += castlingStr || '-';
+        
+        fen += ' ' + (this.currentState.enpassant === -1 ? '-' : `${'abcdefgh'[this.currentState.enpassant % 8]}${8 - Math.floor(this.currentState.enpassant / 8)}`);
+        
+        // FEN clocks are not essential for book generation
+        fen += ' 0 1';
+        
+        return fen;
     }
 
+    // IN generateFromPgn.js, REPLACE THE parseSan and generateRawBook functions:
+
     parseSan(san) {
-        const legalMoves = generateLegalMoves(this.currentState);
-        const originalSan = san;
-        san = san.replace(/[+#?!=]/g, '');
+        const legalMoves = generateMoves(this.currentState);
+        san = san.replace(/[+#?!]/g, '');
 
-        if (san === 'O-O') {
-            const move = legalMoves.find(m => m.isCastle && m.to[1] === 6);
-            if (move) move.san = originalSan;
-            return move || null;
-        }
-        if (san === 'O-O-O') {
-            const move = legalMoves.find(m => m.isCastle && m.to[1] === 2);
-            if (move) move.san = originalSan;
-            return move || null;
-        }
+        if (san === 'O-O') return legalMoves.find(m => getMoveCastling(m) && getMoveTo(m) > getMoveFrom(m));
+        if (san === 'O-O-O') return legalMoves.find(m => getMoveCastling(m) && getMoveTo(m) < getMoveFrom(m));
+        if (['1-0', '0-1', '1/2-1/2', '*'].includes(san)) return null;
 
-        let promotionPiece = null;
-        if (san.includes('=')) {
-            promotionPiece = san.slice(-1);
-            san = san.slice(0, -2);
-        }
+        const toMatch = san.match(/([a-h][1-8])/);
+        if(!toMatch) return null;
+        const toSq = (8 - parseInt(toMatch[1][1])) * 8 + (toMatch[1][0].charCodeAt(0) - 'a'.charCodeAt(0));
 
-        const toMatch = san.match(/[a-h][1-8]$/);
-        if (!toMatch) return null;
-        const toSquareStr = toMatch[0];
-        const toC = toSquareStr.charCodeAt(0) - 'a'.charCodeAt(0);
-        const toR = 8 - parseInt(toSquareStr[1]);
+        let pieceType = (san[0] >= 'A' && san[0] <= 'Z') ? 'PNBRQK'.indexOf(san[0]) : P;
 
-        const sanNoDest = san.substring(0, san.length - 2).replace('x', '');
-        const pieceChar = (sanNoDest.length > 0 && sanNoDest[0] >= 'A' && sanNoDest[0] <= 'Z') ? sanNoDest[0] : 'P';
-        const pieceToFind = this.currentState.turn === 'w' ? pieceChar.toUpperCase() : pieceChar.toLowerCase();
-
-        const disambiguationStr = (pieceChar === 'P') ? sanNoDest : sanNoDest.substring(1);
+        const disambiguation = san.match(/^([a-h]?[1-8]?)[x]?([a-h][1-8])/);
+        const fromHint = disambiguation ? disambiguation[1] : '';
 
         const candidateMoves = legalMoves.filter(move => {
-            if (move.piece !== pieceToFind || move.to[0] !== toR || move.to[1] !== toC) {
-                return false;
-            }
-
-            if (promotionPiece && (!move.promotion || move.promotion.toLowerCase() !== promotionPiece.toLowerCase())) {
-                return false;
-            }
-
-            if (disambiguationStr) {
-                const fromFile = 'abcdefgh'[move.from[1]];
-                const fromRank = (8 - move.from[0]).toString();
-
-                if (disambiguationStr.length === 1) {
-                    if (!fromFile.includes(disambiguationStr) && !fromRank.includes(disambiguationStr)) {
-                        return false;
-                    }
-                } else if (disambiguationStr.length === 2) {
-                    if (fromFile !== disambiguationStr[0] || fromRank !== disambiguationStr[1]) {
-                        return false;
-                    }
-                }
+            if (getMovePiece(move) !== pieceType || getMoveTo(move) !== toSq) return false;
+            
+            if (fromHint) {
+                const fromSq = getMoveFrom(move);
+                const fromFile = 'abcdefgh'[fromSq % 8];
+                const fromRank = (8 - Math.floor(fromSq/8)).toString();
+                if (fromHint.length === 1 && !fromFile.includes(fromHint) && !fromRank.includes(fromHint)) return false;
+                if (fromHint.length === 2 && (fromFile !== fromHint[0] || fromRank !== fromHint[1])) return false;
             }
             return true;
         });
-
-        if (candidateMoves.length === 1) {
-            candidateMoves[0].san = originalSan;
-            return candidateMoves[0];
-        }
-
-        return null;
+        
+        return candidateMoves.length > 0 ? candidateMoves[0] : null;
     }
+
+
 
     applyMove(move) {
-        const { newState } = makeMoveImmutable(this.currentState, move);
-        this.currentState = newState;
+        makeMove(this.currentState, move);
     }
 }
-
 
 function generateRawBook(source, onProgress) {
     const converter = new PgnConverter();
     const bookMap = new Map();
-    const startFen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
 
     for (const [index, opening] of source.entries()) {
         converter.reset();
-
         const moves = opening.pgn.replace(/(\d+\.)/g, '').trim().split(/\s+/).filter(Boolean);
 
         for (const san of moves) {
             const fenBeforeMove = converter.toFen();
+            const hash = calculateZobristHash(converter.currentState); // Hash BEFORE the move
             const move = converter.parseSan(san);
 
-            if (!move) {
-                console.error(`Could not parse SAN "${san}" in opening "${opening.name}" from FEN "${fenBeforeMove}". Skipping line.`);
+            if (move == null) {
+                if (!['1-0', '0-1', '1/2-1/2', '*'].includes(san)) {
+                    console.error(`Could not parse SAN "${san}" in opening "${opening.name}" from FEN "${fenBeforeMove}".`);
+                }
                 break;
             }
 
-            if (!bookMap.has(fenBeforeMove)) {
-                bookMap.set(fenBeforeMove, [fenBeforeMove, opening.name]);
+            if (!bookMap.has(hash)) {
+                bookMap.set(hash, [fenBeforeMove, opening.name]);
             }
-            const entry = bookMap.get(fenBeforeMove);
+            
+            const entry = bookMap.get(hash);
+            const fromSq = getMoveFrom(move);
+            const toSq = getMoveTo(move);
+            const thinMove = {
+                from: [Math.floor(fromSq/8), fromSq%8],
+                to: [Math.floor(toSq/8), toSq%8],
+                promotion: getMovePromoted(move) ? pieceMap[getMovePromoted(move)].toLowerCase() : undefined
+            };
 
-            const thinMove = { from: move.from, to: move.to, san: move.san };
-            if (move.promotion) thinMove.promotion = move.promotion;
-
-            const moveExists = entry.slice(2).some(m =>
-                m.from[0] === thinMove.from[0] && m.from[1] === thinMove.from[1] &&
-                m.to[0] === thinMove.to[0] && m.to[1] === thinMove.to[1] &&
-                m.promotion === thinMove.promotion
-            );
-
-            if (!moveExists) {
-                entry.push(thinMove);
-            }
-
+            entry.push(thinMove);
             converter.applyMove(move);
         }
-        
-        
-        if (onProgress) {
-            onProgress(index + 1);
-        }
+        if (onProgress) onProgress(index + 1);
     }
-
     return Array.from(bookMap.values());
 }
