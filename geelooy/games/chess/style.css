@@ -18,8 +18,10 @@ body {
     color: #fff;
 }
 
+
+/* --- MENU VISIBILITY --- */
 .menu {
-    display: none; /* Controlled by JS */
+    display: none; /* JS will set this to 'flex' when a menu should be visible. */
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -29,7 +31,8 @@ body {
     display: none !important;
 }
 
-/* --- ROBUST FLEXBOX LAYOUT --- */
+
+/* --- DEFINITIVE GAME LAYOUT (FLEXBOX) --- */
 #gameContainer {
     display: flex;
     flex-direction: column;
@@ -40,17 +43,17 @@ body {
     padding: 5px 0;
 }
 
-/* NEW: The wrapper is now the flexible element that grows to fill all available space. */
+/* NEW: The wrapper is now the flexible element that fills all available space. */
 #board-wrapper {
     flex-grow: 1;
     display: flex;
     align-items: center;
     justify-content: center;
     width: 100%;
-    min-height: 0; /* Critical flexbox fix to prevent overflow */
+    min-height: 0; /* A critical flexbox fix for preventing overflow. */
 }
 
-/* All other elements have a fixed size and will not be pushed off-screen. */
+/* All other elements have fixed heights and are guaranteed to be visible. */
 .captured-pieces-container, #drawButton, #message {
     flex-shrink: 0;
 }

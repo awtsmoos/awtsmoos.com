@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	const playAsBlackButton = document.getElementById('playAsBlackButton');
 
 	// --- Constants and State ---
-	const SIZE = Math.min(window.innerWidth - 20, window.innerHeight - 300, 500);
+	const SIZE = Math.min(window.innerWidth - 20, window.innerHeight - 350, 500);
 	const SQUARE_SIZE = SIZE / 8;
 	let board = [];
 	let gameState = {};
