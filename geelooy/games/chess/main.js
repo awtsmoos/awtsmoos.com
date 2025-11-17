@@ -608,7 +608,7 @@ aiWorker.onmessage = function(e) {
 		gameState.gameOver = true;
 		gameState.pgnResult = result;
 		gameOverText.textContent = message;
-		gameOverOverlay.style.display = 'flex';
+		gameOverOverlay.classList.remove("hidden")
 	}
 
 	function generateFEN() {
@@ -862,10 +862,10 @@ aiWorker.onmessage = function(e) {
 		animationState = {
 			piece: move.piece,
 			pieceToAnimate: [move.from[0], move.from[1]],
-			startX: startCol * SQUARE_SIZE + SQUARE_SIZE / 2,
-			startY: startRow * SQUARE_SIZE + SQUARE_SIZE / 2,
-			endX: endCol * SQUARE_SIZE + SQUARE_SIZE / 2,
-			endY: endRow * SQUARE_SIZE + SQUARE_SIZE / 2,
+			startX: BOARD_PADDING + startCol * SQUARE_SIZE + SQUARE_SIZE / 2,
+			startY: BOARD_PADDING + startRow * SQUARE_SIZE + SQUARE_SIZE / 2,
+			endX: BOARD_PADDING + endCol * SQUARE_SIZE + SQUARE_SIZE / 2,
+			endY: BOARD_PADDING + endRow * SQUARE_SIZE + SQUARE_SIZE / 2,
 			startTime: performance.now(),
 			duration: 250,
 			onComplete,
@@ -1264,7 +1264,7 @@ aiWorker.onmessage = function(e) {
 	canvas.addEventListener('mouseup', handleCanvasEvent);
 	canvas.addEventListener('touchend', handleCanvasEvent);
 	replayButton.addEventListener('click', () => {
-		gameOverOverlay.style.display = 'none';
+		gameOverOverlay.classList.add("hidden")
 		chessContainer.style.display = 'none';
 		mainMenu.style.display = 'flex';
 		messageDiv.textContent = '';
