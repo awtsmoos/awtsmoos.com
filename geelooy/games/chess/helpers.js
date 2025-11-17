@@ -280,21 +280,21 @@ function unmakeMove(state) {
     }
 
     // Undo promotion
-    if (promoted) {
+if (promoted) {
     const promotedChar = pieceMap[side*6 + promoted];
-    state.pieceBitboards[side * 6 + P] ^= (1n << BigInt(to));
-    state.pieceBitboards[side * 6 + promoted] ^= (1n << BigInt(to));
-    state.board[from] = pieceChar; 
-
-    // --- FIX START ---
-    // Replace .pop() with a targeted splice to remove the promoted piece
+    state.pieceBitboards[side * 6 + P] ^= (1n << BigInt(to)); // Add pawn back to bitboard
+    state.pieceBitboards[side * 6 + promoted] ^= (1n << BigInt(to)); // Remove promoted piece from bitboard
+    
+    // The 'pieceChar' is already 'P' or 'p', so the board is correct from the "Undo piece move" step above.
+    // We only need to fix the pieceLists.
+    
+    // Remove the promoted piece from its list
     const promotedIndex = state.pieceLists[promotedChar].indexOf(to);
     if (promotedIndex > -1) {
         state.pieceLists[promotedChar].splice(promotedIndex, 1);
     }
-    // --- FIX END ---
-    
-    state.pieceLists[pieceChar].push(from);
+    // The pawn was already correctly added back to its list in the "Undo piece move" step.
+    // DO NOT add it again here.
 }
     
     // Undo castling

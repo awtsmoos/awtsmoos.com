@@ -486,17 +486,27 @@ function evaluateStrategicBonuses(state, color, pieceLists, friendlyPawnFiles, e
 }
 function evaluateThreats(state, color, pieceLists) {
     const penalty = new TaperedScore();
-    const ourChars = (color === WHITE) ? "PNBRQ" : "pnbrq", enemyChars = (color === WHITE) ? "pnbrq" : "PNBRQ", enemyColor = color ^ 1;
+    const ourChars = (color === WHITE) ? "PNBRQK" : "pnbrqk";
+    const enemyChars = (color === WHITE) ? "pnbrqk" : "PNBRQK";
+    const enemyColor = color ^ 1;
+
     for (const ourChar of ourChars) {
         const ourValue = pieceValues[ourChar.toLowerCase()].mg;
+        if (ourChar.toLowerCase() === 'k') continue; // Don't evaluate threats to the king this way
+
         for (const enemyChar of enemyChars) {
             const enemyValue = pieceValues[enemyChar.toLowerCase()].mg;
             if (enemyValue >= ourValue) continue;
+
+            const enemyPieceType = pieceMap.indexOf(enemyChar) % 6;
+
             for (const ourSq of pieceLists[ourChar]) {
                 for (const enemySq of pieceLists[enemyChar]) {
-                    if (isSquareAttackedByPiece(state.board, Math.floor(ourSq/8), ourSq%8, Math.floor(enemySq/8), enemySq%8, enemyColor)) {
+                    // Corrected function call with the right parameters
+                    if (isSquareAttackedByPiece(state, ourSq, enemySq, enemyPieceType, enemyColor)) {
                         const potentialLoss = ourValue - enemyValue;
-                        penalty.mg += potentialLoss * 0.95; penalty.eg += potentialLoss * 0.95;
+                        penalty.mg += potentialLoss * 0.9;
+                        penalty.eg += potentialLoss * 0.9;
                     }
                 }
             }
