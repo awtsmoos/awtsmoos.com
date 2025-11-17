@@ -104,77 +104,77 @@ document.addEventListener('DOMContentLoaded', () => {
 	// --- AI Worker ---
 	const aiWorker = new Worker('prometheus_engine.js');
 	// --- AI Worker ---
-	aiWorker.onmessage = function(e) {
-		gameState.isAIMoving = false;
-		const {
-			bestMove,
-			timeTaken,
-			nodesSearched,
-            score // Capture the score as well for display
-		} = e.data;
-		console.log("move")
+	/*B"H*/
+// In main.js, find the section with the AI Worker and replace the onmessage handler.
 
-		if (bestMove) {
-            // Display whether it was a book move or a calculated one
-			let moveSource;
-		if (typeof score === 'string' && (score.startsWith('Book Move') || score.startsWith('Punish Move'))) {
-		    // If it's a book or punish move, the score itself is the message
-		    moveSource = score;
-		} else {
-		    // Otherwise, format the search statistics
-		    moveSource = `Searched ${nodesSearched} nodes in ${timeTaken}ms.`;
-		}
-			
-        // --- THIS IS THE FIX ---
-        // This line was missing. It adds the result to the message box.
-        messageDiv.textContent += `\nAI moved. (${moveSource})`;
-        // ---------------------
+    // --- AI Worker ---
+    aiWorker.onmessage = function(e) {
+        const { type } = e.data;
 
-			scrollMsg()
-            // =================================================================
-			//                          *** THE FIX ***
-			// =================================================================
-			// Instead of solely relying on finding the move in the UI's legal move list
-			// (which is causing the crash), we'll robustly construct the full move object.
-			// This makes the UI resilient to minor sync issues with the worker.
+        switch (type) {
+            case 'progress':
+                const { percentage } = e.data;
+                const loadingText = document.getElementById('loadingText');
+                const progressBarFill = document.getElementById('progressBarFill');
+                loadingText.textContent = `Loading Engine... ${percentage}%`;
+                progressBarFill.style.width = `${percentage}%`;
+                break;
 
-			let fullMove = gameState.legalMoves.find(m =>
-				m.from[0] === bestMove.from[0] && m.from[1] === bestMove.from[1] &&
-				m.to[0] === bestMove.to[0] && m.to[1] === bestMove.to[1]
-			);
+            case 'initialization_complete':
+                const loadingScreen = document.getElementById('loadingScreen');
+                const mainMenu = document.getElementById('mainMenu');
+                loadingScreen.style.display = 'none';
+                mainMenu.style.display = 'flex';
+                break;
 
-			// If the move wasn't found (the source of the error), we build it ourselves.
-			// This is a crucial fallback, especially for simple book moves.
-			if (!fullMove) {
-				const piece = board[bestMove.from[0]][bestMove.from[1]];
-				fullMove = {
-					from: bestMove.from,
-					to: bestMove.to,
-					piece: piece
-				};
-				// Manually add properties that the rest of the code expects
-				if (piece.toLowerCase() === 'p' && Math.abs(fullMove.from[0] - fullMove.to[0]) === 2) {
-					fullMove.isPawnDoubleMove = true;
-				}
-				if (piece.toLowerCase() === 'k' && Math.abs(fullMove.from[1] - fullMove.to[1]) === 2) {
-					fullMove.isCastle = true;
-				}
-			}
+            case 'move_result':
+                gameState.isAIMoving = false;
+                const { bestMove, timeTaken, nodesSearched, score } = e.data;
+                console.log("move");
 
-			animateMove(fullMove, () => {
-				if (gameState.gameMode === 'ava') {
-					startAIMove(); // AI vs AI loop
-				}
-			});
-            // =================================================================
-			//                        *** END OF FIX ***
-			// =================================================================
+                if (bestMove) {
+                    let moveSource;
+                    if (typeof score === 'string' && (score.startsWith('Book Move') || score.startsWith('Punish Move'))) {
+                        moveSource = score;
+                    } else {
+                        moveSource = `Searched ${nodesSearched} nodes in ${timeTaken}ms.`;
+                    }
+                    
+                    messageDiv.textContent += `\nAI moved. (${moveSource})`;
+                    scrollMsg();
 
-		} else {
-			updateGameStatus(); // No moves found, game is over.
-		}
-	};
+                    let fullMove = gameState.legalMoves.find(m =>
+                        m.from[0] === bestMove.from[0] && m.from[1] === bestMove.from[1] &&
+                        m.to[0] === bestMove.to[0] && m.to[1] === bestMove.to[1]
+                    );
 
+                    if (!fullMove) {
+                        const piece = board[bestMove.from[0]][bestMove.from[1]];
+                        fullMove = { from: bestMove.from, to: bestMove.to, piece: piece };
+                        if (piece.toLowerCase() === 'p' && Math.abs(fullMove.from[0] - fullMove.to[0]) === 2) {
+                            fullMove.isPawnDoubleMove = true;
+                        }
+                        if (piece.toLowerCase() === 'k' && Math.abs(fullMove.from[1] - fullMove.to[1]) === 2) {
+                            fullMove.isCastle = true;
+                        }
+                    }
+
+                    animateMove(fullMove, () => {
+                        if (gameState.gameMode === 'ava') {
+                            startAIMove(); // AI vs AI loop
+                        }
+                    });
+                } else {
+                    updateGameStatus(); // No moves found, game is over.
+                }
+                break;
+        }
+    };
+
+// REPLACE the final lines of main.js with this new block.
+// This will hide the main menu and send the 'initialize' command on startup.
+
+	
 	// --- Full Chess Rules Logic (for UI) ---
 	const chessLogic = {};
 	(function(logic) {
@@ -963,14 +963,11 @@ document.addEventListener('DOMContentLoaded', () => {
 		a.click();
 		URL.revokeObjectURL(url);
 	});
-	// Put this with your other event listeners at the bottom of the file
 	drawButton.addEventListener('click', () => {
-		// If the game isn't over, this button will immediately end it in a draw.
 		if (!gameState.gameOver) {
 			showGameOver("Game Drawn by Agreement", "1/2-1/2");
 		}
 	});
-	
 	
 	playVsAiButton.onclick = () => {
 		mainMenu.style.display = 'none';
@@ -981,6 +978,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	playVsPlayerButton.onclick = () => startGame('pvp');
 	aiVsAiButton.onclick = () => startGame('ava');
 
-	mainMenu.style.display = 'flex';
+	// --- INITIATE ENGINE LOADING ON STARTUP ---
 	resetGameState();
+	aiWorker.postMessage({ command: 'initialize' });
 });

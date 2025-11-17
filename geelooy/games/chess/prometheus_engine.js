@@ -1243,108 +1243,149 @@ var tested=1
 //              MAIN WORKER DRIVER (UNCHANGED)
 // =================================================================
 let DEBUG_MODE = true;
+/* B"H */
 let isInitialized = false;
 
 function initializeEngine() {
     if (isInitialized) return;
+    
+    console.log("Prometheus Engine: Initialization started.");
     initializeZobristKeys();
-    // Build both books using our refactored function
-    buildBook(sourceBook, openingBook);
-    buildBook(punishmentBookSource, punishmentBook); // <--  
+
+    const totalLines = sourceBook.length + punishmentBookSource.length;
+    let linesProcessed = 0;
+
+    // Callback function to report progress to the main thread
+    const reportProgress = (countInCategory) => {
+        linesProcessed++;
+        const percentage = Math.round((linesProcessed / totalLines) * 100);
+        self.postMessage({
+            type: 'progress',
+            percentage: percentage
+        });
+    };
+
+    // Process the main grandmaster library
+    const rawMainBook = generateRawBook(sourceBook, reportProgress);
+    processRawBook(rawMainBook, openingBook);
+    
+    // The starting count for the next book is the end of the last one
+    linesProcessed = sourceBook.length; 
+    
+    // Process the punishment library
+    const rawPunishBook = generateRawBook(punishmentBookSource, reportProgress);
+    processRawBook(rawPunishBook, punishmentBook);
+
     isInitialized = true;
     console.log("Prometheus Engine Initialized Successfully.");
     console.log(`Mainline Openings Loaded: ${openingBook.size}`);
     console.log(`Punishment Lines Loaded: ${punishmentBook.size}`);
+    
+    // Signal to the main thread that loading is complete.
+    self.postMessage({ type: 'initialization_complete' });
 }
 
+/* B"H */
+// REPLACE the old self.onmessage function with this one.
+
 self.onmessage = function(e) {
-    const { command, fen, maxDepth, maxTime } = e.data;
-    initializeEngine();
+    const { command } = e.data;
 
-    if (command === 'set_debug') {
-        DEBUG_MODE = e.data.debug;
-        return;
-    }
-    
-    if(tested < 1){
-        tested++;
-        runPerftTest(fen, maxDepth);
-    }
+    // Use a switch to handle different commands from the main thread
+    switch (command) {
+        case 'initialize':
+            initializeEngine();
+            break;
 
-    if (command === 'calculate_move') {
-        // --- Search Initialization ---
-        searchStartTime = performance.now();
-        timeLimit = maxTime || 4000;
-        stopSearch = false;
-        nodeCount = 0;
-        transpositionTable = new Map();
-        killerMoves = Array(MATE_IN_MAX_PLY + 1).fill(null).map(() => [null, null]);
-        historyTable = Array(12).fill(null).map(() => Array(64).fill(0));
-
-        const initialState = createGameState(fen);
-        repetitionHistory = [initialState.zobristHash];
-        
-        const currentHash = initialState.zobristHash.toString();
-        if (DEBUG_MODE) {
-            console.log(`---------------------------------`);
-            console.log(`Calculating move for FEN: ${fen}`);
-            console.log(`LIVE ZOBRIST HASH: ${currentHash}`);
-        }
-
-        // --- HIERARCHY 1: Check the main 'grandmaster' opening book first. ---
-        if (openingBook.has(currentHash)) {
-            const bookEntry = openingBook.get(currentHash);
-            const bookMoves = bookEntry.moves;
-            const openingName = bookEntry.name;
-            const legalMoves = generateLegalMoves(initialState);
-
-            const verifiedBookMoves = bookMoves.filter(bookMove => 
-                legalMoves.some(legalMove => 
-                    legalMove.from[0] === bookMove.from[0] && legalMove.from[1] === bookMove.from[1] &&
-                    legalMove.to[0] === bookMove.to[0] && legalMove.to[1] === bookMove.to[1]
-                )
-            );
-
-            if (verifiedBookMoves.length > 0) {
-                if (DEBUG_MODE) console.log(`**MAIN BOOK HIT**: Playing standard opening.`);
-                const randomVerifiedMove = verifiedBookMoves[Math.floor(Math.random() * verifiedBookMoves.length)];
-                postMessage({ bestMove: randomVerifiedMove, score: `Book Move: ${openingName}`, timeTaken: 0, nodesSearched: 0 });
-                return; // Exit after finding a move
+        case 'set_debug':
+            DEBUG_MODE = e.data.debug;
+            break;
+            
+        case 'calculate_move':
+            // Ensure initialization has happened before trying to calculate.
+            if (!isInitialized) {
+                console.error("Engine received calculate_move command before it was initialized.");
+                // As a fallback, initialize now, though this is the slow behavior we are avoiding.
+                initializeEngine();
             }
-        } 
-        
-        // --- HIERARCHY 2: If no main book move, check the 'punishment' book. ---
-        else if (punishmentBook.has(currentHash)) {
-            const bookEntry = punishmentBook.get(currentHash);
-            const bookMoves = bookEntry.moves;
-            const trapName = bookEntry.name;
-            const legalMoves = generateLegalMoves(initialState);
 
-            const verifiedBookMoves = bookMoves.filter(bookMove => 
-                legalMoves.some(legalMove => 
-                    legalMove.from[0] === bookMove.from[0] && legalMove.from[1] === bookMove.from[1] &&
-                    legalMove.to[0] === bookMove.to[0] && legalMove.to[1] === bookMove.to[1]
-                )
-            );
+            const { fen, maxDepth, maxTime } = e.data;
 
-            if (verifiedBookMoves.length > 0) {
-                if (DEBUG_MODE) console.log(`**PUNISHMENT BOOK HIT**: Responding to opponent's mistake.`);
-                const randomVerifiedMove = verifiedBookMoves[Math.floor(Math.random() * verifiedBookMoves.length)];
-                postMessage({ bestMove: randomVerifiedMove, score: `Punish Move: ${trapName}`, timeTaken: 0, nodesSearched: 0 });
-                return; // Exit after finding a move
+            // --- Search Initialization ---
+            searchStartTime = performance.now();
+            timeLimit = maxTime || 4000;
+            stopSearch = false;
+            nodeCount = 0;
+            transpositionTable = new Map();
+            killerMoves = Array(MATE_IN_MAX_PLY + 1).fill(null).map(() => [null, null]);
+            historyTable = Array(12).fill(null).map(() => Array(64).fill(0));
+
+            const initialState = createGameState(fen);
+            repetitionHistory = [initialState.zobristHash];
+            
+            const currentHash = initialState.zobristHash.toString();
+            if (DEBUG_MODE) {
+                console.log(`---------------------------------`);
+                console.log(`Calculating move for FEN: ${fen}`);
+                console.log(`LIVE ZOBRIST HASH: ${currentHash}`);
             }
-        }
-        
-        // --- HIERARCHY 3: If neither book has a valid move, then think. ---
-        if (DEBUG_MODE) {
-            console.warn("Engine is now THINKING because of a book miss.");
-        }
 
-        const { bestMove, score } = searchRoot(initialState, maxDepth || 99);
-        postMessage({
-            bestMove: bestMove, score: score,
-            timeTaken: (performance.now() - searchStartTime).toFixed(2),
-            nodesSearched: nodeCount
-        });
+            // --- HIERARCHY 1: Check the main 'grandmaster' opening book first. ---
+            if (openingBook.has(currentHash)) {
+                const bookEntry = openingBook.get(currentHash);
+                const bookMoves = bookEntry.moves;
+                const openingName = bookEntry.name;
+                const legalMoves = generateLegalMoves(initialState);
+
+                const verifiedBookMoves = bookMoves.filter(bookMove => 
+                    legalMoves.some(legalMove => 
+                        legalMove.from[0] === bookMove.from[0] && legalMove.from[1] === bookMove.from[1] &&
+                        legalMove.to[0] === bookMove.to[0] && legalMove.to[1] === bookMove.to[1]
+                    )
+                );
+
+                if (verifiedBookMoves.length > 0) {
+                    if (DEBUG_MODE) console.log(`**MAIN BOOK HIT**: Playing standard opening.`);
+                    const randomVerifiedMove = verifiedBookMoves[Math.floor(Math.random() * verifiedBookMoves.length)];
+                    postMessage({ type: 'move_result', bestMove: randomVerifiedMove, score: `Book Move: ${openingName}`, timeTaken: 0, nodesSearched: 0 });
+                    return; // Exit after finding a move
+                }
+            } 
+            
+            // --- HIERARCHY 2: If no main book move, check the 'punishment' book. ---
+            else if (punishmentBook.has(currentHash)) {
+                const bookEntry = punishmentBook.get(currentHash);
+                const bookMoves = bookEntry.moves;
+                const trapName = bookEntry.name;
+                const legalMoves = generateLegalMoves(initialState);
+
+                const verifiedBookMoves = bookMoves.filter(bookMove => 
+                    legalMoves.some(legalMove => 
+                        legalMove.from[0] === bookMove.from[0] && legalMove.from[1] === bookMove.from[1] &&
+                        legalMove.to[0] === bookMove.to[0] && legalMove.to[1] === bookMove.to[1]
+                    )
+                );
+
+                if (verifiedBookMoves.length > 0) {
+                    if (DEBUG_MODE) console.log(`**PUNISHMENT BOOK HIT**: Responding to opponent's mistake.`);
+                    const randomVerifiedMove = verifiedBookMoves[Math.floor(Math.random() * verifiedBookMoves.length)];
+                    postMessage({ type: 'move_result', bestMove: randomVerifiedMove, score: `Punish Move: ${trapName}`, timeTaken: 0, nodesSearched: 0 });
+                    return; // Exit after finding a move
+                }
+            }
+            
+            // --- HIERARCHY 3: If neither book has a valid move, then think. ---
+            if (DEBUG_MODE) {
+                console.warn("Engine is now THINKING because of a book miss.");
+            }
+
+            const { bestMove, score } = searchRoot(initialState, maxDepth || 99);
+            postMessage({
+                type: 'move_result',
+                bestMove: bestMove, score: score,
+                timeTaken: (performance.now() - searchStartTime).toFixed(2),
+                nodesSearched: nodeCount
+            });
+            break;
     }
 };

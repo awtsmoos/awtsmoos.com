@@ -120,7 +120,7 @@ class PgnConverter {
 }
 
 
-function generateRawBook(source) {
+function generateRawBook(source, onProgress) {
     const converter = new PgnConverter();
     const bookMap = new Map();
     const startFen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
@@ -158,6 +158,11 @@ function generateRawBook(source) {
             }
 
             converter.applyMove(move);
+        }
+        
+        
+        if (onProgress) {
+            onProgress(index + 1);
         }
     }
 

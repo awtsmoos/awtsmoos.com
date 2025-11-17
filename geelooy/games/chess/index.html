@@ -9,7 +9,15 @@
 </head>
 <body>
 
-    <div id="mainMenu" class="menu">
+    <!-- ADDED: Loading Screen -->
+    <div id="loadingScreen" class="menu" style="display: flex;">
+        <h2 id="loadingText">Loading Engine... 0%</h2>
+        <div id="progressBar">
+            <div id="progressBarFill"></div>
+        </div>
+    </div>
+
+    <div id="mainMenu" class="menu" style="display: none;">
         <button id="playVsAiButton" class="menu-button">Player vs AI</button>
         <button id="playVsPlayerButton" class="menu-button">Player vs Player</button>
         <button id="aiVsAiButton" class="menu-button">AI vs AI</button>
