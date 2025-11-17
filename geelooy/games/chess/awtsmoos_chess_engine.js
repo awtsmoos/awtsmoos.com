@@ -558,26 +558,46 @@ function evaluateStrategicBonuses(state, color, pieceLists, friendlyPawnFiles, e
     return score;
 }
 
+// IN prometheus_engine.js, REPLACE the evaluateThreats function:
+
 function evaluateThreats(state, color, pieceLists) {
     const penalty = new TaperedScore();
-    const ourPieceIndices = (color === WHITE) ? [P, N, B, R, Q] : [P+6, N+6, B+6, R+6, Q+6];
-    const enemyPieceIndices = (color === WHITE) ? [P+6, N+6, B+6, R+6, Q+6] : [P, N, B, R, Q];
-    const enemyColor = color ^ 1;
+    const side = color;
+    const enemy = color ^ 1;
 
-    for (const ourPIdx of ourPieceIndices) {
+    const ourPieceTypes = (side === WHITE) ? [P, N, B, R, Q] : [P + 6, N + 6, B + 6, R + 6, Q + 6];
+    const enemyPieceTypes = (side === WHITE) ? [P + 6, N + 6, B + 6, R + 6, Q + 6] : [P, N, B, R, Q];
+
+    for (const ourPIdx of ourPieceTypes) {
         const ourValue = pieceValues[pieceMap[ourPIdx].toLowerCase()].mg;
-        for (const enemyPIdx of enemyPieceIndices) {
+        const ourBB = state.pieceBitboards[ourPIdx];
+
+        for (const enemyPIdx of enemyPieceTypes) {
             const enemyValue = pieceValues[pieceMap[enemyPIdx].toLowerCase()].mg;
             if (enemyValue >= ourValue) continue;
 
-            for (const ourSq of pieceLists[ourPIdx]) {
-                for (const enemySq of pieceLists[enemyPIdx]) {
-                    if (isSquareAttackedByPiece(state, ourSq, enemySq, enemyPIdx % 6, enemyColor)) {
-                        const potentialLoss = ourValue - enemyValue;
-                        penalty.mg += potentialLoss * 0.95;
-                        penalty.eg += potentialLoss * 0.95;
-                    }
+            let enemyBB = state.pieceBitboards[enemyPIdx];
+            while (enemyBB > 0n) {
+                const enemySq = getLSBIndex(enemyBB);
+                const enemyPieceType = enemyPIdx % 6;
+                let attacks = 0n;
+
+                switch (enemyPieceType) {
+                    case P: attacks = PAWN_ATTACKS[enemy][enemySq]; break;
+                    case N: attacks = KNIGHT_ATTACKS[enemySq]; break;
+                    case B: attacks = getBishopAttacks(enemySq, state.occupancies[2]); break;
+                    case R: attacks = getRookAttacks(enemySq, state.occupancies[2]); break;
+                    case Q: attacks = getQueenAttacks(enemySq, state.occupancies[2]); break;
+                    case K: attacks = KING_ATTACKS[enemySq]; break;
                 }
+
+                // Check if any of these attacks land on one of our more valuable pieces
+                if ((attacks & ourBB) !== 0n) {
+                    const potentialLoss = ourValue - enemyValue;
+                    penalty.mg += potentialLoss * 0.95;
+                    penalty.eg += potentialLoss * 0.95;
+                }
+                enemyBB = popBit(enemyBB);
             }
         }
     }

@@ -168,14 +168,15 @@ const getMoveDouble = (move) => (move >> 21) & 1;
 const getMoveEnpassant = (move) => (move >> 22) & 1;
 const getMoveCastling = (move) => (move >> 23) & 1;
 
-// --- FINAL MOVE GENERATOR ---
+// IN helpers.js, REPLACE the generateMoves function:
+
 function generateMoves(state) {
     const moves = [];
     const side = state.turn;
     const enemy = side ^ 1;
     const blockers = state.occupancies[2];
-    const kingSq = getLSBIndex(state.pieceBitboards[side * 6 + K]);
 
+    // --- Pawn Moves ---
     let pawns = state.pieceBitboards[side * 6 + P];
     while(pawns > 0n) {
         const from = getLSBIndex(pawns);
@@ -194,7 +195,8 @@ function generateMoves(state) {
         while(attacks > 0n) {
             const to_cap = getLSBIndex(attacks);
             if ((side === WHITE && from >= 8 && from <= 15) || (side === BLACK && from >= 48 && from <= 55)) {
-                 moves.push(encodeMove(from, to_cap, P, Q, 1,0,0,0)); // Add other promotions...
+                 moves.push(encodeMove(from, to_cap, P, Q, 1,0,0,0)); moves.push(encodeMove(from, to_cap, P, R, 1,0,0,0));
+                 moves.push(encodeMove(from, to_cap, P, B, 1,0,0,0)); moves.push(encodeMove(from, to_cap, P, N, 1,0,0,0));
             } else { moves.push(encodeMove(from, to_cap, P, 0, 1,0,0,0)); }
             attacks = popBit(attacks);
         }
@@ -205,21 +207,25 @@ function generateMoves(state) {
         }
         pawns = popBit(pawns);
     }
+
+    // --- Castling ---
     if (side === WHITE) {
         if ((state.castling & WKCA) && !((blockers >> 61n) & 1n) && !((blockers >> 62n) & 1n)) {
-            if (!isSquareAttacked(state, 60, BLACK) && !isSquareAttacked(state, 61, BLACK)) moves.push(encodeMove(60, 62, K, 0, 0,0,0,1));
+            if (!isSquareAttacked(state, 60, BLACK) && !isSquareAttacked(state, 61, BLACK) && !isSquareAttacked(state, 62, BLACK)) moves.push(encodeMove(60, 62, K, 0, 0,0,0,1));
         }
         if ((state.castling & WQCA) && !((blockers >> 59n) & 1n) && !((blockers >> 58n) & 1n) && !((blockers >> 57n) & 1n)) {
-            if (!isSquareAttacked(state, 60, BLACK) && !isSquareAttacked(state, 59, BLACK)) moves.push(encodeMove(60, 58, K, 0, 0,0,0,1));
+            if (!isSquareAttacked(state, 60, BLACK) && !isSquareAttacked(state, 59, BLACK) && !isSquareAttacked(state, 58, BLACK)) moves.push(encodeMove(60, 58, K, 0, 0,0,0,1));
         }
     } else {
         if ((state.castling & BKCA) && !((blockers >> 5n) & 1n) && !((blockers >> 6n) & 1n)) {
-            if (!isSquareAttacked(state, 4, WHITE) && !isSquareAttacked(state, 5, WHITE)) moves.push(encodeMove(4, 6, K, 0, 0,0,0,1));
+            if (!isSquareAttacked(state, 4, WHITE) && !isSquareAttacked(state, 5, WHITE) && !isSquareAttacked(state, 6, WHITE)) moves.push(encodeMove(4, 6, K, 0, 0,0,0,1));
         }
         if ((state.castling & BQCA) && !((blockers >> 3n) & 1n) && !((blockers >> 2n) & 1n) && !((blockers >> 1n) & 1n)) {
-            if (!isSquareAttacked(state, 4, WHITE) && !isSquareAttacked(state, 3, WHITE)) moves.push(encodeMove(4, 2, K, 0, 0,0,0,1));
+            if (!isSquareAttacked(state, 4, WHITE) && !isSquareAttacked(state, 3, WHITE) && !isSquareAttacked(state, 2, WHITE)) moves.push(encodeMove(4, 2, K, 0, 0,0,0,1));
         }
     }
+
+    // --- Other Piece Moves ---
     const pieces = [N, B, R, Q, K];
     for (const piece of pieces) {
         let bitboard = state.pieceBitboards[side * 6 + piece];
