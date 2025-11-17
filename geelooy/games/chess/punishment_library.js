@@ -2195,7 +2195,7 @@ const punishmentBookSource = [
 // --- III. DEEP DIVE: The Labyrinth of Sicilian Defense Traps ---
 
 { name: "Trap: Sicilian, Magnus Smith Trap", pgn: "1. e4 c5 2. Nf3 d6 3. d4 cxd4 4. Nxd4 Nf6 5. Nc3 Nc6 6. Bc4 g6 7. Nxc6" },
-{ name:g: "Trap: Sicilian, Velimirovic Attack Setup", pgn: "1. e4 c5 2. Nf3 d6 3. d4 cxd4 4. Nxd4 Nf6 5. Nc3 Nc6 6. Bc4 e6 7. Be3 Be7 8. Qe2" },
+{ name: "Trap: Sicilian, Velimirovic Attack Setup", pgn: "1. e4 c5 2. Nf3 d6 3. d4 cxd4 4. Nxd4 Nf6 5. Nc3 Nc6 6. Bc4 e6 7. Be3 Be7 8. Qe2" },
 { name: "Trap: Sicilian, Fischer-Sozin Attack Setup", pgn: "1. e4 c5 2. Nf3 d6 3. d4 cxd4 4. Nxd4 Nf6 5. Nc3 a6 6. Bc4" },
 { name: "Refute: Sicilian, Wing Gambit (Main Line)", pgn: "1. e4 c5 2. b4 cxb4 3. a3 d5 4. exd5 Qxd5 5. Nf3" },
 { name: "Refute: Sicilian, Wing Gambit Declined", pgn: "1. e4 c5 2. b4 d5" },
@@ -2214,7 +2214,7 @@ const punishmentBookSource = [
 { name: "Trap: French Defense, Alekhine-Chatard Attack", pgn: "1. e4 e6 2. d4 d5 3. Nc3 Nf6 4. Bg5 Be7 5. e5 Nfd7 6. h4" },
 { name: "Punish: French Defense, Exchange Variation (Passive Play)", pgn: "1. e4 e6 2. d4 d5 3. exd5 exd5 4. Bd3 c5" },
 { name: "Refute: Caro-Kann, Hillbilly Attack", pgn: "1. e4 c6 2. Bc4 d5 3. exd5 cxd5" },
-{ name:g: "Refute: Caro-Kann, Goldman Variation", pgn: "1. e4 c6 2. Nc3 d5 3. Qf3" },
+{ name: "Refute: Caro-Kann, Goldman Variation", pgn: "1. e4 c6 2. Nc3 d5 3. Qf3" },
 { name: "Refute: Caro-Kann, Ulysses Gambit", pgn: "1. e4 c6 2. d4 d5 3. Nf3 dxe4 4. Ng5" },
 { name: "Trap: Caro-Kann, Fantasy Variation (Main Line)", pgn: "1. e4 c6 2. d4 d5 3. f3 dxe4 4. fxe4 e5 5. Nf3" },
 { name: "Trap: Caro-Kann, Panov-Botvinnik Attack Setup", pgn: "1. e4 c6 2. d4 d5 3. exd5 cxd5 4. c4" },
