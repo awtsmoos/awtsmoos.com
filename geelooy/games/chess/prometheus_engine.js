@@ -27,7 +27,7 @@ importScripts('punishment_library.js');
 // =================================================================
 const openingBook = new Map();
 const punishmentBook = new Map();
-
+let lastParsedGame = null
 /**
  * This function takes a raw book array (generated from PGN) and processes it
  * into the final, hash-based Map that the engine uses.
@@ -1503,6 +1503,8 @@ case 'analyze_pgn':
         // Push the found name, or null if it's in neither book.
         openingNames.push(foundName);
     }
+    
+    lastParsedGame = gameData;
 
     // 3. Send the complete, validated package back to the main thread.
     postMessage({
@@ -1512,68 +1514,59 @@ case 'analyze_pgn':
         openingNames: openingNames
     });
     break;
-    case 'run_full_analysis': {
-            console.log("Starting full game analysis...");
-            const { pgnText } = e.data;
+    // DELETE the old 'run_full_analysis' case and REPLACE it with this:
+case 'run_engine_analysis': {
+    if (!lastParsedGame) {
+        postMessage({ type: 'analysis_error', message: "No PGN has been loaded to analyze." });
+        return;
+    }
 
-            // 1. Parse the PGN to get moves and initial state
-            const fenMatch = pgnText.match(/\[FEN\s+"(.*?)"\]/);
-            const initialFen = fenMatch ? fenMatch[1] : "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
-            let moveText = pgnText.replace(/\[.*?\]\s*|{.*?}|\d+\.\s*|\$\d+/g, '').replace(/\s+/g, ' ').trim();
-            const movesSAN = moveText.split(' ').filter(m => m && !['1-0', '0-1', '1/2-1/2', '*'].includes(m));
+    console.log("Starting full game analysis from cached data...");
+    
+    const { moves, initialFen } = lastParsedGame;
+    const analysisResults = [];
+    
+    const game = new PgnConverter();
+    game.currentState = createGameState(initialFen);
 
-            const game = new PgnConverter();
-            game.currentState = createGameState(initialFen);
+    for (const actualMove of moves) {
+        // Get the evaluation of the position BEFORE the move
+        const evalBeforeMove = -evaluate(game.currentState);
 
-            const analysisResults = [];
-            let lastEval = 0; // The evaluation of the previous position
+        // Find the best possible move in this position
+        const searchResult = searchRoot(game.currentState, 3); // Shallow search is fast
+        const bestMoveEval = searchResult.score;
 
-            for (const san of movesSAN) {
-                // Get the evaluation of the position BEFORE the move
-                const evalBeforeMove = -evaluate(game.currentState);
+        // Apply the ACTUAL move from the game
+        game.applyMove(actualMove);
+        
+        // Get the evaluation of the position AFTER the actual move
+        const evalAfterMove = evaluate(game.currentState);
 
-                // Find the best possible move in this position
-                const searchResult = searchRoot(game.currentState, 3); // A shallow search is fast and sufficient
-                const bestMoveEval = searchResult.score;
+        const evalDrop = (game.currentState.turn === 'b' ? 1 : -1) * (bestMoveEval - evalAfterMove);
 
-                // Apply the ACTUAL move from the game
-                const actualMove = game.parseSan(san);
-                if (!actualMove) break; // Should not happen with valid PGN
-                game.applyMove(actualMove);
-                
-                // Get the evaluation of the position AFTER the actual move
-                const evalAfterMove = evaluate(game.currentState);
+        let classification = 'good';
+        if (evalDrop > 200) {
+            classification = 'blunder';
+        } else if (evalDrop > 80) {
+            classification = 'mistake';
+        } else if (bestMoveEval > 50 && actualMove.capturedPiece && pieceValues[actualMove.capturedPiece.toLowerCase()].mg > pieceValues[actualMove.piece.toLowerCase()].mg) {
+            classification = 'brilliant';
+        }
 
-                // Calculate the drop in evaluation from the player's perspective
-                // We compare the best possible outcome with the actual outcome.
-                const evalDrop = (game.currentState.turn === 'b' ? 1 : -1) * (bestMoveEval - evalAfterMove);
+        analysisResults.push({
+            classification: classification,
+            bestMove: searchResult.bestMove
+        });
+    }
 
-                // 2. Classify the move based on the evaluation drop
-                let classification = 'good'; // Default
-                let bestMoveForHint = searchResult.bestMove;
+    self.postMessage({
+        type: 'full_analysis_complete',
+        results: analysisResults
+    });
+    console.log("Full game analysis complete.");
+    break;
 
-                if (evalDrop > 200) {
-                    classification = 'blunder';
-                } else if (evalDrop > 80) {
-                    classification = 'mistake';
-                } else if (bestMoveEval > 50 && actualMove.capturedPiece && pieceValues[actualMove.capturedPiece.toLowerCase()].mg > pieceValues[actualMove.piece.toLowerCase()].mg) {
-                     // Simple heuristic for a "brilliant" move: a good sacrifice
-                     classification = 'brilliant';
-                }
-
-                analysisResults.push({
-                    classification: classification,
-                    bestMove: bestMoveForHint // The better move to suggest
-                });
-            }
-
-            // 3. Send the complete results back to the main thread
-            self.postMessage({
-                type: 'full_analysis_complete',
-                results: analysisResults
-            });
-            console.log("Full game analysis complete.");
-            break;
         
     
     

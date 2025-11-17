@@ -1400,27 +1400,23 @@ function drawAnalysisBoard() {
 	    pgnFileInput.click();
 	};
 	
-	// At the bottom with other event listeners
+	 
+
 runAnalysisButton.onclick = () => {
     if (analysisState.moves.length === 0) {
         alert("Please load a PGN first.");
         return;
     }
     
-    // Show a loading indicator
     openingNameDisplay.textContent = "Analyzing game, please wait...";
 
-    // We need the original PGN text to send to the worker
-    // Let's modify the file reader to store it.
-    // In the `pgnFileInput.onchange` event:
-    // const pgnText = e.target.result;
-    // analysisState.rawPgn = pgnText; // Store it
-    // Then we can send it here:
+    // Send the new, simpler command. No need to send the PGN again!
     aiWorker.postMessage({
-        command: 'run_full_analysis',
-        pgnText: analysisState.rawPgn // You'll need to store the raw PGN when loaded
+        command: 'run_engine_analysis'
     });
 };
+    
+    
 
 
 pgnFileInput.onchange = (event) => {
