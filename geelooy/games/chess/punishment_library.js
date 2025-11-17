@@ -1941,7 +1941,7 @@ const punishmentBookSource = [
 { name: "Englund Gambit: Soller Gambit", pgn: "1. d4 e5 2. dxe5 f6 3. exf6 Nxf6 4. Nf3" },
 // WHY: Another tricky branch of the Englund that the engine needs to know how to refute with simple, solid development.
 
-{ name:g: "Englund Gambit: Stockholm Variation", pgn: "1. d4 e5 2. dxe5 Nc6 3. Nf3 Qe7 4. Qd5" },
+{ name: "Englund Gambit: Stockholm Variation", pgn: "1. d4 e5 2. dxe5 Nc6 3. Nf3 Qe7 4. Qd5" },
 // WHY: A strange but surprisingly effective way for White to hold onto the pawn and get a better position.
 
 { name: "Englund Gambit: Main Line Deep Refutation", pgn: "1. d4 e5 2. dxe5 Nc6 3. Nf3 Qe7 4. Bf4 Qb4+ 5. Bd2 Qxb2 6. Nc3 Bb4 7. Rb1 Qa3 8. Nd5 Bxd2+ 9. Qxd2" },
