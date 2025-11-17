@@ -237,20 +237,33 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-wrap: wrap;
-    gap: 10px;
+    width: 95vw; /* Match the width of other elements */
+    max-width: 500px;
+    gap: 8px; /* Space between buttons */
+    margin-bottom: 10px;
 }
-.nav-arrow {
-    font-size: 28px;
-    font-weight: bold;
-    width: 65px;
+
+
+#analysis-controls .menu-button {
+    width: auto; /* Let the content and padding define the width */
+    flex-grow: 1; /* Allow main buttons to grow and fill space */
+    margin: 0; /* Remove the default margin */
+    padding: 12px 10px; /* Reduce padding for a more compact button */
+    font-size: 16px; /* Make the font smaller */
+}
+
+
+#analysis-controls .nav-arrow {
+    flex-grow: 0; /* Prevent arrow buttons from growing */
+    width: 50px;  /* Set a fixed smaller width for arrows */
+    font-size: 24px;
     padding: 8px 0;
-    line-height: 1;
 }
+
 #moveListContainer {
     width: 95vw;
     max-width: 500px;
-    height: 150px;
+    height: 220px; /* Increased height significantly from 150px */
     background-color: #1a1a1a;
     border: 1px solid #444;
     border-radius: 8px;
