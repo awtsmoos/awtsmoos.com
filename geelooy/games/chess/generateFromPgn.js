@@ -1,7 +1,7 @@
 /* B"H */
 
 // =================================================================
-//                 BITBOARD PGN CONVERTER (v2.0 - VERIFIED)
+//                 BITBOARD PGN CONVERTER (v3.0 - ROBUST & FINAL)
 // =================================================================
 
 class PgnConverter {
@@ -12,6 +12,7 @@ class PgnConverter {
 
     reset() {
         this.currentState = createGameState("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+        moveStackPtr = 0; // Ensures the global move stack used by make/unmake is reset
     }
     
     toFen() {
@@ -45,49 +46,79 @@ class PgnConverter {
         fen += castlingStr || '-';
         
         fen += ' ' + (this.currentState.enpassant === -1 ? '-' : `${'abcdefgh'[this.currentState.enpassant % 8]}${8 - Math.floor(this.currentState.enpassant / 8)}`);
-        
-        // FEN clocks are not essential for book generation
         fen += ' 0 1';
-        
         return fen;
     }
 
-    // IN generateFromPgn.js, REPLACE THE parseSan and generateRawBook functions:
-
     parseSan(san) {
-        const legalMoves = generateMoves(this.currentState);
+        const originalSan = san;
         san = san.replace(/[+#?!]/g, '');
 
-        if (san === 'O-O') return legalMoves.find(m => getMoveCastling(m) && getMoveTo(m) > getMoveFrom(m));
-        if (san === 'O-O-O') return legalMoves.find(m => getMoveCastling(m) && getMoveTo(m) < getMoveFrom(m));
         if (['1-0', '0-1', '1/2-1/2', '*'].includes(san)) return null;
 
-        const toMatch = san.match(/([a-h][1-8])/);
-        if(!toMatch) return null;
-        const toSq = (8 - parseInt(toMatch[1][1])) * 8 + (toMatch[1][0].charCodeAt(0) - 'a'.charCodeAt(0));
+        // Generate all legal moves from the current position
+        const legalMoves = generateMoves(this.currentState);
 
+        // Handle Castling
+        if (san === 'O-O') {
+            for (const move of legalMoves) {
+                if (getMoveCastling(move) && getMoveTo(move) > getMoveFrom(move)) return move;
+            }
+        }
+        if (san === 'O-O-O') {
+            for (const move of legalMoves) {
+                if (getMoveCastling(move) && getMoveTo(move) < getMoveFrom(move)) return move;
+            }
+        }
+
+        // Decode the parts of the SAN string
+        const sanStripped = san.replace('x', '').replace('=', '');
+        const toMatch = sanStripped.match(/([a-h][1-8])$/);
+        if (!toMatch) return null;
+
+        const toSq = (8 - parseInt(toMatch[0][1])) * 8 + (toMatch[0].charCodeAt(0) - 'a'.charCodeAt(0));
+        
         let pieceType = (san[0] >= 'A' && san[0] <= 'Z') ? 'PNBRQK'.indexOf(san[0]) : P;
+        let promotionType = 0;
+        if (san.includes('=')) {
+            promotionType = 'PNBRQ'.indexOf(san.slice(-1));
+        }
 
-        const disambiguation = san.match(/^([a-h]?[1-8]?)[x]?([a-h][1-8])/);
-        const fromHint = disambiguation ? disambiguation[1] : '';
+        const fromHint = sanStripped.substring(0, sanStripped.length - 2);
 
-        const candidateMoves = legalMoves.filter(move => {
-            if (getMovePiece(move) !== pieceType || getMoveTo(move) !== toSq) return false;
-            
+        // Filter the legal moves to find the single matching move
+        const candidateMoves = [];
+        for (const move of legalMoves) {
+            // Must be the right piece type moving to the right square
+            if (getMovePiece(move) !== pieceType || getMoveTo(move) !== toSq) continue;
+            // Must have the right promotion piece, if specified
+            if (promotionType && getMovePromoted(move) !== promotionType) continue;
+
+            // Apply disambiguation rules if a hint (like 'Rfe1' or 'N5d7') is present
             if (fromHint) {
                 const fromSq = getMoveFrom(move);
                 const fromFile = 'abcdefgh'[fromSq % 8];
-                const fromRank = (8 - Math.floor(fromSq/8)).toString();
-                if (fromHint.length === 1 && !fromFile.includes(fromHint) && !fromRank.includes(fromHint)) return false;
-                if (fromHint.length === 2 && (fromFile !== fromHint[0] || fromRank !== fromHint[1])) return false;
+                const fromRank = (8 - Math.floor(fromSq / 8)).toString();
+                let match = true;
+                for (const char of fromHint) {
+                    if (fromFile !== char && fromRank !== char) {
+                        match = false;
+                        break;
+                    }
+                }
+                if (!match) continue;
             }
-            return true;
-        });
-        
-        return candidateMoves.length > 0 ? candidateMoves[0] : null;
+            
+            candidateMoves.push(move);
+        }
+
+        if (candidateMoves.length === 1) {
+            return candidateMoves[0];
+        }
+
+        // If we found 0 or >1 moves, the PGN is either invalid or ambiguous.
+        return null;
     }
-
-
 
     applyMove(move) {
         makeMove(this.currentState, move);
@@ -104,7 +135,7 @@ function generateRawBook(source, onProgress) {
 
         for (const san of moves) {
             const fenBeforeMove = converter.toFen();
-            const hash = calculateZobristHash(converter.currentState); // Hash BEFORE the move
+            const hash = calculateZobristHash(converter.currentState);
             const move = converter.parseSan(san);
 
             if (move == null) {
@@ -114,20 +145,32 @@ function generateRawBook(source, onProgress) {
                 break;
             }
 
-            if (!bookMap.has(hash)) {
-                bookMap.set(hash, [fenBeforeMove, opening.name]);
+            const hashString = hash.toString();
+            if (!bookMap.has(hashString)) {
+                bookMap.set(hashString, [fenBeforeMove, opening.name]);
             }
             
-            const entry = bookMap.get(hash);
+            const entry = bookMap.get(hashString);
             const fromSq = getMoveFrom(move);
             const toSq = getMoveTo(move);
+            const promotedPiece = getMovePromoted(move);
+
             const thinMove = {
                 from: [Math.floor(fromSq/8), fromSq%8],
                 to: [Math.floor(toSq/8), toSq%8],
-                promotion: getMovePromoted(move) ? pieceMap[getMovePromoted(move)].toLowerCase() : undefined
+                promotion: promotedPiece ? pieceMap[promotedPiece].toLowerCase() : undefined
             };
 
-            entry.push(thinMove);
+            const moveExists = entry.slice(2).some(m =>
+                m.from[0] === thinMove.from[0] && m.from[1] === thinMove.from[1] &&
+                m.to[0] === thinMove.to[0] && m.to[1] === thinMove.to[1] &&
+                m.promotion === thinMove.promotion
+            );
+
+            if (!moveExists) {
+                entry.push(thinMove);
+            }
+
             converter.applyMove(move);
         }
         if (onProgress) onProgress(index + 1);
