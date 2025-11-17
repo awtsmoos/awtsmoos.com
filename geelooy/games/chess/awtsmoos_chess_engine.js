@@ -522,15 +522,23 @@ function search(state, depth, alpha, beta, ply) {
 }
 
 
+/**
+ * The root of the search function, using iterative deepening.
+ * @param {object} initialState - The starting game state for the search.
+ * @param {number} maxDepth - The maximum depth to search.
+ * @param {number} maxTime - The maximum time in milliseconds to search.
+ * @returns {{bestMove: number, score: number}} The best move found and its evaluation.
+ */
 function searchRoot(initialState, maxDepth, maxTime) {
-    initializeSearch(maxTime); // Replaces individual variable resets
+    initializeSearch(maxTime);
     
     let bestMove = 0;
     let bestScore = -Infinity;
 
     for (let currentDepth = 1; currentDepth <= maxDepth; currentDepth++) {
+        // At the root, we must generate all pseudo-legal moves first.
         const moves = generateMoves(initialState);
-        const orderedMoves = orderMoves(moves, initialState, 0); // Root is ply 0
+        const orderedMoves = orderMoves(moves, initialState, 0);
 
         if(orderedMoves.length === 0) break;
 
@@ -539,17 +547,23 @@ function searchRoot(initialState, maxDepth, maxTime) {
         let legalMovesSearched = 0;
         
         for (const move of orderedMoves) {
-            const unmakeInfo = makeMove(initialState, move);
-            const kingSq = getLSBIndex(initialState.pieceBitboards[(initialState.turn ^ 1) * 6 + K]);
-
-            if (isSquareAttacked(initialState, kingSq, initialState.turn)) {
-                unmakeMove(initialState, unmakeInfo);
+            makeMove(initialState, move);
+            
+            // THE FIX: Use the FAST lean check for the opponent's king.
+            // After we make a move, the turn flips. We must check if our OWN king
+            // (the king of the player whose turn it WAS) is now under attack.
+            const kingColor = initialState.turn ^ 1;
+            const kingSq = getLSBIndex(initialState.pieceBitboards[kingColor * 6 + K]);
+            
+            if (isSquareAttacked_lean(initialState, kingSq, initialState.turn)) {
+                unmakeMove(initialState); // The move was illegal, so we unmake and skip it.
                 continue;
             }
             legalMovesSearched++;
 
+            // If the move is legal, proceed with the search.
             const score = -search(initialState, currentDepth - 1, -beta, -alpha, 1);
-            unmakeMove(initialState, unmakeInfo);
+            unmakeMove(initialState);
 
             if (stopSearch) break;
 
@@ -557,27 +571,30 @@ function searchRoot(initialState, maxDepth, maxTime) {
                 bestScore = score;
                 bestMove = move;
                 
-                // In PVS, alpha is updated inside the loop
                 if (score > alpha) {
                     alpha = score;
                 }
             }
         }
         
-        if (stopSearch || legalMovesSearched === 0) {
-            break;
+        if (stopSearch) {
+             break;
         }
 
-        // Check for mate
+        // If after checking all pseudo-legal moves, none were legal, it's mate or stalemate.
+        if (legalMovesSearched === 0) {
+            // No need to set a score here; the main search will determine mate/stalemate correctly.
+            break;
+        }
+        
         if (Math.abs(bestScore) > MATE_SCORE - MATE_IN_MAX_PLY) {
-            const mateIn = (MATE_SCORE - Math.abs(bestScore) + 1) / 2;
-            console.log(`Mate in ${mateIn} found at depth ${currentDepth}.`);
             break; 
         }
     }
 
     return { bestMove, score: bestScore };
 }
+
 
 
 
