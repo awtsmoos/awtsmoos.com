@@ -28,7 +28,8 @@ const punishmentBookSource = [
     { name: "Englund Gambit: Main Line Refutation", pgn: "1. d4 e5 2. dxe5 Nc6 3. Nf3 Qe7 4. Bf4 Qb4+ 5. Bd2 Qxb2 6. Nc3 Bb4 7. Rb1 Qa3 8. Nd5" },
     { name: "Englund Gambit: Soller Gambit Trap", pgn: "1. d4 e5 2. dxe5 f6 3. exf6 Nxf6 4. Nf3 Bc5 5. Bg5 Ne4 6. Be3 Bxe3 7. fxe3" },
     { name: "Englund Gambit: Blackburne-Hartlaub Gambit Refuted", pgn: "1. d4 e5 2. dxe5 d6 3. exd6 Bxd6 4. Nf3 Nf6 5. g3 O-O 6. Bg2" },
-    { name: "Albin Countergambit: Lasker Trap", pgn: "1. d4 d5 2. c4 e5 3. dxe5 d4 4. e3 Bb4+ 5. Bd2 dxe3 6. Bxb4 exf2+ 7. Ke2 fxg1=N+ 8. Rxg1 Bg4+ 9. Ke1" },
+    
+    
     { name: "Budapest Gambit: Fajarowicz Refuted", pgn: "1. d4 Nf6 2. c4 e5 3. dxe5 Ne4 4. a3 d6 5. exd6 Bxd6 6. Nf3 Nxf2 7. Kxf2 Bg3+ 8. hxg3 Qxd1" },
 
     // --- IV. Classic Named Traps & Mates ---
@@ -44,8 +45,7 @@ const punishmentBookSource = [
 
     // --- V. Punishing Stafford & Petroff Gambits ---
     { name: "Stafford Gambit: Main Refutation", pgn: "1. e4 e5 2. Nf3 Nf6 3. Nxe5 Nc6 4. Nxc6 dxc6 5. d3 Bc5 6. Be2 h5 7. c3 Ng4 8. d4 Qh4 9. g3" },
-    { name: "Stafford Gambit: Eric Rosen's Trap Refuted", pgn: "1. e4 e5 2. Nf3 Nf6 3. Nxe5 Nc6 4. Nxc6 dxc6 5. Nc3 Bc5 6. Be2 Ng4 7. O-O Qh4 8. Bxg4 hxg4 9. h3" },
-
+    
     // --- VI. Punishing Sicilian Defense Mistakes ---
     { name: "Sicilian: Smith-Morra Gambit Siberian Trap", pgn: "1. e4 c5 2. d4 cxd4 3. c3 dxc3 4. Nxc3 Nc6 5. Nf3 e6 6. Bc4 Nf6 7. O-O Qc7 8. Qe2 Ng4 9. h3 Nd4" },
     { name: "Sicilian: Wing Gambit Refutation", pgn: "1. e4 c5 2. b4 cxb4 3. a3 d5 4. exd5 Qxd5 5. Nf3 e5 6. axb4 Bxb4 7. c3" },
@@ -108,8 +108,7 @@ const punishmentBookSource = [
     { name: "Sicilian Canal-Sokolsky: ...Nxe4 blunder", pgn: "1. e4 c5 2. Nf3 d6 3. Bb5+ Bd7 4. Bxd7+ Qxd7 5. O-O Nc6 6. c3 Nf6 7. Re1 e6 8. d4 cxd4 9. cxd4 d5 10. e5 Ne4 11. Nbd2 Nxd2 12. Bxd2" },
     { name: "Sicilian Sveshnikov: Positional Mistake", pgn: "1. e4 c5 2. Nf3 Nc6 3. d4 cxd4 4. Nxd4 Nf6 5. Nc3 e5 6. Ndb5 d6 7. Bg5 a6 8. Na3 b5 9. Nd5 Be7 10. Bxf6 Bxf6 11. c4" },
     { name: "Sicilian Alapin: Passive Play", pgn: "1. e4 c5 2. c3 d5 3. exd5 Qxd5 4. d4 e6 5. Nf3 Nf6 6. Bd3 Be7 7. O-O O-O 8. Qe2" },
-    { name: "Sicilian Grand Prix: b5 mistake", pgn: "1. e4 c5 2. Nc3 Nc6 3. f4 g6 4. Nf3 Bg7 5. Bb5 Nd4 6. O-O e6 7. Nxd4 cxd4 8. Ne2 b5 9. d3" },
-
+    
     // --- XVI. King's Gambit Traps & Blunders (Punishing Black) ---
     { name: "King's Gambit: Kieseritzky Early ...d5", pgn: "1. e4 e5 2. f4 exf4 3. Nf3 g5 4. h4 g4 5. Ne5 Nf6 6. Bc4 d5 7. exd5 Bd6 8. d4 Nh5 9. O-O Qxh4 10. Qe1" },
     { name: "King's Gambit: Falkbeer Countergambit Passive Play", pgn: "1. e4 e5 2. f4 d5 3. exd5 e4 4. d3 Nf6 5. dxe4 Nxe4 6. Nf3 Bc5 7. Qe2 Bf5 8. Nc3 Qe7 9. Be3" },
@@ -124,7 +123,11 @@ const punishmentBookSource = [
 
     // --- XVIII. Grünfeld & King's Indian Defense Traps ---
     { name: "Grünfeld Exchange: Premature ...e5", pgn: "1. d4 Nf6 2. c4 g6 3. Nc3 d5 4. cxd5 Nxd5 5. e4 Nxc3 6. bxc3 Bg7 7. Bc4 c5 8. Ne2 Nc6 9. Be3 O-O 10. O-O e5 11. d5 Na5 12. Bd3" },
-    { name: "King's Indian Sämisch: ...f5 Weakness", pgn: "1. d4 Nf6 2. c4 g6 3. Nc3 Bg7 4. e4 d6 5. f3 O-O 6. Be3 Nc6 7. Nge2 a6 8. Qd2 Rb8 9. h4 h5 10. Bh6 f5 11. Bxg7 Kxg7 12. exf5 Bxf5" },
+    
+    
+    
+    
+    
     { name: "King's Indian Four Pawns: Black Plays Passively", pgn: "1. d4 Nf6 2. c4 g6 3. Nc3 Bg7 4. e4 d6 5. f4 O-O 6. Nf3 Nbd7 7. e5" },
     { name: "Grünfeld Russian: Bg4 Inaccuracy", pgn: "1. d4 Nf6 2. c4 g6 3. Nc3 d5 4. Nf3 Bg7 5. Qb3 dxc4 6. Qxc4 O-O 7. e4 Bg4 8. Be3 Nfd7 9. Be2" },
 
@@ -167,7 +170,8 @@ const punishmentBookSource = [
     
     // --- XXIV. Common Beginner Blunders ---
     { name: "Blocking c-pawn in QGD", pgn: "1. d4 d5 2. c4 e6 3. Nc3 Nf6 4. Nf3 Be7 5. Bf4 O-O 6. e3 c6 7. Bd3 Nbd7 8. O-O b6 9. cxd5" },
-    { name: "Moving f-pawn Unnecessarily", pgn: "1. e4 e5 2. Nf3 Nc6 3. Bc4 Bc5 4. O-O Nf6 5. d3 d6 6. c3 f6 7. d4" },
+   
+    
     { name: "Bringing Queen out too early (non-scholar)", pgn: "1. e4 e5 2. Nf3 Qf6 3. Nc3" },
     { name: "Ignoring Center Control", pgn: "1. e4 a6 2. d4 b5 3. c4" },
     { name: "Undeveloped Pieces Attack", pgn: "1. e4 e5 2. Nf3 Nc6 3. h4 Nf6 4. g4" },
@@ -186,9 +190,6 @@ const punishmentBookSource = [
 
 
 // --- II. Punishing Traps in Mainstream Openings ---
-
-{ name: "Queen's Gambit Declined: Cambridge Springs Trap", pgn: "1. d4 d5 2. c4 e6 3. Nc3 Nf6 4. Bg5 Nbd7 5. Nf3 c6 6. e3 Qa5 7. Nd2 Bb4 8. Qc2 O-O 9. a3 Bxd2+ 10. Qxd2 Nxd5" },
-// WHY: This is a famous trap Black can spring if White is careless. The line provided is one where Black (the engine) correctly executes the tactic. If White plays a move like 9. cxd5, Black wins a piece. The engine needs to recognize this setup and know how to punish White's mistakes.
 
 { name: "French Defense: Rubinstein Trap", pgn: "1. e4 e6 2. d4 d5 3. Nc3 dxe4 4. Nxe4 Nd7 5. Nf3 Ngf6 6. Nxf6+ Nxf6 7. Bd3 c5 8. dxc5 Bxc5 9. O-O O-O 10. Qe2 b6 11. Bg5 Bb7 12. Rad1 Qe7 13. Ne5 Rfd8 14. Bxh7+ Kxh7 15. Rxd8 Rxd8 16. Ng4" },
 // WHY: This is a deep trap where White sacrifices a bishop on h7. If Black (the engine) recaptures incorrectly, they get checkmated. The PGN shows the correct defensive path that refutes White's attack and leaves Black with a winning position.
@@ -760,9 +761,6 @@ const punishmentBookSource = [
 { name: "The Staunton Gambit (against the Dutch)", pgn: "1. d4 f5 2. e4 fxe4 3. Nc3 Nf6 4. Bg5" },
 // WHY: The most aggressive and theoretically challenging response to the Dutch Defense.
 
-{ name: "The Albin Countergambit: Lasker Trap", pgn: "1. d4 d5 2. c4 e5 3. dxe5 d4 4. e3 Bb4+ 5. Bd2 dxe3" },
-// WHY: One of the most famous traps in chess. If White plays 6.Bxb4?, they lose to 6...exf2+.
-
 { name: "The Smith-Morra Gambit Accepted: Main Line", pgn: "1. e4 c5 2. d4 cxd4 3. c3 dxc3 4. Nxc3 Nc6 5. Nf3 d6 6. Bc4 e6 7. O-O" },
 // WHY: The main line of the Smith-Morra, a very common gambit online. The engine must know this solid setup for Black.
 
@@ -791,7 +789,9 @@ const punishmentBookSource = [
 { name: "Punish: The Wayward Queen Attack Refuted", pgn: "1. e4 e5 2. Qh5 Nf6 3. Qxe5+ Be7 4. Nc3 Nc6" },
 { name: "Punish: The Parham Attack (Early Queen)", pgn: "1. e4 e5 2. Qh5 Nc6 3. Bb5 g6" },
 { name: "Punish: The Napoleon Attack Refuted", pgn: "1. e4 e5 2. Qf3 Nc6 3. Bc4 Nf6 4. Ne2" },
-{ name: "Punish: Moving King in the Opening", pgn: "1. e4 e5 2. Kf2 Bc5+" },
+
+
+
 { name: "Punish: Developing Queen before Knights/Bishops", pgn: "1. d4 d5 2. Qd3 Nc6 3. c3 e5" },
 { name: "Punish: Moving the Same Piece Twice", pgn: "1. e4 e5 2. Nf3 Nc6 3. Ng1 Nf6" },
 { name: "Punish: Not Controlling the Center", pgn: "1. a4 b5 2. e4" },
@@ -992,8 +992,6 @@ const punishmentBookSource = [
 { name: "The Staunton Gambit (against the Dutch)", pgn: "1. d4 f5 2. e4 fxe4 3. Nc3 Nf6 4. Bg5" },
 // WHY: The most aggressive and theoretically challenging response to the Dutch Defense.
 
-{ name: "The Albin Countergambit: Lasker Trap", pgn: "1. d4 d5 2. c4 e5 3. dxe5 d4 4. e3 Bb4+ 5. Bd2 dxe3" },
-// WHY: One of the most famous traps in chess. If White plays 6.Bxb4?, they lose to 6...exf2+.
 
 { name: "The Smith-Morra Gambit Accepted: Main Line", pgn: "1. e4 c5 2. d4 cxd4 3. c3 dxc3 4. Nxc3 Nc6 5. Nf3 d6 6. Bc4 e6 7. O-O" },
 // WHY: The main line of the Smith-Morra, a very common gambit online. The engine must know this solid setup for Black.
@@ -1158,8 +1156,6 @@ const punishmentBookSource = [
 { name: "The Staunton Gambit (against the Dutch)", pgn: "1. d4 f5 2. e4 fxe4 3. Nc3 Nf6 4. Bg5" },
 // WHY: The most aggressive and theoretically challenging response to the Dutch Defense.
 
-{ name: "The Albin Countergambit: Lasker Trap", pgn: "1. d4 d5 2. c4 e5 3. dxe5 d4 4. e3 Bb4+ 5. Bd2 dxe3" },
-// WHY: One of the most famous traps in chess. If White plays 6.Bxb4?, they lose to 6...exf2+.
 
 { name: "The Smith-Morra Gambit Accepted: Main Line", pgn: "1. e4 c5 2. d4 cxd4 3. c3 dxc3 4. Nxc3 Nc6 5. Nf3 d6 6. Bc4 e6 7. O-O" },
 // WHY: The main line of the Smith-Morra, a very common gambit online. The engine must know this solid setup for Black.
