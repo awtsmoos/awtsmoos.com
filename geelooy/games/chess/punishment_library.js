@@ -703,7 +703,7 @@ const punishmentBookSource = [
 { name: "Chigorin's Final Blunder vs. Steinitz, 1892", pgn: "1. e4 e5 2. Nf3 Nc6 3. Bc4 Bc5 4. b4 Bxb4 5. c3 Ba5 6. O-O Nf6 7. d4 O-O 8. dxe5 Ng4 9. Bf4 Qe7 10. Re1 Bb6 11. Bg3 Ngxe5 12. Nxe5 Nxe5 13. Bb3 d6 14. Nd2 Be6 15. Bc2 Rad8 16. Kh1 f6 17. f4 Nc6 18. f5 Bf7 19. Bb3 Ne5 20. Bxf7+ Qxf7 21. Qb3 Rfe8 22. Rad1 Kf8 23. Bxe5 Rxe5 24. Nc4 Re7 25. Nxb6 axb6 26. Rd4 Rde8 27. g3 Qh5 28. Kg2 Qg4 29. Qc2 d5 30. h3 Qg5 31. Rxd5" },
 // WHY: After 31...Rxe4, Chigorin blundered with 32.Rxe4?? Rxe4 33.Qxe4 Qxg3+! winning. This PGN teaches the setup for one of the most famous blunders in World Championship history.
 
-{ name: "The "Immortal Draw" Trap Setup (Carlsen-Karjakin)", pgn: "1. d4 Nf6 2. c4 e6 3. Nc3 Bb4 4. Qc2 O-O 5. a3 Bxc3+ 6. Qxc3 d5 7. Bg5 c5 8. dxc5 d4 9. Qf3 Nbd7 10. e3" },
+{ name: "The \"Immortal Draw\" Trap Setup (Carlsen-Karjakin)", pgn: "1. d4 Nf6 2. c4 e6 3. Nc3 Bb4 4. Qc2 O-O 5. a3 Bxc3+ 6. Qxc3 d5 7. Bg5 c5 8. dxc5 d4 9. Qf3 Nbd7 10. e3" },
 // WHY: This line leads to a position where a famous perpetual check combination is possible, teaching the engine about drawing resources in sharp positions.
 
 
