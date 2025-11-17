@@ -60,8 +60,12 @@ document.addEventListener('DOMContentLoaded', () => {
 	
 
 	// --- Constants and State ---
+	/* B"H */
 	const SIZE = Math.min(window.innerWidth - 20, window.innerHeight - 350, 500);
-	const SQUARE_SIZE = SIZE / 8;
+	const BOARD_PADDING = 20; // The space around the board for coordinates
+	const BOARD_SIZE = SIZE - (BOARD_PADDING * 2); // The size of the playable 8x8 area
+	const SQUARE_SIZE = BOARD_SIZE / 8; // The size of each square is now based on the inner board size
+	
 	let board = [];
 	let gameState = {};
 	const PIECE_EMOJIS = {
@@ -653,33 +657,69 @@ document.addEventListener('DOMContentLoaded', () => {
 	}
 
 	// --- Drawing and Rendering ---
+	/* B"H */
+
 	function drawBoard(isAnimating = false) {
-		canvas.width = SIZE;
-		canvas.height = SIZE;
-		const isWhiteView = gameState.gameMode !== 'pva' || gameState.playerColor === 'w';
-		for (let r_idx = 0; r_idx < 8; r_idx++)
-			for (let c_idx = 0; c_idx < 8; c_idx++) {
-				const r = isWhiteView ? r_idx : 7 - r_idx;
-				const c = isWhiteView ? c_idx : 7 - c_idx;
-				canvasContext.fillStyle = (r_idx + c_idx) % 2 === 0 ? '#f0d9b5' : '#b58863';
-				canvasContext.fillRect(c_idx * SQUARE_SIZE, r_idx * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE);
-				if (!isAnimating && gameState.selectedSquare && gameState.selectedSquare[0] === r && gameState.selectedSquare[1] === c) {
-					canvasContext.fillStyle = 'rgba(255, 255, 0, 0.4)';
-					canvasContext.fillRect(c_idx * SQUARE_SIZE, r_idx * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE);
-				}
-				if (!isAnimating && gameState.selectedSquare) {
-					const legalMovesForPiece = gameState.legalMoves.filter(m => m.from[0] === gameState.selectedSquare[0] && m.from[1] === gameState.selectedSquare[1]);
-					if (legalMovesForPiece.some(m => m.to[0] === r && m.to[1] === c)) {
-						canvasContext.fillStyle = 'rgba(0, 150, 0, 0.5)';
-						canvasContext.beginPath();
-						canvasContext.arc(c_idx * SQUARE_SIZE + SQUARE_SIZE / 2, r_idx * SQUARE_SIZE + SQUARE_SIZE / 2, SQUARE_SIZE / 5, 0, 2 * Math.PI);
-						canvasContext.fill();
-					}
-				}
-				const piece = board[r][c];
-				if (piece && !(isAnimating && animationState.pieceToAnimate[0] === r && animationState.pieceToAnimate[1] === c)) 
-				renderPiece(canvasContext, piece, c_idx * SQUARE_SIZE + SQUARE_SIZE / 2, r_idx * SQUARE_SIZE + SQUARE_SIZE / 2, SQUARE_SIZE);
-			}
+	    canvas.width = SIZE;
+	    canvas.height = SIZE;
+	    const isWhiteView = gameState.gameMode !== 'pva' || gameState.playerColor === 'w';
+	
+	    // ---  Draw Coordinates ---
+	    canvasContext.fillStyle = '#c7c7c7'; // A neutral, light grey for the text
+	    canvasContext.font = 'bold 14px Arial';
+	    canvasContext.textAlign = 'center';
+	    canvasContext.textBaseline = 'middle';
+	
+	    const files = isWhiteView ? ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'] : ['h', 'g', 'f', 'e', 'd', 'c', 'b', 'a'];
+	    const ranks = isWhiteView ? ['8', '7', '6', '5', '4', '3', '2', '1'] : ['1', '2', '3', '4', '5', '6', '7', '8'];
+	
+	    for (let i = 0; i < 8; i++) {
+	        // Draw file labels (a-h) at top and bottom
+	        const x = BOARD_PADDING + i * SQUARE_SIZE + SQUARE_SIZE / 2;
+	        canvasContext.fillText(files[i], x, BOARD_PADDING / 2);
+	        canvasContext.fillText(files[i], x, SIZE - BOARD_PADDING / 2);
+	
+	        // Draw rank labels (1-8) at left and right
+	        const y = BOARD_PADDING + i * SQUARE_SIZE + SQUARE_SIZE / 2;
+	        canvasContext.fillText(ranks[i], BOARD_PADDING / 2, y);
+	        canvasContext.fillText(ranks[i], SIZE - BOARD_PADDING / 2, y);
+	    }
+	
+	    // --- REVISED: Draw Squares & Pieces with Padding Offset ---
+	    for (let r_idx = 0; r_idx < 8; r_idx++) {
+	        for (let c_idx = 0; c_idx < 8; c_idx++) {
+	            const r = isWhiteView ? r_idx : 7 - r_idx;
+	            const c = isWhiteView ? c_idx : 7 - c_idx;
+	            
+	            // Calculate square position with padding
+	            const squareX = BOARD_PADDING + c_idx * SQUARE_SIZE;
+	            const squareY = BOARD_PADDING + r_idx * SQUARE_SIZE;
+	
+	            canvasContext.fillStyle = (r_idx + c_idx) % 2 === 0 ? '#f0d9b5' : '#b58863';
+	            canvasContext.fillRect(squareX, squareY, SQUARE_SIZE, SQUARE_SIZE);
+	            
+	            // Highlights and move dots (also offset)
+	            if (!isAnimating && gameState.selectedSquare && gameState.selectedSquare[0] === r && gameState.selectedSquare[1] === c) {
+	                canvasContext.fillStyle = 'rgba(255, 255, 0, 0.4)';
+	                canvasContext.fillRect(squareX, squareY, SQUARE_SIZE, SQUARE_SIZE);
+	            }
+	            if (!isAnimating && gameState.selectedSquare) {
+	                const legalMovesForPiece = gameState.legalMoves.filter(m => m.from[0] === gameState.selectedSquare[0] && m.from[1] === gameState.selectedSquare[1]);
+	                if (legalMovesForPiece.some(m => m.to[0] === r && m.to[1] === c)) {
+	                    canvasContext.fillStyle = 'rgba(0, 150, 0, 0.5)';
+	                    canvasContext.beginPath();
+	                    canvasContext.arc(squareX + SQUARE_SIZE / 2, squareY + SQUARE_SIZE / 2, SQUARE_SIZE / 5, 0, 2 * Math.PI);
+	                    canvasContext.fill();
+	                }
+	            }
+	
+	            // Render piece (also offset)
+	            const piece = board[r][c];
+	            if (piece && !(isAnimating && animationState.pieceToAnimate[0] === r && animationState.pieceToAnimate[1] === c)) {
+	                renderPiece(canvasContext, piece, squareX + SQUARE_SIZE / 2, squareY + SQUARE_SIZE / 2, SQUARE_SIZE);
+	            }
+	        }
+	    }
 	}
 
 	function renderPiece(ctx, piece, x, y, size) {
@@ -876,19 +916,23 @@ document.addEventListener('DOMContentLoaded', () => {
 		return pgnHeader + moveText.trim() + ' ' + gameState.pgnResult;
 	}
 
+	/* B"H */
+
 	function getSquareFromCoordinates(x, y) {
-		const rect = canvas.getBoundingClientRect();
-		let c = Math.floor((x - rect.left) / SQUARE_SIZE),
-			r = Math.floor((y - rect.top) / SQUARE_SIZE);
-		const isWhiteView = gameState.gameMode !== 'pva' || gameState.playerColor === 'w';
-		if (!isWhiteView) {
-			r = 7 - r;
-			c = 7 - c;
-		}
-		return {
-			r,
-			c
-		};
+	    const rect = canvas.getBoundingClientRect();
+	    // Adjust coordinates for the padding before calculating the square
+	    const adjustedX = x - rect.left - BOARD_PADDING;
+	    const adjustedY = y - rect.top - BOARD_PADDING;
+	
+	    let c = Math.floor(adjustedX / SQUARE_SIZE);
+	    let r = Math.floor(adjustedY / SQUARE_SIZE);
+	    
+	    const isWhiteView = gameState.gameMode !== 'pva' || gameState.playerColor === 'w';
+	    if (!isWhiteView) {
+	        r = 7 - r;
+	        c = 7 - c;
+	    }
+	    return { r, c };
 	}
 
 	function handleCanvasEvent(event) {
@@ -957,6 +1001,10 @@ document.addEventListener('DOMContentLoaded', () => {
 	
 	/* B"H */
 
+	/* B"H */
+
+// --- REVISED & FIXED: displayAnalysisPosition (Correct Indexing) ---
+
 	function displayAnalysisPosition(index) {
 	    // Boundary check to prevent errors
 	    if (index < -1 || index >= analysisState.moves.length) {
@@ -964,35 +1012,40 @@ document.addEventListener('DOMContentLoaded', () => {
 	    }
 	    
 	    analysisState.currentMoveIndex = index;
-	    drawAnalysisBoard(); // Redraw the board and move arrow
+	    drawAnalysisBoard(); // This correctly uses index + 1, so it's fine.
 	
-	    // ---  LOGIC FOR DYNAMIC HEADER ---
+	    
+	    const positionIndex = index + 1; // Create a clear variable for the current position's index.
+	
 	    // 1. Get the opening name that the worker identified for this position.
-	    const bookName = analysisState.openingNames[index + 1];
+	    const bookName = analysisState.openingNames[positionIndex];
 	
-	    // 2. If we have a specific opening name from the book, display it.
-	    if (bookName && bookName !== "Starting Position") {
+	    // 2. Check for specific, non-generic names.
+	    //    "Unknown" is added in case the engine returns that for out-of-book positions.
+	    const isKnownOpening = bookName && bookName !== "Starting Position" && bookName !== "Unknown";
+	
+	    if (isKnownOpening) {
 	        openingNameDisplay.textContent = bookName;
 	    } else {
 	        // 3. If we are "out of book," determine the game phase.
-	        const currentFen = analysisState.boardHistory[index + 1];
-	        if (currentFen) {
-	            const board = getBoardFromFen(currentFen);
-	            const phase = getGamePhase(board);
-	
-	            // 4. Display "Middlegame" or "Endgame" based on the phase.
-	            // (You can adjust the 0.25 threshold to your preference)
-	            if (phase > 0.25) {
-	                openingNameDisplay.textContent = "Middlegame";
-	            } else {
-	                openingNameDisplay.textContent = "Endgame";
-	            }
-	        } else {
-	            // Fallback for the very first position
+	        //    Handle the very first position (index 0) as a special case.
+	        if (positionIndex === 0) {
 	            openingNameDisplay.textContent = "Starting Position";
+	        } else {
+	            const currentFen = analysisState.boardHistory[positionIndex];
+	            if (currentFen) {
+	                const board = getBoardFromFen(currentFen);
+	                const phase = getGamePhase(board);
+	
+	                if (phase > 0.25) {
+	                    openingNameDisplay.textContent = "Middlegame";
+	                } else {
+	                    openingNameDisplay.textContent = "Endgame";
+	                }
+	            }
 	        }
 	    }
-	    //
+	    
 	    // Update the highlighting in the move list (this part remains the same)
 	    document.querySelectorAll('.move-text-item').forEach(item => {
 	        item.classList.remove('current-move');
@@ -1003,52 +1056,78 @@ document.addEventListener('DOMContentLoaded', () => {
 	    });
 	}
 	
-	// Add the drawAnalysisBoard(), drawMoveArrow(), and populateMoveList() functions from the previous response here.
-	// They do not need to be changed. Here they are for convenience:
-	
+	/* B"H */
+
 	function drawAnalysisBoard() {
 	    analysisCanvas.width = SIZE;
 	    analysisCanvas.height = SIZE;
 	    const fen = analysisState.boardHistory[analysisState.currentMoveIndex + 1];
-	    const boardData = fen.split(' ')[0].split('/').map(r => {
-	        let newRow = [];
-	        for (const char of r) {
-	            if (isNaN(parseInt(char))) newRow.push(char);
-	            else for (let i = 0; i < parseInt(char); i++) newRow.push('');
-	        }
-	        return newRow;
-	    });
+	    const boardData = getBoardFromFen(fen); // Using your existing helper function
+	
+	    // --- NEW: Draw Coordinates ---
+	    analysisContext.fillStyle = '#c7c7c7';
+	    analysisContext.font = 'bold 14px Arial';
+	    analysisContext.textAlign = 'center';
+	    analysisContext.textBaseline = 'middle';
+	    
+	    for (let i = 0; i < 8; i++) {
+	        // Draw file labels (a-h)
+	        const file = String.fromCharCode('a'.charCodeAt(0) + i);
+	        const x = BOARD_PADDING + i * SQUARE_SIZE + SQUARE_SIZE / 2;
+	        analysisContext.fillText(file, x, BOARD_PADDING / 2);
+	        analysisContext.fillText(file, x, SIZE - BOARD_PADDING / 2);
+	        
+	        // Draw rank labels (1-8)
+	        const rank = (8 - i).toString();
+	        const y = BOARD_PADDING + i * SQUARE_SIZE + SQUARE_SIZE / 2;
+	        analysisContext.fillText(rank, BOARD_PADDING / 2, y);
+	        analysisContext.fillText(rank, SIZE - BOARD_PADDING / 2, y);
+	    }
+	
+	    // --- REVISED: Draw Squares & Pieces with Padding Offset ---
 	    for (let r = 0; r < 8; r++) {
 	        for (let c = 0; c < 8; c++) {
+	            const squareX = BOARD_PADDING + c * SQUARE_SIZE;
+	            const squareY = BOARD_PADDING + r * SQUARE_SIZE;
+	
 	            analysisContext.fillStyle = (r + c) % 2 === 0 ? '#f0d9b5' : '#b58863';
-	            analysisContext.fillRect(c * SQUARE_SIZE, r * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE);
+	            analysisContext.fillRect(squareX, squareY, SQUARE_SIZE, SQUARE_SIZE);
+	            
 	            const piece = boardData[r][c];
 	            if (piece) {
-	                renderPiece(analysisContext, piece, c * SQUARE_SIZE + SQUARE_SIZE / 2, r * SQUARE_SIZE + SQUARE_SIZE / 2, SQUARE_SIZE);
+	                renderPiece(analysisContext, piece, squareX + SQUARE_SIZE / 2, squareY + SQUARE_SIZE / 2, SQUARE_SIZE);
 	            }
 	        }
 	    }
+	    
 	    if (analysisState.currentMoveIndex > -1) {
 	        const move = analysisState.moves[analysisState.currentMoveIndex];
 	        drawMoveArrow(move.from, move.to);
 	    }
 	}
 	
+	/* B"H */
+
 	function drawMoveArrow(from, to) {
-	    const fromX = from[1] * SQUARE_SIZE + SQUARE_SIZE / 2;
-	    const fromY = from[0] * SQUARE_SIZE + SQUARE_SIZE / 2;
-	    const toX = to[1] * SQUARE_SIZE + SQUARE_SIZE / 2;
-	    const toY = to[0] * SQUARE_SIZE + SQUARE_SIZE / 2;
+	    // Offset all coordinates by the padding
+	    const fromX = BOARD_PADDING + from[1] * SQUARE_SIZE + SQUARE_SIZE / 2;
+	    const fromY = BOARD_PADDING + from[0] * SQUARE_SIZE + SQUARE_SIZE / 2;
+	    const toX = BOARD_PADDING + to[1] * SQUARE_SIZE + SQUARE_SIZE / 2;
+	    const toY = BOARD_PADDING + to[0] * SQUARE_SIZE + SQUARE_SIZE / 2;
+	    
 	    const headlen = 20;
 	    const angle = Math.atan2(toY - fromY, toX - fromX);
+	
 	    analysisContext.save();
 	    analysisContext.strokeStyle = 'rgba(20, 150, 255, 0.7)';
 	    analysisContext.lineWidth = 12;
 	    analysisContext.lineCap = 'round';
+	    
 	    analysisContext.beginPath();
 	    analysisContext.moveTo(fromX, fromY);
 	    analysisContext.lineTo(toX, toY);
 	    analysisContext.stroke();
+	
 	    analysisContext.beginPath();
 	    analysisContext.moveTo(toX, toY);
 	    analysisContext.lineTo(toX - headlen * Math.cos(angle - Math.PI / 7), toY - headlen * Math.sin(angle - Math.PI / 7));
@@ -1056,6 +1135,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	    analysisContext.closePath();
 	    analysisContext.fillStyle = 'rgba(20, 150, 255, 0.7)';
 	    analysisContext.fill();
+	    
 	    analysisContext.restore();
 	}
 	
