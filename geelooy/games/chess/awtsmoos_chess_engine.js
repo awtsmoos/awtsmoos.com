@@ -343,52 +343,60 @@ function evaluate(state) {
 // ====================================================================================
 
 
+/**
+ * Orders moves for a given position to improve alpha-beta pruning efficiency.
+ * This version uses bitboards to determine capture values (MVV-LVA).
+ * @param {number[]} moves - An array of legal moves.
+ * @param {object} state - The current game state.
+ * @param {number} ply - The current search depth (ply).
+ * @returns {number[]} The sorted array of moves.
+ */
 function orderMoves(moves, state, ply) {
     const moveScores = [];
-    const hashMove = transpositionTable.get(state.zobristHash.toString())?.move;
+    const hashMoveEntry = transpositionTable.get(state.zobristHash.toString());
+    const hashMove = hashMoveEntry ? hashMoveEntry.move : 0;
 
-    for(const move of moves) {
+    for (const move of moves) {
         let score = 0;
 
-        // 1. Highest priority: PV/Hash move from Transposition Table
         if (move === hashMove) {
             score = 2000000;
-        }
-        // 2. Captures, scored by MVV-LVA (Most Valuable Victim - Least Valuable Aggressor)
-        else if (getMoveCapture(move)) {
+        } else if (getMoveCapture(move)) {
             const attackerType = getMovePiece(move);
-            const victimChar = state.board[getMoveTo(move)]; // Victim is what's on the 'to' square
-            if(victimChar) {
-                 const victimType = pieceMap.indexOf(victimChar) % 6;
-                 // Prioritize captures of more valuable pieces by less valuable pieces
-                 score = (pieceValues[pieceMap[victimType].toLowerCase()].mg * 10) - pieceValues[pieceMap[attackerType].toLowerCase()].mg;
+            const to = getMoveTo(move);
+            let victimType = P; // Default to pawn for en-passant
+
+            if (!getMoveEnpassant(move)) {
+                 for (let p_type = P; p_type <= K; p_type++) {
+                    if ((state.pieceBitboards[(state.turn ^ 1) * 6 + p_type] & (1n << BigInt(to))) !== 0n) {
+                        victimType = p_type;
+                        break;
+                    }
+                }
             }
-            score += 1000000; // All captures are better than quiet moves
-        }
-        // 3. Killer Moves (quiet moves that caused cutoffs)
-        else {
+
+            const victimValue = [100, 350, 355, 500, 900, 20000][victimType];
+            const attackerValue = [100, 350, 355, 500, 900, 20000][attackerType];
+            score = (victimValue * 10) - attackerValue + 1000000;
+        } else {
             if (killerMoves[ply][0] === move) {
                 score = 900000;
             } else if (killerMoves[ply][1] === move) {
                 score = 850000;
-            }
-            // 4. History Heuristic (quiet moves that have been good elsewhere)
-            else {
+            } else {
                 score = historyTable[getMovePiece(move) + (state.turn * 6)][getMoveTo(move)];
             }
         }
         
-        // Promotions get a huge bonus
         if (getMovePromoted(move)) {
-             score += pieceValues['q'].mg * 100;
+            score += 90000; // Bonus for promotion
         }
 
         moveScores.push({ move, score });
     }
-    // Sort moves from highest score to lowest
-    return moveScores.sort((a,b) => b.score - a.score).map(ms => ms.move);
+    
+    return moveScores.sort((a, b) => b.score - a.score).map(ms => ms.move);
 }
-
 
 function quiesce(state, alpha, beta) {
     nodeCount++;
