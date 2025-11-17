@@ -600,20 +600,32 @@ function drawAnalysisBoard() {
         }
     }
     
-    // --- DRAW ARROWS ---
+    // --- REVISED ARROW DRAWING LOGIC ---
     if (analysisState.currentMoveIndex > -1) {
-        // 1. Draw the actual move played (blue arrow)
-        const move = analysisState.moves[analysisState.currentMoveIndex];
-        if (move) {
-            drawMoveArrow(move.from, move.to);
+        // 1. Always draw the actual move played (the blue arrow).
+        const movePlayed = analysisState.moves[analysisState.currentMoveIndex];
+        if (movePlayed) {
+            drawMoveArrow(movePlayed.from, movePlayed.to);
         }
 
-        // 2. Check for analysis and draw the hint arrow (green arrow)
+        // 2. Check for analysis and decide if the hint arrow is needed.
         const analysisResult = analysisState.classifications[analysisState.currentMoveIndex];
-        if (analysisResult && (analysisResult.classification === 'mistake' || analysisResult.classification === 'blunder')) {
+        if (analysisResult) {
             const bestMove = analysisResult.bestMove;
-            if (bestMove && bestMove.from && bestMove.to) {
-                drawHintArrow(bestMove.from, bestMove.to); 
+
+            // *** NEW LOGIC HERE ***
+            // First, check if the best move is actually different from the move that was played.
+            const playedIsBest = bestMove && movePlayed &&
+                                 bestMove.from[0] === movePlayed.from[0] &&
+                                 bestMove.from[1] === movePlayed.from[1] &&
+                                 bestMove.to[0] === movePlayed.to[0] &&
+                                 bestMove.to[1] === movePlayed.to[1];
+
+            // Only draw the green "hint" arrow if the move was a mistake/blunder AND it's a different move.
+            if (!playedIsBest && (analysisResult.classification === 'mistake' || analysisResult.classification === 'blunder')) {
+                if (bestMove && bestMove.from && bestMove.to) {
+                    drawHintArrow(bestMove.from, bestMove.to); 
+                }
             }
         }
     }

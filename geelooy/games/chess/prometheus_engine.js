@@ -1528,64 +1528,96 @@ case 'analyze_pgn':
         openingNames: openingNames
     });
     break;
-    case 'run_engine_analysis': {
-            if (!lastParsedGame) {
-                postMessage({ type: 'analysis_error', message: "No PGN has been loaded to analyze." });
-                return;
-            }
+    /* B"H */
 
-            console.log("Starting real-time game analysis from cached data...");
+// --- REPLACE the old 'run_engine_analysis' case with this DEFINITIVE version ---
+case 'run_engine_analysis': {
+    if (!lastParsedGame) {
+        postMessage({ type: 'analysis_error', message: "No PGN has been loaded to analyze." });
+        return;
+    }
+
+    console.log("Starting real-time game analysis from cached data...");
+    
+    initializeSearch(99999999); // Use a very large time limit for analysis
+
+    const { moves, initialFen, openingNames } = lastParsedGame;
+    const game = new PgnConverter();
+    game.currentState = createGameState(initialFen);
+
+    // *** DEFINE OUR NEW TOLERANCE THRESHOLDS ***
+    const BEST_MOVE_TOLERANCE = 40; // Any move within 0.4 pawns of the best is also "best".
+    const MISTAKE_THRESHOLD = 90;   // A drop of > 0.9 pawns is a mistake.
+    const BLUNDER_THRESHOLD = 250;  // A drop of > 2.5 pawns is a blunder.
+
+    for (let i = 0; i < moves.length; i++) {
+        const actualMove = moves[i];
+        let classification = 'good'; // Default classification
+        let bestMoveFound = null;
+
+        // --- STEP 1: CHECK THE OPENING BOOK ---
+        // The `openingNames` array, generated during PGN parsing, tells us if the position
+        // AFTER a move is a known book position. `openingNames[i + 1]` corresponds to the state after move `i`.
+        // We also limit this check to the first 15 moves to define the "opening phase".
+        const isBookMove = openingNames[i + 1] !== null && i < 30; // Check up to move 15 (index 29)
+
+        if (isBookMove) {
+            // If the move is in our Grandmaster or Punishment book, it's automatically the best move.
+            classification = 'best';
+            bestMoveFound = actualMove; // The best move *was* the one played.
+        
+        } else {
+            // --- STEP 2: SEARCH WITH TOLERANCE (for non-book moves) ---
+            repetitionHistory = [game.currentState.zobristHash];
             
-            initializeSearch(99999999); // Use a very large time limit for analysis
+            const searchResult = searchRoot(game.currentState, 3);
+            const bestMoveEval = searchResult.score;
+            bestMoveFound = searchResult.bestMove;
 
-            const { moves, initialFen } = lastParsedGame;
-            const game = new PgnConverter();
-            game.currentState = createGameState(initialFen);
+            // To get the evaluation of the move the user actually played,
+            // we make their move and then evaluate the resulting position.
+            // The evaluation must be negated because the turn has flipped.
+            const unmakeInfo = makeMove(game.currentState, actualMove);
+            const evalAfterUserMove = -evaluate(game.currentState);
+            unmakeMove(game.currentState, unmakeInfo); // Immediately unmake the move to restore the state for the next loop
+            
+            // The drop in evaluation is the difference between the engine's best and the user's move.
+            const evalDrop = bestMoveEval - evalAfterUserMove;
 
-            for (let i = 0; i < moves.length; i++) {
-                const actualMove = moves[i];
-                repetitionHistory = [game.currentState.zobristHash];
-                
-                const searchResult = searchRoot(game.currentState, 3);
-                const bestMoveEval = searchResult.score;
-                const bestMoveFound = searchResult.bestMove;
-
-                game.applyMove(actualMove);
-                
-                const evalAfterMove = evaluate(game.currentState);
-                const evalDrop = (game.currentState.turn === 'b' ? 1 : -1) * (bestMoveEval - evalAfterMove);
-
-                let classification = 'good';
-                if (evalDrop > 250) {
-                    classification = 'blunder';
-                } else if (evalDrop > 90) {
-                    classification = 'mistake';
-                } else if (evalDrop <= 15) {
-                    classification = 'best';
-                }
-                
-                if (evalDrop < -50 && actualMove.capturedPiece && pieceValues[actualMove.capturedPiece.toLowerCase()].mg > pieceValues[actualMove.piece.toLowerCase()].mg) {
-                     classification = 'brilliant';
-                }
-
-                // --- STREAM THE RESULT FOR THIS MOVE ---
-                self.postMessage({
-                    type: 'analysis_update',
-                    index: i,
-                    result: {
-                        classification: classification,
-                        bestMove: bestMoveFound
-                    }
-                });
+            if (evalDrop > BLUNDER_THRESHOLD) {
+                classification = 'blunder';
+            } else if (evalDrop > MISTAKE_THRESHOLD) {
+                classification = 'mistake';
+            } else if (evalDrop <= BEST_MOVE_TOLERANCE) {
+                // If the move is within our tolerance, it's also considered "best".
+                classification = 'best';
+            } else {
+                // Moves that are weaker but not quite mistakes fall here.
+                classification = 'good';
             }
-
-            // --- SEND A FINAL "FINISHED" MESSAGE ---
-            self.postMessage({
-                type: 'analysis_finished'
-            });
-            console.log("Full game analysis complete.");
-            break;
         }
+
+        // Apply the move to the main game object to proceed to the next position for the next loop.
+        game.applyMove(actualMove);
+
+        // --- STREAM THE RESULT FOR THIS MOVE ---
+        self.postMessage({
+            type: 'analysis_update',
+            index: i,
+            result: {
+                classification: classification,
+                bestMove: bestMoveFound
+            }
+        });
+    }
+
+    // --- SEND A FINAL "FINISHED" MESSAGE ---
+    self.postMessage({
+        type: 'analysis_finished'
+    });
+    console.log("Full game analysis complete.");
+    break;
+}
     
     
     
