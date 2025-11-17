@@ -10,7 +10,7 @@
 // unsound lines itself. This version contains a vast, deeply annotated
 // collection of refuted openings and amateur traps.
 
-const punishmentBookSource = const sourceBook = [
+const punishmentBookSource = [
     {"name":"Alekhine's Chase Variation: Passive Play","pgn":"1. e4 Nf6 2. e5 Nd5 3. c4 Nb6 4. c5 Nd5 5. Nc3 e6 6. d4 d6 7. cxd6 cxd6 8. Nf3"},
     {"name":"Alekhine's Defense: The Balogh Variation","pgn":"1. e4 Nf6 2. e5 Nd5 3. d4 d6 4. Bc4 Nb6 5. Bb3"},
     {"name":"Alekhine's Defense: The Brooklyn Attack","pgn":"1. e4 Nf6 2. e5 Ng8 3. d4 d5"},
