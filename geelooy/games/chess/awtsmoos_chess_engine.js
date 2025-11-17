@@ -239,6 +239,57 @@ for (let sq = 0; sq < 64; sq++) {
     KING_ATTACK_ZONE[BLACK][sq] = zone;
 }
 
+
+/*B"H*/
+
+/**
+ * Generates bitboard maps of all attacked squares for both players.
+ * @param {object} state - The current game state.
+ * @returns {{white: bigint, black: bigint}} An object containing the attack maps.
+ */
+function generateAttackMaps(state) {
+    const maps = { white: 0n, black: 0n };
+    const blockers = state.occupancies[2];
+
+    for (let piece = P; piece <= K; piece++) {
+        // White pieces
+        let bb = state.pieceBitboards[piece];
+        while (bb > 0n) {
+            const sq = getLSBIndex(bb);
+            switch (piece) {
+                case P: maps.white |= PAWN_ATTACKS[WHITE][sq]; break;
+                case N: maps.white |= KNIGHT_ATTACKS[sq]; break;
+                case B: maps.white |= getBishopAttacks(sq, blockers); break;
+                case R: maps.white |= getRookAttacks(sq, blockers); break;
+                case Q: maps.white |= getQueenAttacks(sq, blockers); break;
+                case K: maps.white |= KING_ATTACKS[sq]; break;
+            }
+            bb = popBit(bb);
+        }
+
+        // Black pieces
+        bb = state.pieceBitboards[piece + 6];
+        while (bb > 0n) {
+            const sq = getLSBIndex(bb);
+            switch (piece) {
+                case P: maps.black |= PAWN_ATTACKS[BLACK][sq]; break;
+                case N: maps.black |= KNIGHT_ATTACKS[sq]; break;
+                case B: maps.black |= getBishopAttacks(sq, blockers); break;
+                case R: maps.black |= getRookAttacks(sq, blockers); break;
+                case Q: maps.black |= getQueenAttacks(sq, blockers); break;
+                case K: maps.black |= KING_ATTACKS[sq]; break;
+            }
+            bb = popBit(bb);
+        }
+    }
+    return maps;
+}
+
+
+// --- THE PURE BITBOARD EVALUATION FUNCTION ---
+function evaluate(state) {
+//... rest of the function is unchanged
+
 // --- THE PURE BITBOARD EVALUATION FUNCTION ---
 function evaluate(state) {
     const attackMaps = generateAttackMaps(state);
