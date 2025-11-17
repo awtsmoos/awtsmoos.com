@@ -474,15 +474,40 @@ function quiesce(state, alpha, beta) {
     return alpha;
 }
 
+/*B"H*/
 /**
- * The core alpha-beta search function. This version is updated to generate attack maps
- * once per node and pass them to the evaluation function.
+ * The core alpha-beta search function. This is the corrected version that fixes a
+ * critical "Cannot access 'score' before initialization" crash caused by a faulty
+ * one-line expression. This version restores the stable and correct if/else logic
+ * for handling recursive search calls.
+ * @param {object} state - The game state.
+ * @param {number} depth - The remaining depth to search.
+ * @param {number} alpha - The lower bound of the search window.
+ * @param {number} beta - The upper bound of the search window.
+ * @param {number} ply - The current ply from the root.
+ * @returns {number} The evaluated score of the position.
+ */
+/*B"H*/
+
+/**
+ * The core alpha-beta search function. This version corrects a critical ReferenceError
+ * caused by an incorrect implementation of the PVS logic in the previous version.
+ * The recursive search calls are now handled correctly, preventing the engine from crashing.
+ * @param {object} state - The game state.
+ * @param {number} depth - The remaining depth to search.
+ * @param {number} alpha - The lower bound of the search window.
+ * @param {number} beta - The upper bound of the search window.
+ * @param {number} ply - The current ply from the root.
+ * @returns {number} The evaluated score of the position.
  */
 function search(state, depth, alpha, beta, ply) {
     if (depth <= 0) {
         return quiesce(state, alpha, beta);
     }
-    if ((nodeCount & 2047) === 0 && performance.now() - searchStartTime > timeLimit) stopSearch = true;
+
+    if ((nodeCount & 2047) === 0 && performance.now() - searchStartTime > timeLimit) {
+        stopSearch = true;
+    }
     if (stopSearch) return 0;
     nodeCount++;
 
@@ -504,7 +529,11 @@ function search(state, depth, alpha, beta, ply) {
     const moves = generateMoves(state);
     const orderedMoves = orderMoves(moves, state, ply);
     
-    let legalMovesFound = 0, bestScore = -Infinity, ttFlag = TT_UPPERBOUND, bestMoveForNode = 0;
+    let legalMovesFound = 0;
+    let bestScore = -Infinity;
+    let ttFlag = TT_UPPERBOUND;
+    let bestMoveForNode = 0;
+
     for (const move of orderedMoves) {
         makeMove(state, move);
         const kingSq = getLSBIndex(state.pieceBitboards[(state.turn ^ 1) * 6 + K]);
@@ -513,13 +542,40 @@ function search(state, depth, alpha, beta, ply) {
             continue;
         }
         legalMovesFound++;
-        let score = (legalMovesFound === 1) ? -search(state, depth - 1, -beta, -alpha, ply + 1)
-            : (-search(state, depth - 1, -alpha - 1, -alpha, ply + 1), (score > alpha && score < beta) ? -search(state, depth - 1, -beta, -alpha, ply + 1) : score);
+
+        // ============================================================================
+        //               CRITICAL FIX: RESTORED CORRECT PVS LOGIC
+        // ============================================================================
+        let score;
+        if (legalMovesFound === 1) {
+            // First move: Perform a full-window search. This establishes the principal variation.
+            score = -search(state, depth - 1, -beta, -alpha, ply + 1);
+        } else {
+            // Subsequent moves: Assume they are worse and test with a minimal "zero-window".
+            score = -search(state, depth - 1, -alpha - 1, -alpha, ply + 1);
+            
+            // If the zero-window search failed high (score > alpha), it means this move is
+            // better than our current best. We must re-search with a full window.
+            if (score > alpha && score < beta) {
+                score = -search(state, depth - 1, -beta, -alpha, ply + 1);
+            }
+        }
+        // ============================================================================
+
         unmakeMove(state);
 
         if (stopSearch) return 0;
-        if (score > bestScore) { bestScore = score; bestMoveForNode = move; }
-        if (bestScore > alpha) { ttFlag = TT_EXACT; alpha = bestScore; }
+
+        if (score > bestScore) {
+            bestScore = score;
+            bestMoveForNode = move;
+        }
+
+        if (bestScore > alpha) {
+            ttFlag = TT_EXACT;
+            alpha = bestScore;
+        }
+
         if (alpha >= beta) {
             if (!getMoveCapture(move)) {
                 if(killerMoves[ply] && killerMoves[ply][0] !== move) killerMoves[ply][1] = killerMoves[ply][0];
@@ -535,9 +591,11 @@ function search(state, depth, alpha, beta, ply) {
         const kingInCheck = isSquareAttacked_lean(state, getLSBIndex(state.pieceBitboards[state.turn * 6 + K]), state.turn ^ 1);
         return kingInCheck ? -MATE_SCORE + ply : 0;
     }
+    
     if (bestMoveForNode) {
        transpositionTable.set(state.zobristHash, { score: bestScore, depth: depth, flag: ttFlag, move: bestMoveForNode });
     }
+    
     return bestScore;
 }
 
