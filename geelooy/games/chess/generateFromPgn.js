@@ -34,62 +34,93 @@ class PgnConverter {
         fen += ' 0 1'; return fen;
     }
 
-    parseSan(san) {
-        san = san.replace(/[+#?!]/g, '');
-        if (['1-0', '0-1', '1/2-1/2', '*'].includes(san)) return null;
+    // REPLACE this function in generateFromPgn.js
+parseSan(san) {
+    // Keep a reference to the FEN *before* the move for logging purposes
+    const fenForErrorLogging = this.toFen();
+    
+    san = san.replace(/[+#?!]/g, '');
+    if (['1-0', '0-1', '1/2-1/2', '*'].includes(san)) return null;
 
-        const legalMoves = generateMoves(this.currentState);
+    const legalMoves = generateMoves(this.currentState);
 
-        if (san === 'O-O') return legalMoves.find(m => getMoveCastling(m) && getMoveTo(m) > getMoveFrom(m));
-        if (san === 'O-O-O') return legalMoves.find(m => getMoveCastling(m) && getMoveTo(m) < getMoveFrom(m));
-        
-        let promotionType = null;
-        if (san.includes('=')) {
-            promotionType = 'PNBRQ'.indexOf(san.slice(-1).toUpperCase());
-            san = san.slice(0, -2);
-        }
+    if (san === 'O-O') {
+        const move = legalMoves.find(m => getMoveCastling(m) && getMoveTo(m) > getMoveFrom(m));
+        if (move) return move;
+    }
+    if (san === 'O-O-O') {
+        const move = legalMoves.find(m => getMoveCastling(m) && getMoveTo(m) < getMoveFrom(m));
+        if (move) return move;
+    }
+    
+    let promotionType = null;
+    if (san.includes('=')) {
+        promotionType = 'PNBRQ'.indexOf(san.slice(-1).toUpperCase());
+        san = san.slice(0, -2);
+    }
 
-        const toMatch = san.match(/([a-h][1-8])$/);
-        if (!toMatch) return null;
-        const toSq = (8 - parseInt(toMatch[0][1])) * 8 + (toMatch[0].charCodeAt(0) - 'a'.charCodeAt(0));
-
-        const isCapture = san.includes('x');
-        const pieceChar = (san[0] >= 'A' && san[0] <= 'Z') ? san[0] : 'P';
-        const pieceType = 'PNBRQK'.indexOf(pieceChar);
-        
-        const fromHint = san.replace('x', '').replace(toMatch[0], '').substring(pieceType === P ? 0 : 1);
-
-        const candidateMoves = [];
-        for(const move of legalMoves) {
-            if (getMovePiece(move) !== pieceType || getMoveTo(move) !== toSq) continue;
-            if (promotionType !== null && getMovePromoted(move) !== promotionType) continue;
-            if (isCapture && !getMoveCapture(move)) continue;
-
-            if (fromHint) {
-                const fromSq = getMoveFrom(move);
-                const fromFile = 'abcdefgh'[fromSq % 8];
-                const fromRank = (8 - Math.floor(fromSq / 8)).toString();
-                let hintMatch = true;
-                for (const char of fromHint) {
-                    if (char !== fromFile && char !== fromRank) {
-                        hintMatch = false;
-                        break;
-                    }
-                }
-                if (!hintMatch) continue;
-            }
-            candidateMoves.push(move);
-        }
-        
-        if (candidateMoves.length === 1) return candidateMoves[0];
-        
-        // If still ambiguous, it means multiple pieces of the same type can move to the square.
-        // The fromHint must be more specific. We've already filtered by the hint we have.
-        // This is a rare case in valid PGNs but we return the first match for robustness.
-        if (candidateMoves.length > 1) return candidateMoves[0];
-
+    const toMatch = san.match(/([a-h][1-8])$/);
+    if (!toMatch) {
+        // --- NEW DEBUG LOGGING ---
+        console.groupCollapsed(`%cDEBUG: Could not find destination square in SAN: "${san}"`, 'color: orange; font-weight: bold;');
+        console.log("FEN:", fenForErrorLogging);
+        console.log("All Legal Moves Generated:", legalMoves.map(m => `from: ${getMoveFrom(m)}, to: ${getMoveTo(m)}`));
+        console.groupEnd();
         return null;
     }
+    const toSq = (8 - parseInt(toMatch[0][1])) * 8 + (toMatch[0].charCodeAt(0) - 'a'.charCodeAt(0));
+
+    const isCapture = san.includes('x');
+    const pieceChar = (san[0] >= 'A' && san[0] <= 'Z') ? san[0] : 'P';
+    const pieceType = 'PNBRQK'.indexOf(pieceChar);
+    
+    const fromHint = san.replace('x', '').replace(toMatch[0], '').substring(pieceType === P ? 0 : 1);
+
+    const candidateMoves = [];
+    for(const move of legalMoves) {
+        if (getMovePiece(move) !== pieceType || getMoveTo(move) !== toSq) continue;
+        if (promotionType !== null && getMovePromoted(move) !== promotionType) continue;
+        if (isCapture && !getMoveCapture(move)) continue;
+
+        if (fromHint) {
+            const fromSq = getMoveFrom(move);
+            const fromFile = 'abcdefgh'[fromSq % 8];
+            const fromRank = (8 - Math.floor(fromSq / 8)).toString();
+            let hintMatch = true;
+            for (const char of fromHint) {
+                if (char !== fromFile && char !== fromRank) {
+                    hintMatch = false;
+                    break;
+                }
+            }
+            if (!hintMatch) continue;
+        }
+        candidateMoves.push(move);
+    }
+    
+    if (candidateMoves.length === 1) return candidateMoves[0];
+    
+    // If we're here, we either found 0 or multiple candidates.
+    if (candidateMoves.length === 0) {
+        // --- NEW DEBUG LOGGING ---
+        console.groupCollapsed(`%cDEBUG: No matching legal move found for SAN: "${san}"`, 'color: orange; font-weight: bold;');
+        console.log("FEN:", fenForErrorLogging);
+        console.log("All Legal Moves Generated:", legalMoves.map(m => {
+            return {
+                from: getMoveFrom(m), to: getMoveTo(m), piece: pieceMap[getMovePiece(m) + (this.currentState.turn === BLACK ? 6 : 0)], 
+                promo: getMovePromoted(m), capture: getMoveCapture(m), castle: getMoveCastling(m)
+            };
+        }));
+        console.groupEnd();
+        return null; // This will trigger the original error log
+    }
+
+    // If still ambiguous, it means multiple pieces of the same type can move to the square.
+    // This is rare in valid PGNs but we return the first match for robustness.
+    if (candidateMoves.length > 1) return candidateMoves[0];
+
+    return null;
+}
 
     applyMove(move) { makeMove(this.currentState, move); }
 }
