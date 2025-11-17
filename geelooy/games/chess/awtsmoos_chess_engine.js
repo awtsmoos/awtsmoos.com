@@ -390,11 +390,11 @@ function evaluate(state) {
 // ====================================================================================
 
 
-/* B"H */
+/*B"H*/
 
 /**
  * Orders moves for a given position to improve alpha-beta pruning efficiency.
- * MVV-LVA (Most Valuable Victim - Least Valuable Attacker) is used for captures.
+ * This version is optimized to use the fast `getPieceTypeOnSquare` helper for MVV-LVA scoring.
  * @param {number[]} moves - An array of pseudo-legal moves.
  * @param {object} state - The current game state.
  * @param {number} ply - The current search depth (ply).
@@ -417,12 +417,8 @@ function orderMoves(moves, state, ply) {
             let victimType = P; // Default to pawn for en-passant
 
             if (!getMoveEnpassant(move)) {
-                 for (let p_type = P; p_type <= K; p_type++) {
-                    if ((state.pieceBitboards[(state.turn ^ 1) * 6 + p_type] & (1n << BigInt(to))) !== 0n) {
-                        victimType = p_type;
-                        break;
-                    }
-                }
+                // Use the new, fast helper to find the victim piece instead of a slow loop
+                victimType = getPieceTypeOnSquare(state, to, state.turn ^ 1);
             }
             score = (pieceValues[victimType] * 10) - pieceValues[attackerType] + 1000000;
         } else {
@@ -444,7 +440,6 @@ function orderMoves(moves, state, ply) {
     
     return moveScores.sort((a, b) => b.score - a.score).map(ms => ms.move);
 }
-
 /*B"H*/
 
 /**

@@ -372,21 +372,27 @@ const castling_rights = [
 let moveStack = Array(256).fill(0);
 let moveStackPtr = 0;
 
+/*B"H*/
+
 /**
- * Finds which piece type is on a given square for a given side. Used to identify captured pieces.
- * @param {object} state The game state.
- * @param {number} sq The square index.
- * @returns {number | null} The piece type (P, N, B, R, Q, K) or null if no piece is found.
+ * Gets the piece type on a given square for a specified side.
+ * This is a high-performance replacement for the previous looping function, critical
+ * for the speed of `makeMove` and `orderMoves`.
+ * @param {object} state - The game state object.
+ * @param {number} sq - The square index (0-63).
+ * @param {number} side - The color of the piece to find (WHITE or BLACK).
+ * @returns {number|null} The piece type constant (P, N, B, R, Q, K) or null if no piece of that color is on the square.
  */
-function findCapturedPieceType(state, sq) {
+function getPieceTypeOnSquare(state, sq, side) {
     const target_bb = 1n << BigInt(sq);
-    const enemy = state.turn ^ 1;
-    for (let p_type = P; p_type <= K; p_type++) {
-        if ((state.pieceBitboards[enemy * 6 + p_type] & target_bb) !== 0n) {
-            return p_type;
-        }
-    }
-    return null; // Should not happen for a valid capture, except en passant
+    const baseIndex = side * 6;
+    if ((state.pieceBitboards[baseIndex + P] & target_bb) !== 0n) return P;
+    if ((state.pieceBitboards[baseIndex + N] & target_bb) !== 0n) return N;
+    if ((state.pieceBitboards[baseIndex + B] & target_bb) !== 0n) return B;
+    if ((state.pieceBitboards[baseIndex + R] & target_bb) !== 0n) return R;
+    if ((state.pieceBitboards[baseIndex + Q] & target_bb) !== 0n) return Q;
+    if ((state.pieceBitboards[baseIndex + K] & target_bb) !== 0n) return K;
+    return null;
 }
 
 /*B"H*/
@@ -421,7 +427,8 @@ function makeMove(state, move) {
             state.pieceBitboards[enemy * 6 + P] ^= (1n << BigInt(captured_pawn_sq));
             state.occupancies[enemy] ^= (1n << BigInt(captured_pawn_sq));
         } else {
-            unmakeInfo.capturedPiece = findCapturedPieceType(state, to);
+            // Use the new, fast helper function to identify the captured piece
+            unmakeInfo.capturedPiece = getPieceTypeOnSquare(state, to, enemy);
             state.pieceBitboards[enemy * 6 + unmakeInfo.capturedPiece] ^= to_bb;
             state.occupancies[enemy] ^= to_bb;
         }
