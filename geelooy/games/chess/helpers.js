@@ -365,6 +365,7 @@ const getMoveCastling = (move) => (move >> 23) & 1;
 
 /**
  * Generates all pseudo-legal moves for the current position.
+ * This corrected version fixes a type error by ensuring the capture flag is a Number, not a BigInt.
  * @param {object} state - The current game state.
  * @returns {number[]} An array of encoded moves.
  */
@@ -373,6 +374,7 @@ function generateMoves(state) {
     const side = state.turn, enemy = side ^ 1;
     const blockers = state.occupancies[2];
 
+    // --- Pawn Moves (Correct, no changes needed here) ---
     let pawns = state.pieceBitboards[side * 6 + P];
     while (pawns > 0n) {
         const from = getLSBIndex(pawns);
@@ -404,6 +406,8 @@ function generateMoves(state) {
         }
         pawns = popBit(pawns);
     }
+    
+    // --- Castling (Correct, no changes needed here) ---
     if (side === WHITE) {
         if ((state.castling & WKCA) && !((blockers >> 61n) & 1n) && !((blockers >> 62n) & 1n) && !isSquareAttacked_lean(state, 60, BLACK) && !isSquareAttacked_lean(state, 61, BLACK)) moves.push(encodeMove(60, 62, K, 0, 0, 0, 0, 1));
         if ((state.castling & WQCA) && !((blockers >> 59n) & 1n) && !((blockers >> 58n) & 1n) && !((blockers >> 57n) & 1n) && !isSquareAttacked_lean(state, 60, BLACK) && !isSquareAttacked_lean(state, 59, BLACK)) moves.push(encodeMove(60, 58, K, 0, 0, 0, 0, 1));
@@ -411,6 +415,8 @@ function generateMoves(state) {
         if ((state.castling & BKCA) && !((blockers >> 5n) & 1n) && !((blockers >> 6n) & 1n) && !isSquareAttacked_lean(state, 4, WHITE) && !isSquareAttacked_lean(state, 5, WHITE)) moves.push(encodeMove(4, 6, K, 0, 0, 0, 0, 1));
         if ((state.castling & BQCA) && !((blockers >> 3n) & 1n) && !((blockers >> 2n) & 1n) && !((blockers >> 1n) & 1n) && !isSquareAttacked_lean(state, 4, WHITE) && !isSquareAttacked_lean(state, 3, WHITE)) moves.push(encodeMove(4, 2, K, 0, 0, 0, 0, 1));
     }
+    
+    // --- All Other Piece Moves ---
     const pieces = [N, B, R, Q, K];
     for (const piece of pieces) {
         let bitboard = state.pieceBitboards[side * 6 + piece];
@@ -420,7 +426,12 @@ function generateMoves(state) {
             attacks &= ~state.occupancies[side];
             while (attacks > 0n) {
                 const to = getLSBIndex(attacks);
-                moves.push(encodeMove(from, to, piece, 0, ((state.occupancies[enemy] >> BigInt(to)) & 1n), 0, 0, 0));
+                // ============================================================================
+                // THE FIX: Check for capture using a boolean comparison, then convert to 1 or 0.
+                // This prevents passing a BigInt to encodeMove.
+                // ============================================================================
+                const isCapture = (state.occupancies[enemy] & (1n << BigInt(to))) !== 0n ? 1 : 0;
+                moves.push(encodeMove(from, to, piece, 0, isCapture, 0, 0, 0));
                 attacks = popBit(attacks);
             }
             bitboard = popBit(bitboard);
