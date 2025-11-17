@@ -964,7 +964,7 @@ let DEBUG_MODE = true;
 // =================================================================
 //              MAIN WORKER DRIVER (BITBOARD v2.0 - VERIFIED)
 // =================================================================
-let DEBUG_MODE = true;
+
 let isInitialized = false;
 
 function initializeEngine() {
