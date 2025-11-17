@@ -1211,13 +1211,14 @@ function quiesce(state, alpha, beta, ply, qDepth = 0) {
 
 
 // ====================================================================================
-//            REPLACE YOUR OLD orderMoves() FUNCTION WITH THIS ONE
+//            REPLACE YOUR OLD orderMoves() FUNCTION WITH THIS CORRECTED VERSION
 // ====================================================================================
-// This version is a complete overhaul. It uses Static Exchange Evaluation (SEE)
-// to intelligently separate "good" captures from "bad" ones. This is critical
-// for making the search algorithm efficient enough to find deep tactics.
 function orderMoves(moves, state, pvMove, ply) {
     const moveScores = [];
+
+    // Get the killer moves for the current depth, if they exist.
+    const killer1 = killerMoves[ply] ? killerMoves[ply][0] : null;
+    const killer2 = killerMoves[ply] ? killerMoves[ply][1] : null;
 
     for (const move of moves) {
         let score = 0;
@@ -1228,30 +1229,26 @@ function orderMoves(moves, state, pvMove, ply) {
         }
         // 2. Captures and Promotions
         else if (move.capture || move.promotion) {
-            // Promotions are always good
             if (move.promotion) {
                 score = 900000 + pieceValues[move.promotion.toLowerCase()].mg;
             } else {
-                // For captures, use SEE to determine if it's a winning trade
                 const seeScore = see(state, move.from[0], move.from[1], move.to[0], move.to[1]);
                 if (seeScore >= 0) {
-                    // Good captures: score based on SEE value
-                    score = 800000 + seeScore;
+                    score = 800000 + seeScore; // Good captures
                 } else {
-                    // Bad captures: searched last, score based on how "bad" it is
-                    score = 10000 + seeScore; // e.g., 10000 + (-500) = 9500
+                    score = 10000 + seeScore; // Bad captures (searched after quiet moves)
                 }
             }
         }
         // 3. Quiet Moves (Non-captures)
         else {
-            // Killer Moves (moves that caused a beta cutoff at the same ply)
-            if (killerMoves[ply]?.[0] && killerMoves[ply][0].from[0] === move.from[0] && killerMoves[ply][0].to[0] === move.to[0] && killerMoves[ply][0].from[1] === move.from[1] && killerMoves[ply][0].to[1] === move.to[1]) {
+            // Killer Moves (Checked robustly now)
+            if (killer1 && killer1.from[0] === move.from[0] && killer1.from[1] === move.from[1] && killer1.to[0] === move.to[0] && killer1.to[1] === move.to[1]) {
                 score = 90000;
-            } else if (killerMoves[ply]?.[1] && killerMoves[ply][1].from[0] === move.from[0] && killerMoves[ply][1].to[0] === move.to[0] && killerMoves[ply][1].from[1] === move.from[1] && killerMoves[ply][1].to[1] === move.to[1]) {
+            } else if (killer2 && killer2.from[0] === move.from[0] && killer2.from[1] === move.from[1] && killer2.to[0] === move.to[0] && killer2.to[1] === move.to[1]) {
                 score = 80000;
             }
-            // History Heuristic (moves that have been good in other branches)
+            // History Heuristic
             else {
                 score = historyTable[pieceMap.indexOf(move.piece)][move.to[0] * 8 + move.to[1]] || 0;
             }
