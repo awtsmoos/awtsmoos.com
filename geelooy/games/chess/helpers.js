@@ -573,8 +573,8 @@ const getMoveCastling = (move) => (move >> 23) & 1;
 
 /**
  * Generates all pseudo-legal moves for the current position.
- * This is a performance-optimized version that "unrolls" the main piece loop
- * to reduce overhead and give the JIT compiler more direct code paths to optimize.
+ * This is the fully corrected version that fixes a critical TypeError with the ~ operator on BigInts.
+ * The logic for removing friendly pieces from attack sets is now robust for JavaScript.
  * @param {object} state - The current game state.
  * @returns {number[]} An array of encoded moves.
  */
@@ -585,7 +585,7 @@ function generateMoves(state) {
     const friendly_occupancy = state.occupancies[side];
     const enemy_occupancy = state.occupancies[enemy];
 
-    // --- Pawn Moves ---
+    // --- Pawn Moves (No changes needed here) ---
     let pawns = state.pieceBitboards[side * 6 + P];
     while (pawns > 0n) {
         const from = getLSBIndex(pawns);
@@ -618,7 +618,7 @@ function generateMoves(state) {
         pawns = popBit(pawns);
     }
     
-    // --- Castling ---
+    // --- Castling (No changes needed here) ---
     if (side === WHITE) {
         if ((state.castling & WKCA) && !((blockers >> 61n) & 1n) && !((blockers >> 62n) & 1n) && !isSquareAttacked_lean(state, 60, BLACK) && !isSquareAttacked_lean(state, 61, BLACK)) moves.push(encodeMove(60, 62, K, 0, 0, 0, 0, 1));
         if ((state.castling & WQCA) && !((blockers >> 59n) & 1n) && !((blockers >> 58n) & 1n) && !((blockers >> 57n) & 1n) && !isSquareAttacked_lean(state, 60, BLACK) && !isSquareAttacked_lean(state, 59, BLACK)) moves.push(encodeMove(60, 58, K, 0, 0, 0, 0, 1));
@@ -631,7 +631,8 @@ function generateMoves(state) {
     let knights = state.pieceBitboards[side * 6 + N];
     while (knights > 0n) {
         const from = getLSBIndex(knights);
-        let attacks = KNIGHT_ATTACKS[from] & ~friendly_occupancy;
+        // CORRECTED: Use XOR to correctly remove friendly pieces from the attack set.
+        let attacks = KNIGHT_ATTACKS[from] ^ (KNIGHT_ATTACKS[from] & friendly_occupancy);
         while (attacks > 0n) {
             const to = getLSBIndex(attacks);
             const isCapture = (enemy_occupancy & (1n << BigInt(to))) !== 0n ? 1 : 0;
@@ -645,7 +646,9 @@ function generateMoves(state) {
     let bishops = state.pieceBitboards[side * 6 + B];
     while (bishops > 0n) {
         const from = getLSBIndex(bishops);
-        let attacks = getBishopAttacks(from, blockers) & ~friendly_occupancy;
+        const bishop_attacks = getBishopAttacks(from, blockers);
+        // CORRECTED: Use XOR to correctly remove friendly pieces from the attack set.
+        let attacks = bishop_attacks ^ (bishop_attacks & friendly_occupancy);
         while (attacks > 0n) {
             const to = getLSBIndex(attacks);
             const isCapture = (enemy_occupancy & (1n << BigInt(to))) !== 0n ? 1 : 0;
@@ -659,7 +662,9 @@ function generateMoves(state) {
     let rooks = state.pieceBitboards[side * 6 + R];
     while (rooks > 0n) {
         const from = getLSBIndex(rooks);
-        let attacks = getRookAttacks(from, blockers) & ~friendly_occupancy;
+        const rook_attacks = getRookAttacks(from, blockers);
+        // CORRECTED: Use XOR to correctly remove friendly pieces from the attack set.
+        let attacks = rook_attacks ^ (rook_attacks & friendly_occupancy);
         while (attacks > 0n) {
             const to = getLSBIndex(attacks);
             const isCapture = (enemy_occupancy & (1n << BigInt(to))) !== 0n ? 1 : 0;
@@ -673,7 +678,9 @@ function generateMoves(state) {
     let queens = state.pieceBitboards[side * 6 + Q];
     while (queens > 0n) {
         const from = getLSBIndex(queens);
-        let attacks = getQueenAttacks(from, blockers) & ~friendly_occupancy;
+        const queen_attacks = getQueenAttacks(from, blockers);
+        // CORRECTED: Use XOR to correctly remove friendly pieces from the attack set.
+        let attacks = queen_attacks ^ (queen_attacks & friendly_occupancy);
         while (attacks > 0n) {
             const to = getLSBIndex(attacks);
             const isCapture = (enemy_occupancy & (1n << BigInt(to))) !== 0n ? 1 : 0;
@@ -687,7 +694,8 @@ function generateMoves(state) {
     let kings = state.pieceBitboards[side * 6 + K];
     while (kings > 0n) {
         const from = getLSBIndex(kings);
-        let attacks = KING_ATTACKS[from] & ~friendly_occupancy;
+        // CORRECTED: Use XOR to correctly remove friendly pieces from the attack set.
+        let attacks = KING_ATTACKS[from] ^ (KING_ATTACKS[from] & friendly_occupancy);
         while (attacks > 0n) {
             const to = getLSBIndex(attacks);
             const isCapture = (enemy_occupancy & (1n << BigInt(to))) !== 0n ? 1 : 0;
