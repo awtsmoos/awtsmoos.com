@@ -15,9 +15,43 @@ importScripts('punishment_library.js');
 // =================================================================
 //                 OPENING BOOK PROCESSING LOGIC
 // =================================================================
+/* B"H */
+// REPLACE the entire opening book section at the top of prometheus_engine.js with this block.
+
+// =================================================================
+//                 OPENING BOOK PROCESSING LOGIC
+// =================================================================
 const openingBook = new Map();
 const punishmentBook = new Map();
 
+/**
+ * This function takes a raw book array (generated from PGN) and processes it
+ * into the final, hash-based Map that the engine uses.
+ * @param {Array} rawBook - The raw book data from generateRawBook.
+ * @param {Map} targetMap - The Map object (openingBook or punishmentBook) to populate.
+ */
+function processRawBook(rawBook, targetMap) {
+    for (const entry of rawBook) {
+        if (!entry) continue;
+        const fen = entry[0];
+        const name = entry[1];
+        const hash = calculateZobristHash(createGameState(fen)).toString();
+        const bookEntry = targetMap.has(hash) ? targetMap.get(hash) : { name: name, moves: [] };
+        
+        for (let i = 2; i < entry.length; i++) {
+            const newMove = entry[i];
+            const moveExists = bookEntry.moves.some(m =>
+                m.from[0] === newMove.from[0] && m.from[1] === newMove.from[1] &&
+                m.to[0] === newMove.to[0] && m.to[1] === newMove.to[1] &&
+                m.promotion === newMove.promotion
+            );
+            if (!moveExists) {
+                bookEntry.moves.push(newMove);
+            }
+        }
+        targetMap.set(hash, bookEntry);
+    }
+}
 
 function buildBook(sourceArray, targetMap) {
     if (targetMap.size > 0 || typeof sourceArray === 'undefined') return;
