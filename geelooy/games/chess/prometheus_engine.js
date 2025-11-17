@@ -1577,7 +1577,7 @@ case 'analyze_pgn':
         
     
     
-    
+    }
     
     
     
