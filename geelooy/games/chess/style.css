@@ -5,24 +5,43 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start; /* MODIFIED: Aligns content to the top, allowing it to scroll down naturally. */
+    justify-content: flex-start; /* Aligns content to the top */
     min-height: 100vh;
     margin: 0;
-    /* REMOVED: overflow: hidden; -- This was the primary cause of the bug, preventing the lower captured pieces bar from appearing on smaller screens. */
+    padding: 10px 0; /* Adds vertical spacing for smaller screens */
+    box-sizing: border-box; /* Ensures padding is included in height calculation */
     background-color: #2c2f33;
     color: #fff;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     -webkit-tap-highlight-color: transparent;
 }
 
-/* REMOVED: The first of two conflicting #message rules was removed from here. */
+#message {
+overflow-y: scroll;
 
+padding: 6px;
+min-height: 50px; /* MODIFIED: Increased min-height to ensure two lines are always visible. */
+white-space:pre-wrap;
+width: 90vw; /* ADDED: Ensures consistent width */
+max-width: 500px; /* ADDED: Matches other elements */
+box-sizing: border-box; /* ADDED: For consistent sizing */
+margin: 5px 0; /* MODIFIED: Simplified margin */
+font-size: 1.2em;
+font-weight: bold;
+text-align: center;
+
+
+}
 .hidden {
 display: none;
 }
 #gameContainer {
     position: relative;
-    margin-bottom: 60px; /* Space for the message div */
+    /* ADDED: Flex properties to stack all game elements vertically */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 0; /* MODIFIED: Removed old margin */
 }
 #chessContainer, .menu {
     display: none; /* Hidden by default */
@@ -45,29 +64,6 @@ display: none;
 .menu-button:hover {
     background-color: #45a049;
 }
-
-/* --- ADDED: Consolidated and Fixed Message Style --- */
-/* The two old, conflicting #message rules have been replaced by this single, corrected one. */
-#message {
-    overflow-y: auto; /* Shows scrollbar only if content overflows */
-    white-space: pre-wrap;
-    padding: 6px;
-    box-sizing: border-box;
-
-    /* A fixed height that accommodates two lines of text as requested */
-    height: 42px; 
-    
-    /* Centering and width consistent with the board */
-    width: 90vw;
-    max-width: 500px;
-    margin: 5px auto;
-    
-    /* Font styles from original rules */
-    font-size: 1.2em;
-    font-weight: bold;
-    text-align: center;
-}
-
 #gameOverOverlay {
     position: absolute;
     top: 0;
