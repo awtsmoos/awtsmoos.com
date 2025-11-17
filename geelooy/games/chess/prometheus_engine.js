@@ -1504,6 +1504,13 @@ case 'analyze_pgn':
         openingNames.push(foundName);
     }
     
+    const gameData = {
+        moves: validatedMoves,
+        boardHistory: boardHistory,
+        openingNames: openingNames,
+        initialFen: initialFen
+    };
+    
     lastParsedGame = gameData;
 
     // 3. Send the complete, validated package back to the main thread.
