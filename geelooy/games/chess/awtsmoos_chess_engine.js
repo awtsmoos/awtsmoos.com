@@ -445,8 +445,13 @@ function orderMoves(moves, state, ply) {
     return moveScores.sort((a, b) => b.score - a.score).map(ms => ms.move);
 }
 
+/*B"H*/
+
 /**
  * Quiescence search to stabilize the evaluation by only searching tactical moves (captures, promotions).
+ * This version is heavily optimized to avoid calling the full `orderMoves` function. Instead,
+ * it uses a lightweight, inline sorting method for tactical moves, which is critical for
+ * high performance as this function is called at the leaves of the search tree.
  * @param {object} state - The game state.
  * @param {number} alpha - The alpha value for the search window.
  * @param {number} beta - The beta value for the search window.
@@ -458,34 +463,83 @@ function quiesce(state, alpha, beta) {
     }
     if (stopSearch) return 0;
     nodeCount++;
-    
-    // Repetition check for quiescence to avoid infinite loops in rare cases
-    for (let i = moveStackPtr - 2; i >= 0; i -= 2) {
-        if (moveStack[i].zobristHash === state.zobristHash) return CONTEMPT_FACTOR;
+
+    // The "stand-pat" score is the evaluation of the position assuming no more tactical moves are made.
+    const stand_pat = evaluate(state);
+
+    // If the static evaluation of this position is already better than what the opponent
+    // can achieve, we can prune this search branch immediately.
+    if (stand_pat >= beta) {
+        return beta;
+    }
+    if (alpha < stand_pat) {
+        alpha = stand_pat;
     }
 
-    const stand_pat = evaluate(state);
-    if (stand_pat >= beta) return beta;
-    if (alpha < stand_pat) alpha = stand_pat;
-
     const moves = generateTacticalMoves(state);
-    const orderedMoves = orderMoves(moves, state, 0); // Ply 0 for q-search move ordering
+    
+    // --- Lightweight Move Ordering for Quiescence ---
+    // This inline sort is much faster than calling the full `orderMoves` function.
+    const pieceValues = [100, 350, 355, 500, 900, 0]; // Values for MVV-LVA scoring
+    const moveScores = [];
+    const enemy = state.turn ^ 1;
+
+    for (const move of moves) {
+        let score = 0;
+        // Promotions are the most valuable tactical moves, so give them a huge boost.
+        const promotedPiece = getMovePromoted(move);
+        if (promotedPiece) {
+            score = 1000000 + pieceValues[promotedPiece];
+        } else if (getMoveCapture(move)) {
+            const attackerType = getMovePiece(move);
+            const to = getMoveTo(move);
+            let victimType = P; // Default to pawn for en-passant captures
+
+            if (!getMoveEnpassant(move)) {
+                // Find the victim's piece type to score the capture (MVV-LVA).
+                for (let p_type = P; p_type <= K; p_type++) {
+                    if ((state.pieceBitboards[enemy * 6 + p_type] & (1n << BigInt(to))) !== 0n) {
+                        victimType = p_type;
+                        break;
+                    }
+                }
+            }
+            // Score captures using "Most Valuable Victim - Least Valuable Attacker".
+            score = (pieceValues[victimType] * 10) - pieceValues[attackerType];
+        }
+        moveScores.push({ move, score });
+    }
+    
+    // Sort moves by their generated score in descending order.
+    const orderedMoves = moveScores.sort((a, b) => b.score - a.score).map(ms => ms.move);
+    // --- End of Lightweight Move Ordering ---
 
     for (const move of orderedMoves) {
-        const unmakeInfo = makeMove(state, move);
+        // Your `helpers.js` uses a global stack for undoing moves, so the correct
+        // calling pattern is `makeMove(state, move)` followed by `unmakeMove(state)`.
+        makeMove(state, move);
+        
+        // A move is only legal if the king is not left in check after it's made.
         const kingSq = getLSBIndex(state.pieceBitboards[(state.turn ^ 1) * 6 + K]);
         if (isSquareAttacked_lean(state, kingSq, state.turn)) {
-            unmakeMove(state, unmakeInfo);
+            unmakeMove(state);
             continue;
         }
 
         const score = -quiesce(state, -beta, -alpha);
-        unmakeMove(state, unmakeInfo);
+        unmakeMove(state);
+        
         if (stopSearch) return 0;
 
-        if (score >= beta) return beta;
-        if (score > alpha) alpha = score;
+        // Standard alpha-beta pruning logic.
+        if (score >= beta) {
+            return beta; // Beta cutoff
+        }
+        if (score > alpha) {
+            alpha = score; // A new best move was found in this variation.
+        }
     }
+
     return alpha;
 }
 
