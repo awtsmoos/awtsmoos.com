@@ -550,7 +550,7 @@ function drawAnalysisBoard() {
     analysisCanvas.width = SIZE;
     analysisCanvas.height = SIZE;
     const fen = analysisState.boardHistory[analysisState.currentMoveIndex + 1];
-    if (!fen) return; // Safety check in case history is not ready
+    if (!fen) return; // Safety check
     
     const boardData = getBoardFromFen(fen);
 
@@ -590,7 +590,7 @@ function drawAnalysisBoard() {
     
     // --- DRAW ARROWS (THE NEW LOGIC) ---
     if (analysisState.currentMoveIndex > -1) {
-        // 1. Draw the actual move played in blue
+        // 1. Draw the actual move played (now a full blue arrow)
         const move = analysisState.moves[analysisState.currentMoveIndex];
         drawMoveArrow(move.from, move.to);
 
@@ -599,7 +599,7 @@ function drawAnalysisBoard() {
         if (analysisResult && (analysisResult.classification === 'mistake' || analysisResult.classification === 'blunder')) {
             const bestMove = analysisResult.bestMove;
             if (bestMove) {
-                // Draw the better move in green
+                // Draw the better move (now a full green arrow)
                 drawHintArrow(bestMove.from, bestMove.to); 
             }
         }
@@ -1277,35 +1277,37 @@ function drawAnalysisBoard() {
 	/* B"H */
 
 	function drawMoveArrow(from, to) {
-	    // Offset all coordinates by the padding
-	    const fromX = BOARD_PADDING + from[1] * SQUARE_SIZE + SQUARE_SIZE / 2;
-	    const fromY = BOARD_PADDING + from[0] * SQUARE_SIZE + SQUARE_SIZE / 2;
-	    const toX = BOARD_PADDING + to[1] * SQUARE_SIZE + SQUARE_SIZE / 2;
-	    const toY = BOARD_PADDING + to[0] * SQUARE_SIZE + SQUARE_SIZE / 2;
-	    
-	    const headlen = 20;
-	    const angle = Math.atan2(toY - fromY, toX - fromX);
-	
-	    analysisContext.save();
-	    analysisContext.strokeStyle = 'rgba(20, 150, 255, 0.7)';
-	    analysisContext.lineWidth = 12;
-	    analysisContext.lineCap = 'round';
-	    
-	    analysisContext.beginPath();
-	    analysisContext.moveTo(fromX, fromY);
-	    analysisContext.lineTo(toX, toY);
-	    analysisContext.stroke();
-	
-	    analysisContext.beginPath();
-	    analysisContext.moveTo(toX, toY);
-	    analysisContext.lineTo(toX - headlen * Math.cos(angle - Math.PI / 7), toY - headlen * Math.sin(angle - Math.PI / 7));
-	    analysisContext.lineTo(toX - headlen * Math.cos(angle + Math.PI / 7), toY - headlen * Math.sin(angle + Math.PI / 7));
-	    analysisContext.closePath();
-	    analysisContext.fillStyle = 'rgba(20, 150, 255, 0.7)';
-	    analysisContext.fill();
-	    
-	    analysisContext.restore();
-	}
+    // Offset all coordinates by the padding
+    const fromX = BOARD_PADDING + from[1] * SQUARE_SIZE + SQUARE_SIZE / 2;
+    const fromY = BOARD_PADDING + from[0] * SQUARE_SIZE + SQUARE_SIZE / 2;
+    const toX = BOARD_PADDING + to[1] * SQUARE_SIZE + SQUARE_SIZE / 2;
+    const toY = BOARD_PADDING + to[0] * SQUARE_SIZE + SQUARE_SIZE / 2;
+    
+    const headlen = 20;
+    const angle = Math.atan2(toY - fromY, toX - fromX);
+
+    analysisContext.save();
+    analysisContext.strokeStyle = 'rgba(20, 150, 255, 0.7)';
+    analysisContext.fillStyle = 'rgba(20, 150, 255, 0.7)'; // Set fill style for the head
+    analysisContext.lineWidth = 12;
+    analysisContext.lineCap = 'round';
+    
+    // 1. Draw the line (shaft)
+    analysisContext.beginPath();
+    analysisContext.moveTo(fromX, fromY);
+    analysisContext.lineTo(toX, toY);
+    analysisContext.stroke();
+
+    // 2. Draw the arrowhead (the missing part)
+    analysisContext.beginPath();
+    analysisContext.moveTo(toX, toY);
+    analysisContext.lineTo(toX - headlen * Math.cos(angle - Math.PI / 7), toY - headlen * Math.sin(angle - Math.PI / 7));
+    analysisContext.lineTo(toX - headlen * Math.cos(angle + Math.PI / 7), toY - headlen * Math.sin(angle + Math.PI / 7));
+    analysisContext.closePath();
+    analysisContext.fill(); // THIS IS THE CRITICAL LINE THAT DRAWS THE HEAD
+    
+    analysisContext.restore();
+}
 	
 	function populateMoveList() {
 	    moveListContainer.innerHTML = '';
