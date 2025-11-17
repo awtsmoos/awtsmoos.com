@@ -137,7 +137,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	// --- AI Worker ---
 	const aiWorker = new Worker('awtsmoos_chess_engine.js');
 	
-    /* B"H */
+    
 
 
 
@@ -145,22 +145,33 @@ document.addEventListener('DOMContentLoaded', () => {
 /*B"H*/
 
 /**
- * Handles all messages from the engine worker. This version adds definitive console logging
- * to verify exactly what data is being received from the worker, and includes robust logic
- * to ensure the diagnostic information is always displayed on screen if available.
+ * Handles all messages from the engine worker. This is the fully corrected version
+ * that restores the missing initialization logic, adds definitive console logging,
+ * and robustly displays diagnostic info on screen.
  */
 aiWorker.onmessage = function(e) {
     const { type } = e.data;
 
     // Use a switch to route messages to the correct logic
     switch (type) {
+
+        // --- Initialization Messages ---
         case 'progress':
-            // ... (this case is unchanged)
-            break;
-        case 'initialization_complete':
-            // ... (this case is unchanged)
+            const { percentage } = e.data;
+            const loadingText = document.getElementById('loadingText');
+            const progressBarFill = document.getElementById('progressBarFill');
+            if (loadingText) loadingText.textContent = `Loading Engine... ${percentage}%`;
+            if (progressBarFill) progressBarFill.style.width = `${percentage}%`;
             break;
 
+        case 'initialization_complete':
+            const loadingScreen = document.getElementById('loadingScreen');
+            const mainMenu = document.getElementById('mainMenu');
+            if (loadingScreen) loadingScreen.style.display = 'none';
+            if (mainMenu) mainMenu.style.display = 'flex';
+            break;
+
+        // --- Game Play Messages ---
         case 'move_result':
             /**
              * @description VERIFICATION STEP: Log the entire raw data object received from the worker.
@@ -203,7 +214,7 @@ aiWorker.onmessage = function(e) {
             }
             break;
             
-        // ... all other cases ('analysis_result', etc.) remain unchanged
+        // --- Analysis Messages ---
         case 'analysis_result':
             handleAnalysisResult(e.data);
             break;
@@ -223,7 +234,6 @@ aiWorker.onmessage = function(e) {
         }
     }
 };
-
 
 	
 	// --- Full Chess Rules Logic (for UI) ---
