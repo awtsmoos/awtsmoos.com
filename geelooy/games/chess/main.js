@@ -560,8 +560,7 @@ function drawHintArrow(from, to) {
     analysisContext.restore();
 }
 
-// REPLACE the drawAnalysisBoard function in main.js with this simplified version
-
+// 
 function drawAnalysisBoard() {
     analysisCanvas.width = SIZE;
     analysisCanvas.height = SIZE;
@@ -570,7 +569,7 @@ function drawAnalysisBoard() {
     
     const boardData = getBoardFromFen(fen);
 
-    // --- Draw Coordinates ---
+    // --- Draw Coordinates and Board (No changes here) ---
     analysisContext.fillStyle = '#c7c7c7';
     analysisContext.font = 'bold 14px Arial';
     analysisContext.textAlign = 'center';
@@ -581,14 +580,11 @@ function drawAnalysisBoard() {
         const x = BOARD_PADDING + i * SQUARE_SIZE + SQUARE_SIZE / 2;
         analysisContext.fillText(file, x, BOARD_PADDING / 2);
         analysisContext.fillText(file, x, SIZE - BOARD_PADDING / 2);
-        
         const rank = (8 - i).toString();
         const y = BOARD_PADDING + i * SQUARE_SIZE + SQUARE_SIZE / 2;
         analysisContext.fillText(rank, BOARD_PADDING / 2, y);
         analysisContext.fillText(rank, SIZE - BOARD_PADDING / 2, y);
     }
-
-    // --- Draw Squares & Pieces ---
     for (let r = 0; r < 8; r++) {
         for (let c = 0; c < 8; c++) {
             const squareX = BOARD_PADDING + c * SQUARE_SIZE;
@@ -602,19 +598,22 @@ function drawAnalysisBoard() {
         }
     }
     
-    // --- GUARANTEED ARROW DRAWING LOGIC ---
+    // --- FINAL, UNCONDITIONAL ARROW DRAWING LOGIC ---
     if (analysisState.currentMoveIndex > -1) {
-        // 1. Always draw the actual move played (the blue arrow).
+        // Step 1: ALWAYS draw the blue arrow for the move that was played.
         const movePlayed = analysisState.moves[analysisState.currentMoveIndex];
         if (movePlayed) {
             drawMoveArrow(movePlayed.from, movePlayed.to);
         }
 
-        // 2. If the move is a mistake or blunder, ALWAYS draw the hint arrow.
+        // Step 2: Check the analysis result.
         const analysisResult = analysisState.classifications[analysisState.currentMoveIndex];
+        
+        // Step 3: If the move was a mistake or blunder, ALSO draw the green hint arrow.
         if (analysisResult && (analysisResult.classification === 'mistake' || analysisResult.classification === 'blunder')) {
             const bestMove = analysisResult.bestMove;
-            // The engine now guarantees `bestMove` is the correct alternative, so we can draw it unconditionally.
+            
+            // This extra check prevents an error if the engine somehow fails to find an alternative.
             if (bestMove && bestMove.from && bestMove.to) {
                 drawHintArrow(bestMove.from, bestMove.to); 
             }
