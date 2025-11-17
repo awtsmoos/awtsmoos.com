@@ -1499,85 +1499,94 @@ self.onmessage = function(e) {
             });
             break;
 
-        case 'run_engine_analysis': {
-            // This is the "Analyzing" mode logic, now perfectly consistent with "Playing" mode
-            if (!lastParsedGame) {
-                postMessage({ type: 'analysis_error', message: "No PGN has been loaded to analyze." });
-                return;
-            }
+        /* B"H */
 
-            console.log("Starting unified game analysis...");
-            const { moves, initialFen, openingNames } = lastParsedGame;
-            const game = new PgnConverter();
-            game.currentState = createGameState(initialFen);
+// --- REPLACE the 'run_engine_analysis' case with this final, memory-consistent version ---
 
-            const BEST_MOVE_TOLERANCE = 40; 
-            const MISTAKE_THRESHOLD = 90;   
-            const BLUNDER_THRESHOLD = 250;  
+case 'run_engine_analysis': {
+    if (!lastParsedGame) {
+        postMessage({ type: 'analysis_error', message: "No PGN has been loaded to analyze." });
+        return;
+    }
 
-            for (let i = 0; i < moves.length; i++) {
-                const actualMove = moves[i];
-                let classification = 'good';
-                let bestMoveFound = null;
+    console.log("Starting unified game analysis with shared memory...");
+    const { moves, initialFen, openingNames } = lastParsedGame;
+    const game = new PgnConverter();
+    game.currentState = createGameState(initialFen);
 
-                const unmakeInfoForMateCheck = makeMove(game.currentState, actualMove);
-                const isCheckmate = generateLegalMoves(game.currentState).length === 0 && isSquareAttacked(game.currentState.board, game.currentState.kingPos[game.currentState.turn].r, game.currentState.kingPos[game.currentState.turn].c, game.currentState.turn === 'w' ? 'b' : 'w');
-                unmakeMove(game.currentState, unmakeInfoForMateCheck);
+    const ANALYSIS_THINKING_TIME = 3000;
+    const BEST_MOVE_TOLERANCE = 40; 
+    const MISTAKE_THRESHOLD = 90;   
+    const BLUNDER_THRESHOLD = 250;  
+
+    for (let i = 0; i < moves.length; i++) {
+        const actualMove = moves[i];
+        let classification = 'good';
+        let bestMoveFound = null;
+
+        const unmakeInfoForMateCheck = makeMove(game.currentState, actualMove);
+        const isCheckmate = generateLegalMoves(game.currentState).length === 0 && isSquareAttacked(game.currentState.board, game.currentState.kingPos[game.currentState.turn].r, game.currentState.kingPos[game.currentState.turn].c, game.currentState.turn === 'w' ? 'b' : 'w');
+        unmakeMove(game.currentState, unmakeInfoForMateCheck);
+        
+        const isBookMove = openingNames[i + 1] !== null && i < 30;
+
+        if (isCheckmate || isBookMove) {
+            classification = 'best';
+            bestMoveFound = actualMove;
+        } else {
+            // *** THE CRITICAL CHANGE IS HERE ***
+            // Initialize the search environment ONCE for this position.
+            initializeSearch(ANALYSIS_THINKING_TIME * 2); // Give it enough total time for two searches
+            repetitionHistory = [game.currentState.zobristHash];
+
+            // Search 1: Find the best move. This will populate the transposition table (the memory).
+            const searchResult = searchRoot(game.currentState, 99, ANALYSIS_THINKING_TIME);
+            const bestMoveEval = searchResult.score;
+            bestMoveFound = searchResult.bestMove;
+
+            const playedIsBest = bestMoveFound && actualMove && (bestMoveFound.from[0] === actualMove.from[0] && bestMoveFound.from[1] === actualMove.from[1] && bestMoveFound.to[0] === actualMove.to[0] && bestMoveFound.to[1] === actualMove.to[1]);
+
+            if (playedIsBest) {
+                classification = 'best';
+                bestMoveFound = actualMove;
+            } else {
+                // Search 2: Evaluate the user's move. 
+                // We DO NOT re-initialize. This search will use the memory from the first search.
+                const unmakeInfo = makeMove(game.currentState, actualMove);
+                // We reset the stop flag and timer, but NOT the memory.
+                stopSearch = false;
+                searchStartTime = performance.now(); 
+                // This search is now much faster and stronger because it uses the shared memory.
+                const scoreForUserMove = -searchRoot(game.currentState, 99, ANALYSIS_THINKING_TIME).score;
+                unmakeMove(game.currentState, unmakeInfo);
                 
-                const isBookMove = openingNames[i + 1] !== null && i < 30;
+                const evalDrop = bestMoveEval - scoreForUserMove;
 
-                if (isCheckmate || isBookMove) {
+                if (evalDrop > BLUNDER_THRESHOLD) {
+                    classification = 'blunder';
+                } else if (evalDrop > MISTAKE_THRESHOLD) {
+                    classification = 'mistake';
+                } else if (evalDrop <= BEST_MOVE_TOLERANCE) {
                     classification = 'best';
-                    bestMoveFound = actualMove;
+                    bestMoveFound = actualMove; 
                 } else {
-                    // Search 1: Find the best move using the unified, time-limited logic.
-                    initializeSearch(ANALYSIS_THINKING_TIME);
-                    repetitionHistory = [game.currentState.zobristHash];
-                    const searchResult = searchRoot(game.currentState, 99, ANALYSIS_THINKING_TIME);
-                    const bestMoveEval = searchResult.score;
-                    bestMoveFound = searchResult.bestMove;
-
-                    const playedIsBest = bestMoveFound && actualMove && (bestMoveFound.from[0] === actualMove.from[0] && bestMoveFound.from[1] === actualMove.from[1] && bestMoveFound.to[0] === actualMove.to[0] && bestMoveFound.to[1] === actualMove.to[1]);
-
-                    if (playedIsBest) {
-                        classification = 'best';
-                        bestMoveFound = actualMove;
-                    } else {
-                        // Search 2: Evaluate the user's move using the same unified, time-limited logic.
-                        const unmakeInfo = makeMove(game.currentState, actualMove);
-                        initializeSearch(ANALYSIS_THINKING_TIME);
-                        repetitionHistory = [game.currentState.zobristHash];
-                        // The score is negated because the turn has flipped.
-                        const scoreForUserMove = -searchRoot(game.currentState, 99, ANALYSIS_THINKING_TIME).score;
-                        unmakeMove(game.currentState, unmakeInfo);
-                        
-                        const evalDrop = bestMoveEval - scoreForUserMove;
-
-                        if (evalDrop > BLUNDER_THRESHOLD) {
-                            classification = 'blunder';
-                        } else if (evalDrop > MISTAKE_THRESHOLD) {
-                            classification = 'mistake';
-                        } else if (evalDrop <= BEST_MOVE_TOLERANCE) {
-                            classification = 'best';
-                            bestMoveFound = actualMove; 
-                        } else {
-                            classification = 'good';
-                        }
-                    }
+                    classification = 'good';
                 }
-
-                game.applyMove(actualMove);
-                self.postMessage({
-                    type: 'analysis_update',
-                    index: i,
-                    result: { classification: classification, bestMove: bestMoveFound }
-                });
             }
-
-            self.postMessage({ type: 'analysis_finished' });
-            console.log("Full game analysis complete.");
-            break;
         }
+
+        game.applyMove(actualMove);
+        self.postMessage({
+            type: 'analysis_update',
+            index: i,
+            result: { classification: classification, bestMove: bestMoveFound }
+        });
+    }
+
+    self.postMessage({ type: 'analysis_finished' });
+    console.log("Full game analysis complete.");
+    break;
+}
     }
 }
 
