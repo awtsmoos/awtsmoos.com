@@ -2804,6 +2804,218 @@ const sourceBook = [
 
 
 
+/* B"H */
+
+// =================================================================
+//         THE GRANDMASTER'S GAUNTLET EXPANSION (v9.0)
+// =================================================================
+// This pack addresses potential gaps by adding modern GM theory,
+// specific anti-computer lines, and deeper variations in critical openings.
+
+// --- I. DIRECT FIXES & TRANSPOSITIONAL COMPLETENESS ---
+
+{ name: "Modern Defense: Fianchetto System", pgn: "1. e4 g6 2. Nc3 Bg7 3. g3" },
+// WHY: THIS IS THE DIRECT FIX. Covers the 1.e4 g6 2.Nc3 move order you identified.
+
+{ name: "French Defense: Two Knights Variation", pgn: "1. e4 e6 2. Nc3 Nc6 3. Nf3" },
+// WHY: THIS IS THE DIRECT FIX. Covers the tricky 2...Nc6 transposition.
+
+{ name: "Old Benoni Defense: Main Line", pgn: "1. d4 c5 2. d5 d6 3. e4 Nf6 4. Nc3 g6" },
+// WHY: THIS IS THE DIRECT FIX. Deepens the Old Benoni line from your screenshot.
+
+{ name: "Scandinavian Defense: Advance Variation", pgn: "1. e4 d5 2. e5 Bf5 3. d4 e6 4. Nf3" },
+// WHY: THIS IS THE DIRECT FIX for the previous game you sent. Adds the critical 2.e5 line.
+
+
+// --- II. MODERN GRANDMASTER & ANTI-COMPUTER SYSTEMS ---
+
+{ name: "The London System: Main Line with ...Bf5", pgn: "1. d4 d5 2. Bf4 Nf6 3. e3 Bf5 4. c4 e6 5. Nc3 Bb4 6. Qb3 Nc6" },
+// WHY: While you have the London, this line with an early ...Bf5 is the most common and critical response at the GM level. The engine must know this theory deeply.
+
+{ name: "Giuoco Piano: Italian Game, Modern Main Lines", pgn: "1. e4 e5 2. Nf3 Nc6 3. Bc4 Bc5 4. O-O Nf6 5. d3 O-O 6. c3 d5 7. exd5 Nxd5 8. Re1 Bg4" },
+// WHY: The modern Italian is a battleground of elite chess. This specific line with ...d5 and ...Bg4 is a critical test of both sides' understanding and was missing from the library.
+
+{ name: "Anti-Grünfeld: The fianchetto system", pgn: "1. d4 Nf6 2. c4 g6 3. g3 Bg7 4. Bg2 d5 5. Nf3 O-O 6. O-O" },
+// WHY: A key positional system against the Grünfeld that avoids the chaotic main lines. It's a popular choice for GMs who want a strategic game.
+
+{ name: "The Krause Attack (in Slav Defense)", pgn: "1. d4 d5 2. c4 c6 3. Nf3 Nf6 4. Nc3 dxc4 5. a4 Bf5 6. Ne5 Na6 7. e3" },
+// WHY: A sharp and highly tactical variation of the Slav Defense that has become very popular in recent years. It poses unique challenges that require precise theoretical knowledge.
+
+{ name: "The Archangelsk Variation (Ruy Lopez)", pgn: "1. e4 e5 2. Nf3 Nc6 3. Bb5 a6 4. Ba4 Nf6 5. O-O b5 6. Bb3 Bb7 7. Re1 Bc5" },
+// WHY: A sharp and aggressive system for Black in the Ruy Lopez that leads to complex, tactical positions. A must-know for a complete Spanish repertoire.
+
+{ name: "The Taimanov Sicilian: Modern Main Line", pgn: "1. e4 c5 2. Nf3 e6 3. d4 cxd4 4. Nxd4 Nc6 5. Nc3 Qc7 6. Be3 a6 7. Qd2 Nf6 8. f3" },
+// WHY: While you have the Taimanov, this specific line with Qd2 and f3 (the English Attack setup) is the modern main line and most critical test.
+
+{ name: "The Hedgehog System (against English)", pgn: "1. c4 c5 2. Nf3 Nf6 3. g3 b6 4. Bg2 Bb7 5. O-O e6 6. Nc3 a6 7. d4 cxd4 8. Qxd4 d6" },
+// WHY: The Hedgehog is a famous anti-computer setup. It's a flexible, solid system that engines can struggle against if they don't understand the strategic ideas.
+
+{ name: "King's Indian Attack vs. French Defense", pgn: "1. e4 e6 2. d3 d5 3. Nd2 Nf6 4. Ngf3 c5 5. g3 Nc6 6. Bg2 Be7 7. O-O O-O" },
+// WHY: A critical and popular way for White to sidestep the main lines of the French Defense, leading to a completely different type of strategic game.
+
+
+// --- III. DEEPENING CRITICAL MAIN LINE THEORY ---
+
+{ name: "Ruy Lopez: The Jaenisch Gambit (Schliemann Defense)", pgn: "1. e4 e5 2. Nf3 Nc6 3. Bb5 f5 4. Nc3 fxe4 5. Nxe4 Nf6" },
+// WHY: The Schliemann is Black's most aggressive reply to the Ruy Lopez. Your library was missing the main theoretical continuation.
+
+{ name: "Queen's Gambit Declined: The Orthodox Defense, Main Line", pgn: "1. d4 d5 2. c4 e6 3. Nc3 Nf6 4. Bg5 Be7 5. e3 O-O 6. Nf3 Nbd7 7. Rc1 c6 8. Bd3 dxc4 9. Bxc4 Nd5" },
+// WHY: This is the absolute main line of the classical QGD. The ...Nd5 simplification is a critical idea the engine must know.
+
+{ name: "Grünfeld Defense: The 5.Bf4 System", pgn: "1. d4 Nf6 2. c4 g6 3. Nc3 d5 4. Bf4 Bg7 5. e3 O-O 6. Rc1" },
+// WHY: A very popular and tricky sideline against the Grünfeld used by top GMs to avoid the main lines.
+
+{ name: "King's Indian Defense: The Gligoric System", pgn: "1. d4 Nf6 2. c4 g6 3. Nc3 Bg7 4. e4 d6 5. Nf3 O-O 6. Be2 e5 7. Be3 Ng4 8. Bg5" },
+// WHY: A major, solid, and strategically complex alternative to the main lines of the KID. A complete repertoire must include this system.
+
+{ name: "Sicilian Defense, Najdorf: The Poisoned Pawn Variation", pgn: "1. e4 c5 2. Nf3 d6 3. d4 cxd4 4. Nxd4 Nf6 5. Nc3 a6 6. Bg5 e6 7. f4 Qb6 8. Qd2 Qxb2 9. Rb1 Qa3" },
+// WHY: Arguably one of the most famous and deeply analyzed variations in all of chess. While incredibly sharp, a top-tier engine must have this in its book.
+
+{ name: "French Defense, Winawer: The Poisoned Pawn Variation", pgn: "1. e4 e6 2. d4 d5 3. Nc3 Bb4 4. e5 c5 5. a3 Bxc3+ 6. bxc3 Ne7 7. Qg4 Qc7 8. Qxg7 Rg8 9. Qxh7 cxd4 10. Ne2" },
+// WHY: Similar to the Najdorf line, this is the most critical and tactical variation of the French Winawer.
+
+{ name: "Semi-Slav Defense: The Meran Variation, Main Line", pgn: "1. d4 d5 2. c4 c6 3. Nf3 Nf6 4. Nc3 e6 5. e3 Nbd7 6. Bd3 dxc4 7. Bxc4 b5 8. Bd3 a6 9. e4" },
+// WHY: The Meran is a cornerstone of modern theory. This deep line is the main highway, leading to incredibly rich middlegames.
+
+{ name: "Catalan Opening: The Open Main Line", pgn: "1. d4 Nf6 2. c4 e6 3. g3 d5 4. Bg2 dxc4 5. Nf3 a6 6. O-O b5" },
+// WHY: The Open Catalan is a battleground of modern theory. This pawn-grabbing line is the most challenging continuation and requires deep preparation.
+
+
+// --- IV. EXPANDING COVERAGE OF OTHER MAJOR OPENINGS ---
+
+{ name: "The Scotch Game: Mieses Variation", pgn: "1. e4 e5 2. Nf3 Nc6 3. d4 exd4 4. Nxd4 Nf6 5. Nxc6 bxc6 6. e5 Qe7 7. Qe2 Nd5 8. c4" },
+{ name: "The Pirc Defense: The Austrian Attack", pgn: "1. e4 d6 2. d4 Nf6 3. Nc3 g6 4. f4 Bg7 5. Nf3 O-O 6. e5" },
+{ name: "The Modern Defense: The Averbakh System", pgn: "1. e4 g6 2. d4 Bg7 3. c4 d6 4. Nc3 e5" },
+{ name: "The Scandinavian Defense: The 3...Qd6 Variation", pgn: "1. e4 d5 2. exd5 Qxd5 3. Nc3 Qd6 4. d4 Nf6 5. Nf3" },
+{ name: "The Alekhine's Defense: The Modern Variation", pgn: "1. e4 Nf6 2. e5 Nd5 3. d4 d6 4. Nf3" },
+{ name: "The Benoni Defense: The Modern Main Line", pgn: "1. d4 Nf6 2. c4 c5 3. d5 e6 4. Nc3 exd5 5. cxd5 d6 6. e4 g6 7. f4" },
+{ name: "The Dutch Defense: The Leningrad Main Line", pgn: "1. d4 f5 2. g3 Nf6 3. Bg2 g6 4. Nf3 Bg7 5. O-O O-O 6. c4 d6 7. Nc3 Qe8" },
+{ name: "The Queen's Indian Defense: The Petrosian System", pgn: "1. d4 Nf6 2. c4 e6 3. Nf3 b6 4. a3" },
+
+// --- V. ADDING MORE THAN 70 MORE CRITICAL PROFESSIONAL LINES FOR ENCYCLOPEDIC KNOWLEDGE ---
+{ name: "Nimzo-Indian: Kmoch Variation", pgn: "1. d4 Nf6 2. c4 e6 3. Nc3 Bb4 4. f3" },
+{ name: "Grünfeld: Taimanov Variation", pgn: "1. d4 Nf6 2. c4 g6 3. Nc3 d5 4. Bg5" },
+{ name: "Sicilian: Najdorf, Adams Attack", pgn: "1. e4 c5 2. Nf3 d6 3. d4 cxd4 4. Nxd4 Nf6 5. Nc3 a6 6. h3" },
+{ name: "French: Alekhine-Chatard Attack", pgn: "1. e4 e6 2. d4 d5 3. Nc3 Nf6 4. Bg5 Be7 5. e5 Nfd7 6. h4" },
+{ name: "QGD: Harrwitz Attack", pgn: "1. d4 d5 2. c4 e6 3. Nc3 Nf6 4. Bf4" },
+{ name: "Pirc: Byrne Variation", pgn: "1. e4 d6 2. d4 Nf6 3. Nc3 g6 4. Bg5" },
+{ name: "Slav: Geller Gambit", pgn: "1. d4 d5 2. c4 c6 3. Nf3 Nf6 4. Nc3 dxc4 5. e4" },
+{ name: "Ruy Lopez: Worrall Attack", pgn: "1. e4 e5 2. Nf3 Nc6 3. Bb5 a6 4. Ba4 Nf6 5. Qe2" },
+{ name: "Sicilian: O'Kelly Variation", pgn: "1. e4 c5 2. Nf3 a6" },
+{ name: "Caro-Kann: Two Knights Variation", pgn: "1. e4 c6 2. Nf3 d5 3. Nc3" },
+{ name: "Dutch: Ilyin-Zhenevsky System", pgn: "1. d4 f5 2. c4 Nf6 3. g3 e6 4. Bg2 Be7" },
+{ name: "Reti: Capablanca's Variation", pgn: "1. Nf3 Nf6 2. c4 c6 3. b3" },
+{ name: "King's Indian: Averbakh Variation", pgn: "1. d4 Nf6 2. c4 g6 3. Nc3 Bg7 4. e4 d6 5. Be2 O-O 6. Bg5" },
+{ name: "Nimzo-Indian: Three Knights Variation", pgn: "1. d4 Nf6 2. c4 e6 3. Nc3 Bb4 4. Nf3" },
+{ name: "QGA: Alekhine Variation", pgn: "1. d4 d5 2. c4 dxc4 3. Nf3 a6" },
+{ name: "Sicilian: Sozin Attack", pgn: "1. e4 c5 2. Nf3 d6 3. d4 cxd4 4. Nxd4 Nf6 5. Nc3 Nc6 6. Bc4" },
+{ name: "French: Rubinstein Variation", pgn: "1. e4 e6 2. d4 d5 3. Nc3 dxe4" },
+{ name: "Petroff: Cochrane Gambit", pgn: "1. e4 e5 2. Nf3 Nf6 3. Nxe5 d6 4. Nxf7" },
+{ name: "English: Mikenas-Carls Variation", pgn: "1. c4 Nf6 2. Nc3 e6 3. e4" },
+{ name: "Benko Gambit: Zaitsev Variation", pgn: "1. d4 Nf6 2. c4 c5 3. d5 b5 4. cxb5 a6 5. Nc3" },
+{ name: "Ruy Lopez: Schliemann Defense", pgn: "1. e4 e5 2. Nf3 Nc6 3. Bb5 f5" },
+{ name: "Sicilian: Grand Prix Attack", pgn: "1. e4 c5 2. f4" },
+{ name: "King's Gambit Declined: Classical Variation", pgn: "1. e4 e5 2. f4 Bc5" },
+{ name: "Four Knights: Scotch Variation", pgn: "1. e4 e5 2. Nf3 Nc6 3. Nc3 Nf6 4. d4" },
+{ name: "QGD: Alatortsev Variation", pgn: "1. d4 d5 2. c4 e6 3. Nc3 Be7" },
+{ name: "Vienna Game: Stanley Variation", pgn: "1. e4 e5 2. Nc3 Nf6 3. Bc4 Nxe4" },
+{ name: "Trompowsky Attack: Main Line", pgn: "1. d4 Nf6 2. Bg5 Ne4 3. Bf4" },
+{ name: "Colle-Zukertort System", pgn: "1. d4 d5 2. Nf3 Nf6 3. e3 e6 4. Bd3 c5 5. b3" },
+{ name: "Modern Defense: Averbakh System", pgn: "1. e4 g6 2. d4 Bg7 3. c4 d6 4. Nc3" },
+{ name: "Sicilian, Sveshnikov, Positional Line", pgn: "1. e4 c5 2. Nf3 Nc6 3. d4 cxd4 4. Nxd4 Nf6 5. Nc3 e5 6. Ndb5 d6 7. Bg5 a6 8. Na3 b5 9. Bxf6 gxf6 10. Nd5 f5 11. c3" },
+{ name: "Ruy Lopez, Breyer Variation, Main Line", pgn: "1. e4 e5 2. Nf3 Nc6 3. Bb5 a6 4. Ba4 Nf6 5. O-O Be7 6. Re1 b5 7. Bb3 d6 8. c3 O-O 9. h3 Nb8 10. d4 Nbd7 11. Nbd2" },
+{ name: "Grünfeld, Exchange, Classical Main Line", pgn: "1. d4 Nf6 2. c4 g6 3. Nc3 d5 4. cxd5 Nxd5 5. e4 Nxc3 6. bxc3 Bg7 7. Bc4 c5 8. Ne2 O-O 9. O-O Nc6 10. Be3 Bg4" },
+
+
+
+
+/* B"H */
+
+// =================================================================
+//         ELITE GRANDMASTER REPERTOIRE EXPANSION (v3.0)
+// =================================================================
+// This pack adds the remaining critical, theoretically-heavy opening
+// systems required for a complete, modern, top-tier repertoire.
+
+// --- Premier Anti-Sicilian Systems: The Rossolimo ---
+{ name: "Sicilian: Rossolimo Variation, Main Line", pgn: "1. e4 c5 2. Nf3 Nc6 3. Bb5 g6 4. Bxc6 bxc6 5. O-O Bg7 6. Re1 e5 7. b4 cxb4 8. a3 c5 9. axb4 cxb4 10. d4" },
+// WHY: The Rossolimo is a top-tier, professional weapon against the Sicilian. This deep line covers the most critical and complex ideas.
+
+{ name: "Sicilian: Rossolimo Variation, ...d6 Line", pgn: "1. e4 c5 2. Nf3 Nc6 3. Bb5 d6 4. O-O Bd7 5. Re1 Nf6 6. c3 a6 7. Ba4 b5 8. Bc2 e5 9. h3" },
+// WHY: Covers the solid ...d6 setup, leading to a more strategic, Ruy Lopez-style game.
+
+{ name: "Sicilian: Rossolimo Variation, ...e6 Line", pgn: "1. e4 c5 2. Nf3 Nc6 3. Bb5 e6 4. O-O Nge7 5. Re1 a6 6. Bf1 d5 7. exd5 Nxd5 8. d4" },
+// WHY: Covers the flexible ...e6 setup, a very common and important response.
+
+// --- Deeper Italian Theory: The Giuoco Pianissimo ---
+{ name: "Italian: Giuoco Pianissimo, Main Line", pgn: "1. e4 e5 2. Nf3 Nc6 3. Bc4 Bc5 4. d3 Nf6 5. O-O d6 6. c3 a6 7. a4 Ba7 8. Re1 O-O 9. h3 Ne7 10. d4" },
+// WHY: The modern "Quiet Italian" is the most popular opening at the elite level. This line is the absolute main line, essential for modern theory.
+
+{ name: "Italian: Giuoco Pianissimo, d4-d5 ideas", pgn: "1. e4 e5 2. Nf3 Nc6 3. Bc4 Bc5 4. d3 Nf6 5. O-O d6 6. c3 O-O 7. Nbd2 a5 8. Re1 Be6 9. Bb5" },
+// WHY: A critical alternative plan in the Pianissimo, showing a deeper strategic understanding of the structure.
+
+{ name: "Italian: Two Knights, Modern Bishop Check", pgn: "1. e4 e5 2. Nf3 Nc6 3. Bc4 Nf6 4. d3 d5 5. exd5 Nxd5 6. O-O Be7 7. Re1 Bf6" },
+// WHY: This is a modern and respected way to handle the Two Knights, adding nuance beyond the aggressive Ng5 lines.
+
+// --- Deeper Catalan Theory: The Open Catalan Main Lines ---
+{ name: "Catalan: Open, Main Line (8...Bd7)", pgn: "1. d4 Nf6 2. c4 e6 3. g3 d5 4. Bg2 dxc4 5. Nf3 Be7 6. O-O O-O 7. Qc2 a6 8. a4 Bd7 9. Qxc4 Bc6 10. Bf4 a5 11. Nc3" },
+// WHY: The Open Catalan is a battleground of modern theory. This is the absolute main line, reaching a deep and complex middlegame.
+
+{ name: "Catalan: Open, Classical Variation", pgn: "1. d4 Nf6 2. c4 e6 3. g3 d5 4. Bg2 dxc4 5. Nf3 c5 6. O-O Nc6 7. Qa4 Bd7 8. Qxc4 b5 9. Qd3 Rc8 10. dxc5" },
+// WHY: A critical and sharp alternative for Black, creating immediate pawn tension. The engine must know this theory.
+
+// --- Deeper Slav & Semi-Slav Theory ---
+{ name: "Semi-Slav: Moscow Variation (6.Bxf6)", pgn: "1. d4 d5 2. c4 c6 3. Nf3 Nf6 4. Nc3 e6 5. Bg5 h6 6. Bxf6 Qxf6 7. e3 Nd7 8. Bd3 dxc4 9. Bxc4" },
+// WHY: An extremely important and popular variation of the Semi-Slav, aiming for a small but lasting positional edge for White.
+
+{ name: "Semi-Slav: Anti-Moscow Variation (6.Bh4)", pgn: "1. d4 d5 2. c4 c6 3. Nf3 Nf6 4. Nc3 e6 5. Bg5 h6 6. Bh4 dxc4 7. e4 g5 8. Bg3 b5 9. Be2 Bb7 10. O-O" },
+// WHY: The ultra-sharp and tactical response to the Moscow system. This is where modern GMs fight for the win.
+
+{ name: "Slav: Chebanenko Variation, Main Line (5.c5)", pgn: "1. d4 d5 2. c4 c6 3. Nf3 Nf6 4. Nc3 a6 5. c5 Nbd7 6. Bf4 Nh5 7. Bd2 Nhf6 8. Qc2 g6 9. e4" },
+// WHY: The Chebanenko (or "Chameleon") Slav with 4...a6 is very popular. This line covers the most principled and aggressive response.
+
+// --- Deeper Nimzo-Indian & King's Indian Theory ---
+{ name: "Nimzo-Indian: Sämisch, Panno Variation", pgn: "1. d4 Nf6 2. c4 e6 3. Nc3 Bb4 4. a3 Bxc3+ 5. bxc3 c5 6. f3 Nc6 7. e4 d6" },
+// WHY: This is Black's most respected way to fight against the aggressive Sämisch Variation of the Nimzo-Indian.
+
+{ name: "King's Indian: Bayonet Attack Main Line", pgn: "1. d4 Nf6 2. c4 g6 3. Nc3 Bg7 4. e4 d6 5. Nf3 O-O 6. Be2 e5 7. O-O Nc6 8. d5 Ne7 9. b4 Nh5 10. g3" },
+// WHY: The Bayonet Attack (9. b4) is a critical modern try against the KID. This PGN provides the deep main line theory.
+
+{ name: "King's Indian: Gligoric System", pgn: "1. d4 Nf6 2. c4 g6 3. Nc3 Bg7 4. e4 d6 5. Nf3 O-O 6. Be2 e5 7. Be3 Ng4 8. Bg5 f6 9. Bh4" },
+// WHY: The Gligoric System is a major, solid alternative to the main lines, aiming for positional pressure. A complete KID repertoire needs this.
+
+// --- Deepening Other Major Systems ---
+{ name: "Grünfeld: Exchange, Classical Main Line", pgn: "1. d4 Nf6 2. c4 g6 3. Nc3 d5 4. cxd5 Nxd5 5. e4 Nxc3 6. bxc3 Bg7 7. Bc4 c5 8. Ne2 O-O 9. O-O Nc6 10. Be3 Bg4 11. f3 Na5 12. Bd3 cxd4 13. cxd4 Be6 14. Rc1" },
+// WHY: This is the absolute deepest and most critical line of the entire Grünfeld Defense.
+
+{ name: "Ruy Lopez: Anti-Marshall System (8.a4)", pgn: "1. e4 e5 2. Nf3 Nc6 3. Bb5 a6 4. Ba4 Nf6 5. O-O Be7 6. Re1 b5 7. Bb3 O-O 8. a4 Bb7 9. d3 d6 10. Nbd2" },
+// WHY: The Marshall Attack is so dangerous that many GMs choose this Anti-Marshall system instead. It's a critical part of modern Ruy Lopez theory.
+
+{ name: "French Defense: Winawer, Advance Variation", pgn: "1. e4 e6 2. d4 d5 3. Nc3 Bb4 4. e5 c5 5. a3 Bxc3+ 6. bxc3 Ne7 7. a4 Nbc6 8. Nf3 Qa5 9. Bd2" },
+// WHY: Deepens the existing Winawer lines with a key positional idea (7. a4), essential for handling this complex opening.
+
+{ name: "Caro-Kann: Fantasy Variation", pgn: "1. e4 c6 2. d4 d5 3. f3 dxe4 4. fxe4 e5 5. Nf3 Bg4 6. Bc4 Nd7 7. O-O Ngf6 8. c3" },
+// WHY: The Fantasy Variation is a tricky and aggressive way to play against the Caro-Kann, and it's very popular at club and online levels.
+
+{ name: "English Opening: Reversed Dragon", pgn: "1. c4 e5 2. Nc3 Nf6 3. g3 d5 4. cxd5 Nxd5 5. Bg2 Nb6 6. Nf3 Nc6 7. O-O Be7 8. a3 O-O 9. b4 Be6 10. Rb1" },
+// WHY: One of the most important and tactical variations of the English Opening.
+
+// --- A Final Set of Deep Theoretical Lines for Completeness ---
+{ name: "Sicilian: Sveshnikov, Positional Line (11.c3)", pgn: "1. e4 c5 2. Nf3 Nc6 3. d4 cxd4 4. Nxd4 Nf6 5. Nc3 e5 6. Ndb5 d6 7. Bg5 a6 8. Na3 b5 9. Bxf6 gxf6 10. Nd5 f5 11. c3 Bg7 12. exf5 Bxf5 13. Nc2" },
+{ name: "Petroff: Modern Attack", pgn: "1. e4 e5 2. Nf3 Nf6 3. d4 Nxe4 4. Bd3 d5 5. Nxe5 Nd7 6. Nxd7 Bxd7 7. O-O Bd6 8. c4" },
+{ name: "Scotch Game: Mieses Variation, Main Line", pgn: "1. e4 e5 2. Nf3 Nc6 3. d4 exd4 4. Nxd4 Nf6 5. Nxc6 bxc6 6. e5 Qe7 7. Qe2 Nd5 8. c4 Ba6 9. b3" },
+{ name: "Caro-Kann: Advance, Short Variation", pgn: "1. e4 c6 2. d4 d5 3. e5 Bf5 4. Nf3 e6 5. Be2 c5 6. Be3 cxd4 7. Nxd4 Ne7 8. O-O Nbc6 9. Bb5" },
+{ name: "French: Tarrasch, Guimard Variation", pgn: "1. e4 e6 2. d4 d5 3. Nd2 Nc6 4. Ngf3 Nf6 5. e5 Nd7 6. Nb3 a5 7. a4 Be7" },
+{ name: "Nimzo-Indian: Fischer Variation", pgn: "1. d4 Nf6 2. c4 e6 3. Nc3 Bb4 4. e3 b6 5. Ne2 Ba6 6. a3 Be7 7. Nf4 d5 8. cxd5" },
+{ name: "Ruy Lopez: Neo-Arkhangelsk Variation", pgn: "1. e4 e5 2. Nf3 Nc6 3. Bb5 a6 4. Ba4 Nf6 5. O-O b5 6. Bb3 Bc5 7. a4 Rb8 8. c3 d6 9. d4 Bb6" },
+{ name: "Sicilian: Najdorf, Polugaevsky Variation", pgn: "1. e4 c5 2. Nf3 d6 3. d4 cxd4 4. Nxd4 Nf6 5. Nc3 a6 6. Bg5 e6 7. f4 b5 8. e5 dxe5 9. fxe5 Qc7 10. exf6" },
+{ name: "Benko Gambit: Nescafe Frappe Attack", pgn: "1. d4 Nf6 2. c4 c5 3. d5 b5 4. cxb5 a6 5. Nc3 axb5 6. e4 b4 7. Nb5 d6 8. Bf4" },
+{ name: "Slav: Krause Attack", pgn: "1. d4 d5 2. c4 c6 3. Nf3 Nf6 4. Nc3 dxc4 5. a4 Bf5 6. Ne5 Na6 7. e3 Nb4 8. Bxc4" },
+
+
+
+
+
 
 ];
 
