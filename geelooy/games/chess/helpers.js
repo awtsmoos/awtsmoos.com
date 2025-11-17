@@ -24,6 +24,9 @@ function randomMagic() {
 
 /*B"H*/
 
+
+
+// --- Pre-computed Magic Numbers & Data Structures ---
 const bishopRelevantBits = [6, 5, 5, 5, 5, 5, 5, 6, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 7, 7, 7, 7, 5, 5, 5, 5, 7, 9, 9, 7, 5, 5, 5, 5, 7, 9, 9, 7, 5, 5, 5, 5, 7, 7, 7, 7, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 6, 5, 5, 5, 5, 5, 5, 6];
 const rookRelevantBits   = [12, 11, 11, 11, 11, 11, 11, 12, 11, 10, 10, 10, 10, 10, 10, 11, 11, 10, 10, 10, 10, 10, 10, 11, 11, 10, 10, 10, 10, 10, 10, 11, 11, 10, 10, 10, 10, 10, 10, 11, 11, 10, 10, 10, 10, 10, 10, 11, 12, 11, 11, 11, 11, 11, 11, 12];
 
@@ -44,7 +47,7 @@ const bishopMagics = [
   0x4001020408102n,    0x2001020408102n,    0x1001020408102n,    0x801020408102n,
   0x40000801020408n,   0x20000801020408n,   0x10000801020408n,   0x8000801020408n,
   0x4000801020408n,    0x2000801020408n,    0x1000801020408n,    0x800801020408n
-].map(BigInt);
+];
 
 const rookMagics = [
   0x8a80104000800020n, 0x1480040000800080n, 0x4840008000800800n, 0x8080004000800800n,
@@ -61,8 +64,7 @@ const rookMagics = [
   0x80001000400200n,   0x4000200010080n,    0x200400801000n,     0x100020000400800n,
   0x4008008000400n,    0x20004000200800n,   0x10008008004000n,   0x8000800800100n,
   0x8000400100020n,    0x40008000800200n,   0x1000400800800n,    0x20001000080400n,
-].map(BigInt);
-
+];
 
 const bishopMasks = Array(64).fill(0n);
 const rookMasks = Array(64).fill(0n);
@@ -112,7 +114,8 @@ function initSliders() {
                 temp = popBit(temp);
                 if ((i >> j) & 1) occ |= 1n << BigInt(lsb);
             }
-            const magicIndex = Number((occ * rookMagics[s]) >> BigInt(64 - rcnt));
+            const shift = BigInt(64 - rcnt);
+            const magicIndex = Number((occ * rookMagics[s]) >> shift);
             let attacks = 0n; const r = s >> 3, f = s & 7;
             for (let i = r + 1; i <= 7; i++) { attacks |= (1n << BigInt(i * 8 + f)); if ((1n << BigInt(i * 8 + f)) & occ) break; }
             for (let i = r - 1; i >= 0; i--) { attacks |= (1n << BigInt(i * 8 + f)); if ((1n << BigInt(i * 8 + f)) & occ) break; }
@@ -122,7 +125,6 @@ function initSliders() {
         }
     }
 }
-
 
 // --- CONSTANTS ---
 const P = 0, N = 1, B = 2, R = 3, Q = 4, K = 5;
