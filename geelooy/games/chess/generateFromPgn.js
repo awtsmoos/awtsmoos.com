@@ -125,7 +125,7 @@ function generateRawBook(source, onProgress) {
     const bookMap = new Map();
     const startFen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
 
-    for (const opening of source) {
+    for (const [index, opening] of source.entries()) {
         converter.reset();
 
         const moves = opening.pgn.replace(/(\d+\.)/g, '').trim().split(/\s+/).filter(Boolean);
