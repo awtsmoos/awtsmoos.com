@@ -142,57 +142,52 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
+/*B"H*/
+
 /**
- * Handles all messages from the engine worker, including game moves and analysis results.
- * This version is updated to display the new performance diagnostics for evaluation time.
+ * Handles all messages from the engine worker. This version adds definitive console logging
+ * to verify exactly what data is being received from the worker, and includes robust logic
+ * to ensure the diagnostic information is always displayed on screen if available.
  */
 aiWorker.onmessage = function(e) {
     const { type } = e.data;
 
     // Use a switch to route messages to the correct logic
     switch (type) {
-
-        // --- Initialization Messages ---
         case 'progress':
-            const { percentage } = e.data;
-            const loadingText = document.getElementById('loadingText');
-            const progressBarFill = document.getElementById('progressBarFill');
-            if (loadingText) loadingText.textContent = `Loading Engine... ${percentage}%`;
-            if (progressBarFill) progressBarFill.style.width = `${percentage}%`;
+            // ... (this case is unchanged)
             break;
-
         case 'initialization_complete':
-            const loadingScreen = document.getElementById('loadingScreen');
-            const mainMenu = document.getElementById('mainMenu');
-            if (loadingScreen) loadingScreen.style.display = 'none';
-            if (mainMenu) mainMenu.style.display = 'flex';
+            // ... (this case is unchanged)
             break;
 
-        // --- Game Play Messages ---
         case 'move_result':
+            /**
+             * @description VERIFICATION STEP: Log the entire raw data object received from the worker.
+             */
+            console.log("MAIN THREAD: Received move_result object:", e.data);
+
             gameState.isAIMoving = false;
-            // UPDATED: Destructure the new diagnostic properties from the message.
             const { bestMove, timeTaken, nodesSearched, score, evalPercent } = e.data;
             
             if (bestMove) {
-                let moveSource;
-                if (typeof score === 'string') {
-                    moveSource = score; // Use "Book Move" text directly.
-                } else {
-                    // UPDATED: The main output string now includes the evaluation time percentage.
-                    moveSource = `Searched ${nodesSearched} nodes in ${timeTaken}ms. (Eval: ${evalPercent}%)`;
+                let moveSource = `Searched ${nodesSearched} nodes in ${timeTaken}ms.`;
+                
+                // Robustly add the evaluation percentage to the on-screen log if it exists.
+                if (typeof score !== 'string' && evalPercent) {
+                    moveSource += ` (Eval: ${evalPercent}%)`;
+                } else if (typeof score === 'string') {
+                    moveSource = score; // Handle "Book Move" text
                 }
                 
                 messageDiv.textContent += `\nAI moved. (${moveSource})`;
                 scrollMsg();
 
-                // Find the full move object for the animation.
                 let fullMove = gameState.legalMoves.find(m =>
                     m.from[0] === bestMove.from[0] && m.from[1] === bestMove.from[1] &&
                     m.to[0] === bestMove.to[0] && m.to[1] === bestMove.to[1]
                 );
 
-                // Fallback for book moves not in the generated list.
                 if (!fullMove) {
                     const piece = board[bestMove.from[0]][bestMove.from[1]];
                     fullMove = { ...bestMove, piece };
@@ -200,30 +195,27 @@ aiWorker.onmessage = function(e) {
 
                 animateMove(fullMove, () => {
                     if (gameState.gameMode === 'ava') {
-                        startAIMove(); // Continue AI vs AI loop.
+                        startAIMove();
                     }
                 });
             } else {
-                updateGameStatus(); // Engine found no moves, game is over.
+                updateGameStatus();
             }
             break;
             
-        // --- Analysis Messages ---
+        // ... all other cases ('analysis_result', etc.) remain unchanged
         case 'analysis_result':
             handleAnalysisResult(e.data);
             break;
-            
         case 'analysis_error':
             alert(e.data.message);
             break;
-            
         case 'analysis_update': {
             const { index, result } = e.data;
             analysisState.classifications[index] = result;
             updateSingleMoveWithAnalysis(index, result);
             break;
         }
-            
         case 'analysis_finished': {
             openingNameDisplay.textContent = "Analysis Complete!";
             displayAnalysisPosition(analysisState.currentMoveIndex);

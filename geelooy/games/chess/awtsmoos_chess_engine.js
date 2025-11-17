@@ -136,13 +136,7 @@ let stopSearch = false;
 let killerMoves, historyTable, transpositionTable, repetitionHistory;
 const TT_EXACT = 0, TT_LOWERBOUND = 1, TT_UPPERBOUND = 2;
 
-// Piece-Square Tables
-// ====================================================================================
-//            REPLACE THE OLD PST CONSTANTS WITH THESE NEW ONES
-// ====================================================================================
-// These new Piece-Square Tables give much higher bonuses for placing pawns
-// and knights in the center, strongly discouraging passive or strange flank moves.
-
+ 
 // 
 const pawnPST = [[0,0,0,0,0,0,0,0],[50,50,50,50,50,50,50,50],[10,10,20,30,30,20,10,10],[5,5,10,40,40,10,5,5],[0,0,15,50,50,15,0,0],[5,-5,-10,0,0,-10,-5,5],[5,10,10,-25,-25,10,10,5],[0,0,0,0,0,0,0,0]];
 // 
@@ -180,13 +174,6 @@ function initializeSearch(maxTime) {
     evaluationTime = 0;
 }
 
-// =================================================================
-//                 EVALUATION & SEARCH (UNCHANGED)
-// =================================================================
-
-// DELETE EVERYTHING from the "TaperedScore" class definition (or its preceding comment)
-// all the way down to the end of the last evaluation helper function.
-// REPLACE it all with this single, self-contained, and correct evaluation engine block.
 
 // ====================================================================================
 //            MASTER EVALUATION HUB (v7.0 - FINAL & COMPLETE)
@@ -409,10 +396,10 @@ function evaluate(state) {
 
 
 /*B"H*/
-
 /**
- * Orders moves for a given position to improve alpha-beta pruning efficiency.
- * This version is optimized to use the fast `getPieceTypeOnSquare` helper for MVV-LVA scoring.
+ * Orders moves to improve alpha-beta pruning efficiency.
+ * This version is corrected to use the raw BigInt Zobrist hash for transposition
+ * table lookups, avoiding the extremely slow process of converting it to a string.
  * @param {number[]} moves - An array of pseudo-legal moves.
  * @param {object} state - The current game state.
  * @param {number} ply - The current search depth (ply).
@@ -420,7 +407,8 @@ function evaluate(state) {
  */
 function orderMoves(moves, state, ply) {
     const moveScores = [];
-    const hashEntry = transpositionTable.get(state.zobristHash.toString());
+    // PERFORMANCE FIX: Use the raw BigInt hash directly as the key.
+    const hashEntry = transpositionTable.get(state.zobristHash);
     const hashMove = hashEntry ? hashEntry.move : 0;
     const pieceValues = [100, 350, 355, 500, 900, 20000];
 
@@ -432,13 +420,17 @@ function orderMoves(moves, state, ply) {
         } else if (getMoveCapture(move)) {
             const attackerType = getMovePiece(move);
             const to = getMoveTo(move);
-            let victimType = P; // Default to pawn for en-passant
+            let victimType = P;
 
             if (!getMoveEnpassant(move)) {
-                // Use the new, fast helper to find the victim piece instead of a slow loop
                 victimType = getPieceTypeOnSquare(state, to, state.turn ^ 1);
             }
-            score = (pieceValues[victimType] * 10) - pieceValues[attackerType] + 1000000;
+            // Ensure victimType is not null before accessing pieceValues
+            if (victimType !== null) {
+               score = (pieceValues[victimType] * 10) - pieceValues[attackerType] + 1000000;
+            } else {
+               score = 1000000; // Fallback for rare cases
+            }
         } else {
             if (killerMoves[ply] && killerMoves[ply][0] === move) {
                 score = 900000;
@@ -450,7 +442,7 @@ function orderMoves(moves, state, ply) {
         }
         
         if (getMovePromoted(move)) {
-            score += pieceValues[getMovePromoted(move)] * 100; // Promotion bonus
+            score += pieceValues[getMovePromoted(move)] * 100;
         }
 
         moveScores.push({ move, score });
@@ -458,6 +450,10 @@ function orderMoves(moves, state, ply) {
     
     return moveScores.sort((a, b) => b.score - a.score).map(ms => ms.move);
 }
+
+
+
+
 /*B"H*/
 /**
  * Quiescence search to stabilize the evaluation by only searching tactical moves (captures, promotions).
@@ -507,48 +503,37 @@ function quiesce(state, alpha, beta) {
 
 /*B"H*/
 /**
- * The core alpha-beta search function with PVS, transposition tables, and other enhancements.
- * This version is fully optimized to prevent memory allocation and use fast TT lookups.
+ * The core alpha-beta search function.
+ * This version is corrected to use the raw BigInt Zobrist hash for all transposition
+ * table operations (lookup, read, write), which is a critical performance fix.
  * @param {object} state - The game state.
  * @param {number} depth - The remaining depth to search.
  * @param {number} alpha - The lower bound of the search window.
  * @param {number} beta - The upper bound of the search window.
- * @param {number} ply - The current ply from the root, used for mate score adjustment.
- * @returns {number} The evaluated score of the position relative to the side to move.
+ * @param {number} ply - The current ply from the root.
+ * @returns {number} The evaluated score of the position.
  */
 function search(state, depth, alpha, beta, ply) {
-    // --- 1. Base Cases and Exit Conditions ---
-
-    // If we've reached a terminal node in this branch, switch to quiescence search.
     if (depth <= 0) {
         return quiesce(state, alpha, beta);
     }
 
-    // Periodically check if the allotted time has been exceeded.
     if ((nodeCount & 2047) === 0 && performance.now() - searchStartTime > timeLimit) {
         stopSearch = true;
     }
-    if (stopSearch) {
-        return 0; // Bail out immediately if the stop signal is received.
-    }
+    if (stopSearch) return 0;
     nodeCount++;
 
-    // Check for threefold repetition. A repeated position is usually a draw.
-    // We check every other move for the same color's turn.
     for (let i = moveStackPtr - 2; i >= 0; i -= 2) {
         if (moveStack[i].zobristHash === state.zobristHash) {
-            return CONTEMPT_FACTOR; // Return a slight penalty to discourage bland draws.
+            return CONTEMPT_FACTOR;
         }
     }
 
-    // --- 2. Transposition Table Lookup ---
-
+    // PERFORMANCE FIX: Use the raw BigInt hash for TT lookup.
     const ttEntry = transpositionTable.get(state.zobristHash);
     if (ply > 0 && ttEntry && ttEntry.depth >= depth) {
         let score = ttEntry.score;
-
-        // Adjust mate scores from the TT. A mate found at a deeper ply (e.g., ply 5)
-        // is better than the same mate found at the root (ply 1).
         if (score > MATE_SCORE - MATE_IN_MAX_PLY) score -= ply;
         if (score < -MATE_SCORE + MATE_IN_MAX_PLY) score += ply;
 
@@ -556,23 +541,20 @@ function search(state, depth, alpha, beta, ply) {
         if (ttEntry.flag === TT_LOWERBOUND) alpha = Math.max(alpha, score);
         else if (ttEntry.flag === TT_UPPERBOUND) beta = Math.min(beta, score);
         
-        if (alpha >= beta) return score; // The stored value caused a cutoff.
+        if (alpha >= beta) return score;
     }
-
-    // --- 3. Move Generation and Iteration ---
 
     const moves = generateMoves(state);
     const orderedMoves = orderMoves(moves, state, ply);
     
     let legalMovesFound = 0;
     let bestScore = -Infinity;
-    let ttFlag = TT_UPPERBOUND; // Assume we won't raise alpha.
+    let ttFlag = TT_UPPERBOUND;
     let bestMoveForNode = 0;
 
     for (const move of orderedMoves) {
         makeMove(state, move);
         
-        // A move is only legal if it does not leave the king in check.
         const kingSq = getLSBIndex(state.pieceBitboards[(state.turn ^ 1) * 6 + K]);
         if (isSquareAttacked_lean(state, kingSq, state.turn)) {
             unmakeMove(state);
@@ -580,64 +562,49 @@ function search(state, depth, alpha, beta, ply) {
         }
         legalMovesFound++;
 
-        // --- 4. Recursive Search Call (with PVS) ---
         let score;
         if (legalMovesFound === 1) {
-            // First move: Perform a full-window search. This establishes the principal variation.
             score = -search(state, depth - 1, -beta, -alpha, ply + 1);
         } else {
-            // Subsequent moves: Assume they are worse and test with a minimal "zero-window".
             score = -search(state, depth - 1, -alpha - 1, -alpha, ply + 1);
-            
-            // If the zero-window search failed high (score > alpha), it means this move is
-            // better than our current best. We must re-search with a full window.
             if (score > alpha && score < beta) {
                 score = -search(state, depth - 1, -beta, -alpha, ply + 1);
             }
         }
-
         unmakeMove(state);
 
-        if (stopSearch) return 0; // Check again after the recursive call.
+        if (stopSearch) return 0;
 
-        // --- 5. Alpha-Beta Pruning Logic ---
         if (score > bestScore) {
             bestScore = score;
             bestMoveForNode = move;
         }
 
         if (bestScore > alpha) {
-            ttFlag = TT_EXACT; // We have found a new best move, so this is a PV-node.
+            ttFlag = TT_EXACT;
             alpha = bestScore;
         }
 
         if (alpha >= beta) {
-            // This move is too good; the opponent will not allow this line. Prune the rest.
             if (!getMoveCapture(move)) {
-                // Store quiet moves that cause cutoffs as "killer moves".
                 if(killerMoves[ply] && killerMoves[ply][0] !== move) {
                     killerMoves[ply][1] = killerMoves[ply][0];
                 }
                 killerMoves[ply][0] = move;
-                // Reward this quiet move in the history table.
                 historyTable[getMovePiece(move) + ((state.turn^1) * 6)][getMoveTo(move)] += depth * depth;
             }
-            // Store this position in the TT as a lower bound.
+            // PERFORMANCE FIX: Use the raw BigInt hash for TT store.
             transpositionTable.set(state.zobristHash, { score: beta, depth: depth, flag: TT_LOWERBOUND, move: move });
             return beta;
         }
     }
 
-    // --- 6. Handle Checkmate and Stalemate ---
-
     if (legalMovesFound === 0) {
         const kingInCheck = isSquareAttacked_lean(state, getLSBIndex(state.pieceBitboards[state.turn * 6 + K]), state.turn ^ 1);
-        // If there are no legal moves, it's either checkmate or stalemate.
-        // Add ply to the score so the engine prefers faster mates.
         return kingInCheck ? -MATE_SCORE + ply : 0;
     }
-
-    // --- 7. Store Final Result in Transposition Table ---
+    
+    // Use the raw BigInt hash for TT store.
     if (bestMoveForNode) {
        transpositionTable.set(state.zobristHash, { score: bestScore, depth: depth, flag: ttFlag, move: bestMoveForNode });
     }
@@ -796,7 +763,7 @@ function decodeMove(move, turn) {
 /**
  * Main message handler for the chess engine worker.
  * It routes commands for initialization, move calculation, and analysis.
- * This version ensures all performance numbers are formatted correctly before being sent to the UI.
+ * This version adds definitive console logging to verify that performance data is being calculated and sent.
  */
 self.onmessage = function(e) {
     const { command } = e.data;
@@ -809,11 +776,20 @@ self.onmessage = function(e) {
             const { fen, maxTime } = e.data;
             let state = createGameState(fen);
             
-            const hash = state.zobristHash.toString();
-            const bookEntry = openingBook.get(hash) || punishmentBook.get(hash);
+            const bookEntry = openingBook.get(state.zobristHash) || punishmentBook.get(state.zobristHash);
 
             if (bookEntry && bookEntry.moves.length > 0) {
-                postMessage({ type: 'move_result', bestMove: bookEntry.moves[Math.floor(Math.random() * bookEntry.moves.length)], score: `Book Move: ${bookEntry.name}`, timeTaken: "0.00", nodesSearched: 0, evalPercent: "0.0" });
+                const bookMoveMsg = { 
+                    type: 'move_result', 
+                    bestMove: bookEntry.moves[Math.floor(Math.random() * bookEntry.moves.length)], 
+                    score: `Book Move: ${bookEntry.name}`, 
+                    timeTaken: "0.00", 
+                    nodesSearched: 0, 
+                    evalPercent: "0.0",
+                    evaluationTime: "0.00"
+                };
+                console.log("WORKER: Sending book move object:", bookMoveMsg);
+                postMessage(bookMoveMsg);
                 return;
             }
 
@@ -821,17 +797,25 @@ self.onmessage = function(e) {
             
             const totalTime = (performance.now() - searchStartTime);
             
-            // CORRECTED: All numerical data is now rounded using toFixed() for clean output.
-            postMessage({
+            const resultMsg = {
                 type: 'move_result',
                 bestMove: searchResult.bestMove ? decodeMove(searchResult.bestMove, state.turn) : null,
                 score: searchResult.score,
                 timeTaken: totalTime.toFixed(2),
                 nodesSearched: nodeCount,
+                evaluationTime: evaluationTime.toFixed(2),
                 evalPercent: totalTime > 0 ? ((evaluationTime / totalTime) * 100).toFixed(1) : "0.0"
-            });
+            };
+
+            /**
+             * @description VERIFICATION STEP: Log the complete object to the console right before sending.
+             */
+            console.log("WORKER: Sending search result object:", resultMsg);
+
+            postMessage(resultMsg);
             break;
         }
+        // ... other cases remain unchanged
         case 'analyze_pgn': {
             const { pgnText } = e.data;
             const converter = new PgnConverter();
