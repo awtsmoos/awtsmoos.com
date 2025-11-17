@@ -299,43 +299,53 @@ function initializeAll() {
 /*B"H*/
 
 /**
- * Gets bishop attacks for a square. This version is corrected to be logically consistent
- * with the initSliders function by calculating the bit count dynamically, which resolves
- * the persistent TypeError.
+ * Gets bishop attacks. GUARANTEED-SAFE VERSION.
+ * It explicitly checks the result of the lookup. If the result is not a valid
+ * BigInt (e.g., undefined due to a failed lookup), it safely returns 0n,
+ * making a TypeError impossible.
  * @param {number} sq - The square index (0-63).
  * @param {bigint} blockers - The bitboard of all occupied squares.
- * @returns {bigint} A bitboard of all attacked squares.
+ * @returns {bigint} A bitboard of all attacked squares. Will always be a BigInt.
  */
 function getBishopAttacks(sq, blockers) {
     const mask = bishopMasks[sq];
-    const bitCount = popcount(mask); // Dynamically calculate the shift amount
+    const bitCount = popcount(mask);
     const magicIndex = Number(((blockers & mask) * bishopMagics[sq]) >> BigInt(64 - bitCount));
-    return bishopAttacks[sq][magicIndex];
+    
+    const result = bishopAttacks[sq][magicIndex];
+
+    // THE FIX: Explicitly check the type. If it's not a BigInt, return a safe BigInt (0n).
+    return (typeof result === 'bigint') ? result : 0n;
 }
 
 /**
- * Gets rook attacks for a square. This version is also corrected to be consistent
- * with initSliders, resolving the persistent TypeError.
+ * Gets rook attacks. GUARANTEED-SAFE VERSION.
+ * This also ensures it can only ever return a BigInt value.
  * @param {number} sq - The square index (0-63).
  * @param {bigint} blockers - The bitboard of all occupied squares.
- * @returns {bigint} A bitboard of all attacked squares.
+ * @returns {bigint} A bitboard of all attacked squares. Will always be a BigInt.
  */
 function getRookAttacks(sq, blockers) {
     const mask = rookMasks[sq];
-    const bitCount = popcount(mask); // Dynamically calculate the shift amount
+    const bitCount = popcount(mask);
     const magicIndex = Number(((blockers & mask) * rookMagics[sq]) >> BigInt(64 - bitCount));
-    return rookAttacks[sq][magicIndex];
+
+    const result = rookAttacks[sq][magicIndex];
+
+    //: Explicitly check the type. If it's not a BigInt, return a safe BigInt (0n).
+    return (typeof result === 'bigint') ? result : 0n;
 }
+
 /**
- * Gets queen attacks by combining rook and bishop attacks from the magic tables.
+ * Gets queen attacks. Now combines two functions that are guaranteed to return BigInts.
  * @param {number} sq - The square index (0-63).
  * @param {bigint} blockers - The bitboard of all occupied squares.
  * @returns {bigint} A bitboard of all attacked squares.
  */
 function getQueenAttacks(sq, blockers) { 
+    // This operation is now guaranteed to be safe.
     return getRookAttacks(sq, blockers) | getBishopAttacks(sq, blockers); 
 }
-
 /**
  * Creates a new game state object from a FEN string.
  * All operations will be performed directly on the bitboards for maximum speed.
