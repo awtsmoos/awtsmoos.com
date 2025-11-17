@@ -340,7 +340,7 @@ const punishmentBookSource = [
 { name: "London System: The Jobava London Attack", pgn: "1. d4 Nf6 2. Nc3 d5 3. Bf4 c5 4. e4" },
 // WHY: An extremely aggressive and tactical way to play the London. The engine needs to know how to handle this gambit as both White and Black.
 
-{ name:g: "Torre Attack: The Main Line with c5", pgn: "1. d4 Nf6 2. Nf3 e6 3. Bg5 c5 4. e3 Qb6 5. Nbd2 d5" },
+{ name: "Torre Attack: The Main Line with c5", pgn: "1. d4 Nf6 2. Nf3 e6 3. Bg5 c5 4. e3 Qb6 5. Nbd2 d5" },
 // WHY: This is Black's most active and principled way to challenge the Torre Attack, fighting for central space and creating immediate problems for White.
 
 
