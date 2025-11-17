@@ -1900,8 +1900,8 @@ const punishmentBookSource = [
 { name: "Refute: Van Geet Opening (2.Nd5)", pgn: "1. Nc3 e5 2. Nd5 Nf6 3. Nxf6+ Qxf6" },
 // WHY: In your game, the engine faced 2.Nd5. The most principled response is to immediately challenge the misplaced knight with 2...Nf6, as shown here, leading to a comfortable advantage for Black.
 
-{ name: "Refute: St. George Defense (Principled Center Strike)", pgn: "1. e4 a6 2. d4 b5 3. c4" },
-// WHY: Against passive wing play like the St. George, the engine must know to strike in the center with c4 to seize a massive space advantage and punish the opponent's wasted time.
+{ name: "Refute: George Defense (Principled Center Strike)", pgn: "1. e4 a6 2. d4 b5 3. c4" },
+// WHY: Against passive wing play like the George, the engine must know to strike in the center with c4 to seize a massive space advantage and punish the opponent's wasted time.
 
 { name: "Refute: Owen's Defense (Principled Refutation)", pgn: "1. e4 b6 2. d4 Bb7 3. Bd3 e6 4. Nf3" },
 // WHY: This is the classical and most effective way to play against Owen's Defense. White develops simply, controls the center, and gets a clear advantage against the hypermodern setup.
@@ -1994,7 +1994,8 @@ const punishmentBookSource = [
 { name: "Refute: The Amar Opening (Paris)", pgn: "1. Nh3 d5 2. g3 e5" },
 { name: "Refute: The Sodium Attack", pgn: "1. Na3 d5 2. e4" },
 { name: "Refute: The Ware Opening", pgn: "1. a4 e5 2. d4" },
-{ name: "Refute: The Crab Opening", pgn: "1. a4 h4 2. e4" },
+
+
 { name: "Refute: The Fried Fox Attack", pgn: "1. f3 e5 2. Kf2 d5" },
 { name: "Refute: The Hammerschlag", pgn: "1. f3 e5 2. g4" },
 { name: "Refute: The Kadas Opening", pgn: "1. h4 d5 2. d4" },
@@ -2268,7 +2269,9 @@ const punishmentBookSource = [
 { name: "Refute: Tennison Gambit Refuted", pgn: "1. Nf3 d5 2. e4 dxe4 3. Ng5 e5" },
 { name: "Refute: From's Gambit, Lipke Variation", pgn: "1. f4 e5 2. fxe5 d6 3. exd6 Bxd6 4. Nf3 g5 5. d4 g4 6. Ng5" },
 { name: "Refute: Scotch Gambit, Cochrane Gambit", pgn: "1. e4 e5 2. Nf3 Nc6 3. d4 exd4 4. Bc4 Bb4+ 5. c3 dxc3 6. O-O cxb2 7. Bxb2" },
-{ name: "Refute: Ponziani, Jaenisch Counterattack", pgn: "1. e4 e5 2. Nf3 Nc6 3. c3 Nf6 4. d4 f5" },
+
+
+
 { name: "Refute: Two Knights, Wilkes-Barre Variation", pgn: "1. e4 e5 2. Nf3 Nc6 3. Bc4 Nf6 4. Ng5 Bc5 5. Nxf7 Bxf2+" },
 { name: "Refute: Damiano Defense, Automated Response", pgn: "1. e4 e5 2. Nf3 f6 3. Nxe5" },
 { name: "Refute: Greco Countergambit", pgn: "1. e4 e5 2. Nf3 f5 3. Nxe5" },
@@ -2281,8 +2284,8 @@ const punishmentBookSource = [
 // ... and the list continues, covering hundreds of specific lines, traps,
 // and refutations for nearly every conceivable unsound move in the opening.
 { name: "Refute: Nimzowitsch Defense, Wheeler Gambit", pgn: "1. e4 Nc6 2. b4" },
-{ name: "Refute: Alekhine's Defense, Mokele Mbembe", pgn: "1. e4 Nf6 2. e5 Ne7" },
-{ name: "Refute: St. George Defense, 3.c4", pgn: "1. e4 a6 2. d4 b5 3. c4" },
+
+{ name: "Refute: George Defense, 3.c4", pgn: "1. e4 a6 2. d4 b5 3. c4" },
 { name: "Refute: Scandinavian, Portuguese Gambit", pgn: "1. e4 d5 2. exd5 Nf6 3. d4 Bg4" },
 { name: "Refute: Pirc Defense, Austrian Attack", pgn: "1. e4 d6 2. d4 Nf6 3. Nc3 g6 4. f4" },
 { name: "Refute: Modern Defense, Monkey's Bum", pgn: "1. e4 g6 2. Bc4 Bg7 3. Qf3" },
