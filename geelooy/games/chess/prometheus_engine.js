@@ -1458,61 +1458,59 @@ self.onmessage = function(e) {
             
             /* B"H */
 
-/* B"H */
+// --- REPLACE the old 'analyze_pgn' case with this DEFINITIVE version ---
+case 'analyze_pgn':
+    const { pgnText } = e.data;
 
+    // 1. Clean the raw PGN text.
+    const fenMatch = pgnText.match(/\[FEN\s+"(.*?)"\]/);
+    const initialFen = fenMatch ? fenMatch[1] : "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+    let moveText = pgnText.replace(/\[.*?\]\s*|{.*?}|\d+\.\s*|\$\d+/g, '').replace(/\s+/g, ' ').trim();
+    const movesSAN = moveText.split(' ').filter(m => m && !['1-0', '0-1', '1/2-1/2', '*'].includes(m));
 
-	case 'analyze_pgn':
-	    const { pgnText } = e.data;
-	
-	    // 1. Clean the PGN text to get the initial FEN and a simple list of SAN moves.
-	    // This part is still needed to separate headers from moves.
-	    const fenMatch = pgnText.match(/\[FEN\s+"(.*?)"\]/);
-	    const initialFen = fenMatch ? fenMatch[1] : "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
-	    let moveText = pgnText.replace(/\[.*?\]\s*|{.*?}|\d+\.\s*|\$\d+/g, '').replace(/\s+/g, ' ').trim();
-	    const movesSAN = moveText.split(' ').filter(m => m && !['1-0', '0-1', '1/2-1/2', '*'].includes(m));
-	
-	    // 2. Use the engine's OWN PgnConverter to validate and process the game.
-	    const validator = new PgnConverter();
-	    validator.currentState = createGameState(initialFen);
-	
-	    const validatedMoves = [];
-	    const boardHistory = [initialFen];
-	    const openingNames = ["Starting Position"];
-	    let lastKnownOpening = "Starting Position";
-	
-	    /* B"H */
-		
-		for (const san of movesSAN) {
-		    const move = validator.parseSan(san);
-		    if (!move) {
-		        postMessage({ type: 'analysis_error', message: `Invalid PGN: Could not parse move "${san}"` });
-		        return; // Stop processing
-		    }
-		    
-		    validator.applyMove(move);
-		    validatedMoves.push(move);
-		    
-		    const newFen = validator.toFen();
-		    boardHistory.push(newFen);
-		
-		    // This is the fix: We do a fresh lookup and push null if it's not found.
-		    const currentHash = calculateZobristHash(validator.currentState).toString();
-		    const bookEntry = openingBook.get(currentHash);
-		    
-		    if (bookEntry && bookEntry.name) {
-		        openingNames.push(bookEntry.name); // Push the specific name for THIS position
-		    } else {
-		        openingNames.push(null); // CRITICAL: Push null if the position is out of book
-		    }
-		}
-	
-	    // 4. Send the complete, validated package back to the main thread.
-	    postMessage({
-	        type: 'analysis_result',
-	        moves: validatedMoves,
-	        boardHistory: boardHistory,
-	        openingNames: openingNames
-	    });
-	    break;
+    // 2. Use the PgnConverter to process the game.
+    const validator = new PgnConverter();
+    validator.currentState = createGameState(initialFen);
+
+    const validatedMoves = [];
+    const boardHistory = [initialFen];
+    const openingNames = ["Starting Position"];
+
+    for (const san of movesSAN) {
+        const move = validator.parseSan(san);
+        if (!move) {
+            postMessage({ type: 'analysis_error', message: `Invalid PGN: Could not parse move "${san}"` });
+            return;
+        }
+        
+        validator.applyMove(move);
+        validatedMoves.push(move);
+        boardHistory.push(validator.toFen());
+
+        // --- NEW & CORRECT HIERARCHICAL LOOKUP ---
+        const currentHash = calculateZobristHash(validator.currentState).toString();
+        let foundName = null;
+
+        // HIERARCHY 1: Check the main grandmaster book first.
+        if (openingBook.has(currentHash)) {
+            foundName = openingBook.get(currentHash).name;
+        } 
+        // HIERARCHY 2: If not in the main book, check the punishment book.
+        else if (punishmentBook.has(currentHash)) {
+            foundName = punishmentBook.get(currentHash).name;
+        }
+
+        // Push the found name, or null if it's in neither book.
+        openingNames.push(foundName);
+    }
+
+    // 3. Send the complete, validated package back to the main thread.
+    postMessage({
+        type: 'analysis_result',
+        moves: validatedMoves,
+        boardHistory: boardHistory,
+        openingNames: openingNames
+    });
+    break;
     }
 };
