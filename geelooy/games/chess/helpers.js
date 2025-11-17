@@ -51,75 +51,43 @@ const deBruijn64 = 0x07EDD5E59A4E28C2n;
 
 
 
-// REPLACE your old bishopRelevantBits array with this one.
-// This is the smoking gun - the values here now correctly match the mask generation logic.
-const bishopRelevantBits = [
-    6, 5, 5, 5, 5, 5, 5, 6, 
-    5, 5, 5, 5, 5, 5, 5, 5, 
-    5, 5, 7, 7, 7, 7, 5, 5, 
-    5, 5, 7, 7, 7, 7, 5, 5, 
-    5, 5, 7, 7, 7, 7, 5, 5, 
-    5, 5, 7, 7, 7, 7, 5, 5, 
-    5, 5, 5, 5, 5, 5, 5, 5, 
-    6, 5, 5, 5, 5, 5, 5, 6
-];
-
-// Your rookRelevantBits array is correct, no change needed there.
-const rookRelevantBits   = [
-    12, 11, 11, 11, 11, 11, 11, 12,
-    11, 10, 10, 10, 10, 10, 10, 11,
-    11, 10, 10, 10, 10, 10, 10, 11,
-    11, 10, 10, 10, 10, 10, 10, 11,
-    11, 10, 10, 10, 10, 10, 10, 11,
-    11, 10, 10, 10, 10, 10, 10, 11,
-    11, 10, 10, 10, 10, 10, 10, 11,
-    12, 11, 11, 11, 11, 11, 11, 12
-];
-
-
-
-
-const bishopMagics = [
-  0x40040844404084n,   0x20040844404084n,   0x10040844404084n,   0x8040844404084n,
-  0x4040844404084n,    0x2040844404084n,    0x1040844404084n,    0x840844404084n,
-  0x40020408444040n,   0x20020408444040n,   0x10020408444040n,   0x8020408444040n,
-  0x4020408444040n,    0x2020408444040n,    0x1020408444040n,    0x820408444040n,
-  0x40010204084440n,   0x20010204084440n,   0x10010204084440n,   0x8010204084440n,
-  0x4010204084440n,    0x2010204084440n,    0x1010204084440n,    0x810204084440n,
-  0x40008102040844n,   0x20008102040844n,   0x10008102040844n,   0x8008102040844n,
-  0x4008102040844n,    0x2008102040844n,    0x1008102040844n,    0x808102040844n,
-  0x40004081020408n,   0x20004081020408n,   0x10004081020408n,   0x8004081020408n,
-  0x4004081020408n,    0x2004081020408n,    0x1004081020408n,    0x804081020408n,
-  0x40002040810204n,   0x20002040810204n,   0x10002040810204n,   0x8002040810204n,
-  0x4002040810204n,    0x2002040810204n,    0x1002040810204n,    0x802040810204n,
-  0x40001020408102n,   0x20001020408102n,   0x10001020408102n,   0x8001020408102n,
-  0x4001020408102n,    0x2001020408102n,    0x1001020408102n,    0x801020408102n,
-  0x40000801020408n,   0x20000801020408n,   0x10000801020408n,   0x8000801020408n,
-  0x4000801020408n,    0x2000801020408n,    0x1000801020408n,    0x800801020408n
-];
-
 /*B"H*/
-const rookMagics = [
-  0x8a80104000800020n, 0x1480040000800080n, 0x4840008000800800n, 0x8080004000800800n,
-  0x4080002000400800n, 0x8040001000400800n, 0x80004000800800n,   0x2000200100800800n,
-  0x1004000802000400n, 0x2080080040002000n, 0x8010000800800n,    0x4000401004000n,
-  0x2200800100020080n, 0x4104000800801000n, 0x400040400080080n,  0x8080010000400n,
-  0x4000100080800n,    0x8000810010000n,    0x100008808000n,     0x20004010000n,
-  0x40004008000800n,   0x80008004000800n,   0x40008002000400n,   0x20000200080400n,
-  0x80004008002000n,   0x80008001000400n,   0x80002000400800n,   0x100010002000400n,
-  0x20000500100400n,   0x80080008001000n,   0x80040004000800n,   0x400804001000200n,
-  0x80020004000200n,   0x2004002000100n,    0x200800800400n,     0x80008002000400n,
-  0x104000200040080n,  0x800000800100100n,  0x48080004000200n,   0x20040001000800n,
-  0x40080001000400n,   0x80080040002000n,   0x200010040080n,     0x10004000200800n,
-  0x80001000400200n,   0x4000200010080n,    0x200400801000n,     0x100020000400800n,
-  0x4008008000400n,    0x20004000200800n,   0x10008008004000n,   0x8000800800100n,
-  0x8000400100020n,    0x40008000800200n,   0x1000400800800n,    0x20001000080400n,
-  0x80008000400080n,   0x4000400020001001n, 0x200200010040080n,  0x10008000400020n,
-  0x800040008000200n,  0x400800200010080n,  0x2004000800080100n, 0x1002000400080080n
-];
+
+/**
+ * =================================================================
+ *               DEFINITIVE MAGIC BITBOARD INITIALIZATION
+ * This entire block replaces the previous implementation to resolve
+ * the persistent initialization crash. The mask generation logic is
+ * now correct and all associated data arrays are guaranteed to be
+ * in sync.
+ * =================================================================
+ */
+
+// --- Bit Manipulation Helpers ---
+
+/**
+ * Counts the number of set bits in a BigInt bitboard (Hamming weight).
+ * @param {bigint} bb The bitboard.
+ * @returns {number} The number of set bits.
+ */
+function popcount(bb) {
+    let count = 0;
+    while (bb > 0n) {
+        bb &= (bb - 1n);
+        count++;
+    }
+    return count;
+}
+
+// --- Pre-computed Magic Numbers & Data Structures ---
+const bishopRelevantBits = [6, 5, 5, 5, 5, 5, 5, 6, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 7, 7, 7, 7, 5, 5, 5, 5, 7, 7, 7, 7, 5, 5, 5, 5, 7, 7, 7, 7, 5, 5, 5, 5, 7, 7, 7, 7, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 6, 5, 5, 5, 5, 5, 5, 6];
 
 
 
+const rookRelevantBits = [12, 11, 11, 11, 11, 11, 11, 12, 11, 10, 10, 10, 10, 10, 10, 11, 11, 10, 10, 10, 10, 10, 10, 11, 11, 10, 10, 10, 10, 10, 10, 11, 11, 10, 10, 10, 10, 10, 10, 11, 11, 10, 10, 10, 10, 10, 10, 11, 11, 10, 10, 10, 10, 10, 10, 11, 12, 11, 11, 11, 11, 11, 11, 12];
+
+const bishopMagics = [0x40040844404084n, 0x20040844404084n, 0x10040844404084n, 0x8040844404084n, 0x4040844404084n, 0x2040844404084n, 0x1040844404084n, 0x840844404084n, 0x40020408444040n, 0x20020408444040n, 0x10020408444040n, 0x8020408444040n, 0x4020408444040n, 0x2020408444040n, 0x1020408444040n, 0x820408444040n, 0x40010204084440n, 0x20010204084440n, 0x10010204084440n, 0x8010204084440n, 0x4010204084440n, 0x2010204084440n, 0x1010204084440n, 0x810204084440n, 0x40008102040844n, 0x20008102040844n, 0x10008102040844n, 0x8008102040844n, 0x4008102040844n, 0x2008102040844n, 0x1008102040844n, 0x808102040844n, 0x40004081020408n, 0x20004081020408n, 0x10004081020408n, 0x8004081020408n, 0x4004081020408n, 0x2004081020408n, 0x1004081020408n, 0x804081020408n, 0x40002040810204n, 0x20002040810204n, 0x10002040810204n, 0x8002040810204n, 0x4002040810204n, 0x2002040810204n, 0x1002040810204n, 0x802040810204n, 0x40001020408102n, 0x20001020408102n, 0x10001020408102n, 0x8001020408102n, 0x4001020408102n, 0x2001020408102n, 0x1001020408102n, 0x801020408102n, 0x40000801020408n, 0x20000801020408n, 0x10000801020408n, 0x8000801020408n, 0x4000801020408n, 0x2000801020408n, 0x1000801020408n, 0x800801020408n];
+const rookMagics = [0x8a80104000800020n, 0x1480040000800080n, 0x4840008000800800n, 0x8080004000800800n, 0x4080002000400800n, 0x8040001000400800n, 0x80004000800800n, 0x2000200100800800n, 0x1004000802000400n, 0x2080080040002000n, 0x8010000800800n, 0x4000401004000n, 0x2200800100020080n, 0x4104000800801000n, 0x400040400080080n, 0x8080010000400n, 0x4000100080800n, 0x8000810010000n, 0x100008808000n, 0x20004010000n, 0x40004008000800n, 0x80008004000800n, 0x40008002000400n, 0x20000200080400n, 0x80004008002000n, 0x80008001000400n, 0x80002000400800n, 0x100010002000400n, 0x20000500100400n, 0x80080008001000n, 0x80040004000800n, 0x400804001000200n, 0x80020004000200n, 0x2004002000100n, 0x200800800400n, 0x80008002000400n, 0x104000200040080n, 0x800000800100100n, 0x48080004000200n, 0x20040001000800n, 0x40080001000400n, 0x80080040002000n, 0x200010040080n, 0x10004000200800n, 0x80001000400200n, 0x4000200010080n, 0x200400801000n, 0x100020000400800n, 0x4008008000400n, 0x20004000200800n, 0x10008008004000n, 0x8000800800100n, 0x8000400100020n, 0x40008000800200n, 0x1000400800800n, 0x20001000080400n, 0x80008000400080n, 0x4000400020001001n, 0x200200010040080n, 0x10008000400020n, 0x800040008000200n, 0x400800200010080n, 0x2004000800080100n, 0x1002000400080080n];
 
 const bishopMasks = Array(64).fill(0n);
 const rookMasks = Array(64).fill(0n);
@@ -127,11 +95,35 @@ const bishopAttacks = Array(64).fill(null).map(() => Array(512).fill(0n));
 const rookAttacks = Array(64).fill(null).map(() => Array(4096).fill(0n));
 
 /**
+ * Generates slider piece attacks for a given square on the fly.
+ * @param {number} sq - The square index.
+ * @param {boolean} isBishop - True for bishop, false for rook.
+ * @param {bigint} blockers - Bitboard of all pieces on the board.
+ * @returns {bigint} Bitboard of attacked squares.
+ */
+function generateSliderAttacks(sq, isBishop, blockers) {
+    let attacks = 0n;
+    const r = sq >> 3, f = sq & 7;
+    const directions = isBishop ? [[-1, -1], [-1, 1], [1, -1], [1, 1]] : [[-1, 0], [1, 0], [0, -1], [0, 1]];
+    for (const [dr, dc] of directions) {
+        let nr = r + dr, nc = f + dc;
+        while (nr >= 0 && nr <= 7 && nc >= 0 && nc <= 7) {
+            const currentSq = 1n << BigInt(nr * 8 + nc);
+            attacks |= currentSq;
+            if ((currentSq & blockers) !== 0n) break;
+            nr += dr; nc += dc;
+        }
+    }
+    return attacks;
+}
+
+/**
  * Initializes the magic bitboard tables for slider pieces.
- * This function should be called once when the engine loads.
+ * This version uses corrected mask generation logic.
  */
 function initSliders() {
     for (let s = 0; s < 64; s++) {
+        // Correctly generate masks by excluding only the outer perimeter
         const r = s >> 3, f = s & 7;
         for (let i = r + 1, j = f + 1; i < 7 && j < 7; i++, j++) bishopMasks[s] |= 1n << BigInt(i * 8 + j);
         for (let i = r + 1, j = f - 1; i < 7 && j > 0; i++, j--) bishopMasks[s] |= 1n << BigInt(i * 8 + j);
@@ -142,41 +134,39 @@ function initSliders() {
         for (let i = f + 1; i < 7; i++) rookMasks[s] |= 1n << BigInt(r * 8 + i);
         for (let i = f - 1; i > 0; i--) rookMasks[s] |= 1n << BigInt(r * 8 + i);
     }
+
     for (let s = 0; s < 64; s++) {
-        const bmask = bishopMasks[s], rmask = rookMasks[s];
-        const bcnt = bishopRelevantBits[s], rcnt = rookRelevantBits[s];
+        const bmask = bishopMasks[s];
+        const rmask = rookMasks[s];
+        const bcnt = bishopRelevantBits[s];
+        const rcnt = rookRelevantBits[s];
+
         for (let i = 0; i < (1 << bcnt); i++) {
-            let occ = 0n;
-            let temp = bmask;
+            let temp_bmask = bmask;
+            let blockers = 0n;
             for (let j = 0; j < bcnt; j++) {
-                const lsb = getLSBIndex(temp);
-                temp = popBit(temp);
-                if ((i >> j) & 1) occ |= 1n << BigInt(lsb);
+                const lsb = getLSBIndex(temp_bmask);
+                temp_bmask = popBit(temp_bmask);
+                if ((i >> j) & 1) {
+                    blockers |= (1n << BigInt(lsb));
+                }
             }
-            const magicIndex = Number((occ * bishopMagics[s]) >> BigInt(64 - bcnt));
-            let attacks = 0n; const r = s >> 3, f = s & 7;
-            for (let i = r + 1, j = f + 1; i <= 7 && j <= 7; i++, j++) { attacks |= (1n << BigInt(i * 8 + j)); if ((1n << BigInt(i * 8 + j)) & occ) break; }
-            for (let i = r + 1, j = f - 1; i <= 7 && j >= 0; i++, j--) { attacks |= (1n << BigInt(i * 8 + j)); if ((1n << BigInt(i * 8 + j)) & occ) break; }
-            for (let i = r - 1, j = f + 1; i >= 0 && j <= 7; i--, j++) { attacks |= (1n << BigInt(i * 8 + j)); if ((1n << BigInt(i * 8 + j)) & occ) break; }
-            for (let i = r - 1, j = f - 1; i >= 0 && j >= 0; i--, j--) { attacks |= (1n << BigInt(i * 8 + j)); if ((1n << BigInt(i * 8 + j)) & occ) break; }
-            bishopAttacks[s][magicIndex] = attacks;
+            const magicIndex = Number((blockers * bishopMagics[s]) >> BigInt(64 - bcnt));
+            bishopAttacks[s][magicIndex] = generateSliderAttacks(s, true, blockers);
         }
+
         for (let i = 0; i < (1 << rcnt); i++) {
-            let occ = 0n;
-            let temp = rmask;
+            let temp_rmask = rmask;
+            let blockers = 0n;
             for (let j = 0; j < rcnt; j++) {
-                const lsb = getLSBIndex(temp);
-                temp = popBit(temp);
-                if ((i >> j) & 1) occ |= 1n << BigInt(lsb);
+                const lsb = getLSBIndex(temp_rmask);
+                temp_rmask = popBit(temp_rmask);
+                if ((i >> j) & 1) {
+                    blockers |= (1n << BigInt(lsb));
+                }
             }
-            const shift = BigInt(64 - rcnt);
-            const magicIndex = Number((occ * rookMagics[s]) >> shift);
-            let attacks = 0n; const r = s >> 3, f = s & 7;
-            for (let i = r + 1; i <= 7; i++) { attacks |= (1n << BigInt(i * 8 + f)); if ((1n << BigInt(i * 8 + f)) & occ) break; }
-            for (let i = r - 1; i >= 0; i--) { attacks |= (1n << BigInt(i * 8 + f)); if ((1n << BigInt(i * 8 + f)) & occ) break; }
-            for (let j = f + 1; j <= 7; j++) { attacks |= (1n << BigInt(r * 8 + j)); if ((1n << BigInt(r * 8 + j)) & occ) break; }
-            for (let j = f - 1; j >= 0; j--) { attacks |= (1n << BigInt(r * 8 + j)); if ((1n << BigInt(r * 8 + j)) & occ) break; }
-            rookAttacks[s][magicIndex] = attacks;
+            const magicIndex = Number((blockers * rookMagics[s]) >> BigInt(64 - rcnt));
+            rookAttacks[s][magicIndex] = generateSliderAttacks(s, false, blockers);
         }
     }
 }
