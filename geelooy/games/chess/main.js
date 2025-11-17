@@ -66,6 +66,10 @@ document.addEventListener('DOMContentLoaded', () => {
 	const BOARD_SIZE = SIZE - (BOARD_PADDING * 2); // The size of the playable 8x8 area
 	const SQUARE_SIZE = BOARD_SIZE / 8; // The size of each square is now based on the inner board size
 	
+	const ENDGAME_MIN_MOVES = 40; // Don't consider it an endgame before 20 full moves (40 ply).
+	const ENDGAME_PERCENTAGE_THRESHOLD = 0.7; // The last 30% of a game can be considered the endgame phase.
+	
+	
 	let board = [];
 	let gameState = {};
 	const PIECE_EMOJIS = {
@@ -132,11 +136,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	// --- AI Worker ---
 	const aiWorker = new Worker('prometheus_engine.js');
-	// --- AI Worker ---
-	/*B"H*/
-// In main.js, find the section with the AI Worker and replace the onmessage handler.
-
-    // --- AI Worker ---
+	
     aiWorker.onmessage = function(e) {
         const { type } = e.data;
 
@@ -207,7 +207,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	        case 'analysis_error':
 	            alert(e.data.message); // Show the error from the worker
 	            break;
-// ...
+
         }
     };
 
@@ -1000,6 +1000,8 @@ document.addEventListener('DOMContentLoaded', () => {
 	}
 	
 	/* B"H */
+
+	
 	function displayAnalysisPosition(index) {
 	    // Boundary check
 	    if (index < -1 || index >= analysisState.moves.length) {
@@ -1009,33 +1011,39 @@ document.addEventListener('DOMContentLoaded', () => {
 	    analysisState.currentMoveIndex = index;
 	    drawAnalysisBoard();
 	
-	    // --- REFINED LOGIC FOR DYNAMIC HEADER ---
-	    const positionIndex = index + 1; // 0 is the starting position
+	    
+	    const positionIndex = index + 1;
+	    const totalMoves = analysisState.moves.length;
 	    const bookName = analysisState.openingNames[positionIndex];
 	
-	    // Define a "common sense" limit for how long an opening name should be displayed.
-	    // 24 ply = 12 moves for each player.
 	    const OPENING_PHASE_MOVE_LIMIT = 24; 
-	
-	    // An opening is "known" if it has a specific name AND we are within the move limit.
 	    const isKnownOpening = bookName && bookName !== "Starting Position" && positionIndex < OPENING_PHASE_MOVE_LIMIT;
 	
 	    if (isKnownOpening) {
 	        openingNameDisplay.textContent = bookName;
 	    } else {
-	        // If not a known opening, or if we are past the move limit, determine game phase.
 	        if (positionIndex === 0) {
 	            openingNameDisplay.textContent = "Starting Position";
 	        } else {
 	            const currentFen = analysisState.boardHistory[positionIndex];
 	            if (currentFen) {
 	                const board = getBoardFromFen(currentFen);
-	                const phase = getGamePhase(board);
+	                const materialPhase = getGamePhase(board);
 	
-	                if (phase > 0.25) {
-	                    openingNameDisplay.textContent = "Middlegame";
-	                } else {
+	                // --- NEW HYBRID ENDGAME LOGIC ---
+	                // Condition 1: Is the game past our minimum move threshold?
+	                const isPastMinMoves = positionIndex > ENDGAME_MIN_MOVES;
+	                // Condition 2: Are we in the final percentage-based section of the game?
+	                const isInFinalStage = positionIndex > (totalMoves * ENDGAME_PERCENTAGE_THRESHOLD);
+	
+	                // It's an endgame if:
+	                // a) The material is very low (the old rule)
+	                // OR
+	                // b) It's a long game AND we are in its final section (your new rule)
+	                if (materialPhase <= 0.25 || (isPastMinMoves && isInFinalStage)) {
 	                    openingNameDisplay.textContent = "Endgame";
+	                } else {
+	                    openingNameDisplay.textContent = "Middlegame";
 	                }
 	            }
 	        }
