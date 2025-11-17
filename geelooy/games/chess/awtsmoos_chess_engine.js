@@ -292,109 +292,6 @@ function generateAttackMaps(state) {
 
 
 
-// --- THE PURE BITBOARD EVALUATION FUNCTION ---
-function evaluate(state) {
-/**
-     * @description Start a timer to measure the execution time of this function.
-     */
-    const evalStartTime = performance.now();
-    const attackMaps = generateAttackMaps(state);
-    const gamePhase = getGamePhase(state);
-    let score = 0;
-    
-    // --- Material and Piece-Square Table Evaluation ---
-    for (let p_type = P; p_type <= K; p_type++) {
-        let white_bb = state.pieceBitboards[p_type];
-        let black_bb = state.pieceBitboards[p_type + 6];
-        
-        const pst = [pawnPST, knightPST, bishopPST, rookPST, queenPST, kingPSTMidGame][p_type];
-        const king_pst_eg = kingPSTEndGame;
-        const piece_val = [pieceValues.p, pieceValues.n, pieceValues.b, pieceValues.r, pieceValues.q, pieceValues.k][p_type];
-        
-        while(white_bb > 0n) {
-            const sq = getLSBIndex(white_bb);
-            const r = 7 - Math.floor(sq/8), c = sq % 8;
-            score += piece_val.mg * gamePhase + piece_val.eg * (1 - gamePhase);
-            if (p_type === K) score += king_pst_eg[r][c] * (1-gamePhase) + pst[r][c] * gamePhase;
-            else score += pst[r][c];
-            white_bb = popBit(white_bb);
-        }
-        
-        while(black_bb > 0n) {
-            const sq = getLSBIndex(black_bb);
-            const r = Math.floor(sq/8), c = sq % 8;
-            score -= (piece_val.mg * gamePhase + piece_val.eg * (1 - gamePhase));
-            if (p_type === K) score -= king_pst_eg[r][c] * (1-gamePhase) + pst[r][c] * gamePhase;
-            else score -= pst[r][c];
-            black_bb = popBit(black_bb);
-        }
-    }
-
-    // --- Strategic Bonuses (Bitboard Native) ---
-    const whitePawns = state.pieceBitboards[P];
-    const blackPawns = state.pieceBitboards[P + 6];
-
-    // Doubled & Isolated Pawns
-    for (let i = 0; i < 8; i++) {
-        const fileMask = FILE_A << BigInt(i);
-        const w_pawns_on_file = popcount(whitePawns & fileMask);
-        const b_pawns_on_file = popcount(blackPawns & fileMask);
-        if (w_pawns_on_file > 1) score -= 25 * (w_pawns_on_file -1);
-        if (b_pawns_on_file > 1) score += 25 * (b_pawns_on_file -1);
-
-        if (w_pawns_on_file > 0) {
-            const adjacentMask = ((FILE_A << BigInt(i-1)) & NOT_H_FILE) | ((FILE_A << BigInt(i+1)) & NOT_A_FILE);
-            if ((whitePawns & adjacentMask) === 0n) score -= 20;
-        }
-        if (b_pawns_on_file > 0) {
-            const adjacentMask = ((FILE_A << BigInt(i-1)) & NOT_H_FILE) | ((FILE_A << BigInt(i+1)) & NOT_A_FILE);
-            if ((blackPawns & adjacentMask) === 0n) score += 20;
-        }
-    }
-
-    // Rook on Open/Semi-Open File
-    let whiteRooks = state.pieceBitboards[R];
-    while(whiteRooks > 0n) {
-        const sq = getLSBIndex(whiteRooks);
-        const fileMask = FILE_A << BigInt(sq % 8);
-        if ((whitePawns & fileMask) === 0n) score += ((blackPawns & fileMask) === 0n ? 30 : 15);
-        whiteRooks = popBit(whiteRooks);
-    }
-    let blackRooks = state.pieceBitboards[R+6];
-     while(blackRooks > 0n) {
-        const sq = getLSBIndex(blackRooks);
-        const fileMask = FILE_A << BigInt(sq % 8);
-        if ((blackPawns & fileMask) === 0n) score -= ((whitePawns & fileMask) === 0n ? 30 : 15);
-        blackRooks = popBit(blackRooks);
-    }
-
-    // Bishop Pair
-    if (popcount(state.pieceBitboards[B]) >= 2) score += 50;
-    if (popcount(state.pieceBitboards[B+6]) >= 2) score -= 50;
-
-    // --- Threats and King Safety (Bitboard Native) ---
-    const whiteKingSq = getLSBIndex(state.pieceBitboards[K]);
-    const blackKingSq = getLSBIndex(state.pieceBitboards[K + 6]);
-    
-    // King Safety
-    if (whiteKingSq !== -1) {
-        const whiteKingZone = KING_ATTACK_ZONE[WHITE][whiteKingSq];
-        score -= popcount(whiteKingZone & attackMaps.black) * 8; // Penalty for each enemy attack near king
-    }
-    if (blackKingSq !== -1) {
-        const blackKingZone = KING_ATTACK_ZONE[BLACK][blackKingSq];
-        score += popcount(blackKingZone & attackMaps.white) * 8; // Bonus for attacking near enemy king
-    }
-    
-    /**
-     * @description At the end of the function, add the elapsed time to our global counter.
-     */
-    evaluationTime += performance.now() - evalStartTime;
-    
-    
-    // Final score adjustment based on whose turn it is
-    return (state.turn === WHITE ? 1 : -1) * score;
-}
 
 
 
@@ -465,145 +362,170 @@ function orderMoves(moves, state, ply) {
 
 
 /*B"H*/
+
 /**
- * Quiescence search to stabilize the evaluation by only searching tactical moves (captures, promotions).
- * This version corrects a critical bug where it was using an outdated calling convention for make/unmake move,
- * which led to board state corruption and catastrophic performance loss.
- * @param {object} state - The game state.
- * @param {number} alpha - The alpha value for the search window.
- * @param {number} beta - The beta value for the search window.
- * @returns {number} The evaluated score of the position.
+ * The pure bitboard evaluation function.
+ * This version has been refactored for performance. It no longer generates attack maps itself.
+ * Instead, it receives them as a parameter, which is crucial to prevent recalculation at every leaf node.
+ * @param {object} state - The current game state.
+ * @param {{white: bigint, black: bigint}} attackMaps - Pre-calculated attack maps for both sides.
+ * @returns {number} The final evaluation score.
+ */
+function evaluate(state, attackMaps) {
+    const evalStartTime = performance.now();
+    const gamePhase = getGamePhase(state);
+    let score = 0;
+    
+    // --- Material and PST (No changes here) ---
+    for (let p_type = P; p_type <= K; p_type++) {
+        let white_bb = state.pieceBitboards[p_type];
+        let black_bb = state.pieceBitboards[p_type + 6];
+        const pst = [pawnPST, knightPST, bishopPST, rookPST, queenPST, kingPSTMidGame][p_type];
+        const king_pst_eg = kingPSTEndGame;
+        const piece_val = [pieceValues.p, pieceValues.n, pieceValues.b, pieceValues.r, pieceValues.q, pieceValues.k][p_type];
+        while(white_bb > 0n) {
+            const sq = getLSBIndex(white_bb);
+            const r = 7 - Math.floor(sq/8), c = sq % 8;
+            score += piece_val.mg * gamePhase + piece_val.eg * (1 - gamePhase);
+            if (p_type === K) score += king_pst_eg[r][c] * (1-gamePhase) + pst[r][c] * gamePhase;
+            else score += pst[r][c];
+            white_bb = popBit(white_bb);
+        }
+        while(black_bb > 0n) {
+            const sq = getLSBIndex(black_bb);
+            const r = Math.floor(sq/8), c = sq % 8;
+            score -= (piece_val.mg * gamePhase + piece_val.eg * (1 - gamePhase));
+            if (p_type === K) score -= king_pst_eg[r][c] * (1-gamePhase) + pst[r][c] * gamePhase;
+            else score -= pst[r][c];
+            black_bb = popBit(black_bb);
+        }
+    }
+
+    // --- Strategic Bonuses (No changes here) ---
+    const whitePawns = state.pieceBitboards[P], blackPawns = state.pieceBitboards[P + 6];
+    for (let i = 0; i < 8; i++) {
+        const fileMask = FILE_A << BigInt(i);
+        const w_pawns_on_file = popcount(whitePawns & fileMask);
+        if (w_pawns_on_file > 1) score -= 25 * (w_pawns_on_file -1);
+        if (w_pawns_on_file > 0 && ((whitePawns & (((FILE_A << BigInt(i-1)) & NOT_H_FILE) | ((FILE_A << BigInt(i+1)) & NOT_A_FILE))) === 0n)) score -= 20;
+        const b_pawns_on_file = popcount(blackPawns & fileMask);
+        if (b_pawns_on_file > 1) score += 25 * (b_pawns_on_file -1);
+        if (b_pawns_on_file > 0 && ((blackPawns & (((FILE_A << BigInt(i-1)) & NOT_H_FILE) | ((FILE_A << BigInt(i+1)) & NOT_A_FILE))) === 0n)) score += 20;
+    }
+    let whiteRooks = state.pieceBitboards[R];
+    while(whiteRooks > 0n) {
+        const sq = getLSBIndex(whiteRooks);
+        const fileMask = FILE_A << BigInt(sq % 8);
+        if ((whitePawns & fileMask) === 0n) score += ((blackPawns & fileMask) === 0n ? 30 : 15);
+        whiteRooks = popBit(whiteRooks);
+    }
+    let blackRooks = state.pieceBitboards[R+6];
+     while(blackRooks > 0n) {
+        const sq = getLSBIndex(blackRooks);
+        const fileMask = FILE_A << BigInt(sq % 8);
+        if ((blackPawns & fileMask) === 0n) score -= ((whitePawns & fileMask) === 0n ? 30 : 15);
+        blackRooks = popBit(blackRooks);
+    }
+    if (popcount(state.pieceBitboards[B]) >= 2) score += 50;
+    if (popcount(state.pieceBitboards[B+6]) >= 2) score -= 50;
+
+    // --- King Safety (Now using passed-in attack maps) ---
+    const whiteKingSq = getLSBIndex(state.pieceBitboards[K]);
+    if (whiteKingSq !== -1) score -= popcount(KING_ATTACK_ZONE[WHITE][whiteKingSq] & attackMaps.black) * 8;
+    const blackKingSq = getLSBIndex(state.pieceBitboards[K + 6]);
+    if (blackKingSq !== -1) score += popcount(KING_ATTACK_ZONE[BLACK][blackKingSq] & attackMaps.white) * 8;
+    
+    evaluationTime += performance.now() - evalStartTime;
+    return (state.turn === WHITE ? 1 : -1) * score;
+}
+
+/**
+ * Quiescence search. This version is updated to generate attack maps once and pass
+ * them to the evaluation function, avoiding massive recalculation costs.
  */
 function quiesce(state, alpha, beta) {
-    if ((nodeCount & 2047) === 0 && performance.now() - searchStartTime > timeLimit) {
-        stopSearch = true;
-    }
+    if ((nodeCount & 2047) === 0 && performance.now() - searchStartTime > timeLimit) stopSearch = true;
     if (stopSearch) return 0;
     nodeCount++;
 
-    const stand_pat = evaluate(state);
+    // Generate attack maps ONCE, then pass them to evaluate.
+    const attackMaps = generateAttackMaps(state);
+    const stand_pat = evaluate(state, attackMaps);
+
     if (stand_pat >= beta) return beta;
     if (alpha < stand_pat) alpha = stand_pat;
 
     const moves = generateTacticalMoves(state);
-    const orderedMoves = orderMoves(moves, state, 0); // Ply 0 for q-search move ordering
+    const orderedMoves = orderMoves(moves, state, 0);
 
     for (const move of orderedMoves) {
-        // CORRECTED: Use the global stack pattern for make/unmake.
         makeMove(state, move);
-        
         const kingSq = getLSBIndex(state.pieceBitboards[(state.turn ^ 1) * 6 + K]);
         if (isSquareAttacked_lean(state, kingSq, state.turn)) {
             unmakeMove(state);
             continue;
         }
-
         const score = -quiesce(state, -beta, -alpha);
-        
-        // CORRECTED: unmakeMove now takes no arguments and pops from the stack.
         unmakeMove(state);
-        
         if (stopSearch) return 0;
-
         if (score >= beta) return beta;
         if (score > alpha) alpha = score;
     }
     return alpha;
 }
 
-/*B"H*/
 /**
- * The core alpha-beta search function.
- * This version is corrected to use the raw BigInt Zobrist hash for all transposition
- * table operations (lookup, read, write), which is a critical performance fix.
- * @param {object} state - The game state.
- * @param {number} depth - The remaining depth to search.
- * @param {number} alpha - The lower bound of the search window.
- * @param {number} beta - The upper bound of the search window.
- * @param {number} ply - The current ply from the root.
- * @returns {number} The evaluated score of the position.
+ * The core alpha-beta search function. This version is updated to generate attack maps
+ * once per node and pass them to the evaluation function.
  */
 function search(state, depth, alpha, beta, ply) {
     if (depth <= 0) {
         return quiesce(state, alpha, beta);
     }
-
-    if ((nodeCount & 2047) === 0 && performance.now() - searchStartTime > timeLimit) {
-        stopSearch = true;
-    }
+    if ((nodeCount & 2047) === 0 && performance.now() - searchStartTime > timeLimit) stopSearch = true;
     if (stopSearch) return 0;
     nodeCount++;
 
     for (let i = moveStackPtr - 2; i >= 0; i -= 2) {
-        if (moveStack[i].zobristHash === state.zobristHash) {
-            return CONTEMPT_FACTOR;
-        }
+        if (moveStack[i].zobristHash === state.zobristHash) return CONTEMPT_FACTOR;
     }
 
-    // PERFORMANCE FIX: Use the raw BigInt hash for TT lookup.
     const ttEntry = transpositionTable.get(state.zobristHash);
     if (ply > 0 && ttEntry && ttEntry.depth >= depth) {
         let score = ttEntry.score;
         if (score > MATE_SCORE - MATE_IN_MAX_PLY) score -= ply;
         if (score < -MATE_SCORE + MATE_IN_MAX_PLY) score += ply;
-
         if (ttEntry.flag === TT_EXACT) return score;
         if (ttEntry.flag === TT_LOWERBOUND) alpha = Math.max(alpha, score);
         else if (ttEntry.flag === TT_UPPERBOUND) beta = Math.min(beta, score);
-        
         if (alpha >= beta) return score;
     }
 
     const moves = generateMoves(state);
     const orderedMoves = orderMoves(moves, state, ply);
     
-    let legalMovesFound = 0;
-    let bestScore = -Infinity;
-    let ttFlag = TT_UPPERBOUND;
-    let bestMoveForNode = 0;
-
+    let legalMovesFound = 0, bestScore = -Infinity, ttFlag = TT_UPPERBOUND, bestMoveForNode = 0;
     for (const move of orderedMoves) {
         makeMove(state, move);
-        
         const kingSq = getLSBIndex(state.pieceBitboards[(state.turn ^ 1) * 6 + K]);
         if (isSquareAttacked_lean(state, kingSq, state.turn)) {
             unmakeMove(state);
             continue;
         }
         legalMovesFound++;
-
-        let score;
-        if (legalMovesFound === 1) {
-            score = -search(state, depth - 1, -beta, -alpha, ply + 1);
-        } else {
-            score = -search(state, depth - 1, -alpha - 1, -alpha, ply + 1);
-            if (score > alpha && score < beta) {
-                score = -search(state, depth - 1, -beta, -alpha, ply + 1);
-            }
-        }
+        let score = (legalMovesFound === 1) ? -search(state, depth - 1, -beta, -alpha, ply + 1)
+            : (-search(state, depth - 1, -alpha - 1, -alpha, ply + 1), (score > alpha && score < beta) ? -search(state, depth - 1, -beta, -alpha, ply + 1) : score);
         unmakeMove(state);
 
         if (stopSearch) return 0;
-
-        if (score > bestScore) {
-            bestScore = score;
-            bestMoveForNode = move;
-        }
-
-        if (bestScore > alpha) {
-            ttFlag = TT_EXACT;
-            alpha = bestScore;
-        }
-
+        if (score > bestScore) { bestScore = score; bestMoveForNode = move; }
+        if (bestScore > alpha) { ttFlag = TT_EXACT; alpha = bestScore; }
         if (alpha >= beta) {
             if (!getMoveCapture(move)) {
-                if(killerMoves[ply] && killerMoves[ply][0] !== move) {
-                    killerMoves[ply][1] = killerMoves[ply][0];
-                }
+                if(killerMoves[ply] && killerMoves[ply][0] !== move) killerMoves[ply][1] = killerMoves[ply][0];
                 killerMoves[ply][0] = move;
                 historyTable[getMovePiece(move) + ((state.turn^1) * 6)][getMoveTo(move)] += depth * depth;
             }
-            // PERFORMANCE FIX: Use the raw BigInt hash for TT store.
             transpositionTable.set(state.zobristHash, { score: beta, depth: depth, flag: TT_LOWERBOUND, move: move });
             return beta;
         }
@@ -613,12 +535,9 @@ function search(state, depth, alpha, beta, ply) {
         const kingInCheck = isSquareAttacked_lean(state, getLSBIndex(state.pieceBitboards[state.turn * 6 + K]), state.turn ^ 1);
         return kingInCheck ? -MATE_SCORE + ply : 0;
     }
-    
-    // Use the raw BigInt hash for TT store.
     if (bestMoveForNode) {
        transpositionTable.set(state.zobristHash, { score: bestScore, depth: depth, flag: ttFlag, move: bestMoveForNode });
     }
-    
     return bestScore;
 }
 
