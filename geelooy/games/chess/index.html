@@ -28,9 +28,13 @@
         </div>
         <button id="drawButton" class="menu-button">Offer / Claim Draw</button>
     
-        <div id="chessContainer">
-            <canvas id="chessCanvas"></canvas>
+        <!-- ADDED WRAPPER: This new div will be controlled by the CSS flexbox layout. -->
+        <div id="board-wrapper">
+            <div id="chessContainer">
+                <canvas id="chessCanvas"></canvas>
+            </div>
         </div>
+
         <div id="message"></div>
         <div class="captured-pieces-container">
             <!-- The canvas is very wide to prevent pieces from wrapping -->

@@ -2,7 +2,6 @@
 */
 
 /* --- MASTER VIEWPORT LOCK --- */
-/* This ensures the page itself will never scroll, fixing the core layout problem. */
 html, body {
     height: 100vh;
     width: 100vw;
@@ -15,51 +14,45 @@ html, body {
 
 body {
     display: grid;
-    place-items: center; /* This perfectly centers the game container in the viewport */
+    place-items: center;
     color: #fff;
 }
 
-
-/* --- MENU VISIBILITY FIX --- */
-/* Both menus are hidden by default. The JavaScript will explicitly set 'display: flex' on the one that should be visible. This resolves the overlap bug. */
 .menu {
-    display: none;
+    display: none; /* Controlled by JS */
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
 
-/* This class is used by the JS to hide/show the entire game container. */
 .hidden {
     display: none !important;
 }
 
-
-/* --- GAME LAYOUT FIX (USING FLEXBOX) --- */
-/* The game container now uses a vertical flexbox layout to stack all its elements. */
+/* --- ROBUST FLEXBOX LAYOUT --- */
 #gameContainer {
     display: flex;
     flex-direction: column;
-    height: 100vh; /* It fills the entire screen height */
+    height: 100vh;
     width: 100%;
-    max-width: 500px; /* Constrains the width */
+    max-width: 500px;
     box-sizing: border-box;
     padding: 5px 0;
 }
 
-/* The board is now the flexible element that grows to fill all available space. */
-#chessContainer {
+/* NEW: The wrapper is now the flexible element that grows to fill all available space. */
+#board-wrapper {
     flex-grow: 1;
     display: flex;
     align-items: center;
     justify-content: center;
     width: 100%;
-    min-height: 0; /* A critical fix to prevent flexbox overflow issues */
+    min-height: 0; /* Critical flexbox fix to prevent overflow */
 }
 
-/* All other elements are assigned fixed heights and will not be pushed off-screen. */
+/* All other elements have a fixed size and will not be pushed off-screen. */
 .captured-pieces-container, #drawButton, #message {
-    flex-shrink: 0; /* This prevents these elements from being squished. */
+    flex-shrink: 0;
 }
 
 .menu-button {
@@ -71,7 +64,7 @@ body {
     border: none;
     border-radius: 8px;
     transition: background-color 0.3s;
-    margin: 10px;
+    margin: 10px auto;
     width: 250px;
 }
 
@@ -79,10 +72,9 @@ body {
     background-color: #45a049;
 }
 
-/* The message box has a fixed height and will scroll its own content. */
 #message {
-    height: 4.5em; /* Fixed height for 2-3 lines of text */
-    overflow-y: auto; /* Internal scrollbar appears only when needed */
+    height: 4.5em;
+    overflow-y: auto;
     white-space: pre-wrap;
     padding: 6px;
     box-sizing: border-box;
@@ -115,14 +107,13 @@ body {
     text-shadow: 2px 2px 4px #000;
 }
 
-/* The captured pieces containers have a fixed height and will not disappear. */
 .captured-pieces-container {
     height: 90px;
     width: 100%;
     box-sizing: border-box;
     display: flex;
     align-items: center;
-    overflow-x: auto; /* Allows horizontal scrolling if many pieces are captured */
+    overflow-x: auto;
     overflow-y: hidden;
     margin: 5px 0;
 }
