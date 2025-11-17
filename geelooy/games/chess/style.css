@@ -1,7 +1,8 @@
 /*B"H
 */
 
-/* --- ADDED: Master viewport lock. This prevents the entire page from ever scrolling. --- */
+/* --- MASTER VIEWPORT LOCK --- */
+/* This ensures the page itself will never scroll, fixing the core layout problem. */
 html, body {
     height: 100vh;
     width: 100vw;
@@ -13,49 +14,52 @@ html, body {
 }
 
 body {
-    display: grid; /* Use grid to perfectly center content */
-    place-items: center;
+    display: grid;
+    place-items: center; /* This perfectly centers the game container in the viewport */
     color: #fff;
 }
 
-/* --- MODIFIED: The .hidden class is now the sole controller of visibility. --- */
-.hidden {
-    display: none !important; /* The !important flag ensures this rule always wins, fixing the menu overlap. */
+
+/* --- MENU VISIBILITY FIX --- */
+/* Both menus are hidden by default. The JavaScript will explicitly set 'display: flex' on the one that should be visible. This resolves the overlap bug. */
+.menu {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
-/* --- MODIFIED: The game container is now a robust grid layout. --- */
+/* This class is used by the JS to hide/show the entire game container. */
+.hidden {
+    display: none !important;
+}
+
+
+/* --- GAME LAYOUT FIX (USING FLEXBOX) --- */
+/* The game container now uses a vertical flexbox layout to stack all its elements. */
 #gameContainer {
-    display: grid;
-    /* Defines 5 rows: top captures, button, board, message, bottom captures */
-    grid-template-rows: auto auto 1fr auto auto;
-    gap: 5px; /* A small space between elements */
-    height: 100vh; /* Fill the entire screen vertically */
+    display: flex;
+    flex-direction: column;
+    height: 100vh; /* It fills the entire screen height */
     width: 100%;
-    max-width: 500px; /* Constrain width */
+    max-width: 500px; /* Constrains the width */
     box-sizing: border-box;
     padding: 5px 0;
 }
 
-/* --- ADDED: Assign each game element to its correct row in the grid. --- */
-.captured-pieces-container:first-of-type { grid-row: 1; }
-#drawButton { grid-row: 2; }
-#chessContainer { 
-    grid-row: 3; 
-    display: flex; /* These ensure the canvas stays centered in the available space */
-    align-items: center; 
-    justify-content: center;
-    min-height: 0; /* A fix for flexbox in some browsers to allow shrinking */
-}
-#message { grid-row: 4; }
-.captured-pieces-container:last-of-type { grid-row: 5; }
-
-
-/* --- MODIFIED: Menus are now styled to work correctly when toggled by the JS. --- */
-.menu {
-    display: flex; /* This is the default display when made visible by JS */
-    flex-direction: column;
-    justify-content: center;
+/* The board is now the flexible element that grows to fill all available space. */
+#chessContainer {
+    flex-grow: 1;
+    display: flex;
     align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 0; /* A critical fix to prevent flexbox overflow issues */
+}
+
+/* All other elements are assigned fixed heights and will not be pushed off-screen. */
+.captured-pieces-container, #drawButton, #message {
+    flex-shrink: 0; /* This prevents these elements from being squished. */
 }
 
 .menu-button {
@@ -70,14 +74,15 @@ body {
     margin: 10px;
     width: 250px;
 }
+
 .menu-button:hover {
     background-color: #45a049;
 }
 
-/* MODIFIED: Fixed height and internal scrolling */
+/* The message box has a fixed height and will scroll its own content. */
 #message {
-    height: 4.5em; 
-    overflow-y: auto; 
+    height: 4.5em; /* Fixed height for 2-3 lines of text */
+    overflow-y: auto; /* Internal scrollbar appears only when needed */
     white-space: pre-wrap;
     padding: 6px;
     box-sizing: border-box;
@@ -87,7 +92,7 @@ body {
     text-align: center;
     border: 1px solid #444;
     border-radius: 5px;
-    flex-shrink: 0;
+    margin: 5px 0;
 }
 
 #gameOverOverlay {
@@ -110,15 +115,14 @@ body {
     text-shadow: 2px 2px 4px #000;
 }
 
+/* The captured pieces containers have a fixed height and will not disappear. */
 .captured-pieces-container {
     height: 90px;
     width: 100%;
     box-sizing: border-box;
-    font-size: 28px;
-    color: #ccc;
     display: flex;
     align-items: center;
-    overflow-x: auto;
+    overflow-x: auto; /* Allows horizontal scrolling if many pieces are captured */
     overflow-y: hidden;
-    flex-shrink: 0;
+    margin: 5px 0;
 }
