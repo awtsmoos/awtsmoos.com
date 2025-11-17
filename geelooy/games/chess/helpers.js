@@ -67,11 +67,7 @@ const deBruijn64 = 0x03f79d71b4cb0a89n;
 
 
 // --- Pre-computed Magic Numbers & Data Structures ---
-const bishopRelevantBits = [6, 5, 5, 5, 5, 5, 5, 6, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 7, 7, 7, 7, 5, 5, 5, 5, 7, 7, 7, 7, 5, 5, 5, 5, 7, 7, 7, 7, 5, 5, 5, 5, 7, 7, 7, 7, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 6, 5, 5, 5, 5, 5, 5, 6];
 
-
-
-const rookRelevantBits = [12, 11, 11, 11, 11, 11, 11, 12, 11, 10, 10, 10, 10, 10, 10, 11, 11, 10, 10, 10, 10, 10, 10, 11, 11, 10, 10, 10, 10, 10, 10, 11, 11, 10, 10, 10, 10, 10, 10, 11, 11, 10, 10, 10, 10, 10, 10, 11, 11, 10, 10, 10, 10, 10, 10, 11, 12, 11, 11, 11, 11, 11, 11, 12];
 
 const bishopMagics = [0x40040844404084n, 0x20040844404084n, 0x10040844404084n, 0x8040844404084n, 0x4040844404084n, 0x2040844404084n, 0x1040844404084n, 0x840844404084n, 0x40020408444040n, 0x20020408444040n, 0x10020408444040n, 0x8020408444040n, 0x4020408444040n, 0x2020408444040n, 0x1020408444040n, 0x820408444040n, 0x40010204084440n, 0x20010204084440n, 0x10010204084440n, 0x8010204084440n, 0x4010204084440n, 0x2010204084440n, 0x1010204084440n, 0x810204084440n, 0x40008102040844n, 0x20008102040844n, 0x10008102040844n, 0x8008102040844n, 0x4008102040844n, 0x2008102040844n, 0x1008102040844n, 0x808102040844n, 0x40004081020408n, 0x20004081020408n, 0x10004081020408n, 0x8004081020408n, 0x4004081020408n, 0x2004081020408n, 0x1004081020408n, 0x804081020408n, 0x40002040810204n, 0x20002040810204n, 0x10002040810204n, 0x8002040810204n, 0x4002040810204n, 0x2002040810204n, 0x1002040810204n, 0x802040810204n, 0x40001020408102n, 0x20001020408102n, 0x10001020408102n, 0x8001020408102n, 0x4001020408102n, 0x2001020408102n, 0x1001020408102n, 0x801020408102n, 0x40000801020408n, 0x20000801020408n, 0x10000801020408n, 0x8000801020408n, 0x4000801020408n, 0x2000801020408n, 0x1000801020408n, 0x800801020408n];
 const rookMagics = [0x8a80104000800020n, 0x1480040000800080n, 0x4840008000800800n, 0x8080004000800800n, 0x4080002000400800n, 0x8040001000400800n, 0x80004000800800n, 0x2000200100800800n, 0x1004000802000400n, 0x2080080040002000n, 0x8010000800800n, 0x4000401004000n, 0x2200800100020080n, 0x4104000800801000n, 0x400040400080080n, 0x8080010000400n, 0x4000100080800n, 0x8000810010000n, 0x100008808000n, 0x20004010000n, 0x40004008000800n, 0x80008004000800n, 0x40008002000400n, 0x20000200080400n, 0x80004008002000n, 0x80008001000400n, 0x80002000400800n, 0x100010002000400n, 0x20000500100400n, 0x80080008001000n, 0x80040004000800n, 0x400804001000200n, 0x80020004000200n, 0x2004002000100n, 0x200800800400n, 0x80008002000400n, 0x104000200040080n, 0x800000800100100n, 0x48080004000200n, 0x20040001000800n, 0x40080001000400n, 0x80080040002000n, 0x200010040080n, 0x10004000200800n, 0x80001000400200n, 0x4000200010080n, 0x200400801000n, 0x100020000400800n, 0x4008008000400n, 0x20004000200800n, 0x10008008004000n, 0x8000800800100n, 0x8000400100020n, 0x40008000800200n, 0x1000400800800n, 0x20001000080400n, 0x80008000400080n, 0x4000400020001001n, 0x200200010040080n, 0x10008000400020n, 0x800040008000200n, 0x400800200010080n, 0x2004000800080100n, 0x1002000400080080n];
@@ -302,29 +298,34 @@ function initializeAll() {
 
 /*B"H*/
 
-
 /**
- * Gets bishop attacks for a square using the pre-calculated magic bitboard tables.
+ * Gets bishop attacks for a square. This version is corrected to be logically consistent
+ * with the initSliders function by calculating the bit count dynamically, which resolves
+ * the persistent TypeError.
  * @param {number} sq - The square index (0-63).
  * @param {bigint} blockers - The bitboard of all occupied squares.
  * @returns {bigint} A bitboard of all attacked squares.
  */
 function getBishopAttacks(sq, blockers) {
-    const magicIndex = Number(((blockers & bishopMasks[sq]) * bishopMagics[sq]) >> BigInt(64 - bishopRelevantBits[sq]));
+    const mask = bishopMasks[sq];
+    const bitCount = popcount(mask); // Dynamically calculate the shift amount
+    const magicIndex = Number(((blockers & mask) * bishopMagics[sq]) >> BigInt(64 - bitCount));
     return bishopAttacks[sq][magicIndex];
 }
 
 /**
- * Gets rook attacks for a square using the pre-calculated magic bitboard tables.
+ * Gets rook attacks for a square. This version is also corrected to be consistent
+ * with initSliders, resolving the persistent TypeError.
  * @param {number} sq - The square index (0-63).
  * @param {bigint} blockers - The bitboard of all occupied squares.
  * @returns {bigint} A bitboard of all attacked squares.
  */
 function getRookAttacks(sq, blockers) {
-    const magicIndex = Number(((blockers & rookMasks[sq]) * rookMagics[sq]) >> BigInt(64 - rookRelevantBits[sq]));
+    const mask = rookMasks[sq];
+    const bitCount = popcount(mask); // Dynamically calculate the shift amount
+    const magicIndex = Number(((blockers & mask) * rookMagics[sq]) >> BigInt(64 - bitCount));
     return rookAttacks[sq][magicIndex];
 }
-
 /**
  * Gets queen attacks by combining rook and bishop attacks from the magic tables.
  * @param {number} sq - The square index (0-63).
