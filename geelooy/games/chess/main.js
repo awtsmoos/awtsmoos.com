@@ -137,79 +137,79 @@ document.addEventListener('DOMContentLoaded', () => {
 	// --- AI Worker ---
 	const aiWorker = new Worker('prometheus_engine.js');
 	
-    aiWorker.onmessage = function(e) {
-        const { type } = e.data;
+    /* B"H */
 
-        switch (type) {
-            case 'progress':
-                const { percentage } = e.data;
-                const loadingText = document.getElementById('loadingText');
-                const progressBarFill = document.getElementById('progressBarFill');
-                loadingText.textContent = `Loading Engine... ${percentage}%`;
-                progressBarFill.style.width = `${percentage}%`;
-                break;
 
-            case 'initialization_complete':
-                const loadingScreen = document.getElementById('loadingScreen');
-                const mainMenu = document.getElementById('mainMenu');
-                loadingScreen.style.display = 'none';
-                mainMenu.style.display = 'flex';
-                break;
+// This single function now handles ALL messages from the engine worker.
 
-            case 'move_result':
-                gameState.isAIMoving = false;
-                const { bestMove, timeTaken, nodesSearched, score } = e.data;
-                console.log("move");
+aiWorker.onmessage = function(e) {
+    const { type } = e.data;
 
-                if (bestMove) {
-                    let moveSource;
-                    if (typeof score === 'string' && (score.startsWith('Book Move') || score.startsWith('Punish Move'))) {
-                        moveSource = score;
-                    } else {
-                        moveSource = `Searched ${nodesSearched} nodes in ${timeTaken}ms.`;
-                    }
-                    
-                    messageDiv.textContent += `\nAI moved. (${moveSource})`;
-                    scrollMsg();
+    // Use a switch to route messages to the correct logic
+    switch (type) {
 
-                    let fullMove = gameState.legalMoves.find(m =>
-                        m.from[0] === bestMove.from[0] && m.from[1] === bestMove.from[1] &&
-                        m.to[0] === bestMove.to[0] && m.to[1] === bestMove.to[1]
-                    );
+        // --- Initialization Messages ---
+        case 'progress':
+            const { percentage } = e.data;
+            const loadingText = document.getElementById('loadingText');
+            const progressBarFill = document.getElementById('progressBarFill');
+            if (loadingText) loadingText.textContent = `Loading Engine... ${percentage}%`;
+            if (progressBarFill) progressBarFill.style.width = `${percentage}%`;
+            break;
 
-                    if (!fullMove) {
-                        const piece = board[bestMove.from[0]][bestMove.from[1]];
-                        fullMove = { from: bestMove.from, to: bestMove.to, piece: piece };
-                        if (piece.toLowerCase() === 'p' && Math.abs(fullMove.from[0] - fullMove.to[0]) === 2) {
-                            fullMove.isPawnDoubleMove = true;
-                        }
-                        if (piece.toLowerCase() === 'k' && Math.abs(fullMove.from[1] - fullMove.to[1]) === 2) {
-                            fullMove.isCastle = true;
-                        }
-                    }
+        case 'initialization_complete':
+            const loadingScreen = document.getElementById('loadingScreen');
+            const mainMenu = document.getElementById('mainMenu');
+            if (loadingScreen) loadingScreen.style.display = 'none';
+            if (mainMenu) mainMenu.style.display = 'flex';
+            break;
 
-                    animateMove(fullMove, () => {
-                        if (gameState.gameMode === 'ava') {
-                            startAIMove(); // AI vs AI loop
-                        }
-                    });
-                } else {
-                    updateGameStatus(); // No moves found, game is over.
+        // --- Game Play Messages ---
+        case 'move_result':
+            gameState.isAIMoving = false;
+            const { bestMove, timeTaken, nodesSearched, score } = e.data;
+            
+            if (bestMove) {
+                let moveSource = `Searched ${nodesSearched} nodes in ${timeTaken}ms.`;
+                if (typeof score === 'string') {
+                    moveSource = score; // Use "Book Move" or "Punish Move" text directly
                 }
-                break;
                 
-                
-                /* B"H */
-                case 'analysis_result':
-	            handleAnalysisResult(e.data);
-	            break;
-	            
-	        case 'analysis_error':
-	            alert(e.data.message); // Show the error from the worker
-	            break;
+                messageDiv.textContent += `\nAI moved. (${moveSource})`;
+                scrollMsg();
 
-        }
-    };
+                // Find the full move object to get all its properties for the animation
+                let fullMove = gameState.legalMoves.find(m =>
+                    m.from[0] === bestMove.from[0] && m.from[1] === bestMove.from[1] &&
+                    m.to[0] === bestMove.to[0] && m.to[1] === bestMove.to[1]
+                );
+
+                // Fallback if the move wasn't in the legal moves list (e.g., from book)
+                if (!fullMove) {
+                    const piece = board[bestMove.from[0]][bestMove.from[1]];
+                    fullMove = { ...bestMove, piece }; // Add the piece to the move object
+                }
+
+                animateMove(fullMove, () => {
+                    if (gameState.gameMode === 'ava') {
+                        startAIMove(); // Continue AI vs AI loop
+                    }
+                });
+            } else {
+                updateGameStatus(); // Engine found no moves, game is over
+            }
+            break;
+            
+        // --- Analysis Messages ---
+        case 'analysis_result':
+            handleAnalysisResult(e.data);
+            break;
+            
+        case 'analysis_error':
+            alert(e.data.message);
+            break;
+    }
+};
 
 
 	
