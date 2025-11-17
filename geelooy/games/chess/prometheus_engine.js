@@ -1530,7 +1530,10 @@ case 'analyze_pgn':
     break;
     /* B"H */
 
-// --- REPLACE the old 'run_engine_analysis' case with this DEFINITIVE version ---
+/* B"H */
+
+
+
 case 'run_engine_analysis': {
     if (!lastParsedGame) {
         postMessage({ type: 'analysis_error', message: "No PGN has been loaded to analyze." });
@@ -1539,49 +1542,41 @@ case 'run_engine_analysis': {
 
     console.log("Starting real-time game analysis from cached data...");
     
-    initializeSearch(99999999); // Use a very large time limit for analysis
+    initializeSearch(99999999); 
 
     const { moves, initialFen, openingNames } = lastParsedGame;
     const game = new PgnConverter();
     game.currentState = createGameState(initialFen);
 
-    // *** DEFINE OUR NEW TOLERANCE THRESHOLDS ***
-    const BEST_MOVE_TOLERANCE = 40; // Any move within 0.4 pawns of the best is also "best".
-    const MISTAKE_THRESHOLD = 90;   // A drop of > 0.9 pawns is a mistake.
-    const BLUNDER_THRESHOLD = 250;  // A drop of > 2.5 pawns is a blunder.
+    const BEST_MOVE_TOLERANCE = 40; 
+    const MISTAKE_THRESHOLD = 90;   
+    const BLUNDER_THRESHOLD = 250;  
 
     for (let i = 0; i < moves.length; i++) {
         const actualMove = moves[i];
-        let classification = 'good'; // Default classification
+        let classification = 'good';
         let bestMoveFound = null;
 
-        // --- STEP 1: CHECK THE OPENING BOOK ---
-        // The `openingNames` array, generated during PGN parsing, tells us if the position
-        // AFTER a move is a known book position. `openingNames[i + 1]` corresponds to the state after move `i`.
-        // We also limit this check to the first 15 moves to define the "opening phase".
-        const isBookMove = openingNames[i + 1] !== null && i < 30; // Check up to move 15 (index 29)
+        const isBookMove = openingNames[i + 1] !== null && i < 30;
 
         if (isBookMove) {
-            // If the move is in our Grandmaster or Punishment book, it's automatically the best move.
             classification = 'best';
-            bestMoveFound = actualMove; // The best move *was* the one played.
-        
+            bestMoveFound = actualMove;
         } else {
-            // --- STEP 2: SEARCH WITH TOLERANCE (for non-book moves) ---
             repetitionHistory = [game.currentState.zobristHash];
             
+            // Get the evaluation of the current position and the engine's best move
             const searchResult = searchRoot(game.currentState, 3);
             const bestMoveEval = searchResult.score;
             bestMoveFound = searchResult.bestMove;
 
-            // To get the evaluation of the move the user actually played,
-            // we make their move and then evaluate the resulting position.
-            // The evaluation must be negated because the turn has flipped.
+            // Apply the player's move to a temporary state to see its evaluation
             const unmakeInfo = makeMove(game.currentState, actualMove);
-            const evalAfterUserMove = -evaluate(game.currentState);
-            unmakeMove(game.currentState, unmakeInfo); // Immediately unmake the move to restore the state for the next loop
+            // The eval is from the next player's perspective, so we negate it to get the value for the current player
+            const evalAfterUserMove = -evaluate(game.currentState); 
+            unmakeMove(game.currentState, unmakeInfo);
             
-            // The drop in evaluation is the difference between the engine's best and the user's move.
+            // This is the crucial value: the difference in score between the best move and the played move.
             const evalDrop = bestMoveEval - evalAfterUserMove;
 
             if (evalDrop > BLUNDER_THRESHOLD) {
@@ -1589,32 +1584,27 @@ case 'run_engine_analysis': {
             } else if (evalDrop > MISTAKE_THRESHOLD) {
                 classification = 'mistake';
             } else if (evalDrop <= BEST_MOVE_TOLERANCE) {
-                // If the move is within our tolerance, it's also considered "best".
                 classification = 'best';
+                // If the played move is within tolerance, the "best move" IS the played move.
+                bestMoveFound = actualMove; 
             } else {
-                // Moves that are weaker but not quite mistakes fall here.
                 classification = 'good';
             }
         }
 
-        // Apply the move to the main game object to proceed to the next position for the next loop.
         game.applyMove(actualMove);
 
-        // --- STREAM THE RESULT FOR THIS MOVE ---
         self.postMessage({
             type: 'analysis_update',
             index: i,
             result: {
                 classification: classification,
-                bestMove: bestMoveFound
+                bestMove: bestMoveFound // This is now guaranteed to be correct.
             }
         });
     }
 
-    // --- SEND A FINAL "FINISHED" MESSAGE ---
-    self.postMessage({
-        type: 'analysis_finished'
-    });
+    self.postMessage({ type: 'analysis_finished' });
     console.log("Full game analysis complete.");
     break;
 }

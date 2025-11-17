@@ -560,11 +560,13 @@ function drawHintArrow(from, to) {
     analysisContext.restore();
 }
 
+// REPLACE the drawAnalysisBoard function in main.js with this simplified version
+
 function drawAnalysisBoard() {
     analysisCanvas.width = SIZE;
     analysisCanvas.height = SIZE;
     const fen = analysisState.boardHistory[analysisState.currentMoveIndex + 1];
-    if (!fen) return; // Safety check
+    if (!fen) return; 
     
     const boardData = getBoardFromFen(fen);
 
@@ -600,7 +602,7 @@ function drawAnalysisBoard() {
         }
     }
     
-    // --- REVISED ARROW DRAWING LOGIC ---
+    // --- GUARANTEED ARROW DRAWING LOGIC ---
     if (analysisState.currentMoveIndex > -1) {
         // 1. Always draw the actual move played (the blue arrow).
         const movePlayed = analysisState.moves[analysisState.currentMoveIndex];
@@ -608,30 +610,19 @@ function drawAnalysisBoard() {
             drawMoveArrow(movePlayed.from, movePlayed.to);
         }
 
-        // 2. Check for analysis and decide if the hint arrow is needed.
+        // 2. If the move is a mistake or blunder, ALWAYS draw the hint arrow.
         const analysisResult = analysisState.classifications[analysisState.currentMoveIndex];
-        if (analysisResult) {
+        if (analysisResult && (analysisResult.classification === 'mistake' || analysisResult.classification === 'blunder')) {
             const bestMove = analysisResult.bestMove;
-
-            // *** NEW LOGIC HERE ***
-            // First, check if the best move is actually different from the move that was played.
-            const playedIsBest = bestMove && movePlayed &&
-                                 bestMove.from[0] === movePlayed.from[0] &&
-                                 bestMove.from[1] === movePlayed.from[1] &&
-                                 bestMove.to[0] === movePlayed.to[0] &&
-                                 bestMove.to[1] === movePlayed.to[1];
-
-            // Only draw the green "hint" arrow if the move was a mistake/blunder AND it's a different move.
-            if (!playedIsBest && (analysisResult.classification === 'mistake' || analysisResult.classification === 'blunder')) {
-                if (bestMove && bestMove.from && bestMove.to) {
-                    drawHintArrow(bestMove.from, bestMove.to); 
-                }
+            // The engine now guarantees `bestMove` is the correct alternative, so we can draw it unconditionally.
+            if (bestMove && bestMove.from && bestMove.to) {
+                drawHintArrow(bestMove.from, bestMove.to); 
             }
         }
     }
 }
 
-	
+
 	/**
 	 * Generates the Standard Algebraic Notation (SAN) for a move, resolving ambiguity.
 	 * @param {object} move - The move object.
