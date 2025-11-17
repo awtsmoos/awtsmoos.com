@@ -955,15 +955,45 @@ document.addEventListener('DOMContentLoaded', () => {
 	    displayAnalysisPosition(-1); // Display the starting position
 	}
 	
+	/* B"H */
+
 	function displayAnalysisPosition(index) {
-	    if (index < -1 || index >= analysisState.moves.length) return;
+	    // Boundary check to prevent errors
+	    if (index < -1 || index >= analysisState.moves.length) {
+	        return;
+	    }
 	    
 	    analysisState.currentMoveIndex = index;
-	    drawAnalysisBoard();
+	    drawAnalysisBoard(); // Redraw the board and move arrow
 	
-	    // Update opening name display
-	    openingNameDisplay.textContent = analysisState.openingNames[index + 1] || '';
+	    // ---  LOGIC FOR DYNAMIC HEADER ---
+	    // 1. Get the opening name that the worker identified for this position.
+	    const bookName = analysisState.openingNames[index + 1];
 	
+	    // 2. If we have a specific opening name from the book, display it.
+	    if (bookName && bookName !== "Starting Position") {
+	        openingNameDisplay.textContent = bookName;
+	    } else {
+	        // 3. If we are "out of book," determine the game phase.
+	        const currentFen = analysisState.boardHistory[index + 1];
+	        if (currentFen) {
+	            const board = getBoardFromFen(currentFen);
+	            const phase = getGamePhase(board);
+	
+	            // 4. Display "Middlegame" or "Endgame" based on the phase.
+	            // (You can adjust the 0.25 threshold to your preference)
+	            if (phase > 0.25) {
+	                openingNameDisplay.textContent = "Middlegame";
+	            } else {
+	                openingNameDisplay.textContent = "Endgame";
+	            }
+	        } else {
+	            // Fallback for the very first position
+	            openingNameDisplay.textContent = "Starting Position";
+	        }
+	    }
+	    //
+	    // Update the highlighting in the move list (this part remains the same)
 	    document.querySelectorAll('.move-text-item').forEach(item => {
 	        item.classList.remove('current-move');
 	        if (parseInt(item.dataset.moveIndex) === index) {
@@ -1094,6 +1124,58 @@ document.addEventListener('DOMContentLoaded', () => {
 		
 		scrollMsg()
 	}
+	
+	/* B"H */
+
+	// --- Game Phase Calculation Helpers ---
+	
+	/**
+	 * A simple helper to parse just the board array from a FEN string.
+	 * @param {string} fen - The FEN string for the position.
+	 * @returns {string[][]} A 2D array representing the board.
+	 */
+	function getBoardFromFen(fen) {
+	    const board = [];
+	    const boardPart = fen.split(' ')[0];
+	    const rows = boardPart.split('/');
+	    for (const row of rows) {
+	        const newRow = [];
+	        for (const char of row) {
+	            if (isNaN(parseInt(char))) {
+	                newRow.push(char);
+	            } else {
+	                for (let i = 0; i < parseInt(char); i++) {
+	                    newRow.push('');
+	                }
+	            }
+	        }
+	        board.push(newRow);
+	    }
+	    return board;
+	}
+	
+	/**
+	 * Calculates the game phase based on the pieces on the board.
+	 * Returns a value from 1.0 (full opening) to 0.0 (late endgame).
+	 * @param {string[][]} board - The 2D board array.
+	 * @returns {number} The game phase value.
+	 */
+	function getGamePhase(board) {
+	    const MAX_PHASE = 24; // Standard total phase value
+	    let currentPhase = 0;
+	    const phaseValues = { n: 1, b: 1, r: 2, q: 4 }; // Value of pieces for phase calculation
+	    for (let r = 0; r < 8; r++) {
+	        for (let c = 0; c < 8; c++) {
+	            const p = board[r][c];
+	            if (p && phaseValues[p.toLowerCase()]) {
+	                currentPhase += phaseValues[p.toLowerCase()];
+	            }
+	        }
+	    }
+	    // Normalize the phase to a value between 0 and 1
+	    return Math.min(currentPhase, MAX_PHASE) / MAX_PHASE;
+	}
+	
 
 	// --- Event Listeners ---
 	canvas.addEventListener('mouseup', handleCanvasEvent);
