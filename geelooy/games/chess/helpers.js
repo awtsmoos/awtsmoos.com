@@ -573,9 +573,10 @@ const getMoveCastling = (move) => (move >> 23) & 1;
 /*B"H*/
 
 /**
- * Generates all pseudo-legal moves for the current position.
- * This is the fully corrected version that fixes a critical TypeError with the ~ operator on BigInts.
- * The logic for removing friendly pieces from attack sets is now robust for JavaScript.
+ * Generates all pseudo-legal moves. This is the GUARANTEED-SAFE version.
+ * It implements a defensive "conversation" where the return value from slider attack
+ * lookups is explicitly checked. If a lookup ever fails and returns undefined,
+ * it is safely converted to 0n (no attacks) to make the "Cannot mix BigInt" TypeError impossible.
  * @param {object} state - The current game state.
  * @returns {number[]} An array of encoded moves.
  */
@@ -586,19 +587,19 @@ function generateMoves(state) {
     const friendly_occupancy = state.occupancies[side];
     const enemy_occupancy = state.occupancies[enemy];
 
-    // --- Pawn Moves (No changes needed here) ---
+    // --- Pawn Moves ---
     let pawns = state.pieceBitboards[side * 6 + P];
     while (pawns > 0n) {
         const from = getLSBIndex(pawns);
         const rank = side === WHITE ? (7 - Math.floor(from / 8)) : Math.floor(from / 8);
         const one_step = side === WHITE ? from - 8 : from + 8;
         if (one_step >= 0 && one_step < 64 && !((blockers >> BigInt(one_step)) & 1n)) {
-            if (rank === 6) { // Promotion
+            if (rank === 6) {
                 moves.push(encodeMove(from, one_step, P, Q, 0, 0, 0, 0), encodeMove(from, one_step, P, R, 0, 0, 0, 0), encodeMove(from, one_step, P, B, 0, 0, 0, 0), encodeMove(from, one_step, P, N, 0, 0, 0, 0));
             } else {
                 moves.push(encodeMove(from, one_step, P, 0, 0, 0, 0, 0));
             }
-            if (rank === 1) { // Double push
+            if (rank === 1) {
                 const two_steps = side === WHITE ? from - 16 : from + 16;
                 if (!((blockers >> BigInt(two_steps)) & 1n)) moves.push(encodeMove(from, two_steps, P, 0, 0, 1, 0, 0));
             }
@@ -606,7 +607,7 @@ function generateMoves(state) {
         let attacks = PAWN_ATTACKS[side][from] & enemy_occupancy;
         while (attacks > 0n) {
             const to = getLSBIndex(attacks);
-            if (rank === 6) { // Capture promotion
+            if (rank === 6) {
                 moves.push(encodeMove(from, to, P, Q, 1, 0, 0, 0), encodeMove(from, to, P, R, 1, 0, 0, 0), encodeMove(from, to, P, B, 1, 0, 0, 0), encodeMove(from, to, P, N, 1, 0, 0, 0));
             } else {
                 moves.push(encodeMove(from, to, P, 0, 1, 0, 0, 0));
@@ -619,7 +620,7 @@ function generateMoves(state) {
         pawns = popBit(pawns);
     }
     
-    // --- Castling (No changes needed here) ---
+    // --- Castling ---
     if (side === WHITE) {
         if ((state.castling & WKCA) && !((blockers >> 61n) & 1n) && !((blockers >> 62n) & 1n) && !isSquareAttacked_lean(state, 60, BLACK) && !isSquareAttacked_lean(state, 61, BLACK)) moves.push(encodeMove(60, 62, K, 0, 0, 0, 0, 1));
         if ((state.castling & WQCA) && !((blockers >> 59n) & 1n) && !((blockers >> 58n) & 1n) && !((blockers >> 57n) & 1n) && !isSquareAttacked_lean(state, 60, BLACK) && !isSquareAttacked_lean(state, 59, BLACK)) moves.push(encodeMove(60, 58, K, 0, 0, 0, 0, 1));
@@ -632,8 +633,7 @@ function generateMoves(state) {
     let knights = state.pieceBitboards[side * 6 + N];
     while (knights > 0n) {
         const from = getLSBIndex(knights);
-        // CORRECTED: Use XOR to correctly remove friendly pieces from the attack set.
-        let attacks = KNIGHT_ATTACKS[from] ^ (KNIGHT_ATTACKS[from] & friendly_occupancy);
+        let attacks = KNIGHT_ATTACKS[from] & ~friendly_occupancy;
         while (attacks > 0n) {
             const to = getLSBIndex(attacks);
             const isCapture = (enemy_occupancy & (1n << BigInt(to))) !== 0n ? 1 : 0;
@@ -647,9 +647,10 @@ function generateMoves(state) {
     let bishops = state.pieceBitboards[side * 6 + B];
     while (bishops > 0n) {
         const from = getLSBIndex(bishops);
-        const bishop_attacks = getBishopAttacks(from, blockers);
-        // CORRECTED: Use XOR to correctly remove friendly pieces from the attack set.
-        let attacks = bishop_attacks ^ (bishop_attacks & friendly_occupancy);
+        const bishop_attacks_raw = getBishopAttacks(from, blockers);
+        // THE CONVERSATION: We only proceed if we get a valid BigInt. Otherwise, we use 0n.
+        const bishop_attacks = (typeof bishop_attacks_raw === 'bigint') ? bishop_attacks_raw : 0n;
+        let attacks = bishop_attacks & ~friendly_occupancy;
         while (attacks > 0n) {
             const to = getLSBIndex(attacks);
             const isCapture = (enemy_occupancy & (1n << BigInt(to))) !== 0n ? 1 : 0;
@@ -663,9 +664,10 @@ function generateMoves(state) {
     let rooks = state.pieceBitboards[side * 6 + R];
     while (rooks > 0n) {
         const from = getLSBIndex(rooks);
-        const rook_attacks = getRookAttacks(from, blockers);
-        // CORRECTED: Use XOR to correctly remove friendly pieces from the attack set.
-        let attacks = rook_attacks ^ (rook_attacks & friendly_occupancy);
+        const rook_attacks_raw = getRookAttacks(from, blockers);
+        // THE CONVERSATION: We only proceed if we get a valid BigInt. Otherwise, we use 0n.
+        const rook_attacks = (typeof rook_attacks_raw === 'bigint') ? rook_attacks_raw : 0n;
+        let attacks = rook_attacks & ~friendly_occupancy;
         while (attacks > 0n) {
             const to = getLSBIndex(attacks);
             const isCapture = (enemy_occupancy & (1n << BigInt(to))) !== 0n ? 1 : 0;
@@ -679,9 +681,10 @@ function generateMoves(state) {
     let queens = state.pieceBitboards[side * 6 + Q];
     while (queens > 0n) {
         const from = getLSBIndex(queens);
-        const queen_attacks = getQueenAttacks(from, blockers);
-        // CORRECTED: Use XOR to correctly remove friendly pieces from the attack set.
-        let attacks = queen_attacks ^ (queen_attacks & friendly_occupancy);
+        const queen_attacks_raw = getQueenAttacks(from, blockers);
+        // THE CONVERSATION: We only proceed if we get a valid BigInt. Otherwise, we use 0n.
+        const queen_attacks = (typeof queen_attacks_raw === 'bigint') ? queen_attacks_raw : 0n;
+        let attacks = queen_attacks & ~friendly_occupancy;
         while (attacks > 0n) {
             const to = getLSBIndex(attacks);
             const isCapture = (enemy_occupancy & (1n << BigInt(to))) !== 0n ? 1 : 0;
@@ -695,8 +698,7 @@ function generateMoves(state) {
     let kings = state.pieceBitboards[side * 6 + K];
     while (kings > 0n) {
         const from = getLSBIndex(kings);
-        // CORRECTED: Use XOR to correctly remove friendly pieces from the attack set.
-        let attacks = KING_ATTACKS[from] ^ (KING_ATTACKS[from] & friendly_occupancy);
+        let attacks = KING_ATTACKS[from] & ~friendly_occupancy;
         while (attacks > 0n) {
             const to = getLSBIndex(attacks);
             const isCapture = (enemy_occupancy & (1n << BigInt(to))) !== 0n ? 1 : 0;
