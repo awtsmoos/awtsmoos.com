@@ -353,29 +353,42 @@ function evaluateStrategicBonuses(state, color, pieceLists, friendlyPawnFiles, e
     for (const count of pawnFileCounts.values()) { if (count > 1) score.subtract(new TaperedScore(20 * (count - 1), 30 * (count - 1))); }
     return score;
 }
+
+
+
+
 function evaluateThreats(state, color, pieceLists) {
     const penalty = new TaperedScore();
-    const ourChars = (color === WHITE) ? "PNBRQK" : "pnbrqk";
-    const enemyChars = (color === WHITE) ? "pnbrqk" : "PNBRQK";
+    // 'color' is the side being evaluated (the potential victim).
+    // We need to check for attacks by the 'enemyColor'.
+    const ourColor = color; 
     const enemyColor = color ^ 1;
 
-    for (const ourChar of ourChars) {
-        const ourValue = pieceValues[ourChar.toLowerCase()].mg;
-        if (ourChar.toLowerCase() === 'k') continue; // Don't evaluate threats to the king this way
+    const ourChars = (ourColor === WHITE) ? "PNBRQK" : "pnbrqk";
+    const enemyChars = (enemyColor === WHITE) ? "PNBRQK" : "pnbrqk";
 
-        for (const enemyChar of enemyChars) {
-            const enemyValue = pieceValues[enemyChar.toLowerCase()].mg;
+    // Loop through all of the enemy's pieces (the attackers)
+    for (const enemyChar of enemyChars) {
+        if (enemyChar.toLowerCase() === 'k') continue; // King attacks are handled by king safety
+        const enemyValue = pieceValues[enemyChar.toLowerCase()].mg;
+        const enemyPieceType = pieceMap.indexOf(enemyChar) % 6;
+
+        // Loop through all of our pieces (the potential victims)
+        for (const ourChar of ourChars) {
+            if (ourChar.toLowerCase() === 'k') continue;
+            const ourValue = pieceValues[ourChar.toLowerCase()].mg;
+
+            // Only consider attacks where the attacker is worth less than the victim
             if (enemyValue >= ourValue) continue;
 
-            const enemyPieceType = pieceMap.indexOf(enemyChar) % 6;
-
-            for (const ourSq of pieceLists[ourChar]) {
-                for (const enemySq of pieceLists[enemyChar]) {
-                    // Corrected function call with the right parameters
+            // Now check if any of the enemy pieces attack any of our pieces
+            for (const enemySq of pieceLists[enemyChar]) {
+                for (const ourSq of pieceLists[ourChar]) {
                     if (isSquareAttackedByPiece(state, ourSq, enemySq, enemyPieceType, enemyColor)) {
-                        const potentialLoss = ourValue - enemyValue;
-                        penalty.mg += potentialLoss * 0.9;
-                        penalty.eg += potentialLoss * 0.9;
+                        // A less valuable enemy piece is attacking our more valuable piece.
+                        const potentialLoss = (ourValue - enemyValue) * 0.5; // Apply a fractional penalty
+                        penalty.mg += potentialLoss;
+                        penalty.eg += potentialLoss;
                     }
                 }
             }
@@ -416,103 +429,241 @@ function evaluateKingSafety(state, kingPos, attackerColor, pieceLists) {
 //            BITBOARD SEARCH, QUIESCENCE & MOVE ORDERING (v3.0 - FINAL)
 // ====================================================================================
 
-function orderMoves(moves, state) {
+
+function orderMoves(moves, state, ply) {
     const moveScores = [];
+    const hashMove = transpositionTable.get(state.zobristHash.toString())?.move;
+
     for(const move of moves) {
         let score = 0;
-        if (getMoveCapture(move)) {
+
+        // 1. Highest priority: PV/Hash move from Transposition Table
+        if (move === hashMove) {
+            score = 2000000;
+        }
+        // 2. Captures, scored by MVV-LVA (Most Valuable Victim - Least Valuable Aggressor)
+        else if (getMoveCapture(move)) {
             const attackerType = getMovePiece(move);
-            const victimChar = state.board[getMoveTo(move)];
+            const victimChar = state.board[getMoveTo(move)]; // Victim is what's on the 'to' square
             if(victimChar) {
                  const victimType = pieceMap.indexOf(victimChar) % 6;
+                 // Prioritize captures of more valuable pieces by less valuable pieces
                  score = (pieceValues[pieceMap[victimType].toLowerCase()].mg * 10) - pieceValues[pieceMap[attackerType].toLowerCase()].mg;
             }
-            score += 1000000;
+            score += 1000000; // All captures are better than quiet moves
         }
-        if (getMovePromoted(move)) { score += 900000; }
+        // 3. Killer Moves (quiet moves that caused cutoffs)
+        else {
+            if (killerMoves[ply][0] === move) {
+                score = 900000;
+            } else if (killerMoves[ply][1] === move) {
+                score = 850000;
+            }
+            // 4. History Heuristic (quiet moves that have been good elsewhere)
+            else {
+                score = historyTable[getMovePiece(move) + (state.turn * 6)][getMoveTo(move)];
+            }
+        }
+        
+        // Promotions get a huge bonus
+        if (getMovePromoted(move)) {
+             score += pieceValues['q'].mg * 100;
+        }
+
         moveScores.push({ move, score });
     }
+    // Sort moves from highest score to lowest
     return moveScores.sort((a,b) => b.score - a.score).map(ms => ms.move);
 }
 
 function quiesce(state, alpha, beta) {
-    if ((nodeCount & 2047) === 0 && performance.now() - searchStartTime > timeLimit) { stopSearch = true; }
-    if (stopSearch) return 0;
     nodeCount++;
+    if ((nodeCount & 2047) === 0 && performance.now() - searchStartTime > timeLimit) {
+        stopSearch = true;
+    }
+    if (stopSearch) return 0;
+
     const stand_pat = evaluate(state);
     if (stand_pat >= beta) return beta;
     if (alpha < stand_pat) alpha = stand_pat;
+
     const moves = generateMoves(state);
-    const orderedMoves = orderMoves(moves, state);
+    const orderedMoves = orderMoves(moves, state, 0); // Ply 0 for quiescence moves
+
     for (const move of orderedMoves) {
-        if (!getMoveCapture(move)) continue;
-        makeMove(state, move);
+        // --- Quiescence search now considers all captures and promotions ---
+        if (!getMoveCapture(move) && !getMovePromoted(move)) continue;
+
+        const unmakeInfo = makeMove(state, move);
+        
+        // Ensure the move is legal (doesn't leave king in check)
         const kingSq = getLSBIndex(state.pieceBitboards[(state.turn ^ 1) * 6 + K]);
-        if (isSquareAttacked(state, kingSq, state.turn)) { unmakeMove(state); continue; }
+        if (isSquareAttacked(state, kingSq, state.turn)) {
+            unmakeMove(state, unmakeInfo);
+            continue;
+        }
+
         const score = -quiesce(state, -beta, -alpha);
-        unmakeMove(state);
+        unmakeMove(state, unmakeInfo);
         if (stopSearch) return 0;
+
         if (score >= beta) return beta;
         if (score > alpha) alpha = score;
     }
     return alpha;
 }
 
+
 function search(state, depth, alpha, beta, ply) {
-    if (depth <= 0) return quiesce(state, alpha, beta);
-    if ((nodeCount & 2047) === 0 && performance.now() - searchStartTime > timeLimit) { stopSearch = true; }
-    if (stopSearch) return 0;
+    if (depth <= 0) {
+        return quiesce(state, alpha, beta);
+    }
+
     nodeCount++;
+    if ((nodeCount & 2047) === 0 && performance.now() - searchStartTime > timeLimit) {
+        stopSearch = true;
+    }
+    if (stopSearch) return 0;
+    
+    // Check for threefold repetition
+    if (ply > 0) {
+        let count = 0;
+        for (let i = moveStackPtr - 2; i >= 0; i -= 2) {
+            if (moveStack[i].zobristHash === state.zobristHash) {
+                count++;
+                if (count >= 1) return CONTEMPT_FACTOR; // Return a draw score
+            }
+        }
+    }
+
+    const ttEntry = transpositionTable.get(state.zobristHash.toString());
+    if (ttEntry && ttEntry.depth >= depth) {
+        if (ttEntry.flag === TT_EXACT) return ttEntry.score;
+        if (ttEntry.flag === TT_LOWERBOUND) alpha = Math.max(alpha, ttEntry.score);
+        else if (ttEntry.flag === TT_UPPERBOUND) beta = Math.min(beta, ttEntry.score);
+        if (alpha >= beta) return ttEntry.score;
+    }
+
+    let bestScore = -Infinity;
+    let ttFlag = TT_UPPERBOUND;
+    
     const moves = generateMoves(state);
-    const orderedMoves = orderMoves(moves, state);
-    let legalMovesFound = 0, bestScore = -Infinity;
+    const orderedMoves = orderMoves(moves, state, ply);
+    let legalMovesFound = 0;
+    let bestMoveForNode = 0;
+
     for (const move of orderedMoves) {
-        makeMove(state, move);
+        const unmakeInfo = makeMove(state, move);
+        
         const kingSq = getLSBIndex(state.pieceBitboards[(state.turn ^ 1) * 6 + K]);
-        if (isSquareAttacked(state, kingSq, state.turn)) { unmakeMove(state); continue; }
+        if (isSquareAttacked(state, kingSq, state.turn)) {
+            unmakeMove(state, unmakeInfo);
+            continue;
+        }
         legalMovesFound++;
-        const score = -search(state, depth - 1, -beta, -alpha, ply + 1);
-        unmakeMove(state);
+
+        let score;
+        if (legalMovesFound === 1) {
+            // First move is a full search (Principal Variation Search)
+            score = -search(state, depth - 1, -beta, -alpha, ply + 1);
+        } else {
+            // Subsequent moves use a faster "zero window" search
+            score = -search(state, depth - 1, -alpha - 1, -alpha, ply + 1);
+            if (score > alpha && score < beta) {
+                // If it fails high, we must re-search with the full window
+                score = -search(state, depth - 1, -beta, -alpha, ply + 1);
+            }
+        }
+
+        unmakeMove(state, unmakeInfo);
         if (stopSearch) return 0;
-        if (score > bestScore) bestScore = score;
-        if (bestScore > alpha) alpha = bestScore;
-        if (alpha >= beta) return beta;
+
+        if (score > bestScore) {
+            bestScore = score;
+            bestMoveForNode = move;
+        }
+
+        if (bestScore > alpha) {
+            ttFlag = TT_EXACT;
+            alpha = bestScore;
+        }
+
+        if (alpha >= beta) {
+            if (!getMoveCapture(move)) { // Only non-captures are stored as killer moves
+                killerMoves[ply][1] = killerMoves[ply][0];
+                killerMoves[ply][0] = move;
+                historyTable[getMovePiece(move) + ((state.turn^1) * 6)][getMoveTo(move)] += depth * depth;
+            }
+            transpositionTable.set(state.zobristHash.toString(), { score: beta, depth: depth, flag: TT_LOWERBOUND, move: move });
+            return beta; // Beta cutoff
+        }
     }
+
     if (legalMovesFound === 0) {
-        const kingSq = getLSBIndex(state.pieceBitboards[state.turn * 6 + K]);
-        return isSquareAttacked(state, kingSq, state.turn ^ 1) ? -MATE_SCORE + ply : 0;
+        const kingInCheck = isSquareAttacked(state, getLSBIndex(state.pieceBitboards[state.turn * 6 + K]), state.turn ^ 1);
+        return kingInCheck ? -MATE_SCORE + ply : 0; // Checkmate or stalemate
     }
+
+    transpositionTable.set(state.zobristHash.toString(), { score: bestScore, depth: depth, flag: ttFlag, move: bestMoveForNode });
+
     return bestScore;
 }
 
+
 function searchRoot(initialState, maxDepth, maxTime) {
-    timeLimit = maxTime; searchStartTime = performance.now();
-    stopSearch = false; nodeCount = 0;
-    let bestMove = 0, bestScore = -Infinity;
+    initializeSearch(maxTime); // Replaces individual variable resets
+    
+    let bestMove = 0;
+    let bestScore = -Infinity;
+
     for (let currentDepth = 1; currentDepth <= maxDepth; currentDepth++) {
         const moves = generateMoves(initialState);
-        const orderedMoves = orderMoves(moves, initialState);
+        const orderedMoves = orderMoves(moves, initialState, 0); // Root is ply 0
+
         if(orderedMoves.length === 0) break;
-        let currentBestMoveForDepth = orderedMoves[0];
-        let alpha = -Infinity, beta = Infinity, legalMovesSearched = 0;
+
+        let alpha = -Infinity;
+        let beta = Infinity;
+        let legalMovesSearched = 0;
+        
         for (const move of orderedMoves) {
-            makeMove(initialState, move);
+            const unmakeInfo = makeMove(initialState, move);
             const kingSq = getLSBIndex(initialState.pieceBitboards[(initialState.turn ^ 1) * 6 + K]);
-            if (isSquareAttacked(initialState, kingSq, initialState.turn)) { unmakeMove(initialState); continue; }
+
+            if (isSquareAttacked(initialState, kingSq, initialState.turn)) {
+                unmakeMove(initialState, unmakeInfo);
+                continue;
+            }
             legalMovesSearched++;
+
             const score = -search(initialState, currentDepth - 1, -beta, -alpha, 1);
-            unmakeMove(initialState);
+            unmakeMove(initialState, unmakeInfo);
+
             if (stopSearch) break;
+
             if (score > bestScore) {
                 bestScore = score;
-                currentBestMoveForDepth = move;
-                if (score > alpha) alpha = score;
+                bestMove = move;
+                
+                // In PVS, alpha is updated inside the loop
+                if (score > alpha) {
+                    alpha = score;
+                }
             }
         }
-        if (stopSearch || legalMovesSearched === 0) break;
-        bestMove = currentBestMoveForDepth;
-        if (Math.abs(bestScore) > MATE_SCORE - 100) break;
+        
+        if (stopSearch || legalMovesSearched === 0) {
+            break;
+        }
+
+        // Check for mate
+        if (Math.abs(bestScore) > MATE_SCORE - MATE_IN_MAX_PLY) {
+            const mateIn = (MATE_SCORE - Math.abs(bestScore) + 1) / 2;
+            console.log(`Mate in ${mateIn} found at depth ${currentDepth}.`);
+            break; 
+        }
     }
+
     return { bestMove, score: bestScore };
 }
 
@@ -520,16 +671,6 @@ function searchRoot(initialState, maxDepth, maxTime) {
 
 
 
-
-// ADVANCED SEARCH WITH DYNAMIC CONTEMPT
-// ====================================================================================
-//                 FINAL, COMPLETE, AND OPTIMIZED SEARCH FUNCTION (Mk. VI)
-// ====================================================================================
-
-
-// ====================================================================================
-//                 PERFT - THE ULTIMATE MAKE/UNMAKE DEBUGGING TOOL
-// ====================================================================================
 let perftNodeCount = 0;
 
 function perft(state, depth) {

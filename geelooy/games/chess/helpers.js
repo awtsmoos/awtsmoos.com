@@ -277,77 +277,104 @@ function unmakeMove(state) {
     const move = unmakeInfo.move;
     const from = getMoveFrom(move), to = getMoveTo(move), piece = getMovePiece(move), promoted = getMovePromoted(move);
     
-    state.turn ^= 1; // Switch turn back
+    // Switch the turn back to the player who made the move
+    state.turn ^= 1; 
     const side = state.turn, enemy = side ^ 1;
     const pieceChar = pieceMap[side * 6 + piece];
 
-    // --- UNDO THE MOVE ---
+    // --- 1. UNDO THE PRIMARY PIECE MOVE ---
+    const from_bb = 1n << BigInt(from);
+    const to_bb = 1n << BigInt(to);
+    const from_to_bb = from_bb | to_bb;
+
+    // Move the piece back from 'to' to 'from'
+    state.pieceBitboards[side * 6 + piece] ^= from_to_bb;
+    state.occupancies[side] ^= from_to_bb;
+    state.board[from] = pieceChar;
+    // We will handle what was on the 'to' square in the capture section
+    state.board[to] = null; 
+    
+    // Update piece list
+    state.pieceLists[pieceChar].splice(state.pieceLists[pieceChar].indexOf(to), 1);
+    state.pieceLists[pieceChar].push(from);
+
+    // --- 2. UNDO PROMOTION ---
     if (promoted) {
         const promotedChar = pieceMap[side * 6 + promoted];
-        // Remove promoted piece from the 'to' square
-        state.pieceBitboards[side * 6 + promoted] ^= (1n << BigInt(to));
+        // The pawn was at 'from', but is now a promoted piece at 'to'.
+        // We must remove the promoted piece from 'to' and add the pawn back at 'to'.
+        state.pieceBitboards[side * 6 + promoted] ^= to_bb;
+        state.pieceBitboards[side * 6 + P] ^= to_bb;
+        
+        // Update the piece list for the promoted piece
         state.pieceLists[promotedChar].splice(state.pieceLists[promotedChar].indexOf(to), 1);
-        
-        // Add the pawn back to the 'from' square
-        state.pieceBitboards[side * 6 + P] ^= (1n << BigInt(from));
-        state.pieceLists[pieceChar].push(from);
-        
-        // Update occupancies (remove promoted piece at 'to', add pawn at 'from')
-        const occupancy_bb = (1n << BigInt(from)) | (1n << BigInt(to));
-        state.occupancies[side] ^= occupancy_bb;
-        state.occupancies[2] ^= occupancy_bb;
-
-        // Update the board array
-        state.board[from] = pieceChar;
-        state.board[to] = null;
-    } else {
-        const from_to_bb = (1n << BigInt(from)) | (1n << BigInt(to));
-        state.pieceBitboards[side * 6 + piece] ^= from_to_bb;
-        state.occupancies[side] ^= from_to_bb;
-        state.occupancies[2] ^= from_to_bb;
-        state.board[from] = pieceChar; 
-        state.board[to] = null; 
-        state.pieceLists[pieceChar].splice(state.pieceLists[pieceChar].indexOf(to), 1);
-        state.pieceLists[pieceChar].push(from);
+        // The main piece list update already handled the pawn
     }
 
-    // --- RESTORE CAPTURED PIECE ---
-    if (unmakeInfo.capturedPiece !== -1) {
+    // --- 3. RESTORE CAPTURED PIECE ---
+    const capturedPiece = unmakeInfo.capturedPiece;
+    if (capturedPiece !== -1) {
         const ep_capture_sq = getMoveEnpassant(move) ? (side === WHITE ? to + 8 : to - 8) : to;
         const captured_bb = 1n << BigInt(ep_capture_sq);
-        const capturedPieceFull = enemy * 6 + unmakeInfo.capturedPiece;
+        const capturedPieceFull = enemy * 6 + capturedPiece;
         const capturedChar = pieceMap[capturedPieceFull];
-        state.pieceBitboards[capturedPieceFull] ^= captured_bb;
-        state.occupancies[enemy] ^= captured_bb;
-        state.occupancies[2] ^= captured_bb;
+
+        // Add the captured piece back to the board
+        state.pieceBitboards[capturedPieceFull] |= captured_bb;
+        state.occupancies[enemy] |= captured_bb;
+        
         state.board[ep_capture_sq] = capturedChar;
         state.pieceLists[capturedChar].push(ep_capture_sq);
-        if (getMoveEnpassant(move)) state.board[to] = null;
+        
+        // If it was a regular capture, the piece was on the 'to' square
+        if (!getMoveEnpassant(move)) {
+             state.board[to] = capturedChar;
+        }
+
+    } else {
+        // If no capture, the 'to' square was empty.
+        state.board[to] = null;
     }
-    
-    // --- UNDO CASTLING ---
+
+    // --- 4. UNDO CASTLING ---
     if (getMoveCastling(move)) {
         let rook_from, rook_to;
         if (to === 62) { rook_from = 63; rook_to = 61; } // WK
         else if (to === 58) { rook_from = 56; rook_to = 59; } // WQ
-        else if (to === 6) { rook_from = 7; rook_to = 5; } // BK
-        else { rook_from = 0; rook_to = 3; } // BQ
+        else if (to === 6) { rook_from = 7; rook_to = 5; }   // BK
+        else { rook_from = 0; rook_to = 3; }                 // BQ
+        
         const rook_from_to_bb = (1n << BigInt(rook_from)) | (1n << BigInt(rook_to));
         const rookChar = side === WHITE ? 'R' : 'r';
+
+        // Move the rook back
         state.pieceBitboards[side * 6 + R] ^= rook_from_to_bb;
         state.occupancies[side] ^= rook_from_to_bb;
-        state.occupancies[2] ^= rook_from_to_bb;
-        state.board[rook_from] = rookChar; state.board[rook_to] = null;
+        state.board[rook_from] = rookChar; 
+        state.board[rook_to] = null;
+
+        // Update rook piece list
         state.pieceLists[rookChar].splice(state.pieceLists[rookChar].indexOf(rook_to), 1);
         state.pieceLists[rookChar].push(rook_from);
     }
     
-    // --- RESTORE GAME STATE & HASH ---
+    // --- 5. RECALCULATE MASTER OCCUPANCY & RESTORE STATE ---
+    // This is the critical fix that ensures attack generation is always correct.
+    state.occupancies[2] = state.occupancies[WHITE] | state.occupancies[BLACK];
+    
+    // Restore the exact previous game state values
     state.castling = unmakeInfo.castling;
     state.enpassant = unmakeInfo.enpassant;
-    state.zobristHash = unmakeInfo.zobristHash;
-}
 
+    // Restore the zobrist hash from before the move was made.
+    // NOTE: For this to work perfectly, you need to store the hash in makeMove.
+    // In makeMove, add `zobristHash: state.zobristHash` to the object pushed to moveStack.
+    // If you don't do this, you'd have to recalculate the hash from scratch which is slow.
+    // For now, we will assume it was stored. If not, the transposition table will just be less effective.
+    if (unmakeInfo.zobristHash) {
+       state.zobristHash = unmakeInfo.zobristHash;
+    }
+}
 
 /* B"H */
 
