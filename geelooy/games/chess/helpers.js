@@ -409,6 +409,12 @@ function isSquareAttacked_lean(state, sq, attackerColor) {
 
 
 
+/**
+ * Generates tactical moves (captures and promotions) for quiescence search.
+ * This version includes the corrected pawn rank calculation.
+ * @param {object} state - The current game state.
+ * @returns {number[]} An array of encoded tactical moves.
+ */
 function generateTacticalMoves(state) {
     const moves = [];
     const side = state.turn;
@@ -417,39 +423,40 @@ function generateTacticalMoves(state) {
 
     // --- Pawn Captures & Promotions ---
     let pawns = state.pieceBitboards[side * 6 + P];
-    while(pawns > 0n) {
+    while (pawns > 0n) {
         const from = getLSBIndex(pawns);
-        const rank = Math.floor(from / 8);
+        // THE CRITICAL FIX: Correctly calculate rank from the current player's perspective.
+        const rank = side === WHITE ? (7 - Math.floor(from / 8)) : Math.floor(from / 8);
 
-        // Check for promotions (which are always tactical)
-        const to_push = side === WHITE ? from - 8 : from + 8;
-        if (to_push >= 0 && to_push < 64 && !((blockers >> BigInt(to_push)) & 1n)) {
-            if ((side === WHITE && rank === 1) || (side === BLACK && rank === 6)) {
-                moves.push(encodeMove(from, to_push, P, Q, 0,0,0,0)); 
-                moves.push(encodeMove(from, to_push, P, R, 0,0,0,0));
-                moves.push(encodeMove(from, to_push, P, B, 0,0,0,0));
-                moves.push(encodeMove(from, to_push, P, N, 0,0,0,0));
+        // Check for promotion pushes (always tactical)
+        if (rank === 6) {
+            const to_push = side === WHITE ? from - 8 : from + 8;
+            if (to_push >= 0 && to_push < 64 && !((blockers >> BigInt(to_push)) & 1n)) {
+                moves.push(encodeMove(from, to_push, P, Q, 0, 0, 0, 0));
+                moves.push(encodeMove(from, to_push, P, R, 0, 0, 0, 0));
+                moves.push(encodeMove(from, to_push, P, B, 0, 0, 0, 0));
+                moves.push(encodeMove(from, to_push, P, N, 0, 0, 0, 0));
             }
         }
         
-        // Check for captures
+        // Check for all captures (including promotion captures)
         let attacks = PAWN_ATTACKS[side][from] & state.occupancies[enemy];
-        while(attacks > 0n) {
+        while (attacks > 0n) {
             const to_cap = getLSBIndex(attacks);
-            if ((side === WHITE && rank === 1) || (side === BLACK && rank === 6)) {
-                 moves.push(encodeMove(from, to_cap, P, Q, 1,0,0,0)); moves.push(encodeMove(from, to_cap, P, R, 1,0,0,0));
-                 moves.push(encodeMove(from, to_cap, P, B, 1,0,0,0)); moves.push(encodeMove(from, to_cap, P, N, 1,0,0,0));
+            if (rank === 6) {
+                 moves.push(encodeMove(from, to_cap, P, Q, 1, 0, 0, 0));
+                 moves.push(encodeMove(from, to_cap, P, R, 1, 0, 0, 0));
+                 moves.push(encodeMove(from, to_cap, P, B, 1, 0, 0, 0));
+                 moves.push(encodeMove(from, to_cap, P, N, 1, 0, 0, 0));
             } else {
-                moves.push(encodeMove(from, to_cap, P, 0, 1,0,0,0));
+                moves.push(encodeMove(from, to_cap, P, 0, 1, 0, 0, 0));
             }
             attacks = popBit(attacks);
         }
 
         // Check for en passant
-        if (state.enpassant !== -1) {
-            if ((PAWN_ATTACKS[side][from] & (1n << BigInt(state.enpassant))) !== 0n) {
-                moves.push(encodeMove(from, state.enpassant, P, 0, 1,0,1,0));
-            }
+        if (state.enpassant !== -1 && (PAWN_ATTACKS[side][from] & (1n << BigInt(state.enpassant))) !== 0n) {
+            moves.push(encodeMove(from, state.enpassant, P, 0, 1, 0, 1, 0));
         }
         pawns = popBit(pawns);
     }
@@ -468,11 +475,10 @@ function generateTacticalMoves(state) {
                 case Q: attacks = getQueenAttacks(from, blockers); break;
                 case K: attacks = KING_ATTACKS[from]; break;
             }
-            // Intersect with enemy pieces to find captures ONLY
-            attacks &= state.occupancies[enemy];
+            attacks &= state.occupancies[enemy]; // Intersect with enemy pieces only
             while (attacks > 0n) {
                 const to = getLSBIndex(attacks);
-                moves.push(encodeMove(from, to, piece, 0, 1, 0,0,0));
+                moves.push(encodeMove(from, to, piece, 0, 1, 0, 0, 0));
                 attacks = popBit(attacks);
             }
             bitboard = popBit(bitboard);
@@ -519,8 +525,8 @@ const getMoveCastling = (move) => (move >> 23) & 1;
 
 /**
  * Generates all pseudo-legal moves for the current position.
- * Pseudo-legal moves follow piece movement rules but may leave the king in check.
- * This version is HIGHLY optimized by removing all internal legality checks.
+ * This corrected version fixes the pawn rank calculation, which was the
+ * source of the PGN parsing errors.
  * @param {object} state - The current game state.
  * @returns {number[]} An array of encoded moves.
  */
@@ -534,7 +540,8 @@ function generateMoves(state) {
     let pawns = state.pieceBitboards[side * 6 + P];
     while (pawns > 0n) {
         const from = getLSBIndex(pawns);
-        const rank = side === WHITE ? Math.floor(from / 8) : 7 - Math.floor(from / 8);
+        // THE CRITICAL FIX: Correctly calculate rank from the current player's perspective.
+        const rank = side === WHITE ? (7 - Math.floor(from / 8)) : Math.floor(from / 8);
 
         // Single and Double Pushes
         const one_step = side === WHITE ? from - 8 : from + 8;
