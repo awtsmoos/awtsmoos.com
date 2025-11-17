@@ -352,6 +352,52 @@ function unmakeMove(state) {
 
 /* B"H */
 
+/**
+ * Generates bitboard maps of all attacked squares for both players.
+ * @param {object} state - The current game state.
+ * @returns {object} An object { white: BigInt, black: BigInt, white_pawns: BigInt, black_pawns: BigInt }
+ */
+function generateAttackMaps(state) {
+    const maps = { white: 0n, black: 0n, white_pawns: 0n, black_pawns: 0n };
+    const blockers = state.occupancies[2];
+
+    for (let piece = P; piece <= K; piece++) {
+        // White pieces
+        let bb = state.pieceBitboards[piece];
+        while (bb > 0n) {
+            const sq = getLSBIndex(bb);
+            switch (piece) {
+                case P: maps.white_pawns |= PAWN_ATTACKS[WHITE][sq]; break;
+                case N: maps.white |= KNIGHT_ATTACKS[sq]; break;
+                case B: maps.white |= getBishopAttacks(sq, blockers); break;
+                case R: maps.white |= getRookAttacks(sq, blockers); break;
+                case Q: maps.white |= getQueenAttacks(sq, blockers); break;
+                case K: maps.white |= KING_ATTACKS[sq]; break;
+            }
+            bb = popBit(bb);
+        }
+
+        // Black pieces
+        bb = state.pieceBitboards[piece + 6];
+        while (bb > 0n) {
+            const sq = getLSBIndex(bb);
+            switch (piece) {
+                case P: maps.black_pawns |= PAWN_ATTACKS[BLACK][sq]; break;
+                case N: maps.black |= KNIGHT_ATTACKS[sq]; break;
+                case B: maps.black |= getBishopAttacks(sq, blockers); break;
+                case R: maps.black |= getRookAttacks(sq, blockers); break;
+                case Q: maps.black |= getQueenAttacks(sq, blockers); break;
+                case K: maps.black |= KING_ATTACKS[sq]; break;
+            }
+            bb = popBit(bb);
+        }
+    }
+    // Combine pawn and piece attacks for the final map
+    maps.white |= maps.white_pawns;
+    maps.black |= maps.black_pawns;
+    
+    return maps;
+}
 
 /**
  * Checks if a specific square is attacked by a piece of a given color, using bitboards.
@@ -361,27 +407,19 @@ function unmakeMove(state) {
  * @param {number} attackerColor - The color of the attacker (WHITE or BLACK).
  * @returns {boolean} - True if the square is attacked, false otherwise.
  */
+
 function isSquareAttacked(state, sq, attackerColor) {
-    // --- FIX: Add a guard clause to prevent checking invalid squares ---
     if (sq < 0 || sq > 63) return false;
 
-    const enemyColor = attackerColor === WHITE ? BLACK : WHITE;
-    const blockers = state.occupancies[WHITE] | state.occupancies[BLACK];
+    // This is now the single point of attack generation.
+    const attackMaps = generateAttackMaps(state);
+    const targetBit = 1n << BigInt(sq);
 
-    // Check for attacks by pawns, knights, and king of the attackerColor
-    if ((PAWN_ATTACKS[enemyColor][sq] & state.pieceBitboards[attackerColor * 6 + P]) !== 0n) return true;
-    if ((KNIGHT_ATTACKS[sq] & state.pieceBitboards[attackerColor * 6 + N]) !== 0n) return true;
-    if ((KING_ATTACKS[sq] & state.pieceBitboards[attackerColor * 6 + K]) !== 0n) return true;
-
-    // Check for attacks by sliding pieces (bishops, rooks, queens)
-    const bishopsQueens = state.pieceBitboards[attackerColor * 6 + B] | state.pieceBitboards[attackerColor * 6 + Q];
-    if ((getBishopAttacks(sq, blockers) & bishopsQueens) !== 0n) return true;
-
-    const rooksQueens = state.pieceBitboards[attackerColor * 6 + R] | state.pieceBitboards[attackerColor * 6 + Q];
-    if ((getRookAttacks(sq, blockers) & rooksQueens) !== 0n) return true;
-
-    // If no attacks are found
-    return false;
+    if (attackerColor === WHITE) {
+        return (attackMaps.white & targetBit) !== 0n;
+    } else {
+        return (attackMaps.black & targetBit) !== 0n;
+    }
 }
 
 

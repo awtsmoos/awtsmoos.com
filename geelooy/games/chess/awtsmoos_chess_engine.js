@@ -357,45 +357,43 @@ function evaluateStrategicBonuses(state, color, pieceLists, friendlyPawnFiles, e
 
 
 
+
 function evaluateThreats(state, color, pieceLists) {
     const penalty = new TaperedScore();
-    // 'color' is the side being evaluated (the potential victim).
-    // We need to check for attacks by the 'enemyColor'.
-    const ourColor = color; 
-    const enemyColor = color ^ 1;
+    const attackMaps = generateAttackMaps(state);
 
-    const ourChars = (ourColor === WHITE) ? "PNBRQK" : "pnbrqk";
-    const enemyChars = (enemyColor === WHITE) ? "PNBRQK" : "pnbrqk";
+    const [ourColor, enemyColor] = (color === WHITE) ? [WHITE, BLACK] : [BLACK, WHITE];
+    const enemyAttackMap = (enemyColor === WHITE) ? attackMaps.white : attackMaps.black;
 
-    // Loop through all of the enemy's pieces (the attackers)
-    for (const enemyChar of enemyChars) {
-        if (enemyChar.toLowerCase() === 'k') continue; // King attacks are handled by king safety
-        const enemyValue = pieceValues[enemyChar.toLowerCase()].mg;
-        const enemyPieceType = pieceMap.indexOf(enemyChar) % 6;
+    // Check for attacks on our valuable pieces by their pawns
+    const enemyPawnAttacks = (enemyColor === WHITE) ? attackMaps.white_pawns : attackMaps.black_pawns;
+    const ourKnights = state.pieceBitboards[ourColor * 6 + N];
+    const ourBishops = state.pieceBitboards[ourColor * 6 + B];
+    const ourRooks = state.pieceBitboards[ourColor * 6 + R];
+    const ourQueens = state.pieceBitboards[ourColor * 6 + Q];
 
-        // Loop through all of our pieces (the potential victims)
-        for (const ourChar of ourChars) {
-            if (ourChar.toLowerCase() === 'k') continue;
-            const ourValue = pieceValues[ourChar.toLowerCase()].mg;
+    penalty.mg += popcount(ourKnights & enemyPawnAttacks) * 150; // Pawn attacking a knight is very bad
+    penalty.mg += popcount(ourBishops & enemyPawnAttacks) * 150; // Pawn attacking a bishop
+    penalty.mg += popcount(ourRooks & enemyPawnAttacks) * 250;   // Pawn attacking a rook
+    penalty.mg += popcount(ourQueens & enemyPawnAttacks) * 400;  // Pawn attacking a queen
 
-            // Only consider attacks where the attacker is worth less than the victim
-            if (enemyValue >= ourValue) continue;
+    // Check for hanging pieces (attacked by a lesser piece)
+    // Example: A knight attacking a rook
+    const enemyKnightAttacks = attackMaps[(enemyColor === WHITE) ? 'white' : 'black'] & ~enemyPawnAttacks; // Approximate non-pawn attacks
+    
+    // This is a simplified but fast heuristic for general threats.
+    // We penalize any piece that is on a square controlled by the enemy.
+    const minorPenalty = 20;
+    penalty.mg += popcount(ourKnights & enemyAttackMap) * minorPenalty;
+    penalty.mg += popcount(ourBishops & enemyAttackMap) * minorPenalty;
+    penalty.mg += popcount(ourRooks & enemyAttackMap) * 40; // Rooks are more valuable targets
+    penalty.mg += popcount(ourQueens & enemyAttackMap) * 50; // Queens are most valuable
 
-            // Now check if any of the enemy pieces attack any of our pieces
-            for (const enemySq of pieceLists[enemyChar]) {
-                for (const ourSq of pieceLists[ourChar]) {
-                    if (isSquareAttackedByPiece(state, ourSq, enemySq, enemyPieceType, enemyColor)) {
-                        // A less valuable enemy piece is attacking our more valuable piece.
-                        const potentialLoss = (ourValue - enemyValue) * 0.5; // Apply a fractional penalty
-                        penalty.mg += potentialLoss;
-                        penalty.eg += potentialLoss;
-                    }
-                }
-            }
-        }
-    }
     return penalty;
 }
+
+
+
 function evaluateKingSafety(state, kingPos, attackerColor, pieceLists) {
     const danger = new TaperedScore();
     const kingRank = kingPos.r, kingFile = kingPos.c;
@@ -424,6 +422,12 @@ function evaluateKingSafety(state, kingPos, attackerColor, pieceLists) {
     danger.mg += Math.pow(attackWeight, 1.5); danger.eg += attackWeight * 2;
     return danger;
 }
+
+
+// ADD this new function anywhere in helpers.js
+
+
+
 
 // ====================================================================================
 //            BITBOARD SEARCH, QUIESCENCE & MOVE ORDERING (v3.0 - FINAL)
