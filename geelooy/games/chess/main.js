@@ -1152,6 +1152,8 @@ function drawAnalysisBoard() {
 
 	
 	function displayAnalysisPosition(index) {
+	console
+	.log("analysis", index, analysisState)
 	    // Boundary check
 	    if (index < -1 || index >= analysisState.moves.length) {
 	        return;
