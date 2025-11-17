@@ -420,7 +420,7 @@ const punishmentBookSource = [
 { name: "Beginner Blunder: Blocking in Bishops", pgn: "1. d4 d5 2. e3 Bf5 3. c4" },
 // WHY: When Black plays ...Bf5 before ...e6, White must know to challenge the bishop and the center immediately with c4. The PGN shows the correct idea.
 
-{ name:t: "Beginner Blunder: Copycat Moves", pgn: "1. e4 e5 2. Nf3 Nf6 3. Nxe5 Nxe4 4. Qe2" },
+{ name: "Beginner Blunder: Copycat Moves", pgn: "1. e4 e5 2. Nf3 Nf6 3. Nxe5 Nxe4 4. Qe2" },
 // WHY: A very common beginner trap. If Black mindlessly copies with 3...Nxe4?, White wins material with 4.Qe2. This is the punishment.
 
 
