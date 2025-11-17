@@ -11,6 +11,26 @@
 importScripts('helpers.js');
 importScripts('grandmaster_library.js');
 importScripts('punishment_library.js');
+/* B"H */
+
+// ---  Helper function for PGN Analysis ---
+function parsePgnForAnalysis(pgnText) {
+    const fenMatch = pgnText.match(/\[FEN\s+"(.*?)"\]/);
+    const initialFen = fenMatch ? fenMatch[1] : "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+
+    let moveText = pgnText
+        .replace(/\[.*?\]\s*/g, '')
+        .replace(/\{.*?\}/g, '')
+        .replace(/\d+\.\s*/g, '')
+        .replace(/\$\d+/g, '')
+        .replace(/\s+/g, ' ')
+        .trim();
+    
+    const moves = moveText.split(' ').filter(m => m && !['1-0', '0-1', '1/2-1/2', '*'].includes(m));
+
+    return { initialFen, movesSAN: moves };
+}
+
 
 // =================================================================
 //                 OPENING BOOK PROCESSING LOGIC
@@ -1450,5 +1470,54 @@ self.onmessage = function(e) {
                 nodesSearched: nodeCount
             });
             break;
+            
+            
+            /* B"H */
+
+// --- Add this new case to your `switch (command)` statement ---
+case 'analyze_pgn':
+    const { pgnText } = e.data;
+    const { initialFen, movesSAN } = parsePgnForAnalysis(pgnText);
+
+    const validator = new PgnConverter();
+    validator.currentState = createGameState(initialFen);
+
+    const validatedMoves = [];
+    const boardHistory = [initialFen];
+    const openingNames = ["Starting Position"]; // The name for the initial position
+
+    let lastKnownOpening = "Starting Position";
+
+    for (const san of movesSAN) {
+        const move = validator.parseSan(san);
+        if (!move) {
+            postMessage({ type: 'analysis_error', message: `Invalid PGN: Could not parse move "${san}"` });
+            return; // Stop processing
+        }
+        
+        validator.applyMove(move);
+        validatedMoves.push(move); // Store the full move object
+        
+        const newFen = validator.toFen();
+        boardHistory.push(newFen);
+
+        // Check the opening book for the new position
+        const currentHash = calculateZobristHash(validator.currentState).toString();
+        if (openingBook.has(currentHash)) {
+            const bookEntry = openingBook.get(currentHash);
+            lastKnownOpening = bookEntry.name;
+        }
+        openingNames.push(lastKnownOpening);
+    }
+
+    // Send all the processed data back to the main thread in one package
+    postMessage({
+        type: 'analysis_result',
+        initialFen: initialFen,
+        moves: validatedMoves,
+        boardHistory: boardHistory,
+        openingNames: openingNames
+    });
+    break;
     }
 };

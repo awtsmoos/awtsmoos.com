@@ -35,10 +35,29 @@ document.addEventListener('DOMContentLoaded', () => {
 	const playAsWhiteButton = document.getElementById('playAsWhiteButton');
 	const playAsBlackButton = document.getElementById('playAsBlackButton');
 	
+	
+	/* B"H */
+	// --- Add these with your other DOM element references ---
+	const analysisButton = document.getElementById('analysisButton');
+	const analysisScreen = document.getElementById('analysisScreen');
+	const analysisCanvas = document.getElementById('analysisCanvas');
+	const analysisContext = analysisCanvas.getContext('2d');
+	const loadPgnButton = document.getElementById('loadPgnButton');
+	const pgnFileInput = document.getElementById('pgnFileInput');
+	const analysisBackToMenuButton = document.getElementById('analysisBackToMenuButton');
+	const prevMoveButton = document.getElementById('prevMoveButton');
+	const nextMoveButton = document.getElementById('nextMoveButton');
+	const moveListContainer = document.getElementById('moveListContainer');
+	const openingNameDisplay = document.getElementById('openingNameDisplay'); // New
+	
+	
 	const teachingsButton = document.getElementById('teachingsButton');
 	const teachingsScreen = document.getElementById('teachingsScreen');
 	const backToMenuButton = document.getElementById('backToMenuButton');
 	const teachingsText = document.getElementById('teachingsText');
+	
+	
+	
 
 	// --- Constants and State ---
 	const SIZE = Math.min(window.innerWidth - 20, window.innerHeight - 350, 500);
@@ -174,11 +193,20 @@ document.addEventListener('DOMContentLoaded', () => {
                     updateGameStatus(); // No moves found, game is over.
                 }
                 break;
+                
+                
+                /* B"H */
+                case 'analysis_result':
+	            handleAnalysisResult(e.data);
+	            break;
+	            
+	        case 'analysis_error':
+	            alert(e.data.message); // Show the error from the worker
+	            break;
+// ...
         }
     };
 
-// REPLACE the final lines of main.js with this new block.
-// This will hide the main menu and send the 'initialize' command on startup.
 
 	
 	// --- Full Chess Rules Logic (for UI) ---
@@ -898,6 +926,126 @@ document.addEventListener('DOMContentLoaded', () => {
 		// 50 moves by each player is 100 half-moves.
 		return gameState.halfmoveClock >= 100;
 	}
+	
+	
+	
+	/* B"H */
+
+// --- 
+	let analysisState = {};
+	
+	function resetAnalysisState() {
+	    analysisState = {
+	        moves: [],
+	        boardHistory: [],
+	        openingNames: [],
+	        currentMoveIndex: -1
+	    };
+	    moveListContainer.innerHTML = '';
+	    openingNameDisplay.textContent = '';
+	}
+	
+	function handleAnalysisResult(data) {
+	    resetAnalysisState();
+	    analysisState.moves = data.moves;
+	    analysisState.boardHistory = data.boardHistory;
+	    analysisState.openingNames = data.openingNames;
+	    
+	    populateMoveList();
+	    displayAnalysisPosition(-1); // Display the starting position
+	}
+	
+	function displayAnalysisPosition(index) {
+	    if (index < -1 || index >= analysisState.moves.length) return;
+	    
+	    analysisState.currentMoveIndex = index;
+	    drawAnalysisBoard();
+	
+	    // Update opening name display
+	    openingNameDisplay.textContent = analysisState.openingNames[index + 1] || '';
+	
+	    document.querySelectorAll('.move-text-item').forEach(item => {
+	        item.classList.remove('current-move');
+	        if (parseInt(item.dataset.moveIndex) === index) {
+	            item.classList.add('current-move');
+	            item.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+	        }
+	    });
+	}
+	
+	// Add the drawAnalysisBoard(), drawMoveArrow(), and populateMoveList() functions from the previous response here.
+	// They do not need to be changed. Here they are for convenience:
+	
+	function drawAnalysisBoard() {
+	    analysisCanvas.width = SIZE;
+	    analysisCanvas.height = SIZE;
+	    const fen = analysisState.boardHistory[analysisState.currentMoveIndex + 1];
+	    const boardData = fen.split(' ')[0].split('/').map(r => {
+	        let newRow = [];
+	        for (const char of r) {
+	            if (isNaN(parseInt(char))) newRow.push(char);
+	            else for (let i = 0; i < parseInt(char); i++) newRow.push('');
+	        }
+	        return newRow;
+	    });
+	    for (let r = 0; r < 8; r++) {
+	        for (let c = 0; c < 8; c++) {
+	            analysisContext.fillStyle = (r + c) % 2 === 0 ? '#f0d9b5' : '#b58863';
+	            analysisContext.fillRect(c * SQUARE_SIZE, r * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE);
+	            const piece = boardData[r][c];
+	            if (piece) {
+	                renderPiece(analysisContext, piece, c * SQUARE_SIZE + SQUARE_SIZE / 2, r * SQUARE_SIZE + SQUARE_SIZE / 2, SQUARE_SIZE);
+	            }
+	        }
+	    }
+	    if (analysisState.currentMoveIndex > -1) {
+	        const move = analysisState.moves[analysisState.currentMoveIndex];
+	        drawMoveArrow(move.from, move.to);
+	    }
+	}
+	
+	function drawMoveArrow(from, to) {
+	    const fromX = from[1] * SQUARE_SIZE + SQUARE_SIZE / 2;
+	    const fromY = from[0] * SQUARE_SIZE + SQUARE_SIZE / 2;
+	    const toX = to[1] * SQUARE_SIZE + SQUARE_SIZE / 2;
+	    const toY = to[0] * SQUARE_SIZE + SQUARE_SIZE / 2;
+	    const headlen = 20;
+	    const angle = Math.atan2(toY - fromY, toX - fromX);
+	    analysisContext.save();
+	    analysisContext.strokeStyle = 'rgba(20, 150, 255, 0.7)';
+	    analysisContext.lineWidth = 12;
+	    analysisContext.lineCap = 'round';
+	    analysisContext.beginPath();
+	    analysisContext.moveTo(fromX, fromY);
+	    analysisContext.lineTo(toX, toY);
+	    analysisContext.stroke();
+	    analysisContext.beginPath();
+	    analysisContext.moveTo(toX, toY);
+	    analysisContext.lineTo(toX - headlen * Math.cos(angle - Math.PI / 7), toY - headlen * Math.sin(angle - Math.PI / 7));
+	    analysisContext.lineTo(toX - headlen * Math.cos(angle + Math.PI / 7), toY - headlen * Math.sin(angle + Math.PI / 7));
+	    analysisContext.closePath();
+	    analysisContext.fillStyle = 'rgba(20, 150, 255, 0.7)';
+	    analysisContext.fill();
+	    analysisContext.restore();
+	}
+	
+	function populateMoveList() {
+	    moveListContainer.innerHTML = '';
+	    analysisState.moves.forEach((move, index) => {
+	        const moveSpan = document.createElement('span');
+	        moveSpan.classList.add('move-text-item');
+	        if (index % 2 === 0) {
+	            moveSpan.textContent = `${Math.floor(index / 2) + 1}. ${move.san}`;
+	        } else {
+	            moveSpan.textContent = move.san;
+	        }
+	        moveSpan.dataset.moveIndex = index;
+	        moveSpan.addEventListener('click', () => {
+	            displayAnalysisPosition(index);
+	        });
+	        moveListContainer.appendChild(moveSpan);
+	    });
+	}
 
 
 	function startGame(mode, playerColor = 'w') {
@@ -983,6 +1131,51 @@ document.addEventListener('DOMContentLoaded', () => {
 	playAsBlackButton.onclick = () => startGame('pva', 'b');
 	playVsPlayerButton.onclick = () => startGame('pvp');
 	aiVsAiButton.onclick = () => startGame('ava');
+	
+	
+	/* B"H */
+
+// --- 
+	analysisButton.onclick = () => {
+	    mainMenu.style.display = 'none';
+	    analysisScreen.style.display = 'flex';
+	    resetAnalysisState();
+	    // Initialize with the starting position FEN
+	    analysisState.boardHistory.push("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+	    analysisState.openingNames.push("Starting Position");
+	    displayAnalysisPosition(-1); 
+	};
+	
+	analysisBackToMenuButton.onclick = () => {
+	    analysisScreen.style.display = 'none';
+	    mainMenu.style.display = 'flex';
+	};
+	
+	loadPgnButton.onclick = () => {
+	    pgnFileInput.click();
+	};
+	
+	pgnFileInput.onchange = (event) => {
+	    const file = event.target.files[0];
+	    if (!file) return;
+	
+	    const reader = new FileReader();
+	    reader.onload = (e) => {
+	        const pgnText = e.target.result;
+	        // Send the raw PGN text to the worker for processing
+	        aiWorker.postMessage({ command: 'analyze_pgn', pgnText: pgnText });
+	    };
+	    reader.readAsText(file);
+	    event.target.value = '';
+	};
+	
+	prevMoveButton.onclick = () => {
+	    displayAnalysisPosition(analysisState.currentMoveIndex - 1);
+	};
+	
+	nextMoveButton.onclick = () => {
+	    displayAnalysisPosition(analysisState.currentMoveIndex + 1);
+	};
 	
 	
 	teachingsButton.onclick = () => {
