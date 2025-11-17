@@ -184,46 +184,7 @@ function initializeSearch(maxTime) {
 // ====================================================================================
 // Now includes checks and direct attacks on valuable pieces to improve tactical vision.
 
-function generateTacticalMoves(state) {
-    const tacticalMoves = [];
-    const pseudoLegalMoves = generatePseudoLegalMoves(state); // Use the faster generator
-    const opponentColor = state.turn === 'w' ? 'b' : 'w';
-    const highValueVictims = ['q', 'r']; // We are interested in threats to queens and rooks
 
-    for (const move of pseudoLegalMoves) {
-        // --- High-Performance Pattern: Make, Check, Unmake ---
-        const unmakeInfo = makeMove(state, move);
-        
-        const ownKingPos = state.kingPos[opponentColor];
-        const isIllegal = ownKingPos && isSquareAttacked(state.board, ownKingPos.r, ownKingPos.c, state.turn);
-        
-        if (!isIllegal) {
-            // A move is tactical if it's a capture, a promotion, a check,
-            // or if it attacks an enemy queen or rook.
-            const enemyKingPos = state.kingPos[state.turn];
-            const isCheck = enemyKingPos && isSquareAttacked(state.board, enemyKingPos.r, enemyKingPos.c, opponentColor);
-            
-            let isHighValueThreat = false;
-            if (!move.capture) { // Only check for threats on non-capture moves
-                const victim = state.board[move.to[0]][move.to[1]];
-                if (victim && highValueVictims.includes(victim.toLowerCase())) {
-                     // Check if our moving piece is now attacking this high-value piece
-                     if(isSquareAttackedByPiece(state.board, move.to[0], move.to[1], move.to[0], move.to[1], opponentColor)) {
-                         isHighValueThreat = true;
-                     }
-                }
-            }
-
-            if (move.capture || move.promotion || isCheck || isHighValueThreat) {
-                tacticalMoves.push(move);
-            }
-        }
-        
-        unmakeMove(state, unmakeInfo);
-    }
-    
-    return tacticalMoves;
-}
 
 
 
@@ -289,70 +250,6 @@ function getGamePhase(board) {
 // These are the verified, high-performance helper functions required for the new
 // SEE-based move ordering. They are essential for the search to work correctly.
 
-function getAttackers(state, r, c, attackerColor) {
-    const attackers = [];
-    const board = state.board;
-
-    for (let pr = 0; pr < 8; pr++) {
-        for (let pc = 0; pc < 8; pc++) {
-            const piece = board[pr][pc];
-            if (piece && (piece.toUpperCase() === piece) === (attackerColor === 'w')) {
-                // Check if this specific piece attacks the target square
-                if (isSquareAttackedByPiece(board, r, c, pr, pc, attackerColor)) {
-                    attackers.push({ piece, r: pr, c: pc });
-                }
-            }
-        }
-    }
-    // Sort attackers by their value, least valuable first (Pawn, Knight, etc.)
-    attackers.sort((a, b) => pieceValues[a.piece.toLowerCase()].mg - pieceValues[b.piece.toLowerCase()].mg);
-    return attackers;
-}
-
-function see(state, fromR, fromC, toR, toC) {
-    const board = state.board;
-    const initialAttacker = board[fromR][fromC];
-    const initialVictim = board[toR][toC];
-    if (!initialAttacker || !initialVictim) return 0;
-
-    let gain = [pieceValues[initialVictim.toLowerCase()].mg];
-    let currentBoard = board.map(row => row.slice());
-    let currentAttacker = { piece: initialAttacker, r: fromR, c: fromC };
-    let turn = state.turn;
-
-    // Simulate the first capture
-    currentBoard[toR][toC] = currentAttacker.piece;
-    currentBoard[fromR][fromC] = null;
-
-    while (true) {
-        turn = (turn === 'w') ? 'b' : 'w'; // Switch sides for the recapture
-        let attackers = getAttackers({ board: currentBoard }, toR, toC, turn);
-        
-        // If the other side has no more attackers, the exchange is over.
-        if (attackers.length === 0) break;
-
-        // The next attacker is the least valuable one.
-        currentAttacker = attackers[0];
-        
-        // The value of the piece we are about to capture
-        const capturedValue = pieceValues[currentBoard[toR][toC].toLowerCase()].mg;
-        gain.push(capturedValue);
-
-        // Simulate the recapture
-        currentBoard[toR][toC] = currentAttacker.piece;
-        currentBoard[currentAttacker.r][currentAttacker.c] = null;
-    }
-
-    // Negamax the gain list to find the final score from the perspective of the initial attacker.
-    // A positive score means the exchange is favorable.
-    let score = 0;
-    for (let i = gain.length - 1; i > 0; i--) {
-        score = gain[i] - score;
-    }
-    score = gain[0] - score;
-    
-    return score;
-}
 
 
 
@@ -361,24 +258,7 @@ function see(state, fromR, fromC, toR, toC) {
 
 
 
-// ====================================================================================
-//                        NEW HELPER: KING SAFETY ZONE
-// ====================================================================================
-// This helper function gets the 9 squares in the king's immediate vicinity.
-function getKingZone(kingPos) {
-    if (!kingPos) return [];
-    const zone = [];
-    for (let dr = -1; dr <= 1; dr++) {
-        for (let dc = -1; dc <= 1; dc++) {
-            const r = kingPos.r + dr;
-            const c = kingPos.c + dc;
-            if (r >= 0 && r < 8 && c >= 0 && c < 8) {
-                zone.push({ r, c });
-            }
-        }
-    }
-    return zone;
-}
+
 
 
 // ====================================================================================
@@ -649,59 +529,6 @@ function searchRoot(initialState, maxDepth, maxTime) {
 
 
 
-function isStalemateBlunderOLD(state, currentEval) {
-    // --- Step 1: Fast Exit Checks ---
-    
-    // Check 1: Only worry about stalemate blunders if we are in a completely winning position.
-    const WINNING_THRESHOLD = 2000; // A rook advantage.
-    if (currentEval < WINNING_THRESHOLD) {
-        return false;
-    }
-
-    // Check 2 (THE CRITICAL PERFORMANCE FIX): Count the opponent's pieces. If they have more than
-    // a certain number of pieces (e.g., 3), it's highly unlikely to be a simple endgame
-    // where a stalemate is the primary risk. This prevents us from calling the slow
-    // generateLegalMoves function in the complex middlegame.
-    let opponentPieceCount = 0;
-    const opponentColor = state.turn; // After makeMove, the turn has flipped.
-    for (let r = 0; r < 8; r++) {
-        for (let c = 0; c < 8; c++) {
-            const piece = state.board[r][c];
-            if (piece) {
-                const isOpponentPiece = (piece.toUpperCase() === piece) === (opponentColor === 'w');
-                if (isOpponentPiece) {
-                    opponentPieceCount++;
-                }
-            }
-        }
-    }
-    
-    // If the opponent has more than 3 pieces (e.g., King + Rook + Pawn), this check is too expensive.
-    if (opponentPieceCount > 3) {
-        return false;
-    }
-
-    // --- Step 2: Slow, Full Legality Check (only for simple endgames) ---
-    // This code will now only run in rare, specific endgame scenarios.
-    const opponentHasMoves = generateLegalMoves(state).length > 0;
-    if (opponentHasMoves) {
-        return false;
-    }
-
-    const inCheck = state.kingPos[state.turn] && isSquareAttacked(state.board, state.kingPos[state.turn].r, state.kingPos[state.turn].c, state.turn === 'w' ? 'b' : 'w');
-    
-    // It's a stalemate blunder if the opponent has no moves AND is NOT in check.
-    return !inCheck;
-}
-
-
-
-
-function isStalemateBlunder(state, currentEval) { return false; }
-// You will need this NEW HELPER function for evaluateKingSafety to work.
-// It checks if a specific piece at (pr, pc) attacks a target square (tr, tc).
-// --- CRITICAL REWRITE FOR SPEED AND INTEGRITY ---
-// This function checks if a SPECIFIC piece at (pr, pc) attacks a TARGET square (tr, tc).
 
 
 

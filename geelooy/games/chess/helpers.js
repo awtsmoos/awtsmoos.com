@@ -248,24 +248,47 @@ if (promoted) {
     state.turn ^= 1;
 }
 
+/* B"H */
 function unmakeMove(state) {
     const unmakeInfo = moveStack[--moveStackPtr];
     const move = unmakeInfo.move;
     const from = getMoveFrom(move), to = getMoveTo(move), piece = getMovePiece(move), promoted = getMovePromoted(move);
-    state.turn ^= 1;
+    state.turn ^= 1; // Switch turn back
     const side = state.turn, enemy = side ^ 1;
-    const pieceChar = pieceMap[side*6 + piece];
+    const pieceChar = pieceMap[side * 6 + piece];
 
-    // Undo piece move
-    const from_to_bb = (1n << BigInt(from)) | (1n << BigInt(to));
-    state.pieceBitboards[side * 6 + piece] ^= from_to_bb;
-    state.occupancies[side] ^= from_to_bb;
-    state.occupancies[2] ^= from_to_bb;
-    state.board[from] = pieceChar; state.board[to] = null; // piece moved back
-    state.pieceLists[pieceChar].splice(state.pieceLists[pieceChar].indexOf(to), 1);
-    state.pieceLists[pieceChar].push(from);
+    // --- UNDO THE MOVE ---
+    if (promoted) {
+        const promotedChar = pieceMap[side * 6 + promoted];
+        // 1. Remove promoted piece from the 'to' square
+        state.pieceBitboards[side * 6 + promoted] ^= (1n << BigInt(to));
+        state.pieceLists[promotedChar].splice(state.pieceLists[promotedChar].indexOf(to), 1);
+        
+        // 2. Add the pawn back to the 'from' square
+        state.pieceBitboards[side * 6 + piece] ^= (1n << BigInt(from));
+        state.pieceLists[pieceChar].push(from);
+        
+        // 3. Update occupancies (remove promoted piece at 'to', add pawn at 'from')
+        const occupancy_bb = (1n << BigInt(from)) | (1n << BigInt(to));
+        state.occupancies[side] ^= occupancy_bb;
+        state.occupancies[2] ^= occupancy_bb;
 
-    // Restore captured piece
+        // 4. Update the board array
+        state.board[from] = pieceChar;
+        state.board[to] = null; // Will be filled by captured piece logic if needed
+    } else {
+        // --- Original logic for all non-promotion moves ---
+        const from_to_bb = (1n << BigInt(from)) | (1n << BigInt(to));
+        state.pieceBitboards[side * 6 + piece] ^= from_to_bb;
+        state.occupancies[side] ^= from_to_bb;
+        state.occupancies[2] ^= from_to_bb;
+        state.board[from] = pieceChar; 
+        state.board[to] = null; 
+        state.pieceLists[pieceChar].splice(state.pieceLists[pieceChar].indexOf(to), 1);
+        state.pieceLists[pieceChar].push(from);
+    }
+
+    // --- RESTORE CAPTURED PIECE (This logic is correct) ---
     if (unmakeInfo.capturedPiece !== -1) {
         const ep_capture_sq = getMoveEnpassant(move) ? (side === WHITE ? to + 8 : to - 8) : to;
         const captured_bb = 1n << BigInt(ep_capture_sq);
@@ -276,28 +299,10 @@ function unmakeMove(state) {
         state.occupancies[2] ^= captured_bb;
         state.board[ep_capture_sq] = capturedChar;
         state.pieceLists[capturedChar].push(ep_capture_sq);
-        if(getMoveEnpassant(move)) state.board[to] = null; // en passant square becomes empty
+        if (getMoveEnpassant(move)) state.board[to] = null;
     }
-
-    // Undo promotion
-if (promoted) {
-    const promotedChar = pieceMap[side*6 + promoted];
-    state.pieceBitboards[side * 6 + P] ^= (1n << BigInt(to)); // Add pawn back to bitboard
-    state.pieceBitboards[side * 6 + promoted] ^= (1n << BigInt(to)); // Remove promoted piece from bitboard
     
-    // The 'pieceChar' is already 'P' or 'p', so the board is correct from the "Undo piece move" step above.
-    // We only need to fix the pieceLists.
-    
-    // Remove the promoted piece from its list
-    const promotedIndex = state.pieceLists[promotedChar].indexOf(to);
-    if (promotedIndex > -1) {
-        state.pieceLists[promotedChar].splice(promotedIndex, 1);
-    }
-    // The pawn was already correctly added back to its list in the "Undo piece move" step.
-    // DO NOT add it again here.
-}
-    
-    // Undo castling
+    // --- UNDO CASTLING (This logic is correct) ---
     if (getMoveCastling(move)) {
         let rook_from, rook_to;
         if (to === 62) { rook_from = 63; rook_to = 61; }
@@ -314,6 +319,7 @@ if (promoted) {
         state.pieceLists[rookChar].push(rook_from);
     }
     
+    // --- RESTORE GAME STATE ---
     state.castling = unmakeInfo.castling;
     state.enpassant = unmakeInfo.enpassant;
 }
