@@ -31,6 +31,7 @@ function getClosestCachedState(startLine) {
 	return { state: _getInitialState(), line: -1 };
 }
 
+
 // --- Worker Message Handler ---
 self.onmessage = (e) => {
 	const { type, requestId } = e.data;
@@ -49,7 +50,7 @@ self.onmessage = (e) => {
 			}
 
 		/**
-		 * The primary highlighting request, now optimized to use the cache.
+		 * The primary highlighting request, now correctly using the cache.
 		 */
 		case 'highlight':
 			{
@@ -63,14 +64,15 @@ self.onmessage = (e) => {
 				if (lines.length === 0) return; // Nothing to highlight
 
 				// Find the closest known state before the rendering area.
+				// getClosestCachedState returns a deep copy, so we can mutate it freely.
 				const { state: currentState, line: startLine } = getClosestCachedState(firstLineToRender - 1);
 
-				// Process lines from the last cached point to the start of the render area, caching as we go.
+				// Process lines from the last cached point to the start of the render area,
+				// updating currentState after each line and caching the result.
 				for (let i = startLine + 1; i < firstLineToRender; i++) {
-					// We only need to process and cache. No need to check if it exists,
-                    // as getClosestCachedState ensures we start after a cached line.
 					const result = _getHighlightResult(lines[i] || '', currentState);
-					lineStatesCache[i] = JSON.parse(JSON.stringify(result.state)); // Deep copy state into cache
+					// The 'currentState' object has been mutated by the function. Now cache it.
+					lineStatesCache[i] = JSON.parse(JSON.stringify(currentState));
 				}
 
 				// Now, highlight only the visible lines for the response.
@@ -78,12 +80,13 @@ self.onmessage = (e) => {
 				for (let i = 0; i < numLinesToRender; i++) {
 					const lineIndex = firstLineToRender + i;
 					if (lineIndex < lines.length) {
+						// Process the line. This mutates currentState for the *next* iteration of this loop.
 						const result = _getHighlightResult(lines[lineIndex] || '', currentState);
 						highlightedLines.push(result.html);
 						
 						// Update cache for the lines we just rendered, if not already present.
 						if(!lineStatesCache[lineIndex]) {
-							lineStatesCache[lineIndex] = JSON.parse(JSON.stringify(result.state));
+							lineStatesCache[lineIndex] = JSON.parse(JSON.stringify(currentState));
 						}
 
 					} else {
@@ -122,29 +125,27 @@ function _getInitialState() {
 	};
 }
 
-function _getHighlightResult(line,
-	state) {
+function _getHighlightResult(line, state) {
 	if (!line) return {
 		html: '&nbsp;',
 		state
 	};
 	let html = '';
 	let i = 0;
-	// Create a deep copy of the state for this line's processing to avoid side-effects
-	let processingState = JSON.parse(JSON.stringify(state));
+	// The 'state' object is now correctly mutated by _getToken as it processes the line.
 	while (i < line.length) {
 		const i_before = i;
-		const res = _getToken(line, i,
-			processingState);
+		const res = _getToken(line, i, state);
 		html += res.html;
 		i = res.newIndex;
 		if (i === i_before) {
 			html += _escape(line[i++]);
 		}
 	}
+	// We return the same state object that was passed in, now holding the new state.
 	return {
 		html: html || '&nbsp;',
-		state: processingState
+		state: state
 	};
 }
 
