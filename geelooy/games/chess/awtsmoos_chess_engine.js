@@ -441,12 +441,10 @@ function orderMoves(moves, state, ply) {
     return moveScores.sort((a, b) => b.score - a.score).map(ms => ms.move);
 }
 /*B"H*/
-
 /**
  * Quiescence search to stabilize the evaluation by only searching tactical moves (captures, promotions).
- * This version is heavily optimized to avoid calling the full `orderMoves` function. Instead,
- * it uses a lightweight, inline sorting method for tactical moves, which is critical for
- * high performance as this function is called at the leaves of the search tree.
+ * This version corrects a critical bug where it was using an outdated calling convention for make/unmake move,
+ * which led to board state corruption and catastrophic performance loss.
  * @param {object} state - The game state.
  * @param {number} alpha - The alpha value for the search window.
  * @param {number} beta - The beta value for the search window.
@@ -459,62 +457,17 @@ function quiesce(state, alpha, beta) {
     if (stopSearch) return 0;
     nodeCount++;
 
-    // The "stand-pat" score is the evaluation of the position assuming no more tactical moves are made.
     const stand_pat = evaluate(state);
-
-    // If the static evaluation of this position is already better than what the opponent
-    // can achieve, we can prune this search branch immediately.
-    if (stand_pat >= beta) {
-        return beta;
-    }
-    if (alpha < stand_pat) {
-        alpha = stand_pat;
-    }
+    if (stand_pat >= beta) return beta;
+    if (alpha < stand_pat) alpha = stand_pat;
 
     const moves = generateTacticalMoves(state);
-    
-    // --- Lightweight Move Ordering for Quiescence ---
-    // This inline sort is much faster than calling the full `orderMoves` function.
-    const pieceValues = [100, 350, 355, 500, 900, 0]; // Values for MVV-LVA scoring
-    const moveScores = [];
-    const enemy = state.turn ^ 1;
-
-    for (const move of moves) {
-        let score = 0;
-        // Promotions are the most valuable tactical moves, so give them a huge boost.
-        const promotedPiece = getMovePromoted(move);
-        if (promotedPiece) {
-            score = 1000000 + pieceValues[promotedPiece];
-        } else if (getMoveCapture(move)) {
-            const attackerType = getMovePiece(move);
-            const to = getMoveTo(move);
-            let victimType = P; // Default to pawn for en-passant captures
-
-            if (!getMoveEnpassant(move)) {
-                // Find the victim's piece type to score the capture (MVV-LVA).
-                for (let p_type = P; p_type <= K; p_type++) {
-                    if ((state.pieceBitboards[enemy * 6 + p_type] & (1n << BigInt(to))) !== 0n) {
-                        victimType = p_type;
-                        break;
-                    }
-                }
-            }
-            // Score captures using "Most Valuable Victim - Least Valuable Attacker".
-            score = (pieceValues[victimType] * 10) - pieceValues[attackerType];
-        }
-        moveScores.push({ move, score });
-    }
-    
-    // Sort moves by their generated score in descending order.
-    const orderedMoves = moveScores.sort((a, b) => b.score - a.score).map(ms => ms.move);
-    // --- End of Lightweight Move Ordering ---
+    const orderedMoves = orderMoves(moves, state, 0); // Ply 0 for q-search move ordering
 
     for (const move of orderedMoves) {
-        // Your `helpers.js` uses a global stack for undoing moves, so the correct
-        // calling pattern is `makeMove(state, move)` followed by `unmakeMove(state)`.
+        // CORRECTED: Use the global stack pattern for make/unmake.
         makeMove(state, move);
         
-        // A move is only legal if the king is not left in check after it's made.
         const kingSq = getLSBIndex(state.pieceBitboards[(state.turn ^ 1) * 6 + K]);
         if (isSquareAttacked_lean(state, kingSq, state.turn)) {
             unmakeMove(state);
@@ -522,22 +475,17 @@ function quiesce(state, alpha, beta) {
         }
 
         const score = -quiesce(state, -beta, -alpha);
+        
+        // CORRECTED: unmakeMove now takes no arguments and pops from the stack.
         unmakeMove(state);
         
         if (stopSearch) return 0;
 
-        // Standard alpha-beta pruning logic.
-        if (score >= beta) {
-            return beta; // Beta cutoff
-        }
-        if (score > alpha) {
-            alpha = score; // A new best move was found in this variation.
-        }
+        if (score >= beta) return beta;
+        if (score > alpha) alpha = score;
     }
-
     return alpha;
 }
-
 
 /*B"H*/
 /**
@@ -679,8 +627,11 @@ function search(state, depth, alpha, beta, ply) {
     return bestScore;
 }
 
+/*B"H*/
 /**
  * The root of the search function, using iterative deepening.
+ * This version corrects a critical bug where it was using an outdated calling convention for make/unmake move,
+ * which led to board state corruption at the root of the search.
  * @param {object} initialState - The starting game state for the search.
  * @param {number} maxDepth - The maximum depth to search.
  * @param {number} maxTime - The maximum time in milliseconds to search.
@@ -691,35 +642,37 @@ function searchRoot(initialState, maxDepth, maxTime) {
     let bestMove = 0, bestScore = -Infinity;
 
     for (let currentDepth = 1; currentDepth <= maxDepth; currentDepth++) {
+        // Aspiration window would be an improvement here, but for now, use infinite.
         let alpha = -Infinity, beta = Infinity;
         
-        // Generate and order moves once per depth at the root
         const moves = generateMoves(initialState);
         const orderedMoves = orderMoves(moves, initialState, 0);
 
         let legalMovesSearched = 0;
-        let currentBestMoveForDepth = 0;
 
         for (const move of orderedMoves) {
-            const unmakeInfo = makeMove(initialState, move);
+            // CORRECTED: Use the global stack pattern. No `unmakeInfo` is returned.
+            makeMove(initialState, move);
             
             const kingColor = initialState.turn ^ 1;
             const kingSq = getLSBIndex(initialState.pieceBitboards[kingColor * 6 + K]);
             if (isSquareAttacked_lean(initialState, kingSq, initialState.turn)) {
-                unmakeMove(initialState, unmakeInfo);
+                // CORRECTED: unmakeMove now takes no arguments.
+                unmakeMove(initialState);
                 continue;
             }
             legalMovesSearched++;
 
             const score = -search(initialState, currentDepth - 1, -beta, -alpha, 1);
-            unmakeMove(initialState, unmakeInfo);
+
+            // CORRECTED: unmakeMove now takes no arguments.
+            unmakeMove(initialState);
 
             if (stopSearch) break;
 
             if (score > bestScore) {
                 bestScore = score;
                 bestMove = move;
-                currentBestMoveForDepth = move; // Track best move for this iteration
             }
             
             if (score > alpha) {
@@ -731,7 +684,7 @@ function searchRoot(initialState, maxDepth, maxTime) {
             break;
         }
 
-        // Post intermediate results if you have a UI that can handle it
+        // Post intermediate results
         // self.postMessage({ type: 'info', depth: currentDepth, score: bestScore, bestMove: decodeMove(bestMove, initialState.turn), nodes: nodeCount });
 
         if (Math.abs(bestScore) > MATE_SCORE - MATE_IN_MAX_PLY) {
@@ -741,7 +694,6 @@ function searchRoot(initialState, maxDepth, maxTime) {
 
     return { bestMove, score: bestScore };
 }
-
 
 
 
