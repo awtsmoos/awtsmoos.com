@@ -301,8 +301,6 @@ function createGameState(fen) {
 
 
 
-
-
 /* B"H */
 
 // =================================================================
@@ -311,85 +309,54 @@ function createGameState(fen) {
 // This file contains both the IMMUTABLE move function for tools
 // and the high-performance MUTABLE make/unmake pair for the engine.
 
-
 // =================================================================================
-//   VERSION 1: IMMUTABLE FUNCTION FOR TOOLS (LIKE PGN CONVERTER)
+//   VERSION 1: IMMUTABLE FUNCTION FOR TOOLS (LIKE PGN CONVERTER) - NOW FIXED
 // =================================================================================
-// This is your original function, renamed. It is safe and does not modify state.
-// It creates and returns a completely new state object.
+// This version is safe for tools. It creates and returns a completely new,
+// valid state object, including updated piece lists.
 
 function makeMoveImmutable(state, move) {
-    if (move.isNullMove) {
-        let newHash = state.zobristHash ^ zobristTurnKey;
-        if (state.enPassantTarget) newHash ^= zobristEnPassantKeys[state.enPassantTarget[1]];
-        return { newState: { ...state, turn: state.turn === 'w' ? 'b' : 'w', enPassantTarget: null, zobristHash: newHash, moveCount: state.moveCount + 1 } };
-    }
-    const { board, turn, castlingRights, enPassantTarget, zobristHash, kingPos } = state;
-    const newBoard = board.map(row => row.slice());
-    let newHash = zobristHash;
-    const [fromR, fromC] = move.from;
-    const [toR, toC] = move.to;
-    const piece = newBoard[fromR][fromC];
-    const finalPiece = move.promotion ? move.promotion : piece;
-    newBoard[fromR][fromC] = '';
-    newBoard[toR][toC] = finalPiece;
-    newHash ^= zobristKeys[pieceMap.indexOf(piece)][fromR * 8 + fromC];
-    newHash ^= zobristKeys[pieceMap.indexOf(finalPiece)][toR * 8 + toC];
-    newHash ^= zobristTurnKey;
-    if (enPassantTarget) newHash ^= zobristEnPassantKeys[enPassantTarget[1]];
-    if (move.isEnPassant) {
-        const capturedPawnPos = [turn === 'w' ? toR + 1 : toR - 1, toC];
-        const capturedPiece = newBoard[capturedPawnPos[0]][capturedPawnPos[1]];
-        newBoard[capturedPawnPos[0]][capturedPawnPos[1]] = '';
-        newHash ^= zobristKeys[pieceMap.indexOf(capturedPiece)][capturedPawnPos[0] * 8 + capturedPawnPos[1]];
-    }
-    let newEnPassantTarget = null;
-    if (move.isPawnDoubleMove) {
-        newEnPassantTarget = [turn === 'w' ? fromR - 1 : fromR + 1, fromC];
-        newHash ^= zobristEnPassantKeys[fromC];
-    }
-    let newCastlingRights = castlingRights;
-    if (newCastlingRights !== 0) {
-        newHash ^= zobristCastlingKeys[newCastlingRights];
-        newCastlingRights &= castlingUpdateMask[fromR * 8 + fromC];
-        newCastlingRights &= castlingUpdateMask[toR * 8 + toC];
-        newHash ^= zobristCastlingKeys[newCastlingRights];
-    }
-    if (move.isCastle) {
-        const rookFromC = toC === 6 ? 7 : 0;
-        const rookToC = toC === 6 ? 5 : 3;
-        const rook = newBoard[fromR][rookFromC];
-        newBoard[fromR][rookFromC] = '';
-        newBoard[fromR][rookToC] = rook;
-        newHash ^= zobristKeys[pieceMap.indexOf(rook)][fromR * 8 + rookFromC];
-        newHash ^= zobristKeys[pieceMap.indexOf(rook)][fromR * 8 + rookToC];
-    }
-    const newKingPos = { ...kingPos };
-    if (piece.toLowerCase() === 'k') newKingPos[turn] = { r: toR, c: toC };
-    return { newState: { board: newBoard, turn: turn === 'w' ? 'b' : 'w', castlingRights: newCastlingRights, enPassantTarget: newEnPassantTarget, kingPos: newKingPos, zobristHash: newHash, moveCount: state.moveCount + 1 } };
+    // --- Create deep copies to maintain immutability ---
+    const newState = {
+        ...state,
+        board: state.board.map(row => row.slice()),
+        pieceLists: JSON.parse(JSON.stringify(state.pieceLists)),
+        pieceMap: [...state.pieceMap],
+        kingPos: JSON.parse(JSON.stringify(state.kingPos))
+    };
+
+    // --- Perform the move on the NEW state object ---
+    // We can simply call the mutable makeMove on our new state copy,
+    // as it already contains all the correct logic.
+    makeMove(newState, move);
+
+    // The PGN converter doesn't need the unmake info, just the resulting state.
+    // We also rename it to avoid conflicts in the calling scope.
+    return { newState: newState };
 }
 
 
 // =================================================================================
-//   VERSION 2: HIGH-PERFORMANCE MUTABLE FUNCTIONS FOR THE SEARCH ENGINE
+//   VERSION 2: HIGH-PERFORMANCE MUTABLE FUNCTIONS FOR THE SEARCH ENGINE - NOW ROBUST
 // =================================================================================
-// This new pair of functions modifies the state directly and then reverts it.
+// This pair of functions modifies the state directly and then reverts it.
 // This is thousands of times faster and is essential for the search.
 
-// 
 function makeMove(state, move) {
-    // --- Helper function for updating piece lists ---
+    // --- Helper functions for updating piece lists ---
     const movePiece = (piece, from, to) => {
         state.pieceMap[from] = null;
         state.pieceMap[to] = piece;
         const list = state.pieceLists[piece];
-        list.splice(list.indexOf(from), 1);
+        const index = list.indexOf(from);
+        if (index > -1) list.splice(index, 1);
         list.push(to);
     };
     const removePiece = (piece, at) => {
         state.pieceMap[at] = null;
         const list = state.pieceLists[piece];
-        list.splice(list.indexOf(at), 1);
+        const index = list.indexOf(at);
+        if (index > -1) list.splice(index, 1);
     };
     const addPiece = (piece, at) => {
         state.pieceMap[at] = piece;
@@ -397,7 +364,15 @@ function makeMove(state, move) {
     };
 
     if (move.isNullMove) {
-        // ... (null move logic is unchanged)
+        const unmakeInfo = {
+            isNullMove: true, oldEnPassantTarget: state.enPassantTarget,
+            oldMoveCount: state.moveCount, zobristHash: state.zobristHash
+        };
+        state.turn = state.turn === 'w' ? 'b' : 'w';
+        state.enPassantTarget = null;
+        state.moveCount++;
+        state.zobristHash = calculateZobristHash(state);
+        return unmakeInfo;
     }
 
     const unmakeInfo = {
@@ -413,29 +388,25 @@ function makeMove(state, move) {
     const toIdx = toR * 8 + toC;
     const piece = state.board[fromR][fromC];
 
-    // --- Update Board and Piece Lists ---
+    state.board[fromR][fromC] = null;
     if (unmakeInfo.captured) {
         removePiece(unmakeInfo.captured, toIdx);
     }
-    state.board[fromR][fromC] = null;
     state.board[toR][toC] = piece;
     movePiece(piece, fromIdx, toIdx);
 
     if (move.isEnPassant) {
         const capturedPawnR = state.turn === 'w' ? toR + 1 : toR - 1;
-        const capturedPawnIdx = capturedPawnR * 8 + toC;
         unmakeInfo.captured = state.board[capturedPawnR][toC];
         state.board[capturedPawnR][toC] = null;
-        removePiece(unmakeInfo.captured, capturedPawnIdx);
+        removePiece(unmakeInfo.captured, capturedPawnR * 8 + toC);
     } else if (move.isCastle) {
         const rookFromC = toC === 6 ? 7 : 0;
         const rookToC = toC === 6 ? 5 : 3;
         const rook = state.board[fromR][rookFromC];
-        const rookFromIdx = fromR * 8 + rookFromC;
-        const rookToIdx = fromR * 8 + rookToC;
         state.board[fromR][rookFromC] = null;
         state.board[fromR][rookToC] = rook;
-        movePiece(rook, rookFromIdx, rookToIdx);
+        movePiece(rook, fromR * 8 + rookFromC, fromR * 8 + rookToC);
     } else if (move.promotion) {
         const promotedPiece = move.promotion;
         state.board[toR][toC] = promotedPiece;
@@ -450,31 +421,36 @@ function makeMove(state, move) {
     state.castlingRights &= castlingUpdateMask[toIdx];
     state.turn = state.turn === 'w' ? 'b' : 'w';
     state.moveCount++;
-    state.zobristHash = calculateZobristHash(state); // Zobrist hash calculation does not need to change
+    state.zobristHash = calculateZobristHash(state);
     return unmakeInfo;
 }
 
 function unmakeMove(state, unmakeInfo) {
-     // --- Helper function for updating piece lists ---
-    const movePiece = (piece, from, to) => {
-        state.pieceMap[from] = null;
-        state.pieceMap[to] = piece;
-        const list = state.pieceLists[piece];
-        list.splice(list.indexOf(from), 1);
-        list.push(to);
-    };
-    const removePiece = (piece, at) => {
-        state.pieceMap[at] = null;
-        const list = state.pieceLists[piece];
-        list.splice(list.indexOf(at), 1);
-    };
     const addPiece = (piece, at) => {
         state.pieceMap[at] = piece;
         state.pieceLists[piece].push(at);
     };
+    const movePiece = (piece, from, to) => {
+        state.pieceMap[from] = null;
+        state.pieceMap[to] = piece;
+        const list = state.pieceLists[piece];
+        const index = list.indexOf(from);
+        if (index > -1) list.splice(index, 1);
+        list.push(to);
+    };
+     const removePiece = (piece, at) => {
+        state.pieceMap[at] = null;
+        const list = state.pieceLists[piece];
+        const index = list.indexOf(at);
+        if (index > -1) list.splice(index, 1);
+    };
     
     if (unmakeInfo.isNullMove) {
-        // ... (null move logic is unchanged)
+        state.turn = state.turn === 'w' ? 'b' : 'w';
+        state.enPassantTarget = unmakeInfo.oldEnPassantTarget;
+        state.moveCount = unmakeInfo.oldMoveCount;
+        state.zobristHash = unmakeInfo.zobristHash;
+        return;
     }
 
     const originalTurn = state.turn === 'w' ? 'b' : 'w';
@@ -492,38 +468,34 @@ function unmakeMove(state, unmakeInfo) {
     if (unmakeInfo.promotion) {
         removePiece(piece, toIdx);
         piece = originalTurn === 'w' ? 'P' : 'p';
-        addPiece(piece, toIdx); // Add the pawn back
+        addPiece(piece, fromIdx);
     }
     
     state.board[fromR][fromC] = piece;
     state.board[toR][toC] = unmakeInfo.captured;
-    movePiece(piece, toIdx, fromIdx);
+    if(!unmakeInfo.promotion) movePiece(piece, toIdx, fromIdx);
     if (unmakeInfo.captured) {
         addPiece(unmakeInfo.captured, toIdx);
     }
 
     if (unmakeInfo.isEnPassant) {
         const capturedPawnR = originalTurn === 'w' ? toR + 1 : toR - 1;
-        const capturedPawnIdx = capturedPawnR * 8 + toC;
         state.board[capturedPawnR][toC] = unmakeInfo.captured;
-        state.board[toR][toC] = null;
-        addPiece(unmakeInfo.captured, capturedPawnIdx);
+        state.board[toR][toC] = null; // En passant square becomes empty
+        removePiece(unmakeInfo.captured, toIdx); // Remove from captured square's list
+        addPiece(unmakeInfo.captured, capturedPawnR * 8 + toC); // Add it back
     } else if (unmakeInfo.isCastle) {
         const rookFromC = toC === 6 ? 7 : 0;
         const rookToC = toC === 6 ? 5 : 3;
         const rook = state.board[fromR][rookToC];
-        const rookFromIdx = fromR * 8 + rookFromC;
-        const rookToIdx = fromR * 8 + rookToC;
         state.board[fromR][rookToC] = null;
         state.board[fromR][rookFromC] = rook;
-        movePiece(rook, rookToIdx, rookFromIdx);
+        movePiece(rook, fromR * 8 + rookToC, fromR * 8 + rookFromC);
     }
     
     if (piece.toLowerCase() === 'k') { state.kingPos[originalTurn] = { r: fromR, c: fromC }; }
     
     state.zobristHash = unmakeInfo.zobristHash;
 }
-
-
 
 
