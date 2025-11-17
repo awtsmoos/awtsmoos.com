@@ -972,7 +972,8 @@ function search(state, depth, alpha, beta, ply, previousMoveWasNull) {
 
 	// --- DYNAMIC CONTEMPT FACTOR (FIX FOR FORCED DRAWS) ---
 	// This logic prevents the engine from accepting a draw in a winning position.
-	const isRepetition = ply > 0 && repetitionHistory.includes(state.zobristHash);
+	
+	/*const isRepetition = ply > 0 && repetitionHistory.includes(state.zobristHash);
 	if (isRepetition) {
 	    // We've found a repetition. Is it a good or bad thing?
 	    // Get a quick evaluation of the current position to find out.
@@ -996,7 +997,7 @@ function search(state, depth, alpha, beta, ply, previousMoveWasNull) {
 	// This part handles the forced 3-fold repetition leading to an immediate draw claim.
 	if (repetitionHistory.filter(h => h === state.zobristHash).length >= 2) {
 	    return 0; // A forced draw is always 0.
-	}
+	}*/
 	    
     
     
