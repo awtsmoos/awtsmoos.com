@@ -28,6 +28,7 @@ importScripts('punishment_library.js');
 const openingBook = new Map();
 const punishmentBook = new Map();
 let lastParsedGame = null
+var evaluationTime = 0
 /**
  * This function takes a raw book array (generated from PGN) and processes it
  * into the final, hash-based Map that the engine uses.
@@ -170,6 +171,13 @@ function initializeSearch(maxTime) {
     killerMoves = Array(MATE_IN_MAX_PLY + 1).fill(null).map(() => [null, null]);
     historyTable = Array(12).fill(null).map(() => Array(64).fill(0));
     repetitionHistory = []; // Reset repetition history for the new search
+    
+    
+    /**
+     * @type {number}
+     * @description Add a new global variable to track time spent purely on evaluation.
+     */
+    evaluationTime = 0;
 }
 
 // =================================================================
@@ -289,6 +297,10 @@ function generateAttackMaps(state) {
 
 // --- THE PURE BITBOARD EVALUATION FUNCTION ---
 function evaluate(state) {
+/**
+     * @description Start a timer to measure the execution time of this function.
+     */
+    const evalStartTime = performance.now();
     const attackMaps = generateAttackMaps(state);
     const gamePhase = getGamePhase(state);
     let score = 0;
@@ -376,6 +388,12 @@ function evaluate(state) {
         const blackKingZone = KING_ATTACK_ZONE[BLACK][blackKingSq];
         score += popcount(blackKingZone & attackMaps.white) * 8; // Bonus for attacking near enemy king
     }
+    
+    /**
+     * @description At the end of the function, add the elapsed time to our global counter.
+     */
+    evaluationTime += performance.now() - evalStartTime;
+    
     
     // Final score adjustment based on whose turn it is
     return (state.turn === WHITE ? 1 : -1) * score;
@@ -795,11 +813,18 @@ self.onmessage = function(e) {
 
             const searchResult = searchRoot(state, 99, maxTime || 4200);
             
+            /**
+             * @description Add the new evaluationTime metric to the final result message.
+             */
+            const totalTime = (performance.now() - searchStartTime);
+            
             postMessage({
                 type: 'move_result',
                 bestMove: searchResult.bestMove ? decodeMove(searchResult.bestMove, state.turn) : null,
                 score: searchResult.score,
-                timeTaken: (performance.now() - searchStartTime).toFixed(2),
+                timeTaken: totalTime ,
+                evalPercent: ((evaluationTime / totalTime) * 100).toFixed(1), 
+                evaluationTime: evaluationTime.toFixed(2), 
                 nodesSearched: nodeCount
             });
             break;

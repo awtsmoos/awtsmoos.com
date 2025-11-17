@@ -140,8 +140,12 @@ document.addEventListener('DOMContentLoaded', () => {
     /* B"H */
 
 
-// This single function now handles ALL messages from the engine worker.
 
+
+/**
+ * Handles all messages from the engine worker, including game moves and analysis results.
+ * This version is updated to display the new performance diagnostics for evaluation time.
+ */
 aiWorker.onmessage = function(e) {
     const { type } = e.data;
 
@@ -167,36 +171,40 @@ aiWorker.onmessage = function(e) {
         // --- Game Play Messages ---
         case 'move_result':
             gameState.isAIMoving = false;
-            const { bestMove, timeTaken, nodesSearched, score } = e.data;
+            // UPDATED: Destructure the new diagnostic properties from the message.
+            const { bestMove, timeTaken, nodesSearched, score, evalPercent } = e.data;
             
             if (bestMove) {
-                let moveSource = `Searched ${nodesSearched} nodes in ${timeTaken}ms.`;
+                let moveSource;
                 if (typeof score === 'string') {
-                    moveSource = score; // Use "Book Move" or "Punish Move" text directly
+                    moveSource = score; // Use "Book Move" text directly.
+                } else {
+                    // UPDATED: The main output string now includes the evaluation time percentage.
+                    moveSource = `Searched ${nodesSearched} nodes in ${timeTaken}ms. (Eval: ${evalPercent}%)`;
                 }
                 
                 messageDiv.textContent += `\nAI moved. (${moveSource})`;
                 scrollMsg();
 
-                // Find the full move object to get all its properties for the animation
+                // Find the full move object for the animation.
                 let fullMove = gameState.legalMoves.find(m =>
                     m.from[0] === bestMove.from[0] && m.from[1] === bestMove.from[1] &&
                     m.to[0] === bestMove.to[0] && m.to[1] === bestMove.to[1]
                 );
 
-                // Fallback if the move wasn't in the legal moves list (e.g., from book)
+                // Fallback for book moves not in the generated list.
                 if (!fullMove) {
                     const piece = board[bestMove.from[0]][bestMove.from[1]];
-                    fullMove = { ...bestMove, piece }; // Add the piece to the move object
+                    fullMove = { ...bestMove, piece };
                 }
 
                 animateMove(fullMove, () => {
                     if (gameState.gameMode === 'ava') {
-                        startAIMove(); // Continue AI vs AI loop
+                        startAIMove(); // Continue AI vs AI loop.
                     }
                 });
             } else {
-                updateGameStatus(); // Engine found no moves, game is over
+                updateGameStatus(); // Engine found no moves, game is over.
             }
             break;
             
@@ -209,19 +217,15 @@ aiWorker.onmessage = function(e) {
             alert(e.data.message);
             break;
             
-            
         case 'analysis_update': {
             const { index, result } = e.data;
-            // Store the result
             analysisState.classifications[index] = result;
-            // Update the UI for just this one move
             updateSingleMoveWithAnalysis(index, result);
             break;
         }
             
         case 'analysis_finished': {
             openingNameDisplay.textContent = "Analysis Complete!";
-            // Re-draw the currently viewed move in case its hint needs to be shown
             displayAnalysisPosition(analysisState.currentMoveIndex);
             break;
         }
