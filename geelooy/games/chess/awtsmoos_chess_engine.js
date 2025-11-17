@@ -29,9 +29,12 @@ const openingBook = new Map();
 const punishmentBook = new Map();
 let lastParsedGame = null
 var evaluationTime = 0
+/*B"H*/
+
 /**
- * This function takes a raw book array (generated from PGN) and processes it
- * into the final, hash-based Map that the engine uses.
+ * This function takes a raw book array and processes it into the final, hash-based Map.
+ * This version is corrected to use raw BigInt Zobrist hashes as keys, ensuring
+ * consistency with the search function's transposition table lookups.
  * @param {Array} rawBook - The raw book data from generateRawBook.
  * @param {Map} targetMap - The Map object (openingBook or punishmentBook) to populate.
  */
@@ -40,7 +43,8 @@ function processRawBook(rawBook, targetMap) {
         if (!entry) continue;
         const fen = entry[0];
         const name = entry[1];
-        const hash = calculateZobristHash(createGameState(fen)).toString();
+        // CORRECTED: Use the raw BigInt hash as the key.
+        const hash = calculateZobristHash(createGameState(fen));
         const bookEntry = targetMap.has(hash) ? targetMap.get(hash) : { name: name, moves: [] };
         
         for (let i = 2; i < entry.length; i++) {
@@ -58,17 +62,22 @@ function processRawBook(rawBook, targetMap) {
     }
 }
 
+/**
+ * A helper function to build a book from a source array.
+ * This version is corrected to use raw BigInt Zobrist hashes for keys.
+ * @param {Array} sourceArray - The source data for the book.
+ * @param {Map} targetMap - The Map object to populate.
+ */
 function buildBook(sourceArray, targetMap) {
     if (targetMap.size > 0 || typeof sourceArray === 'undefined') return;
 
-    // The raw book is generated on the fly from the source PGNs
     const rawBook = generateRawBook(sourceArray);
-
     for (const entry of rawBook) {
         if (!entry) continue;
         const fen = entry[0];
         const name = entry[1];
-        const hash = calculateZobristHash(createGameState(fen)).toString();
+        // CORRECTED: Use the raw BigInt hash as the key.
+        const hash = calculateZobristHash(createGameState(fen));
         const bookEntry = targetMap.has(hash) ? targetMap.get(hash) : { name: name, moves: [] };
         
         for (let i = 2; i < entry.length; i++) {
@@ -86,22 +95,23 @@ function buildBook(sourceArray, targetMap) {
     }
 }
 
+/**
+ * Builds the main opening book.
+ * This version is corrected to use raw BigInt Zobrist hashes for keys.
+ */
 function buildOpeningBook() {
     if (openingBook.size > 0 || typeof rawOpeningBook === 'undefined') return;
     for (const entry of rawOpeningBook) {
         if (!entry) continue;
         const fen = entry[0];
-        const name = entry[1]; // Extract the opening name
-        const hash = calculateZobristHash(createGameState(fen)).toString();
+        const name = entry[1];
+        // CORRECTED: Use the raw BigInt hash as the key.
+        const hash = calculateZobristHash(createGameState(fen));
 
-        // The value in our map will be an object: { name: string, moves: Move[] }
-        // If the hash already exists, we'll add to its moves but keep the original name.
         const bookEntry = openingBook.has(hash) ? openingBook.get(hash) : { name: name, moves: [] };
 
-        // Add the new moves from this PGN line to the entry
         for (let i = 2; i < entry.length; i++) {
             const newMove = entry[i];
-            // Prevent adding duplicate moves if different lines converge on the same position
             const moveExists = bookEntry.moves.some(m =>
                 m.from[0] === newMove.from[0] && m.from[1] === newMove.from[1] &&
                 m.to[0] === newMove.to[0] && m.to[1] === newMove.to[1] &&
@@ -761,9 +771,9 @@ function decodeMove(move, turn) {
 /*B"H*/
 
 /**
- * Main message handler for the chess engine worker.
- * It routes commands for initialization, move calculation, and analysis.
- * This version adds definitive console logging to verify that performance data is being calculated and sent.
+ * Main message handler for the chess engine worker. This is the fully corrected version
+ * that uses raw BigInt keys for book lookups and includes definitive console logging
+ * to verify that performance data is being calculated and sent.
  */
 self.onmessage = function(e) {
     const { command } = e.data;
@@ -776,6 +786,7 @@ self.onmessage = function(e) {
             const { fen, maxTime } = e.data;
             let state = createGameState(fen);
             
+            // CORRECTED: Use the raw BigInt hash for book lookups, consistent with book generation.
             const bookEntry = openingBook.get(state.zobristHash) || punishmentBook.get(state.zobristHash);
 
             if (bookEntry && bookEntry.moves.length > 0) {
@@ -807,15 +818,12 @@ self.onmessage = function(e) {
                 evalPercent: totalTime > 0 ? ((evaluationTime / totalTime) * 100).toFixed(1) : "0.0"
             };
 
-            /**
-             * @description VERIFICATION STEP: Log the complete object to the console right before sending.
-             */
+            // VERIFICATION STEP: Log the complete object to the console right before sending.
             console.log("WORKER: Sending search result object:", resultMsg);
 
             postMessage(resultMsg);
             break;
         }
-        // ... other cases remain unchanged
         case 'analyze_pgn': {
             const { pgnText } = e.data;
             const converter = new PgnConverter();
@@ -843,10 +851,8 @@ self.onmessage = function(e) {
         }
         case 'run_engine_analysis': {
             if (!lastParsedGame) break;
-            console.log("Starting bitboard game analysis...");
             const { moves, initialFen } = lastParsedGame;
             let state = createGameState(initialFen);
-
             const ANALYSIS_THINKING_TIME = 3000;
             const BEST_MOVE_TOLERANCE = 40, MISTAKE_THRESHOLD = 90, BLUNDER_THRESHOLD = 250;
 
@@ -862,7 +868,6 @@ self.onmessage = function(e) {
                 });
                 
                 if (actualMoveInt === undefined) {
-                    console.error("Could not match played move to a legal move!", actualMoveObj);
                     if (legalMoves.length > 0) makeMove(state, legalMoves[0]);
                     continue;
                 }
@@ -886,10 +891,7 @@ self.onmessage = function(e) {
                 self.postMessage({
                     type: 'analysis_update',
                     index: i,
-                    result: {
-                        classification: classification,
-                        bestMove: decodeMove(bestMoveFound, state.turn)
-                    }
+                    result: { classification, bestMove: decodeMove(bestMoveFound, state.turn) }
                 });
                 makeMove(state, actualMoveInt);
             }
@@ -898,3 +900,7 @@ self.onmessage = function(e) {
         }
     }
 };
+
+
+
+
