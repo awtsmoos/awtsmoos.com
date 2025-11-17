@@ -357,26 +357,6 @@ function see(state, fromR, fromC, toR, toC) {
 
 
 
-// ====================================================================================
-//            FINAL, CORRECT, AND HIGH-PERFORMANCE EVALUATION FUNCTIONS
-// ====================================================================================
-// This version removes the disastrous move generation from the evaluation,
-// restoring the engine's speed and playing strength.
-
-// ====================================================================================
-//            FINAL, CORRECTED, AND HIGH-PERFORMANCE EVALUATION FUNCTIONS
-// ====================================================================================
-// This version correctly passes variables between functions, fixing the 'undefined' crash.
-
-
-
-
-// ====================================================================================
-//            FINAL, CORRECT, AND HIGH-PERFORMANCE EVALUATION FUNCTIONS
-// ====================================================================================
-// This version removes the disastrous mobility loop from the evaluation,
-// relying on fast Piece-Square Tables to restore the engine's speed and strength.
-
 
 
 
@@ -421,13 +401,11 @@ function isSquareAttackedByPiece(state, targetSq, attackerSq, attackerPieceType,
 }
 
 // ====================================================================================
-//            MASTER EVALUATION HUB & HELPERS (BITBOARD v3.0 - FINAL & COMPLETE)
+//            MASTER EVALUATION HUB & HELPERS (BITBOARD v4.0 - FINAL & CORRECT)
 // ====================================================================================
-
 function popcount(bb) {
     let count = 0; while (bb > 0n) { bb = popBit(bb); count++; } return count;
 }
-
 function getGamePhase(state) {
     const MAX_PHASE = 24; let currentPhase = 0;
     currentPhase += popcount(state.pieceBitboards[N] | state.pieceBitboards[N + 6]) * 1;
@@ -436,32 +414,32 @@ function getGamePhase(state) {
     currentPhase += popcount(state.pieceBitboards[Q] | state.pieceBitboards[Q + 6]) * 4;
     return Math.min(currentPhase, MAX_PHASE) / MAX_PHASE;
 }
-
 function evaluate(state) {
     const gamePhase = getGamePhase(state);
     let whiteScore = new TaperedScore(), blackScore = new TaperedScore();
-    const pieceLists = state.pieceLists; // Direct access, no creation
-    const whiteKingPos = { sq: pieceLists.K[0], r: Math.floor(pieceLists.K[0]/8), c: pieceLists.K[0]%8};
-    const blackKingPos = { sq: pieceLists.k[0], r: Math.floor(pieceLists.k[0]/8), c: pieceLists.k[0]%8};
+    const pieceLists = state.pieceLists;
+    const whiteKingSq = pieceLists.K[0], blackKingSq = pieceLists.k[0];
+    const whiteKingPos = whiteKingSq !== undefined ? { sq: whiteKingSq, r: Math.floor(whiteKingSq/8), c: whiteKingSq%8} : null;
+    const blackKingPos = blackKingSq !== undefined ? { sq: blackKingSq, r: Math.floor(blackKingSq/8), c: blackKingSq%8} : null;
 
     for (let pieceChar in pieceLists) {
         const isWhite = pieceChar < 'a';
         const scoreTarget = isWhite ? whiteScore : blackScore;
         const pType = pieceChar.toLowerCase();
         const pieceIdx = pieceMap.indexOf(pieceChar);
-        const pst = [pawnPST, knightPST, bishopPST, rookPST, queenPST, kingPSTMidGame][pieceIdx % 6];
-        const endPst = [pawnPST, knightPST, bishopPST, rookPST, queenPST, kingPSTEndGame][pieceIdx % 6];
-
         for(const sq of pieceLists[pieceChar]) {
             const r = Math.floor(sq/8), c = sq % 8;
-            scoreTarget.mg += pieceValues[pType].mg;
-            scoreTarget.eg += pieceValues[pType].eg;
+            scoreTarget.mg += pieceValues[pType].mg; scoreTarget.eg += pieceValues[pType].eg;
             const pstRow = isWhite ? 7 - r : r;
-            scoreTarget.mg += pst[pstRow][c];
-            scoreTarget.eg += endPst[pstRow][c];
+            const pieceTypeIndex = pieceIdx % 6;
+            if (pieceTypeIndex === K) {
+                scoreTarget.mg += kingPSTMidGame[pstRow][c]; scoreTarget.eg += kingPSTEndGame[pstRow][c];
+            } else {
+                const pst = [pawnPST, knightPST, bishopPST, rookPST, queenPST][pieceTypeIndex];
+                scoreTarget.mg += pst[pstRow][c]; scoreTarget.eg += pst[pstRow][c];
+            }
         }
     }
-    
     const whitePawnFiles = new Set(pieceLists.P.map(sq => sq % 8));
     const blackPawnFiles = new Set(pieceLists.p.map(sq => sq % 8));
     
@@ -469,15 +447,14 @@ function evaluate(state) {
     blackScore.add(evaluateStrategicBonuses(state, BLACK, pieceLists, blackPawnFiles, whitePawnFiles, blackKingPos));
     whiteScore.subtract(evaluateThreats(state, WHITE, pieceLists));
     blackScore.subtract(evaluateThreats(state, BLACK, pieceLists));
-    whiteScore.subtract(evaluateKingSafety(state, whiteKingPos, BLACK, pieceLists));
-    blackScore.subtract(evaluateKingSafety(state, blackKingPos, WHITE, pieceLists));
+    if(whiteKingPos) whiteScore.subtract(evaluateKingSafety(state, whiteKingPos, BLACK, pieceLists));
+    if(blackKingPos) blackScore.subtract(evaluateKingSafety(state, blackKingPos, WHITE, pieceLists));
 
     const finalWhite = (whiteScore.mg * gamePhase) + (whiteScore.eg * (1 - gamePhase));
     const finalBlack = (blackScore.mg * gamePhase) + (blackScore.eg * (1 - gamePhase));
     const evaluation = Math.round(finalWhite - finalBlack);
     return (state.turn === WHITE ? 1 : -1) * evaluation;
 }
-
 function evaluateStrategicBonuses(state, color, pieceLists, friendlyPawnFiles, enemyPawnFiles, myKingPos) {
     const score = new TaperedScore(); const isWhite = color === WHITE; const startRank = isWhite ? 7 : 0;
     for (const pawnSq of pieceLists[isWhite ? 'P' : 'p']) {
@@ -501,30 +478,23 @@ function evaluateStrategicBonuses(state, color, pieceLists, friendlyPawnFiles, e
     }
     const pawnFileCounts = new Map();
     for (const sq of pieceLists[isWhite ? 'P' : 'p']) {
-        const c = sq % 8;
-        pawnFileCounts.set(c, (pawnFileCounts.get(c) || 0) + 1);
+        const c = sq % 8; pawnFileCounts.set(c, (pawnFileCounts.get(c) || 0) + 1);
         if (!friendlyPawnFiles.has(c - 1) && !friendlyPawnFiles.has(c + 1)) score.subtract(new TaperedScore(25, 40));
     }
     for (const count of pawnFileCounts.values()) { if (count > 1) score.subtract(new TaperedScore(20 * (count - 1), 30 * (count - 1))); }
     return score;
 }
-
 function evaluateThreats(state, color, pieceLists) {
     const penalty = new TaperedScore();
-    const ourChars = (color === WHITE) ? "PNBRQ" : "pnbrq";
-    const enemyChars = (color === WHITE) ? "pnbrq" : "PNBRQ";
-    const enemyColor = color ^ 1;
-
+    const ourChars = (color === WHITE) ? "PNBRQ" : "pnbrq", enemyChars = (color === WHITE) ? "pnbrq" : "PNBRQ", enemyColor = color ^ 1;
     for (const ourChar of ourChars) {
         const ourValue = pieceValues[ourChar.toLowerCase()].mg;
         for (const enemyChar of enemyChars) {
             const enemyValue = pieceValues[enemyChar.toLowerCase()].mg;
             if (enemyValue >= ourValue) continue;
             for (const ourSq of pieceLists[ourChar]) {
-                const r = Math.floor(ourSq/8), c = ourSq%8;
                 for (const enemySq of pieceLists[enemyChar]) {
-                    const pr = Math.floor(enemySq/8), pc = enemySq%8;
-                    if (isSquareAttackedByPiece(state.board, r, c, pr, pc, enemyColor)) {
+                    if (isSquareAttackedByPiece(state.board, Math.floor(ourSq/8), ourSq%8, Math.floor(enemySq/8), enemySq%8, enemyColor)) {
                         const potentialLoss = ourValue - enemyValue;
                         penalty.mg += potentialLoss * 0.95; penalty.eg += potentialLoss * 0.95;
                     }
@@ -534,31 +504,23 @@ function evaluateThreats(state, color, pieceLists) {
     }
     return penalty;
 }
-
 function evaluateKingSafety(state, kingPos, attackerColor, pieceLists) {
     const danger = new TaperedScore();
     const kingRank = kingPos.r, kingFile = kingPos.c;
     const isAttackerWhite = attackerColor === WHITE;
-    const defenderPawnChar = isAttackerWhite ? 'p' : 'P';
-    const pawnShieldRank = isAttackerWhite ? 5 : 2; // Black pawns on rank 6(idx 5), white on rank 3(idx 2)
-    
-    if (kingRank === (isAttackerWhite ? 7 : 0)) { // Only check for castled/back rank kings
+    const defenderPawnChar = isAttackerWhite ? 'p' : 'P', pawnShieldRank = isAttackerWhite ? 5 : 2;
+    if (kingRank === (isAttackerWhite ? 7 : 0)) {
         for (const file of [kingFile - 1, kingFile, kingFile + 1]) {
             if (file < 0 || file > 7) continue;
             let shieldPawnFound = false;
             for (const pawnSq of pieceLists[defenderPawnChar]) {
                 const r = Math.floor(pawnSq/8), c = pawnSq % 8;
-                if (c === file) {
-                    shieldPawnFound = true;
-                    if (Math.abs(r - pawnShieldRank) > 1) danger.mg += 25;
-                    break;
-                }
+                if (c === file) { shieldPawnFound = true; if (Math.abs(r - pawnShieldRank) > 1) danger.mg += 25; break; }
             }
             if (!shieldPawnFound) danger.mg += 60;
         }
     }
-    let attackWeight = 0;
-    const attackWeights = { q: 10, r: 6, b: 4, n: 4 };
+    let attackWeight = 0; const attackWeights = { q: 10, r: 6, b: 4, n: 4 };
     const attackerChars = isAttackerWhite ? "QRBN" : "qrbn";
     for(const char of attackerChars) {
         for (const attackerSq of pieceLists[char]) {
@@ -567,93 +529,115 @@ function evaluateKingSafety(state, kingPos, attackerColor, pieceLists) {
             if (dist <= 4) attackWeight += attackWeights[char.toLowerCase()] * (5 - dist);
         }
     }
-    danger.mg += Math.pow(attackWeight, 1.5);
-    danger.eg += attackWeight * 2;
+    danger.mg += Math.pow(attackWeight, 1.5); danger.eg += attackWeight * 2;
     return danger;
 }
 
-function isStalemateBlunder(state, currentEval) { return false; }
-// You will need this NEW HELPER function for evaluateKingSafety to work.
-// It checks if a specific piece at (pr, pc) attacks a target square (tr, tc).
-// --- CRITICAL REWRITE FOR SPEED AND INTEGRITY ---
-// This function checks if a SPECIFIC piece at (pr, pc) attacks a TARGET square (tr, tc).
+// ====================================================================================
+//            BITBOARD SEARCH, QUIESCENCE & MOVE ORDERING (v3.0 - FINAL)
+// ====================================================================================
 
-function isSquareAttackedByPiece(board, tr, tc, pr, pc, attackerColor) {
-    const p = board[pr][pc];
-    if (!p) return false;
-    const pType = p.toLowerCase();
-    const isWhiteAttacker = (p.toUpperCase() === p);
-    
-    // Safety check: ensure the piece being checked is of the correct color
-    if (isWhiteAttacker !== (attackerColor === 'w')) return false;
-
-    const dr = tr - pr;
-    const dc = tc - pc;
-
-    // 1. PAWN (The fastest check)
-    if (pType === 'p') {
-        const dir = isWhiteAttacker ? -1 : 1; // White moves -1 rank, Black moves +1 rank
-        return dr === dir && Math.abs(dc) === 1;
+function orderMoves(moves, state) {
+    const moveScores = [];
+    for(const move of moves) {
+        let score = 0;
+        if (getMoveCapture(move)) {
+            const attackerType = getMovePiece(move);
+            const victimChar = state.board[getMoveTo(move)];
+            if(victimChar) {
+                 const victimType = pieceMap.indexOf(victimChar) % 6;
+                 score = (pieceValues[pieceMap[victimType].toLowerCase()].mg * 10) - pieceValues[pieceMap[attackerType].toLowerCase()].mg;
+            }
+            score += 1000000;
+        }
+        if (getMovePromoted(move)) { score += 900000; }
+        moveScores.push({ move, score });
     }
+    return moveScores.sort((a,b) => b.score - a.score).map(ms => ms.move);
+}
 
-    // 2. KNIGHT (The second fastest check)
-    if (pType === 'n') {
-        const absDr = Math.abs(dr);
-        const absDc = Math.abs(dc);
-        return (absDr === 2 && absDc === 1) || (absDr === 1 && absDc === 2);
+function quiesce(state, alpha, beta) {
+    if ((nodeCount & 2047) === 0 && performance.now() - searchStartTime > timeLimit) { stopSearch = true; }
+    if (stopSearch) return 0;
+    nodeCount++;
+    const stand_pat = evaluate(state);
+    if (stand_pat >= beta) return beta;
+    if (alpha < stand_pat) alpha = stand_pat;
+    const moves = generateMoves(state);
+    const orderedMoves = orderMoves(moves, state);
+    for (const move of orderedMoves) {
+        if (!getMoveCapture(move)) continue;
+        makeMove(state, move);
+        const kingSq = getLSBIndex(state.pieceBitboards[(state.turn ^ 1) * 6 + K]);
+        if (isSquareAttacked(state, kingSq, state.turn)) { unmakeMove(state); continue; }
+        const score = -quiesce(state, -beta, -alpha);
+        unmakeMove(state);
+        if (stopSearch) return 0;
+        if (score >= beta) return beta;
+        if (score > alpha) alpha = score;
     }
-    
-    // 3. KING (The third fastest check)
-    if (pType === 'k') {
-        return Math.abs(dr) <= 1 && Math.abs(dc) <= 1;
-    }
+    return alpha;
+}
 
-    // --- SLIDERS: Rook, Bishop, Queen ---
-    
-    // 4. ROOK/QUEEN (Vertical/Horizontal)
-    if (dr === 0 || dc === 0) { // On a straight line
-        if (pType === 'r' || pType === 'q') {
-            const stepR = dr === 0 ? 0 : (dr > 0 ? 1 : -1);
-            const stepC = dc === 0 ? 0 : (dc > 0 ? 1 : -1);
-            
-            for (let i = 1; i < 8; i++) {
-                const nR = pr + i * stepR;
-                const nC = pc + i * stepC;
-                if (nR === tr && nC === tc) return true;
-                if (board[nR]?.[nC]) break; // Path blocked by another piece
+function search(state, depth, alpha, beta, ply) {
+    if (depth <= 0) return quiesce(state, alpha, beta);
+    if ((nodeCount & 2047) === 0 && performance.now() - searchStartTime > timeLimit) { stopSearch = true; }
+    if (stopSearch) return 0;
+    nodeCount++;
+    const moves = generateMoves(state);
+    const orderedMoves = orderMoves(moves, state);
+    let legalMovesFound = 0, bestScore = -Infinity;
+    for (const move of orderedMoves) {
+        makeMove(state, move);
+        const kingSq = getLSBIndex(state.pieceBitboards[(state.turn ^ 1) * 6 + K]);
+        if (isSquareAttacked(state, kingSq, state.turn)) { unmakeMove(state); continue; }
+        legalMovesFound++;
+        const score = -search(state, depth - 1, -beta, -alpha, ply + 1);
+        unmakeMove(state);
+        if (stopSearch) return 0;
+        if (score > bestScore) bestScore = score;
+        if (bestScore > alpha) alpha = bestScore;
+        if (alpha >= beta) return beta;
+    }
+    if (legalMovesFound === 0) {
+        const kingSq = getLSBIndex(state.pieceBitboards[state.turn * 6 + K]);
+        return isSquareAttacked(state, kingSq, state.turn ^ 1) ? -MATE_SCORE + ply : 0;
+    }
+    return bestScore;
+}
+
+function searchRoot(initialState, maxDepth, maxTime) {
+    timeLimit = maxTime; searchStartTime = performance.now();
+    stopSearch = false; nodeCount = 0;
+    let bestMove = 0, bestScore = -Infinity;
+    for (let currentDepth = 1; currentDepth <= maxDepth; currentDepth++) {
+        const moves = generateMoves(initialState);
+        const orderedMoves = orderMoves(moves, initialState);
+        if(orderedMoves.length === 0) break;
+        let currentBestMoveForDepth = orderedMoves[0];
+        let alpha = -Infinity, beta = Infinity, legalMovesSearched = 0;
+        for (const move of orderedMoves) {
+            makeMove(initialState, move);
+            const kingSq = getLSBIndex(initialState.pieceBitboards[(initialState.turn ^ 1) * 6 + K]);
+            if (isSquareAttacked(initialState, kingSq, initialState.turn)) { unmakeMove(initialState); continue; }
+            legalMovesSearched++;
+            const score = -search(initialState, currentDepth - 1, -beta, -alpha, 1);
+            unmakeMove(initialState);
+            if (stopSearch) break;
+            if (score > bestScore) {
+                bestScore = score;
+                currentBestMoveForDepth = move;
+                if (score > alpha) alpha = score;
             }
         }
+        if (stopSearch || legalMovesSearched === 0) break;
+        bestMove = currentBestMoveForDepth;
+        if (Math.abs(bestScore) > MATE_SCORE - 100) break;
     }
-
-    // 5. BISHOP/QUEEN (Diagonal)
-    if (Math.abs(dr) === Math.abs(dc)) { // On a diagonal
-        if (pType === 'b' || pType === 'q') {
-            const stepR = dr > 0 ? 1 : -1;
-            const stepC = dc > 0 ? 1 : -1;
-
-            for (let i = 1; i < 8; i++) {
-                const nR = pr + i * stepR;
-                const nC = pc + i * stepC;
-                if (nR === tr && nC === tc) return true;
-                if (board[nR]?.[nC]) break; // Path blocked by another piece
-            }
-        }
-    }
-    
-    return false;
+    return { bestMove, score: bestScore };
 }
 
 
-/**
- * Checks if a move is a blunder that leads to a stalemate in a clearly winning position.
- * @param {object} resultingState The state of the board AFTER the move is made.
- * @param {number} currentEval The evaluation of the position BEFORE the move was made.
- * @returns {boolean} True if the move is a stalemate blunder, otherwise false.
- */
-// ====================================================================================
-//            FINAL, CORRECT, AND HIGH-PERFORMANCE isStalemateBlunder
-// ====================================================================================
-// This version has a fast "early exit" to prevent the performance cascade.
 
 function isStalemateBlunderOLD(state, currentEval) {
     // --- Step 1: Fast Exit Checks ---
@@ -703,162 +687,13 @@ function isStalemateBlunderOLD(state, currentEval) {
 
 
 
+function isStalemateBlunder(state, currentEval) { return false; }
+// You will need this NEW HELPER function for evaluateKingSafety to work.
+// It checks if a specific piece at (pr, pc) attacks a target square (tr, tc).
+// --- CRITICAL REWRITE FOR SPEED AND INTEGRITY ---
+// This function checks if a SPECIFIC piece at (pr, pc) attacks a TARGET square (tr, tc).
 
 
-// ====================================================================================
-//            BITBOARD SEARCH, QUIESCENCE & MOVE ORDERING (v2.0 - FINAL)
-// ====================================================================================
-
-function orderMoves(moves, state) {
-    const moveScores = [];
-    for(const move of moves) {
-        let score = 0;
-        if (getMoveCapture(move)) {
-            const from = getMoveFrom(move);
-            const to = getMoveTo(move);
-            const attackerType = getMovePiece(move);
-            let victimType = P; // Assume pawn if not found (en passant)
-            const enemy = state.turn ^ 1;
-            for(let p = P; p <= K; p++) {
-                if((state.pieceBitboards[enemy*6+p] & (1n << BigInt(to))) !== 0n) {
-                    victimType = p;
-                    break;
-                }
-            }
-            score = (pieceValues[pieceMap[victimType].toLowerCase()].mg * 10) - pieceValues[pieceMap[attackerType].toLowerCase()].mg;
-            score += 1000000;
-        }
-        if (getMovePromoted(move)) {
-            score += 900000;
-        }
-        moveScores.push({ move, score });
-    }
-    return moveScores.sort((a,b) => b.score - a.score).map(ms => ms.move);
-}
-
-function quiesce(state, alpha, beta) {
-    if ((nodeCount & 2047) === 0 && performance.now() - searchStartTime > timeLimit) {
-        stopSearch = true;
-    }
-    if (stopSearch) return 0;
-    nodeCount++;
-    
-    const stand_pat = evaluate(state);
-    if (stand_pat >= beta) return beta;
-    if (alpha < stand_pat) alpha = stand_pat;
-
-    const moves = generateMoves(state); // Generate all moves
-    const orderedMoves = orderMoves(moves, state);
-    
-    for (const move of orderedMoves) {
-        // Only consider captures and promotions in quiescence search
-        if (!getMoveCapture(move) && !getMovePromoted(move)) continue;
-
-        makeMove(state, move);
-        const kingSq = getLSBIndex(state.pieceBitboards[(state.turn ^ 1) * 6 + K]);
-        if (isSquareAttacked(state, kingSq, state.turn)) {
-            unmakeMove(state);
-            continue;
-        }
-
-        const score = -quiesce(state, -beta, -alpha);
-        unmakeMove(state);
-
-        if (stopSearch) return 0;
-        if (score >= beta) return beta;
-        if (score > alpha) alpha = score;
-    }
-    return alpha;
-}
-
-
-function search(state, depth, alpha, beta, ply) {
-    if ((nodeCount & 2047) === 0 && performance.now() - searchStartTime > timeLimit) {
-        stopSearch = true;
-    }
-    if (stopSearch) return 0;
-    if (depth <= 0) return quiesce(state, alpha, beta);
-
-    nodeCount++;
-    const moves = generateMoves(state);
-    const orderedMoves = orderMoves(moves, state);
-    let legalMovesFound = 0;
-    let bestScore = -Infinity;
-
-    for (const move of orderedMoves) {
-        makeMove(state, move);
-        const kingSq = getLSBIndex(state.pieceBitboards[(state.turn ^ 1) * 6 + K]);
-        
-        if (isSquareAttacked(state, kingSq, state.turn)) {
-            unmakeMove(state);
-            continue;
-        }
-        
-        legalMovesFound++;
-        const score = -search(state, depth - 1, -beta, -alpha, ply + 1);
-        unmakeMove(state);
-
-        if (stopSearch) return 0;
-        if (score > bestScore) bestScore = score;
-        if (bestScore > alpha) alpha = bestScore;
-        if (alpha >= beta) return beta;
-    }
-
-    if (legalMovesFound === 0) {
-        const kingSq = getLSBIndex(state.pieceBitboards[state.turn * 6 + K]);
-        return isSquareAttacked(state, kingSq, state.turn ^ 1) ? -MATE_SCORE + ply : 0;
-    }
-
-    return bestScore;
-}
-
-function searchRoot(initialState, maxDepth, maxTime) {
-    timeLimit = maxTime;
-    searchStartTime = performance.now();
-    stopSearch = false;
-    nodeCount = 0;
-    
-    let bestMove = 0;
-    let bestScore = -Infinity;
-    
-    for (let currentDepth = 1; currentDepth <= maxDepth; currentDepth++) {
-        const moves = generateMoves(initialState);
-        const orderedMoves = orderMoves(moves, initialState);
-        let currentBestMoveForDepth = orderedMoves[0] || 0;
-        
-        let alpha = -Infinity;
-        let beta = Infinity;
-        let legalMovesSearched = 0;
-
-        for (const move of orderedMoves) {
-            makeMove(initialState, move);
-            const kingSq = getLSBIndex(initialState.pieceBitboards[(initialState.turn ^ 1) * 6 + K]);
-            if (isSquareAttacked(initialState, kingSq, initialState.turn)) {
-                unmakeMove(initialState);
-                continue;
-            }
-            legalMovesSearched++;
-
-            const score = -search(initialState, currentDepth - 1, -beta, -alpha, 1);
-            unmakeMove(initialState);
-
-            if (stopSearch) break;
-
-            if (score > bestScore) {
-                bestScore = score;
-                currentBestMoveForDepth = move;
-                if (score > alpha) alpha = score;
-            }
-        }
-        
-        if (stopSearch || legalMovesSearched === 0) break;
-
-        bestMove = currentBestMoveForDepth;
-        if (Math.abs(bestScore) > MATE_SCORE - 100) break;
-    }
-
-    return { bestMove, score: bestScore };
-}
 
 // ADVANCED SEARCH WITH DYNAMIC CONTEMPT
 // ====================================================================================
