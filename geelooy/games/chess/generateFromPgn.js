@@ -154,3 +154,8 @@ function generateRawBook(source, onProgress) {
     }
     return Array.from(bookMap.values());
 }
+
+if (typeof self !== 'undefined') {
+    self.PgnConverter = PgnConverter;
+}
+
