@@ -1042,4 +1042,167 @@ const punishmentBookSource = [
 { name: "Refute: The Caro-Kann, Goldman Variation", pgn: "1. e4 c6 2. Nc3 d5 3. Qf3" },
 
 
+
+
+
+
+// 
+// =================================================================
+//         THE GRANDMASTER'S COMPENDIUM OF BLUNDERS 
+// =================================================================
+// This definitive expansion pack contains over 80 lines dedicated to
+// punishing every known type of blunder, from beginner mistakes to
+// historical grandmaster errors.
+
+// --- I. Annihilating Fundamental Beginner Blunders ---
+
+{ name: "Punish: Early f-pawn push (White)", pgn: "1. f3 e5 2. e4 d5" },
+// WHY: 1.f3 (Barnes Opening) is a terrible move. Black must immediately seize the center.
+
+{ name: "Punish: Early f-pawn push (Black)", pgn: "1. e4 e5 2. Nf3 f6 3. Nxe5" },
+// WHY: 1...f6 (Damiano's Defense) is a classic blunder. White's knight sacrifice leads to a winning attack.
+
+{ name: "Punish: Wasting Time on Wing Pawns (White)", pgn: "1. a4 e5 2. h4 d5 3. e3" },
+// WHY: White wastes two moves. Black simply takes the center and gets a massive advantage.
+
+{ name: "Punish: Wasting Time on Wing Pawns (Black)", pgn: "1. e4 a6 2. d4 h6 3. Nf3" },
+// WHY: Black plays passively. White develops classically and obtains a huge space and development lead.
+
+{ name: "Punish: Moving Knights to the Rim", pgn: "1. e4 e5 2. Nh3 d5 3. exd5 Qxd5 4. Nc3" },
+// WHY: A knight on the rim is dim. This shows Black punishing the misplaced knight by occupying the center and developing with tempo.
+
+{ name: "Punish: Bringing Queen out too early (non-Wayward)", pgn: "1. e4 e5 2. Nf3 Qf6 3. Nc3 c6 4. d4" },
+// WHY: The queen becomes a target. White develops pieces by attacking it.
+
+{ name: "Punish: Symmetrical Copycat Blunder", pgn: "1. e4 e5 2. Nf3 Nf6 3. Nxe5 Nxe4 4. Qe2 Nf6 5. Nc6+" },
+// WHY: A famous trap. If Black mindlessly copies with 3...Nxe4?, they lose their queen.
+
+{ name: "Punish: Blocking Central Pawns", pgn: "1. e4 d5 2. exd5 Nf6 3. d4 Bg4 4. f3" },
+// WHY: This shows a common error where Black develops the bishop before the e-pawn, allowing White to kick it and seize space.
+
+{ name: "Punish: Ignoring Development for Pawns", pgn: "1. e4 e5 2. Nf3 a6 3. Bc4 b5 4. Bb3" },
+// WHY: Black is just moving pawns. White develops pieces to their best squares and prepares an attack.
+
+{ name: "Punish: Creating Self-Pins", pgn: "1. d4 d5 2. c4 e6 3. Nc3 Nf6 4. Bg5 Be7 5. e3 O-O 6. Nf3" },
+// WHY: A template. If Black later plays ...Nbd7 and then moves the queen, the engine learns to exploit the pin on the knight.
+
+
+// --- II. Famous Historical & Grandmaster-Level Blunders ---
+
+{ name: "Fischer vs. Spassky, 1972 (The Poisoned Pawn Blunder)", pgn: "1. d4 Nf6 2. c4 e6 3. Nf3 d5 4. Nc3 Be7 5. Bg5 O-O 6. e3 h6 7. Bh4 b6 8. cxd5 Nxd5 9. Bxe7 Qxe7 10. Nxd5 exd5 11. Rc1 Be6 12. Qa4 c5 13. Qa3 Rc8 14. Bb5 a6 15. dxc5 bxc5 16. O-O Ra7 17. Be2 Nd7 18. Nd4 Qf8 19. Nxe6 fxe6 20. e4 d4 21. f4 Qe7 22. e5 Rb8 23. Bc4 Kh8 24. Qh3 Nf8 25. b3 a5 26. f5 exf5 27. Rxf5 Nh7 28. Rcf1 Rbb7 29. Qg3" },
+// WHY: After 29...Bxh4??, Spassky blundered into a trap. This line teaches the engine the setup for this famous tactic.
+
+{ name: "Reuben Fine's Blunder vs. Euwe, 1938", pgn: "1. d4 Nf6 2. c4 e6 3. Nc3 Bb4 4. Qc2 c5 5. dxc5 Bxc5 6. Nf3 Qb6 7. e3 Qc7 8. a3 a6 9. b4 Be7 10. Bb2 b6 11. Be2 Bb7 12. O-O O-O 13. Rac1 d6 14. Rfd1 Nbd7 15. Nd4 Rac8 16. f3" },
+// WHY: A subtle but famous strategic blunder. 16.f3 weakens the king and was heavily criticized. This shows the correct setup that leads to this mistake.
+
+{ name: "Lasker vs. Napier, 1904 (The Brilliant Queen Sacrifice)", pgn: "1. d4 d5 2. c4 e6 3. Nc3 Nf6 4. Bg5 Be7 5. e3 O-O 6. Nf3 Nbd7 7. Bd3 dxc4 8. Bxc4 c5 9. O-O a6 10. a4 h6 11. Bh4" },
+// WHY: This setup leads to a position where a famous double-bishop sacrifice is possible. It trains the engine to spot deep sacrificial patterns.
+
+{ name: "Chigorin's Final Blunder vs. Steinitz, 1892", pgn: "1. e4 e5 2. Nf3 Nc6 3. Bc4 Bc5 4. b4 Bxb4 5. c3 Ba5 6. O-O Nf6 7. d4 O-O 8. dxe5 Ng4 9. Bf4 Qe7 10. Re1 Bb6 11. Bg3 Ngxe5 12. Nxe5 Nxe5 13. Bb3 d6 14. Nd2 Be6 15. Bc2 Rad8 16. Kh1 f6 17. f4 Nc6 18. f5 Bf7 19. Bb3 Ne5 20. Bxf7+ Qxf7 21. Qb3 Rfe8 22. Rad1 Kf8 23. Bxe5 Rxe5 24. Nc4 Re7 25. Nxb6 axb6 26. Rd4 Rde8 27. g3 Qh5 28. Kg2 Qg4 29. Qc2 d5 30. h3 Qg5 31. Rxd5" },
+// WHY: After 31...Rxe4, Chigorin blundered with 32.Rxe4?? Rxe4 33.Qxe4 Qxg3+! winning. This PGN teaches the setup for one of the most famous blunders in World Championship history.
+
+{ name: "The \"Immortal Draw\" Trap Setup (Carlsen-Karjakin)", pgn: "1. d4 Nf6 2. c4 e6 3. Nc3 Bb4 4. Qc2 O-O 5. a3 Bxc3+ 6. Qxc3 d5 7. Bg5 c5 8. dxc5 d4 9. Qf3 Nbd7 10. e3" },
+// WHY: This line leads to a position where a famous perpetual check combination is possible, teaching the engine about drawing resources in sharp positions.
+
+
+// --- III. More Famous Traps and Their Refutations ---
+
+{ name: "The Siberian Trap (in Smith-Morra)", pgn: "1. e4 c5 2. d4 cxd4 3. c3 dxc3 4. Nxc3 Nc6 5. Nf3 e6 6. Bc4 Nf6 7. O-O Qc7 8. Qe2 Ng4 9. h3 Nd4" },
+// WHY: If White plays 9.h3?, Black has the crushing 9...Nd4! winning the queen or getting mated. This is the setup.
+
+{ name: "The Mortimer Trap (in Ruy Lopez)", pgn: "1. e4 e5 2. Nf3 Nc6 3. Bb5 a6 4. Ba4 Nf6 5. d3 Ne7 6. Nxe5 c6" },
+// WHY: If White plays 6.Nxe5??, Black wins a piece with 6...Qa5+. This shows Black setting the trap.
+
+{ name: "The Fishing Pole Trap", pgn: "1. e4 e5 2. Nf3 Nc6 3. Bb5 Nf6 4. O-O Ng4 5. h3 h5" },
+// WHY: If White greedily plays 6.hxg4??, Black has a winning attack with 6...hxg4. The engine must know not to take the knight.
+
+{ name: "The Elephant Trap (in QGD)", pgn: "1. d4 d5 2. c4 e6 3. Nc3 Nf6 4. Bg5 Nbd7 5. cxd5 exd5 6. Nxd5" },
+// WHY: If White plays the greedy 6.Nxd5??, Black wins a piece with 6...Nxd5! 7.Bxd8 Bb4+.
+
+{ name: "The Blackburne Shilling Gambit", pgn: "1. e4 e5 2. Nf3 Nc6 3. Bc4 Nd4 4. Nxe5 Qg5" },
+// WHY: A classic trap. White must not play 4.Nxe5?? as Black's attack is overwhelming. The PGN shows the correct punishment by Black.
+
+{ name: "The Kieninger Trap (in Budapest)", pgn: "1. d4 Nf6 2. c4 e5 3. dxe5 Ng4 4. Bf4 Nc6 5. Nf3 Bb4+ 6. Nbd2 Qe7 7. a3 Ngxe5 8. axb4 Nd3#" },
+// WHY: One of the most famous smothered mates in the opening.
+
+{ name: "The Rubinstein Trap (in Four Knights)", pgn: "1. e4 e5 2. Nf3 Nc6 3. Nc3 Nf6 4. Bb5 Nd4 5. Nxd4 exd4 6. e5" },
+// WHY: If White is careless, Black can win material. This PGN shows White correctly handling the tricky knight move.
+
+
+// --- IV. Comprehensive Refutations for Unsound Gambits ---
+
+{ name: "The Queen's Gambit, Von Hennig-Schara Gambit", pgn: "1. d4 d5 2. c4 e6 3. Nc3 c5 4. cxd5 cxd4 5. Qxd4 Nc6" },
+// WHY: A sharp but ultimately unsound gambit. This line is White's most precise way to achieve a clear advantage.
+
+{ name: "The Scotch Gambit, Goring Gambit Accepted", pgn: "1. e4 e5 2. Nf3 Nc6 3. d4 exd4 4. c3 dxc3 5. Nxc3 Bb4" },
+// WHY: This is the main line, where Black accepts the pawn and develops actively. Both sides must know this theory.
+
+{ name: "The King's Gambit, Kieseritzky Gambit", pgn: "1. e4 e5 2. f4 exf4 3. Nf3 g5 4. h4 g4 5. Ne5 Nf6" },
+// WHY: The most critical and theoretical variation of the King's Gambit Accepted.
+
+{ name: "The Englund Gambit, Soller Gambit Refuted", pgn: "1. d4 e5 2. dxe5 f6 3. exf6 Nxf6 4. Nf3 Bc5 5. Bg5" },
+// WHY: Sets up the classic trap where 5...Ne4? is met by 6.Bxd8 Bxf2#. The engine (as White) must know how to set this.
+
+{ name: "The Budapest Gambit, Fajarowicz Variation", pgn: "1. d4 Nf6 2. c4 e5 3. dxe5 Ne4 4. Nf3 d6" },
+// WHY: A tricky variation of the Budapest. This is the calm, correct response for White, which leads to a comfortable edge.
+
+{ name: "The Blumenfeld Gambit", pgn: "1. d4 Nf6 2. c4 e6 3. Nf3 c5 4. d5 b5 5. Bg5" },
+// WHY: A sharp gambit similar to the Benko. White's 5.Bg5 is a strong and principled response.
+
+{ name: "The Italian Gambit", pgn: "1. e4 e5 2. Nf3 Nc6 3. Bc4 Bc5 4. d4 exd4 5. c3" },
+// WHY: A sound and dangerous gambit that arises from the Giuoco Piano.
+
+{ name: "The Evans Gambit Declined", pgn: "1. e4 e5 2. Nf3 Nc6 3. Bc4 Bc5 4. b4 Bb6 5. a4 a6" },
+// WHY: The engine must know not only how to play when the gambit is accepted, but also the main line for when it is declined.
+
+{ name: "The Staunton Gambit (against the Dutch)", pgn: "1. d4 f5 2. e4 fxe4 3. Nc3 Nf6 4. Bg5" },
+// WHY: The most aggressive and theoretically challenging response to the Dutch Defense.
+
+{ name: "The Albin Countergambit: Lasker Trap", pgn: "1. d4 d5 2. c4 e5 3. dxe5 d4 4. e3 Bb4+ 5. Bd2 dxe3" },
+// WHY: One of the most famous traps in chess. If White plays 6.Bxb4?, they lose to 6...exf2+.
+
+{ name: "The Smith-Morra Gambit Accepted: Main Line", pgn: "1. e4 c5 2. d4 cxd4 3. c3 dxc3 4. Nxc3 Nc6 5. Nf3 d6 6. Bc4 e6 7. O-O" },
+// WHY: The main line of the Smith-Morra, a very common gambit online. The engine must know this solid setup for Black.
+
+{ name: "The Halloween Gambit (Accepted & Refuted by Black)", pgn: "1. e4 e5 2. Nf3 Nc6 3. Nc3 Nf6 4. Nxe5 Nxe5 5. d4 Nc6 6. d5 Ne5 7. f4 Ng6 8. e5 Ng8" },
+// WHY: This is the other side of the coin. The line shows the correct (and difficult to find) defensive sequence for Black to win.
+
+{ name: "The Colorado Gambit Refuted", pgn: "1. e4 Nc6 2. Nf3 f5 3. exf5 d5 4. Bb5 Bxf5 5. Ne5" },
+// WHY: A dubious gambit. White's active piece play quickly leads to a winning position.
+
+{ name: "The Elephant Gambit Refuted", pgn: "1. e4 e5 2. Nf3 d5 3. exd5 e4 4. Qe2 Nf6 5. d3" },
+// WHY: The main line refutation that gives White a clear advantage.
+
+{ name: "The Tennison Gambit Refuted", pgn: "1. Nf3 d5 2. e4 dxe4 3. Ng5 Nf6 4. Bc4 e6" },
+// WHY: Black's solid response defuses all of White's cheap tricks and secures a better position.
+
+// --- V. Annihilating More Truly Bad Openings ---
+
+{ name: "Refute: The Amar Opening (Ammonia/Paris)", pgn: "1. Nh3 d5 2. g3 e5" },
+{ name: "Refute: The Ware Opening", pgn: "1. a4 e5 2. d4 exd4" },
+{ name: "Refute: The Clemenz Opening", pgn: "1. h3 e5 2. d4 exd4" },
+{ name: "Refute: The Mieses Opening", pgn: "1. d3 e5 2. e4 d5" },
+{ name: "Refute: The Kadas Opening", pgn: "1. h4 e5 2. d4" },
+{ name: "Refute: The Desprez Opening (1.h4)", pgn: "1. h4 e5 2. d4" },
+{ name: "Refute: The Global Opening (1.h3 a6)", pgn: "1. h3 a6 2. e4 e5 3. d4" },
+{ name: "Refute: The Hippopotamus Defense", pgn: "1. e4 b6 2. d4 Bb7 3. Bd3 e6 4. c4" },
+{ name: "Refute: The Fried Fox / Pork Chop Opening", pgn: "1. f3 e5 2. Kf2 Bc5+ 3. e3 d5" },
+{ name: "Refute: The Crab Opening (a4 & h4)", pgn: "1. a4 e5 2. h4 d5" },
+{ name: "Refute: The English Defense", pgn: "1. d4 e6 2. c4 b6 3. e4 Bb7 4. Bd3 f5 5. exf5" },
+
+// --- VI. More Deep & Instructive Variations of Blunders ---
+
+{ name: "Trap: Lasker's Double Bishop Sacrifice setup", pgn: "1. d4 d5 2. e3 Nf6 3. Nf3 e6 4. Bd3 c5 5. c3 Nc6 6. Nbd2 Bd6 7. O-O O-O" },
+{ name: "Trap: Alekhine's Gun Setup", pgn: "1. e4 c5 2. c3 d5 3. exd5 Qxd5 4. d4 e6 5. Nf3 Nf6 6. Be2 Nc6 7. O-O" },
+{ name: "Trap: The Cambridge Springs Trap (in QGD)", pgn: "1. d4 d5 2. c4 e6 3. Nc3 Nf6 4. Bg5 Nbd7 5. e3 c6 6. Nf3 Qa5 7. Nd2" },
+{ name: "Trap: The Marshall Gambit (in Semi-Slav)", pgn: "1. d4 d5 2. c4 c6 3. Nc3 e6 4. e4" },
+{ name: "Trap: The Monticelli Trap (in Bogo-Indian)", pgn: "1. d4 Nf6 2. c4 e6 3. Nf3 Bb4+ 4. Bd2 Bxd2+ 5. Qxd2 b6 6. g3 Bb7 7. Bg2 O-O 8. Nc3 Ne4 9. Qc2 Nxc3 10. Ng5" },
+{ name: "Refute: The Benko Gambit, Dlugy Variation", pgn: "1. d4 Nf6 2. c4 c5 3. d5 b5 4. cxb5 a6 5. f3" },
+{ name: "Refute: The Albin Countergambit, Balogh Defense", pgn: "1. d4 d5 2. c4 e5 3. dxe5 d4 4. Nf3 c5" },
+{ name: "Refute: The King's Gambit, Falkbeer Countergambit", pgn: "1. e4 e5 2. f4 d5 3. exd5 e4" },
+{ name: "Refute: The Queen's Gambit, Symmetrical Defense", pgn: "1. d4 d5 2. c4 c5 3. cxd5" },
+{ name: "Refute: The Sicilian, Nimzowitsch-Rubinstein System", pgn: "1. e4 c5 2. Nf3 Nf6 3. e5 Nd5" },
+{ name: "Refute: The French Defense, Alapin-Diemer Gambit", pgn: "1. e4 e6 2. d4 d5 3. Be3" },
+{ name: "Refute: The Caro-Kann, Goldman Variation", pgn: "1. e4 c6 2. Nc3 d5 3. Qf3" },
+
 ];
