@@ -10,7 +10,7 @@
 // unsound lines itself. This version contains a vast, deeply annotated
 // collection of refuted openings and amateur traps.
 
-const punishmentBookSource = [
+const punishmentBookSource = const sourceBook = [
     {"name":"Alekhine's Chase Variation: Passive Play","pgn":"1. e4 Nf6 2. e5 Nd5 3. c4 Nb6 4. c5 Nd5 5. Nc3 e6 6. d4 d6 7. cxd6 cxd6 8. Nf3"},
     {"name":"Alekhine's Defense: The Balogh Variation","pgn":"1. e4 Nf6 2. e5 Nd5 3. d4 d6 4. Bc4 Nb6 5. Bb3"},
     {"name":"Alekhine's Defense: The Brooklyn Attack","pgn":"1. e4 Nf6 2. e5 Ng8 3. d4 d5"},
@@ -292,7 +292,6 @@ const punishmentBookSource = [
     {"name":"Punish: Sicilian, Closed Variation","pgn":"1. e4 c5 2. Nc3"},
     {"name":"Punish: Skewer Pattern Recognition","pgn":"1. d4 d5 2. c4 e6 3. Nc3 Nf6 4. Bg5 Be7 5. e3 O-O 6. Nf3 Nbd7 7. Rc1 c6 8. Bd3 dxc4 9. Bxc4 Nd5 10. Bxe7 Qxe7 11. O-O Nxc3 12. Rxc3 e5"},
     {"name":"Punish: Slav Defense, Main Line","pgn":"1. d4 d5 2. c4 c6"},
-    {"name":"Punish: Smothered Mate Pattern Setup","pgn":"1. e4 e5 2. Nf3 Nc6 3. Bc4 Nd4 4. Ng5 Qg5"},
     {"name":"Punish: Sokolsky Opening, Bugayev Attack","pgn":"1. b4 e5 2. a3"},
     {"name":"Punish: Sokolsky Opening, Main Line","pgn":"1. b4 d5"},
     {"name":"Punish: Symmetrical Copycat Blunder","pgn":"1. e4 e5 2. Nf3 Nf6 3. Nxe5 Nxe4 4. Qe2 Nf6 5. Nc6+"},
@@ -545,7 +544,6 @@ const punishmentBookSource = [
     {"name":"Sicilian: The Chekhover Variation Trap","pgn":"1. e4 c5 2. Nf3 d6 3. d4 cxd4 4. Qxd4 Nc6 5. Bb5 Bd7 6. Bxc6 bxc6 7. O-O e5"},
     {"name":"Sicilian: The Godiva Gambit","pgn":"1. e4 c5 2. Nf3 Nc6 3. d4 cxd4 4. c3 dxc3 5. Nxc3 e5 6. Bc4"},
     {"name":"Slav Defense: Early ...Ne4","pgn":"1. d4 d5 2. c4 c6 3. Nf3 Nf6 4. Nc3 Bf5 5. cxd5 cxd5 6. Qb3 Bc8 7. Bf4 a6 8. e3 Ne4 9. Nxe4"},
-    {"name":"Smothered Mate Pattern Setup","pgn":"1. e4 e5 2. Nf3 Nc6 3. Bc4 Nd4 4. Ng5 Qg5"},
     {"name":"Sodium Attack (Na3): Main Refutation","pgn":"1. Na3 e5 2. e4 d5 3. exd5"},
     {"name":"Stafford Gambit: Main Refutation","pgn":"1. e4 e5 2. Nf3 Nf6 3. Nxe5 Nc6 4. Nxc6 dxc6 5. d3 Bc5 6. Be2 h5 7. c3 Ng4 8. d4 Qh4 9. g3"},
     {"name":"Stafford Gambit: The Boden-Kieseritzky Gambit Refutation","pgn":"1. e4 e5 2. Nf3 Nf6 3. Nxe5 Nc6 4. Nxc6 dxc6 5. Nc3 Bc5 6. Be2 h5 7. e5"},
