@@ -1327,7 +1327,7 @@ const sourceBook = [
 { name: "Two Knights Defense: Modern Variation", pgn: "1. e4 e5 2. Nf3 Nc6 3. Bc4 Nf6 4. d3" },
 { name: "Philidor Defense: Hanham Variation", pgn: "1. e4 e5 2. Nf3 d6 3. d4 Nd7 4. Bc4 c6 5. O-O" },
 { name: "English: Anglo-Indian Defense", pgn: "1. c4 Nf6 2. Nc3 e6 3. Nf3" },
-{ name: "Alekhine's Defense: Modern Variation", pgn: "1. e4 Nf6 2. e5 Nd5 3. d4 d6 4. Nf3" },```
+{ name: "Alekhine's Defense: Modern Variation", pgn: "1. e4 Nf6 2. e5 Nd5 3. d4 d6 4. Nf3" },
 
 
 
