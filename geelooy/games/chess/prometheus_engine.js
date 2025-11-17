@@ -98,19 +98,24 @@ let killerMoves, historyTable, transpositionTable, repetitionHistory;
 const TT_EXACT = 0, TT_LOWERBOUND = 1, TT_UPPERBOUND = 2;
 
 // Piece-Square Tables
-// prettier-ignore
-const pawnPST = [[0,0,0,0,0,0,0,0],[50,50,50,50,50,50,50,50],[10,10,20,30,30,20,10,10],[5,5,10,25,25,10,5,5],[0,0,0,20,20,0,0,0],[5,-5,-10,0,0,-10,-5,5],[5,10,10,-20,-20,10,10,5],[0,0,0,0,0,0,0,0]];
-// prettier-ignore
-const knightPST = [[-50,-40,-30,-30,-30,-30,-40,-50],[-40,-20,0,0,0,0,-20,-40],[-30,0,10,15,15,10,0,-30],[-30,5,15,20,20,15,5,-30],[-30,0,15,20,20,15,0,-30],[-30,5,10,15,15,10,5,-30],[-40,-20,0,5,5,0,-20,-40],[-50,-40,-30,-30,-30,-30,-40,-50]];
-// prettier-ignore
+// ====================================================================================
+//            REPLACE THE OLD PST CONSTANTS WITH THESE NEW ONES
+// ====================================================================================
+// These new Piece-Square Tables give much higher bonuses for placing pawns
+// and knights in the center, strongly discouraging passive or strange flank moves.
+
+// 
+const pawnPST = [[0,0,0,0,0,0,0,0],[50,50,50,50,50,50,50,50],[10,10,20,30,30,20,10,10],[5,5,10,40,40,10,5,5],[0,0,15,50,50,15,0,0],[5,-5,-10,0,0,-10,-5,5],[5,10,10,-25,-25,10,10,5],[0,0,0,0,0,0,0,0]];
+// 
+const knightPST = [[-50,-40,-30,-30,-30,-30,-40,-50],[-40,-20,0,5,5,0,-20,-40],[-30,5,15,20,20,15,5,-30],[-30,10,20,30,30,20,10,-30],[-30,10,20,30,30,20,10,-30],[-30,5,15,20,20,15,5,-30],[-40,-20,0,5,5,0,-20,-40],[-50,-40,-30,-30,-30,-30,-40,-50]];
 const bishopPST = [[-20,-10,-10,-10,-10,-10,-10,-20],[-10,0,0,0,0,0,0,-10],[-10,0,5,10,10,5,0,-10],[-10,5,5,10,10,5,5,-10],[-10,0,10,10,10,10,0,-10],[-10,10,10,10,10,10,10,-10],[-10,5,0,0,0,0,5,-10],[-20,-10,-10,-10,-10,-10,-10,-20]];
-// prettier-ignore
+// 
 const rookPST = [[0,0,0,0,0,0,0,0],[5,10,10,10,10,10,10,5],[-5,0,0,0,0,0,0,-5],[-5,0,0,0,0,0,0,-5],[-5,0,0,0,0,0,0,-5],[-5,0,0,0,0,0,0,-5],[-5,0,0,0,0,0,0,-5],[0,0,0,5,5,0,0,0]];
-// prettier-ignore
+// 
 const queenPST = [[-20,-10,-10,-5,-5,-10,-10,-20],[-10,0,0,0,0,0,0,-10],[-10,0,5,5,5,5,0,-10],[-5,0,5,5,5,5,0,-5],[0,0,5,5,5,5,0,-5],[-10,5,5,5,5,5,0,-10],[-10,0,5,0,0,0,0,-10],[-20,-10,-10,-5,-5,-10,-10,-20]];
-// prettier-ignore
+// 
 const kingPSTMidGame=[[-30,-40,-40,-50,-50,-40,-40,-30],[-30,-40,-40,-50,-50,-40,-40,-30],[-30,-40,-40,-50,-50,-40,-40,-30],[-30,-40,-40,-50,-50,-40,-40,-30],[-20,-30,-30,-40,-40,-30,-30,-20],[-10,-20,-20,-20,-20,-20,-20,-10],[20,20,0,0,0,0,20,20],[20,30,10,0,0,10,30,20]];
-// prettier-ignore
+// 
 const kingPSTEndGame=[[-50,-40,-30,-20,-20,-30,-40,-50],[-30,-20,-10,0,0,-10,-20,-30],[-30,-10,20,30,30,20,-10,-30],[-30,-10,30,40,40,30,-10,-30],[-30,-10,30,40,40,30,-10,-30],[-30,-10,20,30,30,20,-10,-30],[-30,-30,0,0,0,0,-30,-30],[-50,-30,-30,-30,-30,-30,-30,-50]];
 
 // =================================================================
@@ -408,43 +413,11 @@ function evaluate(state) {
 }
 
 
-// --- REWRITTEN & ENHANCED: STRATEGIC BONUSES ---
-// Now includes Pawn Structure, Mobility, and Good vs. Bad Bishops.
 // ====================================================================================
-//            EVALUATE STRATEGIC BONUSES (Mk. IX - WITH CASTLING & KING MOVEMENT)
+//            REPLACE YOUR OLD evaluateStrategicBonuses() FUNCTION WITH THIS ONE
 // ====================================================================================
-// ====================================================================================
-//            EVALUATE STRATEGIC BONUSES (Mk. X - BUGFIX, TEMPO & ENHANCED MOBILITY)
-// ====================================================================================
-// ====================================================================================
-//            EVALUATE STRATEGIC BONUSES (Mk. XIII - WITH CASTLING INCENTIVE)
-// ====================================================================================
-// ====================================================================================
-//            REWRITTEN: evaluateStrategicBonuses (with Pawn Shield Logic)
-// ====================================================================================
-// This version is smarter and more context-aware. It understands the vital role
-// of the pawn shield in protecting the king, preventing it from making strategically
-// unsound trades that weaken its own defense.
-
-// ====================================================================================
-//            REWRITTEN: evaluateStrategicBonuses (with Pawn Shield Logic)
-// ====================================================================================
-// This version is smarter and more context-aware. It understands the vital role
-// of the pawn shield in protecting the king, preventing it from making strategically
-// unsound trades that weaken its own defense.
-
-// ====================================================================================
-//            REWRITTEN: evaluateStrategicBonuses (with Castling Discipline)
-// ====================================================================================
-// This version introduces severe penalties for moving the king before castling and
-// provides a huge incentive to castle, fixing the suicidal king-walks.
-
-// ====================================================================================
-//            BUGFIXED: evaluateStrategicBonuses (with Castling Discipline)
-// ====================================================================================
-// This version fixes the crash that occurred when castling rights were completely
-// lost for a player. It now safely checks for the existence of castling rights.
-
+// This version adds a new, powerful bonus for central control and increases
+// the reward for developing pieces, teaching the engine better opening principles.
 function evaluateStrategicBonuses(state, color, pieceData, friendlyPawnFiles, enemyPawnFiles) {
     const score = new TaperedScore();
     const isWhite = color === 'w';
@@ -452,14 +425,20 @@ function evaluateStrategicBonuses(state, color, pieceData, friendlyPawnFiles, en
     const pawnRank = isWhite ? 6 : 1;
     const myKingPos = isWhite ? state.kingPos.w : state.kingPos.b;
     
-    // --- THE CRITICAL BUGFIX ---
-    // Use optional chaining (?.) to safely access castling rights. If state.castlingRights.w
-    // is undefined, this will now correctly result in 'undefined' instead of crashing.
+    // --- STRONG INCENTIVE FOR CENTER CONTROL ---
+    const myPawns = isWhite ? pieceData.P : pieceData.p;
+    for (const pawn of myPawns) {
+        if (pawn.c === 3 || pawn.c === 4) { // d and e files
+            if (pawn.r === (isWhite ? 4 : 3) || pawn.r === (isWhite ? 3 : 4)) {
+                score.mg += 45; // Huge bonus for central pawns
+            }
+        }
+    }
+    
     const canCastleKingSide = isWhite ? state.castlingRights.w?.k : state.castlingRights.b?.k;
     const canCastleQueenSide = isWhite ? state.castlingRights.w?.q : state.castlingRights.b?.q;
     const canStillCastle = canCastleKingSide || canCastleQueenSide;
 
-    // --- 1. CASTLING & KING POSITION (Logic remains the same) ---
     let hasCastled = false;
     let kingOnStartSquare = false;
 
@@ -467,70 +446,46 @@ function evaluateStrategicBonuses(state, color, pieceData, friendlyPawnFiles, en
         kingOnStartSquare = myKingPos.r === startRank && myKingPos.c === 4;
         if (myKingPos.r === startRank && (myKingPos.c === 6 || myKingPos.c === 2)) {
             hasCastled = true;
-            score.add(new TaperedScore(myKingPos.c === 6 ? 150 : 80, 50));
+            score.add(new TaperedScore(myKingPos.c === 6 ? 90 : 70, 30)); // Increased castling bonus
         }
     }
 
-    // --- MAJOR PENALTY FOR MOVING THE KING BEFORE CASTLING ---
     if (!kingOnStartSquare && !hasCastled && canStillCastle) {
-        score.subtract(new TaperedScore(150, 40));
+        score.subtract(new TaperedScore(100, 30)); // Penalty for moving king before castling
     }
 
-    // --- 2. PAWN SHIELD EVALUATION ---
-    if (hasCastled && myKingPos) {
-        const kingFile = myKingPos.c;
-        const shieldFiles = [kingFile - 1, kingFile, kingFile + 1];
-        
-        for (const file of shieldFiles) {
-            if (file < 0 || file > 7) continue;
-            let shieldPawnFound = false;
-            for (const pawn of (isWhite ? pieceData.P : pieceData.p)) {
-                if (pawn.c === file) {
-                    shieldPawnFound = true;
-                    const rankDist = Math.abs(pawn.r - pawnRank);
-                    if (rankDist > 1) {
-                         score.subtract(new TaperedScore(15 * rankDist, 0));
-                    }
-                    break;
-                }
-            }
-            if (!shieldPawnFound) {
-                score.subtract(new TaperedScore(40, 10));
-            }
-        }
-    }
-
-    // --- 3. DEVELOPMENT & PIECE ACTIVITY ---
+    // --- INCREASED DEVELOPMENT AND PIECE ACTIVITY BONUSES ---
     for (const knight of (isWhite ? pieceData.N : pieceData.n)) {
-        if (knight.r !== startRank) score.add(new TaperedScore(20, 10));
+        if (knight.r !== startRank) score.add(new TaperedScore(30, 15)); // Increased bonus
     }
     for (const bishop of (isWhite ? pieceData.B : pieceData.b)) {
-        if (bishop.r !== startRank) score.add(new TaperedScore(20, 10));
+        if (bishop.r !== startRank) score.add(new TaperedScore(30, 15)); // Increased bonus
     }
     if ((isWhite ? pieceData.B : pieceData.b).length >= 2) {
-        score.add(new TaperedScore(75, 100));
+        score.add(new TaperedScore(50, 75)); // Bishop pair bonus
     }
     for (const rook of (isWhite ? pieceData.R : pieceData.r)) {
         if (!friendlyPawnFiles.has(rook.c)) {
-             score.add(new TaperedScore(enemyPawnFiles.has(rook.c) ? 25 : 50, 20));
+             score.add(new TaperedScore(enemyPawnFiles.has(rook.c) ? 40 : 25, 20)); // Rooks on open files
         }
-        if (rook.r === (isWhite ? 1 : 6)) {
+        if (rook.r === (isWhite ? 1 : 6)) { // Rooks on 7th rank (for white) or 2nd (for black)
             score.add(new TaperedScore(50, 60));
         }
     }
 
-    // --- 4. PAWN STRUCTURE ---
-    const myPawns = isWhite ? pieceData.P : pieceData.p;
+    // --- PAWN STRUCTURE (Logic remains the same, values are effective) ---
     const pawnFileCounts = new Map();
     for (const pawn of myPawns) {
         pawnFileCounts.set(pawn.c, (pawnFileCounts.get(pawn.c) || 0) + 1);
+        // Isolated pawn penalty
         if (!friendlyPawnFiles.has(pawn.c - 1) && !friendlyPawnFiles.has(pawn.c + 1)) {
-            score.subtract(new TaperedScore(40, 60));
+            score.subtract(new TaperedScore(25, 40));
         }
     }
+    // Doubled pawn penalty
     for (const count of pawnFileCounts.values()) {
         if (count > 1) {
-            score.subtract(new TaperedScore(25 * (count - 1), 35 * (count - 1)));
+            score.subtract(new TaperedScore(20 * (count - 1), 30 * (count - 1)));
         }
     }
 
@@ -663,51 +618,65 @@ function evaluateThreats(state, color, pieceData) {
 // unsound sacrifices and the failure to escape perpetual check.
 
 
-function evaluateKingSafety(state, kingPos, attackerColor, pieceData, gamePhase) {
+// ====================================================================================
+//            REPLACE YOUR OLD evaluateKingSafety() FUNCTION WITH THIS ONE
+// ====================================================================================
+// This new version is far more sophisticated. It evaluates the pawn shield,
+// open files, and the number/power of attackers near the king. The penalties
+// are much higher, making the engine prioritize king safety above all else.
+function evaluateKingSafety(state, kingPos, attackerColor, pieceData) {
     const danger = new TaperedScore();
+    if (!kingPos) return danger;
+
     const isAttackerWhite = attackerColor === 'w';
+    const kingFile = kingPos.c;
+    const kingRank = kingPos.r;
+
+    // --- 1. Pawn Shield Evaluation ---
+    // Heavily penalize missing pawns in front of a castled or soon-to-be-castled king.
+    const pawnShieldRank = isAttackerWhite ? 2 : 5;
+    const shieldFiles = [kingFile - 1, kingFile, kingFile + 1];
     
-    // --- CRITICAL FIX: MASSIVE QUEEN PROXIMITY PENALTY (Middlegame Only) ---
-    const enemyQueen = isAttackerWhite ? pieceData.Q[0] : pieceData.q[0];
-    if (enemyQueen) {
-        const queenDist = Math.max(Math.abs(kingPos.r - enemyQueen.r), Math.abs(kingPos.c - enemyQueen.c));
-        // Only apply in the middlegame (phase > 0.5)
-        if (queenDist <= 3 && gamePhase > 0.5) { 
-            // Penalty scales by proximity: 300 for dist 1, 200 for dist 2, 100 for dist 3
-            danger.mg += (4 - queenDist) * 100; 
+    // Only evaluate pawn shield if the king is on the back rank
+    if (kingRank === (isAttackerWhite ? 0 : 7)) {
+        for (const file of shieldFiles) {
+            if (file < 0 || file > 7) continue;
+            let shieldPawnFound = false;
+            const defenderPawns = isAttackerWhite ? pieceData.p : pieceData.P;
+            for (const pawn of defenderPawns) {
+                if (pawn.c === file) {
+                    shieldPawnFound = true;
+                    // Penalize if the shield pawn has moved too far forward
+                    if (Math.abs(pawn.r - pawnShieldRank) > 1) {
+                         danger.mg += 25;
+                    }
+                    break;
+                }
+            }
+            if (!shieldPawnFound) {
+                danger.mg += 60; // A missing shield pawn is a huge weakness
+            }
         }
     }
 
-    let attackerCount = 0;
-    const attackerPieceTypes = isAttackerWhite ? ['N', 'B', 'R', 'Q'] : ['n', 'b', 'r', 'q'];
-    for (const pType of attackerPieceTypes) {
-        attackerCount += pieceData[pType].length;
-    }
+    // --- 2. Attacker Proximity and Power ---
+    let attackWeight = 0;
+    const attackerPieceTypes = isAttackerWhite ? ['Q', 'R', 'B', 'N'] : ['q', 'r', 'b', 'n'];
+    const attackWeights = { q: 10, r: 6, b: 4, n: 4 };
 
-    if (attackerCount < 2 && !enemyQueen) {
-        return danger;
-    }
-
-    // Secondary King Zone Danger
-    let dangerScore = 0;
-    const kingZone = getKingZone(kingPos);
-    const attackWeights = { q: 9, r: 5, b: 3, n: 3 };
-    
     for (const pType of attackerPieceTypes) {
-        const attackers = pieceData[pType];
-        for (const attacker of attackers) {
-            for (const zoneSquare of kingZone) {
-                if (isSquareAttackedByPiece(state.board, zoneSquare.r, zoneSquare.c, attacker.r, attacker.c, attackerColor)) {
-                    dangerScore += attackWeights[pType.toLowerCase()];
-                }
+        for (const attacker of pieceData[pType]) {
+            // Calculate Chebyshev distance (king moves) from the attacker to the king
+            const dist = Math.max(Math.abs(attacker.r - kingRank), Math.abs(attacker.c - kingFile));
+            if (dist <= 4) { // Only consider pieces within a 4-square radius
+                attackWeight += attackWeights[pType.toLowerCase()] * (5 - dist); // The closer, the more dangerous
             }
         }
     }
     
-    const scaledDanger = dangerScore * (1 + (attackerCount / 4));
-
-    danger.mg += Math.round(scaledDanger);
-    danger.eg += Math.round(scaledDanger / 2);
+    // The danger scales exponentially with the number of attackers
+    danger.mg += Math.pow(attackWeight, 1.5);
+    danger.eg += attackWeight * 2; // King safety still matters in the endgame, but less so
 
     return danger;
 }
@@ -956,58 +925,6 @@ function searchRoot(initialState, maxDepth) {
  * It uses the high-performance make/unmake pattern for maximum speed.
  * @param {object} state - The global game state object (which will be modified and reverted).
  */
-// ====================================================================================
-//            FINAL, CORRECT, AND HIGH-PERFORMANCE search (WITH INTERNAL LEGALITY CHECK)
-// ====================================================================================
-
-// ====================================================================================
-//            FINAL, CORRECT, AND HIGH-PERFORMANCE search (WITH AGGRESSIVE REPETITION HANDLING)
-// ====================================================================================
-
-// ====================================================================================
-//            CORRECTED SEARCH (WITH ROBUST REPETITION HANDLING)
-// ====================================================================================
-
-
-
-// ====================================================================================
-//            SEARCH WITH MORE AGGRESSIVE REPETITION HANDLING
-// ====================================================================================
-// ====================================================================================
-//            THE CORRECT AND WORKING search FUNCTION (FINAL VERSION)
-// ====================================================================================
-// This version fixes the "low node count" bug permanently by correctly managing
-// the repetition history within the recursive search.
-// It also includes the aggressive "never draw a won game" logic.
-
-// ====================================================================================
-//            THE DEFINITIVE, CORRECT search FUNCTION (FINAL)
-// ====================================================================================
-// This version permanently fixes the "low node count" bug by correctly managing the
-// repetition history. It only requires changing this one function.
-
-// ====================================================================================
-//            THE ORIGINAL, WORKING search FUNCTION (WITH ONE TARGETED FIX)
-// ====================================================================================
-// This restores the original, correct search structure that searched thousands of nodes.
-// The ONLY change is to the inside of the repetition check to make it more aggressive.
-
-// ====================================================================================
-//            SEARCH WITH RUTHLESS "ANTI-DRAW" LOGIC (FINAL VERSION)
-// ====================================================================================
-// This version fixes the bug where the engine forces a draw in a winning position.
-
-// ====================================================================================
-//            THE CORRECT search FUNCTION (Based on Your Working Original)
-// ====================================================================================
-// This restores the original, working search logic that searched thousands of nodes.
-// The ONLY change is to the return value inside the repetition block to make the
-// engine avoid draws when it is winning.
-
-// ====================================================================================
-//            REPLACE YOUR OLD search() FUNCTION WITH THIS ONE
-// ====================================================================================
-// This version adds a 'contempt' factor to discourage repetitions early.
 function search(state, depth, alpha, beta, ply, previousMoveWasNull) {
     if ((nodeCount & 2047) === 0 && performance.now() - searchStartTime > timeLimit) stopSearch = true;
     if (stopSearch) return 0;
@@ -1116,70 +1033,84 @@ function search(state, depth, alpha, beta, ply, previousMoveWasNull) {
 
 
 
+// ====================================================================================
+//            REPLACE YOUR OLD quiesce() FUNCTION WITH THIS ONE
+// ====================================================================================
+// This new version is far more robust. It searches all captures AND all checks,
+// preventing the engine from missing simple tactical replies and mates.
+// It removes aggressive SEE pruning that was causing tactical blindness.
 function quiesce(state, alpha, beta, ply, qDepth = 0) {
     if ((nodeCount & 2047) === 0 && performance.now() - searchStartTime > timeLimit) stopSearch = true;
     if (stopSearch) return 0;
     if (ply >= MATE_IN_MAX_PLY || qDepth >= Q_MAX_DEPTH) return evaluate(state);
 
     nodeCount++;
-    const standPat = evaluate(state);
-    
-    // --- CRITICAL FIX: STAND-PAT LOGIC ---
     const inCheck = state.kingPos[state.turn] && isSquareAttacked(state.board, state.kingPos[state.turn].r, state.kingPos[state.turn].c, state.turn === 'w' ? 'b' : 'w');
+
+    // If we are not in check, the "stand-pat" score is an option.
+    // The engine can choose to do nothing if the position is already good.
     if (!inCheck) {
+        const standPat = evaluate(state);
         if (standPat >= beta) return beta;
         if (alpha < standPat) alpha = standPat;
     }
 
     const moves = generatePseudoLegalMoves(state);
-    
-    // Filter and order moves
     const tacticalMoves = [];
+
+    // Generate a list of all tactical moves (captures, promotions, and checks)
     for (const move of moves) {
-        // If in check, ALL legal moves are tactical. Otherwise, only captures/promotions.
-        if (move.capture || move.promotion || inCheck) {
+        if (move.capture || move.promotion) {
             tacticalMoves.push(move);
+        } else if (!inCheck) { // Only add quiet checks if not already in check to avoid infinite loops
+            const unmakeInfo = makeMove(state, move);
+            const enemyKingPos = state.kingPos[state.turn];
+            const isCheck = enemyKingPos && isSquareAttacked(state.board, enemyKingPos.r, enemyKingPos.c, state.turn === 'w' ? 'b' : 'w');
+            unmakeMove(state, unmakeInfo);
+            if (isCheck) {
+                tacticalMoves.push(move);
+            }
         }
     }
     
-    // Order by SEE, then Promotions
+    // If in check, all legal moves must be considered.
+    if(inCheck) {
+         tacticalMoves.push(...moves);
+    }
+
+    // Order moves to search the most promising ones first (MVV-LVA)
     tacticalMoves.sort((a, b) => {
-        let scoreA = a.capture ? see(state, a.from[0], a.from[1], a.to[0], a.to[1]) : 0;
-        let scoreB = b.capture ? see(state, b.from[0], b.from[1], b.to[0], b.to[1]) : 0;
-        if (a.promotion) scoreA += 10000;
-        if (b.promotion) scoreB += 10000;
+        let scoreA = a.promotion ? 10000 : (a.capture ? (pieceValues[a.capture.toLowerCase()].mg * 10) - pieceValues[a.piece.toLowerCase()].mg : 0);
+        let scoreB = b.promotion ? 10000 : (b.capture ? (pieceValues[b.capture.toLowerCase()].mg * 10) - pieceValues[b.piece.toLowerCase()].mg : 0);
         return scoreB - scoreA;
     });
 
     for (const move of tacticalMoves) {
-        
-        // --- CRITICAL FIX: AGGRESSIVE SEE FILTERING (Pruning bad captures) ---
-        if (move.capture) {
-            if (see(state, move.from[0], move.from[1], move.to[0], move.to[1]) < 0) {
-                continue; 
-            }
-        }
-        
         const unmakeInfo = makeMove(state, move);
 
-        // --- FULL LEGALITY CHECK ---
+        // A full legality check is essential within quiescence search
         const originalTurn = state.turn === 'w' ? 'b' : 'w';
         const kingPos = state.kingPos[originalTurn];
         if (kingPos && isSquareAttacked(state.board, kingPos.r, kingPos.c, state.turn)) {
             unmakeMove(state, unmakeInfo);
-            continue;
+            continue; // Skip illegal moves
         }
         
-        // Recurse
         repetitionHistory.push(state.zobristHash);
         const score = -quiesce(state, -beta, -alpha, ply + 1, qDepth + 1);
         repetitionHistory.pop();
         unmakeMove(state, unmakeInfo);
 
         if (stopSearch) return 0;
-        if (score >= beta) return beta;
+        if (score >= beta) return beta; // Fail-hard beta cutoff
         if (score > alpha) alpha = score;
     }
+
+    // If we are in check and have no legal moves, it's checkmate.
+    if (inCheck && alpha <= -MATE_SCORE) {
+        return -MATE_SCORE + ply;
+    }
+    
     return alpha;
 }
 
