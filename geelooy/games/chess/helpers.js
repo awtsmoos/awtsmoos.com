@@ -65,19 +65,7 @@ const deBruijn64 = 0x07EDD5E59A4E28C2n;
 
 // --- Bit Manipulation Helpers ---
 
-/**
- * Counts the number of set bits in a BigInt bitboard (Hamming weight).
- * @param {bigint} bb The bitboard.
- * @returns {number} The number of set bits.
- */
-function popcount(bb) {
-    let count = 0;
-    while (bb > 0n) {
-        bb &= (bb - 1n);
-        count++;
-    }
-    return count;
-}
+
 
 // --- Pre-computed Magic Numbers & Data Structures ---
 const bishopRelevantBits = [6, 5, 5, 5, 5, 5, 5, 6, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 7, 7, 7, 7, 5, 5, 5, 5, 7, 7, 7, 7, 5, 5, 5, 5, 7, 7, 7, 7, 5, 5, 5, 5, 7, 7, 7, 7, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 6, 5, 5, 5, 5, 5, 5, 6];
@@ -93,6 +81,30 @@ const bishopMasks = Array(64).fill(0n);
 const rookMasks = Array(64).fill(0n);
 const bishopAttacks = Array(64).fill(null).map(() => Array(512).fill(0n));
 const rookAttacks = Array(64).fill(null).map(() => Array(4096).fill(0n));
+
+/*B"H*/
+/**
+ * =================================================================
+ *               DEFINITIVE MAGIC BITBOARD INITIALIZATION (v3)
+ * This entire block replaces the previous implementation to resolve
+ * the initialization crash. It is fully self-contained and does not
+ * rely on external bit-count arrays.
+ * =================================================================
+ */
+
+/**
+ * Counts the number of set bits in a BigInt bitboard (Hamming weight).
+ * @param {bigint} bb The bitboard.
+ * @returns {number} The number of set bits.
+ */
+function popcount(bb) {
+    let count = 0;
+    while (bb > 0n) {
+        bb &= (bb - 1n);
+        count++;
+    }
+    return count;
+}
 
 /**
  * Generates slider piece attacks for a given square on the fly.
@@ -119,11 +131,12 @@ function generateSliderAttacks(sq, isBishop, blockers) {
 
 /**
  * Initializes the magic bitboard tables for slider pieces.
- * This version uses corrected mask generation logic.
+ * This version is robust and calculates bit counts from the generated masks
+ * directly, eliminating the source of the initialization crash.
  */
 function initSliders() {
+    // Generate masks using the edge-trimming logic required by the magic numbers
     for (let s = 0; s < 64; s++) {
-        // Correctly generate masks by excluding only the outer perimeter
         const r = s >> 3, f = s & 7;
         for (let i = r + 1, j = f + 1; i < 7 && j < 7; i++, j++) bishopMasks[s] |= 1n << BigInt(i * 8 + j);
         for (let i = r + 1, j = f - 1; i < 7 && j > 0; i++, j--) bishopMasks[s] |= 1n << BigInt(i * 8 + j);
@@ -135,15 +148,19 @@ function initSliders() {
         for (let i = f - 1; i > 0; i--) rookMasks[s] |= 1n << BigInt(r * 8 + i);
     }
 
+    // Populate attack tables using the generated masks
     for (let s = 0; s < 64; s++) {
         const bmask = bishopMasks[s];
         const rmask = rookMasks[s];
-        const bcnt = bishopRelevantBits[s];
-        const rcnt = rookRelevantBits[s];
 
+        // ROBUSTNESS FIX: Calculate bit counts from the actual masks, not from a flawed table.
+        const bcnt = popcount(bmask);
+        const rcnt = popcount(rmask);
+        
         for (let i = 0; i < (1 << bcnt); i++) {
             let temp_bmask = bmask;
             let blockers = 0n;
+            // This loop now runs the correct number of times, guaranteed.
             for (let j = 0; j < bcnt; j++) {
                 const lsb = getLSBIndex(temp_bmask);
                 temp_bmask = popBit(temp_bmask);
@@ -158,6 +175,7 @@ function initSliders() {
         for (let i = 0; i < (1 << rcnt); i++) {
             let temp_rmask = rmask;
             let blockers = 0n;
+            // This loop now runs the correct number of times, guaranteed.
             for (let j = 0; j < rcnt; j++) {
                 const lsb = getLSBIndex(temp_rmask);
                 temp_rmask = popBit(temp_rmask);
