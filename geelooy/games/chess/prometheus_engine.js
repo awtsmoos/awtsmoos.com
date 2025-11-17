@@ -1366,10 +1366,14 @@ function initializeEngine() {
 }
 
 /* B"H */
-// REPLACE the old self.onmessage function with this one.
+
+// --- REPLACE the entire self.onmessage function with this definitive, unified version ---
 
 self.onmessage = function(e) {
     const { command } = e.data;
+
+    // A consistent thinking time for analysis to keep it fast but deep. 3 seconds is a good balance.
+    const ANALYSIS_THINKING_TIME = 3000; 
 
     // Use a switch to handle different commands from the main thread
     switch (command) {
@@ -1382,30 +1386,24 @@ self.onmessage = function(e) {
             break;
             
         case 'calculate_move': {
-            // Ensure initialization has happened before trying to calculate.
+            // This is the "Playing" mode logic
             if (!isInitialized) {
                 console.error("Engine received calculate_move command before it was initialized.");
                 initializeEngine();
             }
 
+            // It receives maxTime from main.js (which you set to 10 seconds)
             const { fen, maxDepth, maxTime } = e.data;
 
-            // --- Use the new helper to initialize the search ---
-            initializeSearch(maxTime);
-
+            initializeSearch(maxTime); // Use the provided time limit
             const initialState = createGameState(fen);
             repetitionHistory.push(initialState.zobristHash);
             
+            // Book move logic remains the same...
             const currentHash = initialState.zobristHash.toString();
-            if (DEBUG_MODE) {
-                console.log(`---------------------------------`);
-                console.log(`Calculating move for FEN: ${fen}`);
-                console.log(`LIVE ZOBRIST HASH: ${currentHash}`);
-            }
-
-            // --- HIERARCHY 1: Check the main 'grandmaster' opening book first. ---
             if (openingBook.has(currentHash)) {
-                const bookEntry = openingBook.get(currentHash);
+                // ... (book move code is unchanged)
+                 const bookEntry = openingBook.get(currentHash);
                 const bookMoves = bookEntry.moves;
                 const openingName = bookEntry.name;
                 const legalMoves = generateLegalMoves(initialState);
@@ -1423,11 +1421,9 @@ self.onmessage = function(e) {
                     postMessage({ type: 'move_result', bestMove: randomVerifiedMove, score: `Book Move: ${openingName}`, timeTaken: 0, nodesSearched: 0 });
                     return;
                 }
-            } 
-            
-            // --- HIERARCHY 2: If no main book move, check the 'punishment' book. ---
-            else if (punishmentBook.has(currentHash)) {
-                const bookEntry = punishmentBook.get(currentHash);
+            } else if (punishmentBook.has(currentHash)) {
+                 // ... (punishment book code is unchanged)
+                  const bookEntry = punishmentBook.get(currentHash);
                 const bookMoves = bookEntry.moves;
                 const trapName = bookEntry.name;
                 const legalMoves = generateLegalMoves(initialState);
@@ -1447,12 +1443,8 @@ self.onmessage = function(e) {
                 }
             }
             
-            // --- HIERARCHY 3: If neither book has a valid move, then think. ---
-            if (DEBUG_MODE) {
-                console.warn("Engine is now THINKING because of a book miss.");
-            }
-
-            const { bestMove, score } = searchRoot(initialState, maxDepth || 99);
+            // If no book move, think until time runs out. Depth is set high so time is the only limit.
+            const { bestMove, score } = searchRoot(initialState, 99, maxTime);
             postMessage({
                 type: 'move_result',
                 bestMove: bestMove, score: score,
@@ -1462,181 +1454,134 @@ self.onmessage = function(e) {
             break;
         }
             
-            
-            /* B"H */
-
-// --- REPLACE the old 'analyze_pgn' case with this DEFINITIVE version ---
-case 'analyze_pgn':
-    const { pgnText } = e.data;
-
-    // 1. Clean the raw PGN text.
-    const fenMatch = pgnText.match(/\[FEN\s+"(.*?)"\]/);
-    const initialFen = fenMatch ? fenMatch[1] : "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
-    let moveText = pgnText.replace(/\[.*?\]\s*|{.*?}|\d+\.\s*|\$\d+/g, '').replace(/\s+/g, ' ').trim();
-    const movesSAN = moveText.split(' ').filter(m => m && !['1-0', '0-1', '1/2-1/2', '*'].includes(m));
-
-    // 2. Use the PgnConverter to process the game.
-    const validator = new PgnConverter();
-    validator.currentState = createGameState(initialFen);
-
-    const validatedMoves = [];
-    const boardHistory = [initialFen];
-    const openingNames = ["Starting Position"];
-
-    for (const san of movesSAN) {
-        const move = validator.parseSan(san);
-        if (!move) {
-            postMessage({ type: 'analysis_error', message: `Invalid PGN: Could not parse move "${san}"` });
-            return;
-        }
-        
-        validator.applyMove(move);
-        validatedMoves.push(move);
-        boardHistory.push(validator.toFen());
-
-        // --- NEW & CORRECT HIERARCHICAL LOOKUP ---
-        const currentHash = calculateZobristHash(validator.currentState).toString();
-        let foundName = null;
-
-        // HIERARCHY 1: Check the main grandmaster book first.
-        if (openingBook.has(currentHash)) {
-            foundName = openingBook.get(currentHash).name;
-        } 
-        // HIERARCHY 2: If not in the main book, check the punishment book.
-        else if (punishmentBook.has(currentHash)) {
-            foundName = punishmentBook.get(currentHash).name;
-        }
-
-        // Push the found name, or null if it's in neither book.
-        openingNames.push(foundName);
-    }
-    
-    const gameData = {
-        moves: validatedMoves,
-        boardHistory: boardHistory,
-        openingNames: openingNames,
-        initialFen: initialFen
-    };
-    
-    lastParsedGame = gameData;
-
-    // 3. Send the complete, validated package back to the main thread.
-    postMessage({
-        type: 'analysis_result',
-        moves: validatedMoves,
-        boardHistory: boardHistory,
-        openingNames: openingNames
-    });
-    break;
-    /* B"H */
-
-/* B"H */
-
-
-
-/* B"H */
-
-// --- REPLACE the 'run_engine_analysis' case with this DEFINITIVE, LOGICALLY SOUND version ---
-case 'run_engine_analysis': {
-    if (!lastParsedGame) {
-        postMessage({ type: 'analysis_error', message: "No PGN has been loaded to analyze." });
-        return;
-    }
-
-    console.log("Starting real-time game analysis from cached data...");
-    
-    // Set a consistent depth for all analysis searches
-    const ANALYSIS_DEPTH = 3;
-    initializeSearch(99999999); 
-
-    const { moves, initialFen, openingNames } = lastParsedGame;
-    const game = new PgnConverter();
-    game.currentState = createGameState(initialFen);
-
-    const BEST_MOVE_TOLERANCE = 40; 
-    const MISTAKE_THRESHOLD = 90;   
-    const BLUNDER_THRESHOLD = 250;  
-
-    for (let i = 0; i < moves.length; i++) {
-        const actualMove = moves[i];
-        let classification = 'good';
-        let bestMoveFound = null;
-
-        // --- STEP 1: HANDLE CHECKMATES AND BOOK MOVES (NO SEARCH NEEDED) ---
-        const unmakeInfoForMateCheck = makeMove(game.currentState, actualMove);
-        const legalMovesForOpponent = generateLegalMoves(game.currentState);
-        const opponentKingPos = game.currentState.kingPos[game.currentState.turn];
-        const isCheckmate = legalMovesForOpponent.length === 0 && opponentKingPos && isSquareAttacked(game.currentState.board, opponentKingPos.r, opponentKingPos.c, game.currentState.turn === 'w' ? 'b' : 'w');
-        unmakeMove(game.currentState, unmakeInfoForMateCheck);
-
-        const isBookMove = openingNames[i + 1] !== null && i < 30;
-
-        if (isCheckmate || isBookMove) {
-            classification = 'best';
-            bestMoveFound = actualMove;
-        } else {
-            // --- STEP 2: PERFORM COMPARATIVE DEEP SEARCH FOR NON-TRIVIAL MOVES ---
-            
-            // Search 1: Find the absolute best move and its true search score.
-            repetitionHistory = [game.currentState.zobristHash];
-            const searchResult = searchRoot(game.currentState, ANALYSIS_DEPTH);
-            const bestMoveEval = searchResult.score;
-            bestMoveFound = searchResult.bestMove;
-
-            // *** THE CRUCIAL SANITY CHECK ***
-            // If the engine's best move is the same as the move played, it MUST be a 'best' move.
-            // This overrides any potential floating-point weirdness in the search scores.
-            const playedIsBest = bestMoveFound && actualMove &&
-                                 bestMoveFound.from[0] === actualMove.from[0] &&
-                                 bestMoveFound.from[1] === actualMove.from[1] &&
-                                 bestMoveFound.to[0] === actualMove.to[0] &&
-                                 bestMoveFound.to[1] === actualMove.to[1];
-
-            if (playedIsBest) {
-                classification = 'best';
-                bestMoveFound = actualMove;
-            } else {
-                // Search 2: Get the true search score for the move the user ACTUALLY played.
-                const unmakeInfo = makeMove(game.currentState, actualMove);
-                // We get the score by running the same search function from the resulting position.
-                // The score is negated because the turn has flipped. This gives us an apples-to-apples comparison.
-                const scoreForUserMove = -search(game.currentState, ANALYSIS_DEPTH - 1, -Infinity, Infinity, 1, false);
-                unmakeMove(game.currentState, unmakeInfo);
-                
-                // Now we compare two deep search scores, which is logically sound.
-                const evalDrop = bestMoveEval - scoreForUserMove;
-
-                if (evalDrop > BLUNDER_THRESHOLD) {
-                    classification = 'blunder';
-                } else if (evalDrop > MISTAKE_THRESHOLD) {
-                    classification = 'mistake';
-                } else if (evalDrop <= BEST_MOVE_TOLERANCE) {
-                    classification = 'best';
-                    bestMoveFound = actualMove; 
-                } else {
-                    classification = 'good';
+        case 'analyze_pgn':
+            // This logic is unchanged
+            const { pgnText } = e.data;
+            const fenMatch = pgnText.match(/\[FEN\s+"(.*?)"\]/);
+            const initialFen = fenMatch ? fenMatch[1] : "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+            let moveText = pgnText.replace(/\[.*?\]\s*|{.*?}|\d+\.\s*|\$\d+/g, '').replace(/\s+/g, ' ').trim();
+            const movesSAN = moveText.split(' ').filter(m => m && !['1-0', '0-1', '1/2-1/2', '*'].includes(m));
+            const validator = new PgnConverter();
+            validator.currentState = createGameState(initialFen);
+            const validatedMoves = [];
+            const boardHistory = [initialFen];
+            const openingNames = ["Starting Position"];
+            for (const san of movesSAN) {
+                const move = validator.parseSan(san);
+                if (!move) {
+                    postMessage({ type: 'analysis_error', message: `Invalid PGN: Could not parse move "${san}"` });
+                    return;
                 }
+                validator.applyMove(move);
+                validatedMoves.push(move);
+                boardHistory.push(validator.toFen());
+                const currentHash = calculateZobristHash(validator.currentState).toString();
+                let foundName = null;
+                if (openingBook.has(currentHash)) {
+                    foundName = openingBook.get(currentHash).name;
+                } else if (punishmentBook.has(currentHash)) {
+                    foundName = punishmentBook.get(currentHash).name;
+                }
+                openingNames.push(foundName);
             }
+            const gameData = {
+                moves: validatedMoves,
+                boardHistory: boardHistory,
+                openingNames: openingNames,
+                initialFen: initialFen
+            };
+            lastParsedGame = gameData;
+            postMessage({
+                type: 'analysis_result',
+                moves: validatedMoves,
+                boardHistory: boardHistory,
+                openingNames: openingNames
+            });
+            break;
+
+        case 'run_engine_analysis': {
+            // This is the "Analyzing" mode logic, now perfectly consistent with "Playing" mode
+            if (!lastParsedGame) {
+                postMessage({ type: 'analysis_error', message: "No PGN has been loaded to analyze." });
+                return;
+            }
+
+            console.log("Starting unified game analysis...");
+            const { moves, initialFen, openingNames } = lastParsedGame;
+            const game = new PgnConverter();
+            game.currentState = createGameState(initialFen);
+
+            const BEST_MOVE_TOLERANCE = 40; 
+            const MISTAKE_THRESHOLD = 90;   
+            const BLUNDER_THRESHOLD = 250;  
+
+            for (let i = 0; i < moves.length; i++) {
+                const actualMove = moves[i];
+                let classification = 'good';
+                let bestMoveFound = null;
+
+                const unmakeInfoForMateCheck = makeMove(game.currentState, actualMove);
+                const isCheckmate = generateLegalMoves(game.currentState).length === 0 && isSquareAttacked(game.currentState.board, game.currentState.kingPos[game.currentState.turn].r, game.currentState.kingPos[game.currentState.turn].c, game.currentState.turn === 'w' ? 'b' : 'w');
+                unmakeMove(game.currentState, unmakeInfoForMateCheck);
+                
+                const isBookMove = openingNames[i + 1] !== null && i < 30;
+
+                if (isCheckmate || isBookMove) {
+                    classification = 'best';
+                    bestMoveFound = actualMove;
+                } else {
+                    // Search 1: Find the best move using the unified, time-limited logic.
+                    initializeSearch(ANALYSIS_THINKING_TIME);
+                    repetitionHistory = [game.currentState.zobristHash];
+                    const searchResult = searchRoot(game.currentState, 99, ANALYSIS_THINKING_TIME);
+                    const bestMoveEval = searchResult.score;
+                    bestMoveFound = searchResult.bestMove;
+
+                    const playedIsBest = bestMoveFound && actualMove && (bestMoveFound.from[0] === actualMove.from[0] && bestMoveFound.from[1] === actualMove.from[1] && bestMoveFound.to[0] === actualMove.to[0] && bestMoveFound.to[1] === actualMove.to[1]);
+
+                    if (playedIsBest) {
+                        classification = 'best';
+                        bestMoveFound = actualMove;
+                    } else {
+                        // Search 2: Evaluate the user's move using the same unified, time-limited logic.
+                        const unmakeInfo = makeMove(game.currentState, actualMove);
+                        initializeSearch(ANALYSIS_THINKING_TIME);
+                        repetitionHistory = [game.currentState.zobristHash];
+                        // The score is negated because the turn has flipped.
+                        const scoreForUserMove = -searchRoot(game.currentState, 99, ANALYSIS_THINKING_TIME).score;
+                        unmakeMove(game.currentState, unmakeInfo);
+                        
+                        const evalDrop = bestMoveEval - scoreForUserMove;
+
+                        if (evalDrop > BLUNDER_THRESHOLD) {
+                            classification = 'blunder';
+                        } else if (evalDrop > MISTAKE_THRESHOLD) {
+                            classification = 'mistake';
+                        } else if (evalDrop <= BEST_MOVE_TOLERANCE) {
+                            classification = 'best';
+                            bestMoveFound = actualMove; 
+                        } else {
+                            classification = 'good';
+                        }
+                    }
+                }
+
+                game.applyMove(actualMove);
+                self.postMessage({
+                    type: 'analysis_update',
+                    index: i,
+                    result: { classification: classification, bestMove: bestMoveFound }
+                });
+            }
+
+            self.postMessage({ type: 'analysis_finished' });
+            console.log("Full game analysis complete.");
+            break;
         }
-
-        game.applyMove(actualMove);
-
-        self.postMessage({
-            type: 'analysis_update',
-            index: i,
-            result: {
-                classification: classification,
-                bestMove: bestMoveFound
-            }
-        });
     }
-
-    self.postMessage({ type: 'analysis_finished' });
-    console.log("Full game analysis complete.");
-    break;
 }
-    
-    
-    
-    }
-};
+
+
+
+
+.
