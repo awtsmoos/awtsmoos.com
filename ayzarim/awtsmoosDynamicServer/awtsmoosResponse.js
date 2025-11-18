@@ -309,7 +309,11 @@ class AwtsmoosResponse {
 		// =====================================================================
 		// START: Enhanced logic for handling file status requests
 		// =====================================================================
-		if (request.isAwtsmoosFileStatusRequest) {
+		if (
+			request.method == "GET" &&
+			request.headers['awtsmoos-file-status'] &&
+			request.isAwtsmoosFileStatusRequest
+		) {
 		    const results = {
 		        logicModified: null,
 		        dataModified: null,

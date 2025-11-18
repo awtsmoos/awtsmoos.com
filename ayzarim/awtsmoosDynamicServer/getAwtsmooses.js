@@ -464,7 +464,11 @@ async function doFileResponse() {
 	} = this.dependencies;
 	
 	try {
-		if (request.isAwtsmoosFileStatusRequest) {
+		if (
+			request.method == "GET" &&
+			request.headers['awtsmoos-file-status'] &&
+			request.isAwtsmoosFileStatusRequest
+		) {
 		        try {
 		            // The path to the static file is already in this.filePath
 		            const stats = await fs.stat(this.filePath);

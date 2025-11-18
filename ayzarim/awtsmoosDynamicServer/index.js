@@ -308,7 +308,10 @@ class AwtsmoosStaticServer {
 			serverPath, originalPath
 		);
 		
-		if (request.headers['awtsmoos-file-status']) {
+		if (
+			request.method == "GET" &&
+			request.headers['awtsmoos-file-status']
+		) {
 		    request.isAwtsmoosFileStatusRequest = true;
 		    
 		}
