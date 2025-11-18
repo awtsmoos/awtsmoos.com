@@ -1153,47 +1153,58 @@ function makeAddCommentSection(par) {
 	par.appendChild(div);
 	var c = new CommentSection(div);
 }
+/*B"H*/
 /**
- * Renders the side panel's list of commentator buttons based on the
- * current source of truth in `data.aliases`.
+ * Renders the side panel's list of commentator buttons. It is now more robust
+ * and ensures the "Add Comment" section and default messages always appear.
+ * @param {HTMLElement} actualTab - The container element to render the UI into.
+ * @param {object} tab - The parent tab object.
+ * @returns {Promise<Array>} A promise that resolves to an array of the created tab objects.
  */
 async function makeCommentatorList(actualTab, tab) {
+    // Clear the container to ensure a fresh render.
+    actualTab.innerHTML = "";
+
+    // Always create the "Add Comment" section first.
+    makeAddCommentSection(actualTab);
+
+    // Create the container that will hold the alias buttons.
     var commentorList = document.createElement("div");
     commentorList.classList.add("commentors");
-    actualTab.innerHTML = "";
-    makeAddCommentSection(actualTab);
     actualTab.appendChild(commentorList);
     
+    // Fetch the list of commentators for the current verse.
     var aliases = await getAndSaveAliases();
     
     console.log(`[Panel Sync] Rebuilding commentator list UI with ${aliases.length} aliases.`);
     window.aliasesOfComments = aliases;
 
-    if (!aliases.length) {
+    // Hardened check: If aliases is not a valid array or is empty, show the default message.
+    if (!aliases || !Array.isArray(aliases) || aliases.length === 0) {
         commentorList.innerHTML = "Be the first to comment on this verse!";
         return [];
     }
 
     var tabs = [];
     aliases.forEach(alias => {
-        var tab = addTab({
+        var newTab = addTab({
             header: "@" + alias,
-            btnParent: commentorList, // CRITICAL FIX: Buttons go inside the button container
+            btnParent: commentorList, // Place the button in the correct container.
 			addClasses: true,
-			parent:mainParent,
+			parent: mainParent,
 			tabParent: tab,
 			content: loadingHTML,
-			async onopen({ actualTab }) {
-				curTab = tab;
+			async onopen({ actualTab: openedTabContentArea }) {
+				curTab = newTab;
 				window.curTab = curTab;
 				openCommentsOfAlias({
 					alias,
-					actualTab,
+					actualTab: openedTabContentArea,
 					post,
 				})
 			}
         });
-        tabs.push(tab);
+        tabs.push(newTab);
     });
     return tabs;
 }
