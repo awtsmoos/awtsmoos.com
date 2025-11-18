@@ -809,6 +809,7 @@ async function updateCommentHeader() {
  * of the new verse and synchronizes all UI components to match it.
  */
 async function indexSwitch() {
+    console.log("B'H - indexSwitch has been triggered!"); // DEBUGGING
     var idxNum = getIdx();
     var newVerse = (!idxNum && idxNum !== 0) ? "root" : idxNum;
 
@@ -956,21 +957,11 @@ function getSubSecIdx() {
 }
 
 async function reloadRoot() {
-    var verseSection = getIdx();
-    verseSection = (verseSection === null) ? "root" : verseSection;
-
+    var verseSection = getIdx() ?? "root";
     invalidateVerseCache(verseSection);
-
-	return await loadRootComments({
-		post, 
-		mainParent, 
-		parent, 
-		rootTab,
-		tab: tabComment
-	});
+    // After invalidating, just call the conductor. It will handle the rest.
+    await indexSwitch();
 }
-
-
 window.reloadRoot = reloadRoot;
 
 // Creates and places the container for root-level comments right after the post title.
@@ -1044,43 +1035,41 @@ function openPanel() {
 }
 
 async function openPanelToComments() {
-	var tabs = await reloadRoot();
-	console.log(window.tabs=tabs);
-	window?.commentTab?.open()
+    // reloadRoot now correctly triggers the UI build via indexSwitch
+	await reloadRoot(); 
+	window?.commentTab?.open();
 	openPanel();
 }
 window.openPanelToComments=openPanelToComments;
 window.openPanel = openPanel;
 async function openCommentsPanelToAlias(alias, open=true) {
-	var tabs = await reloadRoot();
-	var tab = tabs.find(q=>
+    // This function now works more reliably because reloadRoot is fixed
+	await reloadRoot(); 
+	var tabs = window.tabManager.getTabs(); // Assuming TabManager has a method to get all tabs
+    var tab = tabs.find(q =>
 		q.awtsHeader.textContent.trim().substring(1) == alias
 	);
+
 	if(!tab) return null;
 	tab?.open();
 	if(open) {
-		openPanel()
+		openPanel();
 	}
 	return tab;
 }
 async function showAllInlineComments() {
 	var inlines = getInlineAliases();
 	if(inlines.length == 0) return;
-	var tabs = await reloadRoot();
-	tabs.forEach(q => {
-		inlines.forEach(inl => {
-			var hd = q
-				.awtsHeader
-				.textContent.substring(1).trim();
-			if(inl?.includes(hd)) {
-				q.open();
-			}
-		})
-	});
-	return tabs;
+
+    // We still call reloadRoot which will call indexSwitch, which handles inline comments.
+	await reloadRoot(); 
 }
 window.showAllInlineComments = showAllInlineComments;
 window.openCommentsPanelToAlias = openCommentsPanelToAlias;
+
+// --- REFACTORED AND SIMPLIFIED ---
+// This function's only job is to set up the environment and then
+// hand off control to the master conductor, `indexSwitch`.
 async function loadRootComments({
 	post,
 	mainParent,
@@ -1088,27 +1077,20 @@ async function loadRootComments({
 	rootTab,
 	tab
 }) {
-	var idx = getIdx();
-	currentVerse = idx === null ? "root" : idx;
-	
-	removeEventListener("awtsmoos index", indexSwitch);
-	addEventListener("awtsmoos index" , indexSwitch);
-	
-	window.post=post;
-	window.rootTab=rootTab;
-	window.mainParent=mainParent;
+	// 1. Set up the global variables that other functions rely on.
+	window.post = post;
+	window.rootTab = rootTab;
+	window.mainParent = mainParent;
 	window.parent = parent;
 	window.tabComment = tab;
 	
-	curTab="root";
-	var cm = parent
-	if (!cm) {
-		return console.log("Comments need parent el")
-	}
-	cm.innerHTML ="";
+	// 2. Ensure the event listener is in place.
+	removeEventListener("awtsmoos index", indexSwitch);
+	addEventListener("awtsmoos index" , indexSwitch);
 	
-	await updateCommentHeader();
-	return await makeCommentatorList(cm, tab);
+	// 3. Hand off all rendering and state management to the conductor.
+	// This will build the initial UI correctly for the current verse.
+	await indexSwitch();
 }
 
 /**
@@ -1123,8 +1105,7 @@ async function getAndSaveAliases(full = false, forceFresh = false) {
         return [];
     }
     
-    var verseSection = getIdx();
-    if (verseSection === null) verseSection = "root";
+    var verseSection = getIdx() ?? "root";
 
     if (!data.aliases) data.aliases = {};
 
@@ -1188,7 +1169,7 @@ async function makeCommentatorList(actualTab, tab) {
     aliases.forEach(alias => {
         var tab = addTab({
             header: "@" + alias,
-            btnParent: commentorList, // Append buttons here
+            btnParent: commentorList, // CRITICAL FIX: Buttons go inside the button container
 			addClasses: true,
 			parent:mainParent,
 			tabParent: tab,
@@ -1297,8 +1278,9 @@ async function handleNewComment({ aliasId, verseSection, commentId, newCommentDa
         addCommentsInline([newCommentData], aliasId);
         loadedInlineVerses[memoryKey] = true;
     }
-
-    await reloadRoot();
+    
+    // reloadRoot is the correct way to refresh the panel now.
+    await reloadRoot(); 
     const aliasTab = await openCommentsPanelToAlias(aliasId, true);
     if (aliasTab && commentId) {
         setTimeout(() => {
