@@ -31,99 +31,7 @@ let lastParsedGame = null
 var evaluationTime = 0
 /*B"H*/
 
-/**
- * This function takes a raw book array and processes it into the final, hash-based Map.
- * This version is corrected to use raw BigInt Zobrist hashes as keys, ensuring
- * consistency with the search function's transposition table lookups.
- * @param {Array} rawBook - The raw book data from generateRawBook.
- * @param {Map} targetMap - The Map object (openingBook or punishmentBook) to populate.
- */
-function processRawBook(rawBook, targetMap) {
-    for (const entry of rawBook) {
-        if (!entry) continue;
-        const fen = entry[0];
-        const name = entry[1];
-        // CORRECTED: Use the raw BigInt hash as the key.
-        const hash = calculateZobristHash(createGameState(fen));
-        const bookEntry = targetMap.has(hash) ? targetMap.get(hash) : { name: name, moves: [] };
-        
-        for (let i = 2; i < entry.length; i++) {
-            const newMove = entry[i];
-            const moveExists = bookEntry.moves.some(m =>
-                m.from[0] === newMove.from[0] && m.from[1] === newMove.from[1] &&
-                m.to[0] === newMove.to[0] && m.to[1] === newMove.to[1] &&
-                m.promotion === newMove.promotion
-            );
-            if (!moveExists) {
-                bookEntry.moves.push(newMove);
-            }
-        }
-        targetMap.set(hash, bookEntry);
-    }
-}
 
-/**
- * A helper function to build a book from a source array.
- * This version is corrected to use raw BigInt Zobrist hashes for keys.
- * @param {Array} sourceArray - The source data for the book.
- * @param {Map} targetMap - The Map object to populate.
- */
-function buildBook(sourceArray, targetMap) {
-    if (targetMap.size > 0 || typeof sourceArray === 'undefined') return;
-
-    const rawBook = generateRawBook(sourceArray);
-    for (const entry of rawBook) {
-        if (!entry) continue;
-        const fen = entry[0];
-        const name = entry[1];
-        // CORRECTED: Use the raw BigInt hash as the key.
-        const hash = calculateZobristHash(createGameState(fen));
-        const bookEntry = targetMap.has(hash) ? targetMap.get(hash) : { name: name, moves: [] };
-        
-        for (let i = 2; i < entry.length; i++) {
-            const newMove = entry[i];
-            const moveExists = bookEntry.moves.some(m =>
-                m.from[0] === newMove.from[0] && m.from[1] === newMove.from[1] &&
-                m.to[0] === newMove.to[0] && m.to[1] === newMove.to[1] &&
-                m.promotion === newMove.promotion
-            );
-            if (!moveExists) {
-                bookEntry.moves.push(newMove);
-            }
-        }
-        targetMap.set(hash, bookEntry);
-    }
-}
-
-/**
- * Builds the main opening book.
- * This version is corrected to use raw BigInt Zobrist hashes for keys.
- */
-function buildOpeningBook() {
-    if (openingBook.size > 0 || typeof rawOpeningBook === 'undefined') return;
-    for (const entry of rawOpeningBook) {
-        if (!entry) continue;
-        const fen = entry[0];
-        const name = entry[1];
-        // CORRECTED: Use the raw BigInt hash as the key.
-        const hash = calculateZobristHash(createGameState(fen));
-
-        const bookEntry = openingBook.has(hash) ? openingBook.get(hash) : { name: name, moves: [] };
-
-        for (let i = 2; i < entry.length; i++) {
-            const newMove = entry[i];
-            const moveExists = bookEntry.moves.some(m =>
-                m.from[0] === newMove.from[0] && m.from[1] === newMove.from[1] &&
-                m.to[0] === newMove.to[0] && m.to[1] === newMove.to[1] &&
-                m.promotion === newMove.promotion
-            );
-            if (!moveExists) {
-                bookEntry.moves.push(newMove);
-            }
-        }
-        openingBook.set(hash, bookEntry);
-    }
-}
 
 
 // =================================================================
@@ -302,64 +210,6 @@ function generateAttackMaps(state) {
 // ====================================================================================
 
 
-/*B"H*/
-/**
- * Orders moves to improve alpha-beta pruning efficiency.
- * This version is corrected to use the raw BigInt Zobrist hash for transposition
- * table lookups, avoiding the extremely slow process of converting it to a string.
- * @param {number[]} moves - An array of pseudo-legal moves.
- * @param {object} state - The current game state.
- * @param {number} ply - The current search depth (ply).
- * @returns {number[]} The sorted array of moves.
- */
-function orderMoves(moves, state, ply) {
-    const moveScores = [];
-    // PERFORMANCE FIX: Use the raw BigInt hash directly as the key.
-    const hashEntry = transpositionTable.get(state.zobristHash);
-    const hashMove = hashEntry ? hashEntry.move : 0;
-    const pieceValues = [100, 350, 355, 500, 900, 20000];
-
-    for (const move of moves) {
-        let score = 0;
-
-        if (move === hashMove) {
-            score = 2000000;
-        } else if (getMoveCapture(move)) {
-            const attackerType = getMovePiece(move);
-            const to = getMoveTo(move);
-            let victimType = P;
-
-            if (!getMoveEnpassant(move)) {
-                victimType = getPieceTypeOnSquare(state, to, state.turn ^ 1);
-            }
-            // Ensure victimType is not null before accessing pieceValues
-            if (victimType !== null) {
-               score = (pieceValues[victimType] * 10) - pieceValues[attackerType] + 1000000;
-            } else {
-               score = 1000000; // Fallback for rare cases
-            }
-        } else {
-            if (killerMoves[ply] && killerMoves[ply][0] === move) {
-                score = 900000;
-            } else if (killerMoves[ply] && killerMoves[ply][1] === move) {
-                score = 850000;
-            } else {
-                score = historyTable[getMovePiece(move) + (state.turn * 6)][getMoveTo(move)];
-            }
-        }
-        
-        if (getMovePromoted(move)) {
-            score += pieceValues[getMovePromoted(move)] * 100;
-        }
-
-        moveScores.push({ move, score });
-    }
-    
-    return moveScores.sort((a, b) => b.score - a.score).map(ms => ms.move);
-}
-
-
-
 
 /*B"H*/
 
@@ -461,6 +311,306 @@ function evaluate(state, attackMaps) {
 
 }
 
+
+
+/*B"H*/
+/**
+ * The root of the search function, using iterative deepening.
+ * This version corrects a critical bug where it was using an outdated calling convention for make/unmake move,
+ * which led to board state corruption at the root of the search.
+ * @param {object} initialState - The starting game state for the search.
+ * @param {number} maxDepth - The maximum depth to search.
+ * @param {number} maxTime - The maximum time in milliseconds to search.
+ * @returns {{bestMove: number, score: number}} The best move found and its evaluation.
+ */
+function searchRoot(initialState, maxDepth, maxTime) {
+    initializeSearch(maxTime);
+    let bestMove = 0, bestScore = -Infinity;
+
+    for (let currentDepth = 1; currentDepth <= maxDepth; currentDepth++) {
+        // Aspiration window would be an improvement here, but for now, use infinite.
+        let alpha = -Infinity, beta = Infinity;
+        
+        const moves = generateMoves(initialState);
+        const orderedMoves = orderMoves(moves, initialState, 0);
+
+        let legalMovesSearched = 0;
+
+        for (const move of orderedMoves) {
+            // CORRECTED: Use the global stack pattern. No `unmakeInfo` is returned.
+            makeMove(initialState, move);
+            
+            const kingColor = initialState.turn ^ 1;
+            const kingSq = getLSBIndex(initialState.pieceBitboards[kingColor * 6 + K]);
+            if (isSquareAttacked_lean(initialState, kingSq, initialState.turn)) {
+                // CORRECTED: unmakeMove now takes no arguments.
+                unmakeMove(initialState);
+                continue;
+            }
+            legalMovesSearched++;
+
+            const score = -search(initialState, currentDepth - 1, -beta, -alpha, 1);
+
+            // CORRECTED: unmakeMove now takes no arguments.
+            unmakeMove(initialState);
+
+            if (stopSearch) break;
+
+            if (score > bestScore) {
+                bestScore = score;
+                bestMove = move;
+            }
+            
+            if (score > alpha) {
+                alpha = score;
+            }
+        }
+        
+        if (stopSearch || legalMovesSearched === 0) {
+            break;
+        }
+
+        // Post intermediate results
+        // self.postMessage({ type: 'info', depth: currentDepth, score: bestScore, bestMove: decodeMove(bestMove, initialState.turn), nodes: nodeCount });
+
+        if (Math.abs(bestScore) > MATE_SCORE - MATE_IN_MAX_PLY) {
+            break; 
+        }
+    }
+
+    return { bestMove, score: bestScore };
+}
+
+
+
+
+let perftNodeCount = 0;
+
+function perft(state, depth) {
+    if (depth === 0) {
+        perftNodeCount++;
+        return;
+    }
+
+    const moves = generateLegalMoves(state);
+    for (const move of moves) {
+        const unmakeInfo = makeMove(state, move);
+        perft(state, depth - 1);
+        unmakeMove(state, unmakeInfo);
+    }
+}
+
+// A helper to run the test and log the results.
+function runPerftTest(fen, depth) {
+    console.log(`Starting Perft Test for FEN: "${fen}" at depth ${depth}`);
+    const state = createGameState(fen);
+    perftNodeCount = 0;
+    const startTime = performance.now();
+    perft(state, depth);
+    const endTime = performance.now();
+    const duration = (endTime - startTime).toFixed(2);
+    const nps = (perftNodeCount / (duration / 1000)).toFixed(0);
+    console.log(`Perft Test Complete.`);
+    console.log(`Result: ${perftNodeCount} nodes found.`);
+    console.log(`Time: ${duration}ms`);
+    console.log(`Speed: ${nps} nodes/sec`);
+    return perftNodeCount;
+}
+var tested=1
+
+
+let DEBUG_MODE = true;
+/* B"H */
+
+// =================================================================
+//              MAIN WORKER DRIVER (BITBOARD v2.0 - VERIFIED)
+// =================================================================
+
+let isInitialized = false;
+
+function initializeEngine() {
+    if (isInitialized) return;
+    console.log("Prometheus Engine (Bitboard): Initialization started.");
+    initializeAll();
+
+    const rawMainBook = generateRawBook(sourceBook);
+    processRawBook(rawMainBook, openingBook);
+    const rawPunishBook = generateRawBook(punishmentBookSource);
+    processRawBook(rawPunishBook, punishmentBook);
+
+    isInitialized = true;
+    console.log("Prometheus Engine Initialized Successfully.");
+    console.log(`Mainline Openings Loaded: ${openingBook.size}`);
+    console.log(`Punishment Lines Loaded: ${punishmentBook.size}`);
+    
+    self.postMessage({ type: 'initialization_complete' });
+}
+
+
+function decodeMove(move, turn) {
+    const from = getMoveFrom(move);
+    const to = getMoveTo(move);
+    const promoted = getMovePromoted(move);
+    return {
+        from: [Math.floor(from / 8), from % 8],
+        to: [Math.floor(to / 8), to % 8],
+        promotion: promoted ? pieceMap[promoted + (turn === BLACK ? 6 : 0)] : null
+    };
+}
+
+
+/*B"H*/
+
+/**
+ * This function takes a raw book array and processes it into the final, hash-based Map.
+ * This version is corrected to use raw BigInt Zobrist hashes as keys, ensuring
+ * consistency with the search function's transposition table lookups.
+ * @param {Array} rawBook - The raw book data from generateRawBook.
+ * @param {Map} targetMap - The Map object (openingBook or punishmentBook) to populate.
+ */
+function processRawBook(rawBook, targetMap) {
+    for (const entry of rawBook) {
+        if (!entry) continue;
+        const fen = entry[0];
+        const name = entry[1];
+        // CORRECTED: Use the raw BigInt hash as the key.
+        const hash = calculateZobristHash(createGameState(fen));
+        const bookEntry = targetMap.has(hash) ? targetMap.get(hash) : { name: name, moves: [] };
+        
+        for (let i = 2; i < entry.length; i++) {
+            const newMove = entry[i];
+            const moveExists = bookEntry.moves.some(m =>
+                m.from[0] === newMove.from[0] && m.from[1] === newMove.from[1] &&
+                m.to[0] === newMove.to[0] && m.to[1] === newMove.to[1] &&
+                m.promotion === newMove.promotion
+            );
+            if (!moveExists) {
+                bookEntry.moves.push(newMove);
+            }
+        }
+        targetMap.set(hash, bookEntry);
+    }
+}
+
+/**
+ * A helper function to build a book from a source array.
+ * This version is corrected to use raw BigInt Zobrist hashes for keys.
+ * @param {Array} sourceArray - The source data for the book.
+ * @param {Map} targetMap - The Map object to populate.
+ */
+function buildBook(sourceArray, targetMap) {
+    if (targetMap.size > 0 || typeof sourceArray === 'undefined') return;
+
+    const rawBook = generateRawBook(sourceArray);
+    for (const entry of rawBook) {
+        if (!entry) continue;
+        const fen = entry[0];
+        const name = entry[1];
+        // CORRECTED: Use the raw BigInt hash as the key.
+        const hash = calculateZobristHash(createGameState(fen));
+        const bookEntry = targetMap.has(hash) ? targetMap.get(hash) : { name: name, moves: [] };
+        
+        for (let i = 2; i < entry.length; i++) {
+            const newMove = entry[i];
+            const moveExists = bookEntry.moves.some(m =>
+                m.from[0] === newMove.from[0] && m.from[1] === newMove.from[1] &&
+                m.to[0] === newMove.to[0] && m.to[1] === newMove.to[1] &&
+                m.promotion === newMove.promotion
+            );
+            if (!moveExists) {
+                bookEntry.moves.push(newMove);
+            }
+        }
+        targetMap.set(hash, bookEntry);
+    }
+}
+
+/**
+ * Builds the main opening book.
+ * This version is corrected to use raw BigInt Zobrist hashes for keys.
+ */
+function buildOpeningBook() {
+    if (openingBook.size > 0 || typeof rawOpeningBook === 'undefined') return;
+    for (const entry of rawOpeningBook) {
+        if (!entry) continue;
+        const fen = entry[0];
+        const name = entry[1];
+        // CORRECTED: Use the raw BigInt hash as the key.
+        const hash = calculateZobristHash(createGameState(fen));
+
+        const bookEntry = openingBook.has(hash) ? openingBook.get(hash) : { name: name, moves: [] };
+
+        for (let i = 2; i < entry.length; i++) {
+            const newMove = entry[i];
+            const moveExists = bookEntry.moves.some(m =>
+                m.from[0] === newMove.from[0] && m.from[1] === newMove.from[1] &&
+                m.to[0] === newMove.to[0] && m.to[1] === newMove.to[1] &&
+                m.promotion === newMove.promotion
+            );
+            if (!moveExists) {
+                bookEntry.moves.push(newMove);
+            }
+        }
+        openingBook.set(hash, bookEntry);
+    }
+}
+
+/*B"H*/
+/**
+ * Orders moves to improve alpha-beta pruning efficiency.
+ * This version is corrected to use the raw BigInt Zobrist hash for transposition
+ * table lookups, avoiding the extremely slow process of converting it to a string.
+ * @param {number[]} moves - An array of pseudo-legal moves.
+ * @param {object} state - The current game state.
+ * @param {number} ply - The current search depth (ply).
+ * @returns {number[]} The sorted array of moves.
+ */
+function orderMoves(moves, state, ply) {
+    const moveScores = [];
+    // PERFORMANCE FIX: Use the raw BigInt hash directly as the key.
+    const hashEntry = transpositionTable.get(state.zobristHash);
+    const hashMove = hashEntry ? hashEntry.move : 0;
+    const pieceValues = [100, 350, 355, 500, 900, 20000];
+
+    for (const move of moves) {
+        let score = 0;
+
+        if (move === hashMove) {
+            score = 2000000;
+        } else if (getMoveCapture(move)) {
+            const attackerType = getMovePiece(move);
+            const to = getMoveTo(move);
+            let victimType = P;
+
+            if (!getMoveEnpassant(move)) {
+                victimType = getPieceTypeOnSquare(state, to, state.turn ^ 1);
+            }
+            // Ensure victimType is not null before accessing pieceValues
+            if (victimType !== null) {
+               score = (pieceValues[victimType] * 10) - pieceValues[attackerType] + 1000000;
+            } else {
+               score = 1000000; // Fallback for rare cases
+            }
+        } else {
+            if (killerMoves[ply] && killerMoves[ply][0] === move) {
+                score = 900000;
+            } else if (killerMoves[ply] && killerMoves[ply][1] === move) {
+                score = 850000;
+            } else {
+                score = historyTable[getMovePiece(move) + (state.turn * 6)][getMoveTo(move)];
+            }
+        }
+        
+        if (getMovePromoted(move)) {
+            score += pieceValues[getMovePromoted(move)] * 100;
+        }
+
+        moveScores.push({ move, score });
+    }
+    
+    return moveScores.sort((a, b) => b.score - a.score).map(ms => ms.move);
+}
+
 /**
  * Quiescence search. This version is updated to generate attack maps once and pass
  * them to the evaluation function, avoiding massive recalculation costs.
@@ -496,19 +646,6 @@ function quiesce(state, alpha, beta) {
     return alpha;
 }
 
-/*B"H*/
-/**
- * The core alpha-beta search function. This is the corrected version that fixes a
- * critical "Cannot access 'score' before initialization" crash caused by a faulty
- * one-line expression. This version restores the stable and correct if/else logic
- * for handling recursive search calls.
- * @param {object} state - The game state.
- * @param {number} depth - The remaining depth to search.
- * @param {number} alpha - The lower bound of the search window.
- * @param {number} beta - The upper bound of the search window.
- * @param {number} ply - The current ply from the root.
- * @returns {number} The evaluated score of the position.
- */
 /*B"H*/
 
 /**
@@ -679,7 +816,7 @@ function searchRoot(initialState, maxDepth, maxTime) {
         }
 
         // Post intermediate results
-        // self.postMessage({ type: 'info', depth: currentDepth, score: bestScore, bestMove: decodeMove(bestMove, initialState.turn), nodes: nodeCount });
+       // self.postMessage({ type: 'info', depth: currentDepth, score: bestScore, bestMove: decodeMove(bestMove, initialState.turn), nodes: nodeCount });
 
         if (Math.abs(bestScore) > MATE_SCORE - MATE_IN_MAX_PLY) {
             break; 
@@ -687,84 +824,6 @@ function searchRoot(initialState, maxDepth, maxTime) {
     }
 
     return { bestMove, score: bestScore };
-}
-
-
-
-
-let perftNodeCount = 0;
-
-function perft(state, depth) {
-    if (depth === 0) {
-        perftNodeCount++;
-        return;
-    }
-
-    const moves = generateLegalMoves(state);
-    for (const move of moves) {
-        const unmakeInfo = makeMove(state, move);
-        perft(state, depth - 1);
-        unmakeMove(state, unmakeInfo);
-    }
-}
-
-// A helper to run the test and log the results.
-function runPerftTest(fen, depth) {
-    console.log(`Starting Perft Test for FEN: "${fen}" at depth ${depth}`);
-    const state = createGameState(fen);
-    perftNodeCount = 0;
-    const startTime = performance.now();
-    perft(state, depth);
-    const endTime = performance.now();
-    const duration = (endTime - startTime).toFixed(2);
-    const nps = (perftNodeCount / (duration / 1000)).toFixed(0);
-    console.log(`Perft Test Complete.`);
-    console.log(`Result: ${perftNodeCount} nodes found.`);
-    console.log(`Time: ${duration}ms`);
-    console.log(`Speed: ${nps} nodes/sec`);
-    return perftNodeCount;
-}
-var tested=1
-
-
-let DEBUG_MODE = true;
-/* B"H */
-
-// =================================================================
-//              MAIN WORKER DRIVER (BITBOARD v2.0 - VERIFIED)
-// =================================================================
-
-let isInitialized = false;
-
-function initializeEngine() {
-    if (isInitialized) return;
-    console.log("Prometheus Engine (Bitboard): Initialization started.");
-    initializeAll();
-
-    const rawMainBook = generateRawBook(sourceBook);
-    processRawBook(rawMainBook, openingBook);
-    const rawPunishBook = generateRawBook(punishmentBookSource);
-    processRawBook(rawPunishBook, punishmentBook);
-
-    isInitialized = true;
-    console.log("Prometheus Engine Initialized Successfully.");
-    console.log(`Mainline Openings Loaded: ${openingBook.size}`);
-    console.log(`Punishment Lines Loaded: ${punishmentBook.size}`);
-    
-    self.postMessage({ type: 'initialization_complete' });
-}
-
-// IN prometheus_engine.js, REPLACE decodeMove and self.onmessage:
-
-function decodeMove(move, turn) {
-    const from = getMoveFrom(move);
-    const to = getMoveTo(move);
-    const promoted = getMovePromoted(move);
-    return {
-        from: [Math.floor(from / 8), from % 8],
-        to: [Math.floor(to / 8), to % 8],
-        promotion: promoted ? pieceMap[promoted + (turn === BLACK ? 6 : 0)] : null
-    };
 }
 
 /*B"H*/
@@ -899,6 +958,13 @@ self.onmessage = function(e) {
         }
     }
 };
+
+
+
+
+
+
+
 
 
 

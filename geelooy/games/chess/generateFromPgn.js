@@ -34,7 +34,13 @@ class PgnConverter {
         fen += ' 0 1'; return fen;
     }
 
-// REPLACE this function in generateFromPgn.js
+/**
+ * Parses a Standard Algebraic Notation (SAN) move string and returns the corresponding
+ * encoded move integer. This version is robust and correctly handles complex cases
+ * like castling, promotions, and disambiguation.
+ * @param {string} san - The SAN move string (e.g., "Nf3", "O-O", "Raxe1").
+ * @returns {number|null} The encoded move integer, or null if the SAN is invalid or not found.
+ */
 parseSan(san) {
     const originalSan = san;
     san = san.replace(/[+#?!]/g, '');

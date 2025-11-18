@@ -545,7 +545,7 @@ async function countCommentsOfAlias(alias) {
 
 
 
-// B"H - CORRECTED to render ALL comments in the panel
+// B"H - Displays all comments from a given alias in the side panel for the current verse.
 async function showAllComments({
 	alias,
 	post,
@@ -566,7 +566,7 @@ async function showAllComments({
 	});
 
 	if (!Array.isArray(coms) || coms.length === 0) {
-		tab.innerHTML = "No comments yet from this user.";
+		tab.innerHTML = "No comments yet from this user on this verse.";
 		return;
 	}
 
@@ -581,7 +581,7 @@ async function showAllComments({
 	};
 	tab.appendChild(ri);
 
-    // CRITICAL FIX: Loop through every comment and render it. No premature exits.
+    // Render every comment fetched for the current verse.
     coms.forEach(c => {
         makeHTMLFromComment({
             comment: c,
@@ -593,7 +593,7 @@ async function showAllComments({
 
 var inlineComments = {}//arrays by alias
 
-// B"H - CORRECTED to render ALL inline comments without premature exit
+// B"H - Renders comments directly into the post body. This is now additive.
 function addCommentsInline(comments, alias) {
     console.log(`[Inline Render] Processing ${comments.length} comments for alias: ${alias}`);
     if (!comments || comments.length === 0) return;
@@ -622,7 +622,7 @@ function addCommentsInline(comments, alias) {
                     }
                 });
             }
-            continue; // CRITICAL: Continue to the next group
+            continue; // Continue to the next group
         }
 
         // Handle Verse-Specific Comments
@@ -708,7 +708,6 @@ function getInlineAliases() {
   }
 }
 
-// B"H - REVISED FUNCTION WITH AUTOMATIC SCROLLING
 function hideCommentsInline(comments, alias) {
 	var inl = inlineComments[alias]
 	if(inl) {
@@ -731,29 +730,7 @@ function hideCommentsInline(comments, alias) {
         }
     }
     
-    loadedInlineVerses = {};
-
-    // B"H: Automatic scrolling logic after hiding comments.
-    
-    
-    // First, determine which verse section these comments belonged to.
-    if (comments && comments.length > 0) {
-        const verseSection = comments[0]?.dayuh?.verseSection;
-        let targetElement = null;
-
-        if (verseSection === undefined || verseSection === null) {
-            // If it was a root comment, our target is the first real verse section.
-            targetElement = document.querySelector(".section[data-idx='0']");
-        } else {
-            // If it was a numbered verse, our target is that same verse section.
-            targetElement = document.querySelector(`.section[data-idx='${verseSection}']`);
-        }
-
-        // If we found a logical target, scroll to it smoothly.
-        if (targetElement) {
-            targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-    }
+    loadedInlineVerses = {}; // Reset the memory for this alias
 }
 
 function areCommentsInline() {
@@ -781,7 +758,12 @@ function toggleInlineForComments(comments, alias) {
   var isInline = isAliasInline(alias);
   if(!isInline) {
     addCommentsInline(comments, alias)
-    
+    // Add alias to URL
+    let p = getInlineAliases();
+    if (!p.includes(alias)) {
+        p.push(alias);
+        updateQueryStringParameter("inline", JSON.stringify(p));
+    }
   } else {
     hideCommentsInline(comments, alias)
   }
@@ -798,11 +780,8 @@ async function openCommentsOfAlias({
 }) {
 
 	var commentors = actualTab.querySelector(".commentors")
-	console.log("GOT",commentors)
 	if(commentors) actualTab = commentors;
-	var parTab = actualTab;
-
-	var hasSections = Array.isArray(post?.dayuh?.sections);
+	
 	await showAllComments({
 		tab: actualTab,
 		post,
@@ -810,59 +789,31 @@ async function openCommentsOfAlias({
 		withCurrentVerse: !all
 	});
 	var ld = actualTab.querySelector(".loading")
-	console.log("LOADIN",ld)
 	if(ld) ld.parentNode.removeChild(ld)
+}
 
-	return;
-   
-   
-	
-    
-  }
-/*
-function getIdx() {
-	var sp = new URLSearchParams(location.search);
-	
-	var idxNum  = sp.get("idx");
-	return idxNum
-}*/
 async function updateCommentHeader() {
 	
 	var aliases = await getAndSaveAliases()
-	console.log("Updating",aliases);
-	var curVerseDisplay = +currentVerse;
-	var data = window?.sectionData[currentVerse];
-	if(
-		data && 
-		data.hasVerseNumber &&
-		data.verseSection !=
-		data.sectionId
-	) {
-		curVerseDisplay++;
-	}
+	var curVerseDisplay = currentVerse === "root" ? "Post" : +currentVerse + 1;
+	
 	window?.tabComment?.onUpdateHeader(
 		(aliases.length) + " Commentators for verse: "
 		+ (curVerseDisplay)
 	)
 }
 
-// B"H
-
-
 
 /**
  * The Master Conductor that runs on every scroll. It discovers the true state
  * of the new verse and synchronizes all UI components to match it.
  */
-
-
-// B"H - THE CORRECT AND FINAL indexSwitch
 async function indexSwitch() {
     var idxNum = getIdx();
     var newVerse = (!idxNum && idxNum !== 0) ? "root" : idxNum;
 
     if (currentVerse === newVerse) return; // Performance guard
-    console.log(`[Conductor] Verse changed to ${newVerse}. Starting synchronization.`);
+    console.log(`[Conductor] Verse changed from ${currentVerse} to ${newVerse}. Starting synchronization.`);
     currentVerse = newVerse;
 
     // --- 1. REMEMBER STATE & INVALIDATE CACHE ---
@@ -871,13 +822,13 @@ async function indexSwitch() {
 
     // --- 2. SYNCHRONIZE SIDE PANEL ---
     if (window.commentTab && window.commentTab.isOpen) {
-        // CRITICAL FIX: Update the main comment panel header. This fixes the stuck "verse X" text.
+        // Update the main comment panel header. This fixes the stuck "verse X" text.
         await updateCommentHeader();
         
-        // CRITICAL FIX: Rebuild the commentator list for the new verse.
+        // Rebuild the commentator list for the new verse.
         const newTabs = await makeCommentatorList(window.parent, window.tabComment);
 
-        // CRITICAL FIX: If an alias tab was open, find its new instance and open it.
+        // If an alias tab was open, find its new instance and open it.
         // This forces the panel content to update automatically on scroll.
         if (activeAliasId) {
             const tabToReopen = newTabs.find(t => t.awtsHeader.textContent.trim().substring(1) === activeAliasId);
@@ -913,46 +864,39 @@ async function indexSwitch() {
 }
 
 
-// B"H - THE NEW, ROBUST RENDERING ENGINE, REBUILT WITH THE ORIGINAL COMPLEX LOGIC
-// B"H - THE NEW, ROBUST RENDERING ENGINE, REBUILT WITH THE ORIGINAL COMPLEX LOGIC
+// B"H - This is the unified rendering engine for displaying comment content.
 function populateCommentElement(comment, parentElement) {
     parentElement.innerHTML = ''; // Start with a clean slate.
 
     // --- Step 1: Data Normalization ---
-    // Create a temporary, clean comment object to handle the "millions of ways" the data can be.
     let normalizedComment = JSON.parse(JSON.stringify(comment));
 
-    // Handle legacy structures by merging them into a consistent format.
     if (normalizedComment?.content?.title) {
         normalizedComment.dayuh.title = normalizedComment.content.title;
     }
     if (Array.isArray(normalizedComment?.content?.text)) {
         normalizedComment.content = normalizedComment.content.text;
     }
-    // This is the key normalization that was missing:
     if (Array.isArray(normalizedComment.content)) {
         if (!Array.isArray(normalizedComment.dayuh.sections)) {
             normalizedComment.dayuh.sections = [];
         }
         normalizedComment.dayuh.sections.push(...normalizedComment.content);
-        normalizedComment.content = null; // Nullify after moving to prevent double rendering
+        normalizedComment.content = null; // Nullify after moving
     }
 
-    // --- Step 2: Render from the clean, normalized object ---
+    // --- Step 2: Render from the normalized object ---
 
-    // Render title
     if (normalizedComment?.dayuh?.title && typeof normalizedComment.dayuh.title === 'string') {
         parentElement.appendChild(makeTitleDiv(normalizedComment.dayuh.title));
     }
 
-    // Render main content string, if it exists
     if (normalizedComment.content && typeof normalizedComment.content === 'string') {
         const textDiv = document.createElement("div");
         textDiv.innerHTML = markdownToHtml(sanitizeComment(normalizedComment.content));
         parentElement.appendChild(textDiv);
     }
     
-    // Render all sections from dayuh.sections
     if (Array.isArray(normalizedComment.dayuh?.sections)) {
         normalizedComment.dayuh.sections.forEach(sectionData => {
             const txt = sectionData?.text || (typeof sectionData === 'string' ? sectionData : "");
@@ -973,7 +917,6 @@ function populateCommentElement(comment, parentElement) {
         });
     }
 
-    // Render images
     addImageGallery(normalizedComment?.dayuh?.images, parentElement);
 
     // --- Step 3: Set Language Direction Safely ---
@@ -987,6 +930,7 @@ function populateCommentElement(comment, parentElement) {
         }
     }
 }
+
 function getSubIdx() {
 	var s = new URLSearchParams(location.search)
 	var idx = s.get("sub")
@@ -1010,21 +954,13 @@ function getSubSecIdx() {
 	idx = parseInt(idx)
 	return idx;
 }
-// B"H
-// FILE: /Remember/awtsmoos.com/geelooy/heichelos/post/commentLogic.js
 
-// ...
-
-// --- REPLACED & REFINED: The Master Refresh Function ---
 async function reloadRoot() {
     var verseSection = getIdx();
     verseSection = (verseSection === null) ? "root" : verseSection;
 
-    // Use our new reliable function to ensure all caches are cleared before reloading the UI.
     invalidateVerseCache(verseSection);
 
-    // This will now call loadRootComments, which will in turn call getAndSaveAliases.
-    // Since the cache is empty, it will be forced to fetch a fresh list of commentators.
 	return await loadRootComments({
 		post, 
 		mainParent, 
@@ -1037,23 +973,16 @@ async function reloadRoot() {
 
 window.reloadRoot = reloadRoot;
 
-
-
-
-// B"H
-// This creates and places the container for root-level comments right after the post title.
-
+// Creates and places the container for root-level comments right after the post title.
 function createAndPlaceRootCommentHolder(alias) {
     const postContent = document.getElementById("realPost");
     if (!postContent) return null;
 
-    // Check if a holder for this alias already exists at the root level
     let inlineHolder = postContent.querySelector(".commentator.inline.root-comments-holder[data-alias='" + alias + "']");
     if (inlineHolder) {
         return inlineHolder.querySelector(".comments-holder-inline");
     }
 
-    // Create the entire holder from scratch
     inlineHolder = document.createElement("div");
     inlineHolder.className = "commentator inline root-comments-holder";
     inlineHolder.dataset.alias = alias;
@@ -1073,25 +1002,17 @@ function createAndPlaceRootCommentHolder(alias) {
     commentHolder.classList.add("comments-holder-inline");
     inlineHolder.appendChild(commentHolder);
 
-    // --- CRUCIAL PLACEMENT LOGIC ---
-    // Use the reliable ".post-title" as the anchor for insertion.
     const postTitle = postContent.querySelector(".post-title");
     if (postTitle && postTitle.nextSibling) {
-        // Insert the holder after the title, before the next element.
         postTitle.parentNode.insertBefore(inlineHolder, postTitle.nextSibling);
     } else if (postTitle) {
-        // If title is the last element, just append to its parent.
         postTitle.parentNode.appendChild(inlineHolder);
     } else {
-        // Fallback: If no title, prepend to the very beginning of the post content.
         postContent.prepend(inlineHolder);
     }
 
     return commentHolder;
 }
-
-
-
 
 function getPostId(currentVerse) {
 	var sectionInfo = window?.sectionData[currentVerse];
@@ -1111,7 +1032,6 @@ function getSeriesId(currentVerse) {
 	}
 	return commentPost
 }
-//window.series.id
 
 function openPanel() {
 	
@@ -1169,7 +1089,8 @@ async function loadRootComments({
 	tab
 }) {
 	var idx = getIdx();
-	currentVerse = idx;
+	currentVerse = idx === null ? "root" : idx;
+	
 	removeEventListener("awtsmoos index", indexSwitch);
 	addEventListener("awtsmoos index" , indexSwitch);
 	
@@ -1179,8 +1100,6 @@ async function loadRootComments({
 	window.parent = parent;
 	window.tabComment = tab;
 	
-	//window.commentTab = tab;
-	
 	curTab="root";
 	var cm = parent
 	if (!cm) {
@@ -1189,36 +1108,23 @@ async function loadRootComments({
 	cm.innerHTML ="";
 	
 	await updateCommentHeader();
-	//await indexSwitch();
-	makeAddCommentSection(cm);
 	return await makeCommentatorList(cm, tab);
-	
-	
-
-	
-	
-	
 }
 
 /**
  * The data engine for the side panel. It fetches and caches the master list of 
- * all commentators for a given verse. This version is hardened with a guard
- * clause to prevent crashes during initial page load.
+ * all commentators for a given verse.
  */
 async function getAndSaveAliases(full = false, forceFresh = false) {
     
-    // This is the entire fix. Before doing anything, we check if the necessary
-    // global `post` object and its nested `heichel` property are ready.
+    // Guard clause to prevent errors on initial load
     if (!window.post || !window.post.heichel) {
-        // If they are not ready, it's too early to make the API call.
-        // We stop immediately and return an empty array to prevent a crash.
         console.warn("[Guard] getAndSaveAliases called before window.post.heichel was ready. Returning empty list.");
         return [];
     }
-    // -----
-
+    
     var verseSection = getIdx();
-    if (!verseSection && verseSection !== 0) verseSection = "root";
+    if (verseSection === null) verseSection = "root";
 
     if (!data.aliases) data.aliases = {};
 
@@ -1229,20 +1135,18 @@ async function getAndSaveAliases(full = false, forceFresh = false) {
         }
     }
 
-    var aliases = []; // Default to an empty array for safety.
+    var aliases = [];
     try {
         const result = await getCommentsByAlias({
             seriesId: window.post.parentSeriesId,
             postId: window.post.id,
-            heichelId: window.post.heichel.id, // This is now safe to access.
+            heichelId: window.post.heichel.id,
             fromCache: false,
             get: { verseSection, map: true }
         });
 
         if (Array.isArray(result)) {
             aliases = result;
-        } else {
-            console.warn(`[Data Integrity] getCommentsByAlias returned a non-array for verse ${verseSection}. Defaulting to empty.`);
         }
     } catch (error) {
         console.error(`[Data Integrity] Critical error fetching commentator list for verse ${verseSection}:`, error);
@@ -1260,9 +1164,8 @@ function makeAddCommentSection(par) {
 	var c = new CommentSection(div);
 }
 /**
- * Renders the side panel's list of commentator buttons. It is now a "slave"
- * to the `data.aliases` cache, which is our Source of Truth. It no longer
- * fetches its own data.
+ * Renders the side panel's list of commentator buttons based on the
+ * current source of truth in `data.aliases`.
  */
 async function makeCommentatorList(actualTab, tab) {
     var commentorList = document.createElement("div");
@@ -1271,8 +1174,6 @@ async function makeCommentatorList(actualTab, tab) {
     makeAddCommentSection(actualTab);
     actualTab.appendChild(commentorList);
     
-    // Fetch the Source of Truth. This may use the cache or get fresh data
-    // depending on whether it was invalidated.
     var aliases = await getAndSaveAliases();
     
     console.log(`[Panel Sync] Rebuilding commentator list UI with ${aliases.length} aliases.`);
@@ -1287,11 +1188,11 @@ async function makeCommentatorList(actualTab, tab) {
     aliases.forEach(alias => {
         var tab = addTab({
             header: "@" + alias,
-            btnParent: actualTab,
+            btnParent: commentorList, // Append buttons here
 			addClasses: true,
 			parent:mainParent,
 			tabParent: tab,
-			content: "Loading...",
+			content: loadingHTML,
 			async onopen({ actualTab }) {
 				curTab = tab;
 				window.curTab = curTab;
@@ -1307,57 +1208,39 @@ async function makeCommentatorList(actualTab, tab) {
     return tabs;
 }
 async function selectAndUpload({heichel, series, postId, verseNum, author, type="audio"}) {
-    // Create a file input element
     const fileInput = document.createElement("input");
     fileInput.type = "file";
- //   fileInput.accept = "audio/*"; // Restrict to audio files
 
-    // Create a promise to handle file selection
     const filePromise = new Promise((resolve, reject) => {
         fileInput.addEventListener("change", event => {
             const file = event.target.files[0];
-            if (file) {
-                resolve(file);
-            } else {
-                reject(new Error("No file selected"));
-            }
+            if (file) resolve(file);
+            else reject(new Error("No file selected"));
         });
     });
 
-    // Simulate a click to open the file selector
     fileInput.click();
 
     try {
-        // Wait for the user to select a file
         const file = await filePromise;
-       // document.body.removeChild(fileInput); // Clean up the input element
-
-        // Upload the selected file
         const url = URL.createObjectURL(file);
         const result = await uploadBlobToS3(url, heichel, series, postId, verseNum, author, 
 					    type=="audio"?"koyl.mp3" : 
 					    type=="timesheet" ? "timesheet.json":null
 					);
-
-        // Revoke the object URL to free memory
         URL.revokeObjectURL(url);
-
-        console.log("File uploaded successfully:", result);
         return result;
     } catch (error) {
-        //document.body.removeChild(fileInput); // Ensure cleanup on error
         console.error("Error uploading file:", error);
         throw error;
     }
 }
 async function uploadBlobToS3(url, heichel, series, postId, verseNum, author, fileName) {
 	if(!fileName) return alert("incorrect filename ")
-    // Retrieve AWS credentials and bucket info from localStorage
     const storageKey = "awsCredentials";
     let awsConfig = JSON.parse(localStorage.getItem(storageKey));
     const requiredKeys = ["accessKeyId", "secretAccessKey", "accountId", "bucket"];
 
-    // Check if all required keys are present, otherwise prompt the user
     if (!awsConfig || !requiredKeys.every(key => awsConfig[key])) {
         awsConfig = {};
         requiredKeys.forEach(key => {
@@ -1365,19 +1248,15 @@ async function uploadBlobToS3(url, heichel, series, postId, verseNum, author, fi
             if (!value) throw new Error(`Missing value for ${key}`);
             awsConfig[key] = value;
         });
-        // Save the updated config to localStorage
         localStorage.setItem(storageKey, JSON.stringify(awsConfig));
     }
 
-    // Fetch the blob and prepare it for upload
     const blob = await (await fetch(url)).blob();
     const arr = await blob.arrayBuffer();
     const int = new Uint8Array(arr);
 
-    // Generate the S3 key path
     const key = `heichelos/${heichel}/series/${series}/postId/${postId}/verse/${verseNum}/${author}/${fileName}`;
 
-    // Call the sendIt function
     const result = await sendIt({
         accessKeyId: awsConfig.accessKeyId,
         secretAccessKey: awsConfig.secretAccessKey,
@@ -1387,7 +1266,6 @@ async function uploadBlobToS3(url, heichel, series, postId, verseNum, author, fi
         content: int
     });
 
-    // Return the bucket and path info
     return { bucket: awsConfig.bucket, path: key };
 }
 async function init({
@@ -1405,36 +1283,21 @@ async function init({
 	await showAllInlineComments();
 }
 
-
-
-// This function allows CommentSection.js to tell our inline tracker it's out of date.
-function invalidateInlineTracker(verseSection) {
-    if (loadedInlineVerses[verseSection]) {
-        delete loadedInlineVerses[verseSection];
-    }
-}
-
-
 /**
- * The high-level conductor for the "new comment" user experience. It is called
- * from outside this module to trigger a complete and synchronized UI update.
+ * Orchestrates the entire UI update after a user posts a new comment.
  */
 async function handleNewComment({ aliasId, verseSection, commentId, newCommentData }) {
     console.log(`[Finale] Orchestrating UI for new comment ${commentId} by ${aliasId}`);
     
-    // 1. Invalidate everything for the target verse.
     invalidateVerseCache(verseSection);
 
-    // 2. Handle Inline Update immediately.
     if (isAliasInline(aliasId) && newCommentData) {
         const memoryKey = `${aliasId}-${verseSection}`;
-        delete loadedInlineVerses[memoryKey]; // Invalidate inline memory to force re-render.
-        console.log("[Finale] Alias is inline, adding new comment directly to DOM.");
+        delete loadedInlineVerses[memoryKey];
         addCommentsInline([newCommentData], aliasId);
-        loadedInlineVerses[memoryKey] = true; // Re-set memory.
+        loadedInlineVerses[memoryKey] = true;
     }
 
-    // 3. Rebuild, open, and navigate the panel.
     await reloadRoot();
     const aliasTab = await openCommentsPanelToAlias(aliasId, true);
     if (aliasTab && commentId) {
@@ -1454,11 +1317,10 @@ async function handleNewComment({ aliasId, verseSection, commentId, newCommentDa
 export {
 	init,
 	loadRootComments,
-	indexSwitch,
-    invalidateInlineTracker
+	indexSwitch
 }
 
 // Expose ONLY the high-level functions needed by other modules
 window.commentLogic = {
-    handleNewComment // The only function CommentSection needs to know about.
+    handleNewComment
 };
