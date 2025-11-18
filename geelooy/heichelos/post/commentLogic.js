@@ -806,51 +806,83 @@ async function updateCommentHeader() {
 
 /*B"H*/
 /**
- * The Master Conductor that runs ONLY on scroll-based verse changes.
- * It synchronizes all UI components to match the new verse state.
+ * The Master Conductor for all dynamic comment updates triggered by scrolling.
+ * This function is the single source of truth for synchronizing the comment panel
+ * and inline comments with the currently viewed verse.
+ *
+ * It works by:
+ * 1. Capturing the current state (which alias tab is open).
+ * 2. Invalidating all data caches for the new verse.
+ * 3. Rebuilding the commentator list for the new verse's data.
+ * 4. Finding the new tab corresponding to the previously opened alias.
+ * 5. Programmatically opening that new tab to trigger a fresh render of its comments.
+ * 6. Updating any inline comments.
  */
 async function indexSwitch() {
+    // Determine the verse we are scrolling TO.
     var idxNum = getIdx();
     var newVerse = (!idxNum && idxNum !== 0) ? "root" : idxNum;
 
-    // This performance guard is now critical. It prevents this function from
-    // running unnecessarily and ensures it only acts on a real verse change.
-    if (currentVerse === newVerse) return; 
-    
+    // Performance Guard: Do nothing if the verse hasn't actually changed.
+    if (currentVerse === newVerse) {
+        return;
+    }
+
     console.log(`[Conductor] Verse changed from ${currentVerse} to ${newVerse}. Starting synchronization.`);
+    
+    // --- STEP 1: CAPTURE CURRENT STATE & UPDATE CACHE ---
+    // Capture which alias tab is open BEFORE we rebuild the UI.
+    const activeAliasId = window.curTab?.awtsHeader?.textContent?.trim().substring(1);
+    
+    // Set the new global verse state.
     currentVerse = newVerse;
+    
+    // Invalidate all data caches to force a fresh fetch.
+    invalidateVerseCache(newVerse);
 
-    // --- 1. REMEMBER STATE & INVALIDATE CACHE ---
-    const activeAliasId = window.curTab?.awtsHeader?.textContent?.trim()?.substring(1);
-    invalidateVerseCache(newVerse); 
-
-    // --- 2. SYNCHRONIZE SIDE PANEL ---
-    if (window.commentTab && window.commentTab.isOpen && window.currentCommentContainer) {
-        console.log("[Conductor] Updating side panel UI.");
-        await updateCommentHeader();
+    // --- STEP 2: SYNCHRONIZE THE SIDE PANEL (IF OPEN) ---
+    const commentContainer = window.tabComment?.actual;
+    if (window.tabComment && window.tabComment.isOpen && commentContainer) {
+        console.log(`[Conductor] Side panel is open. Rebuilding for verse ${newVerse}.`);
         
-        const newTabs = await makeCommentatorList(window.currentCommentContainer, window.tabComment);
+        // Update the main header (e.g., "Comments for verse 3").
+        await updateCommentHeader();
 
+        // Rebuild the list of commentator buttons with data for the new verse.
+        // This returns an array of the newly created tab objects.
+        const newTabs = await makeCommentatorList(commentContainer, window.tabComment);
+
+        // If an alias tab was open before the scroll, find its new instance and open it.
+        // This is the critical step for making the panel content update automatically.
         if (activeAliasId) {
             const tabToReopen = newTabs.find(t => t.awtsHeader.textContent.trim().substring(1) === activeAliasId);
+
             if (tabToReopen) {
-                tabToReopen.open();
+                console.log(`[Conductor] Found corresponding new tab for "${activeAliasId}". Programmatically opening.`);
+                // Use the .open() method from your TabManager to trigger the onopen callback,
+                // which will fetch and render the comments for the new verse.
+                await tabToReopen.open();
+            } else {
+                 console.log(`[Conductor] Alias "${activeAliasId}" has no comments on verse ${newVerse}. Returning to main list.`);
             }
         }
     }
 
-    // --- 3. SYNCHRONIZE INLINE VIEW (Persistent & Additive) ---
+    // --- STEP 3: SYNCHRONIZE INLINE COMMENTS (IF ACTIVE) ---
     const inlineAliases = getInlineAliases();
     if (inlineAliases.length > 0) {
         console.log("[Conductor] Updating inline comments.");
-        const commentators = await getAndSaveAliases(true); 
+        const commentators = await getAndSaveAliases(true);
         for (const aliasData of commentators) {
             const aliasId = aliasData.id;
+            // Skip if this alias isn't set to be read inline.
             if (!inlineAliases.includes(aliasId)) continue;
 
+            // Skip if we've already loaded this alias for this verse.
             const cacheKey = `${aliasId}-${newVerse}`;
             if (loadedInlineVerses[cacheKey]) continue;
 
+            // Fetch and render the comments.
             const comments = await getCommentsOfAlias({
                 seriesId: window?.post?.parentSeriesId,
                 postId: window?.post?.id,
@@ -860,6 +892,7 @@ async function indexSwitch() {
             });
 
             addCommentsInline(comments, aliasId);
+            // Mark as loaded to prevent re-rendering.
             loadedInlineVerses[cacheKey] = true;
         }
     }
@@ -1069,47 +1102,29 @@ window.openCommentsPanelToAlias = openCommentsPanelToAlias;
 
 /*B"H*/
 /**
- * Initializes the comment section, now responsible for the direct initial render.
- * This is more robust as it doesn't rely on the timing of other events.
+ * Initializes the comment section by rendering the list of commentator buttons.
  * @param {object} params - The initialization parameters.
- * @param {object} params.post - The current post object.
- * @param {HTMLElement} params.mainParent - The container for all tabs.
  * @param {HTMLElement} params.parent - The specific container for the comment UI.
- * @param {object} params.rootTab - The root tab object.
- * @param {object} params.tab - The current comment tab object.
+ * @param {object} params.tab - The main comment tab object.
  */
-async function loadRootComments({
-	post,
-	mainParent,
-	parent, // This is the container for the comment UI
-	rootTab,
-	tab
-}) {
-	// 1. Set up the global variables that other functions rely on.
-	window.post = post;
-	window.rootTab = rootTab;
-	window.mainParent = mainParent;
-	window.currentCommentContainer = parent;
+async function loadRootComments({ parent, tab }) {
+	// 1. Set up the global tab reference
 	window.tabComment = tab;
-
-	// 2. Determine the initial state.
+	
+	// 2. Determine the initial verse state.
 	var idx = getIdx();
 	currentVerse = (idx === null) ? "root" : idx;
-	console.log(`[Comments] Initializing for verse: ${currentVerse}. Container:`, parent);
+	console.log(`[Comments] Initializing for verse: ${currentVerse}.`);
 
-
-	// 3. Ensure the event listener for FUTURE scroll updates is active.
+	// 3. Set up the scroll listener for future updates.
 	removeEventListener("awtsmoos index", indexSwitch);
 	addEventListener("awtsmoos index" , indexSwitch);
-	
-	// 4. Perform the DIRECT initial render.
+
+	// 4. Render the initial UI directly into the provided container.
 	if (!parent) {
-		console.error("Comment container is null! Cannot render.");
-		return;
+		return console.error("Comment container is null! Cannot render.");
 	}
-	parent.innerHTML = ""; // Clear any previous content.
-	
-	// These now run directly, ensuring the UI always appears.
+	parent.innerHTML = "";
 	await updateCommentHeader();
 	await makeCommentatorList(parent, tab);
 }
@@ -1167,31 +1182,22 @@ function makeAddCommentSection(par) {
 }
 /*B"H*/
 /**
- * Renders the side panel's list of commentator buttons. It is now more robust
- * and ensures the "Add Comment" section and default messages always appear.
+ * Renders the side panel's list of commentator buttons.
+ * It now correctly captures the content area of the specific alias tab that is opened.
  * @param {HTMLElement} actualTab - The container element to render the UI into.
  * @param {object} tab - The parent tab object.
  * @returns {Promise<Array>} A promise that resolves to an array of the created tab objects.
  */
 async function makeCommentatorList(actualTab, tab) {
-    // Clear the container to ensure a fresh render.
     actualTab.innerHTML = "";
-
-    // Always create the "Add Comment" section first.
     makeAddCommentSection(actualTab);
 
-    // Create the container that will hold the alias buttons.
     var commentorList = document.createElement("div");
     commentorList.classList.add("commentors");
     actualTab.appendChild(commentorList);
     
-    // Fetch the list of commentators for the current verse.
     var aliases = await getAndSaveAliases();
     
-    console.log(`[Panel Sync] Rebuilding commentator list UI with ${aliases.length} aliases.`);
-    window.aliasesOfComments = aliases;
-
-    // Hardened check: If aliases is not a valid array or is empty, show the default message.
     if (!aliases || !Array.isArray(aliases) || aliases.length === 0) {
         commentorList.innerHTML = "Be the first to comment on this verse!";
         return [];
@@ -1201,19 +1207,25 @@ async function makeCommentatorList(actualTab, tab) {
     aliases.forEach(alias => {
         var newTab = addTab({
             header: "@" + alias,
-            btnParent: commentorList, // Place the button in the correct container.
-			addClasses: true,
-			parent: mainParent,
+            btnParent: commentorList,
+			parent: mainParent, // Should be the holder for all tab contents
 			tabParent: tab,
 			content: loadingHTML,
-			async onopen({ actualTab: openedTabContentArea }) {
+			async onopen({ actualTab: aliasContentArea }) { // De-structure with a new name for clarity
 				curTab = newTab;
 				window.curTab = curTab;
+				// This is the CRITICAL FIX: Store a reference to the currently open alias tab's content area.
+				window.currentAliasTabContainer = aliasContentArea; 
+				
 				openCommentsOfAlias({
 					alias,
-					actualTab: openedTabContentArea,
+					actualTab: aliasContentArea,
 					post,
-				})
+				});
+			},
+			async onclose() {
+				// When an alias tab is closed, clear the reference.
+				window.currentAliasTabContainer = null;
 			}
         });
         tabs.push(newTab);
