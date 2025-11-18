@@ -37,6 +37,7 @@ module.exports = {
                                 var pubPath =pth;
                                 fl = await info.db.get(pubPath, {
                                     extra: true,
+                                    pageSize: 10000,
                                     keepJSON: true
                                 });
                             } catch(e){}
