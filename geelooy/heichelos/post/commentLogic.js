@@ -804,33 +804,34 @@ async function updateCommentHeader() {
 }
 
 
+/*B"H*/
 /**
  * The Master Conductor that runs on every scroll. It discovers the true state
  * of the new verse and synchronizes all UI components to match it.
+ * This now uses the safe global variable to find its container.
  */
 async function indexSwitch() {
-    console.log("B'H - indexSwitch has been triggered!"); // DEBUGGING
     var idxNum = getIdx();
     var newVerse = (!idxNum && idxNum !== 0) ? "root" : idxNum;
 
-    if (currentVerse === newVerse) return; // Performance guard
+    // A performance guard to prevent re-rendering the same verse.
+    // By setting currentVerse to null initially, we force the first run.
+    if (currentVerse === newVerse) return; 
     console.log(`[Conductor] Verse changed from ${currentVerse} to ${newVerse}. Starting synchronization.`);
     currentVerse = newVerse;
 
     // --- 1. REMEMBER STATE & INVALIDATE CACHE ---
     const activeAliasId = window.curTab?.awtsHeader?.textContent?.trim()?.substring(1);
-    invalidateVerseCache(newVerse); // Force all subsequent fetches to be fresh.
+    invalidateVerseCache(newVerse); 
 
     // --- 2. SYNCHRONIZE SIDE PANEL ---
-    if (window.commentTab && window.commentTab.isOpen) {
-        // Update the main comment panel header. This fixes the stuck "verse X" text.
+    // Ensure the tab is open and we have a valid container to draw in.
+    if (window.commentTab && window.commentTab.isOpen && window.currentCommentContainer) {
         await updateCommentHeader();
         
-        // Rebuild the commentator list for the new verse.
-        const newTabs = await makeCommentatorList(window.parent, window.tabComment);
+        // Pass the correct, safe container variable to the UI builder.
+        const newTabs = await makeCommentatorList(window.currentCommentContainer, window.tabComment);
 
-        // If an alias tab was open, find its new instance and open it.
-        // This forces the panel content to update automatically on scroll.
         if (activeAliasId) {
             const tabToReopen = newTabs.find(t => t.awtsHeader.textContent.trim().substring(1) === activeAliasId);
             if (tabToReopen) {
@@ -842,13 +843,13 @@ async function indexSwitch() {
     // --- 3. SYNCHRONIZE INLINE VIEW (Persistent & Additive) ---
     const inlineAliases = getInlineAliases();
     if (inlineAliases.length > 0) {
-        const commentators = await getAndSaveAliases(true); // Get fresh data
+        const commentators = await getAndSaveAliases(true); 
         for (const aliasData of commentators) {
             const aliasId = aliasData.id;
             if (!inlineAliases.includes(aliasId)) continue;
 
             const cacheKey = `${aliasId}-${newVerse}`;
-            if (loadedInlineVerses[cacheKey]) continue; // Respect persistence
+            if (loadedInlineVerses[cacheKey]) continue;
 
             const comments = await getCommentsOfAlias({
                 seriesId: window?.post?.parentSeriesId,
@@ -863,7 +864,6 @@ async function indexSwitch() {
         }
     }
 }
-
 
 // B"H - This is the unified rendering engine for displaying comment content.
 function populateCommentElement(comment, parentElement) {
@@ -1067,13 +1067,21 @@ async function showAllInlineComments() {
 window.showAllInlineComments = showAllInlineComments;
 window.openCommentsPanelToAlias = openCommentsPanelToAlias;
 
-// --- REFACTORED AND SIMPLIFIED ---
-// This function's only job is to set up the environment and then
-// hand off control to the master conductor, `indexSwitch`.
+/*B"H*/
+/**
+ * Sets up the comment section environment and triggers the initial render.
+ * This function now avoids the risky 'window.parent' global variable.
+ * @param {object} params - The initialization parameters.
+ * @param {object} params.post - The current post object.
+ * @param {HTMLElement} params.mainParent - The container for all tabs.
+ * @param {HTMLElement} params.parent - The specific container for the comment UI.
+ * @param {object} params.rootTab - The root tab object.
+ * @param {object} params.tab - The current comment tab object.
+ */
 async function loadRootComments({
 	post,
 	mainParent,
-	parent/*container for comments*/,
+	parent, // This is the container for the comment UI
 	rootTab,
 	tab
 }) {
@@ -1081,7 +1089,8 @@ async function loadRootComments({
 	window.post = post;
 	window.rootTab = rootTab;
 	window.mainParent = mainParent;
-	window.parent = parent;
+	// Use a safe global variable name instead of the problematic 'window.parent'.
+	window.currentCommentContainer = parent; 
 	window.tabComment = tab;
 	
 	// 2. Ensure the event listener is in place.
