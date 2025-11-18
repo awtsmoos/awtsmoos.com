@@ -806,17 +806,17 @@ async function updateCommentHeader() {
 
 /*B"H*/
 /**
- * The Master Conductor that runs on every scroll. It discovers the true state
- * of the new verse and synchronizes all UI components to match it.
- * This now uses the safe global variable to find its container.
+ * The Master Conductor that runs ONLY on scroll-based verse changes.
+ * It synchronizes all UI components to match the new verse state.
  */
 async function indexSwitch() {
     var idxNum = getIdx();
     var newVerse = (!idxNum && idxNum !== 0) ? "root" : idxNum;
 
-    // A performance guard to prevent re-rendering the same verse.
-    // By setting currentVerse to null initially, we force the first run.
+    // This performance guard is now critical. It prevents this function from
+    // running unnecessarily and ensures it only acts on a real verse change.
     if (currentVerse === newVerse) return; 
+    
     console.log(`[Conductor] Verse changed from ${currentVerse} to ${newVerse}. Starting synchronization.`);
     currentVerse = newVerse;
 
@@ -825,11 +825,10 @@ async function indexSwitch() {
     invalidateVerseCache(newVerse); 
 
     // --- 2. SYNCHRONIZE SIDE PANEL ---
-    // Ensure the tab is open and we have a valid container to draw in.
     if (window.commentTab && window.commentTab.isOpen && window.currentCommentContainer) {
+        console.log("[Conductor] Updating side panel UI.");
         await updateCommentHeader();
         
-        // Pass the correct, safe container variable to the UI builder.
         const newTabs = await makeCommentatorList(window.currentCommentContainer, window.tabComment);
 
         if (activeAliasId) {
@@ -843,6 +842,7 @@ async function indexSwitch() {
     // --- 3. SYNCHRONIZE INLINE VIEW (Persistent & Additive) ---
     const inlineAliases = getInlineAliases();
     if (inlineAliases.length > 0) {
+        console.log("[Conductor] Updating inline comments.");
         const commentators = await getAndSaveAliases(true); 
         for (const aliasData of commentators) {
             const aliasId = aliasData.id;
@@ -1069,8 +1069,8 @@ window.openCommentsPanelToAlias = openCommentsPanelToAlias;
 
 /*B"H*/
 /**
- * Sets up the comment section environment and triggers the initial render.
- * This function now avoids the risky 'window.parent' global variable.
+ * Initializes the comment section, now responsible for the direct initial render.
+ * This is more robust as it doesn't rely on the timing of other events.
  * @param {object} params - The initialization parameters.
  * @param {object} params.post - The current post object.
  * @param {HTMLElement} params.mainParent - The container for all tabs.
@@ -1089,17 +1089,29 @@ async function loadRootComments({
 	window.post = post;
 	window.rootTab = rootTab;
 	window.mainParent = mainParent;
-	// Use a safe global variable name instead of the problematic 'window.parent'.
-	window.currentCommentContainer = parent; 
+	window.currentCommentContainer = parent;
 	window.tabComment = tab;
-	
-	// 2. Ensure the event listener is in place.
+
+	// 2. Determine the initial state.
+	var idx = getIdx();
+	currentVerse = (idx === null) ? "root" : idx;
+	console.log(`[Comments] Initializing for verse: ${currentVerse}. Container:`, parent);
+
+
+	// 3. Ensure the event listener for FUTURE scroll updates is active.
 	removeEventListener("awtsmoos index", indexSwitch);
 	addEventListener("awtsmoos index" , indexSwitch);
 	
-	// 3. Hand off all rendering and state management to the conductor.
-	// This will build the initial UI correctly for the current verse.
-	await indexSwitch();
+	// 4. Perform the DIRECT initial render.
+	if (!parent) {
+		console.error("Comment container is null! Cannot render.");
+		return;
+	}
+	parent.innerHTML = ""; // Clear any previous content.
+	
+	// These now run directly, ensuring the UI always appears.
+	await updateCommentHeader();
+	await makeCommentatorList(parent, tab);
 }
 
 /**
