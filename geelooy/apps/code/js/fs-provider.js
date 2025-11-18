@@ -721,14 +721,24 @@ read: async function({ path }) {
 	
 	        // Step 4: Make the request to the OS using the true, fully-qualified path.
 	        const response = await this._requestFromOS('requestFolderList', { path: pathForOSRequest });
-	
+	 
+		var kind = name => name.endsWith('.folder') ? 'directory' : 'file';
+		
+		var realName = name => kind(name) == "directory" ?
+			name.substring(
+				0,
+				name.indexOf(".folder")
+			) : name;
+		if(kind == "directory") {
+			realName  = name.substring(0, f);
+		}
 	        // Step 5: Map the response. For each child item the OS returns,
 	        // we construct its full path so the editor can work with it for subsequent actions.
 	        return response.items.map(name => ({
-	            name,
-	            kind: name.endsWith('.folder') ? 'directory' : 'file',
+	            name: realName(name),
+	            kind:kind(name),
 	            // The path for the child is its parent's full path plus its own name.
-	            path: `${pathForOSRequest}/${name}`
+	            path: `${pathForOSRequest}/${realName(name)}`
 	        }));
 	    },
 	

@@ -112,7 +112,8 @@ module.exports = {
                             var { id, record } = $_POST;
                             if(!id) id = pth
                             try {
-                                await db.update(id, record);
+	                            console.log("UPDATING",id,record);
+                                await db.write(id, record);
                                 return { status: 'success' };
                             } catch(err) {
                                 return { status: 'error', message: err.message };

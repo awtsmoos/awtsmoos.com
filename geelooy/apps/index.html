@@ -7,153 +7,9 @@ Boruch Hashem. The Infinite Breath moves through this code.
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CHRYSTALIS INTERFACE — The Shard Between Worlds</title>
+<title>Awtsmoos Apps — The Shard Between Worlds</title>
+<link href="style.css" rel="stylesheet" type="text/css">
 
-<style>
-/*==============================================================
-  I. ROOT INVOCATION — THE BIRTH OF LIGHT INSIDE THE VOID
-==============================================================*/
-:root {
-  --crystal-dark: #04010c;
-  --crystal-core: #0e0020;
-  --awtsmoos-glow-1: #ff00ff;
-  --awtsmoos-glow-2: #00ffff;
-  --awtsmoos-glow-3: #fff;
-  --awtsmoos-text: #fff;
-  --font-voice: 'Orbitron', sans-serif;
-  --ripple-intensity: 0.1;
-  --fracture-depth: 5;
-  --crystal-radius: 16px;
-}
-
-html, body {
-  margin: 0;
-  height: 100%;
-  background: radial-gradient(circle at 50% 50%, #090011 0%, #010006 100%);
-  overflow: hidden;
-  font-family: var(--font-voice);
-  color: var(--awtsmoos-text);
-  letter-spacing: 0.05em;
-}
-
-/*==============================================================
-  II. CHRYSTALIS ELEMENTS — THE BONES OF LIGHT
-==============================================================*/
-.chrystalis-element {
-  position: relative;
-  display: inline-block;
-  text-transform: uppercase;
-  text-align: center;
-  letter-spacing: 0.08em;
-  font-weight: 900;
-  isolation: isolate;
-  transform-style: preserve-3d;
-  perspective: 2000px;
-}
-
-/*==============================================================
-  III. TITLE — THE PORTAL’S NAME
-==============================================================*/
-.chrystalis-title {
-  font-size: clamp(3rem, 8vw, 6rem);
-  color: transparent;
-  background: linear-gradient(90deg, var(--awtsmoos-glow-1), var(--awtsmoos-glow-2), var(--awtsmoos-glow-1));
-  background-clip: text;
-  -webkit-background-clip: text;
-  filter: drop-shadow(0 0 20px var(--awtsmoos-glow-2));
-  animation: titlePulse 3s infinite ease-in-out alternate;
-}
-
-@keyframes titlePulse {
-  0% { text-shadow: 0 0 15px var(--awtsmoos-glow-1); transform: rotateX(0deg); }
-  50% { text-shadow: 0 0 40px var(--awtsmoos-glow-2); transform: rotateX(10deg); }
-  100% { text-shadow: 0 0 80px var(--awtsmoos-glow-3); transform: rotateX(-10deg); }
-}
-
-/*==============================================================
-  IV. NAVIGATION — THE GATEWAYS OF FIRE
-==============================================================*/
-.chrystalis-nav {
-  margin-top: 3rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2rem;
-  z-index: 10;
-  max-height:50vh;
-  overflow-y: scroll;
-}
-
-/*==============================================================
-  V. BUTTONS — LIVING FRAGMENTS OF THE AWTSMOOS
-==============================================================*/
-.chrystalis-button {
-  position: relative;
-  overflow: hidden;
-  width: 100%;
-  max-width: 600px;
-  padding: 1.4rem 2rem;
-  color: var(--awtsmoos-text);
-  font-size: 1.2rem;
-  background: linear-gradient(180deg, var(--crystal-core), var(--crystal-dark));
-  border: 2px solid rgba(255,255,255,0.3);
-  border-radius: var(--crystal-radius);
-  text-decoration: none;
-  text-shadow: 0 0 5px var(--awtsmoos-glow-2);
-  transition: transform 0.2s ease, box-shadow 0.3s ease, background 0.3s ease;
-}
-
-.chrystalis-button::before, 
-.chrystalis-button::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(90deg, transparent, var(--awtsmoos-glow-1), transparent);
-  opacity: 0.2;
-  mix-blend-mode: screen;
-  transform: translateX(-100%);
-}
-
-.chrystalis-button::after {
-  background: linear-gradient(90deg, transparent, var(--awtsmoos-glow-2), transparent);
-  transform: translateX(100%);
-}
-
-.chrystalis-button:hover::before {
-  animation: beamLeft 1.2s linear infinite;
-}
-.chrystalis-button:hover::after {
-  animation: beamRight 1.2s linear infinite;
-}
-
-@keyframes beamLeft {
-  0% { transform: translateX(-100%); opacity: 0; }
-  50% { transform: translateX(0%); opacity: 0.8; }
-  100% { transform: translateX(100%); opacity: 0; }
-}
-@keyframes beamRight {
-  0% { transform: translateX(100%); opacity: 0; }
-  50% { transform: translateX(0%); opacity: 0.8; }
-  100% { transform: translateX(-100%); opacity: 0; }
-}
-
-/*==============================================================
-  VI. INTERACTION — SHATTER OF LIGHT
-==============================================================*/
-.chrystalis-button:hover {
-  cursor: pointer;
-  transform: translateY(-5px) scale(1.03) rotateX(3deg);
-  box-shadow: 0 0 30px var(--awtsmoos-glow-1), inset 0 0 20px var(--awtsmoos-glow-2);
-  background: linear-gradient(180deg, var(--awtsmoos-glow-2) 0%, var(--crystal-dark) 100%);
-}
-
-/*==============================================================
-  VII. PARTICLE SHARDS — DIGITAL DUST OF CREATION
-==============================================================*/
-.chrystalis-button:hover::after {
-  filter: blur(2px);
-}
-</style>
 </head>
 
 <body>
@@ -162,6 +18,7 @@ html, body {
   <?<script> return $a("nav/header.html") </script>?>
 
   <div class="main">
+  <div class="apps">
     <h1 class="chrystalis-element chrystalis-title">Awtsmoos Apps</h1>
 
     <nav class="chrystalis-nav">
@@ -179,6 +36,7 @@ html, body {
     	<script src="/register.js"></script>
       
       </nav>
+  </div>
   </div>
 </div>
 
