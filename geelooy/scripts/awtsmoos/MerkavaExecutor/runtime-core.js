@@ -61,21 +61,16 @@ class MerkavaExecutor {
             bindings: new Map(Object.entries(bindings)),
             thisBinding,
 
-            // A regular function, so `this` refers to the scope object itself.
             get(name) {
                 if (name === 'this') return this.thisBinding;
-
                 let current = this;
                 while (current) {
                     if (current.bindings.has(name)) return current.bindings.get(name);
                     current = current.parent;
                 }
-                
-                // The Final Covenant: At the end of the scope chain, the global `this` is the final source of truth.
                 if (name in this.thisBinding) {
                     return this.thisBinding[name];
                 }
-
                 return undefined;
             },
 
@@ -90,7 +85,6 @@ class MerkavaExecutor {
                     }
                     current = current.parent;
                 }
-                // An implicit global assignment IS a mutation of the global `this`.
                 this.thisBinding[name] = value;
             }
         };
@@ -98,7 +92,6 @@ class MerkavaExecutor {
     }
     
     async _assignPattern(pattern, value, context) {
-        // This function handles all forms of destructuring assignment.
         if (!pattern) return;
         if (pattern.type === 'Identifier') {
             context.scope.set(pattern.name, value);
@@ -106,7 +99,6 @@ class MerkavaExecutor {
             for (const prop of pattern.properties) {
                 const key = prop.computed ? await this._executeNode(prop.key, context) : prop.key.name;
                 const valToAssign = (value !== null && value !== undefined) ? value[key] : undefined;
-
                 if (prop.value.type === 'AssignmentPattern') {
                     if (valToAssign === undefined) {
                         await this._assignPattern(prop.value.left, await this._executeNode(prop.value.right, context), context);
@@ -201,31 +193,17 @@ class MerkavaExecutor {
             }
             if (typeof func !== 'function') throw new TypeError(`${n.callee.type} is not a function`);
             const args = await Promise.all(n.arguments.map(arg => this._executeNode(arg, c)));
-            // MODIFICATION: Await the result, as our custom functions now return promises.
             return await func.apply(thisContext, args);
         },
         NewExpression: async function(n, c) {
             const constructor = await this._executeNode(n.callee, c);
-             if (typeof constructor !== 'function') {
+            if (typeof constructor !== 'function') {
                 throw new TypeError(`${n.callee.name || 'value'} is not a constructor`);
             }
             const args = await Promise.all(n.arguments.map(arg => this._executeNode(arg, c)));
-            
-            // MODIFICATION: Faithfully replicate the 'new' operator's behavior.
-            // 1. Create a new object that inherits from the constructor's prototype.
             const newInstance = Object.create(constructor.prototype);
-            
-            // 2. Execute the constructor function with the new instance as `this`.
-            // Our custom functions return a promise, so we await its resolution.
             const result = await constructor.apply(newInstance, args);
-            
-            // 3. Per JavaScript spec, if the constructor returns an object, that is the result.
-            //    Otherwise, the result is the new instance we created.
-            if (typeof result === 'object' && result !== null) {
-                return result;
-            } else {
-                return newInstance;
-            }
+            return (typeof result === 'object' && result !== null) ? result : newInstance;
         },
         AssignmentExpression: async function(n, c) {
             const value = await this._executeNode(n.right, c);
@@ -288,12 +266,8 @@ class MerkavaExecutor {
         },
         FunctionExpression: async function(n, c) {
             const executor = this;
-            // MODIFICATION: This is now a REGULAR function, making it a valid constructor.
             const callable = function(...args) {
-                // When called with `new`, `this` is the new instance. Otherwise, it's set by the call site.
-                const thisContext = this; 
-                
-                // The body's execution is async, so we wrap it in an async IIFE and return its promise.
+                const thisContext = this;
                 return (async () => {
                     const funcScope = executor._createScope(c.scope, {}, thisContext);
                     const funcContext = { ...c, scope: funcScope };
@@ -340,6 +314,61 @@ class MerkavaExecutor {
             }
             return obj;
         },
+        // --- TIKKUN: ADDED CLASS SUPPORT ---
+        ClassDeclaration: async function(n, c) {
+            const classConstructor = await this.nodeExecutors.ClassExpression.call(this, n, c);
+            if (n.id && n.id.name) {
+                c.scope.set(n.id.name, classConstructor);
+            }
+            return classConstructor;
+        },
+        ClassExpression: async function(n, c) {
+            let superClass = null;
+            if (n.superClass) {
+                superClass = await this._executeNode(n.superClass, c);
+            }
+
+            const classScope = this._createScope(c.scope);
+            const classContext = { ...c, scope: classScope };
+            
+            const constructorDef = n.body.body.find(member => member.type === 'MethodDefinition' && member.kind === 'constructor');
+
+            let classConstructor;
+            if (constructorDef) {
+                classConstructor = await this._executeNode(constructorDef.value, classContext);
+            } else {
+                classConstructor = superClass ? function(...args) { return superClass.apply(this, args); } : function() {};
+            }
+            
+            if (superClass) {
+                Object.setPrototypeOf(classConstructor.prototype, superClass.prototype);
+                Object.setPrototypeOf(classConstructor, superClass);
+            }
+
+            if (n.id) {
+                const className = n.id.name;
+                Object.defineProperty(classConstructor, 'name', { value: className, configurable: true });
+                classScope.set(className, classConstructor);
+            }
+            
+            for (const member of n.body.body) {
+                if (member.type === 'MethodDefinition' && member.kind !== 'constructor') {
+                    const key = member.computed ? await this._executeNode(member.key, classContext) : member.key.name;
+                    const methodFunc = await this._executeNode(member.value, classContext);
+                    const target = member.static ? classConstructor : classConstructor.prototype;
+
+                    if (member.kind === 'method') {
+                        target[key] = methodFunc;
+                    } else if (member.kind === 'get' || member.kind === 'set') {
+                        const descriptor = Object.getOwnPropertyDescriptor(target, key) || { configurable: true };
+                        descriptor[member.kind] = methodFunc;
+                        Object.defineProperty(target, key, descriptor);
+                    }
+                }
+            }
+            return classConstructor;
+        },
+        // --- END OF TIKKUN ---
         ImportDeclaration: async function(n, c) {
             const specifier = n.source.value;
             if (!this.moduleCache) this.moduleCache = new Map();
