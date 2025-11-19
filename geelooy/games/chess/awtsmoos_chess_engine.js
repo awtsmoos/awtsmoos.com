@@ -314,6 +314,7 @@ function processRawBook(rawBook, targetMap) {
     }
 }
 
+/* B"H */
 // --- VII. THE GENESIS AND THE NEXUS (Initialization & Main Handler) ---
 function initializeEngine() {
     if (EngineSoul.isInitialized) {
@@ -324,6 +325,13 @@ function initializeEngine() {
     initializeAll();
     
     Scribe.info("Inscribing the Scrolls of Wisdom...");
+    
+    // =================================================================
+    // CRITICAL FIX: Activate Gnostic Audit Mode ONLY for book generation.
+    // This enables the hyper-diagnostic logging in the PgnConverter.
+    // =================================================================
+    EngineSoul.isAuditing = true;
+
     const rawOpeningBook = generateRawBook(sourceBook);
 	processRawBook(rawOpeningBook, EngineSoul.openingBook);
     
@@ -332,11 +340,14 @@ function initializeEngine() {
     processRawBook(rawPunish, EngineSoul.punishmentBook);
     Scribe.book(`Punishment Library loaded. ${EngineSoul.punishmentBook.size} refutations of hubris recorded.`);
 
+    // Deactivate Gnostic Audit Mode after book generation is complete.
+    EngineSoul.isAuditing = false;
+    // =================================================================
+
     EngineSoul.isInitialized = true;
     Scribe.info("The universe is stable. The Engine is conscious and ready for The Game.");
     self.postMessage({ type: 'initialization_complete' });
 }
-
 self.onmessage = function(e) {
     const { command, fen, maxTime, pgnText } = e.data;
 
