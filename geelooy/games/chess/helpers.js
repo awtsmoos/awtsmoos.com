@@ -112,43 +112,58 @@ function makeMove(state, move) {
     const from = getMoveFrom(move), to = getMoveTo(move), piece = getMovePiece(move), promoted = getMovePromoted(move);
     const side = state.turn, enemy = side ^ 1, from_bb = 1n << BigInt(from), to_bb = 1n << BigInt(to);
     
+    // Push the state onto the stack for unmaking the move later.
     moveStack[moveStackPtr++] = { move, castling: state.castling, enpassant: state.enpassant, capturedPiece: null, zobristHash: state.zobristHash };
     
-    // --- SANCTIFIED ORDER ---
-    // 1. Identify and remove captured piece BEFORE moving the attacker.
+    // --- SANCTIFIED ORDER OF OPERATIONS ---
+
+    // 1. Remove the attacking piece from its original square.
+    state.pieceBitboards[side * 6 + piece] ^= from_bb;
+    state.occupancies[side] ^= from_bb;
+
+    // 2. Handle captures BEFORE placing the attacking piece.
     if (getMoveCapture(move)) {
         if (getMoveEnpassant(move)) {
             const capSq = (side === WHITE) ? to + 8 : to - 8;
-            moveStack[moveStackPtr - 1].capturedPiece = P;
-            state.pieceBitboards[enemy * 6 + P] ^= (1n << BigInt(capSq));
-            state.occupancies[enemy] ^= (1n << BigInt(capSq));
+            const cap_bb = 1n << BigInt(capSq);
+            moveStack[moveStackPtr - 1].capturedPiece = P; // En passant always captures a pawn.
+            
+            state.pieceBitboards[enemy * 6 + P] ^= cap_bb;
+            state.occupancies[enemy] ^= cap_bb;
         } else {
-            const captured = getPieceTypeOnSquare(state, to, enemy);
-            if (captured === null) throw new Error(`CRITICAL PARADOX in makeMove: Capture flag is set but no piece found at square ${to}`);
-            moveStack[moveStackPtr - 1].capturedPiece = captured;
-            state.pieceBitboards[enemy * 6 + captured] ^= to_bb;
+            const capturedPieceType = getPieceTypeOnSquare(state, to, enemy);
+            if (capturedPieceType === null) {
+                // This is the CRITICAL paradox check.
+                throw new Error(`CRITICAL PARADOX in makeMove: Capture flag is set but no piece found at square ${to}`);
+            }
+            moveStack[moveStackPtr - 1].capturedPiece = capturedPieceType;
+            
+            state.pieceBitboards[enemy * 6 + capturedPieceType] ^= to_bb;
             state.occupancies[enemy] ^= to_bb;
         }
     }
 
-    // 2. Move the actual piece.
-    state.pieceBitboards[side * 6 + piece] ^= (from_bb | to_bb);
-    state.occupancies[side] ^= (from_bb | to_bb);
+    // 3. Place the attacking piece on its new square.
+    state.pieceBitboards[side * 6 + piece] ^= to_bb;
+    state.occupancies[side] ^= to_bb;
 
-    // 3. Handle special move types.
+    // 4. Handle promotions.
     if (promoted) {
-        state.pieceBitboards[side * 6 + P] ^= to_bb;
-        state.pieceBitboards[side * 6 + promoted] ^= to_bb;
+        state.pieceBitboards[side * 6 + P] ^= to_bb; // Remove the pawn from the promotion square.
+        state.pieceBitboards[side * 6 + promoted] ^= to_bb; // Add the promoted piece.
     }
+
+    // 5. Handle castling rook moves.
     if (getMoveCastling(move)) {
         let rf, rt;
         if(to===62){rf=63;rt=61;}else if(to===58){rf=56;rt=59;}
         else if(to===6){rf=7;rt=5;}else{rf=0;rt=3;}
-        state.pieceBitboards[side*6+R] ^= ((1n<<BigInt(rf))|(1n<<BigInt(rt)));
-        state.occupancies[side] ^= ((1n<<BigInt(rf))|(1n<<BigInt(rt)));
+        const rook_move_mask = (1n << BigInt(rf)) | (1n << BigInt(rt));
+        state.pieceBitboards[side*6+R] ^= rook_move_mask;
+        state.occupancies[side] ^= rook_move_mask;
     }
     
-    // 4. Update the rest of the state.
+    // 6. Update remaining game state variables.
     state.occupancies[2] = state.occupancies[WHITE] | state.occupancies[BLACK];
     state.castling &= castling_rights[from] & castling_rights[to];
     state.enpassant = getMoveDouble(move) ? (side === WHITE ? from - 8 : from + 8) : -1;
@@ -162,41 +177,54 @@ function unmakeMove(state) {
     validateGnosticSeal(state, 'unmakeMove (start)');
     const info = moveStack[--moveStackPtr];
     const { move } = info;
+    
+    // Immediately revert to the previous player's turn.
     state.turn ^= 1;
+
     const from = getMoveFrom(move), to = getMoveTo(move), piece = getMovePiece(move), promoted = getMovePromoted(move);
     const side = state.turn, enemy = side ^ 1, from_bb = 1n << BigInt(from), to_bb = 1n << BigInt(to);
 
-    // Reverse the move of the primary piece
-    state.pieceBitboards[side*6+piece] ^= (from_bb|to_bb);
-    state.occupancies[side] ^= (from_bb|to_bb);
-
-    if (promoted) {
-        state.pieceBitboards[side*6+P] ^= to_bb;
-        state.pieceBitboards[side*6+promoted] ^= to_bb;
-    }
-    if (getMoveCapture(move)) {
-        if (getMoveEnpassant(move)) {
-            const capSq = (side===WHITE) ? to+8 : to-8;
-            state.pieceBitboards[enemy*6+P] ^= (1n<<BigInt(capSq));
-            state.occupancies[enemy] ^= (1n<<BigInt(capSq));
-        } else {
-            state.pieceBitboards[enemy*6+info.capturedPiece] ^= to_bb;
-            state.occupancies[enemy] ^= to_bb;
-        }
-    }
+    // --- REVERSE ORDER OF OPERATIONS ---
+    
+    // 1. Handle castling rook moves.
     if (getMoveCastling(move)) {
         let rf, rt;
         if(to===62){rf=63;rt=61;}else if(to===58){rf=56;rt=59;}
         else if(to===6){rf=7;rt=5;}else{rf=0;rt=3;}
-        const rook_move_mask = (1n<<BigInt(rf))|(1n<<BigInt(rt));
+        const rook_move_mask = (1n << BigInt(rf)) | (1n << BigInt(rt));
         state.pieceBitboards[side*6+R] ^= rook_move_mask;
         state.occupancies[side] ^= rook_move_mask;
     }
+
+    // 2. Handle promotions.
+    if (promoted) {
+        state.pieceBitboards[side * 6 + promoted] ^= to_bb; // Remove the promoted piece.
+        state.pieceBitboards[side * 6 + P] ^= to_bb; // Restore the pawn.
+    }
     
+    // 3. Move the attacking piece back to its original square.
+    state.pieceBitboards[side * 6 + piece] ^= (from_bb | to_bb);
+    state.occupancies[side] ^= (from_bb | to_bb);
+
+    // 4. Restore captured piece.
+    if (getMoveCapture(move)) {
+        if (getMoveEnpassant(move)) {
+            const capSq = (side === WHITE) ? to + 8 : to - 8;
+            const cap_bb = 1n << BigInt(capSq);
+            state.pieceBitboards[enemy * 6 + P] ^= cap_bb;
+            state.occupancies[enemy] ^= cap_bb;
+        } else {
+            state.pieceBitboards[enemy * 6 + info.capturedPiece] ^= to_bb;
+            state.occupancies[enemy] ^= to_bb;
+        }
+    }
+    
+    // 5. Restore all other state variables from the stack.
     state.occupancies[2] = state.occupancies[WHITE] | state.occupancies[BLACK];
     state.castling = info.castling;
     state.enpassant = info.enpassant;
     state.zobristHash = info.zobristHash;
+
     validateGnosticSeal(state, 'unmakeMove (end)');
 }
 
