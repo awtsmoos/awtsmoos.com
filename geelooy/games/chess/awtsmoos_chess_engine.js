@@ -266,9 +266,6 @@ function processRawBook(rawBook, targetMap) {
 
 /* B"H */
 
-// We must now declare the magic number arrays as mutable,
-// as they will be populated at runtime instead of being constants.
-let bishopMagics, rookMagics;
 
 
 let isInitialized = false;

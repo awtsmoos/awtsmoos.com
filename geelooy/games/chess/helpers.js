@@ -3,6 +3,14 @@
 // =================================================================
 //                 AWTSMOOS CHESS - HELPERS (MK. V - ROBUST)
 // =================================================================
+// --- UNIVERSAL, MUTABLE STATE FOR RUNTIME INITIALIZATION ---
+/**
+ * @description These variables are declared here to establish a shared, global scope
+ * for the entire worker. The main engine script will populate them at runtime
+ * after the forging ritual is complete. This resolves the ReferenceError by ensuring
+ * the variables exist before any function attempts to access them.
+ */
+let bishopMagics, rookMagics;
 
 // --- PIECE & COLOR CONSTANTS ---
 const P = 0, N = 1, B = 2, R = 3, Q = 4, K = 5;
