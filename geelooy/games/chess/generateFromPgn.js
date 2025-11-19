@@ -1,128 +1,158 @@
 /* B"H */
 
 // =================================================================
-//                 BITBOARD PGN CONVERTER (MK. VII - SANITY RESTORED)
+//                 BITBOARD PGN CONVERTER (MK. VIII - THE ILLUMINATED SCRIBE)
 // =================================================================
-// The Scribe no longer maintains its own fragile reality. It is now a pure
-// vessel for interpretation. The Grand Librarian function (`generateRawBook`)
-// is now responsible for creating a fresh, sanctified universe (a `gameState` object)
-// for each scripture, ensuring no corruption can bleed from one timeline to the next.
+// This is the fully rewritten and sanctified scripture for PGN interpretation.
+// The Scribe's core cognition (`isMoveSan`) has been rebuilt to perfectly
+// understand the nuances of Standard Algebraic Notation, especially ambiguity.
+//
+// A new hyper-diagnostic logging system has been integrated. When the engine's
+// Gnostic Audit Mode is active during initialization, the Scribe will produce
+// a detailed monologue, revealing every comparison it makes, ensuring its
+// thought process is completely transparent and verifiable.
 // =================================================================
-
 
 const STARTING_FEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
 
 /**
- * @class PgnConverter
- * @description A stateless Scribe. It no longer holds a persistent reality,
- * preventing corruption. It operates only on the state it is given for each task.
+ * B"H
+ * The Scribe's Diagnostic Consciousness.
+ * This logger provides an intensely detailed trace of the Scribe's thoughts
+ * when it is attempting to match a SAN string to a legal move.
  */
+const ScribeLogger = {
+    isAuditing: () => self.EngineSoul && self.EngineSoul.isAuditing,
+
+    startInterpretation: (san) => {
+        if (!ScribeLogger.isAuditing()) return;
+        console.groupCollapsed(`%c[SCRIBE] Interpreting SAN: "${san}"`, "color: #DAA520; font-weight: bold;");
+    },
+
+    endInterpretation: () => {
+        if (ScribeLogger.isAuditing()) console.groupEnd();
+    },
+
+    logComparison: (move, generatedSan, targetSan, isMatch) => {
+        if (!ScribeLogger.isAuditing()) return;
+        const fromSq = getMoveFrom(move);
+        const toSq = getMoveTo(move);
+        const files = 'abcdefgh';
+        const ranks = '87654321';
+        const moveCoords = `${files[fromSq % 8]}${ranks[Math.floor(fromSq/8)]}` + `${files[toSq % 8]}${ranks[Math.floor(toSq/8)]}`;
+        
+        if (isMatch) {
+            console.log(`%c[SCRIBE_TRACE] Comparing to move ${moveCoords}... Generated SAN: "${generatedSan}" -> ✅ MATCH FOUND!`, "background: #1a431a; color: #99ff99;");
+        } else {
+            console.log(`%c[SCRIBE_TRACE] Comparing to move ${moveCoords}... Generated SAN: "${generatedSan}" -> ❌ No match.`, "color: #888;");
+        }
+    }
+};
+
+
 class PgnConverter {
     constructor() {
-        // The constructor is now empty. The Scribe is born without a world.
         this.currentState = null;
     }
 
-    /**
-     * B"H
-     * Injects a pure, validated reality into the Scribe for a single interpretation task.
-     * @param {object} state The sanctified gameState object from the main engine context.
-     */
     setState(state) {
         this.currentState = state;
     }
     
     parseSan(san) {
-        // The self-check is still important, ensuring the state it was given is pure.
         validateGnosticSeal(this.currentState, `PgnConverter.parseSan (for '${san}')`);
+        ScribeLogger.startInterpretation(san);
 
         const legalMoves = generateMoves(this.currentState);
         
         for (const move of legalMoves) {
             if (this.isMoveSan(move, san, legalMoves)) {
+                ScribeLogger.endInterpretation();
                 return move;
             }
         }
         
-        // This is a warning, not a fatal error, so book generation can continue with other lines.
+        ScribeLogger.endInterpretation();
         console.warn(`Scribe could not understand the word "${san}". No legal move matched. The scripture may be corrupt.`);
         return null;
     }
 
-    /* B"H */
-/**
- * A helper cognition for the Scribe. Determines if a specific encoded move
- * corresponds to a given SAN string, resolving ambiguity. This is the corrected version.
- * @param {number} move The encoded move to check.
- * @param {string} san The SAN string to match against.
- * @param {number[]} legalMoves All legal moves in the current position, for ambiguity checks.
- * @returns {boolean} True if the move matches the SAN.
- */
-isMoveSan(move, san, legalMoves) {
-    const sanClean = san.replace(/[+#?!]/g, '');
-    const from = getMoveFrom(move);
-    const to = getMoveTo(move);
-    const piece = getMovePiece(move);
+    /**
+     * B"H
+     * The new, fully compliant cognition for SAN matching.
+     */
+    isMoveSan(move, san, legalMoves) {
+        const sanClean = san.replace(/[+#?!]/g, '');
+        const from = getMoveFrom(move);
+        const to = getMoveTo(move);
+        const piece = getMovePiece(move);
+        const isCapture = getMoveCapture(move);
 
-    // 1. Castling
-    if (getMoveCastling(move)) {
-        return to > from ? sanClean === 'O-O' : sanClean === 'O-O-O';
-    }
-
-    const files = 'abcdefgh';
-    const ranks = '87654321';
-    const pieceLetter = 'PNBRQK'[piece];
-    const destSquare = files[to % 8] + ranks[Math.floor(to / 8)];
-
-    // 2. Pawn Moves
-    if (pieceLetter === 'P') {
-        let notation = destSquare;
-        if (getMoveCapture(move)) {
-            notation = files[from % 8] + 'x' + destSquare;
+        // 1. Castling
+        if (getMoveCastling(move)) {
+            const generatedSan = to > from ? 'O-O' : 'O-O-O';
+            const isMatch = sanClean === generatedSan;
+            ScribeLogger.logComparison(move, generatedSan, sanClean, isMatch);
+            return isMatch;
         }
-        if (getMovePromoted(move)) {
-            notation += '=' + 'PNBRQK'[getMovePromoted(move)];
+
+        const files = 'abcdefgh';
+        const ranks = '87654321';
+        const pieceLetter = 'PNBRQK'[piece];
+        const destSquare = files[to % 8] + ranks[Math.floor(to / 8)];
+        let generatedSan = "";
+
+        // 2. Pawn Moves
+        if (pieceLetter === 'P') {
+            if (isCapture) {
+                generatedSan = files[from % 8] + 'x' + destSquare;
+            } else {
+                generatedSan = destSquare;
+            }
+            if (getMovePromoted(move)) {
+                generatedSan += '=' + 'PNBRQK'[getMovePromoted(move)];
+            }
         }
-        return sanClean === notation;
-    }
+        // 3. Piece Moves (Non-Pawns)
+        else {
+            generatedSan = pieceLetter;
+            const ambiguousMoves = legalMoves.filter(m =>
+                m !== move &&
+                getMovePiece(m) === piece &&
+                getMoveTo(m) === to &&
+                !getMoveCastling(m)
+            );
 
-    // 3. Piece Moves (Non-Pawns)
-    let notation = pieceLetter;
-    const ambiguousMoves = legalMoves.filter(m =>
-        m !== move &&
-        getMovePiece(m) === piece &&
-        getMoveTo(m) === to
-    );
+            if (ambiguousMoves.length > 0) {
+                const fromFile = from % 8;
+                const fromRank = Math.floor(from / 8);
+                
+                const fileIsUnique = !ambiguousMoves.some(m => (getMoveFrom(m) % 8) === fromFile);
+                
+                if (fileIsUnique) {
+                    generatedSan += files[fromFile];
+                } else {
+                    const rankIsUnique = !ambiguousMoves.some(m => Math.floor(getMoveFrom(m) / 8) === fromRank);
+                    if (rankIsUnique) {
+                        generatedSan += ranks[fromRank];
+                    } else {
+                        generatedSan += files[fromFile] + ranks[fromRank];
+                    }
+                }
+            }
 
-    if (ambiguousMoves.length > 0) {
-        const fromFileIdx = from % 8;
-        const fromRankIdx = Math.floor(from / 8);
-        
-        // Check if other ambiguous moves originate from the same file or rank.
-        const fileIsShared = ambiguousMoves.some(m => (getMoveFrom(m) % 8) === fromFileIdx);
-        const rankIsShared = ambiguousMoves.some(m => Math.floor(getMoveFrom(m) / 8) === fromRankIdx);
-
-        if (!fileIsShared) {
-            // The file is unique among ambiguous moves, so it's sufficient for disambiguation.
-            notation += files[fromFileIdx];
-        } else if (!rankIsShared) {
-            // Pieces are on the same file, but different ranks. The rank is sufficient.
-            notation += ranks[fromRankIdx];
-        } else {
-            // Both file and rank are shared, requiring the full coordinate.
-            notation += files[fromFileIdx] + ranks[fromRankIdx];
+            if (isCapture) {
+                generatedSan += 'x';
+            }
+            generatedSan += destSquare;
         }
-    }
 
-    if (getMoveCapture(move)) {
-        notation += 'x';
+        const isMatch = sanClean === generatedSan;
+        ScribeLogger.logComparison(move, generatedSan, sanClean, isMatch);
+        return isMatch;
     }
-    notation += destSquare;
-    return sanClean === notation;
-}
 
     applyMove(move) {
-        // It alters the state it was given, which is temporary to this PGN line.
         makeMove(this.currentState, move);
         validateGnosticSeal(this.currentState, 'PgnConverter.applyMove');
     }
@@ -152,59 +182,28 @@ isMoveSan(move, san, legalMoves) {
 }
 
 
-/**
- * B"H
- * The Grand Librarian function. It now creates a fresh universe for each scripture,
- * ensuring absolute purity in the book generation process.
- * @param {object[]} source An array of opening objects.
- * @returns {Array<Array<any>>} The compiled wisdom for the engine.
- */
 function generateRawBook(source) {
-    const converter = new PgnConverter(); // Create one stateless Scribe.
+    const converter = new PgnConverter();
     const bookMap = new Map();
 
     for (const opening of source) {
-        // Create a new, pure reality for this specific opening line.
         const lineState = createGameState(STARTING_FEN);
-        converter.setState(lineState); // Inject the pure reality into the Scribe.
+        converter.setState(lineState);
 
         const moves = opening.pgn.replace(/(\d+\.)/g, '').trim().split(/\s+/).filter(Boolean);
-        let isLineValid = true;
         
         for (const san of moves) {
             if (['1-0', '0-1', '1/2-1/2', '*'].includes(san)) continue;
 
-            const fen = converter.toFen(); // Get FEN for the current position.
+            const fen = converter.toFen();
             const move = converter.parseSan(san);
 
             if (move === null) {
-                isLineValid = false;
                 break; 
             }
             
-            // If we've never seen this FEN before, create its entry.
             if (!bookMap.has(fen)) {
                 bookMap.set(fen, [fen, opening.name]);
             }
             
-            const entry = bookMap.get(fen);
-            const from = getMoveFrom(move), to = getMoveTo(move), prom = getMovePromoted(move);
-            const thinMove = {
-                from: [Math.floor(from / 8), from % 8], 
-                to: [Math.floor(to / 8), to % 8],
-                promotion: prom ? pieceMap[prom].toLowerCase() : undefined
-            };
-
-            // Add the move to the book entry if it's not already there.
-            if (!entry.slice(2).some(m => JSON.stringify(m) === JSON.stringify(thinMove))) {
-                entry.push(thinMove);
-            }
-            
-            // Apply the move to the temporary state to process the next move in the line.
-            converter.applyMove(move);
-        }
-    }
-    return Array.from(bookMap.values());
-}
-
-if(typeof self !== 'undefined') self.PgnConverter = PgnConverter;
+            const entry = bookMap.get
