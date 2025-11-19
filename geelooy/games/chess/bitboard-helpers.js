@@ -270,9 +270,6 @@ function initializeAll() {
     // The calculation of the simple, innate powers.
     console.log("B\"H - Calculating the innate powers of the lesser angels (Pawns, Knights, Kings)...");
     for (let sq = 0; sq < 64; sq++) {
-        // PAWN ATTACKS - NOTE: Corrected directions from your original code.
-        // White pawns move from rank 7 towards 0 (so square index decreases).
-        // Black pawns move from rank 0 towards 7 (so square index increases).
         PAWN_ATTACKS[WHITE][sq] = 0n;
         if (((1n << BigInt(sq)) & NOT_H_FILE) && sq > 7) PAWN_ATTACKS[WHITE][sq] |= (1n << BigInt(sq - 7));
         if (((1n << BigInt(sq)) & NOT_A_FILE) && sq > 7) PAWN_ATTACKS[WHITE][sq] |= (1n << BigInt(sq - 9));
@@ -297,6 +294,6 @@ function initializeAll() {
     
     // The Final Seal
     MEMORY_CANARY = 0xDEADBEEFCAFEBABEn;
-    console.log("B\"H - The Gnostic Seal is in place. MEMORY_CANARY is set:", MEMORY_CANARY);
+    console.log("B\"H - The Gnostic Seal is in place. MEMORY_CANARY is set:", MEMORY_CANARY.toString(16));
     console.log(`%cB"H - THE SYMPHONY OF CREATION IS COMPLETE. The universe is now stable and ready.`, "color: magenta; font-weight: bold;");
 }

@@ -16,8 +16,6 @@ importScripts("bitboard-helpers.js")
  */
 function calculateZobristHash(state) {
     let hash = 0n;
-
-    // XOR in the secret name for each piece on its square
     for (let p = 0; p < 12; p++) {
         let piece_bb = state.pieceBitboards[p];
         while (piece_bb > 0n) {
@@ -26,20 +24,13 @@ function calculateZobristHash(state) {
             piece_bb = popBit(piece_bb);
         }
     }
-
-    // XOR in the secret name for the en passant square, if it exists
     if (state.enpassant !== -1) {
         hash ^= zobristEnpassantKeys[state.enpassant];
     }
-
-    // XOR in the secret name for the current castling rights
     hash ^= zobristCastlingKeys[state.castling];
-
-    // XOR in the secret name for the side to move
     if (state.turn === BLACK) {
         hash ^= zobristTurnKey;
     }
-
     return hash;
 }
 
@@ -57,13 +48,16 @@ const castling_rights = [
 let moveStack = Array(1024).fill(0), moveStackPtr = 0;
 
 /**
- * Creates a game state object from a FEN string.
+ * Creates a game state object from a FEN string. This is the moment of incarnation.
+ * The key to stability is that the vessels for bitboards are forged from the `0n` void,
+ * ensuring they are always of the indivisible `BigInt` type from the very beginning.
  * @param {string} fen The Forsyth-Edwards Notation string for the position.
- * @returns {object} The game state object.
+ * @returns {object} The game state object, with all bitboards correctly typed as BigInts.
  */
 function createGameState(fen) {
     const state = {
-        pieceBitboards: Array(12).fill(0n), occupancies: Array(3).fill(0n),
+        pieceBitboards: Array(12).fill(0n), // FIX: Initialize with 0n, not 0.
+        occupancies: Array(3).fill(0n),    // FIX: Initialize with 0n, not 0.
         turn: WHITE, enpassant: -1, castling: 0, zobristHash: 0n
     };
     if (!fen || typeof fen !== 'string') return state;
@@ -84,15 +78,11 @@ function createGameState(fen) {
     if (parts[2].includes('k')) state.castling |= BKCA; if (parts[2].includes('q')) state.castling |= BQCA;
     if (parts[3] !== '-') state.enpassant = (8 - parseInt(parts[3][1])) * 8 + (parts[3].charCodeAt(0) - 'a'.charCodeAt(0));
     
-    // The Zobrist hash can now be calculated because the function is restored.
-    if (zobristTurnKey !== 0n) {
+    if (zobristTurnKey !== 0n) { // Ensure keys are ready before hashing
         state.zobristHash = calculateZobristHash(state);
     }
     return state;
 }
-
-// ... THE REST OF YOUR HELPERS.JS FILE ...
-// (No other changes are needed)
 
 function getPieceTypeOnSquare(state, sq, side) {
     const t = 1n << BigInt(sq), b = side * 6;
@@ -193,26 +183,38 @@ function unmakeMove(state) {
     state.zobristHash = info.zobristHash;
 }
 
+/**
+ * B"H
+ * The generation of all possible futures. This function gazes upon the present state
+ * and emanates every lawful move. We add extreme logging to verify the integrity of the
+ * state object it receives, ensuring no finite `Number` pollutes the `BigInt` bitboards.
+ * @param {object} state The current game state.
+ * @returns {number[]} An array of encoded moves.
+ */
 function generateMoves(state) {
+    // LOG: Announce the beginning of the generation and check the Gnostic Seal.
+    console.log("%c B\"H - Emanating futures... Checking Gnostic Seal...", "color: #9999ff");
     if (MEMORY_CANARY !== 0xDEADBEEFCAFEBABEn) {
+        console.error("%c[FATAL] GNOSTIC SEAL BROKEN! The Memory Canary was slain before move generation. A fundamental corruption has occurred.", "color: #ff0000; font-weight: bold;");
         throw new Error("Memory corruption detected via canary in generateMoves.");
     }
+    // LOG: Verify the type of a core bitboard to diagnose the original error.
+    if (typeof state.occupancies[2] !== 'bigint') {
+         console.error(`%c[FATAL] A TYPE SCHISM! The Monad received a reality where 'occupancies' was a ${typeof state.occupancies[2]}, not the sacred BigInt. The universe is invalid.`, "color: #ff0000; font-weight: bold;");
+         throw new TypeError("generateMoves received a malformed state object: bitboards are not BigInts.");
+    }
+    console.log("%c--> Seal is intact. Reality is of type BigInt. Proceeding.", "color: #9999ff");
     
     const moves = [];
-    const side = state.turn;
-    const enemy = side ^ 1;
-    const blockers = state.occupancies[2];
-    const friendly = state.occupancies[side];
+    const side = state.turn, enemy = side ^ 1;
+    const blockers = state.occupancies[2], friendly = state.occupancies[side];
     const enemyKing = state.pieceBitboards[enemy * 6 + K];
-    const validTargetSquares = ~(friendly | enemyKing);
-    const validCaptureSquares = state.occupancies[enemy] & ~enemyKing;
+    const validTargetSquares = ~(friendly | enemyKing), validCaptureSquares = state.occupancies[enemy] & ~enemyKing;
 
     let pawns = state.pieceBitboards[side * 6 + P];
     while (pawns > 0n) {
         const from = getLSBIndex(pawns);
-        const rank = Math.floor(from / 8);
-        const promRank = (side === WHITE) ? 1 : 6;
-        const startRank = (side === WHITE) ? 6 : 1;
+        const rank = Math.floor(from / 8), promRank = (side === WHITE) ? 1 : 6, startRank = (side === WHITE) ? 6 : 1;
         const one = (side === WHITE) ? from - 8 : from + 8;
         if (!((blockers >> BigInt(one)) & 1n)) {
             if (rank === promRank) {
@@ -265,6 +267,7 @@ function generateMoves(state) {
             bb = popBit(bb);
         }
     }
+    console.log(`%c B\"H - Emanation complete. ${moves.length} possible futures perceived.`, "color: #9999ff");
     return moves;
 }
 
