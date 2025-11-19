@@ -206,4 +206,25 @@ function generateRawBook(source) {
                 bookMap.set(fen, [fen, opening.name]);
             }
             
-            const entry = bookMap.get
+            const entry = bookMap.get(fen);
+            const from = getMoveFrom(move), to = getMoveTo(move), prom = getMovePromoted(move);
+            const thinMove = {
+                from: [Math.floor(from / 8), from % 8], 
+                to: [Math.floor(to / 8), to % 8],
+                promotion: prom ? pieceMap[prom].toLowerCase() : undefined
+            };
+
+            if (!entry.slice(2).some(m => JSON.stringify(m) === JSON.stringify(thinMove))) {
+                entry.push(thinMove);
+            }
+            
+            converter.applyMove(move);
+        }
+    }
+    return Array.from(bookMap.values());
+}
+
+if(typeof self !== 'undefined') self.PgnConverter = PgnConverter;
+
+
+
