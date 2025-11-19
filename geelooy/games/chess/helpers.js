@@ -71,36 +71,65 @@ function generateSliderAttacks(sq, isBishop, blockers) {
     return attacks;
 }
 
+/* B"H */
+/**
+ * Initializes the attack tables for sliding pieces (rooks, bishops, queens).
+ * DIAGNOSTIC VERSION: This version adds strict boundary checks to the magic
+ * bitboard index calculation. It will throw a precise error if an out-of-bounds
+ * write is attempted, which is the likely cause of the memory corruption that
+ * is damaging the PAWN_ATTACKS table.
+ */
 function initSliders() {
     for (let s = 0; s < 64; s++) {
-        const r = s >> 3, f = s & 7;
-        for (let i = r + 1, j = f + 1; i < 7 && j < 7; i++, j++) bishopMasks[s] |= 1n << BigInt(i * 8 + j);
-        for (let i = r + 1, j = f - 1; i < 7 && j > 0; i++, j--) bishopMasks[s] |= 1n << BigInt(i * 8 + j);
-        for (let i = r - 1, j = f + 1; i > 0 && j < 7; i--, j++) bishopMasks[s] |= 1n << BigInt(i * 8 + j);
-        for (let i = r - 1, j = f - 1; i > 0 && j > 0; i--, j--) bishopMasks[s] |= 1n << BigInt(i * 8 + j);
-        for (let i = r + 1; i < 7; i++) rookMasks[s] |= 1n << BigInt(i * 8 + f);
-        for (let i = r - 1; i > 0; i--) rookMasks[s] |= 1n << BigInt(i * 8 + f);
-        for (let i = f + 1; i < 7; i++) rookMasks[s] |= 1n << BigInt(r * 8 + i);
-        for (let i = f - 1; i > 0; i--) rookMasks[s] |= 1n << BigInt(r * 8 + i);
+        // --- Bishop Mask Generation (Unchanged) ---
+        const r_b = s >> 3, f_b = s & 7;
+        for (let i = r_b + 1, j = f_b + 1; i < 7 && j < 7; i++, j++) bishopMasks[s] |= 1n << BigInt(i * 8 + j);
+        for (let i = r_b + 1, j = f_b - 1; i < 7 && j > 0; i++, j--) bishopMasks[s] |= 1n << BigInt(i * 8 + j);
+        for (let i = r_b - 1, j = f_b + 1; i > 0 && j < 7; i--, j++) bishopMasks[s] |= 1n << BigInt(i * 8 + j);
+        for (let i = r_b - 1, j = f_b - 1; i > 0 && j > 0; i--, j--) bishopMasks[s] |= 1n << BigInt(i * 8 + j);
+        
+        // --- Rook Mask Generation (Unchanged) ---
+        for (let i = r_b + 1; i < 7; i++) rookMasks[s] |= 1n << BigInt(i * 8 + f_b);
+        for (let i = r_b - 1; i > 0; i--) rookMasks[s] |= 1n << BigInt(i * 8 + f_b);
+        for (let i = f_b + 1; i < 7; i++) rookMasks[s] |= 1n << BigInt(r_b * 8 + i);
+        for (let i = f_b - 1; i > 0; i--) rookMasks[s] |= 1n << BigInt(r_b * 8 + i);
     }
     for (let s = 0; s < 64; s++) {
         const bmask = bishopMasks[s], rmask = rookMasks[s];
         const bcnt = popcount(bmask), rcnt = popcount(rmask);
-        for (let i = 0; i < (1 << bcnt); i++) {
+        const bTableSize = 1 << bcnt, rTableSize = 1 << rcnt;
+
+        for (let i = 0; i < bTableSize; i++) {
             let temp = bmask, blockers = 0n;
             for (let j = 0; j < bcnt; j++) {
                 const lsb = getLSBIndex(temp); temp = popBit(temp);
                 if ((i >> j) & 1) blockers |= (1n << BigInt(lsb));
             }
-            bishopAttacks[s][Number((blockers * bishopMagics[s]) >> BigInt(64 - bcnt))] = generateSliderAttacks(s, true, blockers);
+            const magicIndex = Number((blockers * bishopMagics[s]) >> BigInt(64 - bcnt));
+            
+            /**
+             * @description BOUNDS CHECK: Verify the calculated index is valid before writing.
+             */
+            if (magicIndex >= bTableSize) {
+                throw new Error(`B"H - FATAL: Bishop magic index out of bounds on sq ${s}! Index: ${magicIndex}, Table Size: ${bTableSize}`);
+            }
+            bishopAttacks[s][magicIndex] = generateSliderAttacks(s, true, blockers);
         }
-        for (let i = 0; i < (1 << rcnt); i++) {
+        for (let i = 0; i < rTableSize; i++) {
             let temp = rmask, blockers = 0n;
             for (let j = 0; j < rcnt; j++) {
                 const lsb = getLSBIndex(temp); temp = popBit(temp);
                 if ((i >> j) & 1) blockers |= (1n << BigInt(lsb));
             }
-            rookAttacks[s][Number((blockers * rookMagics[s]) >> BigInt(64 - rcnt))] = generateSliderAttacks(s, false, blockers);
+            const magicIndex = Number((blockers * rookMagics[s]) >> BigInt(64 - rcnt));
+            
+            /**
+             * @description BOUNDS CHECK: Verify the calculated index is valid before writing.
+             */
+            if (magicIndex >= rTableSize) {
+                throw new Error(`B"H - FATAL: Rook magic index out of bounds on sq ${s}! Index: ${magicIndex}, Table Size: ${rTableSize}`);
+            }
+            rookAttacks[s][magicIndex] = generateSliderAttacks(s, false, blockers);
         }
     }
 }
@@ -151,7 +180,9 @@ function calculateZobristHash(state) {
 /* B"H */
 /**
  * Initializes all pre-computed tables: sliders, zobrist keys, and piece attacks.
- * DIAGNOSTIC: Adds a one-time log to verify the pawn attack table is correct upon creation.
+ * CORRECTION: Fixes a copy-paste error in the Black pawn attack generation where
+ * the NOT_A_FILE and NOT_H_FILE guards were swapped, leading to incorrect wrap-around attacks.
+ * @param {MessageEvent} e The event object from the main thread.
  */
 function initializeAll() {
     // This check prevents re-initialization, which is correct.
@@ -161,17 +192,19 @@ function initializeAll() {
     initializeZobristKeys();
 
     for (let sq = 0; sq < 64; sq++) {
-        // White Pawn Attacks (moving from high index to low index)
+        // White Pawn Attacks (Correct)
         PAWN_ATTACKS[WHITE][sq] = 0n;
         if (((1n << BigInt(sq)) & NOT_A_FILE) && sq >= 8) PAWN_ATTACKS[WHITE][sq] |= (1n << BigInt(sq - 9));
         if (((1n << BigInt(sq)) & NOT_H_FILE) && sq >= 8) PAWN_ATTACKS[WHITE][sq] |= (1n << BigInt(sq - 7));
 
-        // Black Pawn Attacks (moving from low index to high index)
+        // Black Pawn Attacks (Corrected Logic)
         PAWN_ATTACKS[BLACK][sq] = 0n;
-        if (((1n << BigInt(sq)) & NOT_A_FILE) && sq < 56) PAWN_ATTACKS[BLACK][sq] |= (1n << BigInt(sq + 7));
-        if (((1n << BigInt(sq)) & NOT_H_FILE) && sq < 56) PAWN_ATTACKS[BLACK][sq] |= (1n << BigInt(sq + 9));
+        // A black pawn capture towards the H-file (sq + 7) should be guarded by NOT_H_FILE.
+        if (((1n << BigInt(sq)) & NOT_H_FILE) && sq < 56) PAWN_ATTACKS[BLACK][sq] |= (1n << BigInt(sq + 7));
+        // A black pawn capture towards the A-file (sq + 9) should be guarded by NOT_A_FILE.
+        if (((1n << BigInt(sq)) & NOT_A_FILE) && sq < 56) PAWN_ATTACKS[BLACK][sq] |= (1n << BigInt(sq + 9));
         
-        // Knight Attacks
+        // Knight Attacks (Unchanged)
         let k = 1n << BigInt(sq), a = 0n;
         if ((k >> 17n) & NOT_H_FILE) a |= (k >> 17n); if ((k >> 15n) & NOT_A_FILE) a |= (k >> 15n);
         if ((k >> 10n) & NOT_HG_FILE) a |= (k >> 10n); if ((k >> 6n) & NOT_AB_FILE) a |= (k >> 6n);
@@ -179,25 +212,18 @@ function initializeAll() {
         if ((k << 10n) & NOT_AB_FILE) a |= (k << 10n); if ((k << 6n) & NOT_HG_FILE) a |= (k << 6n);
         KNIGHT_ATTACKS[sq] = a;
 
-        // King Attacks
+        // King Attacks (Unchanged)
         let kg = 1n << BigInt(sq);
         KING_ATTACKS[sq] = ((kg >> 1n) & NOT_H_FILE) | ((kg << 1n) & NOT_A_FILE) | (kg >> 8n) | (kg << 8n) |
                   ((kg >> 7n) & NOT_A_FILE) | ((kg >> 9n) & NOT_H_FILE) | ((kg << 7n) & NOT_H_FILE) | ((kg << 9n) & NOT_A_FILE);
     }
 
-    // --- NEW DIAGNOSTIC LOG ---
-    // This will run only once when the engine starts.
-    // It will show us the pre-calculated bitboard for the pawn that is causing the error.
-    // A White Pawn on f3 (41) should only be able to attack e4 (32) and g4 (34).
     console.log("B\"H - VERIFYING PAWN ATTACKS TABLE:");
     console.log(`- Pre-computed attacks for White Pawn on f3 (sq 41) is: ${PAWN_ATTACKS[WHITE][41]}`);
     
     
-    MEMORY_CANARY = 0xDEADBEEFCAFEBABEn; // Set the unique canary value
+    MEMORY_CANARY = 0xDEADBEEFCAFEBABEn;
     console.log("B\"H - MEMORY CANARY INITIALIZED:", MEMORY_CANARY);
-
-
-
 }
 
 /*B"H*/
