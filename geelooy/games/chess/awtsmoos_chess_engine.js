@@ -7,7 +7,7 @@
 importScripts('helpers.js');
 importScripts('grandmaster_library.js');
 importScripts('punishment_library.js');
-importScripts('generateFromPgn.js')
+
 
 
 // --- SEARCH CONSTANTS ---
