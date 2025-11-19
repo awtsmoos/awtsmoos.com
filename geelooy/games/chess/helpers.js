@@ -1,6 +1,48 @@
 /*B"H*/
 importScripts("bitboard-helpers.js")
 
+// =================================================================
+//        CALCULATION OF THE SOUL (Zobrist Hashing)
+// =================================================================
+
+/**
+ * B"H
+ * An incantation to calculate the unique soul (Zobrist Hash) of any given position.
+ * It does this by starting with an empty void (0n) and XORing the secret names of every
+ * element present in the current reality: the placement of each piece, the right to castle,
+ * any en passant possibilities, and whose turn it is to emanate their will.
+ * @param {object} state The game state, a snapshot of reality.
+ * @returns {BigInt} The unique Zobrist Hash for the state.
+ */
+function calculateZobristHash(state) {
+    let hash = 0n;
+
+    // XOR in the secret name for each piece on its square
+    for (let p = 0; p < 12; p++) {
+        let piece_bb = state.pieceBitboards[p];
+        while (piece_bb > 0n) {
+            const sq = getLSBIndex(piece_bb);
+            hash ^= zobristPieceKeys[p][sq];
+            piece_bb = popBit(piece_bb);
+        }
+    }
+
+    // XOR in the secret name for the en passant square, if it exists
+    if (state.enpassant !== -1) {
+        hash ^= zobristEnpassantKeys[state.enpassant];
+    }
+
+    // XOR in the secret name for the current castling rights
+    hash ^= zobristCastlingKeys[state.castling];
+
+    // XOR in the secret name for the side to move
+    if (state.turn === BLACK) {
+        hash ^= zobristTurnKey;
+    }
+
+    return hash;
+}
+
 
 /*B"H*/
 // =================================================================
@@ -16,20 +58,15 @@ let moveStack = Array(1024).fill(0), moveStackPtr = 0;
 
 /**
  * Creates a game state object from a FEN string.
- * CRITICAL CORRECTION: This function NO LONGER calls initializeAll(). It is now a pure
- * state-creation utility that assumes the engine's core tables have already been
- * initialized by the main initializeEngine() function. This prevents premature
- * initialization during script loading.
  * @param {string} fen The Forsyth-Edwards Notation string for the position.
  * @returns {object} The game state object.
  */
 function createGameState(fen) {
-    // The premature, chaos-inducing call to initializeAll() is REMOVED from here.
     const state = {
         pieceBitboards: Array(12).fill(0n), occupancies: Array(3).fill(0n),
         turn: WHITE, enpassant: -1, castling: 0, zobristHash: 0n
     };
-    if (!fen || typeof fen !== 'string') return state; // Defensive check
+    if (!fen || typeof fen !== 'string') return state;
     const parts = fen.split(' ');
     let r = 0, f = 0;
     for (const c of parts[0]) {
@@ -47,14 +84,15 @@ function createGameState(fen) {
     if (parts[2].includes('k')) state.castling |= BKCA; if (parts[2].includes('q')) state.castling |= BQCA;
     if (parts[3] !== '-') state.enpassant = (8 - parseInt(parts[3][1])) * 8 + (parts[3].charCodeAt(0) - 'a'.charCodeAt(0));
     
-    // Zobrist hash can only be calculated after the engine is initialized.
-    // The isInitialized flag in the main engine script will guard this.
+    // The Zobrist hash can now be calculated because the function is restored.
     if (zobristTurnKey !== 0n) {
         state.zobristHash = calculateZobristHash(state);
     }
     return state;
 }
 
+// ... THE REST OF YOUR HELPERS.JS FILE ...
+// (No other changes are needed)
 
 function getPieceTypeOnSquare(state, sq, side) {
     const t = 1n << BigInt(sq), b = side * 6;
@@ -155,17 +193,8 @@ function unmakeMove(state) {
     state.zobristHash = info.zobristHash;
 }
 
-/* B"H */
-/**
- * Generates all pseudo-legal moves.
- * DIAGNOSTIC: Checks for memory corruption via canary before executing.
- */
 function generateMoves(state) {
-    // --- CANARY CHECK ---
     if (MEMORY_CANARY !== 0xDEADBEEFCAFEBABEn) {
-        console.error("B\"H - CATASTROPHIC: MEMORY CORRUPTION DETECTED in generateMoves!");
-        console.error("Expected Canary:", 0xDEADBEEFCAFEBABEn, "but found:", MEMORY_CANARY);
-        console.error("This means a function called BEFORE this one (likely makeMove/unmakeMove or search) has an out-of-bounds write error.");
         throw new Error("Memory corruption detected via canary in generateMoves.");
     }
     
@@ -178,7 +207,6 @@ function generateMoves(state) {
     const validTargetSquares = ~(friendly | enemyKing);
     const validCaptureSquares = state.occupancies[enemy] & ~enemyKing;
 
-    // ... (rest of the function is the same as the one you already have)
     let pawns = state.pieceBitboards[side * 6 + P];
     while (pawns > 0n) {
         const from = getLSBIndex(pawns);
@@ -240,149 +268,28 @@ function generateMoves(state) {
     return moves;
 }
 
-/* B"H
-
- - 
-
-/**
- * A pseudo-random number generator to create 64-bit keys.
- * Using a simple one for deterministic magic number generation.
- */
-const random64 = (() => {
-    let seed = 1804289383;
-    return () => {
-        seed |= 0;
-        seed = (seed + 0x6d2b79f5) | 0;
-        let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
-        t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
-        const high = Math.imul(t ^ (t >>> 14), seed) | 0;
-        seed = (seed + 0x6d2b79f5) | 0;
-        t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
-        t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
-        const low = Math.imul(t ^ (t >>> 14), seed) | 0;
-        return (BigInt(high) << 32n) | BigInt(low & 0xFFFFFFFF);
-    };
-})();
-
-
-/**
- * The runtime ritual to find the magic numbers. This function will be called once
- * during initialization to generate the unique keys needed for the slider attack tables.
- * This avoids hardcoding them and ensures the engine builds itself from pure logic.
- */
-function findMagics() {
-    bishopMagics = Array(64);
-    rookMagics = Array(64);
-
-    for (let sq = 0; sq < 64; sq++) {
-        // Find Bishop Magic
-        const b_mask = bishopMasks[sq];
-        const b_bits = popcount(b_mask);
-        const b_used = Array(1 << b_bits).fill(0n);
-        while (true) {
-            const magic = random64() & random64() & random64();
-            if (popcount((b_mask * magic) & 0xFF00000000000000n) < 6) continue;
-            let fail = false;
-            b_used.fill(0n);
-            for (let i = 0; i < (1 << b_bits); i++) {
-                let temp = b_mask, blockers = 0n;
-                for (let j = 0; j < b_bits; j++) {
-                    const lsb = getLSBIndex(temp); temp = popBit(temp);
-                    if ((i >> j) & 1) blockers |= (1n << BigInt(lsb));
-                }
-                const idx = Number((blockers * magic) >> BigInt(64 - b_bits));
-                const attack = generateSliderAttacks(sq, true, blockers);
-                if (b_used[idx] === 0n) b_used[idx] = attack;
-                else if (b_used[idx] !== attack) { fail = true; break; }
-            }
-            if (!fail) { bishopMagics[sq] = magic; break; }
-        }
-
-        // Find Rook Magic
-        const r_mask = rookMasks[sq];
-        const r_bits = popcount(r_mask);
-        const r_used = Array(1 << r_bits).fill(0n);
-        while (true) {
-            const magic = random64() & random64() & random64();
-            if (popcount((r_mask * magic) & 0xFF00000000000000n) < 6) continue;
-            let fail = false;
-            r_used.fill(0n);
-            for (let i = 0; i < (1 << r_bits); i++) {
-                let temp = r_mask, blockers = 0n;
-                for (let j = 0; j < r_bits; j++) {
-                    const lsb = getLSBIndex(temp); temp = popBit(temp);
-                    if ((i >> j) & 1) blockers |= (1n << BigInt(lsb));
-                }
-                const idx = Number((blockers * magic) >> BigInt(64 - r_bits));
-                const attack = generateSliderAttacks(sq, false, blockers);
-                if (r_used[idx] === 0n) r_used[idx] = attack;
-                else if (r_used[idx] !== attack) { fail = true; break; }
-            }
-            if (!fail) { rookMagics[sq] = magic; break; }
-        }
-    }
-}
-
-
-
-/*B"H*/
-/**
- * A highly optimized function to determine if a square is attacked by a given side.
- * This is a critical performance function, used in move legality checks and castling.
- * It leverages pre-computed attack tables and magic bitboards for maximum speed.
- * @param {object} state The current game state object.
- * @param {number} sq The square index (0-63) to check.
- * @param {number} attackerColor The color of the attacking side (WHITE or BLACK).
- * @returns {boolean} True if the square is under attack, false otherwise.
- */
 function isSquareAttacked_lean(state, sq, attackerColor) {
     const enemyColor = attackerColor ^ 1;
     const blockers = state.occupancies[2];
     const b_offset = attackerColor * 6;
-
-    // Check for attacks from enemy pawns. This uses a reverse-attack lookup:
-    // to see if `sq` is attacked by a WHITE pawn, we check the squares from which a
-    // BLACK pawn would attack `sq`, and see if any of those squares contain a WHITE pawn.
     if ((PAWN_ATTACKS[enemyColor][sq] & state.pieceBitboards[b_offset + P]) !== 0n) return true;
-
-    // Check for attacks from enemy knights.
     if ((KNIGHT_ATTACKS[sq] & state.pieceBitboards[b_offset + N]) !== 0n) return true;
-
-    // Check for attacks from the enemy king.
     if ((KING_ATTACKS[sq] & state.pieceBitboards[b_offset + K]) !== 0n) return true;
-
-    // Check for attacks from enemy bishops or the enemy queen on diagonals.
     if ((getBishopAttacks(sq, blockers) & (state.pieceBitboards[b_offset + B] | state.pieceBitboards[b_offset + Q])) !== 0n) return true;
-
-    // Check for attacks from enemy rooks or the enemy queen on files/ranks.
     if ((getRookAttacks(sq, blockers) & (state.pieceBitboards[b_offset + R] | state.pieceBitboards[b_offset + Q])) !== 0n) return true;
-
-    // If no attacks are found from any piece type, the square is safe.
     return false;
 }
 
-
-/**
- * Generates only tactical moves.
- * DIAGNOSTIC: Checks for memory corruption via canary before executing.
- */
 function generateTacticalMoves(state) {
-    // --- CANARY CHECK ---
     if (MEMORY_CANARY !== 0xDEADBEEFCAFEBABEn) {
-        console.error("B\"H - CATASTROPHIC: MEMORY CORRUPTION DETECTED in generateTacticalMoves!");
-        console.error("Expected Canary:", 0xDEADBEEFCAFEBABEn, "but found:", MEMORY_CANARY);
-        console.error("This means a function called BEFORE this one (likely makeMove/unmakeMove or search) has an out-of-bounds write error.");
         throw new Error("Memory corruption detected via canary in generateTacticalMoves.");
     }
-
     const moves = [];
     const side = state.turn;
     const enemy = side ^ 1;
     const blockers = state.occupancies[2];
     const enemyKing = state.pieceBitboards[enemy * 6 + K];
     const captureTargets = state.occupancies[enemy] & ~enemyKing;
-
-    // ... (rest of the function is the same as the one you already have)
     let pawns = state.pieceBitboards[side * 6 + P];
     while (pawns > 0n) {
         const from = getLSBIndex(pawns);
@@ -395,14 +302,6 @@ function generateTacticalMoves(state) {
         let attacks = PAWN_ATTACKS[side][from] & captureTargets;
         while (attacks > 0n) {
             const to = getLSBIndex(attacks);
-            const rowDiff = Math.abs(Math.floor(from / 8) - Math.floor(to / 8));
-            const colDiff = Math.abs((from % 8) - (to % 8));
-            if (rowDiff !== 1 || colDiff !== 1) {
-                console.error("B\"H - LOGIC BOMB! Generated a physically impossible pawn capture.");
-                console.error(`- Details: from ${from}, to ${to}, for side ${side}`);
-                console.error("- This indicates the PAWN_ATTACKS table is corrupt.");
-                throw new Error("Illegal pawn move created by generateTacticalMoves.");
-            }
             if (rank === promRank) moves.push(encodeMove(from, to, P, Q, 1, 0, 0, 0));
             else moves.push(encodeMove(from, to, P, 0, 1, 0, 0, 0));
             attacks = popBit(attacks);
