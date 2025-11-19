@@ -20,7 +20,6 @@ class MerkavaExecutor {
     async execute(jsCode) {
         try {
             const parser = new this.MerkavahParser(jsCode);
-            // This is a list of all parsers the AST generator uses.
             parser.registerExpressionParsers();
             parser.registerStatementParsers();
             parser.registerDeclarationParsers();
@@ -28,7 +27,6 @@ class MerkavaExecutor {
             if (parser.errors.length > 0) throw new Error("Parsing failed: " + parser.errors.join('\n'));
             return await this._executeStatements(ast.body, { scope: this.globalScope });
         } catch (e) {
-            // Unwind control-flow exceptions that escape, they are internal errors.
             if (e && ['Return', 'Break', 'Continue'].includes(e.type)) {
                 console.error("[RUNTIME-FATAL] Control-flow signal escaped to top level.");
             } else {
@@ -38,7 +36,6 @@ class MerkavaExecutor {
         }
     }
     
-    // --- MASTER CONTROL ---
     async _executeStatements(statements, context) {
         let result;
         for (const statement of statements) {
@@ -54,13 +51,11 @@ class MerkavaExecutor {
         return await executor.call(this, node, context);
     }
 
-    // --- SCOPE & CONTEXT: THE UNIFIED LAW ---
     _createScope(parent, bindings = {}, thisBinding) {
         const scope = {
             parent,
             bindings: new Map(Object.entries(bindings)),
             thisBinding,
-
             get(name) {
                 if (name === 'this') return this.thisBinding;
                 let current = this;
@@ -68,14 +63,10 @@ class MerkavaExecutor {
                     if (current.bindings.has(name)) return current.bindings.get(name);
                     current = current.parent;
                 }
-                if (name in this.thisBinding) {
-                    return this.thisBinding[name];
-                }
+                if (name in this.thisBinding) return this.thisBinding[name];
                 return undefined;
             },
-
             set(name, value) { this.bindings.set(name, value); },
-
             findAndSet(name, value) {
                 let current = this;
                 while (current) {
@@ -118,7 +109,6 @@ class MerkavaExecutor {
         }
     }
 
-    // --- THE COMPLETE SET OF NODE EXECUTORS ---
     nodeExecutors = {
         Program: async function(n, c) { return await this._executeStatements(n.body, c); },
         BlockStatement: async function(n, c) {
@@ -176,21 +166,50 @@ class MerkavaExecutor {
         },
         Literal: function(n) { return n.value; },
         ThisExpression: function(n, c) { return c.scope.thisBinding; },
+        // --- TIKKUN: ADDED SUPER SUPPORT ---
+        Super: function(n, c) {
+            const thisObj = c.scope.thisBinding;
+            if (!thisObj) throw new ReferenceError("Super called outside of class context");
+            const proto = Object.getPrototypeOf(thisObj);
+            if (!proto) throw new ReferenceError("Super called on an object with no prototype");
+            return proto;
+        },
+        // --- END TIKKUN ---
         MemberExpression: async function(n, c) {
             const obj = await this._executeNode(n.object, c);
             const prop = n.computed ? await this._executeNode(n.property, c) : n.property.name;
             if (obj === null || obj === undefined) throw new TypeError(`Cannot read properties of ${obj}`);
-            return obj[prop];
+            // --- TIKKUN: BIND SUPER METHODS ---
+            // If the object is a prototype (from `super`), the method needs to be bound to the current `this`.
+            const value = obj[prop];
+            if (typeof value === 'function' && n.object.type === 'Super') {
+                 return value.bind(c.scope.thisBinding);
+            }
+            // --- END TIKKUN ---
+            return value;
         },
         CallExpression: async function(n, c) {
             let thisContext = this.globalObject, func;
-            if (n.callee.type === 'MemberExpression') {
+            // --- TIKKUN: HANDLE SUPER() and SUPER.METHOD() ---
+            if (n.callee.type === 'Super') { // Handles `super()` constructor call
+                thisContext = c.scope.thisBinding;
+                const proto = Object.getPrototypeOf(thisContext);
+                func = proto.constructor;
+            } else if (n.callee.type === 'MemberExpression') {
                 thisContext = await this._executeNode(n.callee.object, c);
                 const prop = n.callee.computed ? await this._executeNode(n.callee.property, c) : n.callee.property.name;
-                func = thisContext[prop];
+                
+                if (n.callee.object.type === 'Super') {
+                    // For `super.method()`, `thisContext` is the prototype. The function needs to be bound to the actual `this`.
+                    func = thisContext[prop];
+                    thisContext = c.scope.thisBinding; 
+                } else {
+                    func = thisContext[prop];
+                }
             } else {
-                func = await this._executeNode(n.callee, c);
+                 func = await this._executeNode(n.callee, c);
             }
+            // --- END TIKKUN ---
             if (typeof func !== 'function') throw new TypeError(`${n.callee.type} is not a function`);
             const args = await Promise.all(n.arguments.map(arg => this._executeNode(arg, c)));
             return await func.apply(thisContext, args);
@@ -287,7 +306,7 @@ class MerkavaExecutor {
         ArrowFunctionExpression: async function(n, c) {
             const executor = this;
             return async function(...args) {
-                const thisContext = c.scope.thisBinding; // Lexical `this`
+                const thisContext = c.scope.thisBinding;
                 const funcScope = executor._createScope(c.scope, {}, thisContext);
                 const funcContext = { ...c, scope: funcScope };
                 for (let i = 0; i < n.params.length; i++) {
@@ -295,7 +314,7 @@ class MerkavaExecutor {
                 }
                 try {
                     const bodyNode = n.body;
-                    if (bodyNode.type !== 'BlockStatement') { // Implicit return
+                    if (bodyNode.type !== 'BlockStatement') {
                         return await executor._executeNode(bodyNode, funcContext);
                     }
                     return await executor._executeNode(bodyNode, funcContext);
@@ -314,7 +333,6 @@ class MerkavaExecutor {
             }
             return obj;
         },
-        // --- TIKKUN: ADDED CLASS SUPPORT ---
         ClassDeclaration: async function(n, c) {
             const classConstructor = await this.nodeExecutors.ClassExpression.call(this, n, c);
             if (n.id && n.id.name) {
@@ -327,40 +345,37 @@ class MerkavaExecutor {
             if (n.superClass) {
                 superClass = await this._executeNode(n.superClass, c);
             }
-
             const classScope = this._createScope(c.scope);
             const classContext = { ...c, scope: classScope };
-            
             const constructorDef = n.body.body.find(member => member.type === 'MethodDefinition' && member.kind === 'constructor');
-
             let classConstructor;
             if (constructorDef) {
                 classConstructor = await this._executeNode(constructorDef.value, classContext);
             } else {
-                classConstructor = superClass ? function(...args) { return superClass.apply(this, args); } : function() {};
+                 classConstructor = superClass ? function(...args) {
+                    const newThis = new (Function.prototype.bind.apply(superClass, [null, ...args]));
+                    Object.setPrototypeOf(newThis, this.constructor.prototype);
+                    return newThis;
+                 } : function() {};
             }
-            
             if (superClass) {
                 Object.setPrototypeOf(classConstructor.prototype, superClass.prototype);
                 Object.setPrototypeOf(classConstructor, superClass);
             }
-
             if (n.id) {
                 const className = n.id.name;
                 Object.defineProperty(classConstructor, 'name', { value: className, configurable: true });
                 classScope.set(className, classConstructor);
             }
-            
             for (const member of n.body.body) {
                 if (member.type === 'MethodDefinition' && member.kind !== 'constructor') {
                     const key = member.computed ? await this._executeNode(member.key, classContext) : member.key.name;
                     const methodFunc = await this._executeNode(member.value, classContext);
                     const target = member.static ? classConstructor : classConstructor.prototype;
-
                     if (member.kind === 'method') {
                         target[key] = methodFunc;
                     } else if (member.kind === 'get' || member.kind === 'set') {
-                        const descriptor = Object.getOwnPropertyDescriptor(target, key) || { configurable: true };
+                        const descriptor = Object.getOwnPropertyDescriptor(target, key) || { configurable: true, enumerable: true };
                         descriptor[member.kind] = methodFunc;
                         Object.defineProperty(target, key, descriptor);
                     }
@@ -368,7 +383,6 @@ class MerkavaExecutor {
             }
             return classConstructor;
         },
-        // --- END OF TIKKUN ---
         ImportDeclaration: async function(n, c) {
             const specifier = n.source.value;
             if (!this.moduleCache) this.moduleCache = new Map();
