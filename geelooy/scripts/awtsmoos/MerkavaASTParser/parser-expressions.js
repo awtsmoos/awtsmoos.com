@@ -768,30 +768,21 @@ proto._parseAsyncExpression = function() {
 		const s = this._startNode();
 		this._expect(TOKEN.NEW);
 
-		// --- THIS IS THE TIKKUN (THE FIX) ---
-		// Check specifically for the 'new.target' meta-property.
 		if (this._currTokenIs(TOKEN.DOT)) {
-			this._advance(); // Consume '.'
-			
-			// Manually create the 'new' identifier node for the AST.
+			this._advance(); 
 			const meta = { type: 'Identifier', name: 'new', loc: s.loc };
-			
 			if (!this._currTokenIs(TOKEN.IDENT) || this.currToken.literal !== 'target') {
 				this._error("Expected 'target' after 'new.'.");
 				return null;
 			}
-			
-			// Parse the 'target' identifier.
 			const property = this._parseIdentifier();
-			
-			// According to ESTree, this is a MetaProperty node.
 			return this._finishNode({ type: 'MetaProperty', meta: meta, property: property }, s);
 		}
 		
-		// 
-
-		// If it wasn't 'new.target', proceed with the original logic for a constructor call.
-		const callee = this._parseExpression(PRECEDENCE.MEMBER);
+        // --- THIS IS THE TIKKUN ---
+        // The precedence here was too high (MEMBER), preventing it from parsing `d.a` as a single unit.
+        // Lowering it to CALL allows the MemberExpression to be fully parsed as the callee.
+		const callee = this._parseExpression(PRECEDENCE.CALL);
 		let args = [];
 		if (this._currTokenIs(TOKEN.LPAREN)) {
 			args = this._parseArgumentsList();
@@ -1161,7 +1152,7 @@ proto._convertExpressionToPattern = function(node) {
             node.type = 'ObjectPattern';
             // Recursively convert the values of its properties.
             for (const prop of node.properties) {
-                prop.value = this._convertExpressionToPattern(prop.value);
+                prop.value = this._convertExpressionTo-Pattern(prop.value);
             }
             return node;
 
