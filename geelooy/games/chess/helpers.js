@@ -358,6 +358,13 @@ function initializeAll() {
         console.log("B\"H - The universe has already been created. Halting redundant creation.");
         return;
     }
+    
+    
+    console.log("B\"H - Forging the secret keys (Magic Numbers) from the void...");
+    findMagics(); // This creates the numbers needed by initSliders
+    console.log("%cB\"H - The secret keys have been forged.", "color: green;");
+    
+    
 
     // 1. Sliders - The complex laws
     initSliders();
@@ -635,6 +642,91 @@ function generateMoves(state) {
     }
     return moves;
 }
+
+/* B"H
+
+ - 
+
+/**
+ * A pseudo-random number generator to create 64-bit keys.
+ * Using a simple one for deterministic magic number generation.
+ */
+const random64 = (() => {
+    let seed = 1804289383;
+    return () => {
+        seed |= 0;
+        seed = (seed + 0x6d2b79f5) | 0;
+        let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+        t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+        const high = Math.imul(t ^ (t >>> 14), seed) | 0;
+        seed = (seed + 0x6d2b79f5) | 0;
+        t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+        t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+        const low = Math.imul(t ^ (t >>> 14), seed) | 0;
+        return (BigInt(high) << 32n) | BigInt(low & 0xFFFFFFFF);
+    };
+})();
+
+
+/**
+ * The runtime ritual to find the magic numbers. This function will be called once
+ * during initialization to generate the unique keys needed for the slider attack tables.
+ * This avoids hardcoding them and ensures the engine builds itself from pure logic.
+ */
+function findMagics() {
+    bishopMagics = Array(64);
+    rookMagics = Array(64);
+
+    for (let sq = 0; sq < 64; sq++) {
+        // Find Bishop Magic
+        const b_mask = bishopMasks[sq];
+        const b_bits = popcount(b_mask);
+        const b_used = Array(1 << b_bits).fill(0n);
+        while (true) {
+            const magic = random64() & random64() & random64();
+            if (popcount((b_mask * magic) & 0xFF00000000000000n) < 6) continue;
+            let fail = false;
+            b_used.fill(0n);
+            for (let i = 0; i < (1 << b_bits); i++) {
+                let temp = b_mask, blockers = 0n;
+                for (let j = 0; j < b_bits; j++) {
+                    const lsb = getLSBIndex(temp); temp = popBit(temp);
+                    if ((i >> j) & 1) blockers |= (1n << BigInt(lsb));
+                }
+                const idx = Number((blockers * magic) >> BigInt(64 - b_bits));
+                const attack = generateSliderAttacks(sq, true, blockers);
+                if (b_used[idx] === 0n) b_used[idx] = attack;
+                else if (b_used[idx] !== attack) { fail = true; break; }
+            }
+            if (!fail) { bishopMagics[sq] = magic; break; }
+        }
+
+        // Find Rook Magic
+        const r_mask = rookMasks[sq];
+        const r_bits = popcount(r_mask);
+        const r_used = Array(1 << r_bits).fill(0n);
+        while (true) {
+            const magic = random64() & random64() & random64();
+            if (popcount((r_mask * magic) & 0xFF00000000000000n) < 6) continue;
+            let fail = false;
+            r_used.fill(0n);
+            for (let i = 0; i < (1 << r_bits); i++) {
+                let temp = r_mask, blockers = 0n;
+                for (let j = 0; j < r_bits; j++) {
+                    const lsb = getLSBIndex(temp); temp = popBit(temp);
+                    if ((i >> j) & 1) blockers |= (1n << BigInt(lsb));
+                }
+                const idx = Number((blockers * magic) >> BigInt(64 - r_bits));
+                const attack = generateSliderAttacks(sq, false, blockers);
+                if (r_used[idx] === 0n) r_used[idx] = attack;
+                else if (r_used[idx] !== attack) { fail = true; break; }
+            }
+            if (!fail) { rookMagics[sq] = magic; break; }
+        }
+    }
+}
+
+
 
 /*B"H*/
 /**

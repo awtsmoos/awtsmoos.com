@@ -430,7 +430,9 @@ function initializeEngine() {
     initializeAll();
     
     Scribe.info("Inscribing the Scrolls of Wisdom...");
-    processRawBook(rawOpeningBook, EngineSoul.openingBook);
+    const rawOpeningBook = generateRawBook(sourceBook);
+	processRawBook(rawOpeningBook, EngineSoul.openingBook);
+    
     Scribe.book(`Grandmaster Library loaded. ${EngineSoul.openingBook.size} positions of wisdom inscribed.`);
     const rawPunish = generateRawBook(punishmentBookSource);
     processRawBook(rawPunish, EngineSoul.punishmentBook);
