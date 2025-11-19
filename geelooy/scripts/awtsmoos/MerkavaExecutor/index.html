@@ -1,0 +1,106 @@
+<!-- B"H -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Merkava Executor Test</title>
+    <style>
+        body { font-family: sans-serif; background-color: #1a1a1d; color: #c5c6c7; padding: 20px; }
+        .container { display: flex; flex-direction: column; max-width: 800px; margin: 0 auto; gap: 15px; }
+        textarea, pre { background-color: #0b0c10; border: 1px solid #45a29e; color: #66fcf1; padding: 15px; font-family: 'Roboto Mono', monospace; font-size: 14px; border-radius: 5px; height: 150px; resize: vertical; }
+        button { background-color: #66fcf1; color: #0b0c10; border: none; padding: 10px 20px; cursor: pointer; font-size: 16px; font-weight: bold; border-radius: 5px; transition: background-color 0.3s ease; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>B"H Merkava JavaScript Executor</h1>
+        <p>This runtime uses your custom AST parser and executes the code by manually traversing the AST, demonstrating the implementation of a virtual machine with a custom import resolver.</p>
+
+        <label for="code-input">JavaScript Source Code:</label>
+        <textarea id="code-input" spellcheck="false">
+// B"H
+import moduleA, { namedExport } from 'my-module-a';
+
+let x = 10;
+const add = (a, b) => {
+    let sum = a + b;
+    console.log("Sum is:", sum);
+    return sum;
+};
+
+let result = add(x, namedExport);
+let final = moduleA.run(result);
+console.log("Final Result:", final);
+        </textarea>
+        
+        <button id="execute-btn">Execute the Code (AST Traversal)</button>
+
+        <label for="output">Execution Output (Console Logs):</label>
+        <pre id="output"></pre>
+    </div>
+
+    <!-- NOTE: You must adjust the paths below to correctly point to your parser files -->
+    <script src="../../awtsmoos/MerkavaASTParser/parser-core.js"></script>
+    <script src="./runtime-core.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const codeInput = document.getElementById('code-input');
+            const outputPre = document.getElementById('output');
+            const executeBtn = document.getElementById('execute-btn');
+
+            let originalConsoleLog = console.log;
+            
+            // Override console.log to capture output in the UI
+            console.log = function(...args) {
+                originalConsoleLog.apply(console, args);
+                outputPre.textContent += args.join(' ') + '\n';
+            };
+
+            // Wait for the Parser to load (as it is Promise-based)
+            window.MerkavahParserPromise.then(MerkavahParser => {
+                console.log("MerkavahParser loaded successfully. Runtime is ready.");
+
+                executeBtn.addEventListener('click', async () => {
+                    outputPre.textContent = '--- Execution Start B"H ---\n';
+                    
+                    // --- CUSTOM IMPORT RESOLVER (The Override) ---
+                    const customResolver = async (specifier) => {
+                        console.log(`[Import Override] Resolving custom module: ${specifier}`);
+                        // Simulate network delay
+                        await new Promise(r => setTimeout(r, 50));
+                        
+                        if (specifier === 'my-module-a') {
+                            return {
+                                default: {
+                                    message: "Module A Resolved",
+                                    run: (val) => val * 100 
+                                },
+                                namedExport: 32 
+                            };
+                        }
+                        return {};
+                    };
+
+                    const executor = new window.MerkavaExecutor(
+                        MerkavahParser, 
+                        { console: console }, // Pass the local console as the initial context
+                        customResolver
+                    );
+                    
+                    try {
+                        await executor.execute(codeInput.value);
+                        outputPre.textContent += '--- Execution Complete ---\n';
+                    } catch (e) {
+                        outputPre.textContent += `--- Execution ERROR ---\n${e.message}\n`;
+                    }
+                });
+            }).catch(err => {
+                outputPre.textContent = `FATAL: Could not load parser: ${err.message}`;
+                console.error("Parser loading failed:", err);
+            });
+        });
+    </script>
+</body>
+</html>
