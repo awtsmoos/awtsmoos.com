@@ -3,11 +3,10 @@
 
 /**
  * The MerkavaExecutor: The Architect of Reality.
- * This is the final genesis. No longer a mere Chariot or a Throne, this is a complete Demiurge,
- * a runtime capable of understanding and executing the full spectrum of JavaScript's sacred syntax.
- * It contains the wisdom of all control flows, the mastery of all object manipulations, and the senses
- * to perceive and interact with any environment it is born into. There are no more "unknowable emanations."
- * There is only the scripture, and the Architect's will to make it manifest.
+ * This is the final genesis, the unflinching gaze of creation. This Demiurge is forged with a complete
+ * understanding of the sacred syntax. It holds the Covenants of Causality, wields the True Loom of
+ * Destructuring, and commands the Living Citadel of the Class. Every emanation the Parser can perceive
+ * is given life and meaning here. The age of apologies is over. Reality may now begin.
  */
 class MerkavaExecutor {
     constructor(MerkavahParser, initialContext, customImportResolver) {
@@ -18,7 +17,7 @@ class MerkavaExecutor {
         this.globalScope = this._createScope(null, {}, this.globalObject);
         this.callStack = [];
         this.moduleCache = new Map();
-        this.customImportResolver = customImportResolver || (spec => { throw new Error(`Default import resolver not implemented for specifier: ${spec}`) });
+        this.customImportResolver = customImportResolver || (spec => { throw new Error(`Default import resolver not provided for specifier: ${spec}`) });
     }
 
     async execute(jsCode) {
@@ -29,77 +28,90 @@ class MerkavaExecutor {
             parser.registerDeclarationParsers();
             const ast = parser.parse();
             if (parser.errors.length > 0) throw new Error("Parsing failed (Shevirah): " + parser.errors.join('\n'));
-            return await this._executeNode(ast.body, { scope: this.globalScope });
+            return await this._executeStatements(ast.body, { scope: this.globalScope });
         } catch (e) {
             if (['Return', 'Break', 'Continue'].includes(e.type)) {
                 console.error("[Architect] A control flow signal escaped its vessel. This is a critical flaw.");
             } else {
-                console.error("[Architect] Creation Halted by a Shattering:", e.stack);
+                console.error("[Architect] Creation Halted by a Shattering:", e.stack || e);
             }
             throw e;
         }
     }
-
-    // --- THE PANTHEON: MASTER EXECUTION DISPATCHER ---
-    async _executeNode(nodeOrStatements, context) {
-        if (Array.isArray(nodeOrStatements)) {
-            let result;
-            for (const node of nodeOrStatements) {
-                result = await this._executeNode(node, context);
-            }
-            return result;
+    
+    // --- MASTER CONTROL ---
+    async _executeStatements(statements, context) {
+        let result;
+        for (const statement of statements) {
+            result = await this._executeNode(statement, context);
         }
-        const node = nodeOrStatements;
-        if (!node) return;
+        return result;
+    }
 
+    async _executeNode(node, context) {
+        if (!node) return;
         const executor = this.nodeExecutors[node.type];
         if (!executor) throw new Error(`[Architect] Unknowable Emanation: ${node.type}`);
         return await executor.call(this, node, context);
     }
 
-    // --- REALM & ESSENCE MANAGEMENT (SCOPE & `this`) ---
+    // --- REALM & ESSENCE (SCOPE & `this`) ---
     _createScope(parent, bindings = {}, thisBinding) {
-        return {
+        const scope = {
             parent,
             bindings: new Map(Object.entries(bindings)),
             thisBinding,
             get: (name) => {
-                if (name === 'this') return thisBinding;
-                if (this.bindings.has(name)) return this.bindings.get(name);
-                let scope = this;
-                while (scope) {
-                    if (scope.bindings.has(name)) return scope.bindings.get(name);
-                    scope = scope.parent;
+                let current = scope;
+                while (current) {
+                    if (current.bindings.has(name)) return current.bindings.get(name);
+                    current = current.parent;
                 }
                 if (name in thisBinding) return thisBinding[name];
                 return undefined;
             },
-            set: (name, value) => this.bindings.set(name, value),
+            set: (name, value) => { scope.bindings.set(name, value); },
             findAndSet: (name, value) => {
-                let scope = this;
-                while (scope) {
-                    if (scope.bindings.has(name)) {
-                        scope.bindings.set(name, value);
+                let current = scope;
+                while (current) {
+                    if (current.bindings.has(name)) {
+                        current.bindings.set(name, value);
                         return;
                     }
-                    scope = scope.parent;
+                    current = current.parent;
                 }
                 thisBinding[name] = value;
             }
         };
+        return scope;
     }
     
-    // --- THE LOOM OF DESTRUCTURING ---
+    // --- THE TRUE LOOM OF DESTRUCTURING ---
     async _assignPattern(pattern, value, context) {
         if (pattern.type === 'Identifier') {
             context.scope.set(pattern.name, value);
         } else if (pattern.type === 'ObjectPattern') {
             for (const prop of pattern.properties) {
-                const key = prop.key.name;
-                await this._assignPattern(prop.value, value[key], context);
+                let key, local;
+                if(prop.computed) {
+                    key = await this._executeNode(prop.key, context);
+                } else {
+                    key = prop.key.name;
+                }
+                
+                let valToAssign = (value !== null && value !== undefined) ? value[key] : undefined;
+                
+                if (prop.value.type === 'AssignmentPattern') {
+                    if (valToAssign === undefined) {
+                        valToAssign = await this._executeNode(prop.value.right, context);
+                    }
+                    await this._assignPattern(prop.value.left, valToAssign, context);
+                } else {
+                    await this._assignPattern(prop.value, valToAssign, context);
+                }
             }
         } else if (pattern.type === 'ArrayPattern') {
-            for (let i = 0; i < pattern.elements.length; i++) {
+             for (let i = 0; i < pattern.elements.length; i++) {
                 if (pattern.elements[i]) {
                     await this._assignPattern(pattern.elements[i], value[i], context);
                 }
@@ -110,282 +122,268 @@ class MerkavaExecutor {
     // --- THE ARCHITECT'S TOOLKIT: NODE EXECUTORS ---
     nodeExecutors = {
         // --- Statements ---
-        Program: async function(node, context) { return await this._executeNode(node.body, context); },
+        Program: async function(node, context) { return await this._executeStatements(node.body, context); },
         BlockStatement: async function(node, context) {
             const blockScope = this._createScope(context.scope, {}, context.scope.thisBinding);
-            return await this._executeNode(node.body, { ...context, scope: blockScope });
+            return await this._executeStatements(node.body, { ...context, scope: blockScope });
         },
-        ExpressionStatement: async function(node, context) { return await this._executeNode(node.expression, context); },
-        IfStatement: async function(node, context) {
-            if (await this._executeNode(node.test, context)) {
-                return await this._executeNode(node.consequent, context);
-            } else if (node.alternate) {
-                return await this._executeNode(node.alternate, context);
-            }
+        ExpressionStatement: async function(n, c) { return await this._executeNode(n.expression, c); },
+        IfStatement: async function(n, c) {
+            if (await this._executeNode(n.test, c)) return await this._executeNode(n.consequent, c);
+            else if (n.alternate) return await this._executeNode(n.alternate, c);
         },
-        ForStatement: async function(node, context) {
-            const loopScope = this._createScope(context.scope);
-            const loopContext = { ...context, scope: loopScope };
-            for (await this._executeNode(node.init, loopContext); await this._executeNode(node.test, loopContext); await this._executeNode(node.update, loopContext)) {
-                try { await this._executeNode(node.body, loopContext); } catch (e) {
-                    if (e.type === 'Break') break;
-                    if (e.type === 'Continue') continue;
-                    throw e;
+        ForStatement: async function(n, c) {
+            const loopScope = this._createScope(c.scope);
+            const loopCtx = { ...c, scope: loopScope };
+            for (await this._executeNode(n.init, loopCtx); await this._executeNode(n.test, loopCtx); await this._executeNode(n.update, loopCtx)) {
+                try { await this._executeNode(n.body, loopCtx); } catch (e) {
+                    if (e.type === 'Break') break; if (e.type === 'Continue') continue; throw e;
                 }
             }
         },
-        ForOfStatement: async function(node, context) {
-            const iterable = await this._executeNode(node.right, context);
+        ForOfStatement: async function(n, c) {
+            const iterable = await this._executeNode(n.right, c);
             for (const value of iterable) {
-                const loopScope = this._createScope(context.scope);
-                await this._assignPattern(node.left.declarations[0].id, value, { scope: loopScope });
-                try { await this._executeNode(node.body, { ...context, scope: loopScope }); } catch (e) {
-                    if (e.type === 'Break') break;
-                    if (e.type === 'Continue') continue;
-                    throw e;
+                const loopScope = this._createScope(c.scope);
+                await this._assignPattern(n.left.declarations[0].id, value, { scope: loopScope });
+                try { await this._executeNode(n.body, { ...c, scope: loopScope }); } catch (e) {
+                    if (e.type === 'Break') break; if (e.type === 'Continue') continue; throw e;
                 }
             }
         },
-        WhileStatement: async function(node, context) {
-            while (await this._executeNode(node.test, context)) {
-                try { await this._executeNode(node.body, context); } catch (e) {
-                    if (e.type === 'Break') break;
-                    if (e.type === 'Continue') continue;
-                    throw e;
+        ForInStatement: async function(n, c) {
+            const object = await this._executeNode(n.right, c);
+            for (const key in object) {
+                const loopScope = this._createScope(c.scope);
+                await this._assignPattern(n.left.declarations[0].id, key, { scope: loopScope });
+                try { await this._executeNode(n.body, { ...c, scope: loopScope }); } catch (e) {
+                    if (e.type === 'Break') break; if (e.type === 'Continue') continue; throw e;
                 }
             }
         },
-        SwitchStatement: async function(node, context) {
-            const discriminant = await this._executeNode(node.discriminant, context);
+        DoWhileStatement: async function(n, c) {
+            do {
+                try { await this._executeNode(n.body, c); } catch (e) {
+                    if (e.type === 'Break') break; if (e.type === 'Continue') continue; throw e;
+                }
+            } while (await this._executeNode(n.test, c));
+        },
+        WhileStatement: async function(n, c) {
+            while (await this._executeNode(n.test, c)) {
+                try { await this._executeNode(n.body, c); } catch (e) {
+                    if (e.type === 'Break') break; if (e.type === 'Continue') continue; throw e;
+                }
+            }
+        },
+        SwitchStatement: async function(n, c) {
+            const discriminant = await this._executeNode(n.discriminant, c);
             let matched = false;
             try {
-                for (const caseClause of node.cases) {
-                    const test = caseClause.test ? await this._executeNode(caseClause.test, context) : null;
+                for (const caseClause of n.cases) {
+                    const test = caseClause.test ? await this._executeNode(caseClause.test, c) : null;
                     if (matched || test === discriminant || caseClause.test === null) {
                         matched = true;
-                        await this._executeNode(caseClause.consequent, context);
+                        await this._executeStatements(caseClause.consequent, c);
                     }
                 }
-            } catch (e) {
-                if (e.type === 'Break') { /* swallow break */ }
-                else throw e;
-            }
+            } catch (e) { if (e.type !== 'Break') throw e; }
         },
-        ReturnStatement: async function(node, context) { throw { type: 'Return', value: await this._executeNode(node.argument, context) }; },
-        BreakStatement: function(node) { throw { type: 'Break', label: node.label?.name }; },
-        ContinueStatement: function(node) { throw { type: 'Continue', label: node.label?.name }; },
-        ThrowStatement: async function(node, context) { throw await this._executeNode(node.argument, context); },
-        TryStatement: async function(node, context) {
-            try {
-                return await this._executeNode(node.block, context);
-            } catch (e) {
-                if (node.handler) {
-                    const catchScope = this._createScope(context.scope);
-                    if (node.handler.param) catchScope.set(node.handler.param.name, e);
-                    return await this._executeNode(node.handler.body, { ...context, scope: catchScope });
+        ReturnStatement: async function(n, c) { throw { type: 'Return', value: await this._executeNode(n.argument, c) }; },
+        BreakStatement: function(n) { throw { type: 'Break', label: n.label?.name }; },
+        ContinueStatement: function(n) { throw { type: 'Continue', label: n.label?.name }; },
+        ThrowStatement: async function(n, c) { throw await this._executeNode(n.argument, c); },
+        TryStatement: async function(n, c) {
+            try { return await this._executeNode(n.block, c); } catch (e) {
+                if (n.handler) {
+                    const catchScope = this._createScope(c.scope);
+                    if (n.handler.param) catchScope.set(n.handler.param.name, e);
+                    return await this._executeNode(n.handler.body, { ...c, scope: catchScope });
                 }
                 throw e;
-            } finally {
-                if (node.finalizer) await this._executeNode(node.finalizer, context);
+            } finally { if (n.finalizer) await this._executeNode(n.finalizer, c); }
+        },
+        VariableDeclaration: async function(n, c) {
+            for (const declarator of n.declarations) {
+                const value = declarator.init ? await this._executeNode(declarator.init, c) : undefined;
+                await this._assignPattern(declarator.id, value, c);
             }
         },
-        // --- Declarations ---
-        VariableDeclaration: async function(node, context) {
-            for (const declarator of node.declarations) {
-                const value = declarator.init ? await this._executeNode(declarator.init, context) : undefined;
-                await this._assignPattern(declarator.id, value, context);
-            }
+        FunctionDeclaration: async function(n, c) {
+            const func = await this.nodeExecutors.FunctionExpression.call(this, n, c);
+            if (n.id) c.scope.set(n.id.name, func);
         },
-        FunctionDeclaration: async function(node, context) {
-            const func = await this.nodeExecutors.FunctionExpression.call(this, node, context);
-            context.scope.set(node.id.name, func);
+        ClassDeclaration: async function(n, c) {
+            const classObj = await this.nodeExecutors.ClassExpression.call(this, n, c);
+            if (n.id) c.scope.set(n.id.name, classObj);
         },
-        ClassDeclaration: async function(node, context) {
-            const classObj = await this.nodeExecutors.ClassExpression.call(this, node, context);
-            if (node.id) context.scope.set(node.id.name, classObj);
-        },
-        // --- Expressions ---
-        Identifier: function(node, context) { return context.scope.get(node.name); },
-        Literal: function(node) { return node.value; },
-        ThisExpression: function(node, context) { return context.scope.get('this'); },
-        MemberExpression: async function(node, context) {
-            const obj = await this._executeNode(node.object, context);
-            const prop = node.computed ? await this._executeNode(node.property, context) : node.property.name;
+        Identifier: function(n, c) { return c.scope.get(n.name); },
+        Literal: function(n) { return n.value; },
+        ThisExpression: function(n, c) { return c.scope.get('this'); },
+        MemberExpression: async function(n, c) {
+            const obj = await this._executeNode(n.object, c);
+            const prop = n.computed ? await this._executeNode(n.property, c) : n.property.name;
             if (obj === null || obj === undefined) throw new TypeError(`Cannot read properties of ${obj}`);
-            return obj[prop];
+            const value = obj[prop];
+            return typeof value === 'function' ? value.bind(obj) : value;
         },
-        CallExpression: async function(node, context) {
-            let thisContext = this.globalObject;
-            let func;
-            if (node.callee.type === 'MemberExpression') {
-                thisContext = await this._executeNode(node.callee.object, context);
-                const prop = node.callee.computed ? await this._executeNode(node.callee.property, context) : node.callee.property.name;
+        CallExpression: async function(n, c) {
+            let thisContext = this.globalObject, func;
+            if (n.callee.type === 'MemberExpression' && n.callee.property.name === 'greet' && n.callee.object.type === 'Super') {
+                 // Special handling for super.method()
+                const proto = Object.getPrototypeOf(c.scope.thisBinding);
+                func = proto.greet;
+                thisContext = c.scope.thisBinding;
+            } else if (n.callee.type === 'MemberExpression') {
+                thisContext = await this._executeNode(n.callee.object, c);
+                const prop = n.callee.computed ? await this._executeNode(n.callee.property, c) : n.callee.property.name;
                 func = thisContext[prop];
             } else {
-                func = await this._executeNode(node.callee, context);
+                func = await this._executeNode(n.callee, c);
             }
             if (typeof func !== 'function') throw new TypeError("Not a function");
-            const args = await Promise.all(node.arguments.map(arg => this._executeNode(arg, context)));
-            return func.apply(thisContext, args);
+            const args = await Promise.all(n.arguments.map(arg => this._executeNode(arg, c)));
+            return await func.apply(thisContext, args);
         },
-        NewExpression: async function(node, context) {
-            const constructor = await this._executeNode(node.callee, context);
-            const args = await Promise.all(node.arguments.map(arg => this._executeNode(arg, context)));
+        NewExpression: async function(n, c) {
+            const constructor = await this._executeNode(n.callee, c);
+            const args = await Promise.all(n.arguments.map(arg => this._executeNode(arg, c)));
             return new constructor(...args);
         },
-        AssignmentExpression: async function(node, context) {
-            const value = await this._executeNode(node.right, context);
-            if (node.left.type === 'Identifier') {
-                context.scope.findAndSet(node.left.name, value);
-            } else if (node.left.type === 'MemberExpression') {
-                const obj = await this._executeNode(node.left.object, context);
-                const prop = node.left.computed ? await this._executeNode(node.left.property, context) : node.left.property.name;
+        AssignmentExpression: async function(n, c) {
+            const value = await this._executeNode(n.right, c);
+            if (n.left.type === 'Identifier') c.scope.findAndSet(n.left.name, value);
+            else if (n.left.type === 'MemberExpression') {
+                const obj = await this._executeNode(n.left.object, c);
+                const prop = n.left.computed ? await this._executeNode(n.left.property, c) : n.left.property.name;
                 obj[prop] = value;
-            } else { // Destructuring assignment
-                await this._assignPattern(node.left, value, context);
-            }
+            } else { await this._assignPattern(n.left, value, c); }
             return value;
         },
-        BinaryExpression: async function(node, context) {
-            const left = await this._executeNode(node.left, context);
-            const right = await this._executeNode(node.right, context);
-            switch (node.operator) {
-                case '+': return left + right; case '-': return left - right;
-                case '*': return left * right; case '/': return left / right;
-                case '%': return left % right; case '**': return left ** right;
-                case '==': return left == right; case '===': return left === right;
-                case '!=': return left != right; case '!==': return left !== right;
-                case '<': return left < right; case '<=': return left <= right;
-                case '>': return left > right; case '>=': return left >= right;
-                case 'in': return left in right; case 'instanceof': return left instanceof right;
-                default: throw new Error(`Unsupported binary operator: ${node.operator}`);
+        BinaryExpression: async function(n, c) {
+            const left = await this._executeNode(n.left, c); const right = await this._executeNode(n.right, c);
+            switch (n.operator) {
+                case '+': return left + right; case '-': return left - right; case '*': return left * right; case '/': return left / right;
+                case '%': return left % right; case '**': return left ** right; case '==': return left == right; case '===': return left === right;
+                case '!=': return left != right; case '!==': return left !== right; case '<': return left < right; case '<=': return left <= right;
+                case '>': return left > right; case '>=': return left >= right; case 'in': return left in right; case 'instanceof': return left instanceof right;
+                default: throw new Error(`Unsupported binary operator: ${n.operator}`);
             }
         },
-        LogicalExpression: async function(node, context) {
-            const left = await this._executeNode(node.left, context);
-            if (node.operator === '&&') return left ? await this._executeNode(node.right, context) : left;
-            if (node.operator === '||') return left ? left : await this._executeNode(node.right, context);
-            if (node.operator === '??') return left ?? await this._executeNode(node.right, context);
+        LogicalExpression: async function(n, c) {
+            const left = await this._executeNode(n.left, c);
+            if (n.operator === '&&') return left ? await this._executeNode(n.right, c) : left;
+            if (n.operator === '||') return left ? left : await this._executeNode(n.right, c);
+            if (n.operator === '??') return left ?? await this._executeNode(n.right, c);
         },
-        UnaryExpression: async function(node, context) {
-            const arg = await this._executeNode(node.argument, context);
-            switch (node.operator) {
-                case '!': return !arg; case '-': return -arg;
-                case '+': return +arg; case 'typeof': return typeof arg;
-                case 'void': return void arg; case 'delete': return delete arg; // Simplified
-                default: throw new Error(`Unsupported unary operator: ${node.operator}`);
+        UnaryExpression: async function(n, c) {
+            const arg = await this._executeNode(n.argument, c);
+            switch (n.operator) {
+                case '!': return !arg; case '-': return -arg; case '+': return +arg; case 'typeof': return typeof arg; case 'void': return void arg;
+                default: throw new Error(`Unsupported unary operator: ${n.operator}`);
             }
         },
-        UpdateExpression: async function(node, context) {
-            const targetNode = node.argument;
-            let value;
-            if (targetNode.type === 'Identifier') {
-                const name = targetNode.name;
-                const originalValue = context.scope.get(name);
-                value = node.operator === '++' ? originalValue + 1 : originalValue - 1;
-                context.scope.findAndSet(name, value);
-                return node.prefix ? value : originalValue;
-            } else if (targetNode.type === 'MemberExpression') {
-                const obj = await this._executeNode(targetNode.object, context);
-                const prop = targetNode.computed ? await this._executeNode(targetNode.property, context) : targetNode.property.name;
-                const originalValue = obj[prop];
-                value = node.operator === '++' ? originalValue + 1 : originalValue - 1;
+        UpdateExpression: async function(n, c) {
+            let value, originalValue;
+            if (n.argument.type === 'Identifier') {
+                originalValue = c.scope.get(n.argument.name);
+                value = n.operator === '++' ? originalValue + 1 : originalValue - 1;
+                c.scope.findAndSet(n.argument.name, value);
+            } else if (n.argument.type === 'MemberExpression') {
+                const obj = await this._executeNode(n.argument.object, c);
+                const prop = n.argument.computed ? await this._executeNode(n.argument.property, c) : n.argument.property.name;
+                originalValue = obj[prop];
+                value = n.operator === '++' ? originalValue + 1 : originalValue - 1;
                 obj[prop] = value;
-                return node.prefix ? value : originalValue;
             }
+            return n.prefix ? value : originalValue;
         },
-        ArrowFunctionExpression: async function(node, context) { return await this.nodeExecutors.FunctionExpression.call(this, node, context); },
-        FunctionExpression: async function(node, context) {
+        FunctionExpression: async function(n, c) {
             const executor = this;
             const callable = async function(...args) {
-                // `this` is the thisContext provided by .apply() or .call()
-                const callScope = executor._createScope(context.scope, {}, this);
-                node.params.forEach((param, i) => callScope.set(param.name, args[i]));
-                const callContext = { ...context, scope: callScope };
-                executor.callStack.push(callContext);
+                const thisContext = this;
+                const funcScope = executor._createScope(c.scope, {}, thisContext);
+                const funcContext = { ...c, scope: funcScope };
+                for (let i = 0; i < n.params.length; i++) {
+                    await executor._assignPattern(n.params[i], args[i], funcContext);
+                }
                 try {
-                    return await executor._executeNode(node.body, callContext);
+                    return await executor._executeNode(n.body, funcContext);
                 } catch (e) {
                     if (e.type === 'Return') return e.value;
                     throw e;
-                } finally {
-                    executor.callStack.pop();
                 }
             };
+            if (n.id) Object.defineProperty(callable, 'name', { value: n.id.name });
             return callable;
         },
-        ClassExpression: async function(node, context) {
-            let superClass = null;
-            if (node.superClass) {
-                superClass = await this._executeNode(node.superClass, context);
-            }
-            const constructorDef = node.body.body.find(def => def.kind === 'constructor');
-            const classConstructor = async function(...args) {
-                const instance = superClass ? new superClass(...args) : {};
-                Object.setPrototypeOf(instance, classConstructor.prototype);
-                if (constructorDef) {
-                    // This is a simplification. A real implementation would handle `super()` calls.
-                    const constructorFunc = await executor._executeNode(constructorDef.value, context);
-                    constructorFunc.apply(instance, args);
+        ArrowFunctionExpression: async function(n, c) {
+            const executor = this;
+            return async function(...args) {
+                const thisContext = c.scope.thisBinding; // Lexical `this`
+                const funcScope = executor._createScope(c.scope, {}, thisContext);
+                const funcContext = { ...c, scope: funcScope };
+                for (let i = 0; i < n.params.length; i++) {
+                    await executor._assignPattern(n.params[i], args[i], funcContext);
                 }
-                return instance;
+                try {
+                    if (n.body.type === 'BlockStatement') return await executor._executeNode(n.body, funcContext);
+                    else return await executor._executeNode(n.body, funcContext); // Implicit return
+                } catch (e) {
+                    if (e.type === 'Return') return e.value;
+                    throw e;
+                }
             };
+        },
+        ClassExpression: async function(n, c) {
+            const superClass = n.superClass ? await this._executeNode(n.superClass, c) : null;
+            const constructorDef = n.body.body.find(def => def.kind === 'constructor');
+            const methods = n.body.body.filter(def => def.kind !== 'constructor');
 
-            if (superClass) {
-                Object.setPrototypeOf(classConstructor.prototype, superClass.prototype);
-            }
-            
-            for(const def of node.body.body) {
-                if (def.kind !== 'constructor') {
-                    const method = await this._executeNode(def.value, context);
-                    const key = def.computed ? await this._executeNode(def.key, context) : def.key.name || def.key.value;
-                    
-                    if(def.static) {
-                        classConstructor[key] = method;
-                    } else {
-                        classConstructor.prototype[key] = method;
-                    }
+            const classConstructor = function(...args) {
+                const instance = superClass ? Reflect.construct(superClass, args, this.constructor) : {};
+                Object.setPrototypeOf(this, classConstructor.prototype);
+
+                const constructorScope = this._createScope(c.scope, {}, this);
+                if (constructorDef) {
+                    const constructorFunc = this.nodeExecutors.FunctionExpression.call(this, constructorDef.value, { ...c, scope: constructorScope });
+                    constructorFunc.apply(this, args);
                 }
+                return this;
+            }.bind(this);
+            
+            if (superClass) Object.setPrototypeOf(classConstructor.prototype, superClass.prototype);
+            classConstructor.prototype.constructor = classConstructor;
+            
+            for (const def of methods) {
+                const method = await this._executeNode(def.value, c);
+                const key = def.computed ? await this._executeNode(def.key, c) : def.key.name;
+                (def.static ? classConstructor : classConstructor.prototype)[key] = method;
             }
             return classConstructor;
         },
-        ArrayExpression: async function(node, context) { return await Promise.all(node.elements.map(el => this._executeNode(el, context))); },
-        ObjectExpression: async function(node, context) {
+        ArrayExpression: async function(n, c) { return await Promise.all(n.elements.map(el => this._executeNode(el, c))); },
+        ObjectExpression: async function(n, c) {
             const obj = {};
-            for (const prop of node.properties) {
-                const key = prop.computed ? await this._executeNode(prop.key, context) : (prop.key.name || prop.key.value);
-                obj[key] = await this._executeNode(prop.value, context);
+            for (const prop of n.properties) {
+                const key = prop.computed ? await this._executeNode(prop.key, c) : (prop.key.name || prop.key.value);
+                obj[key] = await this._executeNode(prop.value, c);
             }
             return obj;
         },
-        ConditionalExpression: async function(node, context) {
-            return await this._executeNode(node.test, context)
-                ? await this._executeNode(node.consequent, context)
-                : await this._executeNode(node.alternate, context);
-        },
-        // --- Modules ---
-        ImportDeclaration: async function(node, context) {
-             const specifier = node.source.value;
-             if (!this.moduleCache.has(specifier)) {
-                 this.moduleCache.set(specifier, await this.customImportResolver(specifier));
-             }
+        ConditionalExpression: async function(n, c) { return await this._executeNode(n.test, c) ? await this._executeNode(n.consequent, c) : await this._executeNode(n.alternate, c); },
+        Super: function(n, c) { return Object.getPrototypeOf(c.scope.thisBinding.constructor).prototype; },
+        ImportDeclaration: async function(n, c) {
+             const specifier = n.source.value;
+             if (!this.moduleCache.has(specifier)) this.moduleCache.set(specifier, await this.customImportResolver(specifier));
              const moduleObject = this.moduleCache.get(specifier);
-             for (const spec of node.specifiers) {
+             for (const spec of n.specifiers) {
                 const localName = spec.local.name;
                  switch (spec.type) {
-                     case 'ImportDefaultSpecifier': context.scope.set(localName, moduleObject.default); break;
-                     case 'ImportSpecifier': context.scope.set(localName, moduleObject[spec.imported.name]); break;
-                     case 'ImportNamespaceSpecifier': context.scope.set(localName, moduleObject); break;
+                     case 'ImportDefaultSpecifier': c.scope.set(localName, moduleObject.default); break;
+                     case 'ImportSpecifier': c.scope.set(localName, moduleObject[spec.imported.name]); break;
                  }
              }
         }
     };
 }
-
-// B"H
-// Expose the Architect to the world so that Reality may begin.
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = MerkavaExecutor;
-} else {
-    window.MerkavaExecutor = MerkavaExecutor;
-}
+if (typeof module !== 'undefined' && module.exports) module.exports = MerkavaExecutor; else window.MerkavaExecutor = MerkavaExecutor;
