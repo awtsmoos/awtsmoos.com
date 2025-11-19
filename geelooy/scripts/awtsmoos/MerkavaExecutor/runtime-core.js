@@ -201,12 +201,31 @@ class MerkavaExecutor {
             }
             if (typeof func !== 'function') throw new TypeError(`${n.callee.type} is not a function`);
             const args = await Promise.all(n.arguments.map(arg => this._executeNode(arg, c)));
+            // MODIFICATION: Await the result, as our custom functions now return promises.
             return await func.apply(thisContext, args);
         },
         NewExpression: async function(n, c) {
             const constructor = await this._executeNode(n.callee, c);
+             if (typeof constructor !== 'function') {
+                throw new TypeError(`${n.callee.name || 'value'} is not a constructor`);
+            }
             const args = await Promise.all(n.arguments.map(arg => this._executeNode(arg, c)));
-            return new constructor(...args);
+            
+            // MODIFICATION: Faithfully replicate the 'new' operator's behavior.
+            // 1. Create a new object that inherits from the constructor's prototype.
+            const newInstance = Object.create(constructor.prototype);
+            
+            // 2. Execute the constructor function with the new instance as `this`.
+            // Our custom functions return a promise, so we await its resolution.
+            const result = await constructor.apply(newInstance, args);
+            
+            // 3. Per JavaScript spec, if the constructor returns an object, that is the result.
+            //    Otherwise, the result is the new instance we created.
+            if (typeof result === 'object' && result !== null) {
+                return result;
+            } else {
+                return newInstance;
+            }
         },
         AssignmentExpression: async function(n, c) {
             const value = await this._executeNode(n.right, c);
@@ -269,19 +288,25 @@ class MerkavaExecutor {
         },
         FunctionExpression: async function(n, c) {
             const executor = this;
-            const callable = async function(...args) {
-                const thisContext = this; // `this` is set by .apply() or .call()
-                const funcScope = executor._createScope(c.scope, {}, thisContext);
-                const funcContext = { ...c, scope: funcScope };
-                for (let i = 0; i < n.params.length; i++) {
-                    await executor._assignPattern(n.params[i], args[i], funcContext);
-                }
-                try {
-                    return await executor._executeNode(n.body, funcContext);
-                } catch (e) {
-                    if (e.type === 'Return') return e.value;
-                    throw e;
-                }
+            // MODIFICATION: This is now a REGULAR function, making it a valid constructor.
+            const callable = function(...args) {
+                // When called with `new`, `this` is the new instance. Otherwise, it's set by the call site.
+                const thisContext = this; 
+                
+                // The body's execution is async, so we wrap it in an async IIFE and return its promise.
+                return (async () => {
+                    const funcScope = executor._createScope(c.scope, {}, thisContext);
+                    const funcContext = { ...c, scope: funcScope };
+                    for (let i = 0; i < n.params.length; i++) {
+                        await executor._assignPattern(n.params[i], args[i], funcContext);
+                    }
+                    try {
+                        return await executor._executeNode(n.body, funcContext);
+                    } catch (e) {
+                        if (e.type === 'Return') return e.value;
+                        throw e;
+                    }
+                })();
             };
             return callable;
         },
