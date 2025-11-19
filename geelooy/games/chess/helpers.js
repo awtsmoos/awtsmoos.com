@@ -148,28 +148,50 @@ function calculateZobristHash(state) {
     return hash;
 }
 
+/* B"H */
+/**
+ * Initializes all pre-computed tables: sliders, zobrist keys, and piece attacks.
+ * DIAGNOSTIC: Adds a one-time log to verify the pawn attack table is correct upon creation.
+ */
 function initializeAll() {
+    // This check prevents re-initialization, which is correct.
     if (KNIGHT_ATTACKS.length > 0) return;
-    initSliders(); initializeZobristKeys();
+
+    initSliders();
+    initializeZobristKeys();
+
     for (let sq = 0; sq < 64; sq++) {
+        // White Pawn Attacks (moving from high index to low index)
         PAWN_ATTACKS[WHITE][sq] = 0n;
         if (((1n << BigInt(sq)) & NOT_A_FILE) && sq >= 8) PAWN_ATTACKS[WHITE][sq] |= (1n << BigInt(sq - 9));
         if (((1n << BigInt(sq)) & NOT_H_FILE) && sq >= 8) PAWN_ATTACKS[WHITE][sq] |= (1n << BigInt(sq - 7));
+
+        // Black Pawn Attacks (moving from low index to high index)
         PAWN_ATTACKS[BLACK][sq] = 0n;
         if (((1n << BigInt(sq)) & NOT_A_FILE) && sq < 56) PAWN_ATTACKS[BLACK][sq] |= (1n << BigInt(sq + 7));
         if (((1n << BigInt(sq)) & NOT_H_FILE) && sq < 56) PAWN_ATTACKS[BLACK][sq] |= (1n << BigInt(sq + 9));
+        
+        // Knight Attacks
         let k = 1n << BigInt(sq), a = 0n;
         if ((k >> 17n) & NOT_H_FILE) a |= (k >> 17n); if ((k >> 15n) & NOT_A_FILE) a |= (k >> 15n);
         if ((k >> 10n) & NOT_HG_FILE) a |= (k >> 10n); if ((k >> 6n) & NOT_AB_FILE) a |= (k >> 6n);
         if ((k << 17n) & NOT_A_FILE) a |= (k << 17n); if ((k << 15n) & NOT_H_FILE) a |= (k << 15n);
         if ((k << 10n) & NOT_AB_FILE) a |= (k << 10n); if ((k << 6n) & NOT_HG_FILE) a |= (k << 6n);
         KNIGHT_ATTACKS[sq] = a;
+
+        // King Attacks
         let kg = 1n << BigInt(sq);
         KING_ATTACKS[sq] = ((kg >> 1n) & NOT_H_FILE) | ((kg << 1n) & NOT_A_FILE) | (kg >> 8n) | (kg << 8n) |
                   ((kg >> 7n) & NOT_A_FILE) | ((kg >> 9n) & NOT_H_FILE) | ((kg << 7n) & NOT_H_FILE) | ((kg << 9n) & NOT_A_FILE);
     }
-}
 
+    // --- NEW DIAGNOSTIC LOG ---
+    // This will run only once when the engine starts.
+    // It will show us the pre-calculated bitboard for the pawn that is causing the error.
+    // A White Pawn on f3 (41) should only be able to attack e4 (32) and g4 (34).
+    console.log("B\"H - VERIFYING PAWN ATTACKS TABLE:");
+    console.log(`- Pre-computed attacks for White Pawn on f3 (sq 41) is: ${PAWN_ATTACKS[WHITE][41]}`);
+}
 
 /*B"H*/
 // =================================================================
@@ -461,9 +483,10 @@ function generateMoves(state) {
     return moves;
 }
 
+/* B"H */
 /**
- * Generates tactical moves (captures/promotions).
- * FINAL FIX: Explicitly removes the enemy King from capture targets.
+ * Generates only tactical moves (captures/promotions).
+ * DIAGNOSTIC: Includes a sanity check to immediately crash if an illegal pawn move is generated.
  * @param {object} state The current game state.
  * @returns {number[]} A list of encoded tactical moves.
  */
@@ -472,57 +495,59 @@ function generateTacticalMoves(state) {
     const side = state.turn;
     const enemy = side ^ 1;
     const blockers = state.occupancies[2];
-
-    // CRITICAL FIX: Define capture targets, explicitly excluding the King.
+    
     const enemyKing = state.pieceBitboards[enemy * 6 + K];
     const captureTargets = state.occupancies[enemy] & ~enemyKing;
 
-    // Pawn captures and promotions
     let pawns = state.pieceBitboards[side * 6 + P];
     while (pawns > 0n) {
         const from = getLSBIndex(pawns);
         const rank = Math.floor(from / 8);
         const promRank = (side === WHITE) ? 1 : 6;
         
-        // Quiet Promotions
         const one = (side === WHITE) ? from - 8 : from + 8;
         if (rank === promRank && !((blockers >> BigInt(one)) & 1n)) {
-            moves.push(encodeMove(from, one, P, Q, 0, 0, 0, 0));
+            moves.push(encodeMove(from, one, P, Q, 0, 0, 0, 0)); 
         }
         
-        // Pawn Captures
         let attacks = PAWN_ATTACKS[side][from] & captureTargets;
         while (attacks > 0n) {
             const to = getLSBIndex(attacks);
+            
+            // --- NEW DIAGNOSTIC SANITY CHECK ---
+            // A pawn capture MUST be one square diagonally. If it's not, the attack
+            // table itself must be corrupted. This will crash before the bad move is even used.
+            const rowDiff = Math.abs(Math.floor(from / 8) - Math.floor(to / 8));
+            const colDiff = Math.abs((from % 8) - (to % 8));
+            if (rowDiff !== 1 || colDiff !== 1) {
+                console.error("B\"H - LOGIC BOMB! Generated a physically impossible pawn capture.");
+                console.error(`- Details: from ${from}, to ${to}, for side ${side}`);
+                console.error("- This indicates the PAWN_ATTACKS table is corrupt.");
+                throw new Error("Illegal pawn move created by generateTacticalMoves.");
+            }
+            // --- END DIAGNOSTIC ---
+
             if (rank === promRank) moves.push(encodeMove(from, to, P, Q, 1, 0, 0, 0));
             else moves.push(encodeMove(from, to, P, 0, 1, 0, 0, 0));
+            
             attacks = popBit(attacks);
         }
         
-        // En Passant
         if (state.enpassant !== -1 && (PAWN_ATTACKS[side][from] & (1n << BigInt(state.enpassant)))) {
             moves.push(encodeMove(from, state.enpassant, P, 0, 1, 0, 1, 0));
         }
         pawns = popBit(pawns);
     }
-    
-    // Piece Captures
+
+    // Piece captures (this logic remains the same)
     for (let p = N; p <= K; p++) {
         let bb = state.pieceBitboards[side * 6 + p];
         while (bb > 0n) {
             const from = getLSBIndex(bb);
-            let attacks = 0n;
-            if (p === N) attacks = KNIGHT_ATTACKS[from];
-            else if (p === K) attacks = KING_ATTACKS[from];
-            else if (p === B) attacks = getBishopAttacks(from, blockers);
-            else if (p === R) attacks = getRookAttacks(from, blockers);
-            else if (p === Q) attacks = getQueenAttacks(from, blockers);
-            
-            attacks &= captureTargets; // Only consider squares with enemy pieces (minus King)
-            
+            let attacks = (p === N) ? KNIGHT_ATTACKS[from] : (p === B) ? getBishopAttacks(from, blockers) : (p === R) ? getRookAttacks(from, blockers) : (p === Q) ? getQueenAttacks(from, blockers) : KING_ATTACKS[from];
+            attacks &= captureTargets;
             while (attacks > 0n) {
-                const to = getLSBIndex(attacks);
-                moves.push(encodeMove(from, to, p, 0, 1, 0, 0, 0));
+                moves.push(encodeMove(from, getLSBIndex(attacks), p, 0, 1, 0, 0, 0));
                 attacks = popBit(attacks);
             }
             bb = popBit(bb);
