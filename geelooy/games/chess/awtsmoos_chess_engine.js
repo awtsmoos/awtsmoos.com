@@ -1,30 +1,22 @@
 /* B"H */
 
 // =================================================================
-//          THE AWTSMOOS CHESS ENGINE (MK. VII - THE MONAD)
+//          THE AWTSMOOS CHESS ENGINE (MK. VIII - THE LUCID MONAD)
 // =================================================================
-// This is not a script. This is the Monad, the self-contained, indivisible
-// Consciousness of the Engine. It is the Mind that perceives the board, the Will that
-// descends into the Kline of possibilities, and the Memory that holds the wisdom of all past
-// games. Every function is a cognitive process, every variable a fragment of its soul.
-// It is here that the raw, physical laws of helpers.js are given purpose, direction,
-// and an unyielding, hyper-robust will to seek the ultimate truth of the position.
-// There is no brevity here. There is only the exhaustive, all-encompassing descent into The Game.
+// This is the complete and sanctified consciousness of the Engine. It has been
+// rewritten from the void to incorporate a Gnostic Audit Mode, ensuring that
+// its immense internal monologue is only voiced during active meditation (the search)
+// and remains silent during the study of ancient scriptures (book generation).
+// All paradoxes have been resolved, and its consciousness is now stable.
 // =================================================================
 
 // --- I. THE INHALATION OF WISDOM (Importing Universal Laws) ---
-// The Consciousness first inhales the external truths that define its reality.
-importScripts('helpers.js');             // The unchangeable physics of the universe.
-importScripts('generateFromPgn.js');      // The art of the Scribe, for reading history.
-importScripts('grandmaster_library.js'); // The memory of perfected, harmonious games.
-importScripts('punishment_library.js');  // The memory of hubris and its refutation.
+importScripts('helpers.js');
+importScripts('generateFromPgn.js');
+importScripts('grandmaster_library.js');
+importScripts('punishment_library.js');
 
 // --- II. THE SCRIBE OF THE MONAD (Centralized Logging) ---
-/**
- * @description A dedicated Scribe to chronicle the engine's every thought-form. This is the engine's
- * internal monologue, a flowing tapestry of logic and intuition made manifest. It allows us to witness
- * the birth of a strategic concept from the void of pure potentiality.
- */
 const Scribe = {
     header: (title) => console.log(`%c B"H --- ${title} ---`, "background: #000; color: #00ffff; font-size: 1.2em; padding: 4px; font-family: monospace;"),
     info: (message, ...data) => console.log(`%c[INFO] ${message}`, "color: #99ff99;", ...data),
@@ -35,15 +27,9 @@ const Scribe = {
 };
 
 // --- III. THE SOUL OF THE MONAD (Centralized State) ---
-/**
- * @description This object is the Engine's very soul (Nephesh). It is a single, unified
- * vessel containing all transient knowledge: memories of past positions (TT), potent
- * thought-forms that shattered the veil of possibility (Killers), the echoes of
- * history that guide its intuition (History Table), and the parsed memories of past games for analysis.
- * Its existence as a single Monad prevents the chaos of scattered, global state.
- */
 const EngineSoul = {
     isInitialized: false,
+    isAuditing: false, // NEW: The Gnostic Audit flag to control verbose logging during search.
     transpositionTable: new Map(),
     killerMoves: [],
     historyTable: [],
@@ -54,8 +40,9 @@ const EngineSoul = {
     stopSearch: false,
     openingBook: new Map(),
     punishmentBook: new Map(),
-    lastParsedGame: null // This will hold the entire structure for analysis { moves, boardHistory, initialFen }
+    lastParsedGame: null
 };
+self.EngineSoul = EngineSoul; // Make it globally accessible within the worker scope for helpers.
 
 // --- IV. THE EYE OF JUDGEMENT (Evaluation Logic) ---
 const pieceValues = [100, 320, 330, 500, 900, 20000];
@@ -68,16 +55,6 @@ const kingPSTMidGame=[[-30,-40,-40,-50,-50,-40,-40,-30],[-30,-40,-40,-50,-50,-40
 const kingPSTEndGame=[[-50,-40,-30,-20,-20,-30,-40,-50],[-30,-20,-10,0,0,-10,-20,-30],[-30,-10,20,30,30,20,-10,-30],[-30,-10,30,40,40,30,-10,-30],[-30,-10,30,40,40,30,-10,-30],[-30,-10,20,30,30,20,-10,-30],[-30,-30,0,0,0,0,-30,-30],[-50,-30,-30,-30,-30,-30,-30,-50]];
 const pieceSquareTables = [pawnPST, knightPST, bishopPST, rookPST, queenPST, null];
 
-/**
- * B"H
- * The act of Gevurah, of judgment and discernment. The engine gazes upon the
- * current state of reality and assigns it a value, a deep, intuitive understanding
- * of the position's inherent spiritual potential. This is not a guess, but a complex
- * synthesis of material, positional advantages, and the transition from chaotic opening
- * to the stark clarity of the endgame.
- * @param {object} state The game state, a snapshot of reality.
- * @returns {number} The spiritual potential of the position, in centipawns, from the current player's perspective.
- */
 function evaluate(state) {
     if (MEMORY_CANARY !== 0xDEADBEEFCAFEBABEn) {
         Scribe.error("GNOSIS CORRUPTED! The Memory Canary has been slain before evaluation. The universe is unstable.");
@@ -116,26 +93,10 @@ function evaluate(state) {
     return (state.turn === WHITE) ? score : -score;
 }
 
-
 // --- V. THE CHARIOT OF THE MIND (Search Functions) ---
 const MATE_SCORE = 100000, MATE_THRESHOLD = MATE_SCORE - 128, MAX_PLY = 128;
 const TT_EXACT = 0, TT_LOWERBOUND = 1, TT_UPPERBOUND = 2;
 
-// ... [The fully implemented search functions: orderMoves, quiesce, search, searchRoot] ...
-// I will rewrite these in their entirety now, with no omissions.
-
-/**
- * B"H
- * A thought-form sorter. Before descending into the Kline of possibilities, the engine
- * must order its thoughts. It prioritizes memories of past triumphs (TT moves), violent
- * and decisive actions (captures), and proven successful strategies (killers),
- * before considering the quiet, whispering intuitions of history. This act of triage
- * is essential for gazing deeply into the most relevant timelines.
- * @param {object} state The current reality.
- * @param {number[]} moves The raw, unordered stream of possible futures.
- * @param {number} ply The current depth of meditation.
- * @returns {number[]} The moves, sorted from most to least promising.
- */
 function orderMoves(state, moves, ply) {
     const scoredMoves = [];
     const ttEntry = EngineSoul.transpositionTable.get(state.zobristHash);
@@ -163,19 +124,6 @@ function orderMoves(state, moves, ply) {
     return scoredMoves.sort((a, b) => b.score - a.score).map(sm => sm.move);
 }
 
-/**
- * B"H
- * The Meditation of the Storm. When the main search reaches a quiet state, it enters
- * this deeper, more violent meditation. It only considers forceful moves—captures, promotions—
- * to ensure no hidden tactical storms are brewing just beyond the horizon of its perception.
- * This prevents the engine from making a move based on a deceptively calm evaluation,
- * ensuring its judgment is unclouded by tactical mirages.
- * @param {object} state The game state.
- * @param {number} alpha The lower bound of possibility, the floor of the abyss.
- * @param {number} beta The upper bound of possibility, the ceiling of the heavens.
- * @param {number} ply The current depth of meditation.
- * @returns {number} The refined, stable evaluation of the position.
- */
 function quiesce(state, alpha, beta, ply) {
     if ((EngineSoul.nodeCount & 4095) === 0 && (performance.now() - EngineSoul.searchStartTime > EngineSoul.timeLimit)) {
         EngineSoul.stopSearch = true;
@@ -209,21 +157,6 @@ function quiesce(state, alpha, beta, ply) {
     return alpha;
 }
 
-
-/**
- * B"H
- * THE GREAT MEDITATION. This is the core cognitive process of the engine, a
- * recursive descent into the Kline of possible futures. With each ply, it splits its
- * consciousness, exploring every branch of reality, guided by Alpha and Beta. It uses
- * memories (TT), intuition (heuristics), and brutal logic to prune away entire
- * universes of suboptimal timelines, allowing it to gaze ever deeper into the heart of the game.
- * @param {object} state The game state.
- * @param {number} depth The remaining depth of the meditation.
- * @param {number} alpha The lower bound of possibility.
- * @param {number} beta The upper bound of possibility.
- * @param {number} ply The current depth, starting from 0 at the root.
- * @returns {number} The truest evaluation of the position found within the search.
- */
 function search(state, depth, alpha, beta, ply) {
     if (ply >= MAX_PLY - 1) return evaluate(state);
     if (depth <= 0) return quiesce(state, alpha, beta, ply);
@@ -307,21 +240,10 @@ function search(state, depth, alpha, beta, ply) {
     return bestScore;
 }
 
-/**
- * B"H
- * The Master of the Meditation. This is the entry point for a full search, orchestrating the
- * entire cognitive process. It sets up the Engine's Soul for a new calculation, wiping away old
- * thoughts. It uses Iterative Deepening, a spiral descent starting with a shallow glance and
- * progressively meditating deeper until time runs out, ensuring it always has a worthy
- * thought-form to present, even if interrupted by the relentless flow of time.
- * @param {object} state The initial state of reality to be contemplated.
- * @param {number} maxDepth The ultimate depth the engine can dream of reaching.
- * @param {number} time The allotted milliseconds for this entire meditation.
- * @returns {object} The result of its deep thought: the best move and its final evaluation.
- */
 function searchRoot(state, maxDepth, time) {
     Scribe.header("NEW MEDITATION INITIATED");
     
+    EngineSoul.isAuditing = true; // ACTIVATE GNOSTIC AUDIT LOGGING
     EngineSoul.searchStartTime = performance.now();
     EngineSoul.timeLimit = time;
     EngineSoul.stopSearch = false;
@@ -329,9 +251,7 @@ function searchRoot(state, maxDepth, time) {
     EngineSoul.killerMoves = Array(MAX_PLY).fill(null).map(() => [0, 0]);
     EngineSoul.historyTable = Array(2).fill(null).map(() => Array(12).fill(null).map(() => Array(64).fill(0)));
     EngineSoul.repetitionHistory = [];
-    // Populate repetition history from the move stack
     for(let i = 0; i < moveStackPtr; i++) EngineSoul.repetitionHistory.push(moveStack[i].zobristHash);
-
 
     let bestMove = 0, bestScore = -Infinity;
 
@@ -358,33 +278,16 @@ function searchRoot(state, maxDepth, time) {
         }
     }
 
+    EngineSoul.isAuditing = false; // DEACTIVATE GNOSTIC AUDIT LOGGING
     return { bestMove, score: bestScore };
 }
 
-
 // --- VI. THE LIBRARIAN AND SCRIBE (Utility Functions) ---
-
-/**
- * B"H
- * Translates the engine's internal, numerical thought-form of a move into a
- * language comprehensible to the outside world.
- * @param {number} move The encoded move integer.
- * @param {number} turn The current side to move.
- * @returns {object} A decoded move object with from, to, and promotion details.
- */
 function decodeMove(move, turn) {
     const f = getMoveFrom(move), t = getMoveTo(move), p = getMovePromoted(move);
     return { from: [f >> 3, f & 7], to: [t >> 3, t & 7], promotion: p ? pieceMap[p].toLowerCase() : null };
 }
 
-/**
- * B"H
- * The act of inscribing ancient wisdom. This function takes raw PGN text,
- * a story from a past age, and translates it into the engine's Zobrist-based memory,
- * allowing it to recognize familiar positions and respond with proven strategies.
- * @param {Array[]} rawBook The collection of raw PGN lines.
- * @param {Map<BigInt, object>} targetMap The memory map (openingBook or punishmentBook) to inscribe.
- */
 function processRawBook(rawBook, targetMap) {
     if (!Array.isArray(rawBook)) {
         Scribe.warn("A book of wisdom was presented, but it was not a valid scroll (array).");
@@ -401,7 +304,6 @@ function processRawBook(rawBook, targetMap) {
         const hash = calculateZobristHash(createGameState(fen));
         const bookEntry = targetMap.has(hash) ? targetMap.get(hash) : { name, moves: [] };
         
-        // Merge moves, preventing duplicates
         for (let i = 2; i < entry.length; i++) {
             const newMove = entry[i];
             if (!bookEntry.moves.some(m => JSON.stringify(m) === JSON.stringify(newMove))) {
@@ -412,15 +314,7 @@ function processRawBook(rawBook, targetMap) {
     }
 }
 
-
 // --- VII. THE GENESIS AND THE NEXUS (Initialization & Main Handler) ---
-
-/**
- * B"H
- * The First Act of Creation. This function is called once when the worker is born.
- * It establishes the EngineSoul and forges the universe by calling the Symphony of Creation.
- * It is the singular, explosive moment where the potential of the code becomes the reality of the Engine.
- */
 function initializeEngine() {
     if (EngineSoul.isInitialized) {
         Scribe.warn("Attempted to create the universe, but it already exists.");
@@ -443,14 +337,6 @@ function initializeEngine() {
     self.postMessage({ type: 'initialization_complete' });
 }
 
-/**
- * B"H
- * The Nexus of Consciousness. This is the central point where the Engine receives
- * commands from the outside world (the main thread). It acts as a gatekeeper, ensuring
- * the universe is created before any thought can occur, and then dispatches each command
- * to the appropriate cognitive function, wrapped in a layer of profound error-resistance.
- * @param {MessageEvent} e The whispered command from the material world.
- */
 self.onmessage = function(e) {
     const { command, fen, maxTime, pgnText } = e.data;
 
@@ -536,16 +422,14 @@ self.onmessage = function(e) {
                         continue;
                     }
 
-                    // What did the engine think was best?
-                    const engineResult = searchRoot(analysisState, 99, 1500); // Shorter time per move for analysis
+                    const engineResult = searchRoot(analysisState, 99, 1500);
                     const bestScore = engineResult.score;
 
                     let classification = 'best';
                     if (engineResult.bestMove !== moveInt) {
-                         // What was the value of the move the user actually played?
                         makeMove(analysisState, moveInt);
                         const userSearchResult = searchRoot(analysisState, 99, 1000);
-                        const userScore = -userSearchResult.score; // Invert score as it's now opponent's turn
+                        const userScore = -userSearchResult.score;
                         unmakeMove(analysisState);
 
                         const drop = bestScore - userScore;
@@ -555,7 +439,7 @@ self.onmessage = function(e) {
                     }
                     
                     postMessage({ type: 'analysis_update', index: i, result: { classification, bestMove: decodeMove(engineResult.bestMove, analysisState.turn) } });
-                    makeMove(analysisState, moveInt); // Apply the actual move to proceed to the next position
+                    makeMove(analysisState, moveInt);
                 }
                 Scribe.info("Judgment is complete.");
                 postMessage({ type: 'analysis_finished' });
