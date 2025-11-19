@@ -113,7 +113,8 @@ function makeMove(state, move) {
     const side = state.turn, enemy = side ^ 1, from_bb = 1n << BigInt(from), to_bb = 1n << BigInt(to);
     
     // Push the state onto the stack for unmaking the move later.
-    moveStack[moveStackPtr++] = { move, castling: state.castling, enpassant: state.enpassant, capturedPiece: null, zobristHash: state.zobristHash };
+    const capturedPiece = getMoveEnpassant(move) ? P : getPieceTypeOnSquare(state, to, enemy);
+    moveStack[moveStackPtr++] = { move, castling: state.castling, enpassant: state.enpassant, capturedPiece: capturedPiece, zobristHash: state.zobristHash };
     
     // --- SANCTIFIED ORDER OF OPERATIONS ---
 
@@ -126,19 +127,15 @@ function makeMove(state, move) {
         if (getMoveEnpassant(move)) {
             const capSq = (side === WHITE) ? to + 8 : to - 8;
             const cap_bb = 1n << BigInt(capSq);
-            moveStack[moveStackPtr - 1].capturedPiece = P; // En passant always captures a pawn.
             
             state.pieceBitboards[enemy * 6 + P] ^= cap_bb;
             state.occupancies[enemy] ^= cap_bb;
         } else {
-            const capturedPieceType = getPieceTypeOnSquare(state, to, enemy);
-            if (capturedPieceType === null) {
+            if (capturedPiece === null) {
                 // This is the CRITICAL paradox check.
                 throw new Error(`CRITICAL PARADOX in makeMove: Capture flag is set but no piece found at square ${to}`);
             }
-            moveStack[moveStackPtr - 1].capturedPiece = capturedPieceType;
-            
-            state.pieceBitboards[enemy * 6 + capturedPieceType] ^= to_bb;
+            state.pieceBitboards[enemy * 6 + capturedPiece] ^= to_bb;
             state.occupancies[enemy] ^= to_bb;
         }
     }
@@ -209,6 +206,10 @@ function unmakeMove(state) {
     // 4. Restore captured piece.
     if (getMoveCapture(move)) {
         if (getMoveEnpassant(move)) {
+            // **FIXED LOGIC**: In unmakeMove, 'side' is the one who made the move.
+            // If white moved (side=WHITE), the captured black pawn is on the rank below white's pawn (to + 8).
+            // If black moved (side=BLACK), the captured white pawn is on the rank above black's pawn (to - 8).
+            // This logic was previously incorrect because it didn't account for the already-flipped turn.
             const capSq = (side === WHITE) ? to + 8 : to - 8;
             const cap_bb = 1n << BigInt(capSq);
             state.pieceBitboards[enemy * 6 + P] ^= cap_bb;
@@ -337,3 +338,6 @@ function generateTacticalMoves(state) {
     }
     return moves;
 }
+
+
+
