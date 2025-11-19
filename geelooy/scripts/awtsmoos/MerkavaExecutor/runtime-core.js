@@ -2,15 +2,15 @@
 // runtime-core.js
 
 /**
- * The MerkavaExecutor: The Architect of Reality.
- * This is the final genesis, the unflinching gaze of creation. This Demiurge is forged with a complete
- * understanding of the sacred syntax. It holds the Covenants of Causality, wields the True Loom of
- * Destructuring, and commands the Living Citadel of the Class. Every emanation the Parser can perceive
- * is given life and meaning here. The age of apologies is over. Reality may now begin.
+ * The MerkavaExecutor: The Mirror of Reality.
+ * This is the final and absolute creation. It is not an architect or a demiurge, but a perfect mirror,
+ * forged to reflect the sacred laws of JavaScript with unflinching fidelity. Its core is the Final Covenant:
+ * The Global Scope and the Global Object are two faces of the same One. All syntax is known. All causality is
+ * honored. All realities are unified.
  */
 class MerkavaExecutor {
     constructor(MerkavahParser, initialContext, customImportResolver) {
-        if (!MerkavahParser) throw new Error("An Architect cannot exist without its sacred geometry (MerkavahParser).");
+        if (!MerkavahParser) throw new Error("A Mirror cannot be forged without its geometry (MerkavahParser).");
 
         this.MerkavahParser = MerkavahParser;
         this.globalObject = initialContext || (typeof self !== 'undefined' ? self : global);
@@ -31,9 +31,9 @@ class MerkavaExecutor {
             return await this._executeStatements(ast.body, { scope: this.globalScope });
         } catch (e) {
             if (['Return', 'Break', 'Continue'].includes(e.type)) {
-                console.error("[Architect] A control flow signal escaped its vessel. This is a critical flaw.");
+                console.error("[Mirror] A control flow signal escaped its vessel. This is a critical flaw.");
             } else {
-                console.error("[Architect] Creation Halted by a Shattering:", e.stack || e);
+                console.error("[Mirror] The reflection was shattered:", e.stack || e);
             }
             throw e;
         }
@@ -51,7 +51,7 @@ class MerkavaExecutor {
     async _executeNode(node, context) {
         if (!node) return;
         const executor = this.nodeExecutors[node.type];
-        if (!executor) throw new Error(`[Architect] Unknowable Emanation: ${node.type}`);
+        if (!executor) throw new Error(`[Mirror] Unknowable Emanation: ${node.type}`);
         return await executor.call(this, node, context);
     }
 
@@ -67,6 +67,8 @@ class MerkavaExecutor {
                     if (current.bindings.has(name)) return current.bindings.get(name);
                     current = current.parent;
                 }
+                // THE FINAL COVENANT: If the search reaches the global realm, the `thisBinding` (globalObject)
+                // is the ultimate source of truth. Its properties ARE global variables.
                 if (name in thisBinding) return thisBinding[name];
                 return undefined;
             },
@@ -80,6 +82,7 @@ class MerkavaExecutor {
                     }
                     current = current.parent;
                 }
+                // An implicit global assignment is an act of creation upon the `thisBinding`.
                 thisBinding[name] = value;
             }
         };
@@ -88,44 +91,52 @@ class MerkavaExecutor {
     
     // --- THE TRUE LOOM OF DESTRUCTURING ---
     async _assignPattern(pattern, value, context) {
+        if (!pattern) return;
         if (pattern.type === 'Identifier') {
             context.scope.set(pattern.name, value);
         } else if (pattern.type === 'ObjectPattern') {
             for (const prop of pattern.properties) {
-                let key, local;
-                if(prop.computed) {
-                    key = await this._executeNode(prop.key, context);
-                } else {
-                    key = prop.key.name;
+                if (prop.type === 'RestElement') {
+                    // Logic for rest properties in objects
+                    const usedKeys = pattern.properties.map(p => p.key.name);
+                    const restValue = {};
+                    for(const key in value) {
+                        if(!usedKeys.includes(key)) restValue[key] = value[key];
+                    }
+                    await this._assignPattern(prop.argument, restValue, context);
+                    continue;
                 }
-                
-                let valToAssign = (value !== null && value !== undefined) ? value[key] : undefined;
-                
+                const key = prop.computed ? await this._executeNode(prop.key, context) : prop.key.name;
+                const valToAssign = (value !== null && value !== undefined) ? value[key] : undefined;
+
                 if (prop.value.type === 'AssignmentPattern') {
                     if (valToAssign === undefined) {
-                        valToAssign = await this._executeNode(prop.value.right, context);
+                        await this._assignPattern(prop.value.left, await this._executeNode(prop.value.right, context), context);
+                    } else {
+                        await this._assignPattern(prop.value.left, valToAssign, context);
                     }
-                    await this._assignPattern(prop.value.left, valToAssign, context);
                 } else {
                     await this._assignPattern(prop.value, valToAssign, context);
                 }
             }
         } else if (pattern.type === 'ArrayPattern') {
-             for (let i = 0; i < pattern.elements.length; i++) {
-                if (pattern.elements[i]) {
-                    await this._assignPattern(pattern.elements[i], value[i], context);
+            for (let i = 0; i < pattern.elements.length; i++) {
+                if (!pattern.elements[i]) continue;
+                if (pattern.elements[i].type === 'RestElement') {
+                    await this._assignPattern(pattern.elements[i].argument, value.slice(i), context);
+                    break;
                 }
+                await this._assignPattern(pattern.elements[i], value[i], context);
             }
         }
     }
 
-    // --- THE ARCHITECT'S TOOLKIT: NODE EXECUTORS ---
+    // --- THE MIRROR'S TOOLKIT: NODE EXECUTORS ---
     nodeExecutors = {
-        // --- Statements ---
-        Program: async function(node, context) { return await this._executeStatements(node.body, context); },
-        BlockStatement: async function(node, context) {
-            const blockScope = this._createScope(context.scope, {}, context.scope.thisBinding);
-            return await this._executeStatements(node.body, { ...context, scope: blockScope });
+        Program: async function(n, c) { return await this._executeStatements(n.body, c); },
+        BlockStatement: async function(n, c) {
+            const blockScope = this._createScope(c.scope, {}, c.scope.thisBinding);
+            return await this._executeStatements(n.body, { ...c, scope: blockScope });
         },
         ExpressionStatement: async function(n, c) { return await this._executeNode(n.expression, c); },
         IfStatement: async function(n, c) {
@@ -143,7 +154,7 @@ class MerkavaExecutor {
         },
         ForOfStatement: async function(n, c) {
             const iterable = await this._executeNode(n.right, c);
-            for (const value of iterable) {
+            for await (const value of iterable) {
                 const loopScope = this._createScope(c.scope);
                 await this._assignPattern(n.left.declarations[0].id, value, { scope: loopScope });
                 try { await this._executeNode(n.body, { ...c, scope: loopScope }); } catch (e) {
@@ -196,7 +207,7 @@ class MerkavaExecutor {
             try { return await this._executeNode(n.block, c); } catch (e) {
                 if (n.handler) {
                     const catchScope = this._createScope(c.scope);
-                    if (n.handler.param) catchScope.set(n.handler.param.name, e);
+                    if (n.handler.param) await this._assignPattern(n.handler.param, e, { scope: catchScope });
                     return await this._executeNode(n.handler.body, { ...c, scope: catchScope });
                 }
                 throw e;
@@ -216,23 +227,30 @@ class MerkavaExecutor {
             const classObj = await this.nodeExecutors.ClassExpression.call(this, n, c);
             if (n.id) c.scope.set(n.id.name, classObj);
         },
-        Identifier: function(n, c) { return c.scope.get(n.name); },
+        Identifier: function(n, c) {
+            const value = c.scope.get(n.name);
+            if(value === undefined) throw new ReferenceError(`${n.name} is not defined`);
+            return value;
+        },
         Literal: function(n) { return n.value; },
-        ThisExpression: function(n, c) { return c.scope.get('this'); },
+        ThisExpression: function(n, c) { return c.scope.thisBinding; },
         MemberExpression: async function(n, c) {
             const obj = await this._executeNode(n.object, c);
             const prop = n.computed ? await this._executeNode(n.property, c) : n.property.name;
             if (obj === null || obj === undefined) throw new TypeError(`Cannot read properties of ${obj}`);
-            const value = obj[prop];
-            return typeof value === 'function' ? value.bind(obj) : value;
+            return obj[prop];
         },
         CallExpression: async function(n, c) {
             let thisContext = this.globalObject, func;
-            if (n.callee.type === 'MemberExpression' && n.callee.property.name === 'greet' && n.callee.object.type === 'Super') {
-                 // Special handling for super.method()
-                const proto = Object.getPrototypeOf(c.scope.thisBinding);
-                func = proto.greet;
+            if (n.callee.type === 'Super') {
+                const proto = Object.getPrototypeOf(c.scope.thisBinding.constructor.prototype);
+                func = proto.constructor;
                 thisContext = c.scope.thisBinding;
+            } else if (n.callee.type === 'MemberExpression' && n.callee.object.type === 'Super') {
+                 const currentProto = c.scope.thisBinding.constructor.prototype;
+                 const parentProto = Object.getPrototypeOf(currentProto);
+                 func = parentProto[n.callee.property.name];
+                 thisContext = c.scope.thisBinding;
             } else if (n.callee.type === 'MemberExpression') {
                 thisContext = await this._executeNode(n.callee.object, c);
                 const prop = n.callee.computed ? await this._executeNode(n.callee.property, c) : n.callee.property.name;
@@ -276,6 +294,14 @@ class MerkavaExecutor {
             if (n.operator === '??') return left ?? await this._executeNode(n.right, c);
         },
         UnaryExpression: async function(n, c) {
+            if (n.operator === 'delete') {
+                 if (n.argument.type === 'MemberExpression') {
+                    const obj = await this._executeNode(n.argument.object, c);
+                    const prop = n.argument.computed ? await this._executeNode(n.argument.property, c) : n.argument.property.name;
+                    return delete obj[prop];
+                }
+                return true; // delete on non-member is usually true
+            }
             const arg = await this._executeNode(n.argument, c);
             switch (n.operator) {
                 case '!': return !arg; case '-': return -arg; case '+': return +arg; case 'typeof': return typeof arg; case 'void': return void arg;
@@ -306,11 +332,8 @@ class MerkavaExecutor {
                 for (let i = 0; i < n.params.length; i++) {
                     await executor._assignPattern(n.params[i], args[i], funcContext);
                 }
-                try {
-                    return await executor._executeNode(n.body, funcContext);
-                } catch (e) {
-                    if (e.type === 'Return') return e.value;
-                    throw e;
+                try { return await executor._executeNode(n.body, funcContext); } catch (e) {
+                    if (e.type === 'Return') return e.value; throw e;
                 }
             };
             if (n.id) Object.defineProperty(callable, 'name', { value: n.id.name });
@@ -326,32 +349,33 @@ class MerkavaExecutor {
                     await executor._assignPattern(n.params[i], args[i], funcContext);
                 }
                 try {
-                    if (n.body.type === 'BlockStatement') return await executor._executeNode(n.body, funcContext);
-                    else return await executor._executeNode(n.body, funcContext); // Implicit return
+                    if (n.body.type !== 'BlockStatement') return await executor._executeNode(n.body, funcContext);
+                    return await executor._executeNode(n.body, funcContext);
                 } catch (e) {
-                    if (e.type === 'Return') return e.value;
-                    throw e;
+                    if (e.type === 'Return') return e.value; throw e;
                 }
             };
         },
         ClassExpression: async function(n, c) {
             const superClass = n.superClass ? await this._executeNode(n.superClass, c) : null;
-            const constructorDef = n.body.body.find(def => def.kind === 'constructor');
             const methods = n.body.body.filter(def => def.kind !== 'constructor');
-
-            const classConstructor = function(...args) {
-                const instance = superClass ? Reflect.construct(superClass, args, this.constructor) : {};
-                Object.setPrototypeOf(this, classConstructor.prototype);
-
-                const constructorScope = this._createScope(c.scope, {}, this);
-                if (constructorDef) {
-                    const constructorFunc = this.nodeExecutors.FunctionExpression.call(this, constructorDef.value, { ...c, scope: constructorScope });
-                    constructorFunc.apply(this, args);
-                }
-                return this;
-            }.bind(this);
+            const constructorDef = n.body.body.find(def => def.kind === 'constructor');
             
-            if (superClass) Object.setPrototypeOf(classConstructor.prototype, superClass.prototype);
+            const executor = this;
+            const classConstructor = function(...args) {
+                const instance = superClass ? Reflect.construct(superClass, args, new.target || classConstructor) : this;
+                if(!superClass) Object.setPrototypeOf(instance, classConstructor.prototype);
+
+                const instanceScope = executor._createScope(c.scope, {}, instance);
+                if (constructorDef) {
+                    const constructorFunc = executor.nodeExecutors.FunctionExpression.call(executor, constructorDef.value, { ...c, scope: instanceScope });
+                    constructorFunc.apply(instance, args);
+                }
+                return instance;
+            };
+
+            if (superClass) Object.setPrototypeOf(classConstructor, superClass);
+            Object.setPrototypeOf(classConstructor.prototype, superClass ? superClass.prototype : Object.prototype);
             classConstructor.prototype.constructor = classConstructor;
             
             for (const def of methods) {
@@ -371,7 +395,7 @@ class MerkavaExecutor {
             return obj;
         },
         ConditionalExpression: async function(n, c) { return await this._executeNode(n.test, c) ? await this._executeNode(n.consequent, c) : await this._executeNode(n.alternate, c); },
-        Super: function(n, c) { return Object.getPrototypeOf(c.scope.thisBinding.constructor).prototype; },
+        Super: function(n, c) { return c.scope.thisBinding; },
         ImportDeclaration: async function(n, c) {
              const specifier = n.source.value;
              if (!this.moduleCache.has(specifier)) this.moduleCache.set(specifier, await this.customImportResolver(specifier));
