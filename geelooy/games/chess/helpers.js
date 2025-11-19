@@ -423,6 +423,43 @@ function generateMoves(state) {
     return moves;
 }
 
+/*B"H*/
+/**
+ * A highly optimized function to determine if a square is attacked by a given side.
+ * This is a critical performance function, used in move legality checks and castling.
+ * It leverages pre-computed attack tables and magic bitboards for maximum speed.
+ * @param {object} state The current game state object.
+ * @param {number} sq The square index (0-63) to check.
+ * @param {number} attackerColor The color of the attacking side (WHITE or BLACK).
+ * @returns {boolean} True if the square is under attack, false otherwise.
+ */
+function isSquareAttacked_lean(state, sq, attackerColor) {
+    const enemyColor = attackerColor ^ 1;
+    const blockers = state.occupancies[2];
+    const b_offset = attackerColor * 6;
+
+    // Check for attacks from enemy pawns. This uses a reverse-attack lookup:
+    // to see if `sq` is attacked by a WHITE pawn, we check the squares from which a
+    // BLACK pawn would attack `sq`, and see if any of those squares contain a WHITE pawn.
+    if ((PAWN_ATTACKS[enemyColor][sq] & state.pieceBitboards[b_offset + P]) !== 0n) return true;
+
+    // Check for attacks from enemy knights.
+    if ((KNIGHT_ATTACKS[sq] & state.pieceBitboards[b_offset + N]) !== 0n) return true;
+
+    // Check for attacks from the enemy king.
+    if ((KING_ATTACKS[sq] & state.pieceBitboards[b_offset + K]) !== 0n) return true;
+
+    // Check for attacks from enemy bishops or the enemy queen on diagonals.
+    if ((getBishopAttacks(sq, blockers) & (state.pieceBitboards[b_offset + B] | state.pieceBitboards[b_offset + Q])) !== 0n) return true;
+
+    // Check for attacks from enemy rooks or the enemy queen on files/ranks.
+    if ((getRookAttacks(sq, blockers) & (state.pieceBitboards[b_offset + R] | state.pieceBitboards[b_offset + Q])) !== 0n) return true;
+
+    // If no attacks are found from any piece type, the square is safe.
+    return false;
+}
+
+
 /**
  * Generates only tactical moves.
  * DIAGNOSTIC: Checks for memory corruption via canary before executing.

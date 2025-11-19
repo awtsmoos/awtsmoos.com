@@ -7,6 +7,8 @@
 importScripts('helpers.js');
 importScripts('grandmaster_library.js');
 importScripts('punishment_library.js');
+importScripts('generateFromPgn.js')
+
 
 // --- SEARCH CONSTANTS ---
 const MATE_SCORE = 100000, MATE_IN_MAX_PLY = 64, CONTEMPT_FACTOR = -72;
