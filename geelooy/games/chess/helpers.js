@@ -71,53 +71,10 @@ function generateSliderAttacks(sq, isBishop, blockers) {
     return attacks;
 }
 
-/* B"H */
-/**
- * Initializes the attack tables for sliding pieces (rooks, bishops, queens).
- * DIAGNOSTIC VERSION: This version adds strict boundary checks to the magic
- * bitboard index calculation. It will throw a precise error if an out-of-bounds
- * write is attempted, which is the likely cause of the memory corruption that
- * is damaging the PAWN_ATTACKS table.
- */
-function initSliders() {
-    for (let s = 0; s < 64; s++) {
-        // --- Bishop Mask Generation (Unchanged) ---
-        const r_b = s >> 3, f_b = s & 7;
-        for (let i = r_b + 1, j = f_b + 1; i < 7 && j < 7; i++, j++) bishopMasks[s] |= 1n << BigInt(i * 8 + j);
-        for (let i = r_b + 1, j = f_b - 1; i < 7 && j > 0; i++, j--) bishopMasks[s] |= 1n << BigInt(i * 8 + j);
-        for (let i = r_b - 1, j = f_b + 1; i > 0 && j < 7; i--, j++) bishopMasks[s] |= 1n << BigInt(i * 8 + j);
-        for (let i = r_b - 1, j = f_b - 1; i > 0 && j > 0; i--, j--) bishopMasks[s] |= 1n << BigInt(i * 8 + j);
-        
-        // --- Rook Mask Generation (Unchanged) ---
-        for (let i = r_b + 1; i < 7; i++) rookMasks[s] |= 1n << BigInt(i * 8 + f_b);
-        for (let i = r_b - 1; i > 0; i--) rookMasks[s] |= 1n << BigInt(i * 8 + f_b);
-        for (let i = f_b + 1; i < 7; i++) rookMasks[s] |= 1n << BigInt(r_b * 8 + i);
-        for (let i = f_b - 1; i > 0; i--) rookMasks[s] |= 1n << BigInt(r_b * 8 + i);
-    }
-    for (let s = 0; s < 64; s++) {
-        const bmask = bishopMasks[s], rmask = rookMasks[s];
-        const bcnt = popcount(bmask), rcnt = popcount(rmask);
-        const bTableSize = 1 << bcnt, rTableSize = 1 << rcnt;
 
-        for (let i = 0; i < bTableSize; i++) {
-            let temp = bmask, blockers = 0n;
-            for (let j = 0; j < bcnt; j++) {
-                const lsb = getLSBIndex(temp); temp = popBit(temp);
-                if ((i >> j) & 1) blockers |= (1n << BigInt(lsb));
-            }
-            const magicIndex = Number((blockers * bishopMagics[s]) >> BigInt(64 - bcnt));
-            
-            /**
-             * @description BOUNDS CHECK: Verify the calculated index is valid before writing.
-             */
-            if (magicIndex >= bTableSize) {
-                throw new Error(`B"H - FATAL: Bishop magic index out of bounds on sq ${s}! Index: ${magicIndex}, Table Size: ${bTableSize}`);
-            }
-            bishopAttacks[s][magicIndex] = generateSliderAttacks(s, true, blockers);
-        }
-        for (let i = 0; i < rTableSize; i++) {
-            let temp = rmask, blockers = 0n;
-            for (let j = 0; j < rcnt; j++) {
+
+
+
 /*B"H*/
 // =================================================================
 //               DEFINITIVE MAGIC BITBOARD INITIALIZATION
