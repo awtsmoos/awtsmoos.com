@@ -59,26 +59,7 @@ function popcount(bb) {
  * and is guaranteed to pass the rigorous integrity checks now built into the initSliders function.
  * This is the final, correct set of Emanations.
  */
-const bishopMagics = [
-    0x400408448408400n, 0x200408448408400n, 0x100408448408400n, 0x80408448408400n, 0x40408448408400n, 0x20408448408400n, 0x10408448408400n, 0x8408448408400n,
-    0x400408448408400n, 0x200408448408400n, 0x100408448408400n, 0x80408448408400n, 0x40408448408400n, 0x20408448408400n, 0x10408448408400n, 0x8408448408400n,
-    0x400408448408400n, 0x200408448408400n, 0x100408448408400n, 0x80408448408400n, 0x40408448408400n, 0x20408448408400n, 0x10408448408400n, 0x8408448408400n,
-    0x400408448408400n, 0x200408448408400n, 0x100408448408400n, 0x80408448408400n, 0x40408448408400n, 0x20408448408400n, 0x10408448408400n, 0x8408448408400n,
-    0x400408448408400n, 0x200408448408400n, 0x100408448408400n, 0x80408448408400n, 0x40408448408400n, 0x20408448408400n, 0x10408448408400n, 0x8408448408400n,
-    0x400408448408400n, 0x200408448408400n, 0x100408448408400n, 0x80408448408400n, 0x40408448408400n, 0x20408448408400n, 0x10408448408400n, 0x8408448408400n,
-    0x400408448408400n, 0x200408448408400n, 0x100408448408400n, 0x80408448408400n, 0x40408448408400n, 0x20408448408400n, 0x10408448408400n, 0x8408448408400n,
-    0x400408448408400n, 0x200408448408400n, 0x100408448408400n, 0x80408448408400n, 0x40408448408400n, 0x20408448408400n, 0x10408448408400n, 0x8408448408400n
-];
-const rookMagics = [
-    0x8a80104000800020n, 0x1480040000800080n, 0x4840008000800800n, 0x8080004000800800n, 0x4080002000400800n, 0x8040001000400800n, 0x80004000800800n, 0x2000200100800800n, 
-    0x1004000802000400n, 0x2080080040002000n, 0x8010000800800n, 0x4000401004000n, 0x2200800100020080n, 0x4104000800801000n, 0x400040400080080n, 0x8080010000400n, 
-    0x4000100080800n, 0x8000810010000n, 0x100008808000n, 0x20004010000n, 0x40004008000800n, 0x80008004000800n, 0x40008002000400n, 0x20000200080400n, 
-    0x80004008002000n, 0x80008001000400n, 0x80002000400800n, 0x100010002000400n, 0x20000500100400n, 0x80080008001000n, 0x80040004000800n, 0x400804001000200n, 
-    0x80020004000200n, 0x2004002000100n, 0x200800800400n, 0x80008002000400n, 0x104000200040080n, 0x800000800100100n, 0x48080004000200n, 0x20040001000800n, 
-    0x40080001000400n, 0x80080040002000n, 0x200010040080n, 0x10004000200800n, 0x80001000400200n, 0x4000200010080n, 0x200400801000n, 0x100020000400800n, 
-    0x4008008000400n, 0x20004000200800n, 0x10008008004000n, 0x8000800800100n, 0x8000400100020n, 0x40008000800200n, 0x1000400800800n, 0x20001000080400n, 
-    0x80008000400080n, 0x4000400020001001n, 0x200200010040080n, 0x10008000400020n, 0x800040008000200n, 0x400800200010080n, 0x2004000800080100n, 0x1002000400080080n
-];
+
 
 
 const bishopMasks = Array(64).fill(0n);
@@ -91,6 +72,92 @@ const rookMasks = Array(64).fill(0n);
  */
 let bishopAttacks = Array(64).fill(null);
 let rookAttacks = Array(64).fill(null);
+
+/* B"H */
+/**
+ * A one-time, developer-run or worker-run utility to FIND and VALIDATE a perfect set of magic numbers
+ * for both bishops and rooks, tailored specifically to this engine's implementation.
+ *
+ * @param {function(number): void} [onProgress] - An optional callback to report progress (0-100).
+ */
+function findAndValidateAllMagicNumbers(onProgress) {
+    console.log("B\"H - BEGINNING THE SACRED RITUAL OF MAGIC NUMBER GENERATION...");
+    if (onProgress) onProgress(0);
+
+    // Ensure masks are generated if they haven't been.
+    if (bishopMasks[0] === 0n) {
+        for (let s = 0; s < 64; s++) {
+            const r = s >> 3, f = s & 7;
+            for (let i = r + 1, j = f + 1; i < 7 && j < 7; i++, j++) bishopMasks[s] |= 1n << BigInt(i * 8 + j);
+            for (let i = r + 1, j = f - 1; i < 7 && j > 0; i++, j--) bishopMasks[s] |= 1n << BigInt(i * 8 + j);
+            for (let i = r - 1, j = f + 1; i > 0 && j < 7; i--, j++) bishopMasks[s] |= 1n << BigInt(i * 8 + j);
+            for (let i = r - 1, j = f - 1; i > 0 && j > 0; i--, j--) bishopMasks[s] |= 1n << BigInt(i * 8 + j);
+            for (let i = r + 1; i < 7; i++) rookMasks[s] |= 1n << BigInt(i * 8 + f);
+            for (let i = r - 1; i > 0; i--) rookMasks[s] |= 1n << BigInt(i * 8 + f);
+            for (let i = f + 1; i < 7; i++) rookMasks[s] |= 1n << BigInt(r * 8 + i);
+            for (let i = f - 1; i > 0; i--) rookMasks[s] |= 1n << BigInt(r * 8 + i);
+        }
+    }
+
+    const foundBishopMagics = Array(64).fill(0n);
+    const foundRookMagics = Array(64).fill(0n);
+    const totalSquares = 128;
+    let squaresCompleted = 0;
+
+    const findMagicForSquare = (sq, isBishop) => {
+        const mask = isBishop ? bishopMasks[sq] : rookMasks[sq];
+        const relevantBits = popcount(mask);
+        const tableSize = 1 << relevantBits;
+        let attempts = 0;
+
+        while (true) {
+            attempts++;
+            if (attempts > 50000000) throw new Error(`Could not find magic for ${isBishop ? 'Bishop' : 'Rook'} sq ${sq}`);
+            
+            const magicCandidate = generateMagicCandidate();
+            if (popcount((mask * magicCandidate) & 0xFF00000000000000n) < 6) continue;
+
+            const usedIndices = new Array(tableSize).fill(false);
+            let collision = false;
+
+            for (let i = 0; i < tableSize; i++) {
+                let temp = mask, blockers = 0n;
+                for (let j = 0; j < relevantBits; j++) {
+                    const lsb = getLSBIndex(temp); temp = popBit(temp);
+                    if ((i >> j) & 1) blockers |= (1n << BigInt(lsb));
+                }
+                const magicIndex = Number((blockers * magicCandidate) >> BigInt(64 - relevantBits));
+                if (usedIndices[magicIndex]) {
+                    collision = true;
+                    break;
+                }
+                usedIndices[magicIndex] = true;
+            }
+
+            if (!collision) {
+                if (isBishop) foundBishopMagics[sq] = magicCandidate;
+                else foundRookMagics[sq] = magicCandidate;
+                break;
+            }
+        }
+    };
+
+    for (let sq = 0; sq < 64; sq++) {
+        findMagicForSquare(sq, true);
+        squaresCompleted++;
+        if (onProgress) onProgress(Math.floor((squaresCompleted / totalSquares) * 100));
+    }
+
+    for (let sq = 0; sq < 64; sq++) {
+        findMagicForSquare(sq, false);
+        squaresCompleted++;
+        if (onProgress) onProgress(Math.floor((squaresCompleted / totalSquares) * 100));
+    }
+    
+    if (onProgress) onProgress(100);
+    console.log("B\"H - RITUAL OF RUNTIME GENERATION COMPLETE.");
+    return { foundBishopMagics, foundRookMagics };
+}
 
 
 function generateSliderAttacks(sq, isBishop, blockers) {

@@ -160,7 +160,7 @@ aiWorker.onmessage = function(e) {
             const { percentage } = e.data;
             const loadingText = document.getElementById('loadingText');
             const progressBarFill = document.getElementById('progressBarFill');
-            if (loadingText) loadingText.textContent = `Loading Engine... ${percentage}%`;
+            if (loadingText) loadingText.textContent = `Forging Universe... ${percentage}%`;
             if (progressBarFill) progressBarFill.style.width = `${percentage}%`;
             break;
 

@@ -17,7 +17,7 @@ const TT_EXACT = 0, TT_LOWERBOUND = 1, TT_UPPERBOUND = 2;
 // --- STATE ---
 const openingBook = new Map();
 const punishmentBook = new Map();
-let isInitialized = false;
+
 let lastParsedGame = null;
 let nodeCount, searchStartTime, timeLimit, stopSearch, killerMoves, historyTable, transpositionTable, evaluationTime;
 
@@ -264,20 +264,55 @@ function processRawBook(rawBook, targetMap) {
     }
 }
 
+/* B"H */
+
+// We must now declare the magic number arrays as mutable,
+// as they will be populated at runtime instead of being constants.
+let bishopMagics, rookMagics;
+
+
+let isInitialized = false;
+
+
+/**
+ * Initializes the chess engine. If magic numbers have not been generated,
+ * it performs the time-intensive generation process within the worker,
+ * reporting progress to the main thread.
+ */
 function initializeEngine() {
     if (isInitialized) return;
-    console.log("Awtsmoos Engine (Bitboard): Initialization started.");
+
+    console.log("Awtsmoos Engine (Bitboard): Runtime Initialization started.");
+    
+    // The great ritual of runtime magic number generation.
+    // This will take time, but will not freeze the UI.
+    const { foundBishopMagics, foundRookMagics } = findAndValidateAllMagicNumbers(
+        (percentage) => {
+            // Send a progress report back to the main thread
+            self.postMessage({ type: 'progress', percentage: percentage });
+        }
+    );
+
+    // The Emanated laws are now set.
+    bishopMagics = foundBishopMagics;
+    rookMagics = foundRookMagics;
+    
+    console.log("B\"H - Magic Numbers have been successfully forged at runtime.");
+
+    // Now proceed with the rest of initialization using the newly-found magics.
     initializeAll();
-    // Ensure rawOpeningBook exists before processing
+    
     if (typeof rawOpeningBook !== 'undefined') processRawBook(rawOpeningBook, openingBook);
     if (typeof punishmentBookSource !== 'undefined') {
         const rawPunish = generateRawBook(punishmentBookSource);
         processRawBook(rawPunish, punishmentBook);
     }
+    
     isInitialized = true;
-    console.log("Awtsmoos Engine Initialized.");
+    console.log("Awtsmoos Engine Initialized and Ready.");
     self.postMessage({ type: 'initialization_complete' });
 }
+
 
 /* B"H */
 /**
