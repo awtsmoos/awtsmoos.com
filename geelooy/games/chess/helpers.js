@@ -52,9 +52,8 @@ const rookMagics = [0x8a80104000800020n, 0x1480040000800080n, 0x4840008000800800
 
 const bishopMasks = Array(64).fill(0n);
 const rookMasks = Array(64).fill(0n);
-const bishopAttacks = Array(64).fill(null).map(() => Array(512).fill(0n));
-const rookAttacks = Array(64).fill(null).map(() => Array(4096).fill(0n));
-
+const bishopAttacks = Array(64).fill(null).map(() => Array(8192).fill(0n)); // Correct size is 1^13 = 8192
+const rookAttacks = Array(64).fill(null).map(() => Array(16384).fill(0n)); // Correct size is 1^14 = 16384
 function generateSliderAttacks(sq, isBishop, blockers) {
     let attacks = 0n;
     const r = sq >> 3, f = sq & 7;
