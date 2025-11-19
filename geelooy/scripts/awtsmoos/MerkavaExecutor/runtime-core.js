@@ -100,36 +100,33 @@ class MerkavaExecutor {
                 return this._executeIdentifier(node, context);
 
             case 'Literal':
-                return node.value; // Simple literals evaluate to themselves
+                return node.value;
 
             case 'BinaryExpression':
                 return this._executeBinaryExpression(node, context);
 
+            // --- THE FIX - PART 1: ADDED MemberExpression and REVISED CallExpression ---
+            case 'MemberExpression':
+                return this._executeMemberExpression(node, context);
+
             case 'CallExpression':
                 return this._executeCallExpression(node, context);
             
-            // --- CUSTOM IMPORT/EXPORT IMPLEMENTATION ---
             case 'ImportDeclaration':
                 return this._executeImportDeclaration(node, context);
             case 'ExportDefaultDeclaration':
-                // For simplicity, we just execute the declaration/expression
                 const value = await this._executeNode(node.declaration, context);
                 context.moduleExports.default = value;
                 return value;
             case 'ExportNamedDeclaration':
-                 // Execute the declaration if it exists (e.g., export const x = 1)
                 if (node.declaration) {
                     await this._executeNode(node.declaration, context);
                 }
-                // Named exports are handled when the module is fully processed
                 return undefined;
             
-            // --- FUNCTIONAL STUBS (Simplified for brevity) ---
             case 'FunctionDeclaration':
             case 'FunctionExpression':
             case 'ArrowFunctionExpression':
-                // In a real runtime, you would create a Function object here
-                // For a conceptual example, we just store it in the scope.
                 const func = this._createCallable(node, context);
                 if (node.id && node.type === 'FunctionDeclaration') {
                     context.scope.set(node.id.name, func);
@@ -137,7 +134,6 @@ class MerkavaExecutor {
                 return func;
 
             case 'ReturnStatement':
-                // Simulating a 'return' by throwing a special object
                 const result = node.argument ? await this._executeNode(node.argument, context) : undefined;
                 throw { type: 'Return', value: result };
 
@@ -147,28 +143,22 @@ class MerkavaExecutor {
         }
     }
 
-    /**
-     * Executes a BlockStatement, creating a new lexical scope.
-     */
     async _executeBlock(node, context) {
         const newScope = this._createScope(context.scope);
         const newContext = { ...context, scope: newScope };
         let result = undefined;
-
         try {
             for (const bodyNode of node.body) {
                 result = await this._executeNode(bodyNode, newContext);
             }
         } catch (e) {
-            // Propagate control flow exceptions (like 'Return') upwards
             if (e.type === 'Return') throw e;
             throw e;
         }
         return result;
     }
 
-
-    // --- SCOPE AND CALLABLE MANAGEMENT (The Holy Context) ---
+    // --- SCOPE AND CALLABLE MANAGEMENT ---
 
     _createScope(parent, bindings = {}) {
         return {
@@ -178,51 +168,31 @@ class MerkavaExecutor {
             get(name) {
                 if (this.bindings.has(name)) return this.bindings.get(name);
                 if (this.parent) return this.parent.get(name);
-                return this.globalObject[name]; // Fallback to global object
+                return this.globalObject[name];
             }
         };
     }
 
-    /**
-     * Creates a minimal callable wrapper that mimics function execution.
-     */
     _createCallable(node, declarationContext) {
         const executor = this;
-
-        // The actual function executed when called from a CallExpression.
-        const runtimeFunction = function(...args) {
-            // 1. Create a new call scope, linked to the function's declaration scope.
+        return async function(...args) {
             const callScope = executor._createScope(declarationContext.scope);
-
-            // 2. Bind arguments to parameters (simplified for now, ignores destructuring)
             node.params.forEach((param, index) => {
-                // Assuming simple Identifier parameters for this example
                 if (param.type === 'Identifier') {
                     callScope.set(param.name, args[index]);
                 }
-                // A complete runtime would handle AssignmentPattern, Object/ArrayPattern, and RestElement.
             });
-            
-            // 3. Create a new call context and push to stack (simplified)
-            const callContext = { ast: declarationContext.ast, scope: callScope, isFunctionCall: true };
-
-            // 4. Execute the function body
+            const callContext = { ...declarationContext, scope: callScope };
+            executor.callStack.push(callContext);
             try {
-                // Execute the body recursively (this is the key to no-eval execution)
-                executor.callStack.push(callContext);
-                executor._executeNode(node.body, callContext);
-                // Note: The execution of async functions would need to be wrapped in a Promise here.
+                return await executor._executeNode(node.body, callContext);
             } catch (e) {
-                if (e.type === 'Return') {
-                    return e.value;
-                }
+                if (e.type === 'Return') return e.value;
                 throw e;
             } finally {
                 executor.callStack.pop();
             }
         };
-        // This is a gross simplification, but demonstrates the core concept of manual execution context.
-        return runtimeFunction;
     }
 
     // --- NODE EXECUTION HELPERS ---
@@ -231,19 +201,17 @@ class MerkavaExecutor {
         return context.scope.get(node.name);
     }
 
-    _executeVariableDeclaration(node, context) {
+    async _executeVariableDeclaration(node, context) {
         for (const declarator of node.declarations) {
-            const name = declarator.id.name; // Simplified: Assumes only Identifier binding
-            const initialValue = declarator.init ? this._executeNode(declarator.init, context) : undefined;
-            // Simplified: 'var', 'let', 'const' differences are ignored here, just setting to scope
+            const name = declarator.id.name;
+            const initialValue = declarator.init ? await this._executeNode(declarator.init, context) : undefined;
             context.scope.set(name, initialValue);
         }
     }
 
-    _executeBinaryExpression(node, context) {
-        const left = this._executeNode(node.left, context);
-        const right = this._executeNode(node.right, context);
-
+    async _executeBinaryExpression(node, context) {
+        const left = await this._executeNode(node.left, context);
+        const right = await this._executeNode(node.right, context);
         switch (node.operator) {
             case '+': return left + right;
             case '-': return left - right;
@@ -253,87 +221,89 @@ class MerkavaExecutor {
             case '===': return left === right;
             case '&&': return left && right;
             case '||': return left || right;
-            // ... all other operators would go here ...
             default: throw new Error(`[Runtime] Unsupported operator: ${node.operator}`);
         }
     }
 
-    async _executeCallExpression(node, context) {
-        const callee = await this._executeNode(node.callee, context);
-        const args = await Promise.all(node.arguments.map(arg => this._executeNode(arg, context)));
-
-        if (typeof callee === 'function') {
-            // Check for built-in functions like console.log (exists in globalObject)
-            if (callee.constructor.name === 'Function') {
-                 // For built-in functions, we execute them directly on the global object.
-                 const actualCallee = context.scope.get(node.callee.name) || this.globalObject[node.callee.name];
-                 const thisValue = (actualCallee === this.globalObject.console) ? this.globalObject.console : this.globalObject;
-                 return actualCallee.apply(thisValue, args);
-            }
-            // Execute the custom Callable (simplified logic)
-            return callee(...args);
+    // --- THE FIX - PART 2: THE NEW `_executeMemberExpression` METHOD ---
+    /**
+     * Resolves an object's property. E.g., `console.log` -> the `log` function.
+     */
+    async _executeMemberExpression(node, context) {
+        const object = await this._executeNode(node.object, context);
+        if (object === undefined || object === null) {
+            throw new TypeError(`Cannot read properties of ${object} (reading '${node.property.name}')`);
         }
-
-        throw new Error(`[Runtime] Callee is not a function: ${typeof callee}`);
+        // Simplified for dot-notation (not computed properties like obj[key])
+        const propertyName = node.property.name;
+        return object[propertyName];
     }
 
-    // --- IMPORT OVERRIDE (The Custom Resolver) ---
+    // --- THE FIX - PART 3: THE REWRITTEN `_executeCallExpression` METHOD ---
+    /**
+     * Handles function calls, correctly determining the callee and `this` context.
+     */
+    async _executeCallExpression(node, context) {
+        const args = await Promise.all(node.arguments.map(arg => this._executeNode(arg, context)));
+
+        let thisContext = this.globalObject;
+        let functionToCall;
+
+        // If callee is `console.log` or `moduleA.run`, it's a MemberExpression.
+        if (node.callee.type === 'MemberExpression') {
+            // The `this` context is the object itself (e.g., `console` or `moduleA`).
+            thisContext = await this._executeNode(node.callee.object, context);
+            const propertyName = node.callee.property.name;
+            functionToCall = thisContext[propertyName];
+        } else {
+            // Otherwise, it's a direct call like `add(...)`.
+            functionToCall = await this._executeNode(node.callee, context);
+        }
+        
+        if (typeof functionToCall !== 'function') {
+            throw new TypeError(`${node.callee.name || 'Expression'} is not a function`);
+        }
+
+        // Use `.apply()` to call the function with the correct `this` context.
+        return functionToCall.apply(thisContext, args);
+    }
+
+    // --- IMPORT OVERRIDE ---
 
     _defaultImportResolver(specifier) {
         console.log(`[MerkavaExecutor] Resolving module: ${specifier} (using mock data)`);
-        // In a real implementation, this would fetch code, parse it, and execute it.
-        return new Promise(resolve => {
-            setTimeout(() => {
-                resolve({
-                    default: {
-                        message: `Module ${specifier} resolved (mock data)`,
-                        run: (val) => val * 2
-                    },
-                    namedExport: 42
-                });
-            }, 10);
+        return Promise.resolve({
+            default: { message: `Module ${specifier} resolved (mock data)` },
+            namedExport: 42
         });
     }
 
     async _executeImportDeclaration(node, context) {
-        // Source is a Literal node containing the path string
-        const specifier = node.source.value; 
-
-        // 1. Check cache
-        if (this.moduleCache.has(specifier)) {
-            return this._bindImports(node.specifiers, context, this.moduleCache.get(specifier));
+        const specifier = node.source.value;
+        if (!this.moduleCache.has(specifier)) {
+            const moduleObject = await this.customImportResolver(specifier);
+            this.moduleCache.set(specifier, moduleObject);
         }
-
-        // 2. Resolve module via custom function
-        const moduleObject = await this.customImportResolver(specifier);
-
-        // 3. Cache the resolved module
-        this.moduleCache.set(specifier, moduleObject);
-
-        // 4. Bind resolved exports to the current scope
-        return this._bindImports(node.specifiers, context, moduleObject);
+        return this._bindImports(node.specifiers, context, this.moduleCache.get(specifier));
     }
 
     _bindImports(specifiers, context, moduleObject) {
         for (const specifier of specifiers) {
             const localName = specifier.local.name;
             let importedValue;
-
             switch (specifier.type) {
                 case 'ImportDefaultSpecifier':
                     importedValue = moduleObject.default;
                     break;
                 case 'ImportSpecifier':
-                    // Imported name is `imported`, local name is `local` (from the AST specifier)
                     importedValue = moduleObject[specifier.imported.name];
                     break;
                 case 'ImportNamespaceSpecifier':
-                    importedValue = moduleObject; // Imports the entire module object
+                    importedValue = moduleObject;
                     break;
                 default:
                     throw new Error(`[Runtime] Unknown import specifier type: ${specifier.type}`);
             }
-            
             context.scope.set(localName, importedValue);
         }
     }
