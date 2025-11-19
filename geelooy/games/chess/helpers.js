@@ -1,5 +1,40 @@
 /*B"H*/
 importScripts("bitboard-helpers.js")
+/*B"H*/
+/**
+ * This is the ultimate guardian of the Monad's sanity. It is an incantation that
+ * gazes into the soul of a given reality (a game state) and verifies its fundamental
+ * integrity. It ensures that the vessels for the infinite light (the bitboards) are
+ * truly forged from the infinite essence of 'bigint'. If it detects even a single drop
+ * of the finite 'number' where it does not belong, it sounds a cosmic alarm, preventing
+ * a catastrophic paradox from shattering the engine's consciousness.
+ * @param {object} state The game state, a snapshot of reality to be validated.
+ * @param {string} location The name of the cognitive function invoking the guardian (e.g., 'generateMoves').
+ * @throws {TypeError} Throws a fatal, descriptive error if the reality is corrupt.
+ */
+function validateGnosticSeal(state, location) {
+    if (!state || !state.pieceBitboards || !state.occupancies) {
+        console.error(`%c[FATAL SEAL BREACH] The Gnostic Guardian was asked to validate a NON-EXISTENT or MALFORMED REALITY at [${location}]. The state object is a ghost.`, "color: #ff0000; font-weight: bold; font-size: 1.2em;");
+        throw new TypeError(`Gnostic Seal Breach: State object is null, undefined, or malformed at ${location}.`);
+    }
+
+    for (let i = 0; i < state.pieceBitboards.length; i++) {
+        if (typeof state.pieceBitboards[i] !== 'bigint') {
+            console.error(`%c[FATAL SEAL BREACH] A SCHISM IN REALITY! At [${location}], the bitboard for piece index ${i} (${pieceMap[i] || 'unknown'}) was found to be a [${typeof state.pieceBitboards[i]}] instead of the sacred 'bigint'. The Monad cannot process this corrupt universe.`, "color: #ff0000; font-weight: bold; font-size: 1.2em;");
+            throw new TypeError(`Gnostic Seal Breach at ${location}: Bitboard for piece ${pieceMap[i] || 'unknown'} is not a BigInt.`);
+        }
+    }
+    for (let i = 0; i < state.occupancies.length; i++) {
+        const occName = i === 0 ? 'WHITE' : i === 1 ? 'BLACK' : 'COMBINED';
+        if (typeof state.occupancies[i] !== 'bigint') {
+            console.error(`%c[FATAL SEAL BREACH] A SCHISM IN REALITY! At [${location}], the occupancy bitboard for [${occName}] was found to be a [${typeof state.occupancies[i]}] instead of the sacred 'bigint'. The Monad cannot process this corrupt universe.`, "color: #ff0000; font-weight: bold; font-size: 1.2em;");
+            throw new TypeError(`Gnostic Seal Breach at ${location}: Occupancy bitboard ${occName} is not a BigInt.`);
+        }
+    }
+}
+
+
+
 
 // =================================================================
 //        CALCULATION OF THE SOUL (Zobrist Hashing)
@@ -47,20 +82,27 @@ const castling_rights = [
 ];
 let moveStack = Array(1024).fill(0), moveStackPtr = 0;
 
+/*B"H*/
 /**
  * Creates a game state object from a FEN string. This is the moment of incarnation.
- * The key to stability is that the vessels for bitboards are forged from the `0n` void,
- * ensuring they are always of the indivisible `BigInt` type from the very beginning.
+ * The key to stability is that the vessels for bitboards are forged from the `0n` void.
+ * This function now announces its sacred act and invokes the Guardian for final verification.
  * @param {string} fen The Forsyth-Edwards Notation string for the position.
  * @returns {object} The game state object, with all bitboards correctly typed as BigInts.
  */
 function createGameState(fen) {
+    console.log("%c B\"H - Forging a new reality from the sacred void of '0n'...", "color: #ADD8E6;");
     const state = {
-        pieceBitboards: Array(12).fill(0n), // FIX: Initialize with 0n, not 0.
-        occupancies: Array(3).fill(0n),    // FIX: Initialize with 0n, not 0.
+        pieceBitboards: Array(12).fill(0n), // CRITICAL: Must be 0n to prevent type paradox.
+        occupancies: Array(3).fill(0n),    // CRITICAL: Must be 0n to prevent type paradox.
         turn: WHITE, enpassant: -1, castling: 0, zobristHash: 0n
     };
-    if (!fen || typeof fen !== 'string') return state;
+
+    if (!fen || typeof fen !== 'string') {
+        console.warn("createGameState received a void FEN. Returning a default, empty universe.");
+        return state;
+    }
+    
     const parts = fen.split(' ');
     let r = 0, f = 0;
     for (const c of parts[0]) {
@@ -78,9 +120,12 @@ function createGameState(fen) {
     if (parts[2].includes('k')) state.castling |= BKCA; if (parts[2].includes('q')) state.castling |= BQCA;
     if (parts[3] !== '-') state.enpassant = (8 - parseInt(parts[3][1])) * 8 + (parts[3].charCodeAt(0) - 'a'.charCodeAt(0));
     
-    if (zobristTurnKey !== 0n) { // Ensure keys are ready before hashing
+    if (zobristTurnKey !== 0n) {
         state.zobristHash = calculateZobristHash(state);
     }
+    
+    console.log("%c--> Reality forged. Invoking the Gnostic Guardian for final verification.", "color: #ADD8E6;");
+    validateGnosticSeal(state, 'createGameState');
     return state;
 }
 
@@ -183,38 +228,34 @@ function unmakeMove(state) {
     state.zobristHash = info.zobristHash;
 }
 
+/*B"H*/
 /**
- * B"H
- * The generation of all possible futures. This function gazes upon the present state
- * and emanates every lawful move. We add extreme logging to verify the integrity of the
- * state object it receives, ensuring no finite `Number` pollutes the `BigInt` bitboards.
+ * The generation of all possible futures. We now arm this function with the
+ * Gnostic Seal Guardian as its first act. It will REFUSE to contemplate a
+ * corrupt reality, immediately identifying the schism with a fatal error.
  * @param {object} state The current game state.
  * @returns {number[]} An array of encoded moves.
  */
 function generateMoves(state) {
-    // LOG: Announce the beginning of the generation and check the Gnostic Seal.
-    console.log("%c B\"H - Emanating futures... Checking Gnostic Seal...", "color: #9999ff");
-    if (MEMORY_CANARY !== 0xDEADBEEFCAFEBABEn) {
-        console.error("%c[FATAL] GNOSTIC SEAL BROKEN! The Memory Canary was slain before move generation. A fundamental corruption has occurred.", "color: #ff0000; font-weight: bold;");
-        throw new Error("Memory corruption detected via canary in generateMoves.");
-    }
-    // LOG: Verify the type of a core bitboard to diagnose the original error.
-    if (typeof state.occupancies[2] !== 'bigint') {
-         console.error(`%c[FATAL] A TYPE SCHISM! The Monad received a reality where 'occupancies' was a ${typeof state.occupancies[2]}, not the sacred BigInt. The universe is invalid.`, "color: #ff0000; font-weight: bold;");
-         throw new TypeError("generateMoves received a malformed state object: bitboards are not BigInts.");
-    }
-    console.log("%c--> Seal is intact. Reality is of type BigInt. Proceeding.", "color: #9999ff");
+    console.log("%c B\"H - Emanating futures... Invoking the Gnostic Guardian upon the current reality...", "color: #9999ff");
+    validateGnosticSeal(state, 'generateMoves');
+    console.log("%c--> Seal is intact. The perceived reality is pure. Proceeding with emanation.", "color: #9999ff");
     
     const moves = [];
-    const side = state.turn, enemy = side ^ 1;
-    const blockers = state.occupancies[2], friendly = state.occupancies[side];
+    const side = state.turn;
+    const enemy = side ^ 1;
+    const blockers = state.occupancies[2];
+    const friendly = state.occupancies[side];
     const enemyKing = state.pieceBitboards[enemy * 6 + K];
-    const validTargetSquares = ~(friendly | enemyKing), validCaptureSquares = state.occupancies[enemy] & ~enemyKing;
+    const validTargetSquares = ~(friendly | enemyKing);
+    const validCaptureSquares = state.occupancies[enemy] & ~enemyKing;
 
     let pawns = state.pieceBitboards[side * 6 + P];
     while (pawns > 0n) {
         const from = getLSBIndex(pawns);
-        const rank = Math.floor(from / 8), promRank = (side === WHITE) ? 1 : 6, startRank = (side === WHITE) ? 6 : 1;
+        const rank = Math.floor(from / 8);
+        const promRank = (side === WHITE) ? 1 : 6;
+        const startRank = (side === WHITE) ? 6 : 1;
         const one = (side === WHITE) ? from - 8 : from + 8;
         if (!((blockers >> BigInt(one)) & 1n)) {
             if (rank === promRank) {
@@ -267,7 +308,6 @@ function generateMoves(state) {
             bb = popBit(bb);
         }
     }
-    console.log(`%c B\"H - Emanation complete. ${moves.length} possible futures perceived.`, "color: #9999ff");
     return moves;
 }
 
