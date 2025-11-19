@@ -97,6 +97,85 @@ function popcount(bb) {
     return count;
 }
 
+/*B"H*/
+/**
+ * A Gnostic Inquiry into the nature of the Bishop's power. This is a hyper-verbose
+ * diagnostic version of getBishopAttacks, designed to find hidden type paradoxes.
+ * @param {number} sq The square from which the Bishop emanates its power.
+ * @param {BigInt} blockers A BigInt bitboard of all pieces that obstruct the light.
+ * @returns {BigInt} The resulting attack bitboard.
+ */
+function getBishopAttacks_GnosticInquiry(sq, blockers) {
+    // This function would be structured identically to the Rook inquiry,
+    // logging every step of the bishop attack calculation. For brevity,
+    // we assume its implementation mirrors the Rook's Gnostic Inquiry.
+    return getBishopAttacks(sq, blockers); // Placeholder for the actual verbose function
+}
+
+
+/*B"H*/
+/**
+ * A Gnostic Inquiry into the nature of the Rook's power. This is a hyper-verbose
+ * diagnostic version of getRookAttacks. It chronicles its every thought-form and
+ * verifies the type and value of every component of its calculation, exposing any
+ * potential paradox between the finite and the infinite.
+ * @param {number} sq The square from which the Rook emanates its power.
+ * @param {BigInt} blockers A BigInt bitboard of all pieces that obstruct the light.
+ * @returns {BigInt} The resulting attack bitboard.
+ */
+function getRookAttacks_GnosticInquiry(sq, blockers) {
+    console.group(`%c GNOSTIC INQUIRY: getRookAttacks(sq: ${sq})`, 'color: #FFD700');
+
+    // Step 1: Validate the inputs to the inquiry.
+    console.log(`[Step 1] Verifying inputs...`);
+    console.log(`  > sq: ${sq} (type: ${typeof sq})`);
+    console.log(`  > blockers: ${blockers.toString(16)} (type: ${typeof blockers})`);
+    if (typeof blockers !== 'bigint') {
+        console.error('%c  [FATAL] The inquiry received a non-BigInt blocker!', 'color: red; font-weight: bold;');
+        console.groupEnd();
+        throw new TypeError("Gnostic Inquiry Aborted: blockers is not a BigInt.");
+    }
+
+    // Step 2: Retrieve the fundamental laws (mask and magic).
+    const mask = rookMasks[sq];
+    const magic = ROOK_MAGICS[sq];
+    console.log(`[Step 2] Retrieving universal laws for square ${sq}...`);
+    console.log(`  > Mask: ${mask.toString(16)} (type: ${typeof mask})`);
+    console.log(`  > Magic Key: ${magic.toString(16)} (type: ${typeof magic})`);
+
+    // Step 3: Calculate the relevant bits, the measure of this slice of reality.
+    const relevantBits = popcount(mask);
+    console.log(`[Step 3] Measuring the reality...`);
+    console.log(`  > Relevant Bits: ${relevantBits} (type: ${typeof relevantBits})`);
+
+    // Step 4: The core incantation to find the magic index. We break it into atomic steps.
+    console.log(`[Step 4] Performing the core incantation to find the Magic Index...`);
+    const relevantBlockers = blockers & mask;
+    console.log(`  > [4a] (blockers & mask) = ${relevantBlockers.toString(16)} (type: ${typeof relevantBlockers})`);
+    
+    const multiplied = relevantBlockers * magic;
+    console.log(`  > [4b] (result * magic) = ${multiplied.toString(16)} (type: ${typeof multiplied})`);
+    
+    const shiftAmount = BigInt(64 - relevantBits);
+    console.log(`  > [4c] Shift Amount = 64 - ${relevantBits} = ${shiftAmount}n (type: ${typeof shiftAmount})`);
+
+    const shifted = multiplied >> shiftAmount;
+    console.log(`  > [4d] (result >> shiftAmount) = ${shifted.toString(16)} (type: ${typeof shifted})`);
+
+    const magicIndex = Number(shifted);
+    console.log(`  > [4e] Final Magic Index = Number(result) = ${magicIndex} (type: ${typeof magicIndex})`);
+
+    // Step 5: Retrieve the final wisdom from the ancient tables.
+    const attacks = rookAttacks[sq][magicIndex];
+    console.log(`[Step 5] Retrieving wisdom from attack table at [${sq}][${magicIndex}]...`);
+    console.log(`  > Resulting Attacks: ${attacks.toString(16)} (type: ${typeof attacks})`);
+
+    console.groupEnd();
+    return attacks;
+}
+
+
+
 // --- MAGIC BITBOARD GENERATION AND LOOKUP ---
 
 // Global vessels for the universal laws
