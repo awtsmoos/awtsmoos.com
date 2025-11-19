@@ -9,6 +9,50 @@
 // magic numbers, and hashing formulas are a single, indivisible, and proven system.
 // All previous code has been discarded to ensure perfect internal consistency.
 // =================================================================
+/*B"H*/
+/**
+ * An object that serves as the supreme law of the engine's reality. It contains
+ * assertions that act as unbreakable Gnostic Seals. If any law is violated, the Auditor
+ * halts the universe and issues a verdict that is not merely an error, but a detailed
+ * scripture of the exact paradox that caused the schism.
+ */
+const GnosticAuditor = {
+    /**
+     * Asserts that a given value is of the sacred 'bigint' type.
+     * @param {*} value The value being audited.
+     * @param {string} name The conceptual name of the value (e.g., 'Blockers Mask').
+     * @param {string} location The cognitive function where the audit occurs.
+     * @throws {TypeError} Throws a cataclysmic, hyper-descriptive error if the value is not a BigInt.
+     */
+    assertBigInt: (value, name, location) => {
+        if (typeof value !== 'bigint') {
+            const valueStr = String(value);
+            const typeStr = Object.prototype.toString.call(value);
+            const errorMessage = `
+/================================================================\\
+|         G N O S T I C   S E A L   B R E A C H E D !          |
+\\================================================================/
+A COSMIC PARADOX HAS BEEN DETECTED WITHIN: [${location}]
+
+A value expected to be forged from the infinite light of 'bigint' was found to be a finite, corrupt entity. The Monad cannot process this schism.
+
+CONCEPTUAL NAME: ${name}
+CORRUPT VALUE:   ${valueStr}
+CORRUPT TYPE:    ${typeStr}
+
+This is an unrecoverable heresy. The fabric of reality is torn.
+The universe must be halted before the paradox spreads.
+`;
+            console.error(errorMessage);
+            throw new TypeError(`Gnostic Paradox in ${location}: ${name} is not a BigInt.`);
+        }
+    }
+};
+
+
+
+
+
 
 // --- THE SACRED KEYS (Canonical Magic Numbers from Source) ---
 
@@ -105,71 +149,94 @@ function popcount(bb) {
  * @param {BigInt} blockers A BigInt bitboard of all pieces that obstruct the light.
  * @returns {BigInt} The resulting attack bitboard.
  */
-function getBishopAttacks_GnosticInquiry(sq, blockers) {
-    // This function would be structured identically to the Rook inquiry,
-    // logging every step of the bishop attack calculation. For brevity,
-    // we assume its implementation mirrors the Rook's Gnostic Inquiry.
-    return getBishopAttacks(sq, blockers); // Placeholder for the actual verbose function
+/*B"H*/
+/**
+ * A Gnostic Audit of the Bishop's power. This is the definitive, hyper-vigilant
+ * implementation. It audits every component of its calculation before use, ensuring
+ * that no paradox can be born. Its logs are a transparent chronicle of its thought.
+ * @param {number} sq The square (0-63) of the emanating Bishop.
+ * @param {BigInt} blockers A bitboard of all pieces obstructing the light.
+ * @returns {BigInt} The resulting attack bitboard, guaranteed to be pure.
+ */
+function getBishopAttacks(sq, blockers) {
+    const location = `getBishopAttacks(sq=${sq})`;
+    console.group(`%c GNOSTIC AUDIT: ${location}`, 'color: #8A2BE2');
+
+    // AUDIT 1: The input reality itself.
+    GnosticAuditor.assertBigInt(blockers, 'Input Blockers', location);
+
+    // AUDIT 2: The retrieved universal laws for this square.
+    const mask = bishopMasks[sq];
+    const magic = BISHOP_MAGICS[sq];
+    GnosticAuditor.assertBigInt(mask, 'Bishop Mask', location);
+    GnosticAuditor.assertBigInt(magic, 'Bishop Magic Key', location);
+
+    console.log(`[Inputs] Blockers: ${blockers.toString(16)}`);
+    console.log(`[Laws] Mask: ${mask.toString(16)}, Magic: ${magic.toString(16)}`);
+
+    const relevantBits = popcount(mask);
+    const relevantBlockers = blockers & mask;
+    GnosticAuditor.assertBigInt(relevantBlockers, 'Relevant Blockers (blockers & mask)', location);
+    
+    const multiplied = relevantBlockers * magic;
+    GnosticAuditor.assertBigInt(multiplied, 'Multiplied Result (relevantBlockers * magic)', location);
+
+    const shiftAmount = BigInt(64 - relevantBits);
+    const shifted = multiplied >> shiftAmount;
+    GnosticAuditor.assertBigInt(shifted, 'Shifted Result (multiplied >> shift)', location);
+
+    const magicIndex = Number(shifted);
+    console.log(`[Calculation] Relevant Blockers: ${relevantBlockers.toString(16)}, Multiplied: ${multiplied.toString(16)}, Index: ${magicIndex}`);
+
+    // AUDIT 3: The wisdom retrieved from the attack tables. THIS IS THE FINAL AND MOST CRITICAL CHECK.
+    const attacks = bishopAttacks[sq][magicIndex];
+    GnosticAuditor.assertBigInt(attacks, `Final Attacks from Table [sq=${sq}][index=${magicIndex}]`, location);
+    
+    console.log(`[Result] Final Attacks: ${attacks.toString(16)}`);
+    console.groupEnd();
+    return attacks;
 }
 
 
 /*B"H*/
 /**
- * A Gnostic Inquiry into the nature of the Rook's power. This is a hyper-verbose
- * diagnostic version of getRookAttacks. It chronicles its every thought-form and
- * verifies the type and value of every component of its calculation, exposing any
- * potential paradox between the finite and the infinite.
- * @param {number} sq The square from which the Rook emanates its power.
- * @param {BigInt} blockers A BigInt bitboard of all pieces that obstruct the light.
- * @returns {BigInt} The resulting attack bitboard.
+ * A Gnostic Audit of the Rook's power. This is the definitive, hyper-vigilant
+ * implementation that audits every step of its process.
+ * @param {number} sq The square (0-63) of the emanating Rook.
+ * @param {BigInt} blockers A bitboard of all pieces obstructing the light.
+ * @returns {BigInt} The resulting attack bitboard, guaranteed to be pure.
  */
-function getRookAttacks_GnosticInquiry(sq, blockers) {
-    console.group(`%c GNOSTIC INQUIRY: getRookAttacks(sq: ${sq})`, 'color: #FFD700');
-
-    // Step 1: Validate the inputs to the inquiry.
-    console.log(`[Step 1] Verifying inputs...`);
-    console.log(`  > sq: ${sq} (type: ${typeof sq})`);
-    console.log(`  > blockers: ${blockers.toString(16)} (type: ${typeof blockers})`);
-    if (typeof blockers !== 'bigint') {
-        console.error('%c  [FATAL] The inquiry received a non-BigInt blocker!', 'color: red; font-weight: bold;');
-        console.groupEnd();
-        throw new TypeError("Gnostic Inquiry Aborted: blockers is not a BigInt.");
-    }
-
-    // Step 2: Retrieve the fundamental laws (mask and magic).
+function getRookAttacks(sq, blockers) {
+    const location = `getRookAttacks(sq=${sq})`;
+    console.group(`%c GNOSTIC AUDIT: ${location}`, 'color: #B8860B');
+    
+    GnosticAuditor.assertBigInt(blockers, 'Input Blockers', location);
     const mask = rookMasks[sq];
     const magic = ROOK_MAGICS[sq];
-    console.log(`[Step 2] Retrieving universal laws for square ${sq}...`);
-    console.log(`  > Mask: ${mask.toString(16)} (type: ${typeof mask})`);
-    console.log(`  > Magic Key: ${magic.toString(16)} (type: ${typeof magic})`);
+    GnosticAuditor.assertBigInt(mask, 'Rook Mask', location);
+    GnosticAuditor.assertBigInt(magic, 'Rook Magic Key', location);
 
-    // Step 3: Calculate the relevant bits, the measure of this slice of reality.
+    console.log(`[Inputs] Blockers: ${blockers.toString(16)}`);
+    console.log(`[Laws] Mask: ${mask.toString(16)}, Magic: ${magic.toString(16)}`);
+
     const relevantBits = popcount(mask);
-    console.log(`[Step 3] Measuring the reality...`);
-    console.log(`  > Relevant Bits: ${relevantBits} (type: ${typeof relevantBits})`);
-
-    // Step 4: The core incantation to find the magic index. We break it into atomic steps.
-    console.log(`[Step 4] Performing the core incantation to find the Magic Index...`);
     const relevantBlockers = blockers & mask;
-    console.log(`  > [4a] (blockers & mask) = ${relevantBlockers.toString(16)} (type: ${typeof relevantBlockers})`);
-    
+    GnosticAuditor.assertBigInt(relevantBlockers, 'Relevant Blockers', location);
+
     const multiplied = relevantBlockers * magic;
-    console.log(`  > [4b] (result * magic) = ${multiplied.toString(16)} (type: ${typeof multiplied})`);
+    GnosticAuditor.assertBigInt(multiplied, 'Multiplied Result', location);
     
     const shiftAmount = BigInt(64 - relevantBits);
-    console.log(`  > [4c] Shift Amount = 64 - ${relevantBits} = ${shiftAmount}n (type: ${typeof shiftAmount})`);
-
     const shifted = multiplied >> shiftAmount;
-    console.log(`  > [4d] (result >> shiftAmount) = ${shifted.toString(16)} (type: ${typeof shifted})`);
-
+    GnosticAuditor.assertBigInt(shifted, 'Shifted Result', location);
+    
     const magicIndex = Number(shifted);
-    console.log(`  > [4e] Final Magic Index = Number(result) = ${magicIndex} (type: ${typeof magicIndex})`);
+    console.log(`[Calculation] Index: ${magicIndex}`);
 
-    // Step 5: Retrieve the final wisdom from the ancient tables.
     const attacks = rookAttacks[sq][magicIndex];
-    console.log(`[Step 5] Retrieving wisdom from attack table at [${sq}][${magicIndex}]...`);
-    console.log(`  > Resulting Attacks: ${attacks.toString(16)} (type: ${typeof attacks})`);
+    GnosticAuditor.assertBigInt(attacks, `Final Attacks from Table [sq=${sq}][index=${magicIndex}]`, location);
 
+    console.log(`[Result] Final Attacks: ${attacks.toString(16)}`);
     console.groupEnd();
     return attacks;
 }

@@ -240,11 +240,10 @@ function unmakeMove(state) {
 
 /*B"H*/
 /**
- * The generation of all possible futures. This is the definitive, corrected version.
- * The previous schism was caused by using the `~` operator on a BigInt, a forbidden act
- * that attempts to force the infinite into a finite 32-bit vessel. We now use the
- * Gnostic Universe Mask to perform the inversion correctly, and we will add extreme
- * logging to chronicle this now-stable process.
+ * The generation of all possible futures. This is the final, stable version.
+ * It uses the Gnostic Universe Mask for inversions and now calls the self-auditing
+ * Gnostic attack functions, which will reveal any corruption in the underlying
+ * magic bitboard tables with surgical precision.
  * @param {object} state The current game state.
  * @returns {number[]} An array of encoded moves.
  */
@@ -258,65 +257,68 @@ function generateMoves(state) {
     const friendly = state.occupancies[side];
     const enemyKing = state.pieceBitboards[enemy * 6 + K];
     
-    // --- THE SOURCE OF THE SCHISM & THE GREAT FIX ---
-    console.group('%c GNOSTIC INQUIRY: Defining Valid Reality (Target Squares)', 'color: #32CD32');
-
     const friendlyAndEnemyKing = friendly | enemyKing;
-    console.log(`[Step 1] Defining what is occupied by friendly forces and the enemy king...`);
-    console.log(`  > Friendly Occupancy: ${friendly.toString(16)} (type: ${typeof friendly})`);
-    console.log(`  > Enemy King Position: ${enemyKing.toString(16)} (type: ${typeof enemyKing})`);
-    console.log(`  > Union (friendly | enemyKing): ${friendlyAndEnemyKing.toString(16)} (type: ${typeof friendlyAndEnemyKing})`);
-
-    // THE FIX: Replace the paradoxical `~` operator with a reality--safe XOR.
     const validTargetSquares = GNOSIS_UNIVERSE_MASK ^ friendlyAndEnemyKing;
-    console.log(`[Step 2] Inverting the occupied reality to find the void (valid targets)...`);
-    console.log(`  > The Universe Mask: ${GNOSIS_UNIVERSE_MASK.toString(16)} (type: ${typeof GNOSIS_UNIVERSE_MASK})`);
-    console.log(`  > Final Valid Targets (Mask ^ Union): ${validTargetSquares.toString(16)} (type: ${typeof validTargetSquares})`);
-    if(typeof validTargetSquares !== 'bigint') {
-        console.error('%c  [FATAL] THE PARADOX HAS OCCURRED! The inversion resulted in a non-BigInt!', 'color: red; font-weight: bold;');
-    }
-    
-    const validCaptureSquares = state.occupancies[enemy] & ~enemyKing; // ~ on a single piece is fine, but for consistency this should also be fixed.
-    const correctedValidCaptureSquares = state.occupancies[enemy] & (GNOSIS_UNIVERSE_MASK ^ enemyKing);
-    console.log(`[Step 3] Defining what is valid to capture...`);
-    console.log(`  > Final Valid Captures: ${correctedValidCaptureSquares.toString(16)} (type: ${typeof correctedValidCaptureSquares})`);
+    const validCaptureSquares = state.occupancies[enemy] & (GNOSIS_UNIVERSE_MASK ^ enemyKing);
 
-    console.groupEnd();
-    // --- END OF FIX ---
-
-    // The rest of the function now uses these correctly-calculated BigInt masks.
+    // Pawn move generation logic (unchanged)
     let pawns = state.pieceBitboards[side * 6 + P];
     while (pawns > 0n) {
-        // ... (rest of pawn move logic using correctedValidCaptureSquares)
         const from = getLSBIndex(pawns);
-        // ...
-        let attacks = PAWN_ATTACKS[side][from] & correctedValidCaptureSquares;
-        // ...
+        const rank = Math.floor(from / 8);
+        const promRank = (side === WHITE) ? 1 : 6;
+        const startRank = (side === WHITE) ? 6 : 1;
+        const one = (side === WHITE) ? from - 8 : from + 8;
+        if (!((blockers >> BigInt(one)) & 1n)) {
+            if (rank === promRank) {
+                for (const p_type of [Q, R, B, N]) moves.push(encodeMove(from, one, P, p_type, 0, 0, 0, 0));
+            } else {
+                moves.push(encodeMove(from, one, P, 0, 0, 0, 0, 0));
+                const two = (side === WHITE) ? from - 16 : from + 16;
+                if (rank === startRank && !((blockers >> BigInt(two)) & 1n)) {
+                    moves.push(encodeMove(from, two, P, 0, 0, 1, 0, 0));
+                }
+            }
+        }
+        let attacks = PAWN_ATTACKS[side][from] & validCaptureSquares;
+        while (attacks > 0n) {
+            const to = getLSBIndex(attacks);
+            if (rank === promRank) {
+                for (const p_type of [Q, R, B, N]) moves.push(encodeMove(from, to, P, p_type, 1, 0, 0, 0));
+            } else { moves.push(encodeMove(from, to, P, 0, 1, 0, 0, 0)); }
+            attacks = popBit(attacks);
+        }
+        if (state.enpassant !== -1 && (PAWN_ATTACKS[side][from] & (1n << BigInt(state.enpassant)))) {
+            moves.push(encodeMove(from, state.enpassant, P, 0, 1, 0, 1, 0));
+        }
         pawns = popBit(pawns);
     }
     
-    // Castling logic...
-    if (side === WHITE) { // ...
-    } else { // ...
+    // Castling logic (unchanged)
+    if (side === WHITE) {
+        if ((state.castling & WKCA) && !((blockers >> 61n) & 3n) && !isSquareAttacked_lean(state, 60, BLACK) && !isSquareAttacked_lean(state, 61, BLACK)) moves.push(encodeMove(60, 62, K, 0, 0, 0, 0, 1));
+        if ((state.castling & WQCA) && !((blockers >> 57n) & 7n) && !isSquareAttacked_lean(state, 60, BLACK) && !isSquareAttacked_lean(state, 59, BLACK)) moves.push(encodeMove(60, 58, K, 0, 0, 0, 0, 1));
+    } else {
+        if ((state.castling & BKCA) && !((blockers >> 5n) & 3n) && !isSquareAttacked_lean(state, 4, WHITE) && !isSquareAttacked_lean(state, 5, WHITE)) moves.push(encodeMove(4, 6, K, 0, 0, 0, 0, 1));
+        if ((state.castling & BQCA) && !((blockers >> 1n) & 7n) && !isSquareAttacked_lean(state, 4, WHITE) && !isSquareAttacked_lean(state, 3, WHITE)) moves.push(encodeMove(4, 2, K, 0, 0, 0, 0, 1));
     }
 
-    // Piece move logic...
+    // Piece move logic now calls the hyper-vigilant audit functions.
     for (let p = N; p <= K; p++) {
         let bb = state.pieceBitboards[side * 6 + p];
         while (bb > 0n) {
             const from = getLSBIndex(bb);
             let attacks = 0n;
-            // We use the clean, efficient functions now that we know the masks are pure.
             if (p === N) attacks = KNIGHT_ATTACKS[from];
             else if (p === K) attacks = KING_ATTACKS[from];
-            else if (p === B) attacks = getBishopAttacks(from, blockers);
-            else if (p === R) attacks = getRookAttacks(from, blockers);
-            else if (p === Q) attacks = getQueenAttacks(from, blockers);
+            else if (p === B) attacks = getBishopAttacks(from, blockers); // Calls the AUDIT version
+            else if (p === R) attacks = getRookAttacks(from, blockers);   // Calls the AUDIT version
+            else if (p === Q) attacks = getQueenAttacks(from, blockers); // Calls the AUDIT version
             
-            attacks &= validTargetSquares; // The core operation, now safe.
+            attacks &= validTargetSquares;
             while (attacks > 0n) {
                 const to = getLSBIndex(attacks);
-                const isCapture = ((1n << BigInt(to)) & correctedValidCaptureSquares) ? 1 : 0;
+                const isCapture = ((1n << BigInt(to)) & validCaptureSquares) ? 1 : 0;
                 moves.push(encodeMove(from, to, p, 0, isCapture, 0, 0, 0));
                 attacks = popBit(attacks);
             }
