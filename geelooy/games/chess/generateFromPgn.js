@@ -1,45 +1,27 @@
 /* B"H */
 
 // =================================================================
-//                 BITBOARD PGN CONVERTER (MK. IX - THE TRANSPARENT SCRIBE)
+//                 BITBOARD PGN CONVERTER (MK. X - THE ALL-SEEING SCRIBE)
 // =================================================================
-// This is the final, definitive rewrite. The Scribe's core SAN recognition
-// logic has been rebuilt from first principles to be unconditionally correct.
-//
-// The new "Hyper-Diagnostic" logger, active only during the engine's Gnostic
-// Audit, will now output every single calculated value and comparison, making
-// its thought process entirely transparent.
-//
-// As demanded, if the Scribe fails to parse any move from the sanctified
-// libraries, it will now throw a CATASTROPHIC ERROR and halt initialization,
-// providing a detailed report on the paradox it encountered. There is no
-// longer a possibility of silent failure.
+// This is the final, definitive rewrite. The Scribe's "colorblindness" has
+// been cured with a single, critical correction (piece % 6). It now correctly
+// identifies both white and black pieces. The fatal paradox error and hyper-
+// diagnostic logging from Mk. IX remain to guarantee transparency and correctness.
 // =================================================================
 
 const STARTING_FEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
 
-/**
- * B"H
- * The Scribe's Hyper-Diagnostic Consciousness.
- * This logger provides an intensely detailed trace of the Scribe's thoughts.
- */
 const ScribeLogger = {
     isAuditing: () => self.EngineSoul && self.EngineSoul.isAuditing,
-
     logComparison: (details) => {
         if (!ScribeLogger.isAuditing()) return;
-        
         const { move, generatedSan, targetSan, isMatch, reason } = details;
         const fromSq = getMoveFrom(move);
         const toSq = getMoveTo(move);
         const files = 'abcdefgh';
         const ranks = '87654321';
         const moveCoords = `${files[fromSq % 8]}${ranks[Math.floor(fromSq/8)]}` + `${files[toSq % 8]}${ranks[Math.floor(toSq/8)]}`;
-        
-        const style = isMatch 
-            ? "background: #103810; color: #99ff99; padding: 2px 4px; border-radius: 3px;" 
-            : "color: #888;";
-        
+        const style = isMatch ? "background: #103810; color: #99ff99; padding: 2px 4px; border-radius: 3px;" : "color: #888;";
         console.log(`%c[SCRIBE TRACE] ${moveCoords}`, style, {
             "Target SAN": targetSan,
             "Generated SAN": generatedSan,
@@ -63,7 +45,6 @@ class PgnConverter {
             }
         }
         
-        // CATASTROPHIC FAILURE as requested.
         const fen = this.toFen();
         const errorMessage = `
 /======================================================================\\
@@ -76,8 +57,7 @@ This is a fatal paradox, as the library is assumed to be perfect. Initialization
   - Current Reality (FEN):       "${fen}"
 
 This indicates a deep logical flaw in the Scribe's isMoveSan cognition.
-The Universe is unstable and will now halt.
-`;
+The Universe is unstable and will now halt.`;
         throw new Error(errorMessage);
     }
 
@@ -88,7 +68,11 @@ The Universe is unstable and will now halt.
         const promotedPiece = getMovePromoted(move);
         
         const files = 'abcdefgh', ranks = '87654321';
-        const pieceLetter = 'PNBRQK'[piece];
+        // =================================================================
+        // THE CRITICAL BUG FIX: Use (piece % 6) to handle black pieces.
+        const pieceLetter = 'PNBRQK'[piece % 6];
+        // =================================================================
+        
         const destSquare = files[to % 8] + ranks[Math.floor(to / 8)];
         let generatedSan = "", reason = "";
 
@@ -104,7 +88,7 @@ The Universe is unstable and will now halt.
                 reason = "Pawn quiet move.";
             }
             if (promotedPiece) {
-                generatedSan += '=' + 'PNBRQK'[promotedPiece];
+                generatedSan += '=' + 'PNBRQK'[promotedPiece % 6];
                 reason += " With promotion.";
             }
         } else {
@@ -145,17 +129,13 @@ The Universe is unstable and will now halt.
     }
 
     toFen() {
-        // This function is purely observational, no changes needed.
         const state = this.currentState;
         const boardPart = [...Array(8)].map((_, r) => {
             let empty = 0, rowStr = '';
             for (let c = 0; c < 8; c++) {
                 const sq = r * 8 + c;
                 const pieceChar = pieceMap.split('').find((p, i) => (state.pieceBitboards[i] >> BigInt(sq)) & 1n);
-                if (pieceChar) {
-                    if (empty > 0) { rowStr += empty; empty = 0; }
-                    rowStr += pieceChar;
-                } else { empty++; }
+                if (pieceChar) { if (empty > 0) { rowStr += empty; empty = 0; } rowStr += pieceChar; } else { empty++; }
             }
             if (empty > 0) rowStr += empty;
             return rowStr;
@@ -184,7 +164,7 @@ function generateRawBook(source) {
             const thinMove = {
                 from: [Math.floor(from / 8), from % 8],
                 to: [Math.floor(to / 8), to % 8],
-                promotion: prom ? pieceMap[prom].toLowerCase() : undefined
+                promotion: prom ? pieceMap[prom % 6].toLowerCase() : undefined
             };
             if (!entry.slice(2).some(m => JSON.stringify(m) === JSON.stringify(thinMove))) {
                 entry.push(thinMove);
@@ -196,5 +176,3 @@ function generateRawBook(source) {
 }
 
 if(typeof self !== 'undefined') self.PgnConverter = PgnConverter;
-
-
