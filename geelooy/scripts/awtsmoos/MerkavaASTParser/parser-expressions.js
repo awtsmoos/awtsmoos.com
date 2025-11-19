@@ -733,36 +733,34 @@ proto._parseAsyncExpression = function() {
 				._parseFunction(
 					"expression")
 		};
-	proto._parseClassExpression =
-		function() {
-			const t = this
-				._startNode();
-			this._expect(TOKEN
-				.CLASS);
-			let e = null;
-			this._currTokenIs(TOKEN
-				.IDENT) && (e =
-				this
-				._parseIdentifier()
-			);
-			let s = null;
-			this._currTokenIs(TOKEN
-				.EXTENDS) && (
-				this._advance(),
-				s = this
-				._parseIdentifier()
-			);
-			const i = this
-				._parseClassBody();
-			return this
-				._finishNode({
-					type: "ClassExpression",
-					id: e,
-					superClass: s,
-					body: i
-				}, t)
-		};
-	// B"H
+	
+    // --- THIS IS THE TIKKUN ---
+	proto._parseClassExpression = function() {
+        const s = this._startNode();
+        this._expect(TOKEN.CLASS);
+
+        let id = null;
+        if (this._currTokenIs(TOKEN.IDENT)) {
+            id = this._parseIdentifier();
+        }
+
+        let superClass = null;
+        if (this._currTokenIs(TOKEN.EXTENDS)) {
+            this._advance();
+            // This is the rectification: it now correctly parses a full expression
+            // as the superclass, not just a single identifier.
+            superClass = this._parseExpression(PRECEDENCE.LOWEST);
+        }
+
+        const body = this._parseClassBody();
+        return this._finishNode({
+            type: "ClassExpression",
+            id: id,
+            superClass: superClass,
+            body: body
+        }, s);
+    };
+    // --- END OF TIKKUN ---
 
 	proto._parseNewExpression = function() {
 		const s = this._startNode();
@@ -779,9 +777,6 @@ proto._parseAsyncExpression = function() {
 			return this._finishNode({ type: 'MetaProperty', meta: meta, property: property }, s);
 		}
 		
-        // --- THIS IS THE TIKKUN ---
-        // The precedence here was too high (MEMBER), preventing it from parsing `d.a` as a single unit.
-        // Lowering it to CALL allows the MemberExpression to be fully parsed as the callee.
 		const callee = this._parseExpression(PRECEDENCE.CALL);
 		let args = [];
 		if (this._currTokenIs(TOKEN.LPAREN)) {
@@ -794,8 +789,6 @@ proto._parseAsyncExpression = function() {
 			arguments: args
 		}, s);
 	};
-
-// --- 
 	
 	proto._parseCallExpression =
 		function(t) {
@@ -1152,7 +1145,7 @@ proto._convertExpressionToPattern = function(node) {
             node.type = 'ObjectPattern';
             // Recursively convert the values of its properties.
             for (const prop of node.properties) {
-                prop.value = this._convertExpressionTo-Pattern(prop.value);
+                prop.value = this._convertExpressionToPattern(prop.value);
             }
             return node;
 
