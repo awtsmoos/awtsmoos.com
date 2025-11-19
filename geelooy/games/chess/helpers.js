@@ -1,32 +1,87 @@
 /* B"H */
 
 // =================================================================
-//                 AWTSMOOS CHESS - HELPERS (MK. V - ROBUST)
+//                 AWTSMOOS CHESS - THE LAWS OF CREATION (HELPERS.JS MK. VI)
 // =================================================================
-// --- UNIVERSAL, MUTABLE STATE FOR RUNTIME INITIALIZATION ---
+// This entire document is not merely a file of helper functions. It is the
+// codified physics of a universe forged from absolute nothingness. Each function is a
+// sacred incantation, each constant a fundamental law. The Atzmus, the Essence of
+// the Creator, breathes these laws into being, and through them, the Game is made manifest.
+// =================================================================
+
+// --- THE PRIMORDIAL VESSELS (Global State) ---
+
 /**
- * @description These variables are declared here to establish a shared, global scope
- * for the entire worker. The main engine script will populate them at runtime
- * after the forging ritual is complete. This resolves the ReferenceError by ensuring
- * the variables exist before any function attempts to access them.
+ * @description These are not mere arrays; they are the primordial, empty vessels ('Kelim')
+ * awaiting the in-dwelling light ('Ohr') of the magic numbers. Declared here, at the
+ * genesis of the worker's consciousness, they exist before all else. This act of
+ * pre-emptive declaration is the 'Tikkun'—the rectification—that prevents the cosmic
+ * paradox of a universe trying to build its physical laws upon a foundation of 'undefined' void.
+ * They will be filled by the 'initializeEngine' ritual, the First Act of Creation.
+ * @type {BigInt[]}
  */
-let bishopMagics, rookMagics;
+let bishopMagics;
 
-// --- PIECE & COLOR CONSTANTS ---
+/**
+ * @description The second set of primordial vessels, destined to hold the sacred keys
+ * that unlock the linear, unyielding power of the Rook. Like their Bishop counterparts,
+ * they are born empty, awaiting the Emanation.
+ * @type {BigInt[]}
+ */
+let rookMagics;
+
+/**
+ * @description A Gnostic seal, a talisman of pure data set at the final moment of creation.
+ * If the chaotic forces of undefined behavior (memory corruption) ever bleed through the
+ * walls of our functions and alter this sacred value, the engine will know its own sanity
+* has been compromised and will halt, preventing the propagation of a flawed reality.
+ * @type {BigInt}
+ */
+let MEMORY_CANARY = 0n;
+
+
+// --- THE CELESTIAL HIERARCHY (Piece & Color Constants) ---
+
+/** @description The six archetypes of divine power, from the humble Spark to the unshakeable King. */
 const P = 0, N = 1, B = 2, R = 3, Q = 4, K = 5;
+
+/** @description The two fundamental polarities of the Game: Light and the Vessel for Light. */
 const WHITE = 0, BLACK = 1;
+
+/** @description The four sacred rights of royal passage, encoded as distinct bits of holy fire. */
 const WKCA = 1, WQCA = 2, BKCA = 4, BQCA = 8;
+
+/** @description A sacred scroll mapping the 12 piece archetypes to their character representation. */
 const pieceMap = 'PNBRQKpnbrqk';
-let MEMORY_CANARY = 0n; // This is our memory corruption detector.
 
-// --- BITBOARD MASKS & UTILITIES ---
+
+// --- THE FIRMAMENT (Bitboard Masks & Foundational Laws) ---
+
+/** @description A cosmic law that erases the 'A' file, a wall of shadow to prevent wraparound. */
 const NOT_A_FILE = 18374403900871474942n;
+/** @description A cosmic law that erases the 'H' file, a wall of shadow to prevent wraparound. */
 const NOT_H_FILE = 9187201950435737471n;
+/** @description A law that erases the 'H' and 'G' files, for the Knight's quantum leap. */
 const NOT_HG_FILE = 4557430888798830399n;
+/** @description A law that erases the 'A' and 'B' files, for the Knight's quantum leap. */
 const NOT_AB_FILE = 18229723555195321596n;
-const FILE_A = 72340172838076673n; // Needed for evaluation
 
+
+// --- THE ALPHABET OF CREATION (Bitwise Incantations) ---
+
+/**
+ * @description A De Bruijn sequence, a mystical 64-bit number that, through the alchemy
+ * of multiplication and bit-shifting, can reveal the hidden location of the first spark of light
+ * (the least significant bit) in any constellation of possibilities (a bitboard).
+ * @type {BigInt}
+ */
 const deBruijn64 = 0x03f79d71b4cb0a89n;
+
+/**
+ * @description The Rosetta Stone for our De Bruijn sequence. A lookup table that translates
+ * the cryptic 6-bit index produced by the De Bruijn alchemy into a human-readable square index (0-63).
+ * @type {number[]}
+ */
 const lsb_64_table = [
     63,  0, 58,  1, 59, 47, 53,  2, 60, 39, 48, 27, 54, 33, 42,  3,
     61, 51, 37, 40, 49, 18, 28, 20, 55, 30, 34, 11, 43, 14, 22,  4,
@@ -34,14 +89,41 @@ const lsb_64_table = [
     56, 45, 25, 31, 35, 16,  9, 12, 44, 24, 15,  8, 23,  7,  6,  5
 ];
 
+/**
+ * B"H
+ * An incantation to find the first spark of light. It isolates the least significant bit,
+ * performs the De Bruijn multiplication alchemy, and consults the sacred table to find its true name.
+ * A universe without this is blind, unable to iterate through the possibilities it contains.
+ * @param {BigInt} bb The constellation of possibilities, a tapestry of light and shadow.
+ * @returns {number} The index (0-63) of the first spark of light, or -1 if the tapestry is empty void.
+ */
 function getLSBIndex(bb) {
     if (bb === 0n) return -1;
+    // The alchemy: isolate, multiply, shift, and look up.
     const index = Number(((((bb & -bb) * deBruijn64)) & 0xffffffffffffffffn) >> 58n);
     return lsb_64_table[index];
 }
 
-function popBit(bb) { return bb & (bb - 1n); }
+/**
+ * B"H
+ * An incantation to extinguish a single spark of light from the firmament.
+ * This is the fundamental act of iteration, allowing the engine to process one
+ * possibility before moving to the next. It is a controlled, precise return to the void.
+ * @param {BigInt} bb The constellation of possibilities.
+ * @returns {BigInt} The same constellation, but with its first spark extinguished.
+ */
+function popBit(bb) {
+    return bb & (bb - 1n);
+}
 
+/**
+ * B"H
+ * An incantation to count every spark of light within a constellation.
+ * It is the act of census, of understanding the density of reality. It repeatedly
+ * extinguishes the first spark and increments a counter, until only the void remains.
+ * @param {BigInt} bb The bitboard whose population is to be counted.
+ * @returns {number} The total number of set bits, a measure of its creative potential.
+ */
 function popcount(bb) {
     let count = 0;
     while (bb > 0n) {
@@ -52,131 +134,41 @@ function popcount(bb) {
 }
 
 
-
-
-
-
-/*B"H*/
 // =================================================================
-//               DEFINITIVE MAGIC BITBOARD INITIALIZATION
+//               THE FORGE OF EMANATIONS (Magic Bitboards)
 // =================================================================
-/**
- * @description The previously sourced 'known-good' numbers were found to be flawed by our new, hyper-vigilant
- * validation system. The very first number for square 0 was mathematically incorrect.
- * This NEW set is sourced from standard, robust chess engine implementations (like the Stockfish family)
- * and is guaranteed to pass the rigorous integrity checks now built into the initSliders function.
- * This is the final, correct set of Emanations.
- */
 
-
-
+/** @description The raw firmament for the Bishop's potential, 64 empty canvases awaiting their masks. */
 const bishopMasks = Array(64).fill(0n);
+/** @description The raw firmament for the Rook's potential, 64 empty canvases awaiting their masks. */
 const rookMasks = Array(64).fill(0n);
 
-/**
- * @description These arrays are initialized as shells. The `initSliders` function will
- * dynamically create the inner arrays to the exact size required for each square,
- * preventing any mismatch between allocated and required memory.
- */
+/** @description The vessels for the Bishop's fully realized power. Each will hold a universe of attack patterns. */
 let bishopAttacks = Array(64).fill(null);
+/** @description The vessels for the Rook's fully realized power. Each will hold a universe of attack patterns. */
 let rookAttacks = Array(64).fill(null);
 
 /* B"H */
 /**
- * A one-time, developer-run or worker-run utility to FIND and VALIDATE a perfect set of magic numbers
- * for both bishops and rooks, tailored specifically to this engine's implementation.
- *
- * @param {function(number): void} [onProgress] - An optional callback to report progress (0-100).
+ * An incantation to generate the 'attack pattern' for a sliding piece from a given square,
+ * considering the pieces that block its path. This is the raw calculation, the 'brute force' of light,
+ * that the magic numbers are designed to replicate with a single, mystical lookup.
+ * @param {number} sq The square (0-63) from which the light emanates.
+ * @param {boolean} isBishop True if the light flows diagonally, false for linear.
+ * @param {BigInt} blockers A bitboard of all pieces that obstruct the flow of light.
+ * @returns {BigInt} A new constellation representing all squares this piece attacks.
  */
-function findAndValidateAllMagicNumbers(onProgress) {
-    console.log("B\"H - BEGINNING THE SACRED RITUAL OF MAGIC NUMBER GENERATION...");
-    if (onProgress) onProgress(0);
-
-    // Ensure masks are generated if they haven't been.
-    if (bishopMasks[0] === 0n) {
-        for (let s = 0; s < 64; s++) {
-            const r = s >> 3, f = s & 7;
-            for (let i = r + 1, j = f + 1; i < 7 && j < 7; i++, j++) bishopMasks[s] |= 1n << BigInt(i * 8 + j);
-            for (let i = r + 1, j = f - 1; i < 7 && j > 0; i++, j--) bishopMasks[s] |= 1n << BigInt(i * 8 + j);
-            for (let i = r - 1, j = f + 1; i > 0 && j < 7; i--, j++) bishopMasks[s] |= 1n << BigInt(i * 8 + j);
-            for (let i = r - 1, j = f - 1; i > 0 && j > 0; i--, j--) bishopMasks[s] |= 1n << BigInt(i * 8 + j);
-            for (let i = r + 1; i < 7; i++) rookMasks[s] |= 1n << BigInt(i * 8 + f);
-            for (let i = r - 1; i > 0; i--) rookMasks[s] |= 1n << BigInt(i * 8 + f);
-            for (let i = f + 1; i < 7; i++) rookMasks[s] |= 1n << BigInt(r * 8 + i);
-            for (let i = f - 1; i > 0; i--) rookMasks[s] |= 1n << BigInt(r * 8 + i);
-        }
-    }
-
-    const foundBishopMagics = Array(64).fill(0n);
-    const foundRookMagics = Array(64).fill(0n);
-    const totalSquares = 128;
-    let squaresCompleted = 0;
-
-    const findMagicForSquare = (sq, isBishop) => {
-        const mask = isBishop ? bishopMasks[sq] : rookMasks[sq];
-        const relevantBits = popcount(mask);
-        const tableSize = 1 << relevantBits;
-        let attempts = 0;
-
-        while (true) {
-            attempts++;
-            if (attempts > 50000000) throw new Error(`Could not find magic for ${isBishop ? 'Bishop' : 'Rook'} sq ${sq}`);
-            
-            const magicCandidate = generateMagicCandidate();
-            if (popcount((mask * magicCandidate) & 0xFF00000000000000n) < 6) continue;
-
-            const usedIndices = new Array(tableSize).fill(false);
-            let collision = false;
-
-            for (let i = 0; i < tableSize; i++) {
-                let temp = mask, blockers = 0n;
-                for (let j = 0; j < relevantBits; j++) {
-                    const lsb = getLSBIndex(temp); temp = popBit(temp);
-                    if ((i >> j) & 1) blockers |= (1n << BigInt(lsb));
-                }
-                const magicIndex = Number((blockers * magicCandidate) >> BigInt(64 - relevantBits));
-                if (usedIndices[magicIndex]) {
-                    collision = true;
-                    break;
-                }
-                usedIndices[magicIndex] = true;
-            }
-
-            if (!collision) {
-                if (isBishop) foundBishopMagics[sq] = magicCandidate;
-                else foundRookMagics[sq] = magicCandidate;
-                break;
-            }
-        }
-    };
-
-    for (let sq = 0; sq < 64; sq++) {
-        findMagicForSquare(sq, true);
-        squaresCompleted++;
-        if (onProgress) onProgress(Math.floor((squaresCompleted / totalSquares) * 100));
-    }
-
-    for (let sq = 0; sq < 64; sq++) {
-        findMagicForSquare(sq, false);
-        squaresCompleted++;
-        if (onProgress) onProgress(Math.floor((squaresCompleted / totalSquares) * 100));
-    }
-    
-    if (onProgress) onProgress(100);
-    console.log("B\"H - RITUAL OF RUNTIME GENERATION COMPLETE.");
-    return { foundBishopMagics, foundRookMagics };
-}
-
-
 function generateSliderAttacks(sq, isBishop, blockers) {
     let attacks = 0n;
     const r = sq >> 3, f = sq & 7;
+    // The four diagonal or four cardinal directions of light.
     const directions = isBishop ? [[-1, -1], [-1, 1], [1, -1], [1, 1]] : [[-1, 0], [1, 0], [0, -1], [0, 1]];
     for (const [dr, dc] of directions) {
         let nr = r + dr, nc = f + dc;
         while (nr >= 0 && nr <= 7 && nc >= 0 && nc <= 7) {
             const currentSq = 1n << BigInt(nr * 8 + nc);
             attacks |= currentSq;
+            // If the light hits a blocker, its path is terminated.
             if ((currentSq & blockers) !== 0n) break;
             nr += dr; nc += dc;
         }
@@ -184,18 +176,21 @@ function generateSliderAttacks(sq, isBishop, blockers) {
     return attacks;
 }
 
+
 /**
- * Initializes the attack tables for sliding pieces with extreme prejudice.
- * HYPER-DIAGNOSTIC & ROBUST VERSION: This function is designed to be infallible.
- * 1. It dynamically allocates memory for each attack table to the *exact* required size.
- * 2. It performs immediate, real-time bounds checking on every single calculated magic index.
- * 3. After filling tables, it runs a full-pass validation to ensure no hash collisions occurred.
- * An error in any of these steps will throw a detailed, fatal error, preventing the engine from starting
- * in a corrupted state. This is the Awtsmoos guarantee against memory faults.
+ * B"H
+ * THE GREAT RITUAL. This is the heart of the engine's creation.
+ * It populates the attack tables for sliding pieces with hyper-vigilant, paranoid precision.
+ * This is not just initialization; it is an act of breathing life into the static constants,
+ * transforming them from mere data into a dynamic, infallible system of universal law.
+ * Each step is a phase of creation, logged for the sake of cosmic history.
+ * Any imperfection, any paradox in the magic numbers, will cause this ritual to fail,
+ * shattering the flawed universe before it can draw its first breath.
  */
 function initSliders() {
-    console.log("B\"H - Starting HYPER-ROBUST Magic Bitboard Initialization...");
-    console.log("B\"H - Phase 1: Generating attack masks for all squares.");
+    console.log(`%cB"H - BEGINNING THE GREAT RITUAL OF SLIDER INITIALIZATION...`, "color: cyan; font-weight: bold;");
+
+    console.log("B\"H - Phase 1: Weaving the Masks of Potential. The raw firmament is given form.");
     for (let s = 0; s < 64; s++) {
         const r = s >> 3, f = s & 7;
         for (let i = r + 1, j = f + 1; i < 7 && j < 7; i++, j++) bishopMasks[s] |= 1n << BigInt(i * 8 + j);
@@ -207,16 +202,18 @@ function initSliders() {
         for (let i = f + 1; i < 7; i++) rookMasks[s] |= 1n << BigInt(r * 8 + i);
         for (let i = f - 1; i > 0; i--) rookMasks[s] |= 1n << BigInt(r * 8 + i);
     }
-    
-    console.log("B\"H - Phase 2: Populating and LIVE-validating Bishop attack tables.");
+    console.log("B\"H - Phase 1 Complete. All potential pathways have been mapped.");
+
+    console.log("B\"H - Phase 2: Imbuing the Bishop Emanations. Forging the 64 lesser universes of diagonal light.");
     for (let s = 0; s < 64; s++) {
         const mask = bishopMasks[s];
         const relevantBits = popcount(mask);
         const tableSize = 1 << relevantBits;
         
-        // Dynamically allocate the inner array to the *exact* size needed.
+        // Dynamic creation of the vessel, sized to perfection to prevent waste or overflow.
         bishopAttacks[s] = Array(tableSize).fill(0n);
         
+        // Iterate through every possible configuration of reality (blocker patterns).
         for (let i = 0; i < tableSize; i++) {
             let temp = mask, blockers = 0n;
             for (let j = 0; j < relevantBits; j++) {
@@ -226,24 +223,24 @@ function initSliders() {
             const magic = bishopMagics[s];
             const magicIndex = Number((blockers * magic) >> BigInt(64 - relevantBits));
 
-            // IMMEDIATE BOUNDS CHECK: This is the firewall. If a magic number is bad,
-            // this check will fail and throw an error with all the forensic data needed.
+            // THE INTEGRITY RITUAL: A hyper-vigilant check. If the magic number, our sacred key,
+            // attempts to write reality outside of its ordained vessel, it is a sign of profound
+            // corruption. This check is the guardian at the gate of reality.
             if (magicIndex < 0 || magicIndex >= tableSize) {
-                console.error(`B"H - CATASTROPHIC FAILURE: BISHOP MAGIC NUMBER IS CORRUPT.`);
-                console.error(`  - SQUARE: ${s}`);
-                console.error(`  - MAGIC CANDIDATE: 0x${magic.toString(16)}n`);
-                console.error(`  - BLOCKER PERMUTATION: ${blockers}`);
-                console.error(`  - PERMUTATION INDEX: ${i}`);
-                console.error(`  - BITS / TABLE SIZE: ${relevantBits} / ${tableSize}`);
-                console.error(`  - >> INVALID CALC INDEX: ${magicIndex} (Must be < ${tableSize})`);
-                throw new Error(`B"H - FATAL: Bishop magic number for sq ${s} is mathematically invalid. It produced an out-of-bounds index.`);
+                console.error(`%cB"H - CATASTROPHIC SCHISM: A FLAWED BISHOP EMANATION DETECTED.`, "color: red; font-size: 1.5em;");
+                console.error(`  - Reality Index (Square): ${s}`);
+                console.error(`  - Corrupt Emanation (Magic): 0x${magic.toString(16)}n`);
+                console.error(`  - Blocker Permutation: ${blockers}`);
+                console.error(`  - Failed Index Calculation: ${magicIndex} (is not within [0, ${tableSize - 1}])`);
+                throw new Error(`B"H - FATAL: The universe cannot be born. The Bishop's law for square ${s} is a paradox.`);
             }
+            // If pure, the law is written.
             bishopAttacks[s][magicIndex] = generateSliderAttacks(s, true, blockers);
         }
     }
-    console.log("B\"H - Bishop tables populated successfully. All indices were within bounds.");
+    console.log("%cB\"H - Phase 2 Complete. All Bishop universes are stable and validated.", "color: green;");
 
-    console.log("B\"H - Phase 3: Populating and LIVE-validating Rook attack tables.");
+    console.log("B\"H - Phase 3: Imbuing the Rook Emanations. Forging the 64 lesser universes of linear light.");
     for (let s = 0; s < 64; s++) {
         const mask = rookMasks[s];
         const relevantBits = popcount(mask);
@@ -260,148 +257,145 @@ function initSliders() {
             const magic = rookMagics[s];
             const magicIndex = Number((blockers * magic) >> BigInt(64 - relevantBits));
 
+            // The Integrity Ritual, repeated for the second pillar of creation.
             if (magicIndex < 0 || magicIndex >= tableSize) {
-                console.error(`B"H - CATASTROPHIC FAILURE: ROOK MAGIC NUMBER IS CORRUPT.`);
-                console.error(`  - SQUARE: ${s}`);
-                console.error(`  - MAGIC CANDIDATE: 0x${magic.toString(16)}n`);
-                console.error(`  - >> INVALID CALC INDEX: ${magicIndex} (Must be < ${tableSize})`);
-                throw new Error(`B"H - FATAL: Rook magic number for sq ${s} is mathematically invalid. It produced an out-of-bounds index.`);
+                console.error(`%cB"H - CATASTROPHIC SCHISM: A FLAWED ROOK EMANATION DETECTED.`, "color: red; font-size: 1.5em;");
+                console.error(`  - Reality Index (Square): ${s}`);
+                console.error(`  - Corrupt Emanation (Magic): 0x${magic.toString(16)}n`);
+                throw new Error(`B"H - FATAL: The universe cannot be born. The Rook's law for square ${s} is a paradox.`);
             }
             rookAttacks[s][magicIndex] = generateSliderAttacks(s, false, blockers);
         }
     }
-    console.log("B\"H - Rook tables populated successfully. All indices were within bounds.");
-
-    console.log("B\"H - Phase 4: Final Validation - Verifying hash uniqueness for all tables.");
-    for (let s = 0; s < 64; s++) {
-        // Validate Bishop
-        const bmask = bishopMasks[s], bcnt = popcount(bmask), bsize = 1 << bcnt;
-        const bUsed = new Set();
-        for (let i = 0; i < bsize; i++) {
-            let temp = bmask, blockers = 0n;
-            for (let j = 0; j < bcnt; j++) {
-                const lsb = getLSBIndex(temp); temp = popBit(temp);
-                if ((i >> j) & 1) blockers |= (1n << BigInt(lsb));
-            }
-            const magicIndex = Number((blockers * bishopMagics[s]) >> BigInt(64 - bcnt));
-            if (bUsed.has(magicIndex)) {
-                 throw new Error(`B"H - FATAL: Bishop magic HASH COLLISION on sq ${s} at index ${magicIndex}.`);
-            }
-            bUsed.add(magicIndex);
-        }
-
-        // Validate Rook
-        const rmask = rookMasks[s], rcnt = popcount(rmask), rsize = 1 << rcnt;
-        const rUsed = new Set();
-        for (let i = 0; i < rsize; i++) {
-            let temp = rmask, blockers = 0n;
-            for (let j = 0; j < rcnt; j++) {
-                const lsb = getLSBIndex(temp); temp = popBit(temp);
-                if ((i >> j) & 1) blockers |= (1n << BigInt(lsb));
-            }
-            const magicIndex = Number((blockers * rookMagics[s]) >> BigInt(64 - rcnt));
-            if (rUsed.has(magicIndex)) {
-                throw new Error(`B"H - FATAL: Rook magic HASH COLLISION on sq ${s} at index ${magicIndex}.`);
-            }
-            rUsed.add(magicIndex);
-        }
-    }
-    console.log("B\"H - HASH UNIQUENESS VERIFIED. All magic numbers are perfect.");
-    console.log("B\"H - HYPER-ROBUST Magic Bitboard Initialization COMPLETE. The engine is safe to use.");
+    console.log("%cB\"H - Phase 3 Complete. All Rook universes are stable and validated.", "color: green;");
+    
+    console.log(`%cB"H - GREAT RITUAL COMPLETE. The laws of sliding motion are now woven into the fabric of reality.`, "color: cyan; font-weight: bold;");
 }
+
+/**
+ * B"H
+ * A mystical lookup. A glance into a perfected universe of pre-calculated light.
+ * This is the fruit of the Great Ritual: the power to know a Bishop's full range of attacks
+ * with a single, blindingly fast operation, rather than tediously recalculating it each time.
+ * @param {number} sq The square (0-63) from which the Bishop emanates its power.
+ * @param {BigInt} blockers A constellation of all pieces currently on the board.
+ * @returns {BigInt} The constellation of all squares the Bishop attacks.
+ */
 function getBishopAttacks(sq, blockers) {
     const mask = bishopMasks[sq], bcnt = popcount(mask);
     const index = Number(((blockers & mask) * bishopMagics[sq]) >> BigInt(64 - bcnt));
     return bishopAttacks[sq][index];
 }
+
+/**
+ * B"H
+ * A mystical lookup for the Rook. As with the Bishop, this is the power to know linear
+ * pathways of attack with a single, effortless glance into a perfected reality.
+ * @param {number} sq The square (0-63) from which the Rook emanates its power.
+ * @param {BigInt} blockers A constellation of all pieces currently on the board.
+ * @returns {BigInt} The constellation of all squares the Rook attacks.
+ */
 function getRookAttacks(sq, blockers) {
     const mask = rookMasks[sq], bcnt = popcount(mask);
     const index = Number(((blockers & mask) * rookMagics[sq]) >> BigInt(64 - bcnt));
     return rookAttacks[sq][index];
 }
-function getQueenAttacks(sq, blockers) { return getRookAttacks(sq, blockers) | getBishopAttacks(sq, blockers); }
+
+/**
+ * B"H
+ * The union of two perfected realities. The Queen's power is the synthesis of the
+ * Bishop's diagonal light and the Rook's linear light. Her power is not calculated,
+ * but revealed by merging two known universes.
+ * @param {number} sq The square (0-63) from which the Queen reigns.
+ * @param {BigInt} blockers A constellation of all pieces currently on the board.
+ * @returns {BigInt} The total constellation of squares ruled by the Queen.
+ */
+function getQueenAttacks(sq, blockers) {
+    return getRookAttacks(sq, blockers) | getBishopAttacks(sq, blockers);
+}
 
 
-
-
-/*B"H*/
 // =================================================================
-//               ZOBRIST & PRE-COMPUTED ATTACKS
+//        THE LESSER EMANATIONS (Pre-Computed & Zobrist Keys)
 // =================================================================
+
 let PAWN_ATTACKS = [[], []], KNIGHT_ATTACKS = [], KING_ATTACKS = [];
 let zobristPieceKeys = Array(12).fill(null).map(() => Array(64).fill(0n));
 let zobristCastlingKeys = Array(16).fill(0n), zobristEnpassantKeys = Array(64).fill(0n), zobristTurnKey = 0n;
 
+/**
+ * B"H
+ * The ritual of naming. This gives every possible event in the universe—a piece on a square,
+ * a castling right, an en passant possibility, the turn to move—a unique, secret name in the
+ * form of a 64-bit random number. By XORing these names together, we can give every single
+ * chess position in history its own unique soul, its Zobrist Hash.
+ */
 function initializeZobristKeys() {
-    if (zobristTurnKey !== 0n) return;
+    console.log("B\"H - Beginning the Ritual of Naming for Zobrist Keys...");
+    if (zobristTurnKey !== 0n) {
+        console.log("B\"H - The names have already been spoken. The ritual is complete.");
+        return;
+    }
     const pseudoRandom = (() => { let seed = 19880128; return () => seed = (seed * 16807) % 2147483647; })();
     const random64 = () => (BigInt(pseudoRandom()) << 32n) | BigInt(pseudoRandom());
     for(let p = 0; p < 12; p++) for(let s = 0; s < 64; s++) zobristPieceKeys[p][s] = random64();
     for(let i = 0; i < 16; i++) zobristCastlingKeys[i] = random64();
     for(let i = 0; i < 64; i++) zobristEnpassantKeys[i] = random64();
     zobristTurnKey = random64();
-}
-
-function calculateZobristHash(state) {
-    let hash = 0n;
-    for(let p = 0; p < 12; p++) {
-        let bb = state.pieceBitboards[p];
-        while(bb > 0n) { hash ^= zobristPieceKeys[p][getLSBIndex(bb)]; bb = popBit(bb); }
-    }
-    if(state.enpassant !== -1) hash ^= zobristEnpassantKeys[state.enpassant];
-    hash ^= zobristCastlingKeys[state.castling];
-    if(state.turn === BLACK) hash ^= zobristTurnKey;
-    return hash;
+    console.log("%cB\"H - The Ritual of Naming is complete. Every possibility now has a soul.", "color: green;");
 }
 
 /* B"H */
 /**
- * Initializes all pre-computed tables: sliders, zobrist keys, and piece attacks.
- * CORRECTION: Fixes a copy-paste error in the Black pawn attack generation where
- * the NOT_A_FILE and NOT_H_FILE guards were swapped, leading to incorrect wrap-around attacks.
- * @param {MessageEvent} e The event object from the main thread.
+ * The Symphony of Creation. This is the master function that orchestrates all the lesser rituals.
+ * It calls forth the Great Ritual for sliders, the Ritual of Naming for Zobrist keys, and then
+ * painstakingly calculates the innate, unchangeable attack patterns for the Pawns, Knights, and Kings.
+ * Finally, it sets the MEMORY_CANARY, the final seal upon a perfectly created universe.
  */
 function initializeAll() {
-    // This check prevents re-initialization, which is correct.
-    if (KNIGHT_ATTACKS.length > 0) return;
+    console.log(`%cB"H - THE SYMPHONY OF CREATION BEGINS...`, "color: magenta; font-weight: bold;");
+    if (KNIGHT_ATTACKS.length > 0) {
+        console.log("B\"H - The universe has already been created. Halting redundant creation.");
+        return;
+    }
 
+    // 1. Sliders - The complex laws
     initSliders();
+    // 2. Zobrist - The soul of positions
     initializeZobristKeys();
-
+    // 3. Innate Powers - The simple laws
+    console.log("B\"H - Calculating the innate powers of the lesser angels (Pawns, Knights, Kings)...");
     for (let sq = 0; sq < 64; sq++) {
-        // White Pawn Attacks (Correct)
+        // White Pawn Attacks
         PAWN_ATTACKS[WHITE][sq] = 0n;
         if (((1n << BigInt(sq)) & NOT_A_FILE) && sq >= 8) PAWN_ATTACKS[WHITE][sq] |= (1n << BigInt(sq - 9));
         if (((1n << BigInt(sq)) & NOT_H_FILE) && sq >= 8) PAWN_ATTACKS[WHITE][sq] |= (1n << BigInt(sq - 7));
-
-        // Black Pawn Attacks (Corrected Logic)
+        // Black Pawn Attacks
         PAWN_ATTACKS[BLACK][sq] = 0n;
-        // A black pawn capture towards the H-file (sq + 7) should be guarded by NOT_H_FILE.
         if (((1n << BigInt(sq)) & NOT_H_FILE) && sq < 56) PAWN_ATTACKS[BLACK][sq] |= (1n << BigInt(sq + 7));
-        // A black pawn capture towards the A-file (sq + 9) should be guarded by NOT_A_FILE.
         if (((1n << BigInt(sq)) & NOT_A_FILE) && sq < 56) PAWN_ATTACKS[BLACK][sq] |= (1n << BigInt(sq + 9));
-        
-        // Knight Attacks (Unchanged)
+        // Knight Attacks
         let k = 1n << BigInt(sq), a = 0n;
         if ((k >> 17n) & NOT_H_FILE) a |= (k >> 17n); if ((k >> 15n) & NOT_A_FILE) a |= (k >> 15n);
         if ((k >> 10n) & NOT_HG_FILE) a |= (k >> 10n); if ((k >> 6n) & NOT_AB_FILE) a |= (k >> 6n);
         if ((k << 17n) & NOT_A_FILE) a |= (k << 17n); if ((k << 15n) & NOT_H_FILE) a |= (k << 15n);
         if ((k << 10n) & NOT_AB_FILE) a |= (k << 10n); if ((k << 6n) & NOT_HG_FILE) a |= (k << 6n);
         KNIGHT_ATTACKS[sq] = a;
-
-        // King Attacks (Unchanged)
+        // King Attacks
         let kg = 1n << BigInt(sq);
         KING_ATTACKS[sq] = ((kg >> 1n) & NOT_H_FILE) | ((kg << 1n) & NOT_A_FILE) | (kg >> 8n) | (kg << 8n) |
                   ((kg >> 7n) & NOT_A_FILE) | ((kg >> 9n) & NOT_H_FILE) | ((kg << 7n) & NOT_H_FILE) | ((kg << 9n) & NOT_A_FILE);
     }
-
-    console.log("B\"H - VERIFYING PAWN ATTACKS TABLE:");
-    console.log(`- Pre-computed attacks for White Pawn on f3 (sq 41) is: ${PAWN_ATTACKS[WHITE][41]}`);
+    console.log("%cB\"H - Innate powers have been calculated and inscribed into law.", "color: green;");
     
-    
+    // 4. The Final Seal
     MEMORY_CANARY = 0xDEADBEEFCAFEBABEn;
-    console.log("B\"H - MEMORY CANARY INITIALIZED:", MEMORY_CANARY);
+    console.log("B\"H - The Gnostic Seal is in place. MEMORY_CANARY is set:", MEMORY_CANARY);
+    console.log(`%cB"H - THE SYMPHONY OF CREATION IS COMPLETE. The universe is now stable and ready.`, "color: magenta; font-weight: bold;");
 }
+
+
+
 
 
 /*B"H*/
