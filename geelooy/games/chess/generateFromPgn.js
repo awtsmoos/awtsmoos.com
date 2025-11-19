@@ -75,7 +75,7 @@ This is a fatal paradox, as the library is assumed to be perfect. Initialization
   - Unintelligible Word (SAN): "${san}"
   - Current Reality (FEN):       "${fen}"
 
-This indicates a deep logical flaw in the Scribe's `isMoveSan` cognition.
+This indicates a deep logical flaw in the Scribe's isMoveSan cognition.
 The Universe is unstable and will now halt.
 `;
         throw new Error(errorMessage);
