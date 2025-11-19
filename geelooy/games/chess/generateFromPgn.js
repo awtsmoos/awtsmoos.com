@@ -49,49 +49,77 @@ class PgnConverter {
         return null;
     }
 
-    isMoveSan(move, san, legalMoves) {
-        const from = getMoveFrom(move);
-        const to = getMoveTo(move);
-        const piece = getMovePiece(move);
+    /* B"H */
+/**
+ * A helper cognition for the Scribe. Determines if a specific encoded move
+ * corresponds to a given SAN string, resolving ambiguity. This is the corrected version.
+ * @param {number} move The encoded move to check.
+ * @param {string} san The SAN string to match against.
+ * @param {number[]} legalMoves All legal moves in the current position, for ambiguity checks.
+ * @returns {boolean} True if the move matches the SAN.
+ */
+isMoveSan(move, san, legalMoves) {
+    const sanClean = san.replace(/[+#?!]/g, '');
+    const from = getMoveFrom(move);
+    const to = getMoveTo(move);
+    const piece = getMovePiece(move);
 
-        if (getMoveCastling(move)) {
-            if (to > from) return san === 'O-O'; // Kingside
-            return san === 'O-O-O'; // Queenside
-        }
-        
-        const files = 'abcdefgh';
-        const pieceLetter = 'PNBRQK'[piece];
-        const destSquare = files[to % 8] + (8 - Math.floor(to / 8));
-        
-        let moveSan;
-
-        if (pieceLetter === 'P') {
-            moveSan = getMoveCapture(move) ? files[from % 8] + 'x' + destSquare : destSquare;
-            if (getMovePromoted(move)) {
-                moveSan += '=' + 'PNBRQK'[getMovePromoted(move)];
-            }
-        } else {
-            moveSan = pieceLetter;
-            const ambiguousMoves = legalMoves.filter(m => getMovePiece(m) === piece && getMoveTo(m) === to && m !== move);
-            if (ambiguousMoves.length > 0) {
-                const fromFile = from % 8;
-                const fromRank = Math.floor(from / 8);
-                const fileIsUnique = !ambiguousMoves.some(m => (getMoveFrom(m) % 8) === fromFile);
-                const rankIsUnique = !ambiguousMoves.some(m => Math.floor(getMoveFrom(m) / 8) === fromRank);
-                if (fileIsUnique) {
-                    moveSan += files[fromFile];
-                } else if (rankIsUnique) {
-                    moveSan += (8 - fromRank);
-                } else {
-                    moveSan += files[fromFile] + (8 - fromRank);
-                }
-            }
-            if (getMoveCapture(move)) moveSan += 'x';
-            moveSan += destSquare;
-        }
-
-        return san.replace(/[+#?!]/g, '') === moveSan;
+    // 1. Castling
+    if (getMoveCastling(move)) {
+        return to > from ? sanClean === 'O-O' : sanClean === 'O-O-O';
     }
+
+    const files = 'abcdefgh';
+    const ranks = '87654321';
+    const pieceLetter = 'PNBRQK'[piece];
+    const destSquare = files[to % 8] + ranks[Math.floor(to / 8)];
+
+    // 2. Pawn Moves
+    if (pieceLetter === 'P') {
+        let notation = destSquare;
+        if (getMoveCapture(move)) {
+            notation = files[from % 8] + 'x' + destSquare;
+        }
+        if (getMovePromoted(move)) {
+            notation += '=' + 'PNBRQK'[getMovePromoted(move)];
+        }
+        return sanClean === notation;
+    }
+
+    // 3. Piece Moves (Non-Pawns)
+    let notation = pieceLetter;
+    const ambiguousMoves = legalMoves.filter(m =>
+        m !== move &&
+        getMovePiece(m) === piece &&
+        getMoveTo(m) === to
+    );
+
+    if (ambiguousMoves.length > 0) {
+        const fromFileIdx = from % 8;
+        const fromRankIdx = Math.floor(from / 8);
+        
+        // Check if other ambiguous moves originate from the same file or rank.
+        const fileIsShared = ambiguousMoves.some(m => (getMoveFrom(m) % 8) === fromFileIdx);
+        const rankIsShared = ambiguousMoves.some(m => Math.floor(getMoveFrom(m) / 8) === fromRankIdx);
+
+        if (!fileIsShared) {
+            // The file is unique among ambiguous moves, so it's sufficient for disambiguation.
+            notation += files[fromFileIdx];
+        } else if (!rankIsShared) {
+            // Pieces are on the same file, but different ranks. The rank is sufficient.
+            notation += ranks[fromRankIdx];
+        } else {
+            // Both file and rank are shared, requiring the full coordinate.
+            notation += files[fromFileIdx] + ranks[fromRankIdx];
+        }
+    }
+
+    if (getMoveCapture(move)) {
+        notation += 'x';
+    }
+    notation += destSquare;
+    return sanClean === notation;
+}
 
     applyMove(move) {
         // It alters the state it was given, which is temporary to this PGN line.

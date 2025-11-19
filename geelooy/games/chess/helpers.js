@@ -106,36 +106,49 @@ const getMoveDouble=(m)=>((m>>21)&1);
 const getMoveEnpassant=(m)=>((m>>22)&1);
 const getMoveCastling=(m)=>((m>>23)&1);
 
+/* B"H */
 function makeMove(state, move) {
     validateGnosticSeal(state, 'makeMove (start)');
     
     const from = getMoveFrom(move), to = getMoveTo(move), piece = getMovePiece(move), promoted = getMovePromoted(move);
     const side = state.turn, enemy = side ^ 1, from_bb = 1n << BigInt(from), to_bb = 1n << BigInt(to);
     
-    // Push the state onto the stack for unmaking the move later.
-    const capturedPiece = getMoveEnpassant(move) ? P : getPieceTypeOnSquare(state, to, enemy);
-    moveStack[moveStackPtr++] = { move, castling: state.castling, enpassant: state.enpassant, capturedPiece: capturedPiece, zobristHash: state.zobristHash };
-    
-    // --- SANCTIFIED ORDER OF OPERATIONS ---
+    // --- Determine captured piece BEFORE any state changes ---
+    let capturedPieceType = null;
+    if (getMoveCapture(move)) {
+        if (getMoveEnpassant(move)) {
+            capturedPieceType = P;
+        } else {
+            capturedPieceType = getPieceTypeOnSquare(state, to, enemy);
+            if (capturedPieceType === null) {
+                // This is the paradox check. If it triggers, it means the state was already corrupt.
+                throw new Error(`CRITICAL PARADOX in makeMove: Capture flag is set but no piece found at square ${to}`);
+            }
+        }
+    }
 
+    // Push the complete, correct state onto the stack for unmaking.
+    moveStack[moveStackPtr++] = { 
+        move, 
+        castling: state.castling, 
+        enpassant: state.enpassant, 
+        capturedPiece: capturedPieceType, 
+        zobristHash: state.zobristHash 
+    };
+    
     // 1. Remove the attacking piece from its original square.
     state.pieceBitboards[side * 6 + piece] ^= from_bb;
     state.occupancies[side] ^= from_bb;
 
-    // 2. Handle captures BEFORE placing the attacking piece.
-    if (getMoveCapture(move)) {
+    // 2. Handle captures using the pre-calculated capturedPieceType.
+    if (capturedPieceType !== null) {
         if (getMoveEnpassant(move)) {
             const capSq = (side === WHITE) ? to + 8 : to - 8;
             const cap_bb = 1n << BigInt(capSq);
-            
             state.pieceBitboards[enemy * 6 + P] ^= cap_bb;
             state.occupancies[enemy] ^= cap_bb;
         } else {
-            if (capturedPiece === null) {
-                // This is the CRITICAL paradox check.
-                throw new Error(`CRITICAL PARADOX in makeMove: Capture flag is set but no piece found at square ${to}`);
-            }
-            state.pieceBitboards[enemy * 6 + capturedPiece] ^= to_bb;
+            state.pieceBitboards[enemy * 6 + capturedPieceType] ^= to_bb;
             state.occupancies[enemy] ^= to_bb;
         }
     }
@@ -146,7 +159,7 @@ function makeMove(state, move) {
 
     // 4. Handle promotions.
     if (promoted) {
-        state.pieceBitboards[side * 6 + P] ^= to_bb; // Remove the pawn from the promotion square.
+        state.pieceBitboards[side * 6 + P] ^= to_bb; // Remove the pawn.
         state.pieceBitboards[side * 6 + promoted] ^= to_bb; // Add the promoted piece.
     }
 
@@ -170,19 +183,17 @@ function makeMove(state, move) {
     validateGnosticSeal(state, 'makeMove (end)');
 }
 
+/* B"H */
 function unmakeMove(state) {
     validateGnosticSeal(state, 'unmakeMove (start)');
     const info = moveStack[--moveStackPtr];
-    const { move } = info;
+    const { move, capturedPiece } = info;
     
-    // Immediately revert to the previous player's turn.
-    state.turn ^= 1;
+    state.turn ^= 1; // Revert to the player who made the move.
 
     const from = getMoveFrom(move), to = getMoveTo(move), piece = getMovePiece(move), promoted = getMovePromoted(move);
     const side = state.turn, enemy = side ^ 1, from_bb = 1n << BigInt(from), to_bb = 1n << BigInt(to);
 
-    // --- REVERSE ORDER OF OPERATIONS ---
-    
     // 1. Handle castling rook moves.
     if (getMoveCastling(move)) {
         let rf, rt;
@@ -193,7 +204,7 @@ function unmakeMove(state) {
         state.occupancies[side] ^= rook_move_mask;
     }
 
-    // 2. Handle promotions.
+    // 2. Handle promotions (in reverse).
     if (promoted) {
         state.pieceBitboards[side * 6 + promoted] ^= to_bb; // Remove the promoted piece.
         state.pieceBitboards[side * 6 + P] ^= to_bb; // Restore the pawn.
@@ -203,19 +214,15 @@ function unmakeMove(state) {
     state.pieceBitboards[side * 6 + piece] ^= (from_bb | to_bb);
     state.occupancies[side] ^= (from_bb | to_bb);
 
-    // 4. Restore captured piece.
-    if (getMoveCapture(move)) {
+    // 4. Restore captured piece, if any.
+    if (capturedPiece !== null) {
         if (getMoveEnpassant(move)) {
-            // **FIXED LOGIC**: In unmakeMove, 'side' is the one who made the move.
-            // If white moved (side=WHITE), the captured black pawn is on the rank below white's pawn (to + 8).
-            // If black moved (side=BLACK), the captured white pawn is on the rank above black's pawn (to - 8).
-            // This logic was previously incorrect because it didn't account for the already-flipped turn.
             const capSq = (side === WHITE) ? to + 8 : to - 8;
             const cap_bb = 1n << BigInt(capSq);
             state.pieceBitboards[enemy * 6 + P] ^= cap_bb;
             state.occupancies[enemy] ^= cap_bb;
         } else {
-            state.pieceBitboards[enemy * 6 + info.capturedPiece] ^= to_bb;
+            state.pieceBitboards[enemy * 6 + capturedPiece] ^= to_bb;
             state.occupancies[enemy] ^= to_bb;
         }
     }
