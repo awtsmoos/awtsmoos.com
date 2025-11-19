@@ -249,3 +249,7 @@ function generateRawBook(source, onProgress) {
 }
 
 if(typeof self !== 'undefined') self.PgnConverter = PgnConverter;
+
+
+
+
