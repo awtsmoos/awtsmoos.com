@@ -7,7 +7,7 @@ const GNOSIS_UNIVERSE_MASK = 0xffffffffffffffffn;
 /*B"H*/
 function validateGnosticSeal(state, location) {
     if (!state || !state.pieceBitboards || !state.occupancies) {
-        console.error(`%c[FATAL SEAL BREACH] The Gnostic Guardian was asked to validate a NON-EXISTENT or MALFORMED REALITY at [${location}]. The state object is a ghost.`, "color: #ff0000; font-weight: bold; font-size: 1.2em;");
+        console.error(`%c[FATAL SEAL BREACH] The Gnostic Guardian was asked to validate a NON-EXISTENT or MALFORMED REALITY at [${location}].`, "color: #ff0000; font-weight: bold; font-size: 1.2em;");
         throw new TypeError(`Gnostic Seal Breach: State object is null, undefined, or malformed at ${location}.`);
     }
     for (let i = 0; i < state.pieceBitboards.length; i++) {
@@ -85,10 +85,14 @@ function createGameState(fen) {
 }
 
 function getPieceTypeOnSquare(state, sq, side) {
-    const t = 1n << BigInt(sq), b = side * 6;
-    if (state.pieceBitboards[b+P]&t) return P; if (state.pieceBitboards[b+N]&t) return N;
-    if (state.pieceBitboards[b+B]&t) return B; if (state.pieceBitboards[b+R]&t) return R;
-    if (state.pieceBitboards[b+Q]&t) return Q; if (state.pieceBitboards[b+K]&t) return K;
+    const t = 1n << BigInt(sq);
+    const b_offset = side * 6;
+    if (state.pieceBitboards[b_offset + P] & t) return P;
+    if (state.pieceBitboards[b_offset + N] & t) return N;
+    if (state.pieceBitboards[b_offset + B] & t) return B;
+    if (state.pieceBitboards[b_offset + R] & t) return R;
+    if (state.pieceBitboards[b_offset + Q] & t) return Q;
+    if (state.pieceBitboards[b_offset + K] & t) return K;
     return null;
 }
 
@@ -104,29 +108,37 @@ const getMoveCastling=(m)=>((m>>23)&1);
 
 function makeMove(state, move) {
     validateGnosticSeal(state, 'makeMove (start)');
+    
     const from = getMoveFrom(move), to = getMoveTo(move), piece = getMovePiece(move), promoted = getMovePromoted(move);
     const side = state.turn, enemy = side ^ 1, from_bb = 1n << BigInt(from), to_bb = 1n << BigInt(to);
     
-    moveStack[moveStackPtr++] = { move, castling: state.castling, enpassant: state.enpassant, capturedPiece: P, zobristHash: state.zobristHash };
+    moveStack[moveStackPtr++] = { move, castling: state.castling, enpassant: state.enpassant, capturedPiece: null, zobristHash: state.zobristHash };
     
-    state.pieceBitboards[side*6+piece] ^= (from_bb|to_bb);
-    state.occupancies[side] ^= (from_bb|to_bb);
-
+    // --- SANCTIFIED ORDER ---
+    // 1. Identify and remove captured piece BEFORE moving the attacker.
     if (getMoveCapture(move)) {
         if (getMoveEnpassant(move)) {
-            const capSq = (side===WHITE) ? to+8 : to-8;
-            state.pieceBitboards[enemy*6+P] ^= (1n<<BigInt(capSq));
-            state.occupancies[enemy] ^= (1n<<BigInt(capSq));
+            const capSq = (side === WHITE) ? to + 8 : to - 8;
+            moveStack[moveStackPtr - 1].capturedPiece = P;
+            state.pieceBitboards[enemy * 6 + P] ^= (1n << BigInt(capSq));
+            state.occupancies[enemy] ^= (1n << BigInt(capSq));
         } else {
             const captured = getPieceTypeOnSquare(state, to, enemy);
-            moveStack[moveStackPtr-1].capturedPiece = captured;
-            state.pieceBitboards[enemy*6+captured] ^= to_bb;
+            if (captured === null) throw new Error(`CRITICAL PARADOX in makeMove: Capture flag is set but no piece found at square ${to}`);
+            moveStack[moveStackPtr - 1].capturedPiece = captured;
+            state.pieceBitboards[enemy * 6 + captured] ^= to_bb;
             state.occupancies[enemy] ^= to_bb;
         }
     }
+
+    // 2. Move the actual piece.
+    state.pieceBitboards[side * 6 + piece] ^= (from_bb | to_bb);
+    state.occupancies[side] ^= (from_bb | to_bb);
+
+    // 3. Handle special move types.
     if (promoted) {
-        state.pieceBitboards[side*6+P] ^= to_bb;
-        state.pieceBitboards[side*6+promoted] ^= to_bb;
+        state.pieceBitboards[side * 6 + P] ^= to_bb;
+        state.pieceBitboards[side * 6 + promoted] ^= to_bb;
     }
     if (getMoveCastling(move)) {
         let rf, rt;
@@ -136,11 +148,13 @@ function makeMove(state, move) {
         state.occupancies[side] ^= ((1n<<BigInt(rf))|(1n<<BigInt(rt)));
     }
     
+    // 4. Update the rest of the state.
     state.occupancies[2] = state.occupancies[WHITE] | state.occupancies[BLACK];
     state.castling &= castling_rights[from] & castling_rights[to];
-    state.enpassant = getMoveDouble(move) ? (side===WHITE ? from-8 : from+8) : -1;
+    state.enpassant = getMoveDouble(move) ? (side === WHITE ? from - 8 : from + 8) : -1;
     state.turn ^= 1;
     state.zobristHash = calculateZobristHash(state);
+    
     validateGnosticSeal(state, 'makeMove (end)');
 }
 
@@ -152,6 +166,7 @@ function unmakeMove(state) {
     const from = getMoveFrom(move), to = getMoveTo(move), piece = getMovePiece(move), promoted = getMovePromoted(move);
     const side = state.turn, enemy = side ^ 1, from_bb = 1n << BigInt(from), to_bb = 1n << BigInt(to);
 
+    // Reverse the move of the primary piece
     state.pieceBitboards[side*6+piece] ^= (from_bb|to_bb);
     state.occupancies[side] ^= (from_bb|to_bb);
 
@@ -189,7 +204,7 @@ function generateMoves(state) {
     validateGnosticSeal(state, 'generateMoves');
     const moves = [];
     const side = state.turn, enemy = side ^ 1, blockers = state.occupancies[2];
-    const friendly = state.occupancies[side], enemyKing = state.pieceBitboards[enemy*6+K];
+    const friendly = state.occupancies[side];
     const validTargetSquares = GNOSIS_UNIVERSE_MASK ^ friendly;
     const validCaptureSquares = state.occupancies[enemy];
 
@@ -247,6 +262,7 @@ function generateMoves(state) {
 }
 
 function isSquareAttacked_lean(state, sq, attackerColor) {
+    if (sq < 0 || sq > 63) return false; // Failsafe for invalid square index
     const enemyColor=attackerColor^1;
     const blockers=state.occupancies[2];
     const b_offset=attackerColor*6;
