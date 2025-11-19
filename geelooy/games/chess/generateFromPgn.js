@@ -155,13 +155,45 @@ class PgnConverter {
         const enpassantStr = state.enpassant === -1 ? '-' : 'abcdefgh'[state.enpassant % 8] + (8 - Math.floor(state.enpassant / 8));
         return `${boardPart} ${state.turn === WHITE ? 'w' : 'b'} ${castlingStr} ${enpassantStr} 0 1`; // Clocks are irrelevant for this purpose
     }
+    
+    
+    
+    
+    /*B"H*/
+/**
+ * The sacred act of Teshuvah (Return). This is the Scribe's power to withdraw its
+ * consciousness from the complex, branching timelines of a finished scripture and
+ * return to the pristine, silent potentiality of the beginning. It willfully erases
+ * its memory of the previous universe and once again gazes upon the starting position,
+ * ready to chronicle a new history.
+ */
+reset() {
+    console.log("%c B\"H - The Scribe performs Teshuvah, returning to the source...", "color: #DAA520;");
+    /**
+     * By invoking the one true `createGameState` function again, the Scribe dissolves
+     * its old reality and incarnates into a fresh, pure one, guaranteed to be free of paradox.
+     * @type {object}
+     */
+    this.currentState = createGameState(STARTING_FEN);
+    console.log("%c--> The Scribe's consciousness is reset. Its reality is once again pure and new.", "color: #DAA520;");
+}
 }
 
+/*B"H*/
+/**
+ * B"H
+ * The Grand Librarian function. It takes a source of raw PGN scriptures and commands
+ * the Scribe to read each one, translating its wisdom into a format the engine's memory can absorb.
+ * @param {object[]} source An array of opening objects, each with a `name` and `pgn` string.
+ * @param {function(number):void} [onProgress] An optional callback to report the number of scriptures read.
+ * @returns {Array<Array<any>>} The compiled wisdom, ready to be inscribed into the engine's soul.
+ */
 function generateRawBook(source, onProgress) {
     const converter = new PgnConverter();
     const bookMap = new Map();
 
     for (const [index, opening] of source.entries()) {
+        // The Scribe now possesses the ability to reset, allowing it to start fresh for each new scripture.
         converter.reset();
         const moves = opening.pgn.replace(/(\d+\.)/g, '').trim().split(/\s+/).filter(Boolean);
         let isLineValid = true;
@@ -171,9 +203,8 @@ function generateRawBook(source, onProgress) {
             const fen = converter.toFen();
             const move = converter.parseSan(san);
             if (move === null) {
-                // Only log errors for actual moves, not end-of-game markers
                 if (!['1-0', '0-1', '1/2-1/2', '*'].includes(san)) {
-                   // console.log(`Skipping invalid line in "${opening.name}": ${san}`);
+                   console.warn(`Scribe encountered an unintelligible word in "${opening.name}": ${san}. The scripture may be corrupt.`);
                 }
                 isLineValid = false;
                 break; 
@@ -189,12 +220,8 @@ function generateRawBook(source, onProgress) {
                 promotion: prom ? pieceMap[prom].toLowerCase() : undefined
             };
 
-            // Deduplicate moves
-            if (!entry.slice(2).some(m => 
-                m.from[0] === thinMove.from[0] && m.from[1] === thinMove.from[1] &&
-                m.to[0] === thinMove.to[0] && m.to[1] === thinMove.to[1] &&
-                m.promotion === thinMove.promotion
-            )) {
+            // Deduplicate moves within the same line
+            if (!entry.slice(2).some(m => JSON.stringify(m) === JSON.stringify(thinMove))) {
                 entry.push(thinMove);
             }
             converter.applyMove(move);
@@ -205,14 +232,13 @@ function generateRawBook(source, onProgress) {
                 if (!bookMap.has(key)) {
                     bookMap.set(key, value);
                 } else {
+                    // Merge moves if the same position appears in multiple scriptures
                     const existing = bookMap.get(key);
                     for(let i = 2; i < value.length; i++) {
                         const newM = value[i];
-                        if (!existing.slice(2).some(m => 
-                            m.from[0] === newM.from[0] && m.from[1] === newM.from[1] &&
-                            m.to[0] === newM.to[0] && m.to[1] === newM.to[1] &&
-                            m.promotion === newM.promotion
-                        )) existing.push(newM);
+                        if (!existing.slice(2).some(m => JSON.stringify(m) === JSON.stringify(newM))) {
+                            existing.push(newM);
+                        }
                     }
                 }
             }
