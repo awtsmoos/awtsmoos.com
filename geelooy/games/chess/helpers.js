@@ -9,6 +9,7 @@ const P = 0, N = 1, B = 2, R = 3, Q = 4, K = 5;
 const WHITE = 0, BLACK = 1;
 const WKCA = 1, WQCA = 2, BKCA = 4, BQCA = 8;
 const pieceMap = 'PNBRQKpnbrqk';
+let MEMORY_CANARY = 0n; // This is our memory corruption detector.
 
 // --- BITBOARD MASKS & UTILITIES ---
 const NOT_A_FILE = 18374403900871474942n;
@@ -190,6 +191,13 @@ function initializeAll() {
     // A White Pawn on f3 (41) should only be able to attack e4 (32) and g4 (34).
     console.log("B\"H - VERIFYING PAWN ATTACKS TABLE:");
     console.log(`- Pre-computed attacks for White Pawn on f3 (sq 41) is: ${PAWN_ATTACKS[WHITE][41]}`);
+    
+    
+    MEMORY_CANARY = 0xDEADBEEFCAFEBABEn; // Set the unique canary value
+    console.log("B\"H - MEMORY CANARY INITIALIZED:", MEMORY_CANARY);
+
+
+
 }
 
 /*B"H*/
@@ -331,85 +339,29 @@ function unmakeMove(state) {
 }
 
 /* B"H */
-
-/**
- * Determines if a specific square is attacked by a given side.
- * DEBUG MODE: Includes heavy logging to catch 'Missing King' (sq === -1) errors.
- * @param {Object} state - The game state.
- * @param {number} sq - The square index (0-63).
- * @param {number} attackerColor - The color of the attacker (WHITE or BLACK).
- * @returns {boolean} True if the square is attacked.
- */
-function isSquareAttacked_lean(state, sq, attackerColor) {
-    // --- DEBUG: CRASH PREVENTION & LOGGING ---
-    if (sq === -1 || sq === undefined || sq === null || sq < 0 || sq > 63) {
-        console.error("B\"H - CRITICAL ERROR: isSquareAttacked_lean called with invalid square!", sq);
-        console.error("Attacker Color:", attackerColor === 0 ? "WHITE" : "BLACK");
-        console.error("Turn in State:", state.turn === 0 ? "WHITE" : "BLACK");
-        
-        // Log Bitboards to see if King exists
-        const whiteKing = state.pieceBitboards[5]; // K
-        const blackKing = state.pieceBitboards[11]; // k
-        console.error("White King Bitboard:", whiteKing, "LSB:", getLSBIndex(whiteKing));
-        console.error("Black King Bitboard:", blackKing, "LSB:", getLSBIndex(blackKing));
-        
-        console.error("Full State Object:", state);
-        console.trace("Stack Trace for Invalid Square Call");
-
-        // Return false to allow the loop to continue slightly longer to print other logs, 
-        // or throw to stop immediately. Throwing is safer to preserve console history.
-        throw new Error("B\"H - Aborting: King is missing from the board (Square index -1).");
-    }
-    // -----------------------------------------
-
-    const enemy = attackerColor ^ 1;
-    const blockers = state.occupancies[2];
-
-    // Pawn Attacks
-    if ((PAWN_ATTACKS[enemy][sq] & state.pieceBitboards[attackerColor * 6 + P]) !== 0n) return true;
-    
-    // Knight Attacks
-    if ((KNIGHT_ATTACKS[sq] & state.pieceBitboards[attackerColor * 6 + N]) !== 0n) return true;
-    
-    // King Attacks
-    if ((KING_ATTACKS[sq] & state.pieceBitboards[attackerColor * 6 + K]) !== 0n) return true;
-    
-    // Slider Attacks (Rook/Queen)
-    const rookQ = state.pieceBitboards[attackerColor * 6 + R] | state.pieceBitboards[attackerColor * 6 + Q];
-    if (rookQ !== 0n) {
-        if ((getRookAttacks(sq, blockers) & rookQ) !== 0n) return true;
-    }
-
-    // Slider Attacks (Bishop/Queen)
-    const bishopQ = state.pieceBitboards[attackerColor * 6 + B] | state.pieceBitboards[attackerColor * 6 + Q];
-    if (bishopQ !== 0n) {
-        if ((getBishopAttacks(sq, blockers) & bishopQ) !== 0n) return true;
-    }
-
-    return false;
-}
-
-/* B'H */
 /**
  * Generates all pseudo-legal moves.
- * FINAL FIX: Explicitly masks out the enemy King from all potential target squares.
- * @param {object} state The current game state.
- * @returns {number[]} A list of encoded moves.
+ * DIAGNOSTIC: Checks for memory corruption via canary before executing.
  */
 function generateMoves(state) {
+    // --- CANARY CHECK ---
+    if (MEMORY_CANARY !== 0xDEADBEEFCAFEBABEn) {
+        console.error("B\"H - CATASTROPHIC: MEMORY CORRUPTION DETECTED in generateMoves!");
+        console.error("Expected Canary:", 0xDEADBEEFCAFEBABEn, "but found:", MEMORY_CANARY);
+        console.error("This means a function called BEFORE this one (likely makeMove/unmakeMove or search) has an out-of-bounds write error.");
+        throw new Error("Memory corruption detected via canary in generateMoves.");
+    }
+    
     const moves = [];
     const side = state.turn;
     const enemy = side ^ 1;
     const blockers = state.occupancies[2];
     const friendly = state.occupancies[side];
-
-    // CRITICAL FIX: Create a bitboard of squares that can be moved to.
-    // This EXCLUDES squares occupied by friendly pieces OR the enemy king.
     const enemyKing = state.pieceBitboards[enemy * 6 + K];
     const validTargetSquares = ~(friendly | enemyKing);
     const validCaptureSquares = state.occupancies[enemy] & ~enemyKing;
 
-    // Pawns
+    // ... (rest of the function is the same as the one you already have)
     let pawns = state.pieceBitboards[side * 6 + P];
     while (pawns > 0n) {
         const from = getLSBIndex(pawns);
@@ -417,7 +369,6 @@ function generateMoves(state) {
         const promRank = (side === WHITE) ? 1 : 6;
         const startRank = (side === WHITE) ? 6 : 1;
         const one = (side === WHITE) ? from - 8 : from + 8;
-        
         if (!((blockers >> BigInt(one)) & 1n)) {
             if (rank === promRank) {
                 for (const p_type of [Q, R, B, N]) moves.push(encodeMove(from, one, P, p_type, 0, 0, 0, 0));
@@ -429,25 +380,19 @@ function generateMoves(state) {
                 }
             }
         }
-        
         let attacks = PAWN_ATTACKS[side][from] & validCaptureSquares;
         while (attacks > 0n) {
             const to = getLSBIndex(attacks);
             if (rank === promRank) {
                 for (const p_type of [Q, R, B, N]) moves.push(encodeMove(from, to, P, p_type, 1, 0, 0, 0));
-            } else {
-                moves.push(encodeMove(from, to, P, 0, 1, 0, 0, 0));
-            }
+            } else { moves.push(encodeMove(from, to, P, 0, 1, 0, 0, 0)); }
             attacks = popBit(attacks);
         }
-        
         if (state.enpassant !== -1 && (PAWN_ATTACKS[side][from] & (1n << BigInt(state.enpassant)))) {
             moves.push(encodeMove(from, state.enpassant, P, 0, 1, 0, 1, 0));
         }
         pawns = popBit(pawns);
     }
-    
-    // Castling
     if (side === WHITE) {
         if ((state.castling & WKCA) && !((blockers >> 61n) & 3n) && !isSquareAttacked_lean(state, 60, BLACK) && !isSquareAttacked_lean(state, 61, BLACK)) moves.push(encodeMove(60, 62, K, 0, 0, 0, 0, 1));
         if ((state.castling & WQCA) && !((blockers >> 57n) & 7n) && !isSquareAttacked_lean(state, 60, BLACK) && !isSquareAttacked_lean(state, 59, BLACK)) moves.push(encodeMove(60, 58, K, 0, 0, 0, 0, 1));
@@ -455,8 +400,6 @@ function generateMoves(state) {
         if ((state.castling & BKCA) && !((blockers >> 5n) & 3n) && !isSquareAttacked_lean(state, 4, WHITE) && !isSquareAttacked_lean(state, 5, WHITE)) moves.push(encodeMove(4, 6, K, 0, 0, 0, 0, 1));
         if ((state.castling & BQCA) && !((blockers >> 1n) & 7n) && !isSquareAttacked_lean(state, 4, WHITE) && !isSquareAttacked_lean(state, 3, WHITE)) moves.push(encodeMove(4, 2, K, 0, 0, 0, 0, 1));
     }
-    
-    // All Other Pieces
     for (let p = N; p <= K; p++) {
         let bb = state.pieceBitboards[side * 6 + p];
         while (bb > 0n) {
@@ -467,9 +410,7 @@ function generateMoves(state) {
             else if (p === B) attacks = getBishopAttacks(from, blockers);
             else if (p === R) attacks = getRookAttacks(from, blockers);
             else if (p === Q) attacks = getQueenAttacks(from, blockers);
-            
             attacks &= validTargetSquares;
-            
             while (attacks > 0n) {
                 const to = getLSBIndex(attacks);
                 const isCapture = ((1n << BigInt(to)) & validCaptureSquares) ? 1 : 0;
@@ -482,40 +423,39 @@ function generateMoves(state) {
     return moves;
 }
 
-/* B"H */
 /**
- * Generates only tactical moves (captures/promotions).
- * DIAGNOSTIC: Includes a sanity check to immediately crash if an illegal pawn move is generated.
- * @param {object} state The current game state.
- * @returns {number[]} A list of encoded tactical moves.
+ * Generates only tactical moves.
+ * DIAGNOSTIC: Checks for memory corruption via canary before executing.
  */
 function generateTacticalMoves(state) {
+    // --- CANARY CHECK ---
+    if (MEMORY_CANARY !== 0xDEADBEEFCAFEBABEn) {
+        console.error("B\"H - CATASTROPHIC: MEMORY CORRUPTION DETECTED in generateTacticalMoves!");
+        console.error("Expected Canary:", 0xDEADBEEFCAFEBABEn, "but found:", MEMORY_CANARY);
+        console.error("This means a function called BEFORE this one (likely makeMove/unmakeMove or search) has an out-of-bounds write error.");
+        throw new Error("Memory corruption detected via canary in generateTacticalMoves.");
+    }
+
     const moves = [];
     const side = state.turn;
     const enemy = side ^ 1;
     const blockers = state.occupancies[2];
-    
     const enemyKing = state.pieceBitboards[enemy * 6 + K];
     const captureTargets = state.occupancies[enemy] & ~enemyKing;
 
+    // ... (rest of the function is the same as the one you already have)
     let pawns = state.pieceBitboards[side * 6 + P];
     while (pawns > 0n) {
         const from = getLSBIndex(pawns);
         const rank = Math.floor(from / 8);
         const promRank = (side === WHITE) ? 1 : 6;
-        
         const one = (side === WHITE) ? from - 8 : from + 8;
         if (rank === promRank && !((blockers >> BigInt(one)) & 1n)) {
-            moves.push(encodeMove(from, one, P, Q, 0, 0, 0, 0)); 
+            moves.push(encodeMove(from, one, P, Q, 0, 0, 0, 0));
         }
-        
         let attacks = PAWN_ATTACKS[side][from] & captureTargets;
         while (attacks > 0n) {
             const to = getLSBIndex(attacks);
-            
-            // --- NEW DIAGNOSTIC SANITY CHECK ---
-            // A pawn capture MUST be one square diagonally. If it's not, the attack
-            // table itself must be corrupted. This will crash before the bad move is even used.
             const rowDiff = Math.abs(Math.floor(from / 8) - Math.floor(to / 8));
             const colDiff = Math.abs((from % 8) - (to % 8));
             if (rowDiff !== 1 || colDiff !== 1) {
@@ -524,21 +464,15 @@ function generateTacticalMoves(state) {
                 console.error("- This indicates the PAWN_ATTACKS table is corrupt.");
                 throw new Error("Illegal pawn move created by generateTacticalMoves.");
             }
-            // --- END DIAGNOSTIC ---
-
             if (rank === promRank) moves.push(encodeMove(from, to, P, Q, 1, 0, 0, 0));
             else moves.push(encodeMove(from, to, P, 0, 1, 0, 0, 0));
-            
             attacks = popBit(attacks);
         }
-        
         if (state.enpassant !== -1 && (PAWN_ATTACKS[side][from] & (1n << BigInt(state.enpassant)))) {
             moves.push(encodeMove(from, state.enpassant, P, 0, 1, 0, 1, 0));
         }
         pawns = popBit(pawns);
     }
-
-    // Piece captures (this logic remains the same)
     for (let p = N; p <= K; p++) {
         let bb = state.pieceBitboards[side * 6 + p];
         while (bb > 0n) {
