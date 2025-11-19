@@ -61,6 +61,10 @@ const rookMagics = [0x8a80104000800020n, 0x1480040000800080n, 0x4840008000800800
 
 const bishopMasks = Array(64).fill(0n);
 const rookMasks = Array(64).fill(0n);
+/**
+ * @description These arrays are pre-allocated to the maximum possible size needed.
+ * The max relevant bits for any bishop is 13 (2^13 = 8192) and for any rook is 12 (2^12 = 4096).
+ */
 const bishopAttacks = Array(64).fill(null).map(() => Array(8192).fill(0n));
 const rookAttacks = Array(64).fill(null).map(() => Array(4096).fill(0n));
 
@@ -161,6 +165,9 @@ function getRookAttacks(sq, blockers) {
     return rookAttacks[sq][index];
 }
 function getQueenAttacks(sq, blockers) { return getRookAttacks(sq, blockers) | getBishopAttacks(sq, blockers); }
+
+
+
 
 /*B"H*/
 // =================================================================
