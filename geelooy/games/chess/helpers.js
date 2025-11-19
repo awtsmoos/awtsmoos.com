@@ -309,13 +309,62 @@ function unmakeMove(state) {
     state.zobristHash = info.zobristHash;
 }
 
+/* B"H */
+
+/**
+ * Determines if a specific square is attacked by a given side.
+ * DEBUG MODE: Includes heavy logging to catch 'Missing King' (sq === -1) errors.
+ * @param {Object} state - The game state.
+ * @param {number} sq - The square index (0-63).
+ * @param {number} attackerColor - The color of the attacker (WHITE or BLACK).
+ * @returns {boolean} True if the square is attacked.
+ */
 function isSquareAttacked_lean(state, sq, attackerColor) {
-    const enemy = attackerColor ^ 1, blockers = state.occupancies[2];
+    // --- DEBUG: CRASH PREVENTION & LOGGING ---
+    if (sq === -1 || sq === undefined || sq === null || sq < 0 || sq > 63) {
+        console.error("B\"H - CRITICAL ERROR: isSquareAttacked_lean called with invalid square!", sq);
+        console.error("Attacker Color:", attackerColor === 0 ? "WHITE" : "BLACK");
+        console.error("Turn in State:", state.turn === 0 ? "WHITE" : "BLACK");
+        
+        // Log Bitboards to see if King exists
+        const whiteKing = state.pieceBitboards[5]; // K
+        const blackKing = state.pieceBitboards[11]; // k
+        console.error("White King Bitboard:", whiteKing, "LSB:", getLSBIndex(whiteKing));
+        console.error("Black King Bitboard:", blackKing, "LSB:", getLSBIndex(blackKing));
+        
+        console.error("Full State Object:", state);
+        console.trace("Stack Trace for Invalid Square Call");
+
+        // Return false to allow the loop to continue slightly longer to print other logs, 
+        // or throw to stop immediately. Throwing is safer to preserve console history.
+        throw new Error("B\"H - Aborting: King is missing from the board (Square index -1).");
+    }
+    // -----------------------------------------
+
+    const enemy = attackerColor ^ 1;
+    const blockers = state.occupancies[2];
+
+    // Pawn Attacks
     if ((PAWN_ATTACKS[enemy][sq] & state.pieceBitboards[attackerColor * 6 + P]) !== 0n) return true;
+    
+    // Knight Attacks
     if ((KNIGHT_ATTACKS[sq] & state.pieceBitboards[attackerColor * 6 + N]) !== 0n) return true;
+    
+    // King Attacks
     if ((KING_ATTACKS[sq] & state.pieceBitboards[attackerColor * 6 + K]) !== 0n) return true;
-    if ((getRookAttacks(sq, blockers) & (state.pieceBitboards[attackerColor * 6 + R] | state.pieceBitboards[attackerColor * 6 + Q])) !== 0n) return true;
-    if ((getBishopAttacks(sq, blockers) & (state.pieceBitboards[attackerColor * 6 + B] | state.pieceBitboards[attackerColor * 6 + Q])) !== 0n) return true;
+    
+    // Slider Attacks (Rook/Queen)
+    const rookQ = state.pieceBitboards[attackerColor * 6 + R] | state.pieceBitboards[attackerColor * 6 + Q];
+    if (rookQ !== 0n) {
+        if ((getRookAttacks(sq, blockers) & rookQ) !== 0n) return true;
+    }
+
+    // Slider Attacks (Bishop/Queen)
+    const bishopQ = state.pieceBitboards[attackerColor * 6 + B] | state.pieceBitboards[attackerColor * 6 + Q];
+    if (bishopQ !== 0n) {
+        if ((getBishopAttacks(sq, blockers) & bishopQ) !== 0n) return true;
+    }
+
     return false;
 }
 

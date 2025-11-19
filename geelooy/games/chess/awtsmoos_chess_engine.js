@@ -98,19 +98,52 @@ function orderMoves(moves, state, ply) {
     return scores.sort((a, b) => b.score - a.score).map(s => s.m);
 }
 
+/* B"H */
 function quiesce(state, alpha, beta) {
     if ((nodeCount & 2047) === 0 && performance.now() - searchStartTime > timeLimit) stopSearch = true;
     if (stopSearch) return 0;
     nodeCount++;
+
     const stand_pat = evaluate(state);
     if (stand_pat >= beta) return beta;
     if (alpha < stand_pat) alpha = stand_pat;
+
     const moves = orderMoves(generateTacticalMoves(state), state, 0);
+
     for (const m of moves) {
         makeMove(state, m);
-        if (isSquareAttacked_lean(state, getLSBIndex(state.pieceBitboards[(state.turn ^ 1) * 6 + K]), state.turn)) { unmakeMove(state); continue; }
+
+        // --- DEBUG: CHECK FOR MISSING KING AFTER MOVE ---
+        // The side that just moved (state.turn ^ 1) should have a King. 
+        // But we are checking if the opponent (state.turn) is checking us.
+        // Actually, we validate if the move we just made left OUR king in check.
+        // So we look for the King of the side (state.turn ^ 1).
+        const kingColor = state.turn ^ 1;
+        const kingSq = getLSBIndex(state.pieceBitboards[kingColor * 6 + K]);
+
+        if (kingSq === -1) {
+            console.error("B\"H - DIAGNOSTIC: King captured in Quiesce search!");
+            console.error("The move just executed caused the King to disappear.");
+            console.error("Move Int:", m);
+            console.error("From:", getMoveFrom(m), "To:", getMoveTo(m));
+            console.error("Captured Piece Type:", getMoveCapture(m) ? "Yes" : "No");
+            
+            // Decode move for human readability
+            const pieceStr = "PNBRQKpnbrqk"[getMovePiece(m)];
+            console.error("Piece Moved:", pieceStr);
+            unmakeMove(state); // unwind for clean state in console
+            throw new Error("B\"H - King captured. Illegal move generated.");
+        }
+        // ------------------------------------------------
+
+        if (isSquareAttacked_lean(state, kingSq, state.turn)) { 
+            unmakeMove(state); 
+            continue; 
+        }
+
         const score = -quiesce(state, -beta, -alpha);
         unmakeMove(state);
+
         if (stopSearch) return 0;
         if (score >= beta) return beta;
         if (score > alpha) alpha = score;
@@ -118,6 +151,7 @@ function quiesce(state, alpha, beta) {
     return alpha;
 }
 
+/* B"H */
 function search(state, depth, alpha, beta, ply) {
     if (depth <= 0) return quiesce(state, alpha, beta);
     if ((nodeCount & 2047) === 0 && performance.now() - searchStartTime > timeLimit) stopSearch = true;
@@ -141,7 +175,25 @@ function search(state, depth, alpha, beta, ply) {
 
     for (const m of moves) {
         makeMove(state, m);
-        if (isSquareAttacked_lean(state, getLSBIndex(state.pieceBitboards[(state.turn ^ 1) * 6 + K]), state.turn)) { unmakeMove(state); continue; }
+
+        // --- DEBUG: CHECK FOR MISSING KING IN SEARCH ---
+        const kingColor = state.turn ^ 1;
+        const kingSq = getLSBIndex(state.pieceBitboards[kingColor * 6 + K]);
+        
+        if (kingSq === -1) {
+            console.error("B\"H - DIAGNOSTIC: King captured in Main Search!");
+            console.error("Move causing disappearance:", m);
+            console.error("From:", getMoveFrom(m), "To:", getMoveTo(m));
+            unmakeMove(state);
+            throw new Error("B\"H - King captured in search. Illegal move.");
+        }
+        // -----------------------------------------------
+
+        if (isSquareAttacked_lean(state, kingSq, state.turn)) { 
+            unmakeMove(state); 
+            continue; 
+        }
+        
         legal++;
         let score;
         if (legal === 1) score = -search(state, depth - 1, -beta, -alpha, ply + 1);
