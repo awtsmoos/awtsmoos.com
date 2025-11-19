@@ -403,6 +403,7 @@ function initializeAll() {
     console.log("B\"H - MEMORY CANARY INITIALIZED:", MEMORY_CANARY);
 }
 
+
 /*B"H*/
 // =================================================================
 //               GAME STATE & MOVE EXECUTION
@@ -415,8 +416,17 @@ const castling_rights = [
 ];
 let moveStack = Array(1024).fill(0), moveStackPtr = 0;
 
+/**
+ * Creates a game state object from a FEN string.
+ * CRITICAL CORRECTION: This function NO LONGER calls initializeAll(). It is now a pure
+ * state-creation utility that assumes the engine's core tables have already been
+ * initialized by the main initializeEngine() function. This prevents premature
+ * initialization during script loading.
+ * @param {string} fen The Forsyth-Edwards Notation string for the position.
+ * @returns {object} The game state object.
+ */
 function createGameState(fen) {
-    initializeAll();
+    // The premature, chaos-inducing call to initializeAll() is REMOVED from here.
     const state = {
         pieceBitboards: Array(12).fill(0n), occupancies: Array(3).fill(0n),
         turn: WHITE, enpassant: -1, castling: 0, zobristHash: 0n
@@ -438,9 +448,15 @@ function createGameState(fen) {
     if (parts[2].includes('K')) state.castling |= WKCA; if (parts[2].includes('Q')) state.castling |= WQCA;
     if (parts[2].includes('k')) state.castling |= BKCA; if (parts[2].includes('q')) state.castling |= BQCA;
     if (parts[3] !== '-') state.enpassant = (8 - parseInt(parts[3][1])) * 8 + (parts[3].charCodeAt(0) - 'a'.charCodeAt(0));
-    state.zobristHash = calculateZobristHash(state);
+    
+    // Zobrist hash can only be calculated after the engine is initialized.
+    // The isInitialized flag in the main engine script will guard this.
+    if (zobristTurnKey !== 0n) {
+        state.zobristHash = calculateZobristHash(state);
+    }
     return state;
 }
+
 
 function getPieceTypeOnSquare(state, sq, side) {
     const t = 1n << BigInt(sq), b = side * 6;
