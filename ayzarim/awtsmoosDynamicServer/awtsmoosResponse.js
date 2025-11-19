@@ -311,7 +311,7 @@ class AwtsmoosResponse {
 		// =====================================================================
 		if (
 			request.method == "GET" &&
-			request.headers['awtsmoos-file-status'] &&
+			//request.headers['awtsmoos-file-status'] &&
 			request.isAwtsmoosFileStatusRequest
 		) {
 		    const results = {

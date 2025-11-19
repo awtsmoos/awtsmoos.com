@@ -466,7 +466,7 @@ async function doFileResponse() {
 	try {
 		if (
 			request.method == "GET" &&
-			request.headers['awtsmoos-file-status'] &&
+			//request.headers['awtsmoos-file-status'] &&
 			request.isAwtsmoosFileStatusRequest
 		) {
 		        try {
