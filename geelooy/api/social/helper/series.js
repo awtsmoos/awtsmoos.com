@@ -11,7 +11,16 @@ const { er, myOpts, generateAwtsmoosId, loggedIn } = require("./general.js");
 const { verifyHeichelAuthority } = require("./heichel.js");
 const { deletePostFromSeries, getPostsInSeries } = require("./post/index.js"); // For recursive delete
 const { deleteAllCommentsOfParent } = require("./comments/index.js"); // For recursive delete
-
+var{
+    // New path functions
+    getAliasCommentFilePath,
+    getParentCommentsBasePath,
+    getListOfPostsOrCommentsInSeriesPath,
+    getPathAtSeries,
+    commentsOfAliasByHeichelAndSeries, // For index cleanup
+    // Utility
+    getConditionalPathIfPostOrComment
+} = require("./comments/commentPaths.js");
 
 // Helper paths
 const seriesBasePath = (h, s) => `${sp}/heichelos/${h}/series/${s}`;
