@@ -368,10 +368,12 @@ function isSquareAttacked_lean(state, sq, attackerColor) {
     return false;
 }
 
-/* B"H */
+/* B'H */
 /**
  * Generates all pseudo-legal moves.
- * FIX: Explicitly masks out the enemy King from potential target squares.
+ * FINAL FIX: Explicitly masks out the enemy King from all potential target squares.
+ * @param {object} state The current game state.
+ * @returns {number[]} A list of encoded moves.
  */
 function generateMoves(state) {
     const moves = [];
@@ -379,10 +381,12 @@ function generateMoves(state) {
     const enemy = side ^ 1;
     const blockers = state.occupancies[2];
     const friendly = state.occupancies[side];
-    
-    // CRITICAL FIX: Define a bitboard of valid capture targets that EXCLUDES the King.
+
+    // CRITICAL FIX: Create a bitboard of squares that can be moved to.
+    // This EXCLUDES squares occupied by friendly pieces OR the enemy king.
     const enemyKing = state.pieceBitboards[enemy * 6 + K];
-    const captureTargets = state.occupancies[enemy] & ~enemyKing;
+    const validTargetSquares = ~(friendly | enemyKing);
+    const validCaptureSquares = state.occupancies[enemy] & ~enemyKing;
 
     // Pawns
     let pawns = state.pieceBitboards[side * 6 + P];
@@ -393,10 +397,9 @@ function generateMoves(state) {
         const startRank = (side === WHITE) ? 6 : 1;
         const one = (side === WHITE) ? from - 8 : from + 8;
         
-        // Pushes (Check blockers, which includes King, so this is safe)
         if (!((blockers >> BigInt(one)) & 1n)) {
             if (rank === promRank) {
-                moves.push(encodeMove(from, one, P, Q, 0, 0, 0, 0), encodeMove(from, one, P, R, 0, 0, 0, 0), encodeMove(from, one, P, B, 0, 0, 0, 0), encodeMove(from, one, P, N, 0, 0, 0, 0));
+                for (const p_type of [Q, R, B, N]) moves.push(encodeMove(from, one, P, p_type, 0, 0, 0, 0));
             } else {
                 moves.push(encodeMove(from, one, P, 0, 0, 0, 0, 0));
                 const two = (side === WHITE) ? from - 16 : from + 16;
@@ -406,19 +409,17 @@ function generateMoves(state) {
             }
         }
         
-        // Captures (Use captureTargets to avoid capturing King)
-        let attacks = PAWN_ATTACKS[side][from] & captureTargets;
+        let attacks = PAWN_ATTACKS[side][from] & validCaptureSquares;
         while (attacks > 0n) {
             const to = getLSBIndex(attacks);
             if (rank === promRank) {
-                moves.push(encodeMove(from, to, P, Q, 1, 0, 0, 0), encodeMove(from, to, P, R, 1, 0, 0, 0), encodeMove(from, to, P, B, 1, 0, 0, 0), encodeMove(from, to, P, N, 1, 0, 0, 0));
+                for (const p_type of [Q, R, B, N]) moves.push(encodeMove(from, to, P, p_type, 1, 0, 0, 0));
             } else {
                 moves.push(encodeMove(from, to, P, 0, 1, 0, 0, 0));
             }
             attacks = popBit(attacks);
         }
         
-        // En Passant
         if (state.enpassant !== -1 && (PAWN_ATTACKS[side][from] & (1n << BigInt(state.enpassant)))) {
             moves.push(encodeMove(from, state.enpassant, P, 0, 1, 0, 1, 0));
         }
@@ -434,9 +435,8 @@ function generateMoves(state) {
         if ((state.castling & BQCA) && !((blockers >> 1n) & 7n) && !isSquareAttacked_lean(state, 4, WHITE) && !isSquareAttacked_lean(state, 3, WHITE)) moves.push(encodeMove(4, 2, K, 0, 0, 0, 0, 1));
     }
     
-    // Pieces
-    const pieces = [N, B, R, Q, K];
-    for (const p of pieces) {
+    // All Other Pieces
+    for (let p = N; p <= K; p++) {
         let bb = state.pieceBitboards[side * 6 + p];
         while (bb > 0n) {
             const from = getLSBIndex(bb);
@@ -445,17 +445,13 @@ function generateMoves(state) {
             else if (p === K) attacks = KING_ATTACKS[from];
             else if (p === B) attacks = getBishopAttacks(from, blockers);
             else if (p === R) attacks = getRookAttacks(from, blockers);
-            else attacks = getQueenAttacks(from, blockers);
+            else if (p === Q) attacks = getQueenAttacks(from, blockers);
             
-            // Mask out friendly pieces AND the enemy King
-            // This ensures we never generate a move that lands on the King
-            attacks &= ~(friendly | enemyKing);
+            attacks &= validTargetSquares;
             
             while (attacks > 0n) {
                 const to = getLSBIndex(attacks);
-                // We don't need to mask King again, we did it above.
-                // Just check if it's a capture (landing on any other enemy piece)
-                const isCapture = (state.occupancies[enemy] & (1n << BigInt(to))) ? 1 : 0;
+                const isCapture = ((1n << BigInt(to)) & validCaptureSquares) ? 1 : 0;
                 moves.push(encodeMove(from, to, p, 0, isCapture, 0, 0, 0));
                 attacks = popBit(attacks);
             }
@@ -465,32 +461,36 @@ function generateMoves(state) {
     return moves;
 }
 
-/* B"H */
 /**
- * Generates only capture/tactical moves.
- * FIX: Explicitly masks out the enemy King from capture targets.
+ * Generates tactical moves (captures/promotions).
+ * FINAL FIX: Explicitly removes the enemy King from capture targets.
+ * @param {object} state The current game state.
+ * @returns {number[]} A list of encoded tactical moves.
  */
 function generateTacticalMoves(state) {
     const moves = [];
     const side = state.turn;
     const enemy = side ^ 1;
     const blockers = state.occupancies[2];
-    
-    // CRITICAL FIX: Capture targets must NOT include the King.
+
+    // CRITICAL FIX: Define capture targets, explicitly excluding the King.
     const enemyKing = state.pieceBitboards[enemy * 6 + K];
     const captureTargets = state.occupancies[enemy] & ~enemyKing;
 
+    // Pawn captures and promotions
     let pawns = state.pieceBitboards[side * 6 + P];
     while (pawns > 0n) {
         const from = getLSBIndex(pawns);
         const rank = Math.floor(from / 8);
         const promRank = (side === WHITE) ? 1 : 6;
         
+        // Quiet Promotions
         const one = (side === WHITE) ? from - 8 : from + 8;
         if (rank === promRank && !((blockers >> BigInt(one)) & 1n)) {
-            moves.push(encodeMove(from, one, P, Q, 0, 0, 0, 0)); 
+            moves.push(encodeMove(from, one, P, Q, 0, 0, 0, 0));
         }
         
+        // Pawn Captures
         let attacks = PAWN_ATTACKS[side][from] & captureTargets;
         while (attacks > 0n) {
             const to = getLSBIndex(attacks);
@@ -499,24 +499,30 @@ function generateTacticalMoves(state) {
             attacks = popBit(attacks);
         }
         
+        // En Passant
         if (state.enpassant !== -1 && (PAWN_ATTACKS[side][from] & (1n << BigInt(state.enpassant)))) {
             moves.push(encodeMove(from, state.enpassant, P, 0, 1, 0, 1, 0));
         }
         pawns = popBit(pawns);
     }
-
-    const pieces = [N, B, R, Q, K];
-    for (const p of pieces) {
+    
+    // Piece Captures
+    for (let p = N; p <= K; p++) {
         let bb = state.pieceBitboards[side * 6 + p];
         while (bb > 0n) {
             const from = getLSBIndex(bb);
-            let attacks = (p === N) ? KNIGHT_ATTACKS[from] : (p === B) ? getBishopAttacks(from, blockers) : (p === R) ? getRookAttacks(from, blockers) : (p === Q) ? getQueenAttacks(from, blockers) : KING_ATTACKS[from];
+            let attacks = 0n;
+            if (p === N) attacks = KNIGHT_ATTACKS[from];
+            else if (p === K) attacks = KING_ATTACKS[from];
+            else if (p === B) attacks = getBishopAttacks(from, blockers);
+            else if (p === R) attacks = getRookAttacks(from, blockers);
+            else if (p === Q) attacks = getQueenAttacks(from, blockers);
             
-            // Only capture valid targets (excluding King)
-            attacks &= captureTargets;
+            attacks &= captureTargets; // Only consider squares with enemy pieces (minus King)
             
             while (attacks > 0n) {
-                moves.push(encodeMove(from, getLSBIndex(attacks), p, 0, 1, 0, 0, 0));
+                const to = getLSBIndex(attacks);
+                moves.push(encodeMove(from, to, p, 0, 1, 0, 0, 0));
                 attacks = popBit(attacks);
             }
             bb = popBit(bb);

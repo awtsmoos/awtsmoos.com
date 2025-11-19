@@ -277,19 +277,58 @@ function initializeEngine() {
     self.postMessage({ type: 'initialization_complete' });
 }
 
+/* B"H */
+/**
+ * Main message handler for the chess engine worker.
+ * DIAGNOSTIC VERSION: Adds extensive logging for the opening book lookup.
+ * @param {MessageEvent} e The event object from the main thread.
+ */
 self.onmessage = function(e) {
     const { command } = e.data;
-    if (command === 'initialize') initializeEngine();
-    else if (command === 'calculate_move') {
+    if (command === 'initialize') {
+        initializeEngine();
+    } else if (command === 'calculate_move') {
         if (!isInitialized) initializeEngine();
+        
         const state = createGameState(e.data.fen);
+        console.log("B\"H - Book Check: Received FEN:", e.data.fen);
+        console.log("B\"H - Book Check: Calculated Zobrist Hash:", state.zobristHash);
+        
+        // Check both books for a matching hash
         const book = openingBook.get(state.zobristHash) || punishmentBook.get(state.zobristHash);
-        if (book && book.moves.length > 0) {
-            postMessage({ type: 'move_result', bestMove: book.moves[Math.floor(Math.random() * book.moves.length)], score: `Book: ${book.name}`, timeTaken: "0.00", nodesSearched: 0 });
+        
+        if (book && book.moves && book.moves.length > 0) {
+            console.log("B\"H - BOOK HIT! Found entry:", book.name);
+            postMessage({
+                type: 'move_result',
+                bestMove: book.moves[Math.floor(Math.random() * book.moves.length)],
+                score: `Book: ${book.name}`,
+                timeTaken: "0.00",
+                nodesSearched: 0
+            });
             return;
+        } else {
+            // Log details on why the book lookup failed
+            if (openingBook.size === 0 && punishmentBook.size === 0) {
+                 console.log("B\"H - Book Miss: Reason - Both opening books are empty.");
+            } else {
+                 console.log("B\"H - Book Miss: Position hash not found in book maps.", {
+                    openingBookSize: openingBook.size,
+                    punishmentBookSize: punishmentBook.size
+                 });
+            }
         }
+
+        // If no book move, proceed with search
         const res = searchRoot(state, 99, e.data.maxTime || 4200);
-        postMessage({ type: 'move_result', bestMove: res.bestMove ? decodeMove(res.bestMove, state.turn) : null, score: res.score, timeTaken: (performance.now() - searchStartTime).toFixed(2), nodesSearched: nodeCount });
+        postMessage({
+            type: 'move_result',
+            bestMove: res.bestMove ? decodeMove(res.bestMove, state.turn) : null,
+            score: res.score,
+            timeTaken: (performance.now() - searchStartTime).toFixed(2),
+            nodesSearched: nodeCount
+        });
+
     } else if (command === 'analyze_pgn') {
         const converter = new PgnConverter();
         const moves = e.data.pgnText.replace(/\[.*?\]\s*|{.*?}|\d+\.\s*|\$\d+/g, '').replace(/\s+/g, ' ').trim().split(' ');
