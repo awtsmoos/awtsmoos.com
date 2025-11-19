@@ -143,104 +143,137 @@ function popcount(bb) {
 
 /*B"H*/
 /**
- * A Gnostic Inquiry into the nature of the Bishop's power. This is a hyper-verbose
- * diagnostic version of getBishopAttacks, designed to find hidden type paradoxes.
- * @param {number} sq The square from which the Bishop emanates its power.
- * @param {BigInt} blockers A BigInt bitboard of all pieces that obstruct the light.
- * @returns {BigInt} The resulting attack bitboard.
- */
-/*B"H*/
-/**
  * A Gnostic Audit of the Bishop's power. This is the definitive, hyper-vigilant
- * implementation. It audits every component of its calculation before use, ensuring
- * that no paradox can be born. Its logs are a transparent chronicle of its thought.
+ * implementation. It audits every component of its calculation, including a new
+ * "Sanctification" step to properly simulate 64-bit overflow for the magic index
+ * calculation, ensuring that no paradox can be born. Its logs are a transparent
+ * chronicle of its every thought.
  * @param {number} sq The square (0-63) of the emanating Bishop.
  * @param {BigInt} blockers A bitboard of all pieces obstructing the light.
  * @returns {BigInt} The resulting attack bitboard, guaranteed to be pure.
  */
 function getBishopAttacks(sq, blockers) {
     const location = `getBishopAttacks(sq=${sq})`;
-    console.group(`%c GNOSTIC AUDIT: ${location}`, 'color: #8A2BE2');
+    console.group(`%c GNOSTIC AUDIT: ${location}`, 'color: #8A2BE2; font-weight: bold;');
 
-    // AUDIT 1: The input reality itself.
+    // --- AUDIT 1: The Input Reality ---
+    console.log(`[1. Gaze] Gazing upon the input reality...`);
     GnosticAuditor.assertBigInt(blockers, 'Input Blockers', location);
+    console.log(`%c[OK] Input Blockers are pure BigInt: 0x${blockers.toString(16)}`, 'color: #99ff99');
 
-    // AUDIT 2: The retrieved universal laws for this square.
+    // --- AUDIT 2: The Universal Laws ---
+    console.log(`[2. Recall] Recalling the universal laws for this square...`);
     const mask = bishopMasks[sq];
     const magic = BISHOP_MAGICS[sq];
     GnosticAuditor.assertBigInt(mask, 'Bishop Mask', location);
     GnosticAuditor.assertBigInt(magic, 'Bishop Magic Key', location);
-
-    console.log(`[Inputs] Blockers: ${blockers.toString(16)}`);
-    console.log(`[Laws] Mask: ${mask.toString(16)}, Magic: ${magic.toString(16)}`);
-
-    const relevantBits = popcount(mask);
+    console.log(`%c[OK] Retrieved Mask: 0x${mask.toString(16)}`, 'color: #99ff99');
+    console.log(`%c[OK] Retrieved Magic Key: 0x${magic.toString(16)}`, 'color: #99ff99');
+    
+    // --- STEP 3: The Calculation of Form ---
+    console.log(`[3. Calculate] Focusing the light to define relevant forms...`);
     const relevantBlockers = blockers & mask;
     GnosticAuditor.assertBigInt(relevantBlockers, 'Relevant Blockers (blockers & mask)', location);
+    console.log(`  --> Relevant Blockers: 0x${relevantBlockers.toString(16)}`);
     
     const multiplied = relevantBlockers * magic;
     GnosticAuditor.assertBigInt(multiplied, 'Multiplied Result (relevantBlockers * magic)', location);
+    console.log(`  --> Raw Multiplied Form (>64bit): 0x${multiplied.toString(16)}`);
 
+    // --- STEP 4: THE CRITICAL SANCTIFICATION ---
+    console.log(`[4. Sanctify] Constraining the infinite form to the 64-square Kline...`);
+    const sanctified64bit = multiplied & 0xffffffffffffffffn;
+    GnosticAuditor.assertBigInt(sanctified64bit, 'Sanctified 64-bit Form', location);
+    console.log(`%c  --> Sanctified 64-bit Form: 0x${sanctified64bit.toString(16)}`, 'color: #e6c37f; font-weight:bold;');
+
+    // --- STEP 5: The Indexing of Wisdom ---
+    console.log(`[5. Index] Translating form into an index of wisdom...`);
+    const relevantBits = popcount(mask);
     const shiftAmount = BigInt(64 - relevantBits);
-    const shifted = multiplied >> shiftAmount;
-    GnosticAuditor.assertBigInt(shifted, 'Shifted Result (multiplied >> shift)', location);
+    console.log(`  --> Relevant Bits: ${relevantBits}, Shift Amount: ${shiftAmount}`);
+    
+    const shifted = sanctified64bit >> shiftAmount;
+    GnosticAuditor.assertBigInt(shifted, 'Shifted Result (sanctified >> shift)', location);
+    console.log(`  --> Shifted Result: 0x${shifted.toString(16)}`);
 
     const magicIndex = Number(shifted);
-    console.log(`[Calculation] Relevant Blockers: ${relevantBlockers.toString(16)}, Multiplied: ${multiplied.toString(16)}, Index: ${magicIndex}`);
+    console.log(`%c  --> Final Magic Index: ${magicIndex}`, 'color: #e6c37f; font-weight:bold;');
 
-    // AUDIT 3: The wisdom retrieved from the attack tables. THIS IS THE FINAL AND MOST CRITICAL CHECK.
+    // --- AUDIT 6: The Final Emanation ---
+    console.log(`[6. Emanate] Retrieving the final emanation from the tables...`);
     const attacks = bishopAttacks[sq][magicIndex];
     GnosticAuditor.assertBigInt(attacks, `Final Attacks from Table [sq=${sq}][index=${magicIndex}]`, location);
     
-    console.log(`[Result] Final Attacks: ${attacks.toString(16)}`);
+    console.log(`%c[SUCCESS] The final emanation is pure: 0x${attacks.toString(16)}`, 'color: #00ffff; font-weight: bold;');
     console.groupEnd();
     return attacks;
 }
 
-
 /*B"H*/
 /**
  * A Gnostic Audit of the Rook's power. This is the definitive, hyper-vigilant
- * implementation that audits every step of its process.
+ * implementation that audits every step of its process, including the critical
+ * "Sanctification" step to properly simulate 64-bit overflow.
  * @param {number} sq The square (0-63) of the emanating Rook.
  * @param {BigInt} blockers A bitboard of all pieces obstructing the light.
  * @returns {BigInt} The resulting attack bitboard, guaranteed to be pure.
  */
 function getRookAttacks(sq, blockers) {
     const location = `getRookAttacks(sq=${sq})`;
-    console.group(`%c GNOSTIC AUDIT: ${location}`, 'color: #B8860B');
-    
+    console.group(`%c GNOSTIC AUDIT: ${location}`, 'color: #B8860B; font-weight: bold;');
+
+    // --- AUDIT 1: The Input Reality ---
+    console.log(`[1. Gaze] Gazing upon the input reality...`);
     GnosticAuditor.assertBigInt(blockers, 'Input Blockers', location);
+    console.log(`%c[OK] Input Blockers are pure BigInt: 0x${blockers.toString(16)}`, 'color: #99ff99');
+
+    // --- AUDIT 2: The Universal Laws ---
+    console.log(`[2. Recall] Recalling the universal laws for this square...`);
     const mask = rookMasks[sq];
     const magic = ROOK_MAGICS[sq];
     GnosticAuditor.assertBigInt(mask, 'Rook Mask', location);
     GnosticAuditor.assertBigInt(magic, 'Rook Magic Key', location);
+    console.log(`%c[OK] Retrieved Mask: 0x${mask.toString(16)}`, 'color: #99ff99');
+    console.log(`%c[OK] Retrieved Magic Key: 0x${magic.toString(16)}`, 'color: #99ff99');
 
-    console.log(`[Inputs] Blockers: ${blockers.toString(16)}`);
-    console.log(`[Laws] Mask: ${mask.toString(16)}, Magic: ${magic.toString(16)}`);
-
-    const relevantBits = popcount(mask);
+    // --- STEP 3: The Calculation of Form ---
+    console.log(`[3. Calculate] Focusing the light to define relevant forms...`);
     const relevantBlockers = blockers & mask;
-    GnosticAuditor.assertBigInt(relevantBlockers, 'Relevant Blockers', location);
+    GnosticAuditor.assertBigInt(relevantBlockers, 'Relevant Blockers (blockers & mask)', location);
+    console.log(`  --> Relevant Blockers: 0x${relevantBlockers.toString(16)}`);
 
     const multiplied = relevantBlockers * magic;
-    GnosticAuditor.assertBigInt(multiplied, 'Multiplied Result', location);
-    
-    const shiftAmount = BigInt(64 - relevantBits);
-    const shifted = multiplied >> shiftAmount;
-    GnosticAuditor.assertBigInt(shifted, 'Shifted Result', location);
-    
-    const magicIndex = Number(shifted);
-    console.log(`[Calculation] Index: ${magicIndex}`);
+    GnosticAuditor.assertBigInt(multiplied, 'Multiplied Result (relevantBlockers * magic)', location);
+    console.log(`  --> Raw Multiplied Form (>64bit): 0x${multiplied.toString(16)}`);
 
+    // --- STEP 4: THE CRITICAL SANCTIFICATION ---
+    console.log(`[4. Sanctify] Constraining the infinite form to the 64-square Kline...`);
+    const sanctified64bit = multiplied & 0xffffffffffffffffn;
+    GnosticAuditor.assertBigInt(sanctified64bit, 'Sanctified 64-bit Form', location);
+    console.log(`%c  --> Sanctified 64-bit Form: 0x${sanctified64bit.toString(16)}`, 'color: #e6c37f; font-weight:bold;');
+
+    // --- STEP 5: The Indexing of Wisdom ---
+    console.log(`[5. Index] Translating form into an index of wisdom...`);
+    const relevantBits = popcount(mask);
+    const shiftAmount = BigInt(64 - relevantBits);
+    console.log(`  --> Relevant Bits: ${relevantBits}, Shift Amount: ${shiftAmount}`);
+
+    const shifted = sanctified64bit >> shiftAmount;
+    GnosticAuditor.assertBigInt(shifted, 'Shifted Result (sanctified >> shift)', location);
+    console.log(`  --> Shifted Result: 0x${shifted.toString(16)}`);
+
+    const magicIndex = Number(shifted);
+    console.log(`%c  --> Final Magic Index: ${magicIndex}`, 'color: #e6c37f; font-weight:bold;');
+
+    // --- AUDIT 6: The Final Emanation ---
+    console.log(`[6. Emanate] Retrieving the final emanation from the tables...`);
     const attacks = rookAttacks[sq][magicIndex];
     GnosticAuditor.assertBigInt(attacks, `Final Attacks from Table [sq=${sq}][index=${magicIndex}]`, location);
-
-    console.log(`[Result] Final Attacks: ${attacks.toString(16)}`);
+    
+    console.log(`%c[SUCCESS] The final emanation is pure: 0x${attacks.toString(16)}`, 'color: #00ffff; font-weight: bold;');
     console.groupEnd();
     return attacks;
 }
-
 
 
 // --- MAGIC BITBOARD GENERATION AND LOOKUP ---
