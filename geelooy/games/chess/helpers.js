@@ -103,8 +103,8 @@ let moveStack = Array(1024).fill(0), moveStackPtr = 0;
 function createGameState(fen) {
     console.log("%c B\"H - Forging a new reality from the sacred void of '0n'...", "color: #ADD8E6;");
     const state = {
-        pieceBitboards: Array(12).fill(0n), // CRITICAL: Must be 0n to prevent type paradox.
-        occupancies: Array(3).fill(0n),    // CRITICAL: Must be 0n to prevent type paradox.
+        pieceBitboards: Array(12).fill(0n), // CRITICAL FIX: Must be 0n to prevent type paradox.
+        occupancies: Array(3).fill(0n),    // CRITICAL FIX: Must be 0n to prevent type paradox.
         turn: WHITE, enpassant: -1, castling: 0, zobristHash: 0n
     };
 
