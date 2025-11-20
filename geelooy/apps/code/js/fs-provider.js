@@ -433,27 +433,48 @@ delete: async function({ path, kind }) {
 },
     
     GitHub: {
-        api: async (endpoint, options = {}) => {
-            if (!State.githubToken) throw new Error("GitHub token not set.");
-            const headers = {
-             'Authorization': `Bearer ${State.githubToken}`, 
-             'Accept': 'application/vnd.github+json', 
-             'X-GitHub-Api-Version': '2022-11-28', 
-             ...options.headers 
-             };
-             let fetchEndpoint = endpoint;
-            const method = options.method || 'GET';
-            if (method === 'GET') {
-                const cacheBuster = `_cb=${Date.now()}`;
-                fetchEndpoint += (fetchEndpoint.includes('?') ? '&' : '?') + cacheBuster;
-            }
-            const response = await fetch(`https://api.github.com${fetchEndpoint}`, { ...options, headers });
-            if (!response.ok) {
-                const err = await response.json().catch(() => ({ message: response.statusText }));
-                throw new Error(err.message || `GitHub API Error: ${response.status}`);
-            }
-            return response.status === 204 ? null : response.json();
-        },
+        /*B"H*/
+
+/**
+ * A universal conduit to the GitHub API. This corrected version understands
+ * that to gaze upon public works (GET requests), one does not need a key (token).
+ * It now speaks with the proper tone for both public and private realms.
+ * @param {string} endpoint - The API endpoint to call, e.g., '/user/repos'.
+ * @param {object} [options={}] - Standard fetch options (method, body, etc.).
+ * @returns {Promise<object|null>} The JSON response from the API.
+ */
+api: async (endpoint, options = {}) => {
+    const method = options.method || 'GET';
+    const headers = {
+     'Accept': 'application/vnd.github+json', 
+     'X-GitHub-Api-Version': '2022-11-28', 
+     ...options.headers 
+    };
+
+    // Only add the Authorization header if a token exists.
+    // This allows unauthenticated GET requests for public repositories.
+    if (State.githubToken) {
+        headers['Authorization'] = `Bearer ${State.githubToken}`;
+    } else if (method !== 'GET') {
+        // If we don't have a token, we cannot perform actions that change data.
+        throw new Error("A GitHub token is required for this action.");
+    }
+     
+    let fetchEndpoint = endpoint;
+    if (method === 'GET') {
+        const cacheBuster = `_cb=${Date.now()}`;
+        fetchEndpoint += (fetchEndpoint.includes('?') ? '&' : '?') + cacheBuster;
+    }
+    
+    const response = await fetch(`https://api.github.com${fetchEndpoint}`, { ...options, headers });
+    
+    if (!response.ok) {
+        const err = await response.json().catch(() => ({ message: response.statusText }));
+        throw new Error(err.message || `GitHub API Error: ${response.status}`);
+    }
+    
+    return response.status === 204 ? null : response.json();
+},
         utf8_to_b64: str => btoa(unescape(encodeURIComponent(str))),
         b64_to_utf8: str => decodeURIComponent(escape(atob(str))),
         async list({ repoInfo, branch, path }) {
