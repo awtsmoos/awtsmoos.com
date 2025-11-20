@@ -1,6 +1,6 @@
 // In parser-expressions.js
 // B"H --- Parsing Expressions [DEFINITIVE, UNIVERSAL & COMPLETE] ---
-(function() {
+(function() { 
 
 const { TOKEN, PRECEDENCE, PRECEDENCES } = window.MerkavahConstants;
     const proto = MerkavahParser.prototype;
