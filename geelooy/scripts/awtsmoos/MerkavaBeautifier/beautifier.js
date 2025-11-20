@@ -115,18 +115,22 @@ export async function beautify(code, options = {}) {
             case 'CallExpression':
                 const callee = walk(node.callee, '');
 
-                // If there is ONE argument or FEWER, format on a single line.
+                // Rule: If there is ONE argument or FEWER, format on a single line.
                 if (node.arguments.length <= 1) {
                     const args = node.arguments.map(a => walk(a, '')).join(', ');
-                    return `${callee}(${args})`;
+                    return callee + '(' + args + ')';
                 }
 
-                // If there are TWO or MORE arguments, expand them to new lines.
-                var newIndent = indent + finalOptions.indentChar;
+                // Rule: If there are TWO or MORE arguments, expand to new lines.
+                const newIndent = indent + finalOptions.indentChar;
                 const multiLineArgs = node.arguments.map(a => `${newIndent}${walk(a, newIndent)}`).join(',\n');
                 
-                return `${callee}(\n${multiLineArgs}\n${indent})`;
-                
+                // Build the string with simple, clear concatenation.
+                return callee + '(\n' + 
+                       multiLineArgs + '\n' + 
+                       indent + ')';
+                       
+                       
             case 'CatchClause':
                 const param = node.param ? `(${walk(node.param, '')})` : '';
                 return `catch ${param} ${walk(node.body, indent)}`;
@@ -312,7 +316,7 @@ export async function beautify(code, options = {}) {
 
             case 'TemplateLiteral':
                 let result = '`';
-                var newIndent = indent + finalOptions.indentChar;
+                const newIndent = indent + finalOptions.indentChar;
 
                 for (let i = 0; i < node.quasis.length; i++) {
                     // Add the static string part (e.g., "Hello, " or "!")
@@ -321,8 +325,11 @@ export async function beautify(code, options = {}) {
                     // If there is an expression that follows this string part...
                     if (i < node.expressions.length) {
                         const expressionContent = walk(node.expressions[i], newIndent);
-                        // ...wrap that expression in newlines and indentation.
-                        result += `${\n${newIndent}${expressionContent}\n${indent}}`;
+                        
+                        // Build the expression block with simple, clear concatenation.
+                        result += '${' + '\n' +
+                                  newIndent + expressionContent + '\n' +
+                                  indent + '}';
                     }
                 }
 
