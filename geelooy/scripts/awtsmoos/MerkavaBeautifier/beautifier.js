@@ -318,27 +318,28 @@ export async function beautify(code, options = {}) {
                 let result = '`';
                 const expressionIndent = indent + finalOptions.indentChar;
 
+                // A template literal is an alternating sequence of static text and expressions.
+                // We will loop through all the static parts.
                 for (let i = 0; i < node.quasis.length; i++) {
-                    // If this is not the first chunk of text, it means we just finished
-                    // an expression, so we must first add the closing brace and align it.
-                    if (i > 0) {
-                        result += '\n' + indent + '}';
-                    }
-
-                    // Add the static part of the string (e.g., "Hello, " or "!").
+                    
+                    // 1. Append the static text part (e.g., "Hello, " or "!").
                     result += node.quasis[i].value.raw;
 
-                    // If there's an expression that comes after this static part...
+                    // 2. Check if there is an expression that immediately follows this static part.
+                    //    (The final static part will not have an expression after it).
                     if (i < node.expressions.length) {
-                        const expressionContent = walk(node.expressions[i], expressionIndent);
                         
-                        // Start the expression block, add a newline, and then add the
-                        // indented content. We do NOT close the brace here.
+                        // 2a. Recursively format the content of the expression with one deeper level of indentation.
+                        const expressionContent = walk(node.expressions[i], expressionIndent);
+
+                        // 2b. Build the complete, correctly formatted expression block using simple concatenation.
                         result += '${' + '\n' +
-                                  expressionIndent + expressionContent;
+                                  expressionIndent + expressionContent + '\n' +
+                                  indent + '}'; // CRITICAL: The closing '}' uses the parent 'indent'.
                     }
                 }
 
+                // 3. Append the final backtick to close the template literal.
                 result += '`';
                 return result;
 
