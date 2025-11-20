@@ -1,36 +1,43 @@
 // B"H
-
-// This module-level variable will cache the loaded parser class.
-let MerkavaParser;
-
 /**
- * Loads and initializes the MerkavaASTParser class one time.
+ * A self-contained, memoized promise that resolves with the MerkavahParser class.
+ * It handles loading the non-module parser script from within this JS module
+ * using the reliable callback pattern.
  */
-async function initializeParser() {
-    if (MerkavaParser) return;
-    if (window.MerkavaParserPromise) {
-        MerkavaParser = await window.MerkavaParserPromise;
-        return;
+const merkavaLoaderPromise = new Promise((resolve, reject) => {
+    // If another script on the page has already loaded the parser, use the existing promise.
+    if (window.MerkavahParserPromise) {
+        console.log("Found existing MerkavahParserPromise, resolving immediately.");
+        return window.MerkavahParserPromise.then(resolve).catch(reject);
     }
-    try {
-        await import('/scripts/awtsmoos/MerkavaASTParser/parser-core.js');
-        if (!window.MerkavaParserPromise) {
-            throw new Error("The parser script loaded, but did not create the global 'MerkavaParserPromise'.");
-        }
-        MerkavaParser = await Promise.resolve(
-        window.MerkavaParserPromise
-        
-        )
-        if (typeof MerkavaParser !== 'function') {
-            throw new Error("The promise did not resolve to a function.");
-        }
-        console.log("B'H - MerkavaASTParser has been successfully loaded for beautification.");
-    } catch (e) {
-        console.error("A critical error occurred while loading the parser:", e);
-        throw new Error("Could not load the MerkavaASTParser. Check the path and browser console for details.");
-    }
-}
 
+    // Create a unique, temporary callback function on the global scope.
+    const callbackName = 'merkavaOnload_' + Date.now();
+
+    // The parser script will call this function once it's fully loaded and initialized.
+    window[callbackName] = (loadedParser) => {
+        console.log("B'H - Merkava callback has been executed. The promise is being resolved.");
+        delete window[callbackName]; // Clean up the global scope
+        resolve(loadedParser);      // Resolve the promise with the final parser class
+    };
+
+    // Create the <script> tag to inject into the document.
+    const script = document.createElement('script');
+    
+    // Set its source, telling the parser which global function to call back when it's ready.
+    script.src = `/scripts/awtsmoos/MerkavaASTParser/parser-core.js?merkavaCallback=${callbackName}`;
+
+    // Handle network errors (e.g., a 404 if the path is wrong).
+    script.onerror = () => {
+        console.error("Critical Error: The <script> tag for parser-core.js failed to load. Check the path in the 'src' attribute and the browser's Network tab.");
+        delete window[callbackName]; // Clean up the failed callback
+        reject(new Error("Could not load the MerkavahParser script from the server due to a network or path error."));
+    };
+
+    // Append the script to the document's head to begin loading.
+    console.log("Injecting script tag to load Merkavah Parser...");
+    document.head.appendChild(script);
+});
 /**
  * The main exported function. Takes JS code and returns a formatted version.
  * @param {string} code The JavaScript code to beautify.
@@ -38,9 +45,12 @@ async function initializeParser() {
  * @returns {Promise<string>} A promise that resolves to the beautified code.
  */
 export async function beautify(code, options = {}) {
-    await initializeParser();
+    // 1. Await the promise to get the parser class.
+    const MerkavaParser = await merkavaLoaderPromise;
 
+    // 2. Now you can use it.
     const parser = new MerkavaParser(code);
+    
     parser.registerExpressionParsers();
     parser.registerStatementParsers();
     parser.registerDeclarationParsers();
