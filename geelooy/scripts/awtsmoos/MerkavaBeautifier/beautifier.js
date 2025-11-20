@@ -14,7 +14,7 @@ const merkavaLoaderPromise = new Promise((resolve, reject) => {
     // Create a unique, temporary callback function on the global scope.
     const callbackName = 'merkavaOnload_' + Date.now();
     window
-    .callbackName=callbackName;
+    .merkavaCallback=callbackName;
 
     // The parser script will call this function once it's fully loaded and initialized.
     window[callbackName] = (loadedParser) => {
