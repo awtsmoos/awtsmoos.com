@@ -236,26 +236,46 @@ class MerkavaExecutor {
                 }
             }
         },
+        
+        
         TryStatement: async function(n, c) {
+            let result;
+            let caughtError = null;
+
+            // Step 1: Execute the `try` block and capture any thrown error.
             try {
-                return await this._executeNode(n.block, c);
+                result = await this._executeNode(n.block, c);
             } catch (error) {
-                if (n.handler) {
-                    const catchScope = this._createScope(this, c.scope);
-                    const catchContext = { ...c, scope: catchScope };
-                    if (n.handler.param) {
-                        await this._assignPattern(n.handler.param, error, catchContext);
-                    }
-                    return await this._executeNode(n.handler.body, catchContext);
-                } else {
-                    throw error; // Rethrow if no catch handler
-                }
-            } finally {
-                if (n.finalizer) {
-                    await this._executeNode(n.finalizer, c);
-                }
+                caughtError = error;
             }
+
+            // Step 2: If an error was caught and a `catch` handler exists, execute it.
+            if (caughtError && n.handler) {
+                const catchScope = this._createScope(this, c.scope);
+                const catchContext = { ...c, scope: catchScope };
+                if (n.handler.param) {
+                    await this._assignPattern(n.handler.param, caughtError, catchContext);
+                }
+                // The result of the catch block can override the result of the try.
+                result = await this._executeNode(n.handler.body, catchContext);
+                // The error has now been handled.
+                caughtError = null;
+            }
+
+            // Step 3: Always execute the `finally` block if it exists.
+            if (n.finalizer) {
+                await this._executeNode(n.finalizer, c);
+            }
+
+            // Step 4: If an error was caught but not handled, re-throw it now.
+            if (caughtError) {
+                throw caughtError;
+            }
+
+            // Step 5: Return the final result.
+            return result;
         },
+        
         ThrowStatement: async function(n, c) { throw await this._executeNode(n.argument, c); },
         LabeledStatement: async function(n, c) {
             try {
