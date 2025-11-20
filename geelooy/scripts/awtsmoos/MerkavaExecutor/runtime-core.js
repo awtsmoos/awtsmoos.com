@@ -193,7 +193,9 @@ class MerkavaExecutor {
             // --- TIKKUN: HANDLE SUPER() and SUPER.METHOD() ---
             if (n.callee.type === 'Super') { // Handles `super()` constructor call
                 thisContext = c.scope.thisBinding;
-                const proto = Object.getPrototypeOf(thisContext);
+                const proto = Object.getPrototypeOf(Object.getPrototypeOf(thisContext));
+                
+                
                 func = proto.constructor;
             } else if (n.callee.type === 'MemberExpression') {
                 thisContext = await this._executeNode(n.callee.object, c);
@@ -349,15 +351,18 @@ class MerkavaExecutor {
             const classContext = { ...c, scope: classScope };
             const constructorDef = n.body.body.find(member => member.type === 'MethodDefinition' && member.kind === 'constructor');
             let classConstructor;
+            
+            
             if (constructorDef) {
                 classConstructor = await this._executeNode(constructorDef.value, classContext);
             } else {
-                 classConstructor = superClass ? function(...args) {
-                    const newThis = new (Function.prototype.bind.apply(superClass, [null, ...args]));
-                    Object.setPrototypeOf(newThis, this.constructor.prototype);
-                    return newThis;
-                 } : function() {};
+                // TIKKUN: A simpler, more correct default constructor.
+                classConstructor = superClass ? function(...args) { return superClass.apply(this, args); } : function() {};
             }
+            
+
+            
+            
             if (superClass) {
                 Object.setPrototypeOf(classConstructor.prototype, superClass.prototype);
                 Object.setPrototypeOf(classConstructor, superClass);
