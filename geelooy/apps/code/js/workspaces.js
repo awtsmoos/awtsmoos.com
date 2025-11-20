@@ -101,7 +101,7 @@ renderWorkspace(ws, container) {
     container.appendChild(wsRoot);
     const headerTitle = wsRoot.querySelector('.workspace-header-title');
 
-    // THIS IS THE HEART OF THE PERFORMANCE FIX.
+    
     headerTitle.onclick = () => {
         // Step 1: Update the central state. This remains the source of truth.
         const isCurrentlyExpanded = State.expandedFolders.has(uniquePath);
@@ -259,7 +259,7 @@ async renderTree(parentElement, parentItem, depth) {
                     if (State.expandedFolders.has(uniquePath)) {
                         State.expandedFolders.delete(uniquePath);
                         li.classList.remove('expanded');
-                        li.querySelector('ul') ? .remove();
+                        li.querySelector('ul')?.remove();
                     } else {
                         State.expandedFolders.add(uniquePath);
                         li.classList.add('expanded');
