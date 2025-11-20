@@ -135,16 +135,35 @@ toggle(item) {
         `;
     },
     
-    positionMenu(event) {
-        const { clientX: x, clientY: y } = event;
-        const menu = DOM.selectionMenu;
-        const menuRect = menu.getBoundingClientRect();
+    /*B"H*/
+// ACTION: Replace the 'positionMenu' method in js/selection-manager.js.
 
-        // Position it slightly above the cursor/right-click point
-        const adjustedX = (x + menuRect.width > window.innerWidth) ? window.innerWidth - menuRect.width - 10 : x;
-        const adjustedY = y - menuRect.height - 10 < 0 ? y + 15 : y - menuRect.height - 10;
-        
-        menu.style.left = `${adjustedX}px`;
-        menu.style.top = `${adjustedY}px`;
+/**
+ * Positions the selection menu. This is the definitive fix. It no longer trusts
+ * the 'event' parameter passed to it. Instead, it reads the true, original
+ * event directly from the application's State, where it was stored at the
+ * moment of the right-click. This makes it immune to the broken chain of
+ * communication and permanently resolves the "event is null" error.
+ */
+positionMenu() {
+    // We ignore any event passed as a parameter and go to the source of truth.
+    const event = State.contextEvent;
+    
+    // A safety check, a moment of caution before acting.
+    if (!event) {
+        console.error("Cannot position selection menu; the context event was not found in the State.");
+        return;
     }
+
+    const { clientX: x, clientY: y } = event;
+    const menu = DOM.selectionMenu;
+    const menuRect = menu.getBoundingClientRect();
+
+    // Position it slightly above the cursor/right-click point
+    const adjustedX = (x + menuRect.width > window.innerWidth) ? window.innerWidth - menuRect.width - 10 : x;
+    const adjustedY = y - menuRect.height - 10 < 0 ? y + 15 : y - menuRect.height - 10;
+    
+    menu.style.left = `${adjustedX}px`;
+    menu.style.top = `${adjustedY}px`;
+}
 };
