@@ -33,12 +33,12 @@ registerCustomMenus(menuConfigs) {
     },
 
 /*B"H*/
-// ACTION: Replace the 'show' method in js/menus.js with this new version.
+// ACTION: Replace the 'show' method in js/menus.js with this corrected version.
 
 /**
- * Unfurls the context menu, a scroll of potential actions, now woven with new threads.
- * It perceives the nature of the clicked item—its type, its location, its potential—
- * and offers only the actions that are truly possible, including the new rite of repository creation.
+ * Unfurls the context menu, a scroll of potential actions. This corrected version
+ * properly identifies ANY writable local directory, even nested ones, as a candidate
+ * for repository initialization, fulfilling the true potential of creation anywhere.
  * @param {Event} e - The contextmenu event, the spark of user intent.
  * @param {object} item - The file or folder item, a vessel of data upon which to act.
  */
@@ -46,28 +46,26 @@ show(e, item) {
     e.preventDefault();
     e.stopPropagation();
 
-    if (State.isSelectionModeActive) {
-        return; // In the realm of selection, this menu sleeps.
-    }
+    if (State.isSelectionModeActive) return;
     
-    State.contextTarget = item; // Hold the target of our focus.
-    this.hideAll(); // Let all other menus fade into nothingness.
+    State.contextTarget = item;
+    this.hideAll();
     
-    // Listen for a click anywhere else to return to a state of quiet.
     setTimeout(() => document.addEventListener('click', this.handleDocumentClick), 0);
     
     const mapKey = getItemUniquePath(item);
     const targetEl = State.domItemMap.get(mapKey)?.el;
-    if (targetEl) {
-        targetEl.classList.add('context-active'); // Mark the chosen one with a subtle glow.
-    }
+    if (targetEl) targetEl.classList.add('context-active');
 
     const isDir = item.kind === 'directory';
     const isWorkspaceRoot = item.path === '/';
     const workspace = State.workspaces.find(ws => ws.id === (item.workspaceId || item.id));
     const isReadOnly = workspace?.readOnly || false;
-    // We check if the item is part of a standard, mutable filesystem.
-    const isWritableLocal = !isReadOnly && (item.type === 'local' || item.type === 'indexeddb');
+    const isGitClone = item.isGitClone;
+
+    // THIS IS THE KEY CHANGE: A folder is a candidate for initialization if it's a directory,
+    // not part of a read-only workspace, and not part of a direct GitHub workspace view.
+    const isCandidateForInit = isDir && !isReadOnly && item.type !== 'github';
 
     const menuItems = [];
 
@@ -77,26 +75,30 @@ show(e, item) {
     menuItems.push({ label: 'Copy All Contents', action: 'copy-all-contents', icon: 'clipboard' });
     menuItems.push({ isSeparator: true });
 
+    // --- Git Actions (Conditional) ---
+    if (isDir && !isReadOnly) {
+        if (isGitClone) {
+            menuItems.push({ label: 'Git Actions...', action: 'git-actions', icon: 'git-branch' });
+        } else if (isCandidateForInit) {
+            // Only show init if it's not already a git clone.
+            menuItems.push({ label: 'Initialize as GitHub Repo...', action: 'git-init', icon: 'github' });
+        }
+    }
+
     // --- Mutable Actions (Conditional) ---
     if (!isReadOnly) {
         const clipboardItemUniquePath = State.fileClipboard?.[0];
         const clipboardItem = clipboardItemUniquePath ? State.domItemMap.get(clipboardItemUniquePath)?.item : null;
         if (isDir && clipboardItem) {
-            menuItems.push({ label: `Paste item(s) here`, action: 'paste', icon: 'clipboard' });
             menuItems.push({ isSeparator: true });
+            menuItems.push({ label: `Paste item(s) here`, action: 'paste', icon: 'clipboard' });
         }
         
         if (isDir) {
+            menuItems.push({ isSeparator: true });
             menuItems.push({ label: 'New File', action: 'new-file', icon: 'file' });
             menuItems.push({ label: 'New Folder', action: 'new-folder', icon: 'folder' });
         }
-    }
-
-    // --- NEW: The Rite of Initialization ---
-    // If the item is a writable, local directory, offer its ascension.
-    if (isDir && isWritableLocal) {
-        menuItems.push({ isSeparator: true });
-        menuItems.push({ label: 'Initialize as GitHub Repo...', action: 'git-init', icon: 'github' });
     }
 
     menuItems.push({ isSeparator: true });
@@ -109,7 +111,6 @@ show(e, item) {
         menuItems.push({ label: 'Remove Workspace', action: 'delete-workspace', icon: 'x', danger: true });
     }
     
-    // --- The Path of Retreat ---
     menuItems.push({ isSeparator: true });
     menuItems.push({ label: 'Cancel', action: 'cancel-menu', icon: 'x' });
     
