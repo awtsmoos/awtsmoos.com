@@ -5,22 +5,38 @@ let MerkavaParser;
 
 /**
  * Loads and initializes the MerkavaASTParser class one time.
- * The path is relative to this file's location.
  */
 async function initializeParser() {
     if (MerkavaParser) {
         return; // Already loaded
     }
+    
+    // Check if the script has already been loaded by some other means
+    if (window.MerkavahParserPromise) {
+        MerkavaParser = await window.MerkavahParserPromise;
+        return;
+    }
+
     try {
-        // Dynamically import the parser-core.js from its existing location.
-        // This path assumes `geelooy` and `merkava-beautifier` are sibling folders.
-        const parserModule = await import('/scripts/awtsmoos/MerkavaASTParser/parser-core.js');
+        // --- THE FIX IS HERE ---
+
+        // 1. We use 'import' ONLY for its side-effect: to execute the script.
+        //    We do not need the module object it returns, because it is empty.
+        await import('/scripts/awtsmoos/MerkavaASTParser/parser-core.js');
+
+        // 2. The script, having been executed, has now created a global variable
+        //    called 'MerkavaParserPromise'. We access it from the window object.
+        if (!window.MerkavahParserPromise) {
+            throw new Error("The parser script loaded, but did not create the global 'MerkavaParserPromise'.");
+        }
         
-        // The parser-core.js returns a promise that resolves to the class itself.
-        MerkavaParser = await parserModule.default;
+        // 3. We await this promise to get the actual parser class.
+        MerkavaParser = await window.MerkavahParserPromise;
+        
+        // --- END OF FIX ---
         
         if (typeof MerkavaParser !== 'function') {
-            throw new Error("Failed to load the MerkavaParser class correctly.");
+            throw new Error("Failed to load the MerkavaParser class correctly. The promise did not resolve to a function.");
         }
         console.log("B'H - MerkavaASTParser has been successfully loaded for beautification.");
     } catch (e) {
@@ -36,22 +52,18 @@ async function initializeParser() {
  * @returns {Promise<string>} A promise that resolves to the beautified code.
  */
 export async function beautify(code, options = {}) {
-    // 1. Ensure the parser is loaded and ready.
     await initializeParser();
 
-    // 2. Parse the code into an AST.
     const parser = new MerkavaParser(code);
     parser.registerExpressionParsers();
     parser.registerStatementParsers();
     parser.registerDeclarationParsers();
     const ast = parser.parse();
 
-    // 3. Check for parsing errors.
     if (parser.errors.length > 0) {
         throw new Error("Parsing failed:\n" + parser.errors.join('\n'));
     }
 
-    // 4. Define default options and walk the AST to generate the string.
     const defaultOptions = {
         indentChar: '\t',
         braceOnSameLine: true,
@@ -60,17 +72,15 @@ export async function beautify(code, options = {}) {
     };
     const finalOptions = { ...defaultOptions, ...options };
 
-    // The walk function is the core of the beautifier.
-    // It's a large recursive function that handles each AST node type.
     function walk(node, indent = '') {
         if (!node) return '';
 
         switch (node.type) {
             case 'Program':
-                return node.body.map(n => walk(n, indent)).join('\n');
+                return node.body.map(n => walk(n, indent)).join('\n\n');
 
             case 'ExpressionStatement':
-                return walk(node.expression, indent) + ';';
+                return indent + walk(node.expression, indent) + ';';
             
             case 'VariableDeclaration':
                 let decls = node.declarations.map(d => walk(d, '')).join(', ');
@@ -84,7 +94,7 @@ export async function beautify(code, options = {}) {
                 return node.name;
 
             case 'Literal':
-                if (typeof node.value === 'string') return `'${node.value}'`;
+                if (typeof node.value === 'string') return `'${node.raw}'`;
                 return node.raw;
 
             case 'IfStatement':
@@ -95,7 +105,11 @@ export async function beautify(code, options = {}) {
                    ifStr += `\n${indent}${walk(node.consequent, indent)}`;
                 }
                 if (node.alternate) {
-                    ifStr += ` else ${walk(node.alternate, indent)}`;
+                    if (finalOptions.braceOnSameLine) {
+                        ifStr += ` else ${walk(node.alternate, indent)}`;
+                    } else {
+                        ifStr += `\n${indent}else ${walk(node.alternate, indent)}`;
+                    }
                 }
                 return ifStr;
 
@@ -106,9 +120,9 @@ export async function beautify(code, options = {}) {
 
             case 'ArrayExpression':
                  if (!finalOptions.expandArrays || node.elements.length === 0) {
-                    return `[${node.elements.map(e => walk(e, '')).join(', ')}]`;
+                    return `[${node.elements.map(e => e ? walk(e, '') : '').join(', ')}]`;
                  }
-                 let arrContent = node.elements.map(e => `${indent + finalOptions.indentChar}${walk(e, indent + finalOptions.indentChar)}`).join(',\n');
+                 let arrContent = node.elements.map(e => `${indent + finalOptions.indentChar}${e ? walk(e, indent + finalOptions.indentChar) : ''}`).join(',\n');
                  return `[\n${arrContent}\n${indent}]`;
             
             case 'ObjectExpression':
@@ -129,11 +143,24 @@ export async function beautify(code, options = {}) {
             case 'CallExpression':
                 let args = node.arguments.map(a => walk(a, '')).join(', ');
                 return `${walk(node.callee, '')}(${args})`;
+            
+            case 'TemplateLiteral':
+                let quasis = node.quasis.map(q => q.value.raw);
+                let expressions = node.expressions.map(e => `\${${walk(e, '')}}`);
+                let result = '`';
+                for (let i = 0; i < quasis.length; i++) {
+                    result += quasis[i];
+                    if (i < expressions.length) {
+                        result += expressions[i];
+                    }
+                }
+                result += '`';
+                return result;
 
-            // Add more cases for other node types as needed...
             default:
+                // Fallback for unhandled nodes to prevent crashes
                 console.warn(`Beautifier: Unhandled node type "${node.type}"`);
-                return `/* Unhandled: ${node.type} */`;
+                return `/* Unhandled AST Node: ${node.type} */`;
         }
     }
 
