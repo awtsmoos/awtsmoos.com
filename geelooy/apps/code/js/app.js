@@ -167,6 +167,80 @@ activeConsole: null, // B"H
          State.githubToken = settings.githubToken || null;
          State.useTabs = settings.useTabs ?? true;
     },
+    
+    
+    /*B"H*/
+/**
+ * Gathers all locally saved (uncommitted) changes for the active GitHub workspace,
+ * prompts the user for a commit message, and then transmits them to the remote repository.
+ * This is the bridge between the local vessel and the celestial realm of the git history.
+ */
+async commitAllChanges() {
+    const activeTab = State.tabs.find(t => t.id === State.activeTabId);
+    if (!activeTab || activeTab.item.type !== 'github') {
+        UI.showToast("An active GitHub file is required to commit.", "warning");
+        return;
+    }
+    const workspaceId = activeTab.item.workspaceId;
+    const workspace = State.workspaces.find(ws => ws.id === workspaceId);
+
+    UI.showLoading("Gathering local changes...");
+    const uncommittedFiles = await FileSystemProvider.IndexedDB.listUncommittedForWorkspace(workspaceId);
+
+    if (uncommittedFiles.length === 0) {
+        UI.hideLoading();
+        UI.showToast("No locally saved changes to commit.", "info");
+        return;
+    }
+
+    const commitMessage = await UI.showDialog({
+        title: `Commit to "${workspace.name}"`,
+        message: `Found ${uncommittedFiles.length} file(s) with local changes. Enter a commit message:`,
+        hasTextarea: true,
+        textareaContent: `B"H\nUpdate ${uncommittedFiles.length} file(s)`,
+        okText: 'Commit & Push',
+        cancelText: 'Cancel'
+    });
+
+    if (!commitMessage) {
+        UI.hideLoading();
+        return; // User cancelled the dialog.
+    }
+
+    UI.showLoading(`Committing ${uncommittedFiles.length} file(s)...`);
+
+    try {
+        // Committing files one-by-one is simpler and more robust than a complex multi-file commit API call.
+        for (let i = 0; i < uncommittedFiles.length; i++) {
+            const file = uncommittedFiles[i];
+            UI.showLoading(`Committing ${i + 1}/${uncommittedFiles.length}: ${file.item.name}`);
+            await FileSystemProvider.GitHub.write(file.item, file.content, commitMessage);
+        }
+
+        // Once all commits succeed, purge the local copies from IndexedDB.
+        const deletionPromises = uncommittedFiles.map(file =>
+            FileSystemProvider.IndexedDB.deleteUncommitted(file.uniquePath)
+        );
+        await Promise.all(deletionPromises);
+
+        // Update the UI state for all affected tabs.
+        uncommittedFiles.forEach(committedFile => {
+            const tab = State.tabs.find(t => t.uniquePath === committedFile.uniquePath);
+            if (tab) {
+                tab.isUncommitted = false;
+            }
+        });
+
+        Tabs.render();
+        UI.hideLoading();
+        UI.showToast("All changes successfully committed!", "success");
+
+    } catch (e) {
+        UI.hideLoading();
+        UI.showToast(`Commit failed: ${e.message}`, 'error', 8000);
+        console.error("COMMIT FAILED:", e);
+    }
+},
 
 setupEventListeners() {
     window.addEventListener('message', async (event) => {
