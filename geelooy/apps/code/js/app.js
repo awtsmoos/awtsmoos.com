@@ -70,53 +70,54 @@ export const App = {
     activeConsole: null, // B"H 
 
     /**
-     * Inscribes the current state of reality into the eternal memory of the browser.
-     * It gathers the essences of all persistent realms—the GitHub portals, the browser's deep storage—
-     * and captures the fleeting thoughts of open tabs, preserving the user's universe across the chasm of time.
-     * This is the act of writing in the Book of Remembrance.
-     */
-    saveSession() {
-        const persistableWorkspaces = State.workspaces
-            .filter(
-                ws => ws.type === 'github' ||
-                ws.type === 'indexeddb' ||
-                ws.type === 'ssh'
-            )
-            .map(ws => {
-                // We must remove non-serializable properties like 'handle'
-                const {
-                    handle,
-                    ...serializableWs
-                } = ws;
-                return serializableWs;
-            });
+ * Inscribes the current state of reality into the eternal memory of the browser.
+ * It gathers the essences of all persistent realms—the GitHub portals, the browser's deep storage—
+ * and captures the fleeting thoughts of open tabs, preserving the user's universe across the chasm of time.
+ * This version now correctly excludes volatile in-memory caches from serialization.
+ */
+saveSession() {
+    const persistableWorkspaces = State.workspaces
+        .filter(
+            ws => ws.type === 'github' ||
+            ws.type === 'indexeddb' ||
+            ws.type === 'ssh'
+        )
+        .map(ws => {
+            // We must remove non-serializable properties and temporary caches.
+            const {
+                handle,
+                _treeCache,
+                ...serializableWs
+            } = ws;
+            return serializableWs;
+        });
 
-        const persistableWorkspaceIds = new Set(persistableWorkspaces.map(ws => ws.id));
+    const persistableWorkspaceIds = new Set(persistableWorkspaces.map(ws => ws.id));
 
-        const persistableTabs = State.tabs
-            .filter(tab => tab.item.workspaceId && persistableWorkspaceIds.has(tab.item.workspaceId))
-            .map(tab => {
-                const {
-                    handle,
-                    ...serializableItem
-                } = tab.item;
-                return serializableItem;
-            });
+    const persistableTabs = State.tabs
+        .filter(tab => tab.item.workspaceId && persistableWorkspaceIds.has(tab.item.workspaceId))
+        .map(tab => {
+            const {
+                handle,
+                ...serializableItem
+            } = tab.item;
+            return serializableItem;
+        });
 
-        const activeTab = State.tabs.find(t => t.id === State.activeTabId);
-        const activeTabUniquePath = activeTab && activeTab.item.workspaceId && persistableWorkspaceIds.has(activeTab.item.workspaceId) ?
-            Tabs.getUniquePath(activeTab.item) :
-            null;
+    const activeTab = State.tabs.find(t => t.id === State.activeTabId);
+    const activeTabUniquePath = activeTab && activeTab.item.workspaceId && persistableWorkspaceIds.has(activeTab.item.workspaceId) ?
+        Tabs.getUniquePath(activeTab.item) :
+        null;
 
-        const session = {
-            workspaces: persistableWorkspaces,
-            openTabs: persistableTabs,
-            activeTabUniquePath: activeTabUniquePath,
-            expandedFolders: Array.from(State.expandedFolders) // Save expanded folders state
-        };
+    const session = {
+        workspaces: persistableWorkspaces,
+        openTabs: persistableTabs,
+        activeTabUniquePath: activeTabUniquePath,
+        expandedFolders: Array.from(State.expandedFolders)
+    };
 
-        localStorage.setItem('vividX_session_profound', JSON.stringify(session));
-    },
+    localStorage.setItem('vividX_session_profound', JSON.stringify(session));
+},
 
     /**
      * B"H

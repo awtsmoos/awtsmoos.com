@@ -152,6 +152,7 @@ renderWorkspace(ws, container) {
  * Asynchronously renders the file and folder tree for a given parent item.
  * For GitHub workspaces, it fetches the entire repository tree on the first load and
  * correctly builds a hierarchical cache for instantaneous subsequent rendering.
+ * This version is now robust against session reloads by checking the cache type.
  * @param {HTMLElement} parentElement - The UL element to render the children into.
  * @param {object} parentItem - The directory item whose children should be rendered.
  * @param {number} depth - The current depth in the tree for styling.
@@ -164,19 +165,21 @@ async renderTree(parentElement, parentItem, depth) {
         const workspace = State.workspaces.find(ws => ws.id === parentItem.workspaceId);
 
         if (parentItem.type === 'github' && workspace) {
-            if (!workspace._treeCache) {
+            // This is the crucial fix: Ensure _treeCache is a valid Map before using it.
+            // If it's not (e.g., after a session reload), treat it as non-existent.
+            const isCacheValid = workspace._treeCache && workspace._treeCache instanceof Map;
+
+            if (!isCacheValid) {
                 parentElement.innerHTML = `<li class="tree-item" style="--depth:${depth}; color: var(--color-text-tertiary);">Fetching full repository tree...</li>`;
                 const fullTreeData = await FileSystemProvider.GitHub.getFullTree(parentItem);
                 const treeCache = new Map();
-                treeCache.set('/', []); // Initialize the root directory entry.
+                treeCache.set('/', []);
 
-                // This corrected logic ensures all parent directories are created in the cache.
                 for (const node of fullTreeData.tree) {
                     const pathParts = node.path.split('/');
                     const name = pathParts.pop();
                     const parentPath = pathParts.length > 0 ? '/' + pathParts.join('/') : '/';
 
-                    // First, ensure all parent directories for the current node exist in the cache.
                     let cumulativePath = '';
                     for (const part of pathParts) {
                         const immediateParentPath = cumulativePath === '' ? '/' : cumulativePath;
@@ -184,7 +187,6 @@ async renderTree(parentElement, parentItem, depth) {
                         if (!treeCache.has(immediateParentPath)) {
                             treeCache.set(immediateParentPath, []);
                         }
-                        // Add the directory if it's not already listed in its parent.
                         if (!treeCache.get(immediateParentPath).some(item => item.name === part && item.kind === 'directory')) {
                             treeCache.get(immediateParentPath).push({
                                 name: part,
@@ -193,8 +195,6 @@ async renderTree(parentElement, parentItem, depth) {
                             });
                         }
                     }
-
-                    // Now, add the actual file or blob to its direct parent.
                     if (node.type === 'blob') {
                         if (!treeCache.has(parentPath)) {
                             treeCache.set(parentPath, []);
@@ -209,7 +209,6 @@ async renderTree(parentElement, parentItem, depth) {
                 }
                 workspace._treeCache = treeCache;
             }
-            // Consult the now-correctly-built cache.
             children = workspace._treeCache.get(parentItem.path) || [];
         } else {
             children = await FileSystemProvider.list(parentItem);
@@ -219,7 +218,7 @@ async renderTree(parentElement, parentItem, depth) {
         children.sort((a, b) => (a.kind === b.kind) ? a.name.localeCompare(b.name) : (a.kind === 'directory' ? -1 : 1));
 
         if (children.length === 0) {
-            parentElement.innerHTML = `<li class="tree-item" style="--depth:${depth}; color: var(--color-text-tertiary); font-style: italic;">Empty</li>`;
+            parentElement.innerHTML = /*html*/`<li class="tree-item" style="--depth:${depth}; color: var(--color-text-tertiary); font-style: italic;">Empty</li>`;
             return;
         }
 
@@ -235,7 +234,7 @@ async renderTree(parentElement, parentItem, depth) {
             const li = document.createElement('li');
             li.className = 'tree-item';
             li.style.setProperty('--depth', depth);
-            li.innerHTML = `
+            li.innerHTML = /*html*/`
                 <div class="tree-item-name-wrap">
                     <span class="tree-item-arrow">${child.kind === 'directory' ? '▶' : '•'}</span>
                     <svg class="svg-icon"><use href="#icon-${icon}"/></svg>
@@ -247,7 +246,7 @@ async renderTree(parentElement, parentItem, depth) {
                 const gitBtn = document.createElement('button');
                 gitBtn.className = 'icon-button git-actions-btn';
                 gitBtn.title = 'Git Actions';
-                gitBtn.innerHTML = `<svg class="svg-icon"><use href="#icon-git-branch"></use></svg>`;
+                gitBtn.innerHTML = /*html*/`<svg class="svg-icon"><use href="#icon-git-branch"></use></svg>`;
                 gitBtn.onclick = (e) => {
                     e.stopPropagation();
                     GitManager.showGitUI(fullChildItem);
