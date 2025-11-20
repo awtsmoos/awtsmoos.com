@@ -348,7 +348,7 @@ export async function beautify(code, options = {}) {
                         result += '\n' + parentIndent + '}';
                     }
                 }
-
+//@
                 // 3. Append the final backtick to close the template literal.
                 result += '`';
                 return result;
