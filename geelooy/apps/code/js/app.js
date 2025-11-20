@@ -172,7 +172,7 @@ async initialize() {
         }
         return; // Halt execution
     }
-}
+},
     saveSettings: () => {
          localStorage.setItem('vividX_settings_profound', JSON.stringify({ 
              githubToken: State.githubToken,
