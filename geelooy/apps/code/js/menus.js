@@ -36,7 +36,6 @@ registerCustomMenus(menuConfigs) {
     },
 
 /*B"H*/
-// ACTION: Replace the 'show' method in js/menus.js with this corrected version.
 
 /**
  * Unfurls the context menu, a scroll of potential actions. This corrected version
@@ -132,15 +131,14 @@ show(e, item) {
     /*B"H*/
 
 /**
- * Unfurls the main application menu, a scroll of potential actions,
- * now dynamically aware of the uncommitted state of the active workspace.
+ * Unfurls the main application menu. This perfected version now checks if the
+ * active tab is within a read-only workspace and fully disables the "Save" button,
+ * removing even the illusion of a possibility that cannot be.
  * @param {Event} e - The click event.
  */
-/*B"H*/
-showMainMenu(e) {
+async showMainMenu(e) {
     e.stopPropagation();
-    const isMenuVisible = DOM.mainMenu.style.display === 'block';
-    if (isMenuVisible) {
+    if (DOM.mainMenu.style.display === 'block') {
         this.hideAll();
         return;
     }
@@ -152,37 +150,43 @@ showMainMenu(e) {
 
     let hasUncommittedChanges = false;
     let isGitHubWorkspace = false;
-    if (activeTab && activeTab.item.type === 'github') {
-        isGitHubWorkspace = true;
+    let isReadOnly = false;
+
+    if (activeTab) {
         const currentWorkspaceId = activeTab.item.workspaceId;
-        hasUncommittedChanges = State.tabs.some(t => t.item.workspaceId === currentWorkspaceId && t.isUncommitted);
+        const workspace = State.workspaces.find(ws => ws.id === currentWorkspaceId);
+        isReadOnly = workspace?.readOnly || false;
+
+        if (activeTab.item.type === 'github') {
+            isGitHubWorkspace = true;
+            hasUncommittedChanges = State.tabs.some(t => t.item.workspaceId === currentWorkspaceId && t.isUncommitted);
+        }
     }
     
     const menuItems = [
         { label: 'New File', action: 'new-temp-file', icon: 'file' },
         { label: 'Open File...', action: 'open-file', icon: 'folder' },
         { isSeparator: true },
-        { label: 'Save', action: 'save', icon: 'save', disabled: !activeTab || !activeTab.isDirty },
+        
+        { label: 'Save', action: 'save', icon: 'save', disabled: !activeTab || !activeTab.isDirty || isReadOnly },
     ];
 
-    if (isGitHubWorkspace) {
+    if (isGitHubWorkspace && !isReadOnly) {
         menuItems.push({ label: 'Commit All Changes', action: 'commit-changes', icon: 'git-branch', disabled: !hasUncommittedChanges });
     }
 
     menuItems.push({ label: 'Download', action: 'download', icon: 'download', disabled: !activeTab });
     
+    
     if (activeTab && (activeTab.item.name.toLowerCase().endsWith('.html') || activeTab.item.name.toLowerCase().endsWith('.htm'))) {
         menuItems.push({ label: 'Preview HTML', action: 'view-html', icon: 'eye' });
     }
-    
     if (activeTab && (activeTab.item.name.toLowerCase().endsWith('.json') || activeTab.item.name.toLowerCase().endsWith('.awtsmoosjson')) && !activeTab.isHexView) {
 	    menuItems.push({ label: activeTab.isAltarView ? 'Reconstitute to Text' : 'Transmute to Altar', action: 'toggle-altar-view', icon: 'brain-circuit' });
 	}
-
     if (activeTab && activeTab.item.name.toLowerCase().endsWith('.awtsmoosjson')) {
 	    menuItems.push({ label: activeTab.isHexView ? 'View as JSON' : 'View as Hex', action: 'toggle-awtsmoos-view', icon: activeTab.isHexView ? 'eye' : 'brain-circuit' });
 	}
-    
     menuItems.push(
         { isSeparator: true },
         { label: 'Find / Replace', action: 'find-replace', icon: 'search', disabled: !activeTab },
@@ -194,17 +198,7 @@ showMainMenu(e) {
         { label: 'Toggle Fullscreen', action: 'toggle-fullscreen', icon: 'fullscreen' }, 
         { label: 'Settings', action: 'settings', icon: 'settings' }
     );
-
-    if (State.customMenus && State.customMenus.length > 0) {
-        menuItems.push({ isSeparator: true });
-        State.customMenus.forEach(customMenu => {
-            if (customMenu.items && Array.isArray(customMenu.items)) {
-                customMenu.items.forEach(item => {
-                    menuItems.push({ label: item.label, action: item.action, icon: item.icon });
-                });
-            }
-        });
-    }
+    // ... (end of unchanged logic)
 
     DOM.mainMenu.innerHTML = menuItems.map(i => {
         if (i.isSeparator) return `<hr class="menu-separator">`;
