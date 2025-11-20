@@ -316,23 +316,26 @@ export async function beautify(code, options = {}) {
 
             case 'TemplateLiteral':
                 let result = '`';
-                // The indentation for the content INSIDE the expression
                 const expressionIndent = indent + finalOptions.indentChar;
 
                 for (let i = 0; i < node.quasis.length; i++) {
-                    // Add the static string part (e.g., "Hello, " or "!")
+                    // If this is not the first chunk of text, it means we just finished
+                    // an expression, so we must first add the closing brace and align it.
+                    if (i > 0) {
+                        result += '\n' + indent + '}';
+                    }
+
+                    // Add the static part of the string (e.g., "Hello, " or "!").
                     result += node.quasis[i].value.raw;
 
-                    // If there is an expression that follows this static part...
+                    // If there's an expression that comes after this static part...
                     if (i < node.expressions.length) {
                         const expressionContent = walk(node.expressions[i], expressionIndent);
                         
-                        // Build the expression block with simple, clear concatenation.
-                        // The closing brace '}' now correctly uses the 'indent' variable,
-                        // which is the indentation of the parent line.
+                        // Start the expression block, add a newline, and then add the
+                        // indented content. We do NOT close the brace here.
                         result += '${' + '\n' +
-                                  expressionContent + '\n' +
-                                  indent + '}';
+                                  expressionIndent + expressionContent;
                     }
                 }
 
