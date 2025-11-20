@@ -12,6 +12,8 @@ import { App } from './app.js';
 import { Console } from "./Console.js";
 import { DataAltar } from './DataAltar.js';
 import { AwtsmoosHandler } from './awtsmoos-handler.js';
+import { getItemUniquePath } from './workspaces.js'; 
+
 
 function downloadFile(filename, content) {
     const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
