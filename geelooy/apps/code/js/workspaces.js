@@ -233,7 +233,15 @@ async renderTree(parentElement, parentItem, depth) {
                 }
             };
 
-            nameWrap.oncontextmenu = (e) => Menus.show(e, fullChildItem);
+            // THIS IS THE GUARDIAN OF THE SACRED MEMORY
+nameWrap.oncontextmenu = (e) => {
+    // It performs two duties, and only two:
+    // 1. It saves the pure, original event to the State.
+    State.contextEvent = e;
+    // 2. It summons the menu.
+    Menus.show(e, fullChildItem);
+};
+            
             State.domItemMap.set(uniquePath, { el: li, item: fullChildItem });
 
             if (State.expandedFolders.has(uniquePath)) {
