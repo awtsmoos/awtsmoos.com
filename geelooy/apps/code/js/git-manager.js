@@ -18,109 +18,75 @@ export const GitManager = {
 
 /**
  * Guides the user through creating a new GitHub repository from an existing local folder.
- * This is the act of creation, of giving a local body a celestial soul.
- * @param {object} folderItem - The local directory to be turned into a repository.
+ * This is the definitive, corrected version. It transforms the folder in-place,
+ * handles API errors with specific messages, and ensures the initial commit is
+ * always made, thus sanctifying the new repository with a history from its first breath.
+ * @param {object} folderItem - The local directory to be transformed into a repository.
  */
 async initializeRepository(folderItem) {
-    // First, we ensure the user possesses the key to their GitHub kingdom.
     if (!State.githubToken) {
-        const token = await UI.showDialog({
-            title: "GitHub Token Required",
-            message: "To create a new repository, please enter a GitHub Personal Access Token with 'repo' scope.",
-            hasInput: true, inputType: 'password', placeholder: "ghp_...",
-            okText: "Continue", cancelText: "Cancel"
-        });
-        if (token) {
-            State.githubToken = token;
-            App.saveSettings(); // Persist the key for future use.
-        } else {
-            return; // The user retreats from the ceremony.
-        }
+        const token = await UI.showDialog({ title: "GitHub Token Required", message: "Enter a GitHub Personal Access Token with 'repo' scope to create a repository.", hasInput: true, inputType: 'password', placeholder: "ghp_...", okText: "Continue" });
+        if (token) { State.githubToken = token; App.saveSettings(); } else return;
     }
 
-    // Now, we ask for the repository's name, its essence.
-    const detailsHTML = `
-        <p>This will create a new repository on GitHub and push the contents of the folder <strong>'${folderItem.name}'</strong> as the first commit.</p>
-        <label for="repo-name">New Repository Name</label>
-        <input type="text" id="repo-name" value="${folderItem.name.replace(/[^a-zA-Z0-9-.]/g, '-').toLowerCase()}">
-        <label for="repo-desc">Description (optional)</label>
-        <input type="text" id="repo-desc" placeholder="A description of this new world...">
-        <div style="display: flex; align-items: center; gap: 10px; margin-top: 15px;">
-            <input type="checkbox" id="repo-private" style="width: auto;">
-            <label for="repo-private">Create as a private repository</label>
-        </div>
-    `;
-    const result = await UI.showDialog({
-        title: 'Initialize GitHub Repository',
-        contentHTML: detailsHTML,
-        okText: 'Create & Push Initial Commit',
-        cancelText: 'Cancel'
-    });
-
+    const detailsHTML = `<p>Create a new repository on GitHub from the contents of <strong>'${folderItem.name}'</strong>.</p><label for="repo-name">New Repository Name</label><input type="text" id="repo-name" value="${folderItem.name.replace(/[^a-zA-Z0-9-.]/g, '-').toLowerCase()}"><label for="repo-desc">Description (optional)</label><textarea id="repo-desc"></textarea><div style="display: flex; align-items: center; gap: 10px; margin-top: 15px;"><input type="checkbox" id="repo-private" style="width: auto;"><label for="repo-private">Private repository</label></div>`;
+    const result = await UI.showDialog({ title: 'Initialize GitHub Repository', contentHTML: detailsHTML, okText: 'Create & Push' });
     if (!result) return;
 
     const repoName = document.getElementById('repo-name').value;
     const description = document.getElementById('repo-desc').value;
     const isPrivate = document.getElementById('repo-private').checked;
-
-    if (!repoName) {
-        UI.showToast("Repository name is a required vessel.", "error");
-        return;
-    }
+    if (!repoName) { UI.showToast("Repository name is required.", "error"); return; }
 
     try {
-        UI.showLoading(`Calling forth '${repoName}' from the GitHub void...`);
+        UI.showLoading(`Creating repository '${repoName}' on GitHub...`);
         const newRepoData = await FileSystemProvider.GitHub.api('/user/repos', {
             method: 'POST',
-            body: JSON.stringify({ name: repoName, description, private: isPrivate })
+            body: JSON.stringify({ name: repoName, description, private: isPrivate, auto_init: false })
         });
 
-        UI.showLoading("Gathering the folder's essence for its first breath...");
-        let allFiles = await FileSystemProvider.listAllFiles(folderItem);
-
-        // If the folder is empty, we create a single mote of dust, a .gitkeep file,
-        // so that the first commit is not a paradox of empty creation.
-        if (allFiles.length === 0) {
-            const gitkeepItem = { ...folderItem, path: `${folderItem.path === '/' ? '' : folderItem.path}/.gitkeep`, name: '.gitkeep' };
-            await FileSystemProvider.write(gitkeepItem, '');
-            // We must re-read the files to include our new mote.
-            allFiles = await FileSystemProvider.listAllFiles(folderItem);
-        }
-
+        UI.showLoading("Gathering local files for initial commit...");
+        const allFiles = await FileSystemProvider.listAllFiles(folderItem);
         const changeSet = { creations: [] };
-        const basePath = folderItem.path === '/' ? '' : folderItem.path;
 
-        for (const file of allFiles) {
-             const relativePath = file.path.substring(basePath.length + 1);
-             // We skip our own future metadata file if it somehow exists.
-             if (relativePath.startsWith('.awtsmoos-repo')) continue;
-             const rawContent = await FileSystemProvider.read({ ...folderItem, path: file.path });
-             const stringContent = (rawContent instanceof Blob) ? await rawContent.text() : (rawContent || '');
-             changeSet.creations.push({ path: relativePath, content: stringContent });
+        if (allFiles.length === 0) {
+            changeSet.creations.push({ path: '.gitkeep', content: '' });
+        } else {
+            const basePath = folderItem.path === '/' ? '' : folderItem.path;
+            for (const file of allFiles) {
+                 const relativePath = file.path.startsWith(basePath + '/') ? file.path.substring(basePath.length + 1) : file.path;
+                 if (relativePath && !relativePath.startsWith('.awtsmoos-repo')) {
+                     const rawContent = await FileSystemProvider.read({ ...folderItem, path: file.path });
+                     const stringContent = (rawContent instanceof Blob) ? await rawContent.text() : (rawContent || '');
+                     changeSet.creations.push({ path: relativePath, content: stringContent });
+                 }
+            }
+        }
+        
+        if (changeSet.creations.length === 0) {
+            changeSet.creations.push({ path: '.gitkeep', content: '' });
         }
 
-        UI.showLoading("Performing the first great commit...");
+        UI.showLoading("Performing the first, sacred commit...");
         const repoInfo = { owner: newRepoData.owner.login, repo: newRepoData.name };
         const initialCommitSHA = await this._performInitialCommit({
             repoInfo, branch: newRepoData.default_branch,
             commitMessage: 'B"H: Initial Commit', changeSet
         });
 
-        UI.showLoading("Binding the local folder to its celestial counterpart...");
+        UI.showLoading("Binding the folder to its celestial soul...");
         const newTree = await FileSystemProvider.GitHub.getFullTree({ repoInfo, branch: newRepoData.default_branch });
         const gitInfo = {
             isClone: true, repoInfo, branch: newRepoData.default_branch,
             baseCommitSHA: initialCommitSHA, remoteTree: newTree.tree
         };
 
-        // Inscribe the metadata, the soul, into the local folder.
         const ikarFileContent = `// B"H\n\nconst ikar = ${JSON.stringify(gitInfo, null, 4)};`;
         await FileSystemProvider.create(folderItem, '.awtsmoos-repo', 'directory');
         const metaDirItem = { ...folderItem, path: `${folderItem.path}/.awtsmoos-repo` };
         const ikarFileItem = { ...metaDirItem, name: 'ikar.js', path: `${metaDirItem.path}/ikar.js` };
         await FileSystemProvider.write(ikarFileItem, ikarFileContent);
-        
-        // Refresh the view to reflect the folder's new, ascended state.
+
         const parentOfItem = { ...folderItem, path: folderItem.path.substring(0, folderItem.path.lastIndexOf('/')) || '/' };
         await Workspaces.refreshNode(parentOfItem);
 
@@ -129,7 +95,11 @@ async initializeRepository(folderItem) {
 
     } catch (e) {
         UI.hideLoading();
-        UI.showToast(`Initialization failed: ${e.message}`, 'error', 8000);
+        let errorMessage = e.message;
+        if (e.message && e.message.toLowerCase().includes("name already exists")) {
+            errorMessage = "A repository with this name already exists on your account.";
+        }
+        UI.showToast(`Initialization failed: ${errorMessage}`, 'error', 8000);
         console.error("GIT INIT FAILED:", e);
     }
 },
@@ -137,15 +107,13 @@ async initializeRepository(folderItem) {
 /*B"H*/
 
 /**
- * Performs the first commit to a new, empty repository. This is a special
- * sequence of API calls different from a normal commit, as it creates the
- * very first root of the repository's history tree.
+ * Performs the first commit to a new, empty repository. This is the sacred first breath,
+ * creating the root of the history tree and giving the repository form.
  * @private
  * @param {object} params - The necessary info: repoInfo, branch, message, and changeSet.
  * @returns {Promise<string>} - The SHA of the newly created commit.
  */
 async _performInitialCommit({ repoInfo, branch, commitMessage, changeSet }) {
-    // 1. Convert all file contents into "blobs", GitHub's raw content objects.
     const blobCreationPromises = changeSet.creations.map(file =>
         FileSystemProvider.GitHub.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/blobs`, {
             method: 'POST', body: JSON.stringify({ content: FileSystemProvider.GitHub.utf8_to_b64(file.content), encoding: 'base64' })
@@ -153,17 +121,14 @@ async _performInitialCommit({ repoInfo, branch, commitMessage, changeSet }) {
     );
     const treeItems = await Promise.all(blobCreationPromises);
 
-    // 2. Create a "tree" object, which is a snapshot of the directory structure.
     const newTree = await FileSystemProvider.GitHub.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/trees`, {
         method: 'POST', body: JSON.stringify({ tree: treeItems })
     });
     
-    // 3. Create the "commit" object, pointing to the tree. It has no parents.
     const newCommit = await FileSystemProvider.GitHub.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/commits`, {
         method: 'POST', body: JSON.stringify({ message: commitMessage, tree: newTree.sha, parents: [] })
     });
 
-    // 4. Finally, point the main branch reference to our new commit.
     await FileSystemProvider.GitHub.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/refs`, {
         method: 'POST',
         body: JSON.stringify({ ref: `refs/heads/${branch}`, sha: newCommit.sha })
