@@ -301,7 +301,7 @@ export const App = {
                 const entry = State.domItemMap.get(uniquePath);
 
                 // If we find an entry in our map that is marked as a clone, we have found our sacred ground.
-                if (entry ? .item.isGitClone) {
+                if (entry?.item.isGitClone) {
                     return entry.item;
                 }
 
