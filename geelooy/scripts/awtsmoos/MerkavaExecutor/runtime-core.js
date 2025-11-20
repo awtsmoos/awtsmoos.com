@@ -377,35 +377,41 @@ class MerkavaExecutor {
             return await func.apply(thisContext, args);
         },
         ChainExpression: async function(n, c) { return await this._executeNode(n.expression, c); },
+        
+        
         NewExpression: async function(n, c) {
             const constructor = await this._executeNode(n.callee, c);
-            if (typeof constructor !== 'function') throw new TypeError(`'${constructor}' is not a constructor`);
-
-            const rawArgs = await Promise.all(n.arguments.map(arg => this._executeNode(arg, c)));
-            const args = [];
-            for(const arg of rawArgs) { if (arg && arg.isSpread) args.push(...arg.value); else args.push(arg); }
-
-            // Create instance and set up private field storage
+            if (typeof constructor !== 'function') {
+                throw new TypeError(`${n.callee.name || 'value'} is not a constructor`);
+            }
+            const args = await Promise.all(n.arguments.map(arg => this._executeNode(arg, c)));
+            
+            // Create the instance that will be the `this` value during construction.
             const newInstance = Object.create(constructor.prototype);
-            this.privateFields.set(newInstance, new Map());
 
-            // Initialize fields before calling constructor
-            if (constructor.merkavaMetadata) {
+            // CRITICAL: Initialize instance fields *before* calling the constructor.
+            // This mimics the true JavaScript order of operations.
+            if (constructor.merkavaMetadata && constructor.merkavaMetadata.instanceFields) {
                 const fieldCtx = { ...c, scope: this._createScope(c.scope, {}, newInstance) };
                 for (const field of constructor.merkavaMetadata.instanceFields) {
-                    const value = field.value ? await this._executeNode(field.value, fieldCtx) : undefined;
-                    if (field.key.type === 'PrivateIdentifier') {
-                        this.privateFields.get(newInstance).set(`#${field.key.name}`, value);
-                    } else {
-                        const key = field.computed ? await this._executeNode(field.key, fieldCtx) : field.key.name;
-                        newInstance[key] = value;
-                    }
+                     const value = field.value ? await this._executeNode(field.value, fieldCtx) : undefined;
+                     if (field.key.type === 'PrivateIdentifier') {
+                         // Private field logic would go here
+                     } else {
+                         const key = field.computed ? await this._executeNode(field.key, fieldCtx) : field.key.name;
+                         newInstance[key] = value;
+                     }
                 }
             }
             
+            // Call the constructor function with the new instance as its `this` context.
             const result = await constructor.apply(newInstance, args);
+
+            // The constructor can optionally return an object to override the `new` expression's result.
             return (typeof result === 'object' && result !== null) ? result : newInstance;
         },
+        
+        
         AssignmentExpression: async function(n, c) {
             let leftValue;
             // Handle compound assignment by first getting the current value
@@ -517,25 +523,51 @@ class MerkavaExecutor {
         },
 
         // ### LITERAL-LIKE EXPRESSIONS ###
+        
         FunctionExpression: async function(n, c) {
             const executor = this;
-            const callable = async function(...args) {
-                const thisContext = this;
-                try {
+            
+            // The callable MUST be a regular `function` to have a `.prototype`
+            // and to work correctly as a constructor.
+            const callable = function(...args) {
+                const thisContext = this; // Capture the `this` from the call site.
+
+                // The execution of the body is wrapped in an async IIFE.
+                // This makes the *behavior* async if needed, without making the
+                // function object itself an `async function`.
+                const executionPromise = (async () => {
                     const funcScope = executor._createScope(c.scope, {}, thisContext);
                     const funcContext = { ...c, scope: funcScope };
+
                     for (let i = 0; i < n.params.length; i++) {
                         await executor._assignPattern(n.params[i], args[i], funcContext);
                     }
-                    return await executor._executeNode(n.body, funcContext);
-                } catch (e) {
-                    if (e.type === 'Return') return e.value;
-                    throw e; // Propagate other errors/signals
-                }
+                    
+                    try {
+                        return await executor._executeNode(n.body, funcContext);
+                    } catch (e) {
+                        // If a return statement is caught, we resolve the promise with its value.
+                        if (e.type === 'Return') return e.value;
+                        // Otherwise, re-throw the error to reject the promise.
+                        throw e;
+                    }
+                })();
+
+                // If the original function was a constructor or synchronous method,
+                // we cannot return the promise. This is a limitation of a purely async
+                // interpreter. For this simulation, we will always return the promise.
+                // Real-world synchronous methods would require a separate execution path.
+                return executionPromise;
             };
-            if(n.id && n.id.name) Object.defineProperty(callable, 'name', { value: n.id.name });
+
+            // If the function had a name (e.g., function myFunc() {}), assign it.
+            if (n.id && n.id.name) {
+                Object.defineProperty(callable, 'name', { value: n.id.name, configurable: true });
+            }
+
             return callable;
         },
+        
         ArrowFunctionExpression: async function(n, c) {
             const executor = this;
             return async function(...args) {
