@@ -52,28 +52,32 @@ export const Tabs = {
         this.activate(consoleTab.id);
     },
     
-    async create(item, isNewFile = false, shouldSave = true) {
-	    const uniquePath = this.getUniquePath(item);
-	    const existingTab = State.tabs.find(t => t.uniquePath === uniquePath);
-	    if (existingTab) {
-	        await this.activate(existingTab.id);
-	        return;
-	    }
-	    const newTab = {
-	        id: State.nextTabId++,
-	        item,
-	        content: item.content !== undefined ? item.content : (isNewFile ? '' : null),
-	        isDirty: isNewFile || item.content !== undefined,
-            isUncommitted: false, // This file has no uncommitted changes initially.
-	        uniquePath,
-	        scrollPos: 0,
-	        fileType: MimeUtil.getInfo(item.name).type,
-	    };
-	    State.tabs.push(newTab);
-	    if (shouldSave) App.saveSession();
-	    await this.activate(newTab.id); 
-	},
-
+    /*B"H*/
+async create(item, isNewFile = false, shouldSave = true, activate = true) {
+    const uniquePath = this.getUniquePath(item);
+    const existingTab = State.tabs.find(t => t.uniquePath === uniquePath);
+    if (existingTab) {
+        if (activate) {
+            await this.activate(existingTab.id);
+        }
+        return;
+    }
+    const newTab = {
+        id: State.nextTabId++,
+        item,
+        content: item.content !== undefined ? item.content : (isNewFile ? '' : null),
+        isDirty: isNewFile || item.content !== undefined,
+        isUncommitted: false,
+        uniquePath,
+        scrollPos: 0,
+        fileType: MimeUtil.getInfo(item.name).type,
+    };
+    State.tabs.push(newTab);
+    if (shouldSave) App.saveSession();
+    if (activate) {
+        await this.activate(newTab.id);
+    }
+},
     createPreview(originalItem, content) {
         const uniquePath = `preview::${this.getUniquePath(originalItem)}`;
         const existingTab = State.tabs.find(t => t.uniquePath === uniquePath);
@@ -120,121 +124,119 @@ export const Tabs = {
      * @param {number} tabId - The ID of the tab to activate.
      * @param {boolean} [forceViewChange=false] - If true, forces a full re-render of the view.
      */
-    async activate(tabId, forceViewChange = false) {
-        const currentTab = State.tabs.find(t => t.id === State.activeTabId);
-        if (currentTab) {
-            const isEditorVisible = !DOM.editorWrapper.classList.contains('hidden');
-            if (currentTab.isAltarView && !isEditorVisible) {
-                currentTab.content = JSON.stringify(currentTab.liveDataObject, null, '\t');
-            } 
-            else if (currentTab.isHexView) {
-                if(State.hexEditorInstance?.isDirty()) {
-                    currentTab.arrayBuffer = State.hexEditorInstance.getUpdatedArrayBuffer();
-                    currentTab.rawContent = new Blob([currentTab.arrayBuffer]);
-                    currentTab.isDirty = true;
-                }
-            } 
-            else if (currentTab.fileType === 'text' && isEditorVisible) {
-                currentTab.content = Editor.getContent();
+    /*B"H*/
+async activate(tabId, forceViewChange = false) {
+    const currentTab = State.tabs.find(t => t.id === State.activeTabId);
+    if (currentTab) {
+        const isEditorVisible = !DOM.editorWrapper.classList.contains('hidden');
+        if (currentTab.isAltarView && !isEditorVisible) {
+            currentTab.content = JSON.stringify(currentTab.liveDataObject, null, '\t');
+        } 
+        else if (currentTab.isHexView) {
+            if(State.hexEditorInstance?.isDirty()) {
+                currentTab.arrayBuffer = State.hexEditorInstance.getUpdatedArrayBuffer();
+                currentTab.rawContent = new Blob([currentTab.arrayBuffer]);
+                currentTab.isDirty = true;
             }
-            currentTab.scrollPos = DOM.editor.scrollTop || 0;
+        } 
+        else if (currentTab.fileType === 'text' && isEditorVisible) {
+            currentTab.content = Editor.getContent();
         }
+        currentTab.scrollPos = DOM.editor.scrollTop || 0;
+    }
 
-        State.activeTabId = tabId;
-        const tab = State.tabs.find(t => t.id === tabId);
+    State.activeTabId = tabId;
+    const tab = State.tabs.find(t => t.id === tabId);
 
-        if (!tab) {
-            UI.switchView('empty');
-            StatusBar.clear();
-            this.render();
-            App.saveSession(); 
-            return;
-        }
-
-        if (tab.content === null || tab.forceReload) {
-            UI.showLoading(`Opening ${tab.item.name}...`);
-            try {
-                let fileContent;
-                let wasLoadedFromIndexedDB = false;
-
-                // For GitHub files, first seek the uncommitted essence in IndexedDB.
-                if (tab.item.type === 'github') {
-                    try {
-                        fileContent = await FileSystemProvider.IndexedDB.readUncommitted(tab.uniquePath);
-                        tab.isUncommitted = true;
-                        wasLoadedFromIndexedDB = true;
-                    } catch (e) {
-                        // This is not an error, it simply means no local changes exist.
-                        tab.isUncommitted = false;
-                    }
-                }
-
-                // If no local changes were found, draw content from its source of truth.
-                if (!wasLoadedFromIndexedDB) {
-                    fileContent = tab.rawContent || await FileSystemProvider.read(tab.item);
-                }
-
-                tab.rawContent = fileContent;
-
-                const arrayBuffer = (fileContent instanceof Blob) 
-                    ? await fileContent.arrayBuffer() 
-                    : (typeof fileContent === 'string' ? new TextEncoder().encode(fileContent).buffer : (fileContent.isBinary ? atob(fileContent.base64Content) : fileContent));
-                tab.arrayBuffer = arrayBuffer;
-
-                if (tab.item.name.toLowerCase().endsWith('awtsmoosjson')) {
-                    tab.isAwtsmoos = true;
-                    if (!tab.isHexView) {
-                        try { tab.content = await AwtsmoosHandler.decodeContent(fileContent); } 
-                        catch (parseError) {
-                            UI.showToast(`Parse failed: ${parseError.message}. Showing Hex view.`, 'error', 5000);
-                            tab.isHexView = true;
-                        }
-                    }
-                } else if (tab.fileType === 'text') {
-                    tab.content = typeof fileContent === 'string' ? fileContent : await new Blob([arrayBuffer]).text();
-                } else {
-                    tab.content = fileContent;
-                }
-            } catch (e) {
-                UI.showToast(`Error opening ${tab.item.name}: ${e.message}`, 'error');
-                this.close(tab.id, true); return;
-            } finally {
-                UI.hideLoading();
-                tab.forceReload = false;
-            }
-        }
-
-        if (tab.isAltarView) {
-            try {
-                const dataToManifest = tab.liveDataObject && !forceViewChange ? tab.liveDataObject : JSON.parse(tab.content);
-                tab.liveDataObject = dataToManifest;
-                UI.switchView('altar');
-                DataAltar.manifest(dataToManifest);
-            } catch (e) {
-                UI.showToast("JSON is malformed; cannot perform transmutation.", "error", 5000);
-                tab.isAltarView = false;
-                await Editor.showTextEditor(tab.content || '', tab.item.name, tab.scrollPos || 0);
-            }
-        } else if (tab.isHexView) {
-            UI.switchView('hex');
-            State.hexEditorInstance.load(tab.arrayBuffer);
-        } else {
-            if (tab.liveDataObject) {
-                tab.content = JSON.stringify(tab.liveDataObject, null, '\t');
-                tab.liveDataObject = null;
-            }
-            DataAltar.demanifest();
-            const fileInfo = { type: tab.fileType, name: tab.item.name };
-            if (tab.fileType === 'text') {
-                await Editor.showTextEditor(tab.content || '', tab.item.name, tab.scrollPos || 0);
-            } else {
-                Editor.showPreviewer(tab.rawContent, fileInfo, tab.id);
-            }
-        }
-
+    if (!tab) {
+        UI.switchView('empty');
+        StatusBar.clear();
         this.render();
-        App.saveSession();
-    },
+        App.saveSession(); 
+        return;
+    }
+
+    if (tab.content === null || tab.forceReload) {
+        UI.showLoading(`Opening ${tab.item.name}...`);
+        try {
+            let fileContent;
+            let wasLoadedFromIndexedDB = false;
+
+            if (tab.item.type === 'github') {
+                try {
+                    fileContent = await FileSystemProvider.IndexedDB.readUncommitted(tab.uniquePath);
+                    tab.isUncommitted = true;
+                    wasLoadedFromIndexedDB = true;
+                } catch (e) {
+                    tab.isUncommitted = false;
+                }
+            }
+
+            if (!wasLoadedFromIndexedDB) {
+                fileContent = tab.rawContent || await FileSystemProvider.read(tab.item);
+            }
+
+            tab.rawContent = fileContent;
+
+            const arrayBuffer = (fileContent instanceof Blob) 
+                ? await fileContent.arrayBuffer() 
+                : (typeof fileContent === 'string' ? new TextEncoder().encode(fileContent).buffer : (fileContent.isBinary ? atob(fileContent.base64Content) : fileContent));
+            tab.arrayBuffer = arrayBuffer;
+
+            if (tab.item.name.toLowerCase().endsWith('awtsmoosjson')) {
+                tab.isAwtsmoos = true;
+                if (!tab.isHexView) {
+                    try { tab.content = await AwtsmoosHandler.decodeContent(fileContent); } 
+                    catch (parseError) {
+                        UI.showToast(`Parse failed: ${parseError.message}. Showing Hex view.`, 'error', 5000);
+                        tab.isHexView = true;
+                    }
+                }
+            } else if (tab.fileType === 'text') {
+                tab.content = typeof fileContent === 'string' ? fileContent : await new Blob([arrayBuffer]).text();
+            } else {
+                tab.content = fileContent;
+            }
+        } catch (e) {
+            UI.showToast(`Error opening ${tab.item.name}: ${e.message}`, 'error');
+            this.close(tab.id, true); return;
+        } finally {
+            UI.hideLoading();
+            tab.forceReload = false;
+        }
+    }
+
+    if (tab.isAltarView) {
+        try {
+            const dataToManifest = tab.liveDataObject && !forceViewChange ? tab.liveDataObject : JSON.parse(tab.content);
+            tab.liveDataObject = dataToManifest;
+            UI.switchView('altar');
+            DataAltar.manifest(dataToManifest);
+        } catch (e) {
+            UI.showToast("JSON is malformed; cannot perform transmutation.", "error", 5000);
+            tab.isAltarView = false;
+            await Editor.showTextEditor(tab.content || '', tab.item.name, tab.scrollPos || 0);
+        }
+    } else if (tab.isHexView) {
+        UI.switchView('hex');
+        State.hexEditorInstance.load(tab.arrayBuffer);
+    } else {
+        if (tab.liveDataObject) {
+            tab.content = JSON.stringify(tab.liveDataObject, null, '\t');
+            tab.liveDataObject = null;
+        }
+        DataAltar.demanifest();
+        const fileInfo = { type: tab.fileType, name: tab.item.name };
+        if (tab.fileType === 'text') {
+            await Editor.showTextEditor(tab.content || '', tab.item.name, tab.scrollPos || 0);
+        } else {
+            Editor.showPreviewer(tab.rawContent, fileInfo, tab.id);
+        }
+    }
+
+    this.render();
+    App.saveSession();
+},
     
     async close(tabId, force = false) {
         const tabIndex = State.tabs.findIndex(t => t.id === tabId);
@@ -311,79 +313,78 @@ export const Tabs = {
      * this now means saving to a local, uncommitted state in IndexedDB.
      * @param {object} tab - The tab object to save.
      */
-    async save(tab) {
-	    UI.showToast(`Saving ${tab.item.name}...`);
-	    let textContent;
-        let contentToSave;
+    /*B"H*/
+async save(tab) {
+    UI.showToast(`Saving ${tab.item.name}...`);
+    let textContent;
+    let contentToSave;
 
-        // Step 1: Materialize the content from the currently active view.
-	    if (tab.id === State.activeTabId) {
-	        const isAltarVisible = !DOM.dataAltarContainer.classList.contains('hidden');
-	        if (tab.isHexView) {
-	            contentToSave = State.hexEditorInstance.getUpdatedArrayBuffer();
-	        } else if (isAltarVisible && tab.isAltarView) {
-	            textContent = JSON.stringify(DataAltar.liveDataObject, null, '\t');
-	        } else {
-	            textContent = Editor.getContent();
-	        }
-	    } else {
-            // For inactive tabs, the truth is already on the tab object.
-            if (tab.isHexView) contentToSave = tab.arrayBuffer;
-	        else textContent = tab.content;
-	    }
-        
-        // Step 2: Divert the flow for GitHub files to IndexedDB.
-        if (tab.item.type === 'github') {
-            try {
-                // We always save the text content for GitHub files to IndexedDB.
-                await FileSystemProvider.IndexedDB.writeUncommitted(tab.uniquePath, textContent, tab.item);
-                tab.isDirty = false;
-                tab.isUncommitted = true;
-                tab.content = textContent; // Ensure tab object is up to date
-                UI.showToast(`Saved "${tab.item.name}" locally`, 'success');
-                this.render();
-            } catch(e) {
-                UI.showToast(`Local save failed: ${e.message}`, 'error');
-                console.error("INDEXEDDB SAVE FAILED:", e);
-            }
-            return; // End the function here for GitHub files.
+    if (tab.id === State.activeTabId) {
+        const isAltarVisible = !DOM.dataAltarContainer.classList.contains('hidden');
+        if (tab.isHexView) {
+            contentToSave = State.hexEditorInstance.getUpdatedArrayBuffer();
+        } else if (isAltarVisible && tab.isAltarView) {
+            textContent = JSON.stringify(DataAltar.liveDataObject, null, '\t');
+        } else {
+            textContent = Editor.getContent();
         }
-	
-	    // Step 3: Proceed with the original save logic for all other filesystem types.
-	    try {
-	        if (contentToSave === undefined) {
-                if (tab.isAwtsmoos && !tab.isHexView) {
-                    UI.showLoading('Encoding to binary...');
-                    contentToSave = await AwtsmoosHandler.encodeContent(textContent);
-                } else {
-                    contentToSave = textContent;
-                }
-            }
-	        
-	        await FileSystemProvider.write(tab.item, contentToSave);
-	        
-	        tab.isDirty = false;
-	        if (tab.isHexView) {
-	            tab.arrayBuffer = contentToSave;
-	            tab.rawContent = new Blob([contentToSave]);
-	            if (tab.id === State.activeTabId) State.hexEditorInstance?.clearDirtyState();
-	        } else if (tab.isAwtsmoos) {
-                tab.arrayBuffer = contentToSave.buffer;
-                tab.rawContent = new Blob([contentToSave]);
-                tab.content = textContent;
+    } else {
+        if (tab.isHexView) contentToSave = tab.arrayBuffer;
+        else textContent = tab.content;
+    }
+    
+    if (tab.item.type === 'github') {
+        try {
+            await FileSystemProvider.IndexedDB.writeUncommitted(tab.uniquePath, textContent, tab.item);
+            tab.isDirty = false;
+            tab.isUncommitted = true;
+            tab.content = textContent;
+            UI.showToast(`Saved "${tab.item.name}" locally`, 'success');
+            this.render();
+        } catch(e) {
+            UI.showToast(`Local save failed: ${e.message}`, 'error');
+            console.error("INDEXEDDB SAVE FAILED:", e);
+        }
+        return;
+    }
+
+    try {
+        if (contentToSave === undefined) {
+            if (tab.isAwtsmoos && !tab.isHexView) {
+                UI.showLoading('Encoding to binary...');
+                contentToSave = await AwtsmoosHandler.encodeContent(textContent);
             } else {
-	            tab.content = textContent;
-	        }
-	
-	        UI.showToast(`Saved "${tab.item.name}"`, 'success');
-	        this.render();
-	    } catch (e) {
-	        UI.showToast(`Save failed: ${e.message}`, 'error');
-	        console.error("SAVE FAILED:", e);
-	    } finally {
-	        UI.hideLoading();
-	    }
-	},
+                contentToSave = textContent;
+            }
+        }
+        
+        // This is your original write logic, which will now only handle non-GitHub saves.
+        // It requires the GitHub-specific `commitMessage` parameter to be handled.
+        let commitMessage; // This will be undefined for non-GitHub types, which is fine.
+        await FileSystemProvider.write(tab.item, contentToSave, commitMessage);
+        
+        tab.isDirty = false;
+        if (tab.isHexView) {
+            tab.arrayBuffer = contentToSave;
+            tab.rawContent = new Blob([contentToSave]);
+            if (tab.id === State.activeTabId) State.hexEditorInstance?.clearDirtyState();
+        } else if (tab.isAwtsmoos) {
+            tab.arrayBuffer = contentToSave.buffer;
+            tab.rawContent = new Blob([contentToSave]);
+            tab.content = textContent;
+        } else {
+            tab.content = textContent;
+        }
+
+        UI.showToast(`Saved "${tab.item.name}"`, 'success');
+        this.render();
+    } catch (e) {
+        UI.showToast(`Save failed: ${e.message}`, 'error');
+        console.error("SAVE FAILED:", e);
+    } finally {
+        UI.hideLoading();
+    }
+},
 
     async saveAs(tab) {
         try {
@@ -432,93 +433,104 @@ export const Tabs = {
         UI.showToast(`Downloaded "${tab.item.name}"`, 'success');
     },
 
-    render() {
-        let draggedTabId = null;
-        const getDragAfterElement = (container, x) => {
-            const draggableElements = [...container.querySelectorAll('.tab:not(.dragging)')];
-            return draggableElements.reduce((closest, child) => {
-                const box = child.getBoundingClientRect();
-                const offset = x - box.left - box.width / 2;
-                if (offset < 0 && offset > closest.offset) {
-                    return { offset: offset, element: child };
-                } else { return closest; }
-            }, { offset: Number.NEGATIVE_INFINITY }).element;
-        };
-        
-        DOM.tabBar.innerHTML = '';
-        State.tabs.forEach((tab) => {
-            const tabEl = document.createElement('div');
-            // A tab can be dirty (unsaved) or uncommitted (saved locally).
-            tabEl.className = `tab ${tab.id === State.activeTabId ? 'active' : ''} ${tab.isDirty ? 'dirty' : ''} ${tab.isUncommitted ? 'uncommitted' : ''}`;
-            tabEl.dataset.tabId = String(tab.id);
-            tabEl.title = tab.item.path || tab.item.name;
-            tabEl.draggable = true;
-            
-            const tabName = document.createElement('span');
-            tabName.className = 'tab-name';
-            tabName.textContent = tab.item.name;
+    /*B"H*/
+render() {
+    let draggedTabId = null;
 
-            const closeButton = document.createElement('button');
-            closeButton.className = 'icon-button close-tab-btn';
-            closeButton.title = 'Close';
-            closeButton.innerHTML = `<svg class="svg-icon" style="width:0.8em;height:0.8em;"><use href="#icon-x"/></svg>`;
-
-            tabEl.append(tabName, closeButton);
-            
-            tabEl.onclick = (e) => {
-                if (e.target.closest('.close-tab-btn')) {
-                    e.stopPropagation();
-                    this.close(tab.id);
-                } else if (State.activeTabId !== tab.id) {
-                    this.activate(tab.id);
-                }
-            };
-            tabEl.addEventListener('dragstart', (e) => {
-                draggedTabId = tab.id;
-                setTimeout(() => e.target.classList.add('dragging'), 0);
-            });
-            tabEl.addEventListener('dragend', (e) => {
-                draggedTabId = null;
-                e.target.classList.remove('dragging');
-            });
-            DOM.tabBar.appendChild(tabEl);
-        });
-
-        DOM.tabBar.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            DOM.tabBar.querySelectorAll('.drop-indicator').forEach(el => el.classList.remove('drop-indicator'));
-            const afterElement = getDragAfterElement(DOM.tabBar, e.clientX);
-            if (afterElement) afterElement.classList.add('drop-indicator');
-        });
-
-        DOM.tabBar.addEventListener('drop', (e) => {
-            e.preventDefault();
-            DOM.tabBar.querySelectorAll('.drop-indicator').forEach(el => el.classList.remove('drop-indicator'));
-            if (draggedTabId === null) return;
-
-            const sourceTabId = draggedTabId;
-            const sourceIndex = State.tabs.findIndex(t => t.id === sourceTabId);
-            if (sourceIndex < 0) return;
-            
-            const [draggedTab] = State.tabs.splice(sourceIndex, 1);
-            
-            let targetIndex;
-            const afterElement = getDragAfterElement(DOM.tabBar, e.clientX);
-            if (afterElement) {
-                const targetTabId = Number(afterElement.dataset.tabId);
-                targetIndex = State.tabs.findIndex(t => t.id === targetTabId);
+    const getDragAfterElement = (container, x) => {
+        const draggableElements = [...container.querySelectorAll('.tab:not(.dragging)')];
+        return draggableElements.reduce((closest, child) => {
+            const box = child.getBoundingClientRect();
+            const offset = x - box.left - box.width / 2;
+            if (offset < 0 && offset > closest.offset) {
+                return { offset: offset, element: child };
             } else {
-                targetIndex = State.tabs.length;
+                return closest;
             }
-            State.tabs.splice(targetIndex, 0, draggedTab);
+        }, { offset: Number.NEGATIVE_INFINITY }).element;
+    };
+    
+    DOM.tabBar.innerHTML = '';
 
-            State.activeTabId = sourceTabId;
-            this.render(); 
-            App.saveSession();
+    State.tabs.forEach((tab) => {
+        const tabEl = document.createElement('div');
+        tabEl.className = `tab ${tab.id === State.activeTabId ? 'active' : ''} ${tab.isDirty ? 'dirty' : ''} ${tab.isUncommitted ? 'uncommitted' : ''}`;
+        tabEl.dataset.tabId = String(tab.id);
+        tabEl.title = tab.item.path || tab.item.name;
+        tabEl.draggable = true;
+        
+        const tabName = document.createElement('span');
+        tabName.className = 'tab-name';
+        tabName.textContent = tab.item.name;
+
+        const closeButton = document.createElement('button');
+        closeButton.className = 'icon-button close-tab-btn';
+        closeButton.title = 'Close';
+        closeButton.innerHTML = `<svg class="svg-icon" style="width:0.8em;height:0.8em;"><use href="#icon-x"/></svg>`;
+
+        tabEl.appendChild(tabName);
+        tabEl.appendChild(closeButton);
+        
+        tabEl.onclick = (e) => {
+            if (e.target.closest('.close-tab-btn')) {
+                e.stopPropagation();
+                this.close(tab.id);
+            } else if (State.activeTabId !== tab.id) {
+                this.activate(tab.id);
+            }
+        };
+
+        tabEl.addEventListener('dragstart', (e) => {
+            draggedTabId = tab.id;
+            setTimeout(() => e.target.classList.add('dragging'), 0);
+        });
+        
+        tabEl.addEventListener('dragend', (e) => {
+            draggedTabId = null;
+            e.target.classList.remove('dragging');
         });
 
-        const activeTabEl = DOM.tabBar.querySelector('.tab.active');
-        if (activeTabEl) activeTabEl.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-        StatusBar.update();
-    },
+        DOM.tabBar.appendChild(tabEl);
+    });
+
+    DOM.tabBar.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        DOM.tabBar.querySelectorAll('.drop-indicator').forEach(el => el.classList.remove('drop-indicator'));
+        const afterElement = getDragAfterElement(DOM.tabBar, e.clientX);
+        if (afterElement) {
+            afterElement.classList.add('drop-indicator');
+        }
+    });
+
+    DOM.tabBar.addEventListener('drop', (e) => {
+        e.preventDefault();
+        DOM.tabBar.querySelectorAll('.drop-indicator').forEach(el => el.classList.remove('drop-indicator'));
+        if (draggedTabId === null) return;
+
+        const afterElement = getDragAfterElement(DOM.tabBar, e.clientX);
+        const sourceTabId = draggedTabId;
+        const sourceIndex = State.tabs.findIndex(t => t.id === sourceTabId);
+        if (sourceIndex < 0) return;
+        
+        const [draggedTab] = State.tabs.splice(sourceIndex, 1);
+        
+        let targetIndex;
+        if (afterElement) {
+            const targetTabId = Number(afterElement.dataset.tabId);
+            targetIndex = State.tabs.findIndex(t => t.id === targetTabId);
+        } else {
+            targetIndex = State.tabs.length;
+        }
+
+        State.tabs.splice(targetIndex, 0, draggedTab);
+
+        State.activeTabId = sourceTabId;
+        this.render(); 
+        App.saveSession();
+    });
+
+    const activeTabEl = DOM.tabBar.querySelector('.tab.active');
+    if (activeTabEl) activeTabEl.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    StatusBar.update();
+},
 };
