@@ -559,10 +559,14 @@ proto._parseAssignmentExpression = function(left) {
 		
 		
 // B"H
-// --- The Final Tikkun for _parseObjectProperty ---
-// This version integrates the wisdom to handle the "get" ambiguity
-// with the previous fix for default value assignments.
-
+/**
+ * The sanctified vessel for object properties, now enlightened with the true
+ * nature of async methods, generators, and accessors. It no longer merely
+ * collects modifiers but understands their sacred order and context,
+ * distinguishing between a method named 'get' and a 'get' accessor with the
+ * foresight of the Awtsmoos Itself. This prevents the logical paradox that
+ * was causing the silent collapse of the parser's universe.
+ */
 proto._parseObjectProperty = function() {
     const s = this._startNode();
 
@@ -576,16 +580,30 @@ proto._parseObjectProperty = function() {
     let computed = false;
     let key;
 
-    // --- THE RECTIFICATION ---
-    // Bestow the wisdom of foresight. "get" is only a keyword if it is an identifier
-    // AND the token that follows it is NOT a parenthesis or a colon.
-    const isGetterKeyword = this.currToken.type === TOKEN.IDENT && this.currToken.literal === 'get' && this.peekToken.type !== TOKEN.LPAREN && this.peekToken.type !== TOKEN.COLON;
-    const isSetterKeyword = this.currToken.type === TOKEN.IDENT && this.currToken.literal === 'set' && this.peekToken.type !== TOKEN.LPAREN && this.peekToken.type !== TOKEN.COLON;
+    // --- THE NEW, ENLIGHTENED LOGIC ---
+    if (this.currToken.type === TOKEN.ASYNC) {
+        // Check for `async [computed]()` or `async identifier()`
+        const peek = this.peekToken;
+        if (peek.type !== TOKEN.COLON && peek.type !== TOKEN.LPAREN && peek.type !== TOKEN.COMMA && peek.type !== TOKEN.RBRACE) {
+             isAsync = true;
+             this._advance();
+        }
+    }
+    
+    if (this._currTokenIs(TOKEN.ASTERISK)) {
+        isGenerator = true;
+        this._advance();
+    }
 
-    // Consume modifiers ONLY if they are truly acting as modifiers.
-    if (this.currToken.type === TOKEN.ASYNC && this.peekToken.type !== TOKEN.COLON) { isAsync = true; this._advance(); }
-    if (this._currTokenIs(TOKEN.ASTERISK)) { isGenerator = true; this._advance(); }
-    if (isGetterKeyword || isSetterKeyword) { kind = this.currToken.literal; this._advance(); }
+    const isGetOrSet = this.currToken.type === TOKEN.IDENT && (this.currToken.literal === 'get' || this.currToken.literal === 'set');
+    if (isGetOrSet) {
+        const peek = this.peekToken;
+        // It's a getter/setter if not followed by certain characters.
+        if (peek.type !== TOKEN.COLON && peek.type !== TOKEN.COMMA && peek.type !== TOKEN.RBRACE) {
+             kind = this.currToken.literal;
+             this._advance();
+        }
+    }
     
     // Now, parse the property's key.
     if (this._currTokenIs(TOKEN.LBRACKET)) {
@@ -608,7 +626,8 @@ proto._parseObjectProperty = function() {
 
         return this._finishNode({
             type: 'Property', key: key, value: value, kind: kind,
-            method: (kind === 'init'), shorthand: false, computed: computed
+            method: (kind === 'init'), // This logic is now sound because 'kind' is correctly determined
+            shorthand: false, computed: computed
         }, s);
     }
     
@@ -627,7 +646,6 @@ proto._parseObjectProperty = function() {
     }
 
     // If it's none of the above, it must be a shorthand property.
-    // Shorthand properties cannot have modifiers or be computed.
     if (key.type !== 'Identifier' || computed || isAsync || isGenerator || kind !== 'init') {
         this._error("Invalid object property syntax. Expected ':', '(', or a valid shorthand property.");
         return null;
@@ -636,7 +654,6 @@ proto._parseObjectProperty = function() {
     let value = key;
     let shorthand = true;
     
-    // This preserves the fix for the Omega Test (shorthand with default value).
     if (this._currTokenIs(TOKEN.ASSIGN)) {
         shorthand = false;
         const assignStart = this._startNode();

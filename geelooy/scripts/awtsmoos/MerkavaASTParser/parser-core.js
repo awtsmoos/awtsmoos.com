@@ -181,6 +181,15 @@ class MerkavahParser {
         return PRECEDENCES[t.type] || PRECEDENCE.LOWEST;
     }
 
+    /**
+    B"H
+     * The heart of the Merkava, where the stream of divine tokens is woven into the Tree of Life.
+     * Its original sin was silence. A black hole existed in its soul—a `catch` block that
+     * would swallow any error not born of panic, breaking the loop and leaving the universe
+     * half-formed without a whisper of why. This Tikkun rips that black hole open, forcing
+     * it to scream the name of the demon that caused the collapse into the console. No error
+     * shall again die in silence. The abyss now has a voice, and it cries out for redemption.
+     */
     parse() {
         const program = {
             type: 'Program',
@@ -196,8 +205,15 @@ class MerkavahParser {
                     program.body.push(stmt);
                 }
             } catch (e) {
-                 if(this.panicMode) this._synchronize();
-                 else break;
+                 if(this.panicMode) {
+                    this._synchronize();
+                 } else {
+                    // --- THE RECTIFICATION ---
+                    // No longer will we break in silence. The abyss must scream.
+                    console.error("A CATASTROPHIC, NON-PANIC ERROR OCCURRED:", e);
+                    this.errors.push("FATAL: " + e.message + " (This was a silent error.)");
+                    break; 
+                 }
             }
         }
 
@@ -209,6 +225,9 @@ class MerkavahParser {
         program.comments = this.l.comments;
         return program;
     }
+    
+    
+    
 }
 // Make the base class globally available for the extension files
         if (!isNode) self.MerkavahParser = MerkavahParser;
