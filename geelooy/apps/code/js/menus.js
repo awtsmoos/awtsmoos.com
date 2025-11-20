@@ -168,8 +168,21 @@ async showMainMenu(e) {
         { label: 'Open File...', action: 'open-file', icon: 'folder' },
         { isSeparator: true },
         
-        { label: 'Save', action: 'save', icon: 'save', disabled: !activeTab || !activeTab.isDirty || isReadOnly },
+        
     ];
+    
+    if(!isReadOnly) {
+	    menuItems.push(
+		    { label: 'Save', action: 'save', icon: 'save', disabled: !activeTab || !activeTab.isDirty }
+	    )
+    
+    
+    
+    }
+    
+    
+    
+    
 
     if (isGitHubWorkspace && !isReadOnly) {
         menuItems.push({ label: 'Commit All Changes', action: 'commit-changes', icon: 'git-branch', disabled: !hasUncommittedChanges });
