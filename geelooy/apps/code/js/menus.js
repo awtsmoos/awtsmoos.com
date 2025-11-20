@@ -32,91 +32,101 @@ registerCustomMenus(menuConfigs) {
         }
     },
 
-    /**
-     * Displays the context-sensitive menu for a file or folder item.
-     * @param {Event} e - The contextmenu event.
-     * @param {object} item - The file or folder item that was right-clicked.
-     */
-    show(e, item) {
-        e.preventDefault();
-        e.stopPropagation();
+/*B"H*/
+// ACTION: Replace the 'show' method in js/menus.js with this new version.
 
-        if (State.isSelectionModeActive) {
-            return; // Don't show the standard context menu during selection mode.
-        }
-        
-        State.contextTarget = item; // Store the item that was right-clicked.
-        this.hideAll(); // Close any other open menus first.
-        
-        // Add a one-time click listener to the document to close the menu.
-        setTimeout(() => document.addEventListener('click', this.handleDocumentClick), 0);
-        
-        // Highlight the item in the file tree.
-        const mapKey = getItemUniquePath(item);
-        const targetEl = State.domItemMap.get(mapKey)?.el;
-        if (targetEl) {
-            targetEl.classList.add('context-active');
-        }
+/**
+ * Unfurls the context menu, a scroll of potential actions, now woven with new threads.
+ * It perceives the nature of the clicked item—its type, its location, its potential—
+ * and offers only the actions that are truly possible, including the new rite of repository creation.
+ * @param {Event} e - The contextmenu event, the spark of user intent.
+ * @param {object} item - The file or folder item, a vessel of data upon which to act.
+ */
+show(e, item) {
+    e.preventDefault();
+    e.stopPropagation();
 
-        const isDir = item.kind === 'directory';
-        const isWorkspaceRoot = item.path === '/';
-        const isGithubRepoRoot = item.type === 'github' && isWorkspaceRoot;
+    if (State.isSelectionModeActive) {
+        return; // In the realm of selection, this menu sleeps.
+    }
+    
+    State.contextTarget = item; // Hold the target of our focus.
+    this.hideAll(); // Let all other menus fade into nothingness.
+    
+    // Listen for a click anywhere else to return to a state of quiet.
+    setTimeout(() => document.addEventListener('click', this.handleDocumentClick), 0);
+    
+    const mapKey = getItemUniquePath(item);
+    const targetEl = State.domItemMap.get(mapKey)?.el;
+    if (targetEl) {
+        targetEl.classList.add('context-active'); // Mark the chosen one with a subtle glow.
+    }
 
-        const menuItems = [];
+    const isDir = item.kind === 'directory';
+    const isWorkspaceRoot = item.path === '/';
+    const workspace = State.workspaces.find(ws => ws.id === (item.workspaceId || item.id));
+    const isReadOnly = workspace?.readOnly || false;
+    // We check if the item is part of a standard, mutable filesystem.
+    const isWritableLocal = !isReadOnly && (item.type === 'local' || item.type === 'indexeddb');
 
-        // --- Smart "Copy" / "Clone" button ---
-        if (isGithubRepoRoot) {
-            menuItems.push({ label: `Copy / Clone "${item.repoInfo.repo}"`, action: 'copy-single', icon: 'copy' });
-        } else {
-            menuItems.push({ label: `Copy "${item.name}"`, action: 'copy-single', icon: 'copy' });
-        }
-        
-        menuItems.push({ label: 'Select', action: 'start-selection', icon: 'select-all' });
-        menuItems.push({ label: 'Copy All Contents', action: 'copy-all-contents', icon: 'clipboard' });
-        menuItems.push({ isSeparator: true });
-        
-        // --- Smart "Paste" button ---
+    const menuItems = [];
+
+    // --- Standard Actions ---
+    menuItems.push({ label: `Copy "${item.name}"`, action: 'copy-single', icon: 'copy' });
+    menuItems.push({ label: 'Select', action: 'start-selection', icon: 'select-all' });
+    menuItems.push({ label: 'Copy All Contents', action: 'copy-all-contents', icon: 'clipboard' });
+    menuItems.push({ isSeparator: true });
+
+    // --- Mutable Actions (Conditional) ---
+    if (!isReadOnly) {
         const clipboardItemUniquePath = State.fileClipboard?.[0];
         const clipboardItem = clipboardItemUniquePath ? State.domItemMap.get(clipboardItemUniquePath)?.item : null;
         if (isDir && clipboardItem) {
-            if (clipboardItem.type === 'github' && clipboardItem.path === '/') {
-                menuItems.push({ label: `Paste / Clone "${clipboardItem.repoInfo.repo}" here`, action: 'paste', icon: 'download' });
-            } else {
-                menuItems.push({ label: `Paste item(s) here`, action: 'paste', icon: 'clipboard' });
-            }
+            menuItems.push({ label: `Paste item(s) here`, action: 'paste', icon: 'clipboard' });
             menuItems.push({ isSeparator: true });
         }
         
-        // --- Standard action buttons ---
         if (isDir) {
             menuItems.push({ label: 'New File', action: 'new-file', icon: 'file' });
             menuItems.push({ label: 'New Folder', action: 'new-folder', icon: 'folder' });
-            menuItems.push({ isSeparator: true });
         }
+    }
 
-        if (!isWorkspaceRoot) {
-            menuItems.push({ label: 'Delete', action: 'delete', icon: 'trash', danger: true });
-        } else {
-            menuItems.push({ label: 'Remove Workspace', action: 'delete-workspace', icon: 'x', danger: true });
-        }
-        
-        // --- Build and render the menu's HTML ---
-        DOM.contextMenu.innerHTML = menuItems.map(i => {
-            if (i.isSeparator) {
-                return `<hr class="menu-separator">`;
-            }
-            const dangerStyle = i.danger ? 'style="color: var(--color-accent-danger);"' : '';
-            return `
-                <button class="menu-button" data-action="${i.action}" ${dangerStyle}>
-                    <svg class="svg-icon"><use href="#icon-${i.icon}"/></svg> ${i.label}
-                </button>
-            `;
-        }).join('');
+    // --- NEW: The Rite of Initialization ---
+    // If the item is a writable, local directory, offer its ascension.
+    if (isDir && isWritableLocal) {
+        menuItems.push({ isSeparator: true });
+        menuItems.push({ label: 'Initialize as GitHub Repo...', action: 'git-init', icon: 'github' });
+    }
 
-        this.positionAndDisplay(DOM.contextMenu, e);
-    },
+    menuItems.push({ isSeparator: true });
+
+    // --- Destructive/Final Actions ---
+    if (!isReadOnly && !isWorkspaceRoot) {
+        menuItems.push({ label: 'Delete', action: 'delete', icon: 'trash', danger: true });
+    }
+    if (isWorkspaceRoot) {
+        menuItems.push({ label: 'Remove Workspace', action: 'delete-workspace', icon: 'x', danger: true });
+    }
+    
+    // --- The Path of Retreat ---
+    menuItems.push({ isSeparator: true });
+    menuItems.push({ label: 'Cancel', action: 'cancel-menu', icon: 'x' });
+    
+    DOM.contextMenu.innerHTML = menuItems.map(i => {
+        if (i.isSeparator) return `<hr class="menu-separator">`;
+        const dangerStyle = i.danger ? 'style="color: var(--color-accent-danger);"' : '';
+        return `
+            <button class="menu-button" data-action="${i.action}" ${dangerStyle}>
+                <svg class="svg-icon"><use href="#icon-${i.icon}"/></svg> ${i.label}
+            </button>
+        `;
+    }).join('');
+
+    this.positionAndDisplay(DOM.contextMenu, e);
+},
     /*B"H*/
-// ACTION: Replace this method in menus.js
+
 /**
  * Unfurls the main application menu, a scroll of potential actions,
  * now dynamically aware of the uncommitted state of the active workspace.
@@ -237,266 +247,140 @@ showMainMenu(e) {
         }, 10);
     },
 
-    /*B"H*/
-// ACTION: Replace this method in menus.js
+/*B"H*/
+// ACTION: Replace the 'handleAction' method in js/menus.js with this one.
+
 /**
  * The central nexus for all user intentions. It receives an action and
  * dispatches it to the appropriate module, turning intent into reality.
+ * It now understands the call to initialize a repository.
  * @param {string} action - The `data-action` attribute from the clicked button.
  */
 async handleAction(action) {
     const item = State.contextTarget;
-    this.hideAll();
+    this.hideAll(); // The first act is always to return to a state of calm.
     const activeTab = State?.tabs?.find?.(t => t?.id === State?.activeTabId);
     
-    const builtInActions = [
-        'new-temp-file', 'open-file', 'save', 'download', 'view-html', 'find-replace', 'settings',
-        'toggle-keyboard-helper', 'toggle-fullscreen', 'select-all', 'copy',
-        'toggle-awtsmoos-view', 'copy-all', 'copy-all-contents', 'new-file', 'new-folder', 
-        'start-selection', 'copy-single', 'paste', 'delete-workspace', 'delete',
-        'toggle-hex-view', 'toggle-altar-view', 'commit-changes' // 
-    ];
-    
-    if (!builtInActions.includes(action)) {
-        console.log(`Dispatching custom action '${action}' to parent OS.`);
-        window.parent.postMessage({
-            type: 'customAction',
-            payload: { action: action, context: activeTab?.item?.saveContext || activeTab?.item?.path || null }
-        }, '*');
-        return;
-    }
-    
     try {
-        /*B"H*/
-// ACTION: Replace the switch statement inside the handleAction method.
-switch (action) {
-    // --- New GitHub Action ---
-    case 'commit-changes':
-        App.commitAllChanges();
-        break;
+        switch (action) {
+            
+            case 'git-init':
+                
+                if (item) GitManager.initializeRepository(item);
+                break;
+            case 'cancel-menu':
+                // This action requires no action; its purpose was fulfilled by `hideAll()`.
+                break;
 
-    // --- Main Menu Actions ---
-    case 'new-temp-file':
-        Tabs.createTemporary();
-        break;
-    case 'open-file':
-        App.openLocalFile();
-        break;
-    case 'save':
-        Tabs.saveActive();
-        break;
-    case 'download':
-        Tabs.downloadActive();
-        break;
-    case 'toggle-awtsmoos-view':
-        {
-            if (!activeTab) break;
-            activeTab.isHexView = !activeTab.isHexView;
-            activeTab.forceReload = true; // Flag to force reprocessing of content
-            Tabs.activate(activeTab.id);
-            break;
-        }
-    case 'view-html':
-        {
-            if (!activeTab) break;
-            UI.showLoading("Processing HTML for preview...");
-            const content = Editor.getContent();
-
-            detachWorkerRequestHandler();
-            detachDynamicAssetHandler();
-            attachWorkerRequestHandler(activeTab.item);
-            attachDynamicAssetHandler(activeTab.item);
-
-            try {
-                const processedContent = await processHtmlForPreview(content, activeTab.item);
-                Tabs.createPreview(activeTab.item, processedContent);
-            } catch (e) {
-                UI.showToast("Failed to process HTML.", "error");
-                console.error(e);
-                detachWorkerRequestHandler();
-                detachDynamicAssetHandler();
-            } finally {
-                UI.hideLoading();
-            }
-            break;
-        }
-    case 'find-replace':
-        FindReplace.show();
-        break;
-    case 'settings':
-        App.showSettings();
-        break;
-    case 'toggle-keyboard-helper':
-        DOM.keyboardHelper.classList.toggle('is-visible');
-        break;
-    case 'toggle-fullscreen':
-        App.toggleFullscreen();
-        break;
-    case 'toggle-hex-view':
-        {
-            if (!activeTab) break;
-            activeTab.isHexView = !activeTab.isHexView; // Just flip the switch
-            activeTab.forceReload = true; // Tell the tab to re-process its content
-            Tabs.activate(activeTab.id);
-            break;
-        }
-
-    // --- Editor Actions ---
-    case 'select-all':
-        if (State.activeTabId !== null) {
-            DOM.editor.focus();
-            DOM.editor.select();
-        }
-        break;
-    case 'copy':
-        {
-            const selectedText = DOM.editor.value.substring(DOM.editor.selectionStart, DOM.editor.selectionEnd);
-            if (selectedText) {
-                const success = await Clipboard.write(selectedText);
-                UI.showToast(success ? 'Selection copied!' : 'Copy failed!', success ? 'success' : 'error');
-            }
-            break;
-        }
-    case 'copy-all':
-        {
-            if (State.activeTabId !== null && DOM.editor.value) {
-                const success = await Clipboard.write(DOM.editor.value);
-                UI.showToast(success ? 'All content copied!' : 'Copy failed!', success ? 'success' : 'error');
-            }
-            break;
-        }
-
-    // --- Context Menu / File Actions ---
-    case 'copy-all-contents':
-        if (item) FileOperations.copyAllContents([item]);
-        break;
-
-    case 'new-file':
-    case 'new-folder':
-        {
-            if (!item) break;
-            const kind = action === 'new-folder' ? 'directory' : 'file';
-            const kindLabel = kind.charAt(0).toUpperCase() + kind.slice(1);
-            const name = await UI.showDialog({
-                title: `Create New ${kindLabel}`,
-                hasInput: true,
-                placeholder: `Enter ${kindLabel} name...`
-            });
-
-            if (name) {
-                UI.showLoading(`Creating ${kindLabel}...`);
-                const parentUniquePath = getItemUniquePath(item);
-                if (kind === 'directory') State.expandedFolders.add(parentUniquePath);
-
-                await FileSystemProvider.create(item, name, kind);
-                UI.showToast(`${kindLabel} '${name}' created.`, 'success');
-
-                const parentWorkspaceId = item.workspaceId ?? item.id;
-                const workspace = State.workspaces.find(ws => ws.id === parentWorkspaceId);
-                if (!workspace) throw new Error("Could not find parent workspace.");
-
-                await Workspaces.refreshNode(item);
-
-                if (kind === 'file') {
-                    const newPath = item.path === '/' ? `/${name}` : `${item.path}/${name}`;
-                    const newFileItem = { ...workspace,
-                        name,
-                        path: newPath,
-                        kind: 'file',
-                        workspaceId: workspace.id,
-                        content: ''
-                    };
-                    Tabs.create(newFileItem, true);
+            // --- Existing Main Menu Actions ---
+            case 'commit-changes': App.commitAllChanges(); break;
+            case 'new-temp-file': Tabs.createTemporary(); break;
+            case 'open-file': App.openLocalFile(); break;
+            case 'save': Tabs.saveActive(); break;
+            case 'download': Tabs.downloadActive(); break;
+            case 'toggle-awtsmoos-view':
+                if (activeTab) {
+                    activeTab.isHexView = !activeTab.isHexView;
+                    activeTab.forceReload = true;
+                    Tabs.activate(activeTab.id);
                 }
-            }
-            break;
+                break;
+            case 'view-html':
+                 if (activeTab) {
+                    UI.showLoading("Processing HTML for preview...");
+                    const content = Editor.getContent();
+                    detachWorkerRequestHandler();
+                    detachDynamicAssetHandler();
+                    attachWorkerRequestHandler(activeTab.item);
+                    attachDynamicAssetHandler(activeTab.item);
+                    try {
+                        const processedContent = await processHtmlForPreview(content, activeTab.item);
+                        Tabs.createPreview(activeTab.item, processedContent);
+                    } catch (e) {
+                        UI.showToast("Failed to process HTML.", "error");
+                        console.error(e);
+                    } finally {
+                        UI.hideLoading();
+                    }
+                }
+                break;
+            case 'find-replace': FindReplace.show(); break;
+            case 'settings': App.showSettings(); break;
+            case 'toggle-keyboard-helper': DOM.keyboardHelper.classList.toggle('is-visible'); break;
+            case 'toggle-fullscreen': App.toggleFullscreen(); break;
+            case 'toggle-altar-view':
+                if (activeTab) {
+                    activeTab.isAltarView = !activeTab.isAltarView;
+                    Tabs.activate(activeTab.id, true);
+                }
+                break;
+
+            
+            case 'select-all': if (activeTab) DOM.editor.select(); break;
+            case 'copy':
+                const selectedText = DOM.editor.value.substring(DOM.editor.selectionStart, DOM.editor.selectionEnd);
+                if (selectedText) {
+                    await Clipboard.write(selectedText);
+                    UI.showToast('Selection copied!', 'success');
+                }
+                break;
+            case 'copy-all':
+                if (activeTab && DOM.editor.value) {
+                    await Clipboard.write(DOM.editor.value);
+                    UI.showToast('All content copied!', 'success');
+                }
+                break;
+            case 'copy-all-contents': if (item) FileOperations.copyAllContents([item]); break;
+            case 'new-file':
+            case 'new-folder':
+                if (item) {
+                    const kind = action === 'new-folder' ? 'directory' : 'file';
+                    const name = await UI.showDialog({ title: `Create New ${kind}`, hasInput: true, placeholder: `Enter ${kind} name...` });
+                    if (name) {
+                        await FileSystemProvider.create(item, name, kind);
+                        UI.showToast(`${kind} '${name}' created.`, 'success');
+                        await Workspaces.refreshNode(item);
+                        if (kind === 'file') {
+                            const newPath = item.path === '/' ? `/${name}` : `${item.path}/${name}`;
+                            Tabs.create({ ...item, name, path: newPath, kind: 'file' });
+                        }
+                    }
+                }
+                break;
+            case 'start-selection': SelectionManager.start(item, State.contextEvent); break;
+            case 'copy-single':
+                if (item) {
+                    State.fileClipboard = [getItemUniquePath(item)];
+                    UI.showToast(`Copied "${item.name}" to clipboard.`, 'success');
+                }
+                break;
+            case 'paste':
+                if (item && item.kind === 'directory') FileOperations.paste(item);
+                else UI.showToast("Paste target must be a directory.", "warning");
+                break;
+            case 'delete-workspace':
+                if (item && item.path === '/') {
+                    const confirmed = await UI.showDialog({ title: 'Remove Workspace', message: `Remove '${item.name}'?`, okText: 'Remove' });
+                    if (confirmed) {
+                        Workspaces.remove(item.id || item.workspaceId);
+                        UI.showToast(`Workspace removed.`, 'success');
+                    }
+                }
+                break;
+            case 'delete':
+                if (item) {
+                    const confirmed = await UI.showDialog({ title: 'Confirm Deletion', message: `Delete '${item.name}'?`, okText: 'Delete' });
+                    if (confirmed) {
+                        const tab = State.tabs.find(t => t.uniquePath === Tabs.getUniquePath(item));
+                        if (tab) await Tabs.close(tab.id, true);
+                        await FileSystemProvider.delete(item);
+                        const parentPath = item.path.substring(0, item.path.lastIndexOf('/')) || '/';
+                        await Workspaces.refreshNode({ ...item, path: parentPath, kind: 'directory' });
+                        UI.showToast(`'${item.name}' deleted.`, 'success');
+                    }
+                }
+                break;
         }
-
-    case 'toggle-altar-view':
-        {
-            if (!activeTab) break;
-            activeTab.isAltarView = !activeTab.isAltarView;
-            Tabs.activate(activeTab.id, true); // The 'true' forces a full view refresh
-            break;
-        }
-
-    case 'start-selection':
-        State.contextEvent = event; // Store the event for positioning the selection menu.
-        SelectionManager.start(item, State.contextEvent);
-        break;
-
-    case 'copy-single':
-        {
-            if (!item) break;
-            const uniquePath = getItemUniquePath(item);
-            State.fileClipboard = [uniquePath];
-
-            const isCloneable = item.type === 'github' && item.path === '/';
-            const message = isCloneable ?
-                `Ready to clone "${item.repoInfo.repo}". Paste in a new location.` :
-                `Copied "${item.name}" to clipboard.`;
-            UI.showToast(message, 'success');
-            break;
-        }
-
-    case 'paste':
-        if (!item || item.kind !== 'directory') {
-            UI.showToast("Paste target must be a directory.", "warning");
-            return;
-        }
-        FileOperations.paste(item);
-        break;
-
-    case 'delete-workspace':
-        {
-            if (!item || item.path !== '/') break;
-            const confirmed = await UI.showDialog({
-                title: 'Remove Workspace',
-                message: `Remove '${item.name}'? This does not delete any files.`,
-                okText: 'Remove',
-                cancelText: 'Cancel'
-            });
-            if (confirmed) {
-                UI.showLoading('Removing workspace...');
-                const wsId = item.workspaceId ?? item.id;
-                const tabsToClose = State.tabs.filter(t => t.item.workspaceId === wsId);
-                for (const tab of tabsToClose) await Tabs.close(tab.id, true);
-                State.workspaces = State.workspaces.filter(ws => ws.id !== wsId);
-
-                App.saveSession();
-                Workspaces.render();
-                UI.showToast(`Workspace removed.`, 'success');
-            }
-            break;
-        }
-
-    case 'delete':
-        {
-            if (!item) break;
-            const confirmed = await UI.showDialog({
-                title: 'Confirm Deletion',
-                message: `Are you sure you want to permanently delete '${item.name}'?`,
-                okText: 'Delete',
-                cancelText: 'Cancel'
-            });
-            if (confirmed) {
-                UI.showLoading('Deleting...');
-                const tab = State.tabs.find(t => t.uniquePath === Tabs.getUniquePath(item));
-                if (tab) await Tabs.close(tab.id, true);
-
-                await FileSystemProvider.delete(item);
-                UI.showToast(`'${item.name}' deleted.`, 'success');
-
-                const parentPath = item.path.substring(0, item.path.lastIndexOf('/')) || '/';
-                const parentItem = { ...item,
-                    path: parentPath,
-                    kind: 'directory'
-                };
-                await Workspaces.refreshNode(parentItem);
-            }
-            break;
-        }
-}
     } catch(e) { 
         UI.showToast(`Error: ${e.message}`, 'error'); 
         console.error("Action failed:", action, e);
