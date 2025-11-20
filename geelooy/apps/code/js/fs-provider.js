@@ -239,9 +239,11 @@ IndexedDB: {
      */
     _initMainDB: async function() {
         if (State.db) return State.db;
+        console. log("starting main")
         State.db = await this._openDb(this.DB_NAME, 1, e => {
             e.target.result.createObjectStore(this.STORE_NAME, { keyPath: "path" });
         });
+        console. log("main opened")
         return State.db;
     },
 
@@ -251,7 +253,7 @@ IndexedDB: {
      */
     _initGitDB: async function() {
         if (State.gitDb) return State.gitDb;
-        State.gitDb = await this._openDb(this.GIT_DB_NAME, 1, e => {
+        State.gitDb =  this._openDb(this.GIT_DB_NAME, 1, e => {
             e.target.result.createObjectStore(this.GIT_STORE_NAME, { keyPath: "uniquePath" });
         });
         return State.gitDb;
