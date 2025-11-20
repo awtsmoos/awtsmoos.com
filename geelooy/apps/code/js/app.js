@@ -9,7 +9,7 @@ import { Editor } from './editor.js';
 import { StatusBar } from './statusbar.js';
 import { FileSystemProvider } from './fs-provider.js';
 import { Tabs } from './tabs.js';
-import { Workspaces } from './workspaces.js';
+import { Workspaces, getItemUniquePath} from './workspaces.js';
 import { Menus } from './menus.js';
 import { FindReplace } from './find-replace.js';
 import { CustomMenu } from './custom-menu.js';
