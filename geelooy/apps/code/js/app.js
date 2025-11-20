@@ -58,7 +58,7 @@ activeConsole: null, // B"H
         localStorage.setItem('vividX_session_profound', JSON.stringify(session));
     },
 
-    /*B"H*/
+/*B"H*/
 loadSession() {
     const savedSession = localStorage.getItem('vividX_session_profound');
     if (!savedSession) return;
@@ -74,7 +74,7 @@ loadSession() {
 
         if (session.openTabs && Array.isArray(session.openTabs)) {
             session.openTabs.forEach(item => {
-                // The new 'false' argument at the end prevents activation during bulk loading.
+                // The new 'false' argument at the end tells create() NOT to activate the tab.
                 Tabs.create(item, false, false, false);
             });
         }
