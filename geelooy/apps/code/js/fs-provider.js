@@ -204,216 +204,177 @@ export const FileSystemProvider = {
         }
     },
 
-    IndexedDB: {
-        DB_NAME: "VIVID_X_FS_PROFOUND",
-        STORE_NAME: "files",
-        
-        /**
-         * Awakens the connection to the browser's soul, its persistent memory.
-         * This now ensures two sacred chambers exist: one for the Browser Storage workspace,
-         * and a new one to hold the uncommitted potential of GitHub files.
-         * @returns {Promise<IDBDatabase>} A promise that resolves with the database connection.
-         */
-        init: function() {
-            return new Promise((resolve, reject) => {
-                if (State.db) return resolve(State.db);
-                // The version must be incremented to trigger the 'onupgradeneeded' event.
-                const request = indexedDB.open(this.DB_NAME, 2); 
-                request.onupgradeneeded = e => {
-                    const db = e.target.result;
-                    if (!db.objectStoreNames.contains(this.STORE_NAME)) {
-                        db.createObjectStore(this.STORE_NAME, { keyPath: "path" });
-                    }
-                    // This new chamber holds changes before they are committed to the heavens of GitHub.
-                    if (!db.objectStoreNames.contains('github_file_changes')) {
-                        db.createObjectStore('github_file_changes', { keyPath: "uniquePath" });
-                    }
-                };
-                request.onsuccess = e => { State.db = e.target.result; resolve(State.db); };
-                request.onerror = e => { console.error("IndexedDB init failed:", e.target.error); reject(e.target.error); };
-            });
-        },
-        
-        list: async function({ path }) {
-            await this.init();
-            return new Promise((resolve, reject) => {
-                const store = State.db.transaction(this.STORE_NAME).objectStore(this.STORE_NAME);
-                const request = store.getAll();
-                request.onerror = e => reject(e.target.error);
-                request.onsuccess = () => {
-                    const children = new Map();
-                    request.result.forEach(item => {
-                        const lastSlashIndex = item.path.lastIndexOf('/');
-                        let parentPath = lastSlashIndex > 0 ? item.path.substring(0, lastSlashIndex) : '/';
-                        if (lastSlashIndex === 0) { parentPath = '/'; } 
-                        else if (lastSlashIndex === -1) { parentPath = '/'; }
-                        
-                        if (parentPath === path) {
-                            const segment = item.path.substring(lastSlashIndex + 1);
-                            if (segment && !children.has(segment)) {
-                                children.set(segment, { 
-                                    name: segment, 
-                                    kind: item.isDir ? 'directory' : 'file', 
-                                    path: item.path
-                                });
-                            }
-                        }
-                    });
-                    resolve(Array.from(children.values()));
-                };
-            });
-        },
-        listAllFiles: async function({ path }) {
-            await this.init();
-            return new Promise((resolve, reject) => {
-                const store = State.db.transaction(this.STORE_NAME).objectStore(this.STORE_NAME);
-                const request = store.getAll();
-                request.onerror = e => reject(e.target.error);
-                request.onsuccess = () => {
-                    const dirPrefix = path === '/' ? '' : path + '/';
-                    const files = request.result.filter(item => 
-                        item.path.startsWith(dirPrefix) && item.path !== path && !item.isDir
-                    );
-                    resolve(files);
-                };
-            });
-        },
-        read: async function({ path }) {
-            await this.init();
-            return new Promise((resolve, reject) => {
-                const store = State.db.transaction(this.STORE_NAME).objectStore(this.STORE_NAME);
-                const request = store.get(path);
-                request.onerror = e => reject(e.target.error);
-                request.onsuccess = e => {
-                    const result = e.target.result;
-                    if (result !== undefined) {
-                        resolve(result.content);
-                    } else {
-                        reject(new Error(`File not found in Browser Storage at path: "${path}"`));
-                    }
-                };
-            });
-        },
-        write: async function({ path }, content) {
-            await this.init();
-            return new Promise((resolve, reject) => {
-                const tx = State.db.transaction(this.STORE_NAME, "readwrite");
-                const store = tx.objectStore(this.STORE_NAME);
-                const req = store.get(path);
-                req.onsuccess = () => {
-                    const data = req.result || { path, isDir: false };
-                    data.content = content;
-                    store.put(data);
-                };
-                tx.oncomplete = resolve;
-                tx.onerror = () => reject(tx.error);
-            });
-        },
-        create: async function({ path }, name, kind) {
-            await this.init();
-            const newPath = path === '/' ? `/${name}` : `${path}/${name}`;
-            return new Promise((resolve, reject) => {
-                const tx = State.db.transaction(this.STORE_NAME, "readwrite");
-                const store = tx.objectStore(this.STORE_NAME);
-                const content = kind === 'directory' ? '' : '';
-                store.put({ 
-                    path: newPath, 
-                    content: content, 
-                    isDir: kind === 'directory' 
-                });
-                tx.oncomplete = resolve;
-                tx.onerror = () => reject(tx.error);
-            });
-        },
-        delete: async function({ path, kind }) {
-            await this.init();
-            return new Promise((resolve, reject) => {
-                const tx = State.db.transaction(this.STORE_NAME, "readwrite");
-                const store = tx.objectStore(this.STORE_NAME);
-                if (kind === 'directory') {
-                    const range = IDBKeyRange.bound(path, path + '\uffff');
-                    store.delete(range);
-                } else {
-                    store.delete(path);
-                }
-                tx.oncomplete = resolve;
-                tx.onerror = () => reject(tx.error);
-            });
-        },
-
-        /**
-         * Scries into the uncommitted changes chamber for a specific file's essence.
-         * @param {string} uniquePath - The unique identifier for the file (`workspaceId::/path/to/file.js`).
-         * @returns {Promise<string>} A promise that resolves with the file content.
-         */
-        readUncommitted: async function(uniquePath) {
-            await this.init();
-            return new Promise((resolve, reject) => {
-                const store = State.db.transaction('github_file_changes').objectStore('github_file_changes');
-                const request = store.get(uniquePath);
-                request.onerror = e => reject(e.target.error);
-                request.onsuccess = e => {
-                    if (e.target.result) {
-                        resolve(e.target.result.content);
-                    } else {
-                        reject(new Error("No uncommitted version found."));
-                    }
-                };
-            });
-        },
-
-        /**
-         * Scribes a file's changed essence into the uncommitted changes chamber.
-         * @param {string} uniquePath - The unique identifier for the file.
-         * @param {string} content - The new content of the file.
-         * @param {object} item - The full file item object for context.
-         * @returns {Promise<void>}
-         */
-        writeUncommitted: async function(uniquePath, content, item) {
-            await this.init();
-            return new Promise((resolve, reject) => {
-                const tx = State.db.transaction('github_file_changes', "readwrite");
-                const store = tx.objectStore('github_file_changes');
-                store.put({ uniquePath, content, item });
-                tx.oncomplete = resolve;
-                tx.onerror = () => reject(tx.error);
-            });
-        },
-        
-        /**
-         * Purges a file's essence from the uncommitted chamber, typically after a successful commit.
-         * @param {string} uniquePath - The unique identifier for the file to purge.
-         * @returns {Promise<void>}
-         */
-        deleteUncommitted: async function(uniquePath) {
-            await this.init();
-            return new Promise((resolve, reject) => {
-                const tx = State.db.transaction('github_file_changes', "readwrite");
-                tx.objectStore('github_file_changes').delete(uniquePath);
-                tx.oncomplete = resolve;
-                tx.onerror = () => reject(tx.error);
-            });
-        },
-
-        /**
-         * Gathers all uncommitted file essences for a given workspace.
-         * @param {number} workspaceId - The ID of the GitHub workspace.
-         * @returns {Promise<Array<object>>} A promise that resolves with an array of uncommitted file objects.
-         */
-        listUncommittedForWorkspace: async function(workspaceId) {
-            await this.init();
-            return new Promise((resolve, reject) => {
-                const store = State.db.transaction('github_file_changes').objectStore('github_file_changes');
-                const request = store.getAll();
-                request.onerror = e => reject(e.target.error);
-                request.onsuccess = () => {
-                    const prefix = `${workspaceId}::`;
-                    const results = request.result.filter(entry => entry.uniquePath.startsWith(prefix));
-                    resolve(results);
-                };
-            });
-        },
+    /*B"H*/
+IndexedDB: {
+    DB_NAME: "VIVID_X_FS_PROFOUND",
+    GIT_DB_NAME: "VIVID_X_GIT_CHANGES_PROFOUND", // Our new, separate database.
+    STORE_NAME: "files",
+    GIT_STORE_NAME: "uncommitted_files", // The single store in our new database.
+    
+    /**
+     * @private
+     * @description Initializes the main database for the "Browser Storage" workspace.
+     */
+    _initMainDB: function() {
+        return new Promise((resolve, reject) => {
+            if (State.db) return resolve(State.db);
+            const request = indexedDB.open(this.DB_NAME, 1);
+            request.onupgradeneeded = e => e.target.result.createObjectStore(this.STORE_NAME, { keyPath: "path" });
+            request.onsuccess = e => { State.db = e.target.result; resolve(State.db); };
+            request.onerror = e => { console.error("Main IndexedDB init failed:", e.target.error); reject(e.target.error); };
+        });
     },
+
+    /**
+     * @private
+     * @description Initializes our new, separate database for GitHub changes.
+     */
+    _initGitDB: function() {
+        return new Promise((resolve, reject) => {
+            if (State.gitDb) return resolve(State.gitDb);
+            const request = indexedDB.open(this.GIT_DB_NAME, 1);
+            request.onupgradeneeded = e => e.target.result.createObjectStore(this.GIT_STORE_NAME, { keyPath: "uniquePath" });
+            request.onsuccess = e => { State.gitDb = e.target.result; resolve(State.gitDb); };
+            request.onerror = e => { console.error("Git Changes IndexedDB init failed:", e.target.error); reject(e.target.error); };
+        });
+    },
+
+    /**
+     * @public
+     * @description Initializes connections to BOTH databases concurrently.
+     */
+    init: async function() {
+        await Promise.all([ this._initMainDB(), this._initGitDB() ]);
+    },
+
+    // --- Methods for the MAIN "Browser Storage" Database ---
+
+    list: async function({ path }) {
+        await this._initMainDB();
+        return new Promise((resolve, reject) => {
+            const store = State.db.transaction(this.STORE_NAME).objectStore(this.STORE_NAME);
+            const request = store.getAll();
+            request.onerror = e => reject(e.target.error);
+            request.onsuccess = () => {
+                const children = new Map();
+                request.result.forEach(item => {
+                    const lastSlashIndex = item.path.lastIndexOf('/');
+                    let parentPath = lastSlashIndex > 0 ? item.path.substring(0, lastSlashIndex) : '/';
+                    if (lastSlashIndex === 0 || lastSlashIndex === -1) { parentPath = '/'; }
+                    if (parentPath === path) {
+                        const segment = item.path.substring(lastSlashIndex + 1);
+                        if (segment && !children.has(segment)) {
+                            children.set(segment, { name: segment, kind: item.isDir ? 'directory' : 'file', path: item.path });
+                        }
+                    }
+                });
+                resolve(Array.from(children.values()));
+            };
+        });
+    },
+    read: async function({ path }) {
+        await this._initMainDB();
+        return new Promise((resolve, reject) => {
+            const store = State.db.transaction(this.STORE_NAME).objectStore(this.STORE_NAME);
+            const request = store.get(path);
+            request.onerror = e => reject(e.target.error);
+            request.onsuccess = e => {
+                if (e.target.result !== undefined) { resolve(e.target.result.content); } 
+                else { reject(new Error(`File not found in Browser Storage at path: "${path}"`)); }
+            };
+        });
+    },
+    write: async function({ path }, content) {
+        await this._initMainDB();
+        return new Promise((resolve, reject) => {
+            const tx = State.db.transaction(this.STORE_NAME, "readwrite");
+            const store = tx.objectStore(this.STORE_NAME);
+            const req = store.get(path);
+            req.onsuccess = () => {
+                const data = req.result || { path, isDir: false };
+                data.content = content;
+                store.put(data);
+            };
+            tx.oncomplete = resolve;
+            tx.onerror = () => reject(tx.error);
+        });
+    },
+    create: async function({ path }, name, kind) {
+        await this._initMainDB();
+        const newPath = path === '/' ? `/${name}` : `${path}/${name}`;
+        return new Promise((resolve, reject) => {
+            const tx = State.db.transaction(this.STORE_NAME, "readwrite");
+            const store = tx.objectStore(this.STORE_NAME);
+            store.put({ path: newPath, content: '', isDir: kind === 'directory' });
+            tx.oncomplete = resolve;
+            tx.onerror = () => reject(tx.error);
+        });
+    },
+    delete: async function({ path, kind }) {
+        await this._initMainDB();
+        return new Promise((resolve, reject) => {
+            const tx = State.db.transaction(this.STORE_NAME, "readwrite");
+            const store = tx.objectStore(this.STORE_NAME);
+            if (kind === 'directory') {
+                store.delete(IDBKeyRange.bound(path, path + '\uffff'));
+            } else {
+                store.delete(path);
+            }
+            tx.oncomplete = resolve;
+            tx.onerror = () => reject(tx.error);
+        });
+    },
+    listAllFiles: async function({ path }) {
+        await this._initMainDB();
+        return new Promise((resolve, reject) => {
+            const store = State.db.transaction(this.STORE_NAME).objectStore(this.STORE_NAME);
+            const request = store.getAll();
+            request.onerror = e => reject(e.target.error);
+            request.onsuccess = () => {
+                const dirPrefix = path === '/' ? '' : path + '/';
+                resolve(request.result.filter(item => item.path.startsWith(dirPrefix) && item.path !== path && !item.isDir));
+            };
+        });
+    },
+    
+    // --- Methods for the NEW "Git Changes" Database ---
+    readUncommitted: async function(uniquePath) {
+        await this._initGitDB();
+        return new Promise((resolve, reject) => {
+            const store = State.gitDb.transaction(this.GIT_STORE_NAME).objectStore(this.GIT_STORE_NAME);
+            const request = store.get(uniquePath);
+            request.onerror = e => reject(e.target.error);
+            request.onsuccess = e => e.target.result ? resolve(e.target.result.content) : reject(new Error("No uncommitted version found."));
+        });
+    },
+    writeUncommitted: async function(uniquePath, content, item) {
+        await this._initGitDB();
+        return new Promise((resolve, reject) => {
+            const tx = State.gitDb.transaction(this.GIT_STORE_NAME, "readwrite");
+            tx.objectStore(this.GIT_STORE_NAME).put({ uniquePath, content, item });
+            tx.oncomplete = resolve;
+            tx.onerror = () => reject(tx.error);
+        });
+    },
+    deleteUncommitted: async function(uniquePath) {
+        await this._initGitDB();
+        return new Promise((resolve, reject) => {
+            const tx = State.gitDb.transaction(this.GIT_STORE_NAME, "readwrite");
+            tx.objectStore(this.GIT_STORE_NAME).delete(uniquePath);
+            tx.oncomplete = resolve;
+            tx.onerror = () => reject(tx.error);
+        });
+    },
+    listUncommittedForWorkspace: async function(workspaceId) {
+        await this._initGitDB();
+        return new Promise((resolve, reject) => {
+            const store = State.gitDb.transaction(this.GIT_STORE_NAME).objectStore(this.GIT_STORE_NAME);
+            const request = store.getAll();
+            request.onerror = e => reject(e.target.error);
+            request.onsuccess = () => resolve(request.result.filter(entry => entry.uniquePath.startsWith(`${workspaceId}::`)));
+        });
+    },
+},
     
     GitHub: {
         api: async (endpoint, options = {}) => {
