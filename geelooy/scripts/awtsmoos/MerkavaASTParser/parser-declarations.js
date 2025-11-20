@@ -67,9 +67,7 @@ proto._parseDeclaration = function() {
 
 
 	proto._parseBindingPattern = function() {
-		if(times++>max) {
-		throw "wow what are u"
-		}
+		
 		
 		if (this._currTokenIs(TOKEN.LBRACE)) return this._parseObjectPattern();
 		if (this._currTokenIs(TOKEN.LBRACKET)) return this._parseArrayPattern();
