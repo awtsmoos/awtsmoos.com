@@ -1,13 +1,30 @@
 // B"H
 // B"H
 (function(root, factory) {
+const merkavaPromise = factory(); // Execute the factory immediately to get the promise
+
+
     if (typeof module === 'object' && module.exports) {
         // Node.js: The factory returns a promise.
-        module.exports = factory();
+        module.exports = merkavaPromise;
     } else {
         // Browser/Worker: The factory returns a promise which we attach to the window/self.
         root.MerkavahParserPromise = factory();
     }
+    
+    merkavaPromise.then(MerkavahParser => {
+    if (typeof document !== 'undefined' && document.currentScript) {
+        const currentScript = document.currentScript;
+        const url = new URL(currentScript.src, window.location.href);
+        const callbackName = url.searchParams.get('merkavaCallback');
+
+        if (callbackName && typeof root[callbackName] === 'function') {
+            root[callbackName](MerkavahParser);
+        }
+    }
+}).catch(err => {
+    console.error("A critical failure occurred inside the Merkava Parser's initialization promise.", err);
+});
 }(typeof self !== 'undefined' ? self : this, function() {
     // This is the universal, promise-based factory.
     const isNode = typeof process !== 'undefined' && process.versions != null && process.versions.node != null;
