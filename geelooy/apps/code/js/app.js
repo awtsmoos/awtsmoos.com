@@ -188,14 +188,12 @@ async initialize() {
     
     
     /*B"H*/
-// ACTION: Replace the entire 'commitAllChanges' method in js/app.js with this one.
 
 /**
- * Gathers all locally saved changes for the active GitHub workspace, prompts for a
- * commit message, and then transmits them to the remote repository. This new, resilient
- * version attempts to commit each file individually. If one file fails, it reports
- * the error and continues with the others, ensuring that the chain of creation is not
- * broken by a single flawed link.
+ * Gathers locally saved changes for a GitHub workspace. It now presents a three-fold
+ * path to the user: Commit the changes, Cancel the operation, or Discard all local
+ * changes, returning the files to their last committed state. This provides a
+ * complete and safe workflow for managing the potential of creation.
  */
 async commitAllChanges() {
     const activeTab = State.tabs.find(t => t.id === State.activeTabId);
@@ -215,26 +213,62 @@ async commitAllChanges() {
         return;
     }
 
-    const commitMessage = await UI.showDialog({
+    const dialogResult = await UI.showDialog({
         title: `Commit to "${workspace.name}"`,
         message: `Found ${uncommittedFiles.length} file(s) with local changes. Enter a commit message:`,
         hasTextarea: true,
         textareaContent: `B"H\nUpdate ${uncommittedFiles.length} file(s)`,
         okText: 'Commit & Push',
-        cancelText: 'Cancel'
+        cancelText: 'Cancel',
+        tertiary: { text: 'Discard All Changes', class: 'danger' }
     });
 
-    if (!commitMessage) {
+    // Path 1: The user chose to discard.
+    if (dialogResult === 'tertiary') {
+        const confirmed = await UI.showDialog({
+            title: "Confirm Discard",
+            message: `Are you sure you want to permanently discard all ${uncommittedFiles.length} local changes for this repository? This cannot be undone.`,
+            okText: "Yes, Discard All",
+            cancelText: "Cancel"
+        });
+        if (confirmed) {
+            UI.showLoading("Discarding all local changes...");
+            const deletionPromises = uncommittedFiles.map(file =>
+                FileSystemProvider.IndexedDB.deleteUncommitted(file.uniquePath)
+            );
+            await Promise.all(deletionPromises);
+
+            uncommittedFiles.forEach(discardedFile => {
+                const tab = State.tabs.find(t => t.uniquePath === discardedFile.uniquePath);
+                if (tab) {
+                    tab.isUncommitted = false;
+                    // Force a reload if the tab is active to show the original content.
+                    if (tab.id === State.activeTabId) {
+                        tab.forceReload = true;
+                        Tabs.activate(tab.id);
+                    }
+                }
+            });
+            Tabs.render();
+            UI.hideLoading();
+            UI.showToast("All local changes have been discarded.", "success");
+        }
+        return;
+    }
+    
+    // Path 2: The user cancelled.
+    if (!dialogResult) {
         UI.hideLoading();
-        return; // User cancelled.
+        return;
     }
 
+    // Path 3: The user provided a commit message and wishes to proceed.
+    const commitMessage = dialogResult;
     UI.showLoading(`Committing ${uncommittedFiles.length} file(s)...`);
 
     const successfulCommits = [];
     const failedCommits = [];
 
-    // The core of the new resilient logic begins here.
     for (let i = 0; i < uncommittedFiles.length; i++) {
         const file = uncommittedFiles[i];
         UI.showLoading(`Committing ${i + 1}/${uncommittedFiles.length}: ${file.item.name}`);
@@ -245,19 +279,15 @@ async commitAllChanges() {
             console.error(`Failed to commit ${file.item.name}:`, e);
             UI.showToast(`Failed to commit ${file.item.name}: ${e.message}`, 'error', 6000);
             failedCommits.push({ file, error: e });
-            // The loop does not break; it continues to the next file.
         }
     }
 
-    // After attempting all commits, we process only the successful ones.
     if (successfulCommits.length > 0) {
-        // Purge only the successful copies from IndexedDB.
         const deletionPromises = successfulCommits.map(file =>
             FileSystemProvider.IndexedDB.deleteUncommitted(file.uniquePath)
         );
         await Promise.all(deletionPromises);
 
-        // Update the UI state only for the successful tabs.
         successfulCommits.forEach(committedFile => {
             const tab = State.tabs.find(t => t.uniquePath === committedFile.uniquePath);
             if (tab) {
@@ -269,13 +299,12 @@ async commitAllChanges() {
     Tabs.render();
     UI.hideLoading();
 
-    // Provide a clear and honest summary of the outcome.
     if (failedCommits.length === 0 && successfulCommits.length > 0) {
         UI.showToast("All changes successfully committed!", "success");
-    } else if (successfulCommits.length > 0 && failedCommits.length > 0) {
+    } else if (successfulCommits.length > 0) {
         UI.showToast(`Committed ${successfulCommits.length} of ${uncommittedFiles.length} files. See console for errors.`, "warning", 8000);
-    } else if (failedCommits.length > 0 && successfulCommits.length === 0) {
-        UI.showToast(`All commits failed. Check your connection or permissions.`, "error", 8000);
+    } else if (failedCommits.length > 0) {
+        UI.showToast(`All commits failed. Check connection or permissions.`, "error", 8000);
     }
 },
 
