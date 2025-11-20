@@ -17,7 +17,10 @@ async function initializeParser() {
         if (!window.MerkavaParserPromise) {
             throw new Error("The parser script loaded, but did not create the global 'MerkavaParserPromise'.");
         }
-        MerkavaParser = await window.MerkavaParserPromise;
+        MerkavaParser = await Promise.resolve(
+        window.MerkavaParserPromise
+        
+        )
         if (typeof MerkavaParser !== 'function') {
             throw new Error("The promise did not resolve to a function.");
         }
