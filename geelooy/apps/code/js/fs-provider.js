@@ -218,40 +218,32 @@ IndexedDB: {
      */
     _openDb: function(dbName, version, onUpgradeNeeded) {
         return new Promise((resolve, reject) => {
-            // Safety Check 1: Ensure the API exists.
             if (!window.indexedDB) {
                 return reject(new Error("IndexedDB is not supported by this browser or is disabled."));
             }
 
-            // This is the final safeguard against a non-responsive API.
             const timeoutId = setTimeout(() => {
-                reject(new Error(`Database open request for '${dbName}' timed out after 7 seconds. The browser's storage API may be unresponsive.`));
-            }, 7000);
+                reject(new Error(`Database open request for '${dbName}' timed out after 5 seconds. The browser's storage API may be corrupted or unresponsive.`));
+            }, 5000);
 
             try {
                 const request = indexedDB.open(dbName, version);
-
                 const cleanup = () => clearTimeout(timeoutId);
 
                 request.onblocked = () => {
                     cleanup();
                     reject(new Error(`Database connection is blocked. Please close other tabs with this app.`));
                 };
-
                 request.onupgradeneeded = onUpgradeNeeded;
-
                 request.onsuccess = e => {
                     cleanup();
                     resolve(e.target.result);
                 };
-
                 request.onerror = e => {
                     cleanup();
                     reject(e.target.error);
                 };
-
             } catch (e) {
-                // Safety Check 2: Catch synchronous errors from the .open() call itself.
                 clearTimeout(timeoutId);
                 reject(e);
             }
@@ -295,6 +287,37 @@ IndexedDB: {
     init: async function() {
         await Promise.all([this._initMainDB(), this._initGitDB()]);
     },
+
+    /**
+     * @public
+     * @description Deletes all application databases. Used for self-healing.
+     */
+    deleteDatabases: function() {
+        return new Promise((resolve, reject) => {
+            console.warn("Deleting all application databases...");
+            State.db?.close();
+            State.gitDb?.close();
+            State.db = null;
+            State.gitDb = null;
+
+            const mainDbDelete = indexedDB.deleteDatabase(this.DB_NAME);
+            const gitDbDelete = indexedDB.deleteDatabase(this.GIT_DB_NAME);
+            let mainDone = false, gitDone = false;
+
+            const checkDone = () => {
+                if (mainDone && gitDone) {
+                    console.log("All databases deleted successfully.");
+                    resolve();
+                }
+            };
+            mainDbDelete.onsuccess = () => { mainDone = true; checkDone(); };
+            gitDbDelete.onsuccess = () => { gitDone = true; checkDone(); };
+            mainDbDelete.onerror = e => reject(e);
+            gitDbDelete.onerror = e => reject(e);
+        });
+    },
+
+    
 
     // --- All other methods remain exactly the same. ---
     list: async function({ path }) {
