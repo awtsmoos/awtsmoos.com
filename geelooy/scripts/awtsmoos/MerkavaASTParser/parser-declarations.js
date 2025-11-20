@@ -4,8 +4,7 @@
   const { TOKEN, PRECEDENCE, PRECEDENCES } = window.MerkavahConstants;
     const proto = MerkavahParser.prototype;
 (function(proto) {
-var times=0
-var max=300
+
 	proto.registerDeclarationParsers = function() { /* No registration needed */ };
 
 	// B"H 
@@ -66,17 +65,7 @@ proto._parseDeclaration = function() {
 };
 
 
-	proto._parseBindingPattern = function() {
-		
-		
-		if (this._currTokenIs(TOKEN.LBRACE)) return this._parseObjectPattern();
-		if (this._currTokenIs(TOKEN.LBRACKET)) return this._parseArrayPattern();
-		if (!this._currTokenIs(TOKEN.IDENT)) {
-			this._error("Expected an identifier, object pattern, or array pattern for binding.");
-			return null;
-		}
-		const s = this._startNode();
-		const identNode = { type: 'Identifier', name: this.currToken.literal };
+	
         this._advance();
 		return this._finishNode(identNode, s);
 	};
@@ -190,41 +179,34 @@ proto._parseArrayPattern = function() {
     return this._finishNode({ type: 'ArrayPattern', elements }, s);
 };
 
-	// In parser-declarations.js
+	
 // B"H
 // 
 
-proto._parseVariableDeclaration = function(inForHead = false) { // Add inForHead parameter
-    
+proto._parseVariableDeclaration = function(inForHead = false) {
+    // B"H - The pure vessel, stripped of guards and limits.
     const s = this._startNode();
     const kind = this.currToken.literal;
     this._advance();
 
     const declarations = [];
-    let guard = 0; 
 
     do {
-        if (guard++ > 5000) { 
-            console.error("PARSER HALTED: Infinite loop detected in _parseVariableDeclaration. Stuck on token:", this.currToken);
-            throw new Error("Infinite loop in _parseVariableDeclaration");
-        }
         if (declarations.length > 0) {
             this._expect(TOKEN.COMMA);
         }
 
-        // --- Pass the context flag down to the declarator ---
         const decl = this._parseVariableDeclarator(kind, inForHead);
         if (decl) {
             declarations.push(decl);
         } else {
-            console.trace("what happened")
-            throw "broke "
+            // If we fail to parse a declarator, we must report it and stop trying to parse this statement,
+            // but we should NOT throw a string that silently halts the entire parser.
+            this._error("Expected valid variable declarator.");
             break;
         }
     } while (this._currTokenIs(TOKEN.COMMA));
     
-    // --- THE TIKKUN ---
-    // Only look for a closing semicolon if we are in a normal context.
     if (!inForHead) {
         this._consumeSemicolon();
     }
@@ -665,21 +647,26 @@ proto._parseExportDeclaration = function() {
 
 
 proto._parseBindingPattern = function() {
-    
+    // B"H - The Final Tikkun
+    // No counters. No limits. Only logic.
 
-    // --- THIS IS THE TIKKUN ---
-    // Add this new check at the beginning. If we see `...`, we know it's a rest element.
+    // 1. Handle Rest Elements (The Infinite Expansion)
     if (this._currTokenIs(TOKEN.DOTDOTDOT)) {
         return this._parseRestElement();
     }
     
-    // If it's not `...`, the rest of the function proceeds exactly as it did before.
+    // 2. Handle Object Patterns (The Vessel of Structure)
     if (this._currTokenIs(TOKEN.LBRACE)) return this._parseObjectPattern();
+    
+    // 3. Handle Array Patterns (The Vessel of Order)
     if (this._currTokenIs(TOKEN.LBRACKET)) return this._parseArrayPattern();
+    
+    // 4. Handle Identifiers (The Name)
     if (!this._currTokenIs(TOKEN.IDENT)) {
         this._error("Expected an identifier, object pattern, or array pattern for binding.");
         return null;
     }
+    
     const s = this._startNode();
     const identNode = { type: 'Identifier', name: this.currToken.literal };
     this._advance();
