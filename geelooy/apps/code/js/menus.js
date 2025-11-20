@@ -14,6 +14,9 @@ import { processHtmlForPreview, attachWorkerRequestHandler, detachWorkerRequestH
 import { FileOperations } from './file-operations.js';
 import { SelectionManager } from './selection-manager.js';
 import { AwtsmoosHandler } from './awtsmoos-handler.js';
+
+import {GitManager} from "./git-manager.js";
+
 export const Menus = {
 
 
