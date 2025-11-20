@@ -365,14 +365,13 @@ export const App = {
                 return;
             }
             if (type === 'loadFile') {
-                //--- START of added code ---
-
+                
                 // 1. UI Modifications: Collapse sidebar and hide controls.
                 // This is done every time a file is loaded in this mode to ensure the state.
                 const appContainer = document.querySelector('.app-container');
                 const sidebarCollapseBtn = document.getElementById('sidebar-collapse-btn');
                 const resizer = document.getElementById('sidebar-resizer');
-                var tb = document ? .querySelector(".tab-bar");
+                var tb = document?.querySelector(".tab-bar");
                 if (tb) tb.style.display = "none";
                 if (appContainer) appContainer.classList.add('sidebar-collapsed');
                 if (sidebarCollapseBtn) sidebarCollapseBtn.style.display = 'none';
@@ -382,11 +381,9 @@ export const App = {
 
                 // 2. State Reset: Clear previous state to ensure only the new file is shown.
 
-                // --- END of added code ---
+                
 
-
-                // --- THIS IS THE ORIGINAL, UNTOUCHED, WORKING LOGIC ---
-                const {
+                 const {
                     fileName,
                     content,
                     saveContext
@@ -500,7 +497,6 @@ export const App = {
 
                 appContainer.classList.add('sidebar-collapsed');
 
-                // THIS IS THE CRITICAL FIX:
                 // Forcefully remove the inline style so the CSS `!important` rule can take over.
                 appContainer.style.gridTemplateColumns = '';
             }
