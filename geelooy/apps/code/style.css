@@ -1127,3 +1127,13 @@ details summary::-webkit-details-marker { display: none; }
     border-color: var(--color-accent-danger);
     box-shadow: 0 0 10px var(--color-accent-danger);
 }
+
+/*B"H*/
+/* --- Uncommitted Changes Indicator --- */
+/* A tab with this class has been saved locally to IndexedDB but not yet pushed to GitHub. */
+.tab.uncommitted .tab-name::after { 
+    content: ' ●'; /* A solid circle character */
+    color: var(--neon-lime); /* A vibrant green, distinct from the 'dirty' magenta */
+    font-size: 0.9em; 
+    /* This will display next to the dirty indicator if a file is both dirty and uncommitted */
+}
