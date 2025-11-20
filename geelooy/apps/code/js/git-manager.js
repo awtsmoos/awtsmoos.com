@@ -666,101 +666,71 @@ async _clearUncommittedState(workspaceId, changeSet) {
 
 
 
-    /**
-     * The new, intelligent diff function that compares content SHAs. This function now
-     * correctly handles both direct GitHub workspaces and local clones.
-     */
-    async calculateDiff(gitContextItem, gitInfo) {
-        const changeSet = {
-            creations: [],
-            updates: [],
-            deletions: []
-        };
-        const remoteFileMap = new Map(gitInfo.remoteTree.map(f => [f.path, f]));
-        const workspaceId = gitContextItem.workspaceId || gitContextItem.id;
+    /*B"H*/
+/**
+ * The new, enlightened diff function. It not only compares the Inscribed state
+ * (saved files) against the Sanctified (remote), but it now also perceives the
+ * Ephemeral state by identifying any unsaved (`isDirty`) tabs that belong to
+ * the repository, returning them as a distinct category of change.
+ * @param {object} gitContextItem - The folder or workspace being operated on.
+ * @param {object} gitInfo - The git metadata for the context item.
+ * @returns {Promise<object>} A change set object containing creations, updates, deletions, and now, dirtyFiles.
+ */
+async calculateDiff(gitContextItem, gitInfo) {
+    const changeSet = {
+        creations: [],
+        updates: [],
+deletions: [],
+        dirtyFiles: [] // The new perception of the Ephemeral.
+    };
+    const remoteFileMap = new Map((gitInfo.remoteTree || []).map(f => [f.path, f]));
+    const workspaceId = gitContextItem.workspaceId || gitContextItem.id;
 
-        // Get all uncommitted changes, which represent the current local state for this context
-        const uncommittedChanges = await FileSystemProvider.IndexedDB.listUncommittedForWorkspace(workspaceId);
-        const uncommittedMap = new Map(uncommittedChanges.map(c => [c.item.path, c]));
-
-        // Process creations and updates from the uncommitted changes
-        for (const change of uncommittedChanges) {
-            const {
-                path
-            } = change.item;
-            const remoteFile = remoteFileMap.get(path);
-            if (!remoteFile) {
-                changeSet.creations.push({
-                    path,
-                    content: change.content
-                });
-            } else {
-                // For direct GitHub workspaces, any uncommitted change is an update.
-                // For local clones, we would ideally re-calculate SHA, but for simplicity
-                // and consistency, we'll trust the uncommitted store.
-                changeSet.updates.push({
-                    path,
-                    content: change.content
-                });
+    // --- PERCEIVE THE EPHEMERAL ---
+    // Find all unsaved tabs within this Git context.
+    State.tabs.forEach(tab => {
+        if (tab.isDirty && (tab.item.workspaceId === workspaceId)) {
+            // Ensure the tab's item path is relative to the git root for clones.
+            let relativePath = tab.item.path;
+            if (gitContextItem.path !== '/') {
+                 relativePath = tab.item.path.startsWith(gitContextItem.path + '/') 
+                    ? tab.item.path.substring(gitContextItem.path.length + 1)
+                    : null;
+            }
+            if (relativePath) {
+                changeSet.dirtyFiles.push({ ...tab.item, path: relativePath });
             }
         }
+    });
 
-
-        // For local clones, we still need to check for deletions and unchanged files.
-        if (gitContextItem.type !== 'github') {
-            const localFiles = await FileSystemProvider.listAllFiles(gitContextItem);
-            const basePath = gitContextItem.path;
-
-            for (const localFile of localFiles) {
-                const relativePath = localFile.path.startsWith(basePath + '/') ?
-                    localFile.path.substring(basePath.length + 1) :
-                    localFile.path;
-
-                if (relativePath.startsWith('.awtsmoos-repo')) continue;
-
-                // If it's already in our update/create list, skip it.
-                if (uncommittedMap.has(relativePath)) continue;
-
-                const remoteFile = remoteFileMap.get(relativePath);
-                if (remoteFile) {
-                    const rawContent = await FileSystemProvider.read({ ...gitContextItem,
-                        path: localFile.path
-                    });
-                    const stringContent = (rawContent instanceof Blob) ? await rawContent.text() : (rawContent || '');
-                    const localSha = await calculateGitBlobSha(stringContent);
-
-                    if (localSha !== remoteFile.sha) {
-                        changeSet.updates.push({
-                            path: relativePath,
-                            content: stringContent
-                        });
-                    }
-                } else {
-                    // This file exists locally but not remotely and wasn't in uncommitted.
-                    // This can happen if a save fails or state is weird. Add it as a creation.
-                    const rawContent = await FileSystemProvider.read({ ...gitContextItem,
-                        path: localFile.path
-                    });
-                    const stringContent = (rawContent instanceof Blob) ? await rawContent.text() : (rawContent || '');
-                    changeSet.creations.push({
-                        path: relativePath,
-                        content: stringContent
-                    });
-                }
-            }
-
-
-            for (const remoteFilePath of remoteFileMap.keys()) {
-                const fullLocalPath = `${basePath}/${remoteFilePath}`;
-                if (!localFiles.some(f => f.path === fullLocalPath)) {
-                    changeSet.deletions.push({
-                        path: remoteFilePath
-                    });
-                }
-            }
+    // --- PERCEIVE THE INSCRIBED (UNCHANGED FROM BEFORE) ---
+    const uncommittedChanges = await FileSystemProvider.IndexedDB.listUncommittedForWorkspace(workspaceId);
+    for (const change of uncommittedChanges) {
+        const { path } = change.item;
+        if (!remoteFileMap.has(path)) {
+            changeSet.creations.push({ path, content: change.content });
+        } else {
+            changeSet.updates.push({ path, content: change.content });
         }
-
-
-        return changeSet;
     }
+
+    // For local clones, we must also check for deletions.
+    if (gitContextItem.type !== 'github') {
+        const localFiles = await FileSystemProvider.listAllFiles(gitContextItem);
+        const localFilePaths = new Set(localFiles.map(f => {
+            const relativePath = f.path.startsWith(gitContextItem.path + '/') 
+                ? f.path.substring(gitContextItem.path.length + 1) 
+                : f.path;
+            return relativePath;
+        }));
+
+        for (const remoteFilePath of remoteFileMap.keys()) {
+            if (!localFilePaths.has(remoteFilePath)) {
+                changeSet.deletions.push({ path: remoteFilePath });
+            }
+        }
+    }
+
+    return changeSet;
+},
 };

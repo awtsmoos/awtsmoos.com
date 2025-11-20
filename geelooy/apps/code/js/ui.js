@@ -109,84 +109,8 @@ showDialog: ({ title, message, hasInput = false, inputType = 'text', placeholder
         if (textarea) textarea.focus();
         document.addEventListener('keydown', keydownHandler);
     });
-},```
-
----
-
-### File: `geelooy/apps/code/js/git-manager.js`
-
-Here, the `GitManager` is taught its new theology. `calculateDiff` learns to perceive the Ephemeral state (`isDirty`), and `showCommitDialog` becomes the wise counselor, manifesting the correct choices based on this new, deeper understanding of reality.
-
-```javascript
-/*B"H*/
-// ACTION: Replace the 'calculateDiff' method with this one. It now also identifies unsaved changes.
-
-/**
- * The new, enlightened diff function. It not only compares the Inscribed state
- * (saved files) against the Sanctified (remote), but it now also perceives the
- * Ephemeral state by identifying any unsaved (`isDirty`) tabs that belong to
- * the repository, returning them as a distinct category of change.
- * @param {object} gitContextItem - The folder or workspace being operated on.
- * @param {object} gitInfo - The git metadata for the context item.
- * @returns {Promise<object>} A change set object containing creations, updates, deletions, and now, dirtyFiles.
- */
-async calculateDiff(gitContextItem, gitInfo) {
-    const changeSet = {
-        creations: [],
-        updates: [],
-deletions: [],
-        dirtyFiles: [] // The new perception of the Ephemeral.
-    };
-    const remoteFileMap = new Map((gitInfo.remoteTree || []).map(f => [f.path, f]));
-    const workspaceId = gitContextItem.workspaceId || gitContextItem.id;
-
-    // --- PERCEIVE THE EPHEMERAL ---
-    // Find all unsaved tabs within this Git context.
-    State.tabs.forEach(tab => {
-        if (tab.isDirty && (tab.item.workspaceId === workspaceId)) {
-            // Ensure the tab's item path is relative to the git root for clones.
-            let relativePath = tab.item.path;
-            if (gitContextItem.path !== '/') {
-                 relativePath = tab.item.path.startsWith(gitContextItem.path + '/') 
-                    ? tab.item.path.substring(gitContextItem.path.length + 1)
-                    : null;
-            }
-            if (relativePath) {
-                changeSet.dirtyFiles.push({ ...tab.item, path: relativePath });
-            }
-        }
-    });
-
-    // --- PERCEIVE THE INSCRIBED (UNCHANGED FROM BEFORE) ---
-    const uncommittedChanges = await FileSystemProvider.IndexedDB.listUncommittedForWorkspace(workspaceId);
-    for (const change of uncommittedChanges) {
-        const { path } = change.item;
-        if (!remoteFileMap.has(path)) {
-            changeSet.creations.push({ path, content: change.content });
-        } else {
-            changeSet.updates.push({ path, content: change.content });
-        }
-    }
-
-    // For local clones, we must also check for deletions.
-    if (gitContextItem.type !== 'github') {
-        const localFiles = await FileSystemProvider.listAllFiles(gitContextItem);
-        const localFilePaths = new Set(localFiles.map(f => {
-            const relativePath = f.path.startsWith(gitContextItem.path + '/') 
-                ? f.path.substring(gitContextItem.path.length + 1) 
-                : f.path;
-            return relativePath;
-        }));
-
-        for (const remoteFilePath of remoteFileMap.keys()) {
-            if (!localFilePaths.has(remoteFilePath)) {
-                changeSet.deletions.push({ path: remoteFilePath });
-            }
-        }
-    }
-
-    return changeSet;
 },
+
 
 
 
