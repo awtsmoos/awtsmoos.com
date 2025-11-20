@@ -129,13 +129,11 @@ renderWorkspace(ws, container) {
     
 
 /*B"H*/
-// ACTION: Replace the entire 'renderTree' method in js/workspaces.js with this one.
 
 /**
  * Asynchronously renders the file and folder tree. This corrected version ensures
- * that every child item, especially within GitHub workspaces, inherits the complete
- * context (like repoInfo and branch) from its parent workspace, making it a
- * self-sufficient "vessel" capable of performing its own actions.
+ * that every child item is created with its own pure identity, inheriting only the
+ * necessary context from its parent, thus fixing errors in all workspace types.
  * @param {HTMLElement} parentElement - The UL element to render the children into.
  * @param {object} parentItem - The directory item whose children should be rendered.
  * @param {number} depth - The current depth in the tree for styling.
@@ -155,17 +153,21 @@ async renderTree(parentElement, parentItem, depth) {
         for (const child of children) {
             if (child.name === '.gitkeep') continue;
 
-            const parentWorkspaceId = parentItem.workspaceId ?? parentItem.id;
-            // THIS IS THE CRITICAL FIX: We find the full workspace object from the state.
-            const workspace = State.workspaces.find(ws => ws.id === parentWorkspaceId);
-            if (!workspace) {
-                console.error("Catastrophic error: Could not find parent workspace for item:", child);
-                continue;
-            }
-            
-            // By spreading the full 'workspace' object first, we ensure that vital properties
-            // like 'repoInfo', 'branch', and 'readOnly' are passed down to every single child.
-            const fullChildItem = { ...workspace, ...child, workspaceId: workspace.id };
+            // THIS IS THE CRITICAL FIX: We no longer spread the entire workspace.
+            // We build the child's essence deliberately from a few pure sources.
+            const fullChildItem = {
+                // Core identity from the filesystem list call
+                name: child.name,
+                kind: child.kind,
+                path: child.path,
+                sha: child.sha, // Will be undefined for non-GitHub, which is correct
+                // Inherited context from its parent item
+                workspaceId: parentItem.workspaceId,
+                type: parentItem.type,
+                repoInfo: parentItem.repoInfo,
+                branch: parentItem.branch,
+                readOnly: parentItem.readOnly
+            };
             const uniquePath = getItemUniquePath(fullChildItem);
 
             const gitInfo = child.kind === 'directory' ? await GitMetaProvider.getGitInfoForFolder(fullChildItem) : null;
@@ -234,11 +236,34 @@ async renderTree(parentElement, parentItem, depth) {
         parentElement.innerHTML = `<li class="tree-item" style="color: var(--color-accent-danger); --depth:${depth};">Error: ${e.message}</li>`;
     }
 },
-    
 
 
     
+/*B"H*/
 
+/**
+ * Removes a workspace and all its associated tabs from the application state.
+ * This is the act of banishment, of returning a realm's portal to the void.
+ * @param {number} workspaceId - The ID of the workspace to remove.
+ */
+async remove(workspaceId) {
+    UI.showLoading('Removing workspace...');
+    
+    // Close all tabs that belong to the departing workspace.
+    const tabsToClose = State.tabs.filter(t => t.item.workspaceId === workspaceId);
+    for (const tab of tabsToClose) {
+        // The 'true' flag forces closure without prompting for saves.
+        await Tabs.close(tab.id, true);
+    }
+    
+    // Filter the workspace out of existence.
+    State.workspaces = State.workspaces.filter(ws => ws.id !== workspaceId);
+
+    App.saveSession(); // Persist this new state of being.
+    this.render();     // Re-draw the world without the banished realm.
+    
+    UI.hideLoading();
+},
 
     
     async refreshNode(item) {
