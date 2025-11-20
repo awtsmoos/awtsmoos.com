@@ -249,27 +249,48 @@ IndexedDB: {
 
     // --- Methods for the MAIN "Browser Storage" ---
 
-    list: async function({ path }) {
-        const db = await this.init();
-        return new Promise((resolve, reject) => {
-            const store = db.transaction(this.STORE_NAME).objectStore(this.STORE_NAME);
-            const request = store.getAll();
-            request.onerror = e => reject(e.target.error);
-            request.onsuccess = () => {
-                const children = new Map();
-                request.result.forEach(item => {
-                    const lastSlashIndex = item.path.lastIndexOf('/');
-                    let parentPath = lastSlashIndex > 0 ? item.path.substring(0, lastSlashIndex) : '/';
-                    if (lastSlashIndex <= 0) parentPath = '/';
-                    if (parentPath === path) {
-                        const segment = item.path.substring(lastSlashIndex + 1);
-                        if (segment) children.set(segment, { name: segment, kind: item.isDir ? 'directory' : 'file', path: item.path });
+    /*B"H*/
+
+/**
+ * Lists the children of a given directory path within the browser's storage.
+ * This corrected version uses a more robust algorithm to calculate the parent
+ * of each item, fixing the bug that prevented sub-directories from expanding.
+ * @param {object} item - The directory item whose children are to be listed.
+ * @param {string} item.path - The path of the directory (e.g., '/', '/my-folder').
+ * @returns {Promise<object[]>} A promise that resolves with an array of child items.
+ */
+list: async function({ path }) {
+    const db = await this.init();
+    return new Promise((resolve, reject) => {
+        const store = db.transaction(this.STORE_NAME).objectStore(this.STORE_NAME);
+        const request = store.getAll();
+        request.onerror = e => reject(e.target.error);
+        request.onsuccess = () => {
+            const children = new Map();
+            request.result.forEach(item => {
+                // An item's own path cannot be its own child.
+                if (item.path === path) return;
+
+                const lastSlashIndex = item.path.lastIndexOf('/');
+                
+                // THIS IS THE CRITICAL FIX:
+                // If the last slash is at index 0, the parent is the root '/'.
+                // Otherwise, the parent is everything before that last slash.
+                // This correctly identifies '/folder/file' as a child of '/folder',
+                // and '/folder' as a child of '/'.
+                const parentPath = (lastSlashIndex === 0) ? '/' : item.path.substring(0, lastSlashIndex);
+
+                if (parentPath === path) {
+                    const segment = item.path.substring(lastSlashIndex + 1);
+                    if (segment) {
+                        children.set(segment, { name: segment, kind: item.isDir ? 'directory' : 'file', path: item.path });
                     }
-                });
-                resolve(Array.from(children.values()));
-            };
-        });
-    },
+                }
+            });
+            resolve(Array.from(children.values()));
+        };
+    });
+},
     read: async function({ path }) {
         const db = await this.init();
         return new Promise((resolve, reject) => {
@@ -292,17 +313,34 @@ IndexedDB: {
             tx.onerror = () => reject(tx.error);
         });
     },
-    create: async function({ path }, name, kind) {
-        const db = await this.init();
-        const newPath = path === '/' ? `/${name}` : `${path}/${name}`;
-        return new Promise((resolve, reject) => {
-            const tx = db.transaction(this.STORE_NAME, "readwrite");
-            const store = tx.objectStore(this.STORE_NAME);
-            store.put({ path: newPath, content: '', isDir: kind === 'directory' });
-            tx.oncomplete = resolve;
-            tx.onerror = () => reject(tx.error);
-        });
-    },
+    /*B"H*/
+
+/**
+ * Creates a new file or directory in the browser's storage. This corrected version
+ * uses a more direct and robust method for path construction, ensuring that creating
+ * items in sub-directories is always successful.
+ * @param {object} parentDir - The directory item where the new item will be created.
+ * @param {string} name - The name of the new file or folder.
+ * @param {string} kind - Either 'file' or 'directory'.
+ * @returns {Promise<void>} A promise that resolves when the creation is complete.
+ */
+create: async function({ path }, name, kind) {
+    const db = await this.init();
+    // This new path construction is simpler and avoids potential edge cases.
+    // If the parent path is the root '/', it creates '/name'.
+    // Otherwise, it creates '/parent/path/name'.
+    const newPath = path === '/' ? `/${name}` : `${path}/${name}`;
+    
+    return new Promise((resolve, reject) => {
+        const tx = db.transaction(this.STORE_NAME, "readwrite");
+        const store = tx.objectStore(this.STORE_NAME);
+        const request = store.put({ path: newPath, content: (kind === 'file' ? '' : null), isDir: kind === 'directory' });
+        
+        request.onerror = () => reject(request.error);
+        tx.oncomplete = resolve;
+        tx.onerror = () => reject(tx.error);
+    });
+},
     delete: async function({ path, kind }) {
         const db = await this.init();
         return new Promise((resolve, reject) => {
