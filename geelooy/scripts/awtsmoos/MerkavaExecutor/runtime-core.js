@@ -156,6 +156,54 @@ class MerkavaExecutor {
         }
     }
     
+    _createCallable(n, c) {
+        const executor = this;
+        
+        // This is the core logic that will be shared by both sync and async functions.
+        const functionBodyExecutor = async (thisContext, args) => {
+            const funcScope = executor._createScope(this, c.scope, {}, thisContext);
+            const funcContext = { ...c, scope: funcScope };
+
+            for (let i = 0; i < n.params.length; i++) {
+                await executor._assignPattern(n.params[i], args[i], funcContext);
+            }
+
+            try {
+                // The body of any function might contain async code, so we always await it.
+                return await executor._executeNode(n.body, funcContext);
+            } catch (e) {
+                if (e.type === 'Return') return e.value;
+                throw e;
+            }
+        };
+
+        let callable;
+        // Check the `async` flag on the AST node to decide what kind of function to create.
+        if (n.async) {
+            // Create a true, native async function.
+            callable = async function(...args) {
+                return await functionBodyExecutor(this, args);
+            };
+        } else {
+            // Create a regular, synchronous function. This is CRITICAL for constructors.
+            callable = function(...args) {
+                // A synchronous function cannot `await`, so it returns the promise from the body executor.
+                return functionBodyExecutor(this, args);
+            };
+        }
+
+        // Attach metadata needed for class construction and naming.
+        if (n.id && n.id.name) {
+            Object.defineProperty(callable, 'name', { value: n.id.name, configurable: true });
+        }
+        if (!callable.prototype) {
+            callable.prototype = {};
+        }
+
+        return callable;
+    },
+    
+    
     // --- The Complete AST Node Executor Map ---
     nodeExecutors = {
         // ### CORE & STATEMENTS ###
@@ -576,67 +624,17 @@ class MerkavaExecutor {
         // ### LITERAL-LIKE EXPRESSIONS ###
         
         
-        FunctionExpression: async function(n, c) {
-            const executor = this;
-
-            // The callable is now a native `async function`.
-            // This is the most critical change. It ensures that JS engine's
-            // promise-handling for try/catch/finally works correctly.
-            const callable = async function(...args) {
-                // `this` is correctly captured from the call site (.apply, .call).
-                const thisContext = this; 
-                const funcScope = executor._createScope(this, c.scope, {}, thisContext);
-                const funcContext = { ...c, scope: funcScope };
-
-                // Assign parameters to the new scope.
-                for (let i = 0; i < n.params.length; i++) {
-                    await executor._assignPattern(n.params[i], args[i], funcContext);
-                }
-                
-                // Execute the function body, handling the 'Return' signal correctly.
-                try {
-                    return await executor._executeNode(n.body, funcContext);
-                } catch (e) {
-                    if (e.type === 'Return') {
-                        return e.value;
-                    }
-                    // Re-throw other errors or signals.
-                    throw e;
-                }
-            };
-
-            // If the function had a name (e.g., function myFunc() {}), assign it.
-            if (n.id && n.id.name) {
-                Object.defineProperty(callable, 'name', { value: n.id.name, configurable: true });
-            }
-
-            // This is crucial for the `new` operator. An async function doesn't
-            // have a `.prototype` by default, but we need one for classes.
-            if (!callable.prototype) {
-                callable.prototype = {};
-            }
-            
-            return callable;
-        },
         
-        ArrowFunctionExpression: async function(n, c) {
-            const executor = this;
-            return async function(...args) {
-                const thisContext = c.scope.thisBinding; // Lexical 'this'
-                const funcScope = executor._createScope(this, c.scope, {}, thisContext);
-                const funcContext = { ...c, scope: funcScope };
-                for (let i = 0; i < n.params.length; i++) {
-                    await executor._assignPattern(n.params[i], args[i], funcContext);
-                }
-                try {
-                    if (n.body.type !== 'BlockStatement') return await executor._executeNode(n.body, funcContext);
-                    return await executor._executeNode(n.body, funcContext);
-                } catch (e) {
-                    if (e.type === 'Return') return e.value;
-                    throw e;
-                }
-            };
-        },
+FunctionExpression: async function(n, c) {
+    return this._createCallable(n, c);
+},
+        
+        // --- REPLACE THIS ENTIRE METHOD ---
+ArrowFunctionExpression: async function(n, c) {
+    // Arrow functions have a lexical `this`, so we create a temporary context.
+    const arrowContext = { ...c, scope: this._createScope(this, c.scope, {}, c.scope.thisBinding) };
+    return this._createCallable(n, arrowContext);
+},
         ArrayExpression: async function(n, c) {
             const arr = [];
             for(const element of n.elements) {
