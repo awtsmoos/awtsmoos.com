@@ -14,7 +14,7 @@ async function initializeParser() {
     try {
         // Dynamically import the parser-core.js from its existing location.
         // This path assumes `geelooy` and `merkava-beautifier` are sibling folders.
-        const parserModule = await import('../geelooy/scripts/awtsmoos/MerkavaASTParser/parser-core.js');
+        const parserModule = await import('/scripts/awtsmoos/MerkavaASTParser/parser-core.js');
         
         // The parser-core.js returns a promise that resolves to the class itself.
         MerkavaParser = await parserModule.default;
