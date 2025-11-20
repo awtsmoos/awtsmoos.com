@@ -58,13 +58,15 @@ export const Workspaces = {
     
 
 /*B"H*/
-// ACTION: Replace the 'renderWorkspace' method in js/workspaces.js.
+// ACTION: Please replace the ENTIRE 'renderWorkspace' method in your 'js/workspaces.js' file with this one.
+// This is the root of all the reported UI bugs, and this version contains the definitive fix.
 
 /**
- * Renders the root of a single workspace. This is the definitive fix. It creates a
- * single, consistent 'rootItem' object and uses it for all operations (click handling,
- * context menus, and passing to its children), fixing the bug where workspaces
- * would not collapse after being expanded.
+ * Renders the root of a single workspace. This is the definitive, corrected version.
+ * Its click handler NO LONGER MANIPULATES THE DOM DIRECTLY. Instead, it purely
+ * updates the application's central State, and then commands a complete re-render.
+ * This state-driven approach resolves all collapsing, removal, and duplication bugs
+ * by creating a single, predictable source of truth for the UI.
  * @param {object} ws - The raw workspace object from the state.
  * @param {HTMLElement} container - The parent element to append to.
  */
@@ -72,8 +74,6 @@ renderWorkspace(ws, container) {
     const wsRoot = document.createElement('div');
     wsRoot.className = 'workspace-root';
 
-    // This is the definitive 'root' directory item for this workspace.
-    // It consistently has a path and a workspaceId.
     const rootItem = { ...ws, path: '/', workspaceId: ws.id, kind: 'directory' };
     const uniquePath = getItemUniquePath(rootItem);
     const isExpanded = State.expandedFolders.has(uniquePath);
@@ -101,25 +101,21 @@ renderWorkspace(ws, container) {
     container.appendChild(wsRoot);
     const headerTitle = wsRoot.querySelector('.workspace-header-title');
 
-    // This click handler now uses the consistent 'uniquePath' from 'rootItem'.
+    // THIS IS THE HEART OF THE FIX.
     headerTitle.onclick = () => {
+        // The only responsibility of the click is to update the state.
         if (State.expandedFolders.has(uniquePath)) {
             State.expandedFolders.delete(uniquePath);
-            wsRoot.classList.remove('expanded');
-            wsRoot.querySelector('ul')?.remove();
         } else {
             State.expandedFolders.add(uniquePath);
-            wsRoot.classList.add('expanded');
-            const tree = document.createElement('ul');
-            tree.className = 'workspace-tree';
-            wsRoot.appendChild(tree);
-            // We pass the complete and correct rootItem to its children.
-            this.renderTree(tree, rootItem, 1);
         }
-        App.saveSession();
+        App.saveSession(); // We save the new state of what should be expanded.
+
+        // We then re-render the entire UI from the new, correct state.
+        // This eliminates all conflicts and paradoxes.
+        this.render(); 
     };
 
-    // All other handlers also use the consistent 'rootItem'.
     wsRoot.querySelector('.workspace-header').oncontextmenu = (e) => Menus.show(e, rootItem);
     const gitBtn = wsRoot.querySelector('.git-actions-btn');
     if (gitBtn) {
