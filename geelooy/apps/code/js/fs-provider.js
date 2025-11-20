@@ -1,15 +1,13 @@
-// B"H 
+/*B"H*/
 // FILE: js/fs-provider.js
 
 import { State } from './state.js';
 import { MimeUtil } from './mime-util.js';
 import { UI } from './ui.js';
 
-
-
-
 /**
- * FileSystemProvider: An abstraction layer for different file systems.
+ * FileSystemProvider: A divine chariot, an abstraction layer that traverses the disparate realms 
+ * of file systems—from the local machine's ephemeral memory to the persistent cloud of GitHub.
  */
 export const FileSystemProvider = {
     async list(item) {
@@ -25,14 +23,11 @@ export const FileSystemProvider = {
         } catch (e) { console.error(`[FS LIST FAILED]`, e); throw e; }
     },
     
-    // B"H
-
     async listAllFiles(item) {
         try {
             switch (item.type) {
                 case 'local': return this.Local.listAllFiles(item);
                 case 'indexeddb': return this.IndexedDB.listAllFiles(item);
-                // GitHub doesn't need this as we use the recursive tree API directly.
                 default: throw new Error(`listAllFiles is not supported for type '${item.type}'`);
             }
         } catch (e) { console.error(`[FS LIST ALL FAILED]`, e); throw e; }
@@ -87,58 +82,37 @@ export const FileSystemProvider = {
         } catch (e) { console.error(`[FS DELETE FAILED]`, e); throw e; }
     },
 
-    // B"H
-
     Local: {
-        /**
-         * THIS IS THE NEW, ROBUST getHandle. This is the heart of the fix.
-         * It correctly decodes paths and navigates step-by-step. The previous
-         * versions likely had a subtle bug here causing the "not found" error.
-         */
-        
+        async getHandle(rootHandle, path, { kind = 'directory', create = false } = {}) {
+            let currentHandle = rootHandle;
+            const decodedPath = decodeURIComponent(path).replace(/^\//, '');
 
-async getHandle(rootHandle, path, { kind = 'directory', create = false } = {}) {
-    let currentHandle = rootHandle;
-    // The API works with paths relative to the root, so we decode and remove any leading slash.
-    const decodedPath = decodeURIComponent(path).replace(/^\//, '');
+            if (!decodedPath) {
+                return rootHandle;
+            }
 
-    if (!decodedPath) {
-        return rootHandle; // Return the root if the path is empty.
-    }
+            const parts = decodedPath.split('/');
+            
+            for (let i = 0; i < parts.length; i++) {
+                const part = parts[i];
+                if (!part) continue;
 
-    const parts = decodedPath.split('/');
-    
-    // Loop through each part of the path.
-    for (let i = 0; i < parts.length; i++) {
-        const part = parts[i];
-        if (!part) continue; // Skip empty parts from accidental double slashes.
+                const isLastPart = i === parts.length - 1;
 
-        const isLastPart = i === parts.length - 1;
-
-        if (isLastPart && kind === 'file') {
-            // For the final part, if it's a file, get the file handle.
-            // The 'create' flag here will create the file if it doesn't exist.
-            currentHandle = await currentHandle.getFileHandle(part, { create });
-        } else {
-            // For any directory part, get the directory handle.
-            // The 'create' flag here ensures intermediate directories are created on demand.
-            currentHandle = await currentHandle.getDirectoryHandle(part, { create });
-        }
-    }
-    return currentHandle;
-},
-
-        /**
-         * THIS IS THE NEW, ROBUST list.
-         * It guarantees that EVERY child object it returns contains the
-         * original root 'handle', which is the key to all future operations.
-         */
+                if (isLastPart && kind === 'file') {
+                    currentHandle = await currentHandle.getFileHandle(part, { create });
+                } else {
+                    currentHandle = await currentHandle.getDirectoryHandle(part, { create });
+                }
+            }
+            return currentHandle;
+        },
         async list({ handle, path }) {
             const dirHandle = await this.getHandle(handle, path);
             const entries = [];
             for await (const entry of dirHandle.values()) {
                 entries.push({ 
-                    handle: handle, // The critical fix: Pass the master key to every child.
+                    handle: handle,
                     name: entry.name, 
                     kind: entry.kind, 
                     path: `${path === '/' ? '' : path}/${entry.name}`
@@ -146,13 +120,8 @@ async getHandle(rootHandle, path, { kind = 'directory', create = false } = {}) {
             }
             return entries;
         },
-        
-        
-        // B"H
-
         async listAllFiles({ handle, path }) {
             const allFiles = [];
-            // Recursive helper function to traverse directories
             async function traverse(dirHandle, currentPath) {
                 for await (const entry of dirHandle.values()) {
                     const newPath = `${currentPath}/${entry.name}`;
@@ -171,115 +140,62 @@ async getHandle(rootHandle, path, { kind = 'directory', create = false } = {}) {
             await traverse(rootHandle, path === '/' ? '' : path);
             return allFiles;
         },
-        
-        
-
-        /**
-         * The 'read' method. It will now work because getHandle is correct.
-         */
-      
-
-        // REPLACE your existing 'read' function with this one.
         async read({ handle, path }) {
-            // --- THE FIX IS HERE ---
-            // The Local File System API expects paths relative to the root handle.
-            // Our app uses absolute paths like '/folder/file.js'.
-            // This line safely removes the leading '/' if it exists, making both formats work.
             const relativePath = path.startsWith('/') ? path.substring(1) : path;
-            // --- END FIX ---
-            
-            // The rest of the function now uses the corrected relativePath.
             const fileHandle = await this.getHandle(handle, relativePath, { kind: 'file' });
             return await fileHandle.getFile(); 
         },
-        
-        /**
-         * The 'write' method. It will now work because getHandle is correct.
-         */
-
-async write(item, content) {
-    const workspace = State.workspaces.find(ws => ws.id === item.workspaceId);
-    if (!workspace) {
-        throw new Error(`Critical error: Could not find the parent workspace for this file.`);
-    }
-
-    // A small, self-contained function to perform the save.
-    const performSaveOperation = async (handleToUse) => {
-        const fileHandle = await this.getHandle(handleToUse, item.path, { kind: 'file', create: true });
-        const writable = await fileHandle.createWritable();
-        await writable.write({ type: 'write', data: content });
-        await writable.close();
-    };
-
-    try {
-        // --- ATTEMPT 1: Try to save with the current handle. ---
-        await performSaveOperation(workspace.handle);
-
-    } catch (e) {
-        // --- FAILURE DETECTED: Check if it's our specific recoverable error. ---
-        if (e.message.includes('state had changed')) {
-            console.warn(`STALE HANDLE DETECTED for workspace "${workspace.name}". Initiating recovery.`);
-            UI.showToast("Workspace connection stale. Please re-select the folder to save.", "info", 6000);
-
-            try {
-                // 1. Get a BRAND NEW handle from the user.
-                const newHandle = await window.showDirectoryPicker();
-
-                // 2. Verify the user selected the correct folder.
-                if (newHandle.name !== workspace.handle.name) {
-                    throw new Error(`The selected folder "${newHandle.name}" does not match the workspace "${workspace.handle.name}".`);
-                }
-
-                // 3. Update the central state with the new, valid handle.
-                workspace.handle = newHandle;
-                
-                // 4. THE DEFINITIVE FIX: Yield to the browser's event loop.
-                // We wait for an imperceptible 50 milliseconds. This gives the browser's
-                // internal file system state manager enough time to fully process the
-                // new handle we just received, preventing the race condition.
-                await new Promise(resolve => setTimeout(resolve, 50));
-
-                UI.showToast("Folder re-connected. Retrying save...", "success");
-
-                // 5. --- ATTEMPT 2: Retry the save. It will now use the settled, new handle. ---
-                await performSaveOperation(workspace.handle);
-
-            } catch (recoveryError) {
-                // This block catches failures during the recovery process itself.
-                let finalMessage;
-                if (recoveryError.name === 'AbortError') {
-                    finalMessage = "Save was cancelled during folder re-selection.";
-                    UI.showToast(finalMessage, "warning");
-                } else {
-                    finalMessage = `The save failed even after recovery. Please try the save operation again.`;
-                    console.error("CRITICAL: The recovery attempt failed.", recoveryError);
-                    UI.showToast(finalMessage, "error", 10000);
-                }
-                // Throw a new, clear error to the main UI.
-                throw new Error(finalMessage);
+        async write(item, content) {
+            const workspace = State.workspaces.find(ws => ws.id === item.workspaceId);
+            if (!workspace) {
+                throw new Error(`Critical error: Could not find the parent workspace for this file.`);
             }
-        } else {
-            // If the initial error was something else, throw it immediately.
-            throw e;
-        }
-    }
-},
-
-        /**
-         * The 'create' method. It will now work because getHandle is correct.
-         */
+            const performSaveOperation = async (handleToUse) => {
+                const fileHandle = await this.getHandle(handleToUse, item.path, { kind: 'file', create: true });
+                const writable = await fileHandle.createWritable();
+                await writable.write({ type: 'write', data: content });
+                await writable.close();
+            };
+            try {
+                await performSaveOperation(workspace.handle);
+            } catch (e) {
+                if (e.message.includes('state had changed')) {
+                    console.warn(`STALE HANDLE DETECTED for workspace "${workspace.name}". Initiating recovery.`);
+                    UI.showToast("Workspace connection stale. Please re-select the folder to save.", "info", 6000);
+                    try {
+                        const newHandle = await window.showDirectoryPicker();
+                        if (newHandle.name !== workspace.handle.name) {
+                            throw new Error(`The selected folder "${newHandle.name}" does not match the workspace "${workspace.handle.name}".`);
+                        }
+                        workspace.handle = newHandle;
+                        await new Promise(resolve => setTimeout(resolve, 50));
+                        UI.showToast("Folder re-connected. Retrying save...", "success");
+                        await performSaveOperation(workspace.handle);
+                    } catch (recoveryError) {
+                        let finalMessage;
+                        if (recoveryError.name === 'AbortError') {
+                            finalMessage = "Save was cancelled during folder re-selection.";
+                            UI.showToast(finalMessage, "warning");
+                        } else {
+                            finalMessage = `The save failed even after recovery. Please try the save operation again.`;
+                            console.error("CRITICAL: The recovery attempt failed.", recoveryError);
+                            UI.showToast(finalMessage, "error", 10000);
+                        }
+                        throw new Error(finalMessage);
+                    }
+                } else {
+                    throw e;
+                }
+            }
+        },
         async create({ handle, path }, name, kind) {
             const parentHandle = await this.getHandle(handle, path, { kind: 'directory' });
             if (kind === 'file') {
                 await parentHandle.getFileHandle(name, { create: true });
-            } else { // 'directory'
+            } else {
                 await parentHandle.getDirectoryHandle(name, { create: true });
             }
         },
-        
-        /**
-         * The 'delete' method. It will now work because getHandle is correct.
-         */
         async delete({ handle, path }) {
             const parentPath = path.substring(0, path.lastIndexOf('/')) || '/';
             const name = path.substring(path.lastIndexOf('/') + 1);
@@ -288,45 +204,37 @@ async write(item, content) {
         }
     },
 
-
     IndexedDB: {
         DB_NAME: "VIVID_X_FS_PROFOUND",
         STORE_NAME: "files",
         
-        // B"H ------
-        // Changed all arrow functions to regular 'function()' to correctly scope 'this'.
-        // B"H
-
-init: function() {
-    return new Promise((resolve, reject) => {
-        if (State.db) return resolve(State.db);
-        const request = indexedDB.open(this.DB_NAME, 1); // B"H - 
-        request.onupgradeneeded = e => {
-            const db = e.target.result;
-            if (!db.objectStoreNames.contains(this.STORE_NAME)) {
-                db.createObjectStore(this.STORE_NAME, { keyPath: "path" });
-            }
-            // ------
-            if (!db.objectStoreNames.contains('github_file_changes')) {
-                db.createObjectStore('github_file_changes', { keyPath: "uniquePath" });
-            }
-        };
-        request.onsuccess = e => { State.db = e.target.result; resolve(State.db); };
-        request.onerror = e => { console.error("IndexedDB init failed:", e.target.error); reject(e.target.error); };
-    });
-},
-        // B"H
-	/*
-	
-	*   If an item's path is `'/Wow/all.html'`, it correctly calculates that its parent is `'/Wow'`.
-*   If an item's path is `'/index.html'`, it correctly calculates that its parent is `'/'`.
-*   If an item's path is `'Hey.html'` (an old file with no leading slash), it correctly calculates that its parent is `'/'`.
-
-It then simply checks if the calculated parent path matches the `path` we are trying to list. This is a much more resilient and reliable method that will correctly handle all of your existing files while also working perfectly for all new files and folders you create.
-
-	
-	*/
-	list: async function({ path }) {
+        /**
+         * Awakens the connection to the browser's soul, its persistent memory.
+         * This now ensures two sacred chambers exist: one for the Browser Storage workspace,
+         * and a new one to hold the uncommitted potential of GitHub files.
+         * @returns {Promise<IDBDatabase>} A promise that resolves with the database connection.
+         */
+        init: function() {
+            return new Promise((resolve, reject) => {
+                if (State.db) return resolve(State.db);
+                // The version must be incremented to trigger the 'onupgradeneeded' event.
+                const request = indexedDB.open(this.DB_NAME, 2); 
+                request.onupgradeneeded = e => {
+                    const db = e.target.result;
+                    if (!db.objectStoreNames.contains(this.STORE_NAME)) {
+                        db.createObjectStore(this.STORE_NAME, { keyPath: "path" });
+                    }
+                    // This new chamber holds changes before they are committed to the heavens of GitHub.
+                    if (!db.objectStoreNames.contains('github_file_changes')) {
+                        db.createObjectStore('github_file_changes', { keyPath: "uniquePath" });
+                    }
+                };
+                request.onsuccess = e => { State.db = e.target.result; resolve(State.db); };
+                request.onerror = e => { console.error("IndexedDB init failed:", e.target.error); reject(e.target.error); };
+            });
+        },
+        
+        list: async function({ path }) {
             await this.init();
             return new Promise((resolve, reject) => {
                 const store = State.db.transaction(this.STORE_NAME).objectStore(this.STORE_NAME);
@@ -334,46 +242,27 @@ It then simply checks if the calculated parent path matches the `path` we are tr
                 request.onerror = e => reject(e.target.error);
                 request.onsuccess = () => {
                     const children = new Map();
-
                     request.result.forEach(item => {
-                        // --- NEW BULLETPROOF LOGIC ---
-
-                        // 1. Determine the parent path of the current item from the database.
-                        // This handles both '/folder/file' and 'folder/file' formats.
                         const lastSlashIndex = item.path.lastIndexOf('/');
                         let parentPath = lastSlashIndex > 0 ? item.path.substring(0, lastSlashIndex) : '/';
-                        if (lastSlashIndex === 0) { // This means the path is like '/file.html'
-                            parentPath = '/';
-                        } else if (lastSlashIndex === -1) { // This means the path is like 'file.html'
-                            parentPath = '/'; // A file with no slashes belongs to the root.
-                        }
+                        if (lastSlashIndex === 0) { parentPath = '/'; } 
+                        else if (lastSlashIndex === -1) { parentPath = '/'; }
                         
-                        // 2. We have found a direct child if its calculated parent
-                        //    path is the same as the path we are currently listing.
                         if (parentPath === path) {
                             const segment = item.path.substring(lastSlashIndex + 1);
-                            
                             if (segment && !children.has(segment)) {
                                 children.set(segment, { 
                                     name: segment, 
                                     kind: item.isDir ? 'directory' : 'file', 
-                                    path: item.path // Always use the item's full, original path.
+                                    path: item.path
                                 });
                             }
                         }
-                        // --- END OF NEW LOGIC ---
                     });
-
                     resolve(Array.from(children.values()));
                 };
             });
         },
-
-
-
-
-
-// In the FileSystemProvider.IndexedDB object:
         listAllFiles: async function({ path }) {
             await this.init();
             return new Promise((resolve, reject) => {
@@ -381,7 +270,6 @@ It then simply checks if the calculated parent path matches the `path` we are tr
                 const request = store.getAll();
                 request.onerror = e => reject(e.target.error);
                 request.onsuccess = () => {
-                    // Filter for items within the specific workspace path that are files (not directories).
                     const dirPrefix = path === '/' ? '' : path + '/';
                     const files = request.result.filter(item => 
                         item.path.startsWith(dirPrefix) && item.path !== path && !item.isDir
@@ -390,30 +278,22 @@ It then simply checks if the calculated parent path matches the `path` we are tr
                 };
             });
         },
-        
-        // In: js/fs-provider.js -> FileSystemProvider.IndexedDB
-
-read: async function({ path }) {
-    await this.init();
-    return new Promise((resolve, reject) => {
-        const store = State.db.transaction(this.STORE_NAME).objectStore(this.STORE_NAME);
-        const request = store.get(path);
-
-        request.onerror = e => reject(e.target.error);
-        
-        request.onsuccess = e => {
-            const result = e.target.result;
-            if (result !== undefined) {
-                // Success: The file was found. Resolve with its content.
-                resolve(result.content);
-            } else {
-                // Failure: The file was not in the database. Reject with a clear error.
-                reject(new Error(`File not found in Browser Storage at path: "${path}"`));
-            }
-        };
-    });
-},
-        
+        read: async function({ path }) {
+            await this.init();
+            return new Promise((resolve, reject) => {
+                const store = State.db.transaction(this.STORE_NAME).objectStore(this.STORE_NAME);
+                const request = store.get(path);
+                request.onerror = e => reject(e.target.error);
+                request.onsuccess = e => {
+                    const result = e.target.result;
+                    if (result !== undefined) {
+                        resolve(result.content);
+                    } else {
+                        reject(new Error(`File not found in Browser Storage at path: "${path}"`));
+                    }
+                };
+            });
+        },
         write: async function({ path }, content) {
             await this.init();
             return new Promise((resolve, reject) => {
@@ -429,39 +309,22 @@ read: async function({ path }) {
                 tx.onerror = () => reject(tx.error);
             });
         },
-        // B"H
-// FILE: js/fs-provider.js
-
-// ... inside the FileSystemProvider.IndexedDB object ...
-
-        // REPLACE your existing 'create' function with this one.
         create: async function({ path }, name, kind) {
             await this.init();
-            
-            // THE FIX: Ensure the new path is always correctly formed with a leading slash.
             const newPath = path === '/' ? `/${name}` : `${path}/${name}`;
-            
             return new Promise((resolve, reject) => {
                 const tx = State.db.transaction(this.STORE_NAME, "readwrite");
                 const store = tx.objectStore(this.STORE_NAME);
-                
-                // When creating a file, its content should be an empty string, not undefined.
-                const content = kind === 'directory' ? '' : ''; // Folders also get empty content for consistency
-                
+                const content = kind === 'directory' ? '' : '';
                 store.put({ 
                     path: newPath, 
                     content: content, 
                     isDir: kind === 'directory' 
                 });
-
                 tx.oncomplete = resolve;
                 tx.onerror = () => reject(tx.error);
             });
         },
-        
-
- 
-        
         delete: async function({ path, kind }) {
             await this.init();
             return new Promise((resolve, reject) => {
@@ -477,15 +340,82 @@ read: async function({ path }) {
                 tx.onerror = () => reject(tx.error);
             });
         },
-        // --- FIX ENDS HERE ---
+
+        /**
+         * Scries into the uncommitted changes chamber for a specific file's essence.
+         * @param {string} uniquePath - The unique identifier for the file (`workspaceId::/path/to/file.js`).
+         * @returns {Promise<string>} A promise that resolves with the file content.
+         */
+        readUncommitted: async function(uniquePath) {
+            await this.init();
+            return new Promise((resolve, reject) => {
+                const store = State.db.transaction('github_file_changes').objectStore('github_file_changes');
+                const request = store.get(uniquePath);
+                request.onerror = e => reject(e.target.error);
+                request.onsuccess = e => {
+                    if (e.target.result) {
+                        resolve(e.target.result.content);
+                    } else {
+                        reject(new Error("No uncommitted version found."));
+                    }
+                };
+            });
+        },
+
+        /**
+         * Scribes a file's changed essence into the uncommitted changes chamber.
+         * @param {string} uniquePath - The unique identifier for the file.
+         * @param {string} content - The new content of the file.
+         * @param {object} item - The full file item object for context.
+         * @returns {Promise<void>}
+         */
+        writeUncommitted: async function(uniquePath, content, item) {
+            await this.init();
+            return new Promise((resolve, reject) => {
+                const tx = State.db.transaction('github_file_changes', "readwrite");
+                const store = tx.objectStore('github_file_changes');
+                store.put({ uniquePath, content, item });
+                tx.oncomplete = resolve;
+                tx.onerror = () => reject(tx.error);
+            });
+        },
+        
+        /**
+         * Purges a file's essence from the uncommitted chamber, typically after a successful commit.
+         * @param {string} uniquePath - The unique identifier for the file to purge.
+         * @returns {Promise<void>}
+         */
+        deleteUncommitted: async function(uniquePath) {
+            await this.init();
+            return new Promise((resolve, reject) => {
+                const tx = State.db.transaction('github_file_changes', "readwrite");
+                tx.objectStore('github_file_changes').delete(uniquePath);
+                tx.oncomplete = resolve;
+                tx.onerror = () => reject(tx.error);
+            });
+        },
+
+        /**
+         * Gathers all uncommitted file essences for a given workspace.
+         * @param {number} workspaceId - The ID of the GitHub workspace.
+         * @returns {Promise<Array<object>>} A promise that resolves with an array of uncommitted file objects.
+         */
+        listUncommittedForWorkspace: async function(workspaceId) {
+            await this.init();
+            return new Promise((resolve, reject) => {
+                const store = State.db.transaction('github_file_changes').objectStore('github_file_changes');
+                const request = store.getAll();
+                request.onerror = e => reject(e.target.error);
+                request.onsuccess = () => {
+                    const prefix = `${workspaceId}::`;
+                    const results = request.result.filter(entry => entry.uniquePath.startsWith(prefix));
+                    resolve(results);
+                };
+            });
+        },
     },
-    // B"H
-// FILE: js/fs-provider.js
-
-// ... inside the top-level FileSystemProvider object ...
-
+    
     GitHub: {
-        // --- YOUR ORIGINAL, WORKING METHODS (RESTORED) ---
         api: async (endpoint, options = {}) => {
             if (!State.githubToken) throw new Error("GitHub token not set.");
             const headers = {
@@ -550,63 +480,46 @@ read: async function({ path }) {
                 body: JSON.stringify({ message, content: kind === 'directory' ? '' : this.utf8_to_b64(''), branch })
             });
         },
-        
         async _deletePathRecursively(repoInfo, branch, path) {
-            // 1. Get the list of items inside the folder. This call is correct.
             const contents = await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/contents/${path}?ref=${branch}`);
-    
-            // 2. Process all deletions SEQUENTIALLY to avoid race conditions.
             for (const item of contents) {
                 UI.showLoading(`Deleting: ${item.path}`);
                 if (item.type === 'file') {
-                    // --- THE CRITICAL FIX ---
-                    // The 'item' from the 'contents' API call already contains the 'sha' needed for deletion.
-                    // We do NOT need to make another API call to get the blob content.
                     await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/contents/${item.path}`, {
                         method: 'DELETE',
                         body: JSON.stringify({ 
                             message: `B"H - Delete '${item.name}'`, 
-                            sha: item.sha, // Use the SHA directly from the item
+                            sha: item.sha,
                             branch 
                         })
                     });
-                    // --- END FIX ---
                 } else if (item.type === 'dir') {
-                    // Recurse into the subdirectory.
                     await this._deletePathRecursively(repoInfo, branch, item.path);
                 }
             }
         },
-    
-        
-
-    async delete(item) {
+        async delete(item) {
             const { repoInfo, branch, path, name } = item;
-             
             if (item.kind === 'file') {
                 const message = `B"H - Delete '${name}'`;
-                // For a single file, we do need to get its SHA first.
                 const fileData = await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/contents/${path}?ref=${branch}`);
                 await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/contents/${path}`, {
                     method: 'DELETE',
                     body: JSON.stringify({ message, sha: fileData.sha, branch })
                 });
             } else if (item.kind === 'directory') {
-                // For a directory, we call our efficient recursive helper.
                 await this._deletePathRecursively(repoInfo, branch, path);
             } else {
                 throw new Error(`Unsupported item type for deletion: ${item.kind}`);
             }
         },
-    async getLatestCommitSHA({ repoInfo, branch }) {
+        async getLatestCommitSHA({ repoInfo, branch }) {
             const ref = await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/ref/heads/${branch}`);
             return ref.object.sha;
         },
         async getFullTree({ repoInfo, branch }) {
             const latestCommitSHA = await this.getLatestCommitSHA({ repoInfo, branch });
             const treeData = await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/trees/${latestCommitSHA}?recursive=1`);
-            
-            // THE FIX: Return an object with both the tree and the SHA
             return {
                 sha: latestCommitSHA,
                 tree: treeData.tree.filter(node => node.type === 'blob')
@@ -639,31 +552,19 @@ read: async function({ path }) {
         }
     },
     
-    
-    
-    // In fs-provider.js, add this new provider object
 	PostMessage: {
-	    // We don't need to read, as the content is provided on load.
 	    async read(item) {
-	        console.log("PostMessage Provider: Read called, but content is pre-loaded.");
 	        return item.content || ''; 
 	    },
-	
-	    // This is the crucial part: it sends the save command to the OS.
 	    async write(item, content) {
 	        return new Promise((resolve, reject) => {
-	            console.log("PostMessage Provider: Sending save request to OS.", { item, content });
-	            
-	            // The OS will listen for this specific message type
 	            window.parent.postMessage({
 	                type: 'saveFile',
 	                payload: {
 	                    content: content,
-	                    saveContext: item.saveContext // The OS-specific path info
+	                    saveContext: item.saveContext
 	                }
-	            }, '*'); // Use a specific origin in production
-	
-	            // Listen for a success/error response from the OS
+	            }, '*');
 	            const responseListener = (event) => {
 	                if (event.data.type === 'saveSuccess') {
 	                    window.removeEventListener('message', responseListener);
@@ -676,20 +577,11 @@ read: async function({ path }) {
 	            window.addEventListener('message', responseListener);
 	        });
 	    },
-	
-	    // These operations are not supported in this mode, as the OS handles them.
 	    async list(item) { throw new Error('File listing is not supported in embedded mode.'); },
 	    async create(parentDir, name, kind) { throw new Error('File creation is not supported in embedded mode.'); },
 	    async delete(item) { throw new Error('File deletion is not supported in embedded mode.'); }
 	},
-	
-	
-	
-	
-	
-	    
-	
-	
+
 	
 	OSFolder: {
 	    // Helper function to send a request and wait for a response
