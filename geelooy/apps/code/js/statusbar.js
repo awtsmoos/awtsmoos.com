@@ -1,4 +1,5 @@
 /*B"H*/
+import { State, DOM } from './state.js';
 
 /**
  * StatusBar Module: Controls the bottom status bar, a ribbon of context
