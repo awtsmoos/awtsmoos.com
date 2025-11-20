@@ -232,15 +232,23 @@ showMainMenu(e) {
 },
     
 
-    /**
-     * Hides all menus and cleans up associated state and listeners.
-     */
-    hideAll() {
-        DOM.contextMenu.style.display = 'none';
-        DOM.mainMenu.style.display = 'none';
-        document.querySelectorAll('.context-active').forEach(el => el.classList.remove('context-active'));
-        document.removeEventListener('click', this.handleDocumentClick);
-    },
+    /*B"H*/
+
+/**
+ * Hides all menus and performs a complete cleansing of the temporary context state,
+ * returning the application to a pure and ready state.
+ */
+hideAll() {
+    DOM.contextMenu.style.display = 'none';
+    DOM.mainMenu.style.display = 'none';
+    document.querySelectorAll('.context-active').forEach(el => el.classList.remove('context-active'));
+    document.removeEventListener('click', this.handleDocumentClick);
+    
+    // The cleansing: We now explicitly return the context state to the void,
+    // preventing any stale data from haunting future actions.
+    State.contextTarget = null;
+    State.contextEvent = null;
+},
     
     /**
      * Positions a menu element on the screen, ensuring it doesn't render outside the viewport.
