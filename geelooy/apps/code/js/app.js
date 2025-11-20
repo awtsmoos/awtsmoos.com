@@ -691,33 +691,108 @@ setupEventListeners() {
         Workspaces.add({ name: '🧠 Browser Storage', type: 'indexeddb' });
     },
 
-    async addGithubWorkspace() {
-        if (!State.githubToken) {
-            const token = await UI.showDialog({ title: "GitHub Personal Access Token", message: "Enter a PAT with 'repo' scope:", hasInput: true, inputType: 'password', placeholder: "ghp_...", cancelText: 'Cancel'});
-            if (token) { State.githubToken = token; this.saveSettings(); } else return;
+    /*B"H*/
+
+/**
+ * Handles the entire workflow for adding a GitHub repository, whether it's one
+ * of the user's own (requiring a token) or a public one added by URL.
+ * This function is a crossroads of intent, guiding the user to either their
+ * personal creative realms or the vast, shared library of public code.
+ */
+async addGithubWorkspace() {
+    // A helper function, a whispered incantation to summon a public repo from the ether.
+    const addRepoFromUrl = async (url) => {
+        if (!url) {
+            const result = await UI.showDialog({
+                title: "Add Public GitHub Repo",
+                message: "Enter the full URL of a public repository to open it in read-only mode.",
+                hasInput: true, inputType: 'url', placeholder: "https://github.com/owner/repo",
+                okText: "Add Read-Only", cancelText: 'Cancel'
+            });
+            if (!result) return;
+            url = result;
         }
-        UI.showLoading("Fetching repositories...");
         try {
-            const repos = await FileSystemProvider.GitHub.api('/user/repos?sort=updated&per_page=100');
-            const repoListHTML = repos.map(repo => `<button class="menu-button" data-repo-full-name="${repo.full_name}">${repo.full_name}</button>`).join('');
-            
-            UI.showDialog({ title: 'Select a Repository', contentHTML: `<div style="max-height: 50vh; overflow-y: auto;">${repoListHTML}</div>`, okText: '', cancelText: 'Cancel'});
-            
-            document.getElementById('dialog-content').querySelectorAll('.menu-button').forEach(btn => {
-                btn.onclick = (e) => {
-                    const fullName = btn.dataset.repoFullName;
-                    const [owner, repoName] = fullName.split('/');
-                    const repoData = repos.find(r => r.full_name === fullName);
-                    Workspaces.add({ name: `📦 ${fullName}`, type: 'github', repoInfo: { owner, repo: repoName }, branch: repoData.default_branch });
-                    DOM.genericDialog.classList.remove('visible');
-                };
+            const urlObj = new URL(url);
+            if (urlObj.hostname !== 'github.com') throw new Error('URL must be from github.com');
+            const parts = urlObj.pathname.split('/').filter(p => p);
+            if (parts.length < 2) throw new Error('Invalid repo URL format, a fractured reflection.');
+            const [owner, repo] = parts;
+            UI.showLoading(`Gathering starlight from ${owner}/${repo}...`);
+            const repoData = await FileSystemProvider.GitHub.api(`/repos/${owner}/${repo}`);
+            Workspaces.add({
+                name: `📦 (Public) ${owner}/${repo}`, type: 'github',
+                repoInfo: { owner, repo }, branch: repoData.default_branch, readOnly: true
             });
         } catch (e) {
-            UI.showToast(`Failed to fetch repos: ${e.message}`, 'error');
-            const clearToken = await UI.showDialog({title: "Authentication Error", message: "Your GitHub token may be invalid. Clear the saved token and try again?", okText: "Clear Token", cancelText: "Cancel"});
-            if (clearToken) { State.githubToken = null; this.saveSettings(); UI.showToast("GitHub token cleared.", "info"); }
-        } finally { UI.hideLoading(); }
-    },
+            UI.showToast(`Failed to add repo: ${e.message}`, 'error');
+        } finally {
+            UI.hideLoading();
+        }
+    };
+
+    // If no token is known, we must ask. Does the user wish to unlock their own worlds, or explore others?
+    if (!State.githubToken) {
+        const choice = await UI.showDialog({
+            title: "GitHub Token Required",
+            message: "A Personal Access Token is needed to access your private repositories. You can add a public repository without a token.",
+            okText: "Enter Token", cancelText: "Add Public Repo by URL"
+        });
+        if (choice === true) { // User chose to Enter Token
+            const token = await UI.showDialog({ title: "GitHub Personal Access Token", message: "Enter a PAT with 'repo' scope:", hasInput: true, inputType: 'password', placeholder: "ghp_...", cancelText: 'Cancel'});
+            if (token) {
+                State.githubToken = token;
+                this.saveSettings();
+                this.addGithubWorkspace(); // Recurse, now with the key in hand.
+            }
+        } else if (choice === null) { // User chose to Add Public URL
+            await addRepoFromUrl();
+        }
+        return;
+    }
+
+    // If a token exists, we present a grand vista of both personal and public possibilities.
+    UI.showLoading("Fetching your repositories...");
+    try {
+        const repos = await FileSystemProvider.GitHub.api('/user/repos?sort=updated&per_page=100');
+        const repoListHTML = repos.map(repo => `<button class="menu-button" data-repo-full-name="${repo.full_name}">${repo.full_name}</button>`).join('');
+        
+        const contentHTML = `
+            <div class="github-url-section" style="margin-bottom: 16px;">
+                <p>Add a public repository by URL (read-only):</p>
+                <input type="url" id="github-repo-url-input" placeholder="https://github.com/owner/repo" style="margin-bottom: 8px;">
+                <button id="add-public-repo-btn" class="secondary-btn" style="width:100%;">Add from URL</button>
+            </div>
+            <hr class="menu-separator">
+            <p style="text-align: center; color: var(--color-text-secondary); margin: -4px 0 8px;">Or select from your repositories (read/write):</p>
+            <div style="max-height: 40vh; overflow-y: auto;">${repoListHTML}</div>
+        `;
+
+        UI.showDialog({ title: 'Add GitHub Repository', contentHTML: contentHTML, okText: '', cancelText: 'Close'});
+        
+        document.getElementById('add-public-repo-btn').onclick = () => {
+            const url = document.getElementById('github-repo-url-input').value;
+            if(url) {
+                DOM.genericDialog.classList.remove('visible');
+                addRepoFromUrl(url);
+            }
+        };
+
+        document.getElementById('dialog-content').querySelectorAll('button[data-repo-full-name]').forEach(btn => {
+            btn.onclick = () => {
+                const fullName = btn.dataset.repoFullName;
+                const [owner, repoName] = fullName.split('/');
+                const repoData = repos.find(r => r.full_name === fullName);
+                Workspaces.add({ name: `📦 ${fullName}`, type: 'github', repoInfo: { owner, repo: repoName }, branch: repoData.default_branch });
+                DOM.genericDialog.classList.remove('visible');
+            };
+        });
+    } catch (e) {
+        UI.showToast(`Failed to fetch repos: ${e.message}`, 'error');
+        const clearToken = await UI.showDialog({title: "Authentication Error", message: "Your GitHub token may be invalid. Clear the saved token and try again?", okText: "Clear Token", cancelText: "Cancel"});
+        if (clearToken) { State.githubToken = null; this.saveSettings(); UI.showToast("GitHub token cleared.", "info"); }
+    } finally { UI.hideLoading(); }
+},
     
     async openLocalFile() {
         try {
