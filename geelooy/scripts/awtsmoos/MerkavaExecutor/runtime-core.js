@@ -611,18 +611,40 @@ class MerkavaExecutor {
             const classScope = this._createScope(c.scope);
             const classContext = { ...c, scope: classScope };
             
+            let classConstructor;
             const constructorDef = n.body.body.find(m => m.kind === 'constructor');
-            let classConstructor = constructorDef ? await this._executeNode(constructorDef.value, classContext) : (superClass ? function(...args){ return superClass.apply(this, args); } : function(){});
+
+            // Step 1: Create the constructor function FIRST.
+            // This is the most critical change. We create the function wrapper before doing anything else.
+            if (constructorDef) {
+                // We execute the FunctionExpression node to get the constructor logic.
+                classConstructor = await this._executeNode(constructorDef.value, classContext);
+            } else {
+                // If no constructor is defined, create a default one that calls super() if needed.
+                classConstructor = function(...args) {
+                    if (superClass) {
+                        superClass.apply(this, args);
+                    }
+                };
+            }
             
+            // Step 2: Now that the function exists, safely set up its inheritance.
             if (superClass) {
                 Object.setPrototypeOf(classConstructor.prototype, superClass.prototype);
                 Object.setPrototypeOf(classConstructor, superClass);
             }
+
+            // Step 3: Attach metadata for the 'new' expression to use later for instance fields.
+            // This needs to be attached to the function object itself.
+            classConstructor.merkavaMetadata = {
+                instanceFields: n.body.body.filter(m => m.type === 'PropertyDefinition' && !m.static),
+            };
+
             if (n.id) {
                 classScope.set(n.id.name, classConstructor);
-                Object.defineProperty(classConstructor, 'name', { value: n.id.name });
+                Object.defineProperty(classConstructor, 'name', { value: n.id.name, configurable: true });
             }
-
+            
             // Attach metadata for field initialization and private members
             classConstructor.merkavaMetadata = {
                 instanceFields: n.body.body.filter(m => m.type === 'PropertyDefinition' && !m.static),
@@ -631,28 +653,36 @@ class MerkavaExecutor {
 
             
             
+            // Process all class members (methods, fields, static blocks)
             for (const member of n.body.body) {
-                if (member.type === 'MethodDefinition' && member.kind !== 'constructor') {
-                    // Private methods are handled during instance creation, not here on the prototype.
-                    if (member.key.type === 'PrivateIdentifier') {
-                        continue;
-                    }
-                    
-                    // Step 1: Fully compute the method's key *first*.
+                // A) Handle static fields (e.g., `static MY_PROP = 123;`)
+                if (member.type === 'PropertyDefinition' && member.static) {
                     const key = member.computed 
                         ? await this._executeNode(member.key, classContext) 
                         : member.key.name;
+                    
+                    // Private static fields are not supported in this model yet.
+                    if (member.key.type === 'PrivateIdentifier') continue;
 
-                    // Step 2: Reliably determine the target object (the class or its prototype).
+                    classConstructor[key] = member.value 
+                        ? await this._executeNode(member.value, classContext) 
+                        : undefined;
+                } 
+                // B) Handle method definitions
+                else if (member.type === 'MethodDefinition' && member.kind !== 'constructor') {
+                    // Private methods are handled during instance creation.
+                    if (member.key.type === 'PrivateIdentifier') continue;
+                    
+                    const key = member.computed 
+                        ? await this._executeNode(member.key, classContext) 
+                        : member.key.name;
+                    
                     const target = member.static ? classConstructor : classConstructor.prototype;
-
-                    // Step 3: Create the actual method function.
                     const methodFunc = await this._executeNode(member.value, classContext);
 
-                    // Step 4: Now that all parts are resolved, safely define the property.
                     if (member.kind === 'method') {
                         target[key] = methodFunc;
-                    } else { // This handles 'get' or 'set'
+                    } else { // Handle 'get' or 'set'
                         const descriptor = Object.getOwnPropertyDescriptor(target, key) || { configurable: true, enumerable: false };
                         descriptor[member.kind] = methodFunc;
                         Object.defineProperty(target, key, descriptor);
