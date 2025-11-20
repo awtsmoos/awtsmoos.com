@@ -28,92 +28,80 @@ export const UI = {
             }, duration);
         }, 10);
     },
-    // B"H
-    
-    showDialog: ({ title, message, hasInput = false, inputType = 'text', placeholder = '', hasTextarea = false, textareaContent = '', okText = 'OK', cancelText = 'Cancel', contentHTML = '' }) => {
-        return new Promise(resolve => {
-            const dialog = DOM.genericDialog;
-            //  The outer div now has both a class and an ID of "dialog-content"
-            dialog.innerHTML = `
-                <div class="dialog-content" id="dialog-content">
-                    <h3>${title}</h3>
-                    ${message ? `<p>${message}</p>` : ''}
-                    ${contentHTML}
-                    ${hasInput ? `<input type="${inputType}" id="dialog-input" placeholder="${placeholder}">` : ''}
-                    ${hasTextarea ? `<textarea id="dialog-textarea" rows="5">${textareaContent}</textarea>` : ''}
-                    <div style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 10px;">
-                        ${cancelText ? `<button class="secondary-btn" id="dialog-cancel-btn">${cancelText}</button>` : ''}
-                        ${okText ? `<button class="primary-btn" id="dialog-ok-btn">${okText}</button>` : ''}
-                    </div>
-                </div>`;
-            
-            const input = dialog.querySelector('#dialog-input');
-            const textarea = dialog.querySelector('#dialog-textarea');
-            const okBtn = dialog.querySelector('#dialog-ok-btn');
-            const cancelBtn = dialog.querySelector('#dialog-cancel-btn');
+    /*B"H*/
+// ACTION: Replace the 'showDialog' method in js/ui.js with this more flexible version.
 
-            const cleanupAndResolve = (value) => {
-                dialog.classList.remove('visible');
-                document.removeEventListener('keydown', keydownHandler);
-                resolve(value);
-            };
+/**
+ * Manifests a dialog, a chamber of choice for the user. This new version can
+ * conjure not just 'OK' and 'Cancel', but also a tertiary, often more potent,
+ * option for actions like discarding changes.
+ * @param {object} options - The configuration for the dialog.
+ * @param {string} options.title - The title text.
+ * @param {string} [options.message] - The main message text.
+ * @param {boolean} [options.hasInput=false] - If true, shows a text input.
+ * @param {string} [options.inputType='text'] - The type for the input field.
+ * @param {string} [options.placeholder=''] - The placeholder for the input.
+ * @param {boolean} [options.hasTextarea=false] - If true, shows a textarea.
+ * @param {string} [options.textareaContent=''] - Initial content for the textarea.
+ * @param {string} [options.okText='OK'] - Text for the primary confirmation button.
+ * @param {string} [options.cancelText='Cancel'] - Text for the cancellation button.
+ * @param {string} [options.contentHTML=''] - Raw HTML to inject into the dialog body.
+ * @param {object} [options.tertiary] - Configuration for a third button.
+ * @param {string} options.tertiary.text - The text for the tertiary button.
+ * @param {string} [options.tertiary.class=''] - An optional class for styling (e.g., 'danger').
+ * @returns {Promise<any>} Resolves with the input value, `true`, `null`, or the tertiary action key.
+ */
+showDialog: ({ title, message, hasInput = false, inputType = 'text', placeholder = '', hasTextarea = false, textareaContent = '', okText = 'OK', cancelText = 'Cancel', contentHTML = '', tertiary = null }) => {
+    return new Promise(resolve => {
+        const dialog = DOM.genericDialog;
+        
+        let tertiaryButtonHTML = '';
+        if (tertiary) {
+            tertiaryButtonHTML = `<button class="secondary-btn ${tertiary.class || ''}" id="dialog-tertiary-btn" style="margin-right: auto;">${tertiary.text}</button>`;
+        }
 
-            const keydownHandler = (e) => {
-                if (e.key === 'Enter' && hasInput && !hasTextarea) { e.preventDefault(); okBtn?.click(); }
-                else if (e.key === 'Escape') { cancelBtn?.click(); }
-            };
-            
-            // This handles special clicks for things like the clone destination list
-            const contentSlot = dialog.querySelector('#dialog-content');
-            contentSlot.onclick = (e) => {
-                 e.stopPropagation()
-                 
-                 // Check for clone destination buttons
-                const cloneButton = e.target.closest('button[data-ws-id]');
-                if (cloneButton) {
-                    cleanupAndResolve(cloneButton.dataset.wsId);
-                    return;
-                }
-                
-                // B"H
-                
-                const typeButton = e.target.closest('button[data-type]');
-                if (typeButton) {
-                    cleanupAndResolve(typeButton.dataset.type);
-                    return;
-                }
-                
-                
-                // Check for GitHub repo list buttons
-                const repoButton = e.target.closest('button[data-repo-full-name]');
-                if (repoButton) {
-                    // We don't resolve the promise here, we let the original handler in app.js do its job
-                    // This click will bubble up to the listeners you define in addGithubWorkspace
-                }
-            };
-            
-            dialog.onclick = (e) => {
-            	e.stopPropagation()
-                if (e.target === dialog) cancelBtn?.click();
-            };
+        dialog.innerHTML = `
+            <div class="dialog-content" id="dialog-content">
+                <h3>${title}</h3>
+                ${message ? `<p>${message}</p>` : ''}
+                ${contentHTML}
+                ${hasInput ? `<input type="${inputType}" id="dialog-input" placeholder="${placeholder}">` : ''}
+                ${hasTextarea ? `<textarea id="dialog-textarea" rows="5">${textareaContent}</textarea>` : ''}
+                <div class="dialog-button-bar">
+                    ${tertiaryButtonHTML}
+                    ${cancelText ? `<button class="secondary-btn" id="dialog-cancel-btn">${cancelText}</button>` : ''}
+                    ${okText ? `<button class="primary-btn" id="dialog-ok-btn">${okText}</button>` : ''}
+                </div>
+            </div>`;
+        
+        const okBtn = dialog.querySelector('#dialog-ok-btn');
+        const cancelBtn = dialog.querySelector('#dialog-cancel-btn');
+        const tertiaryBtn = dialog.querySelector('#dialog-tertiary-btn');
 
-            if (okBtn) okBtn.onclick = (e) => {
-            	e.stopPropagation()
-            
-            	cleanupAndResolve(hasInput ? input.value : (hasTextarea ? textarea.value : true));
-            }
-            if (cancelBtn) 
-            	cancelBtn.onclick = (e) => {
-            		e.stopPropagation()
-            		cleanupAndResolve(null);
-            	}
-            
-            dialog.classList.add('visible');
-            if (input) input.focus();
-            if (textarea) textarea.focus();
-            document.addEventListener('keydown', keydownHandler);
-        });
-    },
+        const cleanupAndResolve = (value) => {
+            dialog.classList.remove('visible');
+            document.removeEventListener('keydown', keydownHandler);
+            resolve(value);
+        };
+
+        const keydownHandler = (e) => {
+            if (e.key === 'Escape') { cancelBtn?.click(); }
+        };
+        
+        if (okBtn) okBtn.onclick = () => cleanupAndResolve(hasInput ? dialog.querySelector('#dialog-input').value : (hasTextarea ? dialog.querySelector('#dialog-textarea').value : true));
+        if (cancelBtn) cancelBtn.onclick = () => cleanupAndResolve(null);
+        if (tertiaryBtn) tertiaryBtn.onclick = () => cleanupAndResolve('tertiary');
+        
+        
+
+        dialog.classList.add('visible');
+        const input = dialog.querySelector('#dialog-input');
+        const textarea = dialog.querySelector('#dialog-textarea');
+        if (input) input.focus();
+        if (textarea) textarea.focus();
+        document.addEventListener('keydown', keydownHandler);
+    });
+},
     updateLineNumbers: () => {
         if (DOM.editorWrapper.classList.contains('hidden')) return;
         const lineCount = DOM.editor.value.split('\n').length || 1;
