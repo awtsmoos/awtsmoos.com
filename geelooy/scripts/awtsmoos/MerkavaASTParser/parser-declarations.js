@@ -195,9 +195,7 @@ proto._parseArrayPattern = function() {
 // 
 
 proto._parseVariableDeclaration = function(inForHead = false) { // Add inForHead parameter
-    if(times++>max) {
-		throw "wow what are u"
-		}
+    
     const s = this._startNode();
     const kind = this.currToken.literal;
     this._advance();
@@ -667,9 +665,7 @@ proto._parseExportDeclaration = function() {
 
 
 proto._parseBindingPattern = function() {
-    if(times++>max) {
-    throw "wow what are u"
-    }
+    
 
     // --- THIS IS THE TIKKUN ---
     // Add this new check at the beginning. If we see `...`, we know it's a rest element.
