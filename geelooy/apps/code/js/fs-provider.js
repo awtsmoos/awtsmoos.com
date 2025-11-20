@@ -293,18 +293,28 @@ async write(item, content) {
         DB_NAME: "VIVID_X_FS_PROFOUND",
         STORE_NAME: "files",
         
-        // B"H --- FIX STARTS HERE ---
+        // B"H ------
         // Changed all arrow functions to regular 'function()' to correctly scope 'this'.
-        init: function() {
-            return new Promise((resolve, reject) => {
-                if (State.db) return resolve(State.db);
-                // 'this.DB_NAME' now correctly refers to "VIVID_X_FS_PROFOUND"
-                const request = indexedDB.open(this.DB_NAME, 1);
-                request.onupgradeneeded = e => e.target.result.createObjectStore(this.STORE_NAME, { keyPath: "path" });
-                request.onsuccess = e => { State.db = e.target.result; resolve(State.db); };
-                request.onerror = e => { console.error("IndexedDB init failed:", e.target.error); reject(e.target.error); };
-            });
-        },
+        // B"H
+
+init: function() {
+    return new Promise((resolve, reject) => {
+        if (State.db) return resolve(State.db);
+        const request = indexedDB.open(this.DB_NAME, 1); // B"H - 
+        request.onupgradeneeded = e => {
+            const db = e.target.result;
+            if (!db.objectStoreNames.contains(this.STORE_NAME)) {
+                db.createObjectStore(this.STORE_NAME, { keyPath: "path" });
+            }
+            // ------
+            if (!db.objectStoreNames.contains('github_file_changes')) {
+                db.createObjectStore('github_file_changes', { keyPath: "uniquePath" });
+            }
+        };
+        request.onsuccess = e => { State.db = e.target.result; resolve(State.db); };
+        request.onerror = e => { console.error("IndexedDB init failed:", e.target.error); reject(e.target.error); };
+    });
+},
         // B"H
 	/*
 	
