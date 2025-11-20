@@ -277,7 +277,7 @@ async renderTree(parentElement, parentItem, depth) {
                     if (State.expandedFolders.has(uniquePath)) {
                         State.expandedFolders.delete(uniquePath);
                         li.classList.remove('expanded');
-                        li.querySelector('ul') ? .remove();
+                        li.querySelector('ul')?.remove();
                     } else {
                         State.expandedFolders.add(uniquePath);
                         li.classList.add('expanded');
