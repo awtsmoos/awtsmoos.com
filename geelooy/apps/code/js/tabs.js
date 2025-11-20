@@ -53,6 +53,14 @@ export const Tabs = {
     },
     
     /*B"H*/
+/*B"H*/
+/**
+ * Creates a new tab object and adds it to the application State.
+ * @param {object} item - The file item object for the new tab.
+ * @param {boolean} [isNewFile=false] - Whether this is a newly created file.
+ * @param {boolean} [shouldSave=true] - Whether to persist this change to the session.
+ * @param {boolean} [activate=true] - Whether to immediately activate this new tab.
+ */
 async create(item, isNewFile = false, shouldSave = true, activate = true) {
     const uniquePath = this.getUniquePath(item);
     const existingTab = State.tabs.find(t => t.uniquePath === uniquePath);
@@ -74,6 +82,7 @@ async create(item, isNewFile = false, shouldSave = true, activate = true) {
     };
     State.tabs.push(newTab);
     if (shouldSave) App.saveSession();
+
     if (activate) {
         await this.activate(newTab.id);
     }
