@@ -12,6 +12,8 @@ const MimeMap = {
     '.html': { type: 'text', mime: 'text/html' },
     '.htm':  { type: 'text', mime: 'text/html' },
     '.xml':  { type: 'text', mime: 'text/xml' },
+    '.yml':  { type: 'text', mime: 'text/plain' },
+    
     
     
     
