@@ -122,7 +122,7 @@ export async function beautify(code, options = {}) {
                 }
 
                 // Rule: If there are TWO or MORE arguments, expand to new lines.
-                const newIndent = indent + finalOptions.indentChar;
+                var newIndent = indent + finalOptions.indentChar;
                 const multiLineArgs = node.arguments.map(a => `${newIndent}${walk(a, newIndent)}`).join(',\n');
                 
                 // Build the string with simple, clear concatenation.
@@ -316,7 +316,7 @@ export async function beautify(code, options = {}) {
 
             case 'TemplateLiteral':
                 let result = '`';
-                const newIndent = indent + finalOptions.indentChar;
+                var newIndent = indent + finalOptions.indentChar;
 
                 for (let i = 0; i < node.quasis.length; i++) {
                     // Add the static string part (e.g., "Hello, " or "!")
