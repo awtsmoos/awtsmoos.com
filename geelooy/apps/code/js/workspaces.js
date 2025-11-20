@@ -59,14 +59,14 @@ export const Workspaces = {
 
 /*B"H*/
 // ACTION: Please replace the ENTIRE 'renderWorkspace' method in your 'js/workspaces.js' file with this one.
-// This is the root of all the reported UI bugs, and this version contains the definitive fix.
+// This version uses targeted DOM manipulation driven by the central state, fixing the performance issue.
 
 /**
- * Renders the root of a single workspace. This is the definitive, corrected version.
- * Its click handler NO LONGER MANIPULATES THE DOM DIRECTLY. Instead, it purely
- * updates the application's central State, and then commands a complete re-render.
- * This state-driven approach resolves all collapsing, removal, and duplication bugs
- * by creating a single, predictable source of truth for the UI.
+ * Renders the root of a single workspace. This is the true and final version.
+ * Its click handler now performs a targeted DOM update on ONLY the workspace being
+ * interacted with. It updates the central state, then surgically adds or removes
+ * the child tree element without affecting any of its sibling workspaces. This
+ * provides both state consistency and high performance.
  * @param {object} ws - The raw workspace object from the state.
  * @param {HTMLElement} container - The parent element to append to.
  */
@@ -101,19 +101,35 @@ renderWorkspace(ws, container) {
     container.appendChild(wsRoot);
     const headerTitle = wsRoot.querySelector('.workspace-header-title');
 
-    // THIS IS THE HEART OF THE FIX.
+    // THIS IS THE HEART OF THE PERFORMANCE FIX.
     headerTitle.onclick = () => {
-        // The only responsibility of the click is to update the state.
-        if (State.expandedFolders.has(uniquePath)) {
+        // Step 1: Update the central state. This remains the source of truth.
+        const isCurrentlyExpanded = State.expandedFolders.has(uniquePath);
+        if (isCurrentlyExpanded) {
             State.expandedFolders.delete(uniquePath);
         } else {
             State.expandedFolders.add(uniquePath);
         }
-        App.saveSession(); // We save the new state of what should be expanded.
+        App.saveSession();
 
-        // We then re-render the entire UI from the new, correct state.
-        // This eliminates all conflicts and paradoxes.
-        this.render(); 
+        // Step 2: Perform a targeted, local DOM manipulation based on the new state.
+        // We no longer call the global `this.render()`.
+        if (isCurrentlyExpanded) {
+            // If it WAS expanded, we are now collapsing it.
+            wsRoot.classList.remove('expanded');
+            const tree = wsRoot.querySelector('ul.workspace-tree');
+            if (tree) {
+                tree.remove(); // Surgically remove only this workspace's tree.
+            }
+        } else {
+            // If it was NOT expanded, we are now expanding it.
+            wsRoot.classList.add('expanded');
+            const tree = document.createElement('ul');
+            tree.className = 'workspace-tree';
+            wsRoot.appendChild(tree);
+            // Render the tree for this workspace only.
+            this.renderTree(tree, rootItem, 1);
+        }
     };
 
     wsRoot.querySelector('.workspace-header').oncontextmenu = (e) => Menus.show(e, rootItem);
@@ -131,11 +147,6 @@ renderWorkspace(ws, container) {
        this.renderTree(tree, rootItem, 1);
     }
 },
-    
-
-
-    
-
 /*B"H*/
 // ACTION: Replace the 'renderTree' method in js/workspaces.js.
 
