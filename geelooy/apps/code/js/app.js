@@ -523,7 +523,7 @@ export const App = {
                 // This check prevents resizing while the sidebar is fully collapsed.
                 if (appContainer.classList.contains('sidebar-collapsed')) return;
 
-                const clientX = e.clientX ?? e.touches?.[0] ? .clientX;
+                const clientX = e.clientX ?? e.touches?.[0]?.clientX;
                 if (clientX === undefined) return;
 
                 // Enforce the minimum and maximum manual resize widths.
