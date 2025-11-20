@@ -210,33 +210,51 @@ IndexedDB: {
     GIT_DB_NAME: "VIVID_X_GIT_CHANGES_PROFOUND", // Our new, separate database.
     STORE_NAME: "files",
     GIT_STORE_NAME: "uncommitted_files", // The single store in our new database.
-    
+
     /**
      * @private
-     * @description Initializes the main database for the "Browser Storage" workspace.
+     * @description A robust, reusable function to open an IndexedDB database.
+     * It handles success, error, upgrade, and the critical 'blocked' state.
      */
-    _initMainDB: function() {
+    _openDb: function(dbName, version, onUpgradeNeeded) {
         return new Promise((resolve, reject) => {
-            if (State.db) return resolve(State.db);
-            const request = indexedDB.open(this.DB_NAME, 1);
-            request.onupgradeneeded = e => e.target.result.createObjectStore(this.STORE_NAME, { keyPath: "path" });
-            request.onsuccess = e => { State.db = e.target.result; resolve(State.db); };
-            request.onerror = e => { console.error("Main IndexedDB init failed:", e.target.error); reject(e.target.error); };
+            const request = indexedDB.open(dbName, version);
+
+            // This is the critical new event handler that prevents silent freezes.
+            request.onblocked = () => {
+                reject(new Error(
+                    `Database connection is blocked. Please close any other open tabs with this application and refresh the page.`
+                ));
+            };
+
+            request.onupgradeneeded = onUpgradeNeeded;
+            request.onsuccess = e => resolve(e.target.result);
+            request.onerror = e => reject(e.target.error);
         });
     },
 
     /**
      * @private
-     * @description Initializes our new, separate database for GitHub changes.
+     * @description Initializes the main database for "Browser Storage".
      */
-    _initGitDB: function() {
-        return new Promise((resolve, reject) => {
-            if (State.gitDb) return resolve(State.gitDb);
-            const request = indexedDB.open(this.GIT_DB_NAME, 1);
-            request.onupgradeneeded = e => e.target.result.createObjectStore(this.GIT_STORE_NAME, { keyPath: "uniquePath" });
-            request.onsuccess = e => { State.gitDb = e.target.result; resolve(State.gitDb); };
-            request.onerror = e => { console.error("Git Changes IndexedDB init failed:", e.target.error); reject(e.target.error); };
+    _initMainDB: async function() {
+        if (State.db) return State.db;
+        State.db = await this._openDb(this.DB_NAME, 1, e => {
+            e.target.result.createObjectStore(this.STORE_NAME, { keyPath: "path" });
         });
+        return State.db;
+    },
+
+    /**
+     * @private
+     * @description Initializes the separate database for GitHub changes.
+     */
+    _initGitDB: async function() {
+        if (State.gitDb) return State.gitDb;
+        State.gitDb = await this._openDb(this.GIT_DB_NAME, 1, e => {
+            e.target.result.createObjectStore(this.GIT_STORE_NAME, { keyPath: "uniquePath" });
+        });
+        return State.gitDb;
     },
 
     /**
@@ -244,7 +262,7 @@ IndexedDB: {
      * @description Initializes connections to BOTH databases concurrently.
      */
     init: async function() {
-        await Promise.all([ this._initMainDB(), this._initGitDB() ]);
+        await Promise.all([this._initMainDB(), this._initGitDB()]);
     },
 
     // --- Methods for the MAIN "Browser Storage" Database ---
