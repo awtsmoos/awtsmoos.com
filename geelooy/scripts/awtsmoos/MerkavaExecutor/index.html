@@ -85,7 +85,9 @@ console.log("Final Result:", final);
 
                     const executor = new window.MerkavaExecutor(
                         MerkavahParser, 
-                        { console: console }, // Pass the local console as the initial context
+                       // { console: console }, // Pass the local console as the initial context
+                        window,//or custom object
+                        
                         customResolver
                     );
                     
