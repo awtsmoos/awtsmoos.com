@@ -1,5 +1,5 @@
 # B"H
-# Awtsmoos Template Processor
+# Awtsmoos.com
 
 ## Get started quick
 Take a look at the release on this page for a minimal
