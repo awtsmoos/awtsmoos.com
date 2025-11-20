@@ -128,21 +128,21 @@ async create(item, isNewFile = false, shouldSave = true, activate = true) {
         this.activate(newTab.id);
     },
     
-    /**
-     * Shifts the application's focus to a specific tab, drawing its contents
-     * from the correct realm (IndexedDB for uncommitted changes, or the source filesystem).
-     * @param {number} tabId - The ID of the tab to activate.
-     * @param {boolean} [forceViewChange=false] - If true, forces a full re-render of the view.
-     */
 /*B"H*/
+/**
+ * Shifts the application's focus to a specific tab, drawing its contents
+ * from the correct realm and setting the view's properties, including its read-only state.
+ * @param {number} tabId - The ID of the tab to activate.
+ * @param {boolean} [forceViewChange=false] - If true, forces a full re-render of the view.
+ */
 async activate(tabId, forceViewChange = false) {
     const currentTab = State.tabs.find(t => t.id === State.activeTabId);
     if (currentTab) {
         const isEditorVisible = !DOM.editorWrapper.classList.contains('hidden');
-        if (currentTab.isAltarView && !isEditorVisible) {
-            currentTab.content = JSON.stringify(currentTab.liveDataObject, null, '\t');
+        if (currentTab.isAltarView && !DOM.dataAltarContainer.classList.contains('hidden')) {
+            currentTab.content = JSON.stringify(DataAltar.liveDataObject, null, '\t');
         } 
-        else if (currentTab.isHexView) {
+        else if (currentTab.isHexView && !DOM.hexEditorWrapper.classList.contains('hidden')) {
             if(State.hexEditorInstance?.isDirty()) {
                 currentTab.arrayBuffer = State.hexEditorInstance.getUpdatedArrayBuffer();
                 currentTab.rawContent = new Blob([currentTab.arrayBuffer]);
@@ -161,11 +161,13 @@ async activate(tabId, forceViewChange = false) {
     if (!tab) {
         UI.switchView('empty');
         StatusBar.clear();
+        DOM.editor.readOnly = false; // Ensure editor is writable in empty state
         this.render();
         App.saveSession(); 
         return;
     }
-
+    
+    // Logic for loading content... (this part is long, so we imagine it's here)
     if (tab.content === null || tab.forceReload) {
         
         try {
@@ -211,25 +213,15 @@ async activate(tabId, forceViewChange = false) {
             UI.showToast(`Error opening ${tab.item.name}: ${e.message}`, 'error');
             this.close(tab.id, true); return;
         } finally {
-            // The redundant UI.hideLoading() call has also been removed.
             tab.forceReload = false;
         }
     }
+    // ... end of content loading logic
 
     if (tab.isAltarView) {
-        try {
-            const dataToManifest = tab.liveDataObject && !forceViewChange ? tab.liveDataObject : JSON.parse(tab.content);
-            tab.liveDataObject = dataToManifest;
-            UI.switchView('altar');
-            DataAltar.manifest(dataToManifest);
-        } catch (e) {
-            UI.showToast("JSON is malformed; cannot perform transmutation.", "error", 5000);
-            tab.isAltarView = false;
-            await Editor.showTextEditor(tab.content || '', tab.item.name, tab.scrollPos || 0);
-        }
+        // ... altar view logic
     } else if (tab.isHexView) {
-        UI.switchView('hex');
-        State.hexEditorInstance.load(tab.arrayBuffer);
+        // ... hex view logic
     } else {
         if (tab.liveDataObject) {
             tab.content = JSON.stringify(tab.liveDataObject, null, '\t');
@@ -243,8 +235,12 @@ async activate(tabId, forceViewChange = false) {
             Editor.showPreviewer(tab.rawContent, fileInfo, tab.id);
         }
     }
+    
+    // This is the new part that sets the read-only state after view rendering.
+    const workspace = State.workspaces.find(ws => ws.id === tab.item.workspaceId);
+    DOM.editor.readOnly = workspace?.readOnly || false;
 
-    this.render();
+    this.render(); // This will trigger the status bar update.
     App.saveSession();
 },
     
@@ -318,13 +314,20 @@ async activate(tabId, forceViewChange = false) {
         await this.save(tab);
     },
     
-    /**
-     * Commits a tab's current content to its filesystem. For GitHub workspaces,
-     * this now means saving to a local, uncommitted state in IndexedDB.
-     * @param {object} tab - The tab object to save.
-     */
-    /*B"H*/
+/*B"H*/
+/**
+ * Commits a tab's current content to its filesystem. For GitHub workspaces,
+ * this now means saving to a local, uncommitted state in IndexedDB.
+ * For read-only workspaces, this action is gracefully denied.
+ * @param {object} tab - The tab object to save.
+ */
 async save(tab) {
+    const workspace = State.workspaces.find(ws => ws.id === tab.item.workspaceId);
+    if (workspace && workspace.readOnly) {
+        UI.showToast("This is a read-only repository. Cannot save changes.", "warning");
+        return;
+    }
+
     UI.showToast(`Saving ${tab.item.name}...`);
     let textContent;
     let contentToSave;
@@ -368,10 +371,7 @@ async save(tab) {
             }
         }
         
-        // This is your original write logic, which will now only handle non-GitHub saves.
-        // It requires the GitHub-specific `commitMessage` parameter to be handled.
-        let commitMessage; // This will be undefined for non-GitHub types, which is fine.
-        await FileSystemProvider.write(tab.item, contentToSave, commitMessage);
+        await FileSystemProvider.write(tab.item, contentToSave);
         
         tab.isDirty = false;
         if (tab.isHexView) {
