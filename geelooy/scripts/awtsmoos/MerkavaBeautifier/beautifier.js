@@ -154,7 +154,7 @@ export async function beautify(code, options = {}) {
                 return `${indent}for (${forAwait}${forLeft} ${forType} ${walk(node.right, '')}) ${walk(node.body, indent)}`;
 
             case 'ForStatement':
-                const init = node.init ? walk(node.init, '').replace(';', '') : '';
+                var init = node.init ? walk(node.init, '').replace(';', '') : '';
                 const test = node.test ? walk(node.test, '') : '';
                 const update = node.update ? walk(node.update, '') : '';
                 return `${indent}for (${init}; ${test}; ${update}) ${walk(node.body, indent)}`;
@@ -319,7 +319,7 @@ export async function beautify(code, options = {}) {
                 return `${indent}${node.kind} ${decls};`;
 
             case 'VariableDeclarator':
-                const init = node.init ? ` = ${walk(node.init, '')}` : '';
+                var init = node.init ? ` = ${walk(node.init, '')}` : '';
                 return `${walk(node.id, '')}${init}`;
             
             case 'WhileStatement':
