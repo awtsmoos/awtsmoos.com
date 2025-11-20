@@ -93,67 +93,47 @@ activeConsole: null, // B"H
         }
     },
 
-    async initialize() {
-	const isPostMessageProto = new URLSearchParams(window.location.search).get('env') === 'postmessage';
-	
-	if (isPostMessageProto) {
-	    setTimeout(() => {const appContainer = document.querySelector('.app-container');
-		    const sidebarCollapseBtn = document.getElementById('sidebar-collapse-btn');
-		    const resizer = document.getElementById('sidebar-resizer');
-		
-		    // 1. Force the sidebar to be collapsed.
-		    if (appContainer) {
-		        appContainer.classList.add('sidebar-collapsed');
-		    }
-		
-		    // 2. Hide the buttons that expand it.
-		    if (sidebarCollapseBtn) sidebarCollapseBtn.style.display = 'none';
-		    if (DOM.mobileSidebarToggle) DOM.mobileSidebarToggle.style.display = 'none'; // Hides the mobile button too.
-		
-		    // 3. Hide the resizer to prevent manual expansion.
-		    if (resizer) resizer.style.display = 'none';
-		    console.log("DID?")
-	    }, 1000)
-	}    
-        UI.showLoading("Awtsmoos Editor Initializing...");
-        
-        
-       
-        
-        
-        
-        const isEmbedded = new URLSearchParams(window.location.search).get('embedded') === 'true';
-    
-    this.loadSettings();
-    // Only load a previous session if NOT in embedded mode
-    if (!isEmbedded) {
-        this.loadSession();
-    }
-        
-        
-        
-        SelectionManager.initialize(); 
-        
-        CustomMenu.init();
+    /*B"H*/
+async initialize() {
+    UI.showLoading("Awtsmoos Editor Initializing...");
 
-        this.setupEventListeners();
-        
-        try {
-            await FileSystemProvider.IndexedDB.init();
-        } catch (e) {
-            UI.showToast("Browser Storage (IndexedDB) failed to initialize.", 'error');
-        }
-        
-        Workspaces.render();
-        Tabs.activate(State.activeTabId || null);
-        FindReplace.init();
-        Editor.init();
-        
-        State.hexEditorInstance = new HexEditor(DOM.hexEditorWrapper, DOM.hexNavPad);
-        
+    // 1. Establish database connections FIRST. This is the most critical fix.
+    try {
+        await FileSystemProvider.IndexedDB.init();
+    } catch (e) {
+        // If the DB fails, we can't continue, so we hide loading and show the error.
         UI.hideLoading();
-        UI.showToast("Welcome the Awtsmoos Code Editor", 'success');
-    },
+        UI.showToast(e.message || "Browser Storage (IndexedDB) failed to initialize.", 'error', 10000);
+        console.error("Halting initialization due to DB failure.");
+        return; // Stop initialization.
+    }
+
+    // 2. Load settings (synchronous).
+    this.loadSettings();
+
+    // 3. Load session data directly into State without triggering rendering.
+    const isEmbedded = new URLSearchParams(window.location.search).get('embedded') === 'true';
+    if (!isEmbedded) {
+        this.loadSession(); // This will now be synchronous.
+    }
+
+    // 4. Initialize all synchronous UI modules.
+    SelectionManager.initialize();
+    CustomMenu.init();
+    this.setupEventListeners();
+    FindReplace.init();
+    Editor.init();
+    State.hexEditorInstance = new HexEditor(DOM.hexEditorWrapper, DOM.hexNavPad);
+
+    // 5. Render the UI from the loaded state.
+    Workspaces.render();
+
+    // 6. Finally, activate the correct tab, which is the main async UI operation.
+    await Tabs.activate(State.activeTabId || null);
+
+    UI.hideLoading();
+    UI.showToast("Welcome to the Awtsmoos Code Editor", 'success');
+},
 
     saveSettings: () => {
          localStorage.setItem('vividX_settings_profound', JSON.stringify({ 
