@@ -128,7 +128,7 @@ async initialize() {
     State.hexEditorInstance = new HexEditor(DOM.hexEditorWrapper, DOM.hexNavPad);
 
     // 5. Render the UI from the loaded state.
-    await Workspaces.render();
+     Workspaces.render();
 
     // 6. Finally, activate the correct tab, which is the main async UI operation.
     await Tabs.activate(State.activeTabId || null);
