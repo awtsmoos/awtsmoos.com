@@ -238,18 +238,20 @@ class MerkavaExecutor {
         },
         
         
+        
         TryStatement: async function(n, c) {
             let result;
             let caughtError = null;
 
-            // Step 1: Execute the `try` block and capture any thrown error.
+            // Step 1: Execute the `try` block and explicitly await its completion.
+            // Capture any error that is thrown during its execution.
             try {
                 result = await this._executeNode(n.block, c);
             } catch (error) {
                 caughtError = error;
             }
 
-            // Step 2: If an error was caught and a `catch` handler exists, execute it.
+            // Step 2: If an error was caught AND there is a `catch` handler, execute it.
             if (caughtError && n.handler) {
                 const catchScope = this._createScope(this, c.scope);
                 const catchContext = { ...c, scope: catchScope };
@@ -258,23 +260,26 @@ class MerkavaExecutor {
                 }
                 // The result of the catch block can override the result of the try.
                 result = await this._executeNode(n.handler.body, catchContext);
-                // The error has now been handled.
+                // The error has been successfully handled and should not be re-thrown.
                 caughtError = null;
             }
 
-            // Step 3: Always execute the `finally` block if it exists.
+            // Step 3: ALWAYS execute the `finally` block if it exists.
+            // This happens after `try` (on success) or after `catch` (on failure).
             if (n.finalizer) {
                 await this._executeNode(n.finalizer, c);
             }
 
-            // Step 4: If an error was caught but not handled, re-throw it now.
+            // Step 4: If an error was caught but there was no `catch` handler
+            // to clear it, it must be re-thrown now, after `finally` has run.
             if (caughtError) {
                 throw caughtError;
             }
 
-            // Step 5: Return the final result.
+            // Step 5: Return the final result of the entire operation.
             return result;
         },
+        
         
         ThrowStatement: async function(n, c) { throw await this._executeNode(n.argument, c); },
         LabeledStatement: async function(n, c) {
