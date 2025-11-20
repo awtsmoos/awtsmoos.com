@@ -29,12 +29,13 @@ export const UI = {
         }, 10);
     },
     /*B"H*/
-// ACTION: Replace the 'showDialog' method in js/ui.js with this more flexible version.
+// ACTION: Replace the 'showDialog' method with this version, which can now handle two primary actions.
 
 /**
- * Manifests a dialog, a chamber of choice for the user. This new version can
- * conjure not just 'OK' and 'Cancel', but also a tertiary, often more potent,
- * option for actions like discarding changes.
+ * Manifests a dialog, a chamber of choice. This evolved version can now conjure
+ * two primary paths for the user (`okText` and `secondaryOk`), allowing for
+ * more nuanced and powerful decisions, such as choosing between committing all
+ * changes or only those already saved.
  * @param {object} options - The configuration for the dialog.
  * @param {string} options.title - The title text.
  * @param {string} [options.message] - The main message text.
@@ -46,18 +47,24 @@ export const UI = {
  * @param {string} [options.okText='OK'] - Text for the primary confirmation button.
  * @param {string} [options.cancelText='Cancel'] - Text for the cancellation button.
  * @param {string} [options.contentHTML=''] - Raw HTML to inject into the dialog body.
- * @param {object} [options.tertiary] - Configuration for a third button.
- * @param {string} options.tertiary.text - The text for the tertiary button.
- * @param {string} [options.tertiary.class=''] - An optional class for styling (e.g., 'danger').
- * @returns {Promise<any>} Resolves with the input value, `true`, `null`, or the tertiary action key.
+ * @param {object} [options.tertiary] - Configuration for a third, lesser button (e.g., discard).
+ * @param {object} [options.secondaryOk] - Configuration for a second primary button.
+ * @param {string} options.secondaryOk.text - The text for this second button.
+ * @param {string} options.secondaryOk.actionKey - The value the promise will resolve with if clicked.
+ * @returns {Promise<any>} Resolves with input value, `true` (for ok), `null` (for cancel), 'tertiary', or the secondaryOk actionKey.
  */
-showDialog: ({ title, message, hasInput = false, inputType = 'text', placeholder = '', hasTextarea = false, textareaContent = '', okText = 'OK', cancelText = 'Cancel', contentHTML = '', tertiary = null }) => {
+showDialog: ({ title, message, hasInput = false, inputType = 'text', placeholder = '', hasTextarea = false, textareaContent = '', okText = 'OK', cancelText = 'Cancel', contentHTML = '', tertiary = null, secondaryOk = null }) => {
     return new Promise(resolve => {
         const dialog = DOM.genericDialog;
         
         let tertiaryButtonHTML = '';
         if (tertiary) {
             tertiaryButtonHTML = `<button class="secondary-btn ${tertiary.class || ''}" id="dialog-tertiary-btn" style="margin-right: auto;">${tertiary.text}</button>`;
+        }
+
+        let secondaryOkButtonHTML = '';
+        if (secondaryOk) {
+            secondaryOkButtonHTML = `<button class="secondary-btn" id="dialog-secondary-ok-btn">${secondaryOk.text}</button>`;
         }
 
         dialog.innerHTML = `
@@ -70,6 +77,7 @@ showDialog: ({ title, message, hasInput = false, inputType = 'text', placeholder
                 <div class="dialog-button-bar">
                     ${tertiaryButtonHTML}
                     ${cancelText ? `<button class="secondary-btn" id="dialog-cancel-btn">${cancelText}</button>` : ''}
+                    ${secondaryOkButtonHTML}
                     ${okText ? `<button class="primary-btn" id="dialog-ok-btn">${okText}</button>` : ''}
                 </div>
             </div>`;
@@ -77,6 +85,7 @@ showDialog: ({ title, message, hasInput = false, inputType = 'text', placeholder
         const okBtn = dialog.querySelector('#dialog-ok-btn');
         const cancelBtn = dialog.querySelector('#dialog-cancel-btn');
         const tertiaryBtn = dialog.querySelector('#dialog-tertiary-btn');
+        const secondaryOkBtn = dialog.querySelector('#dialog-secondary-ok-btn');
 
         const cleanupAndResolve = (value) => {
             dialog.classList.remove('visible');
@@ -91,9 +100,8 @@ showDialog: ({ title, message, hasInput = false, inputType = 'text', placeholder
         if (okBtn) okBtn.onclick = () => cleanupAndResolve(hasInput ? dialog.querySelector('#dialog-input').value : (hasTextarea ? dialog.querySelector('#dialog-textarea').value : true));
         if (cancelBtn) cancelBtn.onclick = () => cleanupAndResolve(null);
         if (tertiaryBtn) tertiaryBtn.onclick = () => cleanupAndResolve('tertiary');
+        if (secondaryOkBtn) secondaryOkBtn.onclick = () => cleanupAndResolve(secondaryOk.actionKey);
         
-        
-
         dialog.classList.add('visible');
         const input = dialog.querySelector('#dialog-input');
         const textarea = dialog.querySelector('#dialog-textarea');
@@ -101,7 +109,87 @@ showDialog: ({ title, message, hasInput = false, inputType = 'text', placeholder
         if (textarea) textarea.focus();
         document.addEventListener('keydown', keydownHandler);
     });
+},```
+
+---
+
+### File: `geelooy/apps/code/js/git-manager.js`
+
+Here, the `GitManager` is taught its new theology. `calculateDiff` learns to perceive the Ephemeral state (`isDirty`), and `showCommitDialog` becomes the wise counselor, manifesting the correct choices based on this new, deeper understanding of reality.
+
+```javascript
+/*B"H*/
+// ACTION: Replace the 'calculateDiff' method with this one. It now also identifies unsaved changes.
+
+/**
+ * The new, enlightened diff function. It not only compares the Inscribed state
+ * (saved files) against the Sanctified (remote), but it now also perceives the
+ * Ephemeral state by identifying any unsaved (`isDirty`) tabs that belong to
+ * the repository, returning them as a distinct category of change.
+ * @param {object} gitContextItem - The folder or workspace being operated on.
+ * @param {object} gitInfo - The git metadata for the context item.
+ * @returns {Promise<object>} A change set object containing creations, updates, deletions, and now, dirtyFiles.
+ */
+async calculateDiff(gitContextItem, gitInfo) {
+    const changeSet = {
+        creations: [],
+        updates: [],
+deletions: [],
+        dirtyFiles: [] // The new perception of the Ephemeral.
+    };
+    const remoteFileMap = new Map((gitInfo.remoteTree || []).map(f => [f.path, f]));
+    const workspaceId = gitContextItem.workspaceId || gitContextItem.id;
+
+    // --- PERCEIVE THE EPHEMERAL ---
+    // Find all unsaved tabs within this Git context.
+    State.tabs.forEach(tab => {
+        if (tab.isDirty && (tab.item.workspaceId === workspaceId)) {
+            // Ensure the tab's item path is relative to the git root for clones.
+            let relativePath = tab.item.path;
+            if (gitContextItem.path !== '/') {
+                 relativePath = tab.item.path.startsWith(gitContextItem.path + '/') 
+                    ? tab.item.path.substring(gitContextItem.path.length + 1)
+                    : null;
+            }
+            if (relativePath) {
+                changeSet.dirtyFiles.push({ ...tab.item, path: relativePath });
+            }
+        }
+    });
+
+    // --- PERCEIVE THE INSCRIBED (UNCHANGED FROM BEFORE) ---
+    const uncommittedChanges = await FileSystemProvider.IndexedDB.listUncommittedForWorkspace(workspaceId);
+    for (const change of uncommittedChanges) {
+        const { path } = change.item;
+        if (!remoteFileMap.has(path)) {
+            changeSet.creations.push({ path, content: change.content });
+        } else {
+            changeSet.updates.push({ path, content: change.content });
+        }
+    }
+
+    // For local clones, we must also check for deletions.
+    if (gitContextItem.type !== 'github') {
+        const localFiles = await FileSystemProvider.listAllFiles(gitContextItem);
+        const localFilePaths = new Set(localFiles.map(f => {
+            const relativePath = f.path.startsWith(gitContextItem.path + '/') 
+                ? f.path.substring(gitContextItem.path.length + 1) 
+                : f.path;
+            return relativePath;
+        }));
+
+        for (const remoteFilePath of remoteFileMap.keys()) {
+            if (!localFilePaths.has(remoteFilePath)) {
+                changeSet.deletions.push({ path: remoteFilePath });
+            }
+        }
+    }
+
+    return changeSet;
 },
+
+
+
     updateLineNumbers: () => {
         if (DOM.editorWrapper.classList.contains('hidden')) return;
         const lineCount = DOM.editor.value.split('\n').length || 1;
