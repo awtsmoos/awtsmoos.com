@@ -129,7 +129,6 @@ show(e, item) {
     this.positionAndDisplay(DOM.contextMenu, e);
 },
 /*B"H*/
-// ACTION: Replace the entire 'showMainMenu' method in js/menus.js with this definitive version.
 
 /**
  * Unfurls the main application menu. This perfected version builds the menu
@@ -152,6 +151,8 @@ showMainMenu(e) {
     let isGitHubWorkspace = false;
     let hasUncommittedChanges = false;
     const hasSelection = activeTab && (DOM.editor.selectionStart !== DOM.editor.selectionEnd);
+    
+    let totalChanges = 0;
 
     if (activeTab) {
         const workspace = State.workspaces.find(ws => ws.id === activeTab.item.workspaceId);
@@ -159,7 +160,14 @@ showMainMenu(e) {
 
         if (activeTab.item.type === 'github') {
             isGitHubWorkspace = true;
-            hasUncommittedChanges = State.tabs.some(t => t.item.workspaceId === activeTab.item.workspaceId && t.isUncommitted);
+            const dirtyFiles = State.tabs.filter(t => t.item.workspaceId === activeTab.item.workspaceId && t.isDirty);
+            const uncommittedFiles = State.tabs.filter(t => t.item.workspaceId === activeTab.item.workspaceId && t.isUncommitted);
+            totalChanges = dirtyFiles.length + uncommittedFiles.length;
+            
+            
+            
+        
+        
         }
     }
     
@@ -176,7 +184,9 @@ showMainMenu(e) {
         menuItems.push({ label: 'Save', action: 'save', icon: 'save', disabled: !activeTab || !activeTab.isDirty });
         
         if (isGitHubWorkspace) {
-            menuItems.push({ label: 'Commit All Changes', action: 'commit-changes', icon: 'git-branch', disabled: !hasUncommittedChanges });
+            menuItems.push({
+            label: 'Commit All Changes', action: 'commit-changes', 
+            icon: 'git-branch', disabled: totalChanges === 0  });
         }
     }
 
