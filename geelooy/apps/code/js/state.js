@@ -13,6 +13,7 @@ export const State = {
     nextWorkspaceId: 0,
     contextTarget: null,
     hexEditorInstance: null,
+    gitDb: null,
     
     postMessageRequestId: 0,
     postMessagePendingRequests: new Map(),
