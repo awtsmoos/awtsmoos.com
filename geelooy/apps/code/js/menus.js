@@ -26,14 +26,33 @@ registerCustomMenus(menuConfigs) {
         
     
     },
-    /**
-     * Handles clicks on the document to hide any open menus.
-     */
-    handleDocumentClick: (e) => {
-        if (!DOM.contextMenu.contains(e.target) && !DOM.mainMenu.contains(e.target)) {
-            Menus.hideAll();
-        }
-    },
+    /*B"H*/
+/**
+ * Handles clicks on the document to hide any open menus. This is the definitive,
+ * healed version. It now intelligently inspects the click's target. If the click
+ * lands on any menu button, it wisely does nothing, allowing the button's own
+ * 'handleAction' to proceed while the sacred 'contextEvent' is still preserved.
+ * It only acts if the click is truly outside all sacred menu spaces.
+ * @param {Event} e - The click event.
+ */
+handleDocumentClick: (e) => {
+    // If the click is on ANY button within ANY of our menus, we must do nothing.
+    // We let the button's own click handler take over.
+    if (e.target.closest('.menu-button')) {
+        // We must re-attach the listener because the { once: true } option removes it.
+        // This ensures the next "click outside" will also be caught.
+        setTimeout(() => {
+            document.addEventListener('click', Menus.handleDocumentClick, { once: true, capture: true });
+        }, 0);
+        return;
+    }
+
+    // If the click was not on a menu button and is truly "outside,"
+    // then and only then do we perform the cleansing rite.
+    if (!DOM.contextMenu.contains(e.target) && !DOM.mainMenu.contains(e.target)) {
+        Menus.hideAll();
+    }
+},
 
 /*B"H*/
 
@@ -144,7 +163,12 @@ showMainMenu(e) {
         return;
     }
     this.hideAll();
-    setTimeout(() => document.addEventListener('click', this.handleDocumentClick), 0);
+    /*B"H*/
+
+// We now add the listener immediately and tell it not to fire on the first, bubbling click.
+// This is a more robust way to handle this.
+document.addEventListener('click', this.handleDocumentClick, { once: true, capture: true });
+
 
     const activeTab = State.tabs.find(t => t.id === State.activeTabId);
     let isReadOnly = true; // Default to read-only for safety if no tab is active.
@@ -232,23 +256,15 @@ showMainMenu(e) {
 },
     
 
-    /*B"H*/
-
-/**
- * Hides all menus and performs a complete cleansing of the temporary context state,
- * returning the application to a pure and ready state.
- */
-hideAll() {
-    DOM.contextMenu.style.display = 'none';
-    DOM.mainMenu.style.display = 'none';
-    document.querySelectorAll('.context-active').forEach(el => el.classList.remove('context-active'));
-    document.removeEventListener('click', this.handleDocumentClick);
-    
-    // The cleansing: We now explicitly return the context state to the void,
-    // preventing any stale data from haunting future actions.
-    State.contextTarget = null;
-    State.contextEvent = null;
-},
+    /**
+     * Hides all menus and cleans up associated state and listeners.
+     */
+    hideAll() {
+        DOM.contextMenu.style.display = 'none';
+        DOM.mainMenu.style.display = 'none';
+        document.querySelectorAll('.context-active').forEach(el => el.classList.remove('context-active'));
+        document.removeEventListener('click', this.handleDocumentClick);
+    },
     
     /**
      * Positions a menu element on the screen, ensuring it doesn't render outside the viewport.
@@ -284,8 +300,7 @@ hideAll() {
  */
 async handleAction(action) {
     const item = State.contextTarget;
-    
-    
+    this.hideAll(); // The first act is always to return to a state of calm.
     const activeTab = State?.tabs?.find?.(t => t?.id === State?.activeTabId);
     
     try {
@@ -369,15 +384,28 @@ async handleAction(action) {
                         await Workspaces.refreshNode(item);
                         if (kind === 'file') {
                             const newPath = item.path === '/' ? `/${name}` : `${item.path}/${name}`;
-                            Tabs.create({ ...item, name, path: newPath, kind: 'file' });
+                            // We create the item object and explicitly give it content.
+                // This tells Tabs.create, "This is a new being, its substance is this
+                // empty string. Do not try to read it from a source it doesn't have."
+                const newFileItem = { 
+                    ...item, // Inherit context like workspaceId and type
+                    name,
+                    path: newPath,
+                    kind: 'file',
+                    content: '' // The explicit declaration of substance.
+                };
+                            
+                            Tabs.create(
+                            newFileItem
+                             );
                         }
                     }
                 }
                 break;
-            case 'start-selection':
-    // This action is now pure. It no longer knows or cares about an 'event'.
-    // It simply commands the SelectionManager to begin its work on the chosen 'item'.
-    SelectionManager.start(item);
+            /*B"H*/
+case 'start-selection':
+   
+    SelectionManager.start(item, State.contextEvent);
     break;
             
             case 'copy-single':
@@ -418,8 +446,6 @@ async handleAction(action) {
         console.error("Action failed:", action, e);
     } finally { 
         UI.hideLoading(); 
-        this.hideAll(); // The first act is always to return to a state of calm.
-    
     }
 }
 };
