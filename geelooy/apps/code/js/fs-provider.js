@@ -551,46 +551,57 @@ api: async (endpoint, options = {}) => {
                 throw new Error(`Unsupported item type for deletion: ${item.kind}`);
             }
         },
-        
-        
         /*B"H*/
 
-        /**
-         * Fetches the SHA hash of the most recent commit on a given branch.
-         * This is the "latest moment in time" for a repository.
-         * @param {object} params - The repository information.
-         * @param {object} params.repoInfo - Contains owner and repo name.
-         * @param {string} params.branch - The branch to check.
-         * @returns {Promise<string>} The SHA of the latest commit.
-         */
-        async getLatestCommitSHA({ repoInfo, branch }) {
-            const ref = await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/ref/heads/${branch}`);
-            return ref.object.sha;
-        },
+/**
+ * Fetches the SHA of the most recent commit on a given branch. This new version
+ * understands the nature of the void; if the branch does not exist (as in an empty
+ * repository), it does not panic. It gracefully catches the error and returns null,
+ * signaling to the caller that this realm is pristine and without history.
+ * @param {object} params - The repository information.
+ * @returns {Promise<string|null>} The SHA of the latest commit, or null if none exists.
+ */
+async getLatestCommitSHA({ repoInfo, branch }) {
+    try {
+        const ref = await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/ref/heads/${branch}`);
+        return ref.object.sha;
+    } catch (e) {
+        // If the error is a "Not Found" or similar, it's an empty repo. This is not an error for us.
+        if (e.message.toLowerCase().includes('not found') || e.message.toLowerCase().includes('empty')) {
+            return null; // A sign of a pristine, empty repository.
+        }
+        // For any other error (like authentication), we must still throw it.
+        throw e;
+    }
+},
 
-        /**
-         * Fetches the entire file blueprint of a repository in a single API call.
-         * This is the "architect's blueprint," a complete list of all files.
-         * @param {object} params - The repository information.
-         * @param {object} params.repoInfo - Contains owner and repo name.
-         * @param {string} params.branch - The branch to get the tree for.
-         * @returns {Promise<object>} An object containing the commit SHA and the flat array of tree files.
-         */
-        async getFullTree({ repoInfo, branch }) {
-            const latestCommitSHA = await this.getLatestCommitSHA({ repoInfo, branch });
-            const treeData = await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/trees/${latestCommitSHA}?recursive=1`);
-            
-            // We return the complete blueprint for others to use.
-            return {
-                sha: latestCommitSHA,
-                tree: treeData.tree.filter(node => node.type === 'blob') // We only care about files ('blobs')
-            };
-        },
 
-        
-        
-        
-        
+/*B"H*/
+
+/**
+ * Fetches the entire file blueprint of a repository. Now, if it is told that
+ * the repository is a pristine void (by receiving a null SHA), it returns a
+ * perfect representation of that void: a null SHA and an empty blueprint.
+ * @param {object} params - The repository information.
+ * @returns {Promise<object>} An object with the commit SHA (or null) and the tree (or an empty array).
+ */
+async getFullTree({ repoInfo, branch }) {
+    const latestCommitSHA = await this.getLatestCommitSHA({ repoInfo, branch });
+
+    // If there is no history, the blueprint is empty.
+    if (latestCommitSHA === null) {
+        return { sha: null, tree: [] };
+    }
+
+    const treeData = await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/trees/${latestCommitSHA}?recursive=1`);
+    
+    return {
+        sha: latestCommitSHA,
+        tree: treeData.tree.filter(node => node.type === 'blob')
+    };
+},
+
+
         async commitMultipleFiles({ repoInfo, branch, commitMessage, changeSet }) {
             const latestCommitSHA = await this.getLatestCommitSHA({ repoInfo, branch });
             const latestCommit = await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/commits/${latestCommitSHA}`);
