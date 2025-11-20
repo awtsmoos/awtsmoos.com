@@ -13,6 +13,8 @@ const merkavaLoaderPromise = new Promise((resolve, reject) => {
 
     // Create a unique, temporary callback function on the global scope.
     const callbackName = 'merkavaOnload_' + Date.now();
+    window
+    .callbackName=callbackName;
 
     // The parser script will call this function once it's fully loaded and initialized.
     window[callbackName] = (loadedParser) => {
@@ -25,7 +27,7 @@ const merkavaLoaderPromise = new Promise((resolve, reject) => {
     const script = document.createElement('script');
     
     // Set its source, telling the parser which global function to call back when it's ready.
-    script.src = `/scripts/awtsmoos/MerkavaASTParser/parser-core.js?merkavaCallback=${callbackName}`;
+    script.src = `/scripts/awtsmoos/MerkavaASTParser/parser-core.js`;
 
     // Handle network errors (e.g., a 404 if the path is wrong).
     script.onerror = () => {
