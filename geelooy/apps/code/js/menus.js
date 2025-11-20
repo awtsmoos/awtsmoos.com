@@ -122,15 +122,14 @@ registerCustomMenus(menuConfigs) {
  * now dynamically aware of the uncommitted state of the active workspace.
  * @param {Event} e - The click event.
  */
+/*B"H*/
 showMainMenu(e) {
     e.stopPropagation();
-
     const isMenuVisible = DOM.mainMenu.style.display === 'block';
     if (isMenuVisible) {
         this.hideAll();
         return;
     }
-    
     this.hideAll();
     setTimeout(() => document.addEventListener('click', this.handleDocumentClick), 0);
 
