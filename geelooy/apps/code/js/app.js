@@ -691,13 +691,13 @@ setupEventListeners() {
         Workspaces.add({ name: '🧠 Browser Storage', type: 'indexeddb' });
     },
 
-    /*B"H*/
+/*B"H*/
+// ACTION: Replace the 'addGithubWorkspace' method in js/app.js with this robust version.
 
 /**
- * Handles the entire workflow for adding a GitHub repository, whether it's one
- * of the user's own (requiring a token) or a public one added by URL.
- * This function is a crossroads of intent, guiding the user to either their
- * personal creative realms or the vast, shared library of public code.
+ * Handles the entire workflow for adding a GitHub repository. This corrected version
+ * properly parses repository URLs, including those that end with a '.git' suffix,
+ * ensuring that any public star can be correctly summoned.
  */
 async addGithubWorkspace() {
     // A helper function, a whispered incantation to summon a public repo from the ether.
@@ -717,7 +717,11 @@ async addGithubWorkspace() {
             if (urlObj.hostname !== 'github.com') throw new Error('URL must be from github.com');
             const parts = urlObj.pathname.split('/').filter(p => p);
             if (parts.length < 2) throw new Error('Invalid repo URL format, a fractured reflection.');
-            const [owner, repo] = parts;
+            
+            const owner = parts[0];
+            // THIS IS THE FIX: We find the repository name and cleanse it of the '.git' suffix.
+            let repo = parts[1].replace(/\.git$/, '');
+
             UI.showLoading(`Gathering starlight from ${owner}/${repo}...`);
             const repoData = await FileSystemProvider.GitHub.api(`/repos/${owner}/${repo}`);
             Workspaces.add({
