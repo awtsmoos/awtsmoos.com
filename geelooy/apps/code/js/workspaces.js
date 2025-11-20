@@ -151,8 +151,7 @@ renderWorkspace(ws, container) {
 /**
  * Asynchronously renders the file and folder tree for a given parent item.
  * For GitHub workspaces, it fetches the entire repository tree on the first load and
- * caches it for instantaneous subsequent rendering. For other workspace types, it lists
- * directory contents on demand.
+ * correctly builds a hierarchical cache for instantaneous subsequent rendering.
  * @param {HTMLElement} parentElement - The UL element to render the children into.
  * @param {object} parentItem - The directory item whose children should be rendered.
  * @param {number} depth - The current depth in the tree for styling.
@@ -169,44 +168,48 @@ async renderTree(parentElement, parentItem, depth) {
                 parentElement.innerHTML = `<li class="tree-item" style="--depth:${depth}; color: var(--color-text-tertiary);">Fetching full repository tree...</li>`;
                 const fullTreeData = await FileSystemProvider.GitHub.getFullTree(parentItem);
                 const treeCache = new Map();
-                treeCache.set('/', []);
+                treeCache.set('/', []); // Initialize the root directory entry.
 
+                // This corrected logic ensures all parent directories are created in the cache.
                 for (const node of fullTreeData.tree) {
-                    if (node.type !== 'blob') continue;
                     const pathParts = node.path.split('/');
                     const name = pathParts.pop();
                     const parentPath = pathParts.length > 0 ? '/' + pathParts.join('/') : '/';
 
-                    if (!treeCache.has(parentPath)) {
-                        treeCache.set(parentPath, []);
-                    }
-                    treeCache.get(parentPath).push({
-                        name,
-                        kind: 'file',
-                        path: node.path,
-                        sha: node.sha
-                    });
-                }
-
-                for (const node of fullTreeData.tree) {
-                    const pathParts = node.path.split('/');
-                    pathParts.pop();
-                    let currentPath = '';
+                    // First, ensure all parent directories for the current node exist in the cache.
+                    let cumulativePath = '';
                     for (const part of pathParts) {
-                        const parentPath = currentPath === '' ? '/' : currentPath;
-                        currentPath = currentPath === '' ? `/${part}` : `${currentPath}/${part}`;
-                        if (!treeCache.has(parentPath)) treeCache.set(parentPath, []);
-                        if (!treeCache.get(parentPath).some(n => n.name === part)) {
-                            treeCache.get(parentPath).push({
+                        const immediateParentPath = cumulativePath === '' ? '/' : cumulativePath;
+                        cumulativePath += `/${part}`;
+                        if (!treeCache.has(immediateParentPath)) {
+                            treeCache.set(immediateParentPath, []);
+                        }
+                        // Add the directory if it's not already listed in its parent.
+                        if (!treeCache.get(immediateParentPath).some(item => item.name === part && item.kind === 'directory')) {
+                            treeCache.get(immediateParentPath).push({
                                 name: part,
                                 kind: 'directory',
-                                path: currentPath.substring(1)
+                                path: cumulativePath.substring(1)
                             });
                         }
+                    }
+
+                    // Now, add the actual file or blob to its direct parent.
+                    if (node.type === 'blob') {
+                        if (!treeCache.has(parentPath)) {
+                            treeCache.set(parentPath, []);
+                        }
+                        treeCache.get(parentPath).push({
+                            name,
+                            kind: 'file',
+                            path: node.path,
+                            sha: node.sha
+                        });
                     }
                 }
                 workspace._treeCache = treeCache;
             }
+            // Consult the now-correctly-built cache.
             children = workspace._treeCache.get(parentItem.path) || [];
         } else {
             children = await FileSystemProvider.list(parentItem);
