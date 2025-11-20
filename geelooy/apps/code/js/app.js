@@ -197,7 +197,7 @@ async initialize() {
  */
 async commitAllChanges() {
     const activeTab = State.tabs.find(t => t.id === State.activeTabId);
-    if (!activeTab || active-tab.item.type !== 'github') { UI.showToast("An active GitHub file is required.", "warning"); return; }
+    if (!activeTab || activeTab.item.type !== 'github') { UI.showToast("An active GitHub file is required.", "warning"); return; }
     const workspaceId = activeTab.item.workspaceId;
     const workspace = State.workspaces.find(ws => ws.id === workspaceId);
     if (!workspace || workspace.readOnly) { UI.showToast("Cannot commit to a read-only repository.", "warning"); return; }
