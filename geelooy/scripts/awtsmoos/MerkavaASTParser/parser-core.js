@@ -31,7 +31,7 @@ const merkavaPromise = factory(); // Execute the factory immediately to get the 
     
     console
     .
-    log("what's going on")
+    log("what's going on", document, document. currentScript)
     
     }
 }).catch(err => {
