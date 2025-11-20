@@ -96,4 +96,9 @@ DOM.mobileSidebarToggle = document.getElementById('sidebar-toggle-btn'); // <-- 
 }
 
 
-initializeDOM()
+
+
+
+
+
+
