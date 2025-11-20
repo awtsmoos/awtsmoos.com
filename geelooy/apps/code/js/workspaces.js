@@ -151,8 +151,8 @@ renderWorkspace(ws, container) {
 /**
  * Asynchronously renders the file and folder tree for a given parent item.
  * For GitHub workspaces, it fetches the entire repository tree on the first load and
- * correctly builds a hierarchical cache for instantaneous subsequent rendering.
- * This version is now robust against session reloads by checking the cache type.
+ * caches it for instantaneous subsequent rendering. This version contains the
+ * critical bug fix for path resolution.
  * @param {HTMLElement} parentElement - The UL element to render the children into.
  * @param {object} parentItem - The directory item whose children should be rendered.
  * @param {number} depth - The current depth in the tree for styling.
@@ -165,51 +165,65 @@ async renderTree(parentElement, parentItem, depth) {
         const workspace = State.workspaces.find(ws => ws.id === parentItem.workspaceId);
 
         if (parentItem.type === 'github' && workspace) {
-            // This is the crucial fix: Ensure _treeCache is a valid Map before using it.
-            // If it's not (e.g., after a session reload), treat it as non-existent.
-            const isCacheValid = workspace._treeCache && workspace._treeCache instanceof Map;
-
-            if (!isCacheValid) {
+            // --- START: CORRECTED CACHING LOGIC ---
+            if (!workspace._treeCache) {
                 parentElement.innerHTML = `<li class="tree-item" style="--depth:${depth}; color: var(--color-text-tertiary);">Fetching full repository tree...</li>`;
                 const fullTreeData = await FileSystemProvider.GitHub.getFullTree(parentItem);
+                
                 const treeCache = new Map();
-                treeCache.set('/', []);
+                treeCache.set('/', []); // Initialize root directory.
+
+                // A helper to prevent creating duplicate directory entries.
+                const seenDirs = new Set(['/']);
 
                 for (const node of fullTreeData.tree) {
+                    if (node.type !== 'blob') continue; // We build the tree from files.
+
                     const pathParts = node.path.split('/');
                     const name = pathParts.pop();
-                    const parentPath = pathParts.length > 0 ? '/' + pathParts.join('/') : '/';
+                    let parentPath = '/';
 
-                    let cumulativePath = '';
-                    for (const part of pathParts) {
-                        const immediateParentPath = cumulativePath === '' ? '/' : cumulativePath;
-                        cumulativePath += `/${part}`;
-                        if (!treeCache.has(immediateParentPath)) {
-                            treeCache.set(immediateParentPath, []);
-                        }
-                        if (!treeCache.get(immediateParentPath).some(item => item.name === part && item.kind === 'directory')) {
-                            treeCache.get(immediateParentPath).push({
-                                name: part,
-                                kind: 'directory',
-                                path: cumulativePath.substring(1)
-                            });
+                    // Create all intermediate directories for the file's path.
+                    if (pathParts.length > 0) {
+                        parentPath = '/' + pathParts.join('/');
+                        let cumulativePath = '';
+                        for (const part of pathParts) {
+                            const grandParentPath = (cumulativePath === '') ? '/' : cumulativePath;
+                            cumulativePath += '/' + part;
+
+                            if (!seenDirs.has(cumulativePath)) {
+                                seenDirs.add(cumulativePath);
+                                if (!treeCache.has(grandParentPath)) {
+                                    treeCache.set(grandParentPath, []);
+                                }
+                                treeCache.get(grandParentPath).push({
+                                    name: part,
+                                    kind: 'directory',
+                                    path: cumulativePath.substring(1) // Path without leading slash (e.g., 'src').
+                                });
+                            }
                         }
                     }
-                    if (node.type === 'blob') {
-                        if (!treeCache.has(parentPath)) {
-                            treeCache.set(parentPath, []);
-                        }
-                        treeCache.get(parentPath).push({
-                            name,
-                            kind: 'file',
-                            path: node.path,
-                            sha: node.sha
-                        });
+                    
+                    // Add the file to its direct parent directory.
+                    if (!treeCache.has(parentPath)) {
+                        treeCache.set(parentPath, []);
                     }
+                    treeCache.get(parentPath).push({
+                        name,
+                        kind: 'file',
+                        path: node.path,
+                        sha: node.sha // Crucially, include the SHA.
+                    });
                 }
                 workspace._treeCache = treeCache;
             }
-            children = workspace._treeCache.get(parentItem.path) || [];
+
+            // This is the critical fix: construct the correct key for the cache lookup.
+            const lookupPath = parentItem.path === '/' ? '/' : `/${parentItem.path}`;
+            children = workspace._treeCache.get(lookupPath) || [];
+            // --- END: CORRECTED CACHING LOGIC ---
+
         } else {
             children = await FileSystemProvider.list(parentItem);
         }
@@ -218,7 +232,7 @@ async renderTree(parentElement, parentItem, depth) {
         children.sort((a, b) => (a.kind === b.kind) ? a.name.localeCompare(b.name) : (a.kind === 'directory' ? -1 : 1));
 
         if (children.length === 0) {
-            parentElement.innerHTML = /*html*/`<li class="tree-item" style="--depth:${depth}; color: var(--color-text-tertiary); font-style: italic;">Empty</li>`;
+            parentElement.innerHTML = `<li class="tree-item" style="--depth:${depth}; color: var(--color-text-tertiary); font-style: italic;">Empty</li>`;
             return;
         }
 
@@ -234,7 +248,7 @@ async renderTree(parentElement, parentItem, depth) {
             const li = document.createElement('li');
             li.className = 'tree-item';
             li.style.setProperty('--depth', depth);
-            li.innerHTML = /*html*/`
+            li.innerHTML = `
                 <div class="tree-item-name-wrap">
                     <span class="tree-item-arrow">${child.kind === 'directory' ? '▶' : '•'}</span>
                     <svg class="svg-icon"><use href="#icon-${icon}"/></svg>
@@ -246,7 +260,7 @@ async renderTree(parentElement, parentItem, depth) {
                 const gitBtn = document.createElement('button');
                 gitBtn.className = 'icon-button git-actions-btn';
                 gitBtn.title = 'Git Actions';
-                gitBtn.innerHTML = /*html*/`<svg class="svg-icon"><use href="#icon-git-branch"></use></svg>`;
+                gitBtn.innerHTML = `<svg class="svg-icon"><use href="#icon-git-branch"></use></svg>`;
                 gitBtn.onclick = (e) => {
                     e.stopPropagation();
                     GitManager.showGitUI(fullChildItem);
@@ -263,7 +277,7 @@ async renderTree(parentElement, parentItem, depth) {
                     if (State.expandedFolders.has(uniquePath)) {
                         State.expandedFolders.delete(uniquePath);
                         li.classList.remove('expanded');
-                        li.querySelector('ul')?.remove();
+                        li.querySelector('ul') ? .remove();
                     } else {
                         State.expandedFolders.add(uniquePath);
                         li.classList.add('expanded');
@@ -348,4 +362,4 @@ async remove(workspaceId) {
             await this.renderTree(childrenContainer, item, depth);
         }
     }
-};
+};```
