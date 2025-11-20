@@ -69,10 +69,11 @@ async initializeRepository(folderItem) {
 
         UI.showLoading("Performing the first, sacred commit...");
         const repoInfo = { owner: newRepoData.owner.login, repo: newRepoData.name };
-        const initialCommitSHA = await this._performInitialCommit({
-            repoInfo, branch: newRepoData.default_branch,
-            commitMessage: 'B"H: Initial Commit', changeSet
-        });
+        /*B"H*/
+
+const initialCommitSHA = await this.performCommit({ // Now calls the public, unified method
+    repoInfo, branch: newRepoData.default_branch
+}, changeSet, 'B"H: Initial Commit');
 
         UI.showLoading("Binding the folder to its celestial soul...");
         const newTree = await FileSystemProvider.GitHub.getFullTree({ repoInfo, branch: newRepoData.default_branch });
@@ -103,6 +104,13 @@ async initializeRepository(folderItem) {
         console.error("GIT INIT FAILED:", e);
     }
 },
+
+
+/*B"H*/
+
+
+
+
 
 /*B"H*/
 
@@ -261,50 +269,96 @@ async _performInitialCommit({ repoInfo, branch, commitMessage, changeSet }) {
             cancelText: 'Close'
         });
 
-        if (dialogResult !== null) {
-            if (okButtonAction === 'commit') {
-                await this.performCommit(clonedFolderItem, gitInfo, dialogResult, changeSet);
-            } else if (okButtonAction === 'pull') {
-                FileOperations.pullAndOverwrite(clonedFolderItem, gitInfo);
-            }
-        }
-    },
+        /*B"H*/
+// ACTION: Replace the final 'if' block in js/git-manager.js -> showCommitDialog
 
-    /**
-     * Performs the multi-file commit and updates the local metadata.
-     */
-    async performCommit(clonedFolderItem, gitInfo, commitMessage, changeSet) {
-        UI.showLoading("Committing & Pushing...");
+if (dialogResult !== null) {
+    if (okButtonAction === 'commit') {
+        UI.showLoading("Performing atomic commit...");
         try {
-            const newCommitSHA = await FileSystemProvider.GitHub.commitMultipleFiles({
-                repoInfo: gitInfo.repoInfo,
-                branch: gitInfo.branch,
-                commitMessage,
-                changeSet
-            });
+            // Step 1: Delegate the entire complex commit ceremony to our new, powerful method.
+            const newCommitSHA = await this.performCommit(gitInfo, changeSet, dialogResult);
 
+            // Step 2: After a successful commit, we must update the local blueprint.
             UI.showLoading("Updating local repository state...");
-            const newTree = await FileSystemProvider.GitHub.getFullTree(gitInfo);
+            const { repoInfo, branch } = gitInfo;
+            const newTree = await FileSystemProvider.GitHub.getFullTree({ repoInfo, branch });
+            const updatedGitInfo = { ...gitInfo, baseCommitSHA: newCommitSHA, remoteTree: newTree.tree };
             
-            const updatedGitInfo = {
-                ...gitInfo,
-                baseCommitSHA: newCommitSHA,
-                remoteTree: newTree.tree
-            };
-
+            // Step 3: Inscribe the new reality into our local metadata file.
             const ikarFileContent = `// B"H\n\nconst ikar = ${JSON.stringify(updatedGitInfo, null, 4)};`;
-            const metaDirItem = { ...clonedFolderItem, path: `${clonedFolderItem.path}/.awtsmoos-repo` };
-            const ikarFileItem = { ...metaDirItem, name: 'ikar.js', path: `${metaDirItem.path}/ikar.js` };
+            const ikarFileItem = { ...clonedFolderItem, path: `${clonedFolderItem.path}/.awtsmoos-repo/ikar.js` };
             await FileSystemProvider.write(ikarFileItem, ikarFileContent);
 
             UI.hideLoading();
             UI.showToast("Changes committed successfully!", "success");
         } catch (e) {
             UI.hideLoading();
-            UI.showToast(`Commit failed: ${e.message}`, 'error');
-            console.error(e);
+            UI.showToast(`Commit failed: ${e.message}`, 'error', 8000);
+            console.error("COMMIT FAILED:", e);
         }
+
+    } else if (okButtonAction === 'pull') {
+        // This part remains unchanged.
+        FileOperations.pullAndOverwrite(clonedFolderItem, gitInfo);
+    }
+}
     },
+    
+    
+    
+    /*B"H*/
+// ACTION: Add this single, unified 'performCommit' method to your 'GitManager' object.
+
+/**
+ * Performs the true, atomic, multi-file commit. This is the unified and definitive
+ * version. It intelligently detects whether it's creating a root commit (no prior
+ * history) or an ongoing commit, and performs the correct API calls for either case.
+ * This single function now holds the wisdom for all forms of commitment.
+ * @param {object} gitContext - An object with { repoInfo, branch }.
+ * @param {object} changeSet - The object of creations, updates, and deletions.
+ * @param {string} commitMessage - The user's commit message.
+ * @returns {Promise<string>} The SHA of the new commit.
+ */
+async performCommit({ repoInfo, branch }, changeSet, commitMessage) {
+    const latestCommitSHA = await FileSystemProvider.GitHub.getLatestCommitSHA({ repoInfo, branch });
+    
+    const allFileChanges = [...(changeSet.creations || []), ...(changeSet.updates || [])];
+    const blobCreationPromises = allFileChanges.map(file =>
+        FileSystemProvider.GitHub.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/blobs`, {
+            method: 'POST', body: JSON.stringify({ content: FileSystemProvider.GitHub.utf8_to_b64(file.content), encoding: 'base64' })
+        }).then(blob => ({ path: file.path, mode: '100644', type: 'blob', sha: blob.sha }))
+    );
+    const treeItems = await Promise.all(blobCreationPromises);
+
+    (changeSet.deletions || []).forEach(file => {
+        treeItems.push({ path: file.path, mode: '100644', type: 'blob', sha: null });
+    });
+
+    let newCommit;
+    if (latestCommitSHA) {
+        // --- Path of Ongoing History ---
+        const latestCommit = await FileSystemProvider.GitHub.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/commits/${latestCommitSHA}`);
+        const newTree = await FileSystemProvider.GitHub.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/trees`, {
+            method: 'POST', body: JSON.stringify({ base_tree: latestCommit.tree.sha, tree: treeItems })
+        });
+        newCommit = await FileSystemProvider.GitHub.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/commits`, {
+            method: 'POST', body: JSON.stringify({ message: commitMessage, tree: newTree.sha, parents: [latestCommitSHA] })
+        });
+        await FileSystemProvider.GitHub.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/refs/heads/${branch}`, {
+            method: 'PATCH', body: JSON.stringify({ sha: newCommit.sha })
+        });
+    } else {
+        // --- Path of the First Word (Root Commit) ---
+        const newTree = await FileSystemProvider.GitHub.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/trees`, { method: 'POST', body: JSON.stringify({ tree: treeItems }) });
+        newCommit = await FileSystemProvider.GitHub.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/commits`, { method: 'POST', body: JSON.stringify({ message: commitMessage, tree: newTree.sha, parents: [] }) });
+        await FileSystemProvider.GitHub.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/refs`, { method: 'POST', body: JSON.stringify({ ref: `refs/heads/${branch}`, sha: newCommit.sha }) });
+    }
+
+    return newCommit.sha;
+},
+
+    
 
     /**
      * The new, intelligent diff function that compares content SHAs.
