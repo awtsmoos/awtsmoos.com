@@ -1,5 +1,6 @@
 /*B"H*/
 import { State, DOM } from './state.js';
+import { Editor } from './editor.js';
 
 /**
  * StatusBar Module: Controls the bottom status bar, a ribbon of context
