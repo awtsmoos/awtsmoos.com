@@ -188,10 +188,14 @@ async initialize() {
     
     
     /*B"H*/
+// ACTION: Replace the entire 'commitAllChanges' method in js/app.js with this one.
+
 /**
- * Gathers all locally saved (uncommitted) changes for the active GitHub workspace,
- * prompts the user for a commit message, and then transmits them to the remote repository.
- * This is the bridge between the local vessel and the celestial realm of the git history.
+ * Gathers all locally saved changes for the active GitHub workspace, prompts for a
+ * commit message, and then transmits them to the remote repository. This new, resilient
+ * version attempts to commit each file individually. If one file fails, it reports
+ * the error and continues with the others, ensuring that the chain of creation is not
+ * broken by a single flawed link.
  */
 async commitAllChanges() {
     const activeTab = State.tabs.find(t => t.id === State.activeTabId);
@@ -222,43 +226,59 @@ async commitAllChanges() {
 
     if (!commitMessage) {
         UI.hideLoading();
-        return; // User cancelled the dialog.
+        return; // User cancelled.
     }
 
     UI.showLoading(`Committing ${uncommittedFiles.length} file(s)...`);
 
-    try {
-        // Committing files one-by-one is simpler and more robust than a complex multi-file commit API call.
-        for (let i = 0; i < uncommittedFiles.length; i++) {
-            const file = uncommittedFiles[i];
-            UI.showLoading(`Committing ${i + 1}/${uncommittedFiles.length}: ${file.item.name}`);
-            await FileSystemProvider.GitHub.write(file.item, file.content, commitMessage);
-        }
+    const successfulCommits = [];
+    const failedCommits = [];
 
-        // Once all commits succeed, purge the local copies from IndexedDB.
-        const deletionPromises = uncommittedFiles.map(file =>
+    // The core of the new resilient logic begins here.
+    for (let i = 0; i < uncommittedFiles.length; i++) {
+        const file = uncommittedFiles[i];
+        UI.showLoading(`Committing ${i + 1}/${uncommittedFiles.length}: ${file.item.name}`);
+        try {
+            await FileSystemProvider.GitHub.write(file.item, file.content, commitMessage);
+            successfulCommits.push(file);
+        } catch (e) {
+            console.error(`Failed to commit ${file.item.name}:`, e);
+            UI.showToast(`Failed to commit ${file.item.name}: ${e.message}`, 'error', 6000);
+            failedCommits.push({ file, error: e });
+            // The loop does not break; it continues to the next file.
+        }
+    }
+
+    // After attempting all commits, we process only the successful ones.
+    if (successfulCommits.length > 0) {
+        // Purge only the successful copies from IndexedDB.
+        const deletionPromises = successfulCommits.map(file =>
             FileSystemProvider.IndexedDB.deleteUncommitted(file.uniquePath)
         );
         await Promise.all(deletionPromises);
 
-        // Update the UI state for all affected tabs.
-        uncommittedFiles.forEach(committedFile => {
+        // Update the UI state only for the successful tabs.
+        successfulCommits.forEach(committedFile => {
             const tab = State.tabs.find(t => t.uniquePath === committedFile.uniquePath);
             if (tab) {
                 tab.isUncommitted = false;
             }
         });
+    }
 
-        Tabs.render();
-        UI.hideLoading();
+    Tabs.render();
+    UI.hideLoading();
+
+    // Provide a clear and honest summary of the outcome.
+    if (failedCommits.length === 0 && successfulCommits.length > 0) {
         UI.showToast("All changes successfully committed!", "success");
-
-    } catch (e) {
-        UI.hideLoading();
-        UI.showToast(`Commit failed: ${e.message}`, 'error', 8000);
-        console.error("COMMIT FAILED:", e);
+    } else if (successfulCommits.length > 0 && failedCommits.length > 0) {
+        UI.showToast(`Committed ${successfulCommits.length} of ${uncommittedFiles.length} files. See console for errors.`, "warning", 8000);
+    } else if (failedCommits.length > 0 && successfulCommits.length === 0) {
+        UI.showToast(`All commits failed. Check your connection or permissions.`, "error", 8000);
     }
 },
+
 
 setupEventListeners() {
     window.addEventListener('message', async (event) => {
