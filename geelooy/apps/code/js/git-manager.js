@@ -338,25 +338,33 @@ async showGitUI(gitContextItem) {
     
     
     /*B"H
-    Displays thedialog with status and commit options.
-     * This version gracefully handles the "No changes" state and adds the "Discard Changes" option.
-     */
-    // B"H
-    async showCommitDialog(gitContextItem, gitInfo, {
-        isBehind,
-        isAhead,
-        localChangesCount,
-        changeSet,
-        remoteChanges
-    }) {
-        // --- NEW: More intelligent status messages ---
-        let localStatusMessage = isAhead ? `${localChangesCount} change(s) detected` : 'In sync with remote';
-        if (isBehind) {
-            localStatusMessage = "Out of date with remote";
-        }
-        // --- END NEW ---
+    /**
+ * Displays the dialog with Git status and commit options.
+ * This version includes a 'Discard Changes' option and triggers a cleanup
+ * process after a successful commit to reset the file states.
+ * @param {object} gitContextItem - The folder or workspace being operated on.
+ * @param {object} gitInfo - The git metadata for the context item.
+ * @param {object} status - An object containing the calculated status flags and change sets.
+ * @param {boolean} status.isBehind - Whether the local state is behind the remote.
+ * @param {boolean} status.isAhead - Whether the local state has changes to push.
+ * @param {number} status.localChangesCount - The number of local changes.
+ * @param {object} status.changeSet - The set of local file changes.
+ * @param {object|null} status.remoteChanges - The set of remote file changes if behind.
+ * @returns {Promise<void>}
+ */
+async showCommitDialog(gitContextItem, gitInfo, {
+    isBehind,
+    isAhead,
+    localChangesCount,
+    changeSet,
+    remoteChanges
+}) {
+    let localStatusMessage = isAhead ? `${localChangesCount} change(s) detected` : 'In sync with remote';
+    if (isBehind) {
+        localStatusMessage = "Out of date with remote";
+    }
 
-        let statusHTML = `
+    let statusHTML = `
             <div class="git-status-line">
                 <span>Remote Status:</span>
                 <span class="status ${isBehind ? 'behind' : 'synced'}">${isBehind ? `Behind. Please pull.` : 'In Sync'}</span>
@@ -367,105 +375,132 @@ async showGitUI(gitContextItem) {
             </div>
         `;
 
-
-        if (isBehind && remoteChanges) {
-            const hasRemoteChanges = remoteChanges.additions.length > 0 || remoteChanges.modifications.length > 0 || remoteChanges.deletions.length > 0;
-            if (hasRemoteChanges) {
-                statusHTML += `<div class="changes-list"><strong>Remote Changes to Pull:</strong><ul>`;
-                remoteChanges.additions.forEach(path => statusHTML += `<li><span class="tag created">ADDED</span> ${path}</li>`);
-                remoteChanges.modifications.forEach(path => statusHTML += `<li><span class="tag modified">MODIFIED</span> ${path}</li>`);
-                remoteChanges.deletions.forEach(path => statusHTML += `<li><span class="tag deleted">DELETED</span> ${path}</li>`);
-                statusHTML += `</ul></div>`;
-            }
-        }
-        // --- END NEW ---
-
-        if (isAhead) {
-            statusHTML += `<div class="changes-list"><strong>Local Changes to Push:</strong><ul>`;
-            changeSet.creations.forEach(f => statusHTML += `<li><span class="tag created">ADDED</span> ${f.path}</li>`);
-            changeSet.updates.forEach(f => statusHTML += `<li><span class="tag modified">MODIFIED</span> ${f.path}</li>`);
-            changeSet.deletions.forEach(f => statusHTML += `<li><span class="tag deleted">DELETED</span> ${f.path}</li>`);
+    if (isBehind && remoteChanges) {
+        const hasRemoteChanges = remoteChanges.additions.length > 0 || remoteChanges.modifications.length > 0 || remoteChanges.deletions.length > 0;
+        if (hasRemoteChanges) {
+            statusHTML += `<div class="changes-list"><strong>Remote Changes to Pull:</strong><ul>`;
+            remoteChanges.additions.forEach(path => statusHTML += `<li><span class="tag created">ADDED</span> ${path}</li>`);
+            remoteChanges.modifications.forEach(path => statusHTML += `<li><span class="tag modified">MODIFIED</span> ${path}</li>`);
+            remoteChanges.deletions.forEach(path => statusHTML += `<li><span class="tag deleted">DELETED</span> ${path}</li>`);
             statusHTML += `</ul></div>`;
         }
+    }
 
-        const commitMessage = `B"H\nBoruch Hashem!\nBiezras Hashem\nBlessed is He\nAt ${new Date()}`;
+    if (isAhead) {
+        statusHTML += `<div class="changes-list"><strong>Local Changes to Push:</strong><ul>`;
+        changeSet.creations.forEach(f => statusHTML += `<li><span class="tag created">ADDED</span> ${f.path}</li>`);
+        changeSet.updates.forEach(f => statusHTML += `<li><span class="tag modified">MODIFIED</span> ${f.path}</li>`);
+        changeSet.deletions.forEach(f => statusHTML += `<li><span class="tag deleted">DELETED</span> ${f.path}</li>`);
+        statusHTML += `</ul></div>`;
+    }
 
-        let okButtonText = '';
-        let okButtonAction = null;
-        if (isBehind) {
-            okButtonText = 'Pull & Overwrite Local Changes';
-            okButtonAction = 'pull';
-        } else if (isAhead) {
-            okButtonText = 'Commit & Push Changes';
-            okButtonAction = 'commit';
-        }
+    const commitMessage = `B"H\nBoruch Hashem!\nBiezras Hashem\nBlessed is He\nAt ${new Date()}`;
 
-        const dialogResult = await UI.showDialog({
-            title: `Git Actions for ${gitContextItem.name}`,
-            contentHTML: statusHTML,
-            hasTextarea: isAhead && !isBehind,
-            textareaContent: commitMessage,
-            okText: okButtonText,
-            cancelText: 'Close',
-            tertiary: (isAhead && !isBehind) ? {
-                text: 'Discard Changes',
-                class: 'danger'
-            } : null
-        });
+    let okButtonText = '';
+    let okButtonAction = null;
+    if (isBehind) {
+        okButtonText = 'Pull & Overwrite Local Changes';
+        okButtonAction = 'pull';
+    } else if (isAhead) {
+        okButtonText = 'Commit & Push Changes';
+        okButtonAction = 'commit';
+    }
 
-        /*B"H*/
-        // ACTION: This logic block now handles the new 'tertiary' (Discard) option.
+    const dialogResult = await UI.showDialog({
+        title: `Git Actions for ${gitContextItem.name}`,
+        contentHTML: statusHTML,
+        hasTextarea: isAhead && !isBehind,
+        textareaContent: commitMessage,
+        okText: okButtonText,
+        cancelText: 'Close',
+        tertiary: (isAhead && !isBehind) ? {
+            text: 'Discard Changes',
+            class: 'danger'
+        } : null
+    });
 
-        if (dialogResult !== null) {
-            if (dialogResult === 'tertiary') {
-                // This is our new discard action, a return to the last known divine state.
-                await this.discardChanges(gitContextItem);
-            } else if (okButtonAction === 'commit') {
-                UI.showLoading("Performing atomic commit...");
-                try {
-                    // Step 1: Delegate the entire complex commit ceremony to our powerful method.
-                    const newCommitSHA = await this.performCommit(gitInfo, changeSet, dialogResult);
+    if (dialogResult !== null) {
+        if (dialogResult === 'tertiary') {
+            await this.discardChanges(gitContextItem);
+        } else if (okButtonAction === 'commit') {
+            UI.showLoading("Performing atomic commit...");
+            try {
+                const newCommitSHA = await this.performCommit(gitInfo, changeSet, dialogResult);
 
-                    // Step 2: After a successful commit, we must update the local blueprint.
-                    UI.showLoading("Updating local repository state...");
-                    const {
-                        repoInfo,
-                        branch
-                    } = gitInfo;
-                    const newTree = await FileSystemProvider.GitHub.getFullTree({
-                        repoInfo,
-                        branch
-                    });
-                    const updatedGitInfo = { ...gitInfo,
-                        baseCommitSHA: newCommitSHA,
-                        remoteTree: newTree.tree
+                UI.showLoading("Updating repository state...");
+                const {
+                    repoInfo,
+                    branch
+                } = gitInfo;
+                const newTree = await FileSystemProvider.GitHub.getFullTree({
+                    repoInfo,
+                    branch
+                });
+                const updatedGitInfo = { ...gitInfo,
+                    baseCommitSHA: newCommitSHA,
+                    remoteTree: newTree.tree
+                };
+
+                if (gitContextItem.type !== 'github') {
+                    const ikarFileContent = `// B"H\n\nconst ikar = ${JSON.stringify(updatedGitInfo, null, 4)};`;
+                    const ikarFileItem = { ...gitContextItem,
+                        path: `${gitContextItem.path}/.awtsmoos-repo/ikar.js`
                     };
-
-                    // Step 3: Inscribe the new reality into our local metadata file if it exists.
-                    if (gitContextItem.type !== 'github') { // Only for local clones
-                        const ikarFileContent = `// B"H\n\nconst ikar = ${JSON.stringify(updatedGitInfo, null, 4)};`;
-                        const ikarFileItem = { ...gitContextItem,
-                            path: `${gitContextItem.path}/.awtsmoos-repo/ikar.js`
-                        };
-                        await FileSystemProvider.write(ikarFileItem, ikarFileContent);
-                    }
-
-
-                    UI.hideLoading();
-                    UI.showToast("Changes committed successfully!", "success");
-                } catch (e) {
-                    UI.hideLoading();
-                    UI.showToast(`Commit failed: ${e.message}`, 'error', 8000);
-                    console.error("COMMIT FAILED:", e);
+                    await FileSystemProvider.write(ikarFileItem, ikarFileContent);
+                } else {
+                    gitContextItem.remoteTree = newTree.tree;
+                    gitContextItem.baseCommitSHA = newTree.sha;
                 }
 
-            } else if (okButtonAction === 'pull') {
-                // This part remains unchanged.
-                FileOperations.pullAndOverwrite(gitContextItem, gitInfo);
-            }
-        }
-    },
+                await this._clearUncommittedState(gitContextItem.workspaceId || gitContextItem.id, changeSet);
 
+                UI.hideLoading();
+                UI.showToast("Changes committed successfully!", "success");
+            } catch (e) {
+                UI.hideLoading();
+                UI.showToast(`Commit failed: ${e.message}`, 'error', 8000);
+                console.error("COMMIT FAILED:", e);
+            }
+
+        } else if (okButtonAction === 'pull') {
+            FileOperations.pullAndOverwrite(gitContextItem, gitInfo);
+        }
+    }
+},
+
+
+/**
+ * Clears the temporary "uncommitted" state for files after a successful commit.
+ * This involves deleting the records from IndexedDB and resetting the state of any
+ * corresponding open tabs to remove the "dirty" and "uncommitted" indicators.
+ * @private
+ * @param {number} workspaceId - The ID of the workspace to clean.
+ * @param {object} changeSet - The set of changes that were just committed.
+ * @returns {Promise<void>}
+ */
+async _clearUncommittedState(workspaceId, changeSet) {
+    const allChanges = [
+        ...(changeSet.creations || []),
+        ...(changeSet.updates || []),
+        ...(changeSet.deletions || [])
+    ];
+
+    const promises = [];
+
+    for (const change of allChanges) {
+        const uniquePath = `${workspaceId}::${change.path}`;
+        promises.push(FileSystemProvider.IndexedDB.deleteUncommitted(uniquePath));
+
+        const tab = State.tabs.find(t => t.uniquePath === uniquePath);
+        if (tab) {
+            tab.isDirty = false;
+            tab.isUncommitted = false;
+        }
+    }
+
+    await Promise.all(promises);
+    Tabs.render();
+},
 
     /**
      * B"H

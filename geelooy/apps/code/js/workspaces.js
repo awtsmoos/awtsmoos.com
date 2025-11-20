@@ -148,25 +148,73 @@ renderWorkspace(ws, container) {
     }
 },
 /*B"H*/
-// ACTION: Replace the 'renderTree' method in js/workspaces.js.
-
 /**
- * Asynchronously renders the file and folder tree. This is the second part of the
- * definitive fix. It uses a pure inheritance model where each child is created by
- * layering its unique properties ('name', 'path') over its parent's complete context.
- * This guarantees that 'readOnly' and other critical properties flow down through
- * the entire tree, fixing all related menu and file operation bugs.
+ * Asynchronously renders the file and folder tree for a given parent item.
+ * For GitHub workspaces, it fetches the entire repository tree on the first load and
+ * caches it for instantaneous subsequent rendering. For other workspace types, it lists
+ * directory contents on demand.
  * @param {HTMLElement} parentElement - The UL element to render the children into.
- * @param {object} parentItem - The complete directory item whose children should be rendered.
+ * @param {object} parentItem - The directory item whose children should be rendered.
  * @param {number} depth - The current depth in the tree for styling.
+ * @returns {Promise<void>}
  */
 async renderTree(parentElement, parentItem, depth) {
     parentElement.innerHTML = `<li class="tree-item" style="--depth:${depth}; color: var(--color-text-tertiary);">Loading...</li>`;
     try {
-        const children = await FileSystemProvider.list(parentItem);
+        let children;
+        const workspace = State.workspaces.find(ws => ws.id === parentItem.workspaceId);
+
+        if (parentItem.type === 'github' && workspace) {
+            if (!workspace._treeCache) {
+                parentElement.innerHTML = `<li class="tree-item" style="--depth:${depth}; color: var(--color-text-tertiary);">Fetching full repository tree...</li>`;
+                const fullTreeData = await FileSystemProvider.GitHub.getFullTree(parentItem);
+                const treeCache = new Map();
+                treeCache.set('/', []);
+
+                for (const node of fullTreeData.tree) {
+                    if (node.type !== 'blob') continue;
+                    const pathParts = node.path.split('/');
+                    const name = pathParts.pop();
+                    const parentPath = pathParts.length > 0 ? '/' + pathParts.join('/') : '/';
+
+                    if (!treeCache.has(parentPath)) {
+                        treeCache.set(parentPath, []);
+                    }
+                    treeCache.get(parentPath).push({
+                        name,
+                        kind: 'file',
+                        path: node.path,
+                        sha: node.sha
+                    });
+                }
+
+                for (const node of fullTreeData.tree) {
+                    const pathParts = node.path.split('/');
+                    pathParts.pop();
+                    let currentPath = '';
+                    for (const part of pathParts) {
+                        const parentPath = currentPath === '' ? '/' : currentPath;
+                        currentPath = currentPath === '' ? `/${part}` : `${currentPath}/${part}`;
+                        if (!treeCache.has(parentPath)) treeCache.set(parentPath, []);
+                        if (!treeCache.get(parentPath).some(n => n.name === part)) {
+                            treeCache.get(parentPath).push({
+                                name: part,
+                                kind: 'directory',
+                                path: currentPath.substring(1)
+                            });
+                        }
+                    }
+                }
+                workspace._treeCache = treeCache;
+            }
+            children = workspace._treeCache.get(parentItem.path) || [];
+        } else {
+            children = await FileSystemProvider.list(parentItem);
+        }
+
         parentElement.innerHTML = '';
         children.sort((a, b) => (a.kind === b.kind) ? a.name.localeCompare(b.name) : (a.kind === 'directory' ? -1 : 1));
-        
+
         if (children.length === 0) {
             parentElement.innerHTML = `<li class="tree-item" style="--depth:${depth}; color: var(--color-text-tertiary); font-style: italic;">Empty</li>`;
             return;
@@ -174,20 +222,13 @@ async renderTree(parentElement, parentItem, depth) {
 
         for (const child of children) {
             if (child.name === '.gitkeep') continue;
-
-            // THE HEART OF THE INHERITANCE FIX:
-            // We create the child by spreading the parent's full context, and then
-            // overwriting the properties that are unique to the child.
-            // This ensures 'readOnly', 'repoInfo', 'branch', 'type', and 'workspaceId'
-            // are perfectly preserved from one generation to the next.
-            const fullChildItem = { ...parentItem, ...child };
+            const fullChildItem = { ...parentItem,
+                ...child
+            };
             const uniquePath = getItemUniquePath(fullChildItem);
-
             const gitInfo = child.kind === 'directory' ? await GitMetaProvider.getGitInfoForFolder(fullChildItem) : null;
             fullChildItem.isGitClone = !!gitInfo;
-            
             const icon = fullChildItem.isGitClone ? 'git-folder' : (child.kind === 'directory' ? 'folder' : 'file');
-            
             const li = document.createElement('li');
             li.className = 'tree-item';
             li.style.setProperty('--depth', depth);
@@ -197,29 +238,30 @@ async renderTree(parentElement, parentItem, depth) {
                     <svg class="svg-icon"><use href="#icon-${icon}"/></svg>
                     <span class="tree-item-name">${child.name}</span>
                 </div>`;
-            
             parentElement.appendChild(li);
             const nameWrap = li.querySelector('.tree-item-name-wrap');
-
-            // --- All subsequent logic is now correct because 'fullChildItem' is correct ---
-
             if (fullChildItem.isGitClone) {
                 const gitBtn = document.createElement('button');
                 gitBtn.className = 'icon-button git-actions-btn';
                 gitBtn.title = 'Git Actions';
                 gitBtn.innerHTML = `<svg class="svg-icon"><use href="#icon-git-branch"></use></svg>`;
-                gitBtn.onclick = (e) => { e.stopPropagation(); GitManager.showGitUI(fullChildItem); };
+                gitBtn.onclick = (e) => {
+                    e.stopPropagation();
+                    GitManager.showGitUI(fullChildItem);
+                };
                 nameWrap.appendChild(gitBtn);
             }
-            
             nameWrap.onclick = (e) => {
                 e.stopPropagation();
-                if (State.isSelectionModeActive) { SelectionManager.toggle(fullChildItem); return; }
+                if (State.isSelectionModeActive) {
+                    SelectionManager.toggle(fullChildItem);
+                    return;
+                }
                 if (child.kind === 'directory') {
                     if (State.expandedFolders.has(uniquePath)) {
                         State.expandedFolders.delete(uniquePath);
                         li.classList.remove('expanded');
-                        li.querySelector('ul')?.remove();
+                        li.querySelector('ul') ? .remove();
                     } else {
                         State.expandedFolders.add(uniquePath);
                         li.classList.add('expanded');
@@ -232,18 +274,14 @@ async renderTree(parentElement, parentItem, depth) {
                     Tabs.create(fullChildItem);
                 }
             };
-
-            // THIS IS THE GUARDIAN OF THE SACRED MEMORY
-nameWrap.oncontextmenu = (e) => {
-    // It performs two duties, and only two:
-    // 1. It saves the pure, original event to the State.
-    State.contextEvent = e;
-    // 2. It summons the menu.
-    Menus.show(e, fullChildItem);
-};
-            
-            State.domItemMap.set(uniquePath, { el: li, item: fullChildItem });
-
+            nameWrap.oncontextmenu = (e) => {
+                State.contextEvent = e;
+                Menus.show(e, fullChildItem);
+            };
+            State.domItemMap.set(uniquePath, {
+                el: li,
+                item: fullChildItem
+            });
             if (State.expandedFolders.has(uniquePath)) {
                 li.classList.add('expanded');
                 const newUl = document.createElement('ul');

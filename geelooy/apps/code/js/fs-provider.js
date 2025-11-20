@@ -493,31 +493,68 @@ api: async (endpoint, options = {}) => {
                 return { isBinary: true, base64Content: blob.content, mime: fileInfo.mime };
             }
         },
-        async write(item, content, commitMessage) {
-            const { repoInfo, branch, path, name } = item;
-            let existingSha;
-            try {
-                const fileData = await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/contents/${path}?ref=${branch}`);
-                existingSha = fileData.sha;
-            } catch (e) { /* File doesn't exist, which is fine */ }
+        /**
+ * Writes or updates a file in a GitHub repository.
+ * After the operation, it invalidates the workspace's tree cache.
+ * @param {object} item - The file item to write to.
+ * @param {string} content - The string content to write.
+ * @param {string} [commitMessage] - The commit message for the operation.
+ * @returns {Promise<void>}
+ */
+async write(item, content, commitMessage) {
+    const {
+        repoInfo,
+        branch,
+        path,
+        name
+    } = item;
+    let existingSha;
+    try {
+        const fileData = await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/contents/${path}?ref=${branch}`);
+        existingSha = fileData.sha;
+    } catch (e) { /* File doesn't exist, which is fine */ }
 
-            const result = await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/contents/${path}`, {
-                method: 'PUT',
-                body: JSON.stringify({ 
-                    message: commitMessage || `B"H\nupdated ${name}!`, 
-                    content: this.utf8_to_b64(content), sha: existingSha, branch 
-                })
-            });
-            item.sha = result.content.sha;
-        },
-        async create({ repoInfo, branch, path }, name, kind) {
-            const newPath = (path === '/' ? name : `${path}/${name}`) + (kind === 'directory' ? '/.gitkeep' : '');
-            const message = `B"H\ncreate ${kind} '${name}'`;
-            await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/contents/${newPath}`, {
-                method: 'PUT',
-                body: JSON.stringify({ message, content: kind === 'directory' ? '' : this.utf8_to_b64(''), branch })
-            });
-        },
+    const result = await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/contents/${path}`, {
+        method: 'PUT',
+        body: JSON.stringify({
+            message: commitMessage || `B"H\nupdated ${name}!`,
+            content: this.utf8_to_b64(content),
+            sha: existingSha,
+            branch
+        })
+    });
+    item.sha = result.content.sha;
+
+    const workspace = State.workspaces.find(ws => ws.repoInfo?.repo === repoInfo.repo && ws.repoInfo?.owner === repoInfo.owner);
+    if (workspace) workspace._treeCache = null;
+},
+        /**
+ * Creates a new file or directory in a GitHub repository.
+ * After the operation, it invalidates the workspace's tree cache.
+ * @param {object} parentDir - The directory where the item will be created.
+ * @param {string} name - The name of the new file or folder.
+ * @param {string} kind - The type of item to create ('file' or 'directory').
+ * @returns {Promise<void>}
+ */
+async create({
+    repoInfo,
+    branch,
+    path
+}, name, kind) {
+    const newPath = (path === '/' ? name : `${path}/${name}`) + (kind === 'directory' ? '/.gitkeep' : '');
+    const message = `B"H\ncreate ${kind} '${name}'`;
+    await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/contents/${newPath}`, {
+        method: 'PUT',
+        body: JSON.stringify({
+            message,
+            content: kind === 'directory' ? '' : this.utf8_to_b64(''),
+            branch
+        })
+    });
+
+    const workspace = State.workspaces.find(ws => ws.repoInfo?.repo === repoInfo.repo && ws.repoInfo?.owner === repoInfo.owner);
+    if (workspace) workspace._treeCache = null;
+},
         async _deletePathRecursively(repoInfo, branch, path) {
             const contents = await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/contents/${path}?ref=${branch}`);
             for (const item of contents) {
@@ -536,21 +573,39 @@ api: async (endpoint, options = {}) => {
                 }
             }
         },
-        async delete(item) {
-            const { repoInfo, branch, path, name } = item;
-            if (item.kind === 'file') {
-                const message = `B"H - Delete '${name}'`;
-                const fileData = await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/contents/${path}?ref=${branch}`);
-                await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/contents/${path}`, {
-                    method: 'DELETE',
-                    body: JSON.stringify({ message, sha: fileData.sha, branch })
-                });
-            } else if (item.kind === 'directory') {
-                await this._deletePathRecursively(repoInfo, branch, path);
-            } else {
-                throw new Error(`Unsupported item type for deletion: ${item.kind}`);
-            }
-        },
+        /**
+ * Deletes a file or directory from a GitHub repository.
+ * After the operation, it invalidates the workspace's tree cache.
+ * @param {object} item - The item to delete.
+ * @returns {Promise<void>}
+ */
+async delete(item) {
+    const {
+        repoInfo,
+        branch,
+        path,
+        name
+    } = item;
+    if (item.kind === 'file') {
+        const message = `B"H - Delete '${name}'`;
+        const fileData = await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/contents/${path}?ref=${branch}`);
+        await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/contents/${path}`, {
+            method: 'DELETE',
+            body: JSON.stringify({
+                message,
+                sha: fileData.sha,
+                branch
+            })
+        });
+    } else if (item.kind === 'directory') {
+        await this._deletePathRecursively(repoInfo, branch, path);
+    } else {
+        throw new Error(`Unsupported item type for deletion: ${item.kind}`);
+    }
+
+    const workspace = State.workspaces.find(ws => ws.repoInfo?.repo === repoInfo.repo && ws.repoInfo?.owner === repoInfo.owner);
+    if (workspace) workspace._treeCache = null;
+},
         /*B"H*/
 
 /**
