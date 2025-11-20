@@ -1,5 +1,6 @@
 // B"H
 // B"H
+console.log("loaded parser")
 (function(root, factory) {
 const merkavaPromise = factory(); // Execute the factory immediately to get the promise
 
