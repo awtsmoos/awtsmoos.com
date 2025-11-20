@@ -1,11 +1,9 @@
-// B"H
-// FILE: js/statusbar.js
-
-import { State, DOM } from './state.js';
-import { Editor } from './editor.js';
+/*B"H*/
 
 /**
- * StatusBar Module: Controls the bottom status bar.
+ * StatusBar Module: Controls the bottom status bar, a ribbon of context
+ * that reflects the current state of the editor's focus, including whether
+ * the current realm is read-only.
  */
 export const StatusBar = {
     update: () => {
@@ -14,6 +12,10 @@ export const StatusBar = {
         const activeTab = State.tabs.find(t => t.id === State.activeTabId);
         if (activeTab) {
             StatusBar.updateLanguage(activeTab.item.name);
+            const workspace = State.workspaces.find(ws => ws.id === activeTab.item.workspaceId);
+            if (workspace?.readOnly) {
+                DOM.statusRight.textContent += '  |  [Read-Only]';
+            }
             if (activeTab.item.type === 'github') {
                 StatusBar.updateGit(activeTab.item.branch);
             }
