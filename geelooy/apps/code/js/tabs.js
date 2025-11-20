@@ -133,7 +133,7 @@ async create(item, isNewFile = false, shouldSave = true, activate = true) {
      * @param {number} tabId - The ID of the tab to activate.
      * @param {boolean} [forceViewChange=false] - If true, forces a full re-render of the view.
      */
-    /*B"H*/
+/*B"H*/
 async activate(tabId, forceViewChange = false) {
     const currentTab = State.tabs.find(t => t.id === State.activeTabId);
     if (currentTab) {
@@ -166,7 +166,7 @@ async activate(tabId, forceViewChange = false) {
     }
 
     if (tab.content === null || tab.forceReload) {
-        UI.showLoading(`Opening ${tab.item.name}...`);
+        
         try {
             let fileContent;
             let wasLoadedFromIndexedDB = false;
@@ -210,7 +210,7 @@ async activate(tabId, forceViewChange = false) {
             UI.showToast(`Error opening ${tab.item.name}: ${e.message}`, 'error');
             this.close(tab.id, true); return;
         } finally {
-            UI.hideLoading();
+            // The redundant UI.hideLoading() call has also been removed.
             tab.forceReload = false;
         }
     }
