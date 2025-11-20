@@ -360,12 +360,30 @@ async handleAction(action) {
                         await Workspaces.refreshNode(item);
                         if (kind === 'file') {
                             const newPath = item.path === '/' ? `/${name}` : `${item.path}/${name}`;
-                            Tabs.create({ ...item, name, path: newPath, kind: 'file' });
+                            // We create the item object and explicitly give it content.
+                // This tells Tabs.create, "This is a new being, its substance is this
+                // empty string. Do not try to read it from a source it doesn't have."
+                const newFileItem = { 
+                    ...item, // Inherit context like workspaceId and type
+                    name,
+                    path: newPath,
+                    kind: 'file',
+                    content: '' // The explicit declaration of substance.
+                };
+                            
+                            Tabs.create(
+                            newFileItem
+                             );
                         }
                     }
                 }
                 break;
-            case 'start-selection': SelectionManager.start(item, State.contextEvent); break;
+            /*B"H*/
+case 'start-selection':
+   
+    SelectionManager.start(item, State.contextEvent);
+    break;
+            
             case 'copy-single':
                 if (item) {
                     State.fileClipboard = [getItemUniquePath(item)];
