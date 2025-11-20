@@ -16,24 +16,15 @@ const merkavaPromise = factory(); // Execute the factory immediately to get the 
     }
     
     merkavaPromise.then(MerkavahParser => {
-    if (typeof document !== 'undefined' && document.currentScript) {
-        const currentScript = document.currentScript;
-        const url = new URL(currentScript.src, window.location.href);
-        const callbackName = url.searchParams.get('merkavaCallback');
+    const callbackName = root['merkavaCallback'];
         
-        console. log("doing something",url)
+        console. log("doing something",callbackName)
     
 
         if (callbackName && typeof root[callbackName] === 'function') {
             root[callbackName](MerkavahParser);
         }
-    } else {
     
-    console
-    .
-    log("what's going on", document, document. currentScript)
-    
-    }
 }).catch(err => {
     console.error("A critical failure occurred inside the Merkava Parser's initialization promise.", err);
 });
