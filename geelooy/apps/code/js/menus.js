@@ -374,7 +374,12 @@ async handleAction(action) {
                     }
                 }
                 break;
-            case 'start-selection': SelectionManager.start(item, State.contextEvent); break;
+            case 'start-selection':
+    // This action is now pure. It no longer knows or cares about an 'event'.
+    // It simply commands the SelectionManager to begin its work on the chosen 'item'.
+    SelectionManager.start(item);
+    break;
+            
             case 'copy-single':
                 if (item) {
                     State.fileClipboard = [getItemUniquePath(item)];
