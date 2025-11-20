@@ -661,44 +661,64 @@ async _clearUncommittedState(workspaceId, changeSet) {
 
 
 
-    /*B"H*/
+ /*B"H*/
+// ACTION: Replace the 'calculateDiff' method with this definitive, enlightened version.
+
 /**
- * The new, enlightened diff function. It not only compares the Inscribed state
- * (saved files) against the Sanctified (remote), but it now also perceives the
- * Ephemeral state by identifying any unsaved (`isDirty`) tabs that belong to
- * the repository, returning them as a distinct category of change.
+ * The definitive diff function, its perception now healed. It no longer relies on
+ * ambiguous path checks to understand reality. Instead, it gazes directly at the
+ * essence ('type') of the Git context. This allows it to correctly distinguish a
+ * direct GitHub workspace from a local clone—even a clone at the root of another
+ * workspace—ensuring that all unsaved (dirty) files are always seen and correctly
+ * made relative to their Git root.
  * @param {object} gitContextItem - The folder or workspace being operated on.
  * @param {object} gitInfo - The git metadata for the context item.
- * @returns {Promise<object>} A change set object containing creations, updates, deletions, and now, dirtyFiles.
+ * @returns {Promise<object>} The complete and correct change set.
  */
 async calculateDiff(gitContextItem, gitInfo) {
     const changeSet = {
         creations: [],
         updates: [],
-deletions: [],
-        dirtyFiles: [] // The new perception of the Ephemeral.
+        deletions: [],
+        dirtyFiles: []
     };
     const remoteFileMap = new Map((gitInfo.remoteTree || []).map(f => [f.path, f]));
     const workspaceId = gitContextItem.workspaceId || gitContextItem.id;
 
-    // --- PERCEIVE THE EPHEMERAL ---
-    // Find all unsaved tabs within this Git context.
+    // --- PERCEIVE THE EPHEMERAL (UNSAVED CHANGES) ---
     State.tabs.forEach(tab => {
-        if (tab.isDirty && (tab.item.workspaceId === workspaceId)) {
-            // Ensure the tab's item path is relative to the git root for clones.
-            let relativePath = tab.item.path;
-            if (gitContextItem.path !== '/') {
-                 relativePath = tab.item.path.startsWith(gitContextItem.path + '/') 
-                    ? tab.item.path.substring(gitContextItem.path.length + 1)
-                    : null;
+        // Find tabs that are dirty and belong to the correct workspace.
+        if (!tab.isDirty || tab.item.workspaceId !== workspaceId) {
+            return;
+        }
+
+        const isDirectRepo = gitContextItem.type === 'github';
+        let relativePath;
+
+        if (isDirectRepo) {
+            // This is a direct GitHub workspace. The tab's path is already relative.
+            // Any dirty tab in this workspace is, by definition, part of the context.
+            relativePath = tab.item.path;
+        } else {
+            // This is a local clone existing within another workspace ('local' or 'indexeddb').
+            // The git context is the folder of the clone.
+            const cloneRootPath = gitContextItem.path;
+            const fileFullPath = tab.item.path;
+
+            // Check if the dirty file's full path lives inside the clone's root folder.
+            if (fileFullPath && fileFullPath.startsWith(cloneRootPath + '/')) {
+                // If so, calculate the path relative to the clone root.
+                relativePath = fileFullPath.substring(cloneRootPath.length + 1);
             }
-            if (relativePath) {
-                changeSet.dirtyFiles.push({ ...tab.item, path: relativePath });
-            }
+        }
+
+        // If a valid relative path was determined, the file is part of this Git context.
+        if (typeof relativePath === 'string') {
+            changeSet.dirtyFiles.push({ ...tab.item, path: relativePath });
         }
     });
 
-    // --- PERCEIVE THE INSCRIBED (UNCHANGED FROM BEFORE) ---
+    // --- PERCEIVE THE INSCRIBED (SAVED, UNCOMMITTED CHANGES) ---
     const uncommittedChanges = await FileSystemProvider.IndexedDB.listUncommittedForWorkspace(workspaceId);
     for (const change of uncommittedChanges) {
         const { path } = change.item;
@@ -709,7 +729,7 @@ deletions: [],
         }
     }
 
-    // For local clones, we must also check for deletions.
+    // --- PERCEIVE DELETIONS (FOR LOCAL CLONES ONLY) ---
     if (gitContextItem.type !== 'github') {
         const localFiles = await FileSystemProvider.listAllFiles(gitContextItem);
         const localFilePaths = new Set(localFiles.map(f => {

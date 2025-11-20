@@ -7,6 +7,7 @@
  */
 // FILE: js/app.js
 // B"H - IN: js/app.js
+
 import {
     SelectionManager
 } from './selection-manager.js';
