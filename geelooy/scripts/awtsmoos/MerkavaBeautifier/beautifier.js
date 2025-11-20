@@ -315,30 +315,39 @@ export async function beautify(code, options = {}) {
                  return node.value.raw;
 
             case 'TemplateLiteral':
+                // The indentation of the line containing the template string (e.g., console.log).
+                // Let's call this the "parent indent".
+                const parentIndent = indent;
+
+                // The content inside ${...} must be indented one level deeper.
+                const expressionIndent = parentIndent + finalOptions.indentChar;
+
                 let result = '`';
-                const expressionIndent = indent + finalOptions.indentChar;
 
                 // A template literal is an alternating sequence of static text and expressions.
                 for (let i = 0; i < node.quasis.length; i++) {
                     
-                    // 1. Append the static text part (e.g., "Hello, ").
+                    // 1. Append the static text part (e.g., "Hello, " or "!").
                     result += node.quasis[i].value.raw;
 
-                    // 2. Check if there is an expression that immediately follows this static part.
+                    // 2. If there is an expression that follows this static part, format it.
                     if (i < node.expressions.length) {
                         
-                        // 2a. Recursively format the content of the expression with one deeper level of indentation.
+                        // Get the formatted content of the expression itself.
                         const expressionContent = walk(node.expressions[i], expressionIndent);
 
-                        // 2b. Build the complete, correctly formatted expression block.
-                        // THE FIX: The closing '}' is now placed on a new line without adding extra indentation.
-                        // This makes it align correctly with the start of the parent statement.
-                        result += '${' + '\n' +
-                                  expressionIndent + expressionContent + '\n' +
-                                  '}'; // <-- FIX: Removed the 'indent +' from this line.
+                        // --- This is the corrected formatting logic ---
+
+                        // Start the expression on a new line.
+                        result += '${' + '\n';
+
+                        // Add the inner content, indented one level deeper.
+                        result += expressionIndent + expressionContent;
+
+                        // Add the closing brace on its own line, with the parent's indentation.
+                        result += '\n' + parentIndent + '}';
                     }
                 }
-
 
                 // 3. Append the final backtick to close the template literal.
                 result += '`';
