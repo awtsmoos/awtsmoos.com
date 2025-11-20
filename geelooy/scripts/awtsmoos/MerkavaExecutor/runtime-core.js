@@ -478,6 +478,7 @@ class MerkavaExecutor {
         ChainExpression: async function(n, c) { return await this._executeNode(n.expression, c); },
         
         
+        
         NewExpression: async function(n, c) {
             const constructor = await this._executeNode(n.callee, c);
             if (typeof constructor !== 'function') {
@@ -485,17 +486,16 @@ class MerkavaExecutor {
             }
             const args = await Promise.all(n.arguments.map(arg => this._executeNode(arg, c)));
             
-            // Create the instance that will be the `this` value during construction.
+            // Step 1: Simulate `new`. Create a new object whose prototype is the constructor's prototype.
             const newInstance = Object.create(constructor.prototype);
 
-            // CRITICAL: Initialize instance fields *before* calling the constructor.
-            // This mimics the true JavaScript order of operations.
+            // Step 2: Initialize instance fields *before* calling the constructor.
             if (constructor.merkavaMetadata && constructor.merkavaMetadata.instanceFields) {
                 const fieldCtx = { ...c, scope: this._createScope(this, c.scope, {}, newInstance) };
                 for (const field of constructor.merkavaMetadata.instanceFields) {
                      const value = field.value ? await this._executeNode(field.value, fieldCtx) : undefined;
                      if (field.key.type === 'PrivateIdentifier') {
-                         // Private field logic would go here
+                         // Private field logic would go here.
                      } else {
                          const key = field.computed ? await this._executeNode(field.key, fieldCtx) : field.key.name;
                          newInstance[key] = value;
@@ -503,10 +503,11 @@ class MerkavaExecutor {
                 }
             }
             
-            // Call the constructor function with the new instance as its `this` context.
+            // Step 3: Call the constructor function with the new instance as its `this` context.
+            // Since our constructors are now async, we must await this call.
             const result = await constructor.apply(newInstance, args);
 
-            // The constructor can optionally return an object to override the `new` expression's result.
+            // Step 4: The constructor can optionally return its own object.
             return (typeof result === 'object' && result !== null) ? result : newInstance;
         },
         
@@ -625,16 +626,79 @@ class MerkavaExecutor {
         
         
         
+
+
 FunctionExpression: async function(n, c) {
-    return this._createCallable(n, c);
-},
+            const executor = this;
+
+            // The callable is now a native `async function`. This is the core of the fix.
+            // It allows the host JS engine's promise/await and try/catch mechanisms
+            // to interact with our simulated function correctly.
+            const callable = async function(...args) {
+                const thisContext = this; // `this` is correctly captured from the call site.
+                const funcScope = executor._createScope(this, c.scope, {}, thisContext);
+                const funcContext = { ...c, scope: funcScope };
+
+                for (let i = 0; i < n.params.length; i++) {
+                    await executor._assignPattern(n.params[i], args[i], funcContext);
+                }
+                
+                try {
+                    return await executor._executeNode(n.body, funcContext);
+                } catch (e) {
+                    if (e.type === 'Return') {
+                        return e.value;
+                    }
+                    throw e; // Re-throw other errors/signals.
+                }
+            };
+
+            if (n.id && n.id.name) {
+                Object.defineProperty(callable, 'name', { value: n.id.name, configurable: true });
+            }
+
+            // A native async function does not have a `.prototype` by default.
+            // We must add one so that it can be used as a class constructor.
+            if (!callable.prototype) {
+                callable.prototype = {};
+            }
+            
+            return callable;
+        },
         
-        // --- REPLACE THIS ENTIRE METHOD ---
-ArrowFunctionExpression: async function(n, c) {
-    // Arrow functions have a lexical `this`, so we create a temporary context.
-    const arrowContext = { ...c, scope: this._createScope(this, c.scope, {}, c.scope.thisBinding) };
-    return this._createCallable(n, arrowContext);
-},
+        
+        
+        
+        ArrowFunctionExpression: async function(n, c) {
+            const executor = this;
+            
+            const callable = async function(...args) {
+                // An arrow function's `this` is lexical, taken from the scope where it was defined.
+                const thisContext = c.scope.thisBinding; 
+                const funcScope = executor._createScope(this, c.scope, {}, thisContext);
+                const funcContext = { ...c, scope: funcScope };
+
+                for (let i = 0; i < n.params.length; i++) {
+                    await executor._assignPattern(n.params[i], args[i], funcContext);
+                }
+                
+                try {
+                    if (n.body.type !== 'BlockStatement') {
+                        return await executor._executeNode(n.body, funcContext);
+                    }
+                    return await executor._executeNode(n.body, funcContext);
+                } catch (e) {
+                    if (e.type === 'Return') {
+                        return e.value;
+                    }
+                    throw e;
+                }
+            };
+            
+            return callable;
+        },
+        
+        
         ArrayExpression: async function(n, c) {
             const arr = [];
             for(const element of n.elements) {
