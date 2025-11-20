@@ -13,7 +13,7 @@ class MerkavaExecutor {
 
         this.MerkavahParser = MerkavahParser;
         this.globalObject = initialContext || (typeof self !== 'undefined' ? self : global);
-        this.globalScope = this._createScope(null, {}, this.globalObject);
+        this.globalScope = this._createScope(this, null, {}, this.globalObject);
         
         // Custom handlers for module interactions
         this.customImportResolver = customImportResolver || (spec => { throw new Error(`Import resolver not provided for: ${spec}`) });
@@ -62,7 +62,8 @@ class MerkavaExecutor {
     }
 
     // Creates a new scope for functions, blocks, or loops.
-    _createScope(parent, bindings = {}, thisBinding) {
+    
+    _createScope(executor, parent, bindings = {}, thisBinding) {
         const scope = {
             parent,
             bindings: new Map(Object.entries(bindings)),
@@ -74,8 +75,11 @@ class MerkavaExecutor {
                     if (current.bindings.has(name)) return current.bindings.get(name);
                     current = current.parent;
                 }
-                // Fallback to the global context (e.g., window)
-                if (name in this.thisBinding) return this.thisBinding[name];
+                // CORRECTED FALLBACK: Check the true global object, not the contextual `this`.
+                if (name in executor.globalObject) {
+                    return executor.globalObject[name];
+                }
+                // Return undefined if not found anywhere. The Identifier executor will throw the ReferenceError.
                 return undefined;
             },
             set(name, value) { this.bindings.set(name, value); },
@@ -88,13 +92,13 @@ class MerkavaExecutor {
                     }
                     current = current.parent;
                 }
-                 // If not found in any scope, set on the global context
-                this.thisBinding[name] = value;
+                // If not found in any scope, set on the global context
+                executor.globalObject[name] = value;
                 return false;
             }
         };
         return scope;
-    }
+    },
     
     // Handles destructuring assignment for variables, parameters, and catch clauses.
     async _assignPattern(pattern, value, context) {
@@ -157,7 +161,7 @@ class MerkavaExecutor {
         // ### CORE & STATEMENTS ###
         Program: async function(n, c) { return await this._executeStatements(n.body, c); },
         BlockStatement: async function(n, c) {
-            const blockScope = this._createScope(c.scope, {}, c.scope.thisBinding);
+            const blockScope = this._createScope(this, c.scope, {}, c.scope.thisBinding);
             return await this._executeStatements(n.body, { ...c, scope: blockScope });
         },
         ExpressionStatement: async function(n, c) { return await this._executeNode(n.expression, c); },
@@ -166,7 +170,7 @@ class MerkavaExecutor {
             else if (n.alternate) return await this._executeNode(n.alternate, c);
         },
         ForStatement: async function(n, c) {
-            const loopScope = this._createScope(c.scope);
+            const loopScope = this._createScope(this, c.scope);
             const loopCtx = { ...c, scope: loopScope };
             for (await this._executeNode(n.init, loopCtx); n.test ? await this._executeNode(n.test, loopCtx) : true; await this._executeNode(n.update, loopCtx)) {
                 try { await this._executeNode(n.body, loopCtx); } catch (e) {
@@ -177,7 +181,7 @@ class MerkavaExecutor {
         ForOfStatement: async function(n, c) {
             const iterable = await this._executeNode(n.right, c);
             for await (const value of iterable) {
-                const loopScope = this._createScope(c.scope);
+                const loopScope = this._createScope(this, c.scope);
                 const varDecl = n.left.type === 'VariableDeclaration' ? n.left.declarations[0].id : n.left;
                 await this._assignPattern(varDecl, value, { scope: loopScope });
                 try { await this._executeNode(n.body, { ...c, scope: loopScope }); } catch (e) {
@@ -189,7 +193,7 @@ class MerkavaExecutor {
             const object = await this._executeNode(n.right, c);
             for (const key in object) {
                 if (Object.hasOwn(object, key)) {
-                    const loopScope = this._createScope(c.scope);
+                    const loopScope = this._createScope(this, c.scope);
                     const varDecl = n.left.type === 'VariableDeclaration' ? n.left.declarations[0].id : n.left;
                     await this._assignPattern(varDecl, key, { scope: loopScope });
                     try { await this._executeNode(n.body, { ...c, scope: loopScope }); } catch (e) {
@@ -215,7 +219,7 @@ class MerkavaExecutor {
         SwitchStatement: async function(n, c) {
             const discriminant = await this._executeNode(n.discriminant, c);
             let matched = false;
-            const switchScope = this._createScope(c.scope);
+            const switchScope = this._createScope(this, c.scope);
             const switchCtx = { ...c, scope: switchScope };
 
             for (const caseClause of n.cases) {
@@ -237,7 +241,7 @@ class MerkavaExecutor {
                 return await this._executeNode(n.block, c);
             } catch (error) {
                 if (n.handler) {
-                    const catchScope = this._createScope(c.scope);
+                    const catchScope = this._createScope(this, c.scope);
                     const catchContext = { ...c, scope: catchScope };
                     if (n.handler.param) {
                         await this._assignPattern(n.handler.param, error, catchContext);
@@ -268,7 +272,7 @@ class MerkavaExecutor {
             // This is a simplified, non-performant simulation of a `with` block's scope chain modification.
             const withBindings = {};
             for(const key in withObject) { withBindings[key] = withObject[key]; }
-            const withScope = this._createScope(c.scope, withBindings, withObject);
+            const withScope = this._createScope(this, c.scope, withBindings, withObject);
             return await this._executeNode(n.body, { ...c, scope: withScope });
         },
         
@@ -392,7 +396,7 @@ class MerkavaExecutor {
             // CRITICAL: Initialize instance fields *before* calling the constructor.
             // This mimics the true JavaScript order of operations.
             if (constructor.merkavaMetadata && constructor.merkavaMetadata.instanceFields) {
-                const fieldCtx = { ...c, scope: this._createScope(c.scope, {}, newInstance) };
+                const fieldCtx = { ...c, scope: this._createScope(this, c.scope, {}, newInstance) };
                 for (const field of constructor.merkavaMetadata.instanceFields) {
                      const value = field.value ? await this._executeNode(field.value, fieldCtx) : undefined;
                      if (field.key.type === 'PrivateIdentifier') {
@@ -640,7 +644,7 @@ class MerkavaExecutor {
         },
         ClassExpression: async function(n, c) {
             const superClass = n.superClass ? await this._executeNode(n.superClass, c) : null;
-            const classScope = this._createScope(c.scope);
+            const classScope = this._createScope(this, c.scope);
             const classContext = { ...c, scope: classScope };
             
             let classConstructor;
