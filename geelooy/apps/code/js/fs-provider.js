@@ -551,18 +551,46 @@ api: async (endpoint, options = {}) => {
                 throw new Error(`Unsupported item type for deletion: ${item.kind}`);
             }
         },
+        
+        
+        /*B"H*/
+
+        /**
+         * Fetches the SHA hash of the most recent commit on a given branch.
+         * This is the "latest moment in time" for a repository.
+         * @param {object} params - The repository information.
+         * @param {object} params.repoInfo - Contains owner and repo name.
+         * @param {string} params.branch - The branch to check.
+         * @returns {Promise<string>} The SHA of the latest commit.
+         */
         async getLatestCommitSHA({ repoInfo, branch }) {
             const ref = await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/ref/heads/${branch}`);
             return ref.object.sha;
         },
+
+        /**
+         * Fetches the entire file blueprint of a repository in a single API call.
+         * This is the "architect's blueprint," a complete list of all files.
+         * @param {object} params - The repository information.
+         * @param {object} params.repoInfo - Contains owner and repo name.
+         * @param {string} params.branch - The branch to get the tree for.
+         * @returns {Promise<object>} An object containing the commit SHA and the flat array of tree files.
+         */
         async getFullTree({ repoInfo, branch }) {
             const latestCommitSHA = await this.getLatestCommitSHA({ repoInfo, branch });
             const treeData = await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/trees/${latestCommitSHA}?recursive=1`);
+            
+            // We return the complete blueprint for others to use.
             return {
                 sha: latestCommitSHA,
-                tree: treeData.tree.filter(node => node.type === 'blob')
+                tree: treeData.tree.filter(node => node.type === 'blob') // We only care about files ('blobs')
             };
         },
+
+        
+        
+        
+        
         async commitMultipleFiles({ repoInfo, branch, commitMessage, changeSet }) {
             const latestCommitSHA = await this.getLatestCommitSHA({ repoInfo, branch });
             const latestCommit = await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/commits/${latestCommitSHA}`);
