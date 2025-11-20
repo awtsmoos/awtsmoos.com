@@ -9,7 +9,7 @@ import { Menus } from './menus.js';
 import { App } from './app.js';
 import { GitManager } from './git-manager.js'; // Make sure this import exists
 import { GitMetaProvider } from './git-meta-provider.js'; // <-- Make sure this import exists at the top
-
+import { UI } from './ui.js';
 
 
 export const getItemUniquePath = (item) => `${item.workspaceId ?? item.id}::${item.path ?? '/'}`;
