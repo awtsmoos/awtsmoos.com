@@ -95,48 +95,84 @@ loadSession() {
     }
 },
 
-    /*B"H*/
+/*B"H*/
 async initialize() {
+    // This log should ALWAYS appear. If it doesn't, the problem is with the script loading itself.
+    console.log('[INIT_DEBUG] Awtsmoos Editor is starting the initialization sequence.');
     UI.showLoading("Awtsmoos Editor Initializing...");
 
-    // 1. Establish database connections FIRST. This is the most critical fix.
     try {
-        await FileSystemProvider.IndexedDB.init();
-    } catch (e) {
-        // If the DB fails, we can't continue, so we hide loading and show the error.
+        // STEP 1: Database Initialization with Timeout
+        console.log('[INIT_DEBUG] Step 1: Initializing Browser Storage (IndexedDB)...');
+        const dbInitialization = FileSystemProvider.IndexedDB.init();
+        const dbTimeout = new Promise((_, reject) => 
+            setTimeout(() => reject(new Error('Database connection timed out after 5 seconds.')), 5000)
+        );
+        
+        // This will either resolve with the DB connection or reject with the timeout error.
+        await Promise.race([dbInitialization, dbTimeout]);
+        console.log('[INIT_DEBUG] Step 1 COMPLETE: Database connected successfully.');
+
+        // STEP 2: Load Settings
+        console.log('[INIT_DEBUG] Step 2: Loading settings...');
+        this.loadSettings();
+        console.log('[INIT_DEBUG] Step 2 COMPLETE: Settings loaded.');
+
+        // STEP 3: Load Session
+        console.log('[INIT_DEBUG] Step 3: Loading session...');
+        const isEmbedded = new URLSearchParams(window.location.search).get('embedded') === 'true';
+        if (!isEmbedded) {
+            this.loadSession();
+        }
+        console.log('[INIT_DEBUG] Step 3 COMPLETE: Session loaded.');
+
+        // STEP 4: Initialize UI Modules
+        console.log('[INIT_DEBUG] Step 4: Initializing UI modules...');
+        SelectionManager.initialize();
+        CustomMenu.init();
+        this.setupEventListeners();
+        FindReplace.init();
+        Editor.init();
+        State.hexEditorInstance = new HexEditor(DOM.hexEditorWrapper, DOM.hexNavPad);
+        console.log('[INIT_DEBUG] Step 4 COMPLETE: UI modules initialized.');
+
+        // STEP 5: Render UI from State
+        console.log('[INIT_DEBUG] Step 5: Rendering workspaces...');
+        Workspaces.render();
+        console.log('[INIT_DEBUG] Step 5 COMPLETE: Workspaces rendered.');
+
+        // STEP 6: Activate the correct tab
+        console.log('[INIT_DEBUG] Step 6: Activating primary tab...');
+        await Tabs.activate(State.activeTabId || null);
+        console.log('[INIT_DEBUG] Step 6 COMPLETE: Primary tab activated.');
+
+        // FINAL STEP: Hide loading and show welcome
+        console.log('[INIT_DEBUG] Initialization sequence finished successfully. B"H');
         UI.hideLoading();
-        UI.showToast(e.message || "Browser Storage (IndexedDB) failed to initialize.", 'error', 10000);
-        console.error("Halting initialization due to DB failure.");
-        return; // Stop initialization.
+        UI.showToast("Welcome to the Awtsmoos Code Editor", 'success');
+
+    } catch (e) {
+        // This is the crucial catch block. If any step fails, this will now execute.
+        console.error('[INIT_FATAL] A critical error occurred during initialization:', e);
+        UI.hideLoading();
+        const errorMessage = e.message || "An unknown critical error occurred during startup. The application cannot continue. Please check the console for details.";
+        UI.showToast(errorMessage, 'error', 15000); // Show toast for 15 seconds
+        
+        // Display a message directly on the page as a fallback
+        const body = document.querySelector('body');
+        if (body) {
+            body.innerHTML = `
+                <div style="padding: 40px; text-align: center; color: #ffc8c8; background: #280000; height: 100vh; font-family: monospace; font-size: 16px;">
+                    <h1>B"H - Application Failed to Start</h1>
+                    <p>A fatal error prevented the editor from loading:</p>
+                    <p style="background: #111; padding: 15px; border-radius: 5px; margin-top: 20px; text-align: left; white-space: pre-wrap;">${errorMessage}</p>
+                    <p style="margin-top: 30px; color: #aaa;">Please try clearing your browser's cache for this site or opening it in a private/incognito window. Check the developer console for more technical details.</p>
+                </div>
+            `;
+        }
+        return; // Halt execution
     }
-
-    // 2. Load settings (synchronous).
-    this.loadSettings();
-
-    // 3. Load session data directly into State without triggering rendering.
-    const isEmbedded = new URLSearchParams(window.location.search).get('embedded') === 'true';
-    if (!isEmbedded) {
-        this.loadSession(); // This will now be synchronous.
-    }
-
-    // 4. Initialize all synchronous UI modules.
-    SelectionManager.initialize();
-    CustomMenu.init();
-    this.setupEventListeners();
-    FindReplace.init();
-    Editor.init();
-    State.hexEditorInstance = new HexEditor(DOM.hexEditorWrapper, DOM.hexNavPad);
-
-    // 5. Render the UI from the loaded state.
-     Workspaces.render();
-
-    // 6. Finally, activate the correct tab, which is the main async UI operation.
-    await Tabs.activate(State.activeTabId || null);
-
-    UI.hideLoading();
-    UI.showToast("Welcome to the Awtsmoos Code Editor", 'success');
-},
-
+}
     saveSettings: () => {
          localStorage.setItem('vividX_settings_profound', JSON.stringify({ 
              githubToken: State.githubToken,
