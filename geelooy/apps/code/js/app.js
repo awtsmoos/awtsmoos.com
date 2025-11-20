@@ -13,6 +13,7 @@ import { Workspaces, getItemUniquePath} from './workspaces.js';
 import { Menus } from './menus.js';
 import { FindReplace } from './find-replace.js';
 import { CustomMenu } from './custom-menu.js';
+import {GitManager} from "./git-manager.js";
 
 import { HexEditor } from './hex-editor.js';
 
