@@ -48,15 +48,38 @@ export const SelectionManager = {
         });
     },
 
-    start(initialItem, event) {
-        if (State.isSelectionModeActive) return; // Already active
+    /*B"H*/
+// ACTION: Replace the 'start' method in selection-manager.js.
 
-        State.isSelectionModeActive = true;
-        this.toggle(initialItem); // Select the first item
-        this.showMenu(event);
-        
-        UI.showToast("Selection mode started.", "info");
-    },
+/**
+ * Begins the selection process. This is the definitive, healed version.
+ * It is now self-reliant, fetching the original right-click event directly
+ * from the application's State. It then immediately selects the initial item
+ * and summons the selection menu, restoring all expected behavior.
+ * @param {object} initialItem - The first item to be selected.
+ */
+start(initialItem) {
+    if (State.isSelectionModeActive) return;
+
+    // We fetch the sacred event from memory, not from a parameter.
+    const event = State.contextEvent;
+    if (!event) {
+        UI.showToast("Cannot start selection: context is missing.", "error");
+        console.error("SelectionManager.start failed: State.contextEvent is null.");
+        return;
+    }
+
+    State.isSelectionModeActive = true;
+    
+    // THE EXPECTED BEHAVIOR, RESTORED:
+    // We immediately toggle the first item, making it selected.
+    this.toggle(initialItem); 
+    
+    // We summon the menu, passing the true event.
+    this.showMenu(event);
+    
+    UI.showToast("Selection mode started.", "info");
+},
 
     end() {
         if (!State.isSelectionModeActive) return;
