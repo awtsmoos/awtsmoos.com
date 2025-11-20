@@ -629,26 +629,31 @@ class MerkavaExecutor {
                 staticFields: n.body.body.filter(m => m.type === 'PropertyDefinition' && m.static),
             };
 
+            
             for (const member of n.body.body) {
                 if (member.type === 'MethodDefinition' && member.kind !== 'constructor') {
                     const target = member.static ? classConstructor : classConstructor.prototype;
                     const methodFunc = await this._executeNode(member.value, classContext);
+
+                    // Skip private methods here; they are handled during instantiation.
+                    if (member.key.type === 'PrivateIdentifier') {
+                        continue;
+                    }
+
+                    const key = member.computed ? await this._executeNode(member.key, classContext) : member.key.name;
                     
-                    if(member.key.type === 'PrivateIdentifier') {
-                        // For private methods, we store them in the private field map during instantiation
-                        // Here we just mark it for the constructor to find
-                    } else {
-                        const key = member.computed ? await this._executeNode(member.key, classContext) : member.key.name;
-                        const descriptor = { value: methodFunc, configurable: true, writable: true, enumerable: false };
-                        if (member.kind === 'get' || member.kind === 'set') {
-                            descriptor[member.kind] = methodFunc;
-                            delete descriptor.value; delete descriptor.writable;
-                        }
+                    if (member.kind === 'method') {
+                        // Use simple assignment for regular methods. This is safer.
+                        target[key] = methodFunc;
+                    } else { // This handles 'get' or 'set'
+                        // For accessors, we must use Object.defineProperty.
+                        const descriptor = Object.getOwnPropertyDescriptor(target, key) || { configurable: true, enumerable: false };
+                        descriptor[member.kind] = methodFunc;
                         Object.defineProperty(target, key, descriptor);
                     }
                 }
             }
-
+            
             // Execute static blocks and initialize static fields
             for(const member of n.body.body) {
                 if(member.type === 'StaticBlock') await this._executeNode(member.body, classContext);
