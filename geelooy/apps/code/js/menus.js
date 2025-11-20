@@ -128,15 +128,17 @@ show(e, item) {
 
     this.positionAndDisplay(DOM.contextMenu, e);
 },
-    /*B"H*/
+/*B"H*/
+// ACTION: Replace the entire 'showMainMenu' method in js/menus.js with this definitive version.
 
 /**
- * Unfurls the main application menu. This perfected version now checks if the
- * active tab is within a read-only workspace and fully disables the "Save" button,
- * removing even the illusion of a possibility that cannot be.
+ * Unfurls the main application menu. This perfected version builds the menu
+ * in distinct stages, using a single, clear conditional block to ensure that
+ * mutable actions like "Save" and "Commit" VANISH COMPLETELY when the
+ * active file is in a read-only workspace.
  * @param {Event} e - The click event.
  */
-async showMainMenu(e) {
+showMainMenu(e) {
     e.stopPropagation();
     if (DOM.mainMenu.style.display === 'block') {
         this.hideAll();
@@ -146,50 +148,43 @@ async showMainMenu(e) {
     setTimeout(() => document.addEventListener('click', this.handleDocumentClick), 0);
 
     const activeTab = State.tabs.find(t => t.id === State.activeTabId);
+    let isReadOnly = true; // Default to read-only for safety if no tab is active.
+    let isGitHubWorkspace = false;
+    let hasUncommittedChanges = false;
     const hasSelection = activeTab && (DOM.editor.selectionStart !== DOM.editor.selectionEnd);
 
-    let hasUncommittedChanges = false;
-    let isGitHubWorkspace = false;
-    let isReadOnly = false;
-
     if (activeTab) {
-        const currentWorkspaceId = activeTab.item.workspaceId;
-        const workspace = State.workspaces.find(ws => ws.id === currentWorkspaceId);
-        isReadOnly = workspace?.readOnly || false;
+        const workspace = State.workspaces.find(ws => ws.id === activeTab.item.workspaceId);
+        isReadOnly = workspace?.readOnly || false; // The crucial check.
 
         if (activeTab.item.type === 'github') {
             isGitHubWorkspace = true;
-            hasUncommittedChanges = State.tabs.some(t => t.item.workspaceId === currentWorkspaceId && t.isUncommitted);
+            hasUncommittedChanges = State.tabs.some(t => t.item.workspaceId === activeTab.item.workspaceId && t.isUncommitted);
         }
     }
     
+    // --- Stage 1: Define universal, non-mutable starting actions ---
     const menuItems = [
         { label: 'New File', action: 'new-temp-file', icon: 'file' },
         { label: 'Open File...', action: 'open-file', icon: 'folder' },
-        { isSeparator: true },
-        
-        
     ];
-    
-    if(!isReadOnly) {
-	    menuItems.push(
-		    { label: 'Save', action: 'save', icon: 'save', disabled: !activeTab || !activeTab.isDirty }
-	    )
-    
-    
-    
-    }
-    
-    
-    
-    
 
-    if (isGitHubWorkspace && !isReadOnly) {
-        menuItems.push({ label: 'Commit All Changes', action: 'commit-changes', icon: 'git-branch', disabled: !hasUncommittedChanges });
+    // --- Stage 2: The Chamber of Creation (Only enter if not read-only) ---
+    // If the realm is mutable, we reveal the tools of creation and finalization.
+    if (!isReadOnly) {
+        menuItems.push({ isSeparator: true });
+        menuItems.push({ label: 'Save', action: 'save', icon: 'save', disabled: !activeTab || !activeTab.isDirty });
+        
+        if (isGitHubWorkspace) {
+            menuItems.push({ label: 'Commit All Changes', action: 'commit-changes', icon: 'git-branch', disabled: !hasUncommittedChanges });
+        }
     }
 
-    menuItems.push({ label: 'Download', action: 'download', icon: 'download', disabled: !activeTab });
-    
+    // --- Stage 3: Universal tools of observation and transport ---
+    menuItems.push(
+        { isSeparator: true },
+        { label: 'Download', action: 'download', icon: 'download', disabled: !activeTab }
+    );
     
     if (activeTab && (activeTab.item.name.toLowerCase().endsWith('.html') || activeTab.item.name.toLowerCase().endsWith('.htm'))) {
         menuItems.push({ label: 'Preview HTML', action: 'view-html', icon: 'eye' });
@@ -200,6 +195,8 @@ async showMainMenu(e) {
     if (activeTab && activeTab.item.name.toLowerCase().endsWith('.awtsmoosjson')) {
 	    menuItems.push({ label: activeTab.isHexView ? 'View as JSON' : 'View as Hex', action: 'toggle-awtsmoos-view', icon: activeTab.isHexView ? 'eye' : 'brain-circuit' });
 	}
+    
+    // --- Stage 4: The final set of universal editor utilities ---
     menuItems.push(
         { isSeparator: true },
         { label: 'Find / Replace', action: 'find-replace', icon: 'search', disabled: !activeTab },
@@ -211,8 +208,8 @@ async showMainMenu(e) {
         { label: 'Toggle Fullscreen', action: 'toggle-fullscreen', icon: 'fullscreen' }, 
         { label: 'Settings', action: 'settings', icon: 'settings' }
     );
-    // ... (end of unchanged logic)
 
+    // --- Final Rendering ---
     DOM.mainMenu.innerHTML = menuItems.map(i => {
         if (i.isSeparator) return `<hr class="menu-separator">`;
         return `<button class="menu-button" data-action="${i.action}" ${i.disabled ? 'disabled' : ''}>
