@@ -540,7 +540,7 @@ class MerkavaExecutor {
                 // This makes the *behavior* async if needed, without making the
                 // function object itself an `async function`.
                 const executionPromise = (async () => {
-                    const funcScope = executor._createScope(c.scope, {}, thisContext);
+                    const funcScope = executor._createScope(this, c.scope, {}, thisContext);
                     const funcContext = { ...c, scope: funcScope };
 
                     for (let i = 0; i < n.params.length; i++) {
@@ -576,7 +576,7 @@ class MerkavaExecutor {
             const executor = this;
             return async function(...args) {
                 const thisContext = c.scope.thisBinding; // Lexical 'this'
-                const funcScope = executor._createScope(c.scope, {}, thisContext);
+                const funcScope = executor._createScope(this, c.scope, {}, thisContext);
                 const funcContext = { ...c, scope: funcScope };
                 for (let i = 0; i < n.params.length; i++) {
                     await executor._assignPattern(n.params[i], args[i], funcContext);
