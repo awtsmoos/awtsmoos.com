@@ -201,7 +201,7 @@ class MerkavaExecutor {
         }
 
         return callable;
-    },
+    }
     
     
     // --- The Complete AST Node Executor Map ---
