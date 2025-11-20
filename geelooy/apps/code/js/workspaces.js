@@ -362,4 +362,4 @@ async remove(workspaceId) {
             await this.renderTree(childrenContainer, item, depth);
         }
     }
-};```
+};
