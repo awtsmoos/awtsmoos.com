@@ -339,6 +339,7 @@ export async function beautify(code, options = {}) {
                     }
                 }
 
+
                 // 3. Append the final backtick to close the template literal.
                 result += '`';
                 return result;
