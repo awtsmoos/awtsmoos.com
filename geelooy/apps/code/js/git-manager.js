@@ -338,51 +338,34 @@ async showGitUI(gitContextItem) {
     
     
     /*B"H*/
-/**
- * Displays the Git dialog, now a chamber of counsel. It perceives the difference
- * between Ephemeral (unsaved) and Inscribed (saved) changes and manifests the
- * precise buttons needed for the user's intent, offering single or multiple paths
- * to sanctification (commitment) as the situation demands.
- * @param {object} gitContextItem - The folder or workspace being operated on.
- * @param {object} gitInfo - The git metadata for the context item.
- * @param {object} status - The calculated status, including the new `dirtyFiles` list.
- */
+// patience, awaiting all save operations before proceeding, and correctly passes
+// context for state updates.
+
 async showCommitDialog(gitContextItem, gitInfo, {
     isBehind,
-    isAhead,
     changeSet,
     remoteChanges
 }) {
-    // Determine the nature of local changes.
     const dirtyFiles = changeSet.dirtyFiles || [];
     const inscribedChanges = [...changeSet.creations, ...changeSet.updates, ...changeSet.deletions];
     const hasDirty = dirtyFiles.length > 0;
     const hasInscribed = inscribedChanges.length > 0;
+    const isAhead = hasDirty || hasInscribed;
+    const localChangesCount = new Set([...dirtyFiles.map(f => f.relativePath), ...inscribedChanges.map(f => f.path)]).size;
 
-    let localChangesCount = new Set([
-        ...dirtyFiles.map(f => f.path),
-        ...inscribedChanges.map(f => f.path)
-    ]).size;
-    
-    isAhead = localChangesCount > 0; // Recalculate isAhead based on all potential changes.
-
-    // --- Build the Status UI ---
     let localStatusMessage = isAhead ? `${localChangesCount} change(s) detected` : 'In sync with remote';
     if (isBehind) localStatusMessage = "Out of date with remote";
 
     let statusHTML = `<div class="git-status-line">...</div>`; // Keep existing status HTML generation...
-     if (isAhead) {
+    if (isAhead) {
         statusHTML += `<div class="changes-list"><strong>Local Changes:</strong><ul>`;
-        // Display dirty files distinctly.
-        dirtyFiles.forEach(f => statusHTML += `<li><span class="tag modified dirty">UNSAVED</span> ${f.path}</li>`);
+        dirtyFiles.forEach(f => statusHTML += `<li><span class="tag modified dirty">UNSAVED</span> ${f.relativePath}</li>`);
         changeSet.creations.forEach(f => statusHTML += `<li><span class="tag created">ADDED</span> ${f.path}</li>`);
         changeSet.updates.forEach(f => statusHTML += `<li><span class="tag modified">MODIFIED</span> ${f.path}</li>`);
         changeSet.deletions.forEach(f => statusHTML += `<li><span class="tag deleted">DELETED</span> ${f.path}</li>`);
         statusHTML += `</ul></div>`;
     }
 
-
-    // --- CONFIGURE THE DIALOG BASED ON THE NATURE OF CHANGES ---
     const dialogConfig = {
         title: `Git Actions for ${gitContextItem.name}`,
         contentHTML: statusHTML,
@@ -391,32 +374,22 @@ async showCommitDialog(gitContextItem, gitInfo, {
         cancelText: 'Close',
         tertiary: (isAhead && !isBehind) ? { text: 'Discard Changes', class: 'danger' } : null
     };
-
-    if (isBehind) {
-        dialogConfig.okText = 'Pull & Overwrite Local Changes';
-    } else if (hasDirty && !hasInscribed) {
-        dialogConfig.okText = 'Save and Commit All';
-    } else if (hasDirty && hasInscribed) {
+    if (isBehind) dialogConfig.okText = 'Pull & Overwrite Local Changes';
+    else if (hasDirty && !hasInscribed) dialogConfig.okText = 'Save and Commit All';
+    else if (hasDirty && hasInscribed) {
         dialogConfig.okText = 'Save and Commit All';
         dialogConfig.secondaryOk = { text: 'Commit Inscribed Only', actionKey: 'commit_inscribed' };
-    } else if (!hasDirty && hasInscribed) {
-        dialogConfig.okText = 'Commit All';
-    }
+    } else if (!hasDirty && hasInscribed) dialogConfig.okText = 'Commit All';
 
     const dialogResult = await UI.showDialog(dialogConfig);
-    if (dialogResult === null) return; // User cancelled.
+    if (dialogResult === null) return;
 
-    // --- HANDLE THE USER'S CHOSEN PATH ---
-    
-    // The handler for the final act of sanctification.
     const handleCommit = async (finalChangeSet, commitMessage) => {
         UI.showLoading("Committing to GitHub...");
         const newCommitSHA = await this.performCommit(gitInfo, finalChangeSet, commitMessage);
-        
         UI.showLoading("Updating repository state...");
         const newTree = await FileSystemProvider.GitHub.getFullTree(gitInfo);
         const updatedGitInfo = { ...gitInfo, baseCommitSHA: newCommitSHA, remoteTree: newTree.tree };
-        
         if (gitContextItem.type !== 'github') {
             const ikarFileContent = `// B"H\n\nconst ikar = ${JSON.stringify(updatedGitInfo, null, 4)};`;
             const ikarFileItem = { ...gitContextItem, path: `${gitContextItem.path}/.awtsmoos-repo/ikar.js` };
@@ -425,30 +398,27 @@ async showCommitDialog(gitContextItem, gitInfo, {
             gitContextItem.remoteTree = newTree.tree;
             gitContextItem.baseCommitSHA = newTree.sha;
         }
-
-        await this._clearUncommittedState(gitContextItem.workspaceId || gitContextItem.id, finalChangeSet);
+        // THE FIX: Pass the necessary context to clear the state correctly.
+        await this._clearUncommittedState(gitContextItem, gitContextItem.workspaceId || gitContextItem.id, finalChangeSet);
         UI.showToast("Changes committed successfully!", "success");
     };
 
     try {
-        if (dialogResult === 'tertiary') {
-            await this.discardChanges(gitContextItem);
-        } else if (isBehind) {
-            FileOperations.pullAndOverwrite(gitContextItem, gitInfo);
-        } else if (isAhead) {
-            const commitMessage = dialogResult === true ? document.getElementById('dialog-textarea').value : dialogResult;
-            
+        if (dialogResult === 'tertiary') await this.discardChanges(gitContextItem);
+        else if (isBehind) FileOperations.pullAndOverwrite(gitContextItem, gitInfo);
+        else if (isAhead) {
+            const commitMessage = document.getElementById('dialog-textarea')?.value || `B"H\nUpdate`;
             if (dialogResult === 'commit_inscribed') {
-                // Path 1: Sanctify only the Inscribed.
                 await handleCommit(changeSet, commitMessage);
-            } else {
-                // Path 2: Sanctify the Ephemeral and the Inscribed together.
+            } else { // This handles both 'Save and Commit All' and the default 'Commit All'
                 if (hasDirty) {
                     UI.showLoading("Saving all changes...");
-                    for (const file of dirtyFiles) {
-                        const tab = State.tabs.find(t => t.uniquePath === getItemUniquePath(file));
-                        if (tab) await Tabs.save(tab);
-                    }
+                    // THE FIX FOR THE RACE CONDITION: Await all save promises.
+                    const savePromises = dirtyFiles.map(df => {
+                        const tab = State.tabs.find(t => t.item === df.tabItem);
+                        return tab ? Tabs.save(tab) : Promise.resolve();
+                    });
+                    await Promise.all(savePromises);
                 }
                 UI.showLoading("Recalculating final changes...");
                 const finalChangeSet = await this.calculateDiff(gitContextItem, gitInfo);
@@ -464,34 +434,43 @@ async showCommitDialog(gitContextItem, gitInfo, {
 },
 
 
-/**
- * Clears the temporary "uncommitted" state for files after a successful commit.
- * This involves deleting the records from IndexedDB and resetting the state of any
- * corresponding open tabs to remove the "dirty" and "uncommitted" indicators.
- * @private
- * @param {number} workspaceId - The ID of the workspace to clean.
- * @param {object} changeSet - The set of changes that were just committed.
- * @returns {Promise<void>}
- */
-async _clearUncommittedState(workspaceId, changeSet) {
+/*B"H*/
+// ACTION: Replace the _clearUncommittedState method. This version is taught empathy for
+// context, correctly translating relative paths back to absolute paths to find
+// and update tab states, ensuring the green dot of sanctification is properly removed.
+
+async _clearUncommittedState(gitContextItem, workspaceId, changeSet) {
     const allChanges = [
         ...(changeSet.creations || []),
         ...(changeSet.updates || []),
         ...(changeSet.deletions || [])
     ];
 
-    const promises = [];
+    const promises = allChanges.map(change => {
+        const relativePath = change.path;
+        const uniquePathForStaging = `${workspaceId}::${relativePath}`;
 
-    for (const change of allChanges) {
-        const uniquePath = `${workspaceId}::${change.path}`;
-        promises.push(FileSystemProvider.IndexedDB.deleteUncommitted(uniquePath));
-
-        const tab = State.tabs.find(t => t.uniquePath === uniquePath);
+        // Find the corresponding tab by translating the path back to the tab's reality.
+        const isDirectRepo = gitContextItem.type === 'github';
+        let fullPath;
+        if (isDirectRepo) {
+            fullPath = relativePath;
+        } else {
+            const cloneRootPath = gitContextItem.path;
+            fullPath = cloneRootPath === '/' ? `/${relativePath}` : `${cloneRootPath}/${relativePath}`;
+        }
+        
+        const fullUniquePathToFind = `${workspaceId}::${fullPath}`;
+        const tab = State.tabs.find(t => t.uniquePath === fullUniquePathToFind);
+        
         if (tab) {
             tab.isDirty = false;
             tab.isUncommitted = false;
         }
-    }
+        
+        // Return the promise to delete the record from the ledger.
+        return FileSystemProvider.IndexedDB.deleteUncommitted(uniquePathForStaging);
+    });
 
     await Promise.all(promises);
     Tabs.render();
@@ -662,63 +641,40 @@ async _clearUncommittedState(workspaceId, changeSet) {
 
 
  /*B"H*/
-// ACTION: Replace the 'calculateDiff' method with this definitive, enlightened version.
+// ACTION: Replace the calculateDiff method. This version refines the data structure
+// for dirty files and improves the path relativity logic for deletions,
+// setting the stage for the fixes that follow.
 
-/**
- * The definitive diff function, its perception now healed. It no longer relies on
- * ambiguous path checks to understand reality. Instead, it gazes directly at the
- * essence ('type') of the Git context. This allows it to correctly distinguish a
- * direct GitHub workspace from a local clone—even a clone at the root of another
- * workspace—ensuring that all unsaved (dirty) files are always seen and correctly
- * made relative to their Git root.
- * @param {object} gitContextItem - The folder or workspace being operated on.
- * @param {object} gitInfo - The git metadata for the context item.
- * @returns {Promise<object>} The complete and correct change set.
- */
 async calculateDiff(gitContextItem, gitInfo) {
     const changeSet = {
         creations: [],
         updates: [],
         deletions: [],
-        dirtyFiles: []
+        dirtyFiles: [] // Holds { tabItem: object, relativePath: string }
     };
     const remoteFileMap = new Map((gitInfo.remoteTree || []).map(f => [f.path, f]));
     const workspaceId = gitContextItem.workspaceId || gitContextItem.id;
 
-    // --- PERCEIVE THE EPHEMERAL (UNSAVED CHANGES) ---
     State.tabs.forEach(tab => {
-        // Find tabs that are dirty and belong to the correct workspace.
-        if (!tab.isDirty || tab.item.workspaceId !== workspaceId) {
-            return;
-        }
-
+        if (!tab.isDirty || tab.item.workspaceId !== workspaceId) return;
         const isDirectRepo = gitContextItem.type === 'github';
         let relativePath;
-
         if (isDirectRepo) {
-            // This is a direct GitHub workspace. The tab's path is already relative.
-            // Any dirty tab in this workspace is, by definition, part of the context.
             relativePath = tab.item.path;
         } else {
-            // This is a local clone existing within another workspace ('local' or 'indexeddb').
-            // The git context is the folder of the clone.
             const cloneRootPath = gitContextItem.path;
             const fileFullPath = tab.item.path;
-
-            // Check if the dirty file's full path lives inside the clone's root folder.
-            if (fileFullPath && fileFullPath.startsWith(cloneRootPath + '/')) {
-                // If so, calculate the path relative to the clone root.
+            if (cloneRootPath === '/' && fileFullPath.startsWith('/')) {
+                relativePath = fileFullPath.substring(1);
+            } else if (fileFullPath && fileFullPath.startsWith(cloneRootPath + '/')) {
                 relativePath = fileFullPath.substring(cloneRootPath.length + 1);
             }
         }
-
-        // If a valid relative path was determined, the file is part of this Git context.
         if (typeof relativePath === 'string') {
-            changeSet.dirtyFiles.push({ ...tab.item, path: relativePath });
+            changeSet.dirtyFiles.push({ tabItem: tab.item, relativePath: relativePath });
         }
     });
 
-    // --- PERCEIVE THE INSCRIBED (SAVED, UNCOMMITTED CHANGES) ---
     const uncommittedChanges = await FileSystemProvider.IndexedDB.listUncommittedForWorkspace(workspaceId);
     for (const change of uncommittedChanges) {
         const { path } = change.item;
@@ -729,16 +685,17 @@ async calculateDiff(gitContextItem, gitInfo) {
         }
     }
 
-    // --- PERCEIVE DELETIONS (FOR LOCAL CLONES ONLY) ---
     if (gitContextItem.type !== 'github') {
         const localFiles = await FileSystemProvider.listAllFiles(gitContextItem);
         const localFilePaths = new Set(localFiles.map(f => {
-            const relativePath = f.path.startsWith(gitContextItem.path + '/') 
-                ? f.path.substring(gitContextItem.path.length + 1) 
-                : f.path;
-            return relativePath;
+            let relPath = f.path;
+            if (gitContextItem.path === '/') {
+                relPath = f.path.startsWith('/') ? f.path.substring(1) : f.path;
+            } else if (f.path.startsWith(gitContextItem.path + '/')) {
+                relPath = f.path.substring(gitContextItem.path.length + 1);
+            }
+            return relPath;
         }));
-
         for (const remoteFilePath of remoteFileMap.keys()) {
             if (!localFilePaths.has(remoteFilePath)) {
                 changeSet.deletions.push({ path: remoteFilePath });
