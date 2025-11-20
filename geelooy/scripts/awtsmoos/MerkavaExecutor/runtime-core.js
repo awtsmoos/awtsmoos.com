@@ -98,7 +98,7 @@ class MerkavaExecutor {
             }
         };
         return scope;
-    },
+    }
     
     // Handles destructuring assignment for variables, parameters, and catch clauses.
     async _assignPattern(pattern, value, context) {
