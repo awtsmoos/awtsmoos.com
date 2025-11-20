@@ -149,11 +149,12 @@ renderWorkspace(ws, container) {
 },
 /*B"H*/
 /**
- * Asynchronously renders the file and folder tree for a given parent item.
- * This corrected version uses a robust, single-pass algorithm to build a complete
- * and accurate cache of the GitHub repository on first load. It fixes path-matching
- * errors and ensures every file item retains its essential 'sha' identifier,
- * eliminating both the slowness and the 'undefined blob' errors.
+ * Asynchronously renders the file and folder tree. This definitive version uses a
+ * complete repository tree (files and directories) to build a hyper-efficient cache
+ * on first load. It no longer infers directory structures but knows them directly,
+ * curing the initial load slowness. By mapping the full, unfiltered data, it
+ * guarantees every file item retains its essential 'sha', permanently banishing the
+ * "undefined blob" errors.
  * @param {HTMLElement} parentElement - The UL element to render the children into.
  * @param {object} parentItem - The directory item whose children should be rendered.
  * @param {number} depth - The current depth in the tree for styling.
@@ -166,64 +167,46 @@ async renderTree(parentElement, parentItem, depth) {
         const workspace = State.workspaces.find(ws => ws.id === parentItem.workspaceId);
 
         if (parentItem.type === 'github' && workspace) {
-            // --- START: NEW, ROBUST CACHING LOGIC ---
+            // --- START: NEW, SIMPLIFIED, AND CORRECT CACHING LOGIC ---
             if (!workspace._treeCache) {
-                parentElement.innerHTML = `<li class="tree-item" style="--depth:${depth}; color: var(--color-text-tertiary);">Fetching full repository tree...</li>`;
+                parentElement.innerHTML = `<li class="tree-item" style="--depth:${depth}; color: var(--color-text-tertiary);">Building repository map...</li>`;
                 const fullTreeData = await FileSystemProvider.GitHub.getFullTree(parentItem);
                 
-                const treeCache = new Map();
-                // Initialize the root directory entry.
-                treeCache.set('/', { dirs: [], files: [] });
-
+                const cache = new Map();
+                // Pre-populate the map with every possible directory path from the tree.
+                // This is efficient because the tree is a flat list.
                 if (fullTreeData.tree) {
-                    for (const node of fullTreeData.tree) {
-                        if (node.type !== 'blob') continue;
-
+                    fullTreeData.tree.forEach(node => {
+                        const pathParts = node.path.split('/');
+                        pathParts.pop(); // We only care about the parent path.
+                        let parentPath = pathParts.join('/');
+                        if (!cache.has(parentPath)) {
+                            cache.set(parentPath, []);
+                        }
+                    });
+                     // Now, populate the cache with the actual items.
+                    fullTreeData.tree.forEach(node => {
                         const pathParts = node.path.split('/');
                         const name = pathParts.pop();
-                        const parentPath = pathParts.length > 0 ? '/' + pathParts.join('/') : '/';
-
-                        // Ensure parent directory exists in cache and add the file.
-                        if (!treeCache.has(parentPath)) {
-                            treeCache.set(parentPath, { dirs: [], files: [] });
-                        }
-                        treeCache.get(parentPath).files.push({
-                            name: name,
-                            kind: 'file',
-                            path: node.path,
-                            sha: node.sha // CRUCIAL: Store the sha.
+                        const parentPath = pathParts.join('/');
+                        
+                        cache.get(parentPath).push({
+                           name: name,
+                           kind: node.type === 'tree' ? 'directory' : 'file',
+                           path: node.path,
+                           sha: node.sha // The essential essence is now always present.
                         });
-
-                        // Traverse upwards to ensure all parent directories are created in the cache.
-                        let cumulativePath = '';
-                        for (const part of pathParts) {
-                            const grandParentPath = (cumulativePath === '') ? '/' : cumulativePath;
-                            cumulativePath += '/' + part;
-                            if (!treeCache.has(grandParentPath)) {
-                                treeCache.set(grandParentPath, { dirs: [], files: [] });
-                            }
-                            const dirList = treeCache.get(grandParentPath).dirs;
-                            if (!dirList.some(d => d.name === part)) {
-                                dirList.push({
-                                    name: part,
-                                    kind: 'directory',
-                                    path: cumulativePath.substring(1) // Path without leading slash.
-                                });
-                            }
-                        }
-                    }
+                    });
                 }
-                workspace._treeCache = treeCache;
+                workspace._treeCache = cache;
             }
 
-            // This is the corrected lookup, which is now reliable.
-            const lookupPath = parentItem.path === '/' ? '/' : `/${parentItem.path}`;
-            const cacheEntry = workspace._treeCache.get(lookupPath);
-            children = cacheEntry ? [...cacheEntry.dirs, ...cacheEntry.files] : [];
-            // --- END: NEW, ROBUST CACHING LOGIC ---
+            // The lookup is now direct and simple. The path for the root is an empty string in the cache.
+            const lookupPath = parentItem.path === '/' ? '' : parentItem.path;
+            children = workspace._treeCache.get(lookupPath) || [];
+            // --- END: NEW CACHING LOGIC ---
 
         } else {
-            // Fallback for non-github workspaces remains the same.
             children = await FileSystemProvider.list(parentItem);
         }
 
@@ -237,7 +220,6 @@ async renderTree(parentElement, parentItem, depth) {
 
         for (const child of children) {
             if (child.name === '.gitkeep') continue;
-            // The fullChildItem now correctly inherits all context AND has its own specific properties like 'sha'.
             const fullChildItem = { ...parentItem,
                 ...child
             };
@@ -277,7 +259,7 @@ async renderTree(parentElement, parentItem, depth) {
                     if (State.expandedFolders.has(uniquePath)) {
                         State.expandedFolders.delete(uniquePath);
                         li.classList.remove('expanded');
-                        li.querySelector('ul')?.remove();
+                        li.querySelector('ul') ? .remove();
                     } else {
                         State.expandedFolders.add(uniquePath);
                         li.classList.add('expanded');
@@ -287,7 +269,6 @@ async renderTree(parentElement, parentItem, depth) {
                     }
                     App.saveSession();
                 } else {
-                    // This call now receives a fullChildItem with a guaranteed 'sha'.
                     Tabs.create(fullChildItem);
                 }
             };

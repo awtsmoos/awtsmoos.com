@@ -634,25 +634,26 @@ async getLatestCommitSHA({ repoInfo, branch }) {
 /*B"H*/
 
 /**
- * Fetches the entire file blueprint of a repository. Now, if it is told that
- * the repository is a pristine void (by receiving a null SHA), it returns a
- * perfect representation of that void: a null SHA and an empty blueprint.
+ * Fetches the entire file blueprint of a repository. This corrected version no longer
+ * filters the result, returning the complete tree of both files ('blobs') and the
+ * directories ('trees') that contain them. This provides the rendering engine with
+ * the full context needed to build its memory-map in a single, enlightened pass.
  * @param {object} params - The repository information.
- * @returns {Promise<object>} An object with the commit SHA (or null) and the tree (or an empty array).
+ * @returns {Promise<object>} An object with the commit SHA (or null) and the complete tree.
  */
 async getFullTree({ repoInfo, branch }) {
     const latestCommitSHA = await this.getLatestCommitSHA({ repoInfo, branch });
 
-    // If there is no history, the blueprint is empty.
     if (latestCommitSHA === null) {
         return { sha: null, tree: [] };
     }
 
     const treeData = await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/trees/${latestCommitSHA}?recursive=1`);
     
+    // THE FIX: We return the entire tree, not just the files. The directories are essential.
     return {
         sha: latestCommitSHA,
-        tree: treeData.tree.filter(node => node.type === 'blob')
+        tree: treeData.tree 
     };
 },
 
