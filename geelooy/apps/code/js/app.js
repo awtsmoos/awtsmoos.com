@@ -190,99 +190,88 @@ async initialize() {
 /*B"H*/
 
 /**
- * Orchestrates an atomic, multi-file commit. This definitive version heals two
- * critical flaws:
- * 1. It correctly manages the UI flow, ensuring loading screens do not block dialogs.
- * 2. It correctly processes file paths, preventing the "fractured name" bug (e.g., "ndex.html").
+ * Orchestrates an atomic, multi-file commit for ANY Git-aware context. This unified
+ * version first determines if the active file is in a direct GitHub workspace or a local
+ * clone. It then intelligently gathers changes—either from the 'uncommitted' store for
+ * direct workspaces, or by performing a real-time 'diff' for local clones—and
+ * conducts the appropriate commit ceremony.
  */
 async commitAllChanges() {
     const activeTab = State.tabs.find(t => t.id === State.activeTabId);
-    if (!activeTab || activeTab.item.type !== 'github') { UI.showToast("An active GitHub file is required.", "warning"); return; }
-    const workspaceId = activeTab.item.workspaceId;
-    const workspace = State.workspaces.find(ws => ws.id === workspaceId);
-    if (!workspace || workspace.readOnly) { UI.showToast("Cannot commit to a read-only repository.", "warning"); return; }
+    if (!activeTab) return;
 
-    UI.showLoading("Analyzing workspace...");
+    let gitContextItem = null;
+    let gitInfo = null;
+    let changeSet = null;
 
-    const dirtyFiles = State.tabs.filter(t => t.item.workspaceId === workspaceId && t.isDirty);
-    const uncommittedFiles = await FileSystemProvider.IndexedDB.listUncommittedForWorkspace(workspaceId);
-    const hasDirtyFiles = dirtyFiles.length > 0;
-    const totalChanges = uncommittedFiles.length + dirtyFiles.length;
+    UI.showLoading("Finding Git context...");
 
-    if (totalChanges === 0) { UI.hideLoading(); UI.showToast("No changes to commit.", "info"); return; }
-    
-    
-    
-    UI.hideLoading();
-
-    const message = `Found ${uncommittedFiles.length} saved change(s)${hasDirtyFiles ? ` and ${dirtyFiles.length} unsaved file(s)` : ''}.`;
-    const okText = hasDirtyFiles ? 'Save All & Commit' : 'Commit & Push';
-
-    const dialogResult = await UI.showDialog({
-        title: `Commit to "${workspace.name}"`,
-        message: message, hasTextarea: true,
-        textareaContent: `B"H\nUpdate ${totalChanges} file(s)`,
-        okText: okText, cancelText: 'Cancel'
-    });
-
-    if (!dialogResult) return; // User cancelled, no loading screen is stuck.
-
-    const commitMessage = dialogResult;
-    let filesToCommit = uncommittedFiles;
-
-    if (hasDirtyFiles) {
-        UI.showLoading("Saving all unsaved changes...");
-        await Promise.all(dirtyFiles.map(tab => Tabs.save(tab)));
-        filesToCommit = await FileSystemProvider.IndexedDB.listUncommittedForWorkspace(workspaceId);
+    // Step 1: Discover the True Nature of the Realm.
+    if (activeTab.item.type === 'github') {
+        gitContextItem = State.workspaces.find(ws => ws.id === activeTab.item.workspaceId);
+    } else if (activeTab.item.type === 'local' || activeTab.item.type === 'indexeddb') {
+        const findGitRoot = (item) => {
+            if (!item || !item.path) return null;
+            const uniquePath = getItemUniquePath(item);
+            const entry = State.domItemMap.get(uniquePath);
+            if (entry?.item.isGitClone) return entry.item;
+            const parentPath = item.path.substring(0, item.path.lastIndexOf('/')) || '/';
+            if (item.path === parentPath) return null;
+            return findGitRoot({ ...item, path: parentPath, kind: 'directory' });
+        };
+        gitContextItem = findGitRoot(activeTab.item);
     }
+    
+    if (!gitContextItem) { UI.hideLoading(); UI.showToast("Not within a Git-aware folder.", "warning"); return; }
+    if (gitContextItem.readOnly) { UI.hideLoading(); UI.showToast("Cannot commit to a read-only repository.", "warning"); return; }
 
-    UI.showLoading("Preparing atomic commit...");
+    // Step 2: Gather the Sacred Texts and Offerings.
+    if (gitContextItem.type === 'github') {
+        gitInfo = gitContextItem; // For direct workspaces, the item IS the info.
+        UI.showLoading("Gathering locally saved changes...");
+        const uncommittedFiles = await FileSystemProvider.IndexedDB.listUncommittedForWorkspace(gitContextItem.id);
+        changeSet = { creations: [], updates: uncommittedFiles.map(f => ({ path: f.item.path.substring(1), content: f.content })), deletions: [] };
+    } else {
+        gitInfo = await GitMetaProvider.getGitInfoForFolder(gitContextItem);
+        if (!gitInfo) { UI.hideLoading(); UI.showToast("Could not read Git metadata for this folder.", "error"); return; }
+        UI.showLoading("Comparing local files to last commit...");
+        changeSet = await GitManager.calculateDiff(gitContextItem, gitInfo);
+    }
+    
+    const totalChanges = changeSet.creations.length + changeSet.updates.length + changeSet.deletions.length;
+    if (totalChanges === 0) { UI.hideLoading(); UI.showToast("No changes to commit.", "info"); return; }
+
+    UI.hideLoading();
+    const commitMessage = await UI.showDialog({ title: `Commit ${totalChanges} change(s) to "${gitInfo.repoInfo.repo}"`, message: "Enter a commit message:", hasTextarea: true, okText: 'Commit & Push' });
+    if (!commitMessage) return;
+
+    UI.showLoading("Performing atomic commit...");
     try {
-        const { repoInfo, branch } = workspace;
-        const latestCommitSHA = await FileSystemProvider.GitHub.getLatestCommitSHA({ repoInfo, branch });
+        const { repoInfo, branch } = gitInfo;
 
-        const blobCreationPromises = filesToCommit.map(file =>
-            FileSystemProvider.GitHub.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/blobs`, {
-                method: 'POST', body: JSON.stringify({ content: FileSystemProvider.GitHub.utf8_to_b64(file.content), encoding: 'base64' })
-            }).then(blob => ({
-                // THE FRACTURED ESSENCE FIX: Remove the leading slash only if it exists.
-                path: file.item.path.startsWith('/') ? file.item.path.substring(1) : file.item.path,
-                mode: '100644', type: 'blob', sha: blob.sha
-            }))
-        );
-        const treeItems = await Promise.all(blobCreationPromises);
+        const newCommitSHA = await GitManager.performCommit({ repoInfo, branch }, changeSet, commitMessage);
 
-        let newCommit;
-        if (latestCommitSHA) {
-            const latestCommit = await FileSystemProvider.GitHub.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/commits/${latestCommitSHA}`);
-            const newTree = await FileSystemProvider.GitHub.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/trees`, {
-                method: 'POST', body: JSON.stringify({ base_tree: latestCommit.tree.sha, tree: treeItems })
-            });
-            newCommit = await FileSystemProvider.GitHub.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/commits`, {
-                method: 'POST', body: JSON.stringify({ message: commitMessage, tree: newTree.sha, parents: [latestCommitSHA] })
-            });
-            await FileSystemProvider.GitHub.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/refs/heads/${branch}`, {
-                method: 'PATCH', body: JSON.stringify({ sha: newCommit.sha })
-            });
-        } else {
-            // Root commit for an empty repository.
-            const newTree = await FileSystemProvider.GitHub.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/trees`, { method: 'POST', body: JSON.stringify({ tree: treeItems }) });
-            newCommit = await FileSystemProvider.GitHub.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/commits`, { method: 'POST', body: JSON.stringify({ message: commitMessage, tree: newTree.sha, parents: [] }) });
-            await FileSystemProvider.GitHub.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/refs`, { method: 'POST', body: JSON.stringify({ ref: `refs/heads/${branch}`, sha: newCommit.sha }) });
+        UI.showLoading("Updating local state...");
+        if (gitContextItem.type !== 'github') { // Update the blueprint for local clones.
+            const newTree = await FileSystemProvider.GitHub.getFullTree({ repoInfo, branch });
+            const updatedGitInfo = { ...gitInfo, baseCommitSHA: newCommitSHA, remoteTree: newTree.tree };
+            const ikarFileContent = `// B"H\n\nconst ikar = ${JSON.stringify(updatedGitInfo, null, 4)};`;
+            const ikarFileItem = { ...gitContextItem, path: `${gitContextItem.path}/.awtsmoos-repo/ikar.js` };
+            await FileSystemProvider.write(ikarFileItem, ikarFileContent);
+        } else { // Clear the temporary store for direct workspaces.
+            const uncommittedFiles = await FileSystemProvider.IndexedDB.listUncommittedForWorkspace(gitContextItem.id);
+            const deletionPromises = uncommittedFiles.map(file => FileSystemProvider.IndexedDB.deleteUncommitted(file.uniquePath));
+            await Promise.all(deletionPromises);
+            uncommittedFiles.forEach(cf => { const tab = State.tabs.find(t => t.uniquePath === cf.uniquePath); if (tab) tab.isUncommitted = false; });
+            Tabs.render();
         }
-
-        UI.showLoading("Cleaning up local changes...");
-        const deletionPromises = filesToCommit.map(file => FileSystemProvider.IndexedDB.deleteUncommitted(file.uniquePath));
-        await Promise.all(deletionPromises);
-        filesToCommit.forEach(cf => { const tab = State.tabs.find(t => t.uniquePath === cf.uniquePath); if (tab) tab.isUncommitted = false; });
-        Tabs.render();
+        
         UI.hideLoading();
-        UI.showToast("All changes successfully committed!", "success");
-
+        UI.showToast("Commit successful!", "success");
     } catch (e) {
         UI.hideLoading();
-        UI.showToast(`Atomic commit failed: ${e.message}`, 'error', 8000);
-        console.error("ATOMIC COMMIT FAILED:", e);
+        UI.showToast(`Commit Failed: ${e.message}`, "error", 8000);
+        console.error("UNIFIED COMMIT FAILED:", e);
     }
 },
 

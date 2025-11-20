@@ -129,9 +129,13 @@ async create(item, isNewFile = false, shouldSave = true, activate = true) {
     },
     
 /*B"H*/
+// ACTION: Replace the entire 'activate' method in js/tabs.js with this complete version.
+
 /**
- * Shifts the application's focus to a specific tab, drawing its contents
- * from the correct realm and setting the view's properties, including its read-only state.
+ * Shifts the application's focus to a specific tab. This is the central nexus
+ * for view-switching. It loads content if necessary, and then correctly manifests
+ * the appropriate view: the Text Editor, the Hex Editor, or the Data Altar,
+ * restoring the full, original logic for each.
  * @param {number} tabId - The ID of the tab to activate.
  * @param {boolean} [forceViewChange=false] - If true, forces a full re-render of the view.
  */
@@ -161,20 +165,20 @@ async activate(tabId, forceViewChange = false) {
     if (!tab) {
         UI.switchView('empty');
         StatusBar.clear();
-        DOM.editor.readOnly = false; // Ensure editor is writable in empty state
+        DOM.editor.readOnly = false;
         this.render();
         App.saveSession(); 
         return;
     }
     
-    // Logic for loading content... (this part is long, so we imagine it's here)
     if (tab.content === null || tab.forceReload) {
-        
         try {
             let fileContent;
             let wasLoadedFromIndexedDB = false;
 
-            if (tab.item.type === 'github') {
+            // This logic correctly prioritizes locally saved "uncommitted" changes.
+            const gitInfo = await this._getGitInfoForTab(tab);
+            if (gitInfo) {
                 try {
                     fileContent = await FileSystemProvider.IndexedDB.readUncommitted(tab.uniquePath);
                     tab.isUncommitted = true;
@@ -216,13 +220,28 @@ async activate(tabId, forceViewChange = false) {
             tab.forceReload = false;
         }
     }
-    // ... end of content loading logic
 
+    // --- THE RESTORED LOGIC, NO LONGER A PLACEHOLDER ---
     if (tab.isAltarView) {
-        // ... altar view logic
+        try {
+            // If the view is just being toggled, use the existing live object. Otherwise, parse.
+            const dataToManifest = tab.liveDataObject && !forceViewChange ? tab.liveDataObject : JSON.parse(tab.content);
+            tab.liveDataObject = dataToManifest; // Persist the parsed object on the tab.
+            UI.switchView('altar');
+            DataAltar.manifest(dataToManifest);
+        } catch (e) {
+            UI.showToast("JSON is malformed; cannot perform transmutation.", "error", 5000);
+            tab.isAltarView = false; // Revert the state on failure.
+            await Editor.showTextEditor(tab.content || '', tab.item.name, tab.scrollPos || 0);
+        }
     } else if (tab.isHexView) {
-        // ... hex view logic
-    } else {
+        UI.switchView('hex');
+        // The hex editor works with the raw binary essence.
+        State.hexEditorInstance.load(tab.arrayBuffer);
+    } 
+    // --- END OF RESTORED LOGIC ---
+    
+    else {
         if (tab.liveDataObject) {
             tab.content = JSON.stringify(tab.liveDataObject, null, '\t');
             tab.liveDataObject = null;
@@ -236,13 +255,41 @@ async activate(tabId, forceViewChange = false) {
         }
     }
     
-    // This is the new part that sets the read-only state after view rendering.
     const workspace = State.workspaces.find(ws => ws.id === tab.item.workspaceId);
-    DOM.editor.readOnly = workspace?.readOnly || false;
+    const isGitClone = await this._getGitInfoForTab(tab);
+    DOM.editor.readOnly = workspace?.readOnly || isGitClone?.readOnly || false;
 
-    this.render(); // This will trigger the status bar update.
+    this.render();
     App.saveSession();
 },
+
+/**
+ * A private helper to determine if a tab belongs to any Git-aware context,
+ * traversing up the tree for local clones.
+ * @private
+ */
+async _getGitInfoForTab(tab) {
+    if (tab.item.type === 'github') {
+        return State.workspaces.find(ws => ws.id === tab.item.workspaceId);
+    }
+    if (tab.item.type === 'local' || tab.item.type === 'indexeddb') {
+        const findGitRoot = (item) => {
+            if (!item || !item.path) return null;
+            const uniquePath = getItemUniquePath(item);
+            const entry = State.domItemMap.get(uniquePath);
+            if (entry?.item.isGitClone) return entry.item;
+            const parentPath = item.path.substring(0, item.path.lastIndexOf('/')) || '/';
+            if (item.path === parentPath) return null;
+            return findGitRoot({ ...item, path: parentPath, kind: 'directory' });
+        };
+        return findGitRoot(tab.item);
+    }
+    return null;
+},
+
+
+
+
     
     async close(tabId, force = false) {
         const tabIndex = State.tabs.findIndex(t => t.id === tabId);
@@ -315,84 +362,60 @@ async activate(tabId, forceViewChange = false) {
     },
     
 /*B"H*/
+
 /**
- * Commits a tab's current content to its filesystem. For GitHub workspaces,
- * this now means saving to a local, uncommitted state in IndexedDB.
- * For read-only workspaces, this action is gracefully denied.
+ * Saves a tab's content back to its native source. This restored version understands
+ * that saving a file in a local clone means writing directly to the local filesystem.
+ * Only files in a direct, non-local GitHub workspace are diverted to the temporary
+ * 'uncommitted' store in preparation for a commit.
  * @param {object} tab - The tab object to save.
  */
 async save(tab) {
-    const workspace = State.workspaces.find(ws => ws.id === tab.item.workspaceId);
-    if (workspace && workspace.readOnly) {
-        UI.showToast("This is a read-only repository. Cannot save changes.", "warning");
-        return;
-    }
-
-    UI.showToast(`Saving ${tab.item.name}...`);
-    let textContent;
-    let contentToSave;
-
-    if (tab.id === State.activeTabId) {
-        const isAltarVisible = !DOM.dataAltarContainer.classList.contains('hidden');
-        if (tab.isHexView) {
-            contentToSave = State.hexEditorInstance.getUpdatedArrayBuffer();
-        } else if (isAltarVisible && tab.isAltarView) {
-            textContent = JSON.stringify(DataAltar.liveDataObject, null, '\t');
-        } else {
-            textContent = Editor.getContent();
-        }
-    } else {
-        if (tab.isHexView) contentToSave = tab.arrayBuffer;
-        else textContent = tab.content;
-    }
-    
+    // This is the one true exception: a file that has no "local" reality.
+    // Its "save" is inherently a preparation for commit.
     if (tab.item.type === 'github') {
+        if (tab.item.readOnly) {
+            UI.showToast("This is a read-only repository. Cannot save changes.", "warning");
+            return;
+        }
+        UI.showToast(`Saving ${tab.item.name} for commit...`);
         try {
+            const textContent = (tab.id === State.activeTabId) ? Editor.getContent() : tab.content;
             await FileSystemProvider.IndexedDB.writeUncommitted(tab.uniquePath, textContent, tab.item);
             tab.isDirty = false;
-            tab.isUncommitted = true;
+            tab.isUncommitted = true; // Mark it as ready for commit.
             tab.content = textContent;
-            UI.showToast(`Saved "${tab.item.name}" locally`, 'success');
             this.render();
+            UI.showToast(`Saved "${tab.item.name}" locally. Ready to commit.`, 'success');
         } catch(e) {
             UI.showToast(`Local save failed: ${e.message}`, 'error');
-            console.error("INDEXEDDB SAVE FAILED:", e);
         }
-        return;
+        return; // The act is complete for this special case.
     }
 
+    // --- For ALL other writable types (local, indexeddb) ---
+    // This is the pure act of saving a file to its own grounded reality.
+    UI.showToast(`Saving ${tab.item.name}...`);
     try {
-        if (contentToSave === undefined) {
-            if (tab.isAwtsmoos && !tab.isHexView) {
-                UI.showLoading('Encoding to binary...');
-                contentToSave = await AwtsmoosHandler.encodeContent(textContent);
-            } else {
-                contentToSave = textContent;
-            }
+        let contentToSave;
+        if (tab.id === State.activeTabId) {
+             if (tab.isHexView) contentToSave = State.hexEditorInstance.getUpdatedArrayBuffer();
+             else if (tab.isAltarView) contentToSave = JSON.stringify(DataAltar.liveDataObject, null, '\t');
+             else contentToSave = Editor.getContent();
+        } else {
+             contentToSave = tab.content;
         }
         
         await FileSystemProvider.write(tab.item, contentToSave);
         
-        tab.isDirty = false;
-        if (tab.isHexView) {
-            tab.arrayBuffer = contentToSave;
-            tab.rawContent = new Blob([contentToSave]);
-            if (tab.id === State.activeTabId) State.hexEditorInstance?.clearDirtyState();
-        } else if (tab.isAwtsmoos) {
-            tab.arrayBuffer = contentToSave.buffer;
-            tab.rawContent = new Blob([contentToSave]);
-            tab.content = textContent;
-        } else {
-            tab.content = textContent;
-        }
-
-        UI.showToast(`Saved "${tab.item.name}"`, 'success');
+        tab.isDirty = false; // The editor's state now matches the file's grounded state.
+        tab.isUncommitted = false; // This is a final save, not a temporary one.
+        tab.content = contentToSave;
         this.render();
+        UI.showToast(`Saved "${tab.item.name}"`, 'success');
     } catch (e) {
         UI.showToast(`Save failed: ${e.message}`, 'error');
         console.error("SAVE FAILED:", e);
-    } finally {
-        UI.hideLoading();
     }
 },
 

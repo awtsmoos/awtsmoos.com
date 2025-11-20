@@ -26,33 +26,14 @@ registerCustomMenus(menuConfigs) {
         
     
     },
-    /*B"H*/
-/**
- * Handles clicks on the document to hide any open menus. This is the definitive,
- * healed version. It now intelligently inspects the click's target. If the click
- * lands on any menu button, it wisely does nothing, allowing the button's own
- * 'handleAction' to proceed while the sacred 'contextEvent' is still preserved.
- * It only acts if the click is truly outside all sacred menu spaces.
- * @param {Event} e - The click event.
- */
-handleDocumentClick: (e) => {
-    // If the click is on ANY button within ANY of our menus, we must do nothing.
-    // We let the button's own click handler take over.
-    if (e.target.closest('.menu-button')) {
-        // We must re-attach the listener because the { once: true } option removes it.
-        // This ensures the next "click outside" will also be caught.
-        setTimeout(() => {
-            document.addEventListener('click', Menus.handleDocumentClick, { once: true, capture: true });
-        }, 0);
-        return;
-    }
-
-    // If the click was not on a menu button and is truly "outside,"
-    // then and only then do we perform the cleansing rite.
-    if (!DOM.contextMenu.contains(e.target) && !DOM.mainMenu.contains(e.target)) {
-        Menus.hideAll();
-    }
-},
+    /**
+     * Handles clicks on the document to hide any open menus.
+     */
+    handleDocumentClick: (e) => {
+        if (!DOM.contextMenu.contains(e.target) && !DOM.mainMenu.contains(e.target)) {
+            Menus.hideAll();
+        }
+    },
 
 /*B"H*/
 
@@ -148,72 +129,72 @@ show(e, item) {
     this.positionAndDisplay(DOM.contextMenu, e);
 },
 /*B"H*/
-
 /**
- * Unfurls the main application menu. This perfected version builds the menu
- * in distinct stages, using a single, clear conditional block to ensure that
- * mutable actions like "Save" and "Commit" VANISH COMPLETELY when the
- * active file is in a read-only workspace.
+ * Unfurls the main application menu. This unified version now correctly perceives
+ * both direct GitHub workspaces AND local clones as "Git-aware" contexts.
+ * It uses this unified perception to correctly show or hide the "Commit All Changes"
+ * option, providing a consistent workflow for all Git-related operations.
  * @param {Event} e - The click event.
  */
 showMainMenu(e) {
     e.stopPropagation();
-    if (DOM.mainMenu.style.display === 'block') {
-        this.hideAll();
-        return;
-    }
+    if (DOM.mainMenu.style.display === 'block') { this.hideAll(); return; }
     this.hideAll();
-    /*B"H*/
-
-// We now add the listener immediately and tell it not to fire on the first, bubbling click.
-// This is a more robust way to handle this.
-document.addEventListener('click', this.handleDocumentClick, { once: true, capture: true });
-
+    document.addEventListener('click', this.handleDocumentClick, { once: true, capture: true });
 
     const activeTab = State.tabs.find(t => t.id === State.activeTabId);
-    let isReadOnly = true; // Default to read-only for safety if no tab is active.
-    let isGitHubWorkspace = false;
-    let hasUncommittedChanges = false;
-    const hasSelection = activeTab && (DOM.editor.selectionStart !== DOM.editor.selectionEnd);
-    
-    let totalChanges = 0;
+    let isGitAware = false;
+    let isReadOnly = true; // Default to safe/read-only.
+    let gitContextWorkspaceId = null;
 
     if (activeTab) {
         const workspace = State.workspaces.find(ws => ws.id === activeTab.item.workspaceId);
-        isReadOnly = workspace?.readOnly || false; // The crucial check.
+        isReadOnly = workspace?.readOnly || false;
 
+        // Check for direct GitHub workspace.
         if (activeTab.item.type === 'github') {
-            isGitHubWorkspace = true;
-            const dirtyFiles = State.tabs.filter(t => t.item.workspaceId === activeTab.item.workspaceId && t.isDirty);
-            const uncommittedFiles = State.tabs.filter(t => t.item.workspaceId === activeTab.item.workspaceId && t.isUncommitted);
-            totalChanges = dirtyFiles.length + uncommittedFiles.length;
-            
-            
-            
-        
-        
+            isGitAware = true;
+            gitContextWorkspaceId = activeTab.item.workspaceId;
+        } 
+        // Check for local clones by traversing up the file tree from the active tab.
+        else if (activeTab.item.type === 'local' || activeTab.item.type === 'indexeddb') {
+            const findGitRoot = (item) => {
+                if (!item || !item.path) return null;
+                const uniquePath = getItemUniquePath(item);
+                const entry = State.domItemMap.get(uniquePath);
+                // The cached 'isGitClone' property gives us an instant answer.
+                if (entry?.item.isGitClone) return entry.item;
+                const parentPath = item.path.substring(0, item.path.lastIndexOf('/')) || '/';
+                if (item.path === parentPath) return null; // We've reached the root of the workspace.
+                return findGitRoot({ ...item, path: parentPath, kind: 'directory' });
+            };
+            const gitRoot = findGitRoot(activeTab.item);
+            if (gitRoot) {
+                isGitAware = true;
+                // The context is the workspace the clone lives in.
+                gitContextWorkspaceId = gitRoot.workspaceId;
+            }
         }
     }
     
-    // --- Stage 1: Define universal, non-mutable starting actions ---
+    // --- Stage 1: Define universal actions ---
     const menuItems = [
         { label: 'New File', action: 'new-temp-file', icon: 'file' },
         { label: 'Open File...', action: 'open-file', icon: 'folder' },
     ];
 
-    // --- Stage 2: The Chamber of Creation (Only enter if not read-only) ---
-    // If the realm is mutable, we reveal the tools of creation and finalization.
+    // --- Stage 2: Add mutable actions if the context allows ---
     if (!isReadOnly) {
         menuItems.push({ isSeparator: true });
         menuItems.push({ label: 'Save', action: 'save', icon: 'save', disabled: !activeTab || !activeTab.isDirty });
         
-        if (isGitHubWorkspace) {
-            menuItems.push({
-            label: 'Commit All Changes', action: 'commit-changes', 
-            icon: 'git-branch', disabled: totalChanges === 0  });
+        // If the context is ANY form of Git, show the commit button.
+        // It's enabled by default, as the actual check for changes happens when clicked.
+        if (isGitAware) {
+            menuItems.push({ label: 'Commit All Changes', action: 'commit-changes', icon: 'git-branch' });
         }
     }
-
+    
     // --- Stage 3: Universal tools of observation and transport ---
     menuItems.push(
         { isSeparator: true },
@@ -231,6 +212,7 @@ document.addEventListener('click', this.handleDocumentClick, { once: true, captu
 	}
     
     // --- Stage 4: The final set of universal editor utilities ---
+    const hasSelection = activeTab && (DOM.editor.selectionStart !== DOM.editor.selectionEnd);
     menuItems.push(
         { isSeparator: true },
         { label: 'Find / Replace', action: 'find-replace', icon: 'search', disabled: !activeTab },
