@@ -66,10 +66,7 @@ proto._parseDeclaration = function() {
 
 
 	
-        this._advance();
-		return this._finishNode(identNode, s);
-	};
-
+        
 	/***********************************************************************
 	*  --- CRITICAL FIX 1: IMPLEMENT THE MISSING _parseProperty FUNCTION ---
 	*  This function is responsible for parsing a single property inside
