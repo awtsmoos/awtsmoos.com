@@ -244,34 +244,51 @@ export const GitManager = {
     },
 
     /**
-     * Entry point. Called when the Git Actions button on a folder is clicked.
-     */
-    // B"H
-    async showGitUI(gitContextItem) { // Note: Renamed for clarity, this can be a local clone or a direct workspace
-        UI.showLoading("Reading repository data...");
+ * B"H
+  * This function is the enlightened eye of the Git system, now capable of two modes of perception.
+ */
+async showGitUI(gitContextItem) {
+    UI.showLoading("Reading repository data...");
 
-        // For direct GitHub workspaces, the context IS the gitInfo. For local, we fetch it.
-        const gitInfo = gitContextItem.type === 'github' ?
-            gitContextItem :
-            await GitMetaProvider.getGitInfoForFolder(gitContextItem);
+    // First, we must determine the source of our knowledge: is it inscribed locally in ikar.js,
+    // or is it the living, breathing state of the GitHub workspace itself?
+    let gitInfo = gitContextItem.type === 'github' ?
+        gitContextItem :
+        await GitMetaProvider.getGitInfoForFolder(gitContextItem);
 
-        if (!gitInfo) {
-            UI.hideLoading();
-            UI.showToast("This is not a Git-aware folder.", "error");
-            return;
-        }
+    if (!gitInfo) {
+        UI.hideLoading();
+        UI.showToast("This is not a Git-aware folder.", "error");
+        return;
+    }
 
-        UI.showLoading("Analyzing repository status...");
-        try {
+    UI.showLoading("Analyzing repository status...");
+    try {
+        let isBehind = false;
+        let remoteChanges = null;
+
+        // The Two Paths of Perception:
+        if (gitContextItem.type === 'github') {
+            // PATH 1: The Direct Gaze. A direct workspace cannot be "behind." Its present IS the remote truth.
+            // We fetch its current state to form a baseline for comparison against uncommitted changes.
+            const treeData = await FileSystemProvider.GitHub.getFullTree(gitInfo);
+            // We temporarily bestow the fetched knowledge upon our gitInfo object, giving it substance.
+            gitInfo = { ...gitInfo,
+                remoteTree: treeData.tree,
+                baseCommitSHA: treeData.sha
+            };
+            isBehind = false; // By definition, it cannot be behind.
+        } else {
+            // PATH 2: The Reflected Image. A local clone has a memory of the past (`baseCommitSHA`).
+            // We must check if this memory is outdated.
             const remoteCommitSHA = await FileSystemProvider.GitHub.getLatestCommitSHA(gitInfo);
-            const isBehind = remoteCommitSHA !== gitInfo.baseCommitSHA;
+            isBehind = remoteCommitSHA !== gitInfo.baseCommitSHA;
 
-            // --- NEW: Calculate Remote Changes if Behind ---
-            let remoteChanges = null;
             if (isBehind) {
                 UI.showLoading("Fetching remote changes...");
                 const newTreeData = await FileSystemProvider.GitHub.getFullTree(gitInfo);
                 const newRemoteTree = newTreeData.tree;
+                // This is now safe, as only local clones (which have .remoteTree) can enter this block.
                 const oldRemoteTree = gitInfo.remoteTree;
 
                 const newFiles = new Map(newRemoteTree.map(f => [f.path, f]));
@@ -296,31 +313,32 @@ export const GitManager = {
                     }
                 });
             }
-            // --- END NEW ---
-
-            const changeSet = await this.calculateDiff(gitContextItem, gitInfo);
-            const localChangesCount = (changeSet.creations.length + changeSet.updates.length + changeSet.deletions.length);
-            const isAhead = localChangesCount > 0;
-
-            UI.hideLoading();
-            // Pass the new remoteChanges object to the dialog
-            this.showCommitDialog(gitContextItem, gitInfo, {
-                isBehind,
-                isAhead,
-                localChangesCount,
-                changeSet,
-                remoteChanges
-            });
-
-        } catch (e) {
-            UI.hideLoading();
-            UI.showToast(`Error checking Git status: ${e.message}`, 'error');
-            console.error(e);
         }
-    },
 
-    /**
-     * Displays the dialog with status and commit options.
+        // Now, because gitInfo is guaranteed to have a .remoteTree, this call is safe from the abyss.
+        const changeSet = await this.calculateDiff(gitContextItem, gitInfo);
+        const localChangesCount = (changeSet.creations.length + changeSet.updates.length + changeSet.deletions.length);
+        const isAhead = localChangesCount > 0;
+
+        UI.hideLoading();
+        this.showCommitDialog(gitContextItem, gitInfo, {
+            isBehind,
+            isAhead,
+            localChangesCount,
+            changeSet,
+            remoteChanges
+        });
+
+    } catch (e) {
+        UI.hideLoading();
+        UI.showToast(`Error checking Git status: ${e.message}`, 'error');
+        console.error(e);
+    }
+},
+    
+    
+    /*B"H
+    Displays thedialog with status and commit options.
      * This version gracefully handles the "No changes" state and adds the "Discard Changes" option.
      */
     // B"H
