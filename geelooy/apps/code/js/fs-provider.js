@@ -483,16 +483,44 @@ api: async (endpoint, options = {}) => {
                 name: c.name, kind: c.type === 'dir' ? 'directory' : 'file', path: c.path, sha: c.sha
             }));
         },
-        async read({ repoInfo, sha, name }) {
-            const blob = await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/blobs/${sha}`);
-            if (blob.encoding !== 'base64') throw new Error("Unsupported encoding from GitHub");
-            const fileInfo = MimeUtil.getInfo(name);
-            if (fileInfo.type === 'text') {
-                return this.b64_to_utf8(blob.content);
-            } else {
-                return { isBinary: true, base64Content: blob.content, mime: fileInfo.mime };
-            }
-        },
+        /*B"H*/
+
+
+async read(item) {
+    // THE TWIST: Instead of trusting the 'repoInfo' on the item itself (which may be a stale
+    // echo from a saved session), we perform a live lookup. We use the item's one constant,
+    // its sacred 'workspaceId', to find its true, present-tense parent in the application's
+    // current state. This shatters the illusion that the item is a self-contained reality.
+    const workspace = State.workspaces.find(ws => ws.id === item.workspaceId);
+    if (!workspace || !workspace.repoInfo) {
+        // This is a critical guard against trying to read a GitHub file that has no
+        // corresponding live workspace, preventing a crash.
+        throw new Error(`Could not find a valid GitHub workspace for this item.`);
+    }
+
+    // We now construct the divine request using the fresh, authoritative 'repoInfo' from the
+    // living workspace, combined with the specific 'sha' from the item's memory.
+    // This fusion of the present ('repoInfo') and the past ('sha') creates a valid query.
+    const { repoInfo } = workspace;
+    const { sha, name } = item;
+
+    // If, for any reason, the sha from the old session is still invalid (e.g., a force push
+    // deleted the commit), this check provides a clear error instead of a silent failure.
+    if (!sha) {
+        throw new Error(`Cannot read file "${name}": its SHA identifier is missing.`);
+    }
+
+    const blob = await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/blobs/${sha}`);
+    
+    // The rest of the function proceeds as before, now certain of its divine source.
+    if (blob.encoding !== 'base64') throw new Error("Unsupported encoding from GitHub");
+    const fileInfo = MimeUtil.getInfo(name);
+    if (fileInfo.type === 'text') {
+        return this.b64_to_utf8(blob.content);
+    } else {
+        return { isBinary: true, base64Content: blob.content, mime: fileInfo.mime };
+    }
+},
         /**
  * Writes or updates a file in a GitHub repository.
  * After the operation, it invalidates the workspace's tree cache.
