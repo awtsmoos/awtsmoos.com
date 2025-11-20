@@ -9,10 +9,11 @@ const merkavaPromise = factory(); // Execute the factory immediately to get the 
         module.exports = merkavaPromise;
     } else {
         // Browser/Worker: The factory returns a promise which we attach to the window/self.
-        root.MerkavahParserPromise = factory();
+        root.MerkavahParserPromise = merkavaPromise;
     }
     
     merkavaPromise.then(MerkavahParser => {
+    console. log("doing something")
     if (typeof document !== 'undefined' && document.currentScript) {
         const currentScript = document.currentScript;
         const url = new URL(currentScript.src, window.location.href);
@@ -25,6 +26,7 @@ const merkavaPromise = factory(); // Execute the factory immediately to get the 
 }).catch(err => {
     console.error("A critical failure occurred inside the Merkava Parser's initialization promise.", err);
 });
+
 }(typeof self !== 'undefined' ? self : this, function() {
     // This is the universal, promise-based factory.
     const isNode = typeof process !== 'undefined' && process.versions != null && process.versions.node != null;
