@@ -343,13 +343,26 @@ class MerkavaExecutor {
             const value = obj[prop];
             return typeof value === 'function' && n.object.type !== 'Super' ? value.bind(obj) : value;
         },
+        
+        
         CallExpression: async function(n, c) {
             let thisContext = this.globalObject, func;
+            
             if (n.callee.type === 'MemberExpression') {
                 const obj = await this._executeNode(n.callee.object, c);
                 if (n.optional && (obj === null || obj === undefined)) return undefined;
 
-                thisContext = obj;
+                // --- THE CRITICAL FIX IS HERE ---
+                // We determine the correct `this` context *before* getting the function.
+                if (n.callee.object.type === 'Super') {
+                    // For a `super.method()` call, the `this` context is the CURRENT instance's `this`.
+                    thisContext = c.scope.thisBinding;
+                } else {
+                    // For a regular `obj.method()` call, the `this` context is the object itself.
+                    thisContext = obj;
+                }
+                // --- END OF CRITICAL FIX ---
+
                 let prop;
                 if(n.callee.property.type === 'PrivateIdentifier') {
                      if (!this.privateFields.has(obj) || !this.privateFields.get(obj).has(`#${n.callee.property.name}`)) {
@@ -358,18 +371,25 @@ class MerkavaExecutor {
                     func = this.privateFields.get(obj).get(`#${n.callee.property.name}`);
                 } else {
                     prop = n.callee.computed ? await this._executeNode(n.callee.property, c) : n.callee.property.name;
+                    // The function itself is still retrieved from the object/prototype.
                     func = obj[prop];
                 }
             } else if (n.callee.type === 'Super') {
+                 // This block correctly handles the `super()` constructor call. It remains unchanged.
                  thisContext = c.scope.thisBinding;
                  const proto = Object.getPrototypeOf(Object.getPrototypeOf(thisContext));
                  func = proto.constructor;
             } else {
+                 // This handles regular function calls like `myFunc()`. It remains unchanged.
                  func = await this._executeNode(n.callee, c);
             }
             
             if (n.optional && (func === null || func === undefined)) return undefined;
-            if (typeof func !== 'function') throw new TypeError(`'${n.callee.type}' is not a function`);
+            if (typeof func !== 'function') {
+                 // Provide a more detailed error message
+                const funcName = n.callee.property?.name || n.callee.name || '[anonymous]';
+                throw new TypeError(`'${funcName}' is not a function`);
+            }
             
             const rawArgs = await Promise.all(n.arguments.map(arg => this._executeNode(arg, c)));
             const args = [];
@@ -378,8 +398,10 @@ class MerkavaExecutor {
                 else args.push(arg);
             }
             
+            // Now, `func.apply` is called with the correctly determined `thisContext`.
             return await func.apply(thisContext, args);
         },
+        
         ChainExpression: async function(n, c) { return await this._executeNode(n.expression, c); },
         
         
