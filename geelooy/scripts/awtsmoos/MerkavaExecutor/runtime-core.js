@@ -575,40 +575,34 @@ class MerkavaExecutor {
 
         // ### LITERAL-LIKE EXPRESSIONS ###
         
+        
         FunctionExpression: async function(n, c) {
             const executor = this;
-            
-            // The callable MUST be a regular `function` to have a `.prototype`
-            // and to work correctly as a constructor.
-            const callable = function(...args) {
-                const thisContext = this; // Capture the `this` from the call site.
 
-                // The execution of the body is wrapped in an async IIFE.
-                // This makes the *behavior* async if needed, without making the
-                // function object itself an `async function`.
-                const executionPromise = (async () => {
-                    const funcScope = executor._createScope(this, c.scope, {}, thisContext);
-                    const funcContext = { ...c, scope: funcScope };
+            // The callable is now a native `async function`.
+            // This is the most critical change. It ensures that JS engine's
+            // promise-handling for try/catch/finally works correctly.
+            const callable = async function(...args) {
+                // `this` is correctly captured from the call site (.apply, .call).
+                const thisContext = this; 
+                const funcScope = executor._createScope(this, c.scope, {}, thisContext);
+                const funcContext = { ...c, scope: funcScope };
 
-                    for (let i = 0; i < n.params.length; i++) {
-                        await executor._assignPattern(n.params[i], args[i], funcContext);
+                // Assign parameters to the new scope.
+                for (let i = 0; i < n.params.length; i++) {
+                    await executor._assignPattern(n.params[i], args[i], funcContext);
+                }
+                
+                // Execute the function body, handling the 'Return' signal correctly.
+                try {
+                    return await executor._executeNode(n.body, funcContext);
+                } catch (e) {
+                    if (e.type === 'Return') {
+                        return e.value;
                     }
-                    
-                    try {
-                        return await executor._executeNode(n.body, funcContext);
-                    } catch (e) {
-                        // If a return statement is caught, we resolve the promise with its value.
-                        if (e.type === 'Return') return e.value;
-                        // Otherwise, re-throw the error to reject the promise.
-                        throw e;
-                    }
-                })();
-
-                // If the original function was a constructor or synchronous method,
-                // we cannot return the promise. This is a limitation of a purely async
-                // interpreter. For this simulation, we will always return the promise.
-                // Real-world synchronous methods would require a separate execution path.
-                return executionPromise;
+                    // Re-throw other errors or signals.
+                    throw e;
+                }
             };
 
             // If the function had a name (e.g., function myFunc() {}), assign it.
@@ -616,6 +610,12 @@ class MerkavaExecutor {
                 Object.defineProperty(callable, 'name', { value: n.id.name, configurable: true });
             }
 
+            // This is crucial for the `new` operator. An async function doesn't
+            // have a `.prototype` by default, but we need one for classes.
+            if (!callable.prototype) {
+                callable.prototype = {};
+            }
+            
             return callable;
         },
         
