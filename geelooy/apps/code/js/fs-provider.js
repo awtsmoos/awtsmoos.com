@@ -248,8 +248,8 @@ IndexedDB: {
     },
 
     // --- Methods for the MAIN "Browser Storage" ---
-
-    /*B"H*/
+/*B"H*/
+// ACTION: Replace the 'list' method within the FileSystemProvider.IndexedDB object.
 
 /**
  * Lists the children of a given directory path within the browser's storage.
@@ -267,23 +267,18 @@ list: async function({ path }) {
         request.onerror = e => reject(e.target.error);
         request.onsuccess = () => {
             const children = new Map();
+            const pathWithSlash = path.endsWith('/') ? path : `${path}/`;
+            const pathIsRoot = path === '/';
+
             request.result.forEach(item => {
-                // An item's own path cannot be its own child.
-                if (item.path === path) return;
-
-                const lastSlashIndex = item.path.lastIndexOf('/');
-                
-                // THIS IS THE CRITICAL FIX:
-                // If the last slash is at index 0, the parent is the root '/'.
-                // Otherwise, the parent is everything before that last slash.
-                // This correctly identifies '/folder/file' as a child of '/folder',
-                // and '/folder' as a child of '/'.
-                const parentPath = (lastSlashIndex === 0) ? '/' : item.path.substring(0, lastSlashIndex);
-
-                if (parentPath === path) {
-                    const segment = item.path.substring(lastSlashIndex + 1);
-                    if (segment) {
-                        children.set(segment, { name: segment, kind: item.isDir ? 'directory' : 'file', path: item.path });
+                // Ensure the item path is a direct child of the target path.
+                if (item.path.startsWith(pathWithSlash) || (pathIsRoot && item.path.startsWith('/'))) {
+                    // Find the part of the path *after* the parent path.
+                    const relativePath = pathIsRoot ? item.path.substring(1) : item.path.substring(pathWithSlash.length);
+                    
+                    // If there are no more slashes, it's a direct child.
+                    if (relativePath && !relativePath.includes('/')) {
+                        children.set(relativePath, { name: relativePath, kind: item.isDir ? 'directory' : 'file', path: item.path });
                     }
                 }
             });
@@ -341,17 +336,49 @@ create: async function({ path }, name, kind) {
         tx.onerror = () => reject(tx.error);
     });
 },
-    delete: async function({ path, kind }) {
-        const db = await this.init();
-        return new Promise((resolve, reject) => {
-            const tx = db.transaction(this.STORE_NAME, "readwrite");
-            const store = tx.objectStore(this.STORE_NAME);
-            if (kind === 'directory') store.delete(IDBKeyRange.bound(path, path + '\uffff'));
-            else store.delete(path);
-            tx.oncomplete = resolve;
-            tx.onerror = () => reject(tx.error);
-        });
-    },
+    /*B"H*/
+
+/**
+ * Deletes an item from the browser's storage. This corrected version handles
+ * directory deletion more robustly by explicitly finding and deleting all
+ * descendants before removing the directory record itself, preventing errors.
+ * @param {object} item - The file or folder item to delete.
+ * @returns {Promise<void>} A promise that resolves when the deletion is complete.
+ */
+delete: async function({ path, kind }) {
+    const db = await this.init();
+    return new Promise((resolve, reject) => {
+        const tx = db.transaction(this.STORE_NAME, "readwrite");
+        const store = tx.objectStore(this.STORE_NAME);
+
+        if (kind === 'directory') {
+            // A more robust way to delete a directory and all its contents.
+            const range = IDBKeyRange.lowerBound(path);
+            const request = store.openCursor(range);
+            const pathsToDelete = [];
+            
+            request.onsuccess = e => {
+                const cursor = e.target.result;
+                if (cursor) {
+                    // Check if the key is the directory itself or a path inside it.
+                    if (cursor.key === path || cursor.key.startsWith(`${path}/`)) {
+                        pathsToDelete.push(cursor.key);
+                    }
+                    cursor.continue();
+                } else {
+                    // Once we have all paths, delete them.
+                    pathsToDelete.forEach(p => store.delete(p));
+                }
+            };
+        } else {
+            // For a single file, the operation is simple.
+            store.delete(path);
+        }
+
+        tx.oncomplete = resolve;
+        tx.onerror = () => reject(tx.error);
+    });
+},
     listAllFiles: async function({ path }) {
         const db = await this.init();
         return new Promise((resolve, reject) => {
