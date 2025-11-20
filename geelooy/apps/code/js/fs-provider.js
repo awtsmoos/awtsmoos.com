@@ -208,57 +208,51 @@ export const FileSystemProvider = {
 IndexedDB: {
     DB_NAME: "VIVID_X_FS_PROFOUND",
     STORE_NAME: "files",
-    GIT_DB_NAME: "VIVID_X_GIT_CHANGES_PROFOUND",
     GIT_STORE_NAME: "uncommitted_files",
 
     /**
      * @public
-     * @description Initializes connections to both databases sequentially to prevent hangs.
+     * @description Initializes a SINGLE database connection with BOTH object stores.
+     * This eliminates the race condition that causes the application to hang.
      */
-    init: async function() {
-        // Only initialize if the connection doesn't already exist.
-        if (!State.db) {
-            await this._initMainDB();
-        }
-        if (!State.gitDb) {
-            await this._initGitDB();
-        }
-    },
-
-    /**
-     * @private
-     * @description Opens the main database using the trusted logic from your working code.
-     */
-    _initMainDB: function() {
+    init: function() {
         return new Promise((resolve, reject) => {
-            const request = indexedDB.open(this.DB_NAME, 1);
-            request.onupgradeneeded = e => e.target.result.createObjectStore(this.STORE_NAME, { keyPath: "path" });
-            request.onsuccess = e => { State.db = e.target.result; resolve(State.db); };
+            // If the connection is already open, we don't need to do anything.
+            if (State.db) return resolve(State.db);
+
+            // We open ONE database. We use version 2 to trigger an update for existing users.
+            const request = indexedDB.open(this.DB_NAME, 2);
+
+            request.onupgradeneeded = e => {
+                const db = e.target.result;
+                // Create the 'files' store if it doesn't exist.
+                if (!db.objectStoreNames.contains(this.STORE_NAME)) {
+                    db.createObjectStore(this.STORE_NAME, { keyPath: "path" });
+                }
+                // Create the 'uncommitted_files' store if it doesn't exist.
+                if (!db.objectStoreNames.contains(this.GIT_STORE_NAME)) {
+                    db.createObjectStore(this.GIT_STORE_NAME, { keyPath: "uniquePath" });
+                }
+            };
+
+            request.onsuccess = e => {
+                State.db = e.target.result;
+                // We no longer need a separate gitDb handle.
+                State.gitDb = e.target.result; 
+                resolve(State.db);
+            };
+
             request.onerror = e => reject(e.target.error);
-            request.onblocked = () => reject(new Error("Main database connection is blocked."));
+            request.onblocked = () => reject(new Error("Database connection is blocked. Please close other open tabs."));
         });
     },
 
-    /**
-     * @private
-     * @description Opens the git database using the same trusted logic.
-     */
-    _initGitDB: function() {
-        return new Promise((resolve, reject) => {
-            const request = indexedDB.open(this.GIT_DB_NAME, 1);
-            request.onupgradeneeded = e => e.target.result.createObjectStore(this.GIT_STORE_NAME, { keyPath: "uniquePath" });
-            request.onsuccess = e => { State.gitDb = e.target.result; resolve(State.gitDb); };
-            request.onerror = e => reject(e.target.error);
-            request.onblocked = () => reject(new Error("Git database connection is blocked."));
-        });
-    },
-
-    // --- Methods for the MAIN "Browser Storage" Database ---
+    // --- Methods for the MAIN "Browser Storage" ---
 
     list: async function({ path }) {
-        await this._initMainDB();
+        const db = await this.init();
         return new Promise((resolve, reject) => {
-            const store = State.db.transaction(this.STORE_NAME).objectStore(this.STORE_NAME);
+            const store = db.transaction(this.STORE_NAME).objectStore(this.STORE_NAME);
             const request = store.getAll();
             request.onerror = e => reject(e.target.error);
             request.onsuccess = () => {
@@ -266,22 +260,64 @@ IndexedDB: {
                 request.result.forEach(item => {
                     const lastSlashIndex = item.path.lastIndexOf('/');
                     let parentPath = lastSlashIndex > 0 ? item.path.substring(0, lastSlashIndex) : '/';
-                    if (lastSlashIndex === 0 || lastSlashIndex === -1) { parentPath = '/'; }
+                    if (lastSlashIndex <= 0) parentPath = '/';
                     if (parentPath === path) {
                         const segment = item.path.substring(lastSlashIndex + 1);
-                        if (segment && !children.has(segment)) {
-                            children.set(segment, { name: segment, kind: item.isDir ? 'directory' : 'file', path: item.path });
-                        }
+                        if (segment) children.set(segment, { name: segment, kind: item.isDir ? 'directory' : 'file', path: item.path });
                     }
                 });
                 resolve(Array.from(children.values()));
             };
         });
     },
-    listAllFiles: async function({ path }) {
-        await this._initMainDB();
+    read: async function({ path }) {
+        const db = await this.init();
         return new Promise((resolve, reject) => {
-            const store = State.db.transaction(this.STORE_NAME).objectStore(this.STORE_NAME);
+            const store = db.transaction(this.STORE_NAME).objectStore(this.STORE_NAME);
+            const request = store.get(path);
+            request.onerror = e => reject(e.target.error);
+            request.onsuccess = e => {
+                if (e.target.result !== undefined) resolve(e.target.result.content);
+                else reject(new Error(`File not found in Browser Storage at path: "${path}"`));
+            };
+        });
+    },
+    write: async function({ path }, content) {
+        const db = await this.init();
+        return new Promise((resolve, reject) => {
+            const tx = db.transaction(this.STORE_NAME, "readwrite");
+            const store = tx.objectStore(this.STORE_NAME);
+            store.put({ path, content, isDir: false }); // Simplified assumption for write
+            tx.oncomplete = resolve;
+            tx.onerror = () => reject(tx.error);
+        });
+    },
+    create: async function({ path }, name, kind) {
+        const db = await this.init();
+        const newPath = path === '/' ? `/${name}` : `${path}/${name}`;
+        return new Promise((resolve, reject) => {
+            const tx = db.transaction(this.STORE_NAME, "readwrite");
+            const store = tx.objectStore(this.STORE_NAME);
+            store.put({ path: newPath, content: '', isDir: kind === 'directory' });
+            tx.oncomplete = resolve;
+            tx.onerror = () => reject(tx.error);
+        });
+    },
+    delete: async function({ path, kind }) {
+        const db = await this.init();
+        return new Promise((resolve, reject) => {
+            const tx = db.transaction(this.STORE_NAME, "readwrite");
+            const store = tx.objectStore(this.STORE_NAME);
+            if (kind === 'directory') store.delete(IDBKeyRange.bound(path, path + '\uffff'));
+            else store.delete(path);
+            tx.oncomplete = resolve;
+            tx.onerror = () => reject(tx.error);
+        });
+    },
+    listAllFiles: async function({ path }) {
+        const db = await this.init();
+        return new Promise((resolve, reject) => {
+            const store = db.transaction(this.STORE_NAME).objectStore(this.STORE_NAME);
             const request = store.getAll();
             request.onerror = e => reject(e.target.error);
             request.onsuccess = () => {
@@ -290,91 +326,40 @@ IndexedDB: {
             };
         });
     },
-    read: async function({ path }) {
-        await this._initMainDB();
-        return new Promise((resolve, reject) => {
-            const store = State.db.transaction(this.STORE_NAME).objectStore(this.STORE_NAME);
-            const request = store.get(path);
-            request.onerror = e => reject(e.target.error);
-            request.onsuccess = e => {
-                if (e.target.result !== undefined) { resolve(e.target.result.content); } 
-                else { reject(new Error(`File not found in Browser Storage at path: "${path}"`)); }
-            };
-        });
-    },
-    write: async function({ path }, content) {
-        await this._initMainDB();
-        return new Promise((resolve, reject) => {
-            const tx = State.db.transaction(this.STORE_NAME, "readwrite");
-            const store = tx.objectStore(this.STORE_NAME);
-            const req = store.get(path);
-            req.onsuccess = () => {
-                const data = req.result || { path, isDir: false };
-                data.content = content;
-                store.put(data);
-            };
-            tx.oncomplete = resolve;
-            tx.onerror = () => reject(tx.error);
-        });
-    },
-    create: async function({ path }, name, kind) {
-        await this._initMainDB();
-        const newPath = path === '/' ? `/${name}` : `${path}/${name}`;
-        return new Promise((resolve, reject) => {
-            const tx = State.db.transaction(this.STORE_NAME, "readwrite");
-            const store = tx.objectStore(this.STORE_NAME);
-            store.put({ path: newPath, content: '', isDir: kind === 'directory' });
-            tx.oncomplete = resolve;
-            tx.onerror = () => reject(tx.error);
-        });
-    },
-    delete: async function({ path, kind }) {
-        await this._initMainDB();
-        return new Promise((resolve, reject) => {
-            const tx = State.db.transaction(this.STORE_NAME, "readwrite");
-            const store = tx.objectStore(this.STORE_NAME);
-            if (kind === 'directory') {
-                store.delete(IDBKeyRange.bound(path, path + '\uffff'));
-            } else {
-                store.delete(path);
-            }
-            tx.oncomplete = resolve;
-            tx.onerror = () => reject(tx.error);
-        });
-    },
+    
+    // --- Methods for the "Git Changes" store ---
 
-    // --- Methods for the NEW "Git Changes" Database ---
     readUncommitted: async function(uniquePath) {
-        await this._initGitDB();
+        const db = await this.init();
         return new Promise((resolve, reject) => {
-            const store = State.gitDb.transaction(this.GIT_STORE_NAME).objectStore(this.GIT_STORE_NAME);
+            const store = db.transaction(this.GIT_STORE_NAME).objectStore(this.GIT_STORE_NAME);
             const request = store.get(uniquePath);
             request.onerror = e => reject(e.target.error);
             request.onsuccess = e => e.target.result ? resolve(e.target.result.content) : reject(new Error("No uncommitted version found."));
         });
     },
     writeUncommitted: async function(uniquePath, content, item) {
-        await this._initGitDB();
+        const db = await this.init();
         return new Promise((resolve, reject) => {
-            const tx = State.gitDb.transaction(this.GIT_STORE_NAME, "readwrite");
+            const tx = db.transaction(this.GIT_STORE_NAME, "readwrite");
             tx.objectStore(this.GIT_STORE_NAME).put({ uniquePath, content, item });
             tx.oncomplete = resolve;
             tx.onerror = () => reject(tx.error);
         });
     },
     deleteUncommitted: async function(uniquePath) {
-        await this._initGitDB();
+        const db = await this.init();
         return new Promise((resolve, reject) => {
-            const tx = State.gitDb.transaction(this.GIT_STORE_NAME, "readwrite");
+            const tx = db.transaction(this.GIT_STORE_NAME, "readwrite");
             tx.objectStore(this.GIT_STORE_NAME).delete(uniquePath);
             tx.oncomplete = resolve;
             tx.onerror = () => reject(tx.error);
         });
     },
     listUncommittedForWorkspace: async function(workspaceId) {
-        await this._initGitDB();
+        const db = await this.init();
         return new Promise((resolve, reject) => {
-            const store = State.gitDb.transaction(this.GIT_STORE_NAME).objectStore(this.GIT_STORE_NAME);
+            const store = db.transaction(this.GIT_STORE_NAME).objectStore(this.GIT_STORE_NAME);
             const request = store.getAll();
             request.onerror = e => reject(e.target.error);
             request.onsuccess = () => resolve(request.result.filter(entry => entry.uniquePath.startsWith(`${workspaceId}::`)));
