@@ -276,7 +276,8 @@ showMainMenu(e) {
  */
 async handleAction(action) {
     const item = State.contextTarget;
-    this.hideAll(); // The first act is always to return to a state of calm.
+    
+    
     const activeTab = State?.tabs?.find?.(t => t?.id === State?.activeTabId);
     
     try {
@@ -360,30 +361,12 @@ async handleAction(action) {
                         await Workspaces.refreshNode(item);
                         if (kind === 'file') {
                             const newPath = item.path === '/' ? `/${name}` : `${item.path}/${name}`;
-                            // We create the item object and explicitly give it content.
-                // This tells Tabs.create, "This is a new being, its substance is this
-                // empty string. Do not try to read it from a source it doesn't have."
-                const newFileItem = { 
-                    ...item, // Inherit context like workspaceId and type
-                    name,
-                    path: newPath,
-                    kind: 'file',
-                    content: '' // The explicit declaration of substance.
-                };
-                            
-                            Tabs.create(
-                            newFileItem
-                             );
+                            Tabs.create({ ...item, name, path: newPath, kind: 'file' });
                         }
                     }
                 }
                 break;
-            /*B"H*/
-case 'start-selection':
-   
-    SelectionManager.start(item, State.contextEvent);
-    break;
-            
+            case 'start-selection': SelectionManager.start(item, State.contextEvent); break;
             case 'copy-single':
                 if (item) {
                     State.fileClipboard = [getItemUniquePath(item)];
@@ -422,6 +405,8 @@ case 'start-selection':
         console.error("Action failed:", action, e);
     } finally { 
         UI.hideLoading(); 
+        this.hideAll(); // The first act is always to return to a state of calm.
+    
     }
 }
 };
