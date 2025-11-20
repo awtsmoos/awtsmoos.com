@@ -188,90 +188,66 @@ async initialize() {
     
     
 /*B"H*/
+// ACTION: Replace the entire 'commitAllChanges' method in js/app.js with this new, dispatcher version.
 
 /**
- * Orchestrates an atomic, multi-file commit for ANY Git-aware context. This unified
- * version first determines if the active file is in a direct GitHub workspace or a local
- * clone. It then intelligently gathers changes—either from the 'uncommitted' store for
- * direct workspaces, or by performing a real-time 'diff' for local clones—and
- * conducts the appropriate commit ceremony.
+ * Acts as a universal dispatcher for all "Commit" actions. Its sole purpose is to
+ * find the correct Git-aware context (the root folder of the clone) for the currently
+ * active file, and then command the GitManager to show its UI for that context.
+ * This unifies the behavior of the main menu button and the folder icon.
  */
 async commitAllChanges() {
     const activeTab = State.tabs.find(t => t.id === State.activeTabId);
     if (!activeTab) return;
 
-    let gitContextItem = null;
-    let gitInfo = null;
-    let changeSet = null;
-
     UI.showLoading("Finding Git context...");
 
-    // Step 1: Discover the True Nature of the Realm.
+    /**
+     * A robust helper to traverse up the file tree from any item to find the
+     * root of the Git clone it belongs to, using the 'domItemMap' as its guide.
+     * @param {object} item - The starting file or folder item.
+     * @returns {object|null} The item representing the Git root, or null if not found.
+     */
+    const findGitRoot = (item) => {
+        if (!item || typeof item.path !== 'string') return null;
+
+        // We start at the item's current location and walk upwards.
+        let currentPath = item.path;
+        while (true) {
+            const uniquePath = `${item.workspaceId}::${currentPath}`;
+            const entry = State.domItemMap.get(uniquePath);
+            
+            // If we find an entry in our map that is marked as a clone, we have found our root.
+            if (entry?.item.isGitClone) {
+                return entry.item;
+            }
+
+            // If we are at the root ('/') and haven't found it, it doesn't exist.
+            if (currentPath === '/') break;
+            
+            // Move up one level in the directory structure.
+            const lastSlash = currentPath.lastIndexOf('/');
+            currentPath = lastSlash <= 0 ? '/' : currentPath.substring(0, lastSlash);
+        }
+        return null; // Traversed to the top without finding a Git root.
+    };
+    
+    let gitContextItem;
+
     if (activeTab.item.type === 'github') {
         gitContextItem = State.workspaces.find(ws => ws.id === activeTab.item.workspaceId);
-    } else if (activeTab.item.type === 'local' || activeTab.item.type === 'indexeddb') {
-        const findGitRoot = (item) => {
-            if (!item || !item.path) return null;
-            const uniquePath = getItemUniquePath(item);
-            const entry = State.domItemMap.get(uniquePath);
-            if (entry?.item.isGitClone) return entry.item;
-            const parentPath = item.path.substring(0, item.path.lastIndexOf('/')) || '/';
-            if (item.path === parentPath) return null;
-            return findGitRoot({ ...item, path: parentPath, kind: 'directory' });
-        };
+    } else {
         gitContextItem = findGitRoot(activeTab.item);
     }
-    
-    if (!gitContextItem) { UI.hideLoading(); UI.showToast("Not within a Git-aware folder.", "warning"); return; }
-    if (gitContextItem.readOnly) { UI.hideLoading(); UI.showToast("Cannot commit to a read-only repository.", "warning"); return; }
-
-    // Step 2: Gather the Sacred Texts and Offerings.
-    if (gitContextItem.type === 'github') {
-        gitInfo = gitContextItem; // For direct workspaces, the item IS the info.
-        UI.showLoading("Gathering locally saved changes...");
-        const uncommittedFiles = await FileSystemProvider.IndexedDB.listUncommittedForWorkspace(gitContextItem.id);
-        changeSet = { creations: [], updates: uncommittedFiles.map(f => ({ path: f.item.path.substring(1), content: f.content })), deletions: [] };
-    } else {
-        gitInfo = await GitMetaProvider.getGitInfoForFolder(gitContextItem);
-        if (!gitInfo) { UI.hideLoading(); UI.showToast("Could not read Git metadata for this folder.", "error"); return; }
-        UI.showLoading("Comparing local files to last commit...");
-        changeSet = await GitManager.calculateDiff(gitContextItem, gitInfo);
-    }
-    
-    const totalChanges = changeSet.creations.length + changeSet.updates.length + changeSet.deletions.length;
-    if (totalChanges === 0) { UI.hideLoading(); UI.showToast("No changes to commit.", "info"); return; }
 
     UI.hideLoading();
-    const commitMessage = await UI.showDialog({ title: `Commit ${totalChanges} change(s) to "${gitInfo.repoInfo.repo}"`, message: "Enter a commit message:", hasTextarea: true, okText: 'Commit & Push' });
-    if (!commitMessage) return;
 
-    UI.showLoading("Performing atomic commit...");
-    try {
-        const { repoInfo, branch } = gitInfo;
-
-        const newCommitSHA = await GitManager.performCommit({ repoInfo, branch }, changeSet, commitMessage);
-
-        UI.showLoading("Updating local state...");
-        if (gitContextItem.type !== 'github') { // Update the blueprint for local clones.
-            const newTree = await FileSystemProvider.GitHub.getFullTree({ repoInfo, branch });
-            const updatedGitInfo = { ...gitInfo, baseCommitSHA: newCommitSHA, remoteTree: newTree.tree };
-            const ikarFileContent = `// B"H\n\nconst ikar = ${JSON.stringify(updatedGitInfo, null, 4)};`;
-            const ikarFileItem = { ...gitContextItem, path: `${gitContextItem.path}/.awtsmoos-repo/ikar.js` };
-            await FileSystemProvider.write(ikarFileItem, ikarFileContent);
-        } else { // Clear the temporary store for direct workspaces.
-            const uncommittedFiles = await FileSystemProvider.IndexedDB.listUncommittedForWorkspace(gitContextItem.id);
-            const deletionPromises = uncommittedFiles.map(file => FileSystemProvider.IndexedDB.deleteUncommitted(file.uniquePath));
-            await Promise.all(deletionPromises);
-            uncommittedFiles.forEach(cf => { const tab = State.tabs.find(t => t.uniquePath === cf.uniquePath); if (tab) tab.isUncommitted = false; });
-            Tabs.render();
-        }
-        
-        UI.hideLoading();
-        UI.showToast("Commit successful!", "success");
-    } catch (e) {
-        UI.hideLoading();
-        UI.showToast(`Commit Failed: ${e.message}`, "error", 8000);
-        console.error("UNIFIED COMMIT FAILED:", e);
+    if (gitContextItem) {
+        // Instead of performing the commit itself, it delegates to the GitManager's UI.
+        // This is the exact same call made by the folder icon.
+        GitManager.showGitUI(gitContextItem);
+    } else {
+        UI.showToast("The active file is not part of a Git repository.", "warning");
     }
 },
 
