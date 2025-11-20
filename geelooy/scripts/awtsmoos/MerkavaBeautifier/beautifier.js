@@ -319,23 +319,23 @@ export async function beautify(code, options = {}) {
                 const expressionIndent = indent + finalOptions.indentChar;
 
                 // A template literal is an alternating sequence of static text and expressions.
-                // We will loop through all the static parts.
                 for (let i = 0; i < node.quasis.length; i++) {
                     
-                    // 1. Append the static text part (e.g., "Hello, " or "!").
+                    // 1. Append the static text part (e.g., "Hello, ").
                     result += node.quasis[i].value.raw;
 
                     // 2. Check if there is an expression that immediately follows this static part.
-                    //    (The final static part will not have an expression after it).
                     if (i < node.expressions.length) {
                         
                         // 2a. Recursively format the content of the expression with one deeper level of indentation.
                         const expressionContent = walk(node.expressions[i], expressionIndent);
 
-                        // 2b. Build the complete, correctly formatted expression block using simple concatenation.
+                        // 2b. Build the complete, correctly formatted expression block.
+                        // THE FIX: The closing '}' is now placed on a new line without adding extra indentation.
+                        // This makes it align correctly with the start of the parent statement.
                         result += '${' + '\n' +
                                   expressionIndent + expressionContent + '\n' +
-                                  indent + '}'; // CRITICAL: The closing '}' uses the parent 'indent'.
+                                  '}'; // <-- FIX: Removed the 'indent +' from this line.
                     }
                 }
 
