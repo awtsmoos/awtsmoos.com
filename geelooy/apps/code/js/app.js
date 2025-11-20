@@ -188,113 +188,89 @@ async initialize() {
     
     
     /*B"H*/
+// ACTION: Replace the entire 'commitAllChanges' method in js/app.js with this definitive version.
 
 /**
- * Gathers all local changes and orchestrates a true, atomic, multi-file commit
- * using the lower-level Git Trees API. This ensures that all changes are bundled
- * into a single commit, just as you envisioned.
+ * Orchestrates an atomic, multi-file commit. This definitive version understands
+ * the difference between an ongoing history and a pristine void. If it detects that
+ * a repository has no commits, it performs the sacred rite of the "root commit,"
+ * creating the very first moment in that repository's history.
  */
 async commitAllChanges() {
+    
+    
     const activeTab = State.tabs.find(t => t.id === State.activeTabId);
-    if (!activeTab || activeTab.item.type !== 'github') {
-        UI.showToast("An active GitHub file is required to commit.", "warning");
-        return;
-    }
+    if (!activeTab || activeTab.item.type !== 'github') { UI.showToast("An active GitHub file is required.", "warning"); return; }
     const workspaceId = activeTab.item.workspaceId;
     const workspace = State.workspaces.find(ws => ws.id === workspaceId);
-    if (!workspace || workspace.readOnly) {
-        UI.showToast("Cannot commit to a read-only repository.", "warning");
-        return;
-    }
-
+    if (!workspace || workspace.readOnly) { UI.showToast("Cannot commit to a read-only repository.", "warning"); return; }
+    
+    
     UI.showLoading("Analyzing workspace for changes...");
-
     const dirtyFiles = State.tabs.filter(t => t.item.workspaceId === workspaceId && t.isDirty);
     let uncommittedFiles = await FileSystemProvider.IndexedDB.listUncommittedForWorkspace(workspaceId);
-
+    
+    
     if (dirtyFiles.length > 0) {
-        // Offer to save and commit in one go
-        const confirmed = await UI.showDialog({
-            title: "Unsaved Changes",
-            message: `You have ${dirtyFiles.length} unsaved file(s). Save them and include them in this commit?`,
-            okText: "Save & Continue",
-            cancelText: "Cancel"
-        });
+        const confirmed = await UI.showDialog({ title: "Unsaved Changes", message: `You have ${dirtyFiles.length} unsaved file(s). Save and include them in this commit?`, okText: "Save & Continue" });
         if (confirmed) {
-            UI.showLoading("Saving all unsaved changes...");
+            UI.showLoading("Saving unsaved changes...");
             await Promise.all(dirtyFiles.map(tab => Tabs.save(tab)));
             uncommittedFiles = await FileSystemProvider.IndexedDB.listUncommittedForWorkspace(workspaceId);
-        } else {
-            UI.hideLoading();
-            return;
-        }
+        } else { UI.hideLoading(); return; }
     }
-
-    if (uncommittedFiles.length === 0) {
-        UI.hideLoading(); UI.showToast("No local changes to commit.", "info"); return;
-    }
-
-    const commitMessage = await UI.showDialog({
-        title: `Commit ${uncommittedFiles.length} file(s) to "${workspace.name}"`,
-        message: "Enter a commit message:",
-        hasTextarea: true,
-        textareaContent: `B"H\nUpdate ${uncommittedFiles.length} file(s)`,
-        okText: 'Commit & Push'
-    });
-
+    if (uncommittedFiles.length === 0) { UI.hideLoading(); UI.showToast("No changes to commit.", "info"); return; }
+    const commitMessage = await UI.showDialog({ title: `Commit ${uncommittedFiles.length} file(s) to "${workspace.name}"`, message: "Enter commit message:", hasTextarea: true, textareaContent: `B"H\nUpdate ${uncommittedFiles.length} file(s)`, okText: 'Commit & Push' });
     if (!commitMessage) { UI.hideLoading(); return; }
-
+    
     UI.showLoading("Preparing atomic commit...");
-
     try {
         const { repoInfo, branch } = workspace;
+        
+        // --- The Grand Ceremony, now aware of the Void ---
 
-        // Step 1: Perceive the current reality.
         const latestCommitSHA = await FileSystemProvider.GitHub.getLatestCommitSHA({ repoInfo, branch });
-        const latestCommit = await FileSystemProvider.GitHub.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/commits/${latestCommitSHA}`);
-        const baseTreeSHA = latestCommit.tree.sha;
 
-        // Step 2: Create the building blocks (blobs).
-        UI.showLoading(`Creating ${uncommittedFiles.length} file blobs...`);
         const blobCreationPromises = uncommittedFiles.map(file =>
             FileSystemProvider.GitHub.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/blobs`, {
-                method: 'POST',
-                body: JSON.stringify({ content: FileSystemProvider.GitHub.utf8_to_b64(file.content), encoding: 'base64' })
-            }).then(blob => ({
-                path: file.item.path.startsWith('/') ? file.item.path.substring(1) : file.item.path,
-                mode: '100644', type: 'blob', sha: blob.sha
-            }))
+                method: 'POST', body: JSON.stringify({ content: FileSystemProvider.GitHub.utf8_to_b64(file.content), encoding: 'base64' })
+            }).then(blob => ({ path: file.item.path.substring(1), mode: '100644', type: 'blob', sha: blob.sha }))
         );
         const treeItems = await Promise.all(blobCreationPromises);
 
-        // Step 3: Assemble the blueprint for the new reality.
-        UI.showLoading("Assembling the new reality tree...");
-        const newTree = await FileSystemProvider.GitHub.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/trees`, {
-            method: 'POST',
-            body: JSON.stringify({ base_tree: baseTreeSHA, tree: treeItems })
-        });
+        let newCommit;
 
-        // Step 4 & 5: Pronounce the new reality.
-        UI.showLoading("Finalizing the new commit...");
-        const newCommit = await FileSystemProvider.GitHub.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/commits`, {
-            method: 'POST',
-            body: JSON.stringify({ message: commitMessage, tree: newTree.sha, parents: [latestCommitSHA] })
-        });
+        if (latestCommitSHA) {
+            // --- Path of Ongoing History ---
+            const latestCommit = await FileSystemProvider.GitHub.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/commits/${latestCommitSHA}`);
+            const newTree = await FileSystemProvider.GitHub.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/trees`, {
+                method: 'POST', body: JSON.stringify({ base_tree: latestCommit.tree.sha, tree: treeItems })
+            });
+            newCommit = await FileSystemProvider.GitHub.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/commits`, {
+                method: 'POST', body: JSON.stringify({ message: commitMessage, tree: newTree.sha, parents: [latestCommitSHA] })
+            });
+            await FileSystemProvider.GitHub.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/refs/heads/${branch}`, {
+                method: 'PATCH', body: JSON.stringify({ sha: newCommit.sha })
+            });
+        } else {
+            // --- Path of the First Word (Root Commit) ---
+            const newTree = await FileSystemProvider.GitHub.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/trees`, {
+                method: 'POST', body: JSON.stringify({ tree: treeItems })
+            });
+            newCommit = await FileSystemProvider.GitHub.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/commits`, {
+                method: 'POST', body: JSON.stringify({ message: commitMessage, tree: newTree.sha, parents: [] }) // NO PARENTS
+            });
+            // We don't PATCH a ref that doesn't exist, we CREATE it.
+            await FileSystemProvider.GitHub.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/refs`, {
+                method: 'POST', body: JSON.stringify({ ref: `refs/heads/${branch}`, sha: newCommit.sha })
+            });
+        }
 
-        await FileSystemProvider.GitHub.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/refs/heads/${branch}`, {
-            method: 'PATCH',
-            body: JSON.stringify({ sha: newCommit.sha })
-        });
-
+        // --- The Ceremony concludes, followed by cleanup ---
         UI.showLoading("Cleaning up local changes...");
         const deletionPromises = uncommittedFiles.map(file => FileSystemProvider.IndexedDB.deleteUncommitted(file.uniquePath));
         await Promise.all(deletionPromises);
-
-        uncommittedFiles.forEach(committedFile => {
-            const tab = State.tabs.find(t => t.uniquePath === committedFile.uniquePath);
-            if (tab) tab.isUncommitted = false;
-        });
-
+        uncommittedFiles.forEach(cf => { const tab = State.tabs.find(t => t.uniquePath === cf.uniquePath); if (tab) tab.isUncommitted = false; });
         Tabs.render();
         UI.hideLoading();
         UI.showToast("All changes successfully committed!", "success");
@@ -305,6 +281,7 @@ async commitAllChanges() {
         console.error("ATOMIC COMMIT FAILED:", e);
     }
 },
+
 
 setupEventListeners() {
     window.addEventListener('message', async (event) => {
