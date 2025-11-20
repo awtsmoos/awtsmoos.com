@@ -13,7 +13,7 @@ async function initializeParser() {
         return;
     }
     try {
-        await import('../geelooy/scripts/awtsmoos/MerkavaASTParser/parser-core.js');
+        await import('/scripts/awtsmoos/MerkavaASTParser/parser-core.js');
         if (!window.MerkavaParserPromise) {
             throw new Error("The parser script loaded, but did not create the global 'MerkavaParserPromise'.");
         }
