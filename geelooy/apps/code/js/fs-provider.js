@@ -207,119 +207,54 @@ export const FileSystemProvider = {
     /*B"H*/
 IndexedDB: {
     DB_NAME: "VIVID_X_FS_PROFOUND",
-    GIT_DB_NAME: "VIVID_X_GIT_CHANGES_PROFOUND",
     STORE_NAME: "files",
+    GIT_DB_NAME: "VIVID_X_GIT_CHANGES_PROFOUND",
     GIT_STORE_NAME: "uncommitted_files",
 
     /**
-     * @private
-     * @description The final, bulletproof function to open an IndexedDB database.
-     * It handles all known success, failure, and non-responsive states.
-     */
-    _openDb: function(dbName, version, onUpgradeNeeded) {
-        return new Promise((resolve, reject) => {
-            if (!window.indexedDB) {
-                return reject(new Error("IndexedDB is not supported by this browser or is disabled."));
-            }
-
-            const timeoutId = setTimeout(() => {
-                reject(new Error(`Database open request for '${dbName}' timed out after 5 seconds. The browser's storage API may be corrupted or unresponsive.`));
-            }, 5000);
-
-            try {
-                const request = indexedDB.open(dbName, version);
-                const cleanup = () => clearTimeout(timeoutId);
-
-                request.onblocked = () => {
-                    cleanup();
-                    reject(new Error(`Database connection is blocked. Please close other tabs with this app.`));
-                };
-                request.onupgradeneeded = onUpgradeNeeded;
-                request.onsuccess = e => {
-                    cleanup();
-                    resolve(e.target.result);
-                };
-                request.onerror = e => {
-                    cleanup();
-                    reject(e.target.error);
-                };
-            } catch (e) {
-                clearTimeout(timeoutId);
-                reject(e);
-            }
-        });
-    },
-
-    /**
-     * @private
-     * @description Initializes the main database for "Browser Storage".
-     */
-    _initMainDB: async function() {
-        if (State.db) return State.db;
-        console.log("[DB_DEBUG] Attempting to open main DB...");
-        State.db = await this._openDb(this.DB_NAME, 1, e => {
-            console.log("[DB_DEBUG] Main DB upgrade needed.");
-            e.target.result.createObjectStore(this.STORE_NAME, { keyPath: "path" });
-        });
-        console.log("[DB_DEBUG] Main DB opened successfully.");
-        return State.db;
-    },
-
-    /**
-     * @private
-     * @description Initializes the separate database for GitHub changes.
-     */
-    _initGitDB: async function() {
-        if (State.gitDb) return State.gitDb;
-        console.log("[DB_DEBUG] Attempting to open git DB...");
-        State.gitDb = await this._openDb(this.GIT_DB_NAME, 1, e => {
-            console.log("[DB_DEBUG] Git DB upgrade needed.");
-            e.target.result.createObjectStore(this.GIT_STORE_NAME, { keyPath: "uniquePath" });
-        });
-        console.log("[DB_DEBUG] Git DB opened successfully.");
-        return State.gitDb;
-    },
-
-    /**
      * @public
-     * @description Initializes connections to BOTH databases concurrently.
+     * @description Initializes connections to both databases sequentially to prevent hangs.
      */
     init: async function() {
-        await Promise.all([this._initMainDB(), this._initGitDB()]);
+        // Only initialize if the connection doesn't already exist.
+        if (!State.db) {
+            await this._initMainDB();
+        }
+        if (!State.gitDb) {
+            await this._initGitDB();
+        }
     },
 
     /**
-     * @public
-     * @description Deletes all application databases. Used for self-healing.
+     * @private
+     * @description Opens the main database using the trusted logic from your working code.
      */
-    deleteDatabases: function() {
+    _initMainDB: function() {
         return new Promise((resolve, reject) => {
-            console.warn("Deleting all application databases...");
-            State.db?.close();
-            State.gitDb?.close();
-            State.db = null;
-            State.gitDb = null;
-
-            const mainDbDelete = indexedDB.deleteDatabase(this.DB_NAME);
-            const gitDbDelete = indexedDB.deleteDatabase(this.GIT_DB_NAME);
-            let mainDone = false, gitDone = false;
-
-            const checkDone = () => {
-                if (mainDone && gitDone) {
-                    console.log("All databases deleted successfully.");
-                    resolve();
-                }
-            };
-            mainDbDelete.onsuccess = () => { mainDone = true; checkDone(); };
-            gitDbDelete.onsuccess = () => { gitDone = true; checkDone(); };
-            mainDbDelete.onerror = e => reject(e);
-            gitDbDelete.onerror = e => reject(e);
+            const request = indexedDB.open(this.DB_NAME, 1);
+            request.onupgradeneeded = e => e.target.result.createObjectStore(this.STORE_NAME, { keyPath: "path" });
+            request.onsuccess = e => { State.db = e.target.result; resolve(State.db); };
+            request.onerror = e => reject(e.target.error);
+            request.onblocked = () => reject(new Error("Main database connection is blocked."));
         });
     },
 
-    
+    /**
+     * @private
+     * @description Opens the git database using the same trusted logic.
+     */
+    _initGitDB: function() {
+        return new Promise((resolve, reject) => {
+            const request = indexedDB.open(this.GIT_DB_NAME, 1);
+            request.onupgradeneeded = e => e.target.result.createObjectStore(this.GIT_STORE_NAME, { keyPath: "uniquePath" });
+            request.onsuccess = e => { State.gitDb = e.target.result; resolve(State.gitDb); };
+            request.onerror = e => reject(e.target.error);
+            request.onblocked = () => reject(new Error("Git database connection is blocked."));
+        });
+    },
 
-    // --- All other methods remain exactly the same. ---
+    // --- Methods for the MAIN "Browser Storage" Database ---
+
     list: async function({ path }) {
         await this._initMainDB();
         return new Promise((resolve, reject) => {
@@ -340,6 +275,18 @@ IndexedDB: {
                     }
                 });
                 resolve(Array.from(children.values()));
+            };
+        });
+    },
+    listAllFiles: async function({ path }) {
+        await this._initMainDB();
+        return new Promise((resolve, reject) => {
+            const store = State.db.transaction(this.STORE_NAME).objectStore(this.STORE_NAME);
+            const request = store.getAll();
+            request.onerror = e => reject(e.target.error);
+            request.onsuccess = () => {
+                const dirPrefix = path === '/' ? '' : path + '/';
+                resolve(request.result.filter(item => item.path.startsWith(dirPrefix) && item.path !== path && !item.isDir));
             };
         });
     },
@@ -395,18 +342,8 @@ IndexedDB: {
             tx.onerror = () => reject(tx.error);
         });
     },
-    listAllFiles: async function({ path }) {
-        await this._initMainDB();
-        return new Promise((resolve, reject) => {
-            const store = State.db.transaction(this.STORE_NAME).objectStore(this.STORE_NAME);
-            const request = store.getAll();
-            request.onerror = e => reject(e.target.error);
-            request.onsuccess = () => {
-                const dirPrefix = path === '/' ? '' : path + '/';
-                resolve(request.result.filter(item => item.path.startsWith(dirPrefix) && item.path !== path && !item.isDir));
-            };
-        });
-    },
+
+    // --- Methods for the NEW "Git Changes" Database ---
     readUncommitted: async function(uniquePath) {
         await this._initGitDB();
         return new Promise((resolve, reject) => {
