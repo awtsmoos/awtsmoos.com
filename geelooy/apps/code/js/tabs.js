@@ -364,60 +364,100 @@ async _getGitInfoForTab(tab) {
     },
     
 /*B"H*/
+// ACTION: Replace the entire 'save' method in js/tabs.js with this definitive, context-aware version.
 
 /**
- * Saves a tab's content back to its native source. This restored version understands
- * that saving a file in a local clone means writing directly to the local filesystem.
- * Only files in a direct, non-local GitHub workspace are diverted to the temporary
- * 'uncommitted' store in preparation for a commit.
+ * Saves a tab's content. This definitive version understands the heresy of the
+ * absolute path. It now distinguishes between a simple save and a save-for-commit.
+ * For any file within a Git-aware context (direct or clone), it performs the sacred
+ * act of translation: it stages the change for the next commit using the pure,
+
+ * relative path required by the celestial source, thus healing the language of
+ * commitment and preventing the "Invalid tree info" heresy.
  * @param {object} tab - The tab object to save.
  */
 async save(tab) {
-    // This is the one true exception: a file that has no "local" reality.
-    // Its "save" is inherently a preparation for commit.
-    if (tab.item.type === 'github') {
+    // First, we must know if this file is part of any reality that understands commitment.
+    const gitRootItem = await this._getGitInfoForTab(tab);
+
+    // Get the current content from the user's active view.
+    let contentToSave;
+    if (tab.id === State.activeTabId) {
+         if (tab.isHexView) contentToSave = State.hexEditorInstance.getUpdatedArrayBuffer();
+         else if (tab.isAltarView) contentToSave = JSON.stringify(DataAltar.liveDataObject, null, '\t');
+         else contentToSave = Editor.getContent();
+    } else {
+         contentToSave = tab.content;
+    }
+    
+    // Case 1: The file is NOT part of a Git reality. This is a simple, mundane save.
+    if (!gitRootItem) {
         if (tab.item.readOnly) {
-            UI.showToast("This is a read-only repository. Cannot save changes.", "warning");
+            UI.showToast("This is a read-only file.", "warning");
             return;
         }
-        UI.showToast(`Saving ${tab.item.name} for commit...`);
+        UI.showToast(`Saving ${tab.item.name}...`);
         try {
-            const textContent = (tab.id === State.activeTabId) ? Editor.getContent() : tab.content;
-            await FileSystemProvider.IndexedDB.writeUncommitted(tab.uniquePath, textContent, tab.item);
+            await FileSystemProvider.write(tab.item, contentToSave);
             tab.isDirty = false;
-            tab.isUncommitted = true; // Mark it as ready for commit.
-            tab.content = textContent;
+            tab.isUncommitted = false;
+            tab.content = contentToSave;
             this.render();
-            UI.showToast(`Saved "${tab.item.name}" locally. Ready to commit.`, 'success');
-        } catch(e) {
-            UI.showToast(`Local save failed: ${e.message}`, 'error');
+            UI.showToast(`Saved "${tab.item.name}"`, 'success');
+        } catch (e) {
+            UI.showToast(`Save failed: ${e.message}`, 'error');
         }
-        return; // The act is complete for this special case.
+        return;
     }
-
-    // --- For ALL other writable types (local, indexeddb) ---
-    // This is the pure act of saving a file to its own grounded reality.
-    UI.showToast(`Saving ${tab.item.name}...`);
+    
+    // Case 2: The file IS part of a Git reality. This save is also an act of staging.
+    // If it's a clone, we first inscribe the change in the local, earthly reality.
+    if (gitRootItem.type !== 'github') {
+        UI.showLoading(`Saving ${tab.item.name} to local clone...`);
+        await FileSystemProvider.write(tab.item, contentToSave);
+    }
+    
+    // Now, for ALL Git realities, we stage the change in the great ledger of the uncommitted.
     try {
-        let contentToSave;
-        if (tab.id === State.activeTabId) {
-             if (tab.isHexView) contentToSave = State.hexEditorInstance.getUpdatedArrayBuffer();
-             else if (tab.isAltarView) contentToSave = JSON.stringify(DataAltar.liveDataObject, null, '\t');
-             else contentToSave = Editor.getContent();
+        UI.showLoading(`Staging ${tab.item.name} for commit...`);
+        
+        // --- THIS IS THE SACRED ACT OF TRANSLATION ---
+        let relativePath;
+        const isDirectRepo = gitRootItem.type === 'github';
+        
+        if (isDirectRepo) {
+            // In a direct repo, the path is already pure and relative.
+            relativePath = tab.item.path;
         } else {
-             contentToSave = tab.content;
+            // In a clone, we must purify the absolute path.
+            const cloneRootPath = gitRootItem.path; // e.g., '/' or '/my-clone'
+            const fileFullPath = tab.item.path;   // e.g., '/app.js' or '/my-clone/app.js'
+
+            if (cloneRootPath === '/') {
+                relativePath = fileFullPath.substring(1); // from '/app.js' to 'app.js'
+            } else if (fileFullPath && fileFullPath.startsWith(cloneRootPath + '/')) {
+                relativePath = fileFullPath.substring(cloneRootPath.length + 1); // from '/my-clone/app.js' to 'app.js'
+            } else {
+                throw new Error("Cannot determine relative path for staging.");
+            }
         }
         
-        await FileSystemProvider.write(tab.item, contentToSave);
-        
-        tab.isDirty = false; // The editor's state now matches the file's grounded state.
-        tab.isUncommitted = false; // This is a final save, not a temporary one.
+        const itemForStaging = { ...tab.item, path: relativePath };
+        const uniquePathForStaging = `${gitRootItem.workspaceId || gitRootItem.id}::${relativePath}`;
+
+        await FileSystemProvider.IndexedDB.writeUncommitted(uniquePathForStaging, contentToSave, itemForStaging);
+
+        tab.isDirty = false;
+        tab.isUncommitted = true; // Mark it as Inscribed, ready for the Altar.
         tab.content = contentToSave;
         this.render();
-        UI.showToast(`Saved "${tab.item.name}"`, 'success');
+        UI.showToast(`"${tab.item.name}" is saved and ready to commit.`, 'success');
+
     } catch (e) {
-        UI.showToast(`Save failed: ${e.message}`, 'error');
-        console.error("SAVE FAILED:", e);
+        UI.showToast(`Staging for commit failed: ${e.message}`, 'error');
+        console.error("STAGING FAILED:", e);
+    } finally {
+        UI.hideLoading();
     }
 },
 
