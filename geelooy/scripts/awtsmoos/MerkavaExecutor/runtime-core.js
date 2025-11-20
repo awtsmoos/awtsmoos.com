@@ -630,23 +630,29 @@ class MerkavaExecutor {
             };
 
             
+            
             for (const member of n.body.body) {
                 if (member.type === 'MethodDefinition' && member.kind !== 'constructor') {
-                    const target = member.static ? classConstructor : classConstructor.prototype;
-                    const methodFunc = await this._executeNode(member.value, classContext);
-
-                    // Skip private methods here; they are handled during instantiation.
+                    // Private methods are handled during instance creation, not here on the prototype.
                     if (member.key.type === 'PrivateIdentifier') {
                         continue;
                     }
-
-                    const key = member.computed ? await this._executeNode(member.key, classContext) : member.key.name;
                     
+                    // Step 1: Fully compute the method's key *first*.
+                    const key = member.computed 
+                        ? await this._executeNode(member.key, classContext) 
+                        : member.key.name;
+
+                    // Step 2: Reliably determine the target object (the class or its prototype).
+                    const target = member.static ? classConstructor : classConstructor.prototype;
+
+                    // Step 3: Create the actual method function.
+                    const methodFunc = await this._executeNode(member.value, classContext);
+
+                    // Step 4: Now that all parts are resolved, safely define the property.
                     if (member.kind === 'method') {
-                        // Use simple assignment for regular methods. This is safer.
                         target[key] = methodFunc;
                     } else { // This handles 'get' or 'set'
-                        // For accessors, we must use Object.defineProperty.
                         const descriptor = Object.getOwnPropertyDescriptor(target, key) || { configurable: true, enumerable: false };
                         descriptor[member.kind] = methodFunc;
                         Object.defineProperty(target, key, descriptor);
