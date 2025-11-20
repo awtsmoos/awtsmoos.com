@@ -320,7 +320,7 @@ export async function beautify(code, options = {}) {
                 const parentIndent = indent;
 
                 // The content inside ${...} must be indented one level deeper.
-                const expressionIndent = parentIndent + finalOptions.indentChar;
+                const expressionIndent = parentIndent + finalOptions.indentChar+finalOptions.indentChar;
 
                 let result = '`';
 
@@ -345,7 +345,7 @@ export async function beautify(code, options = {}) {
                         result += expressionIndent + expressionContent;
 
                         // Add the closing brace on its own line, with the parent's indentation.
-                        result += '\n' + parentIndent + '}';
+                        result += '\n' + parentIndent + finalOptions.indentChar+'}';
                     }
                 }
 //@
