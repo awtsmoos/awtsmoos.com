@@ -58,40 +58,42 @@ activeConsole: null, // B"H
         localStorage.setItem('vividX_session_profound', JSON.stringify(session));
     },
 
-    loadSession() {
-        const savedSession = localStorage.getItem('vividX_session_profound');
-        if (!savedSession) return;
+    /*B"H*/
+loadSession() {
+    const savedSession = localStorage.getItem('vividX_session_profound');
+    if (!savedSession) return;
 
-        try {
-            const session = JSON.parse(savedSession);
+    try {
+        const session = JSON.parse(savedSession);
 
-            if (session.workspaces && Array.isArray(session.workspaces)) {
-                session.workspaces.forEach(wsData => {
-                    Workspaces.add(wsData, false); 
-                });
-            }
-
-            if (session.openTabs && Array.isArray(session.openTabs)) {
-                session.openTabs.forEach(item => {
-                    Tabs.create(item, false, false);
-                });
-            }
-
-            if (session.activeTabUniquePath) {
-                const activeTab = State.tabs.find(t => t.uniquePath === session.activeTabUniquePath);
-                if (activeTab) {
-                    State.activeTabId = activeTab.id;
-                }
-            }
-
-            if (session.expandedFolders && Array.isArray(session.expandedFolders)) {
-                State.expandedFolders = new Set(session.expandedFolders);
-            }
-        } catch (e) {
-            console.error("Failed to load session:", e);
-            localStorage.removeItem('vividX_session_profound'); // Clear corrupted session
+        if (session.workspaces && Array.isArray(session.workspaces)) {
+            session.workspaces.forEach(wsData => {
+                Workspaces.add(wsData, false);
+            });
         }
-    },
+
+        if (session.openTabs && Array.isArray(session.openTabs)) {
+            session.openTabs.forEach(item => {
+                // The new 'false' argument at the end prevents activation during bulk loading.
+                Tabs.create(item, false, false, false);
+            });
+        }
+
+        if (session.activeTabUniquePath) {
+            const activeTab = State.tabs.find(t => t.uniquePath === session.activeTabUniquePath);
+            if (activeTab) {
+                State.activeTabId = activeTab.id;
+            }
+        }
+
+        if (session.expandedFolders && Array.isArray(session.expandedFolders)) {
+            State.expandedFolders = new Set(session.expandedFolders);
+        }
+    } catch (e) {
+        console.error("Failed to load session:", e);
+        localStorage.removeItem('vividX_session_profound'); // Clear corrupted session
+    }
+},
 
     /*B"H*/
 async initialize() {
