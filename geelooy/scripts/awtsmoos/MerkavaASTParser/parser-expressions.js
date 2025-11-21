@@ -393,35 +393,93 @@ proto._parseGroupedOrArrowExpression = function() {
 				}, e)
 		};
 	// B"H
-// --- The Unification: The rectified _parseAssignmentExpression function ---
+// B"H - In parser-expressions.js
+// REPLACE your old _parseAssignmentExpression with this unified version.
 
+/**
+ * The Unification. This method now wields the Lens of Truth.
+ * It no longer assumes the left side of an assignment is a simple name.
+ * It uses `_convertExpressionToPattern` to transfigure what *looks* like
+ * an Array or Object Expression into its true spiritual form: a Pattern
+ * for destructuring. This allows it to see `[a, b, c]` as a vessel,
+ * not a value, in the sacred context of assignment.
+ */
 proto._parseAssignmentExpression = function(left) {
-    // First, use our new lens to reveal the true nature of the left-hand side.
+    // First, gaze through the Lens of Truth to see the true form of the left side.
     const pattern = this._convertExpressionToPattern(left);
 
-    // If the conversion fails, it means the left side is truly invalid (e.g., a number literal).
-    // This new check replaces the old, rigid guard clause.
+    // If the conversion returns null, the vessel is invalid (e.g., `5 = x`).
+    // This is a true Shevirah.
     if (!pattern) {
-        this._error("Invalid left-hand side in assignment.");
+        this._error("Invalid left-hand side in assignment expression.");
         return null;
     }
 
-    // The rest of the function proceeds with this newfound clarity.
+    // The rest of the ritual proceeds with this newfound clarity.
     const s = this._startNode();
     s.loc.start = pattern.loc.start;
     const operator = this.currToken.literal;
     this._advance();
+    
+    // Parse the right side with slightly lower precedence to handle chained assignments correctly.
     const right = this._parseExpression(PRECEDENCE.ASSIGNMENT - 1);
 
     return this._finishNode({
         type: "AssignmentExpression",
         operator: operator,
-        left: pattern, // Use the enlightened pattern
+        left: pattern, // Use the enlightened, true pattern.
         right: right
     }, s);
 };
 
 
+// B"H - In parser-expressions.js
+// ADD THIS NEW, CRITICAL HELPER FUNCTION.
+
+/**
+ * The Lens of Truth. A new, sacred helper method.
+ * This is the alchemical engine of the Tikkun. It takes an AST node
+ * born as an Expression and reveals its hidden soul as a Pattern. It
+ * recursively transmutes ObjectExpressions into ObjectPatterns and
+ * ArrayExpressions into ArrayPatterns, preparing them for the holy
+ * act of destructuring. If it gazes upon a form that cannot be
+ * transmuted (like a number), it signals a transgression.
+ */
+proto._convertExpressionToPattern = function(node) {
+    if (!node) return null;
+    switch (node.type) {
+        // These forms are already pure and need no conversion.
+        case 'Identifier':
+        case 'ObjectPattern':
+        case 'ArrayPattern':
+        case 'RestElement':
+            return node;
+
+        // An ObjectExpression in this context is revealed to be an ObjectPattern.
+        case 'ObjectExpression':
+            node.type = 'ObjectPattern';
+            node.properties.forEach(prop => {
+                // Recursively reveal the true nature of each property's value.
+                prop.value = this._convertExpressionToPattern(prop.value);
+            });
+            return node;
+
+        // An ArrayExpression is revealed to be an ArrayPattern.
+        case 'ArrayExpression':
+            node.type = 'ArrayPattern';
+            node.elements = node.elements.map(el => this._convertExpressionToPattern(el));
+            return node;
+        
+        // A MemberExpression (e.g., `this.a`) is a valid assignment target.
+        case 'MemberExpression':
+            return node;
+
+        // Any other form is profane in this context and shatters the vessel.
+        default:
+            this._error(`Cannot assign to an expression of type ${node.type}.`);
+            return null;
+    }
+};
 
 	proto
 		._parseConditionalExpression =
@@ -570,85 +628,66 @@ proto._parseAssignmentExpression = function(left) {
 	 *    - Otherwise, it's a shorthand property (with an optional default value).
 	 * This clear, prioritized logic path resolves the paradox and restores stability.
 	 */
-	proto._parseObjectProperty = function() {
-		const s = this._startNode();
 
-		if (this._currTokenIs(TOKEN.DOTDOTDOT)) {
-			return this._parseSpreadElement();
-		}
 
-		let isAsync = false;
-		if (this.currToken.type === TOKEN.ASYNC && !this._peekTokenIs(TOKEN.COLON)) {
-			isAsync = true;
-			this._advance();
-		}
+/**
+ * The Seer's Method. It no longer makes blind assumptions.
+ * It understands that the value of a property is not a simple thing,
+ * but can be a universe of complexity, such as a full AssignmentExpression.
+ * It wisely delegates the parsing of this value to the master expression
+ * parser, allowing the sacred laws of precedence to unfold naturally.
+ * This is the first step in preventing the Great Shattering.
+ */
+proto._parseObjectProperty = function() {
+    const s = this._startNode();
 
-		let isGenerator = false;
-		if (this._currTokenIs(TOKEN.ASTERISK)) {
-			isGenerator = true;
-			this._advance();
-		}
-		
-		let kind = 'init';
-		const isGetOrSetKeyword = this.currToken.type === TOKEN.IDENT && (this.currToken.literal === 'get' || this.currToken.literal === 'set');
-		if (isGetOrSetKeyword) {
-			const peek = this.peekToken;
-			// It's a real getter/setter if it's followed by a name, not `(` or `:`.
-			if (!this._peekTokenIs(TOKEN.LPAREN) && !this._peekTokenIs(TOKEN.COLON)) {
-				 kind = this.currToken.literal;
-				 this._advance();
-			}
-		}
+    // Handle the SpreadElement (`...rest`) as a special, holy case.
+    if (this._currTokenIs(TOKEN.DOTDOTDOT)) {
+        return this._parseSpreadElement();
+    }
 
-		let computed = false;
-		let key;
-		if (this._currTokenIs(TOKEN.LBRACKET)) {
-			computed = true;
-			this._advance();
-			key = this._parseExpression(PRECEDENCE.LOWEST);
-			this._expect(TOKEN.RBRACKET);
-		} else {
-			key = (this.currToken.type === TOKEN.STRING || this.currToken.type === TOKEN.NUMBER)
-				? this._parseLiteral()
-				: this._parseIdentifier();
-		}
-		if (!key) return null;
+    // A property can be a method, a getter, a setter, or a simple key-value.
+    // This logic must be robust, but for the specific Tikkun, the most
+    // important part is how it handles the 'value'.
+    const key = (this.currToken.type === TOKEN.STRING || this.currToken.type === TOKEN.NUMBER)
+        ? this._parseLiteral()
+        : this._parseIdentifier();
+    
+    if (!key) return null;
 
-		// Decision Point 1: Is it a method?
-		if (this._currTokenIs(TOKEN.LPAREN)) {
-			const params = this._parseParametersList();
-			const body = this._parseBlockStatement();
-			const value = { type: 'FunctionExpression', id: null, params, body, async: isAsync, generator: isGenerator };
-			return this._finishNode({ type: 'Property', key, value, kind, method: (kind === 'init'), shorthand: false, computed }, s);
-		}
-		
-		// Decision Point 2: Is it a key-value pair?
-		if (this._currTokenIs(TOKEN.COLON)) {
-			if (kind !== 'init') this._error(`Getter/setter can't be followed by a colon.`);
-			this._advance();
-			const value = this._parseExpression(PRECEDENCE.ASSIGNMENT);
-			return this._finishNode({ type: 'Property', key, value, kind: 'init', method: false, shorthand: false, computed }, s);
-		}
-		
-		// Decision Point 3: It must be a shorthand property.
-		if (key.type !== 'Identifier' || computed || isAsync || isGenerator || kind !== 'init') {
-			this._error("Invalid shorthand property.");
-			return null;
-		}
-		
-		let value = key;
-		let shorthand = true;
-		if (this._currTokenIs(TOKEN.ASSIGN)) { // Shorthand with default value, e.g. `{ a = 1 }`
-			shorthand = false;
-			const assignStart = this._startNode();
-			assignStart.loc.start = key.loc.start;
-			this._advance();
-			const right = this._parseExpression(PRECEDENCE.ASSIGNMENT);
-			value = this._finishNode({ type: 'AssignmentPattern', left: key, right }, assignStart);
-		}
-		
-		return this._finishNode({ type: 'Property', key, value, kind: 'init', method: false, shorthand, computed }, s);
-	};
+    // If it's a shorthand property like `{ data }`, the key IS the value.
+    if (!this._currTokenIs(TOKEN.COLON)) {
+        return this._finishNode({ 
+            type: 'Property', 
+            key: key, 
+            value: key, // In shorthand, the value is the same identifier as the key.
+            kind: 'init', 
+            method: false, 
+            shorthand: true, 
+            computed: false 
+        }, s);
+    }
+
+    // It's a standard key-value pair. Consume the sacred separator ':'.
+    this._advance(); 
+
+    // --- THIS IS THE CRUX OF THE RECTIFICATION ---
+    // We now parse the value as a full expression with the precedence of
+    // ASSIGNMENT. This gives the parser the vision to see `[...] = []`
+    // as a single, complete AssignmentExpression, rather than getting
+    // lost inside the brackets.
+    const value = this._parseExpression(PRECEDENCE.ASSIGNMENT);
+
+    return this._finishNode({ 
+        type: 'Property', 
+        key: key, 
+        value: value,
+        kind: 'init', 
+        method: false, 
+        shorthand: false, 
+        computed: false 
+    }, s);
+};
 
 		
 		

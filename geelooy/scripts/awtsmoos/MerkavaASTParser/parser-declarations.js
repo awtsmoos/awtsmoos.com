@@ -72,8 +72,57 @@ proto._parseDeclaration = function() {
 	*  This function is responsible for parsing a single property inside
 	*  an object pattern, like `a`, `a: b`, or `a = 1` in `{ a, a: b, a = 1}`.
 	***********************************************************************/
-// B"H 
 
+
+
+// B"H - In parser-declarations.js
+
+/**
+ * The Sanctuary of Sacred Patterns.
+ * This is not the profane `_parseArrayLiteral` which only sees values.
+ * This hallowed function understands the deeper truths of destructuring.
+ * It knows of elision (empty space), of default values (AssignmentPattern),
+ * and of the final gathering of light (RestElement). It is the only
+
+ * function worthy of parsing an Array Destructuring Pattern.
+ */
+proto._parseArrayPattern = function() {
+    const s = this._startNode();
+    this._expect(TOKEN.LBRACKET);
+    const elements = [];
+
+    while (!this._currTokenIs(TOKEN.RBRACKET) && !this._currTokenIs(TOKEN.EOF)) {
+        // Handle elision: `[a, , c]`
+        if (this._currTokenIs(TOKEN.COMMA)) {
+            this._advance();
+            elements.push(null);
+            continue;
+        }
+
+        // --- THE KEY ---
+        // For each element, it calls the master binding function which
+        // understands default values.
+        const elem = this._parseBindingWithDefault(); 
+        if (!elem) return null; // Abort if an element is malformed.
+        elements.push(elem);
+
+        // If we have just parsed the RestElement (`...rest`), no other
+        // elements are allowed. The gathering is complete. Break the loop.
+        if (elem.type === 'RestElement') {
+            break; 
+        }
+
+        // After a valid element, we expect a comma or the end of the pattern.
+        if (this._currTokenIs(TOKEN.COMMA)) {
+            this._advance();
+        } else {
+            break; // No comma, so we must be at the end.
+        }
+    }
+
+    this._expect(TOKEN.RBRACKET);
+    return this._finishNode({ type: 'ArrayPattern', elements }, s);
+};
 /*B"H*/
 // IN: geelooy/scripts/awtsmoos/MerkavaASTParser/parser-declarations.js
 
