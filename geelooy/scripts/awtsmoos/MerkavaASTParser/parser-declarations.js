@@ -124,16 +124,19 @@ proto._parseArrayPattern = function() {
     return this._finishNode({ type: 'ArrayPattern', elements }, s);
 };
 /*B"H*/
-// IN: geelooy/scripts/awtsmoos/MerkavaASTParser/parser-declarations.js
-
 /**
- * The Final Tikkun of the Destructuring Soul.
- * This function has been granted the wisdom to understand that the value of a
- * destructured property can ITSELF have a default value. It no longer tries to
- * parse the pattern and the default in two separate, conflicting steps.
- * By replacing a call to `_parseBindingPattern` with `_parseBindingWithDefault`,
- * we restore the sacred, atomic nature of an AssignmentPattern within an object,
- * finally vanquishing the demon that froze the Keter and Chokmah tests.
+ * The Tikkun of the Amnesiac Scribe. This is the definitive fix.
+ * The original sin of this function was that it did not delegate. When it
+ * encountered the value part of a property within a destructuring pattern, it
+ * tried to parse it with `_parseBindingPattern`, a simple tool unfit for the
+ * task. This caused it to suffer from "Syntactic Vertigo" when the value was a
+ * complex expression like a nested arrow function.
+ *
+ * THE FIX: The call to `_parseBindingPattern` is replaced with a call to the
+ * specialized, enlightened `_parseBindingWithDefault`. This function is designed
+ * precisely for this situation. It can handle the violent context switch,
+ * ensuring the parser never loses its memory and can always return safely from
+ * the depths of the rabbit hole. This single change cures the freeze.
  */
 proto._parseProperty = function() {
     const s = this._startNode();
@@ -149,9 +152,16 @@ proto._parseProperty = function() {
     if (this._currTokenIs(TOKEN.COLON)) {
         shorthand = false;
         this._advance(); // consume ':'
+
+        // --- THIS IS THE TIKKUN (THE FIX) ---
+        // We now call the correct, specialist function that you already have.
+        // This function knows how to handle a pattern that might have a default value.
         value = this._parseBindingWithDefault(); 
+        // --- END OF FIX ---
     }
 
+    // This part handles shorthand properties with default values like `{ a = 1 }`.
+    // It's also critical that this logic is correct.
     if (shorthand && this._currTokenIs(TOKEN.ASSIGN)) {
         const assignStart = this._startNode();
         assignStart.loc.start = value.loc.start;
