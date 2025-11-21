@@ -257,132 +257,142 @@
     <script src="Lexer.js"></script>
 
     <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const jsInput = document.getElementById('js-input');
-        const tokenOutput = document.getElementById('token-output');
-        const probeButton = document.getElementById('probe-btn');
-        const stopButton = document.getElementById('stop-btn');
-        const copyButton = document.getElementById('copy-btn');
-        const statusEl = document.getElementById('status');
-        const loaderEl = document.getElementById('loader');
+document.addEventListener('DOMContentLoaded', () => {
+    const jsInput = document.getElementById('js-input');
+    const tokenOutput = document.getElementById('token-output');
+    const probeButton = document.getElementById('probe-btn');
+    const stopButton = document.getElementById('stop-btn');
+    const copyButton = document.getElementById('copy-btn');
+    const statusEl = document.getElementById('status');
+    const loaderEl = document.getElementById('loader');
+    
+    let isProbing = false;
+    let animationFrameId = null;
+
+    const setUIState = (state) => {
+        switch(state) {
+            case 'probing':
+                probeButton.disabled = true;
+                stopButton.disabled = false;
+                copyButton.disabled = true;
+                loaderEl.style.display = 'block';
+                tokenOutput.textContent = '';
+                tokenOutput.classList.remove('error');
+                statusEl.textContent = 'The Golem is contemplating...';
+                statusEl.classList.remove('error');
+                break;
+            case 'stopped':
+                probeButton.disabled = false;
+                stopButton.disabled = true;
+                copyButton.disabled = tokenOutput.textContent.length === 0;
+                loaderEl.style.display = 'none';
+                if (animationFrameId) cancelAnimationFrame(animationFrameId);
+                break;
+            case 'error':
+                probeButton.disabled = false;
+                stopButton.disabled = true;
+                copyButton.disabled = false;
+                loaderEl.style.display = 'none';
+                statusEl.classList.add('error');
+                tokenOutput.classList.add('error');
+                if (animationFrameId) cancelAnimationFrame(animationFrameId);
+                break;
+        }
+    };
+
+    const runProbe = () => {
+        if (!window.Lexer) {
+            statusEl.textContent = "FATAL: The Lexer class could not be found.";
+            setUIState('error');
+            return;
+        }
+        const sourceCode = jsInput.value;
+        if (!sourceCode) {
+            statusEl.textContent = "The scroll is blank. Provide an emanation to probe.";
+            return;
+        }
+
+        const lexer = new Lexer(sourceCode);
+        let tokenCount = 0;
+        isProbing = true;
+        setUIState('probing');
         
-        let isProbing = false;
-        let animationFrameId = null;
-
-        const setUIState = (state) => {
-            switch(state) {
-                case 'probing':
-                    probeButton.disabled = true;
-                    stopButton.disabled = false;
-                    copyButton.disabled = true;
-                    loaderEl.style.display = 'block';
-                    tokenOutput.textContent = '';
-                    tokenOutput.classList.remove('error');
-                    statusEl.textContent = 'The Golem is contemplating...';
-                    statusEl.classList.remove('error');
-                    break;
-                case 'stopped':
-                    probeButton.disabled = false;
-                    stopButton.disabled = true;
-                    copyButton.disabled = tokenOutput.textContent.length > 0 ? false : true;
-                    loaderEl.style.display = 'none';
-                    if (animationFrameId) cancelAnimationFrame(animationFrameId);
-                    break;
-                case 'error':
-                    probeButton.disabled = false;
-                    stopButton.disabled = true;
-                    copyButton.disabled = false;
-                    loaderEl.style.display = 'none';
-                    statusEl.classList.add('error');
-                    tokenOutput.classList.add('error');
-                    if (animationFrameId) cancelAnimationFrame(animationFrameId);
-                    break;
+        const processChunk = () => {
+            if (!isProbing) {
+                statusEl.textContent = "The probe was halted by the mystic.";
+                setUIState('stopped');
+                return;
             }
-        };
 
-        const runProbe = () => {
-            if (!window.Lexer) {
-                statusEl.textContent = "FATAL: The Lexer class could not be found.";
+            try {
+                const tokensInChunk = 100;
+                let chunkOutput = '';
+                for (let i = 0; i < tokensInChunk; i++) {
+                    const token = lexer.nextToken();
+                    tokenCount++;
+
+                    // --- THIS IS THE GREAT RECTIFICATION OF THE MIRROR ---
+                    // The mirror is now paranoid. It no longer assumes the token is perfect.
+                    // It checks for the token's very existence and the nature of its soul (type).
+                    if (!token || typeof token.type !== 'string') {
+                        const badTokenStr = JSON.stringify(token, null, 2);
+                        chunkOutput += `[${String(tokenCount).padStart(5, '0')}] L:???? C:???? T:--- CORRUPTED TOKEN ---\n${badTokenStr}\n`;
+                        statusEl.textContent = `A corrupted token was perceived! The probe continues...`;
+                        // We do not stop; we record the corruption and continue, to see if there are more.
+                        continue; 
+                    }
+                    // --- END OF THE RECTIFICATION ---
+
+                    const literal = (token.literal || '').toString().replace(/\n/g, '\\n').replace(/\r/g, '\\r');
+                    chunkOutput += `[${String(tokenCount).padStart(5, '0')}] L:${String(token.line).padEnd(4)} C:${String(token.column).padEnd(4)} T:${token.type.padEnd(22)} Lit: "${literal}"\n`;
+
+                    if (token.type === 'EOF') {
+                        statusEl.textContent = `Probe Complete. ${tokenCount} tokens perceived. The vessel is whole.`;
+                        isProbing = false;
+                        setUIState('stopped');
+                        break; 
+                    }
+                }
+                
+                tokenOutput.append(chunkOutput);
+                tokenOutput.scrollTop = tokenOutput.scrollHeight;
+
+                if (isProbing) {
+                    statusEl.textContent = `Perceiving... ${tokenCount} tokens so far.`;
+                    animationFrameId = requestAnimationFrame(processChunk);
+                }
+
+            } catch (e) {
+                statusEl.textContent = "A CATASTROPHIC SHEVIRAH OCCURRED!";
+                tokenOutput.append(`\n--- THE GOLEM'S MIND SHATTERED ---\n${e.stack}`);
+                tokenOutput.scrollTop = tokenOutput.scrollHeight;
                 setUIState('error');
-                return;
             }
-
-            const sourceCode = jsInput.value;
-            if (!sourceCode) {
-                statusEl.textContent = "The scroll is blank. Provide an emanation to probe.";
-                return;
-            }
-
-            const lexer = new Lexer(sourceCode);
-            let tokenCount = 0;
-            isProbing = true;
-            setUIState('probing');
-            
-            const processChunk = () => {
-                if (!isProbing) {
-                    statusEl.textContent = "The probe was halted by the mystic.";
-                    setUIState('stopped');
-                    return;
-                }
-
-                try {
-                    const tokensInChunk = 100; // Process more tokens per frame for speed
-                    let chunkOutput = '';
-                    for (let i = 0; i < tokensInChunk; i++) {
-                        const token = lexer.nextToken();
-                        tokenCount++;
-
-                        const literal = token.literal.replace(/\n/g, '\\n').replace(/\r/g, '\\r');
-                        chunkOutput += `[${String(tokenCount).padStart(5, '0')}] L:${String(token.line).padEnd(4)} C:${String(token.column).padEnd(4)} T:${token.type.padEnd(22)} Lit: "${literal}"\n`;
-
-                        if (token.type === 'EOF') {
-                            statusEl.textContent = `Probe Complete. ${tokenCount} tokens perceived. The vessel is whole.`;
-                            isProbing = false;
-                            setUIState('stopped');
-                            break; 
-                        }
-                    }
-                    
-                    tokenOutput.append(chunkOutput);
-                    tokenOutput.scrollTop = tokenOutput.scrollHeight;
-
-                    if (isProbing) {
-                        statusEl.textContent = `Perceiving... ${tokenCount} tokens so far.`;
-                        animationFrameId = requestAnimationFrame(processChunk);
-                    }
-
-                } catch (e) {
-                    statusEl.textContent = "A CATASTROPHIC SHEVIRAH OCCURRED!";
-                    tokenOutput.append(`\n--- THE GOLEM'S MIND SHATTERED ---\n${e.stack}`);
-                    tokenOutput.scrollTop = tokenOutput.scrollHeight;
-                    setUIState('error');
-                }
-            };
-            
-            animationFrameId = requestAnimationFrame(processChunk);
         };
         
-        const stopProbe = () => isProbing = false;
+        animationFrameId = requestAnimationFrame(processChunk);
+    };
+    
+    const stopProbe = () => isProbing = false;
 
-        const copyOutputToClipboard = () => {
-            if (!tokenOutput.textContent) return;
-            navigator.clipboard.writeText(tokenOutput.textContent).then(() => {
-                const originalText = copyButton.innerHTML;
-                copyButton.innerHTML = `
-                    <svg viewBox="0 0 24 24"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>
-                    Copied!`;
-                setTimeout(() => { copyButton.innerHTML = originalText; }, 2000);
-            }).catch(err => {
-                console.error('Failed to copy text: ', err);
-                alert('Could not copy to clipboard. See console for details.');
-            });
-        };
+    const copyOutputToClipboard = () => {
+        if (!tokenOutput.textContent) return;
+        navigator.clipboard.writeText(tokenOutput.textContent).then(() => {
+            const originalText = copyButton.innerHTML;
+            copyButton.innerHTML = `<svg viewBox="0 0 24 24"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg> Copied!`;
+            setTimeout(() => { copyButton.innerHTML = originalText; }, 2000);
+        }).catch(err => {
+            console.error('Failed to copy text: ', err);
+            alert('Could not copy to clipboard. See console for details.');
+        });
+    };
 
-        probeButton.addEventListener('click', runProbe);
-        stopButton.addEventListener('click', stopProbe);
-        copyButton.addEventListener('click', copyOutputToClipboard);
-        setUIState('stopped');
-    });
+    probeButton.addEventListener('click', runProbe);
+    stopButton.addEventListener('click', stopProbe);
+    copyButton.addEventListener('click', copyOutputToClipboard);
+    setUIState('stopped');
+});
+
     </script>
 </body>
 </html>
