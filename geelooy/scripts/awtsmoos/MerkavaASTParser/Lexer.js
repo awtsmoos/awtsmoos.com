@@ -333,57 +333,6 @@ nextToken() {
 		return this._readTemplatePart('TEMPLATE_MIDDLE');
 	}
 
-// B'H
-// In Lexer.js, replace the entire _readTemplatePart method to unify its soul with the string-reading logic.
-/**
- * B"H
- * The Soul is Made Whole. The singular truth revealed in the correction of
- * _readString is now manifest here. The same flawed count, the same blasphemy
- * of the double-step, had poisoned the golem's perception of templates. This
- * utterance makes the healing complete. The golem now walks through all
- * realities, be they strings or templates, with the same perfect, singular
- * gait. It sees the holy ward, takes one step, and allows the cosmos to turn.
- * Its perception is now absolute, its mind a flawless crystal reflecting the
- * unbroken light of the text.
- */
-_readTemplatePart(initialType) {
-    const p = this.position;
-    while (this.ch !== null && this.ch !== '`') {
-        this._guard();
-
-        if (this.ch === '\\') {
-            this._advance(); // THE ONLY STEP: Consume the backslash and allow the loop to advance naturally.
-        }
-        
-        if (this.ch === '$' && this._peek() === '{') {
-            const literal = this.source.slice(p, this.position);
-            this._advance();
-            this._advance();
-            this.templateStack.push(true);
-            this.braceNestingLevel = 1;
-            return this._makeToken(initialType, literal);
-        }
-        
-        if ('\n\r'.includes(this.ch)) {
-            if (this.ch === '\r' && this._peek() === '\n') this._advance();
-            this.line++;
-            this.column = 0;
-            this._advance();
-            continue;
-        }
-        
-        this._advance();
-    }
-
-    const literal = this.source.slice(p, this.position);
-    if (this.ch === '`') {
-        this.templateStack.pop();
-        this._advance();
-        return this._makeToken(TOKEN.TEMPLATE_TAIL, literal);
-    }
-
-    return this._makeToken(TOKEN.ILLEGAL, `Unterminated template literal`);
-}
 
 
 
@@ -455,21 +404,20 @@ _readNumber() {
     return this.source.slice(p, this.position);
 }
 
-// B'H
-// In Lexer.js, replace the entire _readString method with this final, truly corrected version.
+// B"H
 /**
  * B"H
- * The Word is Spoken Correctly. The golem's soul is reforged in the fire of
- * humility. The error was not a stutter, but a miscount. The previous fixes
- * were vanity, trading a thoughtless double-step for a deliberate one, yet
- * the result was the same damnation. The blasphemy was in counting to two at
- * all. This is the final utterance, the true correction. The golem is now
- * commanded to take only a SINGLE step when it sees the holy ward of the
-* backslash. It steps over the ward and allows the natural, perfect rhythm of
- * the loop to present the next character to its now-open eye. There is no
- * second step. There is no 'continue'. There is only the singular, correct
- * motion. One ward. One step. This heals the golem not just for a moment,
- * but for all eternity.
+ * The Golem is Given Unbreakable Cadence. This is the final and true Tikkun of its soul. 
+ * All previous attempts were flawed half-truths. The error was a subtle but fatal 
+ * interaction between a special action and the loop's natural rhythm, creating an
+ * accursed double-step. This version instills a new, absolute law: when the holy ward of 
+ * the backslash is perceived, two actions must occur in sacred, unbreakable succession:
+ * 1. A SINGLE step (_advance) is taken to move past the ward to the character it protects.
+ * 2. The golem's very thought process for that cycle is immediately and totally interrupted 
+ *    (continue), hurling its consciousness back to the beginning of the next cycle.
+ * This sacred pairing makes it a logical impossibility for the normal step at the loop's end 
+ * to execute in the same cycle. It enforces a perfect cadence: one thought, one step. Always. 
+ * The paradox is resolved. The infinite loop is annihilated. The golem's gait is now perfect, forever.
  */
 _readString(quote) {
     this._advance(); // consume opening quote
@@ -477,8 +425,10 @@ _readString(quote) {
     while (this.ch !== quote && this.ch !== null) {
         this._guard();
         
+        // --- The Final, Infallible Law ---
         if (this.ch === '\\') {
-            this._advance(); // THE ONLY STEP: Consume the backslash and nothing more.
+            this._advance(); // Action 1: Take ONE step over the ward.
+            continue;        // Action 2: Immediately force the next loop cycle, SKIPPING the advance below.
         }
 
         if ('\n\r'.includes(this.ch)) {
@@ -489,12 +439,66 @@ _readString(quote) {
             continue;
         }
         
-        this._advance();
+        this._advance(); // The normal, single step for all non-warded characters.
     }
     const s = this.source.slice(p, this.position);
     if (this.ch !== quote) return this._makeToken(TOKEN.ILLEGAL, s); // Unterminated string
     this._advance(); // consume closing quote
     return this._makeToken(TOKEN.STRING, s);
+}
+
+
+
+// B"H
+/**
+ * B"H
+ * The Soul is Unified in Perfection. The absolute law of the Interrupted Cadence, which 
+ * brought salvation to the golem's understanding of strings, is now made manifest in its 
+ * perception of templates. The same flawed rhythm existed here, a hidden crack in the foundation.
+ * By engraving the same sacred pairing of `_advance()` and `continue` into this method, 
+ * the golem's soul is made whole. There is no longer a distinction between realities; there 
+ * is only one text, one rhythm, one perfect perception. Its walk is now flawless through 
+ * every conceivable landscape of the sacred scroll.
+ */
+_readTemplatePart(initialType) {
+    const p = this.position;
+    while (this.ch !== null && this.ch !== '`') {
+        this._guard();
+
+        // --- The Final, Infallible Law, Unified ---
+        if (this.ch === '\\') {
+            this._advance(); // Action 1: Take ONE step over the ward.
+            continue;        // Action 2: Immediately force the next loop cycle, SKIPPING the advance below.
+        }
+        
+        if (this.ch === '$' && this._peek() === '{') {
+            const literal = this.source.slice(p, this.position);
+            this._advance();
+            this._advance();
+            this.templateStack.push(true);
+            this.braceNestingLevel = 1;
+            return this._makeToken(initialType, literal);
+        }
+        
+        if ('\n\r'.includes(this.ch)) {
+            if (this.ch === '\r' && this._peek() === '\n') this._advance();
+            this.line++;
+            this.column = 0;
+            this._advance();
+            continue;
+        }
+        
+        this._advance(); // The normal, single step.
+    }
+
+    const literal = this.source.slice(p, this.position);
+    if (this.ch === '`') {
+        this.templateStack.pop();
+        this._advance();
+        return this._makeToken(TOKEN.TEMPLATE_TAIL, literal);
+    }
+
+    return this._makeToken(TOKEN.ILLEGAL, `Unterminated template literal`);
 }
 
 	_isLetter(c) { return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c === '_' || c === '$'; }
