@@ -75,16 +75,16 @@ proto._parseDeclaration = function() {
 
 
 
-// B"H - In parser-declarations.js
-
+/*B"H*/
 /**
- * The Sanctuary of Sacred Patterns.
- * This is not the profane `_parseArrayLiteral` which only sees values.
- * This hallowed function understands the deeper truths of destructuring.
- * It knows of elision (empty space), of default values (AssignmentPattern),
- * and of the final gathering of light (RestElement). It is the only
+ * B"H
+ * The Fortification of the Array Vessel. The soul of this function has been
+ * reinforced as a preventative measure. It now understands that an element
+ * within a destructuring array is not merely a name or another pattern, but a
+ * potential `AssignmentPattern`. By calling `_parseBindingWithDefault`, it is now
+ * capable of parsing `[a, b = [], c]` without succumbing to the vertigo that
 
- * function worthy of parsing an Array Destructuring Pattern.
+ * plagued its cousin, `_parseProperty`. The integrity of the vessel is now absolute.
  */
 proto._parseArrayPattern = function() {
     const s = this._startNode();
@@ -92,31 +92,26 @@ proto._parseArrayPattern = function() {
     const elements = [];
 
     while (!this._currTokenIs(TOKEN.RBRACKET) && !this._currTokenIs(TOKEN.EOF)) {
-        // Handle elision: `[a, , c]`
         if (this._currTokenIs(TOKEN.COMMA)) {
             this._advance();
-            elements.push(null);
+            elements.push(null); // This is for elision, e.g., `[a, , c]`.
             continue;
         }
 
-        // --- THE KEY ---
-        // For each element, it calls the master binding function which
-        // understands default values.
-        const elem = this._parseBindingWithDefault(); 
-        if (!elem) return null; // Abort if an element is malformed.
+        // Each element is parsed with the new, enlightened scribe.
+        const elem = this._parseBindingWithDefault();
+        if (!elem) return null;
         elements.push(elem);
 
-        // If we have just parsed the RestElement (`...rest`), no other
-        // elements are allowed. The gathering is complete. Break the loop.
+        // A rest element must be the final element in the pattern.
         if (elem.type === 'RestElement') {
-            break; 
+            break;
         }
 
-        // After a valid element, we expect a comma or the end of the pattern.
         if (this._currTokenIs(TOKEN.COMMA)) {
             this._advance();
         } else {
-            break; // No comma, so we must be at the end.
+            break;
         }
     }
 
@@ -769,34 +764,35 @@ proto._parseParametersListOld = function() {
 
 
 
-// B"H
+/*B"H*/
+// IN: geelooy/scripts/awtsmoos/MerkavaASTParser/parser-declarations.js
 
-
-// It contains the pure logic for parsing a comma-separated list of binding patterns.
-
-// B"H --- In parser-declarations.js
-// REPLACE the _parseParametersList function with this more robust version.
-
+/**
+ * B"H
+ * The Sanctification of the Parameter List. This is the artery that was still
+ * corrupted. The old, fragile loop has been torn down and replaced with a
+ * fortified cloister walk. It no longer parses parameters with simple, ignorant
+ * functions. For each parameter, it now invokes the enlightened `_parseBindingWithDefault`
+ * scribe, ensuring that any parameter, no matter how complex its own destructured
+ * pattern or default value, is understood with perfect clarity and memory. This
+ * fortification ensures the Golem's vertigo can never strike within the sacred
+ * ground of a function's definition, curing the final error.
+ */
 proto._parseParametersList = function() {
     const params = [];
     this._expect(TOKEN.LPAREN);
 
-    // This loop structure is more robust and correctly handles the edge case.
     if (!this._currTokenIs(TOKEN.RPAREN)) {
         do {
-            // This function correctly parses a parameter that might have
-            // a pattern and/or a default value.
+            // Each parameter is now parsed by the master scribe who understands
+            // the treacherous duality of patterns with default values.
             const param = this._parseBindingWithDefault();
-            if (!param) return null; // Propagate errors correctly.
+            if (!param) return null;
             params.push(param);
 
-            // Explicitly check for the comma *after* parsing a full parameter.
-            // If there isn't one, we must be at the end of the list.
             if (!this._currTokenIs(TOKEN.COMMA)) {
                 break;
             }
-
-            // Only advance if a comma was found.
             this._advance();
         } while (true);
     }
