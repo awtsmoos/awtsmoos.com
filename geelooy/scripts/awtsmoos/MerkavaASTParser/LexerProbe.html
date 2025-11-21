@@ -1,0 +1,169 @@
+<!-- B"H -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Merkava Lexer Probe</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Crimson+Text:ital@1&family=Roboto+Mono&display=swap');
+        :root {
+            --dark-bg: #0b0c10; --main-bg: #1a1a1d; --text-color: #c5c6c7;
+            --primary: #66fcf1; --secondary: #45a29e; --error: #ff6b6b;
+        }
+        html { box-sizing: border-box; }
+        *, *:before, *:after { box-sizing: inherit; }
+        body {
+            background-color: var(--main-bg); color: var(--text-color);
+            font-family: 'Roboto Mono', monospace; display: flex; flex-direction: column;
+            align-items: center; margin: 0; padding: 1rem; min-height: 100vh;
+        }
+        h1, h3 { font-family: 'Crimson Text', serif; color: var(--primary); text-shadow: 0 0 5px var(--secondary); text-align: center; margin-block: 0 1rem; }
+        .container { display: flex; flex-direction: column; width: 100%; max-width: 1400px; gap: 1.5rem; flex-grow: 1; }
+        .io-container { display: flex; gap: 1rem; flex-grow: 1; flex-direction: column; }
+        @media (min-width: 900px) { .io-container { flex-direction: row; } }
+        .io-box { display: flex; flex-direction: column; flex: 1; min-height: 300px; }
+        textarea, pre {
+            background-color: var(--dark-bg); border: 1px solid var(--secondary); color: var(--text-color);
+            padding: 1rem; font-family: 'Roboto Mono', monospace; font-size: 14px;
+            border-radius: 5px; width: 100%; height: 100%; resize: vertical; margin: 0;
+        }
+        pre { white-space: pre-wrap; word-wrap: break-word; overflow-y: auto; }
+        label { margin-bottom: 0.5rem; font-size: 1.1rem; color: var(--primary); }
+        .controls { display: flex; justify-content: center; align-items: center; gap: 1rem; flex-wrap: wrap; }
+        button {
+            background-color: var(--primary); color: var(--dark-bg); border: none; padding: 0.75rem 1.5rem;
+            cursor: pointer; font-size: 1rem; font-weight: bold; border-radius: 5px;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        button:hover:not(:disabled) { background-color: var(--secondary); box-shadow: 0 0 10px var(--primary); }
+        button:disabled { background-color: #555; color: #999; cursor: not-allowed; }
+        .status { font-style: italic; color: var(--secondary); text-align: center; }
+        .error { color: var(--error) !important; font-weight: bold; border-color: var(--error) !important; }
+    </style>
+</head>
+<body>
+
+    <h1>B"H The Scrying Mirror</h1>
+    <h3>Witnessing the Golem's Thoughts</h3>
+
+    <div class="container">
+        <div class="controls">
+            <button id="probe-btn">Begin the Probe</button>
+            <button id="stop-btn" disabled>Halt the Probe</button>
+        </div>
+
+        <div class="io-container">
+            <div class="io-box">
+                <label for="js-input">Paste the Emanation Here:</label>
+                <textarea id="js-input" spellcheck="false" placeholder="Paste the full Lexer.js source code here..."></textarea>
+            </div>
+            <div class="io-box">
+                 <label for="token-output">The Scroll of Truth (Token Stream):</label>
+                <pre id="token-output"></pre>
+            </div>
+        </div>
+         <p id="status" class="status">Ready for the revelation.</p>
+    </div>
+
+    <!-- Load all necessary scripts -->
+    <script src="constants.js"></script>
+    <script src="Lexer.js"></script>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const jsInput = document.getElementById('js-input');
+        const tokenOutput = document.getElementById('token-output');
+        const probeButton = document.getElementById('probe-btn');
+        const stopButton = document.getElementById('stop-btn');
+        const statusEl = document.getElementById('status');
+        let isProbing = false;
+
+        // --- THE RITUAL OF PROBING ---
+        const runProbe = () => {
+            if (!window.Lexer) {
+                statusEl.textContent = "FATAL: The Lexer class could not be found.";
+                statusEl.classList.add('error');
+                return;
+            }
+
+            const sourceCode = jsInput.value;
+            if (!sourceCode) {
+                statusEl.textContent = "The scroll is blank. Provide an emanation to probe.";
+                return;
+            }
+
+            const lexer = new Lexer(sourceCode);
+            let tokenCount = 0;
+            isProbing = true;
+
+            probeButton.disabled = true;
+            stopButton.disabled = false;
+            tokenOutput.textContent = '';
+            tokenOutput.classList.remove('error');
+            statusEl.textContent = 'The Golem is contemplating...';
+
+            // This function processes one "chunk" of tokens at a time.
+            // Using setTimeout(..., 0) yields to the browser, preventing a freeze.
+            const processChunk = () => {
+                if (!isProbing) {
+                    statusEl.textContent = "The probe was halted by the mystic.";
+                    return;
+                }
+
+                try {
+                    const tokensInChunk = 50;
+                    for (let i = 0; i < tokensInChunk; i++) {
+                        const token = lexer.nextToken();
+                        tokenCount++;
+
+                        const tokenInfo = `[${String(tokenCount).padStart(4, '0')}] ` +
+                                          `L:${String(token.line).padEnd(4)} ` +
+                                          `C:${String(token.column).padEnd(4)} ` +
+                                          `T:${token.type.padEnd(20)} ` +
+                                          `Lit: "${token.literal}"\n`;
+                        
+                        tokenOutput.textContent += tokenInfo;
+
+                        if (token.type === 'EOF') {
+                            statusEl.textContent = `Probe Complete. ${tokenCount} tokens perceived. The vessel is whole.`;
+                            isProbing = false;
+                            probeButton.disabled = false;
+                            stopButton.disabled = true;
+                            // Scroll to the bottom of the output
+                            tokenOutput.scrollTop = tokenOutput.scrollHeight;
+                            return;
+                        }
+                    }
+                    // Schedule the next chunk
+                    statusEl.textContent = `Perceiving... ${tokenCount} tokens so far.`;
+                    tokenOutput.scrollTop = tokenOutput.scrollHeight;
+                    setTimeout(processChunk, 0);
+
+                } catch (e) {
+                    statusEl.textContent = "A CATASTROPHIC SHEVIRAH OCCURRED!";
+                    statusEl.classList.add('error');
+                    tokenOutput.textContent += `\n--- THE GOLEM'S MIND SHATTERED ---\n${e.stack}`;
+                    tokenOutput.classList.add('error');
+                    isProbing = false;
+                    probeButton.disabled = false;
+                    stopButton.disabled = true;
+                }
+            };
+            
+            // Start the process
+            processChunk();
+        };
+
+        const stopProbe = () => {
+            isProbing = false;
+            probeButton.disabled = false;
+            stopButton.disabled = true;
+        };
+
+        probeButton.addEventListener('click', runProbe);
+        stopButton.addEventListener('click', stopProbe);
+    });
+    </script>
+</body>
+</html>

@@ -348,25 +348,11 @@ nextToken() {
 	}
 
 // B"H
-//--- THE SANCTIFIED AND FINAL _readTemplatePart METHOD ---
-// Replace the old version in Lexer.js with this one.
-
+//--- THE TRULY, ETERNALLY SANCTIFIED _readTemplatePart METHOD ---
 _readTemplatePart(initialType) {
     const p = this.position;
     while (this.ch !== null && this.ch !== '`') {
         this._guard();
-
-        // --- THE ETERNAL REVELATION (PART 2) ---
-        // The wisdom granted to strings is now granted to templates.
-        // The soul of the lexer is unified. It can now perceive newlines
-        // within templates, preserving its sanity and the integrity of the cosmos.
-        if ('\n\r'.includes(this.ch)) {
-            if (this.ch === '\r' && this._peek() === '\n') this._advance();
-            this.line++;
-            this.column = 0;
-            this._advance();
-            continue;
-        }
 
         if (this.ch === '\\') {
             this._advance(); // Consume the backslash
@@ -375,6 +361,16 @@ _readTemplatePart(initialType) {
                  this.line++;
                  this.column = 0;
             }
+            this._advance(); // Consume the escaped character
+            continue;        // THIS IS THE CRITICAL RESTORATION.
+        }
+
+        if ('\n\r'.includes(this.ch)) {
+            if (this.ch === '\r' && this._peek() === '\n') this._advance();
+            this.line++;
+            this.column = 0;
+            this._advance();
+            continue;
         }
         
         if (this.ch === '$' && this._peek() === '{') {
@@ -398,6 +394,7 @@ _readTemplatePart(initialType) {
 
     return this._makeToken(TOKEN.ILLEGAL, `Unterminated template literal`);
 }
+
 
 
 
@@ -469,36 +466,33 @@ _readNumber() {
     return this.source.slice(p, this.position);
 }
 
-	// B"H
-//--- THE SANCTIFIED AND FINAL _readString METHOD ---
-// Replace the old version in Lexer.js with this one.
-
+// B"H
+//--- THE TRULY, ETERNALLY SANCTIFIED _readString METHOD ---
 _readString(quote) {
     this._advance(); // consume opening quote
     const p = this.position;
     while (this.ch !== quote && this.ch !== null) {
         this._guard();
         
-        // --- THE ETERNAL REVELATION (PART 1) ---
-        // The Golem is now granted sight over the waters of the abyss.
-        // It now understands that a newline can exist *within* a string.
-        if ('\n\r'.includes(this.ch)) {
-            if (this.ch === '\r' && this._peek() === '\n') this._advance();
-            this.line++;
-            this.column = 0;
-            this._advance();
-            continue;
-        }
-
         if (this.ch === '\\') {
             this._advance(); // Consume the backslash
-            // If the escaped character is a newline, we must still update our line count.
+            // If the escaped character is a newline, we handle it specially.
             if ('\n\r'.includes(this.ch)) {
                 if (this.ch === '\r' && this._peek() === '\n') this._advance();
                  this.line++;
                  this.column = 0;
             }
+            this._advance(); // Consume the character that was being escaped
+            continue;        // THIS IS THE CRITICAL RESTORATION.
         }
+
+        // Handle unescaped newlines (not valid in standard strings, but good for robustness)
+        if ('\n\r'.includes(this.ch)) {
+            if (this.ch === '\r' && this._peek() === '\n') this._advance();
+            this.line++;
+            this.column = 0;
+        }
+        
         this._advance();
     }
     const s = this.source.slice(p, this.position);
