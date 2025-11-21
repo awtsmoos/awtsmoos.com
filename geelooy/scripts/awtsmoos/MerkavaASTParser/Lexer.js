@@ -20,7 +20,7 @@ class Lexer {
 		this.comments = []; 
 		this.braceNestingLevel = 0;
 		this.op_count = 0;
-		this.max_ops = 25000;
+		this.max_ops = 250000;
 		this._advance();
 	}
 
