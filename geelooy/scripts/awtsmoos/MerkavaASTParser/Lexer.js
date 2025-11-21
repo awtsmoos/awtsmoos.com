@@ -356,28 +356,34 @@ _readTemplatePart(initialType) {
     while (this.ch !== null && this.ch !== '`') {
         this._guard();
 
-        // --- THE REVELATION ---
-        // The Golem has been granted the wisdom of the Serpent. When it sees
-        // a backslash, it knows it is a sign, a mark of something hidden.
-        // It now performs the sacred "double advance," consuming both the
-        // backslash and the character it escapes in a single, fluid motion.
-        // This act of perception banishes the demon of state corruption.
+        // --- THE ETERNAL REVELATION (PART 2) ---
+        // The wisdom granted to strings is now granted to templates.
+        // The soul of the lexer is unified. It can now perceive newlines
+        // within templates, preserving its sanity and the integrity of the cosmos.
+        if ('\n\r'.includes(this.ch)) {
+            if (this.ch === '\r' && this._peek() === '\n') this._advance();
+            this.line++;
+            this.column = 0;
+            this._advance();
+            continue;
+        }
+
         if (this.ch === '\\') {
             this._advance(); // Consume the backslash
-            this._advance(); // Consume the character being escaped
-            continue;        // Begin the next cycle with a clear mind
+            if ('\n\r'.includes(this.ch)) {
+                if (this.ch === '\r' && this._peek() === '\n') this._advance();
+                 this.line++;
+                 this.column = 0;
+            }
         }
-        // --- END OF THE REVELATION ---
-
-        // This is the existing logic for handling expression interpolation.
-        // It is now protected by the wisdom above it.
+        
         if (this.ch === '$' && this._peek() === '{') {
             const literal = this.source.slice(p, this.position);
-            this._advance(); // Consume '$'
-            this._advance(); // Consume '{'
+            this._advance();
+            this._advance();
             this.templateStack.push(true);
-            this.braceNestingLevel = 1; // ARM THE COUNTER
-            return this._makeToken(initialType, [[1](https://www.google.com/url?sa=E&q=https%3A%2F%2Fvertexaisearch.cloud.google.com%2Fgrounding-api-redirect%2FAUZIYQFU8Ara3Z0q8Zvp_-j5cegLYsOeql4x_96imvS2Dg_37X4C9D1lTMQmOCsEKj7eOgi1lg-jw_oB_0U9aM98CJTx0e8hfKglGYDLQov3G9NJEoo0O8EPhsoJo_gl1wLlLg%3D%3D)][[2](https://www.google.com/url?sa=E&q=https%3A%2F%2Fvertexaisearch.cloud.google.com%2Fgrounding-api-redirect%2FAUZIYQFzITKytTT-pSvV4jW-N7Vmqu_rVqVsWlKYa_6-rvm1bOsakHVfja8Fe56t0uRD87Ioh3siXxWlGs0ye63RS7XX1FegYgrZ42DtWkh7wqFvJtxbsw%3D%3D)][[3](https://www.google.com/url?sa=E&q=https%3A%2F%2Fvertexaisearch.cloud.google.com%2Fgrounding-api-redirect%2FAUZIYQGCOMNtcQZYGOahnEBQd1FYCIZM-ygNBYUf2gJQPaRXnJc9z8QSmV5t76DPk8xMapF-QpQAdDU0GFQmoq0PlVhiHwPrlCdY2Zl5qkPs-e8%3D)]literal);
+            this.braceNestingLevel = 1;
+            return this._makeToken(initialType, literal);
         }
         
         this._advance();
@@ -386,7 +392,7 @@ _readTemplatePart(initialType) {
     const literal = this.source.slice(p, this.position);
     if (this.ch === '`') {
         this.templateStack.pop();
-        this._advance(); // Consume '`'
+        this._advance();
         return this._makeToken(TOKEN.TEMPLATE_TAIL, literal);
     }
 
@@ -463,26 +469,35 @@ _readNumber() {
     return this.source.slice(p, this.position);
 }
 
-	/**
- * B"H
- * The sanctified `_readString` method, its senses now healed. The sin of the
- * "double advance" has been purged. When it encounters a serpent's backslash,
- * it now correctly consumes both the backslash and the character it is escaping
- * in a single, fluid motion, then uses `continue` to begin the next cycle
- * with a clear mind. It no longer skips past the boundaries of its own world
- * and can perceive all strings, no matter how complex, in their perfect truth. This
- * prevents the line/column corruption that leads to an infinite loop when parsing
- * strings containing escaped control characters like `\n`.
- */
+	// B"H
+//--- THE SANCTIFIED AND FINAL _readString METHOD ---
+// Replace the old version in Lexer.js with this one.
+
 _readString(quote) {
     this._advance(); // consume opening quote
     const p = this.position;
     while (this.ch !== quote && this.ch !== null) {
         this._guard();
+        
+        // --- THE ETERNAL REVELATION (PART 1) ---
+        // The Golem is now granted sight over the waters of the abyss.
+        // It now understands that a newline can exist *within* a string.
+        if ('\n\r'.includes(this.ch)) {
+            if (this.ch === '\r' && this._peek() === '\n') this._advance();
+            this.line++;
+            this.column = 0;
+            this._advance();
+            continue;
+        }
+
         if (this.ch === '\\') {
             this._advance(); // Consume the backslash
-            this._advance(); // Consume the character being escaped
-            continue;        // Skip the advance at the end of the loop
+            // If the escaped character is a newline, we must still update our line count.
+            if ('\n\r'.includes(this.ch)) {
+                if (this.ch === '\r' && this._peek() === '\n') this._advance();
+                 this.line++;
+                 this.column = 0;
+            }
         }
         this._advance();
     }
