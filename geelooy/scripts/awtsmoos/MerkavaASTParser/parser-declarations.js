@@ -167,6 +167,16 @@ proto._parseComputedPropertyKey = function() {
  * the loop from infinitely attempting to parse more elements that cannot exist,
  * thus annihilating the freeze that was confirmed by the Chokmah Test.
  */
+/* B"H */
+// IN: geelooy/scripts/awtsmoos/MerkavaASTParser/parser-declarations.js
+
+/**
+ * This is the rectified version of the function.
+ * It has been given the wisdom to understand that elements within a destructuring
+ * pattern can have default values. By calling `_parseBindingWithDefault`, it can
+ * now correctly parse `AssignmentPattern` nodes like `item = 'default'`,
+ * restoring the integrity of the vessel.
+ */
 proto._parseArrayPattern = function() {
     const s = this._startNode();
     this._expect(TOKEN.LBRACKET);
@@ -179,13 +189,14 @@ proto._parseArrayPattern = function() {
             continue;
         }
 
-        const elem = this._parseBindingPattern();
+        // --- THE TIKKUN ---
+        // We now call the correct function that can parse patterns with default values.
+        const elem = this._parseBindingWithDefault();
+        // --- END OF THE TIKKUN ---
+
         if (!elem) return null;
         elements.push(elem);
 
-        // --- THIS IS THE TIKKUN ---
-        // A rest element MUST be the last element. After parsing it, we
-        // must break the loop. This single change resolves the freeze.
         if (elem.type === 'RestElement') {
             break; 
         }
