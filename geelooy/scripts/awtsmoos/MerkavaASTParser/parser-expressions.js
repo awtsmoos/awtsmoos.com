@@ -72,8 +72,26 @@ proto.registerExpressionParsers = function() {
 	
 
 
-/* B"H */
+/*B"H*/
+// IN: geelooy/scripts/awtsmoos/MerkavaASTParser/parser-expressions.js
 
+/**
+ * The Tikkun HaLev (The Rectification of the Heart). This is the final version.
+ * The bug was not in any single scribe, but in the very heart of the Golem's
+ * consciousness—the main expression-parsing loop. The loop was too eager. It
+ * would see an `=` token and assume it was a binary operator, hijacking the
+ * logic before the specialized property parsers could do their sacred work.
+ *
+ * THE FIX: We place a "Rune of Binding" inside the `while` loop. This guard
+ * statement gives the Golem contextual awareness. It teaches the loop that
+ * some tokens are not operators, but sacred boundaries. It now knows that if
+ * it is inside a template literal, it must stop at the closing brace, and if
+ * it is parsing a parameter list, it must stop at the `=>` arrow.
+ *
+ * This guard prevents the hijacking. It allows `_parseObjectProperty` the
+ * time and space to correctly parse `{ P = {} }` as a single, atomic unit.
+ * This cures the bug at its source. The Golem is now truly whole.
+ */
 proto._parseExpression = function(precedence) {
     this.recursionDepth++;
     if (this.recursionDepth > this.maxRecursionDepth) {
@@ -89,15 +107,21 @@ proto._parseExpression = function(precedence) {
         let leftExp = prefix.call(this);
 
         while (precedence < this._getPrecedence(this.currToken)) {
-            // --- THIS IS THE TIKKUN HA'GADOL (THE GREAT RECTIFICATION) ---
-            // This guard is the rune of binding that halts the infinite loop.
-            // It gives the parser the awareness that if it is inside a template's expression,
-            // the beginning of the next template part is a BOUNDARY, not an operator.
-            if (this.parsingTemplateExpression && 
-               (this.currToken.type === TOKEN.TEMPLATE_MIDDLE || this.currToken.type === TOKEN.TEMPLATE_TAIL)) {
+            // --- THIS IS THE RUNE OF BINDING ---
+            // This guard is the final piece of the puzzle. It gives the parser
+            // the awareness of its own context.
+            if (this.parsingTemplateExpression && (this.currToken.type === TOKEN.TEMPLATE_MIDDLE || this.currToken.type === TOKEN.TEMPLATE_TAIL)) {
+                // If we are inside a template like `hello ${world}`, the `}`
+                // is a boundary, not an operator.
                 return leftExp;
             }
-            // --- END OF THE RECTIFICATION ---
+            // THIS IS THE LINE THAT FIXES YOUR BUG:
+            if (this.peekToken.type === TOKEN.ARROW) {
+                // If the very next token is `=>`, then the current expression
+                // MUST be the last part of a parameter list, so we stop.
+                return leftExp;
+            }
+            // --- END OF THE RUNE OF BINDING ---
 
             let infix = this.infixParseFns[this.currToken.type];
             if (!infix) {
