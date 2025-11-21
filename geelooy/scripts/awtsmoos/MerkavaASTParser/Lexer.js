@@ -334,44 +334,38 @@ nextToken() {
 	}
 
 // B"H
-//--- THE TRULY, ETERNALLY SANCTIFIED _readTemplatePart METHOD ---
+//--- THE UNBREAKABLE AND ETERNAL _readTemplatePart METHOD ---
 _readTemplatePart(initialType) {
     const p = this.position;
     while (this.ch !== null && this.ch !== '`') {
         this._guard();
 
         if (this.ch === '\\') {
-            this._advance(); // Consume the backslash
-            if ('\n\r'.includes(this.ch)) {
-                if (this.ch === '\r' && this._peek() === '\n') this._advance();
-                 this.line++;
-                 this.column = 0;
-            }
-            this._advance(); // Consume the escaped character
-            continue;        // THIS IS THE CRITICAL RESTORATION.
+            this._advance(); // Consume backslash
         }
-
-        if ('\n\r'.includes(this.ch)) {
-            if (this.ch === '\r' && this._peek() === '\n') this._advance();
-            this.line++;
-            this.column = 0;
-            this._advance();
-            continue;
-        }
-        
-        if (this.ch === '$' && this._peek() === '{') {
+        else if (this.ch === '$' && this._peek() === '{') {
             const literal = this.source.slice(p, this.position);
-            this._advance();
-            this._advance();
+            this._advance(); // Consume '$'
+            this._advance(); // Consume '{'
             this.templateStack.push(true);
             this.braceNestingLevel = 1;
             return this._makeToken(initialType, literal);
+        }
+        // Unlike strings, template literals CAN have newlines.
+        // We must update the line/column count.
+        else if (this.ch === '\n' || this.ch === '\r') {
+            this.line++;
+            this.column = 0;
+            if (this.ch === '\r' && this._peek() === '\n') {
+                this._advance(); // Handle CRLF
+            }
         }
         
         this._advance();
     }
 
     const literal = this.source.slice(p, this.position);
+
     if (this.ch === '`') {
         this.templateStack.pop();
         this._advance();
@@ -453,49 +447,33 @@ _readNumber() {
 }
 
 // B"H
-//--- THE ABSOLUTE, FINAL, AND ETERNALLY CORRECT _readString METHOD ---
-// Replace the old version in Lexer.js with this one.
-
+//--- THE UNBREAKABLE AND ETERNAL _readString METHOD ---
 _readString(quote) {
-    this._advance(); // consume opening quote
+    this._advance(); // Consume opening quote
     const p = this.position;
     while (this.ch !== quote && this.ch !== null) {
         this._guard();
         
-        const c = this.ch;
-
-        if (c === '\\') {
+        if (this.ch === '\\') {
             this._advance(); // Consume the backslash
-            // If the escaped character is a newline, we handle its specific line-ending sequence.
-            if (this.ch === '\r') {
-                this.line++;
-                this.column = 0;
-                if (this._peek() === '\n') {
-                    this._advance(); // Consume the \n in a \r\n sequence
-                }
-            } else if (this.ch === '\n') {
-                this.line++;
-                this.column = 0;
-            }
-            this._advance(); // Consume the character that was being escaped (e.g., the 'n' or the second '\')
-            continue; // This is essential. Start the next loop iteration immediately.
+        } 
+        // A standard string cannot contain a raw newline. If we see one,
+        // it signifies a syntax error (unterminated string). So we break.
+        else if (this.ch === '\n' || this.ch === '\r') {
+            break;
         }
 
-        // Handle unescaped newlines. This is technically an error in standard strings,
-        // but handling it gracefully prevents infinite loops.
-        if (c === '\r' || c === '\n') {
-            this.line++;
-            this.column = 0;
-            if (c === '\r' && this._peek() === '\n') {
-                this._advance(); // Consume the \n in a \r\n sequence
-            }
-        }
-        
         this._advance();
     }
+
     const s = this.source.slice(p, this.position);
-    if (this.ch !== quote) return this._makeToken(TOKEN.ILLEGAL, s); // Unterminated string
-    this._advance(); // consume closing quote
+
+    if (this.ch !== quote) {
+        // We broke because of a newline or EOF, so the string is unterminated.
+        return this._makeToken(TOKEN.ILLEGAL, s); 
+    }
+    
+    this._advance(); // Consume closing quote
     return this._makeToken(TOKEN.STRING, s);
 }
 
