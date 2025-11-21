@@ -205,19 +205,10 @@ nextToken() {
 
     switch (c) {
         case '{':
-            if (this.braceNestingLevel > 0) this.braceNestingLevel++;
             tok = this._makeToken(TOKEN.LBRACE, '{', startColumn);
             this._advance();
             return tok;
         case '}':
-            if (this.braceNestingLevel > 0) {
-                this.braceNestingLevel--;
-                if (this.braceNestingLevel === 0) {
-                    this.templateStack.pop();
-                    this._advance();
-                    return this._readTemplatePart('TEMPLATE_MIDDLE');
-                }
-            }
             tok = this._makeToken(TOKEN.RBRACE, '}', startColumn);
             this._advance();
             return tok;

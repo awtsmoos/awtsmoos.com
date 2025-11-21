@@ -944,10 +944,7 @@ proto._parseYieldExpression = function() {
 
 
 
-// B"H
-// In parser-expressions.js
 
-// --- REPLACEMENT for _parseTemplateLiteral ---
 proto._parseTemplateLiteral = function() {
     const startNodeInfo = this._startNode();
     const quasis = [];
@@ -967,18 +964,45 @@ proto._parseTemplateLiteral = function() {
         const value = { raw: this.currToken.literal, cooked: this.currToken.literal };
         quasis.push(this._finishNode({ type: 'TemplateElement', value: value, tail: isTail }, quasiStart));
         
-        this._advance();
+        this._advance(); // Consume the template part token
 
         if (!isTail) {
-            // --- THE FIX ---
-            // Set a flag to notify the expression parser of its special context.
-            this.parsingTemplateExpression = true;
+            // --- THE PARSER'S ASCENSION ---
+            // The parser now takes responsibility for finding the end of the expression.
+            let braceCount = 1; 
+            const expressionStartToken = this.currToken;
+
+            // We can't just call _parseExpression because it doesn't know when to stop.
+            // Instead, we create a temporary, isolated sub-parser to parse only this part.
+            const expressionTokens = [];
+            while(braceCount > 0 && !this._currTokenIs(TOKEN.EOF)) {
+                if (this._currTokenIs(TOKEN.LBRACE)) braceCount++;
+                if (this._currTokenIs(TOKEN.RBRACE)) braceCount--;
+                
+                // Only add the token if it's within the expression's boundary.
+                if (braceCount > 0) {
+                   expressionTokens.push(this.currToken);
+                   this._advance();
+                }
+            }
+
+            if (braceCount !== 0) {
+                this._error("Unmatched braces in template literal expression.");
+                return null;
+            }
+
+            // Create a new parser instance to parse ONLY the tokens we collected.
+            const tempSource = this.l.source.substring(expressionStartToken.startIndex, this.currToken.startIndex);
+            const tempParser = new MerkavahParser(tempSource);
+            tempParser.registerExpressionParsers(); // Register all parsing functions
+            tempParser.registerStatementParsers();
+            tempParser.registerDeclarationParsers();
             
-            expressions.push(this._parseExpression(PRECEDENCE.LOWEST));
+            const expressionAST = tempParser._parseExpression(PRECEDENCE.LOWEST);
+            expressions.push(expressionAST);
             
-            // Unset the flag immediately so it doesn't affect the rest of the parser.
-            this.parsingTemplateExpression = false;
-            // --- END OF THE FIX ---
+            // Now, we expect the closing '}' that we stopped at.
+            this._expect(TOKEN.RBRACE);
         }
     }
 
