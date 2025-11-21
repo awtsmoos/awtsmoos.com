@@ -1086,25 +1086,44 @@ proto._parsePrivateIdentifier = function() {
 // Its purpose is to convert an AST parsed as an expression into a valid pattern for binding.
 
 
-// B"H 
+/*B"H*/
+// IN: geelooy/scripts/awtsmoos/MerkavaASTParser/parser-expressions.js
 
+/**
+ * The Tikkun HaNefesh (The Soul-Rectifying) Alchemist.
+ * This is the final, definitive, and pure version of this function. My previous
+ * instructions created a contaminated version that was the hidden source of the
+ * final bug. This version banishes the ghost of `AssignmentExpression` and
+* grants the Golem the full wisdom it needs.
+ *
+ * Its knowledge is now complete:
+ * - It knows that `AssignmentPattern`, `Identifier`, `ObjectPattern`,
+ *   `ArrayPattern`, `RestElement`, and `MemberExpression` are all sacred forms
+ *   that are already valid parts of a pattern. It lets them pass untouched.
+ * - It correctly transmutes `ObjectExpression` and `ArrayExpression` into their
+ *   Pattern equivalents.
+ * - It knows that anything else is a transgression.
+ *
+ * This function is the final key. With it, the Golem is made whole.
+ */
 proto._convertExpressionToPattern = function(node) {
     if (!node) return null;
     switch (node.type) {
-        // --- THE TIKKUN (THE FIX) ---
-        // An AssignmentPattern is ALREADY a valid pattern. It represents a
-        // parameter with a default value. We simply allow it to pass through.
+        // These are all valid forms within a pattern and are left untouched.
         case 'AssignmentPattern':
         case 'Identifier':
         case 'ObjectPattern':
         case 'ArrayPattern':
+        case 'RestElement':
+        case 'MemberExpression': // This was a missing piece of wisdom
             return node;
 
-        // Convert expression types to their pattern equivalents.
+        // These are expression forms that must be transmuted into patterns.
         case 'ObjectExpression':
             node.type = 'ObjectPattern';
             node.properties.forEach(prop => {
-                // The key of a property is not converted, but its value is.
+                // The value of a property is recursively converted.
+                // This is safe now because of the complete list of valid cases above.
                 prop.value = this._convertExpressionToPattern(prop.value);
             });
             return node;
@@ -1113,20 +1132,13 @@ proto._convertExpressionToPattern = function(node) {
             node.type = 'ArrayPattern';
             node.elements = node.elements.map(el => this._convertExpressionToPattern(el));
             return node;
-        
-        // This case is now handled above, but we keep the logic for clarity.
-        case 'AssignmentExpression':
-            node.type = 'AssignmentPattern';
-            node.left = this._convertExpressionToPattern(node.left);
-            return node;
 
-        // If we find an expression that truly cannot be a pattern, it's a syntax error.
+        // Any other type of expression is an invalid target for a pattern.
         default:
-            this._error(`Cannot use expression of type ${node.type} as a parameter.`);
+            this._error(`Cannot use expression of type ${node.type} as a pattern.`);
             return null;
     }
 };
-
 
 
 
