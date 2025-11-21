@@ -582,7 +582,7 @@ proto._convertExpressionToPattern = function(node) {
 		const e = [];
 
 		// --- THE FORTRESS ---
-		// This loop is now fortified. If _parseObjectProperty fails and returns null,
+		// This loop is now fortified. If _roperty fails and returns null,
 		// we explicitly advance the token stream to prevent an infinite loop.
 		while (!this._currTokenIs(TOKEN.RBRACE) && !this._currTokenIs(TOKEN.EOF)) {
 			const prop = this._parseObjectProperty();
@@ -630,37 +630,40 @@ proto._convertExpressionToPattern = function(node) {
 	 */
 
 
+// B"H - In parser-expressions.js
+// REPLACE your current _parseObjectProperty function with this one.
+
 /**
- * The Seer's Method. It no longer makes blind assumptions.
- * It understands that the value of a property is not a simple thing,
- * but can be a universe of complexity, such as a full AssignmentExpression.
- * It wisely delegates the parsing of this value to the master expression
- * parser, allowing the sacred laws of precedence to unfold naturally.
- * This is the first step in preventing the Great Shattering.
+ * The Seer's Method. This is the rectified version.
+ * Its previous incarnation was too simple and could not see beyond a simple value.
+ * This version understands that an object property's value can be a complex universe
+ * of its own, such as a full AssignmentExpression. By calling `_parseExpression` with
+ * the low precedence of `ASSIGNMENT`, we grant it the vision to see `[] = []` as a
+ * single (though syntactically flawed) unit, which is the key to correctly
+ * identifying the source of the transgression.
  */
 proto._parseObjectProperty = function() {
     const s = this._startNode();
 
-    // Handle the SpreadElement (`...rest`) as a special, holy case.
+    // Handle SpreadElement (`...rest`) as a special case.
     if (this._currTokenIs(TOKEN.DOTDOTDOT)) {
         return this._parseSpreadElement();
     }
 
-    // A property can be a method, a getter, a setter, or a simple key-value.
-    // This logic must be robust, but for the specific Tikkun, the most
-    // important part is how it handles the 'value'.
+    // A property's key can be an identifier, string, or number.
     const key = (this.currToken.type === TOKEN.STRING || this.currToken.type === TOKEN.NUMBER)
         ? this._parseLiteral()
         : this._parseIdentifier();
     
     if (!key) return null;
 
-    // If it's a shorthand property like `{ data }`, the key IS the value.
+    // This handles shorthand properties like `{ data }`. If there is no colon,
+    // it's a shorthand property and we are done.
     if (!this._currTokenIs(TOKEN.COLON)) {
         return this._finishNode({ 
             type: 'Property', 
             key: key, 
-            value: key, // In shorthand, the value is the same identifier as the key.
+            value: key,
             kind: 'init', 
             method: false, 
             shorthand: true, 
@@ -668,15 +671,20 @@ proto._parseObjectProperty = function() {
         }, s);
     }
 
-    // It's a standard key-value pair. Consume the sacred separator ':'.
-    this._advance(); 
+    // If we are here, it's a standard key-value pair.
+    this._advance(); // Consume the ':'
 
-    // --- THIS IS THE CRUX OF THE RECTIFICATION ---
-    // We now parse the value as a full expression with the precedence of
-    // ASSIGNMENT. This gives the parser the vision to see `[...] = []`
-    // as a single, complete AssignmentExpression, rather than getting
-    // lost inside the brackets.
+    // --- THIS IS THE PRECISE, ESSENTIAL TIKKUN ---
+    // This line commands the parser to parse a complete expression as the value.
+    // By setting the precedence to `ASSIGNMENT`, it is capable of consuming
+    // operators like `=` as part of this value expression.
     const value = this._parseExpression(PRECEDENCE.ASSIGNMENT);
+    // --- END OF THE TIKKUN ---
+
+    if (!value) {
+        this._error("Expected a value after ':' in object property.");
+        return null;
+    }
 
     return this._finishNode({ 
         type: 'Property', 
