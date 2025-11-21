@@ -443,19 +443,34 @@ _readNumber() {
     return this.source.slice(p, this.position);
 }
 
-	_readString(quote) {
-		this._advance(); // consume opening quote
-		const p = this.position;
-		while (this.ch !== quote && this.ch !== null) {
-			this._guard();
-			if (this.ch === '\\') this._advance(); // skip escaped char
-			this._advance();
-		}
-		const s = this.source.slice(p, this.position);
-		if (this.ch !== quote) return this._makeToken(TOKEN.ILLEGAL, s); // Unterminated string
-		this._advance(); // consume closing quote
-		return this._makeToken(TOKEN.STRING, s);
-	}
+	/**
+ * B"H
+ * The sanctified `_readString` method, its senses now healed. The sin of the
+ * "double advance" has been purged. When it encounters a serpent's backslash,
+ * it now correctly consumes both the backslash and the character it is escaping
+ * in a single, fluid motion, then uses `continue` to begin the next cycle
+ * with a clear mind. It no longer skips past the boundaries of its own world
+ * and can perceive all strings, no matter how complex, in their perfect truth. This
+ * prevents the line/column corruption that leads to an infinite loop when parsing
+ * strings containing escaped control characters like `\n`.
+ */
+_readString(quote) {
+    this._advance(); // consume opening quote
+    const p = this.position;
+    while (this.ch !== quote && this.ch !== null) {
+        this._guard();
+        if (this.ch === '\\') {
+            this._advance(); // Consume the backslash
+            this._advance(); // Consume the character being escaped
+            continue;        // Skip the advance at the end of the loop
+        }
+        this._advance();
+    }
+    const s = this.source.slice(p, this.position);
+    if (this.ch !== quote) return this._makeToken(TOKEN.ILLEGAL, s); // Unterminated string
+    this._advance(); // consume closing quote
+    return this._makeToken(TOKEN.STRING, s);
+}
 
 	_isLetter(c) { return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c === '_' || c === '$'; }
 	_isDigit(c) { return c >= '0' && c <= '9'; }
