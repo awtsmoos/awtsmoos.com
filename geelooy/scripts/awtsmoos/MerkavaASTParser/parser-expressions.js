@@ -353,11 +353,14 @@ proto._parseRegExpLiteral = function() {
  * misinterpreted. The hijacking is prevented. The paradox is resolved. The
  * Golem is free.
  */
+// B"H
+// --- THE DEFINITIVE REPLACEMENT for _parseGroupedOrArrowExpression ---
+// This goes in parser-expressions.js
 proto._parseGroupedOrArrowExpression = function() {
     const s = this._startNode();
     this._expect(TOKEN.LPAREN);
 
-    if (this._currTokenIs(TOKEN.RPAREN)) {
+    if (this._currTokenIs(TOKEN.RPAREN)) { // Handles () for () => ...
         this._advance();
         if (!this._currTokenIs(TOKEN.ARROW)) {
             this._error("Unexpected empty parentheses in expression.");
@@ -368,23 +371,32 @@ proto._parseGroupedOrArrowExpression = function() {
 
     const exprList = [];
     do {
-        // --- THIS IS THE FINAL TIKKUN ---
+        // ======================== THE FIX ========================
+        // By using PRECEDENCE.ASSIGNMENT, we give this context enough authority
+        // to correctly parse `{ P = {} }` as a single, cohesive ObjectPattern
+        // before the main expression loop has a chance to misinterpret the '='.
         exprList.push(this._parseExpression(PRECEDENCE.ASSIGNMENT));
-        // --- END OF THE FINAL TIKKUN ---
+        // =========================================================
+
     } while (this._currTokenIs(TOKEN.COMMA) && (this._advance(), true));
 
     this._expect(TOKEN.RPAREN);
 
+    // After parsing, we resolve the ambiguity by looking for the arrow.
     if (this._currTokenIs(TOKEN.ARROW)) {
+        // It's an arrow function. Convert expressions to valid parameter patterns.
         const params = exprList.map(e => this._convertExpressionToPattern(e));
         return this._parseArrowFunctionExpression(s, params, false);
     }
 
+    // It was not an arrow function.
     if (exprList.length > 1) {
+        // It was a sequence expression, like (a, b, c).
         const seqNode = { type: 'SequenceExpression', expressions: exprList };
         const seqStart = { loc: { start: exprList[0].loc.start } };
         return this._finishNode(seqNode, seqStart);
     } else {
+        // It was a single grouped expression, like (a + b).
         return exprList[0];
     }
 };
