@@ -74,51 +74,71 @@ proto._parseDeclaration = function() {
 	***********************************************************************/
 // B"H 
 
+/*B"H*/
+// IN: geelooy/scripts/awtsmoos/MerkavaASTParser/parser-declarations.js
+
+/**
+ * The Final Tikkun of the Destructuring Soul.
+ * This function has been granted the wisdom to understand that the value of a
+ * destructured property can ITSELF have a default value. It no longer tries to
+ * parse the pattern and the default in two separate, conflicting steps.
+ * By replacing a call to `_parseBindingPattern` with `_parseBindingWithDefault`,
+ * we restore the sacred, atomic nature of an AssignmentPattern within an object,
+ * finally vanquishing the demon that froze the Keter and Chokmah tests.
+ */
 proto._parseProperty = function() {
     const s = this._startNode();
-    if (!this._currTokenIs(TOKEN.IDENT)) {
-        this._error("Expected identifier in object pattern property.");
-        return null;
-    }
-    const key = this._parseIdentifier();
+    
+    // This part remains correct: parse the key.
+    const key = this._currTokenIs(TOKEN.LBRACKET) 
+        ? this._parseComputedPropertyKey() // Assuming you have a helper for this
+        : this._parseIdentifier();
+    if (!key) return null;
+
     let value = key;
     let shorthand = true;
 
-    // Check for aliasing: { oldName: newName }
+    // Check for aliasing: { oldName: newName } or { oldName: [a,b] = [] }
     if (this._currTokenIs(TOKEN.COLON)) {
         shorthand = false;
         this._advance(); // consume ':'
-        value = this._parseBindingPattern(); // The value is another pattern
+
+        // --- THIS IS THE TIKKUN ---
+        // We were calling `_parseBindingPattern`, which only parses the pattern.
+        // We MUST call `_parseBindingWithDefault`, which correctly parses
+        // the pattern AND its optional default value (`= []`) as a single unit.
+        value = this._parseBindingWithDefault(); 
+        // --- END OF THE TIKKUN ---
     }
 
-    // --- THIS IS THE TIKKUN (THE FIX) ---
-    // Now, we check for a default value for this property.
-    if (this._currTokenIs(TOKEN.ASSIGN)) {
-        // If there's a default value, it must be an AssignmentPattern.
-        // The 'value' we've parsed so far becomes the 'left' side of the assignment.
+    // This handles shorthand properties with defaults, like `{ a = 1 }`.
+    // It must come AFTER the main check, only for shorthand properties.
+    if (shorthand && this._currTokenIs(TOKEN.ASSIGN)) {
         const assignStart = this._startNode();
         assignStart.loc.start = value.loc.start;
         this._advance(); // consume '='
-        
-        // Parse the expression for the default value (e.g., the async arrow function)
-        const right = this._parseExpression(PRECEDENCE.ASSIGNMENT); 
-        
-        // Wrap the property's value in an AssignmentPattern node.
-        value = this._finishNode({ type: 'AssignmentPattern', left: value, right: right }, assignStart);
-        
-        // A property with a default value can't be shorthand.
-        shorthand = false; 
+        const right = this._parseExpression(PRECEDENCE.ASSIGNMENT);
+        value = this._finishNode({ type: 'AssignmentPattern', left: value, right }, assignStart);
+        shorthand = false;
     }
 
     return this._finishNode({ 
         type: 'Property', 
         key: key, 
-        value: value, // The value can now be an Identifier, a Pattern, or an AssignmentPattern
+        value: value,
         kind: 'init', 
         method: false, 
         shorthand: shorthand, 
-        computed: false 
+        computed: (key.type !== 'Identifier') // A simplification
     }, s);
+};
+
+// Helper function assumed by the above, ensure you have it.
+proto._parseComputedPropertyKey = function() {
+    this._expect(TOKEN.LBRACKET);
+    const key = this._parseExpression(PRECEDENCE.LOWEST);
+    this._expect(TOKEN.RBRACKET);
+    return key;
 };
 
 	proto._parseObjectPattern = function() {
