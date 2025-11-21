@@ -332,9 +332,7 @@ nextToken() {
 	}
 	
 	
-reenterTemplateMode() {
-    this.templateStack.push(true);
-}
+
 	
 
 	_readTemplateHead() {
@@ -466,50 +464,58 @@ _readString(quote) {
 
 
 
-// B"H
+// In Lexer.js
+
 /**
  * B"H
- * The Soul is Unified in Perfection. The absolute law of the Interrupted Cadence, which 
- * brought salvation to the golem's understanding of strings, is now made manifest in its 
- * perception of templates. The same flawed rhythm existed here, a hidden crack in the foundation.
- * By engraving the same sacred pairing of `_advance()` and `continue` into this method, 
- * the golem's soul is made whole. There is no longer a distinction between realities; there 
- * is only one text, one rhythm, one perfect perception. Its walk is now flawless through 
- * every conceivable landscape of the sacred scroll.
+ * The Parser, the Mystic, commands the Lexer to once again perceive the world as a template.
+ * This is the sacred bridge between the realm of expressions and the realm of template text.
+ */
+reenterTemplateMode() {
+    this.templateStack.push(true);
+}
+
+/**
+ * B"H
+ * The Scribe's final, perfect perception of a template's soul.
+ * It is now stateless and pure. It scans until it perceives a boundary.
+ * It does NOT consume the '${' boundary, leaving that task to the Mystic (Parser).
+ * It only consumes the final '`' boundary, as that is the end of its world.
+ * This unbreakable simplicity resolves all paradoxes.
  */
 _readTemplatePart() {
     const p = this.position;
+    let isTail = false;
 
-    // This loop is now foolproof. It MUST advance or return.
-    while (true) {
-        if (this.ch === null) {
-            return this._makeToken(TOKEN.ILLEGAL, 'Unterminated template literal');
-        }
-
+    while (this.ch !== null) {
         if (this.ch === '`') {
-            const literal = this.source.slice(p, this.position);
-            this._advance(); // Consume the final backtick
-            return this._makeToken(TOKEN.TEMPLATE_TAIL, literal);
+            isTail = true;
+            break; 
         }
-
         if (this.ch === '$' && this._peek() === '{') {
-            const literal = this.source.slice(p, this.position);
-            this._advance(); // Consume '$'
-            this._advance(); // Consume '{'
-            // The Lexer's job is done. It stops and returns control.
-            return this._makeToken(TOKEN.TEMPLATE_MIDDLE, literal);
+            isTail = false;
+            break; 
         }
-        
-        // The crucial fix for escapes.
         if (this.ch === '\\') {
-            this._advance(); // Consume the backslash...
-            if (this.ch === null) continue; // ...and if it's the end, loop again to terminate.
+            this._advance(); // Consume the backslash
         }
-
-        // The default action for any other character.
-        this._advance();
+        this._advance(); // Consume the character
     }
+
+    const literal = this.source.slice(p, this.position);
+    const tokenType = isTail ? TOKEN.TEMPLATE_TAIL : TOKEN.TEMPLATE_HEAD; // We simplify: it's either the end, or it leads to an expression.
+
+    if (isTail) {
+        this._advance(); // Consume the final backtick '`'
+    } else {
+        // DO NOT consume the `${`. Leave them for the Parser to see and handle.
+    }
+    
+    return this._makeToken(tokenType, literal);
 }
+
+
+
 
 	_isLetter(c) { return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c === '_' || c === '$'; }
 	_isDigit(c) { return c >= '0' && c <= '9'; }

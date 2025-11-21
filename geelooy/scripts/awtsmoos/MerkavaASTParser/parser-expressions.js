@@ -945,47 +945,54 @@ proto._parseYieldExpression = function() {
 
 
 
+
+
 proto._parseTemplateLiteral = function() {
-    const startNodeInfo = this._startNode();
+    const s = this._startNode();
     const quasis = [];
     const expressions = [];
+    
+    // The first token is guaranteed to be TEMPLATE_HEAD or TEMPLATE_TAIL from the lexer.
+    // The loop continues as long as we haven't processed the final tail piece.
+    let done = false;
+    while (!done) {
+        const quasiStart = this._startNode();
+        const tokenType = this.currToken.type;
+        const isTail = tokenType === TOKEN.TEMPLATE_TAIL;
 
-    // The loop begins. The first token MUST be TEMPLATE_HEAD or TEMPLATE_TAIL.
-    while(this.currToken.type === TOKEN.TEMPLATE_HEAD || this.currToken.type === TOKEN.TEMPLATE_MIDDLE) {
-        const isTail = this.currToken.type === TOKEN.TEMPLATE_TAIL;
-        const value = { raw: this.currToken.literal, cooked: this.currToken.literal };
-        const quasi = this._finishNode({ type: 'TemplateElement', value: value, tail: isTail }, this._startNode());
-        quasis.push(quasi);
-        
-        this._advance(); // Consume the TEMPLATE_HEAD/MIDDLE token.
-        
-        // We now expect an expression.
-        expressions.push(this._parseExpression(PRECEDENCE.LOWEST));
-        
-        // After the expression, the closing '}' must be consumed.
-        if (!this._currTokenIs(TOKEN.RBRACE)) {
-            this._error("Expected '}' to close template expression.");
+        if (tokenType !== TOKEN.TEMPLATE_HEAD && tokenType !== TOKEN.TEMPLATE_MIDDLE && tokenType !== TOKEN.TEMPLATE_TAIL) {
+            this._error("Expected a template segment, but found " + tokenType);
             return null;
         }
-        this._advance(); // Consume '}'
+        
+        const value = { raw: this.currToken.literal, cooked: this.currToken.literal };
+        quasis.push(this._finishNode({ type: 'TemplateElement', value, tail: isTail }, quasiStart));
+        
+        if (isTail) {
+            done = true;
+            this._advance(); // Consume the final TAIL token.
+        } else {
+            // If not the tail, it was a HEAD or MIDDLE. The lexer has already
+            // consumed the `${` and positioned us at the start of the expression.
+            this._advance(); // Consume the HEAD/MIDDLE token itself.
 
-        // NOW, we command the lexer to re-enter template mode.
-        this.l.reenterTemplateMode();
-        this._advance(); // This advance WILL trigger nextToken, which WILL obey the command.
+            // Parse the expression.
+            expressions.push(this._parseExpression(PRECEDENCE.LOWEST));
+            
+            // The expression MUST be followed by a `}`. The lexer provides this normally.
+            if (!this._currTokenIs(TOKEN.RBRACE)) {
+                this._error("Expected '}' after template expression.");
+                return null;
+            }
+            this._advance(); // Consume `}`.
+            
+            // Command the lexer to switch back to template-parsing mode for the next token.
+            this.l.reenterTemplateMode();
+            this._advance(); // This triggers nextToken, which will now obey the command.
+        }
     }
 
-    // The loop has ended, which means we must be at the final TEMPLATE_TAIL.
-    if (!this._currTokenIs(TOKEN.TEMPLATE_TAIL)) {
-        this._error("Unexpected token in template literal; expected template tail.");
-        return null;
-    }
-    
-    const value = { raw: this.currToken.literal, cooked: this.currToken.literal };
-    const quasi = this._finishNode({ type: 'TemplateElement', value: value, tail: true }, this._startNode());
-    quasis.push(quasi);
-    this._advance(); // Consume the final TEMPLATE_TAIL token.
-
-    return this._finishNode({ type: 'TemplateLiteral', quasis, expressions }, startNodeInfo);
+    return this._finishNode({ type: 'TemplateLiteral', quasis, expressions }, s);
 };
 		
 		
