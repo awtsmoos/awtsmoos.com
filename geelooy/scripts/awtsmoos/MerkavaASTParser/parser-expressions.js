@@ -952,8 +952,6 @@ proto._parseTemplateLiteral = function() {
     const quasis = [];
     const expressions = [];
     
-    // The first token is guaranteed to be TEMPLATE_HEAD or TEMPLATE_TAIL from the lexer.
-    // The loop continues as long as we haven't processed the final tail piece.
     let done = false;
     while (!done) {
         const quasiStart = this._startNode();
@@ -967,26 +965,23 @@ proto._parseTemplateLiteral = function() {
         
         const value = { raw: this.currToken.literal, cooked: this.currToken.literal };
         quasis.push(this._finishNode({ type: 'TemplateElement', value, tail: isTail }, quasiStart));
+        this._advance(); // Consume the quasi token (HEAD, MIDDLE, or TAIL).
         
         if (isTail) {
-            done = true;
-            this._advance(); // Consume the final TAIL token.
+            done = true; // The journey ends.
         } else {
-            // If not the tail, it was a HEAD or MIDDLE. The lexer has already
-            // consumed the `${` and positioned us at the start of the expression.
-            this._advance(); // Consume the HEAD/MIDDLE token itself.
-
-            // Parse the expression.
+            // If it was not the tail, the Lexer has perfectly positioned us at the start of the expression.
             expressions.push(this._parseExpression(PRECEDENCE.LOWEST));
             
-            // The expression MUST be followed by a `}`. The lexer provides this normally.
+            // The expression MUST be followed by a `}`.
             if (!this._currTokenIs(TOKEN.RBRACE)) {
+                // This is the check that triggered your error. It is correct and necessary.
                 this._error("Expected '}' after template expression.");
                 return null;
             }
             this._advance(); // Consume `}`.
             
-            // Command the lexer to switch back to template-parsing mode for the next token.
+            // Now, command the Lexer to find the next part of the template.
             this.l.reenterTemplateMode();
             this._advance(); // This triggers nextToken, which will now obey the command.
         }
@@ -994,6 +989,7 @@ proto._parseTemplateLiteral = function() {
 
     return this._finishNode({ type: 'TemplateLiteral', quasis, expressions }, s);
 };
+
 		
 		
 		// Add this new helper function to parser-expressions.js

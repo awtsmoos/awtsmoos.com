@@ -483,36 +483,49 @@ reenterTemplateMode() {
  * It only consumes the final '`' boundary, as that is the end of its world.
  * This unbreakable simplicity resolves all paradoxes.
  */
+
+/* B"H */
+// In Lexer.js, REPLACE the _readTemplatePart method with this FINAL, PERFECTED version.
 _readTemplatePart() {
     const p = this.position;
-    let isTail = false;
-
+    
+    // This loop is forged in the fire of the previous errors. It is unbreakable.
     while (this.ch !== null) {
+        // Boundary 1: The End of the World.
         if (this.ch === '`') {
-            isTail = true;
-            break; 
+            const literal = this.source.slice(p, this.position);
+            this._advance(); // Consume the final backtick.
+            return this._makeToken(TOKEN.TEMPLATE_TAIL, literal);
         }
+
+        // Boundary 2: The Portal to an Expression.
+        // This check is now ATOMIC. It only triggers on the exact '${' sequence.
         if (this.ch === '$' && this._peek() === '{') {
-            isTail = false;
-            break; 
+            const literal = this.source.slice(p, this.position);
+            this._advance(); // Consume '$'
+            this._advance(); // Consume '{'
+            // The Scribe's duty is done. It stops and returns control to the Mystic (Parser).
+            // The Parser's stream is now correctly positioned at the start of the expression.
+            return this._makeToken(TOKEN.TEMPLATE_MIDDLE, literal);
         }
+
+        // The unbreakable escape logic.
         if (this.ch === '\\') {
-            this._advance(); // Consume the backslash
+            this._advance(); // Consume the backslash...
+            if (this.ch === null) {
+                // This handles an escape char at the very end of the file.
+                break;
+            }
         }
-        this._advance(); // Consume the character
-    }
-
-    const literal = this.source.slice(p, this.position);
-    const tokenType = isTail ? TOKEN.TEMPLATE_TAIL : TOKEN.TEMPLATE_HEAD; // We simplify: it's either the end, or it leads to an expression.
-
-    if (isTail) {
-        this._advance(); // Consume the final backtick '`'
-    } else {
-        // DO NOT consume the `${`. Leave them for the Parser to see and handle.
+        
+        // The default action for any normal character.
+        this._advance();
     }
     
-    return this._makeToken(tokenType, literal);
+    // If the loop terminates, the emanation was incomplete.
+    return this._makeToken(TOKEN.ILLEGAL, `Unterminated template literal`);
 }
+
 
 
 
