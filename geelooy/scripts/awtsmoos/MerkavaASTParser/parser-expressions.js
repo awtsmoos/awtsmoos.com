@@ -480,50 +480,70 @@ proto._parseAssignmentExpression = function(left) {
 };
 
 
-// B"H - In parser-expressions.js
-// ADD THIS NEW, CRITICAL HELPER FUNCTION.
+/**
+ * B"H
+ * A specialized helper to transmute a single Expression Property
+ * into a valid Pattern Property. Its sole job is to recursively call the main
+ * alchemist on the `value` part of a property, ensuring that nested structures
+ * like `{ config: { retries = 3 } }` are fully and correctly transmuted at
+ * every level.
+ */
+proto._convertPropertyToPatternProperty = function(prop) {
+    // A SpreadElement in an object is already a valid RestElement in a pattern.
+    if (prop.type === 'SpreadElement') {
+        prop.type = 'RestElement';
+        return prop;
+    }
+
+    // The key of the property remains the same, but its value must be transmuted.
+    prop.value = this._convertExpressionToPattern(prop.value);
+    return prop;
+};
+
 
 /**
- * The Lens of Truth. A new, sacred helper method.
- * This is the alchemical engine of the Tikkun. It takes an AST node
- * born as an Expression and reveals its hidden soul as a Pattern. It
- * recursively transmutes ObjectExpressions into ObjectPatterns and
- * ArrayExpressions into ArrayPatterns, preparing them for the holy
- * act of destructuring. If it gazes upon a form that cannot be
- * transmuted (like a number), it signals a transgression.
+ * B"H
+ * The Tikkun HaNefesh (The Soul-Rectifying) Alchemist.
+ * This is the final, definitive, and pure version of this function. It grants
+ * the Golem the full wisdom to transmute an AST node born as an Expression
+ * into its hidden soul as a Pattern.
+ *
+ * Its knowledge is now complete:
+ * - It knows that certain nodes (Identifier, Pattern, etc.) are already pure.
+ * - It correctly transmutes ObjectExpression and ArrayExpression into their
+ *   Pattern equivalents, AND THEN, critically, it recursively calls a new,
+ *   specialized helper (`_convertPropertyToPatternProperty`) to purify each
+ *   individual property within. This is the fix.
  */
 proto._convertExpressionToPattern = function(node) {
     if (!node) return null;
     switch (node.type) {
-        // These forms are already pure and need no conversion.
+        // These are all valid forms within a pattern and are left untouched.
+        case 'AssignmentPattern':
         case 'Identifier':
         case 'ObjectPattern':
         case 'ArrayPattern':
         case 'RestElement':
+        case 'MemberExpression':
             return node;
 
-        // An ObjectExpression in this context is revealed to be an ObjectPattern.
+        // These are expression forms that must be transmuted into patterns.
         case 'ObjectExpression':
             node.type = 'ObjectPattern';
-            node.properties.forEach(prop => {
-                // Recursively reveal the true nature of each property's value.
-                prop.value = this._convertExpressionToPattern(prop.value);
-            });
+            // CRITICAL FIX: We must also convert its properties.
+            for (let i = 0; i < node.properties.length; i++) {
+                node.properties[i] = this._convertPropertyToPatternProperty(node.properties[i]);
+            }
             return node;
 
-        // An ArrayExpression is revealed to be an ArrayPattern.
         case 'ArrayExpression':
             node.type = 'ArrayPattern';
             node.elements = node.elements.map(el => this._convertExpressionToPattern(el));
             return node;
-        
-        // A MemberExpression (e.g., `this.a`) is a valid assignment target.
-        case 'MemberExpression':
-            return node;
 
-        // Any other form is profane in this context and shatters the vessel.
+        // Any other type of expression is an invalid target for a pattern.
         default:
-            this._error(`Cannot assign to an expression of type ${node.type}.`);
+            this._error(`Cannot use expression of type ${node.type} as a pattern.`);
             return null;
     }
 };
