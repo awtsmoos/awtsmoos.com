@@ -947,49 +947,52 @@ proto._parseYieldExpression = function() {
 
 
 
+/* B"H */
 proto._parseTemplateLiteral = function() {
     const s = this._startNode();
     const quasis = [];
     const expressions = [];
-    
-    let done = false;
-    while (!done) {
-        const quasiStart = this._startNode();
-        const tokenType = this.currToken.type;
-        const isTail = tokenType === TOKEN.TEMPLATE_TAIL;
 
-        if (tokenType !== TOKEN.TEMPLATE_HEAD && tokenType !== TOKEN.TEMPLATE_MIDDLE && tokenType !== TOKEN.TEMPLATE_TAIL) {
-            this._error("Expected a template segment, but found " + tokenType);
-            return null;
-        }
-        
-        const value = { raw: this.currToken.literal, cooked: this.currToken.literal };
-        quasis.push(this._finishNode({ type: 'TemplateElement', value, tail: isTail }, quasiStart));
-        this._advance(); // Consume the quasi token (HEAD, MIDDLE, or TAIL).
-        
-        if (isTail) {
-            done = true; // The journey ends.
-        } else {
-            // If it was not the tail, the Lexer has perfectly positioned us at the start of the expression.
-            expressions.push(this._parseExpression(PRECEDENCE.LOWEST));
-            
-            // The expression MUST be followed by a `}`.
-            if (!this._currTokenIs(TOKEN.RBRACE)) {
-                // This is the check that triggered your error. It is correct and necessary.
-                this._error("Expected '}' after template expression.");
-                return null;
-            }
-            this._advance(); // Consume `}`.
-            
-            // Now, command the Lexer to find the next part of the template.
-            this.l.reenterTemplateMode();
-            this._advance(); // This triggers nextToken, which will now obey the command.
-        }
+    // The "smart" lexer gives us the first part of the template.
+    // It's a TEMPLATE_HEAD if an expression follows, or a TAIL if not.
+    let type = this.currToken.type;
+    let literal = this.currToken.literal;
+    quasis.push(this._finishNode({ type: 'TemplateElement', value: { raw: literal, cooked: literal }, tail: (type === TOKEN.TEMPLATE_TAIL) }, this._startNode()));
+    this._advance();
+
+    // As long as the last part wasn't the tail, we parse an expression.
+    while (type !== TOKEN.TEMPLATE_TAIL) {
+        expressions.push(this._parseExpression(PRECEDENCE.LOWEST));
+
+        // The smart lexer, after the expression's '}', will automatically give us the next template part.
+        type = this.currToken.type;
+        literal = this.currToken.literal;
+        quasis.push(this._finishNode({ type: 'TemplateElement', value: { raw: literal, cooked: literal }, tail: (type === TOKEN.TEMPLATE_TAIL) }, this._startNode()));
+        this._advance();
     }
 
     return this._finishNode({ type: 'TemplateLiteral', quasis, expressions }, s);
 };
 
+
+// This is the TRUE fix for the original freeze. It is not recursive.
+
+proto._parseTaggedTemplateExpression = function(tag) {
+    const s = this._startNode();
+    s.loc.start = tag.loc.start;
+
+    // A tagged template MUST be followed by a template literal.
+    // We can simply call our now-working `_parseTemplateLiteral` function.
+    // The previous error was caused by a feedback loop between this function
+    // and a flawed template parser. With both now corrected, this is safe.
+    const quasi = this._parseTemplateLiteral();
+    
+    return this._finishNode({
+        type: 'TaggedTemplateExpression',
+        tag: tag,
+        quasi: quasi
+    }, s);
+};
 		
 		
 		// Add this new helper function to parser-expressions.js
@@ -1102,54 +1105,7 @@ proto._parseImportExpression = function() {
 
 
 
-// B"H
-// 
 
-/* B"H */
-// In parser-expressions.js, REPLACE _parseTaggedTemplateExpression with this.
-// This is the Tikkun that seals the recursive black hole.
-proto._parseTaggedTemplateExpression = function(tag) { // 'tag' is the expression on the left
-    const s = this._startNode();
-    s.loc.start = tag.loc.start;
-
-    // We know the current token MUST be a template head or tail.
-    // Instead of calling another parsing function, we consume it directly.
-    // This breaks the recursive loop.
-    if (this.currToken.type !== TOKEN.TEMPLATE_HEAD && this.currToken.type !== TOKEN.TEMPLATE_TAIL) {
-        this._error("Expected a template literal after tagged template identifier.");
-        return null;
-    }
-    
-    // We construct the `quasi` (the template literal part) manually by
-    // re-using the logic from _parseTemplateLiteral, but without calling it directly.
-    const quasis = [];
-    const expressions = [];
-    let done = false;
-
-    while(!done) {
-        const quasiStart = this._startNode();
-        const isTail = this.currToken.type === TOKEN.TEMPLATE_TAIL;
-        const value = { raw: this.currToken.literal, cooked: this.currToken.literal };
-        quasis.push(this._finishNode({ type: 'TemplateElement', value, tail: isTail }, quasiStart));
-        
-        this._advance(); // Consume the template part.
-
-        if (isTail) {
-            done = true;
-        } else {
-            expressions.push(this._parseExpression(PRECEDENCE.LOWEST));
-            // The smart lexer gives us the next quasi directly after the expression.
-        }
-    }
-    
-    const quasi = this._finishNode({ type: 'TemplateLiteral', quasis, expressions }, s);
-
-    return this._finishNode({
-        type: 'TaggedTemplateExpression',
-        tag: tag,
-        quasi: quasi
-    }, s);
-};
 // B"H
 // --- The Illumination: A new helper function to reveal the true nature of a pattern ---
 
