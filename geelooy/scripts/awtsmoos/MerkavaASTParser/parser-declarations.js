@@ -136,9 +136,7 @@ proto._parseProperty = function() {
 		return this._finishNode({ type: 'ObjectPattern', properties }, s);
 	};
 
-	// B"H in /Remember/MetkavaASTParser/parser-declarations.js
-
-// --- REPLACE your old _parseArrayPattern with this new, correct version ---
+	//B"H
 proto._parseArrayPattern = function() {
     const s = this._startNode();
     this._expect(TOKEN.LBRACKET);
@@ -307,115 +305,120 @@ proto._parseClassDeclaration = function() {
     return this._finishNode({ type: 'ClassDeclaration', id, superClass, body }, s);
 };
 
-	// REPLACE your old _parseClassBody with this one
+// REPLACE your old _parseClassBody with this one
 proto._parseClassBody = function() {
     const s = this._startNode();
     this._expect(TOKEN.LBRACE);
     const body = [];
+
+    // This loop now correctly handles any failure from its child parser.
     while (!this._currTokenIs(TOKEN.RBRACE) && !this._currTokenIs(TOKEN.EOF)) {
-        // Use our new, more powerful function here
         const element = this._parseClassElement();
         if (element) {
             body.push(element);
         } else {
-             this._error("Invalid syntax in class body");
-             this._advance(); // Prevent infinite loop
+             // This is a crucial fallback. If _parseClassElement fails for any reason,
+             // we advance past the token to prevent a freeze, and try to continue.
+             this._error("Invalid or unexpected token in class body.");
+             this._advance();
         }
     }
+
+    // --- THE TIKKUN OF THE UNSEALED TEMPLE ---
+    // This line was the source of your second error. It must be here to
+    // consume the final '}' and complete the parsing of the class body.
     this._expect(TOKEN.RBRACE);
+    
     return this._finishNode({ type: 'ClassBody', body }, s);
 };
-	
-	
-	
-	
-
-// B"H 
 
 
-
-
-// B"H in /Remember/MetkavaASTParser/parser-declarations.js
-
-// REPLACE the entire old _parseClassElement function with this definitive, final version.
+/**
+ * B"H
+ * The Tikkun HaGadol (The Great Rectification) of the Class Element.
+ * This is the final removal of the Demon of Infinite Stuttering.
+ * Its flawed, predictive logic is replaced with patient, divine observation.
+ * 1. It gathers all modifiers (`static`, `async`, `*`).
+ * 2. It handles the unique case of a `static {}` block.
+ * 3. It TENTATIVELY identifies if the current token is `get` or `set`. It does not commit.
+ * 4. It parses the property's name or key.
+ * 5. THE MOMENT OF TRUTH: It looks at the NEXT token.
+ *    - If `(`, it is a METHOD. Its name being "get" is irrelevant.
+ *    - If not `(`, THEN AND ONLY THEN can it be a true getter/setter or a property field.
+ * This unbreakable, sequential logic path makes ambiguity impossible. The freeze is annihilated.
+ */
 proto._parseClassElement = function() {
     const s = this._startNode();
     let isStatic = false, isAsync = false, isGenerator = false, kind = 'method', computed = false;
 
-    // This loop correctly gathers all modifiers.
-    while (true) {
-        if (this.currToken.type === TOKEN.IDENT && this.currToken.literal === 'static') {
-            isStatic = true;
-            this._advance();
-            continue;
-        }
-        if (this.currToken.type === TOKEN.ASYNC) {
-            isAsync = true;
-            this._advance();
-            continue;
-        }
-        if (this._currTokenIs(TOKEN.ASTERISK)) {
-            isGenerator = true;
-            this._advance();
-            continue;
-        }
-        const isGetter = this.currToken.type === TOKEN.IDENT && this.currToken.literal === 'get';
-        const isSetter = this.currToken.type === TOKEN.IDENT && this.currToken.literal === 'set';
-        if (isGetter || isSetter) {
-            kind = isGetter ? 'get' : 'set';
-            this._advance();
-            continue;
-        }
-        break;
+    // Phase 1: Gather all modifiers.
+    if (this.currToken.type === TOKEN.IDENT && this.currToken.literal === 'static') {
+        isStatic = true;
+        this._advance();
+    }
+    if (this.currToken.type === TOKEN.ASYNC) {
+        isAsync = true;
+        this._advance();
+    }
+    if (this._currTokenIs(TOKEN.ASTERISK)) {
+        isGenerator = true;
+        this._advance();
     }
 
-    // --- THIS IS THE TIKKUN (THE FIX) ---
-    // After collecting modifiers, we check for a static initialization block.
-    // This is the ONLY place a `{` is allowed without a method name.
+    // Phase 2: Handle the special 'static {}' block.
     if (isStatic && this._currTokenIs(TOKEN.LBRACE)) {
         const body = this._parseBlockStatement();
-        // ESTree spec defines this node type as 'StaticBlock'.
         return this._finishNode({ type: 'StaticBlock', body }, s);
     }
+
+    // Phase 3: Tentatively identify get/set WITHOUT advancing.
+    const isGetOrSetKeyword = this.currToken.type === TOKEN.IDENT && (this.currToken.literal === 'get' || this.currToken.literal === 'set');
     
-    // If it wasn't a static block, parsing continues as before.
+    // Check if what follows the 'get'/'set' keyword is NOT a '('. If it's not, it's a real accessor.
+    if (isGetOrSetKeyword && !this._peekTokenIs(TOKEN.LPAREN)) {
+        kind = this.currToken.literal;
+        this._advance(); // Now we can safely consume 'get' or 'set'.
+    }
+
+    // Phase 4: Parse the key (property name).
     let key;
     if (this._currTokenIs(TOKEN.LBRACKET)) {
         computed = true;
         this._advance();
         key = this._parseExpression(PRECEDENCE.LOWEST);
         this._expect(TOKEN.RBRACKET);
-    } else if (this._currTokenIs(TOKEN.PRIVATE_IDENT)) {
-        key = this._parsePrivateIdentifier();
     } else {
-        key = this._parseIdentifier();
+        key = this._currTokenIs(TOKEN.PRIVATE_IDENT) 
+            ? this._parsePrivateIdentifier() 
+            : this._parseIdentifier();
     }
     if (!key) return null;
 
-    // Distinguish between a class field and a method.
-    if (!this._currTokenIs(TOKEN.LPAREN)) {
-        let value = null;
-        if (this._currTokenIs(TOKEN.ASSIGN)) {
-            this._advance();
-            value = this._parseExpression(PRECEDENCE.ASSIGNMENT);
+    // Phase 5: The Great Decision Point.
+    if (this._currTokenIs(TOKEN.LPAREN)) {
+        // It IS a method. The 'kind' defaults to 'method' unless the name is 'constructor'.
+        if (key.name === 'constructor') {
+            kind = 'constructor';
         }
-        this._consumeSemicolon();
-        return this._finishNode({ type: 'PropertyDefinition', key, value, static: isStatic, computed }, s);
+        
+        const params = this._parseParametersList();
+        const body = this._parseBlockStatement();
+        if (!body) return null;
+
+        const value = { type: 'FunctionExpression', id: null, params, body, async: isAsync, generator: isGenerator };
+        return this._finishNode({ type: 'MethodDefinition', key, value, kind, static: isStatic, computed }, s);
     }
 
-    // It is a MethodDefinition.
-    if (key.name === 'constructor' && kind !== 'get' && kind !== 'set') {
-        kind = 'constructor';
+    // If it's not a method, it must be a property field. The 'kind' must be 'get'/'set' or 'method' (for a field).
+    // The ESTree spec for fields uses MethodDefinition with a special `kind` of 'method'. We will use PropertyDefinition.
+    let value = null;
+    if (this._currTokenIs(TOKEN.ASSIGN)) {
+        this._advance();
+        value = this._parseExpression(PRECEDENCE.ASSIGNMENT);
     }
-    const params = this._parseParametersList();
-    const body = this._parseBlockStatement();
-    if (!body) return null;
-
-    const func = { type: 'FunctionExpression', id: null, params, body, async: isAsync, generator: isGenerator };
-
-    return this._finishNode({ type: 'MethodDefinition', key, value: func, kind, static: isStatic, computed }, s);
+    this._consumeSemicolon();
+    return this._finishNode({ type: 'PropertyDefinition', key, value, static: isStatic, computed }, s);
 };
-
 
 
 
