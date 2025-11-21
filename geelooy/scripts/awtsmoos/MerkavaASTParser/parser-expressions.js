@@ -77,10 +77,8 @@ proto.registerExpressionParsers = function() {
 	
 
 
-// B"H
-// In parser-core.js (or wherever _parseExpression is defined)
+/* B"H */
 
-// --- REPLACEMENT for _parseExpression ---
 proto._parseExpression = function(precedence) {
     this.recursionDepth++;
     if (this.recursionDepth > this.maxRecursionDepth) {
@@ -96,6 +94,16 @@ proto._parseExpression = function(precedence) {
         let leftExp = prefix.call(this);
 
         while (precedence < this._getPrecedence(this.currToken)) {
+            // --- THIS IS THE TIKKUN HA'GADOL (THE GREAT RECTIFICATION) ---
+            // This guard is the rune of binding that halts the infinite loop.
+            // It gives the parser the awareness that if it is inside a template's expression,
+            // the beginning of the next template part is a BOUNDARY, not an operator.
+            if (this.parsingTemplateExpression && 
+               (this.currToken.type === TOKEN.TEMPLATE_MIDDLE || this.currToken.type === TOKEN.TEMPLATE_TAIL)) {
+                return leftExp;
+            }
+            // --- END OF THE RECTIFICATION ---
+
             let infix = this.infixParseFns[this.currToken.type];
             if (!infix) {
                 return leftExp;
@@ -938,14 +946,9 @@ proto._parseYieldExpression = function() {
 };
 
 
-// --- THIS IS THE TIKKUN (PART 3) ---
-// REPLACE your _parseTemplateLiteral and _parseTaggedTemplateExpression with these two functions.
+/* B"H */
+// IN: geelooy/scripts/awtsmoos/MerkavaASTParser/parser-expressions.js
 
-/**
- * B"H
- * Parses an untagged template literal (e.g., `hello ${name}`).
- * This is a PREFIX function, called when the parser sees the start of a template.
- */
 proto._parseTemplateLiteral = function() {
     const s = this._startNode();
     const quasis = [];
@@ -965,12 +968,17 @@ proto._parseTemplateLiteral = function() {
         this._advance();
 
         if (!done) {
+            // --- SETTING THE CONSCIOUSNESS ---
+            this.parsingTemplateExpression = true;
             expressions.push(this._parseExpression(PRECEDENCE.LOWEST));
+            this.parsingTemplateExpression = false;
+            // --- CONSCIOUSNESS RESTORED ---
         }
     }
 
     return this._finishNode({ type: 'TemplateLiteral', quasis, expressions }, s);
 };
+
 
 /**
  * B"H
