@@ -381,6 +381,7 @@ proto._parseRegExpLiteral = function() {
  * 4.  If an arrow IS found, it proceeds to the "alchemist" (`_convertExpressionToPattern`)
  *     as before, which now receives a correctly structured input to work with.
  */
+// B"H
 proto._parseGroupedOrArrowExpression = function() {
     const s = this._startNode();
     this._expect(TOKEN.LPAREN);
@@ -396,21 +397,23 @@ proto._parseGroupedOrArrowExpression = function() {
 
     const exprList = [];
     do {
-        exprList.push(this._parseExpression(PRECEDENCE.ASSIGNMENT));
+        // --- THE FINAL FIX ---
+        // The precedence is lowered to SEQUENCE (1). This is low enough to allow the
+        // main expression loop to see an '=' token (precedence 2) as a valid
+        // infix operator, allowing it to parse the full `(...) = {...}` structure
+        // as a single AssignmentExpression. This fixes the "Expected )" error.
+        exprList.push(this._parseExpression(PRECEDENCE.SEQUENCE));
     } while (this._currTokenIs(TOKEN.COMMA) && (this._advance(), true));
 
     this._expect(TOKEN.RPAREN);
 
     if (this._currTokenIs(TOKEN.ARROW)) {
-        // It IS an arrow function. The lenient parse was correct.
-        // Now we transmute the temporarily-created structure into a valid pattern.
+        // It's an arrow function. Convert the leniently parsed expression to a pattern.
         const params = exprList.map(e => this._convertExpressionToPattern(e));
         return this._parseArrowFunctionExpression(s, params, false);
     }
 
-    // --- THE STRICT VALIDATION STEP ---
-    // It was NOT an arrow function. We must now validate the expression(s)
-    // to ensure they do not contain pattern-only syntax we leniently allowed.
+    // It was a grouped expression. Now, validate it strictly.
     exprList.forEach(expr => this._validateExpression(expr));
 
     if (exprList.length > 1) {
