@@ -157,7 +157,7 @@ proto._parseProperty = function() {
         // We now call the correct, specialist function that you already have.
         // This function knows how to handle a pattern that might have a default value.
         value = this._parseBindingWithDefault(); 
-        // --- END OF FIX ---
+        
     }
 
     // This part handles shorthand properties with default values like `{ a = 1 }`.
