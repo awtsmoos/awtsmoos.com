@@ -27,8 +27,11 @@ proto.registerExpressionParsers = function() {
     p[TOKEN.LPAREN] = this._parseGroupedOrArrowExpression,
     p[TOKEN.LBRACE] = this._parseObjectLiteral,
     p[TOKEN.LBRACKET] = this._parseArrayLiteral,
-    p['`'] = this._parseTemplateLiteral;
     
+    // --- THIS IS THE TIKKUN (PART 1) ---
+    // Correctly register the prefix handler for template literals.
+    p[TOKEN.TEMPLATE_HEAD] = p[TOKEN.TEMPLATE_TAIL] = this._parseTemplateLiteral,
+
     p[TOKEN.NEW] = this._parseNewExpression,
     p[TOKEN.FUNCTION] = this._parseFunctionExpression,
     p[TOKEN.CLASS] = this._parseClassExpression;
@@ -39,7 +42,10 @@ proto.registerExpressionParsers = function() {
         
     const binary = l => this._parseBinaryExpression(l);
     
+    // --- THIS IS THE TIKKUN (PART 2) ---
+    // Register the infix handler for tagged templates.
     i[TOKEN.TEMPLATE_HEAD] = i[TOKEN.TEMPLATE_TAIL] = this._parseTaggedTemplateExpression;
+
     // Register all binary operators, including the new bitwise and shift ones
     i[TOKEN.PLUS] = i[TOKEN.MINUS] = i[TOKEN.SLASH] = i[TOKEN.ASTERISK] = i[TOKEN.MODULO] = binary; 
     i[TOKEN.EQ] = i[TOKEN.NOT_EQ] = i[TOKEN.EQ_STRICT] = i[TOKEN.NOT_EQ_STRICT] = binary; 
@@ -49,12 +55,9 @@ proto.registerExpressionParsers = function() {
     i[TOKEN.BITWISE_AND] = i[TOKEN.BITWISE_OR] = i[TOKEN.BITWISE_XOR] = binary;
     i[TOKEN.LEFT_SHIFT] = i[TOKEN.RIGHT_SHIFT] = i[TOKEN.UNSIGNED_RIGHT_SHIFT] = binary;
 
-    // --- THIS IS THE TIKKUN (THE FIX) ---
-    // The new LOGICAL_OR_ASSIGN and LOGICAL_AND_ASSIGN tokens have been added to this list.
-    // Now, the parser will correctly use the _parseAssignmentExpression function for them.
     i[TOKEN.ASSIGN] = i[TOKEN.PLUS_ASSIGN] = i[TOKEN.MINUS_ASSIGN] = i[TOKEN.ASTERISK_ASSIGN] = 
     i[TOKEN.SLASH_ASSIGN] = i[TOKEN.EXPONENT_ASSIGN] = i[TOKEN.MODULO_ASSIGN] = i[TOKEN.NULLISH_ASSIGN] =
-    i[TOKEN.LOGICAL_OR_ASSIGN] = i[TOKEN.LOGICAL_AND_ASSIGN] = // <-- ADDED HERE
+    i[TOKEN.LOGICAL_OR_ASSIGN] = i[TOKEN.LOGICAL_AND_ASSIGN] = 
     i[TOKEN.BITWISE_AND_ASSIGN] = i[TOKEN.BITWISE_OR_ASSIGN] = i[TOKEN.BITWISE_XOR_ASSIGN] = 
     i[TOKEN.LEFT_SHIFT_ASSIGN] = i[TOKEN.RIGHT_SHIFT_ASSIGN] = i[TOKEN.UNSIGNED_RIGHT_SHIFT_ASSIGN] = 
     l => this._parseAssignmentExpression(l); 
@@ -93,15 +96,6 @@ proto._parseExpression = function(precedence) {
         let leftExp = prefix.call(this);
 
         while (precedence < this._getPrecedence(this.currToken)) {
-            // --- THE FIX ---
-            // If we are inside a template literal, and the next token is the start
-            // of another template part, it is NOT an infix operator. We must stop.
-            if (this.parsingTemplateExpression && 
-               (this.currToken.type === TOKEN.TEMPLATE_MIDDLE || this.currToken.type === TOKEN.TEMPLATE_TAIL)) {
-                return leftExp;
-            }
-            // --- END OF THE FIX ---
-
             let infix = this.infixParseFns[this.currToken.type];
             if (!infix) {
                 return leftExp;
@@ -944,48 +938,73 @@ proto._parseYieldExpression = function() {
 };
 
 
+// --- THIS IS THE TIKKUN (PART 3) ---
+// REPLACE your _parseTemplateLiteral and _parseTaggedTemplateExpression with these two functions.
 
-
-
-
-/* B"H */
-// In parser-expressions.js, REPLACE _parseTemplateLiteral with this simple, trusting version.
+/**
+ * B"H
+ * Parses an untagged template literal (e.g., `hello ${name}`).
+ * This is a PREFIX function, called when the parser sees the start of a template.
+ */
 proto._parseTemplateLiteral = function() {
     const s = this._startNode();
     const quasis = [];
     const expressions = [];
+    let done = false;
 
-    // The "smart" lexer gives us the first part. It's a HEAD if an expression follows, or a TAIL if not.
-    let type = this.currToken.type;
-    let literal = this.currToken.literal;
-    quasis.push(this._finishNode({ type: 'TemplateElement', value: { raw: literal, cooked: literal }, tail: (type === TOKEN.TEMPLATE_TAIL) }, this._startNode()));
-    this._advance();
+    while (!done) {
+        const type = this.currToken.type;
+        const literal = this.currToken.literal;
+        done = (type === TOKEN.TEMPLATE_TAIL);
 
-    // Loop as long as the lexer tells us there are more expressions.
-    while (type !== TOKEN.TEMPLATE_TAIL) {
-        expressions.push(this._parseExpression(PRECEDENCE.LOWEST));
-
-        // After parsing the expression, the "smart" lexer automatically gives us the next template part.
-        type = this.currToken.type;
-        literal = this.currToken.literal;
-        quasis.push(this._finishNode({ type: 'TemplateElement', value: { raw: literal, cooked: literal }, tail: (type === TOKEN.TEMPLATE_TAIL) }, this._startNode()));
+        quasis.push(this._finishNode({
+            type: 'TemplateElement',
+            value: { raw: literal, cooked: literal },
+            tail: done
+        }, this._startNode()));
         this._advance();
+
+        if (!done) {
+            expressions.push(this._parseExpression(PRECEDENCE.LOWEST));
+        }
     }
 
     return this._finishNode({ type: 'TemplateLiteral', quasis, expressions }, s);
 };
 
-// In parser-expressions.js, ALSO REPLACE _parseTaggedTemplateExpression.
-// This is the TRUE fix for the original freeze. It is not recursive.
+/**
+ * B"H
+ * Parses a tagged template expression (e.g., `tag`hello ${name}`).
+ * This is an INFIX function. It receives the `tag` as its left-hand side.
+ * It is responsible for parsing the template part itself, directly.
+ */
 proto._parseTaggedTemplateExpression = function(tag) {
     const s = this._startNode();
     s.loc.start = tag.loc.start;
     
-    // With the smart lexer restored, we can simply and safely call the now-correct
-    // _parseTemplateLiteral function. The lexer will handle the state transitions,
-    // and the parser will correctly build the tree. The recursive loop is impossible
-    // because the lexer's stateful nature prevents the ambiguous re-triggering of this rule.
-    const quasi = this._parseTemplateLiteral();
+    // Manually parse the TemplateLiteral part (the "quasi")
+    const quasi_s = this._startNode();
+    const quasis = [];
+    const expressions = [];
+    let done = false;
+
+    while (!done) {
+        const type = this.currToken.type;
+        const literal = this.currToken.literal;
+        done = (type === TOKEN.TEMPLATE_TAIL);
+
+        quasis.push(this._finishNode({
+            type: 'TemplateElement',
+            value: { raw: literal, cooked: literal },
+            tail: done
+        }, this._startNode()));
+        this._advance();
+
+        if (!done) {
+            expressions.push(this._parseExpression(PRECEDENCE.LOWEST));
+        }
+    }
+    const quasi = this._finishNode({ type: 'TemplateLiteral', quasis, expressions }, quasi_s);
     
     return this._finishNode({
         type: 'TaggedTemplateExpression',
@@ -993,6 +1012,8 @@ proto._parseTaggedTemplateExpression = function(tag) {
         quasi: quasi
     }, s);
 };
+
+
 		// Add this new helper function to parser-expressions.js
 proto._parsePrivateIdentifier = function() {
     const s = this._startNode();
