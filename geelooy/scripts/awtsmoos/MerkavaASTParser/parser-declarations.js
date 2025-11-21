@@ -133,10 +133,20 @@ proto._parseArrayPattern = function() {
  * ensuring the parser never loses its memory and can always return safely from
  * the depths of the rabbit hole. This single change cures the freeze.
  */
+/**
+ * B"H
+ * The Rectified Property Parser: _parseProperty (for Object Patterns)
+ * This function now embodies the principle of "Patient Observation". It first
+ * secures the property's key, then observes the following token to decide its
+ * true nature. Most importantly, when it encounters a value part (`key: value`),
+ * it correctly delegates the parsing of that `value` to the `_parseBindingWithDefault`
+ * scribe, allowing for infinitely nested defaults without confusion.
+ */
 proto._parseProperty = function() {
     const s = this._startNode();
-    
-    const key = this._currTokenIs(TOKEN.LBRACKET) 
+
+    // Phase 1: Identify the key (e.g., 'P').
+    const key = this._currTokenIs(TOKEN.LBRACKET)
         ? this._parseComputedPropertyKey()
         : this._parseIdentifier();
     if (!key) return null;
@@ -144,35 +154,32 @@ proto._parseProperty = function() {
     let value = key;
     let shorthand = true;
 
+    // Phase 2: Patiently observe the next token.
     if (this._currTokenIs(TOKEN.COLON)) {
+        // It's a key-value pair, like { key: newValue }.
         shorthand = false;
-        this._advance(); // consume ':'
+        this._advance(); // Consume ':'.
 
-        // --- THIS IS THE TIKKUN (THE FIX) ---
-        // We now call the correct, specialist function that you already have.
-        // This function knows how to handle a pattern that might have a default value.
-        value = this._parseBindingWithDefault(); 
-        
-    }
+        // DELEGATION: The value itself could have a default, so we use the specialist.
+        value = this._parseBindingWithDefault();
 
-    // This part handles shorthand properties with default values like `{ a = 1 }`.
-    // It's also critical that this logic is correct.
-    if (shorthand && this._currTokenIs(TOKEN.ASSIGN)) {
+    } else if (this._currTokenIs(TOKEN.ASSIGN)) {
+        // It's a shorthand with a default, like { P = {} }.
         const assignStart = this._startNode();
-        assignStart.loc.start = value.loc.start;
-        this._advance(); // consume '='
+        assignStart.loc.start = value.loc.start; // Start from the key's position.
+        this._advance(); // Consume '='.
         const right = this._parseExpression(PRECEDENCE.ASSIGNMENT);
         value = this._finishNode({ type: 'AssignmentPattern', left: value, right }, assignStart);
-        shorthand = false;
+        shorthand = false; // It is no longer a simple shorthand.
     }
 
-    return this._finishNode({ 
-        type: 'Property', 
-        key: key, 
+    return this._finishNode({
+        type: 'Property',
+        key: key,
         value: value,
-        kind: 'init', 
-        method: false, 
-        shorthand: shorthand, 
+        kind: 'init',
+        method: false,
+        shorthand: shorthand,
         computed: (key.type !== 'Identifier')
     }, s);
 };
@@ -769,14 +776,12 @@ proto._parseParametersListOld = function() {
 
 /**
  * B"H
- * The Sanctification of the Parameter List. This is the artery that was still
- * corrupted. The old, fragile loop has been torn down and replaced with a
- * fortified cloister walk. It no longer parses parameters with simple, ignorant
- * functions. For each parameter, it now invokes the enlightened `_parseBindingWithDefault`
- * scribe, ensuring that any parameter, no matter how complex its own destructured
- * pattern or default value, is understood with perfect clarity and memory. This
- * fortification ensures the Golem's vertigo can never strike within the sacred
- * ground of a function's definition, curing the final error.
+ * The Sanctified Parameter List Parser: _parseParametersList
+ * This function's logic has been fortified. It no longer makes its own flawed
+ * assumptions about parameters. Instead, it enters a loop and, for each
+ * parameter, it defers to the supreme wisdom of the `_parseBindingWithDefault`
+ * specialist scribe. This act of delegation ensures every parameter, no matter
+ * how complex, is parsed with perfect clarity.
  */
 proto._parseParametersList = function() {
     const params = [];
@@ -784,16 +789,16 @@ proto._parseParametersList = function() {
 
     if (!this._currTokenIs(TOKEN.RPAREN)) {
         do {
-            // Each parameter is now parsed by the master scribe who understands
-            // the treacherous duality of patterns with default values.
+            // DELEGATION: The only job is to call the specialist.
             const param = this._parseBindingWithDefault();
-            if (!param) return null;
+            if (!param) return null; // Abort on error.
             params.push(param);
 
+            // If the next token isn't a comma, the list is finished.
             if (!this._currTokenIs(TOKEN.COMMA)) {
                 break;
             }
-            this._advance();
+            this._advance(); // Consume comma, prepare for next parameter.
         } while (true);
     }
 
@@ -822,26 +827,35 @@ proto._parseParameterListContents = function() {
 
 
 
-// B"H
- 
-
+/**
+ * B"H
+ * The Specialist Scribe: _parseBindingWithDefault
+ * This is the cornerstone of the fix. It is an enlightened parser whose sole
+ * purpose is to understand a "binding element". It knows that an equals sign in
+ * this context is ALWAYS the beginning of a default value, never a standard
+* assignment. This clarity prevents all ambiguity and cures the parser's vertigo.
+ */
 proto._parseBindingWithDefault = function() {
     const s = this._startNode();
-    
+
+    // First, parse the pattern itself (e.g., an identifier, an object, or an array).
     const left = this._parseBindingPattern();
     if (!left) return null;
 
+    // After parsing the pattern, check if it is followed by a default value.
     if (this._currTokenIs(TOKEN.ASSIGN)) {
-        this._advance(); // consume '='
-        
+        this._advance(); // Consume the '=' token.
+
+        // The right-hand side is the default value, which is a full expression.
         const right = this._parseExpression(PRECEDENCE.ASSIGNMENT);
-        
+
+        // Wrap the left and right in a dedicated AssignmentPattern node.
         return this._finishNode({ type: 'AssignmentPattern', left, right }, s);
     }
 
+    // If there was no equals sign, just return the pattern itself.
     return left;
 };
-
 
 // B"H
 
