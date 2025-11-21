@@ -355,166 +355,29 @@ reenterTemplateMode() {
 /* B"H */
 // In Lexer.js, REPLACE the entire nextToken method with this one.
 // This restores the "smart" switch logic for handling template expression boundaries.
-nextToken() {
-    this._guard();
-    this.hasLineTerminatorBefore = false;
-    this._skipWhitespace();
-
-    const startLine = this.line;
-    const startColumn = this.column;
-
-    if (this.ch === null) {
-        return this._makeToken(TOKEN.EOF, '', startColumn, startLine);
-    }
-    
-    const c = this.ch;
-    let tok;
-
-    switch (c) {
-        // --- THE RESTORED WISDOM ---
-        case '{':
-            // If we are inside a template expression, this brace is part of it.
-            if (this.braceNestingLevel > 0) {
-                this.braceNestingLevel++;
-            }
-            tok = this._makeToken(TOKEN.LBRACE, '{', startColumn); 
-            this._advance(); 
-            return tok;
-        case '}':
-            // If we are inside a template expression, this brace might be the end.
-            if (this.braceNestingLevel > 0) {
-                this.braceNestingLevel--;
-                // If this was the final closing brace of the expression...
-                if (this.braceNestingLevel === 0) {
-                    this.templateStack.pop(); // Exit template expression mode.
-                    this._advance(); // Consume the '}'
-                    // ...the VERY NEXT token MUST be the next part of the template string.
-                    return this._readTemplatePart();
-                }
-            }
-            tok = this._makeToken(TOKEN.RBRACE, '}', startColumn); 
-            this._advance(); 
-            return tok;
-
-        // --- THE TEMPLATE ENTRY POINT ---
-        case '`':
-            this._advance(); // Consume the opening backtick
-            // Immediately read the first part of the template.
-            return this._readTemplatePart();
-
-        // --- ALL OTHER STANDARD TOKEN CASES REMAIN THE SAME ---
-        case '=':
-            this._advance();
-            if (this.ch === '>') { this._advance(); return this._makeToken(TOKEN.ARROW, '=>', startColumn); }
-            if (this.ch === '=') { this._advance(); return this.ch === '=' ? (this._advance(), this._makeToken(TOKEN.EQ_STRICT, '===', startColumn)) : this._makeToken(TOKEN.EQ, '==', startColumn); }
-            return this._makeToken(TOKEN.ASSIGN, '=', startColumn);
-        case '!':
-            this._advance();
-            if (this.ch === '=') { this._advance(); return this.ch === '=' ? (this._advance(), this._makeToken(TOKEN.NOT_EQ_STRICT, '!==', startColumn)) : this._makeToken(TOKEN.NOT_EQ, '!=', startColumn); }
-            return this._makeToken(TOKEN.BANG, '!', startColumn);
-        case '+':
-            this._advance();
-            if (this.ch === '+') { this._advance(); return this._makeToken(TOKEN.INCREMENT, '++', startColumn); }
-            if (this.ch === '=') { this._advance(); return this._makeToken(TOKEN.PLUS_ASSIGN, '+=', startColumn); }
-            return this._makeToken(TOKEN.PLUS, '+', startColumn);
-        case '-':
-            this._advance();
-            if (this.ch === '-') { this._advance(); return this._makeToken(TOKEN.DECREMENT, '--', startColumn); }
-            if (this.ch === '=') { this._advance(); return this._makeToken(TOKEN.MINUS_ASSIGN, '-=', startColumn); }
-            return this._makeToken(TOKEN.MINUS, '-', startColumn);
-        case '*':
-            this._advance();
-            if (this.ch === '*') { this._advance(); return this.ch === '=' ? (this._advance(), this._makeToken(TOKEN.EXPONENT_ASSIGN, '**=', startColumn)) : this._makeToken(TOKEN.EXPONENT, '**', startColumn); }
-            if (this.ch === '=') { this._advance(); return this._makeToken(TOKEN.ASTERISK_ASSIGN, '*=', startColumn); }
-            return this._makeToken(TOKEN.ASTERISK, '*', startColumn);
-        case '/':
-            this._advance();
-            if (this.ch === '=') { this._advance(); return this._makeToken(TOKEN.SLASH_ASSIGN, '/=', startColumn); }
-            return this._makeToken(TOKEN.SLASH, '/', startColumn);
-        case '%':
-            this._advance();
-            if (this.ch === '=') { this._advance(); return this._makeToken(TOKEN.MODULO_ASSIGN, '%=', startColumn); }
-            return this._makeToken(TOKEN.MODULO, '%', startColumn);
-        case '<':
-            this._advance();
-            if (this.ch === '<') { this._advance(); return this.ch === '=' ? (this._advance(), this._makeToken(TOKEN.LEFT_SHIFT_ASSIGN, '<<=', startColumn)) : this._makeToken(TOKEN.LEFT_SHIFT, '<<', startColumn); }
-            if (this.ch === '=') { this._advance(); return this._makeToken(TOKEN.LTE, '<=', startColumn); }
-            return this._makeToken(TOKEN.LT, '<', startColumn);
-        case '>':
-            this._advance();
-            if (this.ch === '>') { this._advance(); if (this.ch === '>') { this._advance(); return this.ch === '=' ? (this._advance(), this._makeToken(TOKEN.UNSIGNED_RIGHT_SHIFT_ASSIGN, '>>>=', startColumn)) : this._makeToken(TOKEN.UNSIGNED_RIGHT_SHIFT, '>>>', startColumn); } if (this.ch === '=') { this._advance(); return this._makeToken(TOKEN.RIGHT_SHIFT_ASSIGN, '>>=', startColumn); } return this._makeToken(TOKEN.RIGHT_SHIFT, '>>', startColumn); }
-            if (this.ch === '=') { this._advance(); return this._makeToken(TOKEN.GTE, '>=', startColumn); }
-            return this._makeToken(TOKEN.GT, '>', startColumn);
-        case '&':
-            this._advance();
-            if (this.ch === '&') { this._advance(); return this.ch === '=' ? (this._advance(), this._makeToken(TOKEN.LOGICAL_AND_ASSIGN, '&&=')) : this._makeToken(TOKEN.AND, '&&'); }
-            if (this.ch === '=') { this._advance(); return this._makeToken(TOKEN.BITWISE_AND_ASSIGN, '&='); }
-            return this._makeToken(TOKEN.BITWISE_AND, '&');
-        case '|':
-            this._advance();
-            if (this.ch === '|') { this._advance(); return this.ch === '=' ? (this._advance(), this._makeToken(TOKEN.LOGICAL_OR_ASSIGN, '||=')) : this._makeToken(TOKEN.OR, '||'); }
-            if (this.ch === '=') { this._advance(); return this._makeToken(TOKEN.BITWISE_OR_ASSIGN, '|='); }
-            return this._makeToken(TOKEN.BITWISE_OR, '|');
-        case '^':
-            this._advance();
-            if (this.ch === '=') { this._advance(); return this._makeToken(TOKEN.BITWISE_XOR_ASSIGN, '^=', startColumn); }
-            return this._makeToken(TOKEN.BITWISE_XOR, '^', startColumn);
-        case '~':
-            tok = this._makeToken(TOKEN.BITWISE_NOT, '~', startColumn); this._advance(); return tok;
-        case '?':
-            this._advance();
-            if (this.ch === '?') { this._advance(); return this.ch === '=' ? (this._advance(), this._makeToken(TOKEN.NULLISH_ASSIGN, '??=', startColumn)) : this._makeToken(TOKEN.NULLISH_COALESCING, '??', startColumn); }
-            if (this.ch === '.') { this._advance(); return this._makeToken(TOKEN.OPTIONAL_CHAINING, '?.', startColumn); }
-            return this._makeToken(TOKEN.QUESTION, '?', startColumn);
-        case '.':
-            this._advance();
-            if (this.ch === '.' && this._peek() === '.') { this._advance(); this._advance(); return this._makeToken(TOKEN.DOTDOTDOT, '...', startColumn); }
-            return this._makeToken(TOKEN.DOT, '.', startColumn);
-        case '(': tok = this._makeToken(TOKEN.LPAREN, '(', startColumn); this._advance(); return tok;
-        case ')': tok = this._makeToken(TOKEN.RPAREN, ')', startColumn); this._advance(); return tok;
-        case '[': tok = this._makeToken(TOKEN.LBRACKET, '[', startColumn); this._advance(); return tok;
-        case ']': tok = this._makeToken(TOKEN.RBRACKET, ']', startColumn); this._advance(); return tok;
-        case ',': tok = this._makeToken(TOKEN.COMMA, ',', startColumn); this._advance(); return tok;
-        case ';': tok = this._makeToken(TOKEN.SEMICOLON, ';', startColumn); this._advance(); return tok;
-        case ':': tok = this._makeToken(TOKEN.COLON, ':', startColumn); this._advance(); return tok;
-        case '"': case "'": return this._readString(c);
-        case '#': return this._readPrivateIdentifier();
-        default:
-            if (this._isLetter(c)) {
-                const ident = this._readIdentifier();
-                const type = Object.prototype.hasOwnProperty.call(KEYWORDS, ident)
-                    ? KEYWORDS[ident]
-                    : TOKEN.IDENT;
-                return this._makeToken(type, ident, startColumn);
-            }
-            if (this._isDigit(c)) {
-                return this._makeToken(TOKEN.NUMBER, this._readNumber(), startColumn);
-            }
-            tok = this._makeToken(TOKEN.ILLEGAL, c, startColumn);
-            this._advance();
-            return tok;
-    }
-}
-
+/* B"H */
 // In Lexer.js, also REPLACE _readTemplatePart with this restored "smart" version.
+// It uses the same unbreakable escape logic as _readString.
 _readTemplatePart() {
     const p = this.position;
+
     while (this.ch !== null) {
         if (this.ch === '`') {
             const literal = this.source.slice(p, this.position);
-            this._advance();
+            this._advance(); // Consume `
             return this._makeToken(TOKEN.TEMPLATE_TAIL, literal);
         }
         if (this.ch === '$' && this._peek() === '{') {
             const literal = this.source.slice(p, this.position);
-            this._advance(); // Consume '$'
-            this._advance(); // Consume '{'
+            this._advance(); // Consume $
+            this._advance(); // Consume {
             this.templateStack.push(true);
-            this.braceNestingLevel = 1;
+            this.braceNestingLevel = 1; // Begin counting braces.
             return this._makeToken(TOKEN.TEMPLATE_HEAD, literal);
         }
         if (this.ch === '\\') {
-            this._advance();
+            this._advance(); // Skip escaped character
+            continue;
         }
         this._advance();
     }

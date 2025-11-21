@@ -948,23 +948,23 @@ proto._parseYieldExpression = function() {
 
 
 /* B"H */
+// In parser-expressions.js, REPLACE _parseTemplateLiteral with this simple, trusting version.
 proto._parseTemplateLiteral = function() {
     const s = this._startNode();
     const quasis = [];
     const expressions = [];
 
-    // The "smart" lexer gives us the first part of the template.
-    // It's a TEMPLATE_HEAD if an expression follows, or a TAIL if not.
+    // The "smart" lexer gives us the first part. It's a HEAD if an expression follows, or a TAIL if not.
     let type = this.currToken.type;
     let literal = this.currToken.literal;
     quasis.push(this._finishNode({ type: 'TemplateElement', value: { raw: literal, cooked: literal }, tail: (type === TOKEN.TEMPLATE_TAIL) }, this._startNode()));
     this._advance();
 
-    // As long as the last part wasn't the tail, we parse an expression.
+    // Loop as long as the lexer tells us there are more expressions.
     while (type !== TOKEN.TEMPLATE_TAIL) {
         expressions.push(this._parseExpression(PRECEDENCE.LOWEST));
 
-        // The smart lexer, after the expression's '}', will automatically give us the next template part.
+        // After parsing the expression, the "smart" lexer automatically gives us the next template part.
         type = this.currToken.type;
         literal = this.currToken.literal;
         quasis.push(this._finishNode({ type: 'TemplateElement', value: { raw: literal, cooked: literal }, tail: (type === TOKEN.TEMPLATE_TAIL) }, this._startNode()));
@@ -974,17 +974,16 @@ proto._parseTemplateLiteral = function() {
     return this._finishNode({ type: 'TemplateLiteral', quasis, expressions }, s);
 };
 
-
+// In parser-expressions.js, ALSO REPLACE _parseTaggedTemplateExpression.
 // This is the TRUE fix for the original freeze. It is not recursive.
-
 proto._parseTaggedTemplateExpression = function(tag) {
     const s = this._startNode();
     s.loc.start = tag.loc.start;
-
-    // A tagged template MUST be followed by a template literal.
-    // We can simply call our now-working `_parseTemplateLiteral` function.
-    // The previous error was caused by a feedback loop between this function
-    // and a flawed template parser. With both now corrected, this is safe.
+    
+    // With the smart lexer restored, we can simply and safely call the now-correct
+    // _parseTemplateLiteral function. The lexer will handle the state transitions,
+    // and the parser will correctly build the tree. The recursive loop is impossible
+    // because the lexer's stateful nature prevents the ambiguous re-triggering of this rule.
     const quasi = this._parseTemplateLiteral();
     
     return this._finishNode({
@@ -993,8 +992,6 @@ proto._parseTaggedTemplateExpression = function(tag) {
         quasi: quasi
     }, s);
 };
-		
-		
 		// Add this new helper function to parser-expressions.js
 proto._parsePrivateIdentifier = function() {
     const s = this._startNode();
