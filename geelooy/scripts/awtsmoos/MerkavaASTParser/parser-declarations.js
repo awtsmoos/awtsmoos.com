@@ -168,8 +168,6 @@ proto._parseComputedPropertyKey = function() {
  * thus annihilating the freeze that was confirmed by the Chokmah Test.
  */
 /* B"H */
-// IN: geelooy/scripts/awtsmoos/MerkavaASTParser/parser-declarations.js
-
 /**
  * This is the rectified version of the function.
  * It has been given the wisdom to understand that elements within a destructuring
