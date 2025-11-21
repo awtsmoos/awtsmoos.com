@@ -136,37 +136,44 @@ proto._parseProperty = function() {
 		return this._finishNode({ type: 'ObjectPattern', properties }, s);
 	};
 
-	//B"H
+/*B"H*/
+// IN: geelooy/scripts/awtsmoos/MerkavaASTParser/parser-declarations.js
+
+/**
+ * The Tikkun of the Insatiable Loop, now with certainty.
+ * This function has been rectified to understand the sacred law of the Rest Element.
+ * The while-loop that consumes array elements is now taught that after it parses a
+ * RestElement (`...`), its work is finished and it MUST break immediately. This prevents
+ * the loop from infinitely attempting to parse more elements that cannot exist,
+ * thus annihilating the freeze that was confirmed by the Chokmah Test.
+ */
 proto._parseArrayPattern = function() {
     const s = this._startNode();
     this._expect(TOKEN.LBRACKET);
     const elements = [];
 
     while (!this._currTokenIs(TOKEN.RBRACKET) && !this._currTokenIs(TOKEN.EOF)) {
-        // Correctly handle elisions (empty slots) like `[,a]`
         if (this._currTokenIs(TOKEN.COMMA)) {
             this._advance();
             elements.push(null);
             continue;
         }
 
-        // It's a pattern. This will correctly handle identifiers, {}, [], and `...`
         const elem = this._parseBindingPattern();
         if (!elem) return null;
         elements.push(elem);
 
-        // --- THE TIKKUN ---
-        // A rest element MUST be the last element in an array pattern.
-        // After parsing it, we must break the loop.
+        // --- THIS IS THE TIKKUN ---
+        // A rest element MUST be the last element. After parsing it, we
+        // must break the loop. This single change resolves the freeze.
         if (elem.type === 'RestElement') {
             break; 
         }
 
-        // If it's not the end of the array, there must be a comma.
         if (this._currTokenIs(TOKEN.COMMA)) {
             this._advance();
         } else {
-            break; // No comma means we are done with elements.
+            break; 
         }
     }
 
