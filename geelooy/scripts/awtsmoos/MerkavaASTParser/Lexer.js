@@ -185,11 +185,19 @@ _skipWhitespace() {
 
 
 // B"H
-//--- THE ABSOLUTE AND FINAL nextToken METHOD ---
-// Replace the old version in Lexer.js with this one.
-
+// In Lexer.js, REPLACE the entire nextToken method with this one.
 nextToken() {
     this._guard();
+
+    // THE SACRED PACT: The very first action is to check our state.
+    // If the templateStack is not empty, it is a command from the Parser.
+    // We MUST drop everything and resume scanning inside the template.
+    if (this.templateStack.length > 0) {
+        this.templateStack.pop(); // Fulfill the command, consume the state flag.
+        return this._readTemplatePart();
+    }
+
+    // If not in template mode, proceed with normal tokenization.
     this.hasLineTerminatorBefore = false;
     this._skipWhitespace();
 
@@ -199,21 +207,32 @@ nextToken() {
     if (this.ch === null) {
         return this._makeToken(TOKEN.EOF, '', startColumn, startLine);
     }
-
+    
     const c = this.ch;
     let tok;
 
     switch (c) {
-        case '{':
-            tok = this._makeToken(TOKEN.LBRACE, '{', startColumn);
-            this._advance();
+        // --- BRACES ARE NOW PURE ---
+        // They have no memory or special logic. They are just tokens.
+        case '{': 
+            tok = this._makeToken(TOKEN.LBRACE, '{', startColumn); 
+            this._advance(); 
             return tok;
-        case '}':
-            tok = this._makeToken(TOKEN.RBRACE, '}', startColumn);
-            this._advance();
+        case '}': 
+            tok = this._makeToken(TOKEN.RBRACE, '}', startColumn); 
+            this._advance(); 
             return tok;
-        
-        // --- All other cases remain the same ---
+
+        // --- THE TEMPLATE ENTRY POINT ---
+        // When a backtick is seen in normal code, its ONLY job is to
+        // command the lexer to enter template mode on the NEXT call.
+        case '`':
+            this.templateStack.push(true);
+            // We then immediately read the first part.
+            return this._readTemplatePart();
+
+        // --- ALL OTHER STANDARD TOKEN CASES ---
+        // (This is the stable, correct logic without any template-related corruption)
         case '=':
             this._advance();
             if (this.ch === '>') { this._advance(); return this._makeToken(TOKEN.ARROW, '=>', startColumn); }
@@ -281,7 +300,6 @@ nextToken() {
             this._advance();
             if (this.ch === '.' && this._peek() === '.') { this._advance(); this._advance(); return this._makeToken(TOKEN.DOTDOTDOT, '...', startColumn); }
             return this._makeToken(TOKEN.DOT, '.', startColumn);
-        case '`': this.templateStack.push(true); return this._readTemplateHead();
         case '(': tok = this._makeToken(TOKEN.LPAREN, '(', startColumn); this._advance(); return tok;
         case ')': tok = this._makeToken(TOKEN.RPAREN, ')', startColumn); this._advance(); return tok;
         case '[': tok = this._makeToken(TOKEN.LBRACKET, '[', startColumn); this._advance(); return tok;
@@ -294,15 +312,10 @@ nextToken() {
         default:
             if (this._isLetter(c)) {
                 const ident = this._readIdentifier();
-                // --- THE TIKKUN OLAM ---
-                // We no longer ask the object directly. We perform a sacred check
-                // to see if the key TRULY belongs to the KEYWORDS vessel, banishing
-                // the ghosts of the prototype.
                 const type = Object.prototype.hasOwnProperty.call(KEYWORDS, ident)
                     ? KEYWORDS[ident]
                     : TOKEN.IDENT;
                 return this._makeToken(type, ident, startColumn);
-                // --- THE TIKKUN OLAM IS COMPLETE ---
             }
             if (this._isDigit(c)) {
                 return this._makeToken(TOKEN.NUMBER, this._readNumber(), startColumn);
@@ -321,6 +334,14 @@ nextToken() {
 		}
 		return this._makeToken(TOKEN.PRIVATE_IDENT, '#' + ident, startColumn);
 	}
+	
+	
+reenterTemplateMode() {
+    // This is the bridge. The parser calls this to tell the lexer:
+    // "The expression is over. Go back to scanning for template text."
+    this.templateStack.push(true);
+}
+	
 
 	_readTemplateHead() {
 		this._guard();
@@ -462,44 +483,36 @@ _readString(quote) {
  * is only one text, one rhythm, one perfect perception. Its walk is now flawless through 
  * every conceivable landscape of the sacred scroll.
  */
-_readTemplatePart(initialType) {
+_readTemplatePart() {
     const p = this.position;
-    while (this.ch !== null && this.ch !== '`') {
-        this._guard();
-
-        // --- The Final, Infallible Law, Unified ---
-        if (this.ch === '\\') {
-            this._advance(); // Action 1: Take ONE step over the ward.
-            continue;        // Action 2: Immediately force the next loop cycle, SKIPPING the advance below.
-        }
-        
-        if (this.ch === '$' && this._peek() === '{') {
+    
+    // Scan through the template's static text.
+    while (this.ch !== null) {
+        if (this.ch === '`') {
+            // We've hit the end of the entire literal.
             const literal = this.source.slice(p, this.position);
-            this._advance();
-            this._advance();
-            this.templateStack.push(true);
-            this.braceNestingLevel = 1;
-            return this._makeToken(initialType, literal);
+            this._advance(); // Consume the backtick
+            return this._makeToken(TOKEN.TEMPLATE_TAIL, literal);
         }
-        
-        if ('\n\r'.includes(this.ch)) {
-            if (this.ch === '\r' && this._peek() === '\n') this._advance();
-            this.line++;
-            this.column = 0;
-            this._advance();
-            continue;
-        }
-        
-        this._advance(); // The normal, single step.
-    }
 
-    const literal = this.source.slice(p, this.position);
-    if (this.ch === '`') {
-        this.templateStack.pop();
+        if (this.ch === '$' && this._peek() === '{') {
+            // We've hit the start of an expression.
+            const literal = this.source.slice(p, this.position);
+            this._advance(); // Consume '$'
+            this._advance(); // Consume '{'
+            // We do NOT manage the templateStack here. We simply stop and emit a token.
+            // The Parser is now positioned correctly at the start of the expression.
+            return this._makeToken(TOKEN.TEMPLATE_MIDDLE, literal); // Or HEAD, contextually
+        }
+
+        if (this.ch === '\\') { // Handle escaped characters correctly.
+            this._advance();
+        }
+        
         this._advance();
-        return this._makeToken(TOKEN.TEMPLATE_TAIL, literal);
     }
 
+    // If we reach here, the template was unterminated.
     return this._makeToken(TOKEN.ILLEGAL, `Unterminated template literal`);
 }
 

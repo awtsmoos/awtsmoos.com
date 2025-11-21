@@ -945,68 +945,49 @@ proto._parseYieldExpression = function() {
 
 
 
+// In parser-expressions.js
 proto._parseTemplateLiteral = function() {
     const startNodeInfo = this._startNode();
     const quasis = [];
     const expressions = [];
-    let isTail = false;
 
-    while (!isTail) {
-        const quasiStart = this._startNode();
-        const tokenType = this.currToken.type;
+    // The first token is guaranteed to be TEMPLATE_HEAD
+    let quasi = this._parseTemplateElement();
+    quasis.push(quasi);
 
-        if (tokenType !== TOKEN.TEMPLATE_HEAD && tokenType !== TOKEN.TEMPLATE_MIDDLE && tokenType !== TOKEN.TEMPLATE_TAIL) {
-            this._error("Unexpected token inside template literal.");
-            return null;
-        }
+    while (!quasi.tail) {
+        // After a TEMPLATE_HEAD or TEMPLATE_MIDDLE, we expect an expression.
+        const expr = this._parseExpression(PRECEDENCE.LOWEST);
+        expressions.push(expr);
 
-        isTail = tokenType === TOKEN.TEMPLATE_TAIL;
-        const value = { raw: this.currToken.literal, cooked: this.currToken.literal };
-        quasis.push(this._finishNode({ type: 'TemplateElement', value: value, tail: isTail }, quasiStart));
-        
-        this._advance(); // Consume the template part token
-
-        if (!isTail) {
-            // --- THE PARSER'S ASCENSION ---
-            // The parser now takes responsibility for finding the end of the expression.
-            let braceCount = 1; 
-            const expressionStartToken = this.currToken;
-
-            // We can't just call _parseExpression because it doesn't know when to stop.
-            // Instead, we create a temporary, isolated sub-parser to parse only this part.
-            const expressionTokens = [];
-            while(braceCount > 0 && !this._currTokenIs(TOKEN.EOF)) {
-                if (this._currTokenIs(TOKEN.LBRACE)) braceCount++;
-                if (this._currTokenIs(TOKEN.RBRACE)) braceCount--;
-                
-                // Only add the token if it's within the expression's boundary.
-                if (braceCount > 0) {
-                   expressionTokens.push(this.currToken);
-                   this._advance();
-                }
-            }
-
-            if (braceCount !== 0) {
-                this._error("Unmatched braces in template literal expression.");
-                return null;
-            }
-
-            // Create a new parser instance to parse ONLY the tokens we collected.
-            const tempSource = this.l.source.substring(expressionStartToken.startIndex, this.currToken.startIndex);
-            const tempParser = new MerkavahParser(tempSource);
-            tempParser.registerExpressionParsers(); // Register all parsing functions
-            tempParser.registerStatementParsers();
-            tempParser.registerDeclarationParsers();
-            
-            const expressionAST = tempParser._parseExpression(PRECEDENCE.LOWEST);
-            expressions.push(expressionAST);
-            
-            // Now, we expect the closing '}' that we stopped at.
-            this._expect(TOKEN.RBRACE);
-        }
+        // After the expression, the Lexer MUST provide the next part of the template.
+        // We re-enter the Lexer's template-parsing mode to get it.
+        quasi = this._parseTemplateElement();
+        quasis.push(quasi);
     }
 
     return this._finishNode({ type: 'TemplateLiteral', quasis, expressions }, startNodeInfo);
+};
+
+// Also add this NEW helper function right below it.
+// It simply consumes the current token and turns it into a TemplateElement node.
+proto._parseTemplateElement = function() {
+    const s = this._startNode();
+    if (this.currToken.type !== TOKEN.TEMPLATE_HEAD &&
+        this.currToken.type !== TOKEN.TEMPLATE_MIDDLE &&
+        this.currToken.type !== TOKEN.TEMPLATE_TAIL) {
+        this._error("Expected a template element token.");
+        return null;
+    }
+    const isTail = this.currToken.type === TOKEN.TEMPLATE_TAIL;
+    const value = { raw: this.currToken.literal, cooked: this.currToken.literal };
+    
+    // Crucially, we must now re-enter the lexer's template scanning mode *after* parsing the expression.
+    // We do this by telling the lexer to continue scanning for template parts.
+    this.l.reenterTemplateMode(); 
+    this._advance(); // This will now fetch the next template part token.
+
+    return this._finishNode({ type: 'TemplateElement', value, tail: isTail }, s);
 };
 		
 		
