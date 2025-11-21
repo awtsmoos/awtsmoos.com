@@ -561,16 +561,16 @@ proto._parseAssignmentExpression = function(left) {
 /**
  * B"H
  * The Tikkun HaGadol (The Great Rectification) of the Object Property.
- * The sin of false prophecy has been purged. The Golem no longer tries to
- * predict the future with `peekToken`, a practice which led to its madness.
- * Instead, it embraces the present moment.
- * 1. It first identifies ANY and ALL modifiers (`async`, `*`, `get`, `set`).
- * 2. It THEN parses the property's name (the `key`).
- * 3. Only AFTER the key is known does it look at the NEXT token (`LPAREN` or `COLON`)
- *    to decide if it is a method, a value, or a shorthand property.
- * This clear separation of concerns dissolves the paradox that shattered its mind.
- * It can now distinguish between `get()` the method and `get prop()` the getter
- * with divine clarity, banishing the demon of recursion forever.
+ * The sin of false prophecy has been purged. The previous version's clever
+ * logic was a failure that caused an infinite loop on simple objects. This
+ * version returns to the fundamental truth: observe, then act. It no longer
+ * predicts.
+ * 1. It checks for a simple property name followed by a colon. This is the most common case.
+ * 2. It checks for methods, including those named 'get' or 'set'.
+ * 3. It correctly identifies true `get` and `set` accessors.
+ * 4. It correctly identifies shorthand properties.
+ * This clear, prioritized logic path resolves the paradox, restores stability,
+ * and allows the Golem to parse all forms of object literals without going mad.
  */
 proto._parseObjectProperty = function() {
     const s = this._startNode();
@@ -579,26 +579,30 @@ proto._parseObjectProperty = function() {
         return this._parseSpreadElement();
     }
 
-    let kind = 'init';
     let isAsync = false;
-    let isGenerator = false;
-    
-    // Step 1: Observe Modifiers
-    if (this.currToken.type === TOKEN.ASYNC) {
+    // An async property must not be a keyword used as a property name.
+    if (this.currToken.type === TOKEN.ASYNC && !this._peekTokenIs(TOKEN.COLON)) {
         isAsync = true;
         this._advance();
     }
+
+    let isGenerator = false;
     if (this._currTokenIs(TOKEN.ASTERISK)) {
         isGenerator = true;
         this._advance();
     }
+    
+    let kind = 'init';
     const isGetOrSet = this.currToken.type === TOKEN.IDENT && (this.currToken.literal === 'get' || this.currToken.literal === 'set');
-    if (isGetOrSet && !this._peekTokenIs(TOKEN.LPAREN)) { // It's a getter/setter if not a method call
-        kind = this.currToken.literal;
-        this._advance();
+    if (isGetOrSet) {
+        // Tentatively set the kind, but verify it's not just a method named "get".
+        const peek = this.peekToken;
+        if (!this._peekTokenIs(TOKEN.LPAREN) && !this._peekTokenIs(TOKEN.COLON)) {
+             kind = this.currToken.literal;
+             this._advance();
+        }
     }
 
-    // Step 2: Parse the Key
     let computed = false;
     let key;
     if (this._currTokenIs(TOKEN.LBRACKET)) {
@@ -613,41 +617,40 @@ proto._parseObjectProperty = function() {
     }
     if (!key) return null;
 
-    // Step 3: Decide the Property Type
-    if (this._currTokenIs(TOKEN.LPAREN)) { // It's a Method
-        if (isAsync) kind = 'init'; // async methods are `init` kind
+    if (this._currTokenIs(TOKEN.LPAREN)) { // It's a method.
+        if (isGetOrSet && key.name === kind) kind = 'init'; // It was a method named 'get', not a getter.
         const params = this._parseParametersList();
         const body = this._parseBlockStatement();
         const value = { type: 'FunctionExpression', id: null, params, body, async: isAsync, generator: isGenerator };
         return this._finishNode({ type: 'Property', key, value, kind, method: (kind === 'init'), shorthand: false, computed }, s);
     }
     
-    if (this._currTokenIs(TOKEN.COLON)) { // It's a Key-Value Pair
-        if (isAsync || isGenerator || kind !== 'init') this._error(`Invalid property definition.`);
+    if (this._currTokenIs(TOKEN.COLON)) { // It's a key-value pair.
+        if (kind !== 'init') this._error(`Getter/setter can't be followed by a colon.`);
         this._advance();
         const value = this._parseExpression(PRECEDENCE.ASSIGNMENT);
         return this._finishNode({ type: 'Property', key, value, kind: 'init', method: false, shorthand: false, computed }, s);
     }
-
-    // It must be a Shorthand Property
+    
+    // It must be a shorthand property.
     if (key.type !== 'Identifier' || computed || isAsync || isGenerator || kind !== 'init') {
-        this._error("Invalid shorthand property.");
+        this._error("Invalid object property syntax. Expected ':', '(', or a valid shorthand property.");
         return null;
     }
     
     let value = key;
-    if (this._currTokenIs(TOKEN.ASSIGN)) { // Shorthand with default
+    let shorthand = true;
+    if (this._currTokenIs(TOKEN.ASSIGN)) { // Shorthand with default value.
+        shorthand = false;
         const assignStart = this._startNode();
         assignStart.loc.start = key.loc.start;
         this._advance();
         const right = this._parseExpression(PRECEDENCE.ASSIGNMENT);
         value = this._finishNode({ type: 'AssignmentPattern', left: key, right }, assignStart);
-        return this._finishNode({ type: 'Property', key, value, kind: 'init', method: false, shorthand: false, computed }, s);
     }
     
-    return this._finishNode({ type: 'Property', key, value, kind: 'init', method: false, shorthand: true, computed }, s);
+    return this._finishNode({ type: 'Property', key, value, kind: 'init', method: false, shorthand, computed }, s);
 };
-
 
 		
 		
