@@ -631,7 +631,6 @@ proto._convertExpressionToPattern = function(node) {
 
 
 // B"H - In parser-expressions.js
-// REPLACE your current _parseObjectProperty function with this one.
 
 /**
  * The Seer's Method. This is the rectified version.
