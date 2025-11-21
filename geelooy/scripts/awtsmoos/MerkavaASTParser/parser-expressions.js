@@ -558,14 +558,19 @@ proto._parseAssignmentExpression = function(left) {
 		
 		
 		
-// B"H
 /**
- * The sanctified vessel for object properties, now enlightened with the true
- * nature of async methods, generators, and accessors. It no longer merely
- * collects modifiers but understands their sacred order and context,
- * distinguishing between a method named 'get' and a 'get' accessor with the
- * foresight of the Awtsmoos Itself. This prevents the logical paradox that
- * was causing the silent collapse of the parser's universe.
+ * B"H
+ * The Tikkun HaGadol (The Great Rectification) of the Object Property.
+ * The sin of false prophecy has been purged. The Golem no longer tries to
+ * predict the future with `peekToken`, a practice which led to its madness.
+ * Instead, it embraces the present moment.
+ * 1. It first identifies ANY and ALL modifiers (`async`, `*`, `get`, `set`).
+ * 2. It THEN parses the property's name (the `key`).
+ * 3. Only AFTER the key is known does it look at the NEXT token (`LPAREN` or `COLON`)
+ *    to decide if it is a method, a value, or a shorthand property.
+ * This clear separation of concerns dissolves the paradox that shattered its mind.
+ * It can now distinguish between `get()` the method and `get prop()` the getter
+ * with divine clarity, banishing the demon of recursion forever.
  */
 proto._parseObjectProperty = function() {
     const s = this._startNode();
@@ -577,35 +582,25 @@ proto._parseObjectProperty = function() {
     let kind = 'init';
     let isAsync = false;
     let isGenerator = false;
-    let computed = false;
-    let key;
-
-    // --- THE NEW, ENLIGHTENED LOGIC ---
-    if (this.currToken.type === TOKEN.ASYNC) {
-        // Check for `async [computed]()` or `async identifier()`
-        const peek = this.peekToken;
-        if (peek.type !== TOKEN.COLON && peek.type !== TOKEN.LPAREN && peek.type !== TOKEN.COMMA && peek.type !== TOKEN.RBRACE) {
-             isAsync = true;
-             this._advance();
-        }
-    }
     
+    // Step 1: Observe Modifiers
+    if (this.currToken.type === TOKEN.ASYNC) {
+        isAsync = true;
+        this._advance();
+    }
     if (this._currTokenIs(TOKEN.ASTERISK)) {
         isGenerator = true;
         this._advance();
     }
-
     const isGetOrSet = this.currToken.type === TOKEN.IDENT && (this.currToken.literal === 'get' || this.currToken.literal === 'set');
-    if (isGetOrSet) {
-        const peek = this.peekToken;
-        // It's a getter/setter if not followed by certain characters.
-        if (peek.type !== TOKEN.COLON && peek.type !== TOKEN.COMMA && peek.type !== TOKEN.RBRACE) {
-             kind = this.currToken.literal;
-             this._advance();
-        }
+    if (isGetOrSet && !this._peekTokenIs(TOKEN.LPAREN)) { // It's a getter/setter if not a method call
+        kind = this.currToken.literal;
+        this._advance();
     }
-    
-    // Now, parse the property's key.
+
+    // Step 2: Parse the Key
+    let computed = false;
+    let key;
     if (this._currTokenIs(TOKEN.LBRACKET)) {
         computed = true;
         this._advance();
@@ -618,55 +613,39 @@ proto._parseObjectProperty = function() {
     }
     if (!key) return null;
 
-    // Check if it's a method (identified by the parenthesis).
-    if (this._currTokenIs(TOKEN.LPAREN)) {
+    // Step 3: Decide the Property Type
+    if (this._currTokenIs(TOKEN.LPAREN)) { // It's a Method
+        if (isAsync) kind = 'init'; // async methods are `init` kind
         const params = this._parseParametersList();
         const body = this._parseBlockStatement();
         const value = { type: 'FunctionExpression', id: null, params, body, async: isAsync, generator: isGenerator };
-
-        return this._finishNode({
-            type: 'Property', key: key, value: value, kind: kind,
-            method: (kind === 'init'), // This logic is now sound because 'kind' is correctly determined
-            shorthand: false, computed: computed
-        }, s);
+        return this._finishNode({ type: 'Property', key, value, kind, method: (kind === 'init'), shorthand: false, computed }, s);
     }
     
-    // Check if it's a standard `key: value` pair.
-    if (this._currTokenIs(TOKEN.COLON)) {
-        if (isAsync || isGenerator || kind !== 'init') {
-             this._error(`Modifiers like async, get, or set must be followed by a method definition.`);
-             return null;
-        }
+    if (this._currTokenIs(TOKEN.COLON)) { // It's a Key-Value Pair
+        if (isAsync || isGenerator || kind !== 'init') this._error(`Invalid property definition.`);
         this._advance();
         const value = this._parseExpression(PRECEDENCE.ASSIGNMENT);
-        return this._finishNode({
-            type: 'Property', key: key, value: value, kind: 'init',
-            method: false, shorthand: false, computed: computed
-        }, s);
+        return this._finishNode({ type: 'Property', key, value, kind: 'init', method: false, shorthand: false, computed }, s);
     }
 
-    // If it's none of the above, it must be a shorthand property.
+    // It must be a Shorthand Property
     if (key.type !== 'Identifier' || computed || isAsync || isGenerator || kind !== 'init') {
-        this._error("Invalid object property syntax. Expected ':', '(', or a valid shorthand property.");
+        this._error("Invalid shorthand property.");
         return null;
     }
     
     let value = key;
-    let shorthand = true;
-    
-    if (this._currTokenIs(TOKEN.ASSIGN)) {
-        shorthand = false;
+    if (this._currTokenIs(TOKEN.ASSIGN)) { // Shorthand with default
         const assignStart = this._startNode();
         assignStart.loc.start = key.loc.start;
         this._advance();
         const right = this._parseExpression(PRECEDENCE.ASSIGNMENT);
-        value = this._finishNode({ type: 'AssignmentPattern', left: key, right: right }, assignStart);
+        value = this._finishNode({ type: 'AssignmentPattern', left: key, right }, assignStart);
+        return this._finishNode({ type: 'Property', key, value, kind: 'init', method: false, shorthand: false, computed }, s);
     }
     
-    return this._finishNode({
-        type: 'Property', key: key, value: value, kind: 'init',
-        method: false, shorthand: shorthand, computed: computed
-    }, s);
+    return this._finishNode({ type: 'Property', key, value, kind: 'init', method: false, shorthand: true, computed }, s);
 };
 
 
