@@ -89,30 +89,20 @@ proto._parseDeclaration = function() {
 proto._parseProperty = function() {
     const s = this._startNode();
     
-    // This part remains correct: parse the key.
     const key = this._currTokenIs(TOKEN.LBRACKET) 
-        ? this._parseComputedPropertyKey() // Assuming you have a helper for this
+        ? this._parseComputedPropertyKey()
         : this._parseIdentifier();
     if (!key) return null;
 
     let value = key;
     let shorthand = true;
 
-    // Check for aliasing: { oldName: newName } or { oldName: [a,b] = [] }
     if (this._currTokenIs(TOKEN.COLON)) {
         shorthand = false;
         this._advance(); // consume ':'
-
-        // --- THIS IS THE TIKKUN ---
-        // We were calling `_parseBindingPattern`, which only parses the pattern.
-        // We MUST call `_parseBindingWithDefault`, which correctly parses
-        // the pattern AND its optional default value (`= []`) as a single unit.
         value = this._parseBindingWithDefault(); 
-        // --- END OF THE TIKKUN ---
     }
 
-    // This handles shorthand properties with defaults, like `{ a = 1 }`.
-    // It must come AFTER the main check, only for shorthand properties.
     if (shorthand && this._currTokenIs(TOKEN.ASSIGN)) {
         const assignStart = this._startNode();
         assignStart.loc.start = value.loc.start;
@@ -129,7 +119,7 @@ proto._parseProperty = function() {
         kind: 'init', 
         method: false, 
         shorthand: shorthand, 
-        computed: (key.type !== 'Identifier') // A simplification
+        computed: (key.type !== 'Identifier')
     }, s);
 };
 
@@ -142,20 +132,19 @@ proto._parseComputedPropertyKey = function() {
 };
 
 	proto._parseObjectPattern = function() {
-		const s = this._startNode();
-		this._expect(TOKEN.LBRACE);
-		const properties = [];
-		while (!this._currTokenIs(TOKEN.RBRACE) && !this._currTokenIs(TOKEN.EOF)) {
-			const prop = this._parseProperty();
-			if (!prop) return null;
-			properties.push(prop);
-			if (this._currTokenIs(TOKEN.COMMA)) this._advance();
-			else break;
-		}
-		this._expect(TOKEN.RBRACE);
-		return this._finishNode({ type: 'ObjectPattern', properties }, s);
-	};
-
+    const s = this._startNode();
+    this._expect(TOKEN.LBRACE);
+    const properties = [];
+    while (!this._currTokenIs(TOKEN.RBRACE) && !this._currTokenIs(TOKEN.EOF)) {
+        const prop = this._parseProperty();
+        if (!prop) return null;
+        properties.push(prop);
+        if (this._currTokenIs(TOKEN.COMMA)) this._advance();
+        else break;
+    }
+    this._expect(TOKEN.RBRACE);
+    return this._finishNode({ type: 'ObjectPattern', properties }, s);
+};
 /*B"H*/
 // IN: geelooy/scripts/awtsmoos/MerkavaASTParser/parser-declarations.js
 
@@ -187,11 +176,7 @@ proto._parseArrayPattern = function() {
             continue;
         }
 
-        // --- THE TIKKUN ---
-        // We now call the correct function that can parse patterns with default values.
         const elem = this._parseBindingWithDefault();
-        // --- END OF THE TIKKUN ---
-
         if (!elem) return null;
         elements.push(elem);
 
@@ -683,21 +668,14 @@ proto._parseExportDeclaration = function() {
 
 
 proto._parseBindingPattern = function() {
-    // B"H - The Final Tikkun
-    // No counters. No limits. Only logic.
-
-    // 1. Handle Rest Elements (The Infinite Expansion)
     if (this._currTokenIs(TOKEN.DOTDOTDOT)) {
         return this._parseRestElement();
     }
     
-    // 2. Handle Object Patterns (The Vessel of Structure)
     if (this._currTokenIs(TOKEN.LBRACE)) return this._parseObjectPattern();
     
-    // 3. Handle Array Patterns (The Vessel of Order)
     if (this._currTokenIs(TOKEN.LBRACKET)) return this._parseArrayPattern();
     
-    // 4. Handle Identifiers (The Name)
     if (!this._currTokenIs(TOKEN.IDENT)) {
         this._error("Expected an identifier, object pattern, or array pattern for binding.");
         return null;
@@ -708,7 +686,6 @@ proto._parseBindingPattern = function() {
     this._advance();
     return this._finishNode(identNode, s);
 };
-
 
 
 // ADD THIS NEW HELPER FUNCTION to parser-declarations.js
@@ -796,25 +773,19 @@ proto._parseParameterListContents = function() {
 proto._parseBindingWithDefault = function() {
     const s = this._startNode();
     
-    // First, parse the parameter name or pattern (e.g., `id`, `{config}`, `[a,b]`).
     const left = this._parseBindingPattern();
     if (!left) return null;
 
-    // NOW, check if it's followed by a default value.
     if (this._currTokenIs(TOKEN.ASSIGN)) {
         this._advance(); // consume '='
         
-        // Parse the expression for the default value (e.g., `{}`).
         const right = this._parseExpression(PRECEDENCE.ASSIGNMENT);
         
-        // Wrap the whole thing in an AssignmentPattern node, which is the correct AST representation.
         return this._finishNode({ type: 'AssignmentPattern', left, right }, s);
     }
 
-    // If there was no '=', just return the simple parameter node we parsed.
     return left;
 };
-
 
 
 // B"H
@@ -824,16 +795,14 @@ proto._parseBindingWithDefault = function() {
 
 proto._parseRestElement = function() {
     const s = this._startNode();
-    this._expect(TOKEN.DOTDOTDOT); // Consume the '...'
+    this._expect(TOKEN.DOTDOTDOT);
 
-    // The argument of a rest element must be a bindable pattern (usually an identifier).
     const argument = this._parseBindingPattern();
     if (!argument) {
         this._error("Expected an identifier or pattern after '...' for rest element.");
         return null;
     }
 
-    // According to the ESTree spec, this node is a 'RestElement'.
     return this._finishNode({ type: 'RestElement', argument: argument }, s);
 };
 
