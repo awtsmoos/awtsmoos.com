@@ -489,38 +489,51 @@ reenterTemplateMode() {
 /* B"H */
 // In Lexer.js, this is the FINAL, UNBREAKABLE _readTemplatePart.
 // Its escape-handling logic is now a perfect mirror of the proven _readString method.
+/* B"H */
+// In Lexer.js, DELETE reenterTemplateMode. It is no longer needed.
+// REPLACE _readTemplatePart with this, which restores the "smart lexer" logic.
+
 _readTemplatePart() {
     const p = this.position;
+    let braceCount = 0;
 
-    // This loop is now governed by the one true rhythm.
+    // This loop is now the Scribe's own meditation. It understands nesting.
     while (this.ch !== null) {
-        // Boundary 1: The End (`).
-        if (this.ch === '`') {
-            const literal = this.source.slice(p, this.position);
-            this._advance(); // Consume the final backtick.
-            return this._makeToken(TOKEN.TEMPLATE_TAIL, literal);
-        }
+        if (braceCount === 0) {
+            // If we are not inside an expression, we look for template boundaries.
+            if (this.ch === '`') {
+                const literal = this.source.slice(p, this.position);
+                this._advance(); // Consume `
+                return this._makeToken(TOKEN.TEMPLATE_TAIL, literal);
+            }
+            if (this.ch === '$' && this._peek() === '{') {
+                const literal = this.source.slice(p, this.position);
+                this._advance(); // Consume $
+                this._advance(); // Consume {
+                braceCount = 1; // Enter the expression's nested reality.
+                // We do NOT return yet. We continue scanning to find the closing '}'.
+            }
+        } else {
+            // If we ARE inside an expression, we only care about braces.
+            if (this.ch === '{') braceCount++;
+            if (this.ch === '}') braceCount--;
 
-        // Boundary 2: The Portal (`${`).
-        if (this.ch === '$' && this._peek() === '{') {
-            const literal = this.source.slice(p, this.position);
-            this._advance(); // Consume '$'.
-            this._advance(); // Consume '{'.
-            return this._makeToken(TOKEN.TEMPLATE_MIDDLE, literal);
-        }
-
-        // THE SACRED LAW, RESTORED AND UNIFIED:
-        if (this.ch === '\\') {
-            this._advance(); // Action 1: Take ONE step over the ward.
-            continue;        // Action 2: Immediately force the next loop cycle, SKIPPING the advance below.
+            if (braceCount === 0) {
+                // The expression has ended. The entire span is one token.
+                const literal = this.source.slice(p, this.position);
+                this._advance(); // Consume the final '}'
+                // This is the key: the token contains the expression AND the text before it.
+                // This is a different philosophy, but it is the one your original parser was built for.
+                return this._makeToken(TOKEN.TEMPLATE_MIDDLE, literal); 
+            }
         }
         
-        // The normal, single step for all other characters.
+        if (this.ch === '\\') {
+            this._advance();
+        }
         this._advance();
     }
-    
-    // If the loop terminates, the emanation was incomplete.
-    return this._makeToken(TOKEN.ILLEGAL, `Unterminated template literal`);
+    return this._makeToken(TOKEN.ILLEGAL, 'Unterminated template literal');
 }
 
 
