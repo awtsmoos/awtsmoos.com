@@ -424,6 +424,42 @@ proto._parseGroupedOrArrowExpression = function() {
 		
 		
 		
+	/**
+ * B"H
+ * --- The Inquisitor: A Validation Function ---
+ 
+ * Its purpose is to act as a strict validator. After the parser has leniently
+ * parsed an ambiguous parenthesized expression, if it turns out NOT to be an
+ * arrow function, this "Inquisitor" is called.
+ *
+ * It recursively inspects the resulting AST and throws the correct error if it
+ * finds any syntax (specifically, an AssignmentPattern as the value of an
+ * object property) that is only legal in a destructuring pattern. This ensures
+ * that while the parser is temporarily lenient, it remains ultimately strict and
+ * correct in rejecting invalid JavaScript.
+ *
+ * @param {ESTree.Node} node The expression node to validate.
+ */
+proto._validateExpression = function(node) {
+    if (!node) return;
+
+    // The only thing we need to check for is an AssignmentPattern inside an ObjectExpression.
+    if (node.type === 'ObjectExpression') {
+        for (const prop of node.properties) {
+            // If a property's value is an AssignmentPattern, it's an error.
+            if (prop.value && prop.value.type === 'AssignmentPattern') {
+                this._error("Shorthand property assignments are only valid in destructuring patterns.");
+            }
+            // Recursively validate nested objects to catch `{ a: { b = 1 } }`.
+            if (prop.value) {
+                this._validateExpression(prop.value);
+            }
+        }
+    }
+    // No other validation is needed for this specific problem.
+};
+		
+		
 		
 		
 	proto._parseBinaryExpression =
