@@ -486,39 +486,36 @@ reenterTemplateMode() {
 
 /* B"H */
 // This is the Golem's Perfected Perception, unified with its understanding of strings.
+/* B"H */
+// In Lexer.js, this is the FINAL, UNBREAKABLE _readTemplatePart.
+// Its escape-handling logic is now a perfect mirror of the proven _readString method.
 _readTemplatePart() {
     const p = this.position;
-    
-    // This loop is forged in the fire of all previous errors. It is unbreakable.
+
+    // This loop is now governed by the one true rhythm.
     while (this.ch !== null) {
-        // Boundary 1: The End of the World (`).
+        // Boundary 1: The End (`).
         if (this.ch === '`') {
             const literal = this.source.slice(p, this.position);
             this._advance(); // Consume the final backtick.
             return this._makeToken(TOKEN.TEMPLATE_TAIL, literal);
         }
 
-        // Boundary 2: The Portal to an Expression (`${`).
-        // This check is now ATOMIC. It only triggers on the exact '${' sequence.
+        // Boundary 2: The Portal (`${`).
         if (this.ch === '$' && this._peek() === '{') {
             const literal = this.source.slice(p, this.position);
             this._advance(); // Consume '$'.
             this._advance(); // Consume '{'.
-            // The Scribe's duty is done. It returns control to the Mystic (Parser).
             return this._makeToken(TOKEN.TEMPLATE_MIDDLE, literal);
         }
 
-        // THE SACRED LAW OF ESCAPES, RESTORED:
+        // THE SACRED LAW, RESTORED AND UNIFIED:
         if (this.ch === '\\') {
-            this._advance(); // Consume the backslash...
-            if (this.ch === null) {
-                // This handles an escape char at the very end of the file.
-                break;
-            }
-            // By advancing here, we effectively "skip" the next character's special meaning.
+            this._advance(); // Action 1: Take ONE step over the ward.
+            continue;        // Action 2: Immediately force the next loop cycle, SKIPPING the advance below.
         }
         
-        // The default action for any normal character.
+        // The normal, single step for all other characters.
         this._advance();
     }
     
