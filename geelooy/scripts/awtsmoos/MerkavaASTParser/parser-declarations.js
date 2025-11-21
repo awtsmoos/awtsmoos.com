@@ -65,6 +65,47 @@ proto._parseDeclaration = function() {
 };
 
 
+// B"H
+// --- The Reverse Alchemist ---
+// This new helper goes in `parser-declarations.js`. It converts a node parsed
+// as a Pattern back into a valid Expression if no arrow `=>` is found.
+proto._convertPatternToExpression = function(node) {
+    if (!node) return null;
+    switch (node.type) {
+        case 'Identifier':
+        case 'MemberExpression': // e.g., (this.x)
+            return node;
+
+        case 'ObjectPattern':
+            node.type = 'ObjectExpression';
+            node.properties.forEach(prop => {
+                if (prop.type === 'RestElement') prop.type = 'SpreadElement';
+                // Critically, we must ensure inner values are also converted.
+                prop.value = this._convertPatternToExpression(prop.value);
+            });
+            return node;
+
+        case 'ArrayPattern':
+            node.type = 'ArrayExpression';
+            node.elements = node.elements.map(el => this._convertPatternToExpression(el));
+            return node;
+
+        case 'AssignmentPattern':
+             // An assignment like `(a = 1)` is a valid expression.
+            node.left = this._convertPatternToExpression(node.left);
+            return node;
+
+        // A RestElement like `(...a)` is NOT a valid expression by itself in parens.
+        case 'RestElement':
+            return null;
+
+        default:
+            return node;
+    }
+};
+
+
+
 	
         
 	/***********************************************************************

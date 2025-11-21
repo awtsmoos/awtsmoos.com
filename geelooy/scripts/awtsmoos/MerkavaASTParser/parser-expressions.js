@@ -382,49 +382,49 @@ proto._parseRegExpLiteral = function() {
  *     as before, which now receives a correctly structured input to work with.
  */
 // B"H
+// B"H
+// --- THE FINAL, UNBREAKABLE REPLACEMENT for _parseGroupedOrArrowExpression ---
+// This goes in `parser-expressions.js`.
 proto._parseGroupedOrArrowExpression = function() {
     const s = this._startNode();
     this._expect(TOKEN.LPAREN);
 
-    if (this._currTokenIs(TOKEN.RPAREN)) {
-        this._advance();
-        if (!this._currTokenIs(TOKEN.ARROW)) {
-            this._error("Unexpected empty parentheses in expression.");
-            return null;
-        }
-        return this._parseArrowFunctionExpression(s, [], false);
-    }
-
-    const exprList = [];
-    do {
-        // --- THE FINAL FIX ---
-        // The precedence is lowered to SEQUENCE (1). This is low enough to allow the
-        // main expression loop to see an '=' token (precedence 2) as a valid
-        // infix operator, allowing it to parse the full `(...) = {...}` structure
-        // as a single AssignmentExpression. This fixes the "Expected )" error.
-        exprList.push(this._parseExpression(PRECEDENCE.SEQUENCE));
-    } while (this._currTokenIs(TOKEN.COMMA) && (this._advance(), true));
+    // --- THE GREAT RECTIFICATION ---
+    // We ABANDON the flawed "parse as expression, then convert" strategy.
+    // Instead, we immediately and directly parse the contents as a parameter list
+    // using the parser's dedicated, robust "declaration" engine. This completely
+    // avoids the context confusion that caused all previous errors and freezes.
+    const params = this._parseParameterListContents(); // This function lives in parser-declarations.js
 
     this._expect(TOKEN.RPAREN);
 
+    // After parsing, check for the arrow.
     if (this._currTokenIs(TOKEN.ARROW)) {
-        // It's an arrow function. Convert the leniently parsed expression to a pattern.
-        const params = exprList.map(e => this._convertExpressionToPattern(e));
+        // It's an arrow function. The params are already perfect patterns.
         return this._parseArrowFunctionExpression(s, params, false);
     }
 
-    // It was a grouped expression. Now, validate it strictly.
-    exprList.forEach(expr => this._validateExpression(expr));
-
-    if (exprList.length > 1) {
-        const seqNode = { type: 'SequenceExpression', expressions: exprList };
-        const seqStart = { loc: { start: exprList[0].loc.start } };
-        return this._finishNode(seqNode, seqStart);
+    // It was NOT an arrow function. Now we must validate that what we parsed
+    // can be considered a valid grouped expression.
+    if (params.length > 1) {
+        // `(a, b)` becomes a SequenceExpression.
+        return { type: 'SequenceExpression', expressions: params };
+    }
+    if (params.length === 1) {
+        // `(a)` or `({a:1})` just becomes the inner expression.
+        // We must now ensure the pattern we parsed is a valid expression.
+        const expression = this._convertPatternToExpression(params[0]);
+        if (!expression) {
+            this._error("Invalid expression in parentheses.");
+            return null;
+        }
+        return expression;
     }
 
-    return exprList[0];
+    // It was `()`, which is not a valid expression.
+    this._error("Unexpected empty parentheses in expression.");
+    return null;
 };
-		
 		
 		
 	/**
@@ -597,42 +597,6 @@ proto._convertExpressionToPattern = function(node) {
     }
 };
 
-// B"H
-// --- The Reverse Alchemist ---
-// This helper converts a node parsed as a Pattern back into a valid Expression.
-proto._convertPatternToExpression = function(node) {
-    if (!node) return null;
-    switch (node.type) {
-        // An Identifier is both a valid pattern and a valid expression.
-        case 'Identifier':
-            return node;
-
-        // Transmute ObjectPattern back to ObjectExpression.
-        case 'ObjectPattern':
-            node.type = 'ObjectExpression';
-            node.properties.forEach(prop => {
-                if (prop.type === 'RestElement') {
-                    prop.type = 'SpreadElement';
-                }
-                prop.value = this._convertPatternToExpression(prop.value);
-            });
-            return node;
-
-        // Transmute ArrayPattern back to ArrayExpression.
-        case 'ArrayPattern':
-            node.type = 'ArrayExpression';
-            node.elements = node.elements.map(el => this._convertPatternToExpression(el));
-            return node;
-
-        // A default value is a valid expression.
-        case 'AssignmentPattern':
-            return node;
-
-        // Default case for anything else that might have been parsed.
-        default:
-            return node;
-    }
-};
 
 
 	proto
