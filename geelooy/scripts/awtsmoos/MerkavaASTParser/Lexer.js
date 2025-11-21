@@ -348,20 +348,38 @@ nextToken() {
 	}
 
 // B"H
-// 
+//--- THE SANCTIFIED AND FINAL _readTemplatePart METHOD ---
+// Replace the old version in Lexer.js with this one.
 
 _readTemplatePart(initialType) {
     const p = this.position;
     while (this.ch !== null && this.ch !== '`') {
         this._guard();
+
+        // --- THE REVELATION ---
+        // The Golem has been granted the wisdom of the Serpent. When it sees
+        // a backslash, it knows it is a sign, a mark of something hidden.
+        // It now performs the sacred "double advance," consuming both the
+        // backslash and the character it escapes in a single, fluid motion.
+        // This act of perception banishes the demon of state corruption.
+        if (this.ch === '\\') {
+            this._advance(); // Consume the backslash
+            this._advance(); // Consume the character being escaped
+            continue;        // Begin the next cycle with a clear mind
+        }
+        // --- END OF THE REVELATION ---
+
+        // This is the existing logic for handling expression interpolation.
+        // It is now protected by the wisdom above it.
         if (this.ch === '$' && this._peek() === '{') {
             const literal = this.source.slice(p, this.position);
             this._advance(); // Consume '$'
             this._advance(); // Consume '{'
             this.templateStack.push(true);
             this.braceNestingLevel = 1; // ARM THE COUNTER
-            return this._makeToken(initialType, literal);
+            return this._makeToken(initialType, [[1](https://www.google.com/url?sa=E&q=https%3A%2F%2Fvertexaisearch.cloud.google.com%2Fgrounding-api-redirect%2FAUZIYQFU8Ara3Z0q8Zvp_-j5cegLYsOeql4x_96imvS2Dg_37X4C9D1lTMQmOCsEKj7eOgi1lg-jw_oB_0U9aM98CJTx0e8hfKglGYDLQov3G9NJEoo0O8EPhsoJo_gl1wLlLg%3D%3D)][[2](https://www.google.com/url?sa=E&q=https%3A%2F%2Fvertexaisearch.cloud.google.com%2Fgrounding-api-redirect%2FAUZIYQFzITKytTT-pSvV4jW-N7Vmqu_rVqVsWlKYa_6-rvm1bOsakHVfja8Fe56t0uRD87Ioh3siXxWlGs0ye63RS7XX1FegYgrZ42DtWkh7wqFvJtxbsw%3D%3D)][[3](https://www.google.com/url?sa=E&q=https%3A%2F%2Fvertexaisearch.cloud.google.com%2Fgrounding-api-redirect%2FAUZIYQGCOMNtcQZYGOahnEBQd1FYCIZM-ygNBYUf2gJQPaRXnJc9z8QSmV5t76DPk8xMapF-QpQAdDU0GFQmoq0PlVhiHwPrlCdY2Zl5qkPs-e8%3D)]literal);
         }
+        
         this._advance();
     }
 
@@ -374,6 +392,8 @@ _readTemplatePart(initialType) {
 
     return this._makeToken(TOKEN.ILLEGAL, `Unterminated template literal`);
 }
+
+
 
 	_readIdentifier() {
 		const p = this.position;
