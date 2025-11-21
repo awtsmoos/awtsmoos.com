@@ -644,20 +644,16 @@ proto._convertExpressionToPattern = function(node) {
 proto._parseObjectProperty = function() {
     const s = this._startNode();
 
-    // Handle SpreadElement (`...rest`) as a special case.
     if (this._currTokenIs(TOKEN.DOTDOTDOT)) {
         return this._parseSpreadElement();
     }
 
-    // A property's key can be an identifier, string, or number.
     const key = (this.currToken.type === TOKEN.STRING || this.currToken.type === TOKEN.NUMBER)
         ? this._parseLiteral()
         : this._parseIdentifier();
     
     if (!key) return null;
 
-    // This handles shorthand properties like `{ data }`. If there is no colon,
-    // it's a shorthand property and we are done.
     if (!this._currTokenIs(TOKEN.COLON)) {
         return this._finishNode({ 
             type: 'Property', 
@@ -670,15 +666,14 @@ proto._parseObjectProperty = function() {
         }, s);
     }
 
-    // If we are here, it's a standard key-value pair.
     this._advance(); // Consume the ':'
 
-    // --- THIS IS THE PRECISE, ESSENTIAL TIKKUN ---
-    // This line commands the parser to parse a complete expression as the value.
-    // By setting the precedence to `ASSIGNMENT`, it is capable of consuming
-    // operators like `=` as part of this value expression.
-    const value = this._parseExpression(PRECEDENCE.ASSIGNMENT);
-    // --- END OF THE TIKKUN ---
+    // --- THIS IS THE TRUE TIKKUN ---
+    // The previous fix used PRECEDENCE.ASSIGNMENT, creating a paradox.
+    // By requesting a LOWER precedence, we GUARANTEE that the main expression
+    // loop will engage with the '=' token instead of skipping it.
+    const value = this._parseExpression(PRECEDENCE.SEQUENCE);
+    // --- END OF THE TRUE TIKKUN ---
 
     if (!value) {
         this._error("Expected a value after ':' in object property.");
