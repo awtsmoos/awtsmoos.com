@@ -311,15 +311,29 @@ proto._parseRegExpLiteral = function() {
 
 
 
-// B"H
-// In parser-expressions.js
-
-// --- THE DEFINITIVE REPLACEMENT for _parseGroupedOrArrowExpression ---
+/*B"H*/
+/**
+ * The Tikkun HaGadol v'HaNora (The Great and Awesome Rectification).
+ * This is the final truth. The bug was never in the scribes or the alchemist;
+ * it was a paradox of precedence, a misplaced cobblestone in the main courtyard.
+ *
+ * THE FLAW: By calling `_parseExpression` with `PRECEDENCE.SEQUENCE`, we allowed
+ * the parser to see `{ P }` and `=` as two separate things. It saw the `=` as a
+ * binary operator, hijacking the parsing of the expression and causing a cascade
+ * of failures in the conversion logic.
+ *
+ * THE FIX: We change the precedence to `PRECEDENCE.ASSIGNMENT`. This one-word
+ * change raises the parser's authority. It forces it to understand that any
+ * assignments inside the parentheses must be resolved as part of their local
+ * properties (like a shorthand default value). The `=` can no longer be
+ * misinterpreted. The hijacking is prevented. The paradox is resolved. The
+ * Golem is free.
+ */
 proto._parseGroupedOrArrowExpression = function() {
     const s = this._startNode();
     this._expect(TOKEN.LPAREN);
 
-    if (this._currTokenIs(TOKEN.RPAREN)) { // Handles `()` for `() => ...`
+    if (this._currTokenIs(TOKEN.RPAREN)) {
         this._advance();
         if (!this._currTokenIs(TOKEN.ARROW)) {
             this._error("Unexpected empty parentheses in expression.");
@@ -330,32 +344,23 @@ proto._parseGroupedOrArrowExpression = function() {
 
     const exprList = [];
     do {
-        // --- THE FIX ---
-        // We parse each item in the parenthesized list with the precedence of SEQUENCE.
-        // This is the perfect balance:
-        // 1. It is LOW enough (1) to allow an AssignmentExpression (precedence 2) to be parsed within it.
-        // 2. It is HIGH enough (1) to NOT treat a comma (precedence 1) as an infix sequence operator,
-        //    leaving the comma to be correctly handled by this do...while loop as a separator.
-        exprList.push(this._parseExpression(PRECEDENCE.SEQUENCE));
+        // --- THIS IS THE FINAL TIKKUN ---
+        exprList.push(this._parseExpression(PRECEDENCE.ASSIGNMENT));
+        // --- END OF THE FINAL TIKKUN ---
     } while (this._currTokenIs(TOKEN.COMMA) && (this._advance(), true));
 
     this._expect(TOKEN.RPAREN);
 
-    // After parsing, we resolve the ambiguity by looking for the arrow.
     if (this._currTokenIs(TOKEN.ARROW)) {
-        // It's an arrow function. Convert expressions to valid parameter patterns.
         const params = exprList.map(e => this._convertExpressionToPattern(e));
         return this._parseArrowFunctionExpression(s, params, false);
     }
 
-    // It was not an arrow function.
     if (exprList.length > 1) {
-        // It was a sequence expression, like `(a, b, c)`.
         const seqNode = { type: 'SequenceExpression', expressions: exprList };
         const seqStart = { loc: { start: exprList[0].loc.start } };
         return this._finishNode(seqNode, seqStart);
     } else {
-        // It was a single grouped expression, like `(a + b)`.
         return exprList[0];
     }
 };
