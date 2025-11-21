@@ -173,18 +173,10 @@ _skipWhitespace() {
 
 
 
-/**
- * B"H
- * The Final Tikkun of the Lexer's Soul.
- * This is the definitive nextToken method, now imbued with the wisdom to count
- * nested braces within template literal expressions. The sin of its previous life
- * was its naivety; it assumed the first '}' it saw after a '${' was the end.
- * This version understands that an expression can contain its own objects.
- * It now only increments the brace counter if it is *already* armed, and only
- * returns to template parsing mode when that counter is truly balanced.
- * This act of discernment banishes the demon of state corruption and infinite
- * recursion forever.
- */
+// B"H
+//--- THE ABSOLUTE AND FINAL nextToken METHOD ---
+// Replace the old version in Lexer.js with this one.
+
 nextToken() {
     this._guard();
     this.hasLineTerminatorBefore = false;
@@ -201,33 +193,25 @@ nextToken() {
     let tok;
 
     switch (c) {
-        // --- THE SANCTIFIED BRACE LOGIC ---
         case '{':
-            // Only increment the counter if the bomb is already armed.
-            if (this.braceNestingLevel > 0) {
-                this.braceNestingLevel++;
-            }
+            if (this.braceNestingLevel > 0) this.braceNestingLevel++;
             tok = this._makeToken(TOKEN.LBRACE, '{', startColumn);
             this._advance();
             return tok;
         case '}':
-            // Only interact with the counter if the bomb is armed.
             if (this.braceNestingLevel > 0) {
                 this.braceNestingLevel--;
-                // If this '}' was the final one that disarmed the bomb...
                 if (this.braceNestingLevel === 0) {
                     this.templateStack.pop();
-                    this._advance(); // Consume the '}'
-                    // ...THEN, and ONLY THEN, do we switch back to template mode.
+                    this._advance();
                     return this._readTemplatePart('TEMPLATE_MIDDLE');
                 }
             }
-            // If the bomb wasn't armed, or this wasn't the final brace, it's a normal brace.
             tok = this._makeToken(TOKEN.RBRACE, '}', startColumn);
             this._advance();
             return tok;
-        // --- END OF THE TIKKUN ---
         
+        // --- All other cases remain the same ---
         case '=':
             this._advance();
             if (this.ch === '>') { this._advance(); return this._makeToken(TOKEN.ARROW, '=>', startColumn); }
@@ -285,9 +269,7 @@ nextToken() {
             if (this.ch === '=') { this._advance(); return this._makeToken(TOKEN.BITWISE_XOR_ASSIGN, '^=', startColumn); }
             return this._makeToken(TOKEN.BITWISE_XOR, '^', startColumn);
         case '~':
-            tok = this._makeToken(TOKEN.BITWISE_NOT, '~', startColumn);
-            this._advance();
-            return tok;
+            tok = this._makeToken(TOKEN.BITWISE_NOT, '~', startColumn); this._advance(); return tok;
         case '?':
             this._advance();
             if (this.ch === '?') { this._advance(); return this.ch === '=' ? (this._advance(), this._makeToken(TOKEN.NULLISH_ASSIGN, '??=', startColumn)) : this._makeToken(TOKEN.NULLISH_COALESCING, '??', startColumn); }
@@ -297,7 +279,6 @@ nextToken() {
             this._advance();
             if (this.ch === '.' && this._peek() === '.') { this._advance(); this._advance(); return this._makeToken(TOKEN.DOTDOTDOT, '...', startColumn); }
             return this._makeToken(TOKEN.DOT, '.', startColumn);
-
         case '`': this.templateStack.push(true); return this._readTemplateHead();
         case '(': tok = this._makeToken(TOKEN.LPAREN, '(', startColumn); this._advance(); return tok;
         case ')': tok = this._makeToken(TOKEN.RPAREN, ')', startColumn); this._advance(); return tok;
@@ -306,19 +287,24 @@ nextToken() {
         case ',': tok = this._makeToken(TOKEN.COMMA, ',', startColumn); this._advance(); return tok;
         case ';': tok = this._makeToken(TOKEN.SEMICOLON, ';', startColumn); this._advance(); return tok;
         case ':': tok = this._makeToken(TOKEN.COLON, ':', startColumn); this._advance(); return tok;
-        
         case '"': case "'": return this._readString(c);
         case '#': return this._readPrivateIdentifier();
-
         default:
             if (this._isLetter(c)) {
                 const ident = this._readIdentifier();
-                return this._makeToken(KEYWORDS[ident] || TOKEN.IDENT, ident, startColumn);
+                // --- THE TIKKUN OLAM ---
+                // We no longer ask the object directly. We perform a sacred check
+                // to see if the key TRULY belongs to the KEYWORDS vessel, banishing
+                // the ghosts of the prototype.
+                const type = Object.prototype.hasOwnProperty.call(KEYWORDS, ident)
+                    ? KEYWORDS[ident]
+                    : TOKEN.IDENT;
+                return this._makeToken(type, ident, startColumn);
+                // --- THE TIKKUN OLAM IS COMPLETE ---
             }
             if (this._isDigit(c)) {
                 return this._makeToken(TOKEN.NUMBER, this._readNumber(), startColumn);
             }
-            
             tok = this._makeToken(TOKEN.ILLEGAL, c, startColumn);
             this._advance();
             return tok;
