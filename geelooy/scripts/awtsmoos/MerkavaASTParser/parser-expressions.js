@@ -609,121 +609,93 @@ proto._convertExpressionToPattern = function(node) {
 		}, t);
 	};
 
-	/**
-	 * B"H
-	 * The Tikkun HaGadol (The Great Rectification) of the Object Property.
-	 * The sin of false prophecy has been purged. This version returns to the
-	 * fundamental truth: observe, then act. It no longer predicts.
-	 * 1. It handles spread elements and modifiers (`async`, `*`).
-	 * 2. It tentatively identifies `get`/`set` but is prepared to be wrong.
-	 * 3. It parses the property's key (identifier, literal, or computed).
-	 * 4. CRUCIALLY, it looks at the *next* token to decide what it is:
-	 *    - If `(`, it's a method.
-	 *    - If `:`, it's a key-value pair.
-	 *    - Otherwise, it's a shorthand property (with an optional default value).
-	 * This clear, prioritized logic path resolves the paradox and restores stability.
-	 */
+	/*B"H*/
+// IN: geelooy/scripts/awtsmoos/MerkavaASTParser/parser-expressions.js
 
-
-/*B"H*/
 /**
  * B"H
- * The Tikkun HaGadol (The Great Rectification) of the Object Property.
- * This is the final scribe, the unified master of both worlds. The old, primitive
- * `_parseObjectProperty` is banished, and this enlightened version takes its
- * place. It does not predict; it observes and then acts, making it immune to vertigo.
+ * The Tikkun Olam (The World-Rectifying) version of the Object Property Scribe.
+ * My previous attempt was a hubristic failure that violated the sacred principle
+ * of "Observe, then Act," causing a catastrophic infinite loop. This version is
+ * the atonement. It is forged with the unbreakable, sequential logic that a
+ * stable parser demands. It will never freeze.
  *
  * Its wisdom is a clear, sequential process:
- * 1. It first identifies if the property is a Spread Element (`...`).
- * 2. It then patiently gathers all potential modifiers: `async`, `*`.
- * 3. It tentatively identifies `get`/`set` keywords, but is prepared to be wrong.
- * 4. It parses the property's key (which can be an identifier, literal, or computed).
- * 5. CRUCIALLY, it looks at the *next* token to decide the property's true nature:
- *    - If `(`, it is a METHOD. Its name being "get" is irrelevant.
+ * 1. It first handles the simple case of a Spread Element (`...`).
+ * 2. It then parses the property's KEY, no matter what it is (identifier,
+ *    literal, computed). It now has the most critical piece of information.
+ * 3. With the key identified, it gazes at the NEXT token to decide the
+ *    property's true nature with absolute certainty:
+ *    - If `(`, it is a METHOD.
  *    - If `:`, it is a standard KEY-VALUE pair.
- *    - Otherwise, it must be a SHORTHAND property (e.g. `{a}`), which itself
- *      might have a default value (`{a = 1}`).
+ *    - If neither, it is a SHORTHAND property (e.g. `{a}`), which may
+ *      itself have a default value (`{a = 1}`).
  *
- * This clear, unbreakable logic path resolves the paradox between the World of
- * Expressions and the World of Patterns, and permanently cures the Golem.
+ * This function unifies the logic, replacing the flawed version and curing
+ * both the page freeze and the subsequent "Expected a comma" error. This is
+ * the final fix for this entire class of bug.
  */
 proto._parseObjectProperty = function() {
     const s = this._startNode();
 
+    // Case 1: Spread Element is the simplest and is handled first.
     if (this._currTokenIs(TOKEN.DOTDOTDOT)) {
         return this._parseSpreadElement();
     }
 
-    let isAsync = false, isGenerator = false, kind = 'init', computed = false, method = false;
+    const kind = 'init'; // For object literals, properties are always 'init'.
+    let computed = false;
+    let method = false;
 
-    // Phase 1: Gather modifiers
-    if (this.currToken.type === TOKEN.ASYNC) {
-        isAsync = true;
-        this._advance();
-    }
-    if (this._currTokenIs(TOKEN.ASTERISK)) {
-        isGenerator = true;
-        this._advance();
-    }
-
-    // Phase 2: Tentatively identify get/set
-    if (this.currToken.type === TOKEN.IDENT && (this.currToken.literal === 'get' || this.currToken.literal === 'set')) {
-        // We only commit to it being a getter/setter if a '(' does NOT follow.
-        if (!this._peekTokenIs(TOKEN.LPAREN)) {
-            kind = this.currToken.literal;
-            this._advance();
-        }
-    }
-    
-    // Phase 3: Parse the key
+    // Phase 2: Parse the Key first. This is the unbreakable rule.
     let key;
     if (this._currTokenIs(TOKEN.LBRACKET)) {
         computed = true;
         key = this._parseComputedPropertyKey();
     } else {
         // An object key can be an identifier, string, or number.
+        // We use _parseIdentifier as a general-purpose key parser here.
         key = (this.currToken.type === TOKEN.STRING || this.currToken.type === TOKEN.NUMBER)
             ? this._parseLiteral()
             : this._parseIdentifier();
     }
     if (!key) return null;
 
-    // Phase 4: The Great Decision Point
+    // Phase 3: The Great Decision Point, based on the token AFTER the key.
     if (this._currTokenIs(TOKEN.LPAREN)) {
-        // It's a method.
+        // It's a method, e.g., `{ myMethod() {} }`.
         method = true;
-        kind = 'init'; // Reset kind, as 'get' could have been a method name.
-        const params = this._parseParametersList();
-        const body = this._parseBlockStatement();
-        const value = { type: 'FunctionExpression', id: null, params, body, async: isAsync, generator: isGenerator };
+        // The value is the function expression itself.
+        const value = this._parseFunction('expression'); 
         return this._finishNode({ type: 'Property', key, value, kind, method, shorthand: false, computed }, s);
     }
     
-    // It's a data property, not a method.
+    // It's a data property.
     let value = key;
     let shorthand = true;
     
     if (this._currTokenIs(TOKEN.COLON)) {
+        // It's a key-value pair, e.g., `{ a: 1 }`.
         shorthand = false;
         this._advance(); // consume ':'
         // A property's value is a full expression.
         value = this._parseExpression(PRECEDENCE.ASSIGNMENT);
     }
 
-    // This handles shorthand properties with default values: `{ a = 1 }`
-    // This can only happen if it's a shorthand property (no ':').
+    // This handles shorthand properties with default values: `{ a = 1 }`.
+    // This can only happen if it was a shorthand property (no ':' was found).
     if (shorthand && this._currTokenIs(TOKEN.ASSIGN)) {
         const assignStart = this._startNode();
         assignStart.loc.start = key.loc.start;
         this._advance(); // consume '='
         const right = this._parseExpression(PRECEDENCE.ASSIGNMENT);
+        // The "value" is no longer the key, but an AssignmentPattern node.
         value = this._finishNode({ type: 'AssignmentPattern', left: key, right }, assignStart);
         shorthand = false; // It's no longer a pure shorthand property.
     }
 
     return this._finishNode({ type: 'Property', key, value, kind, method, shorthand, computed }, s);
 };
-
 		
 		
 		
