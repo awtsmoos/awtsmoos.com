@@ -118,87 +118,20 @@ proto._parseArrayPattern = function() {
     this._expect(TOKEN.RBRACKET);
     return this._finishNode({ type: 'ArrayPattern', elements }, s);
 };
-/*B"H*/
-/**
- * The Tikkun of the Amnesiac Scribe. This is the definitive fix.
- * The original sin of this function was that it did not delegate. When it
- * encountered the value part of a property within a destructuring pattern, it
- * tried to parse it with `_parseBindingPattern`, a simple tool unfit for the
- * task. This caused it to suffer from "Syntactic Vertigo" when the value was a
- * complex expression like a nested arrow function.
- *
- * THE FIX: The call to `_parseBindingPattern` is replaced with a call to the
- * specialized, enlightened `_parseBindingWithDefault`. This function is designed
- * precisely for this situation. It can handle the violent context switch,
- * ensuring the parser never loses its memory and can always return safely from
- * the depths of the rabbit hole. This single change cures the freeze.
- */
-/**
- * B"H
- * The Rectified Property Parser: _parseProperty (for Object Patterns)
- * This function now embodies the principle of "Patient Observation". It first
- * secures the property's key, then observes the following token to decide its
- * true nature. Most importantly, when it encounters a value part (`key: value`),
- * it correctly delegates the parsing of that `value` to the `_parseBindingWithDefault`
- * scribe, allowing for infinitely nested defaults without confusion.
- */
-proto._parseProperty = function() {
-    const s = this._startNode();
-
-    // Phase 1: Identify the key (e.g., 'P').
-    const key = this._currTokenIs(TOKEN.LBRACKET)
-        ? this._parseComputedPropertyKey()
-        : this._parseIdentifier();
-    if (!key) return null;
-
-    let value = key;
-    let shorthand = true;
-
-    // Phase 2: Patiently observe the next token.
-    if (this._currTokenIs(TOKEN.COLON)) {
-        // It's a key-value pair, like { key: newValue }.
-        shorthand = false;
-        this._advance(); // Consume ':'.
-
-        // DELEGATION: The value itself could have a default, so we use the specialist.
-        value = this._parseBindingWithDefault();
-
-    } else if (this._currTokenIs(TOKEN.ASSIGN)) {
-        // It's a shorthand with a default, like { P = {} }.
-        const assignStart = this._startNode();
-        assignStart.loc.start = value.loc.start; // Start from the key's position.
-        this._advance(); // Consume '='.
-        const right = this._parseExpression(PRECEDENCE.ASSIGNMENT);
-        value = this._finishNode({ type: 'AssignmentPattern', left: value, right }, assignStart);
-        shorthand = false; // It is no longer a simple shorthand.
-    }
-
-    return this._finishNode({
-        type: 'Property',
-        key: key,
-        value: value,
-        kind: 'init',
-        method: false,
-        shorthand: shorthand,
-        computed: (key.type !== 'Identifier')
-    }, s);
-};
-
-// Helper function assumed by the above, ensure you have it.
-proto._parseComputedPropertyKey = function() {
-    this._expect(TOKEN.LBRACKET);
-    const key = this._parseExpression(PRECEDENCE.LOWEST);
-    this._expect(TOKEN.RBRACKET);
-    return key;
-};
 
 	proto._parseObjectPattern = function() {
     const s = this._startNode();
     this._expect(TOKEN.LBRACE);
     const properties = [];
     while (!this._currTokenIs(TOKEN.RBRACE) && !this._currTokenIs(TOKEN.EOF)) {
-        const prop = this._parseProperty();
-        if (!prop) return null;
+        const prop = this._parseProperty(true);
+        if (!prop) {
+        // Added recovery logic to prevent freezes on invalid input.
+        this._error("Invalid property in destructuring pattern.");
+        this._advance();
+        continue;
+    }
+        
         properties.push(prop);
         if (this._currTokenIs(TOKEN.COMMA)) this._advance();
         else break;
@@ -256,7 +189,93 @@ proto._parseArrayPattern = function() {
     return this._finishNode({ type: 'ArrayPattern', elements }, s);
 };
 
-	
+	/**
+ * B"H
+ * --- THE ONE, UNIFIED PROPERTY SCRIBE ---
+ * This NEW, single function REPLACES both of the old property parsers and
+ * should be added to `parser-declarations.js`.
+ *
+ * It solves the core architectural flaw by using a boolean flag, `isPattern`,
+ * to understand its context. This eliminates the "split personality" conflict
+ * that caused all previous errors and freezes.
+ *
+ * @param {boolean} isPattern - If `true`, the parser will apply the rules
+ *   for destructuring patterns (allowing shorthand defaults). If `false`, it will
+ *   apply the stricter rules for object literals.
+ * @returns {ESTree.Node | null} An ESTree node for a Property, RestElement,
+ *   or SpreadElement.
+ */
+proto._parseProperty = function(isPattern) {
+    const s = this._startNode();
+
+    // Spread/Rest has slightly different parsing depending on context.
+    if (this._currTokenIs(TOKEN.DOTDOTDOT)) {
+        this._advance(); // Consume '...'
+        // In a pattern, the argument is another pattern. In an expression, it's an expression.
+        const argument = isPattern ? this._parseBindingPattern() : this._parseExpression(PRECEDENCE.ASSIGNMENT);
+        const type = isPattern ? 'RestElement' : 'SpreadElement';
+        return this._finishNode({ type, argument }, s);
+    }
+
+    let computed = false;
+    let method = false;
+    let kind = 'init';
+
+    // Parse the property's key.
+    let key;
+    if (this._currTokenIs(TOKEN.LBRACKET)) {
+        computed = true;
+        key = this._parseComputedPropertyKey();
+    } else {
+        // In an object literal, 'get' and 'set' can be accessor keywords.
+        if (!isPattern && (this.currToken.literal === 'get' || this.currToken.literal === 'set') && !this._peekTokenIs(TOKEN.COLON)) {
+            kind = this.currToken.literal;
+            this._advance();
+        }
+        key = (this.currToken.type === TOKEN.STRING || this.currToken.type === TOKEN.NUMBER)
+            ? this._parseLiteral()
+            : this._parseIdentifier();
+    }
+    if (!key) return null;
+
+    // A `(` after a key always indicates a method, in either context.
+    if (this._currTokenIs(TOKEN.LPAREN)) {
+        method = true;
+        // Getters/Setters cannot be methods.
+        if (kind === 'get' || kind === 'set') this._error("Getter/setter can't be a method.");
+        const value = this._parseFunction('expression');
+        return this._finishNode({ type: 'Property', key, value, kind, method, shorthand: false, computed }, s);
+    }
+
+    let value = key;
+    let shorthand = true;
+
+    if (this._currTokenIs(TOKEN.COLON)) {
+        // Standard `key: value` pair.
+        shorthand = false;
+        this._advance(); // Consume ':'
+        // The value is parsed differently depending on the context.
+        value = isPattern ? this._parseBindingWithDefault() : this._parseExpression(PRECEDENCE.SEQUENCE);
+    } else if (isPattern && this._currTokenIs(TOKEN.ASSIGN)) {
+        // Shorthand with default, e.g., `{ a = 1 }`. This is ONLY valid in a pattern.
+        shorthand = false; // It's no longer a pure shorthand property.
+        const assignStart = this._startNode();
+        assignStart.loc.start = key.loc.start;
+        this._advance(); // Consume '='
+        const right = this._parseExpression(PRECEDENCE.ASSIGNMENT);
+        value = this._finishNode({ type: 'AssignmentPattern', left: key, right }, assignStart);
+    } else if (!isPattern && kind !== 'init') {
+        // This is an accessor property (`get prop() {}`), it should have been handled by the LPAREN check.
+        // If we are here, it means something like `get prop;` which is invalid.
+        this._error("Invalid accessor definition.");
+    } else if (!isPattern && !shorthand) {
+        // If we are in an object literal, not shorthand, and didn't find a ':', it's an error.
+        this._error("Expected ':' after property name in object literal.");
+    }
+    // If it's a simple shorthand property (`{a}`), no special logic is needed.
+
+    return this._finishNode({ type: 'Property', key, value, kind, method, shorthand, computed }, s);
+};
 // B"H
 // 
 
