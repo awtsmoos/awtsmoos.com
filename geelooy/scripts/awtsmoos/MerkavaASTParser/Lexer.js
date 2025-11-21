@@ -484,46 +484,44 @@ reenterTemplateMode() {
  * This unbreakable simplicity resolves all paradoxes.
  */
 
+/* B"H */
+// This is the Golem's Perfected Perception, unified with its understanding of strings.
 _readTemplatePart() {
     const p = this.position;
-    
-    // This loop is forged in the fire of the previous errors. It is unbreakable.
+
+    // This loop is forged in the fire of all previous errors. It cannot fail.
     while (this.ch !== null) {
-        // Boundary 1: The End of the World.
+        // Boundary 1: The End of the World (`).
         if (this.ch === '`') {
             const literal = this.source.slice(p, this.position);
             this._advance(); // Consume the final backtick.
             return this._makeToken(TOKEN.TEMPLATE_TAIL, literal);
         }
 
-        // Boundary 2: The Portal to an Expression.
-        // This check is now ATOMIC. It only triggers on the exact '${' sequence.
+        // Boundary 2: The Portal to an Expression (`${`).
+        // This check is atomic and cannot be fooled by lone '$' characters.
         if (this.ch === '$' && this._peek() === '{') {
             const literal = this.source.slice(p, this.position);
-            this._advance(); // Consume '$'
-            this._advance(); // Consume '{'
-            // The Scribe's duty is done. It stops and returns control to the Mystic (Parser).
-            // The Parser's stream is now correctly positioned at the start of the expression.
+            this._advance(); // Consume '$'.
+            this._advance(); // Consume '{'.
+            // The Scribe's duty ends here. It returns control to the Mystic (Parser).
             return this._makeToken(TOKEN.TEMPLATE_MIDDLE, literal);
         }
 
-        // The unbreakable escape logic.
+        // THE SACRED LAW OF ESCAPES, RESTORED:
+        // When the holy ward of the backslash is perceived...
         if (this.ch === '\\') {
-            this._advance(); // Consume the backslash...
-            if (this.ch === null) {
-                // This handles an escape char at the very end of the file.
-                break;
-            }
+            this._advance(); // ...take ONE step over the ward to the character it protects...
+            continue;        // ...and IMMEDIATELY force the next loop cycle, SKIPPING the advance below.
         }
         
-        // The default action for any normal character.
+        // The normal, single step for all other characters.
         this._advance();
     }
     
     // If the loop terminates, the emanation was incomplete.
     return this._makeToken(TOKEN.ILLEGAL, `Unterminated template literal`);
 }
-
 
 
 
