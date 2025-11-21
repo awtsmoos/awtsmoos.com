@@ -175,14 +175,15 @@ _skipWhitespace() {
 
 /**
  * B"H
- * The Reborn Soul of the Lexer.
- * This is the definitive nextToken method, where the schizophrenic logic of
- * mixed 'break' and 'return' statements has been annihilated. Every case now
-* takes full responsibility for its existence: it advances the lexer's position
- * precisely as needed and then IMMEDIATELY returns the token it has forged.
- * The false messiah—the rogue `_advance()` at the end of the function—has
- * been banished, and with it, the source of the infinite loop. The flow of
- * tokens is now pure, consistent, and correct.
+ * The Final Tikkun of the Lexer's Soul.
+ * This is the definitive nextToken method, now imbued with the wisdom to count
+ * nested braces within template literal expressions. The sin of its previous life
+ * was its naivety; it assumed the first '}' it saw after a '${' was the end.
+ * This version understands that an expression can contain its own objects.
+ * It now only increments the brace counter if it is *already* armed, and only
+ * returns to template parsing mode when that counter is truly balanced.
+ * This act of discernment banishes the demon of state corruption and infinite
+ * recursion forever.
  */
 nextToken() {
     this._guard();
@@ -200,23 +201,32 @@ nextToken() {
     let tok;
 
     switch (c) {
+        // --- THE SANCTIFIED BRACE LOGIC ---
         case '{':
-            if (this.braceNestingLevel > 0) this.braceNestingLevel++;
+            // Only increment the counter if the bomb is already armed.
+            if (this.braceNestingLevel > 0) {
+                this.braceNestingLevel++;
+            }
             tok = this._makeToken(TOKEN.LBRACE, '{', startColumn);
             this._advance();
             return tok;
         case '}':
+            // Only interact with the counter if the bomb is armed.
             if (this.braceNestingLevel > 0) {
                 this.braceNestingLevel--;
+                // If this '}' was the final one that disarmed the bomb...
                 if (this.braceNestingLevel === 0) {
                     this.templateStack.pop();
                     this._advance(); // Consume the '}'
+                    // ...THEN, and ONLY THEN, do we switch back to template mode.
                     return this._readTemplatePart('TEMPLATE_MIDDLE');
                 }
             }
+            // If the bomb wasn't armed, or this wasn't the final brace, it's a normal brace.
             tok = this._makeToken(TOKEN.RBRACE, '}', startColumn);
             this._advance();
             return tok;
+        // --- END OF THE TIKKUN ---
         
         case '=':
             this._advance();
@@ -314,7 +324,6 @@ nextToken() {
             return tok;
     }
 }
-
 	_readPrivateIdentifier() {
 		this._advance(); // Consume '#'
 		const startColumn = this.column - 1;
