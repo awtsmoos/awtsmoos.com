@@ -771,7 +771,7 @@ proto._parseObjectProperty = function() {
 
     // Finalize and return the complete property node.
     return this._finishNode({ type: 'Property', key, value, kind, method, shorthand, computed }, s);
-};```
+};
 		
 		
 		
