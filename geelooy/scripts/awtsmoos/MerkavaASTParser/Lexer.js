@@ -453,30 +453,42 @@ _readNumber() {
 }
 
 // B"H
-//--- THE TRULY, ETERNALLY SANCTIFIED _readString METHOD ---
+//--- THE ABSOLUTE, FINAL, AND ETERNALLY CORRECT _readString METHOD ---
+// Replace the old version in Lexer.js with this one.
+
 _readString(quote) {
     this._advance(); // consume opening quote
     const p = this.position;
     while (this.ch !== quote && this.ch !== null) {
         this._guard();
         
-        if (this.ch === '\\') {
+        const c = this.ch;
+
+        if (c === '\\') {
             this._advance(); // Consume the backslash
-            // If the escaped character is a newline, we handle it specially.
-            if ('\n\r'.includes(this.ch)) {
-                if (this.ch === '\r' && this._peek() === '\n') this._advance();
-                 this.line++;
-                 this.column = 0;
+            // If the escaped character is a newline, we handle its specific line-ending sequence.
+            if (this.ch === '\r') {
+                this.line++;
+                this.column = 0;
+                if (this._peek() === '\n') {
+                    this._advance(); // Consume the \n in a \r\n sequence
+                }
+            } else if (this.ch === '\n') {
+                this.line++;
+                this.column = 0;
             }
-            this._advance(); // Consume the character that was being escaped
-            continue;        // THIS IS THE CRITICAL RESTORATION.
+            this._advance(); // Consume the character that was being escaped (e.g., the 'n' or the second '\')
+            continue; // This is essential. Start the next loop iteration immediately.
         }
 
-        // Handle unescaped newlines (not valid in standard strings, but good for robustness)
-        if ('\n\r'.includes(this.ch)) {
-            if (this.ch === '\r' && this._peek() === '\n') this._advance();
+        // Handle unescaped newlines. This is technically an error in standard strings,
+        // but handling it gracefully prevents infinite loops.
+        if (c === '\r' || c === '\n') {
             this.line++;
             this.column = 0;
+            if (c === '\r' && this._peek() === '\n') {
+                this._advance(); // Consume the \n in a \r\n sequence
+            }
         }
         
         this._advance();
