@@ -83,7 +83,6 @@ class Lexer {
 	// --- THE SINGLE, CORRECT, AND FINAL _skipWhitespace METHOD ---
 	// -------------------------------------------------------------------------
 // B"H
-// In Lexer.js, replace the entire _skipWhitespace method with this one.
 _skipWhitespace() {
     while (this.ch !== null) {
         this._guard();
@@ -178,14 +177,11 @@ _skipWhitespace() {
         }
     }
 }
-	// -------------------------------------------------------------------------
-	// --- END OF THE CORRECTED METHOD ---
-	// -------------------------------------------------------------------------
-
+	
 
 
 // B"H
-// In Lexer.js, REPLACE the entire nextToken method with this one.
+
 nextToken() {
     this._guard();
 
@@ -337,8 +333,6 @@ nextToken() {
 	
 	
 reenterTemplateMode() {
-    // This is the bridge. The parser calls this to tell the lexer:
-    // "The expression is over. Go back to scanning for template text."
     this.templateStack.push(true);
 }
 	
@@ -485,35 +479,36 @@ _readString(quote) {
  */
 _readTemplatePart() {
     const p = this.position;
-    
-    // Scan through the template's static text.
-    while (this.ch !== null) {
+
+    // This loop is now foolproof. It MUST advance or return.
+    while (true) {
+        if (this.ch === null) {
+            return this._makeToken(TOKEN.ILLEGAL, 'Unterminated template literal');
+        }
+
         if (this.ch === '`') {
-            // We've hit the end of the entire literal.
             const literal = this.source.slice(p, this.position);
-            this._advance(); // Consume the backtick
+            this._advance(); // Consume the final backtick
             return this._makeToken(TOKEN.TEMPLATE_TAIL, literal);
         }
 
         if (this.ch === '$' && this._peek() === '{') {
-            // We've hit the start of an expression.
             const literal = this.source.slice(p, this.position);
             this._advance(); // Consume '$'
             this._advance(); // Consume '{'
-            // We do NOT manage the templateStack here. We simply stop and emit a token.
-            // The Parser is now positioned correctly at the start of the expression.
-            return this._makeToken(TOKEN.TEMPLATE_MIDDLE, literal); // Or HEAD, contextually
-        }
-
-        if (this.ch === '\\') { // Handle escaped characters correctly.
-            this._advance();
+            // The Lexer's job is done. It stops and returns control.
+            return this._makeToken(TOKEN.TEMPLATE_MIDDLE, literal);
         }
         
+        // The crucial fix for escapes.
+        if (this.ch === '\\') {
+            this._advance(); // Consume the backslash...
+            if (this.ch === null) continue; // ...and if it's the end, loop again to terminate.
+        }
+
+        // The default action for any other character.
         this._advance();
     }
-
-    // If we reach here, the template was unterminated.
-    return this._makeToken(TOKEN.ILLEGAL, `Unterminated template literal`);
 }
 
 	_isLetter(c) { return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c === '_' || c === '$'; }
