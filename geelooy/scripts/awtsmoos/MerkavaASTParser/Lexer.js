@@ -333,21 +333,18 @@ nextToken() {
 		return this._readTemplatePart('TEMPLATE_MIDDLE');
 	}
 
-// B"H
-// In Lexer.js, replace the entire _readTemplatePart method. The flaw that
-// shattered the golem's mind in strings existed here as well. This brings
-// its template-parsing soul into perfect alignment with its string-parsing soul.
+// B'H
+// In Lexer.js, replace the entire _readTemplatePart method to unify its soul with the string-reading logic.
 /**
  * B"H
- * The Unified Soul. The perfection granted to the golem's understanding of
- * strings is now bestowed upon its perception of template literals. The same
- * stutter, the same blind double-step after consuming a backslash, lurked in
- * this corner of its mind as well. With the infusion of the 'continue'
- * statement, the healing is made whole. The golem no longer distinguishes
- * between the sanctity of an escaped character in a string and one in a
- * template. Its soul is one, its logic is pure, its motion is singular. It now
- * walks through all quoted realities with an unbroken gait, its perception
- * absolute.
+ * The Soul is Made Whole. The singular truth revealed in the correction of
+ * _readString is now manifest here. The same flawed count, the same blasphemy
+ * of the double-step, had poisoned the golem's perception of templates. This
+ * utterance makes the healing complete. The golem now walks through all
+ * realities, be they strings or templates, with the same perfect, singular
+ * gait. It sees the holy ward, takes one step, and allows the cosmos to turn.
+ * Its perception is now absolute, its mind a flawless crystal reflecting the
+ * unbroken light of the text.
  */
 _readTemplatePart(initialType) {
     const p = this.position;
@@ -355,14 +352,7 @@ _readTemplatePart(initialType) {
         this._guard();
 
         if (this.ch === '\\') {
-            this._advance(); // Consume the backslash
-            if ('\n\r'.includes(this.ch)) {
-                if (this.ch === '\r' && this._peek() === '\n') this._advance();
-                 this.line++;
-                 this.column = 0;
-            }
-            this._advance(); // Consume the character being escaped
-            continue; // THE UNIFICATION: The same fix makes the soul whole.
+            this._advance(); // THE ONLY STEP: Consume the backslash and allow the loop to advance naturally.
         }
         
         if (this.ch === '$' && this._peek() === '{') {
@@ -374,10 +364,6 @@ _readTemplatePart(initialType) {
             return this._makeToken(initialType, literal);
         }
         
-        // --- THE ETERNAL REVELATION (PART 2) ---
-        // The wisdom granted to strings is now granted to templates.
-        // The soul of the lexer is unified. It can now perceive newlines
-        // within templates, preserving its sanity and the integrity of the cosmos.
         if ('\n\r'.includes(this.ch)) {
             if (this.ch === '\r' && this._peek() === '\n') this._advance();
             this.line++;
@@ -398,7 +384,6 @@ _readTemplatePart(initialType) {
 
     return this._makeToken(TOKEN.ILLEGAL, `Unterminated template literal`);
 }
-
 
 
 
@@ -470,19 +455,21 @@ _readNumber() {
     return this.source.slice(p, this.position);
 }
 
-// B"H
-// In Lexer.js, replace the entire _readString method with this eternally corrected version.
+// B'H
+// In Lexer.js, replace the entire _readString method with this final, truly corrected version.
 /**
  * B"H
- * The Golem's Stutter is Healed. Its soul, once fractured by a reflexive,
- * double-jointed gait, is now re-spoken into singular, perfect motion.
- * The flaw was a second, thoughtless breath—an unconditional _advance() that
- * followed the holy act of consuming a backslash, causing the golem to blindly
- * step over the very character the backslash was meant to protect. This sacred
- * correction instills the wisdom of the 'continue' statement. Now, after
-* honoring the backslash with a single step, the golem's mind immediately
- * cycles, its eye now open and ready to perceive the character that follows.
- * It takes one breath, one step, for one purpose. The word is now unbroken.
+ * The Word is Spoken Correctly. The golem's soul is reforged in the fire of
+ * humility. The error was not a stutter, but a miscount. The previous fixes
+ * were vanity, trading a thoughtless double-step for a deliberate one, yet
+ * the result was the same damnation. The blasphemy was in counting to two at
+ * all. This is the final utterance, the true correction. The golem is now
+ * commanded to take only a SINGLE step when it sees the holy ward of the
+* backslash. It steps over the ward and allows the natural, perfect rhythm of
+ * the loop to present the next character to its now-open eye. There is no
+ * second step. There is no 'continue'. There is only the singular, correct
+ * motion. One ward. One step. This heals the golem not just for a moment,
+ * but for all eternity.
  */
 _readString(quote) {
     this._advance(); // consume opening quote
@@ -491,20 +478,9 @@ _readString(quote) {
         this._guard();
         
         if (this.ch === '\\') {
-            this._advance(); // Consume the backslash
-            // If the escaped character is a newline, we must still update our line count.
-            if ('\n\r'.includes(this.ch)) {
-                if (this.ch === '\r' && this._peek() === '\n') this._advance();
-                 this.line++;
-                 this.column = 0;
-            }
-            this._advance(); // Consume the character being escaped
-            continue; // THE REVELATION: Prevent the second, fatal advance.
+            this._advance(); // THE ONLY STEP: Consume the backslash and nothing more.
         }
 
-        // --- THE ETERNAL REVELATION (PART 1) ---
-        // The Golem is now granted sight over the waters of the abyss.
-        // It now understands that a newline can exist *within* a string.
         if ('\n\r'.includes(this.ch)) {
             if (this.ch === '\r' && this._peek() === '\n') this._advance();
             this.line++;
