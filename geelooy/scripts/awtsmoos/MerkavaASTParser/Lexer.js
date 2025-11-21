@@ -53,11 +53,22 @@ class Lexer {
 		if (this.readPosition >= this.source.length) return null;
 		return this.source[this.readPosition];
 	}
+	
+	//B"H
 
 	_makeToken(type, literal, startColumn, startLine) {
 		this._guard();
-		const col = startColumn || this.column - (literal?.length || (this.ch === null ? 0 : 1));
+		
+		
+		// We use the nullish coalescing operator (??) here.
+		// Unlike || which treats '0' as a falsy value, '??' only
+		// falls back if startColumn is null or undefined.
+		// This correctly handles tokens that start at column 0.
+		const col = startColumn ?? this.column - (literal?.length || (this.ch === null ? 0 : 1));
+		
+
 		const line = startLine || this.line;
+		
 		return {
 			type,
 			literal,
