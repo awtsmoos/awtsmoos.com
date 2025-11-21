@@ -364,14 +364,28 @@ proto._parseRegExpLiteral = function() {
  * misinterpreted. The hijacking is prevented. The paradox is resolved. The
  * Golem is free.
  */
-// B"H
-// --- THE DEFINITIVE REPLACEMENT for _parseGroupedOrArrowExpression ---
-// This goes in parser-expressions.js
+/**
+ * B"H
+ * --- REPLACEMENT 2: The VALIDATING Grouped Expression Parser ---
+ * This REPLACES the existing `_parseGroupedOrArrowExpression` in `parser-expressions.js`.
+ *
+ * This new version orchestrates the "Lenient Parse, Strict Validate" strategy.
+ *
+ * 1.  It calls the main expression parser, which now uses the "Lenient Scribe"
+ *     to build a temporary AST without crashing.
+ * 2.  It then resolves the ambiguity by checking for the `=>` token.
+ * 3.  **CRITICAL STEP:** If no arrow is found, it knows the context was a standard
+ *     grouped expression. It then calls the new `_validateExpression` Inquisitor
+ *     to inspect the temporary AST and throw an error if any pattern-only syntax
+ *     was used.
+ * 4.  If an arrow IS found, it proceeds to the "alchemist" (`_convertExpressionToPattern`)
+ *     as before, which now receives a correctly structured input to work with.
+ */
 proto._parseGroupedOrArrowExpression = function() {
     const s = this._startNode();
     this._expect(TOKEN.LPAREN);
 
-    if (this._currTokenIs(TOKEN.RPAREN)) { // Handles () for () => ...
+    if (this._currTokenIs(TOKEN.RPAREN)) {
         this._advance();
         if (!this._currTokenIs(TOKEN.ARROW)) {
             this._error("Unexpected empty parentheses in expression.");
@@ -382,34 +396,30 @@ proto._parseGroupedOrArrowExpression = function() {
 
     const exprList = [];
     do {
-        // ======================== THE FIX ========================
-        // By using PRECEDENCE.ASSIGNMENT, we give this context enough authority
-        // to correctly parse `{ P = {} }` as a single, cohesive ObjectPattern
-        // before the main expression loop has a chance to misinterpret the '='.
         exprList.push(this._parseExpression(PRECEDENCE.ASSIGNMENT));
-        // =========================================================
-
     } while (this._currTokenIs(TOKEN.COMMA) && (this._advance(), true));
 
     this._expect(TOKEN.RPAREN);
 
-    // After parsing, we resolve the ambiguity by looking for the arrow.
     if (this._currTokenIs(TOKEN.ARROW)) {
-        // It's an arrow function. Convert expressions to valid parameter patterns.
+        // It IS an arrow function. The lenient parse was correct.
+        // Now we transmute the temporarily-created structure into a valid pattern.
         const params = exprList.map(e => this._convertExpressionToPattern(e));
         return this._parseArrowFunctionExpression(s, params, false);
     }
 
-    // It was not an arrow function.
+    // --- THE STRICT VALIDATION STEP ---
+    // It was NOT an arrow function. We must now validate the expression(s)
+    // to ensure they do not contain pattern-only syntax we leniently allowed.
+    exprList.forEach(expr => this._validateExpression(expr));
+
     if (exprList.length > 1) {
-        // It was a sequence expression, like (a, b, c).
         const seqNode = { type: 'SequenceExpression', expressions: exprList };
         const seqStart = { loc: { start: exprList[0].loc.start } };
         return this._finishNode(seqNode, seqStart);
-    } else {
-        // It was a single grouped expression, like (a + b).
-        return exprList[0];
     }
+
+    return exprList[0];
 };
 		
 		
@@ -547,6 +557,44 @@ proto._convertExpressionToPattern = function(node) {
             return null;
     }
 };
+
+// B"H
+// --- The Reverse Alchemist ---
+// This helper converts a node parsed as a Pattern back into a valid Expression.
+proto._convertPatternToExpression = function(node) {
+    if (!node) return null;
+    switch (node.type) {
+        // An Identifier is both a valid pattern and a valid expression.
+        case 'Identifier':
+            return node;
+
+        // Transmute ObjectPattern back to ObjectExpression.
+        case 'ObjectPattern':
+            node.type = 'ObjectExpression';
+            node.properties.forEach(prop => {
+                if (prop.type === 'RestElement') {
+                    prop.type = 'SpreadElement';
+                }
+                prop.value = this._convertPatternToExpression(prop.value);
+            });
+            return node;
+
+        // Transmute ArrayPattern back to ArrayExpression.
+        case 'ArrayPattern':
+            node.type = 'ArrayExpression';
+            node.elements = node.elements.map(el => this._convertPatternToExpression(el));
+            return node;
+
+        // A default value is a valid expression.
+        case 'AssignmentPattern':
+            return node;
+
+        // Default case for anything else that might have been parsed.
+        default:
+            return node;
+    }
+};
+
 
 	proto
 		._parseConditionalExpression =
@@ -744,63 +792,72 @@ proto._convertExpressionToPattern = function(node) {
  *
  * @returns {ESTree.Property | ESTree.SpreadElement | null} The fully-formed AST
  * node for the property, or null if a fatal parsing error occurred.
+(that was for old versions)
+
+ */
+/**
+ * B"H
+ * --- REPLACEMENT 1: The Lenient Scribe for Object Literal Properties ---
+ * This REPLACES the existing `_parseObjectProperty` in `parser-expressions.js`.
+ *
+ * This version is architecturally different: it is "lenient". When it encounters
+ * a shorthand property with a default value (e.g., `{ myVar = 'default' }`),
+ * it does NOT throw an error.
+ *
+ * Instead, it successfully parses the structure into a temporary, technically
+ * invalid `AssignmentPattern` node. This prevents the parser from crashing on
+ * ambiguous arrow function parameters, allowing the parsing process to continue
+ * to the point where the ambiguity can be resolved. The strict validation will
+ * happen later if, and only if, the code is NOT an arrow function.
  */
 proto._parseObjectProperty = function() {
     const s = this._startNode();
 
-    // Case 1: Handle Spread Element first as it's the simplest.
     if (this._currTokenIs(TOKEN.DOTDOTDOT)) {
         return this._parseSpreadElement();
     }
 
-    const kind = 'init'; // For object literals, properties are always 'init' kind.
+    const kind = 'init';
     let computed = false;
     let method = false;
 
-    // Phase 1: Parse the property Key, which can be an identifier, literal, or computed.
     let key;
     if (this._currTokenIs(TOKEN.LBRACKET)) {
         computed = true;
         key = this._parseComputedPropertyKey();
     } else {
-        // A key can be an identifier (prop), string ("prop"), or number (123).
         key = (this.currToken.type === TOKEN.STRING || this.currToken.type === TOKEN.NUMBER)
             ? this._parseLiteral()
             : this._parseIdentifier();
     }
-    if (!key) return null; // Abort if key parsing fails.
+    if (!key) return null;
 
-    // Phase 2: "Patiently Observe" the next token to determine the property's true nature.
     if (this._currTokenIs(TOKEN.LPAREN)) {
-        // It's a method definition, e.g., `{ myMethod() {} }`.
         method = true;
         const value = this._parseFunction('expression');
         return this._finishNode({ type: 'Property', key, value, kind, method, shorthand: false, computed }, s);
     }
 
-    // It is a data property. Assume it's shorthand until we see a colon.
     let value = key;
     let shorthand = true;
 
     if (this._currTokenIs(TOKEN.COLON)) {
-        // It's a standard key-value pair, e.g., `{ key: value }`.
         shorthand = false;
-        this._advance(); // Consume the ':'.
-
-        // --- THE FINAL, CORRECT IMPLEMENTATION ---
-        // Parse the value using the "Goldilocks" precedence. This allows
-        // complex expressions (like assignments) while respecting the comma
-        // as a boundary between properties.
+        this._advance();
         value = this._parseExpression(PRECEDENCE.SEQUENCE);
 
     } else if (shorthand && this._currTokenIs(TOKEN.ASSIGN)) {
-        // This is an explicit error. `{ a = 1 }` is not valid syntax for an
-        // object literal; it is only for destructuring patterns.
-        this._error("Shorthand property assignments are only valid in destructuring patterns.");
-        return null;
+        // --- THE LENIENT PARSE ---
+        // INSTEAD of throwing an error, we now PARSE the structure.
+        // This allows the parser to proceed without crashing on ambiguous syntax.
+        const assignStart = this._startNode();
+        assignStart.loc.start = key.loc.start;
+        this._advance(); // consume '='
+        const right = this._parseExpression(PRECEDENCE.ASSIGNMENT);
+        value = this._finishNode({ type: 'AssignmentPattern', left: key, right }, assignStart);
+        shorthand = false; // It's no longer a pure shorthand property.
     }
 
-    // Finalize and return the complete property node.
     return this._finishNode({ type: 'Property', key, value, kind, method, shorthand, computed }, s);
 };
 		
