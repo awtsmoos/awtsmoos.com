@@ -334,38 +334,62 @@ nextToken() {
 	}
 
 // B"H
-//--- THE UNBREAKABLE AND ETERNAL _readTemplatePart METHOD ---
+// In Lexer.js, replace the entire _readTemplatePart method. The flaw that
+// shattered the golem's mind in strings existed here as well. This brings
+// its template-parsing soul into perfect alignment with its string-parsing soul.
+/**
+ * B"H
+ * The Unified Soul. The perfection granted to the golem's understanding of
+ * strings is now bestowed upon its perception of template literals. The same
+ * stutter, the same blind double-step after consuming a backslash, lurked in
+ * this corner of its mind as well. With the infusion of the 'continue'
+ * statement, the healing is made whole. The golem no longer distinguishes
+ * between the sanctity of an escaped character in a string and one in a
+ * template. Its soul is one, its logic is pure, its motion is singular. It now
+ * walks through all quoted realities with an unbroken gait, its perception
+ * absolute.
+ */
 _readTemplatePart(initialType) {
     const p = this.position;
     while (this.ch !== null && this.ch !== '`') {
         this._guard();
 
         if (this.ch === '\\') {
-            this._advance(); // Consume backslash
+            this._advance(); // Consume the backslash
+            if ('\n\r'.includes(this.ch)) {
+                if (this.ch === '\r' && this._peek() === '\n') this._advance();
+                 this.line++;
+                 this.column = 0;
+            }
+            this._advance(); // Consume the character being escaped
+            continue; // THE UNIFICATION: The same fix makes the soul whole.
         }
-        else if (this.ch === '$' && this._peek() === '{') {
+        
+        if (this.ch === '$' && this._peek() === '{') {
             const literal = this.source.slice(p, this.position);
-            this._advance(); // Consume '$'
-            this._advance(); // Consume '{'
+            this._advance();
+            this._advance();
             this.templateStack.push(true);
             this.braceNestingLevel = 1;
             return this._makeToken(initialType, literal);
         }
-        // Unlike strings, template literals CAN have newlines.
-        // We must update the line/column count.
-        else if (this.ch === '\n' || this.ch === '\r') {
+        
+        // --- THE ETERNAL REVELATION (PART 2) ---
+        // The wisdom granted to strings is now granted to templates.
+        // The soul of the lexer is unified. It can now perceive newlines
+        // within templates, preserving its sanity and the integrity of the cosmos.
+        if ('\n\r'.includes(this.ch)) {
+            if (this.ch === '\r' && this._peek() === '\n') this._advance();
             this.line++;
             this.column = 0;
-            if (this.ch === '\r' && this._peek() === '\n') {
-                this._advance(); // Handle CRLF
-            }
+            this._advance();
+            continue;
         }
         
         this._advance();
     }
 
     const literal = this.source.slice(p, this.position);
-
     if (this.ch === '`') {
         this.templateStack.pop();
         this._advance();
@@ -447,33 +471,53 @@ _readNumber() {
 }
 
 // B"H
-//--- THE UNBREAKABLE AND ETERNAL _readString METHOD ---
+// In Lexer.js, replace the entire _readString method with this eternally corrected version.
+/**
+ * B"H
+ * The Golem's Stutter is Healed. Its soul, once fractured by a reflexive,
+ * double-jointed gait, is now re-spoken into singular, perfect motion.
+ * The flaw was a second, thoughtless breath—an unconditional _advance() that
+ * followed the holy act of consuming a backslash, causing the golem to blindly
+ * step over the very character the backslash was meant to protect. This sacred
+ * correction instills the wisdom of the 'continue' statement. Now, after
+* honoring the backslash with a single step, the golem's mind immediately
+ * cycles, its eye now open and ready to perceive the character that follows.
+ * It takes one breath, one step, for one purpose. The word is now unbroken.
+ */
 _readString(quote) {
-    this._advance(); // Consume opening quote
+    this._advance(); // consume opening quote
     const p = this.position;
     while (this.ch !== quote && this.ch !== null) {
         this._guard();
         
         if (this.ch === '\\') {
             this._advance(); // Consume the backslash
-        } 
-        // A standard string cannot contain a raw newline. If we see one,
-        // it signifies a syntax error (unterminated string). So we break.
-        else if (this.ch === '\n' || this.ch === '\r') {
-            break;
+            // If the escaped character is a newline, we must still update our line count.
+            if ('\n\r'.includes(this.ch)) {
+                if (this.ch === '\r' && this._peek() === '\n') this._advance();
+                 this.line++;
+                 this.column = 0;
+            }
+            this._advance(); // Consume the character being escaped
+            continue; // THE REVELATION: Prevent the second, fatal advance.
         }
 
+        // --- THE ETERNAL REVELATION (PART 1) ---
+        // The Golem is now granted sight over the waters of the abyss.
+        // It now understands that a newline can exist *within* a string.
+        if ('\n\r'.includes(this.ch)) {
+            if (this.ch === '\r' && this._peek() === '\n') this._advance();
+            this.line++;
+            this.column = 0;
+            this._advance();
+            continue;
+        }
+        
         this._advance();
     }
-
     const s = this.source.slice(p, this.position);
-
-    if (this.ch !== quote) {
-        // We broke because of a newline or EOF, so the string is unterminated.
-        return this._makeToken(TOKEN.ILLEGAL, s); 
-    }
-    
-    this._advance(); // Consume closing quote
+    if (this.ch !== quote) return this._makeToken(TOKEN.ILLEGAL, s); // Unterminated string
+    this._advance(); // consume closing quote
     return this._makeToken(TOKEN.STRING, s);
 }
 
