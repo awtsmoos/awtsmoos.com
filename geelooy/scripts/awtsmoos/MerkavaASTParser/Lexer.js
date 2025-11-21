@@ -484,8 +484,6 @@ reenterTemplateMode() {
  * This unbreakable simplicity resolves all paradoxes.
  */
 
-/* B"H */
-// In Lexer.js, REPLACE the _readTemplatePart method with this FINAL, PERFECTED version.
 _readTemplatePart() {
     const p = this.position;
     
