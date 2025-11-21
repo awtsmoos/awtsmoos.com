@@ -27,7 +27,8 @@ proto.registerExpressionParsers = function() {
     p[TOKEN.LPAREN] = this._parseGroupedOrArrowExpression,
     p[TOKEN.LBRACE] = this._parseObjectLiteral,
     p[TOKEN.LBRACKET] = this._parseArrayLiteral,
-    p[TOKEN.TEMPLATE_HEAD] = p[TOKEN.TEMPLATE_TAIL] = this._parseTemplateLiteral,
+    p['`'] = this._parseTemplateLiteral;
+    
     p[TOKEN.NEW] = this._parseNewExpression,
     p[TOKEN.FUNCTION] = this._parseFunctionExpression,
     p[TOKEN.CLASS] = this._parseClassExpression;
