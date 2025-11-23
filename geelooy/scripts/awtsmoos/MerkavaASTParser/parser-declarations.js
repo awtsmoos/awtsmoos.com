@@ -874,19 +874,35 @@ proto._parseParametersList = function() {
     return params;
 };
 
+// B"H 
+/**
+ * The Tikkun of the Multiplied Soul.
+ * This function's previous logic could only perceive a single soul (parameter)
+ * in a list. This rectified version uses a more robust `while` loop, granting
+ * it the wisdom to perceive a multiplicity of souls, correctly parsing
+ * each one and handling the comma that separates them, until the list is
+ * truly complete.
+ */
 proto._parseParameterListContents = function() {
     const params = [];
-    if (this._currTokenIs(TOKEN.RPAREN)) return params; // Handle empty list ()
-
-    do {
-        // This function correctly parses destructuring with default values.
+    
+    // The loop continues as long as we have not yet reached the closing parenthesis.
+    while (!this._currTokenIs(TOKEN.RPAREN) && !this._currTokenIs(TOKEN.EOF)) {
+        // Parse one parameter. This can be a simple name, a destructuring, etc.
         const param = this._parseBindingWithDefault();
-        if (!param) return null; // Propagate any errors.
+        if (!param) return null; // Abort on error
         params.push(param);
 
-        if (!this._currTokenIs(TOKEN.COMMA)) break; // Exit if there are no more parameters.
-        this._advance(); // Consume the comma to prepare for the next parameter.
-    } while (true);
+        // After parsing a parameter, the next token MUST be a comma or the closing paren.
+        // If it's not a comma, the list must be finished, so we break the loop.
+        if (!this._currTokenIs(TOKEN.COMMA)) {
+            break;
+        }
+
+        // If it was a comma, we consume it and allow the loop to continue,
+        // preparing to parse the next parameter.
+        this._advance();
+    }
 
     return params;
 };
