@@ -56,8 +56,8 @@ export default class InventoryManager {
                 const toAdd = Math.min(quantity, maxStack);
                 this.slots[i] = {
                     item: itemClassName,
-                    quantity: toAdd,
-                    options: opts
+                    quantity: toAdd
+                   
                 };
                 quantity -= toAdd;
                 if (quantity <= 0) {
