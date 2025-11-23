@@ -210,41 +210,47 @@ _guard() {
      * it to scream the name of the demon that caused the collapse into the console. No error
      * shall again die in silence. The abyss now has a voice, and it cries out for redemption.
      */
-    parse() {
-        const program = {
-            type: 'Program',
-            body: [],
-            sourceType: 'module',
-            loc: { start: { line: 1, column: 0 } }
-        };
+    
+parse() {
+    const program = {
+        type: 'Program',
+        body: [],
+        sourceType: 'module',
+        loc: { start: { line: 1, column: 0 } }
+    };
 
-        while (!this._currTokenIs(TOKEN.EOF)) {
-            try {
-                const stmt = this._parseDeclaration();
-                if (stmt) {
-                    program.body.push(stmt);
-                }
-            } catch (e) {
-                 if(this.panicMode) {
-                    this._synchronize();
-                 } else {
-                    // --- THE RECTIFICATION ---
-                    // No longer will we break in silence. The abyss must scream.
-                    console.error("A CATASTROPHIC, NON-PANIC ERROR OCCURRED:", e);
-                    this.errors.push("FATAL: " + e.message + " (This was a silent error.)");
-                    break; 
-                 }
+    while (!this._currTokenIs(TOKEN.EOF)) {
+        try {
+            const stmt = this._parseDeclaration();
+            if (stmt) {
+                program.body.push(stmt);
             }
-        }
+        } catch (e) {
+            // This catch block is now the ultimate backstop.
+            // It will catch logical errors AND the watchdog errors.
+            const errorMessage = e.message || "An unknown catastrophic error occurred.";
+            
+            // Add the fatal error to our list.
+            if (!this.errors.includes(errorMessage)) {
+                this.errors.push(errorMessage);
+            }
 
-        const endToken = this.prevToken || this.currToken;
-        program.loc.end = {
-            line: endToken.line,
-            column: endToken.column + (endToken.literal?.length || 0)
-        };
-        program.comments = this.l.comments;
-        return program;
+            console.error("A critical failure occurred, halting the parsing process:", e);
+            
+            // When a fatal error like a loop is detected, we stop trying.
+            // There is no recovery from this, but we have prevented a freeze.
+            break; 
+        }
     }
+
+    const endToken = this.prevToken || this.currToken;
+    program.loc.end = {
+        line: endToken.line,
+        column: endToken.column + (endToken.literal?.length || 0)
+    };
+    program.comments = this.l.comments;
+    return program;
+}
     
     
     

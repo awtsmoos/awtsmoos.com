@@ -457,19 +457,23 @@ proto._parseClassDeclaration = function() {
 };
 
 // B"H 
+
 proto._parseClassBody = function() {
     const s = this._startNode();
     this._expect(TOKEN.LBRACE);
     const body = [];
 
+    // This is the fortified loop.
     while (!this._currTokenIs(TOKEN.RBRACE) && !this._currTokenIs(TOKEN.EOF)) {
         const element = this._parseClassElement();
         if (element) {
             body.push(element);
         } else {
-             // --- THE FORTIFICATION ---
-             // If parsing an element fails for any reason, we report it
-             // and manually advance to ensure we always make progress.
+             // --- THE GUARANTEE OF PROGRESS ---
+             // If _parseClassElement fails for any reason and returns null,
+             // we log the error to know what happened, and then we MANUALLY
+             // advance past the problematic token. This physically prevents
+             // the infinite loop and unfreezes the Golem's mind.
              this._error("Invalid or unexpected token in class body. Skipping to recover.");
              this._advance();
         }
