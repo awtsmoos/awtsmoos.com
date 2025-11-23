@@ -1578,14 +1578,17 @@ function quantizeNotes(notes) {
 
 
 
+
+
 function renderSheetMusicToCanvas(quantizedMusic) {
-    const canvases = [];
-    elements.sheetMusicContainer.innerHTML = ''; // Clear previous renders
+    elements.sheetMusicContainer.innerHTML = ''; // Clear the hidden container
+
+    if (quantizedMusic.length === 0) return;
 
     // --- RENDERING CONSTANTS & CONFIGURATION ---
-    const CANVAS_WIDTH = 1200;
-    const CANVAS_HEIGHT = 350;
-    const STAFF_TOP_MARGIN = 100;
+    const PAGE_WIDTH = 1200; // The width of our virtual "paper"
+    const STAFF_ROW_HEIGHT = 150; // Total vertical space for one staff system (staff + margin)
+    const STAFF_TOP_MARGIN = 50; // Margin above the first staff line in a system
     const STAFF_LINE_GAP = 15;
     const STAFF_LEFT_MARGIN = 30;
     const STAFF_RIGHT_MARGIN = 30;
@@ -1593,174 +1596,281 @@ function renderSheetMusicToCanvas(quantizedMusic) {
     const NOTE_HEAD_RADIUS_Y = 6;
     const STEM_HEIGHT = 50;
     const QUARTER_NOTE_WIDTH = 70; // Base horizontal space for a quarter note
+    const BAR_LINE_WIDTH = 20;
 
-    // --- A robust, scalable system for calculating note Y positions ---
-    // Maps note names to a step count from the bottom line of the treble clef (E4)
     const noteSteps = { 'C': -2, 'D': -1, 'E': 0, 'F': 1, 'G': 2, 'A': 3, 'B': 4 };
+    const beatsPerMeasure = 4;
+    
+    // --- 1. PRE-CALCULATE TOTAL WIDTH & DETERMINE LAYOUT ---
+    let totalBeats = 0;
+    quantizedMusic.forEach(item => {
+        totalBeats += item.value / (60 / 120);
+    });
+    
+    const totalMusicWidth = totalBeats * QUARTER_NOTE_WIDTH + (Math.ceil(totalBeats / beatsPerMeasure) * BAR_LINE_WIDTH);
+    const drawableWidthPerLine = PAGE_WIDTH - STAFF_LEFT_MARGIN - STAFF_RIGHT_MARGIN - 80; // Space for clef
+    const numLines = Math.max(1, Math.ceil(totalMusicWidth / drawableWidthPerLine));
+    const canvasHeight = STAFF_TOP_MARGIN + (numLines * STAFF_ROW_HEIGHT);
 
-    let currentCanvas, ctx;
-    let x = STAFF_LEFT_MARGIN + 70; // Start position after the clef
+    // --- 2. CREATE THE SINGLE, TALL CANVAS ---
+    const canvas = document.createElement('canvas');
+    canvas.width = PAGE_WIDTH;
+    canvas.height = canvasHeight;
+    elements.sheetMusicContainer.appendChild(canvas);
+    const ctx = canvas.getContext('2d');
+    
+    // Setup canvas context
+    ctx.fillStyle = 'white';
+    ctx.fillRect(0, 0, PAGE_WIDTH, canvasHeight);
+    ctx.fillStyle = 'black';
+    ctx.strokeStyle = 'black';
+    ctx.lineWidth = 1.5;
+
+    // --- 3. DRAWING LOGIC WITH LINE WRAPPING ---
+    let x = STAFF_LEFT_MARGIN + 80;
+    let yOffset = STAFF_TOP_MARGIN;
     let currentMeasureBeats = 0;
-    const beatsPerMeasure = 4; // Assuming 4/4 time signature
 
-    const newPage = () => {
-        currentCanvas = document.createElement('canvas');
-        currentCanvas.width = CANVAS_WIDTH;
-        currentCanvas.height = CANVAS_HEIGHT;
-        elements.sheetMusicContainer.appendChild(currentCanvas);
-        canvases.push(currentCanvas);
-        ctx = currentCanvas.getContext('2d');
-        ctx.fillStyle = 'white';
-        ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-        ctx.fillStyle = 'black';
-        ctx.strokeStyle = 'black';
-        ctx.lineWidth = 1.5;
-
-        // Draw 5 staff lines
+    // Helper to draw a staff system at a given vertical offset
+    const drawStaffSystem = (currentY) => {
         for (let i = 0; i < 5; i++) {
-            const y = STAFF_TOP_MARGIN + i * STAFF_LINE_GAP;
+            const y = currentY + i * STAFF_LINE_GAP;
             ctx.beginPath();
             ctx.moveTo(STAFF_LEFT_MARGIN, y);
-            ctx.lineTo(CANVAS_WIDTH - STAFF_RIGHT_MARGIN, y);
+            ctx.lineTo(PAGE_WIDTH - STAFF_RIGHT_MARGIN, y);
             ctx.stroke();
         }
-
-        // Draw Treble Clef (using a reliable font character)
         ctx.font = '80px serif';
-        ctx.fillText('𝄞', STAFF_LEFT_MARGIN, STAFF_TOP_MARGIN + STAFF_LINE_GAP * 4.5);
-        
-        // Reset horizontal position for the new page
-        x = STAFF_LEFT_MARGIN + 80;
-        currentMeasureBeats = 0;
+        ctx.fillText('𝄞', STAFF_LEFT_MARGIN, currentY + STAFF_LINE_GAP * 4.5);
     };
+    
+    drawStaffSystem(yOffset); // Draw the very first staff
 
-    newPage(); // Create the first page
+    for (let i = 0; i < quantizedMusic.length; i++) {
+        const item = quantizedMusic[i];
+        const beatValue = item.value / (60 / 120);
 
-    for (const item of quantizedMusic) {
-        const beatValue = item.value / (60 / 120); // Get beat value (1 for quarter, 2 for half, etc.)
-
-        // --- Pagination and Measure Logic ---
-        if (x > CANVAS_WIDTH - STAFF_RIGHT_MARGIN - 80) {
-            newPage();
+        // --- LINE WRAPPING & MEASURE LOGIC ---
+        if (x > PAGE_WIDTH - STAFF_RIGHT_MARGIN - 80) {
+            yOffset += STAFF_ROW_HEIGHT;
+            x = STAFF_LEFT_MARGIN + 80;
+            currentMeasureBeats = 0;
+            drawStaffSystem(yOffset);
         }
         if (currentMeasureBeats >= beatsPerMeasure) {
-            // Draw a bar line to end the measure
-            const barY1 = STAFF_TOP_MARGIN;
-            const barY2 = STAFF_TOP_MARGIN + 4 * STAFF_LINE_GAP;
+            const barY1 = yOffset;
+            const barY2 = yOffset + 4 * STAFF_LINE_GAP;
             ctx.beginPath();
             ctx.moveTo(x, barY1);
             ctx.lineTo(x, barY2);
             ctx.stroke();
-            x += 20; // Add space after bar line
+            x += BAR_LINE_WIDTH;
             currentMeasureBeats = 0;
         }
 
-        // --- Draw Note or Rest ---
+        // --- DRAWING DISPATCHER ---
         if (item.type === 'note') {
-            const noteName = item.pitch.slice(0, -1);
-            const octave = parseInt(item.pitch.slice(-1));
-            const baseNote = noteName.charAt(0);
-            
-            // Calculate Y position
-            const step = noteSteps[baseNote];
-            if (step === undefined) continue; // Skip if note is not C-B
-
-            // The position of E4 is on the bottom line (4th line index from top)
-            const y_E4 = STAFF_TOP_MARGIN + 4 * STAFF_LINE_GAP;
-            const noteOctaveOffset = (octave - 4) * 7; // 7 steps per octave
-            const finalStepsFromE4 = step + noteOctaveOffset;
-            const y = y_E4 - finalStepsFromE4 * (STAFF_LINE_GAP / 2);
-
-            // Draw ledger lines if needed
-            ctx.lineWidth = 1;
-            // Below staff (for C4, B3, etc.)
-            if (y > STAFF_TOP_MARGIN + 4 * STAFF_LINE_GAP) {
-                for (let ly = STAFF_TOP_MARGIN + 5 * STAFF_LINE_GAP; ly <= y; ly += STAFF_LINE_GAP) {
-                    ctx.beginPath();
-                    ctx.moveTo(x - NOTE_HEAD_RADIUS_X - 3, ly);
-                    ctx.lineTo(x + NOTE_HEAD_RADIUS_X + 3, ly);
-                    ctx.stroke();
+            let beamGroup = [];
+            const isShortNote = item.duration === 'eighth' || item.duration === 'sixteenth';
+            if (isShortNote) {
+                // Collect all consecutive short notes within the current measure to beam them
+                for (let j = i; j < quantizedMusic.length; j++) {
+                    const nextItem = quantizedMusic[j];
+                    const nextItemBeats = nextItem.value / (60 / 120);
+                    if (nextItem.type === 'note' && (nextItem.duration === 'eighth' || nextItem.duration === 'sixteenth') && (currentMeasureBeats + nextItemBeats <= beatsPerMeasure)) {
+                        beamGroup.push(nextItem);
+                    } else {
+                        break;
+                    }
                 }
             }
-            // Above staff (for A5, B5, etc.)
-            if (y < STAFF_TOP_MARGIN) {
-                 for (let ly = STAFF_TOP_MARGIN - STAFF_LINE_GAP; ly >= y; ly -= STAFF_LINE_GAP) {
-                    ctx.beginPath();
-                    ctx.moveTo(x - NOTE_HEAD_RADIUS_X - 3, ly);
-                    ctx.lineTo(x + NOTE_HEAD_RADIUS_X + 3, ly);
-                    ctx.stroke();
-                }
-            }
-            ctx.lineWidth = 1.5;
 
-
-            // Draw sharp symbol if present
-            if (noteName.includes('#')) {
-                ctx.font = 'bold 24px serif';
-                ctx.fillText('#', x - 20, y + 5);
-            }
-
-            // Draw note head
-            ctx.beginPath();
-            ctx.ellipse(x, y, NOTE_HEAD_RADIUS_X, NOTE_HEAD_RADIUS_Y, 0, 0, 2 * Math.PI);
-            // Filled for eighth/quarter, hollow for half/whole
-            if (item.duration !== 'whole' && item.duration !== 'half') {
-                ctx.fill();
+            if (beamGroup.length > 1) {
+                const groupBeats = beamGroup.reduce((sum, note) => sum + (note.value / (60/120)), 0);
+                drawBeamGroup(beamGroup, x, yOffset);
+                x += QUARTER_NOTE_WIDTH * groupBeats;
+                currentMeasureBeats += groupBeats;
+                i += beamGroup.length - 1; // Advance the main loop past the notes we just drew
             } else {
-                ctx.stroke();
+                drawSingleNote(item, x, yOffset);
+                x += QUARTER_NOTE_WIDTH * beatValue;
+                currentMeasureBeats += beatValue;
             }
-
-            // Draw stem (except for whole notes)
-            if (item.duration !== 'whole') {
-                // Stem goes down if note is on or above the middle line (B4), else up.
-                const stemGoesUp = (y >= STAFF_TOP_MARGIN + 2 * STAFF_LINE_GAP);
-                const stemDirection = stemGoesUp ? -1 : 1;
-                const stemX = stemGoesUp ? x + NOTE_HEAD_RADIUS_X - 1 : x - NOTE_HEAD_RADIUS_X + 1;
-                
-                ctx.beginPath();
-                ctx.moveTo(stemX, y);
-                ctx.lineTo(stemX, y + (STEM_HEIGHT * stemDirection));
-                ctx.stroke();
-            }
-
-        } else { // Draw a Rest
-            const middleStaffY = STAFF_TOP_MARGIN + 2 * STAFF_LINE_GAP;
-            ctx.beginPath();
-            if (item.duration === 'quarter') {
-                // Draw a simplified quarter rest (like a 'Z' with a 'C' at the bottom)
-                ctx.moveTo(x - 5, middleStaffY - 10);
-                ctx.lineTo(x + 5, middleStaffY - 5);
-                ctx.lineTo(x - 5, middleStaffY + 5);
-                ctx.lineTo(x, middleStaffY + 15);
-                ctx.stroke();
-            }
-            if (item.duration === 'half') {
-                // Draw a half rest (a rectangle sitting on the middle line)
-                ctx.fillRect(x - 6, middleStaffY - 5, 12, 5);
-            }
-            if (item.duration === 'whole') {
-                // Draw a whole rest (a rectangle hanging from the second line)
-                ctx.fillRect(x - 6, STAFF_TOP_MARGIN + STAFF_LINE_GAP, 12, 5);
-            }
+        } else { // Rest
+            drawRest(item, x, yOffset);
+            x += QUARTER_NOTE_WIDTH * beatValue;
+            currentMeasureBeats += beatValue;
         }
-
-        // --- Correctly advance the horizontal position ---
-        x += QUARTER_NOTE_WIDTH * beatValue;
-        currentMeasureBeats += beatValue;
     }
 
-     // Draw the final bar line at the end of the piece
-    const barY1 = STAFF_TOP_MARGIN;
-    const barY2 = STAFF_TOP_MARGIN + 4 * STAFF_LINE_GAP;
+    // Draw final double bar line at the end
+    const finalBarY1 = yOffset;
+    const finalBarY2 = yOffset + 4 * STAFF_LINE_GAP;
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(x + 5, finalBarY1);
+    ctx.lineTo(x + 5, finalBarY2);
+    ctx.stroke();
     ctx.lineWidth = 4;
     ctx.beginPath();
-    ctx.moveTo(x + 10, barY1);
-    ctx.lineTo(x + 10, barY2);
+    ctx.moveTo(x + 10, finalBarY1);
+    ctx.lineTo(x + 10, finalBarY2);
     ctx.stroke();
 
-    return canvases;
+    // --- 4. DOWNLOAD THE FINAL IMAGE ---
+    const a = document.createElement('a');
+    a.href = canvas.toDataURL('image/png');
+    a.download = 'Awtsmoos-Sheet-Music.png';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+
+    // --- HELPER DRAWING FUNCTIONS (Fully implemented and self-contained) ---
+
+    function calculateNotePositions(noteItem, currentX, currentYOffset) {
+        const noteName = noteItem.pitch.slice(0, -1);
+        const octave = parseInt(noteItem.pitch.slice(-1));
+        const baseNote = noteName.charAt(0);
+        const step = noteSteps[baseNote];
+        if (step === undefined) return { y: null };
+
+        const y_E4_on_staff = currentYOffset + 4 * STAFF_LINE_GAP;
+        const noteOctaveOffset = (octave - 4) * 7;
+        const finalStepsFromE4 = step + noteOctaveOffset;
+        const y = y_E4_on_staff - finalStepsFromE4 * (STAFF_LINE_GAP / 2);
+        
+        const stemGoesUp = (y >= currentYOffset + 2 * STAFF_LINE_GAP);
+        const stemDirection = stemGoesUp ? -1 : 1;
+        const stemX = stemGoesUp ? currentX + NOTE_HEAD_RADIUS_X - 1 : currentX - NOTE_HEAD_RADIUS_X + 1;
+        const stemYend = y + (STEM_HEIGHT * stemDirection);
+        return { y, stemGoesUp, stemX, stemYend };
+    }
+
+    function drawNoteHeadAndLedgers(cx, cy, noteItem, currentYOffset) {
+        ctx.lineWidth = 1;
+        if (cy > currentYOffset + 4 * STAFF_LINE_GAP) {
+            for (let ly = currentYOffset + 5 * STAFF_LINE_GAP; ly <= cy; ly += STAFF_LINE_GAP) {
+                ctx.beginPath(); ctx.moveTo(cx - 12, ly); ctx.lineTo(cx + 12, ly); ctx.stroke();
+            }
+        }
+        if (cy < currentYOffset) {
+             for (let ly = currentYOffset - STAFF_LINE_GAP; ly >= cy; ly -= STAFF_LINE_GAP) {
+                ctx.beginPath(); ctx.moveTo(cx - 12, ly); ctx.lineTo(cx + 12, ly); ctx.stroke();
+            }
+        }
+        ctx.lineWidth = 1.5;
+        if (noteItem.pitch.includes('#')) {
+            ctx.font = 'bold 24px serif';
+            ctx.fillText('#', cx - 20, cy + 5);
+        }
+        ctx.beginPath();
+        ctx.ellipse(cx, cy, NOTE_HEAD_RADIUS_X, NOTE_HEAD_RADIUS_Y, 0, 0, 2 * Math.PI);
+        if (noteItem.duration !== 'whole' && noteItem.duration !== 'half') {
+            ctx.fill();
+        } else { ctx.stroke(); }
+    }
+    
+    function drawFlags(stemX, stemYend, stemGoesUp, duration) {
+        if (duration !== 'eighth' && duration !== 'sixteenth') return;
+        const flagDirection = stemGoesUp ? 1 : -1;
+        ctx.lineWidth = 2;
+
+        // First flag (for eighths and sixteenths)
+        let y_flag_start = stemYend;
+        ctx.beginPath();
+        ctx.moveTo(stemX, y_flag_start);
+        ctx.bezierCurveTo(stemX + 5 * flagDirection, y_flag_start + 10 * flagDirection, stemX + 15 * flagDirection, y_flag_start + 15 * flagDirection, stemX + 20 * flagDirection, y_flag_start + 25 * flagDirection);
+        ctx.stroke();
+
+        // Second flag (for sixteenths)
+        if (duration === 'sixteenth') {
+            y_flag_start += 8 * flagDirection;
+            ctx.beginPath();
+            ctx.moveTo(stemX, y_flag_start);
+            ctx.bezierCurveTo(stemX + 5 * flagDirection, y_flag_start + 10 * flagDirection, stemX + 15 * flagDirection, y_flag_start + 15 * flagDirection, stemX + 20 * flagDirection, y_flag_start + 25 * flagDirection);
+            ctx.stroke();
+        }
+        ctx.lineWidth = 1.5;
+    }
+
+    function drawRest(restItem, currentX, currentYOffset) {
+        const middleStaffY = currentYOffset + 2 * STAFF_LINE_GAP;
+        ctx.beginPath();
+        if (restItem.duration === 'quarter') {
+            ctx.moveTo(currentX - 5, middleStaffY - 10); ctx.lineTo(currentX + 5, middleStaffY - 5);
+            ctx.lineTo(currentX - 5, middleStaffY + 5); ctx.lineTo(currentX, middleStaffY + 15); ctx.stroke();
+        } else if (restItem.duration === 'half') {
+            ctx.fillRect(currentX - 6, middleStaffY - 5, 12, 5);
+        } else if (restItem.duration === 'whole') {
+            ctx.fillRect(currentX - 6, currentYOffset + STAFF_LINE_GAP, 12, 5);
+        } else if (restItem.duration === 'eighth') {
+            ctx.font = 'bold 30px serif';
+            ctx.fillText('𝄾', currentX-5, middleStaffY + 12);
+        } else if (restItem.duration === 'sixteenth') {
+            ctx.font = 'bold 30px serif';
+            ctx.fillText('𝄿', currentX-5, middleStaffY + 12);
+        }
+    }
+
+    function drawSingleNote(noteItem, currentX, currentYOffset) {
+        const { y, stemGoesUp, stemX, stemYend } = calculateNotePositions(noteItem, currentX, currentYOffset);
+        if (y === null) return;
+        drawNoteHeadAndLedgers(currentX, y, noteItem, currentYOffset);
+        if (noteItem.duration !== 'whole') {
+            ctx.beginPath();
+            ctx.moveTo(stemX, y);
+            ctx.lineTo(stemX, stemYend);
+            ctx.stroke();
+            drawFlags(stemX, stemYend, stemGoesUp, noteItem.duration);
+        }
+    }
+    
+    function drawBeamGroup(group, startX, currentYOffset) {
+        let currentX = startX;
+        const notePos = group.map((note) => {
+            const beatVal = note.value / (60/120);
+            const pos = calculateNotePositions(note, currentX, currentYOffset);
+            currentX += QUARTER_NOTE_WIDTH * beatVal;
+            return { ...pos, note: note };
+        });
+
+        const first = notePos[0];
+        const last = notePos[notePos.length - 1];
+        const beamY1 = first.stemYend;
+        const beamY2 = last.stemYend;
+
+        currentX = startX;
+        notePos.forEach((pos, index) => {
+            const beatVal = pos.note.value / (60/120);
+            drawNoteHeadAndLedgers(currentX, pos.y, pos.note, currentYOffset);
+            
+            // Calculate stem length to perfectly meet the angled beam
+            const beamYatCurrentX = beamY1 + (beamY2 - beamY1) * ((currentX - startX) / ((currentX + QUARTER_NOTE_WIDTH * beatVal) - startX - QUARTER_NOTE_WIDTH || 1));
+            
+            ctx.beginPath();
+            ctx.moveTo(pos.stemX, pos.y);
+            ctx.lineTo(pos.stemX, beamYatCurrentX);
+            ctx.stroke();
+
+            currentX += QUARTER_NOTE_WIDTH * beatVal;
+        });
+        
+        ctx.lineWidth = 5;
+        ctx.beginPath();
+        ctx.moveTo(first.stemX, beamY1);
+        ctx.lineTo(last.stemX, beamY2);
+        ctx.stroke();
+        
+        if (group.some(n => n.duration === 'sixteenth')) {
+            const beamOffset = first.stemGoesUp ? 8 : -8;
+            ctx.beginPath();
+            ctx.moveTo(first.stemX, beamY1 + beamOffset);
+            ctx.lineTo(last.stemX, beamY2 + beamOffset);
+            ctx.stroke();
+        }
+        ctx.lineWidth = 1.5;
+    }
 }
-	
 	
 	
 	
