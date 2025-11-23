@@ -71,56 +71,6 @@ function determineKeySignature(notes) {
     }
     return { key: bestKey, accidentals: circleOfFifths[bestKey] };
 }
-/**
- * Quantizes the raw, timed notes into standard musical durations.
- * This new version correctly preserves the 'start' time for every note and rest,
- * which is essential for the advanced rendering engine to correctly group chords and rests.
- * Without this, the temporal relationship between notes is lost, leading to errors.
- * @param {Array<Object>} notes The raw note data captured during recording.
- * @returns {Array<Object>} An array of quantized notes and rests with preserved timing.
- */
-function quantizeNotes(notes) {
-    const tempo = 120; // Assume 120 BPM
-    const quarterNoteDuration = 60 / tempo;
-    const durations = [
-        { name: 'sixteenth', duration: quarterNoteDuration / 4 },
-        { name: 'eighth', duration: quarterNoteDuration / 2 },
-        { name: 'quarter', duration: quarterNoteDuration },
-        { name: 'half', duration: quarterNoteDuration * 2 },
-        { name: 'whole', duration: quarterNoteDuration * 4 },
-    ];
-
-    notes.sort((a, b) => a.start - b.start);
-
-    const result = [];
-    let lastEndTime = 0;
-
-    notes.forEach(note => {
-        // Find any silence (a rest) that occurred before this note started.
-        const restDuration = note.start - lastEndTime;
-        if (restDuration > durations[0].duration / 2) { // Minimum detectable rest
-            let remainingRest = restDuration;
-            let restStartTime = lastEndTime;
-            // Fill the silence with the largest possible rest values
-            while (remainingRest > durations[0].duration / 2) {
-                const closestRest = durations.reduce((prev, curr) => Math.abs(curr.duration - remainingRest) < Math.abs(prev.duration - remainingRest) ? curr : prev);
-                // CRITICAL FIX: Add the 'start' property to the rest object.
-                result.push({ type: 'rest', duration: closestRest.name, value: closestRest.duration, start: restStartTime });
-                remainingRest -= closestRest.duration;
-                restStartTime += closestRest.duration;
-            }
-        }
-
-        // Quantize the duration of the note that was actually played.
-        const closestNote = durations.reduce((prev, curr) => Math.abs(curr.duration - note.duration) < Math.abs(prev.duration - note.duration) ? curr : prev);
-        // CRITICAL FIX: Pass along the original 'start' time of the note.
-        result.push({ type: 'note', pitch: note.note, start: note.start, duration: closestNote.name, value: closestNote.duration });
-
-        // The next rest will be calculated from the end time of THIS note.
-        lastEndTime = note.start + note.duration;
-    });
-    return result;
-}
 
 
 /**

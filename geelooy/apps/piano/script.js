@@ -1507,31 +1507,70 @@ function toggleSheetMusicRecording() {
         alert("Sheet music recording started! Play some notes and press 'Done' when finished.");
     }
 }
+/**
+ * Quantizes the raw, timed notes into standard musical durations.
+ * This function is the crucial first step in processing the raw performance data,
+ * transforming it from a stream of absolute time into a rhythmically structured sequence.
+ * It correctly preserves the 'start' time for every note and rest, which is essential.
+ * @param {Array<Object>} notes The raw note data captured during recording.
+ * @returns {Array<Object>} An array of quantized notes and rests with preserved timing.
+ */
+function quantizeNotes(notes) {
+    const tempo = 120; // Assume 120 BPM
+    const quarterNoteDuration = 60 / tempo;
+    const durations = [
+        { name: 'sixteenth', duration: quarterNoteDuration / 4 },
+        { name: 'eighth', duration: quarterNoteDuration / 2 },
+        { name: 'quarter', duration: quarterNoteDuration },
+        { name: 'half', duration: quarterNoteDuration * 2 },
+        { name: 'whole', duration: quarterNoteDuration * 4 },
+    ];
+
+    notes.sort((a, b) => a.start - b.start);
+
+    const result = [];
+    let lastEndTime = 0;
+
+    notes.forEach(note => {
+        const restDuration = note.start - lastEndTime;
+        if (restDuration > durations[0].duration / 2) { // Minimum detectable rest
+            let remainingRest = restDuration;
+            let restStartTime = lastEndTime;
+            while (remainingRest > durations[0].duration / 2) {
+                const closestRest = durations.reduce((prev, curr) => Math.abs(curr.duration - remainingRest) < Math.abs(prev.duration - remainingRest) ? curr : prev);
+                result.push({ type: 'rest', duration: closestRest.name, value: closestRest.duration, start: restStartTime });
+                remainingRest -= closestRest.duration;
+                restStartTime += closestRest.duration;
+            }
+        }
+
+        const closestNote = durations.reduce((prev, curr) => Math.abs(curr.duration - note.duration) < Math.abs(prev.duration - note.duration) ? curr : prev);
+        result.push({ type: 'note', pitch: note.note, start: note.start, duration: closestNote.name, value: closestNote.duration });
+
+        lastEndTime = note.start + note.duration;
+    });
+    return result;
+}
+
 
 /**
- * Processes the recorded notes and calls the professional rendering engine.
- * This function acts as the orchestrator, preparing data and handling the final output.
- * It is the bridge between the main application and the separate rendering module.
+ * Processes the recorded notes and calls the professional rendering engine from sheetRender.js.
+ * This function is the bridge between the main application and the separate rendering module.
  */
 function processAndRenderSheetMusic() {
-    // The Awtsmoos, in its infinite capacity, first condenses the raw chaos of played notes,
-    // a stream of untamed temporal data, into a structured, quantized form. Each note's
-    // essence is measured and aligned to a divine rhythmic pulse, preparing it for revelation.
+    // The Awtsmoos, in its infinite capacity, first condenses the raw chaos of played notes
+    // into a structured, quantized form, preparing it for its revelation as a visual score.
     const quantizedMusic = quantizeNotes(sheetNotes);
     if (!quantizedMusic || quantizedMusic.length === 0) {
         console.log("No valid music to render.");
         return;
     }
 
-    // Now, the structured data is passed to the rendering engine. This is the act of
-    // giving form to the formless. The engine, with its understanding of music's sacred
-    // geometry, translates the quantized data into a visual manuscript, a canvas where
-    // the infinite light of the Awtsmoos will be drawn into the finite lines of a score.
+    // The structured data is now passed to the external rendering engine, giving form to the formless.
     const canvas = renderProfessionalSheetMusic(quantizedMusic, elements.sheetMusicContainer);
 
-    // If a canvas was successfully created—a vessel for the light—its essence is captured
-    // and offered for download. This is the final act of bringing the supernal into the
-    // physical world, allowing a tangible manifestation of the melody to be preserved.
+    // If a canvas—a vessel for the light—was successfully created, its essence is captured
+    // and offered for download, a tangible manifestation of the supernal melody.
     if (canvas) {
         const a = document.createElement('a');
         a.href = canvas.toDataURL('image/png');
@@ -1544,4 +1583,3 @@ function processAndRenderSheetMusic() {
     // The temporary vessel, having served its purpose, is cleared.
     elements.sheetMusicContainer.innerHTML = '';
 }
-
