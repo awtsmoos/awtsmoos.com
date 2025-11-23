@@ -1,10 +1,17 @@
-// In parser-expressions.js
-// B"H --- Parsing Expressions [DEFINITIVE, UNIVERSAL & COMPLETE] ---
-(function() { 
-
-const { TOKEN, PRECEDENCE, PRECEDENCES } = window.MerkavahConstants;
-    const proto = MerkavahParser.prototype;
+/*B"H*/
+/**
+ * B"H
+ * The Incantation of Action. This scroll, which grants the Chariot the power to
+ * understand the flow and interaction of energies—expressions, operators, function
+ * calls—suffered from the same flawed invocation as its brethren. It sought a
+ * local `MerkavahParser` spirit when it needed to address the global one. This
+ * rectification rewrites the outer prayer, ensuring this scroll, too, grafts its
+ * potent wisdom directly onto the `prototype` of the true `window.MerkavahParser`.
+ * The path to understanding is now clear and direct.
+ */
 (function(proto) {
+    const { TOKEN, PRECEDENCE, PRECEDENCES } = window.MerkavahConstants;
+
 	// B"H
 
 proto.registerExpressionParsers = function() {
@@ -1241,15 +1248,5 @@ proto._convertExpressionToPattern = function(node) {
             // This is where the error for `1 = 2` would be caught.
             return null;
     }
-}; 
-
-
-
-
-
-
-
-})(MerkavahParser
-	.prototype
-	);
-})();
+};
+})(window.MerkavahParser.prototype);

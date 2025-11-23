@@ -1,10 +1,19 @@
-// B"H 
-//--- Parsing Declarations [DEFINITIVE & COMPLETE] ---
-(function() {
-  const { TOKEN, PRECEDENCE, PRECEDENCES } = window.MerkavahConstants;
-    const proto = MerkavahParser.prototype;
+/*B"H*/
+/**
+ * B"H
+ * The Incantation of Knowing. This sacred scroll, which teaches the Chariot to
+ * recognize the forms of `class`, `function`, `import`, and `export`, was
+ * written with a flawed invocation. It whispered a name into the void, seeking a
+ * local spirit, when it needed to call upon the great spirit residing in the
+ * global palace of `window`. This Tikkun (Rectification) corrects the invocation,
+ * wrapping the entire scroll in a single, focused incantation that directly
+ * addresses the `prototype` of the `window.MerkavahParser`, ensuring its wisdom is
+ * grafted onto the true heartwood of the Chariot. The redundant, nested prayer
+ * that caused confusion has been banished, leaving only clarity.
+ */
 (function(proto) {
-
+  const { TOKEN, PRECEDENCE, PRECEDENCES } = window.MerkavahConstants;
+    
 	proto.registerDeclarationParsers = function() { /* No registration needed */ };
 
 	// B"H 
@@ -961,15 +970,4 @@ proto._parseExportSpecifier = function() {
 
     return this._finishNode({ type: 'ExportSpecifier', local, exported }, s);
 };
-
-
-
-
-
-
-
-
-
-
-})(MerkavahParser.prototype);
-})()
+})(window.MerkavahParser.prototype);

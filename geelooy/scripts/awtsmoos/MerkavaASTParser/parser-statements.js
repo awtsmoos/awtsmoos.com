@@ -1,9 +1,18 @@
-// B"H --- Parsing Statements [DEFINITIVE, CORRECT & COMPLETE] ---
-(function() {
- const { TOKEN, PRECEDENCE, PRECEDENCES } = window.MerkavahConstants;
-    const proto = MerkavahParser.prototype;
-
+/*B"H*/
+/**
+ * B"H
+ * The Incantation of Control. This scroll, which imbues the Chariot with the
+ * wisdom of control flow—the sacred rhythms of `if`, `for`, `while`, and `try`—
+ * also spoke its prayer into the void. It sought a local spirit when it required
+ * the global one. This rectification seals the final crack in the Chariot's
+ * assembly. Like its brethren, its core invocation is rewritten to call upon the
+ * `prototype` of the `window.MerkavahParser` directly. With this final act of
+ * Tikkun, all three aspects of the parser's soul are unified, and the Merkava is
+ * whole, ready for its ascent.
+ */
 (function(proto) {
+    const { TOKEN, PRECEDENCE, PRECEDENCES } = window.MerkavahConstants;
+
 	proto.registerStatementParsers = function() { /* No registration needed */ };
 
 	// This function is now deprecated, as its logic has been correctly
@@ -366,19 +375,4 @@ proto._parseWithStatement = function() {
 
     return this._finishNode({ type: 'WithStatement', object, body }, s);
 };
-
-// --- 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-
-})(MerkavahParser.prototype);
-})();
+})(window.MerkavahParser.prototype);
