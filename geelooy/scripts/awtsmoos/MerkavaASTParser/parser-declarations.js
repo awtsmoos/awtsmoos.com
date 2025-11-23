@@ -456,33 +456,28 @@ proto._parseClassDeclaration = function() {
     return this._finishNode({ type: 'ClassDeclaration', id, superClass, body }, s);
 };
 
-// REPLACE your old _parseClassBody with this one
+// B"H 
 proto._parseClassBody = function() {
     const s = this._startNode();
     this._expect(TOKEN.LBRACE);
     const body = [];
 
-    // This loop now correctly handles any failure from its child parser.
     while (!this._currTokenIs(TOKEN.RBRACE) && !this._currTokenIs(TOKEN.EOF)) {
         const element = this._parseClassElement();
         if (element) {
             body.push(element);
         } else {
-             // This is a crucial fallback. If _parseClassElement fails for any reason,
-             // we advance past the token to prevent a freeze, and try to continue.
-             this._error("Invalid or unexpected token in class body.");
+             // --- THE FORTIFICATION ---
+             // If parsing an element fails for any reason, we report it
+             // and manually advance to ensure we always make progress.
+             this._error("Invalid or unexpected token in class body. Skipping to recover.");
              this._advance();
         }
     }
-
-    // --- THE TIKKUN OF THE UNSEALED TEMPLE ---
-    // This line was the source of your second error. It must be here to
-    // consume the final '}' and complete the parsing of the class body.
-    this._expect(TOKEN.RBRACE);
     
+    this._expect(TOKEN.RBRACE);
     return this._finishNode({ type: 'ClassBody', body }, s);
 };
-
 
 /**
  * B"H

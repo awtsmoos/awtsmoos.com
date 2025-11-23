@@ -119,39 +119,47 @@ proto.registerExpressionParsers = function() {
  * @param {number} precedence The current precedence level to respect.
  * @returns {ESTree.Expression | null} The fully-parsed expression node.
  */
+
 proto._parseExpression = function(precedence) {
+    // This guard prevents stack overflows from infinitely recursive expressions.
     this.recursionDepth++;
     if (this.recursionDepth > this.maxRecursionDepth) {
-        throw new Error("Stack overflow detected: Maximum recursion depth exceeded.");
+        this._error("Maximum recursion depth exceeded. Probable infinite loop in parser.");
+        // We throw here because this is an unrecoverable state.
+        throw new Error("Stack overflow in parser."); 
     }
 
     try {
+        // 1. Find the prefix handler for the current token (e.g., '!', '-', '(', 'new').
         let prefix = this.prefixParseFns[this.currToken.type];
         if (!prefix) {
-            this._error(`No prefix parse function for ${this.currToken.type}`);
+            this._error(`No prefix parse function for token: ${this.currToken.type} ("${this.currToken.literal}")`);
             return null;
         }
         let leftExp = prefix.call(this);
 
+        // 2. THIS IS THE RECTIFIED LOOP LOGIC.
+        // It continues as long as the next token is an infix operator
+        // with a higher precedence than our current context.
         while (precedence < this._getPrecedence(this.currToken)) {
-            // --- THE FINAL, GUARANTEED FIX ---
-            // This guard provides the crucial boundary condition for template literals.
-            // It only activates when the `_parseTemplateLiteral` function sets the
-            // contextual flag, making it perfectly safe for all other expressions.
-            if (this.parsingTemplateExpression &&
-               (this.currToken.type === TOKEN.TEMPLATE_MIDDLE || this.currToken.type === TOKEN.TEMPLATE_TAIL)) {
-                return leftExp;
-            }
-            // --- END OF THE FIX ---
-
-            let infix = this.infixParseFns[this.currToken.type];
+            const infix = this.infixParseFns[this.currToken.type];
+            
+            // If there's no infix handler, we are done with this expression part.
+            // This is the key safety check that prevents freezes.
             if (!infix) {
                 return leftExp;
             }
+
+            // A valid infix handler was found, so we call it, passing the
+            // expression we've built so far as the "left" side.
             leftExp = infix.call(this, leftExp);
         }
+
+        // 3. Return the fully-formed expression.
         return leftExp;
+
     } finally {
+        // 4. Critical: Ensure we decrement the recursion depth even if an error occurs.
         this.recursionDepth--;
     }
 };
@@ -708,43 +716,37 @@ proto._convertExpressionToPattern = function(node) {
 					elements: e
 				}, t)
 		};
-	proto._parseObjectLiteral = function() {
-		const t = this._startNode();
-		this._expect(TOKEN.LBRACE);
-		const e = [];
+		
+		
+	// B"H 
+proto._parseObjectLiteral = function() {
+    const t = this._startNode();
+    this._expect(TOKEN.LBRACE);
+    const e = [];
 
-		// --- THE FORTRESS ---
-		// This loop is now fortified. If _roperty fails and returns null,
-		// we explicitly advance the token stream to prevent an infinite loop.
-		while (!this._currTokenIs(TOKEN.RBRACE) && !this._currTokenIs(TOKEN.EOF)) {
-			const prop = this._parseProperty(false);
-			if (prop) {
-				e.push(prop);
-			} else {
-				// This is the safety net. If parsing a property fails,
-				// we report it and advance past the problematic token.
-				this._error("Failed to parse object property. Advancing to recover.");
-				this._advance();
-			}
+    while (!this._currTokenIs(TOKEN.RBRACE) && !this._currTokenIs(TOKEN.EOF)) {
+        const prop = this._parseProperty(false);
+        if (prop) {
+            e.push(prop);
+        } else {
+            // --- THE FORTIFICATION ---
+            this._error("Failed to parse object property. Skipping to recover.");
+            this._advance();
+        }
 
-			if (this._currTokenIs(TOKEN.RBRACE)) {
-				break;
-			}
-			if (this._currTokenIs(TOKEN.COMMA)) {
-				this._advance();
-			} else if (!this._currTokenIs(TOKEN.RBRACE)) {
-				this._error("Expected a comma or '}' after object property.");
-				break; 
-			}
-		}
-		// --- END OF THE FORTRESS ---
+        if (this._currTokenIs(TOKEN.RBRACE)) break;
+        
+        if (this._currTokenIs(TOKEN.COMMA)) {
+            this._advance();
+        } else {
+            this._error("Expected a comma or '}' after object property.");
+            break; 
+        }
+    }
 
-		this._expect(TOKEN.RBRACE);
-		return this._finishNode({
-			type: "ObjectExpression",
-			properties: e
-		}, t);
-	};
+    this._expect(TOKEN.RBRACE);
+    return this._finishNode({ type: "ObjectExpression", properties: e }, t);
+};
 
 	
 

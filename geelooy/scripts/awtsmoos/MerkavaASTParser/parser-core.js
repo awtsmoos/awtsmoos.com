@@ -81,27 +81,47 @@ const merkavaPromise = factory(); // Execute the factory immediately to get the 
         }
 
 class MerkavahParser {
-    constructor(s) {
-        this.l = new Lexer(s);
-        this.errors = [];
-        this.panicMode = false;
-        this.prevToken = null;
-        this.currToken = null;
-        this.peekToken = null;
-        this.prefixParseFns = {};
-        this.infixParseFns = {};
-        this.recursionDepth = 0;
-        this.maxRecursionDepth = 1500;
-        this.parsingTemplateExpression = false;
-        
-        // Initialize tokens
-        this.currToken = this.l.nextToken();
-        this.peekToken = this.l.nextToken();
+    // B"H 
+constructor(s) {
+    this.l = new Lexer(s);
+    this.errors = [];
+    this.panicMode = false;
+    this.prevToken = null;
+    this.currToken = null;
+    this.peekToken = null;
+    this.prefixParseFns = {};
+    this.infixParseFns = {};
+    this.recursionDepth = 0;
+    this.maxRecursionDepth = 1500;
+    this.parsingTemplateExpression = false;
+    
+    // --- THE TZADIK'S COUNTER ---
+    this.op_count = 0;
+    this.max_ops = 250000; // A high threshold to prevent false positives.
+    // ---
+
+    // Initialize tokens
+    this.currToken = this.l.nextToken();
+    this.peekToken = this.l.nextToken();
+}
+
+// B"H -
+_guard() {
+    if (this.op_count++ > this.max_ops) {
+        // This error is thrown because it's an unrecoverable state.
+        throw new Error(
+            `PARSER HALTED: Maximum operation count (${this.max_ops}) exceeded. ` +
+            `This indicates a guaranteed infinite loop, likely from a bug in a parsing function ` +
+            `that failed to advance past a token. Stuck near token: ${this.currToken.type} ` +
+            `("${this.currToken.literal}") at Line: ${this.currToken.line}, Col: ${this.currToken.column}`
+        );
     }
+}
 
     // --- Paste ALL your other core parser methods here ---
     // (Starting from _advance() and ending with parse())
     _advance() {
+    this._guard();
         this.prevToken = this.currToken;
         this.currToken = this.peekToken;
         this.peekToken = this.l.nextToken();
