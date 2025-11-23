@@ -74,6 +74,9 @@ proto.registerExpressionParsers = function() {
 };
 
 
+
+
+
 	// B"H
 	
 	
@@ -152,6 +155,24 @@ proto._parseExpression = function(precedence) {
         this.recursionDepth--;
     }
 };
+
+// B"H
+proto._parseSpreadElement = function() {
+    const s = this._startNode();
+    this._advance(); // Consume the '...' token.
+
+    // A SpreadElement's argument is a full expression, not just a pattern.
+    // This is the crucial difference. We call _parseExpression to handle it.
+    const argument = this._parseExpression(PRECEDENCE.ASSIGNMENT);
+    if (!argument) {
+        this._error("Expected an expression after '...' spread operator.");
+        return null;
+    }
+
+    // According to the ESTree spec, this node is called a 'SpreadElement'.
+    return this._finishNode({ type: 'SpreadElement', argument }, s);
+};
+
 	proto._parseIdentifier =
 		function() {
 			if (this._peekTokenIs(
