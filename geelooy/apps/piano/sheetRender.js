@@ -505,7 +505,7 @@ function drawMeasure(ctx, measure, x, yOffset, ratio) {
             i++;
         }
     }
-}
+} 
 
 /**
  * The main orchestrator function for rendering a complete two-hand piano score.
