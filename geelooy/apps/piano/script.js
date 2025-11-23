@@ -1509,11 +1509,11 @@ function toggleSheetMusicRecording() {
 }
 
 /**
- * Quantizes the raw, timed notes into standard musical durations with greater accuracy.
- * This version can detect dotted notes and handles rests more precisely by filling gaps
- * with a combination of rests, adhering to standard notation practices.
- * @param {Array<Object>} notes The raw note data captured during recording.
- * @returns {Array<Object>} An array of quantized notes and rests with preserved timing.
+ * Quantizes notes with greater accuracy and adds articulation detection (staccato).
+ * It flags notes as 'staccato' if their raw played duration is significantly shorter
+ * than their formal, quantized musical value.
+ * @param {Array<Object>} notes The raw note data from recording.
+ * @returns {Array<Object>} An array of quantized notes and rests with articulation info.
  */
 function quantizeNotes(notes) {
     const tempo = 120; // Assume 120 BPM
@@ -1527,7 +1527,7 @@ function quantizeNotes(notes) {
         { name: 'half', duration: quarterNoteDuration * 2 },
         { name: 'half-dotted', duration: quarterNoteDuration * 3 },
         { name: 'whole', duration: quarterNoteDuration * 4 },
-    ].sort((a, b) => a.duration - b.duration); // Sort by duration ascending
+    ].sort((a, b) => a.duration - b.duration);
 
     notes.sort((a, b) => a.start - b.start);
 
@@ -1535,15 +1535,13 @@ function quantizeNotes(notes) {
     let lastEndTime = 0;
 
     notes.forEach(note => {
-        // --- 1. Fill Rests ---
         const restDuration = note.start - lastEndTime;
-        if (restDuration > durations[0].duration / 2) { // Minimum detectable rest
+        if (restDuration > durations[0].duration / 2) {
             let remainingRest = restDuration;
             let restStartTime = lastEndTime;
-            // Greedily fill the gap with the largest possible rest values
             for (let i = durations.length - 1; i >= 0; i--) {
                 const restValue = durations[i];
-                while (remainingRest >= restValue.duration) {
+                while (remainingRest >= restValue.duration * 0.95) {
                     result.push({ type: 'rest', duration: restValue.name, value: restValue.duration, start: restStartTime });
                     remainingRest -= restValue.duration;
                     restStartTime += restValue.duration;
@@ -1551,14 +1549,28 @@ function quantizeNotes(notes) {
             }
         }
 
-        // --- 2. Quantize The Note ---
-        // Find the duration value that is closest to the actual played duration
-        const closestNote = durations.reduce((prev, curr) => 
+        const closestNote = durations.reduce((prev, curr) =>
             Math.abs(curr.duration - note.duration) < Math.abs(prev.duration - note.duration) ? curr : prev
         );
-        result.push({ type: 'note', pitch: note.note, start: note.start, duration: closestNote.name, value: closestNote.duration });
 
-        lastEndTime = note.start + closestNote.duration; // Use quantized end time
+        // --- NEW: Staccato Detection Logic ---
+        let articulation = null;
+        // If a note was played for less than 60% of its quantized value, it's likely staccato.
+        // We exclude very short notes to avoid mislabeling grace notes.
+        if (note.duration < closestNote.duration * 0.6 && closestNote.duration > quarterNoteDuration / 4) {
+            articulation = 'staccato';
+        }
+
+        result.push({
+            type: 'note',
+            pitch: note.note,
+            start: note.start,
+            duration: closestNote.name,
+            value: closestNote.duration,
+            articulation: articulation // Add the new property
+        });
+
+        lastEndTime = note.start + closestNote.duration;
     });
     return result;
 }

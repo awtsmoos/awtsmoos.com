@@ -320,35 +320,33 @@ function drawBarLine(ctx, x, y) {
 }
 
 /**
- * Draws a single complete note, including its head, stem, ledger lines, and accidental.
- * This is the elemental act of creation, taking a note's full identity—its pitch, duration, and harmonic context—
- * and giving it a precise, physical form on the correct staff, ready to be perceived by the musician's eye.
+ * Draws a single complete note, now including staccato dots.
+ * If the note object has an 'articulation' property set to 'staccato', this function
+ * will draw a dot above or below the notehead based on stem direction.
  * @param {CanvasRenderingContext2D} ctx The canvas context.
  * @param {Object} note The note object to draw.
  * @param {number} x The horizontal position.
  * @param {number} yOffset The vertical offset for the staff.
  * @param {number} stemDirection The direction of the stem (-1 up, 1 down).
  * @param {'treble'|'bass'} clef The clef of the staff.
- * @returns {{stemX: number, stemYend: number, noteY: number}|{noteY: number}} Info about the drawn stem, or just the notehead Y.
+ * @returns {Object} Info about the drawn stem and notehead.
  */
 function drawNote(ctx, note, x, yOffset, stemDirection, clef) {
     const noteY = getNoteY(note.details, yOffset, clef);
-    let stemX = 0;
 
-    // Draw ledger lines, now aware of the staff's position
     ctx.lineWidth = 1;
     const staffTop = yOffset;
     const staffBottom = yOffset + 4 * SCORE_CONFIG.STAFF_LINE_GAP;
-    if (noteY > staffBottom) { // Below the staff
+    if (noteY > staffBottom) {
         for (let ly = staffBottom + SCORE_CONFIG.STAFF_LINE_GAP; ly <= noteY; ly += SCORE_CONFIG.STAFF_LINE_GAP) {
             ctx.beginPath(); ctx.moveTo(x - 12, ly); ctx.lineTo(x + 12, ly); ctx.stroke();
         }
-    } else if (noteY < staffTop) { // Above the staff
+    } else if (noteY < staffTop) {
         for (let ly = staffTop - SCORE_CONFIG.STAFF_LINE_GAP; ly >= noteY; ly -= SCORE_CONFIG.STAFF_LINE_GAP) {
             ctx.beginPath(); ctx.moveTo(x - 12, ly); ctx.lineTo(x + 12, ly); ctx.stroke();
         }
     }
-    
+
     if (note.displayAccidental) {
         ctx.font = '28px serif';
         ctx.fillText(note.displayAccidental, x - 22, noteY + 5);
@@ -358,16 +356,28 @@ function drawNote(ctx, note, x, yOffset, stemDirection, clef) {
     ctx.ellipse(x, noteY, SCORE_CONFIG.NOTE_HEAD_RADIUS_X, SCORE_CONFIG.NOTE_HEAD_RADIUS_Y, Math.PI / 15, 0, 2 * Math.PI);
     const isFilled = note.duration !== 'whole' && note.duration !== 'half';
     ctx.fillStyle = 'black';
-    if(isFilled) ctx.fill(); else { ctx.lineWidth=1.5; ctx.stroke(); }
-    
+    if (isFilled) ctx.fill(); else { ctx.lineWidth = 1.5; ctx.stroke(); }
+
     if (note.duration !== 'whole') {
-        stemX = stemDirection === 1 ? x + SCORE_CONFIG.NOTE_HEAD_RADIUS_X -1 : x - SCORE_CONFIG.NOTE_HEAD_RADIUS_X + 1;
+        const stemX = stemDirection === 1 ? x + SCORE_CONFIG.NOTE_HEAD_RADIUS_X - 1 : x - SCORE_CONFIG.NOTE_HEAD_RADIUS_X + 1;
         const stemYend = noteY - (SCORE_CONFIG.STEM_HEIGHT * stemDirection);
         ctx.lineWidth = 1.8;
         ctx.beginPath();
         ctx.moveTo(stemX, noteY);
         ctx.lineTo(stemX, stemYend);
         ctx.stroke();
+
+        // --- Staccato Dot Drawing Logic ---
+        if (note.articulation === 'staccato') {
+            const dotOffset = SCORE_CONFIG.NOTE_HEAD_RADIUS_Y + 12; // Distance from notehead
+            // If stem goes down (direction=1), dot goes above notehead.
+            // If stem goes up (direction=-1), dot goes below notehead.
+            const dotY = stemDirection === 1 ? noteY - dotOffset : noteY + dotOffset;
+            ctx.beginPath();
+            ctx.arc(x, dotY, 2.5, 0, 2 * Math.PI);
+            ctx.fillStyle = 'black';
+            ctx.fill();
+        }
         return { stemX, stemYend, noteY };
     }
     return { noteY };
@@ -588,10 +598,9 @@ function drawMeasure(ctx, measure, x, yOffset, ratio, clef) {
 }
 
 /**
- * The main orchestrator function for rendering a complete two-hand piano score.
- * This is the master conductor of the rendering process. It marshals all other functions,
- * first analyzing the music, then calculating the grand layout across two staves, and finally
- * commanding the drawing of every element onto the canvas, transforming raw data into a finished work of art.
+ * The main orchestrator function, now with logic to handle empty measures.
+ * This version calculates measure widths and checks if a hand's part in a measure is
+ * empty. If so, it explicitly draws a whole rest, ensuring the score is complete and unambiguous.
  * @param {Array<Object>} quantizedMusic The raw note data from recording.
  * @param {HTMLElement} containerEl The DOM element to append the canvas to.
  * @returns {HTMLCanvasElement|null} The rendered canvas element or null on failure.
@@ -606,23 +615,24 @@ function renderProfessionalSheetMusic(quantizedMusic, containerEl) {
     containerEl.appendChild(canvas);
     const ctx = canvas.getContext('2d');
 
-    // --- PASS 1: ANALYSIS & STRUCTURING FOR TWO HANDS ---
     const keySignature = determineKeySignature(quantizedMusic);
     const timeSignature = { beats: 4, beatType: 4 };
     const music = structureMusicData(quantizedMusic, timeSignature.beats, keySignature);
     const totalMeasures = Math.max(music.treble.length, music.bass.length);
 
-    // --- PASS 2: LAYOUT CALCULATION ---
     const layout = { lines: [] };
     let currentLine = { measureIndices: [], width: 0 };
+    const drawableWidth = SCORE_CONFIG.PAGE_WIDTH - SCORE_CONFIG.STAFF_LEFT_MARGIN - SCORE_CONFIG.STAFF_RIGHT_MARGIN;
+    const defaultMeasureWidth = timeSignature.beats * (SCORE_CONFIG.BASE_NOTE_SPACING * 4 * ((60/120)/(60/120)));
+
     for(let i = 0; i < totalMeasures; i++) {
         const trebleMeasure = music.treble[i] || { beatStructure: [] };
         const bassMeasure = music.bass[i] || { beatStructure: [] };
         const trebleWidth = trebleMeasure.beatStructure.reduce((w, g) => w + (SCORE_CONFIG.BASE_NOTE_SPACING * 4 * (g[0].value / (60/120))), 0);
         const bassWidth = bassMeasure.beatStructure.reduce((w, g) => w + (SCORE_CONFIG.BASE_NOTE_SPACING * 4 * (g[0].value / (60/120))), 0);
-        const measureWidth = Math.max(trebleWidth, bassWidth);
+        // Use default width for empty measures, otherwise use the max width of the content.
+        const measureWidth = Math.max(trebleWidth, bassWidth, defaultMeasureWidth * 0.7);
 
-        const drawableWidth = SCORE_CONFIG.PAGE_WIDTH - SCORE_CONFIG.STAFF_LEFT_MARGIN - SCORE_CONFIG.STAFF_RIGHT_MARGIN;
         const initialOffset = currentLine.width === 0 ? 180 : 0;
         if (currentLine.width + measureWidth + initialOffset > drawableWidth && currentLine.measureIndices.length > 0) {
             layout.lines.push(currentLine);
@@ -633,11 +643,10 @@ function renderProfessionalSheetMusic(quantizedMusic, containerEl) {
     }
     if (currentLine.measureIndices.length > 0) layout.lines.push(currentLine);
 
-    // --- PASS 3: FINAL RENDERING ---
     canvas.width = SCORE_CONFIG.PAGE_WIDTH;
     canvas.height = SCORE_CONFIG.STAFF_TOP_MARGIN * 2 + (layout.lines.length * (SCORE_CONFIG.STAFF_ROW_HEIGHT * 2));
     ctx.fillStyle = 'white'; ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = 'black'; ctx.strokeStyle = 'black'; ctx.textAlign = 'left';
+    ctx.fillStyle = 'black'; ctx.strokeStyle = 'black';
     ctx.textAlign = 'center'; ctx.font = SCORE_CONFIG.TITLE_FONT; ctx.fillText('Awtsmoos Revealed', canvas.width / 2, 60);
     ctx.font = SCORE_CONFIG.COMPOSER_FONT; ctx.fillText('Composed by The Divine Player', canvas.width / 2, 95);
     ctx.textAlign = 'left';
@@ -648,30 +657,40 @@ function renderProfessionalSheetMusic(quantizedMusic, containerEl) {
         const yTreble = yOffset;
         const yBass = yOffset + SCORE_CONFIG.STAFF_ROW_HEIGHT;
         
-        // Draw the Grand Staff (both staves and brace)
         drawStaffSystem(ctx, yTreble);
         drawStaffSystem(ctx, yBass);
         x += drawClefAndBrace(ctx, x, yTreble, yBass) + 10;
         
         if (lineIndex === 0) {
-            x += drawKeySignature(ctx, x, yTreble, keySignature) + 15;
-            x += drawKeySignature(ctx, x, yBass, keySignature) + 15;
-            x += drawTimeSignature(ctx, x, yTreble, timeSignature) + 20;
-            drawTimeSignature(ctx, x-20, yBass, timeSignature);
+            let keySigWidth = drawKeySignature(ctx, x, yTreble, keySignature);
+            drawKeySignature(ctx, x, yBass, keySignature);
+            x += keySigWidth + 15;
+            let timeSigWidth = drawTimeSignature(ctx, x, yTreble, timeSignature);
+            drawTimeSignature(ctx, x, yBass, timeSignature);
+            x += timeSigWidth + 20;
         }
 
         line.measureIndices.forEach(measureIndex => {
             const trebleMeasure = music.treble[measureIndex] || { beatStructure: [] };
             const bassMeasure = music.bass[measureIndex] || { beatStructure: [] };
             
-            // Draw each measure's content on the correct staff
-            drawMeasure(ctx, trebleMeasure, x, yTreble, 1, 'treble');
-            drawMeasure(ctx, bassMeasure, x, yBass, 1, 'bass');
+            const trebleWidth = trebleMeasure.beatStructure.reduce((w, g) => w + (SCORE_CONFIG.BASE_NOTE_SPACING * 4 * (g[0].value / (60/120))), 0);
+            const bassWidth = bassMeasure.beatStructure.reduce((w, g) => w + (SCORE_CONFIG.BASE_NOTE_SPACING * 4 * (g[0].value / (60/120))), 0);
+            const measureWidth = Math.max(trebleWidth, bassWidth, defaultMeasureWidth * 0.7);
 
-            const measureWidth = Math.max(
-                trebleMeasure.beatStructure.reduce((w, g) => w + (SCORE_CONFIG.BASE_NOTE_SPACING * 4 * (g[0].value / (60 / 120))), 0),
-                bassMeasure.beatStructure.reduce((w, g) => w + (SCORE_CONFIG.BASE_NOTE_SPACING * 4 * (g[0].value / (60 / 120))), 0)
-            );
+            // --- NEW: Empty Measure Handling ---
+            if (trebleMeasure.beatStructure.length === 0) {
+                drawRest(ctx, { duration: 'whole' }, x + measureWidth / 2, yTreble);
+            } else {
+                drawMeasure(ctx, trebleMeasure, x, yTreble, 1, 'treble');
+            }
+
+            if (bassMeasure.beatStructure.length === 0) {
+                drawRest(ctx, { duration: 'whole' }, x + measureWidth / 2, yBass);
+            } else {
+                drawMeasure(ctx, bassMeasure, x, yBass, 1, 'bass');
+            }
+            
             x += measureWidth;
             drawBarLine(ctx, x, yTreble);
             drawBarLine(ctx, x, yBass);
