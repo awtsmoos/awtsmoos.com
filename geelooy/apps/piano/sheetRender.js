@@ -124,37 +124,37 @@ function quantizeNotes(notes) {
 
 
 /**
- * Structures raw note data for a two-hand piano score.
- * This is the heart of the new musical intelligence. It takes the single stream of notes
- * and splits it into two distinct voices (treble for the right hand, bass for the left)
- * based on a musical split point. It then processes each hand's part independently,
- * handling rests, accidentals, and chord grouping for each staff.
+ * Structures raw note data for a two-hand piano score with improved logic.
+ * This version accurately splits notes for right and left hands, then groups simultaneous
+ * notes (chords) and sequential notes into a more logical "beat structure" within each measure.
+ * This lays a better foundation for correct beaming and spacing.
  * @param {Array<Object>} notes Raw quantized notes.
  * @param {number} beatsPerMeasure The number of beats per measure.
  * @param {Object} keySignature The determined key signature.
- * @returns {{treble: Array<Object>, bass: Array<Object>}} An object containing the structured measures for both staves.
+ * @returns {{treble: Array<Object>, bass: Array<Object>}} An object containing structured measures for both staves.
  */
 function structureMusicData(notes, beatsPerMeasure, keySignature) {
-    // Define the split point: C4 (MIDI note 60) and above is right hand, everything below is left hand.
-    const splitPoint = getNoteDetails('C4').pitchValue;
+    const splitPoint = getNoteDetails('C4').pitchValue; // C4 is the typical split point
 
-    let rightHandNotes = notes.filter(item => item.type === 'rest' || getNoteDetails(item.pitch).pitchValue >= splitPoint);
-    let leftHandNotes = notes.filter(item => item.type === 'rest' || getNoteDetails(item.pitch).pitchValue < splitPoint);
+    // Split notes into right-hand (treble) and left-hand (bass)
+    const trebleNotes = notes.filter(item => item.type === 'rest' || getNoteDetails(item.pitch).pitchValue >= splitPoint);
+    const bassNotes = notes.filter(item => item.type === 'rest' || getNoteDetails(item.pitch).pitchValue < splitPoint);
 
     const processVoice = (voiceNotes) => {
         const measures = [];
         let currentMeasure = { items: [], beats: 0 };
         let measureAccidentals = new Set();
 
-        // This logic is now applied independently to each hand's notes
         voiceNotes.forEach(item => {
-            const beatValue = item.value / (60 / 120);
+            const beatValue = item.value / (60 / 120); // Convert duration in seconds to beats
+            // If adding the item exceeds the measure, push the current measure and start a new one
             if (currentMeasure.beats + beatValue > beatsPerMeasure && currentMeasure.items.length > 0) {
                 measures.push(currentMeasure);
                 currentMeasure = { items: [], beats: 0 };
                 measureAccidentals.clear();
             }
 
+            // Handle accidental display logic
             if (item.type === 'note') {
                 const details = getNoteDetails(item.pitch);
                 item.details = details;
@@ -169,7 +169,7 @@ function structureMusicData(notes, beatsPerMeasure, keySignature) {
                         measureAccidentals.add(item.pitch);
                     }
                 } else if (keyAccidental && !measureAccidentals.has(naturalPitch)) {
-                    item.displayAccidental = '♮';
+                    item.displayAccidental = '♮'; // Natural sign
                     measureAccidentals.add(naturalPitch);
                 }
             }
@@ -178,24 +178,29 @@ function structureMusicData(notes, beatsPerMeasure, keySignature) {
         });
         if (currentMeasure.items.length > 0) measures.push(currentMeasure);
         
+        // **NEW LOGIC**: Group notes by start time to form chords/beats
         measures.forEach(measure => {
             const beatStructure = [];
             let i = 0;
             while (i < measure.items.length) {
-                const item = measure.items[i];
-                let group = [item];
-                if (item.type === 'note') {
+                const currentItem = measure.items[i];
+                let group = [currentItem];
+                // If it's a note, find all other notes that start at the exact same time
+                if (currentItem.type === 'note') {
                     for (let j = i + 1; j < measure.items.length; j++) {
-                        if (measure.items[j].type === 'note' && measure.items[j].start === item.start) {
+                        if (measure.items[j].type === 'note' && measure.items[j].start === currentItem.start) {
                             group.push(measure.items[j]);
-                        } else { break; }
+                        } else {
+                            break;
+                        }
                     }
                 }
+                // Sort chords by pitch (lowest note at the bottom)
                 if (group[0].type === 'note') {
                     group.sort((a,b) => a.details.pitchValue - b.details.pitchValue);
                 }
                 beatStructure.push(group);
-                i += group.length;
+                i += group.length; // Advance index by the number of notes in the group
             }
             measure.beatStructure = beatStructure;
         });
@@ -203,8 +208,8 @@ function structureMusicData(notes, beatsPerMeasure, keySignature) {
     };
 
     return {
-        treble: processVoice(rightHandNotes),
-        bass: processVoice(leftHandNotes)
+        treble: processVoice(trebleNotes),
+        bass: processVoice(bassNotes)
     };
 }
 
@@ -429,23 +434,60 @@ function drawBeatGroup(ctx, group, x, yOffset) {
     }
 }
 
-function drawBeamGroup(ctx, groups, x, yOffset, ratio) {
+/**
+ * Draws a group of notes connected by beams with professional engraving rules.
+ * This version calculates an optimal, shallow beam angle and correctly handles
+ * secondary beams for sixteenth notes, ensuring they only connect adjacent sixteenths.
+ * @param {CanvasRenderingContext2D} ctx The canvas context.
+ * @param {Array<Array<Object>>} groups An array of beat groups (chords) to be beamed.
+ * @param {number} x The starting horizontal position.
+ * @param {number} yOffset The vertical offset for the staff.
+ * @param {number} ratio A scaling ratio for the measure width.
+ * @param {'treble'|'bass'} clef The clef being drawn on.
+ */
+function drawBeamGroup(ctx, groups, x, yOffset, ratio, clef) {
     let notePositions = [];
     let currentX = x;
+    // 1. Determine the X position for each note in the beam group
     groups.forEach(group => {
         const groupWidth = (SCORE_CONFIG.BASE_NOTE_SPACING * 4 * (group[0].value / (60 / 120))) * ratio;
-        group.forEach(note => { notePositions.push({ note, x: currentX }); });
+        group.forEach(note => {
+            notePositions.push({ note, x: currentX });
+        });
         currentX += groupWidth;
     });
+
+    // 2. Determine overall stem direction based on average pitch
     const midStaffY = yOffset + 2 * SCORE_CONFIG.STAFF_LINE_GAP;
-    const avgY = notePositions.reduce((sum, pos) => sum + getNoteY(pos.note.details, yOffset), 0) / notePositions.length;
+    const avgY = notePositions.reduce((sum, pos) => sum + getNoteY(pos.note.details, yOffset, clef), 0) / notePositions.length;
     const stemDirection = avgY > midStaffY ? -1 : 1;
-    let stemInfos = notePositions.map(pos => ({ ...drawNote(ctx, pos.note, pos.x, yOffset, stemDirection), note: pos.note }));
+
+    // 3. Draw the noteheads first and get initial stem info
+    let stemInfos = notePositions.map(pos => {
+        return { ...drawNote(ctx, pos.note, pos.x, yOffset, stemDirection, clef), note: pos.note };
+    });
+
     const firstStem = stemInfos[0];
     const lastStem = stemInfos[stemInfos.length - 1];
-    let beamY1 = firstStem.stemYend, beamY2 = lastStem.stemYend;
+
+    // 4. Calculate the ideal beam position and angle
+    let beamY1 = firstStem.stemYend;
+    let beamY2 = lastStem.stemYend;
+
+    // Limit the beam slope to prevent extremely angled beams
     const slope = (beamY2 - beamY1) / (lastStem.stemX - firstStem.stemX || 1);
-    if (Math.abs(slope) > 0.5) { beamY2 = beamY1 + Math.sign(slope) * Math.abs(lastStem.stemX - firstStem.stemX) * 0.5; }
+    if (Math.abs(slope) > 0.6) {
+        beamY2 = beamY1 + Math.sign(slope) * Math.abs(lastStem.stemX - firstStem.stemX) * 0.6;
+    }
+
+    // 5. Draw the main (eighth note) beam and connect all stems to it
+    ctx.lineWidth = SCORE_CONFIG.BEAM_THICKNESS;
+    ctx.beginPath();
+    ctx.moveTo(firstStem.stemX, beamY1);
+    ctx.lineTo(lastStem.stemX, beamY2);
+    ctx.stroke();
+
+    // Redraw/extend stems to perfectly meet the calculated beam
     stemInfos.forEach(info => {
         const beamYatX = beamY1 + (beamY2-beamY1) * ((info.stemX - firstStem.stemX) / (lastStem.stemX - firstStem.stemX || 1));
         ctx.lineWidth = 1.8;
@@ -453,59 +495,97 @@ function drawBeamGroup(ctx, groups, x, yOffset, ratio) {
         ctx.moveTo(info.stemX, info.noteY);
         ctx.lineTo(info.stemX, beamYatX);
         ctx.stroke();
-        info.stemYend = beamYatX;
+        info.stemYend = beamYatX; // Update the stem end for secondary beams
     });
-    ctx.lineWidth = SCORE_CONFIG.BEAM_THICKNESS;
-    ctx.beginPath();
-    ctx.moveTo(firstStem.stemX, beamY1);
-    ctx.lineTo(lastStem.stemX, beamY2);
-    ctx.stroke();
+
+    // 6. Draw secondary (sixteenth note) beams
     let beamOffset = stemDirection * SCORE_CONFIG.BEAM_GAP;
-    for(let i=0; i < stemInfos.length; i++) {
-        if (stemInfos[i].note.duration === 'sixteenth') {
-            let startIndex = i; let endIndex = i;
-            for(let j=i+1; j < stemInfos.length; j++) { if (stemInfos[j].note.duration === 'sixteenth') { endIndex = j; } else { break; } }
-            const firstSixteenth = stemInfos[startIndex]; const lastSixteenth = stemInfos[endIndex];
+    for(let i = 0; i < stemInfos.length; i++) {
+        const isSixteenth = stemInfos[i].note.duration.includes('sixteenth');
+        if (isSixteenth) {
+            let startIndex = i;
+            let endIndex = i;
+            // Find the end of this consecutive group of sixteenth notes
+            for(let j = i + 1; j < stemInfos.length; j++) {
+                if (stemInfos[j].note.duration.includes('sixteenth')) {
+                    endIndex = j;
+                } else {
+                    break;
+                }
+            }
+            const firstSixteenth = stemInfos[startIndex];
+            const lastSixteenth = stemInfos[endIndex];
+            
+            // Draw the secondary beam only for this group
+            ctx.lineWidth = SCORE_CONFIG.BEAM_THICKNESS;
             ctx.beginPath();
             ctx.moveTo(firstSixteenth.stemX, firstSixteenth.stemYend + beamOffset);
             ctx.lineTo(lastSixteenth.stemX, lastSixteenth.stemYend + beamOffset);
             ctx.stroke();
-            i = endIndex;
+
+            i = endIndex; // Skip ahead to the end of the processed group
         }
     }
 }
 
-function drawMeasure(ctx, measure, x, yOffset, ratio) {
+/**
+ * Draws a single measure with corrected beaming logic according to standard music notation.
+ * It groups notes (like eighths and sixteenths) together with beams if they fall within the
+ * same beat, making the rhythm much easier to read.
+ * @param {CanvasRenderingContext2D} ctx The canvas context.
+ * @param {Object} measure The measure object to draw.
+ * @param {number} x The starting horizontal position.
+ * @param {number} yOffset The vertical offset for the staff.
+ * @param {number} ratio A scaling ratio for the measure width.
+ * @param {'treble'|'bass'} clef The clef being drawn on.
+ */
+function drawMeasure(ctx, measure, x, yOffset, ratio, clef) {
     let currentX = x;
     let beatCount = 0;
+    const quarterBeatValue = 1.0; // In 4/4 time, a quarter note is 1 beat
+
     for (let i = 0; i < measure.beatStructure.length; ) {
         const group = measure.beatStructure[i];
+        const isBeamable = group[0].type === 'note' && (group[0].duration.includes('eighth') || group[0].duration.includes('sixteenth'));
+        
         let beamGroup = [];
-        const isShortNote = group[0].type === 'note' && (group[0].duration === 'eighth' || group[0].duration === 'sixteenth');
-        if (isShortNote) {
+        if (isBeamable) {
             const startBeat = Math.floor(beatCount);
+            // Collect all subsequent beamable notes that fall within the SAME beat
             for(let j = i; j < measure.beatStructure.length; j++) {
                 const nextGroup = measure.beatStructure[j];
-                const nextBeatVal = nextGroup[0].value / (60/120);
-                if (nextGroup[0].type === 'note' && (nextGroup[0].duration === 'eighth' || nextGroup[0].duration === 'sixteenth') && Math.floor(beatCount) === startBeat) {
-                    beamGroup.push(nextGroup); beatCount += nextBeatVal;
-                } else { break; }
+                const nextBeatVal = nextGroup[0].value / (60 / 120);
+                const isNextBeamable = nextGroup[0].type === 'note' && (nextGroup[0].duration.includes('eighth') || nextGroup[0].duration.includes('sixteenth'));
+
+                if (isNextBeamable && Math.floor(beatCount) === startBeat) {
+                    beamGroup.push(nextGroup);
+                    beatCount += nextBeatVal;
+                } else {
+                    break;
+                }
             }
         }
+
         if (beamGroup.length > 1) {
-            drawBeamGroup(ctx, beamGroup, currentX, yOffset, ratio);
-            const groupWidth = beamGroup.reduce((s, g) => s + (SCORE_CONFIG.BASE_NOTE_SPACING * 4 * (g[0].value / (60/120))), 0);
+            // Draw the collected notes as a single beamed group
+            drawBeamGroup(ctx, beamGroup, currentX, yOffset, ratio, clef);
+            const groupWidth = beamGroup.reduce((sum, g) => sum + (SCORE_CONFIG.BASE_NOTE_SPACING * 4 * (g[0].value / (60/120))), 0);
             currentX += groupWidth * ratio;
             i += beamGroup.length;
         } else {
-            if (group[0].type === 'note') { drawBeatGroup(ctx, group, currentX, yOffset); } else { drawRest(ctx, group[0], currentX, yOffset); }
+            // Draw a single note/chord/rest that is not part of a beam group
+            if (group[0].type === 'note') {
+                drawBeatGroup(ctx, group, currentX, yOffset, clef);
+            } else {
+                drawRest(ctx, group[0], currentX, yOffset);
+            }
             const groupWidth = SCORE_CONFIG.BASE_NOTE_SPACING * 4 * (group[0].value / (60/120));
             currentX += groupWidth * ratio;
             beatCount += group[0].value / (60/120);
             i++;
         }
     }
-} 
+}
 
 /**
  * The main orchestrator function for rendering a complete two-hand piano score.

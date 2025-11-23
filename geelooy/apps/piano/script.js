@@ -1509,10 +1509,9 @@ function toggleSheetMusicRecording() {
 }
 
 /**
- * Quantizes the raw, timed notes into standard musical durations.
- * This function is the crucial first step in processing the raw performance data,
- * transforming it from a stream of absolute time into a rhythmically structured sequence.
- * It correctly preserves the 'start' time for every note and rest, which is essential.
+ * Quantizes the raw, timed notes into standard musical durations with greater accuracy.
+ * This version can detect dotted notes and handles rests more precisely by filling gaps
+ * with a combination of rests, adhering to standard notation practices.
  * @param {Array<Object>} notes The raw note data captured during recording.
  * @returns {Array<Object>} An array of quantized notes and rests with preserved timing.
  */
@@ -1522,10 +1521,13 @@ function quantizeNotes(notes) {
     const durations = [
         { name: 'sixteenth', duration: quarterNoteDuration / 4 },
         { name: 'eighth', duration: quarterNoteDuration / 2 },
+        { name: 'eighth-dotted', duration: (quarterNoteDuration / 2) * 1.5 },
         { name: 'quarter', duration: quarterNoteDuration },
+        { name: 'quarter-dotted', duration: quarterNoteDuration * 1.5 },
         { name: 'half', duration: quarterNoteDuration * 2 },
+        { name: 'half-dotted', duration: quarterNoteDuration * 3 },
         { name: 'whole', duration: quarterNoteDuration * 4 },
-    ];
+    ].sort((a, b) => a.duration - b.duration); // Sort by duration ascending
 
     notes.sort((a, b) => a.start - b.start);
 
@@ -1533,22 +1535,30 @@ function quantizeNotes(notes) {
     let lastEndTime = 0;
 
     notes.forEach(note => {
+        // --- 1. Fill Rests ---
         const restDuration = note.start - lastEndTime;
         if (restDuration > durations[0].duration / 2) { // Minimum detectable rest
             let remainingRest = restDuration;
             let restStartTime = lastEndTime;
-            while (remainingRest > durations[0].duration / 2) {
-                const closestRest = durations.reduce((prev, curr) => Math.abs(curr.duration - remainingRest) < Math.abs(prev.duration - remainingRest) ? curr : prev);
-                result.push({ type: 'rest', duration: closestRest.name, value: closestRest.duration, start: restStartTime });
-                remainingRest -= closestRest.duration;
-                restStartTime += closestRest.duration;
+            // Greedily fill the gap with the largest possible rest values
+            for (let i = durations.length - 1; i >= 0; i--) {
+                const restValue = durations[i];
+                while (remainingRest >= restValue.duration) {
+                    result.push({ type: 'rest', duration: restValue.name, value: restValue.duration, start: restStartTime });
+                    remainingRest -= restValue.duration;
+                    restStartTime += restValue.duration;
+                }
             }
         }
 
-        const closestNote = durations.reduce((prev, curr) => Math.abs(curr.duration - note.duration) < Math.abs(prev.duration - note.duration) ? curr : prev);
+        // --- 2. Quantize The Note ---
+        // Find the duration value that is closest to the actual played duration
+        const closestNote = durations.reduce((prev, curr) => 
+            Math.abs(curr.duration - note.duration) < Math.abs(prev.duration - note.duration) ? curr : prev
+        );
         result.push({ type: 'note', pitch: note.note, start: note.start, duration: closestNote.name, value: closestNote.duration });
 
-        lastEndTime = note.start + note.duration;
+        lastEndTime = note.start + closestNote.duration; // Use quantized end time
     });
     return result;
 }
