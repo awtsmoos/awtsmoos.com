@@ -71,12 +71,64 @@ function determineKeySignature(notes) {
     }
     return { key: bestKey, accidentals: circleOfFifths[bestKey] };
 }
+/**
+ * Quantizes the raw, timed notes into standard musical durations.
+ * This new version correctly preserves the 'start' time for every note and rest,
+ * which is essential for the advanced rendering engine to correctly group chords and rests.
+ * Without this, the temporal relationship between notes is lost, leading to errors.
+ * @param {Array<Object>} notes The raw note data captured during recording.
+ * @returns {Array<Object>} An array of quantized notes and rests with preserved timing.
+ */
+function quantizeNotes(notes) {
+    const tempo = 120; // Assume 120 BPM
+    const quarterNoteDuration = 60 / tempo;
+    const durations = [
+        { name: 'sixteenth', duration: quarterNoteDuration / 4 },
+        { name: 'eighth', duration: quarterNoteDuration / 2 },
+        { name: 'quarter', duration: quarterNoteDuration },
+        { name: 'half', duration: quarterNoteDuration * 2 },
+        { name: 'whole', duration: quarterNoteDuration * 4 },
+    ];
+
+    notes.sort((a, b) => a.start - b.start);
+
+    const result = [];
+    let lastEndTime = 0;
+
+    notes.forEach(note => {
+        // Find any silence (a rest) that occurred before this note started.
+        const restDuration = note.start - lastEndTime;
+        if (restDuration > durations[0].duration / 2) { // Minimum detectable rest
+            let remainingRest = restDuration;
+            let restStartTime = lastEndTime;
+            // Fill the silence with the largest possible rest values
+            while (remainingRest > durations[0].duration / 2) {
+                const closestRest = durations.reduce((prev, curr) => Math.abs(curr.duration - remainingRest) < Math.abs(prev.duration - remainingRest) ? curr : prev);
+                // CRITICAL FIX: Add the 'start' property to the rest object.
+                result.push({ type: 'rest', duration: closestRest.name, value: closestRest.duration, start: restStartTime });
+                remainingRest -= closestRest.duration;
+                restStartTime += closestRest.duration;
+            }
+        }
+
+        // Quantize the duration of the note that was actually played.
+        const closestNote = durations.reduce((prev, curr) => Math.abs(curr.duration - note.duration) < Math.abs(prev.duration - note.duration) ? curr : prev);
+        // CRITICAL FIX: Pass along the original 'start' time of the note.
+        result.push({ type: 'note', pitch: note.note, start: note.start, duration: closestNote.name, value: closestNote.duration });
+
+        // The next rest will be calculated from the end time of THIS note.
+        lastEndTime = note.start + note.duration;
+    });
+    return result;
+}
+
 
 /**
  * Structures raw note data into measures, chords, and applies accidental rules.
  * This function is the grand architect, taking the linear flow of time and partitioning it into measures,
  * stacking simultaneous sounds into chords, and applying the laws of harmony to each moment.
- * @param {Array<Object>} notes Raw quantized notes.
+ * This version contains a critical fix to prevent rests from being sorted as if they were notes.
+ * @param {Array<Object>} notes Raw quantized notes with preserved 'start' times.
  * @param {number} beatsPerMeasure The number of beats per measure.
  * @param {Object} keySignature The determined key signature.
  * @returns {Array<Object>} An array of fully structured measures.
@@ -125,16 +177,29 @@ function structureMusicData(notes, beatsPerMeasure, keySignature) {
         while (i < measure.items.length) {
             const item = measure.items[i];
             let group = [item];
-            for (let j = i + 1; j < measure.items.length; j++) {
-                if (measure.items[j].start === item.start) {
-                    group.push(measure.items[j]);
-                } else { break; }
+            
+            // CRITICAL FIX: Only group multiple items if they are NOTES. Rests are always solitary events.
+            if (item.type === 'note') {
+                for (let j = i + 1; j < measure.items.length; j++) {
+                    const nextItem = measure.items[j];
+                    // Group if it's also a note and starts at the exact same time.
+                    if (nextItem.type === 'note' && nextItem.start === item.start) {
+                        group.push(nextItem);
+                    } else {
+                        break;
+                    }
+                }
             }
+
+            // Now, we are CERTAIN that if the group contains notes, it ONLY contains notes.
             if (group[0].type === 'note') {
-                group.sort((a,b) => a.details.pitchValue - b.details.pitchValue);
+                // This sort is now SAFE because every item in 'group' is guaranteed to be a note
+                // and therefore has the '.details.pitchValue' property required for sorting.
+                group.sort((a, b) => a.details.pitchValue - b.details.pitchValue);
             }
+
             beatStructure.push(group);
-            i += group.length;
+            i += group.length; // Advance the loop by the number of items we just grouped.
         }
         measure.beatStructure = beatStructure;
     });
