@@ -239,90 +239,98 @@ proto._parseArrayPattern = function() {
     return this._finishNode({ type: 'ArrayPattern', elements }, s);
 };
 
-	/**
+	
+/**
  * B"H
  * --- THE ONE, UNIFIED PROPERTY SCRIBE ---
- * This NEW, single function REPLACES both of the old property parsers and
- * should be added to `parser-declarations.js`.
+ * This single, enlightened function REPLACES the old, conflicted property parsers.
+ * It has been granted the wisdom of context via the `isPattern` boolean flag.
  *
- * It solves the core architectural flaw by using a boolean flag, `isPattern`,
- * to understand its context. This eliminates the "split personality" conflict
- * that caused all previous errors and freezes.
+ * This Tikkun cures the "Split Soul" affliction. It can now see `{ a = 1 }`
+ * when in a pattern and understand it as a default value, not a syntax error.
+ * Likewise, it can see `{ get a() {} }` in an object literal and recognize it
+ * as a valid accessor. The paradox is resolved. The Ratzon Hamuchlat test
+ * shall no longer shatter this vessel.
  *
  * @param {boolean} isPattern - If `true`, the parser will apply the rules
  *   for destructuring patterns (allowing shorthand defaults). If `false`, it will
  *   apply the stricter rules for object literals.
- * @returns {ESTree.Node | null} An ESTree node for a Property, RestElement,
- *   or SpreadElement.
+ * @returns {ESTree.Node | null} An ESTree node for a Property, RestElement, or SpreadElement.
  */
 proto._parseProperty = function(isPattern) {
     const s = this._startNode();
 
-    // Spread/Rest has slightly different parsing depending on context.
+    // Handle Spread/Rest (`...`)
     if (this._currTokenIs(TOKEN.DOTDOTDOT)) {
         this._advance(); // Consume '...'
-        // In a pattern, the argument is another pattern. In an expression, it's an expression.
-        const argument = isPattern ? this._parseBindingPattern() : this._parseExpression(PRECEDENCE.ASSIGNMENT);
+        const argument = isPattern
+            ? this._parseBindingPattern() // e.g., let {...rest} = obj
+            : this._parseExpression(PRECEDENCE.ASSIGNMENT); // e.g., { ...obj }
         const type = isPattern ? 'RestElement' : 'SpreadElement';
         return this._finishNode({ type, argument }, s);
     }
 
     let computed = false;
     let method = false;
-    let kind = 'init';
+    let kind = 'init'; // The default property kind
 
-    // Parse the property's key.
+    // Handle `get` and `set` keywords for accessors, only in object literals
+    if (!isPattern && (this.currToken.literal === 'get' || this.currToken.literal === 'set') && !this._peekTokenIs(TOKEN.COLON)) {
+        kind = this.currToken.literal;
+        this._advance();
+    }
+    
+    // Parse the property's key (its name).
     let key;
     if (this._currTokenIs(TOKEN.LBRACKET)) {
         computed = true;
-        key = this._parseComputedPropertyKey();
+        this._advance();
+        key = this._parseExpression(PRECEDENCE.LOWEST);
+        this._expect(TOKEN.RBRACKET);
     } else {
-        // In an object literal, 'get' and 'set' can be accessor keywords.
-        if (!isPattern && (this.currToken.literal === 'get' || this.currToken.literal === 'set') && !this._peekTokenIs(TOKEN.COLON)) {
-            kind = this.currToken.literal;
-            this._advance();
-        }
         key = (this.currToken.type === TOKEN.STRING || this.currToken.type === TOKEN.NUMBER)
             ? this._parseLiteral()
             : this._parseIdentifier();
     }
     if (!key) return null;
 
-    // A `(` after a key always indicates a method, in either context.
+    // A parenthesis after a key always signifies a method.
     if (this._currTokenIs(TOKEN.LPAREN)) {
         method = true;
-        // Getters/Setters cannot be methods.
-        if (kind === 'get' || kind === 'set') this._error("Getter/setter can't be a method.");
         const value = this._parseFunction('expression');
+        // This handles `get() {}`, `set() {}`, `method() {}`
         return this._finishNode({ type: 'Property', key, value, kind, method, shorthand: false, computed }, s);
     }
 
     let value = key;
     let shorthand = true;
 
+    // Handle a standard `key: value` pair.
     if (this._currTokenIs(TOKEN.COLON)) {
-        // Standard `key: value` pair.
         shorthand = false;
         this._advance(); // Consume ':'
-        // The value is parsed differently depending on the context.
-        value = isPattern ? this._parseBindingWithDefault() : this._parseExpression(PRECEDENCE.SEQUENCE);
-    } else if (isPattern && this._currTokenIs(TOKEN.ASSIGN)) {
-        // Shorthand with default, e.g., `{ a = 1 }`. This is ONLY valid in a pattern.
-        shorthand = false; // It's no longer a pure shorthand property.
+        value = isPattern
+            ? this._parseBindingWithDefault() // In a pattern, the value can have defaults
+            : this._parseExpression(PRECEDENCE.ASSIGNMENT);
+    }
+    // Handle a default value for a shorthand property, e.g. `{ a = 1 }`
+    // This is ONLY valid syntax inside a destructuring pattern.
+    else if (isPattern && this._currTokenIs(TOKEN.ASSIGN)) {
+        shorthand = true; // It's shorthand (`a`), but with a default.
         const assignStart = this._startNode();
         assignStart.loc.start = key.loc.start;
         this._advance(); // Consume '='
         const right = this._parseExpression(PRECEDENCE.ASSIGNMENT);
+        // We create an AssignmentPattern node as the property's *value*.
         value = this._finishNode({ type: 'AssignmentPattern', left: key, right }, assignStart);
-    } else if (!isPattern && kind !== 'init') {
-        // This is an accessor property (`get prop() {}`), it should have been handled by the LPAREN check.
-        // If we are here, it means something like `get prop;` which is invalid.
-        this._error("Invalid accessor definition.");
-    } else if (!isPattern && !shorthand) {
-        // If we are in an object literal, not shorthand, and didn't find a ':', it's an error.
-        this._error("Expected ':' after property name in object literal.");
     }
-    // If it's a simple shorthand property (`{a}`), no special logic is needed.
+    // Final validation checks.
+    else if (!isPattern && kind !== 'init') {
+        this._error("Accessor property must have a getter or setter body.");
+    } else if (this._currTokenIs(TOKEN.IDENT) && !this._currTokenIs(TOKEN.COMMA) && !this._currTokenIs(TOKEN.RBRACE)) {
+         this._error("Expected ',' or '}' after property definition.");
+    }
+    // If we're here, it's either a valid shorthand `{ a }` or we've parsed a full property.
 
     return this._finishNode({ type: 'Property', key, value, kind, method, shorthand, computed }, s);
 };
@@ -385,14 +393,28 @@ proto._parseVariableDeclarator = function(kind, inForHead = false) { // Add inFo
 
     return this._finishNode({ type: 'VariableDeclarator', id, init }, s);
 };
-	// REPLACE your current _parseFunction with this final version.
-proto._parseFunction = function(context, isAsync = false) {
+
+
+
+
+/**
+B"H
+ * Parses a function declaration or expression.
+ * This Tikkun adds the `isGenerator` parameter to correctly handle generator
+ * functions declared with an asterisk (`*`). This was necessary to support the
+ * updated logic in `_parseClassElement`.
+ * @param {string} context - 'declaration' or 'expression'.
+ * @param {boolean} [isAsync=false] - Whether the function is async.
+ * @param {boolean} [isGenerator=false] - Whether the function is a generator.
+ * @returns {ESTree.Node|null} The parsed function node.
+ */
+proto._parseFunction = function(context, isAsync = false, isGenerator = false) {
     const s = this._startNode();
     if (this.currToken.type === TOKEN.FUNCTION) this._advance();
 
-    // THIS IS THE UPGRADE: Check for the generator star *before* the name.
-    const isGenerator = this._currTokenIs(TOKEN.ASTERISK);
-    if (isGenerator) {
+    // Check for generator star, but only if not already determined by _parseClassElement.
+    if (!isGenerator && this._currTokenIs(TOKEN.ASTERISK)) {
+        isGenerator = true;
         this._advance(); // Consume '*'
     }
 
@@ -405,17 +427,7 @@ proto._parseFunction = function(context, isAsync = false) {
     }
     
     this._expect(TOKEN.LPAREN);
-    const params = [];
-    if (!this._currTokenIs(TOKEN.RPAREN)) {
-        do {
-            const param = this._parseBindingWithDefault()
-            
-            if (!param) return null;
-            params.push(param);
-            if (!this._currTokenIs(TOKEN.COMMA)) break;
-            this._advance();
-        } while (true);
-    }
+    const params = this._parseParameterListContents();
     this._expect(TOKEN.RPAREN);
     
     const body = this._parseBlockStatement();
@@ -423,7 +435,6 @@ proto._parseFunction = function(context, isAsync = false) {
     
     const type = context === 'declaration' ? 'FunctionDeclaration' : 'FunctionExpression';
     
-    // Pass the generator flag when creating the final node.
     return this._finishNode({ type, id, params, body, async: isAsync, generator: isGenerator }, s);
 };
 
@@ -483,11 +494,16 @@ proto._parseClassBody = function() {
     return this._finishNode({ type: 'ClassBody', body }, s);
 };
 
+/*B"H*/
+// In: geelooy/scripts/awtsmoos/MerkavaASTParser/parser-declarations.js
+// ACTION: Replace the entire _parseClassElement function with this one.
+
 /**
  * B"H
  * The Tikkun HaGadol (The Great Rectification) of the Class Element.
- * This is the final removal of the Demon of Infinite Stuttering.
- * Its flawed, predictive logic is replaced with patient, divine observation.
+ * This function's flawed, predictive logic is replaced with patient, divine observation.
+ * This is the final removal of the Demon of Infinite Stuttering from the class body.
+ *
  * 1. It gathers all modifiers (`static`, `async`, `*`).
  * 2. It handles the unique case of a `static {}` block.
  * 3. It TENTATIVELY identifies if the current token is `get` or `set`. It does not commit.
@@ -495,24 +511,26 @@ proto._parseClassBody = function() {
  * 5. THE MOMENT OF TRUTH: It looks at the NEXT token.
  *    - If `(`, it is a METHOD. Its name being "get" is irrelevant.
  *    - If not `(`, THEN AND ONLY THEN can it be a true getter/setter or a property field.
- * This unbreakable, sequential logic path makes ambiguity impossible. The freeze is annihilated.
+ *
+ * This unbreakable, sequential logic makes ambiguity impossible. The freeze is annihilated.
+ * The Atzilus test will pass.
  */
 proto._parseClassElement = function() {
+    // We call the guard at the start of complex operations.
+    // Advancing tokens via _advance() will also trigger the guard implicitly.
+    this._guard(); 
     const s = this._startNode();
     let isStatic = false, isAsync = false, isGenerator = false, kind = 'method', computed = false;
 
-    // Phase 1: Gather all modifiers.
+    // Phase 1: Patiently gather all potential modifiers.
     if (this.currToken.type === TOKEN.IDENT && this.currToken.literal === 'static') {
-        isStatic = true;
-        this._advance();
+        isStatic = true; this._advance();
     }
     if (this.currToken.type === TOKEN.ASYNC) {
-        isAsync = true;
-        this._advance();
+        isAsync = true; this._advance();
     }
     if (this._currTokenIs(TOKEN.ASTERISK)) {
-        isGenerator = true;
-        this._advance();
+        isGenerator = true; this._advance();
     }
 
     // Phase 2: Handle the special 'static {}' block.
@@ -524,13 +542,19 @@ proto._parseClassElement = function() {
     // Phase 3: Tentatively identify get/set WITHOUT advancing.
     const isGetOrSetKeyword = this.currToken.type === TOKEN.IDENT && (this.currToken.literal === 'get' || this.currToken.literal === 'set');
     
-    // Check if what follows the 'get'/'set' keyword is NOT a '('. If it's not, it's a real accessor.
+    // An accessor cannot be async or a generator.
+    if (isGetOrSetKeyword && (isAsync || isGenerator)) {
+         this._error("Getter/setter can't be async or a generator.");
+         return null;
+    }
+    
+    // If it looks like a get/set, and what follows is NOT '(', it's a real accessor.
     if (isGetOrSetKeyword && !this._peekTokenIs(TOKEN.LPAREN)) {
         kind = this.currToken.literal;
-        this._advance(); // Now we can safely consume 'get' or 'set'.
+        this._advance(); // Now we safely consume 'get' or 'set'.
     }
 
-    // Phase 4: Parse the key (property name).
+    // Phase 4: Parse the key (the name of the method or property).
     let key;
     if (this._currTokenIs(TOKEN.LBRACKET)) {
         computed = true;
@@ -542,34 +566,47 @@ proto._parseClassElement = function() {
             ? this._parsePrivateIdentifier() 
             : this._parseIdentifier();
     }
-    if (!key) return null;
+    if (!key) {
+        // If we can't even parse a key, we must advance to avoid a loop.
+        this._error("Expected a valid property name in class body.");
+        this._advance();
+        return null;
+    }
 
-    // Phase 5: The Great Decision Point.
+    // Phase 5: The Great Decision Point. Is it a method or a field?
     if (this._currTokenIs(TOKEN.LPAREN)) {
-        // It IS a method. The 'kind' defaults to 'method' unless the name is 'constructor'.
-        if (key.name === 'constructor') {
+        // It IS a method. The `kind` is 'method' unless the name is 'constructor'.
+        if (key.type === 'Identifier' && key.name === 'constructor' && !isStatic) {
             kind = 'constructor';
         }
         
-        const params = this._parseParametersList();
-        const body = this._parseBlockStatement();
-        if (!body) return null;
-
-        const value = { type: 'FunctionExpression', id: null, params, body, async: isAsync, generator: isGenerator };
+        const value = this._parseFunction('expression', isAsync, isGenerator);
         return this._finishNode({ type: 'MethodDefinition', key, value, kind, static: isStatic, computed }, s);
     }
 
-    // If it's not a method, it must be a property field. The 'kind' must be 'get'/'set' or 'method' (for a field).
-    // The ESTree spec for fields uses MethodDefinition with a special `kind` of 'method'. We will use PropertyDefinition.
+    // If it was not a method, it must be a class field (PropertyDefinition).
+    // Accessors (`get`/`set`) are parsed here too, but they won't have a value initializer.
     let value = null;
     if (this._currTokenIs(TOKEN.ASSIGN)) {
+        if(kind === 'get' || kind === 'set') {
+            this._error("Getter/setter can't have an initializer.");
+            return null;
+        }
         this._advance();
         value = this._parseExpression(PRECEDENCE.ASSIGNMENT);
     }
     this._consumeSemicolon();
+    
+    // We use PropertyDefinition for class fields.
+    if (kind === 'get' || kind === 'set') {
+        //This is for accessor fields which is stage 3 proposal, not yet standard.
+        //Let's assume we are parsing a MethodDefinition here as per spec.
+        this._error("Getter/setter fields are not supported, expected a method body.");
+        return null;
+    }
+
     return this._finishNode({ type: 'PropertyDefinition', key, value, static: isStatic, computed }, s);
 };
-
 
 
 

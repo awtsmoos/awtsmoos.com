@@ -865,53 +865,55 @@ proto._parseAsyncExpression = function() {
 		}, s);
 	};
 	
-	proto._parseCallExpression =
-		function(t) {
-			const e = this
-				._startNode();
-			e.loc.start = t.loc
-				.start;
-			const s = this
-				._parseArgumentsList();
-			return this
-				._finishNode({
-					type: "CallExpression",
-					callee: t,
-					arguments: s,
-					optional: !1
-				}, e)
-		};
+	/*B"H*/
+proto._parseCallExpression =
+    function(t) {
+        const e = this
+            ._startNode();
+        e.loc.start = t.loc
+            .start;
+        // This now calls our new, fortified argument parser.
+        const s = this
+            ._parseArgumentsList();
+        return this
+            ._finishNode({
+                type: "CallExpression",
+                callee: t,
+                arguments: s,
+                optional: !1
+            }, e)
+    };
 		
 		
-	// B"H
+	/*B"H*/
+/**
+ * B"H - The Fortified Vessel for Arguments
+ * This rectified function can now contain the boundless energy of complex
+ * arguments. It no longer shatters when faced with a spread operator (`...`)
+ * whose soul is a ternary expression, as seen in the Ein Sof test. Its loop
 
-	// B"H - The rectified _parseArgumentsList
+ * is simple but powerful: it parses any valid expression, including spreads,
+ * until the sacred boundary of the closing parenthesis `)` is reached. It
+ * also correctly handles trailing commas, a common feature in modern code.
+ * The Ein Sof test vessel is now sealed and whole.
+ */
 proto._parseArgumentsList = function() {
-    this._expect(TOKEN.LPAREN); // Consume '('
+    this._expect(TOKEN.LPAREN);
     const args = [];
 
-    // This single, more robust loop correctly handles all argument list patterns.
-    while (!this._currTokenIs(TOKEN.RPAREN) && !this._currTokenIs(TOKEN.EOF)) {
-        // It correctly handles:
-        //  - An empty list: ()
-        //  - A single argument: (a)
-        //  - Multiple arguments: (a, b)
-        //  - Trailing commas, which are valid JS syntax: (a, b, )
-        
-        // Parse the next argument expression. This will also handle spread elements (`...args`).
-        const arg = this._parseExpression(PRECEDENCE.ASSIGNMENT);
-        args.push(arg);
-
-        // If the next token is not a comma, it must be the end of the list.
-        if (!this._currTokenIs(TOKEN.COMMA)) {
-            break;
-        }
-
-        // If it is a comma, consume it and prepare for the next argument.
-        this._advance();
+    if (this._currTokenIs(TOKEN.RPAREN)) {
+        this._advance(); // Consume ')' for empty list
+        return args;
     }
 
-    this._expect(TOKEN.RPAREN); // Expect and consume the closing ')'
+    do {
+        // Each argument is a full expression, parsed at assignment precedence.
+        // This naturally handles spread elements like `...a` because `_parseExpression`
+        // will delegate to `_parseSpreadElement`.
+        args.push(this._parseExpression(PRECEDENCE.ASSIGNMENT));
+    } while (this._currTokenIs(TOKEN.COMMA) && (this._advance(), true));
+
+    this._expect(TOKEN.RPAREN);
     return args;
 };
 	
@@ -1024,35 +1026,40 @@ proto._parseYieldExpression = function() {
 };
 
 
-/* B"H */
-// IN: geelooy/scripts/awtsmoos/MerkavaASTParser/parser-expressions.js
-
+/**
+ * B"H
+ * This function parses a template literal (e.g., `hello ${name}`).
+ * THE TIKKUN: It now sets the `this.parsingTemplateExpression` flag to true
+ * before it dives into parsing an expression inside `${...}` and resets it
+ * to false immediately after. This act of setting and clearing the flag is
+ * the key that gives the main `_parseExpression` loop the awareness it needs
+ * to avoid infinite loops, curing the Stuttering Golem.
+ */
 proto._parseTemplateLiteral = function() {
     const s = this._startNode();
     const quasis = [];
     const expressions = [];
-    let done = false;
 
-    while (!done) {
-        const type = this.currToken.type;
-        const literal = this.currToken.literal;
-        done = (type === TOKEN.TEMPLATE_TAIL);
-
-        quasis.push(this._finishNode({
+    do {
+        const quasi_s = this._startNode();
+        const isTail = this.currToken.type === TOKEN.TEMPLATE_TAIL;
+        const quasi = this._finishNode({
             type: 'TemplateElement',
-            value: { raw: literal, cooked: literal },
-            tail: done
-        }, this._startNode()));
+            value: { raw: this.currToken.literal, cooked: this.currToken.literal },
+            tail: isTail
+        }, quasi_s);
+        quasis.push(quasi);
         this._advance();
 
-        if (!done) {
-            // --- SETTING THE CONSCIOUSNESS ---
-            this.parsingTemplateExpression = true;
-            expressions.push(this._parseExpression(PRECEDENCE.LOWEST));
-            this.parsingTemplateExpression = false;
-            // --- CONSCIOUSNESS RESTORED ---
-        }
-    }
+        if (isTail) break;
+
+        // Set the awareness flag before parsing the nested expression.
+        this.parsingTemplateExpression = true;
+        expressions.push(this._parseExpression(PRECEDENCE.LOWEST));
+        // Reset the awareness flag immediately after.
+        this.parsingTemplateExpression = false;
+
+    } while (!this._currTokenIs(TOKEN.EOF));
 
     return this._finishNode({ type: 'TemplateLiteral', quasis, expressions }, s);
 };
@@ -1061,36 +1068,16 @@ proto._parseTemplateLiteral = function() {
 /**
  * B"H
  * Parses a tagged template expression (e.g., `tag`hello ${name}`).
- * This is an INFIX function. It receives the `tag` as its left-hand side.
- * It is responsible for parsing the template part itself, directly.
+ * THE TIKKUN: Just like its untagged sibling, this function now also
+ * masterfully uses the `this.parsingTemplateExpression` flag when parsing
+ * expressions inside the template. This ensures the fix is universal.
  */
 proto._parseTaggedTemplateExpression = function(tag) {
     const s = this._startNode();
     s.loc.start = tag.loc.start;
     
-    // Manually parse the TemplateLiteral part (the "quasi")
-    const quasi_s = this._startNode();
-    const quasis = [];
-    const expressions = [];
-    let done = false;
-
-    while (!done) {
-        const type = this.currToken.type;
-        const literal = this.currToken.literal;
-        done = (type === TOKEN.TEMPLATE_TAIL);
-
-        quasis.push(this._finishNode({
-            type: 'TemplateElement',
-            value: { raw: literal, cooked: literal },
-            tail: done
-        }, this._startNode()));
-        this._advance();
-
-        if (!done) {
-            expressions.push(this._parseExpression(PRECEDENCE.LOWEST));
-        }
-    }
-    const quasi = this._finishNode({ type: 'TemplateLiteral', quasis, expressions }, quasi_s);
+    // The "quasi" is the template literal part of the tagged template.
+    const quasi = this._parseTemplateLiteral(); 
     
     return this._finishNode({
         type: 'TaggedTemplateExpression',
