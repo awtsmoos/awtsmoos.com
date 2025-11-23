@@ -25,7 +25,7 @@ export default class InventoryManager {
      * @param {number} quantity - The amount to add.
      * @returns {boolean} - True if the item was added successfully, false if the inventory is full.
      */
-    addItem(itemClassName, quantity = 1) {
+    addItem(itemClassName, quantity = 1, opts = {}) {
         // Dynamically get the item's class from the AWTSMOOS exports
         const itemClass = AWTSMOOS[itemClassName];
         if (!itemClass) {
@@ -56,7 +56,8 @@ export default class InventoryManager {
                 const toAdd = Math.min(quantity, maxStack);
                 this.slots[i] = {
                     item: itemClassName,
-                    quantity: toAdd
+                    quantity: toAdd,
+                    options: opts
                 };
                 quantity -= toAdd;
                 if (quantity <= 0) {

@@ -422,15 +422,10 @@ export default class Chai extends Tzomayach {
     }
     alignObject() {
         if (this.activeObject) {
-            // Get the camera's rotation
-            var cameraRotationY = this.olam.ayin.camera.rotation.x;
-    
-            // Set the block's rotation in X and Z axes based on camera's Y rotation
-            this.activeObject.mesh.rotation.y = 0; // Keep upright on the X axis
-            this.activeObject.mesh.rotation.z = 0; // Keep upright on the Z axis
-    
-            // Align the block's Y rotation with the camera's Y rotation (horizontal rotation only)
-            this.activeObject.mesh.rotation.x = -cameraRotationY;
+           
+            // Set the block's rotation in X and Z axes based
+            this.activeObject.mesh.lookAt(this.mesh.position);
+            this.activeObject.mesh.rotation.x = 0;
         }
     }
     
@@ -448,7 +443,10 @@ export default class Chai extends Tzomayach {
 
     // Get rotation directly from the source of truth for the character's facing direction.
     // This works for both 1st and 3rd person.
-    const rotation = new THREE.Euler(0, this.modelMesh.rotation.y, 0);
+    const rotation = new THREE.Euler(
+	    0, 
+	    this.modelMesh.rotation.y, 0
+    );
 
     if (this.inventory && this.selectedInventorySlot !== null) {
         const slot = this.inventory.slots[this.selectedInventorySlot];
@@ -463,7 +461,7 @@ export default class Chai extends Tzomayach {
     // --- B"H ---
     // CALL THE NEW, DEDICATED METHOD
     await this.olam.addObject('Domem', {
-        // We no longer need a dynamic name for the key inside the method
+      
         position,
         scale,
         rotation,
