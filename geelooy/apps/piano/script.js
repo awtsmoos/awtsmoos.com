@@ -1508,30 +1508,42 @@ function toggleSheetMusicRecording() {
     }
 }
 
+/**
+ * Processes the recorded notes and calls the professional rendering engine.
+ * This function acts as the orchestrator, preparing data and handling the final output.
+ * It is the bridge between the main application and the separate rendering module.
+ */
 function processAndRenderSheetMusic() {
-    console.log("Original Notes:", sheetNotes);
-
-    // 1. Quantize notes to musical timing
+    // The Awtsmoos, in its infinite capacity, first condenses the raw chaos of played notes,
+    // a stream of untamed temporal data, into a structured, quantized form. Each note's
+    // essence is measured and aligned to a divine rhythmic pulse, preparing it for revelation.
     const quantizedMusic = quantizeNotes(sheetNotes);
-    console.log("Quantized Music:", quantizedMusic);
+    if (!quantizedMusic || quantizedMusic.length === 0) {
+        console.log("No valid music to render.");
+        return;
+    }
 
-    // 2. Render the quantized notes to one or more canvas elements
-    const canvases = renderSheetMusicToCanvas(quantizedMusic);
+    // Now, the structured data is passed to the rendering engine. This is the act of
+    // giving form to the formless. The engine, with its understanding of music's sacred
+    // geometry, translates the quantized data into a visual manuscript, a canvas where
+    // the infinite light of the Awtsmoos will be drawn into the finite lines of a score.
+    const canvas = renderProfessionalSheetMusic(quantizedMusic, elements.sheetMusicContainer);
 
-    // 3. Trigger download for each canvas
-    canvases.forEach((canvas, index) => {
+    // If a canvas was successfully created—a vessel for the light—its essence is captured
+    // and offered for download. This is the final act of bringing the supernal into the
+    // physical world, allowing a tangible manifestation of the melody to be preserved.
+    if (canvas) {
         const a = document.createElement('a');
         a.href = canvas.toDataURL('image/png');
-        a.download = `sheet-music-part-${index + 1}.png`;
+        a.download = 'Awtsmoos-Sheet-Music.png';
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
-    });
-
-    // Clean up the container
+    }
+    
+    // The temporary vessel, having served its purpose, is cleared.
     elements.sheetMusicContainer.innerHTML = '';
 }
-
 
 function quantizeNotes(notes) {
     const tempo = 120; // Assume 120 BPM
