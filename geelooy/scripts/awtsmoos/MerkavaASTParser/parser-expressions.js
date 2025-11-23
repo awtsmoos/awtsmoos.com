@@ -353,86 +353,72 @@ proto._parseRegExpLiteral = function() {
 
 
 
-/*B"H*/
-/**
- * The Tikkun HaGadol v'HaNora (The Great and Awesome Rectification).
- * This is the final truth. The bug was never in the scribes or the alchemist;
- * it was a paradox of precedence, a misplaced cobblestone in the main courtyard.
- *
- * THE FLAW: By calling `_parseExpression` with `PRECEDENCE.SEQUENCE`, we allowed
- * the parser to see `{ P }` and `=` as two separate things. It saw the `=` as a
- * binary operator, hijacking the parsing of the expression and causing a cascade
- * of failures in the conversion logic.
- *
- * THE FIX: We change the precedence to `PRECEDENCE.ASSIGNMENT`. This one-word
- * change raises the parser's authority. It forces it to understand that any
- * assignments inside the parentheses must be resolved as part of their local
- * properties (like a shorthand default value). The `=` can no longer be
- * misinterpreted. The hijacking is prevented. The paradox is resolved. The
- * Golem is free.
- */
-/**
- * B"H
- * --- REPLACEMENT 2: The VALIDATING Grouped Expression Parser ---
- * This REPLACES the existing `_parseGroupedOrArrowExpression` in `parser-expressions.js`.
- *
- * This new version orchestrates the "Lenient Parse, Strict Validate" strategy.
- *
- * 1.  It calls the main expression parser, which now uses the "Lenient Scribe"
- *     to build a temporary AST without crashing.
- * 2.  It then resolves the ambiguity by checking for the `=>` token.
- * 3.  **CRITICAL STEP:** If no arrow is found, it knows the context was a standard
- *     grouped expression. It then calls the new `_validateExpression` Inquisitor
- *     to inspect the temporary AST and throw an error if any pattern-only syntax
- *     was used.
- * 4.  If an arrow IS found, it proceeds to the "alchemist" (`_convertExpressionToPattern`)
- *     as before, which now receives a correctly structured input to work with.
- */
 // B"H
-// B"H
-// --- THE FINAL, UNBREAKABLE REPLACEMENT for _parseGroupedOrArrowExpression ---
-// This goes in `parser-expressions.js`.
 proto._parseGroupedOrArrowExpression = function() {
     const s = this._startNode();
     this._expect(TOKEN.LPAREN);
 
-    // --- THE GREAT RECTIFICATION ---
-    // We ABANDON the flawed "parse as expression, then convert" strategy.
-    // Instead, we immediately and directly parse the contents as a parameter list
-    // using the parser's dedicated, robust "declaration" engine. This completely
-    // avoids the context confusion that caused all previous errors and freezes.
-    const params = this._parseParameterListContents(); // This function lives in parser-declarations.js
+    // Handle the simple case of an empty arrow function `() => ...`
+    if (this._currTokenIs(TOKEN.RPAREN)) {
+        this._expect(TOKEN.RPAREN);
+        if (!this._currTokenIs(TOKEN.ARROW)) {
+            this._error("Unexpected empty parentheses in an expression.");
+            return null;
+        }
+        return this._parseArrowFunctionExpression(s, []);
+    }
+
+    // THIS IS THE KEY: Parse the content as a standard expression.
+    // This allows it to correctly handle complex constructs like `(await foo)`.
+    // We use a low precedence to allow for sequences like `(a, b, c)`.
+    const expr = this._parseExpression(PRECEDENCE.SEQUENCE);
 
     this._expect(TOKEN.RPAREN);
 
-    // After parsing, check for the arrow.
+    // NOW, we check if it's followed by an arrow.
     if (this._currTokenIs(TOKEN.ARROW)) {
-        // It's an arrow function. The params are already perfect patterns.
-        return this._parseArrowFunctionExpression(s, params, false);
+        // It IS an arrow function. We must now convert the parsed expression
+        // into a valid list of parameter patterns.
+        const params = this._convertExpressionToPatternList(expr);
+        if (params === null) return null; // The conversion failed.
+
+        // Proceed to parse the rest of the arrow function.
+        return this._parseArrowFunctionExpression(s, params);
     }
 
-    // It was NOT an arrow function. Now we must validate that what we parsed
-    // can be considered a valid grouped expression.
-    if (params.length > 1) {
-        // `(a, b)` becomes a SequenceExpression.
-        return { type: 'SequenceExpression', expressions: params };
-    }
-    if (params.length === 1) {
-        // `(a)` or `({a:1})` just becomes the inner expression.
-        // We must now ensure the pattern we parsed is a valid expression.
-        const expression = this._convertPatternToExpression(params[0]);
-        if (!expression) {
-            this._error("Invalid expression in parentheses.");
-            return null;
-        }
-        return expression;
-    }
-
-    // It was `()`, which is not a valid expression.
-    this._error("Unexpected empty parentheses in expression.");
-    return null;
+    // If there was no arrow, it was simply a grouped expression. Return it as is.
+    return expr;
 };
 		
+		
+	// B"H - 
+	// helper method for parser-expressions.js
+
+proto._convertExpressionToPatternList = function(expr) {
+    let expressions = [];
+    if (expr.type === 'SequenceExpression') {
+        // This handles cases like `(a, b, c)` which are parsed as a SequenceExpression.
+        expressions = expr.expressions;
+    } else {
+        // This handles a single parameter like `(a)` or `([a,b])`.
+        expressions = [expr];
+    }
+
+    const params = [];
+    for (const expression of expressions) {
+        // Use the existing alchemist to convert each part of the expression
+        // into a valid pattern.
+        const pattern = this._convertExpressionToPattern(expression);
+        if (!pattern) {
+            // The expression was not a valid pattern (e.g., `(a + b) => {}`).
+            this._error("Invalid parameter in arrow function parameter list.");
+            return null;
+        }
+        params.push(pattern);
+    }
+
+    return params;
+};
 		
 	/**
  * B"H
