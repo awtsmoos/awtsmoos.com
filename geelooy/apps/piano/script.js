@@ -1507,6 +1507,7 @@ function toggleSheetMusicRecording() {
         alert("Sheet music recording started! Play some notes and press 'Done' when finished.");
     }
 }
+
 /**
  * Quantizes the raw, timed notes into standard musical durations.
  * This function is the crucial first step in processing the raw performance data,
