@@ -1584,3 +1584,6 @@ function processAndRenderSheetMusic() {
     // The temporary vessel, having served its purpose, is cleared.
     elements.sheetMusicContainer.innerHTML = '';
 }
+
+
+});
