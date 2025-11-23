@@ -53,6 +53,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	// --- ELEMENT CACHE ---
 	const elements = {};
+	elements.recordSheetButton = document.getElementById('record-sheet-button');
+elements.sheetMusicContainer = document.getElementById('sheet-music-container');
+
 	document.querySelectorAll('[id]').forEach(el => {
 		elements[el.id.replace(/-./g, match => match.toUpperCase()[1])] = el;
 	});
@@ -69,6 +72,11 @@ elements.effectSelect = document.getElementById('effect-select');
 	let audioContext, mediaRecorder, mediaStreamDestination, convolver, wetGain, masterGain, lfo, compressor, customWaves = {};
 	let microphoneSource, microphoneGain, micPlaybackGain;
 	let defaultSettings = {};
+	
+	
+let isSheetRecording = false;
+let sheetNotes = [];
+let sheetRecordingStartTime = 0;
 	let currentChordRoot = null,
 		currentChordNodes = [],
 		noteHistory = [];
@@ -273,6 +281,10 @@ function sendFrameStateToWorker() {
 	}
 
 	function setupEventListeners() {
+	
+	elements.recordSheetButton.addEventListener('click', toggleSheetMusicRecording);
+	
+	
 		elements.menuIcon.addEventListener('click', () => elements.settingsBar.classList.toggle('expanded'));
 		elements.visualEffectsToggle.addEventListener('click', () => elements.visualEffectsMenu.classList.toggle('visible'));
 
@@ -548,6 +560,15 @@ function playNote(frequency, note, keyElement, pointerId, noteName, touchCoords)
             }
         }
     }
+    
+    
+    
+    
+if (isSheetRecording) {
+    // Log the start of a note press
+    const startTime = audioContext.currentTime - sheetRecordingStartTime;
+    activeNotes.get(pointerId).sheetMusicStartTime = startTime;
+}
 }
 
 // REPLACE the old stopNote function with this one
@@ -579,6 +600,17 @@ function stopNote(pointerId) {
             }
             videoKeyDownMap.delete(noteName);
         }
+        
+        
+
+if (isSheetRecording && activeNote.sheetMusicStartTime !== undefined) {
+    const endTime = audioContext.currentTime - sheetRecordingStartTime;
+    sheetNotes.push({
+        note: noteName,
+        start: activeNote.sheetMusicStartTime,
+        duration: endTime - activeNote.sheetMusicStartTime
+    });
+}
        }
       }
 	
@@ -587,7 +619,8 @@ function stopNote(pointerId) {
 	
 	
 
-	// ... (getChordQuality, triggerChord are largely the same, but triggerChord now uses isChord=true in createSynthNode) ...
+	
+	
 	function getChordQuality(rootNote) {
 		const mode = elements.chordModeSelect.value;
 		if (mode !== 'auto') return mode;
@@ -1447,6 +1480,236 @@ function startVideoWorker(audioBufferShim) {
 		}
 		return false;
 	}
+	
+	
+	
+	// --- SHEET MUSIC RECORDING & RENDERING (FROM SCRATCH) ---
+
+function toggleSheetMusicRecording() {
+    if (isSheetRecording) {
+        // --- STOP RECORDING ---
+        isSheetRecording = false;
+        elements.recordSheetButton.classList.remove('recording');
+        elements.recordSheetButton.textContent = 'Record 🎼';
+
+        // Process and download the recorded notes
+        if (sheetNotes.length > 0) {
+            processAndRenderSheetMusic();
+        }
+
+    } else {
+        // --- START RECORDING ---
+        isSheetRecording = true;
+        sheetNotes = []; // Clear previous recording
+        sheetRecordingStartTime = audioContext.currentTime;
+        elements.recordSheetButton.classList.add('recording');
+        elements.recordSheetButton.textContent = 'Done 🎼';
+        alert("Sheet music recording started! Play some notes and press 'Done' when finished.");
+    }
+}
+
+function processAndRenderSheetMusic() {
+    console.log("Original Notes:", sheetNotes);
+
+    // 1. Quantize notes to musical timing
+    const quantizedMusic = quantizeNotes(sheetNotes);
+    console.log("Quantized Music:", quantizedMusic);
+
+    // 2. Render the quantized notes to one or more canvas elements
+    const canvases = renderSheetMusicToCanvas(quantizedMusic);
+
+    // 3. Trigger download for each canvas
+    canvases.forEach((canvas, index) => {
+        const a = document.createElement('a');
+        a.href = canvas.toDataURL('image/png');
+        a.download = `sheet-music-part-${index + 1}.png`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+    });
+
+    // Clean up the container
+    elements.sheetMusicContainer.innerHTML = '';
+}
+
+
+function quantizeNotes(notes) {
+    const tempo = 120; // Assume 120 BPM
+    const quarterNoteDuration = 60 / tempo;
+    const durations = [
+        { name: 'sixteenth', duration: quarterNoteDuration / 4 },
+        { name: 'eighth', duration: quarterNoteDuration / 2 },
+        { name: 'quarter', duration: quarterNoteDuration },
+        { name: 'half', duration: quarterNoteDuration * 2 },
+        { name: 'whole', duration: quarterNoteDuration * 4 },
+    ];
+
+    // Sort notes by start time
+    notes.sort((a, b) => a.start - b.start);
+
+    const result = [];
+    let lastEndTime = 0;
+
+    notes.forEach(note => {
+        // Check for a rest before this note
+        const restDuration = note.start - lastEndTime;
+        if (restDuration > durations[0].duration / 2) { // Minimum detectable rest
+            let remainingRest = restDuration;
+            while (remainingRest > durations[0].duration / 2) {
+                const closestRest = durations.reduce((prev, curr) =>
+                    Math.abs(curr.duration - remainingRest) < Math.abs(prev.duration - remainingRest) ? curr : prev
+                );
+                result.push({ type: 'rest', duration: closestRest.name, value: closestRest.duration });
+                remainingRest -= closestRest.duration;
+            }
+        }
+
+        // Quantize the note's duration
+        const closestNote = durations.reduce((prev, curr) =>
+            Math.abs(curr.duration - note.duration) < Math.abs(prev.duration - note.duration) ? curr : prev
+        );
+        result.push({ type: 'note', pitch: note.note, duration: closestNote.name, value: closestNote.duration });
+
+        lastEndTime = note.start + note.duration;
+    });
+
+    return result;
+}
+
+function renderSheetMusicToCanvas(quantizedMusic) {
+    const canvases = [];
+    elements.sheetMusicContainer.innerHTML = ''; // Clear previous renders
+
+    // --- RENDERING CONSTANTS ---
+    const CANVAS_WIDTH = 1200;
+    const CANVAS_HEIGHT = 300;
+    const STAFF_TOP_MARGIN = 50;
+    const STAFF_LINE_GAP = 15;
+    const STAFF_LEFT_MARGIN = 30;
+    const STAFF_RIGHT_MARGIN = 30;
+    const NOTE_HEAD_RADIUS_X = 8;
+    const NOTE_HEAD_RADIUS_Y = 6;
+    const STEM_HEIGHT = 50;
+
+    // Note Y positions on the Treble Clef staff (relative to top line of staff)
+    const notePositions = {
+        'C4': 6.5, 'D4': 6, 'E4': 5.5, 'F4': 5, 'G4': 4.5, 'A4': 4, 'B4': 3.5,
+        'C5': 3, 'D5': 2.5, 'E5': 2, 'F5': 1.5, 'G5': 1, 'A5': 0.5, 'B5': 0,
+        'C6': -0.5, 'D6': -1, 'E6': -1.5, 'F6': -2, 'G6': -2.5
+    };
+
+    let currentCanvas, ctx;
+    let x = STAFF_LEFT_MARGIN + 50; // Start after clef
+    let currentMeasureBeats = 0;
+    const beatsPerMeasure = 4; // Assume 4/4 time
+
+    const newPage = () => {
+        currentCanvas = document.createElement('canvas');
+        currentCanvas.width = CANVAS_WIDTH;
+        currentCanvas.height = CANVAS_HEIGHT;
+        elements.sheetMusicContainer.appendChild(currentCanvas);
+        canvases.push(currentCanvas);
+        ctx = currentCanvas.getContext('2d');
+        ctx.fillStyle = 'white';
+        ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+        ctx.fillStyle = 'black';
+        ctx.strokeStyle = 'black';
+        ctx.lineWidth = 1.5;
+
+        // Draw staff lines
+        for (let i = 0; i < 5; i++) {
+            const y = STAFF_TOP_MARGIN + i * STAFF_LINE_GAP;
+            ctx.beginPath();
+            ctx.moveTo(STAFF_LEFT_MARGIN, y);
+            ctx.lineTo(CANVAS_WIDTH - STAFF_RIGHT_MARGIN, y);
+            ctx.stroke();
+        }
+        
+        // Draw Treble Clef (a simplified version)
+        ctx.font = '60px serif';
+        ctx.fillText('𝄞', STAFF_LEFT_MARGIN, STAFF_TOP_MARGIN + STAFF_LINE_GAP * 3.5);
+
+        x = STAFF_LEFT_MARGIN + 70;
+        currentMeasureBeats = 0;
+    };
+
+    newPage();
+
+    for (const item of quantizedMusic) {
+        const beatValue = item.value / (60/120); // Get beat value relative to a quarter note
+
+        // Check if we need a new page or a new measure
+        if (x > CANVAS_WIDTH - STAFF_RIGHT_MARGIN - 50) {
+            newPage();
+        }
+        if (currentMeasureBeats >= beatsPerMeasure) {
+            // Draw bar line
+            const barY1 = STAFF_TOP_MARGIN;
+            const barY2 = STAFF_TOP_MARGIN + 4 * STAFF_LINE_GAP;
+            ctx.beginPath();
+            ctx.moveTo(x, barY1);
+            ctx.lineTo(x, barY2);
+            ctx.stroke();
+            x += 20;
+            currentMeasureBeats = 0;
+        }
+
+        // --- Draw the note or rest ---
+        if (item.type === 'note') {
+            const noteName = item.pitch.slice(0, -1);
+            const octave = parseInt(item.pitch.slice(-1));
+            const baseNote = noteName.charAt(0);
+            const positionKey = `${baseNote}${octave}`;
+            
+            let yPos = notePositions[positionKey];
+            if (yPos === undefined) continue; // Skip notes outside our defined range
+
+            // Adjust for sharps (#)
+            const hasSharp = noteName.includes('#');
+            if(hasSharp) {
+                ctx.fillText('#', x - 15, STAFF_TOP_MARGIN + yPos * STAFF_LINE_GAP + 5);
+            }
+
+            const y = STAFF_TOP_MARGIN + yPos * STAFF_LINE_GAP;
+
+            // Draw note head
+            ctx.beginPath();
+            ctx.ellipse(x, y, NOTE_HEAD_RADIUS_X, NOTE_HEAD_RADIUS_Y, 0, 0, 2 * Math.PI);
+            if (item.duration !== 'whole' && item.duration !== 'half') {
+                ctx.fill();
+            } else {
+                ctx.stroke();
+            }
+
+            // Draw stem
+            if (item.duration !== 'whole') {
+                const stemDirection = yPos > 2 ? 1 : -1; // 1 for down, -1 for up
+                const stemX = (stemDirection === 1) ? x - NOTE_HEAD_RADIUS_X +1 : x + NOTE_HEAD_RADIUS_X -1;
+                ctx.beginPath();
+                ctx.moveTo(stemX, y);
+                ctx.lineTo(stemX, y - (STEM_HEIGHT * stemDirection));
+                ctx.stroke();
+            }
+
+        } else { // It's a rest
+            // Simplified rest drawing
+            ctx.font = '30px serif';
+            let restSymbol = '?';
+            if (item.duration === 'quarter') restSymbol = '𝄽';
+            if (item.duration === 'half') restSymbol = '𝄼';
+            ctx.fillText(restSymbol, x, STAFF_TOP_MARGIN + STAFF_LINE_GAP * 2.5);
+        }
+
+        currentMeasureBeats += beatValue;
+        x += 30 + (20 / beatValue); // Advance x position
+    }
+
+    return canvases;
+}
+	
+	
+	
+	
 
 	// Event listener for window resize
 	window.addEventListener('resize', handleKeyboardResize);

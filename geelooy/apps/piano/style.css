@@ -281,6 +281,15 @@ body, html {
     pointer-events: none; 
 }
 
+
+/* Find this existing rule */
+#record-button.recording, #mic-button.mic-active { background-color: #dc3545; }
+
+/* And add the new button's ID to it */
+#record-button.recording, #record-sheet-button.recording, #mic-button.mic-active { background-color: #dc3545; }
+
+
+
 /* Scrollbar Fixes for Mobile */
 #settings-bar::-webkit-scrollbar { width: 8px; }
 #settings-bar::-webkit-scrollbar-thumb { background: #888; border-radius: 4px; }
