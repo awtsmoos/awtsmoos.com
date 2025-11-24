@@ -1,0 +1,112 @@
+/*B"H*/
+
+
+
+
+
+main {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px;
+}
+
+section {
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 20px;
+    width: 30%;
+    margin-bottom: 20px;
+}
+
+.email {
+    border-bottom: 1px solid #ddd;
+    padding: 10px 0;
+    cursor: pointer;
+}
+
+.sender {
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.subject {
+    margin-right: 10px;
+}
+
+.time {
+    color: #666;
+    font-size: 12px;
+    margin-left: auto;
+}
+
+button {
+    background: orange;
+    border: none;
+    border-radius: 3px;
+    color: #fff;
+    cursor: pointer;
+    padding: 5px 10px;
+    font-size: 12px;
+    margin-left: 10px;
+}
+
+.delete {
+    background-color: #ff5c5c;
+    
+}
+
+.delete:hover {
+    background-color: #ff3333;
+}
+#composeEmail form {
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+#composeEmail label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+#composeEmail input[type="text"],
+#composeEmail textarea,
+#composeEmail select {
+    width: calc(100% - 20px);
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    margin-bottom: 15px;
+    font-size: 14px;
+}
+
+#composeEmail textarea {
+    resize: vertical;
+}
+
+#composeEmail button {
+    background-color: #007bff;
+    border: none;
+    border-radius: 3px;
+    color: #fff;
+    cursor: pointer;
+    padding: 10px 20px;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+#composeEmail button[type="submit"] {
+    background-color: #28a745;
+}
+
+#composeEmail button[type="submit"]:hover,
+#composeEmail button[type="button"]:hover {
+    background-color: #0056b3;
+}
+
+#composeEmail button[type="button"] {
+    background-color: #dc3545;
+    margin-right: 10px;
+}
