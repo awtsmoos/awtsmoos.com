@@ -1,0 +1,230 @@
+<h2>B"H</h2>
+<script type="module">
+
+import * as THREE from '/games/scripts/build/three.module.js';
+
+import PostProcessingManager from "/games/mitzvahWorld/ckidsAwtsmoos/postProcessing/postProcessing.js";
+
+// Function to create random colors
+function randomColor() {
+    return Math.floor(Math.random() * 16777215);
+}
+
+// Function to create a basic noise texture
+function NoiseTexture() {
+    var size = 128; // Texture size
+    var canvas = document.createElement('canvas');
+    canvas.width = size;
+    canvas.height = size;
+
+    var context = canvas.getContext('2d');
+    var imageData = context.createImageData(size, size);
+
+    for (let i = 0; i < imageData.data.length; i += 4) {
+        // Random grayscale value
+        var color = Math.floor(Math.random() * 255);
+
+        // Set red, green, blue, and alpha values
+        imageData.data[i] = color;        // Red
+        imageData.data[i + 1] = color;    // Green
+        imageData.data[i + 2] = color;    // Blue
+        imageData.data[i + 3] = 255;      // Alpha
+    }
+
+    context.putImageData(imageData, 0, 0);
+
+    // Create a texture from the canvas
+    var texture = new THREE.CanvasTexture(canvas);
+    texture.wrapS = THREE.RepeatWrapping;
+    texture.wrapT = THREE.RepeatWrapping;
+
+    return texture;
+}
+function createSceneObjects(scene, camera) {
+    let objects = {};
+
+    // Calculate dimensions based on camera frustum
+    var near = camera.near;
+    var far = camera.far;
+    var aspect = camera.aspect;
+    var fov = camera.fov;
+    var height = 2 * Math.tan((fov * Math.PI / 180) / 2) * far;
+    var width = height * aspect;
+
+    // Enclosing planes
+    var planeGeometry = new THREE.PlaneGeometry(width, height);
+    var planePositions = [
+        new THREE.Vector3(0, 0, -far * 0.99), // Front
+        new THREE.Vector3(0, 0, far * 0.99), // Back
+        new THREE.Vector3(far * 0.99, 0, 0), // Right
+        new THREE.Vector3(-far * 0.99, 0, 0), // Left
+        new THREE.Vector3(0, far * 0.99, 0), // Top
+        new THREE.Vector3(0, -far * 0.99, 0), // Bottom
+    ];
+    var planeRotations = [
+        new THREE.Euler(0, Math.PI, 0), // Front
+        new THREE.Euler(0, 0, 0), // Back
+        new THREE.Euler(0, Math.PI / 2, 0), // Right
+        new THREE.Euler(0, -Math.PI / 2, 0), // Left
+        new THREE.Euler(Math.PI / 2, 0, 0), // Top
+        new THREE.Euler(-Math.PI / 2, 0, 0), // Bottom
+    ];
+
+    planePositions.forEach((position, index) => {
+        var planeMaterial = new THREE.MeshBasicMaterial({
+            map: NoiseTexture(),
+            color: randomColor(),
+            side: THREE.DoubleSide
+        });
+        var plane = new THREE.Mesh(planeGeometry, planeMaterial);
+        plane.position.copy(position);
+        plane.rotation.copy(planeRotations[index]);
+        scene.add(plane);
+        objects['plane' + index] = plane;
+    });
+
+    // Function to create random geometric objects
+    function createRandomObject(index) {
+        var geometries = [
+            new THREE.SphereGeometry(Math.random() * 6 + 1, 32, 32),
+            new THREE.BoxGeometry(Math.random() * 6 + 1, Math.random() * 6 + 1, Math.random() * 6 + 1),
+            new THREE.TetrahedronGeometry(Math.random() * 6 + 1),
+            // Add more geometries here if desired
+        ];
+
+        var geometry = geometries[Math.floor(Math.random() * geometries.length)];
+        var material = new THREE.MeshBasicMaterial({
+            map: NoiseTexture(),
+            color: randomColor()
+        });
+
+        var object = new THREE.Mesh(geometry, material);
+        var position = new THREE.Vector3(
+            (Math.random() - 0.5) * 50,
+            (Math.random() - 0.5) * 50,
+            near + Math.random() * (far - near)
+        );
+
+        object.position.copy(position);
+        scene.add(object);
+        objects['object' + index] = object;
+    }
+
+    // Create a number of random objects
+    for (let i = 0; i < 100; i++) {
+        createRandomObject(i);
+    }
+
+    return objects;
+}
+
+// ... rest of
+
+var clock = new THREE.Clock()
+// Update function for the scene
+function updateScene(objects, camera) {
+    // Get the elapsed time for dynamic movement
+    var elapsedTime = clock.getElapsedTime();
+
+    // Animate each object
+    for (let i = 0; i < 100; i++) {
+        if (objects['object' + i]) {
+            var obj = objects['object' + i];
+            obj.position.x += 0.02 * Math.sin(elapsedTime + i);
+            obj.position.y += 0.02 * Math.cos(elapsedTime + i);
+
+            obj.rotation.x += 0.01;
+            obj.rotation.y += 0.01;
+        }
+    }
+
+    // Keep the camera focused on a specific object, e.g., the first sphere
+    if (objects['object0']) {
+      //  camera.lookAt(objects['object0'].position);
+    }
+}
+
+var m;
+var camera;
+var scene;
+// Main function to initialize everything
+function main() {
+    scene = new THREE.Scene();
+    camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1,1000);
+    camera.position.z = 15;
+    
+    var renderer = new THREE.WebGLRenderer({alpha:true});
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+
+    var objects = createSceneObjects(scene, camera);
+    m = new PostProcessingManager({
+        scene, camera, renderer
+    });
+    window.pp = m
+
+    m.postprocessingSetup()
+    function animate() {
+        requestAnimationFrame(animate);
+
+        updateScene(objects, camera);
+
+        /*
+        var distToSphere = camera.position.distanceTo(
+            objects.sphere0.position
+        );
+        instead of this implement distanceTo somehwo for whatever
+        object is currently being hovered over
+        */
+
+        //m.setFocalDepth(distToSphere)
+        m.postprocessingRender()
+      //  renderer.renderAsync(scene, camera)
+    }
+
+    animate();
+
+    
+}
+
+
+
+main();
+
+// Define a raycaster and a mouse vector
+var raycaster = new THREE.Raycaster();
+var mouse = new THREE.Vector2();
+
+// This function will be called when the mouse moves
+function onMouseMove(event) {
+    // Calculate mouse position in normalized device coordinates (-1 to +1)
+    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+    mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+    // Update the picking ray with the camera and mouse position
+    raycaster.setFromCamera(mouse, camera);
+
+    // Calculate objects intersecting the picking ray
+    var intersects = raycaster.intersectObjects(scene.children, true);
+
+    if (intersects.length > 0) {
+        // Use the first intersected object and its distance
+        var distance = intersects[0].distance;
+        var ob = intersects[0].object;
+        if(ob) {
+            camera.lookAt(ob.position)
+        }
+        m.setFocalDepth(distance); // Update the focal depth
+        console.log("Set",distance,m.postprocessing.shader.uniforms.focusDepth)
+    }
+}
+
+// Add the event listener for mouse move
+window.addEventListener('mousemove', onMouseMove, false);
+
+
+
+
+
+
+</script>
