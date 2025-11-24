@@ -1,0 +1,1232 @@
+<!--B"H-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kabbalistic ES6 AST Parser</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Crimson+Text:ital@1&family=Roboto+Mono&display=swap');
+        body { background-color: #1a1a1d; color: #c5c6c7; font-family: 'Roboto Mono', monospace; display: flex; flex-direction: column; align-items: center; margin: 0; padding: 20px; }
+        h1, h3 { font-family: 'Crimson Text', serif; color: #66fcf1; text-shadow: 0 0 5px #45a29e; text-align: center; }
+        .container { display: flex; flex-direction: column; width: 90%; max-width: 1200px; gap: 20px; }
+        .io-box { display: flex; flex-direction: column; width: 100%; }
+        textarea, pre { background-color: #0b0c10; border: 1px solid #45a29e; color: #c5c6c7; padding: 15px; font-family: 'Roboto Mono', monospace; font-size: 14px; border-radius: 5px; height: 300px; resize: vertical; }
+        pre { white-space: pre-wrap; word-wrap: break-word; overflow-y: auto; }
+        .error { color: #ff6b6b !important; font-weight: bold; border-color: #ff6b6b !important; }
+        .controls { display: flex; justify-content: center; gap: 15px; margin-top: 15px; }
+        button { background-color: #66fcf1; color: #0b0c10; border: none; padding: 10px 20px; cursor: pointer; font-size: 16px; font-weight: bold; border-radius: 5px; transition: background-color 0.3s ease, box-shadow 0.3s ease; }
+        button:hover { background-color: #45a29e; box-shadow: 0 0 10px #66fcf1; }
+        label { margin-bottom: 5px; font-size: 18px; color: #66fcf1; }
+   
+   /* Add this new rule for the select element */
+        select {
+            background-color: #0b0c10;
+            color: #66fcf1;
+            border: 1px solid #45a29e;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 5px;
+            font-family: 'Roboto Mono', monospace;
+            -webkit-appearance: none; /* Removes default browser styling */
+            appearance: none;
+        }
+   
+    </style>
+</head>
+<body>
+
+    <h1>B"H Kabbalistic AST Parser</h1>
+    <h3>Unveiling the hidden soul of ES6 JavaScript.</h3>
+
+    <div class="container">
+    
+    
+        <div class="io-box">
+            <label for="js-input">Paste JavaScript Emanation Here:</label>
+            <textarea id="js-input" spellcheck="false"></textarea>
+        </div>
+        
+        <select id="script-selector" title="Choose a test script">
+        <option value="makor0" selected>Infinity+1</option>
+        
+        <option value="makor">The Ratzon Hamuchlat Test</option>
+        <option value="makor2">The Keter Test</option>
+        <option value="makor4">The Atzilus Test</option>
+        <option value="makor5">The Tzimtzum Test</option>
+        <option value="makor6">The Tiferet Test</option>
+        <option value="makor7">The Ein Sof Test</option>
+        <option value="makor_atik">The Atik Test (Ancient)</option>
+        <option value="makor_adam">The Adam Kadmon Test (Primordial)</option>
+        
+        <option value="makor_yecholes">THE YECHOLES TEST: The Infinite Capacity</option>
+	    <option value="makor_awtsmoos">The Awtsmoos Test</option>
+    
+    
+    
+    </select>
+        
+        <div class="controls">
+	        
+        <br>
+            <button id="parse-btn">Parse the Emanation</button>
+            <button id="copy-btn">Copy the Tree</button>
+        </div>
+
+        <div class="io-box">
+             <label for="ast-output">Abstract Syntax Tree (The Unveiling):</label>
+            <pre id="ast-output"></pre>
+        </div>
+    </div>
+    
+    <script type="awtsmoos" id="makor0">
+    //B"H
+    var infinite= Infinity; 
+    var plus= infinity+1;
+    
+    </script>
+    
+    <script type="awtsmoos" id="makor">
+    
+    //B"H
+
+// The Ratzon Hamuchlat Test: A script designed to break parsers.
+export default class UltimateConfigurator {
+  // 1. Private static field initialized with an Immediately-Invoked Generator Function Expression
+  static #idGen = (function*() { let i = 0; while(true) yield i++; })();
+  
+  #id;
+  #settings = new Map();
+  onInit;
+
+  // 2. The ultimate constructor: nested destructuring with arrow function defaults
+  constructor({
+    id = UltimateConfigurator.#idGen.next().value,
+    onInit = async ({ customId = id } = {}) => {
+      // 10. Async arrow function with its own destructured default parameter
+      console.log(`Initializing with ID: ${customId}`);
+      await new Promise(r => r());
+      return { initialized: true };
+    }
+  } = {}) {
+    this.#id = id;
+    this.onInit = onInit;
+  }
+
+  // 3. An async method with try/catch and complex expressions
+  async apply(config) {
+    try {
+      // 4. Optional chaining, nullish coalescing, and a ternary all at once
+      const theme = config?.style?.theme ?? (config.legacy ? 'retro' : 'default');
+      this.#settings.set('theme', theme);
+      await this.onInit({ customId: this.#id });
+    } catch(e) {
+      console.error(`Failed to apply config for #${this.#id}: ${e?.message}`);
+    }
+  }
+
+  // 5. A generator method that uses delegated yield and complex syntax
+  * [Symbol.iterator]() {
+    // 6. A for...of loop over a Map, with destructuring
+    for (const [key, value] of this.#settings) {
+      // 7. Yielding a template literal with a nested arrow function
+      yield `[${key}]: ${(() => value?.toUpperCase() ?? 'N/A')()}`;
+    }
+    // 8. Delegated yield (yield*) to an array spread from the map's values
+    yield* [...this.#settings.values()];
+  }
+
+  // 9. A getter for a private field
+  get identifier() {
+    return this.#id;
+  }
+}
+
+// --- Execution of the Omega Test ---
+(async () => {
+  const config = new UltimateConfigurator();
+  await config.apply({ style: { theme: null }, legacy: false });
+
+  for (const setting of config) {
+    console.log(setting);
+  }
+})();
+    
+    
+    </script>
+    
+    <script type="awtsmoos" id="makor3">
+    
+    // B"H 
+    //--- The Ein Sof Test: The Unknowable Limit ---
+// A script to test the parser's ability to comprehend the deepest layers of metaprogramming and asynchronous grammar.
+
+export default (class EinSof_Construct {
+    // 1. Stress Point: Static block with top-level await and the import.meta meta-property.
+    static {
+        this.moduleInfo = { url: import.meta.url, timestamp: Date.now() };
+    }
+
+    // 2. Stress Point: A private static field that is an immediately-invoked ASYNC class expression.
+    static #PrimordialVessel = (async () => {
+        // The base object can't be known until a dynamic import is resolved at runtime.
+        const Base = (await import('./base.js')).default || class {};
+
+        // This class is defined and instantiated entirely within the static initializer.
+        return class extends Base {
+            #creation = BigInt(Date.now());
+            [Symbol.for('kabbalistic.uid')] = true;
+
+            constructor(...args) {
+                // 3. Stress Point: super() call with a complex spread argument.
+                super(...(args.length > 0 ? args : [null]));
+            }
+
+            // An async generator to represent the flow of emanations.
+            async * #emanate(limit) {
+                for(let i = 0; i < limit; i++) {
+                    await new Promise(r => setTimeout(r, 1));
+                    yield { level: i, from: this.#creation };
+                }
+            }
+        }
+    })();
+
+    // 4. Stress Point: A Proxy handler with deep, nested, async logic.
+    static #handler = {
+        get: (target, prop, receiver) => {
+            console.log(`Intercepted access to '${prop.toString()}'`);
+
+            // Use Reflect to perform the default operation.
+            if (Reflect.has(target, prop)) {
+                return Reflect.get(target, prop, receiver);
+            }
+
+            // 5. Stress Point: Return a default value computed by a nested, IIAFE.
+            return (async (p) => {
+                await new Promise(r => setTimeout(r, 5));
+                return `[Ein Sof] Attribute '${p.toString()}' is beyond comprehension.`;
+            })(prop);
+        },
+        // Add other traps for a truly robust test (set, apply, etc.)
+    };
+    
+    #instance;
+
+    constructor() {
+        // 6. Stress Point: The final instance is a Proxy wrapping a dynamically resolved class.
+        // The parser must handle `new (await ...)` as the callee of `new Proxy`.
+        this.#instance = (async () => {
+            const VesselClass = await EinSof_Construct.#PrimordialVessel;
+            return new Proxy(new VesselClass(), EinSof_Construct.#handler);
+        })();
+    }
+
+    // 7. Stress Point: An async generator method that uses yield within a catch block
+    // and a labeled continue within a finally block.
+    async * breachTheVoid({ attempts = 3, onFail = () => 'recoil' } = {}) {
+        let count = 0;
+        OuterRim:
+        while (count < attempts) {
+            try {
+                const proxy = await this.#instance;
+                // Access a property that doesn't exist to trigger the proxy's 'get' trap.
+                const result = await proxy.unfathomable_attribute;
+                return result; // Exit if successful.
+            } catch (err) {
+                // Yielding from a catch block is a complex control flow.
+                yield { error: err.message, strategy: onFail() };
+                count++;
+            } finally {
+                // Continuing an outer labeled loop from a finally block.
+                if (count < attempts) continue OuterRim;
+            }
+        }
+        return "The Void remains sealed.";
+    }
+
+    // 8. Stress Point: A getter for a well-known Symbol as a computed property.
+    get [Symbol.toStringTag]() {
+        return 'EinSof_Construct';
+    }
+});
+
+// Immediately-invoked async function to run the final test.
+(async () => {
+    try {
+        const construct = new (await (await import(import.meta.url)).default)();
+        
+        for await (const attempt of construct.breachTheVoid({ attempts: 2 })) {
+            console.log('A whisper from the Void:', attempt);
+        }
+        
+    } catch(e) {
+        console.error("The simulation of Ein Sof has collapsed:", e);
+    }
+})();
+
+
+
+
+
+
+
+
+    
+    </script>
+    
+    <script type="Awtsmoos" id="makor2">
+    
+    // B"H 
+    //--- The Keter Test: The Crown of Emanations ---
+// A script designed to stress-test the deepest levels of a JS parser's consciousness.
+
+// 1. Stress Point: Extending an Immediately-Invoked Class Expression.
+// The parser must evaluate the expression `(class extends Array {...})` before assigning it as the superclass.
+export default class TranscendentalReducer extends (class ChaosMatrix extends Array {
+    // 2. Stress Point: Static initialization block, a newer ES feature.
+    static {
+        // Must parse dynamic import() as an expression, and handle top-level await's cousin.
+        this.dynamicModule = import('https://some.module/path.js');
+    }
+    constructor(...args) { super(...(args.length ? args : [undefined])); }
+}) {
+    // 3. Stress Point: Private static field with a complex initializer using BigInt and RegExp.
+    static #SEED = 1234567890123456789012345678901234567890n / BigInt(0o777);
+    static #validator = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/gimsuy;
+
+    // 4. Stress Point: Private instance fields and a getter/setter for a COMPUTED private field.
+    #internalState;
+    #computedPrivate = Symbol('secret');
+    get [this.#computedPrivate]() { return this.#internalState; }
+    set [this.#computedPrivate](val) { this.#internalState = val; }
+
+    // 5. Stress Point: The ultimate constructor destructuring.
+    // Deeply nested, aliased, with default values, and rest properties.
+    constructor({
+        id,
+        metadata: { timestamp, tags: [firstTag, ...otherTags] = [] },
+        config: { retries: retryCount = 3, params: { a: alpha = 1, b: beta = 2 } = {} }
+    } = {}) {
+        // 6. Stress Point: `super()` call with a ternary expression. `new.target` meta-property.
+        super(id, new.target.name === 'TranscendentalReducer' ? 'VALID' : 'INVALID');
+        this.#internalState = { timestamp, tags: { firstTag, otherTags }, retryCount, alpha, beta };
+    }
+
+    // 7. Stress Point: An async GENERATOR method.
+    async * [Symbol.asyncIterator]() {
+        let loopCount = 0;
+        // 8. Stress Point: A labeled do-while loop.
+        mainLoop:
+        do {
+            // 9. Stress Point: `for await...of` loop with DESTRUCTURING and default BigInt values.
+            for await (const [{ prop: renamed = 999n }, ...rest] of this.#sourceGenerator()) {
+                if (!renamed) break mainLoop; // Test `break` with a label.
+                
+                // 10. Stress Point: Tagged template literal inside a nested ternary.
+                const processed = TranscendentalReducer.#tagFn `Value: ${
+                    rest.length > 0 ? rest[0]?.value ?? 'fallback' : 'empty'
+                }`;
+
+                // 11. Stress Point: Delegated yield to another async generator.
+                yield* this.#processChunk({ renamed, processed, seed: TranscendentalReducer.#SEED });
+            }
+        } while (loopCount++ < this.#internalState.retryCount);
+    }
+    
+    // 12. Stress Point: A simple static method for the tagged template literal.
+    static #tagFn(strings, ...values) {
+        return strings[0] + String(values[0]).toUpperCase();
+    }
+    
+    // Helper async generator.
+    async * #sourceGenerator() {
+        yield [{ prop: 'data1' }, { value: 100 }];
+        yield [{}]; // Yield an object without the 'prop' to test the default value.
+    }
+    
+    // Another helper async generator.
+    async * #processChunk(chunk) {
+        await new Promise(r => setTimeout(r, 10));
+        yield chunk;
+    }
+}
+
+// 13. Stress Point: Immediately-invoked async function to run the test.
+(async () => {
+    try {
+        const instance = new TranscendentalReducer({
+            id: 'keter-01',
+            metadata: { timestamp: Date.now(), tags: ['a', 'b', 'c'] },
+            config: { retries: 2, params: { a: 5 } }
+        });
+
+        for await (const finalChunk of instance) {
+            console.log('Final Chunk:', finalChunk);
+        }
+    } catch (e) {
+        console.error('The Keter Test Failed:', e);
+    }
+})();
+    
+    
+    </script>
+    
+    
+    <script type="Awtsmoos" id="makor4">
+    // B"H 
+    //--- The Atzilus Test: The World of Emanation ---
+// A script that abuses deprecated, obscure, and lexically treacherous syntax.
+// WARNING: This is not a demonstration of good practice. It is a rite of passage for a parser.
+
+// 1. Stress Point: Re-exporting the default export from one module as a named export from this one.
+export { default as FoundationalEssence } from './foundations.js';
+
+// The Nexus: A Proxy designed to create a deceptive, infinite scope.
+const Nexus = new Proxy({
+    // A real property to prove the proxy can pass through.
+    REALITY: 'Grounded', 
+    
+    // The wellspring of infinite, illusory properties.
+    get(target, prop, receiver) {
+        if (prop in target) {
+            return Reflect.get(...arguments);
+        }
+        // For any property that doesn't exist, return a function that describes its own non-existence.
+        return () => `The emanation '${String(prop)}' was invoked from the boundless Nexus.`;
+    },
+    
+    // The `has` trap makes the `with` statement's scope checks even more bizarre.
+    // It will claim that *any* property exists within it.
+    has(target, prop) {
+        return true;
+    }
+});
+
+export default class MetaphysicalEngine {
+    #core;
+
+    constructor(core) { this.#core = core; }
+
+    // 2. Stress Point: The infamous, deprecated `with` statement.
+    // This dynamically injects the `Nexus` proxy into the scope chain.
+    invokeWithNexus() {
+        let result;
+
+        // The parser must correctly parse the 'with' statement and its body.
+        with (Nexus) {
+            // `REALITY` exists on the Nexus and will be found.
+            result = REALITY; 
+            
+            // `non_existent_property` does NOT exist, but the `has` trap says it does.
+            // The `get` trap will then be invoked, returning a function, which is then called.
+            console.log( non_existent_property() );
+
+            // 3. Stress Point: A labeled block statement (non-loop).
+            // A truly obscure piece of JavaScript grammar.
+            OuterBlock: {
+                if (result === 'Grounded') {
+                    break OuterBlock; // The parser must handle breaking to a non-loop label.
+                }
+                result = 'Ungrounded';
+            }
+        }
+        return result;
+    }
+
+    // 4. Stress Point: The `Function` constructor, a form of eval.
+    // The parser only needs to handle the `new Function(...)` syntax itself.
+    static createFromSource(sourceString) {
+        // This creates a function from a raw string at runtime.
+        const dynamicFn = new Function('config', `return "Executed from string with: " + config.id`);
+        return dynamicFn({ id: sourceString });
+    }
+
+    // 5. Stress Point: A generator delegating (`yield*`) to a proxied async iterator.
+    // This tests the parser's understanding of delegation syntax with a dynamic target.
+    * emanateFrom(dynamicTarget) {
+        yield 'Beginning Emanation...';
+        // The parser doesn't know what `dynamicTarget` is, but it must correctly
+        // parse the `yield*` syntax assuming it's an iterable.
+        yield* dynamicTarget;
+        yield 'Emanation Complete.';
+    }
+}
+    
+    </script>
+    
+    <script type="awtsmoos" id="makor5">
+    // B"H 
+    //--- The Tzimtzum Test: The Primordial Contraction ---
+// A script that abuses lexical ambiguity, ASI, and the very boundaries of the grammar.
+
+// Let there be a void in which to create...
+const PrimordialVoid = { 
+    x: 10,
+    log: (msg) => console.log(`[Void]: ${msg}`)
+};
+
+export default (function Tzimtzum_IIFE() {
+    
+    // 1. Stress Point: HTML-style comments. A true relic.
+    <!-- This is a valid single-line comment.
+    
+    let counter = 10;
+    
+    // 2. Stress Point: The infamous, deprecated, and NESTED `with` statement.
+    OuterWith:
+    with (PrimordialVoid) {
+        with ({ y: 5 }) {
+            // This loop uses a lexical illusion. '-->' is NOT an operator.
+            // It is parsed as `counter-- > y`.
+            while (counter --> y) {
+                if (counter % 2 === 0) {
+                    log(`Continuum shift at ${counter}...`);
+                    // 3. Stress Point: `continue` to a label across a `with` boundary.
+                    continue OuterWith; 
+                }
+            }
+        }
+    }
+    
+    // This function's meaning is entirely dependent on the parser's understanding of ASI.
+    function divideOrRegex() {
+        // 4. Stress Point: Automatic Semicolon Insertion vs. Regex/Division.
+        // A newline after `return` MUST insert a semicolon, making the next line
+        // a standalone RegExp statement, NOT a division operation.
+        return
+        /^(a|b)$/i.test('A'); // If parsed as division, this is a catastrophic failure.
+    }
+    
+    // 5. Stress Point: `void` operator on an IIFE.
+    void function logState() {
+        console.log('State after contraction:', { result: divideOrRegex() });
+    }();
+
+    // 6. Stress Point: `String.raw` with content that would otherwise be a syntax error.
+    // The parser must correctly tokenize this as a single tagged template literal.
+    const rawContent = String.raw`This template contains a fake unterminated string: " and a fake comment: /*`;
+
+    // The final return from the main IIFE
+    return {
+        rawContent,
+        finalState: 'Tzimtzum Complete.'
+    };
+})();
+
+--> This is also a valid single-line comment (only at the start of a line).
+    
+    
+    </script>
+    
+    
+    <!-- B"H -->
+<!-- Place this new script tag alongside the others in your index.html -->
+<script type="awtsmoos" id="makor6">
+// B"H
+//--- The Tiferet Test: The Axis of Balance ---
+// A script to validate the integration of logical assignments, numeric separators,
+// and other modern (ES2022+) features.
+
+export default class DataHarmonizer {
+    // 1. Stress Point: Private fields using Numeric Separators and BigInt.
+    #cache = new Map();
+    #callCount = 0n;
+    #maxCacheSize = 1_000;
+    static #lastError = null;
+
+    // 2. Stress Point: Private class methods and accessors.
+    get #cacheUsage() {
+        return this.#cache.size / this.#maxCacheSize;
+    }
+
+    async #updateAnalytics(record) {
+        // Imaginary analytics call
+        await new Promise(r => setTimeout(r, 5));
+        this.#callCount++;
+        return { success: true, callNum: this.#callCount };
+    }
+
+    // 3. Stress Point: A static block with top-level await.
+    static {
+        try {
+            // Simulates loading a configuration at module load time.
+            const configModule = await import('./config.js');
+            this.config = configModule.default;
+        } catch (e) {
+            this.config = { fallback: true };
+        }
+    }
+
+    async processRecord(record) {
+        let needsUpdate = false;
+        
+        // 4. Stress Point: Logical OR assignment (||=).
+        // If `record.metadata` is falsy (null, undefined, etc.), assign a new object to it.
+        record.metadata ||= { createdAt: Date.now() };
+
+        // 5. Stress Point: Nullish coalescing assignment (??=).
+        // If `record.id` is null or undefined, assign a generated ID.
+        record.id ??= crypto.randomUUID();
+
+        // 6. Stress Point: Logical AND assignment (&&=).
+        // If `needsUpdate` is currently true, it will be reassigned to the result of the analytics call.
+        // If `needsUpdate` is false, the right side is never executed.
+        needsUpdate &&= await this.#updateAnalytics(record);
+        
+        // 7. Stress Point: Using a modern static method like Object.hasOwn.
+        if (Object.hasOwn(record, 'legacy')) {
+            delete record.legacy;
+        }
+
+        this.#cache.set(record.id, record);
+        return record;
+    }
+
+    // 8. Stress Point: Find an item using the .at() method for relative indexing.
+    findItem(id) {
+        const item = this.#cache.get(id);
+        const history = item?.metadata?.history ?? [];
+        // Get the second-to-last item from history, or undefined if not present.
+        return history.at(-2);
+    }
+    
+    // 9. Stress Point: A static private field with a RegExp using the 'd' (indices) flag.
+    static #pattern = /error:(?<code_val>\d{3})/d;
+    
+    static processLog(logLine) {
+        const match = logLine.match(this.#pattern);
+        // The .indices property is only available with the 'd' flag.
+        const indices = match?.indices?.groups?.code_val;
+        if (indices) {
+            return {
+                code: match.groups.code_val,
+                startsAt: indices[0],
+                endsAt: indices[1]
+            };
+        }
+        return null;
+    }
+}
+
+// --- Execution of the Tiferet Test ---
+(async () => {
+    console.log("--- Starting Tiferet Test ---");
+    const harmonizer = new DataHarmonizer();
+
+    // Test Case 1: Nullish and OR assignments
+    const record1 = { name: 'First Record', id: null };
+    const processed1 = await harmonizer.processRecord(record1);
+    console.log('Processed Record 1:', processed1);
+
+    // Test Case 2: Ensure assignments don't run when not needed
+    const record2 = { name: 'Second Record', id: 'abc-123', metadata: { status: 'stable' } };
+    const processed2 = await harmonizer.processRecord(record2);
+    console.log('Processed Record 2:', processed2.metadata.status === 'stable'); // Should be true
+
+    // Test Case 3: RegExp 'd' flag
+    const log = "System event. status:ok error:404 Not Found. user:admin";
+    const errorInfo = DataHarmonizer.processLog(log);
+    console.log('Parsed Log Info:', errorInfo); // Should show code and indices
+})();
+</script>
+
+<!-- B"H -->
+<!-- Place this new script tag alongside the others in your index.html -->
+<script type="awtsmoos" id="makor7">
+// B"H 
+//--- The Ein Sof Test: The Unknowable Limit ---
+// A script to test the parser's ability to comprehend the deepest layers of metaprogramming and asynchronous grammar.
+
+export default (class EinSof_Construct {
+    // 1. Stress Point: Static block with top-level await and the import.meta meta-property.
+    static {
+        this.moduleInfo = { url: import.meta.url, timestamp: Date.now() };
+        await new Promise(r => setTimeout(r, 1));
+    }
+
+    // 2. Stress Point: A private static field that is an immediately-invoked ASYNC class expression.
+    static #PrimordialVessel = (async () => {
+        // The base object can't be known until a dynamic import is resolved at runtime.
+        const Base = (await import('./base.js')).default || class {};
+
+        // This class is defined and instantiated entirely within the static initializer.
+        return class extends Base {
+            #creation = BigInt(Date.now());
+            [Symbol.for('kabbalistic.uid')] = true;
+
+            constructor(...args) {
+                // 3. Stress Point: super() call with a complex spread argument.
+                super(...(args.length > 0 ? args : [null]));
+            }
+
+            // An async generator to represent the flow of emanations.
+            async * #emanate(limit) {
+                for(let i = 0; i < limit; i++) {
+                    await new Promise(r => setTimeout(r, 1));
+                    yield { level: i, from: this.#creation };
+                }
+            }
+        }
+    })();
+
+    // 4. Stress Point: A Proxy handler with deep, nested, async logic.
+    static #handler = {
+        get: (target, prop, receiver) => {
+            console.log(`Intercepted access to '${prop.toString()}'`);
+
+            if (Reflect.has(target, prop)) {
+                return Reflect.get(target, prop, receiver);
+            }
+
+            // 5. Stress Point: Return a default value computed by a nested, IIAFE.
+            return (async (p) => {
+                await new Promise(r => setTimeout(r, 5));
+                return `[Ein Sof] Attribute '${p.toString()}' is beyond comprehension.`;
+            })(prop);
+        },
+    };
+    
+    #instance;
+
+    constructor() {
+        // 6. Stress Point: The final instance is a Proxy wrapping a dynamically resolved class.
+        // The parser must handle `new (await ...)` as the callee of `new Proxy`.
+        this.#instance = (async () => {
+            const VesselClass = await EinSof_Construct.#PrimordialVessel;
+            return new Proxy(new VesselClass(), EinSof_Construct.#handler);
+        })();
+    }
+
+    // 7. Stress Point: An async generator method that uses yield within a catch block
+    // and a labeled continue within a finally block.
+    async * breachTheVoid({ attempts = 3, onFail = () => 'recoil' } = {}) {
+        let count = 0;
+        OuterRim:
+        while (count < attempts) {
+            try {
+                const proxy = await this.#instance;
+                // Access a property that doesn't exist to trigger the proxy's 'get' trap.
+                const result = await proxy.unfathomable_attribute;
+                return result; // Exit if successful.
+            } catch (err) {
+                // Yielding from a catch block is a complex control flow.
+                yield { error: err.message, strategy: onFail() };
+                count++;
+            } finally {
+                // Continuing an outer labeled loop from a finally block.
+                if (count < attempts) continue OuterRim;
+            }
+        }
+        return "The Void remains sealed.";
+    }
+
+    // 8. Stress Point: A getter for a well-known Symbol as a computed property.
+    get [Symbol.toStringTag]() {
+        return 'EinSof_Construct';
+    }
+});
+
+// Immediately-invoked async function to run the final test.
+(async () => {
+    try {
+        // 9. Stress Point: Dynamically importing the module itself to instantiate the default export.
+        const construct = new (await (await import(import.meta.url)).default)();
+        
+        // 10. Stress Point: The `for await...of` loop over a complex async generator.
+        for await (const attempt of construct.breachTheVoid({ attempts: 2 })) {
+            console.log('A whisper from the Void:', attempt);
+        }
+        
+    } catch(e) {
+        console.error("The simulation of Ein Sof has collapsed:", e);
+    }
+})();
+
+
+
+</script>
+<script type="awtsmoos" id="makor_atik">
+// B"H
+// --- THE ATIK TEST: The Ancient of Days (Rectified) ---
+// "And the earth was without form, and void..."
+
+// 1. The Holy Trinity of Imports (Default, Namespace, Side-effect)
+import Void, * as Emanations from 'ein-sof';
+import "silence";
+
+// 2. Class Expression extending a Null-Prototype Anonymous Class
+export default class Atik extends (class extends null { 
+    // 3. Static Block with ASI-sensitive Throw
+    static { 
+        try { 
+            // Valid: Throw must be on the same line
+            throw new Error("Chaos"); 
+        } catch {} 
+    } 
+}) {
+    // 4. Private Field initialized with a Sequence Expression and Sparse Array
+    #primordial = (0, 1, 2, [,,].length);
+
+    // 5. The Constructor of Infinite Complexity
+    constructor(
+        // First Param: Deep Object Destructuring with Default Assignment Expressions
+        {
+            // "origin" aliased to "o", default value is an IIFE
+            origin: o = (() => 0)(),
+            
+            // Computed Property in Pattern with Default value involving a Sequence
+            [Symbol.for('chaos')]: entropy = (1, 2, 3),
+
+            // Nested Array Destructuring with Holes and Trailing Comma
+            matrix: [x, , y = "void",] = []
+        } = {},
+
+        // Second Param: Async Arrow Function as Default Value
+        // This tests the "CoverParenthesizedExpression" -> "ArrowParameter" transmutation logic
+        observer = async (
+            event = (o = 1, o + 1), // Sequence in default
+            ...args                 // Rest element
+        ) => { return args; }
+    ) {
+        // Super call with Spread and Trailing Comma
+        super(...[1, 2,]);
+        this.o = o;
+    }
+
+    // 6. The "Get" Triad (The Parser's Nightmare)
+    
+    // A. Method named "get" (Not a getter)
+    get(target) { return target; }
+    
+    // B. Real Getter
+    get value() { return this.#primordial; }
+    
+    // C. Object Literal with "get" as Property, Method, and Accessor
+    manifest() {
+        return {
+            get: 1,              // Property named "get"
+            get() { return 2; }, // Method named "get"
+            get x() { return 3 } // Getter for "x"
+        };
+    }
+
+    // 7. Computed Async Generator Method with Tagged Template Key
+    async * [ `revelation_${ 1 + 1 }` ](
+        // 8. Parameter with Object Destructuring and Renaming
+        { a: alpha, b: beta } = { a: 1, b: 2 }
+    ) {
+        // 9. Labeled Block with Break
+        Tzimtzum: {
+            // Sequence Expression in If-Condition
+            if ((0, false)) break Tzimtzum;
+
+            // 10. Yield ASI Trap
+            // This is VALID. It yields 'undefined'. 
+            // The string below is a separate expression statement.
+            yield 
+            "light"; 
+
+            // 11. Nested Template with Object Literal inside
+            const s = `Emanation: ${ { toString: () => "Keter" } }`;
+        }
+    }
+}
+
+// 12. Final expression: A Comma Sequence returning a Class
+;(1, 2, class {});
+</script>
+<script type="awtsmoos" id="makor_adam">
+// B"H
+// --- THE ADAM KADMON TEST: The Primordial Blueprint ---
+// "Before the beginning, there was the Plan..."
+
+// 1. Import Meta and Dynamic Imports in Sequence
+const meta = import.meta;
+const module = await (import(meta.url), import(meta.url));
+
+// 2. The Class of Origins
+export default class AdamKadmon extends null {
+    // 3. Private Static Fields & Brand Checks (ES2022)
+    static #light = 10n; // BigInt
+    static #vessel = null;
+
+    static hasLight(instance) {
+        // The 'in' operator checking for a private field
+        return #light in instance; 
+    }
+
+    // 4. Computed Keys with Sequence Expressions
+    // The key is the result of (1, 2, 'sefirah'), which is 'sefirah'
+    [ (1, 2, 'sefirah') ] = 'Keter';
+
+    // 5. The Constructor of Paradoxes
+    constructor() {
+        super();
+        // 6. Logical Assignment Chains
+        // If this.#vessel is falsy, assign {}; then if that exists, assign 'clay' to type.
+        this.#vessel ||= {} &&= { type: 'clay' };
+    }
+
+    // 7. The "Of" Paradox Loop
+    emanate() {
+        const of = [1, 2, 3];
+        // "of" is used as: Variable declaration, Loop Keyword, and Iterable
+        for (const of of of) {
+            console.log(of);
+        }
+        
+        // 8. The Empty Loop
+        for (;;) break;
+    }
+
+    // 9. The Regex vs. Division Gauntlet
+    calc(input) {
+        const a = 10, b = 2, g = 5;
+        
+        // A. Division: a / b / g
+        // Parser must see INFIX SLASH twice.
+        let div = a / b / g; 
+
+        // B. Regex: a + (regex literal).test()
+        // Parser must see INFIX PLUS, then PREFIX SLASH (Regex).
+        // The regex is /=/i (matches an equals sign)
+        let match = a + /=/i.test(input);
+
+        // C. Regex containing escaped slash and brackets
+        // /[\\/]/ matches a backslash or forward slash
+        let complex = /[\\/]/.exec(input);
+
+        return [div, match, complex];
+    }
+
+    // 10. Arrow Functions returning Objects with Computed Keys
+    // and Sequence Default Values
+    transmute = (
+        x = (this.reset(), 10), // Sequence in default
+        { y: z } = { y: 20 }    // Destructuring in default
+    ) => ({
+        // Returning an object requires parens (handled by parser)
+        [x + z]: (a) => a ** 2 // Exponentiation
+    });
+
+    // 11. The Unary Abyss
+    async meditate() {
+        // Stacking unary operators
+        // void (typeof (+ (! (~ (await null)))))
+        const nothing = void typeof +!~ await null;
+        
+        // 12. New Target
+        if (!new.target) return;
+    }
+    
+    // 13. Generator yielding a comma sequence
+    * flow() {
+        // This yields 3. The (1, 2) are evaluated and discarded.
+        yield (1, 2, 3); 
+    }
+}
+
+// 14. The Final Expression: A labeled block with a Function Declaration inside (Block Scope)
+OlamHaTohu: {
+    function restore() {
+        return new AdamKadmon();
+    }
+    restore();
+}
+</script>
+    
+    
+    
+    <script type="awtsmoos" id="makor_yecholes">
+// B"H
+// --- THE YECHOLES TEST: The Infinite Capacity (Rectified) ---
+// "There is no space void of Him..."
+
+// 1. Unicode Identifier Escapes
+// \u0061 is 'a'. Identifiers CAN contain unicode escapes.
+// Note: Keywords (like 'var') CANNOT be escaped (\u0076ar is invalid).
+var \u0061 = "The Aleph"; 
+var ಠ_ಠ = "The Watcher";
+
+// 2. The "Slider" Operator
+// This parses as: while ( (x--) > 0 )
+let x = 10;
+while (x --> 0) {} 
+
+// 3. The Block/Object Illusion
+{
+    // This is a BLOCK, not an object.
+    // 'creation' is a LABEL.
+    // '1' is an ExpressionStatement.
+    creation: 1
+    ;
+}
+
+// 4. The Contextual Keyword Paradox
+// 'async' and 'of' are valid variable names (even in modules).
+function paradox() {
+    let async = [1];
+    // Loop: variable 'of' iterating over 'async'
+    for (let of of async) {
+        // 'await' is reserved in modules, so we use 'wait' as label
+        wait: for (;;) break wait;
+    }
+}
+
+// 5. Function Expression Division
+// Valid because it is an EXPRESSION (RHS of assignment), not a STATEMENT.
+const ratio = function() { return 10 } / 2;
+
+// 6. The Generator ASI Gauntlet
+function *emanator() {
+    // ASI triggers here. Yields 'undefined'.
+    yield
+    // This is a RegExp literal statement, NOT division.
+    /a/g.test("a");
+    
+    // Yield delegation with a template literal
+    yield* `light`;
+}
+
+// 7. Class with "Reserved" Method Names
+// Valid as method names, but reserved as keywords elsewhere.
+class Sefirot {
+    delete() {}
+    void() {}
+    typeof() {}
+    in() {}
+    
+    // Computed static field using a comma sequence
+    static [ (1, 2, "keter") ] = Infinity;
+}
+
+// 8. Deep Arrow Chain
+const chain = a => b => c => (d) => a + b + c + d;
+
+// 9. The Unary Void Abyss
+const emptiness = void void void 0;
+
+// 10. New Target in Arrow
+function construct() {
+    const check = () => new.target;
+}
+
+// 11. The Ultimate Expression
+// Wrapped in parens to force it to be an ExpressionStatement (not a block).
+;({
+    [1 + 1]: 2,
+    \u0061, // Shorthand for 'a' (defined at top)
+    *generator() {}
+});
+</script>
+
+
+
+
+
+<script type="awtsmoos" id="makor_awtsmoos">
+// B"H
+// --- THE AWTSMOOS TEST: The Absolute Essence (Rectified) ---
+// "Ain Od Milvado" - There is nothing but the Code.
+
+// 1. Imports of every flavor
+// Note: \u0061 is 'a'. Identifiers can use escapes. Keywords cannot.
+import Default, { \u0061 as Aleph, b as Bet } from "letters";
+import * as All from "everything";
+import "side-effect";
+
+// 2. Exporting a Class Expression defined via Sequence
+// (0, class...) evaluates to the class. Valid expression export.
+export default (0, class Awtsmoos extends (null, Array) {
+    
+    // 3. Private Static Fields with BigInt and Numeric Separators
+    static #count = 1_000_000n;
+    static #essence = "\x41\u0062\u{1D49E}"; // "AbC" using Hex, Unicode, CodePoint escapes
+
+    // 4. Computed Method Key with String Escapes
+    [ "method\n\t\r\v\f\b\0" ]() {
+        return this.#essence;
+    }
+
+    // 5. The Constructor of Infinite State
+    constructor(
+        // A. Object Destructuring with Renaming and Defaults
+        { 
+            // B. Computed Property in Pattern
+            [Symbol.iterator]: iterator = function*() { yield 1; },
+            
+            // C. Nested Array with Holes and Default Assignment
+            config: [ x, , y = "default" ] = []
+        } = {},
+        
+        // D. Async Arrow Function as a Default Value (The Cover Grammar Trap)
+        // Parser must initially see (a=1, b=2) as a parenthesized sequence, 
+        // then transmute it to Arrow Parameters when '=>' appears.
+        callback = async (a = 1, b = 2) => a + b
+    ) {
+        super();
+        this.iterator = iterator;
+    }
+
+    // 6. Async Generator Property (Not a method, a property holding a generator)
+    // This tests the parser's ability to distinguish * as generator vs * as math
+    generatorField = async function* (start) {
+        // 7. Yielding a Sequence Expression
+        // Yields 3. (1+1 is evaluated, 2 is evaluated, 3 is yielded)
+        yield (1 + 1, 2, 3);
+        
+        // 8. Yield Delegate with Template Literal
+        // \u{1F525} is the Fire Emoji
+        yield* `\u{1F525}`; 
+    };
+
+    // 9. The Logic Core
+    process() {
+        let \u0070ower = 10; // Identifier 'power' using unicode escape \u0070
+        
+        // 10. The Loop of Ambiguity
+        // 'async' is a valid var name. 'of' is a valid var name.
+        // 'await' is reserved in modules, so we use 'wait' as label.
+        let async = [1, 2];
+        wait: for (const of of async) {
+            if (of > 5) break wait;
+        }
+
+        // 11. The Regex / Division Singularity
+        // Parser must track context perfectly.
+        const ratio = \u0070ower / 2 / 5; // Division (10 / 2 / 5 = 1)
+        
+        // Regex literal starting with = (slash-assign token split)
+        // plus flags g, i, m
+        const pattern = /=/gim; 
+        
+        // Regex containing escaped slashes and brackets
+        const path = /[/\\]/;
+
+        return [ratio, pattern, path];
+    }
+
+    // 12. Deeply Nested Template Literals
+    render() {
+        return `Level 1: ${ 
+            `Level 2: ${ 
+                `Level 3: ${ 
+                    // Object literal inside template
+                    { toString: () => "Core" } 
+                }` 
+            }` 
+        }`;
+    }
+});
+
+// 13. The Final Statement: Void Operator Sequence
+// void (function call)
+void (function() {
+    // 14. Postfix ASI Trap inside IIFE
+    let i = 0, j = 0;
+    
+    // ASI MUST insert a semicolon after 'i' because of the newline.
+    // Then '++j' is parsed as a Prefix UpdateExpression on the next line.
+    // If parsed as 'i++', it would be Postfix (wrong line) and leave 'j' hanging.
+    // If parsed as 'i ++ j', it's syntax error.
+    // Correct: i; ++j;
+    i
+    ++j; 
+    
+    // Validating the result logic (just for validity check)
+    return [i, j];
+})();
+</script>
+    <script src="parser-core.js"></script>
+
+    
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Get references to all the necessary HTML elements
+        const jsInput = document.getElementById('js-input');
+        const astOutput = document.getElementById('ast-output');
+        const parseButton = document.getElementById('parse-btn');
+        const copyButton = document.getElementById('copy-btn');
+        const scriptSelector = document.getElementById('script-selector');
+
+        // --- THE BIG CHANGE IS HERE ---
+        // We wait for the promise exported by parser-core.js to resolve.
+        // The code inside the .then() block will only run after the parser
+        // and all its dependencies have been successfully loaded.
+        window.MerkavahParserPromise.then(MerkavahParser => {
+            console.log("B'H -- The Merkava is ready for ascent.");
+
+            // This is the function that runs the parser
+            const runParser = () => {
+                astOutput.textContent = '';
+                astOutput.classList.remove('error');
+                const sourceCode = jsInput.value;
+                
+                // Now we can safely use the MerkavahParser class
+                const parser = new MerkavahParser(sourceCode);
+                
+                // Register all the parsing methods
+                parser.registerExpressionParsers();
+                parser.registerStatementParsers();
+                parser.registerDeclarationParsers();
+
+                // Run the main parse method
+                const ast = parser.parse();
+
+                // Display the results or the errors
+                if (parser.errors.length > 0) {
+                    const errorMessage = "The vessels have shattered. The following transgressions were observed:\n\n" + parser.errors.join('\n');
+                    astOutput.textContent = errorMessage;
+                    astOutput.classList.add('error');
+                } else {
+                    astOutput.textContent = JSON.stringify(ast, null, 2);
+                }
+            };
+
+            // This function copies the AST to the clipboard
+            const copyAstToClipboard = () => {
+                if (!astOutput.textContent || astOutput.classList.contains('error')) {
+                    alert('There is no valid AST to copy.');
+                    return;
+                }
+                navigator.clipboard.writeText(astOutput.textContent)
+                    .then(() => alert('AST copied to clipboard!'))
+                    .catch(err => {
+                        console.error('Failed to copy AST: ', err);
+                        alert('Could not copy AST. See the console for details.');
+                    });
+            };
+
+            // This function loads the selected script into the textarea
+            const loadScript = () => {
+                const selectedId = scriptSelector.value;
+                const scriptElement = document.getElementById(selectedId);
+                if (scriptElement) {
+                    jsInput.value = scriptElement.innerHTML.trim();
+                    runParser(); // Automatically parse the newly loaded script
+                }
+            };
+
+            // Add event listeners to the controls now that we know the parser is ready
+            parseButton.addEventListener('click', runParser);
+            copyButton.addEventListener('click', copyAstToClipboard);
+            scriptSelector.addEventListener('change', loadScript);
+
+            // --- INITIALIZATION ---
+            // Load and parse the initially selected script
+            loadScript();
+ 
+        }).catch(err => {
+            // This .catch() block will execute if the parser fails to load
+            console.error("A cosmic error occurred. The Merkava could not be assembled:", err);
+            astOutput.textContent = "FATAL ERROR: The parser script failed to load. Check the browser console for details.";
+            astOutput.classList.add('error');
+        });
+    });
+</script>
+
+</body>
+</html>
