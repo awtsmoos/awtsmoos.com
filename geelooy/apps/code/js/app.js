@@ -146,72 +146,73 @@ saveSession() {
  */
 /*B"H*/
 async loadSession() {
-    const savedSession = localStorage.getItem('vividX_session_profound');
-    if (!savedSession) return;
+        const savedSession = localStorage.getItem('vividX_session_profound');
+        if (!savedSession) return;
 
-    try {
-        const session = JSON.parse(savedSession);
+        try {
+            const session = JSON.parse(savedSession);
+            let maxWsId = 0;
 
-        // 1. Restore Workspaces & Auto-Resume
-        if (session.workspaces && Array.isArray(session.workspaces)) {
-            for (const wsData of session.workspaces) {
-                if (wsData.type === 'local') {
-                    try {
-                        const handle = await FileSystemProvider.IndexedDB.getHandle(wsData.id);
-                        if (handle) {
-                            wsData.handle = handle;
-                            // IMMEDIATE CHECK: Do we have permission right now?
-                            const perm = await handle.queryPermission({ mode: 'readwrite' });
-                            
-                            // If 'granted', we are OPEN. If 'prompt', we are LOCKED.
-                            wsData.isLocked = (perm !== 'granted'); 
-                        } else {
+            // 1. Workspaces
+            if (session.workspaces && Array.isArray(session.workspaces)) {
+                for (const wsData of session.workspaces) {
+                    // Track max ID to prevent collision
+                    if (wsData.id >= maxWsId) maxWsId = wsData.id + 1;
+
+                    if (wsData.type === 'local') {
+                        try {
+                            const handle = await FileSystemProvider.IndexedDB.getHandle(wsData.id);
+                            if (handle) {
+                                wsData.handle = handle;
+                                const perm = await handle.queryPermission({ mode: 'readwrite' });
+                                wsData.isLocked = (perm !== 'granted');
+                            } else {
+                                wsData.isLocked = true;
+                                wsData.isLost = true;
+                            }
+                        } catch (e) {
                             wsData.isLocked = true;
-                            wsData.isLost = true;
                         }
-                    } catch (e) {
-                        wsData.isLocked = true;
                     }
+                    Workspaces.add(wsData, false);
                 }
-                // Add to state (UI render happens later)
-                Workspaces.add(wsData, false);
             }
-        }
-
-        // 2. Restore Tabs with Scroll Position
-        if (session.openTabs && Array.isArray(session.openTabs)) {
-            State.tabs = session.openTabs.map(t => ({
-                ...t,
-                // Force reload so we read from the now-restored handle
-                forceReload: true,
-                // Ensure scrollPos is a valid number
-                scrollPos: Number(t.scrollPos) || 0
-            }));
             
-            // Render the tab bar immediately
-            Tabs.render();
-        }
+            // SYNC ID COUNTER
+            State.nextWorkspaceId = maxWsId;
 
-        // 3. Restore Expanded Folders
-        if (session.expandedFolders) {
-            State.expandedFolders = new Set(session.expandedFolders);
-        }
-        
-        // 4. Render Workspaces (Now that state is fully populated)
-        Workspaces.render();
-
-        // 5. Activate the Last Used Tab
-        if (session.activeTabUniquePath) {
-            const activeTab = State.tabs.find(t => t.uniquePath === session.activeTabUniquePath);
-            if (activeTab) {
-                // If the workspace is NOT locked, this will load content and scroll immediately.
-                await Tabs.activate(activeTab.id);
+            // 2. Tabs
+            if (session.openTabs && Array.isArray(session.openTabs)) {
+                let maxTabId = 0;
+                State.tabs = session.openTabs.map(t => {
+                    if (t.id >= maxTabId) maxTabId = t.id + 1;
+                    return {
+                        ...t,
+                        forceReload: true, // Force re-read using the new "root handle" logic
+                        scrollPos: Number(t.scrollPos) || 0
+                    };
+                });
+                State.nextTabId = maxTabId;
+                Tabs.render();
             }
+
+            // 3. Active Tab
+            if (session.activeTabUniquePath) {
+                const activeTab = State.tabs.find(t => t.uniquePath === session.activeTabUniquePath);
+                if (activeTab) {
+                    State.activeTabId = activeTab.id;
+                }
+            }
+
+            // 4. Expansion
+            if (session.expandedFolders) {
+                State.expandedFolders = new Set(session.expandedFolders);
+            }
+
+        } catch (e) {
+            console.error("Session load failed", e);
         }
-    } catch (e) {
-        console.error("Failed to load session:", e);
-    }
-},
+    },
 
     /**
      * B"H
