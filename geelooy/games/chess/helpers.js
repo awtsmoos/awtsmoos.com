@@ -44,7 +44,7 @@ let moveStack = Array(1024).fill(0),
     moveStackPtr = 0;
 
 
-/* B"H - FINAL, EVIDENCE-BASED createGameState FUNCTION */
+/* B"H - FINAL, DIAGNOSTICALLY-VERIFIED createGameState FUNCTION */
 function createGameState(fen) {
     const state = {
         pieceBitboards: Array(12).fill(0n),
@@ -63,7 +63,7 @@ function createGameState(fen) {
         if (c === '/') {
             r++;
             f = 0;
-            continue; // Move to the next character
+            continue;
         }
 
         if (/\d/.test(c)) {
@@ -73,8 +73,7 @@ function createGameState(fen) {
             if (pieceIndex !== -1) {
                 state.pieceBitboards[pieceIndex] |= (1n << BigInt(r * 8 + f));
             }
-            // THE BUG FIX: The column must ALWAYS increment for a piece character.
-            // It was previously inside the else block, causing misalignments.
+            // THE PERMANENT FIX: The column must always increment for a single character.
             f++;
         }
     }
