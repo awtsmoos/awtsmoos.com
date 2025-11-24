@@ -1,0 +1,56 @@
+<!--B"H-->
+<html>
+    <head>
+        <meta charset="utf-8">
+       <link rel="stylesheet" href="/style/social/alias.css">
+        
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+	<div class="all awtsmoospage">
+	
+            <div class="main">
+                <div class="alias-container">
+
+                </div>
+            </div>
+        </div>
+        <script type = "module">
+            //B"H
+                        
+            import {
+                getAliasOwnership,
+                getAliasDetails
+            } from 
+                "/scripts/awtsmoos/api/social/alias.js"
+            import {
+                makeAliasPage
+            } from "/scripts/awtsmoos/social/aliasPage.js";
+
+            
+            var alias = location.pathname.substring(2)
+            async function go() {
+                var owns = await getAliasOwnership(
+                    alias
+                );
+                
+                var deets = await getAliasDetails(
+                    alias
+                );
+            
+               
+                console.log(owns, deets)
+                await makeAliasPage({
+                    details: deets,
+                    ownership: owns?.code == "YES",
+                    container: document
+                        .querySelector(
+                        ".alias-container"
+                    )
+                });
+            }
+            console.log(alias);
+            await go()
+        </script>
+    </body>
+</html>
