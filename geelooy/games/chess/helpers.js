@@ -50,7 +50,15 @@ let moveStack = Array(1024).fill(0),
 /* B"H 
 cool!
 */
+
+
 function createGameState(fen) {
+    // --- The Birth Cry Log ---
+    console.log(
+        '%c B"H --- createGameState v5.0 (Witness) ---',
+        "background: #1e90ff; color: #ffffff; font-size: 1.2em; padding: 4px; font-family: monospace;"
+    );
+
     const state = {
         pieceBitboards: Array(12).fill(0n),
         occupancies: Array(3).fill(0n),
@@ -63,6 +71,7 @@ function createGameState(fen) {
 
     const parts = fen.split(' ');
     let r = 0, f = 0;
+    console.log(`[Witness] Parsing FEN: "${fen}"`);
 
     for (const c of parts[0]) {
         if (c === '/') {
@@ -70,7 +79,6 @@ function createGameState(fen) {
             f = 0;
             continue;
         }
-
         if (/\d/.test(c)) {
             f += parseInt(c);
         } else {
@@ -78,32 +86,39 @@ function createGameState(fen) {
             if (pieceIndex !== -1) {
                 state.pieceBitboards[pieceIndex] |= (1n << BigInt(r * 8 + f));
             }
-            // THE PERMANENT FIX: The file/column counter MUST increment after
-            // processing a single piece character.
+            // This is the diagnostically-verified bug fix.
             f++;
         }
     }
 
-    // Correctly and explicitly populate the occupancy bitboards AFTER parsing.
+    // Explicitly populate occupancies after parsing is complete.
     state.occupancies[WHITE] = state.pieceBitboards[P] | state.pieceBitboards[N] | state.pieceBitboards[B] | state.pieceBitboards[R] | state.pieceBitboards[Q] | state.pieceBitboards[K];
     state.occupancies[BLACK] = state.pieceBitboards[P+6] | state.pieceBitboards[N+6] | state.pieceBitboards[B+6] | state.pieceBitboards[R+6] | state.pieceBitboards[Q+6] | state.pieceBitboards[K+6];
     state.occupancies[2] = state.occupancies[WHITE] | state.occupancies[BLACK];
-
-    // Game State from FEN parts 2, 3, 4
-    state.turn = (parts[1] === 'w') ? WHITE : BLACK;
     
+    // Parse remaining FEN parts.
+    state.turn = (parts[1] === 'w') ? WHITE : BLACK;
     if (parts[2].includes('K')) state.castling |= WKCA;
     if (parts[2].includes('Q')) state.castling |= WQCA;
     if (parts[2].includes('k')) state.castling |= BKCA;
     if (parts[2].includes('q')) state.castling |= BQCA;
-    
     if (parts[3] !== '-') {
         const file = parts[3].charCodeAt(0) - 'a'.charCodeAt(0);
         const rank = 8 - parseInt(parts[3][1]);
         state.enpassant = rank * 8 + file;
     }
+    
+    // --- The Verification Log ---
+    const side = state.turn === WHITE ? 'WHITE' : 'BLACK';
+    console.log(`[Witness] Reality created for: ${side}`);
+    console.log(`[Witness] Black Pawns Bitboard: 0x${state.pieceBitboards[6].toString(16)}`);
+    console.log(`[Witness] White Pawns Bitboard: 0x${state.pieceBitboards[0].toString(16)}`);
+    console.log(
+        '%c B"H --- Witness testimony complete. ---',
+        "background: #1e90ff; color: #ffffff; font-size: 1.2em; padding: 4px; font-family: monospace;"
+    );
 
-    // Final Calculation and Validation
+
     if (zobristTurnKey !== 0n) state.zobristHash = calculateZobristHash(state);
     validateGnosticSeal(state, 'createGameState');
     return state;

@@ -6,7 +6,7 @@ console. log('B"H'
 try {
     importScripts(
         '../bitboard-helpers.js',
-        '../helpers.js',
+        '../helpers.js?j=8',
         '../generateFromPgn.js',
         '../grandmaster_library.js'
     );
