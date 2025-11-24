@@ -7,10 +7,10 @@
 // This uses the exact same method as the real engine.
 try {
     importScripts(
-        'bitboard-helpers.js',
-        'helpers.js',
-        'generateFromPgn.js',
-        'grandmaster_library.js' // Needed for the PgnConverter context
+        '../bitboard-helpers.js',
+        '../helpers.js',
+        '../generateFromPgn.js',
+        '../grandmaster_library.js' // Needed for the PgnConverter context
     );
 } catch (e) {
     // If the scripts fail to load, we can't do anything else.
