@@ -239,6 +239,7 @@ function unmakeMove(state) {
 
 
 
+/** B"H - FINAL, EVIDENCE-BASED MOVE GENERATOR **/
 function generateMoves(state) {
     validateGnosticSeal(state, 'generateMoves');
     const moves = [];
@@ -247,72 +248,63 @@ function generateMoves(state) {
     const friendly_pieces = state.occupancies[side];
     const enemy_pieces = state.occupancies[enemy];
 
+    // B"H - THE CORE IDENTITY FIX: Determine the correct piece index for the pawn based on whose turn it is.
+    const pawnPiece = side * 6 + P;
+
     // Pawns
-    let pawns = state.pieceBitboards[side * 6 + P];
+    let pawns = state.pieceBitboards[pawnPiece];
     while (pawns > 0n) {
         const from = getLSBIndex(pawns);
         const rank = Math.floor(from / 8);
-
         const promRank = (side === WHITE) ? 1 : 6;
         const startRank = (side === WHITE) ? 6 : 1;
-
-        // --- 1. Single Pawn Push ---
-        const one_step = (side === WHITE) ? from - 8 : from + 8;
-        // Check if the square in front is empty
-        if (!((blockers >> BigInt(one_step)) & 1n)) {
-            // Is it a promotion?
-            if (rank === promRank) {
-                [Q, R, B, N].forEach(p => moves.push(encodeMove(from, one_step, P, p, 0, 0, 0, 0)));
-            } else {
-            // It's a regular single push
-                moves.push(encodeMove(from, one_step, P, 0, 0, 0, 0, 0));
-            }
-        }
         
-        // --- 2. Double Pawn Push (can only happen from the start rank) ---
-        // This logic is now OUTSIDE the single-push 'else', fixing the bug.
-        if (rank === startRank) {
-            const one_step_clear = !((blockers >> BigInt(one_step)) & 1n);
-            if (one_step_clear) {
-                const two_steps = (side === WHITE) ? from - 16 : from + 16;
-                if (!((blockers >> BigInt(two_steps)) & 1n)) {
-                    moves.push(encodeMove(from, two_steps, P, 0, 0, 1, 0, 0));
+        const one_step = (side === WHITE) ? from - 8 : from + 8;
+        if (!((blockers >> BigInt(one_step)) & 1n)) {
+            if (rank === promRank) {
+                [Q, R, B, N].forEach(p => moves.push(encodeMove(from, one_step, pawnPiece, p, 0, 0, 0, 0)));
+            } else {
+                moves.push(encodeMove(from, one_step, pawnPiece, 0, 0, 0, 0, 0));
+                if (rank === startRank) {
+                    const two_steps = (side === WHITE) ? from - 16 : from + 16;
+                    if (!((blockers >> BigInt(two_steps)) & 1n)) {
+                        moves.push(encodeMove(from, two_steps, pawnPiece, 0, 0, 1, 0, 0));
+                    }
                 }
             }
         }
-
-        // --- 3. Pawn Captures ---
+        
         let attacks = PAWN_ATTACKS[side][from] & enemy_pieces;
         while (attacks > 0n) {
             const to = getLSBIndex(attacks);
             if (rank === promRank) {
-                [Q, R, B, N].forEach(p => moves.push(encodeMove(from, to, P, p, 1, 0, 0, 0)));
+                [Q, R, B, N].forEach(p => moves.push(encodeMove(from, to, pawnPiece, p, 1, 0, 0, 0)));
             } else {
-                moves.push(encodeMove(from, to, P, 0, 1, 0, 0, 0));
+                moves.push(encodeMove(from, to, pawnPiece, 0, 1, 0, 0, 0));
             }
             attacks = popBit(attacks);
         }
         
-        // --- 4. En Passant ---
         if (state.enpassant !== -1 && (PAWN_ATTACKS[side][from] & (1n << BigInt(state.enpassant)))) {
-            moves.push(encodeMove(from, state.enpassant, P, 0, 1, 0, 1, 0));
+            moves.push(encodeMove(from, state.enpassant, pawnPiece, 0, 1, 0, 1, 0));
         }
-        
         pawns = popBit(pawns);
     }
 
-    // Castling
+    // Castling (with correct piece identities)
     if (side === WHITE) {
         if ((state.castling & WKCA) && !((blockers >> 61n) & 3n) && !isSquareAttacked_lean(state, 60, BLACK) && !isSquareAttacked_lean(state, 61, BLACK)) moves.push(encodeMove(60, 62, K, 0, 0, 0, 0, 1));
         if ((state.castling & WQCA) && !((blockers >> 57n) & 7n) && !isSquareAttacked_lean(state, 60, BLACK) && !isSquareAttacked_lean(state, 59, BLACK)) moves.push(encodeMove(60, 58, K, 0, 0, 0, 0, 1));
     } else {
-        if ((state.castling & BKCA) && !((blockers >> 5n) & 3n) && !isSquareAttacked_lean(state, 4, WHITE) && !isSquareAttacked_lean(state, 5, WHITE)) moves.push(encodeMove(4, 6, K, 0, 0, 0, 0, 1));
-        if ((state.castling & BQCA) && !((blockers >> 1n) & 7n) && !isSquareAttacked_lean(state, 4, WHITE) && !isSquareAttacked_lean(state, 3, WHITE)) moves.push(encodeMove(4, 2, K, 0, 0, 0, 0, 1));
+        const blackKingPiece = K + 6;
+        if ((state.castling & BKCA) && !((blockers >> 5n) & 3n) && !isSquareAttacked_lean(state, 4, WHITE) && !isSquareAttacked_lean(state, 5, WHITE)) moves.push(encodeMove(4, 6, blackKingPiece, 0, 0, 0, 0, 1));
+        if ((state.castling & BQCA) && !((blockers >> 1n) & 7n) && !isSquareAttacked_lean(state, 4, WHITE) && !isSquareAttacked_lean(state, 3, WHITE)) moves.push(encodeMove(4, 2, blackKingPiece, 0, 0, 0, 0, 1));
     }
 
-    // Other pieces
+    // Other pieces (with correct piece identities)
     for (let p = N; p <= K; p++) {
-        let bb = state.pieceBitboards[side * 6 + p];
+        const piece = side * 6 + p;
+        let bb = state.pieceBitboards[piece];
         while (bb > 0n) {
             const from = getLSBIndex(bb);
             let attacks = 0n;
@@ -327,14 +319,14 @@ function generateMoves(state) {
             let quiet_moves = attacks & ~enemy_pieces;
             while(quiet_moves > 0n) {
                 const to = getLSBIndex(quiet_moves);
-                moves.push(encodeMove(from, to, p, 0, 0, 0, 0, 0));
+                moves.push(encodeMove(from, to, piece, 0, 0, 0, 0, 0));
                 quiet_moves = popBit(quiet_moves);
             }
 
             let capture_moves = attacks & enemy_pieces;
              while(capture_moves > 0n) {
                 const to = getLSBIndex(capture_moves);
-                moves.push(encodeMove(from, to, p, 0, 1, 0, 0, 0));
+                moves.push(encodeMove(from, to, piece, 0, 1, 0, 0, 0));
                 capture_moves = popBit(capture_moves);
             }
             bb = popBit(bb);
