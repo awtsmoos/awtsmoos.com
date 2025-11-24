@@ -3,6 +3,7 @@
 // This is a dedicated Web Worker. It cannot access the DOM.
 // Its purpose is to load the engine's brain and run the test.
 
+
 // --- Step 1: Load the Engine's Consciousness ---
 // This uses the exact same method as the real engine.
 try {
