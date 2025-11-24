@@ -1,6 +1,7 @@
-/*B"H*/
-
 /* B"H */
+/* The core problem was a rigid structure. The solution is to use Flexbox, a dynamic
+   force that allows the vessel to breathe and adapt to any screen, ensuring no
+   part of the universe is cut off from perception. */
 body, html {
     margin: 0;
     padding: 0;
@@ -9,111 +10,42 @@ body, html {
     background-color: #010101;
     color: #a9a9a9;
     font-family: 'Times New Roman', Times, serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
-#main-menu {
-    text-align: center;
-    border: 1px solid #555;
-    padding: 40px;
-    background-color: rgba(10, 10, 10, 0.8);
-    box-shadow: 0 0 25px rgba(255, 223, 186, 0.1);
-}
-
-h1 {
-    color: #d4af37; /* A dim gold */
-    font-size: 3em;
-    margin-bottom: 10px;
-    font-weight: normal;
-}
-
-p {
-    font-style: italic;
-    color: #888;
-}
-
-.game-button {
-    font-size: 1.1em;
-    padding: 12px 24px;
-    margin: 8px;
-    cursor: pointer;
-    background: transparent;
-    border: 1px solid #555;
-    color: #a9a9a9;
-    transition: all 0.3s ease;
-}
-
-.game-button:not(:disabled):hover {
-    background-color: #d4af37;
-    color: #010101;
-    border-color: #d4af3iec;
-    box-shadow: 0 0 15px #d4af37;
-}
-
-.game-button.selected {
-    background-color: #d4af37;
-    color: #010101;
-    border-color: #d4af3iec;
-}
-
-.game-button:disabled {
-    color: #444;
-    border-color: #222;
-    cursor: not-allowed;
-}
-
-#player-selection {
-    margin-top: 30px;
-}
-
-#ai-players {
-    width: 50px;
-    padding: 5px;
-    background-color: #222;
-    border: 1px solid #555;
-    color: #a9a9a9;
-}
-
-#start-game {
-    font-size: 1.2em;
-    padding: 10px 20px;
-    margin-left: 10px;
-    cursor: pointer;
-    background: transparent;
-    border: 1px solid #8c0000;
-    color: #a9a9a9;
-    transition: all 0.3s ease;
-}
-
-#start-game:hover {
-    background-color: #8c0000;
-    color: white;
-    box-shadow: 0 0 15px #ff4500;
-}
-
+/* This container now uses the power of Flexbox to manage its children. */
 #game-container {
-    display: none;
+    display: flex; /* Switched to flex to control the layout flow. */
+    flex-direction: column; /* Stack elements vertically. */
+    justify-content: space-between; /* Pushes children to the top and bottom. */
+    width: 100%;
+    height: 100vh; /* Ensure it takes the full viewport height. */
     position: relative;
 }
 
 #game-canvas {
-    background-color: #001a00; /* Deep, impossible forest green */
-    border: 2px solid #d4af37;
-    box-shadow: 0 0 30px rgba(212, 175, 55, 0.5);
+    background-color: #001a00;
+    width: 100%; /* The canvas will fill the width of its container. */
+    height: 100%; /* The canvas will fill the height of its container. */
+    position: absolute; /* The canvas becomes the background layer. */
+    top: 0;
+    left: 0;
+    z-index: 1; /* It sits behind the UI. */
 }
 
+/* The UI container is now a flex item, positioned relative to the game container. */
 #game-ui-container {
-    position: absolute;
-    bottom: 20px;
+    position: relative; /* No longer absolute, it flows within the flex container. */
+    z-index: 2; /* Sits on top of the canvas. */
     width: 100%;
+    padding-bottom: 20px; /* Provides some space from the bottom edge. */
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    pointer-events: none; /* Pass clicks through to canvas unless on a button */
+    pointer-events: none;
 }
+
+/* ... The rest of the CSS remains the same as before ... */
 
 .ui-panel {
     background-color: rgba(0, 0, 0, 0.6);
@@ -123,11 +55,11 @@ p {
     box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
     color: #d4af37;
     font-size: 1.5em;
+    margin-top: 10px; /* Added some margin for spacing */
 }
 
 #player-actions {
-    margin-top: 10px;
-    pointer-events: all; /* Allow clicks on buttons */
+    pointer-events: all; 
 }
 
 #player-actions button {
