@@ -712,6 +712,7 @@ async _executeGitCommit(repoInfo, branch, parentSHA, treeItems, message) {
 
 
  /*B"H*/
+/*B"H*/
 async calculateDiff(gitContextItem, gitInfo) {
     const changeSet = {
         creations: [],
@@ -721,12 +722,19 @@ async calculateDiff(gitContextItem, gitInfo) {
     };
 
     // 1. Establish the Remote Truth
-    const remoteFileMap = new Map((gitInfo.remoteTree || []).map(f => [f.path, f]));
+    // CRITICAL FIX: We MUST filter out 'tree' (directory) items. 
+    // We only track files ('blob'). Directories are structural and implicit.
+    const remoteFileMap = new Map(
+        (gitInfo.remoteTree || [])
+        .filter(f => f.type === 'blob') 
+        .map(f => [f.path, f])
+    );
+    
     const workspaceId = gitContextItem.workspaceId || gitContextItem.id;
 
     // 2. Helper to determine relative paths correctly
     const getRelativePath = (fullPath) => {
-        if (gitContextItem.type === 'github') return fullPath; // Direct repos use absolute paths
+        if (gitContextItem.type === 'github') return fullPath; 
         const cloneRoot = gitContextItem.path;
         if (cloneRoot === '/') return fullPath.startsWith('/') ? fullPath.substring(1) : fullPath;
         if (fullPath.startsWith(cloneRoot + '/')) return fullPath.substring(cloneRoot.length + 1);
@@ -744,11 +752,10 @@ async calculateDiff(gitContextItem, gitInfo) {
 
     // 4. Process Staged Changes (IndexedDB)
     const uncommittedChanges = await FileSystemProvider.IndexedDB.listUncommittedForWorkspace(workspaceId);
-    // Create a set of paths we have handled here to avoid double-adding in the next step
     const handledPaths = new Set(); 
     
     for (const change of uncommittedChanges) {
-        const relativePath = change.item.path; // These are stored relatively
+        const relativePath = change.item.path; 
         handledPaths.add(relativePath);
         
         if (!remoteFileMap.has(relativePath)) {
@@ -758,50 +765,46 @@ async calculateDiff(gitContextItem, gitInfo) {
         }
     }
 
-    // --- NEW LOGIC START ---
-
     // 5. THE RESTORATION SCAN (Detect Untracked & Deleted Files)
-    // We only do this for local clones, as direct GitHub workspaces are always perfectly synced with themselves.
     if (gitContextItem.type !== 'github') {
         
         // A. Get the actual physical files on disk
         const localFiles = await FileSystemProvider.listAllFiles(gitContextItem);
-        const localFilePaths = new Set(); // To store relative paths for deletion check
+        const localFilePaths = new Set(); 
 
-        // B. Loop through every local file to find ADDITIONS (Restoration)
+        // B. Loop through every local file to find ADDITIONS
         for (const file of localFiles) {
             const relPath = getRelativePath(file.path);
             if (!relPath) continue;
 
             localFilePaths.add(relPath);
 
-            // If we already handled it (it's staged/dirty), skip checking
             if (handledPaths.has(relPath)) continue;
 
-            // CHECK: Does Remote know about this file?
             if (!remoteFileMap.has(relPath)) {
-                // LOCAL EXISTS, REMOTE DOES NOT -> This is an UNTRACKED file.
-                // We must add it to creations to restore it to GitHub.
-                
-                // We need to read the content to commit it.
+                // Untracked file found. Read and Stage it.
                 try {
                     const rawContent = await FileSystemProvider.read({ ...gitContextItem, path: file.path });
-                    // Handle blobs/text conversion
                     let stringContent = '';
                     if (rawContent instanceof Blob) {
                         stringContent = await rawContent.text();
                     } else if (typeof rawContent === 'string') {
                         stringContent = rawContent;
                     }
+                    // Handle binary base64 from GitHub/Storage if needed
+                    else if (rawContent && rawContent.base64Content) {
+                         // Decode if necessary, but usually read returns string or blob for local
+                         stringContent = atob(rawContent.base64Content);
+                    }
                     
                     changeSet.creations.push({ path: relPath, content: stringContent });
                 } catch (readErr) {
-                    console.warn(`Could not read untracked file ${relPath}:`, readErr);
+                    // Ignore transient read errors
                 }
             }
         }
 
-        // C. Loop through Remote map to find DELETIONS (Safety Check)
+        // C. Loop through Remote map to find DELETIONS
         const deletionCandidates = [];
         for (const remoteFilePath of remoteFileMap.keys()) {
             if (!localFilePaths.has(remoteFilePath)) {
@@ -809,19 +812,18 @@ async calculateDiff(gitContextItem, gitInfo) {
             }
         }
 
-        // D. Verify Deletions (The "Fail-Safe" from previous fix)
+        // D. Verify Deletions (Fail-Safe)
         for (const candidatePath of deletionCandidates) {
             try {
-                // If we can read it, it's NOT deleted (scanner missed it)
+                // If we can read it, it's NOT deleted.
                 const absPath = gitContextItem.path === '/' ? `/${candidatePath}` : `${gitContextItem.path}/${candidatePath}`;
                 await FileSystemProvider.read({ ...gitContextItem, path: absPath, kind: 'file' });
             } catch (e) {
-                // Only mark deleted if we genuinely can't read it
+                // Only confirmed deletion if we really can't read the file
                 changeSet.deletions.push({ path: candidatePath });
             }
         }
     }
-    // --- NEW LOGIC END ---
 
     return changeSet;
 }
