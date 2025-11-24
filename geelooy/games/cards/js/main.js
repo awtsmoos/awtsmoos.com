@@ -20,7 +20,11 @@ const ui = {
 
 let selectedGame = null;
 
-// ... (initializeMenu remains the same) ...
+/**
+ * Attaches the listeners of potentiality to the main menu. It does not act, but
+ * waits for the user to declare their intention. Each click is a small tremor, a
+ * declaration of which universe is to be born from the infinite possibilities.
+ */
 function initializeMenu() {
     gameButtons.forEach(button => {
         button.addEventListener('click', () => {
@@ -31,11 +35,14 @@ function initializeMenu() {
         });
     });
 
+    // The final commitment. This button press is the "Let there be light" for the chosen game.
     startGameButton.addEventListener('click', () => {
         if (selectedGame) {
-            const numAIPlayers = parseInt(aiPlayers_input.value);
+            // THE CORRECTION: The variable's true name is invoked.
+            const numAIPlayers = parseInt(aiPlayersInput.value);
             beginExperience(selectedGame, numAIPlayers);
         } else {
+            // A warning that creation cannot begin without a defined form.
             alert('A path must be chosen before the journey can begin.');
         }
     });

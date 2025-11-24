@@ -1,10 +1,12 @@
 /* B"H */
 /* This is the complete soul, the full set of laws that give form and beauty
    to the raw structure of the HTML, restoring order to the menu and the game. */
+/* B"H */
+/* To ensure the firmament holds, the laws must apply from the very beginning of creation. */
 body, html {
     margin: 0;
     padding: 0;
-    height: 100%;
+    height: 100%; /* The foundational decree of full height. */
     overflow: hidden;
     background-color: #010101;
     color: #a9a9a9;
@@ -14,6 +16,26 @@ body, html {
     align-items: center;
 }
 
+/* The world-container for the game must also obey the law of full height. */
+#game-container {
+    position: relative;
+    width: 100vw;
+    height: 100%; /* Changed from vh to % for better compatibility. */
+    display: none;
+}
+
+/* The UI container's anchor is reinforced with a more robust positioning law. */
+#game-ui-container {
+    position: absolute;
+    /* A stronger decree: pin to the bottom, and stretch to the left and right edges. */
+    inset: auto 0 20px 0;
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    pointer-events: none;
+}
 /* --- Main Menu Restoration --- */
 /* The vessel for the main menu, given proper form and divine order. */
 #main-menu {
@@ -113,14 +135,7 @@ p {
     box-shadow: 0 0 15px #ff4500;
 }
 
-/* --- Game Container Restoration --- */
-/* The stable, predictable reality for the game world itself. */
-#game-container {
-    position: relative;
-    width: 100vw;
-    height: 100vh;
-    display: none; /* Hidden until its time of revelation. */
-}
+
 
 #game-canvas {
     width: 100%;
@@ -128,18 +143,7 @@ p {
     display: block;
 }
 
-#game-ui-container {
-    position: absolute;
-    bottom: 20px;
-    left: 0;
-    width: 100%;
-    z-index: 2;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    pointer-events: none;
-}
+
 
 .ui-panel {
     background-color: rgba(0, 0, 0, 0.7);
@@ -171,4 +175,4 @@ p {
 #player-actions button:hover {
     background-color: #d4af37;
     color: #000;
-}```
+}
