@@ -141,26 +141,18 @@ async create(item, isNewFile = false, shouldSave = true, activate = true) {
  */
 /*B"H*/
 async activate(tabId, forceViewChange = false) {
-    // 1. Save current tab's scroll position (Only if we are NOT restoring)
-    if (!State.isRestoring) {
-        const currentTab = State.tabs.find(t => t.id === State.activeTabId);
-        if (currentTab && DOM.editor && !DOM.editorWrapper.classList.contains('hidden')) {
-            currentTab.scrollPos = DOM.editor.scrollTop;
-            if (!currentTab.isAltarView && !currentTab.isHexView && !currentTab.isPreview) {
-                currentTab.content = DOM.editor.value;
-            }
-        }
-    }
+    // 1. (REMOVED: Do not manually save scroll here. Trust the event listeners.)
 
     State.activeTabId = tabId;
     const tab = State.tabs.find(t => t.id === tabId);
 
     if (!tab) {
         UI.switchView('empty');
+        StatusBar.clear();
         return;
     }
 
-    // 2. Lock Workspace Check
+    // 2. Locked Workspace Check
     const workspace = State.workspaces.find(ws => ws.id === tab.item.workspaceId);
     if (workspace && workspace.isLocked && !workspace.isLost) {
         UI.switchView('empty');
@@ -180,7 +172,7 @@ async activate(tabId, forceViewChange = false) {
             UI.showLoading(`Opening ${tab.item.name}...`);
             let fileContent;
             
-            // Git/Uncommitted Logic
+            // Git/IDB/FS Read Logic
             const gitInfo = await this._getGitInfoForTab(tab);
             if (gitInfo) {
                  try {
@@ -195,10 +187,15 @@ async activate(tabId, forceViewChange = false) {
             // Process Content
             tab.rawContent = fileContent;
             let arrayBuffer;
-            if (fileContent instanceof Blob) arrayBuffer = await fileContent.arrayBuffer();
-            else if (typeof fileContent === 'string') arrayBuffer = new TextEncoder().encode(fileContent).buffer;
-            else if (fileContent.isBinary) arrayBuffer = Uint8Array.from(atob(fileContent.base64Content), c => c.charCodeAt(0)).buffer;
-            else arrayBuffer = new ArrayBuffer(0);
+            if (fileContent instanceof Blob) {
+                arrayBuffer = await fileContent.arrayBuffer();
+            } else if (typeof fileContent === 'string') {
+                arrayBuffer = new TextEncoder().encode(fileContent).buffer;
+            } else if (fileContent.isBinary) {
+                arrayBuffer = Uint8Array.from(atob(fileContent.base64Content), c => c.charCodeAt(0)).buffer;
+            } else {
+                arrayBuffer = new ArrayBuffer(0);
+            }
             
             tab.arrayBuffer = arrayBuffer;
 
@@ -218,9 +215,8 @@ async activate(tabId, forceViewChange = false) {
         }
     }
 
-    // 4. Render View with SCROLL LOCK
+    // 4. Render View & Restore Scroll
     if (tab.fileType === 'text') {
-        // Ensure we pass the stored numeric scrollPos
         const targetScroll = Number(tab.scrollPos) || 0;
         await Editor.showTextEditor(tab.content || '', tab.item.name, targetScroll);
     } else if (tab.isHexView) {
@@ -233,7 +229,7 @@ async activate(tabId, forceViewChange = false) {
     DOM.editor.readOnly = workspace?.readOnly || false;
     this.render();
     
-    // Only save if we aren't currently restoring/loading
+    // Auto-save state (debounced)
     if (!State.isRestoring) App.saveSessionDebounced();
 },
 

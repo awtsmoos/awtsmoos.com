@@ -609,21 +609,25 @@ async loadSession() {
         UI.updateLineNumbers();
     });
         // 1. Guarded Scroll Listener
+    /*B"H*/
+    // --- Inside setupEventListeners ---
+
     DOM.editor.addEventListener('scroll', () => {
         UI.syncScroll();
         
-        // STRICT LOCK: If restoring, DO NOT SAVE.
+        // CRITICAL: If we are programmatically restoring scroll, ignore this event.
+        // This prevents overwriting the saved '500' with '0' during load.
         if (State.isRestoring) return;
 
-        // Additional Safety: If the app just started (< 2 seconds), be careful about saving '0'
-        // unless the user actually clicked/typed.
-        
         const activeTab = State.tabs.find(t => t.id === State.activeTabId);
         if (activeTab && !DOM.editorWrapper.classList.contains('hidden')) {
+            // This is the Source of Truth. Update state immediately as user scrolls.
             activeTab.scrollPos = DOM.editor.scrollTop;
             this.saveSessionDebounced();
         }
     });
+
+    
         DOM.editor.addEventListener('keyup', StatusBar.update);
         DOM.editor.addEventListener('click', StatusBar.update);
         new ResizeObserver(UI.updateLineNumbers).observe(DOM.editor);
@@ -720,18 +724,13 @@ async loadSession() {
             editor.focus();
         });
         // 2. The Final Sync (CRITICAL)
+    // Ensure beforeunload captures the final state
     window.addEventListener('beforeunload', () => {
-        // Before we die, force-sync the current scroll position to the state.
-        // This catches the case where user scrolls and hits Refresh immediately.
         const activeTab = State.tabs.find(t => t.id === State.activeTabId);
+        // Only save if editor is visible, otherwise we might save 0
         if (activeTab && !DOM.editorWrapper.classList.contains('hidden')) {
             activeTab.scrollPos = DOM.editor.scrollTop;
-            // Also sync content if dirty
-            if (activeTab.isDirty) {
-                activeTab.content = DOM.editor.value;
-            }
         }
-        
         this.saveSession();
     });
     },

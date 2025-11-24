@@ -492,60 +492,48 @@ unindentSelection() {
 
 	/**
 	 * @private @function _onWorkerMessage
-	 * @description The final arbiter of reality. It receives content AND the exact
-	 * scroll coordinates from the time of request. It performs the painting and
-	 * positioning in a single, atomic operation, eliminating all jitter.
+	 * UPDATED: Dispatches 'editor-rendered' when painting is complete.
 	 */
 	_onWorkerMessage(e) {
-		const {
-			type,
-			htmlLines,
-			requestId,
-			responseFirstLine,
-			// --- RECEIVE THE ORIGINAL SCROLL COORDINATES ---
-			scrollTopAtRequest,
-			scrollLeftAtRequest
-		} = e.data;
-
-		if (type === 'highlightResult') {
-			if (requestId < this.lastRenderedId) {
-				return;
-			}
-
-			// The check for relevance is still useful for very large, fast scrolls.
-			const distance = Math.abs(responseFirstLine - this.currentFirstLine);
-			if (distance > this.viewportDivs.length) {
-				return; // Discard if the user has scrolled far, far away.
-			}
-
-			this.lastRenderedId = requestId;
-
-			requestAnimationFrame(() => {
-				// 1. Paint the content.
-				htmlLines.forEach((html, i) => {
-					const div = this.viewportDivs[i];
-					if (div) {
-						if (html === null) {
-							div.style.display = 'none';
-						} else {
-							div.style.display = 'block';
-							if (div.innerHTML !== html) {
-								div.innerHTML = html;
-							}
-						}
-					}
-				});
-
-				// 2. Position the content.
-				// Calculate the remainder using the scrollTop from the moment of the request.
-				const scrollRemainder = scrollTopAtRequest - (responseFirstLine * this.lineHeight);
-
-				// Set the transform AT THE SAME TIME as the content is updated.
-				this.viewport.style.transform = `translate(${-scrollLeftAtRequest}px, ${-scrollRemainder}px)`;
-			});
-		}
+	    const {
+	        type,
+	        htmlLines,
+	        requestId,
+	        responseFirstLine,
+	        scrollTopAtRequest,
+	        scrollLeftAtRequest
+	    } = e.data;
+	
+	    if (type === 'highlightResult') {
+	        if (requestId < this.lastRenderedId) return;
+	        this.lastRenderedId = requestId;
+	
+	        requestAnimationFrame(() => {
+	            // 1. Paint DOM
+	            htmlLines.forEach((html, i) => {
+	                const div = this.viewportDivs[i];
+	                if (div) {
+	                    if (html === null) {
+	                        div.style.display = 'none';
+	                    } else {
+	                        div.style.display = 'block';
+	                        if (div.innerHTML !== html) {
+	                            div.innerHTML = html;
+	                        }
+	                    }
+	                }
+	            });
+	
+	            // 2. Position Layer
+	            const scrollRemainder = scrollTopAtRequest - (responseFirstLine * this.lineHeight);
+	            this.viewport.style.transform = `translate(${-scrollLeftAtRequest}px, ${-scrollRemainder}px)`;
+	
+	            // 3. DISPATCH THE SIGNAL (B"H - The Fix)
+	            // This tells the main thread: "The body is now fully formed."
+	            this.textarea.dispatchEvent(new CustomEvent('editor-rendered', { bubbles: true }));
+	        });
+	    }
 	}
-
 	// --- 3. PUBLIC API ---
 
 	/** Updates the editor's content programmatically. */

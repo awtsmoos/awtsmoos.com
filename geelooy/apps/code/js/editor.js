@@ -31,7 +31,7 @@ export const Editor = {
 async showTextEditor(content = "", filename = "", scrollPos = 0) {
     UI.switchView('editor');
     
-    // 1. LOCK STATE (Prevent scroll listeners from saving '0')
+    // 1. LOCK STATE
     State.isRestoring = true;
 
     // 2. Set Content
@@ -39,52 +39,51 @@ async showTextEditor(content = "", filename = "", scrollPos = 0) {
     UI.updateLineNumbers();
     StatusBar.updateLanguage(filename);
 
-    // 3. The "Retry Loop" Scroll Strategy
+    // 3. Return Promise that waits for the Highlighter
     return new Promise(resolve => {
-        let attempts = 0;
-        const maxAttempts = 20; // Try for approx 300ms
-
-        const tryScrolling = () => {
-            // Force browser to calc layout
-            const currentScrollHeight = DOM.editor.scrollHeight;
-            const clientHeight = DOM.editor.clientHeight;
+        
+        // The handler that applies the scroll
+        const onRendered = () => {
+            DOM.editor.removeEventListener('editor-rendered', onRendered);
             
             // Apply Scroll
             DOM.editor.scrollTop = scrollPos;
             UI.syncScroll();
-
-            // Check if it worked OR if it's impossible (content too short)
-            const didScroll = Math.abs(DOM.editor.scrollTop - scrollPos) < 5;
-            const cantScroll = currentScrollHeight <= clientHeight;
             
-            if (didScroll || cantScroll || attempts > maxAttempts) {
-                // SUCCESS or Gave Up
-                this.focus();
-                
-                // Re-apply Highlighting
-                if (this.currentHighlighter) this.currentHighlighter.destroy();
-                const ext = this._getExt(filename);
-                const langMap = {
-                    ".js": "js", ".mjs": "js", ".css": "css", ".html": "html",
-                    ".htm": "html", ".svg": "html", ".xml": "html", 
-                    ".json": "json", ".awtsmoosJSON": "json"
-                };
-                this.currentHighlighter = new pnimi(DOM.editor, langMap[ext] || "js");
+            this.focus();
 
-                // UNLOCK after a safety buffer
-                setTimeout(() => {
-                    State.isRestoring = false;
-                    resolve();
-                }, 100);
-            } else {
-                // FAILED (Layout not ready yet), Try again next frame
-                attempts++;
-                requestAnimationFrame(tryScrolling);
-            }
+            // Unlock State
+            setTimeout(() => {
+                State.isRestoring = false;
+                resolve();
+            }, 50);
         };
 
-        // Start the loop
-        requestAnimationFrame(tryScrolling);
+        // Safety: If highlighter takes too long (or isn't used), force scroll anyway
+        const safetyTimer = setTimeout(() => {
+            onRendered();
+        }, 300);
+
+        // Listen for the signal from pnimi.js
+        DOM.editor.addEventListener('editor-rendered', () => {
+            clearTimeout(safetyTimer); // Clear safety if we got the event
+            onRendered();
+        }, { once: true });
+
+        // 4. Initialize Highlighter
+        if (this.currentHighlighter) {
+            this.currentHighlighter.destroy();
+        }
+
+        const ext = this._getExt(filename);
+        const langMap = {
+            ".js": "js", ".mjs": "js", ".css": "css", ".html": "html",
+            ".htm": "html", ".svg": "html", ".xml": "html", 
+            ".json": "json", ".awtsmoosJSON": "json"
+        };
+        
+        // This creation triggers the worker, which eventually fires 'editor-rendered'
+        this.currentHighlighter = new pnimi(DOM.editor, langMap[ext] || "js");
     });
 },
 
