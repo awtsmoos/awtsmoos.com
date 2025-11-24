@@ -130,13 +130,11 @@ saveSession() {
 },
 
     /*B"H*/
-
 /**
  * A sacred ritual of resurrection. 
- * UPDATED: Now specifically looks for 'local' workspaces and attempts to 
- * reconnect the severed link by fetching the Handle from IndexedDB.
- * If the browser requires re-confirmation, it marks the workspace as 'locked',
- * awaiting the user's touch (click) to resume.
+ * restores tabs with their saved 'scrollPos' and state intact.
+ * It does not fear the 'Locked' workspace; it restores the tab structure regardless,
+ * knowing that content will flow once the user provides the key (Resume).
  */
 async loadSession() {
     const savedSession = localStorage.getItem('vividX_session_profound');
@@ -145,62 +143,71 @@ async loadSession() {
     try {
         const session = JSON.parse(savedSession);
 
+        // 1. Restore Workspaces (The Realms)
         if (session.workspaces && Array.isArray(session.workspaces)) {
-            
-            // We must process sequentially to handle the async DB calls
             for (const wsData of session.workspaces) {
-                
-                // Re-hydration Logic for Local Workspaces
                 if (wsData.type === 'local') {
                     try {
                         const handle = await FileSystemProvider.IndexedDB.getHandle(wsData.id);
                         if (handle) {
                             wsData.handle = handle;
-                            // Check permission status without prompting (prompting here would fail)
-                            const status = await handle.queryPermission({ mode: 'readwrite' });
-                            
-                            // If not granted, we lock it. The UI will show a "Resume" button.
-                            wsData.isLocked = (status !== 'granted'); 
+                            const perm = await handle.queryPermission({ mode: 'readwrite' });
+                            wsData.isLocked = (perm !== 'granted');
                         } else {
-                            // Handle lost/cleared
                             wsData.isLocked = true;
-                            wsData.isLost = true; 
+                            wsData.isLost = true;
                         }
-                    } catch (err) {
-                        console.warn("Could not restore handle for workspace:", wsData.name);
-                        wsData.isLocked = true;
-                    }
+                    } catch (e) { wsData.isLocked = true; }
                 }
-
                 Workspaces.add(wsData, false);
             }
         }
 
+        // 2. Restore Tabs (The Visions)
         if (session.openTabs && Array.isArray(session.openTabs)) {
-            session.openTabs.forEach(item => {
-                Tabs.create(item, false, false, false);
+            // We clear existing tabs to avoid duplication on double-load
+            State.tabs = []; 
+            
+            session.openTabs.forEach(tabData => {
+                // We directly push the saved object to preserve scrollPos and other metadata.
+                // We ensure 'forceReload' is true so it tries to fetch fresh content
+                // when activated, rather than showing stale cached content.
+                State.tabs.push({
+                    ...tabData,
+                    forceReload: true 
+                });
             });
+            // We must render the tab bar immediately so the user sees them.
+            Tabs.render();
         }
 
+        // 3. Restore Focus
         if (session.activeTabUniquePath) {
-            // Small delay to ensure DOM is ready
-            setTimeout(() => {
+            setTimeout(async () => {
                 const activeTab = State.tabs.find(t => t.uniquePath === session.activeTabUniquePath);
                 if (activeTab) {
-                    State.activeTabId = activeTab.id;
-                    Tabs.activate(activeTab.id);
+                    // Activate. If the workspace is locked, this might show an empty editor
+                    // or an error toast, which is acceptable until they click "Resume".
+                    await Tabs.activate(activeTab.id);
+                    
+                    // RESTORE SCROLL: The activation renders the text. 
+                    // We must wait a tick for the DOM to update, then apply the scroll.
+                    setTimeout(() => {
+                        if (DOM.editor && activeTab.scrollPos) {
+                            DOM.editor.scrollTop = activeTab.scrollPos;
+                            UI.syncScroll();
+                        }
+                    }, 50);
                 }
             }, 100);
         }
 
         if (session.expandedFolders && Array.isArray(session.expandedFolders)) {
             State.expandedFolders = new Set(session.expandedFolders);
-            // Re-render to show expanded state
             Workspaces.render();
         }
     } catch (e) {
         console.error("Failed to load session:", e);
-        // localStorage.removeItem('vividX_session_profound'); 
     }
 },
 
@@ -781,44 +788,46 @@ async loadSession() {
 	 * is closed, the connection to the world (the folder) remains in potential.
 	 * @returns {Promise<void>}
 	 */
-	async addLocalWorkspace() {
-	    try {
-	        const handle = await window.showDirectoryPicker();
-	        
-	        // 1. Immediate Permission Check
-	        if (await handle.queryPermission({ mode: 'readwrite' }) !== 'granted') {
-	            if (await handle.requestPermission({ mode: 'readwrite' }) !== 'granted') {
-	                throw new Error('Permission to write to directory was denied.');
-	            }
-	        }
-	
-	        // 2. Generate ID and Data
-	        const wsId = State.nextWorkspaceId++;
-	        const wsData = {
-	            id: wsId,
-	            name: `💻 ${handle.name}`,
-	            type: 'local',
-	            handle: handle // Kept in memory for now
-	        };
-	
-	        // 3. PERSIST THE HANDLE
-	        // We save the raw handle to IndexedDB *before* adding to the state.
-	        await FileSystemProvider.IndexedDB.saveHandle(wsId, handle);
-	
-	        // 4. Add to State
-	        // Note: We use 'false' for shouldSave in Workspaces.add because we want to 
-	        // trigger our own explicit session save immediately after.
-	        Workspaces.add(wsData, false);
-	        
-	        // 5. Save the Session Metadata to LocalStorage
-	        this.saveSession();
-	        
-	        UI.showToast("Folder opened and remembered.", "success");
-	
-	    } catch (e) {
-	        if (e.name !== 'AbortError') UI.showToast(`Could not open directory: ${e.message}`, 'error');
-	    }
-	},
+	/**
+     * immediately renders the workspace in the UI after saving.
+     */
+    async addLocalWorkspace() {
+        try {
+            const handle = await window.showDirectoryPicker();
+            
+            // 1. Verify basic permission immediately
+            if (await handle.queryPermission({ mode: 'readwrite' }) !== 'granted') {
+                if (await handle.requestPermission({ mode: 'readwrite' }) !== 'granted') {
+                    throw new Error('Permission to write to directory was denied.');
+                }
+            }
+
+            // 2. Generate ID and Data
+            // We manually assign the ID so we can save the handle with it before adding to state.
+            const wsId = State.nextWorkspaceId++;
+            const wsData = {
+                id: wsId,
+                name: `💻 ${handle.name}`,
+                type: 'local',
+                handle: handle 
+            };
+
+            // 3. SAVE THE HANDLE TO INDEXEDDB
+            await FileSystemProvider.IndexedDB.saveHandle(wsId, handle);
+
+            // 4. Add to State AND Render
+            // B"H - CHANGE: We pass 'true' here. This tells Workspaces.js to:
+            // a) Add it to the list
+            // b) Render it to the DOM immediately
+            // c) Save the session state
+            Workspaces.add(wsData, true);
+            
+            UI.showToast("Folder added and remembered.", "success");
+            
+        } catch (e) {
+            if (e.name !== 'AbortError') UI.showToast(`Could not open directory: ${e.message}`, 'error');
+        }
+    },
 
     /**
      * Opens a portal to a remote machine through the arcane art of SSH. This function

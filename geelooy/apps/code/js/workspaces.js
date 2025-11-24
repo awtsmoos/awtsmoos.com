@@ -109,33 +109,47 @@ renderWorkspace(ws, container) {
     const headerTitle = wsRoot.querySelector('.workspace-header-title');
 
     
-    headerTitle.onclick = async () => {
-        // --- B"H: PERMISSION RESURRECTION LOGIC ---
+    // --- B"H: PERMISSION RESURRECTION LOGIC ---
         if (ws.isLocked && !ws.isLost) {
             try {
-                // We are inside a click handler, so we can request permission safely.
                 const permission = await ws.handle.requestPermission({ mode: 'readwrite' });
                 
                 if (permission === 'granted') {
-                    // Update State
+                    // 1. Unlock the workspace in state
                     ws.isLocked = false;
                     const storedWs = State.workspaces.find(w => w.id === ws.id);
                     if (storedWs) storedWs.isLocked = false;
 
                     UI.showToast("Workspace connection restored.", "success");
                     
-                    // Re-render this specific node to remove the lock
-                    // (Simple way: remove and re-add)
+                    // 2. Re-render the workspace node (to remove lock icon)
                     wsRoot.remove();
                     this.renderWorkspace(ws, container);
+
+                    // 3. THE AWAKENING: Wake up the tabs!
+                    // Check if the currently active tab belongs to this workspace.
+                    const activeTab = State.tabs.find(t => t.id === State.activeTabId);
+                    if (activeTab && activeTab.item.workspaceId === ws.id) {
+                        // Force a reload of the active tab to show its content immediately
+                        activeTab.forceReload = true; 
+                        await Tabs.activate(activeTab.id);
+                        
+                        // Re-apply scroll after the reload
+                        setTimeout(() => {
+                            if(DOM.editor) DOM.editor.scrollTop = activeTab.scrollPos;
+                        }, 50);
+                    }
+                    
+                    return; 
                 } else {
                     UI.showToast("Permission denied.", "warning");
+                    return;
                 }
             } catch (e) {
                 console.error("Resume failed:", e);
                 UI.showToast("Failed to resume workspace.", "error");
+                return;
             }
-            return; // Stop here, do not attempt to expand.
         }
         // ------------------------------------------
 

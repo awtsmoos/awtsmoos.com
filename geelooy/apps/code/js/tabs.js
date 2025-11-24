@@ -531,7 +531,17 @@ render() {
         const tabEl = document.createElement('div');
         tabEl.className = `tab ${tab.id === State.activeTabId ? 'active' : ''} ${tab.isDirty ? 'dirty' : ''} ${tab.isUncommitted ? 'uncommitted' : ''}`;
         tabEl.dataset.tabId = String(tab.id);
-        tabEl.title = tab.item.path || tab.item.name;
+        
+        // --- B"H: TOOLTIP ENHANCEMENT ---
+        // We construct a tooltip that reveals the full lineage of the file.
+        // Format: "Workspace Name :: /path/to/file"
+        const workspace = State.workspaces.find(ws => ws.id === tab.item.workspaceId);
+        const wsName = workspace ? workspace.name : 'Unknown Realm';
+        const fullPath = tab.item.path || tab.item.name;
+        tabEl.title = `${wsName} :: ${fullPath}`;
+        
+        
+       // tabEl.title = tab.item.path || tab.item.name;
         tabEl.draggable = true;
         
         const tabName = document.createElement('span');
