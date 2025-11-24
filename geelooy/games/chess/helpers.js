@@ -43,6 +43,7 @@ const castling_rights = [
 let moveStack = Array(1024).fill(0),
     moveStackPtr = 0;
 
+
 function createGameState(fen) {
     const state = {
         pieceBitboards: Array(12).fill(0n),
@@ -53,29 +54,48 @@ function createGameState(fen) {
         zobristHash: 0n
     };
     if (!fen || typeof fen !== 'string') return state;
+
     const parts = fen.split(' ');
-    let r = 0, f = 0;
-    for (const c of parts[0]) {
-        if (c === '/') {
-            r++;
-            f = 0;
-        } else if (/\d/.test(c)) f += parseInt(c);
-        else {
-            state.pieceBitboards[pieceMap.indexOf(c)] |= (1n << BigInt(r * 8 + f));
-            f++;
+    let row = 0, col = 0;
+
+    // --- Board State from FEN part 1 ---
+    for (const char of parts[0]) {
+        if (char === '/') {
+            row++;
+            col = 0;
+        } else if (/\d/.test(char)) {
+            col += parseInt(char);
+        } else {
+            const pieceIndex = pieceMap.indexOf(char);
+            if (pieceIndex !== -1) {
+                const squareIndex = row * 8 + col;
+                state.pieceBitboards[pieceIndex] |= (1n << BigInt(squareIndex));
+            }
+            col++;
         }
     }
-    for (let p = P; p <= K; p++) {
-        state.occupancies[WHITE] |= state.pieceBitboards[p];
-        state.occupancies[BLACK] |= state.pieceBitboards[p + 6];
-    }
+
+    // --- Correctly Populate Occupancy Bitboards ---
+    // This was the site of the original corruption. This version is explicit and safe.
+    state.occupancies[WHITE] = state.pieceBitboards[P] | state.pieceBitboards[N] | state.pieceBitboards[B] | state.pieceBitboards[R] | state.pieceBitboards[Q] | state.pieceBitboards[K];
+    state.occupancies[BLACK] = state.pieceBitboards[P+6] | state.pieceBitboards[N+6] | state.pieceBitboards[B+6] | state.pieceBitboards[R+6] | state.pieceBitboards[Q+6] | state.pieceBitboards[K+6];
     state.occupancies[2] = state.occupancies[WHITE] | state.occupancies[BLACK];
+
+    // --- Game State from FEN parts 2, 3, 4 ---
     state.turn = (parts[1] === 'w') ? WHITE : BLACK;
+    
     if (parts[2].includes('K')) state.castling |= WKCA;
     if (parts[2].includes('Q')) state.castling |= WQCA;
     if (parts[2].includes('k')) state.castling |= BKCA;
     if (parts[2].includes('q')) state.castling |= BQCA;
-    if (parts[3] !== '-') state.enpassant = (8 - parseInt(parts[3][1])) * 8 + (parts[3].charCodeAt(0) - 'a'.charCodeAt(0));
+    
+    if (parts[3] !== '-') {
+        const file = parts[3].charCodeAt(0) - 'a'.charCodeAt(0);
+        const rank = 8 - parseInt(parts[3][1]);
+        state.enpassant = rank * 8 + file;
+    }
+
+    // --- Final Calculation and Validation ---
     if (zobristTurnKey !== 0n) state.zobristHash = calculateZobristHash(state);
     validateGnosticSeal(state, 'createGameState');
     return state;
