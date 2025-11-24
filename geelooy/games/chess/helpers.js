@@ -43,17 +43,7 @@ const castling_rights = [
 let moveStack = Array(1024).fill(0),
     moveStackPtr = 0;
 
-// This is the buggy code from your helpers.js
-for (const c of parts[0]) {
-    if (c === '/') {
-        r++;
-        f = 0;
-    } else if (/\d/.test(c)) f += parseInt(c);
-    else { // <-- The 'else' is the problem
-        state.pieceBitboards[pieceMap.indexOf(c)] |= (1n << BigInt(r * 8 + f));
-        f++; // <-- This is only incremented for pieces, not for slashes or numbers
-    }
-}
+
 
 
 
