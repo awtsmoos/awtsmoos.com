@@ -49,68 +49,76 @@ export class Renderer {
     }
 
     /**
-     * The grand act of Illumination. The Scribe first lays down the foundation of the
-     * world, then, with divine precision, places each soul and their given truths upon it.
-     * @param {Array<Object>} players - The cast of souls inhabiting this reality.
-     * @param {boolean} revealDealer - A decree on whether to lift the veil of judgment.
-     */
-    drawGame(players, revealDealer = false) {
-        // Phase 1: Weaving the world.
-        this.ctx.fillStyle = this.tableTexture;
-        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+ * The grand act of Illumination. The Scribe first lays down the foundation of the
+ * world, then, with a new understanding of celestial mechanics, places each soul
+ * in its own distinct, non-overlapping firmament.
+ * @param {Array<Object>} players - The cast of souls inhabiting this reality.
+ * @param {boolean} revealDealer - A decree on whether to lift the veil of judgment.
+ */
+drawGame(players, revealDealer = false) {
+    // Phase 1: Weaving the world (remains the same).
+    this.ctx.fillStyle = this.tableTexture;
+    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
-        const radialGradient = this.ctx.createRadialGradient(this.canvas.width / 2, this.canvas.height / 2, 50, this.canvas.width / 2, this.canvas.height / 2, this.canvas.width * 0.7);
-        radialGradient.addColorStop(0, 'rgba(0, 20, 0, 0)');
-        radialGradient.addColorStop(1, 'rgba(0, 0, 0, 0.7)');
-        this.ctx.fillStyle = radialGradient;
-        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+    const radialGradient = this.ctx.createRadialGradient(this.canvas.width / 2, this.canvas.height / 2, 50, this.canvas.width / 2, this.canvas.height / 2, this.canvas.width * 0.7);
+    radialGradient.addColorStop(0, 'rgba(0, 20, 0, 0)');
+    radialGradient.addColorStop(1, 'rgba(0, 0, 0, 0.7)');
+    this.ctx.fillStyle = radialGradient;
+    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
-        // Phase 2: Placing the souls.
-        const humanPlayer = players.find(p => !p.isAI && !p.isDealer);
-        const dealer = players.find(p => p.isDealer);
-        const aiPlayers = players.filter(p => p.isAI && !p.isDealer);
+    // Phase 2: Placing the souls in their rightful heavens.
+    const humanPlayer = players.find(p => !p.isAI && !p.isDealer);
+    const dealer = players.find(p => p.isDealer);
+    const aiPlayers = players.filter(p => p.isAI && !p.isDealer);
 
-        // The House of Judgment sits at the Keter, the Crown of the world.
-        this.drawHand(dealer, { x: this.canvas.width / 2, y: this.cardHeight * 0.7 }, revealDealer);
-        
-        // The Emanations are arrayed like a celestial council.
-        aiPlayers.forEach((player) => {
-             this.drawHand(player, { x: this.canvas.width / 2, y: this.canvas.height * 0.45 });
-        });
+    // THE CORRECTION: Each player type is given its own vertical domain.
+    // The House of Judgment sits at the highest point.
+    this.drawHand(dealer, { x: this.canvas.width / 2, y: this.cardHeight * 0.8 }, revealDealer);
+    
+    // The Emanations reside in the middle world, well below the House.
+    aiPlayers.forEach((player, index) => {
+         // This simple layout centers one AI. More complex logic would be needed for multiple AIs.
+         this.drawHand(player, { x: this.canvas.width / 2, y: this.canvas.height * 0.5 }, true);
+    });
 
-        // The Self resides at Malchut, the Kingdom, the focal point of this reality.
-        this.drawHand(humanPlayer, { x: this.canvas.width / 2, y: this.canvas.height - this.cardHeight * 0.7 });
-    }
+    // The Self resides at the bottom, the foundation of the world.
+    this.drawHand(humanPlayer, { x: this.canvas.width / 2, y: this.canvas.height - this.cardHeight * 0.8 });
+}
 
-    /**
-     * Renders a constellation of truths—a single hand—anchored to a point in the void.
-     * @param {Object} player - The soul whose fate is to be rendered.
-     * @param {{x: number, y: number}} layout - The anchor point in the cosmos.
-     * @param {boolean} revealAllCards - Whether this constellation is fully visible.
-     */
-    drawHand(player, layout, revealAllCards = true) {
-        const handWidth = player.hand.length * (this.cardWidth * 0.5) + (this.cardWidth * 0.5);
-        const startX = layout.x - handWidth / 2;
-        
-        // Inscribe the name of the soul, hovering like a title.
-        this.ctx.save();
-        this.ctx.font = 'bold 24px "Times New Roman"';
-        this.ctx.textAlign = 'center';
-        this.ctx.shadowColor = 'black';
-        this.ctx.shadowBlur = 5;
-        this.ctx.fillStyle = '#d4af37';
-        this.ctx.fillText(player.name, layout.x, layout.y - this.cardHeight / 2 - 20);
-        this.ctx.restore();
+/**
+ * Renders a constellation of truths—a single hand—anchored to a point in the void.
+ * The name of the soul is now inscribed *above* the cards, never upon them.
+ * @param {Object} player - The soul whose fate is to be rendered.
+ * @param {{x: number, y: number}} layout - The anchor point in the cosmos for the HAND.
+ * @param {boolean} revealAllCards - Whether this constellation is fully visible.
+ */
+drawHand(player, layout, revealAllCards = true) {
+    const handWidth = player.hand.length > 0 ? (player.hand.length - 1) * (this.cardWidth * 0.5) + this.cardWidth : this.cardWidth;
+    const startX = layout.x - handWidth / 2;
+    
+    // THE CORRECTION: The name is inscribed at a position relative to the cards,
+    // ensuring it is always above them in a clear, defined space.
+    const nameY = layout.y - (this.cardHeight / 2) - 20;
 
-        player.hand.forEach((card, index) => {
-            const cardX = startX + index * (this.cardWidth * 0.5);
-            if (player.isDealer && index === 0 && !revealAllCards) {
-                this.drawCardBack(cardX, layout.y);
-            } else {
-                this.drawCard(card, cardX, layout.y);
-            }
-        });
-    }
+    this.ctx.save();
+    this.ctx.font = 'bold 24px "Times New Roman"';
+    this.ctx.textAlign = 'center';
+    this.ctx.shadowColor = 'black';
+    this.ctx.shadowBlur = 5;
+    this.ctx.fillStyle = '#d4af37';
+    this.ctx.fillText(player.name, layout.x, nameY);
+    this.ctx.restore();
+
+    // The cards are drawn at the provided y-coordinate, below the name.
+    player.hand.forEach((card, index) => {
+        const cardX = startX + index * (this.cardWidth * 0.5);
+        if (player.isDealer && index === 0 && !revealAllCards) {
+            this.drawCardBack(cardX, layout.y);
+        } else {
+            this.drawCard(card, cardX, layout.y);
+        }
+    });
+}
 
     /**
      * Summons a single, fully illuminated Tablet of Truth from the void.

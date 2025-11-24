@@ -121,13 +121,18 @@ p {
 
 #start-game {
     font-size: 1.2em;
-    padding: 10px 20px;
+    padding: 12px 24px; /* Increased padding for a better feel */
     cursor: pointer;
     background: transparent;
     border: 1px solid #8c0000;
     color: #a9a9a9;
     transition: all 0.3s ease;
+    width: 80%; /* Explicitly define its width within the container */
+    max-width: 300px; /* And give it a maximum size */
+    box-sizing: border-box; /* Ensures padding is included in the width */
 }
+
+
 
 #start-game:hover {
     background-color: #8c0000;
