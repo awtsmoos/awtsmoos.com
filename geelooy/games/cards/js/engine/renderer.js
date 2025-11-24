@@ -28,6 +28,33 @@ export class Renderer {
         this.lastKnownPlayers = []; // A memory of the world state.
         this.lastKnownDealerReveal = false; // A memory of the veil.
     }
+    
+    /*B"H*/
+/**
+ * The grand, public-facing command to forge the universe. This is the only
+ * entry point from the outside world. It is the master ritual that captures a
+ * memory of the current universal state, hammers that state into a static,
+ * perceivable form on the Anvil, and then awakens the Spark Engine if any new
+ * Golems were created, unleashing a shower of divine embers.
+ * @param {Array<Object>} players - The cast of Golems and souls to be rendered.
+ * @param {boolean} revealDealer - The current decree on the veil of judgment.
+ */
+drawGame(players, revealDealer = false) {
+    // Step 1: Commit the current state of reality to the Artificer's memory.
+    this.lastKnownPlayers = players;
+    this.lastKnownDealerReveal = revealDealer;
+
+    // Step 2: Forge the entire static world based on this new memory. This single
+    // command hammers every Golem, name, and shadow into its rightful place.
+    this._forgeStaticWorld();
+
+    // Step 3: If the Spark Engine is not already roaring, and there are sparks
+    // waiting to be born from the recent forging, awaken it now.
+    if (this.particles.length > 0 && !this.isAnimating) {
+        this.isAnimating = true;
+        this._animateSparks();
+    }
+}
 
     //=========================================================================
     //                        THE FORGING RITUALS
