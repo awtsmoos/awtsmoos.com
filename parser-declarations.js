@@ -44,7 +44,7 @@ proto._parseDeclaration = function() {
         case TOKEN.TRY: return this._parseTryStatement();
         case TOKEN.WITH: return this._parseWithStatement();
         case TOKEN.THROW: return this._parseThrowStatement();
-	 case TOKEN.DEBUGGER: 
+	 case TOKEN.DEBUGGER:  
             const dbgS = this._startNode();
             this._advance(); // Consume 'debugger'
             this._consumeSemicolon();

@@ -29,48 +29,60 @@ export const Editor = {
 
     /*B"H*/
 async showTextEditor(content = "", filename = "", scrollPos = 0) {
+    // console.log(`[Editor] Open "${filename}" @ Scroll: ${scrollPos}`);
+    
     UI.switchView('editor');
     
-    // 1. LOCK STATE
+    // 1. LOCK STATE (Prevent scroll listeners from saving '0')
     State.isRestoring = true;
 
     // 2. Set Content
     DOM.editor.value = content;
+    
+    // B"H - CRITICAL FIX: Reset cursor to start. 
+    // This prevents the browser from auto-scrolling to the bottom when we call focus().
+    DOM.editor.setSelectionRange(0, 0);
+
     UI.updateLineNumbers();
     StatusBar.updateLanguage(filename);
 
-    // 3. Return Promise that waits for the Highlighter
+    // 3. The Render & Scroll Sequence
     return new Promise(resolve => {
         
-        // The handler that applies the scroll
         const onRendered = () => {
+            // Clean up listener
             DOM.editor.removeEventListener('editor-rendered', onRendered);
             
-            // Apply Scroll
-            DOM.editor.scrollTop = scrollPos;
-            UI.syncScroll();
-            
+            // A. Focus (Browser sees cursor at 0,0, so it stays at top)
             this.focus();
+            
+            // B. Apply Scroll (We force the scroll position we actually want)
+            requestAnimationFrame(() => {
+                DOM.editor.scrollTop = scrollPos;
+                UI.syncScroll();
+                
+                // console.log(`[Editor] Applied Scroll: ${DOM.editor.scrollTop}`);
+            });
 
-            // Unlock State
+            // C. Unlock State
             setTimeout(() => {
                 State.isRestoring = false;
                 resolve();
             }, 50);
         };
 
-        // Safety: If highlighter takes too long (or isn't used), force scroll anyway
+        // Safety timeout in case highlighter fails
         const safetyTimer = setTimeout(() => {
             onRendered();
         }, 300);
 
-        // Listen for the signal from pnimi.js
+        // Wait for the highlighter (pnimi.js) to finish painting
         DOM.editor.addEventListener('editor-rendered', () => {
-            clearTimeout(safetyTimer); // Clear safety if we got the event
+            clearTimeout(safetyTimer);
             onRendered();
         }, { once: true });
 
-        // 4. Initialize Highlighter
+        // 4. Trigger Highlighter
         if (this.currentHighlighter) {
             this.currentHighlighter.destroy();
         }
@@ -82,7 +94,6 @@ async showTextEditor(content = "", filename = "", scrollPos = 0) {
             ".json": "json", ".awtsmoosJSON": "json"
         };
         
-        // This creation triggers the worker, which eventually fires 'editor-rendered'
         this.currentHighlighter = new pnimi(DOM.editor, langMap[ext] || "js");
     });
 },
