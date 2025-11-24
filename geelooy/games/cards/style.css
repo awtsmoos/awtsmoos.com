@@ -1,0 +1,147 @@
+/*B"H*/
+
+/* B"H */
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+    background-color: #010101;
+    color: #a9a9a9;
+    font-family: 'Times New Roman', Times, serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#main-menu {
+    text-align: center;
+    border: 1px solid #555;
+    padding: 40px;
+    background-color: rgba(10, 10, 10, 0.8);
+    box-shadow: 0 0 25px rgba(255, 223, 186, 0.1);
+}
+
+h1 {
+    color: #d4af37; /* A dim gold */
+    font-size: 3em;
+    margin-bottom: 10px;
+    font-weight: normal;
+}
+
+p {
+    font-style: italic;
+    color: #888;
+}
+
+.game-button {
+    font-size: 1.1em;
+    padding: 12px 24px;
+    margin: 8px;
+    cursor: pointer;
+    background: transparent;
+    border: 1px solid #555;
+    color: #a9a9a9;
+    transition: all 0.3s ease;
+}
+
+.game-button:not(:disabled):hover {
+    background-color: #d4af37;
+    color: #010101;
+    border-color: #d4af3iec;
+    box-shadow: 0 0 15px #d4af37;
+}
+
+.game-button.selected {
+    background-color: #d4af37;
+    color: #010101;
+    border-color: #d4af3iec;
+}
+
+.game-button:disabled {
+    color: #444;
+    border-color: #222;
+    cursor: not-allowed;
+}
+
+#player-selection {
+    margin-top: 30px;
+}
+
+#ai-players {
+    width: 50px;
+    padding: 5px;
+    background-color: #222;
+    border: 1px solid #555;
+    color: #a9a9a9;
+}
+
+#start-game {
+    font-size: 1.2em;
+    padding: 10px 20px;
+    margin-left: 10px;
+    cursor: pointer;
+    background: transparent;
+    border: 1px solid #8c0000;
+    color: #a9a9a9;
+    transition: all 0.3s ease;
+}
+
+#start-game:hover {
+    background-color: #8c0000;
+    color: white;
+    box-shadow: 0 0 15px #ff4500;
+}
+
+#game-container {
+    display: none;
+    position: relative;
+}
+
+#game-canvas {
+    background-color: #001a00; /* Deep, impossible forest green */
+    border: 2px solid #d4af37;
+    box-shadow: 0 0 30px rgba(212, 175, 55, 0.5);
+}
+
+#game-ui-container {
+    position: absolute;
+    bottom: 20px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    pointer-events: none; /* Pass clicks through to canvas unless on a button */
+}
+
+.ui-panel {
+    background-color: rgba(0, 0, 0, 0.6);
+    border: 1px solid #d4af37;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+    color: #d4af37;
+    font-size: 1.5em;
+}
+
+#player-actions {
+    margin-top: 10px;
+    pointer-events: all; /* Allow clicks on buttons */
+}
+
+#player-actions button {
+    font-size: 1em;
+    padding: 10px 30px;
+    margin: 0 10px;
+    background-color: #333;
+    border: 1px solid #d4af37;
+    color: #d4af37;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#player-actions button:hover {
+    background-color: #d4af37;
+    color: #000;
+}
