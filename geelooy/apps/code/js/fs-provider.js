@@ -82,14 +82,25 @@ export const FileSystemProvider = {
         } catch (e) { console.error(`[FS DELETE FAILED]`, e); throw e; }
     },
 
+    /*B"H*/
     Local: {
+        // Helper to find the root handle if the item handle is missing
+        _getRootHandle(item) {
+            if (item.handle) return item.handle; // Use existing if available
+            
+            // If missing (e.g. after refresh), find the workspace
+            const workspace = State.workspaces.find(ws => ws.id === item.workspaceId);
+            if (!workspace) throw new Error(`Workspace not found for item: ${item.name}`);
+            if (!workspace.handle) throw new Error(`Workspace '${workspace.name}' is not connected (Locked or Lost).`);
+            
+            return workspace.handle;
+        },
+
         async getHandle(rootHandle, path, { kind = 'directory', create = false } = {}) {
             let currentHandle = rootHandle;
             const decodedPath = decodeURIComponent(path).replace(/^\//, '');
 
-            if (!decodedPath) {
-                return rootHandle;
-            }
+            if (!decodedPath) return rootHandle;
 
             const parts = decodedPath.split('/');
             
@@ -107,99 +118,107 @@ export const FileSystemProvider = {
             }
             return currentHandle;
         },
-        async list({ handle, path }) {
-            const dirHandle = await this.getHandle(handle, path);
+
+        async list({ handle, path, workspaceId }) { // Accept workspaceId
+            // Logic to ensure we have a handle
+            const root = handle || (State.workspaces.find(w => w.id === workspaceId)?.handle);
+            if (!root) throw new Error("No handle available for listing");
+
+            const dirHandle = await this.getHandle(root, path);
             const entries = [];
             for await (const entry of dirHandle.values()) {
                 entries.push({ 
-                    handle: handle,
+                    handle: root, // Propagate the root handle
                     name: entry.name, 
                     kind: entry.kind, 
-                    path: `${path === '/' ? '' : path}/${entry.name}`
+                    path: `${path === '/' ? '' : path}/${entry.name}`,
+                    workspaceId: workspaceId // Ensure ID is passed down
                 });
             }
             return entries;
         },
-        async listAllFiles({ handle, path }) {
+
+        async listAllFiles(item) {
+            const root = this._getRootHandle(item);
             const allFiles = [];
-            async function traverse(dirHandle, currentPath) {
+            
+            // Recursive traverse function
+            const traverse = async (dirHandle, currentPath) => {
                 for await (const entry of dirHandle.values()) {
                     const newPath = `${currentPath}/${entry.name}`;
                     if (entry.kind === 'file') {
                         allFiles.push({
                             name: entry.name,
                             kind: 'file',
-                            path: newPath
+                            path: newPath,
+                            workspaceId: item.workspaceId // Pass ID
                         });
                     } else if (entry.kind === 'directory') {
                         await traverse(entry, newPath);
                     }
                 }
-            }
-            const rootHandle = await this.getHandle(handle, path);
-            await traverse(rootHandle, path === '/' ? '' : path);
+            };
+            
+            const targetHandle = await this.getHandle(root, item.path);
+            await traverse(targetHandle, item.path === '/' ? '' : item.path);
             return allFiles;
         },
-        async read({ handle, path }) {
-            const relativePath = path.startsWith('/') ? path.substring(1) : path;
-            const fileHandle = await this.getHandle(handle, relativePath, { kind: 'file' });
+
+        async read(item) {
+            const root = this._getRootHandle(item);
+            const relativePath = item.path.startsWith('/') ? item.path.substring(1) : item.path;
+            const fileHandle = await this.getHandle(root, relativePath, { kind: 'file' });
             return await fileHandle.getFile(); 
         },
+
         async write(item, content) {
+            // Find workspace to verify connection and get handle
             const workspace = State.workspaces.find(ws => ws.id === item.workspaceId);
-            if (!workspace) {
-                throw new Error(`Critical error: Could not find the parent workspace for this file.`);
-            }
-            const performSaveOperation = async (handleToUse) => {
-                const fileHandle = await this.getHandle(handleToUse, item.path, { kind: 'file', create: true });
+            if (!workspace) throw new Error(`Critical error: Parent workspace not found.`);
+            
+            const performSave = async (rootHandle) => {
+                const fileHandle = await this.getHandle(rootHandle, item.path, { kind: 'file', create: true });
                 const writable = await fileHandle.createWritable();
-                await writable.write({ type: 'write', data: content });
+                await writable.write(content);
                 await writable.close();
             };
+
             try {
-                await performSaveOperation(workspace.handle);
+                // Try with the workspace's current handle
+                await performSave(workspace.handle);
             } catch (e) {
-                if (e.message.includes('state had changed')) {
-                    console.warn(`STALE HANDLE DETECTED for workspace "${workspace.name}". Initiating recovery.`);
-                    UI.showToast("Workspace connection stale. Please re-select the folder to save.", "info", 6000);
-                    try {
-                        const newHandle = await window.showDirectoryPicker();
-                        if (newHandle.name !== workspace.handle.name) {
-                            throw new Error(`The selected folder "${newHandle.name}" does not match the workspace "${workspace.handle.name}".`);
-                        }
-                        workspace.handle = newHandle;
-                        await new Promise(resolve => setTimeout(resolve, 50));
-                        UI.showToast("Folder re-connected. Retrying save...", "success");
-                        await performSaveOperation(workspace.handle);
-                    } catch (recoveryError) {
-                        let finalMessage;
-                        if (recoveryError.name === 'AbortError') {
-                            finalMessage = "Save was cancelled during folder re-selection.";
-                            UI.showToast(finalMessage, "warning");
-                        } else {
-                            finalMessage = `The save failed even after recovery. Please try the save operation again.`;
-                            console.error("CRITICAL: The recovery attempt failed.", recoveryError);
-                            UI.showToast(finalMessage, "error", 10000);
-                        }
-                        throw new Error(finalMessage);
+                // If the handle is stale (e.g., browser security change), try to recover
+                if (e.name === 'NotAllowedError' || e.message.includes('state had changed')) {
+                    console.warn(`Stale handle for "${workspace.name}". Requesting permission/re-select.`);
+                    
+                    // If it's just a permission lock, this might fix it?
+                    // Usually write requires 'readwrite' permission specifically.
+                    if ((await workspace.handle.queryPermission({mode:'readwrite'})) !== 'granted') {
+                        await workspace.handle.requestPermission({mode:'readwrite'});
+                        // Retry immediately after permission grant
+                        await performSave(workspace.handle);
+                        return;
                     }
-                } else {
-                    throw e;
                 }
+                throw e;
             }
         },
-        async create({ handle, path }, name, kind) {
-            const parentHandle = await this.getHandle(handle, path, { kind: 'directory' });
+
+        async create(parentDir, name, kind) {
+            const root = this._getRootHandle(parentDir);
+            const parentHandle = await this.getHandle(root, parentDir.path, { kind: 'directory' });
             if (kind === 'file') {
                 await parentHandle.getFileHandle(name, { create: true });
             } else {
                 await parentHandle.getDirectoryHandle(name, { create: true });
             }
         },
-        async delete({ handle, path }) {
-            const parentPath = path.substring(0, path.lastIndexOf('/')) || '/';
-            const name = path.substring(path.lastIndexOf('/') + 1);
-            const parentHandle = await this.getHandle(handle, parentPath);
+
+        async delete(item) {
+            const root = this._getRootHandle(item);
+            const parentPath = item.path.substring(0, item.path.lastIndexOf('/')) || '/';
+            const name = item.path.substring(item.path.lastIndexOf('/') + 1);
+            const parentHandle = await this.getHandle(root, parentPath);
             await parentHandle.removeEntry(name, { recursive: true });
         }
     },
