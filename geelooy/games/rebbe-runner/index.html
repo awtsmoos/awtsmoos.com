@@ -1,0 +1,30 @@
+<!--B"H-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>The Rebbe's Runner</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="gameContainer">
+        <h1>The Rebbe's Runner</h1>
+        <canvas id="gameCanvas"></canvas>
+        <div id="instructions">
+            <p class="desktop-only">Press 'Space' to Jump</p>
+            <p class="mobile-only">Tap the Screen to Jump</p>
+        </div>
+        <div id="startScreen">
+            <p>Help the Chossid on the path to Geulah!</p>
+            <p>Press Space or Tap to Begin</p>
+        </div>
+        <div id="gameOverScreen" style="display:none;">
+            <p>Oy Vey! A temporary concealment.</p>
+            <p>Press Space or Tap to Try Again</p>
+        </div>
+    </div>
+    <script src="assets.js" defer></script>
+    <script src="game.js" defer></script>
+</body>
+</html>

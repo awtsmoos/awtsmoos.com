@@ -1,0 +1,99 @@
+<!-- B"H -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>The Scribe's Journey: Echoes of Ein Sof</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="gameContainer">
+        <canvas id="gameCanvas"></canvas>
+
+        <!-- Dialogue Box -->
+        <div id="dialogue-box">
+            <div id="dialogue-text"></div>
+            <div id="dialogue-choices"></div>
+            <div id="dialogue-continue-indicator">▼</div>
+        </div>
+
+        <!-- Battle Screen -->
+        <div id="battle-screen" class="menu-screen">
+            <div class="battle-area">
+                <div id="opponent-display" class="battle-musag-display">
+                    <div class="musag-stats"><h4 id="opponent-name"></h4><span id="opponent-level" class="musag-level"></span></div>
+                    <div class="health-bar"><div id="opponent-hp-bar" class="health-bar-inner"></div></div>
+                    <div id="opponent-emoji" class="musag-emoji"></div>
+                </div>
+                <div id="player-display" class="battle-musag-display">
+                    <div class="musag-stats"><h4 id="player-name"></h4><span id="player-level" class="musag-level"></span></div>
+                    <div class="health-bar"><div id="player-hp-bar" class="health-bar-inner"></div></div>
+                    <div class="kavanah-bar"><div id="player-kavanah-bar" class="kavanah-bar-inner"></div></div>
+                    <div id="player-emoji" class="musag-emoji"></div>
+                </div>
+            </div>
+            <div class="battle-ui-box">
+                <div id="battle-log"></div>
+                <div id="battle-menu-container"></div>
+            </div>
+            <div id="battle-log-continue-indicator">▼</div>
+        </div>
+
+        <!-- Main Menu -->
+        <div id="main-menu" class="menu-screen">
+            <h2>The Scribe's Journey</h2>
+            <h3>Echoes of Ein Sof</h3>
+            <button class="menu-button" data-action="newGame">Begin Anew</button>
+            <button class="menu-button" data-action="loadGame" id="main-menu-load-game-button">Continue Chronicle</button>
+        </div>
+        
+        <!-- In-Game Menu -->
+        <div id="gameMenu" class="menu-screen">
+            <h2>Chronicle</h2>
+            <button class="menu-button" data-action="resume">Resume</button>
+            <button class="menu-button" data-action="inventory-screen">Satchel</button>
+            <button class="menu-button" data-action="shem-screen">Shem (Team)</button>
+            <button class="menu-button" data-action="quest-log-screen">Tasks</button>
+            <button class="menu-button" data-action="saveGame" id="game-menu-save-game-button">Inscribe Chronicle</button>
+            <button class="menu-button" data-action="main-menu">Return to Title</button>
+        </div>
+
+        <!-- Inventory Screen -->
+        <div id="inventory-screen" class="menu-screen">
+            <div class="modal-content">
+                <h3>Satchel</h3>
+                <div id="inventory-list"></div>
+                <div id="player-money-display"></div>
+                <button class="modal-action-button" data-action="close-inventory">Close</button>
+            </div>
+        </div>
+
+        <!-- Quest Log Screen -->
+        <div id="quest-log-screen" class="menu-screen">
+            <div class="modal-content">
+                <h3>Tasks of the Scribe</h3>
+                <div id="quest-log-list"></div>
+                <button class="modal-action-button" data-action="close-questlog">Close</button>
+            </div>
+        </div>
+
+        <!-- Generic Toast/Notification Container -->
+        <div id="toast-container"></div>
+
+    </div>
+
+    <!-- Mobile Controls -->
+    <div id="mobile-controls">
+        <div class="dpad-row"><div class="control-button" id="control-up">⬆️</div></div>
+        <div class="dpad-row">
+            <div class="control-button" id="control-left">⬅️</div>
+            <div class="control-button" id="action-button">ACTION</div>
+            <div class="control-button" id="control-right">➡️</div>
+        </div>
+        <div class="dpad-row"><div class="control-button" id="control-down">⬇️</div></div>
+    </div>
+
+    <script type="module" src="js/main.js"></script>
+</body>
+</html>
