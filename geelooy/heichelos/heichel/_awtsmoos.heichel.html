@@ -1,0 +1,110 @@
+<!--B"H-->
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Heichel Initializing...</title>
+        <link rel="stylesheet" href="/style/heichelos/heichel.revamped.css" type="text/css">
+        <!-- The main application entry point -->
+        <script type="module" src="/heichelos/heichel/app.js"></script>
+    </head>
+    <body>
+    <!-- B"H -->
+<!-- **DEFINITIVE BLUEPRINT:** Every single element required by dom.js is present.
+    The modal form structure is now fully built out to prevent application crashes. -->
+<!-- B"H -->
+<!-- **THE FINAL, CORRECTED BLUEPRINT**
+    This version restores the critical `.posts` and `.series` classes to the view containers.
+    This directly fixes the crash in `ui.js` by ensuring the DOM selectors find their targets. -->
+<!-- B"H -->
+<!-- **THE FINAL, CORRECTED BLUEPRINT**
+    This version is 100% compliant with dom.js and the final CSS. It will not crash. -->
+
+<div class="all awtsmoospage">
+    <?<script> return $a("nav/header.html") </script>?>
+    
+    <div class="main">
+        <div class="heichel-page-container">
+            <div class="main-content-wrapper">
+
+                <header class="heichel-header">
+                    <h1 id="heichel-main-title">The Entire Torah</h1>
+                    <div id="seriesNameAndInfo" class="hidden">
+                         
+                         <h2 id="seriesNm"></h2>
+                         <p id="seriesDesc"></p>
+                         <div id="seriesControls"></div>
+                     </div>
+                </header>
+
+                <div class="heichel-content-panel">
+                    <nav>
+                        <button id="seriesTab" class="tab">Series</button>
+                        <button id="postsTab" class="tab">Posts</button>
+                        <button id="selectionModeBtn" class="hidden">Select Items</button>
+                    </nav>
+
+                    <div class="content-views">
+                        <!-- Containers with ID, .view class for shared anim, and .series/.posts for JS -->
+                        <div id="seriesView" class="view series">
+                            <div class="grid-container" id="seriesList"></div>
+                            <div class="loading-spinner hidden" id="loadingSeries"></div>
+                        </div>
+
+                        <div id="postsView" class="view posts hidden">
+                            <div class="grid-container" id="postsList"></div>
+                            <div class="loading-spinner hidden" id="loadingPosts"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <aside class="heichel-sidebar">
+                    <div id="breadcrumb-container"></div>
+                    
+                    <h2 id="sidebar-title">About: The Entire Torah</h2>
+                    <div id="author-name"></div>
+                    <div class="editor-controls-area">
+                        <div class="controls-header">
+                            <div class="controls-name">Controls</div>
+                            <div class="controls-arrow"></div>
+                        </div>
+                        <div class="controls-container" id="seriesControlsContainer">
+                            <div class="series-controls"></div>
+                            <div class="posts-controls"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="editors-section">
+                        <div class="editors-header">
+                            <div class="editors-title">
+                                Editors: <span id="editorNum"></span>
+                            </div>
+                            <div class="controls-arrow"></div>
+                        </div>
+                        <div class="editors-holder"></div>
+                    </div>
+                    <p id="sidebar-description">The Entire Torah that Moishe and prophets got from the Creator...</p>
+                </aside>
+            </div>
+            
+            <!-- All Overlay & Functional Elements -->
+            <div id="toast-container"></div>
+            <div id="bulk-actions-bar" class="hidden"><span id="selection-count"></span><div class="actions"><button id="bulk-delete-btn" class="danger"></button></div><button id="exit-selection-mode-btn"></button></div>
+            <div id="creation-modal" class="modal-hidden">
+                <div class="modal-backdrop"></div>
+                <div class="modal-content">
+                    <h3 id="modal-title"></h3>
+                    <form id="creation-form">
+                        <div class="form-group"><label for="modal-input-title"></label><input type="text" id="modal-input-title" required></div>
+                        <div class="form-group"><label for="modal-input-description"></label><textarea id="modal-input-description" rows="4"></textarea></div>
+                        <div class="form-group"><label for="modal-input-id"></label><input type="text" id="modal-input-id"></div>
+                        <div class="modal-actions"><button type="button" id="modal-cancel-btn">Cancel</button><button type="submit" id="modal-submit-btn">Submit</button></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+</html>
