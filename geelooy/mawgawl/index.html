@@ -1,0 +1,282 @@
+<!--B"H-->
+<?Awtsmoos
+    return $a("bh.html")
+?>
+<html>
+<head>
+    <link rel="stylesheet" href="./styles.css">
+
+</head>
+<body>
+    <a id="sefarim" href="./sefarim">
+        Sefarim</a>
+        
+    <div class="month-selector">
+        <select id="monthSelect">
+            <option value="0">January</option>
+            <option value="1">February</option>
+            <option value="2">March</option>
+            <option value="3">April</option>
+            <option value="4">May</option>
+            <option value="5">June</option>
+            <option value="6">July</option>
+            <option value="7">August</option>
+            <option value="8">September</option>
+            <option value="9">October</option>
+            <option value="10">November</option>
+            <option value="11">December</option>
+        </select>
+        <span id="year"></span>
+    </div>
+    <div id="calendar">
+        <!-- Days will be added here -->
+    </div>
+    <div id="hoursPopup">
+        <div id="closeButton">X</div>
+        <!-- Hours will be added here -->
+    </div>
+    <div id="minutesPopup">
+        <div id="closeMinutesButton">X</div>
+        <!-- Minutes will be added here -->
+    </div>
+    
+    <div id="customModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="modalMessage"></div>
+        </div>
+    </div>
+    <script src="./script.js"></script>
+    <script>
+        
+
+        //<?Awtsmoos
+        //B"H
+        /**
+         * Server side code
+         * @file This script handles the server-side operations for booking and getting bookings.
+         * The booking action creates a booking for the given user. If the booking already exists,
+         * it will delete it and return a message notifying the user. If it doesn't exist,
+         * it will create a new one. The getBookings action fetches the booking details based
+         * on the given parameters.
+         *
+         * @requires db - A database module to create, delete and get booking data.
+         * @requires olam - Some olam module functionality is required in this script.
+         * @requires request - The user request to get the user data.
+         *
+         * @example 
+         * // Sample $_POST object for 'book' action
+         * $_POST = {
+         *     'action': 'book',
+         *     'year': '2023',
+         *     'month': '07',
+         *     'day': '25',
+         *     'hour': '18',
+         *     'minuteFrom': '30',
+         *     'minuteTo': '45',
+         *     'recurring': 'true'
+         * };
+         *
+         * // Sample $_POST object for 'getBookings' action
+         * $_POST = {
+         *     'action': 'getBookings',
+         *     'year': '2023',
+         *     'month': '07',
+         *     'day': '25',
+         *     'hour': '18'
+         * };
+         *
+         * @returns {object} For 'book' action, it will return either:
+         * - { success: 'Booking has been successfully created.' } if booking created successfully.
+         * - { success: 'Since you already had a booking in that slot, you have just deleted it. Click again to re-book', deleted: 1 } if existing booking is deleted.
+         * - { error: 'Error message' } in case of any error.
+         * For 'getBookings' action, it will return an object containing bookings info, or { error: 'Error message' } in case of any error.
+         */
+
+
+        /*
+This server-side code fetches bookings from the database when it receives a 'getBookings' action. The bookings are organized by year, month, day, and hour.
+
+The structure of the returned bookings is a nested object with the following hierarchy:
+- Day
+  - Hour
+    - Bookings (Array of booking objects)
+
+Each booking object contains the following properties:
+{
+    minuteFrom: // start minute of the booking
+    minuteTo: // end minute of the booking
+    user: // username of the user who made the booking (if the user is the current user)
+}
+
+Note: The 'user' field is only included in the booking object if the user is the current user.
+
+The server iterates through each day, hour, and user to varruct this data structure. If the current user is the user who made the booking, their username ('currentUser') is included in the booking object.
+
+Here's an example of the returned 'bookings' object structure for a given day and hour:
+
+{
+    "1": { // day 1
+        "8": [ // hour 8
+            {
+                minuteFrom: 0, // start minute of the booking
+                minuteTo: 30, // end minute of the booking
+                user: "user1" // username of the user who made the booking
+            },
+            {
+                minuteFrom: 30,
+                minuteTo: 60
+                // no 'user' field, indicating that this booking was made by a different user
+            }
+        ],
+        // ... more hours
+    },
+    // ... more days
+}
+
+In this example, 'user1' has a booking from minute 0 to 30 in hour 8 on day 1. Other bookings are made by different users.
+*/
+
+        
+         var validateRequestData = (data) => {
+            if (!data.year || !data.month || !data.day || !data.hour || !data.minuteFrom || !data.minuteTo) {
+                return false;
+            }
+            return true;
+        };
+
+        var deleteIfEmpty = async (path) => {
+            let data = await db.get(path);
+            if (data && data.length === 0) {
+                await db.delete(path);
+            }
+        };
+
+        var deleteExistingBooking = async (bookingPath, hourBookingPath, dayBookingPath, monthBp, yearBp) => {
+            try {
+                var del = await db.delete(bookingPath);
+
+                await deleteIfEmpty(hourBookingPath);
+                await deleteIfEmpty(dayBookingPath);
+                await deleteIfEmpty(monthBp);
+                await deleteIfEmpty(yearBp);
+
+                return { success: "Since you already had a booking in that slot, you have just deleted it. Click again to re-book", deleted: 1 };
+            } catch (e) {
+                return { error: `Error while deleting booking: ${e.message}` };
+            }
+        };
+
+        if ($_POST['action'] === 'book') {
+            olam.replace = true;
+            if (!request.user) {
+                return { error: "You're not even logged in!" };
+            }
+
+            if (!validateRequestData($_POST)) {
+                return { error: "Incomplete booking details." };
+            }
+
+            let { year, month, day, hour, minuteFrom, minuteTo, recurring } = $_POST;
+
+            let yearBp = "bookings/" + year;
+            let monthBp = yearBp + "/" + month
+            let dayBookingPath = monthBp + "/" + day;
+            let hourBookingPath = dayBookingPath + "/" + hour
+            let bookingPath = hourBookingPath + "/" + request.user.info.userId;
+
+            let existingBooking = await db.get(bookingPath);
+
+            if (existingBooking && existingBooking.minuteFrom === minuteFrom && existingBooking.minuteTo === minuteTo) {
+                return await deleteExistingBooking(bookingPath, hourBookingPath, dayBookingPath, monthBp, yearBp);
+            }
+
+            try {
+                await db.create(bookingPath, { minuteFrom, minuteTo });
+                return { success: 'Booking has been successfully created.' };
+            } catch (e) {
+                return { error: `Error while creating booking: ${e.message}` };
+            }
+        }
+
+
+
+        if ($_POST['action'] === 'getBookings') {
+            olam.replace = true;
+            if (!$_POST['year'] || !$_POST['month']) {
+                return { error: "Year and Month are needed at least." }
+            }
+
+            var currentUser = request.user ?
+                request.user.info.userId : null;
+            
+            let { year, month, day, hour } = $_POST;
+
+            let id = "bookings/" + year;
+            id += "/" + month;
+
+            if (day) {
+                id += "/" + day;
+                if (hour) {
+                    id += "/" + hour;
+                }
+            }
+
+            try {
+                let dir = await db.get(id, true);
+                let bookings = {};
+
+                for (let day in dir) {
+                    bookings[day] = {};
+
+                    if (dir[day] && dir[day].forEach)
+                        dir[day].forEach(hours => {
+                            var keysH = Object.keys(hours)
+
+                            if (keysH && keysH.forEach)
+                                keysH.forEach(hour => {
+                                    var hourKey = hour;
+                                    bookings[day][hourKey] = [];
+
+                                    var ar = Array.from(hours[hour])
+
+                                    hours[hour].forEach(users => {
+                                        var keys = Object.keys(users)
+
+                                        if (keys && keys.forEach)
+                                            keys.forEach(user => {
+
+                                                if (users[user] && users[user].forEach)
+                                                    users[user].forEach(userInfo => {
+                                                        
+                                                        var obj = { 
+                                                                minuteFrom: 
+                                                                userInfo.minuteFrom, 
+                                                                minuteTo: userInfo.minuteTo 
+                                                            };
+                                                        if(
+                                                            currentUser !== null &&
+                                                            currentUser === user.replace(
+                                                                ".json",""
+                                                            )
+                                                        ) {
+                                                            obj.user = currentUser;
+                                                        }
+                                                        bookings[day][hourKey]
+                                                            .push(obj);
+                                                    })
+                                            })
+                                    })
+                                })
+                        })
+                }
+
+                return bookings;
+            } catch (e) {
+                return { error: `Problem while getting bookings: ${e.message}` };
+            }
+        }
+        //?>
+    </script>
+</body>
+</html>
