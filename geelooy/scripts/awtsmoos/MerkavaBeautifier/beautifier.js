@@ -535,7 +535,7 @@ export async function beautify(code, options = {}) {
 					node.id,
 					indent,
 					ignoreCtx
-				);
+				); 
 				result = node.init ? `${vId} = ${
 					walk(
 						node.init,
@@ -546,28 +546,47 @@ export async function beautify(code, options = {}) {
 					)
 				}` : vId;
 				break;
-			case "IfStatement":
-				result = `${indent}if (${
-					walk(
-						node.test,
-						indent,
-						ignoreCtx
-					)
-				}) ${
-					(walk(
-						node.consequent,
-						indent,
-						ignoreCtx
-					)).trim()
-				}`;
-				if (node.alternate) result += ` else ${
-					(walk(
-						node.alternate,
-						indent,
-						ignoreCtx
-					)).trim()
-				}`;
-				break;
+			case 'IfStatement':
+	                // 1. Format the 'if (condition)' part
+	                const ifPart = `if (${walk(node.test, indent, ignoreCtx)})`;
+	                
+	                // 2. Format the Consequent (True block)
+	                let consequentStr;
+	                if (node.consequent.type === 'BlockStatement') {
+	                    // Block -> Keep brace on same line: "if (cond) {"
+	                    // We trim the result of walk so it hugs the condition
+	                    consequentStr = ' ' + walk(node.consequent, indent, ignoreCtx).trim();
+	                } else {
+	                    // Single Statement -> Force Newline + Indentation
+	                    // We walk with 'nextIndent' so the statement comes back strictly indented one level deeper
+	                    consequentStr = '\n' + walk(node.consequent, nextIndent, ignoreCtx);
+	                }
+	
+	                result = `${indent}${ifPart}${consequentStr}`;
+	
+	                // 3. Format the Alternate (Else block)
+	                if (node.alternate) {
+	                    const altNode = node.alternate;
+	                    
+	                    // Logic to position the 'else' keyword:
+	                    // If the consequent was a Block ('}'), 'else' goes on same line: "} else"
+	                    // If the consequent was a Single Line, we are currently on that indented line. 
+	                    // We must drop down and dedent for the 'else'.
+	                    const elseSeparator = node.consequent.type === 'BlockStatement' ? ' ' : `\n${indent}`;
+	                    
+	                    if (altNode.type === 'BlockStatement') {
+	                        // else { ... }
+	                        result += `${elseSeparator}else ${walk(altNode, indent, ignoreCtx).trim()}`;
+	                    } else if (altNode.type === 'IfStatement') {
+	                        // else if (...) -> Flatten the chain. 
+	                        // Recurse with current indentation, trim start to fit after 'else'
+	                        result += `${elseSeparator}else ${walk(altNode, indent, ignoreCtx).trim()}`;
+	                    } else {
+	                        // else statement; -> Force Newline + Indent
+	                        result += `${elseSeparator}else\n${walk(altNode, nextIndent, ignoreCtx)}`;
+	                    }
+	                }
+	                break;
 			case "ReturnStatement":
 				result = `${indent}return${
 					node.argument ? " " + walk(
