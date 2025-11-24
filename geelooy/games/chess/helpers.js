@@ -44,7 +44,9 @@ let moveStack = Array(1024).fill(0),
     moveStackPtr = 0;
 
 
-/* B"H - This is the diagnostically-verified and correct function. */
+
+
+/* B"H */
 function createGameState(fen) {
     const state = {
         pieceBitboards: Array(12).fill(0n),
@@ -63,7 +65,7 @@ function createGameState(fen) {
         if (c === '/') {
             r++;
             f = 0;
-            continue; // Go to the next character in the FEN string
+            continue; // Go to the next character
         }
 
         if (/\d/.test(c)) {
@@ -73,14 +75,13 @@ function createGameState(fen) {
             if (pieceIndex !== -1) {
                 state.pieceBitboards[pieceIndex] |= (1n << BigInt(r * 8 + f));
             }
-            // This is the crucial bug fix: the file counter must always
-            // increment after processing a piece character.
+            // THE PERMANENT FIX: The column counter must always increment
+            // after processing a single character (piece or number).
             f++;
         }
     }
 
     // Correctly and explicitly populate the occupancy bitboards AFTER parsing.
-    // This prevents any possibility of the data being scrambled.
     state.occupancies[WHITE] = state.pieceBitboards[P] | state.pieceBitboards[N] | state.pieceBitboards[B] | state.pieceBitboards[R] | state.pieceBitboards[Q] | state.pieceBitboards[K];
     state.occupancies[BLACK] = state.pieceBitboards[P+6] | state.pieceBitboards[N+6] | state.pieceBitboards[B+6] | state.pieceBitboards[R+6] | state.pieceBitboards[Q+6] | state.pieceBitboards[K+6];
     state.occupancies[2] = state.occupancies[WHITE] | state.occupancies[BLACK];
