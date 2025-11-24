@@ -1,0 +1,42 @@
+<!-- B"H -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Merkava Beautifier</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <h1>B"H Merkava Beautifier</h1>
+        <p>Using the MerkavaASTParser to bring Tikkun (Rectification) to JavaScript code.</p>
+    </header>
+
+    <main class="container">
+        <div class="controls">
+            <p>Paste your code below or select a test script to see the beautifier in action.</p>
+        </div>
+
+        <div class="io-grid">
+            <div class="io-box">
+                <label for="js-input">Source Code (The Emanation):</label>
+                <textarea id="js-input" spellcheck="false" placeholder="Paste your JavaScript code here..."></textarea>
+            </div>
+            <div class="io-box">
+                <label for="js-output">Beautified Code (The Tikkun):</label>
+                <pre id="output-container"><code id="js-output" class="language-javascript"></code></pre>
+                <div id="error-display" class="error-message"></div>
+            </div>
+        </div>
+        
+        <div class="buttons">
+             <button id="beautify-btn">Beautify Code</button>
+             <button id="copy-btn">Copy Result</button>
+        </div>
+    </main>
+    
+    <script src="main.js" type="module"></script>
+</body>
+</html>
