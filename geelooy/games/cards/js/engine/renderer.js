@@ -240,18 +240,19 @@ drawGame(players, revealDealer = false) {
         this.ctx.fillText(card.emoji, 0, 25);
 
         if (card.rank === 'Yackov') {
+        var rad=19;
             this.ctx.save();
-            this.ctx.translate(0, -14); // Position the yamulka's center.
+            this.ctx.translate(0, -20); // Position the yamulka's center.
             this.ctx.rotate(-0.1); // Give it a slight, natural tilt.
             this.ctx.fillStyle = 'rgba(0,0,0,0.9)';
             this.ctx.beginPath();
-            this.ctx.arc(0, 0, 16, 0, Math.PI, true); // Draw the top dome.
+            this.ctx.arc(0, 0, rad, 0, Math.PI, true); // Draw the top dome.
             this.ctx.fill();
             this.ctx.strokeStyle = 'rgba(20,20,20,1)';
             this.ctx.lineWidth = 1;
             this.ctx.beginPath();
-            this.ctx.moveTo(-16, 0);
-            this.ctx.lineTo(16, 0); // Draw the bottom rim.
+            this.ctx.moveTo(-rad, 0);
+            this.ctx.lineTo(rad, 0); // Draw the bottom rim.
             this.ctx.stroke();
             this.ctx.restore();
         }
