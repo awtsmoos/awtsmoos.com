@@ -70,7 +70,7 @@ export const App = {
      */
     activeConsole: null, // B"H 
 	saveDebounceTimer: null,
-    /*B"H*/
+    /*B"H*/ 
 
 
 saveSessionDebounced() {
@@ -155,7 +155,6 @@ saveSession() {
  * It does not fear the 'Locked' workspace; it restores the tab structure regardless,
  * knowing that content will flow once the user provides the key (Resume).
  */
-/*B"H*/
 async loadSession() {
     const savedSession = localStorage.getItem('vividX_session_profound');
     if (!savedSession) return;
@@ -163,9 +162,8 @@ async loadSession() {
     try {
         const session = JSON.parse(savedSession);
 
-        // 1. Workspaces
+        // 1. Restore Workspaces & Auto-Resume Handles
         if (session.workspaces && Array.isArray(session.workspaces)) {
-            // Calculate next ID to avoid collisions
             let maxId = 0;
             for (const wsData of session.workspaces) {
                 if (wsData.id >= maxId) maxId = wsData.id + 1;
@@ -189,35 +187,35 @@ async loadSession() {
             State.nextWorkspaceId = maxId;
         }
 
-        // 2. Tabs
+        // 2. Restore Tabs (With Force Reload & Scroll)
         if (session.openTabs && Array.isArray(session.openTabs)) {
             let maxTabId = 0;
             State.tabs = session.openTabs.map(t => {
                 if (t.id >= maxTabId) maxTabId = t.id + 1;
                 return {
                     ...t,
-                    forceReload: true, // Force re-read on activate
-                    scrollPos: Number(t.scrollPos) || 0
+                    // Force reload so we re-read content using the restored handle
+                    forceReload: true, 
+                    // CRITICAL: Ensure scrollPos is a valid number from storage
+                    scrollPos: typeof t.scrollPos === 'number' ? t.scrollPos : 0
                 };
             });
             State.nextTabId = maxTabId;
             Tabs.render();
         }
 
-        // 3. Expansions
+        // 3. Restore Expansion State
         if (session.expandedFolders) {
             State.expandedFolders = new Set(session.expandedFolders);
             Workspaces.render();
         }
 
-        // 4. Activate Tab
+        // 4. Set Active Tab ID (But DO NOT activate yet)
         if (session.activeTabUniquePath) {
-            setTimeout(async () => {
-                const activeTab = State.tabs.find(t => t.uniquePath === session.activeTabUniquePath);
-                if (activeTab) {
-                    await Tabs.activate(activeTab.id);
-                }
-            }, 100);
+            const activeTab = State.tabs.find(t => t.uniquePath === session.activeTabUniquePath);
+            if (activeTab) {
+                State.activeTabId = activeTab.id;
+            }
         }
     } catch (e) {
         console.error("Session Load Failed:", e);
@@ -604,16 +602,19 @@ async loadSession() {
             }
             UI.updateLineNumbers();
         });
-        DOM.editor.addEventListener('scroll', () => {
-	        UI.syncScroll();
-	        
-	        // B"H - REAL-TIME SCROLL TRACKING
-	        const activeTab = State.tabs.find(t => t.id === State.activeTabId);
-	        if (activeTab) {
-	            activeTab.scrollPos = DOM.editor.scrollTop;
-	            this.saveSessionDebounced(); // <--- Auto-save state on scroll
-	        }
-	    });
+        // 1. Guarded Scroll Listener
+    DOM.editor.addEventListener('scroll', () => {
+        UI.syncScroll();
+        
+        // IF WE ARE RESTORING, DO NOT UPDATE STATE
+        if (State.isRestoring) return;
+
+        const activeTab = State.tabs.find(t => t.id === State.activeTabId);
+        if (activeTab && !DOM.editorWrapper.classList.contains('hidden')) {
+            activeTab.scrollPos = DOM.editor.scrollTop;
+            this.saveSessionDebounced();
+        }
+    });
         DOM.editor.addEventListener('keyup', StatusBar.update);
         DOM.editor.addEventListener('click', StatusBar.update);
         new ResizeObserver(UI.updateLineNumbers).observe(DOM.editor);
@@ -709,10 +710,21 @@ async loadSession() {
             }
             editor.focus();
         });
-        window.addEventListener('beforeunload', () => {
-            State.consoleInstances.forEach(instance => instance.destroy());
-            this.saveSession();
-        });
+        // 2. The Final Sync (CRITICAL)
+    window.addEventListener('beforeunload', () => {
+        // Before we die, force-sync the current scroll position to the state.
+        // This catches the case where user scrolls and hits Refresh immediately.
+        const activeTab = State.tabs.find(t => t.id === State.activeTabId);
+        if (activeTab && !DOM.editorWrapper.classList.contains('hidden')) {
+            activeTab.scrollPos = DOM.editor.scrollTop;
+            // Also sync content if dirty
+            if (activeTab.isDirty) {
+                activeTab.content = DOM.editor.value;
+            }
+        }
+        
+        this.saveSession();
+    });
     },
 
 

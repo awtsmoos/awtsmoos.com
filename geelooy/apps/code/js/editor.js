@@ -32,44 +32,50 @@ export const Editor = {
 async showTextEditor(content = "", filename = "", scrollPos = 0) {
     UI.switchView('editor');
     
-    // 1. Set the content
+    // 1. LOCK THE STATE
+    // This prevents the 'scroll' event listener from seeing the 
+    // momentary reset to 0 and corrupting our saved data.
+    State.isRestoring = true;
+
+    // 2. Set Content
+    // (This normally triggers a scroll-to-zero event, but we are now shielded)
     DOM.editor.value = content;
     UI.updateLineNumbers();
     StatusBar.updateLanguage(filename);
 
-    // 2. Return a Promise that resolves ONLY after scrolling and highlighting
+    // 3. Restore Scroll & Unlock
     return new Promise(resolve => {
-        // We use setTimeout (10ms) to let the browser calculate layout 
-        // before we try to scroll or highlight.
-        setTimeout(() => { 
-            // 3. Apply the scroll
+        // Use requestAnimationFrame to ensure the DOM has updated the layout
+        requestAnimationFrame(() => {
+            // Force reflow to ensure accurate height calculation
+            const _ignore = DOM.editor.scrollHeight; 
+
+            // Apply the saved scroll position
             DOM.editor.scrollTop = scrollPos;
-            UI.syncScroll(); 
+            UI.syncScroll();
+            
             this.focus();
 
-            // 4. Re-initialize Syntax Highlighting (RESTORED)
+            // Re-apply Highlighting
             if (this.currentHighlighter) {
                 this.currentHighlighter.destroy();
             }
-
             const ext = this._getExt(filename);
             const langMap = {
-                ".js": "js", 
-                ".mjs": "js",
-                ".css": "css", 
-                ".html": "html",
-                ".htm": "html",
-                ".svg": "html",
-                ".xml": "html",
-                ".json": "json",
-                ".awtsmoosJSON": "json"
+                ".js": "js", ".mjs": "js", ".css": "css", ".html": "html",
+                ".htm": "html", ".svg": "html", ".xml": "html", 
+                ".json": "json", ".awtsmoosJSON": "json"
             };
-            
-            // Initialize 'pnimi' with the correct language or default to 'js'
             this.currentHighlighter = new pnimi(DOM.editor, langMap[ext] || "js");
-            
-            resolve(); // Resolution: Editor is ready, scrolled, and colored.
-        }, 10); 
+
+            // 4. UNLOCK THE STATE
+            // We use a slight delay to ensure all browser-generated scroll events 
+            // from the value change have fired and been ignored.
+            setTimeout(() => {
+                State.isRestoring = false;
+                resolve();
+            }, 50);
+        });
     });
 },
 
