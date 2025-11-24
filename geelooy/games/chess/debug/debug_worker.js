@@ -113,10 +113,12 @@ function runDiagnostic(fen, targetSan) {
             log('✅ PARADOX RESOLVED. The error has been fixed.', 'success');
         } else {
             log('❌ PARADOX PERSISTS.', 'error');
-            log('The error is definitively in the `createGameState` function in `helpers.js`. The ultimate diagnostic log above shows the step-by-step creation of the corrupted reality.', 'info',
-            createGameState+""+"\n Stringified current function"
+            log('The error is definitively in the `createGameState` function in `helpers.js`. The ultimate diagnostic log above shows the step-by-step creation of the corrupted reality.', 'info'
             
             );
+            
+            log(createGameState+""+"\n Stringified current function", "info")
+            
         }
     } catch (err) {
         log(`\n/!\\ ERROR /!\\`, 'error');
