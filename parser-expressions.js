@@ -20,7 +20,7 @@
  * Added `p[TOKEN.SLASH_ASSIGN] = this._parseRegExpLiteral`.
  * This allows the parser to correctly identify Regex literals that start with '=',
  * e.g., `/=/i`, which the lexer initially misidentifies as the '/=' operator.
- */  
+ */   
 proto.registerExpressionParsers = function() {
     const p = this.prefixParseFns, i = this.infixParseFns;
 

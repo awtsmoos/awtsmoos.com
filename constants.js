@@ -92,7 +92,7 @@ const KEYWORDS = {
     'typeof': TOKEN.TYPEOF, 'instanceof': TOKEN.INSTANCEOF, 'in': TOKEN.IN,
     'try': TOKEN.TRY, 'catch': TOKEN.CATCH, 'finally': TOKEN.FINALLY, 'throw': TOKEN.THROW,
     'delete': TOKEN.DELETE,
-      
+       
     'void': TOKEN.VOID,
     'debugger': TOKEN.DEBUGGER,
     
