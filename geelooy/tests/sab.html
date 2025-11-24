@@ -1,0 +1,67 @@
+<!--B"H-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SharedArrayBuffer Test</title>
+</head>
+<body>
+
+    <h1>SharedArrayBuffer and Atomics Test</h1>
+    <p id="status">Testing...</p>
+
+    <script>
+        // Get the status element to display the result
+        const status = document.getElementById('status');
+
+        // Check if SharedArrayBuffer is available in the global scope
+        if (typeof SharedArrayBuffer === 'undefined') {
+            status.textContent = 'SharedArrayBuffer is not available.';
+            status.style.color = 'red';
+        } else {
+            try {
+                // Inline worker code
+                const workerCode = `
+                    self.onmessage = (event) => {
+                        const sab = event.data;
+                        const int32Array = new Int32Array(sab);
+
+                        // Use Atomics to add to the value at index 0
+                        Atomics.add(int32Array, 0, 5);
+
+                        self.postMessage('done');
+                    };
+                `;
+
+                // Create a blob from the worker script
+                const blob = new Blob([workerCode], { type: 'application/javascript' });
+                const worker = new Worker(URL.createObjectURL(blob));
+
+                // Create a SharedArrayBuffer with 4 bytes
+                const sharedBuffer = new SharedArrayBuffer(4);
+                const int32Array = new Int32Array(sharedBuffer);
+
+                worker.onmessage = () => {
+                    // Check if the atomic operation was successful
+                    if (Atomics.load(int32Array, 0) === 5) {
+                        status.textContent = 'SharedArrayBuffer and Atomics are working!';
+                        status.style.color = 'green';
+                    } else {
+                        status.textContent = 'SharedArrayBuffer is available, but Atomics did not work as expected.';
+                        status.style.color = 'orange';
+                    }
+                };
+
+                // Send the SharedArrayBuffer to the worker
+                worker.postMessage(sharedBuffer);
+
+            } catch (e) {
+                status.textContent = `An error occurred: ${e.message}`;
+                status.style.color = 'red';
+            }
+        }
+    </script>
+
+</body>
+</html>
