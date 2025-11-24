@@ -44,7 +44,11 @@ proto._parseDeclaration = function() {
         case TOKEN.TRY: return this._parseTryStatement();
         case TOKEN.WITH: return this._parseWithStatement();
         case TOKEN.THROW: return this._parseThrowStatement();
-
+	 case TOKEN.DEBUGGER:    
+            const dbgS = this._startNode();
+            this._advance(); // Consume 'debugger'
+            this._consumeSemicolon();
+            return this._finishNode({ type: 'DebuggerStatement' }, dbgS);
         // --- TIKKUN: Handle Empty Statement ---
         case TOKEN.SEMICOLON: return this._parseEmptyStatement();
         // -------------------------------------
@@ -207,8 +211,31 @@ proto._parseArrayPattern = function() {
  * 4. Shorthand (`x,`)
  * 5. Patterns (`x = 1` in destructuring)
  */
+/**
+ * B"H
+ * The Rectified Property Scribe.
+ * 
+ * TIKKUN:
+ * We now check for the 'async' modifier *before* parsing the key.
+ * If we see 'async' followed by a valid key start (IDENT, *, [, etc.),
+ * we mark it as async and consume the token. This allows:
+ * { async ok() {} }
+ * While preserving:
+ * { async: true } and { async() {} }
+ */
+/**
+ * B"H
+ * The Rectified Property Scribe.
+ * 
+ * TIKKUN:
+ * We now correctly identify the 'async' modifier by checking what follows it.
+ * If 'async' is followed by ':', '(', ',', '}', or '=', it is the Property Key.
+ * Otherwise, it is a modifier for the following method.
+ * This supports keywords as method names: { async class() {} }.
+ */
 proto._parseProperty = function(isPattern) {
     const s = this._startNode();
+    const { TOKEN, PRECEDENCE } = window.MerkavahConstants;
 
     // Handle Spread/Rest
     if (this._currTokenIs(TOKEN.DOTDOTDOT)) {
@@ -224,25 +251,45 @@ proto._parseProperty = function(isPattern) {
     let method = false;
     let shorthand = false;
     let kind = 'init';
-    let isGenerator = false; // TIKKUN: Flag for generators
+    let isGenerator = false; 
+    let isAsync = false; // TIKKUN: New flag
 
-    // 1. Check for Generator '*'
+    // 1. Check for 'async' modifier
+    // We only treat 'async' as a modifier if it is NOT followed by punctuation 
+    // that implies 'async' is the key itself.
+    if (!isPattern && this._currTokenIs(TOKEN.ASYNC)) {
+        if (!this.peekToken.hasLineTerminatorBefore &&
+            !this._peekTokenIs(TOKEN.COLON) && 
+            !this._peekTokenIs(TOKEN.LPAREN) && 
+            !this._peekTokenIs(TOKEN.COMMA) && 
+            !this._peekTokenIs(TOKEN.RBRACE) &&
+            !this._peekTokenIs(TOKEN.ASSIGN)) {
+            
+            isAsync = true;
+            this._advance(); // Consume 'async' modifier
+        }
+    }
+
+    // 2. Check for Generator '*'
     if (this._currTokenIs(TOKEN.ASTERISK)) {
         this._advance();
         isGenerator = true;
         method = true; // Generators are always methods
     }
 
-    // 2. Check for get/set (only if not generator)
-    if (!isGenerator && !isPattern && 
+    // 3. Check for get/set (only if not generator and not async)
+    if (!isGenerator && !isAsync && !isPattern && 
         (this.currToken.literal === 'get' || this.currToken.literal === 'set') && 
         !this._peekTokenIs(TOKEN.COLON) && 
-        !this._peekTokenIs(TOKEN.LPAREN)) { 
+        !this._peekTokenIs(TOKEN.LPAREN) &&
+        !this._peekTokenIs(TOKEN.COMMA) && 
+        !this._peekTokenIs(TOKEN.RBRACE) &&
+        !this._peekTokenIs(TOKEN.ASSIGN)) { 
         kind = this.currToken.literal;
         this._advance();
     }
     
-    // 3. Parse Key
+    // 4. Parse Key
     let key;
     if (this._currTokenIs(TOKEN.LBRACKET)) {
         computed = true;
@@ -253,32 +300,28 @@ proto._parseProperty = function(isPattern) {
         if (this.currToken.type === TOKEN.STRING || this.currToken.type === TOKEN.NUMBER) {
              key = this._parseLiteral();
         } else {
-             // Handles identifiers and Unicodes
+             // Handles identifiers (including 'async' if it wasn't consumed above)
              key = this._parseIdentifier();
         }
     }
     if (!key) return null;
 
-    // 4. Method Definition (Generator or Normal Method)
-    if (isGenerator || this._currTokenIs(TOKEN.LPAREN)) {
+    // 5. Method Definition (Generator, Async, or Normal Method)
+    // TIKKUN: If we detected isAsync, we treat it as a method.
+    if (isGenerator || isAsync || this._currTokenIs(TOKEN.LPAREN)) {
         method = true;
-        if (kind !== 'init') method = false; // Accessors are not "methods" in ESTree
+        if (kind !== 'init') method = false; 
         
-        // We use _parseFunction to handle the params and body.
-        // We pass the isGenerator flag we detected earlier.
-        const value = this._parseFunction('expression', false, isGenerator);
+        // Pass the flags to _parseFunction
+        const value = this._parseFunction('expression', isAsync, isGenerator);
         return this._finishNode({ type: 'Property', key, value, kind, method, shorthand: false, computed }, s);
     }
 
-    // Validation for failed method attempts
-    if (isGenerator) {
-        this._error("Generator property must be a method.");
-    }
-    if (kind !== 'init') {
-        this._error("Accessor property must have a getter or setter body.");
-    }
+    // Validation
+    if (isGenerator) this._error("Generator property must be a method.");
+    if (kind !== 'init') this._error("Accessor property must have a getter or setter body.");
 
-    // 5. Normal Property or Shorthand
+    // 6. Normal Property or Shorthand
     let value = key;
     shorthand = true;
 

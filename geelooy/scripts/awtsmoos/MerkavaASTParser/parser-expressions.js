@@ -20,12 +20,14 @@
  * Added `p[TOKEN.SLASH_ASSIGN] = this._parseRegExpLiteral`.
  * This allows the parser to correctly identify Regex literals that start with '=',
  * e.g., `/=/i`, which the lexer initially misidentifies as the '/=' operator.
- */
+ */   
 proto.registerExpressionParsers = function() {
     const p = this.prefixParseFns, i = this.infixParseFns;
 
     // Prefix (Unary) Operators
-    p[TOKEN.BANG] = p[TOKEN.MINUS] = p[TOKEN.PLUS] = p[TOKEN.AWAIT] = p[TOKEN.BITWISE_NOT] = p[TOKEN.TYPEOF] = p[TOKEN.VOID] = this._parsePrefixExpression;
+    p[TOKEN.BANG] = p[TOKEN.MINUS] = p[TOKEN.PLUS] 
+    = p[TOKEN.AWAIT] = p[TOKEN.BITWISE_NOT] 
+    = p[TOKEN.TYPEOF] = p[TOKEN.VOID] = p[TOKEN.DELETE] = this._parsePrefixExpression;
     
     // Literals and Identifiers
     // --- THE FIX IS HERE ---
@@ -633,32 +635,29 @@ proto._convertPropertyToPatternProperty = function(prop) {
 };
 
 
-	proto
-		._parseConditionalExpression =
-		function(t) {
-			const e = this
-				._startNode();
-			e.loc.start = t.loc
-				.start, this
-				._advance();
-			const s = this
-				._parseExpression(
-					PRECEDENCE
-					.LOWEST);
-			this._expect(TOKEN
-				.COLON);
-			const i = this
-				._parseExpression(
-					PRECEDENCE
-					.LOWEST);
-			return this
-				._finishNode({
-					type: "ConditionalExpression",
-					test: t,
-					consequent: s,
-					alternate: i
-				}, e)
-		};
+	proto._parseConditionalExpression = function(t) {
+		const e = this._startNode();
+		e.loc.start = t.loc.start;
+		this._advance(); // Consume '?'
+
+		// B"H - TIKKUN: Use PRECEDENCE.SEQUENCE (1).
+		// 1. It allows Assignments (Precedence 2) to happen inside the ternary: 'a ? b=1 : c'.
+		// 2. It STOPS at Commas (Precedence 1) because 1 is not < 1.
+		// This prevents the ternary from swallowing the comma in your object literal.
+		const s = this._parseExpression(window.MerkavahConstants.PRECEDENCE.SEQUENCE);
+
+		this._expect(window.MerkavahConstants.TOKEN.COLON);
+
+		// Same shield for the alternate branch
+		const i = this._parseExpression(window.MerkavahConstants.PRECEDENCE.SEQUENCE);
+
+		return this._finishNode({
+			type: "ConditionalExpression",
+			test: t,
+			consequent: s,
+			alternate: i
+		}, e);
+	};
 	
 	
 	

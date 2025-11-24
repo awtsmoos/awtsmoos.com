@@ -542,6 +542,10 @@ unindentSelection() {
 		this.textarea.value = newContent;
 		this._update();
 	}
+	
+	setText(txt) {
+		return this.update(txt);
+	}
 
 	/** Changes the language for syntax highlighting. */
 	setLanguage(newLanguage) {
