@@ -269,7 +269,12 @@ async copyAllContents(items) {
         UI.showLoading(`Checking for remote changes...`);
         try {
             // 1. Get the latest state of the remote repository.
-            const sourceRepoItem = { type: 'github', ...gitInfo };
+            // **THE FIX IS HERE**: We inject the workspaceId from the local folder context.
+            const sourceRepoItem = { 
+                type: 'github', 
+                workspaceId: folderToUpdate.workspaceId, // This is the crucial addition.
+                ...gitInfo 
+            };
             const newTreeData = await FileSystemProvider.GitHub.getFullTree(sourceRepoItem);
             const newFilesMap = new Map(newTreeData.tree.map(f => [f.path, f]));
             const oldFilesMap = new Map(gitInfo.remoteTree.map(f => [f.path, f]));
