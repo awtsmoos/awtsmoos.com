@@ -194,69 +194,100 @@ class ManagerOfAllWorlds {
         this.startWorld({worldDayuh});
     }
 
-    startWorld(ob = {}) {
+    async startWorld(ob = {}) {
         var {
             worldDayuh,
             worldDayuhURL,
             gameUiHTML
         } = ob;
-       if(gameUiHTML) {
-        this.gameUiHTML = gameUiHTML
-       }
-       
-       var self = this;
-       var ghtml = worldDayuh?.html;
-       if(typeof(ghtml) != "object") {
-        ghtml = {
-            
+
+        if (gameUiHTML) {
+            this.gameUiHTML = gameUiHTML
         }
-       }
-       Object.assign(ghtml, self.gameUiHTML)
-       var windowVars = {}
-       try {
-            //Utils.copySerializableValues(window, windowVars)
-            console.log(
-                "copied",
-                windowVars
-            )
-       } catch(e) {
-            console.log("Could't do it",e)
-       }
-       var systemInfo = {
+
+        var self = this;
+        var ghtml = worldDayuh?.html || {};
+        Object.assign(ghtml, self.gameUiHTML);
+
+        var windowVars = {};
+        try {
+            console.log("copied", windowVars);
+        } catch (e) {
+            console.log("Could't do it", e);
+        }
+
+        // --- NEW: LOAD PLAYER SETTINGS ---
+        let playerSettings = null;
+        
+        // Only attempt load if user is logged in (has alias)
+        if (window.curAlias) {
+            try {
+                console.log("B\"H - Attempting to load player inventory...");
+                const settingsPath = "desktop.folder/game data.folder/awtsmoosSettings.js";
+                
+                // 1. Fetch the file text
+                const response = await fetch(`/api/social/aliases/${window.curAlias}/fileSystem/readFile?path=${encodeURIComponent(settingsPath)}`);
+                
+                if (response.ok) {
+                    const scriptText = await response.text();
+                    
+                    // 2. Import it as a module using a Blob URL
+                    const blob = new Blob([scriptText], { type: "application/javascript" });
+                    const url = URL.createObjectURL(blob);
+                    const module = await import(url);
+                    
+                    // 3. Extract the data
+                    if (module.default) {
+                        playerSettings = module.default;
+                        console.log("B\"H - Player settings loaded:", playerSettings);
+                    }
+                    URL.revokeObjectURL(url); // Cleanup
+                } else {
+                    console.log("B\"H - No settings file found. Starting with empty/default inventory.");
+                }
+            } catch (e) {
+                console.warn("B\"H - Could not load player settings (Network error or invalid file):", e);
+            }
+        }
+        // ---------------------------------
+
+        var systemInfo = {
             html: ghtml,
             gameState: this.gameState,
             windowVars,
+            
+            // Pass the loaded settings into the Olam's 'set' property.
+            // Anything in 'set' is automatically assigned to 'this' in the Olam instance.
+            set: {
+                playerSettings: playerSettings 
+            },
+            
             ...(worldDayuhURL ? {
                 worldDayuhURL
             } : {}),
-       }
-       var userInfo = {
+        };
+
+        var userInfo = {
             ...worldDayuh,
-            
-            
-            
-        }
+        };
+
         var heescheelObj = {
             userInfo,
             systemInfo
+        };
+
+        var canvas = this.ui.$g("canvasEssence");
+
+        if (!canvas) {
+            alert("Couldn't find canvas, not starting");
+            return;
         }
 
-       
-        
-       // alert("About to add canvas")
-       var canvas = this.ui.$g("canvasEssence")
-
-       if(!canvas) {
-        alert("Couldn't find canvas, not starting");
-        return;
-       }
         var man = new OlamWorkerManager(
-            "./ckidsAwtsmoos/Olam/oyved.js",
+            "./ckidsAwtsmoos/Olam/oyved.js", 
             {
                 async pawsawch() {
                     var ID = Date.now();
-                    
-                    
                     man.postMessage({
                         heescheel: heescheelObj
                     });
@@ -265,16 +296,15 @@ class ManagerOfAllWorlds {
             canvas,
             this.ui
         );
-        window.g=man
-        
-       // alert("Started worker")
+        window.g = man;
+
         window.socket = man;
         this.socket = man;
         this.setOnmessage();
         asdf.updateProgress({
             startedLoading: Date.now()
         });
-        return true /*loading*/;
+        return true; 
     }
 }
 

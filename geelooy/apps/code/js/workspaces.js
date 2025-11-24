@@ -58,17 +58,15 @@ export const Workspaces = {
     
 
 /*B"H*/
-// ACTION: Please replace the ENTIRE 'renderWorkspace' method in your 'js/workspaces.js' file with this one.
-// This version uses targeted DOM manipulation driven by the central state, fixing the performance issue.
+/*B"H*/
 
 /**
- * Renders the root of a single workspace. This is the true and final version.
- * Its click handler now performs a targeted DOM update on ONLY the workspace being
- * interacted with. It updates the central state, then surgically adds or removes
- * the child tree element without affecting any of its sibling workspaces. This
- * provides both state consistency and high performance.
+ * Renders the root of a single workspace. 
+ * UPDATED: Recognizes the 'isLocked' property. If a workspace is locked (awaiting permission),
+ * it displays a lock icon. Clicking the header triggers the 'requestPermission' flow
+ * to resume the session, rather than expanding the tree.
  * @param {object} ws - The raw workspace object from the state.
- * @param {HTMLElement} container - The parent element to append to.
+ * @param {HTMLElement} container - The parent element.
  */
 renderWorkspace(ws, container) {
     const wsRoot = document.createElement('div');
@@ -84,12 +82,21 @@ renderWorkspace(ws, container) {
                  rootItem.type === 'github' ? 'github' : 
                  rootItem.type === 'ssh' ? 'ssh' : 'brain';
 
+    // B"H: UI Logic for Locked/Lost State
+    let statusBadge = '';
+    if (ws.isLocked) {
+        statusBadge = /*html*/`<span style="font-size: 0.7em; margin-left:8px; padding: 2px 6px; border-radius: 4px; background: var(--color-accent-warning); color: #000;">🔒 Resume</span>`;
+    } else if (ws.isLost) {
+        statusBadge = /*html*/`<span style="font-size: 0.7em; margin-left:8px; padding: 2px 6px; border-radius: 4px; background: var(--color-accent-danger); color: #fff;">⚠️ Lost</span>`;
+    }
+
     wsRoot.innerHTML = /*html*/ `
-        <div class="workspace-header">
+        <div class="workspace-header ${ws.isLocked ? 'locked-workspace' : ''}" title="${ws.isLocked ? 'Click to resume session' : rootItem.name}">
             <div class="workspace-header-title">
                 <strong>
                     <svg class="svg-icon"><use href="#icon-${icon}"></use></svg>
                     ${rootItem.name}
+                    ${statusBadge}
                 </strong>
             </div>
             <div class="workspace-header-actions">
@@ -102,8 +109,37 @@ renderWorkspace(ws, container) {
     const headerTitle = wsRoot.querySelector('.workspace-header-title');
 
     
-    headerTitle.onclick = () => {
-        // Step 1: Update the central state. This remains the source of truth.
+    headerTitle.onclick = async () => {
+        // --- B"H: PERMISSION RESURRECTION LOGIC ---
+        if (ws.isLocked && !ws.isLost) {
+            try {
+                // We are inside a click handler, so we can request permission safely.
+                const permission = await ws.handle.requestPermission({ mode: 'readwrite' });
+                
+                if (permission === 'granted') {
+                    // Update State
+                    ws.isLocked = false;
+                    const storedWs = State.workspaces.find(w => w.id === ws.id);
+                    if (storedWs) storedWs.isLocked = false;
+
+                    UI.showToast("Workspace connection restored.", "success");
+                    
+                    // Re-render this specific node to remove the lock
+                    // (Simple way: remove and re-add)
+                    wsRoot.remove();
+                    this.renderWorkspace(ws, container);
+                } else {
+                    UI.showToast("Permission denied.", "warning");
+                }
+            } catch (e) {
+                console.error("Resume failed:", e);
+                UI.showToast("Failed to resume workspace.", "error");
+            }
+            return; // Stop here, do not attempt to expand.
+        }
+        // ------------------------------------------
+
+        // Standard Expansion Logic 
         const isCurrentlyExpanded = State.expandedFolders.has(uniquePath);
         if (isCurrentlyExpanded) {
             State.expandedFolders.delete(uniquePath);
@@ -112,22 +148,17 @@ renderWorkspace(ws, container) {
         }
         App.saveSession();
 
-        // Step 2: Perform a targeted, local DOM manipulation based on the new state.
-        // We no longer call the global `this.render()`.
         if (isCurrentlyExpanded) {
-            // If it WAS expanded, we are now collapsing it.
             wsRoot.classList.remove('expanded');
             const tree = wsRoot.querySelector('ul.workspace-tree');
             if (tree) {
-                tree.remove(); // Surgically remove only this workspace's tree.
+                tree.remove(); 
             }
         } else {
-            // If it was NOT expanded, we are now expanding it.
             wsRoot.classList.add('expanded');
             const tree = document.createElement('ul');
             tree.className = 'workspace-tree';
             wsRoot.appendChild(tree);
-            // Render the tree for this workspace only.
             this.renderTree(tree, rootItem, 1);
         }
     };
@@ -140,13 +171,15 @@ renderWorkspace(ws, container) {
     
     State.domItemMap.set(uniquePath, { el: wsRoot, item: rootItem });
 
-    if (isExpanded) {
+    if (isExpanded && !ws.isLocked) {
        const tree = document.createElement('ul');
        tree.className = 'workspace-tree';
        wsRoot.appendChild(tree);
        this.renderTree(tree, rootItem, 1);
     }
 },
+
+
 /*B"H*/
 /**
  * Asynchronously renders the file and folder tree. This definitive version uses a

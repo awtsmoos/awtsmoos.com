@@ -70,24 +70,28 @@ export const App = {
      */
     activeConsole: null, // B"H 
 
-    /**
- * Inscribes the current state of reality into the eternal memory of the browser.
- * It gathers the essences of all persistent realms—the GitHub portals, the browser's deep storage—
- * and captures the fleeting thoughts of open tabs, preserving the user's universe across the chasm of time.
- * This version now correctly excludes volatile in-memory caches from serialization.
+    /*B"H*/
+
+/**
+ * Inscribes the current state of reality into the eternal memory (localStorage).
+ * UPDATED: Now permits 'local' workspaces to be serialized. It carefully separates
+ * the non-serializable 'handle' (which stays in IndexedDB) from the metadata
+ * (name, id, type) which goes into localStorage.
  */
 saveSession() {
     const persistableWorkspaces = State.workspaces
         .filter(
             ws => ws.type === 'github' ||
             ws.type === 'indexeddb' ||
-            ws.type === 'ssh'
+            ws.type === 'ssh' ||
+            ws.type === 'local' // <--- NOW INCLUDED
         )
         .map(ws => {
-            // We must remove non-serializable properties and temporary caches.
+            // We destructure to separate the essence (data) from the heavy vessels (handles/caches).
             const {
-                handle,
-                _treeCache,
+                handle,      // Cannot be stringified
+                _treeCache,  // Temporary cache
+                isLocked,    // Runtime state
                 ...serializableWs
             } = ws;
             return serializableWs;
@@ -99,10 +103,15 @@ saveSession() {
         .filter(tab => tab.item.workspaceId && persistableWorkspaceIds.has(tab.item.workspaceId))
         .map(tab => {
             const {
-                handle,
+                handle, // Handles cannot be saved here
                 ...serializableItem
             } = tab.item;
-            return serializableItem;
+            return { 
+                ...tab, 
+                item: serializableItem,
+                // Don't cache content for local files to avoid quota errors, unless dirty
+                content: (tab.item.type === 'local' && !tab.isDirty) ? null : tab.content 
+            };
         });
 
     const activeTab = State.tabs.find(t => t.id === State.activeTabId);
@@ -120,48 +129,80 @@ saveSession() {
     localStorage.setItem('vividX_session_profound', JSON.stringify(session));
 },
 
-    /**
-     * B"H
-     * A sacred ritual of resurrection. It reads the inscriptions from the browser's memory and
-     * breathes life back into the universe that once was. Workspaces are reopened, tabs are unfurled,
-     * and the user's focus is restored to its rightful place, making the past present once more.
-     * It is the act of remembering a dream upon waking.
-     */
-    loadSession() {
-        const savedSession = localStorage.getItem('vividX_session_profound');
-        if (!savedSession) return;
+    /*B"H*/
 
-        try {
-            const session = JSON.parse(savedSession);
+/**
+ * A sacred ritual of resurrection. 
+ * UPDATED: Now specifically looks for 'local' workspaces and attempts to 
+ * reconnect the severed link by fetching the Handle from IndexedDB.
+ * If the browser requires re-confirmation, it marks the workspace as 'locked',
+ * awaiting the user's touch (click) to resume.
+ */
+async loadSession() {
+    const savedSession = localStorage.getItem('vividX_session_profound');
+    if (!savedSession) return;
 
-            if (session.workspaces && Array.isArray(session.workspaces)) {
-                session.workspaces.forEach(wsData => {
-                    Workspaces.add(wsData, false);
-                });
+    try {
+        const session = JSON.parse(savedSession);
+
+        if (session.workspaces && Array.isArray(session.workspaces)) {
+            
+            // We must process sequentially to handle the async DB calls
+            for (const wsData of session.workspaces) {
+                
+                // Re-hydration Logic for Local Workspaces
+                if (wsData.type === 'local') {
+                    try {
+                        const handle = await FileSystemProvider.IndexedDB.getHandle(wsData.id);
+                        if (handle) {
+                            wsData.handle = handle;
+                            // Check permission status without prompting (prompting here would fail)
+                            const status = await handle.queryPermission({ mode: 'readwrite' });
+                            
+                            // If not granted, we lock it. The UI will show a "Resume" button.
+                            wsData.isLocked = (status !== 'granted'); 
+                        } else {
+                            // Handle lost/cleared
+                            wsData.isLocked = true;
+                            wsData.isLost = true; 
+                        }
+                    } catch (err) {
+                        console.warn("Could not restore handle for workspace:", wsData.name);
+                        wsData.isLocked = true;
+                    }
+                }
+
+                Workspaces.add(wsData, false);
             }
+        }
 
-            if (session.openTabs && Array.isArray(session.openTabs)) {
-                session.openTabs.forEach(item => {
-                    // The new 'false' argument at the end tells create() NOT to activate the tab.
-                    Tabs.create(item, false, false, false);
-                });
-            }
+        if (session.openTabs && Array.isArray(session.openTabs)) {
+            session.openTabs.forEach(item => {
+                Tabs.create(item, false, false, false);
+            });
+        }
 
-            if (session.activeTabUniquePath) {
+        if (session.activeTabUniquePath) {
+            // Small delay to ensure DOM is ready
+            setTimeout(() => {
                 const activeTab = State.tabs.find(t => t.uniquePath === session.activeTabUniquePath);
                 if (activeTab) {
                     State.activeTabId = activeTab.id;
+                    Tabs.activate(activeTab.id);
                 }
-            }
-
-            if (session.expandedFolders && Array.isArray(session.expandedFolders)) {
-                State.expandedFolders = new Set(session.expandedFolders);
-            }
-        } catch (e) {
-            console.error("Failed to load session:", e);
-            localStorage.removeItem('vividX_session_profound'); // Clear corrupted session
+            }, 100);
         }
-    },
+
+        if (session.expandedFolders && Array.isArray(session.expandedFolders)) {
+            State.expandedFolders = new Set(session.expandedFolders);
+            // Re-render to show expanded state
+            Workspaces.render();
+        }
+    } catch (e) {
+        console.error("Failed to load session:", e);
+        // localStorage.removeItem('vividX_session_profound'); 
+    }
+},
 
     /**
      * B"H
@@ -731,34 +772,53 @@ saveSession() {
         });
     },
 
-    /**
-     * Initiates the sacred ritual of opening a local directory. This action pierces the veil
-     * between the browser's sandbox and the user's own machine, requesting a handle to a piece
-     * of their world. It is an act of trust and requires the user's explicit permission.
-     * @returns {Promise<void>}
-     */
-    async addLocalWorkspace() {
-        try {
-            const handle = await window.showDirectoryPicker();
-            if (await handle.queryPermission({
-                    mode: 'readwrite'
-                }) !== 'granted') {
-                if (await handle.requestPermission({
-                        mode: 'readwrite'
-                    }) !== 'granted') {
-                    throw new Error('Permission to write to directory was denied.');
-                }
-            }
-            Workspaces.add({
-                name: `💻 ${handle.name}`,
-                type: 'local',
-                handle
-            });
-            // Note: We don't save the session here as local workspaces are not persistable.
-        } catch (e) {
-            if (e.name !== 'AbortError') UI.showToast(`Could not open directory: ${e.message}`, 'error');
-        }
-    },
+ 
+    /*B"H*/
+	/**
+	 * Initiates the sacred ritual of opening a local directory.
+	 * This updated version performs a binding ritual: it takes the handle granted
+	 * by the user and saves it to IndexedDB. This ensures that even if the tab
+	 * is closed, the connection to the world (the folder) remains in potential.
+	 * @returns {Promise<void>}
+	 */
+	async addLocalWorkspace() {
+	    try {
+	        const handle = await window.showDirectoryPicker();
+	        
+	        // 1. Immediate Permission Check
+	        if (await handle.queryPermission({ mode: 'readwrite' }) !== 'granted') {
+	            if (await handle.requestPermission({ mode: 'readwrite' }) !== 'granted') {
+	                throw new Error('Permission to write to directory was denied.');
+	            }
+	        }
+	
+	        // 2. Generate ID and Data
+	        const wsId = State.nextWorkspaceId++;
+	        const wsData = {
+	            id: wsId,
+	            name: `💻 ${handle.name}`,
+	            type: 'local',
+	            handle: handle // Kept in memory for now
+	        };
+	
+	        // 3. PERSIST THE HANDLE
+	        // We save the raw handle to IndexedDB *before* adding to the state.
+	        await FileSystemProvider.IndexedDB.saveHandle(wsId, handle);
+	
+	        // 4. Add to State
+	        // Note: We use 'false' for shouldSave in Workspaces.add because we want to 
+	        // trigger our own explicit session save immediately after.
+	        Workspaces.add(wsData, false);
+	        
+	        // 5. Save the Session Metadata to LocalStorage
+	        this.saveSession();
+	        
+	        UI.showToast("Folder opened and remembered.", "success");
+	
+	    } catch (e) {
+	        if (e.name !== 'AbortError') UI.showToast(`Could not open directory: ${e.message}`, 'error');
+	    }
+	},
 
     /**
      * Opens a portal to a remote machine through the arcane art of SSH. This function

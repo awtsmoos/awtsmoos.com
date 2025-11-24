@@ -210,47 +210,88 @@ IndexedDB: {
     STORE_NAME: "files",
     GIT_STORE_NAME: "uncommitted_files",
 
-    /**
-     * @public
-     * @description Initializes a SINGLE database connection with BOTH object stores.
-     * This eliminates the race condition that causes the application to hang.
-     */
-    init: function() {
-        return new Promise((resolve, reject) => {
-            // If the connection is already open, we don't need to do anything.
-            if (State.db) return resolve(State.db);
+    /*B"H*/
 
-            // We open ONE database. We use version 2 to trigger an update for existing users.
-            const request = indexedDB.open(this.DB_NAME, 2);
+/**
+ * Initializes the connection to the browser's eternal memory (IndexedDB).
+ * Version bumped to 3 to create the new 'workspace_handles' vessel.
+ * This vessel holds the sacred keys (Handles) that allow us to return to
+ * local folders after the page has passed into the void and returned (refreshed).
+ */
+init: function() {
+    return new Promise((resolve, reject) => {
+        if (State.db) return resolve(State.db);
 
-            request.onupgradeneeded = e => {
-                const db = e.target.result;
-                // Create the 'files' store if it doesn't exist.
-                if (!db.objectStoreNames.contains(this.STORE_NAME)) {
-                    db.createObjectStore(this.STORE_NAME, { keyPath: "path" });
-                }
-                // Create the 'uncommitted_files' store if it doesn't exist.
-                if (!db.objectStoreNames.contains(this.GIT_STORE_NAME)) {
-                    db.createObjectStore(this.GIT_STORE_NAME, { keyPath: "uniquePath" });
-                }
-            };
+        // We open version 3 to trigger an upgrade for existing users.
+        const request = indexedDB.open(this.DB_NAME, 3);
 
-            request.onsuccess = e => {
-                State.db = e.target.result;
-                // We no longer need a separate gitDb handle.
-                State.gitDb = e.target.result; 
-                resolve(State.db);
-            };
+        request.onupgradeneeded = e => {
+            const db = e.target.result;
+            
+            if (!db.objectStoreNames.contains(this.STORE_NAME)) {
+                db.createObjectStore(this.STORE_NAME, { keyPath: "path" });
+            }
+            if (!db.objectStoreNames.contains(this.GIT_STORE_NAME)) {
+                db.createObjectStore(this.GIT_STORE_NAME, { keyPath: "uniquePath" });
+            }
+            
+            // NEW: The vessel for holding local directory handles.
+            // We use the Workspace ID as the key.
+            if (!db.objectStoreNames.contains("workspace_handles")) {
+                db.createObjectStore("workspace_handles"); 
+            }
+        };
 
-            request.onerror = e => reject(e.target.error);
-            request.onblocked = () => reject(new Error("Database connection is blocked. Please close other open tabs."));
-        });
-    },
+        request.onsuccess = e => {
+            State.db = e.target.result;
+            State.gitDb = e.target.result; 
+            resolve(State.db);
+        };
+
+        request.onerror = e => reject(e.target.error);
+        request.onblocked = () => reject(new Error("Database connection is blocked. Please close other open tabs."));
+    });
+},
+
+/**
+ * Inscribes a directory handle into the 'workspace_handles' store.
+ * This anchors the user's local folder to a persistent ID, allowing
+ * resurrection of the workspace upon reload.
+ * @param {number} workspaceId - The unique identifier of the workspace.
+ * @param {FileSystemDirectoryHandle} handle - The browser's handle object.
+ */
+saveHandle: async function(workspaceId, handle) {
+    const db = await this.init();
+    return new Promise((resolve, reject) => {
+        const tx = db.transaction("workspace_handles", "readwrite");
+        const store = tx.objectStore("workspace_handles");
+        store.put(handle, workspaceId);
+        
+        tx.oncomplete = resolve;
+        tx.onerror = () => reject(tx.error);
+    });
+},
+
+/**
+ * Retrieves a directory handle from the deep storage.
+ * Used during the initialization sequence to restore access to a local folder.
+ * @param {number} workspaceId - The unique identifier of the workspace.
+ * @returns {Promise<FileSystemDirectoryHandle|undefined>} The handle, if found.
+ */
+getHandle: async function(workspaceId) {
+    const db = await this.init();
+    return new Promise((resolve, reject) => {
+        const tx = db.transaction("workspace_handles", "readonly");
+        const store = tx.objectStore("workspace_handles");
+        const request = store.get(workspaceId);
+        
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error);
+    });
+},
 
     // --- Methods for the MAIN "Browser Storage" ---
 /*B"H*/
-// ACTION: Replace the 'list' method within the FileSystemProvider.IndexedDB object.
-
 /**
  * Lists the children of a given directory path within the browser's storage.
  * This corrected version uses a more robust algorithm to calculate the parent
