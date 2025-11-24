@@ -104,22 +104,22 @@ const getMoveCastling = (m) => ((m >> 23) & 1);
 /**
  * THE FINAL, CORRECTED `makeMove` FUNCTION
  * This version correctly calculates the en passant square and ensures the board
- * state remains pure after every operation.
+ * state remains pure by recalculating occupancies at the end, preventing any
+ * possibility of state corruption that could lead to a paradox during book generation.
  */
 function makeMove(state, move) {
     validateGnosticSeal(state, 'makeMove (start)');
-    
+
     const from = getMoveFrom(move), to = getMoveTo(move), piece = getMovePiece(move), promoted = getMovePromoted(move);
     const side = state.turn, enemy = side ^ 1;
     const from_bb = 1n << BigInt(from), to_bb = 1n << BigInt(to);
-    
+    const move_mask = from_bb | to_bb;
+
     let capturedPieceType = null;
     if (getMoveCapture(move)) {
-        // En passant is a special case capture.
         if (getMoveEnpassant(move)) {
-            capturedPieceType = P; // Only pawns can be captured en passant.
+            capturedPieceType = P;
         } else {
-            // Standard capture: find the piece on the destination square.
             capturedPieceType = getPieceTypeOnSquare(state, to, enemy);
             if (capturedPieceType === null) {
                 throw new Error(`CRITICAL PARADOX in makeMove: Capture flag is set but no piece found at square ${to}. State was likely already corrupt.`);
@@ -127,62 +127,54 @@ function makeMove(state, move) {
         }
     }
 
-    // Push the complete, correct state onto the stack for later reversal.
-    moveStack[moveStackPtr++] = { 
-        move, 
-        castling: state.castling, 
-        enpassant: state.enpassant, 
-        capturedPiece: capturedPieceType, 
-        zobristHash: state.zobristHash 
+    moveStack[moveStackPtr++] = {
+        move,
+        castling: state.castling,
+        enpassant: state.enpassant,
+        capturedPiece: capturedPieceType,
+        zobristHash: state.zobristHash
     };
-    
-    // 1. Vacate the 'from' square.
-    state.pieceBitboards[side * 6 + piece] ^= from_bb;
-    state.occupancies[side] ^= from_bb;
-    
+
+    // 1. Move the piece on its bitboard.
+    state.pieceBitboards[side * 6 + piece] ^= move_mask;
+
     // 2. Handle the capture, if any.
     if (capturedPieceType !== null) {
         if (getMoveEnpassant(move)) {
-            // The captured pawn is on a different square than the 'to' square.
             const capSq = (side === WHITE) ? to + 8 : to - 8;
-            const cap_bb = 1n << BigInt(capSq);
-            state.pieceBitboards[enemy * 6 + P] ^= cap_bb;
-            state.occupancies[enemy] ^= cap_bb;
+            state.pieceBitboards[enemy * 6 + P] ^= (1n << BigInt(capSq));
         } else {
-            // The captured piece is on the 'to' square.
             state.pieceBitboards[enemy * 6 + capturedPieceType] ^= to_bb;
-            state.occupancies[enemy] ^= to_bb;
         }
     }
-    
-    // 3. Place the moving piece on the 'to' square.
-    state.pieceBitboards[side * 6 + piece] ^= to_bb;
-    state.occupancies[side] ^= to_bb;
 
-    // 4. Handle promotions.
+    // 3. Handle promotions.
     if (promoted) {
-        state.pieceBitboards[side * 6 + P] ^= to_bb; // The piece is a pawn no more.
-        state.pieceBitboards[side * 6 + promoted] ^= to_bb; // It is now the promoted piece.
+        state.pieceBitboards[side * 6 + P] ^= to_bb;
+        state.pieceBitboards[side * 6 + promoted] ^= to_bb;
     }
-    
-    // 5. Handle castling rook movement.
+
+    // 4. Handle castling rook movement.
     if (getMoveCastling(move)) {
         const [rf, rt] = (to === 62) ? [63, 61] : (to === 58) ? [56, 59] : (to === 6) ? [7, 5] : [0, 3];
-        const rook_mask = (1n << BigInt(rf)) | (1n << BigInt(rt));
-        state.pieceBitboards[side * 6 + R] ^= rook_mask;
-        state.occupancies[side] ^= rook_mask;
+        state.pieceBitboards[side * 6 + R] ^= (1n << BigInt(rf)) | (1n << BigInt(rt));
     }
-    
-    // 6. Update global state.
-    state.occupancies[2] = state.occupancies[WHITE] | state.occupancies[BLACK];
+
+    // 5. Update castling rights and en passant square.
     state.castling &= castling_rights[from] & castling_rights[to];
-    
-    // THE CRITICAL BUG FIX: The en passant square is the one *behind* the pawn's destination.
     state.enpassant = getMoveDouble(move) ? (side === WHITE ? to + 8 : to - 8) : -1;
 
+    // 6. Flip turn.
     state.turn ^= 1;
-    state.zobristHash = calculateZobristHash(state);
+
+    // 7. ROBUSTNESS FIX: Fully recalculate all occupancy bitboards from the piece bitboards.
+    // This is the safest way to prevent state corruption.
+    state.occupancies[WHITE] = state.pieceBitboards[P] | state.pieceBitboards[N] | state.pieceBitboards[B] | state.pieceBitboards[R] | state.pieceBitboards[Q] | state.pieceBitboards[K];
+    state.occupancies[BLACK] = state.pieceBitboards[P+6] | state.pieceBitboards[N+6] | state.pieceBitboards[B+6] | state.pieceBitboards[R+6] | state.pieceBitboards[Q+6] | state.pieceBitboards[K+6];
+    state.occupancies[2] = state.occupancies[WHITE] | state.occupancies[BLACK];
     
+    // 8. Recalculate hash and validate.
+    state.zobristHash = calculateZobristHash(state);
     validateGnosticSeal(state, 'makeMove (end)');
 }
 
@@ -191,7 +183,8 @@ function makeMove(state, move) {
 /**
  * THE FINAL, CORRECTED `unmakeMove` FUNCTION
  * This version robustly restores the exact previous state from the stack,
- * preventing any possibility of corruption.
+ * preventing any possibility of corruption. It is the perfect inverse of the
+ * corrected `makeMove` function.
  */
 function unmakeMove(state) {
     validateGnosticSeal(state, 'unmakeMove (start)');
@@ -199,6 +192,7 @@ function unmakeMove(state) {
     const { move, capturedPiece } = info;
     
     // 1. Immediately revert turn and core state variables from the stack.
+    // This is the most critical step for a perfect reversal.
     state.turn ^= 1;
     state.castling = info.castling;
     state.enpassant = info.enpassant;
@@ -207,12 +201,12 @@ function unmakeMove(state) {
     const from = getMoveFrom(move), to = getMoveTo(move), piece = getMovePiece(move), promoted = getMovePromoted(move);
     const side = state.turn, enemy = side ^ 1;
     const from_bb = 1n << BigInt(from), to_bb = 1n << BigInt(to);
+    const move_mask = from_bb | to_bb;
 
     // 2. Revert castling rook movement.
     if (getMoveCastling(move)) {
         const [rf, rt] = (to === 62) ? [63, 61] : (to === 58) ? [56, 59] : (to === 6) ? [7, 5] : [0, 3];
-        const rook_mask = (1n << BigInt(rf)) | (1n << BigInt(rt));
-        state.pieceBitboards[side * 6 + R] ^= rook_mask;
+        state.pieceBitboards[side * 6 + R] ^= (1n << BigInt(rf)) | (1n << BigInt(rt));
     }
 
     // 3. Revert promotions.
@@ -222,21 +216,20 @@ function unmakeMove(state) {
     }
     
     // 4. Move the piece from 'to' back to 'from'.
-    state.pieceBitboards[side * 6 + piece] ^= (from_bb | to_bb);
+    state.pieceBitboards[side * 6 + piece] ^= move_mask;
 
     // 5. Restore the captured piece, if any.
     if (capturedPiece !== null) {
         if (getMoveEnpassant(move)) {
             const capSq = (side === WHITE) ? to + 8 : to - 8;
-            const cap_bb = 1n << BigInt(capSq);
-            state.pieceBitboards[enemy * 6 + P] ^= cap_bb;
+            state.pieceBitboards[enemy * 6 + P] ^= (1n << BigInt(capSq));
         } else {
             state.pieceBitboards[enemy * 6 + capturedPiece] ^= to_bb;
         }
     }
     
     // 6. Finally, fully rebuild the occupancy bitboards from the restored piece bitboards.
-    // This is the safest method and prevents any possibility of lingering corruption.
+    // This mirrors the robust approach in makeMove and prevents any possibility of lingering corruption.
     state.occupancies[WHITE] = state.pieceBitboards[P] | state.pieceBitboards[N] | state.pieceBitboards[B] | state.pieceBitboards[R] | state.pieceBitboards[Q] | state.pieceBitboards[K];
     state.occupancies[BLACK] = state.pieceBitboards[P+6] | state.pieceBitboards[N+6] | state.pieceBitboards[B+6] | state.pieceBitboards[R+6] | state.pieceBitboards[Q+6] | state.pieceBitboards[K+6];
     state.occupancies[2] = state.occupancies[WHITE] | state.occupancies[BLACK];
