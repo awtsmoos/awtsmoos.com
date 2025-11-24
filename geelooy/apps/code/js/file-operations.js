@@ -269,10 +269,10 @@ async copyAllContents(items) {
         UI.showLoading(`Checking for remote changes...`);
         try {
             // 1. Get the latest state of the remote repository.
-            // **THE FIX IS HERE**: We inject the workspaceId from the local folder context.
+            // We inject the workspaceId so the reader knows which credentials to use.
             const sourceRepoItem = { 
                 type: 'github', 
-                workspaceId: folderToUpdate.workspaceId, // This is the crucial addition.
+                workspaceId: folderToUpdate.workspaceId, 
                 ...gitInfo 
             };
             const newTreeData = await FileSystemProvider.GitHub.getFullTree(sourceRepoItem);
@@ -297,32 +297,49 @@ async copyAllContents(items) {
                 }
             });
 
-            const totalChanges = filesToDownload.length + filesToDelete.length;
-            if (totalChanges === 0) {
+            // Calculate total relevant changes (ignoring trees updates in the count usually, but for simplicity we keep logic)
+            // We filter the download count to meaningful files.
+            const totalDownloads = filesToDownload.filter(f => f.type === 'blob').length;
+            const totalDeletes = filesToDelete.length;
+            
+            if (totalDownloads === 0 && totalDeletes === 0) {
                 UI.showToast("Already up-to-date.", 'success');
                 UI.hideLoading();
                 return;
             }
 
-            UI.showLoading(`Found ${totalChanges} change(s). Preparing to pull...`);
+            UI.showLoading(`Found ${totalDownloads} file(s) to download and ${totalDeletes} to delete...`);
             await new Promise(resolve => setTimeout(resolve, 1500));
 
             // 3. Execute Deletions (if any)
+            // We do this first to clear up conflicts.
             if (filesToDelete.length > 0) {
-                const deletionPromises = filesToDelete.map(file => {
-                    const itemToDelete = { ...folderToUpdate, path: `${folderToUpdate.path}/${file.path}` };
-                    return FileSystemProvider.delete(itemToDelete);
+                const deletionPromises = filesToDelete.map(async file => {
+                    // We try/catch deletions individually so one failure doesn't stop the sync.
+                    try {
+                        const itemToDelete = { ...folderToUpdate, path: `${folderToUpdate.path}/${file.path}` };
+                        await FileSystemProvider.delete(itemToDelete);
+                    } catch (e) {
+                        console.warn("Could not delete file during pull:", file.path, e);
+                    }
                 });
                 await Promise.all(deletionPromises);
             }
 
-            // 4. Execute Downloads (if any)
+            // 4. Execute Downloads
             for (const fileNode of filesToDownload) {
+                // CRITICAL FIX: Do not attempt to "download" a folder (tree).
+                // Trying to read a tree SHA as a blob causes the 404 error.
+                if (fileNode.type !== 'blob') continue;
+
                 UI.showLoading(`Pulling: ${fileNode.path}`);
-                const itemForReading = { ...sourceRepoItem, path: fileNode.path, sha: fileNode.sha, name: fileNode.name };
+                
+                const itemForReading = { ...sourceRepoItem, path: fileNode.path, sha: fileNode.sha, name: fileNode.name || 'file' };
                 const content = await FileSystemProvider.GitHub.read(itemForReading);
+                
                 const destinationItem = { ...folderToUpdate, path: `${folderToUpdate.path}/${fileNode.path}` };
                 const parentPath = fileNode.path.substring(0, fileNode.path.lastIndexOf('/'));
+                
                 if (parentPath) {
                     await this._ensurePathExists(folderToUpdate, parentPath);
                 }
@@ -335,6 +352,7 @@ async copyAllContents(items) {
             const ikarFileItem = { ...folderToUpdate, path: `${folderToUpdate.path}/.awtsmoos-repo/ikar.js` };
             await FileSystemProvider.write(ikarFileItem, ikarFileContent);
 
+            // 6. Refresh the UI
             await Workspaces.refreshNode(folderToUpdate);
             UI.hideLoading();
             UI.showToast('Pull successful. Local folder is now in sync.', 'success');
