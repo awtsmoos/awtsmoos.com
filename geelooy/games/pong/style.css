@@ -1,0 +1,14 @@
+/*B"H*/
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #000;
+    overflow: hidden; /* Prevent scrollbars */
+}
+canvas {
+    border: 2px solid #fff;
+    touch-action: none; /* Disable default touch actions like scrolling */
+}
