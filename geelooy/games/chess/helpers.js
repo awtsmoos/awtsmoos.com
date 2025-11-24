@@ -238,6 +238,7 @@ function unmakeMove(state) {
 }
 
 
+
 function generateMoves(state) {
     validateGnosticSeal(state, 'generateMoves');
     const moves = [];
@@ -251,51 +252,52 @@ function generateMoves(state) {
     while (pawns > 0n) {
         const from = getLSBIndex(pawns);
         const rank = Math.floor(from / 8);
-        
-        // Correctly identify the rank *before* the promotion square for each color.
-        // For White (moving from high rank index to low), this is rank 1.
-        // For Black (moving from low rank index to high), this is rank 6.
-        const prePromotionRank = (side === WHITE) ? 1 : 6;
+
+        const promRank = (side === WHITE) ? 1 : 6;
         const startRank = (side === WHITE) ? 6 : 1;
-        
-        // --- Single Pawn Push ---
+
+        // --- 1. Single Pawn Push ---
         const one_step = (side === WHITE) ? from - 8 : from + 8;
+        // Check if the square in front is empty
         if (!((blockers >> BigInt(one_step)) & 1n)) {
-            // It's a promotion move if the pawn is on the pre-promotion rank.
-            if (rank === prePromotionRank) {
+            // Is it a promotion?
+            if (rank === promRank) {
                 [Q, R, B, N].forEach(p => moves.push(encodeMove(from, one_step, P, p, 0, 0, 0, 0)));
             } else {
-                // It's a standard quiet move.
+            // It's a regular single push
                 moves.push(encodeMove(from, one_step, P, 0, 0, 0, 0, 0));
-
-                // --- Double Pawn Push (only possible if single push is legal) ---
-                if (rank === startRank) {
-                    const two_steps = (side === WHITE) ? from - 16 : from + 16;
-                    if (!((blockers >> BigInt(two_steps)) & 1n)) {
-                        moves.push(encodeMove(from, two_steps, P, 0, 0, 1, 0, 0));
-                    }
-                }
             }
         }
         
-        // --- Pawn Captures ---
+        // --- 2. Double Pawn Push (can only happen from the start rank) ---
+        // This logic is now OUTSIDE the single-push 'else', fixing the bug.
+        if (rank === startRank) {
+            const one_step_clear = !((blockers >> BigInt(one_step)) & 1n);
+            if (one_step_clear) {
+                const two_steps = (side === WHITE) ? from - 16 : from + 16;
+                if (!((blockers >> BigInt(two_steps)) & 1n)) {
+                    moves.push(encodeMove(from, two_steps, P, 0, 0, 1, 0, 0));
+                }
+            }
+        }
+
+        // --- 3. Pawn Captures ---
         let attacks = PAWN_ATTACKS[side][from] & enemy_pieces;
         while (attacks > 0n) {
             const to = getLSBIndex(attacks);
-            // It's a capture-promotion.
-            if (rank === prePromotionRank) {
+            if (rank === promRank) {
                 [Q, R, B, N].forEach(p => moves.push(encodeMove(from, to, P, p, 1, 0, 0, 0)));
             } else {
-                // It's a standard capture.
                 moves.push(encodeMove(from, to, P, 0, 1, 0, 0, 0));
             }
             attacks = popBit(attacks);
         }
         
-        // --- En Passant ---
+        // --- 4. En Passant ---
         if (state.enpassant !== -1 && (PAWN_ATTACKS[side][from] & (1n << BigInt(state.enpassant)))) {
             moves.push(encodeMove(from, state.enpassant, P, 0, 1, 0, 1, 0));
         }
+        
         pawns = popBit(pawns);
     }
 
@@ -320,19 +322,19 @@ function generateMoves(state) {
             else if (p === R) attacks = getRookAttacks(from, blockers);
             else if (p === Q) attacks = getQueenAttacks(from, blockers);
             
-            attacks &= ~friendly_pieces; // Can move to empty squares or enemy squares
+            attacks &= ~friendly_pieces;
 
             let quiet_moves = attacks & ~enemy_pieces;
             while(quiet_moves > 0n) {
                 const to = getLSBIndex(quiet_moves);
-                moves.push(encodeMove(from, to, p, 0, 0, 0, 0, 0)); // Capture flag is 0
+                moves.push(encodeMove(from, to, p, 0, 0, 0, 0, 0));
                 quiet_moves = popBit(quiet_moves);
             }
 
             let capture_moves = attacks & enemy_pieces;
              while(capture_moves > 0n) {
                 const to = getLSBIndex(capture_moves);
-                moves.push(encodeMove(from, to, p, 0, 1, 0, 0, 0)); // Capture flag is 1
+                moves.push(encodeMove(from, to, p, 0, 1, 0, 0, 0));
                 capture_moves = popBit(capture_moves);
             }
             bb = popBit(bb);
