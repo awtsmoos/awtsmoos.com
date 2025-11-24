@@ -176,3 +176,6 @@ function generateRawBook(source) {
 }
 
 if(typeof self !== 'undefined') self.PgnConverter = PgnConverter;
+
+
+

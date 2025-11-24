@@ -4,7 +4,7 @@
 // We are re-creating the engine's consciousness in a controlled environment.
 import { createGameState, generateMoves, getMoveFrom, getMoveTo, getMovePiece, getMovePromoted } from '../helpers.js';
 import { initializeAll } from '../bitboard-helpers.js';
-import { PgnConverter } from '../generateFromPgn.js';
+import * as pgnGen from '../generateFromPgn.js';
 
 // --- DOM Elements ---
 const fenInput = document.getElementById('fenInput');
