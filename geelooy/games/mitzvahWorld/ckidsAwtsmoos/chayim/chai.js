@@ -424,26 +424,32 @@ export default class Chai extends Tzomayach {
 
     /**
      * B"H
-     * Aligns the active preview object to remain level with the world, compensating for camera pitch.
-     * This is the final corrected version that ensures the block does not tilt with the camera in FPS mode.
+     * Aligns the active preview object to remain level with the world, especially in FPS mode.
+     * This is the final version that correctly cancels out the camera's vertical tilt (pitch)
+     * by applying an equal and opposite local rotation, accounting for the parent's coordinate system.
      * @returns {void}
      */
     alignObject() {
         if (!this.activeRay || !this.activeRay.group || !this.activeObject) return;
 
         if (this.olam.ayin.isFPS) {
-            // Get the world rotation of the parent (the camera).
-            const parentWorldQuaternion = new THREE.Quaternion();
-            this.activeRay.group.parent.getWorldQuaternion(parentWorldQuaternion);
+            // Get the camera's rotation. 'YXZ' order isolates the up/down tilt (pitch) to the .x property.
+            const cameraEuler = new THREE.Euler().setFromQuaternion(this.olam.ayin.camera.quaternion, 'YXZ');
 
-            // Invert the parent's rotation.
-            const inverseQuaternion = parentWorldQuaternion.invert();
+            // --- THIS IS THE FINAL FIX ---
+            // We apply a local rotation that is EQUAL to the camera's pitch.
+            // The inherited rotation from the parent hierarchy is effectively inverted.
+            // By applying a positive local rotation of the same magnitude, we perfectly
+            // cancel it out, forcing the block to remain level with the world.
+            this.activeObject.mesh.rotation.x = cameraEuler.x;
+            // --- END OF FIX ---
+            
+            // Ensure there are no other unwanted local rotations.
+            this.activeObject.mesh.rotation.y = 0;
+            this.activeObject.mesh.rotation.z = 0;
 
-            // Apply the inverse rotation to the block's quaternion. This cancels out the parent's tilt,
-            // making the block's world orientation always upright.
-            this.activeObject.mesh.quaternion.copy(inverseQuaternion);
         } else {
-            // In 3rd person, the parent group is already level, so just ensure the block has no local rotation.
+            // In 3rd person, the parent group is already level, so we just reset the block's local rotation.
             this.activeObject.mesh.rotation.set(0, 0, 0);
         }
     }
