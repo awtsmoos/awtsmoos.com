@@ -1,0 +1,113 @@
+<h2>B"H</h2>
+<script>
+
+    // Function to handle the selection of the root directory
+
+// Custom sorting function to sort directory entries considering the numeric prefix
+function sortEntries(entries) {
+    return entries.sort((a, b) => {
+        // Extract numeric prefix and convert to number
+        let numA = parseInt(a.name.split('_')[0]);
+        let numB = parseInt(b.name.split('_')[0]);
+
+        // Compare numbers for sorting
+        return numA - numB;
+    });
+}
+
+
+// Function to handle the selection of the root directory
+async function selectRootDirectory() {
+    var dirHandle = await window.showDirectoryPicker();
+    await processDirectory(dirHandle);
+}
+
+// Function to process each directory
+async function processDirectory(directoryHandle, parentSeriesId = 'root', parentFolderName = '') {
+    let entries = [];
+    for await (var entry of directoryHandle.values()) {
+        entries.push(entry);
+    }
+
+    // Sort entries with custom sorting logic
+    entries = sortEntries(entries);
+
+    for (var entry of entries) {
+        if (entry.kind === 'file') {
+            // Process each file independently
+            await processFile(entry, parentSeriesId, parentFolderName);
+        } else if (entry.kind === 'directory') {
+            // Process directories
+            var cleanedName = cleanName(entry.name);
+            var containsVerseFile = await directoryContainsVerseFile(entry);
+
+            if (containsVerseFile) {
+                var verseFile = await entry.getFileHandle('verse.txt');
+                await processFile(verseFile, parentSeriesId, cleanedName);
+            } else {
+                var newSeriesId = await createSeries(cleanedName, parentSeriesId);
+                await processDirectory(entry, newSeriesId, cleanedName);
+            }
+        }
+    }
+}
+
+// Function to process a file
+async function processFile(fileHandle, seriesId, parentFolderName) {
+    var file = await fileHandle.getFile();
+    var content = await file.text();
+    var title = fileHandle.name === 'verse.txt' ? parentFolderName : fileHandle.name;
+    await createPost(title, content, seriesId);
+}
+// Function to check if a directory contains a 'verse.txt' file
+async function directoryContainsVerseFile(directoryHandle) {
+    try {
+        await directoryHandle.getFileHandle('verse.txt');
+        return true;
+    } catch {
+        return false;
+    }
+}
+
+// Function to clean names by removing numeric or Hebrew letter prefixes
+function cleanName(name) {
+    return name.replace(/^(\d+|[\u0590-\u05FF])_/, '');
+}
+
+// Function to create a post on Awtsmoos
+async function createPost(title, content, seriesId) {
+    var response = await fetch("https://awtsmoos.com/api/social/heichelos/tanach/posts", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: `aliasId=sefarim&title=${encodeURIComponent(title)}&content=${encodeURIComponent(content)}&heichel=tanach&seriesId=${seriesId}`,
+    });
+    var responseData = await response.json();
+    if (responseData.error) {
+        console.error('Error creating post:', responseData.error);
+    }
+}
+
+// Function to create a series on Awtsmoos
+async function createSeries(title, parentSeriesId) {
+    var response = await fetch("https://awtsmoos.com/api/social/heichelos/tanach/addNewSeries", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: `aliasId=sefarim&title=${encodeURIComponent(title)}&description=&heichel=tanach&parentSeriesId=${parentSeriesId}`,
+    });
+    var responseData = await response.json();
+    if (responseData.error) {
+        console.error('Error creating series:', responseData.error);
+        return parentSeriesId; // Return parent series ID on error
+    }
+    return responseData.success.newSeriesID;
+}
+
+
+// Start the process
+onclick = selectRootDirectory;
+
+</script>

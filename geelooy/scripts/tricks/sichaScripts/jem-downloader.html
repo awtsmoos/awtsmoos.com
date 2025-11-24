@@ -1,0 +1,297 @@
+<!--B"H-->
+<body>
+<h4>B"H</h4>
+<h3>Welcome. To use this jem script, go to
+<a target="_blank" href="https://ashreinu.app/">ashreinu.app</a>
+in a browser that has a console.
+
+Then, if u trust me, open the console and paste this script in it:
+
+<textarea rows=20 cols=40>
+//B"H
+//Awtsmoos Jemizier script downloader
+var dirHandle = null;
+async function getYearEvents(year) {
+    var events = await fj(`https://5qlaecnhel.execute-api.us-east-1.amazonaws.com/prod/ashreinu/api/v1/events?year=${year}&has=audio`)
+    return events?.data;
+}
+
+async function getEventData(eventId) {
+    return (await fj(`https://5qlaecnhel.execute-api.us-east-1.amazonaws.com/prod/ashreinu/api/v1/event/${eventId}`))?.data
+}
+
+async function tryToGetRightAudioFile(eventData, index=0, type="aud") {
+   
+    var audios = eventData.audio_recordings;
+     if(type == "sub") {
+        var  subs = eventData.sub_events;
+         if(subs.length) {
+            audios = subs.map(q => (
+                q.audio_recordings?.[0]
+            )).filter(Boolean);
+         }
+    }
+    if(!audios) return {
+        error: "No audio for this entry"
+    };
+    
+    var cur = audios[index];
+    if(!cur) return {
+        error: "Finished audio for this entry"
+    };
+
+    var asset = cur?.assets?.[0];
+    if(!asset) return  {
+        error: "No asset link for this"
+    };
+
+    var assetURI = asset.uri;
+    var uri = new URL(assetURI)
+    var extDot = uri.pathname.lastIndexOf(".")
+    if(extDot < 0) return {
+        error: "No extension for this",asset,uri
+    };
+
+    var ext = uri.pathname.substring(extDot)
+    var mainPart = uri.pathname.substring(0, extDot);
+
+    var assetDefaultFormat = asset.file_format;
+    var otherFormat = assetDefaultFormat == "mp3" ?  "opus" : "mp3";
+    
+    var tryBlob = await fb(uri.origin + mainPart +"."+ assetDefaultFormat);
+    var tried = null;
+    if(
+        tryBlob.type == "text/html" ||
+        tryBlob.type == "application/xml"
+    ) {
+        var txt = await getBlobAsText(tryBlob);
+        tried = txt;
+        tryBlob = null;
+    }
+    
+    if(tryBlob) return {
+        success: tryBlob, 
+        entry: cur,
+        format: assetDefaultFormat
+    };
+
+    tryBlob = await fb(uri.origin + mainPart + "." + otherFormat)
+    if(tryBlob) return {
+        success: tryBlob, 
+        asset,
+        mainPart,
+        entry: cur,
+        format: otherFormat,
+        uri,
+        tried
+    }
+
+    return {
+        error: "Could not get anything"
+    };
+}
+
+async function getAllPictures(eventData, cb) {
+    var results = [];
+    if(!eventData.pictures) {
+        return {
+            error: "No pictures for this event",
+        }
+    }
+    for(var pic of eventData.pictures) {
+        var picB = await fb(pic.url);
+        if(cb) await cb({
+            blob: picB,
+            pic
+        })
+        results.push(picB);
+    }
+    return results;
+}
+
+async function getBlobAsText(blob) {
+    return await (
+        await fetch(URL.createObjectURL(blob))
+    ).text()
+}
+
+async function fb(url) {
+    try {
+        return await (
+            await fetch(url)
+        ).blob()
+    } catch(e) {return null}
+}
+
+async function fj(url) {
+    try {
+        return await (
+            await fetch(url)
+        ).json()
+    } catch(e) {return null}
+}
+
+async function getFilteredYearData(year, afterMonth=0, afterDay=0, iev) {
+    var allYearData = await getYearEvents(year);
+    var extra = 0;
+    if(afterMonth) {
+        allYearData = allYearData.filter(r => {
+        
+            
+            return (
+                m => {
+                    var isAfter = m >= afterMonth;
+                    if(!isAfter) extra++;
+                    return !isNaN(m) ?  isAfter : true
+                }
+            )(r?.dates?.[0]?.hebrew_month) &&
+            (
+                d => !isNaN(d) ? d >= afterDay : true
+            )(r?.dates?.[0]?.hebrew_day)
+        })
+    }
+    allYearData.awtsExtra = extra;
+    return allYearData;
+}
+
+
+
+async function getAllEventsFromYear(year, {
+    withPictures = true,
+    withAudio = true,
+    afterMonth=0, 
+    afterDay=0
+}={}) {
+    if(!window.showDirectoryPicker) {
+        return alert("use a better browser")
+    }
+    
+    var iev = 0;
+    var yearData = await getFilteredYearData(year, afterMonth, afterDay, iev);
+   // return yearData;
+    iev += yearData.awtsExtra;
+    console.log("GOT",yearData,iev)
+    if(!dirHandle) {
+        dirHandle = await showDirectoryPicker();
+    }
+    var yearFolder = await dirHandle.getDirectoryHandle(year, {
+        create: true
+    });
+    
+   
+    for(var event of yearData) {
+        var data = await getEventData(event.id);
+        if(!data) {
+            console.log("COULDNT FIND", event);
+            continue;
+        }
+        iev++;
+        var eventFolder = await yearFolder.getDirectoryHandle(
+            sname("BH_"+iev.toString().padStart(3, "0") + "_"+data.name), {create: true}
+        );
+        if(withPictures) {
+            var pictureFolder = await eventFolder.getDirectoryHandle(
+                "Pictures", {create: true}
+            )
+            var pics = await getAllPictures(data, async ({blob, pic}) => {
+                 var picF = await pictureFolder.getFileHandle(
+                    pic.jem_id+".jpg", {create: true}
+                )
+                var wri = await picF.createWritable()
+                await wri.write({data: blob, type: "write"})
+                await wri.close();
+            });
+         
+        }
+        if(withAudio) {
+            var audio = await fetchEntireEvent(data, async (aud, i) => {
+                var nm = sname(aud.entry.name) + "." + aud.format
+                if(i) {
+                    nm = "BH_" + i.toString().padStart(3, "0")+"_"+nm;
+                }
+                console.log("WRITING",nm,aud);
+                var audF = await eventFolder.getFileHandle(
+                    nm, {create: true}
+                )
+                var wri = await audF.createWritable()
+                await wri.write({data: aud.success, type: "write"})
+                await wri.close();
+            });
+        }
+
+        var audF = await eventFolder.getFileHandle(
+            "awtsmoosMetadata.json", {create: true}
+        )
+        var wri = await audF.createWritable()
+        await wri.write({data: JSON.stringify(data), type: "write"})
+        await wri.close();
+    }
+    return yearData;
+
+   
+}
+
+async function fetchEntireEvent(eventData, cb) {
+    var results = [];
+    
+    if(eventData.sub_events?.length) {
+        var lng = eventData.sub_events.length;
+        for(var i = 0; i < lng; i++) {
+            var aud = (
+                await tryToGetRightAudioFile(eventData, i, "sub")
+            )
+
+            results.push(aud)
+            
+            if(cb) await cb(aud, i + 1)
+        }
+    } else
+    if(eventData.audio_recordings) {
+        var lng = eventData.audio_recordings.length;
+        for(var i = 0; i < lng; i++) {
+            var aud = (
+                await tryToGetRightAudioFile(eventData, i)
+            )
+
+            results.push(aud)
+            
+            if(cb) await cb(aud, i + 1)
+        }
+    } else {
+         var aud =   await tryToGetRightAudioFile(eventData, 0)
+        
+        results.push(aud);
+        
+        if(cb) await cb(aud, 0)
+    }
+    return results;
+}
+
+function sname(nm) {
+    return nm.split(",").join("-")
+        .split("/").join("_")
+        .split("?").join("")
+}
+
+/*
+    take away the "//" in from of
+    "with Pictures:false" to 
+    only downlaod audio
+
+    Similarly, you can add //
+    in front of "withAudio: true"
+    to only get pictures, and 
+    you can start downloading after / including
+    a certain hebrew month 
+    (1 = Tishrei, 2 = Cheshvan) etc.
+*/
+await getAllEventsFromYear(5746, {
+   // withPictures: false,
+    //withAudio: false,
+    afterMonth: 1
+})
+
+
+
+</textarea>
+</body>
