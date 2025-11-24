@@ -1,0 +1,278 @@
+<!--B"H-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timeline and Caption Player</title>
+    <style>
+        /* Global Styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #111;
+            color: #fff;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        /* Timeline Styles */
+        .timeline-container {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            position: relative;
+            background: #333;
+            padding: 10px;
+            transition: height 0.5s;
+        }
+
+        .timeline {
+            flex-grow: 1;
+            height: 10px;
+            background: linear-gradient(to right, #f06, #ffcc00);
+            position: relative;
+            cursor: pointer;
+        }
+
+        .time-seeker {
+            position: absolute;
+            top: 0;
+            width: 10px;
+            height: 100%;
+            background-color: #fff;
+            cursor: pointer;
+        }
+
+        .play-pause-btn {
+            background-color: transparent;
+            color: #fff;
+            border: 1px solid #fff;
+            padding: 5px 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .play-pause-btn:hover {
+            background-color: #ffcc00;
+        }
+
+        /* Bin Styles */
+        .bin-container {
+            width: 200px;
+            background: #222;
+            overflow: hidden;
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            transition: width 0.5s;
+        }
+
+        .bin-content {
+            padding: 20px;
+            background: #333;
+        }
+
+        .retract-btn {
+            position: absolute;
+            top: 10px;
+            right: -30px;
+            cursor: pointer;
+            background: #555;
+            color: #fff;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+        }
+
+        /* Caption Styles */
+        .captions-container {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            background: rgba(0, 0, 0, 0.6);
+            overflow-y: auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .caption {
+            font-size: 18px;
+            color: #fff;
+            margin: 0 5px;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .caption.active {
+            opacity: 1;
+            font-weight: bold;
+        }
+
+        /* Zoom Buttons */
+        .zoom-btns {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .zoom-btn {
+            background: #444;
+            border: none;
+            color: #fff;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Timeline Section -->
+        <div class="timeline-container" id="timelineContainer">
+            <div class="timeline" id="timeline" onclick="scrubTimeline(event)">
+                <div class="time-seeker" id="timeSeeker"></div>
+            </div>
+            <button class="play-pause-btn" id="playPauseBtn" onclick="togglePlayPause()">Play</button>
+        </div>
+
+        <!-- Bin Section -->
+        <div class="bin-container" id="binContainer">
+            <div class="bin-content" id="binContent">
+                <!-- File Upload Section -->
+                <input type="file" id="fileInput" accept=".awtsmoos.json">
+                <div id="captionsDisplay"></div>
+            </div>
+            <button class="retract-btn" onclick="toggleBin()"><<</button>
+        </div>
+
+        <!-- Captions Section -->
+        <div class="captions-container" id="captionsContainer"></div>
+
+        <!-- Zoom Buttons -->
+        <div class="zoom-btns">
+            <button class="zoom-btn" id="zoomInBtn" onclick="zoomIn()">Zoom In</button>
+            <button class="zoom-btn" id="zoomOutBtn" onclick="zoomOut()">Zoom Out</button>
+        </div>
+    </div>
+
+    <script>
+        // Global Variables
+        let isPlaying = false;
+        let currentTime = 0;
+        let timelineWidth = 1000; // Adjust for actual timeline width
+        let zoomLevel = 1;
+        let captionsData = [];
+        let audioElement = new Audio();
+
+        // Timeline Functions
+        const timeline = document.getElementById('timeline');
+        const timeSeeker = document.getElementById('timeSeeker');
+        const captionsContainer = document.getElementById('captionsContainer');
+
+        function scrubTimeline(event) {
+            const timelineWidth = timeline.offsetWidth;
+            const clickPosition = event.offsetX;
+            currentTime = (clickPosition / timelineWidth) * audioElement.duration;
+            updateTimeSeeker();
+            updateCaptions();
+        }
+
+        function updateTimeSeeker() {
+            const timelineWidth = timeline.offsetWidth;
+            timeSeeker.style.left = (currentTime / audioElement.duration) * timelineWidth + 'px';
+        }
+
+        function togglePlayPause() {
+            if (isPlaying) {
+                audioElement.pause();
+                document.getElementById('playPauseBtn').innerText = 'Play';
+            } else {
+                audioElement.play();
+                document.getElementById('playPauseBtn').innerText = 'Pause';
+            }
+            isPlaying = !isPlaying;
+        }
+
+        // Zoom Functions
+        function zoomIn() {
+            zoomLevel += 0.1;
+            updateTimelineZoom();
+        }
+
+        function zoomOut() {
+            zoomLevel = Math.max(0.1, zoomLevel - 0.1);
+            updateTimelineZoom();
+        }
+
+        function updateTimelineZoom() {
+            timeline.style.transform = `scaleX(${zoomLevel})`;
+            updateTimeSeeker();
+        }
+
+        // Bin and Timeline Retraction
+        function toggleBin() {
+            const bin = document.getElementById('binContainer');
+            bin.style.width = bin.style.width === '0px' ? '200px' : '0px';
+        }
+
+        function toggleTimeline() {
+            const timelineContainer = document.getElementById('timelineContainer');
+            timelineContainer.style.height = timelineContainer.style.height === '0px' ? '60px' : '0px';
+        }
+
+        // Load Captions File
+        document.getElementById('fileInput').addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (file && file.name.endsWith('.awtsmoos.json')) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    captionsData = JSON.parse(e.target.result).fragments;
+                    displayCaptions();
+                };
+                reader.readAsText(file);
+            }
+        });
+
+        // Display Captions
+        function displayCaptions() {
+            captionsContainer.innerHTML = '';
+            captionsData.forEach(fragment => {
+                const captionDiv = document.createElement('div');
+                captionDiv.classList.add('caption');
+                captionDiv.innerText = fragment.lines.join(' ');
+                captionsContainer.appendChild(captionDiv);
+            });
+        }
+
+        // Update Captions Based on Time
+        function updateCaptions() {
+            const currentCaption = captionsData.find(fragment => {
+                return currentTime >= parseFloat(fragment.begin) && currentTime <= parseFloat(fragment.end);
+            });
+
+            if (currentCaption) {
+                const activeCaptions = document.querySelectorAll('.caption');
+                activeCaptions.forEach(caption => caption.classList.remove('active'));
+                const activeCaption = Array.from(activeCaptions).find(caption => caption.innerText === currentCaption.lines.join(' '));
+                if (activeCaption) {
+                    activeCaption.classList.add('active');
+                }
+            }
+        }
+    </script>
+</body>
+</html>
