@@ -46,7 +46,8 @@ let moveStack = Array(1024).fill(0),
 
 
 
-/* B"H */
+/* B"H
+wow */
 function createGameState(fen) {
     const state = {
         pieceBitboards: Array(12).fill(0n),
