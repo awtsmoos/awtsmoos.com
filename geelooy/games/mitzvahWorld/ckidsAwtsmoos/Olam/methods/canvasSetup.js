@@ -9,6 +9,8 @@ import PostProcessingManager from
 */
 //import Environment from "../../postProcessing/environment.js";
 
+import * as THREE from '/games/scripts/build/three.module.js';
+
 export default class {
 
 	
@@ -24,59 +26,37 @@ export default class {
      */
     takeInCanvas(canvas, devicePixelRatio = 1) {
        
-            
-        // With antialias as true, the rendering is smooth, never crass,
-        // We attach it to the given canvas, our window to the graphic mass.
-        var temp = this.rendererTemplate(
-            canvas
-        )
-		
-        this.renderer = new temp({ 
+        // B"H - SIMPLIFIED AND CORRECTED LOGIC
+        // The modern THREE.WebGLRenderer handles both WebGL2 and WebGL1 contexts automatically.
+        // We only need to check if the main constructor exists.
+
+        if (!THREE.WebGLRenderer) {
+            console.error("B\"H: Critical Error - THREE.WebGLRenderer is not available. Check Three.js import.");
+            this.ayshPeula("error", {
+                message: "THREE.WebGLRenderer could not be found in the worker. The game cannot start."
+            });
+            return; // Stop execution if Three.js isn't loaded properly
+        }
+
+        // This single line will create a WebGL2 renderer if possible, or fall back to WebGL1.
+        this.renderer = new THREE.WebGLRenderer({ 
 			antialias: true, canvas,
 			logarithmicDepthBuffer: true
 		});
+		
         if(!this.renderer.compute) this.renderer.compute = () => {}
         if(!this.renderer.renderAsync) {
 		    this.renderer.clearAsync=this.renderer.clear;
-
-
-
-	
             this.renderer.renderAsync = this.renderer.render;
         }
-        /*
-        this.environment = new Environment({
-            scene: this.scene
-            ,
-            renderer: this.renderer,
-            camera: this.ayin.camera
-        });*/
-
+        
         this.renderer.setPixelRatio(
             devicePixelRatio
         )
-        //this.renderer.autoClear = false;
+        
         var renderer = this.renderer
-       // renderer.shadowMap.enabled = true;
-       // renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
-
-       
-        // On this stage we size, dimensions to unfurl,
-        // Setting the width and height of our graphic world.
-      //  this.setSize(this.width, this.height);
         this.ayshPeula("canvased")
-         /**
-         * other effects
-         */
-      
-        /*this.composer = new EffectComposer(this.renderer);
-        var renderPass = new RenderPass(
-            this.scene,
-            this.camera
-        );
-        this.composer.addPass(renderPass);
-        */
     }
 
     postprocessingSetup() {

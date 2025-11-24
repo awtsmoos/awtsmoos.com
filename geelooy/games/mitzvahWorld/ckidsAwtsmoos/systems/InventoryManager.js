@@ -19,26 +19,33 @@ export default class InventoryManager {
         }
     }
 
-    /**
-     * Adds a specified quantity of an item to the inventory.
-     * @param {string} itemClassName - The class name of the item to add (e.g., "Brick").
+   /**
+     * B"H
+     * Adds an item defined by a data object to the inventory.
+     * @param {object} itemData - An object describing the item, e.g., { id: 'brick_2x2x2', className: 'Brick', dimensions: {x:2,y:2,z:2} }
      * @param {number} quantity - The amount to add.
-     * @returns {boolean} - True if the item was added successfully, false if the inventory is full.
+     * @returns {boolean} - True if the item was added successfully.
      */
-    addItem(itemClassName, quantity = 1, opts = {}) {
-        // Dynamically get the item's class from the AWTSMOOS exports
-        const itemClass = AWTSMOOS[itemClassName];
+    addItem(itemData, quantity = 1) {
+        if (!itemData || !itemData.id || !itemData.className) {
+            console.error("Inventory: addItem requires an itemData object with id and className.", itemData);
+            return false;
+        }
+
+        const itemClass = AWTSMOOS[itemData.className];
         if (!itemClass) {
-            console.error(`Inventory: Item class "${itemClassName}" not found.`);
+            console.error(`Inventory: Item class "${itemData.className}" not found.`);
             return false;
         }
 
         const maxStack = itemClass.stackSize || 64;
+        const uniqueItemId = itemData.id; // We'll use this for stacking
 
-        // First, try to stack with existing items of the same type
+        // First, try to stack with existing items of the EXACT same type (same ID)
         for (let i = 0; i < this.slots.length; i++) {
             const slot = this.slots[i];
-            if (slot && slot.item === itemClassName && slot.quantity < maxStack) {
+            // B"H - CHANGE: Compare the unique ID instead of the class name
+            if (slot && slot.id === uniqueItemId && slot.quantity < maxStack) {
                 const canAdd = maxStack - slot.quantity;
                 const toAdd = Math.min(quantity, canAdd);
                 slot.quantity += toAdd;
@@ -50,14 +57,14 @@ export default class InventoryManager {
             }
         }
 
-        // If items remain, find the first empty slot to create a new stack
+        // If items remain, find an empty slot for the new stack
         for (let i = 0; i < this.slots.length; i++) {
             if (this.slots[i] === null) {
                 const toAdd = Math.min(quantity, maxStack);
+                // B"H - CHANGE: Store the entire itemData object in the slot
                 this.slots[i] = {
-                    item: itemClassName,
+                    ...itemData, // Copy all properties from itemData
                     quantity: toAdd
-                   
                 };
                 quantity -= toAdd;
                 if (quantity <= 0) {
@@ -68,7 +75,7 @@ export default class InventoryManager {
         }
         
         console.warn("Inventory is full!");
-        this.updateUI(); // Update UI even if partially added
+        this.updateUI();
         return quantity > 0 ? false : true;
     }
 
@@ -95,19 +102,19 @@ export default class InventoryManager {
      * It enriches the slot data with details like icons and descriptions.
      */
     async updateUI() {
-	 
         if (this.owner.olam && this.owner.olam.ayshPeula) {
-            
             const uiSlots = await Promise.all(this.slots.map(async slot => {
                 if (!slot) return null;
-                const itemClass = AWTSMOOS[slot.item];
+                // B"H - CHANGE: Use className from the slot data
+                const itemClass = AWTSMOOS[slot.className]; 
                 if (!itemClass) return null;
                 
                 return {
                     ...slot,
+                    // Use static properties for display, but keep instance data from the slot
                     icon: itemClass.icon || "",
-                    description: itemClass.description || "No description.",
-                    name: itemClass.itemName || slot.item
+                    description: slot.description || itemClass.description || "No description.",
+                    name: slot.name || itemClass.itemName || slot.className
                 };
             }));
 

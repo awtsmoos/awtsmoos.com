@@ -158,6 +158,14 @@ export default class {
         var mesh = new THREE.Mesh(
             chomer, tzurah
         );
+        
+        if (tzurah && tzurah.map && golem.textureRepeat) {
+	        tzurah.map.wrapS = THREE.RepeatWrapping;
+	        tzurah.map.wrapT = THREE.RepeatWrapping;
+	        // Adjusts repeat based on the X and Y dimensions of the brick
+	        tzurah.map.repeat.set(golem.textureRepeat.x, golem.textureRepeat.y);
+	        console.log("Set",tzurah);
+	    }
         mesh.awtsmoosGolem = originalGolem;
         return mesh;
     }

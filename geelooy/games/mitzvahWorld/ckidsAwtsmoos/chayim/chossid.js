@@ -500,7 +500,7 @@ export default class Chossid extends Medabeir {
 	            }
 	
 	
-	            this.alignObject();
+	            //this.alignObject();
 	            if(this.activeObject) {
 	                if(this.olam.isLookingForSomething) {
 	                    this.olam.isLookingForSomething = false
@@ -549,7 +549,31 @@ export default class Chossid extends Medabeir {
         await this
         .olam?.minimap?.setMinimapItems?.([this], "chossid");
        
-	        this.inventory.addItem("Brick", 64);
+	       // Add 64 standard 1x1x1 bricks
+	    this.inventory.addItem({
+	        id: 'brick_1x1x1',
+	        className: 'Brick',
+	        name: 'Standard Brick',
+	        description: 'A classic 1x1x1 brick.'
+	    }, 64);
+	
+	    // Add 32 larger 2x2x2 bricks
+	    this.inventory.addItem({
+	        id: 'brick_2x2x2',
+	        className: 'Brick',
+	        name: 'Cube Brick',
+	        description: 'A large 2x2x2 brick.',
+	        dimensions: { x: 2, y: 2, z: 2 }
+	    }, 32);
+	
+	    // Add 16 long 1x1x4 bricks
+	    this.inventory.addItem({
+	        id: 'brick_1x1x4',
+	        className: 'Brick',
+	        name: 'Plank Brick',
+	        description: 'A long 1x1x4 plank.',
+	        dimensions: { x: 1, y: 1, z: 4 }
+	    }, 16);
         
     }
 

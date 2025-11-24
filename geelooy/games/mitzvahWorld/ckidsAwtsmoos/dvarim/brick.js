@@ -21,25 +21,32 @@ export default class Brick extends Tzomayach {
     static stackSize = 64;
     
     constructor(op) {
-	    super(op);
-        if(op.dimensions) {
-	        Object.apply(this.dimensions, op.dimensions)
-        }
-        op.golem = {
-            guf: { 
-                BoxGeometry: [
-	                this.dimensions.x, 
-	                this.dimensions.y, 
-	                this.dimensions.z
-	        ]
-            },
-            toyr: {
-                MeshLambertMaterial: {
+	    // B"H - STEP 1: Determine dimensions first.
+	    // Use dimensions from the options (op), or default to 1x1x1.
+	    const dimensions = op.dimensions || { x: 1, y: 1, z: 1 };
+	
+	    // B"H - STEP 2: Create the golem object on the options BEFORE calling super.
+	    op.golem = {
+	        guf: { 
+	            BoxGeometry: [
+	                dimensions.x, 
+	                dimensions.y, 
+	                dimensions.z
+	            ]
+	        },
+	        toyr: {
+	            MeshLambertMaterial: {
 	                color: "#a0522d",
 	                map: "awtsmoos://brickTexture"
-                } // A more brick-like Sienna color
-            }
-        };
-       
-    }
+	            }
+	        },
+	        textureRepeat: { x: dimensions.x, y: dimensions.y }
+	    };
+	   
+	    // B"H - STEP 3: Now call super. The Domem constructor will find and use op.golem.
+	    super(op);
+	
+	    // B"H - STEP 4: Set the instance property for reference.
+	    this.dimensions = dimensions;
+	}
 }
