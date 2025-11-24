@@ -256,3 +256,7 @@ function initializeAll() {
     console.log("B\"H - The Gnostic Seal is in place. MEMORY_CANARY is set:", MEMORY_CANARY.toString(16));
     console.log(`%cB"H - THE SYMPHONY OF CREATION IS COMPLETE. The universe is now stable and ready.`, "color: magenta; font-weight: bold;");
 }
+
+
+
+if (typeof self !== 'undefined') self.pieceMap = pieceMap;

@@ -5,7 +5,7 @@
 // Its purpose is to load the engine's brain and run the test.
 console. log('B"H',
 "\n",
-"wow"
+"wow2"
 )
 try {
     importScripts(
