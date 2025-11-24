@@ -48,7 +48,7 @@ let moveStack = Array(1024).fill(0),
 
 
 /* B"H 
-cool
+cool!
 */
 function createGameState(fen) {
     const state = {
@@ -68,7 +68,7 @@ function createGameState(fen) {
         if (c === '/') {
             r++;
             f = 0;
-            continue; // Go to the next character
+            continue;
         }
 
         if (/\d/.test(c)) {
@@ -78,8 +78,8 @@ function createGameState(fen) {
             if (pieceIndex !== -1) {
                 state.pieceBitboards[pieceIndex] |= (1n << BigInt(r * 8 + f));
             }
-            // THE PERMANENT FIX: The column counter must always increment
-            // after processing a single character (piece or number).
+            // THE PERMANENT FIX: The file/column counter MUST increment after
+            // processing a single piece character.
             f++;
         }
     }
@@ -108,6 +108,7 @@ function createGameState(fen) {
     validateGnosticSeal(state, 'createGameState');
     return state;
 }
+
 
 function getPieceTypeOnSquare(state, sq, side) {
     const t = 1n << BigInt(sq);
