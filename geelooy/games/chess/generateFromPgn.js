@@ -31,6 +31,9 @@ const ScribeLogger = {
     }
 };
 
+if (typeof self !== 'undefined') self.ScribeLogger = ScribeLogger;
+
+
 class PgnConverter {
     constructor() { this.currentState = null; }
     setState(state) { this.currentState = state; }
@@ -176,6 +179,3 @@ function generateRawBook(source) {
 }
 
 if(typeof self !== 'undefined') self.PgnConverter = PgnConverter;
-
-
-
