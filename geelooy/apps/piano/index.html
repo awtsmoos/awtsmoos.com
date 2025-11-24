@@ -1,0 +1,144 @@
+<!-- B"H -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Extreme Web Synthesizer - Revamped</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="start-screen"><button id="start-button">Start Synthesizer</button></div>
+    <div id="app-container">
+        <div id="keyboard-container"></div>
+        <div id="top-scrollbars-container">
+            <div id="custom-scrollbar-container" class="custom-scrollbar-container"><div id="custom-scrollbar-thumb" class="custom-scrollbar-thumb"></div></div>
+        </div>
+        <div id="middle-scrollbar-container">
+            <div id="custom-scrollbar-container-top" class="custom-scrollbar-container"><div id="custom-scrollbar-thumb-top" class="custom-scrollbar-thumb"></div></div>
+        </div>
+        
+        <div id="left-ui-container">
+            <div class="menu-icon"><div class="bar"></div><div class="bar"></div><div class="bar"></div></div>
+            <div id="settings-bar">
+                 <div class="settings-wrapper">
+                    <div class="settings-content">
+                        <!-- New Master Volume Control -->
+                        <label>Master Vol:</label><input type="range" id="master-volume-slider" min="0.1" max="1.0" step="0.05" value="0.7">
+                        <label>Wave:</label><select id="waveform-select">
+                            <!-- Options populated by JS for main synth -->
+                        </select>
+                        <label>Start:</label><select id="octave-select"><option value="1">C1</option><option value="2">C2</option><option value="3">C3</option><option value="4" selected>C4</option></select>
+                        <label>Width:</label><input type="range" id="key-width-slider" min="60" max="240" step="10" value="160">
+                        <br>
+                        <label><input type="checkbox" id="play-chords-checkbox"> Play Chords</label>
+                        <label id="always-dual-label"><input type="checkbox" id="always-dual-checkbox"> Always Dual View</label>
+                        <label id="independent-scroll-label" class="hidden-ui"><input type="checkbox" id="independent-scroll-checkbox"> Independent Scroll</label>
+                        <br>
+                        <button id="advanced-synth-toggle">Main Synth Settings</button>
+                        <button id="chord-settings-toggle">Chord Settings</button>
+                        <button id="audio-io-toggle">Audio I/O</button>
+                        <button id="restore-defaults-button" style="background-color: #6c757d;">Defaults</button>
+                    <!-- ADD THIS ENTIRE BLOCK for Visual Effects Configuration -->
+                        
+                     </div> <!-- This closes the settings-content div -->
+                    
+                    <div id="visual-effects-menu" class="nested-menu settings-content">
+                    <div class="setting-item">
+                    <label for="myFPS">fps:</label><input id="myFPS" type="number" value="18">
+                         
+    <label for="effect-select">Visual Effect:</label>
+    <select id="effect-select" class="control-select">
+        <option value="explosion" selected>Explosion (Continuous Video)</option>
+        <option value="touchpoint">Touch Point (Event-Based Video)</option>
+    </select>
+</div>
+                        <h4>Particle Types</h4>
+                        <div class="checkbox-group">
+                            <label><input type="checkbox" id="enable-hebrew" checked> Hebrew</label>
+                            <label><input type="checkbox" id="enable-emojis" checked> Emojis</label>
+                            <label><input type="checkbox" id="enable-sparks" checked> Sparks</label>
+                            <label><input type="checkbox" id="enable-bubbles" checked> Bubbles</label>
+                        </div>
+                        
+                        <br>
+                        <h4>Particle Physics</h4>
+                        <label>Density:</label><input type="range" id="particle-density" min="1" max="50" step="1" value="15">
+                        <label>Speed:</label><input type="range" id="particle-speed" min="0.5" max="2.0" step="0.1" value="1.0">
+                        <label>Size Var:</label><input type="range" id="particle-size" min="0.5" max="2.0" step="0.1" value="1.0">
+                        <label>Lifespan:</label><input type="range" id="particle-lifespan" min="0.5" max="2.0" step="0.1" value="1.0">
+                        <br>
+                        <h4>Lightning</h4>
+                        <label>Amount:</label><input type="range" id="lightning-amount" min="0" max="1.0" step="0.05" value="0.3">
+                    </div>
+                    
+                    <div id="chord-settings-menu" class="nested-menu settings-content">
+                         <label>Mode:</label><select id="chord-mode-select"><option value="auto" selected>Auto-Detect</option><option value="major">Major</option><option value="minor">Minor</option></select>
+                         <label>Octave:</label><select id="chord-octave-select"><option value="auto" selected>Auto</option><option value="-1">1 Octave Below</option><option value="0">Current Octave</option><option value="1">1 Octave Above</option></select>
+                         <br>
+                         <!-- New Chord Synth Selector -->
+                         <label>Chord Wave:</label><select id="chord-waveform-select">
+                             <!-- Options populated by JS for chord synth -->
+                         </select>
+                    </div>
+                    
+                    <div id="audio-io-menu" class="nested-menu settings-content">
+                        <button id="record-audio-button">Record 🎤</button>
+                        <button id="record-video-button">Record 🎥</button>
+                        <button id="record-sheet-button">Record 🎼</button>
+    <br>
+                        <button id="mic-button">Enable Mic</button>
+                        <label>Mic Vol:</label><input type="range" id="mic-volume-slider" min="0" max="2" step="0.05" value="1.0" disabled>
+                        <label><input type="checkbox" id="mic-playback-checkbox" checked> Hear Self</label>
+                        <div id="video-progress" style="width:100%; margin-top:10px; color:#ffc107; font-weight:bold;"></div>
+                        
+                        <button id="visual-effects-toggle">Visual Effects</button>
+                   
+                        
+                    </div>
+ 
+                    <div id="advanced-synth-menu" class="nested-menu settings-content">
+                        <h4>Amplitude (Volume) ADSR</h4>
+                        <label>Attack:</label><input type="range" id="attack-slider" min="0.01" max="1" step="0.01" value="0.02">
+                        <label>Decay:</label><input type="range" id="decay-slider" min="0.01" max="1" step="0.01" value="0.1">
+                        <label>Sustain:</label><input type="range" id="sustain-slider" min="0" max="1" step="0.01" value="0.8">
+                        <label>Release:</label><input type="range" id="release-slider" min="0.1" max="2" step="0.01" value="0.3">
+                        <br>
+                        
+                        <h4>Oscillator 2 & Detune</h4>
+                        <label>Wave 2:</label><select id="waveform2-select">
+                            <!-- Options populated by JS for OSC2 -->
+                        </select>
+                        <label>Mix:</label><input type="range" id="osc-mix-slider" min="0" max="1" step="0.01" value="0.0">
+                        <label>Detune (cents):</label><input type="range" id="detune-slider" min="-1200" max="1200" step="1" value="5">
+                        <br>
+                        
+                        <!-- New Pitch Envelope Controls -->
+                        <h4>Pitch Envelope (for that "down" effect)</h4>
+                        <label>Pitch Depth (cents):</label><input type="range" id="pitch-depth-slider" min="0" max="100" step="1" value="15">
+                        <label>Pitch Attack (sec):</label><input type="range" id="pitch-attack-slider" min="0.001" max="0.5" step="0.001" value="0.005">
+                        <br>
+                        
+                        <h4>Filter & Effects</h4>
+                        <label>Cutoff:</label><input type="range" id="filter-cutoff-slider" min="100" max="20000" step="10" value="20000">
+                        <label>Resonance:</label><input type="range" id="filter-q-slider" min="0" max="20" step="0.1" value="0">
+                        <br>
+                        <label>LFO Rate:</label><input type="range" id="lfo-rate-slider" min="0.1" max="20" step="0.1" value="5">
+                        <label>LFO Depth:</label><input type="range" id="lfo-depth-slider" min="0" max="8000" step="10" value="0">
+                        <label>Reverb:</label><input type="range" id="reverb-slider" min="0" max="1" step="0.01" value="0">
+                    </div>
+                 </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="sheet-music-container" style="display: none;"></div>
+    
+    
+<script src="sheetRender.js"></script>
+
+    <script src="script.js"></script>
+
+
+</body>
+</html>
