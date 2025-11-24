@@ -758,16 +758,27 @@ export default class Chai extends Tzomayach {
     /**
      * B"H
      * Finalizes placement.
-     * UPDATED: Now keeps the ray active after placement for continuous building.
+     * UPDATED: Uses consumeItem() to correctly reduce quantity even if the brick
+     * is equipped in the Right Hand slot.
      */
     async placeObject() {
         if (!this.activeObject || !this.activeObject.mesh) return;
 
+        // 1. Get the Active Item (from Equipment OR Hotbar)
+        const activeItem = this.getActiveItem(); 
+        
+        // Safety check: ensure we are actually holding the brick we are placing
+        // (Prevents edge cases where you switch items really fast)
+        if (!activeItem || (activeItem.className !== 'Brick' && activeItem.item !== 'Brick')) return;
+
         const golem = this.activeObject.mesh.awtsmoosGolem;
-        const itemData = this.activeObject.mesh.userData.itemData;
+        
+        // Use the metadata from the ACTIVE item
+        const itemData = activeItem; 
 
         if (!golem) return;
 
+        // ... [Matrix decomposition code remains the same] ...
         this.activeObject.mesh.updateMatrixWorld(true);
         const worldPosition = new THREE.Vector3();
         const worldQuaternion = new THREE.Quaternion();
@@ -775,17 +786,13 @@ export default class Chai extends Tzomayach {
         this.activeObject.mesh.matrixWorld.decompose(worldPosition, worldQuaternion, worldScale);
         const worldRotation = new THREE.Euler().setFromQuaternion(worldQuaternion);
 
-        if (this.inventory && this.selectedInventorySlot !== null) {
-            this.inventory.removeItem(this.selectedInventorySlot, 1);
-            if (!this.inventory.slots[this.selectedInventorySlot]) {
-                this.selectedInventorySlot = null;
-                // If we ran out of items, we SHOULD remove the ray/preview to indicate empty hand
-                this.removeRay();
-                return; 
-            }
-        }
+        // --- THIS IS THE FIX ---
+        // Instead of manually clearing slots[i], we ask the manager to consume
+        // the specific item object we are holding.
+        this.inventory.consumeItem(activeItem, 1);
+        // -----------------------
 
-        const type = itemData && itemData.className ? itemData.className : 'Domem';
+        const type = itemData.className || 'Domem';
 
         await this.olam.addObject(type, {
             position: worldPosition,
@@ -793,16 +800,18 @@ export default class Chai extends Tzomayach {
             rotation: worldRotation,
             golem, 
             itemData, 
-            ...(itemData && itemData.dimensions ? { dimensions: itemData.dimensions } : {}),
+            ...(itemData.dimensions ? { dimensions: itemData.dimensions } : {}),
             isSolid: true,
             interactable: true,
             name: "BH_permanent_block_" + Date.now()
         });
 
-        // --- WORKFLOW FIX ---
-        // Do NOT remove the whole ray. Just remove the preview object (the "ghost" block).
-        // The ray remains, allowing the user to press 'B' again to place another block immediately.
-        this.removeActiveObject(); 
+        // If we ran out of items (activeItem is now null or removed), remove the preview
+        if (!this.getActiveItem()) {
+            this.removeRay();
+        } else {
+            this.removeActiveObject(); 
+        }
     }
     
     

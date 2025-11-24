@@ -28,6 +28,31 @@ export default class InventoryManager {
             this.slots.push(null);
         }
     }
+    
+    save() {
+        // Only save if there is an active Olam
+        if (!this.owner || !this.owner.olam) return;
+
+        // Clear any pending save to prevent spamming
+        if (this._saveTimeout) clearTimeout(this._saveTimeout);
+
+        // Wait 1 second after the last change, then save
+        this._saveTimeout = setTimeout(() => {
+            
+            // Prepare the data
+            const saveData = {
+                inventory: {
+                    slots: this.slots,
+                    equipment: this.equipment
+                }
+            };
+
+            // Send to Main Thread
+            this.owner.olam.ayshPeula("saveSettings", saveData);
+            
+            // console.log("B\"H - Inventory Saved to Cloud");
+        }, 1000); 
+    }
 
     addItem(itemData, quantity = 1) {
         if (!itemData || !itemData.id || !itemData.className) {
@@ -54,6 +79,7 @@ export default class InventoryManager {
                 quantity -= toAdd;
                 if (quantity <= 0) {
                     this.updateUI();
+                    this.save(); 
                     return true;
                 }
             }
@@ -70,6 +96,7 @@ export default class InventoryManager {
                 quantity -= toAdd;
                 if (quantity <= 0) {
                    this.updateUI();
+                   this.save();
                     return true;
                 }
             }
@@ -77,6 +104,43 @@ export default class InventoryManager {
         
         this.updateUI();
         return quantity > 0 ? false : true;
+    }
+    
+    /**
+     * B"H
+     * Reduces the quantity of a specific item object, regardless of where it is
+     * (Hotbar OR Equipment). If quantity hits 0, it clears the slot/equipment.
+     */
+    consumeItem(itemReference, amount = 1) {
+        if (!itemReference) return;
+
+        itemReference.quantity -= amount;
+
+        if (itemReference.quantity <= 0) {
+            // 1. Check if it's in the main inventory slots
+            const slotIndex = this.slots.indexOf(itemReference);
+            if (slotIndex > -1) {
+                this.slots[slotIndex] = null;
+            }
+
+            // 2. Check if it's in equipment
+            else {
+                for (const [key, equippedItem] of Object.entries(this.equipment)) {
+                    if (equippedItem === itemReference) {
+                        this.equipment[key] = null;
+                        // Also update visuals (remove mesh from player model)
+                        this.updateVisuals(key, itemReference, false);
+                        break;
+                    }
+                }
+            }
+            
+            // If we just consumed the last item in hand, update the ghost block state
+            this.owner.updateHandState();
+        }
+
+        this.updateUI();
+        this.save();
     }
 
     removeItem(slotIndex, quantity = 1) {
@@ -87,6 +151,7 @@ export default class InventoryManager {
                 this.slots[slotIndex] = null;
             }
             this.updateUI();
+            this.save();
             return true;
         }
         return false;
@@ -120,7 +185,7 @@ export default class InventoryManager {
         this.updateVisuals(equipSlotName, itemToEquip, true);
 
         this.updateUI();
-        
+        this.save();
         // Update player hand state immediately if right hand changed
         if (equipSlotName === 'rightHand') {
             this.owner.updateHandState(); 
@@ -151,6 +216,7 @@ export default class InventoryManager {
             this.updateVisuals(equipSlotName, itemToUnequip, false);
             this.equipment[equipSlotName] = null;
             this.updateUI();
+            this.save();
              if (equipSlotName === 'rightHand') {
                 this.owner.updateHandState();
             }

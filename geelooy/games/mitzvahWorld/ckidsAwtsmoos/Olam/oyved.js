@@ -48,6 +48,31 @@ async function go() {
     }
 
     var tawfkeedeem/*tasks to do*/ = {
+    
+	    async saveSettings(data) {
+                // Only works if user is logged in (has an alias)
+                if(!window.curAlias) return;
+
+                try {
+                    // Format as a JS module so it can be imported easily later
+                    const fileContent = `//B"H\n//Awtsmoos User Settings & Inventory\nexport default ${JSON.stringify(data, null, 4)}`;
+                    
+                    // Path: desktop.folder/game data.folder/awtsmoosSettings.js
+                    const path = "desktop.folder/game data.folder/awtsmoosSettings.js";
+
+                    await fetch(`/api/social/aliases/${window.curAlias}/fileSystem/makeFile`, {
+                        method: "POST",
+                        body: new URLSearchParams({
+                            path: path,
+                            value: fileContent
+                        })
+                    });
+                    
+                   // console.log("Settings saved to " + path);
+                } catch(e) {
+                    console.error("Failed to auto-save settings:", e);
+                }
+            },
 	    async equipItem({ index, target }) {
 	        if (me.olam && me.olam.player && me.olam.player.inventory) {
 	            console.log("Equipping item from slot", index, "to", target);
