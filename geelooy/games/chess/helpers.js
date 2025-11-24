@@ -1,5 +1,5 @@
 /* B"H */
-importScripts("bitboard-helpers.js");
+
 
 const GNOSIS_UNIVERSE_MASK = 0xffffffffffffffffn;
 

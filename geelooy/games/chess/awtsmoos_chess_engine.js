@@ -11,6 +11,7 @@
 // =================================================================
 
 // --- I. THE INHALATION OF WISDOM (Importing Universal Laws) ---
+importScripts("bitboard-helpers.js");
 importScripts('helpers.js');
 importScripts('generateFromPgn.js');
 importScripts('grandmaster_library.js');
