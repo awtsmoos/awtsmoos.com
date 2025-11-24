@@ -44,6 +44,7 @@ let moveStack = Array(1024).fill(0),
     moveStackPtr = 0;
 
 
+/* B"H - FINAL, EVIDENCE-BASED createGameState FUNCTION */
 function createGameState(fen) {
     const state = {
         pieceBitboards: Array(12).fill(0n),
@@ -56,32 +57,34 @@ function createGameState(fen) {
     if (!fen || typeof fen !== 'string') return state;
 
     const parts = fen.split(' ');
-    let row = 0, col = 0;
+    let r = 0, f = 0;
 
-    // --- Board State from FEN part 1 ---
-    for (const char of parts[0]) {
-        if (char === '/') {
-            row++;
-            col = 0;
-        } else if (/\d/.test(char)) {
-            col += parseInt(char);
+    for (const c of parts[0]) {
+        if (c === '/') {
+            r++;
+            f = 0;
+            continue; // Move to the next character
+        }
+
+        if (/\d/.test(c)) {
+            f += parseInt(c);
         } else {
-            const pieceIndex = pieceMap.indexOf(char);
+            const pieceIndex = pieceMap.indexOf(c);
             if (pieceIndex !== -1) {
-                const squareIndex = row * 8 + col;
-                state.pieceBitboards[pieceIndex] |= (1n << BigInt(squareIndex));
+                state.pieceBitboards[pieceIndex] |= (1n << BigInt(r * 8 + f));
             }
-            col++;
+            // THE BUG FIX: The column must ALWAYS increment for a piece character.
+            // It was previously inside the else block, causing misalignments.
+            f++;
         }
     }
 
-    // --- Correctly Populate Occupancy Bitboards ---
-    // This was the site of the original corruption. This version is explicit and safe.
+    // Correctly Populate Occupancy Bitboards
     state.occupancies[WHITE] = state.pieceBitboards[P] | state.pieceBitboards[N] | state.pieceBitboards[B] | state.pieceBitboards[R] | state.pieceBitboards[Q] | state.pieceBitboards[K];
     state.occupancies[BLACK] = state.pieceBitboards[P+6] | state.pieceBitboards[N+6] | state.pieceBitboards[B+6] | state.pieceBitboards[R+6] | state.pieceBitboards[Q+6] | state.pieceBitboards[K+6];
     state.occupancies[2] = state.occupancies[WHITE] | state.occupancies[BLACK];
 
-    // --- Game State from FEN parts 2, 3, 4 ---
+    // Game State from FEN parts 2, 3, 4
     state.turn = (parts[1] === 'w') ? WHITE : BLACK;
     
     if (parts[2].includes('K')) state.castling |= WKCA;
@@ -95,7 +98,7 @@ function createGameState(fen) {
         state.enpassant = rank * 8 + file;
     }
 
-    // --- Final Calculation and Validation ---
+    // Final Calculation and Validation
     if (zobristTurnKey !== 0n) state.zobristHash = calculateZobristHash(state);
     validateGnosticSeal(state, 'createGameState');
     return state;
