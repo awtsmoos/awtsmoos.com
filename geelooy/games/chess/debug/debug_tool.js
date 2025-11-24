@@ -22,7 +22,7 @@ function initializeWorker() {
         debugWorker.terminate();
     }
     
-    debugWorker = new Worker('debug_worker.js');
+    debugWorker = new Worker('debug_worker.js?s=5');
     
     // Listen for messages (logs) from the worker
     debugWorker.onmessage = function(e) {
