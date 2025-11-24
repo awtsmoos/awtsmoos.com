@@ -1,5 +1,6 @@
 /* B"H */
 
+
 // This is a dedicated Web Worker. It cannot access the DOM.
 // Its purpose is to load the engine's brain and run the test.
 console. log('B"H',
