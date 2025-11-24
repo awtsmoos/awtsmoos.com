@@ -222,80 +222,46 @@ async loadSession() {
      * @returns {Promise<void>} A promise that resolves when the universe is fully formed.
      */
     async initialize() {
-        // This log should ALWAYS appear. If it doesn't, the problem is with the script loading itself.
-        console.log('[INIT_DEBUG] Awtsmoos Editor is starting the initialization sequence.');
-        UI.showLoading("Awtsmoos Editor Initializing...");
+        console.log('[INIT] Awtsmoos Editor Initializing...');
+        UI.showLoading("Initializing...");
 
         try {
-            // STEP 1: Database Initialization with Timeout
-            console.log('[INIT_DEBUG] Step 1: Initializing Browser Storage (IndexedDB)...');
-            const dbInitialization = FileSystemProvider.IndexedDB.init();
-            const dbTimeout = new Promise((_, reject) =>
-                setTimeout(() => reject(new Error('Database connection timed out after 5 seconds.')), 5000)
-            );
+            // 1. Database
+            await Promise.race([
+                FileSystemProvider.IndexedDB.init(),
+                new Promise((_, r) => setTimeout(() => r(new Error('DB Timeout')), 5000))
+            ]);
 
-            // This will either resolve with the DB connection or reject with the timeout error.
-            await Promise.race([dbInitialization, dbTimeout]);
-            console.log('[INIT_DEBUG] Step 1 COMPLETE: Database connected successfully.');
-
-            // STEP 2: Load Settings
-            console.log('[INIT_DEBUG] Step 2: Loading settings...');
+            // 2. Settings
             this.loadSettings();
-            console.log('[INIT_DEBUG] Step 2 COMPLETE: Settings loaded.');
 
-            // STEP 3: Load Session
-            console.log('[INIT_DEBUG] Step 3: Loading session...');
+            // 3. Load Session (MUST AWAIT THIS)
             const isEmbedded = new URLSearchParams(window.location.search).get('embedded') === 'true';
             if (!isEmbedded) {
-                this.loadSession();
+                await this.loadSession(); // 
             }
-            console.log('[INIT_DEBUG] Step 3 COMPLETE: Session loaded.');
 
-            // STEP 4: Initialize UI Modules
-            console.log('[INIT_DEBUG] Step 4: Initializing UI modules...');
+            // 4. Modules
             SelectionManager.initialize();
             CustomMenu.init();
             this.setupEventListeners();
             FindReplace.init();
             Editor.init();
             State.hexEditorInstance = new HexEditor(DOM.hexEditorWrapper, DOM.hexNavPad);
-            console.log('[INIT_DEBUG] Step 4 COMPLETE: UI modules initialized.');
 
-            // STEP 5: Render UI from State
-            console.log('[INIT_DEBUG] Step 5: Rendering workspaces...');
+            // 5. Render Workspaces (State is now fully populated)
             Workspaces.render();
-            console.log('[INIT_DEBUG] Step 5 COMPLETE: Workspaces rendered.');
 
-            // STEP 6: Activate the correct tab
-            console.log('[INIT_DEBUG] Step 6: Activating primary tab...');
+            // 6. Activate Tab (if any)
             await Tabs.activate(State.activeTabId || null);
-            console.log('[INIT_DEBUG] Step 6 COMPLETE: Primary tab activated.');
 
-            // FINAL STEP: Hide loading and show welcome
-            console.log('[INIT_DEBUG] Initialization sequence finished successfully. B"H');
             UI.hideLoading();
             UI.showToast("Welcome to the Awtsmoos Code Editor", 'success');
 
         } catch (e) {
-            // This is the crucial catch block. If any step fails, this will now execute.
-            console.error('[INIT_FATAL] A critical error occurred during initialization:', e);
+            console.error('[INIT_FATAL]', e);
             UI.hideLoading();
-            const errorMessage = e.message || "An unknown critical error occurred during startup. The application cannot continue. Please check the console for details.";
-            UI.showToast(errorMessage, 'error', 15000); // Show toast for 15 seconds
-
-            // Display a message directly on the page as a fallback
-            const body = document.querySelector('body');
-            if (body) {
-                body.innerHTML = `
-                <div style="padding: 40px; text-align: center; color: #ffc8c8; background: #280000; height: 100vh; font-family: monospace; font-size: 16px;">
-                    <h1>B"H - Application Failed to Start</h1>
-                    <p>A fatal error prevented the editor from loading:</p>
-                    <p style="background: #111; padding: 15px; border-radius: 5px; margin-top: 20px; text-align: left; white-space: pre-wrap;">${errorMessage}</p>
-                    <p style="margin-top: 30px; color: #aaa;">Please try clearing your browser's cache for this site or opening it in a private/incognito window. Check the developer console for more technical details.</p>
-                </div>
-            `;
-            }
-            return; // Halt execution
+            UI.showToast("Error loading editor: " + e.message, 'error', 10000);
         }
     },
     /**
