@@ -2,8 +2,10 @@
 
 // This is a dedicated Web Worker. It cannot access the DOM.
 // Its purpose is to load the engine's brain and run the test.
-console. log(`B"H`)
-
+console. log('B"H',
+"\n",
+"wow"
+)
 try {
     importScripts(
         '../bitboard-helpers.js',
@@ -28,6 +30,64 @@ self.onmessage = function(e) {
     }
 };
 
+// =================================================================
+// B"H - HYPER-DIAGNOSTIC, TEMPORARY createGameState FUNCTION
+// This function will be used INSTEAD of the one from helpers.js
+// to give us the most detailed log possible.
+// =================================================================
+function createGameState_DIAGNOSTIC(fen) {
+    log('\n--- ENTERING HYPER-DIAGNOSTIC createGameState ---', 'header');
+    const state = {
+        pieceBitboards: Array(12).fill(0n),
+        occupancies: Array(3).fill(0n),
+        turn: WHITE,
+        enpassant: -1,
+        castling: 0,
+    };
+
+    const parts = fen.split(' ');
+    let row = 0, col = 0;
+    
+    log(`Parsing FEN board part: "${parts[0]}"`);
+    log(`Using pieceMap: "${self.pieceMap}"`);
+
+    for (const char of parts[0]) {
+        if (char === '/') {
+            row++;
+            col = 0;
+            log(`  -> New row. Now at row ${row}.`);
+        } else if (/\d/.test(char)) {
+            const emptySquares = parseInt(char);
+            log(`  -> Found number '${emptySquares}'. Skipping ${emptySquares} columns.`);
+            col += emptySquares;
+        } else {
+            const pieceIndex = self.pieceMap.indexOf(char);
+            const squareIndex = row * 8 + col;
+            log(`  -> Found character '${char}'. At [row:${row}, col:${col}]. IndexOf result: ${pieceIndex}.`, 'trace');
+            
+            if (pieceIndex !== -1) {
+                state.pieceBitboards[pieceIndex] |= (1n << BigInt(squareIndex));
+            } else {
+                 log(`    -> CHARACTER NOT FOUND IN PIECEMAP! SKIPPING.`, 'error');
+            }
+            col++;
+        }
+    }
+
+    log(`\nFinished parsing board. Final bitboards (Hex):`);
+    log(`  White (P,N,B,R,Q,K): 0x${state.pieceBitboards[0].toString(16)}, 0x${state.pieceBitboards[1].toString(16)}, 0x${state.pieceBitboards[2].toString(16)}, 0x${state.pieceBitboards[3].toString(16)}, 0x${state.pieceBitboards[4].toString(16)}, 0x${state.pieceBitboards[5].toString(16)}`);
+    log(`  Black (p,n,b,r,q,k): 0x${state.pieceBitboards[6].toString(16)}, 0x${state.pieceBitboards[7].toString(16)}, 0x${state.pieceBitboards[8].toString(16)}, 0x${state.pieceBitboards[9].toString(16)}, 0x${state.pieceBitboards[10].toString(16)}, 0x${state.pieceBitboards[11].toString(16)}`);
+
+    state.occupancies[WHITE] = state.pieceBitboards[P] | state.pieceBitboards[N] | state.pieceBitboards[B] | state.pieceBitboards[R] | state.pieceBitboards[Q] | state.pieceBitboards[K];
+    state.occupancies[BLACK] = state.pieceBitboards[P+6] | state.pieceBitboards[N+6] | state.pieceBitboards[B+6] | state.pieceBitboards[R+6] | state.pieceBitboards[Q+6] | state.pieceBitboards[K+6];
+    state.occupancies[2] = state.occupancies[WHITE] | state.occupancies[BLACK];
+    state.turn = (parts[1] === 'w') ? WHITE : BLACK;
+    // (Skipping castling/enpassant for this specific diagnostic)
+    log('--- EXITING HYPER-DIAGNOSTIC createGameState ---\n', 'header');
+    return state;
+}
+
+
 function runDiagnostic(fen, targetSan) {
     try {
         log('B"H - FORGING THE UNIVERSE FROM THE VOID', 'header');
@@ -39,50 +99,12 @@ function runDiagnostic(fen, targetSan) {
         log(`TARGET WORD (SAN): "${targetSan}"`);
         log(`-----------------------\n`);
 
-        log('Creating game state from FEN...', 'info');
-        const state = createGameState(fen);
-        log('Game state created successfully.', 'success');
-        
-        // =================================================================
-        // B"H - NEW DEEP DIAGNOSTIC LOGGING
-        // We will now inspect the engine's mind BEFORE it generates moves.
-        // =================================================================
-        log('\n--- DEEP STATE ANALYSIS (PRE-MOVEGEN) ---', 'header');
-        log(`Inspecting state for turn: ${state.turn === 0 ? 'WHITE' : 'BLACK'}`);
+        // Use our special diagnostic function instead of the real one.
+        const state = createGameState_DIAGNOSTIC(fen);
 
-        const files = 'abcdefgh', ranks = '87654321';
-        const pieceChars = ['P','N','B','R','Q','K'];
+        if (self.EngineSoul) self.EngineSoul.isAuditing = true;
 
-        for (let p = P; p <= K; p++) {
-            const pieceIndex = state.turn * 6 + p;
-            const pieceName = pieceChars[p];
-            const pieceBitboard = state.pieceBitboards[pieceIndex];
-            
-            log(`\n[${pieceName}] Bitboard (Hex): 0x${pieceBitboard.toString(16)}`, 'info');
-            
-            let bb_copy = pieceBitboard;
-            if (bb_copy === 0n) {
-                log(`  -> No pieces found.`, 'trace');
-            } else {
-                let pieceSquares = [];
-                while (bb_copy > 0n) {
-                    const from = getLSBIndex(bb_copy);
-                    const coord = `${files[from % 8]}${ranks[Math.floor(from/8)]}`;
-                    pieceSquares.push(coord);
-                    bb_copy = popBit(bb_copy);
-                }
-                log(`  -> Found pieces at: ${pieceSquares.join(', ')}`, 'trace');
-            }
-        }
-        // =================================================================
-        // END OF NEW LOGGING
-        // =================================================================
-
-        if (self.EngineSoul) {
-            self.EngineSoul.isAuditing = true;
-        }
-
-        log('\nNow, asking the engine to generate all legal moves...', 'info');
+        log('Now, asking the engine to generate all legal moves...', 'info');
         const legalMoves = generateMoves(state);
         log(`The engine has generated ${legalMoves.length} legal moves for this position.`);
 
@@ -118,7 +140,7 @@ function runDiagnostic(fen, targetSan) {
             log('PARADOX RESOLVED: The logic is sound.', 'success');
         } else {
             log('PARADOX CONFIRMED: The move was not found.', 'error');
-            log('CONCLUSION: Compare the "DEEP STATE ANALYSIS" to the FEN. If the bitboards or piece locations are wrong, the bug is in `createGameState`. If they are correct but the final move list is wrong, the bug is in `generateMoves`.', 'error');
+            log('CONCLUSION: Examine the HYPER-DIAGNOSTIC log. The "IndexOf result" for black pieces (like "p") MUST be >= 6. If it is not, the `pieceMap` variable is the source of all corruption.', 'error');
         }
 
     } catch (err) {
