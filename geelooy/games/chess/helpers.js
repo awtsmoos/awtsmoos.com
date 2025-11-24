@@ -236,7 +236,8 @@ function unmakeMove(state) {
 
     validateGnosticSeal(state, 'unmakeMove (end)');
 }
-/** B"H - FINAL, CORRECTED MOVE GENERATOR **/
+
+
 function generateMoves(state) {
     validateGnosticSeal(state, 'generateMoves');
     const moves = [];
@@ -250,15 +251,24 @@ function generateMoves(state) {
     while (pawns > 0n) {
         const from = getLSBIndex(pawns);
         const rank = Math.floor(from / 8);
-        const promRank = (side === WHITE) ? 1 : 6;
+        
+        // Correctly identify the rank *before* the promotion square for each color.
+        // For White (moving from high rank index to low), this is rank 1.
+        // For Black (moving from low rank index to high), this is rank 6.
+        const prePromotionRank = (side === WHITE) ? 1 : 6;
         const startRank = (side === WHITE) ? 6 : 1;
         
+        // --- Single Pawn Push ---
         const one_step = (side === WHITE) ? from - 8 : from + 8;
         if (!((blockers >> BigInt(one_step)) & 1n)) {
-            if (rank === promRank) {
+            // It's a promotion move if the pawn is on the pre-promotion rank.
+            if (rank === prePromotionRank) {
                 [Q, R, B, N].forEach(p => moves.push(encodeMove(from, one_step, P, p, 0, 0, 0, 0)));
             } else {
+                // It's a standard quiet move.
                 moves.push(encodeMove(from, one_step, P, 0, 0, 0, 0, 0));
+
+                // --- Double Pawn Push (only possible if single push is legal) ---
                 if (rank === startRank) {
                     const two_steps = (side === WHITE) ? from - 16 : from + 16;
                     if (!((blockers >> BigInt(two_steps)) & 1n)) {
@@ -268,17 +278,21 @@ function generateMoves(state) {
             }
         }
         
+        // --- Pawn Captures ---
         let attacks = PAWN_ATTACKS[side][from] & enemy_pieces;
         while (attacks > 0n) {
             const to = getLSBIndex(attacks);
-            if (rank === promRank) {
+            // It's a capture-promotion.
+            if (rank === prePromotionRank) {
                 [Q, R, B, N].forEach(p => moves.push(encodeMove(from, to, P, p, 1, 0, 0, 0)));
             } else {
+                // It's a standard capture.
                 moves.push(encodeMove(from, to, P, 0, 1, 0, 0, 0));
             }
             attacks = popBit(attacks);
         }
         
+        // --- En Passant ---
         if (state.enpassant !== -1 && (PAWN_ATTACKS[side][from] & (1n << BigInt(state.enpassant)))) {
             moves.push(encodeMove(from, state.enpassant, P, 0, 1, 0, 1, 0));
         }
