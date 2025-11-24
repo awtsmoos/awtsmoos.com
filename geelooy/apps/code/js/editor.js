@@ -29,36 +29,49 @@ export const Editor = {
 
     // B"H 
 	/*B"H*/
-	async showTextEditor(content = "", filename = "", scrollPos = 0) {
-	    UI.switchView('editor');
-	    
-	    // 1. Set the content
-	    DOM.editor.value = content;
-	    UI.updateLineNumbers();
-	    StatusBar.updateLanguage(filename);
-	
-	    // 2. Return a Promise that resolves ONLY after scrolling is applied
-	    return new Promise(resolve => {
-	        // We use setTimeout to push this to the end of the event loop.
-	        // This ensures the DOM has updated and the textarea has a scrollHeight.
-	        setTimeout(() => { 
-	            // 3. Apply the scroll
-	            DOM.editor.scrollTop = scrollPos;
-	            UI.syncScroll(); 
-	            this.focus();
-	
-	            // 4. Re-initialize highlighter if needed
-	            if (this.currentHighlighter) {
-	                this.currentHighlighter.destroy();
-	            }
-	            // (Your existing highlighting logic here...)
-	            // const ext = ...
-	            // this.currentHighlighter = ...
-	            
-	            resolve(); // Resolution: The editor is ready and scrolled.
-	        }, 10); // 10ms delay is usually sufficient for the browser layout engine
-	    });
-	},
+async showTextEditor(content = "", filename = "", scrollPos = 0) {
+    UI.switchView('editor');
+    
+    // 1. Set the content
+    DOM.editor.value = content;
+    UI.updateLineNumbers();
+    StatusBar.updateLanguage(filename);
+
+    // 2. Return a Promise that resolves ONLY after scrolling and highlighting
+    return new Promise(resolve => {
+        // We use setTimeout (10ms) to let the browser calculate layout 
+        // before we try to scroll or highlight.
+        setTimeout(() => { 
+            // 3. Apply the scroll
+            DOM.editor.scrollTop = scrollPos;
+            UI.syncScroll(); 
+            this.focus();
+
+            // 4. Re-initialize Syntax Highlighting (RESTORED)
+            if (this.currentHighlighter) {
+                this.currentHighlighter.destroy();
+            }
+
+            const ext = this._getExt(filename);
+            const langMap = {
+                ".js": "js", 
+                ".mjs": "js",
+                ".css": "css", 
+                ".html": "html",
+                ".htm": "html",
+                ".svg": "html",
+                ".xml": "html",
+                ".json": "json",
+                ".awtsmoosJSON": "json"
+            };
+            
+            // Initialize 'pnimi' with the correct language or default to 'js'
+            this.currentHighlighter = new pnimi(DOM.editor, langMap[ext] || "js");
+            
+            resolve(); // Resolution: Editor is ready, scrolled, and colored.
+        }, 10); 
+    });
+},
 
     // --- B"H: FIND AND REPLACE THIS ENTIRE FUNCTION in js/editor.js ---
 
