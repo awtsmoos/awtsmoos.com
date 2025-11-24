@@ -1,13 +1,7 @@
 /* B"H */
-
-
-// This is a dedicated Web Worker. It cannot access the DOM.
-// Its purpose is to load the engine's brain and run the test.
 console. log('B"H',
-"\n",
-"wow2"
-)
-/* B"H */
+
+,"\n ok")
 
 try {
     importScripts(
@@ -33,48 +27,52 @@ self.onmessage = function(e) {
     }
 };
 
-// B"H - CORRECTED HYPER-DIAGNOSTIC FUNCTION
-function createGameState_DIAGNOSTIC(fen) {
-    log('\n--- ENTERING CORRECTED HYPER-DIAGNOSTIC createGameState ---', 'header');
+// B"H - ULTIMATE DIAGNOSTIC: This version logs the bitboard state after EVERY character.
+function createGameState_ULTIMATE_DIAGNOSTIC(fen) {
+    log('\n--- ENTERING ULTIMATE DIAGNOSTIC createGameState ---', 'header');
     const state = { pieceBitboards: Array(12).fill(0n) };
     const parts = fen.split(' ');
     let row = 0, col = 0;
     
     log(`Parsing FEN board part: "${parts[0]}"`);
-    log(`Using pieceMap: "${self.pieceMap}"`);
 
     for (const char of parts[0]) {
+        let logMsg = '';
         if (char === '/') {
             row++;
             col = 0;
-            continue; // Go to next character
+            log(`\nProcessing char: '/' -> New row ${row}`);
+            continue;
         }
         if (/\d/.test(char)) {
             const emptySquares = parseInt(char);
-            log(`  -> Found number '${emptySquares}'. Skipping ${emptySquares} columns.`);
+            logMsg = `Processing char: '${char}' -> Skipping ${emptySquares} cols.`;
             col += emptySquares;
         } else {
             const pieceIndex = self.pieceMap.indexOf(char);
             const squareIndex = row * 8 + col;
-            log(`  -> Found char '${char}'. At [row:${row}, col:${col}]. IndexOf result: ${pieceIndex}.`, 'trace');
+            logMsg = `Processing char: '${char}' -> Index: ${pieceIndex}, Square: ${squareIndex}.`;
             
             if (pieceIndex !== -1) {
                 state.pieceBitboards[pieceIndex] |= (1n << BigInt(squareIndex));
             }
-            // THE BUG FIX IS HERE: The column counter must ONLY increment for single characters.
             col++;
         }
+
+        // Log the state of the universe AFTER this character was processed
+        const p_w = state.pieceBitboards[6].toString(16); // black pawns
+        const P_w = state.pieceBitboards[0].toString(16); // white pawns
+        log(`${logMsg} | State now: p(b):${p_w}, P(W):${P_w}`, 'trace');
     }
 
-    log(`\nFinished parsing board. Final bitboards (Hex):`);
+    log('\n--- FINAL PARSED STATE ---', 'header');
     log(`  White (P,N,B,R,Q,K): 0x${state.pieceBitboards[0].toString(16)}, 0x${state.pieceBitboards[1].toString(16)}, 0x${state.pieceBitboards[2].toString(16)}, 0x${state.pieceBitboards[3].toString(16)}, 0x${state.pieceBitboards[4].toString(16)}, 0x${state.pieceBitboards[5].toString(16)}`);
     log(`  Black (p,n,b,r,q,k): 0x${state.pieceBitboards[6].toString(16)}, 0x${state.pieceBitboards[7].toString(16)}, 0x${state.pieceBitboards[8].toString(16)}, 0x${state.pieceBitboards[9].toString(16)}, 0x${state.pieceBitboards[10].toString(16)}, 0x${state.pieceBitboards[11].toString(16)}`);
-    log('--- EXITING HYPER-DIAGNOSTIC createGameState ---\n', 'header');
     
-    // We must return a complete state object for generateMoves to work
-    const fullState = createGameState(fen); // Use the real function to get the other properties
-    fullState.pieceBitboards = state.pieceBitboards; // Override with our correctly parsed bitboards
-    return fullState;
+    // Use the real function to get a complete state object
+    const fullState = createGameState(fen); 
+    // We are only using this diagnostic to observe. We pass the REAL state to the next step.
+    return fullState; 
 }
 
 
@@ -84,17 +82,25 @@ function runDiagnostic(fen, targetSan) {
         initializeAll();
         log('Universe is stable.', 'success');
 
-        const state = createGameState_DIAGNOSTIC(fen);
+        // Run the ultimate diagnostic just to produce the log
+        createGameState_ULTIMATE_DIAGNOSTIC(fen);
         
-        log('\nNow, asking the engine to generate moves from the CORRECTED state...', 'info');
+        // Now, create the state using the REAL function from helpers.js to test it
+        log('\n--- TESTING THE REAL createGameState FUNCTION ---', 'header');
+        const state = createGameState(fen);
+        
+        // Log the final state from the REAL function
+        log(`State from REAL function. Turn: ${state.turn === 1 ? 'BLACK' : 'WHITE'}. Black Pawns: 0x${state.pieceBitboards[6].toString(16)}`);
+
+        log('\nNow, asking the engine to generate moves...', 'info');
         const legalMoves = generateMoves(state);
-        log(`The engine has generated ${legalMoves.length} legal moves.`, 'success');
+        log(`The engine has generated ${legalMoves.length} legal moves.`);
 
         const scribe = new PgnConverter();
         scribe.setState(state);
         let matchFound = false;
 
-        log('\n--- SCRIBE TRACE: Comparing generated moves to target ---', 'header');
+        log('\n--- SCRIBE TRACE ---', 'header');
         for (const moveInt of legalMoves) {
             if (scribe.isMoveSan(moveInt, targetSan, legalMoves)) {
                 matchFound = true;
@@ -104,10 +110,10 @@ function runDiagnostic(fen, targetSan) {
         
         log('\n--- FINAL DIAGNOSIS ---', 'header');
         if (matchFound) {
-            log('✅ PARADOX RESOLVED in diagnostic mode.', 'success');
-            log('The FEN parser logic is now correct. The same fix must be applied to the real `createGameState` function in `helpers.js`.', 'info');
+            log('✅ PARADOX RESOLVED. The error has been fixed.', 'success');
         } else {
             log('❌ PARADOX PERSISTS.', 'error');
+            log('The error is definitively in the `createGameState` function in `helpers.js`. The ultimate diagnostic log above shows the step-by-step creation of the corrupted reality.', 'info');
         }
     } catch (err) {
         log(`\n/!\\ ERROR /!\\`, 'error');
