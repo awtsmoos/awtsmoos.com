@@ -108,49 +108,46 @@ renderWorkspace(ws, container) {
     container.appendChild(wsRoot);
     const headerTitle = wsRoot.querySelector('.workspace-header-title');
 
-    
-    // --- B"H: PERMISSION RESURRECTION LOGIC ---
+     /*B"H - Inside renderWorkspace */
+    headerTitle.onclick = async () => {
+        
+        // --- RESUME LOGIC ---
         if (ws.isLocked && !ws.isLost) {
             try {
-                const permission = await ws.handle.requestPermission({ mode: 'readwrite' });
+                // Request Permission
+                const perm = await ws.handle.requestPermission({ mode: 'readwrite' });
                 
-                if (permission === 'granted') {
-                    // 1. Unlock the workspace in state
+                if (perm === 'granted') {
+                    // 1. Update State
                     ws.isLocked = false;
-                    const storedWs = State.workspaces.find(w => w.id === ws.id);
-                    if (storedWs) storedWs.isLocked = false;
-
-                    UI.showToast("Workspace connection restored.", "success");
+                    const stateWs = State.workspaces.find(w => w.id === ws.id);
+                    if (stateWs) stateWs.isLocked = false;
                     
-                    // 2. Re-render the workspace node (to remove lock icon)
+                    // 2. Re-render Workspace UI (to remove lock)
                     wsRoot.remove();
                     this.renderWorkspace(ws, container);
-
-                    // 3. THE AWAKENING: Wake up the tabs!
-                    // Check if the currently active tab belongs to this workspace.
+                    
+                    // 3. RE-ACTIVATE TABS
+                    // If the active tab was waiting for this workspace, reload it now!
                     const activeTab = State.tabs.find(t => t.id === State.activeTabId);
                     if (activeTab && activeTab.item.workspaceId === ws.id) {
-                        // Force a reload of the active tab to show its content immediately
-                        activeTab.forceReload = true; 
+                        activeTab.forceReload = true; // Force read from disk
                         await Tabs.activate(activeTab.id);
-                        
-                        // Re-apply scroll after the reload
-                        setTimeout(() => {
-                            if(DOM.editor) DOM.editor.scrollTop = activeTab.scrollPos;
-                        }, 50);
                     }
                     
-                    return; 
+                    UI.showToast("Workspace resumed.", "success");
+                    App.saveSession();
                 } else {
                     UI.showToast("Permission denied.", "warning");
-                    return;
                 }
             } catch (e) {
-                console.error("Resume failed:", e);
-                UI.showToast("Failed to resume workspace.", "error");
-                return;
+                console.error("Resume error:", e);
+                UI.showToast("Error resuming workspace.", "error");
             }
+            return; // Stop expansion
         }
+
+        
         // ------------------------------------------
 
         // Standard Expansion Logic 

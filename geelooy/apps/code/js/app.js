@@ -69,8 +69,16 @@ export const App = {
      * @type {Console | null}
      */
     activeConsole: null, // B"H 
-
+	saveDebounceTimer: null,
     /*B"H*/
+
+
+saveSessionDebounced() {
+    if (this.saveDebounceTimer) clearTimeout(this.saveDebounceTimer);
+    this.saveDebounceTimer = setTimeout(() => {
+        this.saveSession();
+    }, 1000); // Save 1 second after activity stops
+},
 
 /**
  * Inscribes the current state of reality into the eternal memory (localStorage).
@@ -136,6 +144,7 @@ saveSession() {
  * It does not fear the 'Locked' workspace; it restores the tab structure regardless,
  * knowing that content will flow once the user provides the key (Resume).
  */
+/*B"H*/
 async loadSession() {
     const savedSession = localStorage.getItem('vividX_session_profound');
     if (!savedSession) return;
@@ -143,7 +152,7 @@ async loadSession() {
     try {
         const session = JSON.parse(savedSession);
 
-        // 1. Restore Workspaces (The Realms)
+        // 1. Restore Workspaces & Auto-Resume
         if (session.workspaces && Array.isArray(session.workspaces)) {
             for (const wsData of session.workspaces) {
                 if (wsData.type === 'local') {
@@ -151,60 +160,53 @@ async loadSession() {
                         const handle = await FileSystemProvider.IndexedDB.getHandle(wsData.id);
                         if (handle) {
                             wsData.handle = handle;
+                            // IMMEDIATE CHECK: Do we have permission right now?
                             const perm = await handle.queryPermission({ mode: 'readwrite' });
-                            wsData.isLocked = (perm !== 'granted');
+                            
+                            // If 'granted', we are OPEN. If 'prompt', we are LOCKED.
+                            wsData.isLocked = (perm !== 'granted'); 
                         } else {
                             wsData.isLocked = true;
                             wsData.isLost = true;
                         }
-                    } catch (e) { wsData.isLocked = true; }
+                    } catch (e) {
+                        wsData.isLocked = true;
+                    }
                 }
+                // Add to state (UI render happens later)
                 Workspaces.add(wsData, false);
             }
         }
 
-        // 2. Restore Tabs (The Visions)
+        // 2. Restore Tabs with Scroll Position
         if (session.openTabs && Array.isArray(session.openTabs)) {
-            // We clear existing tabs to avoid duplication on double-load
-            State.tabs = []; 
+            State.tabs = session.openTabs.map(t => ({
+                ...t,
+                // Force reload so we read from the now-restored handle
+                forceReload: true,
+                // Ensure scrollPos is a valid number
+                scrollPos: Number(t.scrollPos) || 0
+            }));
             
-            session.openTabs.forEach(tabData => {
-                // We directly push the saved object to preserve scrollPos and other metadata.
-                // We ensure 'forceReload' is true so it tries to fetch fresh content
-                // when activated, rather than showing stale cached content.
-                State.tabs.push({
-                    ...tabData,
-                    forceReload: true 
-                });
-            });
-            // We must render the tab bar immediately so the user sees them.
+            // Render the tab bar immediately
             Tabs.render();
         }
 
-        // 3. Restore Focus
-        if (session.activeTabUniquePath) {
-            setTimeout(async () => {
-                const activeTab = State.tabs.find(t => t.uniquePath === session.activeTabUniquePath);
-                if (activeTab) {
-                    // Activate. If the workspace is locked, this might show an empty editor
-                    // or an error toast, which is acceptable until they click "Resume".
-                    await Tabs.activate(activeTab.id);
-                    
-                    // RESTORE SCROLL: The activation renders the text. 
-                    // We must wait a tick for the DOM to update, then apply the scroll.
-                    setTimeout(() => {
-                        if (DOM.editor && activeTab.scrollPos) {
-                            DOM.editor.scrollTop = activeTab.scrollPos;
-                            UI.syncScroll();
-                        }
-                    }, 50);
-                }
-            }, 100);
-        }
-
-        if (session.expandedFolders && Array.isArray(session.expandedFolders)) {
+        // 3. Restore Expanded Folders
+        if (session.expandedFolders) {
             State.expandedFolders = new Set(session.expandedFolders);
-            Workspaces.render();
+        }
+        
+        // 4. Render Workspaces (Now that state is fully populated)
+        Workspaces.render();
+
+        // 5. Activate the Last Used Tab
+        if (session.activeTabUniquePath) {
+            const activeTab = State.tabs.find(t => t.uniquePath === session.activeTabUniquePath);
+            if (activeTab) {
+                // If the workspace is NOT locked, this will load content and scroll immediately.
+                await Tabs.activate(activeTab.id);
+            }
         }
     } catch (e) {
         console.error("Failed to load session:", e);
@@ -625,7 +627,16 @@ async loadSession() {
             }
             UI.updateLineNumbers();
         });
-        DOM.editor.addEventListener('scroll', UI.syncScroll);
+        DOM.editor.addEventListener('scroll', () => {
+	        UI.syncScroll();
+	        
+	        // B"H - REAL-TIME SCROLL TRACKING
+	        const activeTab = State.tabs.find(t => t.id === State.activeTabId);
+	        if (activeTab) {
+	            activeTab.scrollPos = DOM.editor.scrollTop;
+	            this.saveSessionDebounced(); // <--- Auto-save state on scroll
+	        }
+	    });
         DOM.editor.addEventListener('keyup', StatusBar.update);
         DOM.editor.addEventListener('click', StatusBar.update);
         new ResizeObserver(UI.updateLineNumbers).observe(DOM.editor);

@@ -276,26 +276,30 @@ export default {
                                     className: "fw-grid",
                                     shaym: "fw-my-levels-grid",
                                     ready(el, $, ui) {
-                                        // Check if user is logged in (has an alias)
-                                        const myAlias = window.curAlias; 
+	                                setTimeout(() => {
+	                                        // use window.curAlias
+	                                        const myAlias = window.curAlias;
+	                                        try{console.log(this, window, window.curAlias)}catch(e){
+	                                        console.log(e)}
+	                                        if (myAlias) {
+	                                            ui.html({
+	                                                parent: el,
+	                                                className: "fw-card",
+	                                                style: { background: "rgba(71, 79, 255, 0.2)", borderColor: "#474FFF" },
+	                                                onclick: () => {
+	                                                     ui.peula($("find worlds"), { loadAliasWorlds: { alias: myAlias, title: "My Personal Worlds" } });
+	                                                },
+	                                                children: [
+	                                                    { className: "fw-card-icon", textContent: "📂" },
+	                                                    { className: "fw-card-title", textContent: "Browse My Files" },
+	                                                    { className: "fw-card-sub", textContent: myAlias }
+	                                                ]
+	                                            });
+	                                        } else {
+	                                            el.innerHTML = "<div style='grid-column: 1/-1; color: #aaa; font-size:18px;'>You are not logged in. <br>Please log in using the button at the top to see your levels.</div>";
+	                                        }
                                         
-                                        if (myAlias) {
-                                            ui.html({
-                                                parent: el,
-                                                className: "fw-card",
-                                                style: { background: "rgba(71, 79, 255, 0.2)", borderColor: "#474FFF" },
-                                                onclick: () => {
-                                                     ui.peula($("find worlds"), { loadAliasWorlds: { alias: myAlias, title: "My Personal Worlds" } });
-                                                },
-                                                children: [
-                                                    { className: "fw-card-icon", textContent: "📂" },
-                                                    { className: "fw-card-title", textContent: "Browse My Files" },
-                                                    { className: "fw-card-sub", textContent: myAlias }
-                                                ]
-                                            });
-                                        } else {
-                                            el.innerHTML = "<div style='grid-column: 1/-1; color: #aaa;'>Please log in to see your levels.</div>";
-                                        }
+                                        }, 100)
                                     }
                                 }
                             ]

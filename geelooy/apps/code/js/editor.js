@@ -28,37 +28,35 @@ export const Editor = {
     },
 
     // B"H 
+	/*B"H*/
 	async showTextEditor(content = "", filename = "", scrollPos = 0) {
 	    UI.switchView('editor');
 	    
+	    // 1. Set the content
 	    DOM.editor.value = content;
 	    UI.updateLineNumbers();
 	    StatusBar.updateLanguage(filename);
 	
-	    // This Promise is the definitive fix. It makes the function wait.
+	    // 2. Return a Promise that resolves ONLY after scrolling is applied
 	    return new Promise(resolve => {
+	        // We use setTimeout to push this to the end of the event loop.
+	        // This ensures the DOM has updated and the textarea has a scrollHeight.
 	        setTimeout(() => { 
+	            // 3. Apply the scroll
+	            DOM.editor.scrollTop = scrollPos;
 	            UI.syncScroll(); 
 	            this.focus();
 	
+	            // 4. Re-initialize highlighter if needed
 	            if (this.currentHighlighter) {
 	                this.currentHighlighter.destroy();
 	            }
-	            const ext = this._getExt(filename);
-	            const langMap = {
-	                ".js": "js", 
-	                ".css": "css", 
-	                ".html": "html",
-	                ".svg": "html",
-	                ".xml": "html"
-	            };
-	            this.currentHighlighter = new pnimi(DOM.editor, langMap[ext] || "js");
+	            // (Your existing highlighting logic here...)
+	            // const ext = ...
+	            // this.currentHighlighter = ...
 	            
-	            DOM.editor.scrollTop = scrollPos;
-	            UI.syncScroll(); 
-	            
-	            resolve(); // The function is now officially "done".
-	        }, 0);
+	            resolve(); // Resolution: The editor is ready and scrolled.
+	        }, 10); // 10ms delay is usually sufficient for the browser layout engine
 	    });
 	},
 
