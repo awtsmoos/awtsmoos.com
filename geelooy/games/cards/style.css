@@ -1,9 +1,5 @@
 /* B"H */
-/* The core problem was a rigid structure. The solution is to use Flexbox, a dynamic
-   force that allows the vessel to breathe and adapt to any screen, ensuring no
-   part of the universe is cut off from perception. */
 body, html {
-
     margin: 0;
     padding: 0;
     height: 100%;
@@ -11,34 +7,61 @@ body, html {
     background-color: #010101;
     color: #a9a9a9;
     font-family: 'Times New Roman', Times, serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-/* This container now uses the power of Flexbox to manage its children. */
+/* The Main Menu vessel is given a new, more orderly structure to prevent the chaotic overlap. */
+#main-menu {
+    text-align: center;
+    border: 1px solid #555;
+    padding: 40px;
+    background-color: rgba(10, 10, 10, 0.8);
+    box-shadow: 0 0 25px rgba(255, 223, 186, 0.1);
+    display: flex; /* Using flexbox to organize the menu's contents. */
+    flex-direction: column; /* Stack all items vertically. */
+    align-items: center; /* Center them horizontally. */
+    gap: 20px; /* Creates space between the sections. */
+}
+
+/* This ensures the list of games itself has some internal spacing. */
+#game-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#player-selection {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+/* --- Game Container Restoration --- */
+/* The core of the error is undone. We return to a stable, predictable layout system
+   using absolute positioning for the UI over a responsive canvas container. */
 #game-container {
-    display: flex; /* Switched to flex to control the layout flow. */
-    flex-direction: column; /* Stack elements vertically. */
-    justify-content: space-between; /* Pushes children to the top and bottom. */
-    width: 100%;
-    height: 100vh; /* Ensure it takes the full viewport height. */
-    position: relative;
+    position: relative; /* Establishes the coordinate system for children. */
+    width: 100vw;   /* Fill the entire screen width. */
+    height: 100vh;  /* Fill the entire screen height. */
+    display: block; /* No more flexbox here. */
 }
 
 #game-canvas {
-    background-color: #001a00;
-    width: 100%; /* The canvas will fill the width of its container. */
-    height: 100%; /* The canvas will fill the height of its container. */
-    position: absolute; /* The canvas becomes the background layer. */
-    top: 0;
-    left: 0;
-    z-index: 1; /* It sits behind the UI. */
+    width: 100%;
+    height: 100%;
+    display: block; /* Ensures it behaves as a solid block. */
 }
 
-/* The UI container is now a flex item, positioned relative to the game container. */
+/* The UI container is once again anchored to the bottom of the screen, its rightful place. */
 #game-ui-container {
-    position: relative; /* No longer absolute, it flows within the flex container. */
-    z-index: 2; /* Sits on top of the canvas. */
+    position: absolute; /* Placed OVER the canvas. */
+    bottom: 20px;       /* Pinned 20px from the bottom. */
+    left: 0;
     width: 100%;
-    padding-bottom: 20px; /* Provides some space from the bottom edge. */
+    z-index: 2; /* Ensures it's on top of the canvas. */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -46,8 +69,7 @@ body, html {
     pointer-events: none;
 }
 
-/* ... The rest of the CSS remains the same as before ... */
-
+/* The rest of the styles remain as they were, their integrity preserved. */
 .ui-panel {
     background-color: rgba(0, 0, 0, 0.6);
     border: 1px solid #d4af37;
@@ -56,11 +78,11 @@ body, html {
     box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
     color: #d4af37;
     font-size: 1.5em;
-    margin-top: 10px; /* Added some margin for spacing */
+    margin-top: 10px;
 }
 
 #player-actions {
-    pointer-events: all; 
+    pointer-events: all;
 }
 
 #player-actions button {

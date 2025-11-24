@@ -1,129 +1,235 @@
 /**
 B"H
- * The Renderer is the scribe, the artist that translates the abstract,
- * divine concepts of the game state into tangible, visible forms upon the
- * sacred space of the canvas. It now renders each card as a bridge between worlds,
- * displaying both its divine Hebrew essence and its worldly English representation.
- * It also performs the sacred act of consecrating the image of the Patriarch.
+ * This is not a renderer. This is The Scribe. It is the active will that translates
+ * the abstract, formless computations of the game's soul into a perceivable, illuminated
+ * reality upon the Loom of the Canvas. It does not draw images; it channels light
+ * and shadow, summons substance from the void, and gives form to the holy archetypes.
+ * Every function herein is a sacred act, a brushstroke upon the face of creation.
  */
 export class Renderer {
+    /**
+     * The Scribe is summoned and given its Quill, the rendering context. It immediately
+     * perceives the dimensions of the reality it must illuminate and prepares the
+     * fundamental textures of existence.
+     * @param {CanvasRenderingContext2D} ctx - The Quill of Creation, the interface to the Loom.
+     */
     constructor(ctx) {
         this.ctx = ctx;
-        this.cardWidth = 100;
-        this.cardHeight = 140;
+        this.canvas = ctx.canvas;
+        this.cardWidth = 110;
+        this.cardHeight = 154;
+
+        // The Scribe pre-weaves the very texture of the void, a subtle noise that gives
+        // the abyss a sense of tangible infinity. This is done once, for all time.
+        this.tableTexture = this._createTexture();
     }
 
-    // ... drawGame and drawHand methods remain the same as the previous full version ...
+    /**
+     * A private incantation to weave the fabric of the game table. It creates a pattern
+     * of near-imperceptible noise, ensuring the background is not a flat, dead color,
+     * but a deep, vibrating field of potential.
+     * @returns {CanvasPattern} A reusable pattern representing the cloth of reality.
+     */
+    _createTexture() {
+        const patternCanvas = document.createElement('canvas');
+        const patternCtx = patternCanvas.getContext('2d');
+        patternCanvas.width = 100;
+        patternCanvas.height = 100;
+        const imageData = patternCtx.createImageData(100, 100);
+        const data = imageData.data;
+        for (let i = 0; i < data.length; i += 4) {
+            const value = Math.random() * 25;
+            data[i] = value;     // R
+            data[i + 1] = value + 20; // G
+            data[i + 2] = value;     // B
+            data[i + 3] = 255;   // A
+        }
+        patternCtx.putImageData(imageData, 0, 0);
+        return this.ctx.createPattern(patternCanvas, 'repeat');
+    }
+
+    /**
+     * The grand act of Illumination. The Scribe first lays down the foundation of the
+     * world, then, with divine precision, places each soul and their given truths upon it.
+     * @param {Array<Object>} players - The cast of souls inhabiting this reality.
+     * @param {boolean} revealDealer - A decree on whether to lift the veil of judgment.
+     */
     drawGame(players, revealDealer = false) {
-        this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
-        
+        // Phase 1: Weaving the world.
+        this.ctx.fillStyle = this.tableTexture;
+        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+
+        const radialGradient = this.ctx.createRadialGradient(this.canvas.width / 2, this.canvas.height / 2, 50, this.canvas.width / 2, this.canvas.height / 2, this.canvas.width * 0.7);
+        radialGradient.addColorStop(0, 'rgba(0, 20, 0, 0)');
+        radialGradient.addColorStop(1, 'rgba(0, 0, 0, 0.7)');
+        this.ctx.fillStyle = radialGradient;
+        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+
+        // Phase 2: Placing the souls.
         const humanPlayer = players.find(p => !p.isAI && !p.isDealer);
         const dealer = players.find(p => p.isDealer);
         const aiPlayers = players.filter(p => p.isAI && !p.isDealer);
 
-        this.drawHand(dealer, this.ctx.canvas.width / 2 - 100, 50, revealDealer);
-
-        aiPlayers.forEach((player, index) => {
-            this.drawHand(player, 200 + index * 350, 250);
+        // The House of Judgment sits at the Keter, the Crown of the world.
+        this.drawHand(dealer, { x: this.canvas.width / 2, y: this.cardHeight * 0.7 }, revealDealer);
+        
+        // The Emanations are arrayed like a celestial council.
+        aiPlayers.forEach((player) => {
+             this.drawHand(player, { x: this.canvas.width / 2, y: this.canvas.height * 0.45 });
         });
 
-        this.drawHand(humanPlayer, this.ctx.canvas.width / 2 - 100, this.ctx.canvas.height - this.cardHeight - 80);
+        // The Self resides at Malchut, the Kingdom, the focal point of this reality.
+        this.drawHand(humanPlayer, { x: this.canvas.width / 2, y: this.canvas.height - this.cardHeight * 0.7 });
     }
-    
-    drawHand(player, x, y, revealAllCards = true) {
-        this.ctx.fillStyle = '#d4af37';
-        this.ctx.font = '20px "Times New Roman"';
+
+    /**
+     * Renders a constellation of truths—a single hand—anchored to a point in the void.
+     * @param {Object} player - The soul whose fate is to be rendered.
+     * @param {{x: number, y: number}} layout - The anchor point in the cosmos.
+     * @param {boolean} revealAllCards - Whether this constellation is fully visible.
+     */
+    drawHand(player, layout, revealAllCards = true) {
+        const handWidth = player.hand.length * (this.cardWidth * 0.5) + (this.cardWidth * 0.5);
+        const startX = layout.x - handWidth / 2;
+        
+        // Inscribe the name of the soul, hovering like a title.
+        this.ctx.save();
+        this.ctx.font = 'bold 24px "Times New Roman"';
         this.ctx.textAlign = 'center';
-        const handWidth = player.hand.length > 0 ? (player.hand.length -1) * (this.cardWidth * 0.5) + this.cardWidth : 0;
-        this.ctx.fillText(player.name, x + handWidth / 2, y - 20);
+        this.ctx.shadowColor = 'black';
+        this.ctx.shadowBlur = 5;
+        this.ctx.fillStyle = '#d4af37';
+        this.ctx.fillText(player.name, layout.x, layout.y - this.cardHeight / 2 - 20);
+        this.ctx.restore();
 
         player.hand.forEach((card, index) => {
+            const cardX = startX + index * (this.cardWidth * 0.5);
             if (player.isDealer && index === 0 && !revealAllCards) {
-                this.drawCardBack(x + index * (this.cardWidth * 0.5), y);
+                this.drawCardBack(cardX, layout.y);
             } else {
-                this.drawCard(card, x + index * (this.cardWidth * 0.5), y);
+                this.drawCard(card, cardX, layout.y);
             }
         });
     }
 
-    drawCardBack(x, y) {
-        this.ctx.fillStyle = '#5c0000';
-        this.ctx.strokeStyle = '#d4af37';
-        this.ctx.lineWidth = 2;
+    /**
+     * Summons a single, fully illuminated Tablet of Truth from the void.
+     * This is the heart of the Scribe's craft, a multi-layered ritual of light,
+     * shadow, and holy inscription.
+     * @param {Object} card - The divine data packet to be given form.
+     * @param {number} x - The horizontal anchor.
+     * @param {number} y - The vertical anchor.
+     */
+    drawCard(card, x, y) {
+        this.ctx.save();
+        this.ctx.translate(x, y);
+
+        // Ritual Part 1: Summoning the vessel. A tablet of ethereal, polished marble.
+        this.ctx.shadowColor = 'rgba(0,0,0,0.7)';
+        this.ctx.shadowBlur = 25;
+        this.ctx.shadowOffsetY = 10;
+        const gradient = this.ctx.createLinearGradient(0, 0, this.cardWidth, this.cardHeight);
+        gradient.addColorStop(0, '#f5f5f5');
+        gradient.addColorStop(1, '#e0e0e0');
+        this.ctx.fillStyle = gradient;
         this.ctx.beginPath();
-        this.ctx.roundRect(x, y, this.cardWidth, this.cardHeight, [10]);
+        this.ctx.roundRect(0, 0, this.cardWidth, this.cardHeight, 12);
         this.ctx.fill();
+        this.ctx.shadowColor = 'transparent'; // End the shadow casting.
+        
+        // Ritual Part 2: Edging with divine gold.
+        this.ctx.strokeStyle = '#b8860b';
+        this.ctx.lineWidth = 1;
         this.ctx.stroke();
 
-        this.ctx.fillStyle = '#d4af37';
-        this.ctx.font = '80px "Times New Roman"';
-        this.ctx.textAlign = 'center';
-        this.ctx.fillText('א', x + this.cardWidth / 2, y + this.cardHeight / 2 + 30);
+        // Ritual Part 3: The Inscriptions.
+        const englishRank = card.rank === 'Keter' ? 'A' : (card.isFace ? card.rank.substring(0,1) : String(card.value));
+        const hebrew = card.isFace ? '' : card.hebrew;
+
+        // Inscribe the Worldly glyph (English)
+        this.ctx.fillStyle = card.suit.name === 'Divine Might' || card.suit.name === 'Sanctified Vessel' ? '#8c0000' : '#000000';
+        this.ctx.font = 'bold 24px "Times New Roman"';
+        this.ctx.textAlign = 'start';
+        this.ctx.fillText(englishRank, 12, 30);
+
+        // Inscribe the Holy glyph (Hebrew)
+        this.ctx.fillStyle = '#b8860b';
+        this.ctx.font = '32px "Times New Roman"';
+        this.ctx.textAlign = 'end';
+        this.ctx.shadowColor = 'rgba(255,223,186,0.5)';
+        this.ctx.shadowBlur = 8;
+        this.ctx.fillText(hebrew, this.cardWidth - 12, 38);
+        this.ctx.shadowColor = 'transparent';
+
+        // Ritual Part 4: Channeling the Archetype.
+        if (card.isFace) {
+             this._drawFaceCardArchetype(card);
+        } else {
+            // For number cards, the suit is the central figure.
+            this.ctx.font = '60px "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"';
+            this.ctx.textAlign = 'center';
+            this.ctx.fillText(card.suit.emoji, this.cardWidth / 2, this.cardHeight / 2 + 20);
+        }
+
+        this.ctx.restore();
     }
     
     /**
-     * The sacred act of illuminating a single card has been enhanced. It now
-     * inscribes the card with its dual nature and bestows the proper signifiers
-     * upon the holy archetypes.
-     * @param {Object} card - The card object, a packet of cosmic data.
-     * @param {number} x - The horizontal coordinate on the canvas.
-     * @param {number} y - The vertical coordinate on the canvas.
+     * A specialized ritual for rendering the holy faces, the bridge between the
+     * divine and the mundane.
+     * @param {Object} card - The face card to be given its true form.
      */
-    drawCard(card, x, y) {
-        // The physical vessel of the card
-        this.ctx.fillStyle = 'white';
-        this.ctx.strokeStyle = '#d4af37';
-        this.ctx.lineWidth = 2;
-        this.ctx.beginPath();
-        this.ctx.roundRect(x, y, this.cardWidth, this.cardHeight, [10]);
-        this.ctx.fill();
-        this.ctx.stroke();
-
-        // The glyphs of power that define it
-        if (card.isFace) {
-            this.ctx.fillStyle = 'black';
-            this.ctx.font = 'bold 20px "Times New Roman"';
-            
-            // English representation (J, Q, K)
-            this.ctx.textAlign = 'start';
-            const faceLetter = card.rank.substring(0, 1);
-            this.ctx.fillText(faceLetter, x + 10, y + 25);
-            this.ctx.textAlign = 'end';
-            this.ctx.fillText(faceLetter, x + this.cardWidth - 10, y + 25);
-
-            // The central emoji archetype
-            this.ctx.font = '50px "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"';
-            this.ctx.textAlign = 'center';
-            this.ctx.fillText(card.emoji, x + this.cardWidth / 2, y + this.cardHeight / 2 + 15);
-
-            // *** The Consecration of the Patriarch ***
-            // If the card is Yackov, we bestow upon him his mark of sanctity.
-            if (card.rank === 'Yackov') {
-                this.ctx.fillStyle = '#000000';
-                this.ctx.beginPath();
-                // We draw a simple arc, a half-circle, a humble crown, above the emoji's head.
-                this.ctx.arc(x + this.cardWidth / 2, y + this.cardHeight / 2 - 5, 12, Math.PI, 2 * Math.PI, false);
-                this.ctx.fill();
-            }
-
-        } else {
-            // Divine Hebrew Letter
-            this.ctx.fillStyle = '#8c0000';
-            this.ctx.font = 'bold 28px "Times New Roman"';
-            this.ctx.textAlign = 'start';
-            this.ctx.fillText(card.hebrew, x + 10, y + 30);
-            
-            // Mundane English Number
-            this.ctx.fillStyle = 'black';
-            this.ctx.font = 'bold 20px "Times New Roman"';
-            this.ctx.textAlign = 'end';
-            const englishRank = card.rank === 'Keter' ? 'A' : String(card.blackjackValue);
-            this.ctx.fillText(englishRank, x + this.cardWidth - 10, y + 25);
-        }
-        
-        // The suit, the world to which this utterance belongs.
-        this.ctx.font = '40px "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"';
+    _drawFaceCardArchetype(card) {
         this.ctx.textAlign = 'center';
-        this.ctx.fillText(card.suit.emoji, x + this.cardWidth / 2, y + this.cardHeight - 20);
+        this.ctx.font = '70px "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"';
+        this.ctx.fillText(card.emoji, this.cardWidth / 2, this.cardHeight / 2 + 25);
+
+        if (card.rank === 'Yackov') {
+            this.ctx.fillStyle = 'rgba(0,0,0,0.8)';
+            this.ctx.beginPath();
+            this.ctx.arc(this.cardWidth / 2, this.cardHeight / 2 - 8, 15, Math.PI, 2 * Math.PI, false);
+            this.ctx.fill();
+        } else if (card.rank === 'King David') {
+            this.ctx.save();
+            this.ctx.fillStyle = '#FFD700';
+            this.ctx.shadowColor = '#FFFF00';
+            this.ctx.shadowBlur = 10;
+            this.ctx.font = '20px "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"';
+            this.ctx.fillText('✨', this.cardWidth / 2 + 15, this.cardHeight / 2 - 15); // A glint on the crown
+            this.ctx.restore();
+        }
+    }
+
+    /**
+     * Draws a veil over a truth, rendering the back of a Tablet. It is not empty,
+     * but sealed with the Aleph, the mark of the Creator's unity, the potential for all things.
+     * @param {number} x - The horizontal anchor.
+     * @param {number} y - The vertical anchor.
+     */
+    drawCardBack(x, y) {
+        this.ctx.save();
+        this.ctx.translate(x, y);
+
+        this.ctx.shadowColor = 'rgba(0,0,0,0.7)';
+        this.ctx.shadowBlur = 25;
+        this.ctx.shadowOffsetY = 10;
+        const gradient = this.ctx.createLinearGradient(0, 0, this.cardWidth, this.cardHeight);
+        gradient.addColorStop(0, '#5c0000');
+        gradient.addColorStop(1, '#2c0000');
+        this.ctx.fillStyle = gradient;
+        this.ctx.beginPath();
+        this.ctx.roundRect(0, 0, this.cardWidth, this.cardHeight, 12);
+        this.ctx.fill();
+        this.ctx.shadowColor = 'transparent';
+
+        // The central sigil of unity.
+        this.ctx.textAlign = 'center';
+        this.ctx.fillStyle = '#d4af37';
+        this.ctx.shadowColor = '#FFD700';
+        this.ctx.shadowBlur = 15;
+        this.ctx.font = 'bold 90px "Times New Roman"';
+        this.ctx.fillText('א', this.cardWidth / 2, this.cardHeight / 2 + 35);
+        
+        this.ctx.restore();
     }
 }
