@@ -12,11 +12,13 @@
         input { width: 100%; padding: 8px; background-color: #333; border: 1px solid #555; color: #d4d4d4; font-family: monospace; margin-top: 5px; box-sizing: border-box; }
         button { background-color: #0e639c; color: white; padding: 10px 15px; border: none; cursor: pointer; font-size: 16px; margin-top: 15px; }
         button:hover { background-color: #1177bb; }
-        #output { margin-top: 20px; background-color: #252526; padding: 15px; white-space: pre-wrap; word-wrap: break-word; border: 1px solid #444; max-height: 60vh; overflow-y: auto;}
+        button:disabled { background-color: #555; cursor: not-allowed; }
+        #output { margin-top: 20px; background-color: #252526; padding: 15px; white-space: pre; word-wrap: break-word; border: 1px solid #444; min-height: 100px; max-height: 60vh; overflow-y: auto; }
         .success { color: #73c991; }
         .error { color: #f44747; font-weight: bold; }
         .info { color: #9cdcfe; }
         .trace { color: #888; }
+        .header { background: #000; color: #00ffff; font-size: 1.2em; padding: 4px; font-family: monospace; }
     </style>
 </head>
 <body>
@@ -36,7 +38,7 @@
         <pre id="output"></pre>
     </div>
 
-    <!-- This imports the new debug logic as a module -->
-    <script type="module" src="debug_tool.js"></script>
+    <!-- This script controls the UI and communicates with the worker -->
+    <script src="debug_tool.js"></script>
 </body>
 </html>
