@@ -421,33 +421,29 @@ export default class Chai extends Tzomayach {
             this.activeRay.mesh.remove(this.activeObject.mesh);
         }
     }
-	/**
+
+    /**
      * B"H
      * Aligns the active preview object to remain level with the world, compensating for camera pitch.
-     * This prevents the preview block from tilting up or down as the player looks around in FPS mode.
-     * It now correctly references the ray's main group object for its calculations.
+     * This is the final corrected version that ensures the block does not tilt with the camera in FPS mode.
      * @returns {void}
      */
     alignObject() {
-        // Guard Clause: If there's no active ray, group, or object, do nothing.
-        // This is the primary fix for the "Cannot read properties of undefined" error flood.
         if (!this.activeRay || !this.activeRay.group || !this.activeObject) return;
 
-        // In FPS mode, the camera (and thus the ray group parented to it) tilts.
         if (this.olam.ayin.isFPS) {
-            // To keep the block level, we get the camera's rotation.
-            const cameraQuaternion = this.olam.ayin.camera.quaternion;
-            
-            // We create an inverse of the camera's rotation.
-            const inverseQuaternion = cameraQuaternion.clone().invert();
+            // Get the world rotation of the parent (the camera).
+            const parentWorldQuaternion = new THREE.Quaternion();
+            this.activeRay.group.parent.getWorldQuaternion(parentWorldQuaternion);
 
-            // By applying the inverse rotation to the preview block, we effectively cancel out
-            // the camera's tilt, making the block always appear upright relative to the world.
+            // Invert the parent's rotation.
+            const inverseQuaternion = parentWorldQuaternion.invert();
+
+            // Apply the inverse rotation to the block's quaternion. This cancels out the parent's tilt,
+            // making the block's world orientation always upright.
             this.activeObject.mesh.quaternion.copy(inverseQuaternion);
-            
         } else {
-            // In 3rd person mode, the ray group is already level with the character.
-            // We simply reset the preview block's local rotation to ensure it has no tilt.
+            // In 3rd person, the parent group is already level, so just ensure the block has no local rotation.
             this.activeObject.mesh.rotation.set(0, 0, 0);
         }
     }
@@ -460,34 +456,199 @@ removeActiveObject() {
     }
 } 
 
-/**
+
+
+	/**
      * B"H
-     * Sets the distance of the active preview object from the player along the ray.
-     * This function is called by the mouse wheel event to move the preview block closer or further away.
+     * Sets the distance of the preview object along the ray (for mouse wheel scrolling).
+     * This version consistently uses the positive Z-axis.
      * @param {number} distance - The new distance to set.
      */
     setDistanceFromRay(distance) {
-        // Update the stored distance value for the Chai instance.
         this.distanceFromRay = distance;
-
-        // If there is an active preview object, update its position.
         if (this.activeObject && this.activeObject.mesh) {
-            // The preview block's position is relative to its parent (the ray group).
-            // By changing its local z position, we move it along the length of the ray.
-            this.activeObject.mesh.position.z = -this.distanceFromRay;
+            // --- THE FIX ---
+            // Consistently position the block along the POSITIVE Z-axis.
+            this.activeObject.mesh.position.z = this.distanceFromRay;
+            // --- END OF FIX ---
         }
     }
 
+   
+   
+   
+   
+    async shoot() {
+        if(!this.activeRay) return;
+        if (!this.activeObject) {
+            await this.placeBlockOnRay();
+        } else {
+            this.placeObject();
+        }
+    }
     
-    
-	/**
+    /**
      * B"H
-     * Finalizes the placement of the active preview object, creating a permanent, solid object in the world.
-     * This method correctly calculates the preview object's world-space transform (position, rotation, scale)
-     * before creating the new object, ensuring it appears exactly where the preview was.
-     * It then removes the item from inventory and cleans up the temporary preview object and ray.
+     * Removes the ray and any active preview object from the scene.
+     * This ensures all temporary objects are cleaned up correctly, allowing the ray to be toggled.
+     */
+    removeRay() {
+        this.removeActiveObject();
+
+        if (this.activeRay && this.activeRay.group && this.activeRay.group.parent) {
+            this.activeRay.group.parent.remove(this.activeRay.group);
+        }
+
+        this.activeRay = null;
+        this.olam.remove("setFPS");
+    }
+
+    
+    /**
+     * B"H
+     * Gets the starting position of the ray in world space.
+     * @returns {THREE.Vector3}
+     */
+    getRayStart() {
+        // Starts the ray from the top of the character's collider.
+        return this.collider.end.clone();
+    }
+
+    /**
+     * B"H
+     * Creates or removes the placement ray. This is the FINAL version that correctly handles
+     * both FPS (-Z) and 3rd Person (+Z) forward conventions by conditionally rotating the ray's container.
      * @async
-     * @returns {Promise<void>} A promise that resolves when the object is placed and cleanup is complete.
+     * @param {number} [length=72] - The maximum length of the ray.
+     */
+    async makeRay(length = 72) {
+        if (this.activeRay) {
+            this.removeRay();
+            return;
+        }
+
+        const rayGroup = new THREE.Group();
+        const parent = this.olam.ayin.isFPS ? this.olam.ayin.camera : this.emptyCopy;
+        parent.add(rayGroup);
+
+        const worldStart = this.getRayStart();
+        const localStart = parent.worldToLocal(worldStart.clone());
+        rayGroup.position.copy(localStart);
+
+        // --- THE FINAL ROTATION FIX ---
+        if (this.olam.ayin.isFPS) {
+            // The camera's forward is -Z. We rotate our group 180 degrees on the Y-axis
+            // so that our group's local +Z axis aligns with the camera's -Z axis.
+            rayGroup.quaternion.setFromAxisAngle(new THREE.Vector3(0, 1, 0), Math.PI);
+        }
+        // In 3rd person, no local rotation is needed. The group's +Z will automatically
+        // align with the parent model's +Z, which is already its forward direction.
+        // --- END OF FIX ---
+
+        const geometry = new THREE.CylinderGeometry(0.015, 0.015, length, 8);
+        const material = new THREE.MeshBasicMaterial({ color: 0x0000ff, transparent: true, opacity: 0.5 });
+        const cylinderMesh = new THREE.Mesh(geometry, material);
+
+        // We now CONSISTENTLY use the positive Z-axis as "forward" for all children of the rayGroup.
+        cylinderMesh.rotation.x = Math.PI / 2;
+        cylinderMesh.position.z = length / 2;
+        rayGroup.add(cylinderMesh);
+
+        this.activeRay = { group: rayGroup, visual: cylinderMesh };
+
+        this.olam.on("setFPS", () => {
+            const hadObject = !!this.activeObject;
+            this.removeRay();
+            this.makeRay(length).then(() => {
+                if (hadObject) this.placeBlockOnRay();
+            });
+        }, { once: true });
+    }
+
+    /**
+     * B"H
+     * Calculates the "forward" direction for the ray. This is the final, correct version.
+     * @returns {THREE.Vector3} A normalized vector representing the forward direction.
+     */
+    getRayDirection() {
+        const direction = new THREE.Vector3();
+        if (this.olam.ayin.isFPS) {
+            // In FPS, "forward" is the direction the camera is looking.
+            this.olam.ayin.camera.getWorldDirection(direction);
+        } else {
+            // In 3rd person, "forward" is the Z-axis of the model, transformed by its world rotation.
+            const forward = new THREE.Vector3(0, 0, 1);
+            forward.applyQuaternion(this.modelMesh.quaternion);
+            direction.copy(forward);
+        }
+        direction.y = 0; // Ensure the ray is always level.
+        return direction.normalize();
+    }
+
+    /**
+     * B"H
+     * Toggles the preview block on the ray, or finalizes its placement if a preview already exists.
+     * @async
+     */
+    async shoot() {
+        if (!this.activeRay) {
+            // If there's no ray, we can't do anything. This prevents errors if 'B' is pressed before 'Y'.
+            return;
+        }
+        if (!this.activeObject) {
+            await this.placeBlockOnRay();
+        } else {
+            await this.placeObject();
+        }
+    }
+
+    /**
+     * B"H
+     * Creates and attaches a preview block to the ray.
+     * This version consistently positions the block along the positive Z-axis of the ray group.
+     * @async
+     */
+    async placeBlockOnRay() {
+        if (!this.activeRay || !this.activeRay.group) return;
+        this.removeActiveObject();
+
+        let blockDefinition;
+        if (this.inventory && this.selectedInventorySlot !== null) {
+            const slot = this.inventory.slots[this.selectedInventorySlot];
+            if (slot && slot.className === 'Brick') {
+                const brickModule = await import('../dvarim/brick.js');
+                const BrickClass = brickModule.default;
+                const tempBrick = new BrickClass(slot);
+                blockDefinition = tempBrick.originalOptions.golem;
+            }
+        }
+        if (!blockDefinition) {
+            blockDefinition = this?.olam?.vars?.defaultBlock || {
+                guf: { BoxGeometry: [1, 1, 1] },
+                toyr: { MeshLambertMaterial: { color: "#a0522d" } }
+            };
+        }
+
+        const mesh = await this.olam.generateThreeJsMesh(blockDefinition);
+        if (!mesh) return;
+        
+        mesh.awtsmoosGolem = blockDefinition;
+        this.activeObject = { mesh };
+
+        // --- THE FIX ---
+        // Consistently position the block along the POSITIVE Z-axis, which is our new "forward" standard.
+        this.activeObject.mesh.position.z = this.distanceFromRay;
+        // --- END OF FIX ---
+        
+        this.activeRay.group.add(this.activeObject.mesh);
+        this.alignObject();
+    }
+
+    /**
+     * B"H
+     * Finalizes the placement of the preview object, creating a permanent block in its place.
+     * This version is robust and correctly uses world coordinates.
+     * @async
      */
     async placeObject() {
         if (!this.activeObject || !this.activeObject.mesh) return;
@@ -498,217 +659,33 @@ removeActiveObject() {
             return;
         }
 
-        // --- CORRECTED LOGIC: Get World Transform ---
-        // Ensure the world matrix of the preview object is up-to-date.
         this.activeObject.mesh.updateMatrixWorld(true);
-
-        // Create new instances for position, rotation (quaternion), and scale.
         const worldPosition = new THREE.Vector3();
         const worldQuaternion = new THREE.Quaternion();
         const worldScale = new THREE.Vector3();
-
-        // Decompose the world matrix to get the object's absolute position, rotation, and scale in the scene.
         this.activeObject.mesh.matrixWorld.decompose(worldPosition, worldQuaternion, worldScale);
-        
-        // Convert the quaternion to Euler angles for compatibility with the addObject method.
         const worldRotation = new THREE.Euler().setFromQuaternion(worldQuaternion);
-        // --- END OF CORRECTION ---
 
-        // Remove the item from inventory if applicable.
         if (this.inventory && this.selectedInventorySlot !== null) {
-            const slot = this.inventory.slots[this.selectedInventorySlot];
-            if (slot && (slot.item === 'Brick' || slot.className === 'Brick')) {
-                this.inventory.removeItem(this.selectedInventorySlot, 1);
-                if (!this.inventory.slots[this.selectedInventorySlot]) {
-                    this.selectedInventorySlot = null;
-                }
+            this.inventory.removeItem(this.selectedInventorySlot, 1);
+            if (!this.inventory.slots[this.selectedInventorySlot]) {
+                this.selectedInventorySlot = null;
             }
         }
 
-        // Create the permanent object in the world using the CORRECT world transform.
         await this.olam.addObject('Domem', {
             position: worldPosition,
             scale: worldScale,
-            rotation: worldRotation, // Pass the Euler rotation
+            rotation: worldRotation,
             golem,
             isSolid: true,
             interactable: true,
             name: "BH_permanent_block_" + Date.now()
         });
 
-        // Clean up the temporary preview object and the ray.
-        this.removeActiveObject();
-        this.removeRay();
-    }
-
-
-
-removeRay() {
-    this.removeActiveObject(); // Use the new helper function
-
-    if (!this.activeRay || !this.activeRay.mesh) return;
-
-    this.activeRay.mesh.removeFromParent(); // This will correctly remove from camera or character
-    
-    this.activeRay = null;
-    this.olam.remove("setFPS");
-}
-   /**
-     * B"H
-     * Creates or removes the placement ray. This is the corrected version that properly handles
-     * world vs. local coordinate spaces to ensure the ray is visible and correctly positioned.
-     * It parents the ray's container group to the character's anchor and then calculates the
-     * correct local position to match the desired world start position.
-     * @async
-     * @param {number} [length=72] - The maximum length of the ray.
-     * @returns {Promise<object|undefined>} A promise that resolves with the activeRay object if created, or undefined if toggled off.
-     */
-    async makeRay(length = 72) {
-        if (this.activeRay) {
-            this.removeRay();
-            return;
-        }
-
-        const rayGroup = new THREE.Group();
-        
-        // --- THIS IS THE CRITICAL FIX ---
-        // 1. Determine the parent first.
-        const parent = this.olam.ayin.isFPS ? this.olam.ayin.camera : this.emptyCopy;
-        
-        // 2. Add the ray group to the parent immediately.
-        parent.add(rayGroup);
-
-        // 3. Get the desired START position and DIRECTION in WORLD space.
-        const worldStart = this.getRayStart();
-        const worldDirection = this.getRayDirection();
-
-        // 4. Convert the WORLD start position to the PARENT's LOCAL space.
-        const localStart = parent.worldToLocal(worldStart.clone());
-        
-        // 5. Set the ray group's LOCAL position and LOCAL rotation.
-        rayGroup.position.copy(localStart);
-        rayGroup.quaternion.setFromUnitVectors(new THREE.Vector3(0, 0, -1), worldDirection);
-        // --- END OF FIX ---
-
-        // Create the VISUAL cylinder for the ray.
-        const geometry = new THREE.CylinderGeometry(0.015, 0.015, length, 8);
-        const material = new THREE.MeshBasicMaterial({ color: 0x0000ff, transparent: true, opacity: 0.5 });
-        const cylinderMesh = new THREE.Mesh(geometry, material);
-        
-        // Rotate and position the cylinder *locally* within the rayGroup to point it forward.
-        cylinderMesh.rotation.x = Math.PI / 2;
-        cylinderMesh.position.z = -length / 2;
-        rayGroup.add(cylinderMesh);
-
-        this.activeRay = {
-            group: rayGroup,
-            visual: cylinderMesh,
-            direction: worldDirection,
-            length: length,
-            start: worldStart
-        };
-
-        // Handle switching between FPS and 3rd person.
-        this.olam.on("setFPS", () => {
-            const hadObject = !!this.activeObject;
-            this.removeRay();
-            this.makeRay(length).then(() => {
-                if (hadObject) this.placeBlockOnRay();
-            });
-        }, { once: true });
-
-        return this.activeRay;
-    }
-
-    getRayStart() {
-        return this.collider.end.clone(); // Starting position for the ray
-    }
-    /**
-     * B"H
-     * Calculates the "forward" direction for the ray in world space.
-     * This corrected version ensures the vector points away from the front of the character or camera.
-     * @returns {THREE.Vector3} A normalized vector representing the forward direction.
-     */
-    getRayDirection() {
-        if (this.olam.ayin.isFPS) {
-            // In FPS mode, "forward" is the direction the camera is looking.
-            // We get this directly from the camera. The previous version incorrectly inverted this.
-            return this.olam.ayin.camera.getWorldDirection(new THREE.Vector3());
-        } else {
-            // In 3rd person mode, we get the model's forward direction.
-            // By starting with (0, 0, 1) instead of (0, 0, -1), we are flipping the direction
-            // to correctly point out of the character's front, matching the visual orientation.
-            const forward = new THREE.Vector3(0, 0, 1);
-            forward.applyQuaternion(this.modelMesh.quaternion);
-            forward.y = 0; // Ensure the ray is level with the ground.
-            return forward.normalize();
-        }
-    }
-    async shoot() {
-        if(!this.activeRay) return;
-        if (!this.activeObject) {
-            await this.placeBlockOnRay();
-        } else {
-            this.placeObject();
-        }
-    }
-	/**
-     * B"H
-     * Creates and attaches a temporary preview block to the active ray's group.
-     * This method is called after a ray is created to show the user where a block will be placed.
-     * It correctly parents the preview mesh to the ray's container group, ensuring its
-     * position is relative to the ray itself, not the visual cylinder.
-     * @async
-     * @returns {Promise<void>} A promise that resolves when the preview block is created and placed on the ray.
-     */
-    async placeBlockOnRay() {
-        if (!this.activeRay || !this.activeRay.group) return; // Guard clause: ensure the ray group exists.
-        this.removeActiveObject(); // Clear any previous preview.
-
-        let blockDefinition;
-        // --- Logic to get blockDefinition from inventory (This part was correct and remains unchanged) ---
-        if (this.inventory && this.selectedInventorySlot !== null) {
-            const slot = this.inventory.slots[this.selectedInventorySlot];
-            if (slot && slot.className === 'Brick') {
-                try {
-                    const brickModule = await import('../dvarim/brick.js');
-                    const BrickClass = brickModule.default;
-                    const tempBrick = new BrickClass(slot);
-                    blockDefinition = tempBrick.originalOptions.golem;
-                } catch (e) { console.error("Could not load brick module for building", e); }
-            }
-        }
-        if (!blockDefinition) {
-            blockDefinition = this?.olam?.vars?.defaultBlock || {
-                guf: { BoxGeometry: [1, 1, 1] },
-                toyr: { MeshLambertMaterial: { color: "blue" } }
-            };
-        }
-        // --- End of inventory logic ---
-
-        const mesh = await this.olam.generateThreeJsMesh(blockDefinition);
-        if (!mesh) return;
-        
-        // Store the original golem data on the mesh itself for easy retrieval in placeObject.
-        mesh.awtsmoosGolem = blockDefinition;
-        this.activeObject = { mesh };
-
-        // --- Position and Parent Correctly ---
-        // Position the block along the local Z-axis of its parent (the ray group).
-        // A negative value moves it "forward" along the ray's direction.
-        this.activeObject.mesh.position.z = -this.distanceFromRay;
-
-        // Add the preview block as a child of the ray's main GROUP, not the visual cylinder mesh.
-        // This is the critical fix that makes the preview block appear in the correct location.
-        this.activeRay.group.add(this.activeObject.mesh);
-        // --- END OF CORRECTION ---
-
-        // Align the object once upon creation. This will still cause an error, which we will fix next.
-        this.alignObject();
+        this.removeRay(); // This also removes the active object.
     }
     
-    
-
 
 
 
