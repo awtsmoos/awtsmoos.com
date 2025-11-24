@@ -1,4 +1,6 @@
 /* B"H */
+/* This is the complete soul, the full set of laws that give form and beauty
+   to the raw structure of the HTML, restoring order to the menu and the game. */
 body, html {
     margin: 0;
     padding: 0;
@@ -12,56 +14,126 @@ body, html {
     align-items: center;
 }
 
-/* The Main Menu vessel is given a new, more orderly structure to prevent the chaotic overlap. */
+/* --- Main Menu Restoration --- */
+/* The vessel for the main menu, given proper form and divine order. */
 #main-menu {
     text-align: center;
     border: 1px solid #555;
     padding: 40px;
     background-color: rgba(10, 10, 10, 0.8);
     box-shadow: 0 0 25px rgba(255, 223, 186, 0.1);
-    display: flex; /* Using flexbox to organize the menu's contents. */
-    flex-direction: column; /* Stack all items vertically. */
-    align-items: center; /* Center them horizontally. */
-    gap: 20px; /* Creates space between the sections. */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 25px; /* Creates sacred space between the elements. */
 }
 
-/* This ensures the list of games itself has some internal spacing. */
+h1 {
+    color: #d4af37;
+    font-size: 3em;
+    margin-bottom: 0;
+    font-weight: normal;
+    text-shadow: 0 0 10px #d4af37;
+}
+
+p {
+    font-style: italic;
+    color: #888;
+    margin-top: -15px; /* Bring the subtitle closer to the title. */
+}
+
 #game-list {
     display: flex;
     flex-direction: column;
     gap: 10px;
+    align-items: stretch; /* Makes all buttons the same width */
+}
+
+.game-button {
+    font-size: 1.1em;
+    padding: 12px 24px;
+    cursor: pointer;
+    background: transparent;
+    border: 1px solid #555;
+    color: #a9a9a9;
+    transition: all 0.3s ease;
+}
+
+.game-button:not(:disabled):hover {
+    background-color: #d4af37;
+    color: #010101;
+    border-color: #d4af37;
+    box-shadow: 0 0 15px #d4af37;
+}
+
+.game-button.selected {
+    background-color: #d4af37;
+    color: #010101;
+    border-color: #d4af37;
+    box-shadow: 0 0 15px #d4af37;
+}
+
+.game-button:disabled {
+    color: #444;
+    border-color: #222;
+    cursor: not-allowed;
+    background-color: #1a1a1a;
 }
 
 #player-selection {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 10px;
+    gap: 15px;
+}
+
+#ai-players {
+    width: 60px;
+    padding: 8px;
+    background-color: #222;
+    border: 1px solid #555;
+    color: #a9a9a9;
+    text-align: center;
+    font-size: 1.1em;
+}
+
+#start-game {
+    font-size: 1.2em;
+    padding: 10px 20px;
+    cursor: pointer;
+    background: transparent;
+    border: 1px solid #8c0000;
+    color: #a9a9a9;
+    transition: all 0.3s ease;
+}
+
+#start-game:hover {
+    background-color: #8c0000;
+    color: white;
+    box-shadow: 0 0 15px #ff4500;
 }
 
 /* --- Game Container Restoration --- */
-/* The core of the error is undone. We return to a stable, predictable layout system
-   using absolute positioning for the UI over a responsive canvas container. */
+/* The stable, predictable reality for the game world itself. */
 #game-container {
-    position: relative; /* Establishes the coordinate system for children. */
-    width: 100vw;   /* Fill the entire screen width. */
-    height: 100vh;  /* Fill the entire screen height. */
-    display: block; /* No more flexbox here. */
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    display: none; /* Hidden until its time of revelation. */
 }
 
 #game-canvas {
     width: 100%;
     height: 100%;
-    display: block; /* Ensures it behaves as a solid block. */
+    display: block;
 }
 
-/* The UI container is once again anchored to the bottom of the screen, its rightful place. */
 #game-ui-container {
-    position: absolute; /* Placed OVER the canvas. */
-    bottom: 20px;       /* Pinned 20px from the bottom. */
+    position: absolute;
+    bottom: 20px;
     left: 0;
     width: 100%;
-    z-index: 2; /* Ensures it's on top of the canvas. */
+    z-index: 2;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -69,16 +141,16 @@ body, html {
     pointer-events: none;
 }
 
-/* The rest of the styles remain as they were, their integrity preserved. */
 .ui-panel {
-    background-color: rgba(0, 0, 0, 0.6);
+    background-color: rgba(0, 0, 0, 0.7);
     border: 1px solid #d4af37;
-    padding: 10px;
+    padding: 15px;
     border-radius: 5px;
-    box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
     color: #d4af37;
     font-size: 1.5em;
     margin-top: 10px;
+    text-align: center;
 }
 
 #player-actions {
@@ -99,4 +171,4 @@ body, html {
 #player-actions button:hover {
     background-color: #d4af37;
     color: #000;
-}
+}```
