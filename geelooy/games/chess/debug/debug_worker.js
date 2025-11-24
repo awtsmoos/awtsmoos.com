@@ -68,7 +68,7 @@ function runDiagnostic(fen, targetSan) {
                 matchFound = true;
                 break;
             }
-        }
+        } 
         
         log('\n--- FINAL DIAGNOSIS ---', 'header');
         if (matchFound) {
