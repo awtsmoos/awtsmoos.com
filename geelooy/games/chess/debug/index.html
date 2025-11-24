@@ -1,0 +1,44 @@
+<!-- B"H -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Awtsmoos Engine - Debugging Harness</title>
+    <style>
+        body { font-family: monospace; background-color: #1e1e1e; color: #d4d4d4; padding: 20px; }
+        h1, h2 { color: #569cd6; border-bottom: 1px solid #444; }
+        .container { max-width: 900px; margin: auto; }
+        label { display: block; margin-top: 15px; color: #9cdcfe;}
+        input { width: 100%; padding: 8px; background-color: #333; border: 1px solid #555; color: #d4d4d4; font-family: monospace; margin-top: 5px; box-sizing: border-box; }
+        button { background-color: #0e639c; color: white; padding: 10px 15px; border: none; cursor: pointer; font-size: 16px; margin-top: 15px; }
+        button:hover { background-color: #1177bb; }
+        button:disabled { background-color: #555; cursor: not-allowed; }
+        #output { margin-top: 20px; background-color: #252526; padding: 15px; white-space: pre; word-wrap: break-word; border: 1px solid #444; min-height: 100px; max-height: 60vh; overflow-y: auto; }
+        .success { color: #73c991; }
+        .error { color: #f44747; font-weight: bold; }
+        .info { color: #9cdcfe; }
+        .trace { color: #888; }
+        .header { background: #000; color: #00ffff; font-size: 1.2em; padding: 4px; font-family: monospace; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Engine Debugging Harness</h1>
+        <p>This tool isolates the move generation and SAN parsing logic to diagnose the "Scribe Paradox."</p>
+
+        <label for="fenInput">FEN String (The "Current Reality"):</label>
+        <input type="text" id="fenInput">
+
+        <label for="sanInput">Target SAN (The "Unintelligible Word"):</label>
+        <input type="text" id="sanInput">
+
+        <button id="runTestButton">Run Diagnostic</button>
+
+        <h2>Diagnostic Log</h2>
+        <pre id="output"></pre>
+    </div>
+
+    <!-- This script controls the UI and communicates with the worker -->
+    <script src="debug_tool.js"></script>
+</body>
+</html>
