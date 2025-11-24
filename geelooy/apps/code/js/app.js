@@ -595,20 +595,29 @@ async loadSession() {
 
         // --- ALL YOUR OTHER ORIGINAL EVENT LISTENERS (PRESERVED EXACTLY) ---
         DOM.editor.addEventListener('input', () => {
-            const activeTab = State.tabs.find(t => t.id === State.activeTabId);
-            if (activeTab && !activeTab.isDirty) {
+        if (State.isRestoring) return; 
+
+        const activeTab = State.tabs.find(t => t.id === State.activeTabId);
+        if (activeTab) {
+            if (!activeTab.isDirty) {
                 activeTab.isDirty = true;
                 Tabs.render();
             }
-            UI.updateLineNumbers();
-        });
+            activeTab.content = DOM.editor.value;
+            this.saveSessionDebounced();
+        }
+        UI.updateLineNumbers();
+    });
         // 1. Guarded Scroll Listener
     DOM.editor.addEventListener('scroll', () => {
         UI.syncScroll();
         
-        // IF WE ARE RESTORING, DO NOT UPDATE STATE
+        // STRICT LOCK: If restoring, DO NOT SAVE.
         if (State.isRestoring) return;
 
+        // Additional Safety: If the app just started (< 2 seconds), be careful about saving '0'
+        // unless the user actually clicked/typed.
+        
         const activeTab = State.tabs.find(t => t.id === State.activeTabId);
         if (activeTab && !DOM.editorWrapper.classList.contains('hidden')) {
             activeTab.scrollPos = DOM.editor.scrollTop;

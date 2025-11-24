@@ -139,11 +139,17 @@ async create(item, isNewFile = false, shouldSave = true, activate = true) {
  * @param {number} tabId - The ID of the tab to activate.
  * @param {boolean} [forceViewChange=false] - If true, forces a full re-render of the view.
  */
+/*B"H*/
 async activate(tabId, forceViewChange = false) {
-    // 1. Save current tab's scroll position before switching
-    const currentTab = State.tabs.find(t => t.id === State.activeTabId);
-    if (currentTab && DOM.editor && !DOM.editorWrapper.classList.contains('hidden')) {
-        currentTab.scrollPos = DOM.editor.scrollTop;
+    // 1. Save current tab's scroll position (Only if we are NOT restoring)
+    if (!State.isRestoring) {
+        const currentTab = State.tabs.find(t => t.id === State.activeTabId);
+        if (currentTab && DOM.editor && !DOM.editorWrapper.classList.contains('hidden')) {
+            currentTab.scrollPos = DOM.editor.scrollTop;
+            if (!currentTab.isAltarView && !currentTab.isHexView && !currentTab.isPreview) {
+                currentTab.content = DOM.editor.value;
+            }
+        }
     }
 
     State.activeTabId = tabId;
@@ -154,7 +160,7 @@ async activate(tabId, forceViewChange = false) {
         return;
     }
 
-    // 2. Check for Lock
+    // 2. Lock Workspace Check
     const workspace = State.workspaces.find(ws => ws.id === tab.item.workspaceId);
     if (workspace && workspace.isLocked && !workspace.isLost) {
         UI.switchView('empty');
@@ -162,23 +168,46 @@ async activate(tabId, forceViewChange = false) {
         DOM.emptyEditorMessage.innerHTML = `
             <div style="text-align:center; padding: 40px;">
                 <h2 style="color: var(--color-accent-warning);">🔒 Workspace Locked</h2>
-                <p>Click <strong>Resume</strong> on folder <em>"${workspace.name}"</em>.</p>
+                <p>Please click <strong>"Resume"</strong> on the folder <em>"${workspace.name}"</em> in the sidebar.</p>
             </div>`;
         this.render();
         return;
     }
 
-    // 3. Load Content if needed
+    // 3. Load Content
     if (tab.content === null || tab.forceReload) {
         try {
             UI.showLoading(`Opening ${tab.item.name}...`);
+            let fileContent;
             
+            // Git/Uncommitted Logic
+            const gitInfo = await this._getGitInfoForTab(tab);
+            if (gitInfo) {
+                 try {
+                    fileContent = await FileSystemProvider.IndexedDB.readUncommitted(tab.uniquePath);
+                    tab.isUncommitted = true;
+                 } catch (e) { /* not uncommitted */ }
+            }
+            if (fileContent === undefined) {
+                fileContent = await FileSystemProvider.read(tab.item);
+            }
+
+            // Process Content
+            tab.rawContent = fileContent;
+            let arrayBuffer;
+            if (fileContent instanceof Blob) arrayBuffer = await fileContent.arrayBuffer();
+            else if (typeof fileContent === 'string') arrayBuffer = new TextEncoder().encode(fileContent).buffer;
+            else if (fileContent.isBinary) arrayBuffer = Uint8Array.from(atob(fileContent.base64Content), c => c.charCodeAt(0)).buffer;
+            else arrayBuffer = new ArrayBuffer(0);
             
-            const fileContent = await FileSystemProvider.read(tab.item); // Simplified for brevity
-            
-            // ... (ArrayBuffer/Text logic) ...
-            tab.content = fileContent; // Assume text for this snippet
-            
+            tab.arrayBuffer = arrayBuffer;
+
+            if (tab.fileType === 'text' || tab.item.name.toLowerCase().endsWith('.awtsmoosjson')) {
+                 if (typeof fileContent === 'string') tab.content = fileContent;
+                 else tab.content = new TextDecoder().decode(arrayBuffer);
+            } else {
+                tab.content = fileContent;
+            }
             tab.forceReload = false;
         } catch (e) {
             UI.hideLoading();
@@ -189,25 +218,23 @@ async activate(tabId, forceViewChange = false) {
         }
     }
 
-    // 4. Show View and Restore Scroll
+    // 4. Render View with SCROLL LOCK
     if (tab.fileType === 'text') {
-        // B"H - CRITICAL: Pass the saved scrollPos here!
-        // The Editor will wait for the text to render, then apply this scroll.
-        await Editor.showTextEditor(
-            tab.content || '', 
-            tab.item.name, 
-            tab.scrollPos || 0
-        );
+        // Ensure we pass the stored numeric scrollPos
+        const targetScroll = Number(tab.scrollPos) || 0;
+        await Editor.showTextEditor(tab.content || '', tab.item.name, targetScroll);
     } else if (tab.isHexView) {
         UI.switchView('hex');
         State.hexEditorInstance.load(tab.arrayBuffer);
     } else {
-        Editor.showPreviewer(tab.rawContent, { type: tab.fileType }, tab.id);
+        Editor.showPreviewer(tab.rawContent, { type: tab.fileType, name: tab.item.name }, tab.id);
     }
-
+    
     DOM.editor.readOnly = workspace?.readOnly || false;
     this.render();
-    App.saveSessionDebounced();
+    
+    // Only save if we aren't currently restoring/loading
+    if (!State.isRestoring) App.saveSessionDebounced();
 },
 
 /**

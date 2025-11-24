@@ -27,55 +27,64 @@ export const Editor = {
         }
     },
 
-    // B"H 
-	/*B"H*/
+    /*B"H*/
 async showTextEditor(content = "", filename = "", scrollPos = 0) {
     UI.switchView('editor');
     
-    // 1. LOCK THE STATE
-    // This prevents the 'scroll' event listener from seeing the 
-    // momentary reset to 0 and corrupting our saved data.
+    // 1. LOCK STATE (Prevent scroll listeners from saving '0')
     State.isRestoring = true;
 
     // 2. Set Content
-    // (This normally triggers a scroll-to-zero event, but we are now shielded)
     DOM.editor.value = content;
     UI.updateLineNumbers();
     StatusBar.updateLanguage(filename);
 
-    // 3. Restore Scroll & Unlock
+    // 3. The "Retry Loop" Scroll Strategy
     return new Promise(resolve => {
-        // Use requestAnimationFrame to ensure the DOM has updated the layout
-        requestAnimationFrame(() => {
-            // Force reflow to ensure accurate height calculation
-            const _ignore = DOM.editor.scrollHeight; 
+        let attempts = 0;
+        const maxAttempts = 20; // Try for approx 300ms
 
-            // Apply the saved scroll position
+        const tryScrolling = () => {
+            // Force browser to calc layout
+            const currentScrollHeight = DOM.editor.scrollHeight;
+            const clientHeight = DOM.editor.clientHeight;
+            
+            // Apply Scroll
             DOM.editor.scrollTop = scrollPos;
             UI.syncScroll();
+
+            // Check if it worked OR if it's impossible (content too short)
+            const didScroll = Math.abs(DOM.editor.scrollTop - scrollPos) < 5;
+            const cantScroll = currentScrollHeight <= clientHeight;
             
-            this.focus();
+            if (didScroll || cantScroll || attempts > maxAttempts) {
+                // SUCCESS or Gave Up
+                this.focus();
+                
+                // Re-apply Highlighting
+                if (this.currentHighlighter) this.currentHighlighter.destroy();
+                const ext = this._getExt(filename);
+                const langMap = {
+                    ".js": "js", ".mjs": "js", ".css": "css", ".html": "html",
+                    ".htm": "html", ".svg": "html", ".xml": "html", 
+                    ".json": "json", ".awtsmoosJSON": "json"
+                };
+                this.currentHighlighter = new pnimi(DOM.editor, langMap[ext] || "js");
 
-            // Re-apply Highlighting
-            if (this.currentHighlighter) {
-                this.currentHighlighter.destroy();
+                // UNLOCK after a safety buffer
+                setTimeout(() => {
+                    State.isRestoring = false;
+                    resolve();
+                }, 100);
+            } else {
+                // FAILED (Layout not ready yet), Try again next frame
+                attempts++;
+                requestAnimationFrame(tryScrolling);
             }
-            const ext = this._getExt(filename);
-            const langMap = {
-                ".js": "js", ".mjs": "js", ".css": "css", ".html": "html",
-                ".htm": "html", ".svg": "html", ".xml": "html", 
-                ".json": "json", ".awtsmoosJSON": "json"
-            };
-            this.currentHighlighter = new pnimi(DOM.editor, langMap[ext] || "js");
+        };
 
-            // 4. UNLOCK THE STATE
-            // We use a slight delay to ensure all browser-generated scroll events 
-            // from the value change have fired and been ignored.
-            setTimeout(() => {
-                State.isRestoring = false;
-                resolve();
-            }, 50);
-        });
+        // Start the loop
+        requestAnimationFrame(tryScrolling);
     });
 },
 
