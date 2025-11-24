@@ -119,24 +119,26 @@ export const FileSystemProvider = {
             return currentHandle;
         },
 
-        async list({ handle, path, workspaceId }) { // Accept workspaceId
-            // Logic to ensure we have a handle
-            const root = handle || (State.workspaces.find(w => w.id === workspaceId)?.handle);
-            if (!root) throw new Error("No handle available for listing");
-
-            const dirHandle = await this.getHandle(root, path);
-            const entries = [];
-            for await (const entry of dirHandle.values()) {
-                entries.push({ 
-                    handle: root, // Propagate the root handle
-                    name: entry.name, 
-                    kind: entry.kind, 
-                    path: `${path === '/' ? '' : path}/${entry.name}`,
-                    workspaceId: workspaceId // Ensure ID is passed down
-                });
-            }
-            return entries;
-        },
+        /*B"H*/
+	async list({ handle, path, workspaceId }) {
+	    // 1. Recover Root Handle if missing
+	    const root = handle || (State.workspaces.find(w => w.id === workspaceId)?.handle);
+	    if (!root) throw new Error("No handle available");
+	
+	    const dirHandle = await this.getHandle(root, path);
+	    const entries = [];
+	    
+	    for await (const entry of dirHandle.values()) {
+	        entries.push({ 
+	            handle: root, 
+	            name: entry.name, 
+	            kind: entry.kind, 
+	            path: `${path === '/' ? '' : path}/${entry.name}`,
+	            workspaceId: workspaceId // <--- CRITICAL: Must be present!
+	        });
+	    }
+	    return entries;
+	},
 
         async listAllFiles(item) {
             const root = this._getRootHandle(item);
@@ -168,6 +170,7 @@ export const FileSystemProvider = {
             const root = this._getRootHandle(item);
             const relativePath = item.path.startsWith('/') ? item.path.substring(1) : item.path;
             const fileHandle = await this.getHandle(root, relativePath, { kind: 'file' });
+            // This returns a File object (Blob), which Tabs.activate now correctly handles
             return await fileHandle.getFile(); 
         },
 

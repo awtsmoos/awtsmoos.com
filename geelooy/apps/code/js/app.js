@@ -86,55 +86,66 @@ saveSessionDebounced() {
  * the non-serializable 'handle' (which stays in IndexedDB) from the metadata
  * (name, id, type) which goes into localStorage.
  */
+/*B"H*/
 saveSession() {
-    const persistableWorkspaces = State.workspaces
-        .filter(
-            ws => ws.type === 'github' ||
-            ws.type === 'indexeddb' ||
-            ws.type === 'ssh' ||
-            ws.type === 'local' // <--- NOW INCLUDED
-        )
-        .map(ws => {
-            // We destructure to separate the essence (data) from the heavy vessels (handles/caches).
-            const {
-                handle,      // Cannot be stringified
-                _treeCache,  // Temporary cache
-                isLocked,    // Runtime state
-                ...serializableWs
-            } = ws;
-            return serializableWs;
-        });
+    try {
+        // 1. Prepare Workspaces
+        const persistableWorkspaces = State.workspaces
+            .filter(ws => ['github', 'indexeddb', 'ssh', 'local'].includes(ws.type))
+            .map(ws => {
+                const { handle, _treeCache, isLocked, ...safeWs } = ws;
+                return safeWs;
+            });
 
-    const persistableWorkspaceIds = new Set(persistableWorkspaces.map(ws => ws.id));
+        const allowedWsIds = new Set(persistableWorkspaces.map(ws => ws.id));
 
-    const persistableTabs = State.tabs
-        .filter(tab => tab.item.workspaceId && persistableWorkspaceIds.has(tab.item.workspaceId))
-        .map(tab => {
-            const {
-                handle, // Handles cannot be saved here
-                ...serializableItem
-            } = tab.item;
-            return { 
-                ...tab, 
-                item: serializableItem,
-                // Don't cache content for local files to avoid quota errors, unless dirty
-                content: (tab.item.type === 'local' && !tab.isDirty) ? null : tab.content 
-            };
-        });
+        // 2. Prepare Tabs (Deep cleaning)
+        const persistableTabs = State.tabs
+            .filter(tab => {
+                // Keep tab if it belongs to a valid workspace OR is a temp file
+                return (tab.item.workspaceId !== undefined && allowedWsIds.has(tab.item.workspaceId)) || tab.item.type === 'temp';
+            })
+            .map(tab => {
+                // Create a CLEAN item object, stripping all handles/DOM refs
+                const safeItem = {
+                    name: tab.item.name,
+                    path: tab.item.path,
+                    kind: tab.item.kind,
+                    type: tab.item.type,
+                    workspaceId: tab.item.workspaceId, // Critical
+                    repoInfo: tab.item.repoInfo,       // For GitHub
+                    branch: tab.item.branch            // For GitHub
+                };
 
-    const activeTab = State.tabs.find(t => t.id === State.activeTabId);
-    const activeTabUniquePath = activeTab && activeTab.item.workspaceId && persistableWorkspaceIds.has(activeTab.item.workspaceId) ?
-        Tabs.getUniquePath(activeTab.item) :
-        null;
+                return { 
+                    id: tab.id,
+                    uniquePath: tab.uniquePath,
+                    isDirty: tab.isDirty,
+                    isUncommitted: tab.isUncommitted,
+                    scrollPos: tab.scrollPos || 0,
+                    fileType: tab.fileType,
+                    item: safeItem,
+                    // Only save content for unsaved/temp files to save space
+                    content: (tab.isDirty || tab.item.type === 'temp') ? tab.content : null 
+                };
+            });
 
-    const session = {
-        workspaces: persistableWorkspaces,
-        openTabs: persistableTabs,
-        activeTabUniquePath: activeTabUniquePath,
-        expandedFolders: Array.from(State.expandedFolders)
-    };
+        // 3. Current Focus
+        const activeTab = State.tabs.find(t => t.id === State.activeTabId);
+        const activeTabUniquePath = activeTab ? activeTab.uniquePath : null;
 
-    localStorage.setItem('vividX_session_profound', JSON.stringify(session));
+        const session = {
+            workspaces: persistableWorkspaces,
+            openTabs: persistableTabs,
+            activeTabUniquePath: activeTabUniquePath,
+            expandedFolders: Array.from(State.expandedFolders)
+        };
+
+        localStorage.setItem('vividX_session_profound', JSON.stringify(session));
+        // console.log("Session Saved:", session.openTabs.length, "tabs");
+    } catch (e) {
+        console.error("Save Session Failed:", e);
+    }
 },
 
     /*B"H*/
@@ -146,73 +157,72 @@ saveSession() {
  */
 /*B"H*/
 async loadSession() {
-        const savedSession = localStorage.getItem('vividX_session_profound');
-        if (!savedSession) return;
+    const savedSession = localStorage.getItem('vividX_session_profound');
+    if (!savedSession) return;
 
-        try {
-            const session = JSON.parse(savedSession);
-            let maxWsId = 0;
+    try {
+        const session = JSON.parse(savedSession);
 
-            // 1. Workspaces
-            if (session.workspaces && Array.isArray(session.workspaces)) {
-                for (const wsData of session.workspaces) {
-                    // Track max ID to prevent collision
-                    if (wsData.id >= maxWsId) maxWsId = wsData.id + 1;
+        // 1. Workspaces
+        if (session.workspaces && Array.isArray(session.workspaces)) {
+            // Calculate next ID to avoid collisions
+            let maxId = 0;
+            for (const wsData of session.workspaces) {
+                if (wsData.id >= maxId) maxId = wsData.id + 1;
 
-                    if (wsData.type === 'local') {
-                        try {
-                            const handle = await FileSystemProvider.IndexedDB.getHandle(wsData.id);
-                            if (handle) {
-                                wsData.handle = handle;
-                                const perm = await handle.queryPermission({ mode: 'readwrite' });
-                                wsData.isLocked = (perm !== 'granted');
-                            } else {
-                                wsData.isLocked = true;
-                                wsData.isLost = true;
-                            }
-                        } catch (e) {
+                if (wsData.type === 'local') {
+                    try {
+                        const handle = await FileSystemProvider.IndexedDB.getHandle(wsData.id);
+                        if (handle) {
+                            wsData.handle = handle;
+                            // Check permission immediately
+                            const perm = await handle.queryPermission({ mode: 'readwrite' });
+                            wsData.isLocked = (perm !== 'granted');
+                        } else {
                             wsData.isLocked = true;
+                            wsData.isLost = true;
                         }
-                    }
-                    Workspaces.add(wsData, false);
+                    } catch (e) { wsData.isLocked = true; }
                 }
+                Workspaces.add(wsData, false);
             }
-            
-            // SYNC ID COUNTER
-            State.nextWorkspaceId = maxWsId;
+            State.nextWorkspaceId = maxId;
+        }
 
-            // 2. Tabs
-            if (session.openTabs && Array.isArray(session.openTabs)) {
-                let maxTabId = 0;
-                State.tabs = session.openTabs.map(t => {
-                    if (t.id >= maxTabId) maxTabId = t.id + 1;
-                    return {
-                        ...t,
-                        forceReload: true, // Force re-read using the new "root handle" logic
-                        scrollPos: Number(t.scrollPos) || 0
-                    };
-                });
-                State.nextTabId = maxTabId;
-                Tabs.render();
-            }
+        // 2. Tabs
+        if (session.openTabs && Array.isArray(session.openTabs)) {
+            let maxTabId = 0;
+            State.tabs = session.openTabs.map(t => {
+                if (t.id >= maxTabId) maxTabId = t.id + 1;
+                return {
+                    ...t,
+                    forceReload: true, // Force re-read on activate
+                    scrollPos: Number(t.scrollPos) || 0
+                };
+            });
+            State.nextTabId = maxTabId;
+            Tabs.render();
+        }
 
-            // 3. Active Tab
-            if (session.activeTabUniquePath) {
+        // 3. Expansions
+        if (session.expandedFolders) {
+            State.expandedFolders = new Set(session.expandedFolders);
+            Workspaces.render();
+        }
+
+        // 4. Activate Tab
+        if (session.activeTabUniquePath) {
+            setTimeout(async () => {
                 const activeTab = State.tabs.find(t => t.uniquePath === session.activeTabUniquePath);
                 if (activeTab) {
-                    State.activeTabId = activeTab.id;
+                    await Tabs.activate(activeTab.id);
                 }
-            }
-
-            // 4. Expansion
-            if (session.expandedFolders) {
-                State.expandedFolders = new Set(session.expandedFolders);
-            }
-
-        } catch (e) {
-            console.error("Session load failed", e);
+            }, 100);
         }
-    },
+    } catch (e) {
+        console.error("Session Load Failed:", e);
+    }
+},
 
     /**
      * B"H
