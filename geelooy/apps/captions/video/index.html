@@ -1,0 +1,897 @@
+
+<!--
+
+B"H
+ב"ה
+
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ein Sof Engine [Quantum Core v4.2 - Audio Patched]</title>
+    <style>
+        :root {
+            --bg-color: #0c0c10;
+            --widget-bg: #1a1a22;
+            --text-color: #e8e8f0;
+            --primary-color: #ff3c78;
+            --secondary-color: #00f2ea;
+            --border-color: #2a2a33;
+            --font-display: 'Teko', sans-serif;
+            --font-mono: 'Fira Code', monospace;
+            --color-success: #28a745;
+            --color-error: #dc3545;
+            --color-warning: #ffc107;
+        }
+        @import url('https://fonts.googleapis.com/css2?family=Teko:wght@700&family=Fira+Code&display=swap');
+        
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: var(--font-mono); display: flex; flex-wrap: wrap; justify-content: center;
+            align-items: flex-start; gap: 30px; background-color: var(--bg-color);
+            padding: 20px; margin: 0; color: var(--text-color); overflow-x: hidden;
+        }
+        
+        #controls-wrapper {
+            width: 500px; max-width: 100%; position: relative;
+        }
+
+        #controls {
+            width: 100%; padding: 0; background-color: var(--widget-bg); border-radius: 16px;
+            border: 1px solid var(--border-color); box-shadow: 0 20px 70px rgba(0,0,0,0.9);
+            max-height: 95vh; display: flex; flex-direction: column; transition: filter 0.3s ease;
+        }
+        
+        #controls-wrapper.rendering #controls {
+            filter: blur(2px) brightness(0.6);
+            pointer-events: none;
+        }
+
+        #render-overlay {
+            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            display: none; flex-direction: column; justify-content: center; align-items: center;
+            z-index: 100;
+        }
+
+        #controls-wrapper.rendering #render-overlay { display: flex; }
+
+        #cancelButton {
+            width: 80%; padding: 15px; font-size: 24px; font-weight: 700; color: #fff;
+            background: linear-gradient(45deg, var(--primary-color), #c31432); border: none;
+            border-radius: 10px; cursor: pointer; transition: all 0.3s ease-in-out;
+            letter-spacing: 4px; font-family: var(--font-display);
+        }
+        #cancelButton:hover { transform: scale(1.05); }
+
+        #settings-container { overflow-y: auto; padding: 20px 20px: 0 20px; flex-grow: 1; }
+        #settings-container::-webkit-scrollbar { width: 8px; }
+        #settings-container::-webkit-scrollbar-track { background: var(--bg-color); }
+        #settings-container::-webkit-scrollbar-thumb { background-color: var(--secondary-color); border-radius: 4px; border: 2px solid var(--bg-color); }
+
+        h2 {
+            font-family: var(--font-display); font-size: 3em; color: var(--text-color); text-align: center;
+            letter-spacing: 4px; text-transform: uppercase; margin: 10px 0 30px 0;
+            text-shadow: 0 0 15px var(--secondary-color), 0 0 5px #fff;
+        }
+        
+        .header-actions { display: flex; justify-content: center; gap: 15px; margin-bottom: 20px; }
+        .header-actions button, .header-actions select {
+            background: var(--border-color); border: 1px solid var(--secondary-color); color: var(--secondary-color);
+            padding: 8px 15px; font-family: var(--font-mono); font-size: 14px;
+            border-radius: 6px; cursor: pointer; transition: all 0.2s;
+        }
+        .header-actions button:hover { background: var(--secondary-color); color: var(--bg-color); text-shadow: none; }
+
+        fieldset { border: 1px solid var(--border-color); border-radius: 12px; padding: 20px; margin-bottom: 30px; position: relative; }
+
+        legend {
+            font-family: var(--font-display); color: var(--secondary-color); letter-spacing: 3px;
+            font-size: 2em; text-transform: uppercase; padding: 0 15px; text-shadow: 0 0 10px var(--secondary-color);
+        }
+
+        .fieldset-randomize { position: absolute; top: 10px; right: 10px; cursor: pointer; font-size: 24px; opacity: 0.5; transition: all 0.2s; }
+        .fieldset-randomize:hover { opacity: 1; transform: scale(1.2) rotate(15deg); color: var(--secondary-color); }
+        
+        .control-group, .form-group { margin-bottom: 20px; position: relative; }
+        label { display: block; font-weight: 500; margin-bottom: 10px; font-size: 14px; text-transform: uppercase; letter-spacing: 1.5px; color: #ccc; }
+        .value-display { font-weight: bold; color: var(--secondary-color); float: right; }
+        
+        input[type="range"] { width: 100%; margin-top: 5px; -webkit-appearance: none; background: transparent; }
+        input[type="range"]::-webkit-slider-runnable-track { height: 4px; background: var(--border-color); border-radius: 2px;}
+        input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; height: 20px; width: 20px; background: var(--secondary-color); border-radius: 50%; border: 2px solid var(--bg-color); margin-top: -8px; box-shadow: 0 0 10px var(--secondary-color); cursor: pointer; }
+        
+        input, textarea, select { width: 100%; padding: 12px; border: 1px solid var(--border-color); border-radius: 8px; background-color: var(--bg-color); color: var(--text-color); font-size: 16px; font-family: var(--font-mono); transition: border-color 0.2s, box-shadow 0.2s; }
+        input:focus, textarea:focus, select:focus { outline: none; border-color: var(--secondary-color); box-shadow: 0 0 0 4px rgba(0, 242, 234, 0.2); }
+        input[type="color"] { height: 40px; padding: 2px; }
+        textarea { height: 120px; resize: vertical; line-height: 1.6; }
+        textarea[readonly] { background-color: #111; color: #999; cursor: default; }
+        
+        .randomize-toggle { position: absolute; top: 5px; right: 0; cursor: pointer; font-size: 20px; opacity: 0.6; transition: all 0.2s ease; user-select: none; }
+        .randomize-toggle:hover { opacity: 1; transform: scale(1.2); }
+        .randomize-toggle.active { opacity: 1; color: var(--secondary-color); text-shadow: 0 0 10px var(--secondary-color); }
+        .randomize-controls { display: none; margin-top: 10px; padding: 10px; background: rgba(0,0,0,0.2); border-radius: 6px; }
+        .control-group.randomize-active .randomize-controls { display: flex; gap: 10px; align-items: center; }
+        .randomize-controls label { margin: 0; font-size: 12px; }
+        .randomize-controls input { width: 100%; padding: 8px; }
+        
+        #actions-footer { flex-shrink: 0; padding: 20px; background: var(--widget-bg); border-top: 1px solid var(--border-color); border-radius: 0 0 16px 16px; }
+        .button-group { display: flex; gap: 10px; }
+        #previewButton { width: 80px; padding: 0 15px; font-size: 28px; background: linear-gradient(45deg, #444, #666); color: #fff; flex-shrink: 0; animation: none; box-shadow: none; border:none; border-radius: 10px; font-family: var(--font-display); cursor:pointer;}
+
+        #renderButton {
+            flex-grow: 1; padding: 20px; font-size: 28px; font-weight: 700; color: #000;
+            background: linear-gradient(45deg, var(--secondary-color), #f9c80e); border: none;
+            border-radius: 10px; cursor: pointer; transition: all 0.3s ease-in-out;
+            letter-spacing: 4px; font-family: var(--font-display);
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2); animation: pulse-glow 2.5s infinite ease-in-out;
+        }
+        @keyframes pulse-glow { 0%, 100% { box-shadow: 0 0 20px rgba(0, 242, 234, 0.4); } 50% { box-shadow: 0 0 35px rgba(0, 242, 234, 0.8); } }
+        #renderButton:hover:not(:disabled), #previewButton:hover:not(:disabled) { transform: translateY(-5px) scale(1.05); }
+        #renderButton:disabled, #previewButton:disabled { background: #444; color: #888; cursor: not-allowed; transform: none; box-shadow: none; animation: none;}
+        
+        #status { text-align: center; margin-bottom: 20px; font-size: 20px; font-family: var(--font-display); letter-spacing: 2px; color: var(--primary-color); min-height: 1.5em; }
+        #status.success { color: var(--color-success); } #status.error { color: var(--color-error); } #status.warning { color: var(--color-warning); }
+
+        .progress-bar-container { width: 100%; height: 8px; background-color: var(--bg-color); border-radius: 4px; overflow: hidden; margin-bottom: 1rem; border: 1px solid var(--border-color); display: none; }
+        .progress-bar { height: 100%; background: linear-gradient(90deg, var(--secondary-color), var(--primary-color)); width: 0%; transition: width 0.2s ease-out; }
+
+        .toggle-switch { display: flex; align-items: center; gap: 0.75rem; color: #ccc; cursor: pointer; user-select: none; text-transform: uppercase; font-size: 14px; letter-spacing: 1.5px; }
+        .toggle-switch input { width: auto; }
+        
+        #preview-container {
+            width: 960px; height: 540px; position: relative; max-width: 100%;
+            box-shadow: 0 10px 60px rgba(0,0,0,0.9); background-color: #000;
+            border-radius: 16px; overflow: hidden; border: 2px solid var(--border-color);
+            flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+        }
+        #previewCanvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: block; }
+        #outputVideo {
+            position: relative; z-index: 10;
+            display: none;
+            max-width: 100%; max-height: 100%;
+            object-fit: contain;
+        }
+        .hidden-control { display: none; }
+    </style>
+</head>
+<body>
+
+    <div id="controls-wrapper">
+        <div id="controls">
+            <div id="settings-container">
+                <h2>Ein Sof Engine</h2>
+
+                <div class="header-actions">
+                     <select id="preset-select"><option value="">Load Preset...</option></select>
+                     <button id="save-preset-btn">Save</button>
+                     <button id="delete-preset-btn">Delete</button>
+                     <button id="randomize-all-btn">Randomize All</button>
+                </div>
+    
+                <fieldset>
+                    <legend>Merkabah (Chariot)</legend>
+                    <span class="fieldset-randomize" title="Randomize Section">🎲</span>
+                     <div class="form-group"><label for="renderMode">Render Mode</label><select id="renderMode"><option value="video">Video</option><option value="image">Image</option></select></div>
+                </fieldset>
+                
+                <fieldset>
+                    <legend>Kelim (Vessels)</legend>
+                    <span class="fieldset-randomize" title="Randomize Section">🎲</span>
+                    <div class="form-group"><label for="headerText">Frame Header</label><input type="text" id="headerText" placeholder="Optional text above main caption"></div>
+                    <div id="simple-caption-controls">
+                        <div class="form-group"><label for="mainCaptions">Captions</label><textarea id="mainCaptions" placeholder="Separate captions with a blank line."></textarea></div>
+                        <div class="form-group hidden-control" id="translation-controls"><label for="translationCaptions">Translation Captions</label><textarea id="translationCaptions" placeholder="For dual language videos."></textarea></div>
+                    </div>
+                     <div id="srt-caption-controls" class="hidden-control">
+                        <div class="form-group"><label for="srtFile">Primary SRT File</label><input type="file" id="srtFile" accept=".srt,.txt"></div>
+                        <textarea id="srtPreview" readonly placeholder="Primary SRT content will appear here..."></textarea>
+                        <div class="form-group" style="margin-top:20px;"><label for="translationSrtFile">Translation SRT File (Optional)</label><input type="file" id="translationSrtFile" accept=".srt,.txt"></div>
+                        <textarea id="translationSrtPreview" readonly placeholder="Translation SRT content will appear here..."></textarea>
+                    </div>
+                    <label class="toggle-switch hidden-control" style="margin-top:10px;" id="dual-caption-toggle-container"><input type="checkbox" id="dualCaptionToggle"> Enable Vertical Translation</label>
+                </fieldset>
+    
+                <fieldset class="hidden-control" id="timing-controls">
+                    <legend>Orot (Lights & Time)</legend>
+                    <span class="fieldset-randomize" title="Randomize Section">🎲</span>
+                    <div class="form-group"><label for="captionSource">Caption Timing</label><select id="captionSource"><option value="simple">Simple Mode</option><option value="srt">SRT Mode</option></select></div>
+                    <div class="form-group" id="simple-timing-controls"><label for="captionDuration">Duration per Caption (s)</label><input type="number" id="captionDuration" value="2.5" min="0.1" step="0.1"></div>
+                    <div class="form-group"><label for="audioFile">Audio Source (Optional)</label><input type="file" id="audioFile" accept="audio/*"></div>
+                    <div class="form-group"><label class="toggle-switch"><input type="checkbox" id="dynamicBackgroundToggle" checked> Dynamic Background</label></div>
+                    <div class="form-group" id="fps-controls"><label for="frameRate">Frame Rate (FPS)</label><input type="number" id="frameRate" value="24" min="1" max="60" step="1"></div>
+                </fieldset>
+                
+                <fieldset>
+                    <legend>Gevulot (Boundaries)</legend>
+                    <span class="fieldset-randomize" title="Randomize Section">🎲</span>
+                    <div class="form-group"><label for="videoWidth">Width</label><input type="number" id="videoWidth" value="1920" min="100" step="2"></div>
+                    <div class="form-group"><label for="videoHeight">Height</label><input type="number" id="videoHeight" value="1080" min="100" step="2"></div>
+                </fieldset>
+    
+                <fieldset>
+                    <legend>Olam Yetzirah (Formation)</legend>
+                    <span class="fieldset-randomize" title="Randomize Section">🎲</span>
+                    <div class="control-group" data-control-name="particleDensity"><label for="particleDensity">Particle Density <span class="value-display" id="particleDensityValue">150</span></label><span class="randomize-toggle">🌱</span><input type="range" id="particleDensity" min="0" max="200" value="150"><div class="randomize-controls"><label>Min</label><input type="number" class="rand-min" value="50"><label>Max</label><input type="number" class="rand-max" value="200"></div></div>
+                    <div class="control-group" data-control-name="minParticleSize"><label for="minParticleSize">Min Particle Size <span class="value-display" id="minParticleSizeValue">10</span></label><span class="randomize-toggle">🌱</span><input type="range" id="minParticleSize" min="1" max="50" value="10"><div class="randomize-controls"><label>Min</label><input type="number" class="rand-min" value="5"><label>Max</label><input type="number" class="rand-max" value="15"></div></div>
+                    <div class="control-group" data-control-name="maxParticleSize"><label for="maxParticleSize">Max Particle Size <span class="value-display" id="maxParticleSizeValue">90</span></label><span class="randomize-toggle">🌱</span><input type="range" id="maxParticleSize" min="10" max="150" value="90"><div class="randomize-controls"><label>Min</label><input type="number" class="rand-min" value="70"><label>Max</label><input type="number" class="rand-max" value="120"></div></div>
+                    <div class="form-group"><label for="particleChars">Particle Characters</label><textarea id="particleChars" style="height: 100px;">אבגדהוזחטיכלמנסעפצקרשת</textarea></div>
+                </fieldset>
+    
+                <fieldset>
+                    <legend>Kavim v'Sefirot (Connections)</legend>
+                    <span class="fieldset-randomize" title="Randomize Section">🎲</span>
+                    <div class="form-group"><label for="networkType">Algorithm</label><select id="networkType"><option value="web">Fine Web</option><option value="arcs">Energy Arcs</option><option value="synapse">Neural Synapse</option><option value="none">None</option></select></div>
+                    <div class="control-group" data-control-name="connectionDensity"><label for="connectionDensity">Connection Density <span class="value-display" id="connectionDensityValue">4</span></label><span class="randomize-toggle">🌱</span><input type="range" id="connectionDensity" min="0" max="10" value="4"><div class="randomize-controls"><label>Min</label><input type="number" class="rand-min" value="2"><label>Max</label><input type="number" class="rand-max" value="6"></div></div>
+                </fieldset>
+                
+                <fieldset>
+                    <legend>Olam Briah (Creation)</legend>
+                    <span class="fieldset-randomize" title="Randomize Section">🎲</span>
+                    <div class="control-group" data-control-name="basePaletteColor"><label for="basePaletteColor">Base Palette Color</label><span class="randomize-toggle">🌱</span><input type="color" id="basePaletteColor" value="#8A2BE2"><div class="randomize-controls"></div></div>
+                    <div class="form-group" id="regen-bg-controls"><label class="toggle-switch"><input type="checkbox" id="regenerateBgToggle"> Randomize Palette Per Caption</label></div>
+                    <div class="form-group"><label class="toggle-switch"><input type="checkbox" id="randomizeBoxColorToggle"> Randomize Box Color</label></div>
+                </fieldset>
+    
+                <fieldset>
+                    <legend>Tzelem (Form & Text)</legend>
+                    <span class="fieldset-randomize" title="Randomize Section">🎲</span>
+                    <div class="control-group" data-control-name="textBoxWidth"><label for="textBoxWidth">Box Width (%) <span class="value-display" id="textBoxWidthValue">80</span></label><span class="randomize-toggle">🌱</span><input type="range" id="textBoxWidth" min="10" max="100" value="80"><div class="randomize-controls"><label>Min</label><input type="number" class="rand-min" value="60"><label>Max</label><input type="number" class="rand-max" value="95"></div></div>
+                    <div class="control-group" data-control-name="textBoxHeight"><label for="textBoxHeight">Box Height (%) <span class="value-display" id="textBoxHeightValue">80</span></label><span class="randomize-toggle">🌱</span><input type="range" id="textBoxHeight" min="10" max="100" value="80"><div class="randomize-controls"><label>Min</label><input type="number" class="rand-min" value="60"><label>Max</label><input type="number" class="rand-max" value="95"></div></div>
+                    <div class="control-group" data-control-name="textBoxPadding"><label for="textBoxPadding">Padding (%) <span class="value-display" id="textBoxPaddingValue">8</span></label><span class="randomize-toggle">🌱</span><input type="range" id="textBoxPadding" min="0" max="25" value="8"><div class="randomize-controls"><label>Min</label><input type="number" class="rand-min" value="5"><label>Max</label><input type="number" class="rand-max" value="15"></div></div>
+                    <div class="control-group" data-control-name="textBoxBorderRadius"><label for="textBoxBorderRadius">Border Radius (px) <span class="value-display" id="textBoxBorderRadiusValue">20</span></label><span class="randomize-toggle">🌱</span><input type="range" id="textBoxBorderRadius" min="0" max="200" value="20"><div class="randomize-controls"><label>Min</label><input type="number" class="rand-min" value="10"><label>Max</label><input type="number" class="rand-max" value="50"></div></div>
+                    <div class="control-group" data-control-name="textBoxGap"><label for="textBoxGap">Dual Box Gap (px) <span class="value-display" id="textBoxGapValue">30</span></label><span class="randomize-toggle">🌱</span><input type="range" id="textBoxGap" min="0" max="200" value="30"><div class="randomize-controls"><label>Min</label><input type="number" class="rand-min" value="20"><label>Max</label><input type="number" class="rand-max" value="80"></div></div>
+                    <div class="control-group" data-control-name="textBoxOpacity"><label for="textBoxOpacity">Box Opacity <span class="value-display" id="textBoxOpacityValue">0.75</span></label><span class="randomize-toggle">🌱</span><input type="range" id="textBoxOpacity" min="0" max="1" value="0.75" step="0.01"><div class="randomize-controls"><label>Min</label><input type="number" class="rand-min" value="0.5" step="0.01"><label>Max</label><input type="number" class="rand-max" value="0.9" step="0.01"></div></div>
+                </fieldset>
+    
+                 <fieldset>
+                    <legend>Portals (Images)</legend>
+                    <span class="fieldset-randomize" title="Randomize Section">🎲</span>
+                    <div class="form-group"><label for="portalImages">Portal Images (Optional)</label><input type="file" id="portalImages" accept="image/*" multiple></div>
+                    <div class="control-group" data-control-name="portalCount"><label for="portalCount">Portal Count <span class="value-display" id="portalCountValue">3</span></label><span class="randomize-toggle">🌱</span><input type="range" id="portalCount" min="0" max="10" value="3" step="1"><div class="randomize-controls"><label>Min</label><input type="number" class="rand-min" value="1"><label>Max</label><input type="number" class="rand-max" value="5"></div></div>
+                </fieldset>
+    
+                <fieldset>
+                    <legend>Olam HaTohu (Chaos & FX)</legend>
+                    <span class="fieldset-randomize" title="Randomize Section">🎲</span>
+                    <div class="control-group" data-control-name="bloomIntensity"><label for="bloomIntensity">Bloom Intensity <span class="value-display" id="bloomIntensityValue">10</span></label><span class="randomize-toggle">🌱</span><input type="range" id="bloomIntensity" min="0" max="30" value="10"><div class="randomize-controls"><label>Min</label><input type="number" class="rand-min" value="5"><label>Max</label><input type="number" class="rand-max" value="15"></div></div>
+                    <div class="control-group" data-control-name="quantumDistortion"><label for="quantumDistortion">Quantum Distortion <span class="value-display" id="quantumDistortionValue">0</span></label><span class="randomize-toggle">🌱</span><input type="range" id="quantumDistortion" min="0" max="15" value="0" step="0.1"><div class="randomize-controls"><label>Min</label><input type="number" class="rand-min" value="0"><label>Max</label><input type="number" class="rand-max" value="5"></div></div>
+                    <div class="form-group"><label class="toggle-switch"><input type="checkbox" id="enableVignette" checked> Enable Vignette</label></div>
+                    <div class="form-group"><label class="toggle-switch"><input type="checkbox" id="enableFilmGrain"> Enable Film Grain</label></div>
+                    <div class="form-group"><label class="toggle-switch"><input type="checkbox" id="enableLensflare"> Enable Lens Flare</label></div>
+                    <div class="form-group"><label class="toggle-switch"><input type="checkbox" id="enableGodRays"> Enable God Rays</label></div>
+                    <div class="form-group"><label class="toggle-switch"><input type="checkbox" id="enableInterference"> Enable Static Interference</label></div>
+                    <div class="form-group"><label class="toggle-switch"><input type="checkbox" id="enableLightLeaks"> Enable Light Leaks</label></div>
+                    <div class="form-group"><label class="toggle-switch"><input type="checkbox" id="enableCRTCurvature"> Enable CRT Curvature</label></div>
+                    <div class="form-group"><label class="toggle-switch"><input type="checkbox" id="enableChromaticAberration"> Enable Chromatic Aberration</label></div>
+                    <div class="form-group"><label class="toggle-switch"><input type="checkbox" id="enableScanLines"> Enable Scan Lines</label></div>
+                    <div class="form-group"><label class="toggle-switch"><input type="checkbox" id="enableRgbShift"> Enable RGB Shift</label></div>
+
+                    <div class="form-group">
+    <label class="toggle-switch"><input type="checkbox" id="enableImageDownload"> Enable Image Batch Download</label>
+</div>
+<div class="form-group hidden-control" id="image-download-folder-controls">
+    <button id="selectDownloadFolderButton">Select Download Folder</button>
+    <div id="selectedDownloadFolderDisplay">No folder selected</div>
+</div>
+                </fieldset>
+    
+                <fieldset>
+                    <legend>Olam Asiyah (Final Touches)</legend>
+                    <span class="fieldset-randomize" title="Randomize Section">🎲</span>
+                    <div class="control-group" data-control-name="particleColorShift"><label for="particleColorShift">Particle Color Shift <span class="value-display" id="particleColorShiftValue">30</span></label><span class="randomize-toggle">🌱</span><input type="range" id="particleColorShift" min="0" max="180" value="30"><div class="randomize-controls"><label>Min</label><input type="number" class="rand-min" value="0"><label>Max</label><input type="number" class="rand-max" value="90"></div></div>
+                    <div class="form-group"><label class="toggle-switch"><input type="checkbox" id="enableLensDirt"> Enable Lens Dirt/Scratches</label></div>
+                    <div class="form-group"><label class="toggle-switch"><input type="checkbox" id="enableDustAndScratches"> Enable Dust & Scratches</label></div>
+                    <div class="form-group"><label class="toggle-switch"><input type="checkbox" id="enableDataCorruption"> Enable Data Corruption Text</label></div>
+                </fieldset>
+            </div>
+            <div id="actions-footer">
+                <div id="status">Initializing Engine...</div>
+                <div id="progressContainer" class="progress-bar-container"><div id="progressBar" class="progress-bar"></div></div>
+                <div class="button-group">
+                    <button id="previewButton" title="Quick Preview">👁️</button>
+                    <button id="renderButton" disabled>R E N D E R</button>
+                </div>
+            </div>
+        </div>
+        <div id="render-overlay">
+            <button id="cancelButton">C A N C E L</button>
+        </div>
+    </div>
+
+    <div id="preview-container">
+        <canvas id="previewCanvas"></canvas>
+        <video id="outputVideo" controls loop playsinline></video>
+    </div>
+    
+    <script>
+    /*
+    ב"ה
+    B"H
+    */
+    document.addEventListener('DOMContentLoaded', function() {
+        /*
+        ב"ה
+        B"H
+        */
+
+        // --- DOM Elements ---
+        const dom = {
+            controlsWrapper: document.getElementById('controls-wrapper'),
+            renderButton: document.getElementById('renderButton'),
+            previewButton: document.getElementById('previewButton'),
+            cancelButton: document.getElementById('cancelButton'),
+            previewCanvas: document.getElementById('previewCanvas'),
+            outputVideo: document.getElementById('outputVideo'),
+            status: document.getElementById('status'),
+            progressContainer: document.getElementById('progressContainer'),
+            progressBar: document.getElementById('progressBar'),
+            renderMode: document.getElementById('renderMode'),
+            timingControls: document.getElementById('timing-controls'),
+            captionSource: document.getElementById('captionSource'),
+            mainCaptions: document.getElementById('mainCaptions'),
+            translationCaptions: document.getElementById('translationCaptions'),
+            presetSelect: document.getElementById('preset-select'),
+            savePresetBtn: document.getElementById('save-preset-btn'),
+            deletePresetBtn: document.getElementById('delete-preset-btn'),
+            randomizeAllBtn: document.getElementById('randomize-all-btn'),
+            dynamicBackgroundToggle: document.getElementById('dynamicBackgroundToggle'),
+            fpsControls: document.getElementById('fps-controls'),
+            regenBgControls: document.getElementById('regen-bg-controls'),
+            // Inside your existing 'const dom = { ... }' block
+    enableImageDownload: document.getElementById('enableImageDownload'),
+    imageDownloadFolderControls: document.getElementById('image-download-folder-controls'),
+    selectDownloadFolderButton: document.getElementById('selectDownloadFolderButton'),
+    selectedDownloadFolderDisplay: document.getElementById('selectedDownloadFolderDisplay'),
+        };
+        const pCtx = dom.previewCanvas.getContext('2d');
+
+        // --- App State ---
+        let appState = {
+            appStatus: 'INITIALIZING', // INITIALIZING, IDLE, RENDERING, PREVIEWING
+            worker: null,
+            db: null,
+            portalImageBitmaps: [],
+            simpleCaptions: { main: '', translation: '' },
+            srtCaptions: { main: '', translation: '' },
+            currentVideoURL: null,
+        // Inside your existing 'let appState = { ... }' block
+    selectedDownloadDirectoryHandle: null,
+    imageDownloadQueue: [],
+    isDownloadingImages: false,
+        };
+        
+        // --- Core Functions ---
+        
+        function setStatus(message, type = '') {
+            /*
+            ב"ה
+            B"H
+            */
+            dom.status.textContent = message;
+            dom.status.className = type;
+        }
+
+        function updateUIState() {
+            /*
+            ב"ה
+            B"H
+            */
+            const isRendering = appState.appStatus === 'RENDERING';
+            const isIdle = appState.appStatus === 'IDLE';
+
+            dom.controlsWrapper.classList.toggle('rendering', isRendering);
+            
+            let hasCaptions = false;
+            if (dom.renderMode.value === 'image' || dom.captionSource.value === 'simple') {
+                hasCaptions = dom.mainCaptions.value.trim().length > 0;
+            } else { // Video + SRT
+                hasCaptions = appState.srtCaptions.main.trim().length > 0;
+            }
+            
+            const width = parseInt(document.getElementById('videoWidth').value);
+            const height = parseInt(document.getElementById('videoHeight').value);
+            const canRender = width > 0 && height > 0 && width % 2 === 0 && height % 2 === 0 && hasCaptions;
+
+            dom.renderButton.disabled = !isIdle || !canRender;
+            dom.previewButton.disabled = !isIdle || !canRender;
+
+            if (isIdle) {
+                if (!canRender && hasCaptions) setStatus('Width/Height must be even numbers.', 'warning');
+                else if (!hasCaptions) setStatus('Please provide captions to render.', 'warning');
+                else setStatus('Awaiting Command.', '');
+            }
+
+            // Show/hide FPS controls based on dynamic background toggle
+            const isVideo = dom.renderMode.value === 'video';
+            const isDynamicBg = dom.dynamicBackgroundToggle.checked;
+            dom.fpsControls.style.display = isVideo && isDynamicBg ? 'block' : 'none';
+        }
+
+        function initializeWorker() {
+            /*
+            ב"ה
+            B"H
+            */
+            try {
+                appState.worker = new Worker('ein_sof_worker.js');
+                appState.worker.onmessage = handleWorkerMessage;
+                appState.worker.onerror = (err) => {
+                    console.error("Unhandled Worker Error:", err);
+                    setStatus(`Critical Worker Error: ${err.message}`, 'error');
+                    appState.appStatus = 'IDLE';
+                    updateUIState();
+                };
+            } catch (error) {
+                console.error("Failed to initialize worker:", error);
+                setStatus('FATAL: Could not load render engine.', 'error');
+                dom.renderButton.disabled = true;
+                dom.previewButton.disabled = true;
+            }
+        }
+
+        // REPLACE your entire existing `function handleWorkerMessage(event) { ... }`
+function handleWorkerMessage(event) {
+    /* ב"ה B"H */
+    const { type, payload } = event.data;
+
+    switch (type) {
+        case 'WORKER_READY':
+            setStatus('Engine ready. Awaiting command.');
+            appState.appStatus = 'IDLE';
+            updateUIState();
+            break;
+        case 'STATUS_UPDATE':
+            setStatus(payload.message);
+            break;
+        case 'PROGRESS_UPDATE':
+            dom.progressContainer.style.display = 'block';
+            dom.progressBar.style.width = `${payload.percent}%`;
+            break;
+        case 'PREVIEW_READY':
+            pCtx.drawImage(payload.bitmap, 0, 0, dom.previewCanvas.width, dom.previewCanvas.height);
+            payload.bitmap.close();
+            setStatus('Preview generated.', 'success');
+            appState.appStatus = 'IDLE';
+            updateUIState();
+            break;
+        case 'VIDEO_COMPLETE':
+            if (appState.currentVideoURL) {
+                URL.revokeObjectURL(appState.currentVideoURL);
+            }
+            appState.currentVideoURL = URL.createObjectURL(payload.blob);
+            dom.outputVideo.src = appState.currentVideoURL;
+            dom.outputVideo.style.display = 'block';
+            dom.previewCanvas.style.display = 'none';
+            dom.progressContainer.style.display = 'none';
+            setStatus('Render complete.', 'success');
+            appState.appStatus = 'IDLE';
+            updateUIState();
+            if (appState.imageDownloadQueue.length > 0) {
+                processImageDownloadQueue();
+            }
+            break;
+        case 'IMAGE_COMPLETE':
+            const { blob, filename } = payload;
+            appState.imageDownloadQueue.push({ blob, filename });
+            if (!appState.isDownloadingImages) {
+                processImageDownloadQueue();
+            }
+            break;
+        case 'BATCH_COMPLETE':
+            setStatus('Image batch processing finished.', 'success');
+            dom.progressContainer.style.display = 'none';
+            appState.appStatus = 'IDLE';
+            updateUIState();
+            if (appState.imageDownloadQueue.length > 0) {
+                processImageDownloadQueue();
+            }
+            break;
+        case 'FATAL_ERROR':
+            console.error('Error from worker:', payload);
+            setStatus(`Render Failed: ${payload.message}`, 'error');
+            dom.progressContainer.style.display = 'none';
+            appState.appStatus = 'IDLE';
+            updateUIState();
+            break;
+    }
+}
+        
+        // --- Event Handlers ---
+
+        // REPLACE your entire existing `async function handleRender() { ... }`
+async function handleRender() {
+    /* ב"ה B"H */
+    if (appState.appStatus !== 'IDLE') return;
+
+    appState.appStatus = 'RENDERING';
+    updateUIState();
+    setStatus('Preparing render...');
+    dom.outputVideo.style.display = 'none';
+    dom.previewCanvas.style.display = 'block';
+
+    const settings = getSettings();
+    const resolution = {
+        width: parseInt(document.getElementById('videoWidth').value),
+        height: parseInt(document.getElementById('videoHeight').value)
+    };
+    const mode = dom.renderMode.value;
+    const enableImageDownload = dom.enableImageDownload.checked;
+
+    const captionData = await getCaptionData();
+    if ((mode === 'video' || enableImageDownload) && captionData.primary.length === 0) {
+        setStatus('No valid captions found for video or image batch.', 'error');
+        appState.appStatus = 'IDLE';
+        updateUIState();
+        return;
+    }
+
+    let workerRenderMode = mode;
+    if (enableImageDownload && mode === 'image') {
+        workerRenderMode = 'imageBatch';
+    }
+
+    const transferableObjects = appState.portalImageBitmaps ? [...appState.portalImageBitmaps] : [];
+    if (captionData.plainAudioBuffer) {
+        captionData.plainAudioBuffer.channels.forEach(channel => {
+            transferableObjects.push(channel.buffer);
+        });
+    }
+
+    appState.worker.postMessage({
+        type: 'START_RENDER',
+        payload: {
+            mode: workerRenderMode,
+            settings,
+            resolution,
+            captionData,
+            portalBitmaps: appState.portalImageBitmaps,
+            plainAudioBuffer: captionData.plainAudioBuffer,
+            isDynamic: dom.dynamicBackgroundToggle.checked,
+            fps: parseInt(document.getElementById('frameRate').value),
+            enableImageDownload: enableImageDownload
+        }
+    }, transferableObjects);
+
+    appState.portalImageBitmaps = [];
+}
+
+            
+
+        async function handlePreview() {
+            /*
+            ב"ה
+            B"H
+            */
+            if (appState.appStatus !== 'IDLE') return;
+
+            appState.appStatus = 'PREVIEWING';
+            setStatus('Generating quick preview...');
+            updateUIState();
+            dom.outputVideo.style.display = 'none';
+            dom.previewCanvas.style.display = 'block';
+
+            const settings = resolveSettings(getSettings());
+            const resolution = { 
+                width: parseInt(document.getElementById('videoWidth').value), 
+                height: parseInt(document.getElementById('videoHeight').value) 
+            };
+            const primaryCaption = (dom.mainCaptions.value.split(/\n\s*\n/)[0] || 'PREVIEW').trim();
+            
+            // Transfer ownership
+            const transferableObjects = appState.portalImageBitmaps ? [...appState.portalImageBitmaps] : [];
+
+            appState.worker.postMessage({
+                type: 'GENERATE_PREVIEW',
+                payload: {
+                    settings,
+                    resolution,
+                    primaryCaption,
+                    portalBitmaps: appState.portalImageBitmaps,
+                }
+            }, transferableObjects);
+            
+            appState.portalImageBitmaps = [];
+        }
+
+        function handleCancel() {
+             /*
+            ב"ה
+            B"H
+            */
+            if (appState.appStatus !== 'RENDERING') return;
+            // Terminate the current worker. It's the simplest and most reliable way to stop.
+            appState.worker.terminate();
+            // Start a new one for the next job.
+            initializeWorker();
+            setStatus('Render canceled by user.', 'warning');
+            dom.progressContainer.style.display = 'none';
+            // State will be set to IDLE by the new worker's 'WORKER_READY' message
+        }
+
+        // --- Data & Settings Management ---
+
+        // REPLACE your entire existing `function getSettings() { ... }`
+function getSettings() {
+    /* ב"ה B"H */
+    const settings = {};
+    document.querySelectorAll('.control-group[data-control-name]').forEach(group => { const name = group.dataset.controlName; const mainInput = group.querySelector('input, select, textarea'); const isRandom = group.classList.contains('randomize-active'); settings[name] = { randomize: isRandom }; if (isRandom) { if (mainInput.type === 'color') { settings[name].type = 'color'; } else { settings[name].min = parseFloat(group.querySelector('.rand-min').value); settings[name].max = parseFloat(group.querySelector('.rand-max').value); settings[name].isFloat = mainInput.step && parseFloat(mainInput.step) < 1; } } else { settings[name].value = mainInput.type === 'range' ? parseFloat(mainInput.value) : mainInput.value; } });
+    ['headerText', 'particleChars', 'networkType', 'enableVignette', 'enableFilmGrain', 'regenerateBgToggle', 'randomizeBoxColorToggle', 'enableLensDirt', 'enableDataCorruption', 'enableLensflare', 'enableGodRays', 'enableInterference', 'enableLightLeaks', 'enableCRTCurvature', 'enableChromaticAberration', 'enableScanLines', 'enableRgbShift', 'enableDustAndScratches', 'enableImageDownload'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) settings[id] = el.type === 'checkbox' ? el.checked : el.value;
+    });
+    return settings;
+}
+        
+        function resolveSettings(settings, isStatic = true) {
+             /*
+            ב"ה
+            B"H
+            */
+            const resolved = {};
+            for (const key in settings) {
+                const setting = settings[key];
+                if (setting && typeof setting === 'object' && setting.randomize) {
+                    if (setting.type === 'color') { resolved[key] = '#' + ('000000' + Math.floor(Math.random() * 16777215).toString(16)).slice(-6); } 
+                    else { const min = Math.min(setting.min, setting.max); const max = Math.max(setting.min, setting.max); resolved[key] = setting.isFloat ? (min + Math.random() * (max - min)) : Math.floor(min + Math.random() * (max - min + 1)); }
+                } else { resolved[key] = (setting && typeof setting === 'object') ? setting.value : setting; }
+            }
+            if (!isStatic) {
+                resolved.time = Date.now();
+            }
+            return resolved;
+        }
+
+        async function getCaptionData() {
+            /*
+            ב"ה
+            B"H
+            */
+            const parseSimple = (text) => text.trim() ? text.split(/\n\s*\n/).map(b => b.trim()).filter(Boolean) : [];
+            const parseSRT = (srt) => { const caps = []; if(!srt) return []; srt.trim().replace(/\r/g, '').split(/\n\n/).forEach(b => { const l = b.split('\n'); if(l.length < 2) return; const m = l[1]?.match(/(\d{2}):(\d{2}):(\d{2})[,.](\d{3})\s*-->\s*(\d{2}):(\d{2}):(\d{2})[,.](\d{3})/); const t = l.slice(2).join('\n').trim(); if (m&&t){ const p = (h,m,s,ms) => parseInt(h,10)*3600+parseInt(m,10)*60+parseInt(s,10)+parseInt(ms,10)/1000; caps.push({startTime:p(m[1],m[2],m[3],m[4]), endTime:p(m[5],m[6],m[7],m[8]), text:t});}}); return caps; };
+            const simpleToTimed = (text, duration) => parseSimple(text).map((t, i) => ({ startTime: i * duration, endTime: (i + 1) * duration, text: t }));
+            
+            let primary = [], translation = [];
+            
+            if (dom.captionSource.value === 'srt') {
+                primary = parseSRT(appState.srtCaptions.main);
+                if (document.getElementById('dualCaptionToggle').checked) translation = parseSRT(appState.srtCaptions.translation);
+            } else {
+                const duration = parseFloat(document.getElementById('captionDuration').value);
+                primary = simpleToTimed(dom.mainCaptions.value, duration);
+                if (document.getElementById('dualCaptionToggle').checked) translation = simpleToTimed(dom.translationCaptions.value, duration);
+            }
+            
+            // *** FIX HERE: Deconstruct AudioBuffer into a transferable format ***
+            let plainAudioBuffer = null;
+            const audioFile = document.getElementById('audioFile').files[0];
+            if (audioFile) {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const audioBuffer = await audioContext.decodeAudioData(await audioFile.arrayBuffer());
+                
+                const channels = [];
+                for (let i = 0; i < audioBuffer.numberOfChannels; i++) {
+                    channels.push(audioBuffer.getChannelData(i));
+                }
+                
+                plainAudioBuffer = {
+                    channels,
+                    length: audioBuffer.length,
+                    sampleRate: audioBuffer.sampleRate,
+                    numberOfChannels: audioBuffer.numberOfChannels,
+                    duration: audioBuffer.duration
+                };
+                
+                audioContext.close();
+            }
+
+            return { primary, translation, plainAudioBuffer };
+        }
+
+        // --- UI Setup & Helpers ---
+        function setupUI() {
+            /*
+            ב"ה
+            B"H
+            */
+            function updateUIMode() {
+                const isVideo = dom.renderMode.value === 'video';
+                dom.previewCanvas.style.display = 'block'; dom.outputVideo.style.display = 'none';
+                if (appState.currentVideoURL) { URL.revokeObjectURL(appState.currentVideoURL); appState.currentVideoURL = null; }
+                dom.timingControls.classList.toggle('hidden-control', !isVideo);
+                dom.regenBgControls.classList.toggle('hidden-control', isVideo && !dom.dynamicBackgroundToggle.checked);
+                document.getElementById('dual-caption-toggle-container').classList.toggle('hidden-control', !isVideo);
+                updateCaptionMode();
+                dom.renderButton.textContent = isVideo ? 'R E N D E R  V I D E O' : 'G E N E R A T E  I M A G E S';
+                updateUIState();
+            }
+            function updateCaptionMode() {
+                const isSrt = dom.captionSource.value === 'srt';
+                document.getElementById('simple-caption-controls').classList.toggle('hidden-control', isSrt);
+                document.getElementById('srt-caption-controls').classList.toggle('hidden-control', !isSrt);
+                document.getElementById('simple-timing-controls').classList.toggle('hidden-control', isSrt);
+                document.getElementById('translation-controls').classList.toggle('hidden-control', isSrt);
+                if (isSrt) {
+                    appState.simpleCaptions.main = dom.mainCaptions.value;
+                    appState.simpleCaptions.translation = dom.translationCaptions.value;
+                    dom.mainCaptions.value = ''; dom.translationCaptions.value = '';
+                } else {
+                    dom.mainCaptions.value = appState.simpleCaptions.main;
+                    dom.translationCaptions.value = appState.simpleCaptions.translation;
+                }
+                updateUIState();
+            }
+
+            dom.renderButton.addEventListener('click', handleRender);
+            dom.previewButton.addEventListener('click', handlePreview);
+            dom.cancelButton.addEventListener('click', handleCancel);
+            dom.renderMode.addEventListener('change', updateUIMode);
+            dom.captionSource.addEventListener('change', updateCaptionMode);
+            dom.dynamicBackgroundToggle.addEventListener('change', () => {
+                const isVideo = dom.renderMode.value === 'video';
+                dom.regenBgControls.classList.toggle('hidden-control', isVideo && !dom.dynamicBackgroundToggle.checked);
+                updateUIState();
+            });
+            document.getElementById('controls').addEventListener('input', () => { updateUIState(); saveSettings(); });
+            document.getElementById('portalImages').addEventListener('change', async (e) => {
+                const files = Array.from(e.target.files); if (files.length === 0) return; setStatus(`Processing ${files.length} images...`);
+                try {
+                    appState.portalImageBitmaps = await Promise.all(files.map(file => createImageBitmap(file))); setStatus(`Loaded ${files.length} images.`, 'success');
+                } catch(err) {
+                    setStatus(`Error loading images: ${err.message}`, 'error');
+                }
+            });
+            document.getElementById('srtFile').addEventListener('change', async (e) => { const file = e.target.files[0]; if (!file) return; try { const text = await file.text(); appState.srtCaptions.main = text; document.getElementById('srtPreview').value = text; updateUIState(); } catch (e) { setStatus(`Error reading SRT: ${e.message}`, 'error'); } });
+            document.getElementById('translationSrtFile').addEventListener('change', async (e) => { const file = e.target.files[0]; if (!file) return; try { const text = await file.text(); appState.srtCaptions.translation = text; document.getElementById('translationSrtPreview').value = text; updateUIState(); } catch (e) { setStatus(`Error reading SRT: ${e.message}`, 'error'); } });
+            document.querySelectorAll('input[type="range"]').forEach(slider => { const display = document.getElementById(slider.id + 'Value'); if (display) { slider.addEventListener('input', () => { display.textContent = slider.value; }); } });
+            document.querySelectorAll('.randomize-toggle').forEach(toggle => { toggle.addEventListener('click', function() { this.closest('.control-group').classList.toggle('randomize-active'); this.classList.toggle('active'); saveSettings(); }); });
+            document.querySelectorAll('.fieldset-randomize').forEach(btn => { btn.addEventListener('click', () => { btn.closest('fieldset').querySelectorAll('.randomize-toggle:not(.active)').forEach(t => t.click()); }); });
+            dom.randomizeAllBtn.addEventListener('click', () => document.querySelectorAll('fieldset .randomize-toggle:not(.active)').forEach(t => t.click()));
+
+
+            // Inside your existing `setupUI` function
+    // New event listeners for image download
+    dom.enableImageDownload.addEventListener('change', () => {
+        dom.imageDownloadFolderControls.classList.toggle('hidden-control', !dom.enableImageDownload.checked);
+        updateUIState();
+        saveSettings();
+    });
+
+    dom.selectDownloadFolderButton.addEventListener('click', async () => {
+        try {
+            if ('showDirectoryPicker' in window) {
+                appState.selectedDownloadDirectoryHandle = await window.showDirectoryPicker();
+                dom.selectedDownloadFolderDisplay.textContent = `Folder: ${appState.selectedDownloadDirectoryHandle.name}`;
+                setStatus('Download folder selected.', 'success');
+            } else {
+                setStatus('File System Access API not supported. Images will download individually.', 'warning');
+                appState.selectedDownloadDirectoryHandle = null;
+                dom.selectedDownloadFolderDisplay.textContent = 'No folder selected (API not supported)';
+            }
+        } catch (error) {
+            console.error('Directory picker canceled or failed:', error);
+            setStatus('Folder selection canceled or failed.', 'warning');
+            appState.selectedDownloadDirectoryHandle = null;
+            dom.selectedDownloadFolderDisplay.textContent = 'No folder selected';
+        }
+        updateUIState();
+        saveSettings();
+    });
+
+            updateUIMode();
+            pCtx.fillStyle = '#0c0c10'; pCtx.fillRect(0, 0, dom.previewCanvas.width, dom.previewCanvas.height);
+        }
+
+        // --- Database & Presets ---
+        function initDB() { /* ב"ה B"H */ return new Promise((resolve) => { const request = indexedDB.open('EinSofEngineDB_v4', 1); request.onupgradeneeded = e => { const db = e.target.result; if (!db.objectStoreNames.contains('settingsStore')) db.createObjectStore('settingsStore', { keyPath: 'id' }); if (!db.objectStoreNames.contains('presets')) db.createObjectStore('presets', { keyPath: 'name' }); }; request.onsuccess = e => { appState.db = e.target.result; resolve(); }; request.onerror = e => { console.warn('IndexedDB failed.', e.target.error); resolve(); }; }); }
+        function saveSettings() { /* ב"ה B"H */ if (!appState.db) return; const settings = {}; document.querySelectorAll('[id]').forEach(el => { if (el.type === 'checkbox') settings[el.id] = el.checked; else if (el.value !== undefined && el.type !== 'file' && !el.readOnly) settings[el.id] = el.value; }); document.querySelectorAll('.control-group[data-control-name]').forEach(group => { const name = group.dataset.controlName; settings[name + '_randomize'] = group.classList.contains('randomize-active'); }); appState.db.transaction('settingsStore', 'readwrite').objectStore('settingsStore').put({ id: 'userSettings', ...settings }); }
+
+
+        // REPLACE your entire existing `function loadSettings() { ... }`
+function loadSettings() {
+    /* ב"ה B"H */
+    if (!appState.db) return;
+    return new Promise(resolve => {
+        const request = appState.db.transaction('settingsStore', 'readonly').objectStore('settingsStore').get('userSettings');
+        request.onsuccess = e => {
+            const settings = e.target.result;
+            if (settings) {
+                for (const key in settings) {
+                    const el = document.getElementById(key);
+                    if (el && !el.readOnly) {
+                        if (el.type === 'checkbox') el.checked = settings[key];
+                        else el.value = settings[key];
+                        el.dispatchEvent(new Event('input', { bubbles: true }));
+                    }
+                }
+                document.querySelectorAll('.control-group[data-control-name]').forEach(group => { const name = group.dataset.controlName; if (settings[name + '_randomize']) { group.classList.add('randomize-active'); group.querySelector('.randomize-toggle').classList.add('active'); } else { group.classList.remove('randomize-active'); group.querySelector('.randomize-toggle').classList.remove('active'); }});
+                appState.simpleCaptions.main = settings.mainCaptions || '';
+                appState.simpleCaptions.translation = settings.translationCaptions || '';
+            }
+            resolve();
+        };
+    });
+}
+
+        // Add this new function anywhere in your <script> section
+function triggerDownload(blob, filename) {
+    /* ב"ה B"H */
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.style.display = 'none';
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    window.URL.revokeObjectURL(url);
+    document.body.removeChild(a);
+        }
+        // Add this new function anywhere in your <script> section
+async function downloadImage(blob, filename, directoryHandle = null) {
+    /* ב"ה B"H */
+    if (directoryHandle && 'getFileHandle' in directoryHandle) {
+        try {
+            const fileHandle = await directoryHandle.getFileHandle(filename, { create: true });
+            const writable = await fileHandle.createWritable();
+            await writable.write(blob);
+            await writable.close();
+            console.log(`Saved ${filename} to selected folder.`);
+        } catch (error) {
+            console.error(`Error saving ${filename} using File System Access API:`, error);
+            setStatus(`Failed to save ${filename} to folder. Falling back to individual download.`, 'error');
+            triggerDownload(blob, filename);
+        }
+    } else {
+        triggerDownload(blob, filename);
+    }
+}
+
+
+        // Add this new function anywhere in your <script> section
+async function processImageDownloadQueue() {
+    /* ב"ה B"H */
+    if (appState.isDownloadingImages || appState.imageDownloadQueue.length === 0) {
+        return;
+    }
+
+    appState.isDownloadingImages = true;
+    setStatus('Downloading images...', '');
+
+    while (appState.imageDownloadQueue.length > 0) {
+        const { blob, filename } = appState.imageDownloadQueue.shift();
+        await downloadImage(blob, filename, appState.selectedDownloadDirectoryHandle);
+        await new Promise(resolve => setTimeout(resolve, 50)); // Small delay between downloads
+    }
+
+    appState.isDownloadingImages = false;
+    setStatus('All images downloaded.', 'success');
+}
+
+        
+        
+        function loadPresets() { /* ב"ה B"H */ if (!appState.db) return; const tx = appState.db.transaction('presets', 'readonly'); const store = tx.objectStore('presets'); const request = store.getAll(); request.onsuccess = () => { dom.presetSelect.innerHTML = '<option value="">Load Preset...</option>'; request.result.forEach(preset => { const option = document.createElement('option'); option.value = preset.name; option.textContent = preset.name; dom.presetSelect.appendChild(option); }); }; }
+        function savePreset() { /* ב"ה B"H */ if (!appState.db) return; const name = prompt("Enter preset name:"); if (!name) return; const settings = {}; document.querySelectorAll('[id]').forEach(el => { if (el.value !== undefined && el.type !== 'file' && !el.readOnly && el.id !== 'preset-select') { if (el.type === 'checkbox') settings[el.id] = el.checked; else settings[el.id] = el.value; }}); document.querySelectorAll('.control-group[data-control-name]').forEach(g => { settings[g.dataset.controlName + '_randomize'] = g.classList.contains('randomize-active'); }); appState.db.transaction('presets', 'readwrite').objectStore('presets').put({ name, settings }).onsuccess = () => { alert(`Preset "${name}" saved.`); loadPresets(); }; }
+        function deletePreset() { /* ב"ה B"H */ if (!appState.db) return; const name = dom.presetSelect.value; if (!name) return; if (confirm(`Delete preset "${name}"?`)) { appState.db.transaction('presets', 'readwrite').objectStore('presets').delete(name).onsuccess = () => { alert(`Preset "${name}" deleted.`); loadPresets(); }; } }
+        function applyPreset(name) { /* ב"ה B"H */ if (!appState.db || !name) return; appState.db.transaction('presets', 'readonly').objectStore('presets').get(name).onsuccess = e => { const preset = e.target.result; if (preset) { for (const key in preset.settings) { const el = document.getElementById(key); if (el && !el.readOnly) { if (el.type === 'checkbox') el.checked = preset.settings[key]; else el.value = preset.settings[key]; el.dispatchEvent(new Event('input', { bubbles: true })); } } document.querySelectorAll('.control-group[data-control-name]').forEach(g => { const randKey = g.dataset.controlName + '_randomize'; if (preset.settings[randKey]) { g.classList.add('randomize-active'); g.querySelector('.randomize-toggle').classList.add('active'); } else { g.classList.remove('randomize-active'); g.querySelector('.randomize-toggle').classList.remove('active'); }}); } }; }
+        dom.savePresetBtn.addEventListener('click', savePreset); dom.deletePresetBtn.addEventListener('click', deletePreset); dom.presetSelect.addEventListener('change', (e) => applyPreset(e.target.value));
+
+        // --- Main Execution ---
+        async function main() {
+            /*
+            ב"ה
+            B"H
+            */
+            setupUI();
+            await initDB();
+            await loadSettings();
+            loadPresets();
+            initializeWorker();
+        }
+
+        main();
+    });
+    </script>
+</body>
+</html>
