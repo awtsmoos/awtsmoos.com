@@ -1,5 +1,5 @@
 /* B"H */
-console. log('B"H',
+console. log('B"H'
 
 ,"\n ok")
 
