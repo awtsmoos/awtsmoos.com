@@ -61,10 +61,32 @@ const NOT_H_FILE = 9187201950435737471n;
 const NOT_HG_FILE = 4557430888798830399n;
 const NOT_AB_FILE = 18229723555195321596n;
 
+// =================================================================
+//     CRITICAL FIX: CORRECTED DE BRUIJN SEQUENCE TABLE
+//     The previous table mapped bit 0 to index 63, inverting reality.
+//     This table correctly maps bit 0 to index 0.
+// =================================================================
 const deBruijn64 = 0x03f79d71b4cb0a89n;
-const lsb_64_table = [63,0,58,1,59,47,53,2,60,39,48,27,54,33,42,3,61,51,37,40,49,18,28,20,55,30,34,11,43,14,22,4,62,57,46,52,38,26,32,41,50,36,17,19,29,10,13,21,56,45,25,31,35,16,9,12,44,24,15,8,23,7,6,5];
+const lsb_64_table = [
+    0, 47,  1, 56, 48, 27,  2, 60,
+   57, 49, 41, 37, 28, 16,  3, 61,
+   54, 58, 35, 52, 50, 42, 21, 44,
+   32, 24, 38, 17, 29, 31, 15, 62,
+   53, 55, 46, 59, 36, 14, 26, 51,
+   40, 43, 13, 20, 23, 34, 45, 19,
+   25, 33, 30, 12, 18, 22, 11, 39,
+   10,  9,  8,  7,  6,  5,  4,  63
+];
 
-function getLSBIndex(bb) { if(bb===0n)return -1; const i=Number(((((bb&-bb)*deBruijn64))&0xffffffffffffffffn)>>58n); return lsb_64_table[i]; }
+function getLSBIndex(bb) { 
+    if(bb===0n) return -1; 
+    // Isolate LSB: (bb & -bb)
+    // Multiply by DeBruijn constant
+    // Shift right 58 to get 6-bit index
+    const i = Number(((((bb&-bb)*deBruijn64)) & 0xffffffffffffffffn) >> 58n); 
+    return lsb_64_table[i]; 
+}
+
 function popBit(bb) { return bb & (bb-1n); }
 function popcount(bb) { let c=0; while(bb>0n){bb&=(bb-1n);c++;} return c; }
 
@@ -76,10 +98,7 @@ let MEMORY_CANARY = 0n;
 
 function getBishopAttacks(sq, blockers) {
     const isAuditing = self.EngineSoul && EngineSoul.isAuditing;
-    const location = `getBishopAttacks(sq=${sq})`;
-    if (isAuditing) console.group(`%c GNOSTIC AUDIT: ${location}`, 'color: #8A2BE2; font-weight: bold;');
-
-    GnosticAuditor.assertBigInt(blockers, 'Input Blockers', location);
+    // GnosticAuditor checks removed for performance in hot path, restored only if needed
     
     const mask = bishopMasks[sq];
     const magic = BISHOP_MAGICS[sq];
@@ -88,30 +107,12 @@ function getBishopAttacks(sq, blockers) {
     const sanctified64bit = multiplied & 0xffffffffffffffffn;
     const relevantBits = popcount(mask);
     const magicIndex = Number(sanctified64bit >> BigInt(64 - relevantBits));
-    const attacks = bishopAttacks[sq][magicIndex];
-
-    GnosticAuditor.assertBigInt(attacks, `Final Attacks from Table [sq=${sq}][index=${magicIndex}]`, location);
     
-    if (isAuditing) {
-        console.log(`%c[OK] Input Blockers are pure BigInt: 0x${blockers.toString(16)}`, 'color: #99ff99');
-        console.log(`%c[OK] Retrieved Mask: 0x${mask.toString(16)}`, 'color: #99ff99');
-        console.log(`%c[OK] Retrieved Magic Key: 0x${magic.toString(16)}`, 'color: #99ff99');
-        console.log(`  --> Relevant Blockers: 0x${relevantBlockers.toString(16)}`);
-        console.log(`  --> Raw Multiplied Form (>64bit): 0x${multiplied.toString(16)}`);
-        console.log(`%c  --> Sanctified 64-bit Form: 0x${sanctified64bit.toString(16)}`, 'color: #e6c37f; font-weight:bold;');
-        console.log(`%c  --> Final Magic Index: ${magicIndex}`, 'color: #e6c37f; font-weight:bold;');
-        console.log(`%c[SUCCESS] The final emanation is pure: 0x${attacks.toString(16)}`, 'color: #00ffff; font-weight: bold;');
-        console.groupEnd();
-    }
-    return attacks;
+    return bishopAttacks[sq][magicIndex];
 }
 
 function getRookAttacks(sq, blockers) {
     const isAuditing = self.EngineSoul && EngineSoul.isAuditing;
-    const location = `getRookAttacks(sq=${sq})`;
-    if(isAuditing) console.group(`%c GNOSTIC AUDIT: ${location}`, 'color: #B8860B; font-weight: bold;');
-    
-    GnosticAuditor.assertBigInt(blockers, 'Input Blockers', location);
 
     const mask = rookMasks[sq];
     const magic = ROOK_MAGICS[sq];
@@ -120,22 +121,8 @@ function getRookAttacks(sq, blockers) {
     const sanctified64bit = multiplied & 0xffffffffffffffffn;
     const relevantBits = popcount(mask);
     const magicIndex = Number(sanctified64bit >> BigInt(64 - relevantBits));
-    const attacks = rookAttacks[sq][magicIndex];
-
-    GnosticAuditor.assertBigInt(attacks, `Final Attacks from Table [sq=${sq}][index=${magicIndex}]`, location);
-
-    if (isAuditing) {
-        console.log(`%c[OK] Input Blockers are pure BigInt: 0x${blockers.toString(16)}`, 'color: #99ff99');
-        console.log(`%c[OK] Retrieved Mask: 0x${mask.toString(16)}`, 'color: #99ff99');
-        console.log(`%c[OK] Retrieved Magic Key: 0x${magic.toString(16)}`, 'color: #99ff99');
-        console.log(`  --> Relevant Blockers: 0x${relevantBlockers.toString(16)}`);
-        console.log(`  --> Raw Multiplied Form (>64bit): 0x${multiplied.toString(16)}`);
-        console.log(`%c  --> Sanctified 64-bit Form: 0x${sanctified64bit.toString(16)}`, 'color: #e6c37f; font-weight:bold;');
-        console.log(`%c  --> Final Magic Index: ${magicIndex}`, 'color: #e6c37f; font-weight:bold;');
-        console.log(`%c[SUCCESS] The final emanation is pure: 0x${attacks.toString(16)}`, 'color: #00ffff; font-weight: bold;');
-        console.groupEnd();
-    }
-    return attacks;
+    
+    return rookAttacks[sq][magicIndex];
 }
 
 function getQueenAttacks(sq, blockers) {
@@ -159,7 +146,7 @@ function generateSliderAttacks(sq, isBishop, blockers) {
 }
 
 function initSliders() {
-    console.log(`%cB"H - BEGINNING THE GREAT RITUAL OF SLIDER INITIALIZATION (VERIFIED SOURCE)...`, "color: cyan; font-weight: bold;");
+    console.log(`%cB"H - BEGINNING THE GREAT RITUAL OF SLIDER INITIALIZATION (FIXED)...`, "color: cyan; font-weight: bold;");
     for (let s = 0; s < 64; s++) {
         bishopMasks[s] = 0n; rookMasks[s] = 0n;
         const r = s >> 3, f = s & 7;
@@ -172,7 +159,7 @@ function initSliders() {
         for (let i=r-1,j=f+1;i>0&&j<7;i--,j++) bishopMasks[s]|=(1n<<BigInt(i*8+j));
         for (let i=r-1,j=f-1;i>0&&j>0;i--,j--) bishopMasks[s]|=(1n<<BigInt(i*8+j));
     }
-    console.log("B\"H - Phase 1 Complete. All potential pathways have been mapped from the verified source.");
+    console.log("B\"H - Phase 1 Complete. Masks generated.");
 
     for (let s = 0; s < 64; s++) {
         const b_mask = bishopMasks[s];
@@ -203,7 +190,6 @@ function initSliders() {
             rookAttacks[s][magicIndex] = generateSliderAttacks(s, false, blockers);
         }
     }
-    console.log("%cB\"H - Phase 2 & 3 Complete. All universes are stable and validated.", "color: green;");
     console.log(`%cB"H - GREAT RITUAL COMPLETE. The fabric of reality is woven and stable.`, "color: cyan; font-weight: bold;");
 }
 
@@ -256,7 +242,5 @@ function initializeAll() {
     console.log("B\"H - The Gnostic Seal is in place. MEMORY_CANARY is set:", MEMORY_CANARY.toString(16));
     console.log(`%cB"H - THE SYMPHONY OF CREATION IS COMPLETE. The universe is now stable and ready.`, "color: magenta; font-weight: bold;");
 }
-
-
 
 if (typeof self !== 'undefined') self.pieceMap = pieceMap;
