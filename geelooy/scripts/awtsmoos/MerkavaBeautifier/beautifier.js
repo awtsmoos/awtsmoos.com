@@ -243,6 +243,10 @@ export async function beautify(code, options = {}) {
 			case "EmptyStatement":
 				result = ";";
 				break;
+				
+			case "DebuggerStatement":
+				result = `${indent}debugger;`;
+				break;
 			//--- Literals & Identifiers ---
 			case "Identifier":
 				result = node.name;
@@ -803,6 +807,29 @@ export async function beautify(code, options = {}) {
 				}`;
 				break;
 			//--- Classes ---
+			//--- Classes ---
+			case "ClassDeclaration":
+
+			case "ClassExpression":
+				const cId = node.id ? " " + walk(
+					node.id,
+					"",
+					ignoreCtx
+				) : "";
+				const cSuper = node.superClass ? " extends " + walk(
+					node.superClass,
+					"",
+					ignoreCtx
+				) : "";
+				const cBody = walk(
+					node.body,
+					indent,
+					ignoreCtx
+				);
+				result = `class${cId}${cSuper} ${cBody}`;
+				if (node.type === "ClassDeclaration") result = indent + result;
+				break;
+			
 			case "MethodDefinition":
 				const mdStat = node.static ? "static " : "";
 				const mdKey = node.computed ? `[${
@@ -1100,6 +1127,16 @@ export async function beautify(code, options = {}) {
 				if (node.specifiers.length === 0) iStr += src; else //import "mod"
 				iStr += ` from ${src}`;
 				result = `${indent}${iStr};`;
+				break;
+				
+			case "ExportDefaultDeclaration":
+				result = `${indent}export default ${
+					(walk(
+						node.declaration,
+						indent,
+						ignoreCtx
+					)).trim()
+				};`;
 				break;
 			case "ExportNamedDeclaration":
 				if (node.declaration) {

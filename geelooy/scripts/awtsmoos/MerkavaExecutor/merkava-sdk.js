@@ -186,8 +186,19 @@
                 ...options.hostAPI
             };
 
-            // 5. SPAWN VM
-            const vm = new window.MerkavaVM(memory, hostAPI, options.context || {});
+            // 5. SPAWN VM with Robust Context
+            // B"H - Auto-inject standard Browser Globals if user/UI forgot them
+            const baseContext = {
+                window: (typeof window !== 'undefined' ? window : {}),
+                document: (typeof document !== 'undefined' ? document : {}),
+                console: console,
+                fetch: (typeof window !== 'undefined' && window.fetch ? window.fetch.bind(window) : null)
+            };
+
+            // Merge User Context on top
+            const finalContext = Object.assign(baseContext, options.context || {});
+
+            const vm = new window.MerkavaVM(memory, hostAPI, finalContext);
             const threadId = vm.spawn(codeObject);
 
             // 6. SETUP DEBUGGER (Optional)

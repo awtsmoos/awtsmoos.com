@@ -288,7 +288,18 @@ counter;
                 context: {
                     document: document,
                     window: window,
-                    console: console
+                    console: console, 
+                    // B"H - Wrapper to debug the Fetch call
+                    fetch: (url) => {
+                        log(`[Host] Intercepted fetch call to: ${url}`, 'log-sys');
+                        return window.fetch(url).then(res => {
+                            log(`[Host] Fetch resolved: ${res.status}`, 'log-sys');
+                            return res;
+                        }).catch(err => {
+                            log(`[Host] Fetch failed: ${err}`, 'log-err');
+                            throw err;
+                        });
+                    }
                 },
                 // B"H - HANDLE IMPORTS
                 importResolver: async (specifier) => {
