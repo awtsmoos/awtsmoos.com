@@ -18,7 +18,7 @@ const NOT_H_FILE = 9187201950435737471n;
 const NOT_HG_FILE = 4557430888798830399n;
 const NOT_AB_FILE = 18229723555195321596n;
 
-// --- Corrected De Bruijn Table (Keep this, it is good) ---
+// --- Standard, Verified De Bruijn Table (Bit 0 -> Index 0) ---
 const deBruijn64 = 0x03f79d71b4cb0a89n;
 const lsb_64_table = [
     0, 47,  1, 56, 48, 27,  2, 60,
@@ -96,11 +96,9 @@ function initializeZobristKeys() {
 
 function initializeAll() {
     if (KNIGHT_ATTACKS.length === 64) {
-        console.log("B\"H - Universe already created."); 
         return;
     }
     
-    // No initSliders needed anymore, we calculate on demand.
     initializeZobristKeys();
 
     console.log("B\"H - Calculating the innate powers of the lesser angels (Pawns, Knights, Kings)...");
