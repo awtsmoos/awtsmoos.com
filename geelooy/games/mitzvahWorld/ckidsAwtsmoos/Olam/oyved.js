@@ -54,10 +54,10 @@ async function go() {
             }
         },
         async moveFromActionBar({ actionIndex }) {
-		if (me.olam && me.olam.player && me.olam.player.inventory) {
-			me.olam.player.inventory.moveFromActionBar(actionIndex);
-		}
-	},
+            if (me.olam && me.olam.player && me.olam.player.inventory) {
+                me.olam.player.inventory.moveFromActionBar(actionIndex);
+            }
+        },
 	    async saveSettings(data) {
                 // Only works if user is logged in (has an alias)
                 if(!window.curAlias) return;

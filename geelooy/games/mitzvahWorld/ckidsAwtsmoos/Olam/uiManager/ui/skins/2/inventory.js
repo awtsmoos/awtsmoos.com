@@ -23,11 +23,11 @@ export default /*css*/`
 		background: none;
                 border: none;
                 color: white;
-                textAlign: left;
+                text-align: left;
                 cursor: pointer;
                 padding: 8px;
                 border-bottom: 1px solid #444;
-                font-size: 14px
+                font-size: 14px;
 	}
 	.awtsmoosInventoryViewer .ctx-btn.close {
 		border-bottom: none;
@@ -53,14 +53,14 @@ export default /*css*/`
 	.awtsmoosContextMenu {
 		background: rgba(20, 20, 40, 0.95);
                 border: 2px solid #FFD700;
-                borderRadius: 8px;
-                zIndex: 2000;
+                border-radius: 8px;
+                z-index: 2000;
                 display: flex;
-                flexDirection: column;
+                flex-direction: column;
                 padding: 5px;
                 gap: 5px;
-                minWidth: 140px;
-                boxShadow: 0 4px 8px rgba(0,0,0,0.5);
+                min-width: 140px;
+                box-shadow: 0 4px 8px rgba(0,0,0,0.5);
 	}
 	
 	

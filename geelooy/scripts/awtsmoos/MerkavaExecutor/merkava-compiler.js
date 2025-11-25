@@ -495,6 +495,13 @@
 
         _visitIdentifier(node, mode = 'LOAD') {
             const name = node.name;
+
+            // B"H - FIX: Handle 'undefined' as a native value, not a lookup
+            if (name === 'undefined' && mode === 'LOAD') {
+                this.buffer.write8(OPCODES.PUSH_UNDEFINED);
+                return;
+            }
+
             const res = this.scope.resolve(name);
 
             if (res.type === 'LOCAL') {

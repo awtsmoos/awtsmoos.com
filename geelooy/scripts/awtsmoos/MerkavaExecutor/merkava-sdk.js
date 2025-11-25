@@ -80,7 +80,7 @@
         ];
 
         // 3. Inject into Context
-        [...primitives, ...utilities].forEach(key => {
+         [...primitives, ...utilities].forEach(key => {
             if (typeof globalScope[key] !== 'undefined') {
                 // B"H - Bind functions to globalScope to prevent 'illegal invocation' (crucial for fetch/timers)
                 if (typeof globalScope[key] === 'function') {
@@ -90,6 +90,9 @@
                 }
             }
         });
+
+        // B"H - Explicitly inject 'undefined' because the loop above filters it out
+        context.undefined = undefined;
 
         return context;
     };
