@@ -79,6 +79,10 @@ export default class {
      * @param {object} golem - The object defining the geometry, material, and texture properties.
      * @returns {Promise<THREE.Mesh>} A promise that resolves with the fully configured Three.js mesh.
      */
+    /**
+     * B"H
+     * Generates a Three.js mesh from a "golem" object definition.
+     */
     async generateThreeJsMesh(golem) {
         const originalGolem = golem;
         if (!golem) golem = {};
@@ -92,9 +96,16 @@ export default class {
         // --- Geometry Creation ---
         const guf = golem.guf || golem.body || { "BoxGeometry": [1, 1, 1] };
         const gufEntries = Object.entries(guf);
+        const geomType = gufEntries[0][0];
+        const geomArgs = gufEntries[0][1];
+        
         let chomer;
-        if (THREE[gufEntries[0][0]]) {
-            chomer = new THREE[gufEntries[0][0]](...gufEntries[0][1]);
+
+        // B"H: Custom Geometry Handling
+        if (geomType === "StairGeometry") {
+            chomer = createStairGeometry(...geomArgs);
+        } else if (THREE[geomType]) {
+            chomer = new THREE[geomType](...geomArgs);
         }
 
         // --- Material Creation ---
@@ -130,58 +141,51 @@ export default class {
 
         let mesh;
 
-        // --- SMART BOX MAPPING LOGIC ---
-        // Check if this is a Box and has a texture map. If so, apply face-specific tiling.
-        if (chomer.type === 'BoxGeometry' && tzurah.map && chomer.parameters) {
-            
-            // 1. Get the actual dimensions of the box
+        // --- SMART BOX MAPPING LOGIC (For Standard Box) ---
+        if (geomType === 'BoxGeometry' && tzurah.map && chomer.parameters) {
             const { width, height, depth } = chomer.parameters;
-            
-            // 2. Create clones of the texture so we can have different repeat values for each face type
-            const texFront = tzurah.map; // Use original for front/back
-            const texSide = texFront.clone(); // Clone for sides
-            const texTop = texFront.clone(); // Clone for top/bottom
+            const texFront = tzurah.map; 
+            const texSide = texFront.clone(); 
+            const texTop = texFront.clone(); 
 
-            // 3. Configure wrapping for all
             [texFront, texSide, texTop].forEach(t => {
                 t.wrapS = THREE.RepeatWrapping;
                 t.wrapT = THREE.RepeatWrapping;
-                t.needsUpdate = true; // Essential for the clones to initialize
+                t.needsUpdate = true; 
             });
 
-            // 4. Calculate specific repeats based on dimensions (assuming 1 unit = 1 tile)
-            // Front/Back faces (Width x Height)
             texFront.repeat.set(width, height);
-            
-            // Right/Left faces (Depth x Height)
             texSide.repeat.set(depth, height);
-            
-            // Top/Bottom faces (Width x Depth)
             texTop.repeat.set(width, depth);
 
-            // 5. Create separate materials for each texture orientation
             const matFront = tzurah.clone(); matFront.map = texFront;
             const matSide = tzurah.clone(); matSide.map = texSide;
             const matTop = tzurah.clone(); matTop.map = texTop;
 
-            // 6. Assign materials to the specific face indices expected by BoxGeometry
-            // Order: Right, Left, Top, Bottom, Front, Back
             const materials = [
-                matSide,  // Right
-                matSide,  // Left
-                matTop,   // Top
-                matTop,   // Bottom
-                matFront, // Front
-                matFront  // Back
+                matSide, matSide, matTop, matTop, matFront, matFront 
             ];
 
             mesh = new THREE.Mesh(chomer, materials);
 
-        } else {
-            // Fallback for non-box geometry or simple materials
-            mesh = new THREE.Mesh(chomer, tzurah);
+        } 
+        // --- SMART STAIR MAPPING (Custom) ---
+        else if (geomType === "StairGeometry" && tzurah.map) {
+            // Since StairGeometry is a BufferGeometry with complex UVs, we just set wrap.
+            // The createStairGeometry function calculates UVs based on world units.
+            tzurah.map.wrapS = THREE.RepeatWrapping;
+            tzurah.map.wrapT = THREE.RepeatWrapping;
             
-            // Apply basic repeat if specified manually in the golem definition
+            // If textureRepeat is passed in options, use it, otherwise default 1:1
+            if(golem.textureRepeat) {
+                 tzurah.map.repeat.set(golem.textureRepeat.x, golem.textureRepeat.y);
+            }
+            
+            mesh = new THREE.Mesh(chomer, tzurah);
+        }
+        else {
+            // Fallback
+            mesh = new THREE.Mesh(chomer, tzurah);
             if (tzurah.map && golem.textureRepeat) {
                 tzurah.map.wrapS = THREE.RepeatWrapping;
                 tzurah.map.wrapT = THREE.RepeatWrapping;

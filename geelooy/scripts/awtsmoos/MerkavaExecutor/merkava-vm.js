@@ -238,10 +238,10 @@
                 // --- Error Handling ---
                 case OPCODES.ENTER_TRY: {
                     const catchOffset = this._readInt16(thread);
-                    const finallyOffset = this._readInt16(thread); // Ignored for now
+                    const finallyOffset = this._readInt16(thread); 
                     thread.catchStack.push({
                         catchIP: thread.ip + catchOffset,
-                        // finallyIP: thread.ip + finallyOffset (for v2)
+                        stackSize: thread.stack.length // B"H - Save clean stack height
                     });
                     break;
                 }
@@ -777,8 +777,15 @@
             if (thread.catchStack.length > 0) {
                 const handler = thread.catchStack.pop();
                 thread.ip = handler.catchIP;
+                
+                // B"H - Unwind Stack: Discard junk from the failed block
+                // Restores stack to the state it was in when 'try' began.
+                while (thread.stack.length > handler.stackSize) {
+                    thread.stack.pop();
+                }
+                
                 thread.errorRegister = error.message || error;
-                console.log(`[VM] Caught Exception: ${thread.errorRegister}, jumping to handler.`);
+                // Note: We don't log here, the guest code handles it.
             } else {
                 const msg = `[VM] Thread #${thread.id} CRASHED: ${error.message || error}`;
                 console.error(msg);

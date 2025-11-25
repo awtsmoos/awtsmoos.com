@@ -558,11 +558,17 @@
         }
 
         _visitAssignment(node) {
-            // B"H - Fixed Assignment Logic: Compile in the correct order based on target type
+            // B"H - Fixed Assignment Logic
             
             if (node.left.type === 'Identifier') {
                 // 1. Compile Value (RHS)
                 this._visit(node.right);
+                
+                // B"H - FIX: Assignment is an expression. 
+                // We must DUP the value because STORE consumes it, 
+                // but the expression must evaluate to the value on the stack.
+                this.buffer.write8(OPCODES.DUP);
+
                 // 2. Store to Variable (LHS)
                 this._visitIdentifier(node.left, 'STORE');
             
@@ -585,8 +591,7 @@
                 
                 // 4. Emit Set Opcode
                 this.buffer.write8(OPCODES.SET_PROP);
-                // SET_PROP leaves the Value on the stack (as the result of the assignment), 
-                // which matches JS behavior.
+                // SET_PROP leaves the Value on the stack automatically.
             } else {
                 throw new Error(`Invalid Assignment Target: ${node.left.type}`);
             }

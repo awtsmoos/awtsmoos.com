@@ -40,23 +40,37 @@ export default class {
 		if (mesh.geometry) {
                 mesh.geometry.sourceMesh = mesh; // Helper property
             }
-            // 5. Add to physics and scene.
+            // 5. Add to physics and scene (FAILSAFE)
+            let physicsSuccess = true;
+            
             if (options.isSolid) {
-                this.worldOctree.addObject(mesh);
-            }
-            
-            
-            mesh.traverse(child => {
-                if(child.isMesh) {
-                    if(!child.userData) child.userData = {};
-                    if(options.itemData) child.userData.itemData = options.itemData;
-                    if(options.isSolid) child.userData.isSolid = true;
+                // B"H: Critical Failsafe
+                // We attempt to add to the Octree. If it returns false, we DO NOT add the visual mesh.
+                // This prevents "ghost" blocks that look real but have no collision.
+                physicsSuccess = this.worldOctree.addObject(mesh);
+                
+                if (!physicsSuccess) {
+                    console.error(`B"H Error: Failed to add ${mesh.name} to Physics Octree. Aborting visual creation.`);
+                    return null; // Stop here. The object is effectively deleted/never born.
                 }
-            });
-            if (options.interactable) {
-                this.interactiveOctree.fromGraphNode(mesh);
             }
-            this.nivrayimGroup.add(mesh);
+            
+            // Only proceed if physics was successful (or not required)
+            if (physicsSuccess) {
+                mesh.traverse(child => {
+                    if(child.isMesh) {
+                        if(!child.userData) child.userData = {};
+                        if(options.itemData) child.userData.itemData = options.itemData;
+                        if(options.isSolid) child.userData.isSolid = true;
+                    }
+                });
+                
+                if (options.interactable) {
+                    this.interactiveOctree.fromGraphNode(mesh);
+                }
+                
+                this.nivrayimGroup.add(mesh);
+            }
             
         } else if (options.path) {
             // Logic for adding GLBs dynamically at runtime can be added here in the future.
