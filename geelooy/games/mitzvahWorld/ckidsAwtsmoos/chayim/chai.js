@@ -759,8 +759,7 @@ export default class Chai extends Tzomayach {
     /**
      * B"H
      * Finalizes placement.
-     * UPDATED: Uses consumeItem() to correctly reduce quantity even if the brick
-     * is equipped in the Right Hand slot.
+     * UPDATED: Uses generic isBuildable check instead of hardcoded 'Brick'.
      */
     async placeObject() {
         if (!this.activeObject || !this.activeObject.mesh) return;
@@ -768,18 +767,18 @@ export default class Chai extends Tzomayach {
         // 1. Get the Active Item (from Equipment OR Hotbar)
         const activeItem = this.getActiveItem(); 
         
-        // Safety check: ensure we are actually holding the brick we are placing
+        // Safety check: ensure we are actually holding a buildable item
         // (Prevents edge cases where you switch items really fast)
-        if (!activeItem || (activeItem.className !== 'Brick' && activeItem.item !== 'Brick')) return;
+        if (!activeItem || !activeItem.isBuildable) return;
 
         const golem = this.activeObject.mesh.awtsmoosGolem;
         
-        // Use the metadata from the ACTIVE item
+        // Use the metadata from the ACTIVE itemR
         const itemData = activeItem; 
 
         if (!golem) return;
 
-        // ... [Matrix decomposition code remains the same] ...
+        // ... [Matrix decomposition code] ...
         this.activeObject.mesh.updateMatrixWorld(true);
         const worldPosition = new THREE.Vector3();
         const worldQuaternion = new THREE.Quaternion();
@@ -787,12 +786,10 @@ export default class Chai extends Tzomayach {
         this.activeObject.mesh.matrixWorld.decompose(worldPosition, worldQuaternion, worldScale);
         const worldRotation = new THREE.Euler().setFromQuaternion(worldQuaternion);
 
-        // --- THIS IS THE FIX ---
-        // Instead of manually clearing slots[i], we ask the manager to consume
-        // the specific item object we are holding.
+        // Consume the item
         this.inventory.consumeItem(activeItem, 1);
-        // -----------------------
 
+        // Use the item's class name (e.g., "Stairs" or "Brick") to create the permanent object
         const type = itemData.className || 'Domem';
 
         await this.olam.addObject(type, {
@@ -1030,31 +1027,7 @@ export default class Chai extends Tzomayach {
         }
     }
 
-    /**
-     * B"H
-     * Updated to check the Active Item for Tools.
-     */
-    async shoot() {
-        if (!this.activeRay) return;
-
-        const item = this.getActiveItem();
-
-        if (item && (item.className === 'Brick' || item.item === 'Brick')) {
-            if (!this.activeObject) {
-                await this.placeBlockOnRay();
-            } else {
-                await this.placeObject();
-            }
-        } 
-        else if (item && item.className === 'Tool') {
-            if (this.activeObject) this.removeActiveObject();
-            await this.collectObject();
-        }
-        else {
-            if (this.activeObject) this.removeActiveObject();
-            console.log("Hand is empty.");
-        }
-    }
+    
 
     
     
