@@ -966,14 +966,26 @@ export default class Chai extends Tzomayach {
 	/**
      * B"H
      * Helper to get the currently active item.
-     *  Only checks Equipment. No fallback to hotbar.
+     * Updated to resolve references from the InventoryManager.
      */
     getActiveItem() {
-        if (!this.inventory) return null;
+        if (!this.inventory || !this.inventory.equipment) return null;
         
-        // Only return what is explicitly equipped in the right hand.
-        if (this.inventory.equipment && this.inventory.equipment.rightHand) {
-            return this.inventory.equipment.rightHand;
+        const ref = this.inventory.equipment.rightHand;
+        if (!ref) return null;
+
+        // 1. Direct Item Object (Legacy/Setup phase)
+        // During setup, items might be assigned directly.
+        if (ref.className || ref.item) return ref;
+
+        // 2. Reference Object (Inventory System)
+        // The InventoryManager stores { sourceType, index } in the equipment slot.
+        if (ref.sourceType !== undefined && ref.index !== undefined) {
+            if (ref.sourceType === 'action') {
+                return this.inventory.actionSlots ? this.inventory.actionSlots[ref.index] : null;
+            } else if (ref.sourceType === 'inventory') {
+                return this.inventory.slots ? this.inventory.slots[ref.index] : null;
+            }
         }
 
         return null;
