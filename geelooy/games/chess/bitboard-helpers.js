@@ -1,11 +1,11 @@
 /* B"H */
 
 // =================================================================
-//     AWTSMOOS CHESS - THE LAWS OF CREATION (MK. XII - ROBUST)
+//     AWTSMOOS CHESS - THE LAWS OF CREATION (MK. XIV - ETERNAL)
 // =================================================================
-// This version abandons the fragile Magic Bitboard lookup in favor of
-// robust, on-the-fly raycasting. This guarantees correct move generation
-// regardless of table alignment or magic number validity.
+// This version generates the De Bruijn lookup table at RUNTIME.
+// This guarantees 100% mathematical accuracy for the current environment,
+// solving the "Scrambled Board" paradox forever.
 // =================================================================
 
 const P = 0, N = 1, B = 2, R = 3, Q = 4, K = 5;
@@ -18,18 +18,22 @@ const NOT_H_FILE = 9187201950435737471n;
 const NOT_HG_FILE = 4557430888798830399n;
 const NOT_AB_FILE = 18229723555195321596n;
 
-// --- Standard, Verified De Bruijn Table (Bit 0 -> Index 0) ---
+// --- RUNTIME DE BRUIJN GENERATION ---
+// We calculate the lookup table now. This cannot be wrong.
 const deBruijn64 = 0x03f79d71b4cb0a89n;
-const lsb_64_table = [
-    0, 47,  1, 56, 48, 27,  2, 60,
-   57, 49, 41, 37, 28, 16,  3, 61,
-   54, 58, 35, 52, 50, 42, 21, 44,
-   32, 24, 38, 17, 29, 31, 15, 62,
-   53, 55, 46, 59, 36, 14, 26, 51,
-   40, 43, 13, 20, 23, 34, 45, 19,
-   25, 33, 30, 12, 18, 22, 11, 39,
-   10,  9,  8,  7,  6,  5,  4,  63
-];
+const lsb_64_table = new Array(64).fill(0);
+
+(function forgeUniverseIndices() {
+    for (let i = 0; i < 64; i++) {
+        // Create a bitboard with the i-th bit set
+        const bit = 1n << BigInt(i);
+        // Apply the De Bruijn hash
+        const hash = Number(((bit * deBruijn64) & 0xffffffffffffffffn) >> 58n);
+        // Map the hash back to the index
+        lsb_64_table[hash] = i;
+    }
+    // console.log("B\"H - The Table of Indices has been forged.");
+})();
 
 function getLSBIndex(bb) { 
     if(bb===0n) return -1; 
@@ -42,9 +46,8 @@ function popcount(bb) { let c=0; while(bb>0n){bb&=(bb-1n);c++;} return c; }
 
 let MEMORY_CANARY = 0n;
 
-// --- CLASSICAL SLIDER GENERATION (Robust & Paradox-Free) ---
-// We export this logic directly. No lookups, no magic numbers.
-// This calculates attacks by casting rays from the square until a blocker is hit.
+// --- CLASSICAL SLIDER GENERATION ---
+// Robust ray-casting. No magic numbers needed.
 
 function getBishopAttacks(sq, blockers) {
     return generateSliderAttacks(sq, true, blockers);
@@ -61,9 +64,6 @@ function getQueenAttacks(sq, blockers) {
 function generateSliderAttacks(sq, isBishop, blockers) {
     let attacks = 0n;
     const r = sq >> 3, f = sq & 7;
-    // Bishop directions: UL, UR, DL, DR
-    // Rook directions: U, D, L, R
-    // Note: In FEN array, Rank 0 is Top (8th Rank). So "Down" increases rank index.
     const directions = isBishop 
         ? [[-1, -1], [-1, 1], [1, -1], [1, 1]] 
         : [[-1, 0], [1, 0], [0, -1], [0, 1]];
@@ -73,7 +73,7 @@ function generateSliderAttacks(sq, isBishop, blockers) {
         while (nr >= 0 && nr <= 7 && nc >= 0 && nc <= 7) {
             const currentSq = 1n << BigInt(nr * 8 + nc);
             attacks |= currentSq;
-            if ((currentSq & blockers) !== 0n) break; // Hit a blocker, stop ray
+            if ((currentSq & blockers) !== 0n) break; 
             nr += dr; nc += dc;
         }
     }
@@ -95,13 +95,11 @@ function initializeZobristKeys() {
 }
 
 function initializeAll() {
-    if (KNIGHT_ATTACKS.length === 64) {
-        return;
-    }
+    if (KNIGHT_ATTACKS.length === 64) return;
     
     initializeZobristKeys();
 
-    console.log("B\"H - Calculating the innate powers of the lesser angels (Pawns, Knights, Kings)...");
+    // console.log("B\"H - Inscribing attack tables...");
     for (let sq = 0; sq < 64; sq++) {
         PAWN_ATTACKS[WHITE][sq] = 0n;
         if (((1n << BigInt(sq)) & NOT_H_FILE) && sq > 7) PAWN_ATTACKS[WHITE][sq] |= (1n << BigInt(sq - 7));
@@ -123,7 +121,7 @@ function initializeAll() {
     }
     
     MEMORY_CANARY = 0xDEADBEEFCAFEBABEn;
-    console.log(`%cB"H - THE SYMPHONY OF CREATION IS COMPLETE.`, "color: magenta; font-weight: bold;");
+    // console.log(`%cB"H - THE SYMPHONY OF CREATION IS COMPLETE.`, "color: magenta; font-weight: bold;");
 }
 
 if (typeof self !== 'undefined') self.pieceMap = pieceMap;

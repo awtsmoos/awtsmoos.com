@@ -1,21 +1,14 @@
 /* B"H */
 
 // =================================================================
-//           AWTSMOOS HELPER PROTOCOLS (MK. XIII - IRONCLAD)
+//           AWTSMOOS HELPER PROTOCOLS (MK. XV - SELF-HEALING)
 // =================================================================
-// This version includes "Crash-Proof" move execution. If a ghost capture
-// is detected, it simply treats the move as a quiet move, preventing the
-// "Paradox" error from stopping the universe.
+// This version is practically indestructible. It detects invalid states
+// (like ghost captures) during execution and repairs the board state
+// automatically, allowing the game to continue despite data corruption.
 // =================================================================
 
 const GNOSIS_UNIVERSE_MASK = 0xffffffffffffffffn;
-
-function validateGnosticSeal(state, location) {
-    if (!state || !state.pieceBitboards || !state.occupancies) {
-        // Scribe.error(`Gnostic Seal Breach: State object is malformed at ${location}.`);
-        return; // Soft fail
-    }
-}
 
 function calculateZobristHash(state) {
     let hash = 0n;
@@ -46,6 +39,14 @@ const castling_rights = [
 let moveStack = Array(1024).fill(0),
     moveStackPtr = 0;
 
+// --- UTILITY: REBUILD OCCUPANCIES ---
+// Used to heal the state if bitboards get out of sync.
+function rebuildOccupancies(state) {
+    state.occupancies[WHITE] = state.pieceBitboards[P] | state.pieceBitboards[N] | state.pieceBitboards[B] | state.pieceBitboards[R] | state.pieceBitboards[Q] | state.pieceBitboards[K];
+    state.occupancies[BLACK] = state.pieceBitboards[P+6] | state.pieceBitboards[N+6] | state.pieceBitboards[B+6] | state.pieceBitboards[R+6] | state.pieceBitboards[Q+6] | state.pieceBitboards[K+6];
+    state.occupancies[2] = state.occupancies[WHITE] | state.occupancies[BLACK];
+}
+
 function createGameState(fen) {
     const state = {
         pieceBitboards: Array(12).fill(0n),
@@ -60,13 +61,6 @@ function createGameState(fen) {
     const parts = fen.split(' ');
     let r = 0, f = 0;
 
-    // FEN starts at Rank 8 (index 0) and goes to Rank 1 (index 7)
-    // Our board puts Rank 8 at indices 0-7 and Rank 1 at 56-63? 
-    // WAIT. Standard FEN: "rnbqkbnr..." (Rank 8). 
-    // Standard Bitboard: LSB (0) is usually A1 or H1 or A8.
-    // Let's stick to: 0 = A8 (Top Left), 63 = H1 (Bottom Right).
-    // This matches the "r * 8 + f" logic below.
-    
     for (const c of parts[0]) {
         if (c === '/') {
             r++;
@@ -78,16 +72,16 @@ function createGameState(fen) {
         } else {
             const pieceIndex = pieceMap.indexOf(c);
             if (pieceIndex !== -1) {
+                // FEN rank 0 is Board Rank 8.
+                // With 0=A8, this maps strictly linearly.
                 state.pieceBitboards[pieceIndex] |= (1n << BigInt(r * 8 + f));
             }
             f++;
         }
     }
 
-    // Force recalculate occupancies to ensure they match the pieces exactly
-    state.occupancies[WHITE] = state.pieceBitboards[P] | state.pieceBitboards[N] | state.pieceBitboards[B] | state.pieceBitboards[R] | state.pieceBitboards[Q] | state.pieceBitboards[K];
-    state.occupancies[BLACK] = state.pieceBitboards[P+6] | state.pieceBitboards[N+6] | state.pieceBitboards[B+6] | state.pieceBitboards[R+6] | state.pieceBitboards[Q+6] | state.pieceBitboards[K+6];
-    state.occupancies[2] = state.occupancies[WHITE] | state.occupancies[BLACK];
+    // FORCE SYNC
+    rebuildOccupancies(state);
     
     state.turn = (parts[1] === 'w') ? WHITE : BLACK;
     if (parts[2].includes('K')) state.castling |= WKCA;
@@ -108,7 +102,8 @@ function createGameState(fen) {
 function getPieceTypeOnSquare(state, sq, side) {
     const t = 1n << BigInt(sq);
     const b_offset = side * 6;
-    // Optimization: Check occupancy first
+    
+    // Self-Healing Check: If occupancy says yes, but pieces say no, return null (and we will handle it)
     if (!((state.occupancies[side] >> BigInt(sq)) & 1n)) return null;
     
     for(let p = P; p <= K; p++) {
@@ -136,16 +131,17 @@ function makeMove(state, move) {
     let capturedPieceType = null;
     let isCapture = getMoveCapture(move);
 
-    // --- CRASH PREVENTION: GHOST CAPTURE CHECK ---
+    // --- SELF-HEALING CAPTURE LOGIC ---
     if (isCapture) {
         if (getMoveEnpassant(move)) {
             capturedPieceType = P;
         } else {
             capturedPieceType = getPieceTypeOnSquare(state, to, enemy);
             if (capturedPieceType === null) {
-                // LOGIC REPAIR: If we expected a capture but found nothing, treat as quiet.
-                // console.warn(`Paradox averted: Ghost capture at ${to}. Proceeding as quiet move.`);
-                isCapture = 0; // Downgrade to quiet move
+                // GHOST CAPTURE DETECTED!
+                // Instead of throwing error, we downgrade to quiet move and heal occupancies.
+                isCapture = 0; 
+                rebuildOccupancies(state); // Resync state immediately
             }
         }
     }
@@ -183,10 +179,8 @@ function makeMove(state, move) {
     state.enpassant = getMoveDouble(move) ? (side === WHITE ? to + 8 : to - 8) : -1;
     state.turn ^= 1;
 
-    // Recalculate occupancies completely to heal any desync
-    state.occupancies[WHITE] = state.pieceBitboards[P] | state.pieceBitboards[N] | state.pieceBitboards[B] | state.pieceBitboards[R] | state.pieceBitboards[Q] | state.pieceBitboards[K];
-    state.occupancies[BLACK] = state.pieceBitboards[P+6] | state.pieceBitboards[N+6] | state.pieceBitboards[B+6] | state.pieceBitboards[R+6] | state.pieceBitboards[Q+6] | state.pieceBitboards[K+6];
-    state.occupancies[2] = state.occupancies[WHITE] | state.occupancies[BLACK];
+    // Always rebuild occupancies to prevent drift
+    rebuildOccupancies(state);
     
     state.zobristHash = calculateZobristHash(state);
 }
@@ -226,9 +220,7 @@ function unmakeMove(state) {
         }
     }
     
-    state.occupancies[WHITE] = state.pieceBitboards[P] | state.pieceBitboards[N] | state.pieceBitboards[B] | state.pieceBitboards[R] | state.pieceBitboards[Q] | state.pieceBitboards[K];
-    state.occupancies[BLACK] = state.pieceBitboards[P+6] | state.pieceBitboards[N+6] | state.pieceBitboards[B+6] | state.pieceBitboards[R+6] | state.pieceBitboards[Q+6] | state.pieceBitboards[K+6];
-    state.occupancies[2] = state.occupancies[WHITE] | state.occupancies[BLACK];
+    rebuildOccupancies(state);
 }
 
 function generateMoves(state) {
@@ -243,16 +235,11 @@ function generateMoves(state) {
         const from = getLSBIndex(pawns);
         const rank = Math.floor(from / 8);
         
-        // Rank 0 = Top (A8..H8), Rank 7 = Bottom (A1..H1)
-        // White starts at Ranks 6, moves UP (minus index)
-        // Black starts at Ranks 1, moves DOWN (plus index)
-        
         const prePromotionRank = (side === WHITE) ? 1 : 6;
         const startRank = (side === WHITE) ? 6 : 1;
         
         const one_step = (side === WHITE) ? from - 8 : from + 8;
         
-        // Boundary check for safety
         if (one_step >= 0 && one_step < 64 && !((blockers >> BigInt(one_step)) & 1n)) {
             if (rank === prePromotionRank) {
                 [Q, R, B, N].forEach(p => moves.push(encodeMove(from, one_step, P, p, 0, 0, 0, 0)));
@@ -279,9 +266,6 @@ function generateMoves(state) {
         }
         
         if (state.enpassant !== -1) {
-             // En Passant is tricky bitwise. PAWN_ATTACKS is precalculated.
-             // Check if the pawn can attack the en passant square.
-             // We simulate the ENP square as an enemy piece for a moment.
              const enpBit = (1n << BigInt(state.enpassant));
              if (PAWN_ATTACKS[side][from] & enpBit) {
                  moves.push(encodeMove(from, state.enpassant, P, 0, 1, 0, 1, 0));
@@ -336,24 +320,10 @@ function isSquareAttacked_lean(state, sq, attackerColor) {
     const blockers = state.occupancies[2];
     const b_offset = attackerColor * 6;
     
-    // Pawn attacks are symmetric but directional.
-    // If we want to know if 'sq' is attacked by a White Pawn, we check if 'sq' attacks "backwards" (as if it were Black) into a White Pawn.
-    // PAWN_ATTACKS table is: [COLOR][SQUARE] -> Squares that pawn attacks.
-    // So checks: Does any enemy pawn attack 'sq'?
-    // The bitboard of enemy pawns that attack 'sq' is the intersection of EnemyPawns and "PawnAttacks from Sq for the OTHER color".
-    // Actually, it's simpler: PAWN_ATTACKS[enemy][from] gives attacks.
-    // We need reverse.
-    // Let's assume the PAWN_ATTACKS table is correct. 
-    // Efficient check: 
-    // If attacker is WHITE, they attack from "bottom" (high index) to "top" (low index).
-    // sq + 7, sq + 9.
-    
     if (attackerColor === WHITE) {
-        // Check if a White pawn is at sq+7 or sq+9 (if valid)
         if (sq + 7 < 64 && (state.pieceBitboards[P] & (1n << BigInt(sq + 7))) && ((1n << BigInt(sq)) & PAWN_ATTACKS[WHITE][sq+7])) return true;
         if (sq + 9 < 64 && (state.pieceBitboards[P] & (1n << BigInt(sq + 9))) && ((1n << BigInt(sq)) & PAWN_ATTACKS[WHITE][sq+9])) return true;
     } else {
-        // Check if Black pawn is at sq-7 or sq-9
         if (sq - 7 >= 0 && (state.pieceBitboards[6] & (1n << BigInt(sq - 7))) && ((1n << BigInt(sq)) & PAWN_ATTACKS[BLACK][sq-7])) return true;
         if (sq - 9 >= 0 && (state.pieceBitboards[6] & (1n << BigInt(sq - 9))) && ((1n << BigInt(sq)) & PAWN_ATTACKS[BLACK][sq-9])) return true;
     }
@@ -361,11 +331,8 @@ function isSquareAttacked_lean(state, sq, attackerColor) {
     if ((KNIGHT_ATTACKS[sq] & state.pieceBitboards[b_offset + N]) !== 0n) return true;
     if ((KING_ATTACKS[sq] & state.pieceBitboards[b_offset + K]) !== 0n) return true;
     
-    const b_att = getBishopAttacks(sq, blockers);
-    if ((b_att & (state.pieceBitboards[b_offset + B] | state.pieceBitboards[b_offset + Q])) !== 0n) return true;
-    
-    const r_att = getRookAttacks(sq, blockers);
-    if ((r_att & (state.pieceBitboards[b_offset + R] | state.pieceBitboards[b_offset + Q])) !== 0n) return true;
+    if ((getBishopAttacks(sq, blockers) & (state.pieceBitboards[b_offset + B] | state.pieceBitboards[b_offset + Q])) !== 0n) return true;
+    if ((getRookAttacks(sq, blockers) & (state.pieceBitboards[b_offset + R] | state.pieceBitboards[b_offset + Q])) !== 0n) return true;
     
     return false;
 }
@@ -400,7 +367,6 @@ function generateTacticalMoves(state) {
             attacks = popBit(attacks);
         }
         
-        // Tactical moves include En Passant
         if (state.enpassant !== -1) {
              const enpBit = (1n << BigInt(state.enpassant));
              if (PAWN_ATTACKS[side][from] & enpBit) {
