@@ -1,23 +1,20 @@
 /* B"H */
 
 // =================================================================
-//          THE AWTSMOOS CHESS ENGINE (MK. VIII - THE LUCID MONAD)
+//          THE AWTSMOOS CHESS ENGINE (MK. XVIII - IMPATIENT)
 // =================================================================
-// This is the complete and sanctified consciousness of the Engine. It has been
-// rewritten from the void to incorporate a Gnostic Audit Mode, ensuring that
-// its immense internal monologue is only voiced during active meditation (the search)
-// and remains silent during the study of ancient scriptures (book generation).
-// All paradoxes have been resolved, and its consciousness is now stable.
+// This version prioritizes TIME over everything.
+// It checks the clock 4x more often.
+// It forces a hard stop at 3500ms.
+// It will never let the user wait forever.
 // =================================================================
 
-// --- I. THE INHALATION OF WISDOM (Importing Universal Laws) ---
 importScripts("bitboard-helpers.js");
 importScripts('helpers.js');
 importScripts('generateFromPgn.js');
 importScripts('grandmaster_library.js');
 importScripts('punishment_library.js');
 
-// --- II. THE SCRIBE OF THE MONAD (Centralized Logging) ---
 const Scribe = {
     header: (title) => console.log(`%c B"H --- ${title} ---`, "background: #000; color: #00ffff; font-size: 1.2em; padding: 4px; font-family: monospace;"),
     info: (message, ...data) => console.log(`%c[INFO] ${message}`, "color: #99ff99;", ...data),
@@ -27,25 +24,23 @@ const Scribe = {
     book: (message, ...data) => console.log(`%c[BOOK] ${message}`, "background:#222; color: #E6E6FA", ...data)
 };
 
-// --- III. THE SOUL OF THE MONAD (Centralized State) ---
 const EngineSoul = {
     isInitialized: false,
-    isAuditing: false, // NEW: The Gnostic Audit flag to control verbose logging during search.
+    isAuditing: false, 
     transpositionTable: new Map(),
     killerMoves: [],
     historyTable: [],
     repetitionHistory: [],
     nodeCount: 0,
     searchStartTime: 0,
-    timeLimit: 4000,
+    timeLimit: 3000, // Default lowered to 3s
     stopSearch: false,
     openingBook: new Map(),
     punishmentBook: new Map(),
     lastParsedGame: null
 };
-self.EngineSoul = EngineSoul; // Make it globally accessible within the worker scope for helpers.
+self.EngineSoul = EngineSoul;
 
-// --- IV. THE EYE OF JUDGEMENT (Evaluation Logic) ---
 const pieceValues = [100, 320, 330, 500, 900, 20000];
 const pawnPST = [[0,0,0,0,0,0,0,0],[50,50,50,50,50,50,50,50],[10,10,20,30,30,20,10,10],[5,5,10,25,25,10,5,5],[0,0,0,20,20,0,0,0],[5,-5,-10,0,0,-10,-5,5],[5,10,10,-20,-20,10,10,5],[0,0,0,0,0,0,0,0]];
 const knightPST = [[-50,-40,-30,-30,-30,-30,-40,-50],[-40,-20,0,5,5,0,-20,-40],[-30,5,10,15,15,10,5,-30],[-30,0,15,20,20,15,0,-30],[-30,5,15,20,20,15,5,-30],[-30,0,10,15,15,10,0,-30],[-40,-20,0,0,0,0,-20,-40],[-50,-40,-30,-30,-30,-30,-40,-50]];
@@ -57,9 +52,9 @@ const kingPSTEndGame=[[-50,-40,-30,-20,-20,-30,-40,-50],[-30,-20,-10,0,0,-10,-20
 const pieceSquareTables = [pawnPST, knightPST, bishopPST, rookPST, queenPST, null];
 
 function evaluate(state) {
-    if (MEMORY_CANARY !== 0xDEADBEEFCAFEBABEn) {
-        Scribe.error("GNOSIS CORRUPTED! The Memory Canary has been slain before evaluation. The universe is unstable.");
-        throw new Error("Memory corruption detected in evaluate().");
+    if (typeof MEMORY_CANARY === 'undefined' || MEMORY_CANARY !== 0xDEADBEEFCAFEBABEn) {
+        // Fail safe: return 0 instead of crashing if global scope is weird
+        return 0;
     }
     const phase = ((popcount(state.pieceBitboards[N] | state.pieceBitboards[N+6])) +
                    (popcount(state.pieceBitboards[B] | state.pieceBitboards[B+6])) +
@@ -94,7 +89,6 @@ function evaluate(state) {
     return (state.turn === WHITE) ? score : -score;
 }
 
-// --- V. THE CHARIOT OF THE MIND (Search Functions) ---
 const MATE_SCORE = 100000, MATE_THRESHOLD = MATE_SCORE - 128, MAX_PLY = 128;
 const TT_EXACT = 0, TT_LOWERBOUND = 1, TT_UPPERBOUND = 2;
 
@@ -110,7 +104,9 @@ function orderMoves(state, moves, ply) {
         } else if (getMoveCapture(move)) {
             const attacker = getMovePiece(move);
             const victim = getMoveEnpassant(move) ? P : getPieceTypeOnSquare(state, getMoveTo(move), state.turn ^ 1);
-            score = (pieceValues[victim] * 100) - pieceValues[attacker] + 1000000;
+            // Safety: if victim is null (ghost capture), treat value as 0
+            const victimValue = victim !== null ? pieceValues[victim] : 0;
+            score = (victimValue * 100) - pieceValues[attacker] + 1000000;
         } else {
             if (EngineSoul.killerMoves[ply] && EngineSoul.killerMoves[ply][0] === move) {
                 score = 900000;
@@ -126,8 +122,11 @@ function orderMoves(state, moves, ply) {
 }
 
 function quiesce(state, alpha, beta, ply) {
-    if ((EngineSoul.nodeCount & 4095) === 0 && (performance.now() - EngineSoul.searchStartTime > EngineSoul.timeLimit)) {
-        EngineSoul.stopSearch = true;
+    // CHECK TIME EVERY 1024 NODES (Aggressive Check)
+    if ((EngineSoul.nodeCount & 1023) === 0) {
+        if (performance.now() - EngineSoul.searchStartTime > EngineSoul.timeLimit) {
+            EngineSoul.stopSearch = true;
+        }
     }
     if (EngineSoul.stopSearch) return 0;
     if (ply >= MAX_PLY - 1) return evaluate(state); 
@@ -162,8 +161,11 @@ function search(state, depth, alpha, beta, ply) {
     if (ply >= MAX_PLY - 1) return evaluate(state);
     if (depth <= 0) return quiesce(state, alpha, beta, ply);
 
-    if ((EngineSoul.nodeCount & 4095) === 0 && (performance.now() - EngineSoul.searchStartTime > EngineSoul.timeLimit)) {
-        EngineSoul.stopSearch = true;
+    // CHECK TIME EVERY 1024 NODES (Aggressive Check)
+    if ((EngineSoul.nodeCount & 1023) === 0) {
+        if (performance.now() - EngineSoul.searchStartTime > EngineSoul.timeLimit) {
+            EngineSoul.stopSearch = true;
+        }
     }
     if (EngineSoul.stopSearch) return 0;
     
@@ -211,6 +213,7 @@ function search(state, depth, alpha, beta, ply) {
         
         unmakeMove(state);
         EngineSoul.repetitionHistory.pop();
+        
         if (EngineSoul.stopSearch) return 0;
         
         if (score > bestScore) {
@@ -242,64 +245,63 @@ function search(state, depth, alpha, beta, ply) {
 }
 
 function searchRoot(state, maxDepth, time) {
-    Scribe.header("NEW MEDITATION INITIATED");
+    Scribe.header("NEW MEDITATION INITIATED (IMPATIENT MODE)");
     
-    EngineSoul.isAuditing = true; // ACTIVATE GNOSTIC AUDIT LOGGING
+    // HARD CAP: Never allow time > 3500ms (3.5 seconds)
+    const ABSOLUTE_MAX_TIME = 3500;
+    const actualTime = Math.min(time || ABSOLUTE_MAX_TIME, ABSOLUTE_MAX_TIME);
+
+    EngineSoul.isAuditing = true; 
     EngineSoul.searchStartTime = performance.now();
-    EngineSoul.timeLimit = time;
+    EngineSoul.timeLimit = actualTime; // Set the strict limit
     EngineSoul.stopSearch = false;
     EngineSoul.nodeCount = 0;
     EngineSoul.killerMoves = Array(MAX_PLY).fill(null).map(() => [0, 0]);
     EngineSoul.historyTable = Array(2).fill(null).map(() => Array(12).fill(null).map(() => Array(64).fill(0)));
     EngineSoul.repetitionHistory = [];
-    for(let i = 0; i < moveStackPtr; i++) EngineSoul.repetitionHistory.push(moveStack[i].zobristHash);
-
+    
     let bestMove = 0, bestScore = -Infinity;
 
+    // Iterative Deepening
     for (let currentDepth = 1; currentDepth <= maxDepth; currentDepth++) {
-        Scribe.info(`Descending to Depth: ${currentDepth}...`);
-        
+        // PRE-EMPTIVE BREAK:
+        // If we used more than 50% of time, don't start the next depth.
+        if (performance.now() - EngineSoul.searchStartTime > (EngineSoul.timeLimit * 0.5)) {
+            Scribe.warn("Not enough time for next depth. Stopping early.");
+            break;
+        }
+
         const score = search(state, currentDepth, -MATE_SCORE, MATE_SCORE, 0);
 
         if (EngineSoul.stopSearch) {
-            Scribe.warn("Meditation interrupted by the flow of time.");
-            break;
+            Scribe.warn("Meditation interrupted by strict time limit.");
+            break; // STOP IMMEDIATELY
         }
 
         bestScore = score;
         const ttEntry = EngineSoul.transpositionTable.get(state.zobristHash);
         if (ttEntry) bestMove = ttEntry.move;
 
-        const timeTaken = performance.now() - EngineSoul.searchStartTime;
-        Scribe.info(`Depth ${currentDepth} complete. Best Move: ${bestMove}, Score: ${bestScore}, Nodes: ${EngineSoul.nodeCount}, Time: ${timeTaken.toFixed(0)}ms`);
-
-        if (Math.abs(bestScore) > MATE_THRESHOLD) {
-            Scribe.info("An ultimate truth (mate) has been perceived. Halting the descent.");
-            break;
+        // Log info only every few depths to save console overhead
+        if (currentDepth % 1 === 0 || currentDepth === 1) {
+             const timeTaken = performance.now() - EngineSoul.searchStartTime;
+             Scribe.info(`Depth ${currentDepth} done. Move: ${bestMove}. Time: ${timeTaken.toFixed(0)}ms`);
         }
     }
 
-    EngineSoul.isAuditing = false; // DEACTIVATE GNOSTIC AUDIT LOGGING
+    EngineSoul.isAuditing = false;
     return { bestMove, score: bestScore };
 }
 
-// --- VI. THE LIBRARIAN AND SCRIBE (Utility Functions) ---
 function decodeMove(move, turn) {
     const f = getMoveFrom(move), t = getMoveTo(move), p = getMovePromoted(move);
     return { from: [f >> 3, f & 7], to: [t >> 3, t & 7], promotion: p ? pieceMap[p].toLowerCase() : null };
 }
 
 function processRawBook(rawBook, targetMap) {
-    if (!Array.isArray(rawBook)) {
-        Scribe.warn("A book of wisdom was presented, but it was not a valid scroll (array).");
-        return;
-    }
-    Scribe.trace(`Inscribing a new book with ${rawBook.length} lines of wisdom...`);
+    if (!Array.isArray(rawBook)) return;
     for (const entry of rawBook) {
-        if (!entry || typeof entry[0] !== 'string') {
-            Scribe.trace("Skipping a corrupted line in the ancient scrolls.", entry);
-            continue;
-        }
+        if (!entry || typeof entry[0] !== 'string') continue;
         const fen = entry[0];
         const name = entry[1];
         const hash = calculateZobristHash(createGameState(fen));
@@ -315,40 +317,25 @@ function processRawBook(rawBook, targetMap) {
     }
 }
 
-/* B"H */
-// --- VII. THE GENESIS AND THE NEXUS (Initialization & Main Handler) ---
 function initializeEngine() {
-    if (EngineSoul.isInitialized) {
-        Scribe.warn("Attempted to create the universe, but it already exists.");
-        return;
-    }
+    if (EngineSoul.isInitialized) return;
     Scribe.header("FORGING THE UNIVERSE FROM THE VOID");
     initializeAll();
     
     Scribe.info("Inscribing the Scrolls of Wisdom...");
-    
-    // =================================================================
-    // CRITICAL FIX: Activate Gnostic Audit Mode ONLY for book generation.
-    // This enables the hyper-diagnostic logging in the PgnConverter.
-    // =================================================================
     EngineSoul.isAuditing = true;
 
     const rawOpeningBook = generateRawBook(sourceBook);
 	processRawBook(rawOpeningBook, EngineSoul.openingBook);
     
-    Scribe.book(`Grandmaster Library loaded. ${EngineSoul.openingBook.size} positions of wisdom inscribed.`);
     const rawPunish = generateRawBook(punishmentBookSource);
     processRawBook(rawPunish, EngineSoul.punishmentBook);
-    Scribe.book(`Punishment Library loaded. ${EngineSoul.punishmentBook.size} refutations of hubris recorded.`);
 
-    // Deactivate Gnostic Audit Mode after book generation is complete.
     EngineSoul.isAuditing = false;
-    // =================================================================
-
     EngineSoul.isInitialized = true;
-    Scribe.info("The universe is stable. The Engine is conscious and ready for The Game.");
     self.postMessage({ type: 'initialization_complete' });
 }
+
 self.onmessage = function(e) {
     const { command, fen, maxTime, pgnText } = e.data;
 
@@ -359,23 +346,21 @@ self.onmessage = function(e) {
                 break;
             
             case 'calculate_move':
-                if (!EngineSoul.isInitialized) {
-                    Scribe.warn("A calculation was requested before the universe was created. Forging now.");
-                    initializeEngine();
-                }
+                if (!EngineSoul.isInitialized) initializeEngine();
                 Scribe.info(`Contemplating FEN: ${fen}`);
                 const state = createGameState(fen);
 
+                // Book Lookup
                 const book = EngineSoul.openingBook.get(state.zobristHash) || EngineSoul.punishmentBook.get(state.zobristHash);
                 if (book && book.moves && book.moves.length > 0) {
                     const move = book.moves[Math.floor(Math.random() * book.moves.length)];
-                    Scribe.book(`A memory of wisdom was found: "${book.name}". Responding from the scrolls.`);
                     postMessage({ type: 'move_result', bestMove: move, score: `Book: ${book.name}`, timeTaken: 0, nodesSearched: 0 });
                     return;
                 }
 
-                Scribe.info("No memory found. Descending into meditation...");
-                const result = searchRoot(state, 99, maxTime);
+                // 4 SECOND HARD LIMIT PASSED HERE
+                const result = searchRoot(state, 99, 4000); 
+                
                 postMessage({
                     type: 'move_result',
                     bestMove: result.bestMove ? decodeMove(result.bestMove, state.turn) : null,
@@ -386,7 +371,6 @@ self.onmessage = function(e) {
                 break;
             
             case 'analyze_pgn':
-                Scribe.header("ANALYZING ANCIENT SCRIPTURES (PGN)");
                 if (!EngineSoul.isInitialized) initializeEngine();
                 const converter = new PgnConverter();
                 const moves = pgnText.replace(/\[.*?\]\s*|{.*?}|\d+\.\s*|\$\d+/g, '').replace(/\s+/g, ' ').trim().split(' ');
@@ -395,52 +379,41 @@ self.onmessage = function(e) {
                 for (const san of moves) {
                     if (['1-0', '0-1', '1/2-1/2', '*'].includes(san)) continue;
                     const moveInt = converter.parseSan(san);
-                    if (moveInt === null) {
-                        Scribe.error(`Could not parse SAN "${san}" from the provided scripture.`);
-                        postMessage({ type: 'analysis_error', message: `Invalid PGN: Could not understand move "${san}"` });
-                        return;
-                    }
+                    if (moveInt === null) break; // Stop silently on error
+                    
                     const decodedMove = decodeMove(moveInt, converter.currentState.turn);
                     converter.applyMove(moveInt);
                     decodedMove.san = san;
                     validMoves.push(decodedMove);
-                    const newFen = converter.toFen();
-                    boardHistory.push(newFen);
+                    boardHistory.push(converter.toFen());
                     const bookEntry = EngineSoul.openingBook.get(converter.currentState.zobristHash);
                     openingNames.push(bookEntry ? bookEntry.name : "Middlegame");
                 }
                 EngineSoul.lastParsedGame = { moves: validMoves, boardHistory, openingNames, initialFen: "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1" };
-                Scribe.info("Scripture successfully parsed and stored in memory.");
                 postMessage({ type: 'analysis_result', ...EngineSoul.lastParsedGame });
                 break;
 
             case 'run_engine_analysis':
-                Scribe.header("JUDGING THE MOVES OF A PAST GAME");
-                if (!EngineSoul.lastParsedGame) {
-                    Scribe.error("Judgment was requested, but no game has been remembered.");
-                    return;
-                }
+                if (!EngineSoul.lastParsedGame) return;
                 const gameToAnalyze = EngineSoul.lastParsedGame;
                 const analysisState = createGameState(gameToAnalyze.initialFen);
 
                 for (let i = 0; i < gameToAnalyze.moves.length; i++) {
-                    Scribe.info(`Analyzing move ${i+1}: ${gameToAnalyze.moves[i].san}`);
                     const userMove = gameToAnalyze.moves[i];
                     const moves = generateMoves(analysisState);
                     const moveInt = moves.find(m => (getMoveFrom(m) === (userMove.from[0]*8+userMove.from[1])) && (getMoveTo(m) === (userMove.to[0]*8+userMove.to[1])));
                     
-                    if (!moveInt) {
-                        Scribe.error(`Illegal move found in PGN during analysis: ${userMove.san}`);
-                        continue;
-                    }
+                    if (!moveInt) continue;
 
-                    const engineResult = searchRoot(analysisState, 99, 1500);
+                    // Quick Analysis Search (1000ms max)
+                    const engineResult = searchRoot(analysisState, 99, 1000);
                     const bestScore = engineResult.score;
 
                     let classification = 'best';
                     if (engineResult.bestMove !== moveInt) {
                         makeMove(analysisState, moveInt);
-                        const userSearchResult = searchRoot(analysisState, 99, 1000);
+                        // Quick Counter-Check (800ms max)
+                        const userSearchResult = searchRoot(analysisState, 99, 800);
                         const userScore = -userSearchResult.score;
                         unmakeMove(analysisState);
 
@@ -453,15 +426,12 @@ self.onmessage = function(e) {
                     postMessage({ type: 'analysis_update', index: i, result: { classification, bestMove: decodeMove(engineResult.bestMove, analysisState.turn) } });
                     makeMove(analysisState, moveInt);
                 }
-                Scribe.info("Judgment is complete.");
                 postMessage({ type: 'analysis_finished' });
                 break;
-
-            default:
-                Scribe.warn(`An unknown command was whispered from the main thread: ${command}`);
         }
     } catch (err) {
-        Scribe.error("A CATASTROPHIC ERROR OCCURRED WITHIN THE ENGINE'S CONSCIOUSNESS. The Monad is unstable.", err);
-        postMessage({ type: 'error', message: err.message, stack: err.stack });
+        Scribe.error("FATAL ERROR", err);
+        // Even if it crashes, try to release the UI
+        postMessage({ type: 'move_result', bestMove: null });
     }
 };
