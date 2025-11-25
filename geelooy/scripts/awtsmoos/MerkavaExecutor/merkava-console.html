@@ -290,16 +290,9 @@ counter;
                     window: window,
                     console: console, 
                     // B"H - Wrapper to debug the Fetch call
-                    fetch: (url) => {
-                        log(`[Host] Intercepted fetch call to: ${url}`, 'log-sys');
-                        return window.fetch(url).then(res => {
-                            log(`[Host] Fetch resolved: ${res.status}`, 'log-sys');
-                            return res;
-                        }).catch(err => {
-                            log(`[Host] Fetch failed: ${err}`, 'log-err');
-                            throw err;
-                        });
-                    }
+                    fetch: window.fetch.bind(window),
+                    // B"H - Give the VM the Laws of Physics
+                    
                 },
                 // B"H - HANDLE IMPORTS
                 importResolver: async (specifier) => {

@@ -337,7 +337,7 @@ export default class Chai extends Tzomayach {
     // Function to update the ray and place/update the block on the ray
     // Function to update the ray and place/update the block on the ray
     
-
+	
     spheres = [];
     updateSpheres(deltaTime) {
         this.spheres.forEach(s => {
@@ -355,6 +355,76 @@ export default class Chai extends Tzomayach {
                 }
             }
         })
+    }
+    
+    
+    particles = [];
+    /**
+     * B"H
+     * Spawns Hebrew letters that explode outward.
+     */
+    spawnHebrewParticles(position, count = 6) {
+        if (!this.olam) return;
+        
+        for (let i = 0; i < count; i++) {
+            // Get a random letter mesh
+            const letter = this.olam.randomLetter();
+            const mesh = this.olam.makeNewHebrewLetter(letter, { 
+                color: this.olam.randomColor() 
+            });
+            
+            if (!mesh) continue;
+
+            // Position at the block center
+            mesh.position.copy(position);
+            
+            // Random velocity
+            const velocity = new THREE.Vector3(
+                (Math.random() - 0.5) * 10,
+                (Math.random() * 5) + 2, // Upward bias
+                (Math.random() - 0.5) * 10
+            );
+
+            // Random Rotation speed
+            const rotSpeed = new THREE.Vector3(
+                Math.random() - 0.5, 
+                Math.random() - 0.5, 
+                Math.random() - 0.5
+            );
+
+            this.olam.scene.add(mesh);
+            
+            this.particles.push({
+                mesh,
+                velocity,
+                rotSpeed,
+                life: 1.0 // Seconds
+            });
+        }
+    }
+
+    updateParticles(dt) {
+        for (let i = this.particles.length - 1; i >= 0; i--) {
+            const p = this.particles[i];
+            p.life -= dt;
+            
+            if (p.life <= 0) {
+                p.mesh.removeFromParent();
+                this.particles.splice(i, 1);
+                continue;
+            }
+
+            // Physics
+            p.velocity.y -= 20 * dt; // Gravity
+            p.mesh.position.addScaledVector(p.velocity, dt);
+            p.mesh.rotation.x += p.rotSpeed.x;
+            p.mesh.rotation.y += p.rotSpeed.y;
+            p.mesh.rotation.z += p.rotSpeed.z;
+            
+            // Shrink
+            const scale = p.life; // 1 to 0
+            p.mesh.scale.setScalar(scale * 0.5); // Base size 0.5
+        }
     }
 
     makeSphere(letter, options={}) {
@@ -474,7 +544,7 @@ export default class Chai extends Tzomayach {
 
         // 4. EXECUTE COLLECTION
         console.log("B\"H - Collecting Object:", object.name, itemData);
-        
+        this.spawnHebrewParticles(object.position); 
         this.inventory.addItem(itemData, 1);
 
         if (object.nivraAwtsmoos) {
@@ -625,12 +695,23 @@ export default class Chai extends Tzomayach {
     
     /**
      * B"H
-     * Gets the starting position of the ray in world space.
-     * @returns {THREE.Vector3}
+     * Gets the starting position of the ray.
+     * In 3rd person, starts from the character model (matching the red line).
      */
     getRayStart() {
-        // Starts the ray from the top of the character's collider.
-        return this.collider.end.clone();
+        if (this.olam && this.olam.ayin && this.olam.ayin.isFPS) {
+            // FPS: Start from Camera (Eyes)
+            const pos = new THREE.Vector3();
+            this.olam.ayin.camera.getWorldPosition(pos);
+            pos.y -= 0.1; 
+            return pos;
+        } else {
+            // 3rd Person: Start from Character (Chest/Head)
+            // This matches where the red ray visually attaches.
+            const pos = this.collider.end.clone();
+            pos.y -= 0.4; // Adjust to match typical arm/chest height
+            return pos;
+        }
     }
 
     /**
@@ -689,28 +770,25 @@ export default class Chai extends Tzomayach {
 
     /**
      * B"H
-     * Calculates the "forward" direction for the ray.
-     * FIXED: Allows vertical aiming (Y-axis) so you can hit blocks below/above you.
+     * Gets the direction of the ray.
+     * FIXED: In 3rd person, uses the Character's facing direction (matching the red line).
      */
     getRayDirection() {
         const direction = new THREE.Vector3();
-        if (this.olam.ayin.isFPS) {
-            // In FPS, use the camera's exact look direction
+        
+        if (this.olam && this.olam.ayin && this.olam.ayin.isFPS) {
+            // FPS: Aim with Camera
             this.olam.ayin.camera.getWorldDirection(direction);
         } else {
-            // In 3rd person, we still want to raycast somewhat towards where the camera is looking,
-            // otherwise it's very hard to aim. 
-            // For now, we stick to the model's forward, but we allow pitch if possible,
-            // or fallback to a hybrid approach. 
-            // Simplest fix for collection: Use camera direction for collection even in 3rd person?
-            // No, let's stick to model rotation but allow verticality if the model has it.
-            
-            // BETTER FIX: For collection/interaction, ALWAYS use the camera look direction.
-            // It feels much more natural to click on what you see.
-            this.olam.ayin.camera.getWorldDirection(direction);
+            // 3rd Person: Aim with Character Body
+            // The ray is attached to the model, so we must raycast in the model's forward direction.
+            const forward = new THREE.Vector3(0, 0, 1);
+            if (this.modelMesh) {
+                forward.applyQuaternion(this.modelMesh.quaternion);
+            }
+            direction.copy(forward);
         }
         
-        // REMOVED: direction.y = 0;  <-- This was the bug!
         return direction.normalize();
     }
 
@@ -858,6 +936,8 @@ export default class Chai extends Tzomayach {
             interactable: true,
             name: "BH_permanent_block_" + Date.now()
         });
+        
+        this.spawnHebrewParticles(worldPosition);
 
         // If we ran out of items (activeItem is now null or removed), remove the preview
         if (!this.getActiveItem()) {
@@ -977,14 +1057,13 @@ export default class Chai extends Tzomayach {
     /**
      * B"H
      * Highlights blocks using Octree Physics.
-     * FIXED: Handles Mesh with Multiple Materials (Arrays).
+     * FIXED: Only runs if the Ray is actually ACTIVE.
      */
     updateBlockHighlight() {
         // 1. Cleanup previous highlight
         if (this.currentHighlighted) {
             const mesh = this.currentHighlighted;
             
-            // Helper to restore one material
             const restoreMat = (mat, saved) => {
                 if (mat && saved && mat.emissive) {
                     mat.emissive.copy(saved);
@@ -992,13 +1071,20 @@ export default class Chai extends Tzomayach {
             };
 
             if (Array.isArray(mesh.material) && Array.isArray(mesh.savedEmissives)) {
-                mesh.material.forEach((m, i) => restoreMat(m, mesh.savedEmissives[i]));
+                mesh.material.forEach((m, i) => {
+                    if(mesh.savedEmissives[i]) restoreMat(m, mesh.savedEmissives[i]);
+                });
             } else if (mesh.material && mesh.savedEmissive) {
                 restoreMat(mesh.material, mesh.savedEmissive);
             }
             
             this.currentHighlighted = null;
+            this.currentHighlightedSavedEmissives = null;
         }
+
+        // --- B"H FIX: STOP if ray is not active ---
+        if (!this.activeRay) return;
+        // -----------------------------------------
 
         const item = this.getActiveItem();
         if (!item || item.className !== 'Tool') return;
@@ -1010,44 +1096,32 @@ export default class Chai extends Tzomayach {
         const hit = this.olam.worldOctree.rayIntersect(ray);
 
         if (hit && hit.distance < 15 && hit.object) {
-            let entity = hit.object;
-            let visualMesh = hit.object;
+            const visualMesh = hit.object;
 
-            // Climb
-            while(entity && entity !== this.olam.nivrayimGroup) {
-                if(entity.userData && (entity.userData.itemData || entity.userData.isSolid)) {
-                    break;
+            if (!visualMesh.isMesh || !visualMesh.material) return;
+
+            this.currentHighlighted = visualMesh;
+            
+            const highlightMat = (mat) => {
+                if (mat && mat.emissive) {
+                    return mat.emissive.clone();
                 }
-                entity = entity.parent;
-            }
+                return null;
+            };
 
-            if (entity && entity !== this.olam.nivrayimGroup) {
-                this.currentHighlighted = visualMesh;
-                
-                // Helper to highlight one material
-                const highlightMat = (mat) => {
-                    if (mat && mat.emissive) {
-                        return mat.emissive.clone(); // Save old color
-                    }
-                    return null;
-                };
-
-                if (Array.isArray(visualMesh.material)) {
-                    // Handle Array of Materials
-                    if (!visualMesh.savedEmissives) {
-                        visualMesh.savedEmissives = visualMesh.material.map(highlightMat);
-                    }
-                    visualMesh.material.forEach(m => {
-                        if(m.emissive) m.emissive.setHex(0xff0000);
-                    });
-                } else {
-                    // Handle Single Material
-                    if (!visualMesh.savedEmissive) {
-                        visualMesh.savedEmissive = highlightMat(visualMesh.material);
-                    }
-                    if (visualMesh.material.emissive) {
-                        visualMesh.material.emissive.setHex(0xff0000);
-                    }
+            if (Array.isArray(visualMesh.material)) {
+                if (!visualMesh.savedEmissives) {
+                    visualMesh.savedEmissives = visualMesh.material.map(highlightMat);
+                }
+                visualMesh.material.forEach(m => {
+                    if(m.emissive) m.emissive.setHex(0xff0000);
+                });
+            } else {
+                if (!visualMesh.savedEmissive) {
+                    visualMesh.savedEmissive = highlightMat(visualMesh.material);
+                }
+                if (visualMesh.material.emissive) {
+                    visualMesh.material.emissive.setHex(0xff0000);
                 }
             }
         }
@@ -1086,6 +1160,7 @@ export default class Chai extends Tzomayach {
         this.updateRayColor();      // Color the ray beam
         this.updateHandState();     // Manage ghost block
         this.updateBlockHighlight();// Manage red glow on existing blocks
+        this.updateParticles(deltaTime);
         // -------------------------------------
 
 	// --- 1. PRE-MOVEMENT GROUND CHECK (Your original code) ---

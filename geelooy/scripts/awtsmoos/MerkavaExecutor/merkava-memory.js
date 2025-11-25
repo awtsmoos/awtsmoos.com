@@ -146,29 +146,29 @@
         /**
          * @sync
          * Get an object from memory.
-         * 
-         * THE CORE LOGIC:
-         * 1. Check RAM.
-         * 2. If found -> Move to end of Map (LRU update) -> Return.
-         * 3. If missing -> THROW PageFault.
-         * 
          * @param {number} ptr - The pointer ID.
          * @returns {object} The stored value.
          * @throws {PageFault} If data is on disk.
          */
         get(ptr) {
-            if (ptr === 0) return null; // Null pointer
+            // B"H - Safety Check
+            if (ptr === 0 || ptr === null) return null; 
+            
+            if (typeof ptr !== 'number') {
+                // If the VM requests a non-number (like undefined), it's a Logic Error, not a Disk Error.
+                // Throwing a standard Error here prevents the Page Fault handler from crashing IDB.
+                throw new Error(`[VMM] Segmentation Fault: Invalid Pointer Access (${String(ptr)})`);
+            }
 
             if (this.ram.has(ptr)) {
                 const val = this.ram.get(ptr);
-                // Refresh LRU: delete and re-set moves it to the "end" (most recently used)
+                // Refresh LRU
                 this.ram.delete(ptr);
                 this.ram.set(ptr, val);
                 return val;
             }
 
-            // If not in RAM, we assume it *might* be on disk.
-            // We cannot verify synchronously. We MUST throw to pause the VM.
+            // Only throw Page Fault if it's a valid number
             throw { type: "PAGE_FAULT", ptr: ptr };
         }
 

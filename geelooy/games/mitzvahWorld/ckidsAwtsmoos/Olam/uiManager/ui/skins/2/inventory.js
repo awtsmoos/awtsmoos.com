@@ -2,34 +2,49 @@
 
 export default /*css*/`
 	.awtsmoosInventoryViewer {
-		/* Positioning and basic appearance */
-		position: absolute; /* Changed from fixed to absolute for better centering within game UI */
+		position: absolute; 
 		left: 50%;
 		top: 50%;
 		transform: translate(-50%, -50%);
 		padding: 10px;
-		background: rgba(30, 30, 80, 0.8); /* A darker, semi-transparent blue */
+		background: rgba(30, 30, 80, 0.9); 
 		border: 5px solid black;
 		border-radius: 10px;
 		
-		/* --- NEW: Flexbox layout for the main window --- */
 		display: flex;
-		flex-direction: column; /* Stack header and slots vertically */
-		gap: 10px; /* Space between header and slots */
-		width: 420px; /* Set a fixed width for the window */
-		max-height: 80vh; /* Limit the max height */
+		flex-direction: column; 
+		gap: 10px; 
+		width: 80vw;
+		height: 80vh; /* Fixed height relative to screen */
+        max-height: 600px;
 	}
 
+	.awtsmoosInventoryViewer .ctx-btn {
+		background: none;
+                border: none;
+                color: white;
+                textAlign: left;
+                cursor: pointer;
+                padding: 8px;
+                border-bottom: 1px solid #444;
+                font-size: 14px
+	}
+	.awtsmoosInventoryViewer .ctx-btn.close {
+		border-bottom: none;
+	}
+	
+	
 	.awtsmoosInventoryViewer .header {
 		display: flex;
 		flex-direction: row;
 		justify-content: space-between;
-		align-items: center; /* Vertically center header items */
+		align-items: center; 
 		color: white;
 		font-family: Fredoka One, sans-serif;
 		font-size: 20px;
 		padding-bottom: 5px;
 		border-bottom: 2px solid #4435B2;
+        flex-shrink: 0; /* Prevent header from shrinking */
 	}
 
 	.awtsmoosInventoryViewer .header .close {
@@ -46,27 +61,49 @@ export default /*css*/`
 		color: white;
 	}
 
-	.awtsmoosInventoryViewer .header 
-	.close:hover {
+	.awtsmoosInventoryViewer .header .close:hover {
 		background: orange;
 		cursor: pointer;
 	}
 
-	.awtsmoosInventoryViewer .slots {
-		/* --- NEW: Grid layout for the slots --- */
-		display: grid;
-		grid-template-columns: repeat(auto-fill, minmax(60px, 1fr)); /* Creates a responsive grid of columns */
-		gap: 8px; /* Space between each slot */
-		
-		/* Scrolling and size */
-		overflow-y: auto; /* Allow vertical scrolling if slots overflow */
-		padding: 10px;
+    /* --- NEW LAYOUT STRUCTURE --- */
+
+    .inventory-body {
+        display: flex;
+        gap: 10px;
+        height: 100%;
+        overflow: hidden; /* Prevents body from expanding */
+    }
+
+    .equip-slots-holder {
+        width: 70px;
+        display: flex;
+        flex-direction: column;
+        border-right: 1px solid #555;
+        padding-right: 5px;
+        overflow-y: auto;
+        flex-shrink: 0;
+    }
+
+    .main-slots-holder {
+        flex-grow: 1;
         background-color: rgba(0,0,0,0.3);
         border-radius: 5px;
+        padding: 5px;
+        overflow-y: auto; /* The Scrollbar happens HERE */
+        height: 100%;
+    }
+
+	.awtsmoosInventoryViewer .slots {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(60px, 1fr)); 
+		gap: 8px; 
+        width: 100%;
+        /* No overflow here, let the holder handle it */
 	}
 
-	/* Individual Slot Styling (from your action bar CSS) */
-	.slots .actionSlot {
+	/* Individual Slot Styling */
+	.slots .actionSlot, .equipment-slots .equip-slot {
 		width: 60px;
 		height: 60px;
 		background-color: #444;
@@ -75,7 +112,7 @@ export default /*css*/`
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		position: relative; /* Needed for positioning the quantity text */
+		position: relative; 
 	}
 
 	.slots .innerSlot {
@@ -83,7 +120,7 @@ export default /*css*/`
 		height: 90%;
 		background-color: #777;
 		border-radius: 4px;
-		position: relative; /* Also needed for quantity text */
+		position: relative; 
 	}
 
 	.slots .actionSlot.occupied:hover {
@@ -96,11 +133,10 @@ export default /*css*/`
 	}
 	
 	.innerSlot.selected {
-		outline: 3px solid #FFD700; /* Gold outline for selected item */
+		outline: 3px solid #FFD700; 
     	box-shadow: 0 0 10px #FFD700;
 	}
 
-    /* Style for the item icon */
     .slotBtn {
         width: 100%;
         height: 100%;
@@ -109,7 +145,6 @@ export default /*css*/`
         background-repeat: no-repeat;
     }
 
-    /* Style for the quantity text */
     .slotQuantity {
         position: absolute;
         bottom: 2px;
@@ -119,5 +154,12 @@ export default /*css*/`
         font-size: 14px;
         text-shadow: 1px 1px 2px black;
         pointer-events: none;
+    }
+    
+    .equipment-slots {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        align-items: center;
     }
 `;

@@ -329,24 +329,28 @@
                     break;
                 }
 
+                
+                
+                
+                
+                
                 case OPCODES.GET_PROP: {
                     const key = thread.stack.pop();
                     const objPtr = thread.stack.pop();
                     
-                    // Check if objPtr is actually a Host Object (not a pointer number)
-                    if (typeof objPtr === 'object' && objPtr !== null) {
-                        // It's a Native JS Object (from hostContext)
+                    // B"H - Check if it is a Host Object OR a Host Function (like Float32Array)
+                    if ((typeof objPtr === 'object' && objPtr !== null) || typeof objPtr === 'function') {
+                        // Native JS Access
                         const val = objPtr[key];
                         
-                        // If the result is a function, we must bind it to the parent
-                        // so 'document.getElementById' works (it needs 'this' as document)
+                        // Bind methods to their parent (e.g. document.getElementById)
                         if (typeof val === 'function') {
                             thread.stack.push(val.bind(objPtr));
                         } else {
                             thread.stack.push(val);
                         }
                     } else {
-                        // Standard VM Object
+                        // VM Internal Memory Access
                         const obj = this.memory.get(objPtr);
                         thread.stack.push(obj[key]);
                     }
@@ -358,12 +362,13 @@
                     const key = thread.stack.pop();
                     const objPtr = thread.stack.pop();
                     
-                    if (typeof objPtr === 'object' && objPtr !== null) {
-                        // Native DOM/JS Object modification
+                    // B"H - Check if it is a Host Object OR a Host Function
+                    if ((typeof objPtr === 'object' && objPtr !== null) || typeof objPtr === 'function') {
+                        // Native JS Modification
                         objPtr[key] = val;
                         thread.stack.push(val);
                     } else {
-                        // Standard VM Object
+                        // VM Internal Memory Modification
                         const obj = this.memory.get(objPtr);
                         obj[key] = val;
                         this.memory.set(objPtr, obj);
@@ -475,22 +480,18 @@
                 case OPCODES.AWAIT: {
                     const promise = thread.stack.pop();
                     
-                    // Check if it's actually a promise
                     if (promise && typeof promise.then === 'function') {
                         thread.status = VM_THREAD_STATUS.BLOCKED_ASYNC;
                         
-                        // Suspend!
                         promise.then(result => {
-                            // Resume Callback
                             thread.stack.push(result);
                             thread.status = VM_THREAD_STATUS.RUNNING;
                         }).catch(err => {
-                            // Error handling (simplified)
-                            console.error("[VM] Async Error", err);
-                            thread.status = VM_THREAD_STATUS.CRASHED;
+                            // B"H - Route Async Errors to the central Interrupt Handler
+                            // We must use an arrow function to preserve 'this'
+                            this._handleInterrupt(thread, err); 
                         });
                     } else {
-                        // Not a promise? Just continue.
                         thread.stack.push(promise);
                     }
                     break;
@@ -571,6 +572,33 @@
                     }
                     break;
                 }
+                
+                
+                // --- 0x60: UNARY OPS ---
+                case OPCODES.TYPEOF: {
+                    const val = thread.stack.pop();
+                    thread.stack.push(typeof val);
+                    break;
+                }
+                case OPCODES.NOT: {
+                    const val = thread.stack.pop();
+                    thread.stack.push(!val);
+                    break;
+                }
+                case OPCODES.NEGATE: {
+                    const val = thread.stack.pop();
+                    thread.stack.push(-val);
+                    break;
+                }
+
+                // --- 0x90: EXCEPTIONS ---
+                case OPCODES.THROW: {
+                    const error = thread.stack.pop();
+                    // B"H - Throwing a JS error here triggers the VM's _handleInterrupt
+                    // which we just patched to report the crash to the UI.
+                    throw new Error(error); 
+                }
+                
 
                 default:
                     throw new Error(`Unknown Opcode: 0x${opcode.toString(16)} at IP: ${thread.ip - 1}`);
@@ -583,49 +611,28 @@
          */
         _handleInterrupt(thread, error) {
             if (isPageFault(error)) {
-                // PAGE FAULT!
-                // 1. Mark thread as waiting
+                // Page Fault handling (Keep existing logic)
                 thread.status = VM_THREAD_STATUS.WAITING_FOR_PAGE;
-                // 2. Backtrack instruction pointer so we retry instruction upon resume
-                // (Simple V1: assume 1-byte opcode logic, might need precise decrement based on opcode size)
-                // Better: The instruction failed BEFORE modifying IP significantly? 
-                // Actually, we incremented IP after fetch. We need to undo that.
-                // But opcodes have operands... 
-                // STRATEGY: Just reset IP to where it was before the step?
-                // Note: This requires saving `prevIP` before step.
-                // Fix: We rely on the fact that `memory.get` happens before side effects.
-                // We need to restart the instruction.
-                // Hack: We assume standard opcodes.
-                
-                // Let's trigger the async load
                 this.memory.resolveFault(error.ptr).then(success => {
                     if (success) {
-                        // Rewind IP?
-                        // This is tricky without a map of instruction lengths.
-                        // ALTERNATIVE: The Thread object should track `currentOpIP`.
-                        // Let's assume we add that later.
-                        // For now, assuming we caught it inside the opcode execution:
-                        // We just decrement IP by 1? No, some ops read args.
-                        
-                        // CORRECT FIX: Don't increment IP until AFTER execution success?
-                        // Or store `lastIP` in Thread.
-                        
-                        // RECOVERY:
-                        // thread.ip = thread.lastIP; 
-                        // thread.status = RUNNING;
-                        
-                        // For this example code to run, we assume a simple rewind:
-                        thread.ip -= 1; // Simple rewind for 1-byte opcodes (dangerous but placeholder)
+                        thread.ip -= 1; // Retry instruction
                         thread.status = VM_THREAD_STATUS.RUNNING;
                     } else {
-                        thread.status = VM_THREAD_STATUS.CRASHED;
-                        console.error("Segfault: Pointer not found on disk.");
+                        this._handleInterrupt(thread, "Segfault: Pointer not found on disk.");
                     }
                 });
                 return;
             }
 
-            console.error(`[VM] Thread #${thread.id} CRASHED:`, error);
+            // B"H - CRASH REPORTING
+            // Send the error to the Host API (Syscall 0 = Print) so the user sees it in the UI
+            const msg = `[VM] Thread #${thread.id} CRASHED: ${error.message || error}`;
+            console.error(msg); // Keep browser log
+            
+            if (this.hostAPI && this.hostAPI[0]) {
+                this.hostAPI[0]("CRITICAL VM ERROR:", msg);
+            }
+
             thread.status = VM_THREAD_STATUS.CRASHED;
         }
 

@@ -146,6 +146,9 @@
             if (!node) return;
 
             switch (node.type) {
+            
+            
+	            case 'ThrowStatement': this._visitThrow(node); break;
 	            case 'ImportDeclaration': this._visitImport(node); break;
                 case 'ExportNamedDeclaration': this._visitExport(node); break;
                 
@@ -188,7 +191,7 @@
             // Simple deduplication could go here
             const index = this.constants.length;
             this.constants.push(value);
-            return index;
+            return index; 
         }
 
         _emitConstant(value) {
@@ -198,7 +201,12 @@
         }
 
         // --- VISITORS ---
-
+	
+	_visitThrow(node) {
+            this._visit(node.argument); // Compile the error message/object
+            this.buffer.write8(OPCODES.THROW); // Emit the THROW opcode
+        }
+        
 	_visitImport(node) {
             // B"H - Maps "import x from 'y'" to SYSCALL(1, 'y')
             // Note: This is a simplified import that just loads the module side-effects 
