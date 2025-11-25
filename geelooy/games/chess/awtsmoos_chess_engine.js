@@ -245,52 +245,86 @@ function search(state, depth, alpha, beta, ply) {
 }
 
 function searchRoot(state, maxDepth, time) {
-    Scribe.header("NEW MEDITATION INITIATED (IMPATIENT MODE)");
+    Scribe.header("NEW MEDITATION INITIATED (STRICT TIME CONTROL)");
     
-    // HARD CAP: Never allow time > 3500ms (3.5 seconds)
-    const ABSOLUTE_MAX_TIME = 3500;
-    const actualTime = Math.min(time || ABSOLUTE_MAX_TIME, ABSOLUTE_MAX_TIME);
-
+    // 1. Setup Time Management
+    // We leave a 50ms buffer to ensure we post the message back to the UI smoothly.
+    const ABSOLUTE_MAX_TIME = Math.min(time || 3000, 3500);
+    
+    // 2. Reset Engine State
     EngineSoul.isAuditing = true; 
     EngineSoul.searchStartTime = performance.now();
-    EngineSoul.timeLimit = actualTime; // Set the strict limit
+    EngineSoul.timeLimit = ABSOLUTE_MAX_TIME;
     EngineSoul.stopSearch = false;
     EngineSoul.nodeCount = 0;
+    
+    // Reset Heuristics
+    // Note: In a full engine we usually age history rather than clearing it, 
+    // but for this specific request we reset to keep it consistent with your previous code.
     EngineSoul.killerMoves = Array(MAX_PLY).fill(null).map(() => [0, 0]);
     EngineSoul.historyTable = Array(2).fill(null).map(() => Array(12).fill(null).map(() => Array(64).fill(0)));
     EngineSoul.repetitionHistory = [];
-    
-    let bestMove = 0, bestScore = -Infinity;
 
-    // Iterative Deepening
+    // 3. Failsafe: Generate all moves immediately. 
+    // If we have 0 time or crash immediately, we return a random legal move rather than null.
+    const legalMoves = generateMoves(state);
+    if (legalMoves.length === 0) return { bestMove: null, score: 0 }; // Checkmate or Stalemate logic handles this elsewhere usually
+    
+    // Default to the first logical move in case Depth 1 fails (rare)
+    let rootBestMove = legalMoves[0];
+    let rootBestScore = -Infinity;
+
+    // 4. Iterative Deepening
     for (let currentDepth = 1; currentDepth <= maxDepth; currentDepth++) {
-        // PRE-EMPTIVE BREAK:
-        // If we used more than 50% of time, don't start the next depth.
-        if (performance.now() - EngineSoul.searchStartTime > (EngineSoul.timeLimit * 0.5)) {
-            Scribe.warn("Not enough time for next depth. Stopping early.");
+        
+        // TIME CHECK A: PRE-EMPTIVE
+        // If we have already used more than 60% of our allocated time, 
+        // it is statistically unlikely we will finish the *next* deeper depth.
+        // Better to stop now and return a fully calculated result.
+        if (performance.now() - EngineSoul.searchStartTime > (EngineSoul.timeLimit * 0.60)) {
+            Scribe.info(`Stopping before Depth ${currentDepth} (Time Management predicted timeout).`);
             break;
         }
 
+        // 5. The Search
+        // We capture the score, but we don't trust it yet.
         const score = search(state, currentDepth, -MATE_SCORE, MATE_SCORE, 0);
 
+        // 6. TIME CHECK B: POST-MORTEM (The "Safety Latch")
+        // If the engine raised the white flag (stopSearch) during the calculation,
+        // the returned 'score' is garbage (likely 0 or alpha). 
+        // We MUST discard this depth's data.
         if (EngineSoul.stopSearch) {
-            Scribe.warn("Meditation interrupted by strict time limit.");
-            break; // STOP IMMEDIATELY
+            Scribe.warn(`Depth ${currentDepth} aborted by timer. Discarding partial results.`);
+            break; 
         }
 
-        bestScore = score;
+        // 7. Secure the Result
+        // Since stopSearch is false, this depth completed fully. We trust this data.
+        rootBestScore = score;
+        
+        // Retrieve the move from the Transposition Table for this position
         const ttEntry = EngineSoul.transpositionTable.get(state.zobristHash);
-        if (ttEntry) bestMove = ttEntry.move;
-
-        // Log info only every few depths to save console overhead
-        if (currentDepth % 1 === 0 || currentDepth === 1) {
-             const timeTaken = performance.now() - EngineSoul.searchStartTime;
-             Scribe.info(`Depth ${currentDepth} done. Move: ${bestMove}. Time: ${timeTaken.toFixed(0)}ms`);
+        if (ttEntry && ttEntry.move) {
+            rootBestMove = ttEntry.move;
         }
+
+        // 8. Log Progress (Optional: Only log significant depths to reduce console lag)
+        const timeTaken = (performance.now() - EngineSoul.searchStartTime).toFixed(0);
+        
+        // If we found a forced mate, stop immediately, no need to search deeper.
+        if (score > MATE_THRESHOLD || score < -MATE_THRESHOLD) {
+             Scribe.book(`Mate found at Depth ${currentDepth}. Stopping.`);
+             break;
+        }
+        
+        Scribe.info(`Depth ${currentDepth} complete. Move: ${decodeMove(rootBestMove, state.turn).from} -> ${decodeMove(rootBestMove, state.turn).to} | Score: ${score} | Time: ${timeTaken}ms`);
     }
 
     EngineSoul.isAuditing = false;
-    return { bestMove, score: bestScore };
+    
+    // Return the best move found in the LAST COMPLETED depth
+    return { bestMove: rootBestMove, score: rootBestScore };
 }
 
 function decodeMove(move, turn) {
