@@ -699,7 +699,7 @@ export default class Chossid extends Medabeir {
 	        className: 'Stairs',
 	        name: 'Extremely Grand Staircase',
 	        description: 'A extreme tall 8x40x80 staircase',
-	        dimensions: { x: 8, y: 40, z: 8 } 
+	        dimensions: { x: 8, y: 40, z: 80 } 
 	    }, 50);
         
     }
