@@ -100,6 +100,7 @@
          */
         run(cycles = 1000) {
             let cyclesRun = 0;
+            let idlePasses = 0; // B"H - Detect if all threads are sleeping
 
             while (cyclesRun < cycles && this.threads.length > 0) {
                 // Scheduler: Round Robin
@@ -111,13 +112,24 @@
                     thread.status === VM_THREAD_STATUS.CRASHED) {
                     this.threads.splice(this.activeThreadIndex, 1);
                     this.activeThreadIndex--; // Adjust index
+                    // Reset idle counter because thread list changed
+                    idlePasses = 0;
                     continue;
                 }
 
-                // Skip blocked threads
+                // Check blocked status
                 if (thread.status !== VM_THREAD_STATUS.RUNNING) {
+                    idlePasses++;
+                    // B"H - If we have checked every thread and ALL are blocked, 
+                    // we must YIELD to the browser event loop to let Promises resolve.
+                    if (idlePasses >= this.threads.length) {
+                        break; // Exit the loop for this frame
+                    }
                     continue;
                 }
+
+                // If we found a runnable thread, reset idle counter
+                idlePasses = 0;
 
                 try {
                     this._step(thread);
@@ -127,7 +139,8 @@
                 }
             }
             
-            return this.threads.length > 0; // Return true if still working
+            // Return true if we still have threads (alive), so the SDK keeps ticking
+            return this.threads.length > 0;
         }
 
         /**
@@ -275,10 +288,17 @@
                 case OPCODES.LOAD_GLOBAL: {
                     const nameIdx = this._readInt16(thread);
                     const name = thread.constants[nameIdx];
-                    // Global scope is ptr 1
+                    
                     const globalScope = this.memory.get(1); 
-                    if (!(name in globalScope)) throw new Error(`ReferenceError: ${name} is not defined`);
-                    thread.stack.push(globalScope[name]);
+                    
+                    if (name in globalScope) {
+                        thread.stack.push(globalScope[name]);
+                    } else if (name in this.hostContext) {
+                        // B"H - Bridge to Host Context
+                        thread.stack.push(this.hostContext[name]);
+                    } else {
+                        throw new Error(`ReferenceError: ${name} is not defined`);
+                    }
                     break;
                 }
 
@@ -312,23 +332,43 @@
                 case OPCODES.GET_PROP: {
                     const key = thread.stack.pop();
                     const objPtr = thread.stack.pop();
-                    const obj = this.memory.get(objPtr); // Can THROW PageFault
-                    thread.stack.push(obj[key]);
+                    
+                    // Check if objPtr is actually a Host Object (not a pointer number)
+                    if (typeof objPtr === 'object' && objPtr !== null) {
+                        // It's a Native JS Object (from hostContext)
+                        const val = objPtr[key];
+                        
+                        // If the result is a function, we must bind it to the parent
+                        // so 'document.getElementById' works (it needs 'this' as document)
+                        if (typeof val === 'function') {
+                            thread.stack.push(val.bind(objPtr));
+                        } else {
+                            thread.stack.push(val);
+                        }
+                    } else {
+                        // Standard VM Object
+                        const obj = this.memory.get(objPtr);
+                        thread.stack.push(obj[key]);
+                    }
                     break;
                 }
 
                 case OPCODES.SET_PROP: {
                     const val = thread.stack.pop();
-                    // Backtracked in compiler order: Obj, Key, Val. But stack is LIFO.
-                    // If compiler pushed Obj, Key, Val...
-                    // Pop Val -> Pop Key -> Pop Obj.
                     const key = thread.stack.pop();
                     const objPtr = thread.stack.pop();
                     
-                    const obj = this.memory.get(objPtr); // Can THROW PageFault
-                    obj[key] = val;
-                    this.memory.set(objPtr, obj); // Mark dirty
-                    thread.stack.push(val); // Assignment returns value
+                    if (typeof objPtr === 'object' && objPtr !== null) {
+                        // Native DOM/JS Object modification
+                        objPtr[key] = val;
+                        thread.stack.push(val);
+                    } else {
+                        // Standard VM Object
+                        const obj = this.memory.get(objPtr);
+                        obj[key] = val;
+                        this.memory.set(objPtr, obj);
+                        thread.stack.push(val);
+                    }
                     break;
                 }
 
@@ -375,64 +415,59 @@
                 case OPCODES.CALL: {
                     const argCount = this._readUint8(thread);
                     
-                    // Args are on stack. Then 'This'. Then Func.
-                    // We need to peel them off.
-                    // Stack: [Func, This, Arg1, Arg2] (Top)
-                    
-                    // Snapshot stack for restoring after return (minus args/func)
-                    // Slice end is - (argCount + 2)
+                    // 1. Snapshot Stack (for VM functions)
+                    // We slice off the args + this + func
                     const prevStack = thread.stack.slice(0, thread.stack.length - (argCount + 2));
                     
+                    // 2. Extract Arguments (LIFO -> FIFO)
                     const args = [];
                     for(let i=0; i<argCount; i++) args.unshift(thread.stack.pop());
+                    
                     const thisVal = thread.stack.pop();
                     const funcPtr = thread.stack.pop();
                     
-                    const funcObj = this.memory.get(funcPtr);
-                    if (!funcObj) {
-                         throw new Error(`Type Error: Call target ${funcPtr} is not a function or is null.`);
-                    }
-                    // Native Host Call?
-                    if (typeof funcObj === 'function') {
-                        const res = funcObj.apply(thisVal, args);
-                        thread.stack = prevStack;
-                        thread.stack.push(res);
-                        break;
+                    // B"H - CRITICAL FIX FOR HOST FUNCTIONS
+                    // If funcPtr is a native function (from Host Context), use it directly.
+                    // Otherwise, treat it as a pointer and ask Memory.
+                    let funcObj;
+                    if (typeof funcPtr === 'function') {
+                        funcObj = funcPtr;
                     } else {
-                        // VM Closure Call
-                        if (!funcObj.bytecode) {
-                             throw new Error(`Type Error: Object at ${funcPtr} is not executable code.`);
-                        }
+                        funcObj = this.memory.get(funcPtr); // Can THROW PageFault
                     }
 
-                    // VM Closure Call
-                    // Save current state
-                    thread.frames.push({
-                        returnIP: thread.ip,
-                        prevBP: thread.bp,
-                        code: thread.code,
-                        constants: thread.constants,
-                        scope: thread.scope,
-                        prevStack: prevStack
-                    });
+                    // 3. Execute
+                    if (typeof funcObj === 'function') {
+                        // Native/Host Call
+                        try {
+                            const res = funcObj.apply(thisVal, args);
+                            thread.stack = prevStack; // Restore stack
+                            thread.stack.push(res);   // Push result
+                        } catch (e) {
+                            console.error("Host Function Error:", e);
+                            thread.status = VM_THREAD_STATUS.CRASHED;
+                        }
+                    } else {
+                        // VM Closure Call (Standard)
+                        if (!funcObj || !funcObj.bytecode) {
+                             throw new Error(`Type Error: Object at ptr ${funcPtr} is not a function.`);
+                        }
 
-                    // Setup new frame
-                    thread.code = funcObj.bytecode;
-                    thread.constants = funcObj.constants;
-                    thread.ip = 0;
-                    
-                    // Locals start here. 
-                    // We need to push args back onto stack as locals?
-                    // Compiler expects StoreLocal to handle var declarations.
-                    // But params are locals 0, 1, 2...
-                    
-                    // Reset Stack for new frame?
-                    // Stack-based VMs usually share one big stack.
-                    // BP points to where the new frame starts.
-                    // Let's just push args back on.
-                    thread.stack = args; 
-                    thread.bp = 0;
-                    
+                        thread.frames.push({
+                            returnIP: thread.ip,
+                            prevBP: thread.bp,
+                            code: thread.code,
+                            constants: thread.constants,
+                            scope: thread.scope,
+                            prevStack: prevStack
+                        });
+
+                        thread.code = funcObj.bytecode;
+                        thread.constants = funcObj.constants;
+                        thread.ip = 0;
+                        thread.stack = args; 
+                        thread.bp = 0;
+                    }
                     break;
                 }
 

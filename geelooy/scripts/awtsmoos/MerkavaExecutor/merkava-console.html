@@ -282,11 +282,24 @@ counter;
             if (!window.Merkava) throw new Error("SDK not loaded");
             
             activeContext = await window.Merkava.run(source, {
-                debug: true, // We need the debugger hook
-                ramLimit: 500, // Low limit to force IDB usage usage demo
-                cyclesPerTick: 500, // Slower tick for demo visibility
+                debug: true,
+                ramLimit: 500,
+                // B"H - PASS THE CONTEXT HERE
+                context: {
+                    document: document,
+                    window: window,
+                    console: console
+                },
+                // B"H - HANDLE IMPORTS
+                importResolver: async (specifier) => {
+                    log(`[Import] Loading ${specifier}...`);
+                    return { env: "production" }; // Mock module return
+                },
+                // B"H - HANDLE EXPORTS
+                exportHandler: (name, value) => {
+                    log(`[Export] ${name} = ${value}`, 'log-sys');
+                },
                 hostAPI: {
-                    // Map SYSCALL 0 to our log
                     0: (...args) => log(args.join(' '))
                 }
             });

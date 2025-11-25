@@ -540,26 +540,45 @@ export default class {
                                 );
                                 if(!child.isMesh) return;
                                 if(child.isWater) return;
+                                // --- B"H 
+                                // Tag Loaded Objects for Physics & Collection ---
+                            
+	                            // 1. Essential: Link geometry to mesh so Octree Raycast returns the object
+	                            if (child.geometry) {
+	                                child.geometry.sourceMesh = child;
+	                            }
+	
+	                            // 2. Ensure it has UserData
+	                            if (!child.userData) child.userData = {};
+	
+	                            // 3. Tag as Solid
+	                            child.userData.isSolid = true;
+	
+	                            // 4. Apply Item Data (So it can be collected)
+	                            // If the parent Nivra has item data (from save file), pass it down.
+	                            // If not, and it's a generic world block, give it a default tag so it's not "unclickable".
+	                            if (!child.userData.itemData) {
+	                                if (nivra.itemData) {
+	                                    child.userData.itemData = nivra.itemData;
+	                                } else {
+	                                    // Fallback for generic world geometry
+	                                    child.userData.itemData = {
+	                                        id: "world_brick",
+	                                        className: "Brick",
+	                                        name: "Ancient Brick"
+	                                    };
+	                                }
+	                            }
+                                
+                                
+                                
+                                
                                 var isNotSolid = child.userData.notSolid;
                                 if(!isNotSolid) {
                                     this.worldOctree.fromGraphNode(child);
                                 }
                                 
-                                if(!child.userData.itemData) {
-                                    // If it's a generic world block, give it default collectable data
-                                    // You can refine this to check names (e.g. if name includes "Brick")
-                                    child.userData.itemData = {
-                                        id: "world_block",
-                                        className: "Brick",
-                                        name: "Ancient Brick"
-                                    };
-                                    child.userData.isSolid = true;
-                                }
                                 
-                                // Helper for the Octree builder
-                                if(child.geometry) {
-                                    child.geometry.sourceMesh = child;
-                                }
                                 /*var isAnywaysSolid = 
                                     checkAndSetProperty(child,
                                 "isAnywaysSolid");

@@ -187,7 +187,7 @@
             };
 
             // 5. SPAWN VM
-            const vm = new window.MerkavaVM(memory, hostAPI);
+            const vm = new window.MerkavaVM(memory, hostAPI, options.context || {});
             const threadId = vm.spawn(codeObject);
 
             // 6. SETUP DEBUGGER (Optional)

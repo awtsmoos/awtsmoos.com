@@ -426,64 +426,62 @@ export default class Chai extends Tzomayach {
     /**
      * B"H
      * Collects the object using Octree Physics Raycasting.
-     * Includes extensive logging for debugging.
+     * Includes Hierarchy Climbing + Fallback Data for older/static blocks.
      */
     async collectObject() {
         const origin = this.getRayStart();
         const direction = this.getRayDirection();
-        
-        // Setup the ray
         const ray = new THREE.Ray(origin, direction);
         
         console.log("B\"H - Firing Collector Ray", { origin, direction });
 
-        // 1. OCTREE RAYCAST (Physics check)
+        // 1. OCTREE RAYCAST
         const hit = this.olam.worldOctree.rayIntersect(ray);
 
         if (!hit) {
-            console.log("B\"H - Octree Ray missed everything.");
+            console.log("B\"H - Ray missed.");
             return false;
         }
-
-        console.log("B\"H - Octree Hit!", { distance: hit.distance, object: hit.object });
 
         if (hit.distance > 15) {
-            console.log("B\"H - Object too far away.");
+            console.log("B\"H - Object too far.");
             return false;
         }
 
-        // 2. Resolve the Game Entity
+        // 2. HIERARCHY CLIMB (Search for the "Owner")
+        // We start with the mesh we hit.
         let object = hit.object;
         
-        // Hierarchy climb to find data
-        while(object && object !== this.olam.nivrayimGroup) {
-            console.log("B\"H - Checking parent:", object.name, object.userData);
-            if(object.userData && (object.userData.itemData || object.userData.isSolid)) {
-                break; 
+        // We look up the tree to see if a parent holds the game data.
+        let tempObj = object;
+        while(tempObj && tempObj !== this.olam.nivrayimGroup) {
+            // If this parent has data, it is the "real" object.
+            if(tempObj.userData && (tempObj.userData.itemData || tempObj.userData.isSolid)) {
+                object = tempObj; // Switch target to this parent
+                break; // Stop looking
             }
-            object = object.parent;
+            tempObj = tempObj.parent;
         }
 
-        if (!object || object === this.olam.nivrayimGroup) {
-            console.log("B\"H - Hit geometry, but found no valid game data (itemData/isSolid).");
-            return false;
-        }
-
-        // 3. Collect
-        console.log("B\"H - VALID TARGET FOUND:", object);
-        
-        const itemData = object.userData.itemData || {
-            id: "brick_1x1x1", 
+        // 3. DATA FALLBACK (The logic you asked about)
+        // If we found data, use it. If not, we use the fallback for "Recovered Block".
+        const itemData = (object.userData && object.userData.itemData) ? object.userData.itemData : {
+            id: "recovered_block", 
             className: "Brick",
+            name: "Recovered Block",
             quantity: 1
         };
+
+        // 4. EXECUTE COLLECTION
+        console.log("B\"H - Collecting Object:", object.name, itemData);
         
         this.inventory.addItem(itemData, 1);
 
         if (object.nivraAwtsmoos) {
+            // If it's a fully managed Nivra object
             this.olam.sealayk(object.nivraAwtsmoos);
         } else {
-            // Clean up physics if we delete a raw mesh
+            // If it's a raw mesh or group (like from a loaded file)
             this.olam.worldOctree.removeMesh(object);
             object.removeFromParent();
         }
