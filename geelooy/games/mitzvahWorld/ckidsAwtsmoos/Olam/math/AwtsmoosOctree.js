@@ -345,10 +345,15 @@ export class Octree {
     let hit = false;
     
     const trianglesToCheck = [];
-    this.getCapsuleTriangles(capsule, trianglesToCheck); // This gets STATIC indices
+    this.getCapsuleTriangles(capsule, trianglesToCheck); 
     
-    // CHECK 1: The fast, static geometry
+    // CHECK 1: Static geometry
     for (const index of trianglesToCheck) {
+        // --- B"H FIX: IGNORE DELETED ---
+        const source = this.#allTriangles[index] ? this.#allTriangles[index].sourceMesh : null;
+        if (source && !source.parent) continue; 
+        // -------------------------------
+
         const tri = this.#_getTriangle(index, _temp_triangle);
         const result = this._triangleCapsuleIntersect(resultCapsule, tri);
         if (result) {
@@ -357,10 +362,14 @@ export class Octree {
         }
     }
 
-    // CHECK 2: The new, dynamic triangles
+    // CHECK 2: Dynamic triangles
     const dynamicTris = [];
     this._getDynamicCapsuleTriangles(capsule, dynamicTris);
     for (const tri of dynamicTris) {
+        // --- B"H FIX: IGNORE DELETED ---
+        if (tri.sourceMesh && !tri.sourceMesh.parent) continue;
+        // -------------------------------
+
         const result = this._triangleCapsuleIntersect(resultCapsule, tri);
         if (result) {
             hit = true;
@@ -368,7 +377,6 @@ export class Octree {
         }
     }
 
-    // Return logic is now based on combined results
     if (hit) {
         const collisionVector = resultCapsule.getCenter(_v1).sub(capsule.getCenter(_v2));
         if (collisionVector.lengthSq() > 1e-10) {
@@ -400,14 +408,19 @@ _getDynamicCapsuleTriangles(capsule, triangles) {
     // Check against STATIC triangles
     for (const index of trianglesToCheck.staticIndices) {
         const triangle = this.#_getTriangle(index, _temp_triangle);
+        
+        // --- B"H FIX: INSTANTLY IGNORE REMOVED OBJECTS ---
+        // We check the master list for the source mesh. If it has no parent, it's deleted.
+        const source = this.#allTriangles[index] ? this.#allTriangles[index].sourceMesh : null;
+        if (source && !source.parent) continue; 
+        // ------------------------------------------------
+
         const result = ray.intersectTriangle(triangle.a, triangle.b, triangle.c, false, _v1);
         if (result) {
             const distSq = ray.origin.distanceToSquared(result);
             if (!closestResult || distSq < closestResult.distance * closestResult.distance) {
                 const hitNormal = new Vector3();
                 triangle.getNormal(hitNormal);
-                // B"H FIX: Get source mesh from the master list using the index
-                const source = this.#allTriangles[index] ? this.#allTriangles[index].sourceMesh : null;
                 closestResult = { distance: Math.sqrt(distSq), triangle: triangle.clone(), position: result.clone(), normal: hitNormal, object: source };
             }
         }
@@ -415,13 +428,16 @@ _getDynamicCapsuleTriangles(capsule, triangles) {
     
     // Check against DYNAMIC triangles
     for (const triangle of trianglesToCheck.dynamicTris) {
+        // --- B"H FIX: INSTANTLY IGNORE REMOVED OBJECTS ---
+        if (triangle.sourceMesh && !triangle.sourceMesh.parent) continue;
+        // ------------------------------------------------
+
         const result = ray.intersectTriangle(triangle.a, triangle.b, triangle.c, false, _v1);
         if (result) {
             const distSq = ray.origin.distanceToSquared(result);
             if (!closestResult || distSq < closestResult.distance * closestResult.distance) {
                 const hitNormal = new Vector3();
                 triangle.getNormal(hitNormal);
-                // B"H FIX: Get source mesh from the dynamic triangle directly
                 closestResult = { distance: Math.sqrt(distSq), triangle: triangle.clone(), position: result.clone(), normal: hitNormal, object: triangle.sourceMesh };
             }
         }

@@ -142,7 +142,25 @@
             console.log("[Merkava] initializing Memory...");
             const memory = new window.MerkavaMemory.MemoryManager(options.ramLimit || 1000);
             await memory.init();
-            if (memory.nextPtr === 1) memory.allocate({}); 
+
+            // B"H - The King must be on the Throne.
+            // This logic ensures the Global Scope (Pointer 1) is always in RAM before execution begins.
+            if (memory.nextPtr === 1) {
+                // This is a completely fresh database. Create the Global Scope.
+                memory.allocate({});
+                console.log("[Merkava] Global Scope (Ptr 1) Created.");
+            } else if (!memory.ram.has(1)) {
+                // The database is not fresh, but the Global Scope isn't in RAM. Load it.
+                const success = await memory.resolveFault(1);
+                if (success) {
+                    console.log("[Merkava] Global Scope (Ptr 1) Loaded into RAM.");
+                } else {
+                    // CATASTROPHIC: It's not fresh, but Pointer 1 is missing from disk!
+                    // This can happen if browser data is cleared. We must recover.
+                    console.error("[Merkava] RECOVERY: Global Scope was missing! Recreating at Ptr 1.");
+                    memory.set(1, {}); // Force-create the object at Ptr 1.
+                }
+            }
 
             const hostAPI = {
                 0: (...args) => console.log("[VM stdout]", ...args),
@@ -153,24 +171,42 @@
                 2: (name, value) => { if (options.exportHandler) options.exportHandler(name, value); },
                 ...options.hostAPI
             };
+            
+             const stdLib = getStandardContext();
 
             // B"H - MERGE CONTEXTS
             // 1. Standard Library (Automatic)
             // 2. User Options (Specific overrides)
-            const stdLib = getStandardContext();
-            
-            // Inject System Helpers
-            const systemHelpers = {
-                // Allows scripts to pass real arrays/objects to Host APIs instead of pointers
-                $unwrap: (val) => {
-                    if (typeof val === 'number' && memory.ram.has(val)) {
-                        return memory.ram.get(val);
+            // 1. Helper to wrap TypedArray constructors
+            // This allows Float32Array.from(vmPointer) to work automatically
+            const createTypedArrayProxy = (TargetClass) => {
+                return new Proxy(TargetClass, {
+                    get: (target, prop) => {
+                        if (prop === 'from') {
+                            return (arg) => {
+                                // AUTO-UNWRAP: If arg is a pointer in RAM, use the real array
+                                if (typeof arg === 'number' && memory.ram.has(arg)) {
+                                    return target.from(memory.ram.get(arg));
+                                }
+                                return target.from(arg);
+                            };
+                        }
+                        return target[prop];
                     }
-                    return val;
-                }
+                });
             };
 
-            const finalContext = Object.assign(stdLib, options.context || {}, systemHelpers);
+            // 2. Wrap the specific classes we use for WebGL
+            const smartContext = {
+                ...stdLib,
+                Float32Array: createTypedArrayProxy(Float32Array),
+                Uint16Array: createTypedArrayProxy(Uint16Array),
+                Uint8Array: createTypedArrayProxy(Uint8Array)
+            };
+
+            // 3. Merge User Context
+            const finalContext = Object.assign(smartContext, options.context || {});
+
             const vm = new window.MerkavaVM(memory, hostAPI, finalContext);
             const threadId = vm.spawn(codeObject);
 

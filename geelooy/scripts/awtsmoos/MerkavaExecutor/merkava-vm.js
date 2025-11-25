@@ -92,6 +92,40 @@
             console.log(`[VM] Spawned Thread #${thread.id}`);
             return thread.id;
         }
+        
+        
+        /**
+         * B"H - Creates a Native Bridge Function.
+         * When the Host calls this (e.g. Promise executor), it spawns a VM Thread.
+         */
+        _createHostProxy(closurePtr) {
+            const vm = this;
+            const closure = this.memory.get(closurePtr);
+            
+            return function(...hostArgs) {
+                // 1. Get the Thread Class (hacky access via existing thread or mimic structure)
+                // We replicate the Thread construction logic here to be safe
+                const threadId = vm.threadIdCounter++;
+                
+                const newThread = {
+                    id: threadId,
+                    status: 0, // RUNNING
+                    ip: 0,
+                    bp: 0,
+                    sp: 0,
+                    stack: [...hostArgs], // B"H - Push Host Arguments (like 'resolve') onto Stack
+                    frames: [],
+                    code: closure.bytecode,
+                    constants: closure.constants,
+                    scope: null // New scope
+                };
+                
+                // 2. Schedule the Thread
+                vm.threads.push(newThread);
+                
+                // 3. Return undefined (standard async callback behavior)
+            };
+        }
 
         /**
          * The Main Execution Loop.
@@ -162,6 +196,47 @@
 
             // Decode & Execute
             switch (opcode) {
+            
+	        case OPCODES.NEW: {
+                    const argCount = this._readUint8(thread);
+                    const prevStack = thread.stack.slice(0, thread.stack.length - (argCount + 1));
+
+                    const args = [];
+                    for(let i=0; i<argCount; i++) {
+                        let val = thread.stack.pop();
+                        
+                        // B"H - AUTO-WRAP CLOSURES
+                        // If we are passing a VM Function to a Host Constructor, wrap it!
+                        if (typeof val === 'number' && this.memory.ram.has(val)) {
+                            const obj = this.memory.get(val);
+                            // Check if it looks like a compiled closure
+                            if (obj && obj.bytecode && obj.constants) {
+                                val = this._createHostProxy(val);
+                            }
+                        }
+                        
+                        args.unshift(val);
+                    }
+                    
+                    const constructorPtr = thread.stack.pop();
+                    
+                    // Resolve Constructor
+                    let Constructor = (typeof constructorPtr === 'function') ? 
+                                      constructorPtr : this.memory.get(constructorPtr);
+
+                    if (typeof Constructor === 'function') {
+                        try {
+                            const instance = Reflect.construct(Constructor, args);
+                            thread.stack = prevStack;
+                            thread.stack.push(instance);
+                        } catch (e) {
+                            this._handleInterrupt(thread, `Instantiation Error: ${e.message}`);
+                        }
+                    } else {
+                        this._handleInterrupt(thread, "Type Error: Constructor is not a function.");
+                    }
+                    break;
+                }
                 // --- 0x00: CONTROL FLOW ---
                 case OPCODES.NOP: break;
                 
@@ -418,46 +493,58 @@
                 }
 
                 case OPCODES.CALL: {
+                    // 1. Extract Arguments & State from Stack
                     const argCount = this._readUint8(thread);
-                    
-                    // 1. Snapshot Stack (for VM functions)
-                    // We slice off the args + this + func
                     const prevStack = thread.stack.slice(0, thread.stack.length - (argCount + 2));
                     
-                    // 2. Extract Arguments (LIFO -> FIFO)
                     const args = [];
                     for(let i=0; i<argCount; i++) args.unshift(thread.stack.pop());
                     
                     const thisVal = thread.stack.pop();
                     const funcPtr = thread.stack.pop();
-                    
-                    // B"H - CRITICAL FIX FOR HOST FUNCTIONS
-                    // If funcPtr is a native function (from Host Context), use it directly.
-                    // Otherwise, treat it as a pointer and ask Memory.
+
+                    // 2. Resolve the Function (This is the crucial step)
                     let funcObj;
                     if (typeof funcPtr === 'function') {
+                        // It's a Native/Host function from the context
                         funcObj = funcPtr;
                     } else {
-                        funcObj = this.memory.get(funcPtr); // Can THROW PageFault
+                        // It's a pointer to a VM Closure in memory
+                        funcObj = this.memory.get(funcPtr); // This can Page Fault
                     }
 
-                    // 3. Execute
+                    // 3. Execute based on Type
                     if (typeof funcObj === 'function') {
-                        // Native/Host Call
+                        // --- NATIVE / HOST FUNCTION CALL ---
                         try {
                             const res = funcObj.apply(thisVal, args);
-                            thread.stack = prevStack; // Restore stack
-                            thread.stack.push(res);   // Push result
+                            
+                            // MAGIC ASYNC (Auto-Await)
+                            if (res && typeof res.then === 'function') {
+                                thread.status = VM_THREAD_STATUS.BLOCKED_ASYNC;
+                                thread.stack = prevStack; // Restore stack before waiting
+                                
+                                res.then(val => {
+                                    thread.stack.push(val); // Push result when done
+                                    thread.status = VM_THREAD_STATUS.RUNNING;
+                                }).catch(err => {
+                                    this._handleInterrupt(thread, err);
+                                });
+                            } else {
+                                // Synchronous Host Result
+                                thread.stack = prevStack;
+                                thread.stack.push(res);
+                            }
                         } catch (e) {
-                            console.error("Host Function Error:", e);
-                            thread.status = VM_THREAD_STATUS.CRASHED;
+                            this._handleInterrupt(thread, `Host Function Error: ${e.message}`);
                         }
                     } else {
-                        // VM Closure Call (Standard)
+                        // --- VM CLOSURE CALL ---
                         if (!funcObj || !funcObj.bytecode) {
                              throw new Error(`Type Error: Object at ptr ${funcPtr} is not a function.`);
                         }
 
+                        // Save the current execution frame
                         thread.frames.push({
                             returnIP: thread.ip,
                             prevBP: thread.bp,
@@ -467,6 +554,7 @@
                             prevStack: prevStack
                         });
 
+                        // Setup the new frame to execute the closure
                         thread.code = funcObj.bytecode;
                         thread.constants = funcObj.constants;
                         thread.ip = 0;
@@ -475,6 +563,8 @@
                     }
                     break;
                 }
+                
+                
 
                 // --- 0x80: ASYNC / ATOMICS ---
                 case OPCODES.AWAIT: {

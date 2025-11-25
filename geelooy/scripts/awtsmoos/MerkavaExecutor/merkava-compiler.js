@@ -147,7 +147,11 @@
 
             switch (node.type) {
             
-            
+	            case 'NewExpression': this._visitNew(node); break;
+                case 'FunctionExpression': 
+                case 'ArrowFunctionExpression': this._visitFuncExpr(node); break;
+                
+                
 	            case 'ThrowStatement': this._visitThrow(node); break;
 	            case 'ImportDeclaration': this._visitImport(node); break;
                 case 'ExportNamedDeclaration': this._visitExport(node); break;
@@ -529,48 +533,97 @@
         }
 
         _visitFuncDecl(node) {
-            // 1. Compile Function Body
-            // We do NOT declare the function name in the local scope if it's Global.
-            // This forces the body to look it up globally.
-            
+            // 1. Declare Name (Hoisting)
+            let varIdx = -1;
+            if (node.id && this.scope.depth > 0) {
+                varIdx = this.scope.declare(node.id.name);
+            }
+
+            // 2. Compile Body
             const funcCompiler = new Compiler();
             funcCompiler.scope = new CompilerScope(this.scope);
             
-            // Register Params
             node.params.forEach(p => {
                 if (p.type === 'Identifier') funcCompiler.scope.declare(p.name);
             });
 
-            funcCompiler.compile(node.body);
+            // Manual Body Compilation (No HALT)
+            funcCompiler._compileBlock(node.body.body);
             
-            // 2. Create Code Object
+            // Safety Return: If function falls through, return undefined
+            funcCompiler.buffer.write8(OPCODES.PUSH_UNDEFINED);
+            funcCompiler.buffer.write8(OPCODES.RETURN);
+
+            // 3. Emit Closure
             const codeObj = {
                 name: node.id ? node.id.name : '<anonymous>',
                 bytecode: funcCompiler.buffer.toBuffer(),
                 constants: funcCompiler.constants,
-                upvalueCount: 0, 
                 localCount: funcCompiler.scope.stackIndex
             };
 
-            // 3. Emit Closure
             const idx = this._addConstant(codeObj);
             this.buffer.write8(OPCODES.CLOSURE);
             this.buffer.write16(idx);
 
-            // 4. Store the Function
+            // 4. Store
             if (node.id) {
                 if (this.scope.depth === 0) {
-                    // Global Function
                     const nameIdx = this._addConstant(node.id.name);
                     this.buffer.write8(OPCODES.STORE_GLOBAL);
                     this.buffer.write16(nameIdx);
-                } else {
-                    // Inner/Local Function
-                    const varIdx = this.scope.declare(node.id.name);
+                } else if (varIdx !== -1) {
                     this.buffer.write8(OPCODES.STORE_LOCAL);
                     this.buffer.write8(varIdx);
                 }
             }
+        }
+        
+        _visitNew(node) {
+            // 1. Compile Constructor (e.g., Promise)
+            this._visit(node.callee);
+
+            // 2. Compile Arguments
+            for (const arg of node.arguments) {
+                this._visit(arg);
+            }
+
+            // 3. Emit NEW Opcode
+            this.buffer.write8(OPCODES.NEW);
+            this.buffer.write8(node.arguments.length);
+        }
+
+        _visitFuncExpr(node) {
+            // Handles: let x = function() {}  AND  let x = () => {}
+            const funcCompiler = new Compiler();
+            funcCompiler.scope = new CompilerScope(this.scope);
+            
+            node.params.forEach(p => {
+                if (p.type === 'Identifier') funcCompiler.scope.declare(p.name);
+            });
+
+            // Handle Block Body vs Expression Body (x => x * 2)
+            if (node.body.type === 'BlockStatement') {
+                funcCompiler._compileBlock(node.body.body);
+                // Safety Return
+                funcCompiler.buffer.write8(OPCODES.PUSH_UNDEFINED);
+                funcCompiler.buffer.write8(OPCODES.RETURN);
+            } else {
+                // Implicit Return
+                funcCompiler._visit(node.body);
+                funcCompiler.buffer.write8(OPCODES.RETURN);
+            }
+
+            const codeObj = {
+                name: '<anonymous>',
+                bytecode: funcCompiler.buffer.toBuffer(),
+                constants: funcCompiler.constants,
+                localCount: funcCompiler.scope.stackIndex
+            };
+
+            const idx = this._addConstant(codeObj);
+            this.buffer.write8(OPCODES.CLOSURE);
+            this.buffer.write16(idx);
         }
 
         _visitReturn(node) {

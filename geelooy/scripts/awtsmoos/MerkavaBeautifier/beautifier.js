@@ -165,11 +165,27 @@ export async function beautify(code, options = {}) {
 			const c = allComments[commentCursor];
 			//If comment ends before this node begins, print it now.
 			if (c.end <= safeStart) {
-				const text = c.type === "Block" ? `/*${
-					c.value
-				}*/` : `//${
-					c.value.trim()
-				}`;
+				// B"H - Rectified Comment Logic
+				let text;
+				if (c.type === "Block") {
+					// Split the comment into lines to handle internal indentation
+					const lines = c.value.split(/\r\n|\r|\n/);
+					
+					// Reconstruct the comment:
+					// 1. Keep the first line as-is (it follows the opening /*).
+					// 2. For subsequent lines: Trim old whitespace, then apply the NEW indent.
+					// 3. Add a single space (" ") for alignment with the * of the JSDoc.
+					const formattedContent = lines.map((line, i) => {
+						if (i === 0) return line;
+						// Reset the line's indentation to the void, then fill it with the current light.
+						return indent + " " + line.trimStart();
+					}).join("\n");
+
+					text = `/*${formattedContent}*/`;
+				} else {
+					// Line comments are simple emanations
+					text = `//${c.value.trim()}`;
+				}
 				out += `${indent}${text}\n`;
 				commentCursor++;
 			} else {

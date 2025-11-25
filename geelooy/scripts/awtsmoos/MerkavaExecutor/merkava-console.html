@@ -318,7 +318,13 @@ counter;
             setStatus("RUNNING");
 
             // Wait for completion
-            activeContext.done.then(result => {
+            activeContext.done.then(async (result) => { // B"H - Make this async
+                setStatus("SAVING...");
+                
+                // B"H - THE CRITICAL FIX:
+                // Flush all dirty memory from RAM to IndexedDB to prevent data loss.
+                await activeContext.memory.flush();
+
                 setStatus("COMPLETED");
                 log(`Process Finished: ${result.status}`, 'log-sys');
                 clearInterval(updateTimer);

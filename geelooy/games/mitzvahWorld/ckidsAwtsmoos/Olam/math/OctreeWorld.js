@@ -147,18 +147,19 @@ addObject(mesh) {
     }
 
     #performBackgroundCleanup() {
-        if (window.requestIdleCallback) {
-            window.requestIdleCallback(() => {
+        // B"H FIX: Use 'self' because we are in a Web Worker, not the main window
+        if (self.requestIdleCallback) {
+            self.requestIdleCallback(() => {
                 if (this.#root.physics) {
                     console.log("B\"H - Running Background Octree Cleanup...");
                     this.#root.physics.pruneDeadTriangles();
                 }
             });
         } else {
-            // Fallback for browsers without idle callback (run on next frame, might stutter slightly but rare)
+            // Fallback for environments without idle callback
             setTimeout(() => {
                 if (this.#root.physics) this.#root.physics.pruneDeadTriangles();
-            }, 10);
+            }, 50);
         }
     }
     
