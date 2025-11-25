@@ -49,7 +49,21 @@ export default /*css*/`
 		border-bottom: 2px solid #4435B2;
         flex-shrink: 0; /* Prevent header from shrinking */
 	}
-
+	
+	.awtsmoosContextMenu {
+		background: rgba(20, 20, 40, 0.95);
+                border: 2px solid #FFD700;
+                borderRadius: 8px;
+                zIndex: 2000;
+                display: flex;
+                flexDirection: column;
+                padding: 5px;
+                gap: 5px;
+                minWidth: 140px;
+                boxShadow: 0 4px 8px rgba(0,0,0,0.5);
+	}
+	
+	
 	.awtsmoosInventoryViewer .header .close {
 		display: flex;
 		width: 25px;

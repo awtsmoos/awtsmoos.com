@@ -230,25 +230,54 @@ var ui = [instructions, {
             const slotsContainer = $("action slots");
             if (!slotsContainer) return;
 
-            // Clear only the dynamic slots, leaving the static "bag" icon (child at index 0) untouched.
+            // Clear old dynamic slots, keeping the static "bag" icon
             while (slotsContainer.children.length > 1) {
                 slotsContainer.removeChild(slotsContainer.lastChild);
             }
 
-            // Create the new dynamic slots from the inventory data
             actionSlotsData.forEach((slotData, index) => {
+                // --- B"H: Tooltip functions for revealing the item's essence ---
+                const showTooltip = (event) => {
+                    if (!slotData) return;
+                    const tooltip = $("icon tooltip");
+                    if (tooltip) {
+                        tooltip.innerHTML = `<div class="header">${slotData.name}</div><div class="description">${slotData.description}</div>`;
+                        tooltip.classList.remove("hidden");
+                        const x = event.pageX || (event.touches && event.touches[0].pageX);
+                        const y = event.pageY || (event.touches && event.touches[0].pageY);
+                        if (x && y) {
+                            tooltip.style.left = (x + 15) + 'px';
+                            tooltip.style.top = (y + 15) + 'px';
+                        }
+                    }
+                };
+                const hideTooltip = () => $("icon tooltip")?.classList.add('hidden');
+                // -----------------------------------------------------------------
+
                 const slot = ui.html({
                     parent: slotsContainer,
                     className: "actionSlot " + (slotData ? 'occupied' : 'empty'),
                     children: [{
                         className: "innerSlot" + (slotData && slotData.isEquipped ? " equipped-indicator" : ""),
-                        onclick: () => {
-                            if (!slotData) return;
-                            const action = slotData.isEquipped ? "unequipItem" : "equipItem";
-                            const payload = slotData.isEquipped 
-                                ? slotData.equippedIn 
-                                : { sourceType: 'action', index, target: slotData.equipSlot || 'rightHand' };
-                            ui.peula("ikar", { olamPeula: { [action]: payload }});
+                        on: { // B"H: Restored hover events for tooltips
+                            mouseenter: showTooltip,
+                            mousemove: showTooltip,
+                            mouseleave: hideTooltip,
+                            touchstart: showTooltip
+                        },
+                        onclick: (event) => { // B"H: FIXED to open context menu
+                            if (slotData) {
+                                const rect = event.currentTarget.getBoundingClientRect();
+                                ui.peula($("inventoryScreen"), {
+                                    showContextMenu: {
+                                        item: slotData,
+                                        index: index, // The index within the actionSlots array
+                                        x: rect.right,
+                                        y: rect.top,
+                                        sourceType: 'action' // CRITICAL: Identify the source
+                                    }
+                                });
+                            }
                         },
                         children: slotData ? [
                             { className: 'slotBtn', style: { backgroundImage: `url(${slotData.icon})` }},
@@ -257,7 +286,7 @@ var ui = [instructions, {
                     }]
                 });
 
-                // Make the slot a target for drag-and-drop
+                // Drop target logic (remains the same)
                 slot.ondragover = (event) => event.preventDefault();
                 slot.ondrop = (event) => {
                     event.preventDefault();
@@ -472,13 +501,29 @@ var ui = [instructions, {
                 cursor: "pointer", padding: "8px", borderBottom: "1px solid #444", fontSize: "14px"
             };
 
+            // --- B"H: Smart Positioning Logic ---
+            let newX = x;
+            let newY = y;
+            const menuWidth = 150; // Estimated width
+            const menuHeight = 120; // Estimated height
+
+            if (x + menuWidth > window.innerWidth) {
+                newX = x - menuWidth - 40; // Flip to the left of the slot
+            }
+            if (y + menuHeight > window.innerHeight) {
+                newY = y - menuHeight; // Flip above the cursor
+            }
+            // ------------------------------------
+
             ui.html({
-                shaym: "contextMenu", parent: "ikar",
+                shaym: "contextMenu",
+                parent: "ikar",
+                className: "awtsmoosContextMenu",
                 style: {
-                    position: "absolute", left: x + "px", top: y + "px", background: "rgba(20, 20, 40, 0.95)",
-                    border: "2px solid #FFD700", borderRadius: "8px", zIndex: 2000, display: "flex",
-                    flexDirection: "column", padding: "5px", gap: "5px", minWidth: "120px",
-                    boxShadow: "0 4px 8px rgba(0,0,0,0.5)"
+                    position: "absolute",
+                    left: newX + "px", // Use calculated position
+                    top: newY + "px",  // Use calculated position
+                    
                 },
                 children: [
                     // B"H: Dynamic Equip/Unequip button

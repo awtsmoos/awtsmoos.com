@@ -112,9 +112,10 @@ export default /*css*/`
         border-radius: 5px;
         padding:10px;
         pointer-events: none;
-        transform: translate(-100%, 0px);
-        
-    
+        position: absolute; /* Changed for positioning */
+        z-index: 3000; /* Ensure it's on top */
+        white-space: nowrap; /* Prevent text wrapping */
+        transform-origin: top left;
     }
 
     .awtsmoos.tooltip .header {

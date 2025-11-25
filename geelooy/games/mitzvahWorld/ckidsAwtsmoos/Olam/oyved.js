@@ -77,11 +77,11 @@ async function go() {
                     console.error("Failed to auto-save settings:", e);
                 }
             },
-	    async equipItem({ index, target }) {
+	    async equipItem(payload) {
 	        if (me.olam && me.olam.player && me.olam.player.inventory) {
-	            console.log("Equipping item from slot", index, "to", target);
-	            // Call the method we added to InventoryManager in the previous step
-	            me.olam.player.inventory.equipItem(index, target);
+	            console.log("Worker is now equipping with full payload:", payload);
+	            // B"H FIX: We now pass the entire payload object, not just parts of it.
+	            me.olam.player.inventory.equipItem(payload);
 	        }
 	    },
 	

@@ -345,30 +345,31 @@
                 }
 
                 case OPCODES.RETURN: {
-                    let result = thread.stack.pop();
+                    const result = thread.stack.pop();
                     
                     if (thread.frames.length === 0) {
+                        // This is a return from the top-level script. The thread is finished.
                         thread.status = VM_THREAD_STATUS.COMPLETED;
-                        thread.stack.push(result);
+                        thread.stack.push(result); // Leave the final result on the stack
                     } else {
+                        // This is a return from a function call. We must restore the caller's entire world.
                         const frame = thread.frames.pop();
                         
-                        // B"H - Handle the special return logic for 'new'
+                        // B"H - THE HEART OF THE ENGINE: Restore EVERYTHING.
+                        thread.ip = frame.returnIP;
+                        thread.bp = frame.prevBP;
+                        thread.stack = frame.prevStack;
+                        thread.code = frame.code;             // <-- The missing restoration
+                        thread.constants = frame.constants;   // <-- The missing restoration
+                        
+                        // If the call was a constructor, handle the special return value.
                         if (frame.isConstructorCall) {
-                            // If a constructor returns a non-object, JavaScript ignores it
-                            // and returns the newly created instance instead.
                             if (typeof result !== 'object' || result === null) {
                                 result = frame.instancePtr;
                             }
                         }
                         
-                        // Restore the caller's entire world-state
-                        thread.ip = frame.returnIP;
-                        thread.bp = frame.prevBP;
-                        thread.stack = frame.prevStack;
-                        thread.code = frame.code;
-                        thread.constants = frame.constants;
-                        
+                        // Place the result of the function onto the caller's now-restored stack.
                         thread.stack.push(result);
                     }
                     break;
@@ -574,35 +575,39 @@
                 case OPCODES.CALL: {
                     const argCount = this._readUint8(thread);
                     
-                    // B"H - THE FINAL, CRITICAL FIX:
-                    // We must capture the state of the caller's stack *before* we modify it.
+                    // 1. Snapshot the caller's stack BEFORE modification. This is essential.
                     const frameSize = argCount + 2;
                     const prevStack = thread.stack.slice(0, thread.stack.length - frameSize);
 
-                    // Now, we can safely extract the call information.
+                    // 2. Isolate the call frame [Func, This, Arg1...] from the stack
                     const callFrame = thread.stack.splice(thread.stack.length - frameSize);
                     
                     const funcPtr = callFrame[0];
                     const thisVal = callFrame[1];
                     const args = callFrame.slice(2);
                     
+                    // 3. Resolve the function
                     let funcObj = (typeof funcPtr === 'function') ? funcPtr : this.memory.get(funcPtr);
 
+                    // 4. Execute
                     if (typeof funcObj === 'function') {
-                        // --- HOST FUNCTION CALL ---
+                        // --- NATIVE / HOST FUNCTION CALL ---
                         try {
                             const res = funcObj.apply(thisVal, args);
                             
-                            // Restore the caller's stack before handling the result.
+                            // B"H - THE CRITICAL FIX:
+                            // Restore the caller's stack IMMEDIATELY, before handling the result.
                             thread.stack = prevStack;
 
                             if (res && typeof res.then === 'function') {
+                                // For async calls, the thread sleeps and the result is pushed later.
                                 thread.status = VM_THREAD_STATUS.BLOCKED_ASYNC;
                                 res.then(val => {
                                     thread.stack.push(val);
                                     thread.status = VM_THREAD_STATUS.RUNNING;
                                 }).catch(err => this._handleInterrupt(thread, err));
                             } else {
+                                // For sync calls, push the result onto the now-restored stack.
                                 thread.stack.push(res);
                             }
                         } catch (e) {
@@ -614,7 +619,7 @@
                              throw new Error(`Type Error: Object at ptr ${funcPtr} is not a function.`);
                         }
 
-                        // Save the caller's state, using the pristine 'prevStack' we captured earlier.
+                        // Save the caller's state using the pristine 'prevStack'.
                         thread.frames.push({
                             returnIP: thread.ip,
                             prevBP: thread.bp,
