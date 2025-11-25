@@ -1,11 +1,11 @@
 /* B"H */
 
 // =================================================================
-//     AWTSMOOS CHESS - THE LAWS OF CREATION (MK. XIV - ETERNAL)
+//     AWTSMOOS CHESS - THE FOUNDATION (MK. XVI - SIMPLE & SAFE)
 // =================================================================
-// This version generates the De Bruijn lookup table at RUNTIME.
-// This guarantees 100% mathematical accuracy for the current environment,
-// solving the "Scrambled Board" paradox forever.
+// This version removes the "Magic Number" De Bruijn sequence entirely.
+// It uses a mathematically infallible (though slightly slower) loop for 
+// LSB calculation. This guarantees correct board indexing on all devices.
 // =================================================================
 
 const P = 0, N = 1, B = 2, R = 3, Q = 4, K = 5;
@@ -18,37 +18,33 @@ const NOT_H_FILE = 9187201950435737471n;
 const NOT_HG_FILE = 4557430888798830399n;
 const NOT_AB_FILE = 18229723555195321596n;
 
-// --- RUNTIME DE BRUIJN GENERATION ---
-// We calculate the lookup table now. This cannot be wrong.
-const deBruijn64 = 0x03f79d71b4cb0a89n;
-const lsb_64_table = new Array(64).fill(0);
-
-(function forgeUniverseIndices() {
-    for (let i = 0; i < 64; i++) {
-        // Create a bitboard with the i-th bit set
-        const bit = 1n << BigInt(i);
-        // Apply the De Bruijn hash
-        const hash = Number(((bit * deBruijn64) & 0xffffffffffffffffn) >> 58n);
-        // Map the hash back to the index
-        lsb_64_table[hash] = i;
+// --- SAFE LSB FUNCTION (No Magic Numbers) ---
+// This uses a simple lookup or calculation that cannot fail due to
+// overflow or architecture differences.
+function getLSBIndex(bb) {
+    if (bb === 0n) return -1;
+    // Convert BigInt to binary string and find the last '1'
+    // This is slow but 100% accurate for debugging/stability
+    // Optimization: We can use a loop since we only have 64 bits.
+    let index = 0;
+    while ((bb & 1n) === 0n) {
+        bb >>= 1n;
+        index++;
     }
-    // console.log("B\"H - The Table of Indices has been forged.");
-})();
-
-function getLSBIndex(bb) { 
-    if(bb===0n) return -1; 
-    const i = Number(((((bb&-bb)*deBruijn64)) & 0xffffffffffffffffn) >> 58n); 
-    return lsb_64_table[i]; 
+    return index;
 }
 
-function popBit(bb) { return bb & (bb-1n); }
-function popcount(bb) { let c=0; while(bb>0n){bb&=(bb-1n);c++;} return c; }
+function popBit(bb) { return bb & (bb - 1n); }
+function popcount(bb) { 
+    let count = 0; 
+    while (bb > 0n) { 
+        bb &= (bb - 1n); 
+        count++; 
+    } 
+    return count; 
+}
 
-let MEMORY_CANARY = 0n;
-
-// --- CLASSICAL SLIDER GENERATION ---
-// Robust ray-casting. No magic numbers needed.
-
+// --- ROBUST SLIDER ATTACKS (Raycasting) ---
 function getBishopAttacks(sq, blockers) {
     return generateSliderAttacks(sq, true, blockers);
 }
@@ -64,6 +60,7 @@ function getQueenAttacks(sq, blockers) {
 function generateSliderAttacks(sq, isBishop, blockers) {
     let attacks = 0n;
     const r = sq >> 3, f = sq & 7;
+    // Directions: [RankOffset, FileOffset]
     const directions = isBishop 
         ? [[-1, -1], [-1, 1], [1, -1], [1, 1]] 
         : [[-1, 0], [1, 0], [0, -1], [0, 1]];
@@ -99,7 +96,7 @@ function initializeAll() {
     
     initializeZobristKeys();
 
-    // console.log("B\"H - Inscribing attack tables...");
+    // console.log("B\"H - Initializing tables (Safe Mode)...");
     for (let sq = 0; sq < 64; sq++) {
         PAWN_ATTACKS[WHITE][sq] = 0n;
         if (((1n << BigInt(sq)) & NOT_H_FILE) && sq > 7) PAWN_ATTACKS[WHITE][sq] |= (1n << BigInt(sq - 7));
@@ -119,9 +116,6 @@ function initializeAll() {
         KING_ATTACKS[sq] = ((kg >> 1n) & NOT_H_FILE) | ((kg << 1n) & NOT_A_FILE) | (kg >> 8n) | (kg << 8n) |
                   ((kg >> 7n) & NOT_A_FILE) | ((kg >> 9n) & NOT_H_FILE) | ((kg << 7n) & NOT_H_FILE) | ((kg << 9n) & NOT_A_FILE);
     }
-    
-    MEMORY_CANARY = 0xDEADBEEFCAFEBABEn;
-    // console.log(`%cB"H - THE SYMPHONY OF CREATION IS COMPLETE.`, "color: magenta; font-weight: bold;");
 }
 
 if (typeof self !== 'undefined') self.pieceMap = pieceMap;

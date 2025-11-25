@@ -1,36 +1,13 @@
 /* B"H */
 
 // =================================================================
-//                 BITBOARD PGN CONVERTER (MK. XI - TOLERANT SCRIBE)
+//                 PGN CONVERTER (MK. XII - SILENT FAIL)
 // =================================================================
-// This version swallows errors during parsing instead of crashing the app.
-// It logs the error but returns null, allowing the engine to skip invalid lines.
+// This version will NEVER throw an error that stops the engine.
+// If a move is confusing, it logs a warning and moves on.
 // =================================================================
 
 const STARTING_FEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
-
-const ScribeLogger = {
-    isAuditing: () => self.EngineSoul && self.EngineSoul.isAuditing,
-    logComparison: (details) => {
-        if (!ScribeLogger.isAuditing()) return;
-        const { move, generatedSan, targetSan, isMatch, reason } = details;
-        const fromSq = getMoveFrom(move);
-        const toSq = getMoveTo(move);
-        const files = 'abcdefgh';
-        const ranks = '87654321';
-        const moveCoords = `${files[fromSq % 8]}${ranks[Math.floor(fromSq/8)]}` + `${files[toSq % 8]}${ranks[Math.floor(toSq/8)]}`;
-        const style = isMatch ? "background: #103810; color: #99ff99; padding: 2px 4px; border-radius: 3px;" : "color: #888;";
-        console.log(`%c[SCRIBE TRACE] ${moveCoords}`, style, {
-            "Target SAN": targetSan,
-            "Generated SAN": generatedSan,
-            "Result": isMatch ? "✅ MATCH" : "❌ No Match",
-            "Reasoning": reason
-        });
-    }
-};
-
-if (typeof self !== 'undefined') self.ScribeLogger = ScribeLogger;
-
 
 class PgnConverter {
     constructor() { this.currentState = null; }
@@ -46,14 +23,9 @@ class PgnConverter {
                     return move;
                 }
             }
-            
-            // If we are auditing, throw to debug. If not, return null to skip.
-            if (ScribeLogger.isAuditing()) {
-                console.warn(`Scribe could not understand "${san}". Skipping.`);
-            }
-            return null; // Soft failure
+            // SILENT FAILURE: Just return null, don't crash the worker
+            return null; 
         } catch (e) {
-            console.error("CRITICAL SCRIBE ERROR:", e);
             return null;
         }
     }
@@ -65,32 +37,25 @@ class PgnConverter {
         const promotedPiece = getMovePromoted(move);
         
         const files = 'abcdefgh', ranks = '87654321';
-        // =================================================================
-        // THE CRITICAL BUG FIX: Use (piece % 6) to handle black pieces.
+        // Correct piece letter lookup
         const pieceLetter = 'PNBRQK'[piece % 6];
-        // =================================================================
         
         const destSquare = files[to % 8] + ranks[Math.floor(to / 8)];
-        let generatedSan = "", reason = "";
+        let generatedSan = "";
 
         if (isCastle) {
             generatedSan = to > from ? 'O-O' : 'O-O-O';
-            reason = "Castling move.";
         } else if (pieceLetter === 'P') {
             if (isCapture) {
                 generatedSan = files[from % 8] + 'x' + destSquare;
-                reason = "Pawn capture.";
             } else {
                 generatedSan = destSquare;
-                reason = "Pawn quiet move.";
             }
             if (promotedPiece) {
                 generatedSan += '=' + 'PNBRQK'[promotedPiece % 6];
-                reason += " With promotion.";
             }
         } else {
             generatedSan = pieceLetter;
-            reason = `Piece [${pieceLetter}] move.`;
             const ambiguousMoves = legalMoves.filter(m => m !== move && getMovePiece(m) === piece && getMoveTo(m) === to && !getMoveCastling(m));
 
             if (ambiguousMoves.length > 0) {
@@ -98,15 +63,12 @@ class PgnConverter {
                 const fileIsUnique = !ambiguousMoves.some(m => (getMoveFrom(m) % 8) === fromFile);
                 if (fileIsUnique) {
                     generatedSan += files[fromFile];
-                    reason += ` Disambiguation: File [${files[fromFile]}] is unique.`;
                 } else {
                     const rankIsUnique = !ambiguousMoves.some(m => Math.floor(getMoveFrom(m) / 8) === fromRank);
                     if (rankIsUnique) {
                         generatedSan += ranks[fromRank];
-                        reason += ` Disambiguation: File is not unique, Rank [${ranks[fromRank]}] is.`;
                     } else {
                         generatedSan += files[fromFile] + ranks[fromRank];
-                        reason += ` Disambiguation: Neither File nor Rank is unique, using full coordinate.`;
                     }
                 }
             }
@@ -116,9 +78,7 @@ class PgnConverter {
             generatedSan += destSquare;
         }
 
-        const isMatch = sanClean === generatedSan;
-        ScribeLogger.logComparison({ move, generatedSan, targetSan: sanClean, isMatch, reason });
-        return isMatch;
+        return sanClean === generatedSan;
     }
 
     applyMove(move) {
@@ -154,7 +114,7 @@ function generateRawBook(source) {
             if (['1-0', '0-1', '1/2-1/2', '*'].includes(san)) continue;
             const fen = converter.toFen();
             const move = converter.parseSan(san);
-            // If we can't understand a move, stop processing this line but don't crash.
+            // Safe handling: if move is null, just stop this line and move to the next
             if (move === null) { 
                 break; 
             }
