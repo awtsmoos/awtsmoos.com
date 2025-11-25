@@ -56,8 +56,6 @@ function generateStairGeometry(width = 1, height = 1, depth = 1) {
         const yBot = startY + (i * actualStepHeight);
         const yTop = yBot + actualStepHeight;
         
-        // Calculate Z slice for this step
-        // Step 0 is at front (halfD), moving back
         const zFront = startZ - (i * stepDepth);
         const zBack = zFront - stepDepth;
 
@@ -75,17 +73,23 @@ function generateStairGeometry(width = 1, height = 1, depth = 1) {
             {x: 0, y: 1, z: 0}
         );
 
+        // --- B"H FIX: Sides extend to startY (Absolute Bottom) ---
+
         // 3. Left Side (-X)
         addQuad(
-            {x: startX, y: yBot, z: zBack}, {x: startX, y: yBot, z: zFront},
-            {x: startX, y: yTop, z: zFront}, {x: startX, y: yTop, z: zBack},
+            {x: startX, y: startY, z: zBack},  // Bottom-Back (Fixed to startY)
+            {x: startX, y: startY, z: zFront}, // Bottom-Front (Fixed to startY)
+            {x: startX, y: yTop, z: zFront},   // Top-Front
+            {x: startX, y: yTop, z: zBack},    // Top-Back
             {x: -1, y: 0, z: 0}
         );
 
         // 4. Right Side (+X)
         addQuad(
-            {x: endX, y: yBot, z: zFront}, {x: endX, y: yBot, z: zBack},
-            {x: endX, y: yTop, z: zBack}, {x: endX, y: yTop, z: zFront},
+            {x: endX, y: startY, z: zFront},   // Bottom-Front (Fixed to startY)
+            {x: endX, y: startY, z: zBack},    // Bottom-Back (Fixed to startY)
+            {x: endX, y: yTop, z: zBack},      // Top-Back
+            {x: endX, y: yTop, z: zFront},     // Top-Front
             {x: 1, y: 0, z: 0}
         );
     }

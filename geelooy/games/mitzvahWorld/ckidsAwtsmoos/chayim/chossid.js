@@ -640,7 +640,7 @@ export default class Chossid extends Medabeir {
 	        id: 'brick_1x0.5x2',
 	        className: 'Brick',
 	        name: 'Thin Plank Brick',
-	        description: 'A long 1x0.5x2 plank, ideal for building stairs',
+	        description: 'A long 1x0.5x2 plank',
 	        dimensions: { x: 1, y: 0.5, z: 2 }
 	    }, 1024);
 	    
@@ -663,6 +663,44 @@ export default class Chossid extends Medabeir {
             // You can change dimensions here (e.g., y: 2 for steep stairs)
 	        dimensions: { x: 1, y: 1, z: 1 } 
 	    }, 64); // Quantity
+	    
+	    
+	    // 1. Wide Stairs (4 units wide, standard height)
+	    this.inventory.addItem({
+	        id: 'stairs_wide_4',
+	        className: 'Stairs',
+	        name: 'Wide Stairs',
+	        description: 'A very wide staircase (4x1x1).',
+	        dimensions: { x: 4, y: 1, z: 1 } 
+	    }, 100);
+
+        // 2. Tall Stairs (Double height = More steps automatically generated)
+        this.inventory.addItem({
+	        id: 'stairs_tall_2',
+	        className: 'Stairs',
+	        name: 'Tall Stairs',
+	        description: 'Steep stairs reaching 2 units high.',
+	        dimensions: { x: 2, y: 2, z: 2 } 
+	    }, 50);
+
+        // 3. Grand Staircase (Huge dimensions)
+        this.inventory.addItem({
+	        id: 'stairs_grand',
+	        className: 'Stairs',
+	        name: 'Grand Staircase',
+	        description: 'A massive 4x4x4 staircase.',
+	        dimensions: { x: 4, y: 4, z: 4 } 
+	    }, 50);
+	    
+	    
+        // 3. Grand Staircase (Huge dimensions)
+        this.inventory.addItem({
+	        id: 'stairs_grand',
+	        className: 'Stairs',
+	        name: 'Extremely Grand Staircase',
+	        description: 'A extreme tall 8x40x80 staircase',
+	        dimensions: { x: 8, y: 40, z: 8 } 
+	    }, 50);
         
     }
 
