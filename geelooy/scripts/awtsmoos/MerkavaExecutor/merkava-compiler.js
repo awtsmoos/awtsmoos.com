@@ -146,7 +146,7 @@
             if (!node) return;
 
             switch (node.type) {
-            
+	            case 'TemplateLiteral': this._visitTemplateLiteral(node); break;
 	            case 'NewExpression': this._visitNew(node); break;
                 case 'FunctionExpression': 
                 case 'ArrowFunctionExpression': this._visitFuncExpr(node); break;
@@ -205,7 +205,19 @@
         }
 
         // --- VISITORS ---
-	
+	_visitTemplateLiteral(node) {
+            // B"H - For V1, we handle simple template literals without expressions.
+            // We just take the raw string value from the first (and only) quasi.
+            if (node.quasis.length === 1) {
+                const rawString = node.quasis[0].value.raw;
+                this._emitConstant(rawString);
+            } else {
+                // TODO: Handle template literals with expressions like `${name}`
+                // This would require compiling the expressions and using an ADD opcode.
+                throw new Error("Template literals with expressions are not yet supported.");
+            }
+        }
+        
 	_visitThrow(node) {
             this._visit(node.argument); // Compile the error message/object
             this.buffer.write8(OPCODES.THROW); // Emit the THROW opcode

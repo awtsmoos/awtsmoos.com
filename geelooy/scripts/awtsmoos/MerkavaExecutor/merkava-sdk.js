@@ -75,7 +75,8 @@
             'setTimeout', 'clearTimeout', 'setInterval', 'clearInterval', 'setImmediate', 'clearImmediate',
             'requestAnimationFrame', 'cancelAnimationFrame',
             'fetch', 'Headers', 'Request', 'Response', // Network
-            'TextEncoder', 'TextDecoder', 'URL', 'URLSearchParams'
+            'TextEncoder', 'TextDecoder', 'URL', 'URLSearchParams',
+            'Blob', 'Worker'
         ];
 
         // 3. Inject into Context

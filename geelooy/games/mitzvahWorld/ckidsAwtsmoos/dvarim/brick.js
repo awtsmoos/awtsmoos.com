@@ -18,7 +18,7 @@ export default class Brick extends Tzomayach {
     static itemName = "Brick";
     static icon = "/games/mitzvahWorld/icons/items/brick.svg";
     static description = "A sturdy 1x1x1 building brick. Use it to build structures.";
-    static stackSize = 64;
+    static stackSize = 1024;
     
     constructor(op) {
 	    // B"H - STEP 1: Determine dimensions first.

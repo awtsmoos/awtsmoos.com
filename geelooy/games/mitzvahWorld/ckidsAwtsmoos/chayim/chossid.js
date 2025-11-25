@@ -435,23 +435,65 @@ export default class Chossid extends Medabeir {
         if(this.optionsSpeed) {
             this.speed = this.optionsSpeed;
         }
-        var self = this
-        if (this.modelMesh) {
-            this.modelMesh.traverse((child) => {
+
+        // Use a clear reference to the Chossid instance to avoid any scope issues.
+        var self = this;
+
+        // --- B"H: Define the default spiritual garments (Levushim) ---
+        self.defaultGarments = {
+            jacket: { // This MUST match the mesh name in Blender
+                id: 'chossid_jacket_default',
+                className: 'Apparel',
+                name: 'Chossid Jacket',
+                description: 'A traditional jacket, a garment of soulful dignity.',
+                icon: '/games/mitzvahWorld/icons/items/jacket.svg'
+            },
+            // Assuming your Kippah mesh is named 'yarmulke' in Blender
+            yarmulke: { 
+                id: 'chossid_yarmulke_default',
+                className: 'Apparel',
+                name: 'Kippah',
+                description: 'A sign of reverence before the Awtsmoos.',
+                icon: '/games/mitzvahWorld/icons/items/yarmulke.svg'
+            }
+        };
+        // -----------------------------------------------------------------
+
+        if (self.modelMesh) {
+            // First, traverse the model to find and map the necessary parts.
+            self.modelMesh.traverse((child) => {
                 if (child.isMesh) {
                     child.frustumCulled = false;
-                   
                 }
-                 if(child?.name == ("body")) {
+
+                // Map the body for physics/camera calculations
+                if(child?.name == ("body")) {
                     self.updateDimensionsFromModel(child);
-                    this.olam.ayin.target = this;
-	                  
-	          }
+                    self.olam.ayin.target = self;
+	            }
                 
+                // Map the wearable garment meshes
+                if(self.defaultGarments && self.defaultGarments[child.name]) {
+                    if(!self.garments) self.garments = {};
+                    self.garments[child.name] = child;
+                }
             });
+
+            // Second, AFTER the traversal is complete, perform the logic.
+            // This is a safer pattern.
+
+            // Pre-equip the jacket if its mesh was found
+            if (self.garments && self.garments.jacket) {
+                self.inventory.equipment.jacket = self.defaultGarments.jacket;
+            }
+            // Pre-equip the yarmulke/kippah if its mesh was found
+            if (self.garments && self.garments.yarmulke) {
+                self.inventory.equipment.head = self.defaultGarments.yarmulke;
+            }
+
+            // Finally, send a single update to the UI with the equipped items.
+            self.inventory.updateUI();
         }
-        
-        
     }
 	
 	actionList = {
@@ -591,13 +633,23 @@ export default class Chossid extends Medabeir {
 	        dimensions: { x: 1, y: 1, z: 4 }
 	    }, 16);
 	    
-	    // Add 16 long 1x1x4 bricks
+	    
 	    this.inventory.addItem({
 	        id: 'brick_1x0.5x2',
 	        className: 'Brick',
 	        name: 'Thin Plank Brick',
 	        description: 'A long 1x0.5x2 plank, ideal for building stairs',
 	        dimensions: { x: 1, y: 0.5, z: 2 }
+	    }, 1024);
+	    
+	    
+	    // Add 16 long 1x1x4 bricks
+	    this.inventory.addItem({
+	        id: 'brick_4x0.25x4',
+	        className: 'Brick',
+	        name: 'Thin Plane Brick',
+	        description: 'A long 1x0.5x2 plane',
+	        dimensions: { x: 4, y: 0.25, z: 4 }
 	    }, 1024);
         
     }

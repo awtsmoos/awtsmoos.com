@@ -331,23 +331,37 @@ var ui = [instructions, {
     },
     on: {
         // 1. Update Inventory Grid
+        // 1. Update Inventory Grid
         updateSlots(e, $, ui) {
             const slotsData = e.detail;
-
-            // FIX: Get the element using $() first
             const inventoryElement = $("inventoryScreen");
-            if (!inventoryElement)
-                return;
+            if (!inventoryElement) return;
 
-            // Then use querySelector on the element
             const slotsContainer = inventoryElement.querySelector(".slots");
-            if (!slotsContainer)
-                return;
+            if (!slotsContainer) return;
 
-            slotsContainer.innerHTML = '';
-            // Clear existing slots
+            slotsContainer.innerHTML = ''; // Clear existing slots
 
-            slotsData.forEach( (slotData, index) => {
+            slotsData.forEach((slotData, index) => {
+                // --- Tooltip Helper Function ---
+                const showTooltip = (event) => {
+                    if (!slotData) return;
+                    const tooltip = $("icon tooltip");
+                    if (tooltip) {
+                        tooltip.innerHTML = `<div class="header">${slotData.name || 'Item'}</div><div class="description">${slotData.description || ''}</div>`;
+                        tooltip.classList.remove('hidden');
+                        
+                        // Position tooltip near cursor
+                        const x = event.pageX || (event.touches && event.touches[0].pageX);
+                        const y = event.pageY || (event.touches && event.touches[0].pageY);
+                        if(x && y) {
+                             tooltip.style.left = (x + 15) + 'px';
+                             tooltip.style.top = (y + 15) + 'px';
+                        }
+                    }
+                };
+                const hideTooltip = () => $("icon tooltip")?.classList.add('hidden');
+
                 ui.html({
                     parent: slotsContainer,
                     className: "actionSlot " + (slotData ? 'occupied' : 'empty'),
@@ -365,45 +379,17 @@ var ui = [instructions, {
                                     }
                                 });
                             }
-                            ui.peula("ikar", {
-                                olamPeula: {
-                                    selectInventorySlot: {
-                                        index
-                                    }
-                                }
-                            });
-                            document.querySelectorAll('.innerSlot.selected').forEach(el => el.classList.remove('selected'));
-                            event.currentTarget.classList.add('selected');
-                        }
-                        ,
-                        // ... (Tooltip logic remains the same) ...
+                        },
                         on: {
-                            mouseenter: (event) => {
-                                if (!slotData)
-                                    return;
-                                const tooltip = $("icon tooltip");
-                                if (tooltip) {
-                                    tooltip.innerHTML = `<div class="header">${slotData.name || 'Item'}</div><div class="description">${slotData.description || ''}</div>`;
-                                    tooltip.classList.remove('hidden');
-                                }
-                            }
-                            ,
-                            mousemove: (event) => {
-                                const tooltip = $("icon tooltip");
-                                if (tooltip && !tooltip.classList.contains("hidden")) {
-                                    tooltip.style.left = (event.pageX + 15) + 'px';
-                                    tooltip.style.top = (event.pageY + 15) + 'px';
-                                }
-                            }
-                            ,
-                            mouseleave: () => $("icon tooltip")?.classList.add('hidden')
+                            mouseenter: showTooltip,
+                            mousemove: showTooltip,
+                            mouseleave: hideTooltip,
+                            touchstart: showTooltip, // For mobile tap
                         },
                         children: slotData ? [{
                             tag: 'div',
                             className: 'slotBtn',
-                            style: {
-                                backgroundImage: `url(${slotData.icon})`
-                            }
+                            style: { backgroundImage: `url(${slotData.icon})` }
                         }, {
                             tag: 'div',
                             className: 'slotQuantity',
@@ -411,11 +397,10 @@ var ui = [instructions, {
                         }] : []
                     }]
                 });
-            }
-            );
+            });
         },
 
-        // 2. Update Equipment Sidebar (THE FIX IS HERE)
+        // 2. Update Equipment Sidebar
         updateEquipment(e, $, ui) {
             const equipData = e.detail;
 

@@ -221,6 +221,8 @@ export class Octree {
             this.build();
             console.log(`B"H - Pruned ${startSize - this.#allTriangles.length} dead triangles from physics.`);
         }
+        
+        console.log(`B"H - Background Cleanup Complete. Pruned ${startSize - this.#allTriangles.length} dead triangles from physics.`);
     }
 
 	build() {

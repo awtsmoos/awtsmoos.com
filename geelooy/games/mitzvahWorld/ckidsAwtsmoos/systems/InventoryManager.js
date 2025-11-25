@@ -66,7 +66,7 @@ export default class InventoryManager {
             return false;
         }
 
-        const maxStack = itemClass.stackSize || 64;
+        const maxStack = itemClass.stackSize || 512;
         const uniqueItemId = itemData.id; 
 
         // Try to stack first
