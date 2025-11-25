@@ -348,32 +348,29 @@
                     const result = thread.stack.pop();
                     
                     if (thread.frames.length === 0) {
-                        // This is a return from the top-level script. The thread is finished.
                         thread.status = VM_THREAD_STATUS.COMPLETED;
-                        thread.stack.push(result); // Leave the final result on the stack
+                        thread.stack.push(result);
                     } else {
-                        // This is a return from a function call. We must restore the caller's entire world.
                         const frame = thread.frames.pop();
                         
-                        // B"H - THE HEART OF THE ENGINE: Restore EVERYTHING.
                         thread.ip = frame.returnIP;
                         thread.bp = frame.prevBP;
                         thread.stack = frame.prevStack;
-                        thread.code = frame.code;             // <-- The missing restoration
-                        thread.constants = frame.constants;   // <-- The missing restoration
-                        
-                        // If the call was a constructor, handle the special return value.
+                        thread.code = frame.code;
+                        thread.constants = frame.constants;
+
+                        let finalResult = result;
                         if (frame.isConstructorCall) {
                             if (typeof result !== 'object' || result === null) {
-                                result = frame.instancePtr;
+                                finalResult = frame.instancePtr;
                             }
                         }
                         
-                        // Place the result of the function onto the caller's now-restored stack.
-                        thread.stack.push(result);
+                        thread.stack.push(finalResult);
                     }
                     break;
                 }
+        
 
                 // --- 0x10: STACK ---
                 case OPCODES.POP: thread.stack.pop(); break;
@@ -575,39 +572,31 @@
                 case OPCODES.CALL: {
                     const argCount = this._readUint8(thread);
                     
-                    // 1. Snapshot the caller's stack BEFORE modification. This is essential.
                     const frameSize = argCount + 2;
                     const prevStack = thread.stack.slice(0, thread.stack.length - frameSize);
 
-                    // 2. Isolate the call frame [Func, This, Arg1...] from the stack
                     const callFrame = thread.stack.splice(thread.stack.length - frameSize);
                     
                     const funcPtr = callFrame[0];
                     const thisVal = callFrame[1];
                     const args = callFrame.slice(2);
                     
-                    // 3. Resolve the function
                     let funcObj = (typeof funcPtr === 'function') ? funcPtr : this.memory.get(funcPtr);
 
-                    // 4. Execute
                     if (typeof funcObj === 'function') {
                         // --- NATIVE / HOST FUNCTION CALL ---
                         try {
                             const res = funcObj.apply(thisVal, args);
                             
-                            // B"H - THE CRITICAL FIX:
-                            // Restore the caller's stack IMMEDIATELY, before handling the result.
                             thread.stack = prevStack;
 
                             if (res && typeof res.then === 'function') {
-                                // For async calls, the thread sleeps and the result is pushed later.
                                 thread.status = VM_THREAD_STATUS.BLOCKED_ASYNC;
                                 res.then(val => {
                                     thread.stack.push(val);
                                     thread.status = VM_THREAD_STATUS.RUNNING;
                                 }).catch(err => this._handleInterrupt(thread, err));
                             } else {
-                                // For sync calls, push the result onto the now-restored stack.
                                 thread.stack.push(res);
                             }
                         } catch (e) {
@@ -619,16 +608,17 @@
                              throw new Error(`Type Error: Object at ptr ${funcPtr} is not a function.`);
                         }
 
-                        // Save the caller's state using the pristine 'prevStack'.
+                        // B"H - THE HEART OF THE FIX:
+                        // Save the CALLER'S state BEFORE switching to the new one.
                         thread.frames.push({
                             returnIP: thread.ip,
                             prevBP: thread.bp,
                             prevStack: prevStack, 
-                            code: thread.code,
-                            constants: thread.constants
+                            code: thread.code, // This saves the CALLER's code
+                            constants: thread.constants // This saves the CALLER's constants
                         });
 
-                        // Build the new frame for the callee.
+                        // Now, and only now, do we transition the world to the callee.
                         thread.stack = [thisVal, ...args];
                         thread.bp = 1; 
                         
@@ -770,25 +760,26 @@
             }
         }
 
-        /**
-         * Handles Exceptions and Interrupts (Page Faults).
-         * @private
-         */
         _handleInterrupt(thread, error) {
             if (isPageFault(error)) {
-                // ... (keep existing Page Fault logic)
+                thread.status = VM_THREAD_STATUS.WAITING_FOR_PAGE;
+                this.memory.resolveFault(error.ptr).then(success => {
+                    if (success) {
+                        thread.ip--; // Retry the instruction that failed
+                        thread.status = VM_THREAD_STATUS.RUNNING;
+                    } else {
+                        this._handleInterrupt(thread, "Segfault: Pointer not found on disk.");
+                    }
+                });
                 return;
             }
 
-            // B"H - Exception Handling
             if (thread.catchStack.length > 0) {
                 const handler = thread.catchStack.pop();
                 thread.ip = handler.catchIP;
                 thread.errorRegister = error.message || error;
-                // Don't mark as crashed, just jump to the catch block
                 console.log(`[VM] Caught Exception: ${thread.errorRegister}, jumping to handler.`);
             } else {
-                // No handler found, this is a true crash
                 const msg = `[VM] Thread #${thread.id} CRASHED: ${error.message || error}`;
                 console.error(msg);
                 if (this.hostAPI && this.hostAPI[0]) this.hostAPI[0]("CRITICAL VM ERROR:", msg);

@@ -191,7 +191,7 @@ var ui = [instructions, {
         }
         function moveTooltip(e) {
             if (!tooltip) return;
-            tooltip.style.left = e.pageX + "px";
+            tooltip.style.left = (e.pageX - tooltip.clientWidth) + "px";
             tooltip.style.top = e.pageY + "px";
         }
         function hideTooltip() {
@@ -495,7 +495,7 @@ var ui = [instructions, {
             const {item, index, x, y, sourceType} = e.detail;
             $("contextMenu")?.remove();
             
-            // Your existing styles and structure are preserved
+           
             const btnStyle = {
                 background: "none", border: "none", color: "white", textAlign: "left",
                 cursor: "pointer", padding: "8px", borderBottom: "1px solid #444", fontSize: "14px"
@@ -526,24 +526,25 @@ var ui = [instructions, {
                     
                 },
                 children: [
-                    // B"H: Dynamic Equip/Unequip button
+                    // Dynamic Equip/Unequip Button
                     item.isEquipped ? {
-                        tag: "button", className: "ctx-btn", style: btnStyle, textContent: "Unequip",
+                        tag: "button", textContent: "Unequip",
                         onclick: () => {
                             ui.peula("ikar", { olamPeula: { unequipItem: item.equippedIn } });
                             $("contextMenu")?.remove();
                         }
                     } : {
-                        tag: "button", className: "ctx-btn", style: btnStyle, textContent: "Equip",
+                        tag: "button", textContent: "Equip",
                         onclick: () => {
                             const target = item.equipSlot || 'rightHand';
                             ui.peula("ikar", { olamPeula: { equipItem: { sourceType, index, target } } });
                             $("contextMenu")?.remove();
                         }
                     },
-                    // B"H: Conditional "Move to Action Bar" button
+                    
+                    // Dynamic Move To/From Action Bar Button
                     sourceType === 'inventory' ? {
-                        tag: "button", className: "ctx-btn", style: btnStyle, textContent: "Move to Action Bar",
+                        tag: "button", textContent: "Move to Action Bar",
                         onclick: () => {
                             const actionSlots = $("action slots").children;
                             let targetIndex = -1;
@@ -558,13 +559,22 @@ var ui = [instructions, {
                             ui.peula("ikar", { olamPeula: { moveToActionBar: { fromInventoryIndex: index, toActionIndex: targetIndex } } });
                             $("contextMenu")?.remove();
                         }
-                    } : null,
-                    // Your existing close button
+                    } : { // If source is 'action'
+                        tag: "button", textContent: "Move to Inventory",
+                        onclick: () => {
+                             ui.peula("ikar", { olamPeula: { moveFromActionBar: { actionIndex: index } } });
+                             $("contextMenu")?.remove();
+                        }
+                    },
+
+                    // Close Button
                     {
-                        tag: "button", className: "ctx-btn close", textContent: "Close",
-                        onclick: () => $("contextMenu").remove()
+                        tag: "button", textContent: "Close",
+                        onclick: () => $("contextMenu")?.remove()
                     }
-                ].filter(Boolean) // This filters out the null 'Move' button when not needed
+                ].filter(Boolean).map(btn => ({...btn, className: 'ctx-btn', style: {...btnStyle, borderBottom: "1px solid #444"}}))
+            
+            
             });
         }
     },

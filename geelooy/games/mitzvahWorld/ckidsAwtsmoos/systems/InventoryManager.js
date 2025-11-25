@@ -200,20 +200,46 @@ export default class InventoryManager {
     
     /**
      * B"H
-     * Moves an item from the main inventory to an action slot, swapping if necessary.
+     * Moves an item and PRESERVES its equipped state by updating the reference.
      */
     moveToActionBar(fromInventoryIndex, toActionIndex) {
         if (fromInventoryIndex < 0 || fromInventoryIndex >= this.slots.length || toActionIndex < 0 || toActionIndex >= this.maxActionSlots) return;
 
+        // Check which items are equipped BEFORE the swap
+        const fromItemEquippedIn = this.isEquipped('inventory', fromInventoryIndex);
+        const toItemEquippedIn = this.isEquipped('action', toActionIndex);
+
+        // Perform the swap
         const itemToMove = this.slots[fromInventoryIndex];
         const itemInTarget = this.actionSlots[toActionIndex];
-
-        // An exchange of potential between the treasury and the antechamber.
         this.actionSlots[toActionIndex] = itemToMove;
         this.slots[fromInventoryIndex] = itemInTarget;
 
+        // If the item we moved FROM inventory was equipped, update its reference to the action bar
+        if (fromItemEquippedIn) {
+            this.equipment[fromItemEquippedIn] = { sourceType: 'action', index: toActionIndex };
+        }
+        // If the item we moved FROM the action bar was equipped, update its reference to inventory
+        if (toItemEquippedIn) {
+            this.equipment[toItemEquippedIn] = { sourceType: 'inventory', index: fromInventoryIndex };
+        }
+
         this.updateUI();
         this.save();
+    }
+    
+    /**
+     * B"H
+     * Helper to check if an item at a specific slot is currently equipped.
+     * Returns the equipment slot name (e.g., 'rightHand') if true, otherwise null.
+     */
+    isEquipped(sourceType, index) {
+        for (const [slotName, ref] of Object.entries(this.equipment)) {
+            if (ref && ref.sourceType === sourceType && ref.index === index) {
+                return slotName;
+            }
+        }
+        return null;
     }
 
     /**
