@@ -183,21 +183,45 @@ export class Octree {
 	}
 
 	removeMesh(mesh) {
-        // 1. Filter out triangles belonging to this mesh
+        // Only rebuilds if explicitly called (used for small dynamic nodes)
 		const originalCount = this.#allTriangles.length;
 		this.#allTriangles = this.#allTriangles.filter(tri => tri.sourceMesh !== mesh);
         
-        // 2. Also remove from dynamic list
+        // Also remove from dynamic list
         this.dynamicTriangles = this.dynamicTriangles.filter(tri => tri.sourceMesh !== mesh);
 
-		if (this.#allTriangles.length < originalCount || this.dynamicTriangles.length > 0) {
-            // 3. Force a rebuild next frame to update the spatial index
+		if (this.#allTriangles.length < originalCount) {
 			this.#isBuilt = false; 
-            // 4. Clear the flat buffer immediately so raycasts don't hit stale data
             this.#worldTrianglesData = null; 
+            this.build(); // Rebuild immediately for small chunks
 		}
 		return this;
 	}
+	
+	/**
+     * B"H
+     * Background cleanup task.
+     * Filters out ALL triangles whose meshes have been removed from the scene.
+     */
+    pruneDeadTriangles() {
+        const startSize = this.#allTriangles.length;
+        
+        // 1. Filter out anything that has no parent (removed from scene)
+        this.#allTriangles = this.#allTriangles.filter(tri => {
+            // Keep if source exists AND has a parent
+            return tri.sourceMesh && tri.sourceMesh.parent;
+        });
+        
+        this.dynamicTriangles = this.dynamicTriangles.filter(tri => tri.sourceMesh && tri.sourceMesh.parent);
+
+        // 2. If we removed anything, rebuild the spatial tree
+        if (this.#allTriangles.length < startSize) {
+            this.#isBuilt = false;
+            this.#worldTrianglesData = null;
+            this.build();
+            console.log(`B"H - Pruned ${startSize - this.#allTriangles.length} dead triangles from physics.`);
+        }
+    }
 
 	build() {
 	//console.error(`[DIAGNOSTIC] build() called. Master list #allTriangles has ${this.#allTriangles.length} triangles BEFORE build.`);

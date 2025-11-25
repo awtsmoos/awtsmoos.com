@@ -158,8 +158,19 @@
             // 1. Standard Library (Automatic)
             // 2. User Options (Specific overrides)
             const stdLib = getStandardContext();
-            const finalContext = Object.assign(stdLib, options.context || {});
+            
+            // Inject System Helpers
+            const systemHelpers = {
+                // Allows scripts to pass real arrays/objects to Host APIs instead of pointers
+                $unwrap: (val) => {
+                    if (typeof val === 'number' && memory.ram.has(val)) {
+                        return memory.ram.get(val);
+                    }
+                    return val;
+                }
+            };
 
+            const finalContext = Object.assign(stdLib, options.context || {}, systemHelpers);
             const vm = new window.MerkavaVM(memory, hostAPI, finalContext);
             const threadId = vm.spawn(codeObject);
 

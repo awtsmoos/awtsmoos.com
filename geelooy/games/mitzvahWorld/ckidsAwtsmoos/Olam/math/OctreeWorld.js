@@ -96,47 +96,70 @@ addObject(mesh) {
     /**
      * B"H
      * Removes a mesh from the physics world.
-     * Handles both Dynamic (LOD Nodes) and Static (Root) geometry.
+     * OPTIMIZED: Uses "Soft Delete" for instant response.
+     * Schedules a background cleanup to prevent freezing.
      */
     removeMesh(mesh) {
         if (!this.#root || !mesh) return;
 
         let found = false;
 
-        // 1. Try to find it in Dynamic Nodes
+        // 1. Dynamic Nodes (Fast - Keep this)
+        // Small chunks are fast to rebuild, so we do them immediately to keep memory low.
         const meshBox = new THREE.Box3().setFromObject(mesh);
         const nodes = this.#findLeafNodesInBox(this.#root, meshBox);
 
         nodes.forEach(node => {
-            if (node.physicsMeshGroup) {
-                if(node.physicsMeshGroup.children.includes(mesh)) {
-                    node.physicsMeshGroup.remove(mesh);
-                    found = true;
-                }
-            }
-
-            if (node.state === NODE_STATE.READY && node.physics) {
-                node.physics.removeMesh(mesh);
-                // Force physics rebuild for this chunk
-                node.physics.build(); 
-                
-                if (node.physics.getTotalTriangleCount() === 0) {
-                    node.state = NODE_STATE.EMPTY;
-                }
+            if (node.physicsMeshGroup && node.physicsMeshGroup.children.includes(mesh)) {
+                node.physicsMeshGroup.remove(mesh);
                 found = true;
+                
+                if (node.state === NODE_STATE.READY && node.physics) {
+                    node.physics.removeMesh(mesh); // Fast for small nodes
+                    
+                    if (node.physics.getTotalTriangleCount() === 0) {
+                        node.state = NODE_STATE.EMPTY;
+                    }
+                }
             }
         });
 
-        // 2. If not found in dynamic nodes, try the Main Static World Octree
-        // (This handles blocks loaded from the file)
+        // 2. Static World (The Freeze Source)
+        // If it wasn't dynamic, it's in the massive static tree.
+        // WE DO NOT REBUILD HERE. The '!parent' check in AwtsmoosOctree makes collision ignore it instantly.
         if (!found && this.#root.physics) {
-            console.log(`[OctreeWorld] Searching static world root for "${mesh.name}"...`);
-            this.#root.physics.removeMesh(mesh);
-            // Rebuild root physics (expensive, but necessary for static removal)
-            this.#root.physics.build();
+            // Just log it. The visual removal (removeFromParent) is enough for gameplay.
+            // We schedule a background cleanup to run when the browser is idle.
+            this.scheduleStaticCleanup();
         }
+    }
+
+    // Debounce timer for cleanup
+    #cleanupTimer = null;
+
+    scheduleStaticCleanup() {
+        if (this.#cleanupTimer) clearTimeout(this.#cleanupTimer);
         
-        console.log(`[OctreeWorld] Removed "${mesh.name}" collision.`);
+        // Wait 2 seconds of inactivity, then clean up in the background
+        this.#cleanupTimer = setTimeout(() => {
+            this.#performBackgroundCleanup();
+        }, 2000);
+    }
+
+    #performBackgroundCleanup() {
+        if (window.requestIdleCallback) {
+            window.requestIdleCallback(() => {
+                if (this.#root.physics) {
+                    console.log("B\"H - Running Background Octree Cleanup...");
+                    this.#root.physics.pruneDeadTriangles();
+                }
+            });
+        } else {
+            // Fallback for browsers without idle callback (run on next frame, might stutter slightly but rare)
+            setTimeout(() => {
+                if (this.#root.physics) this.#root.physics.pruneDeadTriangles();
+            }, 10);
+        }
     }
     
     

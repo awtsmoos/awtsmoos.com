@@ -548,12 +548,10 @@ export default class Chai extends Tzomayach {
         this.inventory.addItem(itemData, 1);
 
         if (object.nivraAwtsmoos) {
-            // If it's a fully managed Nivra object
             this.olam.sealayk(object.nivraAwtsmoos);
         } else {
-            // If it's a raw mesh or group (like from a loaded file)
-            this.olam.worldOctree.removeMesh(object);
-            object.removeFromParent();
+            this.olam.worldOctree.removeMesh(object); // Triggers the optimized "Soft Delete"
+            object.removeFromParent(); // This effectively deletes the collision instantly
         }
         
         this.playSound("awtsmoos://dingSound", { volume: 0.5 });
