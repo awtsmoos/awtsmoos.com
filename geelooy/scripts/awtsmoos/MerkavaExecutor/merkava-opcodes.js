@@ -316,7 +316,14 @@
          * Operand: [Line Number (2 bytes)]
          * Behavior: Pauses execution and invokes Host Debugger Hook.
          */
-        DEBUGGER: 0x94
+        DEBUGGER: 0x94,
+        
+        
+        
+        SET_PROTOTYPE: 0x35,
+        
+        
+        LOAD_ERROR: 0x95,
     };
 
     /**

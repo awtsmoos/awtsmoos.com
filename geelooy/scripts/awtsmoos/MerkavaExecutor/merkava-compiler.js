@@ -146,44 +146,51 @@
             if (!node) return;
 
             switch (node.type) {
-	            case 'TemplateLiteral': this._visitTemplateLiteral(node); break;
-	            case 'NewExpression': this._visitNew(node); break;
-                case 'FunctionExpression': 
-                case 'ArrowFunctionExpression': this._visitFuncExpr(node); break;
-                
-                
-	            case 'ThrowStatement': this._visitThrow(node); break;
-	            case 'ImportDeclaration': this._visitImport(node); break;
-                case 'ExportNamedDeclaration': this._visitExport(node); break;
-                
+	            case 'ThisExpression': this.buffer.write8(OPCODES.PUSH_THIS); break;
+                // Literals & Identifiers
                 case 'Literal': this._visitLiteral(node); break;
                 case 'Identifier': this._visitIdentifier(node, 'LOAD'); break;
-                
+                case 'TemplateLiteral': this._visitTemplateLiteral(node); break;
+
+                // Expressions
                 case 'BinaryExpression': this._visitBinary(node); break;
                 case 'UnaryExpression': this._visitUnary(node); break;
+                case 'UpdateExpression': this._visitUpdate(node); break;
                 case 'AssignmentExpression': this._visitAssignment(node); break;
+                case 'ConditionalExpression': this._visitConditional(node); break;
                 case 'CallExpression': this._visitCall(node); break;
+                case 'NewExpression': this._visitNew(node); break;
                 case 'MemberExpression': this._visitMember(node); break;
-                
                 case 'ObjectExpression': this._visitObject(node); break;
                 case 'ArrayExpression': this._visitArray(node); break;
-                
+                case 'FunctionExpression': 
+                case 'ArrowFunctionExpression': this._visitFuncExpr(node); break;
+
+                // Statements
                 case 'ExpressionStatement': 
                     this._visit(node.expression); 
-                    this.buffer.write8(OPCODES.POP); // Expression stmt result is discarded
+                    this.buffer.write8(OPCODES.POP);
                     break;
-                
                 case 'BlockStatement': this._compileBlock(node.body); break;
                 case 'IfStatement': this._visitIf(node); break;
                 case 'WhileStatement': this._visitWhile(node); break;
-                
-                case 'VariableDeclaration': this._visitVarDecl(node); break;
-                case 'FunctionDeclaration': this._visitFuncDecl(node); break;
-                
+                case 'ForStatement': this._visitFor(node); break;
+                case 'BreakStatement': this._visitBreak(node); break;
+                case 'ContinueStatement': this._visitContinue(node); break;
                 case 'ReturnStatement': this._visitReturn(node); break;
                 case 'AwaitExpression': this._visitAwait(node); break;
+                case 'ThrowStatement': this._visitThrow(node); break;
+                case 'TryStatement': this._visitTry(node); break;
 
-                // TODO: Add Switch, Try/Catch, For loops in v2
+                // Declarations
+                case 'VariableDeclaration': this._visitVarDecl(node); break;
+                case 'FunctionDeclaration': this._visitFuncDecl(node); break;
+                case 'ClassDeclaration': this._visitClass(node); break;
+
+                // Modules
+                case 'ImportDeclaration': this._visitImport(node); break;
+                case 'ExportNamedDeclaration': this._visitExport(node); break;
+                
                 default:
                     throw new Error(`[Compiler] Unsupported Node Type: ${node.type}`);
             }
@@ -205,6 +212,172 @@
         }
 
         // --- VISITORS ---
+        _visitUpdate(node) { // Handles i++ and ++i
+            this._visitIdentifier(node.argument, 'LOAD');
+            if (!node.prefix) this.buffer.write8(OPCODES.DUP); // For i++, dup the original value
+            
+            this.buffer.write8(OPCODES.PUSH_CONST);
+            this.buffer.write16(this._addConstant(1));
+            this.buffer.write8(node.operator === '++' ? OPCODES.ADD : OPCODES.SUB);
+            
+            this._visitIdentifier(node.argument, 'STORE');
+            
+            if (node.prefix) this.buffer.write8(OPCODES.DUP); // For ++i, dup the new value
+        }
+
+        _visitConditional(node) { // Handles ternary operator (a ? b : c)
+            this._visit(node.test);
+            
+            this.buffer.write8(OPCODES.JUMP_IF_FALSE);
+            const jumpToElse = this.buffer.write16(0);
+
+            this._visit(node.consequent);
+            this.buffer.write8(OPCODES.JUMP);
+            const jumpToEnd = this.buffer.write16(0);
+
+            const elseAddr = this.buffer.currentAddress;
+            this.buffer.patch16(jumpToElse, elseAddr - jumpToElse - 2);
+            
+            this._visit(node.alternate);
+            
+            const endAddr = this.buffer.currentAddress;
+            this.buffer.patch16(jumpToEnd, endAddr - jumpToEnd - 2);
+        }
+
+        _visitFor(node) {
+            this.scope = new CompilerScope(this.scope); // Create new scope for loop variable
+
+            if (node.init) this._visit(node.init);
+
+            const loopStart = this.buffer.currentAddress;
+            
+            // Loop condition
+            if (node.test) {
+                this._visit(node.test);
+                this.buffer.write8(OPCODES.JUMP_IF_FALSE);
+            } else {
+                // Infinite loop, needs break
+                this.buffer.write8(OPCODES.PUSH_TRUE);
+                this.buffer.write8(OPCODES.JUMP_IF_FALSE);
+            }
+            const exitJump = this.buffer.write16(0);
+
+            // Loop body
+            const loop = { breaks: [], continues: [] };
+            this.loops.push(loop);
+
+            this._visit(node.body);
+
+            // Continue point
+            const continueAddr = this.buffer.currentAddress;
+            loop.continues.forEach(addr => this.buffer.patch16(addr, continueAddr - addr - 2));
+
+            if (node.update) {
+                this._visit(node.update);
+                this.buffer.write8(OPCODES.POP); // Pop result of update expr
+            }
+
+            // Jump back to start
+            this.buffer.write8(OPCODES.JUMP);
+            this.buffer.write16(-(this.buffer.currentAddress + 2 - loopStart));
+
+            // Exit point
+            const loopEnd = this.buffer.currentAddress;
+            this.buffer.patch16(exitJump, loopEnd - exitJump - 2);
+            loop.breaks.forEach(addr => this.buffer.patch16(addr, loopEnd - addr - 2));
+
+            this.loops.pop();
+            this.scope = this.scope.parent; // Pop scope
+        }
+
+        _visitBreak(node) {
+            if (this.loops.length === 0) throw new Error("Illegal break statement");
+            this.buffer.write8(OPCODES.JUMP);
+            const jump = this.buffer.write16(0);
+            this.loops[this.loops.length - 1].breaks.push(jump);
+        }
+
+        _visitContinue(node) {
+            if (this.loops.length === 0) throw new Error("Illegal continue statement");
+            this.buffer.write8(OPCODES.JUMP);
+            const jump = this.buffer.write16(0);
+            this.loops[this.loops.length - 1].continues.push(jump);
+        }
+
+        _visitTry(node) {
+            this.buffer.write8(OPCODES.ENTER_TRY);
+            const catchJump = this.buffer.write16(0);
+            // We don't support finally yet, so its offset is 0
+            this.buffer.write16(0);
+
+            this._visit(node.block);
+            this.buffer.write8(OPCODES.EXIT_TRY);
+            
+            // Jump over the catch block if successful
+            this.buffer.write8(OPCODES.JUMP);
+            const endJump = this.buffer.write16(0);
+
+            // Catch block
+            const catchAddr = this.buffer.currentAddress;
+            this.buffer.patch16(catchJump, catchAddr - catchJump - 2);
+
+            if (node.handler) {
+                this.scope = new CompilerScope(this.scope);
+                this.buffer.write8(OPCODES.LOAD_ERROR); // Push error from VM register
+                const errName = node.handler.param.name;
+                this.scope.declare(errName);
+                this._visitIdentifier({ name: errName }, 'STORE');
+                
+                this._visit(node.handler.body);
+                this.scope = this.scope.parent;
+            }
+
+            const endAddr = this.buffer.currentAddress;
+            this.buffer.patch16(endJump, endAddr - endJump - 2);
+        }
+
+        _visitClass(node) {
+            const className = node.id.name;
+            
+            // 1. Create the prototype object and leave it on the stack.
+            this.buffer.write8(OPCODES.ALLOC_OBJECT);
+            // STACK: [..., prototype]
+
+            // 2. Add methods to the prototype.
+            const constructorNode = node.body.body.find(def => def.kind === 'constructor');
+            node.body.body.forEach(method => {
+                if (method.kind !== 'constructor') {
+                    this.buffer.write8(OPCODES.DUP);      // [..., prototype, prototype]
+                    this._emitConstant(method.key.name);  // [..., prototype, prototype, 'methodName']
+                    this._visitFuncExpr(method.value);    // [..., prototype, prototype, 'methodName', <method_closure>]
+                    this.buffer.write8(OPCODES.SET_PROP); // Consumes top 3, pushes result
+                    this.buffer.write8(OPCODES.POP);      // Clean up, leaving [..., prototype]
+                }
+            });
+
+            // 3. Compile the constructor function.
+            if (constructorNode) {
+                this._visitFuncExpr(constructorNode.value);
+            } else {
+                // Default constructor if none is provided.
+                this._visitFuncExpr({ type: 'ArrowFunctionExpression', params: [], body: { type: 'BlockStatement', body: [] }});
+            }
+            // STACK: [..., prototype, constructor]
+
+            // 4. B"H - THE CRITICAL FIX: Link prototype to constructor correctly.
+            // We need the stack to be [constructor, prototype] for SET_PROTOTYPE.
+            this.buffer.write8(OPCODES.SWAP); 
+            // STACK: [..., constructor, prototype]
+            
+            // This opcode will consume both and push the constructor back.
+            this.buffer.write8(OPCODES.SET_PROTOTYPE);
+            // STACK: [..., constructor]
+
+            // 5. Store the completed class (which is its constructor function) in a variable.
+            this._visitIdentifier({ name: className }, 'STORE');
+            // STACK: [...] (clean)
+        }
+        
 	_visitTemplateLiteral(node) {
             // B"H - For V1, we handle simple template literals without expressions.
             // We just take the raw string value from the first (and only) quasi.
@@ -491,45 +664,40 @@
         }
 
         _visitCall(node) {
-            // B"H - INTRINSIC SYSCALL HANDLING
             if (node.callee.type === 'Identifier' && node.callee.name === 'syscall') {
-                // 1. Validate ID
                 const idArg = node.arguments[0];
                 if (!idArg || idArg.type !== 'Literal' || typeof idArg.value !== 'number') {
-                    throw new Error("Syscall ID must be a constant number (e.g., syscall(0, ...))");
+                    throw new Error("Syscall ID must be a constant number.");
                 }
-
-                // 2. Compile Arguments (Skipping the ID)
-                // These will be pushed to the stack in order
                 const realArgs = node.arguments.slice(1);
                 for (const arg of realArgs) {
                     this._visit(arg);
                 }
-
-                // 3. Emit SYSCALL Opcode
                 this.buffer.write8(OPCODES.SYSCALL);
-                this.buffer.write8(idArg.value);      // Operand 1: ID
-                this.buffer.write8(realArgs.length);  // Operand 2: ArgCount (Added for VM simplicity)
+                this.buffer.write8(idArg.value);
+                this.buffer.write8(realArgs.length);
                 return;
             }
-            // --------------------------------
 
-            // 1. Push Callee (Function)
+            // 1. Compile the Function to be called
             this._visit(node.callee);
             
-            // 2. Push "This" (Context)
+            // 2. Compile the 'this' Context
             if (node.callee.type === 'MemberExpression') {
-                this.buffer.write8(OPCODES.PUSH_NULL); // TODO: Real context logic
+                // For a method call like 'obj.method()', 'this' is 'obj'.
+                this._visit(node.callee.object);
             } else {
+                // For a global call like 'myFunction()', 'this' is undefined.
                 this.buffer.write8(OPCODES.PUSH_UNDEFINED);
             }
 
-            // 3. Push Args
+            // 3. Compile all Arguments
             for (const arg of node.arguments) {
                 this._visit(arg);
             }
 
-            // 4. Call Opcode
+            // 4. Emit the CALL opcode.
+            // The stack is now correctly laid out: [Function, This, Arg1, Arg2...]
             this.buffer.write8(OPCODES.CALL);
             this.buffer.write8(node.arguments.length);
         }
@@ -592,15 +760,15 @@
         }
         
         _visitNew(node) {
-            // 1. Compile Constructor (e.g., Promise)
+            // 1. Compile the Constructor (e.g., Promise, Validator)
             this._visit(node.callee);
 
-            // 2. Compile Arguments
+            // 2. Compile Arguments. 'this' is NOT passed for 'new'.
             for (const arg of node.arguments) {
                 this._visit(arg);
             }
 
-            // 3. Emit NEW Opcode
+            // 3. Emit NEW Opcode with the argument count.
             this.buffer.write8(OPCODES.NEW);
             this.buffer.write8(node.arguments.length);
         }

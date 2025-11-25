@@ -48,7 +48,11 @@ async function go() {
     }
 
     var tawfkeedeem/*tasks to do*/ = {
-    
+	    async moveToActionBar({ fromInventoryIndex, toActionIndex }) {
+	            if (me.olam && me.olam.player && me.olam.player.inventory) {
+	                me.olam.player.inventory.moveToActionBar(fromInventoryIndex, toActionIndex);
+	            }
+	        },
 	    async saveSettings(data) {
                 // Only works if user is logged in (has an alias)
                 if(!window.curAlias) return;

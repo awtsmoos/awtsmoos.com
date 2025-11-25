@@ -33,7 +33,10 @@ export default /*css*/`
 		border-bottom: none;
 	}
 	
-	
+	.innerSlot.equipped-indicator {
+	        outline: 3px solid gold;
+	        box-shadow: 0 0 12px gold;
+	    }
 	.awtsmoosInventoryViewer .header {
 		display: flex;
 		flex-direction: row;

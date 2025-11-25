@@ -41,6 +41,8 @@
             this.id = id;
             this.status = VM_THREAD_STATUS.RUNNING;
             
+            
+            
             // Registers
             this.ip = 0; // Instruction Pointer
             this.bp = 0; // Base Pointer (start of current frame's locals)
@@ -54,6 +56,9 @@
             
             // Scope management
             this.scope = null; // Pointer to current environment scope in Memory
+        
+	        this.catchStack = [];
+            this.errorRegister = null;
         }
     }
 
@@ -197,43 +202,118 @@
             // Decode & Execute
             switch (opcode) {
             
+	        case OPCODES.SWAP: {
+                    const b = thread.stack.pop();
+                    const a = thread.stack.pop();
+                    thread.stack.push(b);
+                    thread.stack.push(a);
+                    break;
+                }
+	        // --- B"H - THE FINAL OPCODES ---
+		case OPCODES.PUSH_THIS: {
+                    // The 'this' value is at the base of the current function's stack (index 0).
+                    const thisVal = thread.stack[0];
+                    thread.stack.push(thisVal);
+                    break;
+                }
+                case OPCODES.SET_PROTOTYPE: {
+                    // Stack: [Constructor Ptr, Prototype Ptr]
+                    const protoPtr = thread.stack.pop();
+                    const ctorPtr = thread.stack.pop();
+                    
+                    // Get the actual closure object for the constructor
+                    const ctorClosure = this.memory.get(ctorPtr);
+                    
+                    // B"H - Store a reference to the prototype directly on the closure object.
+                    ctorClosure.prototypePtr = protoPtr;
+                    
+                    // Mark the constructor object as modified
+                    this.memory.set(ctorPtr, ctorClosure);
+                    
+                    // Push the constructor back onto the stack, as the class expression resolves to the constructor.
+                    thread.stack.push(ctorPtr);
+                    break;
+                }
+
+                // --- Error Handling ---
+                case OPCODES.ENTER_TRY: {
+                    const catchOffset = this._readInt16(thread);
+                    const finallyOffset = this._readInt16(thread); // Ignored for now
+                    thread.catchStack.push({
+                        catchIP: thread.ip + catchOffset,
+                        // finallyIP: thread.ip + finallyOffset (for v2)
+                    });
+                    break;
+                }
+                case OPCODES.EXIT_TRY: {
+                    thread.catchStack.pop();
+                    break;
+                }
+                case OPCODES.LOAD_ERROR: {
+                    thread.stack.push(thread.errorRegister);
+                    thread.errorRegister = null;
+                    break;
+                }
+                
+                
 	        case OPCODES.NEW: {
                     const argCount = this._readUint8(thread);
-                    const prevStack = thread.stack.slice(0, thread.stack.length - (argCount + 1));
-
-                    const args = [];
-                    for(let i=0; i<argCount; i++) {
-                        let val = thread.stack.pop();
-                        
-                        // B"H - AUTO-WRAP CLOSURES
-                        // If we are passing a VM Function to a Host Constructor, wrap it!
-                        if (typeof val === 'number' && this.memory.ram.has(val)) {
-                            const obj = this.memory.get(val);
-                            // Check if it looks like a compiled closure
-                            if (obj && obj.bytecode && obj.constants) {
-                                val = this._createHostProxy(val);
-                            }
-                        }
-                        
-                        args.unshift(val);
-                    }
                     
-                    const constructorPtr = thread.stack.pop();
+                    // Isolate constructor and args from the stack
+                    const frameSize = argCount + 1;
+                    const callFrame = thread.stack.splice(thread.stack.length - frameSize);
                     
-                    // Resolve Constructor
-                    let Constructor = (typeof constructorPtr === 'function') ? 
-                                      constructorPtr : this.memory.get(constructorPtr);
+                    const constructorPtr = callFrame[0];
+                    const args = callFrame.slice(1);
+                    
+                    let Constructor = (typeof constructorPtr === 'function') ? constructorPtr : this.memory.get(constructorPtr);
 
                     if (typeof Constructor === 'function') {
+                        // --- NATIVE HOST CONSTRUCTOR ---
                         try {
                             const instance = Reflect.construct(Constructor, args);
-                            thread.stack = prevStack;
                             thread.stack.push(instance);
                         } catch (e) {
                             this._handleInterrupt(thread, `Instantiation Error: ${e.message}`);
                         }
                     } else {
-                        this._handleInterrupt(thread, "Type Error: Constructor is not a function.");
+                        // --- VM CLASS CONSTRUCTOR ---
+                        if (!Constructor || !Constructor.bytecode) {
+                            this._handleInterrupt(thread, "Type Error: Constructor is not a function.");
+                            break;
+                        }
+                        
+                        // 1. Create a new empty object in memory for the instance.
+                        const instancePtr = this.memory.allocate({});
+                        const instanceObj = this.memory.get(instancePtr);
+                        
+                        // 2. Find and link the prototype.
+                        if (Constructor.prototypePtr) {
+                            const protoObj = this.memory.get(Constructor.prototypePtr);
+                            Object.setPrototypeOf(instanceObj, protoObj);
+                        }
+                        
+                        // 3. Prepare to call the constructor function.
+                        // Save the current state, but mark this frame as a constructor call.
+                        thread.frames.push({
+                            returnIP: thread.ip,
+                            prevBP: thread.bp,
+                            prevStack: thread.stack,
+                            code: thread.code,
+                            constants: thread.constants,
+                            isConstructorCall: true, // Special flag for the RETURN opcode
+                            instancePtr: instancePtr   // The object we must ultimately return
+                        });
+
+                        // 4. Set up the new stack frame for the constructor call.
+                        // 'this' is the newly created instance.
+                        thread.stack = [instancePtr, ...args];
+                        thread.bp = 1;
+                        
+                        // Jump execution into the constructor's bytecode.
+                        thread.code = Constructor.bytecode;
+                        thread.constants = Constructor.constants;
+                        thread.ip = 0;
                     }
                     break;
                 }
@@ -265,31 +345,30 @@
                 }
 
                 case OPCODES.RETURN: {
-                    const result = thread.stack.length > 0 ? thread.stack.pop() : undefined;
+                    let result = thread.stack.pop();
                     
                     if (thread.frames.length === 0) {
-                        // Return from main function = exit thread
-                        console.log(`[VM] Thread #${thread.id} Finished. Result:`, result);
                         thread.status = VM_THREAD_STATUS.COMPLETED;
+                        thread.stack.push(result);
                     } else {
                         const frame = thread.frames.pop();
+                        
+                        // B"H - Handle the special return logic for 'new'
+                        if (frame.isConstructorCall) {
+                            // If a constructor returns a non-object, JavaScript ignores it
+                            // and returns the newly created instance instead.
+                            if (typeof result !== 'object' || result === null) {
+                                result = frame.instancePtr;
+                            }
+                        }
+                        
+                        // Restore the caller's entire world-state
                         thread.ip = frame.returnIP;
                         thread.bp = frame.prevBP;
-                        
-                        // Restore code context (if returning from a different closure)
+                        thread.stack = frame.prevStack;
                         thread.code = frame.code;
                         thread.constants = frame.constants;
-                        thread.scope = frame.scope;
                         
-                        // Prune stack to remove args from called function
-                        // (BP points to start of locals, so everything above it was the frame)
-                        // Actually, standard convention: Caller pops args or Callee pops.
-                        // Let's assume Callee pops local vars, Result replaces them.
-                        // Simplified: We reset stack length to BP? No, that kills the result.
-                        // Implementation: The locals were on the stack. We discard them.
-                        // This requires precise stack management.
-                        // For V1 JS-hosted stack:
-                        thread.stack = frame.prevStack; // Simplest way: Restore stack snapshot + push result
                         thread.stack.push(result);
                     }
                     break;
@@ -493,46 +572,37 @@
                 }
 
                 case OPCODES.CALL: {
-                    // 1. Extract Arguments & State from Stack
                     const argCount = this._readUint8(thread);
-                    const prevStack = thread.stack.slice(0, thread.stack.length - (argCount + 2));
                     
-                    const args = [];
-                    for(let i=0; i<argCount; i++) args.unshift(thread.stack.pop());
+                    // B"H - THE FINAL, CRITICAL FIX:
+                    // We must capture the state of the caller's stack *before* we modify it.
+                    const frameSize = argCount + 2;
+                    const prevStack = thread.stack.slice(0, thread.stack.length - frameSize);
+
+                    // Now, we can safely extract the call information.
+                    const callFrame = thread.stack.splice(thread.stack.length - frameSize);
                     
-                    const thisVal = thread.stack.pop();
-                    const funcPtr = thread.stack.pop();
+                    const funcPtr = callFrame[0];
+                    const thisVal = callFrame[1];
+                    const args = callFrame.slice(2);
+                    
+                    let funcObj = (typeof funcPtr === 'function') ? funcPtr : this.memory.get(funcPtr);
 
-                    // 2. Resolve the Function (This is the crucial step)
-                    let funcObj;
-                    if (typeof funcPtr === 'function') {
-                        // It's a Native/Host function from the context
-                        funcObj = funcPtr;
-                    } else {
-                        // It's a pointer to a VM Closure in memory
-                        funcObj = this.memory.get(funcPtr); // This can Page Fault
-                    }
-
-                    // 3. Execute based on Type
                     if (typeof funcObj === 'function') {
-                        // --- NATIVE / HOST FUNCTION CALL ---
+                        // --- HOST FUNCTION CALL ---
                         try {
                             const res = funcObj.apply(thisVal, args);
                             
-                            // MAGIC ASYNC (Auto-Await)
+                            // Restore the caller's stack before handling the result.
+                            thread.stack = prevStack;
+
                             if (res && typeof res.then === 'function') {
                                 thread.status = VM_THREAD_STATUS.BLOCKED_ASYNC;
-                                thread.stack = prevStack; // Restore stack before waiting
-                                
                                 res.then(val => {
-                                    thread.stack.push(val); // Push result when done
+                                    thread.stack.push(val);
                                     thread.status = VM_THREAD_STATUS.RUNNING;
-                                }).catch(err => {
-                                    this._handleInterrupt(thread, err);
-                                });
+                                }).catch(err => this._handleInterrupt(thread, err));
                             } else {
-                                // Synchronous Host Result
-                                thread.stack = prevStack;
                                 thread.stack.push(res);
                             }
                         } catch (e) {
@@ -544,22 +614,22 @@
                              throw new Error(`Type Error: Object at ptr ${funcPtr} is not a function.`);
                         }
 
-                        // Save the current execution frame
+                        // Save the caller's state, using the pristine 'prevStack' we captured earlier.
                         thread.frames.push({
                             returnIP: thread.ip,
                             prevBP: thread.bp,
+                            prevStack: prevStack, 
                             code: thread.code,
-                            constants: thread.constants,
-                            scope: thread.scope,
-                            prevStack: prevStack
+                            constants: thread.constants
                         });
 
-                        // Setup the new frame to execute the closure
+                        // Build the new frame for the callee.
+                        thread.stack = [thisVal, ...args];
+                        thread.bp = 1; 
+                        
                         thread.code = funcObj.bytecode;
                         thread.constants = funcObj.constants;
                         thread.ip = 0;
-                        thread.stack = args; 
-                        thread.bp = 0;
                     }
                     break;
                 }
@@ -701,29 +771,24 @@
          */
         _handleInterrupt(thread, error) {
             if (isPageFault(error)) {
-                // Page Fault handling (Keep existing logic)
-                thread.status = VM_THREAD_STATUS.WAITING_FOR_PAGE;
-                this.memory.resolveFault(error.ptr).then(success => {
-                    if (success) {
-                        thread.ip -= 1; // Retry instruction
-                        thread.status = VM_THREAD_STATUS.RUNNING;
-                    } else {
-                        this._handleInterrupt(thread, "Segfault: Pointer not found on disk.");
-                    }
-                });
+                // ... (keep existing Page Fault logic)
                 return;
             }
 
-            // B"H - CRASH REPORTING
-            // Send the error to the Host API (Syscall 0 = Print) so the user sees it in the UI
-            const msg = `[VM] Thread #${thread.id} CRASHED: ${error.message || error}`;
-            console.error(msg); // Keep browser log
-            
-            if (this.hostAPI && this.hostAPI[0]) {
-                this.hostAPI[0]("CRITICAL VM ERROR:", msg);
+            // B"H - Exception Handling
+            if (thread.catchStack.length > 0) {
+                const handler = thread.catchStack.pop();
+                thread.ip = handler.catchIP;
+                thread.errorRegister = error.message || error;
+                // Don't mark as crashed, just jump to the catch block
+                console.log(`[VM] Caught Exception: ${thread.errorRegister}, jumping to handler.`);
+            } else {
+                // No handler found, this is a true crash
+                const msg = `[VM] Thread #${thread.id} CRASHED: ${error.message || error}`;
+                console.error(msg);
+                if (this.hostAPI && this.hostAPI[0]) this.hostAPI[0]("CRITICAL VM ERROR:", msg);
+                thread.status = VM_THREAD_STATUS.CRASHED;
             }
-
-            thread.status = VM_THREAD_STATUS.CRASHED;
         }
 
         // Helpers

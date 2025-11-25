@@ -148,7 +148,12 @@ var ui = [instructions, {
             /* */
         },
     }
-}, {
+}, 
+
+
+
+
+{
     shaym: "action bar",
     className: "awtsmoosAction",
     awtsmoosClick: true,
@@ -169,152 +174,142 @@ var ui = [instructions, {
         shaym: "action slots"
     }],
     ready(el, $f, ui) {
+        // B"H: This function now ONLY creates the static "bag" icon.
+        const slotConfig = el.startSlotsConfig;
+        if (!slotConfig || !slotConfig.slots || !slotConfig.slots[0]) return;
+        
+        const bagSlotInfo = slotConfig.slots[0];
+        const slotsContainer = $f("action slots");
 
-        var slotNumbers = 5;
-        var slotsMade = 0;
-        for (var i = 0; i < slotNumbers; i++) {
-            el.dispatchEvent(new CustomEvent("addSlot",{
-                detail: {
-                    $f,
-                    ui,
-                    el
-                }
-            }));
-            slotsMade++;
+        const tooltip = $f("icon tooltip");
+
+        // Tooltip functions for the bag icon
+        function showTooltip() {
+            if (!tooltip) return;
+            tooltip.innerHTML = `<div class="header">${bagSlotInfo.name}</div><div class="description">${bagSlotInfo.description}</div>`;
+            tooltip.classList.remove("hidden");
         }
-        var slotConfig = el?.startSlotsConfig;
-
-        console.log(slotConfig, "slotConfig")
-        slotConfig?.slots?.forEach?.(s => {
-            el.dispatchEvent(new CustomEvent("populateSlot",{
-                detail: {
-                    sys: {
-                        $f,
-                        ui,
-                        el
-                    },
-                    slotInfo: s
-                }
-            }));
+        function moveTooltip(e) {
+            if (!tooltip) return;
+            tooltip.style.left = e.pageX + "px";
+            tooltip.style.top = e.pageY + "px";
         }
-        )
-    },
-    on: {
-        populateSlot(e) {
-            var {$f, ui, el} = e?.detail?.sys || {};
-            var slotInfo = e?.detail?.slotInfo || null;
-            if (!slotInfo) {
-                return console.log("Sloto error", e);
-            }
+        function hideTooltip() {
+            if (!tooltip) return;
+            tooltip.classList.add("hidden");
+        }
 
-            var empty = document.querySelector(".actionSlot.empty .innerSlot");
-            if (!empty) {
-                return console.log("No available slots")
-            }
-
-            var elementToShow = slotInfo.show;
-
-            var tooltip = $f("icon tooltip");
-
-            function initTooltip() {
-                if (!tooltip) {
-                    tooltip = $f("icon tooltip");
-                }
-                if (!tooltip) {
-                    return
-                }
-                tooltip.innerHTML = `<div class="header">${slotInfo.name}</div><div class="description">${slotInfo?.description}</div>`
-
-            }
-            function moveTooltipToMe({x, y}) {
-                if (!tooltip) {
-                    tooltip = $f("icon tooltip");
-                }
-                if (!tooltip) {
-                    return console.log("no tip");
-                }
-                if (tooltip.classList.contains("hidden")) {
-                    tooltip.classList.remove("hidden")
-                }
-                tooltip.style.left = x + "px";
-                tooltip.style.top = y + "px";
-
-            }
-
-            function hideTooltip() {
-                if (!tooltip) {
-                    tooltip = $f("icon tooltip");
-                }
-                if (!tooltip)
-                    return;
-                tooltip.innerHTML = ""
-                tooltip.classList.add("hidden")
-            }
-            var slotBtn = ui.html({
-                parent: empty,
-                className: "slotBtn",
-                style: {
-                    backgroundImage: `url(${slotInfo.icon})`
+        // Create the bag slot element
+        ui.html({
+            parent: slotsContainer,
+            className: "actionSlot occupied",
+            children: [{
+                className: "innerSlot",
+                on: {
+                    mouseenter: showTooltip,
+                    mousemove: moveTooltip,
+                    mouseleave: hideTooltip
                 },
                 onclick(e) {
-                    var myEl = $f(elementToShow);
-                    if (myEl) {
-                        myEl.classList.remove("hidden")
+                    const inventoryScreen = $f(bagSlotInfo.show);
+                    if (inventoryScreen) {
+                        inventoryScreen.classList.remove("hidden");
                     }
-                }
-
-            });
-
-            empty.onmouseenter = (e) => {
-                initTooltip()
-            }
-            empty.onmousemove = (e) => {
-
-                moveTooltipToMe({
-                    x: e.pageX,
-                    y: e.pageY
-                })
-            }
-            empty.ontouchenter = (e) => {
-                initTooltip()
-            }
-            empty.ontouchmove = (e) => {
-                moveTooltipToMe({
-                    x: e.touches[0].pageX,
-                    y: e.touches[0].pageY
-                })
-            }
-            empty.onblur = () => {
-                hideTooltip()
-            }
-
-            empty.onmouseleave = (e) => {
-                hideTooltip()
-            }
-
-            empty.parentNode.classList.remove("empty");
-
-            empty.parentNode.classList.add("occupied");
-
-            if (!elementToShow) {
-                empty.parentNode.classList.add("disabled")
-            }
-
-        },
-        addSlot(e) {
-            var {$f, ui, el
-            } = e.detail;
-            //  console.log(e)
-            ui.$h({
-                parent: "action slots",
-                className: "actionSlot empty",
+                },
                 children: [{
-                    className: "innerSlot"
+                    className: "slotBtn",
+                    style: { backgroundImage: `url(${bagSlotInfo.icon})` }
                 }]
-            })
+            }]
+        });
+    },
+    on: {
+        // B"H: This new event handler manages all DYNAMIC slots (items moved from inventory)
+        updateActionSlots(e, $, ui) {
+            const actionSlotsData = e.detail;
+            const slotsContainer = $("action slots");
+            if (!slotsContainer) return;
+
+            // Clear only the dynamic slots, leaving the static "bag" icon (child at index 0) untouched.
+            while (slotsContainer.children.length > 1) {
+                slotsContainer.removeChild(slotsContainer.lastChild);
+            }
+
+            // Create the new dynamic slots from the inventory data
+            actionSlotsData.forEach((slotData, index) => {
+                const slot = ui.html({
+                    parent: slotsContainer,
+                    className: "actionSlot " + (slotData ? 'occupied' : 'empty'),
+                    children: [{
+                        className: "innerSlot" + (slotData && slotData.isEquipped ? " equipped-indicator" : ""),
+                        onclick: () => {
+                            if (!slotData) return;
+                            const action = slotData.isEquipped ? "unequipItem" : "equipItem";
+                            const payload = slotData.isEquipped 
+                                ? slotData.equippedIn 
+                                : { sourceType: 'action', index, target: slotData.equipSlot || 'rightHand' };
+                            ui.peula("ikar", { olamPeula: { [action]: payload }});
+                        },
+                        children: slotData ? [
+                            { className: 'slotBtn', style: { backgroundImage: `url(${slotData.icon})` }},
+                            { className: 'slotQuantity', textContent: slotData.quantity > 1 ? slotData.quantity : '' }
+                        ] : []
+                    }]
+                });
+
+                // Make the slot a target for drag-and-drop
+                slot.ondragover = (event) => event.preventDefault();
+                slot.ondrop = (event) => {
+                    event.preventDefault();
+                    const fromInventoryIndex = event.dataTransfer.getData("text/plain");
+                    if (fromInventoryIndex) {
+                        ui.peula("ikar", {
+                            olamPeula: { moveToActionBar: { fromInventoryIndex: parseInt(fromInventoryIndex), toActionIndex: index } }
+                        });
+                    }
+                };
+            });
         }
     }
-}, {
+},
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ {
     shaym: "inventoryScreen",
     awtsmoosClick: true,
     className: "awtsmoosInventoryViewer hidden",
@@ -331,7 +326,6 @@ var ui = [instructions, {
     },
     on: {
         // 1. Update Inventory Grid
-        // 1. Update Inventory Grid
         updateSlots(e, $, ui) {
             const slotsData = e.detail;
             const inventoryElement = $("inventoryScreen");
@@ -340,18 +334,15 @@ var ui = [instructions, {
             const slotsContainer = inventoryElement.querySelector(".slots");
             if (!slotsContainer) return;
 
-            slotsContainer.innerHTML = ''; // Clear existing slots
+            slotsContainer.innerHTML = '';
 
             slotsData.forEach((slotData, index) => {
-                // --- Tooltip Helper Function ---
                 const showTooltip = (event) => {
                     if (!slotData) return;
                     const tooltip = $("icon tooltip");
                     if (tooltip) {
                         tooltip.innerHTML = `<div class="header">${slotData.name || 'Item'}</div><div class="description">${slotData.description || ''}</div>`;
                         tooltip.classList.remove('hidden');
-                        
-                        // Position tooltip near cursor
                         const x = event.pageX || (event.touches && event.touches[0].pageX);
                         const y = event.pageY || (event.touches && event.touches[0].pageY);
                         if(x && y) {
@@ -365,8 +356,15 @@ var ui = [instructions, {
                 ui.html({
                     parent: slotsContainer,
                     className: "actionSlot " + (slotData ? 'occupied' : 'empty'),
+                    draggable: !!slotData, // B"H: Make item draggable
+                    on: {
+                        dragstart: (event) => { // Store its index when dragging
+                            event.dataTransfer.setData("text/plain", index);
+                        }
+                    },
                     children: [{
-                        className: "innerSlot",
+                        // B"H: Add equipped indicator class if needed
+                        className: "innerSlot" + (slotData && slotData.isEquipped ? " equipped-indicator" : ""),
                         onclick: (event) => {
                             if (slotData) {
                                 const rect = event.currentTarget.getBoundingClientRect();
@@ -375,7 +373,8 @@ var ui = [instructions, {
                                         item: slotData,
                                         index: index,
                                         x: rect.right,
-                                        y: rect.top
+                                        y: rect.top,
+                                        sourceType: 'inventory' // Specify source
                                     }
                                 });
                             }
@@ -384,35 +383,35 @@ var ui = [instructions, {
                             mouseenter: showTooltip,
                             mousemove: showTooltip,
                             mouseleave: hideTooltip,
-                            touchstart: showTooltip, // For mobile tap
+                            touchstart: showTooltip,
                         },
                         children: slotData ? [{
-                            tag: 'div',
-                            className: 'slotBtn',
-                            style: { backgroundImage: `url(${slotData.icon})` }
+                            tag: 'div', className: 'slotBtn', style: { backgroundImage: `url(${slotData.icon})` }
                         }, {
-                            tag: 'div',
-                            className: 'slotQuantity',
-                            textContent: slotData.quantity > 1 ? slotData.quantity : ''
+                            tag: 'div', className: 'slotQuantity', textContent: slotData.quantity > 1 ? slotData.quantity : ''
                         }] : []
                     }]
                 });
             });
         },
 
-        // 2. Update Equipment Sidebar
+        // 2. Update Equipment Sidebar (No changes needed here from your version)
+        /**
+         * B"H
+         * The soul's garments (Levushim) must be made manifest in the world.
+         * This function is the mirror that reflects what the Chossid has equipped,
+         * drawing the item's essence from the potential of the inventory and displaying it
+         * in the sacred space of the equipment slots. It is here that a simple tool
+         * or garment is revealed to be a vessel for holy action.
+         */
         updateEquipment(e, $, ui) {
             const equipData = e.detail;
 
-            // FIX: Get the element using $() first
             const inventoryElement = $("inventoryScreen");
-            if (!inventoryElement)
-                return;
+            if (!inventoryElement) return;
 
-            // Now use querySelector on the HTML element
             const equipContainer = inventoryElement.querySelector(".equipment-slots");
-            if (!equipContainer)
-                return;
+            if (!equipContainer) return;
 
             equipContainer.innerHTML = "";
 
@@ -435,20 +434,18 @@ var ui = [instructions, {
                         justifyContent: "center",
                         alignItems: "center"
                     },
-                    // If item exists show it, otherwise show slot name
                     innerHTML: item ? "" : `<span style='font-size:10px; color:#aaa; text-transform:uppercase'>${slotName.replace("Hand", "")}</span>`,
-
                     onclick: (ev) => {
                         if (item) {
-                            // Send unequip command to worker
+                            // When clicked, a request is sent to the soul (the worker)
+                            // to retract this garment's light from the world (unequip).
                             ui.peula("ikar", {
                                 olamPeula: {
                                     unequipItem: slotName
                                 }
                             });
                         }
-                    }
-                    ,
+                    },
                     children: item ? [{
                         className: "slotBtn",
                         style: {
@@ -461,71 +458,72 @@ var ui = [instructions, {
                         }
                     }] : []
                 });
-            }
-            );
+            });
         },
 
         // 3. Context Menu
         showContextMenu(e, $, ui) {
-            const {item, index, x, y} = e.detail;
-            const existing = $("contextMenu");
-            if (existing)
-                existing.remove();
+            const {item, index, x, y, sourceType} = e.detail;
+            $("contextMenu")?.remove();
+            
+            // Your existing styles and structure are preserved
+            const btnStyle = {
+                background: "none", border: "none", color: "white", textAlign: "left",
+                cursor: "pointer", padding: "8px", borderBottom: "1px solid #444", fontSize: "14px"
+            };
 
             ui.html({
-                shaym: "contextMenu",
-                parent: "ikar",
+                shaym: "contextMenu", parent: "ikar",
                 style: {
-                    position: "absolute",
-                    left: x + "px",
-                    top: y + "px",
-                    background: "rgba(20, 20, 40, 0.95)",
-                    border: "2px solid #FFD700",
-                    borderRadius: "8px",
-                    zIndex: 2000,
-                    display: "flex",
-                    flexDirection: "column",
-                    padding: "5px",
-                    gap: "5px",
-                    minWidth: "100px",
+                    position: "absolute", left: x + "px", top: y + "px", background: "rgba(20, 20, 40, 0.95)",
+                    border: "2px solid #FFD700", borderRadius: "8px", zIndex: 2000, display: "flex",
+                    flexDirection: "column", padding: "5px", gap: "5px", minWidth: "120px",
                     boxShadow: "0 4px 8px rgba(0,0,0,0.5)"
                 },
-                children: [{
-                    tag: "button",
-                    className: "ctx-btn",
-                    style: {
-                        background: "none",
-                        border: "none",
-                        color: "white",
-                        textAlign: "left",
-                        cursor: "pointer",
-                        padding: "8px",
-                        borderBottom: "1px solid #444",
-                        fontSize: "14px"
+                children: [
+                    // B"H: Dynamic Equip/Unequip button
+                    item.isEquipped ? {
+                        tag: "button", className: "ctx-btn", style: btnStyle, textContent: "Unequip",
+                        onclick: () => {
+                            ui.peula("ikar", { olamPeula: { unequipItem: item.equippedIn } });
+                            $("contextMenu")?.remove();
+                        }
+                    } : {
+                        tag: "button", className: "ctx-btn", style: btnStyle, textContent: "Equip",
+                        onclick: () => {
+                            const target = item.equipSlot || 'rightHand';
+                            ui.peula("ikar", { olamPeula: { equipItem: { sourceType, index, target } } });
+                            $("contextMenu")?.remove();
+                        }
                     },
-                    textContent: "Equip",
-                    onclick: () => {
-                        const target = item.equipSlot || "rightHand";
-                        ui.peula("ikar", {
-                            olamPeula: {
-                                equipItem: {
-                                    index,
-                                    target
+                    // B"H: Conditional "Move to Action Bar" button
+                    sourceType === 'inventory' ? {
+                        tag: "button", className: "ctx-btn", style: btnStyle, textContent: "Move to Action Bar",
+                        onclick: () => {
+                            const actionSlots = $("action slots").children;
+                            let targetIndex = -1;
+                            for(let i = 1; i < actionSlots.length; i++) {
+                                if(actionSlots[i].classList.contains('empty')) {
+                                    targetIndex = i - 1;
+                                    break;
                                 }
                             }
-                        });
-                        $("contextMenu").remove();
+                            if(targetIndex === -1) targetIndex = 0;
+
+                            ui.peula("ikar", { olamPeula: { moveToActionBar: { fromInventoryIndex: index, toActionIndex: targetIndex } } });
+                            $("contextMenu")?.remove();
+                        }
+                    } : null,
+                    // Your existing close button
+                    {
+                        tag: "button", className: "ctx-btn close", textContent: "Close",
+                        onclick: () => $("contextMenu").remove()
                     }
-                }, {
-                    tag: "button",
-                    className: "ctx-btn close",
-                    
-                    textContent: "Close",
-                    onclick: () => $("contextMenu").remove()
-                }]
+                ].filter(Boolean) // This filters out the null 'Move' button when not needed
             });
         }
     },
+    
     // STRUCTURE
     children: [{
         className: "header",

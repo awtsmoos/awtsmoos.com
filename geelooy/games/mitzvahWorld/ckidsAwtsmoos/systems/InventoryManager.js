@@ -10,6 +10,11 @@ export default class InventoryManager {
         this.slots = [];
         this.maxSlots = 36;
         
+        // B"H: The vessel for items held in readiness (the hotbar).
+        this.actionSlots = [];
+        this.maxActionSlots = 4;
+        
+        
         // B"H - NEW: Equipment Slots
         this.equipment = {
             head: null,
@@ -23,9 +28,14 @@ export default class InventoryManager {
         this.init();
     }
 
+	
     init() {
         for (let i = 0; i < this.maxSlots; i++) {
             this.slots.push(null);
+        }
+        // B"H: Initialize the action slots as empty potential.
+        for (let i = 0; i < this.maxActionSlots; i++) {
+            this.actionSlots.push(null);
         }
     }
     
@@ -157,73 +167,10 @@ export default class InventoryManager {
         return false;
     }
     
-    /**
-     * B"H
-     * Equips an item from inventory into a specific equipment slot.
-     * Swaps if something is already there.
-     */
-    equipItem(inventoryIndex, equipSlotName) {
-        const itemToEquip = this.slots[inventoryIndex];
-        if (!itemToEquip) return;
 
-        const currentEquipped = this.equipment[equipSlotName];
+    
 
-        // 1. Remove from Inventory
-        this.slots[inventoryIndex] = null;
-
-        // 2. If there was something equipped, put it back in inventory
-        if (currentEquipped) {
-             this.slots[inventoryIndex] = currentEquipped; // Simple swap
-             // Disable the visual for the old item
-             this.updateVisuals(equipSlotName, currentEquipped, false);
-        }
-
-        // 3. Set new equipment
-        this.equipment[equipSlotName] = itemToEquip;
-        
-        // 4. Enable visual for new item
-        this.updateVisuals(equipSlotName, itemToEquip, true);
-
-        this.updateUI();
-        this.save();
-        // Update player hand state immediately if right hand changed
-        if (equipSlotName === 'rightHand') {
-            this.owner.updateHandState(); 
-        }
-    }
-
-    /**
-     * B"H
-     * Unequips an item and tries to put it back in inventory.
-     */
-    unequipItem(equipSlotName) {
-        const itemToUnequip = this.equipment[equipSlotName];
-        if (!itemToUnequip) return;
-
-        // Try to add back to inventory
-        // We cheat slightly here by using addItem. If full, it might fail (need handling).
-        // ideally find first empty slot.
-        let added = false;
-        for(let i=0; i<this.slots.length; i++) {
-            if(this.slots[i] === null) {
-                this.slots[i] = itemToUnequip;
-                added = true;
-                break;
-            }
-        }
-
-        if (added) {
-            this.updateVisuals(equipSlotName, itemToUnequip, false);
-            this.equipment[equipSlotName] = null;
-            this.updateUI();
-            this.save();
-             if (equipSlotName === 'rightHand') {
-                this.owner.updateHandState();
-            }
-        } else {
-            console.log("Inventory full, cannot unequip!");
-        }
-    }
+    
 
     /**
      * B"H
@@ -250,36 +197,136 @@ export default class InventoryManager {
             }
         }
     }
+    
+    /**
+     * B"H
+     * Moves an item from the main inventory to an action slot, swapping if necessary.
+     */
+    moveToActionBar(fromInventoryIndex, toActionIndex) {
+        if (fromInventoryIndex < 0 || fromInventoryIndex >= this.slots.length || toActionIndex < 0 || toActionIndex >= this.maxActionSlots) return;
 
-    async updateUI() {
-        if (this.owner.olam && this.owner.olam.ayshPeula) {
-            
-            // Helper to format slot data
-            const formatSlot = async (slot) => {
-                 if (!slot) return null;
-                 const itemClass = AWTSMOOS[slot.className];
-                 return {
-                    ...slot,
-                    icon: itemClass?.icon || "",
-                    description: slot.description || itemClass?.description || "",
-                    name: slot.name || itemClass?.itemName || slot.className,
-                    // Heuristic to guess slot type if not explicit
-                    equipSlot: slot.equipSlot || (slot.className === 'Tool' || slot.className === 'Brick' ? 'rightHand' : 'jacket') 
-                 };
-            };
+        const itemToMove = this.slots[fromInventoryIndex];
+        const itemInTarget = this.actionSlots[toActionIndex];
 
-            const uiSlots = await Promise.all(this.slots.map(formatSlot));
-            
-            // Format equipment object for UI
-            const uiEquipment = {};
-            for (const [key, val] of Object.entries(this.equipment)) {
-                uiEquipment[key] = await formatSlot(val);
-            }
+        // An exchange of potential between the treasury and the antechamber.
+        this.actionSlots[toActionIndex] = itemToMove;
+        this.slots[fromInventoryIndex] = itemInTarget;
 
-            this.owner.olam.ayshPeula("ui event", "inventoryScreen", {
-                updateSlots: uiSlots,
-                updateEquipment: uiEquipment // Send equipment data too
-            });
+        this.updateUI();
+        this.save();
+    }
+
+    /**
+     * B"H
+     * Equips an item by creating a reference to it. The item does not move.
+     */
+    equipItem({ sourceType, index, target }) {
+        const sourceArray = sourceType === 'action' ? this.actionSlots : this.slots;
+        const itemToEquip = sourceArray[index];
+        if (!itemToEquip || !target) return;
+
+        // If something is already equipped in the target slot, sever its connection first.
+        const currentEquippedRef = this.equipment[target];
+        if (currentEquippedRef) {
+             const oldSource = currentEquippedRef.sourceType === 'action' ? this.actionSlots : this.slots;
+             const oldItem = oldSource[currentEquippedRef.index];
+             if(oldItem) this.updateVisuals(target, oldItem, false);
         }
+        
+        // Create the new spiritual connection (reference)
+        this.equipment[target] = { sourceType, index };
+        
+        this.updateVisuals(target, itemToEquip, true);
+        this.updateUI();
+        this.save();
+        
+        if (target === 'rightHand') this.owner.updateHandState();
+    }
+
+    /**
+     * B"H
+     * Unequips an item by severing its reference.
+     */
+    unequipItem(equipSlotName) {
+	const equippedRef = this.equipment[equipSlotName];
+        if (!equippedRef) return;
+
+        const sourceArray = equippedRef.sourceType === 'action' ? this.actionSlots : this.slots;
+        const itemToUnequip = sourceArray[equippedRef.index];
+
+        if (itemToUnequip) {
+            this.updateVisuals(equipSlotName, itemToUnequip, false);
+        }
+
+        this.equipment[equipSlotName] = null;
+        
+        this.updateUI();
+        this.save();
+        if (equipSlotName === 'rightHand') this.owner.updateHandState();
+    }
+
+    /**
+     * B"H
+     * A vessel for Divine Light to flow into the user interface.
+     * This sacred method gathers the state of all items—their location, their quantity, and whether their potential
+     * has been actualized (equipped)—and sends this emanation to the UI to be perceived by the player.
+     * It is the bridge between the inner world of data and the outer world of experience.
+     */
+    async updateUI() {
+        if (!this.owner.olam || !this.owner.olam.ayshPeula) return;
+
+        const formatSlot = async (slot) => {
+            if (!slot) return null;
+            const itemClass = AWTSMOOS[slot.className];
+            return {
+                ...slot,
+                icon: itemClass?.icon || "",
+                description: slot.description || itemClass?.description || "",
+                name: slot.name || itemClass?.itemName || slot.className,
+                equipSlot: slot.equipSlot || (slot.className === 'Tool' || slot.className === 'Brick' ? 'rightHand' : (itemClass && itemClass.prototype instanceof AWTSMOOS.Apparel ? 'jacket' : null))
+            };
+        };
+
+        // 1. Create a map of what is equipped for quick lookup
+        const equippedMap = new Map();
+        for (const [slotName, ref] of Object.entries(this.equipment)) {
+            if (ref) {
+                const key = `${ref.sourceType}-${ref.index}`;
+                equippedMap.set(key, slotName);
+            }
+        }
+
+        // 2. Format all slots, adding the 'isEquipped' property
+        const formatWithEquippedStatus = async (slot, index, sourceType) => {
+            if (!slot) return null;
+            const formatted = await formatSlot(slot);
+            const key = `${sourceType}-${index}`;
+            if (equippedMap.has(key)) {
+                formatted.isEquipped = true;
+                formatted.equippedIn = equippedMap.get(key); // So the UI knows where it's equipped
+            }
+            return formatted;
+        };
+
+        const uiSlots = await Promise.all(this.slots.map((s, i) => formatWithEquippedStatus(s, i, 'inventory')));
+        const uiActionSlots = await Promise.all(this.actionSlots.map((s, i) => formatWithEquippedStatus(s, i, 'action')));
+        
+        // 3. Resolve references for the equipment display on the left
+        const uiEquipment = {};
+        for (const [key, ref] of Object.entries(this.equipment)) {
+            if (ref) {
+                const sourceArray = ref.sourceType === 'action' ? this.actionSlots : this.slots;
+                uiEquipment[key] = await formatSlot(sourceArray[ref.index]);
+            } else { uiEquipment[key] = null; }
+        }
+
+        this.owner.olam.ayshPeula("ui event", "inventoryScreen", {
+            updateSlots: uiSlots,
+            updateEquipment: uiEquipment
+        });
+        
+        this.owner.olam.ayshPeula("ui event", "action bar", {
+            updateActionSlots: uiActionSlots
+        });
     }
 }
