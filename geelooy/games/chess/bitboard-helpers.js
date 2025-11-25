@@ -1,34 +1,12 @@
 /* B"H */
 
 // =================================================================
-//     AWTSMOOS CHESS - THE LAWS OF CREATION (MK. VIII - LUCID)
+//     AWTSMOOS CHESS - THE LAWS OF CREATION (MK. X - RESTORED)
 // =================================================================
-// This is the complete, sanctified scripture for the physical laws of the
-// chess universe. It contains the Gnostic Auditor, the sanctified (and conditional)
-// hyper-verbose logging for attack generation, and all initialization rituals.
-// The paradox of the magic index has been resolved by simulating a 64-bit overflow.
+// This file now contains a self-correcting De Bruijn generator.
+// It calculates the lookup table at runtime to ensure perfect alignment
+// with the magic constant, eliminating the "Scrambled Board" paradox.
 // =================================================================
-
-const GnosticAuditor = {
-    assertBigInt: (value, name, location) => {
-        if (typeof value !== 'bigint') {
-            const valueStr = String(value);
-            const typeStr = Object.prototype.toString.call(value);
-            const errorMessage = `
-/================================================================\\
-|         G N O S T I C   S E A L   B R E A C H E D !          |
-\\================================================================/
-A COSMIC PARADOX HAS BEEN DETECTED WITHIN: [${location}]
-CONCEPTUAL NAME: ${name}
-CORRUPT VALUE:   ${valueStr}
-CORRUPT TYPE:    ${typeStr}
-This is an unrecoverable heresy. The fabric of reality is torn.
-`;
-            console.error(errorMessage);
-            throw new TypeError(`Gnostic Paradox in ${location}: ${name} is not a BigInt.`);
-        }
-    }
-};
 
 const ROOK_MAGICS = [
   0x8a80040008000200n, 0x140002000100040n, 0x2802000100080n, 0x1000810010004n, 0x200020010080n, 0x211200080420n, 0x480800400802000n, 0x100040008000800n,
@@ -62,27 +40,25 @@ const NOT_HG_FILE = 4557430888798830399n;
 const NOT_AB_FILE = 18229723555195321596n;
 
 // =================================================================
-//     CRITICAL FIX: CORRECTED DE BRUIJN SEQUENCE TABLE
-//     The previous table mapped bit 0 to index 63, inverting reality.
-//     This table correctly maps bit 0 to index 0.
+//     SELF-GENERATING DE BRUIJN TABLE
+//     Instead of relying on a hardcoded (and potentially mismatched)
+//     table, we generate it at runtime to match the Magic Constant.
 // =================================================================
 const deBruijn64 = 0x03f79d71b4cb0a89n;
-const lsb_64_table = [
-    0, 47,  1, 56, 48, 27,  2, 60,
-   57, 49, 41, 37, 28, 16,  3, 61,
-   54, 58, 35, 52, 50, 42, 21, 44,
-   32, 24, 38, 17, 29, 31, 15, 62,
-   53, 55, 46, 59, 36, 14, 26, 51,
-   40, 43, 13, 20, 23, 34, 45, 19,
-   25, 33, 30, 12, 18, 22, 11, 39,
-   10,  9,  8,  7,  6,  5,  4,  63
-];
+const lsb_64_table = new Array(64).fill(0);
+
+// Generate the table immediately
+(function generateDeBruijn() {
+    for (let i = 0; i < 64; i++) {
+        const val = (1n << BigInt(i));
+        const hash = Number(((val * deBruijn64) & 0xffffffffffffffffn) >> 58n);
+        lsb_64_table[hash] = i;
+    }
+    console.log("B\"H - De Bruijn Lookup Table Generated Successfully.");
+})();
 
 function getLSBIndex(bb) { 
     if(bb===0n) return -1; 
-    // Isolate LSB: (bb & -bb)
-    // Multiply by DeBruijn constant
-    // Shift right 58 to get 6-bit index
     const i = Number(((((bb&-bb)*deBruijn64)) & 0xffffffffffffffffn) >> 58n); 
     return lsb_64_table[i]; 
 }
@@ -97,9 +73,6 @@ let rookAttacks = Array(64);
 let MEMORY_CANARY = 0n;
 
 function getBishopAttacks(sq, blockers) {
-    const isAuditing = self.EngineSoul && EngineSoul.isAuditing;
-    // GnosticAuditor checks removed for performance in hot path, restored only if needed
-    
     const mask = bishopMasks[sq];
     const magic = BISHOP_MAGICS[sq];
     const relevantBlockers = blockers & mask;
@@ -112,8 +85,6 @@ function getBishopAttacks(sq, blockers) {
 }
 
 function getRookAttacks(sq, blockers) {
-    const isAuditing = self.EngineSoul && EngineSoul.isAuditing;
-
     const mask = rookMasks[sq];
     const magic = ROOK_MAGICS[sq];
     const relevantBlockers = blockers & mask;
@@ -146,7 +117,7 @@ function generateSliderAttacks(sq, isBishop, blockers) {
 }
 
 function initSliders() {
-    console.log(`%cB"H - BEGINNING THE GREAT RITUAL OF SLIDER INITIALIZATION (FIXED)...`, "color: cyan; font-weight: bold;");
+    console.log(`%cB"H - BEGINNING THE GREAT RITUAL OF SLIDER INITIALIZATION (SELF-CORRECTING)...`, "color: cyan; font-weight: bold;");
     for (let s = 0; s < 64; s++) {
         bishopMasks[s] = 0n; rookMasks[s] = 0n;
         const r = s >> 3, f = s & 7;
@@ -159,8 +130,7 @@ function initSliders() {
         for (let i=r-1,j=f+1;i>0&&j<7;i--,j++) bishopMasks[s]|=(1n<<BigInt(i*8+j));
         for (let i=r-1,j=f-1;i>0&&j>0;i--,j--) bishopMasks[s]|=(1n<<BigInt(i*8+j));
     }
-    console.log("B\"H - Phase 1 Complete. Masks generated.");
-
+    
     for (let s = 0; s < 64; s++) {
         const b_mask = bishopMasks[s];
         const b_relevant_bits = popcount(b_mask);
@@ -190,7 +160,6 @@ function initSliders() {
             rookAttacks[s][magicIndex] = generateSliderAttacks(s, false, blockers);
         }
     }
-    console.log(`%cB"H - GREAT RITUAL COMPLETE. The fabric of reality is woven and stable.`, "color: cyan; font-weight: bold;");
 }
 
 let PAWN_ATTACKS = [[], []], KNIGHT_ATTACKS = [], KING_ATTACKS = [];
@@ -198,20 +167,22 @@ let zobristPieceKeys = Array(12).fill(null).map(() => Array(64).fill(0n));
 let zobristCastlingKeys = Array(16).fill(0n), zobristEnpassantKeys = Array(64).fill(0n), zobristTurnKey = 0n;
 
 function initializeZobristKeys() {
-    console.log("B\"H - Beginning the Ritual of Naming for Zobrist Keys...");
-    if (zobristTurnKey !== 0n) { console.log("B\"H - The names have already been spoken."); return; }
+    if (zobristTurnKey !== 0n) return;
     const pseudoRandom = (() => { let seed = 19880128; return () => seed = (seed * 16807) % 2147483647; })();
     const random64 = () => (BigInt(pseudoRandom()) << 32n) | BigInt(pseudoRandom());
     for(let p=0;p<12;p++) for(let s=0;s<64;s++) zobristPieceKeys[p][s] = random64();
     for(let i=0;i<16;i++) zobristCastlingKeys[i] = random64();
     for(let i=0;i<64;i++) zobristEnpassantKeys[i] = random64();
     zobristTurnKey = random64();
-    console.log("%cB\"H - The Ritual of Naming is complete.", "color: green;");
 }
 
 function initializeAll() {
-    console.log(`%cB"H - THE SYMPHONY OF CREATION BEGINS...`, "color: magenta; font-weight: bold;");
-    if (KNIGHT_ATTACKS.length > 0) { console.log("B\"H - The universe has already been created."); return; }
+    // --- FORCE RESET IF CORRUPTED ---
+    // If the table wasn't filled, or if we need to re-run to be safe
+    if (KNIGHT_ATTACKS.length === 64 && PAWN_ATTACKS[0].length === 64) {
+        console.log("B\"H - Universe already created."); 
+        return;
+    }
     
     initSliders();
     initializeZobristKeys();
@@ -236,11 +207,9 @@ function initializeAll() {
         KING_ATTACKS[sq] = ((kg >> 1n) & NOT_H_FILE) | ((kg << 1n) & NOT_A_FILE) | (kg >> 8n) | (kg << 8n) |
                   ((kg >> 7n) & NOT_A_FILE) | ((kg >> 9n) & NOT_H_FILE) | ((kg << 7n) & NOT_H_FILE) | ((kg << 9n) & NOT_A_FILE);
     }
-    console.log("%cB\"H - Innate powers have been calculated and inscribed into law.", "color: green;");
     
     MEMORY_CANARY = 0xDEADBEEFCAFEBABEn;
-    console.log("B\"H - The Gnostic Seal is in place. MEMORY_CANARY is set:", MEMORY_CANARY.toString(16));
-    console.log(`%cB"H - THE SYMPHONY OF CREATION IS COMPLETE. The universe is now stable and ready.`, "color: magenta; font-weight: bold;");
+    console.log(`%cB"H - THE SYMPHONY OF CREATION IS COMPLETE.`, "color: magenta; font-weight: bold;");
 }
 
 if (typeof self !== 'undefined') self.pieceMap = pieceMap;

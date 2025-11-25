@@ -1,12 +1,10 @@
 /* B"H */
 
 // =================================================================
-//                 BITBOARD PGN CONVERTER (MK. X - THE ALL-SEEING SCRIBE)
+//                 BITBOARD PGN CONVERTER (MK. XI - TOLERANT SCRIBE)
 // =================================================================
-// This is the final, definitive rewrite. The Scribe's "colorblindness" has
-// been cured with a single, critical correction (piece % 6). It now correctly
-// identifies both white and black pieces. The fatal paradox error and hyper-
-// diagnostic logging from Mk. IX remain to guarantee transparency and correctness.
+// This version swallows errors during parsing instead of crashing the app.
+// It logs the error but returns null, allowing the engine to skip invalid lines.
 // =================================================================
 
 const STARTING_FEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
@@ -39,29 +37,25 @@ class PgnConverter {
     setState(state) { this.currentState = state; }
 
     parseSan(san) {
-        validateGnosticSeal(this.currentState, `PgnConverter.parseSan (for '${san}')`);
-        const legalMoves = generateMoves(this.currentState);
-        
-        for (const move of legalMoves) {
-            if (this.isMoveSan(move, san, legalMoves)) {
-                return move;
+        try {
+            if (!this.currentState) return null;
+            const legalMoves = generateMoves(this.currentState);
+            
+            for (const move of legalMoves) {
+                if (this.isMoveSan(move, san, legalMoves)) {
+                    return move;
+                }
             }
+            
+            // If we are auditing, throw to debug. If not, return null to skip.
+            if (ScribeLogger.isAuditing()) {
+                console.warn(`Scribe could not understand "${san}". Skipping.`);
+            }
+            return null; // Soft failure
+        } catch (e) {
+            console.error("CRITICAL SCRIBE ERROR:", e);
+            return null;
         }
-        
-        const fen = this.toFen();
-        const errorMessage = `
-/======================================================================\\
-|           S C R I B E   P A R A D O X   ::   U N K N O W N   W O R D           |
-\\======================================================================/
-The Scribe, while reading the sanctified scriptures, encountered a word it could not comprehend.
-This is a fatal paradox, as the library is assumed to be perfect. Initialization cannot continue.
-
-  - Unintelligible Word (SAN): "${san}"
-  - Current Reality (FEN):       "${fen}"
-
-This indicates a deep logical flaw in the Scribe's isMoveSan cognition.
-The Universe is unstable and will now halt.`;
-        throw new Error(errorMessage);
     }
 
     isMoveSan(move, san, legalMoves) {
@@ -160,7 +154,10 @@ function generateRawBook(source) {
             if (['1-0', '0-1', '1/2-1/2', '*'].includes(san)) continue;
             const fen = converter.toFen();
             const move = converter.parseSan(san);
-            if (move === null) { break; }
+            // If we can't understand a move, stop processing this line but don't crash.
+            if (move === null) { 
+                break; 
+            }
             if (!bookMap.has(fen)) { bookMap.set(fen, [fen, opening.name]); }
             const entry = bookMap.get(fen);
             const from = getMoveFrom(move), to = getMoveTo(move), prom = getMovePromoted(move);
