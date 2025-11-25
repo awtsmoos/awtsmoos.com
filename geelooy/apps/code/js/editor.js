@@ -11,7 +11,7 @@ import pnimi from "/scripts/awtsmoos/coding/pnimi.js";
 export const Editor = {
 	currentHighlighter: null,
 	currentObjectURL: null,
-	init() {}, 
+	init() {},
 		//No DOM lookups needed here yet, but the pattern is good to have.
 _getExt: (name) => {
 		const ld = name.lastIndexOf(".");
@@ -25,7 +25,7 @@ _getExt: (name) => {
 			);
 			this.currentObjectURL = null;
 		}
-	},
+	}, 
 		/*B"H*/
 async showTextEditor(content = "", filename = "", scrollPos = 0) {
 		//console.log(`[Editor] Open "${filename}" @ Scroll: ${scrollPos}`);

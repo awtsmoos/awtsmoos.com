@@ -205,19 +205,26 @@ export async function beautify(code, options = {}) {
 		let result = "";
 		switch (node.type) {
 			case "Program":
-				if (node.body.length === 0) result = ""; else result = (node.body.map(
-					(n) => walk(
-						n,
-						indent,
-						ignoreCtx
-					)
-				)).join("\n\n");
-				//Flush EOF comments
+				if (node.body.length === 0) {
+                    result = "";
+                } else {
+                    result = (node.body.map(
+                        (n) => walk(
+                            n,
+                            indent,
+                            ignoreCtx
+                        )
+                    )).join("\n\n");
+                }
+				
+                // Flush any remaining comments that are at the very end of the file
 				result += printLeadingComments(
 					Infinity,
 					indent
 				);
-				return result;
+                
+                // B"H - Return comments detected before the body (headers) + the body
+				return comments + result;
 			//--- Blocks ---
 			case "BlockStatement":
 

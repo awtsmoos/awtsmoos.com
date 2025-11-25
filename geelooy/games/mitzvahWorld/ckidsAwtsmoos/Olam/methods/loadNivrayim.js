@@ -29,6 +29,10 @@ export default class {
             if (options.position) mesh.position.copy(options.position);
             if (options.rotation) mesh.rotation.copy(options.rotation); // It takes the Euler directly.
             if (options.scale) mesh.scale.copy(options.scale);
+            
+            if (options.itemData) {
+                mesh.userData.itemData = options.itemData;
+            }
 
             // 4. Update the world matrix BEFORE passing to physics.
             mesh.updateMatrixWorld(true);

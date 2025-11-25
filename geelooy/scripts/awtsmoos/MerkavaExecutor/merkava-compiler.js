@@ -421,7 +421,13 @@
         }
 
         _visitFuncDecl(node) {
-            // 1. Create a new Compiler instance for the function body
+            // B"H - 1. Declare name in scope BEFORE compiling body to allow recursion
+            let varIdx = -1;
+            if (node.id) {
+                varIdx = this.scope.declare(node.id.name);
+            }
+
+            // 2. Create a new Compiler instance for the function body
             const funcCompiler = new Compiler();
             // Inherit scope? No, new scope, but link parent for Upvalues.
             funcCompiler.scope = new CompilerScope(this.scope);
@@ -434,7 +440,7 @@
             // Compile Body
             funcCompiler.compile(node.body);
             
-            // 2. Get Code Object
+            // 3. Get Code Object
             const codeObj = {
                 name: node.id ? node.id.name : '<anonymous>',
                 bytecode: funcCompiler.buffer.toBuffer(),
@@ -443,16 +449,15 @@
                 localCount: funcCompiler.scope.stackIndex
             };
 
-            // 3. Add to Constants
+            // 4. Add to Constants
             const idx = this._addConstant(codeObj);
 
-            // 4. Emit CLOSURE
+            // 5. Emit CLOSURE
             this.buffer.write8(OPCODES.CLOSURE);
             this.buffer.write16(idx);
 
-            // 5. If it's a declaration (not expression), store in current scope
-            if (node.id) {
-                const varIdx = this.scope.declare(node.id.name);
+            // 6. Store in current scope (pop the closure into the variable)
+            if (node.id && varIdx !== -1) {
                 this.buffer.write8(OPCODES.STORE_LOCAL);
                 this.buffer.write8(varIdx);
             }

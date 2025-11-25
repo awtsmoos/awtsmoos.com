@@ -506,33 +506,26 @@ proto._parseClassBody = function() {
     return this._finishNode({ type: 'ClassBody', body }, s);
 };
 
-/*B"H*/
-// In: geelooy/scripts/awtsmoos/MerkavaASTParser/parser-declarations.js
-// ACTION: Replace the entire _parseClassElement function with this one.
-
+// B"H
 /**
  * B"H
  * The Tikkun HaGadol (The Great Rectification) of the Class Element.
- * This function's flawed, predictive logic is replaced with patient, divine observation.
- * This is the final removal of the Demon of Infinite Stuttering from the class body.
- *
- * 1. It gathers all modifiers (`static`, `async`, `*`).
- * 2. It handles the unique case of a `static {}` block.
- * 3. It TENTATIVELY identifies if the current token is `get` or `set`. It does not commit.
- * 4. It parses the property's name or key.
- * 5. THE MOMENT OF TRUTH: It looks at the NEXT token.
- *    - If `(`, it is a METHOD. Its name being "get" is irrelevant.
- *    - If not `(`, THEN AND ONLY THEN can it be a true getter/setter or a property field.
- *
- * This unbreakable, sequential logic makes ambiguity impossible. The freeze is annihilated.
- * The Atzilus test will pass.
+ * 
+ * THE FIX:
+ * The parser previously checked `if (isGetOrSetKeyword && isAsync) error`.
+ * This crushed the possibility of `async get() {}`, which is a valid METHOD named "get".
+ * 
+ * The new logic:
+ * 1. We identify if the token is 'get' or 'set'.
+ * 2. We PEEK at the next token.
+ * 3. If the next token is '(', then 'get' is a NAME, not a keyword. We skip the error.
+ * 4. If the next token is NOT '(', then 'get' is a KEYWORD. We enforce the error.
  */
 proto._parseClassElement = function() {
-    // We call the guard at the start of complex operations.
-    // Advancing tokens via _advance() will also trigger the guard implicitly.
     this._guard(); 
     const s = this._startNode();
     let isStatic = false, isAsync = false, isGenerator = false, kind = 'method', computed = false;
+    const { TOKEN, PRECEDENCE } = window.MerkavahConstants;
 
     // Phase 1: Patiently gather all potential modifiers.
     if (this.currToken.type === TOKEN.IDENT && this.currToken.literal === 'static') {
@@ -551,19 +544,25 @@ proto._parseClassElement = function() {
         return this._finishNode({ type: 'StaticBlock', body }, s);
     }
 
-    // Phase 3: Tentatively identify get/set WITHOUT advancing.
-    const isGetOrSetKeyword = this.currToken.type === TOKEN.IDENT && (this.currToken.literal === 'get' || this.currToken.literal === 'set');
+    // Phase 3: Distinguish between Accessors and Methods named "get"/"set".
+    const isGetOrSetKeyword = this.currToken.type === TOKEN.IDENT && 
+                              (this.currToken.literal === 'get' || this.currToken.literal === 'set');
     
-    // An accessor cannot be async or a generator.
-    if (isGetOrSetKeyword && (isAsync || isGenerator)) {
-         this._error("Getter/setter can't be async or a generator.");
-         return null;
-    }
+    // TIKKUN: We look ahead. If 'get' is followed by '(', it is a Method Name.
+    // Methods named 'get' CAN be async. Accessors cannot.
+    const nextIsParen = this._peekTokenIs(TOKEN.LPAREN);
     
-    // If it looks like a get/set, and what follows is NOT '(', it's a real accessor.
-    if (isGetOrSetKeyword && !this._peekTokenIs(TOKEN.LPAREN)) {
-        kind = this.currToken.literal;
-        this._advance(); // Now we safely consume 'get' or 'set'.
+    // Only treat it as an Accessor Keyword if it is NOT followed by a parenthesis.
+    if (isGetOrSetKeyword && !nextIsParen) {
+         // Now we know it is intended as a Getter/Setter.
+         // Enforce the law: They cannot be async or generators.
+         if (isAsync || isGenerator) {
+             this._error("Getter/setter can't be async or a generator.");
+             return null;
+         }
+         
+         kind = this.currToken.literal;
+         this._advance(); // Consume 'get' or 'set' keyword.
     }
 
     // Phase 4: Parse the key (the name of the method or property).
@@ -578,16 +577,16 @@ proto._parseClassElement = function() {
             ? this._parsePrivateIdentifier() 
             : this._parseIdentifier();
     }
+    
     if (!key) {
-        // If we can't even parse a key, we must advance to avoid a loop.
         this._error("Expected a valid property name in class body.");
         this._advance();
         return null;
     }
 
-    // Phase 5: The Great Decision Point. Is it a method or a field?
+    // Phase 5: The Method vs Field Decision
     if (this._currTokenIs(TOKEN.LPAREN)) {
-        // It IS a method. The `kind` is 'method' unless the name is 'constructor'.
+        // It IS a method.
         if (key.type === 'Identifier' && key.name === 'constructor' && !isStatic) {
             kind = 'constructor';
         }
@@ -596,8 +595,7 @@ proto._parseClassElement = function() {
         return this._finishNode({ type: 'MethodDefinition', key, value, kind, static: isStatic, computed }, s);
     }
 
-    // If it was not a method, it must be a class field (PropertyDefinition).
-    // Accessors (`get`/`set`) are parsed here too, but they won't have a value initializer.
+    // Field definition logic
     let value = null;
     if (this._currTokenIs(TOKEN.ASSIGN)) {
         if(kind === 'get' || kind === 'set') {
@@ -609,10 +607,7 @@ proto._parseClassElement = function() {
     }
     this._consumeSemicolon();
     
-    // We use PropertyDefinition for class fields.
     if (kind === 'get' || kind === 'set') {
-        //This is for accessor fields which is stage 3 proposal, not yet standard.
-        //Let's assume we are parsing a MethodDefinition here as per spec.
         this._error("Getter/setter fields are not supported, expected a method body.");
         return null;
     }

@@ -1166,7 +1166,10 @@ proto._convertExpressionToPattern = function(node) {
                 type: 'AssignmentPattern',
                 left: convertedLeft,
                 right: node.right,
-                loc: node.loc
+                loc: node.loc,
+                // B"H - Preserve the coordinates so the Beautifier knows where this is
+                start: node.start,
+                end: node.end
             };
 
         case 'ObjectExpression':

@@ -328,8 +328,12 @@
                 case OPCODES.MUL: { const b = thread.stack.pop(); const a = thread.stack.pop(); thread.stack.push(a * b); break; }
                 case OPCODES.DIV: { const b = thread.stack.pop(); const a = thread.stack.pop(); thread.stack.push(a / b); break; }
                 case OPCODES.EQ:  { const b = thread.stack.pop(); const a = thread.stack.pop(); thread.stack.push(a == b); break; }
-                case OPCODES.LT:  { const b = thread.stack.pop(); const a = thread.stack.pop(); thread.stack.push(a < b); break; }
                 
+                case OPCODES.LT:  { const b = thread.stack.pop(); const a = thread.stack.pop(); thread.stack.push(a < b); break; }
+                case OPCODES.LTE: { const b = thread.stack.pop(); const a = thread.stack.pop(); thread.stack.push(a <= b); break; }
+                case OPCODES.GT:  { const b = thread.stack.pop(); const a = thread.stack.pop(); thread.stack.push(a > b); break; }
+                case OPCODES.GTE: { const b = thread.stack.pop(); const a = thread.stack.pop(); thread.stack.push(a >= b); break; }
+                case OPCODES.NEQ: { const b = thread.stack.pop(); const a = thread.stack.pop(); thread.stack.push(a != b); break; }
                 // --- 0x70: FUNCTIONS ---
                 case OPCODES.CLOSURE: {
                     const templateIdx = this._readInt16(thread);
@@ -575,7 +579,10 @@
         _readInt16(thread) {
             const low = thread.code[thread.ip++];
             const high = thread.code[thread.ip++];
-            return (high << 8) | low;
+            const unsigned = (high << 8) | low;
+            // B"H - Sign extension: If the 16th bit (0x8000) is set, 
+            // treat it as a negative number (2's complement).
+            return unsigned >= 0x8000 ? unsigned - 0x10000 : unsigned;
         }
     }
 

@@ -436,21 +436,24 @@ export default class Chai extends Tzomayach {
         // 2. Create a standard THREE.Raycaster
         const raycaster = new THREE.Raycaster();
         raycaster.set(origin, direction);
-        raycaster.far = this.activeRay ? this.activeRay.length : 15; // Max reach
+        // B"H FIX: Set a hardcoded distance (e.g. 100) to ensure it works. 
+        // Previously it tried to read a property that didn't exist.
+        raycaster.far = 100; 
 
         // 3. Check intersections with the interactive Octree (or scene meshes)
-        // Note: Octree is faster, but if you don't have it fully set up for raycasting
-        // individual items, we can intersect the "nivrayimGroup".
-        
         const intersects = raycaster.intersectObjects(this.olam.nivrayimGroup.children, true);
 
         if (intersects.length > 0) {
             // Get the first hit
             const hit = intersects[0];
-            const object = hit.object;
+            let object = hit.object;
 
-            // Check if this object has metadata we can collect (attached in placeObject)
-            // Or check if it's a permanent block we placed
+            // B"H FIX: Climb up one level just in case we hit a child mesh of a group
+            if (!object.userData.itemData && object.parent && object.parent.userData.itemData) {
+                object = object.parent;
+            }
+
+            // Check if this object has metadata we can collect
             if (object.userData && (object.userData.itemData || object.userData.isSolid)) {
                 
                 // 4. Add back to inventory
@@ -464,13 +467,15 @@ export default class Chai extends Tzomayach {
                 this.inventory.addItem(itemData, 1);
 
                 // 5. Remove from world
-                // Find the Nivra wrapper if it exists, or just remove the mesh
                 if (object.nivraAwtsmoos) {
                     this.olam.sealayk(object.nivraAwtsmoos);
                 } else {
                     object.removeFromParent();
                     // Also remove from physics octree if needed
-                    this.olam.worldOctree.removeMesh(object);
+                    if (this.olam.worldOctree) {
+                        // Note: Standard meshes need to be removed from octree tracking if applicable
+                        // This depends on your octree implementation details for removal
+                    }
                 }
                 
                 // Play a sound
@@ -702,8 +707,7 @@ export default class Chai extends Tzomayach {
     /**
      * B"H
      * Creates and attaches a preview block.
-     * UPDATED: Cleans the metadata to remove the heavy 'golem' object before attaching it,
-     * keeping save files small while preserving item identity.
+     * UPDATED: Makes the ghost block semi-transparent so it doesn't look "stuck" or solid.
      */
     async placeBlockOnRay() {
         if (!this.activeRay || !this.activeRay.group) return;
@@ -712,25 +716,18 @@ export default class Chai extends Tzomayach {
         let blockDefinition;
         let itemData = null;
 
-        if (this.inventory && this.selectedInventorySlot !== null) {
-            const slot = this.inventory.slots[this.selectedInventorySlot];
-            if (slot && (slot.className === 'Brick' || slot.item === 'Brick')) {
-                try {
-                    const brickModule = await import('../dvarim/brick.js');
-                    const BrickClass = brickModule.default;
-                    const tempBrick = new BrickClass(slot);
-                    blockDefinition = tempBrick.originalOptions.golem;
-                    
-                    // --- CLEAN METADATA FIX ---
-                    // Create a clean copy of the slot data for saving.
-                    // We explicitly REMOVE the 'golem' property from this copy because the 
-                    // Brick class will regenerate it automatically on load.
-                    itemData = { ...slot };
-                    delete itemData.golem; 
-                    // --------------------------
+        const item = this.getActiveItem();
+        if (item && (item.className === 'Brick' || item.item === 'Brick')) {
+            try {
+                const brickModule = await import('../dvarim/brick.js');
+                const BrickClass = brickModule.default;
+                const tempBrick = new BrickClass(item);
+                blockDefinition = tempBrick.originalOptions.golem;
+                
+                itemData = { ...item };
+                delete itemData.golem; 
 
-                } catch (e) { console.error("Could not load brick module", e); }
-            }
+            } catch (e) { console.error("Could not load brick module", e); }
         }
         
         if (!blockDefinition) {
@@ -743,6 +740,23 @@ export default class Chai extends Tzomayach {
         const mesh = await this.olam.generateThreeJsMesh(blockDefinition);
         if (!mesh) return;
         
+        // --- GHOST MATERIAL FIX ---
+        // Make the preview transparent
+        const makeGhost = (mat) => {
+            if(mat) {
+                mat.transparent = true;
+                mat.opacity = 0.6;
+                mat.depthWrite = false; // Helps with rendering order for ghosts
+            }
+        };
+
+        if (Array.isArray(mesh.material)) {
+            mesh.material.forEach(makeGhost);
+        } else {
+            makeGhost(mesh.material);
+        }
+        // --------------------------
+
         mesh.awtsmoosGolem = blockDefinition;
         
         if (itemData) {
@@ -750,6 +764,10 @@ export default class Chai extends Tzomayach {
         }
 
         this.activeObject = { mesh };
+        
+        // Reset to default distance if weird
+        if(isNaN(this.distanceFromRay)) this.distanceFromRay = 5;
+        
         this.activeObject.mesh.position.z = this.distanceFromRay;
         this.activeRay.group.add(this.activeObject.mesh);
         this.alignObject();
@@ -835,21 +853,17 @@ export default class Chai extends Tzomayach {
 	/**
      * B"H
      * Helper to get the currently active item.
-     * Priorities:
-     * 1. Item equipped in 'rightHand' (Equipment System)
-     * 2. Fallback: Item in selected hotbar slot (Legacy/Backup)
+     *  Only checks Equipment. No fallback to hotbar.
      */
     getActiveItem() {
         if (!this.inventory) return null;
         
-        // 1. Check Equipment (Primary)
+        // Only return what is explicitly equipped in the right hand.
         if (this.inventory.equipment && this.inventory.equipment.rightHand) {
             return this.inventory.equipment.rightHand;
         }
 
-        // 2. Check Hotbar (Secondary/Fallback)
-        // You can remove this if you ONLY want the equipment slot to work.
-        return this.inventory.slots[this.selectedInventorySlot];
+        return null;
     }
 
     /**
