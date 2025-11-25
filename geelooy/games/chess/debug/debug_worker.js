@@ -1,10 +1,5 @@
 /* B"H */
-console. log('B"H'
-
-,"\n ok1")
-
-/* B"H */
-
+console. log('B"H')
 try {
     // Load the sanctified scriptures
     importScripts(
@@ -45,11 +40,27 @@ function runDiagnostic(fen, targetSan) {
         // =================================================================
         self.EngineSoul = { isAuditing: true };
         log('A temporary consciousness (EngineSoul) has been created.', 'info');
-        log('The Scribe has been granted permission to speak (isAuditing = true).', 'success');
+        
+        // --- CRITICAL FIX: REDIRECT SCRIBE LOGS TO THE UI ---
+        if (self.ScribeLogger) {
+            self.ScribeLogger.logComparison = function(details) {
+                const { generatedSan, targetSan, isMatch, reason } = details;
+                const icon = isMatch ? "✅" : "❌";
+                const style = isMatch ? "success" : "trace";
+                // We format the log so it appears clearly in your debug tool window
+                log(`[SCRIBE] ${icon} Target: "${targetSan}" | Gen: "${generatedSan}" | ${reason}`, style);
+            };
+            log('The Scribe\'s voice has been redirected to this display.', 'success');
+        } else {
+            log('WARNING: ScribeLogger not found. Comparisons will be invisible.', 'error');
+        }
         // =================================================================
 
         log('\n--- TESTING THE REAL createGameState FUNCTION ---', 'header');
-        const state = createGameState(fen); // This will now use your v5.0 Witness
+        const state = createGameState(fen); 
+        
+        // Sanity check on the state
+        log(`State Turn: ${state.turn === 0 ? 'White' : 'Black'}`, 'info');
         
         log('\nNow, asking the engine to generate moves from the CORRECTED state...', 'info');
         const legalMoves = generateMoves(state);
@@ -62,10 +73,10 @@ function runDiagnostic(fen, targetSan) {
         log('\n--- SCRIBE TRACE: The Final Testimony ---', 'header');
         
         for (const moveInt of legalMoves) {
-            // The ScribeLogger will now log directly to the main console,
-            // as it does in the real engine. We don't need to hijack it anymore.
+            // The isMoveSan function will now trigger our redirected logComparison above
             if (scribe.isMoveSan(moveInt, targetSan, legalMoves)) {
                 matchFound = true;
+                // We found it! We can break, or keep going to see if any others match (unlikely)
                 break;
             }
         }
@@ -74,10 +85,10 @@ function runDiagnostic(fen, targetSan) {
         if (matchFound) {
             log('✅ PARADOX RESOLVED.', 'success');
             log('The engine correctly created the universe, generated the move, and the Scribe identified it.', 'info');
-            log('The journey is complete. The universe is stable.', 'success');
         } else {
             log('❌ PARADOX PERSISTS.', 'error');
-            log('This should not be possible if the previous fixes were applied.', 'error');
+            log('The engine generated moves, but none matched the target SAN.', 'error');
+            log('Review the SCRIBE TRACE above. You will now see exactly what the engine generated vs what you wanted.', 'info');
         }
 
     } catch (err) {
