@@ -35,6 +35,7 @@ import * as THREE from '/games/scripts/build/three.module.js';
 
 import { Octree } from '../math/AwtsmoosOctree.js';
 
+import GeometryManager from '../math/GeometryManager.js';
 export default class {
    
     isInWater(position) {
@@ -82,6 +83,7 @@ export default class {
     /**
      * B"H
      * Generates a Three.js mesh from a "golem" object definition.
+     * Supports standard THREE geometries and Custom Registered geometries.
      */
     async generateThreeJsMesh(golem) {
         const originalGolem = golem;
@@ -99,13 +101,18 @@ export default class {
         const geomType = gufEntries[0][0];
         const geomArgs = gufEntries[0][1];
         
-        let chomer;
+        let chomer; // Geometry
 
-        // B"H: Custom Geometry Handling
-        if (geomType === "StairGeometry") {
-            chomer = createStairGeometry(...geomArgs);
+        // B"H: Dynamic Geometry System
+        if (GeometryManager.has(geomType)) {
+            // 1. Check Custom Registry
+            chomer = GeometryManager.create(geomType, geomArgs);
         } else if (THREE[geomType]) {
+            // 2. Check Standard THREE
             chomer = new THREE[geomType](...geomArgs);
+        } else {
+            console.warn(`B"H: Geometry type ${geomType} not found. Defaulting to Box.`);
+            chomer = new THREE.BoxGeometry(1,1,1);
         }
 
         // --- Material Creation ---
@@ -141,7 +148,8 @@ export default class {
 
         let mesh;
 
-        // --- SMART BOX MAPPING LOGIC (For Standard Box) ---
+        // --- Mapping Logic ---
+        // Smart mapping for BoxGeometry
         if (geomType === 'BoxGeometry' && tzurah.map && chomer.parameters) {
             const { width, height, depth } = chomer.parameters;
             const texFront = tzurah.map; 
@@ -162,29 +170,23 @@ export default class {
             const matSide = tzurah.clone(); matSide.map = texSide;
             const matTop = tzurah.clone(); matTop.map = texTop;
 
-            const materials = [
+            mesh = new THREE.Mesh(chomer, [
                 matSide, matSide, matTop, matTop, matFront, matFront 
-            ];
-
-            mesh = new THREE.Mesh(chomer, materials);
+            ]);
 
         } 
-        // --- SMART STAIR MAPPING (Custom) ---
-        else if (geomType === "StairGeometry" && tzurah.map) {
-            // Since StairGeometry is a BufferGeometry with complex UVs, we just set wrap.
-            // The createStairGeometry function calculates UVs based on world units.
+        // Custom Geometries usually handle their own UVs, but we apply wrapping
+        else if (GeometryManager.has(geomType) && tzurah.map) {
             tzurah.map.wrapS = THREE.RepeatWrapping;
             tzurah.map.wrapT = THREE.RepeatWrapping;
             
-            // If textureRepeat is passed in options, use it, otherwise default 1:1
+            // Allow override from options
             if(golem.textureRepeat) {
                  tzurah.map.repeat.set(golem.textureRepeat.x, golem.textureRepeat.y);
             }
-            
             mesh = new THREE.Mesh(chomer, tzurah);
         }
         else {
-            // Fallback
             mesh = new THREE.Mesh(chomer, tzurah);
             if (tzurah.map && golem.textureRepeat) {
                 tzurah.map.wrapS = THREE.RepeatWrapping;

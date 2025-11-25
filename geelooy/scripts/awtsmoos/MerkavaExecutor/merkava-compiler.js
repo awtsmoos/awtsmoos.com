@@ -73,9 +73,10 @@
     class CompilerScope {
         constructor(parent = null) {
             this.parent = parent;
-            this.locals = new Map(); // Name -> StackIndex
+            this.locals = new Map();
             this.depth = parent ? parent.depth + 1 : 0;
-            this.stackIndex = 0;
+            // B"H - FIX: Inherit stack index to prevent collision in nested blocks
+            this.stackIndex = parent ? parent.stackIndex : 0;
         }
 
         /** Declare a local variable. Returns its stack index. */
@@ -93,16 +94,12 @@
             if (this.locals.has(name)) {
                 return { type: 'LOCAL', index: this.locals.get(name), depth: 0 };
             }
-
-            // Check parents (Upvalues)
             if (this.parent) {
                 const result = this.parent.resolve(name);
                 if (result.type === 'LOCAL' || result.type === 'UPVALUE') {
                     return { type: 'UPVALUE', index: result.index, depth: result.depth + 1 };
                 }
             }
-
-            // Fallback to Global
             return { type: 'GLOBAL', index: -1, depth: 0 };
         }
     }

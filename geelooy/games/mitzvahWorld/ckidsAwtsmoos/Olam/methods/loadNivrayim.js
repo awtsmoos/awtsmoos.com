@@ -40,22 +40,19 @@ export default class {
 		if (mesh.geometry) {
                 mesh.geometry.sourceMesh = mesh; // Helper property
             }
-            // 5. Add to physics and scene (FAILSAFE)
+            // 5. Add to physics and scene.
             let physicsSuccess = true;
-            
+
             if (options.isSolid) {
-                // B"H: Critical Failsafe
-                // We attempt to add to the Octree. If it returns false, we DO NOT add the visual mesh.
-                // This prevents "ghost" blocks that look real but have no collision.
+                // B"H Failsafe: Only valid if physics accepts it
                 physicsSuccess = this.worldOctree.addObject(mesh);
-                
                 if (!physicsSuccess) {
-                    console.error(`B"H Error: Failed to add ${mesh.name} to Physics Octree. Aborting visual creation.`);
-                    return null; // Stop here. The object is effectively deleted/never born.
+                    console.error(`B"H Error: Failed to add ${mesh.name} to Physics. Aborting.`);
+                    return null; 
                 }
             }
             
-            // Only proceed if physics was successful (or not required)
+            // Only add visual mesh if physics (if required) was successful
             if (physicsSuccess) {
                 mesh.traverse(child => {
                     if(child.isMesh) {
@@ -68,7 +65,6 @@ export default class {
                 if (options.interactable) {
                     this.interactiveOctree.fromGraphNode(mesh);
                 }
-                
                 this.nivrayimGroup.add(mesh);
             }
             

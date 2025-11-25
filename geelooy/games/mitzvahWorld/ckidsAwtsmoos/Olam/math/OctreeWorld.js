@@ -73,22 +73,30 @@ export class OctreeWorld {
     
     
     /**
- * B"H
- * Synchronously adds a single dynamic object to the physics world.
- * This bypasses the async intake queue for immediate updates.
- * @param {THREE.Mesh} mesh - The mesh to add.
- */
-addObject(mesh) {
-        if (!this.#root || !mesh) return;
+     * B"H
+     * Synchronously adds a single dynamic object to the physics world.
+     * Returns TRUE if successful, FALSE if failed.
+     */
+    addObject(mesh) {
+        if (!this.#root || !mesh) return false;
+
+        // 1. Check bounds. If object is outside the entire world, expand the root (Safety Net).
+        const meshBox = new Box3().setFromObject(mesh);
+        if (!this.#root.box.intersectsBox(meshBox)) {
+            console.log("[OctreeWorld] Object outside world bounds. Expanding root...");
+            this.#root.box.union(meshBox);
+            // Force a physics init on root if it doesn't exist yet to accept the dynamic triangle
+            if(!this.#root.physics) this.#buildNodePhysics(this.#root);
+        }
 
         const leafNode = this.#findLeafNodeAtPoint(this.#root, mesh.position);
 
         if (leafNode) {
-            console.log(`[OctreeWorld] Found leaf node for new object. Triggering synchronous rebuild.`);
-            this.#synchronouslyRebuildNode(leafNode, mesh); // Call the new, dedicated function
-            console.log(`[OctreeWorld] Dynamically added "${mesh.name}" to physics node.`);
+            this.#synchronouslyRebuildNode(leafNode, mesh); 
+            return true; // Success
         } else {
-            console.warn(`[OctreeWorld] Could not find a physics node for dynamic object: ${mesh.name}`);
+            console.error(`[OctreeWorld] CRITICAL: Could not find or create a node for ${mesh.name}. Collision will fail.`);
+            return false; // Failed
         }
     }
     
