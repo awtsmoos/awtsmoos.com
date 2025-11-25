@@ -146,6 +146,9 @@
             if (!node) return;
 
             switch (node.type) {
+	            case 'ImportDeclaration': this._visitImport(node); break;
+                case 'ExportNamedDeclaration': this._visitExport(node); break;
+                
                 case 'Literal': this._visitLiteral(node); break;
                 case 'Identifier': this._visitIdentifier(node, 'LOAD'); break;
                 
@@ -154,6 +157,9 @@
                 case 'AssignmentExpression': this._visitAssignment(node); break;
                 case 'CallExpression': this._visitCall(node); break;
                 case 'MemberExpression': this._visitMember(node); break;
+                
+                case 'ObjectExpression': this._visitObject(node); break;
+                case 'ArrayExpression': this._visitArray(node); break;
                 
                 case 'ExpressionStatement': 
                     this._visit(node.expression); 
@@ -193,6 +199,94 @@
 
         // --- VISITORS ---
 
+	_visitImport(node) {
+            // B"H - Maps "import x from 'y'" to SYSCALL(1, 'y')
+            // Note: This is a simplified import that just loads the module side-effects 
+            // or returns the module object. Destructuring is complex for V1.
+            const source = node.source.value;
+            
+            // Emit SYSCALL 1 (Import)
+            this.buffer.write8(OPCODES.PUSH_CONST);
+            this.buffer.write16(this._addConstant(source)); // Push Specifier
+            
+            this.buffer.write8(OPCODES.SYSCALL);
+            this.buffer.write8(1); // ID 1 = Import
+            this.buffer.write8(1); // 1 Argument
+            
+            // If there are specifiers (e.g., import { x } from ...), handling is complex.
+            // For V1, we assume default import or side-effect import.
+            // Result is on stack. If it's a variable decl, store it.
+            if (node.specifiers.length > 0) {
+                 // Example: import defaultMember from "module"
+                 const spec = node.specifiers[0];
+                 this._visitIdentifier(spec.local, 'STORE');
+            } else {
+                 this.buffer.write8(OPCODES.POP); // Discard result if just "import 'file.css'"
+            }
+        }
+
+        _visitExport(node) {
+            // B"H - Maps "export const x = 1" to SYSCALL(2, "x", value)
+            if (node.declaration) {
+                this._visit(node.declaration); // This executes "const x = 1", leaving nothing on stack usually
+                
+                // We need to retrieve the value to export it. 
+                // Since _visitVarDecl stores it, we might need to load it back.
+                // Simplified: We export the Variable NAME and let the Host look it up in the VM? 
+                // Or we push the name and the value.
+                
+                // For V1 simple exports:
+                if (node.declaration.declarations && node.declaration.declarations[0]) {
+                    const name = node.declaration.declarations[0].id.name;
+                    
+                    this.buffer.write8(OPCODES.PUSH_CONST);
+                    this.buffer.write16(this._addConstant(name)); // Arg 1: Name
+                    
+                    this._visitIdentifier({name: name}, 'LOAD'); // Arg 2: Value
+                    
+                    this.buffer.write8(OPCODES.SYSCALL);
+                    this.buffer.write8(2); // ID 2 = Export
+                    this.buffer.write8(2); // 2 Args
+                    this.buffer.write8(OPCODES.POP); // Discard syscall result
+                }
+            }
+        }
+	_visitObject(node) {
+            this.buffer.write8(OPCODES.ALLOC_OBJECT); // Push new {}
+            for (const prop of node.properties) {
+                this.buffer.write8(OPCODES.DUP); // Duplicate {} so we can use it, then keep it
+                
+                // 1. Push Key
+                if (prop.key.type === 'Identifier' && !prop.computed) {
+                    this._emitConstant(prop.key.name);
+                } else {
+                    this._visit(prop.key);
+                }
+                
+                // 2. Push Value
+                this._visit(prop.value);
+                
+                // 3. Set Prop (Pops [Obj, Key, Val] -> Pushes [Val])
+                this.buffer.write8(OPCODES.SET_PROP);
+                
+                // 4. Pop the result val, leaving the original {} on stack
+                this.buffer.write8(OPCODES.POP);
+            }
+        }
+
+        _visitArray(node) {
+            this.buffer.write8(OPCODES.ALLOC_ARRAY); // Push new []
+            node.elements.forEach((elem, index) => {
+                if (!elem) return;
+                this.buffer.write8(OPCODES.DUP); // Keep Arr on stack
+                
+                this._emitConstant(index); // Push Index (Key)
+                this._visit(elem);         // Push Value
+                
+                this.buffer.write8(OPCODES.SET_PROP);
+                this.buffer.write8(OPCODES.POP); // Discard result
+            });
+        }
         _visitLiteral(node) {
             const v = node.value;
             if (v === null) this.buffer.write8(OPCODES.PUSH_NULL);
@@ -260,58 +354,64 @@
         }
 
         _visitAssignment(node) {
-            // 1. Compile RHS (Value)
-            this._visit(node.right); 
-
-            // 2. Store to LHS
+            // B"H - Fixed Assignment Logic: Compile in the correct order based on target type
+            
             if (node.left.type === 'Identifier') {
+                // 1. Compile Value (RHS)
+                this._visit(node.right);
+                // 2. Store to Variable (LHS)
                 this._visitIdentifier(node.left, 'STORE');
+            
             } else if (node.left.type === 'MemberExpression') {
-                // For obj.prop = val, we need [Obj, Key, Val] on stack
-                // But we already pushed Val. This logic is complex for stack machines.
-                // Correct order: PUSH Obj, PUSH Key, PUSH Val, SET_PROP.
+                // Member Assignment: obj.prop = val
+                // Stack Order needed for SET_PROP: [Object, Key, Value]
                 
-                // Re-organize: To do this cleanly in one pass without swap hell,
-                // we'd typically compile Left first if it wasn't an Assignment.
-                // Simplified V1: Only support Identifier assignment or basic property set.
-                
-                // To implement SET_PROP (Obj, Key, Val), we need to compile Obj and Key first.
-                // But we already compiled Right.
-                // Solution: This is where a register VM shines, but for Stack VM:
-                // We must traverse Left children, THEN Right, THEN Set.
-                
-                // Backtrack:
-                this.buffer.bytes.pop(); // Undo the visit(node.right) - conceptual undo not real
-                // Correct order:
+                // 1. Compile Object
                 this._visit(node.left.object);
+                
+                // 2. Compile Key
                 if (node.left.computed) {
                     this._visit(node.left.property);
                 } else {
                     this._emitConstant(node.left.property.name);
                 }
-                this._visit(node.right); // Value
+                
+                // 3. Compile Value (RHS)
+                this._visit(node.right);
+                
+                // 4. Emit Set Opcode
                 this.buffer.write8(OPCODES.SET_PROP);
+                // SET_PROP leaves the Value on the stack (as the result of the assignment), 
+                // which matches JS behavior.
+            } else {
+                throw new Error(`Invalid Assignment Target: ${node.left.type}`);
             }
         }
 
         _visitVarDecl(node) {
             for (const decl of node.declarations) {
+                // 1. Compile the Initialization Value
                 if (decl.init) {
-                    this._visit(decl.init); // Push value
+                    this._visit(decl.init); 
                 } else {
                     this.buffer.write8(OPCODES.PUSH_UNDEFINED);
                 }
 
+                // 2. Store the Variable
                 if (decl.id.type === 'Identifier') {
-                    const idx = this.scope.declare(decl.id.name);
-                    // For locals, declare() reserves the slot. 
-                    // We just need to store the top of stack into that slot.
-                    this.buffer.write8(OPCODES.STORE_LOCAL);
-                    this.buffer.write8(idx);
-                    
-                    // VariableDeclaration is a statement, so we pop the result of the assignment
-                    // from the stack to keep it clean (unless we are in a sequence context).
-                    // Actually, OPCODES.STORE_LOCAL usually pops. So stack is clean.
+                    // B"H - CRITICAL FIX:
+                    // If we are in the Root Scope (Depth 0), treat variables as GLOBALS.
+                    // This allows functions to recursively call themselves by name.
+                    if (this.scope.depth === 0) {
+                        const nameIdx = this._addConstant(decl.id.name);
+                        this.buffer.write8(OPCODES.STORE_GLOBAL);
+                        this.buffer.write16(nameIdx);
+                    } else {
+                        // Inside a function, it's a Local
+                        const idx = this.scope.declare(decl.id.name);
+                        this.buffer.write8(OPCODES.STORE_LOCAL);
+                        this.buffer.write8(idx);
+                    }
                 }
             }
         }
@@ -421,45 +521,47 @@
         }
 
         _visitFuncDecl(node) {
-            // B"H - 1. Declare name in scope BEFORE compiling body to allow recursion
-            let varIdx = -1;
-            if (node.id) {
-                varIdx = this.scope.declare(node.id.name);
-            }
-
-            // 2. Create a new Compiler instance for the function body
+            // 1. Compile Function Body
+            // We do NOT declare the function name in the local scope if it's Global.
+            // This forces the body to look it up globally.
+            
             const funcCompiler = new Compiler();
-            // Inherit scope? No, new scope, but link parent for Upvalues.
             funcCompiler.scope = new CompilerScope(this.scope);
             
-            // Register params
+            // Register Params
             node.params.forEach(p => {
                 if (p.type === 'Identifier') funcCompiler.scope.declare(p.name);
             });
 
-            // Compile Body
             funcCompiler.compile(node.body);
             
-            // 3. Get Code Object
+            // 2. Create Code Object
             const codeObj = {
                 name: node.id ? node.id.name : '<anonymous>',
                 bytecode: funcCompiler.buffer.toBuffer(),
                 constants: funcCompiler.constants,
-                upvalueCount: 0, // TODO: Calculate actual upvalues
+                upvalueCount: 0, 
                 localCount: funcCompiler.scope.stackIndex
             };
 
-            // 4. Add to Constants
+            // 3. Emit Closure
             const idx = this._addConstant(codeObj);
-
-            // 5. Emit CLOSURE
             this.buffer.write8(OPCODES.CLOSURE);
             this.buffer.write16(idx);
 
-            // 6. Store in current scope (pop the closure into the variable)
-            if (node.id && varIdx !== -1) {
-                this.buffer.write8(OPCODES.STORE_LOCAL);
-                this.buffer.write8(varIdx);
+            // 4. Store the Function
+            if (node.id) {
+                if (this.scope.depth === 0) {
+                    // Global Function
+                    const nameIdx = this._addConstant(node.id.name);
+                    this.buffer.write8(OPCODES.STORE_GLOBAL);
+                    this.buffer.write16(nameIdx);
+                } else {
+                    // Inner/Local Function
+                    const varIdx = this.scope.declare(node.id.name);
+                    this.buffer.write8(OPCODES.STORE_LOCAL);
+                    this.buffer.write8(varIdx);
+                }
             }
         }
 

@@ -544,6 +544,22 @@ export default class {
                                 if(!isNotSolid) {
                                     this.worldOctree.fromGraphNode(child);
                                 }
+                                
+                                if(!child.userData.itemData) {
+                                    // If it's a generic world block, give it default collectable data
+                                    // You can refine this to check names (e.g. if name includes "Brick")
+                                    child.userData.itemData = {
+                                        id: "world_block",
+                                        className: "Brick",
+                                        name: "Ancient Brick"
+                                    };
+                                    child.userData.isSolid = true;
+                                }
+                                
+                                // Helper for the Octree builder
+                                if(child.geometry) {
+                                    child.geometry.sourceMesh = child;
+                                }
                                 /*var isAnywaysSolid = 
                                     checkAndSetProperty(child,
                                 "isAnywaysSolid");

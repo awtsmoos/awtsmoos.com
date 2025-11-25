@@ -66,9 +66,10 @@
          * @param {MemoryManager} memoryManager - The VMM instance.
          * @param {object} hostAPI - Map of functions available via SYSCALL.
          */
-        constructor(memoryManager, hostAPI = {}) {
+        constructor(memoryManager, hostAPI = {}, hostContext = {}) {
             this.memory = memoryManager;
             this.hostAPI = hostAPI;
+            this.hostContext = hostContext;
             
             this.threads = [];
             this.activeThreadIndex = 0;
@@ -291,8 +292,17 @@
                     this.memory.set(1, globalScope); // Mark dirty
                     break;
                 }
+                
 
                 // --- 0x30: OBJECTS ---
+                
+                case OPCODES.ALLOC_ARRAY: {
+                    const ptr = this.memory.allocate([]); // B"H - Allocate empty JS Array
+                    thread.stack.push(ptr);
+                    break;
+                }
+                
+                
                 case OPCODES.ALLOC_OBJECT: {
                     const ptr = this.memory.allocate({});
                     thread.stack.push(ptr); // Pushing Pointer
@@ -334,6 +344,11 @@
                 case OPCODES.GT:  { const b = thread.stack.pop(); const a = thread.stack.pop(); thread.stack.push(a > b); break; }
                 case OPCODES.GTE: { const b = thread.stack.pop(); const a = thread.stack.pop(); thread.stack.push(a >= b); break; }
                 case OPCODES.NEQ: { const b = thread.stack.pop(); const a = thread.stack.pop(); thread.stack.push(a != b); break; }
+                
+                case OPCODES.INSTANCEOF: { const b = thread.stack.pop(); const a = thread.stack.pop(); thread.stack.push(a instanceof b); break; }
+		case OPCODES.IN:         { const b = thread.stack.pop(); const a = thread.stack.pop(); thread.stack.push(a in b); break; }
+
+
                 // --- 0x70: FUNCTIONS ---
                 case OPCODES.CLOSURE: {
                     const templateIdx = this._readInt16(thread);
@@ -373,14 +388,21 @@
                     const thisVal = thread.stack.pop();
                     const funcPtr = thread.stack.pop();
                     
-                    const funcObj = this.memory.get(funcPtr); // Can THROW PageFault
-                    
+                    const funcObj = this.memory.get(funcPtr);
+                    if (!funcObj) {
+                         throw new Error(`Type Error: Call target ${funcPtr} is not a function or is null.`);
+                    }
                     // Native Host Call?
                     if (typeof funcObj === 'function') {
                         const res = funcObj.apply(thisVal, args);
                         thread.stack = prevStack;
                         thread.stack.push(res);
                         break;
+                    } else {
+                        // VM Closure Call
+                        if (!funcObj.bytecode) {
+                             throw new Error(`Type Error: Object at ${funcPtr} is not executable code.`);
+                        }
                     }
 
                     // VM Closure Call

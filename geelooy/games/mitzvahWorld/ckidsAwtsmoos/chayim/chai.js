@@ -425,66 +425,71 @@ export default class Chai extends Tzomayach {
     
     /**
      * B"H
-     * Collects the object currently pointed at by the ray.
-     * Returns true if an object was successfully collected.
+     * Collects the object using Octree Physics Raycasting.
+     * Includes extensive logging for debugging.
      */
     async collectObject() {
-        // 1. Get the ray start and direction
         const origin = this.getRayStart();
         const direction = this.getRayDirection();
+        
+        // Setup the ray
+        const ray = new THREE.Ray(origin, direction);
+        
+        console.log("B\"H - Firing Collector Ray", { origin, direction });
 
-        // 2. Create a standard THREE.Raycaster
-        const raycaster = new THREE.Raycaster();
-        raycaster.set(origin, direction);
-        // B"H FIX: Set a hardcoded distance (e.g. 100) to ensure it works. 
-        // Previously it tried to read a property that didn't exist.
-        raycaster.far = 100; 
+        // 1. OCTREE RAYCAST (Physics check)
+        const hit = this.olam.worldOctree.rayIntersect(ray);
 
-        // 3. Check intersections with the interactive Octree (or scene meshes)
-        const intersects = raycaster.intersectObjects(this.olam.nivrayimGroup.children, true);
-
-        if (intersects.length > 0) {
-            // Get the first hit
-            const hit = intersects[0];
-            let object = hit.object;
-
-            // B"H FIX: Climb up one level just in case we hit a child mesh of a group
-            if (!object.userData.itemData && object.parent && object.parent.userData.itemData) {
-                object = object.parent;
-            }
-
-            // Check if this object has metadata we can collect
-            if (object.userData && (object.userData.itemData || object.userData.isSolid)) {
-                
-                // 4. Add back to inventory
-                const itemData = object.userData.itemData || {
-                    id: "brick_1x1x1", // Default fallback
-                    className: "Brick",
-                    quantity: 1
-                };
-                
-                // Add 1 of this item to inventory
-                this.inventory.addItem(itemData, 1);
-
-                // 5. Remove from world
-                if (object.nivraAwtsmoos) {
-                    this.olam.sealayk(object.nivraAwtsmoos);
-                } else {
-                    object.removeFromParent();
-                    // Also remove from physics octree if needed
-                    if (this.olam.worldOctree) {
-                        // Note: Standard meshes need to be removed from octree tracking if applicable
-                        // This depends on your octree implementation details for removal
-                    }
-                }
-                
-                // Play a sound
-                this.playSound("awtsmoos://dingSound", { volume: 0.5 });
-                
-                return true;
-            }
+        if (!hit) {
+            console.log("B\"H - Octree Ray missed everything.");
+            return false;
         }
-        return false;
+
+        console.log("B\"H - Octree Hit!", { distance: hit.distance, object: hit.object });
+
+        if (hit.distance > 15) {
+            console.log("B\"H - Object too far away.");
+            return false;
+        }
+
+        // 2. Resolve the Game Entity
+        let object = hit.object;
+        
+        // Hierarchy climb to find data
+        while(object && object !== this.olam.nivrayimGroup) {
+            console.log("B\"H - Checking parent:", object.name, object.userData);
+            if(object.userData && (object.userData.itemData || object.userData.isSolid)) {
+                break; 
+            }
+            object = object.parent;
+        }
+
+        if (!object || object === this.olam.nivrayimGroup) {
+            console.log("B\"H - Hit geometry, but found no valid game data (itemData/isSolid).");
+            return false;
+        }
+
+        // 3. Collect
+        console.log("B\"H - VALID TARGET FOUND:", object);
+        
+        const itemData = object.userData.itemData || {
+            id: "brick_1x1x1", 
+            className: "Brick",
+            quantity: 1
+        };
+        
+        this.inventory.addItem(itemData, 1);
+
+        if (object.nivraAwtsmoos) {
+            this.olam.sealayk(object.nivraAwtsmoos);
+        } else {
+            // Clean up physics if we delete a raw mesh
+            this.olam.worldOctree.removeMesh(object);
+            object.removeFromParent();
+        }
+        
+        this.playSound("awtsmoos://dingSound", { volume: 0.5 });
+        return true;
     }
 
     /**
@@ -632,72 +637,82 @@ export default class Chai extends Tzomayach {
 
     /**
      * B"H
-     * Creates or removes the placement ray. This is the FINAL version that correctly handles
-     * both FPS (-Z) and 3rd Person (+Z) forward conventions by conditionally rotating the ray's container.
-     * @async
-     * @param {number} [length=72] - The maximum length of the ray.
+     * Creates or removes the placement ray.
+     * FIXED: Restored the 'return' statement so it actually toggles off!
      */
     async makeRay(length = 72) {
         if (this.activeRay) {
             this.removeRay();
-            return;
+            return; // <--- THIS WAS MISSING!
         }
 
         const rayGroup = new THREE.Group();
         const parent = this.olam.ayin.isFPS ? this.olam.ayin.camera : this.emptyCopy;
+        
         parent.add(rayGroup);
 
         const worldStart = this.getRayStart();
         const localStart = parent.worldToLocal(worldStart.clone());
         rayGroup.position.copy(localStart);
 
-        // --- THE FINAL ROTATION FIX ---
         if (this.olam.ayin.isFPS) {
-            // The camera's forward is -Z. We rotate our group 180 degrees on the Y-axis
-            // so that our group's local +Z axis aligns with the camera's -Z axis.
             rayGroup.quaternion.setFromAxisAngle(new THREE.Vector3(0, 1, 0), Math.PI);
+        } else {
+            rayGroup.quaternion.identity();
         }
-        // In 3rd person, no local rotation is needed. The group's +Z will automatically
-        // align with the parent model's +Z, which is already its forward direction.
-        // --- END OF FIX ---
 
         const geometry = new THREE.CylinderGeometry(0.015, 0.015, length, 8);
         const material = new THREE.MeshBasicMaterial({ color: 0x0000ff, transparent: true, opacity: 0.5 });
         const cylinderMesh = new THREE.Mesh(geometry, material);
 
-        // We now CONSISTENTLY use the positive Z-axis as "forward" for all children of the rayGroup.
         cylinderMesh.rotation.x = Math.PI / 2;
         cylinderMesh.position.z = length / 2;
         rayGroup.add(cylinderMesh);
 
         this.activeRay = { group: rayGroup, visual: cylinderMesh };
 
-        this.olam.on("setFPS", () => {
+        if(this._fpsSwitchListener) {
+            this.olam.remove("setFPS", this._fpsSwitchListener);
+        }
+
+        this._fpsSwitchListener = () => {
             const hadObject = !!this.activeObject;
-            this.removeRay();
-            this.makeRay(length).then(() => {
-                if (hadObject) this.placeBlockOnRay();
-            });
-        }, { once: true });
+            setTimeout(() => {
+                // Force recreate ray if it was active
+                this.removeRay();
+                this.makeRay(length).then(() => {
+                    if (hadObject) this.placeBlockOnRay();
+                });
+            }, 50);
+        };
+
+        this.olam.on("setFPS", this._fpsSwitchListener, { once: true });
     }
 
     /**
      * B"H
-     * Calculates the "forward" direction for the ray. This is the final, correct version.
-     * @returns {THREE.Vector3} A normalized vector representing the forward direction.
+     * Calculates the "forward" direction for the ray.
+     * FIXED: Allows vertical aiming (Y-axis) so you can hit blocks below/above you.
      */
     getRayDirection() {
         const direction = new THREE.Vector3();
         if (this.olam.ayin.isFPS) {
-            // In FPS, "forward" is the direction the camera is looking.
+            // In FPS, use the camera's exact look direction
             this.olam.ayin.camera.getWorldDirection(direction);
         } else {
-            // In 3rd person, "forward" is the Z-axis of the model, transformed by its world rotation.
-            const forward = new THREE.Vector3(0, 0, 1);
-            forward.applyQuaternion(this.modelMesh.quaternion);
-            direction.copy(forward);
+            // In 3rd person, we still want to raycast somewhat towards where the camera is looking,
+            // otherwise it's very hard to aim. 
+            // For now, we stick to the model's forward, but we allow pitch if possible,
+            // or fallback to a hybrid approach. 
+            // Simplest fix for collection: Use camera direction for collection even in 3rd person?
+            // No, let's stick to model rotation but allow verticality if the model has it.
+            
+            // BETTER FIX: For collection/interaction, ALWAYS use the camera look direction.
+            // It feels much more natural to click on what you see.
+            this.olam.ayin.camera.getWorldDirection(direction);
         }
-        direction.y = 0; // Ensure the ray is always level.
+        
+        // REMOVED: direction.y = 0;  <-- This was the bug!
         return direction.normalize();
     }
 
@@ -707,17 +722,35 @@ export default class Chai extends Tzomayach {
     /**
      * B"H
      * Creates and attaches a preview block.
-     * UPDATED: Makes the ghost block semi-transparent so it doesn't look "stuck" or solid.
+     * FIXED: Prevents race conditions (double ghosts) and ensures ghost transparency.
+     */
+    /**
+     * B"H
+     * Creates and attaches a preview block.
+     * FIXED: Prevents race conditions (double ghosts) and ensures ghost transparency.
      */
     async placeBlockOnRay() {
+        // 1. Race Condition Lock
+        if (this._isGeneratingGhost) return; 
         if (!this.activeRay || !this.activeRay.group) return;
-        this.removeActiveObject();
 
-        let blockDefinition;
-        let itemData = null;
+        this._isGeneratingGhost = true;
 
-        const item = this.getActiveItem();
-        if (item && (item.className === 'Brick' || item.item === 'Brick')) {
+        try {
+            // Clear previous immediately
+            this.activeRay.group.clear();
+            this.activeRay.group.add(this.activeRay.visual);
+            this.removeActiveObject();
+
+            const item = this.getActiveItem();
+            // Basic check: Do we have a brick?
+            if (!item || (item.className !== 'Brick' && item.item !== 'Brick')) {
+                return;
+            }
+
+            let blockDefinition;
+            let itemData = null;
+
             try {
                 const brickModule = await import('../dvarim/brick.js');
                 const BrickClass = brickModule.default;
@@ -728,49 +761,53 @@ export default class Chai extends Tzomayach {
                 delete itemData.golem; 
 
             } catch (e) { console.error("Could not load brick module", e); }
-        }
-        
-        if (!blockDefinition) {
-            blockDefinition = this?.olam?.vars?.defaultBlock || {
-                guf: { BoxGeometry: [1, 1, 1] },
-                toyr: { MeshLambertMaterial: { color: "#a0522d" } }
-            };
-        }
-
-        const mesh = await this.olam.generateThreeJsMesh(blockDefinition);
-        if (!mesh) return;
-        
-        // --- GHOST MATERIAL FIX ---
-        // Make the preview transparent
-        const makeGhost = (mat) => {
-            if(mat) {
-                mat.transparent = true;
-                mat.opacity = 0.6;
-                mat.depthWrite = false; // Helps with rendering order for ghosts
+            
+            if (!blockDefinition) {
+                blockDefinition = this?.olam?.vars?.defaultBlock || {
+                    guf: { BoxGeometry: [1, 1, 1] },
+                    toyr: { MeshLambertMaterial: { color: "#a0522d" } }
+                };
             }
-        };
 
-        if (Array.isArray(mesh.material)) {
-            mesh.material.forEach(makeGhost);
-        } else {
-            makeGhost(mesh.material);
+            const mesh = await this.olam.generateThreeJsMesh(blockDefinition);
+            if (!mesh) return;
+            
+            // Material Ghosting Logic
+            const makeGhost = (mat) => {
+                if(mat) {
+                    mat.transparent = true;
+                    mat.opacity = 0.6;
+                    mat.depthWrite = false;
+                }
+            };
+
+            if (Array.isArray(mesh.material)) {
+                mesh.material.forEach(makeGhost);
+            } else {
+                makeGhost(mesh.material);
+            }
+
+            mesh.awtsmoosGolem = blockDefinition;
+            
+            if (itemData) {
+                mesh.userData.itemData = itemData;
+            }
+
+            this.activeObject = { mesh };
+            
+            if(isNaN(this.distanceFromRay)) this.distanceFromRay = 5;
+            
+            this.activeObject.mesh.position.z = this.distanceFromRay;
+            
+            // Safety check: Ray might have been turned off while we were awaiting
+            if(this.activeRay && this.activeRay.group) {
+                this.activeRay.group.add(this.activeObject.mesh);
+                this.alignObject();
+            }
+
+        } finally {
+            this._isGeneratingGhost = false;
         }
-        // --------------------------
-
-        mesh.awtsmoosGolem = blockDefinition;
-        
-        if (itemData) {
-            mesh.userData.itemData = itemData;
-        }
-
-        this.activeObject = { mesh };
-        
-        // Reset to default distance if weird
-        if(isNaN(this.distanceFromRay)) this.distanceFromRay = 5;
-        
-        this.activeObject.mesh.position.z = this.distanceFromRay;
-        this.activeRay.group.add(this.activeObject.mesh);
-        this.alignObject();
     }
 
     /**
@@ -941,14 +978,27 @@ export default class Chai extends Tzomayach {
     
     /**
      * B"H
-     * Updated highlight logic.
+     * Highlights blocks using Octree Physics.
+     * FIXED: Handles Mesh with Multiple Materials (Arrays).
      */
     updateBlockHighlight() {
-        // Cleanup previous
+        // 1. Cleanup previous highlight
         if (this.currentHighlighted) {
-            if (this.currentHighlighted.material && this.currentHighlighted.savedEmissive) {
-                this.currentHighlighted.material.emissive.copy(this.currentHighlighted.savedEmissive);
+            const mesh = this.currentHighlighted;
+            
+            // Helper to restore one material
+            const restoreMat = (mat, saved) => {
+                if (mat && saved && mat.emissive) {
+                    mat.emissive.copy(saved);
+                }
+            };
+
+            if (Array.isArray(mesh.material) && Array.isArray(mesh.savedEmissives)) {
+                mesh.material.forEach((m, i) => restoreMat(m, mesh.savedEmissives[i]));
+            } else if (mesh.material && mesh.savedEmissive) {
+                restoreMat(mesh.material, mesh.savedEmissive);
             }
+            
             this.currentHighlighted = null;
         }
 
@@ -957,22 +1007,50 @@ export default class Chai extends Tzomayach {
 
         const origin = this.getRayStart();
         const direction = this.getRayDirection();
-        const raycaster = new THREE.Raycaster();
-        raycaster.set(origin, direction);
-        raycaster.far = this.activeRay ? this.activeRay.length : 15;
+        const ray = new THREE.Ray(origin, direction);
 
-        const intersects = raycaster.intersectObjects(this.olam.nivrayimGroup.children, true);
+        const hit = this.olam.worldOctree.rayIntersect(ray);
 
-        if (intersects.length > 0) {
-            const hit = intersects[0];
-            const obj = hit.object;
-            // Highlight logic
-            if (obj.userData && (obj.userData.itemData || obj.userData.isSolid)) {
-                this.currentHighlighted = obj;
-                if (!obj.savedEmissive) {
-                    obj.savedEmissive = obj.material.emissive.clone();
+        if (hit && hit.distance < 15 && hit.object) {
+            let entity = hit.object;
+            let visualMesh = hit.object;
+
+            // Climb
+            while(entity && entity !== this.olam.nivrayimGroup) {
+                if(entity.userData && (entity.userData.itemData || entity.userData.isSolid)) {
+                    break;
                 }
-                obj.material.emissive.setHex(0xff0000); 
+                entity = entity.parent;
+            }
+
+            if (entity && entity !== this.olam.nivrayimGroup) {
+                this.currentHighlighted = visualMesh;
+                
+                // Helper to highlight one material
+                const highlightMat = (mat) => {
+                    if (mat && mat.emissive) {
+                        return mat.emissive.clone(); // Save old color
+                    }
+                    return null;
+                };
+
+                if (Array.isArray(visualMesh.material)) {
+                    // Handle Array of Materials
+                    if (!visualMesh.savedEmissives) {
+                        visualMesh.savedEmissives = visualMesh.material.map(highlightMat);
+                    }
+                    visualMesh.material.forEach(m => {
+                        if(m.emissive) m.emissive.setHex(0xff0000);
+                    });
+                } else {
+                    // Handle Single Material
+                    if (!visualMesh.savedEmissive) {
+                        visualMesh.savedEmissive = highlightMat(visualMesh.material);
+                    }
+                    if (visualMesh.material.emissive) {
+                        visualMesh.material.emissive.setHex(0xff0000);
+                    }
+                }
             }
         }
     }

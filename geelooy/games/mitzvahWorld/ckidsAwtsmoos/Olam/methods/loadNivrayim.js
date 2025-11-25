@@ -24,7 +24,7 @@ export default class {
             mesh.name = nivra.name;
             nivra.mesh = mesh;
             mesh.nivraAwtsmoos = nivra;
-
+		if(!mesh.userData) mesh.userData = {};
             // 3. APPLY TRANSFORMATIONS DIRECTLY - This is the most critical step.
             if (options.position) mesh.position.copy(options.position);
             if (options.rotation) mesh.rotation.copy(options.rotation); // It takes the Euler directly.
@@ -36,11 +36,23 @@ export default class {
 
             // 4. Update the world matrix BEFORE passing to physics.
             mesh.updateMatrixWorld(true);
-
+            
+		if (mesh.geometry) {
+                mesh.geometry.sourceMesh = mesh; // Helper property
+            }
             // 5. Add to physics and scene.
             if (options.isSolid) {
                 this.worldOctree.addObject(mesh);
             }
+            
+            
+            mesh.traverse(child => {
+                if(child.isMesh) {
+                    if(!child.userData) child.userData = {};
+                    if(options.itemData) child.userData.itemData = options.itemData;
+                    if(options.isSolid) child.userData.isSolid = true;
+                }
+            });
             if (options.interactable) {
                 this.interactiveOctree.fromGraphNode(mesh);
             }

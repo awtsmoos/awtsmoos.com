@@ -48,7 +48,10 @@ export class Octree {
 	            subTree.addDynamicTriangle(triangle);
 	        }
 	    } else {
-	        this.dynamicTriangles.push(triangle.clone());
+            // B"H FIX: Clone the triangle but KEEP the mesh reference!
+            const clone = triangle.clone();
+            clone.sourceMesh = triangle.sourceMesh;
+	        this.dynamicTriangles.push(clone);
 	    }
 	}
 	
@@ -162,7 +165,12 @@ export class Octree {
 	                    const v2 = new Vector3().fromBufferAttribute(positionAttribute, i + 1).applyMatrix4(obj.matrixWorld);
 	                    const v3 = new Vector3().fromBufferAttribute(positionAttribute, i + 2).applyMatrix4(obj.matrixWorld);
 	                    const tri = new Triangle(v1, v2, v3);
+                        
+                        // --- B"H
+                        // Link physics triangle to visual mesh ---
 	                    tri.sourceMesh = obj;
+                        // ----------------------------------------------------
+                        
 	                    this.#allTriangles.push(tri);
 	                }
 	            }
@@ -175,10 +183,18 @@ export class Octree {
 	}
 
 	removeMesh(mesh) {
-		const originalTriangleCount = this.#allTriangles.length;
+        // 1. Filter out triangles belonging to this mesh
+		const originalCount = this.#allTriangles.length;
 		this.#allTriangles = this.#allTriangles.filter(tri => tri.sourceMesh !== mesh);
-		if (this.#allTriangles.length < originalTriangleCount) {
-			this.#isBuilt = false;
+        
+        // 2. Also remove from dynamic list
+        this.dynamicTriangles = this.dynamicTriangles.filter(tri => tri.sourceMesh !== mesh);
+
+		if (this.#allTriangles.length < originalCount || this.dynamicTriangles.length > 0) {
+            // 3. Force a rebuild next frame to update the spatial index
+			this.#isBuilt = false; 
+            // 4. Clear the flat buffer immediately so raycasts don't hit stale data
+            this.#worldTrianglesData = null; 
 		}
 		return this;
 	}
@@ -357,7 +373,7 @@ _getDynamicCapsuleTriangles(capsule, triangles) {
     let closestResult = false;
     this._getHybridRayTriangles(ray, trianglesToCheck);
 
-    // Check against STATIC triangles from the fast buffer
+    // Check against STATIC triangles
     for (const index of trianglesToCheck.staticIndices) {
         const triangle = this.#_getTriangle(index, _temp_triangle);
         const result = ray.intersectTriangle(triangle.a, triangle.b, triangle.c, false, _v1);
@@ -366,12 +382,14 @@ _getDynamicCapsuleTriangles(capsule, triangles) {
             if (!closestResult || distSq < closestResult.distance * closestResult.distance) {
                 const hitNormal = new Vector3();
                 triangle.getNormal(hitNormal);
-                closestResult = { distance: Math.sqrt(distSq), triangle: triangle.clone(), position: result.clone(), normal: hitNormal };
+                // B"H FIX: Get source mesh from the master list using the index
+                const source = this.#allTriangles[index] ? this.#allTriangles[index].sourceMesh : null;
+                closestResult = { distance: Math.sqrt(distSq), triangle: triangle.clone(), position: result.clone(), normal: hitNormal, object: source };
             }
         }
     }
     
-    // Check against DYNAMIC triangles from the simple array
+    // Check against DYNAMIC triangles
     for (const triangle of trianglesToCheck.dynamicTris) {
         const result = ray.intersectTriangle(triangle.a, triangle.b, triangle.c, false, _v1);
         if (result) {
@@ -379,7 +397,8 @@ _getDynamicCapsuleTriangles(capsule, triangles) {
             if (!closestResult || distSq < closestResult.distance * closestResult.distance) {
                 const hitNormal = new Vector3();
                 triangle.getNormal(hitNormal);
-                closestResult = { distance: Math.sqrt(distSq), triangle: triangle.clone(), position: result.clone(), normal: hitNormal };
+                // B"H FIX: Get source mesh from the dynamic triangle directly
+                closestResult = { distance: Math.sqrt(distSq), triangle: triangle.clone(), position: result.clone(), normal: hitNormal, object: triangle.sourceMesh };
             }
         }
     }

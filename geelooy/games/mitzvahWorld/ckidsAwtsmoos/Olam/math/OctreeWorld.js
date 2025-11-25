@@ -91,6 +91,55 @@ addObject(mesh) {
             console.warn(`[OctreeWorld] Could not find a physics node for dynamic object: ${mesh.name}`);
         }
     }
+    
+    
+    /**
+     * B"H
+     * Removes a mesh from the physics world.
+     * Handles both Dynamic (LOD Nodes) and Static (Root) geometry.
+     */
+    removeMesh(mesh) {
+        if (!this.#root || !mesh) return;
+
+        let found = false;
+
+        // 1. Try to find it in Dynamic Nodes
+        const meshBox = new THREE.Box3().setFromObject(mesh);
+        const nodes = this.#findLeafNodesInBox(this.#root, meshBox);
+
+        nodes.forEach(node => {
+            if (node.physicsMeshGroup) {
+                if(node.physicsMeshGroup.children.includes(mesh)) {
+                    node.physicsMeshGroup.remove(mesh);
+                    found = true;
+                }
+            }
+
+            if (node.state === NODE_STATE.READY && node.physics) {
+                node.physics.removeMesh(mesh);
+                // Force physics rebuild for this chunk
+                node.physics.build(); 
+                
+                if (node.physics.getTotalTriangleCount() === 0) {
+                    node.state = NODE_STATE.EMPTY;
+                }
+                found = true;
+            }
+        });
+
+        // 2. If not found in dynamic nodes, try the Main Static World Octree
+        // (This handles blocks loaded from the file)
+        if (!found && this.#root.physics) {
+            console.log(`[OctreeWorld] Searching static world root for "${mesh.name}"...`);
+            this.#root.physics.removeMesh(mesh);
+            // Rebuild root physics (expensive, but necessary for static removal)
+            this.#root.physics.build();
+        }
+        
+        console.log(`[OctreeWorld] Removed "${mesh.name}" collision.`);
+    }
+    
+    
  #buildNodePhysics(node) {
         if (node.state === NODE_STATE.READY) return; // Already done
         
@@ -134,6 +183,10 @@ addObject(mesh) {
             const v3 = new Vector3().fromBufferAttribute(positionAttribute, i + 2).applyMatrix4(newMesh.matrixWorld);
             const newTriangle = new Triangle(v1, v2, v3);
             
+            // --- B"H FIX: Attach the mesh to the physics triangle so we know WHAT we hit ---
+            newTriangle.sourceMesh = newMesh; 
+            // ---------------------------------------------------------------------------
+
             // Call our new, SAFE method. It doesn't rebuild anything!
             node.physics.addDynamicTriangle(newTriangle);
         }
