@@ -76,10 +76,16 @@ export default class InventoryManager {
             return false;
         }
 
-        const maxStack = itemClass.stackSize || 512;
-        const uniqueItemId = itemData.id; 
+        // B"H: Enhance item data with static class properties
+        const enhancedItemData = { ...itemData };
+        if (itemClass.isBuildable) {
+            enhancedItemData.isBuildable = true;
+        }
 
-        // Try to stack first
+        const maxStack = itemClass.stackSize || 512;
+        const uniqueItemId = enhancedItemData.id; 
+
+        // Try to stack
         for (let i = 0; i < this.slots.length; i++) {
             const slot = this.slots[i];
             if (slot && slot.id === uniqueItemId && slot.quantity < maxStack) {
@@ -100,7 +106,7 @@ export default class InventoryManager {
             if (this.slots[i] === null) {
                 const toAdd = Math.min(quantity, maxStack);
                 this.slots[i] = {
-                    ...itemData, 
+                    ...enhancedItemData, 
                     quantity: toAdd
                 };
                 quantity -= toAdd;
@@ -114,6 +120,29 @@ export default class InventoryManager {
         
         this.updateUI();
         return quantity > 0 ? false : true;
+    }
+    
+    /**
+     * B"H
+     * Iterates through all inventory slots and updates them with static properties
+     * from their Class definitions (like isBuildable).
+     * Call this after loading saved data.
+     */
+    hydrateItems() {
+        const processItem = (item) => {
+            if (!item || !item.className) return item;
+            const ItemClass = AWTSMOOS[item.className];
+            if (ItemClass) {
+                // Inject isBuildable if the Class declares it
+                if (ItemClass.isBuildable) {
+                    item.isBuildable = true;
+                }
+            }
+            return item;
+        };
+
+        this.slots = this.slots.map(processItem);
+        this.actionSlots = this.actionSlots.map(processItem);
     }
     
     /**

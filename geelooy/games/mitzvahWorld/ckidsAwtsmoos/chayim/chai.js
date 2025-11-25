@@ -631,46 +631,7 @@ export default class Chai extends Tzomayach {
    
    
    
-    /**
-     * B"H
-     * Determines the action to take when the "Fire" button (Enter/Click) is pressed.
-     * Behavior depends on the currently equipped item.
-     */
-    async shoot() {
-        if (!this.activeRay) return;
-
-        const slot = this.inventory.slots[this.selectedInventorySlot];
-
-        // 1. BUILDING MODE
-        if (slot && (slot.className === 'Brick' || slot.item === 'Brick')) {
-            if (!this.activeObject) {
-                // If ray is on but no block shown yet, show it
-                await this.placeBlockOnRay();
-            } else {
-                // If block is shown, place it
-                await this.placeObject();
-            }
-        } 
-        // 2. COLLECTION MODE (The "Weapon")
-        else if (slot && slot.className === 'Tool') {
-            // Ensure we don't have a ghost block hanging around from a previous switch
-            if (this.activeObject) {
-                this.removeActiveObject();
-            }
-            
-            // Attempt to collect the object being pointed at
-            await this.collectObject();
-        }
-        // 3. SAFETY MODE (Empty hand or unknown item)
-        else {
-            // Do nothing (or trigger standard interaction like talking).
-            // This prevents accidental deletion of the world.
-            if (this.activeObject) {
-                this.removeActiveObject();
-            }
-            console.log("Equip a Brick to build or a Tool to collect.");
-        }
-    }
+    
     
     
     
@@ -793,96 +754,7 @@ export default class Chai extends Tzomayach {
     
     
 
-    /**
-     * B"H
-     * Creates and attaches a preview block.
-     * FIXED: Prevents race conditions (double ghosts) and ensures ghost transparency.
-     */
-    /**
-     * B"H
-     * Creates and attaches a preview block.
-     * FIXED: Prevents race conditions (double ghosts) and ensures ghost transparency.
-     */
-    async placeBlockOnRay() {
-        // 1. Race Condition Lock
-        if (this._isGeneratingGhost) return; 
-        if (!this.activeRay || !this.activeRay.group) return;
-
-        this._isGeneratingGhost = true;
-
-        try {
-            // Clear previous immediately
-            this.activeRay.group.clear();
-            this.activeRay.group.add(this.activeRay.visual);
-            this.removeActiveObject();
-
-            const item = this.getActiveItem();
-            // Basic check: Do we have a brick?
-            if (!item || (item.className !== 'Brick' && item.item !== 'Brick')) {
-                return;
-            }
-
-            let blockDefinition;
-            let itemData = null;
-
-            try {
-                const brickModule = await import('../dvarim/brick.js');
-                const BrickClass = brickModule.default;
-                const tempBrick = new BrickClass(item);
-                blockDefinition = tempBrick.originalOptions.golem;
-                
-                itemData = { ...item };
-                delete itemData.golem; 
-
-            } catch (e) { console.error("Could not load brick module", e); }
-            
-            if (!blockDefinition) {
-                blockDefinition = this?.olam?.vars?.defaultBlock || {
-                    guf: { BoxGeometry: [1, 1, 1] },
-                    toyr: { MeshLambertMaterial: { color: "#a0522d" } }
-                };
-            }
-
-            const mesh = await this.olam.generateThreeJsMesh(blockDefinition);
-            if (!mesh) return;
-            
-            // Material Ghosting Logic
-            const makeGhost = (mat) => {
-                if(mat) {
-                    mat.transparent = true;
-                    mat.opacity = 0.6;
-                    mat.depthWrite = false;
-                }
-            };
-
-            if (Array.isArray(mesh.material)) {
-                mesh.material.forEach(makeGhost);
-            } else {
-                makeGhost(mesh.material);
-            }
-
-            mesh.awtsmoosGolem = blockDefinition;
-            
-            if (itemData) {
-                mesh.userData.itemData = itemData;
-            }
-
-            this.activeObject = { mesh };
-            
-            if(isNaN(this.distanceFromRay)) this.distanceFromRay = 5;
-            
-            this.activeObject.mesh.position.z = this.distanceFromRay;
-            
-            // Safety check: Ray might have been turned off while we were awaiting
-            if(this.activeRay && this.activeRay.group) {
-                this.activeRay.group.add(this.activeObject.mesh);
-                this.alignObject();
-            }
-
-        } finally {
-            this._isGeneratingGhost = false;
-        }
-    }
+    
 
     /**
      * B"H
@@ -1007,12 +879,154 @@ export default class Chai extends Tzomayach {
 
         if (!this.activeRay) return;
 
-        if (item && (item.className === 'Brick' || item.item === 'Brick')) {
+        // B"H: Generic check for buildable items
+        if (item && item.isBuildable) {
             if (!this.activeObject) {
                 this.placeBlockOnRay();
             }
         } else {
             this.removeActiveObject();
+        }
+    }
+
+    /**
+     * B"H
+     * Updated to check the Active Item for Tools.
+     */
+    async shoot() {
+        if (!this.activeRay) return;
+
+        const item = this.getActiveItem();
+
+        // B"H: Generic Building Check
+        if (item && item.isBuildable) {
+            if (!this.activeObject) {
+                await this.placeBlockOnRay();
+            } else {
+                await this.placeObject();
+            }
+        } 
+        else if (item && item.className === 'Tool') {
+            if (this.activeObject) this.removeActiveObject();
+            await this.collectObject();
+        }
+        else {
+            if (this.activeObject) this.removeActiveObject();
+            console.log("Hand is empty or item is not usable.");
+        }
+    }
+
+    /**
+     * B"H
+     * Updated to color ray based on Equipment.
+     */
+    updateRayColor() {
+        if (!this.activeRay || !this.activeRay.visual) return;
+
+        const item = this.getActiveItem();
+        const mat = this.activeRay.visual.material;
+
+        // B"H: Blue for Builders
+        if (item && item.isBuildable) {
+            mat.color.setHex(0x0000ff); // Blue (Build)
+            mat.opacity = 0.5;
+        } else if (item && item.className === 'Tool') {
+            mat.color.setHex(0xff0000); // Red (Collect/Weapon)
+            mat.opacity = 0.8;
+        } else {
+            mat.color.setHex(0xffffff);
+            mat.opacity = 0.1;
+        }
+    }
+
+    /**
+     * B"H
+     * Creates and attaches a preview block.
+     */
+    async placeBlockOnRay() {
+        // 1. Race Condition Lock
+        if (this._isGeneratingGhost) return; 
+        if (!this.activeRay || !this.activeRay.group) return;
+
+        this._isGeneratingGhost = true;
+
+        try {
+            // Clear previous immediately
+            this.activeRay.group.clear();
+            this.activeRay.group.add(this.activeRay.visual);
+            this.removeActiveObject();
+
+            const item = this.getActiveItem();
+            
+            // B"H: Generic Check
+            if (!item || !item.isBuildable) {
+                return;
+            }
+
+            let blockDefinition;
+            let itemData = null;
+
+            try {
+                // B"H: Dynamic Module Loading based on className
+                const fileName = item.className.toLowerCase() + ".js"; 
+                const itemModule = await import(`../dvarim/${fileName}`);
+                
+                const ItemClass = itemModule.default;
+                const tempItem = new ItemClass(item);
+                
+                blockDefinition = tempItem.originalOptions.golem;
+                
+                itemData = { ...item };
+                delete itemData.golem; 
+
+            } catch (e) { console.error("Could not load item module", e); }
+            
+            if (!blockDefinition) {
+                // Fallback to default brick if loading failed
+                blockDefinition = {
+                    guf: { BoxGeometry: [1, 1, 1] },
+                    toyr: { MeshLambertMaterial: { color: "#a0522d" } }
+                };
+            }
+
+            const mesh = await this.olam.generateThreeJsMesh(blockDefinition);
+            if (!mesh) return;
+            
+            // Material Ghosting Logic
+            const makeGhost = (mat) => {
+                if(mat) {
+                    mat.transparent = true;
+                    mat.opacity = 0.6;
+                    mat.depthWrite = false;
+                }
+            };
+
+            if (Array.isArray(mesh.material)) {
+                mesh.material.forEach(makeGhost);
+            } else {
+                makeGhost(mesh.material);
+            }
+
+            mesh.awtsmoosGolem = blockDefinition;
+            
+            if (itemData) {
+                mesh.userData.itemData = itemData;
+            }
+
+            this.activeObject = { mesh };
+            
+            if(isNaN(this.distanceFromRay)) this.distanceFromRay = 5;
+            
+            this.activeObject.mesh.position.z = this.distanceFromRay;
+            
+            // Safety check: Ray might have been turned off while we were awaiting
+            if(this.activeRay && this.activeRay.group) {
+                this.activeRay.group.add(this.activeObject.mesh);
+                this.alignObject();
+            }
+
+        } finally {
+            this._isGeneratingGhost = false;
         }
     }
 
@@ -1042,27 +1056,7 @@ export default class Chai extends Tzomayach {
         }
     }
 
-    /**
-     * B"H
-     * Updated to color ray based on Equipment.
-     */
-    updateRayColor() {
-        if (!this.activeRay || !this.activeRay.visual) return;
-
-        const item = this.getActiveItem();
-        const mat = this.activeRay.visual.material;
-
-        if (item && (item.className === 'Brick' || item.item === 'Brick')) {
-            mat.color.setHex(0x0000ff); // Blue (Build)
-            mat.opacity = 0.5;
-        } else if (item && item.className === 'Tool') {
-            mat.color.setHex(0xff0000); // Red (Collect/Weapon)
-            mat.opacity = 0.8;
-        } else {
-            mat.color.setHex(0xffffff);
-            mat.opacity = 0.1;
-        }
-    }
+    
     
     /**
      * B"H

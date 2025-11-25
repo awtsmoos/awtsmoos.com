@@ -126,7 +126,7 @@ export default class Stairs extends Tzomayach {
     static icon = "/games/mitzvahWorld/icons/items/brick.svg"; 
     static description = "Stairs to reach higher levels. Automatically adjusts steps.";
     static stackSize = 64;
-    
+    static isBuildable = true;
     constructor(op) {
 	    const dimensions = op.dimensions || { x: 1, y: 1, z: 1 };
 	

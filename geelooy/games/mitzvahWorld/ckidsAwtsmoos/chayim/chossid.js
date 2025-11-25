@@ -432,6 +432,8 @@ export default class Chossid extends Medabeir {
         this.olam.player = this;
         this.olam.ayin.target = this;
         
+        this.inventory.hydrateItems();
+        
         if(this.optionsSpeed) {
             this.speed = this.optionsSpeed;
         }
@@ -651,6 +653,16 @@ export default class Chossid extends Medabeir {
 	        description: 'A long 1x0.5x2 plane',
 	        dimensions: { x: 4, y: 0.25, z: 4 }
 	    }, 1024);
+	    
+	    
+	    this.inventory.addItem({
+	        id: 'stairs_brick_1',
+	        className: 'Stairs', // Must match the class name exported in awtsmoosCkidsGames.js
+	        name: 'Brick Stairs',
+	        description: 'Stairs to reach higher levels.',
+            // You can change dimensions here (e.g., y: 2 for steep stairs)
+	        dimensions: { x: 1, y: 1, z: 1 } 
+	    }, 64); // Quantity
         
     }
 

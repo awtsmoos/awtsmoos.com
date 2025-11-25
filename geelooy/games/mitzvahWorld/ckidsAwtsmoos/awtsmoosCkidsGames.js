@@ -6,6 +6,8 @@
  * 
  * 
  */
+
+export {default as Stairs} from "./dvarim/stairs.js";
 export {default as Apparel} from "./dvarim/apparel.js";
 export {default as Nivra} from "./chayim/nivra.js";
 export {default as Domem} from "./chayim/domem.js";

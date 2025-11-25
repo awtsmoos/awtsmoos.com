@@ -238,10 +238,14 @@
                 // --- Error Handling ---
                 case OPCODES.ENTER_TRY: {
                     const catchOffset = this._readInt16(thread);
-                    const finallyOffset = this._readInt16(thread); 
+                    const finallyOffset = this._readInt16(thread); // Consumes 2 more bytes
+                    
                     thread.catchStack.push({
-                        catchIP: thread.ip + catchOffset,
-                        stackSize: thread.stack.length // B"H - Save clean stack height
+                        // B"H - Fix Offset: The compiler calculated the jump based on a 3-byte instruction.
+                        // We have advanced 2 extra bytes reading 'finallyOffset', so we are 2 bytes ahead.
+                        // Subtract 2 to align with the compiler's target.
+                        catchIP: (thread.ip - 2) + catchOffset,
+                        stackSize: thread.stack.length 
                     });
                     break;
                 }
