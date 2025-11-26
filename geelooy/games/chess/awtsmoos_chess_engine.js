@@ -50,39 +50,140 @@ const queenPST = [[-20,-10,-10,-5,-5,-10,-10,-20],[-10,0,0,0,0,0,0,-10],[-10,0,5
 const kingPSTMidGame=[[-30,-40,-40,-50,-50,-40,-40,-30],[-30,-40,-40,-50,-50,-40,-40,-30],[-30,-40,-40,-50,-50,-40,-40,-30],[-30,-40,-40,-50,-50,-40,-40,-30],[-20,-30,-30,-40,-40,-30,-30,-20],[-10,-20,-20,-20,-20,-20,-20,-10],[20,20,0,0,0,0,20,20],[20,30,10,0,0,10,30,20]];
 const kingPSTEndGame=[[-50,-40,-30,-20,-20,-30,-40,-50],[-30,-20,-10,0,0,-10,-20,-30],[-30,-10,20,30,30,20,-10,-30],[-30,-10,30,40,40,30,-10,-30],[-30,-10,30,40,40,30,-10,-30],[-30,-10,20,30,30,20,-10,-30],[-30,-30,0,0,0,0,-30,-30],[-50,-30,-30,-30,-30,-30,-30,-50]];
 const pieceSquareTables = [pawnPST, knightPST, bishopPST, rookPST, queenPST, null];
+// --- STRATEGIC WEIGHTS ---
+const MG_MOBILITY = [0, 4, 3, 2, 1, 0];  // Mobility bonuses for N, B, R, Q
+const EG_MOBILITY = [0, 4, 3, 4, 2, 0];
+const KING_DANGER_PENALTY = 10;          // Penalty per enemy piece attacking king zone
+const OPEN_FILE_PENALTY = 40;            // Penalty for King on open file
+const CENTER_CONTROL_BONUS = 15;         // Bonus for attacking e4, d4, e5, d5
+const PAWN_SHIELD_BONUS = 20;            // Bonus for pawns in front of King
+const ISOLATED_PAWN_PENALTY = 20;
+const DOUBLED_PAWN_PENALTY = 15;
+
+const CENTER_SQUARES = 0x0000001818000000n; // d4, e4, d5, e5 mask
+
+
 
 function evaluate(state) {
-    if (typeof MEMORY_CANARY === 'undefined' || MEMORY_CANARY !== 0xDEADBEEFCAFEBABEn) {
-        // Fail safe: return 0 instead of crashing if global scope is weird
-        return 0;
-    }
-    const phase = ((popcount(state.pieceBitboards[N] | state.pieceBitboards[N+6])) +
-                   (popcount(state.pieceBitboards[B] | state.pieceBitboards[B+6])) +
-                   (popcount(state.pieceBitboards[R] | state.pieceBitboards[R+6]) * 2) +
-                   (popcount(state.pieceBitboards[Q] | state.pieceBitboards[Q+6]) * 4)) / 24;
+    if (typeof MEMORY_CANARY === 'undefined' || MEMORY_CANARY !== 0xDEADBEEFCAFEBABEn) return 0;
+
+    const whiteP = state.pieceBitboards[P], blackP = state.pieceBitboards[P+6];
+    const whiteK = state.pieceBitboards[K], blackK = state.pieceBitboards[K+6];
+    
+    // 1. Calculate Game Phase (Middlegame vs Endgame)
+    const knightCount = popcount(state.pieceBitboards[N] | state.pieceBitboards[N+6]);
+    const queenCount = popcount(state.pieceBitboards[Q] | state.pieceBitboards[Q+6]);
+    const phase = Math.min(24, (knightCount + popcount(state.pieceBitboards[B] | state.pieceBitboards[B+6]) + popcount(state.pieceBitboards[R] | state.pieceBitboards[R+6]) * 2 + queenCount * 4));
+    const mgWeight = phase / 24, egWeight = 1 - mgWeight;
 
     let score = 0;
-    for (let p = P; p <= K; p++) {
-        let white_bb = state.pieceBitboards[p];
-        let black_bb = state.pieceBitboards[p + 6];
-        score += (popcount(white_bb) - popcount(black_bb)) * pieceValues[p];
+    const blockers = state.occupancies[2];
 
-        while(white_bb > 0n) {
-            const sq = getLSBIndex(white_bb);
+    // 2. Loop through all pieces for Material + PST + Mobility + Center Control
+    for (let p = P; p <= K; p++) {
+        // --- WHITE ---
+        let bb = state.pieceBitboards[p];
+        while(bb > 0n) {
+            const sq = getLSBIndex(bb);
             const r = 7 - (sq >> 3), c = sq & 7;
-            if(p === K) score += (kingPSTMidGame[r][c] * phase) + (kingPSTEndGame[r][c] * (1-phase));
+            
+            // Material + PST
+            score += pieceValues[p];
+            if(p === K) score += (kingPSTMidGame[r][c] * mgWeight) + (kingPSTEndGame[r][c] * egWeight);
             else score += pieceSquareTables[p][r][c];
-            white_bb = popBit(white_bb);
+
+            // Mobility & Center Control (Skip for King/Pawn to save time)
+            if (p !== P && p !== K) {
+                let attacks = 0n;
+                if (p === N) attacks = KNIGHT_ATTACKS[sq];
+                else if (p === B) attacks = getBishopAttacks(sq, blockers);
+                else if (p === R) attacks = getRookAttacks(sq, blockers);
+                else if (p === Q) attacks = getQueenAttacks(sq, blockers);
+                
+                const mobility = popcount(attacks);
+                score += mobility * (MG_MOBILITY[p] * mgWeight + EG_MOBILITY[p] * egWeight);
+                
+                if ((attacks & CENTER_SQUARES) !== 0n) score += CENTER_CONTROL_BONUS;
+            }
+            bb = popBit(bb);
         }
-        while(black_bb > 0n) {
-            const sq = getLSBIndex(black_bb);
-            const r = sq >> 3, c = sq & 7;
-            if(p === K) score -= (kingPSTMidGame[r][c] * phase) + (kingPSTEndGame[r][c] * (1-phase));
+
+        // --- BLACK ---
+        bb = state.pieceBitboards[p + 6];
+        while(bb > 0n) {
+            const sq = getLSBIndex(bb);
+            const r = sq >> 3, c = sq & 7; // Flip rank for black PST
+            
+            score -= pieceValues[p];
+            if(p === K) score -= (kingPSTMidGame[r][c] * mgWeight) + (kingPSTEndGame[r][c] * egWeight);
             else score -= pieceSquareTables[p][r][c];
-            black_bb = popBit(black_bb);
+
+            if (p !== P && p !== K) {
+                let attacks = 0n;
+                if (p === N) attacks = KNIGHT_ATTACKS[sq];
+                else if (p === B) attacks = getBishopAttacks(sq, blockers);
+                else if (p === R) attacks = getRookAttacks(sq, blockers);
+                else if (p === Q) attacks = getQueenAttacks(sq, blockers);
+                
+                const mobility = popcount(attacks);
+                score -= mobility * (MG_MOBILITY[p] * mgWeight + EG_MOBILITY[p] * egWeight);
+                if ((attacks & CENTER_SQUARES) !== 0n) score -= CENTER_CONTROL_BONUS;
+            }
+            bb = popBit(bb);
         }
     }
-    
+
+    // 3. Pawn Structure Analysis
+    // (Simple Penalties for Doubled/Isolated)
+    for (let file = 0; file < 8; file++) {
+        const fileMask = 0x0101010101010101n << BigInt(file);
+        
+        // White
+        const wPawnsOnFile = popcount(whiteP & fileMask);
+        if (wPawnsOnFile > 1) score -= DOUBLED_PAWN_PENALTY;
+        if (wPawnsOnFile > 0) {
+            const prevFile = (file > 0) ? (0x0101010101010101n << BigInt(file - 1)) : 0n;
+            const nextFile = (file < 7) ? (0x0101010101010101n << BigInt(file + 1)) : 0n;
+            if ((whiteP & (prevFile | nextFile)) === 0n) score -= ISOLATED_PAWN_PENALTY;
+        }
+
+        // Black
+        const bPawnsOnFile = popcount(blackP & fileMask);
+        if (bPawnsOnFile > 1) score += DOUBLED_PAWN_PENALTY;
+        if (bPawnsOnFile > 0) {
+            const prevFile = (file > 0) ? (0x0101010101010101n << BigInt(file - 1)) : 0n;
+            const nextFile = (file < 7) ? (0x0101010101010101n << BigInt(file + 1)) : 0n;
+            if ((blackP & (prevFile | nextFile)) === 0n) score += ISOLATED_PAWN_PENALTY;
+        }
+    }
+
+    // 4. King Safety (Crucial Upgrade)
+    if (whiteK !== 0n) {
+        const sq = getLSBIndex(whiteK);
+        const file = sq & 7;
+        const rank = sq >> 3;
+        // Penalty for open file (no own pawn in front)
+        const forwardMask = (0x0101010101010101n << BigInt(file)) & (0xFFFFFFFFFFFFFFFFn << BigInt((rank + 1) * 8));
+        if ((whiteP & forwardMask) === 0n) score -= OPEN_FILE_PENALTY;
+        
+        // Bonus for pawn shield
+        const shieldMask = (0x7n << BigInt(Math.max(0, file - 1))) << BigInt((Math.max(0, rank - 1)) * 8);
+        score += popcount(shieldMask & whiteP) * PAWN_SHIELD_BONUS;
+    }
+
+    if (blackK !== 0n) {
+        const sq = getLSBIndex(blackK);
+        const file = sq & 7;
+        const rank = sq >> 3;
+        // Direction is opposite for black pawns/files
+        const forwardMask = (0x0101010101010101n >> BigInt((7 - rank + 1) * 8)); // Simplified: check general open file
+        const fileMask = 0x0101010101010101n << BigInt(file);
+        if ((blackP & fileMask) === 0n) score += OPEN_FILE_PENALTY;
+
+        const shieldMask = (0x7n << BigInt(Math.max(0, file - 1))) << BigInt((Math.min(7, rank + 1)) * 8);
+        score -= popcount(shieldMask & blackP) * PAWN_SHIELD_BONUS;
+    }
+
     if (popcount(state.pieceBitboards[B]) >= 2) score += 50;
     if (popcount(state.pieceBitboards[B+6]) >= 2) score -= 50;
 
@@ -159,22 +260,20 @@ function quiesce(state, alpha, beta, ply) {
 
 function search(state, depth, alpha, beta, ply) {
     if (ply >= MAX_PLY - 1) return evaluate(state);
-    if (depth <= 0) return quiesce(state, alpha, beta, ply);
-
-    // CHECK TIME EVERY 1024 NODES (Aggressive Check)
-    if ((EngineSoul.nodeCount & 1023) === 0) {
+    
+    // Check time
+    if ((EngineSoul.nodeCount & 2047) === 0) {
         if (performance.now() - EngineSoul.searchStartTime > EngineSoul.timeLimit) {
             EngineSoul.stopSearch = true;
         }
     }
     if (EngineSoul.stopSearch) return 0;
-    
+
     const isRoot = (ply === 0);
     const hash = state.zobristHash;
     if (!isRoot && EngineSoul.repetitionHistory.includes(hash)) return 0;
 
-    EngineSoul.nodeCount++;
-
+    // Transposition Table Lookup
     const ttEntry = EngineSoul.transpositionTable.get(hash);
     if (!isRoot && ttEntry && ttEntry.depth >= depth) {
         let score = ttEntry.score;
@@ -186,6 +285,39 @@ function search(state, depth, alpha, beta, ply) {
         if (alpha >= beta) return score;
     }
 
+    // Is King in Check?
+    const kingSq = getLSBIndex(state.pieceBitboards[state.turn * 6 + K]);
+    const inCheck = isSquareAttacked_lean(state, kingSq, state.turn ^ 1);
+
+    // --- NULL MOVE PRUNING (New Logic) ---
+    // If depth is high (>2), not in check, and evaluation is decent, try skipping a move.
+    if (!isRoot && depth >= 3 && !inCheck && ply > 0) {
+        // Simple heuristic: if we have major pieces
+        const hasPieces = (state.occupancies[state.turn] ^ state.pieceBitboards[state.turn * 6 + K] ^ state.pieceBitboards[state.turn * 6 + P]) !== 0n;
+        if (hasPieces) {
+            state.turn ^= 1;
+            state.enpassant = -1; // Reset EP on null move
+            const nullHash = calculateZobristHash(state); // Re-calc hash for null state
+            const oldHash = state.zobristHash;
+            state.zobristHash = nullHash;
+            
+            // Search with reduced depth (R=2)
+            const score = -search(state, depth - 1 - 2, -beta, -beta + 1, ply + 1);
+            
+            state.turn ^= 1;
+            state.zobristHash = oldHash; // Restore
+            
+            if (EngineSoul.stopSearch) return 0;
+            if (score >= beta) return beta; // Cutoff
+        }
+    }
+
+    // Extended depth if in check
+    const extension = inCheck ? 1 : 0;
+    if (depth + extension <= 0) return quiesce(state, alpha, beta, ply);
+
+    EngineSoul.nodeCount++;
+
     const moves = orderMoves(state, generateMoves(state), ply);
     let legalMovesMade = 0, bestScore = -Infinity, bestMove = 0, ttFlag = TT_UPPERBOUND;
 
@@ -193,8 +325,9 @@ function search(state, depth, alpha, beta, ply) {
         EngineSoul.repetitionHistory.push(hash);
         makeMove(state, move);
 
-        const kingSq = getLSBIndex(state.pieceBitboards[(state.turn ^ 1) * 6 + K]);
-        if (isSquareAttacked_lean(state, kingSq, state.turn)) {
+        // Verify legality
+        const kSq = getLSBIndex(state.pieceBitboards[(state.turn ^ 1) * 6 + K]);
+        if (isSquareAttacked_lean(state, kSq, state.turn)) {
             unmakeMove(state);
             EngineSoul.repetitionHistory.pop();
             continue;
@@ -202,12 +335,27 @@ function search(state, depth, alpha, beta, ply) {
 
         legalMovesMade++;
         let score;
+
+        // Principal Variation Search (PVS)
         if (legalMovesMade === 1) {
-            score = -search(state, depth - 1, -beta, -alpha, ply + 1);
+            score = -search(state, depth - 1 + extension, -beta, -alpha, ply + 1);
         } else {
-            score = -search(state, depth - 1, -alpha - 1, -alpha, ply + 1);
+            // Late Move Reduction (LMR)
+            // If move is late in the list, not a capture, not a check, search shallower
+            let reduction = 0;
+            if (depth >= 3 && legalMovesMade > 4 && !getMoveCapture(move) && !inCheck) {
+                reduction = 1;
+            }
+
+            score = -search(state, depth - 1 - reduction + extension, -alpha - 1, -alpha, ply + 1);
+            
+            // Re-search if LMR failed (found a better move than expected)
+            if (score > alpha && reduction > 0) {
+                 score = -search(state, depth - 1 + extension, -alpha - 1, -alpha, ply + 1);
+            }
+            // Re-search if PVS failed
             if (score > alpha && score < beta) {
-                score = -search(state, depth - 1, -beta, -alpha, ply + 1);
+                score = -search(state, depth - 1 + extension, -beta, -alpha, ply + 1);
             }
         }
         
@@ -236,7 +384,6 @@ function search(state, depth, alpha, beta, ply) {
     }
     
     if (legalMovesMade === 0) {
-        const inCheck = isSquareAttacked_lean(state, getLSBIndex(state.pieceBitboards[state.turn * 6 + K]), state.turn ^ 1);
         return inCheck ? -MATE_SCORE + ply : 0;
     }
 
