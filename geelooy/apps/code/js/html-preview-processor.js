@@ -339,61 +339,98 @@ export const orchestratePreview = async (item, iframe, contentOverride = null) =
     // This creates an offscreen buffer for the game to draw on.
     // The browser only sees the buffer *after* drawing is done, eliminating flicker
     // regardless of how slow the VM executes.
+    // B"H - STABILIZED DOUBLE BUFFERING SHIM
+    // 1. Forces CSS to prevent scrollbar-induced resize loops.
+    // 2. Only updates the screen when the Game finishes a frame (No independent loop).
+    const style = document.createElement('style');
+    style.textContent = 'body, html { width: 100%; height: 100%; margin: 0; padding: 0; overflow: hidden; } canvas { display: block; }';
+    document.head.appendChild(style);
+
     const shimScript = iframeDoc.createElement('script');
     shimScript.textContent = /*js*/`
     (function() {
-        const originalGetContext = HTMLCanvasElement.prototype.getContext;
+        const _getContext = HTMLCanvasElement.prototype.getContext;
+        const _rAF = window.requestAnimationFrame;
+        
+        // Store the buffer context for the active canvas
+        const canvasMap = new WeakMap();
+
+        // 1. Intercept getContext to return a hidden Back Buffer
         HTMLCanvasElement.prototype.getContext = function(type, options) {
-            // Only intercept 2D contexts
-            if (type !== '2d') return originalGetContext.call(this, type, options);
+            if (type !== '2d') return _getContext.call(this, type, options);
             
             const realCanvas = this;
-            const realCtx = originalGetContext.call(realCanvas, '2d');
+            const realCtx = _getContext.call(this, type, options);
             
-            // Create the hidden buffer
-            const offscreen = new OffscreenCanvas(realCanvas.width || 300, realCanvas.height || 150);
-            const offCtx = offscreen.getContext('2d');
-            
-            // Helper to keep sizes in sync
-            const sync = () => {
-                if (offscreen.width !== realCanvas.width) offscreen.width = realCanvas.width;
-                if (offscreen.height !== realCanvas.height) offscreen.height = realCanvas.height;
-            };
+            // Create Hidden Buffer (Offscreen)
+            let offscreen, offCtx;
+            if (typeof OffscreenCanvas !== 'undefined') {
+                offscreen = new OffscreenCanvas(realCanvas.width || 300, realCanvas.height || 150);
+                offCtx = offscreen.getContext('2d');
+            } else {
+                offscreen = document.createElement('canvas');
+                offscreen.width = realCanvas.width || 300;
+                offscreen.height = realCanvas.height || 150;
+                offCtx = offscreen.getContext('2d');
+            }
 
-            // Create a Proxy to redirect all drawing commands to the hidden buffer
-            const proxy = new Proxy(offCtx, {
+            canvasMap.set(realCanvas, { offscreen, offCtx, realCtx });
+
+            // Proxy to sync properties like width/height immediately
+            return new Proxy(offCtx, {
                 get(target, prop) {
-                    // If the game asks for 'canvas', give it the real one so resize logic works
-                    if (prop === 'canvas') return realCanvas;
-                    
-                    const val = target[prop];
-                    if (typeof val === 'function') {
-                        return function(...args) {
-                            sync(); // Ensure size matches before drawing
-                            return val.apply(target, args);
-                        };
-                    }
+                    if (prop === 'canvas') return realCanvas; // Lie to the game
+                    let val = target[prop];
+                    if (typeof val === 'function') return val.bind(target);
                     return val;
                 },
                 set(target, prop, value) {
+                    if (prop === 'canvas') return true;
                     target[prop] = value;
+                    if (prop === 'width' || prop === 'height') {
+                        // Resize buffer to match requested size
+                        offscreen[prop] = value;
+                    }
                     return true;
                 }
             });
+        };
 
-            // The "Blit" Loop: Copy the buffer to the screen smoothly
-            function renderLoop() {
-                sync();
-                if (realCanvas.width > 0 && realCanvas.height > 0) {
-                    // Clear and draw the buffer
-                    realCtx.clearRect(0, 0, realCanvas.width, realCanvas.height);
-                    realCtx.drawImage(offscreen, 0, 0);
+        // 2. Intercept requestAnimationFrame to COMMIT the frame
+        // We only copy the buffer to the screen when the game says "I'm done!"
+        window.requestAnimationFrame = function(callback) {
+            // Blit all active canvases
+            // Note: In a real DOM, we'd track which specific canvas needs updating, 
+            // but for this game, scanning the map is fine.
+            // (Since WeakMap is not iterable, we rely on the game loop structure.
+            // Ideally, we assume single canvas for this fix).
+            
+            // Force trigger the blit for the known canvas if possible, 
+            // or relying on the fact that the game just drew to the offscreen ctx.
+            // ACTUALLY: We need access to the map entries. 
+            // Since WeakMap isn't iterable, we attach the buffer info to the real canvas DOM node temporarily
+            // or just capture it in closure if there's only one.
+            
+            // SIMPLIFIED BLIT STRATEGY:
+            // We assume the game controls the canvas currently in the DOM.
+            const canvases = document.getElementsByTagName('canvas');
+            for (let realCanvas of canvases) {
+                const data = canvasMap.get(realCanvas);
+                if (data) {
+                    const { offscreen, realCtx } = data;
+                    if (realCanvas.width > 0 && realCanvas.height > 0) {
+                        // Sync Buffer Size if it drifted (e.g. CSS resize)
+                        if (offscreen.width !== realCanvas.width) offscreen.width = realCanvas.width;
+                        if (offscreen.height !== realCanvas.height) offscreen.height = realCanvas.height;
+
+                        // COPY BUFFER TO SCREEN
+                        realCtx.clearRect(0, 0, realCanvas.width, realCanvas.height);
+                        realCtx.drawImage(offscreen, 0, 0);
+                    }
                 }
-                requestAnimationFrame(renderLoop);
             }
-            requestAnimationFrame(renderLoop);
 
-            return proxy;
+            return _rAF(callback);
         };
     })();
     `;
