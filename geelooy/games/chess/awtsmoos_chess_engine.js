@@ -466,22 +466,22 @@ function search(state, depth, alpha, beta, ply) {
 }
 
 function searchRoot(state, maxDepth, time) {
-    Scribe.header("MEDITATION: THE STRATEGIC DEEPENING");
+    Scribe.header("MEDITATION: THE PARANOID CHECK");
 
-    // 1. Time Management Setup
-    const ABSOLUTE_MAX_TIME = 4000; 
+    // 1. Time Management
     const SOFT_TIME_LIMIT = time || 3000;
-    
     EngineSoul.isAuditing = true; 
     EngineSoul.searchStartTime = performance.now();
     EngineSoul.timeLimit = SOFT_TIME_LIMIT;
     EngineSoul.stopSearch = false;
     EngineSoul.nodeCount = 0;
 
-    // 2. Memory Aging & Initialization
+    // 2. Memory Initialization & Aging (Crash Fix)
+    // We confirm the history table exists before touching it.
     if (!EngineSoul.historyTable || !EngineSoul.historyTable[0] || EngineSoul.historyTable.length !== 2) {
         EngineSoul.historyTable = Array(2).fill(null).map(() => Array(12).fill(null).map(() => Array(64).fill(0)));
     } else {
+        // Age the history (divide by 8) to keep wisdom but clear old habits
         for (let side = 0; side < 2; side++) {
             for (let piece = 0; piece < 12; piece++) {
                 for (let sq = 0; sq < 64; sq++) {
@@ -491,26 +491,30 @@ function searchRoot(state, maxDepth, time) {
         }
     }
     
+    // Clear Killer Moves
     EngineSoul.killerMoves = Array(MAX_PLY).fill(null).map(() => [0, 0]);
 
-    // 3. Initial Move Generation
+    // 3. Generate Legal Moves (The Source of Truth)
     const legalMoves = generateMoves(state);
     if (legalMoves.length === 0) return { bestMove: null, score: 0 };
     
+    // Default to the first safe legal move
     let rootBestMove = legalMoves[0];
     let rootBestScore = -Infinity;
 
-    // 4. Iterative Deepening
+    // 4. Iterative Deepening Loop
     for (let currentDepth = 1; currentDepth <= maxDepth; currentDepth++) {
         
+        // Time Check
         const elapsed = performance.now() - EngineSoul.searchStartTime;
-        if (elapsed > (EngineSoul.timeLimit * 0.50)) {
+        if (elapsed > (EngineSoul.timeLimit * 0.60)) {
             break;
         }
 
         let alpha = -MATE_SCORE;
         let beta = MATE_SCORE;
 
+        // Aspiration Windows (Narrow search for speed)
         if (currentDepth > 1 && Math.abs(rootBestScore) < MATE_THRESHOLD) {
             alpha = rootBestScore - 50;
             beta = rootBestScore + 50;
@@ -518,34 +522,47 @@ function searchRoot(state, maxDepth, time) {
 
         let score = search(state, currentDepth, alpha, beta, 0);
 
+        // Re-search if outside window
         if (score <= alpha || score >= beta) {
             score = search(state, currentDepth, -MATE_SCORE, MATE_SCORE, 0);
         }
 
         if (EngineSoul.stopSearch) break; 
 
+        // Update Score
         rootBestScore = score;
         
-        // --- CRITICAL FIX: TRUST BUT VERIFY ---
-        // We retrieve the "Best Move" from the Transposition Table memory.
+        // --- CRITICAL FIX: THE SECURITY GUARD ---
+        // We check the Transposition Table for the best move.
         const ttEntry = EngineSoul.transpositionTable.get(state.zobristHash);
         if (ttEntry && ttEntry.move) {
-            // We MUST check if this memory is actually legal in the current reality.
-            // If we don't, hash collisions can cause the King to teleport.
+            // WE MUST VERIFY: Is this move actually legal?
+            // "includes" works because moves are integers.
             const isLegal = legalMoves.includes(ttEntry.move);
+            
             if (isLegal) {
                 rootBestMove = ttEntry.move;
+            } else {
+                // Scribe.warn(`Hallucination detected! TT suggested illegal move ${ttEntry.move}. Ignoring.`);
+                // If the TT move is illegal (teleportation), we keep the previous valid rootBestMove.
             }
         }
 
+        // Mate Detection
         if (score > MATE_THRESHOLD || score < -MATE_THRESHOLD) {
-             Scribe.book(`Mate Sequence Found at Depth ${currentDepth}. Execution imminent.`);
+             Scribe.book(`Mate Sequence Found at Depth ${currentDepth}.`);
              break;
         }
 
         if (currentDepth > 3 || elapsed > 100) {
             Scribe.info(`Depth ${currentDepth} | Move: ${decodeMove(rootBestMove, state.turn).from} -> ${decodeMove(rootBestMove, state.turn).to} | Score: ${score} | Time: ${elapsed.toFixed(0)}ms`);
         }
+    }
+
+    // Final Safety Check: Ensure the returned move is legal
+    if (!legalMoves.includes(rootBestMove)) {
+        Scribe.error("CRITICAL: Engine tried to return illegal move. Reverting to safe default.");
+        rootBestMove = legalMoves[0];
     }
 
     EngineSoul.isAuditing = false;
