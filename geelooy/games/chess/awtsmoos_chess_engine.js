@@ -42,8 +42,32 @@ const EngineSoul = {
 self.EngineSoul = EngineSoul;
 
 const pieceValues = [100, 320, 330, 500, 900, 20000];
-const pawnPST = [[0,0,0,0,0,0,0,0],[50,50,50,50,50,50,50,50],[10,10,20,30,30,20,10,10],[5,5,10,25,25,10,5,5],[0,0,0,20,20,0,0,0],[5,-5,-10,0,0,-10,-5,5],[5,10,10,-20,-20,10,10,5],[0,0,0,0,0,0,0,0]];
-const knightPST = [[-50,-40,-30,-30,-30,-30,-40,-50],[-40,-20,0,5,5,0,-20,-40],[-30,5,10,15,15,10,5,-30],[-30,0,15,20,20,15,0,-30],[-30,5,15,20,20,15,5,-30],[-30,0,10,15,15,10,0,-30],[-40,-20,0,0,0,0,-20,-40],[-50,-40,-30,-30,-30,-30,-40,-50]];
+// AGGRESSIVE CENTER-CONTROL PAWN TABLE
+// Punishes h4/a4 openings, heavily rewards d4/e4 pushes.
+const pawnPST = [
+    [0,  0,  0,  0,  0,  0,  0,  0],
+    [50, 50, 50, 50, 50, 50, 50, 50],
+    [10, 10, 20, 30, 30, 20, 10, 10],
+    [ 5,  5, 10, 25, 25, 10,  5,  5],
+    [ 0,  0,  0, 25, 25,  0,  0,  0], // e4/d4 sweet spots
+    [ 5, -5,-10,  0,  0,-10, -5,  5],
+    [ 5, 10, 10,-25,-25, 10, 10,  5], // -25 on d2/e2 encourages pushing d2-d4 / e2-e4
+    [ 0,  0,  0,  0,  0,  0,  0,  0]
+];
+
+// CENTRALIZED KNIGHT TABLE
+// Heavily punishes rim moves (h3, a3) to stop the "Nh3" nonsense.
+const knightPST = [
+    [-50,-40,-30,-30,-30,-30,-40,-50],
+    [-40,-20,  0,  0,  0,  0,-20,-40],
+    [-30,  0, 10, 15, 15, 10,  0,-30],
+    [-30,  5, 15, 20, 20, 15,  5,-30],
+    [-30,  0, 15, 20, 20, 15,  0,-30],
+    [-30,  5, 10, 15, 15, 10,  5,-30],
+    [-40,-20,  0,  5,  5,  0,-20,-40],
+    [-50,-40,-40,-40,-40,-40,-40,-50] // -50 in corners makes it hate h1/a1/h8/a8
+];
+
 const bishopPST = [[-20,-10,-10,-10,-10,-10,-10,-20],[-10,0,0,0,0,0,0,-10],[-10,0,5,10,10,5,0,-10],[-10,5,5,10,10,5,5,-10],[-10,0,10,10,10,10,0,-10],[-10,10,10,10,10,10,10,-10],[-10,5,0,0,0,0,5,-10],[-20,-10,-10,-10,-10,-10,-10,-20]];
 const rookPST = [[0,0,0,5,5,0,0,0],[-5,0,0,0,0,0,0,-5],[-5,0,0,0,0,0,0,-5],[-5,0,0,0,0,0,0,-5],[-5,0,0,0,0,0,0,-5],[-5,0,0,0,0,0,0,-5],[5,10,10,10,10,10,10,5],[0,0,0,0,0,0,0,0]];
 const queenPST = [[-20,-10,-10,-5,-5,-10,-10,-20],[-10,0,0,0,0,0,0,-10],[-10,0,5,5,5,5,0,-10],[-5,0,5,5,5,5,0,-5],[0,0,5,5,5,5,0,-5],[-10,5,5,5,5,5,0,-10],[-10,0,5,0,0,0,0,-10],[-20,-10,-10,-5,-5,-10,-10,-20]];
@@ -61,6 +85,7 @@ const ISOLATED_PAWN_PENALTY = 20;
 const DOUBLED_PAWN_PENALTY = 15;
 
 const CENTER_SQUARES = 0x0000001818000000n; // d4, e4, d5, e5 mask
+const PASSED_PAWN_BONUS = [0, 10, 30, 50, 80, 150, 200]; // Bonus based on rank (how close to Queen)
 
 
 
@@ -133,27 +158,60 @@ function evaluate(state) {
         }
     }
 
-    // 3. Pawn Structure Analysis
-    // (Simple Penalties for Doubled/Isolated)
+    // 3. Pawn Structure Analysis (Smart Upgrade)
     for (let file = 0; file < 8; file++) {
         const fileMask = 0x0101010101010101n << BigInt(file);
         
-        // White
-        const wPawnsOnFile = popcount(whiteP & fileMask);
-        if (wPawnsOnFile > 1) score -= DOUBLED_PAWN_PENALTY;
-        if (wPawnsOnFile > 0) {
+        // --- WHITE PAWNS ---
+        const wPawnsOnFile = whiteP & fileMask;
+        if (wPawnsOnFile > 0n) {
+            // Check for Doubled
+            if (popcount(wPawnsOnFile) > 1) score -= DOUBLED_PAWN_PENALTY;
+            
+            // Check for Isolated
             const prevFile = (file > 0) ? (0x0101010101010101n << BigInt(file - 1)) : 0n;
             const nextFile = (file < 7) ? (0x0101010101010101n << BigInt(file + 1)) : 0n;
             if ((whiteP & (prevFile | nextFile)) === 0n) score -= ISOLATED_PAWN_PENALTY;
+
+            // Check for Passed Pawn (No black pawns ahead in same, left, or right file)
+            let sq = getLSBIndex(wPawnsOnFile); // Get the most advanced pawn if multiple (simplified)
+            // Ideally we iterate all, but let's grab the front-most
+            while (wPawnsOnFile > 0n) { 
+                sq = getLSBIndex(wPawnsOnFile); 
+                const rank = 7 - (sq >> 3); // 0-7 from white's perspective
+                const forwardMask = (0xFFFFFFFFFFFFFFFFn << BigInt((8 - rank) * 8)); // Masks ranks ahead
+                
+                // Passed Pawn Logic: No enemy pawns in front in current, left, or right files
+                const spamCheckMask = (fileMask | prevFile | nextFile) & forwardMask;
+                if ((spamCheckMask & blackP) === 0n) {
+                    score += PASSED_PAWN_BONUS[rank]; 
+                }
+                wPawnsOnFile = popBit(wPawnsOnFile);
+            }
         }
 
-        // Black
-        const bPawnsOnFile = popcount(blackP & fileMask);
-        if (bPawnsOnFile > 1) score += DOUBLED_PAWN_PENALTY;
-        if (bPawnsOnFile > 0) {
+        // --- BLACK PAWNS ---
+        const bPawnsOnFile = blackP & fileMask;
+        if (bPawnsOnFile > 0n) {
+            if (popcount(bPawnsOnFile) > 1) score += DOUBLED_PAWN_PENALTY;
+            
             const prevFile = (file > 0) ? (0x0101010101010101n << BigInt(file - 1)) : 0n;
             const nextFile = (file < 7) ? (0x0101010101010101n << BigInt(file + 1)) : 0n;
             if ((blackP & (prevFile | nextFile)) === 0n) score += ISOLATED_PAWN_PENALTY;
+
+            let sq;
+            let tempB = bPawnsOnFile;
+            while (tempB > 0n) {
+                sq = getLSBIndex(tempB);
+                const rank = sq >> 3; // 0-7 from black's perspective
+                const forwardMask = (0xFFFFFFFFFFFFFFFFn >> BigInt((rank + 1) * 8));
+                
+                const spamCheckMask = (fileMask | prevFile | nextFile) & forwardMask;
+                if ((spamCheckMask & whiteP) === 0n) {
+                    score -= PASSED_PAWN_BONUS[rank];
+                }
+                tempB = popBit(tempB);
+            }
         }
     }
 
@@ -186,6 +244,28 @@ function evaluate(state) {
 
     if (popcount(state.pieceBitboards[B]) >= 2) score += 50;
     if (popcount(state.pieceBitboards[B+6]) >= 2) score -= 50;
+    
+    
+    // --- MOP-UP EVALUATION ---
+    // If we have a winning advantage in the endgame, force the enemy King to the corner.
+    // This prevents the engine from "shuffling" pieces when it has a won game.
+    if (score > 500 && egWeight > 0.5) { // If White is winning big
+        const bKingSq = getLSBIndex(blackK);
+        if (bKingSq !== -1) {
+            const bFile = bKingSq & 7, bRank = bKingSq >> 3;
+            // Calculate distance from center (Center = 3.5, 3.5)
+            // The further from center, the higher the bonus for White.
+            const distFromCenter = Math.max(3 - bFile, bFile - 4) + Math.max(3 - bRank, bRank - 4);
+            score += distFromCenter * 10;
+        }
+    } else if (score < -500 && egWeight > 0.5) { // If Black is winning big
+        const wKingSq = getLSBIndex(whiteK);
+        if (wKingSq !== -1) {
+            const wFile = wKingSq & 7, wRank = wKingSq >> 3;
+            const distFromCenter = Math.max(3 - wFile, wFile - 4) + Math.max(3 - wRank, wRank - 4);
+            score -= distFromCenter * 10; // Negative score is good for Black
+        }
+    }
 
     return (state.turn === WHITE) ? score : -score;
 }
@@ -392,85 +472,75 @@ function search(state, depth, alpha, beta, ply) {
 }
 
 function searchRoot(state, maxDepth, time) {
-    Scribe.header("NEW MEDITATION INITIATED (STRICT TIME CONTROL)");
+    Scribe.header("NEW MEDITATION INITIATED (ASPIRATION WINDOWS)");
     
     // 1. Setup Time Management
-    // We leave a 50ms buffer to ensure we post the message back to the UI smoothly.
     const ABSOLUTE_MAX_TIME = Math.min(time || 3000, 3500);
-    
-    // 2. Reset Engine State
     EngineSoul.isAuditing = true; 
     EngineSoul.searchStartTime = performance.now();
     EngineSoul.timeLimit = ABSOLUTE_MAX_TIME;
     EngineSoul.stopSearch = false;
     EngineSoul.nodeCount = 0;
     
-    // Reset Heuristics
-    // Note: In a full engine we usually age history rather than clearing it, 
-    // but for this specific request we reset to keep it consistent with your previous code.
+    // Reset Heuristics slightly to keep fresh but retain history
     EngineSoul.killerMoves = Array(MAX_PLY).fill(null).map(() => [0, 0]);
-    EngineSoul.historyTable = Array(2).fill(null).map(() => Array(12).fill(null).map(() => Array(64).fill(0)));
-    EngineSoul.repetitionHistory = [];
 
-    // 3. Failsafe: Generate all moves immediately. 
-    // If we have 0 time or crash immediately, we return a random legal move rather than null.
     const legalMoves = generateMoves(state);
-    if (legalMoves.length === 0) return { bestMove: null, score: 0 }; // Checkmate or Stalemate logic handles this elsewhere usually
+    if (legalMoves.length === 0) return { bestMove: null, score: 0 };
     
-    // Default to the first logical move in case Depth 1 fails (rare)
     let rootBestMove = legalMoves[0];
     let rootBestScore = -Infinity;
 
-    // 4. Iterative Deepening
+    // 2. Iterative Deepening with Aspiration Windows
     for (let currentDepth = 1; currentDepth <= maxDepth; currentDepth++) {
         
-        // TIME CHECK A: PRE-EMPTIVE
-        // If we have already used more than 60% of our allocated time, 
-        // it is statistically unlikely we will finish the *next* deeper depth.
-        // Better to stop now and return a fully calculated result.
+        // Time Check
         if (performance.now() - EngineSoul.searchStartTime > (EngineSoul.timeLimit * 0.60)) {
-            Scribe.info(`Stopping before Depth ${currentDepth} (Time Management predicted timeout).`);
             break;
         }
 
-        // 5. The Search
-        // We capture the score, but we don't trust it yet.
-        const score = search(state, currentDepth, -MATE_SCORE, MATE_SCORE, 0);
+        let alpha = -MATE_SCORE;
+        let beta = MATE_SCORE;
 
-        // 6. TIME CHECK B: POST-MORTEM (The "Safety Latch")
-        // If the engine raised the white flag (stopSearch) during the calculation,
-        // the returned 'score' is garbage (likely 0 or alpha). 
-        // We MUST discard this depth's data.
-        if (EngineSoul.stopSearch) {
-            Scribe.warn(`Depth ${currentDepth} aborted by timer. Discarding partial results.`);
-            break; 
+        // ASPIRATION WINDOWS (The Speed Hack)
+        // If we have a previous score (depth > 1), assume the new score 
+        // will be within +/- 50 points. This creates a narrow "window".
+        if (currentDepth > 1) {
+            alpha = rootBestScore - 50;
+            beta = rootBestScore + 50;
         }
 
-        // 7. Secure the Result
-        // Since stopSearch is false, this depth completed fully. We trust this data.
+        let score = search(state, currentDepth, alpha, beta, 0);
+
+        // FAIL-SAFE: If the score fell outside our window, we must re-search fully.
+        if (score <= alpha || score >= beta) {
+            // Scribe.info(`Aspiration fail at depth ${currentDepth} (Score ${score} outside ${alpha}, ${beta}). Re-searching...`);
+            score = search(state, currentDepth, -MATE_SCORE, MATE_SCORE, 0);
+        }
+
+        if (EngineSoul.stopSearch) break; 
+
         rootBestScore = score;
         
-        // Retrieve the move from the Transposition Table for this position
         const ttEntry = EngineSoul.transpositionTable.get(state.zobristHash);
         if (ttEntry && ttEntry.move) {
             rootBestMove = ttEntry.move;
         }
 
-        // 8. Log Progress (Optional: Only log significant depths to reduce console lag)
+        // Log info
         const timeTaken = (performance.now() - EngineSoul.searchStartTime).toFixed(0);
-        
-        // If we found a forced mate, stop immediately, no need to search deeper.
         if (score > MATE_THRESHOLD || score < -MATE_THRESHOLD) {
              Scribe.book(`Mate found at Depth ${currentDepth}. Stopping.`);
              break;
         }
         
-        Scribe.info(`Depth ${currentDepth} complete. Move: ${decodeMove(rootBestMove, state.turn).from} -> ${decodeMove(rootBestMove, state.turn).to} | Score: ${score} | Time: ${timeTaken}ms`);
+        // Only log higher depths to reduce console spam
+        if (currentDepth > 3 || timeTaken > 100) {
+            Scribe.info(`Depth ${currentDepth} | Move: ${decodeMove(rootBestMove, state.turn).from} -> ${decodeMove(rootBestMove, state.turn).to} | Score: ${score} | Time: ${timeTaken}ms`);
+        }
     }
 
     EngineSoul.isAuditing = false;
-    
-    // Return the best move found in the LAST COMPLETED depth
     return { bestMove: rootBestMove, score: rootBestScore };
 }
 
