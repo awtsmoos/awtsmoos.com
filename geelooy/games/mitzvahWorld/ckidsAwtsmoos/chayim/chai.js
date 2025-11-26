@@ -522,7 +522,8 @@ export default class Chai extends Tzomayach {
         // We start with the mesh we hit.
         let object = hit.object;
 
-        // --- B"H FIX: SWAP GHOST FOR REAL OBJECT ---
+        // --- B"H FIX 1: SWAP GHOST FOR REAL OBJECT ---
+        // The Octree returns a physics clone. We must grab the linked visual mesh.
         if (object.userData && object.userData.visualReference) {
             object = object.userData.visualReference;
         }
@@ -539,7 +540,16 @@ export default class Chai extends Tzomayach {
             tempObj = tempObj.parent;
         }
 
+        // --- B"H FIX 2: PREVENT GROUND COLLECTION ---
+        // If the object is marked as the generic "world_brick" (static ground), do not collect it.
+        if (object.userData && object.userData.itemData && object.userData.itemData.id === "world_brick") {
+            console.log("B\"H - Cannot collect static world geometry.");
+            return false;
+        }
+        // ------------------------------------------
+
         // 3. DATA FALLBACK
+        // If we found data, use it. If not, we use the fallback for "Recovered Block".
         const itemData = (object.userData && object.userData.itemData) ? object.userData.itemData : {
             id: "recovered_block", 
             className: "Brick",
@@ -555,8 +565,8 @@ export default class Chai extends Tzomayach {
         if (object.nivraAwtsmoos) {
             this.olam.sealayk(object.nivraAwtsmoos);
         } else {
-            this.olam.worldOctree.removeMesh(object); 
-            object.removeFromParent(); 
+            this.olam.worldOctree.removeMesh(object); // Triggers the optimized "Soft Delete"
+            object.removeFromParent(); // This effectively deletes the collision instantly
         }
         
         this.playSound("awtsmoos://dingSound", { volume: 0.5 });
@@ -1064,7 +1074,9 @@ export default class Chai extends Tzomayach {
             this.currentHighlightedSavedEmissives = null;
         }
 
+        // --- B"H FIX: STOP if ray is not active ---
         if (!this.activeRay) return;
+        // -----------------------------------------
 
         const item = this.getActiveItem();
         if (!item || item.className !== 'Tool') return;
@@ -1078,11 +1090,18 @@ export default class Chai extends Tzomayach {
         if (hit && hit.distance < 15 && hit.object) {
             let visualMesh = hit.object;
 
-            // --- B"H FIX: SWAP GHOST FOR REAL OBJECT ---
+            // --- B"H FIX 1: SWAP GHOST FOR REAL OBJECT ---
             if (visualMesh.userData && visualMesh.userData.visualReference) {
                 visualMesh = visualMesh.userData.visualReference;
             }
             // -------------------------------------------
+
+            // --- B"H FIX 2: PREVENT GROUND HIGHLIGHT ---
+            // Check for static world ID before applying highlight.
+            if (visualMesh.userData && visualMesh.userData.itemData && visualMesh.userData.itemData.id === "world_brick") {
+                return;
+            }
+            // -----------------------------------------
 
             if (!visualMesh.isMesh || !visualMesh.material) return;
 

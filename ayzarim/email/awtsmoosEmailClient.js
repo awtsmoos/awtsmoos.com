@@ -269,10 +269,13 @@ class AwtsmoosEmailClient {
             );
             
             
-            this.socket.setEncoding('utf-8');
-            
+            // Generate a random Message-ID
+            var messageId = `<${Date.now()}.${Math.random().toString(36).substring(2)}@${domain}>`;
+            // Generate a proper Date string
+            var dateHeader = new Date().toUTCString();
 
-            var emailData = `From: ${sender}${CRLF}To: ${recipient}${CRLF}Subject: ${subject}${CRLF}${CRLF}${body}`;
+            // Add these headers to the email data
+            var emailData = `Message-ID: ${messageId}${CRLF}Date: ${dateHeader}${CRLF}From: ${sender}${CRLF}To: ${recipient}${CRLF}Subject: ${subject}${CRLF}${CRLF}${body}`;
             var domain = 'awtsmoos.com';
             var selector = 'selector';
             var dataToSend=emailData
