@@ -264,9 +264,11 @@ class AwtsmoosEmailClient {
             
            
            
-            this.socket = net.createConnection(
-                this.port, this.smtpServer
-            );
+            this.socket = net.createConnection({
+	            port: this.port, 
+	            host: this.smtpServer,
+	            family: 4 
+	        });
             
             
             // Generate a random Message-ID
