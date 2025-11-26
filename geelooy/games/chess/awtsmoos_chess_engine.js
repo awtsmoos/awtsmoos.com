@@ -163,21 +163,20 @@ function evaluate(state) {
         }
     }
 
-    // 3. Pawn Structure & Rook Strategy (The Final Polish)
-    // We lift the Rook bitboards out here to check them against files
+    // 3. Pawn Structure & Rook Strategy (Fixed: uses 'let' to prevent crash)
     const whiteR = state.pieceBitboards[R];
     const blackR = state.pieceBitboards[R+6];
 
     for (let file = 0; file < 8; file++) {
         const fileMask = 0x0101010101010101n << BigInt(file);
         
-        const wPawnsOnFile = whiteP & fileMask; 
+        // --- WHITE ---
+        let wPawnsOnFile = whiteP & fileMask; // Changed 'const' to 'let'
         const bPawnsOnFile = blackP & fileMask;
 
-        // --- WHITE STRATEGY ---
         if (wPawnsOnFile > 0n) {
-            // ... existing Pawn logic ...
             if (popcount(wPawnsOnFile) > 1) score -= DOUBLED_PAWN_PENALTY;
+            
             const prevFile = (file > 0) ? (0x0101010101010101n << BigInt(file - 1)) : 0n;
             const nextFile = (file < 7) ? (0x0101010101010101n << BigInt(file + 1)) : 0n;
             if ((whiteP & (prevFile | nextFile)) === 0n) score -= ISOLATED_PAWN_PENALTY;
@@ -187,41 +186,49 @@ function evaluate(state) {
                 sq = getLSBIndex(wPawnsOnFile); 
                 const rank = 7 - (sq >> 3); 
                 const forwardMask = (0xFFFFFFFFFFFFFFFFn << BigInt((8 - rank) * 8));
+                
                 const spamCheckMask = (fileMask | prevFile | nextFile) & forwardMask;
-                if ((spamCheckMask & blackP) === 0n) score += PASSED_PAWN_BONUS[rank]; 
+                if ((spamCheckMask & blackP) === 0n) {
+                    score += PASSED_PAWN_BONUS[rank]; 
+                }
                 wPawnsOnFile = popBit(wPawnsOnFile);
             }
         } else {
             // White has NO pawns on this file (Open or Semi-Open)
-            // If we have a Rook here, that is excellent!
             if ((whiteR & fileMask) !== 0n) {
-                if (bPawnsOnFile === 0n) score += 20; // Fully Open File (Bonus +20)
-                else score += 10;                     // Semi-Open File (Bonus +10)
+                if (bPawnsOnFile === 0n) score += 20; // Fully Open File
+                else score += 10;                     // Semi-Open File
             }
         }
 
-        // --- BLACK STRATEGY ---
-        if (bPawnsOnFile > 0n) {
-            // ... existing Pawn logic ...
-            if (popcount(bPawnsOnFile) > 1) score += DOUBLED_PAWN_PENALTY;
+        // --- BLACK ---
+        let bPawnsOnTheFile = blackP & fileMask; // Changed 'const' to 'let', renamed slightly to avoid confusion
+        const wPawnsOnTheFile = whiteP & fileMask;
+
+        if (bPawnsOnTheFile > 0n) {
+            if (popcount(bPawnsOnTheFile) > 1) score += DOUBLED_PAWN_PENALTY;
+            
             const prevFile = (file > 0) ? (0x0101010101010101n << BigInt(file - 1)) : 0n;
             const nextFile = (file < 7) ? (0x0101010101010101n << BigInt(file + 1)) : 0n;
             if ((blackP & (prevFile | nextFile)) === 0n) score += ISOLATED_PAWN_PENALTY;
 
             let sq;
-            let tempB = bPawnsOnFile;
+            let tempB = bPawnsOnTheFile;
             while (tempB > 0n) {
                 sq = getLSBIndex(tempB);
                 const rank = sq >> 3; 
                 const forwardMask = (0xFFFFFFFFFFFFFFFFn >> BigInt((rank + 1) * 8));
+                
                 const spamCheckMask = (fileMask | prevFile | nextFile) & forwardMask;
-                if ((spamCheckMask & whiteP) === 0n) score -= PASSED_PAWN_BONUS[rank];
+                if ((spamCheckMask & whiteP) === 0n) {
+                    score -= PASSED_PAWN_BONUS[rank];
+                }
                 tempB = popBit(tempB);
             }
         } else {
              // Black has NO pawns on this file
              if ((blackR & fileMask) !== 0n) {
-                if (wPawnsOnFile === 0n) score -= 20; // Fully Open File
+                if (wPawnsOnTheFile === 0n) score -= 20; // Fully Open File
                 else score -= 10;                     // Semi-Open File
             }
         }
@@ -273,7 +280,6 @@ function evaluate(state) {
 
     return (state.turn === WHITE) ? score : -score;
 }
-
 const MATE_SCORE = 100000, MATE_THRESHOLD = MATE_SCORE - 128, MAX_PLY = 128;
 const TT_EXACT = 0, TT_LOWERBOUND = 1, TT_UPPERBOUND = 2;
 
