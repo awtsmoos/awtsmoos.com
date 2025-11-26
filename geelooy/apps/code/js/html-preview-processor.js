@@ -120,7 +120,28 @@ class ModuleLoader {
 
         await this.Merkava.run(code, {
             context: this.iframeWindow, 
+            
             importResolver: (spec) => this.importResolver(currentPath, spec),
+            
+            // B"H - ADD THIS: Function to read raw file content for Workers
+            fileReader: async (spec) => {
+                const fullPath = this.resolvePath(currentPath, spec);
+                const item = { 
+                    workspaceId: this.workspaceId, 
+                    path: fullPath, 
+                    kind: 'file' 
+                };
+                // Re-use FileSystemProvider logic (copy-pasted or factored out)
+                // Since we are inside ModuleLoader, we can assume FS Provider access.
+                // Note: We need to import FileSystemProvider if not available in scope, 
+                // but this method is defined inside the module where it IS imported.
+                
+                let raw = await FileSystemProvider.read(item);
+                if (raw instanceof Blob) return await raw.text();
+                if (raw && raw.base64Content) return atob(raw.base64Content);
+                return raw;
+            },
+
             exportHandler: (name, value) => {
                 exportsContainer[name] = value;
             }

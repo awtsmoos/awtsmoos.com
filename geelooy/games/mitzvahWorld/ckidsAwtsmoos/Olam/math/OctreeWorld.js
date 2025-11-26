@@ -74,30 +74,60 @@ export class OctreeWorld {
     
     /**
      * B"H
-     * Synchronously adds a single dynamic object to the physics world.
-     * Returns TRUE if successful, FALSE if failed.
+     * Smart Add Object.
+     * 1. Finds ALL intersecting nodes (Fixes falling through gaps).
+     * 2. Instantly builds nodes near the player (Fixes falling).
+     * 3. Queues the rest for background building (Fixes lag).
      */
-    addObject(mesh) {
+    addObject(mesh, focusPoint = null) {
         if (!this.#root || !mesh) return false;
 
-        // 1. Check bounds. If object is outside the entire world, expand the root (Safety Net).
-        const meshBox = new Box3().setFromObject(mesh);
+        // 1. Ensure Geometry & Box
+        mesh.updateMatrixWorld(true);
+        if (!mesh.geometry.boundingBox) mesh.geometry.computeBoundingBox();
+        const meshBox = new THREE.Box3().setFromObject(mesh);
+
+        // 2. Safety Expansion
         if (!this.#root.box.intersectsBox(meshBox)) {
-            console.log("[OctreeWorld] Object outside world bounds. Expanding root...");
             this.#root.box.union(meshBox);
-            // Force a physics init on root if it doesn't exist yet to accept the dynamic triangle
             if(!this.#root.physics) this.#buildNodePhysics(this.#root);
         }
 
-        const leafNode = this.#findLeafNodeAtPoint(this.#root, mesh.position);
+        // 3. Find ALL relevant nodes
+        const nodes = this.#findLeafNodesInBox(this.#root, meshBox);
 
-        if (leafNode) {
-            this.#synchronouslyRebuildNode(leafNode, mesh); 
-            return true; // Success
-        } else {
-            console.error(`[OctreeWorld] CRITICAL: Could not find or create a node for ${mesh.name}. Collision will fail.`);
-            return false; // Failed
-        }
+        if (nodes.length > 0) {
+            // Detect player position if not provided
+            let playerPos = focusPoint;
+            if (!playerPos && typeof self !== 'undefined' && self.olam && self.olam.chossid) {
+                playerPos = self.olam.chossid.mesh.position;
+            }
+
+            for (const node of nodes) {
+                // A. Persistence (Add to group so it stays)
+                const persistentClone = mesh.clone();
+                persistentClone.position.copy(mesh.position);
+                persistentClone.quaternion.copy(mesh.quaternion);
+                persistentClone.scale.copy(mesh.scale);
+                persistentClone.updateMatrix();
+                persistentClone.updateMatrixWorld(true);
+                node.physicsMeshGroup.add(persistentClone);
+                
+                node.state = NODE_STATE.PENDING_BUILD;
+
+                // B. Logic Split
+                // If the node is close to the player (< 20 units), BUILD NOW.
+                // This causes a tiny momentary lag (3-5ms) but guarantees solidity.
+                // Everything else waits in the queue.
+                if (playerPos && node.box.distanceToPoint(playerPos) < 20) {
+                    this.#buildNodePhysics(node);
+                } else {
+                    this.#buildQueue.add(node);
+                }
+            }
+            return true;
+        } 
+        return false;
     }
     
     
@@ -412,10 +442,36 @@ export class OctreeWorld {
     }
 
     #processQueues() {
-        // Priority: Build > Subdivide > Merge
-        this.#processQueue(this.#buildQueue, this.#buildsPerFrame, this.#buildNodePhysics.bind(this));
-        this.#processQueue(this.#subdivisionQueue, this.#subdivisionsPerFrame, this.#subdivide.bind(this));
-        this.#processQueue(this.#mergeQueue, this.#mergesPerFrame, this.#merge.bind(this));
+        // B"H: Allow up to 5ms of physics work per frame
+        const deadline = performance.now() + 5; 
+
+        this.#processQueueTimeSliced(this.#buildQueue, deadline, this.#buildNodePhysics.bind(this));
+
+        // Only do structural work if we still have time
+        if (performance.now() < deadline) {
+            this.#processQueueTimeSliced(this.#subdivisionQueue, deadline, this.#subdivide.bind(this));
+        }
+        if (performance.now() < deadline) {
+            this.#processQueueTimeSliced(this.#mergeQueue, deadline, this.#merge.bind(this));
+        }
+    }
+    
+    #processQueueTimeSliced(queue, deadline, action) {
+        const iterator = queue.values();
+        let result = iterator.next();
+        
+        while (!result.done) {
+            // STOP if we run out of time
+            if (performance.now() > deadline) return;
+            
+            const node = result.value;
+            queue.delete(node);
+            
+            // Perform the heavy action (Build/Subdivide)
+            action(node);
+            
+            result = iterator.next();
+        }
     }
 
     #processQueue(queue, limit, action) {

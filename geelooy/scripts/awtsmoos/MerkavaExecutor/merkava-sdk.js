@@ -1,9 +1,10 @@
 // B"H
 /**
  * @file merkava-sdk.js
- * @version 1.1.0 - The Standard Library
+ * @version 1.3.1 - The Fractal Worker (Restored)
  * @description
  * High-Level SDK that auto-injects the JS Standard Environment.
+ * NOW SUPPORTS: Spawning nested Merkava instances via `new Worker()`.
  */
 
 (function(root, factory) {
@@ -21,9 +22,22 @@
     }
 }(typeof self !== 'undefined' ? self : this, function() {
 
-    // B"H - Explicitly define the path to the executor scripts directory.
-    // This prevents relative path issues when running from different workspace locations.
+    // B"H - Determine Absolute Base Path for Worker Imports
+    // Workers cannot use relative paths easily in Blobs, so we fix the absolute path.
     let BASE_PATH = '/scripts/awtsmoos/MerkavaExecutor/'; 
+    try {
+        // Attempt to auto-detect if loaded via script tag
+        if (typeof document !== 'undefined' && document.currentScript) {
+            const src = document.currentScript.src;
+            BASE_PATH = src.substring(0, src.lastIndexOf('/') + 1);
+        } else if (typeof self !== 'undefined' && self.location) {
+             // Fallback for inside a worker
+             const url = self.location.href;
+             if (url.includes('MerkavaExecutor')) {
+                 BASE_PATH = url.substring(0, url.lastIndexOf('/') + 1);
+             }
+        }
+    } catch(e) {}
 
     const loadScript = (filename) => {
         return new Promise((resolve, reject) => {
@@ -47,6 +61,7 @@
 
     /**
      * B"H - The Standard Library Loader
+     * Restored in v1.3.1
      */
     const getStandardContext = () => {
         const globalScope = typeof globalThis !== 'undefined' ? globalThis : 
@@ -75,7 +90,7 @@
             'requestAnimationFrame', 'cancelAnimationFrame',
             'fetch', 'Headers', 'Request', 'Response',
             'TextEncoder', 'TextDecoder', 'URL', 'URLSearchParams',
-            'Blob', 'Worker', 'Image', 'Audio' // Added Image/Audio for games
+            'Blob', 'Worker', 'Image', 'Audio', 'FileReader' 
         ];
 
          [...primitives, ...utilities].forEach(key => {
@@ -91,6 +106,67 @@
         context.undefined = undefined;
         return context;
     };
+
+    /**
+     * B"H - The Worker Bootstrapper
+     * This code runs INSIDE the new Native Worker to spin up a Merkava instance.
+     */
+    const getWorkerBootstrapCode = (basePath) => `
+        // B"H - Merkava Worker Entry Point
+        self.window = self; // Polyfill window for SDK
+        
+        // 1. Load the SDK logic (Native JS)
+        importScripts('${basePath}merkava-opcodes.js');
+        importScripts('${basePath}merkava-memory.js');
+        importScripts('${basePath}merkava-compiler.js');
+        importScripts('${basePath}merkava-vm.js');
+        importScripts('${basePath}merkava-debugger.js');
+        importScripts('${basePath}merkava-sdk.js'); // Load SDK to get Merkava.run
+
+        // 2. Listen for Initialization
+        self.onmessage = async (e) => {
+            const msg = e.data;
+            if (msg && msg.type === 'MERKAVA_INIT') {
+                const { sourceCode, options } = msg;
+                
+                try {
+                    // 3. Override Global postMessage to talk to Parent
+                    // The guest code calls postMessage(...). We forward it natively.
+                    const workerContext = {
+                        postMessage: (data) => self.postMessage({ type: 'MERKAVA_MSG', payload: data }),
+                        onmessage: null, // Guest will overwrite this
+                        close: () => self.close(),
+                        importScripts: () => { throw new Error("importScripts not supported in V1 Worker"); }
+                    };
+
+                    // 4. Run the VM
+                    // We merge options but override context
+                    await self.Merkava.run(sourceCode, {
+                        ...options,
+                        context: { ...options.context, ...workerContext },
+                        hostAPI: {
+                            ...options.hostAPI,
+                        }
+                    });
+
+                    // 5. Handle Incoming Native Messages -> Guest onmessage
+                    self.addEventListener('message', (nativeEvent) => {
+                        if (nativeEvent.data && nativeEvent.data.type === 'MERKAVA_MSG') {
+                            const payload = nativeEvent.data.payload;
+                            // Access the Guest's onmessage handler from the VM scope
+                            // Note: This requires the VM to have exposed the scope or we access context
+                            if (typeof workerContext.onmessage === 'function') {
+                                workerContext.onmessage({ data: payload });
+                            }
+                        }
+                    });
+
+                } catch (err) {
+                    console.error("[Merkava Worker] Crash:", err);
+                }
+            }
+        };
+    `;
 
     class MerkavaSDK {
         constructor(config = {}) {
@@ -113,10 +189,8 @@
                 throw e;
             }
 
-            // Load Parser if needed
             if (!this.ParserClass && typeof window !== 'undefined') {
                 if (!window.MerkavahParser) {
-                    // Assuming parser is one level up in sibling directory based on provided structure
                     await loadScript('../MerkavaASTParser/parser-core.js'); 
                     if (window.MerkavahParserPromise) this.ParserClass = await window.MerkavahParserPromise;
                     else if (window.MerkavahParser) this.ParserClass = window.MerkavahParser;
@@ -132,13 +206,8 @@
         async run(sourceCode, options = {}) {
             if (!this.isReady) await this.init();
 
-            // --- TIKKUN: Runtime Integrity Check ---
-            if (!window.MerkavaCompiler || !window.MerkavaCompiler.Compiler) {
-                throw new Error("Merkava Compiler is missing. The scripts failed to load correctly.");
-            }
-            if (!window.MerkavaVM) {
-                throw new Error("Merkava VM is missing.");
-            }
+            if (!window.MerkavaCompiler || !window.MerkavaCompiler.Compiler) throw new Error("Merkava Compiler is missing.");
+            if (!window.MerkavaVM) throw new Error("Merkava VM is missing.");
 
             console.log("[Merkava] Parsing...");
             const parser = new this.ParserClass(sourceCode);
@@ -164,6 +233,79 @@
                 if (!success) memory.set(1, {}); 
             }
 
+            // B"H - Define the Proxy Worker Class
+            // This allows guest code to do: new Worker('chess.js')
+            class MerkavaWorker {
+                constructor(scriptPath) {
+                    this.nativeWorker = null;
+                    this.onmessage = null;
+                    this.onerror = null;
+                    this._init(scriptPath);
+                }
+
+                async _init(path) {
+                    try {
+                        // 1. Resolve Source using the Main Thread's resolver
+                        let src = "";
+                        if (options.importResolver) {
+                            // We assume 'options.fileReader' is passed from html-preview-processor
+                            if (options.fileReader) {
+                                src = await options.fileReader(path);
+                            } else {
+                                console.warn("[Merkava] No fileReader option provided for Worker. Using importResolver (might fail if it executes).");
+                                src = await options.importResolver(path, true); 
+                            }
+                        }
+
+                        if (typeof src !== 'string') {
+                            throw new Error("Worker source must be a string. Ensure fileReader returns text.");
+                        }
+
+                        // 2. Create Native Worker Blob
+                        const bootstrap = getWorkerBootstrapCode(BASE_PATH);
+                        const blob = new Blob([bootstrap], { type: 'application/javascript' });
+                        this.nativeWorker = new window.Worker(URL.createObjectURL(blob));
+
+                        // 3. Bridge Messages
+                        this.nativeWorker.onmessage = (e) => {
+                            if (e.data && e.data.type === 'MERKAVA_MSG') {
+                                if (this.onmessage) this.onmessage({ data: e.data.payload });
+                            }
+                        };
+                        this.nativeWorker.onerror = (e) => {
+                            if (this.onerror) this.onerror(e);
+                            else console.error("[Merkava Worker Error]", e);
+                        };
+
+                        // 4. Start the Fractal VM
+                        this.nativeWorker.postMessage({
+                            type: 'MERKAVA_INIT',
+                            sourceCode: src,
+                            options: { 
+                                debug: options.debug,
+                                cyclesPerTick: options.cyclesPerTick
+                            }
+                        });
+
+                    } catch (e) {
+                        console.error("[Merkava] Worker Init Failed:", e);
+                        if (this.onerror) this.onerror(e);
+                    }
+                }
+
+                postMessage(msg) {
+                    if (this.nativeWorker) {
+                        this.nativeWorker.postMessage({ type: 'MERKAVA_MSG', payload: msg });
+                    } else {
+                        console.warn("[Merkava] Worker not ready, message dropped:", msg);
+                    }
+                }
+                
+                terminate() {
+                    if (this.nativeWorker) this.nativeWorker.terminate();
+                }
+            }
+
             const hostAPI = {
                 0: (...args) => console.log("[VM stdout]", ...args),
                 1: async (specifier) => {
@@ -173,16 +315,13 @@
                 2: (name, value) => { if (options.exportHandler) options.exportHandler(name, value); },
                 
                 // B"H - SYSCALL 0xFF: Universal Merge (Spread Operator)
-                // Handles [...arr] and {...obj}
                 0xFF: (target, source) => {
                     if (Array.isArray(target)) {
-                        // Array Spread: target.push(...source)
                         if (Symbol.iterator in Object(source)) {
                             target.push(...source);
                         }
                         return target;
                     } else if (target && typeof target === 'object') {
-                        // Object Spread: Object.assign(target, source)
                         return Object.assign(target, source);
                     }
                     return target;
@@ -191,7 +330,7 @@
                 ...options.hostAPI
             };
             
-             const stdLib = getStandardContext();
+            const stdLib = getStandardContext();
 
             const createTypedArrayProxy = (TargetClass) => {
                 return new Proxy(TargetClass, {
@@ -213,7 +352,9 @@
                 ...stdLib,
                 Float32Array: createTypedArrayProxy(Float32Array),
                 Uint16Array: createTypedArrayProxy(Uint16Array),
-                Uint8Array: createTypedArrayProxy(Uint8Array)
+                Uint8Array: createTypedArrayProxy(Uint8Array),
+                // B"H - Inject Custom Worker Class
+                Worker: MerkavaWorker
             };
 
             const finalContext = Object.assign(smartContext, options.context || {});
@@ -238,7 +379,6 @@
                             resolve({ status: 'COMPLETED' });
                         }
                     } catch (e) {
-                        // B"H - Attempt to add context to the error
                         e.message = `[Runtime] ${e.message}`;
                         reject(e);
                     }
