@@ -485,6 +485,11 @@ function searchRoot(state, maxDepth, time) {
     // Reset Heuristics slightly to keep fresh but retain history
     EngineSoul.killerMoves = Array(MAX_PLY).fill(null).map(() => [0, 0]);
 
+    // --- CRITICAL FIX: Initialize History Table if missing ---
+    if (!EngineSoul.historyTable || EngineSoul.historyTable.length !== 2) {
+        EngineSoul.historyTable = Array(2).fill(null).map(() => Array(12).fill(null).map(() => Array(64).fill(0)));
+    }
+
     const legalMoves = generateMoves(state);
     if (legalMoves.length === 0) return { bestMove: null, score: 0 };
     
@@ -514,7 +519,6 @@ function searchRoot(state, maxDepth, time) {
 
         // FAIL-SAFE: If the score fell outside our window, we must re-search fully.
         if (score <= alpha || score >= beta) {
-            // Scribe.info(`Aspiration fail at depth ${currentDepth} (Score ${score} outside ${alpha}, ${beta}). Re-searching...`);
             score = search(state, currentDepth, -MATE_SCORE, MATE_SCORE, 0);
         }
 
