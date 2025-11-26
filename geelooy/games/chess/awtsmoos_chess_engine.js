@@ -95,7 +95,7 @@ function evaluate(state) {
     const whiteP = state.pieceBitboards[P], blackP = state.pieceBitboards[P+6];
     const whiteK = state.pieceBitboards[K], blackK = state.pieceBitboards[K+6];
     
-    // 1. Calculate Game Phase (Middlegame vs Endgame)
+    // 1. Calculate Game Phase
     const knightCount = popcount(state.pieceBitboards[N] | state.pieceBitboards[N+6]);
     const queenCount = popcount(state.pieceBitboards[Q] | state.pieceBitboards[Q+6]);
     const phase = Math.min(24, (knightCount + popcount(state.pieceBitboards[B] | state.pieceBitboards[B+6]) + popcount(state.pieceBitboards[R] | state.pieceBitboards[R+6]) * 2 + queenCount * 4));
@@ -112,12 +112,10 @@ function evaluate(state) {
             const sq = getLSBIndex(bb);
             const r = 7 - (sq >> 3), c = sq & 7;
             
-            // Material + PST
             score += pieceValues[p];
             if(p === K) score += (kingPSTMidGame[r][c] * mgWeight) + (kingPSTEndGame[r][c] * egWeight);
             else score += pieceSquareTables[p][r][c];
 
-            // Mobility & Center Control (Skip for King/Pawn to save time)
             if (p !== P && p !== K) {
                 let attacks = 0n;
                 if (p === N) attacks = KNIGHT_ATTACKS[sq];
@@ -137,7 +135,7 @@ function evaluate(state) {
         bb = state.pieceBitboards[p + 6];
         while(bb > 0n) {
             const sq = getLSBIndex(bb);
-            const r = sq >> 3, c = sq & 7; // Flip rank for black PST
+            const r = sq >> 3, c = sq & 7; 
             
             score -= pieceValues[p];
             if(p === K) score -= (kingPSTMidGame[r][c] * mgWeight) + (kingPSTEndGame[r][c] * egWeight);
@@ -158,30 +156,26 @@ function evaluate(state) {
         }
     }
 
-    // 3. Pawn Structure Analysis (Smart Upgrade)
+    // 3. Pawn Structure Analysis (FIXED: Uses 'let' instead of 'const')
     for (let file = 0; file < 8; file++) {
         const fileMask = 0x0101010101010101n << BigInt(file);
         
         // --- WHITE PAWNS ---
-        const wPawnsOnFile = whiteP & fileMask;
+        // FIX: Changed 'const' to 'let' here so we can popBit() in the loop
+        let wPawnsOnFile = whiteP & fileMask; 
         if (wPawnsOnFile > 0n) {
-            // Check for Doubled
             if (popcount(wPawnsOnFile) > 1) score -= DOUBLED_PAWN_PENALTY;
             
-            // Check for Isolated
             const prevFile = (file > 0) ? (0x0101010101010101n << BigInt(file - 1)) : 0n;
             const nextFile = (file < 7) ? (0x0101010101010101n << BigInt(file + 1)) : 0n;
             if ((whiteP & (prevFile | nextFile)) === 0n) score -= ISOLATED_PAWN_PENALTY;
 
-            // Check for Passed Pawn (No black pawns ahead in same, left, or right file)
-            let sq = getLSBIndex(wPawnsOnFile); // Get the most advanced pawn if multiple (simplified)
-            // Ideally we iterate all, but let's grab the front-most
+            let sq = getLSBIndex(wPawnsOnFile);
             while (wPawnsOnFile > 0n) { 
                 sq = getLSBIndex(wPawnsOnFile); 
-                const rank = 7 - (sq >> 3); // 0-7 from white's perspective
-                const forwardMask = (0xFFFFFFFFFFFFFFFFn << BigInt((8 - rank) * 8)); // Masks ranks ahead
+                const rank = 7 - (sq >> 3); 
+                const forwardMask = (0xFFFFFFFFFFFFFFFFn << BigInt((8 - rank) * 8));
                 
-                // Passed Pawn Logic: No enemy pawns in front in current, left, or right files
                 const spamCheckMask = (fileMask | prevFile | nextFile) & forwardMask;
                 if ((spamCheckMask & blackP) === 0n) {
                     score += PASSED_PAWN_BONUS[rank]; 
@@ -191,7 +185,8 @@ function evaluate(state) {
         }
 
         // --- BLACK PAWNS ---
-        const bPawnsOnFile = blackP & fileMask;
+        // FIX: Changed 'const' to 'let' here for consistency
+        let bPawnsOnFile = blackP & fileMask;
         if (bPawnsOnFile > 0n) {
             if (popcount(bPawnsOnFile) > 1) score += DOUBLED_PAWN_PENALTY;
             
@@ -203,7 +198,7 @@ function evaluate(state) {
             let tempB = bPawnsOnFile;
             while (tempB > 0n) {
                 sq = getLSBIndex(tempB);
-                const rank = sq >> 3; // 0-7 from black's perspective
+                const rank = sq >> 3; 
                 const forwardMask = (0xFFFFFFFFFFFFFFFFn >> BigInt((rank + 1) * 8));
                 
                 const spamCheckMask = (fileMask | prevFile | nextFile) & forwardMask;
@@ -215,16 +210,14 @@ function evaluate(state) {
         }
     }
 
-    // 4. King Safety (Crucial Upgrade)
+    // 4. King Safety
     if (whiteK !== 0n) {
         const sq = getLSBIndex(whiteK);
         const file = sq & 7;
         const rank = sq >> 3;
-        // Penalty for open file (no own pawn in front)
         const forwardMask = (0x0101010101010101n << BigInt(file)) & (0xFFFFFFFFFFFFFFFFn << BigInt((rank + 1) * 8));
         if ((whiteP & forwardMask) === 0n) score -= OPEN_FILE_PENALTY;
         
-        // Bonus for pawn shield
         const shieldMask = (0x7n << BigInt(Math.max(0, file - 1))) << BigInt((Math.max(0, rank - 1)) * 8);
         score += popcount(shieldMask & whiteP) * PAWN_SHIELD_BONUS;
     }
@@ -233,8 +226,7 @@ function evaluate(state) {
         const sq = getLSBIndex(blackK);
         const file = sq & 7;
         const rank = sq >> 3;
-        // Direction is opposite for black pawns/files
-        const forwardMask = (0x0101010101010101n >> BigInt((7 - rank + 1) * 8)); // Simplified: check general open file
+        const forwardMask = (0x0101010101010101n >> BigInt((7 - rank + 1) * 8)); 
         const fileMask = 0x0101010101010101n << BigInt(file);
         if ((blackP & fileMask) === 0n) score += OPEN_FILE_PENALTY;
 
@@ -245,25 +237,20 @@ function evaluate(state) {
     if (popcount(state.pieceBitboards[B]) >= 2) score += 50;
     if (popcount(state.pieceBitboards[B+6]) >= 2) score -= 50;
     
-    
-    // --- MOP-UP EVALUATION ---
-    // If we have a winning advantage in the endgame, force the enemy King to the corner.
-    // This prevents the engine from "shuffling" pieces when it has a won game.
-    if (score > 500 && egWeight > 0.5) { // If White is winning big
+    // MOP-UP EVALUATION
+    if (score > 500 && egWeight > 0.5) { 
         const bKingSq = getLSBIndex(blackK);
         if (bKingSq !== -1) {
             const bFile = bKingSq & 7, bRank = bKingSq >> 3;
-            // Calculate distance from center (Center = 3.5, 3.5)
-            // The further from center, the higher the bonus for White.
             const distFromCenter = Math.max(3 - bFile, bFile - 4) + Math.max(3 - bRank, bRank - 4);
             score += distFromCenter * 10;
         }
-    } else if (score < -500 && egWeight > 0.5) { // If Black is winning big
+    } else if (score < -500 && egWeight > 0.5) { 
         const wKingSq = getLSBIndex(whiteK);
         if (wKingSq !== -1) {
             const wFile = wKingSq & 7, wRank = wKingSq >> 3;
             const distFromCenter = Math.max(3 - wFile, wFile - 4) + Math.max(3 - wRank, wRank - 4);
-            score -= distFromCenter * 10; // Negative score is good for Black
+            score -= distFromCenter * 10;
         }
     }
 
