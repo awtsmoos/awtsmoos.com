@@ -44,8 +44,10 @@ export default class {
             let physicsSuccess = true;
 
             if (options.isSolid) {
-                // B"H Failsafe: Only valid if physics accepts it
-                physicsSuccess = this.worldOctree.addObject(mesh);
+                // B"H 
+                //Failsafe: Only valid if physics accepts it
+                const playerPos = this.chossid ? this.chossid.mesh.position : null;
+                physicsSuccess = this.worldOctree.addObject(mesh, playerPos);
                 if (!physicsSuccess) {
                     console.error(`B"H Error: Failed to add ${mesh.name} to Physics. Aborting.`);
                     return null; 

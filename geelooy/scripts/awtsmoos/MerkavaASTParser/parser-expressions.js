@@ -38,6 +38,10 @@ proto.registerExpressionParsers = function() {
 
     p[TOKEN.IDENT] = this._parseIdentifier;
     p[TOKEN.PRIVATE_IDENT] = this._parsePrivateIdentifier; 
+    
+    
+     p[TOKEN.FROM] = this._parseIdentifier;
+    p[TOKEN.AS] = this._parseIdentifier;
 
     p[TOKEN.NUMBER] = p[TOKEN.STRING] = p[TOKEN.TRUE] = p[TOKEN.FALSE] = p[TOKEN.NULL] = this._parseLiteral;
     
@@ -194,9 +198,9 @@ proto._parseSpreadElement = function() {
 
 proto._parseIdentifier = function() {
     // Check for Arrow Function shorthand: `arg => ...`
-    if (this._peekTokenIs(TOKEN.ARROW) && !this.peekToken.hasLineTerminatorBefore) {
+    if (this._peekTokenIs(window.MerkavahConstants.TOKEN.ARROW) && !this.peekToken.hasLineTerminatorBefore) {
         const t = this._startNode();
-        // Handle normal IDENT or ASYNC token as the argument name
+        // Handle keywords allowed as args
         const name = this.currToken.literal; 
         const e = { type: "Identifier", name: name };
         this._advance();
@@ -204,11 +208,12 @@ proto._parseIdentifier = function() {
         return this._parseArrowFunctionExpression(t, [s]);
     }
 
-    // TIKKUN: Allow 'async' token to be parsed as an identifier
-    // This is needed for MemberExpressions like `obj.async` or just `async` variable usage.
-    if (this.currToken.type === TOKEN.ASYNC) {
+    // TIKKUN: Allow 'async', 'from', 'as' tokens to be parsed as identifiers in expressions
+    if (this.currToken.type === window.MerkavahConstants.TOKEN.ASYNC || 
+        this.currToken.type === window.MerkavahConstants.TOKEN.FROM || 
+        this.currToken.type === window.MerkavahConstants.TOKEN.AS) {
         const t = this._startNode();
-        const e = { type: "Identifier", name: "async" };
+        const e = { type: "Identifier", name: this.currToken.literal };
         this._advance();
         return this._finishNode(e, t);
     }
@@ -218,8 +223,7 @@ proto._parseIdentifier = function() {
     const e = { type: "Identifier", name: this.currToken.literal };
     this._advance();
     return this._finishNode(e, t);
-};
-		
+};		
 		
 	
 	

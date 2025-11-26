@@ -18,7 +18,7 @@ import { FileSystemProvider } from "./fs-provider.js";
 
 import { Editor } from "./editor.js";
 
-import { processHtmlForPreview, attachWorkerRequestHandler, detachWorkerRequestHandler, attachDynamicAssetHandler, detachDynamicAssetHandler } from "./html-preview-processor.js";
+
 
 import { FileOperations } from "./file-operations.js";
 
@@ -286,8 +286,9 @@ showMainMenu(e) {
 						return null;
 					const uniquePath = getItemUniquePath(item);
 					const entry = State.domItemMap.get(uniquePath);
-					//The cached 'isGitClone' property gives us an instant answer.
-					if ((entry?.item).isGitClone)
+					
+					// B"H - FIX: Safe navigation. entry might be undefined if the folder is collapsed.
+					if (entry?.item?.isGitClone)
 						return entry.item;
 					const parentPath = item.path.substring(
 						0, 
@@ -573,37 +574,18 @@ async handleAction(action) {
 					}
 					break;
 				case "view-html":
-					if (activeTab) {
-						UI.showLoading("Processing HTML for preview...");
-						const content = Editor.getContent();
-						detachWorkerRequestHandler();
-						detachDynamicAssetHandler();
-						attachWorkerRequestHandler(
-							activeTab.item
-						);
-						attachDynamicAssetHandler(
-							activeTab.item
-						);
-						try {
-							const processedContent = await processHtmlForPreview(
-								content,
-								activeTab.item
-							);
-							Tabs.createPreview(
-								activeTab.item,
-								processedContent
-							);
-						} catch (e) {
-							UI.showToast(
-								"Failed to process HTML.",
-								"error"
-							);
-							console.error(e);
-						} finally {
-							UI.hideLoading();
-						}
-					}
-					break;
+		                    if (activeTab) {
+		                        // B"H - We grab the CURRENT content from the editor (unsaved changes included)
+		                        const content = Editor.getContent();
+		                        
+		                        // We simply create the preview tab. 
+		                        // The architecture in Editor.js and html-preview-processor.js handles the rest.
+		                        Tabs.createPreview(
+		                            activeTab.item,
+		                            content
+		                        );
+		                    }
+		                    break;
 				case "find-replace":
 					FindReplace.show();
 					break;

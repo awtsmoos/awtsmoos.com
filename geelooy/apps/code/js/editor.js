@@ -111,87 +111,78 @@ async showTextEditor(content = "", filename = "", scrollPos = 0) {
 			}
 		);
 	},
-		//--- B"H: FIND AND REPLACE THIS ENTIRE FUNCTION in js/editor.js ---
-showPreviewer(data, fileInfo, tabId) {
-		//B"H - Accept tabId
-		if (this.currentHighlighter) {
-			this.currentHighlighter.destroy();
-			this.currentHighlighter = null;
-		}
-		UI.switchView("preview");
-		//B"H - Use view switcher
-		DOM.previewer.innerHTML = "";
-		//Clear previous preview content
-		let iframe = State.previewIframes.get(tabId);
-		if (fileInfo.type === "html-preview") {
-			if (!iframe) {
-				//Create iframe if it doesn't exist for this tab
-				iframe = document.createElement("iframe");
-				iframe.style.width = "100%";
-				iframe.style.height = "100%";
-				iframe.style.border = "none";
-				iframe.style.background = "#fff";
-				iframe.sandbox = "allow-scripts allow-same-origin";
-				State.previewIframes.set(
-					tabId,
-					iframe
-				);
-				const blob = new Blob(
-					[
-						data
-					],
-					{
-						type: "text/html"
-					}
-				);
-				const url = URL.createObjectURL(blob);
-				//We don't revoke this URL until the tab closes
-				iframe.src = url;
-			}
-			//Move the iframe from the cache to the visible area
-			DOM.previewer.appendChild(iframe);
-			return;
-		}
-		//--- END NEW LOGIC ---
-		let url;
-		if (data.isBinary) {
-			//GitHub object
-			url = `data:${
-				data.mime
-			};base64,${
-				data.base64Content
-			}`;
-		} else {
-			//Local FS Blob/File
-			url = URL.createObjectURL(data);
-			this.currentObjectURL = url;
-		}
-		switch (fileInfo.type) {
-			case "image":
-				DOM.previewer.innerHTML = `<img src="${url}" alt="${
-					fileInfo.name
-				}">`;
-				break;
-			case "video":
-				DOM.previewer.innerHTML = `<video src="${url}" controls></video>`;
-				break;
-			case "audio":
-				DOM.previewer.innerHTML = `<audio src="${url}" controls></audio>`;
-				break;
-			case "pdf":
-				DOM.previewer.innerHTML = `<embed src="${url}" type="application/pdf" />`;
-				break;
-			default:
-				DOM.previewer.innerHTML = 				/*html*/
-`
+	
+	/**
+     * B"H
+     * Manifests the preview. If it is HTML, it calls upon the Orchestrator
+     * to breathe life into the iframe using the Merkava Runtime.
+     */
+    showPreviewer(data, fileInfo, tabId) {
+        // Clean up previous highlighter
+        if (this.currentHighlighter) {
+            this.currentHighlighter.destroy();
+            this.currentHighlighter = null;
+        }
+        
+        UI.switchView("preview");
+        DOM.previewer.innerHTML = "";
+
+        // --- HTML PREVIEW LOGIC (Merkava Powered) ---
+        if (fileInfo.type === "html-preview") {
+            let iframe = State.previewIframes.get(tabId);
+            
+            if (!iframe) {
+                // Create the Vessel (iframe)
+                iframe = document.createElement("iframe");
+                iframe.style.width = "100%";
+                iframe.style.height = "100%";
+                iframe.style.border = "none";
+                iframe.style.background = "#fff";
+                
+                // B"H - Store it in the Ark (State)
+                State.previewIframes.set(tabId, iframe);
+                DOM.previewer.appendChild(iframe);
+
+                // Dynamically import the Processor to avoid circular dependencies at top level
+                
+                import('./html-preview-processor.js').then(({ orchestratePreview }) => {
+                    // Retrieve the full item context to resolve relative paths
+                    const tab = State.tabs.find(t => t.id === tabId);
+                    if (tab && tab.item) {
+                        // B"H - Pass the tab's content (which holds unsaved edits) to the orchestrator
+                        orchestratePreview(tab.item, iframe, tab.content);
+                    }
+                });
+            } else {
+                DOM.previewer.appendChild(iframe);
+            }
+            return;
+        }
+        // --- END MERKAVA LOGIC ---
+
+        let url;
+        if (data.isBinary) {
+            url = `data:${data.mime};base64,${data.base64Content}`;
+        } else {
+            url = URL.createObjectURL(data);
+            this.currentObjectURL = url;
+        }
+
+        switch (fileInfo.type) {
+            case "image": DOM.previewer.innerHTML = `<img src="${url}" alt="${fileInfo.name}">`; break;
+            case "video": DOM.previewer.innerHTML = `<video src="${url}" controls></video>`; break;
+            case "audio": DOM.previewer.innerHTML = `<audio src="${url}" controls></audio>`; break;
+            case "pdf":   DOM.previewer.innerHTML = `<embed src="${url}" type="application/pdf" />`; break;
+            default:
+                DOM.previewer.innerHTML = /*html*/`
                 <div class="unsupported-message">
                     <svg class="svg-icon"><use href="#icon-file"></use></svg>
                     <h3>Binary File</h3>
                     <p>This file type cannot be previewed.</p>
                 </div>`;
-				break;
-		}
-	},
+                break;
+        }
+    },
 	setCurrentContent(txt) {
 		if (!this.currentHighlighter)
 			return;

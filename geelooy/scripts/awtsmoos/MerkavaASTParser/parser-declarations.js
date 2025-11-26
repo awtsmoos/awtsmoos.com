@@ -903,25 +903,28 @@ proto._parseExportDeclaration = function() {
 
 
 proto._parseBindingPattern = function() {
-    if (this._currTokenIs(TOKEN.DOTDOTDOT)) {
+    if (this._currTokenIs(window.MerkavahConstants.TOKEN.DOTDOTDOT)) {
         return this._parseRestElement();
     }
     
-    if (this._currTokenIs(TOKEN.LBRACE)) return this._parseObjectPattern();
+    if (this._currTokenIs(window.MerkavahConstants.TOKEN.LBRACE)) return this._parseObjectPattern();
     
-    if (this._currTokenIs(TOKEN.LBRACKET)) return this._parseArrayPattern();
+    if (this._currTokenIs(window.MerkavahConstants.TOKEN.LBRACKET)) return this._parseArrayPattern();
     
-    // TIKKUN: Allow 'async' token to be used as an identifier binding
-    if (!this._currTokenIs(TOKEN.IDENT) && !this._currTokenIs(TOKEN.ASYNC)) {
-        this._error("Expected an identifier, object pattern, or array pattern for binding.");
-        return null;
+    // TIKKUN: Allow specific context-dependent keywords to be used as binding identifiers
+    if (this._currTokenIs(window.MerkavahConstants.TOKEN.IDENT) || 
+        this._currTokenIs(window.MerkavahConstants.TOKEN.ASYNC) ||
+        this._currTokenIs(window.MerkavahConstants.TOKEN.FROM) ||
+        this._currTokenIs(window.MerkavahConstants.TOKEN.AS)) {
+        
+        const s = this._startNode();
+        const identNode = { type: 'Identifier', name: this.currToken.literal };
+        this._advance();
+        return this._finishNode(identNode, s);
     }
     
-    const s = this._startNode();
-    // Use the literal value (which works for IDENT or ASYNC)
-    const identNode = { type: 'Identifier', name: this.currToken.literal };
-    this._advance();
-    return this._finishNode(identNode, s);
+    this._error("Expected an identifier, object pattern, or array pattern for binding.");
+    return null;
 };
 
 

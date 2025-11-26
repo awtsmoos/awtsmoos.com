@@ -21,7 +21,9 @@
     }
 }(typeof self !== 'undefined' ? self : this, function() {
 
-    let BASE_PATH = './'; 
+    // B"H - Explicitly define the path to the executor scripts directory.
+    // This prevents relative path issues when running from different workspace locations.
+    let BASE_PATH = '/scripts/awtsmoos/MerkavaExecutor/'; 
 
     const loadScript = (filename) => {
         return new Promise((resolve, reject) => {
@@ -37,7 +39,7 @@
                 const script = document.createElement('script');
                 script.src = BASE_PATH + filename;
                 script.onload = resolve;
-                script.onerror = () => reject(new Error(`Failed to load ${filename}`));
+                script.onerror = () => reject(new Error(`Failed to load ${filename} from ${BASE_PATH}`));
                 document.head.appendChild(script);
             }
         });
@@ -45,7 +47,6 @@
 
     /**
      * B"H - The Standard Library Loader
-     * Captures all standard JS Globals from the Host environment.
      */
     const getStandardContext = () => {
         const globalScope = typeof globalThis !== 'undefined' ? globalThis : 
@@ -53,7 +54,6 @@
         
         const context = {};
 
-        // 1. The Essentials
         const primitives = [
             'Object', 'Function', 'Boolean', 'Symbol', 
             'Error', 'EvalError', 'RangeError', 'ReferenceError', 'SyntaxError', 'TypeError', 'URIError',
@@ -67,22 +67,19 @@
             'Intl'
         ];
 
-        // 2. Web / Node Utilities
         const utilities = [
             'console', 
             'parseInt', 'parseFloat', 'isNaN', 'isFinite', 
             'encodeURI', 'decodeURI', 'encodeURIComponent', 'decodeURIComponent',
             'setTimeout', 'clearTimeout', 'setInterval', 'clearInterval', 'setImmediate', 'clearImmediate',
             'requestAnimationFrame', 'cancelAnimationFrame',
-            'fetch', 'Headers', 'Request', 'Response', // Network
+            'fetch', 'Headers', 'Request', 'Response',
             'TextEncoder', 'TextDecoder', 'URL', 'URLSearchParams',
-            'Blob', 'Worker'
+            'Blob', 'Worker', 'Image', 'Audio' // Added Image/Audio for games
         ];
 
-        // 3. Inject into Context
          [...primitives, ...utilities].forEach(key => {
             if (typeof globalScope[key] !== 'undefined') {
-                // B"H - Bind functions to globalScope to prevent 'illegal invocation' (crucial for fetch/timers)
                 if (typeof globalScope[key] === 'function') {
                     context[key] = globalScope[key].bind(globalScope);
                 } else {
@@ -91,9 +88,7 @@
             }
         });
 
-        // B"H - Explicitly inject 'undefined' because the loop above filters it out
         context.undefined = undefined;
-
         return context;
     };
 
@@ -106,15 +101,22 @@
 
         async init() {
             if (this.isReady) return;
-            console.log("[Merkava] Booting System...");
-            await loadScript('merkava-opcodes.js');
-            await loadScript('merkava-memory.js');
-            await loadScript('merkava-compiler.js');
-            await loadScript('merkava-vm.js');
-            await loadScript('merkava-debugger.js');
+            console.log("[Merkava] Booting System from " + BASE_PATH);
+            try {
+                await loadScript('merkava-opcodes.js');
+                await loadScript('merkava-memory.js');
+                await loadScript('merkava-compiler.js');
+                await loadScript('merkava-vm.js');
+                await loadScript('merkava-debugger.js');
+            } catch (e) {
+                console.error("[Merkava] Critical Boot Failure:", e);
+                throw e;
+            }
 
+            // Load Parser if needed
             if (!this.ParserClass && typeof window !== 'undefined') {
                 if (!window.MerkavahParser) {
+                    // Assuming parser is one level up in sibling directory based on provided structure
                     await loadScript('../MerkavaASTParser/parser-core.js'); 
                     if (window.MerkavahParserPromise) this.ParserClass = await window.MerkavahParserPromise;
                     else if (window.MerkavahParser) this.ParserClass = window.MerkavahParser;
@@ -130,6 +132,14 @@
         async run(sourceCode, options = {}) {
             if (!this.isReady) await this.init();
 
+            // --- TIKKUN: Runtime Integrity Check ---
+            if (!window.MerkavaCompiler || !window.MerkavaCompiler.Compiler) {
+                throw new Error("Merkava Compiler is missing. The scripts failed to load correctly.");
+            }
+            if (!window.MerkavaVM) {
+                throw new Error("Merkava VM is missing.");
+            }
+
             console.log("[Merkava] Parsing...");
             const parser = new this.ParserClass(sourceCode);
             if(parser.registerExpressionParsers) parser.registerExpressionParsers();
@@ -143,27 +153,15 @@
             const compiler = new window.MerkavaCompiler.Compiler();
             const codeObject = compiler.compile(ast);
 
-            console.log("[Merkava] initializing Memory...");
+            console.log("[Merkava] Initializing Memory...");
             const memory = new window.MerkavaMemory.MemoryManager(options.ramLimit || 1000);
             await memory.init();
 
-            // B"H - The King must be on the Throne.
-            // This logic ensures the Global Scope (Pointer 1) is always in RAM before execution begins.
             if (memory.nextPtr === 1) {
-                // This is a completely fresh database. Create the Global Scope.
                 memory.allocate({});
-                console.log("[Merkava] Global Scope (Ptr 1) Created.");
             } else if (!memory.ram.has(1)) {
-                // The database is not fresh, but the Global Scope isn't in RAM. Load it.
                 const success = await memory.resolveFault(1);
-                if (success) {
-                    console.log("[Merkava] Global Scope (Ptr 1) Loaded into RAM.");
-                } else {
-                    // CATASTROPHIC: It's not fresh, but Pointer 1 is missing from disk!
-                    // This can happen if browser data is cleared. We must recover.
-                    console.error("[Merkava] RECOVERY: Global Scope was missing! Recreating at Ptr 1.");
-                    memory.set(1, {}); // Force-create the object at Ptr 1.
-                }
+                if (!success) memory.set(1, {}); 
             }
 
             const hostAPI = {
@@ -173,22 +171,33 @@
                     throw new Error(`Imports not supported: ${specifier}`);
                 },
                 2: (name, value) => { if (options.exportHandler) options.exportHandler(name, value); },
+                
+                // B"H - SYSCALL 0xFF: Universal Merge (Spread Operator)
+                // Handles [...arr] and {...obj}
+                0xFF: (target, source) => {
+                    if (Array.isArray(target)) {
+                        // Array Spread: target.push(...source)
+                        if (Symbol.iterator in Object(source)) {
+                            target.push(...source);
+                        }
+                        return target;
+                    } else if (target && typeof target === 'object') {
+                        // Object Spread: Object.assign(target, source)
+                        return Object.assign(target, source);
+                    }
+                    return target;
+                },
+                
                 ...options.hostAPI
             };
             
              const stdLib = getStandardContext();
 
-            // B"H - MERGE CONTEXTS
-            // 1. Standard Library (Automatic)
-            // 2. User Options (Specific overrides)
-            // 1. Helper to wrap TypedArray constructors
-            // This allows Float32Array.from(vmPointer) to work automatically
             const createTypedArrayProxy = (TargetClass) => {
                 return new Proxy(TargetClass, {
                     get: (target, prop) => {
                         if (prop === 'from') {
                             return (arg) => {
-                                // AUTO-UNWRAP: If arg is a pointer in RAM, use the real array
                                 if (typeof arg === 'number' && memory.ram.has(arg)) {
                                     return target.from(memory.ram.get(arg));
                                 }
@@ -200,7 +209,6 @@
                 });
             };
 
-            // 2. Wrap the specific classes we use for WebGL
             const smartContext = {
                 ...stdLib,
                 Float32Array: createTypedArrayProxy(Float32Array),
@@ -208,11 +216,10 @@
                 Uint8Array: createTypedArrayProxy(Uint8Array)
             };
 
-            // 3. Merge User Context
             const finalContext = Object.assign(smartContext, options.context || {});
 
             const vm = new window.MerkavaVM(memory, hostAPI, finalContext);
-            const threadId = vm.spawn(codeObject);
+            vm.spawn(codeObject);
 
             let debugTool = null;
             if (options.debug) {
@@ -231,6 +238,8 @@
                             resolve({ status: 'COMPLETED' });
                         }
                     } catch (e) {
+                        // B"H - Attempt to add context to the error
+                        e.message = `[Runtime] ${e.message}`;
                         reject(e);
                     }
                 };

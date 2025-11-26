@@ -7,7 +7,7 @@ import { Editor } from './editor.js';
 import { StatusBar } from './statusbar.js';
 import { FileSystemProvider } from './fs-provider.js';
 import { MimeUtil } from './mime-util.js';
-import { detachWorkerRequestHandler, detachDynamicAssetHandler } from './html-preview-processor.js';
+
 import { App } from './app.js';
 import { Console } from "./Console.js";
 import { DataAltar } from './DataAltar.js';
@@ -90,14 +90,41 @@ async create(item, isNewFile = false, shouldSave = true, activate = true) {
         await this.activate(newTab.id);
     }
 },
+    /**
+     * B"H
+     * Creates or updates a preview tab.
+     * FIX: Preserves the original item's 'type' so the file system knows how to read it
+     * if necessary. Also updates content on re-activation for "Hot Previewing".
+     */
     createPreview(originalItem, content) {
         const uniquePath = `preview::${this.getUniquePath(originalItem)}`;
         const existingTab = State.tabs.find(t => t.uniquePath === uniquePath);
+        
         if (existingTab) {
+            // B"H - Update the content with the latest edits
+            existingTab.content = content;
+            
+            // Force the editor/previewer to recognize the change
+            if (State.activeTabId === existingTab.id) {
+                // If already active, we might need to trigger a reload of the iframe
+                // The Editor.showPreviewer logic handles this via the orchestrator
+                Editor.showPreviewer(null, { type: 'html-preview' }, existingTab.id);
+            }
+            
             this.activate(existingTab.id);
             return;
         }
-        const previewItem = { ...originalItem, name: `Preview: ${originalItem.name}`, type: 'preview' };
+
+        // B"H 
+        // We must preserve the original 'type' (e.g., 'github', 'local') 
+        // so that FileSystemProvider can read from it.
+        // We only modify the name for the UI.
+        const previewItem = { 
+            ...originalItem, 
+            name: `Preview: ${originalItem.name}`
+            // Do NOT overwrite 'type' with 'preview'. 
+        };
+
         const newTab = {
             id: State.nextTabId++,
             item: previewItem,
@@ -289,17 +316,18 @@ async _getGitInfoForTab(tab) {
         }
 
         if (tabToClose.fileType === 'html-preview') {
-            detachWorkerRequestHandler();
-            detachDynamicAssetHandler();
+        
+            
             const consoleTab = State.tabs.find(t => t.item.type === 'console' && t.item.associatedTabId === tabId);
             if (consoleTab) await this.close(consoleTab.id, true);
+            
             const iframe = State.previewIframes.get(tabId);
             if (iframe) {
                 if (iframe.src.startsWith('blob:')) URL.revokeObjectURL(iframe.src);
                 iframe.remove();
             }
             State.previewIframes.delete(tabId);
-        } else if (tabToClose.fileType === 'console') {
+        }  else if (tabToClose.fileType === 'console') {
             const instance = State.consoleInstances.get(tabId);
             if (instance) instance.destroy();
             State.consoleInstances.delete(tabId);

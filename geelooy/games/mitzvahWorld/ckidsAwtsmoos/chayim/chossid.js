@@ -650,9 +650,20 @@ export default class Chossid extends Medabeir {
 	        id: 'brick_4x0.25x4',
 	        className: 'Brick',
 	        name: 'Thin Plane Brick',
-	        description: 'A long 1x0.5x2 plane',
+	        description: 'A long 4x0.25x4 plane',
 	        dimensions: { x: 4, y: 0.25, z: 4 }
 	    }, 1024);
+	    
+	    
+	    // Add 16 long 1x1x4 bricks
+	    this.inventory.addItem({
+	        id: 'brick_40x0.25x40',
+	        className: 'Brick',
+	        name: 'Giant Brick Plane',
+	        description: 'A long 40x0.25x40 plane',
+	        dimensions: { x: 40, y: 0.25, z: 40 }
+	    }, 1024);
+	    
 	    
 	    
 	    this.inventory.addItem({
@@ -691,7 +702,7 @@ export default class Chossid extends Medabeir {
 	        description: 'A massive 4x4x4 staircase.',
 	        dimensions: { x: 4, y: 4, z: 4 } 
 	    }, 50);
-	    
+	     
 	    
         // 3. Grand Staircase (Huge dimensions)
         this.inventory.addItem({

@@ -585,12 +585,33 @@
                     const thisVal = callFrame[1];
                     const args = callFrame.slice(2);
                     
+                    // Attempt to resolve function pointer.
+                    // If it's a pointer to data on disk (not RAM), .get() throws PageFault.
+                    // The VM loop handles this, pauses, loads the data, and retries.
                     let funcObj = (typeof funcPtr === 'function') ? funcPtr : this.memory.get(funcPtr);
 
                     if (typeof funcObj === 'function') {
                         // --- NATIVE / HOST FUNCTION CALL ---
                         try {
-                            const res = funcObj.apply(thisVal, args);
+                            // B"H - TIKKUN: ARGUMENT MARSHALLING
+                            // We must wrap VM Closures in Host Proxies so native functions
+                            // (like addEventListener or requestAnimationFrame) can call them back.
+                            const marshalledArgs = args.map(arg => {
+                                if (typeof arg === 'number' && arg > 0) {
+                                    // We peek into RAM. If the user is passing a function to a host API,
+                                    // it must be "hot" (in RAM).
+                                    if (this.memory.ram.has(arg)) {
+                                        const obj = this.memory.ram.get(arg);
+                                        if (obj && obj.type === 'CLOSURE') {
+                                            // Wrap the VM pointer in a native JS function
+                                            return this._createHostProxy(arg);
+                                        }
+                                    }
+                                }
+                                return arg;
+                            });
+
+                            const res = funcObj.apply(thisVal, marshalledArgs);
                             
                             thread.stack = prevStack;
 
@@ -612,17 +633,14 @@
                              throw new Error(`Type Error: Object at ptr ${funcPtr} is not a function.`);
                         }
 
-                        // B"H - THE HEART OF THE FIX:
-                        // Save the CALLER'S state BEFORE switching to the new one.
                         thread.frames.push({
                             returnIP: thread.ip,
                             prevBP: thread.bp,
                             prevStack: prevStack, 
-                            code: thread.code, // This saves the CALLER's code
-                            constants: thread.constants // This saves the CALLER's constants
+                            code: thread.code, 
+                            constants: thread.constants 
                         });
 
-                        // Now, and only now, do we transition the world to the callee.
                         thread.stack = [thisVal, ...args];
                         thread.bp = 1; 
                         
