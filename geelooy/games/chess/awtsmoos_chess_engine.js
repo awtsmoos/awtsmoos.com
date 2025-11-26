@@ -388,32 +388,62 @@ function search(state, depth, alpha, beta, ply) {
     const kingSq = getLSBIndex(state.pieceBitboards[state.turn * 6 + K]);
     const inCheck = isSquareAttacked_lean(state, kingSq, state.turn ^ 1);
 
-    // --- NULL MOVE PRUNING (New Logic) ---
-    // If depth is high (>2), not in check, and evaluation is decent, try skipping a move.
+    // --- NULL MOVE PRUNING ---
     if (!isRoot && depth >= 3 && !inCheck && ply > 0) {
-        // Simple heuristic: if we have major pieces
         const hasPieces = (state.occupancies[state.turn] ^ state.pieceBitboards[state.turn * 6 + K] ^ state.pieceBitboards[state.turn * 6 + P]) !== 0n;
         if (hasPieces) {
             state.turn ^= 1;
-            state.enpassant = -1; // Reset EP on null move
-            const nullHash = calculateZobristHash(state); // Re-calc hash for null state
+            state.enpassant = -1; 
+            const nullHash = calculateZobristHash(state); 
             const oldHash = state.zobristHash;
             state.zobristHash = nullHash;
             
-            // Search with reduced depth (R=2)
             const score = -search(state, depth - 1 - 2, -beta, -beta + 1, ply + 1);
             
             state.turn ^= 1;
-            state.zobristHash = oldHash; // Restore
+            state.zobristHash = oldHash; 
             
             if (EngineSoul.stopSearch) return 0;
-            if (score >= beta) return beta; // Cutoff
+            if (score >= beta) return beta; 
         }
     }
 
     // Extended depth if in check
     const extension = inCheck ? 1 : 0;
-    if (depth + extension <= 0) return quiesce(state, alpha, beta, ply);
+    
+    // --- TRANSITION TO QUIESCENCE (WITH STALEMATE FIX) ---
+    if (depth + extension <= 0) {
+        // BLINDNESS FIX: 
+        // Quiescence search is blind to Stalemate because it only looks at captures.
+        // If we are winning big (>500), we MUST verify the opponent has legal moves.
+        // Otherwise, we might capture a pawn and accidentally cause a Draw (score 0),
+        // thinking we are still +500.
+        const staticEval = evaluate(state);
+        
+        // Only run this expensive check if we aren't in check (if in check, it's not stalemate)
+        // and if the evaluation is extreme (winning/losing significantly).
+        if (!inCheck && Math.abs(staticEval) > 500) {
+             const moves = generateMoves(state);
+             let hasLegal = false;
+             for (const m of moves) {
+                 makeMove(state, m);
+                 const kSqCheck = getLSBIndex(state.pieceBitboards[(state.turn ^ 1) * 6 + K]);
+                 // Fast legality check
+                 if (!isSquareAttacked_lean(state, kSqCheck, state.turn)) {
+                     hasLegal = true;
+                     unmakeMove(state);
+                     break; // Found one valid move, game continues.
+                 }
+                 unmakeMove(state);
+             }
+             if (!hasLegal) {
+                 // No legal moves and NOT in check = Stalemate = 0.
+                 // This forces the engine to realize this path sucks (0 < 500).
+                 return 0; 
+             }
+        }
+        return quiesce(state, alpha, beta, ply);
+    }
 
     EngineSoul.nodeCount++;
 
@@ -440,7 +470,6 @@ function search(state, depth, alpha, beta, ply) {
             score = -search(state, depth - 1 + extension, -beta, -alpha, ply + 1);
         } else {
             // Late Move Reduction (LMR)
-            // If move is late in the list, not a capture, not a check, search shallower
             let reduction = 0;
             if (depth >= 3 && legalMovesMade > 4 && !getMoveCapture(move) && !inCheck) {
                 reduction = 1;
@@ -448,11 +477,9 @@ function search(state, depth, alpha, beta, ply) {
 
             score = -search(state, depth - 1 - reduction + extension, -alpha - 1, -alpha, ply + 1);
             
-            // Re-search if LMR failed (found a better move than expected)
             if (score > alpha && reduction > 0) {
                  score = -search(state, depth - 1 + extension, -alpha - 1, -alpha, ply + 1);
             }
-            // Re-search if PVS failed
             if (score > alpha && score < beta) {
                 score = -search(state, depth - 1 + extension, -beta, -alpha, ply + 1);
             }
@@ -489,7 +516,6 @@ function search(state, depth, alpha, beta, ply) {
     EngineSoul.transpositionTable.set(hash, { score: bestScore, depth, flag: ttFlag, move: bestMove });
     return bestScore;
 }
-
 function searchRoot(state, maxDepth, time, historyHashes = []) {
     Scribe.header("MEDITATION: THE CLARITY OF MIND");
 
