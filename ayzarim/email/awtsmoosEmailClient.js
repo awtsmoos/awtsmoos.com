@@ -184,6 +184,12 @@ class AwtsmoosEmailClient {
         recipient, 
         emailData
     } = {}) {
+	    // If server says "221 ... closing", we are done.
+        if (lineOrMultiline.startsWith('221')) {
+            console.log("Server closed connection (221). Job done.");
+            client.end();
+            return;
+        }
         console.log('Server Response:', lineOrMultiline);
     
         this.handleErrorCode(lineOrMultiline);
@@ -270,6 +276,11 @@ class AwtsmoosEmailClient {
     async sendMail(sender, recipient, subject, body) {
         return new Promise(async (resolve, reject) => {
             console.log("Getting DNS records..");
+            
+             var domain = 'awtsmoos.com';
+            var selector = 'selector';
+            
+            
             var addresses = await this.getDNSRecords(recipient);
             console.log("Got addresses", addresses);
             var primary = addresses[0].exchange;
@@ -286,7 +297,7 @@ class AwtsmoosEmailClient {
 	            family: 4 
 	        });
             
-            
+           
             // Generate a random Message-ID
             var messageId = `<${Date.now()}.${Math.random().toString(36).substring(2)}@${domain}>`;
             // Generate a proper Date string
@@ -294,8 +305,8 @@ class AwtsmoosEmailClient {
 
             // Add these headers to the email data
             var emailData = `Message-ID: ${messageId}${CRLF}Date: ${dateHeader}${CRLF}From: ${sender}${CRLF}To: ${recipient}${CRLF}Subject: ${subject}${CRLF}${CRLF}${body}`;
-            var domain = 'awtsmoos.com';
-            var selector = 'selector';
+            
+            
             var dataToSend=emailData
             if(this. privateKey) {
                 var dkimSignature = this.signEmail(
