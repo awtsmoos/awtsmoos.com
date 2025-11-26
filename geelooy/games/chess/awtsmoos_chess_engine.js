@@ -466,82 +466,103 @@ function search(state, depth, alpha, beta, ply) {
 }
 
 function searchRoot(state, maxDepth, time) {
-    Scribe.header("NEW MEDITATION INITIATED (ASPIRATION WINDOWS)");
+    Scribe.header("MEDITATION: THE STRATEGIC DEEPENING");
+
+    // 1. Time Management Setup
+    // We allow up to 4s if necessary (Absolute), but aim for the requested 'time' (Soft).
+    // This allows the engine to finish a depth if it's close, but stop if it's stuck.
+    const ABSOLUTE_MAX_TIME = 4000; 
+    const SOFT_TIME_LIMIT = time || 3000;
     
-    // 1. Setup Time Management
-    const ABSOLUTE_MAX_TIME = Math.min(time || 3000, 3500);
     EngineSoul.isAuditing = true; 
     EngineSoul.searchStartTime = performance.now();
-    EngineSoul.timeLimit = ABSOLUTE_MAX_TIME;
+    EngineSoul.timeLimit = SOFT_TIME_LIMIT;
     EngineSoul.stopSearch = false;
     EngineSoul.nodeCount = 0;
+
+    // 2. Memory Aging (The "Soft Reset")
+    // Instead of wiping memory (forgetting everything) or keeping it forever (getting stubborn),
+    // we divide all history scores by 8. This keeps strategic wisdom but clears old tactical noise.
+    if (EngineSoul.historyTable) {
+        for (let side = 0; side < 2; side++) {
+            for (let piece = 0; piece < 12; piece++) {
+                for (let sq = 0; sq < 64; sq++) {
+                    EngineSoul.historyTable[side][piece][sq] >>= 3; // Bitshift right by 3 (Divide by 8)
+                }
+            }
+        }
+    }
     
-    // Reset Heuristics slightly to keep fresh but retain history
+    // Clear Killer Moves to prevent old game tactical ghosts
     EngineSoul.killerMoves = Array(MAX_PLY).fill(null).map(() => [0, 0]);
 
-    // --- CRITICAL FIX: Initialize History Table if missing ---
-    if (!EngineSoul.historyTable || EngineSoul.historyTable.length !== 2) {
-        EngineSoul.historyTable = Array(2).fill(null).map(() => Array(12).fill(null).map(() => Array(64).fill(0)));
-    }
-
+    // 3. Initial Move Generation
     const legalMoves = generateMoves(state);
     if (legalMoves.length === 0) return { bestMove: null, score: 0 };
     
     let rootBestMove = legalMoves[0];
     let rootBestScore = -Infinity;
 
-    // 2. Iterative Deepening with Aspiration Windows
+    // 4. Iterative Deepening Loop
     for (let currentDepth = 1; currentDepth <= maxDepth; currentDepth++) {
         
-        // Time Check
-        if (performance.now() - EngineSoul.searchStartTime > (EngineSoul.timeLimit * 0.60)) {
+        // Time Check: Do we have enough time for the next depth?
+        // We estimate the next depth takes ~4x longer. If we used > 50% of allocated time, stop.
+        const elapsed = performance.now() - EngineSoul.searchStartTime;
+        if (elapsed > (EngineSoul.timeLimit * 0.50)) {
+            // Scribe.info(`Time pressure. Stopping before Depth ${currentDepth}.`);
             break;
         }
 
         let alpha = -MATE_SCORE;
         let beta = MATE_SCORE;
 
-        // ASPIRATION WINDOWS (The Speed Hack)
-        // If we have a previous score (depth > 1), assume the new score 
-        // will be within +/- 50 points. This creates a narrow "window".
-        if (currentDepth > 1) {
+        // --- ASPIRATION WINDOWS ---
+        // If we have a stable score from the previous depth, narrow the search window
+        // to find the answer faster. Window size: +/- 50 centipawns.
+        if (currentDepth > 1 && Math.abs(rootBestScore) < MATE_THRESHOLD) {
             alpha = rootBestScore - 50;
             beta = rootBestScore + 50;
         }
 
         let score = search(state, currentDepth, alpha, beta, 0);
 
-        // FAIL-SAFE: If the score fell outside our window, we must re-search fully.
+        // --- ASPIRATION FAILURE RE-SEARCH ---
+        // If the score is outside our guess, we have to search again with full windows.
+        // This ensures we don't miss a brilliant sacrifice or a sudden danger.
         if (score <= alpha || score >= beta) {
+            // Scribe.warn(`Window Fail at Depth ${currentDepth} (Score: ${score}). Re-searching full window...`);
             score = search(state, currentDepth, -MATE_SCORE, MATE_SCORE, 0);
         }
 
+        // Check if forced stop occurred (Timeout)
         if (EngineSoul.stopSearch) break; 
 
+        // Update Best Results
         rootBestScore = score;
         
+        // Sync with Transposition Table to get the exact move object
         const ttEntry = EngineSoul.transpositionTable.get(state.zobristHash);
         if (ttEntry && ttEntry.move) {
             rootBestMove = ttEntry.move;
         }
 
-        // Log info
-        const timeTaken = (performance.now() - EngineSoul.searchStartTime).toFixed(0);
+        // --- MATE DETECTION ---
+        // If we found a forced mate, there is no need to search deeper.
         if (score > MATE_THRESHOLD || score < -MATE_THRESHOLD) {
-             Scribe.book(`Mate found at Depth ${currentDepth}. Stopping.`);
+             Scribe.book(`Mate Sequence Found at Depth ${currentDepth}. Execution imminent.`);
              break;
         }
-        
-        // Only log higher depths to reduce console spam
-        if (currentDepth > 3 || timeTaken > 100) {
-            Scribe.info(`Depth ${currentDepth} | Move: ${decodeMove(rootBestMove, state.turn).from} -> ${decodeMove(rootBestMove, state.turn).to} | Score: ${score} | Time: ${timeTaken}ms`);
+
+        // Logging (Filtered to avoid console spam)
+        if (currentDepth > 3 || elapsed > 100) {
+            Scribe.info(`Depth ${currentDepth} | Move: ${decodeMove(rootBestMove, state.turn).from} -> ${decodeMove(rootBestMove, state.turn).to} | Score: ${score} | Time: ${elapsed.toFixed(0)}ms`);
         }
     }
 
     EngineSoul.isAuditing = false;
     return { bestMove: rootBestMove, score: rootBestScore };
 }
-
 function decodeMove(move, turn) {
     const f = getMoveFrom(move), t = getMoveTo(move), p = getMovePromoted(move);
     return { from: [f >> 3, f & 7], to: [t >> 3, t & 7], promotion: p ? pieceMap[p].toLowerCase() : null };
