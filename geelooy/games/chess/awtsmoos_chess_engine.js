@@ -113,7 +113,7 @@ function evaluate(state) {
 
     // 2. Loop through all pieces for Material + PST + Mobility + Center Control
     for (let p = P; p <= K; p++) {
-        // --- WHITE ---
+        // --- WHITE PIECES ---
         let bb = state.pieceBitboards[p];
         while(bb > 0n) {
             const sq = getLSBIndex(bb);
@@ -138,7 +138,7 @@ function evaluate(state) {
             bb = popBit(bb);
         }
 
-        // --- BLACK ---
+        // --- BLACK PIECES ---
         bb = state.pieceBitboards[p + 6];
         while(bb > 0n) {
             const sq = getLSBIndex(bb);
@@ -163,25 +163,27 @@ function evaluate(state) {
         }
     }
 
-    // 3. Pawn Structure & Rook Strategy (FIXED: Uses 'let' to prevent crash)
+    // 3. Pawn Structure & Rook Strategy (FULL CODE - NO PLACEHOLDERS)
     const whiteR = state.pieceBitboards[R];
     const blackR = state.pieceBitboards[R+6];
 
     for (let file = 0; file < 8; file++) {
         const fileMask = 0x0101010101010101n << BigInt(file);
         
-        // --- WHITE ---
-        // FIX: Changed 'const' to 'let' here so popBit() works
+        // --- WHITE STRATEGY ---
         let wPawnsOnFile = whiteP & fileMask; 
         const bPawnsOnFile = blackP & fileMask;
 
         if (wPawnsOnFile > 0n) {
+            // Doubled Pawns
             if (popcount(wPawnsOnFile) > 1) score -= DOUBLED_PAWN_PENALTY;
             
+            // Isolated Pawns
             const prevFile = (file > 0) ? (0x0101010101010101n << BigInt(file - 1)) : 0n;
             const nextFile = (file < 7) ? (0x0101010101010101n << BigInt(file + 1)) : 0n;
             if ((whiteP & (prevFile | nextFile)) === 0n) score -= ISOLATED_PAWN_PENALTY;
 
+            // Passed Pawns
             let sq = getLSBIndex(wPawnsOnFile);
             while (wPawnsOnFile > 0n) { 
                 sq = getLSBIndex(wPawnsOnFile); 
@@ -195,25 +197,27 @@ function evaluate(state) {
                 wPawnsOnFile = popBit(wPawnsOnFile);
             }
         } else {
-            // White has NO pawns on this file (Open or Semi-Open)
+            // Open File Bonuses for Rooks
             if ((whiteR & fileMask) !== 0n) {
                 if (bPawnsOnFile === 0n) score += 20; // Fully Open File
                 else score += 10;                     // Semi-Open File
             }
         }
 
-        // --- BLACK ---
-        // FIX: Changed 'const' to 'let' here so popBit() works
+        // --- BLACK STRATEGY ---
         let bPawnsOnTheFile = blackP & fileMask; 
         const wPawnsOnTheFile = whiteP & fileMask;
 
         if (bPawnsOnTheFile > 0n) {
+            // Doubled Pawns
             if (popcount(bPawnsOnTheFile) > 1) score += DOUBLED_PAWN_PENALTY;
             
+            // Isolated Pawns
             const prevFile = (file > 0) ? (0x0101010101010101n << BigInt(file - 1)) : 0n;
             const nextFile = (file < 7) ? (0x0101010101010101n << BigInt(file + 1)) : 0n;
             if ((blackP & (prevFile | nextFile)) === 0n) score += ISOLATED_PAWN_PENALTY;
 
+            // Passed Pawns
             let sq;
             let tempB = bPawnsOnTheFile;
             while (tempB > 0n) {
@@ -228,7 +232,7 @@ function evaluate(state) {
                 tempB = popBit(tempB);
             }
         } else {
-             // Black has NO pawns on this file
+             // Open File Bonuses for Rooks
              if ((blackR & fileMask) !== 0n) {
                 if (wPawnsOnTheFile === 0n) score -= 20; // Fully Open File
                 else score -= 10;                     // Semi-Open File
@@ -263,7 +267,7 @@ function evaluate(state) {
     if (popcount(state.pieceBitboards[B]) >= 2) score += 50;
     if (popcount(state.pieceBitboards[B+6]) >= 2) score -= 50;
     
-    // MOP-UP EVALUATION
+    // MOP-UP EVALUATION (Forcing checkmate when winning)
     if (score > 500 && egWeight > 0.5) { 
         const bKingSq = getLSBIndex(blackK);
         if (bKingSq !== -1) {
