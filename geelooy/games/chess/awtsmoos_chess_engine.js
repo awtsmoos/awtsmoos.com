@@ -163,16 +163,21 @@ function evaluate(state) {
         }
     }
 
-    // 3. Pawn Structure Analysis (FIXED: Uses 'let' instead of 'const')
+    // 3. Pawn Structure & Rook Strategy (The Final Polish)
+    // We lift the Rook bitboards out here to check them against files
+    const whiteR = state.pieceBitboards[R];
+    const blackR = state.pieceBitboards[R+6];
+
     for (let file = 0; file < 8; file++) {
         const fileMask = 0x0101010101010101n << BigInt(file);
         
-        // --- WHITE PAWNS ---
-        // FIX: Changed 'const' to 'let' here so we can popBit() in the loop
-        let wPawnsOnFile = whiteP & fileMask; 
+        const wPawnsOnFile = whiteP & fileMask; 
+        const bPawnsOnFile = blackP & fileMask;
+
+        // --- WHITE STRATEGY ---
         if (wPawnsOnFile > 0n) {
+            // ... existing Pawn logic ...
             if (popcount(wPawnsOnFile) > 1) score -= DOUBLED_PAWN_PENALTY;
-            
             const prevFile = (file > 0) ? (0x0101010101010101n << BigInt(file - 1)) : 0n;
             const nextFile = (file < 7) ? (0x0101010101010101n << BigInt(file + 1)) : 0n;
             if ((whiteP & (prevFile | nextFile)) === 0n) score -= ISOLATED_PAWN_PENALTY;
@@ -182,21 +187,23 @@ function evaluate(state) {
                 sq = getLSBIndex(wPawnsOnFile); 
                 const rank = 7 - (sq >> 3); 
                 const forwardMask = (0xFFFFFFFFFFFFFFFFn << BigInt((8 - rank) * 8));
-                
                 const spamCheckMask = (fileMask | prevFile | nextFile) & forwardMask;
-                if ((spamCheckMask & blackP) === 0n) {
-                    score += PASSED_PAWN_BONUS[rank]; 
-                }
+                if ((spamCheckMask & blackP) === 0n) score += PASSED_PAWN_BONUS[rank]; 
                 wPawnsOnFile = popBit(wPawnsOnFile);
+            }
+        } else {
+            // White has NO pawns on this file (Open or Semi-Open)
+            // If we have a Rook here, that is excellent!
+            if ((whiteR & fileMask) !== 0n) {
+                if (bPawnsOnFile === 0n) score += 20; // Fully Open File (Bonus +20)
+                else score += 10;                     // Semi-Open File (Bonus +10)
             }
         }
 
-        // --- BLACK PAWNS ---
-        // FIX: Changed 'const' to 'let' here for consistency
-        let bPawnsOnFile = blackP & fileMask;
+        // --- BLACK STRATEGY ---
         if (bPawnsOnFile > 0n) {
+            // ... existing Pawn logic ...
             if (popcount(bPawnsOnFile) > 1) score += DOUBLED_PAWN_PENALTY;
-            
             const prevFile = (file > 0) ? (0x0101010101010101n << BigInt(file - 1)) : 0n;
             const nextFile = (file < 7) ? (0x0101010101010101n << BigInt(file + 1)) : 0n;
             if ((blackP & (prevFile | nextFile)) === 0n) score += ISOLATED_PAWN_PENALTY;
@@ -207,12 +214,15 @@ function evaluate(state) {
                 sq = getLSBIndex(tempB);
                 const rank = sq >> 3; 
                 const forwardMask = (0xFFFFFFFFFFFFFFFFn >> BigInt((rank + 1) * 8));
-                
                 const spamCheckMask = (fileMask | prevFile | nextFile) & forwardMask;
-                if ((spamCheckMask & whiteP) === 0n) {
-                    score -= PASSED_PAWN_BONUS[rank];
-                }
+                if ((spamCheckMask & whiteP) === 0n) score -= PASSED_PAWN_BONUS[rank];
                 tempB = popBit(tempB);
+            }
+        } else {
+             // Black has NO pawns on this file
+             if ((blackR & fileMask) !== 0n) {
+                if (wPawnsOnFile === 0n) score -= 20; // Fully Open File
+                else score -= 10;                     // Semi-Open File
             }
         }
     }
