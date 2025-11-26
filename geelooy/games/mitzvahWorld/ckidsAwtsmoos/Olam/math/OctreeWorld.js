@@ -702,7 +702,7 @@ export class OctreeWorld {
         // 6. CLEANUP SATELLITES
         // We only remove a satellite if the Main World has successfully built the node 
         // that contains it.
-        if (false && this.#pendingOctrees.length > 0) {
+        if (this.#pendingOctrees.length > 0) {
             const now = performance.now();
             
             // Filter out satellites that are old enough AND whose territory is covered
