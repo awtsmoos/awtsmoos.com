@@ -509,29 +509,63 @@ class AwtsmoosEmailClient {
      */
     signEmail(domain, selector, privateKey, emailData) {
         try {
-            // Split headers and body at the first double-CRLF
+            // 1. Split headers and body
             var splitIndex = emailData.indexOf(CRLF + CRLF);
             var headers = emailData.substring(0, splitIndex);
             var body = emailData.substring(splitIndex + (CRLF.length * 2));
-        
-            var { canonicalizedHeaders, canonicalizedBody } = 
-            this.canonicalizeRelaxed(headers, body);
+
+            // 2. Body Hash (Simple Canonicalization: just hash the body as-is)
+            // Note: We ensure there is exactly one trailing CRLF for the body hash
+            var bodyToHash = body;
+            if (!bodyToHash.endsWith(CRLF)) bodyToHash += CRLF;
+            
             var bodyHash = crypto.createHash('sha256')
-            .update(canonicalizedBody).digest('base64');
-        
-            var headerFields = canonicalizedHeaders
-            .split(CRLF).map(line => line.split(':')[0]).join(':');
-            var dkimHeader = `v=1;a=rsa-sha256;c=relaxed/relaxed;d=${domain};s=${selector};bh=${bodyHash};h=${headerFields};`;
-        
-            var signature = crypto.createSign('SHA256').update(dkimHeader + CRLF + canonicalizedHeaders).sign(privateKey, 'base64');
-        
-            return `${dkimHeader}b=${signature}`;
-        } catch(e) {
-            console.error("There was an error", e);
-            console.log("The private key is: ", this.privateKey, privateKey)
-            return emailData;
+                .update(bodyToHash)
+                .digest('base64');
+
+            // 3. Prepare Header List
+            // We select specific headers to sign to avoid signing unrelated things
+            var headersToSign = ['Message-ID', 'Date', 'From', 'To', 'Subject'];
+            var canonicalizedHeaders = '';
+            var headerFieldNames = '';
+
+            headersToSign.forEach(name => {
+                // Find the header line (Case-insensitive search)
+                var regex = new RegExp(`^${name}:`, 'im');
+                var match = headers.match(regex);
+                if (match) {
+                    // Get the full line
+                    var start = headers.toLowerCase().indexOf(name.toLowerCase() + ':');
+                    var end = headers.indexOf(CRLF, start);
+                    var line = headers.substring(start, end);
+                    
+                    // Simple Canonicalization: no changes, just the line + CRLF
+                    canonicalizedHeaders += line + CRLF;
+                    headerFieldNames += name + ':';
+                }
+            });
+            // Remove trailing colon from field names
+            headerFieldNames = headerFieldNames.slice(0, -1);
+
+            // 4. Construct DKIM Header (Pre-Signature)
+            // Note: We use c=simple/simple
+            var dkimHeader = `v=1;a=rsa-sha256;c=simple/simple;d=${domain};s=${selector};bh=${bodyHash};h=${headerFieldNames};b=`;
+            
+            // 5. Create the Input to Sign
+            // The spec requires: Canonicalized Headers + "dkim-signature:" + dkimHeader
+            var toSign = canonicalizedHeaders + 'dkim-signature:' + dkimHeader;
+
+            // 6. Sign
+            var signature = crypto.createSign('SHA256')
+                .update(toSign)
+                .sign(privateKey, 'base64');
+
+            // 7. Return the full header line
+            return `DKIM-Signature: ${dkimHeader}${signature}`;
+        } catch (e) {
+            console.error("Signing Error:", e);
+            return emailData; // Fallback to unsigned if error
         }
-        
     }
 
     
