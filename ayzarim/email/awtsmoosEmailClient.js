@@ -62,7 +62,7 @@ class AwtsmoosEmailClient {
         
         try {
             // Read the key file directly
-            this.privateKey = fs.readFileSync('/BH/awtsmoos.com/keys/dkim_private.pem', 'utf-8');
+            this.privateKey = fs.readFileSync(pathToPrivateKey , 'utf-8');
             console.log("Successfully loaded DKIM Private Key from file.");
         } catch (e) {
             console.warn("Warning: Could not load DKIM private key from file:", e.message);
