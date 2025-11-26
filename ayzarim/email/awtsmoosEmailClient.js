@@ -72,7 +72,7 @@ class AwtsmoosEmailClient {
         var certPath = process.env.BH_email_cert;
         var keyPath = process.env.BH_email_key;
 
-        console.log("certPath at",certPath,"keyPath at", keyPath)
+       //s console.log("certPath at",certPath,"keyPath at", keyPath)
         if (certPath && keyPath) {
             try {
                 this.cert = fs.readFileSync(certPath, 'utf-8');
@@ -273,7 +273,7 @@ class AwtsmoosEmailClient {
             
 
             var emailData = `From: ${sender}${CRLF}To: ${recipient}${CRLF}Subject: ${subject}${CRLF}${CRLF}${body}`;
-            var domain = 'awtsmoos.one';
+            var domain = 'awtsmoos.com';
             var selector = 'selector';
             var dataToSend=emailData
             if(this. privateKey) {
@@ -649,7 +649,7 @@ var smtpClient = new AwtsmoosEmailClient(
 
 async function main() {
     try {
-        await smtpClient.sendMail('me@awtsmoos.one', 
+        await smtpClient.sendMail('me@awtsmoos.com', 
         'awtsmoos@gmail.com', 'B"H', 
         'This is a test email! The time is: ' + Date.now() 
         + " Which is " + 

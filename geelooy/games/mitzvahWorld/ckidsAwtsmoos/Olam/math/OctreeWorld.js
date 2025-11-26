@@ -493,12 +493,14 @@ export class OctreeWorld {
             mesh.getWorldScale(clone.scale);
             clone.updateMatrix();
             clone.updateMatrixWorld(true);
-            clone.userData = mesh.userData; // Shared reference
+            
+            // --- B"H FIX: Link to Visual Mesh ---
+            clone.userData = { ...mesh.userData, visualReference: mesh };
+            // ------------------------------------
 
             if (!clone.geometry.boundingBox) clone.geometry.computeBoundingBox();
             const worldBox = clone.geometry.boundingBox.clone().applyMatrix4(clone.matrixWorld);
 
-            // B"H: Try to insert. If it fails (out of bounds), the Satellite (created in fromGraphNode) stays active.
             this.#insertMeshOnly(this.#root, clone, worldBox);
         }
     }
@@ -1004,7 +1006,12 @@ export class OctreeWorld {
         mesh.getWorldScale(physicsClone.scale);
         physicsClone.updateMatrix();
         physicsClone.updateMatrixWorld(true);
-        physicsClone.userData = mesh.userData;
+        
+        // --- B"H FIX: Link Physics Clone to Visual Mesh ---
+        // We create a new userData object to avoid shared reference issues, 
+        // and explicitly add the visualReference.
+        physicsClone.userData = { ...mesh.userData, visualReference: mesh };
+        // -------------------------------------------------
 
         // 3. Create Satellite (Real Geometry Only)
         const satGeo = mesh.geometry.clone();
@@ -1012,17 +1019,18 @@ export class OctreeWorld {
         satClone.copy(physicsClone); 
         satClone.updateMatrix();
         satClone.updateMatrixWorld(true);
+        
+        // --- B"H FIX: Link Satellite Clone to Visual Mesh ---
+        satClone.userData = { ...mesh.userData, visualReference: mesh };
+        // ----------------------------------------------------
 
         const tempGroup = new Group();
         tempGroup.add(satClone);
 
-        // B"H FIX: Expand satellite bounds slightly (0.05).
-        // If we use the exact 'worldBox', landing on the top face often fails
-        // the root intersection check due to floating-point precision.
         const satelliteOctree = new AwtsmoosOctree(worldBox.clone().expandByScalar(0.05));
         satelliteOctree._isManaged = true; 
         satelliteOctree.fromGraphNode(tempGroup);
-        satelliteOctree.build(); // Force Build
+        satelliteOctree.build(); 
         
         satelliteOctree.creationTime = performance.now();
         satelliteOctree.sourceMesh = mesh;
@@ -1030,7 +1038,7 @@ export class OctreeWorld {
         this.#pendingOctrees.push(satelliteOctree);
 
         // 4. Queue for Main World
-        mesh.userData.inMainWorld = true; 
+        physicsClone.userData.inMainWorld = true; 
         this.#insertMeshOnly(this.#root, physicsClone, worldBox);
 
         return true;
@@ -1049,7 +1057,6 @@ export class OctreeWorld {
             this.#root.box.union(groupBox);
         }
 
-        // B"H - SATELLITE GENERATION (UNLIMITED)
         const meshes = [];
         group.traverse(obj => {
             if (obj.isMesh && obj.geometry && !obj.userData.notSolid) {
@@ -1069,6 +1076,10 @@ export class OctreeWorld {
             mesh.getWorldScale(clone.scale);
             clone.updateMatrix();
             clone.updateMatrixWorld(true);
+
+            // --- B"H FIX: Link Clone to Visual Mesh ---
+            clone.userData = { ...mesh.userData, visualReference: mesh };
+            // ------------------------------------------
 
             const tempGroup = new Group();
             tempGroup.add(clone);

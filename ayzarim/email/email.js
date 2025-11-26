@@ -13,7 +13,7 @@ module.exports = class AwtsMail {
 
         this.server = net.createServer(socket => {
             //console.log("Some connection happened!", Date.now());
-            socket.write('220 awtsmoos.one ESMTP Essence of Reality' + CRLF);
+            socket.write('220 awtsmoos.com ESMTP Essence of Reality' + CRLF);
 
             let sender = '';
             let recipients = [];
@@ -51,7 +51,7 @@ module.exports = class AwtsMail {
 
                                   });
                                 this.smtpClient.sendMail(
-                                    'reply@awtsmoos.one', sender, 
+                                    'reply@awtsmoos.com', sender, 
                                     "Reply from Awtsmoos " + (
                                          Math.floor(
                                              Math.random() * 8

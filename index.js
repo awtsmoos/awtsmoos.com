@@ -17,19 +17,19 @@
 
 /**
  * @optional
- * email server support,
- * if you have configured your domain correctly
- * var AwtsMail = require("./ayzarim/email/email.js");
- * var mail = new AwtsMail(); 
+ * email server support
+ * 
+ * 
  */
-
+var AwtsMail = require("./ayzarim/email/email.js");
+var mail = new AwtsMail(); 
  var awts = require("./ayzarim/awtsmoosDynamicServer/index.js");
 
  async function go() {
-    var serv = new awts(__dirname/*, 
-        if using email server,
-        provide the mail argument here.
-    mail*/);
+    var serv = new awts(
+	    __dirname,
+	    mail
+    );
     await serv.init();
     /**
      * The "Keter", crown of our application, starting the HTTP server.
@@ -50,9 +50,14 @@
      * @optional
      * start email server IF port 25 is open
      * and you have configured the records properly to your domain
-     * mail.shoymayuh();
-    console.log("Email server running")
+     * 
     */
+    try {
+	    mail.shoymayuh();
+	    console.log("Email server running")
+    } catch(e) {
+	    console.log("Could not start email server", e);
+    }
 
  }
 try {

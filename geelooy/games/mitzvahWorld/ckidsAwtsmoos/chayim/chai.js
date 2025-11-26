@@ -521,6 +521,12 @@ export default class Chai extends Tzomayach {
         // 2. HIERARCHY CLIMB (Search for the "Owner")
         // We start with the mesh we hit.
         let object = hit.object;
+
+        // --- B"H FIX: SWAP GHOST FOR REAL OBJECT ---
+        if (object.userData && object.userData.visualReference) {
+            object = object.userData.visualReference;
+        }
+        // -------------------------------------------
         
         // We look up the tree to see if a parent holds the game data.
         let tempObj = object;
@@ -533,8 +539,7 @@ export default class Chai extends Tzomayach {
             tempObj = tempObj.parent;
         }
 
-        // 3. DATA FALLBACK (The logic you asked about)
-        // If we found data, use it. If not, we use the fallback for "Recovered Block".
+        // 3. DATA FALLBACK
         const itemData = (object.userData && object.userData.itemData) ? object.userData.itemData : {
             id: "recovered_block", 
             className: "Brick",
@@ -550,8 +555,8 @@ export default class Chai extends Tzomayach {
         if (object.nivraAwtsmoos) {
             this.olam.sealayk(object.nivraAwtsmoos);
         } else {
-            this.olam.worldOctree.removeMesh(object); // Triggers the optimized "Soft Delete"
-            object.removeFromParent(); // This effectively deletes the collision instantly
+            this.olam.worldOctree.removeMesh(object); 
+            object.removeFromParent(); 
         }
         
         this.playSound("awtsmoos://dingSound", { volume: 0.5 });
@@ -1059,9 +1064,7 @@ export default class Chai extends Tzomayach {
             this.currentHighlightedSavedEmissives = null;
         }
 
-        // --- B"H FIX: STOP if ray is not active ---
         if (!this.activeRay) return;
-        // -----------------------------------------
 
         const item = this.getActiveItem();
         if (!item || item.className !== 'Tool') return;
@@ -1073,7 +1076,13 @@ export default class Chai extends Tzomayach {
         const hit = this.olam.worldOctree.rayIntersect(ray);
 
         if (hit && hit.distance < 15 && hit.object) {
-            const visualMesh = hit.object;
+            let visualMesh = hit.object;
+
+            // --- B"H FIX: SWAP GHOST FOR REAL OBJECT ---
+            if (visualMesh.userData && visualMesh.userData.visualReference) {
+                visualMesh = visualMesh.userData.visualReference;
+            }
+            // -------------------------------------------
 
             if (!visualMesh.isMesh || !visualMesh.material) return;
 
