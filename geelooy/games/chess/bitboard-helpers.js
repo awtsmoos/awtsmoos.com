@@ -101,14 +101,24 @@ function initializeAll() {
     initializeZobristKeys();
 
     for (var sq = 0; sq < 64; sq++) {
+        // --- WHITE PAWNS (Move Up/Decrease Index) ---
         PAWN_ATTACKS[WHITE][sq] = 0n;
+        // Capture Right (NorthEast): -7. Origin cannot be on H File.
         if (((1n << BigInt(sq)) & NOT_H_FILE) && sq > 7) PAWN_ATTACKS[WHITE][sq] |= (1n << BigInt(sq - 7));
+        // Capture Left (NorthWest): -9. Origin cannot be on A File.
         if (((1n << BigInt(sq)) & NOT_A_FILE) && sq > 7) PAWN_ATTACKS[WHITE][sq] |= (1n << BigInt(sq - 9));
         
+        // --- BLACK PAWNS (Move Down/Increase Index) ---
         PAWN_ATTACKS[BLACK][sq] = 0n;
-        if (((1n << BigInt(sq)) & NOT_A_FILE) && sq < 56) PAWN_ATTACKS[BLACK][sq] |= (1n << BigInt(sq + 9));
-        if (((1n << BigInt(sq)) & NOT_H_FILE) && sq < 56) PAWN_ATTACKS[BLACK][sq] |= (1n << BigInt(sq + 7));
+        // Capture Right (SouthEast): +9. Origin cannot be on H File (Wraps to A).
+        // FIX: Was NOT_A_FILE, changed to NOT_H_FILE
+        if (((1n << BigInt(sq)) & NOT_H_FILE) && sq < 56) PAWN_ATTACKS[BLACK][sq] |= (1n << BigInt(sq + 9));
         
+        // Capture Left (SouthWest): +7. Origin cannot be on A File (Wraps to H).
+        // FIX: Was NOT_H_FILE, changed to NOT_A_FILE
+        if (((1n << BigInt(sq)) & NOT_A_FILE) && sq < 56) PAWN_ATTACKS[BLACK][sq] |= (1n << BigInt(sq + 7));
+        
+        // --- KNIGHT & KING ATTACKS (Unchanged) ---
         var k = 1n << BigInt(sq), a = 0n;
         if ((k >> 17n) & NOT_H_FILE) a |= (k >> 17n); if ((k >> 15n) & NOT_A_FILE) a |= (k >> 15n);
         if ((k >> 10n) & NOT_HG_FILE) a |= (k >> 10n); if ((k >> 6n) & NOT_AB_FILE) a |= (k >> 6n);

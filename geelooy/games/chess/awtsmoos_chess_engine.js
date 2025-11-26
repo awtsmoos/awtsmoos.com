@@ -490,7 +490,7 @@ function search(state, depth, alpha, beta, ply) {
     return bestScore;
 }
 
-function searchRoot(state, maxDepth, time) {
+function searchRoot(state, maxDepth, time, historyHashes = []) {
     Scribe.header("MEDITATION: THE CLARITY OF MIND");
 
     // 1. Time Management
@@ -501,9 +501,9 @@ function searchRoot(state, maxDepth, time) {
     EngineSoul.stopSearch = false;
     EngineSoul.nodeCount = 0;
     
-    // 2. CLEAR SHORT-TERM MEMORY (Good Hygiene)
-    // Ensures no "ghosts" from previous searches affect this one.
-    EngineSoul.repetitionHistory = [];
+    // 2. LOAD LONG-TERM MEMORY (Fixes the Shuffle)
+    // We load the history from the game so the engine knows it's repeating moves.
+    EngineSoul.repetitionHistory = [...historyHashes];
 
     // 3. Memory Initialization & Aging
     if (!EngineSoul.historyTable || !EngineSoul.historyTable[0] || EngineSoul.historyTable.length !== 2) {
@@ -553,7 +553,6 @@ function searchRoot(state, maxDepth, time) {
 
         rootBestScore = score;
         
-        // SECURITY GUARD (Trust but Verify)
         const ttEntry = EngineSoul.transpositionTable.get(state.zobristHash);
         if (ttEntry && ttEntry.move) {
             const isLegal = legalMoves.includes(ttEntry.move);
@@ -566,13 +565,8 @@ function searchRoot(state, maxDepth, time) {
              Scribe.book(`Mate Sequence Found at Depth ${currentDepth}.`);
              break;
         }
-
-        if (currentDepth > 3 || elapsed > 100) {
-            Scribe.info(`Depth ${currentDepth} | Move: ${decodeMove(rootBestMove, state.turn).from} -> ${decodeMove(rootBestMove, state.turn).to} | Score: ${score} | Time: ${elapsed.toFixed(0)}ms`);
-        }
     }
 
-    // Final Safety Check
     if (!legalMoves.includes(rootBestMove)) {
         rootBestMove = legalMoves[0];
     }
@@ -581,6 +575,116 @@ function searchRoot(state, maxDepth, time) {
     return { bestMove: rootBestMove, score: rootBestScore };
 }
 
+self.onmessage = function(e) {
+    const { command, fen, maxTime, pgnText, fenHistory } = e.data;
+
+    try {
+        switch (command) {
+            case 'initialize':
+                initializeEngine();
+                break;
+            
+            case 'calculate_move':
+                if (!EngineSoul.isInitialized) initializeEngine();
+                Scribe.info(`Contemplating FEN: ${fen}`);
+                const state = createGameState(fen);
+
+                // Book Lookup
+                const book = EngineSoul.openingBook.get(state.zobristHash) || EngineSoul.punishmentBook.get(state.zobristHash);
+                if (book && book.moves && book.moves.length > 0) {
+                    const move = book.moves[Math.floor(Math.random() * book.moves.length)];
+                    postMessage({ type: 'move_result', bestMove: move, score: `Book: ${book.name}`, timeTaken: 0, nodesSearched: 0 });
+                    return;
+                }
+
+                // PROCESS HISTORY FOR 3-FOLD REPETITION
+                const historyHashes = [];
+                if (fenHistory && Array.isArray(fenHistory)) {
+                    for(const hFen of fenHistory) {
+                        // We create a temporary state just to calculate the hash
+                        const hState = createGameState(hFen);
+                        historyHashes.push(hState.zobristHash);
+                    }
+                }
+
+                // 4 SECOND HARD LIMIT PASSED HERE
+                const result = searchRoot(state, 99, 4000, historyHashes); 
+                
+                postMessage({
+                    type: 'move_result',
+                    bestMove: result.bestMove ? decodeMove(result.bestMove, state.turn) : null,
+                    score: result.score,
+                    timeTaken: (performance.now() - EngineSoul.searchStartTime).toFixed(2),
+                    nodesSearched: EngineSoul.nodeCount
+                });
+                break;
+            
+            case 'analyze_pgn':
+                if (!EngineSoul.isInitialized) initializeEngine();
+                const converter = new PgnConverter();
+                // Regex to clean PGN string
+                const moves = pgnText.replace(/\[.*?\]\s*|{.*?}|\d+\.\s*|\$\d+/g, '').replace(/\s+/g, ' ').trim().split(' ');
+                const validMoves = [], boardHistory = [converter.toFen()], openingNames = ["Starting Position"];
+                
+                for (const san of moves) {
+                    if (['1-0', '0-1', '1/2-1/2', '*'].includes(san)) continue;
+                    const moveInt = converter.parseSan(san);
+                    if (moveInt === null) break; 
+                    
+                    const decodedMove = decodeMove(moveInt, converter.currentState.turn);
+                    converter.applyMove(moveInt);
+                    decodedMove.san = san;
+                    validMoves.push(decodedMove);
+                    boardHistory.push(converter.toFen());
+                    const bookEntry = EngineSoul.openingBook.get(converter.currentState.zobristHash);
+                    openingNames.push(bookEntry ? bookEntry.name : "Middlegame");
+                }
+                EngineSoul.lastParsedGame = { moves: validMoves, boardHistory, openingNames, initialFen: "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1" };
+                postMessage({ type: 'analysis_result', ...EngineSoul.lastParsedGame });
+                break;
+
+            case 'run_engine_analysis':
+                if (!EngineSoul.lastParsedGame) return;
+                const gameToAnalyze = EngineSoul.lastParsedGame;
+                const analysisState = createGameState(gameToAnalyze.initialFen);
+
+                for (let i = 0; i < gameToAnalyze.moves.length; i++) {
+                    const userMove = gameToAnalyze.moves[i];
+                    const moves = generateMoves(analysisState);
+                    const moveInt = moves.find(m => (getMoveFrom(m) === (userMove.from[0]*8+userMove.from[1])) && (getMoveTo(m) === (userMove.to[0]*8+userMove.to[1])));
+                    
+                    if (!moveInt) continue;
+
+                    // Quick Analysis Search (1000ms max)
+                    // We pass [] as history because we want objective best moves, not influenced by draw avoidance of previous positions
+                    const engineResult = searchRoot(analysisState, 99, 1000, []);
+                    const bestScore = engineResult.score;
+
+                    let classification = 'best';
+                    if (engineResult.bestMove !== moveInt) {
+                        makeMove(analysisState, moveInt);
+                        // Quick Counter-Check
+                        const userSearchResult = searchRoot(analysisState, 99, 800, []);
+                        const userScore = -userSearchResult.score;
+                        unmakeMove(analysisState);
+
+                        const drop = bestScore - userScore;
+                        if (drop > 300) classification = 'blunder';
+                        else if (drop > 100) classification = 'mistake';
+                        else if (drop > 40) classification = 'good';
+                    }
+                    
+                    postMessage({ type: 'analysis_update', index: i, result: { classification, bestMove: decodeMove(engineResult.bestMove, analysisState.turn) } });
+                    makeMove(analysisState, moveInt);
+                }
+                postMessage({ type: 'analysis_finished' });
+                break;
+        }
+    } catch (err) {
+        Scribe.error("FATAL ERROR", err);
+        postMessage({ type: 'move_result', bestMove: null });
+    }
+};
 
 
 
