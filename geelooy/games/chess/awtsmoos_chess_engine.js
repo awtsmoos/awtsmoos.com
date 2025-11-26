@@ -478,23 +478,19 @@ function searchRoot(state, maxDepth, time) {
     EngineSoul.stopSearch = false;
     EngineSoul.nodeCount = 0;
 
-    // 2. CRITICAL FIX: Memory Initialization & Aging
-    // We strictly check if the 3D structure exists.
-    // If it's missing or broken (length 0), we build it fresh.
-    // If it exists, we "Age" it (divide scores by 8) to keep wisdom but discard old tactics.
+    // 2. Memory Aging & Initialization
     if (!EngineSoul.historyTable || !EngineSoul.historyTable[0] || EngineSoul.historyTable.length !== 2) {
         EngineSoul.historyTable = Array(2).fill(null).map(() => Array(12).fill(null).map(() => Array(64).fill(0)));
     } else {
         for (let side = 0; side < 2; side++) {
             for (let piece = 0; piece < 12; piece++) {
                 for (let sq = 0; sq < 64; sq++) {
-                    EngineSoul.historyTable[side][piece][sq] >>= 3; // Soft Reset
+                    EngineSoul.historyTable[side][piece][sq] >>= 3; 
                 }
             }
         }
     }
     
-    // Clear Killer Moves
     EngineSoul.killerMoves = Array(MAX_PLY).fill(null).map(() => [0, 0]);
 
     // 3. Initial Move Generation
@@ -504,7 +500,7 @@ function searchRoot(state, maxDepth, time) {
     let rootBestMove = legalMoves[0];
     let rootBestScore = -Infinity;
 
-    // 4. Iterative Deepening Loop
+    // 4. Iterative Deepening
     for (let currentDepth = 1; currentDepth <= maxDepth; currentDepth++) {
         
         const elapsed = performance.now() - EngineSoul.searchStartTime;
@@ -515,7 +511,6 @@ function searchRoot(state, maxDepth, time) {
         let alpha = -MATE_SCORE;
         let beta = MATE_SCORE;
 
-        // Aspiration Windows
         if (currentDepth > 1 && Math.abs(rootBestScore) < MATE_THRESHOLD) {
             alpha = rootBestScore - 50;
             beta = rootBestScore + 50;
@@ -523,7 +518,6 @@ function searchRoot(state, maxDepth, time) {
 
         let score = search(state, currentDepth, alpha, beta, 0);
 
-        // Aspiration Failure Re-Search
         if (score <= alpha || score >= beta) {
             score = search(state, currentDepth, -MATE_SCORE, MATE_SCORE, 0);
         }
@@ -532,12 +526,18 @@ function searchRoot(state, maxDepth, time) {
 
         rootBestScore = score;
         
+        // --- CRITICAL FIX: TRUST BUT VERIFY ---
+        // We retrieve the "Best Move" from the Transposition Table memory.
         const ttEntry = EngineSoul.transpositionTable.get(state.zobristHash);
         if (ttEntry && ttEntry.move) {
-            rootBestMove = ttEntry.move;
+            // We MUST check if this memory is actually legal in the current reality.
+            // If we don't, hash collisions can cause the King to teleport.
+            const isLegal = legalMoves.includes(ttEntry.move);
+            if (isLegal) {
+                rootBestMove = ttEntry.move;
+            }
         }
 
-        // Mate Detection
         if (score > MATE_THRESHOLD || score < -MATE_THRESHOLD) {
              Scribe.book(`Mate Sequence Found at Depth ${currentDepth}. Execution imminent.`);
              break;
@@ -551,6 +551,12 @@ function searchRoot(state, maxDepth, time) {
     EngineSoul.isAuditing = false;
     return { bestMove: rootBestMove, score: rootBestScore };
 }
+
+
+
+
+
+
 function decodeMove(move, turn) {
     const f = getMoveFrom(move), t = getMoveTo(move), p = getMovePromoted(move);
     return { from: [f >> 3, f & 7], to: [t >> 3, t & 7], promotion: p ? pieceMap[p].toLowerCase() : null };
