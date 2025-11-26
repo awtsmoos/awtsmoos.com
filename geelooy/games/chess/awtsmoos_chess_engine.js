@@ -163,7 +163,7 @@ function evaluate(state) {
         }
     }
 
-    // 3. Pawn Structure & Rook Strategy (Fixed: uses 'let' to prevent crash)
+    // 3. Pawn Structure & Rook Strategy (FIXED: Uses 'let' to prevent crash)
     const whiteR = state.pieceBitboards[R];
     const blackR = state.pieceBitboards[R+6];
 
@@ -171,7 +171,8 @@ function evaluate(state) {
         const fileMask = 0x0101010101010101n << BigInt(file);
         
         // --- WHITE ---
-        let wPawnsOnFile = whiteP & fileMask; // Changed 'const' to 'let'
+        // FIX: Changed 'const' to 'let' here so popBit() works
+        let wPawnsOnFile = whiteP & fileMask; 
         const bPawnsOnFile = blackP & fileMask;
 
         if (wPawnsOnFile > 0n) {
@@ -202,7 +203,8 @@ function evaluate(state) {
         }
 
         // --- BLACK ---
-        let bPawnsOnTheFile = blackP & fileMask; // Changed 'const' to 'let', renamed slightly to avoid confusion
+        // FIX: Changed 'const' to 'let' here so popBit() works
+        let bPawnsOnTheFile = blackP & fileMask; 
         const wPawnsOnTheFile = whiteP & fileMask;
 
         if (bPawnsOnTheFile > 0n) {
@@ -280,6 +282,9 @@ function evaluate(state) {
 
     return (state.turn === WHITE) ? score : -score;
 }
+
+
+
 const MATE_SCORE = 100000, MATE_THRESHOLD = MATE_SCORE - 128, MAX_PLY = 128;
 const TT_EXACT = 0, TT_LOWERBOUND = 1, TT_UPPERBOUND = 2;
 
