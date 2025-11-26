@@ -159,60 +159,19 @@ export class OctreeWorld {
         node.state = NODE_STATE.READY;
     }
     
-     /**
-     * B"H
-     * This new function ONLY handles synchronous rebuilds for dynamic objects.
-     * It safely handles all cases: adding to an empty node, or adding to a node
-     * that already contains the static world geometry.
-     */
     /**
      * B"H
      * Safely injects temporary collision.
-     * UPDATED: Includes a "Large Object" safeguard.
-     * If the object is too complex, we don't freeze the thread analyzing it.
-     * Instead, we throw a simple "Box" into the physics to catch the player.
-     * The detailed physics will arrive when the background builder finishes.
+     * UPDATED: Removed ALL vertex limits to ensure 100% accurate collision.
      */
     #synchronouslyRebuildNode(node, newMesh) {
         const geometry = (newMesh.geometry.index) ? newMesh.geometry.toNonIndexed() : newMesh.geometry;
-        const count = geometry.getAttribute('position').count;
-        
-        // LIMIT: If mesh has > 1500 vertices (approx 500 tris), it's too heavy to inject synchronously 
-        // without lag. Use a Box Proxy instead.
-        if (count > 1500) {
-            // Create a temporary Box representation (12 triangles)
-            if (!newMesh.geometry.boundingBox) newMesh.geometry.computeBoundingBox();
-            const box = newMesh.geometry.boundingBox.clone().applyMatrix4(newMesh.matrixWorld);
-            const size = box.getSize(new Vector3());
-            const center = box.getCenter(new Vector3());
-            
-            // Create 12 triangles representing this box
-            // (We construct a simple virtual box mesh for the physics engine)
-            const boxGeo = new THREE.BoxGeometry(size.x, size.y, size.z);
-            boxGeo.translate(center.x, center.y, center.z); // Move to world position directly
-            
-            const pos = boxGeo.attributes.position;
-            const v1 = new Vector3(), v2 = new Vector3(), v3 = new Vector3();
-            
-            for (let i = 0; i < pos.count; i += 3) {
-                 v1.fromBufferAttribute(pos, i);
-                 v2.fromBufferAttribute(pos, i+1);
-                 v3.fromBufferAttribute(pos, i+2);
-                 const tri = new Triangle(v1.clone(), v2.clone(), v3.clone());
-                 
-                 if (node.box.intersectsTriangle(tri)) {
-                     tri.sourceMesh = newMesh; // Link to real mesh for logic
-                     node.physics.addDynamicTriangle(tri);
-                 }
-            }
-            boxGeo.dispose();
-            return;
-        }
-
-        // --- Standard Detailed Injection (For small objects) ---
         const positionAttribute = geometry.getAttribute('position');
-        const v1 = new Vector3(), v2 = new Vector3(), v3 = new Vector3();
+        const v1 = new Vector3();
+        const v2 = new Vector3();
+        const v3 = new Vector3();
 
+        // NO PROXY LOGIC. Always use real triangles.
         if (positionAttribute) {
             for (let i = 0; i < positionAttribute.count; i += 3) {
                 v1.fromBufferAttribute(positionAttribute, i).applyMatrix4(newMesh.matrixWorld);
@@ -221,7 +180,6 @@ export class OctreeWorld {
                 
                 const newTriangle = new Triangle(v1.clone(), v2.clone(), v3.clone());
                 
-                // Bounds check for optimization
                 if(!node.box.intersectsTriangle(newTriangle)) continue;
 
                 newTriangle.sourceMesh = newMesh; 
@@ -259,6 +217,7 @@ export class OctreeWorld {
 
         // 2. Satellites
         for (const sat of this.#pendingOctrees) {
+            // Standard ray-box intersection is reliable
             if (ray.intersectsBox(sat.box)) {
                 check(sat);
             }
@@ -361,22 +320,25 @@ export class OctreeWorld {
              }
         };
 
-        // 1. CHECK MAIN WORLD
+        // Reuse a shared box for the capsule query to save memory
+        const capsuleBox = _tempBox;
+        // EXPAND BOX BY RADIUS (This was the missing link!)
+        capsuleBox.min.copy(testCapsule.start).min(testCapsule.end).subScalar(testCapsule.radius);
+        capsuleBox.max.copy(testCapsule.start).max(testCapsule.end).addScalar(testCapsule.radius);
+
+        // 1. CHECK MAIN WORLD (The Organized World)
         if (this.#root) {
-            const capsuleBox = new Box3();
-            capsuleBox.min.copy(testCapsule.start).min(testCapsule.end).subScalar(testCapsule.radius);
-            capsuleBox.max.copy(testCapsule.start).max(testCapsule.end).addScalar(testCapsule.radius);
-            
             const candidates = this.#findLeafNodesInBox(this.#root, capsuleBox);
             for (const node of candidates) {
                 if (node.physics) checkOctree(node.physics);
             }
         }
 
-        // 2. CHECK SATELLITES (Pending/New Objects)
-        // This is fast because we only check octrees that are actually near the player.
+        // 2. CHECK SATELLITES (The Instant World)
+        // B"H Fix: Now uses the same Radius-Expanded box as the main world.
+        // This guarantees we detect the floor even if the center-line of the player is slightly above it.
         for (const sat of this.#pendingOctrees) {
-            if (sat.box.intersectsBox(_tempBox.setFromPoints([testCapsule.start, testCapsule.end]))) {
+            if (sat.box.intersectsBox(capsuleBox)) {
                 checkOctree(sat);
             }
         }
@@ -503,7 +465,7 @@ export class OctreeWorld {
      * only when the water (Player) comes near.
      */
     #processIntakeQueue() {
-        const deadline = performance.now() + 4; // Give it a bit more time
+        const deadline = performance.now() + 4; 
 
         while (this.#intakeQueue.length > 0) {
             if (performance.now() > deadline) return;
@@ -513,7 +475,7 @@ export class OctreeWorld {
             if (job.group) {
                 const meshes = [];
                 job.group.traverse(obj => {
-                    if (obj.isMesh && obj.geometry.getAttribute('position') && !obj.userData.notSolid) {
+                    if (obj.isMesh && obj.geometry && !obj.userData.notSolid) {
                         meshes.push(obj);
                     }
                 });
@@ -525,66 +487,62 @@ export class OctreeWorld {
             const { mesh } = this.#intakeQueue.shift();
             
             // Clone for Octree
-            const clone = new Mesh(mesh.geometry.clone()); // Clone geometry to be safe for threading
+            const clone = new Mesh(mesh.geometry.clone()); 
             mesh.getWorldPosition(clone.position);
             mesh.getWorldQuaternion(clone.quaternion);
             mesh.getWorldScale(clone.scale);
             clone.updateMatrix();
             clone.updateMatrixWorld(true);
-            clone.userData = mesh.userData;
+            clone.userData = mesh.userData; // Shared reference
 
             if (!clone.geometry.boundingBox) clone.geometry.computeBoundingBox();
             const worldBox = clone.geometry.boundingBox.clone().applyMatrix4(clone.matrixWorld);
 
+            // B"H: Try to insert. If it fails (out of bounds), the Satellite (created in fromGraphNode) stays active.
             this.#insertMeshOnly(this.#root, clone, worldBox);
         }
     }
     
     /**
      * B"H
-     * Renamed from #insertAndBuildRecursive.
      * Places the mesh into the correct Leaf node(s).
-     * CHANGE: Does NOT call this.#buildNodePhysics(node).
-     * This leaves the node in PENDING_BUILD state. The `update()` loop
-     * will detect the player's proximity and build it Just-In-Time.
-     */
-    /**
-     * B"H
-     * Places the mesh into the correct Leaf node(s).
-     * 
-     * STRATEGY: "Eaten and Yet Still Whole"
-     * 1. We feed the mesh to the 'physicsMeshGroup' for the eventual, optimized static rebuild.
-     * 2. We SIMULTANEOUSLY inject the raw triangles into the *current* running physics world.
-     * 
-     * Result: Immediate collision (0 lag) + Background optimization (High performance).
+     * FIX: Clones mesh if it lands in multiple nodes to prevent "Mesh Stealing".
      */
     #insertMeshOnly(node, mesh, meshBox) {
-        // If the light does not fit the vessel, return.
-        if (!node.box.intersectsBox(meshBox)) return;
+        if (!node.box.intersectsBox(meshBox)) return false;
 
         if (node.type === 'LEAF') {
-            // 1. Store for the "Perfect" Static Build (Background/Future)
-            // This ensures that when the node eventually rebuilds, it includes this object
-            // in the highly optimized Float32Array structure.
-            node.physicsMeshGroup.add(mesh);
+            // B"H FIX: Three.js .add() removes the object from its previous parent.
+            // If this mesh covers 2+ nodes, the second node 'steals' it from the first.
+            // We must clone it so both nodes keep a reference.
+            const meshToAdd = mesh.parent ? mesh.clone() : mesh;
+            
+            // Ensure UserData (collision flags) is preserved in the clone
+            if (mesh.parent) meshToAdd.userData = Object.assign({}, mesh.userData);
+
+            node.physicsMeshGroup.add(meshToAdd);
             node.state = NODE_STATE.PENDING_BUILD;
 
-            // 2. B"H - INSTANT GRATIFICATION (Present)
-            // Immediately inject into the CURRENT living physics so the player doesn't fall 
-            // while waiting for the background builder.
-            // This acts as a temporary bridge until #buildNodePhysics creates the new static world.
+            // Mark as effectively "In World"
+            if(mesh.userData) mesh.userData.inMainWorld = true;
+
+            // Immediate Update
             if (node.physics) {
-                this.#synchronouslyRebuildNode(node, mesh);
+                this.#synchronouslyRebuildNode(node, meshToAdd);
             } else {
-                // If there is NO physics world yet (empty node), we must build it immediately
-                // because there is nothing to inject into.
                 this.#buildNodePhysics(node);
             }
+            return true;
         } else {
-            // Pass the light down to the sub-sefiros (children)
+            let placed = false;
             for (const child of node.children) {
-                this.#insertMeshOnly(child, mesh, meshBox);
+                // We pass the same 'mesh' reference down.
+                // The first leaf will take it. Subsequent leaves will trigger the .parent check above and clone it.
+                if (this.#insertMeshOnly(child, mesh, meshBox)) {
+                    placed = true;
+                }
             }
+            return placed;
         }
     }
 
@@ -1033,14 +991,13 @@ export class OctreeWorld {
         if (!mesh.geometry.boundingBox) mesh.geometry.computeBoundingBox();
         const worldBox = mesh.geometry.boundingBox.clone().applyMatrix4(mesh.matrixWorld);
 
-        // 2. Expand World Root (The Kingdom)
         if (!this.#root) {
             this.#root = new LODNode(worldBox.clone());
         } else {
             this.#root.box.union(worldBox);
         }
 
-        // 3. Create the Physics Clone
+        // 2. Create Main Physics Clone
         const physicsClone = new Mesh(mesh.geometry.clone());
         mesh.getWorldPosition(physicsClone.position);
         mesh.getWorldQuaternion(physicsClone.quaternion);
@@ -1048,30 +1005,32 @@ export class OctreeWorld {
         physicsClone.updateMatrix();
         physicsClone.updateMatrixWorld(true);
         physicsClone.userData = mesh.userData;
-        
-        // --- B"H: SATELLITE OCTREE STRATEGY ---
-        // Instead of raw brute force, we build a clean, isolated Octree for this object.
-        // This solves the "Invisible Globe" because Octree collision math is robust.
-        
-        const satelliteOctree = new AwtsmoosOctree(worldBox);
-        satelliteOctree._isManaged = true; // Tell it not to resize bounds automatically
-        
-        // We use a temporary group to feed the Octree
+
+        // 3. Create Satellite (Real Geometry Only)
+        const satGeo = mesh.geometry.clone();
+        const satClone = new Mesh(satGeo);
+        satClone.copy(physicsClone); 
+        satClone.updateMatrix();
+        satClone.updateMatrixWorld(true);
+
         const tempGroup = new Group();
-        tempGroup.add(physicsClone);
-        
+        tempGroup.add(satClone);
+
+        // B"H FIX: Expand satellite bounds slightly (0.05).
+        // If we use the exact 'worldBox', landing on the top face often fails
+        // the root intersection check due to floating-point precision.
+        const satelliteOctree = new AwtsmoosOctree(worldBox.clone().expandByScalar(0.05));
+        satelliteOctree._isManaged = true; 
         satelliteOctree.fromGraphNode(tempGroup);
-        satelliteOctree.build(); // One-time synchronous build (Acceptable cost for instant stability)
+        satelliteOctree.build(); // Force Build
         
-        // Mark it with creation time so we can merge it later (if we want)
         satelliteOctree.creationTime = performance.now();
-        satelliteOctree.sourceMesh = mesh; 
+        satelliteOctree.sourceMesh = mesh;
 
         this.#pendingOctrees.push(satelliteOctree);
 
-        // 4. Background Optimization (Optional)
-        // We still queue it for the main world, but the Time Warden will handle it gently.
-        // The player uses 'satelliteOctree' until the main world absorbs it.
+        // 4. Queue for Main World
+        mesh.userData.inMainWorld = true; 
         this.#insertMeshOnly(this.#root, physicsClone, worldBox);
 
         return true;
@@ -1090,17 +1049,40 @@ export class OctreeWorld {
             this.#root.box.union(groupBox);
         }
 
-        // B"H - Build immediate physics for the static level chunks
-        // We split the group into manageable chunks if needed, but for now, 
-        // we create one satellite for the whole group to ensure ground exists.
-        const satelliteOctree = new AwtsmoosOctree(groupBox);
-        satelliteOctree.fromGraphNode(group);
-        satelliteOctree.build();
-        satelliteOctree.creationTime = performance.now();
-        
-        this.#pendingOctrees.push(satelliteOctree);
+        // B"H - SATELLITE GENERATION (UNLIMITED)
+        const meshes = [];
+        group.traverse(obj => {
+            if (obj.isMesh && obj.geometry && !obj.userData.notSolid) {
+                meshes.push(obj);
+            }
+        });
 
-        // Queue for optimized background merging
+        // Loop ALL meshes. No Budget. No Proxies.
+        for (const mesh of meshes) {
+            if (!mesh.geometry.boundingBox) mesh.geometry.computeBoundingBox();
+            const worldBox = mesh.geometry.boundingBox.clone().applyMatrix4(mesh.matrixWorld);
+
+            // ALWAYS use exact geometry for satellites
+            const clone = new Mesh(mesh.geometry.clone());
+            mesh.getWorldPosition(clone.position);
+            mesh.getWorldQuaternion(clone.quaternion);
+            mesh.getWorldScale(clone.scale);
+            clone.updateMatrix();
+            clone.updateMatrixWorld(true);
+
+            const tempGroup = new Group();
+            tempGroup.add(clone);
+
+            const sat = new AwtsmoosOctree(worldBox);
+            sat.fromGraphNode(tempGroup);
+            sat.build();
+            
+            sat.creationTime = performance.now();
+            sat.sourceMesh = mesh;
+            
+            this.#pendingOctrees.push(sat);
+        }
+
         this.#intakeQueue.push({ 
             group: group, 
             isStaticWorld: true 
