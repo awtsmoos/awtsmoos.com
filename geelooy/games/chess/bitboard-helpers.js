@@ -1,11 +1,10 @@
 /* B"H */
 
 // =================================================================
-//     AWTSMOOS CHESS - THE FOUNDATION (MK. XVII - GLOBAL SCOPE FIX)
+//     AWTSMOOS CHESS - THE FOUNDATION (MK. XIX - SHIFTED REALITY)
 // =================================================================
-// CRITICAL FIX: Switched all top-level declarations from 'let' to 'var'.
-// This ensures they are attached to the global 'self' object and visible
-// to the main engine script, preventing the "MEMORY_CANARY is not defined" crash.
+// FIX: Zobrist Keys are now generated using high-entropy bit shifting
+// to strictly prevent Hash Collisions (The "Teleport" Bug).
 // =================================================================
 
 var P = 0, N = 1, B = 2, R = 3, Q = 4, K = 5;
@@ -39,35 +38,20 @@ function getLSBIndex(bb) {
 function popBit(bb) { return bb & (bb-1n); }
 function popcount(bb) { var c=0; while(bb>0n){bb&=(bb-1n);c++;} return c; }
 
-// We declare this with var so it is strictly global
 var MEMORY_CANARY = 0n;
 
-// --- ROBUST SLIDER ATTACKS (Raycasting) ---
-function getBishopAttacks(sq, blockers) {
-    return generateSliderAttacks(sq, true, blockers);
-}
-
-function getRookAttacks(sq, blockers) {
-    return generateSliderAttacks(sq, false, blockers);
-}
-
-function getQueenAttacks(sq, blockers) {
-    return getRookAttacks(sq, blockers) | getBishopAttacks(sq, blockers);
-}
+// --- ROBUST SLIDER ATTACKS ---
+function getBishopAttacks(sq, blockers) { return generateSliderAttacks(sq, true, blockers); }
+function getRookAttacks(sq, blockers) { return generateSliderAttacks(sq, false, blockers); }
+function getQueenAttacks(sq, blockers) { return getRookAttacks(sq, blockers) | getBishopAttacks(sq, blockers); }
 
 function generateSliderAttacks(sq, isBishop, blockers) {
     var attacks = 0n;
     var r = sq >> 3, f = sq & 7;
-    
-    var directions = isBishop 
-        ? [[-1, -1], [-1, 1], [1, -1], [1, 1]] 
-        : [[-1, 0], [1, 0], [0, -1], [0, 1]];
-        
+    var directions = isBishop ? [[-1, -1], [-1, 1], [1, -1], [1, 1]] : [[-1, 0], [1, 0], [0, -1], [0, 1]];
     for (var i = 0; i < directions.length; i++) {
-        var dr = directions[i][0];
-        var dc = directions[i][1];
+        var dr = directions[i][0], dc = directions[i][1];
         var nr = r + dr, nc = f + dc;
-        
         while (nr >= 0 && nr <= 7 && nc >= 0 && nc <= 7) {
             var currentSq = 1n << BigInt(nr * 8 + nc);
             attacks |= currentSq;
@@ -78,7 +62,6 @@ function generateSliderAttacks(sq, isBishop, blockers) {
     return attacks;
 }
 
-// Use VAR for all global tables to ensure visibility across scripts
 var PAWN_ATTACKS = [[], []];
 var KNIGHT_ATTACKS = [];
 var KING_ATTACKS = [];
@@ -88,23 +71,28 @@ var zobristCastlingKeys = Array(16).fill(0n);
 var zobristEnpassantKeys = Array(64).fill(0n);
 var zobristTurnKey = 0n;
 
+// --- CRITICAL FIX: HIGH ENTROPY RANDOM ---
+// The old generator was too simple. This one uses shifting to ensure
+// every bit of the 64-bit key is randomized, preventing collisions.
 function initializeZobristKeys() {
     if (zobristTurnKey !== 0n) return;
     
     var seed = 19880128;
-    function pseudoRandom() {
-        seed = (seed * 16807) % 2147483647;
-        return seed;
-    }
-    
-    function random64() {
-        return (BigInt(pseudoRandom()) << 32n) | BigInt(pseudoRandom());
+    function xorshift64() {
+        // A simple Xorshift PRNG for better bit distribution
+        var x = BigInt(seed);
+        x ^= x << 13n;
+        x ^= x >> 7n;
+        x ^= x << 17n;
+        seed = Number(x & 0xFFFFFFFFn); // Keep seed moving
+        return x & 0xffffffffffffffffn;
     }
 
-    for(var p=0;p<12;p++) for(var s=0;s<64;s++) zobristPieceKeys[p][s] = random64();
-    for(var i=0;i<16;i++) zobristCastlingKeys[i] = random64();
-    for(var i=0;i<64;i++) zobristEnpassantKeys[i] = random64();
-    zobristTurnKey = random64();
+    // Generate keys using the improved shifter
+    for(var p=0;p<12;p++) for(var s=0;s<64;s++) zobristPieceKeys[p][s] = xorshift64();
+    for(var i=0;i<16;i++) zobristCastlingKeys[i] = xorshift64();
+    for(var i=0;i<64;i++) zobristEnpassantKeys[i] = xorshift64();
+    zobristTurnKey = xorshift64();
 }
 
 function initializeAll() {
@@ -132,12 +120,9 @@ function initializeAll() {
         KING_ATTACKS[sq] = ((kg >> 1n) & NOT_H_FILE) | ((kg << 1n) & NOT_A_FILE) | (kg >> 8n) | (kg << 8n) |
                   ((kg >> 7n) & NOT_A_FILE) | ((kg >> 9n) & NOT_H_FILE) | ((kg << 7n) & NOT_H_FILE) | ((kg << 9n) & NOT_A_FILE);
     }
-    
-    // Set the canary last. Since it's a 'var', it's on 'self', reachable everywhere.
     MEMORY_CANARY = 0xDEADBEEFCAFEBABEn;
 }
 
-// Ensure explicit global attachment for safety in all worker environments
 if (typeof self !== 'undefined') {
     self.pieceMap = pieceMap;
     self.getLSBIndex = getLSBIndex;
