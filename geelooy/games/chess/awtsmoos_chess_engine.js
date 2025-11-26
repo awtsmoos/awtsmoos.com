@@ -41,7 +41,14 @@ const EngineSoul = {
 };
 self.EngineSoul = EngineSoul;
 
-const pieceValues = [100, 320, 330, 500, 900, 20000];
+// MODIFIED VALUES:
+// N/B raised to 340/350 (was 320/330).
+// R stayed at 500.
+// This reduces the "profit" of trading a Bishop for a Rook from 170 points to 150 points.
+// Combined with mobility bonuses, it will now often REFUSE the trade if the Bishop is active.
+const pieceValues = [100, 340, 350, 500, 975, 20000];
+
+
 // AGGRESSIVE CENTER-CONTROL PAWN TABLE
 // Punishes h4/a4 openings, heavily rewards d4/e4 pushes.
 const pawnPST = [
