@@ -741,18 +741,30 @@ export class OctreeWorld {
              }
         }
         
-        // 6. CLEANUP PENDING LAYER (Slowly release the raw objects)
-        // If the build queue is empty, it means the Octree has likely caught up.
-        // We can start removing items from the pending layer to save performance.
-        if (this.#buildQueue.size === 0 && this.#intakeQueue.length === 0 && this.#pendingMeshLayer.size > 0) {
-             const now = performance.now();
-             for(const mesh of this.#pendingMeshLayer) {
-                 // Keep them for at least 2 seconds to ensure the Octree is DEFINITELY ready
-                 // and has swapped the pointers.
-                 if (now - mesh.userData.creationTime > 2000) {
-                     this.#pendingMeshLayer.delete(mesh);
-                 }
-             }
+        // 6. CLEANUP SATELLITES
+        // We only remove a satellite if the Main World has successfully built the node 
+        // that contains it.
+        if (false && this.#pendingOctrees.length > 0) {
+            const now = performance.now();
+            
+            // Filter out satellites that are old enough AND whose territory is covered
+            this.#pendingOctrees = this.#pendingOctrees.filter(sat => {
+                // Keep if very new (give main world time to catch up)
+                if (now - sat.creationTime < 3000) return true;
+                
+                // Check if the main world node at this location is READY
+                const center = sat.box.getCenter(_v1);
+                const mainNode = this.#findLeafNodeAtPoint(this.#root, center);
+                
+                // If main node is READY, we can safely remove this satellite 
+                // because the main octree now handles it.
+                // If main node is PENDING (because it was too big), we KEEP the satellite.
+                if (mainNode && mainNode.state === NODE_STATE.READY) {
+                    return false; // Remove (Garbage Collect)
+                }
+                
+                return true; // Keep
+            });
         }
     }
 
