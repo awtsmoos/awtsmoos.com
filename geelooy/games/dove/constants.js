@@ -5,14 +5,22 @@ export let CANVAS_WIDTH = window.innerWidth;
 export let CANVAS_HEIGHT = window.innerHeight;
 
 export function updateDimensions(width, height) {
+    console.log(`[Constants] updateDimensions called with w=${width}, h=${height}`);
     CANVAS_WIDTH = width;
     CANVAS_HEIGHT = height;
+    console.log(`[Constants] Global CANVAS_HEIGHT updated to ${CANVAS_HEIGHT}`);
 }
 
 // Dove Physics
 export let DOVE_START_X = () => 2*CANVAS_WIDTH / 3; // Position the dove 1/3 of the way across the screen
 
-export const DOVE_START_Y = () => CANVAS_HEIGHT / 2; // Y position is relative to height
+export const DOVE_START_Y = () => {
+    console.log(`[Constants] Calculating Start Y. Height is ${CANVAS_HEIGHT}`);
+    return CANVAS_HEIGHT / 2; 
+};
+// Y position is relative to height
+
+
 export const DOVE_WIDTH = 50;
 export const DOVE_HEIGHT = 50;
 export const DOVE_RADIUS = 20; // For circular collision

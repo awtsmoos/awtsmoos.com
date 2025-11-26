@@ -2,8 +2,27 @@
 // In file: /Olam/math/OctreeWorld.js
 
 import * as THREE  from '/games/scripts/build/three.module.js';
+import { Capsule } from './Capsule.js'
 import { Octree as AwtsmoosOctree } from './AwtsmoosOctree.js';
-var { Box3, Vector3, Group, Mesh, Sphere, Triangle } = THREE
+var { Box3, Vector3, Group, Mesh, Sphere, Triangle, Matrix4} = THREE;
+// --- Helper Cache (Module Level) ---
+const _v1 = new Vector3();
+const _v2 = new Vector3();
+const _v3 = new Vector3();
+const _tempBox = new Box3();
+const _tempTri = new Triangle();
+const _inverseMat = new Matrix4();
+const _localCapsule = new Capsule(); // Reused for transforming player to mesh space
+const _triBox = new Box3();
+
+const JOB_STEP = {
+    CLONE: 0,
+    BOUNDS: 1,
+    SETUP_ITER: 2,
+    PROCESS_TRIS: 3,
+    FINALIZE: 4
+};
+
 // --- Constants for Readability ---
 const MAX_DEPTH = 12;
 const NODE_STATE = {
@@ -50,127 +69,22 @@ export class OctreeWorld {
 
     // Center point of the last update cycle. Used to check if an update is needed.
     #lastUpdateCenter = new Vector3(Infinity, Infinity, Infinity);
-
+	#conversionQueue = []; 
+    #pendingInsertionQueue = [];
+	#activeJob = null; 
+	#proxies = []; // Lightweight temporary collision barriers
     constructor() {}
 
-    /**
-     * Ingests a THREE.js Group and distributes its meshes into the octree structure.
-     * This is an asynchronous process; the geometry will be available for physics later.
-     */
-    fromGraphNode(group) {
-        if (!group) return;
-        const tempBox = new Box3().setFromObject(group);
-        if (tempBox.isEmpty()) return;
-
-        if (!this.#root) {
-            this.#root = new LODNode(new Box3().copy(tempBox));
-        } else {
-            this.#root.box.union(tempBox);
-        }
-        this.#intakeQueue.push({ group });
-    }
     
     
     
-    /**
-     * B"H
-     * Smart Add Object.
-     * 1. Finds ALL intersecting nodes (Fixes falling through gaps).
-     * 2. Instantly builds nodes near the player (Fixes falling).
-     * 3. Queues the rest for background building (Fixes lag).
-     */
-    addObject(mesh, focusPoint = null) {
-        if (!this.#root || !mesh) return false;
-
-        // 1. Ensure Geometry & Box
-        mesh.updateMatrixWorld(true);
-        if (!mesh.geometry.boundingBox) mesh.geometry.computeBoundingBox();
-        const meshBox = new THREE.Box3().setFromObject(mesh);
-
-        // 2. Safety Expansion
-        if (!this.#root.box.intersectsBox(meshBox)) {
-            this.#root.box.union(meshBox);
-            if(!this.#root.physics) this.#buildNodePhysics(this.#root);
-        }
-
-        // 3. Find ALL relevant nodes
-        const nodes = this.#findLeafNodesInBox(this.#root, meshBox);
-
-        if (nodes.length > 0) {
-            // Detect player position if not provided
-            let playerPos = focusPoint;
-            if (!playerPos && typeof self !== 'undefined' && self.olam && self.olam.chossid) {
-                playerPos = self.olam.chossid.mesh.position;
-            }
-
-            for (const node of nodes) {
-                // A. Persistence (Add to group so it stays)
-                const persistentClone = mesh.clone();
-                persistentClone.position.copy(mesh.position);
-                persistentClone.quaternion.copy(mesh.quaternion);
-                persistentClone.scale.copy(mesh.scale);
-                persistentClone.updateMatrix();
-                persistentClone.updateMatrixWorld(true);
-                node.physicsMeshGroup.add(persistentClone);
-                
-                node.state = NODE_STATE.PENDING_BUILD;
-
-                // B. Logic Split
-                // If the node is close to the player (< 20 units), BUILD NOW.
-                // This causes a tiny momentary lag (3-5ms) but guarantees solidity.
-                // Everything else waits in the queue.
-                if (playerPos && node.box.distanceToPoint(playerPos) < 20) {
-                    this.#buildNodePhysics(node);
-                } else {
-                    this.#buildQueue.add(node);
-                }
-            }
-            return true;
-        } 
-        return false;
-    }
     
     
-    /**
-     * B"H
-     * Removes a mesh from the physics world.
-     * OPTIMIZED: Uses "Soft Delete" for instant response.
-     * Schedules a background cleanup to prevent freezing.
-     */
-    removeMesh(mesh) {
-        if (!this.#root || !mesh) return;
 
-        let found = false;
-
-        // 1. Dynamic Nodes (Fast - Keep this)
-        // Small chunks are fast to rebuild, so we do them immediately to keep memory low.
-        const meshBox = new THREE.Box3().setFromObject(mesh);
-        const nodes = this.#findLeafNodesInBox(this.#root, meshBox);
-
-        nodes.forEach(node => {
-            if (node.physicsMeshGroup && node.physicsMeshGroup.children.includes(mesh)) {
-                node.physicsMeshGroup.remove(mesh);
-                found = true;
-                
-                if (node.state === NODE_STATE.READY && node.physics) {
-                    node.physics.removeMesh(mesh); // Fast for small nodes
-                    
-                    if (node.physics.getTotalTriangleCount() === 0) {
-                        node.state = NODE_STATE.EMPTY;
-                    }
-                }
-            }
-        });
-
-        // 2. Static World (The Freeze Source)
-        // If it wasn't dynamic, it's in the massive static tree.
-        // WE DO NOT REBUILD HERE. The '!parent' check in AwtsmoosOctree makes collision ignore it instantly.
-        if (!found && this.#root.physics) {
-            // Just log it. The visual removal (removeFromParent) is enough for gameplay.
-            // We schedule a background cleanup to run when the browser is idle.
-            this.scheduleStaticCleanup();
-        }
-    }
+    
+    
+    
+   
 
     // Debounce timer for cleanup
     #cleanupTimer = null;
@@ -203,10 +117,16 @@ export class OctreeWorld {
     
     
  #buildNodePhysics(node) {
-        if (node.state === NODE_STATE.READY) return; // Already done
+        // B"H: Even if node is READY (due to dynamic injection), we must rebuild 
+        // if it is in the queue to bake dynamic items into static geometry.
         
         if (!node.physics) node.physics = new AwtsmoosOctree();
-        else node.physics.clear();
+        else {
+            node.physics.clear();
+            // CRITICAL: Clear the temporary dynamic triangles now that we are baking everything 
+            // into the efficient static structure.
+            if(node.physics.dynamicTriangles) node.physics.dynamicTriangles.length = 0;
+        }
         
         node.physics.box.copy(node.box);
         node.physics._isManaged = true;
@@ -215,7 +135,7 @@ export class OctreeWorld {
             node.physicsMeshGroup.userData.isPreTransformed = true;
             node.physics.fromGraphNode(node.physicsMeshGroup);
             node.physics.build();
-            console.log(`[OctreeWorld] ASYNC build complete for node. Triangle count: ${node.physics.getTotalTriangleCount()}`);
+            // console.log(`[OctreeWorld] Background bake complete.`);
         }
         
         node.state = NODE_STATE.READY;
@@ -228,35 +148,53 @@ export class OctreeWorld {
      * that already contains the static world geometry.
      */
     #synchronouslyRebuildNode(node, newMesh) {
-    console.log(`[OctreeWorld] DYNAMIC ADD triggered.`);
+        const geometry = (newMesh.geometry.index) ? newMesh.geometry.toNonIndexed() : newMesh.geometry;
+        const positionAttribute = geometry.getAttribute('position');
+        const v1 = new Vector3();
+        const v2 = new Vector3();
+        const v3 = new Vector3();
 
-    if (node.state !== NODE_STATE.READY) {
-        console.warn('[OctreeWorld] Node was not ready. Forcing async build as fallback.');
-        this.#buildNodePhysics(node);
+        if (positionAttribute) {
+            for (let i = 0; i < positionAttribute.count; i += 3) {
+                v1.fromBufferAttribute(positionAttribute, i).applyMatrix4(newMesh.matrixWorld);
+                v2.fromBufferAttribute(positionAttribute, i + 1).applyMatrix4(newMesh.matrixWorld);
+                v3.fromBufferAttribute(positionAttribute, i + 2).applyMatrix4(newMesh.matrixWorld);
+                
+                const newTriangle = new Triangle(v1.clone(), v2.clone(), v3.clone());
+                
+                // Bounds check for optimization
+                if(!node.box.intersectsTriangle(newTriangle)) continue;
+
+                newTriangle.sourceMesh = newMesh; 
+                node.physics.addDynamicTriangle(newTriangle);
+            }
+        }
+        if(newMesh.geometry.index) geometry.dispose();
     }
     
-    const geometry = newMesh.geometry.toNonIndexed();
-    const positionAttribute = geometry.getAttribute('position');
+    
+    /**
+     * B"H
+     * Standard Raycast.
+     */
+    rayIntersect(ray) {
+        if (!this.#root) return false;
 
-    if (positionAttribute) {
-        for (let i = 0; i < positionAttribute.count; i += 3) {
-            const v1 = new Vector3().fromBufferAttribute(positionAttribute, i).applyMatrix4(newMesh.matrixWorld);
-            const v2 = new Vector3().fromBufferAttribute(positionAttribute, i + 1).applyMatrix4(newMesh.matrixWorld);
-            const v3 = new Vector3().fromBufferAttribute(positionAttribute, i + 2).applyMatrix4(newMesh.matrixWorld);
-            const newTriangle = new Triangle(v1, v2, v3);
-            
-            // --- B"H FIX: Attach the mesh to the physics triangle so we know WHAT we hit ---
-            newTriangle.sourceMesh = newMesh; 
-            // ---------------------------------------------------------------------------
+        let closestResult = false;
 
-            // Call our new, SAFE method. It doesn't rebuild anything!
-            node.physics.addDynamicTriangle(newTriangle);
+        // Pure Octree Search
+        const candidates = this.#findLeafNodesInBox(this.#root, this.#root.box /* optimize later if needed */);
+        
+        for (const node of candidates) {
+            if (node.state === NODE_STATE.READY && node.physics) {
+                const res = node.physics.rayIntersect(ray);
+                if (res && (!closestResult || res.distance < closestResult.distance)) {
+                    closestResult = res;
+                }
+            }
         }
+        return closestResult;
     }
-    geometry.dispose();
-
-    console.log(`[OctreeWorld] DYNAMIC ADD complete. Added 12 triangles to the dynamic list.`);
-}
 
 
     /**
@@ -280,7 +218,8 @@ export class OctreeWorld {
         
         // If no significant movement, we only process the existing background queues. The system is mostly idle.
         if (!needsUpdate) {
-            this.#processQueues();
+            // B"H FIX: Added '#' to call the private method correctly
+            this.#processQueues(); 
             return;
         }
 
@@ -306,21 +245,21 @@ export class OctreeWorld {
     }
     
     /**
-     * Performs a fast, READ-ONLY collision query.
-     * It IGNORES any part of the world that is not in the 'READY' state.
-     * This function's simplicity is the key to its performance.
+     * B"H
+     * Reverted to standard, reliable Octree collision.
      */
-    capsuleIntersect(capsule) {
+    /*capsuleIntersect(capsule) {
         if (!this.#root) return false;
 
         const testCapsule = capsule.clone();
-
-        // Manually create a bounding box that perfectly encloses the capsule.
         const capsuleBox = new Box3();
+        
+        // Standard Box setup
         capsuleBox.set(testCapsule.start, testCapsule.end);
         capsuleBox.expandByScalar(testCapsule.radius);
-        // --- END OF FIX ---
         
+        let hit = false;
+
         const candidates = this.#findLeafNodesInBox(this.#root, capsuleBox);
         
         for (const node of candidates) {
@@ -328,6 +267,7 @@ export class OctreeWorld {
                 const result = node.physics.capsuleIntersect(testCapsule);
                 if (result) {
                     testCapsule.translate(result.normal.multiplyScalar(result.depth));
+                    hit = true;
                 }
             }
         }
@@ -335,8 +275,91 @@ export class OctreeWorld {
         const correction = testCapsule.getCenter(new Vector3()).sub(capsule.getCenter(new Vector3()));
         const depth = correction.length();
         return (depth > 1e-9) ? { normal: correction.normalize(), depth } : false;
-    }
+    }*/
+    
+    capsuleIntersect(capsule) {
+        if (!this.#root) return false;
 
+        const testCapsule = capsule.clone();
+        const capsuleBox = new Box3();
+        capsuleBox.min.copy(testCapsule.start).min(testCapsule.end).subScalar(testCapsule.radius);
+        capsuleBox.max.copy(testCapsule.start).max(testCapsule.end).addScalar(testCapsule.radius);
+        
+        let hit = false;
+
+        const candidates = this.#findLeafNodesInBox(this.#root, capsuleBox);
+        
+        for (const node of candidates) {
+            // Explicitly check physics existence
+            if (node.physics) {
+                const result = node.physics.capsuleIntersect(testCapsule);
+                if (result) {
+                    testCapsule.translate(result.normal.multiplyScalar(result.depth));
+                    hit = true;
+                }
+            }
+        }
+        
+        if (hit) {
+            const correction = testCapsule.getCenter(new Vector3()).sub(capsule.getCenter(new Vector3()));
+            const depth = correction.length();
+            if (depth > 1e-9) return { normal: correction.normalize(), depth };
+        }
+        return false;
+    }
+    
+    /**
+     * B"H
+     * Resolves collision between a Triangle and Capsule.
+     * Features "Face Biasing" to prevent jitter on staircases.
+     */
+    /**
+     * B"H
+     * Pure math: World Triangle vs World Capsule.
+     * Features face prioritization to prevent jitter on stairs.
+     */
+    #checkTriangleCapsule(tri, cap) {
+        const plane = new THREE.Plane();
+        tri.getPlane(plane);
+        
+        const d1 = plane.distanceToPoint(cap.start) - cap.radius;
+        const d2 = plane.distanceToPoint(cap.end) - cap.radius;
+        
+        // Separation Check (One sided or fully deep)
+        if ((d1 > 0 && d2 > 0) || (d1 < -cap.radius && d2 < -cap.radius)) return false;
+
+        const delta = Math.abs(d1 / (Math.abs(d1) + Math.abs(d2)));
+        const intersectPoint = _v3.copy(cap.start).lerp(cap.end, delta);
+        
+        // 1. FACE COLLISION (Preferred for stability)
+        if (tri.containsPoint(intersectPoint)) {
+            return { normal: plane.normal.clone(), depth: Math.abs(Math.min(d1, d2)) };
+        }
+        
+        // 2. EDGE COLLISION
+        const target = new Vector3();
+        tri.closestPointToPoint(intersectPoint, target);
+        const distSq = target.distanceToSquared(intersectPoint);
+        const r2 = cap.radius * cap.radius;
+
+        if(distSq < r2) {
+            const dist = Math.sqrt(distSq);
+            const depth = cap.radius - dist;
+            
+            // Vector from geometry -> capsule axis
+            const norm = new Vector3().subVectors(intersectPoint, target).normalize();
+            
+            // B"H STAIR SMOOTHING:
+            // If the push vector is roughly UP (similar to face normal), assume it's a floor step 
+            // and use the clean face normal to prevent sliding off the edge.
+            if(norm.dot(plane.normal) > 0.5) {
+                 return { normal: plane.normal.clone(), depth: depth };
+            }
+
+            return { normal: norm, depth: depth };
+        }
+        return false;
+    }
     // --- PRIVATE METHODS ---
 
     #processIntakeQueue() {
@@ -442,17 +465,122 @@ export class OctreeWorld {
     }
 
     #processQueues() {
-        // B"H: Allow up to 5ms of physics work per frame
-        const deadline = performance.now() + 5; 
+        const deadline = performance.now() + 4; 
 
-        this.#processQueueTimeSliced(this.#buildQueue, deadline, this.#buildNodePhysics.bind(this));
-
-        // Only do structural work if we still have time
-        if (performance.now() < deadline) {
-            this.#processQueueTimeSliced(this.#subdivisionQueue, deadline, this.#subdivide.bind(this));
+        // 1. START JOB
+        if (!this.#activeJob && this.#conversionQueue.length > 0) {
+            if (performance.now() < deadline) {
+                const proxy = this.#conversionQueue.shift();
+                this.#activeJob = {
+                    proxy: proxy,
+                    step: JOB_STEP.CLONE, 
+                    clone: null,
+                    iter: { idx: 0, count: 0 },
+                    attr: null, index: null, mw: null,
+                    affected: new Set()
+                };
+            }
         }
-        if (performance.now() < deadline) {
-            this.#processQueueTimeSliced(this.#mergeQueue, deadline, this.#merge.bind(this));
+
+        const job = this.#activeJob;
+        if (job) {
+            while (performance.now() < deadline) {
+                
+                if (job.step === JOB_STEP.CLONE) {
+                    job.clone = job.proxy.mesh.clone();
+                    // Reset parent to ensure local matrix represents full transform
+                    if(job.clone.parent) job.clone.parent = null;
+                    job.clone.updateMatrix();
+                    job.step = JOB_STEP.MATRICES;
+                    continue;
+                }
+
+                if (job.step === JOB_STEP.MATRICES) {
+                    // Use the PROXY position to set the clone's World Matrix
+                    job.clone.position.copy(job.proxy.mesh.position);
+                    job.clone.quaternion.copy(job.proxy.mesh.quaternion);
+                    job.clone.scale.copy(job.proxy.mesh.scale);
+                    
+                    job.clone.updateMatrix();
+                    job.clone.matrixWorld.copy(job.clone.matrix);
+                    
+                    // Expand World Root
+                    if(!job.clone.geometry.boundingBox) job.clone.geometry.computeBoundingBox();
+                    const box = _tempBox.setFromObject(job.clone);
+                    if(!this.#root.box.containsBox(box)) {
+                         if(this.#root.box.intersectsBox(box)) this.#root.box.union(box);
+                    }
+
+                    job.step = JOB_STEP.SETUP_ITER;
+                    continue;
+                }
+                
+                if (job.step === JOB_STEP.BOUNDS) { job.step++; continue; }
+
+                if (job.step === JOB_STEP.SETUP_ITER) {
+                    const g = job.clone.geometry;
+                    job.attr = g.attributes.position;
+                    job.index = g.index;
+                    job.iter.count = job.index ? job.index.count : job.attr.count;
+                    job.mw = job.clone.matrixWorld;
+                    job.step = JOB_STEP.PROCESS_TRIS;
+                    continue;
+                }
+
+                if (job.step === JOB_STEP.PROCESS_TRIS) {
+                    const batch = 100;
+                    const target = Math.min(job.iter.idx + batch, job.iter.count);
+                    
+                    // Cache for speed
+                    const pos=job.attr, idx=job.index, mw=job.mw;
+                    const v1=_v1, v2=_v2, v3=_v3, tri=_tempTri;
+
+                    for (; job.iter.idx < target; job.iter.idx += 3) {
+                        let a, b, c;
+                        if (idx) {
+                            a = idx.getX(job.iter.idx);
+                            b = idx.getX(job.iter.idx + 1);
+                            c = idx.getX(job.iter.idx + 2);
+                        } else {
+                            a = job.iter.idx; b = a+1; c = a+2;
+                        }
+
+                        v1.fromBufferAttribute(pos, a).applyMatrix4(mw);
+                        v2.fromBufferAttribute(pos, b).applyMatrix4(mw);
+                        v3.fromBufferAttribute(pos, c).applyMatrix4(mw);
+                        
+                        tri.set(v1, v2, v3);
+                        tri.sourceMesh = job.clone;
+
+                        this.#distributeTriangleToNodes(this.#root, tri, job.affected);
+                    }
+
+                    if (job.iter.idx >= job.iter.count) job.step = JOB_STEP.FINALIZE;
+                    continue;
+                }
+
+                if (job.step === JOB_STEP.FINALIZE) {
+                    job.affected.forEach(n => {
+                        n.state = NODE_STATE.READY;
+                        if (!n.physicsMeshGroup.children.includes(job.clone)) {
+                            n.physicsMeshGroup.add(job.clone);
+                        }
+                    });
+                    
+                    // B"H - FIX FOR "FALL THROUGH" BUG
+                    // We purposely comment out the removal of the proxy.
+                    // This forces the engine to KEEP using the "Live Proxy" check (which works)
+                    // instead of relying solely on the "Blind" Static Octree (which fails for large objects).
+                    
+                    /*
+                    const idx = this.#proxies.indexOf(job.proxy);
+                    if (idx > -1) this.#proxies.splice(idx, 1);
+                    */
+
+                    this.#activeJob = null;
+                    break;
+                }
+            }
         }
     }
     
@@ -577,60 +705,43 @@ export class OctreeWorld {
         return null;
     }
     
-    /**
-     * Performs a fast, read-only raycast against the world.
-     * This method is architecturally safe:
-     * - It is extremely fast, as it only queries nodes the ray physically passes through.
-     * - It NEVER builds or modifies geometry.
-     * - It ONLY returns intersections with geometry that is in the 'READY' state,
-     *   ensuring it never causes a performance stutter and respects the LOD system.
-     * @param {THREE.Ray} ray The ray to test against the world.
-     * @returns {object|false} The closest intersection object from AwtsmoosOctree, or false if no intersection.
-     */
-    rayIntersect(ray) {
-        if (!this.#root) {
-            return false;
-        }
+     
 
-        let closestResult = false;
-        const candidates = [];
+    
+    
+    #distributeTriangleToNodes(node, triangle, affectedNodes) {
+        // Check if triangle belongs in this node's vicinity
+        if (!node.box.intersectsTriangle(triangle)) return;
 
-        // Inner function to recursively find all leaf nodes the ray passes through.
-        // This is much more efficient than checking all nodes.
-        const findCandidates = (node) => {
-            if (!ray.intersectsBox(node.box)) {
-                return;
+        if (node.type === 'LEAF') {
+            // Initialize physics container if missing
+            if (!node.physics) {
+                node.physics = new AwtsmoosOctree(node.box.clone());
+                node.physics._isManaged = true;
             }
+            
+            // --- B"H: ELASTIC EXPANSION FIX ---
+            // We must expand the node's boundary to include this specific triangle.
+            // Without this, `capsuleIntersect` sees the old small box and ignores these stairs.
+            _tempBox.setFromPoints([triangle.a, triangle.b, triangle.c]);
+            node.box.union(_tempBox);
+            node.physics.box.copy(node.box); 
+            // ---------------------------------
 
-            if (node.type === 'LEAF') {
-                candidates.push(node);
-            } else if (node.type === 'BRANCH') {
-                for (const child of node.children) {
-                    findCandidates(child);
-                }
-            }
-        };
+            node.state = NODE_STATE.READY;
 
-        findCandidates(this.#root);
-
-        // Iterate only through the nodes the ray could possibly hit.
-        for (const node of candidates) {
-            // The critical performance and safety check: ONLY query fully built, ready physics nodes.
-            if (node.state === NODE_STATE.READY && node.physics) {
-                
-                // Delegate the expensive part to the highly optimized AwtsmoosOctree.
-                const result = node.physics.rayIntersect(ray);
-
-                // If we found a hit, check if it's the closest one so far.
-                if (result) {
-                    if (!closestResult || result.distance < closestResult.distance) {
-                        closestResult = result;
-                    }
-                }
+            const tClone = triangle.clone();
+            tClone.sourceMesh = triangle.sourceMesh;
+            
+            node.physics.addDynamicTriangle(tClone);
+            if (affectedNodes) affectedNodes.add(node);
+        } else {
+            // Recurse
+            const len = node.children.length;
+            for (let i = 0; i < len; i++) {
+                this.#distributeTriangleToNodes(node.children[i], triangle, affectedNodes);
             }
         }
-
-        return closestResult;
     }
 
     #getNodeDepth(nodeToFind, startNode = this.#root, depth = 0) {
@@ -645,4 +756,149 @@ export class OctreeWorld {
         }
         return -1;
     }
+    
+    
+    /**
+     * B"H
+     * Synchronously creates a physics clone and hard-bakes it into the Octree.
+     * Keeps visual mesh in the scene (Fixes "Doesn't Show Up").
+     */
+    addObject(mesh) {
+        if (!mesh) return false;
+
+        // 1. Lock Transforms
+        mesh.updateMatrixWorld(true);
+        if (!mesh.geometry.boundingBox) mesh.geometry.computeBoundingBox();
+        
+        // 2. Calculate World Bounds
+        const worldBox = mesh.geometry.boundingBox.clone().applyMatrix4(mesh.matrixWorld);
+
+        // 3. Init Root if empty
+        if (!this.#root) {
+            this.#root = new LODNode(worldBox.clone());
+        } else {
+            this.#root.box.union(worldBox);
+        }
+
+        // 4. CREATE PHYSICS CLONE (Crucial Step)
+        // We replicate the mesh so the physics engine owns a copy,
+        // leaving the original visual mesh in the scene graph undisturbed.
+        const physicsClone = new Mesh(mesh.geometry);
+        // Apply absolute World Transform to the clone
+        mesh.getWorldPosition(physicsClone.position);
+        mesh.getWorldQuaternion(physicsClone.quaternion);
+        mesh.getWorldScale(physicsClone.scale);
+        physicsClone.updateMatrix();
+        physicsClone.updateMatrixWorld(true);
+
+        // 5. Insert the CLONE into physics
+        this.#insertAndBuildRecursive(this.#root, physicsClone, worldBox);
+        
+        return true;
+    }
+
+    /**
+     * B"H
+     * Hard-Bake Level Loading with Cloning.
+     * Ensures visual ground stays visible while physics gets a dedicated geometry copy.
+     */
+    fromGraphNode(group) {
+        if (!group) return;
+        
+        group.updateMatrixWorld(true);
+        const groupBox = new Box3().setFromObject(group);
+        if (groupBox.isEmpty()) return;
+
+        if (!this.#root) {
+            this.#root = new LODNode(groupBox.clone());
+        } else {
+            this.#root.box.union(groupBox);
+        }
+
+        const physicsClones = [];
+
+        // 1. Clone Logic
+        group.traverse(obj => {
+            if (obj.isMesh && obj.geometry.getAttribute('position')) {
+                // Create a standalone clone for the physics world
+                const clone = new Mesh(obj.geometry);
+                
+                // Detach transforms so clone is positioned correctly in world space
+                obj.getWorldPosition(clone.position);
+                obj.getWorldQuaternion(clone.quaternion);
+                obj.getWorldScale(clone.scale);
+                
+                clone.updateMatrix();
+                clone.updateMatrixWorld(true);
+                
+                physicsClones.push(clone);
+            }
+        });
+
+        // 2. Distribute CLONES (not originals)
+        physicsClones.forEach(clone => {
+            const box = new Box3().setFromObject(clone);
+            this.#insertAndBuildRecursive(this.#root, clone, box);
+        });
+        
+        // No extra recursive call needed here, as insertAndBuildRecursive builds on insertion.
+    }
+
+    /**
+     * B"H
+     * Removal with Immediate Rebuild.
+     */
+    removeMesh(mesh) {
+        if (!this.#root || !mesh) return;
+
+        const meshBox = new Box3().setFromObject(mesh);
+        const nodes = this.#findLeafNodesInBox(this.#root, meshBox);
+
+        nodes.forEach(node => {
+            if (node.physicsMeshGroup && node.physicsMeshGroup.children.includes(mesh)) {
+                node.physicsMeshGroup.remove(mesh);
+                if (node.physics) {
+                    node.physics.removeMesh(mesh); 
+                }
+            }
+        });
+    }
+
+    /**
+     * B"H
+     * Inserts one mesh and rebuilds ONLY the specific nodes touched.
+     */
+    #insertAndBuildRecursive(node, mesh, meshBox) {
+        if (!node.box.intersectsBox(meshBox)) return;
+
+        if (node.type === 'LEAF') {
+            node.physicsMeshGroup.add(mesh);
+            this.#buildNodePhysics(node); // Immediate Rebuild
+        } else {
+            // Recursively pass down to children
+            for (const child of node.children) {
+                this.#insertAndBuildRecursive(child, mesh, meshBox);
+            }
+        }
+    }
+
+    /**
+     * B"H
+     * Walks tree and builds any node that has meshes but no physics.
+     */
+    #rebuildDirtyNodesRecursive(node) {
+        if (node.type === 'LEAF') {
+            if (node.physicsMeshGroup.children.length > 0) {
+                this.#buildNodePhysics(node);
+            }
+        } else {
+            for (const child of node.children) {
+                this.#rebuildDirtyNodesRecursive(child);
+            }
+        }
+    }
+    
+   
+    
+    
 }

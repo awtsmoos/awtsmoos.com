@@ -151,13 +151,18 @@
          * @throws {PageFault} If data is on disk.
          */
         get(ptr) {
-            // B"H - Safety Check
-            if (ptr === 0 || ptr === null) return null; 
+            if (ptr === 0 || ptr === null || ptr === undefined) return null; 
             
             if (typeof ptr !== 'number') {
-                // If the VM requests a non-number (like undefined), it's a Logic Error, not a Disk Error.
-                // Throwing a standard Error here prevents the Page Fault handler from crashing IDB.
                 throw new Error(`[VMM] Segmentation Fault: Invalid Pointer Access (${String(ptr)})`);
+            }
+
+            // B"H - BOUNDS CHECK (THE TIKKUN)
+            // If the requested ID is greater than or equal to the next available pointer,
+            // it physically cannot be an allocated object. It MUST be a primitive integer (like a coordinate).
+            // We throw PRIMITIVE_ACCESS so the VM can wrap it (e.g., Number(808)) and access properties safely.
+            if (!Number.isInteger(ptr) || ptr >= this.nextPtr) {
+                throw { type: "PRIMITIVE_ACCESS", value: ptr };
             }
 
             if (this.ram.has(ptr)) {
@@ -168,7 +173,8 @@
                 return val;
             }
 
-            // Only throw Page Fault if it's a valid number
+            // Valid integer within bounds, but missing from RAM.
+            // This is a real Page Fault (data is on Disk).
             throw { type: "PAGE_FAULT", ptr: ptr };
         }
 
@@ -254,6 +260,11 @@
          * @private @async
          * Moves "Cold" objects from RAM to Disk.
          */
+        /**
+         * @private @async
+         * Moves "Cold" objects from RAM to Disk.
+         * B"H - UPDATED: Handles DataCloneError by pinning host objects to RAM.
+         */
         async _evictIfNeeded() {
             if (this.isEvicting) return;
             this.isEvicting = true;
@@ -262,40 +273,56 @@
                 const toEvictCount = this.ram.size - this.maxRamObjects;
                 if (toEvictCount <= 0) return;
 
-                // console.log(`[VMM] Evicting ${toEvictCount} objects to disk...`);
-
                 const batch = [];
                 const keysToDelete = [];
+                const pinnedPtrs = new Set();
 
-                // Iterate Map keys. Map iterator is in insertion order (Oldest first).
-                // The first keys are the Least Recently Used.
+                // Iterate Map keys (Oldest/LRU first)
                 for (const [ptr, value] of this.ram) {
                     if (keysToDelete.length >= toEvictCount) break;
-
-                    // Only save if dirty (modified since load)
                     if (this.dirtySet.has(ptr)) {
                         batch.push({ key: ptr, value });
                     }
-                    
                     keysToDelete.push(ptr);
                 }
 
-                // 1. Save Dirty Objects to Disk
+                // 1. Save Dirty Objects to Disk (Safely)
                 if (batch.length > 0) {
-                    await this.db.putBatch(DB_CONFIG.STORE_HEAP, batch);
+                    try {
+                        await this.db.putBatch(DB_CONFIG.STORE_HEAP, batch);
+                    } catch (e) {
+                        // If batch fails, try individually to find the non-cloneable objects
+                        if (e.name === 'DataCloneError') {
+                            console.warn("[VMM] Batch save hit non-cloneable data. Retrying individually...");
+                            for (const item of batch) {
+                                try {
+                                    await this.db.put(DB_CONFIG.STORE_HEAP, item.key, item.value);
+                                } catch (innerErr) {
+                                    if (innerErr.name === 'DataCloneError') {
+                                        // PIN this object to RAM. Do not evict.
+                                        pinnedPtrs.add(item.key);
+                                        this.dirtySet.delete(item.key); // Stop trying to save it
+                                    }
+                                }
+                            }
+                        } else {
+                            throw e;
+                        }
+                    }
                 }
 
-                // 2. Remove from RAM and DirtySet
+                // 2. Remove from RAM (Evict only what was saved)
                 for (const ptr of keysToDelete) {
+                    if (pinnedPtrs.has(ptr)) continue; // Skip pinned objects
                     this.ram.delete(ptr);
                     this.dirtySet.delete(ptr);
                 }
 
-                // 3. Save Metadata (Next Pointer) periodically
+                // 3. Save Metadata
                 await this.db.put(DB_CONFIG.STORE_META, "root_state", { nextPtr: this.nextPtr });
 
             } catch (e) {
-                console.error("[VMM] Eviction Error:", e);
+                console.error("[VMM] Eviction Critical Failure:", e);
             } finally {
                 this.isEvicting = false;
             }
@@ -315,9 +342,21 @@
                 }
             }
             if (batch.length > 0) {
-                await this.db.putBatch(DB_CONFIG.STORE_HEAP, batch);
+                try {
+                    await this.db.putBatch(DB_CONFIG.STORE_HEAP, batch);
+                } catch (e) {
+                    // B"H - Silent fail for flush on non-cloneables
+                    if (e.name === 'DataCloneError') {
+                        console.warn("[VMM] Flush encountered non-persistable objects. Some state may not persist.");
+                    } else {
+                        console.error("[VMM] Flush Error:", e);
+                    }
+                }
             }
-            await this.db.put(DB_CONFIG.STORE_META, "root_state", { nextPtr: this.nextPtr });
+            try {
+                await this.db.put(DB_CONFIG.STORE_META, "root_state", { nextPtr: this.nextPtr });
+            } catch(e) {}
+            
             this.dirtySet.clear();
             console.log("[VMM] Flush Complete.");
         }

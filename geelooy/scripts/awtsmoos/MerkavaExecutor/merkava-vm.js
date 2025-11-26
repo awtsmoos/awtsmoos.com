@@ -91,44 +91,51 @@
          * Create a new thread from a compiled CodeObject.
          * @param {object} codeObject - Output from MerkavaCompiler.
          */
-        spawn(codeObject) {
+        spawn(codeObject, scopePtr = null) {
             const thread = new Thread(this.threadIdCounter++, codeObject, this.memory);
+            
+            // Inject Scope
+            thread.scopePtr = scopePtr;
+            
             this.threads.push(thread);
-            console.log(`[VM] Spawned Thread #${thread.id}`);
+            console.log(`[VM] Spawned Thread #${thread.id} in Scope ${scopePtr}`);
+            if (this.onThreadSpawn) this.onThreadSpawn(thread.id);
             return thread.id;
         }
         
         
         /**
          * B"H - Creates a Native Bridge Function.
-         * When the Host calls this (e.g. Promise executor), it spawns a VM Thread.
+         * Hydrates environment, aligns stack, AND WAKES UP THE VM.
          */
         _createHostProxy(closurePtr) {
             const vm = this;
             const closure = this.memory.get(closurePtr);
             
             return function(...hostArgs) {
-                // 1. Get the Thread Class (hacky access via existing thread or mimic structure)
-                // We replicate the Thread construction logic here to be safe
                 const threadId = vm.threadIdCounter++;
-                
+                const inheritedFrames = closure.capturedEnvironment ? [...closure.capturedEnvironment] : [];
+
                 const newThread = {
                     id: threadId,
-                    status: 0, // RUNNING
+                    status: 0, 
                     ip: 0,
-                    bp: 0,
+                    bp: 1,
                     sp: 0,
-                    stack: [...hostArgs], // B"H - Push Host Arguments (like 'resolve') onto Stack
-                    frames: [],
+                    stack: [undefined, ...hostArgs], 
+                    frames: inheritedFrames, 
                     code: closure.bytecode,
                     constants: closure.constants,
-                    scope: null // New scope
+                    
+                    // B"H - PERSIST MODULE SCOPE
+                    scopePtr: closure.moduleScopePtr || null, 
+                    
+                    catchStack: [],
+                    errorRegister: null
                 };
                 
-                // 2. Schedule the Thread
                 vm.threads.push(newThread);
-                
-                // 3. Return undefined (standard async callback behavior)
+                if (vm.onThreadSpawn) vm.onThreadSpawn(threadId);
             };
         }
 
@@ -187,8 +194,9 @@
          * @private
          */
         _step(thread) {
-            // Fetch
-            if (thread.ip >= thread.code.length) {
+            // B"H - GUARD: Prevent crash if thread code is missing or corrupted.
+            // This fixes the "Cannot read properties of undefined (reading 'length')" error.
+            if (!thread.code || thread.ip >= thread.code.length) {
                 thread.status = VM_THREAD_STATUS.COMPLETED;
                 return;
             }
@@ -196,10 +204,8 @@
             const opcode = thread.code[thread.ip];
             thread.ip++;
 
-            // Debug hook
             if (this.onStep) this.onStep(thread, opcode);
 
-            // Decode & Execute
             switch (opcode) {
             
 	        case OPCODES.SWAP: {
@@ -262,18 +268,20 @@
                 
 	        case OPCODES.NEW: {
                     const argCount = this._readUint8(thread);
-                    
-                    // Isolate constructor and args from the stack
                     const frameSize = argCount + 1;
                     const callFrame = thread.stack.splice(thread.stack.length - frameSize);
                     
                     const constructorPtr = callFrame[0];
                     const args = callFrame.slice(1);
                     
+                    if (constructorPtr === undefined || constructorPtr === null) {
+                        this._handleInterrupt(thread, "TypeError: Constructor is undefined or null.");
+                        break;
+                    }
+                    
                     let Constructor = (typeof constructorPtr === 'function') ? constructorPtr : this.memory.get(constructorPtr);
 
                     if (typeof Constructor === 'function') {
-                        // --- NATIVE HOST CONSTRUCTOR ---
                         try {
                             const instance = Reflect.construct(Constructor, args);
                             thread.stack.push(instance);
@@ -281,40 +289,38 @@
                             this._handleInterrupt(thread, `Instantiation Error: ${e.message}`);
                         }
                     } else {
-                        // --- VM CLASS CONSTRUCTOR ---
                         if (!Constructor || !Constructor.bytecode) {
                             this._handleInterrupt(thread, "Type Error: Constructor is not a function.");
                             break;
                         }
                         
-                        // 1. Create a new empty object in memory for the instance.
                         const instancePtr = this.memory.allocate({});
                         const instanceObj = this.memory.get(instancePtr);
                         
-                        // 2. Find and link the prototype.
                         if (Constructor.prototypePtr) {
                             const protoObj = this.memory.get(Constructor.prototypePtr);
-                            Object.setPrototypeOf(instanceObj, protoObj);
+                            if (protoObj) Object.setPrototypeOf(instanceObj, protoObj);
                         }
                         
-                        // 3. Prepare to call the constructor function.
-                        // Save the current state, but mark this frame as a constructor call.
                         thread.frames.push({
                             returnIP: thread.ip,
                             prevBP: thread.bp,
                             prevStack: thread.stack,
                             code: thread.code,
                             constants: thread.constants,
-                            isConstructorCall: true, // Special flag for the RETURN opcode
-                            instancePtr: instancePtr   // The object we must ultimately return
+                            isConstructorCall: true,
+                            instancePtr: instancePtr,
+                            // B"H - SAVE SCOPE STATE
+                            prevScopePtr: thread.scopePtr
                         });
 
-                        // 4. Set up the new stack frame for the constructor call.
-                        // 'this' is the newly created instance.
+                        // B"H - CONTEXT SWITCH
+                        if (Constructor.moduleScopePtr) {
+                            thread.scopePtr = Constructor.moduleScopePtr;
+                        }
+
                         thread.stack = [instancePtr, ...args];
                         thread.bp = 1;
-                        
-                        // Jump execution into the constructor's bytecode.
                         thread.code = Constructor.bytecode;
                         thread.constants = Constructor.constants;
                         thread.ip = 0;
@@ -347,6 +353,26 @@
                     if (condition) thread.ip += offset;
                     break;
                 }
+                
+                // B"H - MISSING OPCODES RESTORED (0x06 & 0x07)
+                // These allow '&&' and '||' to short-circuit correctly.
+                case OPCODES.JUMP_IF_FALSE_PERSIST: {
+                    const offset = this._readInt16(thread);
+                    // Peek at the top value (do NOT pop)
+                    const condition = thread.stack[thread.stack.length - 1];
+                    // If false, jump (and keep the false value as the result)
+                    if (!condition) thread.ip += offset;
+                    break;
+                }
+                
+                case OPCODES.JUMP_IF_TRUE_PERSIST: {
+                    const offset = this._readInt16(thread);
+                    // Peek at the top value (do NOT pop)
+                    const condition = thread.stack[thread.stack.length - 1];
+                    // If true, jump (and keep the true value as the result)
+                    if (condition) thread.ip += offset;
+                    break;
+                }
 
                 case OPCODES.RETURN: {
                     const result = thread.stack.pop();
@@ -362,6 +388,12 @@
                         thread.stack = frame.prevStack;
                         thread.code = frame.code;
                         thread.constants = frame.constants;
+                        
+                        // B"H - RESTORE SCOPE
+                        // We return to the world of the caller.
+                        if (frame.prevScopePtr !== undefined) {
+                            thread.scopePtr = frame.prevScopePtr;
+                        }
 
                         let finalResult = result;
                         if (frame.isConstructorCall) {
@@ -369,7 +401,6 @@
                                 finalResult = frame.instancePtr;
                             }
                         }
-                        
                         thread.stack.push(finalResult);
                     }
                     break;
@@ -411,18 +442,16 @@
                     const depth = this._readUint8(thread);
                     const idx = this._readUint8(thread);
                     
-                    // Logic: Walk up the call stack 'depth' times.
-                    // thread.frames contains the history. 
-                    // frames[length - 1] is the immediate caller (depth 1).
                     const frameIndex = thread.frames.length - depth;
-                    
-                    if (frameIndex < 0) {
-                        throw new Error(`[VM] Upvalue access out of bounds (Depth: ${depth}, Frames: ${thread.frames.length})`);
-                    }
+                    if (frameIndex < 0) throw new Error(`[VM] Upvalue access out of bounds`);
                     
                     const frame = thread.frames[frameIndex];
-                    // Locals are stored in the frame's stack snapshot relative to its BP
                     const val = frame.prevStack[frame.prevBP + idx];
+                    
+                    if (val === undefined) {
+                        console.warn(`[VM WARNING] Upvalue at Depth ${depth}, Idx ${idx} is UNDEFINED. (Thread #${thread.id})`);
+                    }
+                    
                     thread.stack.push(val);
                     break;
                 }
@@ -445,16 +474,44 @@
                     const nameIdx = this._readInt16(thread);
                     const name = thread.constants[nameIdx];
                     
-                    const globalScope = this.memory.get(1); 
+                    let val = undefined;
+                    let found = false;
                     
-                    if (name in globalScope) {
-                        thread.stack.push(globalScope[name]);
-                    } else if (name in this.hostContext) {
-                        // B"H - Bridge to Host Context
-                        thread.stack.push(this.hostContext[name]);
-                    } else {
-                        throw new Error(`ReferenceError: ${name} is not defined`);
+                    // 1. Try Module Scope
+                    if (thread.scopePtr) { 
+                        const moduleScope = this.memory.get(thread.scopePtr);
+                        if (moduleScope && name in moduleScope) {
+                            val = moduleScope[name];
+                            found = true;
+                        }
                     }
+                    
+                    // 2. Try Universal Global
+                    if (!found) {
+                        const globalScope = this.memory.get(1);
+                        if (globalScope && name in globalScope) {
+                            val = globalScope[name];
+                            found = true;
+                        }
+                    }
+                    
+                    // 3. Try Host Context
+                    if (!found && name in this.hostContext) {
+                        val = this.hostContext[name];
+                        found = true;
+                    }
+                    
+                    if (!found) {
+                        // B"H - SILENT FAIL-SAFE FOR DEVELOPMENT
+                        // Instead of crashing the thread, we push undefined and warn.
+                        // This allows feature detection code to run (e.g. if (typeof x !== 'undefined'))
+                        console.warn(`[VM WARNING] ReferenceError: '${name}' not found in any scope. Returning undefined.`);
+                        val = undefined; 
+                        // Uncomment below to enforce strict mode:
+                        // throw new Error(`ReferenceError: ${name} is not defined`);
+                    }
+                    
+                    thread.stack.push(val);
                     break;
                 }
 
@@ -463,9 +520,17 @@
                     const name = thread.constants[nameIdx];
                     const val = thread.stack.pop();
                     
-                    const globalScope = this.memory.get(1);
-                    globalScope[name] = val;
-                    this.memory.set(1, globalScope); // Mark dirty
+                    // B"H - PREFER MODULE SCOPE FOR WRITES
+                    if (thread.scopePtr) {
+                        const moduleScope = this.memory.get(thread.scopePtr);
+                        moduleScope[name] = val;
+                        this.memory.set(thread.scopePtr, moduleScope);
+                    } else {
+                        // Fallback to Ptr 1 (True Global)
+                        const globalScope = this.memory.get(1);
+                        globalScope[name] = val;
+                        this.memory.set(1, globalScope);
+                    }
                     break;
                 }
                 
@@ -494,37 +559,67 @@
                     const key = thread.stack.pop();
                     const objPtr = thread.stack.pop();
                     
-                    // B"H - Check if it is a Host Object OR a Host Function (like Float32Array)
-                    if ((typeof objPtr === 'object' && objPtr !== null) || typeof objPtr === 'function') {
-                        // Native JS Access
-                        const val = objPtr[key];
-                        
-                        // Bind methods to their parent (e.g. document.getElementById)
-                        if (typeof val === 'function') {
-                            thread.stack.push(val.bind(objPtr));
-                        } else {
-                            thread.stack.push(val);
-                        }
-                    } else {
-                        // VM Internal Memory Access
-                        const obj = this.memory.get(objPtr);
-                        thread.stack.push(obj[key]);
+                    // Safe key stringification for logs
+                    const keyStr = typeof key === 'symbol' ? String(key) : key;
+
+                    if (objPtr === undefined || objPtr === null) {
+                        console.error(`[VM] GET_PROP Error: Target is ${objPtr}, Key is '${keyStr}'`);
+                        this._handleInterrupt(thread, `TypeError: Cannot read property '${keyStr}' of ${objPtr}`);
+                        break;
                     }
+
+                    let resultVal;
+
+                    if ((typeof objPtr === 'object' && objPtr !== null) || typeof objPtr === 'function') {
+                        const val = objPtr[key];
+                        if (typeof val === 'function') resultVal = val.bind(objPtr);
+                        else resultVal = val;
+                    } 
+                    else {
+                        try {
+                            const obj = this.memory.get(objPtr); 
+                            resultVal = obj[key];
+                        } catch (e) {
+                            if (e.type === "PRIMITIVE_ACCESS") {
+                                const wrapper = Object(objPtr);
+                                const val = wrapper[key];
+                                if (typeof val === 'function') resultVal = val.bind(objPtr);
+                                else resultVal = val;
+                            } else {
+                                throw e;
+                            }
+                        }
+                    }
+                    
+                    // Silent or limited tracing to avoid log spam/crashes
+                    if (resultVal === undefined && key !== 'prototype') {
+                       // console.warn(`[VM TRACE] GET_PROP '${keyStr}' returned UNDEFINED. Obj:`, objPtr);
+                    }
+
+                    thread.stack.push(resultVal);
                     break;
                 }
 
                 case OPCODES.SET_PROP: {
-                    const val = thread.stack.pop();
-                    const key = thread.stack.pop();
-                    const objPtr = thread.stack.pop();
+                    const val = thread.stack.pop(); 
+                    const key = thread.stack.pop(); 
+                    const objPtr = thread.stack.pop(); 
                     
-                    // B"H - Check if it is a Host Object OR a Host Function
+                    if (objPtr === undefined || objPtr === null) {
+                        this._handleInterrupt(thread, `TypeError: Cannot set property '${key}' of ${objPtr}`);
+                        break;
+                    }
+
+                    // Host Object (e.g. Window, Canvas)
                     if ((typeof objPtr === 'object' && objPtr !== null) || typeof objPtr === 'function') {
-                        // Native JS Modification
-                        objPtr[key] = val;
+                        try {
+                            objPtr[key] = val;
+                        } catch(e) {
+                            console.warn(`[VM] Failed to set host prop ${key}:`, e);
+                        }
                         thread.stack.push(val);
                     } else {
-                        // VM Internal Memory Modification
+                        // VM Memory Object
                         const obj = this.memory.get(objPtr);
                         obj[key] = val;
                         this.memory.set(objPtr, obj);
@@ -533,12 +628,58 @@
                     break;
                 }
 
+                case OPCODES.DEFINE_PROP: {
+                    // Stack: [ClassPrototype, Key, Value]
+                    const val = thread.stack.pop();
+                    const key = thread.stack.pop();
+                    const objPtr = thread.stack.pop();
+                    
+                    // Define property on the prototype/object (similar to SET_PROP but for definitions)
+                    if ((typeof objPtr === 'object' && objPtr !== null) || typeof objPtr === 'function') {
+                        objPtr[key] = val;
+                    } else {
+                        const obj = this.memory.get(objPtr);
+                        obj[key] = val;
+                        this.memory.set(objPtr, obj);
+                    }
+                    // Unlike SET_PROP, DEFINE usually doesn't push the result back, but let's check stack balance.
+                    // If compiler expects it to behave like expression, push val. If statement, don't.
+                    // For safety in this version, we assume it consumes and returns nothing (void).
+                    break; 
+                }
+
                 // --- 0x40: BINARY OPS ---
                 case OPCODES.ADD: { const b = thread.stack.pop(); const a = thread.stack.pop(); thread.stack.push(a + b); break; }
                 case OPCODES.SUB: { const b = thread.stack.pop(); const a = thread.stack.pop(); thread.stack.push(a - b); break; }
                 case OPCODES.MUL: { const b = thread.stack.pop(); const a = thread.stack.pop(); thread.stack.push(a * b); break; }
                 case OPCODES.DIV: { const b = thread.stack.pop(); const a = thread.stack.pop(); thread.stack.push(a / b); break; }
+                
+                // B"H 
+                //MATH & BITWISE OPCODES ADDED HERE
+                case OPCODES.MOD: { const b = thread.stack.pop(); const a = thread.stack.pop(); thread.stack.push(a % b); break; }
+                case OPCODES.POW: { const b = thread.stack.pop(); const a = thread.stack.pop(); thread.stack.push(a ** b); break; }
+                
+                case OPCODES.BIT_AND: { const b = thread.stack.pop(); const a = thread.stack.pop(); thread.stack.push(a & b); break; }
+                case OPCODES.BIT_OR:  { const b = thread.stack.pop(); const a = thread.stack.pop(); thread.stack.push(a | b); break; }
+                case OPCODES.BIT_XOR: { const b = thread.stack.pop(); const a = thread.stack.pop(); thread.stack.push(a ^ b); break; }
+                case OPCODES.SHL:     { const b = thread.stack.pop(); const a = thread.stack.pop(); thread.stack.push(a << b); break; }
+                case OPCODES.SHR:     { const b = thread.stack.pop(); const a = thread.stack.pop(); thread.stack.push(a >> b); break; }
+                case OPCODES.USHR:    { const b = thread.stack.pop(); const a = thread.stack.pop(); thread.stack.push(a >>> b); break; }
+                
+                
                 case OPCODES.EQ:  { const b = thread.stack.pop(); const a = thread.stack.pop(); thread.stack.push(a == b); break; }
+                case OPCODES.STRICT_EQ: { 
+                    const b = thread.stack.pop(); 
+                    const a = thread.stack.pop(); 
+                    thread.stack.push(a === b); 
+                    break; 
+                }
+                case OPCODES.STRICT_NEQ: { 
+                    const b = thread.stack.pop(); 
+                    const a = thread.stack.pop(); 
+                    thread.stack.push(a !== b); 
+                    break; 
+                }
                 
                 case OPCODES.LT:  { const b = thread.stack.pop(); const a = thread.stack.pop(); thread.stack.push(a < b); break; }
                 case OPCODES.LTE: { const b = thread.stack.pop(); const a = thread.stack.pop(); thread.stack.push(a <= b); break; }
@@ -555,19 +696,22 @@
                     const templateIdx = this._readInt16(thread);
                     const template = thread.constants[templateIdx];
                     
-                    // Create Closure Object
-                    // It needs to capture the current Scope Chain?
-                    // For V1: Simple object containing code ref
+                    const currentEnv = {
+                        prevStack: [...thread.stack],
+                        prevBP: thread.bp
+                    };
+                    
                     const closure = {
                         type: 'CLOSURE',
                         name: template.name,
                         bytecode: template.bytecode,
                         constants: template.constants,
-                        upvalues: [] // TODO: Capture upvalues
+                        capturedEnvironment: [...thread.frames, currentEnv],
+                        
+                        // B"H - CAPTURE MODULE CONTEXT
+                        moduleScopePtr: thread.scopePtr
                     };
                     
-                    // Store closure in Heap? Or just on stack as object?
-                    // Closures are first-class objects.
                     const ptr = this.memory.allocate(closure);
                     thread.stack.push(ptr);
                     break;
@@ -575,46 +719,78 @@
 
                 case OPCODES.CALL: {
                     const argCount = this._readUint8(thread);
-                    
                     const frameSize = argCount + 2;
-                    const prevStack = thread.stack.slice(0, thread.stack.length - frameSize);
+                    
+                    if (thread.stack.length < frameSize) {
+                        this._handleInterrupt(thread, "Stack Underflow on CALL");
+                        break;
+                    }
 
+                    const prevStack = thread.stack.slice(0, thread.stack.length - frameSize);
                     const callFrame = thread.stack.splice(thread.stack.length - frameSize);
                     
                     const funcPtr = callFrame[0];
                     const thisVal = callFrame[1];
                     const args = callFrame.slice(2);
                     
-                    // Attempt to resolve function pointer.
-                    // If it's a pointer to data on disk (not RAM), .get() throws PageFault.
-                    // The VM loop handles this, pauses, loads the data, and retries.
-                    let funcObj = (typeof funcPtr === 'function') ? funcPtr : this.memory.get(funcPtr);
+                    if (funcPtr === undefined) {
+                        console.error("[VM FATAL] CALL opcode invoked on undefined!");
+                        console.error("Thread ID:", thread.id);
+                        console.error("Stack Snapshot:", callFrame);
+                        // Trace execution to console to find previous instruction
+                        this._handleInterrupt(thread, "TypeError: Object is not a function (undefined).");
+                        break;
+                    }
+                    
+                    if (funcPtr === undefined) {
+                        console.error(`[VM CRITICAL] Attempting to CALL undefined! Stack Size: ${prevStack.length}. Arg Count: ${argCount}.`);
+                        // This usually means the previous LOAD instruction pushed undefined.
+                    }
+                    
+                    if (funcPtr === undefined || funcPtr === null) {
+                        this._handleInterrupt(thread, "TypeError: Object is not a function (undefined).");
+                        break;
+                    }
+                    
+                    let funcObj;
+                    // B"H - Robust Resolution
+                    if (typeof funcPtr === 'function') {
+                        funcObj = funcPtr;
+                    } else {
+                        try {
+                            funcObj = this.memory.get(funcPtr);
+                        } catch (e) {
+                            if (e.type === "PRIMITIVE_ACCESS") {
+                                // Calling a number? 808() -> Error.
+                                // But what if funcPtr is the function from property access on a number?
+                                // e.g. (10).toString()
+                                // In that case funcPtr IS 'function toString() { [native code] }' which is handled above.
+                                // If we are here, funcPtr is literally the number 808.
+                                this._handleInterrupt(thread, `TypeError: ${funcPtr} is not a function.`);
+                                break;
+                            }
+                            throw e;
+                        }
+                    }
 
                     if (typeof funcObj === 'function') {
-                        // --- NATIVE / HOST FUNCTION CALL ---
+                        // ... Host Logic (same as existing) ...
                         try {
-                            // B"H - TIKKUN: ARGUMENT MARSHALLING
-                            // We must wrap VM Closures in Host Proxies so native functions
-                            // (like addEventListener or requestAnimationFrame) can call them back.
                             const marshalledArgs = args.map(arg => {
-                                if (typeof arg === 'number' && arg > 0) {
-                                    // We peek into RAM. If the user is passing a function to a host API,
-                                    // it must be "hot" (in RAM).
-                                    if (this.memory.ram.has(arg)) {
+                                if (typeof arg === 'number' && Number.isInteger(arg) && arg > 0) {
+                                    // Only marshal pointers that are WITHIN bounds (allocated objects)
+                                    // Primitives pass through as numbers.
+                                    if (arg < this.memory.nextPtr && this.memory.ram.has(arg)) {
                                         const obj = this.memory.ram.get(arg);
-                                        if (obj && obj.type === 'CLOSURE') {
-                                            // Wrap the VM pointer in a native JS function
-                                            return this._createHostProxy(arg);
-                                        }
+                                        if (obj && obj.type === 'CLOSURE') return this._createHostProxy(arg);
                                     }
                                 }
                                 return arg;
                             });
-
-                            const res = funcObj.apply(thisVal, marshalledArgs);
                             
+                            const res = funcObj.apply(thisVal, marshalledArgs);
                             thread.stack = prevStack;
-
+                            
                             if (res && typeof res.then === 'function') {
                                 thread.status = VM_THREAD_STATUS.BLOCKED_ASYNC;
                                 res.then(val => {
@@ -628,22 +804,27 @@
                             this._handleInterrupt(thread, `Host Function Error: ${e.message}`);
                         }
                     } else {
-                        // --- VM CLOSURE CALL ---
+                        // ... Closure Logic (same as existing) ...
                         if (!funcObj || !funcObj.bytecode) {
-                             throw new Error(`Type Error: Object at ptr ${funcPtr} is not a function.`);
+                             this._handleInterrupt(thread, `Type Error: Object at ptr ${funcPtr} is not a function.`);
+                             break;
                         }
-
+                        
                         thread.frames.push({
                             returnIP: thread.ip,
                             prevBP: thread.bp,
                             prevStack: prevStack, 
                             code: thread.code, 
-                            constants: thread.constants 
+                            constants: thread.constants,
+                            prevScopePtr: thread.scopePtr
                         });
+
+                        if (funcObj.moduleScopePtr) {
+                            thread.scopePtr = funcObj.moduleScopePtr;
+                        }
 
                         thread.stack = [thisVal, ...args];
                         thread.bp = 1; 
-                        
                         thread.code = funcObj.bytecode;
                         thread.constants = funcObj.constants;
                         thread.ip = 0;
@@ -730,20 +911,26 @@
                 // --- 0x90: SYSCALLS ---
                 case OPCODES.SYSCALL: {
                     const id = this._readUint8(thread);
-                    const argCount = this._readUint8(thread); // B"H - Now reading count from bytecode
-                    
-                    // Pop arguments from stack (LIFO -> FIFO)
+                    const argCount = this._readUint8(thread);
                     const args = [];
                     for(let i=0; i<argCount; i++) {
                         args.unshift(thread.stack.pop());
                     }
                     
-                    // Host API check
                     if (this.hostAPI[id]) {
-                        // Execute
                         const res = this.hostAPI[id](...args);
-                        // Push result (or undefined if void)
-                        thread.stack.push(res);
+                        
+                        // B"H - TIKKUN: Auto-Await Promises
+                        // If the Host API returns a Promise (like Import), we must pause the thread.
+                        if (res && typeof res.then === 'function') {
+                            thread.status = VM_THREAD_STATUS.BLOCKED_ASYNC;
+                            res.then(val => {
+                                thread.stack.push(val);
+                                thread.status = VM_THREAD_STATUS.RUNNING;
+                            }).catch(err => this._handleInterrupt(thread, err));
+                        } else {
+                            thread.stack.push(res);
+                        }
                     } else {
                         throw new Error(`Unknown SysCall: ${id}`);
                     }
@@ -762,6 +949,36 @@
                     thread.stack.push(!val);
                     break;
                 }
+                
+                case OPCODES.BIT_NOT: {
+                    const val = thread.stack.pop();
+                    thread.stack.push(~val);
+                    break;
+                }
+                case OPCODES.VOID: {
+                    thread.stack.pop(); // Discard top
+                    thread.stack.push(undefined);
+                    break;
+                }
+                case OPCODES.DELETE: {
+                    const key = thread.stack.pop();
+                    const objPtr = thread.stack.pop();
+                    let success = true;
+                    
+                    if ((typeof objPtr === 'object' && objPtr !== null)) {
+                        delete objPtr[key];
+                    } else if (typeof objPtr === 'number') {
+                        const obj = this.memory.get(objPtr);
+                        if (obj) {
+                            delete obj[key];
+                            this.memory.set(objPtr, obj);
+                        } else { success = false; }
+                    } else { success = true; } // Deleting from null/undefined is non-fatal in JS strict usually? No, returns true.
+                    
+                    thread.stack.push(success);
+                    break;
+                }
+                
                 case OPCODES.NEGATE: {
                     const val = thread.stack.pop();
                     thread.stack.push(-val);

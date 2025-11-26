@@ -27,24 +27,65 @@
     }
 
     class CompilerScope {
-        constructor(parent = null) {
+        /**
+         * @param {CompilerScope} parent - The enclosing scope.
+         * @param {boolean} isFunctionBoundary - B"H: TRUE if this scope starts a new Stack Frame (Function). FALSE for Blocks (If/For).
+         */
+        constructor(parent = null, isFunctionBoundary = false) {
             this.parent = parent;
             this.locals = new Map();
-            this.depth = parent ? parent.depth + 1 : 0;
-            this.stackIndex = parent ? parent.stackIndex : 0;
+            this.isFunctionBoundary = isFunctionBoundary;
+
+            if (isFunctionBoundary) {
+                // New Stack Frame (Function or Root)
+                this.stackIndex = 0;
+                // Increment depth (0 = Global/Module Root, 1+ = Inside Function)
+                this.depth = parent ? parent.depth + 1 : 0;
+            } else {
+                // Block Scope (if/for/while)
+                // Share the same stack frame and depth as the parent
+                this.stackIndex = parent ? parent.stackIndex : 0;
+                this.depth = parent ? parent.depth : 0;
+            }
         }
+        
         declare(name) {
             const index = this.stackIndex++;
             this.locals.set(name, index);
             return index;
         }
+        
         resolve(name) {
-            if (this.locals.has(name)) return { type: 'LOCAL', index: this.locals.get(name), depth: 0 };
-            if (this.parent) {
-                const result = this.parent.resolve(name);
-                if (result.type === 'LOCAL' || result.type === 'UPVALUE') return { type: 'UPVALUE', index: result.index, depth: result.depth + 1 };
+            // 1. Check Immediate Locals
+            if (this.locals.has(name)) {
+                return { type: 'LOCAL', index: this.locals.get(name), depth: 0 };
             }
-            return { type: 'GLOBAL', index: -1, depth: 0 };
+
+            // 2. Check Parent
+            if (this.parent) {
+                const res = this.parent.resolve(name);
+                
+                // If parent returned GLOBAL, just pass it up.
+                if (res.type === 'GLOBAL') return res;
+
+                // B"H - RESOLUTION FIX
+                if (!this.isFunctionBoundary) {
+                    // BLOCK SCOPE: We share the SAME Stack Frame.
+                    // A LOCAL in parent is still LOCAL here.
+                    return res; 
+                } else {
+                    // FUNCTION SCOPE: We crossed a boundary.
+                    // A LOCAL in parent becomes an UPVALUE here.
+                    return { 
+                        type: 'UPVALUE', 
+                        index: res.index, 
+                        depth: res.depth + 1 
+                    };
+                }
+            }
+            
+            // 3. Not found -> Global
+            return { type: 'GLOBAL' };
         }
     }
 
@@ -52,7 +93,8 @@
         constructor() {
             this.constants = [];
             this.buffer = new BytecodeBuilder();
-            this.scope = new CompilerScope();
+            // B"H - Root scope is a boundary (Global Frame)
+            this.scope = new CompilerScope(null, true);
             this.loops = [];
         }
 
@@ -356,12 +398,25 @@
 
         _visitVarDecl(node) {
             for (const decl of node.declarations) {
-                // 1. Compile Init Value
+                // 1. Compile Initializer
                 if (decl.init) this._visit(decl.init);
                 else this.buffer.write8(OPCODES.PUSH_UNDEFINED);
 
-                // 2. Compile Assignment (Pattern or Identifier)
-                this._compileDestructuring(decl.id);
+                // 2. Store
+                // B"H - CRITICAL FIX: Top-level vars become Global Properties
+                if (this.scope.depth === 0) {
+                    if (decl.id.type === 'Identifier') {
+                        const nameIdx = this._addConstant(decl.id.name);
+                        this.buffer.write8(OPCODES.STORE_GLOBAL);
+                        this.buffer.write16(nameIdx);
+                    } else {
+                        // Complex destructuring at global level (simplified fallback)
+                        this._compileDestructuring(decl.id);
+                    }
+                } else {
+                    // Inside function: Local Variable
+                    this._compileDestructuring(decl.id);
+                }
             }
         }
 
@@ -567,8 +622,7 @@
             this.buffer.write8(node.arguments.length);
         }
 
-        // ... (Other visitors: _visitLiteral, _visitIdentifier, etc. preserved) ...
-        
+      
         _visitLiteral(node) {
             const v = node.value;
             if (v === null) this.buffer.write8(OPCODES.PUSH_NULL);
@@ -580,9 +634,12 @@
 
         _visitIdentifier(node, mode) {
             if (node.name === 'undefined' && mode === 'LOAD') {
-                this.buffer.write8(OPCODES.PUSH_UNDEFINED); return;
+                this.buffer.write8(OPCODES.PUSH_UNDEFINED);
+                return;
             }
+
             const res = this.scope.resolve(node.name);
+
             if (res.type === 'LOCAL') {
                 this.buffer.write8(mode === 'LOAD' ? OPCODES.LOAD_LOCAL : OPCODES.STORE_LOCAL);
                 this.buffer.write8(res.index);
@@ -591,6 +648,7 @@
                 this.buffer.write8(res.depth);
                 this.buffer.write8(res.index);
             } else {
+                // GLOBAL (The fix for sharing state between files)
                 const nameIdx = this._addConstant(node.name);
                 this.buffer.write8(mode === 'LOAD' ? OPCODES.LOAD_GLOBAL : OPCODES.STORE_GLOBAL);
                 this.buffer.write16(nameIdx);
@@ -698,7 +756,7 @@
         }
 
         _visitFor(node) {
-            this.scope = new CompilerScope(this.scope);
+            this.scope = new CompilerScope(this.scope, false);
             if (node.init) this._visit(node.init);
             const start = this.buffer.currentAddress;
             
@@ -760,7 +818,7 @@
 
         // B"H - Implements 'for (const x of y)' via Iterator Protocol
         _visitForOf(node) {
-            this.scope = new CompilerScope(this.scope); 
+            this.scope = new CompilerScope(this.scope, false); // Block scope 
 
             // 1. Evaluate Iterable
             this._visit(node.right); // [Iterable]
@@ -873,7 +931,7 @@
             // Let's create a synthetic ForOfStatement where 'right' is the keys array.
             // Since 'keys' is on stack, we need to store it to load it cleanly in _visitForOf.
             
-            this.scope = new CompilerScope(this.scope);
+            this.scope = new CompilerScope(this.scope, false); // Block scope
             const keysIdx = this.scope.declare("<keys>");
             this.buffer.write8(OPCODES.STORE_LOCAL);
             this.buffer.write8(keysIdx);
@@ -917,7 +975,7 @@
             this.buffer.patch16(catchOffsetLoc, catchStartAddr - catchOffsetLoc - 2);
 
             if (node.handler) {
-                this.scope = new CompilerScope(this.scope);
+                this.scope = new CompilerScope(this.scope, false); // Block scope
                 
                 // The VM stores the exception in a special register. 
                 // LOAD_ERROR pushes it onto the stack.
@@ -973,13 +1031,24 @@
 
         _visitFuncExpr(node) {
             const funcCompiler = new Compiler();
-            funcCompiler.scope = new CompilerScope(this.scope);
+            
+            // B"H - Function Boundary: pass 'true' to RESET stackIndex to 0.
+            // This fixes the "Call on Undefined" crash by aligning the Compiler's index
+            // with the VM's fresh Stack Frame.
+            funcCompiler.scope = new CompilerScope(this.scope, true);
+            
             node.params.forEach(p => {
                 if (p.type === 'Identifier') funcCompiler.scope.declare(p.name);
-                // Note: Destructuring params not fully implemented here yet
+                // Note: If implementing destructured params, traverse them here
             });
             
             if (node.body.type === 'BlockStatement') {
+                // For the function body block, we generally DON'T reset again 
+                // because params and body locals share the frame.
+                // But `_compileBlock` doesn't create scope unless asked? 
+                // Ah, existing `_compileBlock` didn't handle scope. 
+                // Visitors like `_visitIf` handled scope manually.
+                // Correct: The function's root scope includes params and body.
                 funcCompiler._compileBlock(node.body.body);
                 funcCompiler.buffer.write8(OPCODES.PUSH_UNDEFINED);
                 funcCompiler.buffer.write8(OPCODES.RETURN);

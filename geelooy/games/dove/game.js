@@ -62,17 +62,28 @@ let frameCount = 0;
 let score = 0;
 
 //B"H
+//B"H
 function initializeGame() {
+    // DEBUG LOGS
+    console.log("[Game] initializeGame() started.");
+    console.log(`[Game] Window dimensions: ${window.innerWidth} x ${window.innerHeight}`);
+
     // Set the canvas to the current window size
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
     C.updateDimensions(canvas.width, canvas.height);
+    
+    // DEBUG: Check if the value updated correctly
+    console.log(`[Game] After updateDimensions, C.CANVAS_HEIGHT is: ${C.CANVAS_HEIGHT}`);
 
     // Initialize game state
     gameState = 'playing';
     score = 0;
     frameCount = 0;
+    
     Dove.reset();
+    console.log(`[Game] Dove reset. y=${Dove.y}. Start Y Func says: ${C.DOVE_START_Y()}`);
+    
     Background.init();
     Obstacle.reset();
     startMenu.style.display = 'none';
@@ -207,8 +218,11 @@ Controls.init(() => {
 
 //B"H
 // Add a listener to resize the canvas and restart the game
-window.addEventListener('resize', initializeGame, false);
-
+let resizeTimeout;
+window.addEventListener('resize', () => {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(initializeGame, 200);
+}, false);
 // Initial setup
 initializeGame(); // Call it once to set up the initial size
 startMenu.style.display = 'flex'; // Show the start menu initially
