@@ -1005,10 +1005,14 @@ function drawAnalysisBoard() {
 	function animateMove(move, onComplete = () => {}) {
 		gameState.isAnimating = true;
 		const isWhiteView = gameState.gameMode !== 'pva' || gameState.playerColor === 'w';
+		
+		// FIXED: Changed '7 - from[1]' to '7 - move.from[1]'
 		const startRow = isWhiteView ? move.from[0] : 7 - move.from[0],
-			startCol = isWhiteView ? move.from[1] : 7 - from[1];
+			startCol = isWhiteView ? move.from[1] : 7 - move.from[1];
+			
 		const endRow = isWhiteView ? move.to[0] : 7 - move.to[0],
 			endCol = isWhiteView ? move.to[1] : 7 - move.to[1];
+			
 		animationState = {
 			piece: move.piece,
 			pieceToAnimate: [move.from[0], move.from[1]],
