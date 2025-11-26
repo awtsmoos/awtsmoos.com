@@ -55,13 +55,22 @@ class AwtsmoosEmailClient {
     key = null;
 
     constructor({
-        port = 25
+        port = 25,
+        pathToPrivateKey = 
+        "/root/keys/dkim_private.pem"
     } = {}) {
         
-        var privateKey = process.env.BH_key;
-        if(privateKey) {
-            this.privateKey = 
-            privateKey.replace(/\\n/g, '\n');
+        try {
+            // Read the key file directly
+            this.privateKey = fs.readFileSync('/BH/awtsmoos.com/keys/dkim_private.pem', 'utf-8');
+            console.log("Successfully loaded DKIM Private Key from file.");
+        } catch (e) {
+            console.warn("Warning: Could not load DKIM private key from file:", e.message);
+            // Fallback to env var if file fails
+            var privateKey = process.env.BH_key;
+            if(privateKey) {
+                this.privateKey = privateKey.replace(/\\n/g, '\n');
+            }
         }
 
         this.port = port || 25;
@@ -208,6 +217,13 @@ class AwtsmoosEmailClient {
                 console.log('Successfully received EHLO response');
                 nextCommand = 'MAIL FROM';
             }
+            
+            if (this.previousCommand === 'END OF DATA' && lineOrMultiline.startsWith('250')) {
+	            console.log("B\"H - Email accepted by server! Sending QUIT.");
+	            client.write('QUIT\r\n');
+	            client.end();
+	            return; // Stop here, we are done!
+	        }
     
     
             var handler = this.commandHandlers[nextCommand];

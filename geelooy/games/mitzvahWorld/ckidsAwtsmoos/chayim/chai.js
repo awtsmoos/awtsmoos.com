@@ -505,68 +505,61 @@ export default class Chai extends Tzomayach {
         
         console.log("B\"H - Firing Collector Ray", { origin, direction });
 
-        // 1. OCTREE RAYCAST
         const hit = this.olam.worldOctree.rayIntersect(ray);
 
-        if (!hit) {
-            console.log("B\"H - Ray missed.");
-            return false;
-        }
+        if (!hit || hit.distance > 15) return false;
 
-        if (hit.distance > 15) {
-            console.log("B\"H - Object too far.");
-            return false;
-        }
-
-        // 2. HIERARCHY CLIMB (Search for the "Owner")
-        // We start with the mesh we hit.
-        let object = hit.object;
-
-        // --- B"H FIX 1: SWAP GHOST FOR REAL OBJECT ---
-        // The Octree returns a physics clone. We must grab the linked visual mesh.
-        if (object.userData && object.userData.visualReference) {
-            object = object.userData.visualReference;
-        }
-        // -------------------------------------------
+        // 1. IDENTIFY THE ACTORS
+        // physicsObject: The invisible clone inside the Octree (The Ghost)
+        const physicsObject = hit.object;
         
-        // We look up the tree to see if a parent holds the game data.
-        let tempObj = object;
+        // visualObject: The visible mesh in the scene (The Body)
+        let visualObject = physicsObject;
+
+        // 2. CROSS THE BRIDGE
+        if (physicsObject.userData && physicsObject.userData.visualReference) {
+            visualObject = physicsObject.userData.visualReference;
+        }
+
+        // 3. HIERARCHY CLIMB (On the Visual Object)
+        let tempObj = visualObject;
         while(tempObj && tempObj !== this.olam.nivrayimGroup) {
-            // If this parent has data, it is the "real" object.
             if(tempObj.userData && (tempObj.userData.itemData || tempObj.userData.isSolid)) {
-                object = tempObj; // Switch target to this parent
-                break; // Stop looking
+                visualObject = tempObj; 
+                break;
             }
             tempObj = tempObj.parent;
         }
 
-        // --- B"H FIX 2: PREVENT GROUND COLLECTION ---
-        // If the object is marked as the generic "world_brick" (static ground), do not collect it.
-        if (object.userData && object.userData.itemData && object.userData.itemData.id === "world_brick") {
-            console.log("B\"H - Cannot collect static world geometry.");
+        // 4. PREVENT GROUND DESTRUCTION
+        if (visualObject.userData?.itemData?.id === "world_brick") {
             return false;
         }
-        // ------------------------------------------
 
-        // 3. DATA FALLBACK
-        // If we found data, use it. If not, we use the fallback for "Recovered Block".
-        const itemData = (object.userData && object.userData.itemData) ? object.userData.itemData : {
+        // 5. DATA FALLBACK
+        const itemData = (visualObject.userData && visualObject.userData.itemData) ? visualObject.userData.itemData : {
             id: "recovered_block", 
             className: "Brick",
             name: "Recovered Block",
             quantity: 1
         };
 
-        // 4. EXECUTE COLLECTION
-        console.log("B\"H - Collecting Object:", object.name, itemData);
-        this.spawnHebrewParticles(object.position); 
+        // 6. EXECUTE COLLECTION
+        console.log("B\"H - Collecting Object:", visualObject.name);
+        this.spawnHebrewParticles(visualObject.position); 
         this.inventory.addItem(itemData, 1);
 
-        if (object.nivraAwtsmoos) {
-            this.olam.sealayk(object.nivraAwtsmoos);
+        // 7. THE FIX: REMOVE BOTH
+        
+        // Remove the GHOST from PHYSICS (Collision)
+        // We pass physicsObject because that is what the Octree actually holds.
+        this.olam.worldOctree.removeMesh(physicsObject); 
+
+        // Remove the BODY from SCENE (Visuals)
+        if (visualObject.nivraAwtsmoos) {
+            this.olam.sealayk(visualObject.nivraAwtsmoos);
         } else {
-            this.olam.worldOctree.removeMesh(object); // Triggers the optimized "Soft Delete"
-            object.removeFromParent(); // This effectively deletes the collision instantly
+            visualObject.removeFromParent();
         }
         
         this.playSound("awtsmoos://dingSound", { volume: 0.5 });

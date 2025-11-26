@@ -1104,9 +1104,19 @@ export class OctreeWorld {
      * B"H
      * Removal with Immediate Rebuild.
      */
+    /**
+     * B"H
+     * Removal with Immediate Rebuild.
+     * Updated to clean up Satellites and handle Ghost-to-Visual linking.
+     */
     removeMesh(mesh) {
         if (!this.#root || !mesh) return;
 
+        // 1. Identify the Visual Reference (if 'mesh' is a physics clone)
+        const visualRef = mesh.userData?.visualReference || mesh;
+
+        // 2. CLEANUP MAIN WORLD (Octree Nodes)
+        // The Octree nodes contain the 'mesh' passed in (the physics clone).
         const meshBox = new Box3().setFromObject(mesh);
         const nodes = this.#findLeafNodesInBox(this.#root, meshBox);
 
@@ -1118,6 +1128,27 @@ export class OctreeWorld {
                 }
             }
         });
+
+        // 3. CLEANUP SATELLITES (The Instant/Pending World)
+        // Satellites are created with 'sourceMesh' pointing to the VISUAL mesh.
+        // We filter the pending list to remove any satellite linked to the visual object we just deleted.
+        const initialCount = this.#pendingOctrees.length;
+        this.#pendingOctrees = this.#pendingOctrees.filter(sat => {
+            // If the satellite's source is the visual mesh of the object we are deleting...
+            if (sat.sourceMesh === visualRef) {
+                return false; // Remove it!
+            }
+            // Also check if the satellite contains the exact mesh passed in (just in case)
+            if (sat.box.intersectsBox(meshBox) && sat.getTotalTriangleCount() < 100) {
+                 // Deep check for safety if bounds overlap strictly
+                 // (Optional optimization, the sourceMesh check usually suffices)
+            }
+            return true; // Keep it
+        });
+        
+        if(this.#pendingOctrees.length < initialCount) {
+            // console.log("B\"H - Removed Satellite Physics for deleted object.");
+        }
     }
 
     /**
