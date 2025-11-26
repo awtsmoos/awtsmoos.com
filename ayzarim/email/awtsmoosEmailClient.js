@@ -466,17 +466,35 @@ class AwtsmoosEmailClient {
      * @returns {Object} - The canonicalized headers and body.
      */
     canonicalizeRelaxed(headers, body) {
-        var canonicalizedHeaders = headers.split(CRLF)
-        .map(line => {
-            var [key, ...value] = line.split(':');
-            return key + ':' + value.join(':').trim();
-        })
-        .join(CRLF);
+        // 1. Headers: Lowercase keys, remove extra whitespace
+        var canonicalizedHeaders = headers.split(CRLF).map(line => {
+            var parts = line.split(':');
+            var key = parts.shift().toLowerCase().trim();
+            var value = parts.join(':').replace(/\s+/g, ' ').trim();
+            return key + ':' + value;
+        }).join(CRLF); // Note: We do NOT add a trailing CRLF to headers here for the signature block itself
 
-
-        var canonicalizedBody = body.split(CRLF)
-            .map(line => line.split(/\s+/).join(' ').trimEnd())
-            .join(CRLF).trimEnd();
+        // 2. Body:
+        // a. Reduce whitespace inside lines (but keep the lines)
+        // b. Remove empty lines at the VERY end of the body
+        // c. Ensure the body ends with exactly ONE CRLF
+        
+        var lines = body.split(CRLF);
+        var processedLines = lines.map(line => {
+            return line.replace(/[ \t]+$/, '') // Remove trailing whitespace per line
+                       .replace(/[ \t]+/g, ' '); // Reduce internal whitespace to single space
+        });
+        
+        var canonicalizedBody = processedLines.join(CRLF);
+        
+        // Remove all trailing CRLFs
+        while (canonicalizedBody.endsWith(CRLF)) {
+            canonicalizedBody = canonicalizedBody.slice(0, -CRLF.length);
+        }
+        // Add exactly one CRLF back (required by DKIM specs if body is not empty)
+        if (canonicalizedBody.length > 0) {
+            canonicalizedBody += CRLF;
+        }
 
         return { canonicalizedHeaders, canonicalizedBody };
     }
@@ -491,8 +509,10 @@ class AwtsmoosEmailClient {
      */
     signEmail(domain, selector, privateKey, emailData) {
         try {
-            var [headers, ...bodyParts] = emailData.split(CRLF + CRLF);
-            var body = bodyParts.join(CRLF + CRLF);
+            // Split headers and body at the first double-CRLF
+            var splitIndex = emailData.indexOf(CRLF + CRLF);
+            var headers = emailData.substring(0, splitIndex);
+            var body = emailData.substring(splitIndex + (CRLF.length * 2));
         
             var { canonicalizedHeaders, canonicalizedBody } = 
             this.canonicalizeRelaxed(headers, body);
