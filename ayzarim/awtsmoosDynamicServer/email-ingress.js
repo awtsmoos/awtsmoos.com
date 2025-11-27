@@ -102,16 +102,21 @@ module.exports = async function ({ sender, recipients, data }) {
             
             // D. NOTIFY
             if (this.ws) {
-                // The recipient 'r' is like "coby@awtsmoos.com".
-                // We simplify this to "coby" for the socket target, 
-                // but pass the Full ID in the logic just in case.
+                // B"H - ROBUST TARGETING
+                // 1. cleanRecipient is already stripped of <> and @ -> _at_
+                // e.g. "coby_at_awtsmoos.com" or "user_at_gmail.com"
                 
-                var socketTarget = cleanRecipient; // e.g. coby_at_awtsmoos.com
+                // 2. We extract the Essence (Short Name) from the CLEANED string,
+                // avoiding any risk of leftover brackets from the raw 'r'.
+                var socketTarget = cleanRecipient; 
                 
-                // If it's a local address, try the short name first
-                if(r.includes("@awtsmoos.com")) {
-                    socketTarget = r.split("@")[0];
+                // If it looks like a local address, grab the short name
+                // "coby_at_awtsmoos.com" -> "coby"
+                if (cleanRecipient.endsWith("_at_awtsmoos.com")) {
+                    socketTarget = cleanRecipient.split("_at_")[0];
                 }
+
+                console.log(`B"H DEBUG: Ingress Socket Notify. Target: [${socketTarget}] Raw: [${r}]`);
 
                 this.ws.sendToAlias(socketTarget, {
                     type: 'NEW_MAIL',
@@ -129,6 +134,8 @@ module.exports = async function ({ sender, recipients, data }) {
                         direction: "incoming"
                     }
                 });
+            } else {
+                console.log("B\"H DEBUG: Ingress has NO WebSocket connection!");
             }
         }
         console.log("B\"H - Processed Mail:", email);
