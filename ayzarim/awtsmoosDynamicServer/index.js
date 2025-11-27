@@ -22,7 +22,7 @@ var crypto = require('crypto');
 var doLogs = require("./doLogs.js");
 var { binaryMimeTypes, mimeTypes } = require("./mimes.js");
 const { startTaskRunner } = require('./cleanup-worker.js');
-
+var emailIngress = require("./email-ingress.js");
 var self = null;
 
 class AwtsmoosStaticServer {
@@ -112,37 +112,7 @@ class AwtsmoosStaticServer {
         // INCOMING MAIL HANDLER (INGRESS)
         // ======================================================
         if (this.mail) {
-            this.mail.gotMail = async ({ sender, recipients, data }) => {
-                try {
-                    var time = Date.now();
-                    // Sender: "bob@gmail.com" -> "bob_at_gmail.com"
-                    var cleanSender = sender.replace("@", "_at_").replace(/[<>]/g, "");
-
-                    for (var r of recipients) {
-                        // Recipient: "me@awtsmoos.com" -> "me_at_awtsmoos.com"
-                        var cleanRecipient = r.replace("@", "_at_").replace(/[<>]/g, "");
-                        
-                        // NEW UNIFIED PATH: /emails/[ME]/threads/[FRIEND]
-                        // "friend" here is the Sender
-                        var path = `/emails/${cleanRecipient}/threads/${cleanSender}`;
-
-                        // We save it as "incoming" because 'gotMail' handles *incoming* SMTP
-                        await this.db.appendToObj(path, {
-                            key: time + "",
-                            value: {
-                                rawData: data + "", // Store raw SMTP for parsing
-                                time: time,
-                                read: false,
-                                direction: "incoming",
-                                correspondent: cleanSender
-                            }
-                        });
-                    }
-                    console.log("B\"H - Saved Incoming Email Thread:", sender, recipients);
-                } catch ($) {
-                    console.log("Error saving incoming email", $);
-                }
-            }
+            this.mail.gotMail = emailIngress;
         }
     }
 
