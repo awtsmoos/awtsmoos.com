@@ -127,8 +127,13 @@ class AwtsmoosStaticServer {
     }
     
     async onRequest(request, response) {
+        // 1. PAUSE THE STREAM IMMEDIATELY to stop the race condition
+        request.pause();
+
         const requestOrigin = request.headers.origin;
         response.setHeader('Access-Control-Allow-Methods', 'OPTIONS, GET, POST, PUT, DELETE');
+        
+        
         response.setHeader("Access-Control-Allow-Headers", "awtsmoos-file-status");
         response.setHeader('Access-Control-Allow-Origin', requestOrigin||"*");
         response.setHeader('Cross-Origin-Embedder-Policy', 'unsafe-none');
@@ -178,7 +183,7 @@ class AwtsmoosStaticServer {
         var foundAwtsmooses = [];
         var paramKinds = { POST: {}, PUT: {}, GET: {}, DELETE: {} };
         
-        this.doMiddleware(request, response);
+        await this.doMiddleware(request, response);
         response.setHeader("BH", "Boruch Hashem");
         response.setHeader("Awtsmoos", "Is found in all things");
         response.setHeader('Connection', 'keep-alive');
@@ -279,6 +284,8 @@ class AwtsmoosStaticServer {
                     }
                     resolve(paramKinds[method]);
                 });
+                
+                request.resume();
             });
         }
 

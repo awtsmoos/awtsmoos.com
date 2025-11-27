@@ -81,77 +81,45 @@ async function getPathInfo() {
 		];
 
 	try {
-		var st = await fs.stat(
-			filePath
-		);
-
-
-
+		var st = null;
+		try {
+			st = await fs.stat(filePath);
+		} catch (e) {
+			// Soft Retry: If "/login" failed, check if it's a folder by appending slash logic internally
+			// effectively treating them the same without a redirect
+			if (e.code === 'ENOENT' && !filePath.endsWith(path.sep)) {
+				try {
+					st = await fs.stat(filePath + path.sep);
+					// If this worked, update filePath to include the slash internally
+					if (st && st.isDirectory()) filePath = filePath + path.sep;
+				} catch (ex) {}
+			}
+			if (!st) throw e; // If still nothing, throw original error
+		}
 
 		if (st && st.isDirectory()) {
+			var indexFilePath = path.join(this.filePath, "index.html");
+			var san = path.normalize(indexFilePath);
 
-
-
-
-			var indexFilePath = this.filePath +
-				"/index.html";
-                var san = path.normalize(indexFilePath)
-                
-                var ac = await exists(san)
-                
+			// Logic Change: Check for index.html. 
+			// If found, serve it immediately. NO REDIRECTS.
 			if (await exists(san)) {
 				this.filePath = san;
-				// Redirect if the original path does not end with a trailing slash
-				if (!originalPath.endsWith('/')) {
-					var redirectUrl = originalPath + '/';
-
-					// Check if query parameters exist
-					if (Object.keys(parsedUrl.query)
-						.length > 0) {
-						redirectUrl += '?' + new url.URLSearchParams(parsedUrl.query)
-							.toString();
-					}
-
-					// Check if a hash fragment exists
-					if (parsedUrl.hash) {
-						redirectUrl += parsedUrl.hash;
-					}
-
-					response.writeHead(301, {
-						Location: redirectUrl
-					});
-
-					response.end();
-					awtsRes.ended = true;
-					return false;
-
-				}
-                
 				this.isDirectoryWithIndex = true;
 				this.fileName = "index.html";
-
-
-
 			} else {
+				// Directory exists, but no index.html (maybe dynamic directory)
 				this.isDirectoryWithoutIndex = true;
-				this
-					.dependencies
-					.awtsRes
-					.ended = false;
-
+				this.dependencies.awtsRes.ended = false;
 			}
 		} else if (st) {
-
 			this.isRealFile = true;
 			this.dependencies.awtsRes.ended = false;
-
 		}
 	} catch (err) {
-        
 		doesNotExist = true;
 		if (err.code != "ENOENT")
-			console.log("Issue?", err)
-		// stat call failed, file or directory does not exist
+			console.log("Issue?", err);
 	}
 
 	this.dependencies.awtsRes.ended = false;
