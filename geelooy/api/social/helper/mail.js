@@ -491,67 +491,99 @@ async function approveSender({ $i, userid, aliasId, senderId }) {
 // B"H - LOCAL INTELLIGENCE HELPERS
 
 async function sendSystemLocalMail($i, fromAlias, toAlias, subject, content) {
-    // Bypasses auth checks because the System (Server) is sending it
+    // B"H - Local System Mail (Bot / Auto-Reply)
+    
+    // Normalize aliases to be safe
+    var fromShort = fromAlias.split('_at_')[0].split('@')[0];
+    var toShort = toAlias.split('_at_')[0].split('@')[0];
+    
     var time = Date.now();
-    var fromFolder = `${fromAlias}_at_awtsmoos.com`;
-    var toFolder = `${toAlias}_at_awtsmoos.com`;
-    var targetEmail = `${toAlias}@awtsmoos.com`;
+    var fromFolder = `${fromShort}_at_awtsmoos.com`;
+    var toFolder = `${toShort}_at_awtsmoos.com`;
+    var targetEmail = `${toShort}@awtsmoos.com`;
+    
+    // Safeguard Content for Substring calls
+    content = String(content || "");
 
-    // 1. Write to Sender's Outbox (The Bot/System User)
-    await $i.db.appendToObj(`/emails/${fromFolder}/threads/${toFolder}`, {
-        key: time + "",
-        value: {
-            from: fromAlias, to: targetEmail, subject, content, time, read: true, direction: "outgoing"
-        }
-    });
-
-    // 2. Write to Recipient's Inbox
-    await $i.db.appendToObj(`/emails/${toFolder}/threads/${fromFolder}`, {
-        key: time + "",
-        value: {
-            from: fromAlias, fromName: fromAlias, to: targetEmail,
-            subject, content, time, read: false, direction: "incoming", correspondent: fromAlias, status: "inbox"
-        }
-    });
-
-    // 3. Notify
-    if ($i.ws) {
-        var socketTarget = toAlias; // Already short in this context
-        
-        $i.ws.sendToAlias(socketTarget, {
-            type: 'NEW_MAIL',
-            message: {
-                id: `${fromFolder}:${time}`,
-                uid: time + "",
-                from: fromAlias, 
-                fromName: fromAlias,
-                subject, 
-                snippet: content.substring(0, 50),
-                content, 
-                timeSent: time, 
-                correspondent: fromAlias, 
-                direction: "incoming", 
-                status: "inbox"
+    try {
+        // 1. Write to Sender's Outbox (The Bot)
+        await $i.db.appendToObj(`/emails/${fromFolder}/threads/${toFolder}`, {
+            key: time + "",
+            value: {
+                from: fromShort, to: targetEmail, subject, content, time, 
+                read: true, direction: "outgoing"
             }
         });
+
+        // 2. Write to Recipient's Inbox (The Trigger-er)
+        await $i.db.appendToObj(`/emails/${toFolder}/threads/${fromFolder}`, {
+            key: time + "",
+            value: {
+                from: fromShort, fromName: fromShort, to: targetEmail,
+                subject, content, time, 
+                read: false, direction: "incoming", correspondent: fromShort, status: "inbox"
+            }
+        });
+
+        // 3. SOCKETS
+        if ($i.ws) {
+            // A. Notify RECIPIENT (User A - Incoming)
+            $i.ws.sendToAlias(toShort, {
+                type: 'NEW_MAIL',
+                message: {
+                    id: `${fromFolder}:${time}`,
+                    uid: time + "",
+                    from: fromShort,
+                    fromName: fromShort,
+                    subject,
+                    snippet: content.substring(0, 50),
+                    content,
+                    timeSent: time,
+                    correspondent: fromShort,
+                    direction: "incoming",
+                    status: "inbox"
+                }
+            });
+
+            // B. Notify SENDER (User B - Outgoing / Feedback Loop)
+            // This makes the "Sent" bubble appear on the Bot Owner's screen instantly.
+            $i.ws.sendToAlias(fromShort, {
+                type: 'NEW_MAIL',
+                message: {
+                    id: `${toFolder}:${time}`,
+                    uid: time + "",
+                    from: fromShort, // Me
+                    to: toShort,
+                    subject,
+                    snippet: content.substring(0, 50),
+                    content,
+                    timeSent: time,
+                    correspondent: toShort, // Grouped under the friend's name
+                    direction: "outgoing",  // Mark as outgoing
+                    read: true
+                }
+            });
+        }
+    } catch(e) {
+        console.log("System Mail Error", e);
     }
 }
 
 async function runLocalRules($i, settings, msg) {
     try {
-        // 1. Structured Rules
         if (settings.rules && Array.isArray(settings.rules)) {
             for (let rule of settings.rules) {
                 if (!rule.enabled) continue;
                 let match = false;
                 let matchedKw = "";
-                const text = (msg.content || "").toLowerCase();
-                const keywords = (rule.keywords || "").toLowerCase().split(',').map(k=>k.trim()).filter(Boolean);
+                // B"H - Safeguard: Ensure content is string
+                const text = String(msg.content || "").toLowerCase();
+                const keywords = (rule.keywords || "").toLowerCase().split(',').map(k => k.trim()).filter(Boolean);
 
                 if (rule.condition === 'contains_any') {
                     const found = keywords.find(k => text.includes(k));
-                    if(found) { match = true; matchedKw = found; }
-                } 
+                    if (found) { match = true; matchedKw = found; }
+                }
                 else if (rule.condition === 'contains_only') {
                     let clean = text;
                     keywords.forEach(k => clean = clean.replace(k, ''));
@@ -562,7 +594,7 @@ async function runLocalRules($i, settings, msg) {
                 else if (rule.condition === 'javascript') {
                     const sandbox = { msg, text };
                     vm.createContext(sandbox);
-                    try { match = vm.runInContext(rule.customCondition, sandbox, { timeout: 500 }); } catch(e){}
+                    try { match = vm.runInContext(rule.customCondition, sandbox, { timeout: 500 }); } catch (e) { }
                 }
 
                 if (match) {
@@ -570,28 +602,33 @@ async function runLocalRules($i, settings, msg) {
                     if (rule.actionType === 'javascript') {
                         const sandbox = { msg, matchedKeyword: matchedKw, reply: (t) => { replyText = t; } };
                         vm.createContext(sandbox);
-                        try { vm.runInContext(rule.replyScript, sandbox, { timeout: 500 }); } catch(e){}
+                        try { vm.runInContext(rule.replyScript, sandbox, { timeout: 500 }); } catch (e) { }
                     } else {
-                        replyText = processReplyVariables(rule.replyText, matchedKw, msg.content);
+                        replyText = processReplyVariables(rule.replyText, matchedKw, String(msg.content||""));
                     }
 
                     if (replyText) {
+                        // B"H - Execute the Auto-Response
                         await sendSystemLocalMail($i, msg.to, msg.from, "Re: " + msg.subject, replyText);
                     }
-                    break; // One rule per message?
+                    break; // Stop after first matching rule
                 }
             }
         }
-    } catch(e) { console.log("Local Rule Error", e); }
+    } catch (e) { console.log("Local Rule Error", e); }
 }
 
+// B"H - Robust Tokenizer
 function processReplyVariables(template, keyword, fullText) {
-    if(!template) return "";
+    if (!template) return "";
     return template.replace(/\$([a-zA-Z0-9]+)\+(\d+)/g, (match, key, offset) => {
         const targetWord = (key.toLowerCase() === "keyword") ? keyword : key.toLowerCase();
-        const textWords = (fullText||"").replace(/\n/g, " ").split(" ");
+        // Split by ANY whitespace to handle multiple spaces/newlines safely
+        const textWords = (fullText || "").replace(/\n/g, " ").trim().split(/\s+/);
+        
         const index = textWords.findIndex(w => w.toLowerCase().includes(targetWord));
-        if (index === -1) return "[?] bs";
+        if (index === -1) return "[not found]";
+        
         const targetIndex = index + parseInt(offset);
         return textWords[targetIndex] || "";
     });
