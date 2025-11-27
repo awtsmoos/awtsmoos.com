@@ -535,31 +535,31 @@ function populateSettingsModal() {
     }
 }
 
+// B"H - Normalized State Injection
 function injectMessageIntoState(msg) {
-    // 1. Duplicate Check (Strict ID match)
     if (state.messages.some(m => m.id === msg.id)) return;
 
+    // NORMALIZATION FIX: Ensure thread IDs match existing ones
+    // If msg.correspondent is short ("bob"), and we have ("bob_at_..."), remap it.
+    let targetThread = msg.correspondent;
+    const existingKey = Object.keys(state.threads).find(key => {
+        // Match "bob" to "bob_at_..." or vice versa
+        const cleanKey = key.split('_at_')[0];
+        const cleanMsg = targetThread.split('_at_')[0];
+        return cleanKey === cleanMsg;
+    });
+
+    if(existingKey) {
+        msg.correspondent = existingKey; // Force new message into old thread container
+    }
+
     state.messages.push(msg);
-    
-    // 2. Re-process threads (This rebuilds the state.threads dict)
     processThreads(state.messages);
-    
     renderSidebar();
     
-    // 3. Intelligent Thread Refresh
-    if (state.activeThread) {
-        // Check fuzzy equality
-        const targetThread = msg.correspondent;
-        const active = state.activeThread;
-        
-        const isMatch = 
-            targetThread === active || 
-            targetThread.replace(/@/g, '_at_') === active ||
-            targetThread.replace(/_at_/g, '@') === active;
-
-        if (isMatch) {
-            renderMessages(active); // Refresh current view
-        }
+    // Refresh if viewing this thread
+    if (state.activeThread === msg.correspondent) {
+        renderMessages(state.activeThread);
     }
 }
 
