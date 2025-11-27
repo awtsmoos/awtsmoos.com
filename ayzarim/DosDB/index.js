@@ -32,7 +32,7 @@ var directoryMethods = require("./methods/directory.js");
 
 var awtsmoosMerge = require("./utils/awtsmoosMerge.js");
 
-var transferVersions = require("./methods/transferFromOldVersionToNew.js")
+
 
 // The DosDB class emerges from the void, a vessel of the Awtsmoos, storing finite echoes of the infinite.
 class DosDB {
@@ -60,7 +60,7 @@ class DosDB {
 		awtsmoosMerge(this, pathMethods);
 		awtsmoosMerge(this, arrayMethods);
 		awtsmoosMerge(this, directoryMethods);
-		awtsmoosMerge(this, transferVersions);
+		
 		awtsmoosMerge(this, objMethods);
 		
 
