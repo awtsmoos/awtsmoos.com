@@ -1,5 +1,6 @@
 /**
  * B"H
+ * Unified Email API
  */
 
 module.exports = {
@@ -9,257 +10,267 @@ module.exports = {
     setEmailAsRead
 }
 
-var {
-    NO_LOGIN,
-    sp
-} = require("./_awtsmoos.constants.js");
+var { NO_LOGIN, sp } = require("./_awtsmoos.constants.js");
+var { loggedIn, er, myOpts } = require("./general.js");
+var { verifyAliasOwnership } = require("./alias.js");
 
-var {
-    loggedIn,
-    er,
-    myOpts
-} = require("./general.js");
-
-var {
-    verifyAliasOwnership
-} = require("./alias.js");
-
-
-// Helper to extract Subject/From/Body from raw SMTP string
-function parseRawEmailData(rawString, timeSent, idStr) {
-    try {
-        var parts = rawString.split("\r\n\r\n");
-        // First part is headers, rest is body
-        var headers = parts[0];
+/**
+ * Parses raw SMTP data if present, or returns simple object structure
+ */
+function parseEmailEntry(entry, id, friendName) {
+    if (entry.rawData) {
+        // It's a raw SMTP string (incoming from outside)
+        var parts = entry.rawData.split("\r\n\r\n");
+        var headers = parts[0] || "";
         var content = parts.slice(1).join("\r\n\r\n") || "";
 
-        // Simple Regex to grab Subject and From
         var subjectMatch = headers.match(/Subject: (.*)/i);
         var fromMatch = headers.match(/From: (.*)/i);
 
         return {
-            id: idStr, 
-            from: fromMatch ? fromMatch[1] : "External Sender",
+            id,
+            from: fromMatch ? fromMatch[1] : friendName, // Use friend name if raw header fails
             subject: subjectMatch ? subjectMatch[1] : "(No Subject)",
             content: content,
-            timeSent: parseInt(timeSent) || Date.now(),
-            read: false,
-            isExternal: true
+            timeSent: parseInt(entry.time) || Date.now(),
+            read: entry.read || false,
+            direction: entry.direction || "incoming",
+            isRaw: true
         };
-    } catch (e) {
+    } else {
+        // It's a local object (outgoing or internal)
         return {
-            id: idStr,
-            from: "System",
-            subject: "Raw Message",
-            content: rawString,
-            timeSent: Date.now()
+            id,
+            from: entry.from,
+            subject: entry.subject,
+            content: entry.content,
+            timeSent: parseInt(entry.time) || Date.now(),
+            read: entry.read || false,
+            direction: entry.direction, // 'incoming' or 'outgoing'
+            isRaw: false
         };
     }
 }
 
-async function getMail({
-    $i,
-    userid,
-    mailId = null
-}) {
-    if (!loggedIn($i)) {
-        return er(NO_LOGIN);
-    }
+/**
+ * GET MAIL
+ * Requires 'aliasId'. Gets all threads for that specific alias.
+ */
+async function getMail({ $i, userid, aliasId, threadId }) {
+    if (!loggedIn($i)) return er(NO_LOGIN);
+    if (!aliasId) return er({ message: "aliasId is required to fetch mail" });
+
+    // 1. Verify Ownership
+    var verified = await verifyAliasOwnership(aliasId, $i, userid);
+    if (!verified) return er({ message: "You do not own this alias", code: "AUTH_FAIL" });
+
+    // 2. Define Path: /emails/[MY_ALIAS]/threads
+    var myFolder = `${aliasId}_at_awtsmoos.com`;
+    var threadsPath = `/emails/${myFolder}/threads`;
 
     try {
-        var finalEmailList = [];
+        var friends = await $i.db.get(threadsPath);
         
-        // 1. Get the user's aliases to know which /emails/ folders belong to them
-        var aliasPath = `${sp}/users/${userid}/aliases`;
-        var userAliases = await $i.db.get(aliasPath);
-        
-        // If no aliases found, just return empty list (or internal mail only)
-        // Don't error, just proceed.
-        if (userAliases) {
-            // Normalize alias list to array
-            var aliasList = Array.isArray(userAliases) ? userAliases : Object.keys(userAliases);
-
-            // 2. Iterate through each Alias (e.g., "awtsmoos")
-            for (var alias of aliasList) {
-                
-                // Construct the folder name. 
-                // e.g., "awtsmoos" -> "awtsmoos_at_awtsmoos.com"
-                var folderName = `${alias}_at_awtsmoos.com`; 
-                var sendersPath = `/emails/${folderName}/from`;
-
-                // 3. Get the list of Senders (These are now FILES)
-                var senders = await $i.db.get(sendersPath);
-
-                if (Array.isArray(senders) && senders.length) {
-                    for (var senderName of senders) {
-                        
-                        // 4. Get the specific sender's message object (Optimized Binary Object)
-                        var messagesObj = await $i.db.get(`${sendersPath}/${senderName}`);
-                        
-                        if (messagesObj && typeof messagesObj === 'object') {
-                            // 5. Loop through timestamps (keys) in this sender's file
-                            for (var timestamp of Object.keys(messagesObj)) {
-                                var msgData = messagesObj[timestamp];
-                                
-                                var compositeId = `EXT:${folderName}:${senderName}:${timestamp}`;
-
-                                // Specific ID check
-                                if (mailId && mailId === compositeId) {
-                                    var parsed = parseRawEmailData(msgData.data, timestamp, compositeId);
-                                    if(msgData.read) parsed.read = true;
-                                    return parsed;
-                                }
-
-                                // Add to list
-                                if (msgData && msgData.data) {
-                                    var parsed = parseRawEmailData(msgData.data, timestamp, compositeId);
-                                    if(msgData.read) parsed.read = true;
-                                    finalEmailList.push(parsed);
-                                }
-                            }
-                        }
-                    }
-                } 
-                // If no senders, we simply continue to the next alias.
-            }
-        }
-        
-        // If a specific ID was requested but not found in external, check internal legacy
-        if (mailId) {
-             var internal = await $i.db.get(`${sp}/users/${userid}/mail/messages/${mailId}`);
-             if(internal) return internal;
-
-            return er({
-                message: "Message not found",
-                code: "NO_MSG",
-                details: mailId
-            });
+        // If directory doesn't exist or is empty
+        if (!friends || (Array.isArray(friends) && friends.length === 0)) {
+            return []; 
         }
 
-        // 6. Include Internal Legacy Mail (User-to-User)
-        try {
-            var op = myOpts($i);
-            var internalPath = `${sp}/users/${userid}/mail/messages`;
-            var internalMessages = await $i.db.get(internalPath, op);
-            if (internalMessages && Array.isArray(internalMessages)) {
-                 for (var k of internalMessages) {
-                    var details = await $i.db.get(`${internalPath}/${k}`, op);
-                    if (details) {
-                        details.id = k;
-                        finalEmailList.push(details);
-                    }
-                }
-            }
-        } catch(e) {}
+        // 'friends' is an array of filenames (e.g., "bob_at_gmail.com", "other_alias_at_awtsmoos.com")
+        var allMessages = [];
 
-        // Sort by time (newest first)
-        return finalEmailList.sort((a,b) => b.timeSent - a.timeSent);
+        for (var friendName of friends) {
+            // If user requested a specific thread (friend), skip others
+            if (threadId && friendName !== threadId) continue;
 
-    } catch(E) {
-        return er({
-            message: "Issue getting mail",
-            details: E + ""
-        })
-    }
-}
-
-async function deleteMail({
-    $i,
-    mailId,
-    userid
-}) {
-    if (!loggedIn($i)) return er(NO_LOGIN);
-
-    // Optimized External Delete
-    if (mailId && mailId.startsWith("EXT:")) {
-        try {
-            var parts = mailId.split(":");
-            var recipFolder = parts[1];
-            var senderFile = parts[2];
-            var timestampKey = parts[3];
-
-            var path = `/emails/${recipFolder}/from/${senderFile}`;
+            // Get the thread content (Optimized Object)
+            var threadObj = await $i.db.get(`${threadsPath}/${friendName}`);
             
-            // Delete the specific key (timestamp) from the sender object
-            var result = await $i.db.deleteEntry(path, timestampKey);
+            if (threadObj && typeof threadObj === 'object') {
+                for (var timestamp of Object.keys(threadObj)) {
+                    var entry = threadObj[timestamp];
+                    var uniqueId = `${friendName}:${timestamp}`;
 
-            return {
-                success: {
-                    message: "Deleted external email",
-                    details: result
+                    // Parse and Add
+                    var parsed = parseEmailEntry(entry, uniqueId, friendName);
+                    parsed.correspondent = friendName; // The "Friend" (Thread ID)
+                    
+                    allMessages.push(parsed);
                 }
-            };
-        } catch(e) {
-            return er({ message: "Issue deleting external", details: e+"" });
+            }
         }
-    }
 
-    // Legacy Internal Delete
-    var pth = `${sp}/users/${userid}/mail/messages/${mailId}`;
-    try {
-        await $i.db.delete(pth);
-        return { success: { message: "Deleted" } };
-    } catch(e) { return er({ message :"Issue", details: e+"" }) }
+        // Sort by time (Newest first)
+        return allMessages.sort((a, b) => b.timeSent - a.timeSent);
+
+    } catch (e) {
+        return er({ message: "Error fetching threads", details: e + "" });
+    }
 }
 
-async function setEmailAsRead({
-    $i,
-    userid,
-    mailId
-}) {
+/**
+ * SEND MAIL
+ * Unified logic for Local and Remote.
+ * Writes to /threads/ folders for history.
+ */
+async function sendMail({ $i, userid, asAliasId, toAliasId, toEmail }) {
     if (!loggedIn($i)) return er(NO_LOGIN);
 
-    // Optimized External Read Mark
-    if (mailId && mailId.startsWith("EXT:")) {
-        var parts = mailId.split(":");
-        var recipFolder = parts[1];
-        var senderFile = parts[2];
-        var timestampKey = parts[3];
-        var path = `/emails/${recipFolder}/from/${senderFile}`;
-        
-        var msgData = await $i.db.getValue(path, timestampKey);
-        if(!msgData) return er({ message: "Not found" });
+    // 1. Verify Sender Ownership
+    var verified = await verifyAliasOwnership(asAliasId, $i, userid);
+    if (!verified) return er({ message: "Not your alias" });
 
-        msgData.read = true;
+    // 2. Determine Recipient (Local Alias vs Remote Email)
+    var targetEmail = "";
+    var isLocal = false;
 
-        await $i.db.updateEntry(path, { key: timestampKey, value: msgData });
-        
-        return { success: { message: "Marked as read" } };
+    // A. Did they provide an alias ID?
+    if (toAliasId) {
+        // It's local by definition
+        isLocal = true;
+        // Check if alias exists
+        var info = await $i.db.get(`${sp}/aliases/${toAliasId}/info`);
+        if (!info) return er({ message: "Recipient alias not found" });
+        targetEmail = `${toAliasId}@awtsmoos.com`; 
+    } 
+    // B. Did they provide a raw email?
+    else if (toEmail) {
+        targetEmail = toEmail;
+        // Check if it's actually local domain
+        if (targetEmail.endsWith("@awtsmoos.com")) {
+            isLocal = true;
+            // Extract alias ID to verify existence? Optional.
+        }
+    } else {
+        return er({ message: "Must provide toAliasId or toEmail" });
     }
-    
-    return er({ message: "Legacy read marking not implemented for this ID type" });
-}
 
-async function sendMail({
-    $i,
-    userid,
-    asAliasId,
-    toAliasId
-}) {
-    if (!loggedIn($i)) return er(NO_LOGIN);
-
+    var subject = $i.$_POST.subject || $i.$_GET.subject || "(No Subject)";
     var content = $i.$_POST.content || $i.$_GET.content || "";
-    var subject = $i.$_POST.subject || $i.$_GET.subject || "";
-    var to = toAliasId || $i._POST.toAlias;
-    
-    var toAlias =  await $i.db.get(`${sp}/aliases/${to}/info`);
-    if(!toAlias) return er({ message: "Recipient not found" });
+    var time = Date.now();
 
-    var userTo = toAlias.user;
-    var timeSent = Date.now();
-    var messageID = "BH_"+timeSent+"_"+(Math.floor(Math.random() * 770)) + "_from_"+asAliasId;
-    
-    // Writes to LEGACY path (As requested)
-    await $i.db.write(`${sp}/users/${userTo}/mail/messages/${messageID}`, {
-        from: asAliasId,
-        to,
-        timeSent,
-        subject,
-        content,
-        dayuh: { read: false }
-    });
-    
-    return {
-        success: { message: "Sent" }
-    };
+    // Clean names for File System
+    // My Folder: me_at_awtsmoos.com
+    var myFolder = `${asAliasId}_at_awtsmoos.com`; 
+    // Friend Folder: target_at_domain.com
+    var friendClean = targetEmail.replace("@", "_at_").replace(/[<>]/g, "");
+
+    // 3. SENDING LOGIC
+    try {
+        if (isLocal) {
+            // === LOCAL SEND ===
+            
+            // A. Write to MY Outbox (My thread with them)
+            // Path: /emails/ME/threads/THEM
+            await $i.db.appendToObj(`/emails/${myFolder}/threads/${friendClean}`, {
+                key: time + "",
+                value: {
+                    from: asAliasId,
+                    to: targetEmail,
+                    subject,
+                    content,
+                    time,
+                    read: true, // I read my own message
+                    direction: "outgoing"
+                }
+            });
+
+            // B. Write to THEIR Inbox (Their thread with me)
+            // Path: /emails/THEM/threads/ME
+            var meClean = `${asAliasId}_at_awtsmoos.com`;
+            await $i.db.appendToObj(`/emails/${friendClean}/threads/${meClean}`, {
+                key: time + "",
+                value: {
+                    from: asAliasId,
+                    to: targetEmail,
+                    subject,
+                    content,
+                    time,
+                    read: false,
+                    direction: "incoming"
+                }
+            });
+
+            return { success: { message: "Sent internally" } };
+
+        } else {
+            // === REMOTE SEND ===
+            
+            // A. Use SMTP Client to send real email
+            if ($i.mail && $i.mail.smtpClient) {
+                var myFullEmail = `${asAliasId}@awtsmoos.com`;
+                await $i.mail.smtpClient.sendMail(myFullEmail, targetEmail, subject, content);
+            } else {
+                return er({ message: "SMTP Client not available on server" });
+            }
+
+            // B. Write to MY Outbox (My thread with them) so I have history
+            await $i.db.appendToObj(`/emails/${myFolder}/threads/${friendClean}`, {
+                key: time + "",
+                value: {
+                    from: asAliasId,
+                    to: targetEmail,
+                    subject,
+                    content,
+                    time,
+                    read: true,
+                    direction: "outgoing"
+                }
+            });
+
+            return { success: { message: "Sent via SMTP" } };
+        }
+    } catch (e) {
+        return er({ message: "Send failed", details: e + "" });
+    }
+}
+
+async function deleteMail({ $i, userid, aliasId, messageId }) {
+    if (!loggedIn($i)) return er(NO_LOGIN);
+    if (!aliasId) return er({ message: "aliasId required" });
+
+    // Verify ownership
+    var verified = await verifyAliasOwnership(aliasId, $i, userid);
+    if (!verified) return er({ message: "Not your alias" });
+
+    // ID Format: friend_name:timestamp
+    var parts = messageId.split(":");
+    if (parts.length < 2) return er({ message: "Invalid ID format" });
+
+    var friendName = parts[0];
+    var timestamp = parts[1];
+    var myFolder = `${aliasId}_at_awtsmoos.com`;
+    var path = `/emails/${myFolder}/threads/${friendName}`;
+
+    try {
+        var res = await $i.db.deleteEntry(path, timestamp);
+        return { success: { message: "Deleted", details: res } };
+    } catch (e) {
+        return er({ message: "Delete failed", details: e + "" });
+    }
+}
+
+async function setEmailAsRead({ $i, userid, aliasId, messageId }) {
+    if (!loggedIn($i)) return er(NO_LOGIN);
+    if (!aliasId) return er({ message: "aliasId required" });
+
+    var verified = await verifyAliasOwnership(aliasId, $i, userid);
+    if (!verified) return er({ message: "Not your alias" });
+
+    var parts = messageId.split(":");
+    var friendName = parts[0];
+    var timestamp = parts[1];
+    var myFolder = `${aliasId}_at_awtsmoos.com`;
+    var path = `/emails/${myFolder}/threads/${friendName}`;
+
+    try {
+        var msg = await $i.db.getValue(path, timestamp);
+        if (!msg) return er({ message: "Message not found" });
+
+        msg.read = true;
+        await $i.db.updateEntry(path, { key: timestamp, value: msg });
+        return { success: { message: "Read" } };
+    } catch (e) {
+        return er({ message: "Update failed", details: e + "" });
+    }
 }

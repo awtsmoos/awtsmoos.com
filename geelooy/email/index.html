@@ -4,26 +4,98 @@
         tochen: 
             `<script defer src="./mail.js"></s`+`cript>`+
             /*html*/`
-
-            <button id="generateFormButton">Compose Email</button>
-            <main>
-            <title>Awtsmoos Email</title>
-            <section id="emailList">
-                <!-- Email list will be populated here -->
-            </section>
-            <section id="emailPreview">
-                <!-- Email preview will be displayed here -->
-            </section>
-            <section id="composeEmail">
-                <!-- Compose email form will be displayed here -->
-            </section>
             
-            </main>
+            <title>Awtsmoos Quantum Mail</title>
+            
+            <!-- Login / Error Overlay -->
+            <div id="loginOverlay" class="overlay hidden">
+                <div class="glass-card error-card">
+                    <div class="icon-box">🔒</div>
+                    <h1>Access Restricted</h1>
+                    <p>No active alias detected. Please identify yourself to access the Awtsmoos network.</p>
+                    <a href="/login" class="btn-primary">Login / Select Alias</a>
+                </div>
+            </div>
+
+            <!-- Main App Container -->
+            <div id="appContainer" class="app-layout hidden">
+                
+                <!-- Sidebar: Threads List -->
+                <aside class="sidebar">
+                    <div class="sidebar-header">
+                        <div class="brand">Awtsmoos Mail</div>
+                        <div class="current-user">
+                            <span class="status-dot"></span>
+                            <span id="displayAlias">...</span>
+                        </div>
+                    </div>
+                    
+                    <button id="composeBtn" class="btn-compose">
+                        <span class="plus">+</span> New Transmission
+                    </button>
+
+                    <div class="threads-list" id="threadsList">
+                        <!-- Threads injected via JS -->
+                    </div>
+                </aside>
+
+                <!-- Main: Conversation View -->
+                <main class="chat-area">
+                    <header class="chat-header" id="chatHeader">
+                        <div class="chat-info hidden" id="activeChatInfo">
+                            <h2 id="chatPartnerName">Select a thread</h2>
+                            <span class="last-seen" id="chatPartnerStatus">Encrypted Connection</span>
+                        </div>
+                    </header>
+
+                    <div class="messages-container" id="messagesContainer">
+                        <div class="empty-state">
+                            <div class="logo-faint">Awtsmoos</div>
+                            <p>Select a thread to view the infinite light.</p>
+                        </div>
+                    </div>
+
+                    <form class="input-area hidden" id="composeForm">
+                        <div class="input-wrapper">
+                            <input type="text" id="subjectInput" placeholder="Subject (Optional)" class="subject-input">
+                            <div class="flex-row">
+                                <textarea id="messageInput" placeholder="Write your message..." rows="1"></textarea>
+                                <button type="submit" class="btn-send">
+                                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </main>
+            </div>
+
+            <!-- Compose New Modal -->
+            <div id="newMsgModal" class="modal hidden">
+                <div class="modal-content glass-card">
+                    <span class="close-modal">&times;</span>
+                    <h2>New Transmission</h2>
+                    <form id="newThreadForm">
+                        <div class="form-group">
+                            <label>To (Alias or Email)</label>
+                            <input type="text" id="newRecipient" placeholder="friend OR friend@gmail.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Subject</label>
+                            <input type="text" id="newSubject" placeholder="Regarding the cosmos...">
+                        </div>
+                        <div class="form-group">
+                            <label>Message</label>
+                            <textarea id="newMessageBody" rows="5" required></textarea>
+                        </div>
+                        <div class="modal-actions">
+                            <button type="submit" class="btn-primary">Send</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
             <link rel="stylesheet" href="./styles.css">
             `
-        
     });
-
-
     return g;
 </script>?>
