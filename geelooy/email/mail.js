@@ -499,19 +499,77 @@ function openMsgMenu(m) { selectedMsgObj = m; document.getElementById('msgContex
 function closeMsgMenu() { document.getElementById('msgContextModal').classList.add('hidden'); }
 
 
+/**
+ * @typedef {Object} Message
+ * @property {string} id
+ * @property {string} uid
+ * @property {string} from
+ * @property {string} to
+ * @property {string} subject
+ * @property {(string|number)} content
+ * @property {number} timeSent
+ * @property {'incoming'|'outgoing'} direction
+ * @property {string} correspondent
+ */
+
+/**
+ * B"H - The Alchemist's Crucible: Simple Markdown to HTML Transmutation.
+ * Transmutes essential markdown (*, _, `) into HTML tags.
+ * @param {(string|number)} text - The raw text received from the server.
+ * @returns {string} The purified HTML content.
+ */
 function formatContent(text) {
     if (text === null || text === undefined) return "";
     
-    // B"H - Cast to String to prevent number crashes
-    const str = String(text);
+    let str = String(text);
     
-    // Check for HTML
+    // 1. Check for existing HTML (The Gold Standard)
     if (/<[a-z][\s\S]*>/i.test(str) || str.includes('style=')) {
         return str; // Return raw HTML
     }
     
-    // Otherwise, escape and format line breaks
-    return escapeHtml(str).replace(/\n/g, '<br>');
+    // 2. Simple Markdown Transmutation (The Essential Elements)
+    // Escape everything first, then un-escape the parts we want to convert
+    let html = escapeHtml(str);
+    
+    // Code Blocks (```...```) - Convert to <pre><code>
+    // This is complex to do safely without a real parser, we use a temporary placeholder
+    let codeBlocks = [];
+    const codeRegex = /```([\s\S]*?)```/g;
+    html = html.replace(codeRegex, (match, content) => {
+        const placeholder = `__CODE_BLOCK_${codeBlocks.length}__`;
+        // The content inside is already HTML-escaped, so we put it in <code> tags directly
+        codeBlocks.push(`<pre class="code-block"><code>${content}</code></pre>`); 
+        return placeholder;
+    });
+
+    // Bold (*text*) -> <strong>
+    html = html.replace(/\\\*(.*?)\\\*/g, '<strong>$1</strong>');
+    
+    // Italics (_text_) -> <em>
+    html = html.replace(/\\_(.*?)\\_/g, '<em>$1</em>');
+    
+    // Links ([Text](URL)) -> <a href="URL">Text</a> (Very basic)
+    html = html.replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
+    
+    // Restore Code Blocks
+    codeBlocks.forEach((block, index) => {
+        html = html.replace(`__CODE_BLOCK_${index}__`, block);
+    });
+
+    // 3. Line Breaks (\n) -> <br> (Only after other parsing)
+    // Quote logic must handle its own embedding separately if necessary, but for now, we use <br>
+    return html.replace(/\n/g, '<br>');
+}
+
+function escapeHtml(text) {
+    // B"H - The Shield of String
+    if (text === null || text === undefined) return "";
+    return String(text)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/\\/g, ""); // Remove backslashes used for escaping in the original raw text
 }
 
 function escapeHtml(text) {
@@ -593,7 +651,7 @@ function attachSwipeLogic(element, msg, senderName) {
     let isTouch = false;
     const SWIPE_THRESHOLD = 60; // Distance to trigger reply
 
-    // Ensure indicator exists
+    // Ensure indicator exists and is styled correctly for the row container
     if (!element.querySelector('.swipe-indicator')) {
         const ind = document.createElement('div');
         ind.className = 'swipe-indicator';
@@ -605,14 +663,18 @@ function attachSwipeLogic(element, msg, senderName) {
 
     // --- Events ---
 
-    const start = (x) => { startX = x; element.classList.add('swiping'); };
+    const start = (x) => { 
+        startX = x; 
+        element.classList.add('swiping'); 
+        // Detach scroll listener temporarily to prevent viewport scroll during drag
+        document.getElementById('messagesContainer').onscroll = null;
+    };
     
     const move = (x) => {
         currentX = x;
         const diff = currentX - startX;
         
-        // ONLY allow Right Swipe (Pull > 0)
-        // Limit the pull distance (Resistance)
+        // ONLY allow Right Swipe (Pull > 0) - Corresponds to Reply
         if (diff > 0 && diff < 200) {
             // Apply transform with resistance
             const resistance = Math.pow(diff, 0.8); 
@@ -624,10 +686,12 @@ function attachSwipeLogic(element, msg, senderName) {
                 indicator.style.color = '#fff';
                 indicator.style.background = 'var(--neon-gold)';
                 indicator.style.borderColor = 'var(--neon-gold)';
+                indicator.style.opacity = '1';
             } else {
                 indicator.style.transform = `translateY(-50%) scale(${0.5 + (resistance/SWIPE_THRESHOLD)*0.5})`;
                 indicator.style.color = 'var(--neon-gold)';
                 indicator.style.background = '#2a2a2e';
+                indicator.style.opacity = '1';
             }
         }
     };
@@ -639,6 +703,10 @@ function attachSwipeLogic(element, msg, senderName) {
         
         // Reset icon styles
         indicator.style = ''; 
+        indicator.style.opacity = '0';
+
+        // Re-attach scroll listener
+        attachScrollListener(); 
 
         if (diff > SWIPE_THRESHOLD) {
             // Vibration haptic (if mobile)
@@ -650,12 +718,12 @@ function attachSwipeLogic(element, msg, senderName) {
     // Touch Listeners
     element.addEventListener('touchstart', e => { isTouch=true; start(e.touches[0].clientX); }, {passive: true});
     element.addEventListener('touchmove', e => { if(isTouch) move(e.touches[0].clientX); }, {passive: true});
-    element.addEventListener('touchend', e => { if(isTouch) end(e.changedTouches[0].clientX); isTouch=false; });
+    element.addEventListener('touchend', e => { if(isTouch) { end(e.changedTouches[0].clientX); isTouch=false; } });
 
     // Mouse Listeners (Desktop slide)
     let isDragging = false;
     element.addEventListener('mousedown', e => {
-        if (e.button !== 0 || e.target.closest('button, a, input, textarea')) return;
+        if (e.button !== 0 || e.target.closest('button, a, input, textarea, .msg-menu-btn')) return;
         isDragging = true;
         element.style.cursor = 'grabbing';
         start(e.clientX);
@@ -704,9 +772,15 @@ function handleSwipeEnd(element, diff, msg, senderName) {
 }
 
 function triggerReplyMode(msg, senderName) {
-    let content = msg.textContent || msg.content || "";
-    let snippet = content.replace(/<[^>]*>?/gm, '').substring(0, 50);
-    if(content.length > 50) snippet += "...";
+    // Ensure we get the raw content for the snippet, not the potentially formatted HTML
+    let content = msg.content || msg.textContent || "";
+    
+    // Use the new formatter on the raw content to get a clean snippet, or just use raw text
+    let snippetContent = formatContent(content); 
+    
+    // Clean up HTML tags for the short preview snippet
+    let snippet = snippetContent.replace(/<[^>]*>?/gm, '').substring(0, 50);
+    if(snippetContent.length > 50) snippet += "...";
     
     state.replyingTo = {
         id: msg.id,
