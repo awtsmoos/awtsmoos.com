@@ -64,11 +64,11 @@ module.exports = {
         // If parsing multipart/form-data resulted in a different structure, adjust here.
         // Or if it was raw JSON body:
         if(!input && $i.request.body) {
-             try { input = JSON.parse($i.request.body); } catch(e){}
+             try { input = ($i.$_POST); } catch(e){}
         }
         
         if (!input || !input.url) {
-            return { error: "Missing 'url' in request body.", status: 400 };
+            return { error: "Missing 'url' in request body.", post: $i._POST, status: 400 };
         }
 
         var targetUrl = input.url;
