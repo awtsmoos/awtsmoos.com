@@ -391,6 +391,7 @@ const instrumentedDb = new Proxy(self.db, {
         $_DELETE: paramKinds.DELETE,
         config,
         utils: Utils,
+        mail,
         ...ob
     })
 }
