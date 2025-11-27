@@ -593,9 +593,7 @@ class AwtsmoosEmailClient {
     /**
      * B"H
      * Signs the email using DKIM with relaxed/relaxed algorithm.
-     * 
-     * FIX: Ensures the DKIM-Signature header itself is included 
-     * in the hash with a trailing CRLF.
+     * FIXED: Includes trailing CRLF in the DKIM header canonicalization.
      */
     signEmail(domain, selector, privateKey, headers, body) {
         try {
@@ -613,7 +611,6 @@ class AwtsmoosEmailClient {
             var hTagList = [];
 
             headersToSign.forEach(name => {
-                // Regex matches the start of the line case-insensitively
                 var regex = new RegExp(`^${name}:.*$`, 'mi');
                 var match = headers.match(regex);
                 if (match) {
@@ -623,40 +620,26 @@ class AwtsmoosEmailClient {
             });
 
             // 3. Canonicalize Existing Headers
-            // This function returns a string ending in CRLF
             var { canonicalHeaders } = this.canonicalizeRelaxed(collectedRawHeaders, null);
 
             // 4. Create the DKIM-Signature Header
             var timestamp = Math.floor(Date.now() / 1000);
             
-            // Note: We use the timestamp in the string to send AND to sign
             var dkimHeaderStart = `v=1; a=rsa-sha256; c=relaxed/relaxed; d=${domain}; s=${selector}; t=${timestamp}; bh=${bodyHash}; h=${hTagList.join(':')}; b=`;
             
-            // Canonicalize this specific line (lowercase key 'dkim-signature', no space after colon, single spaces in value)
-            // dkimHeaderStart likely contains "v=1; a=...", we need to ensure spacing is relaxed-compliant
             var relaxedValue = dkimHeaderStart.replace(/\s+/g, ' ').trim();
             var canonicalDkimLine = "dkim-signature:" + relaxedValue;
 
             // 5. Construct 'toSign'
-            // CRITICAL FIX: The DKIM-Signature line MUST end with CRLF in the hash input
+            // CRITICAL FIX: The DKIM-Signature line MUST end with CRLF
             var toSign = canonicalHeaders + canonicalDkimLine; 
             
-            // *Technically* standard header canonicalization usually implies an empty CRLF is NOT part of the *value*,
-            // but the separator between headers IS CRLF.
-            // RFC 6376: "The DKIM-Signature header field... is inserted into the message... header field includes the trailing CRLF."
-            // So, since 'canonicalHeaders' has a trailing CRLF for the previous header,
-            // we intentionally do NOT add a CRLF *after* canonicalDkimLine for the text we feed to update(). 
-            // Wait. Relaxed header canonicalization (3.4.2) DOES NOT mention including the CRLF in the string to hash. 
-            // It processes the header field *line*.
-            // HOWEVER, popular implementations (like OpenDKIM) treat the *header block* as concatenated lines.
-            // If the last thing in the buffer is "b=", does it need "\r\n"?
-            // Most valid signatures on the web show NO CRLF at the very end of 'toSign'.
-            
-            // Let's debug this in the 'Verify' script. For now, we trust NO CRLF at end of toSign
-            // because `canonicalHeaders` (from above) provides the CRLF separating previous header from this one.
-            
-            // Double Check: Your previous fail was probably due to `canonicalHeaders` 
-            // string construction or the spacing in `canonicalDkimLine`.
+            // Per RFC 6376, the "DKIM-Signature" header field IS a header field. 
+            // All header fields contribute their CRLF to the hash.
+            // If canonicalDkimLine doesn't have it, we add it.
+            if (!toSign.endsWith(CRLF)) {
+                toSign += CRLF;
+            }
 
             var signature = crypto.createSign('SHA256')
                 .update(toSign)
