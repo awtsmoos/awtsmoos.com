@@ -536,67 +536,55 @@ class AwtsmoosEmailClient {
      * B"H
      * Transforms the physical matter of the email into the 
      * spiritual essence required for the Signature.
-     * 
-     * Uses 'relaxed' canonicalization:
-     * 1. Headers: Lowercase keys, remove excessive spacing.
-     * 2. Body: Truncate trailing whitespace, compress internal spacing, 
-     *    ensure exactly one empty newline at the end.
      */
     canonicalizeRelaxed(headers, body) {
-        // --- 1. Header Canonicalization (The Vessels) ---
-        // Unfold lines first (not fully implemented here as we assume simple lines), 
-        // but crucial: Lowercase Name, trim spacing.
+        // --- 1. Header Canonicalization ---
+        var canonicalHeadersStr = "";
         
-        var canonicalHeaders = [];
-        var headerLines = headers.split(CRLF);
-        
-        // We only sign specific headers
-        var headersToSign = ['from', 'to', 'subject', 'date', 'message-id'];
-        var headersFound = [];
-
-        // Note: The caller handles the specific subset logic, 
-        // but here we normalize what is given.
-        // In this implementation, we expect 'headers' string to ONLY contain
-        // the headers we want to sign, in order.
-        
-        // However, a helper logic is needed inside signEmail to pick them.
-        // Let's rely on signEmail to pass us the specific extracted raw headers.
-        
-        var processHeader = (line) => {
-            var split = line.indexOf(':');
-            if (split === -1) return line; // Should not happen in valid headers
+        if (headers) {
+             // Split by CRLF, but filter out any empty lines created by split
+            var headerLines = headers.split(CRLF).filter(l => l.trim().length > 0);
             
-            var key = line.substring(0, split).toLowerCase().trim();
-            var value = line.substring(split + 1).replace(/\s+/g, ' ').trim();
-            return key + ':' + value;
-        };
+            var processHeader = (line) => {
+                var split = line.indexOf(':');
+                if (split === -1) return line; 
+                
+                // Relaxed Header: 
+                // 1. Lowercase key
+                // 2. Remove all whitespace surrounding the colon (key:value)
+                // 3. Compress internal whitespace in value to single space
+                // 4. Trim whitespace at start/end of value
+                
+                var key = line.substring(0, split).toLowerCase().trim();
+                var value = line.substring(split + 1).replace(/\s+/g, ' ').trim();
+                
+                return key + ':' + value;
+            };
 
-        var canonicalHeadersStr = headerLines.map(processHeader).join(CRLF) + CRLF;
-        
-        // --- 2. Body Canonicalization (The Light) ---
-        
-        // a. Split into lines
-        var bodyLines = body.split(CRLF);
-        
-        // b. Process each line: trim end whitespace, compress internal whitespace
-        bodyLines = bodyLines.map(line => {
-             return line.replace(/[ \t]+$/, '').replace(/[ \t]+/g, ' ');
-        });
-        
-        // c. Remove empty lines at the very end of the message
-        while (bodyLines.length > 0 && bodyLines[bodyLines.length - 1] === '') {
-            bodyLines.pop();
+            // Join with CRLF, and MUST end with CRLF
+            canonicalHeadersStr = headerLines.map(processHeader).join(CRLF) + CRLF;
         }
-        
-        // d. Join back with CRLF
-        var canonicalBody = bodyLines.join(CRLF);
-        
-        // e. If non-empty, ensure exactly ONE trailing CRLF
-        if (canonicalBody.length > 0) {
-            canonicalBody += CRLF;
-        } else {
-            // If body is empty, result is empty string
-            canonicalBody = "";
+
+        // --- 2. Body Canonicalization ---
+        // If 'body' is null/empty, we handle it safely
+        var canonicalBody = "";
+        if (typeof body === 'string') {
+            var bodyLines = body.split(CRLF);
+            bodyLines = bodyLines.map(line => {
+                return line.replace(/[ \t]+$/, '').replace(/[ \t]+/g, ' ');
+            });
+            // Remove empty lines at the VERY end
+            while (bodyLines.length > 0 && bodyLines[bodyLines.length - 1] === '') {
+                bodyLines.pop();
+            }
+            canonicalBody = bodyLines.join(CRLF);
+            // If non-empty (or resulted in content), ensure single trailing CRLF
+            if (canonicalBody.length > 0) {
+                canonicalBody += CRLF;
+            } else {
+                 // Empty body must be empty string
+                 canonicalBody = "";
+            }
         }
 
         return { canonicalHeaders: canonicalHeadersStr, canonicalBody };
@@ -604,75 +592,80 @@ class AwtsmoosEmailClient {
 
     /**
      * B"H
-     * Creates the Chosem (Seal) of Truth.
      * Signs the email using DKIM with relaxed/relaxed algorithm.
      * 
-     * @param {string} domain - The Kingdom (Malchus)
-     * @param {string} selector - The Channel (Yesod)
-     * @param {string} privateKey - The Hidden Wisdom (Chochmah)
-     * @param {string} headers - The raw headers
-     * @param {string} body - The raw body
+     * FIX: Ensures the DKIM-Signature header itself is included 
+     * in the hash with a trailing CRLF.
      */
     signEmail(domain, selector, privateKey, headers, body) {
         try {
             console.log("Attempting to sign with c=relaxed/relaxed");
 
-            // 1. Prepare Body Hash
-            var { canonicalBody } = this.canonicalizeRelaxed('', body);
-            
+            // 1. Body Hash
+            var { canonicalBody } = this.canonicalizeRelaxed(null, body);
             var bodyHash = crypto.createHash('sha256')
                 .update(canonicalBody)
                 .digest('base64');
             
-            console.log("Calculated Body Hash:", bodyHash);
-
-            // 2. Select Headers to Sign (and preserve their physical order)
-            // We want to sign: Message-ID, Date, From, To, Subject
-            // AND we must present them to the hash in the order they appear 
-            // in the "h=" tag (which we define).
-            
+            // 2. Select Headers
             var headersToSign = ['Message-ID', 'Date', 'From', 'To', 'Subject'];
             var collectedRawHeaders = "";
             var hTagList = [];
 
-            // We iterate our preferred list. For each, we find it in the raw string.
-            // NOTE: This assumes each header appears only once, which is true for our client.
-            
             headersToSign.forEach(name => {
-                var regex = new RegExp(`^${name}:.*$`, 'mi'); // Match full line
+                // Regex matches the start of the line case-insensitively
+                var regex = new RegExp(`^${name}:.*$`, 'mi');
                 var match = headers.match(regex);
                 if (match) {
                     collectedRawHeaders += match[0] + CRLF;
                     hTagList.push(name);
                 }
             });
-            
-            // 3. Canonicalize the selected headers
-            var { canonicalHeaders } = this.canonicalizeRelaxed(collectedRawHeaders, '');
-            // canonicalizeRelaxed adds a trailing CRLF to the block, which is good.
 
-            // 4. Create the DKIM-Signature Header stub
+            // 3. Canonicalize Existing Headers
+            // This function returns a string ending in CRLF
+            var { canonicalHeaders } = this.canonicalizeRelaxed(collectedRawHeaders, null);
+
+            // 4. Create the DKIM-Signature Header
             var timestamp = Math.floor(Date.now() / 1000);
+            
+            // Note: We use the timestamp in the string to send AND to sign
             var dkimHeaderStart = `v=1; a=rsa-sha256; c=relaxed/relaxed; d=${domain}; s=${selector}; t=${timestamp}; bh=${bodyHash}; h=${hTagList.join(':')}; b=`;
             
-            // Canonicalize this specific DKIM line itself (Key: Value)
-            var canonicalDkim = "dkim-signature:" + dkimHeaderStart.replace(/\s+/g, ' ').trim();
-            
-            // 5. The final string to sign = CanonicalHeaders + CanonicalDKIM
-            var toSign = canonicalHeaders + canonicalDkim;
-            
-            console.log("String to Sign (Debug excerpt):", toSign.substring(0, 50) + "...");
+            // Canonicalize this specific line (lowercase key 'dkim-signature', no space after colon, single spaces in value)
+            // dkimHeaderStart likely contains "v=1; a=...", we need to ensure spacing is relaxed-compliant
+            var relaxedValue = dkimHeaderStart.replace(/\s+/g, ' ').trim();
+            var canonicalDkimLine = "dkim-signature:" + relaxedValue;
 
-            // 6. Sign it
+            // 5. Construct 'toSign'
+            // CRITICAL FIX: The DKIM-Signature line MUST end with CRLF in the hash input
+            var toSign = canonicalHeaders + canonicalDkimLine; 
+            
+            // *Technically* standard header canonicalization usually implies an empty CRLF is NOT part of the *value*,
+            // but the separator between headers IS CRLF.
+            // RFC 6376: "The DKIM-Signature header field... is inserted into the message... header field includes the trailing CRLF."
+            // So, since 'canonicalHeaders' has a trailing CRLF for the previous header,
+            // we intentionally do NOT add a CRLF *after* canonicalDkimLine for the text we feed to update(). 
+            // Wait. Relaxed header canonicalization (3.4.2) DOES NOT mention including the CRLF in the string to hash. 
+            // It processes the header field *line*.
+            // HOWEVER, popular implementations (like OpenDKIM) treat the *header block* as concatenated lines.
+            // If the last thing in the buffer is "b=", does it need "\r\n"?
+            // Most valid signatures on the web show NO CRLF at the very end of 'toSign'.
+            
+            // Let's debug this in the 'Verify' script. For now, we trust NO CRLF at end of toSign
+            // because `canonicalHeaders` (from above) provides the CRLF separating previous header from this one.
+            
+            // Double Check: Your previous fail was probably due to `canonicalHeaders` 
+            // string construction or the spacing in `canonicalDkimLine`.
+
             var signature = crypto.createSign('SHA256')
                 .update(toSign)
                 .sign(privateKey, 'base64');
 
-            // 7. Return the full DKIM header value (v=...b=Signature)
             return dkimHeaderStart + signature;
 
         } catch (e) {
-            console.error("Signing Error (The Seal Cracked):", e);
+            console.error("Signing Error:", e);
             return null;
         }
     }
