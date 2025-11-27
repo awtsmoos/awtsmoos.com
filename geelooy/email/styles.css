@@ -222,10 +222,16 @@ body, html {
 
 /* 3-Dot Menu Trigger */
 .msg-menu-btn {
-    position: absolute; top: 5px; right: 8px;
-    background: transparent; border: none; color: rgba(255,255,255,0.3);
-    font-size: 1.2rem; line-height: 0.5; cursor: pointer;
-    padding: 4px; opacity: 0; transition: opacity 0.2s;
+    position: absolute; top: 5px; right: 6px;
+    background: rgba(0,0,0,0.3); /* Slight dim to stand out on colors */
+    border-radius: 50%;
+    border: none; color: #fff;
+    font-size: 1.2rem; line-height: 1; /* Fix height */
+    width: 24px; height: 24px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; 
+    opacity: 0; transition: opacity 0.2s;
+    z-index: 20; /* Ensure it is ABOVE the quote */
 }
 .message-bubble:hover .msg-menu-btn, .message-bubble:active .msg-menu-btn { opacity: 1; }
 
@@ -522,10 +528,14 @@ textarea {
     padding: 8px 10px;
     border-radius: 6px;
     margin-bottom: 8px;
+    /* Prevent overlap with the 3-dot menu */
+    margin-right: 28px; 
+    
     font-size: 0.85rem;
     color: rgba(255,255,255,0.7);
     cursor: pointer;
     transition: background 0.2s;
+    position: relative; z-index: 10;
 }
 .embedded-quote:hover { background: rgba(255,255,255,0.05); }
 .quote-name { display: block; font-weight: 700; color: var(--neon-gold); font-size: 0.7rem; margin-bottom: 2px; }

@@ -88,7 +88,7 @@ async function getMail({ $i, userid, aliasId, threadId }) {
 
                     var parsed = parseEmailEntry(entry, uniqueId, friendName);
                     parsed.correspondent = friendName;
-                    
+                    parsed.uid = timestamp; // B"H - Universal ID for robust reply linking
                     allMessages.push(parsed);
                 }
             }
@@ -180,10 +180,14 @@ async function sendMail({ $i, userid, asAliasId, toAliasId, toEmail }) {
             if(!settings.approved) settings.approved = {};
 
             // 2. Determine Status
-            var senderThreadId = myFolder; // "me_at_awtsmoos.com"
+           var senderThreadId = myFolder; 
+            var senderAliasClean = asAliasId;
             var status = "inbox";
             
-            if (settings.gatekeeperMode && !settings.approved[senderThreadId]) {
+            // B"H - Check both formats to ensure approval is detected
+            var isApproved = settings.approved[senderThreadId] || settings.approved[senderAliasClean];
+            
+            if (settings.gatekeeperMode && !isApproved) {
                 status = "request";
                 // Auto-Reply if not a reply itself (avoid loops)
                 if (!subject.includes("Message Request")) {
@@ -228,6 +232,7 @@ async function sendMail({ $i, userid, asAliasId, toAliasId, toEmail }) {
                     type: 'NEW_MAIL',
                     message: {
                         id: `${myFolder}:${time}`,
+                        uid: time + "",
                         from: asAliasId, fromName: asAliasId,
                         subject: subject, status: status,
                         snippet: content.substring(0, 50) + "...",
@@ -415,6 +420,7 @@ async function sendSystemLocalMail($i, fromAlias, toAlias, subject, content) {
             message: {
                 id: `${fromFolder}:${time}`,
                 from: fromAlias, fromName: fromAlias,
+                uid: time + "",
                 subject, snippet: content.substring(0, 50),
                 content, timeSent: time, correspondent: fromAlias, direction: "incoming", status: "inbox"
             }

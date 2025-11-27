@@ -43,8 +43,16 @@ module.exports = async function ({ sender, recipients, data }) {
             // A. GATEKEEPER (Message Requests)
             // If sender is NOT in approved list, mark as request and auto-reply
             var status = "inbox";
-            // We treat 'undefined' settings as open (default). Only restrict if settings exist.
-            if (settings.gatekeeperMode && !settings.approved[cleanSender]) {
+            
+            // B"H - Check approved list with strict & loose matching
+            // cleanSender is usually "bob_at_gmail.com"
+            var isApproved = settings.approved && (
+                settings.approved[cleanSender] || 
+                settings.approved[cleanSender.toLowerCase()] ||
+                settings.approved[cleanSender.split('_at_')[0]] // Check short alias
+            );
+
+            if (settings.gatekeeperMode && !isApproved) {
                 status = "request";
                 
                 // Send "Pending Approval" Auto-Reply
@@ -74,6 +82,7 @@ module.exports = async function ({ sender, recipients, data }) {
                 key: time + "",
                 value: {
                     id: `${cleanSender}:${time}`,
+                    uid: time + "",
                     status: status, // "inbox" or "request"
                     subject: decodedSubject || "(No Subject)",
                     content: html, 
@@ -97,6 +106,7 @@ module.exports = async function ({ sender, recipients, data }) {
                     type: 'NEW_MAIL',
                     message: {
                         id: `${cleanSender}:${time}`,
+                         uid: time + "", 
                         from: decodedFrom,
                         fromName: name,
                         subject: decodedSubject,
