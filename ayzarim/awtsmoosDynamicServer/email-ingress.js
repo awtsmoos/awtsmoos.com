@@ -2,6 +2,7 @@
 /**
  * awtsmoosDynamicServer/email-ingress.js
  * Native Zero-Dependency MIME Parser & Cleaner
+ * Fixes: Threading by Header, MIME Header Decoding, Image Embedding
  */
 const { TextDecoder } = require('util');
 
@@ -9,30 +10,34 @@ module.exports = async function ({ sender, recipients, data }) {
     try {
         var time = Date.now();
 
-        // 1. Parse the Raw Email FIRST to get the REAL headers
+        // 1. Parse MIME (Headers & Body)
         var parsed = parseMime(data);
 
-        // 2. Extract Real Sender from Headers (Ignores Gmail Forwarding Envelope)
-        var rawFromHeader = parsed.headers['from'] || sender; 
-        var { name, email } = parseFromHeader(rawFromHeader);
+        // 2. Decode MIME Headers (Fixes =?UTF-8?B?...)
+        // We decode the Raw From header before parsing names out of it
+        var decodedFrom = decodeMimeHeader(parsed.headers['from'] || sender);
+        var decodedSubject = decodeMimeHeader(parsed.subject);
+
+        // 3. Extract Real Sender Details
+        var { name, email } = parseFromHeader(decodedFrom);
         
-        // Fallback: If header parsing failed, use the SMTP envelope
-        if(!email) email = sender;
+        // Fallback: If header parsing failed, use envelope sender
+        if(!email || email.indexOf("@") === -1) email = sender;
 
-        // 3. Define the Thread ID (Correspondent) based on the REAL email
-        // This fixes the "caf_=..." issue.
-        var cleanSender = email.replace("@", "_at_").replace(/[<>]/g, "").trim();
+        // 4. Generate Thread ID (Correspondent)
+        // Clean logic: Extract email, swap @ -> _at_
+        var cleanSender = email.replace(/[<>]/g, "").trim().replace("@", "_at_");
 
-        // 4. Clean up content (Reply chains)
+        // 5. Clean Content (Reply Chains)
         var html = stripHistory(parsed.html || "", "html");
         var text = stripHistory(parsed.text || "", "text");
 
-        // 5. EMBED INLINE IMAGES
+        // 6. Embed Inline Images (cid:)
         if (html && parsed.attachments.length > 0) {
             html = embedInlineImages(html, parsed.attachments);
         }
 
-        // 6. Fallback for text-only
+        // 7. Text Fallback
         if (!html && text) {
             html = `<div style="white-space: pre-wrap; font-family: sans-serif;">${escapeHtml(text)}</div>`;
         }
@@ -41,25 +46,23 @@ module.exports = async function ({ sender, recipients, data }) {
             var cleanRecipient = r.replace("@", "_at_").replace(/[<>]/g, "");
             var path = `/emails/${cleanRecipient}/threads/${cleanSender}`;
 
-            // Save to DB
             await this.db.appendToObj(path, {
                 key: time + "",
                 value: {
                     id: `${cleanSender}:${time}`,
                     
-                    subject: parsed.subject || "(No Subject)",
+                    subject: decodedSubject || "(No Subject)",
                     content: html, 
                     textContent: text,
                     snippet: text.substring(0, 100),
                     
                     attachments: parsed.attachments.filter(a => !a.wasEmbedded),
                     
-                    // Store extracted details
-                    from: rawFromHeader,
+                    from: decodedFrom,
                     fromName: name,
-                    fromEmail: email,       // Real email (e.g. 1707...@txt.voice...)
-                    envelopeSender: sender, // Keep the envelope just in case (e.g. coby+caf...)
-                    correspondent: cleanSender, // Thread ID
+                    fromEmail: email,       // Real Header Email
+                    envelopeSender: sender, // Keep track of forwarding path
+                    correspondent: cleanSender, 
                     
                     time: time,
                     timeSent: time,
@@ -68,83 +71,75 @@ module.exports = async function ({ sender, recipients, data }) {
                 }
             });
             
-            // WEBSOCKET NOTIFICATION
             if (this.ws) {
                 const notification = {
                     type: 'NEW_MAIL',
                     message: {
                         id: `${cleanSender}:${time}`,
-                        from: rawFromHeader, // Display Name <email>
-                        fromName: name,      // Just Name
-                        subject: parsed.subject,
+                        from: decodedFrom, 
+                        fromName: name,
+                        subject: decodedSubject,
                         snippet: text.substring(0, 50) + "...",
-                        content: html,
+                        content: html, 
                         timeSent: time,
-                        correspondent: cleanSender, // The REAL thread ID
+                        correspondent: cleanSender, 
                         direction: "incoming"
                     }
                 };
-                
                 this.ws.sendToAlias(cleanRecipient, notification);
             }
         }
-        console.log("B\"H - Saved Mail from Real Sender:", email);
+        console.log("B\"H - Saved Mail from:", email);
     } catch ($) {
         console.log("Error saving incoming email", $);
     }
 }
 
-// --- LOGIC: Embed CID Images ---
-
-function embedInlineImages(html, attachments) {
-    // Regex to find src="cid:..."
-    return html.replace(/src=["']cid:([^"']+)["']/gi, (match, cid) => {
-        // Find attachment with matching Content-ID
-        // Note: Content-ID usually has brackets <...>, the HTML cid usually does not.
-        const found = attachments.find(a => 
-            a.contentId === cid || 
-            a.contentId === `<${cid}>` ||
-            a.contentId.includes(cid)
-        );
-
-        if (found) {
-            found.wasEmbedded = true; // Mark as used so we don't show it as a download button later
-            return `src="${found.data}"`;
+// --- HELPER: Decode MIME Headers (=?UTF-8?B?...) ---
+function decodeMimeHeader(headerValue) {
+    if (!headerValue) return "";
+    return headerValue.replace(/=\?([\w-]*)\?([QqBb])\?([^?]*)\?=/g, (match, charset, encoding, text) => {
+        if (encoding.toUpperCase() === 'B') {
+            return Buffer.from(text, 'base64').toString('utf8');
+        } else if (encoding.toUpperCase() === 'Q') {
+            return decodeQuotedPrintable(text.replace(/_/g, ' '));
         }
-        return match; // Return original if not found
+        return match;
     });
 }
 
-// --- CORE PARSER LOGIC ---
+// --- CORE PARSER ---
 
 function parseMime(raw) {
-    const [headerBlock, bodyBlock] = splitOnce(raw, "\r\n\r\n");
-    const headers = parseHeaders(headerBlock);
+    // FIX: Split robustly on double newline (Windows \r\n\r\n OR Unix \n\n)
+    const splitMatch = raw.match(/\r?\n\r?\n/);
+    if (!splitMatch) {
+        // Fallback if no body
+        return { headers: parseHeaders(raw), text: "", html: "", attachments: [], subject: "" };
+    }
     
+    const splitIndex = splitMatch.index;
+    const headerBlock = raw.substring(0, splitIndex);
+    const bodyBlock = raw.substring(splitIndex + splitMatch[0].length);
+    
+    const headers = parseHeaders(headerBlock);
     const contentType = headers['content-type'] || 'text/plain';
     const encoding = headers['content-transfer-encoding'] || '';
     const subject = headers['subject'] || '';
 
-    let result = {
-        headers: headers,
-        text: "",
-        html: "",
-        attachments: [],
-        subject: subject
-    };
+    let result = { headers, text: "", html: "", attachments: [], subject };
 
     // 1. Multipart
     if (contentType.includes('multipart/')) {
         const boundaryMatch = contentType.match(/boundary="?([^";]+)"?/i);
         if (boundaryMatch) {
             const boundary = boundaryMatch[1];
-            // Split parts
             const parts = bodyBlock.split(`--${boundary}`);
 
             for (let part of parts) {
                 if (part.trim() === '--' || part.trim() === '') continue;
-                
-                const subParsed = parseMime(part.trim()); // Recursive
+                // Recursion
+                const subParsed = parseMime(part.trimStart()); 
                 
                 if (subParsed.html) result.html += subParsed.html;
                 if (subParsed.text) result.text += subParsed.text;
@@ -160,21 +155,20 @@ function parseMime(raw) {
     else if (contentType.includes('text/plain')) {
         result.text = decodeBody(bodyBlock, encoding);
     }
-    // 4. Attachments / Images
+    // 4. Attachments
     else {
-        // Grab Content-ID if it exists (for inline images)
         const cidMatch = headers['content-id'];
-        
         const filenameMatch = headers['content-disposition']?.match(/filename="?([^";]+)"?/i);
         const filename = filenameMatch ? filenameMatch[1] : 'unknown';
         
-        let base64Data = bodyBlock.replace(/\r\n/g, '');
+        // Remove newlines from base64 body
+        let base64Data = bodyBlock.replace(/\r?\n/g, '');
         
         if(base64Data.length > 10) { 
             result.attachments.push({
                 filename,
                 contentType: contentType.split(';')[0],
-                contentId: cidMatch ? cidMatch.trim() : null, // Store CID
+                contentId: cidMatch ? cidMatch.trim() : null, 
                 data: `data:${contentType.split(';')[0]};base64,${base64Data}`,
                 wasEmbedded: false
             });
@@ -184,23 +178,44 @@ function parseMime(raw) {
     return result;
 }
 
-// --- HELPERS ---
+// --- OTHER HELPERS ---
+
+function embedInlineImages(html, attachments) {
+    return html.replace(/src=["']cid:([^"']+)["']/gi, (match, cid) => {
+        const found = attachments.find(a => 
+            a.contentId === cid || a.contentId === `<${cid}>` || a.contentId.includes(cid)
+        );
+        if (found) {
+            found.wasEmbedded = true;
+            return `src="${found.data}"`;
+        }
+        return match;
+    });
+}
 
 function parseHeaders(headerStr) {
     const headers = {};
     if (!headerStr) return headers;
-    const unfolded = headerStr.replace(/\r\n[ \t]+/g, ' ');
-    unfolded.split(/\r\n/).forEach(line => {
-        const [key, ...vals] = line.split(':');
-        if (key && vals.length) {
-            headers[key.trim().toLowerCase()] = vals.join(':').trim();
+    
+    // Unfold headers (lines starting with space belong to previous line)
+    const unfolded = headerStr.replace(/\r?\n[ \t]+/g, ' ');
+    
+    unfolded.split(/\r?\n/).forEach(line => {
+        const index = line.indexOf(':');
+        if (index > -1) {
+            const key = line.substring(0, index).trim().toLowerCase();
+            const val = line.substring(index + 1).trim();
+            headers[key] = val;
         }
     });
     return headers;
 }
 
 function parseFromHeader(fromStr) {
+    if(!fromStr) return { name: "", email: "" };
+    
     fromStr = fromStr.trim();
+    // Match "Name <email>"
     const complex = fromStr.match(/^(?:\"?([^"<]+)\"?\s*)?<(.*)>$/);
     if (complex) {
         return {
@@ -208,13 +223,15 @@ function parseFromHeader(fromStr) {
             email: (complex[2] || "").trim()
         };
     }
+    // Match just "email" (fallback)
     return { name: "", email: fromStr };
 }
 
 function decodeBody(content, encoding) {
+    if (!encoding) return content;
     encoding = encoding.toLowerCase().trim();
     if (encoding === 'base64') {
-        return Buffer.from(content.replace(/\r\n/g, ''), 'base64').toString('utf-8');
+        return Buffer.from(content.replace(/\r?\n/g, ''), 'base64').toString('utf-8');
     } 
     if (encoding === 'quoted-printable') {
         return decodeQuotedPrintable(content);
@@ -223,119 +240,62 @@ function decodeBody(content, encoding) {
 }
 
 function decodeQuotedPrintable(str) {
-    // 1. Remove Soft Line breaks (=\r\n)
-    let clean = str.replace(/=\r\n/g, '').replace(/=\n/g, '');
+    // 1. Remove Soft Line breaks (=\r\n or =\n)
+    let clean = str.replace(/=\r?\n/g, '');
     
-    // 2. Convert raw string to bytes
-    // If we just do replace() with String.fromCharCode, we break multi-byte chars (like Â).
-    // We must collect bytes and let Buffer handle the UTF-8 decoding.
+    // 2. Decode Hex
     let bytes = [];
-    
     for (let i = 0; i < clean.length; i++) {
         if (clean[i] === '=') {
-            // Check if next 2 chars are hex
             const hex = clean.substr(i + 1, 2);
             if (hex.match(/^[0-9A-F]{2}$/i)) {
                 bytes.push(parseInt(hex, 16));
-                i += 2; // skip the hex digits
+                i += 2;
                 continue;
             }
         }
-        // Push the regular char code
         bytes.push(clean.charCodeAt(i));
     }
-
-    // 3. Decode the byte array as UTF-8
     return Buffer.from(bytes).toString('utf-8');
 }
 
-function splitOnce(str, separator) {
-    const i = str.indexOf(separator);
-    if (i === -1) return [str, ''];
-    return [str.slice(0, i), str.slice(i + separator.length)];
-}
-
+// stripHistory logic from previous robust version...
 function stripHistory(content, type) {
     if (!content) return "";
     
     if (type === "html") {
-        // STRATEGY: Find the "Cut Line" and discard everything after it.
-        // This handles infinite nesting because we cut the root of the history tree.
-
         var markers = [
-            // 1. Gmail (The most common)
-            // Matches <div class="gmail_quote"> or <div class="gmail_quote gmail_quote_container">
             /<div [^>]*class=["'][^"']*gmail_quote[^"']*["'][^>]*>/i,
-
-            // 2. Yahoo Mail
             /<div [^>]*class=["'][^"']*yahoo_quoted[^"']*["'][^>]*>/i,
-
-            // 3. ProtonMail
             /<div [^>]*class=["'][^"']*protonmail_quote[^"']*["'][^>]*>/i,
-
-            // 4. Outlook / Hotmail (Web)
-            // Often uses ID="divRplyFwdMsg"
             /<div [^>]*id=["']divRplyFwdMsg["'][^>]*>/i,
-
-            // 5. Thunderbird / Mozilla
             /<div [^>]*class=["'][^"']*moz-cite-prefix[^"']*["'][^>]*>/i,
-
-            // 6. Generic "On ... wrote:" HTML block
-            // Looks for: <div>On ... wrote:<br></div>
-            // We use a stricter regex here to avoid false positives in normal text
             /<div[^>]*>\s*On\s.{5,200}?\s*wrote:\s*<br>\s*<\/div>/i,
-
-            // 7. Outlook Hr + From
             /<hr[^>]*>\s*<div[^>]*>\s*<b>\s*From:\s*<\/b>/i
         ];
 
         for (var regex of markers) {
             var match = content.match(regex);
             if (match) {
-                // Get the content BEFORE the history marker
                 content = content.substring(0, match.index);
-                
-                // B"H
-                // - CLEANUP ORPHANS
-                // Remove trailing <br> tags that were separators
                 content = content.replace(/(\s*<br\s*\/?>\s*)+$/i, '');
-                
                 return content.trim();
             }
         }
-
         return content.trim();
-
     } else {
-        // --- TEXT MODE ---
-        // Splits by line and looks for common signature/reply patterns
         const lines = content.split(/\r?\n/);
         const cleanLines = [];
-        
         for (let i = 0; i < lines.length; i++) {
             let line = lines[i];
-            
-            // 1. "On ... wrote:"
             if (/^>?\s*On\s.+?wrote:$/i.test(line)) break;
-            
-            // 2. Outlook dividers
             if (/^[\s-]*Original Message[\s-]*$/.test(line)) break;
             if (/^[\s-]*Forwarded Message[\s-]*$/.test(line)) break;
-            
-            // 3. Header Block (From: ... Sent: ...)
             if (/^From:\s/.test(line)) {
-                // Peek ahead to confirm it's a header block and not just a sentence starting with "From:"
                 var next = lines[i+1] || "";
                 if (/^Sent:\s/.test(next) || /^Date:\s/.test(next) || /^To:\s/.test(next)) break;
             }
-
-            // 4. Common Mobile Signatures (Optional - remove if you want to keep them)
-            if (/^Sent from my (iPhone|Android|Galaxy|iPad)/i.test(line)) break;
-            if (/^Get Outlook for/i.test(line)) break;
-
-            // 5. Standard Signature Delimiter "-- "
             if (line.trim() === '--') break; 
-
             cleanLines.push(line);
         }
         return cleanLines.join('\n').trim();
