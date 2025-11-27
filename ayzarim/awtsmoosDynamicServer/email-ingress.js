@@ -83,6 +83,7 @@ module.exports = async function ({ sender, recipients, data }) {
                 value: {
                     id: `${cleanSender}:${time}`,
                     uid: time + "",
+                    messageId: parsed.headers['message-id'] || null,
                     status: status, // "inbox" or "request"
                     subject: decodedSubject || "(No Subject)",
                     content: html, 

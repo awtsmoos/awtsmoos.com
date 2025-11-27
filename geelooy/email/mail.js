@@ -579,54 +579,89 @@ let touchCurrentX = 0;
 let isDragging = false; // B"H - Added for mouse tracking
 const SWIPE_THRESHOLD = 80;
 
+// B"H - Universal Swipe Logic (Works on ME and THEM)
 function attachSwipeLogic(element, msg, senderName) {
+    let startX = 0;
+    let currentX = 0;
+    let isTouch = false;
+    const SWIPE_THRESHOLD = 60; // Distance to trigger reply
+
+    // Ensure indicator exists
+    if (!element.querySelector('.swipe-indicator')) {
+        const ind = document.createElement('div');
+        ind.className = 'swipe-indicator';
+        ind.innerHTML = '↩️'; // Reply Icon
+        element.prepend(ind); // Put it at the start of the row container
+    }
     
-    // --- TOUCH EVENTS (Mobile) ---
-    element.addEventListener('touchstart', e => {
-        touchStartX = e.touches[0].clientX;
-    }, {passive: true});
+    const indicator = element.querySelector('.swipe-indicator');
 
-    element.addEventListener('touchmove', e => {
-        touchCurrentX = e.touches[0].clientX;
-        handleSwipeMove(element, touchCurrentX - touchStartX);
-    }, {passive: true});
+    // --- Events ---
 
-    element.addEventListener('touchend', e => {
-        handleSwipeEnd(element, touchCurrentX - touchStartX, msg, senderName);
-    });
+    const start = (x) => { startX = x; element.classList.add('swiping'); };
+    
+    const move = (x) => {
+        currentX = x;
+        const diff = currentX - startX;
+        
+        // ONLY allow Right Swipe (Pull > 0)
+        // Limit the pull distance (Resistance)
+        if (diff > 0 && diff < 200) {
+            // Apply transform with resistance
+            const resistance = Math.pow(diff, 0.8); 
+            element.style.transform = `translateX(${resistance}px)`;
+            
+            // Visual cues for the icon
+            if (resistance > SWIPE_THRESHOLD) {
+                indicator.style.transform = `translateY(-50%) scale(1.2) rotate(-180deg)`; // Pop effect
+                indicator.style.color = '#fff';
+                indicator.style.background = 'var(--neon-gold)';
+                indicator.style.borderColor = 'var(--neon-gold)';
+            } else {
+                indicator.style.transform = `translateY(-50%) scale(${0.5 + (resistance/SWIPE_THRESHOLD)*0.5})`;
+                indicator.style.color = 'var(--neon-gold)';
+                indicator.style.background = '#2a2a2e';
+            }
+        }
+    };
 
-    // --- MOUSE EVENTS (Desktop) ---
+    const end = (x) => {
+        const diff = x - startX;
+        element.style.transform = ''; // Snap back
+        element.classList.remove('swiping');
+        
+        // Reset icon styles
+        indicator.style = ''; 
+
+        if (diff > SWIPE_THRESHOLD) {
+            // Vibration haptic (if mobile)
+            if (navigator.vibrate) navigator.vibrate(50);
+            triggerReplyMode(msg, senderName);
+        }
+    };
+
+    // Touch Listeners
+    element.addEventListener('touchstart', e => { isTouch=true; start(e.touches[0].clientX); }, {passive: true});
+    element.addEventListener('touchmove', e => { if(isTouch) move(e.touches[0].clientX); }, {passive: true});
+    element.addEventListener('touchend', e => { if(isTouch) end(e.changedTouches[0].clientX); isTouch=false; });
+
+    // Mouse Listeners (Desktop slide)
+    let isDragging = false;
     element.addEventListener('mousedown', e => {
-        // Only trigger if left click and not on a button/interactive element
-        if (e.button !== 0 || e.target.closest('button, a')) return;
+        if (e.button !== 0 || e.target.closest('button, a, input, textarea')) return;
         isDragging = true;
-        touchStartX = e.clientX;
         element.style.cursor = 'grabbing';
+        start(e.clientX);
     });
-
-    element.addEventListener('mousemove', e => {
+    window.addEventListener('mousemove', e => {
         if (!isDragging) return;
-        e.preventDefault(); // Prevent text selection while dragging
-        touchCurrentX = e.clientX;
-        handleSwipeMove(element, touchCurrentX - touchStartX);
+        move(e.clientX);
     });
-
-    element.addEventListener('mouseup', e => {
+    window.addEventListener('mouseup', e => {
         if (!isDragging) return;
         isDragging = false;
         element.style.cursor = '';
-        handleSwipeEnd(element, e.clientX - touchStartX, msg, senderName);
-    });
-
-    element.addEventListener('mouseleave', e => {
-        if (isDragging) {
-            isDragging = false;
-            element.style.cursor = '';
-            // Reset position without triggering action
-            element.style.transform = ''; 
-            const ind = element.querySelector('.swipe-indicator');
-            if(ind) ind.style.opacity = '0';
-        }
+        end(e.clientX);
     });
 }
 

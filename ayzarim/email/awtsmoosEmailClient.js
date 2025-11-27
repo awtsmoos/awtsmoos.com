@@ -156,7 +156,7 @@ class AwtsmoosEmailClient {
             // Defines the headers list based on our known sending order
             // Note: Casing must match what is in `headers` string for the `h=` tag to be polite,
             // though standard says it's case insensitive finding.
-            var hTags = ['Message-ID', 'Date', 'From', 'To', 'Subject'];
+            var hTags = ['Message-ID', 'Date', 'From', 'To', 'Subject', 'Content-Type', 'In-Reply-To', 'References'];
             
             var timestamp = Math.floor(Date.now() / 1000);
             
@@ -203,27 +203,21 @@ class AwtsmoosEmailClient {
         }
     }
 
-    async sendMail(sender, recipient, subject, rawBody) {
-        // B"H - STATE PROTECTION
-        // If this client has been used before (socket exists), create a fresh worker.
-        // This solves the hanging issue on subsequent emails.
+    // B"H - Updated sendMail to accept Custom Headers (Lineage)
+    async sendMail(sender, recipient, subject, rawBody, customHeaders = {}) {
         if (this.socket) {
-            // Create a fresh instance with the same config
             var worker = new AwtsmoosEmailClient({ port: this.port });
-            
-            // Copy keys manually to avoid re-reading files
             worker.privateKey = this.privateKey;
             worker.cert = this.cert;
             worker.key = this.key;
             worker.hasFiles = this.hasFiles;
-            
-            return worker.sendMail(sender, recipient, subject, rawBody);
+            return worker.sendMail(sender, recipient, subject, rawBody, customHeaders);
         }
 
         return new Promise(async (resolve, reject) => {
             this._resolve = resolve;
             this._reject = reject;
-            this.previousCommand = ''; // Ensure command history is reset
+            this.previousCommand = ''; 
             
             console.log("B\"H - Sending Mail to:", recipient);
 
@@ -231,18 +225,15 @@ class AwtsmoosEmailClient {
                 var addresses = await this.getDNSRecords(recipient);
                 this.smtpServer = addresses[0].exchange;
                 
-                // CONNECT
                 this.socket = net.createConnection({
                     port: this.port, host: this.smtpServer, family: 4 
                 });
 
-                // TIMEOUT SAFETY (Prevent infinite hanging)
                 this.socket.setTimeout(20000, () => {
                     this.socket.destroy();
                     reject(new Error("SMTP Connection Timed Out"));
                 });
                 
-                // PREPARE DATA
                 var domain = 'awtsmoos.com';
                 var selector = 'selector';
                 var messageId = `<${Date.now()}@${domain}>`;
@@ -250,9 +241,7 @@ class AwtsmoosEmailClient {
                 
                 var normalizedBody = rawBody.replace(/\r\n/g, '\n').replace(/\n/g, CRLF);
                 var bodyToSend = normalizedBody;
-                while (bodyToSend.endsWith(CRLF)) {
-                    bodyToSend = bodyToSend.slice(0, -CRLF.length);
-                }
+                while (bodyToSend.endsWith(CRLF)) bodyToSend = bodyToSend.slice(0, -CRLF.length);
                 bodyToSend += CRLF;
 
                 var headers = 
@@ -260,7 +249,19 @@ class AwtsmoosEmailClient {
                     `Date: ${dateHeader}${CRLF}` +
                     `From: ${sender}${CRLF}` +
                     `To: ${recipient}${CRLF}` +
-                    `Subject: ${subject}${CRLF}`; 
+                    `Subject: ${subject}${CRLF}`;
+
+                // B"H - Inject Custom Headers (Lineage & Content-Type)
+                if (customHeaders) {
+                    for (let key in customHeaders) {
+                        if(customHeaders[key]) headers += `${key}: ${customHeaders[key]}${CRLF}`;
+                    }
+                }
+                
+                // Ensure Content-Type exists
+                if (!Object.keys(customHeaders || {}).some(k => k.toLowerCase() === 'content-type')) {
+                    headers += `Content-Type: text/plain; charset=utf-8${CRLF}`;
+                }
 
                 var dataToSend = headers + CRLF + bodyToSend;
                 
@@ -271,32 +272,14 @@ class AwtsmoosEmailClient {
                     }
                 }
 
-                // EVENT LISTENERS
-                this.socket.on('connect', () => { 
-                    // Connected successfully
-                });
-                
+                this.socket.on('connect', () => { });
                 this.handleClientData({ client: this.socket, sender, recipient, dataToSend });
-
-                this.socket.on('end', () => { 
-                    this.socket.removeAllListeners(); 
-                    resolve(); 
-                });
-                
-                this.socket.on('error', (e)=>{ 
-                    this.socket.removeAllListeners(); 
-                    console.error("Socket Error:", e.message); 
-                    reject(e); 
-                });
-                
+                this.socket.on('end', () => { this.socket.removeAllListeners(); resolve(); });
+                this.socket.on('error', (e)=>{ this.socket.removeAllListeners(); console.error("Socket Error:", e.message); reject(e); });
                 this.socket.on('close', () => { 
                     this.socket.removeAllListeners(); 
-                    // If we quit cleanly, previousCommand might be QUIT or END OF DATA
-                    if (this.previousCommand === 'END OF DATA' || this.previousCommand === 'QUIT' || this.previousCommand === 'SEND_BODY') {
-                        resolve();
-                    } else {
-                        reject(new Error('Connection closed prematurely'));
-                    }
+                    if (this.previousCommand === 'END OF DATA' || this.previousCommand === 'QUIT' || this.previousCommand === 'SEND_BODY') resolve();
+                    else reject(new Error('Connection closed prematurely'));
                 });
 
             } catch (e) {

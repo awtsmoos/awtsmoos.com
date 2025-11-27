@@ -400,12 +400,29 @@ async function sendMail({ $i, userid, asAliasId, toAliasId, toEmail }) {
             }
 
             // 4. Send the Woven Message
+            // 4. Send the Woven Message with LINEAGE
             if ($i.mail && $i.mail.smtpClient) {
                 var myFullEmail = `${senderShort}@awtsmoos.com`;
                 
-                // We send 'fullOutgoingContent' to Gmail, but we saved 'content' (clean) to our DB above.
-                $i.mail.smtpClient.sendMail(myFullEmail, targetEmailDisplay, subject, fullOutgoingContent)
-                    .catch(e => console.error("SMTP Error", e));
+                // B"H - Extract Lineage
+                var extraHeaders = {};
+                if (msgs && msgs.length > 0) {
+                    // Find the most recent message FROM THEM to reply to
+                    var parentMsg = msgs.find(m => m.direction === 'incoming' && m.messageId);
+                    
+                    if (parentMsg) {
+                        extraHeaders['In-Reply-To'] = parentMsg.messageId;
+                        extraHeaders['References'] = parentMsg.messageId; // Technically should include chain, but parent is enough for basic grouping
+                    }
+                }
+
+                $i.mail.smtpClient.sendMail(
+                    myFullEmail, 
+                    targetEmailDisplay, 
+                    subject, 
+                    fullOutgoingContent,
+                    extraHeaders // <--- Pass the DNA
+                ).catch(e => console.error("SMTP Error", e));
                 
                 return { success: { message: "Sent via SMTP with History" } };
             }

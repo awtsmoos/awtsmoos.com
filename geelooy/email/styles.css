@@ -287,96 +287,115 @@ body, html {
 
 /* Compose Box - BIGGER BETTER */
 /* --- COMPOSE AREA (The Vessel of Speech) --- */
+/* --- COMPOSE AREA (The Vessel of Speech) --- */
 .input-area {
-    flex-shrink: 0; /* Don't shrink when messages push down */
+    flex-shrink: 0;
     z-index: 50; 
-    padding: 10px 16px;
-    background: #111;
-    border-top: 1px solid var(--border);
+    padding: 15px 20px; /* More breathing room */
+    background: linear-gradient(to top, #000 80%, transparent); /* Fade out top */
     display: flex; flex-direction: column;
-    width: 100%; box-sizing: border-box; /* Ensure padding doesn't overflow width */
+    width: 100%; box-sizing: border-box;
+    position: relative;
 }
 
 .input-wrapper {
-    background: #2a3942; /* Soft message bar color */
-    border-radius: 24px;
-    padding: 8px 16px;
+    background: rgba(30, 30, 35, 0.6);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 0; /* Let children handle padding */
     display: flex; 
     flex-direction: column;
-    gap: 8px;
-    transition: all 0.2s ease;
-    border: 1px solid transparent;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+    overflow: hidden; /* Contain the children */
 }
 
 .input-wrapper:focus-within {
-    background: #2a3942; /* Stay solid */
-    box-shadow: 0 0 0 1px var(--neon-gold); /* Subtle focus ring */
+    background: rgba(40, 40, 45, 0.9);
+    border-color: var(--neon-gold);
+    box-shadow: 0 0 15px rgba(245, 158, 11, 0.15);
+    transform: translateY(-2px);
 }
 
-/* Optional Subject Line (Hidden unless active or filled) */
+/* THE SUBJECT LINE */
 .subject-input {
-    width: 100%; 
-    padding: 8px 4px; 
-    border: none; 
-    background: transparent;
-    color: var(--neon-gold); 
-    font-size: 0.85rem; 
-    font-weight: 700;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px 16px;
+    background: rgba(0,0,0,0.2);
+    border: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    color: var(--neon-gold);
+    font-size: 0.8rem;
+    font-weight: 600;
     font-family: inherit;
-    border-bottom: 1px solid rgba(255,255,255,0.05);
     outline: none;
-    display: none; /* Hide by default to look like chat */
+    letter-spacing: 0.5px;
+    transition: all 0.2s;
 }
 
-/* Show subject if user explicitly wants it or typing email */
-.input-wrapper.show-subject .subject-input { display: block; }
+.subject-input::placeholder {
+    color: rgba(255, 255, 255, 0.3);
+    font-weight: 400;
+    font-style: italic;
+}
+
+.subject-input:focus {
+    background: rgba(0,0,0,0.4);
+}
 
 .flex-row {
     display: flex; 
-    align-items: flex-end; /* Align bottom so button stays with multiline text */
-    gap: 12px;
+    align-items: flex-end; 
+    gap: 10px;
+    padding: 10px 12px 10px 16px; /* Specific padding for message area */
 }
 
 textarea {
     flex: 1; 
     background: transparent; 
     border: none; 
-    color: #d1d7db; /* Off-white text */
+    color: #e5e7eb;
     font-size: 1rem; 
     min-height: 24px; 
-    max-height: 140px; /* Grow up to a point */
+    max-height: 150px; 
     resize: none; 
     font-family: 'Inter', sans-serif; 
     line-height: 1.5;
-    padding: 0;
+    padding: 4px 0;
     outline: none;
-    overflow-y: auto; /* Scroll internal if too tall */
 }
-
-textarea::placeholder { color: #8696a0; }
+textarea::placeholder { color: rgba(255, 255, 255, 0.4); }
 
 .btn-send {
-    width: 40px; height: 40px; 
-    border-radius: 50%;
-    background: transparent;
-    color: #8696a0;
+    width: 36px; height: 36px; 
+    border-radius: 12px;
+    background: rgba(255,255,255,0.05);
+    color: rgba(255,255,255,0.4);
     border: none; 
     cursor: pointer;
     display: flex; align-items: center; justify-content: center;
-    transition: all 0.2s;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     flex-shrink: 0;
 }
 
-/* Only light up if there is text (Client JS will toggle class 'ready') */
+/* Ready State */
 .btn-send.ready {
-    color: var(--neon-gold);
-    background: rgba(245, 158, 11, 0.1);
-}
-.btn-send.ready:hover {
     background: var(--neon-gold);
     color: #000;
-    transform: scale(1.1);
+    box-shadow: 0 0 10px rgba(245, 158, 11, 0.5);
 }
+.btn-send.ready:hover {
+    transform: scale(1.1) rotate(-10deg);
+}
+
+
+/* --- SWIPE GESTURE STYLES --- */
+
+
+
 
 .btn-send svg { width: 20px; height: 20px; fill: currentColor; transform: translateX(2px); }
 
@@ -572,7 +591,12 @@ textarea::placeholder { color: #8696a0; }
     display: flex; align-items: center; justify-content: space-between;
     animation: slideUp 0.2s ease;
 }
-
+/* ensure Reply Preview looks good with new inputs */
+/*.reply-preview {
+    margin: 0 0 8px 0;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 170, 0, 0.3);
+}*/
 .reply-info { display: flex; flex-direction: column; overflow: hidden; }
 .reply-to-label { font-size: 0.75rem; color: var(--neon-gold); font-weight: 700; margin-bottom: 2px; }
 .reply-text-snippet { font-size: 0.85rem; color: #ccc; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 250px; }
