@@ -463,6 +463,20 @@ function stripHistory(content, type) {
     }
 }
 
+function decodeMimeHeader(header) {
+    if (!header) return "";
+    return header.replace(/=\?([^?]+)\?([BQ])\?([^?]+)\?=/gi, (match, charset, encoding, text) => {
+        try {
+            if (encoding.toUpperCase() === 'B') {
+                return Buffer.from(text, 'base64').toString('utf-8'); // Simplified to utf-8
+            } else if (encoding.toUpperCase() === 'Q') {
+                return text.replace(/_/g, ' ').replace(/=([0-9A-F]{2})/gi, (m, hex) => String.fromCharCode(parseInt(hex, 16)));
+            }
+        } catch (e) { return match; }
+        return match;
+    });
+}
+
 function escapeHtml(text) {
     return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }

@@ -169,40 +169,68 @@ async function sendMail({ $i, userid, asAliasId, toAliasId, toEmail }) {
     var targetEmailDisplay = "";
     var isLocal = false;
 
+    // Helper to check DB for local user existence
+    async function checkLocalDB(shortId) {
+        var info = await $i.db.get(`${sp}/aliases/${shortId}/info`);
+        return !!info;
+    }
+
     // Resolve Recipient
     if (toAliasId) {
-        if (toAliasId.includes("@") || toAliasId.includes("_at_")) {
-            isLocal = false;
-            recipientFull = toAliasId.replace("@", "_at_").toLowerCase();
-            targetEmailDisplay = toAliasId.replace("_at_", "@");
-        } else {
-            // Check local DB info
-            var info = await $i.db.get(`${sp}/aliases/${toAliasId}/info`);
-            if (info) {
+        // Clean up input
+        let cleanId = toAliasId.toLowerCase().trim();
+        
+        // 1. Check if it explicitly looks like our domain
+        if (cleanId.includes("awtsmoos.com")) {
+            // Extract core name: "abarbanel_at_awtsmoos.com" -> "abarbanel"
+            let core = cleanId.split(/[@_]/)[0];
+            
+            if (await checkLocalDB(core)) {
                 isLocal = true;
-                recipientShort = toAliasId.toLowerCase();
-                recipientFull = `${recipientShort}_at_awtsmoos.com`;
-                targetEmailDisplay = `${recipientShort}@awtsmoos.com`;
+                recipientShort = core;
+                recipientFull = `${core}_at_awtsmoos.com`;
+                targetEmailDisplay = `${core}@awtsmoos.com`;
             } else {
-                 console.log(`B"H DEBUG: Recipient alias [${toAliasId}] not found in DB.`);
-                 return er({ message: "Recipient alias not found", code: "RCPT_NOT_FOUND" });
+                // Domain matches but user doesn't exist? Treat as external or error
+                isLocal = false;
+                recipientFull = cleanId.replace("@", "_at_");
+                targetEmailDisplay = cleanId.replace("_at_", "@");
             }
+        }
+        // 2. Check if it's just a short name "abarbanel"
+        else if (!cleanId.includes("@") && !cleanId.includes("_at_")) {
+             if (await checkLocalDB(cleanId)) {
+                isLocal = true;
+                recipientShort = cleanId;
+                recipientFull = `${cleanId}_at_awtsmoos.com`;
+                targetEmailDisplay = `${cleanId}@awtsmoos.com`;
+            } else {
+                 return er({ message: "Recipient alias not found locally", code: "RCPT_NOT_FOUND" });
+            }
+        }
+        // 3. Complex external ID "friend@gmail.com"
+        else {
+            isLocal = false;
+            recipientFull = cleanId.replace("@", "_at_");
+            targetEmailDisplay = cleanId.replace("_at_", "@");
         }
     } 
     else if (toEmail) {
-        targetEmailDisplay = toEmail;
-        if (toEmail.toLowerCase().endsWith("@awtsmoos.com")) {
-            var possibleShort = toEmail.split("@")[0].toLowerCase();
-            var info = await $i.db.get(`${sp}/aliases/${possibleShort}/info`);
-            if(info) {
+        // Same logic for email input
+        let cleanEmail = toEmail.toLowerCase().trim();
+        targetEmailDisplay = cleanEmail;
+        
+        if (cleanEmail.endsWith("@awtsmoos.com")) {
+            let core = cleanEmail.split("@")[0];
+             if (await checkLocalDB(core)) {
                 isLocal = true;
-                recipientShort = possibleShort;
-                recipientFull = `${recipientShort}_at_awtsmoos.com`;
+                recipientShort = core;
+                recipientFull = `${core}_at_awtsmoos.com`;
             } else {
-                recipientFull = toEmail.replace("@", "_at_").replace(/[<>]/g, "").toLowerCase();
+                recipientFull = cleanEmail.replace("@", "_at_");
             }
         } else {
-            recipientFull = toEmail.replace("@", "_at_").replace(/[<>]/g, "").toLowerCase();
+            recipientFull = cleanEmail.replace("@", "_at_").replace(/[<>]/g, "");
         }
     } else {
         return er({ message: "Must provide recipient", code: "NO_RCPT" });
