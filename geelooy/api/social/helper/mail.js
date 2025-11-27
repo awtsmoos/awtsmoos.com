@@ -240,6 +240,13 @@ async function sendMail({ $i, userid, asAliasId, toAliasId, toEmail }) {
 
     var subject = $i.$_POST.subject || $i.$_GET.subject || "(No Subject)";
     var content = $i.$_POST.content || $i.$_GET.content || "";
+
+    // B"H - SAFETY SEAL
+    // The server parser turns "123" into a Number, which has no substring() method.
+    // We must force the content back into a String to prevent the crash.
+    if (typeof content !== "string") {
+        content = String(content || "");
+    }
     var time = Date.now();
 
     try {
