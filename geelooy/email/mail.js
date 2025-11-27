@@ -359,16 +359,30 @@ function attachScrollListener() {
 // --- Utilities ---
 
 function injectMessageIntoCache(msg) {
-    const tid = msg.correspondent;
+    let tid = msg.correspondent;
+    
+    // B"H - Normalization: Always try to match existing thread first
+    // If we have a thread "coby", and msg is "coby_at_awtsmoos.com", merge them.
+    const cleanTid = tid.split('_at_')[0];
+    
+    const existingKey = Object.keys(state.threads).find(k => {
+        const kClean = k.split('_at_')[0];
+        return k === tid || kClean === cleanTid;
+    });
+
+    if (existingKey) {
+        tid = existingKey;
+        msg.correspondent = tid; // Force message to adopt the active thread ID
+    }
+
     if (!state.threads[tid]) state.threads[tid] = [];
     
-    // Only push if not exists
+    // Only push if not exists (Dedup by UID)
     if (!state.threads[tid].some(m => m.uid == msg.uid)) {
         state.threads[tid].push(msg);
-        // Resort
         state.threads[tid].sort((a,b) => a.timeSent - b.timeSent);
         
-        // Update Snippet View if it's the newest
+        // Update Snippet
         const snipIdx = state.snippets.findIndex(s => s.correspondent === tid);
         if (snipIdx > -1) {
             state.snippets[snipIdx] = msg;
@@ -376,6 +390,7 @@ function injectMessageIntoCache(msg) {
             state.snippets.unshift(msg);
         }
         
+        // If viewing this thread, render the new message
         if (state.activeThread === tid) renderMessages(tid, true);
         renderSidebar();
     }

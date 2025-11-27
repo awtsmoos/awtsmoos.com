@@ -269,21 +269,26 @@ async function sendMail({ $i, userid, asAliasId, toAliasId, toEmail }) {
 
             // D. Notify Them
             if ($i.ws) {
+                // B"H - Normalize target: Remove domain for socket matching
+                var socketTarget = friendClean.split("_at_")[0]; 
+                
                 const notification = {
                     type: 'NEW_MAIL',
                     message: {
                         id: `${myFolder}:${time}`,
                         uid: time + "",
-                        from: asAliasId, fromName: asAliasId,
-                        subject: subject, status: status,
+                        from: asAliasId, 
+                        fromName: asAliasId, // Short name for local
+                        subject: subject, 
+                        status: status,
                         snippet: content.substring(0, 50) + "...",
                         timeSent: time,
-                        correspondent: asAliasId,
+                        correspondent: asAliasId, // Short name for thread grouping
                         direction: "incoming",
                         content: content 
                     }
                 };
-                $i.ws.sendToAlias(friendClean, notification);
+                $i.ws.sendToAlias(socketTarget, notification);
             }
 
             return { success: { message: "Sent internally" } };
@@ -456,14 +461,22 @@ async function sendSystemLocalMail($i, fromAlias, toAlias, subject, content) {
 
     // 3. Notify
     if ($i.ws) {
-        $i.ws.sendToAlias(toFolder, {
+        var socketTarget = toAlias; // Already short in this context
+        
+        $i.ws.sendToAlias(socketTarget, {
             type: 'NEW_MAIL',
             message: {
                 id: `${fromFolder}:${time}`,
-                from: fromAlias, fromName: fromAlias,
                 uid: time + "",
-                subject, snippet: content.substring(0, 50),
-                content, timeSent: time, correspondent: fromAlias, direction: "incoming", status: "inbox"
+                from: fromAlias, 
+                fromName: fromAlias,
+                subject, 
+                snippet: content.substring(0, 50),
+                content, 
+                timeSent: time, 
+                correspondent: fromAlias, 
+                direction: "incoming", 
+                status: "inbox"
             }
         });
     }
