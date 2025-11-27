@@ -16,7 +16,7 @@ const state = {
 
 // --- Initialization ---
 
-window.onload = async () => {
+async function whenLoaded() => {
     // 1. Check for Alias
     if (!window.curAlias) {
         document.getElementById('loginOverlay').classList.remove('hidden');
@@ -312,3 +312,8 @@ function formatContent(text) {
 function formatTime(ts) {
     return new Date(ts).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 }
+
+window.onload = async () => {
+	await (new Promise(r => setTimeout(r, 500));
+	await whenLoaded();
+};
