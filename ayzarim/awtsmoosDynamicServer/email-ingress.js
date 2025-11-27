@@ -30,9 +30,13 @@ module.exports = async function ({ sender, recipients, data }) {
 
         // --- 3. INTELLIGENCE LAYER LOOP ---
         for (var r of recipients) {
-            var cleanRecipient = r.replace("@", "_at_").replace(/[<>]/g, "");
-            var settingsPath = `/social/aliases/${cleanRecipient.split('_at_')[0]}/emailSettings`;
+            // B"H - DIRTY DATA CLEANING
+            // r comes in as "<coby@awtsmoos.com>" or just "coby@awtsmoos.com"
+            // We must strip brackets FIRST, then handle the @ replacement.
+            var rawEmail = r.replace(/[<>]/g, "").trim(); 
+            var cleanRecipient = rawEmail.replace("@", "_at_");
             
+            var settingsPath = `/social/aliases/${cleanRecipient.split('_at_')[0]}/emailSettings`;
             // Get User Settings
             var settings = await this.db.get(settingsPath) || { 
                 approved: {}, 

@@ -408,8 +408,12 @@ async function sendMail({ $i, userid, asAliasId, toAliasId, toEmail }) {
                     var parentMsg = msgs.find(m => m.direction === 'incoming' && m.messageId);
                     
                     if (parentMsg) {
-                        extraHeaders['In-Reply-To'] = parentMsg.messageId;
-                        extraHeaders['References'] = parentMsg.messageId; 
+                        // B"H - CRITICAL: Headers MUST have brackets <id>
+                        let pid = parentMsg.messageId.trim();
+                        if (!pid.startsWith('<')) pid = `<${pid}>`;
+                        
+                        extraHeaders['In-Reply-To'] = pid;
+                        extraHeaders['References'] = pid; 
                     }
                 }
 
