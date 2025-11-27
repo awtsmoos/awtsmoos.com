@@ -200,8 +200,30 @@ function decodeBody(content, encoding) {
 }
 
 function decodeQuotedPrintable(str) {
-    let res = str.replace(/=\r\n/g, '').replace(/=\n/g, '');
-    return res.replace(/=([0-9A-F]{2})/gi, (match, hex) => String.fromCharCode(parseInt(hex, 16)));
+    // 1. Remove Soft Line breaks (=\r\n)
+    let clean = str.replace(/=\r\n/g, '').replace(/=\n/g, '');
+    
+    // 2. Convert raw string to bytes
+    // If we just do replace() with String.fromCharCode, we break multi-byte chars (like Â).
+    // We must collect bytes and let Buffer handle the UTF-8 decoding.
+    let bytes = [];
+    
+    for (let i = 0; i < clean.length; i++) {
+        if (clean[i] === '=') {
+            // Check if next 2 chars are hex
+            const hex = clean.substr(i + 1, 2);
+            if (hex.match(/^[0-9A-F]{2}$/i)) {
+                bytes.push(parseInt(hex, 16));
+                i += 2; // skip the hex digits
+                continue;
+            }
+        }
+        // Push the regular char code
+        bytes.push(clean.charCodeAt(i));
+    }
+
+    // 3. Decode the byte array as UTF-8
+    return Buffer.from(bytes).toString('utf-8');
 }
 
 function splitOnce(str, separator) {

@@ -13,60 +13,58 @@
 
  */ 
 
- var http = require('http');
+var http = require('http');
 
 /**
  * @optional
  * email server support
- * 
- * 
  */
 var AwtsMail = require("./ayzarim/email/email.js");
 var mail = new AwtsMail(); 
- var awts = require("./ayzarim/awtsmoosDynamicServer/index.js");
 
- async function go() {
+var awts = require("./ayzarim/awtsmoosDynamicServer/index.js");
+
+// B"H - Require the new WebSocket Handler
+var AwtsSocket = require("./ayzarim/awtsmoosDynamicServer/awtsmoosSocket.js");
+
+async function go() {
     var serv = new awts(
-	    __dirname,
-	    mail
+        __dirname,
+        mail
     );
     await serv.init();
-    /**
-     * The "Keter", crown of our application, starting the HTTP server.
-     * The server listens for requests on port 8080.
-     * For each request, it reads the requested file from the filesystem, the "Da'at", knowledge of our server,
-     * processes it as a template if necessary, and sends the resulting content back to the client.
-     */
-    http.createServer(async (request, response) => { 
-        
+
+    // Initialize WebSocket Server
+    var wsServer = new AwtsSocket();
+
+    // Create the HTTP Server
+    var httpServer = http.createServer(async (request, response) => { 
         await serv.onRequest(request, response);
+    });
     
-    }).listen(8080); // Listen for requests on port 8080
+    // B"H - Listen for Upgrade requests (WS Handshake)
+    httpServer.on('upgrade', (request, socket, head) => {
+        // You can do path routing here if you want
+        // if (request.url === '/ws/chat') ...
+        
+        wsServer.handleUpgrade(request, socket, head);
+    });
+
+    httpServer.listen(8080); // Listen for requests on port 8080
     
     console.log('B"H\n\n\n\n', 'Server running at http://127.0.0.1:8080/');
+    console.log("Time: ", Date.now());
 
-    console.log("Time: ",Date.now());
-    /**
-     * @optional
-     * start email server IF port 25 is open
-     * and you have configured the records properly to your domain
-     * 
-    */
     try {
-	    mail.shoymayuh();
-	    console.log("Email server running")
+        mail.shoymayuh();
+        console.log("Email server running")
     } catch(e) {
-	    console.log("Could not start email server", e);
+        console.log("Could not start email server", e);
     }
-
- }
-try {
- go()
- /*
- http.createServer(async (request, response) => { 
-  response. end("B\"H<br>YO!")
- }).listen(8080)*/
-} catch(e) {
-  console.log(e)
 }
- 
+
+try {
+    go();
+} catch(e) {
+    console.log(e);
+}
