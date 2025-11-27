@@ -6,12 +6,12 @@
  */
 const CONFIG = {
     SAMPLE_RATE: 44100,
-    MIN_ZOOM: 10,  // Pixels per second
+    MIN_ZOOM: 10,  
     MAX_ZOOM: 2000,
-    HEADER_HEIGHT: 30, // Timeline ruler height
-    TRACK_HEIGHT: 120,
-    HANDLE_WIDTH: 15, // Pixel width for edge trimming
-    LONG_PRESS_MS: 400,
+    HEADER_HEIGHT: 25, // Smaller ruler
+    TRACK_HEIGHT: 80,  // Reduced from 120 to fit mobile screens better
+    HANDLE_WIDTH: 20,  // Bigger handles for easier touch dragging
+    LONG_PRESS_MS: 300, // Faster reaction
 };
 
 /**
@@ -71,8 +71,13 @@ function setupCanvas() {
 }
 
 function resizeCanvas() {
-    canvas.width = canvas.parentElement.clientWidth;
-    canvas.height = canvas.parentElement.clientHeight;
+    const container = canvas.parentElement;
+    // Set internal resolution to match client size for sharp rendering
+    canvas.width = container.clientWidth;
+    canvas.height = container.clientHeight;
+    
+    // Force a redraw immediately so the user doesn't see a blank screen after rotate
+    requestAnimationFrame(render);
 }
 
 function loop() {
