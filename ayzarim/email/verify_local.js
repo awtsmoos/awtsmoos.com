@@ -1,123 +1,70 @@
 // B"H
 /**
- * LOCAL DKIM VERIFIER
- * This mimics what Gmail does.
+ * LOCAL DKIM VERIFIER - DEBUG MODE
  */
-
 var crypto = require('crypto');
-var fs = require('fs');
-var Client = require('./awtsmoosEmailClient'); // Adjust path to your class
+var Client = require('./awtsmoosEmailClient'); 
 
 async function test() {
-    console.log("--- B\"H Starting Local DKIM Simulation ---");
+    console.log("\n\n--- B\"H Starting DEBUG DKIM Verification ---");
 
-    // 1. Setup Mock Data
     var client = new Client();
+    if(!client.privateKey) { console.error("No private key."); return; }
     
-    // Check key
-    if(!client.privateKey) {
-        console.error("No private key found! Check your constructor or ENV.");
-        return;
-    }
-
-    var domain = "awtsmoos.com";
-    var selector = "selector";
-    
-    // We assume the PUBLIC KEY matches what you have in DNS.
-    // For local testing, we extract the Public Key from the Private Key.
+    // Simulate Keys
     var pubKeyObject = crypto.createPublicKey(client.privateKey);
     var publicKeyPem = pubKeyObject.export({ type: 'pkcs1', format: 'pem' });
-    
+
+    // Mock Email Data
     var headers = 
         "Message-ID: <12345@awtsmoos.com>\r\n" +
         "Date: Thu, 27 Nov 2025 00:00:00 GMT\r\n" +
         "From: me@awtsmoos.com\r\n" +
         "To: awtsmoos@gmail.com\r\n" +
-        "Subject: B\"H Test"; // Note: raw headers often end without CRLF on last line until joined
-
+        "Subject: B\"H Test\r\n"; 
     var body = "This is a test body.\r\nIt has two lines.";
 
-    // 2. RUN SIGNING (This runs YOUR code)
-    console.log("Signing...");
-    // We add CRLF to headers just like sendMail does before passing
-    var fullHeaders = headers + '\r\n'; 
-    var signatureHeaderVal = client.signEmail(domain, selector, client.privateKey, fullHeaders, body);
+    console.log(">>> CALLING SIGNER...");
+    var signatureHeaderVal = client.signEmail("awtsmoos.com", "selector", client.privateKey, headers, body);
     
-    if(!signatureHeaderVal) {
-        console.error("Signing returned null!");
-        return;
-    }
-    console.log("Generated Signature Header Value:\n" + signatureHeaderVal);
-
-    // 3. RECONSTRUCT What Google Sees
-    // Google sees: DKIM-Signature: ... \r\n + Headers + \r\n + Body
+    // --- VERIFYER LOGIC START ---
+    console.log("\n>>> CALLING VERIFIER LOGIC...");
     
-    // Parse the DKIM header to find 'h', 's', 'd', 'b', 'bh'
-    // But for verification, we just need to reconstruct the Signed String (Canonicalized).
-    
-    // A. Re-Calculate Body Hash
-    var { canonicalBody } = client.canonicalizeRelaxed(null, body);
-    var freshBodyHash = crypto.createHash('sha256').update(canonicalBody).digest('base64');
-    console.log("Verifier Body Hash: " + freshBodyHash);
-
-    // Extract bh from signature
-    var bhMatch = signatureHeaderVal.match(/bh=([^;]+)/);
-    if(bhMatch[1] !== freshBodyHash) {
-        console.error("❌ BODY HASH MISMATCH!");
-        console.error("Signed bh: " + bhMatch[1]);
-        console.error("Actual bh: " + freshBodyHash);
-        // If this happens, fix body canonicalization
-    } else {
-        console.log("✅ Body Hash matches.");
-    }
-
-    // B. Re-Construct Headers String to Verify
-    // 1. Identify headers in h=
+    var bMatch = signatureHeaderVal.match(/b=([^;]*)$/);
     var hMatch = signatureHeaderVal.match(/h=([^;]+)/);
-    var hTags = hMatch[1].split(':'); // [Message-ID, Date, ...]
-
-    // 2. Build Raw Headers string from hTags order
-    var verifierRawHeaders = "";
+    
+    // 1. Reconstruct Headers
+    var hTags = hMatch[1].split(':');
+    var rawHeaderBlock = "";
     hTags.forEach(name => {
-        var regex = new RegExp(`^${name}:.*$`, 'mi');
-        var match = fullHeaders.match(regex);
-        if(match) verifierRawHeaders += match[0] + '\r\n';
+        var re = new RegExp(`^${name}:.*$`, 'mi');
+        var m = headers.match(re);
+        if(m) rawHeaderBlock += m[0] + '\r\n';
     });
-
-    // 3. Canonicalize those headers
-    var { canonicalHeaders } = client.canonicalizeRelaxed(verifierRawHeaders, null);
-
-    // 4. Create the DKIM header to verify
-    // We must take the existing signature value, REMOVE the signature (b=...), 
-    // but KEEP the empty b=
     
-    var sigMatch = signatureHeaderVal.match(/b=([^;]*)$/);
-    var actualSignature = sigMatch[1];
+    var { canonicalHeaders } = client.canonicalizeRelaxed(rawHeaderBlock, null);
     
-    // The "Header" part for hash includes everything up to "b="
-    // Use regex to strip the signature data but keep "b="
-    var dkimHeaderNoSig = signatureHeaderVal.replace(/b=[^;]*$/, 'b=');
+    // 2. Reconstruct DKIM Line
+    var dkimStub = signatureHeaderVal.replace(/b=[^;]*$/, 'b=');
+    var canonicalDkim = "dkim-signature:" + dkimStub.replace(/\s+/g, ' ').trim();
     
-    // Canonicalize IT (relaxed)
-    var dkimCanonical = "dkim-signature:" + dkimHeaderNoSig.replace(/\s+/g, ' ').trim();
+    var stringToVerify = canonicalHeaders + canonicalDkim + '\r\n';
     
-    // 5. Total String
-    var stringToVerify = canonicalHeaders + dkimCanonical;
+    var buf = Buffer.from(stringToVerify, 'utf-8');
+    console.log("DEBUG: Verifier toSign HEX:", buf.toString('hex'));
 
-    console.log("--- Verifying String (Preview) ---");
-    console.log(JSON.stringify(stringToVerify).substring(0, 100) + "...");
-
-    // 6. CRYPTO VERIFY
+    // Compare?
+    // User must manually check console if they differ.
+    
     var verify = crypto.createVerify('SHA256');
     verify.update(stringToVerify);
-    var valid = verify.verify(publicKeyPem, actualSignature, 'base64');
+    var isValid = verify.verify(publicKeyPem, bMatch[1], 'base64');
 
-    if(valid) {
-        console.log("\n🎉 VICTORY! The signature verifies LOCALLY.");
-        console.log("If Gmail fails now, it is due to 'socket' issues (e.g. unexpected extra \\n or \\r).");
+    if(isValid) {
+        console.log("\n🎉 VICTORY! Match!");
     } else {
-        console.log("\n💀 DEFEAT! Local verification FAILED.");
-        console.log("This means the logic inside signEmail != verification logic.");
+        console.log("\n💀 DEFEAT! Mismatch.");
+        console.log("COMPARE 'Final toSign HEX' (from signer) with 'Verifier toSign HEX' (above)!");
     }
 }
 
