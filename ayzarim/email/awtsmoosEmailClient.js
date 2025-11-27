@@ -561,7 +561,7 @@ class AwtsmoosEmailClient {
                 .sign(privateKey, 'base64');
 
             // 7. Return the full header line
-            return `DKIM-Signature: ${dkimHeader}${signature}`;
+           return `${dkimHeader}${signature}`;
         } catch (e) {
             console.error("Signing Error:", e);
             return emailData; // Fallback to unsigned if error
