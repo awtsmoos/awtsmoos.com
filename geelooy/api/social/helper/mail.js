@@ -357,15 +357,60 @@ async function sendMail({ $i, userid, asAliasId, toAliasId, toEmail }) {
             return { success: { message: "Sent internally" } };
 
         } else {
-            console.log("B\"H DEBUG: Sending REMOTE (SMTP)...");
-            // SMTP Logic ...
-             if ($i.mail && $i.mail.smtpClient) {
-                var myFullEmail = `${senderShort}@awtsmoos.com`;
-                $i.mail.smtpClient.sendMail(myFullEmail, targetEmailDisplay, subject, content)
-                    .catch(e => console.error("SMTP Error", e));
-                return { success: { message: "Sent via SMTP" } };
+            // === 5. EXTERNAL SEND (SMTP) ===
+            console.log("B\"H DEBUG: Preparing REMOTE (SMTP) transmission...");
+            
+            // B"H - HISTORY STITCHING
+            // We must reconstruct the "Garments" (History) for Gmail to recognize the thread.
+            let fullOutgoingContent = content;
+            let references = ""; // For technical threading if we had headers
+            
+            try {
+                // 1. Fetch the Scroll of Memories
+                const threadPath = `/emails/${senderFull}/threads/${recipientFull}`;
+                const threadData = await $i.db.get(threadPath);
+                
+                if (threadData) {
+                    // 2. Sort Newest -> Oldest
+                    const msgs = Object.values(threadData).sort((a,b) => b.time - a.time);
+                    
+                    // 3. Weave the history (Limit to last 15 to avoid massive bloat)
+                    let historyStr = "";
+                    for (let m of msgs.slice(0, 15)) {
+                        const dateStr = new Date(m.time).toLocaleString();
+                        // Determine who spoke: "Me" or "Them"
+                        const isMe = (m.from === senderShort);
+                        const speaker = isMe ? "Me" : (m.fromName || m.from);
+                        
+                        // Prefer plain text content
+                        let rawText = m.textContent || m.content || "";
+                        // If it's HTML, simple strip (Safety)
+                        if (rawText.includes("<")) rawText = rawText.replace(/<[^>]*>?/gm, '');
+                        
+                        // Add "Block Quote" markers
+                        const quotedLines = rawText.trim().split('\n').map(l => `> ${l}`).join('\n');
+                        
+                        historyStr += `\n\nOn ${dateStr}, ${speaker} wrote:\n${quotedLines}`;
+                    }
+                    
+                    fullOutgoingContent = content + historyStr;
+                }
+            } catch(e) {
+                console.log("B\"H DEBUG: History stitching failed, sending raw.", e);
             }
-             return { success: { message: "Sent (Mock)" } };
+
+            // 4. Send the Woven Message
+            if ($i.mail && $i.mail.smtpClient) {
+                var myFullEmail = `${senderShort}@awtsmoos.com`;
+                
+                // We send 'fullOutgoingContent' to Gmail, but we saved 'content' (clean) to our DB above.
+                $i.mail.smtpClient.sendMail(myFullEmail, targetEmailDisplay, subject, fullOutgoingContent)
+                    .catch(e => console.error("SMTP Error", e));
+                
+                return { success: { message: "Sent via SMTP with History" } };
+            }
+            
+            return { success: { message: "SMTP Client Missing" } };
         }
 
     } catch (e) {
