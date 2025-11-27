@@ -1,69 +1,112 @@
 /**
  * B"H
+ * Awtsmoos Unified Mail Endpoints
  */
 
 var {
-	NO_LOGIN,
-	sp,
+    NO_LOGIN,
+    sp,
     myOpts
-  
-  } = require("./helper/_awtsmoos.constants.js");
+} = require("./helper/_awtsmoos.constants.js");
 
- var {
-  getMail,
-  sendMail,
-  deleteMail,
-  setEmailAsRead
+var {
+    getMail,
+    sendMail,
+    deleteMail,
+    setEmailAsRead
 } = require("./helper/index.js");
 
 var {
-	loggedIn,
-	er
+    loggedIn,
+    er
 } = require("./helper/general.js");
 
 module.exports = ({
-	$i,
-	userid,
+    $i,
+    userid,
 } = {}) => ({
-    "/mail": async() => {
-        return "Hi! get mail here"
+    // Test endpoint
+    "/mail": async () => {
+        return "B\"H - Awtsmoos Mail System Active";
     },
-    "/mail/delete/:messageId": async(v) => {
+
+    /**
+     * DELETE Message
+     * Route: /mail/delete/:messageId?aliasId=myAlias
+     */
+    "/mail/delete/:messageId": async (v) => {
         return await deleteMail({
             $i,
             userid,
-            mailId: v.messageId
+            messageId: v.messageId,
+            aliasId: $i.$_GET.aliasId // Required param from query
         })
     },
-    
-    "/mail/get/:mailId/":async (v) => {
+
+    /**
+     * GET Specific Message
+     * Route: /mail/get/:mailId?aliasId=myAlias
+     */
+    "/mail/get/:mailId/": async (v) => {
         return await getMail({
             $i,
             userid,
-            mailId:v.mailId
+            aliasId: $i.$_GET.aliasId, // Required param
+            threadId: $i.$_GET.threadId, // Optional filter
+            mailId: v.mailId // Specific message ID
         })
     },
-    "/mail/get/:mailId/read":async (v) => {
+
+    /**
+     * MARK READ
+     * Route: /mail/get/:mailId/read?aliasId=myAlias
+     */
+    "/mail/get/:mailId/read": async (v) => {
         return await setEmailAsRead({
             $i,
             userid,
-            mailId:v.mailId
+            messageId: v.mailId,
+            aliasId: $i.$_GET.aliasId // Required param
         })
     },
+
+    /**
+     * SEND Mail
+     * Route: /mail/sendTo/:toAlias/from/:fromAlias
+     * Body/Query: subject, content, toEmail (if external)
+     * 
+     * Note: If sending externally, :toAlias can be "external", 
+     * and the actual email is passed in ?toEmail=...
+     */
     "/mail/sendTo/:toAlias/from/:fromAlias": async (v) => {
+        var toAliasId = v.toAlias;
+        
+        // Handle external routing convention from client
+        if(toAliasId === "external") {
+            toAliasId = null;
+        }
+
+        var toEmail = $i.$_GET.toEmail || $i.$_POST.toEmail;
+
         return await sendMail({
             $i,
             userid,
             asAliasId: v.fromAlias,
-            toAliasId: v.toAlias
+            toAliasId: toAliasId,
+            toEmail: toEmail
         })
     },
+
+    /**
+     * GET Inbox (Threads)
+     * Route: /mail/get?aliasId=myAlias
+     */
     "/mail/get": async () => {
         return await getMail({
             $i,
             userid,
+            aliasId: $i.$_GET.aliasId, // Required param
+            threadId: $i.$_GET.threadId // Optional: Get specific thread history
         })
     },
-
-
 });
