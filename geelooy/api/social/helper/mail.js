@@ -193,27 +193,31 @@ async function sendMail({ $i, userid, asAliasId, toAliasId, toEmail }) {
             });
 
             // B. Write to THEIR Inbox
-            // Note: friendClean is already set to recipient_at_awtsmoos.com for local
-            // We need to name the file in THEIR folder as MY identifier
             var meClean = `${asAliasId}_at_awtsmoos.com`;
-            
-            await $i.db.appendToObj(`/emails/${friendClean}/threads/${meClean}`, {
+            var recipientFolder = friendClean; // e.g. "bob_at_awtsmoos.com"
+
+            // Construct the Message Object for them
+            var msgForThem = {
+                from: asAliasId,
+                fromName: asAliasId, // Internal alias is the name
+                to: targetEmail,
+                subject,
+                content,
+                time,
+                timeSent: time,
+                read: false,
+                direction: "incoming",
+                correspondent: asAliasId // For them, the correspondent is ME
+            };
+
+            await $i.db.appendToObj(`/emails/${recipientFolder}/threads/${meClean}`, {
                 key: time + "",
-                value: {
-                    from: asAliasId,
-                    to: targetEmail,
-                    subject,
-                    content,
-                    time,
-                    read: false,
-                    direction: "incoming"
-                }
+                value: msgForThem
             });
-            
-            // B"H
-            // - REAL-TIME NOTIFICATION (INTERNAL)
+
+            // B"H - REAL-TIME NOTIFICATION (INTERNAL)
             if ($i.ws) {
-                console.log(`B"H\n - Notifying local user: ${recipientFolder}`);
+                console.log(`B"H - Notifying local user: ${recipientFolder}`);
                 
                 const notification = {
                     type: 'NEW_MAIL',
