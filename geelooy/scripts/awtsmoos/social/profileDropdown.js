@@ -7,7 +7,7 @@ export default function createProfileDropdown(parentElement) {
     parentElement.appendChild(container);
 
     // Initial HTML structure
-    container.innerHTML = /*html*/`
+    container.innerHTML = /*html*/ `
     <div class="notLoggedIn">
         <div class="btn dropt" id="signinButton">
             Sign In <span class="arrow">▼</span>

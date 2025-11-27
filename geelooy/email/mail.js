@@ -312,8 +312,7 @@ function formatContent(text) {
 function formatTime(ts) {
     return new Date(ts).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 }
-
-window.onload = async () => {
-	await (new Promise(r => setTimeout(r, 500));
+if(window.curAlias) whenLoaded();
+else addEventListener("awtsmoosAliasChange", e => {
 	await whenLoaded();
-};
+})
