@@ -152,10 +152,10 @@ body, html {
 .chat-area {
     display: flex; 
     flex-direction: column;
-    height: 100%; /* Relative to .main */
+    height: 100%; 
     background: var(--bg-deep); 
     position: relative;
-    overflow: hidden; 
+    overflow: hidden; /* Contains the scroll area */
 }
 
 .chat-header {

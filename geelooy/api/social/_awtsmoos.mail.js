@@ -103,8 +103,11 @@ module.exports = ({
         return await getMail({
             $i,
             userid,
-            aliasId: $i.$_GET.aliasId, // Required param
-            threadId: $i.$_GET.threadId // Optional: Get specific thread history
+            aliasId: $i.$_GET.aliasId,
+            threadId: $i.$_GET.threadId,
+            view: $i.$_GET.view,         // CRITICAL: was missing
+            page: $i.$_GET.page,         // CRITICAL: was missing
+            pageSize: $i.$_GET.pageSize
         })
     },
     

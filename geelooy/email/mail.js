@@ -228,6 +228,16 @@ async function selectThread(threadId, displayName) {
     document.getElementById('activeChatInfo').classList.remove('hidden');
     document.getElementById('chatPartnerName').textContent = displayName || threadId;
 
+    // --- CRITICAL FIX: Manage Compose vs Approve Visibility ---
+    const isRequest = (state.view === 'requests');
+    if (isRequest) {
+        document.getElementById('approveBtn').classList.remove('hidden');
+        document.getElementById('composeForm').classList.add('hidden');
+    } else {
+        document.getElementById('approveBtn').classList.add('hidden');
+        document.getElementById('composeForm').classList.remove('hidden');
+    }
+
     // Load History if not in cache
     if (!state.threads[threadId]) {
         document.getElementById('messagesContainer').innerHTML = '<div class="empty-state">Loading light...</div>';
@@ -372,10 +382,13 @@ function injectMessageIntoCache(msg) {
 }
 
 function updateSendButtonState() {
-    const val = document.getElementById('messageInput').value.trim();
+    const el = document.getElementById('messageInput');
+    const val = el ? el.value.trim() : "";
     const btn = document.querySelector('.btn-send');
-    if(val.length > 0) btn.classList.add('ready');
-    else btn.classList.remove('ready');
+    if(btn) {
+        if(val.length > 0) btn.classList.add('ready');
+        else btn.classList.remove('ready');
+    }
 }
 
 
