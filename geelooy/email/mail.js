@@ -43,11 +43,9 @@ async function whenLoaded() {
 
 async function refreshMail() {
     if (!state.alias) {
-        console.log("B\"H\n - Waiting for alias identification...");
         return;
     }
     try {
-        // Encode the alias to handle special chars or spaces safely
         const res = await fetch(`${API_BASE}/get?aliasId=${encodeURIComponent(state.alias)}`);
         const data = await res.json();
         
@@ -56,6 +54,7 @@ async function refreshMail() {
             processThreads(data);
             renderSidebar();
             if (state.activeThread) {
+                // Only re-render if we got new messages to avoid scroll jumping
                 renderMessages(state.activeThread);
             }
         } else if (data.error) {
@@ -69,30 +68,24 @@ async function refreshMail() {
 async function sendEmail(recipient, subject, content) {
     if(!recipient || !content) return;
 
-    // Detect if Recipient is Email or Alias
-    const isEmail = recipient.includes("@");
+    const isEmail = recipient.includes("@") || recipient.includes("_at_");
     
     let url = "";
     if (isEmail) {
-        // Use generic "external" placeholder for the route param, pass actual email in query
-        url = `${API_BASE}/sendTo/external/from/${state.alias}?toEmail=${encodeURIComponent(recipient)}`;
+        // Fix: Ensure we send clean email if user typed it
+        let cleanEmail = recipient.replace("_at_", "@");
+        url = `${API_BASE}/sendTo/external/from/${state.alias}?toEmail=${encodeURIComponent(cleanEmail)}`;
     } else {
-        // Local Alias
         url = `${API_BASE}/sendTo/${recipient}/from/${state.alias}`;
     }
     
-    // Add content to query (or body if you updated fetch to use body, but sticking to query based on previous context)
-    // Ideally this should be a POST body.
     const bodyData = new URLSearchParams();
     bodyData.append("subject", subject);
     bodyData.append("content", content);
     
-    // If the server expects POST body for content:
     const res = await fetch(url, {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-        },
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: bodyData
     });
     
@@ -115,20 +108,22 @@ async function deleteMessage(messageId) {
     await refreshMail();
 }
 
+async function markAsRead(msgId) {
+    try {
+        await fetch(`${API_BASE}/get/${msgId}/read?aliasId=${state.alias}`);
+    } catch(e) { console.error("Failed to mark read", e); }
+}
+
 // --- Data Processing ---
 
 function processThreads(messages) {
     const groups = {};
     
     messages.forEach(msg => {
-        // The API returns 'correspondent' which is the Friend's Name/Email
-        // Fallback to 'from' or 'to' logic if correspondent is missing
         let partner = msg.correspondent;
         if (!partner) {
-             // Heuristic fallback
              partner = (msg.direction === 'incoming') ? msg.from : "Unknown";
         }
-        
         if (!groups[partner]) groups[partner] = [];
         groups[partner].push(msg);
     });
@@ -144,31 +139,55 @@ function renderSidebar() {
     
     // Sort threads by most recent message
     const threadNames = Object.keys(state.threads).sort((a, b) => {
-        const lastA = state.threads[a][0].timeSent; // Assumes API sends newest first
+        const lastA = state.threads[a][0].timeSent; // Assumes API sends newest first or we sorted
         const lastB = state.threads[b][0].timeSent;
         return lastB - lastA;
     });
 
     threadNames.forEach(name => {
         const msgs = state.threads[name];
-        const lastMsg = msgs[0];
+        
+        // Find the newest message to get display info
+        // (Our API sort in 'getMail' puts oldest first, so newest is at end)
+        // Wait, 'getMail' returns oldest->newest. So newest is msgs[msgs.length-1]
+        // BUT processThreads pushes them in order. Let's grab the LAST one in array as newest.
+        const newestMsg = msgs[msgs.length - 1];
+        
         const isActive = name === state.activeThread;
         const unreadCount = msgs.filter(m => !m.read && m.direction === 'incoming').length;
         
+        // B"H - NAME FORMATTING LOGIC
+        // 1. Try 'fromName' (e.g. "Awts Moos")
+        // 2. Try 'fromEmail' (e.g. "awts@gmail.com")
+        // 3. Fallback to thread name with @ replacement
+        
+        let displayName = name.replace(/_at_/g, "@"); // Default fallback
+        
+        // Loop backwards to find a valid 'fromName' from the correspondent
+        for(let i = msgs.length -1; i >= 0; i--) {
+            if(msgs[i].direction === 'incoming' && msgs[i].fromName) {
+                displayName = msgs[i].fromName;
+                break;
+            }
+        }
+
+        // If still the raw ID, try cleaning it up
+        if(displayName.includes("_at_")) displayName = displayName.replace(/_at_/g, "@");
+
         const el = document.createElement('div');
         el.className = `thread-item ${isActive ? 'active' : ''}`;
-        el.onclick = () => selectThread(name);
+        el.onclick = () => selectThread(name, displayName);
         
         el.innerHTML = `
-            <div class="avatar">${name.charAt(0).toUpperCase()}</div>
+            <div class="avatar">${displayName.charAt(0).toUpperCase()}</div>
             <div class="thread-info">
                 <div class="thread-top">
-                    <span class="thread-name">${name}</span>
-                    <span class="thread-time">${formatTime(lastMsg.timeSent)}</span>
+                    <span class="thread-name">${escapeHtml(displayName)}</span>
+                    <span class="thread-time">${formatTime(newestMsg.timeSent)}</span>
                 </div>
                 <div class="thread-preview">
-                    ${lastMsg.direction === 'outgoing' ? '<span class="you-prefix">You:</span> ' : ''}
-                    ${escapeHtml(lastMsg.subject || lastMsg.content).substring(0, 30)}...
+                    ${newestMsg.direction === 'outgoing' ? '<span class="you-prefix">You:</span> ' : ''}
+                    ${escapeHtml(newestMsg.subject || newestMsg.content).substring(0, 30)}...
                 </div>
             </div>
             ${unreadCount > 0 ? `<div class="unread-badge">${unreadCount}</div>` : ''}
@@ -177,28 +196,25 @@ function renderSidebar() {
     });
 }
 
-// ... existing code ...
-
 function renderMessages(threadName) {
     const container = document.getElementById('messagesContainer');
     const msgs = state.threads[threadName];
     
     if (!msgs) return;
 
+    // Only fully wipe and redraw if it's a different thread or empty
+    // For simplicity in this demo, we redraw. In prod, use diffing.
     container.innerHTML = '';
     
-    // Sort oldest first
-    const sorted = [...msgs].sort((a, b) => a.time - b.time); // Note: Server saves as 'time', check consistency
+    // API returns oldest first (a-b), which is what we want for chat
+    const sorted = msgs; 
     
     let lastDate = null;
 
     sorted.forEach(msg => {
-        // Fix: Server saves timestamp as 'time', client helper might expect 'timeSent'
-        // Let's normalize here:
         const ts = msg.time || msg.timeSent || Date.now();
-
-        // Date Separator
         const dateStr = new Date(ts).toLocaleDateString();
+        
         if (dateStr !== lastDate) {
             const sep = document.createElement('div');
             sep.className = 'date-separator';
@@ -211,28 +227,21 @@ function renderMessages(threadName) {
         const bubble = document.createElement('div');
         bubble.className = `message-row ${isMe ? 'row-me' : 'row-them'}`;
         
-        // B"H - NEW LOGIC FOR HTML CONTENT
-        // If we have HTML content from our new parser, use it.
-        // Otherwise fallback to escaping text.
-        
         let bodyHtml = "";
-        
+        // Use server provided HTML if available and looks safe-ish
         if (msg.content && (msg.content.includes('<div') || msg.content.includes('<br'))) {
-            // It's likely HTML. 
-            // In a real production app, use DOMPurify here.
-            // For now, we trust our server's stripHistory function.
             bodyHtml = msg.content;
         } else {
-            // It's plain text, format it
             bodyHtml = formatContent(msg.textContent || msg.content || "");
         }
-
-        // Handle Attachments (Images)
+        
+        // Attachments
         let attachmentHtml = "";
         if (msg.attachments && Array.isArray(msg.attachments)) {
             msg.attachments.forEach(att => {
-                if(att.contentType.startsWith("image/")) {
-                    attachmentHtml += `<br><img src="${att.data}" style="max-width:100%; border-radius:8px; margin-top:10px;" alt="${att.filename}">`;
+                // If it wasn't already embedded via CID
+                if(!att.wasEmbedded && att.contentType.startsWith("image/")) {
+                    attachmentHtml += `<br><img src="${att.data}" class="email-img" alt="${att.filename}">`;
                 }
             });
         }
@@ -258,35 +267,40 @@ function renderMessages(threadName) {
     scrollToBottom();
 }
 
-
 // --- Interaction Logic ---
 
-function selectThread(name) {
+async function selectThread(name, prettyName) {
     state.activeThread = name;
     
     // Update Header
     document.getElementById('activeChatInfo').classList.remove('hidden');
-    document.getElementById('chatPartnerName').textContent = name;
+    document.getElementById('chatPartnerName').textContent = prettyName || name.replace(/_at_/g, "@");
     document.getElementById('composeForm').classList.remove('hidden');
     
-    renderSidebar(); // Update active class
-    renderMessages(name);
+    // B"H - MARK AS READ LOGIC
+    // 1. Find unread incoming messages
+    const msgs = state.threads[name] || [];
+    const unreadMsgs = msgs.filter(m => !m.read && m.direction === 'incoming');
     
-    // Set compose form subject to Re: Last Subject
-    const msgs = state.threads[name];
-    if(msgs && msgs.length > 0) {
-        const last = msgs[0];
-        const sub = last.subject || "";
-        if(!sub.startsWith("Re:")) {
-           // document.getElementById('subjectInput').value = "Re: " + sub;
-        } else {
-           // document.getElementById('subjectInput').value = sub;
+    if (unreadMsgs.length > 0) {
+        // 2. Optimistic Update (Client side)
+        unreadMsgs.forEach(m => m.read = true);
+        
+        // 3. Re-render Sidebar to remove badge immediately
+        renderSidebar();
+        
+        // 4. Send API requests in background
+        for (const msg of unreadMsgs) {
+            await markAsRead(msg.id);
         }
+    } else {
+        renderSidebar(); // Update active class
     }
+
+    renderMessages(name);
 }
 
 function setupUI() {
-    // Compose Form (Bottom of Chat)
     document.getElementById('composeForm').onsubmit = async (e) => {
         e.preventDefault();
         const sub = document.getElementById('subjectInput').value;
@@ -301,7 +315,6 @@ function setupUI() {
         }
     };
 
-    // Modal Handling
     const modal = document.getElementById('newMsgModal');
     const btn = document.getElementById('composeBtn');
     const close = document.querySelector('.close-modal');
@@ -324,7 +337,7 @@ function setupUI() {
             modal.classList.add('hidden');
             document.getElementById('newRecipient').value = '';
             document.getElementById('newMessageBody').value = '';
-            state.activeThread = to; // Switch to new thread
+            state.activeThread = to.replace("@", "_at_"); 
         }
     };
 }
@@ -342,14 +355,14 @@ function escapeHtml(text) {
 }
 
 function formatContent(text) {
-    // Convert newlines to <br>, maybe linkify
     return escapeHtml(text).replace(/\n/g, '<br>');
 }
 
 function formatTime(ts) {
     return new Date(ts).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 }
+
 if(window.curAlias) whenLoaded();
 else addEventListener("awtsmoosAliasChange", async e => {
-	await whenLoaded();
-})
+    await whenLoaded();
+});
