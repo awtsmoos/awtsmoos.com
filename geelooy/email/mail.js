@@ -42,8 +42,13 @@ async function whenLoaded() {
 // --- API Interactions ---
 
 async function refreshMail() {
+    if (!state.alias) {
+        console.log("B\"H\n - Waiting for alias identification...");
+        return;
+    }
     try {
-        const res = await fetch(`${API_BASE}/get?aliasId=${state.alias}`);
+        // Encode the alias to handle special chars or spaces safely
+        const res = await fetch(`${API_BASE}/get?aliasId=${encodeURIComponent(state.alias)}`);
         const data = await res.json();
         
         if (Array.isArray(data)) {

@@ -201,10 +201,19 @@ class AwtsmoosStaticServer {
         response.setHeader('Connection', 'keep-alive');
         response.setHeader("content-language", "en");
 
-        paramKinds.GET = parsedUrl.query;
-        if(parsedUrl.search) {
-            paramKinds = parseData(paramKinds, "GET", parsedUrl.search.substring(1));
-        }
+        // B"H - Robust GET Parsing
+        // Create a clean object from the parsed query to avoid null-prototype issues
+        paramKinds.GET = Object.assign({}, parsedUrl.query);
+
+        // Attempt to parse JSON strings (e.g., "true"->true, "123"->123)
+        // safely, without re-parsing the entire query string.
+        Object.keys(paramKinds.GET).forEach(key => {
+            try {
+                paramKinds.GET[key] = JSON.parse(paramKinds.GET[key]);
+            } catch (e) {
+                // Value is a regular string (like "awtsmoos"), keep as is.
+            }
+        });
     
         var extname = String(path.extname(filePath)).toLowerCase();
         var contentType = mimeTypes[extname] || 'application/octet-stream';
