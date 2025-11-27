@@ -313,6 +313,6 @@ function formatTime(ts) {
     return new Date(ts).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 }
 if(window.curAlias) whenLoaded();
-else addEventListener("awtsmoosAliasChange", e => {
+else addEventListener("awtsmoosAliasChange", async e => {
 	await whenLoaded();
 })
