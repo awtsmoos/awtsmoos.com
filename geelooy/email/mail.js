@@ -326,6 +326,7 @@ function renderMessages(threadId, forceScrollBottom = false) {
     }
 }
 
+// Find the "createMessageRow" function and replace it with this improved version:
 function createMessageRow(msg) {
     const isMe = msg.direction === 'outgoing';
     const row = document.createElement('div');
@@ -333,24 +334,34 @@ function createMessageRow(msg) {
     row.id = `msg_row_${msg.id}`;
     row.dataset.uid = msg.uid || msg.timeSent;
     
-    // Quote Logic
+    // B"H - Robust Quote Logic (Regex Extraction)
     let contentHtml = String(msg.content || ""); 
     let quoteHtml = "";
-    if (contentHtml.includes('class="reply-meta"')) {
-        const div = document.createElement('div');
-        div.innerHTML = contentHtml;
-        const meta = div.querySelector('.reply-meta');
-        if (meta) {
-            const qUid = meta.getAttribute('data-uid');
-            const qName = meta.getAttribute('data-name');
-            const qText = meta.textContent;
-            quoteHtml = `<div class="embedded-quote" onclick="scrollToMsg('${qUid}')">
-                            <span class="quote-name">${escapeHtml(qName)}</span>${escapeHtml(qText)}
-                         </div>`;
-            meta.remove();
-            contentHtml = div.innerHTML;
-        }
+    
+    // Detect reply-meta even if it was accidentally escaped (e.g. &lt;div...)
+    // This regex looks for the div wrapper and captures the snippet inside data-snippet or text content
+    // We strictly look for the class="reply-meta" signature
+    
+    const metaRegex = /<div class="reply-meta"[\s\S]*?data-uid="([^"]*)"[\s\S]*?data-name="([^"]*)"[^>]*>([\s\S]*?)<\/div>/i;
+    const match = contentHtml.match(metaRegex);
+    
+    if (match) {
+        // Extract data
+        const qUid = match[1];
+        const qName = match[2];
+        const qText = match[3]; // This is the snippet content
+        
+        // Remove the meta block from the displayed content
+        contentHtml = contentHtml.replace(match[0], "");
+        
+        // Build the quote bubble
+        quoteHtml = `<div class="embedded-quote" onclick="scrollToMsg('${qUid}')">
+                        <span class="quote-name">${escapeHtml(qName)}</span>${escapeHtml(qText)}
+                     </div>`;
     }
+    
+    // B"H - Clean up: If the content was just the meta block (now empty), or has leading newlines
+    contentHtml = contentHtml.trim();
 
     const senderName = isMe ? "Me" : (msg.fromName || "Them");
 
@@ -584,22 +595,18 @@ let isDragging = false; // B"H - Added for mouse tracking
 const SWIPE_THRESHOLD = 80;
 
 // B"H - Universal Swipe Logic (Works on ME and THEM)
-//B"H
-// Find the "attachSwipeLogic" function and replace it with this version:
-
 function attachSwipeLogic(element, msg, senderName) {
     let startX = 0;
     let currentX = 0;
     let isTouch = false;
-    const SWIPE_THRESHOLD = 60; 
-    const isMe = msg.direction === 'outgoing'; // Detect ownership
+    const SWIPE_THRESHOLD = 60; // Distance to trigger reply
 
-    // Ensure indicator exists
+    // Ensure indicator exists and is styled correctly for the row container
     if (!element.querySelector('.swipe-indicator')) {
         const ind = document.createElement('div');
         ind.className = 'swipe-indicator';
-        ind.innerHTML = '↩️'; 
-        element.prepend(ind); 
+        ind.innerHTML = '↩️'; // Reply Icon
+        element.prepend(ind); // Put it at the start of the row container
     }
     
     const indicator = element.querySelector('.swipe-indicator');
@@ -609,6 +616,7 @@ function attachSwipeLogic(element, msg, senderName) {
     const start = (x) => { 
         startX = x; 
         element.classList.add('swiping'); 
+        // Detach scroll listener temporarily to prevent viewport scroll during drag
         document.getElementById('messagesContainer').onscroll = null;
     };
     
@@ -616,33 +624,21 @@ function attachSwipeLogic(element, msg, senderName) {
         currentX = x;
         const diff = currentX - startX;
         
-        let validSwipe = false;
-        let resistance = 0;
-
-        // Logic: Them = Swipe Right (diff > 0), Me = Swipe Left (diff < 0)
-        if (!isMe && diff > 0 && diff < 200) {
-            validSwipe = true;
-            resistance = Math.pow(diff, 0.8);
-        } else if (isMe && diff < 0 && diff > -200) {
-            validSwipe = true;
-            resistance = -Math.pow(Math.abs(diff), 0.8);
-        }
-
-        if (validSwipe) {
+        // ONLY allow Right Swipe (Pull > 0) - Corresponds to Reply
+        if (diff > 0 && diff < 200) {
+            // Apply transform with resistance
+            const resistance = Math.pow(diff, 0.8); 
             element.style.transform = `translateX(${resistance}px)`;
             
-            // Icon Animation
-            const absRes = Math.abs(resistance);
-            // Flip rotation for "Me" so icon looks correct coming from right
-            const baseRotate = isMe ? 0 : -180; 
-            
-            if (absRes > SWIPE_THRESHOLD) {
-                indicator.style.transform = `translateY(-50%) scale(1.2) rotate(${baseRotate}deg)`;
+            // Visual cues for the icon
+            if (resistance > SWIPE_THRESHOLD) {
+                indicator.style.transform = `translateY(-50%) scale(1.2) rotate(-180deg)`; // Pop effect
                 indicator.style.color = '#fff';
                 indicator.style.background = 'var(--neon-gold)';
+                indicator.style.borderColor = 'var(--neon-gold)';
                 indicator.style.opacity = '1';
             } else {
-                indicator.style.transform = `translateY(-50%) scale(${0.5 + (absRes/SWIPE_THRESHOLD)*0.5}) rotate(${baseRotate}deg)`;
+                indicator.style.transform = `translateY(-50%) scale(${0.5 + (resistance/SWIPE_THRESHOLD)*0.5})`;
                 indicator.style.color = 'var(--neon-gold)';
                 indicator.style.background = '#2a2a2e';
                 indicator.style.opacity = '1';
@@ -652,29 +648,29 @@ function attachSwipeLogic(element, msg, senderName) {
 
     const end = (x) => {
         const diff = x - startX;
-        element.style.transform = ''; 
+        element.style.transform = ''; // Snap back
         element.classList.remove('swiping');
         
+        // Reset icon styles
         indicator.style = ''; 
         indicator.style.opacity = '0';
-        
+
+        // Re-attach scroll listener
         attachScrollListener(); 
 
-        // Trigger if threshold met in correct direction
-        const triggered = (!isMe && diff > SWIPE_THRESHOLD) || (isMe && diff < -SWIPE_THRESHOLD);
-
-        if (triggered) {
+        if (diff > SWIPE_THRESHOLD) {
+            // Vibration haptic (if mobile)
             if (navigator.vibrate) navigator.vibrate(50);
             triggerReplyMode(msg, senderName);
         }
     };
 
-    // Listeners
+    // Touch Listeners
     element.addEventListener('touchstart', e => { isTouch=true; start(e.touches[0].clientX); }, {passive: true});
     element.addEventListener('touchmove', e => { if(isTouch) move(e.touches[0].clientX); }, {passive: true});
     element.addEventListener('touchend', e => { if(isTouch) { end(e.changedTouches[0].clientX); isTouch=false; } });
 
-    // Mouse Listeners
+    // Mouse Listeners (Desktop slide)
     let isDragging = false;
     element.addEventListener('mousedown', e => {
         if (e.button !== 0 || e.target.closest('button, a, input, textarea, .msg-menu-btn')) return;
@@ -682,13 +678,17 @@ function attachSwipeLogic(element, msg, senderName) {
         element.style.cursor = 'grabbing';
         start(e.clientX);
     });
-    window.addEventListener('mousemove', e => { if (isDragging) move(e.clientX); });
-    window.addEventListener('mouseup', e => { if (isDragging) { isDragging = false; element.style.cursor = ''; end(e.clientX); } });
+    window.addEventListener('mousemove', e => {
+        if (!isDragging) return;
+        move(e.clientX);
+    });
+    window.addEventListener('mouseup', e => {
+        if (!isDragging) return;
+        isDragging = false;
+        element.style.cursor = '';
+        end(e.clientX);
+    });
 }
-
-
-
-
 
 // B"H - Helper to unify movement logic
 function handleSwipeMove(element, diff) {
