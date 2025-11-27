@@ -70,90 +70,62 @@ async function getMail({
         var finalEmailList = [];
         
         // 1. Get the user's aliases to know which /emails/ folders belong to them
-        // Assuming path: /users/USERID/aliases
-        var aliasPath = `/users/${userid}/aliases`
+        var aliasPath = `${sp}/users/${userid}/aliases`;
         var userAliases = await $i.db.get(aliasPath);
         
-        if (!userAliases) {
-            return {
-	            error: {
-		            message: "Could not find any aliases",
-		            aliasPath,
-		            userAliases 
-	            }
-            }
-        }
+        // If no aliases found, just return empty list (or internal mail only)
+        // Don't error, just proceed.
+        if (userAliases) {
+            // Normalize alias list to array
+            var aliasList = Array.isArray(userAliases) ? userAliases : Object.keys(userAliases);
 
-        // Normalize alias list to array
-        var aliasList = Array.isArray(userAliases) ? userAliases : Object.keys(userAliases);
+            // 2. Iterate through each Alias (e.g., "awtsmoos")
+            for (var alias of aliasList) {
+                
+                // Construct the folder name. 
+                // e.g., "awtsmoos" -> "awtsmoos_at_awtsmoos.com"
+                var folderName = `${alias}_at_awtsmoos.com`; 
+                var sendersPath = `/emails/${folderName}/from`;
 
-        // 2. Iterate through each Alias (e.g., "awtsmoos")
-        for (var alias of aliasList) {
-            
-            // Construct the folder name. 
-            // NOTE: This MUST match the replacement logic in your index.js 
-            // (e.g., "awtsmoos" -> "awtsmoos_at_awtsmoos.com")
-            var folderName = `${alias}_at_awtsmoos.com`; 
-            var sendersPath = `/emails/${folderName}/from`;
+                // 3. Get the list of Senders (These are now FILES)
+                var senders = await $i.db.get(sendersPath);
 
-            // 3. Get the list of Senders (These are now FILES, not folders)
-            // db.get on a directory returns an array of filenames (e.g. ["google_at_gmail.com", "bob_at_yahoo.com"])
-            var senders = await $i.db.get(sendersPath);
+                if (Array.isArray(senders) && senders.length) {
+                    for (var senderName of senders) {
+                        
+                        // 4. Get the specific sender's message object (Optimized Binary Object)
+                        var messagesObj = await $i.db.get(`${sendersPath}/${senderName}`);
+                        
+                        if (messagesObj && typeof messagesObj === 'object') {
+                            // 5. Loop through timestamps (keys) in this sender's file
+                            for (var timestamp of Object.keys(messagesObj)) {
+                                var msgData = messagesObj[timestamp];
+                                
+                                var compositeId = `EXT:${folderName}:${senderName}:${timestamp}`;
 
-            if (Array.isArray(senders) && senders.length) {
-                for (var senderName of senders) {
-                    
-                    // 4. Get the specific sender's message object (Optimized Binary Object)
-                    var messagesObj = await $i.db.get(`${sendersPath}/${senderName}`);
-                    
-                    if (messagesObj && typeof messagesObj === 'object') {
-                        // 5. Loop through timestamps (keys) in this sender's file
-                        for (var timestamp of Object.keys(messagesObj)) {
-                            var msgData = messagesObj[timestamp];
-                            
-                            // Create a unique ID that lets us find this specific message later
-                            // Format: EXT:recipient:sender:timestamp
-                            var compositeId = `EXT:${folderName}:${senderName}:${timestamp}`;
+                                // Specific ID check
+                                if (mailId && mailId === compositeId) {
+                                    var parsed = parseRawEmailData(msgData.data, timestamp, compositeId);
+                                    if(msgData.read) parsed.read = true;
+                                    return parsed;
+                                }
 
-                            // If we are looking for a specific single email
-                            if (mailId && mailId === compositeId) {
-                                var parsed = parseRawEmailData(msgData.data, timestamp, compositeId);
-                                if(msgData.read) parsed.read = true;
-                                return parsed;
-                            }
-
-                            // Otherwise, add to list
-                            if (msgData && msgData.data) {
-                                var parsed = parseRawEmailData(msgData.data, timestamp, compositeId);
-                                // Check if we marked it as read in the DB
-                                if(msgData.read) parsed.read = true;
-                                finalEmailList.push(parsed);
+                                // Add to list
+                                if (msgData && msgData.data) {
+                                    var parsed = parseRawEmailData(msgData.data, timestamp, compositeId);
+                                    if(msgData.read) parsed.read = true;
+                                    finalEmailList.push(parsed);
+                                }
                             }
                         }
                     }
-                }
-                
-                
-                
-                
-                
-                
-            } else {
-	            return {
-	            
-		            error: {
-			            message: "No alias emails"
-		            },
-		            sendersPath
-	            }
+                } 
+                // If no senders, we simply continue to the next alias.
             }
-            
-            
         }
         
         // If a specific ID was requested but not found in external, check internal legacy
         if (mailId) {
-             // Optional: Failover to old internal path just in case
              var internal = await $i.db.get(`${sp}/users/${userid}/mail/messages/${mailId}`);
              if(internal) return internal;
 
@@ -164,8 +136,7 @@ async function getMail({
             });
         }
 
-        // 6. Include Internal Legacy Mail (User-to-User) if you still use it
-        // If you don't use internal mail, you can delete this block.
+        // 6. Include Internal Legacy Mail (User-to-User)
         try {
             var op = myOpts($i);
             var internalPath = `${sp}/users/${userid}/mail/messages`;
@@ -207,7 +178,6 @@ async function deleteMail({
             var senderFile = parts[2];
             var timestampKey = parts[3];
 
-            // Path: /emails/awtsmoos_at_awtsmoos.com/from/google_at_gmail.com
             var path = `/emails/${recipFolder}/from/${senderFile}`;
             
             // Delete the specific key (timestamp) from the sender object
@@ -247,15 +217,11 @@ async function setEmailAsRead({
         var timestampKey = parts[3];
         var path = `/emails/${recipFolder}/from/${senderFile}`;
         
-        // 1. Get current data for that specific message key
         var msgData = await $i.db.getValue(path, timestampKey);
-        
         if(!msgData) return er({ message: "Not found" });
 
-        // 2. Update read status
         msgData.read = true;
 
-        // 3. Save back using updateEntry
         await $i.db.updateEntry(path, { key: timestampKey, value: msgData });
         
         return { success: { message: "Marked as read" } };
@@ -270,10 +236,6 @@ async function sendMail({
     asAliasId,
     toAliasId
 }) {
-    // Note: This logic currently writes to the OLD /users/ path. 
-    // If you want Unified paths, you should update this to write to /emails/ too.
-    // For now, I have left it as is to avoid breaking your internal messenger.
-    
     if (!loggedIn($i)) return er(NO_LOGIN);
 
     var content = $i.$_POST.content || $i.$_GET.content || "";
@@ -287,7 +249,7 @@ async function sendMail({
     var timeSent = Date.now();
     var messageID = "BH_"+timeSent+"_"+(Math.floor(Math.random() * 770)) + "_from_"+asAliasId;
     
-    // Writes to LEGACY path
+    // Writes to LEGACY path (As requested)
     await $i.db.write(`${sp}/users/${userTo}/mail/messages/${messageID}`, {
         from: asAliasId,
         to,
