@@ -50,7 +50,7 @@ module.exports = class AwtsMail {
                                       data
 
                                   });
-                                this.smtpClient.sendMail(
+                                /*this.smtpClient.sendMail(
                                     'reply@awtsmoos.com', sender, 
                                     "Reply from Awtsmoos " + (
                                          Math.floor(
@@ -61,7 +61,7 @@ module.exports = class AwtsMail {
                                     'B"H\n\nHello from the Awtsmoos, the time is '+
                                   (new Date())
                                 
-                                );
+                                );*/
                               } catch(e){
                                   console. log("didn't send response",e)
 

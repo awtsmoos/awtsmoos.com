@@ -218,7 +218,19 @@ async function sendMail({ $i, userid, asAliasId, toAliasId, toEmail }) {
             // A. Use SMTP Client
             if ($i.mail && $i.mail.smtpClient) {
                 var myFullEmail = `${asAliasId}@awtsmoos.com`;
-                await $i.mail.smtpClient.sendMail(myFullEmail, targetEmail, subject, content);
+                
+                console.log(`B"H - SMTP Sending: ${myFullEmail} -> ${targetEmail}`);
+
+                // B"H - FIX: Add Timeout Wrapper
+                // If SMTP takes longer than 10 seconds, fail gracefully instead of hanging forever
+                const sendTask = $i.mail.smtpClient.sendMail(myFullEmail, targetEmail, subject, content);
+                
+                const timeoutTask = new Promise((_, reject) => 
+                    setTimeout(() => reject(new Error("SMTP Timeout: Remote server did not respond in 10s.")), 10000)
+                );
+
+                await Promise.race([sendTask, timeoutTask]);
+
             } else {
                 return er({ message: "SMTP Client not available on server" });
             }

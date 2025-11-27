@@ -204,67 +204,105 @@ class AwtsmoosEmailClient {
     }
 
     async sendMail(sender, recipient, subject, rawBody) {
-	    return new Promise(async (resolve, reject) => {
-	        this._resolve = resolve; // Save global reference
-	        this._reject = reject;
-	        console.log("B\"H - Sending Mail (Production)...");
-            var addresses = await this.getDNSRecords(recipient);
-            this.smtpServer = addresses[0].exchange;
+        // B"H - STATE PROTECTION
+        // If this client has been used before (socket exists), create a fresh worker.
+        // This solves the hanging issue on subsequent emails.
+        if (this.socket) {
+            // Create a fresh instance with the same config
+            var worker = new AwtsmoosEmailClient({ port: this.port });
             
-            this.socket = net.createConnection({
-	            port: this.port, host: this.smtpServer, family: 4 
-	        });
+            // Copy keys manually to avoid re-reading files
+            worker.privateKey = this.privateKey;
+            worker.cert = this.cert;
+            worker.key = this.key;
+            worker.hasFiles = this.hasFiles;
             
-            var domain = 'awtsmoos.com';
-            var selector = 'selector';
-            var messageId = `<${Date.now()}@${domain}>`;
-            var dateHeader = new Date().toUTCString();
-            
-            // 1. Normalize Body to CRLF (Crucial for Simple/Simple DKIM)
-            // Replace any existing \r\n with \n to avoid double-replace, then all \n to \r\n
-            var normalizedBody = rawBody.replace(/\r\n/g, '\n').replace(/\n/g, CRLF);
-            
-            // 2. Ensure exactly ONE trailing CRLF
-            // (Remove all trailing whitespace/newlines, then add one CRLF)
-            // logic: Trim right, then append CRLF
-            // Caution: We want to preserve internal structure, just fix the end.
-            
-            var bodyToSend = normalizedBody;
-            while (bodyToSend.endsWith(CRLF)) {
-                bodyToSend = bodyToSend.slice(0, -CRLF.length);
-            }
-            bodyToSend += CRLF;
+            return worker.sendMail(sender, recipient, subject, rawBody);
+        }
 
-            // 3. Construct Headers
-            var headers = 
-                `Message-ID: ${messageId}${CRLF}` +
-                `Date: ${dateHeader}${CRLF}` +
-                `From: ${sender}${CRLF}` +
-                `To: ${recipient}${CRLF}` +
-                `Subject: ${subject}${CRLF}`; 
+        return new Promise(async (resolve, reject) => {
+            this._resolve = resolve;
+            this._reject = reject;
+            this.previousCommand = ''; // Ensure command history is reset
+            
+            console.log("B\"H - Sending Mail to:", recipient);
 
-            var dataToSend = "";
-            if(this.privateKey) {
-                // Sign the Normalized Body
-                var sigValue = this.signEmail(domain, selector, this.privateKey, headers, bodyToSend);
-                if(sigValue) {
-                    var dkimHeaderLine = `DKIM-Signature: ${sigValue}${CRLF}`;
-                    dataToSend = dkimHeaderLine + headers + CRLF + bodyToSend;
-                } else {
-                    dataToSend = headers + CRLF + bodyToSend;
-                }
-            } else {
-                 dataToSend = headers + CRLF + bodyToSend;
-            }
-
-            this.socket.on('connect', () => {  });
             try {
-                this.handleClientData({ client: this.socket, sender, recipient, dataToSend });
-            } catch(e) { reject(e); }
+                var addresses = await this.getDNSRecords(recipient);
+                this.smtpServer = addresses[0].exchange;
+                
+                // CONNECT
+                this.socket = net.createConnection({
+                    port: this.port, host: this.smtpServer, family: 4 
+                });
 
-            this.socket.on('end', () => { this.socket.removeAllListeners(); this.previousCommand = ''; resolve(); });
-            this.socket.on('error', (e)=>{ this.socket.removeAllListeners(); console.error(e); reject(e); });
-            this.socket.on('close', () => { this.socket.removeAllListeners(); if (this.previousCommand !== 'END OF DATA') reject('Closed prematurely'); else resolve(); });
+                // TIMEOUT SAFETY (Prevent infinite hanging)
+                this.socket.setTimeout(20000, () => {
+                    this.socket.destroy();
+                    reject(new Error("SMTP Connection Timed Out"));
+                });
+                
+                // PREPARE DATA
+                var domain = 'awtsmoos.com';
+                var selector = 'selector';
+                var messageId = `<${Date.now()}@${domain}>`;
+                var dateHeader = new Date().toUTCString();
+                
+                var normalizedBody = rawBody.replace(/\r\n/g, '\n').replace(/\n/g, CRLF);
+                var bodyToSend = normalizedBody;
+                while (bodyToSend.endsWith(CRLF)) {
+                    bodyToSend = bodyToSend.slice(0, -CRLF.length);
+                }
+                bodyToSend += CRLF;
+
+                var headers = 
+                    `Message-ID: ${messageId}${CRLF}` +
+                    `Date: ${dateHeader}${CRLF}` +
+                    `From: ${sender}${CRLF}` +
+                    `To: ${recipient}${CRLF}` +
+                    `Subject: ${subject}${CRLF}`; 
+
+                var dataToSend = headers + CRLF + bodyToSend;
+                
+                if(this.privateKey) {
+                    var sigValue = this.signEmail(domain, selector, this.privateKey, headers, bodyToSend);
+                    if(sigValue) {
+                        dataToSend = `DKIM-Signature: ${sigValue}${CRLF}` + dataToSend;
+                    }
+                }
+
+                // EVENT LISTENERS
+                this.socket.on('connect', () => { 
+                    // Connected successfully
+                });
+                
+                this.handleClientData({ client: this.socket, sender, recipient, dataToSend });
+
+                this.socket.on('end', () => { 
+                    this.socket.removeAllListeners(); 
+                    resolve(); 
+                });
+                
+                this.socket.on('error', (e)=>{ 
+                    this.socket.removeAllListeners(); 
+                    console.error("Socket Error:", e.message); 
+                    reject(e); 
+                });
+                
+                this.socket.on('close', () => { 
+                    this.socket.removeAllListeners(); 
+                    // If we quit cleanly, previousCommand might be QUIT or END OF DATA
+                    if (this.previousCommand === 'END OF DATA' || this.previousCommand === 'QUIT' || this.previousCommand === 'SEND_BODY') {
+                        resolve();
+                    } else {
+                        reject(new Error('Connection closed prematurely'));
+                    }
+                });
+
+            } catch (e) {
+                console.error("Send Error:", e.message);
+                reject(e);
+            }
         });
     }
 
