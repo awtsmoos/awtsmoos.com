@@ -674,70 +674,96 @@ async function sendSystemLocalMail($i, fromAlias, toAlias, subject, content) {
 }
 
 async function runLocalRules($i, settings, msg) {
+    console.log(`B"H DEBUG: IGNITION - Running Local Rules for [${msg.to}]...`);
+    
     try {
-        let ruleTriggered = false;
-        let replyText = "";
-
-        // 1. Check Specific Rules FIRST (Overrides)
         if (settings.rules && Array.isArray(settings.rules)) {
-            for (let rule of settings.rules) {
+            console.log(`B"H DEBUG: Found ${settings.rules.length} rules.`);
+            
+            for (let i = 0; i < settings.rules.length; i++) {
+                let rule = settings.rules[i];
                 if (!rule.enabled) continue;
+
+                console.log(`B"H DEBUG: Evaluating Rule ${i} (${rule.condition})...`);
+
                 let match = false;
                 let matchedKw = "";
+                // B"H - Safeguard: Ensure content is string
                 const text = String(msg.content || "").toLowerCase();
                 const keywords = (rule.keywords || "").toLowerCase().split(',').map(k => k.trim()).filter(Boolean);
 
+                // --- CONDITIONS ---
                 if (rule.condition === 'contains_any') {
                     const found = keywords.find(k => text.includes(k));
                     if (found) { match = true; matchedKw = found; }
                 }
-                // ... (other conditions like contains_only, javascript) ... 
                 else if (rule.condition === 'contains_only') {
-                     let clean = text;
-                     keywords.forEach(k => clean = clean.replace(k, ''));
-                     if (clean.replace(/[^a-z0-9]/g, '').length < 5 && keywords.some(k => text.includes(k))) {
-                         match = true; matchedKw = keywords[0];
-                     }
-                }
-                // ...
-
-                if (match) {
-                    if (rule.actionType === 'javascript') {
-                        // ... JS logic ...
-                         const sandbox = { msg, matchedKeyword: matchedKw, reply: (t) => { replyText = t; } };
-                         vm.createContext(sandbox);
-                         try { vm.runInContext(rule.replyScript, sandbox, { timeout: 500 }); } catch (e) { }
-                    } else {
-                        replyText = processReplyVariables(rule.replyText, matchedKw, String(msg.content||""));
+                    let clean = text;
+                    keywords.forEach(k => clean = clean.replace(k, ''));
+                    if (clean.replace(/[^a-z0-9]/g, '').length < 5 && keywords.some(k => text.includes(k))) {
+                        match = true; matchedKw = keywords[0];
                     }
-                    ruleTriggered = true;
-                    break; // Specific rule found, stop looking
                 }
+                else if (rule.condition === 'always') {
+                     match = true; 
+                }
+                else if (rule.condition === 'javascript') {
+                    const sandbox = { msg, text, console: { log: ()=>{} } };
+                    vm.createContext(sandbox);
+                    try { 
+                        match = vm.runInContext(rule.customCondition, sandbox, { timeout: 500 }); 
+                    } catch (e) {
+                        console.log(`B"H DEBUG: JS Condition Error`, e.message);
+                    }
+                }
+
+                if (!match) continue;
+
+                console.log(`B"H DEBUG: Rule ${i} MATCHED! Action: ${rule.actionType}`);
+
+                // --- ACTIONS ---
+                let replyText = "";
+
+                if (rule.actionType === 'javascript') {
+                    const sandbox = { msg, matchedKeyword: matchedKw, reply: (t) => { replyText = t; } };
+                    vm.createContext(sandbox);
+                    try { vm.runInContext(rule.replyScript, sandbox, { timeout: 500 }); } catch (e) { }
+                } 
+                else if (rule.actionType === 'ai_smart_reply') {
+                    // B"H - NEW AI LOGIC (Using $i.fetch)
+                    console.log("B\"H DEBUG: Engaging AI...");
+                    
+                    const history = [
+                        { role: "user", parts: [{ text: `
+                            You are acting as an auto-responder for user "${msg.to}".
+                            Incoming Message:
+                            Subject: ${msg.subject}
+                            From: ${msg.from}
+                            Content: "${msg.content}"
+                            
+                            Instructions: ${rule.systemPrompt || "Reply briefly."}
+                        `}]}
+                    ];
+                    
+                    // PASS $i.fetch HERE
+                    replyText = await callGemini($i.fetch, history, rule.apiKey || process.env.BH_GEMINI_KEY);
+                }
+                else {
+                    // Standard Text
+                    replyText = processReplyVariables(rule.replyText, matchedKw, String(msg.content||""));
+                }
+
+                if (replyText) {
+                    console.log(`B"H DEBUG: Sending Auto-Reply (${replyText.length} chars)...`);
+                    await sendSystemLocalMail($i, msg.to, msg.from, "Re: " + msg.subject, replyText);
+                }
+
+                break; 
             }
         }
-
-        // 2. If NO specific rule, check AI
-        if (!ruleTriggered && settings.aiEnabled && settings.aiKey) {
-            console.log("B\"H DEBUG: Invoking Gemini AI...");
-            
-            // B"H - TIME DELAY
-            // We pause here to solve the "Time Paradox" where the reply
-            // appears before the message in the client UI.
-            await new Promise(r => setTimeout(r, 2000));
-            
-            const aiReply = await callGemini(settings.aiKey, settings.aiPrompt, msg.content);
-            if (aiReply) {
-                replyText = aiReply.trim();
-                ruleTriggered = true;
-            }
-        }
-
-        // 3. Send if we found something
-        if (replyText) {
-            await sendSystemLocalMail($i, msg.to, msg.from, "Re: " + msg.subject, replyText);
-        }
-
-    } catch (e) { console.log("Local Rule Error", e); }
+    } catch (e) { 
+        console.log("B\"H DEBUG: CRITICAL RULE ENGINE FAILURE", e); 
+    }
 }
 
 // B"H - Robust Tokenizer
@@ -758,39 +784,60 @@ function processReplyVariables(template, keyword, fullText) {
 
 // B"H - The Urim VeTumim (Oracle)
 // Communicates with Gemini Flash for minimal cost/latency
-async function callGemini(apiKey, systemPrompt, userMessage) {
-    if (!apiKey) return null;
+// B"H - AI INTELLIGENCE
+async function callGemini(fetch, history, apiKey) {
+    if (!apiKey) return "Error: No API Key provided for Wisdom.";
+    if (!fetch) return "Error: The vessel has no ability to fetch (Missing fetch).";
+
+    console.log("B\"H DEBUG: Gemini - Preparing Request...");
     
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=${apiKey}`;
-    
-    const payload = {
-        contents: [{
-            parts: [{
-                text: `B"H\nSYSTEM_INSTRUCTION: ${systemPrompt || "You are the revelation of the Atzmus (Spelled Awtsmoos). in the form of Code."}\n\nUSER_MESSAGE: "${userMessage}"\n\nTASK: Reply to the USER_MESSAGE acting as the persona defined in SYSTEM_INSTRUCTION. Keep it brief.`
-            }]
-        }],
+    // Using Flash-Lite as requested
+    const model = "gemini-2.5-flash-lite";
+    const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+
+    const requestBody = {
+        contents: history, 
         generationConfig: {
-            temperature: 0.7,
-            maxOutputTokens: 150 // Keep it brief
+            temperature: 0.3, // Low temp for stable bot replies
+            topP: 0.95,
+            topK: 40,
+            maxOutputTokens: 2000
         }
     };
 
     try {
-        const response = await fetch(url, {
+        console.log(`B"H DEBUG: Gemini - Fetching ${model}...`);
+        
+        const response = await fetch(endpoint, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
+            body: JSON.stringify(requestBody)
         });
-        
+
+        if (!response.ok) {
+            // Try to read error text if possible
+            let errText = "Unknown error";
+            try { errText = await response.text(); } catch(e){}
+            
+            console.error(`B"H DEBUG: Gemini API Error: ${response.status} - ${errText}`);
+            return `Error: I could not think. (${response.status})`;
+        }
+
         const data = await response.json();
         
-        // Extract the spark from the fire
-        if (data.candidates && data.candidates[0] && data.candidates[0].content) {
-            return data.candidates[0].content.parts[0].text;
+        // Parse Standard Gemini Response
+        if (data.candidates && data.candidates.length > 0) {
+            const part = data.candidates[0].content.parts[0];
+            const text = part ? part.text : "";
+            console.log("B\"H DEBUG: Gemini - Thought received.");
+            return text;
+        } else {
+            console.log("B\"H DEBUG: Gemini - Empty thoughts.");
+            return "";
         }
-        return null;
+
     } catch (e) {
-        console.error("Gemini Error:", e);
-        return null;
+        console.error("B\"H DEBUG: Gemini Network Error", e);
+        return "Error: Connection to wisdom failed.";
     }
 }
