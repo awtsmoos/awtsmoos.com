@@ -57,7 +57,6 @@ function parseEmailEntry(entry, id, friendName) {
 }
 
 // B"H
-// B"H
 async function getMail({ $i, userid, aliasId, threadId, page = 1, pageSize = 20, view = 'threads' }) {
     if (!loggedIn($i)) return er(NO_LOGIN);
     if (!aliasId) return er({ message: "aliasId required" });
@@ -68,19 +67,13 @@ async function getMail({ $i, userid, aliasId, threadId, page = 1, pageSize = 20,
     var myFolder = `${aliasId}_at_awtsmoos.com`;
     var threadsPath = `/emails/${myFolder}/threads`;
 
-    // Helper: Normalize name to its essence (short name)
-    // "coby_at_awtsmoos.com" -> "coby"
-    // "friend_at_gmail.com" -> "friend_at_gmail.com" (External stays as is)
     const normalize = (name) => {
         if (name.endsWith("_at_awtsmoos.com")) return name.replace("_at_awtsmoos.com", "");
-        if (name === aliasId) return name; // Self
+        if (name === aliasId) return name; 
         return name; 
     };
 
-    // Helper: Get Variations
-    // Returns [ "coby", "coby_at_awtsmoos.com" ]
     const getVariations = (coreName) => {
-        // If it looks like an external email, don't vary it.
         if (coreName.includes("_at_") && !coreName.endsWith("_at_awtsmoos.com")) return [coreName];
         return [ coreName, `${coreName}_at_awtsmoos.com` ];
     };
@@ -90,66 +83,57 @@ async function getMail({ $i, userid, aliasId, threadId, page = 1, pageSize = 20,
         if (!friendFolders || (Array.isArray(friendFolders) && friendFolders.length === 0)) return [];
         if (typeof friendFolders === 'object' && !Array.isArray(friendFolders)) friendFolders = Object.keys(friendFolders);
 
-        // --- A. THREADS VIEW (Unified Snippets) ---
+        // --- A. THREADS VIEW ---
         if (view === 'threads') {
-            var grouped = {}; // Map<CoreName, Snippet>
+            var grouped = {}; 
 
             for (var folderName of friendFolders) {
-                // Fetch latest msg from this folder
                 var threadData = await $i.db.get(`${threadsPath}/${folderName}`);
                 if (threadData && typeof threadData === 'object') {
-                    // Convert to array of messages
                     var msgs = Object.keys(threadData).map(key => {
                         var m = threadData[key];
                         if(!m) return null;
                         var p = parseEmailEntry(m, `${folderName}:${key}`, folderName);
                         p.correspondent = folderName; 
                         p.uid = key;
+                        p.rawRead = m.read; // Keep raw status for counting
                         return p;
                     }).filter(Boolean);
 
                     if (msgs.length > 0) {
-                        // 1. Sort to find the latest
                         msgs.sort((a, b) => b.timeSent - a.timeSent);
                         var latest = msgs[0];
                         
-                        // 2. Count Unread (Incoming only)
+                        // Count actual unread in DB
                         var unreadCount = 0;
                         msgs.forEach(m => {
-                            if (!m.read && m.direction === 'incoming') {
-                                unreadCount++;
-                            }
+                            if (!m.rawRead && m.direction === 'incoming') unreadCount++;
                         });
 
                         var core = normalize(folderName);
                         
-                        // 3. Update Grouping
                         if (!grouped[core] || latest.timeSent > grouped[core].timeSent) {
                             latest.correspondent = core; 
-                            latest.unreadCount = unreadCount; // <--- ADD THIS
+                            latest.unreadCount = unreadCount;
                             grouped[core] = latest;
                         } else if (grouped[core]) {
-                            // If we already have a snippet (from another alias variation), 
-                            // we should ADD the unread counts together.
                             grouped[core].unreadCount = (grouped[core].unreadCount || 0) + unreadCount;
                         }
                     }
                 }
             }
-
-            // Return array sorted by time
             return Object.values(grouped).sort((a, b) => b.timeSent - a.timeSent);
         }
 
-        // --- B. MESSAGES VIEW (Unified History) ---
+        // --- B. MESSAGES VIEW (WITH AUTO-READ) ---
         else if (view === 'messages' && threadId) {
-            // threadId from client might be "coby" OR "coby_at_awtsmoos.com"
-            // We want to fetch BOTH paths and merge them.
-            
             var coreTarget = normalize(threadId);
             var pathsToCheck = getVariations(coreTarget);
             var mergedMessages = [];
-            var seenIds = new Set(); // Dedup by UID
+            var seenIds = new Set();
+            
+            // Collect all updates to be made
+            var updatesPromise = [];
 
             for (var p of pathsToCheck) {
                 var fullThread = await $i.db.get(`${threadsPath}/${p}`);
@@ -157,27 +141,40 @@ async function getMail({ $i, userid, aliasId, threadId, page = 1, pageSize = 20,
                     Object.keys(fullThread).forEach(key => {
                         var m = fullThread[key];
                         if (!m) return;
-                        
-                        // Dedup check (key is the timestamp/uid)
                         if(seenIds.has(key)) return;
                         seenIds.add(key);
 
+                        // B"H - AUTO-READ LOGIC
+                        // If we are serving this message, and it is unread & incoming,
+                        // we mark it as read immediately in the DB.
+                        if (m.direction === 'incoming' && m.read === false) {
+                            m.read = true; // Update memory for response
+                            
+                            // Queue the disk write
+                            // Note: We use updateEntry to persist the change
+                            updatesPromise.push(
+                                $i.db.updateEntry(`${threadsPath}/${p}`, { key: key, value: m })
+                            );
+                        }
+
                         var entry = parseEmailEntry(m, `${p}:${key}`, p);
-                        entry.correspondent = coreTarget; // Unify identity
+                        entry.correspondent = coreTarget;
                         entry.uid = key;
                         mergedMessages.push(entry);
                     });
                 }
             }
 
-            // Sort Descending (Newest -> Oldest) for pagination
-            mergedMessages.sort((a, b) => b.timeSent - a.timeSent);
+            // Execute DB writes in background (Fire & Forget, but server-side)
+            if (updatesPromise.length > 0) {
+                Promise.all(updatesPromise).catch(e => console.error("Auto-read DB update failed", e));
+            }
 
+            mergedMessages.sort((a, b) => b.timeSent - a.timeSent);
             var start = (page - 1) * pageSize;
             var end = start + parseInt(pageSize);
             var sliced = mergedMessages.slice(start, end);
 
-            // Return Chronological (Oldest -> Newest) for Chat UI
             return sliced.sort((a, b) => a.timeSent - b.timeSent);
         }
 
