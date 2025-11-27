@@ -345,6 +345,12 @@ class AwtsmoosResponse {
 		
 		    // 4. Return the combined JSON result
 		    this.ended = true;
+		    
+		    // B"H
+		    // Allow Service Worker to validate metadata
+	            const { response } = templateObjectGenerator.dependencies;
+	            response.setHeader('Awtsmoos-File-Status', 'true'); 
+			    
 		    return {
 		        responseType: 'application/json',
 		        actualResponse: {

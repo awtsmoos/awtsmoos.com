@@ -148,10 +148,23 @@ class AwtsmoosStaticServer {
             cookies = Utils.parseCookies(request.headers.cookie);
         }
         request.cookies = cookies;
-        var parsedUrl = url.parse(request.url, true);
-        var originalPath = parsedUrl.pathname || '/';
+        // B"H - Modern & Robust URL Parsing
+        // B"H - SAFE URL PARSING (Handles Mock & Real Requests)
+        var protocol = 'http';
+        var host = 'localhost';
+
+        // Safe check for real HTTP request properties
+        if (request.headers && request.headers.host) {
+            host = request.headers.host;
+        }
+        if (request.connection && request.connection.encrypted) {
+            protocol = 'https';
+        }
+
+        const fullUrl = new URL(request.url, `${protocol}://${host}`);
         
-        try { originalPath = decodeURIComponent(originalPath); } catch (e) { console.log(e); }
+        var originalPath = fullUrl.pathname || '/';
+        try { originalPath = decodeURIComponent(originalPath); } catch (e) { }
         
         var serverPath = path.join(this.directory, this.mainDir);
         var filePath = path.join(serverPath, originalPath);
@@ -171,9 +184,10 @@ class AwtsmoosStaticServer {
         response.setHeader('Connection', 'keep-alive');
         response.setHeader("content-language", "en");
 
-        // B"H - Robust GET Parsing
-        // Create a clean object from the parsed query to avoid null-prototype issues
-        paramKinds.GET = Object.assign({}, parsedUrl.query);
+        // B"H
+        // - Robust GET Parsing (Using URLSearchParams)
+        // This converts the ?aliasId=... into a standard object
+       paramKinds.GET = Object.fromEntries(fullUrl.searchParams.entries());;
 
         // Attempt to parse JSON strings (e.g., "true"->true, "123"->123)
         // safely, without re-parsing the entire query string.
@@ -206,6 +220,7 @@ class AwtsmoosStaticServer {
                 try{ return {success:sodos.createToken(vl,self.secret,ex)} }
                 catch(e){ return {error: e.stack} }
             },
+        
             ws: this.ws,
             TextEncoder, URLSearchParams, binaryMimeTypes, mimeTypes, path,
             originalPath, sodos, fs, self, awtsMoosification, filePath, parentPath,

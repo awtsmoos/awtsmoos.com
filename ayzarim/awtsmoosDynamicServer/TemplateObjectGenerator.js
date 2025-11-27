@@ -72,8 +72,9 @@ async function fetchAwtsmoos (path, opts) {
     var mockRequest = {
         url: path,
         method: opts.method || 'GET',
-        headers: {
-            cookie: opts.cookies || ''
+         headers: {
+            cookie: opts.cookies || '',
+            host: 'internal-mock' // <--- Fixes new URL() crash
         },
         on: (eventName, callback) => {
             // Simulating request events for methods like POST/PUT
