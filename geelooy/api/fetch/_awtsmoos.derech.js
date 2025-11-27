@@ -16,8 +16,6 @@ module.exports = {
     await $i.use({
       "/": async v => {
       
-     // return "hi"
-        
         // 1. Security: Authenticate & Validate Origin
         if (!loggedIn($i)) {
             return { error: "Unauthorized: You must be logged in.", status: 401 };
@@ -26,7 +24,6 @@ module.exports = {
         // Get the origin or referer to ensure it's from awtsmoos.com
         var headers = $i.request.headers;
         var origin = headers.origin || headers.referer || "";
-        
         
         if (!origin.toLowerCase().includes("awtsmoos.com")) {
              return { error: "Forbidden: Request must originate from Awtsmoos.com", status: 403 };
@@ -58,15 +55,21 @@ module.exports = {
         }
 
         // 3. Prepare the Request
-        // We expect the client to POST a JSON object with: { url, method, headers, body, cookies }
-        var input = $i.$_POST; // Assuming the input is in the POST body
-        return {imp: input}
-        // If parsing multipart/form-data resulted in a different structure, adjust here.
-        // Or if it was raw JSON body:
+        var input = $i.$_POST; 
         
+        // FIX: Handle Raw JSON Body
+        // index.js stores JSON bodies as a Buffer in __raw_body__. We need to parse it.
+        if (input && input.__raw_body__) {
+            try {
+                var str = input.__raw_body__.toString('utf-8');
+                input = JSON.parse(str);
+            } catch(e) {
+                // If it fails, input remains as is (could be actual binary data)
+            }
+        }
         
         if (!input || !input.url) {
-            return { error: "Missing 'url' in request body.", post: $i._POST, status: 400, lol: 6};
+            return { error: "Missing 'url' in request body.", post: $i.$_POST, status: 400 };
         }
 
         var targetUrl = input.url;
@@ -100,21 +103,17 @@ module.exports = {
 
         try {
             // 4. Execute Fetch
-            // Using native fetch (Node 18+) or the $i.fetch (if it wraps node-fetch)
             var response = await fetch(targetUrl, options);
             
             // 5. Process Response
             
             // Handle Response Cookies (Set-Cookie)
-            // fetch API 'headers' object is iteratable
             var responseCookies = [];
-            // Node fetch usually exposes raw headers for Set-Cookie because it can appear multiple times
             if (response.headers.raw && typeof response.headers.raw === 'function') {
                  responseCookies = response.headers.raw()['set-cookie'] || [];
             } else if (response.headers.getSetCookie) {
                  responseCookies = response.headers.getSetCookie();
             } else {
-                 // Fallback
                  var c = response.headers.get('set-cookie');
                  if(c) responseCookies.push(c);
             }
