@@ -113,55 +113,89 @@ async function getMail({ $i, userid, aliasId, threadId }) {
  * Unified logic for Local and Remote.
  * Writes to /threads/ folders for history.
  */
+/**
+ * SEND MAIL
+ * Unified logic for Local and Remote.
+ * Writes to /threads/ folders for history.
+ */
 async function sendMail({ $i, userid, asAliasId, toAliasId, toEmail }) {
     if (!loggedIn($i)) return er(NO_LOGIN);
 
     // 1. Verify Sender Ownership
     var verified = await verifyAliasOwnership(asAliasId, $i, userid);
-    if (!verified) return er({ message: "Not your alias" });
+    if (!verified) return er({ message: "Not your alias", code: "AUTH_FAIL" });
 
     // 2. Determine Recipient (Local Alias vs Remote Email)
     var targetEmail = "";
     var isLocal = false;
+    var friendClean = "";
 
-    // A. Did they provide an alias ID?
+    // Helper to check local alias existence
+    var checkLocal = async (id) => await $i.db.get(`${sp}/aliases/${id}/info`);
+
     if (toAliasId) {
-        // It's local by definition
-        isLocal = true;
-        // Check if alias exists
-        var info = await $i.db.get(`${sp}/aliases/${toAliasId}/info`);
-        if (!info) return er({ message: "Recipient alias not found" });
-        targetEmail = `${toAliasId}@awtsmoos.com`; 
-    } 
-    // B. Did they provide a raw email?
-    else if (toEmail) {
-        targetEmail = toEmail;
-        // Check if it's actually local domain
-        if (targetEmail.endsWith("@awtsmoos.com")) {
+        // Case A: Passed as a URL param (e.g. /sendTo/some_id)
+        
+        // 1. Try treating it as a local alias ID first
+        var info = await checkLocal(toAliasId);
+        
+        if (info) {
+            // It IS a local alias
             isLocal = true;
-            // Extract alias ID to verify existence? Optional.
+            targetEmail = `${toAliasId}@awtsmoos.com`;
+            friendClean = `${toAliasId}_at_awtsmoos.com`;
+        } else {
+            // It is NOT a local alias.
+            // Check if it's a file-safe external address (e.g. user_at_gmail.com)
+            // This happens when replying to a thread ID.
+            if (toAliasId.includes("_at_")) {
+                isLocal = false;
+                // Revert to email format (replace first _at_ with @)
+                targetEmail = toAliasId.replace("_at_", "@");
+                friendClean = toAliasId;
+            } 
+            // Check if it's a raw email passed in the URL path (bad practice but possible)
+            else if (toAliasId.includes("@")) {
+                isLocal = false;
+                targetEmail = toAliasId;
+                friendClean = toAliasId.replace("@", "_at_").replace(/[<>]/g, "");
+            }
+            else {
+                return er({ message: "Recipient alias not found", code: "RCPT_NOT_FOUND" });
+            }
+        }
+    } 
+    else if (toEmail) {
+        // Case B: Passed via query/body (e.g. ?toEmail=user@gmail.com)
+        targetEmail = toEmail;
+        friendClean = targetEmail.replace("@", "_at_").replace(/[<>]/g, "");
+        
+        // Optional: Check if it's actually our domain (awtsmoos.com) to force internal handling
+        if(targetEmail.endsWith("@awtsmoos.com")) {
+             var possibleAlias = targetEmail.split("@")[0];
+             var info = await checkLocal(possibleAlias);
+             if(info) {
+                 isLocal = true;
+                 friendClean = `${possibleAlias}_at_awtsmoos.com`; 
+             }
         }
     } else {
-        return er({ message: "Must provide toAliasId or toEmail" });
+        return er({ message: "Must provide recipient", code: "NO_RCPT" });
     }
 
     var subject = $i.$_POST.subject || $i.$_GET.subject || "(No Subject)";
     var content = $i.$_POST.content || $i.$_GET.content || "";
     var time = Date.now();
 
-    // Clean names for File System
-    // My Folder: me_at_awtsmoos.com
+    // Clean Sender Folder: me_at_awtsmoos.com
     var myFolder = `${asAliasId}_at_awtsmoos.com`; 
-    // Friend Folder: target_at_domain.com
-    var friendClean = targetEmail.replace("@", "_at_").replace(/[<>]/g, "");
 
     // 3. SENDING LOGIC
     try {
         if (isLocal) {
             // === LOCAL SEND ===
             
-            // A. Write to MY Outbox (My thread with them)
-            // Path: /emails/ME/threads/THEM
+            // A. Write to MY Outbox
             await $i.db.appendToObj(`/emails/${myFolder}/threads/${friendClean}`, {
                 key: time + "",
                 value: {
@@ -170,14 +204,16 @@ async function sendMail({ $i, userid, asAliasId, toAliasId, toEmail }) {
                     subject,
                     content,
                     time,
-                    read: true, // I read my own message
+                    read: true,
                     direction: "outgoing"
                 }
             });
 
-            // B. Write to THEIR Inbox (Their thread with me)
-            // Path: /emails/THEM/threads/ME
+            // B. Write to THEIR Inbox
+            // Note: friendClean is already set to recipient_at_awtsmoos.com for local
+            // We need to name the file in THEIR folder as MY identifier
             var meClean = `${asAliasId}_at_awtsmoos.com`;
+            
             await $i.db.appendToObj(`/emails/${friendClean}/threads/${meClean}`, {
                 key: time + "",
                 value: {
@@ -196,7 +232,7 @@ async function sendMail({ $i, userid, asAliasId, toAliasId, toEmail }) {
         } else {
             // === REMOTE SEND ===
             
-            // A. Use SMTP Client to send real email
+            // A. Use SMTP Client
             if ($i.mail && $i.mail.smtpClient) {
                 var myFullEmail = `${asAliasId}@awtsmoos.com`;
                 await $i.mail.smtpClient.sendMail(myFullEmail, targetEmail, subject, content);
@@ -204,7 +240,7 @@ async function sendMail({ $i, userid, asAliasId, toAliasId, toEmail }) {
                 return er({ message: "SMTP Client not available on server" });
             }
 
-            // B. Write to MY Outbox (My thread with them) so I have history
+            // B. Write to MY Outbox (My thread with them)
             await $i.db.appendToObj(`/emails/${myFolder}/threads/${friendClean}`, {
                 key: time + "",
                 value: {
