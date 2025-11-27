@@ -634,112 +634,143 @@ let isDragging = false; // B"H - Added for mouse tracking
 const SWIPE_THRESHOLD = 80;
 
 // B"H - Universal Swipe Logic (Works on ME and THEM)
-// B"H - Find attachSwipeLogic and replace with this Zero-Latency version:
+// B"H - Find attachSwipeLogic and replace with this "Smart Axis" version:
 function attachSwipeLogic(element, msg, senderName) {
     let startX = 0;
-    let currentX = 0;
+    let startY = 0;
     let isTouch = false;
+    let isScrolling = null; // null = detecting, true = scrolling, false = swiping
+    
     const SWIPE_THRESHOLD = 60; 
     const isMe = msg.direction === 'outgoing'; 
 
-    // Ensure indicator exists
+    // Setup Indicator
     if (!element.querySelector('.swipe-indicator')) {
         const ind = document.createElement('div');
         ind.className = 'swipe-indicator';
         ind.innerHTML = '↩️'; 
         element.prepend(ind); 
     }
-    
     const indicator = element.querySelector('.swipe-indicator');
 
     // --- Events ---
 
-    const start = (x) => { 
+    const start = (x, y) => { 
         startX = x; 
+        startY = y;
+        isScrolling = null; // Reset detection
+        
         element.classList.add('swiping');
+        element.style.transition = 'none'; // Instant response
         
-        // B"H - INSTANT FIX: remove transition during drag so it follows finger exactly
-        element.style.transition = 'none'; 
-        
-        // Disable scroll temporarily
-        const container = document.getElementById('messagesContainer');
-        if(container) container.style.overflowY = 'hidden';
+        // B"H - CRITICAL FIX: Do NOT disable overflow here. 
+        // Let the move function decide if we are scrolling or swiping.
     };
     
-    const move = (x) => {
-        currentX = x;
-        const diff = currentX - startX;
+    const move = (x, y) => {
+        // If we already decided the user is scrolling vertically, stop doing math.
+        if (isScrolling === true) return;
+
+        const currentX = x;
+        const diffX = currentX - startX;
+        const diffY = y - startY;
+
+        // B"H - Axis Detection Phase
+        if (isScrolling === null) {
+            // Ignore tiny accidental jitters
+            if (Math.abs(diffX) < 5 && Math.abs(diffY) < 5) return;
+
+            // If Vertical movement is larger than Horizontal, it's a SCROLL.
+            if (Math.abs(diffY) > Math.abs(diffX)) {
+                isScrolling = true;
+                // Restore transition just in case we moved a tiny bit
+                element.style.transition = ''; 
+                element.style.transform = ''; 
+                return; 
+            } else {
+                // It is a Swipe
+                isScrolling = false;
+            }
+        }
+
+        // --- Swipe Logic (Only runs if isScrolling === false) ---
         
         let validSwipe = false;
         let resistance = 0;
 
-        // B"H - Logic: 
-        // If "Them" (Left aligned) -> Allow pulling Right (diff > 0)
-        // If "Me" (Right aligned) -> Allow pulling Left (diff < 0)
-        
-        if (!isMe && diff > 0) {
+        // Logic: Them -> Pull Right (>0), Me -> Pull Left (<0)
+        if (!isMe && diffX > 0) {
             validSwipe = true;
-            // Resistance Formula: moves slower the further you pull
-            resistance = Math.pow(diff, 0.85); 
+            resistance = Math.pow(diffX, 0.85); 
         } 
-        else if (isMe && diff < 0) {
+        else if (isMe && diffX < 0) {
             validSwipe = true;
-            resistance = -Math.pow(Math.abs(diff), 0.85);
+            resistance = -Math.pow(Math.abs(diffX), 0.85);
         }
 
-        // Limit the pull distance visually
+        // Visual Limit
         if (Math.abs(resistance) > 150) resistance = resistance > 0 ? 150 : -150;
 
         if (validSwipe) {
+            // Prevent browser navigation (Back/Forward) if possible, 
+            // though 'touch-action: pan-y' in CSS handles most of this.
+            
             element.style.transform = `translateX(${resistance}px)`;
             
             // Icon Animation
             const absRes = Math.abs(resistance);
-            // Flip rotation for "Me" so icon looks correct coming from right
             const baseRotate = isMe ? 0 : -180; 
             
             if (absRes > SWIPE_THRESHOLD) {
-                // Activated State
                 indicator.style.transform = `translateY(-50%) scale(1.2) rotate(${baseRotate}deg)`;
                 indicator.style.opacity = '1';
                 indicator.style.color = '#fff';
             } else {
-                // Dragging State
                 const scale = 0.5 + (absRes/SWIPE_THRESHOLD)*0.5;
                 indicator.style.transform = `translateY(-50%) scale(${scale}) rotate(${baseRotate}deg)`;
-                indicator.style.opacity = (absRes / 50).toString(); // Fade in
+                indicator.style.opacity = (absRes / 50).toString();
                 indicator.style.color = 'var(--neon-gold)';
             }
         }
     };
 
     const end = (x) => {
-        const diff = x - startX;
-        
-        // B"H - Restore transition for the "Snap Back" animation
+        // Only trigger action if we were actually swiping (not scrolling)
+        if (isScrolling === false) {
+            const diff = x - startX;
+            const triggered = (!isMe && diff > SWIPE_THRESHOLD) || (isMe && diff < -SWIPE_THRESHOLD);
+
+            if (triggered) {
+                if (navigator.vibrate) navigator.vibrate(40);
+                triggerReplyMode(msg, senderName);
+            }
+        }
+
+        // Reset Styles
         element.style.transition = 'transform 0.2s cubic-bezier(0.2, 0.9, 0.2, 1)';
         element.style.transform = ''; 
-        
         element.classList.remove('swiping');
         indicator.style.opacity = '0';
         
-        // Re-enable scroll
-        const container = document.getElementById('messagesContainer');
-        if(container) container.style.overflowY = '';
-
-        // Trigger if threshold met in correct direction
-        const triggered = (!isMe && diff > SWIPE_THRESHOLD) || (isMe && diff < -SWIPE_THRESHOLD);
-
-        if (triggered) {
-            if (navigator.vibrate) navigator.vibrate(40);
-            triggerReplyMode(msg, senderName);
-        }
+        isScrolling = null;
     };
 
     // Touch Listeners
-    element.addEventListener('touchstart', e => { isTouch=true; start(e.touches[0].clientX); }, {passive: true});
-    element.addEventListener('touchmove', e => { if(isTouch) move(e.touches[0].clientX); }, {passive: true});
-    element.addEventListener('touchend', e => { if(isTouch) { end(e.changedTouches[0].clientX); isTouch=false; } });
+    element.addEventListener('touchstart', e => { 
+        isTouch=true; 
+        start(e.touches[0].clientX, e.touches[0].clientY); 
+    }, {passive: true});
+    
+    element.addEventListener('touchmove', e => { 
+        if(isTouch) move(e.touches[0].clientX, e.touches[0].clientY); 
+    }, {passive: true}); // Keep passive for scroll performance
+    
+    element.addEventListener('touchend', e => { 
+        if(isTouch) { 
+            end(e.changedTouches[0].clientX); 
+            isTouch=false; 
+        } 
+    });
 
     // Mouse Listeners
     let isDragging = false;
@@ -747,9 +778,9 @@ function attachSwipeLogic(element, msg, senderName) {
         if (e.button !== 0 || e.target.closest('button, a, input, textarea, .msg-menu-btn')) return;
         isDragging = true;
         element.style.cursor = 'grabbing';
-        start(e.clientX);
+        start(e.clientX, e.clientY);
     });
-    window.addEventListener('mousemove', e => { if (isDragging) move(e.clientX); });
+    window.addEventListener('mousemove', e => { if (isDragging) move(e.clientX, e.clientY); });
     window.addEventListener('mouseup', e => { if (isDragging) { isDragging = false; element.style.cursor = ''; end(e.clientX); } });
 }
 // B"H - Helper to unify movement logic
