@@ -499,68 +499,7 @@ function openMsgMenu(m) { selectedMsgObj = m; document.getElementById('msgContex
 function closeMsgMenu() { document.getElementById('msgContextModal').classList.add('hidden'); }
 
 
-/**
- * @typedef {Object} Message
- * @property {string} id
- * @property {string} uid
- * @property {string} from
- * @property {string} to
- * @property {string} subject
- * @property {(string|number)} content
- * @property {number} timeSent
- * @property {'incoming'|'outgoing'} direction
- * @property {string} correspondent
- */
 
-/**
- * B"H - The Alchemist's Crucible: Simple Markdown to HTML Transmutation.
- * Transmutes essential markdown (*, _, `) into HTML tags.
- * @param {(string|number)} text - The raw text received from the server.
- * @returns {string} The purified HTML content.
- */
-function formatContent(text) {
-    if (text === null || text === undefined) return "";
-    
-    let str = String(text);
-    
-    // 1. Check for existing HTML (The Gold Standard)
-    if (/<[a-z][\s\S]*>/i.test(str) || str.includes('style=')) {
-        return str; // Return raw HTML
-    }
-    
-    // 2. Simple Markdown Transmutation (The Essential Elements)
-    // Escape everything first, then un-escape the parts we want to convert
-    let html = escapeHtml(str);
-    
-    // Code Blocks (```...```) - Convert to <pre><code>
-    // This is complex to do safely without a real parser, we use a temporary placeholder
-    let codeBlocks = [];
-    const codeRegex = /```([\s\S]*?)```/g;
-    html = html.replace(codeRegex, (match, content) => {
-        const placeholder = `__CODE_BLOCK_${codeBlocks.length}__`;
-        // The content inside is already HTML-escaped, so we put it in <code> tags directly
-        codeBlocks.push(`<pre class="code-block"><code>${content}</code></pre>`); 
-        return placeholder;
-    });
-
-    // Bold (*text*) -> <strong>
-    html = html.replace(/\\\*(.*?)\\\*/g, '<strong>$1</strong>');
-    
-    // Italics (_text_) -> <em>
-    html = html.replace(/\\_(.*?)\\_/g, '<em>$1</em>');
-    
-    // Links ([Text](URL)) -> <a href="URL">Text</a> (Very basic)
-    html = html.replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
-    
-    // Restore Code Blocks
-    codeBlocks.forEach((block, index) => {
-        html = html.replace(`__CODE_BLOCK_${index}__`, block);
-    });
-
-    // 3. Line Breaks (\n) -> <br> (Only after other parsing)
-    // Quote logic must handle its own embedding separately if necessary, but for now, we use <br>
-    return html.replace(/\n/g, '<br>');
-}
 
 function escapeHtml(text) {
     // B"H - The Shield of String
@@ -1061,3 +1000,61 @@ function toggleView(newView) {
 // Bind to the infinite cycle
 if (window.curAlias) whenLoaded();
 else addEventListener("awtsmoosAliasChange", whenLoaded);
+
+
+
+/**
+ * B"H - The Alchemist's Crucible: Simple Markdown to HTML Transmutation.
+ * Transmutes essential markdown (*, _, `) into HTML tags.
+ * Fixes: correctly handles raw asterisks for bold and underscores for italics.
+ */
+function formatContent(text) {
+    if (text === null || text === undefined) return "";
+    
+    let str = String(text);
+    
+    // 1. Check for existing HTML (The Gold Standard)
+    if (/<[a-z][\s\S]*>/i.test(str) || str.includes('style=')) {
+        return str; // Return raw HTML
+    }
+    
+    // 2. Escape HTML entities to prevent XSS before we add our own tags
+    let html = escapeHtml(str);
+    
+    // 3. Extract Code Blocks so we don't format inside them
+    let codeBlocks = [];
+    // Match ```code```
+    html = html.replace(/```([\s\S]*?)```/g, (match, content) => {
+        const placeholder = `__CODE_BLOCK_${codeBlocks.length}__`;
+        codeBlocks.push(`<pre class="code-block"><code>${content}</code></pre>`); 
+        return placeholder;
+    });
+    // Match `code` (inline)
+    html = html.replace(/`([^`]+)`/g, (match, content) => {
+        const placeholder = `__CODE_BLOCK_${codeBlocks.length}__`;
+        codeBlocks.push(`<code class="inline-code">${content}</code>`); 
+        return placeholder;
+    });
+
+    // 4. Simple Markdown Transmutation (Chat Style)
+    // *bold* -> <strong>bold</strong>
+    // Note: We use [^*] to match anything that isn't an asterisk inside
+    html = html.replace(/\*([^*]+)\*/g, '<strong>$1</strong>');
+    
+    // _italics_ -> <em>italics</em>
+    html = html.replace(/_([^_]+)_/g, '<em>$1</em>');
+    
+    // Links: [Text](URL) -> <a href="...">
+    html = html.replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
+    
+    // Auto-link loose URLs (Simple http/https detection)
+    html = html.replace(/(^|\s)(https?:\/\/[^\s]+)/g, '$1<a href="$2" target="_blank" rel="noopener noreferrer">$2</a>');
+
+    // 5. Restore Code Blocks
+    codeBlocks.forEach((block, index) => {
+        html = html.replace(`__CODE_BLOCK_${index}__`, block);
+    });
+
+    // 6. Line Breaks to <br>
+    return html.replace(/\n/g, '<br>');
+}
