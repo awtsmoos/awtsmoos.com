@@ -328,6 +328,7 @@ function renderMessages(threadId, forceScrollBottom = false) {
 
 
 
+// Find "createMessageRow" and replace it with this version:
 function createMessageRow(msg) {
     const isMe = msg.direction === 'outgoing';
     const row = document.createElement('div');
@@ -335,30 +336,30 @@ function createMessageRow(msg) {
     row.id = `msg_row_${msg.id}`;
     row.dataset.uid = msg.uid || msg.timeSent;
     
-    // B"H - 1. Get raw content
+    // B"H - 1. Handle Content
     let contentHtml = String(msg.content || ""); 
     let quoteHtml = "";
     
-    // B"H - 2. Extract Metadata using Regex (Fixes the leak visible in screenshot)
-    // Matches <div class="reply-meta"...>...</div>
-    const metaRegex = /<div class="reply-meta"[\s\S]*?data-uid="([^"]*)"[\s\S]*?data-name="([^"]*)"[^>]*>([\s\S]*?)<\/div>/i;
+    // B"H - 2. Universal Regex (Matches raw <div or escaped &lt;div)
+    // Captures: 1=UID, 2=Name, 3=Snippet Content
+    const metaRegex = /(?:<|&lt;)div class=(?:"|&quot;)reply-meta(?:"|&quot;)[\s\S]*?data-uid=(?:"|&quot;)([^"&]*)(?:"|&quot;)[\s\S]*?data-name=(?:"|&quot;)([^"&]*)(?:"|&quot;)[\s\S]*?(?:>|&gt;)([\s\S]*?)(?:<|&lt;)\/div(?:>|&gt;)/i;
+    
     const match = contentHtml.match(metaRegex);
     
     if (match) {
         const qUid = match[1];
         const qName = match[2];
-        const qText = match[3]; // The snippet text
+        const qText = match[3]; 
         
-        // Remove the meta block from the displayed content
+        // Remove the meta block (entire match) from the message
         contentHtml = contentHtml.replace(match[0], "");
         
-        // Build the quote bubble
+        // Create the quote UI
         quoteHtml = `<div class="embedded-quote" onclick="scrollToMsg('${qUid}')">
                         <span class="quote-name">${escapeHtml(qName)}</span>${escapeHtml(qText)}
                      </div>`;
     }
     
-    // Clean up whitespace
     contentHtml = contentHtml.trim();
 
     const senderName = isMe ? "Me" : (msg.fromName || "Them");

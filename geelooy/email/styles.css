@@ -25,7 +25,14 @@
 }
 
 /* Allow global layout to dictate height, but ensure full viewport usage */
-
+/* Update the .all.awtsmoospage block */
+.all.awtsmoospage {
+    height: 100dvh;        /* Exact viewport height */
+    width: 100%;
+    position: relative;    /* Context for children */
+    overflow: hidden;      /* No global scroll */
+    background: var(--bg-deep);
+}
 body, html {
     margin: 0; padding: 0; width: 100%; 
     height: 100%; /* Fallback */
@@ -33,22 +40,18 @@ body, html {
     overflow: hidden; /* Prevent global scrollbar */
 }
 
-/* Find the ".main" block and replace it with: */
+/* Replace the .main block with this: */
 .main {
-    box-sizing: border-box;
-    /* B"H - The Solution: Calculate exact remaining height */
-    /* Subtracts the header height from the dynamic viewport height */
-    height: calc(100dvh - var(--header-h)); 
-    width: 100%;
+    position: absolute;    /* Float inside the wrapper */
+    top: var(--header-h);  /* Start below header (54px) */
+    bottom: 0;             /* Anchor to bottom of screen */
+    left: 0; 
+    right: 0;
     
     display: flex;
     flex-direction: column;
-    overflow: hidden;
-    position: relative;
-    background-color: var(--bg-deep);
-    
-    /* Ensure no double scrollbars */
-    min-height: 0; 
+    overflow: hidden;      /* Clip anything inside */
+    z-index: 1;
 }
 /* LAYOUT GRID */
 .app-layout {
@@ -286,16 +289,18 @@ body, html {
 }
 
 
+/* Update .input-area */
 .input-area {
     flex-shrink: 0;
-    z-index: 50; 
+    width: 100%;
+    /* B"H - Safe zone logic: 20px buffer + system inset */
     padding: 15px 20px;
-    /* B"H - Push input up above the gesture bar */
-    padding-bottom: max(15px, env(safe-area-inset-bottom)); 
+    padding-bottom: calc(20px + env(safe-area-inset-bottom));
+    
     background: linear-gradient(to top, #000 90%, transparent); 
     display: flex; flex-direction: column;
-    width: 100%; box-sizing: border-box;
-    position: relative;
+    box-sizing: border-box;
+    z-index: 50;
 }
 
 .input-wrapper {
