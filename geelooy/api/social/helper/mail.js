@@ -14,22 +14,17 @@ var { NO_LOGIN, sp } = require("./_awtsmoos.constants.js");
 var { loggedIn, er, myOpts } = require("./general.js");
 var { verifyAliasOwnership } = require("./alias.js");
 
-/**
- * Parses raw SMTP data if present, or returns simple object structure
- */
 function parseEmailEntry(entry, id, friendName) {
     if (entry.rawData) {
-        // It's a raw SMTP string (incoming from outside)
+        // Legacy/Raw Fallback (If ingress parser failed previously)
         var parts = entry.rawData.split("\r\n\r\n");
         var headers = parts[0] || "";
         var content = parts.slice(1).join("\r\n\r\n") || "";
-
         var subjectMatch = headers.match(/Subject: (.*)/i);
         var fromMatch = headers.match(/From: (.*)/i);
-
         return {
             id,
-            from: fromMatch ? fromMatch[1] : friendName, // Use friend name if raw header fails
+            from: fromMatch ? fromMatch[1] : friendName,
             subject: subjectMatch ? subjectMatch[1] : "(No Subject)",
             content: content,
             timeSent: parseInt(entry.time) || Date.now(),
@@ -38,52 +33,45 @@ function parseEmailEntry(entry, id, friendName) {
             isRaw: true
         };
     } else {
-        // It's a local object (outgoing or internal)
+        // Standard Object (Created by new Ingress or Local)
         return {
             id,
             from: entry.from,
+            fromName: entry.fromName, // Add name
+            fromEmail: entry.fromEmail, // Add email
             subject: entry.subject,
             content: entry.content,
+            attachments: entry.attachments || [], // Pass attachments
             timeSent: parseInt(entry.time) || Date.now(),
             read: entry.read || false,
-            direction: entry.direction, // 'incoming' or 'outgoing'
+            direction: entry.direction,
             isRaw: false
         };
     }
 }
 
-/**
- * GET MAIL
- * Requires 'aliasId'. Gets all threads for that specific alias.
- */
 async function getMail({ $i, userid, aliasId, threadId }) {
     if (!loggedIn($i)) return er(NO_LOGIN);
     if (!aliasId) return er({ message: "aliasId is required to fetch mail" });
 
-    // 1. Verify Ownership
     var verified = await verifyAliasOwnership(aliasId, $i, userid);
     if (!verified) return er({ message: "You do not own this alias", code: "AUTH_FAIL" });
 
-    // 2. Define Path: /emails/[MY_ALIAS]/threads
     var myFolder = `${aliasId}_at_awtsmoos.com`;
     var threadsPath = `/emails/${myFolder}/threads`;
 
     try {
         var friends = await $i.db.get(threadsPath);
         
-        // If directory doesn't exist or is empty
         if (!friends || (Array.isArray(friends) && friends.length === 0)) {
             return []; 
         }
 
-        // 'friends' is an array of filenames (e.g., "bob_at_gmail.com", "other_alias_at_awtsmoos.com")
         var allMessages = [];
 
         for (var friendName of friends) {
-            // If user requested a specific thread (friend), skip others
             if (threadId && friendName !== threadId) continue;
 
-            // Get the thread content (Optimized Object)
             var threadObj = await $i.db.get(`${threadsPath}/${friendName}`);
             
             if (threadObj && typeof threadObj === 'object') {
@@ -91,33 +79,25 @@ async function getMail({ $i, userid, aliasId, threadId }) {
                     var entry = threadObj[timestamp];
                     var uniqueId = `${friendName}:${timestamp}`;
 
-                    // Parse and Add
                     var parsed = parseEmailEntry(entry, uniqueId, friendName);
-                    parsed.correspondent = friendName; // The "Friend" (Thread ID)
+                    parsed.correspondent = friendName;
                     
                     allMessages.push(parsed);
                 }
             }
         }
 
-        // Sort by time (Newest first)
-        return allMessages.sort((a, b) => b.timeSent - a.timeSent);
+        // B"H
+        // Oldest first (a - b) so conversation flows down
+        return allMessages.sort((a, b) => a.timeSent - b.timeSent);
 
     } catch (e) {
         return er({ message: "Error fetching threads", details: e + "" });
     }
 }
 
-/**
- * SEND MAIL
- * Unified logic for Local and Remote.
- * Writes to /threads/ folders for history.
- */
-/**
- * SEND MAIL
- * Unified logic for Local and Remote.
- * Writes to /threads/ folders for history.
- */
+
+// Copy the rest of the file from your previous version, just ensure `getMail` uses a.timeSent - b.timeSent
 async function sendMail({ $i, userid, asAliasId, toAliasId, toEmail }) {
     if (!loggedIn($i)) return er(NO_LOGIN);
 

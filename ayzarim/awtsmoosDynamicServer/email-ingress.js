@@ -2,13 +2,13 @@
 /**
  * awtsmoosDynamicServer/email-ingress.js
  * Native Zero-Dependency MIME Parser & Cleaner
+ * NOW WITH CID IMAGE EMBEDDING
  */
 const { TextDecoder } = require('util');
 
 module.exports = async function ({ sender, recipients, data }) {
     try {
         var time = Date.now();
-        // Path safety: sender uses _at_ for the FILENAME only
         var cleanSender = sender.replace("@", "_at_").replace(/[<>]/g, "");
 
         // 1. Parse the Raw Email
@@ -18,15 +18,18 @@ module.exports = async function ({ sender, recipients, data }) {
         var html = stripHistory(parsed.html || "", "html");
         var text = stripHistory(parsed.text || "", "text");
 
-        // 3. Extract Fancy Name and Clean Email from Headers
-        // The header usually looks like: "Awts Moos" <awtsmoos@gmail.com>
+        // 3. EMBED INLINE IMAGES (Fix for cid: attachments)
+        // If the HTML has <img src="cid:..."> we find the matching attachment and inject base64
+        if (html && parsed.attachments.length > 0) {
+            html = embedInlineImages(html, parsed.attachments);
+        }
+
+        // 4. Extract Fancy Name and Clean Email
         var rawFromHeader = parsed.headers['from'] || sender; 
         var { name, email } = parseFromHeader(rawFromHeader);
-
-        // Fallback: if header failed, use the SMTP sender
         if(!email) email = sender;
 
-        // 4. Fallback: If no HTML, try to make text look decent
+        // 5. Fallback for text-only emails
         if (!html && text) {
             html = `<div style="white-space: pre-wrap; font-family: sans-serif;">${escapeHtml(text)}</div>`;
         }
@@ -35,42 +38,63 @@ module.exports = async function ({ sender, recipients, data }) {
             var cleanRecipient = r.replace("@", "_at_").replace(/[<>]/g, "");
             var path = `/emails/${cleanRecipient}/threads/${cleanSender}`;
 
+            // Save to DB
             await this.db.appendToObj(path, {
                 key: time + "",
                 value: {
-                    id: `${cleanSender}:${time}`, // Unique ID
+                    id: `${cleanSender}:${time}`,
                     
-                    // Display Data
                     subject: parsed.subject || "(No Subject)",
                     content: html, 
                     textContent: text,
                     snippet: text.substring(0, 100),
-                    attachments: parsed.attachments,
                     
-                    // Sender Details
-                    from: rawFromHeader,    // Full string: "Awts Moos <...>"
-                    fromName: name,         // Just: "Awts Moos"
-                    fromEmail: email,       // Just: "awtsmoos@gmail.com"
-                    correspondent: email,   // Clean email for UI logic
+                    // Filter out attachments that were embedded (optional, but keeps DB smaller)
+                    // We keep non-inline attachments (pdfs, zips, etc)
+                    attachments: parsed.attachments.filter(a => !a.wasEmbedded),
                     
-                    // Meta
+                    from: rawFromHeader,
+                    fromName: name,
+                    fromEmail: email,
+                    correspondent: email,
+                    
                     time: time,
                     timeSent: time,
-                    read: false,            // Explicitly set as unread
+                    read: false,
                     direction: "incoming"
                 }
             });
         }
-        console.log("B\"H - Saved Mail from:", name, "<" + email + ">");
+        console.log("B\"H - Saved Mail with Attachments from:", name);
     } catch ($) {
         console.log("Error saving incoming email", $);
     }
 }
 
+// --- LOGIC: Embed CID Images ---
+
+function embedInlineImages(html, attachments) {
+    // Regex to find src="cid:..."
+    return html.replace(/src=["']cid:([^"']+)["']/gi, (match, cid) => {
+        // Find attachment with matching Content-ID
+        // Note: Content-ID usually has brackets <...>, the HTML cid usually does not.
+        const found = attachments.find(a => 
+            a.contentId === cid || 
+            a.contentId === `<${cid}>` ||
+            a.contentId.includes(cid)
+        );
+
+        if (found) {
+            found.wasEmbedded = true; // Mark as used so we don't show it as a download button later
+            return `src="${found.data}"`;
+        }
+        return match; // Return original if not found
+    });
+}
+
 // --- CORE PARSER LOGIC ---
 
 function parseMime(raw) {
-    // Separate Headers from Body
     const [headerBlock, bodyBlock] = splitOnce(raw, "\r\n\r\n");
     const headers = parseHeaders(headerBlock);
     
@@ -79,50 +103,57 @@ function parseMime(raw) {
     const subject = headers['subject'] || '';
 
     let result = {
-        headers: headers, // Pass headers back up
+        headers: headers,
         text: "",
         html: "",
         attachments: [],
         subject: subject
     };
 
-    // 1. Handle Multipart (Recursive)
+    // 1. Multipart
     if (contentType.includes('multipart/')) {
         const boundaryMatch = contentType.match(/boundary="?([^";]+)"?/i);
         if (boundaryMatch) {
             const boundary = boundaryMatch[1];
+            // Split parts
             const parts = bodyBlock.split(`--${boundary}`);
 
             for (let part of parts) {
                 if (part.trim() === '--' || part.trim() === '') continue;
                 
-                const subParsed = parseMime(part.trim());
+                const subParsed = parseMime(part.trim()); // Recursive
+                
                 if (subParsed.html) result.html += subParsed.html;
                 if (subParsed.text) result.text += subParsed.text;
                 result.attachments = result.attachments.concat(subParsed.attachments);
             }
         }
     } 
-    // 2. Handle Text/HTML
+    // 2. HTML
     else if (contentType.includes('text/html')) {
         result.html = decodeBody(bodyBlock, encoding);
     } 
-    // 3. Handle Text/Plain
+    // 3. Plain Text
     else if (contentType.includes('text/plain')) {
         result.text = decodeBody(bodyBlock, encoding);
     }
-    // 4. Handle Attachments
+    // 4. Attachments / Images
     else {
+        // Grab Content-ID if it exists (for inline images)
+        const cidMatch = headers['content-id'];
+        
         const filenameMatch = headers['content-disposition']?.match(/filename="?([^";]+)"?/i);
         const filename = filenameMatch ? filenameMatch[1] : 'unknown';
+        
         let base64Data = bodyBlock.replace(/\r\n/g, '');
         
-        // Skip if it's just a boundary marker
         if(base64Data.length > 10) { 
             result.attachments.push({
                 filename,
                 contentType: contentType.split(';')[0],
-                data: `data:${contentType.split(';')[0]};base64,${base64Data}`
+                contentId: cidMatch ? cidMatch.trim() : null, // Store CID
+                data: `data:${contentType.split(';')[0]};base64,${base64Data}`,
+                wasEmbedded: false
             });
         }
     }
@@ -146,13 +177,7 @@ function parseHeaders(headerStr) {
 }
 
 function parseFromHeader(fromStr) {
-    // Regex to handle: "Name" <email>  OR  Name <email>  OR  <email>  OR  email
-    // Groups: 1=Name (in quotes), 2=Name (no quotes), 3=Email (in brackets), 4=Email (plain)
-    
-    // Clean up start/end
     fromStr = fromStr.trim();
-
-    // 1. Try "Name" <email> or Name <email>
     const complex = fromStr.match(/^(?:\"?([^"<]+)\"?\s*)?<(.*)>$/);
     if (complex) {
         return {
@@ -160,8 +185,6 @@ function parseFromHeader(fromStr) {
             email: (complex[2] || "").trim()
         };
     }
-
-    // 2. Just email
     return { name: "", email: fromStr };
 }
 
@@ -189,7 +212,6 @@ function splitOnce(str, separator) {
 
 function stripHistory(content, type) {
     if (!content) return "";
-    
     if (type === "html") {
         if (content.includes('class="gmail_quote"')) return content.split('<div class="gmail_quote"')[0];
         if (content.includes('<blockquote')) return content.split('<blockquote')[0];
@@ -207,5 +229,5 @@ function stripHistory(content, type) {
 }
 
 function escapeHtml(text) {
-    return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+    return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
