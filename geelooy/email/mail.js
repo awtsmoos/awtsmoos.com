@@ -223,7 +223,9 @@ function renderSidebar() {
 }
 
 async function selectThread(threadId, displayName) {
-    state.activeThread = threadId;
+    // Normalize click action too
+    const coreId = getCoreThreadId(threadId);
+    state.activeThread = coreId;
     document.getElementById('appContainer').classList.add('chat-open');
     document.getElementById('activeChatInfo').classList.remove('hidden');
     document.getElementById('chatPartnerName').textContent = displayName || threadId;
@@ -357,41 +359,79 @@ function attachScrollListener() {
 }
 
 // --- Utilities ---
-
-function injectMessageIntoCache(msg) {
-    let tid = msg.correspondent;
+/**
+ * B"H
+ * Unifies Identity: "coby_at_awtsmoos.com" becomes "coby".
+ * External emails like "friend_at_gmail.com" remain as they are.
+ */
+function getCoreThreadId(rawId) {
+    if (!rawId) return "unknown";
     
-    // B"H - Normalization: Always try to match existing thread first
-    // If we have a thread "coby", and msg is "coby_at_awtsmoos.com", merge them.
-    const cleanTid = tid.split('_at_')[0];
-    
-    const existingKey = Object.keys(state.threads).find(k => {
-        const kClean = k.split('_at_')[0];
-        return k === tid || kClean === cleanTid;
-    });
-
-    if (existingKey) {
-        tid = existingKey;
-        msg.correspondent = tid; // Force message to adopt the active thread ID
+    // 1. If it has the Awtsmoos suffix, strip it.
+    if (rawId.endsWith("_at_awtsmoos.com")) {
+        return rawId.replace("_at_awtsmoos.com", "");
     }
+    // 2. If it's an email format ending in @awtsmoos.com, strip it.
+    if (rawId.endsWith("@awtsmoos.com")) {
+        return rawId.split("@")[0];
+    }
+    // 3. If it is already short (no _at_ and no @), keep it.
+    if (!rawId.includes("_at_") && !rawId.includes("@")) {
+        return rawId;
+    }
+    
+    // Otherwise, it is an external user (e.g. friend_at_gmail.com), keep as is.
+    return rawId;
+}
+function injectMessageIntoCache(msg) {
+    // B"H - Unification: Determine the canonical thread ID
+    let rawTid = msg.correspondent || msg.from;
+    
+    // If I sent it, the correspondent is the recipient
+    if (msg.direction === 'outgoing' && msg.to) {
+        // Handle "to" being an array or string
+        rawTid = Array.isArray(msg.to) ? msg.to[0] : msg.to;
+    }
+    
+    // Normalize! This merges "coby_at..." into "coby"
+    let tid = getCoreThreadId(rawTid);
+    
+    // Force the message object to adopt this unified identity
+    msg.correspondent = tid; 
 
+    // Initialize thread array if it doesn't exist
     if (!state.threads[tid]) state.threads[tid] = [];
     
-    // Only push if not exists (Dedup by UID)
-    if (!state.threads[tid].some(m => m.uid == msg.uid)) {
+    // 1. De-Duplicate: Check if message exists by UID or ID
+    const exists = state.threads[tid].some(m => 
+        m.id === msg.id || m.uid === msg.uid || (m.timeSent === msg.timeSent && m.content === msg.content)
+    );
+
+    if (!exists) {
+        // B"H - Safeguard content type (Client Side Fix from before)
+        if(typeof msg.content !== 'string') msg.content = String(msg.content || "");
+
         state.threads[tid].push(msg);
         state.threads[tid].sort((a,b) => a.timeSent - b.timeSent);
         
-        // Update Snippet
-        const snipIdx = state.snippets.findIndex(s => s.correspondent === tid);
+        // 2. Update Snippets (Sidebar)
+        // Find if we already have a snippet for this thread
+        const snipIdx = state.snippets.findIndex(s => getCoreThreadId(s.correspondent) === tid);
+        
         if (snipIdx > -1) {
+            // Update existing snippet
             state.snippets[snipIdx] = msg;
         } else {
+            // New thread entirely, add to top
             state.snippets.unshift(msg);
         }
         
-        // If viewing this thread, render the new message
-        if (state.activeThread === tid) renderMessages(tid, true);
+        // 3. Live Update: If viewing this thread, render immediately
+        // (Check normalized active thread against normalized incoming ID)
+        if (state.activeThread && getCoreThreadId(state.activeThread) === tid) {
+            renderMessages(tid, true); // Scroll to bottom
+        }
+        
         renderSidebar();
     }
 }

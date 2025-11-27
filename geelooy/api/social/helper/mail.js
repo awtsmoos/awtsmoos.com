@@ -68,74 +68,105 @@ async function getMail({ $i, userid, aliasId, threadId, page = 1, pageSize = 20,
     var myFolder = `${aliasId}_at_awtsmoos.com`;
     var threadsPath = `/emails/${myFolder}/threads`;
 
+    // Helper: Normalize name to its essence (short name)
+    // "coby_at_awtsmoos.com" -> "coby"
+    // "friend_at_gmail.com" -> "friend_at_gmail.com" (External stays as is)
+    const normalize = (name) => {
+        if (name.endsWith("_at_awtsmoos.com")) return name.replace("_at_awtsmoos.com", "");
+        if (name === aliasId) return name; // Self
+        return name; 
+    };
+
+    // Helper: Get Variations
+    // Returns [ "coby", "coby_at_awtsmoos.com" ]
+    const getVariations = (coreName) => {
+        // If it looks like an external email, don't vary it.
+        if (coreName.includes("_at_") && !coreName.endsWith("_at_awtsmoos.com")) return [coreName];
+        return [ coreName, `${coreName}_at_awtsmoos.com` ];
+    };
+
     try {
-        // 1. Get List of Conversations (Friends)
-        var friends = await $i.db.get(threadsPath);
-        if (!friends || (Array.isArray(friends) && friends.length === 0)) return [];
+        var friendFolders = await $i.db.get(threadsPath);
+        if (!friendFolders || (Array.isArray(friendFolders) && friendFolders.length === 0)) return [];
+        if (typeof friendFolders === 'object' && !Array.isArray(friendFolders)) friendFolders = Object.keys(friendFolders);
 
-        // If friends is an object (folders), extract keys
-        if (typeof friends === 'object' && !Array.isArray(friends)) {
-            friends = Object.keys(friends);
-        }
-
-        // --- A. THREADS VIEW (Snippets) ---
+        // --- A. THREADS VIEW (Unified Snippets) ---
         if (view === 'threads') {
-            var snippets = [];
+            var grouped = {}; // Map<CoreName, Snippet>
 
-            for (var friendName of friends) {
-                // Brute Force: Get the ENTIRE thread object
-                var fullThread = await $i.db.get(`${threadsPath}/${friendName}`);
-                
-                if (fullThread && typeof fullThread === 'object') {
-                    // Convert to array
-                    var msgs = Object.keys(fullThread).map(key => {
-                        var m = fullThread[key];
-                        // Ensure we have a valid object
+            for (var folderName of friendFolders) {
+                // Fetch latest msg from this folder
+                var threadData = await $i.db.get(`${threadsPath}/${folderName}`);
+                if (threadData && typeof threadData === 'object') {
+                    // Convert to array of messages
+                    var msgs = Object.keys(threadData).map(key => {
+                        var m = threadData[key];
                         if(!m) return null;
-                        var p = parseEmailEntry(m, `${friendName}:${key}`, friendName);
-                        p.correspondent = friendName;
+                        var p = parseEmailEntry(m, `${folderName}:${key}`, folderName);
+                        p.correspondent = folderName; 
                         p.uid = key;
                         return p;
                     }).filter(Boolean);
 
                     if (msgs.length > 0) {
-                        // Sort descending (Newest first)
                         msgs.sort((a, b) => b.timeSent - a.timeSent);
-                        // Take the newest one
-                        snippets.push(msgs[0]);
+                        var latest = msgs[0];
+                        
+                        // B"H - Unification Logic
+                        var core = normalize(folderName);
+                        
+                        // If we already have a snippet for this core name, compare timestamps
+                        if (!grouped[core] || latest.timeSent > grouped[core].timeSent) {
+                            // Update with the newer message
+                            // We FORCE the correspondent to be the Core Name for clean UI
+                            latest.correspondent = core; 
+                            grouped[core] = latest;
+                        }
                     }
                 }
             }
 
-            // Sort all snippets by time (Newest on top)
-            return snippets.sort((a, b) => b.timeSent - a.timeSent);
+            // Return array sorted by time
+            return Object.values(grouped).sort((a, b) => b.timeSent - a.timeSent);
         }
 
-        // --- B. MESSAGES VIEW (Full Chat History) ---
+        // --- B. MESSAGES VIEW (Unified History) ---
         else if (view === 'messages' && threadId) {
-            // Brute Force: Get the ENTIRE thread
-            var fullThread = await $i.db.get(`${threadsPath}/${threadId}`);
+            // threadId from client might be "coby" OR "coby_at_awtsmoos.com"
+            // We want to fetch BOTH paths and merge them.
             
-            if (!fullThread) return [];
+            var coreTarget = normalize(threadId);
+            var pathsToCheck = getVariations(coreTarget);
+            var mergedMessages = [];
+            var seenIds = new Set(); // Dedup by UID
 
-            var allMessages = Object.keys(fullThread).map(key => {
-                var m = fullThread[key];
-                if(!m) return null;
-                var p = parseEmailEntry(m, `${threadId}:${key}`, threadId);
-                p.correspondent = threadId;
-                p.uid = key;
-                return p;
-            }).filter(Boolean);
+            for (var p of pathsToCheck) {
+                var fullThread = await $i.db.get(`${threadsPath}/${p}`);
+                if (fullThread) {
+                    Object.keys(fullThread).forEach(key => {
+                        var m = fullThread[key];
+                        if (!m) return;
+                        
+                        // Dedup check (key is the timestamp/uid)
+                        if(seenIds.has(key)) return;
+                        seenIds.add(key);
 
-            // Sort Descending first (Newest -> Oldest) to handle pagination correctly
-            allMessages.sort((a, b) => b.timeSent - a.timeSent);
+                        var entry = parseEmailEntry(m, `${p}:${key}`, p);
+                        entry.correspondent = coreTarget; // Unify identity
+                        entry.uid = key;
+                        mergedMessages.push(entry);
+                    });
+                }
+            }
 
-            // Apply Pagination in Memory (Reliable)
+            // Sort Descending (Newest -> Oldest) for pagination
+            mergedMessages.sort((a, b) => b.timeSent - a.timeSent);
+
             var start = (page - 1) * pageSize;
             var end = start + parseInt(pageSize);
-            var sliced = allMessages.slice(start, end);
+            var sliced = mergedMessages.slice(start, end);
 
-            // Return Chronological (Oldest -> Newest) for the Chat UI
+            // Return Chronological (Oldest -> Newest) for Chat UI
             return sliced.sort((a, b) => a.timeSent - b.timeSent);
         }
 
