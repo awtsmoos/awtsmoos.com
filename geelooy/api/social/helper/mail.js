@@ -54,52 +54,95 @@ function parseEmailEntry(entry, id, friendName) {
     }
 }
 
-async function getMail({ $i, userid, aliasId, threadId }) {
+// B"H
+async function getMail({ $i, userid, aliasId, threadId, page = 1, pageSize = 20, view = 'threads' }) {
     if (!loggedIn($i)) return er(NO_LOGIN);
-    if (!aliasId) return er({
-	    message: "aliasId is required to fetch mail",
-	    GET: $i.$_GET
-    });
+    if (!aliasId) return er({ message: "aliasId required" });
 
     var verified = await verifyAliasOwnership(aliasId, $i, userid);
-    if (!verified) return er({ message: "You do not own this alias", code: "AUTH_FAIL" });
+    if (!verified) return er({ message: "Auth fail", code: "AUTH_FAIL" });
 
     var myFolder = `${aliasId}_at_awtsmoos.com`;
     var threadsPath = `/emails/${myFolder}/threads`;
 
     try {
-        var friends = await $i.db.get(threadsPath);
-        
-        if (!friends || (Array.isArray(friends) && friends.length === 0)) {
-            return []; 
-        }
+        // VIEW: THREADS (Snippets only)
+        if (view === 'threads') {
+            // 1. Get List of Friends (Folders)
+            var friends = await $i.db.get(threadsPath);
+            if (!friends || (Array.isArray(friends) && friends.length === 0)) return [];
 
-        var allMessages = [];
+            var snippets = [];
 
-        for (var friendName of friends) {
-            if (threadId && friendName !== threadId) continue;
+            for (var friendName of friends) {
+                var tPath = `${threadsPath}/${friendName}`;
+                
+                // Efficiently get keys (timestamps) only
+                var keys = await $i.db.getObjectKeys(tPath);
+                if (!keys || keys.length === 0) continue;
 
-            var threadObj = await $i.db.get(`${threadsPath}/${friendName}`);
-            
-            if (threadObj && typeof threadObj === 'object') {
-                for (var timestamp of Object.keys(threadObj)) {
-                    var entry = threadObj[timestamp];
-                    var uniqueId = `${friendName}:${timestamp}`;
+                // Sort keys desc (newest first) and take the first one
+                keys.sort((a, b) => b - a);
+                var latestKey = keys[0];
 
-                    var parsed = parseEmailEntry(entry, uniqueId, friendName);
+                // Fetch JUST that message
+                var latestMsg = await $i.db.getValue(tPath, latestKey);
+                
+                if (latestMsg) {
+                    var parsed = parseEmailEntry(latestMsg, `${friendName}:${latestKey}`, friendName);
                     parsed.correspondent = friendName;
-                    parsed.uid = timestamp; // B"H - Universal ID for robust reply linking
-                    allMessages.push(parsed);
+                    parsed.uid = latestKey;
+                    
+                    // Count unread? (Requires iterating or metadata... skipping for perf now, or client calculates)
+                    // For pure speed, we assume client updates unread status via socket, 
+                    // or we add a separate lightweight "unread" index later.
+                    
+                    snippets.push(parsed);
                 }
             }
+
+            // Sort threads by latest message time
+            return snippets.sort((a, b) => b.timeSent - a.timeSent);
         }
 
-        // B"H
-        // Oldest first (a - b) so conversation flows down
-        return allMessages.sort((a, b) => a.timeSent - b.timeSent);
+        // VIEW: MESSAGES (Full History for one thread)
+        else if (view === 'messages' && threadId) {
+            var tPath = `${threadsPath}/${threadId}`;
+            
+            // Get all keys to paginate
+            var keys = await $i.db.getObjectKeys(tPath);
+            if (!keys) return [];
+
+            // Sort Descending (Newest First)
+            keys.sort((a, b) => b - a);
+
+            // Pagination Logic
+            var start = (page - 1) * pageSize;
+            var end = start + parseInt(pageSize);
+            var pageKeys = keys.slice(start, end);
+
+            var messages = [];
+            
+            // Fetch values in parallel-ish
+            for (var k of pageKeys) {
+                var entry = await $i.db.getValue(tPath, k);
+                if (entry) {
+                    var parsed = parseEmailEntry(entry, `${threadId}:${k}`, threadId);
+                    parsed.correspondent = threadId;
+                    parsed.uid = k;
+                    messages.push(parsed);
+                }
+            }
+
+            // Return chronological for chat UI (Oldest -> Newest)
+            // But we fetched Newest -> Oldest for pagination. So reverse back.
+            return messages.sort((a, b) => a.timeSent - b.timeSent);
+        }
+
+        return [];
 
     } catch (e) {
-        return er({ message: "Error fetching threads", details: e + "" });
+        return er({ message: "Fetch failed", details: e + "" });
     }
 }
 
