@@ -358,60 +358,81 @@ async function sendMail({ $i, userid, asAliasId, toAliasId, toEmail }) {
 
         } else {
             // === 5. EXTERNAL SEND (SMTP) ===
-            console.log("B\"H DEBUG: Preparing REMOTE (SMTP) transmission...");
+            console.log("B\"H DEBUG: Preparing REMOTE (SMTP) transmission (HTML Mode)...");
             
-            // B"H - HISTORY STITCHING
-            let fullOutgoingContent = content;
-            var msgs = []; // B"H: Defined here so it survives the 'try' block scope
+            // Define identity early
+            var myFullEmail = `${senderShort}@awtsmoos.com`;
+            
+            // B"H - HTML CONSTRUCTION
+            // We default to HTML so Gmail treats formatting (newlines, quotes) properly.
+            var fullOutgoingContent = ""; 
+            var msgs = []; 
+            var extraHeaders = {
+                'Content-Type': 'text/html; charset=utf-8' // <--- THE KEY
+            };
+
+            // Helper: Safe HTML Escaping
+            const esc = (txt) => (txt || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 
             try {
-                // 1. Fetch the Scroll of Memories
-                // B"H
-                
+                // 1. Fetch History
                 const threadPath = `/emails/${senderFull}/threads/${recipientFull}`;
                 const threadData = await $i.db.get(threadPath);
                 
+                // Format YOUR New Message (Top Level)
+                // Convert \n to <br> for HTML display
+                let newBodyHtml = esc(content).replace(/\n/g, '<br>');
+                fullOutgoingContent = `<div dir="auto" style="font-family:sans-serif;font-size:12.8px">${newBodyHtml}</div>`;
+
                 if (threadData) {
                     // 2. Sort Newest -> Oldest
                     msgs = Object.values(threadData).sort((a,b) => b.time - a.time);
                     
-                    // 3. Weave the history (Limit to last 15 to avoid massive bloat)
-                    let historyStr = "";
-                    for (let m of msgs.slice(0, 15)) {
-                        const dateStr = new Date(m.time).toLocaleString();
-                        const isMe = (m.from === senderShort);
-                        const speaker = isMe ? "Me" : (m.fromName || m.from);
+                    // 3. Weave the History
+                    if (msgs.length > 0) {
+                        fullOutgoingContent += `<br><br><div class="gmail_quote">`; // Container for history
                         
-                        let rawText = m.textContent || m.content || "";
-                        if (rawText.includes("<")) rawText = rawText.replace(/<[^>]*>?/gm, '');
+                        // We reconstruct the chat log. 
+                        // Gmail likes: On [Date], [Name] <[Email]> wrote:
+                        // followed by a blockquote.
                         
-                        const quotedLines = rawText.trim().split('\n').map(l => `> ${l}`).join('\n');
+                        for (let m of msgs.slice(0, 15)) {
+                            const dateStr = new Date(m.time).toLocaleString();
+                            const isMe = (m.from === senderShort);
+                            const speaker = isMe ? "Me" : (m.fromName || m.from);
+                            const speakerEmail = isMe ? myFullEmail : (m.fromEmail || "external");
+                            
+                            // Get Content (Prefer text to avoid nesting broken HTML)
+                            let rawText = m.textContent || m.content || "";
+                            // If it contains tags, strip them for the quote (cleaner)
+                            if (rawText.includes("<")) rawText = rawText.replace(/<[^>]*>?/gm, '');
+                            
+                            let bodyBlock = esc(rawText).replace(/\n/g, '<br>');
+                            
+                            // The Attribution
+                            fullOutgoingContent += `<div dir="ltr" class="gmail_attr">On ${esc(dateStr)}, ${esc(speaker)} &lt;${esc(speakerEmail)}&gt; wrote:<br></div>`;
+                            
+                            // The Quote
+                            fullOutgoingContent += `<blockquote class="gmail_quote" style="margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">${bodyBlock}</blockquote>`;
+                        }
                         
-                        historyStr += `\n\nOn ${dateStr}, ${speaker} wrote:\n${quotedLines}`;
+                        fullOutgoingContent += `</div>`; // Close container
                     }
-                    
-                    fullOutgoingContent = content + historyStr;
                 }
             } catch(e) {
-                console.log("B\"H DEBUG: History stitching failed, sending raw.", e);
+                console.log("B\"H DEBUG: HTML stitching failed, sending plain.", e);
+                fullOutgoingContent = esc(content).replace(/\n/g, '<br>'); 
             }
 
-            // 4. Send the Woven Message with LINEAGE
+            // 4. Send
             if ($i.mail && $i.mail.smtpClient) {
-                var myFullEmail = `${senderShort}@awtsmoos.com`;
-                
-                // B"H - Extract Lineage
-                var extraHeaders = {};
-                // Now 'msgs' is accessible!
+                // Find Lineage for Threading
                 if (msgs && msgs.length > 0) {
-                    // Find the most recent message FROM THEM to reply to
                     var parentMsg = msgs.find(m => m.direction === 'incoming' && m.messageId);
-                    
                     if (parentMsg) {
-                        // B"H - CRITICAL: Headers MUST have brackets <id>
                         let pid = parentMsg.messageId.trim();
+                        // Enforce brackets for ID
                         if (!pid.startsWith('<')) pid = `<${pid}>`;
-                        
                         extraHeaders['In-Reply-To'] = pid;
                         extraHeaders['References'] = pid; 
                     }
@@ -425,7 +446,7 @@ async function sendMail({ $i, userid, asAliasId, toAliasId, toEmail }) {
                     extraHeaders 
                 ).catch(e => console.error("SMTP Error", e));
                 
-                return { success: { message: "Sent via SMTP with History" } };
+                return { success: { message: "Sent via SMTP (HTML)" } };
             }
             
             return { success: { message: "SMTP Client Missing" } };
