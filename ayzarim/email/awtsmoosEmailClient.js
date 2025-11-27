@@ -567,7 +567,7 @@ class AwtsmoosEmailClient {
             
             // 5. Create the Input to Sign
             // The spec requires: Canonicalized Headers + "dkim-signature:" + dkimHeader
-            var toSign = canonicalizedHeaders + 'dkim-signature:' + dkimHeader;
+            var toSign = canonicalizedHeaders + 'DKIM-Signature:' + dkimHeader;
 
             // 6. Sign
             var signature = crypto.createSign('SHA256')
