@@ -34,24 +34,24 @@ async function go() {
     );
     await serv.init();
 
-    // Initialize WebSocket Server
+    // 1. Init WS
     var wsServer = new AwtsSocket();
+    
+    // 2. ATTACH TO SERVER INSTANCE so ingress can find it
+    serv.ws = wsServer; 
 
-    // Create the HTTP Server
+    // 3. Create HTTP
     var httpServer = http.createServer(async (request, response) => { 
         await serv.onRequest(request, response);
     });
     
-    // B"H - Listen for Upgrade requests (WS Handshake)
+    // 4. Handle Upgrade
     httpServer.on('upgrade', (request, socket, head) => {
-        // You can do path routing here if you want
-        // if (request.url === '/ws/chat') ...
-        
         wsServer.handleUpgrade(request, socket, head);
     });
 
-    httpServer.listen(8080); // Listen for requests on port 8080
-    
+    httpServer.listen(8080);
+
     console.log('B"H\n\n\n\n', 'Server running at http://127.0.0.1:8080/');
     console.log("Time: ", Date.now());
 

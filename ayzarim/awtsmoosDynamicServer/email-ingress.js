@@ -64,6 +64,27 @@ module.exports = async function ({ sender, recipients, data }) {
                     direction: "incoming"
                 }
             });
+            
+            if (this.ws) {
+		    // Construct a safe payload (similar to API response)
+		    const notification = {
+		        type: 'NEW_MAIL',
+		        message: {
+		            id: `${cleanSender}:${time}`,
+		            from: rawFromHeader,
+		            fromName: name,
+		            subject: parsed.subject,
+		            snippet: text.substring(0, 50) + "...",
+		            timeSent: time,
+		            correspondent: cleanSender,
+		            direction: "incoming"
+		        }
+		    };
+		    
+		    // Send to recipient (e.g. "me_at_awtsmoos.com")
+		    this.ws.sendToAlias(cleanRecipient, notification);
+		}
+		
         }
         console.log("B\"H - Saved Mail with Attachments from:", name);
     } catch ($) {

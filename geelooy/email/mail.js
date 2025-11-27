@@ -25,6 +25,7 @@ async function whenLoaded() {
     }
 
     state.alias = window.curAlias;
+    connectSocket()
     document.getElementById('displayAlias').textContent = state.alias;
     document.getElementById('loginOverlay').classList.add('hidden');
     document.getElementById('appContainer').classList.remove('hidden');
@@ -35,8 +36,7 @@ async function whenLoaded() {
     // 3. Load Data
     await refreshMail();
     
-    // Auto-refresh every 30 seconds
-    setInterval(refreshMail, 30000);
+   
 };
 
 // --- API Interactions ---
@@ -360,6 +360,44 @@ function formatContent(text) {
 
 function formatTime(ts) {
     return new Date(ts).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+}
+
+
+function connectSocket() {
+    const proto = location.protocol === 'https:' ? 'wss' : 'ws';
+    socket = new WebSocket(`${proto}://${location.host}`);
+
+    socket.onopen = () => {
+        console.log("B\"H - Socket Connected");
+        // IDENTIFY
+        // Ensure we send the ID formatted as the server expects (usually with _at_)
+        // or let server handle matching. Sending raw alias is safest.
+        socket.send(JSON.stringify({
+            type: 'LOGIN',
+            aliasId: state.alias
+        }));
+    };
+
+    socket.onmessage = (event) => {
+        try {
+            const data = JSON.parse(event.data);
+            
+            if (data.type === 'NEW_MAIL') {
+                console.log("B\"H - New Mail Received!", data.message);
+                
+                // OPTION A: Simple Refresh
+                refreshMail(); 
+                
+                // OPTION B: Play Sound?
+                // new Audio('/ding.mp3').play();
+            }
+        } catch(e) {}
+    };
+
+    socket.onclose = () => {
+        console.log("Socket disconnected, retrying in 5s...");
+        setTimeout(connectSocket, 5000);
+    };
 }
 
 if(window.curAlias) whenLoaded();
