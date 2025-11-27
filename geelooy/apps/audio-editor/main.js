@@ -1,263 +1,631 @@
-//B"H
+// B"H
+// Pro Audio Editor - Main Logic
 
+/**
+ * Global Constants & Config
+ */
+const CONFIG = {
+    SAMPLE_RATE: 44100,
+    MIN_ZOOM: 10,  // Pixels per second
+    MAX_ZOOM: 2000,
+    HEADER_HEIGHT: 30, // Timeline ruler height
+    TRACK_HEIGHT: 120,
+    HANDLE_WIDTH: 15, // Pixel width for edge trimming
+    LONG_PRESS_MS: 400,
+};
+
+/**
+ * State Management
+ */
+const state = {
+    audioContext: null,
+    clips: [], // Array of Clip objects: { id, buffer, start, offset, duration, name, peaks }
+    isPlaying: false,
+    playStartTime: 0, // AudioContext time when play started
+    playHeadTime: 0, // Current cursor position in seconds
+    zoom: 100, // Pixels per second
+    scrollX: 0, // Horizontal scroll in pixels
+    selectedClipId: null,
+    
+    // Interaction State
+    interactionMode: 'IDLE', // IDLE, DRAGGING_CLIP, RESIZING_LEFT, RESIZING_RIGHT, PANNING
+    dragStartX: 0,
+    dragStartScroll: 0,
+    dragStartClipTime: 0,
+    dragStartClipDuration: 0,
+    dragStartClipOffset: 0,
+    lastMouseX: 0,
+    longPressTimer: null,
+    
+    // Audio Nodes
+    activeSources: [],
+};
+
+// Worker for Exporting
+const worker = new Worker('worker.js');
+
+/**
+ * Initialization
+ */
 document.addEventListener('DOMContentLoaded', () => {
-    // DOM Elements
-    const fileInput = document.getElementById('audio-file-input');
-    const trimmerSection = document.getElementById('trimmer-section');
-    const uploadSection = document.getElementById('upload-section');
-    const canvas = document.getElementById('waveform-canvas');
-    const ctx = canvas.getContext('2d');
-    const audioPlayer = document.getElementById('audio-player');
-    const startHandle = document.getElementById('start-handle');
-    const endHandle = document.getElementById('end-handle');
-    const selectionOverlay = document.getElementById('selection-overlay');
-    const exportButton = document.getElementById('export-button');
-    const statusMessage = document.getElementById('status-message');
-    const zoomSlider = document.getElementById('zoom-slider');
+    initAudioContext();
+    setupCanvas();
+    setupEventListeners();
+    loop(); // Start render loop
+});
 
-    // State
-    let audioContext;
-    let originalBuffer;
-    let originalFileName = '';
-    let startRatio = 0; // 0 to 1
-    let endRatio = 1;   // 0 to 1
-    let zoomLevel = 1;
-    let panOffset = 0; // In pixels
+function initAudioContext() {
+    const AudioCtor = window.AudioContext || window.webkitAudioContext;
+    state.audioContext = new AudioCtor();
+}
 
-    let activeDrag = null; // 'start', 'end', 'pan'
-    let dragStartX = 0;
+/**
+ * Canvas & Rendering
+ */
+const canvas = document.getElementById('timeline-canvas');
+const ctx = canvas.getContext('2d');
 
-    // Worker
-    const trimWorker = new Worker('worker.js');
+function setupCanvas() {
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+}
 
-    // --- Event Listeners ---
-    fileInput.addEventListener('change', handleFileSelect);
-    exportButton.addEventListener('click', handleExport);
-    zoomSlider.addEventListener('input', () => {
-        zoomLevel = parseFloat(zoomSlider.value);
-        panOffset = 0; // Reset pan on zoom change
-        drawWaveform();
-        updateHandlesAndOverlay();
+function resizeCanvas() {
+    canvas.width = canvas.parentElement.clientWidth;
+    canvas.height = canvas.parentElement.clientHeight;
+}
+
+function loop() {
+    updatePlayhead();
+    render();
+    requestAnimationFrame(loop);
+}
+
+function updatePlayhead() {
+    if (state.isPlaying) {
+        const now = state.audioContext.currentTime;
+        state.playHeadTime = state.playHeadTime + (now - state.lastFrameTime);
+        state.lastFrameTime = now;
+        
+        // Auto scroll if playing off screen
+        const playheadX = (state.playHeadTime * state.zoom) - state.scrollX;
+        if (playheadX > canvas.width * 0.9) {
+            state.scrollX += 5; // Smooth follow
+        }
+    } else {
+        state.lastFrameTime = state.audioContext.currentTime;
+    }
+}
+
+function render() {
+    // Clear
+    ctx.fillStyle = '#121212';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // Draw Grid/Ruler
+    drawRuler();
+
+    // Draw Clips
+    const trackY = CONFIG.HEADER_HEIGHT + 10;
+    
+    state.clips.forEach(clip => {
+        const x = (clip.start * state.zoom) - state.scrollX;
+        const width = clip.duration * state.zoom;
+        
+        // Optimization: Don't draw off-screen clips
+        if (x + width < 0 || x > canvas.width) return;
+
+        const isSelected = clip.id === state.selectedClipId;
+        
+        // Clip Background
+        ctx.fillStyle = isSelected ? '#536dfe' : '#3d5afe';
+        drawRoundedRect(ctx, x, trackY, width, CONFIG.TRACK_HEIGHT, 6);
+        ctx.fill();
+
+        // Waveform
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
+        drawClipWaveform(clip, x, trackY, width, CONFIG.TRACK_HEIGHT);
+
+        // Clip Name
+        ctx.fillStyle = '#fff';
+        ctx.font = '12px Arial';
+        ctx.fillText(clip.name, Math.max(x + 5, 5), trackY + 15);
+
+        // Selection Border & Handles
+        if (isSelected) {
+            ctx.strokeStyle = '#fff';
+            ctx.lineWidth = 2;
+            drawRoundedRect(ctx, x, trackY, width, CONFIG.TRACK_HEIGHT, 6);
+            ctx.stroke();
+
+            // Handles
+            ctx.fillStyle = 'rgba(255,255,255,0.3)';
+            ctx.fillRect(x, trackY, CONFIG.HANDLE_WIDTH, CONFIG.TRACK_HEIGHT); // Left
+            ctx.fillRect(x + width - CONFIG.HANDLE_WIDTH, trackY, CONFIG.HANDLE_WIDTH, CONFIG.TRACK_HEIGHT); // Right
+        }
     });
 
-    // Dragging and Interaction Listeners for Mouse
-    canvas.parentElement.addEventListener('mousedown', handlePanStart);
-    startHandle.addEventListener('mousedown', (e) => handleDragStart(e, 'start'));
-    endHandle.addEventListener('mousedown', (e) => handleDragStart(e, 'end'));
-    window.addEventListener('mousemove', handleDragMove);
-    window.addEventListener('mouseup', handleDragEnd);
-
-    // Touch equivalents (FIXED)
-    // We now pass the full event `e` and use `{ passive: false }` to allow preventDefault.
-    canvas.parentElement.addEventListener('touchstart', handlePanStart, { passive: false });
-    startHandle.addEventListener('touchstart', (e) => handleDragStart(e, 'start'), { passive: false });
-    endHandle.addEventListener('touchstart', (e) => handleDragStart(e, 'end'), { passive: false });
-    window.addEventListener('touchmove', handleDragMove, { passive: false });
-    window.addEventListener('touchend', handleDragEnd);
+    // Draw Playhead
+    const playheadX = (state.playHeadTime * state.zoom) - state.scrollX;
+    ctx.strokeStyle = '#ff5252';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(playheadX, 0);
+    ctx.lineTo(playheadX, canvas.height);
+    ctx.stroke();
     
-    // Worker message handling
-    trimWorker.onmessage = (e) => {
-        const { type, payload } = e.data;
-        if (type === 'TRIM_COMPLETE') {
-            downloadBlob(payload.blob, payload.fileName);
-            statusMessage.textContent = 'Download complete!';
-            exportButton.disabled = false;
-        } else if (type === 'ERROR') {
-            statusMessage.textContent = `Error: ${payload.message}`;
-            exportButton.disabled = false;
+    // Playhead Cap
+    ctx.fillStyle = '#ff5252';
+    ctx.beginPath();
+    ctx.moveTo(playheadX - 6, 0);
+    ctx.lineTo(playheadX + 6, 0);
+    ctx.lineTo(playheadX, 10);
+    ctx.fill();
+}
+
+function drawRuler() {
+    ctx.fillStyle = '#1e1e1e';
+    ctx.fillRect(0, 0, canvas.width, CONFIG.HEADER_HEIGHT);
+    ctx.fillStyle = '#888';
+    ctx.font = '10px Arial';
+
+    // Calculate time spacing based on zoom
+    let secondStep = 1;
+    if (state.zoom < 20) secondStep = 10;
+    if (state.zoom < 5) secondStep = 30;
+    if (state.zoom > 100) secondStep = 0.5;
+    if (state.zoom > 300) secondStep = 0.1;
+
+    const startSec = Math.floor(state.scrollX / state.zoom);
+    const endSec = Math.floor((state.scrollX + canvas.width) / state.zoom);
+
+    for (let s = startSec; s <= endSec; s += secondStep) {
+        // Fix float precision
+        const sec = Math.round(s * 10) / 10;
+        const x = (sec * state.zoom) - state.scrollX;
+        
+        ctx.fillRect(x, CONFIG.HEADER_HEIGHT - 10, 1, 10);
+        if (Number.isInteger(sec)) {
+            ctx.fillText(formatTime(sec), x + 4, CONFIG.HEADER_HEIGHT - 12);
+            ctx.fillStyle = '#444'; // Grid line
+            ctx.fillRect(x, CONFIG.HEADER_HEIGHT, 1, canvas.height);
+            ctx.fillStyle = '#888'; // Reset text color
         }
+    }
+}
+
+function drawClipWaveform(clip, x, y, width, height) {
+    if (!clip.peaks) return;
+    
+    const centerY = y + (height / 2);
+    const scaleY = (height / 2) * 0.9;
+    
+    // We render a simplified waveform based on pre-calculated peaks
+    // The visual resolution depends on pixel width
+    const step = Math.ceil(clip.peaks.length / width);
+    
+    ctx.beginPath();
+    
+    // Determine visible slice of the peaks
+    // Clip start time logic is handled by 'x', here we need the internal offset logic
+    // But since 'peaks' represents the whole buffer, we map width to peaks.
+    
+    // However, the clip might be trimmed (offset, duration).
+    // We need to map pixels 0..width to the correct index in 'peaks'.
+    
+    const peaksPerSec = clip.peaks.length / clip.buffer.duration;
+    const startPeakIdx = Math.floor(clip.offset * peaksPerSec);
+    const endPeakIdx = Math.floor((clip.offset + clip.duration) * peaksPerSec);
+    const visiblePeaks = clip.peaks.slice(startPeakIdx, endPeakIdx);
+    
+    // Drawing loop
+    for (let i = 0; i < width; i++) {
+        const peakIdx = Math.floor(i * (visiblePeaks.length / width));
+        const val = visiblePeaks[peakIdx] || 0;
+        const h = val * scaleY;
+        ctx.rect(x + i, centerY - h, 1, h * 2);
+    }
+    ctx.fill();
+}
+
+function drawRoundedRect(ctx, x, y, width, height, radius) {
+    ctx.beginPath();
+    ctx.moveTo(x + radius, y);
+    ctx.lineTo(x + width - radius, y);
+    ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+    ctx.lineTo(x + width, y + height - radius);
+    ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+    ctx.lineTo(x + radius, y + height);
+    ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+    ctx.lineTo(x, y + radius);
+    ctx.quadraticCurveTo(x, y, x + radius, y);
+    ctx.closePath();
+}
+
+/**
+ * Event Listeners & Interaction
+ */
+function setupEventListeners() {
+    const addBtn = document.getElementById('add-track-btn');
+    const fileInput = document.getElementById('file-input');
+    const playBtn = document.getElementById('play-pause-btn');
+    const stopBtn = document.getElementById('stop-btn');
+    const splitBtn = document.getElementById('split-btn');
+    const deleteBtn = document.getElementById('delete-btn');
+    const zoomSlider = document.getElementById('zoom-slider');
+    const exportBtn = document.getElementById('export-btn');
+
+    addBtn.onclick = () => fileInput.click();
+    fileInput.onchange = handleFileUpload;
+    playBtn.onclick = togglePlay;
+    stopBtn.onclick = stopPlayback;
+    splitBtn.onclick = splitSelectedClip;
+    deleteBtn.onclick = deleteSelectedClip;
+    
+    zoomSlider.oninput = (e) => {
+        // Zoom around center
+        const centerTime = (state.scrollX + canvas.width/2) / state.zoom;
+        state.zoom = parseFloat(e.target.value);
+        state.scrollX = (centerTime * state.zoom) - (canvas.width/2);
+        state.scrollX = Math.max(0, state.scrollX);
     };
+    
+    exportBtn.onclick = handleExport;
 
-    // --- Core Functions ---
+    // Pointer Events (Unified Mouse/Touch)
+    canvas.addEventListener('pointerdown', handlePointerDown);
+    window.addEventListener('pointermove', handlePointerMove);
+    window.addEventListener('pointerup', handlePointerUp);
+    
+    // Prevent context menu on right click for better web app feel
+    canvas.addEventListener('contextmenu', e => e.preventDefault());
+}
 
-    async function handleFileSelect(event) {
-        const file = event.target.files[0];
-        if (!file) return;
+/**
+ * Interaction Logic (The "Smart" Part)
+ */
+function handlePointerDown(e) {
+    e.preventDefault();
+    const rect = canvas.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    
+    const mouseTime = (x + state.scrollX) / state.zoom;
+    
+    state.lastMouseX = e.clientX;
+    state.dragStartX = e.clientX;
+    
+    // Check clip hits
+    const hitClip = state.clips.find(clip => {
+        return mouseTime >= clip.start && mouseTime <= clip.start + clip.duration &&
+               y > CONFIG.HEADER_HEIGHT; // Simple Y check
+    });
 
-        originalFileName = file.name.split('.').slice(0, -1).join('.');
-        statusMessage.textContent = 'Loading audio...';
+    if (hitClip) {
+        state.selectedClipId = hitClip.id;
         
-        try {
-            audioContext = new (window.AudioContext || window.webkitAudioContext)();
-            const arrayBuffer = await file.arrayBuffer();
-            originalBuffer = await audioContext.decodeAudioData(arrayBuffer);
-
-            audioPlayer.src = URL.createObjectURL(file);
-            trimmerSection.classList.remove('hidden');
-            uploadSection.classList.add('hidden');
-            exportButton.disabled = false;
+        // Edge Detection
+        const clipPixelStart = (hitClip.start * state.zoom) - state.scrollX;
+        const clipPixelEnd = clipPixelStart + (hitClip.duration * state.zoom);
+        
+        if (x >= clipPixelStart && x <= clipPixelStart + CONFIG.HANDLE_WIDTH) {
+            state.interactionMode = 'RESIZING_LEFT';
+            state.dragStartClipTime = hitClip.start;
+            state.dragStartClipOffset = hitClip.offset;
+            state.dragStartClipDuration = hitClip.duration;
+        } else if (x >= clipPixelEnd - CONFIG.HANDLE_WIDTH && x <= clipPixelEnd) {
+            state.interactionMode = 'RESIZING_RIGHT';
+            state.dragStartClipDuration = hitClip.duration;
+        } else {
+            // Initiate Long Press logic for Move vs Selection
+            state.dragStartClipTime = hitClip.start;
             
-            statusMessage.textContent = 'Audio loaded. Ready to trim.';
-            drawWaveform();
-            updateHandlesAndOverlay();
-        } catch (error) {
-            statusMessage.textContent = `Error decoding audio file: ${error.message}`;
-            console.error(error);
+            // For Desktop: Click is usually instant select/drag. 
+            // For Mobile: We use the timer.
+            // Here we implement a hybrid: "Hold to move" feel.
+            state.longPressTimer = setTimeout(() => {
+                state.interactionMode = 'DRAGGING_CLIP';
+                canvas.style.cursor = 'grabbing';
+            }, 200); // 200ms threshold for "picking up"
         }
-    }
-
-    function drawWaveform() {
-        if (!originalBuffer) return;
-
-        const data = originalBuffer.getChannelData(0);
-        const canvasWidth = canvas.width;
-        const canvasHeight = canvas.height;
-
-        ctx.clearRect(0, 0, canvasWidth, canvasHeight);
-        ctx.fillStyle = '#1a73e8';
-
-        const visibleWidth = canvasWidth / zoomLevel;
-        const startIndex = Math.floor(panOffset * (data.length / canvasWidth));
-        const endIndex = Math.floor((panOffset + visibleWidth) * (data.length / canvasWidth));
-        
-        const effectiveDataLength = endIndex - startIndex;
-        const step = Math.ceil(effectiveDataLength / canvasWidth);
-
-        for (let i = 0; i < canvasWidth; i++) {
-            let min = 1.0;
-            let max = -1.0;
-            const dataIndexStart = startIndex + (i * (effectiveDataLength / canvasWidth));
-
-            for (let j = 0; j < step; j++) {
-                const sample = data[Math.floor(dataIndexStart + j)];
-                if (sample < min) min = sample;
-                if (sample > max) max = sample;
+    } else {
+        // Clicked on empty space / Ruler
+        state.selectedClipId = null;
+        if (y < CONFIG.HEADER_HEIGHT) {
+            // Jump playhead
+            state.playHeadTime = Math.max(0, mouseTime);
+            if (state.isPlaying) {
+                 stopPlayback(); // Reschedule needed
+                 togglePlay();
             }
-
-            const y = (1 + min) * (canvasHeight / 2);
-            const height = Math.max(1, (max - min) * (canvasHeight / 2));
-            ctx.fillRect(i, y, 1, height);
+        } else {
+            // Panning
+            state.interactionMode = 'PANNING';
+            state.dragStartScroll = state.scrollX;
+            canvas.style.cursor = 'grabbing';
         }
     }
+}
 
-    function updateHandlesAndOverlay() {
-        const containerWidth = canvas.parentElement.offsetWidth;
+function handlePointerMove(e) {
+    if (state.interactionMode === 'IDLE') return;
 
-        const visibleStartRatio = panOffset / (containerWidth * zoomLevel);
-        const visibleEndRatio = (panOffset + containerWidth) / (containerWidth * zoomLevel);
+    // If moving significantly before timer fires, cancel timer (it was a tap or pan attempt)
+    if (state.longPressTimer && Math.abs(e.clientX - state.dragStartX) > 10) {
+        clearTimeout(state.longPressTimer);
+        state.longPressTimer = null;
+        // If we were waiting to drag a clip but moved quickly, maybe initiate panning if touch? 
+        // For now, let's assume if you didn't wait, you aren't dragging the clip.
+    }
 
-        const displayStart = ((startRatio - visibleStartRatio) / (visibleEndRatio - visibleStartRatio)) * 100;
-        const displayEnd = ((endRatio - visibleStartRatio) / (visibleEndRatio - visibleStartRatio)) * 100;
+    const dx = e.clientX - state.dragStartX;
+    const clip = state.clips.find(c => c.id === state.selectedClipId);
+
+    if (state.interactionMode === 'PANNING') {
+        state.scrollX = Math.max(0, state.dragStartScroll - dx);
+    } 
+    else if (state.interactionMode === 'DRAGGING_CLIP' && clip) {
+        const dt = dx / state.zoom;
+        clip.start = Math.max(0, state.dragStartClipTime + dt);
+    }
+    else if (state.interactionMode === 'RESIZING_RIGHT' && clip) {
+        const dt = dx / state.zoom;
+        // Limit: Duration > 0.1s, and cannot exceed source buffer
+        const maxDuration = clip.buffer.duration - clip.offset;
+        const newDuration = Math.max(0.1, state.dragStartClipDuration + dt);
+        clip.duration = Math.min(newDuration, maxDuration);
+    }
+    else if (state.interactionMode === 'RESIZING_LEFT' && clip) {
+        const dt = dx / state.zoom;
+        // Logic: Moving start right means increasing offset, decreasing duration, increasing start time
+        // Limit: Duration > 0.1s, offset >= 0
         
-        startHandle.style.left = `${displayStart}%`;
-        endHandle.style.left = `${displayEnd}%`;
-        selectionOverlay.style.left = `${displayStart}%`;
-        selectionOverlay.style.width = `${displayEnd - displayStart}%`;
+        // Desired change in time
+        let change = dt;
+        
+        // Constraints
+        // 1. New Offset cannot be < 0 (dragged too far left)
+        if (state.dragStartClipOffset + change < 0) change = -state.dragStartClipOffset;
+        
+        // 2. Duration must remain > 0.1
+        if (state.dragStartClipDuration - change < 0.1) change = state.dragStartClipDuration - 0.1;
+
+        clip.start = state.dragStartClipTime + change;
+        clip.offset = state.dragStartClipOffset + change;
+        clip.duration = state.dragStartClipDuration - change;
     }
+}
+
+function handlePointerUp(e) {
+    if (state.longPressTimer) clearTimeout(state.longPressTimer);
+    state.interactionMode = 'IDLE';
+    canvas.style.cursor = 'default';
+}
+
+/**
+ * File Handling & Audio Processing
+ */
+async function handleFileUpload(e) {
+    const files = Array.from(e.target.files);
+    if (!files.length) return;
+
+    document.getElementById('loading-overlay').classList.remove('hidden');
+
+    for (const file of files) {
+        try {
+            const arrayBuffer = await file.arrayBuffer();
+            const audioBuffer = await state.audioContext.decodeAudioData(arrayBuffer);
+            
+            // Calculate Peaks for visualization
+            const peaks = calculatePeaks(audioBuffer, 1000); // 1000 samples for the whole file
+
+            const newClip = {
+                id: Date.now() + Math.random().toString(),
+                buffer: audioBuffer,
+                start: state.playHeadTime, // Place at playhead
+                offset: 0,
+                duration: audioBuffer.duration,
+                name: file.name,
+                peaks: peaks
+            };
+            
+            state.clips.push(newClip);
+            // Move playhead to end of new clip
+            state.playHeadTime += newClip.duration;
+            
+        } catch (err) {
+            console.error("Error loading file:", err);
+            alert("Could not load " + file.name);
+        }
+    }
+
+    document.getElementById('loading-overlay').classList.add('hidden');
+    document.getElementById('export-btn').disabled = false;
+    render();
+}
+
+function calculatePeaks(buffer, resolution) {
+    const data = buffer.getChannelData(0); // Use first channel
+    const step = Math.floor(data.length / resolution) || 1;
+    const peaks = [];
+    for (let i = 0; i < data.length; i += step) {
+        let max = 0;
+        // Check a small window for the peak to be accurate
+        for (let j = 0; j < 100 && i+j < data.length; j++) {
+            const val = Math.abs(data[i+j]);
+            if (val > max) max = val;
+        }
+        peaks.push(max);
+    }
+    return peaks;
+}
+
+/**
+ * Editing Functions
+ */
+function splitSelectedClip() {
+    if (!state.selectedClipId) return;
+    const clipIndex = state.clips.findIndex(c => c.id === state.selectedClipId);
+    if (clipIndex === -1) return;
     
-    // --- Drag and Pan Logic ---
-
-    // (FIXED) Helper function to get the correct clientX from mouse or touch events
-    function getClientX(e) {
-        return e.touches ? e.touches[0].clientX : e.clientX;
-    }
-
-    function handleDragStart(e, handle) {
-        e.preventDefault(); // Now this will work for both touch and mouse events
-        activeDrag = handle;
-        dragStartX = getClientX(e); // Use helper function
-    }
-
-    function handlePanStart(e) {
-        if (e.target.classList.contains('trim-handle')) return;
-        e.preventDefault(); // Now this will work for both touch and mouse events
-        activeDrag = 'pan';
-        dragStartX = getClientX(e); // Use helper function
-        canvas.parentElement.style.cursor = 'grabbing';
-    }
-
-    function handleDragMove(e) {
-        if (!activeDrag) return;
-        e.preventDefault(); // Now this will work for both touch and mouse events
-
-        const currentX = getClientX(e); // Use helper function
-        const dx = currentX - dragStartX;
-        const containerWidth = canvas.parentElement.offsetWidth;
-        const deltaRatio = dx / (containerWidth * zoomLevel);
-
-        if (activeDrag === 'start') {
-            const newStartRatio = startRatio + deltaRatio;
-            // Clamp the value between 0 and the end handle's position
-            startRatio = Math.max(0, Math.min(newStartRatio, endRatio - 0.0001));
-        } else if (activeDrag === 'end') {
-            const newEndRatio = endRatio + deltaRatio;
-             // Clamp the value between the start handle's position and 1
-            endRatio = Math.max(startRatio + 0.0001, Math.min(newEndRatio, 1));
-        } else if (activeDrag === 'pan') {
-            const maxPan = containerWidth * (zoomLevel - 1);
-            panOffset = Math.max(0, Math.min(maxPan, panOffset - dx));
-            drawWaveform();
-        }
-
-        dragStartX = currentX; // Update position for next movement delta
-        updateHandlesAndOverlay();
-        updateAudioPlayerTime();
-    }
-
-    function handleDragEnd() {
-        activeDrag = null;
-        canvas.parentElement.style.cursor = 'ew-resize';
-    }
+    const clip = state.clips[clipIndex];
     
-    function updateAudioPlayerTime() {
-        const clipStartTime = startRatio * originalBuffer.duration;
-        audioPlayer.currentTime = clipStartTime;
+    // Check if playhead is within clip
+    if (state.playHeadTime > clip.start && state.playHeadTime < clip.start + clip.duration) {
+        const splitPointRelative = state.playHeadTime - clip.start;
+        
+        // Create Right Side Clip
+        const rightClip = {
+            ...clip,
+            id: Date.now() + Math.random().toString(),
+            start: state.playHeadTime,
+            offset: clip.offset + splitPointRelative,
+            duration: clip.duration - splitPointRelative
+        };
+        
+        // Modify Left Side (Original) Clip
+        clip.duration = splitPointRelative;
+        
+        state.clips.push(rightClip);
+        state.selectedClipId = rightClip.id; // Select new part
+        render();
     }
+}
 
-    // --- Export Logic ---
+function deleteSelectedClip() {
+    if (!state.selectedClipId) return;
+    state.clips = state.clips.filter(c => c.id !== state.selectedClipId);
+    state.selectedClipId = null;
+    if (state.clips.length === 0) document.getElementById('export-btn').disabled = true;
+    render();
+}
 
-    function handleExport() {
-        const selectedFormats = [...document.querySelectorAll('input[name="format"]:checked')].map(cb => cb.value);
-        if (selectedFormats.length === 0 || !originalBuffer) {
-            statusMessage.textContent = 'Please select at least one format to export.';
-            return;
-        }
+/**
+ * Audio Engine (Playback)
+ */
+function togglePlay() {
+    if (state.isPlaying) {
+        stopPlayback();
+    } else {
+        startPlayback();
+    }
+}
 
-        exportButton.disabled = true;
-        statusMessage.textContent = 'Preparing audio for export...';
-
-        const startTime = startRatio * originalBuffer.duration;
-        const endTime = endRatio * originalBuffer.duration;
-
-        // Extract channel data to send to worker
-        const channelData = [];
-        for (let i = 0; i < originalBuffer.numberOfChannels; i++) {
-            channelData.push(originalBuffer.getChannelData(i));
-        }
-
-        trimWorker.postMessage({
-            type: 'TRIM_AUDIO',
-            payload: {
-                channelData,
-                sampleRate: originalBuffer.sampleRate,
-                startTime,
-                endTime,
-                formats: selectedFormats,
-                originalFileName,
+function startPlayback() {
+    if (state.audioContext.state === 'suspended') state.audioContext.resume();
+    
+    state.activeSources = [];
+    const startTime = state.audioContext.currentTime;
+    
+    state.clips.forEach(clip => {
+        // Only schedule clips that end after the current playhead
+        if (clip.start + clip.duration > state.playHeadTime) {
+            
+            const source = state.audioContext.createBufferSource();
+            source.buffer = clip.buffer;
+            source.connect(state.audioContext.destination);
+            
+            // Calculate offsets
+            let whenToPlay = startTime + (clip.start - state.playHeadTime);
+            let offsetInFile = clip.offset;
+            let durationToPlay = clip.duration;
+            
+            // If playhead is in the middle of this clip
+            if (state.playHeadTime > clip.start) {
+                const startDiff = state.playHeadTime - clip.start;
+                offsetInFile += startDiff;
+                durationToPlay -= startDiff;
+                whenToPlay = startTime;
             }
-        });
-    }
+            
+            // Schedule
+            if (whenToPlay >= startTime) {
+                source.start(whenToPlay, offsetInFile, durationToPlay);
+                state.activeSources.push(source);
+            }
+        }
+    });
 
-    function downloadBlob(blob, fileName) {
-        const url = URL.createObjectURL(blob);
+    state.isPlaying = true;
+    state.playStartTime = startTime;
+    document.getElementById('play-icon').textContent = 'pause';
+}
+
+function stopPlayback() {
+    state.activeSources.forEach(s => {
+        try { s.stop(); } catch(e){}
+    });
+    state.activeSources = [];
+    state.isPlaying = false;
+    document.getElementById('play-icon').textContent = 'play_arrow';
+}
+
+/**
+ * Export Logic
+ */
+function handleExport() {
+    if (state.clips.length === 0) return;
+    stopPlayback();
+    
+    document.getElementById('status-bar').textContent = 'Exporting...';
+    document.getElementById('loading-overlay').classList.remove('hidden');
+
+    // Prepare data for worker
+    // We can't send AudioBuffers directly efficiently, we send channel data
+    // But since that's heavy, we'll do a simplified approach:
+    // We will calculate the total duration, and send minimal instructions to worker 
+    // to mix. 
+    // *Correction*: We must send the data.
+    
+    const exportData = state.clips.map(clip => {
+        const channels = [];
+        for (let i = 0; i < clip.buffer.numberOfChannels; i++) {
+            channels.push(clip.buffer.getChannelData(i));
+        }
+        return {
+            channels: channels,
+            sampleRate: clip.buffer.sampleRate,
+            start: clip.start,
+            offset: clip.offset,
+            duration: clip.duration
+        };
+    });
+
+    // Find max duration
+    const totalDuration = Math.max(...state.clips.map(c => c.start + c.duration));
+
+    worker.postMessage({
+        type: 'EXPORT',
+        payload: {
+            clips: exportData,
+            totalDuration: totalDuration,
+            sampleRate: CONFIG.SAMPLE_RATE
+        }
+    });
+}
+
+worker.onmessage = (e) => {
+    const { type, payload } = e.data;
+    if (type === 'EXPORT_COMPLETE') {
+        const url = URL.createObjectURL(payload.blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = fileName;
+        a.download = 'BH_Master_Mix.wav';
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
-        URL.revokeObjectURL(url);
+        
+        document.getElementById('loading-overlay').classList.add('hidden');
+        document.getElementById('status-bar').textContent = 'Export Complete!';
     }
-    
-    // Initial draw on resize
-    window.addEventListener('resize', () => {
-        canvas.width = canvas.parentElement.offsetWidth;
-        canvas.height = canvas.parentElement.offsetHeight;
-        drawWaveform();
-        updateHandlesAndOverlay();
-    });
-    
-    // Set initial canvas size
-    canvas.width = canvas.parentElement.offsetWidth;
-    canvas.height = canvas.parentElement.offsetHeight;
-});
+};
+
+/**
+ * Utils
+ */
+function formatTime(seconds) {
+    const m = Math.floor(seconds / 60);
+    const s = Math.floor(seconds % 60);
+    const ms = Math.floor((seconds % 1) * 10);
+    return `${m}:${s.toString().padStart(2, '0')}.${ms}`;
+}

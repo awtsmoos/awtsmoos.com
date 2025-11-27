@@ -1,49 +1,55 @@
 <!--!B"H-->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Audio Trimmer</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Pro Audio Editor</title>
     <link rel="stylesheet" href="style.css">
+    <!-- Material Icons for UI -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
-        <h1>B"H Audio Trimmer</h1>
-        <div id="upload-section">
-            <p>Select an audio file from your device to begin.</p>
-            <input type="file" id="audio-file-input" accept="audio/*">
+    <div class="app-container">
+        <header>
+            <h1>B"H Pro Audio Editor</h1>
+            <div class="header-controls">
+                <button id="add-track-btn" class="btn primary"><span class="material-icons">add</span> Add Audio</button>
+                <input type="file" id="file-input" accept="audio/*" multiple hidden>
+                <button id="export-btn" class="btn success" disabled><span class="material-icons">save_alt</span> Export</button>
+            </div>
+        </header>
+
+        <div class="editor-workspace">
+            <div id="timeline-container">
+                <canvas id="timeline-canvas"></canvas>
+            </div>
         </div>
 
-        <div id="trimmer-section" class="hidden">
-            <div id="waveform-container">
-                <canvas id="waveform-canvas"></canvas>
-                <div id="selection-overlay"></div>
-                <div class="trim-handle" id="start-handle"></div>
-                <div class="trim-handle" id="end-handle"></div>
+        <div class="toolbar">
+            <div class="transport-controls">
+                <button id="to-start-btn" class="icon-btn"><span class="material-icons">skip_previous</span></button>
+                <button id="play-pause-btn" class="icon-btn large"><span class="material-icons" id="play-icon">play_arrow</span></button>
+                <button id="stop-btn" class="icon-btn"><span class="material-icons">stop</span></button>
             </div>
-            <div id="controls">
-                 <audio id="audio-player" controls></audio>
-                 <div class="zoom-controls">
-                    <label for="zoom-slider">Zoom:</label>
-                    <input type="range" id="zoom-slider" min="1" max="200" value="1">
-                </div>
+            
+            <div class="tool-controls">
+                <button id="split-btn" class="icon-btn" title="Split Clip (Razor)"><span class="material-icons">content_cut</span></button>
+                <button id="delete-btn" class="icon-btn" title="Delete Selected"><span class="material-icons">delete</span></button>
             </div>
-            <div class="export-controls">
-                <button id="export-button" disabled>Export Trimmed Audio</button>
-                <div id="format-selection">
-                    <label><input type="checkbox" name="format" value="audio/mpeg"> MP3</label>
-                    <label><input type="checkbox" name="format" value="audio/wav" checked> WAV</label>
-                    <label><input type="checkbox" name="format" value="audio/ogg"> OGG</label>
-                </div>
+
+            <div class="zoom-controls">
+                <span class="material-icons small">zoom_out</span>
+                <input type="range" id="zoom-slider" min="10" max="1000" value="100">
+                <span class="material-icons small">zoom_in</span>
             </div>
         </div>
-         <div id="status-message"></div>
+        
+        <div id="status-bar">Ready</div>
+        <div id="loading-overlay" class="hidden"><div class="spinner"></div><span>Processing...</span></div>
     </div>
 
     <script src="main.js"></script>
-<script src="/register.js"></script>
-      
+    <script src="/register.js"></script>
 </body>
 </html>

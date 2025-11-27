@@ -1,100 +1,95 @@
 /**
  * B"H
- * File: trim-worker.js
- * Description: A web worker to handle audio trimming in the background.
+ * Advanced Audio Mixing Worker
  */
 
 self.onmessage = (e) => {
     const { type, payload } = e.data;
 
-    if (type === 'TRIM_AUDIO') {
-        try {
-            const {
-                channelData,
-                sampleRate,
-                startTime,
-                endTime,
-                formats,
-                originalFileName
-            } = payload;
-
-            // 1. Calculate the start and end samples
-            const startSample = Math.floor(startTime * sampleRate);
-            const endSample = Math.floor(endTime * sampleRate);
-            const durationSamples = endSample - startSample;
-
-            if (durationSamples <= 0) {
-                throw new Error("Trim duration is zero or negative.");
-            }
-
-            // 2. Create the new (trimmed) AudioBuffer data
-            const numChannels = channelData.length;
-            const trimmedChannels = [];
-            for (let i = 0; i < numChannels; i++) {
-                trimmedChannels.push(channelData[i].slice(startSample, endSample));
-            }
-
-            // 3. Convert the trimmed data to a WAV blob (most universally supported)
-            const wavBlob = audioBufferToWav(trimmedChannels, numChannels, sampleRate);
-            
-            // For simplicity, this example directly creates a WAV. 
-            // Encoding to MP3 or OGG in a worker requires external libraries like lamejs or opus.js.
-            // We will send back the WAV for all selected formats in this basic example.
-            
-            formats.forEach(format => {
-                 const extension = format.split('/')[1] === 'mpeg' ? 'mp3' : format.split('/')[1];
-                 const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-                 const fileName = `BH_${timestamp}_${originalFileName}_trimmed.${extension}`;
-                 
-                 // Note: The blob type is set to the selected format, but the data is WAV.
-                 // For true multi-format export, an encoding step is needed here.
-                 const finalBlob = new Blob([wavBlob], { type: format });
-
-                 self.postMessage({
-                     type: 'TRIM_COMPLETE',
-                     payload: { blob: finalBlob, fileName }
-                 });
-            });
-
-        } catch (error) {
-            self.postMessage({ type: 'ERROR', payload: { message: error.message } });
-        }
+    if (type === 'EXPORT') {
+        mixAndExport(payload);
     }
 };
 
-// --- WAV Encoding Helper Function ---
-// This function converts raw audio channel data into a valid WAV file blob.
-function audioBufferToWav(channels, numChannels, sampleRate) {
-    const buffer = new ArrayBuffer(44 + channels[0].length * numChannels * 2);
+function mixAndExport(data) {
+    const { clips, totalDuration, sampleRate } = data;
+    const totalLength = Math.ceil(totalDuration * sampleRate);
+    
+    // Create Stereo Buffer
+    const leftBuffer = new Float32Array(totalLength);
+    const rightBuffer = new Float32Array(totalLength);
+
+    // Mix Loop
+    clips.forEach(clip => {
+        const startSample = Math.floor(clip.start * sampleRate);
+        const offsetSample = Math.floor(clip.offset * clip.sampleRate); // Source offset
+        const durationSamples = Math.floor(clip.duration * clip.sampleRate);
+        
+        // Process Left Channel
+        mixChannel(leftBuffer, clip.channels[0], startSample, offsetSample, durationSamples);
+        
+        // Process Right Channel (if exists, else copy left, or silence)
+        if (clip.channels.length > 1) {
+            mixChannel(rightBuffer, clip.channels[1], startSample, offsetSample, durationSamples);
+        } else {
+            mixChannel(rightBuffer, clip.channels[0], startSample, offsetSample, durationSamples);
+        }
+    });
+
+    // Convert to WAV
+    const wavBlob = encodeWAV([leftBuffer, rightBuffer], sampleRate);
+    
+    self.postMessage({
+        type: 'EXPORT_COMPLETE',
+        payload: { blob: wavBlob }
+    });
+}
+
+function mixChannel(master, source, masterStart, sourceStart, length) {
+    for (let i = 0; i < length; i++) {
+        if (masterStart + i < master.length && sourceStart + i < source.length) {
+            // Simple Additive Mixing
+            // In a pro app, you might want to normalize or use a limiter to prevent clipping
+            // Here we just add.
+            master[masterStart + i] += source[sourceStart + i];
+        }
+    }
+}
+
+// --- WAV Encoder ---
+function encodeWAV(channels, sampleRate) {
+    const numChannels = channels.length;
+    const length = channels[0].length;
+    const buffer = new ArrayBuffer(44 + length * numChannels * 2);
     const view = new DataView(buffer);
 
-    // RIFF chunk descriptor
     writeString(view, 0, 'RIFF');
-    view.setUint32(4, 36 + channels[0].length * numChannels * 2, true);
+    view.setUint32(4, 36 + length * numChannels * 2, true);
     writeString(view, 8, 'WAVE');
-    // FMT sub-chunk
     writeString(view, 12, 'fmt ');
-    view.setUint32(16, 16, true); // Subchunk1Size
-    view.setUint16(20, 1, true); // AudioFormat (PCM)
+    view.setUint32(16, 16, true);
+    view.setUint16(20, 1, true); // PCM
     view.setUint16(22, numChannels, true);
     view.setUint32(24, sampleRate, true);
-    view.setUint32(28, sampleRate * numChannels * 2, true); // ByteRate
-    view.setUint16(32, numChannels * 2, true); // BlockAlign
-    view.setUint16(34, 16, true); // BitsPerSample
-    // Data sub-chunk
+    view.setUint32(28, sampleRate * numChannels * 2, true);
+    view.setUint16(32, numChannels * 2, true);
+    view.setUint16(34, 16, true);
     writeString(view, 36, 'data');
-    view.setUint32(40, channels[0].length * numChannels * 2, true);
+    view.setUint32(40, length * numChannels * 2, true);
 
-    // Write the interleaved audio data
     let offset = 44;
-    for (let i = 0; i < channels[0].length; i++) {
-        for (let j = 0; j < numChannels; j++) {
-            const sample = Math.max(-1, Math.min(1, channels[j][i]));
-            view.setInt16(offset, sample < 0 ? sample * 0x8000 : sample * 0x7FFF, true);
+    for (let i = 0; i < length; i++) {
+        for (let ch = 0; ch < numChannels; ch++) {
+            let sample = channels[ch][i];
+            // Hard limiter to prevent digital distortion
+            sample = Math.max(-1, Math.min(1, sample));
+            // 16-bit PCM
+            sample = sample < 0 ? sample * 0x8000 : sample * 0x7FFF;
+            view.setInt16(offset, sample, true);
             offset += 2;
         }
     }
-
+    
     return new Blob([view], { type: 'audio/wav' });
 }
 
