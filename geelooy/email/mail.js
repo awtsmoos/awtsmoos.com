@@ -326,7 +326,8 @@ function renderMessages(threadId, forceScrollBottom = false) {
     }
 }
 
-// Find the "createMessageRow" function and replace it with this improved version:
+
+
 function createMessageRow(msg) {
     const isMe = msg.direction === 'outgoing';
     const row = document.createElement('div');
@@ -334,22 +335,19 @@ function createMessageRow(msg) {
     row.id = `msg_row_${msg.id}`;
     row.dataset.uid = msg.uid || msg.timeSent;
     
-    // B"H - Robust Quote Logic (Regex Extraction)
+    // B"H - 1. Get raw content
     let contentHtml = String(msg.content || ""); 
     let quoteHtml = "";
     
-    // Detect reply-meta even if it was accidentally escaped (e.g. &lt;div...)
-    // This regex looks for the div wrapper and captures the snippet inside data-snippet or text content
-    // We strictly look for the class="reply-meta" signature
-    
+    // B"H - 2. Extract Metadata using Regex (Fixes the leak visible in screenshot)
+    // Matches <div class="reply-meta"...>...</div>
     const metaRegex = /<div class="reply-meta"[\s\S]*?data-uid="([^"]*)"[\s\S]*?data-name="([^"]*)"[^>]*>([\s\S]*?)<\/div>/i;
     const match = contentHtml.match(metaRegex);
     
     if (match) {
-        // Extract data
         const qUid = match[1];
         const qName = match[2];
-        const qText = match[3]; // This is the snippet content
+        const qText = match[3]; // The snippet text
         
         // Remove the meta block from the displayed content
         contentHtml = contentHtml.replace(match[0], "");
@@ -360,7 +358,7 @@ function createMessageRow(msg) {
                      </div>`;
     }
     
-    // B"H - Clean up: If the content was just the meta block (now empty), or has leading newlines
+    // Clean up whitespace
     contentHtml = contentHtml.trim();
 
     const senderName = isMe ? "Me" : (msg.fromName || "Them");
@@ -376,14 +374,12 @@ function createMessageRow(msg) {
         </div>
     `;
 
-    // Bind Interaction
     const bub = row.querySelector('.message-bubble');
     bub.oncontextmenu = (e) => { e.preventDefault(); openMsgMenu(msg, isMe); };
     attachSwipeLogic(row, msg, senderName);
 
     return row;
 }
-
 // --- Infinite Scroll Logic ---
 
 function attachScrollListener() {
