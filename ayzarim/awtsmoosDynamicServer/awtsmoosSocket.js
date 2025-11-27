@@ -151,26 +151,40 @@ class AwtsmoosSocket {
 
     /**
      * Sends a message to a specific user/alias.
-     * Supports fuzzy matching (e.g. sending to "bob_at_gmail.com" reaches "bob")
+     * Like the Sefirot connecting to one another, we try multiple paths of unification.
+     * 1. Essence to Essence (Exact Match)
+     * 2. Form to Form (Swapping @ for _at_)
+     * 3. Garment to Essence (Long to Short)
+     * 4. Essence to Garment (Short to Long) - *The Missing Link*
      */
     sendToAlias(targetAlias, data) {
-        console.log(`WS: Attempting send to [${targetAlias}]`);
+        // B"H - Tracing the transmission of Light
+        // console.log(`WS: Attempting send to [${targetAlias}]`);
         
-        // 1. Direct Match
+        // 1. Direct Match (Malchus to Malchus)
         if (this._trySend(targetAlias, data)) return true;
 
-        // 2. Try replacing _at_ with @ (or vice versa)
+        // 2. Swapped Syntax (Translation between Worlds)
         const swapped = targetAlias.includes("_at_") ? targetAlias.replace(/_at_/g, "@") : targetAlias.replace(/@/g, "_at_");
         if (this._trySend(swapped, data)) return true;
 
-        // 3. Try "Short Name" (e.g. "awtsmoos_at_awtsmoos.com" -> "awtsmoos")
-        // This fixes your specific issue!
+        // 3. Short Name Extraction (Peeling the Fruit)
+        // e.g. "bob_at_gmail.com" -> "bob"
+        // This handles cases where we send to the full address, but client logged in as short.
         const shortName = targetAlias.split("_at_")[0].split("@")[0];
         if (shortName !== targetAlias) {
              if (this._trySend(shortName, data)) return true;
         }
 
-        console.log(`WS: User [${targetAlias}] not found online.`);
+        // 4. Long Name Reconstruction (Dressing the Soul)
+        // e.g. "bob" -> "bob_at_awtsmoos.com"
+        // This handles cases where we send to the Short name, but client logged in with their Full Awtsmoos ID.
+        if (!targetAlias.includes("_at_") && !targetAlias.includes("@")) {
+            if (this._trySend(`${targetAlias}_at_awtsmoos.com`, data)) return true;
+        }
+
+        // The vessel was not found; the light returns to the source.
+        // console.log(`WS: User [${targetAlias}] not found online.`);
         return false;
     }
 

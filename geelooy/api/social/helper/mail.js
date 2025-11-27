@@ -269,7 +269,9 @@ async function sendMail({ $i, userid, asAliasId, toAliasId, toEmail }) {
 
             // D. Notify Them
             if ($i.ws) {
-                // B"H - Normalize target: Remove domain for socket matching
+                // B"H - The Socket desires the Name, not the Garment.
+                // We strip the domain to try the Essence first, but thanks to the new 
+                // sendToAlias logic, the Full Name will also be checked automatically.
                 var socketTarget = friendClean.split("_at_")[0]; 
                 
                 const notification = {
@@ -278,16 +280,19 @@ async function sendMail({ $i, userid, asAliasId, toAliasId, toEmail }) {
                         id: `${myFolder}:${time}`,
                         uid: time + "",
                         from: asAliasId, 
-                        fromName: asAliasId, // Short name for local
+                        fromName: asAliasId, 
                         subject: subject, 
                         status: status,
                         snippet: content.substring(0, 50) + "...",
                         timeSent: time,
-                        correspondent: asAliasId, // Short name for thread grouping
+                        correspondent: asAliasId, 
                         direction: "incoming",
                         content: content 
                     }
                 };
+                
+                // Send the spark. If 'socketTarget' (bob) fails, 
+                // the Socket Logic will now attempt 'bob_at_awtsmoos.com'.
                 $i.ws.sendToAlias(socketTarget, notification);
             }
 
