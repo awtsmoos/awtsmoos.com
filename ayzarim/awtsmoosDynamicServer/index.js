@@ -180,44 +180,42 @@ class AwtsmoosStaticServer {
 			console.log("NO config set!")
 		}
 
-		if(this. mail){
-			
-			this.mail.gotMail=({
-				sender,
-				recipients,
-				data
-
-			})=>{
-				try{
-				var time=Date.now();
-				recipients.forEach(r=>
-				
-				this.db.write(`/emails/${
-					r.replace("@","_at_")
-					.replace("<","")
-					.replace(">","")
-
-				}/from/${
-					sender.replace("@","_at_")
-					.replace("<","")
-					.replace(">","")
-					
-				}/time/${
-					time
-				}`, {
-					data: data+""
-				}));
-				console. log("wrote email",sender,
-					     recipients,time);
-			    }
-				catch($){
-					console.log("didn't save email")
-
-				}
-				
-
-			}
-
+		
+		if (this.mail) {
+		    this.mail.gotMail = async ({
+		        sender,
+		        recipients,
+		        data
+		    }) => {
+		        try {
+		            var time = Date.now();
+		            // Clean up sender: "bob@gmail.com" -> "bob_at_gmail.com"
+		            var cleanSender = sender.replace("@", "_at_").replace(/[<>]/g, "");
+		
+		            for (var r of recipients) {
+		                // Clean up recipient
+		                var cleanRecipient = r.replace("@", "_at_").replace(/[<>]/g, "");
+		                
+		                // Path: /emails/me_at_site.com/from/bob_at_gmail.com
+		                // Note: We don't add extensions here; DosDB handles the .awtsmoosJSON suffix
+		                var path = `/emails/${cleanRecipient}/from/${cleanSender}`;
+		
+		                // Use the DB's optimized binary append
+		                // This adds a Key (Time) : Value (Object) to the sender's specific file
+		                await this.db.appendToObj(path, {
+		                    key: time + "",
+		                    value: {
+		                        data: data + "",
+		                        time: time,
+		                        read: false
+		                    }
+		                });
+		            }
+		            console.log("wrote email (optimized)", sender, recipients, time);
+		        } catch ($) {
+		            console.log("didn't save email", $);
+		        }
+		    }
 		}
 
 		
