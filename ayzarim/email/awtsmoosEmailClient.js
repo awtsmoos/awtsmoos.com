@@ -293,9 +293,13 @@ class AwtsmoosEmailClient {
         });
     }
 
+    // Inside AwtsmoosEmailClient class...
+    
     commandHandlers = {
         'EHLO': ({ client }) => {
-            client.write(`EHLO ${this.smtpServer}${CRLF}`);
+            // FIX: Introduce OURSELVES, not the server we are talking to.
+            // Using a hardcoded domain or extracting from sender is better.
+            client.write(`EHLO awtsmoos.com${CRLF}`);
         },
         'SEND_STARTTLS_COMMAND': ({ client }) => {
             client.write(`STARTTLS${CRLF}`);
@@ -303,6 +307,7 @@ class AwtsmoosEmailClient {
         'DO_TLS_HANDSHAKE': ({ client, sender, recipient, emailData }) => {
             var options = { 
                 socket: client, 
+                // We still use this.smtpServer for SNI (to verify THEIR cert)
                 servername: this.smtpServer, 
                 minVersion: 'TLSv1.2',
                 rejectUnauthorized: false
@@ -317,10 +322,12 @@ class AwtsmoosEmailClient {
                     this.handleClientData({ client: secureSocket, sender, recipient, dataToSend: emailData });
                 } catch(e){ console.error(e); }
                 this.previousCommand = "EHLO_SECURE";
-                secureSocket.write(`EHLO ${this.smtpServer}${CRLF}`);
+                // FIX: Re-Introduce OURSELVES securely
+                secureSocket.write(`EHLO awtsmoos.com${CRLF}`);
             });
         },
         'EHLO_SECURE': ({ client }) => { },
+        // ... rest of the handlers remain the same ...
         'MAIL FROM': ({ client, recipient, sender }) => {
             client.write(`MAIL FROM:<${sender}>${CRLF}`);
         },
