@@ -1,52 +1,15 @@
 /**
  * B"H
  * @module AwtsmoosEmailClient
- * A client for sending emails.
- * @requires crypto
- * @requires net
- * @requires tls
- * @optional privateKey environment variable for your DKIM private key
- * matching your public key, can generate with generateKeyPairs.js script
- * @optional BH_email_cert and BH_email_key environemnt variables for certbot
- *  TLS cert and key
- * @overview:
- * A basic client for sending emails
- * with no external libraries.
- * 
- * @method handleSMTPResponse: This method handles the 
- * SMTP server responses for each command sent. It builds the multi-line response, checks
- *  for errors, and determines the next command to be sent based on the server’s response.
-
-@method handleErrorCode: This helper method throws an
- error if the server responds with a 4xx or 5xx status code.
-
-@property commandHandlers: An object map where keys are SMTP 
-commands and values are functions that handle sending the next SMTP command.
-
-@method sendMail: This asynchronous method initiates the process 
-of sending an email. It establishes a connection to the SMTP server, sends the SMTP 
-commands sequentially based on server responses, and handles the 
-closure and errors of the connection.
-
-Variables and constants:
-
-@var CRLF: Stands for Carriage Return Line Feed, which is not shown
- in the code but presumably represents the newline sequence "\r\n".
-this.smtpServer, this.port, this.privateKey: Instance variables that
- store the SMTP server address, port, and private key for DKIM signing, respectively.
-this.multiLineResponse, this.previousCommand, this.currentCommand: 
-Instance variables used to store the state of the SMTP conversation.
+ * PARANOID LOGGING EDITION
  */
 
-//All of these are internal libraries
 var crypto = require('crypto');
 var tls = require("tls");
 var fs = require("fs");
 var net = require('net');
 var dns = require('dns');
 var CRLF = '\r\n';
-
-
 
 class AwtsmoosEmailClient {
     socket = null;
@@ -56,557 +19,167 @@ class AwtsmoosEmailClient {
 
     constructor({
         port = 25,
-        pathToPrivateKey = 
-        "/root/keys/dkim_private.pem"
+        pathToPrivateKey = "/root/keys/dkim_private.pem"
     } = {}) {
-        
         try {
-            // Read the key file directly
             this.privateKey = fs.readFileSync(pathToPrivateKey , 'utf-8');
-             console.log("---------------------------------------------------");
-                console.log("DEBUG: Private Key File FOUND.");
-                console.log("DEBUG: Key Length: " + this.privateKey.length);
-                console.log("DEBUG: First line: " + this.privateKey.split('\n')[0]);
-                console.log("---------------------------------------------------");
-            
-            console.log("Successfully loaded DKIM Private Key from file.");
+            console.log("DEBUG: Private Key loaded successfully.");
         } catch (e) {
-            console.warn("Warning: Could not load DKIM private key from file:", e.message);
-            // Fallback to env var if file fails
+            console.warn("Warning: Could not load DKIM file. Checking Env...");
             var privateKey = process.env.BH_key;
-            if(privateKey) {
-                this.privateKey = privateKey.replace(/\\n/g, '\n');
-            }
+            if(privateKey) this.privateKey = privateKey.replace(/\\n/g, '\n');
         }
 
         this.port = port || 25;
         this.multiLineResponse = '';
         this.previousCommand = '';
 
-
         var certPath = process.env.BH_email_cert;
         var keyPath = process.env.BH_email_key;
 
-       //s console.log("certPath at",certPath,"keyPath at", keyPath)
         if (certPath && keyPath) {
             try {
                 this.cert = fs.readFileSync(certPath, 'utf-8');
                 this.key = fs.readFileSync(keyPath, 'utf-8');
-                // if both are successfully loaded, set useTLS to true
                 this.useTLS = true;
-                console.log("Loaded cert and key")
-            } catch (err) {
-                console.error("Error reading cert or key files: ", err);
-                // handle error, perhaps set useTLS to false or throw an error
-            }
+            } catch (err) { console.error("Error reading certs", err); }
         }
     }
 
-    /**
-     * @method getDNSRecords
-     * @param {String (Email format)} email 
-     * @returns 
-     */
     async getDNSRecords(email) {
         return new Promise((r,j) => {
-            if(typeof(email) != "string") {
-                j("Email paramter not a string");
-                return;
-            }
+            if(typeof(email) != "string") return j("Not an email");
             var domain = email.split('@')[1];
             if(!domain) return j("Not an email");
-            // Perform MX Record Lookup
             dns.resolveMx(domain, (err, addresses) => {
-                if (err) {
-                    console.error('Error resolving MX records:', err);
-                    j(err);
-                    return;
-                }
-                
-                // Sort the MX records by priority
+                if (err) return j(err);
                 addresses.sort((a, b) => a.priority - b.priority);
                 r(addresses);
-                return addresses
             });
-        })
-        
+        });
     }
 
-
-    /**
-     * Determines the next command to send to the server.
-     * @returns {string} - The next command.
-     */
     getNextCommand() {
         var commandOrder = [
-            'START',
-            'EHLO', 
-            'STARTTLS', // Add STARTTLS to the command order
-            'EHLO',
-            'MAIL FROM', 
-            'RCPT TO', 
-            'DATA', 
-            'END OF DATA'
+            'START', 'EHLO', 'STARTTLS', 'EHLO',
+            'MAIL FROM', 'RCPT TO', 'DATA', 'END OF DATA'
         ];
-
-        console.log("Current previousCommand:", this.previousCommand);
-
-
         var currentIndex = commandOrder.indexOf(this.previousCommand);
-    
-        if (currentIndex === -1) {
-            return commandOrder[0]; 
-        }
-    
-        if (currentIndex + 1 >= commandOrder.length) {
-            console.log(new Error('No more commands to send.'));
-        }
-    
-        // If the previous command was STARTTLS, return EHLO to be resent over the secure connection
-        if (this.previousCommand === 'STARTTLS') {
-            return 'EHLO';
-        }
-
-
-        var nextCommand = commandOrder[currentIndex + 1]
-        console.log("Next command: ",nextCommand)
-        return  nextCommand ;
+        if (currentIndex === -1) return commandOrder[0];
+        if (this.previousCommand === 'STARTTLS') return 'EHLO';
+        return commandOrder[currentIndex + 1];
     }
-    
-    
-    /**
-     * Handles the SMTP response from the server.
-     * @param {string} lineOrMultiline - The response line from the server.
-     * @param {net.Socket} client - The socket connected to the server.
-     * @param {string} sender - The sender email address.
-     * @param {string} recipient - The recipient email address.
-     * @param {string} emailData - The email data.
-     */
-    
-    handleSMTPResponse({
-        lineOrMultiline, 
-        client, 
-        sender, 
-        recipient, 
-        emailData
-    } = {}) {
-	    // If server says "221 ... closing", we are done.
+
+    handleSMTPResponse({ lineOrMultiline, client, sender, recipient, emailData }) {
         if (lineOrMultiline.startsWith('221')) {
-            console.log("Server closed connection (221). Job done.");
+            console.log("Server closed (221). Done.");
             client.end();
             return;
         }
-        console.log('Server Response:', lineOrMultiline);
-    
+
         this.handleErrorCode(lineOrMultiline);
-    
+
         var isMultiline = lineOrMultiline.charAt(3) === '-';
         var lastLine = lineOrMultiline;
-        var lines;
         if(isMultiline) {
-            lines =  lineOrMultiline.split(CRLF)
-            lastLine = lines[lines.length - 1]
+            var lines = lineOrMultiline.split(CRLF);
+            lastLine = lines[lines.length - 1];
         }
-    
-        console.log("Got full response: ",  lines, lastLine.toString("utf-8"))
-        this.multiLineResponse = ''; // Reset accumulated multiline response.
-    
+
+        this.multiLineResponse = ''; 
+
         try {
             let nextCommand = this.getNextCommand();
             
-            if (lastLine.includes('250-STARTTLS')) {
-                console.log('Ready to send STARTTLS...');
-            } else if (lastLine.startsWith('220 ') && lastLine.includes('Ready to start TLS')) {
-                console.log('Ready to initiate TLS...');
-                // TLS handshake has been completed, send EHLO again.
-                nextCommand = 'STARTTLS';
+            if (lastLine.includes('250-STARTTLS') || (lastLine.startsWith('220 ') && lastLine.includes('Ready to start TLS'))) {
+                // Determine logic based on specific server responses
+                if (lastLine.startsWith('220')) nextCommand = 'STARTTLS';
             } else if (this.previousCommand === 'STARTTLS' && lastLine.startsWith('250 ')) {
-                console.log('Successfully received EHLO response after STARTTLS');
-                // Proceed with the next command after validating EHLO response.
-                // Additional checks here to validate the EHLO response if needed.
-                this.previousCommand = 'EHLO'; // Update previousCommand here
-            } else if (this.previousCommand === 'EHLO' && lastLine.startsWith('250 ')) {
-                console.log('Successfully received EHLO response');
-                nextCommand = 'MAIL FROM';
+                this.previousCommand = 'EHLO'; 
             }
-            
+
             if (this.previousCommand === 'END OF DATA' && lineOrMultiline.startsWith('250')) {
-	            console.log("B\"H - Email accepted by server! Sending QUIT.");
-	            client.write('QUIT\r\n');
-	            client.end();
-	            return; // Stop here, we are done!
-	        }
-    
-    
+                console.log("B\"H - Success! 250 Received. Quitting.");
+                client.write('QUIT\r\n');
+                client.end();
+                return;
+            }
+
             var handler = this.commandHandlers[nextCommand];
             if (!handler) {
-                console.log( new Error(`Unknown next command: ${nextCommand}`));
+               // Default behavior, keep going
             }
-    
-            handler({
-                client,
-                sender,
-                recipient,
-                emailData,
-                lineOrMultiline
-            });
-            if (nextCommand !== 'DATA') this.previousCommand = nextCommand; // Update previousCommand here for commands other than 'DATA'
+            
+            // Execute handler
+            if (handler) {
+                 handler({ client, sender, recipient, emailData, lineOrMultiline });
+            }
+            
+            if (nextCommand !== 'DATA') this.previousCommand = nextCommand;
+
         } catch (e) {
-            console.error(e.message);
+            console.error("Handler Error:", e.message);
             client.end();
         } 
     }
-    
-    
 
-    
-
-    /**
-     * Handles error codes in the server response.
-     * @param {string} line - The response line from the server.
-     */
     handleErrorCode(line) {
         if (line.startsWith('4') || line.startsWith('5')) {
-            console.log(new Error(line), "Lined");
+            console.error("SMTP Error Code Detected: " + line);
         }
     }
 
-    /**
-     * B"H
-     * Initiates the flow of emanation (sending the email).
-     * Now constructs the body meticulously to ensure the physical
-     * bytes sent match the spiritual signature.
-     */
-    async sendMail(sender, recipient, subject, rawBody) {
-        return new Promise(async (resolve, reject) => {
-            console.log("Getting DNS records..");
-            
-            var domain = 'awtsmoos.com';
-            var selector = 'selector';
-            
-            var addresses = await this.getDNSRecords(recipient);
-            var primary = addresses[0].exchange;
-            
-            this.smtpServer = primary;
-            
-            this.socket = net.createConnection({
-	            port: this.port, 
-	            host: this.smtpServer,
-	            family: 4 
-	        });
-            
-            // --- 1. Construct The Message Components ---
-            
-            var messageId = `<${Date.now()}@${domain}>`;
-            var dateHeader = new Date().toUTCString();
-
-            // Explicitly force headers to be correct lines
-            var headers = 
-                `Message-ID: ${messageId}${CRLF}` +
-                `Date: ${dateHeader}${CRLF}` +
-                `From: ${sender}${CRLF}` +
-                `To: ${recipient}${CRLF}` +
-                `Subject: ${subject}${CRLF}`;
-
-            // Force body to contain nothing but text + newlines
-            // Crucial: ensure no trailing whitespace on the string variable itself
-            // just to be clean, though relaxed canonicalization handles it.
-            // But we must send what we sign.
-            
-            var bodyToSend = rawBody; 
-            
-            // Add signature if key exists
-            var dataToSend = "";
-            
-            if(this.privateKey) {
-                // Pass separated headers and body to signer
-                var signatureValue = this.signEmail(
-                    domain, selector, this.privateKey, headers, bodyToSend
-                );
-                
-                if(signatureValue) {
-                     var dkimHeader = `DKIM-Signature: ${signatureValue}${CRLF}`;
-                     // The DKIM header sits ABOVE the other headers
-                     dataToSend = dkimHeader + headers + CRLF + bodyToSend;
-                } else {
-                    dataToSend = headers + CRLF + bodyToSend;
-                }
-            } else {
-                 dataToSend = headers + CRLF + bodyToSend;
-            }
-
-            console.log("FINAL DATA PREPARED FOR SOCKET (first 100 chars):", dataToSend.substring(0,100));
-
-            this.socket.on('connect', () => {
-                console.log("Connected, waiting for 220");
-            });
-
-            try {
-                this.handleClientData({
-                    client: this.socket,
-                    sender,
-                    recipient,
-                    dataToSend
-                });
-            } catch(e) {
-                reject(e);
-            }
-
-            this.socket.on('end', () => {
-                this.socket.removeAllListeners();
-                this.previousCommand = '';
-                resolve();
-            });
-
-            this.socket.on('error', (e) => {
-                this.socket.removeAllListeners();
-                console.error("Client error: ", e);
-                this.previousCommand = '';
-                reject("Error: " + e);
-            });
-
-            this.socket.on('close', () => {
-                this.socket.removeAllListeners();
-                if (this.previousCommand !== 'END OF DATA') {
-                    reject(new Error('Connection closed prematurely'));
-                } else {
-                    this.previousCommand = '';
-                    resolve();
-                }
-            });
-        });
-    }
-
-    /**
-     * 
-     * @param {Object} 
-     *  @method handleClientData
-     * @description binds the data event
-     * to the client socket, useful for switching
-     * between net and tls sockets.
-     * 
-     * @param {NET or TLS socket} clientSocket 
-     * @param {String <email>} sender 
-     * @param {String <email>} recipient 
-     * @param {String <email body>} dataToSend 
-     * 
-     *  
-     */
-    handleClientData({
-        client,
-        sender,
-        recipient,
-        dataToSend
-    } = {}) {
-        var firstData = false;
-
-        let buffer = '';
-        let multiLineBuffer = ''; // Buffer for accumulating multi-line response
-        let isMultiLine = false; // Flag for tracking multi-line status
-        let currentStatusCode = ''; // Store the current status code for multi-line responses
-
-        client.on('data', (data) => {
-            buffer += data;
-            let index;
-
-            while ((index = buffer.indexOf(CRLF)) !== -1) {
-                var line = buffer.substring(0, index).trim();
-                buffer = buffer.substring(index + CRLF.length);
-
-                if (!firstData) {
-                    firstData = true;
-                    console.log("First time connected, should wait for 220");
-                }
-
-                var potentialStatusCode = line.substring(0, 3); // Extract the first three characters
-                var fourthChar = line.charAt(3); // Get the 4th character
-
-                // If the line's 4th character is a '-', it's a part of a multi-line response
-                if (fourthChar === '-') {
-                    isMultiLine = true;
-                    currentStatusCode = potentialStatusCode;
-                    multiLineBuffer += line + CRLF; // Remove the status code and '-' and add to buffer
-                    
-                    continue; // Continue to the next iteration to keep collecting multi-line response
-                }
-
-                // If this line has the same status code as a previous line but no '-', then it is the end of a multi-line response
-                if (isMultiLine && currentStatusCode === potentialStatusCode && fourthChar === ' ') {
-                    var fullLine = multiLineBuffer + line; // Remove the status code and space
-                    multiLineBuffer = ''; // Reset the buffer
-                    isMultiLine = false; // Reset the multi-line flag
-                    currentStatusCode = ''; // Reset the status code
-
-                    try {
-                        console.log("Handling complete multi-line response:", fullLine);
-                        this.handleSMTPResponse({
-                            lineOrMultiline: fullLine, 
-                            client, 
-                            sender, 
-                            recipient, 
-                            emailData: dataToSend,
-                            multiline:true
-                        });
-                    } catch (err) {
-                        client.end();
-                        
-                        this.previousCommand = ''
-                        console.log("Error!",new Error(err));
-                    }
-                } else if (!isMultiLine) {
-                    // Single-line response
-                    try {
-                        console.log("Handling single-line response:", line);
-                        this.handleSMTPResponse({
-                            lineOrMultiline: line, 
-                            client, 
-                            sender, 
-                            recipient, 
-                            emailData: dataToSend
-                        });
-                    } catch (err) {
-                        client.end();
-                        this.previousCommand = ''
-                        console.log("LOL! reror",new Error(err));
-                    }
-                }
-            }
-        });
-    }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    /**
-     * B"H
-     * Transforms the physical matter of the email into the 
-     * spiritual essence required for the Signature.
-     */
+    // --- LOGGING CANONICALIZER ---
     canonicalizeRelaxed(headers, body) {
-        // --- 1. Header Canonicalization ---
+        // Headers
         var canonicalHeadersStr = "";
-        
         if (headers) {
-             // Split by CRLF, but filter out any empty lines created by split
             var headerLines = headers.split(CRLF).filter(l => l.trim().length > 0);
-            
             var processHeader = (line) => {
                 var split = line.indexOf(':');
                 if (split === -1) return line; 
-                
-                // Relaxed Header: 
-                // 1. Lowercase key
-                // 2. Remove all whitespace surrounding the colon (key:value)
-                // 3. Compress internal whitespace in value to single space
-                // 4. Trim whitespace at start/end of value
-                
                 var key = line.substring(0, split).toLowerCase().trim();
                 var value = line.substring(split + 1).replace(/\s+/g, ' ').trim();
-                
                 return key + ':' + value;
             };
-
-            // Join with CRLF, and MUST end with CRLF
             canonicalHeadersStr = headerLines.map(processHeader).join(CRLF) + CRLF;
         }
 
-        // --- 2. Body Canonicalization ---
-        // If 'body' is null/empty, we handle it safely
+        // Body
         var canonicalBody = "";
         if (typeof body === 'string') {
             var bodyLines = body.split(CRLF);
             bodyLines = bodyLines.map(line => {
                 return line.replace(/[ \t]+$/, '').replace(/[ \t]+/g, ' ');
             });
-            // Remove empty lines at the VERY end
             while (bodyLines.length > 0 && bodyLines[bodyLines.length - 1] === '') {
                 bodyLines.pop();
             }
             canonicalBody = bodyLines.join(CRLF);
-            // If non-empty (or resulted in content), ensure single trailing CRLF
-            if (canonicalBody.length > 0) {
-                canonicalBody += CRLF;
-            } else {
-                 // Empty body must be empty string
-                 canonicalBody = "";
-            }
+            if (canonicalBody.length > 0) canonicalBody += CRLF;
+            else canonicalBody = "";
         }
 
         return { canonicalHeaders: canonicalHeadersStr, canonicalBody };
     }
 
-   /**
-     * B"H
-     * Signs the email using DKIM with relaxed/relaxed algorithm.
-     * With Deep Debugging enabled to ensure Atzmus (Essence) matches the Vessels.
-     */
+    // --- PARANOID SIGNER ---
     signEmail(domain, selector, privateKey, headers, body) {
         try {
-            console.log("--- B\"H SIGNING PROCESS START ---");
-
+            console.log("\n================ DKIM DEBUG LOG ================");
+            
             // 1. Body Hash
             var { canonicalBody } = this.canonicalizeRelaxed(null, body);
+            
+            console.log("DEBUG: Raw Canonical Body (Hex):");
+            console.log(Buffer.from(canonicalBody).toString('hex'));
+            
             var bodyHash = crypto.createHash('sha256')
                 .update(canonicalBody)
                 .digest('base64');
-            console.log("DEBUG: Generated Body Hash:", bodyHash);
+            console.log("DEBUG: Computed Body Hash (bh): " + bodyHash);
 
-            // 2. Select Headers
+            // 2. Header Selection
             var headersToSign = ['Message-ID', 'Date', 'From', 'To', 'Subject'];
             var collectedRawHeaders = "";
             var hTagList = [];
@@ -615,46 +188,36 @@ class AwtsmoosEmailClient {
                 var regex = new RegExp(`^${name}:.*$`, 'mi');
                 var match = headers.match(regex);
                 if (match) {
-                    // Match contains the text line. We MUST append CRLF manually
-                    // because standard regex '.' does not match newline.
                     collectedRawHeaders += match[0] + CRLF;
                     hTagList.push(name);
                 }
             });
 
-            // 3. Canonicalize Existing Headers
-            // canonicalHeaders will end with CRLF.
+            // 3. Header Canonicalization
             var { canonicalHeaders } = this.canonicalizeRelaxed(collectedRawHeaders, null);
-
-            // 4. Create the DKIM-Signature Header
-            var timestamp = Math.floor(Date.now() / 1000);
             
+            // 4. DKIM Line Construction
+            var timestamp = Math.floor(Date.now() / 1000);
             var dkimHeaderStart = `v=1; a=rsa-sha256; c=relaxed/relaxed; d=${domain}; s=${selector}; t=${timestamp}; bh=${bodyHash}; h=${hTagList.join(':')}; b=`;
             
-            // Relaxed Value: collapse spaces, trim
             var relaxedValue = dkimHeaderStart.replace(/\s+/g, ' ').trim();
-            // Header Key: lowercased, no space
             var canonicalDkimLine = "dkim-signature:" + relaxedValue;
 
-            // 5. Construct 'toSign'
-            // Headers Block + DKIM Line. 
-            // RFC says the DKIM line is a header, so it contributes a CRLF to the hash.
+            // 5. Final Assembly
             var toSign = canonicalHeaders + canonicalDkimLine; 
-            if (!toSign.endsWith(CRLF)) {
-                toSign += CRLF;
-            }
-            
-            console.log("DEBUG: Canonical Headers Block:\n" + JSON.stringify(canonicalHeaders));
-            console.log("DEBUG: Canonical DKIM Line:\n" + JSON.stringify(canonicalDkimLine + CRLF));
+            // Fix CRLF
+            if (!toSign.endsWith(CRLF)) toSign += CRLF;
 
-            // Log the Hex/Base64 of the final string to sign
-            // This allows us to see every invisible byte
-            var buf = Buffer.from(toSign, 'utf-8');
-            console.log("DEBUG: Final toSign HEX:", buf.toString('hex'));
+            console.log("DEBUG: Final String To Sign (Hex):");
+            console.log(Buffer.from(toSign).toString('hex'));
 
+            // 6. Sign
             var signature = crypto.createSign('SHA256')
                 .update(toSign)
                 .sign(privateKey, 'base64');
+            
+            console.log("DEBUG: Signature Generated.");
+            console.log("==============================================\n");
 
             return dkimHeaderStart + signature;
 
@@ -664,184 +227,153 @@ class AwtsmoosEmailClient {
         }
     }
 
-    
-    commandHandlers = {
-        'START': ({
-            sender,
-            recipient,
-            emailData,
-            client
-        } = {}) => {
-            this.currentCommand = 'EHLO';
-            var command = `EHLO ${this.smtpServer}${CRLF}`;
-            console.log("Sending to server: ", command)
-            client.write(command);
-        },
-        'EHLO': ({
-            sender,
-            recipient,
-            emailData,
-            client,
-            lineOrMultiline
-        } = {}) => {
+    async sendMail(sender, recipient, subject, rawBody) {
+        return new Promise(async (resolve, reject) => {
+            console.log("B\"H - Sending Mail...");
+            var addresses = await this.getDNSRecords(recipient);
+            this.smtpServer = addresses[0].exchange;
             
-            console.log("Handling EHLO");
-            if (lineOrMultiline.includes('STARTTLS')) {
-                var cmd = `STARTTLS${CRLF}`;
-                console.log("Sending command: ", cmd);
-                client.write(cmd);
+            this.socket = net.createConnection({
+	            port: this.port, host: this.smtpServer, family: 4 
+	        });
+            
+            // Prepare Variables
+            var domain = 'awtsmoos.com';
+            var selector = 'selector';
+            var messageId = `<${Date.now()}@${domain}>`;
+            var dateHeader = new Date().toUTCString();
+            
+            // We construct headers manually to ensure we own the CRLF
+            var headers = 
+                `Message-ID: ${messageId}${CRLF}` +
+                `Date: ${dateHeader}${CRLF}` +
+                `From: ${sender}${CRLF}` +
+                `To: ${recipient}${CRLF}` +
+                `Subject: ${subject}${CRLF}`;
+            
+            var bodyToSend = rawBody; // Ensure this is what we want (no extra newline logic here)
+            
+            var dataToSend = "";
+            if(this.privateKey) {
+                var sig = this.signEmail(domain, selector, this.privateKey, headers, bodyToSend);
+                if(sig) {
+                    var dkimHeader = `DKIM-Signature: ${sig}${CRLF}`;
+                    // Header Block + CRLF + Body
+                    dataToSend = dkimHeader + headers + CRLF + bodyToSend;
+                } else {
+                    dataToSend = headers + CRLF + bodyToSend;
+                }
             } else {
-                var cmd = `MAIL FROM:<${sender}>${CRLF}`;
-                console.log("Sending command: ", cmd);
-                client.write(cmd);
+                 dataToSend = headers + CRLF + bodyToSend;
             }
-        },
-        'STARTTLS': ({
-            sender,
-            recipient,
-            emailData,
-            client,
-            lineOrMultiline 
-        } = {}) => {
-            // Read the response from the server
-            
-            
-            var options = {
-                socket: client,
-                servername: 'gmail-smtp-in.l.google.com',
-                minVersion: 'TLSv1.2',
-                ciphers: 'HIGH:!aNULL:!MD5',
-                maxVersion: 'TLSv1.3',
-                key:this.key,
-                cert:this.cert
-            };
-            
-            var secureSocket = tls.connect(options, () => {
-                console.log('TLS handshake completed.');
-                console.log("Waiting for secure connect handler");
-                
-            });
-    
-            
-    
-            secureSocket.on('error', (err) => {
-                console.error('TLS Error:', err);
-                console.error('Stack Trace:', err.stack);
-                this.previousCommand = '';
-            });
-    
-            secureSocket.on("secureConnect", () => {
-                console.log("Secure connect!");
-                this.socket = secureSocket;
-                client.removeAllListeners();
-                
-                
-                
-                try {
-                    this.handleClientData({
-                        client: secureSocket,
-                        sender,
-                        recipient,
-                        dataToSend: emailData
-                    });
-                } catch(e) {
-                    console.error(e)
-                    console.error("Stack", e)
-                   
+
+            this.socket.on('connect', () => { console.log("Socket Connected."); });
+
+            try {
+                this.handleClientData({ client: this.socket, sender, recipient, dataToSend });
+            } catch(e) { reject(e); }
+
+            this.socket.on('end', () => { this.socket.removeAllListeners(); this.previousCommand = ''; resolve(); });
+            this.socket.on('error', (e)=>{ this.socket.removeAllListeners(); console.error(e); reject(e); });
+            this.socket.on('close', () => { this.socket.removeAllListeners(); if (this.previousCommand !== 'END OF DATA') reject('Closed prematurely'); else resolve(); });
+        });
+    }
+
+    handleClientData({ client, sender, recipient, dataToSend } = {}) {
+        var firstData = false;
+        let buffer = '';
+        let multiLineBuffer = '';
+        let isMultiLine = false;
+        let currentStatusCode = '';
+
+        client.on('data', (data) => {
+            buffer += data;
+            let index;
+            while ((index = buffer.indexOf(CRLF)) !== -1) {
+                var line = buffer.substring(0, index).trim();
+                buffer = buffer.substring(index + CRLF.length);
+                if (!firstData) firstData = true;
+
+                var potentialStatusCode = line.substring(0, 3);
+                var fourthChar = line.charAt(3);
+
+                if (fourthChar === '-') {
+                    isMultiLine = true;
+                    currentStatusCode = potentialStatusCode;
+                    multiLineBuffer += line + CRLF;
+                    continue;
                 }
 
-                console.log("Setting", this.previousCommand, "to: ")
+                if (isMultiLine && currentStatusCode === potentialStatusCode && fourthChar === ' ') {
+                    var fullLine = multiLineBuffer + line;
+                    multiLineBuffer = ''; isMultiLine = false; currentStatusCode = '';
+                    this.handleSMTPResponse({ lineOrMultiline: fullLine, client, sender, recipient, emailData: dataToSend });
+                } else if (!isMultiLine) {
+                    this.handleSMTPResponse({ lineOrMultiline: line, client, sender, recipient, emailData: dataToSend });
+                }
+            }
+        });
+    }
+
+    commandHandlers = {
+        'START': ({ client }) => {
+            this.currentCommand = 'EHLO';
+            client.write(`EHLO ${this.smtpServer}${CRLF}`);
+        },
+        'EHLO': ({ client, lineOrMultiline, sender }) => {
+            if (lineOrMultiline.includes('STARTTLS')) {
+                client.write(`STARTTLS${CRLF}`);
+            } else {
+                client.write(`MAIL FROM:<${sender}>${CRLF}`);
+            }
+        },
+        'STARTTLS': ({ client, sender, recipient, emailData }) => {
+            var options = { socket: client, servername: 'gmail-smtp-in.l.google.com', minVersion: 'TLSv1.2' }; // Adjust servername if needed dynamic
+            if(this.useTLS) { options.key = this.key; options.cert = this.cert; }
+            
+            var secureSocket = tls.connect(options, () => {});
+            secureSocket.on('error', (e) => console.error("TLS Error", e));
+            secureSocket.on("secureConnect", () => {
+                console.log("TLS Secured.");
+                this.socket = secureSocket;
+                client.removeAllListeners();
+                try {
+                    this.handleClientData({ client: secureSocket, sender, recipient, dataToSend: emailData });
+                } catch(e){ console.error(e); }
                 this.previousCommand = "STARTTLS";
-                console.log(this.previousCommand, "<< set")
-                // Once the secure connection is established, resend the EHLO command
-                var command = `EHLO ${this.smtpServer}${CRLF}`;
-                console.log("Resending EHLO command over secure connection:", command);
-                secureSocket.write(command);
-
-
-                
+                secureSocket.write(`EHLO ${this.smtpServer}${CRLF}`);
             });
-    
-            secureSocket.on("clientError", err => {
-                console.error("A client error", err);
-                console.log("Stack", err.stack);
-            });
-    
-            secureSocket.on('close', () => {
-                console.log('Connection closed');
-                secureSocket.removeAllListeners();
-                this.previousCommand = '';
-            });
-    
-                
-        
-            // Send the STARTTLS command to the server
-           // client.write('STARTTLS\r\n');
         },
-        'MAIL FROM': ({
-            sender,
-            recipient,
-            emailData,
-            client
-        } = {}) => {
-    
-            var rc = `RCPT TO:<${recipient}>${CRLF}`;
-            console.log("Sending RCPT:", rc)
-            client.write(rc)
+        'MAIL FROM': ({ client, recipient }) => {
+            client.write(`RCPT TO:<${recipient}>${CRLF}`);
         },
-        'RCPT TO': ({
-            sender,
-            recipient,
-            emailData,
-            client
-        } = {}) => {
-            var c = `DATA${CRLF}`;
-            console.log("Sending data (RCPT TO) info: ", c)
-            client.write(c)
+        'RCPT TO': ({ client }) => {
+            client.write(`DATA${CRLF}`);
         },
-        'DATA': ({
-            sender,
-            recipient,
-            emailData,
-            client
-        } = {}) => {
-            var data = `${emailData}${CRLF}.${CRLF}`;
-            console.log("Sending data to the server: ", data)
-            client.write(data);
+        'DATA': ({ client, emailData }) => {
+            console.log("Sending DATA payload (" + emailData.length + " bytes)");
+            // Enforce SMTP end-of-data sequence
+            var payload = `${emailData}${CRLF}.${CRLF}`;
+            client.write(payload);
             this.previousCommand = 'END OF DATA'; 
-            // Set previousCommand to 'END OF DATA' 
-            //after sending the email content
         },
     };
-
 }
 
-
-/**
- * determine if we can use TLS by checking
- * if our cert and key exist.
- */
-
-
-
-
-
-var smtpClient = new AwtsmoosEmailClient(
-);
-
-async function main() {
-    try {
-        await smtpClient.sendMail('me@awtsmoos.com', 
-        'awtsmoos@gmail.com', 'B"H', 
-        'This is a test email! The time is: ' + Date.now() 
-        + " Which is " + 
-        (new Date()));
-        console.log('Email sent successfully');
-    } catch (err) {
-        console.error('Failed to send email:', err);
-    }
+// --- Main Execution Block ---
+if (require.main === module) {
+    var smtpClient = new AwtsmoosEmailClient();
+    (async function() {
+        try {
+            var subject = 'B"H ' + Date.now();
+            var body = 'This is the logs test body.\r\nIt has exactly two lines of content.';
+            
+            await smtpClient.sendMail('me@awtsmoos.com', 'awtsmoos@gmail.com', subject, body);
+            console.log('Email Job Completed.');
+        } catch (err) {
+            console.error('Job Failed:', err);
+        }
+    })();
 }
-
-main();
 
 module.exports = AwtsmoosEmailClient;
