@@ -137,55 +137,56 @@ class AwtsmoosSocket {
                 }
                 this.aliasMap.get(data.aliasId).add(client);
                 
-                console.log(`Socket ${client.id} identified as [${data.aliasId}]`);
+                // B"H DEBUG LOG
+                console.log(`B"H DEBUG: Socket LOGIN Success. ID: [${client.id}] Alias: [${data.aliasId}]`);
+                
                 client.send({ type: 'ACK', message: `Logged in as ${data.aliasId}` });
             }
-            
-        } catch (e) {
-            // Echo or Broadcast Chat
-            // this.broadcastAll({ type: 'CHAT', msg: msg });
-        }
+        } catch (e) { }
     }
 
-    // --- 4. Sending Logic ---
-
-    /**
-     * B"H
-     * Universal Alias Matcher
-     * Attempts to deliver the payload by checking all manifestations of the user's name.
-     */
     sendToAlias(targetAlias, data) {
-        if (!targetAlias) return false;
+        if (!targetAlias) {
+            console.log("B\"H DEBUG: sendToAlias called with NULL target");
+            return false;
+        }
 
-        // 1. Essence Match (Exact ID as stored in socket map)
+        console.log(`B"H DEBUG: sendToAlias START. Target: [${targetAlias}]`);
+
+        // 1. Essence Match
         if (this._trySend(targetAlias, data)) return true;
 
         // 2. Garment Match (Long <-> Short)
-        // If target is "bob_at_awtsmoos.com", try "bob"
-        const shortName = targetAlias.split(/[@_]/)[0]; // Splits at @ or _
+        const shortName = targetAlias.split(/[@_]/)[0];
         if (shortName && shortName !== targetAlias) {
+            console.log(`B"H DEBUG: Trying Short Name [${shortName}]...`);
             if (this._trySend(shortName, data)) return true;
         }
 
         // 3. Vestment Match (Short <-> Long)
-        // If target is "bob", try "bob_at_awtsmoos.com" (standard local)
         if (!targetAlias.includes("_") && !targetAlias.includes("@")) {
-            if (this._trySend(`${targetAlias}_at_awtsmoos.com`, data)) return true;
+            const longName = `${targetAlias}_at_awtsmoos.com`;
+            console.log(`B"H DEBUG: Trying Long Name [${longName}]...`);
+            if (this._trySend(longName, data)) return true;
         }
 
-        // 4. Translation Match (Swap @ and _at_)
+        // 4. Translation Match
         const swapped = targetAlias.includes("_at_") 
             ? targetAlias.replace("_at_", "@") 
             : targetAlias.replace("@", "_at_");
-        if (swapped !== targetAlias && this._trySend(swapped, data)) return true;
+        if (swapped !== targetAlias) {
+            console.log(`B"H DEBUG: Trying Swapped Name [${swapped}]...`);
+            if (this._trySend(swapped, data)) return true;
+        }
 
+        console.log(`B"H DEBUG: FAILED to find target [${targetAlias}] anywhere.`);
         return false;
     }
 
     _trySend(key, data) {
         if (this.aliasMap.has(key)) {
             const clients = this.aliasMap.get(key);
-            console.log(`WS: Found ${clients.size} sockets for [${key}]`);
+            console.log(`B"H DEBUG: Found [${clients.size}] socket(s) for key [${key}]. Sending...`);
             for (const client of clients) {
                 client.send(data);
             }
