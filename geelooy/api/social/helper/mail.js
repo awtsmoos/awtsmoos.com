@@ -71,7 +71,7 @@ async function getMail({
         
         // 1. Get the user's aliases to know which /emails/ folders belong to them
         // Assuming path: /users/USERID/aliases
-        var aliasPath = `${sp}/users/${userid}/aliases`
+        var aliasPath = `/users/${userid}/aliases`
         var userAliases = await $i.db.get(aliasPath);
         
         if (!userAliases) {
