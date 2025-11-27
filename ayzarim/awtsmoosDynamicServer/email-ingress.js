@@ -290,8 +290,15 @@ function stripHistory(content, type) {
         for (var regex of markers) {
             var match = content.match(regex);
             if (match) {
-                // Return everything BEFORE the match
-                return content.substring(0, match.index).trim();
+                // Get the content BEFORE the history marker
+                content = content.substring(0, match.index);
+                
+                // B"H
+                // - CLEANUP ORPHANS
+                // Remove trailing <br> tags that were separators
+                content = content.replace(/(\s*<br\s*\/?>\s*)+$/i, '');
+                
+                return content.trim();
             }
         }
 

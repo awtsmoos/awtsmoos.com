@@ -392,6 +392,7 @@ const instrumentedDb = new Proxy(self.db, {
         config,
         utils: Utils,
         mail,
+        ws,
         ...ob
     })
 }

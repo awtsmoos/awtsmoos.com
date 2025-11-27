@@ -206,6 +206,7 @@ class AwtsmoosStaticServer {
                 try{ return {success:sodos.createToken(vl,self.secret,ex)} }
                 catch(e){ return {error: e.stack} }
             },
+            ws: this.ws,
             TextEncoder, URLSearchParams, binaryMimeTypes, mimeTypes, path,
             originalPath, sodos, fs, self, awtsMoosification, filePath, parentPath,
             template, DosDB, require, parsedUrl, location: parsedUrl, request, response,

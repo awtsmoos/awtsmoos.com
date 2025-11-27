@@ -209,6 +209,31 @@ async function sendMail({ $i, userid, asAliasId, toAliasId, toEmail }) {
                     direction: "incoming"
                 }
             });
+            
+            // B"H
+            // - REAL-TIME NOTIFICATION (INTERNAL)
+            if ($i.ws) {
+                console.log(`B"H\n - Notifying local user: ${recipientFolder}`);
+                
+                const notification = {
+                    type: 'NEW_MAIL',
+                    message: {
+                        id: `${meClean}:${time}`,
+                        from: asAliasId, // Use alias as from
+                        fromName: asAliasId,
+                        subject: subject,
+                        snippet: content.substring(0, 50) + "...",
+                        timeSent: time,
+                        correspondent: asAliasId, // Who the thread is with
+                        direction: "incoming",
+                        content: content // Send content so they don't even need to fetch
+                    }
+                };
+
+                // friendClean is usually "alias_at_awtsmoos.com"
+                // The socket expects "alias" or "alias_at_..." (Fuzzy matcher handles it)
+                $i.ws.sendToAlias(recipientFolder, notification);
+            }
 
             return { success: { message: "Sent internally" } };
 
