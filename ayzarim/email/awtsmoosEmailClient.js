@@ -272,63 +272,74 @@ class AwtsmoosEmailClient {
     }
 
     /**
-     * Sends an email.
-     * @param {string} sender - The sender email address.
-     * @param {string} recipient - The recipient email address.
-     * @param {string} subject - The subject of the email.
-     * @param {string} body - The body of the email.
-     * @returns {Promise} - A promise that resolves when the email is sent.
+     * B"H
+     * Initiates the flow of emanation (sending the email).
+     * Now constructs the body meticulously to ensure the physical
+     * bytes sent match the spiritual signature.
      */
-    async sendMail(sender, recipient, subject, body) {
+    async sendMail(sender, recipient, subject, rawBody) {
         return new Promise(async (resolve, reject) => {
             console.log("Getting DNS records..");
             
-             var domain = 'awtsmoos.com';
+            var domain = 'awtsmoos.com';
             var selector = 'selector';
             
-            
             var addresses = await this.getDNSRecords(recipient);
-            console.log("Got addresses", addresses);
             var primary = addresses[0].exchange;
             
-
-            console.log("Primary DNS of recepient: ", primary)
             this.smtpServer = primary;
             
-           
-           
             this.socket = net.createConnection({
 	            port: this.port, 
 	            host: this.smtpServer,
 	            family: 4 
 	        });
             
-           
-            // Generate a random Message-ID
-            var messageId = `<${Date.now()}.${Math.random().toString(36).substring(2)}@${domain}>`;
-            // Generate a proper Date string
+            // --- 1. Construct The Message Components ---
+            
+            var messageId = `<${Date.now()}@${domain}>`;
             var dateHeader = new Date().toUTCString();
 
-            // Add these headers to the email data
-            var emailData = `Message-ID: ${messageId}${CRLF}Date: ${dateHeader}${CRLF}From: ${sender}${CRLF}To: ${recipient}${CRLF}Subject: ${subject}${CRLF}${CRLF}${body}`;
+            // Explicitly force headers to be correct lines
+            var headers = 
+                `Message-ID: ${messageId}${CRLF}` +
+                `Date: ${dateHeader}${CRLF}` +
+                `From: ${sender}${CRLF}` +
+                `To: ${recipient}${CRLF}` +
+                `Subject: ${subject}${CRLF}`;
+
+            // Force body to contain nothing but text + newlines
+            // Crucial: ensure no trailing whitespace on the string variable itself
+            // just to be clean, though relaxed canonicalization handles it.
+            // But we must send what we sign.
             
+            var bodyToSend = rawBody; 
             
-            var dataToSend=emailData
-            if(this. privateKey) {
-                var dkimSignature = this.signEmail(
-                    domain, selector, this.privateKey, emailData
+            // Add signature if key exists
+            var dataToSend = "";
+            
+            if(this.privateKey) {
+                // Pass separated headers and body to signer
+                var signatureValue = this.signEmail(
+                    domain, selector, this.privateKey, headers, bodyToSend
                 );
-                var signedEmailData = `DKIM-Signature: ${dkimSignature}${CRLF}${emailData}`;
-                dataToSend=signedEmailData;
-                console.log("Just DKIM signed the email. Data: ", signedEmailData)
+                
+                if(signatureValue) {
+                     var dkimHeader = `DKIM-Signature: ${signatureValue}${CRLF}`;
+                     // The DKIM header sits ABOVE the other headers
+                     dataToSend = dkimHeader + headers + CRLF + bodyToSend;
+                } else {
+                    dataToSend = headers + CRLF + bodyToSend;
+                }
+            } else {
+                 dataToSend = headers + CRLF + bodyToSend;
             }
 
-            this.socket.on('connect', () => {
-                console.log(
-                    "Connected, waiting for first server response (220)"
-                )
-            });
+            console.log("FINAL DATA PREPARED FOR SOCKET (first 100 chars):", dataToSend.substring(0,100));
 
+            this.socket.on('connect', () => {
+                console.log("Connected, waiting for 220");
+            });
 
             try {
                 this.handleClientData({
@@ -340,20 +351,18 @@ class AwtsmoosEmailClient {
             } catch(e) {
                 reject(e);
             }
-            
-
 
             this.socket.on('end', () => {
                 this.socket.removeAllListeners();
-                this.previousCommand = ''
-                resolve()
+                this.previousCommand = '';
+                resolve();
             });
 
-            this.socket.on('error', (e)=>{
+            this.socket.on('error', (e) => {
                 this.socket.removeAllListeners();
-                console.error("Client error: ",e)
-                this.previousCommand = ''
-                reject("Error: " + e)
+                console.error("Client error: ", e);
+                this.previousCommand = '';
+                reject("Error: " + e);
             });
 
             this.socket.on('close', () => {
@@ -361,7 +370,7 @@ class AwtsmoosEmailClient {
                 if (this.previousCommand !== 'END OF DATA') {
                     reject(new Error('Connection closed prematurely'));
                 } else {
-                    this.previousCommand = ''
+                    this.previousCommand = '';
                     resolve();
                 }
             });
@@ -465,120 +474,206 @@ class AwtsmoosEmailClient {
         });
     }
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     /**
-     * Canonicalizes headers and body in relaxed mode.
-     * @param {string} headers - The headers of the email.
-     * @param {string} body - The body of the email.
-     * @returns {Object} - The canonicalized headers and body.
+     * B"H
+     * Transforms the physical matter of the email into the 
+     * spiritual essence required for the Signature.
+     * 
+     * Uses 'relaxed' canonicalization:
+     * 1. Headers: Lowercase keys, remove excessive spacing.
+     * 2. Body: Truncate trailing whitespace, compress internal spacing, 
+     *    ensure exactly one empty newline at the end.
      */
     canonicalizeRelaxed(headers, body) {
-        // 1. Headers: Lowercase keys, remove extra whitespace
-        var canonicalizedHeaders = headers.split(CRLF).map(line => {
-            var parts = line.split(':');
-            var key = parts.shift().toLowerCase().trim();
-            var value = parts.join(':').replace(/\s+/g, ' ').trim();
-            return key + ':' + value;
-        }).join(CRLF); // Note: We do NOT add a trailing CRLF to headers here for the signature block itself
-
-        // 2. Body:
-        // a. Reduce whitespace inside lines (but keep the lines)
-        // b. Remove empty lines at the VERY end of the body
-        // c. Ensure the body ends with exactly ONE CRLF
+        // --- 1. Header Canonicalization (The Vessels) ---
+        // Unfold lines first (not fully implemented here as we assume simple lines), 
+        // but crucial: Lowercase Name, trim spacing.
         
-        var lines = body.split(CRLF);
-        var processedLines = lines.map(line => {
-            return line.replace(/[ \t]+$/, '') // Remove trailing whitespace per line
-                       .replace(/[ \t]+/g, ' '); // Reduce internal whitespace to single space
+        var canonicalHeaders = [];
+        var headerLines = headers.split(CRLF);
+        
+        // We only sign specific headers
+        var headersToSign = ['from', 'to', 'subject', 'date', 'message-id'];
+        var headersFound = [];
+
+        // Note: The caller handles the specific subset logic, 
+        // but here we normalize what is given.
+        // In this implementation, we expect 'headers' string to ONLY contain
+        // the headers we want to sign, in order.
+        
+        // However, a helper logic is needed inside signEmail to pick them.
+        // Let's rely on signEmail to pass us the specific extracted raw headers.
+        
+        var processHeader = (line) => {
+            var split = line.indexOf(':');
+            if (split === -1) return line; // Should not happen in valid headers
+            
+            var key = line.substring(0, split).toLowerCase().trim();
+            var value = line.substring(split + 1).replace(/\s+/g, ' ').trim();
+            return key + ':' + value;
+        };
+
+        var canonicalHeadersStr = headerLines.map(processHeader).join(CRLF) + CRLF;
+        
+        // --- 2. Body Canonicalization (The Light) ---
+        
+        // a. Split into lines
+        var bodyLines = body.split(CRLF);
+        
+        // b. Process each line: trim end whitespace, compress internal whitespace
+        bodyLines = bodyLines.map(line => {
+             return line.replace(/[ \t]+$/, '').replace(/[ \t]+/g, ' ');
         });
         
-        var canonicalizedBody = processedLines.join(CRLF);
-        
-        // Remove all trailing CRLFs
-        while (canonicalizedBody.endsWith(CRLF)) {
-            canonicalizedBody = canonicalizedBody.slice(0, -CRLF.length);
+        // c. Remove empty lines at the very end of the message
+        while (bodyLines.length > 0 && bodyLines[bodyLines.length - 1] === '') {
+            bodyLines.pop();
         }
-        // Add exactly one CRLF back (required by DKIM specs if body is not empty)
-        if (canonicalizedBody.length > 0) {
-            canonicalizedBody += CRLF;
+        
+        // d. Join back with CRLF
+        var canonicalBody = bodyLines.join(CRLF);
+        
+        // e. If non-empty, ensure exactly ONE trailing CRLF
+        if (canonicalBody.length > 0) {
+            canonicalBody += CRLF;
+        } else {
+            // If body is empty, result is empty string
+            canonicalBody = "";
         }
 
-        return { canonicalizedHeaders, canonicalizedBody };
+        return { canonicalHeaders: canonicalHeadersStr, canonicalBody };
     }
 
     /**
-     * Signs the email using DKIM.
-     * @param {string} domain - The sender's domain.
-     * @param {string} selector - The selector.
-     * @param {string} privateKey - The private key.
-     * @param {string} emailData - The email data.
-     * @returns {string} - The DKIM signature.
+     * B"H
+     * Creates the Chosem (Seal) of Truth.
+     * Signs the email using DKIM with relaxed/relaxed algorithm.
+     * 
+     * @param {string} domain - The Kingdom (Malchus)
+     * @param {string} selector - The Channel (Yesod)
+     * @param {string} privateKey - The Hidden Wisdom (Chochmah)
+     * @param {string} headers - The raw headers
+     * @param {string} body - The raw body
      */
-    signEmail(domain, selector, privateKey, emailData) {
+    signEmail(domain, selector, privateKey, headers, body) {
         try {
-            // 1. Split headers and body
-            // We need strict splitting for 'simple' mode
-            var splitIndex = emailData.indexOf(CRLF + CRLF);
-            if (splitIndex === -1) return emailData; // Safety check
-            
-            var headers = emailData.substring(0, splitIndex);
-            var body = emailData.substring(splitIndex + (CRLF.length * 2));
+            console.log("Attempting to sign with c=relaxed/relaxed");
 
-            // 2. Body Hash (Simple Canonicalization)
-            // The spec says: if body is empty, hash ""; if not empty, ensure trailing CRLF.
-            // Our emailData always has body content, so we ensure CRLF.
-            var bodyToHash = body;
-            if (!bodyToHash.endsWith(CRLF)) bodyToHash += CRLF;
+            // 1. Prepare Body Hash
+            var { canonicalBody } = this.canonicalizeRelaxed('', body);
             
             var bodyHash = crypto.createHash('sha256')
-                .update(bodyToHash)
+                .update(canonicalBody)
                 .digest('base64');
+            
+            console.log("Calculated Body Hash:", bodyHash);
 
-            console.log("DEBUG: Body Hash: " + bodyHash);
-
-            // 3. Prepare Header List (Simple Canonicalization)
-            // We must find the EXACT byte sequence for each header line.
+            // 2. Select Headers to Sign (and preserve their physical order)
+            // We want to sign: Message-ID, Date, From, To, Subject
+            // AND we must present them to the hash in the order they appear 
+            // in the "h=" tag (which we define).
+            
             var headersToSign = ['Message-ID', 'Date', 'From', 'To', 'Subject'];
-            var canonicalizedHeaders = '';
-            var headerFieldNames = '';
+            var collectedRawHeaders = "";
+            var hTagList = [];
 
+            // We iterate our preferred list. For each, we find it in the raw string.
+            // NOTE: This assumes each header appears only once, which is true for our client.
+            
             headersToSign.forEach(name => {
-                // Find start of header line (Case-insensitive match for key, but grab exact line)
-                var regex = new RegExp(`^${name}:`, 'im');
+                var regex = new RegExp(`^${name}:.*$`, 'mi'); // Match full line
                 var match = headers.match(regex);
                 if (match) {
-                    var start = match.index;
-                    var end = headers.indexOf(CRLF, start);
-                    var line = headers.substring(start, end);
-                    
-                    // Simple Mode: Use the line EXACTLY as it is + CRLF
-                    canonicalizedHeaders += line + CRLF;
-                    headerFieldNames += name + ':';
+                    collectedRawHeaders += match[0] + CRLF;
+                    hTagList.push(name);
                 }
             });
-            // Remove trailing colon
-            headerFieldNames = headerFieldNames.slice(0, -1);
-
-            // 4. Construct DKIM Header Value
-            // Use c=simple/simple
-            // The Header Value starts AFTER the "DKIM-Signature:" key and space.
-            var dkimHeaderValue = `v=1;a=rsa-sha256;c=simple/simple;d=${domain};s=${selector};bh=${bodyHash};h=${headerFieldNames};b=`;
             
-            // 5. Create toSign string
-            // CRITICAL FIX: Use "DKIM-Signature:" (Capitalized) to match sendMail output
-            // Simple mode DOES NOT lowercase the header key. It uses it as-is.
-            var toSign = canonicalizedHeaders + 'DKIM-Signature: ' + dkimHeaderValue;
+            // 3. Canonicalize the selected headers
+            var { canonicalHeaders } = this.canonicalizeRelaxed(collectedRawHeaders, '');
+            // canonicalizeRelaxed adds a trailing CRLF to the block, which is good.
 
-            // 6. Sign
+            // 4. Create the DKIM-Signature Header stub
+            var timestamp = Math.floor(Date.now() / 1000);
+            var dkimHeaderStart = `v=1; a=rsa-sha256; c=relaxed/relaxed; d=${domain}; s=${selector}; t=${timestamp}; bh=${bodyHash}; h=${hTagList.join(':')}; b=`;
+            
+            // Canonicalize this specific DKIM line itself (Key: Value)
+            var canonicalDkim = "dkim-signature:" + dkimHeaderStart.replace(/\s+/g, ' ').trim();
+            
+            // 5. The final string to sign = CanonicalHeaders + CanonicalDKIM
+            var toSign = canonicalHeaders + canonicalDkim;
+            
+            console.log("String to Sign (Debug excerpt):", toSign.substring(0, 50) + "...");
+
+            // 6. Sign it
             var signature = crypto.createSign('SHA256')
                 .update(toSign)
                 .sign(privateKey, 'base64');
 
-            // 7. Return just the value (sendMail adds the key)
-            return `${dkimHeaderValue}${signature}`;
+            // 7. Return the full DKIM header value (v=...b=Signature)
+            return dkimHeaderStart + signature;
 
         } catch (e) {
-            console.error("Signing Error:", e);
-            return emailData;
+            console.error("Signing Error (The Seal Cracked):", e);
+            return null;
         }
     }
 
