@@ -75,6 +75,7 @@ module.exports = async function ({ sender, recipients, data }) {
 		            fromName: name,
 		            subject: parsed.subject,
 		            snippet: text.substring(0, 50) + "...",
+		            content: html, // <--- ADD THIS so client can render it instantly
 		            timeSent: time,
 		            correspondent: cleanSender,
 		            direction: "incoming"

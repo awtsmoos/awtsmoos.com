@@ -46,7 +46,9 @@ async function refreshMail() {
         return;
     }
     try {
-        const res = await fetch(`${API_BASE}/get?aliasId=${encodeURIComponent(state.alias)}`);
+        // B"H - CACHE BUSTER ADDED (_t)
+        // This forces the browser to actually ask the server for new data
+        const res = await fetch(`${API_BASE}/get?aliasId=${encodeURIComponent(state.alias)}&_t=${Date.now()}`);
         const data = await res.json();
         
         if (Array.isArray(data)) {
@@ -54,7 +56,6 @@ async function refreshMail() {
             processThreads(data);
             renderSidebar();
             if (state.activeThread) {
-                // Only re-render if we got new messages to avoid scroll jumping
                 renderMessages(state.activeThread);
             }
         } else if (data.error) {
@@ -385,11 +386,23 @@ function connectSocket() {
             if (data.type === 'NEW_MAIL') {
                 console.log("B\"H - New Mail Received!", data.message);
                 
-                // OPTION A: Simple Refresh
+                // OPTIMISTIC UPDATE: Inject directly into state
+                // This makes the UI update instantly without waiting for fetch
+                if(data.message) {
+                    // Avoid duplicates
+                    const exists = state.messages.find(m => m.id === data.message.id);
+                    if(!exists) {
+                        state.messages.push(data.message);
+                        processThreads(state.messages);
+                        renderSidebar();
+                        if(state.activeThread === data.message.correspondent) {
+                            renderMessages(state.activeThread);
+                        }
+                    }
+                }
+
+                // Still fetch to be safe (syncs everything else)
                 refreshMail(); 
-                
-                // OPTION B: Play Sound?
-                // new Audio('/ding.mp3').play();
             }
         } catch(e) {}
     };
