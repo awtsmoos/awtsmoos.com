@@ -71,11 +71,16 @@ async function sendEmail(recipient, subject, content) {
 
     const isEmail = recipient.includes("@") || recipient.includes("_at_");
     
+    // UI Feedback: Clear input immediately
+    document.getElementById('messageInput').value = ''; 
+    
+    // Prepare URL
     let url = "";
+    let cleanRecipient = recipient;
     if (isEmail) {
-        // Fix: Ensure we send clean email if user typed it
         let cleanEmail = recipient.replace("_at_", "@");
         url = `${API_BASE}/sendTo/external/from/${state.alias}?toEmail=${encodeURIComponent(cleanEmail)}`;
+        cleanRecipient = recipient.replace("@", "_at_");
     } else {
         url = `${API_BASE}/sendTo/${recipient}/from/${state.alias}`;
     }
@@ -84,6 +89,26 @@ async function sendEmail(recipient, subject, content) {
     bodyData.append("subject", subject);
     bodyData.append("content", content);
     
+    // B"H - OPTIMISTIC UPDATE
+    // Create a temporary message object that looks just like the server's
+    const time = Date.now();
+    const tempMsg = {
+        id: "temp_" + time,
+        from: state.alias,
+        to: recipient,
+        subject: subject,
+        content: formatContent(content), // Pre-format for display
+        timeSent: time,
+        direction: "outgoing",
+        read: true,
+        // CRITICAL: Set correspondent to the person we are talking to
+        correspondent: state.activeThread || cleanRecipient 
+    };
+
+    // Inject immediately!
+    injectMessageIntoState(tempMsg);
+
+    // Send to Server
     const res = await fetch(url, {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -92,7 +117,9 @@ async function sendEmail(recipient, subject, content) {
     
     const j = await res.json();
     if(j.success) {
-        await refreshMail();
+        // Success! We don't strictly need to refreshMail() because we already injected it.
+        // But doing so validates IDs.
+        // await refreshMail();
         return true;
     } else {
         alert("Transmission failed: " + (j.error ? j.error.message : "Unknown error"));
@@ -264,8 +291,39 @@ function renderMessages(threadName) {
         `;
         container.appendChild(bubble);
     });
+    
+    setTimeout(scrollToBottom, 50);
 
-    scrollToBottom();
+}
+
+
+// B"H
+//- Helper to inject message and update UI immediately
+function injectMessageIntoState(msg) {
+    // 1. Check for duplicates
+    if (state.messages.some(m => m.id === msg.id)) return;
+
+    // 2. Add to global list
+    state.messages.push(msg);
+
+    // 3. Re-process threads (Rebuilds the grouping)
+    processThreads(state.messages);
+
+    // 4. Update Sidebar (bumps thread to top)
+    renderSidebar();
+
+    // 5. If this thread is open, render it
+    // Handle fuzzy matching (_at_ vs @)
+    const active = state.activeThread;
+    if (active) {
+        // If the message belongs to the active thread (either from them or to them)
+        if (msg.correspondent === active || 
+            msg.correspondent.replace(/@/g, "_at_") === active || 
+            msg.correspondent.replace(/_at_/g, "@") === active) {
+            
+            renderMessages(active);
+        }
+    }
 }
 
 // --- Interaction Logic ---
@@ -383,26 +441,12 @@ function connectSocket() {
         try {
             const data = JSON.parse(event.data);
             
-            if (data.type === 'NEW_MAIL') {
-                console.log("B\"H - New Mail Received!", data.message);
+            if (data.type === 'NEW_MAIL' && data.message) {
+                console.log("B\"H - Socket Message:", data.message);
+                injectMessageIntoState(data.message);
                 
-                // OPTIMISTIC UPDATE: Inject directly into state
-                // This makes the UI update instantly without waiting for fetch
-                if(data.message) {
-                    // Avoid duplicates
-                    const exists = state.messages.find(m => m.id === data.message.id);
-                    if(!exists) {
-                        state.messages.push(data.message);
-                        processThreads(state.messages);
-                        renderSidebar();
-                        if(state.activeThread === data.message.correspondent) {
-                            renderMessages(state.activeThread);
-                        }
-                    }
-                }
-
-                // Still fetch to be safe (syncs everything else)
-                refreshMail(); 
+                // Optional: Still fetch in background to ensure sync
+                // refreshMail(); 
             }
         } catch(e) {}
     };
