@@ -150,41 +150,35 @@ class AwtsmoosSocket {
     // --- 4. Sending Logic ---
 
     /**
-     * Sends a message to a specific user/alias.
-     * Like the Sefirot connecting to one another, we try multiple paths of unification.
-     * 1. Essence to Essence (Exact Match)
-     * 2. Form to Form (Swapping @ for _at_)
-     * 3. Garment to Essence (Long to Short)
-     * 4. Essence to Garment (Short to Long) - *The Missing Link*
+     * B"H
+     * Universal Alias Matcher
+     * Attempts to deliver the payload by checking all manifestations of the user's name.
      */
     sendToAlias(targetAlias, data) {
-        // B"H - Tracing the transmission of Light
-        // console.log(`WS: Attempting send to [${targetAlias}]`);
-        
-        // 1. Direct Match (Malchus to Malchus)
+        if (!targetAlias) return false;
+
+        // 1. Essence Match (Exact ID as stored in socket map)
         if (this._trySend(targetAlias, data)) return true;
 
-        // 2. Swapped Syntax (Translation between Worlds)
-        const swapped = targetAlias.includes("_at_") ? targetAlias.replace(/_at_/g, "@") : targetAlias.replace(/@/g, "_at_");
-        if (this._trySend(swapped, data)) return true;
-
-        // 3. Short Name Extraction (Peeling the Fruit)
-        // e.g. "bob_at_gmail.com" -> "bob"
-        // This handles cases where we send to the full address, but client logged in as short.
-        const shortName = targetAlias.split("_at_")[0].split("@")[0];
-        if (shortName !== targetAlias) {
-             if (this._trySend(shortName, data)) return true;
+        // 2. Garment Match (Long <-> Short)
+        // If target is "bob_at_awtsmoos.com", try "bob"
+        const shortName = targetAlias.split(/[@_]/)[0]; // Splits at @ or _
+        if (shortName && shortName !== targetAlias) {
+            if (this._trySend(shortName, data)) return true;
         }
 
-        // 4. Long Name Reconstruction (Dressing the Soul)
-        // e.g. "bob" -> "bob_at_awtsmoos.com"
-        // This handles cases where we send to the Short name, but client logged in with their Full Awtsmoos ID.
-        if (!targetAlias.includes("_at_") && !targetAlias.includes("@")) {
+        // 3. Vestment Match (Short <-> Long)
+        // If target is "bob", try "bob_at_awtsmoos.com" (standard local)
+        if (!targetAlias.includes("_") && !targetAlias.includes("@")) {
             if (this._trySend(`${targetAlias}_at_awtsmoos.com`, data)) return true;
         }
 
-        // The vessel was not found; the light returns to the source.
-        // console.log(`WS: User [${targetAlias}] not found online.`);
+        // 4. Translation Match (Swap @ and _at_)
+        const swapped = targetAlias.includes("_at_") 
+            ? targetAlias.replace("_at_", "@") 
+            : targetAlias.replace("@", "_at_");
+        if (swapped !== targetAlias && this._trySend(swapped, data)) return true;
+
         return false;
     }
 

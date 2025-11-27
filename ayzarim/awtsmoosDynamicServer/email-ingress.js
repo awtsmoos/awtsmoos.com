@@ -102,13 +102,24 @@ module.exports = async function ({ sender, recipients, data }) {
             
             // D. NOTIFY
             if (this.ws) {
-                this.ws.sendToAlias(cleanRecipient, {
+                // The recipient 'r' is like "coby@awtsmoos.com".
+                // We simplify this to "coby" for the socket target, 
+                // but pass the Full ID in the logic just in case.
+                
+                var socketTarget = cleanRecipient; // e.g. coby_at_awtsmoos.com
+                
+                // If it's a local address, try the short name first
+                if(r.includes("@awtsmoos.com")) {
+                    socketTarget = r.split("@")[0];
+                }
+
+                this.ws.sendToAlias(socketTarget, {
                     type: 'NEW_MAIL',
                     message: {
                         id: `${cleanSender}:${time}`,
-                         uid: time + "", 
+                        uid: time + "", 
                         from: decodedFrom,
-                        fromName: name,
+                        fromName: name || email,
                         subject: decodedSubject,
                         status: status,
                         snippet: text.substring(0, 50) + "...",

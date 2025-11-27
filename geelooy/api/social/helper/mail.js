@@ -145,6 +145,7 @@ async function getMail({ $i, userid, aliasId, threadId, page = 1, pageSize = 20,
 }
 
 
+// B"H
 async function sendMail({ $i, userid, asAliasId, toAliasId, toEmail }) {
     if (!loggedIn($i)) return er(NO_LOGIN);
 
@@ -152,42 +153,52 @@ async function sendMail({ $i, userid, asAliasId, toAliasId, toEmail }) {
     var verified = await verifyAliasOwnership(asAliasId, $i, userid);
     if (!verified) return er({ message: "Not your alias", code: "AUTH_FAIL" });
 
-    // 2. Determine Recipient
-    var targetEmail = "";
+    // 2. Determine Recipient & Paths
+    // B"H - We normalize everything to LowerCase to prevent file system splitting
+    var senderShort = asAliasId.toLowerCase();
+    var senderFull = `${senderShort}_at_awtsmoos.com`;
+    var recipientShort = "";
+    var recipientFull = "";
+    var targetEmailDisplay = "";
     var isLocal = false;
-    var friendClean = "";
-    var checkLocal = async (id) => await $i.db.get(`${sp}/aliases/${id}/info`);
 
+    // Resolve Recipient
     if (toAliasId) {
-        var info = await checkLocal(toAliasId);
-        if (info) {
-            isLocal = true;
-            targetEmail = `${toAliasId}@awtsmoos.com`;
-            friendClean = `${toAliasId}_at_awtsmoos.com`;
+        // Did they pass "bob" or "bob@external.com"?
+        if (toAliasId.includes("@") || toAliasId.includes("_at_")) {
+            // Treat as raw email/ID
+            isLocal = false;
+            recipientFull = toAliasId.replace("@", "_at_").toLowerCase();
+            targetEmailDisplay = toAliasId.replace("_at_", "@");
         } else {
-            if (toAliasId.includes("_at_")) {
-                isLocal = false;
-                targetEmail = toAliasId.replace("_at_", "@");
-                friendClean = toAliasId;
-            } else if (toAliasId.includes("@")) {
-                isLocal = false;
-                targetEmail = toAliasId;
-                friendClean = toAliasId.replace("@", "_at_").replace(/[<>]/g, "");
+            // Assume local alias ID
+            var info = await $i.db.get(`${sp}/aliases/${toAliasId}/info`);
+            if (info) {
+                isLocal = true;
+                recipientShort = toAliasId.toLowerCase();
+                recipientFull = `${recipientShort}_at_awtsmoos.com`;
+                targetEmailDisplay = `${recipientShort}@awtsmoos.com`;
             } else {
-                return er({ message: "Recipient alias not found", code: "RCPT_NOT_FOUND" });
+                 return er({ message: "Recipient alias not found", code: "RCPT_NOT_FOUND" });
             }
         }
     } 
     else if (toEmail) {
-        targetEmail = toEmail;
-        friendClean = targetEmail.replace("@", "_at_").replace(/[<>]/g, "");
-        if(targetEmail.endsWith("@awtsmoos.com")) {
-             var possibleAlias = targetEmail.split("@")[0];
-             var info = await checkLocal(possibleAlias);
-             if(info) {
-                 isLocal = true;
-                 friendClean = `${possibleAlias}_at_awtsmoos.com`; 
-             }
+        targetEmailDisplay = toEmail;
+        // Check if it's actually local (bob@awtsmoos.com)
+        if (toEmail.toLowerCase().endsWith("@awtsmoos.com")) {
+            var possibleShort = toEmail.split("@")[0].toLowerCase();
+            var info = await $i.db.get(`${sp}/aliases/${possibleShort}/info`);
+            if(info) {
+                isLocal = true;
+                recipientShort = possibleShort;
+                recipientFull = `${recipientShort}_at_awtsmoos.com`;
+            } else {
+                // Local domain but user doesn't exist? Treat as external or error.
+                recipientFull = toEmail.replace("@", "_at_").replace(/[<>]/g, "").toLowerCase();
+            }
+        } else {
+            recipientFull = toEmail.replace("@", "_at_").replace(/[<>]/g, "").toLowerCase();
         }
     } else {
         return er({ message: "Must provide recipient", code: "NO_RCPT" });
@@ -196,131 +207,93 @@ async function sendMail({ $i, userid, asAliasId, toAliasId, toEmail }) {
     var subject = $i.$_POST.subject || $i.$_GET.subject || "(No Subject)";
     var content = $i.$_POST.content || $i.$_GET.content || "";
     var time = Date.now();
-    var myFolder = `${asAliasId}_at_awtsmoos.com`; 
 
-    // 3. SENDING LOGIC
     try {
-        if (isLocal) {
-            // === LOCAL SEND (INTERNAL) ===
-            
-            // A. Save to My Sent
-            await $i.db.appendToObj(`/emails/${myFolder}/threads/${friendClean}`, {
-                key: time + "",
-                value: {
-                    from: asAliasId, to: targetEmail,
-                    subject, content, time, read: true, direction: "outgoing"
-                }
-            });
+        // === 3. WRITE TO SENDER (My Sent Folder) ===
+        // Path: /emails/me_at_awtsmoos/threads/them_at_gmail
+        await $i.db.appendToObj(`/emails/${senderFull}/threads/${recipientFull}`, {
+            key: time + "",
+            value: {
+                from: senderShort, 
+                to: targetEmailDisplay,
+                subject, content, time, 
+                read: true, direction: "outgoing"
+            }
+        });
 
-            // B. INTELLIGENCE LAYER (For the Recipient)
-            var recipientAlias = friendClean.split("_at_")[0]; // "bob" from "bob_at_..."
+        if (isLocal) {
+            // === 4. WRITE TO RECIPIENT (Their Inbox) ===
+            // Path: /emails/them_at_awtsmoos/threads/me_at_awtsmoos
             
-            // 1. Load Their Settings
-            var settingsPath = `/social/aliases/${recipientAlias}/emailSettings`;
-            var settings = await $i.db.get(settingsPath) || { approved: {}, rules: [] };
+            // A. Check Gatekeeper / Settings
+            var settingsPath = `/social/aliases/${recipientShort}/emailSettings`;
+            var settings = await $i.db.get(settingsPath) || { approved: {} };
             if(!settings.approved) settings.approved = {};
 
-            // 2. Determine Status
-           var senderThreadId = myFolder; 
-            var senderAliasClean = asAliasId;
             var status = "inbox";
-            
-            // B"H - Check both formats to ensure approval is detected
-            var isApproved = settings.approved[senderThreadId] || settings.approved[senderAliasClean];
-            
-            if (settings.gatekeeperMode && !isApproved) {
-                status = "request";
-                // Auto-Reply if not a reply itself (avoid loops)
-                if (!subject.includes("Message Request")) {
-                    await sendSystemLocalMail($i, recipientAlias, asAliasId, 
-                        `Message Request Pending`, 
-                        `B"H\n\nShalom,\n\n${recipientAlias} has yet to approve this message request.`
-                    );
+            // Check if sender is approved (Try short and long ID)
+            if (settings.gatekeeperMode) {
+                if (!settings.approved[senderShort] && !settings.approved[senderFull]) {
+                    status = "request";
+                    // Optional: Send auto-reply here
                 }
             }
 
-            // 3. Run Rules (Only if not blocked/request, or run on all?)
-            // Usually we run rules on Inbox items.
-            if (status === "inbox") {
-                await runLocalRules($i, settings, {
-                    from: asAliasId,
-                    to: recipientAlias,
-                    subject,
-                    content
-                });
-            }
-
-            // C. Save to Their Inbox (With Status)
-            await $i.db.appendToObj(`/emails/${friendClean}/threads/${myFolder}`, {
+            // B. Perform The Write
+            await $i.db.appendToObj(`/emails/${recipientFull}/threads/${senderFull}`, {
                 key: time + "",
                 value: {
-                    from: asAliasId,
-                    fromName: asAliasId,
-                    to: targetEmail,
-                    status: status, // Saved Status
+                    from: senderShort,
+                    fromName: senderShort,
+                    to: targetEmailDisplay,
+                    status: status,
                     subject,
                     content,
                     time,
                     read: false,
                     direction: "incoming",
-                    correspondent: asAliasId
+                    correspondent: senderShort // Ensures grouping works
                 }
             });
 
-            // D. Notify Them
+            // C. Notify Recipient (WebSocket)
             if ($i.ws) {
-                // B"H - The Socket desires the Name, not the Garment.
-                // We strip the domain to try the Essence first, but thanks to the new 
-                // sendToAlias logic, the Full Name will also be checked automatically.
-                var socketTarget = friendClean.split("_at_")[0]; 
-                
-                const notification = {
+                $i.ws.sendToAlias(recipientShort, {
                     type: 'NEW_MAIL',
                     message: {
-                        id: `${myFolder}:${time}`,
+                        id: `${senderFull}:${time}`,
                         uid: time + "",
-                        from: asAliasId, 
-                        fromName: asAliasId, 
-                        subject: subject, 
+                        from: senderShort,
+                        fromName: senderShort,
+                        subject: subject,
                         status: status,
-                        snippet: content.substring(0, 50) + "...",
+                        snippet: content.substring(0, 50),
                         timeSent: time,
-                        correspondent: asAliasId, 
+                        correspondent: senderShort,
                         direction: "incoming",
-                        content: content 
+                        content: content
                     }
-                };
-                
-                // Send the spark. If 'socketTarget' (bob) fails, 
-                // the Socket Logic will now attempt 'bob_at_awtsmoos.com'.
-                $i.ws.sendToAlias(socketTarget, notification);
+                });
             }
 
             return { success: { message: "Sent internally" } };
 
         } else {
-            // === REMOTE SEND (External) ===
+            // === 5. EXTERNAL SEND (SMTP) ===
             if ($i.mail && $i.mail.smtpClient) {
-                var myFullEmail = `${asAliasId}@awtsmoos.com`;
-                const sendTask = $i.mail.smtpClient.sendMail(myFullEmail, targetEmail, subject, content);
-                const timeoutTask = new Promise((_, reject) => setTimeout(() => reject(new Error("SMTP Timeout")), 10000));
-                await Promise.race([sendTask, timeoutTask]);
+                var myFullEmail = `${senderShort}@awtsmoos.com`;
+                $i.mail.smtpClient.sendMail(myFullEmail, targetEmailDisplay, subject, content)
+                    .catch(e => console.error("SMTP Error", e));
+                
+                return { success: { message: "Sent via SMTP" } };
             } else {
-                return er({ message: "SMTP Client not available" });
+                return er({ message: "SMTP Service Unavailable" });
             }
-
-            await $i.db.appendToObj(`/emails/${myFolder}/threads/${friendClean}`, {
-                key: time + "",
-                value: {
-                    from: asAliasId, to: targetEmail,
-                    subject, content, time, read: true, direction: "outgoing"
-                }
-            });
-
-            return { success: { message: "Sent via SMTP" } };
         }
+
     } catch (e) {
-        return er({ message: "Send failed", details: e + "" });
+        console.error("Mail Send Error:", e);
+        return er({ message: "Transmission failed", details: e.message });
     }
 }
 
