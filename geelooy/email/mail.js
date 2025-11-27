@@ -758,7 +758,36 @@ async function saveSettingsUI() {
     document.getElementById('settingsModal').classList.add('hidden');
 }
 
+// --- Missing Navigation Helpers ---
 
+function backToInbox() {
+    document.getElementById('appContainer').classList.remove('chat-open');
+    state.activeThread = null;
+    
+    // Reset specific UI elements if needed
+    document.getElementById('activeChatInfo').classList.add('hidden');
+    
+    // Refresh the sidebar to ensure highlights are removed
+    renderSidebar();
+}
+
+function toggleView(newView) {
+    state.view = newView;
+    
+    // Toggle visual tabs
+    document.getElementById('btn-inbox').classList.toggle('active', newView === 'inbox');
+    document.getElementById('btn-requests').classList.toggle('active', newView === 'requests');
+    
+    // Re-render list based on new view filter
+    renderSidebar();
+    
+  
+    /*
+    if(state.activeThread) {
+        backToInbox();
+    }
+    */
+}
 
 
 // Bind to the infinite cycle
