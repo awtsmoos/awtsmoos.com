@@ -218,23 +218,32 @@ class AwtsmoosEmailClient {
             var messageId = `<${Date.now()}@${domain}>`;
             var dateHeader = new Date().toUTCString();
             
-            // Construct Headers Block. 
-            // Order MUST be consistent for Simple Signing
+            // 1. Normalize Body to CRLF (Crucial for Simple/Simple DKIM)
+            // Replace any existing \r\n with \n to avoid double-replace, then all \n to \r\n
+            var normalizedBody = rawBody.replace(/\r\n/g, '\n').replace(/\n/g, CRLF);
+            
+            // 2. Ensure exactly ONE trailing CRLF
+            // (Remove all trailing whitespace/newlines, then add one CRLF)
+            // logic: Trim right, then append CRLF
+            // Caution: We want to preserve internal structure, just fix the end.
+            
+            var bodyToSend = normalizedBody;
+            while (bodyToSend.endsWith(CRLF)) {
+                bodyToSend = bodyToSend.slice(0, -CRLF.length);
+            }
+            bodyToSend += CRLF;
+
+            // 3. Construct Headers
             var headers = 
                 `Message-ID: ${messageId}${CRLF}` +
                 `Date: ${dateHeader}${CRLF}` +
                 `From: ${sender}${CRLF}` +
                 `To: ${recipient}${CRLF}` +
-                `Subject: ${subject}${CRLF}`; // Ends with CRLF
-            
-            // Construct Body
-            var bodyToSend = rawBody;
-            while (bodyToSend.endsWith(CRLF)) bodyToSend = bodyToSend.slice(0, -2);
-            bodyToSend += CRLF; // Exactly one for transmission
+                `Subject: ${subject}${CRLF}`; 
 
             var dataToSend = "";
             if(this.privateKey) {
-                // Pass exact blocks to signer
+                // Sign the Normalized Body
                 var sigValue = this.signEmail(domain, selector, this.privateKey, headers, bodyToSend);
                 if(sigValue) {
                     var dkimHeaderLine = `DKIM-Signature: ${sigValue}${CRLF}`;
