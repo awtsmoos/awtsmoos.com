@@ -275,53 +275,99 @@ body, html {
 }
 
 /* Compose Box - BIGGER BETTER */
+/* --- COMPOSE AREA (The Vessel of Speech) --- */
 .input-area {
-    flex-shrink: 0; /* Never shrink this area */
-    z-index: 50; 
-    padding: 12px; /* Tighter padding */
-    background: var(--bg-surface); /* Solid background, not floating transparently */
-    border-top: 1px solid var(--border);
-   
+    flex-shrink: 0;
+    z-index: 50;
+    padding: 10px 16px;
+    background: #202c33; /* Darker, richer background */
+    border-top: 1px solid rgba(255,255,255,0.05);
+    display: flex;
+    flex-direction: column;
 }
 
 .input-wrapper {
-    background: #18181b;
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 14px;
-    padding: 4px;
-    display: flex; flex-direction: column;
+    background: #2a3942; /* Soft message bar color */
+    border-radius: 24px;
+    padding: 8px 16px;
+    display: flex; 
+    flex-direction: column;
+    gap: 8px;
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
 }
 
 .input-wrapper:focus-within {
-    border-color: var(--neon-gold);
-    box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.2);
+    background: #2a3942; /* Stay solid */
+    box-shadow: 0 0 0 1px var(--neon-gold); /* Subtle focus ring */
 }
 
+/* Optional Subject Line (Hidden unless active or filled) */
 .subject-input {
-    width: 100%; padding: 12px 16px; border: none; background: transparent;
-    color: #fff; font-size: 0.9rem; font-weight: 600;
+    width: 100%; 
+    padding: 8px 4px; 
+    border: none; 
+    background: transparent;
+    color: var(--neon-gold); 
+    font-size: 0.85rem; 
+    font-weight: 700;
+    font-family: inherit;
     border-bottom: 1px solid rgba(255,255,255,0.05);
+    outline: none;
+    display: none; /* Hide by default to look like chat */
 }
+
+/* Show subject if user explicitly wants it or typing email */
+.input-wrapper.show-subject .subject-input { display: block; }
 
 .flex-row {
-    display: flex; align-items: flex-end; gap: 10px; padding: 10px;
+    display: flex; 
+    align-items: flex-end; /* Align bottom so button stays with multiline text */
+    gap: 12px;
 }
 
 textarea {
-    flex: 1; background: transparent; border: none; color: #fff;
-    font-size: 1rem; min-height: 50px; max-height: 200px;
-    resize: none; font-family: inherit; line-height: 1.5;
+    flex: 1; 
+    background: transparent; 
+    border: none; 
+    color: #d1d7db; /* Off-white text */
+    font-size: 1rem; 
+    min-height: 24px; 
+    max-height: 140px; /* Grow up to a point */
+    resize: none; 
+    font-family: 'Inter', sans-serif; 
+    line-height: 1.5;
+    padding: 0;
+    outline: none;
+    overflow-y: auto; /* Scroll internal if too tall */
 }
 
+textarea::placeholder { color: #8696a0; }
+
 .btn-send {
-    width: 48px; height: 48px; border-radius: 14px;
-    background: var(--neon-gold); border: none; cursor: pointer;
+    width: 40px; height: 40px; 
+    border-radius: 50%;
+    background: transparent;
+    color: #8696a0;
+    border: none; 
+    cursor: pointer;
     display: flex; align-items: center; justify-content: center;
-    color: #000; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
-    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transition: all 0.2s;
+    flex-shrink: 0;
 }
-.btn-send:hover { transform: scale(1.1); box-shadow: 0 6px 16px rgba(245, 158, 11, 0.5); }
-.btn-send svg { width: 24px; height: 24px; fill: currentColor; }
+
+/* Only light up if there is text (Client JS will toggle class 'ready') */
+.btn-send.ready {
+    color: var(--neon-gold);
+    background: rgba(245, 158, 11, 0.1);
+}
+.btn-send.ready:hover {
+    background: var(--neon-gold);
+    color: #000;
+    transform: scale(1.1);
+}
+
+.btn-send svg { width: 20px; height: 20px; fill: currentColor; transform: translateX(2px); }
 
 /* Empty States */
 .empty-state { margin: auto; text-align: center; opacity: 0.3; }
