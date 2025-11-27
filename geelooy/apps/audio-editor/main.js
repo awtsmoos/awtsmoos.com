@@ -6,12 +6,12 @@
  */
 const CONFIG = {
     SAMPLE_RATE: 44100,
-    MIN_ZOOM: 10,  
+    MIN_ZOOM: 0.1,  // CHANGED: Allows massive zoom out
     MAX_ZOOM: 2000,
-    HEADER_HEIGHT: 25, // Smaller ruler
-    TRACK_HEIGHT: 80,  // Reduced from 120 to fit mobile screens better
-    HANDLE_WIDTH: 20,  // Bigger handles for easier touch dragging
-    LONG_PRESS_MS: 300, // Faster reaction
+    HEADER_HEIGHT: 30, 
+    TRACK_HEIGHT: 80,
+    HANDLE_WIDTH: 20,
+    LONG_PRESS_MS: 300,
 };
 
 /**
@@ -175,12 +175,16 @@ function drawRuler() {
     ctx.font = '10px Arial';
 
     // Calculate time spacing based on zoom
+    // Calculate time spacing based on zoom
     let secondStep = 1;
-    if (state.zoom < 20) secondStep = 10;
-    if (state.zoom < 5) secondStep = 30;
+    if (state.zoom < 50) secondStep = 5;
+    if (state.zoom < 20) secondStep = 15;
+    if (state.zoom < 5) secondStep = 60;   // 1 Minute intervals
+    if (state.zoom < 1) secondStep = 300;  // 5 Minute intervals
+    if (state.zoom < 0.2) secondStep = 600; // 10 Minute intervals
     if (state.zoom > 100) secondStep = 0.5;
     if (state.zoom > 300) secondStep = 0.1;
-
+    
     const startSec = Math.floor(state.scrollX / state.zoom);
     const endSec = Math.floor((state.scrollX + canvas.width) / state.zoom);
 

@@ -279,54 +279,56 @@ input[type="range"]::-webkit-slider-runnable-track {
 /* =========================================
    MOBILE / RESPONSIVE OVERRIDES
    ========================================= */
+/* =========================================
+   MOBILE / RESPONSIVE OVERRIDES
+   ========================================= */
 @media (max-width: 768px) {
-    /* Compress Layout */
     .app-container {
-        /* Slightly larger toolbar on mobile for thumb reach */
-        grid-template-rows: 50px 1fr 90px;
+        grid-template-rows: 50px 1fr auto; /* Auto height for toolbar */
     }
     
     header { padding: 0 12px; }
-    
-    /* Hide Text on Mobile Buttons to save space */
-    .btn span:not(.material-icons) {
-        display: none;
-    }
-    .btn { padding: 8px; } /* Square buttons */
-    
-    /* Rearrange Toolbar for Thumbs */
+
+    .header-controls .btn span { display: none; } /* Icon only header buttons */
+    .header-controls .btn { padding: 8px 12px; }
+
+    /* SCROLLABLE TOOLBAR LOGIC */
     .toolbar {
         display: flex;
-        justify-content: space-between; /* Space items out */
-        padding: 0 20px;
-        padding-bottom: env(safe-area-inset-bottom);
+        flex-wrap: nowrap;          /* Force single line */
+        overflow-x: auto;           /* Enable horizontal scroll */
+        justify-content: flex-start; 
+        gap: 20px;
+        padding: 15px 15px;         /* More padding for touch */
+        padding-bottom: max(15px, env(safe-area-inset-bottom));
+        
+        /* Hide scrollbar visually but keep functionality */
+        -ms-overflow-style: none;  
+        scrollbar-width: none;  
+        -webkit-overflow-scrolling: touch; /* Smooth scroll on iOS */
     }
     
-    /* Hide Zoom Slider (User should pinch) */
-    .zoom-controls { display: none; }
-    
-    /* Make Transport Controls huge */
-    .transport-controls { gap: 16px; }
-    #play-pause-btn { width: 56px; height: 56px; }
-    
-    /* Make Tool Controls huge */
-    .tool-controls { gap: 16px; }
-    .icon-btn {
-        width: 48px; /* Minimum reliable touch target */
-        height: 48px;
-        background-color: var(--bg-surface); /* Distinct background for touch targets */
-        border-radius: 12px;
+    .toolbar::-webkit-scrollbar { 
+        display: none; 
     }
-    
-    /* Floating Status Bar */
-    #status-bar {
-        top: auto;
-        bottom: 100px; /* Above toolbar */
-        left: 50%;
-        transform: translateX(-50%);
-        width: auto;
-        background: rgba(0,0,0,0.7);
-        border-radius: 20px;
-        text-align: center;
+
+    /* Prevent groups from squashing */
+    .transport-controls, 
+    .tool-controls, 
+    .zoom-controls { 
+        flex-shrink: 0; 
+        display: flex;
+        gap: 15px;
     }
+
+    /* Bring back Zoom controls (scroll to right to see them) */
+    .zoom-controls { 
+        display: flex !important; 
+        padding-left: 15px;
+        border-left: 1px solid #333;
+    }
+
+    /* Adjust button sizes for touch */
+    .icon-btn { width: 50px; height: 50px; background: var(--bg-surface); }
+    #play-pause-btn { width: 60px; height: 60px; }
 }
