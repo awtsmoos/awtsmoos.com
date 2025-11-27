@@ -334,7 +334,6 @@ const instrumentedDb = new Proxy(self.db, {
         },
         createJob,
         db: instrumentedDb,
-        parsedUrl,
         location,
         getT,
         btoa, atob,
