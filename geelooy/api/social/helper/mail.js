@@ -362,31 +362,13 @@ async function sendMail({ $i, userid, asAliasId, toAliasId, toEmail }) {
             
             // B"H - HISTORY STITCHING
             let fullOutgoingContent = content;
-            var msgs = []; // <--- B"H: Defined here so it survives the 'try' block scope
+            var msgs = []; // B"H: Defined here so it survives the 'try' block scope
 
             try {
                 // 1. Fetch the Scroll of Memories
-                const threadPath("@") && !cleanId.includes("_at_")) {
-             if (await checkLocalDB(cleanId)) {
-                isLocal = true;
-                recipientShort = cleanId;
-                recipientFull = `${cleanId}_at_awtsmoos.com`;
-                targetEmailDisplay = `${cleanId}@awtsmoos.com`;
-            } else {
-                 return er({ message: "Recipient alias not found locally", code: "RCPT_NOT_FOUND" });
-            }
-        }
-        else {
-            isLocal = false;
-            recipientFull = cleanId.replace("@", "_at_");
-            targetEmailDisplay = cleanId.replace("_at_", "@");
-        }
-    } 
-    else if (toEmail) {
-        let cleanEmail = toEmail.toLowerCase().trim();
-        targetEmailDisplay = cleanEmail;
-        if (cleanEmail.endsWith("@awtsmoos.com")) {
-            let core = cleanEmail. = `/emails/${senderFull}/threads/${recipientFull}`;
+                // B"H
+                
+                const threadPath = `/emails/${senderFull}/threads/${recipientFull}`;
                 const threadData = await $i.db.get(threadPath);
                 
                 if (threadData) {
@@ -403,27 +385,8 @@ async function sendMail({ $i, userid, asAliasId, toAliasId, toEmail }) {
                         let rawText = m.textContent || m.content || "";
                         if (rawText.includes("<")) rawText = rawText.replace(/<[^>]*>?/gm, '');
                         
-                        const quotedLines = rawText.trim().split('\n').map(split("@")[0];
-             if (await checkLocalDB(core)) {
-                isLocal = true;
-                recipientShort = core;
-                recipientFull = `${core}_at_awtsmoos.com`;
-            } else {
-                recipientFull = cleanEmail.replace("@", "_at_");
-            }
-        } else {
-            recipientFull = cleanEmail.replace("@", "_at_").replace(/[<>]/g, "");
-        }
-    } else {
-        return er({ message: "Must provide recipient", code: "NO_RCPT" });
-    }
-
-    console.log(`B"H DEBUG: Resolve Complete. SenderFull: [${senderFull}], RecipientFull: [${recipientFull}], IsLocal: [${isLocal}]`);
-
-    var subject = $i.$_POST.subject || $i.$_GET.subject || "(No Subject)";
-    var content = $i.$_POST.content || $i.$_GET.content || "";
-    if (typeof content !== "string") content = String(content || "");
-    var time = Datel => `> ${l}`).join('\n');
+                        const quotedLines = rawText.trim().split('\n').map(l => `> ${l}`).join('\n');
+                        
                         historyStr += `\n\nOn ${dateStr}, ${speaker} wrote:\n${quotedLines}`;
                     }
                     
@@ -435,24 +398,7 @@ async function sendMail({ $i, userid, asAliasId, toAliasId, toEmail }) {
 
             // 4. Send the Woven Message with LINEAGE
             if ($i.mail && $i.mail.smtpClient) {
-                var myFull.now();
-
-    try {
-        // === 3. WRITE TO SENDER ===
-        const senderPath = `/emails/${senderFull}/threads/${recipientFull}`;
-        await $i.db.appendToObj(senderPath, {
-            key: time + "",
-            value: {
-                from: senderShort, 
-                to: targetEmailDisplay,
-                subject, content, time, 
-                read: true, direction: "outgoing"
-            }
-        });
-
-        if (isLocal) {
-            // === 4. WRITE TO RECIPIENT (Local) ===
-            const recipientPath = `/emails/${recipientFull}/threads/${senderFull}`;Email = `${senderShort}@awtsmoos.com`;
+                var myFullEmail = `${senderShort}@awtsmoos.com`;
                 
                 // B"H - Extract Lineage
                 var extraHeaders = {};
@@ -467,23 +413,7 @@ async function sendMail({ $i, userid, asAliasId, toAliasId, toEmail }) {
                     }
                 }
 
-
-            var status = "inbox"; // Default status
-            
-            await $i.db.appendToObj(recipientPath, {
-                key: time + "",
-                value: {
-                    from: senderShort,
-                    fromName: senderShort,
-                    to: targetEmailDisplay,
-                    status: status,
-                    subject, content, time,
-                    read: false, direction: "incoming", correspondent: senderShort
-                }
-            });
-
-            if ($i.ws) {
-                $i.ws.sendToAlias(recipientShort, {                $i.mail.smtpClient.sendMail(
+                $i.mail.smtpClient.sendMail(
                     myFullEmail, 
                     targetEmailDisplay, 
                     subject, 
