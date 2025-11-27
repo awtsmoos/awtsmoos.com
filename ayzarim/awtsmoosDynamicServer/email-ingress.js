@@ -255,20 +255,82 @@ function splitOnce(str, separator) {
 
 function stripHistory(content, type) {
     if (!content) return "";
+    
     if (type === "html") {
-        if (content.includes('class="gmail_quote"')) return content.split('<div class="gmail_quote"')[0];
-        if (content.includes('<blockquote')) return content.split('<blockquote')[0];
+        // STRATEGY: Find the "Cut Line" and discard everything after it.
+        // This handles infinite nesting because we cut the root of the history tree.
+
+        var markers = [
+            // 1. Gmail (The most common)
+            // Matches <div class="gmail_quote"> or <div class="gmail_quote gmail_quote_container">
+            /<div [^>]*class=["'][^"']*gmail_quote[^"']*["'][^>]*>/i,
+
+            // 2. Yahoo Mail
+            /<div [^>]*class=["'][^"']*yahoo_quoted[^"']*["'][^>]*>/i,
+
+            // 3. ProtonMail
+            /<div [^>]*class=["'][^"']*protonmail_quote[^"']*["'][^>]*>/i,
+
+            // 4. Outlook / Hotmail (Web)
+            // Often uses ID="divRplyFwdMsg"
+            /<div [^>]*id=["']divRplyFwdMsg["'][^>]*>/i,
+
+            // 5. Thunderbird / Mozilla
+            /<div [^>]*class=["'][^"']*moz-cite-prefix[^"']*["'][^>]*>/i,
+
+            // 6. Generic "On ... wrote:" HTML block
+            // Looks for: <div>On ... wrote:<br></div>
+            // We use a stricter regex here to avoid false positives in normal text
+            /<div[^>]*>\s*On\s.{5,200}?\s*wrote:\s*<br>\s*<\/div>/i,
+
+            // 7. Outlook Hr + From
+            /<hr[^>]*>\s*<div[^>]*>\s*<b>\s*From:\s*<\/b>/i
+        ];
+
+        for (var regex of markers) {
+            var match = content.match(regex);
+            if (match) {
+                // Return everything BEFORE the match
+                return content.substring(0, match.index).trim();
+            }
+        }
+
+        return content.trim();
+
     } else {
+        // --- TEXT MODE ---
+        // Splits by line and looks for common signature/reply patterns
         const lines = content.split(/\r?\n/);
         const cleanLines = [];
-        for (let line of lines) {
-            if (line.match(/^>?\s*On\s.+?wrote:/i)) break;
+        
+        for (let i = 0; i < lines.length; i++) {
+            let line = lines[i];
+            
+            // 1. "On ... wrote:"
+            if (/^>?\s*On\s.+?wrote:$/i.test(line)) break;
+            
+            // 2. Outlook dividers
+            if (/^[\s-]*Original Message[\s-]*$/.test(line)) break;
+            if (/^[\s-]*Forwarded Message[\s-]*$/.test(line)) break;
+            
+            // 3. Header Block (From: ... Sent: ...)
+            if (/^From:\s/.test(line)) {
+                // Peek ahead to confirm it's a header block and not just a sentence starting with "From:"
+                var next = lines[i+1] || "";
+                if (/^Sent:\s/.test(next) || /^Date:\s/.test(next) || /^To:\s/.test(next)) break;
+            }
+
+            // 4. Common Mobile Signatures (Optional - remove if you want to keep them)
+            if (/^Sent from my (iPhone|Android|Galaxy|iPad)/i.test(line)) break;
+            if (/^Get Outlook for/i.test(line)) break;
+
+            // 5. Standard Signature Delimiter "-- "
             if (line.trim() === '--') break; 
+
             cleanLines.push(line);
         }
         return cleanLines.join('\n').trim();
     }
-    return content;
 }
 
 function escapeHtml(text) {
