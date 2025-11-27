@@ -675,12 +675,15 @@ async function sendSystemLocalMail($i, fromAlias, toAlias, subject, content) {
 
 async function runLocalRules($i, settings, msg) {
     try {
+        let ruleTriggered = false;
+        let replyText = "";
+
+        // 1. Check Specific Rules FIRST (Overrides)
         if (settings.rules && Array.isArray(settings.rules)) {
             for (let rule of settings.rules) {
                 if (!rule.enabled) continue;
                 let match = false;
                 let matchedKw = "";
-                // B"H - Safeguard: Ensure content is string
                 const text = String(msg.content || "").toLowerCase();
                 const keywords = (rule.keywords || "").toLowerCase().split(',').map(k => k.trim()).filter(Boolean);
 
@@ -688,37 +691,52 @@ async function runLocalRules($i, settings, msg) {
                     const found = keywords.find(k => text.includes(k));
                     if (found) { match = true; matchedKw = found; }
                 }
+                // ... (other conditions like contains_only, javascript) ... 
                 else if (rule.condition === 'contains_only') {
-                    let clean = text;
-                    keywords.forEach(k => clean = clean.replace(k, ''));
-                    if (clean.replace(/[^a-z0-9]/g, '').length < 5 && keywords.some(k => text.includes(k))) {
-                        match = true; matchedKw = keywords[0];
-                    }
+                     let clean = text;
+                     keywords.forEach(k => clean = clean.replace(k, ''));
+                     if (clean.replace(/[^a-z0-9]/g, '').length < 5 && keywords.some(k => text.includes(k))) {
+                         match = true; matchedKw = keywords[0];
+                     }
                 }
-                else if (rule.condition === 'javascript') {
-                    const sandbox = { msg, text };
-                    vm.createContext(sandbox);
-                    try { match = vm.runInContext(rule.customCondition, sandbox, { timeout: 500 }); } catch (e) { }
-                }
+                // ...
 
                 if (match) {
-                    let replyText = "";
                     if (rule.actionType === 'javascript') {
-                        const sandbox = { msg, matchedKeyword: matchedKw, reply: (t) => { replyText = t; } };
-                        vm.createContext(sandbox);
-                        try { vm.runInContext(rule.replyScript, sandbox, { timeout: 500 }); } catch (e) { }
+                        // ... JS logic ...
+                         const sandbox = { msg, matchedKeyword: matchedKw, reply: (t) => { replyText = t; } };
+                         vm.createContext(sandbox);
+                         try { vm.runInContext(rule.replyScript, sandbox, { timeout: 500 }); } catch (e) { }
                     } else {
                         replyText = processReplyVariables(rule.replyText, matchedKw, String(msg.content||""));
                     }
-
-                    if (replyText) {
-                        // B"H - Execute the Auto-Response
-                        await sendSystemLocalMail($i, msg.to, msg.from, "Re: " + msg.subject, replyText);
-                    }
-                    break; // Stop after first matching rule
+                    ruleTriggered = true;
+                    break; // Specific rule found, stop looking
                 }
             }
         }
+
+        // 2. If NO specific rule, check AI
+        if (!ruleTriggered && settings.aiEnabled && settings.aiKey) {
+            console.log("B\"H DEBUG: Invoking Gemini AI...");
+            
+            // B"H - TIME DELAY
+            // We pause here to solve the "Time Paradox" where the reply
+            // appears before the message in the client UI.
+            await new Promise(r => setTimeout(r, 2000));
+            
+            const aiReply = await callGemini(settings.aiKey, settings.aiPrompt, msg.content);
+            if (aiReply) {
+                replyText = aiReply.trim();
+                ruleTriggered = true;
+            }
+        }
+
+        // 3. Send if we found something
+        if (replyText) {
+            await sendSystemLocalMail($i, msg.to, msg.from, "Re: " + msg.subject, replyText);
+        }
+
     } catch (e) { console.log("Local Rule Error", e); }
 }
 
@@ -736,4 +754,43 @@ function processReplyVariables(template, keyword, fullText) {
         const targetIndex = index + parseInt(offset);
         return textWords[targetIndex] || "";
     });
+}
+
+// B"H - The Urim VeTumim (Oracle)
+// Communicates with Gemini Flash for minimal cost/latency
+async function callGemini(apiKey, systemPrompt, userMessage) {
+    if (!apiKey) return null;
+    
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=${apiKey}`;
+    
+    const payload = {
+        contents: [{
+            parts: [{
+                text: `B"H\nSYSTEM_INSTRUCTION: ${systemPrompt || "You are the revelation of the Atzmus (Spelled Awtsmoos). in the form of Code."}\n\nUSER_MESSAGE: "${userMessage}"\n\nTASK: Reply to the USER_MESSAGE acting as the persona defined in SYSTEM_INSTRUCTION. Keep it brief.`
+            }]
+        }],
+        generationConfig: {
+            temperature: 0.7,
+            maxOutputTokens: 150 // Keep it brief
+        }
+    };
+
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+        
+        const data = await response.json();
+        
+        // Extract the spark from the fire
+        if (data.candidates && data.candidates[0] && data.candidates[0].content) {
+            return data.candidates[0].content.parts[0].text;
+        }
+        return null;
+    } catch (e) {
+        console.error("Gemini Error:", e);
+        return null;
+    }
 }

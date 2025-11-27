@@ -151,6 +151,26 @@
                     </label>
                 </div>
                 
+                <!-- AI Intelligence Section -->
+                <h3>Artificial Intelligence (Gemini)</h3>
+                <div class="setting-row">
+                    <label class="toggle-label">
+                        <input type="checkbox" id="aiToggle">
+                        <span>Enable AI Auto-Reply</span>
+                    </label>
+                </div>
+                
+                <div class="form-group">
+                    <label>Gemini <a href="https://aistudio.google.com/api-keys">API Key</a> (Don't connect it to payment info, this will be saved in server)</label>
+                    <input type="password" id="aiKeyInput" class="input-block" placeholder="AIzaSy...">
+                </div>
+                
+                <div class="form-group">
+                    <label>System Prompt / Persona</label>
+                    <textarea id="aiPromptInput" rows="3" class="input-block" placeholder="You are a kabbalistic mail server..."></textarea>
+                </div>
+
+                
                 <!-- Rule Builder UI -->
 		<h3>Logic Rules</h3>
 		<div id="rulesContainer" class="rules-list">
@@ -162,8 +182,6 @@
 		</div>
 		
 		
-		<h3>Global Script (Advanced)</h3>
-		<textarea id="customScriptInput" rows="4" class="code-input" placeholder="// Global fallback logic..."></textarea>
 		
 		
                 <div class="modal-actions">

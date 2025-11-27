@@ -833,7 +833,11 @@ function populateSettingsModal() {
     const s = state.settings;
     if(document.getElementById('gatekeeperToggle')) {
         document.getElementById('gatekeeperToggle').checked = !!s.gatekeeperMode;
-        document.getElementById('customScriptInput').value = s.customScript || "";
+        
+        // B"H - AI Settings
+        document.getElementById('aiToggle').checked = !!s.aiEnabled;
+        document.getElementById('aiKeyInput').value = s.aiKey || "";
+        document.getElementById('aiPromptInput').value = s.aiPrompt || "";
         
         const container = document.getElementById('rulesContainer');
         container.innerHTML = "";
@@ -890,10 +894,15 @@ function toggleRuleAction(select) {
 
 async function saveSettingsUI() {
     const gate = document.getElementById('gatekeeperToggle').checked;
-    const customJs = document.getElementById('customScriptInput').value;
-    const rules = [];
+    
+    // B"H - Capture AI Data
+    const aiEnabled = document.getElementById('aiToggle').checked;
+    const aiKey = document.getElementById('aiKeyInput').value;
+    const aiPrompt = document.getElementById('aiPromptInput').value;
 
+    const rules = [];
     document.querySelectorAll('#rulesContainer .rule-card').forEach(card => {
+        // ... (Rule collection logic remains the same) ...
         const cond = card.querySelector('.rule-cond').value;
         const keyInput = card.querySelector('.rule-keys').value;
         const act = card.querySelector('.rule-action').value;
@@ -909,11 +918,14 @@ async function saveSettingsUI() {
 
     const newSettings = {
         gatekeeperMode: gate,
+        aiEnabled: aiEnabled, // <--- New
+        aiKey: aiKey,         // <--- New
+        aiPrompt: aiPrompt,   // <--- New
         approved: state.settings.approved || {},
-        rules: rules,
-        customScript: customJs
+        rules: rules
     };
 
+    // ... (Fetch call remains the same) ...
     await fetch(`${API_BASE}/settings/save`, {
         method: 'POST',
         headers: {'Content-Type':'application/x-www-form-urlencoded'},
