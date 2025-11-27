@@ -520,8 +520,8 @@ class AwtsmoosEmailClient {
             var headers = emailData.substring(0, splitIndex);
             var body = emailData.substring(splitIndex + (CRLF.length * 2));
 
-            // 2. Body Hash (Simple Canonicalization: just hash the body as-is)
-            // Note: We ensure there is exactly one trailing CRLF for the body hash
+            // 2. Body Hash (Simple Canonicalization)
+            // Ensure exactly one trailing CRLF
             var bodyToHash = body;
             if (!bodyToHash.endsWith(CRLF)) bodyToHash += CRLF;
             
@@ -529,55 +529,61 @@ class AwtsmoosEmailClient {
                 .update(bodyToHash)
                 .digest('base64');
             
-            // --- ADD THESE LOGS ---
-            console.log("---------------------------------------------------");
-            console.log("DEBUG: Signing Email...");
-            console.log("DEBUG: Body Hash Calculated: " + bodyHash);
-            console.log("DEBUG: Domain: " + domain + ", Selector: " + selector);
-            console.log("---------------------------------------------------");
-            // ----------------------
+            console.log("DEBUG: Body Hash: " + bodyHash);
 
-            // 3. Prepare Header List
-            // We select specific headers to sign to avoid signing unrelated things
+            // 3. Prepare Header List (Relaxed Canonicalization)
             var headersToSign = ['Message-ID', 'Date', 'From', 'To', 'Subject'];
             var canonicalizedHeaders = '';
             var headerFieldNames = '';
 
             headersToSign.forEach(name => {
-                // Find the header line (Case-insensitive search)
+                // Find the header (Case-insensitive)
                 var regex = new RegExp(`^${name}:`, 'im');
                 var match = headers.match(regex);
                 if (match) {
-                    // Get the full line
+                    // Extract the raw line
                     var start = headers.toLowerCase().indexOf(name.toLowerCase() + ':');
                     var end = headers.indexOf(CRLF, start);
                     var line = headers.substring(start, end);
                     
-                    // Simple Canonicalization: no changes, just the line + CRLF
-                    canonicalizedHeaders += line + CRLF;
+                    // --- RELAXED CANONICALIZATION LOGIC ---
+                    // 1. Split into Key and Value
+                    var parts = line.split(':');
+                    var key = parts.shift().toLowerCase().trim(); // Lowercase key
+                    var value = parts.join(':'); // Rejoin value parts
+                    
+                    // 2. Compress whitespace in value
+                    // Remove newlines, replace multiple spaces with single space, trim ends
+                    value = value.replace(/\r\n/g, '').replace(/\s+/g, ' ').trim();
+                    
+                    // 3. Reconstruct: key:value (No space after colon)
+                    canonicalizedHeaders += key + ':' + value + CRLF;
                     headerFieldNames += name + ':';
                 }
             });
-            // Remove trailing colon from field names
             headerFieldNames = headerFieldNames.slice(0, -1);
 
-            // 4. Construct DKIM Header (Pre-Signature)
-            // Note: We use c=simple/simple
-            var dkimHeader = `v=1;a=rsa-sha256;c=simple/simple;d=${domain};s=${selector};bh=${bodyHash};h=${headerFieldNames};b=`;
+            // 4. Construct DKIM Header Value
+            // Note: Changed to c=relaxed/simple
+            var dkimHeaderValue = `v=1;a=rsa-sha256;c=relaxed/simple;d=${domain};s=${selector};bh=${bodyHash};h=${headerFieldNames};b=`;
             
-            // 5. Create the Input to Sign
-            // The spec requires: Canonicalized Headers + "dkim-signature:" + dkimHeader
-            var toSign = canonicalizedHeaders + 'DKIM-Signature: ' + dkimHeader;
+            // 5. Canonicalize the DKIM Header itself for signing
+            // name to lowercase, no space after colon
+            var canonicalizedDkimHeader = 'dkim-signature:' + dkimHeaderValue;
+
             // 6. Sign
+            var toSign = canonicalizedHeaders + canonicalizedDkimHeader;
+            
             var signature = crypto.createSign('SHA256')
                 .update(toSign)
                 .sign(privateKey, 'base64');
 
-            // 7. Return the full header line
-           return `${dkimHeader}${signature}`;
+            // 7. Return the Header (Standard format with space)
+            return `${dkimHeaderValue}${signature}`;
+
         } catch (e) {
             console.error("Signing Error:", e);
-            return emailData; // Fallback to unsigned if error
+            return emailData;
         }
     }
 
