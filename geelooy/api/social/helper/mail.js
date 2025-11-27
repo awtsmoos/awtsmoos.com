@@ -66,9 +66,9 @@ async function getMail({ $i, userid, aliasId, threadId, page = 1, pageSize = 20,
     var threadsPath = `/emails/${myFolder}/threads`;
 
     try {
-        // VIEW: THREADS (Snippets only)
+        // --- A. THREADS VIEW (Snippets) ---
         if (view === 'threads') {
-            // 1. Get List of Friends (Folders)
+            // 1. Get list of friends (folders)
             var friends = await $i.db.get(threadsPath);
             if (!friends || (Array.isArray(friends) && friends.length === 0)) return [];
 
@@ -77,53 +77,48 @@ async function getMail({ $i, userid, aliasId, threadId, page = 1, pageSize = 20,
             for (var friendName of friends) {
                 var tPath = `${threadsPath}/${friendName}`;
                 
-                // Efficiently get keys (timestamps) only
+                // 2. Get keys only (fast)
                 var keys = await $i.db.getObjectKeys(tPath);
                 if (!keys || keys.length === 0) continue;
 
-                // Sort keys desc (newest first) and take the first one
-                keys.sort((a, b) => b - a);
+                // 3. Get the absolute latest key
+                keys.sort((a, b) => b - a); // Descending
                 var latestKey = keys[0];
 
-                // Fetch JUST that message
+                // 4. Fetch ONLY that message
                 var latestMsg = await $i.db.getValue(tPath, latestKey);
                 
                 if (latestMsg) {
                     var parsed = parseEmailEntry(latestMsg, `${friendName}:${latestKey}`, friendName);
                     parsed.correspondent = friendName;
                     parsed.uid = latestKey;
-                    
-                    // Count unread? (Requires iterating or metadata... skipping for perf now, or client calculates)
-                    // For pure speed, we assume client updates unread status via socket, 
-                    // or we add a separate lightweight "unread" index later.
-                    
                     snippets.push(parsed);
                 }
             }
 
-            // Sort threads by latest message time
+            // Sort snippets by time (Newest on top)
             return snippets.sort((a, b) => b.timeSent - a.timeSent);
         }
 
-        // VIEW: MESSAGES (Full History for one thread)
+        // --- B. MESSAGES VIEW (Pagination) ---
         else if (view === 'messages' && threadId) {
             var tPath = `${threadsPath}/${threadId}`;
             
-            // Get all keys to paginate
+            // 1. Get all keys
             var keys = await $i.db.getObjectKeys(tPath);
             if (!keys) return [];
 
-            // Sort Descending (Newest First)
+            // 2. Sort Newest -> Oldest for pagination
             keys.sort((a, b) => b - a);
 
-            // Pagination Logic
+            // 3. Slice the page
             var start = (page - 1) * pageSize;
             var end = start + parseInt(pageSize);
             var pageKeys = keys.slice(start, end);
 
             var messages = [];
             
-            // Fetch values in parallel-ish
+            // 4. Fetch values
             for (var k of pageKeys) {
                 var entry = await $i.db.getValue(tPath, k);
                 if (entry) {
@@ -134,8 +129,7 @@ async function getMail({ $i, userid, aliasId, threadId, page = 1, pageSize = 20,
                 }
             }
 
-            // Return chronological for chat UI (Oldest -> Newest)
-            // But we fetched Newest -> Oldest for pagination. So reverse back.
+            // 5. Return chronological (Oldest -> Newest) for the Chat UI
             return messages.sort((a, b) => a.timeSent - b.timeSent);
         }
 

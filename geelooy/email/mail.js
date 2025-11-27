@@ -74,12 +74,16 @@ async function refreshSnippets() {
 /**
  * Fetches specific pages of history for a thread.
  */
+/**
+ * Fetches specific pages of history for a thread.
+ */
 async function loadThreadHistory(threadId, page = 1) {
     if (!state.alias) return;
     
     state.isLoadingHistory = true;
     
     try {
+        // B"H - Request 'messages' view from server
         const url = `${API_BASE}/get?aliasId=${encodeURIComponent(state.alias)}&view=messages&threadId=${encodeURIComponent(threadId)}&page=${page}`;
         const res = await fetch(url);
         const newMsgs = await res.json();
@@ -87,17 +91,15 @@ async function loadThreadHistory(threadId, page = 1) {
         if (Array.isArray(newMsgs) && newMsgs.length > 0) {
             if (!state.threads[threadId]) state.threads[threadId] = [];
             
-            // Merge logic: avoid duplicates based on UID
+            // Deduplicate based on UID
             const currentIds = new Set(state.threads[threadId].map(m => m.uid));
             const uniqueNew = newMsgs.filter(m => !currentIds.has(m.uid));
             
-            // Prepend if paging back, Append if new (logic handled by sorting)
+            // Add new messages and re-sort chronological
             state.threads[threadId] = [...state.threads[threadId], ...uniqueNew].sort((a,b) => a.timeSent - b.timeSent);
             
-            // Update pagination tracking
             state.pagination[threadId] = page;
-            
-            return uniqueNew.length; // Return count to know if more exist
+            return uniqueNew.length;
         }
         return 0;
     } finally {
@@ -384,6 +386,15 @@ function closeMsgMenu() { document.getElementById('msgContextModal').classList.a
 
 
 function formatContent(text) {
+    if (!text) return "";
+    
+    // B"H - Heuristic: If it looks like HTML, assume it's trusted (sanitized by server)
+    // Checking for common tags like <div, <span, <br, <p
+    if (/<[a-z][\s\S]*>/i.test(text) || text.includes('style=')) {
+        return text; // Return raw HTML
+    }
+    
+    // Otherwise, it's plain text -> Escape it and add line breaks
     return escapeHtml(text).replace(/\n/g, '<br>');
 }
 
