@@ -1,13 +1,26 @@
 // B"H
+/**
+ * awtsmoosSocket.js
+ * Native, zero-dependency WebSocket implementation.
+ * Features:
+ * - Robust Frame Parsing
+ * - Alias/User Routing (with Fuzzy Matching)
+ * - Heartbeat (Ping/Pong)
+ * - Broadcast Capability
+ */
 const crypto = require('crypto');
 const GUID = '258EAFA5-E914-47DA-95CA-C5AB0DC85B11';
 
 class AwtsmoosSocket {
     constructor() {
         this.clients = new Set();
-        // Map: "alias_at_domain.com" -> Set of Clients
-        this.aliasMap = new Map(); 
+        this.aliasMap = new Map();
+
+        // Start Heartbeat (Ping every 30s)
+        setInterval(() => this.heartbeat(), 30000);
     }
+
+    // --- 1. Connection Handling ---
 
     handleUpgrade(req, socket, head) {
         const key = req.headers['sec-websocket-key'];
@@ -25,7 +38,8 @@ class AwtsmoosSocket {
         const client = {
             id: Date.now() + '_' + Math.random().toString(36).substr(2, 9),
             socket: socket,
-            aliasId: null, // Will be set via message
+            aliasId: null,
+            isAlive: true,
             send: (msg) => this.sendFrame(socket, typeof msg === 'string' ? msg : JSON.stringify(msg))
         };
 
@@ -33,11 +47,7 @@ class AwtsmoosSocket {
         console.log("B\"H - Socket Connected:", client.id);
 
         socket.on('data', (buffer) => this.processBuffer(client, buffer));
-        
-        socket.on('close', () => {
-            this.removeClient(client);
-        });
-        
+        socket.on('close', () => this.removeClient(client));
         socket.on('error', () => this.removeClient(client));
     }
 
@@ -52,6 +62,20 @@ class AwtsmoosSocket {
         }
     }
 
+    heartbeat() {
+        this.clients.forEach(client => {
+            if (!client.isAlive) {
+                console.log("Terminating dead socket:", client.id);
+                return client.socket.end();
+            }
+            client.isAlive = false;
+            // Send Ping Frame (Opcode 0x9)
+            client.socket.write(Buffer.from([0x89, 0x00]));
+        });
+    }
+
+    // --- 2. Frame Parsing ---
+
     processBuffer(client, buffer) {
         let offset = 0;
         const byte0 = buffer.readUInt8(offset++);
@@ -64,7 +88,7 @@ class AwtsmoosSocket {
             payloadLen = buffer.readUInt16BE(offset);
             offset += 2;
         } else if (payloadLen === 127) {
-            offset += 8; // Skip huge length for now
+            offset += 8;
         }
 
         let maskKey = null;
@@ -82,52 +106,94 @@ class AwtsmoosSocket {
             rawPayload.copy(finalPayload);
         }
 
-        if (opcode === 0x8) return client.socket.end();
+        // Handle Opcodes
+        if (opcode === 0x8) return client.socket.end(); // Close
+        if (opcode === 0xA) { client.isAlive = true; return; } // Pong (Response to our Ping)
+        
         if (opcode === 0x1) {
+            // Text Frame
+            client.isAlive = true; // Any activity marks alive
             const msg = finalPayload.toString('utf8');
             this.onMessage(client, msg);
         }
     }
 
-    // Handle JSON messages
+    // --- 3. Message Logic ---
+
     onMessage(client, msg) {
         try {
             const data = JSON.parse(msg);
             
-            // 1. LOGIN / IDENTIFY
             if (data.type === 'LOGIN' && data.aliasId) {
+                // Remove old mapping if exists
+                if(client.aliasId) {
+                     const oldSet = this.aliasMap.get(client.aliasId);
+                     if(oldSet) oldSet.delete(client);
+                }
+
                 client.aliasId = data.aliasId;
-                
                 if (!this.aliasMap.has(data.aliasId)) {
                     this.aliasMap.set(data.aliasId, new Set());
                 }
                 this.aliasMap.get(data.aliasId).add(client);
                 
-                console.log(`Socket ${client.id} logged in as ${data.aliasId}`);
-                client.send({ type: 'ACK', message: 'Logged in' });
+                console.log(`Socket ${client.id} identified as [${data.aliasId}]`);
+                client.send({ type: 'ACK', message: `Logged in as ${data.aliasId}` });
             }
             
         } catch (e) {
-            // Not JSON? Ignore or treat as chat
+            // Echo or Broadcast Chat
+            // this.broadcastAll({ type: 'CHAT', msg: msg });
         }
     }
 
-    // TARGETED SEND
-    sendToAlias(aliasId, data) {
-        // Handle "bob@gmail.com" vs "bob_at_gmail.com"
-        // Try both just in case
-        const variants = [aliasId, aliasId.replace(/@/g, "_at_"), aliasId.replace(/_at_/g, "@")];
+    // --- 4. Sending Logic ---
+
+    /**
+     * Sends a message to a specific user/alias.
+     * Supports fuzzy matching (e.g. sending to "bob_at_gmail.com" reaches "bob")
+     */
+    sendToAlias(targetAlias, data) {
+        console.log(`WS: Attempting send to [${targetAlias}]`);
         
-        for(let v of variants) {
-            if (this.aliasMap.has(v)) {
-                const clients = this.aliasMap.get(v);
-                for (const client of clients) {
-                    client.send(data);
-                }
-                return true; // Sent
-            }
+        // 1. Direct Match
+        if (this._trySend(targetAlias, data)) return true;
+
+        // 2. Try replacing _at_ with @ (or vice versa)
+        const swapped = targetAlias.includes("_at_") ? targetAlias.replace(/_at_/g, "@") : targetAlias.replace(/@/g, "_at_");
+        if (this._trySend(swapped, data)) return true;
+
+        // 3. Try "Short Name" (e.g. "awtsmoos_at_awtsmoos.com" -> "awtsmoos")
+        // This fixes your specific issue!
+        const shortName = targetAlias.split("_at_")[0].split("@")[0];
+        if (shortName !== targetAlias) {
+             if (this._trySend(shortName, data)) return true;
         }
-        return false; // User not online
+
+        console.log(`WS: User [${targetAlias}] not found online.`);
+        return false;
+    }
+
+    _trySend(key, data) {
+        if (this.aliasMap.has(key)) {
+            const clients = this.aliasMap.get(key);
+            console.log(`WS: Found ${clients.size} sockets for [${key}]`);
+            for (const client of clients) {
+                client.send(data);
+            }
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Broadcast to EVERY connected socket (Good for testing)
+     */
+    broadcastAll(data) {
+        console.log("WS: Broadcasting to all clients...");
+        for (const client of this.clients) {
+            client.send(data);
+        }
     }
 
     sendFrame(socket, data) {
@@ -145,8 +211,10 @@ class AwtsmoosSocket {
         }
 
         try {
-            socket.write(Buffer.concat([Buffer.from(frame), payload]));
-        } catch(e) {}
+            if(socket.writable) socket.write(Buffer.concat([Buffer.from(frame), payload]));
+        } catch(e) {
+            console.error("WS Write Error", e.message);
+        }
     }
 }
 

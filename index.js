@@ -28,17 +28,16 @@ var awts = require("./ayzarim/awtsmoosDynamicServer/index.js");
 var AwtsSocket = require("./ayzarim/awtsmoosDynamicServer/awtsmoosSocket.js");
 
 async function go() {
-    var serv = new awts(
-        __dirname,
-        mail
-    );
-    await serv.init();
-
-    // 1. Init WS
+    var serv = new awts(__dirname, mail);
+    
+    // 1. Create WS
     var wsServer = new AwtsSocket();
     
-    // 2. ATTACH TO SERVER INSTANCE so ingress can find it
-    serv.ws = wsServer; 
+    // 2. Attach to serv
+    serv.ws = wsServer;
+    
+    // 3. NOW init (which binds the mail handler)
+    await serv.init(); 
 
     // 3. Create HTTP
     var httpServer = http.createServer(async (request, response) => { 
