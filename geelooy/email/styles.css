@@ -146,8 +146,19 @@ body, html {
 .thread-name { font-weight: 700; font-size: 0.95rem; color: #fff; }
 .thread-time { font-size: 0.75rem; color: var(--text-secondary); }
 .thread-preview { font-size: 0.85rem; color: var(--text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.unread-badge { background: var(--neon-gold); color: #000; font-weight: 800; padding: 2px 8px; border-radius: 12px; font-size: 0.7rem; box-shadow: 0 2px 8px rgba(245,158,11,0.5); }
-
+.unread-badge {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%); /* Center vertically */
+    background: var(--neon-gold); 
+    color: #000; 
+    font-weight: 800; 
+    padding: 4px 8px; 
+    border-radius: 12px; 
+    font-size: 0.75rem; 
+    box-shadow: 0 2px 8px rgba(245,158,11,0.5); 
+}
 /* --- CHAT AREA (Right) --- */
 .chat-area {
     display: flex; 

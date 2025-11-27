@@ -109,18 +109,29 @@ async function getMail({ $i, userid, aliasId, threadId, page = 1, pageSize = 20,
                     }).filter(Boolean);
 
                     if (msgs.length > 0) {
+                        // 1. Sort to find the latest
                         msgs.sort((a, b) => b.timeSent - a.timeSent);
                         var latest = msgs[0];
                         
-                        // B"H - Unification Logic
+                        // 2. Count Unread (Incoming only)
+                        var unreadCount = 0;
+                        msgs.forEach(m => {
+                            if (!m.read && m.direction === 'incoming') {
+                                unreadCount++;
+                            }
+                        });
+
                         var core = normalize(folderName);
                         
-                        // If we already have a snippet for this core name, compare timestamps
+                        // 3. Update Grouping
                         if (!grouped[core] || latest.timeSent > grouped[core].timeSent) {
-                            // Update with the newer message
-                            // We FORCE the correspondent to be the Core Name for clean UI
                             latest.correspondent = core; 
+                            latest.unreadCount = unreadCount; // <--- ADD THIS
                             grouped[core] = latest;
+                        } else if (grouped[core]) {
+                            // If we already have a snippet (from another alias variation), 
+                            // we should ADD the unread counts together.
+                            grouped[core].unreadCount = (grouped[core].unreadCount || 0) + unreadCount;
                         }
                     }
                 }

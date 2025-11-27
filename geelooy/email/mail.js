@@ -25,7 +25,8 @@ const state = {
     
     // UI State
     replyingTo: null,
-    isLoadingHistory: false
+    isLoadingHistory: false,
+    historyLoaded: new Set() 
 };
 
 // --- Genesis ---
@@ -74,32 +75,43 @@ async function refreshSnippets() {
 /**
  * Fetches specific pages of history for a thread.
  */
-/**
- * Fetches specific pages of history for a thread.
- */
 async function loadThreadHistory(threadId, page = 1) {
     if (!state.alias) return;
-    
     state.isLoadingHistory = true;
     
     try {
-        // B"H - Request 'messages' view from server
         const url = `${API_BASE}/get?aliasId=${encodeURIComponent(state.alias)}&view=messages&threadId=${encodeURIComponent(threadId)}&page=${page}`;
         const res = await fetch(url);
         const newMsgs = await res.json();
         
-        if (Array.isArray(newMsgs) && newMsgs.length > 0) {
+        if (Array.isArray(newMsgs)) {
             if (!state.threads[threadId]) state.threads[threadId] = [];
             
-            // Deduplicate based on UID
-            const currentIds = new Set(state.threads[threadId].map(m => m.uid));
-            const uniqueNew = newMsgs.filter(m => !currentIds.has(m.uid));
+            // B"H - MERGE LOGIC: Combine API (History) + Cache (Socket)
+            const combined = [...state.threads[threadId], ...newMsgs];
             
-            // Add new messages and re-sort chronological
-            state.threads[threadId] = [...state.threads[threadId], ...uniqueNew].sort((a,b) => a.timeSent - b.timeSent);
+            // Deduplicate by UID
+            const seen = new Set();
+            const unique = [];
             
+            // Process combined array to remove duplicates
+            for (const m of combined) {
+                if (!seen.has(m.uid)) {
+                    seen.add(m.uid);
+                    unique.push(m);
+                }
+            }
+            
+            // Sort Chronological
+            unique.sort((a,b) => a.timeSent - b.timeSent);
+            
+            state.threads[threadId] = unique;
             state.pagination[threadId] = page;
-            return uniqueNew.length;
+            
+            // Mark history as loaded so we don't refetch unnecessarily
+            state.historyLoaded.add(threadId);
+            
+            return unique.length;
         }
         return 0;
     } finally {
@@ -205,6 +217,9 @@ function renderSidebar() {
         item.className = `thread-item ${state.activeThread === name ? 'active' : ''}`;
         item.onclick = () => selectThread(name, displayName);
         
+        const unread = msg.unreadCount || 0;
+        const badgeHtml = unread > 0 ? `<div class="unread-badge">${unread}</div>` : '';
+
         item.innerHTML = `
             <div class="avatar">${displayName.charAt(0).toUpperCase()}</div>
             <div class="thread-info">
@@ -217,20 +232,22 @@ function renderSidebar() {
                     ${escapeHtml(msg.subject || msg.snippet || msg.content).substring(0, 30)}...
                 </div>
             </div>
+            ${badgeHtml}
         `;
         list.appendChild(item);
     });
 }
 
 async function selectThread(threadId, displayName) {
-    // Normalize click action too
+    // Normalize
     const coreId = getCoreThreadId(threadId);
     state.activeThread = coreId;
+    
     document.getElementById('appContainer').classList.add('chat-open');
     document.getElementById('activeChatInfo').classList.remove('hidden');
-    document.getElementById('chatPartnerName').textContent = displayName || threadId;
+    document.getElementById('chatPartnerName').textContent = displayName || coreId;
 
-    // --- CRITICAL FIX: Manage Compose vs Approve Visibility ---
+    // View Logic (Inbox vs Requests)
     const isRequest = (state.view === 'requests');
     if (isRequest) {
         document.getElementById('approveBtn').classList.remove('hidden');
@@ -240,16 +257,32 @@ async function selectThread(threadId, displayName) {
         document.getElementById('composeForm').classList.remove('hidden');
     }
 
-    // Load History if not in cache
-    if (!state.threads[threadId]) {
-        document.getElementById('messagesContainer').innerHTML = '<div class="empty-state">Loading light...</div>';
-        await loadThreadHistory(threadId, 1);
+    // B"H - CRITICAL FIX: Check if we have FULL history, not just partial socket data
+    const hasHistory = state.historyLoaded.has(coreId);
+
+    // If we have messages (socket) but no history, or no messages at all...
+    if (!state.threads[coreId] || !hasHistory) {
+        
+        // Show loading ONLY if we have absolutely nothing
+        if (!state.threads[coreId]) {
+            document.getElementById('messagesContainer').innerHTML = '<div class="empty-state">Loading light...</div>';
+        }
+        
+        // Fetch history and merge it with any existing socket messages
+        await loadThreadHistory(coreId, 1);
     }
 
-    renderMessages(threadId, true); // True = Scroll to bottom
-    renderSidebar(); // Update active class
+    // Clear Unread Count for this thread
+    const snip = state.snippets.find(s => getCoreThreadId(s.correspondent) === coreId);
+    if(snip) {
+        snip.unreadCount = 0;
+        // Optionally notify server that we read them (fire and forget)
+        // state.threads[coreId].forEach(m => markAsRead(m.id));
+    }
+
+    renderMessages(coreId, true); 
+    renderSidebar(); // Update to remove badge
     
-    // Attach Scroll Listener for Pagination
     attachScrollListener();
 }
 
@@ -408,28 +441,41 @@ function injectMessageIntoCache(msg) {
     );
 
     if (!exists) {
-        // B"H - Safeguard content type (Client Side Fix from before)
         if(typeof msg.content !== 'string') msg.content = String(msg.content || "");
 
         state.threads[tid].push(msg);
         state.threads[tid].sort((a,b) => a.timeSent - b.timeSent);
         
-        // 2. Update Snippets (Sidebar)
-        // Find if we already have a snippet for this thread
+        // 2. Update Snippets & Unread Count
         const snipIdx = state.snippets.findIndex(s => getCoreThreadId(s.correspondent) === tid);
         
+        // Logic: Is this thread currently open?
+        const isOpen = state.activeThread && getCoreThreadId(state.activeThread) === tid;
+        
         if (snipIdx > -1) {
-            // Update existing snippet
-            state.snippets[snipIdx] = msg;
+            // Update existing
+            let oldUnread = state.snippets[snipIdx].unreadCount || 0;
+            state.snippets[snipIdx] = msg; // Replace snippet with new msg
+            
+            // If NOT open and incoming, increment
+            if (!isOpen && msg.direction === 'incoming') {
+                state.snippets[snipIdx].unreadCount = oldUnread + 1;
+            } else {
+                 // Keep old count if we are just updating outgoing, or reset if open
+                 state.snippets[snipIdx].unreadCount = isOpen ? 0 : oldUnread;
+            }
         } else {
-            // New thread entirely, add to top
+            // New thread
+            if (!isOpen && msg.direction === 'incoming') {
+                msg.unreadCount = 1;
+            }
             state.snippets.unshift(msg);
         }
         
-        // 3. Live Update: If viewing this thread, render immediately
-        // (Check normalized active thread against normalized incoming ID)
-        if (state.activeThread && getCoreThreadId(state.activeThread) === tid) {
-            renderMessages(tid, true); // Scroll to bottom
+        if (isOpen) {
+            renderMessages(tid, true);
+            // If open, ensure count is cleared
+            if(snipIdx > -1) state.snippets[snipIdx].unreadCount = 0;
         }
         
         renderSidebar();
