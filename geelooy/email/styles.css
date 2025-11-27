@@ -447,10 +447,20 @@ textarea::placeholder { color: rgba(255, 255, 255, 0.4); }
    
 }
   
+/* Find the ".modal" block and update it to this: */
 .modal {
-    z-index: 9999 !important; /* Force on top of everything */
-    background: rgba(0, 0, 0, 0.85); /* Darker dim */
+    position: fixed; 
+    top: 0; left: 0; 
+    width: 100%; height: 100%;
+    z-index: 9999 !important;
+    background: rgba(0, 0, 0, 0.85);
     backdrop-filter: blur(5px);
+    
+    /* B"H - Center align logic */
+    display: flex;
+    align-items: center; /* Vertical Center */
+    justify-content: center; /* Horizontal Center */
+    padding-bottom: env(safe-area-inset-bottom); /* Respect bottom bar */
 }
 /* SETTINGS MODAL */
 /* SETTINGS MODAL & Generic Modals */
@@ -668,15 +678,39 @@ textarea::placeholder { color: rgba(255, 255, 255, 0.4); }
 /* B"H - NEW TRANSMISSION MODAL STYLES */
 
 /* 1. The Container Card */
+/* Update these styles for the New Message Modal */
+
 #newMsgModal .modal-content {
-    background: rgba(11, 11, 13, 0.98); /* Deep opaque dark for readability */
-    border: 1px solid rgba(255, 170, 0, 0.2); /* Subtle Gold Border */
-    box-shadow: 0 0 50px rgba(0,0,0,0.8), 0 0 20px rgba(245, 158, 11, 0.15);
+    background: rgba(11, 11, 13, 0.98);
+    border: 1px solid rgba(255, 170, 0, 0.2);
+    box-shadow: 0 0 50px rgba(0,0,0,0.8);
     border-radius: 20px;
-    padding: 25px;
-    width: 90%;
-    max-width: 450px;
+    
+    /* B"H - Compact Layout Fixes */
+    padding: 20px 24px;   /* Reduced vertical padding */
+    width: 85%;           /* slightly narrower */
+    max-width: 400px;
+    
+    /* Prevent cutoff */
+    max-height: 80dvh;    /* Never exceed 80% of viewport height */
+    overflow-y: auto;     /* Scroll internally if content is too tall */
+    scrollbar-width: none; /* Hide scrollbar for cleanliness */
+    
+    /* Reset margins since flex handles centering */
+    margin: 0; 
+    position: relative;
     animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Compact the form groups slightly */
+.form-group {
+    margin-bottom: 12px; /* Tighter spacing */
+    text-align: left;
+}
+
+#newThreadForm textarea {
+    min-height: 80px; /* Don't let it start too huge */
+    resize: none;
 }
 
 @keyframes popIn {
