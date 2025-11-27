@@ -63,6 +63,12 @@ class AwtsmoosEmailClient {
         try {
             // Read the key file directly
             this.privateKey = fs.readFileSync(pathToPrivateKey , 'utf-8');
+             console.log("---------------------------------------------------");
+                console.log("DEBUG: Private Key File FOUND.");
+                console.log("DEBUG: Key Length: " + this.privateKey.length);
+                console.log("DEBUG: First line: " + this.privateKey.split('\n')[0]);
+                console.log("---------------------------------------------------");
+            
             console.log("Successfully loaded DKIM Private Key from file.");
         } catch (e) {
             console.warn("Warning: Could not load DKIM private key from file:", e.message);
@@ -522,6 +528,14 @@ class AwtsmoosEmailClient {
             var bodyHash = crypto.createHash('sha256')
                 .update(bodyToHash)
                 .digest('base64');
+            
+            // --- ADD THESE LOGS ---
+            console.log("---------------------------------------------------");
+            console.log("DEBUG: Signing Email...");
+            console.log("DEBUG: Body Hash Calculated: " + bodyHash);
+            console.log("DEBUG: Domain: " + domain + ", Selector: " + selector);
+            console.log("---------------------------------------------------");
+            // ----------------------
 
             // 3. Prepare Header List
             // We select specific headers to sign to avoid signing unrelated things
