@@ -16,7 +16,7 @@ module.exports = {
     await $i.use({
       "/": async v => {
       
-      return "hi"
+     // return "hi"
         
         // 1. Security: Authenticate & Validate Origin
         if (!loggedIn($i)) {
