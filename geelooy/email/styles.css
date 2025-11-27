@@ -25,8 +25,11 @@
 }
 
 /* Allow global layout to dictate height, but ensure full viewport usage */
+
 body, html {
-    margin: 0; padding: 0; width: 100%; height: 100%;
+    margin: 0; padding: 0; width: 100%; 
+    height: 100%; /* Fallback */
+    height: 100dvh; /* Priority: dynamic height that excludes browser UI bars */
     overflow: hidden; /* Prevent global scrollbar */
 }
 
@@ -285,13 +288,13 @@ body, html {
     border-bottom-left-radius: 4px;
 }
 
-/* Compose Box - BIGGER BETTER */
-/* --- COMPOSE AREA (The Vessel of Speech) --- */
-/* --- COMPOSE AREA (The Vessel of Speech) --- */
+/* Find the ".input-area" block and replace it with: */
 .input-area {
     flex-shrink: 0;
     z-index: 50; 
-    padding: 15px 20px; /* More breathing room */
+    padding: 15px 20px; 
+    /* B"H - Safe Area protection for bottom swipe bars */
+    padding-bottom: max(15px, env(safe-area-inset-bottom)); 
     background: linear-gradient(to top, #000 80%, transparent); /* Fade out top */
     display: flex; flex-direction: column;
     width: 100%; box-sizing: border-box;
@@ -647,5 +650,16 @@ textarea::placeholder { color: rgba(255, 255, 255, 0.4); }
     transition: opacity 0.2s;
 }
 .message-row.swiping .swipe-indicator { opacity: 1; }
+
+
+/* Find the "swipe-indicator" block at the bottom and add this CSS below it: */
+
+.row-me .swipe-indicator {
+    right: auto;        /* Unset default right positioning */
+    left: 100%;         /* Position it on the far right edge */
+    margin-right: 0;
+    margin-left: 20px;  /* Spacing */
+    transform-origin: center;
+}
 
 

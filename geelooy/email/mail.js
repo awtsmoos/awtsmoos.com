@@ -584,18 +584,22 @@ let isDragging = false; // B"H - Added for mouse tracking
 const SWIPE_THRESHOLD = 80;
 
 // B"H - Universal Swipe Logic (Works on ME and THEM)
+//B"H
+// Find the "attachSwipeLogic" function and replace it with this version:
+
 function attachSwipeLogic(element, msg, senderName) {
     let startX = 0;
     let currentX = 0;
     let isTouch = false;
-    const SWIPE_THRESHOLD = 60; // Distance to trigger reply
+    const SWIPE_THRESHOLD = 60; 
+    const isMe = msg.direction === 'outgoing'; // Detect ownership
 
-    // Ensure indicator exists and is styled correctly for the row container
+    // Ensure indicator exists
     if (!element.querySelector('.swipe-indicator')) {
         const ind = document.createElement('div');
         ind.className = 'swipe-indicator';
-        ind.innerHTML = '↩️'; // Reply Icon
-        element.prepend(ind); // Put it at the start of the row container
+        ind.innerHTML = '↩️'; 
+        element.prepend(ind); 
     }
     
     const indicator = element.querySelector('.swipe-indicator');
@@ -605,7 +609,6 @@ function attachSwipeLogic(element, msg, senderName) {
     const start = (x) => { 
         startX = x; 
         element.classList.add('swiping'); 
-        // Detach scroll listener temporarily to prevent viewport scroll during drag
         document.getElementById('messagesContainer').onscroll = null;
     };
     
@@ -613,21 +616,33 @@ function attachSwipeLogic(element, msg, senderName) {
         currentX = x;
         const diff = currentX - startX;
         
-        // ONLY allow Right Swipe (Pull > 0) - Corresponds to Reply
-        if (diff > 0 && diff < 200) {
-            // Apply transform with resistance
-            const resistance = Math.pow(diff, 0.8); 
+        let validSwipe = false;
+        let resistance = 0;
+
+        // Logic: Them = Swipe Right (diff > 0), Me = Swipe Left (diff < 0)
+        if (!isMe && diff > 0 && diff < 200) {
+            validSwipe = true;
+            resistance = Math.pow(diff, 0.8);
+        } else if (isMe && diff < 0 && diff > -200) {
+            validSwipe = true;
+            resistance = -Math.pow(Math.abs(diff), 0.8);
+        }
+
+        if (validSwipe) {
             element.style.transform = `translateX(${resistance}px)`;
             
-            // Visual cues for the icon
-            if (resistance > SWIPE_THRESHOLD) {
-                indicator.style.transform = `translateY(-50%) scale(1.2) rotate(-180deg)`; // Pop effect
+            // Icon Animation
+            const absRes = Math.abs(resistance);
+            // Flip rotation for "Me" so icon looks correct coming from right
+            const baseRotate = isMe ? 0 : -180; 
+            
+            if (absRes > SWIPE_THRESHOLD) {
+                indicator.style.transform = `translateY(-50%) scale(1.2) rotate(${baseRotate}deg)`;
                 indicator.style.color = '#fff';
                 indicator.style.background = 'var(--neon-gold)';
-                indicator.style.borderColor = 'var(--neon-gold)';
                 indicator.style.opacity = '1';
             } else {
-                indicator.style.transform = `translateY(-50%) scale(${0.5 + (resistance/SWIPE_THRESHOLD)*0.5})`;
+                indicator.style.transform = `translateY(-50%) scale(${0.5 + (absRes/SWIPE_THRESHOLD)*0.5}) rotate(${baseRotate}deg)`;
                 indicator.style.color = 'var(--neon-gold)';
                 indicator.style.background = '#2a2a2e';
                 indicator.style.opacity = '1';
@@ -637,29 +652,29 @@ function attachSwipeLogic(element, msg, senderName) {
 
     const end = (x) => {
         const diff = x - startX;
-        element.style.transform = ''; // Snap back
+        element.style.transform = ''; 
         element.classList.remove('swiping');
         
-        // Reset icon styles
         indicator.style = ''; 
         indicator.style.opacity = '0';
-
-        // Re-attach scroll listener
+        
         attachScrollListener(); 
 
-        if (diff > SWIPE_THRESHOLD) {
-            // Vibration haptic (if mobile)
+        // Trigger if threshold met in correct direction
+        const triggered = (!isMe && diff > SWIPE_THRESHOLD) || (isMe && diff < -SWIPE_THRESHOLD);
+
+        if (triggered) {
             if (navigator.vibrate) navigator.vibrate(50);
             triggerReplyMode(msg, senderName);
         }
     };
 
-    // Touch Listeners
+    // Listeners
     element.addEventListener('touchstart', e => { isTouch=true; start(e.touches[0].clientX); }, {passive: true});
     element.addEventListener('touchmove', e => { if(isTouch) move(e.touches[0].clientX); }, {passive: true});
     element.addEventListener('touchend', e => { if(isTouch) { end(e.changedTouches[0].clientX); isTouch=false; } });
 
-    // Mouse Listeners (Desktop slide)
+    // Mouse Listeners
     let isDragging = false;
     element.addEventListener('mousedown', e => {
         if (e.button !== 0 || e.target.closest('button, a, input, textarea, .msg-menu-btn')) return;
@@ -667,17 +682,13 @@ function attachSwipeLogic(element, msg, senderName) {
         element.style.cursor = 'grabbing';
         start(e.clientX);
     });
-    window.addEventListener('mousemove', e => {
-        if (!isDragging) return;
-        move(e.clientX);
-    });
-    window.addEventListener('mouseup', e => {
-        if (!isDragging) return;
-        isDragging = false;
-        element.style.cursor = '';
-        end(e.clientX);
-    });
+    window.addEventListener('mousemove', e => { if (isDragging) move(e.clientX); });
+    window.addEventListener('mouseup', e => { if (isDragging) { isDragging = false; element.style.cursor = ''; end(e.clientX); } });
 }
+
+
+
+
 
 // B"H - Helper to unify movement logic
 function handleSwipeMove(element, diff) {
