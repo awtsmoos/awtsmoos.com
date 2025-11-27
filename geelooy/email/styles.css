@@ -299,3 +299,32 @@ textarea:focus { outline: none; }
 }
 .form-group input:focus, .form-group textarea:focus { outline: none; border-color: var(--primary); }
 .modal-actions { text-align: right; }
+
+
+/* B"H - Email Content Reset */
+
+.email-body {
+    word-break: break-word;
+    overflow-wrap: break-word;
+}
+
+/* Ensure images inside email don't overflow */
+.email-body img {
+    max-width: 100% !important;
+    height: auto !important;
+}
+
+/* Reset generic gmail quote styles if we missed some */
+.email-body blockquote {
+    border-left: 2px solid var(--primary);
+    margin-left: 10px;
+    padding-left: 10px;
+    opacity: 0.7;
+}
+
+/* Links in emails */
+.email-body a {
+    color: var(--accent);
+    text-decoration: underline;
+}
+

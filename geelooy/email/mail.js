@@ -177,25 +177,28 @@ function renderSidebar() {
     });
 }
 
+// ... existing code ...
+
 function renderMessages(threadName) {
     const container = document.getElementById('messagesContainer');
     const msgs = state.threads[threadName];
     
     if (!msgs) return;
 
-    // Determine render strategy: Replace innerHTML but try to keep scroll position if possible
-    // For simplicity: Full re-render + scroll to bottom on first load
-    
     container.innerHTML = '';
     
-    // Sort oldest first for chat view
-    const sorted = [...msgs].sort((a, b) => a.timeSent - b.timeSent);
+    // Sort oldest first
+    const sorted = [...msgs].sort((a, b) => a.time - b.time); // Note: Server saves as 'time', check consistency
     
     let lastDate = null;
 
     sorted.forEach(msg => {
+        // Fix: Server saves timestamp as 'time', client helper might expect 'timeSent'
+        // Let's normalize here:
+        const ts = msg.time || msg.timeSent || Date.now();
+
         // Date Separator
-        const dateStr = new Date(msg.timeSent).toLocaleDateString();
+        const dateStr = new Date(ts).toLocaleDateString();
         if (dateStr !== lastDate) {
             const sep = document.createElement('div');
             sep.className = 'date-separator';
@@ -208,12 +211,43 @@ function renderMessages(threadName) {
         const bubble = document.createElement('div');
         bubble.className = `message-row ${isMe ? 'row-me' : 'row-them'}`;
         
+        // B"H - NEW LOGIC FOR HTML CONTENT
+        // If we have HTML content from our new parser, use it.
+        // Otherwise fallback to escaping text.
+        
+        let bodyHtml = "";
+        
+        if (msg.content && (msg.content.includes('<div') || msg.content.includes('<br'))) {
+            // It's likely HTML. 
+            // In a real production app, use DOMPurify here.
+            // For now, we trust our server's stripHistory function.
+            bodyHtml = msg.content;
+        } else {
+            // It's plain text, format it
+            bodyHtml = formatContent(msg.textContent || msg.content || "");
+        }
+
+        // Handle Attachments (Images)
+        let attachmentHtml = "";
+        if (msg.attachments && Array.isArray(msg.attachments)) {
+            msg.attachments.forEach(att => {
+                if(att.contentType.startsWith("image/")) {
+                    attachmentHtml += `<br><img src="${att.data}" style="max-width:100%; border-radius:8px; margin-top:10px;" alt="${att.filename}">`;
+                }
+            });
+        }
+
         bubble.innerHTML = `
             <div class="message-bubble">
                 ${msg.subject && msg.subject !== '(No Subject)' ? `<div class="msg-subject">${escapeHtml(msg.subject)}</div>` : ''}
-                <div class="msg-content">${formatContent(msg.content)}</div>
+                
+                <div class="msg-content email-body">
+                    ${bodyHtml}
+                    ${attachmentHtml}
+                </div>
+                
                 <div class="msg-meta">
-                    <span class="msg-time">${formatTime(msg.timeSent)}</span>
+                    <span class="msg-time">${formatTime(ts)}</span>
                     <button class="msg-del" onclick="deleteMessage('${msg.id}')" title="Delete">&times;</button>
                 </div>
             </div>
@@ -221,11 +255,9 @@ function renderMessages(threadName) {
         container.appendChild(bubble);
     });
 
-    // Mark as read (locally for now, API call could go here)
-    // API call: /mail/get/:msgId/read
-    
     scrollToBottom();
 }
+
 
 // --- Interaction Logic ---
 
