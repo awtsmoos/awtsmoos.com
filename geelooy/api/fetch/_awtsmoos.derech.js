@@ -16,7 +16,7 @@ module.exports = {
     await $i.use({
       "/": async v => {
       
-      return "hi"
+     // return "hi"
         
         // 1. Security: Authenticate & Validate Origin
         if (!loggedIn($i)) {
@@ -60,7 +60,7 @@ module.exports = {
         // 3. Prepare the Request
         // We expect the client to POST a JSON object with: { url, method, headers, body, cookies }
         var input = $i.$_POST; // Assuming the input is in the POST body
-        
+        return {imp: input}
         // If parsing multipart/form-data resulted in a different structure, adjust here.
         // Or if it was raw JSON body:
         
