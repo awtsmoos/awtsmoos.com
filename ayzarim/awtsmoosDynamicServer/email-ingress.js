@@ -2,34 +2,37 @@
 /**
  * awtsmoosDynamicServer/email-ingress.js
  * Native Zero-Dependency MIME Parser & Cleaner
- * NOW WITH CID IMAGE EMBEDDING
  */
 const { TextDecoder } = require('util');
 
 module.exports = async function ({ sender, recipients, data }) {
     try {
         var time = Date.now();
-        var cleanSender = sender.replace("@", "_at_").replace(/[<>]/g, "");
 
-        // 1. Parse the Raw Email
+        // 1. Parse the Raw Email FIRST to get the REAL headers
         var parsed = parseMime(data);
 
-        // 2. Clean up the history (Reply chains)
+        // 2. Extract Real Sender from Headers (Ignores Gmail Forwarding Envelope)
+        var rawFromHeader = parsed.headers['from'] || sender; 
+        var { name, email } = parseFromHeader(rawFromHeader);
+        
+        // Fallback: If header parsing failed, use the SMTP envelope
+        if(!email) email = sender;
+
+        // 3. Define the Thread ID (Correspondent) based on the REAL email
+        // This fixes the "caf_=..." issue.
+        var cleanSender = email.replace("@", "_at_").replace(/[<>]/g, "").trim();
+
+        // 4. Clean up content (Reply chains)
         var html = stripHistory(parsed.html || "", "html");
         var text = stripHistory(parsed.text || "", "text");
 
-        // 3. EMBED INLINE IMAGES (Fix for cid: attachments)
-        // If the HTML has <img src="cid:..."> we find the matching attachment and inject base64
+        // 5. EMBED INLINE IMAGES
         if (html && parsed.attachments.length > 0) {
             html = embedInlineImages(html, parsed.attachments);
         }
 
-        // 4. Extract Fancy Name and Clean Email
-        var rawFromHeader = parsed.headers['from'] || sender; 
-        var { name, email } = parseFromHeader(rawFromHeader);
-        if(!email) email = sender;
-
-        // 5. Fallback for text-only emails
+        // 6. Fallback for text-only
         if (!html && text) {
             html = `<div style="white-space: pre-wrap; font-family: sans-serif;">${escapeHtml(text)}</div>`;
         }
@@ -49,14 +52,14 @@ module.exports = async function ({ sender, recipients, data }) {
                     textContent: text,
                     snippet: text.substring(0, 100),
                     
-                    // Filter out attachments that were embedded (optional, but keeps DB smaller)
-                    // We keep non-inline attachments (pdfs, zips, etc)
                     attachments: parsed.attachments.filter(a => !a.wasEmbedded),
                     
+                    // Store extracted details
                     from: rawFromHeader,
                     fromName: name,
-                    fromEmail: email,
-                    correspondent: email,
+                    fromEmail: email,       // Real email (e.g. 1707...@txt.voice...)
+                    envelopeSender: sender, // Keep the envelope just in case (e.g. coby+caf...)
+                    correspondent: cleanSender, // Thread ID
                     
                     time: time,
                     timeSent: time,
@@ -65,29 +68,27 @@ module.exports = async function ({ sender, recipients, data }) {
                 }
             });
             
+            // WEBSOCKET NOTIFICATION
             if (this.ws) {
-		    // Construct a safe payload (similar to API response)
-		    const notification = {
-		        type: 'NEW_MAIL',
-		        message: {
-		            id: `${cleanSender}:${time}`,
-		            from: rawFromHeader,
-		            fromName: name,
-		            subject: parsed.subject,
-		            snippet: text.substring(0, 50) + "...",
-		            content: html, // <--- ADD THIS so client can render it instantly
-		            timeSent: time,
-		            correspondent: cleanSender,
-		            direction: "incoming"
-		        }
-		    };
-		    
-		    // Send to recipient (e.g. "me_at_awtsmoos.com")
-		    this.ws.sendToAlias(cleanRecipient, notification);
-		}
-		
+                const notification = {
+                    type: 'NEW_MAIL',
+                    message: {
+                        id: `${cleanSender}:${time}`,
+                        from: rawFromHeader, // Display Name <email>
+                        fromName: name,      // Just Name
+                        subject: parsed.subject,
+                        snippet: text.substring(0, 50) + "...",
+                        content: html,
+                        timeSent: time,
+                        correspondent: cleanSender, // The REAL thread ID
+                        direction: "incoming"
+                    }
+                };
+                
+                this.ws.sendToAlias(cleanRecipient, notification);
+            }
         }
-        console.log("B\"H - Saved Mail with Attachments from:", name);
+        console.log("B\"H - Saved Mail from Real Sender:", email);
     } catch ($) {
         console.log("Error saving incoming email", $);
     }
