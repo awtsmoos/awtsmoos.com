@@ -310,10 +310,21 @@ async function sendMail({ $i, userid, asAliasId, toAliasId, toEmail }) {
             const recipientPath = `/emails/${recipientFull}/threads/${senderFull}`;
             console.log(`B"H DEBUG: Writing to RECIPIENT path: ${recipientPath}`);
             
-            // Get status
+            // A. Check Gatekeeper / Settings
+            // We define this BEFORE writing so we know the status
+            var settingsPath = `/social/aliases/${recipientShort}/emailSettings`;
+            var settings = await $i.db.get(settingsPath) || { approved: {} };
+            if(!settings.approved) settings.approved = {};
+
             var status = "inbox";
-            // (Skipping complex gatekeeper check for debug clarity, defaulting to inbox)
+            if (settings.gatekeeperMode) {
+                // Check simple short name OR full ID
+                if (!settings.approved[senderShort] && !settings.approved[senderFull]) {
+                    status = "request";
+                }
+            }
             
+            // B. Perform The Write
             await $i.db.appendToObj(recipientPath, {
                 key: time + "",
                 value: {
@@ -354,8 +365,23 @@ async function sendMail({ $i, userid, asAliasId, toAliasId, toEmail }) {
                 console.log("B\"H DEBUG: $i.ws is UNDEFINED. Socket notification skipped.");
             }
 
-            return { success: { message: "Sent internally" } };
+            // B"H - RULES IGNITION CHECK
+            console.log(`B"H DEBUG: Rules State Check -> Recipient: [${recipientShort}] Status: [${status}] Gatekeeper: [${settings.gatekeeperMode}] Rules Loaded: [${settings.rules ? settings.rules.length : 0}]`);
 
+            if (status === "inbox") {
+                console.log(`B"H DEBUG: IGNITION - Running Local Rules...`);
+                // Run async so we don't block the sender
+                runLocalRules($i, settings, {
+                    from: asAliasId, 
+                    to: recipientShort, 
+                    subject,
+                    content
+                });
+            } else {
+                console.log(`B"H DEBUG: Rules skipped (Status is ${status})`);
+            }
+
+            return { success: { message: "Sent internally" } };
         } else {
             // === 5. EXTERNAL SEND (SMTP) ===
             console.log("B\"H DEBUG: Preparing REMOTE (SMTP) transmission (HTML Mode)...");
@@ -372,7 +398,7 @@ async function sendMail({ $i, userid, asAliasId, toAliasId, toEmail }) {
             };
 
             // Helper: Safe HTML Escaping
-            const esc = (txt) => (txt || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+            const esc = (txt) => (txt || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");//`
 
             try {
                 // 1. Fetch History
