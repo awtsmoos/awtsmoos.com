@@ -21,7 +21,9 @@ const state = {
         rules: [],
         customScript: ""
     },
-    settingsLoaded: false
+    settingsLoaded: false,
+    
+    replyingTo: null 
 };
 
 // --- Initialization ---
@@ -101,20 +103,30 @@ async function sendEmail(recipient, subject, content) {
     // Detect format
     const isEmail = recipient.includes("@") || recipient.includes("_at_");
     
-    // UI: Clear immediately
+    // Check for active reply
+    let finalContent = content;
+    if (state.replyingTo) {
+        // Create a hidden meta block. 
+        // We use data attributes so we can parse it cleanly later.
+        const r = state.replyingTo;
+        const metaBlock = `<div class="reply-meta" data-id="${r.id}" data-name="${r.name}" style="display:none;">${r.snippet}</div>`;
+        finalContent = metaBlock + content;
+        
+        // Reset Reply UI
+        cancelReply();
+    }
+    
+    // UI: Clear input
     document.getElementById('messageInput').value = ''; 
     
     let url = "";
     let cleanRecipient = recipient;
-    let actualEmailQuery = "";
 
     if (isEmail) {
-        // External Email
         cleanRecipient = recipient.replace("@", "_at_");
         let cleanEmailParam = recipient.replace("_at_", "@");
         url = `${API_BASE}/sendTo/external/from/${state.alias}?toEmail=${encodeURIComponent(cleanEmailParam)}`;
     } else {
-        // Internal Alias
         url = `${API_BASE}/sendTo/${recipient}/from/${state.alias}`;
     }
     
@@ -125,20 +137,18 @@ async function sendEmail(recipient, subject, content) {
         from: state.alias,
         to: recipient,
         subject: subject,
-        content: formatContent(content),
+        content: finalContent, // Store with the meta block
         timeSent: time,
         direction: "outgoing",
         read: true,
-        // The conversation partner is the Recipient
         correspondent: cleanRecipient 
     };
 
     injectMessageIntoState(tempMsg);
 
-    // Send Payload
     const bodyData = new URLSearchParams();
     bodyData.append("subject", subject);
-    bodyData.append("content", content);
+    bodyData.append("content", finalContent); // Send modified content
 
     const res = await fetch(url, {
         method: 'POST',
@@ -149,7 +159,6 @@ async function sendEmail(recipient, subject, content) {
     const j = await res.json();
     if(!j.success) {
         alert("Transmission failed: " + (j.error ? j.error.message : "Unknown error"));
-        // Ideally: Remove tempMsg here
     }
 }
 
@@ -325,16 +334,102 @@ function closeMsgMenu() {
     selectedMsgId = null;
 }
 
+// --- Message Actions & Swipe Logic ---
+
+// Swipe Logic Variables
+let touchStartX = 0;
+let touchCurrentX = 0;
+const SWIPE_THRESHOLD = 80;
+
+function attachSwipeLogic(element, msg, senderName) {
+    // Only enable on Touch Devices to prevent mouse interference
+    // or check media query. For now, we bind touch events.
+    
+    element.addEventListener('touchstart', e => {
+        touchStartX = e.touches[0].clientX;
+    }, {passive: true});
+
+    element.addEventListener('touchmove', e => {
+        touchCurrentX = e.touches[0].clientX;
+        const diff = touchCurrentX - touchStartX;
+        
+        // Limit swipe logic to Right Swipe (pulling from left -> right) to reply
+        // WhatsApp actually does Right-to-Left for reply usually? 
+        // User asked "drag from side". We'll do Pull Right -> Reply.
+        
+        if (diff > 0 && diff < 150) {
+            // Visual feedback
+            element.style.transform = `translateX(${diff}px)`;
+            if(diff > SWIPE_THRESHOLD) {
+                element.querySelector('.swipe-indicator').style.opacity = '1';
+                element.querySelector('.swipe-indicator').style.right = 'auto';
+                element.querySelector('.swipe-indicator').style.left = '-30px'; 
+            }
+        }
+    }, {passive: true});
+
+    element.addEventListener('touchend', e => {
+        const diff = touchCurrentX - touchStartX;
+        element.style.transform = ''; // Reset position
+        element.querySelector('.swipe-indicator').style.opacity = '0';
+        touchStartX = 0;
+        touchCurrentX = 0;
+
+        if (diff > SWIPE_THRESHOLD) {
+            // Trigger Reply
+            triggerReplyMode(msg.id, msg.textContent || msg.content, senderName);
+        }
+    });
+}
+
+function triggerReplyMode(id, content, senderName) {
+    // Clean content for snippet
+    let snippet = content.replace(/<[^>]*>?/gm, '').substring(0, 50);
+    if(content.length > 50) snippet += "...";
+    
+    state.replyingTo = {
+        id: id,
+        name: senderName,
+        snippet: snippet
+    };
+
+    // UI Updates
+    document.getElementById('replyPreview').classList.remove('hidden');
+    document.getElementById('replySnippet').textContent = snippet;
+    document.getElementById('messageInput').focus();
+    
+    // Close context menu if open
+    closeMsgMenu();
+}
+
+function cancelReply() {
+    state.replyingTo = null;
+    document.getElementById('replyPreview').classList.add('hidden');
+}
+
+function scrollToMsg(id) {
+    // Look for row
+    const el = document.getElementById(`msg_row_${id}`);
+    if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        el.classList.add('highlight-msg');
+        setTimeout(() => el.classList.remove('highlight-msg'), 2000);
+    } else {
+        alert("Message is too old or not loaded.");
+    }
+}
+
+// Updated Context Menu Action
 function handleMsgAction(action) {
     if (!selectedMsgId) return;
     
     if (action === 'copy') {
         navigator.clipboard.writeText(selectedMsgContent).then(() => alert("Copied!"));
     } else if (action === 'reply') {
-        const quote = `> "${selectedMsgContent.substring(0, 50)}..."\n\n`;
-        const input = document.getElementById('messageInput');
-        input.value = quote + input.value;
-        input.focus();
+        // Calculate sender name logic (basic heuristic since we don't have full object here)
+        // Ideally pass full object to openMsgMenu. 
+        // For now, assume "Them" if not me.
+        triggerReplyMode(selectedMsgId, selectedMsgContent, "Replying..."); 
     } else if (action === 'delete') {
         deleteMessage(selectedMsgId);
     }
@@ -446,7 +541,6 @@ function renderMessages(threadName) {
     const msgs = state.threads[threadName];
     
     if (!msgs) {
-        // Maybe thread moved views or deleted?
         container.innerHTML = '<div class="empty-state">Thread not found in this view</div>';
         return;
     }
@@ -467,17 +561,39 @@ function renderMessages(threadName) {
         }
 
         const isMe = msg.direction === 'outgoing';
-        const bubble = document.createElement('div');
-        bubble.className = `message-row ${isMe ? 'row-me' : 'row-them'}`;
         
-        let bodyHtml = "";
-        if (msg.content && (msg.content.includes('<div') || msg.content.includes('<br'))) {
-            bodyHtml = msg.content;
-        } else {
-            bodyHtml = formatContent(msg.textContent || msg.content || "");
+        // 1. Process Content & Extract Quote
+        let contentHtml = msg.content || "";
+        let quoteHtml = "";
+        
+        // Detect our custom quote format: <div class="reply-meta"...>
+        if (contentHtml.includes('class="reply-meta"')) {
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = contentHtml;
+            const quoteEl = tempDiv.querySelector('.reply-meta');
+            if(quoteEl) {
+                // Extract data
+                const qId = quoteEl.getAttribute('data-id');
+                const qName = quoteEl.getAttribute('data-name');
+                const qText = quoteEl.textContent;
+                
+                quoteHtml = `
+                    <div class="embedded-quote" onclick="scrollToMsg('${qId}')">
+                        <span class="quote-name">${escapeHtml(qName)}</span>
+                        ${escapeHtml(qText)}
+                    </div>
+                `;
+                
+                // Remove the meta block from the main body
+                quoteEl.remove();
+                contentHtml = tempDiv.innerHTML;
+            }
         }
         
-        // Render Images
+        // Clean remaining content
+        contentHtml = formatContent(contentHtml);
+
+        // 2. Attachments
         let attHtml = "";
         if(msg.attachments) {
             msg.attachments.forEach(a => {
@@ -487,24 +603,46 @@ function renderMessages(threadName) {
             });
         }
 
-        // Determine Display Name for Bubble
         const senderName = isMe ? "Me" : (msg.fromName || msg.from || "Unknown");
 
-        // We attach oncontextmenu for Long Press logic (and a visual 3-dot button)
+        // 3. Construct Elements
+        const row = document.createElement('div');
+        row.className = `message-row ${isMe ? 'row-me' : 'row-them'}`;
+        row.id = `msg_row_${msg.id}`; // For scrolling
+        
+        // Swipe Indicator Icon
+        const swipeIcon = document.createElement('div');
+        swipeIcon.className = 'swipe-indicator';
+        swipeIcon.innerHTML = '↩️';
+        row.appendChild(swipeIcon);
+
+        const bubble = document.createElement('div');
+        bubble.className = "message-bubble";
+        
+        // Long Press Handler
+        bubble.oncontextmenu = (e) => {
+            e.preventDefault(); 
+            openMsgMenu(msg.id, msg.textContent || msg.content, isMe);
+        };
+        
         bubble.innerHTML = `
-            <div class="message-bubble" oncontextmenu="event.preventDefault(); openMsgMenu('${msg.id}', '${escapeHtml(msg.textContent || msg.content)}', ${isMe})">
-                <span class="msg-sender-name">${escapeHtml(senderName)}</span>
-                <button class="msg-menu-btn" onclick="event.stopPropagation(); openMsgMenu('${msg.id}', '${escapeHtml(msg.textContent || msg.content)}', ${isMe})">•••</button>
-                
-                ${msg.subject && msg.subject !== '(No Subject)' ? `<div class="msg-subject">${escapeHtml(msg.subject)}</div>` : ''}
-                <div class="msg-content email-body">${bodyHtml}</div>
-                ${attHtml}
-                <div class="msg-meta">
-                    <span class="msg-time">${formatTime(ts)}</span>
-                </div>
+            <span class="msg-sender-name">${escapeHtml(senderName)}</span>
+            <button class="msg-menu-btn" onclick="event.stopPropagation(); openMsgMenu('${msg.id}', '${escapeHtml(msg.textContent || msg.content)}', ${isMe})">•••</button>
+            
+            ${quoteHtml}
+            ${msg.subject && msg.subject !== '(No Subject)' ? `<div class="msg-subject">${escapeHtml(msg.subject)}</div>` : ''}
+            <div class="msg-content email-body">${contentHtml}</div>
+            ${attHtml}
+            <div class="msg-meta">
+                <span class="msg-time">${formatTime(ts)}</span>
             </div>
         `;
-        container.appendChild(bubble);
+        
+        row.appendChild(bubble);
+        container.appendChild(row);
+        
+        // 4. Attach Swipe Listeners
+        attachSwipeLogic(row, msg, senderName);
     });
 
     // Auto Scroll

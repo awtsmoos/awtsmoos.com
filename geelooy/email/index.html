@@ -76,6 +76,16 @@
                 </div>
 
                 <form class="input-area hidden" id="composeForm">
+                    <!-- NEW: Reply Preview Bar -->
+                    <div id="replyPreview" class="reply-preview hidden">
+                        <div class="reply-line"></div>
+                        <div class="reply-info">
+                            <span class="reply-to-label">Replying to...</span>
+                            <span id="replySnippet" class="reply-text-snippet">...</span>
+                        </div>
+                        <button type="button" class="close-reply" onclick="cancelReply()">×</button>
+                    </div>
+
                     <div class="input-wrapper">
                         <input type="text" id="subjectInput" placeholder="Subject (Optional)" class="subject-input">
                         <div class="flex-row">
@@ -89,13 +99,16 @@
             </main>
         </div>
         
+       
         <!-- Message Context Menu (Long Press / Options) -->
         <div id="msgContextModal" class="modal hidden" onclick="closeMsgMenu()">
             <div class="glass-card context-menu" onclick="event.stopPropagation()">
+                <div class="menu-handle"></div> <!-- Visual handle -->
                 <div class="menu-header">Message Options</div>
                 <button class="menu-item" onclick="handleMsgAction('copy')">📋 Copy Text</button>
                 <button class="menu-item" onclick="handleMsgAction('reply')">↩️ Reply to this</button>
                 <button class="menu-item danger" onclick="handleMsgAction('delete')">🗑️ Dissolve</button>
+                <button class="menu-item cancel-item" onclick="closeMsgMenu()">Cancel</button>
             </div>
         </div>
 

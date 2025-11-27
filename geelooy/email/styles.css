@@ -366,12 +366,42 @@ textarea {
     backdrop-filter: blur(5px);
 }
 /* SETTINGS MODAL */
+/* SETTINGS MODAL & Generic Modals */
 .modal-content {
     background: #111;
     border: 1px solid var(--neon-gold);
     box-shadow: 0 0 50px rgba(0,0,0,0.8), 0 0 30px rgba(245, 158, 11, 0.1);
-    position: relative; /* For absolute close button */
-    padding-top: 30px; /* Space for close button */
+    position: relative;
+    padding: 30px 24px; /* Fixed Padding */
+    width: 90%; max-width: 500px;
+    box-sizing: border-box; /* IMPORTANT to prevent overflow */
+    border-radius: 16px;
+    margin: auto; /* Center in flex container */
+}
+
+/* Context Menu Fixes */
+.context-menu {
+    position: absolute; bottom: 10px; left: 0; right: 0; /* Center horizontally */
+    width: 95%; margin: 0 auto;
+    border-radius: 20px; 
+    border: 1px solid rgba(255,255,255,0.1);
+    background: rgba(20,20,23, 0.98);
+    backdrop-filter: blur(20px);
+    padding: 20px 10px; /* Internal padding */
+    box-sizing: border-box;
+    display: flex; flex-direction: column; gap: 8px;
+    animation: slideUpMenu 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 1000;
+}
+
+.menu-handle {
+    width: 40px; height: 4px; background: rgba(255,255,255,0.2);
+    border-radius: 2px; margin: 0 auto 10px auto;
+}
+
+.cancel-item {
+    background: transparent; border: 1px solid rgba(255,255,255,0.1);
+    text-align: center; justify-content: center;
 }
 
 
@@ -465,3 +495,66 @@ textarea {
     border-radius: 8px; cursor: pointer; user-select: none;
 }
 .toggle-label input { width: 20px; height: 20px; accent-color: var(--neon-gold); }
+
+
+/* --- REPLY SYSTEM STYLES --- */
+
+/* The Preview Bar above input */
+.reply-preview {
+    background: rgba(30, 30, 35, 0.95);
+    border-left: 3px solid var(--neon-gold);
+    padding: 10px 14px;
+    margin-bottom: 4px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: space-between;
+    animation: slideUp 0.2s ease;
+}
+
+.reply-info { display: flex; flex-direction: column; overflow: hidden; }
+.reply-to-label { font-size: 0.75rem; color: var(--neon-gold); font-weight: 700; margin-bottom: 2px; }
+.reply-text-snippet { font-size: 0.85rem; color: #ccc; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 250px; }
+.close-reply { background: none; border: none; color: #fff; font-size: 1.5rem; cursor: pointer; padding: 0 8px; }
+
+/* The Embedded Quote in the Message Bubble */
+.embedded-quote {
+    background: rgba(0,0,0,0.2);
+    border-left: 3px solid var(--neon-gold);
+    padding: 8px 10px;
+    border-radius: 6px;
+    margin-bottom: 8px;
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.7);
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.embedded-quote:hover { background: rgba(255,255,255,0.05); }
+.quote-name { display: block; font-weight: 700; color: var(--neon-gold); font-size: 0.7rem; margin-bottom: 2px; }
+
+/* Highlight effect when scrolling to message */
+@keyframes flashHighlight {
+    0% { background: var(--neon-gold); color: #000; }
+    100% { background: transparent; }
+}
+.highlight-msg .message-bubble { animation: flashHighlight 1.5s ease; }
+
+/* --- SWIPE GESTURE STYLES --- */
+.message-row {
+    position: relative;
+    touch-action: pan-y; /* Allow vertical scroll, handle horizontal in JS */
+    transition: transform 0.1s linear; /* Smooth drag */
+}
+
+/* The icon that appears behind the swipe */
+.swipe-indicator {
+    position: absolute;
+    top: 50%; right: 100%; /* Hidden on the left side */
+    transform: translateY(-50%);
+    margin-right: -40px; /* Pull it closer */
+    color: var(--neon-gold);
+    font-size: 1.5rem;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+.message-row.swiping .swipe-indicator { opacity: 1; }
+
+
