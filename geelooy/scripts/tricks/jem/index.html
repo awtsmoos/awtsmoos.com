@@ -3,18 +3,22 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Awtsmoos Jemizier</title>
     <link rel="stylesheet" href="style.css">
+    <!-- Icon set for slick UI -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
 
     <div class="awtsmoospage">
-        <!-- Sidebar: Years -->
-        <div class="sidebar">
+        <!-- Mobile Overlay -->
+        <div class="overlay" id="overlay"></div>
+
+        <!-- Sidebar -->
+        <div class="sidebar" id="sidebar">
             <div class="sidebar-header">
-                <h3>Jemizier</h3>
-                <small>Audio Browser</small>
+                <h3><i class="fas fa-music"></i> Jemizier</h3>
             </div>
             <div class="year-list" id="yearList">
                 <!-- Years injected via JS -->
@@ -24,14 +28,18 @@
         <!-- Main Content -->
         <div class="main">
             <div class="content-header">
+                <button class="mobile-toggle" id="menuToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
                 <h2 id="currentViewTitle">Select a Year</h2>
-                <div id="statusIndicator"></div>
+                <div style="width:24px"></div> <!-- Spacer for balance -->
             </div>
 
             <!-- Events List -->
             <div class="events-container" id="eventsContainer">
                 <div class="placeholder-text">
-                    <p>Select a year from the sidebar 5708-5752.</p>
+                    <i class="fas fa-headphones-alt" style="font-size: 3rem; margin-bottom: 20px; color: var(--primary);"></i>
+                    <p>Select a year from the menu.</p>
                 </div>
             </div>
 
