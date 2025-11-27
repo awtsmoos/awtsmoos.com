@@ -24,22 +24,30 @@
     --header-h: 54px;
 }
 
+/* Allow global layout to dictate height, but ensure full viewport usage */
 body, html {
     margin: 0; padding: 0; width: 100%; height: 100%;
-    
-    overflow: hidden; /* STOP BODY SCROLL */
-    position: fixed; /* Lock body in place for mobile */
+    overflow: hidden; /* Prevent global scrollbar */
 }
 
+/* The localized container for the app */
 .main {
-	box-sizing: border-box;
-	crollbar-width: thin; 
-	scrollbar-color: var(--neon-amber) var(--bg-deep); 
-	outline: none; 
-	-webkit-tap-highlight-color: transparent;
-	
+    box-sizing: border-box;
+    scrollbar-width: thin; 
+    scrollbar-color: var(--neon-amber) var(--bg-deep); 
+    outline: none; 
+    -webkit-tap-highlight-color: transparent;
+    
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    background-color: var(--bg-deep); color: var(--text-primary);
+    background-color: var(--bg-deep); 
+    color: var(--text-primary);
+    
+    
+    position: relative; /* Context for absolute children */
+    height: 100%;       /* Fill whatever space the global header leaves */
+    width: 100%;
+    display: flex;      /* Ensure children fill space */
+    flex-direction: column;
     overflow: hidden;
 }
 /* LAYOUT GRID */
@@ -339,8 +347,12 @@ textarea {
     .app-layout.chat-open .chat-area { 
         display: flex !important; 
         width: 100%; 
-        height: 100vh; 
-        position: fixed; top: 0; left: 0; z-index: 50; 
+        height: 100%; /* Fill .main, not the screen */
+        position: absolute; /* Stay inside .main */
+        top: 0; 
+        left: 0; 
+        z-index: 50; 
+        background: var(--bg-deep); /* Ensure no transparency overlap */
     }
     
     .back-btn { display: block; }
