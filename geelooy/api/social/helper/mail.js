@@ -52,7 +52,10 @@ function parseEmailEntry(entry, id, friendName) {
 
 async function getMail({ $i, userid, aliasId, threadId }) {
     if (!loggedIn($i)) return er(NO_LOGIN);
-    if (!aliasId) return er({ message: "aliasId is required to fetch mail" });
+    if (!aliasId) return er({
+	    message: "aliasId is required to fetch mail",
+	    GET: $i.$_GET
+    });
 
     var verified = await verifyAliasOwnership(aliasId, $i, userid);
     if (!verified) return er({ message: "You do not own this alias", code: "AUTH_FAIL" });
