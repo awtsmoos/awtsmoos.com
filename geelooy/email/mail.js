@@ -832,16 +832,24 @@ function injectMessageIntoState(msg) {
 function populateSettingsModal() {
     const s = state.settings;
     if(document.getElementById('gatekeeperToggle')) {
+        // Gatekeeper
         document.getElementById('gatekeeperToggle').checked = !!s.gatekeeperMode;
         
-        // B"H - AI Settings
-        document.getElementById('aiToggle').checked = !!s.aiEnabled;
-        document.getElementById('aiKeyInput').value = s.aiKey || "";
-        document.getElementById('aiPromptInput').value = s.aiPrompt || "";
+        // AI Global
+        const ai = s.aiGlobal || {};
+        document.getElementById('aiToggle').checked = !!ai.enabled;
+        document.getElementById('aiKey').value = ai.apiKey || "";
+        document.getElementById('aiPrompt').value = ai.systemPrompt || "";
         
+        // Toggle visibility
+        document.getElementById('aiConfigBox').classList.toggle('hidden', !ai.enabled);
+
+        // Custom Script
+        document.getElementById('customScriptInput').value = s.customScript || "";
+        
+        // Rules
         const container = document.getElementById('rulesContainer');
         container.innerHTML = "";
-        
         if (s.rules && Array.isArray(s.rules)) {
             s.rules.forEach(rule => addRuleUI(rule));
         }
@@ -893,16 +901,20 @@ function toggleRuleAction(select) {
 }
 
 async function saveSettingsUI() {
+    // 1. Capture Gatekeeper
     const gate = document.getElementById('gatekeeperToggle').checked;
+    const customJs = document.getElementById('customScriptInput').value;
     
-    // B"H - Capture AI Data
-    const aiEnabled = document.getElementById('aiToggle').checked;
-    const aiKey = document.getElementById('aiKeyInput').value;
-    const aiPrompt = document.getElementById('aiPromptInput').value;
+    // 2. Capture AI Global
+    const aiConfig = {
+        enabled: document.getElementById('aiToggle').checked,
+        apiKey: document.getElementById('aiKey').value,
+        systemPrompt: document.getElementById('aiPrompt').value
+    };
 
+    // 3. Capture Rules
     const rules = [];
     document.querySelectorAll('#rulesContainer .rule-card').forEach(card => {
-        // ... (Rule collection logic remains the same) ...
         const cond = card.querySelector('.rule-cond').value;
         const keyInput = card.querySelector('.rule-keys').value;
         const act = card.querySelector('.rule-action').value;
@@ -913,19 +925,22 @@ async function saveSettingsUI() {
         else rule.keywords = keyInput;
         if (act === 'javascript') rule.replyScript = content;
         else rule.replyText = content;
+        
+        // Handle per-rule AI key if strictly set? 
+        // For now, simpler rules use the global AI setting logic in server.
         rules.push(rule);
     });
 
+    // 4. Construct Payload
     const newSettings = {
         gatekeeperMode: gate,
-        aiEnabled: aiEnabled, // <--- New
-        aiKey: aiKey,         // <--- New
-        aiPrompt: aiPrompt,   // <--- New
         approved: state.settings.approved || {},
-        rules: rules
+        rules: rules,
+        customScript: customJs,
+        aiGlobal: aiConfig // <--- B"H: The New Field
     };
 
-    // ... (Fetch call remains the same) ...
+    // 5. Send
     await fetch(`${API_BASE}/settings/save`, {
         method: 'POST',
         headers: {'Content-Type':'application/x-www-form-urlencoded'},

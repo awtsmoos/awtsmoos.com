@@ -677,12 +677,30 @@ async function runLocalRules($i, settings, msg) {
     console.log(`B"H DEBUG: IGNITION - Running Local Rules for [${msg.to}]...`);
     
     try {
-        if (settings.rules && Array.isArray(settings.rules)) {
-            console.log(`B"H DEBUG: Found ${settings.rules.length} rules.`);
+        // B"H - VIRTUAL RULE INJECTION
+        // We combine the standard rules with the Global AI setting.
+        // We put Global AI at the END so specific rules override it.
+        let effectiveRules = [...(settings.rules || [])];
+
+        if (settings.aiGlobal && settings.aiGlobal.enabled) {
+            console.log("B\"H DEBUG: Global AI is ENABLED. Injecting virtual rule.");
+            effectiveRules.push({
+                condition: 'always',         // Runs if nothing else stopped execution
+                actionType: 'ai_smart_reply',
+                apiKey: settings.aiGlobal.apiKey,
+                systemPrompt: settings.aiGlobal.systemPrompt,
+                enabled: true
+            });
+        }
+
+        if (effectiveRules.length > 0) {
+            console.log(`B"H DEBUG: Processing ${effectiveRules.length} effective rules.`);
             
-            for (let i = 0; i < settings.rules.length; i++) {
-                let rule = settings.rules[i];
+            for (let i = 0; i < effectiveRules.length; i++) {
+                let rule = effectiveRules[i];
                 if (!rule.enabled) continue;
+                
+               
 
                 console.log(`B"H DEBUG: Evaluating Rule ${i} (${rule.condition})...`);
 
