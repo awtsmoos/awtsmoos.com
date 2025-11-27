@@ -71,10 +71,17 @@ async function getMail({
         
         // 1. Get the user's aliases to know which /emails/ folders belong to them
         // Assuming path: /users/USERID/aliases
-        var userAliases = await $i.db.get(`${sp}/users/${userid}/aliases`);
+        var aliasPath = `${sp}/users/${userid}/aliases`
+        var userAliases = await $i.db.get(aliasPath);
         
         if (!userAliases) {
-            return []; // No aliases, no external mail
+            return {
+	            error: {
+		            message: "Could not find any aliases",
+		            aliasPath,
+		            userAliases 
+	            }
+            }
         }
 
         // Normalize alias list to array
@@ -93,7 +100,7 @@ async function getMail({
             // db.get on a directory returns an array of filenames (e.g. ["google_at_gmail.com", "bob_at_yahoo.com"])
             var senders = await $i.db.get(sendersPath);
 
-            if (Array.isArray(senders)) {
+            if (Array.isArray(senders) && senders.length) {
                 for (var senderName of senders) {
                     
                     // 4. Get the specific sender's message object (Optimized Binary Object)
@@ -125,7 +132,23 @@ async function getMail({
                         }
                     }
                 }
+                
+                
+                
+                
+                
+                
+            } else {
+	            return {
+	            
+		            error: {
+			            message: "No alias emails"
+		            },
+		            sendersPath
+	            }
             }
+            
+            
         }
         
         // If a specific ID was requested but not found in external, check internal legacy
