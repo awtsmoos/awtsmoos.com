@@ -1,7 +1,7 @@
 /**
  * B"H
  * @module AwtsmoosEmailClient
- * PARANOID LOGGING EDITION
+ * PARANOID LOGGING EDITION (Fixed SMTP Logic)
  */
 
 var crypto = require('crypto');
@@ -13,9 +13,9 @@ var CRLF = '\r\n';
 
 class AwtsmoosEmailClient {
     socket = null;
-    useTLS = false;
     cert = null;
     key = null;
+    hasFiles = false;
 
     constructor({
         port = 25,
@@ -31,7 +31,6 @@ class AwtsmoosEmailClient {
         }
 
         this.port = port || 25;
-        this.multiLineResponse = '';
         this.previousCommand = '';
 
         var certPath = process.env.BH_email_cert;
@@ -41,7 +40,7 @@ class AwtsmoosEmailClient {
             try {
                 this.cert = fs.readFileSync(certPath, 'utf-8');
                 this.key = fs.readFileSync(keyPath, 'utf-8');
-                this.useTLS = true;
+                this.hasFiles = true;
             } catch (err) { console.error("Error reading certs", err); }
         }
     }
@@ -59,14 +58,28 @@ class AwtsmoosEmailClient {
         });
     }
 
+    /**
+     * Determine the next step in the dance.
+     * Fixed logic: 
+     * 1. START -> EHLO
+     * 2. EHLO -> (Server says 250 STARTTLS) -> SEND_STARTTLS_COMMAND
+     * 3. SEND_STARTTLS_COMMAND -> (Server says 220) -> DO_TLS_HANDSHAKE
+     * 4. DO_TLS_HANDSHAKE -> EHLO (Secure)
+     * 5. EHLO (Secure) -> MAIL FROM
+     */
     getNextCommand() {
         var commandOrder = [
-            'START', 'EHLO', 'STARTTLS', 'EHLO',
+            'START', 
+            'EHLO', 
+            'SEND_STARTTLS_COMMAND',
+            'DO_TLS_HANDSHAKE',
+            'EHLO_SECURE',
             'MAIL FROM', 'RCPT TO', 'DATA', 'END OF DATA'
         ];
+        
+        // Simple sequential fallback, but handleSMTPResponse usually overrides
         var currentIndex = commandOrder.indexOf(this.previousCommand);
         if (currentIndex === -1) return commandOrder[0];
-        if (this.previousCommand === 'STARTTLS') return 'EHLO';
         return commandOrder[currentIndex + 1];
     }
 
@@ -77,7 +90,9 @@ class AwtsmoosEmailClient {
             return;
         }
 
-        this.handleErrorCode(lineOrMultiline);
+        if (lineOrMultiline.startsWith('4') || lineOrMultiline.startsWith('5')) {
+             console.error("SMTP Error Code Detected: " + lineOrMultiline);
+        }
 
         var isMultiline = lineOrMultiline.charAt(3) === '-';
         var lastLine = lineOrMultiline;
@@ -86,47 +101,68 @@ class AwtsmoosEmailClient {
             lastLine = lines[lines.length - 1];
         }
 
-        this.multiLineResponse = ''; 
-
         try {
-            let nextCommand = this.getNextCommand();
-            
-            if (lastLine.includes('250-STARTTLS') || (lastLine.startsWith('220 ') && lastLine.includes('Ready to start TLS'))) {
-                // Determine logic based on specific server responses
-                if (lastLine.startsWith('220')) nextCommand = 'STARTTLS';
-            } else if (this.previousCommand === 'STARTTLS' && lastLine.startsWith('250 ')) {
-                this.previousCommand = 'EHLO'; 
-            }
+            let nextCommand = '';
 
-            if (this.previousCommand === 'END OF DATA' && lineOrMultiline.startsWith('250')) {
-                console.log("B\"H - Success! 250 Received. Quitting.");
+            // --- STATE MACHINE LOGIC ---
+            
+            // 1. Initial Connection (220) -> Send EHLO
+            if (this.previousCommand === '' && lastLine.startsWith('220')) {
+                nextCommand = 'EHLO';
+            }
+            // 2. Response to First EHLO -> Send STARTTLS text
+            else if (this.previousCommand === 'EHLO' && lastLine.startsWith('250')) {
+                if (lineOrMultiline.includes('STARTTLS')) {
+                    nextCommand = 'SEND_STARTTLS_COMMAND';
+                } else {
+                    nextCommand = 'MAIL FROM'; // No TLS supported?
+                }
+            }
+            // 3. Response to STARTTLS command (220) -> Perform Upgrade
+            else if (this.previousCommand === 'SEND_STARTTLS_COMMAND' && lastLine.startsWith('220')) {
+                console.log("Server is ready for TLS. Upgrading socket...");
+                nextCommand = 'DO_TLS_HANDSHAKE';
+            }
+            // 4. Response to Second EHLO (Encrypted) -> Mail From
+            else if (this.previousCommand === 'EHLO_SECURE' && lastLine.startsWith('250')) {
+                nextCommand = 'MAIL FROM';
+            }
+            // 5. Normal Flow
+            else if (this.previousCommand === 'MAIL FROM' && lastLine.startsWith('250')) nextCommand = 'RCPT TO';
+            else if (this.previousCommand === 'RCPT TO' && lastLine.startsWith('250')) nextCommand = 'DATA';
+            else if (this.previousCommand === 'DATA' && (lastLine.startsWith('354'))) nextCommand = 'SEND_BODY'; // Actually trigger send
+            
+            // 6. Response to Body (250 OK)
+            else if (this.previousCommand === 'END OF DATA' && lineOrMultiline.startsWith('250')) {
+                console.log("B\"H - Success! Email accepted.");
                 client.write('QUIT\r\n');
                 client.end();
                 return;
             }
 
+            if (!nextCommand) {
+                console.warn("State machine unsure. Guessing based on previous:", this.previousCommand);
+                nextCommand = this.getNextCommand();
+            }
+
+            // Execute Handler
             var handler = this.commandHandlers[nextCommand];
-            if (!handler) {
-               // Default behavior, keep going
-            }
-            
-            // Execute handler
             if (handler) {
-                 handler({ client, sender, recipient, emailData, lineOrMultiline });
+                handler({ client, sender, recipient, emailData, lineOrMultiline });
+                // Only update previousCommand if it's not the internal data handler (handled separately)
+                if(nextCommand !== 'SEND_BODY') {
+                    this.previousCommand = nextCommand;
+                } else {
+                     this.previousCommand = 'END OF DATA';
+                }
+            } else {
+                console.error("No handler for command:", nextCommand);
             }
-            
-            if (nextCommand !== 'DATA') this.previousCommand = nextCommand;
 
         } catch (e) {
-            console.error("Handler Error:", e.message);
+            console.error("Handler Error:", e);
             client.end();
         } 
-    }
-
-    handleErrorCode(line) {
-        if (line.startsWith('4') || line.startsWith('5')) {
-            console.error("SMTP Error Code Detected: " + line);
-        }
     }
 
     // --- LOGGING CANONICALIZER ---
@@ -205,7 +241,6 @@ class AwtsmoosEmailClient {
 
             // 5. Final Assembly
             var toSign = canonicalHeaders + canonicalDkimLine; 
-            // Fix CRLF
             if (!toSign.endsWith(CRLF)) toSign += CRLF;
 
             console.log("DEBUG: Final String To Sign (Hex):");
@@ -232,18 +267,17 @@ class AwtsmoosEmailClient {
             console.log("B\"H - Sending Mail...");
             var addresses = await this.getDNSRecords(recipient);
             this.smtpServer = addresses[0].exchange;
+            console.log("MX Server: " + this.smtpServer);
             
             this.socket = net.createConnection({
 	            port: this.port, host: this.smtpServer, family: 4 
 	        });
             
-            // Prepare Variables
             var domain = 'awtsmoos.com';
             var selector = 'selector';
             var messageId = `<${Date.now()}@${domain}>`;
             var dateHeader = new Date().toUTCString();
             
-            // We construct headers manually to ensure we own the CRLF
             var headers = 
                 `Message-ID: ${messageId}${CRLF}` +
                 `Date: ${dateHeader}${CRLF}` +
@@ -251,14 +285,12 @@ class AwtsmoosEmailClient {
                 `To: ${recipient}${CRLF}` +
                 `Subject: ${subject}${CRLF}`;
             
-            var bodyToSend = rawBody; // Ensure this is what we want (no extra newline logic here)
-            
+            var bodyToSend = rawBody;
             var dataToSend = "";
             if(this.privateKey) {
                 var sig = this.signEmail(domain, selector, this.privateKey, headers, bodyToSend);
                 if(sig) {
                     var dkimHeader = `DKIM-Signature: ${sig}${CRLF}`;
-                    // Header Block + CRLF + Body
                     dataToSend = dkimHeader + headers + CRLF + bodyToSend;
                 } else {
                     dataToSend = headers + CRLF + bodyToSend;
@@ -267,7 +299,7 @@ class AwtsmoosEmailClient {
                  dataToSend = headers + CRLF + bodyToSend;
             }
 
-            this.socket.on('connect', () => { console.log("Socket Connected."); });
+            this.socket.on('connect', () => { console.log("Socket Connected. Waiting for Greeting."); });
 
             try {
                 this.handleClientData({ client: this.socket, sender, recipient, dataToSend });
@@ -316,46 +348,57 @@ class AwtsmoosEmailClient {
     }
 
     commandHandlers = {
-        'START': ({ client }) => {
-            this.currentCommand = 'EHLO';
+        'EHLO': ({ client }) => {
             client.write(`EHLO ${this.smtpServer}${CRLF}`);
         },
-        'EHLO': ({ client, lineOrMultiline, sender }) => {
-            if (lineOrMultiline.includes('STARTTLS')) {
-                client.write(`STARTTLS${CRLF}`);
-            } else {
-                client.write(`MAIL FROM:<${sender}>${CRLF}`);
-            }
+        'SEND_STARTTLS_COMMAND': ({ client }) => {
+            console.log("Sending STARTTLS command...");
+            client.write(`STARTTLS${CRLF}`);
         },
-        'STARTTLS': ({ client, sender, recipient, emailData }) => {
-            var options = { socket: client, servername: 'gmail-smtp-in.l.google.com', minVersion: 'TLSv1.2' }; // Adjust servername if needed dynamic
-            if(this.useTLS) { options.key = this.key; options.cert = this.cert; }
+        'DO_TLS_HANDSHAKE': ({ client, sender, recipient, emailData }) => {
+            // Options used to identify THIS server to the other (Cert/Key), and defaults for parsing
+            var options = { 
+                socket: client, 
+                // We use the MX domain we found as servername for SNI
+                servername: this.smtpServer, 
+                minVersion: 'TLSv1.2',
+                rejectUnauthorized: false // Opportunistic - don't fail if they have self-signed (Gmail has valid tho)
+            };
+            if(this.hasFiles) { options.key = this.key; options.cert = this.cert; }
             
             var secureSocket = tls.connect(options, () => {});
             secureSocket.on('error', (e) => console.error("TLS Error", e));
             secureSocket.on("secureConnect", () => {
-                console.log("TLS Secured.");
+                console.log("TLS Secured. Resending EHLO.");
                 this.socket = secureSocket;
                 client.removeAllListeners();
+                
                 try {
                     this.handleClientData({ client: secureSocket, sender, recipient, dataToSend: emailData });
                 } catch(e){ console.error(e); }
-                this.previousCommand = "STARTTLS";
+                
+                this.previousCommand = "EHLO_SECURE"; // Update state so we know where we are
                 secureSocket.write(`EHLO ${this.smtpServer}${CRLF}`);
             });
         },
-        'MAIL FROM': ({ client, recipient }) => {
+        'EHLO_SECURE': ({ client }) => {
+             // Logic is inside DO_TLS_HANDSHAKE secureConnect
+        },
+        'MAIL FROM': ({ client, recipient, sender }) => {
+            client.write(`MAIL FROM:<${sender}>${CRLF}`);
+        },
+        'RCPT TO': ({ client, recipient }) => {
             client.write(`RCPT TO:<${recipient}>${CRLF}`);
         },
-        'RCPT TO': ({ client }) => {
+        'DATA': ({ client }) => {
             client.write(`DATA${CRLF}`);
         },
-        'DATA': ({ client, emailData }) => {
+        'SEND_BODY': ({ client, emailData }) => {
             console.log("Sending DATA payload (" + emailData.length + " bytes)");
-            // Enforce SMTP end-of-data sequence
+            // Ensure data ends with \r\n.\r\n
             var payload = `${emailData}${CRLF}.${CRLF}`;
             client.write(payload);
-            this.previousCommand = 'END OF DATA'; 
+            // This flag is handled by response parser 250
         },
     };
 }
@@ -369,7 +412,7 @@ if (require.main === module) {
             var body = 'This is the logs test body.\r\nIt has exactly two lines of content.';
             
             await smtpClient.sendMail('me@awtsmoos.com', 'awtsmoos@gmail.com', subject, body);
-            console.log('Email Job Completed.');
+            console.log('Job script finished (waiting for socket close).');
         } catch (err) {
             console.error('Job Failed:', err);
         }
