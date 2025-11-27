@@ -216,7 +216,12 @@ body, html {
     scrollbar-color: var(--neon-gold) transparent;
 }
 
-.message-row { display: flex; width: 100%; margin-bottom: 8px; animation: slideUp 0.3s ease; }
+.message-row {
+    position: relative;
+    touch-action: pan-y; /* Prevent browser nav swipe, allow scroll */
+    /* B"H - No transition here! handled by JS for 0 latency */
+}
+
 @keyframes slideUp { from { transform: translateY(10px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
 .message-bubble {
@@ -664,13 +669,11 @@ textarea::placeholder { color: rgba(255, 255, 255, 0.4); }
 .message-row.swiping .swipe-indicator { opacity: 1; }
 
 
-/* Find the "swipe-indicator" block at the bottom and add this CSS below it: */
-
 .row-me .swipe-indicator {
-    right: auto;        /* Unset default right positioning */
-    left: 100%;         /* Position it on the far right edge */
+    right: auto;        
+    left: 100%;         /* Position on the far right */
     margin-right: 0;
-    margin-left: 20px;  /* Spacing */
+    margin-left: 20px;  /* Push it out a bit */
     transform-origin: center;
 }
 

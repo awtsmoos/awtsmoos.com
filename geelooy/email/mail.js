@@ -424,70 +424,112 @@ function getCoreThreadId(rawId) {
     // Otherwise, it is an external user (e.g. friend_at_gmail.com), keep as is.
     return rawId;
 }
+// B"H - Find injectMessageIntoCache and replace it with this:
 function injectMessageIntoCache(msg) {
     // B"H - Unification: Determine the canonical thread ID
     let rawTid = msg.correspondent || msg.from;
     
     // If I sent it, the correspondent is the recipient
     if (msg.direction === 'outgoing' && msg.to) {
-        // Handle "to" being an array or string
         rawTid = Array.isArray(msg.to) ? msg.to[0] : msg.to;
     }
     
-    // Normalize! This merges "coby_at..." into "coby"
+    // Normalize!
     let tid = getCoreThreadId(rawTid);
-    
-    // Force the message object to adopt this unified identity
     msg.correspondent = tid; 
 
     // Initialize thread array if it doesn't exist
     if (!state.threads[tid]) state.threads[tid] = [];
     
-    // 1. De-Duplicate: Check if message exists by UID or ID
-    const exists = state.threads[tid].some(m => 
-        m.id === msg.id || m.uid === msg.uid || (m.timeSent === msg.timeSent && m.content === msg.content)
-    );
+    const thread = state.threads[tid];
 
-    if (!exists) {
-        if(typeof msg.content !== 'string') msg.content = String(msg.content || "");
-
-        state.threads[tid].push(msg);
-        state.threads[tid].sort((a,b) => a.timeSent - b.timeSent);
-        
-        // 2. Update Snippets & Unread Count
-        const snipIdx = state.snippets.findIndex(s => getCoreThreadId(s.correspondent) === tid);
-        
-        // Logic: Is this thread currently open?
-        const isOpen = state.activeThread && getCoreThreadId(state.activeThread) === tid;
-        
-        if (snipIdx > -1) {
-            // Update existing
-            let oldUnread = state.snippets[snipIdx].unreadCount || 0;
-            state.snippets[snipIdx] = msg; // Replace snippet with new msg
-            
-            // If NOT open and incoming, increment
-            if (!isOpen && msg.direction === 'incoming') {
-                state.snippets[snipIdx].unreadCount = oldUnread + 1;
-            } else {
-                 // Keep old count if we are just updating outgoing, or reset if open
-                 state.snippets[snipIdx].unreadCount = isOpen ? 0 : oldUnread;
-            }
-        } else {
-            // New thread
-            if (!isOpen && msg.direction === 'incoming') {
-                msg.unreadCount = 1;
-            }
-            state.snippets.unshift(msg);
+    // B"H - 1. Strict Deduplication (ID or UID)
+    // Check if we already have this EXACT message instance
+    const existingIdx = thread.findIndex(m => m.id === msg.id || (m.uid && m.uid === msg.uid));
+    
+    if (existingIdx > -1) {
+        // If it exists, update it (e.g. status change), but don't duplicate
+        // Only update if the new one is "more real" (not temp) or newer info
+        if (String(thread[existingIdx].id).startsWith('temp_') && !String(msg.id).startsWith('temp_')) {
+             thread[existingIdx] = msg; // Upgrade to real
+             if (state.activeThread === tid) renderMessages(tid); // Refresh UI to show real state
         }
-        
-        if (isOpen) {
-            renderMessages(tid, true);
-            // If open, ensure count is cleared
-            if(snipIdx > -1) state.snippets[snipIdx].unreadCount = 0;
-        }
-        
-        renderSidebar();
+        return; 
     }
+
+    // B"H - 2. Optimistic Cleanup ("The Cash Check")
+    // If incoming is a REAL outgoing message, look for a matching TEMP message to replace.
+    // This solves the "Duplicate before/after auto-response" issue.
+    let replaced = false;
+    if (msg.direction === 'outgoing' && !String(msg.id).startsWith('temp_')) {
+        const tempIdx = thread.findIndex(m => 
+            String(m.id).startsWith('temp_') && 
+            m.content === msg.content &&
+            // Safety: Only replace if created recently (within 5 mins)
+            Math.abs((m.timeSent || 0) - msg.timeSent) < 300000 
+        );
+
+        if (tempIdx > -1) {
+            thread[tempIdx] = msg; // Replace the ghost with the body
+            replaced = true;
+        }
+    }
+
+    // B"H - 3. Insert if not replaced
+    if (!replaced) {
+        // Double check content/time uniqueness just to be safe (Classic Dedupe)
+        const exactDup = thread.some(m => m.timeSent === msg.timeSent && m.content === msg.content);
+        
+        if (!exactDup) {
+            if(typeof msg.content !== 'string') msg.content = String(msg.content || "");
+            thread.push(msg);
+        } else {
+            return; // It's a duplicate, exit.
+        }
+    }
+
+    // Sort Chronologically
+    thread.sort((a,b) => a.timeSent - b.timeSent);
+        
+    // B"H - 4. Update Snippets & Unread Count
+    const snipIdx = state.snippets.findIndex(s => getCoreThreadId(s.correspondent) === tid);
+    const isOpen = state.activeThread && getCoreThreadId(state.activeThread) === tid;
+    
+    if (snipIdx > -1) {
+        // Update existing snippet
+        let oldUnread = state.snippets[snipIdx].unreadCount || 0;
+        state.snippets[snipIdx] = msg; // Replace snippet
+        
+        // Unread Logic
+        if (!isOpen && msg.direction === 'incoming') {
+            state.snippets[snipIdx].unreadCount = oldUnread + 1;
+        } else {
+            state.snippets[snipIdx].unreadCount = isOpen ? 0 : oldUnread;
+        }
+    } else {
+        // New Snippet
+        if (!isOpen && msg.direction === 'incoming') {
+            msg.unreadCount = 1;
+        }
+        state.snippets.unshift(msg);
+    }
+    
+    // 5. Render if open
+    if (isOpen) {
+        // If we replaced, we already rendered above? 
+        // Better to re-render to ensure order and snippet updates are reflected or if it was a new push.
+        // We pass 'false' to forceScrollBottom only if it's a brand new message, 
+        // but for simplicity, we let the user scroll unless it's strictly new outgoing.
+        
+        // Actually, just calling renderMessages is safe, it preserves scroll unless told otherwise.
+        // But if I just sent a message (replaced or new), I want to see it.
+        const shouldScroll = (msg.direction === 'outgoing' && !replaced); 
+        renderMessages(tid, shouldScroll);
+        
+        if(snipIdx > -1) state.snippets[snipIdx].unreadCount = 0;
+    }
+    
+    renderSidebar();
 }
 
 function updateSendButtonState() {
@@ -592,18 +634,20 @@ let isDragging = false; // B"H - Added for mouse tracking
 const SWIPE_THRESHOLD = 80;
 
 // B"H - Universal Swipe Logic (Works on ME and THEM)
+// B"H - Find attachSwipeLogic and replace with this Zero-Latency version:
 function attachSwipeLogic(element, msg, senderName) {
     let startX = 0;
     let currentX = 0;
     let isTouch = false;
-    const SWIPE_THRESHOLD = 60; // Distance to trigger reply
+    const SWIPE_THRESHOLD = 60; 
+    const isMe = msg.direction === 'outgoing'; 
 
-    // Ensure indicator exists and is styled correctly for the row container
+    // Ensure indicator exists
     if (!element.querySelector('.swipe-indicator')) {
         const ind = document.createElement('div');
         ind.className = 'swipe-indicator';
-        ind.innerHTML = '↩️'; // Reply Icon
-        element.prepend(ind); // Put it at the start of the row container
+        ind.innerHTML = '↩️'; 
+        element.prepend(ind); 
     }
     
     const indicator = element.querySelector('.swipe-indicator');
@@ -612,52 +656,82 @@ function attachSwipeLogic(element, msg, senderName) {
 
     const start = (x) => { 
         startX = x; 
-        element.classList.add('swiping'); 
-        // Detach scroll listener temporarily to prevent viewport scroll during drag
-        document.getElementById('messagesContainer').onscroll = null;
+        element.classList.add('swiping');
+        
+        // B"H - INSTANT FIX: remove transition during drag so it follows finger exactly
+        element.style.transition = 'none'; 
+        
+        // Disable scroll temporarily
+        const container = document.getElementById('messagesContainer');
+        if(container) container.style.overflowY = 'hidden';
     };
     
     const move = (x) => {
         currentX = x;
         const diff = currentX - startX;
         
-        // ONLY allow Right Swipe (Pull > 0) - Corresponds to Reply
-        if (diff > 0 && diff < 200) {
-            // Apply transform with resistance
-            const resistance = Math.pow(diff, 0.8); 
+        let validSwipe = false;
+        let resistance = 0;
+
+        // B"H - Logic: 
+        // If "Them" (Left aligned) -> Allow pulling Right (diff > 0)
+        // If "Me" (Right aligned) -> Allow pulling Left (diff < 0)
+        
+        if (!isMe && diff > 0) {
+            validSwipe = true;
+            // Resistance Formula: moves slower the further you pull
+            resistance = Math.pow(diff, 0.85); 
+        } 
+        else if (isMe && diff < 0) {
+            validSwipe = true;
+            resistance = -Math.pow(Math.abs(diff), 0.85);
+        }
+
+        // Limit the pull distance visually
+        if (Math.abs(resistance) > 150) resistance = resistance > 0 ? 150 : -150;
+
+        if (validSwipe) {
             element.style.transform = `translateX(${resistance}px)`;
             
-            // Visual cues for the icon
-            if (resistance > SWIPE_THRESHOLD) {
-                indicator.style.transform = `translateY(-50%) scale(1.2) rotate(-180deg)`; // Pop effect
+            // Icon Animation
+            const absRes = Math.abs(resistance);
+            // Flip rotation for "Me" so icon looks correct coming from right
+            const baseRotate = isMe ? 0 : -180; 
+            
+            if (absRes > SWIPE_THRESHOLD) {
+                // Activated State
+                indicator.style.transform = `translateY(-50%) scale(1.2) rotate(${baseRotate}deg)`;
+                indicator.style.opacity = '1';
                 indicator.style.color = '#fff';
-                indicator.style.background = 'var(--neon-gold)';
-                indicator.style.borderColor = 'var(--neon-gold)';
-                indicator.style.opacity = '1';
             } else {
-                indicator.style.transform = `translateY(-50%) scale(${0.5 + (resistance/SWIPE_THRESHOLD)*0.5})`;
+                // Dragging State
+                const scale = 0.5 + (absRes/SWIPE_THRESHOLD)*0.5;
+                indicator.style.transform = `translateY(-50%) scale(${scale}) rotate(${baseRotate}deg)`;
+                indicator.style.opacity = (absRes / 50).toString(); // Fade in
                 indicator.style.color = 'var(--neon-gold)';
-                indicator.style.background = '#2a2a2e';
-                indicator.style.opacity = '1';
             }
         }
     };
 
     const end = (x) => {
         const diff = x - startX;
-        element.style.transform = ''; // Snap back
-        element.classList.remove('swiping');
         
-        // Reset icon styles
-        indicator.style = ''; 
+        // B"H - Restore transition for the "Snap Back" animation
+        element.style.transition = 'transform 0.2s cubic-bezier(0.2, 0.9, 0.2, 1)';
+        element.style.transform = ''; 
+        
+        element.classList.remove('swiping');
         indicator.style.opacity = '0';
+        
+        // Re-enable scroll
+        const container = document.getElementById('messagesContainer');
+        if(container) container.style.overflowY = '';
 
-        // Re-attach scroll listener
-        attachScrollListener(); 
+        // Trigger if threshold met in correct direction
+        const triggered = (!isMe && diff > SWIPE_THRESHOLD) || (isMe && diff < -SWIPE_THRESHOLD);
 
-        if (diff > SWIPE_THRESHOLD) {
-            // Vibration haptic (if mobile)
-            if (navigator.vibrate) navigator.vibrate(50);
+        if (triggered) {
+            if (navigator.vibrate) navigator.vibrate(40);
             triggerReplyMode(msg, senderName);
         }
     };
@@ -667,7 +741,7 @@ function attachSwipeLogic(element, msg, senderName) {
     element.addEventListener('touchmove', e => { if(isTouch) move(e.touches[0].clientX); }, {passive: true});
     element.addEventListener('touchend', e => { if(isTouch) { end(e.changedTouches[0].clientX); isTouch=false; } });
 
-    // Mouse Listeners (Desktop slide)
+    // Mouse Listeners
     let isDragging = false;
     element.addEventListener('mousedown', e => {
         if (e.button !== 0 || e.target.closest('button, a, input, textarea, .msg-menu-btn')) return;
@@ -675,18 +749,9 @@ function attachSwipeLogic(element, msg, senderName) {
         element.style.cursor = 'grabbing';
         start(e.clientX);
     });
-    window.addEventListener('mousemove', e => {
-        if (!isDragging) return;
-        move(e.clientX);
-    });
-    window.addEventListener('mouseup', e => {
-        if (!isDragging) return;
-        isDragging = false;
-        element.style.cursor = '';
-        end(e.clientX);
-    });
+    window.addEventListener('mousemove', e => { if (isDragging) move(e.clientX); });
+    window.addEventListener('mouseup', e => { if (isDragging) { isDragging = false; element.style.cursor = ''; end(e.clientX); } });
 }
-
 // B"H - Helper to unify movement logic
 function handleSwipeMove(element, diff) {
     // Right Swipe (Pulling Eastward) triggers Reply
