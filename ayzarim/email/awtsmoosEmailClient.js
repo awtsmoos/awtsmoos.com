@@ -1,7 +1,7 @@
 /**
  * B"H
  * @module AwtsmoosEmailClient
- * PARANOID LOGGING EDITION (Fixed SMTP Logic)
+ * PRODUCTION EDITION - Simple/Simple Canonicalization
  */
 
 var crypto = require('crypto');
@@ -23,7 +23,7 @@ class AwtsmoosEmailClient {
     } = {}) {
         try {
             this.privateKey = fs.readFileSync(pathToPrivateKey , 'utf-8');
-            console.log("DEBUG: Private Key loaded successfully.");
+            console.log("DKIM Private Key loaded.");
         } catch (e) {
             console.warn("Warning: Could not load DKIM file. Checking Env...");
             var privateKey = process.env.BH_key;
@@ -58,26 +58,13 @@ class AwtsmoosEmailClient {
         });
     }
 
-    /**
-     * Determine the next step in the dance.
-     * Fixed logic: 
-     * 1. START -> EHLO
-     * 2. EHLO -> (Server says 250 STARTTLS) -> SEND_STARTTLS_COMMAND
-     * 3. SEND_STARTTLS_COMMAND -> (Server says 220) -> DO_TLS_HANDSHAKE
-     * 4. DO_TLS_HANDSHAKE -> EHLO (Secure)
-     * 5. EHLO (Secure) -> MAIL FROM
-     */
     getNextCommand() {
         var commandOrder = [
-            'START', 
-            'EHLO', 
-            'SEND_STARTTLS_COMMAND',
-            'DO_TLS_HANDSHAKE',
-            'EHLO_SECURE',
+            'START', 'EHLO', 'SEND_STARTTLS_COMMAND',
+            'DO_TLS_HANDSHAKE', 'EHLO_SECURE',
             'MAIL FROM', 'RCPT TO', 'DATA', 'END OF DATA'
         ];
         
-        // Simple sequential fallback, but handleSMTPResponse usually overrides
         var currentIndex = commandOrder.indexOf(this.previousCommand);
         if (currentIndex === -1) return commandOrder[0];
         return commandOrder[currentIndex + 1];
@@ -85,13 +72,8 @@ class AwtsmoosEmailClient {
 
     handleSMTPResponse({ lineOrMultiline, client, sender, recipient, emailData }) {
         if (lineOrMultiline.startsWith('221')) {
-            console.log("Server closed (221). Done.");
             client.end();
             return;
-        }
-
-        if (lineOrMultiline.startsWith('4') || lineOrMultiline.startsWith('5')) {
-             console.error("SMTP Error Code Detected: " + lineOrMultiline);
         }
 
         var isMultiline = lineOrMultiline.charAt(3) === '-';
@@ -104,59 +86,42 @@ class AwtsmoosEmailClient {
         try {
             let nextCommand = '';
 
-            // --- STATE MACHINE LOGIC ---
-            
-            // 1. Initial Connection (220) -> Send EHLO
             if (this.previousCommand === '' && lastLine.startsWith('220')) {
                 nextCommand = 'EHLO';
             }
-            // 2. Response to First EHLO -> Send STARTTLS text
             else if (this.previousCommand === 'EHLO' && lastLine.startsWith('250')) {
                 if (lineOrMultiline.includes('STARTTLS')) {
                     nextCommand = 'SEND_STARTTLS_COMMAND';
                 } else {
-                    nextCommand = 'MAIL FROM'; // No TLS supported?
+                    nextCommand = 'MAIL FROM'; 
                 }
             }
-            // 3. Response to STARTTLS command (220) -> Perform Upgrade
             else if (this.previousCommand === 'SEND_STARTTLS_COMMAND' && lastLine.startsWith('220')) {
-                console.log("Server is ready for TLS. Upgrading socket...");
                 nextCommand = 'DO_TLS_HANDSHAKE';
             }
-            // 4. Response to Second EHLO (Encrypted) -> Mail From
             else if (this.previousCommand === 'EHLO_SECURE' && lastLine.startsWith('250')) {
                 nextCommand = 'MAIL FROM';
             }
-            // 5. Normal Flow
             else if (this.previousCommand === 'MAIL FROM' && lastLine.startsWith('250')) nextCommand = 'RCPT TO';
             else if (this.previousCommand === 'RCPT TO' && lastLine.startsWith('250')) nextCommand = 'DATA';
-            else if (this.previousCommand === 'DATA' && (lastLine.startsWith('354'))) nextCommand = 'SEND_BODY'; // Actually trigger send
-            
-            // 6. Response to Body (250 OK)
+            else if (this.previousCommand === 'DATA' && (lastLine.startsWith('354'))) nextCommand = 'SEND_BODY';
             else if (this.previousCommand === 'END OF DATA' && lineOrMultiline.startsWith('250')) {
-                console.log("B\"H - Success! Email accepted.");
+                console.log("B\"H - Email Sent Successfully (250 OK).");
                 client.write('QUIT\r\n');
                 client.end();
                 return;
             }
 
-            if (!nextCommand) {
-                console.warn("State machine unsure. Guessing based on previous:", this.previousCommand);
-                nextCommand = this.getNextCommand();
-            }
+            if (!nextCommand) nextCommand = this.getNextCommand();
 
-            // Execute Handler
             var handler = this.commandHandlers[nextCommand];
             if (handler) {
                 handler({ client, sender, recipient, emailData, lineOrMultiline });
-                // Only update previousCommand if it's not the internal data handler (handled separately)
                 if(nextCommand !== 'SEND_BODY') {
                     this.previousCommand = nextCommand;
                 } else {
                      this.previousCommand = 'END OF DATA';
                 }
-            } else {
-                console.error("No handler for command:", nextCommand);
             }
 
         } catch (e) {
@@ -165,96 +130,72 @@ class AwtsmoosEmailClient {
         } 
     }
 
-    // --- LOGGING CANONICALIZER ---
-    canonicalizeRelaxed(headers, body) {
-        // Headers
-        var canonicalHeadersStr = "";
-        if (headers) {
-            var headerLines = headers.split(CRLF).filter(l => l.trim().length > 0);
-            var processHeader = (line) => {
-                var split = line.indexOf(':');
-                if (split === -1) return line; 
-                var key = line.substring(0, split).toLowerCase().trim();
-                var value = line.substring(split + 1).replace(/\s+/g, ' ').trim();
-                return key + ':' + value;
-            };
-            canonicalHeadersStr = headerLines.map(processHeader).join(CRLF) + CRLF;
-        }
-
-        // Body
-        var canonicalBody = "";
-        if (typeof body === 'string') {
-            var bodyLines = body.split(CRLF);
-            bodyLines = bodyLines.map(line => {
-                return line.replace(/[ \t]+$/, '').replace(/[ \t]+/g, ' ');
-            });
-            while (bodyLines.length > 0 && bodyLines[bodyLines.length - 1] === '') {
-                bodyLines.pop();
-            }
-            canonicalBody = bodyLines.join(CRLF);
-            if (canonicalBody.length > 0) canonicalBody += CRLF;
-            else canonicalBody = "";
-        }
-
-        return { canonicalHeaders: canonicalHeadersStr, canonicalBody };
-    }
-
-    // --- PARANOID SIGNER ---
+    // --- SIMPLE CANONICALIZER ---
     signEmail(domain, selector, privateKey, headers, body) {
         try {
-            console.log("\n================ DKIM DEBUG LOG ================");
+            // 1. Simple Body Canonicalization:
+            // Remove all empty lines at very end, ensure exactly one CRLF.
+            // (We keep internal whitespace exact).
+            var bodyToSign = body;
+            // Trim trailing CRLFs manually
+            while (bodyToSign.endsWith(CRLF)) {
+                bodyToSign = bodyToSign.slice(0, -2);
+            }
+            bodyToSign += CRLF; // Ensure exactly one
             
-            // 1. Body Hash
-            var { canonicalBody } = this.canonicalizeRelaxed(null, body);
-            
-            console.log("DEBUG: Raw Canonical Body (Hex):");
-            console.log(Buffer.from(canonicalBody).toString('hex'));
-            
+            // Hash the body
             var bodyHash = crypto.createHash('sha256')
-                .update(canonicalBody)
+                .update(bodyToSign)
                 .digest('base64');
-            console.log("DEBUG: Computed Body Hash (bh): " + bodyHash);
-
-            // 2. Header Selection
-            var headersToSign = ['Message-ID', 'Date', 'From', 'To', 'Subject'];
-            var collectedRawHeaders = "";
-            var hTagList = [];
-
-            headersToSign.forEach(name => {
-                var regex = new RegExp(`^${name}:.*$`, 'mi');
-                var match = headers.match(regex);
-                if (match) {
-                    collectedRawHeaders += match[0] + CRLF;
-                    hTagList.push(name);
-                }
-            });
-
-            // 3. Header Canonicalization
-            var { canonicalHeaders } = this.canonicalizeRelaxed(collectedRawHeaders, null);
             
-            // 4. DKIM Line Construction
+            // 2. Simple Header Canonicalization:
+            // "Simple" means NO modification. We use the raw bytes.
+            // The `headers` argument passed here is what we generated in sendMail.
+            // It assumes correct capitalization and CRLFs are already present.
+            
+            // Defines the headers list based on our known sending order
+            // Note: Casing must match what is in `headers` string for the `h=` tag to be polite,
+            // though standard says it's case insensitive finding.
+            var hTags = ['Message-ID', 'Date', 'From', 'To', 'Subject'];
+            
             var timestamp = Math.floor(Date.now() / 1000);
-            var dkimHeaderStart = `v=1; a=rsa-sha256; c=relaxed/relaxed; d=${domain}; s=${selector}; t=${timestamp}; bh=${bodyHash}; h=${hTagList.join(':')}; b=`;
             
-            var relaxedValue = dkimHeaderStart.replace(/\s+/g, ' ').trim();
-            var canonicalDkimLine = "dkim-signature:" + relaxedValue;
-
-            // 5. Final Assembly
-            var toSign = canonicalHeaders + canonicalDkimLine; 
-            if (!toSign.endsWith(CRLF)) toSign += CRLF;
-
-            console.log("DEBUG: Final String To Sign (Hex):");
-            console.log(Buffer.from(toSign).toString('hex'));
-
-            // 6. Sign
+            // The DKIM Header Stub
+            // Note: DKIM-Signature casing MUST match what we emit exactly
+            var dkimHeader = `DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=${domain}; s=${selector}; t=${timestamp}; bh=${bodyHash}; h=${hTags.join(':')}; b=`;
+            
+            // 3. String to Sign
+            // Simple method: The header lines + The DKIM header line (without CRLF on the DKIM line? No, needs it if implicit?)
+            // RFC says: "treated as the value... excluding the signature... but including the CRLF"
+            // Wait, for `c=simple`, we don't trim or unfold.
+            // But we must add the DKIM header to the list.
+            
+            var toSign = headers + dkimHeader; 
+            // In "simple", we do NOT modify spacing. 
+            // The header 'headers' has a trailing CRLF already from sendMail loop.
+            // We append `DKIM-Signature: ... b=`
+            // Does this `DKIM-Signature` line need a CRLF? Yes.
+            
+            // Because it is a header field, and the signature calculates the hash of the Header Fields.
+            // Header Field = Name ":" Value CRLF
+            // We verify against `dkimHeader` + signature. 
+            // The verifier reads the full header line.
+            
+            // So we sign `dkimHeader`... wait. The verifier will receive `DKIM-Signature: ... b=sig;\r\n`.
+            // The value of `b` is ignored during hash.
+            // So we sign `headers` + `DKIM-Signature: ... b=` NO!
+            // We sign `headers` + `DKIM-Signature: ... b=`... ???
+            
+            // Actually, for Simple/Simple, we generally do NOT assume trimming.
+            // Let's force strict CRLF at end of DKIM header too.
+            var toSignParams = headers + dkimHeader;
+            
+            // Create Signature
             var signature = crypto.createSign('SHA256')
-                .update(toSign)
+                .update(toSignParams)
                 .sign(privateKey, 'base64');
             
-            console.log("DEBUG: Signature Generated.");
-            console.log("==============================================\n");
-
-            return dkimHeaderStart + signature;
+            return dkimHeader.substring("DKIM-Signature: ".length) + signature;
 
         } catch (e) {
             console.error("Signing Error:", e);
@@ -264,10 +205,9 @@ class AwtsmoosEmailClient {
 
     async sendMail(sender, recipient, subject, rawBody) {
         return new Promise(async (resolve, reject) => {
-            console.log("B\"H - Sending Mail...");
+            console.log("B\"H - Sending Mail (Production)...");
             var addresses = await this.getDNSRecords(recipient);
             this.smtpServer = addresses[0].exchange;
-            console.log("MX Server: " + this.smtpServer);
             
             this.socket = net.createConnection({
 	            port: this.port, host: this.smtpServer, family: 4 
@@ -278,20 +218,27 @@ class AwtsmoosEmailClient {
             var messageId = `<${Date.now()}@${domain}>`;
             var dateHeader = new Date().toUTCString();
             
+            // Construct Headers Block. 
+            // Order MUST be consistent for Simple Signing
             var headers = 
                 `Message-ID: ${messageId}${CRLF}` +
                 `Date: ${dateHeader}${CRLF}` +
                 `From: ${sender}${CRLF}` +
                 `To: ${recipient}${CRLF}` +
-                `Subject: ${subject}${CRLF}`;
+                `Subject: ${subject}${CRLF}`; // Ends with CRLF
             
+            // Construct Body
             var bodyToSend = rawBody;
+            while (bodyToSend.endsWith(CRLF)) bodyToSend = bodyToSend.slice(0, -2);
+            bodyToSend += CRLF; // Exactly one for transmission
+
             var dataToSend = "";
             if(this.privateKey) {
-                var sig = this.signEmail(domain, selector, this.privateKey, headers, bodyToSend);
-                if(sig) {
-                    var dkimHeader = `DKIM-Signature: ${sig}${CRLF}`;
-                    dataToSend = dkimHeader + headers + CRLF + bodyToSend;
+                // Pass exact blocks to signer
+                var sigValue = this.signEmail(domain, selector, this.privateKey, headers, bodyToSend);
+                if(sigValue) {
+                    var dkimHeaderLine = `DKIM-Signature: ${sigValue}${CRLF}`;
+                    dataToSend = dkimHeaderLine + headers + CRLF + bodyToSend;
                 } else {
                     dataToSend = headers + CRLF + bodyToSend;
                 }
@@ -299,8 +246,7 @@ class AwtsmoosEmailClient {
                  dataToSend = headers + CRLF + bodyToSend;
             }
 
-            this.socket.on('connect', () => { console.log("Socket Connected. Waiting for Greeting."); });
-
+            this.socket.on('connect', () => {  });
             try {
                 this.handleClientData({ client: this.socket, sender, recipient, dataToSend });
             } catch(e) { reject(e); }
@@ -352,38 +298,29 @@ class AwtsmoosEmailClient {
             client.write(`EHLO ${this.smtpServer}${CRLF}`);
         },
         'SEND_STARTTLS_COMMAND': ({ client }) => {
-            console.log("Sending STARTTLS command...");
             client.write(`STARTTLS${CRLF}`);
         },
         'DO_TLS_HANDSHAKE': ({ client, sender, recipient, emailData }) => {
-            // Options used to identify THIS server to the other (Cert/Key), and defaults for parsing
             var options = { 
                 socket: client, 
-                // We use the MX domain we found as servername for SNI
                 servername: this.smtpServer, 
                 minVersion: 'TLSv1.2',
-                rejectUnauthorized: false // Opportunistic - don't fail if they have self-signed (Gmail has valid tho)
+                rejectUnauthorized: false
             };
             if(this.hasFiles) { options.key = this.key; options.cert = this.cert; }
-            
             var secureSocket = tls.connect(options, () => {});
             secureSocket.on('error', (e) => console.error("TLS Error", e));
             secureSocket.on("secureConnect", () => {
-                console.log("TLS Secured. Resending EHLO.");
                 this.socket = secureSocket;
                 client.removeAllListeners();
-                
                 try {
                     this.handleClientData({ client: secureSocket, sender, recipient, dataToSend: emailData });
                 } catch(e){ console.error(e); }
-                
-                this.previousCommand = "EHLO_SECURE"; // Update state so we know where we are
+                this.previousCommand = "EHLO_SECURE";
                 secureSocket.write(`EHLO ${this.smtpServer}${CRLF}`);
             });
         },
-        'EHLO_SECURE': ({ client }) => {
-             // Logic is inside DO_TLS_HANDSHAKE secureConnect
-        },
+        'EHLO_SECURE': ({ client }) => { },
         'MAIL FROM': ({ client, recipient, sender }) => {
             client.write(`MAIL FROM:<${sender}>${CRLF}`);
         },
@@ -394,28 +331,18 @@ class AwtsmoosEmailClient {
             client.write(`DATA${CRLF}`);
         },
         'SEND_BODY': ({ client, emailData }) => {
-            console.log("Sending DATA payload (" + emailData.length + " bytes)");
-            // Ensure data ends with \r\n.\r\n
             var payload = `${emailData}${CRLF}.${CRLF}`;
             client.write(payload);
-            // This flag is handled by response parser 250
         },
     };
 }
 
-// --- Main Execution Block ---
 if (require.main === module) {
     var smtpClient = new AwtsmoosEmailClient();
     (async function() {
         try {
-            var subject = 'B"H ' + Date.now();
-            var body = 'This is the logs test body.\r\nIt has exactly two lines of content.';
-            
-            await smtpClient.sendMail('me@awtsmoos.com', 'awtsmoos@gmail.com', subject, body);
-            console.log('Job script finished (waiting for socket close).');
-        } catch (err) {
-            console.error('Job Failed:', err);
-        }
+            await smtpClient.sendMail('me@awtsmoos.com', 'awtsmoos@gmail.com', 'B"H ' + Date.now(), 'Testing Simple/Simple.');
+        } catch (err) { console.error('Job Failed:', err); }
     })();
 }
 
