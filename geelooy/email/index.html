@@ -88,6 +88,16 @@
                 </form>
             </main>
         </div>
+        
+        <!-- Message Context Menu (Long Press / Options) -->
+        <div id="msgContextModal" class="modal hidden" onclick="closeMsgMenu()">
+            <div class="glass-card context-menu" onclick="event.stopPropagation()">
+                <div class="menu-header">Message Options</div>
+                <button class="menu-item" onclick="handleMsgAction('copy')">📋 Copy Text</button>
+                <button class="menu-item" onclick="handleMsgAction('reply')">↩️ Reply to this</button>
+                <button class="menu-item danger" onclick="handleMsgAction('delete')">🗑️ Dissolve</button>
+            </div>
+        </div>
 
         <!-- Compose New Modal -->
         <div id="newMsgModal" class="modal hidden">

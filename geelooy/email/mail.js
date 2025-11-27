@@ -303,6 +303,51 @@ async function markAsRead(msgId) {
     fetch(`${API_BASE}/get/${msgId}/read?aliasId=${state.alias}`).catch(()=>{});
 }
 
+
+// --- Message Actions ---
+
+let selectedMsgId = null;
+let selectedMsgContent = "";
+
+function openMsgMenu(msgId, content, isMe) {
+    selectedMsgId = msgId;
+    selectedMsgContent = unescapeHtml(content); // Helpers to decode if needed
+    
+    const modal = document.getElementById('msgContextModal');
+    modal.classList.remove('hidden');
+    
+    // Vibrate on mobile for tactile feel
+    if(navigator.vibrate) navigator.vibrate(50);
+}
+
+function closeMsgMenu() {
+    document.getElementById('msgContextModal').classList.add('hidden');
+    selectedMsgId = null;
+}
+
+function handleMsgAction(action) {
+    if (!selectedMsgId) return;
+    
+    if (action === 'copy') {
+        navigator.clipboard.writeText(selectedMsgContent).then(() => alert("Copied!"));
+    } else if (action === 'reply') {
+        const quote = `> "${selectedMsgContent.substring(0, 50)}..."\n\n`;
+        const input = document.getElementById('messageInput');
+        input.value = quote + input.value;
+        input.focus();
+    } else if (action === 'delete') {
+        deleteMessage(selectedMsgId);
+    }
+    
+    closeMsgMenu();
+}
+
+function unescapeHtml(html) {
+    const txt = document.createElement("textarea");
+    txt.innerHTML = html;
+    return txt.value;
+}
+
 // --- Data Logic (The Brain) ---
 
 function processThreads(messages) {
@@ -442,14 +487,20 @@ function renderMessages(threadName) {
             });
         }
 
+        // Determine Display Name for Bubble
+        const senderName = isMe ? "Me" : (msg.fromName || msg.from || "Unknown");
+
+        // We attach oncontextmenu for Long Press logic (and a visual 3-dot button)
         bubble.innerHTML = `
-            <div class="message-bubble">
+            <div class="message-bubble" oncontextmenu="event.preventDefault(); openMsgMenu('${msg.id}', '${escapeHtml(msg.textContent || msg.content)}', ${isMe})">
+                <span class="msg-sender-name">${escapeHtml(senderName)}</span>
+                <button class="msg-menu-btn" onclick="event.stopPropagation(); openMsgMenu('${msg.id}', '${escapeHtml(msg.textContent || msg.content)}', ${isMe})">•••</button>
+                
                 ${msg.subject && msg.subject !== '(No Subject)' ? `<div class="msg-subject">${escapeHtml(msg.subject)}</div>` : ''}
                 <div class="msg-content email-body">${bodyHtml}</div>
                 ${attHtml}
                 <div class="msg-meta">
                     <span class="msg-time">${formatTime(ts)}</span>
-                    <button class="msg-del" onclick="deleteMessage('${msg.id}')">×</button>
                 </div>
             </div>
         `;

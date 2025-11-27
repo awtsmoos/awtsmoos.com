@@ -198,10 +198,51 @@ body, html {
 @keyframes slideUp { from { transform: translateY(10px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
 .message-bubble {
-    max-width: 70%; padding: 14px 20px;
-    border-radius: 20px; font-size: 1rem; line-height: 1.6;
+    max-width: 75%; padding: 12px 16px;
+    border-radius: 18px; font-size: 0.95rem; line-height: 1.5;
     position: relative; box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    display: flex; flex-direction: column;
 }
+
+/* Sender Name Small Header */
+.msg-sender-name {
+    font-size: 0.7rem; margin-bottom: 4px; font-weight: 700;
+    color: rgba(255,255,255,0.5); letter-spacing: 0.5px;
+    margin-left: 2px;
+}
+.row-me .msg-sender-name { display: none; } /* Don't show name for self */
+
+/* 3-Dot Menu Trigger */
+.msg-menu-btn {
+    position: absolute; top: 5px; right: 8px;
+    background: transparent; border: none; color: rgba(255,255,255,0.3);
+    font-size: 1.2rem; line-height: 0.5; cursor: pointer;
+    padding: 4px; opacity: 0; transition: opacity 0.2s;
+}
+.message-bubble:hover .msg-menu-btn, .message-bubble:active .msg-menu-btn { opacity: 1; }
+
+/* Context Menu Modal Styles */
+.context-menu {
+    position: absolute; bottom: 0; left: 0; width: 100%;
+    border-radius: 20px 20px 0 0; border: 1px solid var(--neon-gold);
+    background: #111; padding: 20px;
+    display: flex; flex-direction: column; gap: 8px;
+    animation: slideUpMenu 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slideUpMenu { from { transform: translateY(100%); } to { transform: translateY(0); } }
+
+.menu-header { font-size: 0.9rem; color: var(--text-secondary); text-align: center; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; }
+
+.menu-item {
+    background: rgba(255,255,255,0.05); border: none; color: #fff;
+    padding: 16px; border-radius: 12px; font-size: 1rem; font-weight: 600;
+    display: flex; align-items: center; gap: 12px; cursor: pointer;
+}
+.menu-item:active { background: rgba(255,255,255,0.1); transform: scale(0.98); }
+.menu-item.danger { color: var(--neon-fire); background: rgba(239, 68, 68, 0.1); }
+
+
 
 .row-me { justify-content: flex-end; }
 .row-me .message-bubble {
@@ -272,11 +313,23 @@ textarea {
 .empty-state { margin: auto; text-align: center; opacity: 0.3; }
 .logo-faint { font-size: 5rem; font-weight: 900; letter-spacing: -2px; margin-bottom: 10px; }
 
-/* MOBILE RESPONSIVE LOGIC */
-.back-btn { display: none; font-size: 1.5rem; background: none; border: none; color: #fff; margin-right: 10px; cursor: pointer; }
 
+/* MOBILE RESPONSIVE LOGIC */
+.back-btn { 
+    display: none; /* Hidden on desktop */
+    font-size: 1.5rem; 
+    background: transparent; 
+    border: none; 
+    color: var(--text-primary); 
+    margin-right: 15px; 
+    cursor: pointer; 
+    padding: 0 10px;
+    z-index: 100;
+}
 @media (max-width: 800px) {
     .app-layout { grid-template-columns: 1fr; }
+    
+    .back-btn { display: block !important; }
     
     /* Toggle Visibility Logic */
     .app-layout:not(.chat-open) .chat-area { display: none !important; }
