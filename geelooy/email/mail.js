@@ -500,22 +500,29 @@ function closeMsgMenu() { document.getElementById('msgContextModal').classList.a
 
 
 function formatContent(text) {
-    if (!text) return "";
+    if (text === null || text === undefined) return "";
     
-    // B"H - Heuristic: If it looks like HTML, assume it's trusted (sanitized by server)
-    // Checking for common tags like <div, <span, <br, <p
-    if (/<[a-z][\s\S]*>/i.test(text) || text.includes('style=')) {
-        return text; // Return raw HTML
+    // B"H - Cast to String to prevent number crashes
+    const str = String(text);
+    
+    // Check for HTML
+    if (/<[a-z][\s\S]*>/i.test(str) || str.includes('style=')) {
+        return str; // Return raw HTML
     }
     
-    // Otherwise, it's plain text -> Escape it and add line breaks
-    return escapeHtml(text).replace(/\n/g, '<br>');
+    // Otherwise, escape and format line breaks
+    return escapeHtml(str).replace(/\n/g, '<br>');
 }
 
 function escapeHtml(text) {
-    if (!text) return "";
-    return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    // B"H - The Shield of String
+    if (text === null || text === undefined) return "";
+    return String(text)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;");
 }
+
 
 function formatTime(ts) {
     return new Date(ts).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
