@@ -24,12 +24,14 @@
     --header-h: 72px;
 }
 
-* {  scrollbar-width: thin; scrollbar-color: var(--neon-amber) var(--bg-deep); outline: none; -webkit-tap-highlight-color: transparent; }
 
 
 .main {
 	box-sizing: border-box;
-	
+	crollbar-width: thin; 
+	scrollbar-color: var(--neon-amber) var(--bg-deep); 
+	outline: none; 
+	-webkit-tap-highlight-color: transparent;
 	
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     background-color: var(--bg-deep); color: var(--text-primary);
@@ -134,11 +136,13 @@
 
 /* --- CHAT AREA (Right) --- */
 .chat-area {
-    display: flex; flex-direction: column;
-    background: var(--bg-deep); position: relative;
-    /* Fancy subtle grid pattern */
-    background-image: radial-gradient(var(--border) 1px, transparent 1px);
-    background-size: 40px 40px;
+    display: flex; 
+    flex-direction: column;
+    height: 100vh; /* Strict Full Height */
+    max-height: 100vh;
+    background: var(--bg-deep); 
+    position: relative;
+    overflow: hidden; /* Prevent body scroll */
 }
 
 .chat-header {
@@ -162,9 +166,15 @@
 
 /* Messages */
 .messages-container {
-    flex: 1; overflow-y: auto; padding: 2rem;
-    display: flex; flex-direction: column; gap: 16px;
-    mask-image: linear-gradient(to bottom, transparent 0%, black 20px);
+    flex: 1; 
+    overflow-y: auto; 
+    overflow-x: hidden;
+    padding: 2rem;
+    padding-bottom: 2rem;
+    display: flex; 
+    flex-direction: column; 
+    gap: 16px;
+    min-height: 0; /* Crucial for flex scrolling */
 }
 
 .message-row { display: flex; width: 100%; margin-bottom: 8px; animation: slideUp 0.3s ease; }
@@ -194,12 +204,12 @@
 
 /* Compose Box - BIGGER BETTER */
 .input-area {
+    flex-shrink: 0; /* Don't shrink */
+    z-index: 20;
     padding: 20px;
     background: rgba(15,15,18,0.95);
     border-top: 1px solid var(--border);
     backdrop-filter: blur(10px);
-    /* Safe Area for Mobile */
-    padding-bottom: max(20px, env(safe-area-inset-bottom));
 }
 
 .input-wrapper {
@@ -267,9 +277,60 @@ textarea {
         position: fixed; bottom: 0; left: 0; width: 100%; z-index: 60;
     }
 }
-
+.modal {
+    z-index: 9999 !important; /* Force on top of everything */
+    background: rgba(0, 0, 0, 0.85); /* Darker dim */
+    backdrop-filter: blur(5px);
+}
 /* SETTINGS MODAL */
 .modal-content {
-    background: #111; border: 1px solid var(--neon-gold);
-    box-shadow: 0 0 50px rgba(0,0,0,0.8), 0 0 20px rgba(245, 158, 11, 0.1);
+    background: #111;
+    border: 1px solid var(--neon-gold);
+    box-shadow: 0 0 50px rgba(0,0,0,0.8), 0 0 30px rgba(245, 158, 11, 0.1);
+    position: relative; /* For absolute close button */
+    padding-top: 30px; /* Space for close button */
 }
+
+
+
+/* Delete Message "X" */
+.msg-del {
+    width: 24px; height: 24px;
+    background: rgba(255,255,255,0.1);
+    border: none;
+    border-radius: 50%;
+    color: var(--text-secondary);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; margin-left: 8px;
+    font-size: 1.2rem; line-height: 1;
+    transition: all 0.2s;
+}
+.msg-del:hover {
+    background: var(--neon-fire);
+    color: #fff;
+    transform: scale(1.1);
+}
+
+/* Settings Gear Icon */
+.btn-icon {
+    background: none; border: none;
+    color: var(--text-secondary);
+    font-size: 1.4rem; cursor: pointer;
+    padding: 8px; border-radius: 50%;
+    transition: all 0.3s ease;
+}
+.btn-icon:hover {
+    background: rgba(255,255,255,0.1);
+    color: var(--neon-gold);
+    transform: rotate(90deg);
+}
+
+/* Close Modal "X" */
+.close-modal {
+    position: absolute; top: 15px; right: 20px;
+    font-size: 2rem; cursor: pointer;
+    color: var(--text-secondary);
+    transition: color 0.2s;
+    line-height: 1;
+}
+.close-modal:hover { color: var(--neon-fire); }
