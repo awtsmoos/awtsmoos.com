@@ -41,16 +41,18 @@ function parseEmailEntry(entry, id, friendName) {
         return {
             id,
             from: entry.from,
-            fromName: entry.fromName, // Add name
-            fromEmail: entry.fromEmail, // Add email
+            fromName: entry.fromName, 
+            fromEmail: entry.fromEmail, 
             subject: entry.subject,
-            content: entry.content,
-            attachments: entry.attachments || [], // Pass attachments
+            // B"H - Ensure content is ALWAYS a string, even if DB has a number
+            content: String(entry.content || ""), 
+            attachments: entry.attachments || [], 
             timeSent: parseInt(entry.time) || Date.now(),
             read: entry.read || false,
             direction: entry.direction,
             isRaw: false
         };
+    
     }
 }
 

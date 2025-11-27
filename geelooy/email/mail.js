@@ -299,7 +299,7 @@ function createMessageRow(msg) {
     row.dataset.uid = msg.uid || msg.timeSent;
     
     // Quote Logic
-    let contentHtml = msg.content || "";
+    let contentHtml = String(msg.content || ""); 
     let quoteHtml = "";
     if (contentHtml.includes('class="reply-meta"')) {
         const div = document.createElement('div');
