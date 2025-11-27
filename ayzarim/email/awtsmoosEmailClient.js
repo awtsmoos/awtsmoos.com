@@ -204,8 +204,10 @@ class AwtsmoosEmailClient {
     }
 
     async sendMail(sender, recipient, subject, rawBody) {
-        return new Promise(async (resolve, reject) => {
-            console.log("B\"H - Sending Mail (Production)...");
+	    return new Promise(async (resolve, reject) => {
+	        this._resolve = resolve; // Save global reference
+	        this._reject = reject;
+	        console.log("B\"H - Sending Mail (Production)...");
             var addresses = await this.getDNSRecords(recipient);
             this.smtpServer = addresses[0].exchange;
             
@@ -325,15 +327,35 @@ class AwtsmoosEmailClient {
             var secureSocket = tls.connect(options, () => {});
             secureSocket.on('error', (e) => console.error("TLS Error", e));
             secureSocket.on("secureConnect", () => {
-                this.socket = secureSocket;
-                client.removeAllListeners();
-                try {
-                    this.handleClientData({ client: secureSocket, sender, recipient, dataToSend: emailData });
-                } catch(e){ console.error(e); }
-                this.previousCommand = "EHLO_SECURE";
-                // FIX: Re-Introduce OURSELVES securely
-                secureSocket.write(`EHLO awtsmoos.com${CRLF}`);
-            });
+	            this.socket = secureSocket;
+	            client.removeAllListeners(); // Removes original resolve/reject listeners
+	            
+	            // --- RE-ATTACH PROMISE LISTENERS TO NEW SOCKET ---
+	            secureSocket.on('end', () => { 
+	                 secureSocket.removeAllListeners(); 
+	                 if(this._resolve) this._resolve(); 
+	            });
+	            secureSocket.on('error', (e) => { 
+	                 console.error("TLS Socket Error", e);
+	                 if(this._reject) this._reject(e); 
+	            });
+	            secureSocket.on('close', () => { 
+	                secureSocket.removeAllListeners(); 
+	                if (this.previousCommand !== 'END OF DATA') {
+	                    if(this._reject) this._reject('Closed prematurely');
+	                } else {
+	                    if(this._resolve) this._resolve();
+	                }
+	            });
+	            // ------------------------------------------------
+	
+	            try {
+	                this.handleClientData({ client: secureSocket, sender, recipient, dataToSend: emailData });
+	            } catch(e){ console.error(e); }
+	            this.previousCommand = "EHLO_SECURE";
+	            // Re-Introduce OURSELVES securely
+	            secureSocket.write(`EHLO awtsmoos.com${CRLF}`);
+	        });
         },
         'EHLO_SECURE': ({ client }) => { },
         // ... rest of the handlers remain the same ...
