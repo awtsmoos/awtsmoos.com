@@ -463,6 +463,10 @@ function renderMessages(threadName) {
 function selectThread(name, displayName) {
     state.activeThread = name;
     
+    document.getElementById('appContainer').classList.add('chat-open');
+    
+    
+    
     // Header
     const chatInfo = document.getElementById('activeChatInfo');
     chatInfo.classList.remove('hidden');
@@ -532,17 +536,30 @@ function populateSettingsModal() {
 }
 
 function injectMessageIntoState(msg) {
+    // 1. Duplicate Check (Strict ID match)
     if (state.messages.some(m => m.id === msg.id)) return;
+
     state.messages.push(msg);
+    
+    // 2. Re-process threads (This rebuilds the state.threads dict)
     processThreads(state.messages);
+    
     renderSidebar();
     
-    // Determine if we should show it immediately
-    const threadId = msg.correspondent;
-    const isVisibleView = state.threads[threadId] !== undefined; // Is thread in current tab?
-    
-    if (state.activeThread === threadId && isVisibleView) {
-        renderMessages(threadId);
+    // 3. Intelligent Thread Refresh
+    if (state.activeThread) {
+        // Check fuzzy equality
+        const targetThread = msg.correspondent;
+        const active = state.activeThread;
+        
+        const isMatch = 
+            targetThread === active || 
+            targetThread.replace(/@/g, '_at_') === active ||
+            targetThread.replace(/_at_/g, '@') === active;
+
+        if (isMatch) {
+            renderMessages(active); // Refresh current view
+        }
     }
 }
 
@@ -588,6 +605,13 @@ function setupUI() {
             }
         });
     };
+}
+
+// Add this to global scope
+function backToInbox() {
+    document.getElementById('appContainer').classList.remove('chat-open');
+    state.activeThread = null;
+    renderSidebar(); // Refresh to remove active highlight
 }
 
 let socket;
