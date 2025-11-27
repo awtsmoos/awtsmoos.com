@@ -16,7 +16,7 @@ module.exports = {
     await $i.use({
       "/": async v => {
       
-     // return "hi"
+      return "hi"
         
         // 1. Security: Authenticate & Validate Origin
         if (!loggedIn($i)) {
@@ -63,9 +63,7 @@ module.exports = {
         
         // If parsing multipart/form-data resulted in a different structure, adjust here.
         // Or if it was raw JSON body:
-        if(!input && $i.request.body) {
-             try { input = ($i.$_POST); } catch(e){}
-        }
+        
         
         if (!input || !input.url) {
             return { error: "Missing 'url' in request body.", post: $i._POST, status: 400, lol: 6};
