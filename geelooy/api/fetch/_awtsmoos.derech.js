@@ -68,7 +68,7 @@ module.exports = {
         }
         
         if (!input || !input.url) {
-            return { error: "Missing 'url' in request body.", post: $i._POST, status: 400 };
+            return { error: "Missing 'url' in request body.", post: $i._POST, status: 400, lol: 6};
         }
 
         var targetUrl = input.url;
