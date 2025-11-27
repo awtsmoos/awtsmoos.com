@@ -112,7 +112,7 @@ class AwtsmoosStaticServer {
         // INCOMING MAIL HANDLER (INGRESS)
         // ======================================================
         if (this.mail) {
-            this.mail.gotMail = emailIngress;
+            this.mail.gotMail = emailIngress.bind(this);
         }
     }
 
