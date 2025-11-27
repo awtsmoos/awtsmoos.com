@@ -516,69 +516,64 @@ class AwtsmoosEmailClient {
     signEmail(domain, selector, privateKey, emailData) {
         try {
             // 1. Split headers and body
+            // We need strict splitting for 'simple' mode
             var splitIndex = emailData.indexOf(CRLF + CRLF);
+            if (splitIndex === -1) return emailData; // Safety check
+            
             var headers = emailData.substring(0, splitIndex);
             var body = emailData.substring(splitIndex + (CRLF.length * 2));
 
             // 2. Body Hash (Simple Canonicalization)
-            // Ensure exactly one trailing CRLF
+            // The spec says: if body is empty, hash ""; if not empty, ensure trailing CRLF.
+            // Our emailData always has body content, so we ensure CRLF.
             var bodyToHash = body;
             if (!bodyToHash.endsWith(CRLF)) bodyToHash += CRLF;
             
             var bodyHash = crypto.createHash('sha256')
                 .update(bodyToHash)
                 .digest('base64');
-            
+
             console.log("DEBUG: Body Hash: " + bodyHash);
 
-            // 3. Prepare Header List (Relaxed Canonicalization)
+            // 3. Prepare Header List (Simple Canonicalization)
+            // We must find the EXACT byte sequence for each header line.
             var headersToSign = ['Message-ID', 'Date', 'From', 'To', 'Subject'];
             var canonicalizedHeaders = '';
             var headerFieldNames = '';
 
             headersToSign.forEach(name => {
-                // Find the header (Case-insensitive)
+                // Find start of header line (Case-insensitive match for key, but grab exact line)
                 var regex = new RegExp(`^${name}:`, 'im');
                 var match = headers.match(regex);
                 if (match) {
-                    // Extract the raw line
-                    var start = headers.toLowerCase().indexOf(name.toLowerCase() + ':');
+                    var start = match.index;
                     var end = headers.indexOf(CRLF, start);
                     var line = headers.substring(start, end);
                     
-                    // --- RELAXED CANONICALIZATION LOGIC ---
-                    // 1. Split into Key and Value
-                    var parts = line.split(':');
-                    var key = parts.shift().toLowerCase().trim(); // Lowercase key
-                    var value = parts.join(':'); // Rejoin value parts
-                    
-                    // 2. Compress whitespace in value
-                    // Remove newlines, replace multiple spaces with single space, trim ends
-                    value = value.replace(/\r\n/g, '').replace(/\s+/g, ' ').trim();
-                    
-                    // 3. Reconstruct: key:value (No space after colon)
-                    canonicalizedHeaders += key + ':' + value + CRLF;
+                    // Simple Mode: Use the line EXACTLY as it is + CRLF
+                    canonicalizedHeaders += line + CRLF;
                     headerFieldNames += name + ':';
                 }
             });
+            // Remove trailing colon
             headerFieldNames = headerFieldNames.slice(0, -1);
 
             // 4. Construct DKIM Header Value
-            // Note: Changed to c=relaxed/simple
-            var dkimHeaderValue = `v=1;a=rsa-sha256;c=relaxed/simple;d=${domain};s=${selector};bh=${bodyHash};h=${headerFieldNames};b=`;
+            // Use c=simple/simple
+            // The Header Value starts AFTER the "DKIM-Signature:" key and space.
+            var dkimHeaderValue = `v=1;a=rsa-sha256;c=simple/simple;d=${domain};s=${selector};bh=${bodyHash};h=${headerFieldNames};b=`;
             
-            // 5. Canonicalize the DKIM Header itself for signing
-            // name to lowercase, no space after colon
-            var canonicalizedDkimHeader = 'dkim-signature:' + dkimHeaderValue;
+            // 5. Create toSign string
+            // CRITICAL FIX: Use "DKIM-Signature:" (Capitalized) to match sendMail output
+            // Simple mode DOES NOT lowercase the header key. It uses it as-is.
+            var toSign = canonicalizedHeaders + 'DKIM-Signature: ' + dkimHeaderValue;
 
             // 6. Sign
-            var toSign = canonicalizedHeaders + canonicalizedDkimHeader;
-            
             var signature = crypto.createSign('SHA256')
                 .update(toSign)
                 .sign(privateKey, 'base64');
 
-            // 7. Return the Header (Standard format with space)
+            // 7. Return just the value (sendMail adds the key)
             return `${dkimHeaderValue}${signature}`;
 
         } catch (e) {
