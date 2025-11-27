@@ -13,7 +13,7 @@ module.exports = {
     getSettings,
     approveSender
 }
-
+var vm = require('vm');
 var { NO_LOGIN, sp } = require("./_awtsmoos.constants.js");
 var { loggedIn, er, myOpts } = require("./general.js");
 var { verifyAliasOwnership } = require("./alias.js");
@@ -104,60 +104,42 @@ async function getMail({ $i, userid, aliasId, threadId }) {
 }
 
 
-// Copy the rest of the file from your previous version, just ensure `getMail` uses a.timeSent - b.timeSent
 async function sendMail({ $i, userid, asAliasId, toAliasId, toEmail }) {
     if (!loggedIn($i)) return er(NO_LOGIN);
 
-    // 1. Verify Sender Ownership
+    // 1. Verify Sender
     var verified = await verifyAliasOwnership(asAliasId, $i, userid);
     if (!verified) return er({ message: "Not your alias", code: "AUTH_FAIL" });
 
-    // 2. Determine Recipient (Local Alias vs Remote Email)
+    // 2. Determine Recipient
     var targetEmail = "";
     var isLocal = false;
     var friendClean = "";
-
-    // Helper to check local alias existence
     var checkLocal = async (id) => await $i.db.get(`${sp}/aliases/${id}/info`);
 
     if (toAliasId) {
-        // Case A: Passed as a URL param (e.g. /sendTo/some_id)
-        
-        // 1. Try treating it as a local alias ID first
         var info = await checkLocal(toAliasId);
-        
         if (info) {
-            // It IS a local alias
             isLocal = true;
             targetEmail = `${toAliasId}@awtsmoos.com`;
             friendClean = `${toAliasId}_at_awtsmoos.com`;
         } else {
-            // It is NOT a local alias.
-            // Check if it's a file-safe external address (e.g. user_at_gmail.com)
-            // This happens when replying to a thread ID.
             if (toAliasId.includes("_at_")) {
                 isLocal = false;
-                // Revert to email format (replace first _at_ with @)
                 targetEmail = toAliasId.replace("_at_", "@");
                 friendClean = toAliasId;
-            } 
-            // Check if it's a raw email passed in the URL path (bad practice but possible)
-            else if (toAliasId.includes("@")) {
+            } else if (toAliasId.includes("@")) {
                 isLocal = false;
                 targetEmail = toAliasId;
                 friendClean = toAliasId.replace("@", "_at_").replace(/[<>]/g, "");
-            }
-            else {
+            } else {
                 return er({ message: "Recipient alias not found", code: "RCPT_NOT_FOUND" });
             }
         }
     } 
     else if (toEmail) {
-        // Case B: Passed via query/body (e.g. ?toEmail=user@gmail.com)
         targetEmail = toEmail;
         friendClean = targetEmail.replace("@", "_at_").replace(/[<>]/g, "");
-        
-        // Optional: Check if it's actually our domain (awtsmoos.com) to force internal handling
         if(targetEmail.endsWith("@awtsmoos.com")) {
              var possibleAlias = targetEmail.split("@")[0];
              var info = await checkLocal(possibleAlias);
@@ -173,112 +155,109 @@ async function sendMail({ $i, userid, asAliasId, toAliasId, toEmail }) {
     var subject = $i.$_POST.subject || $i.$_GET.subject || "(No Subject)";
     var content = $i.$_POST.content || $i.$_GET.content || "";
     var time = Date.now();
-
-    // Clean Sender Folder: me_at_awtsmoos.com
     var myFolder = `${asAliasId}_at_awtsmoos.com`; 
 
     // 3. SENDING LOGIC
     try {
         if (isLocal) {
-            // === LOCAL SEND ===
+            // === LOCAL SEND (INTERNAL) ===
             
-            // A. Write to MY Outbox
+            // A. Save to My Sent
             await $i.db.appendToObj(`/emails/${myFolder}/threads/${friendClean}`, {
                 key: time + "",
                 value: {
-                    from: asAliasId,
-                    to: targetEmail,
-                    subject,
-                    content,
-                    time,
-                    read: true,
-                    direction: "outgoing"
+                    from: asAliasId, to: targetEmail,
+                    subject, content, time, read: true, direction: "outgoing"
                 }
             });
 
-            // B. Write to THEIR Inbox
-            var meClean = `${asAliasId}_at_awtsmoos.com`;
-            var recipientFolder = friendClean; // e.g. "bob_at_awtsmoos.com"
+            // B. INTELLIGENCE LAYER (For the Recipient)
+            var recipientAlias = friendClean.split("_at_")[0]; // "bob" from "bob_at_..."
+            
+            // 1. Load Their Settings
+            var settingsPath = `/social/aliases/${recipientAlias}/emailSettings`;
+            var settings = await $i.db.get(settingsPath) || { approved: {}, rules: [] };
+            if(!settings.approved) settings.approved = {};
 
-            // Construct the Message Object for them
-            var msgForThem = {
-                from: asAliasId,
-                fromName: asAliasId, // Internal alias is the name
-                to: targetEmail,
-                subject,
-                content,
-                time,
-                timeSent: time,
-                read: false,
-                direction: "incoming",
-                correspondent: asAliasId // For them, the correspondent is ME
-            };
+            // 2. Determine Status
+            var senderThreadId = myFolder; // "me_at_awtsmoos.com"
+            var status = "inbox";
+            
+            if (settings.gatekeeperMode && !settings.approved[senderThreadId]) {
+                status = "request";
+                // Auto-Reply if not a reply itself (avoid loops)
+                if (!subject.includes("Message Request")) {
+                    await sendSystemLocalMail($i, recipientAlias, asAliasId, 
+                        `Message Request Pending`, 
+                        `B"H\n\nShalom,\n\n${recipientAlias} has yet to approve this message request.`
+                    );
+                }
+            }
 
-            await $i.db.appendToObj(`/emails/${recipientFolder}/threads/${meClean}`, {
+            // 3. Run Rules (Only if not blocked/request, or run on all?)
+            // Usually we run rules on Inbox items.
+            if (status === "inbox") {
+                await runLocalRules($i, settings, {
+                    from: asAliasId,
+                    to: recipientAlias,
+                    subject,
+                    content
+                });
+            }
+
+            // C. Save to Their Inbox (With Status)
+            await $i.db.appendToObj(`/emails/${friendClean}/threads/${myFolder}`, {
                 key: time + "",
-                value: msgForThem
+                value: {
+                    from: asAliasId,
+                    fromName: asAliasId,
+                    to: targetEmail,
+                    status: status, // Saved Status
+                    subject,
+                    content,
+                    time,
+                    read: false,
+                    direction: "incoming",
+                    correspondent: asAliasId
+                }
             });
 
-            // B"H - REAL-TIME NOTIFICATION (INTERNAL)
+            // D. Notify Them
             if ($i.ws) {
-                console.log(`B"H - Notifying local user: ${recipientFolder}`);
-                
                 const notification = {
                     type: 'NEW_MAIL',
                     message: {
-                        id: `${meClean}:${time}`,
-                        from: asAliasId, // Use alias as from
-                        fromName: asAliasId,
-                        subject: subject,
+                        id: `${myFolder}:${time}`,
+                        from: asAliasId, fromName: asAliasId,
+                        subject: subject, status: status,
                         snippet: content.substring(0, 50) + "...",
                         timeSent: time,
-                        correspondent: asAliasId, // Who the thread is with
+                        correspondent: asAliasId,
                         direction: "incoming",
-                        content: content // Send content so they don't even need to fetch
+                        content: content 
                     }
                 };
-
-                // friendClean is usually "alias_at_awtsmoos.com"
-                // The socket expects "alias" or "alias_at_..." (Fuzzy matcher handles it)
-                $i.ws.sendToAlias(recipientFolder, notification);
+                $i.ws.sendToAlias(friendClean, notification);
             }
 
             return { success: { message: "Sent internally" } };
 
         } else {
-            // === REMOTE SEND ===
-            
-            // A. Use SMTP Client
+            // === REMOTE SEND (External) ===
             if ($i.mail && $i.mail.smtpClient) {
                 var myFullEmail = `${asAliasId}@awtsmoos.com`;
-                
-                console.log(`B"H - SMTP Sending: ${myFullEmail} -> ${targetEmail}`);
-
-                // B"H - FIX: Add Timeout Wrapper
-                // If SMTP takes longer than 10 seconds, fail gracefully instead of hanging forever
                 const sendTask = $i.mail.smtpClient.sendMail(myFullEmail, targetEmail, subject, content);
-                
-                const timeoutTask = new Promise((_, reject) => 
-                    setTimeout(() => reject(new Error("SMTP Timeout: Remote server did not respond in 10s.")), 10000)
-                );
-
+                const timeoutTask = new Promise((_, reject) => setTimeout(() => reject(new Error("SMTP Timeout")), 10000));
                 await Promise.race([sendTask, timeoutTask]);
-
             } else {
-                return er({ message: "SMTP Client not available on server" });
+                return er({ message: "SMTP Client not available" });
             }
 
-            // B. Write to MY Outbox (My thread with them)
             await $i.db.appendToObj(`/emails/${myFolder}/threads/${friendClean}`, {
                 key: time + "",
                 value: {
-                    from: asAliasId,
-                    to: targetEmail,
-                    subject,
-                    content,
-                    time,
-                    read: true,
-                    direction: "outgoing"
+                    from: asAliasId, to: targetEmail,
+                    subject, content, time, read: true, direction: "outgoing"
                 }
             });
 
@@ -399,4 +378,106 @@ async function approveSender({ $i, userid, aliasId, senderId }) {
     // For now, simpler: UI checks whitelist.
     
     return { success: true, message: "Sender approved" };
+}
+
+
+
+// B"H - LOCAL INTELLIGENCE HELPERS
+
+async function sendSystemLocalMail($i, fromAlias, toAlias, subject, content) {
+    // Bypasses auth checks because the System (Server) is sending it
+    var time = Date.now();
+    var fromFolder = `${fromAlias}_at_awtsmoos.com`;
+    var toFolder = `${toAlias}_at_awtsmoos.com`;
+    var targetEmail = `${toAlias}@awtsmoos.com`;
+
+    // 1. Write to Sender's Outbox (The Bot/System User)
+    await $i.db.appendToObj(`/emails/${fromFolder}/threads/${toFolder}`, {
+        key: time + "",
+        value: {
+            from: fromAlias, to: targetEmail, subject, content, time, read: true, direction: "outgoing"
+        }
+    });
+
+    // 2. Write to Recipient's Inbox
+    await $i.db.appendToObj(`/emails/${toFolder}/threads/${fromFolder}`, {
+        key: time + "",
+        value: {
+            from: fromAlias, fromName: fromAlias, to: targetEmail,
+            subject, content, time, read: false, direction: "incoming", correspondent: fromAlias, status: "inbox"
+        }
+    });
+
+    // 3. Notify
+    if ($i.ws) {
+        $i.ws.sendToAlias(toFolder, {
+            type: 'NEW_MAIL',
+            message: {
+                id: `${fromFolder}:${time}`,
+                from: fromAlias, fromName: fromAlias,
+                subject, snippet: content.substring(0, 50),
+                content, timeSent: time, correspondent: fromAlias, direction: "incoming", status: "inbox"
+            }
+        });
+    }
+}
+
+async function runLocalRules($i, settings, msg) {
+    try {
+        // 1. Structured Rules
+        if (settings.rules && Array.isArray(settings.rules)) {
+            for (let rule of settings.rules) {
+                if (!rule.enabled) continue;
+                let match = false;
+                let matchedKw = "";
+                const text = (msg.content || "").toLowerCase();
+                const keywords = (rule.keywords || "").toLowerCase().split(',').map(k=>k.trim()).filter(Boolean);
+
+                if (rule.condition === 'contains_any') {
+                    const found = keywords.find(k => text.includes(k));
+                    if(found) { match = true; matchedKw = found; }
+                } 
+                else if (rule.condition === 'contains_only') {
+                    let clean = text;
+                    keywords.forEach(k => clean = clean.replace(k, ''));
+                    if (clean.replace(/[^a-z0-9]/g, '').length < 5 && keywords.some(k => text.includes(k))) {
+                        match = true; matchedKw = keywords[0];
+                    }
+                }
+                else if (rule.condition === 'javascript') {
+                    const sandbox = { msg, text };
+                    vm.createContext(sandbox);
+                    try { match = vm.runInContext(rule.customCondition, sandbox, { timeout: 500 }); } catch(e){}
+                }
+
+                if (match) {
+                    let replyText = "";
+                    if (rule.actionType === 'javascript') {
+                        const sandbox = { msg, matchedKeyword: matchedKw, reply: (t) => { replyText = t; } };
+                        vm.createContext(sandbox);
+                        try { vm.runInContext(rule.replyScript, sandbox, { timeout: 500 }); } catch(e){}
+                    } else {
+                        replyText = processReplyVariables(rule.replyText, matchedKw, msg.content);
+                    }
+
+                    if (replyText) {
+                        await sendSystemLocalMail($i, msg.to, msg.from, "Re: " + msg.subject, replyText);
+                    }
+                    break; // One rule per message?
+                }
+            }
+        }
+    } catch(e) { console.log("Local Rule Error", e); }
+}
+
+function processReplyVariables(template, keyword, fullText) {
+    if(!template) return "";
+    return template.replace(/\$([a-zA-Z0-9]+)\+(\d+)/g, (match, key, offset) => {
+        const targetWord = (key.toLowerCase() === "keyword") ? keyword : key.toLowerCase();
+        const textWords = (fullText||"").replace(/\n/g, " ").split(" ");
+        const index = textWords.findIndex(w => w.toLowerCase().includes(targetWord));
+        if (index === -1) return "[?] bs";
+        const targetIndex = index + parseInt(offset);
+        return textWords[targetIndex] || "";
+    });
 }
