@@ -10,10 +10,8 @@ var {
 } = require("./helper/_awtsmoos.constants.js");
 
 var {
-    getMail,
-    sendMail,
-    deleteMail,
-    setEmailAsRead
+    getMail, sendMail, deleteMail, setEmailAsRead,
+    deleteThread, saveSettings, getSettings, approveSender
 } = require("./helper/index.js");
 
 var {
@@ -109,4 +107,35 @@ module.exports = ({
             threadId: $i.$_GET.threadId // Optional: Get specific thread history
         })
     },
+    
+    "/mail/thread/delete/:threadId": async (v) => {
+        return await deleteThread({
+            $i, userid,
+            aliasId: $i.$_GET.aliasId,
+            threadId: v.threadId
+        });
+    },
+
+    "/mail/settings/get": async () => {
+        return await getSettings({
+            $i, userid,
+            aliasId: $i.$_GET.aliasId
+        });
+    },
+
+    "/mail/settings/save": async () => {
+        return await saveSettings({
+            $i, userid,
+            aliasId: $i.$_POST.aliasId,
+            settings: $i.$_POST.settings
+        });
+    },
+
+    "/mail/approve/:senderId": async (v) => {
+        return await approveSender({
+            $i, userid,
+            aliasId: $i.$_POST.aliasId || $i.$_GET.aliasId,
+            senderId: v.senderId
+        });
+    }
 });

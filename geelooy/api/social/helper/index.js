@@ -8,7 +8,16 @@
 var { loggedIn, er } = require("./general.js");
 
 // Mail (Assuming unchanged)
-var { getMail, deleteMail, sendMail, setEmailAsRead } = require("./mail.js");
+var {
+    getMail,
+    sendMail,
+    deleteMail,
+    setEmailAsRead,
+    deleteThread,
+    saveSettings,
+    getSettings,
+    approveSender
+} = require("./mail.js");
 
 // Comments (Assuming largely unchanged, but check dependencies like deleteAllCommentsOfParent)
 var {
@@ -83,6 +92,10 @@ module.exports = {
     deleteMail,
     setEmailAsRead,
     sendMail,
+    deleteThread,
+    saveSettings,
+    getSettings,
+    approveSender,
 
     // Alias
     getAliasesDetails,

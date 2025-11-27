@@ -7,7 +7,11 @@ module.exports = {
     getMail,
     sendMail,
     deleteMail,
-    setEmailAsRead
+    setEmailAsRead,
+    deleteThread,
+    saveSettings,
+    getSettings,
+    approveSender
 }
 
 var { NO_LOGIN, sp } = require("./_awtsmoos.constants.js");
@@ -333,4 +337,66 @@ async function setEmailAsRead({ $i, userid, aliasId, messageId }) {
     } catch (e) {
         return er({ message: "Update failed", details: e + "" });
     }
+}
+
+
+async function deleteThread({ $i, userid, aliasId, threadId }) {
+    if (!loggedIn($i)) return er(NO_LOGIN);
+    
+    var verified = await verifyAliasOwnership(aliasId, $i, userid);
+    if (!verified) return er({ message: "Auth fail" });
+
+    // Path: /emails/my_at_awtsmoos/threads/friend_at_gmail
+    var myFolder = `${aliasId}_at_awtsmoos.com`;
+    var path = `/emails/${myFolder}/threads/${threadId}`;
+
+    // DosDB delete supports recursive directory deletion
+    var res = await $i.db.delete(path);
+    return { success: true, removed: res };
+}
+
+async function getSettings({ $i, userid, aliasId }) {
+    if (!loggedIn($i)) return er(NO_LOGIN);
+    var verified = await verifyAliasOwnership(aliasId, $i, userid);
+    if (!verified) return er({ message: "Auth fail" });
+
+    var path = `/social/aliases/${aliasId}/emailSettings`;
+    var set = await $i.db.get(path) || { 
+        gatekeeperMode: false,
+        approved: {},
+        rules: []
+    };
+    return set;
+}
+
+async function saveSettings({ $i, userid, aliasId, settings }) {
+    if (!loggedIn($i)) return er(NO_LOGIN);
+    var verified = await verifyAliasOwnership(aliasId, $i, userid);
+    if (!verified) return er({ message: "Auth fail" });
+
+    // Parse if sent as string
+    if(typeof settings === 'string') {
+        try { settings = JSON.parse(settings); } catch(e){}
+    }
+
+    var path = `/social/aliases/${aliasId}/emailSettings`;
+    await $i.db.write(path, settings); // Use write (overwrite) not append
+    return { success: true };
+}
+
+async function approveSender({ $i, userid, aliasId, senderId }) {
+    // 1. Add to approved list
+    var settings = await getSettings({ $i, userid, aliasId });
+    if(settings.error) return settings;
+    
+    if(!settings.approved) settings.approved = {};
+    settings.approved[senderId] = true;
+    
+    await saveSettings({ $i, userid, aliasId, settings });
+
+    // 2. Mark existing messages in that thread as "inbox" (Optional, UI can just treat them as ok)
+    // To do this strictly, we'd iterate the thread messages and update status.
+    // For now, simpler: UI checks whitelist.
+    
+    return { success: true, message: "Sender approved" };
 }
