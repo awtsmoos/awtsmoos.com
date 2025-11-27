@@ -665,3 +665,130 @@ textarea::placeholder { color: rgba(255, 255, 255, 0.4); }
 }
 
 
+/* B"H - NEW TRANSMISSION MODAL STYLES */
+
+/* 1. The Container Card */
+#newMsgModal .modal-content {
+    background: rgba(11, 11, 13, 0.98); /* Deep opaque dark for readability */
+    border: 1px solid rgba(255, 170, 0, 0.2); /* Subtle Gold Border */
+    box-shadow: 0 0 50px rgba(0,0,0,0.8), 0 0 20px rgba(245, 158, 11, 0.15);
+    border-radius: 20px;
+    padding: 25px;
+    width: 90%;
+    max-width: 450px;
+    animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes popIn {
+    from { transform: scale(0.9) translateY(20px); opacity: 0; }
+    to { transform: scale(1) translateY(0); opacity: 1; }
+}
+
+/* 2. The Header */
+#newMsgModal h2 {
+    margin: 0 0 20px 0;
+    font-size: 1.4rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-align: center;
+    background: linear-gradient(90deg, #fff, var(--neon-gold));
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+/* 3. Form Layout */
+.form-group {
+    margin-bottom: 16px;
+    text-align: left;
+}
+
+.form-group label {
+    display: block;
+    color: var(--neon-gold);
+    font-size: 0.75rem;
+    font-weight: 700;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-left: 4px;
+}
+
+/* 4. Inputs & Textarea - The "Void" Look */
+#newThreadForm input,
+#newThreadForm textarea {
+    width: 100%;
+    box-sizing: border-box;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 14px;
+    color: #fff;
+    font-size: 1rem;
+    font-family: inherit;
+    transition: all 0.2s ease;
+}
+
+/* Focus State: Neon Glow */
+#newThreadForm input:focus,
+#newThreadForm textarea:focus {
+    outline: none;
+    background: rgba(0, 0, 0, 0.4);
+    border-color: var(--neon-gold);
+    box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.15);
+}
+
+/* Placeholder Styling */
+#newThreadForm input::placeholder,
+#newThreadForm textarea::placeholder {
+    color: rgba(255, 255, 255, 0.3);
+    font-style: italic;
+}
+
+/* 5. The Send Button */
+#newMsgModal .modal-actions {
+    margin-top: 24px;
+    display: flex;
+    justify-content: stretch; /* Full width button */
+}
+
+#newMsgModal .btn-primary {
+    width: 100%;
+    background: var(--neon-gold);
+    color: #000;
+    font-weight: 800;
+    padding: 14px;
+    border-radius: 12px;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+    transition: transform 0.1s;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+#newMsgModal .btn-primary:active {
+    transform: scale(0.98);
+    box-shadow: none;
+}
+
+/* 6. Close Button Fix */
+.close-modal {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 2rem;
+    line-height: 0.7;
+    color: rgba(255,255,255,0.3);
+    cursor: pointer;
+    z-index: 10;
+    padding: 10px; /* Larger tap target */
+}
+.close-modal:hover {
+    color: var(--neon-fire);
+}
+
+
+
+
