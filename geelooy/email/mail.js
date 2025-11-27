@@ -16,7 +16,7 @@ const state = {
 
 // --- Initialization ---
 
-async function whenLoaded() => {
+async function whenLoaded() {
     // 1. Check for Alias
     if (!window.curAlias) {
         document.getElementById('loginOverlay').classList.remove('hidden');
