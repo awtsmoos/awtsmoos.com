@@ -421,7 +421,7 @@ async function sendMail({ $i, userid, asAliasId, toAliasId, toEmail }) {
                     msg: { from: asAliasId, to: recipientShort, subject, content },
                     dependencies: {
                         // Use the server's injected AI
-                        callGemini: $i.callGemini, 
+                        callAi: $i.callAi, 
                         // Define how to reply in THIS context (Local Mail DB)
                         reply: (text) => sendSystemLocalMail($i, recipientShort, senderShort, "Re: " + subject, text),
                         console: console

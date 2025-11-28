@@ -57,7 +57,7 @@ module.exports = async function ({ sender, recipients, data }) {
                     msg: { from: email, to: r, subject: decodedSubject, content: text },
                     dependencies: {
                         // Pass the server's AI method (from index.js injection logic)
-                        callGemini: this.callGemini ? this.callGemini.bind(this) : null,
+                        callAi: this.callAi ? this.callAi .bind(this) : null,
                         reply: (replyText) => sendSystemReply(this, r, email, "Re: " + decodedSubject, replyText),
                         console: console
                     }

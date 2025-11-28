@@ -14,11 +14,11 @@ const vm = require('vm');
  * @param {Object} p
  * @param {Object} p.settings - User settings (rules, aiGlobal).
  * @param {Object} p.msg - The message { from, to, subject, content }.
- * @param {Object} p.dependencies - { callGemini, reply, console }.
+ * @param {Object} p.dependencies - { callAi, reply, console }.
  */
 async function processRules({ settings, msg, dependencies }) {
     try {
-        const { callGemini, reply } = dependencies;
+        const { callAi, reply } = dependencies;
         const log = dependencies.console ? dependencies.console.log : () => {};
 
         // 1. INJECT VIRTUAL AI RULE (If Global AI is enabled)
@@ -90,7 +90,7 @@ async function processRules({ settings, msg, dependencies }) {
                 try { vm.runInContext(rule.replyScript, sandbox, { timeout: 500 }); } catch(e) { log("JS Action Error", e); }
             }
             else if (rule.actionType === 'ai_smart_reply') {
-                if (callGemini) {
+                if (callAi) {
                     const history = [
                         { role: "user", parts: [{ text: `
                             You are acting as an auto-responder for "${msg.to}".
@@ -103,7 +103,7 @@ async function processRules({ settings, msg, dependencies }) {
                         `}]}
                     ];
                     // Uses the injected Gemini caller
-                    replyBody = await callGemini(history, rule.apiKey || process.env.BH_GEMINI_KEY);
+                    replyBody = await callAi(history, rule.apiKey || process.env.BH_GEMINI_KEY);
                 } else {
                     replyBody = "Error: AI System not available.";
                 }
