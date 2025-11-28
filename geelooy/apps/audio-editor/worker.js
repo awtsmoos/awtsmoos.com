@@ -13,7 +13,8 @@ self.onmessage = (e) => {
 
 function mixAndExport(data) {
     const { clips, totalDuration, sampleRate } = data;
-    const totalLength = Math.ceil(totalDuration * sampleRate);
+    const masterSampleRate = sampleRate;
+    const totalLength = Math.ceil(totalDuration * masterSampleRate);
     
     // Create Stereo Buffer
     const leftBuffer = new Float32Array(totalLength);
@@ -21,23 +22,30 @@ function mixAndExport(data) {
 
     // Mix Loop
     clips.forEach(clip => {
-        const startSample = Math.floor(clip.start * sampleRate);
-        const offsetSample = Math.floor(clip.offset * clip.sampleRate); // Source offset
-        const durationSamples = Math.floor(clip.duration * clip.sampleRate);
+        const clipSampleRate = clip.sampleRate;
+        
+        // Where to start writing in the master buffer (Master Time)
+        const startSample = Math.floor(clip.start * masterSampleRate);
+        
+        // Where to start reading from the source buffer (Source Time)
+        const offsetSample = Math.floor(clip.offset * clipSampleRate); 
+        
+        // How long to write for (Master Time)
+        const durationSamples = Math.floor(clip.duration * masterSampleRate);
         
         // Process Left Channel
-        mixChannel(leftBuffer, clip.channels[0], startSample, offsetSample, durationSamples);
+        mixChannel(leftBuffer, clip.channels[0], startSample, offsetSample, durationSamples, clipSampleRate, masterSampleRate);
         
         // Process Right Channel (if exists, else copy left, or silence)
         if (clip.channels.length > 1) {
-            mixChannel(rightBuffer, clip.channels[1], startSample, offsetSample, durationSamples);
+            mixChannel(rightBuffer, clip.channels[1], startSample, offsetSample, durationSamples, clipSampleRate, masterSampleRate);
         } else {
-            mixChannel(rightBuffer, clip.channels[0], startSample, offsetSample, durationSamples);
+            mixChannel(rightBuffer, clip.channels[0], startSample, offsetSample, durationSamples, clipSampleRate, masterSampleRate);
         }
     });
 
     // Convert to WAV
-    const wavBlob = encodeWAV([leftBuffer, rightBuffer], sampleRate);
+    const wavBlob = encodeWAV([leftBuffer, rightBuffer], masterSampleRate);
     
     self.postMessage({
         type: 'EXPORT_COMPLETE',
@@ -45,13 +53,35 @@ function mixAndExport(data) {
     });
 }
 
-function mixChannel(master, source, masterStart, sourceStart, length) {
+function mixChannel(master, source, masterStart, sourceStart, length, sourceRate, masterRate) {
+    // Calculate pitch ratio
+    const ratio = sourceRate / masterRate;
+
     for (let i = 0; i < length; i++) {
-        if (masterStart + i < master.length && sourceStart + i < source.length) {
-            // Simple Additive Mixing
-            // In a pro app, you might want to normalize or use a limiter to prevent clipping
-            // Here we just add.
-            master[masterStart + i] += source[sourceStart + i];
+        // Calculate the exact position in the source buffer for this master sample
+        const sourceIndex = sourceStart + (i * ratio);
+        
+        // Linear Interpolation (Resampling)
+        // This fixes the "Tone/Pitch is lower" issue
+        const idx = Math.floor(sourceIndex);
+        const frac = sourceIndex - idx;
+        
+        if (masterStart + i < master.length) {
+            let sampleValue = 0;
+
+            // Check bounds to prevent NaN
+            if (idx + 1 < source.length) {
+                const p0 = source[idx];
+                const p1 = source[idx + 1];
+                // Interpolate between current sample and next sample
+                sampleValue = p0 + (p1 - p0) * frac;
+            } else if (idx < source.length) {
+                // Edge case: End of buffer
+                sampleValue = source[idx];
+            }
+
+            // Additive Mixing
+            master[masterStart + i] += sampleValue;
         }
     }
 }
@@ -81,9 +111,11 @@ function encodeWAV(channels, sampleRate) {
     for (let i = 0; i < length; i++) {
         for (let ch = 0; ch < numChannels; ch++) {
             let sample = channels[ch][i];
-            // Hard limiter to prevent digital distortion
+            
+            // Hard limiter to prevent digital distortion (Clipping)
             sample = Math.max(-1, Math.min(1, sample));
-            // 16-bit PCM
+            
+            // 16-bit PCM conversion
             sample = sample < 0 ? sample * 0x8000 : sample * 0x7FFF;
             view.setInt16(offset, sample, true);
             offset += 2;
