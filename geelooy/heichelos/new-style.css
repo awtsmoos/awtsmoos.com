@@ -269,7 +269,7 @@ div#postTitle {
     text-shadow: 0px 0px 3px white;
     pointer-events: none;
 }
-
+ 
 
 .awtsmoosTooltip:hover .tooltipContent {
   visibility: visible;
@@ -279,9 +279,9 @@ div#postTitle {
 
 .sub-awtsmoos {
     box-shadow: 0px 0px 10px black;
-    /* margin: 30px 0px; */
+    margin: 30px 0px; 
     padding: 6px;
-    margin: 15px 0px;
+    margin: 15px 10px;
     word-break: break-word;
     display:inline-block;
 }
