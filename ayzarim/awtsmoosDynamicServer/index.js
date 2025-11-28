@@ -22,7 +22,7 @@ var crypto = require('crypto');
 var doLogs = require("./doLogs.js");
 var { binaryMimeTypes, mimeTypes } = require("./mimes.js");
 const { startTaskRunner } = require('./cleanup-worker.js');
-var emailIngress = require("./email-ingress.js");
+var emailIngress = require("../email/awtsmoosEmailIngress.js");
 var self = null;
 
 // B"H
