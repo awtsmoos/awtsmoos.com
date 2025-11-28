@@ -880,7 +880,7 @@ function handleMsgAction(action) {
 	    let txt = selectedMsgObj.subject
         if(!txt) {
          alert("no subject")
-         console.log(selectedMsgObj;
+         console.log(selectedMsgObj)
          }
         navigator.clipboard.writeText(txt).then(() => alert("Copied!"));
     } else if (action === 'reply') {
