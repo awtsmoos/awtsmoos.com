@@ -42,13 +42,14 @@ html, body {
 
 /* Make the main wrapper a flex column so the Header sits on top 
    and .main takes the rest of the height */
-.all.awtsmoospage {
-    display: flex;
-    flex-direction: column;
-    height: 100vh; /* Force Full Viewport Height */
-    overflow: hidden;
+/* 1. Stop the wrapper from scrolling. 
+   This forces the app to fit exactly within the view. */
+.all.awtsmoospage > .main {
+    overflow: hidden !important;
+    display: block !important; /* Resets flex align issues */
+    height: 100% !important;
+    padding: 0 !important; /* Remove the 26px padding from injected styles */
 }
-
 /* Ensure the main container fills the remaining space */
 .main {
     flex: 1; /* Grow to fill space under header */
