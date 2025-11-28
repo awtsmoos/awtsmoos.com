@@ -19,13 +19,13 @@ const GEMINI_CONFIG = {
             rpm: 10,       // Requests Per Minute
             tpm: 250000,   // Tokens Per Minute
             rpd: 250,      // Requests Per Day
-            priority: 6   
+            priority: 2   
         },
         "gemini-2.5-flash-lite": {
             rpm: 15,
             tpm: 250000,
             rpd: 1000,     // High volume backup
-            priority: 5
+            priority: 1
         },
         "gemini-2.0-flash": {
             rpm: 15,
@@ -38,19 +38,8 @@ const GEMINI_CONFIG = {
             tpm: 1000000,
             rpd: 200,
             priority: 3
-        },
-        "gemini-2.5-flash-preview": {
-            rpm: 10,
-            tpm: 250000,
-            rpd: 250,
-            priority: 2
-        },
-         "gemini-2.5-flash-lite-preview": {
-            rpm: 15,
-            tpm: 250000,
-            rpd: 1000,
-            priority: 1
         }
+        
     }
 };
 
