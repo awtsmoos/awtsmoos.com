@@ -1,6 +1,6 @@
 //B"H
   console.log("B\"H");
-import {
+import { 
 	getHeichelDetails,
 	getAliasName,
 	getSeries,
@@ -275,7 +275,8 @@ try {
 				var div = main;
 				if(div) {
 					var idx = div?.dataset.idx
-					console.log("doing",idx)
+				
+					
 					if(!idx && idx !== 0) return;
 					updateQueryStringParameter("idx", div.dataset.idx);
 					var ce = new CustomEvent("awtsmoos index", {

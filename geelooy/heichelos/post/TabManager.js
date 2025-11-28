@@ -2,7 +2,7 @@
 
 B"H
 Awtsmoos Powered tab manager
-*/
+*/ 
 
 import {
 	appendHTML,

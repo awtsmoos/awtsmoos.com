@@ -2,7 +2,7 @@
 import {
     AwtsmoosPrompt
 } from "/scripts/awtsmoos/api/utils.js";
-
+ 
 import { ImageUploader } from "./ImageUploader.js";
 
 class CommentSection {

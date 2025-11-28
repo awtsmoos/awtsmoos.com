@@ -7,7 +7,7 @@ import {
 	getComment,
 	deleteComment,
 	AwtsmoosPrompt
-	
+	 
 } from "/scripts/awtsmoos/api/utils.js";
 import playText from "/heichelos/post/playText.js"
 
@@ -51,7 +51,7 @@ function invalidateVerseCache(verseSection) {
     if (verseSection === null || verseSection === undefined) {
         verseSection = "root";
     }
-    console.log(`[Cache] Invalidating ALL caches for verseSection: ${verseSection}`);
+    //console.log(`[Cache] Invalidating ALL caches for verseSection: ${verseSection}`);
 
     // 1. Invalidate the Component-Level Cache (our "Source of Truth")
     if (data.aliases) {
@@ -595,10 +595,9 @@ var inlineComments = {}//arrays by alias
 
 // B"H - Renders comments directly into the post body. This is now additive.
 function addCommentsInline(comments, alias) {
-    console.log(`[Inline Render] Processing ${comments.length} comments for alias: ${alias}`);
+    
     if (!comments || comments.length === 0) return;
-
-    // --- Group ALL comments by their verse section. This is the key. ---
+	// --- Group ALL comments by their verse section. This is the key. ---
     const commentsByVerse = comments.reduce((acc, comment) => {
         const verseKey = comment?.dayuh?.verseSection ?? 'root';
         if (!acc[verseKey]) acc[verseKey] = [];
@@ -606,10 +605,12 @@ function addCommentsInline(comments, alias) {
         return acc;
     }, {});
 
+	//
+
     // --- Process each group independently ---
     for (const verseKey in commentsByVerse) {
         const commentsForThisVerse = commentsByVerse[verseKey];
-
+		
         // Handle "Root" Comments
         if (verseKey === 'root') {
             const rootCommentHolder = createAndPlaceRootCommentHolder(alias);
@@ -627,19 +628,22 @@ function addCommentsInline(comments, alias) {
 
         // Handle Verse-Specific Comments
         const targetSectionElement = document.querySelector(`.section[data-idx='${verseKey}']`);
-        if (!targetSectionElement) continue;
-
-        commentsForThisVerse.forEach(c => {
+        
+		if (!targetSectionElement) continue;
+		
+        commentsForThisVerse.forEach((c, i) => {
             const subIdx = c?.dayuh?.subSection ?? 'main';
             const parentElement = (subIdx === 'main')
                 ? targetSectionElement
                 : targetSectionElement.querySelector(`.sub-awtsmoos[data-idx='${subIdx}']`);
             
+		
             if (parentElement) {
-                let commentHolder = parentElement.querySelector(`.commentator.inline[data-alias='${alias}'] .comments-holder-inline`);
+                let commentHolder = parentElement.querySelector(`.commentator.inline[data-alias='${alias}'][data-idx='${i}'] .comments-holder-inline`);
                 if (!commentHolder) {
-                    commentHolder = makeInlineCommentHolder(alias, parentElement);
+                    commentHolder = makeInlineCommentHolder(alias, parentElement, i);
                 }
+				//console.log("lol", verseKey, targetSectionElement, parentElement, commentHolder)
                 if (!commentHolder.querySelector(`[data-cid='${c.id}']`)) { // Prevent duplicates
                     const incom = makeInlineComment(alias, c);
                     incom.dataset.cid = c.id; // Mark the element with the ID
@@ -669,10 +673,14 @@ function makeTooltip(msg=null) {
 }
 
 
-function makeInlineCommentHolder(alias, parent) {
+function makeInlineCommentHolder(alias, parent, idx
+	/*if we're adding mutliple comments
+	for same section we need to dstinguish them with idx*/
+) {
 	var inlineHolder = document.createElement("div")
 	inlineHolder.classList.add("commentator","inline");
 	inlineHolder.dataset.alias = alias;
+	inlineHolder.dataset.idx = idx;
 	parent.appendChild(inlineHolder);
 
 	var inHeader = document.createElement("div")
@@ -822,59 +830,53 @@ async function indexSwitch() {
     // Determine the verse we are scrolling TO.
     var idxNum = getIdx();
     var newVerse = (!idxNum && idxNum !== 0) ? "root" : idxNum;
-
+	
     // Performance Guard: Do nothing if the verse hasn't actually changed.
     if (currentVerse === newVerse) {
         return;
     }
-
-    console.log(`[Conductor] Verse changed from ${currentVerse} to ${newVerse}. Starting synchronization.`);
+	
     
     // --- STEP 1: CAPTURE CURRENT STATE & UPDATE CACHE ---
     // Capture which alias tab is open BEFORE we rebuild the UI.
-    const activeAliasId = window.curTab?.awtsHeader?.textContent?.trim().substring(1);
+    const tabHeader = window.curTab?.awtsHeader?.textContent?.trim().substring(1);
     
     // Set the new global verse state.
     currentVerse = newVerse;
     
     // Invalidate all data caches to force a fresh fetch.
-    invalidateVerseCache(newVerse);
+   // invalidateVerseCache(newVerse);
+	if(curTab?.awtsmoosType ==  "main commentator list") {
+		/*
+			as we scroll we need to see how many
+			people have commented on that section.
+		*/
+		
+		await makeCommentatorList(tabParent, rootLevelCommentatorTab);
 
-    // --- STEP 2: SYNCHRONIZE THE SIDE PANEL (IF OPEN) ---
-    const commentContainer = window.tabComment?.actual;
-    if (window.tabComment && window.tabComment.isOpen && commentContainer) {
-        console.log(`[Conductor] Side panel is open. Rebuilding for verse ${newVerse}.`);
-        
-        // Update the main header (e.g., "Comments for verse 3").
-        await updateCommentHeader();
+		
+	}
 
-        // Rebuild the list of commentator buttons with data for the new verse.
-        // This returns an array of the newly created tab objects.
-        const newTabs = await makeCommentatorList(commentContainer, window.tabComment);
-
-        // If an alias tab was open before the scroll, find its new instance and open it.
-        // This is the critical step for making the panel content update automatically.
-        if (activeAliasId) {
-            const tabToReopen = newTabs.find(t => t.awtsHeader.textContent.trim().substring(1) === activeAliasId);
-
-            if (tabToReopen) {
-                console.log(`[Conductor] Found corresponding new tab for "${activeAliasId}". Programmatically opening.`);
-                // Use the .open() method from your TabManager to trigger the onopen callback,
-                // which will fetch and render the comments for the new verse.
-                await tabToReopen.open();
-            } else {
-                 console.log(`[Conductor] Alias "${activeAliasId}" has no comments on verse ${newVerse}. Returning to main list.`);
-            }
-        }
-    }
+	if(curTab?.awtsmoosType == "specific alias comments") {
+		if(currentAliasTabContainer)
+			openCommentsOfAlias({
+				alias: currentAliasBeingViewed,
+				actualTab: currentAliasTabContainer,
+				post,
+			});
+		
+	}
+	await updateCommentHeader();
+	
 
     // --- STEP 3: SYNCHRONIZE INLINE COMMENTS (IF ACTIVE) ---
     const inlineAliases = getInlineAliases();
     if (inlineAliases.length > 0) {
-        console.log("[Conductor] Updating inline comments.");
         const commentators = await getAndSaveAliases(true);
-        for (const aliasData of commentators) {
-            const aliasId = aliasData.id;
+		
+		//console.log("liners",inlineAliases,commentators)
+        for (const aliasId of commentators) {
+           
             // Skip if this alias isn't set to be read inline.
             if (!inlineAliases.includes(aliasId)) continue;
 
@@ -896,6 +898,8 @@ async function indexSwitch() {
             loadedInlineVerses[cacheKey] = true;
         }
     }
+
+	
 }
 
 // B"H - This is the unified rendering engine for displaying comment content.
@@ -1114,19 +1118,19 @@ async function loadRootComments({ parent, tab }) {
 	// 2. Determine the initial verse state.
 	var idx = getIdx();
 	currentVerse = (idx === null) ? "root" : idx;
-	console.log(`[Comments] Initializing for verse: ${currentVerse}.`);
+//	console.log(`[Comments] Initializing for verse: ${currentVerse}.`);
 
-	// 3. Set up the scroll listener for future updates.
-	removeEventListener("awtsmoos index", indexSwitch);
-	addEventListener("awtsmoos index" , indexSwitch);
-
+   
 	// 4. Render the initial UI directly into the provided container.
 	if (!parent) {
 		return console.error("Comment container is null! Cannot render.");
 	}
+
+	window.tabParent = parent;
+	window.rootLevelCommentatorTab = tab;
 	parent.innerHTML = "";
 	await updateCommentHeader();
-	await makeCommentatorList(parent, tab);
+	await makeCommentatorList(tabParent, rootLevelCommentatorTab);
 }
 
 /**
@@ -1197,11 +1201,15 @@ async function makeCommentatorList(actualTab, tab) {
     actualTab.appendChild(commentorList);
     
     var aliases = await getAndSaveAliases();
-    
+    curTab = tab;
+	window.curTab = curTab;
+	curTab.awtsmoosType = "main commentator list";
+	
     if (!aliases || !Array.isArray(aliases) || aliases.length === 0) {
         commentorList.innerHTML = "Be the first to comment on this verse!";
         return [];
     }
+
 
     var tabs = [];
     aliases.forEach(alias => {
@@ -1211,21 +1219,25 @@ async function makeCommentatorList(actualTab, tab) {
 			parent: mainParent, // Should be the holder for all tab contents
 			tabParent: tab,
 			content: loadingHTML,
-			async onopen({ actualTab: aliasContentArea }) { // De-structure with a new name for clarity
+			async onopen({ actualTab: aliasContentArea }) { 
+				
 				curTab = newTab;
 				window.curTab = curTab;
-				// This is the CRITICAL FIX: Store a reference to the currently open alias tab's content area.
+				curTab.awtsmoosType = "specific alias comments";
+			
 				window.currentAliasTabContainer = aliasContentArea; 
-				
+				window.currentAliasBeingViewed = alias;
 				openCommentsOfAlias({
-					alias,
-					actualTab: aliasContentArea,
+					alias: currentAliasBeingViewed,
+					actualTab: currentAliasTabContainer,
 					post,
 				});
 			},
 			async onclose() {
+				console.log("WHAT are we even?")
 				// When an alias tab is closed, clear the reference.
 				window.currentAliasTabContainer = null;
+				await makeCommentatorList(tabParent, rootLevelCommentatorTab);
 			}
         });
         tabs.push(newTab);
@@ -1350,3 +1362,8 @@ export {
 window.commentLogic = {
     handleNewComment
 };
+
+
+// 3. Set up the scroll listener for future updates.
+removeEventListener("awtsmoos index", indexSwitch);
+addEventListener("awtsmoos index" , indexSwitch);

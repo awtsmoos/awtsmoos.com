@@ -1,7 +1,7 @@
 /**B"H
 for posts
 */
-
+ 
 .commentTitle {
     font-weight: bold;
 }
@@ -236,8 +236,9 @@ h4 {
 
 .tooltipContent {
   visibility: hidden;
-  /* width: 250px; */
+  width: 250px;
   background: rgba(0, 0, 0, 0.8);
+  display: inline-block;
   color: white;
   text-align: center;
   border-radius: 8px;
@@ -569,11 +570,26 @@ body {
     display: unset !important;
 }*/
 .comment-header {
-    margin: 0 20px;
+    /* margin: 0 20px; */
     display: flex;
+    padding: 0 20px;
     justify-content: space-between;
     align-items: center;
-        gap: 50px;
+    /* gap: 50px; */
+}
+.comment-header:hover {
+    cursor:pointer;
+    background-color:#e0e0e0
+}
+
+
+.comment-header:active {
+    color:white;
+    background-color:#000000
+}
+
+.comment-header:active .info-header{
+    color:white;
 }
 .section.active {
     box-shadow: 0px 2px 5px 3px rgb(0 0 0 / 65%) inset;
@@ -627,8 +643,7 @@ body {
 .tab-content {
     height:100%;
     padding: 15px;
-    overflow: scroll;
-
+    overflow: auto;
     overflow-x: hidden;
     width: 100%;
     box-sizing: border-box;
@@ -886,8 +901,8 @@ body {
 }
 
 .post-frame {
-    font-family: Georgia, serif;
-    font-weight: 550;
+    font-family: times;
+    /* font-weight: 550; */
     font-size: 66px;
     display: flex;
     flex-direction: row;
@@ -1245,9 +1260,10 @@ body {
 
   .info-header {
     font-size: 15px;
+    user-select: none;
     font-weight: bold;
     margin-top:17px;
-      word-break: break-word;
+    word-break: break-word;
     color: #333; /* Text color */
     border-bottom: 2px solid #007bff; /* Bottom border color and thickness */
     padding-bottom: 5px; /* Adjust spacing between text and border */
