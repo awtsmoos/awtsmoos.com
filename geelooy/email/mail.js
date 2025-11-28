@@ -327,8 +327,7 @@ function renderMessages(threadId, forceScrollBottom = false) {
 }
 
 
-
-// Find "createMessageRow" and replace it with this version:
+ 
 function createMessageRow(msg) {
     const isMe = msg.direction === 'outgoing';
     const row = document.createElement('div');
@@ -341,7 +340,6 @@ function createMessageRow(msg) {
     let quoteHtml = "";
     
     // B"H - 2. Universal Regex (Matches raw <div or escaped &lt;div)
-    // Captures: 1=UID, 2=Name, 3=Snippet Content
     const metaRegex = /(?:<|&lt;)div class=(?:"|&quot;)reply-meta(?:"|&quot;)[\s\S]*?data-uid=(?:"|&quot;)([^"&]*)(?:"|&quot;)[\s\S]*?data-name=(?:"|&quot;)([^"&]*)(?:"|&quot;)[\s\S]*?(?:>|&gt;)([\s\S]*?)(?:<|&lt;)\/div(?:>|&gt;)/i;
     
     const match = contentHtml.match(metaRegex);
@@ -351,7 +349,7 @@ function createMessageRow(msg) {
         const qName = match[2];
         const qText = match[3]; 
         
-        // Remove the meta block (entire match) from the message
+        // Remove the meta block
         contentHtml = contentHtml.replace(match[0], "");
         
         // Create the quote UI
@@ -361,13 +359,20 @@ function createMessageRow(msg) {
     }
     
     contentHtml = contentHtml.trim();
-
     const senderName = isMe ? "Me" : (msg.fromName || "Them");
+
+    // B"H - NEW: Subject Display logic
+    let subjectHtml = "";
+    // Only show subject if it exists and isn't the default placeholder
+    if(msg.subject && msg.subject !== "(No Subject)") {
+        subjectHtml = `<div class="msg-subject">${escapeHtml(msg.subject)}</div>`;
+    }
 
     row.innerHTML = `
         <div class="swipe-indicator">↩️</div>
         <div class="message-bubble">
             <span class="msg-sender-name">${escapeHtml(senderName)}</span>
+            ${subjectHtml}
             <button class="msg-menu-btn" onclick="event.stopPropagation(); findAndOpenMenu('${msg.id}')">•••</button>
             ${quoteHtml}
             <div class="msg-content email-body">${formatContent(contentHtml)}</div>

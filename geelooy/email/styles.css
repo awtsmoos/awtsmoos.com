@@ -889,3 +889,135 @@ textarea::placeholder { color: rgba(255, 255, 255, 0.4); }
 
 
 
+/* Ensure thread info fits in sidebar properly */
+.thread-info {
+    min-width: 0; 
+    display: flex; 
+    flex-direction: column;
+}
+
+/* B"H
+ - SUBJECT LINE STYLES */
+.msg-subject {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--neon-gold);
+    padding-bottom: 4px;
+    margin-bottom: 4px;
+    border-bottom: 1px solid rgba(255, 170, 0, 0.15);
+    opacity: 0.9;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* B"H - SETTINGS MODAL FIXES */
+
+/* Clean up the section headers */
+.setting-section {
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+.setting-section:last-of-type { border-bottom: none; }
+
+.setting-section h3 {
+    margin: 0 0 12px 0;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    letter-spacing: 1px;
+}
+
+/* Fix Inputs & Textareas */
+.input-block, .code-input {
+    width: 100%;
+    box-sizing: border-box; /* Prevents overflow */
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #fff;
+    padding: 12px;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 0.95rem;
+    margin-bottom: 10px; /* Space between inputs */
+    transition: all 0.2s ease;
+}
+
+.input-block:focus, .code-input:focus {
+    background: rgba(0, 0, 0, 0.5);
+    border-color: var(--neon-gold);
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.1);
+}
+
+/* Specific fix for the "System Prompt" textarea */
+textarea.input-block {
+    min-height: 80px;
+    line-height: 1.5;
+    resize: vertical;
+}
+
+/* Code Input (Darker, monospace) */
+.code-input {
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 0.85rem;
+    color: #a5f3fc; /* Cyan */
+    background: #050505;
+    border: 1px dashed rgba(255, 255, 255, 0.2);
+}
+
+/* The Hidden AI Config Box */
+.config-box {
+    background: rgba(255, 170, 0, 0.03);
+    border-left: 2px solid var(--neon-gold);
+    padding: 16px;
+    border-radius: 0 8px 8px 0;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* Links inside labels */
+label a { color: var(--neon-gold); text-decoration: none; }
+label a:hover { text-decoration: underline; }
+
+/* Toggles */
+.toggle-label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid transparent;
+    border-radius: 8px;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.2s;
+}
+.toggle-label:hover {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+.toggle-label input[type="checkbox"] {
+    appearance: none;
+    width: 20px; height: 20px;
+    border: 2px solid var(--text-secondary);
+    border-radius: 4px;
+    position: relative;
+    cursor: pointer;
+}
+.toggle-label input[type="checkbox"]:checked {
+    background: var(--neon-gold);
+    border-color: var(--neon-gold);
+}
+.toggle-label input[type="checkbox"]:checked::after {
+    content: '✓';
+    position: absolute;
+    color: #000;
+    font-weight: 800;
+    font-size: 14px;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+}
