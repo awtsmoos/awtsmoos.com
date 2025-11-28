@@ -133,6 +133,8 @@ function estimateTokens(history) {
 
 // --- 4. THE ORACLE FUNCTION ---
 
+// --- 4. THE ORACLE FUNCTION ---
+
 /**
  * Communes with Gemini, cycling through models if limits are hit.
  * @param {Function} fetchImpl 
@@ -165,19 +167,25 @@ module.exports = async function callGemini(fetchImpl, history, apiKey, preferred
         }
 
         // B. Attempt Connection
-        const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+        // CHANGE 1: Use :streamGenerateContent
+        const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${model}:streamGenerateContent?key=${apiKey}`;
+        
+        // CHANGE 2: Update Config to match your client logic (Thinking, High Tokens)
         const requestBody = {
             contents: history, 
             generationConfig: {
-                temperature: 0.3,
+                temperature: 0.3, // Low temp for logic/code
                 topP: 0.95,
                 topK: 40,
-                maxOutputTokens: 2000
+                maxOutputTokens: 65536, // Expanded token limit
+                thinkingConfig: {
+                    thinkingBudget: 0 // Default 0 for Flash Lite
+                }
             }
         };
 
         try {
-            console.log(`B"H DEBUG: Gemini attempting model [${model}]...`);
+            console.log(`B"H DEBUG: Gemini attempting model [${model}] (STREAM)...`);
             
             const response = await fetchImpl(endpoint, {
                 method: 'POST',
@@ -200,17 +208,28 @@ module.exports = async function callGemini(fetchImpl, history, apiKey, preferred
                 // If 503 (Overloaded), also try next
                 if (response.status === 503) continue;
                 
-                // For other errors (400 Bad Request, etc), abort, don't retry others
                 return `Error: The oracle refused (${response.status}).`;
             }
 
-            // D. Success
-            const data = await response.json();
+            // D. Success - Handle Stream Response
+            // Since this is the server side and we need to return the full result eventually,
+            // we await the full JSON. Google's stream endpoint returns a JSON Array of chunks [{}, {}].
+            const data = await response.json(); 
             recordUsage(apiKey, model, estimatedCost);
 
-            if (data.candidates && data.candidates.length > 0) {
-                const part = data.candidates[0].content.parts[0];
-                return part ? part.text : "";
+            // CHANGE 3: Aggregate the array of chunks
+            if (Array.isArray(data)) {
+                let fullText = "";
+                for (const chunk of data) {
+                    if (chunk.candidates && chunk.candidates[0].content && chunk.candidates[0].content.parts) {
+                        fullText += chunk.candidates[0].content.parts[0].text;
+                    }
+                }
+                if (fullText) return fullText;
+            } 
+            // Fallback for non-array response (unlikely on stream endpoint but safe to keep)
+            else if (data.candidates && data.candidates.length > 0) {
+                return data.candidates[0].content.parts[0].text || "";
             }
             
             return ""; 
