@@ -51,6 +51,22 @@ async function whenLoaded() {
     setInterval(refreshSnippets, 30000);
 }
 
+
+// B"H
+// - Helper to prevent network flooding
+function throttle(func, limit) {
+    let inThrottle;
+    return function() {
+        const args = arguments;
+        const context = this;
+        if (!inThrottle) {
+            func.apply(context, args);
+            inThrottle = true;
+            setTimeout(() => inThrottle = false, limit);
+        }
+    }
+}
+
 // --- API: The Flow of Light ---
 
 /**
@@ -609,6 +625,25 @@ function setupUI() {
             toggleView('inbox');
         });
     };
+    
+    
+    
+
+// Broadcast Typing (Throttled to 150ms)
+const broadcaster = throttle((content) => {
+    // Only send if I enabled broadcasting AND I have an active thread
+    if (state.settings.broadcastTyping && state.activeThread && socket && socket.readyState === WebSocket.OPEN) {
+        socket.send(JSON.stringify({
+            type: 'LIVE_PREVIEW',
+            to: state.activeThread, // Send to current chat partner
+            content: content
+        }));
+    }
+}, 150);
+
+document.getElementById('messageInput').addEventListener('input', (e) => {
+    broadcaster(e.target.value);
+});
 }
 
 let socket;
@@ -620,17 +655,69 @@ function connectSocket() {
     };
     socket.onmessage = (e) => {
         try {
-            const data = JSON.parse(e.data);
-            if (data.type === 'NEW_MAIL' && data.message) {
-                injectMessageIntoState(data.message);
-            }
+            // Inside socket.onmessage...
+const data = JSON.parse(e.data);
+
+if (data.type === 'NEW_MAIL' && data.message) {
+    // Remove Ghost Bubble if real message arrives
+    const ghost = document.getElementById('ghostBubble');
+    if(ghost) ghost.remove();
+    
+    injectMessageIntoState(data.message);
+}
+
+// B"H
+// Handle Live Preview
+else if (data.type === 'LIVE_PREVIEW') {
+    // Only show if it's from the person I'm currently looking at
+    // normalization logic matches selectThread
+    const fromId = getCoreThreadId(data.from);
+    const activeId = getCoreThreadId(state.activeThread);
+    
+    if (fromId === activeId) {
+        renderGhostBubble(data.content);
+    }
+}
         } catch(e){}
     };
     socket.onclose = () => setTimeout(connectSocket, 5000);
 }
 
 
-// --- Interaction Logic ---
+function renderGhostBubble(content) {
+    if (!content) {
+        const el = document.getElementById('ghostBubble');
+        if(el) el.remove();
+        return;
+    }
+
+    let container = document.getElementById('messagesContainer');
+    let ghost = document.getElementById('ghostBubble');
+    
+    // Create if not exists
+    if (!ghost) {
+        ghost = document.createElement('div');
+        ghost.id = 'ghostBubble';
+        ghost.className = 'message-row row-them ghost-row';
+        ghost.innerHTML = `
+            <div class="message-bubble ghost-bubble">
+                <span class="msg-sender-name">Typing...</span>
+                <div class="msg-content email-body" id="ghostText"></div>
+            </div>`;
+        container.appendChild(ghost);
+        // Auto scroll to bottom to see typing
+        container.scrollTop = container.scrollHeight;
+    }
+    
+    // Update Text
+    const textEl = document.getElementById('ghostText');
+    if (textEl) {
+        // Simple text only for preview to avoid HTML injection flicker
+        textEl.textContent = content; 
+        ghost.style.opacity = '0.7';
+    }
+}
+
 // --- Interaction Logic ---
 
 let touchStartX = 0;
@@ -990,6 +1077,17 @@ function populateSettingsModal() {
             s.rules.forEach(rule => addRuleUI(rule));
         }
     }
+    
+    
+    
+
+if(s.broadcastTyping !== undefined) 
+    document.getElementById('broadcastToggle').checked = s.broadcastTyping;
+if(s.viewTyping !== undefined) 
+    document.getElementById('viewTypingToggle').checked = s.viewTyping;
+
+
+
 }
 
 function addRuleUI(data = null) {
@@ -1066,6 +1164,11 @@ async function saveSettingsUI() {
         // For now, simpler rules use the global AI setting logic in server.
         rules.push(rule);
     });
+    
+    
+    
+    
+    
 
     // 4. Construct Payload
     const newSettings = {
@@ -1073,7 +1176,10 @@ async function saveSettingsUI() {
         approved: state.settings.approved || {},
         rules: rules,
         customScript: customJs,
-        aiGlobal: aiConfig // <--- B"H: The New Field
+        aiGlobal: aiConfig, // <--- B"H
+        broadcastTyping: document.getElementById('broadcastToggle').checked,
+viewTyping: document.getElementById('viewTypingToggle').checked,
+
     };
 
     // 5. Send

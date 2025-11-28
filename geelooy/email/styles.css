@@ -1191,4 +1191,21 @@ label a:hover { text-decoration: underline; }
     display: block;
 }
 
+/* B"H - Ghost Bubble (Live Typing) */
+.ghost-row {
+    animation: pulse 2s infinite;
+}
+.ghost-bubble {
+    background: transparent !important;
+    border: 1px dashed var(--neon-gold) !important;
+    color: var(--text-secondary) !important;
+    font-style: italic;
+    transition: all 0.1s ease;
+}
+@keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 0.8; } 100% { opacity: 0.5; } }
+
+
+
+
+
 

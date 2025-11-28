@@ -12,13 +12,15 @@ const crypto = require('crypto');
 const GUID = '258EAFA5-E914-47DA-95CA-C5AB0DC85B11';
 
 class AwtsmoosSocket {
-    constructor() {
-        this.clients = new Set();
-        this.aliasMap = new Map();
-
-        // Start Heartbeat (Ping every 30s)
-        setInterval(() => this.heartbeat(), 30000);
-    }
+    constructor(db) {
+    this.db = db; // Store DB reference for permission checks
+    this.clients = new Set();
+    this.aliasMap = new Map();
+    this.settingsCache = new Map(); // Simple cache to prevent DB hammering
+    setInterval(() => this.heartbeat(), 30000);
+    // Clear settings cache every minute
+    setInterval(() => this.settingsCache.clear(), 60000); 
+}
 
     // --- 1. Connection Handling ---
 
@@ -120,30 +122,57 @@ class AwtsmoosSocket {
 
     // --- 3. Message Logic ---
 
-    onMessage(client, msg) {
-        try {
-            const data = JSON.parse(msg);
-            
-            if (data.type === 'LOGIN' && data.aliasId) {
-                // Remove old mapping if exists
-                if(client.aliasId) {
-                     const oldSet = this.aliasMap.get(client.aliasId);
-                     if(oldSet) oldSet.delete(client);
-                }
 
-                client.aliasId = data.aliasId;
-                if (!this.aliasMap.has(data.aliasId)) {
-                    this.aliasMap.set(data.aliasId, new Set());
-                }
-                this.aliasMap.get(data.aliasId).add(client);
-                
-                // B"H DEBUG LOG
-                console.log(`B"H DEBUG: Socket LOGIN Success. ID: [${client.id}] Alias: [${data.aliasId}]`);
-                
-                client.send({ type: 'ACK', message: `Logged in as ${data.aliasId}` });
+
+
+async onMessage(client, msg) {
+    try {
+        const data = JSON.parse(msg);
+        
+        if (data.type === 'LOGIN' && data.aliasId) {
+            
+             if(client.aliasId) {
+                 const oldSet = this.aliasMap.get(client.aliasId);
+                 if(oldSet) oldSet.delete(client);
             }
-        } catch (e) { }
-    }
+            client.aliasId = data.aliasId;
+            if (!this.aliasMap.has(data.aliasId)) {
+                this.aliasMap.set(data.aliasId, new Set());
+            }
+            this.aliasMap.get(data.aliasId).add(client);
+            client.send({ type: 'ACK', message: `Logged in as ${data.aliasId}` });
+        }
+
+        // B"H
+        else if (data.type === 'LIVE_PREVIEW' && data.to && client.aliasId) {
+            const recipient = data.to;
+            
+            // 1. Resolve Recipient Alias Short Name
+            const rcptShort = recipient.split('_at_')[0].split('@')[0];
+            
+            // 2. Check Permissions (With Cache)
+            let allowed = false;
+            if (this.settingsCache.has(rcptShort)) {
+                allowed = this.settingsCache.get(rcptShort);
+            } else if (this.db) {
+                const settings = await this.db.get(`/social/aliases/${rcptShort}/emailSettings`);
+                // Check if recipient allows viewing typing
+                allowed = settings && settings.viewTyping === true;
+                this.settingsCache.set(rcptShort, allowed);
+            }
+
+            if (allowed) {
+                // Forward the stream
+                this.sendToAlias(rcptShort, {
+                    type: 'LIVE_PREVIEW',
+                    from: client.aliasId,
+                    content: data.content
+                });
+            }
+        }
+
+    } catch (e) { console.log(e); }
+}
 
     sendToAlias(targetAlias, data) {
         if (!targetAlias) {

@@ -96,6 +96,11 @@ class AwtsmoosStaticServer {
             var db = new DosDB(process.awtsmoosDbPath);
             await db.init();
             this.db = db;
+            if(this. ws) {
+	            this.ws.db=this.db;
+            
+            
+            }
             
             try {
                 startTaskRunner(this.db);

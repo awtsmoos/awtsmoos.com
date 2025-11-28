@@ -124,6 +124,7 @@ module.exports = async function ({ sender, recipients, data }) {
 
 /**
  * Sends a reply via SMTP and optionally saves it to the Sender's (The User's) "Sent" folder.
+ * UPDATED: Now notifies the Sender via Socket so the UI updates instantly.
  */
 async function sendSystemReply(ctx, fromAliasShort, toEmail, subject, body, saveToSent = false) {
     var fromEmail = `${fromAliasShort}@awtsmoos.com`;
@@ -142,22 +143,19 @@ async function sendSystemReply(ctx, fromAliasShort, toEmail, subject, body, save
         try {
             var time = Date.now();
             var fromFull = `${fromAliasShort}_at_awtsmoos.com`;
-            
-            // External recipient formatting for DB path
             var toFull = toEmail.replace(/[<>]/g, "").trim().toLowerCase().replace("@", "_at_");
-            
             var sentPath = `/emails/${fromFull}/threads/${toFull}`;
             
             var sentMsg = {
-                id: `${fromAliasShort}:${time}`, // ID relative to sender
+                id: `${fromAliasShort}:${time}`,
                 uid: time + "",
                 from: fromAliasShort, 
                 to: toEmail,
                 subject, 
-                content: body, // AI replies are usually plain text or markdown
+                content: body,
                 time, timeSent: time, 
                 read: true, direction: "outgoing",
-                correspondent: toFull // Thread grouping
+                correspondent: toFull
             };
 
             await ctx.db.appendToObj(sentPath, {
@@ -165,8 +163,14 @@ async function sendSystemReply(ctx, fromAliasShort, toEmail, subject, body, save
                 value: sentMsg
             });
 
-            // 3. Notify User Socket (So the reply pops into the chat view)
+            // 3. Notify User Socket (THE FIX: Send 'outgoing' message to SELF)
             if (ctx.ws) {
+                // Notify the Recipient (Standard)
+                // (Note: The recipient logic is usually handled by the Ingress main loop, 
+                // but if this is an internal-to-internal system reply, we might need to notify them too.
+                // For now, we focus on the Sender seeing their own bot's action.)
+
+                // Notify the SENDER (The Bot Owner)
                 ctx.ws.sendToAlias(fromAliasShort, {
                     type: 'NEW_MAIL',
                     message: sentMsg
