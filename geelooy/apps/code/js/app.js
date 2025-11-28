@@ -88,7 +88,8 @@ B"H
  * (name, id, type) which goes into localStorage.
  */
 
-/*B"H*/
+// B"H
+
 saveSession() {
     try {
         // 1. Prepare Workspaces
@@ -114,12 +115,11 @@ saveSession() {
                     path: tab.item.path,
                     kind: tab.item.kind,
                     type: tab.item.type,
-                    workspaceId: tab.item.workspaceId,
-                    repoInfo: tab.item.repoInfo,
-                    branch: tab.item.branch,
-                    // B"H - FIX: We MUST save the SHA for GitHub items, 
-                    // otherwise the FS provider cannot read the blob upon restoration.
-                    sha: tab.item.sha 
+                    workspaceId: tab.item.workspaceId, // Critical
+                    repoInfo: tab.item.repoInfo,       // For GitHub
+                    branch: tab.item.branch,           // For GitHub
+                    // B"H - FIX: Persist SHA to ensure GitHub files can be read upon restore
+                    sha: tab.item.sha
                 };
 
                 return { 
@@ -135,8 +135,6 @@ saveSession() {
                 };
             });
 
-        // ... rest of the function remains the same ...
-        
         // 3. Current Focus
         const activeTab = State.tabs.find(t => t.id === State.activeTabId);
         const activeTabUniquePath = activeTab ? activeTab.uniquePath : null;
@@ -149,6 +147,7 @@ saveSession() {
         };
 
         localStorage.setItem('vividX_session_profound', JSON.stringify(session));
+        // console.log("Session Saved:", session.openTabs.length, "tabs");
     } catch (e) {
         console.error("Save Session Failed:", e);
     }
