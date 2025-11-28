@@ -81,11 +81,13 @@ saveSessionDebounced() {
 },
 
 /**
+B"H
  * Inscribes the current state of reality into the eternal memory (localStorage).
- * UPDATED: Now permits 'local' workspaces to be serialized. It carefully separates
+ *  permits 'local' workspaces to be serialized. It carefully separates
  * the non-serializable 'handle' (which stays in IndexedDB) from the metadata
  * (name, id, type) which goes into localStorage.
  */
+
 /*B"H*/
 saveSession() {
     try {
@@ -112,9 +114,12 @@ saveSession() {
                     path: tab.item.path,
                     kind: tab.item.kind,
                     type: tab.item.type,
-                    workspaceId: tab.item.workspaceId, // Critical
-                    repoInfo: tab.item.repoInfo,       // For GitHub
-                    branch: tab.item.branch            // For GitHub
+                    workspaceId: tab.item.workspaceId,
+                    repoInfo: tab.item.repoInfo,
+                    branch: tab.item.branch,
+                    // B"H - FIX: We MUST save the SHA for GitHub items, 
+                    // otherwise the FS provider cannot read the blob upon restoration.
+                    sha: tab.item.sha 
                 };
 
                 return { 
@@ -130,6 +135,8 @@ saveSession() {
                 };
             });
 
+        // ... rest of the function remains the same ...
+        
         // 3. Current Focus
         const activeTab = State.tabs.find(t => t.id === State.activeTabId);
         const activeTabUniquePath = activeTab ? activeTab.uniquePath : null;
@@ -142,7 +149,6 @@ saveSession() {
         };
 
         localStorage.setItem('vividX_session_profound', JSON.stringify(session));
-        // console.log("Session Saved:", session.openTabs.length, "tabs");
     } catch (e) {
         console.error("Save Session Failed:", e);
     }
