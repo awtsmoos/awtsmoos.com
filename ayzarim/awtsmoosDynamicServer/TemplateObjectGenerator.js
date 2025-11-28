@@ -393,6 +393,8 @@ const instrumentedDb = new Proxy(self.db, {
         utils: Utils,
         mail,
         ws,
+        rulesEngine, // Inject the Rules Engine into $i
+        callAi,      // Inject the AI caller into $i
         ...ob
     })
 }
