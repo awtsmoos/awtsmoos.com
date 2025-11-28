@@ -1242,6 +1242,7 @@ function createHTMLCapsule(htmlContent, idSuffix) {
                 <span class="capsule-label">HTML Artifact</span>
             </div>
             <div class="capsule-actions">
+                <!-- FIX: event.stopPropagation() prevents the click from reaching the header -->
                 <button class="capsule-btn" onclick="event.stopPropagation(); copyCapsule('${encoded}')">Copy</button>
                 <button class="capsule-btn" onclick="event.stopPropagation(); downloadCapsule('${encoded}')">Download</button>
             </div>
