@@ -365,20 +365,26 @@ async function sendMail({ $i, userid, asAliasId, toAliasId, toEmail }) {
                 console.log("B\"H DEBUG: $i.ws is UNDEFINED. Socket notification skipped.");
             }
 
-            // B"H - RULES IGNITION CHECK
-            console.log(`B"H DEBUG: Rules State Check -> Recipient: [${recipientShort}] Status: [${status}] Gatekeeper: [${settings.gatekeeperMode}] Rules Loaded: [${settings.rules ? settings.rules.length : 0}]`);
+            // B"H - RULES IGNITION CHECK via Shared Engine
+            console.log(`B"H DEBUG: Rules State Check -> Recipient: [${recipientShort}] Status: [${status}]`);
 
-            if (status === "inbox") {
-                console.log(`B"H DEBUG: IGNITION - Running Local Rules...`);
-                // Run async so we don't block the sender
-                runLocalRules($i, settings, {
-                    from: asAliasId, 
-                    to: recipientShort, 
-                    subject,
-                    content
+            if (status === "inbox" && $i.rulesEngine) {
+                console.log(`B"H DEBUG: IGNITION - Running Shared Rules Engine...`);
+                
+                // We delegate the logic to the shared engine, passing our specific "Reply" capability
+                $i.rulesEngine.processRules({
+                    settings,
+                    msg: { from: asAliasId, to: recipientShort, subject, content },
+                    dependencies: {
+                        // Use the server's injected AI
+                        callGemini: $i.callGemini, 
+                        // Define how to reply in THIS context (Local Mail DB)
+                        reply: (text) => sendSystemLocalMail($i, recipientShort, senderShort, "Re: " + subject, text),
+                        console: console
+                    }
                 });
             } else {
-                console.log(`B"H DEBUG: Rules skipped (Status is ${status})`);
+                console.log(`B"H DEBUG: Rules skipped (Status: ${status} or Engine Missing)`);
             }
 
             return { success: { message: "Sent internally" } };
@@ -670,192 +676,5 @@ async function sendSystemLocalMail($i, fromAlias, toAlias, subject, content) {
         }
     } catch(e) {
         console.log("System Mail Error", e);
-    }
-}
-
-async function runLocalRules($i, settings, msg) {
-    console.log(`B"H DEBUG: IGNITION - Running Local Rules for [${msg.to}]...`);
-    
-    try {
-        // B"H - VIRTUAL RULE INJECTION
-        // We combine the standard rules with the Global AI setting.
-        // We put Global AI at the END so specific rules override it.
-        let effectiveRules = [...(settings.rules || [])];
-
-        if (settings.aiGlobal && settings.aiGlobal.enabled) {
-            console.log("B\"H DEBUG: Global AI is ENABLED. Injecting virtual rule.");
-            effectiveRules.push({
-                condition: 'always',         // Runs if nothing else stopped execution
-                actionType: 'ai_smart_reply',
-                apiKey: settings.aiGlobal.apiKey,
-                systemPrompt: settings.aiGlobal.systemPrompt,
-                enabled: true
-            });
-        }
-
-        if (effectiveRules.length > 0) {
-            console.log(`B"H DEBUG: Processing ${effectiveRules.length} effective rules.`);
-            
-            for (let i = 0; i < effectiveRules.length; i++) {
-                let rule = effectiveRules[i];
-                if (!rule.enabled) continue;
-                
-               
-
-                console.log(`B"H DEBUG: Evaluating Rule ${i} (${rule.condition})...`);
-
-                let match = false;
-                let matchedKw = "";
-                // B"H - Safeguard: Ensure content is string
-                const text = String(msg.content || "").toLowerCase();
-                const keywords = (rule.keywords || "").toLowerCase().split(',').map(k => k.trim()).filter(Boolean);
-
-                // --- CONDITIONS ---
-                if (rule.condition === 'contains_any') {
-                    const found = keywords.find(k => text.includes(k));
-                    if (found) { match = true; matchedKw = found; }
-                }
-                else if (rule.condition === 'contains_only') {
-                    let clean = text;
-                    keywords.forEach(k => clean = clean.replace(k, ''));
-                    if (clean.replace(/[^a-z0-9]/g, '').length < 5 && keywords.some(k => text.includes(k))) {
-                        match = true; matchedKw = keywords[0];
-                    }
-                }
-                else if (rule.condition === 'always') {
-                     match = true; 
-                }
-                else if (rule.condition === 'javascript') {
-                    const sandbox = { msg, text, console: { log: ()=>{} } };
-                    vm.createContext(sandbox);
-                    try { 
-                        match = vm.runInContext(rule.customCondition, sandbox, { timeout: 500 }); 
-                    } catch (e) {
-                        console.log(`B"H DEBUG: JS Condition Error`, e.message);
-                    }
-                }
-
-                if (!match) continue;
-
-                console.log(`B"H DEBUG: Rule ${i} MATCHED! Action: ${rule.actionType}`);
-
-                // --- ACTIONS ---
-                let replyText = "";
-
-                if (rule.actionType === 'javascript') {
-                    const sandbox = { msg, matchedKeyword: matchedKw, reply: (t) => { replyText = t; } };
-                    vm.createContext(sandbox);
-                    try { vm.runInContext(rule.replyScript, sandbox, { timeout: 500 }); } catch (e) { }
-                } 
-                else if (rule.actionType === 'ai_smart_reply') {
-                    // B"H - NEW AI LOGIC (Using $i.fetch)
-                    console.log("B\"H DEBUG: Engaging AI...");
-                    
-                    const history = [
-                        { role: "user", parts: [{ text: `
-                            You are acting as an auto-responder for user "${msg.to}".
-                            Incoming Message:
-                            Subject: ${msg.subject}
-                            From: ${msg.from}
-                            Content: "${msg.content}"
-                            
-                            Instructions: ${rule.systemPrompt || "Reply briefly."}
-                        `}]}
-                    ];
-                    
-                    // PASS $i.fetch HERE
-                    replyText = await callGemini($i.fetch, history, rule.apiKey || process.env.BH_GEMINI_KEY);
-                }
-                else {
-                    // Standard Text
-                    replyText = processReplyVariables(rule.replyText, matchedKw, String(msg.content||""));
-                }
-
-                if (replyText) {
-                    console.log(`B"H DEBUG: Sending Auto-Reply (${replyText.length} chars)...`);
-                    await sendSystemLocalMail($i, msg.to, msg.from, "Re: " + msg.subject, replyText);
-                }
-
-                break; 
-            }
-        }
-    } catch (e) { 
-        console.log("B\"H DEBUG: CRITICAL RULE ENGINE FAILURE", e); 
-    }
-}
-
-// B"H - Robust Tokenizer
-function processReplyVariables(template, keyword, fullText) {
-    if (!template) return "";
-    return template.replace(/\$([a-zA-Z0-9]+)\+(\d+)/g, (match, key, offset) => {
-        const targetWord = (key.toLowerCase() === "keyword") ? keyword : key.toLowerCase();
-        // Split by ANY whitespace to handle multiple spaces/newlines safely
-        const textWords = (fullText || "").replace(/\n/g, " ").trim().split(/\s+/);
-        
-        const index = textWords.findIndex(w => w.toLowerCase().includes(targetWord));
-        if (index === -1) return "[not found]";
-        
-        const targetIndex = index + parseInt(offset);
-        return textWords[targetIndex] || "";
-    });
-}
-
-// B"H - The Urim VeTumim (Oracle)
-// Communicates with Gemini Flash for minimal cost/latency
-// B"H - AI INTELLIGENCE
-async function callGemini(fetch, history, apiKey) {
-    if (!apiKey) return "Error: No API Key provided for Wisdom.";
-    if (!fetch) return "Error: The vessel has no ability to fetch (Missing fetch).";
-
-    console.log("B\"H DEBUG: Gemini - Preparing Request...");
-    
-    // Using Flash-Lite as requested
-    const model = "gemini-2.5-flash-lite";
-    const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
-
-    const requestBody = {
-        contents: history, 
-        generationConfig: {
-            temperature: 0.3, // Low temp for stable bot replies
-            topP: 0.95,
-            topK: 40,
-            maxOutputTokens: 2000
-        }
-    };
-
-    try {
-        console.log(`B"H DEBUG: Gemini - Fetching ${model}...`);
-        
-        const response = await fetch(endpoint, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(requestBody)
-        });
-
-        if (!response.ok) {
-            // Try to read error text if possible
-            let errText = "Unknown error";
-            try { errText = await response.text(); } catch(e){}
-            
-            console.error(`B"H DEBUG: Gemini API Error: ${response.status} - ${errText}`);
-            return `Error: I could not think. (${response.status})`;
-        }
-
-        const data = await response.json();
-        
-        // Parse Standard Gemini Response
-        if (data.candidates && data.candidates.length > 0) {
-            const part = data.candidates[0].content.parts[0];
-            const text = part ? part.text : "";
-            console.log("B\"H DEBUG: Gemini - Thought received.");
-            return text;
-        } else {
-            console.log("B\"H DEBUG: Gemini - Empty thoughts.");
-            return "";
-        }
-
-    } catch (e) {
-        console.error("B\"H DEBUG: Gemini Network Error", e);
-        return "Error: Connection to wisdom failed.";
     }
 }

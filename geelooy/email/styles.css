@@ -24,45 +24,16 @@
     --header-h: 54px;
 }
 
-/* Allow global layout to dictate height, but ensure full viewport usage */
-/* Update the .all.awtsmoospage block */
-.all.awtsmoospage {
-    height: 100dvh;        /* Exact viewport height */
-    width: 100%;
-    position: relative;    /* Context for children */
-    overflow: hidden;      /* No global scroll */
-    background: var(--bg-deep);
-}
-body, html {
-    margin: 0; padding: 0; width: 100%; 
-    height: 100%; /* Fallback */
-    height: 100dvh; /* Priority: dynamic height that excludes browser UI bars */
-    overflow: hidden; /* Prevent global scrollbar */
-}
-
-/* Replace the .main block with this: */
-.main {
-    position: absolute;    /* Float inside the wrapper */
-    top: var(--header-h);  /* Start below header (54px) */
-    bottom: 0;             /* Anchor to bottom of screen */
-    left: 0; 
-    right: 0;
-    
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;      /* Clip anything inside */
-    z-index: 1;
-}
 
 
-.main *, .main *::before, .main *::after {
-    box-sizing: border-box;
-}
+
+
+
 /* LAYOUT GRID */
 .app-layout {
     display: grid;
     grid-template-columns: var(--sidebar-w) 1fr;
-    height: 100%; /* Fill available window exactly */
+    
     width: 100%;
     overflow: hidden;
 }

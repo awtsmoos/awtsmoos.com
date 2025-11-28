@@ -25,6 +25,11 @@ const { startTaskRunner } = require('./cleanup-worker.js');
 var emailIngress = require("./email-ingress.js");
 var self = null;
 
+// B"H
+var awtsmoosAi = require("./awtsmoosAi.js");
+// Adjust path to where you put the rules file (parent folder/email)
+var awtsmoosRulesEngine = require("../email/awtsmoosEmailRules.js");
+
 class AwtsmoosStaticServer {
     constructor(directory, mail=null) {
         self = this;
@@ -37,7 +42,11 @@ class AwtsmoosStaticServer {
         process.removeAllListeners('warning');
     }
     
-    // ... [createJob and init/config logic remains the same] ...
+    // B"H - Centralized AI
+    async callAi(history, apiKey) {
+        // Uses the fetch from index.js imports
+        return await awtsmoosAi(fetch, history, apiKey);
+    }
 
     async createJob({ description, tasks, requestedBy }) {
 	    if (!tasks || !Array.isArray(tasks) || tasks.length === 0) {
@@ -237,7 +246,10 @@ class AwtsmoosStaticServer {
             getPutData, getDeleteData,
             
             // INJECT MAIL HERE SO API CAN USE IT
-            mail: this.mail 
+            mail: this.mail,
+            // B"H - Inject Rules & AI
+            callAi: this.callAi.bind(this),
+            rulesEngine: awtsmoosRulesEngine,
         };
 
         var templateObjectGenerator = new TemplateObjectGenerator(dependencies);
