@@ -176,6 +176,9 @@ async activate(tabId, forceViewChange = false) {
     if (!tab) {
         UI.switchView('empty');
         StatusBar.clear();
+        // B"H - FIX: Force render and save when no tab is active (e.g. last tab closed)
+        this.render();
+        App.saveSession();
         return;
     }
 
