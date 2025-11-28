@@ -1236,7 +1236,7 @@ function createHTMLCapsule(htmlContent, idSuffix) {
     
     return `
     <div class="html-capsule" id="${uniqueId}">
-        <div class="capsule-header" onclick="toggleCapsule('${uniqueId}')">
+        <div class="capsule-header" onclick="toggleCapsule('${uniqueId}', event)">
             <div class="capsule-left">
                 <span class="capsule-arrow">▼</span>
                 <span class="capsule-label">HTML Artifact</span>
@@ -1254,7 +1254,10 @@ function createHTMLCapsule(htmlContent, idSuffix) {
 
 // --- GLOBAL ACTIONS ---
 
-window.toggleCapsule = function(id) {
+window.toggleCapsule = function(id, e) {
+    // If we clicked a button (or something inside a button), do nothing.
+    if (e && e.target.closest('button')) return;
+
     const el = document.getElementById(id);
     if(el) {
         el.classList.toggle('collapsed');
