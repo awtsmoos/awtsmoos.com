@@ -1226,28 +1226,33 @@ function cleanHTML(html) {
     return doc.body.innerHTML;
 }
 
+
 /**
  * Creates the Collapsible HTML Capsule
+ * B"H - Now stores code in data-attribute for reset/reload logic
  */
 function createHTMLCapsule(htmlContent, idSuffix) {
+    // Encode for storage in data attribute (safe for HTML attributes)
     const encoded = encodeURIComponent(htmlContent);
+    // Escape for initial render inside the srcdoc attribute
     const safeSrc = htmlContent.replace(/"/g, '&quot;');
     const uniqueId = `capsule_${Date.now()}_${idSuffix}`;
     
     return `
-    <div class="html-capsule" id="${uniqueId}">
+    <div class="html-capsule" id="${uniqueId}" data-code="${encoded}">
         <div class="capsule-header" onclick="toggleCapsule('${uniqueId}', event)">
             <div class="capsule-left">
                 <span class="capsule-arrow">▼</span>
                 <span class="capsule-label">HTML Artifact</span>
             </div>
             <div class="capsule-actions">
-                <!-- FIX: event.stopPropagation() prevents the click from reaching the header -->
-                <button class="capsule-btn" onclick="event.stopPropagation(); copyCapsule('${encoded}')">Copy</button>
-                <button class="capsule-btn" onclick="event.stopPropagation(); downloadCapsule('${encoded}')">Download</button>
+                <!-- Buttons now reference the ID, preventing string breakage -->
+                <button class="capsule-btn" onclick="event.stopPropagation(); copyCapsule('${uniqueId}')">Copy</button>
+                <button class="capsule-btn" onclick="event.stopPropagation(); downloadCapsule('${uniqueId}')">Download</button>
             </div>
         </div>
-        <iframe class="capsule-frame" sandbox="allow-scripts" srcdoc="${safeSrc}"></iframe>
+        <!-- Initial load -->
+        <iframe class="capsule-frame" sandbox="allow-scripts allow-forms allow-popups allow-modals" srcdoc="${safeSrc}"></iframe>
     </div>
     `;
 }
@@ -1258,29 +1263,58 @@ window.toggleCapsule = function(id, e) {
     // If we clicked a button (or something inside a button), do nothing.
     if (e && e.target.closest('button')) return;
 
-    const el = document.getElementById(id);
-    if(el) {
-        el.classList.toggle('collapsed');
+    const container = document.getElementById(id);
+    if (!container) return;
+
+    const iframe = container.querySelector('iframe');
+    const isCollapsed = container.classList.contains('collapsed');
+
+    if (isCollapsed) {
+        // B"H - EXPANDING: Restart the Light
+        // 1. Remove collapsed class to trigger CSS animation
+        container.classList.remove('collapsed');
+        
+        // 2. Reload the content from the data attribute (Restarts scripts)
+        const code = decodeURIComponent(container.dataset.code);
+        iframe.srcdoc = code;
+    } else {
+        // B"H - COLLAPSING: Stop the World
+        // 1. Add collapsed class
+        container.classList.add('collapsed');
+        
+        // 2. Clear the srcdoc to kill running scripts/audio immediately
+        iframe.removeAttribute('srcdoc');
     }
 };
 
-window.copyCapsule = function(encodedContent) {
-    const text = decodeURIComponent(encodedContent);
+window.copyCapsule = function(id) {
+    const container = document.getElementById(id);
+    if (!container) return;
+
+    const text = decodeURIComponent(container.dataset.code);
     navigator.clipboard.writeText(text).then(() => {
-        // Optional: Toast notification
-        alert("Code Copied");
+        alert("Code Copied to Clipboard");
+    }).catch(err => {
+        console.error("Copy failed", err);
+        alert("Could not copy code.");
     });
 };
 
-window.downloadCapsule = function(encodedContent) {
-    const text = decodeURIComponent(encodedContent);
+window.downloadCapsule = function(id) {
+    const container = document.getElementById(id);
+    if (!container) return;
+
+    const text = decodeURIComponent(container.dataset.code);
     const blob = new Blob([text], { type: 'text/html' });
     const url = URL.createObjectURL(blob);
+    
     const a = document.createElement('a');
     a.href = url;
     a.download = `artifact_${Date.now()}.html`;
     document.body.appendChild(a);
     a.click();
+    
+    // Cleanup
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
 };
