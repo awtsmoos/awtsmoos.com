@@ -816,16 +816,13 @@ function handleSwipeEnd(element, diff, msg, senderName) {
 }
 
 function triggerReplyMode(msg, senderName) {
-    // Ensure we get the raw content for the snippet, not the potentially formatted HTML
+    // 1. Get Snippet (Existing Logic)
     let content = msg.content || msg.textContent || "";
-    
-    // Use the new formatter on the raw content to get a clean snippet, or just use raw text
     let snippetContent = formatContent(content); 
-    
-    // Clean up HTML tags for the short preview snippet
     let snippet = snippetContent.replace(/<[^>]*>?/gm, '').substring(0, 50);
     if(snippetContent.length > 50) snippet += "...";
     
+    // 2. Set State
     state.replyingTo = {
         id: msg.id,
         uid: msg.uid || msg.timeSent, 
@@ -833,8 +830,22 @@ function triggerReplyMode(msg, senderName) {
         snippet: snippet
     };
 
+    // 3. UI Updates
     document.getElementById('replyPreview').classList.remove('hidden');
     document.getElementById('replySnippet').textContent = snippet;
+    
+    // ---Auto-fill Subject Line ---
+    const subInput = document.getElementById('subjectInput');
+    if (subInput && msg.subject && msg.subject !== "(No Subject)") {
+        let newSub = msg.subject;
+        // Only add "Re:" if it isn't already there
+        if (!newSub.startsWith("Re:")) {
+           // newSub = "Re: " + newSub;
+        }
+        subInput.value = newSub;
+    }
+    // ------------------------------------
+
     document.getElementById('messageInput').focus();
     
     closeMsgMenu();
@@ -1120,53 +1131,116 @@ else addEventListener("awtsmoosAliasChange", whenLoaded);
  * Transmutes essential markdown (*, _, `) into HTML tags.
  * Fixes: correctly handles raw asterisks for bold and underscores for italics.
  */
+/**
+ * B"H - The Alchemist's Crucible: Enhanced
+ * Transmutes Markdown and detects HTML blocks to wrap them in Capsules.
+ */
 function formatContent(text) {
     if (text === null || text === undefined) return "";
-    
     let str = String(text);
-    
-    // 1. Check for existing HTML (The Gold Standard)
-    if (/<[a-z][\s\S]*>/i.test(str) || str.includes('style=')) {
-        return str; // Return raw HTML
-    }
-    
-    // 2. Escape HTML entities to prevent XSS before we add our own tags
-    let html = escapeHtml(str);
-    
-    // 3. Extract Code Blocks so we don't format inside them
-    let codeBlocks = [];
-    // Match ```code```
-    html = html.replace(/```([\s\S]*?)```/g, (match, content) => {
-        const placeholder = `__CODE_BLOCK_${codeBlocks.length}__`;
-        codeBlocks.push(`<pre class="code-block"><code>${content}</code></pre>`); 
-        return placeholder;
-    });
-    // Match `code` (inline)
-    html = html.replace(/`([^`]+)`/g, (match, content) => {
-        const placeholder = `__CODE_BLOCK_${codeBlocks.length}__`;
-        codeBlocks.push(`<code class="inline-code">${content}</code>`); 
+
+    // Storage for extracted blocks so they don't get double-escaped
+    const blocks = [];
+
+    // 1. Extract ```html ... ``` specific blocks (The Artifacts)
+    str = str.replace(/```html([\s\S]*?)```/gi, (match, content) => {
+        const placeholder = `__CAPSULE_${blocks.length}__`;
+        blocks.push({ type: 'capsule', content: content.trim() });
         return placeholder;
     });
 
-    // 4. Simple Markdown Transmutation (Chat Style)
-    // *bold* -> <strong>bold</strong>
-    // Note: We use [^*] to match anything that isn't an asterisk inside
+    // 2. Extract generic ``` ... ``` code blocks
+    str = str.replace(/```([\s\S]*?)```/g, (match, content) => {
+        const placeholder = `__CODE_${blocks.length}__`;
+        blocks.push({ type: 'code', content: content });
+        return placeholder;
+    });
+
+    // 3. Extract inline ` ... ` code
+    str = str.replace(/`([^`]+)`/g, (match, content) => {
+        const placeholder = `__INLINE_${blocks.length}__`;
+        blocks.push({ type: 'inline', content: content });
+        return placeholder;
+    });
+
+    // 4. Now purely escape the remaining text (Sanitize)
+    let html = escapeHtml(str);
+
+    // 5. Apply Markdown Formatting to the safe text
     html = html.replace(/\*([^*]+)\*/g, '<strong>$1</strong>');
-    
-    // _italics_ -> <em>italics</em>
     html = html.replace(/_([^_]+)_/g, '<em>$1</em>');
-    
-    // Links: [Text](URL) -> <a href="...">
     html = html.replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
     
-    // Auto-link loose URLs (Simple http/https detection)
+    // Auto-link URLs
     html = html.replace(/(^|\s)(https?:\/\/[^\s]+)/g, '$1<a href="$2" target="_blank" rel="noopener noreferrer">$2</a>');
+    
+    // Newlines to breaks
+    html = html.replace(/\n/g, '<br>');
 
-    // 5. Restore Code Blocks
-    codeBlocks.forEach((block, index) => {
-        html = html.replace(`__CODE_BLOCK_${index}__`, block);
+    // 6. Restore Blocks
+    blocks.forEach((block, index) => {
+        if (block.type === 'capsule') {
+            // Render the HTML Widget
+            html = html.replace(`__CAPSULE_${index}__`, createHTMLCapsule(block.content));
+        } else if (block.type === 'code') {
+            // Render standard code block
+            html = html.replace(`__CODE_${index}__`, `<pre class="code-block"><code>${escapeHtml(block.content)}</code></pre>`);
+        } else if (block.type === 'inline') {
+            // Render inline code
+            html = html.replace(`__INLINE_${index}__`, `<code class="inline-code">${escapeHtml(block.content)}</code>`);
+        }
     });
 
-    // 6. Line Breaks to <br>
-    return html.replace(/\n/g, '<br>');
+    return html;
 }
+
+/**
+ * Creates the HTML structure for the isolated iframe container.
+ */
+function createHTMLCapsule(htmlContent) {
+    // Encode content for the button calls
+    const encoded = encodeURIComponent(htmlContent);
+    
+    // Create a safe string for srcdoc (escaping double quotes)
+    // We also inject a tiny bit of CSS into the iframe so it doesn't look broken
+    const frameContent = `
+        <style>body{margin:0;font-family:sans-serif;padding:10px;}</style>
+        ${htmlContent.replace(/"/g, '&quot;')}
+    `;
+
+    return `
+    <div class="html-capsule">
+        <div class="capsule-header">
+            <span class="capsule-label">HTML Artifact</span>
+            <div class="capsule-actions">
+                <button class="capsule-btn" onclick="copyCapsule('${encoded}')">Copy Code</button>
+                <button class="capsule-btn" onclick="downloadCapsule('${encoded}')">Download</button>
+            </div>
+        </div>
+        <iframe class="capsule-frame" sandbox="allow-scripts" srcdoc="${frameContent}"></iframe>
+    </div>
+    `;
+}
+
+// --- Global Actions for the Capsule Buttons ---
+
+window.copyCapsule = function(encodedContent) {
+    const text = decodeURIComponent(encodedContent);
+    navigator.clipboard.writeText(text).then(() => {
+        alert("HTML Code Copied!");
+    }).catch(err => console.error(err));
+};
+
+window.downloadCapsule = function(encodedContent) {
+    const text = decodeURIComponent(encodedContent);
+    const blob = new Blob([text], { type: 'text/html' });
+    const url = URL.createObjectURL(blob);
+    
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `artifact_${Date.now()}.html`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+};

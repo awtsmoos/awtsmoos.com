@@ -707,25 +707,42 @@ textarea::placeholder { color: rgba(255, 255, 255, 0.4); }
 }
 
 /* The icon that appears behind the swipe */
+/* --- SWIPE GESTURE ICONS --- */
+
 .swipe-indicator {
     position: absolute;
-    top: 50%; right: 100%; /* Hidden on the left side */
+    top: 50%; 
+    
+    /* FIX: Position it explicitly to the LEFT of the content */
+    left: -50px; 
+    right: auto;
+    
     transform: translateY(-50%);
-    margin-right: -40px; /* Pull it closer */
     color: var(--neon-gold);
     font-size: 1.5rem;
     opacity: 0;
-    transition: opacity 0.2s;
+    transition: opacity 0.2s, transform 0.2s;
+    z-index: 0; /* Ensure it's behind the text but visible when pulled */
+    pointer-events: none;
+    
+    /* Center the emoji in its own box */
+    width: 40px; 
+    display: flex; 
+    justify-content: center;
 }
-.message-row.swiping .swipe-indicator { opacity: 1; }
-
 
 .row-me .swipe-indicator {
-    right: auto;        
-    left: 100%;         /* Position on the far right */
-    margin-right: 0;
-    margin-left: 20px;  /* Push it out a bit */
+    /*  For 'Me' messages, position to the RIGHT */
+    left: auto;
+    right: -50px;
+    
+    /* Reset margins/transforms specific to the right side */
     transform-origin: center;
+}
+
+/* Ensure the row is visible during the swipe */
+.message-row.swiping .swipe-indicator { 
+    opacity: 1; 
 }
 
 
@@ -1027,3 +1044,61 @@ label a:hover { text-decoration: underline; }
     top: 50%; left: 50%;
     transform: translate(-50%, -50%);
 }
+
+/* --- HTML ARTIFACT CAPSULE --- */
+.html-capsule {
+    margin: 12px 0;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: #000;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+}
+
+.capsule-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+}
+
+.capsule-label {
+    font-size: 0.7rem;
+    font-weight: 800;
+    color: var(--neon-gold);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.capsule-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.capsule-btn {
+    background: rgba(255,255,255,0.1);
+    border: none;
+    color: #fff;
+    font-size: 0.7rem;
+    padding: 4px 8px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.capsule-btn:hover {
+    background: var(--neon-gold);
+    color: #000;
+}
+
+.capsule-frame {
+    width: 100%;
+    height: 300px; /* Default height */
+    border: none;
+    background: #fff; /* White background for the HTML content itself */
+    display: block;
+}
+
+
