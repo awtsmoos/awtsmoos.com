@@ -1127,100 +1127,132 @@ else addEventListener("awtsmoosAliasChange", whenLoaded);
 
 
 /**
- * B"H - The Alchemist's Crucible: Simple Markdown to HTML Transmutation.
- * Transmutes essential markdown (*, _, `) into HTML tags.
- * Fixes: correctly handles raw asterisks for bold and underscores for italics.
- */
-/**
- * B"H - The Alchemist's Crucible: Enhanced
- * Transmutes Markdown and detects HTML blocks to wrap them in Capsules.
+ * B"H - The Alchemist's Crucible: Final Form
+ * 1. Detects "Full Webpages" -> Isolates in Capsule.
+ * 2. Regular HTML -> Sanitizes (Removes scripts) & Renders Inline.
+ * 3. Markdown Code Blocks -> Preserved.
  */
 function formatContent(text) {
     if (text === null || text === undefined) return "";
     let str = String(text);
 
-    // Storage for extracted blocks so they don't get double-escaped
+    // --- STEP 1: DETECT FULL HTML DOCUMENT ---
+    // If it looks like a full page/email template, capsule it.
+    // We check for Doctype or a root <html> tag.
+    if (/^\s*<!DOCTYPE/i.test(str) || /<html/i.test(str)) {
+        return createHTMLCapsule(str);
+    }
+
+    // --- STEP 2: PROTECT CODE BLOCKS ---
+    // We extract ```code``` blocks first so we don't accidentally sanitize them 
+    // or try to render HTML inside them.
     const blocks = [];
-
-    // 1. Extract ```html ... ``` specific blocks (The Artifacts)
-    str = str.replace(/```html([\s\S]*?)```/gi, (match, content) => {
-        const placeholder = `__CAPSULE_${blocks.length}__`;
-        blocks.push({ type: 'capsule', content: content.trim() });
-        return placeholder;
-    });
-
-    // 2. Extract generic ``` ... ``` code blocks
     str = str.replace(/```([\s\S]*?)```/g, (match, content) => {
-        const placeholder = `__CODE_${blocks.length}__`;
-        blocks.push({ type: 'code', content: content });
+        const placeholder = `__CODE_BLOCK_${blocks.length}__`;
+        blocks.push(`<pre class="code-block"><code>${escapeHtml(content)}</code></pre>`);
         return placeholder;
     });
 
-    // 3. Extract inline ` ... ` code
-    str = str.replace(/`([^`]+)`/g, (match, content) => {
-        const placeholder = `__INLINE_${blocks.length}__`;
-        blocks.push({ type: 'inline', content: content });
-        return placeholder;
-    });
+    // --- STEP 3: SANITIZE INLINE HTML ---
+    // We use a helper to strip <script>, <style>, and on* events
+    // BUT we keep <b>, <div>, <br>, style="color:...", etc.
+    let safeHTML = cleanHTML(str);
 
-    // 4. Now purely escape the remaining text (Sanitize)
-    let html = escapeHtml(str);
-
-    // 5. Apply Markdown Formatting to the safe text
-    html = html.replace(/\*([^*]+)\*/g, '<strong>$1</strong>');
-    html = html.replace(/_([^_]+)_/g, '<em>$1</em>');
-    html = html.replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
+    // --- STEP 4: FORMATTING TWEAKS ---
     
-    // Auto-link URLs
-    html = html.replace(/(^|\s)(https?:\/\/[^\s]+)/g, '$1<a href="$2" target="_blank" rel="noopener noreferrer">$2</a>');
-    
-    // Newlines to breaks
-    html = html.replace(/\n/g, '<br>');
+    // Convert Markdown links [Txt](URL) to <a> tags (only if not inside existing tags)
+    // Note: Parsing markdown inside mixed HTML is tricky. 
+    // We do a safe pass for links that aren't inside quotes.
+    safeHTML = safeHTML.replace(
+        /\[(.*?)\]\((.*?)\)/g, 
+        '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>'
+    );
 
-    // 6. Restore Blocks
+    // Auto-link loose URLs (that aren't already in an href)
+    // Negative lookbehind is complex in JS regex, so we use a simpler approach:
+    // This is a basic auto-linker.
+    safeHTML = safeHTML.replace(
+        /(^|[\s>])(https?:\/\/[^\s<"]+)/g, 
+        '$1<a href="$2" target="_blank" rel="noopener noreferrer">$2</a>'
+    );
+
+    // If the text seems to be "Plain Text" (no <div> or <p>), 
+    // we should convert newlines to <br>. 
+    // If it already has HTML structure, we trust the HTML structure.
+    if (!/<(div|p|br|table)/i.test(safeHTML)) {
+        safeHTML = safeHTML.replace(/\n/g, '<br>');
+    }
+
+    // --- STEP 5: RESTORE CODE BLOCKS ---
     blocks.forEach((block, index) => {
-        if (block.type === 'capsule') {
-            // Render the HTML Widget
-            html = html.replace(`__CAPSULE_${index}__`, createHTMLCapsule(block.content));
-        } else if (block.type === 'code') {
-            // Render standard code block
-            html = html.replace(`__CODE_${index}__`, `<pre class="code-block"><code>${escapeHtml(block.content)}</code></pre>`);
-        } else if (block.type === 'inline') {
-            // Render inline code
-            html = html.replace(`__INLINE_${index}__`, `<code class="inline-code">${escapeHtml(block.content)}</code>`);
-        }
+        safeHTML = safeHTML.replace(`__CODE_BLOCK_${index}__`, block);
     });
 
-    return html;
+    return safeHTML;
 }
 
 /**
- * Creates the HTML structure for the isolated iframe container.
+ * B"H - The Purifier
+ * Removes Scripts, Styles, Iframes, and dangerous attributes.
+ * Allows safe HTML (Divs, colors, formatting) to pass through.
+ */
+function cleanHTML(html) {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, 'text/html');
+
+    // 1. Remove dangerous tags completely
+    const bannedTags = ['script', 'style', 'iframe', 'object', 'embed', 'link', 'meta', 'title'];
+    bannedTags.forEach(tag => {
+        doc.querySelectorAll(tag).forEach(el => el.remove());
+    });
+
+    // 2. Remove dangerous attributes (onclick, onerror, etc.)
+    const allElements = doc.body.querySelectorAll('*');
+    allElements.forEach(el => {
+        // Convert attributes to array to avoid issues while removing
+        [...el.attributes].forEach(attr => {
+            if (attr.name.startsWith('on')) {
+                el.removeAttribute(attr.name); // Remove onclick, onmouseover, etc.
+            }
+            if (attr.name.startsWith('javascript:')) {
+                el.removeAttribute(attr.name);
+            }
+        });
+        
+        // Sanitize hrefs to prevent <a href="javascript:...">
+        if (el.hasAttribute('href')) {
+            const href = el.getAttribute('href').toLowerCase();
+            if (href.trim().startsWith('javascript:')) {
+                el.setAttribute('href', '#');
+            }
+        }
+    });
+
+    return doc.body.innerHTML;
+}
+
+/**
+ * B"H - Creates the Capsule for "Full Page" emails
  */
 function createHTMLCapsule(htmlContent) {
-    // Encode content for the button calls
     const encoded = encodeURIComponent(htmlContent);
+    // Escape content for srcdoc
+    const safeSrc = htmlContent.replace(/"/g, '&quot;');
     
-    // Create a safe string for srcdoc (escaping double quotes)
-    // We also inject a tiny bit of CSS into the iframe so it doesn't look broken
-    const frameContent = `
-        <style>body{margin:0;font-family:sans-serif;padding:10px;}</style>
-        ${htmlContent.replace(/"/g, '&quot;')}
-    `;
-
     return `
     <div class="html-capsule">
         <div class="capsule-header">
-            <span class="capsule-label">HTML Artifact</span>
+            <span class="capsule-label">Full HTML Document</span>
             <div class="capsule-actions">
                 <button class="capsule-btn" onclick="copyCapsule('${encoded}')">Copy Code</button>
                 <button class="capsule-btn" onclick="downloadCapsule('${encoded}')">Download</button>
             </div>
         </div>
-        <iframe class="capsule-frame" sandbox="allow-scripts" srcdoc="${frameContent}"></iframe>
+        <iframe class="capsule-frame" sandbox="allow-scripts" srcdoc="${safeSrc}"></iframe>
     </div>
     `;
 }
+
 
 // --- Global Actions for the Capsule Buttons ---
 
