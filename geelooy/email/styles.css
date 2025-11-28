@@ -443,19 +443,28 @@ textarea::placeholder { color: rgba(255, 255, 255, 0.4); }
 }
 
 
+/* 2. The App: Force 2-Column Grid on Desktop */
 #appContainer.app-layout {
-    /* Use flex-grow instead of height:100% to prevent overflow in a flex parent */
+    /* Size Logic */
     flex: 1 1 auto !important;
-    height: auto !important; 
-    min-height: 0 !important; /* Critical: allows it to shrink to fit screen */
-    
-    /* Ensure grid takes available space */
-    display: grid !important;
-    grid-template-rows: 100% !important; /* Force grid height to match container */
-    overflow: hidden !important;
+    height: 100% !important;
+    width: 100% !important;
     margin: 0 !important;
+    min-height: 0 !important;
+    
+    /* Grid Logic - HERE IS THE FIX */
+    display: grid !important;
+    /* 300px Sidebar | Remaining Space for Chat */
+    grid-template-columns: 300px 1fr !important; 
+    grid-template-rows: 100% !important;
+    overflow: hidden !important;
 }
+
 @media (max-width: 800px) {
+#appContainer.app-layout {
+        display: flex !important; /* Or grid-template-columns: 1fr */
+        flex-direction: column !important;
+    }
     .app-layout { grid-template-columns: 1fr; }
     
     .back-btn { display: block !important; }
@@ -484,7 +493,13 @@ textarea::placeholder { color: rgba(255, 255, 255, 0.4); }
     
    
 }
-  
+  .sidebar, .chat-area {
+    height: 100% !important;
+    overflow: hidden !important;
+    display: flex !important;
+    flex-direction: column !important;
+}
+
 /* Find the ".modal" block and update it to this: */
 .modal {
     position: fixed; 
