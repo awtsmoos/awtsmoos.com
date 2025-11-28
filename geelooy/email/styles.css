@@ -1045,7 +1045,9 @@ label a:hover { text-decoration: underline; }
     transform: translate(-50%, -50%);
 }
 
-/* --- HTML ARTIFACT CAPSULE --- */
+
+
+/* --- ARTIFACT CAPSULE (Collapsible) --- */
 .html-capsule {
     margin: 12px 0;
     border: 1px solid var(--border);
@@ -1053,7 +1055,95 @@ label a:hover { text-decoration: underline; }
     background: #000;
     overflow: hidden;
     box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    transition: all 0.3s ease;
 }
+
+.capsule-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer; /* Clickable */
+    user-select: none;
+}
+
+.capsule-header:hover {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.capsule-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* The Arrow */
+.capsule-arrow {
+    font-size: 0.8rem;
+    color: var(--neon-gold);
+    transition: transform 0.2s ease;
+    transform: rotate(0deg); /* Open (Down) state assumption */
+}
+
+/* When collapsed, rotate arrow */
+.html-capsule.collapsed .capsule-arrow {
+    transform: rotate(-90deg);
+}
+
+.capsule-label {
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: var(--neon-gold);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.capsule-actions {
+    display: flex;
+    gap: 8px;
+}
+
+/* Prevent header click when clicking buttons */
+.capsule-btn {
+    background: rgba(255,255,255,0.1);
+    border: none;
+    color: #fff;
+    font-size: 0.7rem;
+    padding: 4px 8px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    z-index: 2; 
+}
+
+.capsule-btn:hover {
+    background: var(--neon-gold);
+    color: #000;
+}
+
+.capsule-frame {
+    width: 100%;
+    height: 350px;
+    border: none;
+    background: #fff;
+    display: block;
+    transition: height 0.3s ease;
+}
+
+/* Collapsed State */
+.html-capsule.collapsed .capsule-frame {
+    height: 0;
+    border: none;
+}
+.html-capsule.collapsed {
+    border-bottom: 1px solid transparent; /* Cleaner look when closed */
+}
+
+
+/* --- HTML ARTIFACT CAPSULE --- */
+
 
 .capsule-header {
     display: flex;

@@ -1127,65 +1127,75 @@ else addEventListener("awtsmoosAliasChange", whenLoaded);
 
 
 /**
- * B"H - The Alchemist's Crucible: Final Form
- * 1. Detects "Full Webpages" -> Isolates in Capsule.
- * 2. Regular HTML -> Sanitizes (Removes scripts) & Renders Inline.
- * 3. Markdown Code Blocks -> Preserved.
+ * B"H - The Alchemist's Crucible: Mixed Mode
+ * 1. Extracts ```blocks```.
+ * 2. If block is HTML -> Iframe Capsule.
+ * 3. If block is Code -> Pre/Code block.
+ * 4. Surrounding text -> Sanitized Inline HTML.
  */
 function formatContent(text) {
     if (text === null || text === undefined) return "";
     let str = String(text);
 
-    // --- STEP 1: DETECT FULL HTML DOCUMENT ---
-    // If it looks like a full page/email template, capsule it.
-    // We check for Doctype or a root <html> tag.
-    if (/^\s*<!DOCTYPE/i.test(str) || /<html/i.test(str)) {
-        return createHTMLCapsule(str);
-    }
-
-    // --- STEP 2: PROTECT CODE BLOCKS ---
-    // We extract ```code``` blocks first so we don't accidentally sanitize them 
-    // or try to render HTML inside them.
     const blocks = [];
-    str = str.replace(/```([\s\S]*?)```/g, (match, content) => {
-        const placeholder = `__CODE_BLOCK_${blocks.length}__`;
-        blocks.push(`<pre class="code-block"><code>${escapeHtml(content)}</code></pre>`);
+
+    // --- STEP 1: EXTRACT BLOCKS (Capsules vs Code) ---
+    // Regex matches: ```(optional_lang) (content) ```
+    str = str.replace(/```(\w*)\s*([\s\S]*?)```/g, (match, lang, content) => {
+        const placeholder = `__BLOCK_${blocks.length}__`;
+        
+        // DECISION: Is this an Artifact Capsule?
+        // Yes if: lang is 'html' OR content has DOCTYPE/<html>
+        const isHtmlArtifact = (lang.toLowerCase() === 'html') || 
+                               /<!DOCTYPE/i.test(content) || 
+                               /<html/i.test(content);
+
+        blocks.push({
+            type: isHtmlArtifact ? 'capsule' : 'code',
+            content: content,
+            lang: lang // stored just in case, but we usually strip it for display
+        });
+        
         return placeholder;
     });
 
-    // --- STEP 3: SANITIZE INLINE HTML ---
-    // We use a helper to strip <script>, <style>, and on* events
-    // BUT we keep <b>, <div>, <br>, style="color:...", etc.
+    // --- STEP 2: SANITIZE & FORMAT SURROUNDING TEXT ---
+    // We strictly use the cleanHTML helper to allow simple tags (b, div, br)
+    // but strip dangerous scripts from the non-capsule text.
     let safeHTML = cleanHTML(str);
 
-    // --- STEP 4: FORMATTING TWEAKS ---
-    
-    // Convert Markdown links [Txt](URL) to <a> tags (only if not inside existing tags)
-    // Note: Parsing markdown inside mixed HTML is tricky. 
-    // We do a safe pass for links that aren't inside quotes.
+    // Markdown Links [Txt](URL) -> <a> (Simple pass)
     safeHTML = safeHTML.replace(
         /\[(.*?)\]\((.*?)\)/g, 
         '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>'
     );
-
-    // Auto-link loose URLs (that aren't already in an href)
-    // Negative lookbehind is complex in JS regex, so we use a simpler approach:
-    // This is a basic auto-linker.
+    
+    // Auto-link loose URLs
     safeHTML = safeHTML.replace(
         /(^|[\s>])(https?:\/\/[^\s<"]+)/g, 
         '$1<a href="$2" target="_blank" rel="noopener noreferrer">$2</a>'
     );
 
-    // If the text seems to be "Plain Text" (no <div> or <p>), 
-    // we should convert newlines to <br>. 
-    // If it already has HTML structure, we trust the HTML structure.
+    // Newlines to <br> (only if not already rich HTML)
+    // We check if the user wrote "Plain text", if so, preserve line breaks.
+    // If they wrote <div>..</div> we assume they handled breaks.
     if (!/<(div|p|br|table)/i.test(safeHTML)) {
         safeHTML = safeHTML.replace(/\n/g, '<br>');
     }
 
-    // --- STEP 5: RESTORE CODE BLOCKS ---
+    // --- STEP 3: RESTORE BLOCKS ---
     blocks.forEach((block, index) => {
-        safeHTML = safeHTML.replace(`__CODE_BLOCK_${index}__`, block);
+        let replacement = "";
+        
+        if (block.type === 'capsule') {
+            replacement = createHTMLCapsule(block.content, index);
+        } else {
+            // Standard Code Block
+            replacement = `<pre class="code-block"><code>${escapeHtml(block.content)}</code></pre>`;
+        }
+        
+        // Replace the placeholder
+        safeHTML = safeHTML.replace(`__BLOCK_${index}__`, replacement);
     });
 
     return safeHTML;
@@ -1193,59 +1203,47 @@ function formatContent(text) {
 
 /**
  * B"H - The Purifier
- * Removes Scripts, Styles, Iframes, and dangerous attributes.
- * Allows safe HTML (Divs, colors, formatting) to pass through.
+ * Uses DOMParser to strip scripts/styles/iframes from "Regular" text
+ * while preserving placeholders and layout tags.
  */
 function cleanHTML(html) {
     const parser = new DOMParser();
     const doc = parser.parseFromString(html, 'text/html');
 
-    // 1. Remove dangerous tags completely
-    const bannedTags = ['script', 'style', 'iframe', 'object', 'embed', 'link', 'meta', 'title'];
-    bannedTags.forEach(tag => {
-        doc.querySelectorAll(tag).forEach(el => el.remove());
-    });
+    // Remove strictly dangerous tags from the "inline" part
+    const banned = ['script', 'style', 'iframe', 'object', 'embed', 'link', 'meta'];
+    banned.forEach(tag => doc.querySelectorAll(tag).forEach(el => el.remove()));
 
-    // 2. Remove dangerous attributes (onclick, onerror, etc.)
-    const allElements = doc.body.querySelectorAll('*');
-    allElements.forEach(el => {
-        // Convert attributes to array to avoid issues while removing
+    // Remove dangerous attributes
+    doc.querySelectorAll('*').forEach(el => {
         [...el.attributes].forEach(attr => {
-            if (attr.name.startsWith('on')) {
-                el.removeAttribute(attr.name); // Remove onclick, onmouseover, etc.
-            }
-            if (attr.name.startsWith('javascript:')) {
+            if (attr.name.startsWith('on') || attr.name.startsWith('javascript')) {
                 el.removeAttribute(attr.name);
             }
         });
-        
-        // Sanitize hrefs to prevent <a href="javascript:...">
-        if (el.hasAttribute('href')) {
-            const href = el.getAttribute('href').toLowerCase();
-            if (href.trim().startsWith('javascript:')) {
-                el.setAttribute('href', '#');
-            }
-        }
     });
 
     return doc.body.innerHTML;
 }
 
 /**
- * B"H - Creates the Capsule for "Full Page" emails
+ * Creates the Collapsible HTML Capsule
  */
-function createHTMLCapsule(htmlContent) {
+function createHTMLCapsule(htmlContent, idSuffix) {
     const encoded = encodeURIComponent(htmlContent);
-    // Escape content for srcdoc
     const safeSrc = htmlContent.replace(/"/g, '&quot;');
+    const uniqueId = `capsule_${Date.now()}_${idSuffix}`;
     
     return `
-    <div class="html-capsule">
-        <div class="capsule-header">
-            <span class="capsule-label">Full HTML Document</span>
+    <div class="html-capsule" id="${uniqueId}">
+        <div class="capsule-header" onclick="toggleCapsule('${uniqueId}')">
+            <div class="capsule-left">
+                <span class="capsule-arrow">▼</span>
+                <span class="capsule-label">HTML Artifact</span>
+            </div>
             <div class="capsule-actions">
-                <button class="capsule-btn" onclick="copyCapsule('${encoded}')">Copy Code</button>
-                <button class="capsule-btn" onclick="downloadCapsule('${encoded}')">Download</button>
+                <button class="capsule-btn" onclick="event.stopPropagation(); copyCapsule('${encoded}')">Copy</button>
+                <button class="capsule-btn" onclick="event.stopPropagation(); downloadCapsule('${encoded}')">Download</button>
             </div>
         </div>
         <iframe class="capsule-frame" sandbox="allow-scripts" srcdoc="${safeSrc}"></iframe>
@@ -1253,21 +1251,27 @@ function createHTMLCapsule(htmlContent) {
     `;
 }
 
+// --- GLOBAL ACTIONS ---
 
-// --- Global Actions for the Capsule Buttons ---
+window.toggleCapsule = function(id) {
+    const el = document.getElementById(id);
+    if(el) {
+        el.classList.toggle('collapsed');
+    }
+};
 
 window.copyCapsule = function(encodedContent) {
     const text = decodeURIComponent(encodedContent);
     navigator.clipboard.writeText(text).then(() => {
-        alert("HTML Code Copied!");
-    }).catch(err => console.error(err));
+        // Optional: Toast notification
+        alert("Code Copied");
+    });
 };
 
 window.downloadCapsule = function(encodedContent) {
     const text = decodeURIComponent(encodedContent);
     const blob = new Blob([text], { type: 'text/html' });
     const url = URL.createObjectURL(blob);
-    
     const a = document.createElement('a');
     a.href = url;
     a.download = `artifact_${Date.now()}.html`;
