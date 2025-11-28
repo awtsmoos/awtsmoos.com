@@ -11,12 +11,56 @@ module.exports = {
     deleteThread,
     saveSettings,
     getSettings,
-    approveSender
+    approveSender,
+    getUnreadCount
 }
 var vm = require('vm');
 var { NO_LOGIN, sp } = require("./_awtsmoos.constants.js");
 var { loggedIn, er, myOpts } = require("./general.js");
 var { verifyAliasOwnership } = require("./alias.js");
+
+
+// B"H
+async function getUnreadCount({ $i, userid, aliasId }) {
+    if (!loggedIn($i)) return er(NO_LOGIN);
+    if (!aliasId) return er({ message: "aliasId required" });
+
+    var verified = await verifyAliasOwnership(aliasId, $i, userid);
+    if (!verified) return er({ message: "Auth fail", code: "AUTH_FAIL" });
+
+    var myFolder = `${aliasId}_at_awtsmoos.com`;
+    var threadsPath = `/emails/${myFolder}/threads`;
+
+    try {
+        var friendFolders = await $i.db.get(threadsPath);
+        if (!friendFolders) return { count: 0 };
+        
+        // Handle if DB returns object vs array
+        var folders = Array.isArray(friendFolders) ? friendFolders : Object.keys(friendFolders);
+        if (folders.length === 0) return { count: 0 };
+
+        var totalUnread = 0;
+
+        // Iterate all threads to count incoming unread messages
+        for (var folderName of folders) {
+            var threadData = await $i.db.get(`${threadsPath}/${folderName}`);
+            
+            if (threadData && typeof threadData === 'object') {
+                Object.values(threadData).forEach(m => {
+                    // Check if message is incoming and explicitly unread
+                    if (m && m.direction === 'incoming' && m.read === false) {
+                        totalUnread++;
+                    }
+                });
+            }
+        }
+
+        return { success: true, count: totalUnread };
+
+    } catch (e) {
+        return er({ message: "Count failed", details: e + "" });
+    }
+}
 
 function parseEmailEntry(entry, id, friendName) {
     if (entry.rawData) {

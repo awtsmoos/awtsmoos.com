@@ -11,7 +11,8 @@ var {
 
 var {
     getMail, sendMail, deleteMail, setEmailAsRead,
-    deleteThread, saveSettings, getSettings, approveSender
+    deleteThread, saveSettings, getSettings, approveSender,
+    getUnreadCount 
 } = require("./helper/index.js");
 
 var {
@@ -26,6 +27,18 @@ module.exports = ({
     // Test endpoint
     "/mail": async () => {
         return "B\"H - Awtsmoos Mail System Active";
+    },
+    
+    /**
+     * GET Total Unread Count
+     * Route: /mail/unread/count?aliasId=myAlias
+     */
+    "/mail/unread/count": async () => {
+        return await getUnreadCount({
+            $i,
+            userid,
+            aliasId: $i.$_GET.aliasId
+        });
     },
 
     /**

@@ -40,15 +40,22 @@ html, body {
     overflow: hidden; /* Stop the browser window from scrolling */
 }
 
-/* Make the main wrapper a flex column so the Header sits on top 
-   and .main takes the rest of the height */
-/* 1. Stop the wrapper from scrolling. 
-   This forces the app to fit exactly within the view. */
+
 .all.awtsmoospage > .main {
+    /* 1. Stop forcing 100% height. Let Flexbox calculate the remaining space. */
+    height: auto !important;
+    flex: 1 1 auto !important; 
+    
+    /* 2. Fix Flexbox bugs (Mozilla/Webkit) where it refuses to shrink */
+    min-height: 0 !important;
+    
+    /* 3. Keep layout clean */
+    display: flex !important;
+    flex-direction: column !important;
+    
+    /* 4. Stop the scrollbar on the wrapper */
     overflow: hidden !important;
-    display: block !important; /* Resets flex align issues */
-    height: 100% !important;
-    padding: 0 !important; /* Remove the 26px padding from injected styles */
+    padding: 0 !important;
 }
 /* Ensure the main container fills the remaining space */
 .main {

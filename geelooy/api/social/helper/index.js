@@ -16,7 +16,8 @@ var {
     deleteThread,
     saveSettings,
     getSettings,
-    approveSender
+    approveSender,
+    getUnreadCount 
 } = require("./mail.js");
 
 // Comments (Assuming largely unchanged, but check dependencies like deleteAllCommentsOfParent)
@@ -96,6 +97,7 @@ module.exports = {
     saveSettings,
     getSettings,
     approveSender,
+    getUnreadCount ,
 
     // Alias
     getAliasesDetails,
