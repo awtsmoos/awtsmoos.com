@@ -51,6 +51,10 @@ class TabManager {
 		
 
 	}
+	
+	getTabs() {
+		return allTabs;
+	}
 
 	addTab({
 

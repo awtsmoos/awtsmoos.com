@@ -136,8 +136,8 @@ class AwtsmoosStaticServer {
     }
     
     async onRequest(request, response) {
-        // 1. PAUSE THE STREAM IMMEDIATELY to stop the race condition
-        request.pause();
+    
+        //request.pause();
 
         const requestOrigin = request.headers.origin;
         response.setHeader('Access-Control-Allow-Methods', 'OPTIONS, GET, POST, PUT, DELETE');
