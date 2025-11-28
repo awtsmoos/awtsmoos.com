@@ -876,6 +876,13 @@ function handleMsgAction(action) {
         let txt = selectedMsgObj.textContent || selectedMsgObj.content;
         txt = txt.replace(/<[^>]*>?/gm, ''); // Clean HTML
         navigator.clipboard.writeText(txt).then(() => alert("Copied!"));
+    } else if(action == "copy-subject") {
+	    let txt = selectedMsgObj.subject
+        if(!txt) {
+         alert("no subject")
+         console.log(selectedMsgObj;
+         }
+        navigator.clipboard.writeText(txt).then(() => alert("Copied!"));
     } else if (action === 'reply') {
         const sender = selectedMsgObj.direction === 'outgoing' ? "Me" : (selectedMsgObj.fromName || "Them");
         triggerReplyMode(selectedMsgObj, sender); 

@@ -108,6 +108,8 @@
             <div class="glass-card context-menu" onclick="event.stopPropagation()">
                 <div class="menu-handle"></div> <!-- Visual handle -->
                 <div class="menu-header">Message Options</div>
+                <button class="menu-item" onclick="handleMsgAction('copy-subject')">📋 Copy Subject</button>
+                
                 <button class="menu-item" onclick="handleMsgAction('copy')">📋 Copy Text</button>
                 <button class="menu-item" onclick="handleMsgAction('reply')">↩️ Reply to this</button>
                 <button class="menu-item danger" onclick="handleMsgAction('delete')">🗑️ Dissolve</button>
