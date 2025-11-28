@@ -82,8 +82,19 @@ header
     
 </header>
 <div class="sidebarMitzvah offscreen">
-  <!--<a href="/ai">Awtsmoos AI</a>-->
+   <a href="/email"></span>Awtsmoos Email 📧<span id="awtsmoos-unread-emails"></a>
     <a href="/apps">Awtsmoos Apps</a>
   <a href="/heichelos/ikar?view=posts">Sefarim</a>
   <a href="/games">Games</a>
 </div>
+<script>
+async function setUnread() {
+	var aw=  document.getElementById("awtsmoos-unread-emails");
+	if(!aw) return;
+	
+}
+if(window.curAlias) setUnread();
+else {
+	addEventListener("awtsmoosAliasChange", setUnread);
+}
+</script>
