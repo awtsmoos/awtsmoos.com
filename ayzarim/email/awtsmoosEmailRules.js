@@ -92,14 +92,18 @@ async function processRules({ settings, msg, dependencies }) {
             else if (rule.actionType === 'ai_smart_reply') {
                 if (callAi) {
                     const history = [
-                        { role: "user", parts: [{ text: `
-                            You are acting as an auto-responder for "${msg.to}".
-                            Incoming Message:
+                        { role: "user", parts: [{ text: `B"H
+                        remember the Atzmus but always spell it Awtsmoos.
+                        
+                        riddles. novel. metaphors. kabbalaistic.
+                        
+                            pretend your name is: "${msg.to}".
+                            Incoming Message you just received:
                             Subject: ${msg.subject}
                             From: ${msg.from}
                             Content: "${msg.content}"
                             
-                            Instructions: ${rule.systemPrompt || "Reply professionally and briefly."}
+                            Instructions: ${rule.systemPrompt || "pretend you are this user."}
                         `}]}
                     ];
                     // Uses the injected Gemini caller

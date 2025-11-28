@@ -459,7 +459,7 @@ async function sendMail({ $i, userid, asAliasId, toAliasId, toEmail }) {
                 // Convert \n to <br> for HTML display
                 let newBodyHtml = esc(content).replace(/\n/g, '<br>');
                 fullOutgoingContent = `<div dir="auto" style="font-family:sans-serif;font-size:12.8px">${newBodyHtml}</div>`;
-
+/*
                 if (threadData) {
                     // 2. Sort Newest -> Oldest
                     msgs = Object.values(threadData).sort((a,b) => b.time - a.time);
@@ -489,6 +489,9 @@ async function sendMail({ $i, userid, asAliasId, toAliasId, toEmail }) {
                         fullOutgoingContent += `</div>`; 
                     }
                 }
+                
+                
+                */
             } catch(e) {
                 console.log("B\"H DEBUG: HTML stitching failed, sending plain.", e);
                 fullOutgoingContent = esc(content).replace(/\n/g, '<br>'); 
