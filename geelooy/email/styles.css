@@ -928,7 +928,11 @@ textarea::placeholder { color: rgba(255, 255, 255, 0.4); }
     color: var(--text-secondary);
     letter-spacing: 1px;
 }
-
+#settingsModal .modal-content {
+    max-height: 80vh;
+    overflow: auto;
+    color: white;
+}
 /* Fix Inputs & Textareas */
 .input-block, .code-input {
     width: 100%;
