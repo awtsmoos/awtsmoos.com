@@ -22,11 +22,15 @@
     /* Metrics */
     --sidebar-w: 300px;
     --header-h: 54px;
+    
+    --awtsmoos-header-h: 45px;
 }
 
 
 
-
+.main * {
+    box-sizing: content-box;
+}
 
 
 /* LAYOUT GRID */
@@ -36,6 +40,8 @@
     
     width: 100%;
     overflow: hidden;
+
+    height: 100%;
 }
 
 
