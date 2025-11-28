@@ -31,17 +31,40 @@
 .main * {
     box-sizing: content-box;
 }
+/* Add to styles.css */
 
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* Stop the browser window from scrolling */
+}
+
+/* Make the main wrapper a flex column so the Header sits on top 
+   and .main takes the rest of the height */
+.all.awtsmoospage {
+    display: flex;
+    flex-direction: column;
+    height: 100vh; /* Force Full Viewport Height */
+    overflow: hidden;
+}
+
+/* Ensure the main container fills the remaining space */
+.main {
+    flex: 1; /* Grow to fill space under header */
+    height: 100%;
+    overflow: hidden; /* Contain the app layout */
+    position: relative;
+}
 
 /* LAYOUT GRID */
+/* Update .app-layout in styles.css */
 .app-layout {
     display: grid;
     grid-template-columns: var(--sidebar-w) 1fr;
-    
     width: 100%;
+    height: 100%; /* Now this works because parent has height */
     overflow: hidden;
-
-    height: 100%;
 }
 
 
