@@ -86,30 +86,15 @@
                         <button type="button" class="close-reply" onclick="cancelReply()">×</button>
                     </div>
 
-                    <!-- B"H - Updated Input Wrapper with Formatting Toolbar -->
-<div class="input-wrapper">
-    <!-- Formatting Toolbar -->
-    <div class="formatting-bar">
-        <button type="button" class="fmt-btn" onclick="insertFormat('**', '**')" title="Bold"><b>B</b></button>
-        <button type="button" class="fmt-btn" onclick="insertFormat('*', '*')" title="Italic"><i>I</i></button>
-        <button type="button" class="fmt-btn" onclick="insertFormat('__', '__')" title="Underline"><u>U</u></button>
-        <button type="button" class="fmt-btn" onclick="insertFormat('~~', '~~')" title="Strike"><s>S</s></button>
-        <button type="button" class="fmt-btn" onclick="insertFormat('`', '`')" title="Code">{'}'}</button>
-        <button type="button" class="fmt-btn" onclick="insertFormat('```\n', '\n```')" title="Block">KB</button>
-        <button type="button" class="fmt-btn" onclick="insertFormat('[', '](url)')" title="Link">🔗</button>
-        <div class="fmt-sep"></div>
-        <button type="button" class="fmt-btn" onclick="insertFormat('<h3>', '</h3>')" title="Header">H3</button>
-        <button type="button" class="fmt-btn" onclick="insertFormat('<br>', '')" title="Break">↵</button>
-    </div>
-
-    <input type="text" id="subjectInput" placeholder="Subject..." class="subject-input" autocomplete="off">
-    <div class="flex-row">
-        <textarea id="messageInput" placeholder="Write your message (Markdown/HTML supported)..." rows="1"></textarea>
-        <button type="submit" class="btn-send">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
-        </button>
-    </div>
-</div>
+                    <div class="input-wrapper">
+                        <input type="text" id="subjectInput" placeholder="Subject..." class="subject-input" autocomplete="off">
+                        <div class="flex-row">
+                            <textarea id="messageInput" placeholder="Write your message..." rows="1"></textarea>
+                            <button type="submit" class="btn-send">
+                                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+                            </button>
+                        </div>
+                    </div>
                 </form>
             </main>
         </div>
