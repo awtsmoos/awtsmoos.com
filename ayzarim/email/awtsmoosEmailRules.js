@@ -89,29 +89,37 @@ async function processRules({ settings, msg, dependencies }) {
                 vm.createContext(sandbox);
                 try { vm.runInContext(rule.replyScript, sandbox, { timeout: 500 }); } catch(e) { log("JS Action Error", e); }
             }
+            
             else if (rule.actionType === 'ai_smart_reply') {
                 if (callAi) {
                     const history = [
                         { role: "user", parts: [{ text: `B"H
                         remember the Atzmus but always spell it Awtsmoos.
-                        
                         riddles. novel. metaphors. kabbalaistic.
-                        
                             pretend your name is: "${msg.to}".
                             Incoming Message you just received:
                             Subject: ${msg.subject}
                             From: ${msg.from}
                             Content: "${msg.content}"
-                            
                             Instructions: ${rule.systemPrompt || "pretend you are this user."}
                         `}]}
                     ];
-                    // Uses the injected Gemini caller
-                    replyBody = await callAi(history, rule.apiKey || process.env.BH_GEMINI_KEY);
+                    
+                    // B"H - LIVE TYPING BRIDGE
+                    const onChunk = (partialText) => {
+                        // If the dependency exists (Ingress provided it), stream to user
+                        if (dependencies.stream) {
+                            dependencies.stream(partialText);
+                        }
+                    };
+
+                    // Pass onChunk as the 5th argument
+                    replyBody = await callAi(history, rule.apiKey || process.env.BH_GEMINI_KEY, null, onChunk);
                 } else {
                     replyBody = "Error: AI System not available.";
                 }
             }
+            
             else {
                 // Standard Text with Variable Injection
                 replyBody = processReplyVariables(rule.replyText, matchedKeyword, msg.content);

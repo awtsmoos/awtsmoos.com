@@ -131,50 +131,40 @@ function estimateTokens(history) {
  * @param {String} apiKey 
  * @param {String} [preferredModel] - Optional. If provided, this model is tried FIRST.
  */
-module.exports = async function callGemini(fetchImpl, history, apiKey, preferredModel = null) {
+module.exports = /**
+ * Communes with Gemini, cycling through models if limits are hit.
+ * Supports 'onChunk' callback for Real-Time Streaming
+ */
+ async function callGemini(fetchImpl, history, apiKey, preferredModel = null, onChunk = null) {
     if (!apiKey) return "Error: No API Key provided for Wisdom.";
     if (!fetchImpl) return "Error: The vessel has no ability to fetch.";
 
     const estimatedCost = estimateTokens(history);
-    
-    // B"H - Construct the Chariot's Path
-    // Start with the default order (1, 2, 3...)
     let runOrder = [...DEFAULT_MODEL_ORDER];
     
-    // If a specific angel is requested, move it to the front of the line
     if (preferredModel && GEMINI_CONFIG.models[preferredModel]) {
         runOrder = [preferredModel, ...runOrder.filter(m => m !== preferredModel)];
     }
 
-    // Execute the Fallback Loop
     for (const model of runOrder) {
-        
-        // A. Check Limits
         const allowed = checkRateLimit(apiKey, model, estimatedCost);
-        if (!allowed) {
-            continue; // Rate limited locally, try next model
-        }
+        if (!allowed) continue; 
 
-        // B. Attempt Connection
-        // CHANGE 1: Use :streamGenerateContent
         const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${model}:streamGenerateContent?key=${apiKey}`;
         
-        // CHANGE 2: Update Config to match your client logic (Thinking, High Tokens)
         const requestBody = {
             contents: history, 
             generationConfig: {
-                temperature: 0.3, // Low temp for logic/code
+                temperature: 0.3,
                 topP: 0.95,
                 topK: 40,
-                maxOutputTokens: 65536, // Expanded token limit
-                thinkingConfig: {
-                    thinkingBudget: 0 // Default 0 for Flash Lite
-                }
+                maxOutputTokens: 8000,
+                thinkingConfig: { thinkingBudget: 0 } // Flash Lite default
             }
         };
 
         try {
-            console.log(`B"H DEBUG: Gemini attempting model [${model}] (STREAM)...`);
+           // console.log(`B"H DEBUG: Gemini attempting model [${model}] (STREAM)...`);
             
             const response = await fetchImpl(endpoint, {
                 method: 'POST',
@@ -182,41 +172,33 @@ module.exports = async function callGemini(fetchImpl, history, apiKey, preferred
                 body: JSON.stringify(requestBody)
             });
 
-            // C. Google 429 (Too Many Requests) - Limit Hit on Server Side
             if (response.status === 429) {
-                console.warn(`B"H - Google 429 on ${model}. Switching horses...`);
-                recordUsage(apiKey, model, estimatedCost); // Sync local state
+                recordUsage(apiKey, model, estimatedCost);
                 continue; 
             }
 
             if (!response.ok) {
-                let errText = "";
-                try { errText = await response.text(); } catch(e){}
-                console.error(`B"H - ${model} Error ${response.status}: ${errText}`);
-                
-                // If 503 (Overloaded), also try next
                 if (response.status === 503) continue;
-                
                 return `Error: The oracle refused (${response.status}).`;
             }
 
-            // D. Success - Handle Stream Response
-            // Since this is the server side and we need to return the full result eventually,
-            // we await the full JSON. Google's stream endpoint returns a JSON Array of chunks [{}, {}].
+            // B"H - STREAM PROCESSING
             const data = await response.json(); 
             recordUsage(apiKey, model, estimatedCost);
 
-            // CHANGE 3: Aggregate the array of chunks
             if (Array.isArray(data)) {
                 let fullText = "";
                 for (const chunk of data) {
                     if (chunk.candidates && chunk.candidates[0].content && chunk.candidates[0].content.parts) {
-                        fullText += chunk.candidates[0].content.parts[0].text;
+                        const piece = chunk.candidates[0].content.parts[0].text;
+                        fullText += piece;
+                        
+                        // NOTIFY CALLER OF NEW FRAGMENT
+                        if (onChunk) onChunk(fullText); 
                     }
                 }
                 if (fullText) return fullText;
             } 
-            // Fallback for non-array response (unlikely on stream endpoint but safe to keep)
             else if (data.candidates && data.candidates.length > 0) {
                 return data.candidates[0].content.parts[0].text || "";
             }
@@ -225,7 +207,7 @@ module.exports = async function callGemini(fetchImpl, history, apiKey, preferred
             
         } catch (e) {
             console.error(`B"H - Network Error on ${model}`, e.message);
-            continue; // Network blip? Try next model
+            continue; 
         }
     }
 

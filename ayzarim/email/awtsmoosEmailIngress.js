@@ -103,15 +103,36 @@ module.exports = async function ({ sender, recipients, data }) {
                 await rulesEngine.processRules({
                     settings,
                     msg: { from: email, to: r, subject: decodedSubject, content: text },
-                    dependencies: {
-                        callAi: this.callAi ? this.callAi.bind(this) : null,
-                        // Context: 'this' allows helper to access DB/Mail/WS
-                        reply: async (replyText) => {
-                            // B"H - We use the helper directly if available, or local func
-                            await sendSystemReply(this, recipientShort, email, "Re: " + decodedSubject, replyText, true);
-                        },
-                        console: console
-                    }
+                    // ... (Inside the 'if (status !== "request"...' block) ...
+
+            await rulesEngine.processRules({
+                settings,
+                msg: { from: email, to: r, subject: decodedSubject, content: text },
+                dependencies: {
+                    callAi: this.callAi ? this.callAi.bind(this) : null,
+                    
+                    // B"H - AI STREAMING IMPLEMENTATION
+                    stream: (partialContent) => {
+                        // 1. Only stream if Recipient is INTERNAL (Local User)
+                        // Note: 'cleanRecipient' is defined earlier in the loop (e.g. "coby_at_awtsmoos.com")
+                        if (cleanRecipient.includes("awtsmoos.com") && this.ws) {
+                            
+                            // 2. Send "Ghost Typing" packet
+                            // We spoof the 'from' as the cleanSender (the bot's owner)
+                            this.ws.sendToAlias(recipientShort, {
+                                type: 'LIVE_PREVIEW',
+                                from: cleanSender, // e.g. "mybot_at_awtsmoos.com"
+                                content: partialContent
+                            });
+                        }
+                    },
+
+                    reply: async (replyText) => {
+                        await sendSystemReply(this, recipientShort, email, "Re: " + decodedSubject, replyText, true);
+                    },
+                    console: console
+                }
+            
                 });
                 
                 // Legacy Script
