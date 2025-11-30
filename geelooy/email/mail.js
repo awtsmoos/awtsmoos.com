@@ -33,13 +33,30 @@ const state = {
 
 // --- Genesis ---
 
-async function whenLoaded() {
-    if (!window.curAlias) {
+// B"H
+async function whenLoaded(e) {
+    // 1. Determine Identity from Window or Event
+    let id = window.curAlias;
+    
+    // If triggered by event, prefer the event detail
+    if (e && e.detail && typeof e.detail.id !== 'undefined') {
+        id = e.detail.id;
+    }
+
+    // 2. Gatekeeper: If no identity (null or undefined), show lock screen
+    if (!id) {
+        state.alias = null;
+        window.curAlias = null;
         document.getElementById('loginOverlay').classList.remove('hidden');
+        document.getElementById('appContainer').classList.add('hidden');
         return;
     }
-    state.alias = window.curAlias;
+
+    // 3. Identity Confirmed: Open the App
+    state.alias = id;
+    window.curAlias = id; // Sync global
     document.getElementById('displayAlias').textContent = state.alias;
+    
     document.getElementById('loginOverlay').classList.add('hidden');
     document.getElementById('appContainer').classList.remove('hidden');
 
@@ -49,8 +66,11 @@ async function whenLoaded() {
     // Initial Fetch: Snippets Only
     await refreshSnippets();
     
-    // Poll for new snippets
-    setInterval(refreshSnippets, 30000);
+    // Poll for new snippets if not already polling
+    // (Optional: clear previous interval if this function runs multiple times)
+    if(!window._mailPoll) {
+        window._mailPoll = setInterval(refreshSnippets, 30000);
+    }
 }
 
 
@@ -1244,11 +1264,18 @@ function toggleView(newView) {
 }
 
 
+
+// B"H
 // Bind to the infinite cycle
-if (window.curAlias) whenLoaded();
-else addEventListener("awtsmoosAliasChange", whenLoaded);
 
+// 1. Check if we already have the alias (Race Condition Fix)
+if (window.curAlias) {
+    whenLoaded();
+}
 
+// 2. Listen for changes (Login / Logout / Switch Alias)
+// We use window.addEventListener because profileDropdown dispatches to window
+window.addEventListener("awtsmoosAliasChange", whenLoaded);
 
 /**
  * B"H - The Alchemist's Crucible: Mixed Mode
