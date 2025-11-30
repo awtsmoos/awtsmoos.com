@@ -5,7 +5,6 @@
  * Module Exports & Streaming Logic
  */
 
-const { TextDecoder } = require('util');
 
 const GEMINI_CONFIG = {
     models: {
@@ -91,6 +90,21 @@ function extractTextFromFullJson(data) {
 
 
 // --- 4. THE ORACLE FUNCTION ---
+// B"H
+/**
+ * awtsmoosAi.js
+ * Native HTTPS + State-Preserving Stream Parser
+ * 
+ * Correctly handles:
+ * 1. Brackets {} inside the AI's text (Code blocks, etc.)
+ * 2. Split packets (Network fragmentation)
+ * 3. Escaped quotes \" inside strings
+ */
+
+const https = require('https'); 
+
+
+
 module.exports = async function callGemini(fetchImpl, history, apiKey, preferredModel = null, onChunk = null) {
     if (!apiKey) return "Error: No API Key provided for Wisdom.";
 
@@ -102,82 +116,111 @@ module.exports = async function callGemini(fetchImpl, history, apiKey, preferred
     }
 
     for (const model of runOrder) {
-        
+        if (!checkRateLimit(apiKey, model, estimatedCost)) continue;
+
         const hostname = "generativelanguage.googleapis.com";
         const path = `/v1beta/models/${model}:streamGenerateContent?key=${apiKey}`;
         
         try {
             const finalResult = await new Promise((resolve, reject) => {
                 const req = https.request({
-                    hostname, path, method: 'POST',
+                    hostname,
+                    path,
+                    method: 'POST',
                     headers: { 'Content-Type': 'application/json' }
                 }, (res) => {
                     if (res.statusCode !== 200) {
-                        res.resume(); // Drain
+                        res.resume(); 
                         if (res.statusCode === 429 || res.statusCode === 503) return reject({ retry: true });
                         return reject(new Error(`Gemini Error: ${res.statusCode}`));
                     }
 
                     res.setEncoding('utf8');
 
-                    // B"H - ROBUST STREAM BUFFER
-                    let rawAccumulator = "";
-                    let lastEmittedLength = 0;
+                    let buffer = "";
+                    let fullAggregatedText = ""; 
+                    
+                    // --- STATE VARIABLES MUST BE HERE (Outside on('data')) ---
+                    let balance = 0;
+                    let inString = false;
+                    let escape = false;
 
                     res.on('data', (chunk) => {
-                        rawAccumulator += chunk;
+                        buffer += chunk;
+                        
+                        let startIndex = 0;
 
-                        // --- OPTIMISTIC ARRAY PARSING (Your Trusted Logic) ---
-                        try {
-                            let candidate = rawAccumulator.trim();
-                            if (!candidate.startsWith("[")) return; 
+                        // Iterate through the buffer to find complete JSON objects
+                        // We modify 'buffer' as we go, so we use a while loop or careful indexing
+                        // Better: Scan linearly and slice buffer at the end
+                        
+                        let i = 0;
+                        while (i < buffer.length) {
+                            const char = buffer[i];
 
-                            // Temporarily close array
-                            if (!candidate.endsWith("]")) candidate += "]";
-
-                            const ar = JSON.parse(candidate);
-                            let currentFullText = "";
+                            // 1. Handle String State (Ignore brackets inside text)
+                            if (char === '"' && !escape) {
+                                inString = !inString;
+                            }
                             
-                            for (const item of ar) {
-                                currentFullText += (item?.candidates?.[0]?.content?.parts?.[0]?.text || "");
+                            // Handle Escapes (e.g., \" or \\)
+                            if (inString) {
+                                if (char === '\\' && !escape) {
+                                    escape = true;
+                                } else {
+                                    escape = false;
+                                }
+                                i++;
+                                continue; // Skip bracket checks while in string
                             }
 
-                            // If we have new text, emit immediately
-                            if (currentFullText.length > lastEmittedLength) {
-                                if (onChunk) onChunk(currentFullText);
-                                lastEmittedLength = currentFullText.length;
+                            // 2. Bracket Counting (Structure Only)
+                            if (char === '{') {
+                                balance++;
+                            } else if (char === '}') {
+                                balance--;
+                                
+                                // 3. Found a complete JSON object at root level
+                                if (balance === 0) {
+                                    const jsonStr = buffer.substring(0, i + 1);
+                                    
+                                    // Process this object
+                                    try {
+                                        // Ignore the opening '[' or ',' if they are stuck to the front
+                                        const cleanJson = jsonStr.replace(/^[,\s\[]+/, "");
+                                        
+                                        if (cleanJson.startsWith("{")) {
+                                            const json = JSON.parse(cleanJson);
+                                            const newText = json.candidates?.[0]?.content?.parts?.[0]?.text || "";
+                                            
+                                            if (newText) {
+                                                fullAggregatedText += newText;
+                                                if (onChunk) onChunk(fullAggregatedText);
+                                            }
+                                        }
+                                    } catch (e) {
+                                        // If parse fails, it might be the starting '[' array bracket
+                                        // We safely ignore non-object chunks
+                                    }
+
+                                    // 4. Remove processed part from buffer
+                                    buffer = buffer.substring(i + 1);
+                                    i = -1; // Reset index since buffer shrank
+                                }
                             }
-                        } catch (e) {
-                            // Syntax error (split packet)? Ignore and wait for next chunk.
+                            i++;
                         }
                     });
 
-                    res.on('end', () => {
-                        // Final consistency check
-                         try {
-                           let candidate = rawAccumulator.trim();
-                           if(!candidate.endsWith("]")) candidate += "]";
-                           const ar = JSON.parse(candidate);
-                           let finalTxt = "";
-                           for(const item of ar) finalTxt += (item?.candidates?.[0]?.content?.parts?.[0]?.text || "");
-                           resolve(finalTxt);
-                        } catch(e) { resolve(rawAccumulator); }
-                    });
+                    res.on('end', () => resolve(fullAggregatedText));
                 });
 
                 req.on('error', (e) => reject(e));
-                
-                req.write(JSON.stringify({ 
-                    contents: history,
-                    generationConfig: { maxOutputTokens: 8000 }
-                }));
+                req.write(JSON.stringify({ contents: history, generationConfig: { maxOutputTokens: 8000 } }));
                 req.end();
             });
 
-            // Return the final result string
-            if (finalResult && typeof finalResult === 'string' && finalResult.length > 0) {
-                 return finalResult;
-            }
+            if (finalResult && typeof finalResult === 'string' && finalResult.length > 0) return finalResult;
 
         } catch (err) {
             if (err.retry) continue;

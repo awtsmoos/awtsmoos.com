@@ -402,7 +402,7 @@ async function sendMail({ $i, userid, asAliasId, toAliasId, toEmail }) {
                     msg: { from: asAliasId, to: recipientShort, subject, content },
                     dependencies: {
                         callAi: $i.callAi, 
-                        reply: (text) => sendSystemLocalMail($i, recipientShort, senderShort, "Re: " + subject, text),
+                        reply: (text) => sendSystemLocalMail($i, recipientShort, senderShort, subject, text),
                         console: console
                     }
                 });
