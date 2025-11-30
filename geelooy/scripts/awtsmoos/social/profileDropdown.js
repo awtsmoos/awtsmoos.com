@@ -79,6 +79,7 @@ export default function createProfileDropdown(parentElement) {
     // Session check
     var notLogged = container.querySelector(".notLoggedIn");
     var logged = container.querySelector(".loggedIn");
+
     fetch(location.origin + '/api/social', { credentials: 'include' })
         .then(response => response.json())
         .then(data => {
@@ -87,29 +88,46 @@ export default function createProfileDropdown(parentElement) {
             const username = session?.info?.userId;
 
             document.getElementById('usernameDisplay').textContent = username;
+            
             if (username) {
+                // LOGGED IN
                 logged.classList.remove("hidden");
                 notLogged.classList.add("hidden");
+                
                 if (alias) {
                     window.curAlias = alias;
-                    dispatchEvent(new CustomEvent('awtsmoosAliasChange', { detail: { id: alias } }));
-                    console.log("GOT",curAlias)
                     const aliasSection = document.getElementById('aliasSection');
                     aliasSection.classList.remove('hidden');
                     document.querySelectorAll('.currentAliasName').forEach(element => {
                         element.textContent = '@' + alias;
                         if (element.tagName === 'A') element.href = '/@' + alias;
                     });
+                    
+                    // Fire Success Event
+                    window.dispatchEvent(new CustomEvent('awtsmoosAliasChange', { detail: { id: alias } }));
+                } else {
+                    // Logged in but no alias selected yet
+                    window.dispatchEvent(new CustomEvent('awtsmoosAliasChange', { detail: { id: null } }));
                 }
+
                 document.getElementById('logoutSection').innerHTML = `<a href="/logout?redirect=${
                     encodeURIComponent(location.href)
                 }">Logout</a>`;
             } else {
+                // NOT LOGGED IN
                 logged.classList.add("hidden");
                 notLogged.classList.remove("hidden");
+                
+                // IMPORTANT: Fire event with null so the app knows to show the Login Screen
+                window.curAlias = null;
+                window.dispatchEvent(new CustomEvent('awtsmoosAliasChange', { detail: { id: null } }));
             }
         })
-        .catch(error => console.error('Error fetching session:', error));
+        .catch(error => {
+            console.error('Error fetching session:', error);
+            // Even on error, tell the app we are done loading so it doesn't hang
+            window.dispatchEvent(new CustomEvent('awtsmoosAliasChange', { detail: { id: null } }));
+        });
 
     // Signin dropdown logic
     const signinButton = document.getElementById('signinButton');
@@ -262,32 +280,35 @@ export default function createProfileDropdown(parentElement) {
     }
 
     let profileBack = null;
-    dropdownProfile.addEventListener('click', () => {
-        dropdownify(awtsmoosProfileDropContent, awtsDownIndicator);
-        if (!awtsmoosProfileDropContent.classList.contains('hidden')) {
-            profileBack = makeBackdrop();
-        } else if (profileBack) {
-            profileBack.remove();
-        }
-    });
+    if(dropdownProfile) {
+        dropdownProfile.addEventListener('click', () => {
+            dropdownify(awtsmoosProfileDropContent, awtsDownIndicator);
+            if (!awtsmoosProfileDropContent.classList.contains('hidden')) {
+                profileBack = makeBackdrop();
+            } else if (profileBack) {
+                profileBack.remove();
+            }
+        });
+    }
 
     let isShowingAliases = false;
-    switchAlias.addEventListener('click', async () => {
-        dropdownify(aliasInfo, aliasIndicator);
-        isShowingAliases = !isShowingAliases;
-        if (!aliasesGot) {
-            try {
-                aliasesGot = await (await fetch(`/api/social/aliases/details?${new URLSearchParams({
-                    propertyMap: JSON.stringify({ name: true, id: true })
-                })}`, { credentials: 'include' })).json();
-            } catch (e) {
-                console.error('Error fetching aliases:', e);
+    if(switchAlias) {
+        switchAlias.addEventListener('click', async () => {
+            dropdownify(aliasInfo, aliasIndicator);
+            isShowingAliases = !isShowingAliases;
+            if (!aliasesGot) {
+                try {
+                    aliasesGot = await (await fetch(`/api/social/aliases/details?${new URLSearchParams({
+                        propertyMap: JSON.stringify({ name: true, id: true })
+                    })}`, { credentials: 'include' })).json();
+                } catch (e) {
+                    console.error('Error fetching aliases:', e);
+                }
             }
-        }
-        showAliases(aliasesGot || []);
-    });
+            showAliases(aliasesGot || []);
+        });
+    }
 
-    
     
     function showAliases(aliases) {
         aliasInfo.innerHTML = '';
@@ -313,7 +334,7 @@ export default function createProfileDropdown(parentElement) {
                     })).json();
                     if (resp.success) {
                         window.curAlias = w.id;
-                        dispatchEvent(new CustomEvent('awtsmoosAliasChange', { detail: { id: w.id } }));
+                        window.dispatchEvent(new CustomEvent('awtsmoosAliasChange', { detail: { id: w.id } }));
                         showAliases(aliasesGot);
                     } else {
                         h.innerHTML = 'Couldn\'t set default';
@@ -348,7 +369,6 @@ export default function createProfileDropdown(parentElement) {
     
         createAliasToggle.addEventListener('click', () => {
             dropdownify(createAliasDropdown, createAliasArrow, "right2");
-           
         });
     
     
