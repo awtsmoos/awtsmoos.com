@@ -245,6 +245,7 @@ display:flex;
     border-radius: 18px; font-size: 0.95rem; line-height: 1.5;
     position: relative; box-shadow: 0 4px 15px rgba(0,0,0,0.2);
     display: flex; flex-direction: column;
+    white-space: pre-wrap;
 }
 
 /* Sender Name Small Header */
@@ -1201,6 +1202,7 @@ label a:hover { text-decoration: underline; }
     border: 1px dashed var(--neon-gold) !important;
     color: var(--text-secondary) !important;
     font-style: italic;
+    white-space: pre-wrap;
     transition: all 0.1s ease;
 }
 @keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 0.8; } 100% { opacity: 0.5; } }
