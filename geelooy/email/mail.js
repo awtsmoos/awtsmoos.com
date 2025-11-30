@@ -1237,14 +1237,19 @@ else addEventListener("awtsmoosAliasChange", whenLoaded);
  */
 /**
  * B"H - Simple Markdown Parser
- * Handles Bold (**), Italic (*), Headers (#), and Newlines
+ * Handles Headers (H1-H6), Bold, Italic, and preserves structure
  */
 function parseSimpleMarkdown(text) {
     if (!text) return "";
     let html = text;
 
-    // 1. Headers (e.g. # Title)
-    html = html.replace(/^#\s+(.*)$/gm, '<h3>$1</h3>');
+    // 1. Headers (H1-H6) - Supports #, ##, ###, etc.
+    html = html.replace(/^#{6}\s+(.*)$/gm, '<h6>$1</h6>');
+    html = html.replace(/^#{5}\s+(.*)$/gm, '<h5>$1</h5>');
+    html = html.replace(/^#{4}\s+(.*)$/gm, '<h4>$1</h4>');
+    html = html.replace(/^#{3}\s+(.*)$/gm, '<h3>$1</h3>');
+    html = html.replace(/^#{2}\s+(.*)$/gm, '<h2>$1</h2>');
+    html = html.replace(/^#\s+(.*)$/gm, '<h1>$1</h1>');
     
     // 2. Bold (**text**)
     html = html.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
@@ -1253,10 +1258,12 @@ function parseSimpleMarkdown(text) {
     html = html.replace(/\*([^\*]+)\*/g, '<i>$1</i>');
     html = html.replace(/_([^_]+)_/g, '<i>$1</i>');
 
-    // 4. Preserve Whitespace (Newlines to <br>)
-    // We only do this if it's NOT inside a pre/code block (handled by formatContent usually, 
-    // but for Ghost Bubble we do it raw).
-    html = html.replace(/\n/g, '<br>');
+    // 4. Blockquotes
+    html = html.replace(/^>\s+(.*)$/gm, '<blockquote>$1</blockquote>');
+
+    // Note: We do NOT replace \n with <br> here because the ghost bubble container 
+    // now uses 'white-space: pre-wrap' which handles newlines natively.
+    // Converting them to <br> + pre-wrap would cause double spacing.
 
     return html;
 }
