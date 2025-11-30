@@ -306,22 +306,40 @@ function renderMessages(threadId, forceScrollBottom = false) {
     const container = document.getElementById('messagesContainer');
     const msgs = state.threads[threadId] || [];
     
-    // Preserve scroll position if prepending
+    // --- 1. PRESERVE GHOST STATE ---
+    // The Ghost Bubble is ephemeral (not in state.threads), so we must 
+    // grab its text before we wipe the container.
+    const existingGhost = document.getElementById('ghostBubble');
+    let savedGhostText = null;
+    
+    if (existingGhost) {
+        const textEl = document.getElementById('ghostText');
+        if (textEl) {
+            savedGhostText = textEl.textContent;
+        }
+    }
+
+    // --- 2. CAPTURE SCROLL POSITION ---
+    // Essential for "infinite scroll up" so the view doesn't jump.
     const oldScrollHeight = container.scrollHeight;
     const oldScrollTop = container.scrollTop;
 
+    // --- 3. WIPE CONTAINER ---
     container.innerHTML = '';
 
     if (msgs.length === 0 && !state.isLoadingHistory) {
         container.innerHTML = '<div class="empty-state">No messages here.</div>';
-        return;
     }
 
+    // --- 4. RENDER MESSAGES ---
     let lastDate = null;
     msgs.forEach(msg => {
         const ts = msg.time || msg.timeSent;
+        if (!ts) return; // Skip invalid data
+
         const dateStr = new Date(ts).toLocaleDateString();
         
+        // Add Date Separator
         if (dateStr !== lastDate) {
             const sep = document.createElement('div');
             sep.className = 'date-separator';
@@ -333,10 +351,20 @@ function renderMessages(threadId, forceScrollBottom = false) {
         container.appendChild(createMessageRow(msg));
     });
 
-    if (forceScrollBottom) {
-        setTimeout(() => container.scrollTop = container.scrollHeight, 0);
+    // --- 5. RESTORE GHOST BUBBLE ---
+    // If the AI was typing, put the bubble back at the bottom immediately.
+    if (savedGhostText !== null) {
+        renderGhostBubble(savedGhostText);
+    }
+
+    // --- 6. HANDLE SCROLLING ---
+    // If we forced scroll OR if we are currently ghost typing, go to bottom.
+    if (forceScrollBottom || savedGhostText !== null) {
+        setTimeout(() => {
+            container.scrollTop = container.scrollHeight;
+        }, 0);
     } else {
-        // Restore position (for pagination)
+        // Otherwise, restore position (e.g. after loading history)
         const newScrollHeight = container.scrollHeight;
         container.scrollTop = oldScrollTop + (newScrollHeight - oldScrollHeight);
     }
