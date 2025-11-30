@@ -4,8 +4,8 @@
  * The Urim VeTumim (The Oracle of Light)
  * 
  * ROBUST EDITION: Uses Native HTTPS + Regex Stream Scanning.
- * Fixes "Ghost Typing" by ignoring complex JSON structure and 
- * extracting text deltas directly from the stream.
+ * Fixes "Ghost Typing" by ignoring complex JSON structure (Arrays) and 
+ * extracting text deltas directly from the stream buffer.
  */
 
 const https = require('https'); 
@@ -104,7 +104,9 @@ module.exports = async function callGemini(fetchImpl, history, apiKey, preferred
                         buffer += chunk;
                         
                         // B"H - Regex Stream Scanner
-                        // Matches "text": "..." while respecting escaped quotes
+                        // Matches "text": "..." while respecting escaped quotes.
+                        // We use Regex instead of JSON.parse because Gemini wraps the response in an Array [ ... ]
+                        // causing standard bracket counters to wait until the END of the stream.
                         const regex = /"text"\s*:\s*"((?:[^"\\]|\\.)*)"/g;
                         
                         let match;
@@ -120,6 +122,8 @@ module.exports = async function callGemini(fetchImpl, history, apiKey, preferred
                                 
                                 if (textSegment) {
                                     fullAggregatedText += textSegment;
+                                    
+                                    // B"H - FIRE THE CHUNK IMMEDIATELY
                                     if (onChunk) onChunk(fullAggregatedText);
                                 }
                             } catch (e) {
@@ -131,7 +135,7 @@ module.exports = async function callGemini(fetchImpl, history, apiKey, preferred
                         }
 
                         // Optimization: Discard processed parts of the buffer
-                        // But ONLY if we matched something to avoid slicing mid-stream if regex didn't match yet
+                        // But ONLY if we matched something.
                         if (lastIndex > 0) {
                             buffer = buffer.substring(lastIndex);
                         }
