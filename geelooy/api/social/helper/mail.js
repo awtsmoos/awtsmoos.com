@@ -1,6 +1,7 @@
 /**
  * B"H
  * Unified Email API
+ * Fully implemented: Capsules, Loop Protection, Remote Auto-Reply
  */
 
 module.exports = {
@@ -13,14 +14,49 @@ module.exports = {
     getSettings,
     approveSender,
     getUnreadCount
-}
+};
+
 var vm = require('vm');
 var { NO_LOGIN, sp } = require("./_awtsmoos.constants.js");
 var { loggedIn, er, myOpts } = require("./general.js");
 var { verifyAliasOwnership } = require("./alias.js");
 
+// --- HELPER: Extract HTML Capsules ---
+function extractCapsules(text) {
+    let cleanText = text || "";
+    let attachments = [];
+    let counter = 1;
 
-// B"H
+    // 1. Check for Markdown HTML Blocks (Capsules)
+    const capsuleRegex = /```html\s*([\s\S]*?)```/gi;
+    if (cleanText.match(capsuleRegex)) {
+        cleanText = cleanText.replace(capsuleRegex, (match, code) => {
+            const filename = `artifact_${Date.now()}_${counter++}.html`;
+            attachments.push({
+                filename: filename,
+                content: code, 
+                contentType: 'text/html'
+            });
+            return `\n[Attached HTML Artifact: ${filename}]\n`;
+        });
+    }
+
+    // 2. Check for Full Document Paste
+    if (/^\s*<!DOCTYPE html/i.test(cleanText) || /^\s*<html/i.test(cleanText)) {
+        const filename = `document_${Date.now()}.html`;
+        attachments.push({
+            filename: filename,
+            content: cleanText,
+            contentType: 'text/html'
+        });
+        cleanText = "Please find the attached HTML document.";
+    }
+
+    return { cleanText, attachments };
+}
+
+// --- API FUNCTIONS ---
+
 async function getUnreadCount({ $i, userid, aliasId }) {
     if (!loggedIn($i)) return er(NO_LOGIN);
     if (!aliasId) return er({ message: "aliasId required" });
@@ -35,19 +71,16 @@ async function getUnreadCount({ $i, userid, aliasId }) {
         var friendFolders = await $i.db.get(threadsPath);
         if (!friendFolders) return { count: 0 };
         
-        // Handle if DB returns object vs array
         var folders = Array.isArray(friendFolders) ? friendFolders : Object.keys(friendFolders);
         if (folders.length === 0) return { count: 0 };
 
         var totalUnread = 0;
 
-        // Iterate all threads to count incoming unread messages
         for (var folderName of folders) {
             var threadData = await $i.db.get(`${threadsPath}/${folderName}`);
             
             if (threadData && typeof threadData === 'object') {
                 Object.values(threadData).forEach(m => {
-                    // Check if message is incoming and explicitly unread
                     if (m && m.direction === 'incoming' && m.read === false) {
                         totalUnread++;
                     }
@@ -64,7 +97,6 @@ async function getUnreadCount({ $i, userid, aliasId }) {
 
 function parseEmailEntry(entry, id, friendName) {
     if (entry.rawData) {
-        // Legacy/Raw Fallback (If ingress parser failed previously)
         var parts = entry.rawData.split("\r\n\r\n");
         var headers = parts[0] || "";
         var content = parts.slice(1).join("\r\n\r\n") || "";
@@ -81,14 +113,12 @@ function parseEmailEntry(entry, id, friendName) {
             isRaw: true
         };
     } else {
-        // Standard Object (Created by new Ingress or Local)
         return {
             id,
             from: entry.from,
             fromName: entry.fromName, 
             fromEmail: entry.fromEmail, 
             subject: entry.subject,
-            // B"H - Ensure content is ALWAYS a string, even if DB has a number
             content: String(entry.content || ""), 
             attachments: entry.attachments || [], 
             timeSent: parseInt(entry.time) || Date.now(),
@@ -96,11 +126,9 @@ function parseEmailEntry(entry, id, friendName) {
             direction: entry.direction,
             isRaw: false
         };
-    
     }
 }
 
-// B"H
 async function getMail({ $i, userid, aliasId, threadId, page = 1, pageSize = 20, view = 'threads' }) {
     if (!loggedIn($i)) return er(NO_LOGIN);
     if (!aliasId) return er({ message: "aliasId required" });
@@ -127,7 +155,7 @@ async function getMail({ $i, userid, aliasId, threadId, page = 1, pageSize = 20,
         if (!friendFolders || (Array.isArray(friendFolders) && friendFolders.length === 0)) return [];
         if (typeof friendFolders === 'object' && !Array.isArray(friendFolders)) friendFolders = Object.keys(friendFolders);
 
-        // --- A. THREADS VIEW ---
+        // --- THREADS VIEW ---
         if (view === 'threads') {
             var grouped = {}; 
 
@@ -140,7 +168,7 @@ async function getMail({ $i, userid, aliasId, threadId, page = 1, pageSize = 20,
                         var p = parseEmailEntry(m, `${folderName}:${key}`, folderName);
                         p.correspondent = folderName; 
                         p.uid = key;
-                        p.rawRead = m.read; // Keep raw status for counting
+                        p.rawRead = m.read; 
                         return p;
                     }).filter(Boolean);
 
@@ -148,7 +176,6 @@ async function getMail({ $i, userid, aliasId, threadId, page = 1, pageSize = 20,
                         msgs.sort((a, b) => b.timeSent - a.timeSent);
                         var latest = msgs[0];
                         
-                        // Count actual unread in DB
                         var unreadCount = 0;
                         msgs.forEach(m => {
                             if (!m.rawRead && m.direction === 'incoming') unreadCount++;
@@ -169,14 +196,12 @@ async function getMail({ $i, userid, aliasId, threadId, page = 1, pageSize = 20,
             return Object.values(grouped).sort((a, b) => b.timeSent - a.timeSent);
         }
 
-        // --- B. MESSAGES VIEW (WITH AUTO-READ) ---
+        // --- MESSAGES VIEW ---
         else if (view === 'messages' && threadId) {
             var coreTarget = normalize(threadId);
             var pathsToCheck = getVariations(coreTarget);
             var mergedMessages = [];
             var seenIds = new Set();
-            
-            // Collect all updates to be made
             var updatesPromise = [];
 
             for (var p of pathsToCheck) {
@@ -188,14 +213,8 @@ async function getMail({ $i, userid, aliasId, threadId, page = 1, pageSize = 20,
                         if(seenIds.has(key)) return;
                         seenIds.add(key);
 
-                        // B"H - AUTO-READ LOGIC
-                        // If we are serving this message, and it is unread & incoming,
-                        // we mark it as read immediately in the DB.
                         if (m.direction === 'incoming' && m.read === false) {
-                            m.read = true; // Update memory for response
-                            
-                            // Queue the disk write
-                            // Note: We use updateEntry to persist the change
+                            m.read = true; 
                             updatesPromise.push(
                                 $i.db.updateEntry(`${threadsPath}/${p}`, { key: key, value: m })
                             );
@@ -209,7 +228,6 @@ async function getMail({ $i, userid, aliasId, threadId, page = 1, pageSize = 20,
                 }
             }
 
-            // Execute DB writes in background (Fire & Forget, but server-side)
             if (updatesPromise.length > 0) {
                 Promise.all(updatesPromise).catch(e => console.error("Auto-read DB update failed", e));
             }
@@ -229,47 +247,6 @@ async function getMail({ $i, userid, aliasId, threadId, page = 1, pageSize = 20,
     }
 }
 
-
-// B"H
-// Helper to extract HTML Capsules for External Email
-function extractCapsules(text) {
-    let cleanText = text || "";
-    let attachments = [];
-    let counter = 1;
-
-    // 1. Check for Markdown HTML Blocks (Capsules)
-    // Matches ```html ... ``` content
-    const capsuleRegex = /```html\s*([\s\S]*?)```/gi;
-    
-    if (cleanText.match(capsuleRegex)) {
-        cleanText = cleanText.replace(capsuleRegex, (match, code) => {
-            const filename = `artifact_${Date.now()}_${counter++}.html`;
-            attachments.push({
-                filename: filename,
-                content: code, // The HTML string
-                contentType: 'text/html'
-            });
-            return `\n[Attached HTML Artifact: ${filename}]\n`;
-        });
-    }
-
-    // 2. Check for Full Document Paste (Raw HTML)
-    // If the entire message looks like a doc, attach it instead of putting it in body
-    if (/^\s*<!DOCTYPE html/i.test(cleanText) || /^\s*<html/i.test(cleanText)) {
-        const filename = `document_${Date.now()}.html`;
-        attachments.push({
-            filename: filename,
-            content: cleanText,
-            contentType: 'text/html'
-        });
-        cleanText = "Please find the attached HTML document.";
-    }
-
-    return { cleanText, attachments };
-}
-
-// B"H
-// Send Mail (Internal + External Logic)
 async function sendMail({ $i, userid, asAliasId, toAliasId, toEmail }) {
     console.log(`B"H DEBUG: sendMail INVOKED. From: [${asAliasId}] ToAlias: [${toAliasId}] ToEmail: [${toEmail}]`);
 
@@ -295,13 +272,10 @@ async function sendMail({ $i, userid, asAliasId, toAliasId, toEmail }) {
 
     // 3. Resolve Recipient Logic
     if (toAliasId) {
-        // Clean up input
         let cleanId = toAliasId.toLowerCase().trim();
         
-        // A. Check if it explicitly looks like our domain
         if (cleanId.includes("awtsmoos.com")) {
             let core = cleanId.split(/[@_]/)[0];
-            
             if (await checkLocalDB(core)) {
                 isLocal = true;
                 recipientShort = core;
@@ -313,7 +287,6 @@ async function sendMail({ $i, userid, asAliasId, toAliasId, toEmail }) {
                 targetEmailDisplay = cleanId.replace("_at_", "@");
             }
         }
-        // B. Check if it's just a short name "abarbanel"
         else if (!cleanId.includes("@") && !cleanId.includes("_at_")) {
              if (await checkLocalDB(cleanId)) {
                 isLocal = true;
@@ -324,7 +297,6 @@ async function sendMail({ $i, userid, asAliasId, toAliasId, toEmail }) {
                  return er({ message: "Recipient alias not found locally", code: "RCPT_NOT_FOUND" });
             }
         }
-        // C. Complex external ID
         else {
             isLocal = false;
             recipientFull = cleanId.replace("@", "_at_");
@@ -440,21 +412,18 @@ async function sendMail({ $i, userid, asAliasId, toAliasId, toEmail }) {
         } else {
             // === 6. EXTERNAL SEND (SMTP) ===
             
-            // A. Extract Capsules (Using the helper defined in file scope)
+            // A. Extract Capsules
             var { cleanText, attachments } = extractCapsules(content);
             var myFullEmail = `${senderShort}@awtsmoos.com`;
             
             // B. Force HTML Rendering
-            // If it doesn't look like a full HTML doc, wrap it in a div and preserve newlines
             let finalHtml = cleanText;
             if (!/^\s*<(div|p|html|body|table)/i.test(finalHtml)) {
-                // Convert \n to <br> so it renders correctly in Gmail/Outlook
                 finalHtml = `<div dir="auto" style="font-family:sans-serif; font-size:14px;">
                     ${cleanText.replace(/\n/g, '<br>')}
                 </div>`;
             }
 
-            // C. Explicitly tell the client this is HTML
             var extraHeaders = {
                 'Content-Type': 'text/html; charset=utf-8'
             };
@@ -464,11 +433,10 @@ async function sendMail({ $i, userid, asAliasId, toAliasId, toEmail }) {
                     myFullEmail, 
                     targetEmailDisplay, 
                     subject, 
-                    finalHtml, // Send the HTML version
+                    finalHtml, 
                     extraHeaders,
-                    attachments // Pass the extracted capsules/attachments
+                    attachments 
                 );
-                
                 return { success: { message: "Sent via SMTP (HTML + Capsules)" } };
             }
             
@@ -485,14 +453,10 @@ async function deleteMail({ $i, userid, aliasId, messageId }) {
     if (!loggedIn($i)) return er(NO_LOGIN);
     if (!aliasId) return er({ message: "aliasId required" });
 
-    // Verify ownership
     var verified = await verifyAliasOwnership(aliasId, $i, userid);
     if (!verified) return er({ message: "Not your alias" });
 
-    // ID Format: friend_name:timestamp
     var parts = messageId.split(":");
-    if (parts.length < 2) return er({ message: "Invalid ID format" });
-
     var friendName = parts[0];
     var timestamp = parts[1];
     var myFolder = `${aliasId}_at_awtsmoos.com`;
@@ -531,18 +495,14 @@ async function setEmailAsRead({ $i, userid, aliasId, messageId }) {
     }
 }
 
-
 async function deleteThread({ $i, userid, aliasId, threadId }) {
     if (!loggedIn($i)) return er(NO_LOGIN);
-    
     var verified = await verifyAliasOwnership(aliasId, $i, userid);
     if (!verified) return er({ message: "Auth fail" });
 
-    // Path: /emails/my_at_awtsmoos/threads/friend_at_gmail
     var myFolder = `${aliasId}_at_awtsmoos.com`;
     var path = `/emails/${myFolder}/threads/${threadId}`;
 
-    // DosDB delete supports recursive directory deletion
     var res = await $i.db.delete(path);
     return { success: true, removed: res };
 }
@@ -566,18 +526,16 @@ async function saveSettings({ $i, userid, aliasId, settings }) {
     var verified = await verifyAliasOwnership(aliasId, $i, userid);
     if (!verified) return er({ message: "Auth fail" });
 
-    // Parse if sent as string
     if(typeof settings === 'string') {
         try { settings = JSON.parse(settings); } catch(e){}
     }
 
     var path = `/social/aliases/${aliasId}/emailSettings`;
-    await $i.db.write(path, settings); // Use write (overwrite) not append
+    await $i.db.write(path, settings); 
     return { success: true };
 }
 
 async function approveSender({ $i, userid, aliasId, senderId }) {
-    // 1. Add to approved list
     var settings = await getSettings({ $i, userid, aliasId });
     if(settings.error) return settings;
     
@@ -585,122 +543,82 @@ async function approveSender({ $i, userid, aliasId, senderId }) {
     settings.approved[senderId] = true;
     
     await saveSettings({ $i, userid, aliasId, settings });
-
-    // 2. Mark existing messages in that thread as "inbox" (Optional, UI can just treat them as ok)
-    // To do this strictly, we'd iterate the thread messages and update status.
-    // For now, simpler: UI checks whitelist.
-    
     return { success: true, message: "Sender approved" };
 }
 
-
-
-// B"H - LOCAL INTELLIGENCE HELPERS
-
+// B"H - Updated Helper to handle both LOCAL and EXTERNAL system replies
+// This prevents "Remote Starvation" and fixes "Infinite Loops"
 async function sendSystemLocalMail($i, fromAlias, toAlias, subject, content) {
-    // B"H - Local System Mail (Bot / Auto-Reply)
-    
-    // Normalize aliases to be safe
     var fromShort = fromAlias.split('_at_')[0].split('@')[0];
     var toShort = toAlias.split('_at_')[0].split('@')[0];
     
+    // Detect if Recipient is External (Contains @ but not awtsmoos.com)
+    var isExternal = toAlias.includes("@") && !toAlias.includes("awtsmoos.com");
+    // Also treat as external if it looks like "friend_at_gmail"
+    if (toAlias.includes("_at_") && !toAlias.includes("awtsmoos")) isExternal = true;
+
     var time = Date.now();
     var fromFolder = `${fromShort}_at_awtsmoos.com`;
-    var toFolder = `${toShort}_at_awtsmoos.com`;
-    var targetEmail = `${toShort}@awtsmoos.com`;
     
-    // Safeguard Content for Substring calls
+    // Normalize Recipient Folder Name
+    var toFolder = toAlias;
+    if (isExternal) {
+        toFolder = toAlias.replace(/@/g, "_at_").replace(/[<>]/g, "");
+    } else {
+        toFolder = `${toShort}_at_awtsmoos.com`;
+    }
+    
+    var targetEmail = isExternal ? toAlias.replace("_at_", "@") : `${toShort}@awtsmoos.com`;
     content = String(content || "");
 
     try {
-        // 1. Write to Sender's Outbox (The Bot)
+        // 1. Write to Sender's Outbox (The Bot's Memory)
         await $i.db.appendToObj(`/emails/${fromFolder}/threads/${toFolder}`, {
             key: time + "",
-            value: {
-                from: fromShort, to: targetEmail, subject, content, time, 
-                read: true, direction: "outgoing"
-            }
+            value: { from: fromShort, to: targetEmail, subject, content, time, read: true, direction: "outgoing" }
         });
 
-        // 2. Write to Recipient's Inbox (The Trigger-er)
-        await $i.db.appendToObj(`/emails/${toFolder}/threads/${fromFolder}`, {
-            key: time + "",
-            value: {
-                from: fromShort, fromName: fromShort, to: targetEmail,
-                subject, content, time, 
-                read: false, direction: "incoming", correspondent: fromShort, status: "inbox"
-            }
-        });
-
-        // 3. SOCKETS
+        // 2. Notify Sender via Socket (So you see your bot's reply instantly)
         if ($i.ws) {
-            // A. Notify RECIPIENT (User A - Incoming)
-            $i.ws.sendToAlias(toShort, {
-                type: 'NEW_MAIL',
-                message: {
-                    id: `${fromFolder}:${time}`,
-                    uid: time + "",
-                    from: fromShort,
-                    fromName: fromShort,
-                    subject,
-                    snippet: content.substring(0, 50),
-                    content,
-                    timeSent: time,
-                    correspondent: fromShort,
-                    direction: "incoming",
-                    status: "inbox"
-                }
-            });
-
-            // B. Notify SENDER (User B - Outgoing / Feedback Loop)
-            // This makes the "Sent" bubble appear on the Bot Owner's screen instantly.
             $i.ws.sendToAlias(fromShort, {
                 type: 'NEW_MAIL',
-                message: {
-                    id: `${toFolder}:${time}`,
-                    uid: time + "",
-                    from: fromShort, // Me
-                    to: toShort,
-                    subject,
-                    snippet: content.substring(0, 50),
-                    content,
-                    timeSent: time,
-                    correspondent: toShort, // Grouped under the friend's name
-                    direction: "outgoing",  // Mark as outgoing
-                    read: true
-                }
+                message: { id: `${toFolder}:${time}`, uid: time + "", from: fromShort, to: toShort, subject, snippet: content.substring(0, 50), content, timeSent: time, correspondent: toFolder, direction: "outgoing", read: true }
             });
         }
-    } catch(e) {
-        console.log("System Mail Error", e);
-    }
+
+        // 3. DELIVERY
+        if (isExternal) {
+            // B"H - External SMTP Delivery with Anti-Loop Headers
+            if ($i.mail && $i.mail.smtpClient) {
+                var extraHeaders = {
+                    'Content-Type': 'text/plain; charset=utf-8',
+                    'Auto-Submitted': 'auto-replied',
+                    'Precedence': 'bulk',
+                    'X-Auto-Response-Suppress': 'All'
+                };
+                
+                await $i.mail.smtpClient.sendMail(
+                    `${fromShort}@awtsmoos.com`, 
+                    targetEmail, 
+                    subject, 
+                    content, 
+                    extraHeaders
+                );
+                console.log("B\"H - System Reply sent via SMTP to", targetEmail);
+            }
+        } else {
+            // B"H - Local Delivery
+            await $i.db.appendToObj(`/emails/${toFolder}/threads/${fromFolder}`, {
+                key: time + "",
+                value: { from: fromShort, fromName: fromShort, to: targetEmail, subject, content, time, read: false, direction: "incoming", correspondent: fromShort, status: "inbox" }
+            });
+
+            if ($i.ws) {
+                $i.ws.sendToAlias(toShort, {
+                    type: 'NEW_MAIL',
+                    message: { id: `${fromFolder}:${time}`, uid: time + "", from: fromShort, fromName: fromShort, subject, snippet: content.substring(0, 50), content, timeSent: time, correspondent: fromShort, direction: "incoming", status: "inbox" }
+                });
+            }
+        }
+    } catch(e) { console.log("System Mail Error", e); }
 }
-
-
-
-// B"H - Helper to extract HTML Capsules specifically for the External Mail API
-function extractCapsules(text) {
-    let cleanText = text || "";
-    let attachments = [];
-    let counter = 1;
-
-    // Check for Markdown HTML Blocks
-    const capsuleRegex = /```html\s*([\s\S]*?)```/gi;
-    if (cleanText.match(capsuleRegex)) {
-        cleanText = cleanText.replace(capsuleRegex, (match, code) => {
-            const filename = `artifact_${Date.now()}_${counter++}.html`;
-            attachments.push({ filename, content: code, contentType: 'text/html' });
-            return `\n[Attached HTML Artifact: ${filename}]\n`;
-        });
-    }
-
-    // Check for Full Document Paste
-    if (/^\s*<!DOCTYPE html/i.test(cleanText) || /^\s*<html/i.test(cleanText)) {
-        const filename = `document_${Date.now()}.html`;
-        attachments.push({ filename, content: cleanText, contentType: 'text/html' });
-        cleanText = "Please find the attached HTML document.";
-    }
-
-    return { cleanText, attachments };
-}
-
