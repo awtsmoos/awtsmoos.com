@@ -87,6 +87,10 @@ module.exports = async function ({ sender, recipients, data }) {
             // === STEP 3: PROCESS RULES ===
             
             // B"H - LOOP PROTECTION
+            // === STEP 3: RULES ENGINE (THE LOOP STOPPER) ===
+            
+            // 1. Is it the user talking to themselves? (Sender == Recipient)
+            // 2. Is it the system talking? (Sender == Recipient_Full_Address)
             var recipientFull = `${recipientShort}_at_awtsmoos.com`;
             var isSelfLoop = (cleanSender === cleanRecipient) || (cleanSender === recipientFull);
 
@@ -101,8 +105,8 @@ module.exports = async function ({ sender, recipients, data }) {
                         // B"H - AI STREAMING (GHOST TYPING)
                         stream: (partialContent) => {
                             // Only stream if Recipient is INTERNAL (Local User)
+                            // We spoof the 'from' as the cleanSender so it shows up in the right chat
                             if (cleanRecipient.includes("awtsmoos.com") && this.ws) {
-                                // Send "Ghost Typing" packet spoofing the bot sender
                                 this.ws.sendToAlias(recipientShort, {
                                     type: 'LIVE_PREVIEW',
                                     from: cleanSender, 
@@ -118,6 +122,7 @@ module.exports = async function ({ sender, recipients, data }) {
                     }
                 });
                 
+                // Legacy Script
                 if (settings.customScript) {
                      const sandbox = {
                         msg: { from: email, to: r, subject: decodedSubject, content: text },
@@ -128,9 +133,8 @@ module.exports = async function ({ sender, recipients, data }) {
                     try { vm.runInContext(settings.customScript, sandbox, { timeout: 1000 }); } catch(e){}
                 }
             } else {
-                if(isSelfLoop) console.log(`B"H - Loop Detected: Blocked auto-reply from ${cleanSender}`);
+                if(isSelfLoop) console.log(`B"H - Ignored Self-Loop: ${cleanSender} -> ${cleanRecipient}`);
             }
-        }
     } catch ($) { console.log("Error ingress", $); }
 }
 
