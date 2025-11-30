@@ -136,26 +136,32 @@ module.exports = async function ({ sender, recipients, data }) {
 
 /**
  * Internal Helper: Sends a reply via SMTP and notifies the Local User (Sender)
- * B"H - Fixed to broadcast to all aliases of the sender
+ * B"H - Fixed: properly formats HTML for external clients to prevent "Wall of Text"
  */
 async function sendSystemReply(ctx, fromAliasShort, toEmail, subject, body, saveToSent = false) {
     var fromEmail = `${fromAliasShort}@awtsmoos.com`;
     
+    // B"H - FORMATTING FIX: Convert newlines to <br> and wrap in styling
+    // This ensures Gmail/Outlook display the AI's formatting correctly.
+    var formattedBody = `<div style="font-family: sans-serif; font-size: 14px; white-space: pre-wrap;">${(body || "").replace(/\n/g, '<br>')}</div>`;
+
     // 1. SMTP Send (REAL EXTERNAL SEND)
     if (ctx.mail && ctx.mail.smtpClient) {
         try { 
             console.log(`B"H - Auto-Replying to ${toEmail}...`);
             var extraHeaders = {
+                'Content-Type': 'text/html; charset=utf-8', // Force HTML
                 'Auto-Submitted': 'auto-replied',
                 'Precedence': 'bulk',
                 'X-Auto-Response-Suppress': 'All'
             };
-            await ctx.mail.smtpClient.sendMail(fromEmail, toEmail, subject, body, extraHeaders); 
+            // Send formattedBody instead of raw body
+            await ctx.mail.smtpClient.sendMail(fromEmail, toEmail, subject, formattedBody, extraHeaders); 
         } 
         catch(e) { console.error("AutoReply SMTP Fail", e); return; }
     }
 
-    // 2. Save to Sent
+    // 2. Save to Sent (Local DB)
     if (saveToSent && ctx.db) {
         try {
             var time = Date.now();
@@ -169,7 +175,7 @@ async function sendSystemReply(ctx, fromAliasShort, toEmail, subject, body, save
                 from: fromAliasShort, 
                 to: toEmail,
                 subject, 
-                content: body,
+                content: body, // Keep raw body for local display (client handles formatting)
                 time, timeSent: time, 
                 read: true, direction: "outgoing",
                 correspondent: toFull
@@ -180,11 +186,9 @@ async function sendSystemReply(ctx, fromAliasShort, toEmail, subject, body, save
                 value: sentMsg
             });
 
-            // 3. Notify Sender Socket (Broadcast to sender so Sent folder updates)
+            // 3. Notify Sender Socket
             if (ctx.ws) {
                 ctx.ws.sendToAlias(fromAliasShort, { type: 'NEW_MAIL', message: sentMsg });
-                
-                // Redundant check for full alias
                 if (!fromAliasShort.includes("_at_")) {
                     ctx.ws.sendToAlias(`${fromAliasShort}_at_awtsmoos.com`, { type: 'NEW_MAIL', message: sentMsg });
                 }
