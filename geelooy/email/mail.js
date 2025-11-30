@@ -55,8 +55,11 @@ async function whenLoaded(e) {
     // 3. Identity Confirmed: Open the App
     state.alias = id;
     window.curAlias = id; // Sync global
-    document.getElementById('displayAlias').textContent = state.alias;
     
+    // REMOVED: document.getElementById('displayAlias').textContent = state.alias;
+    // REASON: This was overwriting the Profile Dropdown HTML. 
+    // The dropdown itself will handle showing the name.
+
     document.getElementById('loginOverlay').classList.add('hidden');
     document.getElementById('appContainer').classList.remove('hidden');
 
@@ -67,7 +70,6 @@ async function whenLoaded(e) {
     await refreshSnippets();
     
     // Poll for new snippets if not already polling
-    // (Optional: clear previous interval if this function runs multiple times)
     if(!window._mailPoll) {
         window._mailPoll = setInterval(refreshSnippets, 30000);
     }
@@ -620,7 +622,14 @@ function escapeHtml(text) {
         .replace(/\\/g, ""); // Remove backslashes used for escaping in the original raw text
 }
 
-
+function escapeHtml(text) {
+    // B"H - The Shield of String
+    if (text === null || text === undefined) return "";
+    return String(text)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;");
+}
 
 
 function formatTime(ts) {
@@ -1257,18 +1266,11 @@ function toggleView(newView) {
 }
 
 
-
-// B"H
 // Bind to the infinite cycle
+if (window.curAlias) whenLoaded();
+else addEventListener("awtsmoosAliasChange", whenLoaded);
 
-// 1. Check if we already have the alias (Race Condition Fix)
-if (window.curAlias) {
-    whenLoaded();
-}
 
-// 2. Listen for changes (Login / Logout / Switch Alias)
-// We use window.addEventListener because profileDropdown dispatches to window
-window.addEventListener("awtsmoosAliasChange", whenLoaded);
 
 /**
  * B"H - The Alchemist's Crucible: Mixed Mode
@@ -1462,27 +1464,3 @@ window.downloadCapsule = function(id) {
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
 };
-
-
-// B"H 
-// --- EXPOSE FUNCTIONS TO HTML ---
-// Since this is a module, we must manually attach functions used in 
-// onclick/onchange attributes to the window object.
-
-window.toggleView = toggleView;
-window.backToInbox = backToInbox;
-window.approveThread = approveThread;
-window.deleteCurrentThread = deleteCurrentThread;
-window.cancelReply = cancelReply;
-window.closeMsgMenu = closeMsgMenu;
-window.handleMsgAction = handleMsgAction;
-window.addRuleUI = addRuleUI;
-window.saveSettingsUI = saveSettingsUI;
-window.toggleRuleAction = toggleRuleAction;
-window.scrollToMsg = scrollToMsg;
-window.findAndOpenMenu = findAndOpenMenu;
-
-// Note: toggleCapsule, copyCapsule, and downloadCapsule 
-// are already assigned to window in their definitions above.
-
-
