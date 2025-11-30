@@ -441,25 +441,11 @@ textarea::placeholder { color: rgba(255, 255, 255, 0.4); }
 
 
 /* 2. The App: Force 2-Column Grid on Desktop */
-#appContainer.app-layout {
-    /* Size Logic */
-    flex: 1 1 auto !important;
-    height: 100% !important;
-    width: 100% !important;
-    margin: 0 !important;
-    min-height: 0 !important;
-    
-    /* Grid Logic - HERE IS THE FIX */
-    display: grid !important;
-    /* 300px Sidebar | Remaining Space for Chat */
-    grid-template-columns: 300px 1fr !important; 
-    grid-template-rows: 100% !important;
-    overflow: hidden !important;
-}
+
 
 @media (max-width: 800px) {
 .input-area {
-	.padding-bottom: calc(75px + env(safe-area-inset-bottom));
+	padding-bottom: calc(75px + env(safe-area-inset-bottom));
 }
 #appContainer.app-layout {
         display: flex !important; /* Or grid-template-columns: 1fr */
