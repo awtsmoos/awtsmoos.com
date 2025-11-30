@@ -28,7 +28,7 @@
 
 
 
- * {
+.main * {
     box-sizing: content-box;
 }
 /* Add to styles.css */
@@ -41,24 +41,39 @@ html, body {
 }
 
 /* B"H - Fix Wrapper Layout (Full Screen without Header) */
-/* B"H - Layout Fix for Direct Body Structure */
-body {
-    background-color: var(--bg-deep); /* Prevent white flashes */
-    height: 100dvh; /* Force full dynamic viewport height */
-    width: 100vw;
-    display: flex;
-    flex-direction: column;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
+.all.awtsmoospage {
+    height: 100% !important;
+    width: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: hidden !important;
+    margin: 0 !important;
+    padding: 0 !important;
 }
 
-#appContainer {
-    flex: 1; /* Fill remaining space */
-    height: 100%; 
-    width: 100%;
-    position: relative; /* Critical anchor for mobile positioning */
-    margin: 0;
+
+.all.awtsmoospage > .main {
+    /* 1. Stop forcing 100% height. Let Flexbox calculate the remaining space. */
+    height: auto !important;
+    flex: 1 1 auto !important; 
+    
+    /* 2. Fix Flexbox bugs (Mozilla/Webkit) where it refuses to shrink */
+    min-height: 0 !important;
+    
+    /* 3. Keep layout clean */
+    display: flex !important;
+    flex-direction: column !important;
+    
+    /* 4. Stop the scrollbar on the wrapper */
+    overflow: hidden !important;
+    padding: 0 !important;
+}
+/* Ensure the main container fills the remaining space */
+.main {
+    flex: 1; /* Grow to fill space under header */
+    height: 100%;
+    overflow: hidden; /* Contain the app layout */
+    position: relative;
 }
 
 /* LAYOUT GRID */
@@ -441,11 +456,25 @@ textarea::placeholder { color: rgba(255, 255, 255, 0.4); }
 
 
 /* 2. The App: Force 2-Column Grid on Desktop */
-
+#appContainer.app-layout {
+    /* Size Logic */
+    flex: 1 1 auto !important;
+    height: 100% !important;
+    width: 100% !important;
+    margin: 0 !important;
+    min-height: 0 !important;
+    
+    /* Grid Logic - HERE IS THE FIX */
+    display: grid !important;
+    /* 300px Sidebar | Remaining Space for Chat */
+    grid-template-columns: 300px 1fr !important; 
+    grid-template-rows: 100% !important;
+    overflow: hidden !important;
+}
 
 @media (max-width: 800px) {
 .input-area {
-	padding-bottom: calc(75px + env(safe-area-inset-bottom));
+	.padding-bottom: calc(75px + env(safe-area-inset-bottom));
 }
 #appContainer.app-layout {
         display: flex !important; /* Or grid-template-columns: 1fr */
@@ -585,8 +614,16 @@ textarea::placeholder { color: rgba(255, 255, 255, 0.4); }
 .close-modal:hover { color: var(--neon-fire); }
 
 
-
-
+/* B"H - ESSENTIAL UTILITY: Hides elements until JS activates them */
+.hidden {
+    display: none !important;
+}
+#appContainer.app-layout {
+    display: grid;
+    grid-template-columns: 300px 1fr; /* Sidebar | Chat */
+    grid-template-rows: 100%;
+    overflow: hidden;
+}
 /* --- RULE BUILDER & SETTINGS STYLES --- */
 .rules-list {
     display: flex; flex-direction: column; gap: 10px;
