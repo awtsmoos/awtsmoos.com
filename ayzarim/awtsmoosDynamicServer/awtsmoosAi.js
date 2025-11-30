@@ -79,6 +79,9 @@ function extractTextFromFullJson(data) {
  * Communes with Gemini, cycling through models if limits are hit.
  * SUPPORTS TRUE STREAMING via onChunk
  */
+
+
+
 module.exports = async function callGemini(fetchImpl, history, apiKey, preferredModel = null, onChunk = null) {
     if (!apiKey) return "Error: No API Key provided for Wisdom.";
     if (!fetchImpl) return "Error: The vessel has no ability to fetch.";
@@ -94,16 +97,12 @@ module.exports = async function callGemini(fetchImpl, history, apiKey, preferred
         const allowed = checkRateLimit(apiKey, model, estimatedCost);
         if (!allowed) continue; 
 
-        // Ensure we request streaming
         const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${model}:streamGenerateContent?key=${apiKey}`;
         
         const requestBody = {
             contents: history, 
             generationConfig: {
-                temperature: 0.3,
-                topP: 0.95,
-                topK: 40,
-                maxOutputTokens: 8000
+                temperature: 0.3, maxOutputTokens: 8000
             }
         };
 
@@ -118,107 +117,53 @@ module.exports = async function callGemini(fetchImpl, history, apiKey, preferred
                 recordUsage(apiKey, model, estimatedCost);
                 continue; 
             }
-
             if (!response.ok) {
                 if (response.status === 503) continue;
-                // Read error body if possible
-                try { 
-                    const errText = await response.text();
-                    console.error("AI Error Body:", errText);
-                } catch(e) {}
                 return `Error: The oracle refused (${response.status}).`;
             }
 
             recordUsage(apiKey, model, estimatedCost);
 
             // B"H - TRUE STREAMING LOGIC
-            // Use the reader provided by your fetch implementation
             if (response.body && response.body.getReader) {
                 const reader = response.body.getReader();
                 const decoder = new TextDecoder("utf-8");
                 let fullText = "";
-                let buffer = "";
-
+                
                 while (true) {
                     const { done, value } = await reader.read();
                     if (done) break;
 
                     const chunk = decoder.decode(value, { stream: true });
-                    buffer += chunk;
-
-                    // Gemini sends JSON objects (sometimes comma separated, sometimes array brackets)
-                    // We use Regex to grab the "text" fields from the raw stream buffer
-                    // This is robust against split chunks
+                    
+                    // Robust extraction of "text" fields from JSON stream
+                    // We match all occurrences of "text": "..." 
                     const regex = /"text":\s*"((?:[^"\\]|\\.)*)"/g;
                     let match;
-                    
-                    // We only want to process *new* matches, but regex keeps state if we reused it.
-                    // Instead, we just match the current chunk + leftovers logic?
-                    // Simpler approach for "Ghost Typing":
-                    // Just scan the current buffer for text fields.
-                    
-                    while ((match = regex.exec(buffer)) !== null) {
-                        // Decode escaped chars (like \n or \")
-                        let newText = match[1];
+                    while ((match = regex.exec(chunk)) !== null) {
                         try {
-                            newText = JSON.parse(`"${newText}"`); 
-                        } catch(e) {
-                            // Fallback if regex grabbed a partial
-                        }
-                        
-                        // To prevent duplicate processing, we need to ensure we don't re-read.
-                        // However, a simpler way for live preview:
-                        // Just rely on the fact that Gemini appends.
+                            const segment = JSON.parse(`"${match[1]}"`);
+                            fullText += segment;
+                            // FIRE UPDATE IMMEDIATELY
+                            if (onChunk) onChunk(fullText); 
+                        } catch(e) {}
                     }
                 }
-                
-                // REVISED STREAM PARSING STRATEGY FOR GEMINI REST
-                // Gemini returns: [{...}, \n {...}]
-                // We will rely on simple JSON parsing of lines or segments.
-                
-                // Re-initialize reader for clean logic
-                const reader2 = response.body.getReader(); 
-                // Note: Can't read stream twice. Let's use the logic below instead.
-            }
-            
-            // --- ACTUAL WORKING STREAM READER ---
-            const reader = response.body.getReader();
-            const decoder = new TextDecoder("utf-8");
-            let accumulatedText = "";
-
-            while (true) {
-                const { done, value } = await reader.read();
-                if (done) break;
-                
-                const chunkStr = decoder.decode(value, { stream: true });
-                
-                // Gemini sends data like: "data: { ... }\n\n" or inside an array like "[{...},\r\n{...}]"
-                // Simple regex extract is safest for raw streams
-                const textMatches = chunkStr.matchAll(/"text":\s*"((?:[^"\\]|\\.)*)"/g);
-                
-                let foundNew = false;
-                for (const match of textMatches) {
-                    try {
-                        // Unescape the JSON string
-                        const piece = JSON.parse(`"${match[1]}"`);
-                        accumulatedText += piece;
-                        foundNew = true;
-                    } catch(e) {}
-                }
-
-                if (foundNew && onChunk) {
-                    onChunk(accumulatedText);
+                return fullText;
+            } 
+            else {
+                // Fallback
+                const data = await response.json();
+                if (data.candidates && data.candidates[0].content) {
+                    return data.candidates[0].content.parts[0].text;
                 }
             }
+            return ""; 
             
-            return accumulatedText;
-
         } catch (e) {
-            console.error(`B"H - Network Error on ${model}`, e);
+            console.error(`B"H - Network Error on ${model}`, e.message);
             continue; 
         }
     }
-
     return "Error: All models are currently exhausted or unreachable.";
 };
-
