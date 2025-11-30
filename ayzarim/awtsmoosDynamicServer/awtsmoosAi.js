@@ -2,9 +2,13 @@
 /**
  * awtsmoosAi.js
  * The Urim VeTumim (The Oracle of Light)
- * Module Exports & Streaming Logic
+ * 
+ * ROBUST EDITION: Uses Native HTTPS + Regex Stream Scanning.
+ * Fixes "Ghost Typing" by ignoring complex JSON structure and 
+ * extracting text deltas directly from the stream.
  */
 
+const https = require('https'); 
 
 const GEMINI_CONFIG = {
     models: {
@@ -61,50 +65,6 @@ function estimateTokens(history) {
     try { return Math.ceil(JSON.stringify(history).length / 4); } catch(e) { return 100; }
 }
 
-// Helper for fallback non-stream
-function extractTextFromFullJson(data) {
-    if (Array.isArray(data)) {
-        return data.map(chunk => 
-            chunk.candidates?.[0]?.content?.parts?.[0]?.text || ""
-        ).join("");
-    }
-    return data.candidates?.[0]?.content?.parts?.[0]?.text || "";
-}
-
-
-// B"H
-/**
- * awtsmoosAi.js 
- * Communes with Gemini, cycling through models if limits are hit.
- * SUPPORTS TRUE STREAMING via onChunk
- */
-// B"H
-/**
- * awtsmoosAi.js
- * The Urim VeTumim (The Oracle of Light)
- * 
- * Uses Native HTTPS + Optimistic Array Parsing
- * to guarantee 100% streaming reliability without buffering glitches.
- */
-
-
-
-// --- 4. THE ORACLE FUNCTION ---
-// B"H
-/**
- * awtsmoosAi.js
- * Native HTTPS + State-Preserving Stream Parser
- * 
- * Correctly handles:
- * 1. Brackets {} inside the AI's text (Code blocks, etc.)
- * 2. Split packets (Network fragmentation)
- * 3. Escaped quotes \" inside strings
- */
-
-const https = require('https'); 
-
-
-
 module.exports = async function callGemini(fetchImpl, history, apiKey, preferredModel = null, onChunk = null) {
     if (!apiKey) return "Error: No API Key provided for Wisdom.";
 
@@ -140,75 +100,40 @@ module.exports = async function callGemini(fetchImpl, history, apiKey, preferred
                     let buffer = "";
                     let fullAggregatedText = ""; 
                     
-                    // --- STATE VARIABLES MUST BE HERE (Outside on('data')) ---
-                    let balance = 0;
-                    let inString = false;
-                    let escape = false;
-
                     res.on('data', (chunk) => {
                         buffer += chunk;
                         
-                        let startIndex = 0;
-
-                        // Iterate through the buffer to find complete JSON objects
-                        // We modify 'buffer' as we go, so we use a while loop or careful indexing
-                        // Better: Scan linearly and slice buffer at the end
+                        // B"H - Regex Stream Scanner
+                        // Matches "text": "..." while respecting escaped quotes
+                        const regex = /"text"\s*:\s*"((?:[^"\\]|\\.)*)"/g;
                         
-                        let i = 0;
-                        while (i < buffer.length) {
-                            const char = buffer[i];
+                        let match;
+                        let lastIndex = 0;
+                        let foundAny = false;
 
-                            // 1. Handle String State (Ignore brackets inside text)
-                            if (char === '"' && !escape) {
-                                inString = !inString;
+                        // Execute regex on the accumulated buffer
+                        while ((match = regex.exec(buffer)) !== null) {
+                            try {
+                                // Parse the JSON string content (handles \n, \", etc)
+                                // We wrap match[1] in quotes to use JSON.parse's string decoding
+                                const textSegment = JSON.parse(`"${match[1]}"`);
+                                
+                                if (textSegment) {
+                                    fullAggregatedText += textSegment;
+                                    if (onChunk) onChunk(fullAggregatedText);
+                                }
+                            } catch (e) {
+                                // Ignore parsing errors on segments
                             }
                             
-                            // Handle Escapes (e.g., \" or \\)
-                            if (inString) {
-                                if (char === '\\' && !escape) {
-                                    escape = true;
-                                } else {
-                                    escape = false;
-                                }
-                                i++;
-                                continue; // Skip bracket checks while in string
-                            }
+                            lastIndex = regex.lastIndex;
+                            foundAny = true;
+                        }
 
-                            // 2. Bracket Counting (Structure Only)
-                            if (char === '{') {
-                                balance++;
-                            } else if (char === '}') {
-                                balance--;
-                                
-                                // 3. Found a complete JSON object at root level
-                                if (balance === 0) {
-                                    const jsonStr = buffer.substring(0, i + 1);
-                                    
-                                    // Process this object
-                                    try {
-                                        // Ignore the opening '[' or ',' if they are stuck to the front
-                                        const cleanJson = jsonStr.replace(/^[,\s\[]+/, "");
-                                        
-                                        if (cleanJson.startsWith("{")) {
-                                            const json = JSON.parse(cleanJson);
-                                            const newText = json.candidates?.[0]?.content?.parts?.[0]?.text || "";
-                                            
-                                            if (newText) {
-                                                fullAggregatedText += newText;
-                                                if (onChunk) onChunk(fullAggregatedText);
-                                            }
-                                        }
-                                    } catch (e) {
-                                        // If parse fails, it might be the starting '[' array bracket
-                                        // We safely ignore non-object chunks
-                                    }
-
-                                    // 4. Remove processed part from buffer
-                                    buffer = buffer.substring(i + 1);
-                                    i = -1; // Reset index since buffer shrank
-                                }
-                            }
-                            i++;
+                        // Optimization: Discard processed parts of the buffer
+                        // But ONLY if we matched something to avoid slicing mid-stream if regex didn't match yet
+                        if (lastIndex > 0) {
+                            buffer = buffer.substring(lastIndex);
                         }
                     });
 
@@ -220,7 +145,10 @@ module.exports = async function callGemini(fetchImpl, history, apiKey, preferred
                 req.end();
             });
 
-            if (finalResult && typeof finalResult === 'string' && finalResult.length > 0) return finalResult;
+            if (finalResult && typeof finalResult === 'string' && finalResult.length > 0) {
+                recordUsage(apiKey, model, estimatedCost);
+                return finalResult;
+            }
 
         } catch (err) {
             if (err.retry) continue;
