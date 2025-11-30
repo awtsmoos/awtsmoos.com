@@ -712,39 +712,7 @@ else if (data.type === 'LIVE_PREVIEW') {
 }
 
 
-function renderGhostBubble(content) {
-    if (!content) {
-        const el = document.getElementById('ghostBubble');
-        if(el) el.remove();
-        return;
-    }
 
-    let container = document.getElementById('messagesContainer');
-    let ghost = document.getElementById('ghostBubble');
-    
-    // Create if not exists
-    if (!ghost) {
-        ghost = document.createElement('div');
-        ghost.id = 'ghostBubble';
-        ghost.className = 'message-row row-them ghost-row';
-        ghost.innerHTML = `
-            <div class="message-bubble ghost-bubble">
-                <span class="msg-sender-name">Typing...</span>
-                <div class="msg-content email-body" id="ghostText"></div>
-            </div>`;
-        container.appendChild(ghost);
-        // Auto scroll to bottom to see typing
-        container.scrollTop = container.scrollHeight;
-    }
-    
-    // Update Text
-    const textEl = document.getElementById('ghostText');
-    if (textEl) {
-        // Simple text only for preview to avoid HTML injection flicker
-        textEl.textContent = content; 
-        ghost.style.opacity = '0.7';
-    }
-}
 
 // --- Interaction Logic ---
 
@@ -1267,6 +1235,74 @@ else addEventListener("awtsmoosAliasChange", whenLoaded);
  * 3. If block is Code -> Pre/Code block.
  * 4. Surrounding text -> Sanitized Inline HTML.
  */
+/**
+ * B"H - Simple Markdown Parser
+ * Handles Bold (**), Italic (*), Headers (#), and Newlines
+ */
+function parseSimpleMarkdown(text) {
+    if (!text) return "";
+    let html = text;
+
+    // 1. Headers (e.g. # Title)
+    html = html.replace(/^#\s+(.*)$/gm, '<h3>$1</h3>');
+    
+    // 2. Bold (**text**)
+    html = html.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
+    
+    // 3. Italic (*text* or _text_)
+    html = html.replace(/\*([^\*]+)\*/g, '<i>$1</i>');
+    html = html.replace(/_([^_]+)_/g, '<i>$1</i>');
+
+    // 4. Preserve Whitespace (Newlines to <br>)
+    // We only do this if it's NOT inside a pre/code block (handled by formatContent usually, 
+    // but for Ghost Bubble we do it raw).
+    html = html.replace(/\n/g, '<br>');
+
+    return html;
+}
+
+function renderGhostBubble(content) {
+    if (!content) {
+        const el = document.getElementById('ghostBubble');
+        if(el) el.remove();
+        return;
+    }
+
+    let container = document.getElementById('messagesContainer');
+    let ghost = document.getElementById('ghostBubble');
+    
+    // B"H - Smart Scroll Logic: Check if user is near bottom BEFORE adding content
+    // Threshold of 150px allows for a little breathing room
+    const isNearBottom = container.scrollHeight - container.scrollTop - container.clientHeight < 150;
+
+    // Create if not exists
+    if (!ghost) {
+        ghost = document.createElement('div');
+        ghost.id = 'ghostBubble';
+        ghost.className = 'message-row row-them ghost-row';
+        ghost.innerHTML = `
+            <div class="message-bubble ghost-bubble" style="white-space: pre-wrap;">
+                <span class="msg-sender-name">Typing...</span>
+                <div class="msg-content email-body" id="ghostText"></div>
+            </div>`;
+        container.appendChild(ghost);
+    }
+    
+    // Update Text with Markdown
+    const textEl = document.getElementById('ghostText');
+    if (textEl) {
+        // Apply the markdown parser
+        textEl.innerHTML = parseSimpleMarkdown(content); 
+        ghost.style.opacity = '0.7';
+    }
+
+    // B"H - Only auto-scroll if the user hasn't scrolled up to read history
+    if (isNearBottom) {
+        container.scrollTop = container.scrollHeight;
+    }
+}
+
+// (This ensures the final message also looks right when it saves to chat)
 function formatContent(text) {
     if (text === null || text === undefined) return "";
     let str = String(text);
@@ -1274,12 +1310,8 @@ function formatContent(text) {
     const blocks = [];
 
     // --- STEP 1: EXTRACT BLOCKS (Capsules vs Code) ---
-    // Regex matches: ```(optional_lang) (content) ```
     str = str.replace(/```(\w*)\s*([\s\S]*?)```/g, (match, lang, content) => {
         const placeholder = `__BLOCK_${blocks.length}__`;
-        
-        // DECISION: Is this an Artifact Capsule?
-        // Yes if: lang is 'html' OR content has DOCTYPE/<html>
         const isHtmlArtifact = (lang.toLowerCase() === 'html') || 
                                /<!DOCTYPE/i.test(content) || 
                                /<html/i.test(content);
@@ -1287,18 +1319,25 @@ function formatContent(text) {
         blocks.push({
             type: isHtmlArtifact ? 'capsule' : 'code',
             content: content,
-            lang: lang // stored just in case, but we usually strip it for display
+            lang: lang 
         });
         
         return placeholder;
     });
 
-    // --- STEP 2: SANITIZE & FORMAT SURROUNDING TEXT ---
-    // We strictly use the cleanHTML helper to allow simple tags (b, div, br)
-    // but strip dangerous scripts from the non-capsule text.
-    let safeHTML = cleanHTML(str);
+    // --- STEP 2: MARKDOWN & SANITIZE ---
+    // First, apply our Markdown Logic to the raw text
+    // B"H - We use parseSimpleMarkdown BEFORE sanitation effectively, 
+    // but since sanitize might strip our <b> tags, we do a careful order:
+    // 1. Sanitize raw HTML (remove scripts)
+    // 2. Apply Markdown (convert ** to <b>)
+    
+    let safeHTML = cleanHTML(str); // Clean dangerous tags first
 
-    // Markdown Links [Txt](URL) -> <a> (Simple pass)
+    // Apply Bold/Italic/Headers
+    safeHTML = parseSimpleMarkdown(safeHTML);
+
+    // Markdown Links [Txt](URL)
     safeHTML = safeHTML.replace(
         /\[(.*?)\]\((.*?)\)/g, 
         '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>'
@@ -1310,13 +1349,6 @@ function formatContent(text) {
         '$1<a href="$2" target="_blank" rel="noopener noreferrer">$2</a>'
     );
 
-    // Newlines to <br> (only if not already rich HTML)
-    // We check if the user wrote "Plain text", if so, preserve line breaks.
-    // If they wrote <div>..</div> we assume they handled breaks.
-    if (!/<(div|p|br|table)/i.test(safeHTML)) {
-        safeHTML = safeHTML.replace(/\n/g, '<br>');
-    }
-
     // --- STEP 3: RESTORE BLOCKS ---
     blocks.forEach((block, index) => {
         let replacement = "";
@@ -1324,11 +1356,9 @@ function formatContent(text) {
         if (block.type === 'capsule') {
             replacement = createHTMLCapsule(block.content, index);
         } else {
-            // Standard Code Block
             replacement = `<pre class="code-block"><code>${escapeHtml(block.content)}</code></pre>`;
         }
         
-        // Replace the placeholder
         safeHTML = safeHTML.replace(`__BLOCK_${index}__`, replacement);
     });
 
