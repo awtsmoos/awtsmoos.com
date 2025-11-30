@@ -3,7 +3,9 @@
  * Awtsmoos Quantum Mail Client
  * Edition: Infinite Scroll & Caching
  */
-
+import  createProfileDropdown  from 
+    '/scripts/awtsmoos/social/profileDropdown.js';
+createProfileDropdown(document.getElementById('displayAlias'))
 const API_BASE = "/api/social/mail";
 
 // --- The Vessel (State) ---
@@ -473,14 +475,21 @@ function getCoreThreadId(rawId) {
     // Otherwise, it is an external user (e.g. friend_at_gmail.com), keep as is.
     return rawId;
 }
-// B"H - Find injectMessageIntoCache and replace it with this:
+
+
 function injectMessageIntoCache(msg) {
     // B"H - Unification: Determine the canonical thread ID
     let rawTid = msg.correspondent || msg.from;
     
-    // If I sent it, the correspondent is the recipient
+    // If I sent it (outgoing), the thread ID is who I sent it TO.
     if (msg.direction === 'outgoing' && msg.to) {
         rawTid = Array.isArray(msg.to) ? msg.to[0] : msg.to;
+        
+        // B"H - FIX: If it's an external email (contains @), normalize it to _at_ 
+        // because that is how the file system and cache keys store it.
+        if (rawTid.includes("@") && !rawTid.includes("_at_")) {
+            rawTid = rawTid.replace("@", "_at_");
+        }
     }
     
     // Normalize!
@@ -493,70 +502,58 @@ function injectMessageIntoCache(msg) {
     const thread = state.threads[tid];
 
     // B"H - 1. Strict Deduplication (ID or UID)
-    // Check if we already have this EXACT message instance
     const existingIdx = thread.findIndex(m => m.id === msg.id || (m.uid && m.uid === msg.uid));
     
     if (existingIdx > -1) {
-        // If it exists, update it (e.g. status change), but don't duplicate
-        // Only update if the new one is "more real" (not temp) or newer info
         if (String(thread[existingIdx].id).startsWith('temp_') && !String(msg.id).startsWith('temp_')) {
              thread[existingIdx] = msg; // Upgrade to real
-             if (state.activeThread === tid) renderMessages(tid); // Refresh UI to show real state
+             if (state.activeThread === tid) renderMessages(tid); 
         }
         return; 
     }
 
     // B"H - 2. Optimistic Cleanup ("The Cash Check")
-    // If incoming is a REAL outgoing message, look for a matching TEMP message to replace.
-    // This solves the "Duplicate before/after auto-response" issue.
     let replaced = false;
     if (msg.direction === 'outgoing' && !String(msg.id).startsWith('temp_')) {
         const tempIdx = thread.findIndex(m => 
             String(m.id).startsWith('temp_') && 
             m.content === msg.content &&
-            // Safety: Only replace if created recently (within 5 mins)
             Math.abs((m.timeSent || 0) - msg.timeSent) < 300000 
         );
 
         if (tempIdx > -1) {
-            thread[tempIdx] = msg; // Replace the ghost with the body
+            thread[tempIdx] = msg; 
             replaced = true;
         }
     }
 
     // B"H - 3. Insert if not replaced
     if (!replaced) {
-        // Double check content/time uniqueness just to be safe (Classic Dedupe)
         const exactDup = thread.some(m => m.timeSent === msg.timeSent && m.content === msg.content);
-        
         if (!exactDup) {
             if(typeof msg.content !== 'string') msg.content = String(msg.content || "");
             thread.push(msg);
         } else {
-            return; // It's a duplicate, exit.
+            return; 
         }
     }
 
     // Sort Chronologically
     thread.sort((a,b) => a.timeSent - b.timeSent);
         
-    // B"H - 4. Update Snippets & Unread Count
+    // B"H - 4. Update Snippets
     const snipIdx = state.snippets.findIndex(s => getCoreThreadId(s.correspondent) === tid);
     const isOpen = state.activeThread && getCoreThreadId(state.activeThread) === tid;
     
     if (snipIdx > -1) {
-        // Update existing snippet
         let oldUnread = state.snippets[snipIdx].unreadCount || 0;
-        state.snippets[snipIdx] = msg; // Replace snippet
-        
-        // Unread Logic
+        state.snippets[snipIdx] = msg; 
         if (!isOpen && msg.direction === 'incoming') {
             state.snippets[snipIdx].unreadCount = oldUnread + 1;
         } else {
             state.snippets[snipIdx].unreadCount = isOpen ? 0 : oldUnread;
         }
     } else {
-        // New Snippet
         if (!isOpen && msg.direction === 'incoming') {
             msg.unreadCount = 1;
         }
@@ -565,16 +562,9 @@ function injectMessageIntoCache(msg) {
     
     // 5. Render if open
     if (isOpen) {
-        // If we replaced, we already rendered above? 
-        // Better to re-render to ensure order and snippet updates are reflected or if it was a new push.
-        // We pass 'false' to forceScrollBottom only if it's a brand new message, 
-        // but for simplicity, we let the user scroll unless it's strictly new outgoing.
-        
-        // Actually, just calling renderMessages is safe, it preserves scroll unless told otherwise.
-        // But if I just sent a message (replaced or new), I want to see it.
+        // Force scroll if it's a new outgoing message
         const shouldScroll = (msg.direction === 'outgoing' && !replaced); 
         renderMessages(tid, shouldScroll);
-        
         if(snipIdx > -1) state.snippets[snipIdx].unreadCount = 0;
     }
     
@@ -722,36 +712,27 @@ function renderGhostBubble(content) {
     let container = document.getElementById('messagesContainer');
     let ghost = document.getElementById('ghostBubble');
     
-    // B"H - Smart Scroll Logic
-    // Only scroll to bottom if we are already close (within 150px)
-    // This allows the user to scroll up and read without being yanked back down.
-    const isNearBottom = container.scrollHeight - container.scrollTop - container.clientHeight < 150;
-
     // Create if not exists
     if (!ghost) {
         ghost = document.createElement('div');
         ghost.id = 'ghostBubble';
         ghost.className = 'message-row row-them ghost-row';
-        // B"H - Added white-space: pre-wrap to preserve newlines/indentation in preview
         ghost.innerHTML = `
-            <div class="message-bubble ghost-bubble" style="white-space: pre-wrap;">
+            <div class="message-bubble ghost-bubble">
                 <span class="msg-sender-name">Typing...</span>
                 <div class="msg-content email-body" id="ghostText"></div>
             </div>`;
         container.appendChild(ghost);
+        // Auto scroll to bottom to see typing
+        container.scrollTop = container.scrollHeight;
     }
     
-    // Update Text with Markdown
+    // Update Text
     const textEl = document.getElementById('ghostText');
     if (textEl) {
-        // B"H - Use innerHTML with parser instead of textContent
-        textEl.innerHTML = parseSimpleMarkdown(content); 
+        // Simple text only for preview to avoid HTML injection flicker
+        textEl.textContent = content; 
         ghost.style.opacity = '0.7';
-    }
-
-    // Only scroll if we were already at the bottom
-    if (isNearBottom) {
-        container.scrollTop = container.scrollHeight;
     }
 }
 
@@ -1283,8 +1264,12 @@ function formatContent(text) {
     const blocks = [];
 
     // --- STEP 1: EXTRACT BLOCKS (Capsules vs Code) ---
+    // Regex matches: ```(optional_lang) (content) ```
     str = str.replace(/```(\w*)\s*([\s\S]*?)```/g, (match, lang, content) => {
         const placeholder = `__BLOCK_${blocks.length}__`;
+        
+        // DECISION: Is this an Artifact Capsule?
+        // Yes if: lang is 'html' OR content has DOCTYPE/<html>
         const isHtmlArtifact = (lang.toLowerCase() === 'html') || 
                                /<!DOCTYPE/i.test(content) || 
                                /<html/i.test(content);
@@ -1292,41 +1277,48 @@ function formatContent(text) {
         blocks.push({
             type: isHtmlArtifact ? 'capsule' : 'code',
             content: content,
-            lang: lang 
+            lang: lang // stored just in case, but we usually strip it for display
         });
+        
         return placeholder;
     });
 
-    // --- STEP 2: SANITIZE & MARKDOWN ---
-    // 1. Sanitize HTML
+    // --- STEP 2: SANITIZE & FORMAT SURROUNDING TEXT ---
+    // We strictly use the cleanHTML helper to allow simple tags (b, div, br)
+    // but strip dangerous scripts from the non-capsule text.
     let safeHTML = cleanHTML(str);
 
-    // 2. B"H - Apply Markdown (Bold, Italic, Headers)
-    safeHTML = parseSimpleMarkdown(safeHTML);
-
-    // 3. Links
+    // Markdown Links [Txt](URL) -> <a> (Simple pass)
     safeHTML = safeHTML.replace(
         /\[(.*?)\]\((.*?)\)/g, 
         '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>'
     );
+    
+    // Auto-link loose URLs
     safeHTML = safeHTML.replace(
         /(^|[\s>])(https?:\/\/[^\s<"]+)/g, 
         '$1<a href="$2" target="_blank" rel="noopener noreferrer">$2</a>'
     );
 
-    // 4. Newlines to <br> (If not already using block tags like div/p/h1)
-    if (!/<(div|p|br|table|h[1-6]|blockquote)/i.test(safeHTML)) {
+    // Newlines to <br> (only if not already rich HTML)
+    // We check if the user wrote "Plain text", if so, preserve line breaks.
+    // If they wrote <div>..</div> we assume they handled breaks.
+    if (!/<(div|p|br|table)/i.test(safeHTML)) {
         safeHTML = safeHTML.replace(/\n/g, '<br>');
     }
 
     // --- STEP 3: RESTORE BLOCKS ---
     blocks.forEach((block, index) => {
         let replacement = "";
+        
         if (block.type === 'capsule') {
             replacement = createHTMLCapsule(block.content, index);
         } else {
+            // Standard Code Block
             replacement = `<pre class="code-block"><code>${escapeHtml(block.content)}</code></pre>`;
         }
+        
+        // Replace the placeholder
         safeHTML = safeHTML.replace(`__BLOCK_${index}__`, replacement);
     });
 
@@ -1357,38 +1349,6 @@ function cleanHTML(html) {
 
     return doc.body.innerHTML;
 }
-
-
-/**
- * B"H - Simple Markdown Parser
- * Handles Headers (H1-H6), Bold, Italic, and Blockquotes
- */
-function parseSimpleMarkdown(text) {
-    if (!text) return "";
-    let html = text;
-
-    // 1. Headers (H1-H6)
-    html = html.replace(/^#{6}\s+(.*)$/gm, '<h6>$1</h6>');
-    html = html.replace(/^#{5}\s+(.*)$/gm, '<h5>$1</h5>');
-    html = html.replace(/^#{4}\s+(.*)$/gm, '<h4>$1</h4>');
-    html = html.replace(/^#{3}\s+(.*)$/gm, '<h3>$1</h3>');
-    html = html.replace(/^#{2}\s+(.*)$/gm, '<h2>$1</h2>');
-    html = html.replace(/^#\s+(.*)$/gm, '<h1>$1</h1>');
-    
-    // 2. Bold (**text**)
-    html = html.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
-    
-    // 3. Italic (*text* or _text_)
-    html = html.replace(/\*([^\*]+)\*/g, '<i>$1</i>');
-    html = html.replace(/_([^_]+)_/g, '<i>$1</i>');
-
-    // 4. Blockquotes
-    html = html.replace(/^>\s+(.*)$/gm, '<blockquote>$1</blockquote>');
-
-    return html;
-}
-
-
 
 
 /**
