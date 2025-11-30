@@ -269,6 +269,7 @@ function extractCapsules(text) {
 }
 
 // B"H
+// Send Mail (Internal + External Logic)
 async function sendMail({ $i, userid, asAliasId, toAliasId, toEmail }) {
     console.log(`B"H DEBUG: sendMail INVOKED. From: [${asAliasId}] ToAlias: [${toAliasId}] ToEmail: [${toEmail}]`);
 
@@ -278,7 +279,7 @@ async function sendMail({ $i, userid, asAliasId, toAliasId, toEmail }) {
     var verified = await verifyAliasOwnership(asAliasId, $i, userid);
     if (!verified) return er({ message: "Not your alias", code: "AUTH_FAIL" });
 
-    // 2. Resolve Recipient & Paths
+    // 2. Variables for Pathing
     var senderShort = asAliasId.toLowerCase();
     var senderFull = `${senderShort}_at_awtsmoos.com`;
     var recipientShort = "";
@@ -292,28 +293,63 @@ async function sendMail({ $i, userid, asAliasId, toAliasId, toEmail }) {
         return !!info;
     }
 
-    // Resolve Logic (Standard)
+    // 3. Resolve Recipient Logic
     if (toAliasId) {
+        // Clean up input
         let cleanId = toAliasId.toLowerCase().trim();
+        
+        // A. Check if it explicitly looks like our domain
         if (cleanId.includes("awtsmoos.com")) {
             let core = cleanId.split(/[@_]/)[0];
+            
             if (await checkLocalDB(core)) {
-                isLocal = true; recipientShort = core; recipientFull = `${core}_at_awtsmoos.com`; targetEmailDisplay = `${core}@awtsmoos.com`;
-            } else { isLocal = false; recipientFull = cleanId.replace("@", "_at_"); targetEmailDisplay = cleanId.replace("_at_", "@"); }
-        } else if (!cleanId.includes("@") && !cleanId.includes("_at_")) {
+                isLocal = true;
+                recipientShort = core;
+                recipientFull = `${core}_at_awtsmoos.com`;
+                targetEmailDisplay = `${core}@awtsmoos.com`;
+            } else {
+                isLocal = false;
+                recipientFull = cleanId.replace("@", "_at_");
+                targetEmailDisplay = cleanId.replace("_at_", "@");
+            }
+        }
+        // B. Check if it's just a short name "abarbanel"
+        else if (!cleanId.includes("@") && !cleanId.includes("_at_")) {
              if (await checkLocalDB(cleanId)) {
-                isLocal = true; recipientShort = cleanId; recipientFull = `${cleanId}_at_awtsmoos.com`; targetEmailDisplay = `${cleanId}@awtsmoos.com`;
-            } else { return er({ message: "Recipient alias not found locally", code: "RCPT_NOT_FOUND" }); }
-        } else { isLocal = false; recipientFull = cleanId.replace("@", "_at_"); targetEmailDisplay = cleanId.replace("_at_", "@"); }
-    } else if (toEmail) {
+                isLocal = true;
+                recipientShort = cleanId;
+                recipientFull = `${cleanId}_at_awtsmoos.com`;
+                targetEmailDisplay = `${cleanId}@awtsmoos.com`;
+            } else {
+                 return er({ message: "Recipient alias not found locally", code: "RCPT_NOT_FOUND" });
+            }
+        }
+        // C. Complex external ID
+        else {
+            isLocal = false;
+            recipientFull = cleanId.replace("@", "_at_");
+            targetEmailDisplay = cleanId.replace("_at_", "@");
+        }
+    } 
+    else if (toEmail) {
         let cleanEmail = toEmail.toLowerCase().trim();
         targetEmailDisplay = cleanEmail;
+        
         if (cleanEmail.endsWith("@awtsmoos.com")) {
             let core = cleanEmail.split("@")[0];
-             if (await checkLocalDB(core)) { isLocal = true; recipientShort = core; recipientFull = `${core}_at_awtsmoos.com`; } 
-             else { recipientFull = cleanEmail.replace("@", "_at_"); }
-        } else { recipientFull = cleanEmail.replace("@", "_at_").replace(/[<>]/g, ""); }
-    } else { return er({ message: "Must provide recipient", code: "NO_RCPT" }); }
+             if (await checkLocalDB(core)) {
+                isLocal = true;
+                recipientShort = core;
+                recipientFull = `${core}_at_awtsmoos.com`;
+            } else {
+                recipientFull = cleanEmail.replace("@", "_at_");
+            }
+        } else {
+            recipientFull = cleanEmail.replace("@", "_at_").replace(/[<>]/g, "");
+        }
+    } else {
+        return er({ message: "Must provide recipient", code: "NO_RCPT" });
+    }
 
     var subject = $i.$_POST.subject || $i.$_GET.subject || "(No Subject)";
     var content = $i.$_POST.content || $i.$_GET.content || "";
@@ -321,63 +357,106 @@ async function sendMail({ $i, userid, asAliasId, toAliasId, toEmail }) {
     var time = Date.now();
 
     try {
-        // === 3. WRITE TO SENDER (My Sent Folder) ===
+        // === 4. WRITE TO SENDER (My Sent Folder) ===
         const senderPath = `/emails/${senderFull}/threads/${recipientFull}`;
+        
         await $i.db.appendToObj(senderPath, {
             key: time + "",
-            value: { from: senderShort, to: targetEmailDisplay, subject, content, time, read: true, direction: "outgoing" }
+            value: {
+                from: senderShort, 
+                to: targetEmailDisplay,
+                subject, content, time, 
+                read: true, direction: "outgoing"
+            }
         });
 
-        // === 4. LOCAL DELIVERY ===
+        // === 5. DELIVERY LOGIC ===
         if (isLocal) {
             const recipientPath = `/emails/${recipientFull}/threads/${senderFull}`;
+            
+            // Check Gatekeeper / Settings
             var settingsPath = `/social/aliases/${recipientShort}/emailSettings`;
             var settings = await $i.db.get(settingsPath) || { approved: {} };
-            var status = (settings.gatekeeperMode && !settings.approved?.[senderShort]) ? "request" : "inbox";
+            if(!settings.approved) settings.approved = {};
 
+            var status = "inbox";
+            if (settings.gatekeeperMode) {
+                if (!settings.approved[senderShort] && !settings.approved[senderFull]) {
+                    status = "request";
+                }
+            }
+            
+            // Perform The Write
             await $i.db.appendToObj(recipientPath, {
                 key: time + "",
-                value: { from: senderShort, fromName: senderShort, to: targetEmailDisplay, status, subject, content, time, read: false, direction: "incoming", correspondent: senderShort }
+                value: {
+                    from: senderShort,
+                    fromName: senderShort,
+                    to: targetEmailDisplay,
+                    status: status,
+                    subject,
+                    content,
+                    time,
+                    read: false,
+                    direction: "incoming",
+                    correspondent: senderShort
+                }
             });
 
+            // Notify Recipient (WebSocket)
             if ($i.ws) {
                 $i.ws.sendToAlias(recipientShort, {
                     type: 'NEW_MAIL',
-                    message: { id: `${senderFull}:${time}`, uid: time + "", from: senderShort, fromName: senderShort, subject, status, snippet: content.substring(0, 50), timeSent: time, correspondent: senderShort, direction: "incoming", content }
+                    message: {
+                        id: `${senderFull}:${time}`,
+                        uid: time + "",
+                        from: senderShort,
+                        fromName: senderShort,
+                        subject: subject,
+                        status: status,
+                        snippet: content.substring(0, 50),
+                        timeSent: time,
+                        correspondent: senderShort,
+                        direction: "incoming",
+                        content: content
+                    }
                 });
             }
 
-            // Shared Rules Engine
+            // Rules Engine Ignition
             if (status === "inbox" && $i.rulesEngine) {
                 $i.rulesEngine.processRules({
                     settings,
                     msg: { from: asAliasId, to: recipientShort, subject, content },
-                    dependencies: { callAi: $i.callAi, reply: (text) => sendSystemLocalMail($i, recipientShort, senderShort, "Re: " + subject, text), console: console }
+                    dependencies: {
+                        callAi: $i.callAi, 
+                        reply: (text) => sendSystemLocalMail($i, recipientShort, senderShort, "Re: " + subject, text),
+                        console: console
+                    }
                 });
             }
 
             return { success: { message: "Sent internally" } };
-        } 
-        
-        // === 5. EXTERNAL DELIVERY (SMTP) ===
-        else {
-            // A. Extract Capsules
+        } else {
+            // === 6. EXTERNAL SEND (SMTP) ===
+            
+            // A. Extract Capsules (Using the helper defined in file scope)
             var { cleanText, attachments } = extractCapsules(content);
             var myFullEmail = `${senderShort}@awtsmoos.com`;
             
             // B. Force HTML Rendering
-            // If the user sent plain text, wrap it in a div and convert newlines to <br>
-            // If they sent raw HTML (like <div>...</div>), keep it.
+            // If it doesn't look like a full HTML doc, wrap it in a div and preserve newlines
             let finalHtml = cleanText;
             if (!/^\s*<(div|p|html|body|table)/i.test(finalHtml)) {
+                // Convert \n to <br> so it renders correctly in Gmail/Outlook
                 finalHtml = `<div dir="auto" style="font-family:sans-serif; font-size:14px;">
                     ${cleanText.replace(/\n/g, '<br>')}
                 </div>`;
             }
 
-            // C. Define Headers
+            // C. Explicitly tell the client this is HTML
             var extraHeaders = {
-                'Content-Type': 'text/html; charset=utf-8' // Explicitly say this is HTML
+                'Content-Type': 'text/html; charset=utf-8'
             };
 
             if ($i.mail && $i.mail.smtpClient) {
@@ -596,3 +675,32 @@ async function sendSystemLocalMail($i, fromAlias, toAlias, subject, content) {
         console.log("System Mail Error", e);
     }
 }
+
+
+
+// B"H - Helper to extract HTML Capsules specifically for the External Mail API
+function extractCapsules(text) {
+    let cleanText = text || "";
+    let attachments = [];
+    let counter = 1;
+
+    // Check for Markdown HTML Blocks
+    const capsuleRegex = /```html\s*([\s\S]*?)```/gi;
+    if (cleanText.match(capsuleRegex)) {
+        cleanText = cleanText.replace(capsuleRegex, (match, code) => {
+            const filename = `artifact_${Date.now()}_${counter++}.html`;
+            attachments.push({ filename, content: code, contentType: 'text/html' });
+            return `\n[Attached HTML Artifact: ${filename}]\n`;
+        });
+    }
+
+    // Check for Full Document Paste
+    if (/^\s*<!DOCTYPE html/i.test(cleanText) || /^\s*<html/i.test(cleanText)) {
+        const filename = `document_${Date.now()}.html`;
+        attachments.push({ filename, content: cleanText, contentType: 'text/html' });
+        cleanText = "Please find the attached HTML document.";
+    }
+
+    return { cleanText, attachments };
+}
+

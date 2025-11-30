@@ -206,126 +206,89 @@ class AwtsmoosEmailClient {
     // B"H
     // Generic Send with Attachment Support
     // attachments = [{ filename: "doc.html", content: "<html>...", contentType: "text/html" }]
+    // B"H - Updated sendMail: Supports Generic Attachments & Multipart
     async sendMail(sender, recipient, subject, rawBody, customHeaders = {}, attachments = []) {
         if (this.socket) {
+            // Forward to worker instance
             var worker = new AwtsmoosEmailClient({ port: this.port });
-            worker.privateKey = this.privateKey;
-            worker.cert = this.cert;
-            worker.key = this.key;
-            worker.hasFiles = this.hasFiles;
+            worker.privateKey = this.privateKey; worker.cert = this.cert; worker.key = this.key; worker.hasFiles = this.hasFiles;
             return worker.sendMail(sender, recipient, subject, rawBody, customHeaders, attachments);
         }
 
         return new Promise(async (resolve, reject) => {
-            this._resolve = resolve;
-            this._reject = reject;
-            this.previousCommand = ''; 
+            this._resolve = resolve; this._reject = reject; this.previousCommand = ''; 
             
-            console.log("B\"H - Sending Mail to:", recipient);
-
             try {
                 var addresses = await this.getDNSRecords(recipient);
                 this.smtpServer = addresses[0].exchange;
                 
-                this.socket = net.createConnection({
-                    port: this.port, host: this.smtpServer, family: 4 
-                });
-
-                this.socket.setTimeout(20000, () => {
-                    this.socket.destroy();
-                    reject(new Error("SMTP Connection Timed Out"));
-                });
+                this.socket = net.createConnection({ port: this.port, host: this.smtpServer, family: 4 });
+                this.socket.setTimeout(20000, () => { this.socket.destroy(); reject(new Error("SMTP Timeout")); });
                 
+                // 1. Process Internal Capsules & Merge with Explicit Attachments
+                var { cleanBody, attachments: detectedAtt } = processCapsules(rawBody);
+                var allAttachments = [...detectedAtt, ...(attachments || [])];
+
                 var domain = 'awtsmoos.com';
-                var selector = 'selector';
                 var messageId = `<${Date.now()}@${domain}>`;
                 var dateHeader = new Date().toUTCString();
+                var normalizedBody = cleanBody.replace(/\r\n/g, '\n').replace(/\n/g, CRLF);
                 
-                var normalizedBody = rawBody.replace(/\r\n/g, '\n').replace(/\n/g, CRLF);
-                
-                var headers = 
-                    `Message-ID: ${messageId}${CRLF}` +
-                    `Date: ${dateHeader}${CRLF}` +
-                    `From: ${sender}${CRLF}` +
-                    `To: ${recipient}${CRLF}` +
-                    `Subject: ${subject}${CRLF}`;
+                var headers = `Message-ID: ${messageId}${CRLF}Date: ${dateHeader}${CRLF}From: ${sender}${CRLF}To: ${recipient}${CRLF}Subject: ${subject}${CRLF}`;
 
                 if (customHeaders) {
                     for (let key in customHeaders) {
-                        // Skip Content-Type here, we handle it below based on attachments
-                        if(key.toLowerCase() !== 'content-type' && customHeaders[key]) {
-                            headers += `${key}: ${customHeaders[key]}${CRLF}`;
-                        }
+                        if(key.toLowerCase() !== 'content-type' && customHeaders[key]) headers += `${key}: ${customHeaders[key]}${CRLF}`;
                     }
                 }
 
-                // Determine Body Content Type (Default to text/html from Helper)
+                // Default to HTML if not specified, unless generic binary provided
                 var bodyContentType = customHeaders['Content-Type'] || 'text/html; charset=utf-8';
-                
                 var finalPayload = "";
 
-                // B"H - Multipart Logic
-                if (attachments && attachments.length > 0) {
+                // 2. Multipart Logic
+                if (allAttachments.length > 0) {
                     var boundary = "Awtsmoos_Bound_" + Date.now().toString(16);
-                    headers += `Content-Type: multipart/mixed; boundary="${boundary}"${CRLF}`;
-                    headers += `MIME-Version: 1.0${CRLF}`;
+                    headers += `Content-Type: multipart/mixed; boundary="${boundary}"${CRLF}MIME-Version: 1.0${CRLF}`;
 
-                    // 1. The Body Text
-                    finalPayload += `--${boundary}${CRLF}`;
-                    finalPayload += `Content-Type: ${bodyContentType}${CRLF}`;
-                    finalPayload += `Content-Transfer-Encoding: 7bit${CRLF}${CRLF}`;
-                    finalPayload += normalizedBody + CRLF + CRLF;
+                    // Part A: Main Text
+                    finalPayload += `--${boundary}${CRLF}Content-Type: ${bodyContentType}${CRLF}Content-Transfer-Encoding: 7bit${CRLF}${CRLF}${normalizedBody}${CRLF}${CRLF}`;
 
-                    // 2. The Attachments
-                    attachments.forEach(att => {
+                    // Part B: Attachments
+                    allAttachments.forEach(att => {
                         finalPayload += `--${boundary}${CRLF}`;
                         finalPayload += `Content-Type: ${att.contentType || 'application/octet-stream'}; name="${att.filename}"${CRLF}`;
                         finalPayload += `Content-Disposition: attachment; filename="${att.filename}"${CRLF}`;
                         finalPayload += `Content-Transfer-Encoding: base64${CRLF}${CRLF}`;
                         
-                        // Handle Buffer or String
-                        let b64 = "";
-                        if (Buffer.isBuffer(att.content)) b64 = att.content.toString('base64');
-                        else b64 = Buffer.from(String(att.content)).toString('base64');
-                        
-                        // Split into 76-char lines (MIME Standard)
-                        b64 = b64.replace(/(.{76})/g, "$1" + CRLF);
-                        
+                        let b64 = Buffer.isBuffer(att.content) ? att.content.toString('base64') : Buffer.from(String(att.content)).toString('base64');
+                        b64 = b64.replace(/(.{76})/g, "$1" + CRLF); // Split lines
                         finalPayload += b64 + CRLF + CRLF;
                     });
-                    
                     finalPayload += `--${boundary}--${CRLF}`;
                 } else {
-                    // Standard Logic
                     headers += `Content-Type: ${bodyContentType}${CRLF}`;
                     finalPayload = normalizedBody + CRLF;
                 }
 
-                // Sign & Send
                 var dataToSend = headers + CRLF + finalPayload;
                 
                 if(this.privateKey) {
-                    // Sign the full headers + body
-                    var sigValue = this.signEmail(domain, selector, this.privateKey, headers, finalPayload);
-                    if(sigValue) {
-                        dataToSend = `DKIM-Signature: ${sigValue}${CRLF}` + dataToSend;
-                    }
+                    var sigValue = this.signEmail(domain, 'selector', this.privateKey, headers, finalPayload);
+                    if(sigValue) dataToSend = `DKIM-Signature: ${sigValue}${CRLF}` + dataToSend;
                 }
 
                 this.socket.on('connect', () => { });
                 this.handleClientData({ client: this.socket, sender, recipient, dataToSend });
                 this.socket.on('end', () => { this.socket.removeAllListeners(); resolve(); });
-                this.socket.on('error', (e)=>{ this.socket.removeAllListeners(); console.error("Socket Error:", e.message); reject(e); });
+                this.socket.on('error', (e)=>{ this.socket.removeAllListeners(); reject(e); });
                 this.socket.on('close', () => { 
                     this.socket.removeAllListeners(); 
-                    if (this.previousCommand === 'END OF DATA' || this.previousCommand === 'QUIT' || this.previousCommand === 'SEND_BODY') resolve();
-                    else reject(new Error('Connection closed prematurely'));
+                    if (this.previousCommand === 'END OF DATA' || this.previousCommand === 'QUIT') resolve();
+                    else reject(new Error('Closed prematurely'));
                 });
 
-            } catch (e) {
-                console.error("Send Error:", e.message);
-                reject(e);
-            }
+            } catch (e) { reject(e); }
         });
     }
 
@@ -459,5 +422,37 @@ Awtsmoos.com`;
         } catch (err) { console.error('Job Failed:', err); }
     })();
 }
+
+
+
+
+
+
+// B"H - Helper to extract HTML Capsules or Raw HTML as Attachments
+function processCapsules(body) {
+    let cleanBody = body || "";
+    let attachments = [];
+    let counter = 1;
+
+    // Extract Markdown Code Blocks marked as HTML
+    const capsuleRegex = /```html\s*([\s\S]*?)```/gi;
+    if (cleanBody.match(capsuleRegex)) {
+        cleanBody = cleanBody.replace(capsuleRegex, (match, code) => {
+            const filename = `artifact_${Date.now()}_${counter++}.html`;
+            attachments.push({ filename, content: code, contentType: 'text/html' });
+            return `\n[Attached HTML Artifact: ${filename}]\n`;
+        });
+    }
+
+    // Detect if the entire message is a Raw HTML Document
+    if (/^\s*<!DOCTYPE html/i.test(cleanBody) || /^\s*<html/i.test(cleanBody)) {
+        const filename = `document_${Date.now()}.html`;
+        attachments.push({ filename, content: cleanBody, contentType: 'text/html' });
+        cleanBody = "Please find the attached HTML document.";
+    }
+    
+    return { cleanBody, attachments };
+}
+
 
 module.exports = AwtsmoosEmailClient;
