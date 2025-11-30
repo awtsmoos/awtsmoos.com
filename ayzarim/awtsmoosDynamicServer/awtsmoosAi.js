@@ -106,7 +106,7 @@ module.exports = async function callGemini(fetchImpl, history, apiKey, preferred
             // B"H - REAL TIME STREAMING LOGIC
             recordUsage(apiKey, model, estimatedCost);
             
-            // 1. Get the Reader (Standard or Polyfill)
+            // 1. Get the Reader
             const reader = response.body.getReader ? response.body.getReader() : null;
             if (!reader) {
                 // Fallback for non-stream environments: wait for full JSON
@@ -126,57 +126,40 @@ module.exports = async function callGemini(fetchImpl, history, apiKey, preferred
                 const chunkStr = decoder.decode(value, { stream: true });
                 buffer += chunkStr;
 
-                // 3. Parse JSON Objects from Buffer
-                // The API returns a list of objects like:  [{...},{...}
-                // But chunks might cut them in half. We need to find complete objects.
-                
-                let bracketDepth = 0;
-                let start = 0;
-                let inQuote = false;
-                let escaped = false;
-
-                for (let i = 0; i < buffer.length; i++) {
-                    const char = buffer[i];
-                    
-                    if (char === '"' && !escaped) inQuote = !inQuote;
-                    if (!inQuote) {
-                        if (char === '{') {
-                            if (bracketDepth === 0) start = i;
-                            bracketDepth++;
-                        } else if (char === '}') {
-                            bracketDepth--;
-                            if (bracketDepth === 0) {
-                                // Found a complete JSON object
-                                const jsonStr = buffer.substring(start, i + 1);
-                                try {
-                                    const parsed = JSON.parse(jsonStr);
-                                    
-                                    // 4. Extract Text
-                                    if (parsed.candidates && parsed.candidates[0].content) {
-                                        const parts = parsed.candidates[0].content.parts;
-                                        if (parts && parts[0] && parts[0].text) {
-                                            const newText = parts[0].text;
-                                            accumulatedText += newText;
-                                            
-                                            // 5. Fire Callback (Updates the Ghost Bubble)
-                                            if (onChunk) onChunk(accumulatedText);
-                                        }
-                                    }
-                                } catch (e) { /* Ignore partial/malformed */ }
-                                
-                                // Advance buffer past this object
-                                buffer = buffer.substring(i + 1);
-                                i = -1; // Reset loop for new buffer
-                            }
-                        }
+                // B"H - Simplified Parsing Logic (Client-Style)
+                // Attempt to parse the accumulating array by forcing it closed
+                try {
+                    let tempBuffer = buffer.trim();
+                    // If stream isn't finished, it won't have the closing bracket
+                    if (!tempBuffer.endsWith(']')) {
+                        tempBuffer += ']';
                     }
-                    escaped = (char === '\\' && !escaped);
+
+                    // Parse the whole array so far
+                    const jsonArray = JSON.parse(tempBuffer);
+                    
+                    // Re-calculate the full text state
+                    let currentFullText = "";
+                    for (const item of jsonArray) {
+                        const piece = item?.candidates?.[0]?.content?.parts?.[0]?.text || "";
+                        currentFullText += piece;
+                    }
+
+                    // 3. Fire Callback (Updates Ghost Bubble)
+                    if (currentFullText && onChunk) {
+                        onChunk(currentFullText);
+                    }
+                    
+                    accumulatedText = currentFullText;
+
+                } catch (e) {
+                    // Buffer is not yet valid JSON (e.g. cut in the middle of a string), wait for next chunk
                 }
             }
 
             return accumulatedText;
-
-        } catch (e) {
+            
+            } catch (e) {
             console.error(`B"H - Stream Error ${model}`, e);
             continue; 
         }
