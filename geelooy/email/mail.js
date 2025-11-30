@@ -33,13 +33,33 @@ const state = {
 
 // --- Genesis ---
 
-async function whenLoaded() {
-    if (!window.curAlias) {
+// B"H
+async function whenLoaded(e) {
+    // 1. Determine Identity from Window or Event
+    let id = window.curAlias;
+    
+    // If triggered by event, prefer the event detail
+    if (e && e.detail && typeof e.detail.id !== 'undefined') {
+        id = e.detail.id;
+    }
+
+    // 2. Gatekeeper: If no identity (null or undefined), show lock screen
+    if (!id) {
+        state.alias = null;
+        window.curAlias = null;
         document.getElementById('loginOverlay').classList.remove('hidden');
+        document.getElementById('appContainer').classList.add('hidden');
         return;
     }
-    state.alias = window.curAlias;
-    document.getElementById('displayAlias').textContent = state.alias;
+
+    // 3. Identity Confirmed: Open the App
+    state.alias = id;
+    window.curAlias = id; // Sync global
+    
+    // REMOVED: document.getElementById('displayAlias').textContent = state.alias;
+    // REASON: This was overwriting the Profile Dropdown HTML. 
+    // The dropdown itself will handle showing the name.
+
     document.getElementById('loginOverlay').classList.add('hidden');
     document.getElementById('appContainer').classList.remove('hidden');
 
@@ -49,8 +69,10 @@ async function whenLoaded() {
     // Initial Fetch: Snippets Only
     await refreshSnippets();
     
-    // Poll for new snippets
-    setInterval(refreshSnippets, 30000);
+    // Poll for new snippets if not already polling
+    if(!window._mailPoll) {
+        window._mailPoll = setInterval(refreshSnippets, 30000);
+    }
 }
 
 
@@ -600,6 +622,14 @@ function escapeHtml(text) {
         .replace(/\\/g, ""); // Remove backslashes used for escaping in the original raw text
 }
 
+function escapeHtml(text) {
+    // B"H - The Shield of String
+    if (text === null || text === undefined) return "";
+    return String(text)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;");
+}
 
 
 function formatTime(ts) {
@@ -1238,6 +1268,7 @@ function toggleView(newView) {
 
 
 
+
 /**
  * B"H - The Alchemist's Crucible: Mixed Mode
  * 1. Extracts ```blocks```.
@@ -1432,7 +1463,6 @@ window.downloadCapsule = function(id) {
 };
 
 
-
 // B"H 
 // --- EXPOSE FUNCTIONS TO WINDOW (For HTML Events) ---
 window.toggleView = toggleView;
@@ -1458,7 +1488,6 @@ if (window.curAlias) {
 
 // 2. Listen for changes (Login / Logout / Switch Alias)
 window.addEventListener("awtsmoosAliasChange", whenLoaded);
-
 
 
 
