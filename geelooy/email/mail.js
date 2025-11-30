@@ -326,44 +326,34 @@ async function selectThread(threadId, displayName) {
     attachScrollListener();
 }
 
+// B"H
 function renderMessages(threadId, forceScrollBottom = false) {
     const container = document.getElementById('messagesContainer');
     const msgs = state.threads[threadId] || [];
     
-    // --- 1. PRESERVE GHOST STATE ---
-    // The Ghost Bubble is ephemeral (not in state.threads), so we must 
-    // grab its text before we wipe the container.
+    // Preserve Ghost
     const existingGhost = document.getElementById('ghostBubble');
     let savedGhostText = null;
-    
     if (existingGhost) {
         const textEl = document.getElementById('ghostText');
-        if (textEl) {
-            savedGhostText = textEl.textContent;
-        }
+        if (textEl) savedGhostText = textEl.textContent; // Raw text for safety during re-render
     }
 
-    // --- 2. CAPTURE SCROLL POSITION ---
-    // Essential for "infinite scroll up" so the view doesn't jump.
+    // Capture Position
     const oldScrollHeight = container.scrollHeight;
     const oldScrollTop = container.scrollTop;
 
-    // --- 3. WIPE CONTAINER ---
+    // Wipe & Render
     container.innerHTML = '';
-
     if (msgs.length === 0 && !state.isLoadingHistory) {
         container.innerHTML = '<div class="empty-state">No messages here.</div>';
     }
 
-    // --- 4. RENDER MESSAGES ---
     let lastDate = null;
     msgs.forEach(msg => {
         const ts = msg.time || msg.timeSent;
-        if (!ts) return; // Skip invalid data
-
+        if (!ts) return; 
         const dateStr = new Date(ts).toLocaleDateString();
-        
-        // Add Date Separator
         if (dateStr !== lastDate) {
             const sep = document.createElement('div');
             sep.className = 'date-separator';
@@ -371,29 +361,25 @@ function renderMessages(threadId, forceScrollBottom = false) {
             container.appendChild(sep);
             lastDate = dateStr;
         }
-        
         container.appendChild(createMessageRow(msg));
     });
 
-    // --- 5. RESTORE GHOST BUBBLE ---
-    // If the AI was typing, put the bubble back at the bottom immediately.
+    // Restore Ghost
     if (savedGhostText !== null) {
         renderGhostBubble(savedGhostText);
     }
 
-    // --- 6. HANDLE SCROLLING ---
-    // If we forced scroll OR if we are currently ghost typing, go to bottom.
-    if (forceScrollBottom || savedGhostText !== null) {
-        setTimeout(() => {
-            container.scrollTop = container.scrollHeight;
-        }, 0);
+    // B"H - Smart Scroll Logic for Full Render
+    if (forceScrollBottom) {
+        // If I sent a message or clicked a new thread, force bottom
+        setTimeout(() => { container.scrollTop = container.scrollHeight; }, 0);
+        isUserAtBottom = true; // Reset state
     } else {
-        // Otherwise, restore position (e.g. after loading history)
+        // If loading history, maintain position relative to content
         const newScrollHeight = container.scrollHeight;
         container.scrollTop = oldScrollTop + (newScrollHeight - oldScrollHeight);
     }
 }
-
 
  
 function createMessageRow(msg) {
@@ -456,17 +442,31 @@ function createMessageRow(msg) {
 }
 // --- Infinite Scroll Logic ---
 
+// B"H
+// --- Scroll Logic with "Stickiness" ---
+let isUserAtBottom = true; // State to track if we should auto-scroll
+
 function attachScrollListener() {
     const container = document.getElementById('messagesContainer');
+    
     container.onscroll = async () => {
+        // 1. Calculate distance from bottom
+        // (scrollHeight - scrollTop) should equal clientHeight at the very bottom
+        const distanceToBottom = container.scrollHeight - container.scrollTop - container.clientHeight;
+        
+        // 2. Update Stickiness State
+        // If user is within 100px of bottom, we consider them "at bottom" and will auto-scroll for them.
+        // If they pull up more than 100px, we stop auto-scrolling.
+        isUserAtBottom = distanceToBottom < 100;
+
+        // 3. Infinite History Loader (Top)
         if (container.scrollTop < 50 && !state.isLoadingHistory) {
-            // Reached top - load older messages
             const tid = state.activeThread;
             const nextPage = (state.pagination[tid] || 1) + 1;
             
             const added = await loadThreadHistory(tid, nextPage);
             if (added > 0) {
-                renderMessages(tid, false); // Render without forcing bottom scroll
+                renderMessages(tid, false); 
             }
         }
     };
@@ -717,6 +717,7 @@ else if (data.type === 'LIVE_PREVIEW') {
 }
 
 
+// B"H
 function renderGhostBubble(content) {
     if (!content) {
         const el = document.getElementById('ghostBubble');
@@ -738,16 +739,23 @@ function renderGhostBubble(content) {
                 <div class="msg-content email-body" id="ghostText"></div>
             </div>`;
         container.appendChild(ghost);
-        // Auto scroll to bottom to see typing
+        
+        // Always scroll to bottom when ghost first appears
         container.scrollTop = container.scrollHeight;
     }
     
-    // Update Text
+    // Update Text with RICH PARSING
     const textEl = document.getElementById('ghostText');
     if (textEl) {
-        // Simple text only for preview to avoid HTML injection flicker
-        textEl.textContent = content; 
+        // Use formatContent to render Markdown/HTML in real-time
+        textEl.innerHTML = formatContent(content); 
         ghost.style.opacity = '0.7';
+    }
+
+    // Smart Auto-Scroll
+    // Only scroll if the user was already near the bottom
+    if (isUserAtBottom) {
+        container.scrollTop = container.scrollHeight;
     }
 }
 
@@ -1455,9 +1463,37 @@ window.downloadCapsule = function(id) {
     URL.revokeObjectURL(url);
 };
 
+// B"H
+// Toolbar Helper: Inserts formatting at cursor position
+function insertFormat(startTag, endTag) {
+    const textarea = document.getElementById('messageInput');
+    const start = textarea.selectionStart;
+    const end = textarea.selectionEnd;
+    const text = textarea.value;
+    const before = text.substring(0, start);
+    const selected = text.substring(start, end);
+    const after = text.substring(end);
+
+    // Insert
+    textarea.value = before + startTag + selected + endTag + after;
+    
+    // Reset cursor position to end of insertion
+    const newCursorPos = start + startTag.length + selected.length + endTag.length;
+    textarea.selectionStart = newCursorPos;
+    textarea.selectionEnd = newCursorPos;
+    textarea.focus();
+
+    // Trigger input event so the Broadcaster (Ghost) sends the update immediately
+    textarea.dispatchEvent(new Event('input'));
+}
+
+
 
 // B"H 
+
 // --- EXPOSE FUNCTIONS TO WINDOW (For HTML Events) ---
+// B"H
+window.insertFormat = insertFormat;
 window.toggleView = toggleView;
 window.backToInbox = backToInbox;
 window.approveThread = approveThread;

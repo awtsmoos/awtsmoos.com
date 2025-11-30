@@ -1244,6 +1244,52 @@ label a:hover { text-decoration: underline; }
 .overlay.hidden {
     display: none !important;
 }
+/* B"H - Formatting Toolbar & Smart Scroll Styles */
+
+.formatting-bar {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 8px 12px;
+    background: rgba(0, 0, 0, 0.3);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    overflow-x: auto; /* Scrollable on small mobiles */
+    white-space: nowrap;
+    
+    /* Hide scrollbar but allow scroll */
+    scrollbar-width: none; 
+    -ms-overflow-style: none;
+}
+.formatting-bar::-webkit-scrollbar { display: none; }
+
+.fmt-btn {
+    background: transparent;
+    border: 1px solid transparent;
+    color: var(--text-secondary);
+    border-radius: 6px;
+    width: 28px; height: 28px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    font-family: monospace;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+}
+
+.fmt-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--neon-gold);
+}
+
+.fmt-btn:active {
+    transform: scale(0.95);
+}
+
+.fmt-sep {
+    width: 1px;
+    height: 16px;
+    background: rgba(255, 255, 255, 0.1);
+    margin: 0 4px;
+}
 
 
 
