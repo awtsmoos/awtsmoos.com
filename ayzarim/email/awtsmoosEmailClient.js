@@ -203,15 +203,17 @@ class AwtsmoosEmailClient {
         }
     }
 
-    // B"H - Updated sendMail to accept Custom Headers (Lineage)
-    async sendMail(sender, recipient, subject, rawBody, customHeaders = {}) {
+    // B"H
+    // Generic Send with Attachment Support
+    // attachments = [{ filename: "doc.html", content: "<html>...", contentType: "text/html" }]
+    async sendMail(sender, recipient, subject, rawBody, customHeaders = {}, attachments = []) {
         if (this.socket) {
             var worker = new AwtsmoosEmailClient({ port: this.port });
             worker.privateKey = this.privateKey;
             worker.cert = this.cert;
             worker.key = this.key;
             worker.hasFiles = this.hasFiles;
-            return worker.sendMail(sender, recipient, subject, rawBody, customHeaders);
+            return worker.sendMail(sender, recipient, subject, rawBody, customHeaders, attachments);
         }
 
         return new Promise(async (resolve, reject) => {
@@ -240,10 +242,7 @@ class AwtsmoosEmailClient {
                 var dateHeader = new Date().toUTCString();
                 
                 var normalizedBody = rawBody.replace(/\r\n/g, '\n').replace(/\n/g, CRLF);
-                var bodyToSend = normalizedBody;
-                while (bodyToSend.endsWith(CRLF)) bodyToSend = bodyToSend.slice(0, -CRLF.length);
-                bodyToSend += CRLF;
-
+                
                 var headers = 
                     `Message-ID: ${messageId}${CRLF}` +
                     `Date: ${dateHeader}${CRLF}` +
@@ -251,22 +250,63 @@ class AwtsmoosEmailClient {
                     `To: ${recipient}${CRLF}` +
                     `Subject: ${subject}${CRLF}`;
 
-                // B"H - Inject Custom Headers (Lineage & Content-Type)
                 if (customHeaders) {
                     for (let key in customHeaders) {
-                        if(customHeaders[key]) headers += `${key}: ${customHeaders[key]}${CRLF}`;
+                        // Skip Content-Type here, we handle it below based on attachments
+                        if(key.toLowerCase() !== 'content-type' && customHeaders[key]) {
+                            headers += `${key}: ${customHeaders[key]}${CRLF}`;
+                        }
                     }
                 }
+
+                // Determine Body Content Type (Default to text/html from Helper)
+                var bodyContentType = customHeaders['Content-Type'] || 'text/html; charset=utf-8';
                 
-                // Ensure Content-Type exists
-                if (!Object.keys(customHeaders || {}).some(k => k.toLowerCase() === 'content-type')) {
-                    headers += `Content-Type: text/plain; charset=utf-8${CRLF}`;
+                var finalPayload = "";
+
+                // B"H - Multipart Logic
+                if (attachments && attachments.length > 0) {
+                    var boundary = "Awtsmoos_Bound_" + Date.now().toString(16);
+                    headers += `Content-Type: multipart/mixed; boundary="${boundary}"${CRLF}`;
+                    headers += `MIME-Version: 1.0${CRLF}`;
+
+                    // 1. The Body Text
+                    finalPayload += `--${boundary}${CRLF}`;
+                    finalPayload += `Content-Type: ${bodyContentType}${CRLF}`;
+                    finalPayload += `Content-Transfer-Encoding: 7bit${CRLF}${CRLF}`;
+                    finalPayload += normalizedBody + CRLF + CRLF;
+
+                    // 2. The Attachments
+                    attachments.forEach(att => {
+                        finalPayload += `--${boundary}${CRLF}`;
+                        finalPayload += `Content-Type: ${att.contentType || 'application/octet-stream'}; name="${att.filename}"${CRLF}`;
+                        finalPayload += `Content-Disposition: attachment; filename="${att.filename}"${CRLF}`;
+                        finalPayload += `Content-Transfer-Encoding: base64${CRLF}${CRLF}`;
+                        
+                        // Handle Buffer or String
+                        let b64 = "";
+                        if (Buffer.isBuffer(att.content)) b64 = att.content.toString('base64');
+                        else b64 = Buffer.from(String(att.content)).toString('base64');
+                        
+                        // Split into 76-char lines (MIME Standard)
+                        b64 = b64.replace(/(.{76})/g, "$1" + CRLF);
+                        
+                        finalPayload += b64 + CRLF + CRLF;
+                    });
+                    
+                    finalPayload += `--${boundary}--${CRLF}`;
+                } else {
+                    // Standard Logic
+                    headers += `Content-Type: ${bodyContentType}${CRLF}`;
+                    finalPayload = normalizedBody + CRLF;
                 }
 
-                var dataToSend = headers + CRLF + bodyToSend;
+                // Sign & Send
+                var dataToSend = headers + CRLF + finalPayload;
                 
                 if(this.privateKey) {
-                    var sigValue = this.signEmail(domain, selector, this.privateKey, headers, bodyToSend);
+                    // Sign the full headers + body
+                    var sigValue = this.signEmail(domain, selector, this.privateKey, headers, finalPayload);
                     if(sigValue) {
                         dataToSend = `DKIM-Signature: ${sigValue}${CRLF}` + dataToSend;
                     }

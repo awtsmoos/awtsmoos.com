@@ -231,22 +231,54 @@ async function getMail({ $i, userid, aliasId, threadId, page = 1, pageSize = 20,
 
 
 // B"H
+// Helper to extract HTML Capsules for External Email
+function extractCapsules(text) {
+    let cleanText = text || "";
+    let attachments = [];
+    let counter = 1;
+
+    // 1. Check for Markdown HTML Blocks (Capsules)
+    // Matches ```html ... ``` content
+    const capsuleRegex = /```html\s*([\s\S]*?)```/gi;
+    
+    if (cleanText.match(capsuleRegex)) {
+        cleanText = cleanText.replace(capsuleRegex, (match, code) => {
+            const filename = `artifact_${Date.now()}_${counter++}.html`;
+            attachments.push({
+                filename: filename,
+                content: code, // The HTML string
+                contentType: 'text/html'
+            });
+            return `\n[Attached HTML Artifact: ${filename}]\n`;
+        });
+    }
+
+    // 2. Check for Full Document Paste (Raw HTML)
+    // If the entire message looks like a doc, attach it instead of putting it in body
+    if (/^\s*<!DOCTYPE html/i.test(cleanText) || /^\s*<html/i.test(cleanText)) {
+        const filename = `document_${Date.now()}.html`;
+        attachments.push({
+            filename: filename,
+            content: cleanText,
+            contentType: 'text/html'
+        });
+        cleanText = "Please find the attached HTML document.";
+    }
+
+    return { cleanText, attachments };
+}
+
+// B"H
 async function sendMail({ $i, userid, asAliasId, toAliasId, toEmail }) {
     console.log(`B"H DEBUG: sendMail INVOKED. From: [${asAliasId}] ToAlias: [${toAliasId}] ToEmail: [${toEmail}]`);
 
-    if (!loggedIn($i)) {
-        console.log("B\"H DEBUG: sendMail FAILED. User not logged in.");
-        return er(NO_LOGIN);
-    }
+    if (!loggedIn($i)) return er(NO_LOGIN);
 
     // 1. Verify Sender
     var verified = await verifyAliasOwnership(asAliasId, $i, userid);
-    if (!verified) {
-        console.log(`B"H DEBUG: sendMail FAILED. Ownership verify failed for [${asAliasId}] user [${userid}]`);
-        return er({ message: "Not your alias", code: "AUTH_FAIL" });
-    }
+    if (!verified) return er({ message: "Not your alias", code: "AUTH_FAIL" });
 
-    // 2. Determine Recipient & Paths
+    // 2. Resolve Recipient & Paths
     var senderShort = asAliasId.toLowerCase();
     var senderFull = `${senderShort}_at_awtsmoos.com`;
     var recipientShort = "";
@@ -260,266 +292,105 @@ async function sendMail({ $i, userid, asAliasId, toAliasId, toEmail }) {
         return !!info;
     }
 
-    // Resolve Recipient
+    // Resolve Logic (Standard)
     if (toAliasId) {
-        // Clean up input
         let cleanId = toAliasId.toLowerCase().trim();
-        
-        // 1. Check if it explicitly looks like our domain
         if (cleanId.includes("awtsmoos.com")) {
-            // Extract core name: "abarbanel_at_awtsmoos.com" -> "abarbanel"
             let core = cleanId.split(/[@_]/)[0];
-            
             if (await checkLocalDB(core)) {
-                isLocal = true;
-                recipientShort = core;
-                recipientFull = `${core}_at_awtsmoos.com`;
-                targetEmailDisplay = `${core}@awtsmoos.com`;
-            } else {
-                // Domain matches but user doesn't exist? Treat as external or error
-                isLocal = false;
-                recipientFull = cleanId.replace("@", "_at_");
-                targetEmailDisplay = cleanId.replace("_at_", "@");
-            }
-        }
-        // 2. Check if it's just a short name "abarbanel"
-        else if (!cleanId.includes("@") && !cleanId.includes("_at_")) {
+                isLocal = true; recipientShort = core; recipientFull = `${core}_at_awtsmoos.com`; targetEmailDisplay = `${core}@awtsmoos.com`;
+            } else { isLocal = false; recipientFull = cleanId.replace("@", "_at_"); targetEmailDisplay = cleanId.replace("_at_", "@"); }
+        } else if (!cleanId.includes("@") && !cleanId.includes("_at_")) {
              if (await checkLocalDB(cleanId)) {
-                isLocal = true;
-                recipientShort = cleanId;
-                recipientFull = `${cleanId}_at_awtsmoos.com`;
-                targetEmailDisplay = `${cleanId}@awtsmoos.com`;
-            } else {
-                 return er({ message: "Recipient alias not found locally", code: "RCPT_NOT_FOUND" });
-            }
-        }
-        // 3. Complex external ID "friend@gmail.com"
-        else {
-            isLocal = false;
-            recipientFull = cleanId.replace("@", "_at_");
-            targetEmailDisplay = cleanId.replace("_at_", "@");
-        }
-    } 
-    else if (toEmail) {
-        // Same logic for email input
+                isLocal = true; recipientShort = cleanId; recipientFull = `${cleanId}_at_awtsmoos.com`; targetEmailDisplay = `${cleanId}@awtsmoos.com`;
+            } else { return er({ message: "Recipient alias not found locally", code: "RCPT_NOT_FOUND" }); }
+        } else { isLocal = false; recipientFull = cleanId.replace("@", "_at_"); targetEmailDisplay = cleanId.replace("_at_", "@"); }
+    } else if (toEmail) {
         let cleanEmail = toEmail.toLowerCase().trim();
         targetEmailDisplay = cleanEmail;
-        
         if (cleanEmail.endsWith("@awtsmoos.com")) {
             let core = cleanEmail.split("@")[0];
-             if (await checkLocalDB(core)) {
-                isLocal = true;
-                recipientShort = core;
-                recipientFull = `${core}_at_awtsmoos.com`;
-            } else {
-                recipientFull = cleanEmail.replace("@", "_at_");
-            }
-        } else {
-            recipientFull = cleanEmail.replace("@", "_at_").replace(/[<>]/g, "");
-        }
-    } else {
-        return er({ message: "Must provide recipient", code: "NO_RCPT" });
-    }
-
-    console.log(`B"H DEBUG: Resolve Complete. SenderFull: [${senderFull}], RecipientFull: [${recipientFull}], IsLocal: [${isLocal}]`);
+             if (await checkLocalDB(core)) { isLocal = true; recipientShort = core; recipientFull = `${core}_at_awtsmoos.com`; } 
+             else { recipientFull = cleanEmail.replace("@", "_at_"); }
+        } else { recipientFull = cleanEmail.replace("@", "_at_").replace(/[<>]/g, ""); }
+    } else { return er({ message: "Must provide recipient", code: "NO_RCPT" }); }
 
     var subject = $i.$_POST.subject || $i.$_GET.subject || "(No Subject)";
     var content = $i.$_POST.content || $i.$_GET.content || "";
-
-    // B"H - SAFETY SEAL
-    // The server parser turns "123" into a Number, which has no substring() method.
-    // We must force the content back into a String to prevent the crash.
-    if (typeof content !== "string") {
-        content = String(content || "");
-    }
+    if (typeof content !== "string") content = String(content || "");
     var time = Date.now();
 
     try {
         // === 3. WRITE TO SENDER (My Sent Folder) ===
         const senderPath = `/emails/${senderFull}/threads/${recipientFull}`;
-        console.log(`B"H DEBUG: Writing to SENDER path: ${senderPath}`);
-        
         await $i.db.appendToObj(senderPath, {
             key: time + "",
-            value: {
-                from: senderShort, 
-                to: targetEmailDisplay,
-                subject, content, time, 
-                read: true, direction: "outgoing"
-            }
+            value: { from: senderShort, to: targetEmailDisplay, subject, content, time, read: true, direction: "outgoing" }
         });
 
+        // === 4. LOCAL DELIVERY ===
         if (isLocal) {
-            // === 4. WRITE TO RECIPIENT (Their Inbox) ===
             const recipientPath = `/emails/${recipientFull}/threads/${senderFull}`;
-            console.log(`B"H DEBUG: Writing to RECIPIENT path: ${recipientPath}`);
-            
-            // A. Check Gatekeeper / Settings
-            // We define this BEFORE writing so we know the status
             var settingsPath = `/social/aliases/${recipientShort}/emailSettings`;
             var settings = await $i.db.get(settingsPath) || { approved: {} };
-            if(!settings.approved) settings.approved = {};
+            var status = (settings.gatekeeperMode && !settings.approved?.[senderShort]) ? "request" : "inbox";
 
-            var status = "inbox";
-            if (settings.gatekeeperMode) {
-                // Check simple short name OR full ID
-                if (!settings.approved[senderShort] && !settings.approved[senderFull]) {
-                    status = "request";
-                }
-            }
-            
-            // B. Perform The Write
             await $i.db.appendToObj(recipientPath, {
                 key: time + "",
-                value: {
-                    from: senderShort,
-                    fromName: senderShort,
-                    to: targetEmailDisplay,
-                    status: status,
-                    subject,
-                    content,
-                    time,
-                    read: false,
-                    direction: "incoming",
-                    correspondent: senderShort
-                }
+                value: { from: senderShort, fromName: senderShort, to: targetEmailDisplay, status, subject, content, time, read: false, direction: "incoming", correspondent: senderShort }
             });
 
-            console.log("B\"H DEBUG: Recipient Write Complete. Attempting Socket Notify...");
-
-            // C. Notify Recipient (WebSocket)
             if ($i.ws) {
                 $i.ws.sendToAlias(recipientShort, {
                     type: 'NEW_MAIL',
-                    message: {
-                        id: `${senderFull}:${time}`,
-                        uid: time + "",
-                        from: senderShort,
-                        fromName: senderShort,
-                        subject: subject,
-                        status: status,
-                        snippet: content.substring(0, 50),
-                        timeSent: time,
-                        correspondent: senderShort,
-                        direction: "incoming",
-                        content: content
-                    }
+                    message: { id: `${senderFull}:${time}`, uid: time + "", from: senderShort, fromName: senderShort, subject, status, snippet: content.substring(0, 50), timeSent: time, correspondent: senderShort, direction: "incoming", content }
                 });
-            } else {
-                console.log("B\"H DEBUG: $i.ws is UNDEFINED. Socket notification skipped.");
             }
 
-            // B"H - RULES IGNITION CHECK via Shared Engine
-            console.log(`B"H DEBUG: Rules State Check -> Recipient: [${recipientShort}] Status: [${status}]`);
-
+            // Shared Rules Engine
             if (status === "inbox" && $i.rulesEngine) {
-                console.log(`B"H DEBUG: IGNITION - Running Shared Rules Engine...`);
-                
-                // We delegate the logic to the shared engine, passing our specific "Reply" capability
                 $i.rulesEngine.processRules({
                     settings,
                     msg: { from: asAliasId, to: recipientShort, subject, content },
-                    dependencies: {
-                        // Use the server's injected AI
-                        callAi: $i.callAi, 
-                        // Define how to reply in THIS context (Local Mail DB)
-                        reply: (text) => sendSystemLocalMail($i, recipientShort, senderShort, "Re: " + subject, text),
-                        console: console
-                    }
+                    dependencies: { callAi: $i.callAi, reply: (text) => sendSystemLocalMail($i, recipientShort, senderShort, "Re: " + subject, text), console: console }
                 });
-            } else {
-                console.log(`B"H DEBUG: Rules skipped (Status: ${status} or Engine Missing)`);
             }
 
             return { success: { message: "Sent internally" } };
-        } else {
-            // === 5. EXTERNAL SEND (SMTP) ===
-            console.log("B\"H DEBUG: Preparing REMOTE (SMTP) transmission (HTML Mode)...");
-            
-            // Define identity early
+        } 
+        
+        // === 5. EXTERNAL DELIVERY (SMTP) ===
+        else {
+            // A. Extract Capsules
+            var { cleanText, attachments } = extractCapsules(content);
             var myFullEmail = `${senderShort}@awtsmoos.com`;
             
-            // B"H - HTML CONSTRUCTION
-            // We default to HTML so Gmail treats formatting (newlines, quotes) properly.
-            var fullOutgoingContent = ""; 
-            var msgs = []; 
-            var extraHeaders = {
-                'Content-Type': 'text/html; charset=utf-8' // <--- THE KEY
-            };
-
-            // Helper: Safe HTML Escaping
-            const esc = (txt) => (txt || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");//`
-
-            try {
-                // 1. Fetch History
-                const threadPath = `/emails/${senderFull}/threads/${recipientFull}`;
-                const threadData = await $i.db.get(threadPath);
-                
-                // Format YOUR New Message (Top Level)
-                // Convert \n to <br> for HTML display
-                let newBodyHtml = esc(content).replace(/\n/g, '<br>');
-                fullOutgoingContent = `<div dir="auto" style="font-family:sans-serif;font-size:12.8px">${newBodyHtml}</div>`;
-/*
-                if (threadData) {
-                    // 2. Sort Newest -> Oldest
-                    msgs = Object.values(threadData).sort((a,b) => b.time - a.time);
-                    
-                    // 3. Weave the History
-                    // B"H - FIX: slice(1, 16) skips the first message (index 0), 
-                    // which is the current message we JUST saved to the DB a moment ago.
-                    // We only want the *ancestors*, not the current self.
-                    if (msgs.length > 1) {
-                        fullOutgoingContent += `<br><br><div class="gmail_quote">`; 
-                        
-                        for (let m of msgs.slice(1, 16)) { 
-                            const dateStr = new Date(m.time).toLocaleString();
-                            const isMe = (m.from === senderShort);
-                            const speaker = isMe ? "Me" : (m.fromName || m.from);
-                            const speakerEmail = isMe ? myFullEmail : (m.fromEmail || "external");
-                            
-                            let rawText = m.textContent || m.content || "";
-                            if (rawText.includes("<")) rawText = rawText.replace(/<[^>]*>?/gm, '');
-                            
-                            let bodyBlock = esc(rawText).replace(/\n/g, '<br>');
-                            
-                            fullOutgoingContent += `<div dir="ltr" class="gmail_attr">On ${esc(dateStr)}, ${esc(speaker)} &lt;${esc(speakerEmail)}&gt; wrote:<br></div>`;
-                            fullOutgoingContent += `<blockquote class="gmail_quote" style="margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">${bodyBlock}</blockquote>`;
-                        }
-                        
-                        fullOutgoingContent += `</div>`; 
-                    }
-                }
-                
-                
-                */
-            } catch(e) {
-                console.log("B\"H DEBUG: HTML stitching failed, sending plain.", e);
-                fullOutgoingContent = esc(content).replace(/\n/g, '<br>'); 
+            // B. Force HTML Rendering
+            // If the user sent plain text, wrap it in a div and convert newlines to <br>
+            // If they sent raw HTML (like <div>...</div>), keep it.
+            let finalHtml = cleanText;
+            if (!/^\s*<(div|p|html|body|table)/i.test(finalHtml)) {
+                finalHtml = `<div dir="auto" style="font-family:sans-serif; font-size:14px;">
+                    ${cleanText.replace(/\n/g, '<br>')}
+                </div>`;
             }
 
-            // 4. Send
-            if ($i.mail && $i.mail.smtpClient) {
-                // Find Lineage for Threading
-                if (msgs && msgs.length > 0) {
-                    var parentMsg = msgs.find(m => m.direction === 'incoming' && m.messageId);
-                    if (parentMsg) {
-                        let pid = parentMsg.messageId.trim();
-                        // Enforce brackets for ID
-                        if (!pid.startsWith('<')) pid = `<${pid}>`;
-                        extraHeaders['In-Reply-To'] = pid;
-                        extraHeaders['References'] = pid; 
-                    }
-                }
+            // C. Define Headers
+            var extraHeaders = {
+                'Content-Type': 'text/html; charset=utf-8' // Explicitly say this is HTML
+            };
 
-                $i.mail.smtpClient.sendMail(
+            if ($i.mail && $i.mail.smtpClient) {
+                await $i.mail.smtpClient.sendMail(
                     myFullEmail, 
                     targetEmailDisplay, 
                     subject, 
-                    fullOutgoingContent,
-                    extraHeaders 
-                ).catch(e => console.error("SMTP Error", e));
+                    finalHtml, // Send the HTML version
+                    extraHeaders,
+                    attachments // Pass the extracted capsules/attachments
+                );
                 
-                return { success: { message: "Sent via SMTP (HTML)" } };
+                return { success: { message: "Sent via SMTP (HTML + Capsules)" } };
             }
             
             return { success: { message: "SMTP Client Missing" } };
