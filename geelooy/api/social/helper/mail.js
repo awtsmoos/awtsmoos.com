@@ -1,7 +1,7 @@
 /**
  * B"H
  * Unified Email API
- *  Capsules, Loop Protection, Remote Auto-Reply, Ghost Typing
+ * Fully implemented: Capsules, Loop Protection, Remote Auto-Reply, Ghost Typing
  */
 
 module.exports = {
@@ -243,28 +243,60 @@ async function sendMail({ $i, userid, asAliasId, toAliasId, toEmail }) {
     var targetEmailDisplay = "";
     var isLocal = false;
 
-    
-    async function checkLocalDB(shortId) { var info = await $i.db.get(`${sp}/aliases/${shortId}/info`); return !!info; }
+    async function checkLocalDB(shortId) {
+        var info = await $i.db.get(`${sp}/aliases/${shortId}/info`);
+        return !!info;
+    }
+
     if (toAliasId) {
         let cleanId = toAliasId.toLowerCase().trim();
         if (cleanId.includes("awtsmoos.com")) {
             let core = cleanId.split(/[@_]/)[0];
-            if (await checkLocalDB(core)) { isLocal = true; recipientShort = core; recipientFull = `${core}_at_awtsmoos.com`; targetEmailDisplay = `${core}@awtsmoos.com`; } 
-            else { isLocal = false; recipientFull = cleanId.replace("@", "_at_"); targetEmailDisplay = cleanId.replace("_at_", "@"); }
-        } else if (!cleanId.includes("@") && !cleanId.includes("_at_")) {
-             if (await checkLocalDB(cleanId)) { isLocal = true; recipientShort = cleanId; recipientFull = `${cleanId}_at_awtsmoos.com`; targetEmailDisplay = `${cleanId}@awtsmoos.com`; } 
-             else { return er({ message: "Recipient alias not found locally", code: "RCPT_NOT_FOUND" }); }
-        } else { isLocal = false; recipientFull = cleanId.replace("@", "_at_"); targetEmailDisplay = cleanId.replace("_at_", "@"); }
-    } else if (toEmail) {
+            if (await checkLocalDB(core)) {
+                isLocal = true;
+                recipientShort = core;
+                recipientFull = `${core}_at_awtsmoos.com`;
+                targetEmailDisplay = `${core}@awtsmoos.com`;
+            } else {
+                isLocal = false;
+                recipientFull = cleanId.replace("@", "_at_");
+                targetEmailDisplay = cleanId.replace("_at_", "@");
+            }
+        }
+        else if (!cleanId.includes("@") && !cleanId.includes("_at_")) {
+             if (await checkLocalDB(cleanId)) {
+                isLocal = true;
+                recipientShort = cleanId;
+                recipientFull = `${cleanId}_at_awtsmoos.com`;
+                targetEmailDisplay = `${cleanId}@awtsmoos.com`;
+            } else {
+                 return er({ message: "Recipient alias not found locally", code: "RCPT_NOT_FOUND" });
+            }
+        }
+        else {
+            isLocal = false;
+            recipientFull = cleanId.replace("@", "_at_");
+            targetEmailDisplay = cleanId.replace("_at_", "@");
+        }
+    } 
+    else if (toEmail) {
         let cleanEmail = toEmail.toLowerCase().trim();
         targetEmailDisplay = cleanEmail;
         if (cleanEmail.endsWith("@awtsmoos.com")) {
             let core = cleanEmail.split("@")[0];
-             if (await checkLocalDB(core)) { isLocal = true; recipientShort = core; recipientFull = `${core}_at_awtsmoos.com`; } 
-             else { recipientFull = cleanEmail.replace("@", "_at_"); }
-        } else { recipientFull = cleanEmail.replace("@", "_at_").replace(/[<>]/g, ""); }
-    } else { return er({ message: "Must provide recipient", code: "NO_RCPT" }); }
-    // --------------------------------------------------
+             if (await checkLocalDB(core)) {
+                isLocal = true;
+                recipientShort = core;
+                recipientFull = `${core}_at_awtsmoos.com`;
+            } else {
+                recipientFull = cleanEmail.replace("@", "_at_");
+            }
+        } else {
+            recipientFull = cleanEmail.replace("@", "_at_").replace(/[<>]/g, "");
+        }
+    } else {
+        return er({ message: "Must provide recipient", code: "NO_RCPT" });
+    }
 
     var subject = $i.$_POST.subject || $i.$_GET.subject || "(No Subject)";
     var content = $i.$_POST.content || $i.$_GET.content || "";
@@ -275,26 +307,44 @@ async function sendMail({ $i, userid, asAliasId, toAliasId, toEmail }) {
         const senderPath = `/emails/${senderFull}/threads/${recipientFull}`;
         await $i.db.appendToObj(senderPath, {
             key: time + "",
-            value: { from: senderShort, to: targetEmailDisplay, subject, content, time, read: true, direction: "outgoing" }
+            value: {
+                from: senderShort, 
+                to: targetEmailDisplay,
+                subject, content, time, 
+                read: true, direction: "outgoing"
+            }
         });
 
         if (isLocal) {
-            
             const recipientPath = `/emails/${recipientFull}/threads/${senderFull}`;
             var settingsPath = `/social/aliases/${recipientShort}/emailSettings`;
             var settings = await $i.db.get(settingsPath) || { approved: {}, rules: [] };
             if(!settings.approved) settings.approved = {};
-            var status = settings.gatekeeperMode && (!settings.approved[senderShort] && !settings.approved[senderFull]) ? "request" : "inbox";
+
+            var status = "inbox";
+            if (settings.gatekeeperMode) {
+                if (!settings.approved[senderShort] && !settings.approved[senderFull]) {
+                    status = "request";
+                }
+            }
             
             await $i.db.appendToObj(recipientPath, {
                 key: time + "",
-                value: { from: senderShort, fromName: senderShort, to: targetEmailDisplay, status: status, subject, content, time, read: false, direction: "incoming", correspondent: senderShort }
+                value: {
+                    from: senderShort, fromName: senderShort, to: targetEmailDisplay,
+                    status: status, subject, content, time,
+                    read: false, direction: "incoming", correspondent: senderShort
+                }
             });
 
             if ($i.ws) {
                 $i.ws.sendToAlias(recipientShort, {
                     type: 'NEW_MAIL',
-                    message: { id: `${senderFull}:${time}`, uid: time + "", from: senderShort, fromName: senderShort, subject: subject, status: status, snippet: content.substring(0, 50), timeSent: time, correspondent: senderShort, direction: "incoming", content: content }
+                    message: {
+                        id: `${senderFull}:${time}`, uid: time + "", from: senderShort, fromName: senderShort,
+                        subject: subject, status: status, snippet: content.substring(0, 50),
+                        timeSent: time, correspondent: senderShort, direction: "incoming", content: content
+                    }
                 });
             }
 
@@ -304,10 +354,21 @@ async function sendMail({ $i, userid, asAliasId, toAliasId, toEmail }) {
                     msg: { from: asAliasId, to: recipientShort, subject, content },
                     dependencies: {
                         callAi: $i.callAi, 
+                        // B"H - SEND STREAMING TO BOTH PARTIES ALWAYS
                         stream: (partial) => {
                             if($i.ws) {
-                                $i.ws.sendToAlias(recipientShort, { type: 'LIVE_PREVIEW', from: senderShort, content: partial });
-                                $i.ws.sendToAlias(senderShort, { type: 'LIVE_PREVIEW', from: recipientShort, content: partial });
+                                // 1. User B (Recipient) sees their own bot typing
+                                $i.ws.sendToAlias(recipientShort, {
+                                    type: 'LIVE_PREVIEW',
+                                    from: senderShort, 
+                                    content: partial
+                                });
+                                // 2. User A (Sender) sees "Ghost Typing" from User B
+                                $i.ws.sendToAlias(senderShort, {
+                                    type: 'LIVE_PREVIEW',
+                                    from: recipientShort, 
+                                    content: partial
+                                });
                             }
                         },
                         reply: (text) => sendSystemLocalMail($i, recipientShort, senderShort, "Re: " + subject, text),
@@ -317,18 +378,16 @@ async function sendMail({ $i, userid, asAliasId, toAliasId, toEmail }) {
             }
             return { success: { message: "Sent internally" } };
         } else {
-            // === EXTERNAL SMTP FIX ===
             var { cleanText, attachments } = extractCapsules(content);
             var myFullEmail = `${senderShort}@awtsmoos.com`;
             
-            // B"H - WHITESPACE FIX: Use pre-wrap to preserve indentation and newlines in external emails
+            // B"H - EXTERNAL FORMATTING FIX: Use Pre-Wrap for external mails
             let finalHtml = cleanText;
             if (!/^\s*<(div|p|html|body|table)/i.test(finalHtml)) {
                 finalHtml = `<div dir="auto" style="font-family:sans-serif; font-size:14px; white-space: pre-wrap;">${cleanText}</div>`;
             }
 
             var extraHeaders = { 'Content-Type': 'text/html; charset=utf-8' };
-
             if ($i.mail && $i.mail.smtpClient) {
                 await $i.mail.smtpClient.sendMail(
                     myFullEmail, targetEmailDisplay, subject, finalHtml, extraHeaders, attachments 
@@ -458,7 +517,7 @@ async function sendSystemLocalMail($i, fromAlias, toAlias, subject, content) {
                 from: fromShort, to: toShort, subject, 
                 snippet: content.substring(0, 50), content, 
                 timeSent: time, 
-                correspondent: correspondentForSender, // <--- Correctly attributes to the conversation
+                correspondent: correspondentForSender, 
                 direction: "outgoing", read: true 
             };
             $i.ws.sendToAlias(fromShort, { type: 'NEW_MAIL', message: senderMsg });
