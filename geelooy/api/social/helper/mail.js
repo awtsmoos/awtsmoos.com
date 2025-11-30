@@ -546,7 +546,9 @@ async function approveSender({ $i, userid, aliasId, senderId }) {
     return { success: true, message: "Sender approved" };
 }
 
-// B"H - Updated Helper to handle both LOCAL and EXTERNAL system replies
+
+// B"H
+// Helper to handle both LOCAL and EXTERNAL system replies
 // This prevents "Remote Starvation" and fixes "Infinite Loops"
 async function sendSystemLocalMail($i, fromAlias, toAlias, subject, content) {
     var fromShort = fromAlias.split('_at_')[0].split('@')[0];
@@ -568,6 +570,7 @@ async function sendSystemLocalMail($i, fromAlias, toAlias, subject, content) {
         toFolder = `${toShort}_at_awtsmoos.com`;
     }
     
+    // B"H - CRITICAL FIX: Ensure Target Email is correct for SMTP
     var targetEmail = isExternal ? toAlias.replace("_at_", "@") : `${toShort}@awtsmoos.com`;
     content = String(content || "");
 
@@ -588,13 +591,12 @@ async function sendSystemLocalMail($i, fromAlias, toAlias, subject, content) {
 
         // 3. DELIVERY
         if (isExternal) {
-            // B"H - External SMTP Delivery with Anti-Loop Headers
+            // B"H - External SMTP Delivery
             if ($i.mail && $i.mail.smtpClient) {
                 var extraHeaders = {
                     'Content-Type': 'text/plain; charset=utf-8',
-                    'Auto-Submitted': 'auto-replied',
-                    'Precedence': 'bulk',
-                    'X-Auto-Response-Suppress': 'All'
+                    'Auto-Submitted': 'auto-replied', // Prevent Loop
+                    'Precedence': 'bulk'
                 };
                 
                 await $i.mail.smtpClient.sendMail(
