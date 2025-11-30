@@ -1,221 +1,176 @@
-//B"H
-const http = require('http');
-const https = require('https');
+// B"H
+/**
+ * awtsmoosAi.js
+ * The Urim VeTumim (The Oracle of Light)
+ * Fixed: Module Exports & Streaming Logic
+ */
 
-function fetch(url, options = {}) {
-    return new Promise((resolve, reject) => {
-        // Determine the protocol from the URL
-        const protocol = url.startsWith('https://') ? https : http;
+const { TextDecoder } = require('util');
 
-        // Set up the request options
-        const requestOptions = {
-            method: options.method || 'GET',
-            headers: options.headers || {},
+const GEMINI_CONFIG = {
+    models: {
+        "gemini-2.5-flash": { rpm: 10, tpm: 250000, rpd: 250, priority: 2 },
+        "gemini-2.5-flash-lite": { rpm: 15, tpm: 250000, rpd: 1000, priority: 1 },
+        "gemini-2.0-flash": { rpm: 15, tpm: 1000000, rpd: 200, priority: 4 },
+        "gemini-2.0-flash-lite": { rpm: 30, tpm: 1000000, rpd: 200, priority: 3 }
+    }
+};
+
+const DEFAULT_MODEL_ORDER = Object.keys(GEMINI_CONFIG.models).sort((a, b) => 
+    GEMINI_CONFIG.models[a].priority - GEMINI_CONFIG.models[b].priority
+);
+
+const usageTracker = new Map();
+
+function checkRateLimit(apiKey, modelName, estimatedTokens) {
+    const limits = GEMINI_CONFIG.models[modelName];
+    if (!limits) return true; 
+
+    if (!usageTracker.has(apiKey)) usageTracker.set(apiKey, new Map());
+    const keyModels = usageTracker.get(apiKey);
+
+    if (!keyModels.has(modelName)) {
+        keyModels.set(modelName, { requests: [], tokens: [], dailyCount: 0, lastDay: new Date().toDateString() });
+    }
+    const usage = keyModels.get(modelName);
+
+    const today = new Date().toDateString();
+    if (usage.lastDay !== today) { usage.dailyCount = 0; usage.lastDay = today; }
+    if (usage.dailyCount >= limits.rpd) return false;
+
+    const now = Date.now();
+    const oneMinAgo = now - 60000;
+    usage.requests = usage.requests.filter(t => t > oneMinAgo);
+    usage.tokens = usage.tokens.filter(t => t.time > oneMinAgo);
+    
+    if (usage.requests.length >= limits.rpm) return false;
+    const currentTokens = usage.tokens.reduce((acc, cur) => acc + cur.count, 0);
+    if (currentTokens + estimatedTokens > limits.tpm) return false;
+
+    return true;
+}
+
+function recordUsage(apiKey, modelName, tokenCount) {
+    const usage = usageTracker.get(apiKey).get(modelName);
+    const now = Date.now();
+    usage.requests.push(now);
+    usage.tokens.push({ time: now, count: tokenCount });
+    usage.dailyCount++;
+}
+
+function estimateTokens(history) {
+    try { return Math.ceil(JSON.stringify(history).length / 4); } catch(e) { return 100; }
+}
+
+// Helper for fallback non-stream
+function extractTextFromFullJson(data) {
+    if (Array.isArray(data)) {
+        return data.map(chunk => 
+            chunk.candidates?.[0]?.content?.parts?.[0]?.text || ""
+        ).join("");
+    }
+    return data.candidates?.[0]?.content?.parts?.[0]?.text || "";
+}
+
+/**
+ * Main AI Function
+ */
+async function callGemini(fetchImpl, history, apiKey, preferredModel = null, onChunk = null) {
+    if (!apiKey) return "Error: No API Key.";
+    if (!fetchImpl) return "Error: No fetch.";
+
+    const estimatedCost = estimateTokens(history);
+    let runOrder = [...DEFAULT_MODEL_ORDER];
+    if (preferredModel && GEMINI_CONFIG.models[preferredModel]) {
+        runOrder = [preferredModel, ...runOrder.filter(m => m !== preferredModel)];
+    }
+
+    for (const model of runOrder) {
+        if (!checkRateLimit(apiKey, model, estimatedCost)) continue;
+
+        const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${model}:streamGenerateContent?key=${apiKey}`;
+        
+        const requestBody = {
+            contents: history, 
+            generationConfig: {
+                temperature: 0.3, topP: 0.95, topK: 40, maxOutputTokens: 8000,
+                thinkingConfig: { thinkingBudget: 0 }
+            }
         };
 
-        // Handle the request body if present
-        if (options.body) {
-            // Safety check: Don't mess with Buffers, only stringify objects/params
-            if (typeof options.body === 'object' && !Buffer.isBuffer(options.body) && !(options.body instanceof URLSearchParams)) {
-                try {
-                    options.body = JSON.stringify(options.body);
-                } catch(e){}
-            } else if (options.body instanceof URLSearchParams) {
-                options.body = options.body.toString();
+        try {
+            console.log(`B"H - Stream Request: ${model}`);
+            const response = await fetchImpl(endpoint, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(requestBody)
+            });
+
+            if (response.status === 429) { recordUsage(apiKey, model, estimatedCost); continue; }
+            if (!response.ok) {
+                if (response.status === 503) continue;
+                return `Error: ${response.status}`;
             }
+
+            recordUsage(apiKey, model, estimatedCost);
             
-            requestOptions.headers['Content-Length'] = Buffer.byteLength(options.body);
-        }
+            // 1. Get the Reader
+            const reader = response.body.getReader ? response.body.getReader() : null;
+            if (!reader) {
+                // Fallback logic
+                const data = await response.json();
+                return extractTextFromFullJson(data);
+            }
 
-        // Create the request
-        const req = protocol.request(url, requestOptions, (res) => {
-            
-            // B"H - ROBUST STREAM READER
-            // We must buffer events because 'read()' might be called slower than data arrives.
-            const getReader = () => {
-                const queue = [];
-                let done = false;
-                let error = null;
-                
-                // Triggers waiting for data
-                let resolveNext = null;
-                let rejectNext = null;
+            const decoder = new TextDecoder();
+            let accumulatedText = "";
+            let buffer = "";
 
-                // 1. Constantly listen to the stream (Flowing Mode)
-                res.on('data', (chunk) => {
-                    if (resolveNext) {
-                        // Someone is waiting, give it immediately
-                        const resolve = resolveNext;
-                        resolveNext = null;
-                        rejectNext = null;
-                        resolve({ done: false, value: chunk });
-                    } else {
-                        // No one waiting, buffer it
-                        queue.push(chunk);
+            while (true) {
+                const { done, value } = await reader.read();
+                if (done) break;
+
+                const chunkStr = decoder.decode(value, { stream: true });
+                buffer += chunkStr;
+
+                // B"H - Robust Parse Logic (Client-Style)
+                try {
+                    let tempBuffer = buffer.trim();
+                    if (!tempBuffer.endsWith(']')) {
+                        tempBuffer += ']';
                     }
-                });
 
-                res.on('end', () => {
-                    done = true;
-                    if (resolveNext) {
-                        const resolve = resolveNext;
-                        resolveNext = null;
-                        resolve({ done: true, value: null });
+                    // Try parsing the array
+                    const jsonArray = JSON.parse(tempBuffer);
+                    
+                    // Calculate total text state
+                    let currentFullText = "";
+                    for (const item of jsonArray) {
+                        const piece = item?.candidates?.[0]?.content?.parts?.[0]?.text || "";
+                        currentFullText += piece;
                     }
-                });
 
-                res.on('error', (e) => {
-                    error = e;
-                    if (rejectNext) {
-                        const reject = rejectNext;
-                        rejectNext = null;
-                        reject(e);
+                    // Notify UI
+                    if (currentFullText && onChunk) {
+                        onChunk(currentFullText);
                     }
-                });
+                    
+                    accumulatedText = currentFullText;
 
-                // 2. The Reader Interface
-                return {
-                    read: () => new Promise((resolve, reject) => {
-                        // Error State
-                        if (error) return reject(error);
-                        
-                        // Buffer has data? Return immediately.
-                        if (queue.length > 0) {
-                            return resolve({ done: false, value: queue.shift() });
-                        }
-                        
-                        // Stream finished?
-                        if (done) {
-                            return resolve({ done: true, value: null });
-                        }
+                } catch (e) {
+                    // Not valid JSON yet, keep buffering
+                }
+            }
 
-                        // Wait for next event
-                        resolveNext = resolve;
-                        rejectNext = reject;
-                    })
-                };
-            };
+            return accumulatedText;
 
-            // Response object to mimic the Fetch API
-            const response = {
-                ok: res.statusCode >= 200 && res.statusCode < 300,
-                status: res.statusCode,
-                statusText: res.statusMessage,
-                headers: res.headers,
-                body: {
-                    getReader: getReader
-                },
-                text: () => {
-                    return new Promise((resolve, reject) => {
-                        let data = '';
-                        res.on('data', (chunk) => data += chunk);
-                        res.on('end', () => resolve(data));
-                        res.on('error', (e) => reject(e));
-                    });
-                },
-                json: () => {
-                    return new Promise((resolve, reject) => {
-                        let data = '';
-                        res.on('data', (chunk) => data += chunk);
-                        res.on('end', () => {
-                            try { resolve(JSON.parse(data)); } 
-                            catch(e) { reject(e); }
-                        });
-                        res.on('error', (e) => reject(e));
-                    });
-                },
-            };
-            resolve(response);
-        });
-
-        req.on('error', (e) => {
-            reject(e);
-        });
-
-        // Write the request body if present
-        if (options.body) {
-            req.write(options.body);
-        }
-
-        req.end();
-    });
-}
-
-class URLSearchParams {
-    constructor(init = '') {
-        this.params = new Map();
-
-        if (typeof init === 'string') {
-            init.split('&').forEach(pair => {
-                const [key, value] = pair.split('=').map(decodeURIComponent);
-                this.append(key, value);
-            });
-        } else if (init instanceof URLSearchParams) {
-            init.forEach((value, key) => {
-                this.append(key, value);
-            });
-        } else if (typeof init === 'object') {
-            Object.entries(init).forEach(([key, value]) => {
-                this.append(key, value);
-            });
+        } catch (e) {
+            console.error(`B"H - Stream Error ${model}`, e);
+            continue; 
         }
     }
 
-    append(key, value) {
-        if (this.params.has(key)) {
-            this.params.get(key).push(value);
-        } else {
-            this.params.set(key, [value]);
-        }
-    }
+    return "Error: All models exhausted.";
+};
 
-    delete(key) {
-        this.params.delete(key);
-    }
-
-    get(key) {
-        const values = this.params.get(key);
-        return values ? values[0] : null;
-    }
-
-    getAll(key) {
-        return this.params.get(key) || [];
-    }
-
-    has(key) {
-        return this.params.has(key);
-    }
-
-    set(key, value) {
-        this.params.set(key, [value]);
-    }
-
-    toString() {
-        const array = [];
-        this.params.forEach((values, key) => {
-            values.forEach(value => {
-                array.push(`${encodeURIComponent(key)}=${encodeURIComponent(value)}`);
-            });
-        });
-        return array.join('&');
-    }
-
-    forEach(callback, thisArg) {
-        this.params.forEach((values, key) => {
-            values.forEach(value => {
-                callback.call(thisArg, value, key, this);
-            });
-        });
-    }
-}
-
-class TextEncoder {
-    constructor(encoding) {
-        this.encoding = encoding;
-    }
-    decode(buffer, options) {
-        return buffer.toString(this.encoding);
-    }
-}
-
-module.exports = {fetch, TextEncoder, URLSearchParams};
+module.exports = callGemini;
