@@ -87,8 +87,14 @@
                     </div>
 
                     <!-- B"H - Updated Input Wrapper with Formatting Toolbar -->
+<!-- B"H - Editor Styles & Structure -->
+<style>
+    /* The Veil and The Revelation */
+    
+</style>
+
 <div class="input-wrapper">
-    <!-- Formatting Toolbar -->
+    <!-- Formatting Toolbar with Mode Switcher -->
     <div class="formatting-bar">
         <button type="button" class="fmt-btn" onclick="insertFormat('**', '**')" title="Bold"><b>B</b></button>
         <button type="button" class="fmt-btn" onclick="insertFormat('*', '*')" title="Italic"><i>I</i></button>
@@ -100,11 +106,23 @@
         <div class="fmt-sep"></div>
         <button type="button" class="fmt-btn" onclick="insertFormat('<h3>', '</h3>')" title="Header">H3</button>
         <button type="button" class="fmt-btn" onclick="insertFormat('<br>', '')" title="Break">↵</button>
+        
+        <div class="fmt-sep"></div>
+        
+        <!-- The Eyes: Write vs Preview -->
+        <button type="button" class="fmt-btn tab-active" id="modeWrite" onclick="setComposeMode('write')" title="Edit Source">✎</button>
+        <button type="button" class="fmt-btn" id="modePreview" onclick="setComposeMode('preview')" title="View Reality">👁</button>
     </div>
 
     <input type="text" id="subjectInput" placeholder="Subject..." class="subject-input" autocomplete="off">
+    
     <div class="flex-row">
+        <!-- The Source -->
         <textarea id="messageInput" placeholder="Write your message (Markdown/HTML supported)..." rows="1"></textarea>
+        
+        <!-- The Revelation (Hidden by default) -->
+        <div id="previewContainer" class="preview-box hidden email-body"></div>
+
         <button type="submit" class="btn-send">
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
         </button>

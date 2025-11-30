@@ -1489,6 +1489,45 @@ function insertFormat(startTag, endTag) {
 
 
 
+// B"H
+/**
+ * Toggles the perception of the message.
+ * 'write' = The Raw Vessels (Textarea)
+ * 'preview' = The Filled Light (Rendered HTML)
+ */
+function setComposeMode(mode) {
+    const input = document.getElementById('messageInput');
+    const preview = document.getElementById('previewContainer');
+    const btnWrite = document.getElementById('modeWrite');
+    const btnPrev = document.getElementById('modePreview');
+
+    if (mode === 'preview') {
+        // 1. Transmute raw text to formatted light
+        const raw = input.value;
+        // Reuse the existing formatContent logic so preview matches reality exactly
+        preview.innerHTML = formatContent(raw);
+
+        // 2. Shift Visibility
+        input.classList.add('hidden');
+        preview.classList.remove('hidden');
+
+        // 3. Update Tabs
+        btnWrite.classList.remove('tab-active');
+        btnPrev.classList.add('tab-active');
+    } else {
+        // 1. Return to the source
+        preview.classList.add('hidden');
+        input.classList.remove('hidden');
+        input.focus();
+
+        // 2. Update Tabs
+        btnPrev.classList.remove('tab-active');
+        btnWrite.classList.add('tab-active');
+    }
+}
+
+
+
 // B"H 
 
 // --- EXPOSE FUNCTIONS TO WINDOW (For HTML Events) ---
@@ -1506,7 +1545,12 @@ window.saveSettingsUI = saveSettingsUI;
 window.toggleRuleAction = toggleRuleAction;
 window.scrollToMsg = scrollToMsg;
 window.findAndOpenMenu = findAndOpenMenu;
-
+// B"H 
+// --- EXPOSE FUNCTIONS TO WINDOW (For HTML Events) ---
+window.insertFormat = insertFormat;
+window.setComposeMode = setComposeMode; // <--- Add this line
+window.toggleView = toggleView;
+window.backToInbox = backToInbox;
 // --- INITIALIZATION ---
 // Bind to the infinite cycle
 
