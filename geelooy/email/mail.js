@@ -620,14 +620,7 @@ function escapeHtml(text) {
         .replace(/\\/g, ""); // Remove backslashes used for escaping in the original raw text
 }
 
-function escapeHtml(text) {
-    // B"H - The Shield of String
-    if (text === null || text === undefined) return "";
-    return String(text)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;");
-}
+
 
 
 function formatTime(ts) {
@@ -1469,3 +1462,27 @@ window.downloadCapsule = function(id) {
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
 };
+
+
+// B"H 
+// --- EXPOSE FUNCTIONS TO HTML ---
+// Since this is a module, we must manually attach functions used in 
+// onclick/onchange attributes to the window object.
+
+window.toggleView = toggleView;
+window.backToInbox = backToInbox;
+window.approveThread = approveThread;
+window.deleteCurrentThread = deleteCurrentThread;
+window.cancelReply = cancelReply;
+window.closeMsgMenu = closeMsgMenu;
+window.handleMsgAction = handleMsgAction;
+window.addRuleUI = addRuleUI;
+window.saveSettingsUI = saveSettingsUI;
+window.toggleRuleAction = toggleRuleAction;
+window.scrollToMsg = scrollToMsg;
+window.findAndOpenMenu = findAndOpenMenu;
+
+// Note: toggleCapsule, copyCapsule, and downloadCapsule 
+// are already assigned to window in their definitions above.
+
+
