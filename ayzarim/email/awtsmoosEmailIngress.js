@@ -98,24 +98,27 @@ module.exports = async function ({ sender, recipients, data }) {
                     dependencies: {
                         callAi: this.callAi ? this.callAi.bind(this) : null,
                         
-                        // B"H - DUAL STREAMING (Notify both Sender and Owner)
+                        // B"H - FIXED ROUTING FOR GHOST TYPING
                         stream: (partialContent) => {
                             if (!this.ws) return;
-                            var senderShort = cleanSender.split('_at_')[0];
+                            
+                            // 1. Identify the Sender (Coby)
+                            // Remove any domain parts to get the raw alias
+                            var senderShort = cleanSender.split('_at_')[0].split('@')[0];
+                            
+                            // 2. Identify the Owner (Abarbanel)
+                            var recipientShort = cleanRecipient.split('_at_')[0].split('@')[0];
 
-                            // 1. Notify the SENDER (The person waiting for the reply)
-                            // They see: "Recipient is typing..."
-                            if (cleanSender.includes("awtsmoos.com")) {
-                                this.ws.sendToAlias(senderShort, {
-                                    type: 'LIVE_PREVIEW',
-                                    from: recipientShort, 
-                                    content: partialContent
-                                });
-                            }
+                            // 3. SEND TO SENDER (Coby needs to see Abarbanel typing)
+                            // We do NOT check for "awtsmoos.com" here anymore. 
+                            // If the socket exists for 'senderShort', it sends.
+                            this.ws.sendToAlias(senderShort, {
+                                type: 'LIVE_PREVIEW',
+                                from: recipientShort, 
+                                content: partialContent
+                            });
 
-                            // 2. Notify the OWNER (You, viewing your bot work)
-                            // You see: "I am typing to Sender..."
-                            // We spoof 'from' as senderShort so it appears in the correct chat thread
+                            // 4. SEND TO OWNER (Abarbanel needs to see their own AI typing)
                             this.ws.sendToAlias(recipientShort, {
                                 type: 'LIVE_PREVIEW',
                                 from: senderShort, 

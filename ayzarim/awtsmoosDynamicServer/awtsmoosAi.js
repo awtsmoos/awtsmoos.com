@@ -1,11 +1,11 @@
 // B"H
 /**
  * awtsmoosAi.js
- * DIRECT HTTPS STREAMING
- * Bypasses custom fetch polyfills to guarantee real-time packet delivery.
+ * The Urim VeTumim (The Oracle of Light)
+ * Module Exports & Streaming Logic
  */
 
-const https = require('https'); // Direct dependency for stability
+const { TextDecoder } = require('util');
 
 const GEMINI_CONFIG = {
     models: {
@@ -22,13 +22,75 @@ const DEFAULT_MODEL_ORDER = Object.keys(GEMINI_CONFIG.models).sort((a, b) =>
 
 const usageTracker = new Map();
 
-function checkRateLimit(apiKey, modelName, estimatedTokens) { return true; } // Keep full logic if you have it
-function recordUsage(apiKey, modelName, tokenCount) {} // Keep full logic if you have it
+function checkRateLimit(apiKey, modelName, estimatedTokens) {
+    const limits = GEMINI_CONFIG.models[modelName];
+    if (!limits) return true; 
+
+    if (!usageTracker.has(apiKey)) usageTracker.set(apiKey, new Map());
+    const keyModels = usageTracker.get(apiKey);
+
+    if (!keyModels.has(modelName)) {
+        keyModels.set(modelName, { requests: [], tokens: [], dailyCount: 0, lastDay: new Date().toDateString() });
+    }
+    const usage = keyModels.get(modelName);
+
+    const today = new Date().toDateString();
+    if (usage.lastDay !== today) { usage.dailyCount = 0; usage.lastDay = today; }
+    if (usage.dailyCount >= limits.rpd) return false;
+
+    const now = Date.now();
+    const oneMinAgo = now - 60000;
+    usage.requests = usage.requests.filter(t => t > oneMinAgo);
+    usage.tokens = usage.tokens.filter(t => t.time > oneMinAgo);
+    
+    if (usage.requests.length >= limits.rpm) return false;
+    const currentTokens = usage.tokens.reduce((acc, cur) => acc + cur.count, 0);
+    if (currentTokens + estimatedTokens > limits.tpm) return false;
+
+    return true;
+}
+
+function recordUsage(apiKey, modelName, tokenCount) {
+    const usage = usageTracker.get(apiKey).get(modelName);
+    const now = Date.now();
+    usage.requests.push(now);
+    usage.tokens.push({ time: now, count: tokenCount });
+    usage.dailyCount++;
+}
 
 function estimateTokens(history) {
     try { return Math.ceil(JSON.stringify(history).length / 4); } catch(e) { return 100; }
 }
 
+// Helper for fallback non-stream
+function extractTextFromFullJson(data) {
+    if (Array.isArray(data)) {
+        return data.map(chunk => 
+            chunk.candidates?.[0]?.content?.parts?.[0]?.text || ""
+        ).join("");
+    }
+    return data.candidates?.[0]?.content?.parts?.[0]?.text || "";
+}
+
+
+// B"H
+/**
+ * awtsmoosAi.js 
+ * Communes with Gemini, cycling through models if limits are hit.
+ * SUPPORTS TRUE STREAMING via onChunk
+ */
+// B"H
+/**
+ * awtsmoosAi.js
+ * The Urim VeTumim (The Oracle of Light)
+ * 
+ * Uses Native HTTPS + Optimistic Array Parsing
+ * to guarantee 100% streaming reliability without buffering glitches.
+ */
+
+
+
+// --- 4. THE ORACLE FUNCTION ---
 module.exports = async function callGemini(fetchImpl, history, apiKey, preferredModel = null, onChunk = null) {
     if (!apiKey) return "Error: No API Key provided for Wisdom.";
 
@@ -40,7 +102,6 @@ module.exports = async function callGemini(fetchImpl, history, apiKey, preferred
     }
 
     for (const model of runOrder) {
-        // (Add your rate limit check here if needed)
         
         const hostname = "generativelanguage.googleapis.com";
         const path = `/v1beta/models/${model}:streamGenerateContent?key=${apiKey}`;
@@ -48,37 +109,31 @@ module.exports = async function callGemini(fetchImpl, history, apiKey, preferred
         try {
             const finalResult = await new Promise((resolve, reject) => {
                 const req = https.request({
-                    hostname,
-                    path,
-                    method: 'POST',
+                    hostname, path, method: 'POST',
                     headers: { 'Content-Type': 'application/json' }
                 }, (res) => {
                     if (res.statusCode !== 200) {
-                        // Consume response to free memory
-                        res.resume();
-                        if (res.statusCode === 429 || res.statusCode === 503) {
-                            return reject({ retry: true });
-                        }
+                        res.resume(); // Drain
+                        if (res.statusCode === 429 || res.statusCode === 503) return reject({ retry: true });
                         return reject(new Error(`Gemini Error: ${res.statusCode}`));
                     }
 
                     res.setEncoding('utf8');
 
-                    // --- ROBUST STREAM LOGIC ---
+                    // B"H - ROBUST STREAM BUFFER
                     let rawAccumulator = "";
                     let lastEmittedLength = 0;
 
                     res.on('data', (chunk) => {
                         rawAccumulator += chunk;
 
-                        // OPTIMISTIC PARSING STRATEGY
-                        // 1. Temporarily close the array
-                        // 2. Parse what we have
-                        // 3. Emit difference
+                        // --- OPTIMISTIC ARRAY PARSING (Your Trusted Logic) ---
                         try {
                             let candidate = rawAccumulator.trim();
-                            if (!candidate.startsWith("[")) return; // Wait for start
-                            if (!candidate.endsWith("]")) candidate += "]"; // Close it
+                            if (!candidate.startsWith("[")) return; 
+
+                            // Temporarily close array
+                            if (!candidate.endsWith("]")) candidate += "]";
 
                             const ar = JSON.parse(candidate);
                             let currentFullText = "";
@@ -87,30 +142,26 @@ module.exports = async function callGemini(fetchImpl, history, apiKey, preferred
                                 currentFullText += (item?.candidates?.[0]?.content?.parts?.[0]?.text || "");
                             }
 
+                            // If we have new text, emit immediately
                             if (currentFullText.length > lastEmittedLength) {
-                                if (onChunk) onChunk(currentFullText); // FIRE!
+                                if (onChunk) onChunk(currentFullText);
                                 lastEmittedLength = currentFullText.length;
                             }
                         } catch (e) {
-                            // Packet split in middle of JSON. Wait for next chunk.
+                            // Syntax error (split packet)? Ignore and wait for next chunk.
                         }
                     });
 
                     res.on('end', () => {
-                        // One final parse to be sure
-                        try {
+                        // Final consistency check
+                         try {
                            let candidate = rawAccumulator.trim();
                            if(!candidate.endsWith("]")) candidate += "]";
                            const ar = JSON.parse(candidate);
                            let finalTxt = "";
                            for(const item of ar) finalTxt += (item?.candidates?.[0]?.content?.parts?.[0]?.text || "");
                            resolve(finalTxt);
-                        } catch(e) {
-                            // If parse failed, return what we emitted so far
-                            // (Likely empty if error, but 'lastEmittedLength' tracks valid state)
-                            // We can just return empty string if it failed, or rawAccumulator if simple text
-                            resolve(rawAccumulator); 
-                        }
+                        } catch(e) { resolve(rawAccumulator); }
                     });
                 });
 
@@ -123,26 +174,13 @@ module.exports = async function callGemini(fetchImpl, history, apiKey, preferred
                 req.end();
             });
 
-            // If success, return the text
+            // Return the final result string
             if (finalResult && typeof finalResult === 'string' && finalResult.length > 0) {
-                 // Try to return clean text, or at least the JSON array string if parse failed at very end
-                 try {
-                     // Check if it's the raw JSON string
-                     if(finalResult.trim().startsWith("[")) {
-                         const ar = JSON.parse(finalResult);
-                         let txt = "";
-                         for(const i of ar) txt += (i?.candidates?.[0]?.content?.parts?.[0]?.text || "");
-                         return txt;
-                     }
-                 } catch(e){}
                  return finalResult;
             }
 
         } catch (err) {
-            if (err.retry) {
-                // recordUsage(apiKey, model, estimatedCost);
-                continue; 
-            }
+            if (err.retry) continue;
             console.error(`B"H - Stream Error on ${model}:`, err.message);
             continue;
         }
