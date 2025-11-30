@@ -42,10 +42,12 @@ class AwtsmoosStaticServer {
         process.removeAllListeners('warning');
     }
     
-    // B"H - Centralized AI
-    async callAi(history, apiKey) {
-        // Uses the fetch from index.js imports
-        return await awtsmoosAi(fetch, history, apiKey);
+    
+    // B"H
+    // - Centralized AI (Ghost Typing Support)
+    async callAi(history, apiKey, model, onChunk) {
+        // Uses the fetch from our imports
+        return await awtsmoosAi(fetch, history, apiKey, model, onChunk);
     }
 
     async createJob({ description, tasks, requestedBy }) {
