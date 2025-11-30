@@ -473,7 +473,8 @@ function getCoreThreadId(rawId) {
     // Otherwise, it is an external user (e.g. friend_at_gmail.com), keep as is.
     return rawId;
 }
-// B"H - Find injectMessageIntoCache and replace it with this:
+
+
 function injectMessageIntoCache(msg) {
     // B"H - Unification: Determine the canonical thread ID
     let rawTid = msg.correspondent || msg.from;

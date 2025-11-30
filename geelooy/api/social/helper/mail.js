@@ -354,7 +354,6 @@ async function sendMail({ $i, userid, asAliasId, toAliasId, toEmail }) {
                     msg: { from: asAliasId, to: recipientShort, subject, content },
                     dependencies: {
                         callAi: $i.callAi, 
-                        // B"H - SEND STREAMING TO BOTH PARTIES ALWAYS
                         stream: (partial) => {
                             if($i.ws) {
                                 // 1. User B (Recipient) sees their own bot typing
@@ -377,39 +376,37 @@ async function sendMail({ $i, userid, asAliasId, toAliasId, toEmail }) {
                 });
             }
             return { success: { message: "Sent internally" } };
-        // In geelooy/api/social/helper/mail.js, update ONLY the else block at the bottom of sendMail:
+        
+        } else {
+            // === 6. EXTERNAL SEND (SMTP) ===
+            var { cleanText, attachments } = extractCapsules(content);
+            var myFullEmail = `${senderShort}@awtsmoos.com`;
+            
+            // B"H - FORMATTING FIX: Use <br> replacement for compatibility
+            let finalHtml = cleanText;
+            if (!/^\s*<(div|p|html|body|table)/i.test(finalHtml)) {
+                 // We explicitly replace \n with <br> AND use pre-wrap as a backup
+                 finalHtml = `<div dir="auto" style="font-family:sans-serif; font-size:14px; white-space: pre-wrap;">${cleanText.replace(/\n/g, '<br>')}</div>`;
+            }
 
-// ... inside sendMail function ...
-    } else {
-        // === 6. EXTERNAL SEND (SMTP) ===
-        
-        var { cleanText, attachments } = extractCapsules(content);
-        var myFullEmail = `${senderShort}@awtsmoos.com`;
-        
-        // B"H - FORMATTING FIX: Use <br> replacement for compatibility
-        let finalHtml = cleanText;
-        if (!/^\s*<(div|p|html|body|table)/i.test(finalHtml)) {
-             // We explicitly replace \n with <br> AND use pre-wrap as a backup
-             finalHtml = `<div dir="auto" style="font-family:sans-serif; font-size:14px; white-space: pre-wrap;">${cleanText.replace(/\n/g, '<br>')}</div>`;
+            var extraHeaders = {
+                'Content-Type': 'text/html; charset=utf-8'
+            };
+
+            if ($i.mail && $i.mail.smtpClient) {
+                await $i.mail.smtpClient.sendMail(
+                    myFullEmail, 
+                    targetEmailDisplay, 
+                    subject, 
+                    finalHtml, 
+                    extraHeaders,
+                    attachments 
+                );
+                return { success: { message: "Sent via SMTP (HTML + Capsules)" } };
+            }
+            
+            return { success: { message: "SMTP Client Missing" } };
         }
-
-        var extraHeaders = {
-            'Content-Type': 'text/html; charset=utf-8'
-        };
-
-        if ($i.mail && $i.mail.smtpClient) {
-            await $i.mail.smtpClient.sendMail(
-                myFullEmail, 
-                targetEmailDisplay, 
-                subject, 
-                finalHtml, 
-                extraHeaders,
-                attachments 
-            );
-            return { success: { message: "Sent via SMTP (HTML + Capsules)" } };
-        }
-        
-        return { success: { message: "SMTP Client Missing" } };
     } catch (e) {
         return er({ message: "Transmission failed", details: e.message });
     }
