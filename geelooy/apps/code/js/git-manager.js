@@ -29,20 +29,14 @@ import {
 } from './git-sha-calculator.js';
 import {
     Tabs
-} from './tabs.js'; // B"H - This sacred import is now needed for the discard ritual.
+} from './tabs.js';
 
 export const GitManager = {
-
-
 
     /*B"H*/
 
     /**
      * Guides the user through creating a new GitHub repository from an existing local folder.
-     * This is the definitive, corrected version. It transforms the folder in-place,
-     * handles API errors with specific messages, and ensures the initial commit is
-     * always made, thus sanctifying the new repository with a history from its first breath.
-     * @param {object} folderItem - The local directory to be transformed into a repository.
      */
     async initializeRepository(folderItem) {
         if (!State.githubToken) {
@@ -132,7 +126,13 @@ export const GitManager = {
 
             const initialCommitSHA = await this.performCommit({ // Now calls the public, unified method
                 repoInfo,
-                branch: newRepoData.default_branch
+                branch: newRepoData.default_branch,
+                type: 'github', // Mark as direct github for context
+                id: folderItem.id || State.nextWorkspaceId // Fallback ID
+            }, { 
+                repoInfo, 
+                branch: newRepoData.default_branch,
+                remoteTree: [] // Initialize empty tree
             }, changeSet, 'B"H: Initial Commit');
 
             UI.showLoading("Binding the folder to its celestial soul...");
@@ -140,29 +140,33 @@ export const GitManager = {
                 repoInfo,
                 branch: newRepoData.default_branch
             });
-            const gitInfo = {
-                isClone: true,
-                repoInfo,
-                branch: newRepoData.default_branch,
-                baseCommitSHA: initialCommitSHA,
-                remoteTree: newTree.tree
-            };
+            
+            // Only write metadata if it's a local folder becoming a clone
+            if(folderItem.type !== 'github') {
+                const gitInfo = {
+                    isClone: true,
+                    repoInfo,
+                    branch: newRepoData.default_branch,
+                    baseCommitSHA: initialCommitSHA,
+                    remoteTree: newTree.tree
+                };
 
-            const ikarFileContent = `// B"H\n\nconst ikar = ${JSON.stringify(gitInfo, null, 4)};`;
-            await FileSystemProvider.create(folderItem, '.awtsmoos-repo', 'directory');
-            const metaDirItem = { ...folderItem,
-                path: `${folderItem.path}/.awtsmoos-repo`
-            };
-            const ikarFileItem = { ...metaDirItem,
-                name: 'ikar.js',
-                path: `${metaDirItem.path}/ikar.js`
-            };
-            await FileSystemProvider.write(ikarFileItem, ikarFileContent);
-
-            const parentOfItem = { ...folderItem,
-                path: folderItem.path.substring(0, folderItem.path.lastIndexOf('/')) || '/'
-            };
-            await Workspaces.refreshNode(parentOfItem);
+                const ikarFileContent = `// B"H\n\nconst ikar = ${JSON.stringify(gitInfo, null, 4)};`;
+                await FileSystemProvider.create(folderItem, '.awtsmoos-repo', 'directory');
+                const metaDirItem = { ...folderItem,
+                    path: `${folderItem.path}/.awtsmoos-repo`
+                };
+                const ikarFileItem = { ...metaDirItem,
+                    name: 'ikar.js',
+                    path: `${metaDirItem.path}/ikar.js`
+                };
+                await FileSystemProvider.write(ikarFileItem, ikarFileContent);
+                
+                const parentOfItem = { ...folderItem,
+                    path: folderItem.path.substring(0, folderItem.path.lastIndexOf('/')) || '/'
+                };
+                await Workspaces.refreshNode(parentOfItem);
+            }
 
             UI.hideLoading();
             UI.showToast(`'${repoName}' created and linked successfully!`, "success");
@@ -178,317 +182,244 @@ export const GitManager = {
         }
     },
 
-
-    /*B"H*/
-
-
-
-
-
-    /*B"H*/
-
     /**
-     * Performs the first commit to a new, empty repository. This is the sacred first breath,
-     * creating the root of the history tree and giving the repository form.
-     * @private
-     * @param {object} params - The necessary info: repoInfo, branch, message, and changeSet.
-     * @returns {Promise<string>} - The SHA of the newly created commit.
+     * B"H
+     * This function is the enlightened eye of the Git system.
      */
-    async _performInitialCommit({
-        repoInfo,
-        branch,
-        commitMessage,
-        changeSet
+    async showGitUI(gitContextItem) {
+        UI.showLoading("Reading repository data...");
+
+        let gitInfo = gitContextItem.type === 'github' ?
+            gitContextItem :
+            await GitMetaProvider.getGitInfoForFolder(gitContextItem);
+
+        if (!gitInfo) {
+            UI.hideLoading();
+            UI.showToast("This is not a Git-aware folder.", "error");
+            return;
+        }
+
+        UI.showLoading("Analyzing repository status...");
+        try {
+            let isBehind = false;
+            let remoteChanges = null;
+
+            if (gitContextItem.type === 'github') {
+                // For Direct GitHub, we fetch the latest tree to know the absolute truth.
+                const treeData = await FileSystemProvider.GitHub.getFullTree(gitInfo);
+                gitInfo = { ...gitInfo,
+                    remoteTree: treeData.tree,
+                    baseCommitSHA: treeData.sha
+                };
+                isBehind = false; 
+            } else {
+                // For Clones, we check if our memory (baseCommitSHA) matches the remote reality.
+                const remoteCommitSHA = await FileSystemProvider.GitHub.getLatestCommitSHA(gitInfo);
+                isBehind = remoteCommitSHA !== gitInfo.baseCommitSHA;
+
+                if (isBehind) {
+                    UI.showLoading("Fetching remote changes...");
+                    const newTreeData = await FileSystemProvider.GitHub.getFullTree(gitInfo);
+                    const newRemoteTree = newTreeData.tree;
+                    const oldRemoteTree = gitInfo.remoteTree;
+
+                    const newFiles = new Map(newRemoteTree.map(f => [f.path, f]));
+                    const oldFiles = new Map(oldRemoteTree.map(f => [f.path, f]));
+
+                    remoteChanges = {
+                        additions: [],
+                        modifications: [],
+                        deletions: []
+                    };
+
+                    newFiles.forEach((file, path) => {
+                        if (!oldFiles.has(path)) {
+                            remoteChanges.additions.push(path);
+                        } else if (oldFiles.get(path).sha !== file.sha) {
+                            remoteChanges.modifications.push(path);
+                        }
+                    });
+                    oldFiles.forEach((file, path) => {
+                        if (!newFiles.has(path)) {
+                            remoteChanges.deletions.push(path);
+                        }
+                    });
+                }
+            }
+
+            const changeSet = await this.calculateDiff(gitContextItem, gitInfo);
+            const localChangesCount = (changeSet.creations.length + changeSet.updates.length + changeSet.deletions.length);
+            const isAhead = localChangesCount > 0;
+
+            UI.hideLoading();
+            this.showCommitDialog(gitContextItem, gitInfo, {
+                isBehind,
+                isAhead,
+                localChangesCount,
+                changeSet,
+                remoteChanges
+            });
+
+        } catch (e) {
+            UI.hideLoading();
+            UI.showToast(`Error checking Git status: ${e.message}`, 'error');
+            console.error(e);
+        }
+    },
+
+    /*B"H*/
+    async showCommitDialog(gitContextItem, gitInfo, {
+        isBehind,
+        changeSet,
+        remoteChanges
     }) {
-        const blobCreationPromises = changeSet.creations.map(file =>
-            FileSystemProvider.GitHub.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/blobs`, {
-                method: 'POST',
-                body: JSON.stringify({
-                    content: FileSystemProvider.GitHub.utf8_to_b64(file.content),
-                    encoding: 'base64'
-                })
-            }).then(blob => ({
-                path: file.path,
-                sha: blob.sha,
-                mode: '100644',
-                type: 'blob'
-            }))
-        );
-        const treeItems = await Promise.all(blobCreationPromises);
+        const dirtyFiles = changeSet.dirtyFiles || [];
+        const inscribedChanges = [...changeSet.creations, ...changeSet.updates, ...changeSet.deletions];
+        const hasDirty = dirtyFiles.length > 0;
+        const hasInscribed = inscribedChanges.length > 0;
+        const isAhead = hasDirty || hasInscribed;
+        const localChangesCount = new Set([...dirtyFiles.map(f => f.relativePath), ...inscribedChanges.map(f => f.path)]).size;
 
-        const newTree = await FileSystemProvider.GitHub.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/trees`, {
-            method: 'POST',
-            body: JSON.stringify({
-                tree: treeItems
-            })
+        let localStatusMessage = isAhead ? `${localChangesCount} change(s) detected` : 'In sync with remote';
+        if (isBehind) localStatusMessage = "Out of date with remote";
+
+        let statusHTML = `<div class="git-status-line">${localStatusMessage}</div>`;
+        if (isAhead) {
+            statusHTML += `<div class="changes-list"><strong>Local Changes:</strong><ul>`;
+            dirtyFiles.forEach(f => statusHTML += `<li><span class="tag modified dirty">UNSAVED</span> ${f.relativePath}</li>`);
+            changeSet.creations.forEach(f => statusHTML += `<li><span class="tag created">ADDED</span> ${f.path}</li>`);
+            changeSet.updates.forEach(f => statusHTML += `<li><span class="tag modified">MODIFIED</span> ${f.path}</li>`);
+            changeSet.deletions.forEach(f => statusHTML += `<li><span class="tag deleted">DELETED</span> ${f.path}</li>`);
+            statusHTML += `</ul></div>`;
+        }
+
+        const dialogConfig = {
+            title: `Git Actions for ${gitContextItem.name}`,
+            contentHTML: statusHTML,
+            hasTextarea: isAhead && !isBehind,
+            textareaContent: `B"H\nUpdated at ${new Date().toLocaleString()}`,
+            cancelText: 'Close',
+            tertiary: (isAhead && !isBehind) ? { text: 'Discard Changes', class: 'danger' } : null
+        };
+        if (isBehind) dialogConfig.okText = 'Pull & Overwrite Local Changes';
+        else if (hasDirty && !hasInscribed) dialogConfig.okText = 'Save and Commit All';
+        else if (hasDirty && hasInscribed) {
+            dialogConfig.okText = 'Save and Commit All';
+            dialogConfig.secondaryOk = { text: 'Commit Inscribed Only', actionKey: 'commit_inscribed' };
+        } else if (!hasDirty && hasInscribed) dialogConfig.okText = 'Commit All';
+
+        const dialogResult = await UI.showDialog(dialogConfig);
+        if (dialogResult === null) return;
+
+        const handleCommit = async (finalChangeSet, commitMessage) => {
+            UI.showLoading("Committing to GitHub...");
+            
+            // 1. Perform the commit
+            const newCommitSHA = await this.performCommit(gitContextItem, gitInfo, finalChangeSet, commitMessage);
+            
+            // 2. Fetch the authoritative tree from GitHub to ensure absolute sync
+            UI.showLoading("Verifying final repository state...");
+            const newTree = await FileSystemProvider.GitHub.getFullTree(gitInfo);
+            
+            // 3. Update the persistent metadata (ikar.js) or memory state
+            if (gitContextItem.type !== 'github') {
+                const updatedGitInfo = { ...gitInfo, baseCommitSHA: newCommitSHA, remoteTree: newTree.tree };
+                const ikarFileContent = `// B"H\n\nconst ikar = ${JSON.stringify(updatedGitInfo, null, 4)};`;
+                const ikarFileItem = { ...gitContextItem, path: `${gitContextItem.path}/.awtsmoos-repo/ikar.js` };
+                await FileSystemProvider.write(ikarFileItem, ikarFileContent);
+            } else {
+                gitContextItem.remoteTree = newTree.tree;
+                gitContextItem.baseCommitSHA = newTree.sha;
+            }
+            
+            UI.showToast("Changes committed successfully!", "success");
+        };
+
+        try {
+            if (dialogResult === 'tertiary') await this.discardChanges(gitContextItem);
+            else if (isBehind) FileOperations.pullAndOverwrite(gitContextItem, gitInfo);
+            else if (isAhead) {
+                const commitMessage = document.getElementById('dialog-textarea')?.value || `B"H\nUpdate`;
+                if (dialogResult === 'commit_inscribed') {
+                    await handleCommit(changeSet, commitMessage);
+                } else { 
+                    if (hasDirty) {
+                        UI.showLoading("Saving all changes...");
+                        const savePromises = dirtyFiles.map(df => {
+                            const tab = State.tabs.find(t => t.item === df.tabItem);
+                            return tab ? Tabs.save(tab) : Promise.resolve();
+                        });
+                        await Promise.all(savePromises);
+                    }
+                    UI.showLoading("Recalculating final changes...");
+                    const finalChangeSet = await this.calculateDiff(gitContextItem, gitInfo);
+                    await handleCommit(finalChangeSet, commitMessage);
+                }
+            }
+        } catch (e) {
+            UI.showToast(`Commit failed: ${e.message}`, 'error', 8000);
+            console.error("COMMIT FAILED:", e);
+        } finally {
+            UI.hideLoading();
+        }
+    },
+
+    /*B"H*/
+    /**
+     * Clears the uncommitted state for files that have been processed.
+     * UPDATED FIX: This function now actively updates the SHA of open tabs
+     * using the map of committed items. This fixes the bug where reloading
+     * a page after a commit would revert to the old version because the 
+     * tab session still held the old SHA.
+     */
+    async _clearUncommittedState(gitContextItem, workspaceId, changeSet, committedTreeMap) {
+        const allChanges = [
+            ...(changeSet.creations || []),
+            ...(changeSet.updates || []),
+            ...(changeSet.deletions || [])
+        ];
+
+        const promises = allChanges.map(change => {
+            const relativePath = change.path;
+            const uniquePathForStaging = `${workspaceId}::${relativePath}`;
+
+            // Resolve the full path for the tab
+            const isDirectRepo = gitContextItem.type === 'github';
+            let fullPath;
+            if (isDirectRepo) {
+                fullPath = relativePath;
+            } else {
+                const cloneRootPath = gitContextItem.path;
+                fullPath = cloneRootPath === '/' ? `/${relativePath}` : `${cloneRootPath}/${relativePath}`;
+            }
+            
+            const fullUniquePathToFind = `${workspaceId}::${fullPath}`;
+            const tab = State.tabs.find(t => t.uniquePath === fullUniquePathToFind);
+            
+            if (tab) {
+                tab.isDirty = false;
+                tab.isUncommitted = false;
+                
+                // B"H - CRITICAL FIX: Update the Tab's SHA
+                // We check if this file exists in the map of newly committed items (treeItems).
+                // If it does, we update the tab's item to point to the NEW SHA.
+                if (committedTreeMap && committedTreeMap.has(relativePath)) {
+                    const newItemInfo = committedTreeMap.get(relativePath);
+                    // Update the tab's item. This ensures that next time saveSession/loadSession runs,
+                    // it persists the correct, new SHA.
+                    tab.item.sha = newItemInfo.sha;
+                }
+            }
+            
+            return FileSystemProvider.IndexedDB.deleteUncommitted(uniquePathForStaging);
         });
 
-        const newCommit = await FileSystemProvider.GitHub.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/commits`, {
-            method: 'POST',
-            body: JSON.stringify({
-                message: commitMessage,
-                tree: newTree.sha,
-                parents: []
-            })
-        });
-
-        await FileSystemProvider.GitHub.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/refs`, {
-            method: 'POST',
-            body: JSON.stringify({
-                ref: `refs/heads/${branch}`,
-                sha: newCommit.sha
-            })
-        });
-
-        return newCommit.sha;
+        await Promise.all(promises);
+        Tabs.render();
     },
 
     /**
- * B"H
-  * This function is the enlightened eye of the Git system, now capable of two modes of perception.
- */
-async showGitUI(gitContextItem) {
-    UI.showLoading("Reading repository data...");
-
-    // First, we must determine the source of our knowledge: is it inscribed locally in ikar.js,
-    // or is it the living, breathing state of the GitHub workspace itself?
-    let gitInfo = gitContextItem.type === 'github' ?
-        gitContextItem :
-        await GitMetaProvider.getGitInfoForFolder(gitContextItem);
-
-    if (!gitInfo) {
-        UI.hideLoading();
-        UI.showToast("This is not a Git-aware folder.", "error");
-        return;
-    }
-
-    UI.showLoading("Analyzing repository status...");
-    try {
-        let isBehind = false;
-        let remoteChanges = null;
-
-        // The Two Paths of Perception:
-        if (gitContextItem.type === 'github') {
-            // PATH 1: The Direct Gaze. A direct workspace cannot be "behind." Its present IS the remote truth.
-            // We fetch its current state to form a baseline for comparison against uncommitted changes.
-            const treeData = await FileSystemProvider.GitHub.getFullTree(gitInfo);
-            // We temporarily bestow the fetched knowledge upon our gitInfo object, giving it substance.
-            gitInfo = { ...gitInfo,
-                remoteTree: treeData.tree,
-                baseCommitSHA: treeData.sha
-            };
-            isBehind = false; // By definition, it cannot be behind.
-        } else {
-            // PATH 2: The Reflected Image. A local clone has a memory of the past (`baseCommitSHA`).
-            // We must check if this memory is outdated.
-            const remoteCommitSHA = await FileSystemProvider.GitHub.getLatestCommitSHA(gitInfo);
-            isBehind = remoteCommitSHA !== gitInfo.baseCommitSHA;
-
-            if (isBehind) {
-                UI.showLoading("Fetching remote changes...");
-                const newTreeData = await FileSystemProvider.GitHub.getFullTree(gitInfo);
-                const newRemoteTree = newTreeData.tree;
-                // This is now safe, as only local clones (which have .remoteTree) can enter this block.
-                const oldRemoteTree = gitInfo.remoteTree;
-
-                const newFiles = new Map(newRemoteTree.map(f => [f.path, f]));
-                const oldFiles = new Map(oldRemoteTree.map(f => [f.path, f]));
-
-                remoteChanges = {
-                    additions: [],
-                    modifications: [],
-                    deletions: []
-                };
-
-                newFiles.forEach((file, path) => {
-                    if (!oldFiles.has(path)) {
-                        remoteChanges.additions.push(path);
-                    } else if (oldFiles.get(path).sha !== file.sha) {
-                        remoteChanges.modifications.push(path);
-                    }
-                });
-                oldFiles.forEach((file, path) => {
-                    if (!newFiles.has(path)) {
-                        remoteChanges.deletions.push(path);
-                    }
-                });
-            }
-        }
-
-        // Now, because gitInfo is guaranteed to have a .remoteTree, this call is safe from the abyss.
-        const changeSet = await this.calculateDiff(gitContextItem, gitInfo);
-        const localChangesCount = (changeSet.creations.length + changeSet.updates.length + changeSet.deletions.length);
-        const isAhead = localChangesCount > 0;
-
-        UI.hideLoading();
-        this.showCommitDialog(gitContextItem, gitInfo, {
-            isBehind,
-            isAhead,
-            localChangesCount,
-            changeSet,
-            remoteChanges
-        });
-
-    } catch (e) {
-        UI.hideLoading();
-        UI.showToast(`Error checking Git status: ${e.message}`, 'error');
-        console.error(e);
-    }
-},
-    
-    
-    /*B"H*/
-// patience, awaiting all save operations before proceeding, and correctly passes
-// context for state updates.
-
-async showCommitDialog(gitContextItem, gitInfo, {
-    isBehind,
-    changeSet,
-    remoteChanges
-}) {
-    const dirtyFiles = changeSet.dirtyFiles || [];
-    const inscribedChanges = [...changeSet.creations, ...changeSet.updates, ...changeSet.deletions];
-    const hasDirty = dirtyFiles.length > 0;
-    const hasInscribed = inscribedChanges.length > 0;
-    const isAhead = hasDirty || hasInscribed;
-    const localChangesCount = new Set([...dirtyFiles.map(f => f.relativePath), ...inscribedChanges.map(f => f.path)]).size;
-
-    let localStatusMessage = isAhead ? `${localChangesCount} change(s) detected` : 'In sync with remote';
-    if (isBehind) localStatusMessage = "Out of date with remote";
-
-    let statusHTML = `<div class="git-status-line">${localStatusMessage}</div>`;
-    if (isAhead) {
-        statusHTML += `<div class="changes-list"><strong>Local Changes:</strong><ul>`;
-        dirtyFiles.forEach(f => statusHTML += `<li><span class="tag modified dirty">UNSAVED</span> ${f.relativePath}</li>`);
-        changeSet.creations.forEach(f => statusHTML += `<li><span class="tag created">ADDED</span> ${f.path}</li>`);
-        changeSet.updates.forEach(f => statusHTML += `<li><span class="tag modified">MODIFIED</span> ${f.path}</li>`);
-        changeSet.deletions.forEach(f => statusHTML += `<li><span class="tag deleted">DELETED</span> ${f.path}</li>`);
-        statusHTML += `</ul></div>`;
-    }
-
-    const dialogConfig = {
-        title: `Git Actions for ${gitContextItem.name}`,
-        contentHTML: statusHTML,
-        hasTextarea: isAhead && !isBehind,
-        textareaContent: `B"H\nUpdated at ${new Date().toLocaleString()}`,
-        cancelText: 'Close',
-        tertiary: (isAhead && !isBehind) ? { text: 'Discard Changes', class: 'danger' } : null
-    };
-    if (isBehind) dialogConfig.okText = 'Pull & Overwrite Local Changes';
-    else if (hasDirty && !hasInscribed) dialogConfig.okText = 'Save and Commit All';
-    else if (hasDirty && hasInscribed) {
-        dialogConfig.okText = 'Save and Commit All';
-        dialogConfig.secondaryOk = { text: 'Commit Inscribed Only', actionKey: 'commit_inscribed' };
-    } else if (!hasDirty && hasInscribed) dialogConfig.okText = 'Commit All';
-
-    const dialogResult = await UI.showDialog(dialogConfig);
-    if (dialogResult === null) return;
-
-    // --- HANDLE COMMIT LOGIC ---
-    const handleCommit = async (finalChangeSet, commitMessage) => {
-        UI.showLoading("Committing to GitHub...");
-        
-        // FIX IS HERE: We pass 'gitContextItem' as the first argument now.
-        const newCommitSHA = await this.performCommit(gitContextItem, gitInfo, finalChangeSet, commitMessage);
-        
-        // Finalize state after all batches are done
-        UI.showLoading("Verifying final repository state...");
-        const newTree = await FileSystemProvider.GitHub.getFullTree(gitInfo);
-        
-        if (gitContextItem.type !== 'github') {
-            const updatedGitInfo = { ...gitInfo, baseCommitSHA: newCommitSHA, remoteTree: newTree.tree };
-            const ikarFileContent = `// B"H\n\nconst ikar = ${JSON.stringify(updatedGitInfo, null, 4)};`;
-            const ikarFileItem = { ...gitContextItem, path: `${gitContextItem.path}/.awtsmoos-repo/ikar.js` };
-            await FileSystemProvider.write(ikarFileItem, ikarFileContent);
-        } else {
-            gitContextItem.remoteTree = newTree.tree;
-            gitContextItem.baseCommitSHA = newTree.sha;
-        }
-        
-        // Final cleanup (just in case)
-        await this._clearUncommittedState(gitContextItem, gitContextItem.workspaceId || gitContextItem.id, finalChangeSet);
-        UI.showToast("Changes committed successfully!", "success");
-    };
-
-    try {
-        if (dialogResult === 'tertiary') await this.discardChanges(gitContextItem);
-        else if (isBehind) FileOperations.pullAndOverwrite(gitContextItem, gitInfo);
-        else if (isAhead) {
-            const commitMessage = document.getElementById('dialog-textarea')?.value || `B"H\nUpdate`;
-            if (dialogResult === 'commit_inscribed') {
-                await handleCommit(changeSet, commitMessage);
-            } else { 
-                if (hasDirty) {
-                    UI.showLoading("Saving all changes...");
-                    const savePromises = dirtyFiles.map(df => {
-                        const tab = State.tabs.find(t => t.item === df.tabItem);
-                        return tab ? Tabs.save(tab) : Promise.resolve();
-                    });
-                    await Promise.all(savePromises);
-                }
-                UI.showLoading("Recalculating final changes...");
-                const finalChangeSet = await this.calculateDiff(gitContextItem, gitInfo);
-                await handleCommit(finalChangeSet, commitMessage);
-            }
-        }
-    } catch (e) {
-        UI.showToast(`Commit failed: ${e.message}`, 'error', 8000);
-        console.error("COMMIT FAILED:", e);
-    } finally {
-        UI.hideLoading();
-    }
-},
-
-
-/*B"H*/
-// ACTION: Replace the _clearUncommittedState method. This version is taught empathy for
-// context, correctly translating relative paths back to absolute paths to find
-// and update tab states, ensuring the green dot of sanctification is properly removed.
-
-async _clearUncommittedState(gitContextItem, workspaceId, changeSet) {
-    const allChanges = [
-        ...(changeSet.creations || []),
-        ...(changeSet.updates || []),
-        ...(changeSet.deletions || [])
-    ];
-
-    const promises = allChanges.map(change => {
-        const relativePath = change.path;
-        const uniquePathForStaging = `${workspaceId}::${relativePath}`;
-
-        // Find the corresponding tab by translating the path back to the tab's reality.
-        const isDirectRepo = gitContextItem.type === 'github';
-        let fullPath;
-        if (isDirectRepo) {
-            fullPath = relativePath;
-        } else {
-            const cloneRootPath = gitContextItem.path;
-            fullPath = cloneRootPath === '/' ? `/${relativePath}` : `${cloneRootPath}/${relativePath}`;
-        }
-        
-        const fullUniquePathToFind = `${workspaceId}::${fullPath}`;
-        const tab = State.tabs.find(t => t.uniquePath === fullUniquePathToFind);
-        
-        if (tab) {
-            tab.isDirty = false;
-            tab.isUncommitted = false;
-        }
-        
-        // Return the promise to delete the record from the ledger.
-        return FileSystemProvider.IndexedDB.deleteUncommitted(uniquePathForStaging);
-    });
-
-    await Promise.all(promises);
-    Tabs.render();
-},
-
-    /**
-     * B"H
-     * A new sacred ritual to undo local modifications, returning the workspace to the pristine state
-     * of its last commit. This is an act of Teshuvah (repentance), erasing the uncommitted "sins" (changes)
-     * and restoring the files to their original, sanctified form as dictated by the remote source.
-     * @param {object} gitContextItem - The folder or workspace whose changes are to be discarded.
-     * @returns {Promise<void>}
+     * Discards local changes.
      */
     async discardChanges(gitContextItem) {
         const confirmed = await UI.showDialog({
@@ -504,31 +435,27 @@ async _clearUncommittedState(gitContextItem, workspaceId, changeSet) {
         try {
             const workspaceId = gitContextItem.workspaceId || gitContextItem.id;
 
-            // 1. Find and banish all uncommitted changes from the temporary realm of IndexedDB.
             const uncommittedEntries = await FileSystemProvider.IndexedDB.listUncommittedForWorkspace(workspaceId);
             const deletionPromises = uncommittedEntries.map(entry =>
                 FileSystemProvider.IndexedDB.deleteUncommitted(entry.uniquePath)
             );
             await Promise.all(deletionPromises);
 
-            // 2. Find all open tabs from this workspace that have been tainted by local changes and command them to repent.
             const tabsToRevert = State.tabs.filter(tab => (tab.item.workspaceId === workspaceId) && (tab.isDirty || tab.isUncommitted));
             let activeTabNeedsReload = false;
 
             for (const tab of tabsToRevert) {
                 tab.isDirty = false;
                 tab.isUncommitted = false;
-                tab.content = null; // Purge the tainted, cached content.
-                tab.forceReload = true; // Command it to seek its true form from the source upon its next awakening.
+                tab.content = null; 
+                tab.forceReload = true; 
                 if (tab.id === State.activeTabId) {
                     activeTabNeedsReload = true;
                 }
             }
 
-            // 3. Re-render the tab bar to reflect their newly purified state.
             Tabs.render();
 
-            // 4. If the user was gazing upon one of the reverted files, force it to re-awaken immediately.
             if (activeTabNeedsReload) {
                 await Tabs.activate(State.activeTabId);
             }
@@ -542,289 +469,255 @@ async _clearUncommittedState(gitContextItem, workspaceId, changeSet) {
         }
     },
 
-
- /*B"H*/
-// ACTION: Replace 'performCommit' and '_saveIncrementalState'
-
-/**
- * Performs a robust, segmented commit strategy.
- * NOW UPDATES LOCAL FILE TREE INCREMENTALLY.
- */
-async performCommit(gitContextItem, gitInfo, changeSet, commitMessage) {
-    const { repoInfo, branch } = gitInfo;
-    
-    // Ensure remoteTree exists so we can update it incrementally
-    if (!gitInfo.remoteTree) gitInfo.remoteTree = [];
-
-    const filesToUpload = [...(changeSet.creations || []), ...(changeSet.updates || [])];
-    const filesToDelete = changeSet.deletions || [];
-    
-    const FILES_PER_COMMIT = 25; 
-    const BLOB_BATCH_SIZE = 5;   
-    const COOL_DOWN_MS = 2000;   
-
-    let currentParentSHA = await FileSystemProvider.GitHub.getLatestCommitSHA({ repoInfo, branch });
-    let commitCount = 1;
-    const totalCommits = Math.ceil(filesToUpload.length / FILES_PER_COMMIT) + (filesToDelete.length > 0 ? 1 : 0);
-
-    // --- 1. Processing Uploads ---
-    while (filesToUpload.length > 0) {
-        const currentBatchFiles = filesToUpload.splice(0, FILES_PER_COMMIT);
+    /*B"H*/
+    /**
+     * Performs a robust, segmented commit strategy.
+     */
+    async performCommit(gitContextItem, gitInfo, changeSet, commitMessage) {
+        const { repoInfo, branch } = gitInfo;
         
-        UI.showLoading(`Processing Commit ${commitCount}/${totalCommits}: Uploading ${currentBatchFiles.length} files...`);
+        if (!gitInfo.remoteTree) gitInfo.remoteTree = [];
 
-        // A. Upload Blobs and Generate Tree Items
-        const treeItems = [];
-        for (let i = 0; i < currentBatchFiles.length; i += BLOB_BATCH_SIZE) {
-            const blobBatch = currentBatchFiles.slice(i, i + BLOB_BATCH_SIZE);
-            const results = await Promise.all(blobBatch.map(file => 
-                FileSystemProvider.GitHub.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/blobs`, {
-                    method: 'POST',
-                    body: JSON.stringify({
-                        content: FileSystemProvider.GitHub.utf8_to_b64(file.content),
-                        encoding: 'base64'
-                    })
-                }).then(blob => ({
-                    path: file.path,
-                    mode: '100644',
-                    type: 'blob',
-                    sha: blob.sha,
-                    // Keep refs for local cleanup
-                    _originalContent: file.content
-                }))
-            ));
-            treeItems.push(...results);
-            await new Promise(r => setTimeout(r, 500)); 
+        const filesToUpload = [...(changeSet.creations || []), ...(changeSet.updates || [])];
+        const filesToDelete = changeSet.deletions || [];
+        
+        const FILES_PER_COMMIT = 25; 
+        const BLOB_BATCH_SIZE = 5;   
+        const COOL_DOWN_MS = 2000;   
+
+        let currentParentSHA = await FileSystemProvider.GitHub.getLatestCommitSHA({ repoInfo, branch });
+        let commitCount = 1;
+        const totalCommits = Math.ceil(filesToUpload.length / FILES_PER_COMMIT) + (filesToDelete.length > 0 ? 1 : 0);
+
+        // --- 1. Processing Uploads ---
+        while (filesToUpload.length > 0) {
+            const currentBatchFiles = filesToUpload.splice(0, FILES_PER_COMMIT);
+            
+            UI.showLoading(`Processing Commit ${commitCount}/${totalCommits}: Uploading ${currentBatchFiles.length} files...`);
+
+            const treeItems = [];
+            for (let i = 0; i < currentBatchFiles.length; i += BLOB_BATCH_SIZE) {
+                const blobBatch = currentBatchFiles.slice(i, i + BLOB_BATCH_SIZE);
+                const results = await Promise.all(blobBatch.map(file => 
+                    FileSystemProvider.GitHub.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/blobs`, {
+                        method: 'POST',
+                        body: JSON.stringify({
+                            content: FileSystemProvider.GitHub.utf8_to_b64(file.content),
+                            encoding: 'base64'
+                        })
+                    }).then(blob => ({
+                        path: file.path,
+                        mode: '100644',
+                        type: 'blob',
+                        sha: blob.sha,
+                        _originalContent: file.content
+                    }))
+                ));
+                treeItems.push(...results);
+                await new Promise(r => setTimeout(r, 500)); 
+            }
+
+            const messagePart = totalCommits > 1 ? ` (Part ${commitCount}/${totalCommits})` : '';
+            const newCommitSHA = await this._executeGitCommit(
+                repoInfo, branch, currentParentSHA, treeItems, commitMessage + messagePart
+            );
+
+            await this._saveIncrementalState(gitContextItem, gitInfo, newCommitSHA, currentBatchFiles, [], treeItems);
+
+            currentParentSHA = newCommitSHA;
+            commitCount++;
+
+            if (filesToUpload.length > 0) {
+                UI.showLoading(`Cooling down API (waiting ${COOL_DOWN_MS/1000}s)...`);
+                await new Promise(resolve => setTimeout(resolve, COOL_DOWN_MS));
+            }
         }
 
-        // B. Commit to GitHub
-        const messagePart = totalCommits > 1 ? ` (Part ${commitCount}/${totalCommits})` : '';
-        const newCommitSHA = await this._executeGitCommit(
-            repoInfo, branch, currentParentSHA, treeItems, commitMessage + messagePart
-        );
+        // --- 2. Process Deletions ---
+        if (filesToDelete.length > 0) {
+            UI.showLoading(`Processing Commit ${commitCount}/${totalCommits}: Deleting ${filesToDelete.length} files...`);
+            const treeItems = filesToDelete.map(file => ({
+                path: file.path, mode: '100644', type: 'blob', sha: null
+            }));
 
-        // C. SAVE STATE (Fix: Pass treeItems to update the local list)
-        await this._saveIncrementalState(gitContextItem, gitInfo, newCommitSHA, currentBatchFiles, [], treeItems);
+            const newCommitSHA = await this._executeGitCommit(
+                repoInfo, branch, currentParentSHA, treeItems, commitMessage + " (Deletions)"
+            );
 
-        currentParentSHA = newCommitSHA;
-        commitCount++;
-
-        if (filesToUpload.length > 0) {
-            UI.showLoading(`Cooling down API (waiting ${COOL_DOWN_MS/1000}s)...`);
-            await new Promise(resolve => setTimeout(resolve, COOL_DOWN_MS));
+            await this._saveIncrementalState(gitContextItem, gitInfo, newCommitSHA, [], filesToDelete, treeItems);
+            currentParentSHA = newCommitSHA;
         }
-    }
 
-    // --- 2. Process Deletions ---
-    if (filesToDelete.length > 0) {
-        UI.showLoading(`Processing Commit ${commitCount}/${totalCommits}: Deleting ${filesToDelete.length} files...`);
-        const treeItems = filesToDelete.map(file => ({
-            path: file.path, mode: '100644', type: 'blob', sha: null
-        }));
+        return currentParentSHA;
+    },
 
-        const newCommitSHA = await this._executeGitCommit(
-            repoInfo, branch, currentParentSHA, treeItems, commitMessage + " (Deletions)"
-        );
+    /**
+     * Helper: Updates ikar.js, clears IndexedDB, AND UPDATES THE FILE LIST.
+     */
+    async _saveIncrementalState(gitContextItem, gitInfo, newCommitSHA, processedFiles = [], processedDeletions = [], treeItems = []) {
+        // 1. Update the SHA
+        gitInfo.baseCommitSHA = newCommitSHA;
+        
+        if (!gitInfo.remoteTree) gitInfo.remoteTree = [];
 
-        // For deletions, we pass them so they can be removed from the local tree list
-        await this._saveIncrementalState(gitContextItem, gitInfo, newCommitSHA, [], filesToDelete, treeItems);
-        currentParentSHA = newCommitSHA;
-    }
+        // Map needed to find existing entries quickly
+        const treeMap = new Map(gitInfo.remoteTree.map(item => [item.path, item]));
 
-    return currentParentSHA;
-},
+        // Create a map of the NEW items (committed in this batch) for Tab updating
+        const committedTreeMap = new Map();
 
-/**
- * Helper: Updates ikar.js, clears IndexedDB, AND UPDATES THE FILE LIST.
- */
-async _saveIncrementalState(gitContextItem, gitInfo, newCommitSHA, processedFiles = [], processedDeletions = [], treeItems = []) {
-    // 1. Update the SHA
-    gitInfo.baseCommitSHA = newCommitSHA;
-    
-    // 2. THE FIX: Update gitInfo.remoteTree manually so 'calculateDiff' knows these files exist.
-    if (!gitInfo.remoteTree) gitInfo.remoteTree = [];
-
-    // Map needed to find existing entries quickly
-    const treeMap = new Map(gitInfo.remoteTree.map(item => [item.path, item]));
-
-    // Update with new/modified items
-    treeItems.forEach(newItem => {
-        if (newItem.sha === null) {
-            // It's a deletion
-            treeMap.delete(newItem.path);
-        } else {
-            // It's an addition or update
-            // We strip private keys like _originalContent before saving to ikar
-            treeMap.set(newItem.path, { 
-                path: newItem.path, 
-                mode: newItem.mode, 
-                type: newItem.type, 
-                sha: newItem.sha 
-            });
-        }
-    });
-
-    // Save the updated list back to the gitInfo object
-    gitInfo.remoteTree = Array.from(treeMap.values());
-
-    // 3. Write ikar.js to disk
-    if (gitContextItem.type !== 'github') {
-        const ikarData = { ...gitInfo, baseCommitSHA: newCommitSHA, remoteTree: gitInfo.remoteTree };
-        const ikarContent = `// B"H\n\nconst ikar = ${JSON.stringify(ikarData, null, 4)};`;
-        const ikarItem = { ...gitContextItem, path: `${gitContextItem.path}/.awtsmoos-repo/ikar.js` };
-        await FileSystemProvider.write(ikarItem, ikarContent);
-    } else {
-        // Direct GitHub workspaces keep state in memory
-        gitContextItem.baseCommitSHA = newCommitSHA;
-        gitContextItem.remoteTree = gitInfo.remoteTree;
-    }
-
-    // 4. Clear Green Dots (Uncommitted status)
-    const workspaceId = gitContextItem.workspaceId || gitContextItem.id;
-    const itemsToClear = [...processedFiles, ...processedDeletions];
-    if (itemsToClear.length > 0) {
-        await this._clearUncommittedState(gitContextItem, workspaceId, {
-            creations: processedFiles, updates: [], deletions: processedDeletions
+        treeItems.forEach(newItem => {
+            if (newItem.sha === null) {
+                treeMap.delete(newItem.path);
+            } else {
+                const itemData = { 
+                    path: newItem.path, 
+                    mode: newItem.mode, 
+                    type: newItem.type, 
+                    sha: newItem.sha 
+                };
+                treeMap.set(newItem.path, itemData);
+                committedTreeMap.set(newItem.path, itemData); // Add to our lookup map
+            }
         });
-    }
-},
 
-async _executeGitCommit(repoInfo, branch, parentSHA, treeItems, message) {
-    let treePayload = { tree: treeItems };
-    if (parentSHA) {
-        const parentCommit = await FileSystemProvider.GitHub.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/commits/${parentSHA}`);
-        treePayload.base_tree = parentCommit.tree.sha;
-    }
-    const newTree = await FileSystemProvider.GitHub.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/trees`, {
-        method: 'POST', body: JSON.stringify(treePayload)
-    });
-    const newCommit = await FileSystemProvider.GitHub.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/commits`, {
-        method: 'POST', body: JSON.stringify({ message, tree: newTree.sha, parents: parentSHA ? [parentSHA] : [] })
-    });
-    await FileSystemProvider.GitHub.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/refs/heads/${branch}`, {
-        method: 'PATCH', body: JSON.stringify({ sha: newCommit.sha })
-    });
-    return newCommit.sha;
-},
+        // Save the updated list back to the gitInfo object
+        gitInfo.remoteTree = Array.from(treeMap.values());
 
-
-
-
-
- /*B"H*/
-/*B"H*/
-async calculateDiff(gitContextItem, gitInfo) {
-    const changeSet = {
-        creations: [],
-        updates: [],
-        deletions: [],
-        dirtyFiles: []
-    };
-
-    // 1. Establish the Remote Truth
-    // CRITICAL FIX: We MUST filter out 'tree' (directory) items. 
-    // We only track files ('blob'). Directories are structural and implicit.
-    const remoteFileMap = new Map(
-        (gitInfo.remoteTree || [])
-        .filter(f => f.type === 'blob') 
-        .map(f => [f.path, f])
-    );
-    
-    const workspaceId = gitContextItem.workspaceId || gitContextItem.id;
-
-    // 2. Helper to determine relative paths correctly
-    const getRelativePath = (fullPath) => {
-        if (gitContextItem.type === 'github') return fullPath; 
-        const cloneRoot = gitContextItem.path;
-        if (cloneRoot === '/') return fullPath.startsWith('/') ? fullPath.substring(1) : fullPath;
-        if (fullPath.startsWith(cloneRoot + '/')) return fullPath.substring(cloneRoot.length + 1);
-        return null;
-    };
-
-    // 3. Process Dirty Tabs (Unsaved memory changes)
-    State.tabs.forEach(tab => {
-        if (!tab.isDirty || tab.item.workspaceId !== workspaceId) return;
-        const relPath = getRelativePath(tab.item.path);
-        if (relPath) {
-            changeSet.dirtyFiles.push({ tabItem: tab.item, relativePath: relPath });
-        }
-    });
-
-    // 4. Process Staged Changes (IndexedDB)
-    const uncommittedChanges = await FileSystemProvider.IndexedDB.listUncommittedForWorkspace(workspaceId);
-    const handledPaths = new Set(); 
-    
-    for (const change of uncommittedChanges) {
-        const relativePath = change.item.path; 
-        handledPaths.add(relativePath);
-        
-        if (!remoteFileMap.has(relativePath)) {
-            changeSet.creations.push({ path: relativePath, content: change.content });
+        // 3. Write ikar.js to disk
+        if (gitContextItem.type !== 'github') {
+            const ikarData = { ...gitInfo, baseCommitSHA: newCommitSHA, remoteTree: gitInfo.remoteTree };
+            const ikarContent = `// B"H\n\nconst ikar = ${JSON.stringify(ikarData, null, 4)};`;
+            const ikarItem = { ...gitContextItem, path: `${gitContextItem.path}/.awtsmoos-repo/ikar.js` };
+            await FileSystemProvider.write(ikarItem, ikarContent);
         } else {
-            changeSet.updates.push({ path: relativePath, content: change.content });
+            gitContextItem.baseCommitSHA = newCommitSHA;
+            gitContextItem.remoteTree = gitInfo.remoteTree;
         }
-    }
 
-    // 5. THE RESTORATION SCAN (Detect Untracked & Deleted Files)
-    if (gitContextItem.type !== 'github') {
+        // 4. Clear Green Dots (Uncommitted status) AND UPDATE TAB SHAS
+        const workspaceId = gitContextItem.workspaceId || gitContextItem.id;
+        const itemsToClear = [...processedFiles, ...processedDeletions];
+        if (itemsToClear.length > 0) {
+            // We pass the committedTreeMap so we can find the new SHAs
+            await this._clearUncommittedState(gitContextItem, workspaceId, {
+                creations: processedFiles, updates: [], deletions: processedDeletions
+            }, committedTreeMap);
+        }
+    },
+
+    async _executeGitCommit(repoInfo, branch, parentSHA, treeItems, message) {
+        let treePayload = { tree: treeItems };
+        if (parentSHA) {
+            const parentCommit = await FileSystemProvider.GitHub.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/commits/${parentSHA}`);
+            treePayload.base_tree = parentCommit.tree.sha;
+        }
+        const newTree = await FileSystemProvider.GitHub.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/trees`, {
+            method: 'POST', body: JSON.stringify(treePayload)
+        });
+        const newCommit = await FileSystemProvider.GitHub.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/commits`, {
+            method: 'POST', body: JSON.stringify({ message, tree: newTree.sha, parents: parentSHA ? [parentSHA] : [] })
+        });
+        await FileSystemProvider.GitHub.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/refs/heads/${branch}`, {
+            method: 'PATCH', body: JSON.stringify({ sha: newCommit.sha })
+        });
+        return newCommit.sha;
+    },
+
+    /*B"H*/
+    async calculateDiff(gitContextItem, gitInfo) {
+        const changeSet = {
+            creations: [],
+            updates: [],
+            deletions: [],
+            dirtyFiles: []
+        };
+
+        const remoteFileMap = new Map(
+            (gitInfo.remoteTree || [])
+            .filter(f => f.type === 'blob') 
+            .map(f => [f.path, f])
+        );
         
-        // A. Get the actual physical files on disk
-        const localFiles = await FileSystemProvider.listAllFiles(gitContextItem);
-        const localFilePaths = new Set(); 
+        const workspaceId = gitContextItem.workspaceId || gitContextItem.id;
 
-        // B. Loop through every local file to find ADDITIONS
-        for (const file of localFiles) {
-            const relPath = getRelativePath(file.path);
-            if (!relPath) continue;
+        const getRelativePath = (fullPath) => {
+            if (gitContextItem.type === 'github') return fullPath; 
+            const cloneRoot = gitContextItem.path;
+            if (cloneRoot === '/') return fullPath.startsWith('/') ? fullPath.substring(1) : fullPath;
+            if (fullPath.startsWith(cloneRoot + '/')) return fullPath.substring(cloneRoot.length + 1);
+            return null;
+        };
 
-            localFilePaths.add(relPath);
+        State.tabs.forEach(tab => {
+            if (!tab.isDirty || tab.item.workspaceId !== workspaceId) return;
+            const relPath = getRelativePath(tab.item.path);
+            if (relPath) {
+                changeSet.dirtyFiles.push({ tabItem: tab.item, relativePath: relPath });
+            }
+        });
 
-            if (handledPaths.has(relPath)) continue;
+        const uncommittedChanges = await FileSystemProvider.IndexedDB.listUncommittedForWorkspace(workspaceId);
+        const handledPaths = new Set(); 
+        
+        for (const change of uncommittedChanges) {
+            const relativePath = change.item.path; 
+            handledPaths.add(relativePath);
+            
+            if (!remoteFileMap.has(relativePath)) {
+                changeSet.creations.push({ path: relativePath, content: change.content });
+            } else {
+                changeSet.updates.push({ path: relativePath, content: change.content });
+            }
+        }
 
-            if (!remoteFileMap.has(relPath)) {
-                // Untracked file found. Read and Stage it.
+        if (gitContextItem.type !== 'github') {
+            const localFiles = await FileSystemProvider.listAllFiles(gitContextItem);
+            const localFilePaths = new Set(); 
+
+            for (const file of localFiles) {
+                const relPath = getRelativePath(file.path);
+                if (!relPath) continue;
+
+                localFilePaths.add(relPath);
+
+                if (handledPaths.has(relPath)) continue;
+
+                if (!remoteFileMap.has(relPath)) {
+                    try {
+                        const rawContent = await FileSystemProvider.read({ ...gitContextItem, path: file.path });
+                        let stringContent = '';
+                        if (rawContent instanceof Blob) {
+                            stringContent = await rawContent.text();
+                        } else if (typeof rawContent === 'string') {
+                            stringContent = rawContent;
+                        } else if (rawContent && rawContent.base64Content) {
+                             stringContent = atob(rawContent.base64Content);
+                        }
+                        
+                        changeSet.creations.push({ path: relPath, content: stringContent });
+                    } catch (readErr) {
+                    }
+                }
+            }
+
+            const deletionCandidates = [];
+            for (const remoteFilePath of remoteFileMap.keys()) {
+                if (!localFilePaths.has(remoteFilePath)) {
+                    deletionCandidates.push(remoteFilePath);
+                }
+            }
+
+            for (const candidatePath of deletionCandidates) {
                 try {
-                    const rawContent = await FileSystemProvider.read({ ...gitContextItem, path: file.path });
-                    let stringContent = '';
-                    if (rawContent instanceof Blob) {
-                        stringContent = await rawContent.text();
-                    } else if (typeof rawContent === 'string') {
-                        stringContent = rawContent;
-                    }
-                    // Handle binary base64 from GitHub/Storage if needed
-                    else if (rawContent && rawContent.base64Content) {
-                         // Decode if necessary, but usually read returns string or blob for local
-                         stringContent = atob(rawContent.base64Content);
-                    }
-                    
-                    changeSet.creations.push({ path: relPath, content: stringContent });
-                } catch (readErr) {
-                    // Ignore transient read errors
+                    const absPath = gitContextItem.path === '/' ? `/${candidatePath}` : `${gitContextItem.path}/${candidatePath}`;
+                    await FileSystemProvider.read({ ...gitContextItem, path: absPath, kind: 'file' });
+                } catch (e) {
+                    changeSet.deletions.push({ path: candidatePath });
                 }
             }
         }
 
-        // C. Loop through Remote map to find DELETIONS
-        const deletionCandidates = [];
-        for (const remoteFilePath of remoteFileMap.keys()) {
-            if (!localFilePaths.has(remoteFilePath)) {
-                deletionCandidates.push(remoteFilePath);
-            }
-        }
-
-        // D. Verify Deletions (Fail-Safe)
-        for (const candidatePath of deletionCandidates) {
-            try {
-                // If we can read it, it's NOT deleted.
-                const absPath = gitContextItem.path === '/' ? `/${candidatePath}` : `${gitContextItem.path}/${candidatePath}`;
-                await FileSystemProvider.read({ ...gitContextItem, path: absPath, kind: 'file' });
-            } catch (e) {
-                // Only confirmed deletion if we really can't read the file
-                changeSet.deletions.push({ path: candidatePath });
-            }
-        }
+        return changeSet;
     }
-
-    return changeSet;
-}
 };
