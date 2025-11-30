@@ -348,7 +348,7 @@ async function sendMail({ $i, userid, asAliasId, toAliasId, toEmail }) {
             
             // Check Gatekeeper / Settings
             var settingsPath = `/social/aliases/${recipientShort}/emailSettings`;
-            var settings = await $i.db.get(settingsPath) || { approved: {} };
+            var settings = await $i.db.get(settingsPath) || { approved: {}, rules: [] };
             if(!settings.approved) settings.approved = {};
 
             var status = "inbox";
@@ -402,7 +402,25 @@ async function sendMail({ $i, userid, asAliasId, toAliasId, toEmail }) {
                     msg: { from: asAliasId, to: recipientShort, subject, content },
                     dependencies: {
                         callAi: $i.callAi, 
-                        reply: (text) => sendSystemLocalMail($i, recipientShort, senderShort, subject, text),
+                        // B"H - ADDED STREAMING SUPPORT FOR LOCAL-TO-LOCAL AI
+                        stream: (partial) => {
+                            if($i.ws) {
+                                // 1. Send to Recipient (Owner of AI) - so they see their own bot typing
+                                $i.ws.sendToAlias(recipientShort, {
+                                    type: 'LIVE_PREVIEW',
+                                    from: senderShort, 
+                                    content: partial
+                                });
+                                // 2. Send to Sender (User A) - so they see "Ghost Typing"
+                                // The sender sees "Recipient is typing..."
+                                $i.ws.sendToAlias(senderShort, {
+                                    type: 'LIVE_PREVIEW',
+                                    from: recipientShort, // FROM the Recipient
+                                    content: partial
+                                });
+                            }
+                        },
+                        reply: (text) => sendSystemLocalMail($i, recipientShort, senderShort, "Re: " + subject, text),
                         console: console
                     }
                 });
