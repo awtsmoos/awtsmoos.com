@@ -28,7 +28,7 @@
 
 
 
-.main * {
+ * {
     box-sizing: content-box;
 }
 /* Add to styles.css */
@@ -41,39 +41,24 @@ html, body {
 }
 
 /* B"H - Fix Wrapper Layout (Full Screen without Header) */
-.all.awtsmoospage {
-    height: 100% !important;
-    width: 100% !important;
-    display: flex !important;
-    flex-direction: column !important;
-    overflow: hidden !important;
-    margin: 0 !important;
-    padding: 0 !important;
+/* B"H - Layout Fix for Direct Body Structure */
+body {
+    background-color: var(--bg-deep); /* Prevent white flashes */
+    height: 100dvh; /* Force full dynamic viewport height */
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
 }
 
-
-.all.awtsmoospage > .main {
-    /* 1. Stop forcing 100% height. Let Flexbox calculate the remaining space. */
-    height: auto !important;
-    flex: 1 1 auto !important; 
-    
-    /* 2. Fix Flexbox bugs (Mozilla/Webkit) where it refuses to shrink */
-    min-height: 0 !important;
-    
-    /* 3. Keep layout clean */
-    display: flex !important;
-    flex-direction: column !important;
-    
-    /* 4. Stop the scrollbar on the wrapper */
-    overflow: hidden !important;
-    padding: 0 !important;
-}
-/* Ensure the main container fills the remaining space */
-.main {
-    flex: 1; /* Grow to fill space under header */
-    height: 100%;
-    overflow: hidden; /* Contain the app layout */
-    position: relative;
+#appContainer {
+    flex: 1; /* Fill remaining space */
+    height: 100%; 
+    width: 100%;
+    position: relative; /* Critical anchor for mobile positioning */
+    margin: 0;
 }
 
 /* LAYOUT GRID */
