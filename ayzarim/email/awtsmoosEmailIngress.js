@@ -97,14 +97,29 @@ module.exports = async function ({ sender, recipients, data }) {
                     dependencies: {
                         callAi: this.callAi ? this.callAi.bind(this) : null,
                         
-                        // B"H - AI STREAMING (GHOST TYPING)
+                        // B"H - AI STREAMING (GHOST TYPING FIX)
                         stream: (partialContent) => {
-                            // FIX: We removed .includes("awtsmoos.com") because local aliases don't have it.
-                            // If we have a WebSocket and a valid recipient short name, try to send.
-                            if (recipientShort && this.ws) {
+                            if (!this.ws) return;
+
+                            // 1. Send to the OWNER (Recipient) so they see their own AI typing
+                            // They see: "User A (Sender) is typing..." (Simulating the AI response)
+                            if (recipientShort) {
                                 this.ws.sendToAlias(recipientShort, {
                                     type: 'LIVE_PREVIEW',
                                     from: cleanSender, 
+                                    content: partialContent
+                                });
+                            }
+
+                            // 2. Send to the ORIGINAL SENDER (User A) so they see the ghost typing
+                            // They see: "User B (Recipient) is typing..."
+                            var senderShort = cleanSender.split('_at_')[0].split('@')[0];
+                            
+                            if (senderShort) {
+                                this.ws.sendToAlias(senderShort, {
+                                    type: 'LIVE_PREVIEW',
+                                    // CRITICAL: We swap the 'from' so User A sees it coming FROM User B
+                                    from: cleanRecipient, 
                                     content: partialContent
                                 });
                             }
