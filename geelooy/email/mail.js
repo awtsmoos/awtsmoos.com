@@ -622,14 +622,7 @@ function escapeHtml(text) {
         .replace(/\\/g, ""); // Remove backslashes used for escaping in the original raw text
 }
 
-function escapeHtml(text) {
-    // B"H - The Shield of String
-    if (text === null || text === undefined) return "";
-    return String(text)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;");
-}
+
 
 
 function formatTime(ts) {
