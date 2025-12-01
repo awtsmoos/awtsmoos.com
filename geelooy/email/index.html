@@ -86,41 +86,45 @@
                         <button type="button" class="close-reply" onclick="cancelReply()">×</button>
                     </div>
 
-                    <!-- B"H
-                     Input Wrapper with Formatting Toolbar -->
-
+                    <!-- B"H - The Ultimate Compose Vessel -->
 <div class="input-wrapper">
-    <!-- Formatting Toolbar with Mode Switcher -->
+    <!-- Formatting Toolbar -->
     <div class="formatting-bar">
-        <button type="button" class="fmt-btn" onclick="insertFormat('**', '**')" title="Bold"><b>B</b></button>
-        <button type="button" class="fmt-btn" onclick="insertFormat('*', '*')" title="Italic"><i>I</i></button>
-        <button type="button" class="fmt-btn" onclick="insertFormat('__', '__')" title="Underline"><u>U</u></button>
-        <button type="button" class="fmt-btn" onclick="insertFormat('~~', '~~')" title="Strike"><s>S</s></button>
-        <button type="button" class="fmt-btn" onclick="insertFormat('`', '`')" title="Code">{'}'}</button>
-        <button type="button" class="fmt-btn" onclick="insertFormat('```\n', '\n```')" title="Block">KB</button>
-        <button type="button" class="fmt-btn" onclick="insertFormat('[', '](url)')" title="Link">🔗</button>
-        <div class="fmt-sep"></div>
-        <button type="button" class="fmt-btn" onclick="insertFormat('<h3>', '</h3>')" title="Header">H3</button>
-        <button type="button" class="fmt-btn" onclick="insertFormat('<br>', '')" title="Break">↵</button>
+        <!-- Text Tools -->
+        <button type="button" class="fmt-btn" onclick="insertFormat('**', '**', 'bold')" title="Bold"><b>B</b></button>
+        <button type="button" class="fmt-btn" onclick="insertFormat('*', '*', 'italic')" title="Italic"><i>I</i></button>
+        <button type="button" class="fmt-btn" onclick="insertFormat('__', '__', 'underline')" title="Underline"><u>U</u></button>
+        <button type="button" class="fmt-btn" onclick="insertFormat('~~', '~~', 'strikethrough')" title="Strike"><s>S</s></button>
         
         <div class="fmt-sep"></div>
         
-        <!-- The Eyes: Write vs Preview -->
-        <button type="button" class="fmt-btn tab-active" id="modeWrite" onclick="setComposeMode('write')" title="Edit Source">✎</button>
-        <button type="button" class="fmt-btn" id="modePreview" onclick="setComposeMode('preview')" title="View Reality">👁</button>
+        <button type="button" class="fmt-btn" onclick="insertFormat('`', '`', 'formatBlock', 'PRE')" title="Code">{'}'}</button>
+        <button type="button" class="fmt-btn" onclick="insertFormat('<h3>', '</h3>', 'formatBlock', 'H3')" title="Header">H3</button>
+        <button type="button" class="fmt-btn" onclick="insertFormat('[', '](url)', 'createLink')" title="Link">🔗</button>
+        
+        <div class="fmt-sep"></div>
+        
+        <!-- The Eyes: Mode Switchers -->
+        <button type="button" class="fmt-btn tab-active" id="modeVisual" onclick="setComposeMode('visual')" title="Visual Editor">👁</button>
+        <button type="button" class="fmt-btn" id="modeSource" onclick="setComposeMode('source')" title="Markdown Source">✎</button>
     </div>
 
+    <!-- Subject Line -->
     <input type="text" id="subjectInput" placeholder="Subject..." class="subject-input" autocomplete="off">
     
-    <div class="flex-row">
-        <!-- The Source -->
-        <textarea id="messageInput" placeholder="Write your message (Markdown/HTML supported)..." rows="1"></textarea>
+    <!-- The Editor Stack -->
+    <div class="flex-row input-container-stack">
+        <!-- 1. The Source (Hidden by default) -->
+        <textarea id="messageInput" class="hidden" placeholder="Write in Markdown..." rows="4"></textarea>
         
-        <!-- The Revelation (Hidden by default) -->
-        <div id="previewContainer" class="preview-box hidden email-body"></div>
-
-        <button type="submit" class="btn-send">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+        <!-- 2. The Visual (Default) -->
+        <div id="visualInput" class="rich-input email-body" contenteditable="true" placeholder="Write your message..."></div>
+        
+        <!-- 3. The Launch Button -->
+        <button type="submit" class="btn-send" onclick="prepareSend()">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+            </svg>
         </button>
     </div>
 </div>

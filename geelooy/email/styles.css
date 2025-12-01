@@ -1310,5 +1310,94 @@ label a:hover { text-decoration: underline; }
         border-color: var(--neon-gold, #ffd700) !important;
     }
     
+    /* B"H - EDITOR & BUTTON UPGRADES */
+
+/* 1. The Visual Vessel (ContentEditable) */
+.rich-input {
+    width: 100%;
+    min-height: 80px;
+    max-height: 300px;
+    overflow-y: auto;
+    padding: 12px;
+    
+    /* Glass Effect */
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid transparent; 
+    border-radius: 8px;
+    
+    color: var(--text-primary, #e0e0e0);
+    font-family: inherit;
+    outline: none;
+    white-space: pre-wrap;
+    line-height: 1.5;
+    transition: all 0.3s ease;
+}
+
+.rich-input:focus {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 215, 0, 0.3); /* Faint Gold */
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.05);
+}
+
+/* 2. The Formatting Bar */
+.formatting-bar {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 12px;
+    background: rgba(0, 0, 0, 0.4);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    overflow-x: auto;
+}
+
+/* Active Mode Button Glow */
+.tab-active {
+    background: rgba(255, 215, 0, 0.15) !important;
+    border: 1px solid var(--neon-gold) !important;
+    color: var(--neon-gold) !important;
+    box-shadow: 0 0 8px rgba(255, 215, 0, 0.2);
+}
+
+/* 3. The "Extreme" Send Button */
+.btn-send {
+    width: 42px; height: 42px; /* Slightly larger */
+    border-radius: 12px;
+    background: rgba(255,255,255,0.05);
+    color: rgba(255,255,255,0.4);
+    border: 1px solid transparent;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    
+    /* Bouncy Animation Physics */
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    flex-shrink: 0;
+}
+
+/* Ready State */
+.btn-send.ready {
+    background: var(--neon-gold);
+    color: #000;
+    transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(245, 158, 11, 0.6);
+    border-color: #fff;
+}
+
+.btn-send.ready:hover {
+    transform: scale(1.15) rotate(-10deg); /* Tilt effect */
+    box-shadow: 0 0 25px rgba(245, 158, 11, 0.8);
+}
+
+/* Sending Animation (Paper Plane Fly) */
+.btn-send.sending svg {
+    animation: flyAway 0.6s forwards cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+@keyframes flyAway {
+    0% { transform: translateX(0) translateY(0) scale(1); opacity: 1; }
+    40% { transform: translateX(-5px) translateY(5px) scale(0.8); opacity: 1; } /* Pull back */
+    100% { transform: translateX(100px) translateY(-100px) scale(0.1); opacity: 0; } /* Zoom */
+}
+    
+    
 
 

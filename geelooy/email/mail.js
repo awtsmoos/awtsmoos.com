@@ -632,11 +632,22 @@ function formatTime(ts) {
 
 function setupUI() {
     // Compose Form
+    // Update this specific block inside setupUI()
     document.getElementById('composeForm').onsubmit = (e) => {
         e.preventDefault();
+        
+        prepareSend(); // <--- SYNC DATA
+        
         const sub = document.getElementById('subjectInput').value;
-        const msg = document.getElementById('messageInput').value;
-        if(state.activeThread) sendEmail(state.activeThread, sub, msg);
+        const msg = document.getElementById('messageInput').value; // Reads from synced textarea
+        
+        if(state.activeThread) {
+            sendEmail(state.activeThread, sub, msg).then(() => {
+                // Clear Visual Input after send
+                document.getElementById('visualInput').innerHTML = '';
+                document.querySelector('.btn-send').classList.remove('sending');
+            });
+        }
     };
 
     // Modal Triggers
@@ -1579,10 +1590,145 @@ function urlBase64ToUint8Array(base64String) {
     return Uint8Array.from([...rawData].map((char) => char.charCodeAt(0)));
 }
 
+
+
+// B"H 
+// --- ALCHEMY: EDITOR LOGIC & TRANSFORMATION ---
+
+/**
+ * Toggles between Visual (Light) and Source (Vessel) modes.
+ */
+function setComposeMode(mode) {
+    const visual = document.getElementById('visualInput');
+    const source = document.getElementById('messageInput');
+    const btnVisual = document.getElementById('modeVisual');
+    const btnSource = document.getElementById('modeSource');
+
+    if (mode === 'visual') {
+        // Source -> Visual
+        if (!source.classList.contains('hidden')) {
+            // Transmute Markdown to HTML for the visual vessel
+            visual.innerHTML = formatContent(source.value);
+        }
+        
+        source.classList.add('hidden');
+        visual.classList.remove('hidden');
+        
+        btnSource.classList.remove('tab-active');
+        btnVisual.classList.add('tab-active');
+        visual.focus();
+        
+    } else {
+        // Visual -> Source
+        if (!visual.classList.contains('hidden')) {
+            // Condense HTML back to Markdown dust
+            source.value = htmlToMarkdown(visual.innerHTML);
+        }
+
+        visual.classList.add('hidden');
+        source.classList.remove('hidden');
+
+        btnVisual.classList.remove('tab-active');
+        btnSource.classList.add('tab-active');
+        source.focus();
+    }
+}
+
+/**
+ * Smart Format Inserter: Works for both Visual (execCommand) and Source (Text manipulation)
+ */
+function insertFormat(startTag, endTag, command, value = null) {
+    const isVisual = !document.getElementById('visualInput').classList.contains('hidden');
+
+    if (isVisual) {
+        // Visual Mode: Use Browser Command
+        document.getElementById('visualInput').focus();
+        if (command === 'createLink') {
+            const url = prompt("Enter URL:", "https://");
+            if (url) document.execCommand(command, false, url);
+        } else {
+            document.execCommand(command, false, value);
+        }
+    } else {
+        // Source Mode: Insert Markdown Characters
+        const textarea = document.getElementById('messageInput');
+        const start = textarea.selectionStart;
+        const end = textarea.selectionEnd;
+        const text = textarea.value;
+        const before = text.substring(0, start);
+        const selected = text.substring(start, end);
+        const after = text.substring(end);
+
+        textarea.value = before + startTag + selected + endTag + after;
+        
+        const newCursorPos = start + startTag.length + selected.length + endTag.length;
+        textarea.selectionStart = newCursorPos;
+        textarea.selectionEnd = newCursorPos;
+        textarea.focus();
+        
+        // Trigger resize/input events
+        textarea.dispatchEvent(new Event('input'));
+    }
+}
+
+/**
+ * Syncs the Visual content to the Hidden Textarea before sending.
+ */
+window.prepareSend = function() {
+    const visual = document.getElementById('visualInput');
+    const source = document.getElementById('messageInput');
+    
+    // If we are in visual mode, the truth is in the div. Move it to the textarea.
+    if (!visual.classList.contains('hidden')) {
+        source.value = htmlToMarkdown(visual.innerHTML);
+    }
+    
+    // Trigger visual feedback on button
+    const btn = document.querySelector('.btn-send');
+    if(btn) btn.classList.add('sending');
+}
+
+/**
+ * A simple Alchemist to turn HTML structures back into Markdown.
+ */
+function htmlToMarkdown(html) {
+    // Create a temp element to traverse
+    let temp = document.createElement('div');
+    temp.innerHTML = html;
+
+    // 1. Handle Blocks (divs/paragraphs become newlines)
+    temp.querySelectorAll('div, p, br').forEach(el => {
+        el.replaceWith('\n' + el.innerHTML);
+    });
+    
+    let text = temp.innerHTML;
+
+    // 2. Transmute Tags to Markdown
+    text = text.replace(/<b>(.*?)<\/b>/gi, '**$1**')
+               .replace(/<strong>(.*?)<\/strong>/gi, '**$1**')
+               .replace(/<i>(.*?)<\/i>/gi, '*$1*')
+               .replace(/<em>(.*?)<\/em>/gi, '*$1*')
+               .replace(/<s>(.*?)<\/s>/gi, '~~$1~~')
+               .replace(/<u>(.*?)<\/u>/gi, '__$1__')
+               .replace(/<h3>(.*?)<\/h3>/gi, '\n### $1\n')
+               .replace(/<a href="(.*?)".*?>(.*?)<\/a>/gi, '[$2]($1)');
+
+    // 3. Clean Entities
+    text = text.replace(/&nbsp;/g, ' ')
+               .replace(/&amp;/g, '&')
+               .replace(/&lt;/g, '<')
+               .replace(/&gt;/g, '>');
+    
+    // 4. Clean excessive newlines
+    return text.replace(/\n\s*\n/g, '\n\n').trim();
+}
 // B"H 
 
 // --- EXPOSE FUNCTIONS TO WINDOW (For HTML Events) ---
 // B"H
+
+window.setComposeMode = setComposeMode;
+window.prepareSend = prepareSend;
 window.insertFormat = insertFormat;
 window.toggleView = toggleView;
 window.backToInbox = backToInbox;
