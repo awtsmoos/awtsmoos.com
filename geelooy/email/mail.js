@@ -1474,38 +1474,7 @@ window.downloadCapsule = function(id) {
     URL.revokeObjectURL(url);
 };
 
-// B"H
-// Toolbar Helper: Inserts formatting at cursor position
-function insertFormat(startTag, endTag) {
-    const textarea = document.getElementById('messageInput');
-    const start = textarea.selectionStart;
-    const end = textarea.selectionEnd;
-    const text = textarea.value;
-    const before = text.substring(0, start);
-    const selected = text.substring(start, end);
-    const after = text.substring(end);
 
-    // Insert
-    textarea.value = before + startTag + selected + endTag + after;
-    
-    // Reset cursor position to end of insertion
-    const newCursorPos = start + startTag.length + selected.length + endTag.length;
-    textarea.selectionStart = newCursorPos;
-    textarea.selectionEnd = newCursorPos;
-    textarea.focus();
-
-    // Trigger input event so the Broadcaster (Ghost) sends the update immediately
-    textarea.dispatchEvent(new Event('input'));
-}
-
-
-
-// B"H
-/**
- * Toggles the perception of the message.
- * 'write' = The Raw Vessels (Textarea)
- * 'preview' = The Filled Light (Rendered HTML)
- */
 
 
 // B"H
