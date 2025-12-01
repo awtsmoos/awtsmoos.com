@@ -72,8 +72,8 @@ async function runTest() {
     } finally {
         await db.close();
         // Cleanup
-        if (fs.existsSync(DB_PATH)) fs.unlinkSync(DB_PATH);
-        if (fs.existsSync(DB_PATH + ".wal")) fs.unlinkSync(DB_PATH + ".wal");
+       // if (fs.existsSync(DB_PATH)) fs.unlinkSync(DB_PATH);
+       // if (fs.existsSync(DB_PATH + ".wal")) fs.unlinkSync(DB_PATH + ".wal");
     }
 }
 
