@@ -829,27 +829,33 @@ function triggerDownload(blob, filename) {
     document.body.removeChild(a);
         }
         // Add this new function anywhere in your <script> section
+// REPLACE the existing downloadImage function in index.html
 async function downloadImage(blob, filename, directoryHandle = null) {
     /* ב"ה B"H */
     if (directoryHandle && 'getFileHandle' in directoryHandle) {
+        // --- FOLDER SELECTED MODE ---
         try {
+            // 1. Get reference to file (create if doesn't exist)
             const fileHandle = await directoryHandle.getFileHandle(filename, { create: true });
+            // 2. Create a writable stream
             const writable = await fileHandle.createWritable();
+            // 3. Write the blob data
             await writable.write(blob);
+            // 4. Close the file - THIS IS CRITICAL for sequential writing
             await writable.close();
             console.log(`Saved ${filename} to selected folder.`);
         } catch (error) {
             console.error(`Error saving ${filename} using File System Access API:`, error);
-            setStatus(`Failed to save ${filename} to folder. Falling back to individual download.`, 'error');
-            triggerDownload(blob, filename);
+            setStatus(`Failed to save ${filename}. Check folder permissions.`, 'error');
+            // Do not fallback to auto-download here to avoid mixed behavior if one fails
         }
     } else {
+        // --- NO FOLDER SELECTED (Auto Download) ---
         triggerDownload(blob, filename);
     }
 }
 
 
-        // Add this new function anywhere in your <script> section
 async function processImageDownloadQueue() {
     /* ב"ה B"H */
     if (appState.isDownloadingImages || appState.imageDownloadQueue.length === 0) {
@@ -857,16 +863,31 @@ async function processImageDownloadQueue() {
     }
 
     appState.isDownloadingImages = true;
-    setStatus('Downloading images...', '');
-
+    
+    const total = appState.imageDownloadQueue.length + (appState.processedCount || 0);
+    
     while (appState.imageDownloadQueue.length > 0) {
         const { blob, filename } = appState.imageDownloadQueue.shift();
+        setStatus(`Saving: ${filename}...`);
+
         await downloadImage(blob, filename, appState.selectedDownloadDirectoryHandle);
-        await new Promise(resolve => setTimeout(resolve, 50)); // Small delay between downloads
+        
+        // Logic:
+        // If using a folder (directoryHandle), the 'await downloadImage' above blocks until the file is physically closed.
+        // If NO folder (triggerDownload), the function returns instantly. We need a delay to prevent browser choking.
+        
+        const delay = appState.selectedDownloadDirectoryHandle ? 50 : 500; // 50ms for folder, 500ms for browser download
+        await new Promise(resolve => setTimeout(resolve, delay));
     }
 
     appState.isDownloadingImages = false;
-    setStatus('All images downloaded.', 'success');
+    
+    // Only show "All done" if the worker is also finished
+    if(appState.appStatus === 'IDLE') {
+        setStatus('All images saved successfully.', 'success');
+    } else {
+        setStatus('Saving images...', '');
+    }
 }
 
         

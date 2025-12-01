@@ -344,10 +344,10 @@ function renderCompositeFrame(ctx, bgCanvas, primaryCap, translationCap, setting
 	einSofRenderer.renderCornerText(ctx, settings, resolution);
 }
 // --- Image Batch Generation ---
-// REPLACE your entire existing `async function generateImageBatch(...) { ... }`
 
 einSofRenderer.renderCompositeFrame=renderCompositeFrame
-// REPLACE your entire existing `async function generateImageBatch(...)`
+
+
 async function generateImageBatch({ settings, resolution, captionData, portalBitmaps, enableImageDownload }) {
     /* ב"ה B"H */
     if (!enableImageDownload) { throw new Error("Image batch generation called without 'enableImageDownload' being true."); }
@@ -386,10 +386,16 @@ async function generateImageBatch({ settings, resolution, captionData, portalBit
         renderCompositeFrame(ctx, bgToUse, primaryCap, translationCap, currentSettings, resolution, cachedOverlays, paletteToUse);
 
         const timestamp = Date.now();
-        const captionExcerpt = primaryCap.text.substring(0, 50).replace(/[^\p{L}\p{N}]+/gu, '_').replace(/^_|_$/g, '');
-        const filename = `BH_${timestamp}_${captionExcerpt || 'caption'}.png`;
+        // CLEANUP: Create a safe filename with a padded index number (e.g., 001, 002) for correct sorting
+        const paddedIndex = String(i + 1).padStart(3, '0');
+        const captionExcerpt = primaryCap.text.substring(0, 30).replace(/[^\p{L}\p{N}]+/gu, '_').replace(/^_|_$/g, '');
+        const filename = `${paddedIndex}_BH_${timestamp}_${captionExcerpt || 'caption'}.png`;
 
         const blob = await renderCanvas.convertToBlob({ type: 'image/png' });
+        
+        // Wait slightly to ensure memory clears if batch is huge
+        await new Promise(r => setTimeout(r, 0)); 
+        
         self.postMessage({ type: 'IMAGE_COMPLETE', payload: { blob, filename } });
     }
 
