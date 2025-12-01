@@ -295,7 +295,7 @@ async function doEverything() {
 				}
 				response.end(con)
 			} else {
-				console.log("GOING to DO", con, res)
+			
 				return errorMessage.bind(this)({
 					message: "No Awtsmoos Response",
 					code: "NO_AWTS_RESP",

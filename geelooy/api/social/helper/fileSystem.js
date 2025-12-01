@@ -40,7 +40,7 @@ async function readFile({$i}) {
     if (!isAuthorized) return er({ message: "Unauthorized", code: "UNAUTHORIZED" });
 */
 
-    path = addFolderName(path);
+
    
     var filePath = `${sp}/aliases/${aliasId}/fileSystem/${path}`;
     if ($i.request.isAwtsmoosFileStatusRequest) {
@@ -51,7 +51,7 @@ async function readFile({$i}) {
                 "application/json"
                 
             )
-	    return {dataModified: stats?.mtime?.getTime?.()};
+	   // return {dataModified: stats?.mtime?.getTime?.()};
     }
     var file = await $i.db.read(filePath);
    //console.log("Read",filePath)
@@ -135,7 +135,7 @@ async function makeFile({$i}) {
                 details: e.stack
             })
         }
-        path = addFolderName(path);
+        
         // Write the file to the alias's file system
         try {
             var filePath = `${sp}/aliases/${aliasId}/fileSystem/${path}`;
