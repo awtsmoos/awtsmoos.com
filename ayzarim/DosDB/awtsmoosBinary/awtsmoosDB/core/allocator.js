@@ -1,6 +1,7 @@
 // B"H
 // The Allocator manages the Unified Storage.
 // FINAL PRODUCTION VERSION: Includes State Persistence.
+// FIX APPLIED: Corrected Bitmap marking on EOF expansion.
 
 const constants = require('../constants.js');
 const { writePointer48 } = require('../utils/binaryHelpers.js');
@@ -53,16 +54,36 @@ class Allocator {
 	        // EOF -> Expand
 	        if (type === null) {
 	            const block = this.formatBlock(constants.BLOCK_TYPE.PAGE);
-	            await this.pager.writeBlock(searchPtr, block);
 	            
-	            this.cursor = searchPtr;
-	            this.lastFreeHint = searchPtr;
-	            
-	            return {
-                    blockId: searchPtr,
-                    offset: constants.BITMAP_OFFSET + constants.BITMAP_SIZE,
-                    length: sizeBytes
-                };
+                // --- FIX START ---
+                // We must mark the bitmap for this new allocation, otherwise the next
+                // allocation scan will see this space as free and overwrite it.
+                
+                const bitmap = block.subarray(constants.BITMAP_OFFSET, constants.BITMAP_OFFSET + constants.BITMAP_SIZE);
+                
+                // On a fresh block, formatBlock() reserves Unit 0. 
+                // We expect findGap to return Unit 1.
+                const startUnit = this.findGap(bitmap, unitsNeeded);
+
+                if (startUnit > 0) {
+                    this.markBitmap(bitmap, startUnit, unitsNeeded, true);
+                    
+                    await this.pager.writeBlock(searchPtr, block);
+                    
+                    this.cursor = searchPtr;
+                    this.lastFreeHint = searchPtr;
+                    
+                    return {
+                        blockId: searchPtr,
+                        offset: startUnit * constants.UNIT_SIZE, // Use calculated offset, not hardcoded header end
+                        length: sizeBytes
+                    };
+                } else {
+                    // This implies unitsNeeded is larger than a single block's capacity,
+                    // which should be caught by the allocate() wrapper check.
+                    throw new Error("B\"H: Unexpected Allocation Failure on New Block");
+                }
+                // --- FIX END ---
 	        }
 	
 	        if (type === constants.BLOCK_TYPE.FREE || type === constants.BLOCK_TYPE.PAGE) {

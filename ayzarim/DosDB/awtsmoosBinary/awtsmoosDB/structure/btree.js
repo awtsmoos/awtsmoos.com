@@ -132,7 +132,6 @@ class BTree {
 	
 	    // Helper to write pointer
 	    const writePtr = (p) => {
-	        // CRITICAL FIX: Write 6-byte Block ID
 	        const bBuf = Buffer.alloc(6);
 	        writePointer48(bBuf, p.blockId, 0);
 	        parts.push(bBuf);
@@ -156,6 +155,11 @@ class BTree {
 	
 	    const raw = Buffer.concat(parts);
 	
+        //Free the old location to prevent storage leaks (Infinite Growth)
+        if (node.ptr) {
+            await this.allocator.free(node.ptr);
+        }
+
 	    // 3. Allocate New Space
 	    const newPtr = await this.allocator.allocate(raw.length);
 	
@@ -166,7 +170,6 @@ class BTree {
 	        
 	        while (remaining.length > 0) {
 	            const blk = await this.allocator.pager.readBlock(currentBlock);
-	            // First block uses allocated offset, subsequent use UNIT_SIZE
 	            const start = (currentBlock === newPtr.blockId) ? newPtr.offset : constants.UNIT_SIZE;
 	            const avail = constants.BLOCK_SIZE - start;
 	            const toWrite = Math.min(remaining.length, avail);
@@ -317,6 +320,39 @@ class BTree {
         // We can create a lightweight `loadHeader` method later.
         const node = await this.loadNode(ptr);
         return node.count;
+    }
+    
+    
+    /**
+     * Finds the pointer associated with a specific key.
+     * Returns null if not found.
+     */
+    async search(key) {
+        const root = await this.getRoot();
+        return await this.searchRecursive(root, key);
+    }
+
+    async searchRecursive(node, key) {
+        if (node.isLeaf) {
+            // Binary search within the leaf would be faster, but linear is fine for < 100 items
+            const idx = node.keys.indexOf(key);
+            if (idx !== -1) {
+                return node.values[idx];
+            }
+            return null;
+        }
+
+        // Internal Node
+        let idx = 0;
+        // Logic: Find the first key that is GREATER than the target
+        // The child at that index holds the range covering our target.
+        while (idx < node.keys.length && key >= node.keys[idx]) idx++;
+        
+        // Recurse down
+        const childPtr = node.children[idx];
+        const childNode = await this.loadNode(childPtr);
+        
+        return await this.searchRecursive(childNode, key);
     }
     
     

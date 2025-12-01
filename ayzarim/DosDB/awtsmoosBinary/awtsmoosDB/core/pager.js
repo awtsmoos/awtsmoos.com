@@ -95,14 +95,23 @@ class Pager {
             ? buffer
             : Buffer.concat([buffer, Buffer.alloc(constants.BLOCK_SIZE - buffer.length)]);
 
-        // 1. Write-Ahead Log
+        // 1. Write-Ahead Log (Durability Barrier)
+        // This includes an fsync inside WAL class, so data is safe.
         await this.wal.log(blockId, writeBuffer);
 
-        // 2. Write to DB
-        await this.writeRaw(blockId, writeBuffer);
+        // 2. Write to DB (Performance Optimization)
+        // We bypass this.writeRaw() to avoid its internal fsync().
+        // We write to OS cache only.
+        const offset = BigInt(blockId) * BigInt(constants.BLOCK_SIZE);
+        await this.handle.write(writeBuffer, 0, constants.BLOCK_SIZE, offset);
         
-        // 3. Clear WAL
-        await this.wal.clear();
+        // 3. Lazy Checkpoint
+        // Instead of Triple-Syncing every block, we checkpoint occasionally.
+        // 1 in 1000 writes will trigger a physical DB flush and WAL clear.
+        if (Math.random() < 0.001) {
+             await this.handle.sync(); // Physical Flush
+             await this.wal.clear();   // Reclaim WAL space
+        }
     }
     
     /**

@@ -39,6 +39,14 @@ module.exports = {
         ARRAY: 3,
         BUFFER: 8,
         FUNCTION: 27,
+        
+        // NEW UNIVERSAL TYPES
+        DATE: 30,
+        REGEXP: 31,
+        MAP: 32,
+        SET: 33,
+        JS_BIGINT: 34,
+        ERROR: 35,
 
         // Positive Integers
         UINT8: 4,
@@ -53,9 +61,9 @@ module.exports = {
         INT64_NEG: 23,
 
         // Floats (Compressed)
-        FLOAT_1: 14, // 1 byte custom float
-        FLOAT_2: 15, // 2 byte custom float
-        FLOAT_4: 16, // 4 byte custom float
+        FLOAT_1: 14,
+        FLOAT_2: 15,
+        FLOAT_4: 16,
         
         // Negative Floats (Compressed)
         FLOAT_NEG_1: 17,
@@ -69,16 +77,16 @@ module.exports = {
         // Special Numbers
         INFINITY: 24,
         NEG_INFINITY: 25,
-        NAN: 26
+        NAN: 26,
+        
+	STRING_HEBREW: 36, // Custom 1-byte encoding
+	STRING_RLE: 37,    // Run-Length Encoded
     },
 
-    // UPDATED OFFSETS:
-    // Moved Magic to 4 to avoid overwriting Block Type (0-3).
-    // Spaced out pointers to accommodate 6-byte (48-bit) values.
     SB_OFFSETS: {
-        MAGIC: 4,               // Bytes 4-13 (10 chars)
-        ROOT_COLLECTION_ID: 16, // Bytes 16-21 (6 bytes)
-        NEXT_SEQ_BLOCK: 24,     // Bytes 24-29 (6 bytes)
-        TOTAL_BLOCKS: 32        // Bytes 32-37 (6 bytes)
+        MAGIC: 4,               
+        ROOT_COLLECTION_ID: 16, 
+        NEXT_SEQ_BLOCK: 24,     
+        TOTAL_BLOCKS: 32        
     }
 };

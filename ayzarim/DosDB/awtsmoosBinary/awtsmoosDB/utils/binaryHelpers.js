@@ -1,8 +1,6 @@
 // B"H
 // The Single Source of Truth for Binary Operations.
-// Replaces packing/*, utils/writeConditional.js, utils/hashing.js, utils/writeToBuffer.js
-
-const crypto = require("crypto");
+// Fixed: 48-bit pointer math.
 
 const helpers = {
     // --- Packing Logic ---
@@ -22,7 +20,7 @@ const helpers = {
 
     packTypeAndLengthSize(type, lengthSize) {
         const mod = helpers.packedLength(lengthSize);
-        if (mod === null) return null; // Safety
+        if (mod === null) return null; 
         return type | (mod << 6);
     },
 
@@ -64,29 +62,30 @@ const helpers = {
         }
     },
     
-    
-    
+    // FIX: Divisor must be 0x100000000 (4294967296), not 0xFFFFFFFF
     writePointer48(buffer, value, offset) {
-	    // Write high 16 bits
-	    buffer.writeUInt16BE(Math.floor(value / 0xFFFFFFFF), offset);
-	    // Write low 32 bits
-	    buffer.writeUInt32BE(value % 0xFFFFFFFF, offset + 2);
+	    const high = Math.floor(value / 0x100000000);
+	    const low = value % 0x100000000; // This works correctly in JS for +ints
+	    buffer.writeUInt16BE(high, offset);
+	    buffer.writeUInt32BE(low, offset + 2);
 	},
 	
 	readPointer48(buffer, offset) {
 	    const high = buffer.readUInt16BE(offset);
 	    const low = buffer.readUInt32BE(offset + 2);
-	    // Combine safe integer (JS Number is safe up to 2^53)
 	    return (high * 0x100000000) + low;
-	}
+	},
 
-    // --- Hashing ---
+    // --- Hashing (FNV-1a) ---
     hashKey(key, size) {
-        const hash = crypto.createHash('md5').update(key).digest();
-        return hash.readUInt32BE(0) % size;
+        let hash = 0x811c9dc5; 
+        const str = String(key);
+        for (let i = 0; i < str.length; i++) {
+            hash ^= str.charCodeAt(i);
+            hash = Math.imul(hash, 0x01000193);
+        }
+        return (hash >>> 0) % size;
     }
-    
-    
 };
 
 module.exports = helpers;
