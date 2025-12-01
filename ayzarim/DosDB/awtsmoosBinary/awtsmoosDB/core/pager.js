@@ -1,7 +1,6 @@
 // B"H
 // The Pager handles physical I/O.
-// It abstracts the file into a sequence of 4KB Blocks.
-// Includes BigInt Offsets (281PB support) and WAL Integration.
+// LOGGING ENABLED + FD CHECK
 
 const fs = require('fs').promises;
 const constants = require('../constants.js');
@@ -10,14 +9,15 @@ const WAL = require('./wal.js');
 class Pager {
     constructor(filePath) {
         this.filePath = filePath;
-        this.walPath = filePath + ".wal"; // Convention: dbname.wal
+        this.walPath = filePath + ".wal"; 
         this.handle = null;
         this.wal = new WAL(this.walPath);
     }
 
-    /**
-     * Initializes the file handle and recovers from WAL if needed.
-     */
+    log(msg) {
+        console.log(`[Pager] ${msg}`);
+    }
+
     async init() {
         if (!this.handle) {
             try {
@@ -26,35 +26,35 @@ class Pager {
                 await fs.writeFile(this.filePath, Buffer.alloc(0));
             }
             this.handle = await fs.open(this.filePath, 'r+');
+            // Log FD to ensure singleton
+            this.log(`File Opened. FD: ${this.handle.fd}`);
             
-            // Initialize WAL and Recover if crash occurred
             await this.wal.init();
             await this.wal.recover(this);
         }
     }
 
-    /**
-     * Reads a specific block ID using BigInt offsets.
-     */
     async readBlock(blockId) {
         await this.init();
         const buffer = Buffer.alloc(constants.BLOCK_SIZE);
-        
-        // BigInt Offset for >9PB support
         const offset = BigInt(blockId) * BigInt(constants.BLOCK_SIZE);
         
         const stat = await this.handle.stat();
-        if (offset >= stat.size) return null;
+        if (offset >= stat.size) {
+            return null;
+        }
 
         const { bytesRead } = await this.handle.read(buffer, 0, constants.BLOCK_SIZE, offset);
         
         if (bytesRead === 0) return null;
+        
+        if (blockId === 1) {
+            this.log(`READ Block 1 (FD ${this.handle.fd}). Offset 32 hex: ${buffer.subarray(32, 40).toString('hex')}`);
+        }
+        
         return buffer;
     }
     
-    /**
-     * Optimized Header Read for Allocator.
-     */
     async readBlockType(blockId) {
 	    await this.init();
 	    const offset = BigInt(blockId) * BigInt(constants.BLOCK_SIZE);
@@ -69,9 +69,6 @@ class Pager {
 	    return buffer.readUInt32BE(0);
 	}
 
-    /**
-     * Reads a continuous range of blocks.
-     */
     async readSequential(startBlockId, numberOfBlocks) {
         await this.init();
         const totalSize = numberOfBlocks * constants.BLOCK_SIZE;
@@ -82,9 +79,6 @@ class Pager {
         return buffer;
     }
 
-    /**
-     * Safe Write: Logs to WAL -> Syncs WAL -> Writes to DB -> Clears WAL.
-     */
     async writeBlock(blockId, buffer) {
         await this.init();
         if (buffer.length > constants.BLOCK_SIZE) {
@@ -95,43 +89,28 @@ class Pager {
             ? buffer
             : Buffer.concat([buffer, Buffer.alloc(constants.BLOCK_SIZE - buffer.length)]);
 
-        // 1. Write-Ahead Log (Durability Barrier)
-        // This includes an fsync inside WAL class, so data is safe.
+        if (blockId === 1) {
+            this.log(`WRITE Block 1 (FD ${this.handle.fd}). Offset 32 hex: ${writeBuffer.subarray(32, 40).toString('hex')}`);
+        }
+
         await this.wal.log(blockId, writeBuffer);
 
-        // 2. Write to DB (Performance Optimization)
-        // We bypass this.writeRaw() to avoid its internal fsync().
-        // We write to OS cache only.
         const offset = BigInt(blockId) * BigInt(constants.BLOCK_SIZE);
         await this.handle.write(writeBuffer, 0, constants.BLOCK_SIZE, offset);
         
-        // 3. Lazy Checkpoint
-        // Instead of Triple-Syncing every block, we checkpoint occasionally.
-        // 1 in 1000 writes will trigger a physical DB flush and WAL clear.
-        if (Math.random() < 0.001) {
-             await this.handle.sync(); // Physical Flush
-             await this.wal.clear();   // Reclaim WAL space
-        }
+        // Force sync for debugging this issue
+        await this.handle.sync();
     }
     
-    /**
-     * Internal: Writes directly to DB file. 
-     * Used by writeBlock (after logging) and WAL.recover (during replay).
-     */
     async writeRaw(blockId, buffer) {
-        // Offset Calculation
         const offset = BigInt(blockId) * BigInt(constants.BLOCK_SIZE);
         await this.handle.write(buffer, 0, constants.BLOCK_SIZE, offset);
-        
-        // Sync DB file to ensure data is physical before we clear the WAL
         await this.handle.sync(); 
     }
 
-    /**
-     * Clean up handles
-     */
     async close() {
         if (this.handle) {
+            this.log(`Closing FD ${this.handle.fd}`);
             await this.handle.close();
             this.handle = null;
         }

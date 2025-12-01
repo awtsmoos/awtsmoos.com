@@ -3,6 +3,7 @@
  * @module WAL
  * @description Write-Ahead Log Manager.
  * MEMORY SAFE VERSION: Streams recovery to allow infinite log sizes without OOM.
+ * WINDOWS FIX: Uses 'r+' instead of 'a+' to allow ftruncate.
  */
 
 const fs = require('fs').promises;
@@ -17,7 +18,13 @@ class WAL {
 
     async init() {
         if (!this.handle) {
-            this.handle = await fs.open(this.path, 'a+');
+            // Ensure file exists before opening with r+
+            try {
+                await fs.access(this.path);
+            } catch {
+                await fs.writeFile(this.path, Buffer.alloc(0));
+            }
+            this.handle = await fs.open(this.path, 'r+');
         }
     }
 
@@ -36,7 +43,12 @@ class WAL {
             data.copy(packet, 6);
         }
 
-        await this.handle.write(packet);
+        // With 'r+', we must append manually to the end of the file.
+        // stat() is safer than tracking offset if multiple processes (though Node is single-threaded here).
+        // Optimization: For now, just use handle.stat to find end.
+        const stats = await this.handle.stat();
+        await this.handle.write(packet, 0, packet.length, stats.size);
+        
         await this.handle.sync();
     }
 
@@ -58,8 +70,10 @@ class WAL {
 
         console.log("B\"H: Unclean shutdown detected. Streaming WAL recovery...");
 
-        // Close 'append' handle and open 'read' handle for scanning
+        // We already have a handle, but let's strictly follow the read protocol
+        // Close current handle to ensure clean read state
         await this.handle.close();
+        
         const readHandle = await fs.open(this.path, 'r');
 
         const PACKET_SIZE = 6 + constants.BLOCK_SIZE;
@@ -92,8 +106,8 @@ class WAL {
 
         console.log(`B\"H: Recovery Complete. Restored ${recoveredCount} blocks.`);
         
-        // Re-open for business
-        this.handle = await fs.open(this.path, 'a+');
+        // Re-open for business (r+)
+        this.handle = await fs.open(this.path, 'r+');
         // Clear log only after successful replay
         await this.clear();
     }

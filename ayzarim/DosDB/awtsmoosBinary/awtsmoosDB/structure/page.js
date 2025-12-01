@@ -1,75 +1,47 @@
 // B"H
-/**
- * @module Page
- * @description Represents a single "Bucket" in the database.
- * 
- * CORE ARCHITECTURE:
- * 1. Holds up to constants.MAX_ITEMS_PER_PAGE (100) items.
- * 2. Does NOT hold large binary data. Only holds Pointers to the Allocator.
- * 3. Is part of a Linked List (has `nextPageId`).
- * 
- * SERIALIZATION FORMAT:
- * [Next Page ID (VarInt)]
- * [Item Count (VarInt)]
- * [Item 1: KeyLen | Key | Type | Pointer(Block, Offset, Len)]
- * [Item 2...]
- */
+// Page.js - Restored Logic + Verification Logging
 
 const constants = require('../constants.js');
 const serializer = require('../utils/serializer.js');
 const { readPointer48, writePointer48 } = require('../utils/binaryHelpers.js');
 
-
 class Page {
-    /**
-     * @param {number} id - The Block ID where this page is stored.
-     * @param {object} allocator - Reference to the core Allocator.
-     */
     constructor(id, allocator) {
         this.id = id;
         this.allocator = allocator;
-        
-        // The Linked List pointer. 0 means this is the last page.
         this.nextPageId = 0; 
-        
-        // The items in this bucket.
-        // Structure: { key: string, type: number, ptr: { blockId, offset, length }, inlineVal: any }
         this.items = [];
-        
-        this.isDirty = false; // Tracks if we need to save to disk
+        this.isDirty = false; 
     }
 
-    /**
-     * Loads and deserializes the Page from the physical disk.
-     */
     async load() {
         const buffer = await this.allocator.pager.readBlock(this.id);
-        if (!buffer) return; // New/Empty page
+        if (!buffer) {
+            console.error(`[Page ${this.id}] LOAD ERROR: Block is NULL.`);
+            return; 
+        }
         
-        let offset = constants.HEADER_SIZE; // Skip Unified Block Header (Bitmap etc)
+        let offset = constants.HEADER_SIZE; 
         
-        // 1. Read Next Page ID (Block ID = 48-bit)
+        // 1. Next Page Pointer (6 bytes)
         this.nextPageId = readPointer48(buffer, offset);
         offset += 6;
 
-        // 2. Read Count
+        // 2. Count (VarInt)
         const countInfo = serializer.readVarInt(buffer, offset);
         const count = countInfo.value;
         offset += countInfo.bytesRead;
 
+        console.log(`[Page ${this.id}] LOADED. Next=${this.nextPageId}, Count=${count}. (Hex at Ofs 38: ${buffer.subarray(38, 40).toString('hex')})`);
+
         this.items = [];
         for (let i = 0; i < count; i++) {
-            // Read Key
             const keyInfo = serializer.readString(buffer, offset);
             const key = keyInfo.value;
             offset += keyInfo.bytesRead;
 
-            // Read Type
             const type = buffer.readUInt8(offset);
             offset += 1;
-
-            // Read Pointer / Value
-            // Unified Pointer: BlockID (48-bit), Offset (VarInt), Length (VarInt)
             
             const blockId = readPointer48(buffer, offset);
             offset += 6;
@@ -92,13 +64,6 @@ class Page {
         }
     }
 
-    /**
-     * Adds an item to this page.
-     * @param {string} key 
-     * @param {number} type - Enum from constants.VAL_TYPE
-     * @param {object} pointer - { blockId, offset, length } from Allocator
-     * @returns {boolean} True if added, False if page is full (caller must split/link).
-     */
     add(key, type, pointer) {
         if (this.items.length >= constants.MAX_ITEMS_PER_PAGE) {
             return false;
@@ -109,30 +74,28 @@ class Page {
         return true;
     }
 
-    /**
-     * Serializes the page and saves it to disk via the Allocator.
-     */
     async save() {
         if (!this.isDirty) return;
 
-        // 1. Calculate Size
-        // We construct the buffer parts
+        console.log(`[Page ${this.id}] SAVING... ItemCount=${this.items.length}. FirstKey="${this.items[0]?.key}"`);
+
         const parts = [];
         
-        // Next Page ID (48-bit)
+        // 1. Next Page ID (6 bytes)
         const nextBuf = Buffer.alloc(6);
         writePointer48(nextBuf, this.nextPageId, 0);
         parts.push(nextBuf);
         
-        // Count
-        parts.push(serializer.writeVarInt(this.items.length));
+        // 2. Count (VarInt)
+        // Ensure count is written correctly
+        const countBuf = serializer.writeVarInt(this.items.length);
+        parts.push(countBuf);
 
-        // Items
+        // 3. Items
         for (const item of this.items) {
             parts.push(serializer.writeString(item.key));
             parts.push(Buffer.from([item.type]));
             
-            // Pointer Block ID (48-bit)
             const bIdBuf = Buffer.alloc(6);
             writePointer48(bIdBuf, item.ptr.blockId, 0);
             parts.push(bIdBuf);
@@ -143,18 +106,39 @@ class Page {
 
         const rawBuffer = Buffer.concat(parts);
 
-        // 2. Write to Disk
-        const block = await this.allocator.pager.readBlock(this.id);
-        const headerSize = constants.HEADER_SIZE;
-        
-        if (rawBuffer.length > (constants.BLOCK_SIZE - headerSize)) {
-            throw new Error("B\"H: Page metadata exceeded 4KB Block limit. Implementation of Multi-Block Pages required.");
+        // Log what we INTEND to write (Bytes 0-8 which covers NextPtr and Count)
+        console.log(`[Page ${this.id}] Generated Buffer Header (Next+Count): ${rawBuffer.subarray(0, 10).toString('hex')}`);
+
+        // Read the actual physical block (to preserve any existing block header data like Bitmap)
+        let block = await this.allocator.pager.readBlock(this.id);
+        if (!block) {
+             console.error(`[Page ${this.id}] Critical: Block not found during Save. Allocating Buffer.`);
+             block = Buffer.alloc(constants.BLOCK_SIZE);
         }
 
+        // Force Metadata Update
+        block.writeUInt32BE(constants.BLOCK_TYPE.PAGE, 0);
+
+        const headerSize = constants.HEADER_SIZE;
+        if (rawBuffer.length > (constants.BLOCK_SIZE - headerSize)) {
+            throw new Error(`B"H: Page metadata size ${rawBuffer.length} exceeded Block capacity.`);
+        }
+
+        // Write the data into the block buffer
         rawBuffer.copy(block, headerSize);
         
-        // Write back
+        // Persist
         await this.allocator.pager.writeBlock(this.id, block);
+        
+        // Force Sync to ensure it hits disk immediately
+        if (this.allocator.pager.handle) await this.allocator.pager.handle.sync();
+
+        // --- VERIFY (Read-Back Check) ---
+        const verifyBlock = await this.allocator.pager.readBlock(this.id);
+        const verifyCountHex = verifyBlock.subarray(headerSize + 6, headerSize + 8).toString('hex'); // Approx location of Count
+        console.log(`[Page ${this.id}] SAVE VERIFY: Disk Offset ${headerSize + 6} (Count Area): ${verifyCountHex}`);
+        // --------------------------------
+
         this.isDirty = false;
     }
 }
