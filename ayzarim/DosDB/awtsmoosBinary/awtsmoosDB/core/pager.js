@@ -31,27 +31,22 @@ class Pager {
     async readBlock(blockId) {
         await this.init();
         const buffer = Buffer.alloc(constants.BLOCK_SIZE);
-        const offset = BigInt(blockId) * BigInt(constants.BLOCK_SIZE);
         
-        const stat = await this.handle.stat();
-        if (offset >= stat.size) {
-            return null;
-        }
-
+        // SAFE CONVERSION: BigInt -> Number
+        // blockId * 4096 is well within MAX_SAFE_INTEGER
+        const offset = Number(BigInt(blockId) * BigInt(constants.BLOCK_SIZE));
+        
+        // Remove 'stat' check to rely on fs.read behavior at EOF
         const { bytesRead } = await this.handle.read(buffer, 0, constants.BLOCK_SIZE, offset);
         
         if (bytesRead === 0) return null;
-        
         return buffer;
     }
     
     async readBlockType(blockId) {
         await this.init();
-        const offset = BigInt(blockId) * BigInt(constants.BLOCK_SIZE);
+        const offset = Number(BigInt(blockId) * BigInt(constants.BLOCK_SIZE));
         
-        const stat = await this.handle.stat(); 
-        if (offset >= stat.size) return null;
-
         const buffer = Buffer.alloc(4); 
         const { bytesRead } = await this.handle.read(buffer, 0, 4, offset);
         
@@ -63,7 +58,7 @@ class Pager {
         await this.init();
         const totalSize = numberOfBlocks * constants.BLOCK_SIZE;
         const buffer = Buffer.alloc(totalSize);
-        const offset = BigInt(startBlockId) * BigInt(constants.BLOCK_SIZE);
+        const offset = Number(BigInt(startBlockId) * BigInt(constants.BLOCK_SIZE));
 
         await this.handle.read(buffer, 0, totalSize, offset);
         return buffer;
@@ -80,14 +75,20 @@ class Pager {
 
         await this.wal.log(blockId, writeBuffer);
 
-        const offset = BigInt(blockId) * BigInt(constants.BLOCK_SIZE);
-        await this.handle.write(writeBuffer, 0, constants.BLOCK_SIZE, offset);
+        const offset = Number(BigInt(blockId) * BigInt(constants.BLOCK_SIZE));
         
+        const { bytesWritten } = await this.handle.write(writeBuffer, 0, constants.BLOCK_SIZE, offset);
+        
+        // Force Flush
         await this.handle.sync();
+
+        if (bytesWritten !== constants.BLOCK_SIZE) {
+            console.error(`[Pager] Partial Write: Wrote ${bytesWritten} of ${constants.BLOCK_SIZE} bytes.`);
+        }
     }
     
     async writeRaw(blockId, buffer) {
-        const offset = BigInt(blockId) * BigInt(constants.BLOCK_SIZE);
+        const offset = Number(BigInt(blockId) * BigInt(constants.BLOCK_SIZE));
         await this.handle.write(buffer, 0, constants.BLOCK_SIZE, offset);
         await this.handle.sync(); 
     }

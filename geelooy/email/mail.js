@@ -1544,8 +1544,7 @@ window.toggleNotifications = async function(checkbox) {
     const reg = await navigator.serviceWorker.ready;
     
     // 3. Subscribe using the PUBLIC KEY from Step 1
-    // You must hardcode the public key string here because it's client-side
-    const vapidKey = "PASTE_YOUR_PUBLIC_KEY_HERE"; 
+    const vapidKey = "BDAf39EwkWkpJFykJOGxnhzgaMI9XQF6qHGKH6CHaIGT9xxP5N-a85iTjpXD_33RPXU5r0t5ES5njXzzFGBnpF4"; 
     const convertedKey = urlBase64ToUint8Array(vapidKey);
 
     try {

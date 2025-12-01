@@ -1,6 +1,7 @@
 // B"H
 // Simple Test with Logging Enabled
 const AwtsmoosDB = require('../index.js');
+const Pager = require('../core/pager.js');
 const path = require('path');
 const fs = require('fs');
 
@@ -12,6 +13,40 @@ async function runTest() {
     // Clean up previous run
     if (fs.existsSync(DB_PATH)) fs.unlinkSync(DB_PATH);
     if (fs.existsSync(DB_PATH + ".wal")) fs.unlinkSync(DB_PATH + ".wal");
+
+    // --- SANITY CHECK ---
+    console.log("[Test] Running Disk I/O Sanity Check...");
+    const pager = new Pager(DB_PATH);
+    await pager.init();
+    
+    const testBuf = Buffer.alloc(4096);
+    testBuf.write("SANITY_CHECK_DATA", 0);
+    
+    // Write Block 5
+    await pager.writeBlock(5, testBuf); 
+    
+    // Check Physical File Size
+    const stats = fs.statSync(DB_PATH);
+    console.log(`[Test] File Size after Write: ${stats.size} bytes (Expected >= 24576)`);
+    
+    // Read Block 5
+    const readBuf = await pager.readBlock(5);
+    
+    if (!readBuf) {
+        console.error("❌ SANITY CHECK FAILED: readBlock(5) returned null.");
+        await pager.close();
+        return;
+    }
+
+    const readStr = readBuf.subarray(0, 17).toString();
+    if (readStr !== "SANITY_CHECK_DATA") {
+        console.error(`❌ SANITY CHECK FAILED: Data mismatch. Got '${readStr}'`);
+        await pager.close();
+        return;
+    }
+    console.log("✅ Sanity Check Passed. Disk I/O working.\n");
+    await pager.close();
+    // ---------------------
 
     // Initialize with VERBOSE logging
     const db = new AwtsmoosDB(DB_PATH, { verbose: true });
