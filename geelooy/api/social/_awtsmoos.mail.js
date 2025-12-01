@@ -56,7 +56,7 @@ module.exports = ({
             userid,
             aliasId: $i.$_GET.aliasId 
         });
-    }
+    },
     
     /**
      * GET Total Unread Count
