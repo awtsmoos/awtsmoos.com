@@ -1,7 +1,4 @@
 // B"H
-// The Pager handles physical I/O.
-// LOGGING ENABLED + FD CHECK
-
 const fs = require('fs').promises;
 const constants = require('../constants.js');
 const WAL = require('./wal.js');
@@ -15,7 +12,7 @@ class Pager {
     }
 
     log(msg) {
-        console.log(`[Pager] ${msg}`);
+        // console.log(`[Pager] ${msg}`);
     }
 
     async init() {
@@ -26,9 +23,6 @@ class Pager {
                 await fs.writeFile(this.filePath, Buffer.alloc(0));
             }
             this.handle = await fs.open(this.filePath, 'r+');
-            // Log FD to ensure singleton
-            this.log(`File Opened. FD: ${this.handle.fd}`);
-            
             await this.wal.init();
             await this.wal.recover(this);
         }
@@ -48,26 +42,22 @@ class Pager {
         
         if (bytesRead === 0) return null;
         
-        if (blockId === 1) {
-            this.log(`READ Block 1 (FD ${this.handle.fd}). Offset 32 hex: ${buffer.subarray(32, 40).toString('hex')}`);
-        }
-        
         return buffer;
     }
     
     async readBlockType(blockId) {
-	    await this.init();
-	    const offset = BigInt(blockId) * BigInt(constants.BLOCK_SIZE);
-	    
-	    const stat = await this.handle.stat(); 
-	    if (offset >= stat.size) return null;
+        await this.init();
+        const offset = BigInt(blockId) * BigInt(constants.BLOCK_SIZE);
+        
+        const stat = await this.handle.stat(); 
+        if (offset >= stat.size) return null;
 
-	    const buffer = Buffer.alloc(4); 
-	    const { bytesRead } = await this.handle.read(buffer, 0, 4, offset);
-	    
-	    if (bytesRead < 4) return null; 
-	    return buffer.readUInt32BE(0);
-	}
+        const buffer = Buffer.alloc(4); 
+        const { bytesRead } = await this.handle.read(buffer, 0, 4, offset);
+        
+        if (bytesRead < 4) return null; 
+        return buffer.readUInt32BE(0);
+    }
 
     async readSequential(startBlockId, numberOfBlocks) {
         await this.init();
@@ -81,16 +71,11 @@ class Pager {
 
     async writeBlock(blockId, buffer) {
         await this.init();
-        if (buffer.length > constants.BLOCK_SIZE) {
-            throw new Error(`B"H: Buffer size ${buffer.length} exceeds Block Size`);
-        }
-
-        const writeBuffer = (buffer.length === constants.BLOCK_SIZE)
-            ? buffer
-            : Buffer.concat([buffer, Buffer.alloc(constants.BLOCK_SIZE - buffer.length)]);
-
-        if (blockId === 1) {
-            this.log(`WRITE Block 1 (FD ${this.handle.fd}). Offset 32 hex: ${writeBuffer.subarray(32, 40).toString('hex')}`);
+        
+        let writeBuffer = buffer;
+        if (buffer.length !== constants.BLOCK_SIZE) {
+            writeBuffer = Buffer.alloc(constants.BLOCK_SIZE);
+            buffer.copy(writeBuffer);
         }
 
         await this.wal.log(blockId, writeBuffer);
@@ -98,7 +83,6 @@ class Pager {
         const offset = BigInt(blockId) * BigInt(constants.BLOCK_SIZE);
         await this.handle.write(writeBuffer, 0, constants.BLOCK_SIZE, offset);
         
-        // Force sync for debugging this issue
         await this.handle.sync();
     }
     
@@ -110,7 +94,6 @@ class Pager {
 
     async close() {
         if (this.handle) {
-            this.log(`Closing FD ${this.handle.fd}`);
             await this.handle.close();
             this.handle = null;
         }

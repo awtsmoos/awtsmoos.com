@@ -17,7 +17,9 @@ var {
     saveSettings,
     getSettings,
     approveSender,
-    getUnreadCount 
+    getUnreadCount,
+    subscribeToPush,
+    getLatestNotification
 } = require("./mail.js");
 
 // Comments (Assuming largely unchanged, but check dependencies like deleteAllCommentsOfParent)
@@ -98,6 +100,8 @@ module.exports = {
     getSettings,
     approveSender,
     getUnreadCount ,
+    subscribeToPush,
+    getLatestNotification,
 
     // Alias
     getAliasesDetails,

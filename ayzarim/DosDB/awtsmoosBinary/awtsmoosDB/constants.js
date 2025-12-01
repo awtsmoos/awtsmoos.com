@@ -1,86 +1,68 @@
 // B"H
-// constants.js - FULL VERSION
-
 module.exports = {
-    // --- File Structure ---
     BLOCK_SIZE: 4096,
-    UNIT_SIZE: 32, // Allocation Unit (Minimum chunk)
-    HEADER_SIZE: 32, // Unified Block Header (Type + Bitmap + Padding)
-    BITMAP_SIZE: 16, // 128 bits (tracks 128 units of 32 bytes)
-    BITMAP_OFFSET: 4, // After 4-byte Type Identifier
+    UNIT_SIZE: 32, 
+    HEADER_SIZE: 32, // Bytes 0-31 are System Headers
     
-    // --- Magic Headers ---
-    MAGIC_JSON: "BJ", // B"H JSON
-    MAGIC_ARRAY: "BA", // B"H Array
-
-    // --- Block Types ---
+    UNITS_PER_BLOCK: 128, 
+    BITMAP_OFFSET: 4, 
+    BITMAP_SIZE: 16, 
+    
     BLOCK_TYPE: {
         FREE: 0,
-        PAGE: 1,      // B+ Tree Node / Bucket
-        OVERFLOW: 2,  // Long Data Chain
-        METADATA: 3   // DB Metadata / Registry
+        PAGE: 1,
+        OVERFLOW: 2,
+        METADATA: 3
     },
-
-    // --- Superblock Offsets (Block 0) ---
-    SB_OFFSETS: {
-        MAGIC: 0,          // 8 bytes
-        VERSION: 8,        // 4 bytes
-        NEXT_SEQ_BLOCK: 12 // 6 bytes (48-bit pointer to Allocator Cursor)
-    },
-
-    // --- Value Types (V2 Universal) ---
+    
     VAL_TYPE: {
-        // Special
         NULL: 0,
         UNDEFINED: 1,
         BOOLEAN_TRUE: 2,
         BOOLEAN_FALSE: 3,
-        NAN: 4,
-        INFINITY: 5,
-        NEG_INFINITY: 6,
-        
-        // Integers
-        UINT8: 7,
-        UINT16: 8,
-        UINT32: 9,
-        UINT64: 10, // JS Number (safe range)
-        
-        INT8_NEG: 11,
-        INT16_NEG: 12,
-        INT32_NEG: 13,
-        INT64_NEG: 14,
-        
-        // Floats
-        FLOAT_1: 15, // Dynamic compression
-        FLOAT_2: 16,
-        FLOAT_4: 17,
-        FLOAT_NEG_1: 18,
-        FLOAT_NEG_2: 19,
-        FLOAT_NEG_4: 20,
-        DOUBLE_POS: 21,
-        DOUBLE_NEG: 22,
-        
-        // Strings
-        STRING: 23,
-        STRING_RLE: 24,    // Run-Length Encoded
-        STRING_HEBREW: 25, // Hebrew Compression
-        
-        // Containers
-        OBJECT: 30,
-        ARRAY: 31,
-        MAP: 32,
-        SET: 33,
-        BUFFER: 34,
-        
-        // JS Objects
-        DATE: 40,
-        REGEXP: 41,
-        ERROR: 42,
-        FUNCTION: 43,
-        JS_BIGINT: 44 // Actual BigInt
+        UINT8: 10,
+        UINT16: 11,
+        UINT32: 12,
+        UINT64: 13,
+        INT8_NEG: 14,
+        INT16_NEG: 15,
+        INT32_NEG: 16,
+        INT64_NEG: 17,
+        FLOAT_1: 20,
+        FLOAT_2: 21,
+        FLOAT_4: 22,
+        FLOAT_NEG_1: 23,
+        FLOAT_NEG_2: 24,
+        FLOAT_NEG_4: 25,
+        DOUBLE_POS: 26,
+        DOUBLE_NEG: 27,
+        STRING: 40,
+        STRING_RLE: 41,
+        STRING_HEBREW: 42,
+        BUFFER: 50,
+        ARRAY: 60,
+        OBJECT: 70,
+        DATE: 80,
+        REGEXP: 81,
+        MAP: 82,
+        SET: 83,
+        ERROR: 84,
+        JS_BIGINT: 85,
+        FUNCTION: 86,
+        NAN: 90,
+        INFINITY: 91,
+        NEG_INFINITY: 92
     },
 
-    // --- Limits ---
-    MAX_ITEMS_PER_PAGE: 100, // Buckets split after this
-    UNITS_PER_BLOCK: 127     // (4096 - 32) / 32
+    MAGIC_JSON: 'BJ',
+    MAGIC_ARRAY: 'BA',
+    
+    SB_OFFSETS: {
+        MAGIC: 0,
+        VERSION: 8,
+        ROOT_COLLECTION: 12,
+        NEXT_SEQ_BLOCK: 20
+    },
+
+    MAX_ITEMS_PER_PAGE: 50
 };

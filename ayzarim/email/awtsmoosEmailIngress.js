@@ -83,6 +83,24 @@ module.exports = async function ({ sender, recipients, data }) {
                     }
                 });
             }
+            
+            // === STEP 2.5: WAKE UP SERVICE WORKER (Background) ===
+		try {
+		    const vapid = require("../../geelooy/api/social/helper/vapid.js");
+		    
+		    // The recipient alias (e.g. "coby")
+		    const subPath = `/social/aliases/${recipientShort}/push_sub`;
+		    const subscription = await this.db.get(subPath);
+		
+		    if (subscription && !this.ws.isAliasOnline(recipientShort)) {
+		        // Only push if they are NOT currently connected via WebSocket
+		        // (Assuming you add isAliasOnline to your WS class, or just push always)
+		        await vapid.sendWakeUpSignal(subscription);
+		        console.log(`B"H - Sent Wake-Up Signal to ${recipientShort}`);
+		    }
+		} catch (e) {
+		    console.error("Push Error", e);
+		}
 
             // === STEP 3: RULES ENGINE (THE LOOP STOPPER) ===
             

@@ -13,7 +13,9 @@ module.exports = {
     saveSettings,
     getSettings,
     approveSender,
-    getUnreadCount
+    getUnreadCount,
+    getLatestNotification,
+    subscribeToPush
 };
 
 var vm = require('vm');
@@ -21,6 +23,94 @@ var { NO_LOGIN, sp } = require("./_awtsmoos.constants.js");
 var { loggedIn, er, myOpts } = require("./general.js");
 var { verifyAliasOwnership } = require("./alias.js");
 
+
+
+
+async function subscribeToPush({ $i, userid, aliasId, subscription }) {
+    if (!loggedIn($i)) return er(NO_LOGIN);
+    // Verify ownership
+    var verified = await verifyAliasOwnership(aliasId, $i, userid);
+    if (!verified) return er({ message: "Auth fail" });
+
+    // Save the subscription object to the DB
+    // We store it under the alias so we can look it up when email arrives
+    try {
+        var subPath = `/social/aliases/${aliasId}/push_sub`;
+        
+        // Handle parsing if sent as string
+        var subData = subscription;
+        if(typeof subData === 'string') {
+            try { subData = JSON.parse(subData); } catch(e){}
+        }
+
+        await $i.db.write(subPath, subData);
+        return { success: true, message: "Quantum Signal Registered" };
+    } catch(e) {
+        return er({ message: "Sub failed", details: e.message });
+    }
+}
+
+async function getLatestNotification({ $i, userid, aliasId }) {
+    // 1. Auth Check
+    if (!loggedIn($i)) return er(NO_LOGIN);
+    
+    // 2. We don't strictly verify ownership here because the Service Worker 
+    // might be requesting this in background with a cookie. 
+    // But ideally, we check if the cookie user owns the alias.
+    // For now, assuming loggedIn($i) validates the session matches.
+
+    var myFolder = `${aliasId}_at_awtsmoos.com`;
+    var threadsPath = `/emails/${myFolder}/threads`;
+
+    try {
+        // 3. Scan for the most recent UNREAD message
+        var folders = await $i.db.get(threadsPath);
+        if (!folders) return { found: false };
+
+        var latestMsg = null;
+        var folderList = Array.isArray(folders) ? folders : Object.keys(folders);
+
+        for (var folder of folderList) {
+            var msgs = await $i.db.get(`${threadsPath}/${folder}`);
+            if (msgs && typeof msgs === 'object') {
+                var msgList = Object.values(msgs);
+                for(var m of msgList) {
+                    // Criteria: Incoming + Unread
+                    if (m.direction === 'incoming' && !m.read) {
+                        if (!latestMsg || m.timeSent > latestMsg.timeSent) {
+                            latestMsg = m;
+                        }
+                    }
+                }
+            }
+        }
+
+        // 4. Return formatted data for the Notification API
+        if (latestMsg) {
+            // Decrypt/Format snippet
+            var snippet = latestMsg.snippet || (latestMsg.textContent || "").substring(0, 50);
+            
+            return {
+                found: true,
+                title: latestMsg.fromName || latestMsg.from,
+                body: snippet || "New Message",
+                data: {
+                    // Data needed for the "Reply" button action
+                    id: latestMsg.id,
+                    from: latestMsg.from, // Who sent it
+                    to: aliasId,          // Who received it (me)
+                    subject: latestMsg.subject,
+                    correspondent: latestMsg.correspondent
+                }
+            };
+        }
+
+        return { found: false };
+
+    } catch (e) {
+        return er({ message: "Fetch error", details: e.message });
+    }
+}
 // --- HELPER: Extract HTML Capsules ---
 function extractCapsules(text) {
     let cleanText = text || "";

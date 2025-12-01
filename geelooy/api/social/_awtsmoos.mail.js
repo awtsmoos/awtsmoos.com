@@ -12,7 +12,9 @@ var {
 var {
     getMail, sendMail, deleteMail, setEmailAsRead,
     deleteThread, saveSettings, getSettings, approveSender,
-    getUnreadCount 
+    getUnreadCount,
+    subscribeToPush,       
+    getLatestNotification
 } = require("./helper/index.js");
 
 var {
@@ -28,6 +30,33 @@ module.exports = ({
     "/mail": async () => {
         return "B\"H - Awtsmoos Mail System Active";
     },
+    
+    /**
+     * POST /mail/notify/subscribe
+     * Saves the VAPID subscription from the browser
+     */
+    "/mail/notify/subscribe": async () => {
+        return await subscribeToPush({
+            $i,
+            userid,
+            aliasId: $i.$_POST.aliasId,
+            subscription: $i.$_POST.subscription
+        });
+    },
+
+    /**
+     * GET /mail/notify/getLatest
+     * Called by Service Worker when it wakes up
+     */
+    "/mail/notify/getLatest": async () => {
+        // Alias ID is usually passed in query, or inferred from session
+        // Here we expect it in the query string ?aliasId=...
+        return await getLatestNotification({
+            $i,
+            userid,
+            aliasId: $i.$_GET.aliasId 
+        });
+    }
     
     /**
      * GET Total Unread Count

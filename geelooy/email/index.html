@@ -223,6 +223,18 @@
                     <h3>Global Script (Advanced)</h3>
                     <textarea id="customScriptInput" rows="2" class="code-input" placeholder="// js..."></textarea>
                 </div>
+                
+                
+                <div class="setting-section">
+		    <h3>Quantum Signal (Notifications)</h3>
+		    <label class="toggle-label">
+		        <input type="checkbox" id="notifyToggle" onchange="toggleNotifications(this)">
+		        <span>Background Notifications</span>
+		    </label>
+		    <small style="color:var(--text-secondary); display:block; margin-top:5px;">
+		        Receives messages even when closed. Includes inline reply.
+		    </small>
+		</div>
 
                 <div class="modal-actions">
                     <button onclick="saveSettingsUI()" class="btn-primary">Save Settings</button>

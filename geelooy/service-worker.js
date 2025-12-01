@@ -212,3 +212,60 @@ async function fetchAndUpdateMetadata(request, metadata) {
     }
     return networkResponse;
 }
+
+
+// B"H
+// Add to service-worker.js
+self.addEventListener('push', (event) => {
+    // 1. Wake Up! We received a signal.
+    // 2. Fetch the actual content securely
+    event.waitUntil(
+        fetch('/api/social/mail/notify/getLatest')
+            .then(res => res.json())
+            .then(data => {
+                if(!data.found) return;
+
+                const options = {
+                    body: data.body,
+                    icon: '/favicon.ico', // Ensure this exists
+                    data: data.data, // Store metadata for the reply
+                    actions: [
+                        {
+                            action: 'reply',
+                            type: 'text',
+                            title: 'Reply',
+                            placeholder: 'Type a message...'
+                        }
+                    ]
+                };
+
+                return self.registration.showNotification(data.title, options);
+            })
+    );
+});
+
+self.addEventListener('notificationclick', (event) => {
+    const notification = event.notification;
+    const action = event.action;
+    const replyText = event.reply;
+
+    if (action === 'reply' && replyText) {
+        // Send the reply
+        const msgData = notification.data;
+        
+        // Construct the API call to your existing sendMail function
+        // We assume the user has a cookie, so we just hit the endpoint
+        const promise = fetch(`/api/social/mail/sendTo/${encodeURIComponent(msgData.correspondent)}/from/me`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: new URLSearchParams({
+                subject: "Re: " + msgData.subject,
+                content: replyText
+            })
+        });
+
+        event.waitUntil(promise);
+    }
+    
+    notification.close();
+});

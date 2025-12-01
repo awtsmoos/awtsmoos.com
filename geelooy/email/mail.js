@@ -1526,7 +1526,59 @@ function setComposeMode(mode) {
     }
 }
 
+// B"H
+// Add to mail.js
+// Add this function
+window.toggleNotifications = async function(checkbox) {
+    if (!checkbox.checked) return;
 
+    // 1. Get Permission
+    const perm = await Notification.requestPermission();
+    if (perm !== 'granted') {
+        alert("Permission denied.");
+        checkbox.checked = false;
+        return;
+    }
+
+    // 2. Register
+    const reg = await navigator.serviceWorker.ready;
+    
+    // 3. Subscribe using the PUBLIC KEY from Step 1
+    // You must hardcode the public key string here because it's client-side
+    const vapidKey = "PASTE_YOUR_PUBLIC_KEY_HERE"; 
+    const convertedKey = urlBase64ToUint8Array(vapidKey);
+
+    try {
+        const sub = await reg.pushManager.subscribe({
+            userVisibleOnly: true,
+            applicationServerKey: convertedKey
+        });
+
+        // 4. Send to Server
+        await fetch(`${API_BASE}/notify/subscribe`, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                aliasId: state.alias,
+                subscription: sub
+            })
+        });
+        
+        alert("Signal Established.");
+    } catch(e) {
+        console.error(e);
+        alert("Failed to subscribe.");
+        checkbox.checked = false;
+    }
+};
+
+// Utility needed for Chrome
+function urlBase64ToUint8Array(base64String) {
+    const padding = '='.repeat((4 - base64String.length % 4) % 4);
+    const base64 = (base64String + padding).replace(/\-/g, '+').replace(/_/g, '/');
+    const rawData = window.atob(base64);
+    return Uint8Array.from([...rawData].map((char) => char.charCodeAt(0)));
+}
 
 // B"H 
 
