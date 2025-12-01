@@ -38,11 +38,11 @@
  * (canvas element) if not provided
  * will be generated automatically.
  */
-import asdf from "../../auth/index.js"
+ 
 import 
     Utils
 from "../utils.js";
-window.asdf=asdf;
+
 
 import UIManager from "./uiManager/index.js"
 
@@ -88,10 +88,8 @@ class ManagerOfAllWorlds {
         
 
 	try {
-	        asdf.startAll()
-	        asdf.updateProgress({
-	            loadedMenu: Date.now()
-	        });
+	       
+	       
         }catch(e) {}
     }
 
@@ -301,9 +299,8 @@ class ManagerOfAllWorlds {
         window.socket = man;
         this.socket = man;
         this.setOnmessage();
-        asdf.updateProgress({
-            startedLoading: Date.now()
-        });
+     
+     
         return true; 
     }
 }

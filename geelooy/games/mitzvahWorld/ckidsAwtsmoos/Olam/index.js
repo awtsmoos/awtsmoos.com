@@ -26,9 +26,6 @@ import Ayin from "./ckidsCamera.js";
 
 
 
-//import AwtsmoosRaysShader from "./shaders/AwtsmoosRaysShader.js";
-
-
 
 
 

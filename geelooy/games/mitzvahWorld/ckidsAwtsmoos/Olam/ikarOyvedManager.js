@@ -14,7 +14,8 @@
 
 import Utils from "../utils.js";
 import UI from "/scripts/awtsmoos/ui/index.js";
-import asdf from "../../auth/index.js"
+
+
 var myUi = null;
 var ZOOM_INTENSITY = 26 //for mobile
 var TURN_INTENSITY = 1.3;
@@ -72,9 +73,8 @@ export default class OlamWorkerManager {
             'heescheel'() {
                 
                 self.heescheel();
-                asdf.updateProgress({
-                    startedLoading: Date.now()
-                })
+                
+                
             },
             activeObjectAction(a) {
                 
@@ -417,9 +417,7 @@ export default class OlamWorkerManager {
             },
             "game started": a => {
           
-                asdf.updateProgress({
-                    gameStarted: Date.now()
-                })
+          
             },
             "htmlCreate": info => {
                 if(
@@ -531,11 +529,8 @@ export default class OlamWorkerManager {
                 });
             },
             updateProgress(data) {
-                asdf.updateProgress(data).then(r => {
-                  //  console.log("Updated!",r)
-                }).catch(e => {
-                    console.log("Issue updating",e)
-                })
+             
+             
             },
 
             alert(ms) {

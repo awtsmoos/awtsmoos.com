@@ -80,27 +80,7 @@ async function getPathInfo() {
 		}
 
 		if (st && st.isDirectory()) {
-			// B"H: INTELLIGENT REDIRECT LOGIC
-			// 1. If it's a GET request (Browser navigation), we MUST redirect to add the trailing slash.
-			//    This ensures that relative links (style.css, fetch('api')) resolve to this folder, not the parent.
-			// 2. If it's a POST/PUT/DELETE, we DO NOT redirect.
-			//    Redirecting a POST often causes the body to be lost (301/302) or requires a 307.
-			//    Since we resolved the path internally above, we can just serve the response directly.
-
-			if (!originalPath.endsWith('/') && request.method === 'GET') {
-				var redirectUrl = originalPath + '/';
-
-				// Preserve Query Parameters and Hash
-				if (location && location.search) redirectUrl += location.search;
-				if (location && location.hash) redirectUrl += location.hash;
-
-				response.writeHead(301, {
-					Location: redirectUrl
-				});
-				response.end();
-				awtsRes.ended = true;
-				return false;
-			}
+			
 
 			var indexFilePath = path.join(this.filePath, "index.html");
 			var san = path.normalize(indexFilePath);
@@ -132,6 +112,28 @@ async function getPathInfo() {
 			this.filePath,
 			this.parentPath
 		);
+	} else if(this.isDirectoryWithoutIndex){
+		// B"H: INTELLIGENT REDIRECT LOGIC
+		// 1. If it's a GET request (Browser navigation), we MUST redirect to add the trailing slash.
+		//    This ensures that relative links (style.css, fetch('api')) resolve to this folder, not the parent.
+		// 2. If it's a POST/PUT/DELETE, we DO NOT redirect.
+		//    Redirecting a POST often causes the body to be lost (301/302) or requires a 307.
+		//    Since we resolved the path internally above, we can just serve the response directly.
+
+		if (!originalPath.endsWith('/') && request.method === 'GET') {
+			var redirectUrl = originalPath + '/';
+
+			// Preserve Query Parameters and Hash
+			if (location && location.search) redirectUrl += location.search;
+			if (location && location.hash) redirectUrl += location.hash;
+
+			response.writeHead(301, {
+				Location: redirectUrl
+			});
+			response.end();
+			awtsRes.ended = true;
+			return false;
+		}
 	}
 
 	this.logs.lol = {
@@ -254,7 +256,13 @@ async function doEverything() {
 
 	if (didThisPathAlready.c) {
 		var res = didThisPathAlready.responseInfo;
-
+		var con = bin || res.actualResponse.content;
+		if(res.statusResponse) {
+			response.setHeader('Awtsmoos-File-Status', 'true'); 
+			response.setHeader('Content-Type', 'application/json; charset=utf-8');    
+			response.end(con)
+			return;
+		}
 		try {
 			response.setHeader('Vary', 'Cookie');
 			if (!res.actualResponse) {
@@ -276,7 +284,7 @@ async function doEverything() {
 				);
 			}
 
-			var con = bin || res.actualResponse.content;
+			
 			if (con || con === "undefined" || con === "null") {
 				if (Buffer.isBuffer(con)) {
 					//do nothing
@@ -338,6 +346,8 @@ async function doFileResponse() {
 				const result = {
 					dataModified: stats.mtime.getTime()
 				};
+				response.setHeader('Awtsmoos-File-Status', 'true'); 
+		    
 				response.setHeader('Content-Type', 'application/json; charset=utf-8');
 				response.end(JSON.stringify(result));
 				return;

@@ -115,13 +115,23 @@ async function handleFetch(request) {
     try {
         // --- STEP 1: MAKE THE INTERNAL METADATA REQUEST ---
         const statusRequest = createStatusRequest(request);
-        const statusResponse = await fetch(statusRequest, { cache: 'no-store' });
+        const statusResponse = await fetch(statusRequest, {
+            cache: 'no-store',
+            headers: {
+                ...(request.headers || {}),
+                [STATUS_HEADER]: "true"
+            }
+        });
 
         // --- STEP 2: RIGOROUSLY VALIDATE THE INTERNAL RESPONSE ---
         // If the response is not a perfect metadata response, we abort the strategy
         // and fall back to a simple, clean network fetch of the ORIGINAL request.
-        if (!statusResponse.ok || !statusResponse.headers.has(STATUS_HEADER)) {
+        if (!statusResponse.ok
+            //|| !statusResponse.headers.has(STATUS_HEADER)
+           ) {
             console.warn('[SW] Metadata check failed or returned a non-metadata response. Defaulting to live network fetch.');
+            var t = await statusResponse.text()
+            console.log("weird", request.url, statusResponse, statusRequest.headers.get(STATUS_HEADER), t, "wow");
             return fetchAndCache(request); // SAFE FALLBACK
         }
 
@@ -148,7 +158,7 @@ async function handleFetch(request) {
             // Fetch the REAL resource, not the status one.
             return fetchAndUpdateMetadata(request, serverMeta);
         } else {
-            console.log(`[SW] Cache is fresh for: ${request.url}. Serving from cache.`);
+         //   console.log(`[SW] Cache is fresh for: ${request.url}. Serving from cache.`);
             const cachedResponse = await caches.match(request);
             // If cache was somehow cleared, fetch fresh as a final fallback.
             return cachedResponse || fetchAndUpdateMetadata(request, serverMeta);
@@ -192,6 +202,9 @@ async function fetchAndCache(request) {
         if (!networkResponse.headers.has(STATUS_HEADER)) {
             const cache = await caches.open(CACHE_NAME);
             await cache.put(request, networkResponse.clone());
+            var r = networkResponse.clone();
+            var g  = await r.text();
+            console.log("Cash",g);
         }
     }
     return networkResponse;
@@ -208,6 +221,9 @@ async function fetchAndUpdateMetadata(request, metadata) {
             const cache = await caches.open(CACHE_NAME);
             await cache.put(request, networkResponse.clone());
             await MetadataDB.set({ url: request.url, ...metadata });
+            var r = networkResponse.clone();
+            var g  = await r.text();
+            console.log("Cash",g);
         }
     }
     return networkResponse;
