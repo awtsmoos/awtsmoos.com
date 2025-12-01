@@ -270,7 +270,7 @@ export default function createProfileDropdown(parentElement) {
         const sty = document.createElement('style');
         backdrop.appendChild(sty);
         sty.innerHTML = `.${id}-blocker { position: fixed; left: 0; top: 0; margin: 0; z-index: 9999998; background: rgba(0,0,0,0.4); width: 100%; height: 100%; }`;
-        document.body.appendChild(backdrop);
+        container.appendChild(backdrop);
         backdrop.addEventListener('click', () => {
             awtsmoosProfileDropContent.classList.add('hidden');
             awtsDownIndicator.classList.remove('right');
