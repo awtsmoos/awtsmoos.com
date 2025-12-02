@@ -197,13 +197,271 @@ export default /*css*/`
 .file-icon, .folder-icon, .js-icon, .css-icon, .html-icon { width: 56px; height: 56px; background-size: contain; background-repeat: no-repeat; background-position: center; }
 
 /* Details View */
-.details-view { display: flex; flex-direction: column; }
-.details-header, .details-row { display: grid; grid-template-columns: 2fr 1fr 1fr; border-bottom: 1px solid #eeeeee; padding: 10px 8px; align-items: center; }
-.details-header { font-weight: 600; background-color: var(--background-light); user-select: none; }
-.details-header div { cursor: pointer; }
-.details-row { border-radius: 5px; cursor: pointer; }
+
+.details-view { 
+    display: flex; 
+    flex-direction: column; 
+    /* Default grid columns if JS fails, though JS overrides this immediately */
+    --grid-cols: 2fr 1fr 1fr; 
+}
+
+.details-header, .details-row { 
+    display: grid; 
+    /* Crucial: Use the variable set by JS */
+    grid-template-columns: var(--grid-cols); 
+    border-bottom: 1px solid #eeeeee; 
+    align-items: center; 
+}
+
+.details-header { 
+    font-weight: 600; 
+    background-color: var(--background-light); 
+    user-select: none; 
+    position: sticky;
+    top: 0;
+    z-index: 5;
+}
+
+.header-cell {
+    position: relative;
+    padding: 10px 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.header-cell:hover {
+    background-color: #e2e6ea;
+}
+
+/* The drag handle */
+.col-resizer {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 5px;
+    cursor: col-resize;
+    background: transparent;
+    z-index: 10;
+    transition: background 0.2s;
+}
+
+.col-resizer:hover, .header-cell:hover .col-resizer {
+    background: rgba(0,0,0,0.1);
+}
+
+.details-row { 
+    border-radius: 0; 
+    cursor: pointer; 
+}
+
+/* Cells in the row */
+.row-cell {
+    padding: 8px;
+    white-space: nowrap; 
+    overflow: hidden; 
+    text-overflow: ellipsis; 
+}
+
 .details-row:hover { background-color: var(--accent-blue-light); }
-.details-row div, .details-header div { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding: 0 4px; }
+
+/* Prevent text selection and hover flicker while resizing */
+.file-explorer-body.resizing {
+    user-select: none;
+    -webkit-user-select: none;
+}
+.file-explorer-body.resizing .details-row:hover {
+    background-color: transparent; /* Optional: Disable row highlight while dragging */
+}
+
+/* ... (Keep existing Icon view and other styles below) ... */
+.file-explorer {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    background: var(--background-white);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    color: var(--text-color);
+    overflow: hidden;
+}
+
+/* Header & Button Bar */
+.file-explorer-header {
+    display: flex;
+    flex-direction: column;
+    padding: 8px 12px;
+    background: var(--background-light);
+    border-bottom: 1px solid var(--border-color);
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.button-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+}
+
+.sidebar-toggle-btn {
+    background: transparent;
+    border: none;
+    padding: 5px 8px;
+    cursor: pointer;
+    font-size: 18px;
+    line-height: 1;
+    border-radius: 5px;
+}
+
+.menu-buttons button, .view-controls button {
+    background: var(--background-white);
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    padding: 6px 14px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.sidebar-toggle-btn:hover,
+.menu-buttons button:hover,
+.view-controls button:hover {
+    background-color: var(--accent-blue-light);
+    border-color: var(--accent-blue-border);
+}
+
+/* Path Bar */
+.path-bar-container {
+    display: flex;
+    align-items: stretch;
+    width: 100%;
+    min-height: 34px;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    background: var(--background-white);
+    padding: 0 5px;
+}
+.path-bar-container:focus-within {
+    border-color: var(--accent-blue);
+    box-shadow: 0 0 0 1px var(--accent-blue);
+}
+.path-breadcrumbs {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    flex-grow: 1;
+    cursor: text;
+}
+.path-segment {
+    padding: 4px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.15s ease;
+}
+.path-segment:hover { background-color: #e9ecef; }
+.path-segment:active { background-color: #dee2e6; }
+.path-separator { color: var(--text-color-muted); margin: 0 5px; font-size: 16px; }
+
+.path-input-container { display: none; width: 100%; }
+.path-input-container input { width: 100%; border: none; outline: none; font-size: 14px; background: transparent; }
+.edit-path-btn { background: none; border: none; cursor: pointer; color: #6c757d; font-size: 16px; padding: 0 8px; }
+.edit-path-btn:hover { color: var(--accent-blue); }
+
+/* Content Area, Sidebar, and Resizer */
+.file-explorer-content { display: flex; flex-grow: 1; overflow: hidden; }
+.file-explorer-sidebar {
+    width: 250px;
+    min-width: 150px;
+    background: var(--background-light);
+    overflow-y: auto;
+    flex-shrink: 0;
+    
+    border-right: 1px solid var(--border-color);
+}
+.file-explorer.sidebar-collapsed .file-explorer-sidebar {
+    width: 0px ! important;
+    min-width: 0;
+    padding-left: 0;
+    padding-right: 0;
+    overflow: hidden !important;
+    border-right-width: 0;
+}
+.sidebar-resizer {
+    width: 10px;
+    margin: 0 -5px;
+    background: transparent;
+    cursor: col-resize;
+    flex-shrink: 0;
+    z-index: 10;
+    transition: background-color 0.2s ease;
+}
+.sidebar-resizer:hover, .sidebar-resizer:active { background: var(--accent-blue-border); }
+.file-explorer.sidebar-collapsed .sidebar-resizer { display: none; }
+
+/* Tree View */
+.file-explorer-sidebar ul { list-style: none; padding-left: 12px; margin: 0; padding-top: 8px; }
+.tree-node-content { display: flex; align-items: center; padding: 5px; border-radius: 5px; cursor: pointer; }
+.tree-node-content:hover { background-color: #dee2e6; }
+.tree-node-content.selected {
+    background-color: var(--accent-blue-border);
+}
+.node-name { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 14px; padding-left: 4px; }
+.toggle {
+    width: 24px; /* Bigger target */
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px; /* Bigger arrow */
+    color: var(--text-color-muted);
+    flex-shrink: 0;
+    transition: transform 0.15s ease;
+}
+.tree-children.collapsed { display: none; }
+
+/* Main File Body */
+.file-explorer-body { flex-grow: 1; padding: 12px; overflow-y: auto; }
+
+/* Icon View */
+.icons-view { 
+    display: grid; 
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); 
+    gap: 16px;
+}
+
+.file-item.icon { 
+    display: flex; /* Use flex for the icon's internal layout */
+    flex-direction: column; 
+    align-items: center; 
+    padding: 8px;
+    min-width: 0; /* Critical: Allows the grid item to be constrained */
+    border: 1px solid transparent; 
+    border-radius: 6px; 
+    cursor: pointer;
+}
+
+.file-item.icon span { 
+    font-size: 13px; 
+    line-height: 1.4; 
+    margin-top: 6px; 
+    width: 100%;
+    text-align: center;
+    /* A robust combo to force long text to wrap */
+    overflow-wrap: break-word; 
+    word-break: break-all;
+}
+
+
+.file-item.icon:hover { background-color: var(--accent-blue-light); border-color: var(--accent-blue-border); }
+
+
+.file-icon, .folder-icon, .js-icon, .css-icon, .html-icon { width: 56px; height: 56px; background-size: contain; background-repeat: no-repeat; background-position: center; }
 
 /* SVG Icons */
 .folder-icon { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23007bff"><path d="M10 4H4c-1.11 0-2 .89-2 2v12c0 1.1.89 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"/></svg>'); }

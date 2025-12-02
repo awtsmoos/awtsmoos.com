@@ -175,7 +175,7 @@ module.exports = {
                 } else {
                     (fileIndexes || []).forEach(entry=> {
                         if(!keepJSON) {
-	                        entry.name = this.removeJSONExtension(fileName)
+	                        entry.name = this.removeJSONExtension(entry.name)
                         }
                     });
                     if(!extra) {

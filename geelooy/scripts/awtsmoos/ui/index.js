@@ -128,7 +128,7 @@ export default class UI extends Heeoolee {
 	        return;
 	    }
 	
-	    console.log("Dispatching event on:", el, "with data:", obj);
+	    
 	    for (var k in obj) {
 	        if (Object.prototype.hasOwnProperty.call(obj, k)) {
 	            el.dispatchEvent(

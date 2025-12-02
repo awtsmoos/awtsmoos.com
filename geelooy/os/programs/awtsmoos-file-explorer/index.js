@@ -22,27 +22,31 @@ export default ({
     
     // --- State and Variables ---
    const state = {
-    // This now correctly uses the full path passed by the OS.
     currentPath: path || '/',
-
     viewMode: 'icons',
     sort: { by: 'name', order: 'asc' },
+    // Default widths for Name, Date, Type
+    columnWidths: ['2fr', '1fr', '1fr'] 
 };
 
     let body, sidebar, pathBreadcrumbs, pathInputContainer;
     let buildNode;
 
     // This is the recursive function that draws the sidebar tree.
-    // In awtsmoos-file-explorer/index.js
-    
+   
     buildNode = async (currentPath, parentUl) => {
         parentUl.innerHTML = ''; 
         let items = [];
 
         if (currentPath === '/') {
-            let names = await os.db.getAllStoreNames();
-            // Convert to object structure for consistency
-            items = names.map(n => ({name: n, type: 'directory'})).filter(i => !i.name.startsWith('.'));
+            const rawItems = await os.db.getAllStoreNames();
+            // FIX: Handle if response is already objects, or map strings if legacy
+            items = rawItems.map(n => {
+                if(typeof n === 'object' && n !== null) return n;
+                return { name: n, type: 'directory' };
+            });
+            // FIX: Ensure name exists before checking startsWith
+            items = items.filter(i => i.name && !i.name.startsWith('.'));
         } else {
             try {
                 items = await os.db.getAllKeys(currentPath);
@@ -51,10 +55,11 @@ export default ({
         
         // Sort for Tree: Folders first, then names
         items.sort((a, b) => {
-            const aName = a.name;
-            const bName = b.name;
-            const aIsFolder = a.type === 'directory' || aName.endsWith('.folder');
-            const bIsFolder = b.type === 'directory' || bName.endsWith('.folder');
+            const aName = a.name || "";
+            const bName = b.name || "";
+            // Logic: It is a folder if type is directory OR name ends in .folder OR we are at root
+            const aIsFolder = a.type === 'directory' || aName.endsWith('.folder') || currentPath === '/';
+            const bIsFolder = b.type === 'directory' || bName.endsWith('.folder') || currentPath === '/';
             
             if (aIsFolder !== bIsFolder) return aIsFolder ? -1 : 1;
             return aName.localeCompare(bName);
@@ -213,82 +218,138 @@ export default ({
         }
     }
 
-    function getIconClass(itemName) {
-        if (itemName.endsWith('.folder') || itemName === 'desktop.folder') return 'folder-icon';
-        if (itemName.endsWith('.js')) return 'js-icon';
-        if (itemName.endsWith('.css')) return 'css-icon';
-        if (itemName.endsWith('.html')) return 'html-icon';
-        return 'file-icon';
-    }
-
-    // In awtsmoos-file-explorer/index.js
-
-    // REPLACEMENT for renderIconView
+    function getIconClass(itemName, isFolder) {
+	
+	
+	    if (isFolder || itemName.endsWith('.folder') || itemName === 'desktop.folder') return 'folder-icon';
+	    if (itemName.endsWith('.js')) return 'js-icon';
+	    if (itemName.endsWith('.css')) return 'css-icon';
+	    if (itemName.endsWith('.html')) return 'html-icon';
+	    return 'file-icon';
+	}
+    
     function renderIconView(items, targetPath, holder) {
-        items.forEach(item => {
-            const itemName = item.name;
-            const isFolder = item.type === 'directory' || itemName.endsWith('.folder');
-            
-            holder.appendChild(createElement({
-                tag: 'div',
-                attributes: { class: 'file-item icon' },
-                children: [
-                    { tag: 'div', attributes: { class: getIconClass(itemName) } },
-                    { tag: 'span', html: itemName.replace('.folder', '') }
-                ],
-                on: {
+	    items.forEach(item => {
+	        const itemName = item.name;
+	        // Check both new API type and old suffix convention
+	        const isFolder = item.type === 'directory' || itemName.endsWith('.folder');
+	        
+	        holder.appendChild(createElement({
+	            tag: 'div',
+	            attributes: { class: 'file-item icon' },
+	            children: [
+	                // FIX: Pass isFolder to the icon selector
+	                { tag: 'div', attributes: { class: getIconClass(itemName, isFolder) } },
+	                { tag: 'span', html: itemName.replace('.folder', '') }
+	            ],
+	            on: {
 	                click: (e) => handleItemClick(e, { targetPath, item: itemName, isFolder }),
 	                contextmenu: event => showContextMenu({ os, event, path: targetPath, title: itemName, isFolder })
-                }
-            }));
-        });
-    }
+	            }
+	        }));
+	    });
+	}
 
-    // In awtsmoos-file-explorer/index.js
 
-    // REPLACEMENT for renderDetailsView
     function renderDetailsView(items, targetPath, holder) {
-        const header = createElement({
-            tag: 'div', attributes: { class: 'details-header' },
-            children: [
-                { tag: 'div', html: 'Name ▼', on: { click: () => setSort('name') } },
-                { tag: 'div', html: 'Date Modified', on: { click: () => setSort('date') } },
-                { tag: 'div', html: 'Type', on: { click: () => setSort('type') } }
-            ]
-        });
-        holder.appendChild(header);
-
-        items.forEach(item => {
-            const itemName = item.name;
-            const isFolder = item.type === 'directory' || itemName.endsWith('.folder');
-            const displayName = itemName.replace('.folder', '');
-            
-            // Format Date
-            let dateStr = "--";
-            if(item.modified) {
-                try {
-                    dateStr = new Date(item.modified).toLocaleString();
-                } catch(e) {}
-            }
-
-            const type = isFolder ? 'Folder' : (itemName.split('.').pop().toUpperCase() + ' File');
-
-            const row = createElement({
-                tag: 'div', attributes: { class: 'details-row' },
-                children: [
-                    { tag: 'div', html: displayName },
-                    { tag: 'div', html: dateStr },
-                    { tag: 'div', html: type }
-                ],
-                on: { click: (e) => handleItemClick(e, { targetPath, item: itemName, isFolder }) }
-            });
-            
-            // Add context menu
-            row.oncontextmenu = event => showContextMenu({ os, event, path: targetPath, title: itemName, isFolder });
-            
-            holder.appendChild(row);
-        });
-    }
+	    // Apply the current column widths to the CSS variable
+	    holder.style.setProperty('--grid-cols', state.columnWidths.join(' '));
+	
+	    // -- HEADER CREATION --
+	    const headerCols = [
+	        { name: 'Name', key: 'name', index: 0 },
+	        { name: 'Date Modified', key: 'date', index: 1 },
+	        { name: 'Type', key: 'type', index: 2 }
+	    ];
+	
+	    const header = createElement({ tag: 'div', attributes: { class: 'details-header' } });
+	
+	    headerCols.forEach(col => {
+	        const cell = createElement({
+	            tag: 'div',
+	            attributes: { class: 'header-cell' },
+	            children: [
+	                { tag: 'span', html: `${col.name} ${state.sort.by === col.key ? (state.sort.order === 'asc' ? '▲' : '▼') : ''}` }
+	            ],
+	            on: { click: () => setSort(col.key) }
+	        });
+	
+	        // Add Resizer Handle
+	        const resizer = createElement({ tag: 'div', attributes: { class: 'col-resizer' } });
+	        
+	        const startResize = (e) => {
+	            e.stopPropagation(); // Don't sort when resizing
+	            e.preventDefault();
+	            
+	            const startX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
+	            const startWidth = cell.offsetWidth;
+	            
+	            document.body.style.cursor = 'col-resize';
+	            holder.classList.add('resizing'); // Prevents hover effects while resizing
+	
+	            const onMove = (moveEvent) => {
+	                const currentX = moveEvent.type.includes('touch') ? moveEvent.touches[0].clientX : moveEvent.clientX;
+	                const diff = currentX - startX;
+	                const newWidth = Math.max(50, startWidth + diff); // Min width 50px
+	                
+	                // Update State
+	                state.columnWidths[col.index] = `${newWidth}px`;
+	                // Update DOM instantly via CSS var
+	                holder.style.setProperty('--grid-cols', state.columnWidths.join(' '));
+	            };
+	
+	            const onStop = () => {
+	                document.body.style.cursor = 'default';
+	                holder.classList.remove('resizing');
+	                document.removeEventListener('mousemove', onMove);
+	                document.removeEventListener('mouseup', onStop);
+	                document.removeEventListener('touchmove', onMove);
+	                document.removeEventListener('touchend', onStop);
+	            };
+	
+	            document.addEventListener('mousemove', onMove);
+	            document.addEventListener('mouseup', onStop);
+	            document.addEventListener('touchmove', onMove, { passive: false });
+	            document.addEventListener('touchend', onStop);
+	        };
+	
+	        resizer.addEventListener('mousedown', startResize);
+	        resizer.addEventListener('touchstart', startResize, { passive: false });
+	        resizer.addEventListener('click', e => e.stopPropagation()); // Prevent sort click
+	
+	        cell.appendChild(resizer);
+	        header.appendChild(cell);
+	    });
+	
+	    holder.appendChild(header);
+	
+	    // -- ROWS CREATION --
+	    items.forEach(item => {
+	        const itemName = item.name;
+	        const isFolder = item.type === 'directory' || itemName.endsWith('.folder');
+	        const displayName = itemName.replace('.folder', '');
+	        
+	        let dateStr = "--";
+	        if(item.modified) {
+	            try { dateStr = new Date(item.modified).toLocaleString(); } catch(e) {}
+	        }
+	
+	        const type = isFolder ? 'Folder' : (itemName.split('.').pop().toUpperCase() + ' File');
+	
+	        const row = createElement({
+	            tag: 'div', attributes: { class: 'details-row' },
+	            children: [
+	                { tag: 'div', html: displayName, attributes: { class: 'row-cell name-cell' } },
+	                { tag: 'div', html: dateStr, attributes: { class: 'row-cell' } },
+	                { tag: 'div', html: type, attributes: { class: 'row-cell' } }
+	            ],
+	            on: { click: (e) => handleItemClick(e, { targetPath, item: itemName, isFolder }) }
+	        });
+	        
+	        row.oncontextmenu = event => showContextMenu({ os, event, path: targetPath, title: itemName, isFolder });
+	        holder.appendChild(row);
+	    });
+	}
 
     // Helper to toggle sort (add this to the file scope)
     function setSort(key) {
@@ -412,70 +473,75 @@ export default ({
 }
 
 
-// NEW FUNCTION 2: syncSidebarToPath
-// This new version starts from the "Home" node and recursively expands and loads
-// each part of the path until it finds the final destination.
 async function syncSidebarToPath(path) {
     // Clear any previous selection
     sidebar.querySelectorAll('.tree-node-content.selected').forEach(el => el.classList.remove('selected'));
 
     const homeLi = sidebar.querySelector('li[data-full-path="/"]');
-    if (!homeLi) {
-        console.error("Sidebar sync failed: Root 'Home' node not found.");
-        return;
-    }
+    if (!homeLi) return; // Silent return if tree isn't built yet
 
     const homeContent = homeLi.querySelector('.tree-node-content');
     const homeChildrenUl = homeLi.querySelector(':scope > .tree-children');
 
-    // If path is root, just select Home and we're done.
-    if (path === '/') {
+    // If path is root, just select Home.
+    if (path === '/' || path === '') {
         homeContent.classList.add('selected');
         return;
     }
     
-    // --- Core Expansion Logic ---
-    // First, ensure the "Home" node itself is expanded and its children are loaded
+    // Ensure Home is expanded
     if (homeChildrenUl.classList.contains('collapsed')) {
         const homeToggle = homeLi.querySelector(':scope > .tree-node-content > .toggle');
         homeChildrenUl.classList.remove('collapsed');
         if(homeToggle) homeToggle.innerHTML = '▼';
-        await buildNode('/', homeChildrenUl); // Await loading of root items
+        await buildNode('/', homeChildrenUl); 
     }
 
-    const parts = path.split('/');
-    let parentElement = homeLi; // Start the search from within the expanded "Home" li
+    // Split path and filter out empty strings
+    const parts = path.split('/').filter(Boolean);
+    let parentElement = homeLi; 
 
     for (const part of parts) {
-        const currentPathSegment = parentElement.getAttribute('data-full-path') === '/' 
-            ? part 
-            : `${parentElement.getAttribute('data-full-path')}/${part}`;
+        let currentParentPath = parentElement.getAttribute('data-full-path');
+        if (currentParentPath === '/') currentParentPath = ''; // normalization
 
-        // Find the direct child LI for the next path segment
-        const nodeLi = parentElement.querySelector(`:scope > ul > li[data-full-path="${currentPathSegment}"]`);
+        // 1. Try exact match (e.g., "desktop")
+        let segmentToFind = `${currentParentPath}/${part}`;
+        if(currentParentPath === '') segmentToFind = part; // Handle first level
+        
+        let nodeLi = parentElement.querySelector(`:scope > ul > li[data-full-path="${segmentToFind}"]`);
+
+        // 2. If not found, try adding ".folder" (e.g., "desktop.folder")
+        if (!nodeLi) {
+            const folderSegment = `${segmentToFind}.folder`;
+            nodeLi = parentElement.querySelector(`:scope > ul > li[data-full-path="${folderSegment}"]`);
+        }
 
         if (!nodeLi) {
-            console.error(`Sidebar sync failed: Could not find node for path segment "${currentPathSegment}"`);
+            // Path might not exist in sidebar (it might be a file, or not loaded yet).
+            // We stop syncing silently instead of throwing an error.
             return;
         }
 
         const childrenUl = nodeLi.querySelector(':scope > .tree-children');
         const isFolder = !!childrenUl;
 
+        // Expand if it's a folder and we are not at the final node yet
         if (isFolder && childrenUl.classList.contains('collapsed')) {
             const toggle = nodeLi.querySelector(':scope > .tree-node-content > .toggle');
             childrenUl.classList.remove('collapsed');
             if (toggle) toggle.innerHTML = '▼';
-            await buildNode(currentPathSegment, childrenUl); // Await loading of this level
+            await buildNode(nodeLi.getAttribute('data-full-path'), childrenUl); 
         }
         
-        parentElement = nodeLi; // The current node is now the parent for the next loop
+        parentElement = nodeLi; 
     }
 
-    // After the loop, the final `parentElement` is the target node. Select it.
+    // Select the final node found
     const finalNodeContent = parentElement.querySelector(':scope > .tree-node-content');
     if (finalNodeContent) {
         finalNodeContent.classList.add('selected');
+        finalNodeContent.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
 }
     

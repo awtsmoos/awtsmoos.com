@@ -46,58 +46,82 @@ class APIHandler {
 		return response.json();
 	}
 
-	// Create or update data on the API (makeFile)
-	async makeFile(storeName, key,
-		value) {
-		const aliasId = this
-			.getCurrentAlias();
-		const url = new URL(
-			`${this.baseUrl}aliases/${aliasId}/fileSystem/makeFile`
-			);
-		var isBuffer = 
-		console.log("ABOUT TO WRITE",value,value instanceof ArrayBuffer);
-		var body;
-		
-		if(value instanceof ArrayBuffer) {
-			
-			const blob = new Blob([value ], { type: 'application/octet-stream' }); 
-			
-			// 3. Create FormData object
-			const formData = new FormData();
-			
-			// 4. Append the Blob to FormData
-			// The third argument is the filename, which is useful for the server
-			formData.append('binaryData', blob, key); 
-			formData.append('path', `${storeName}/${key}`); 
-			body = formData;
-			
-		} else {
-			body = new URLSearchParams({
-				path: `${storeName}/${key}`,
-				value: value // Pass the value as a query string
-			});
-		}
-			
 
-		try {
-			const response =
-				await fetch(url, {
-					method: 'POST', // POST for creating or updating the file
-					body
-				});
-
-			await this
-				.handleResponse(
-					response);
-			console.log(
-				"File created successfully"
-				);
-		} catch (error) {
-			console.error(
-				"Error creating file:",
-				error);
-			throw error;
-		}
+	async makeFile({$i}) {
+	    try {
+	        var {
+	            aliasId, 
+	            path, 
+	            content,
+	            binaryData
+	        } = $i.$_POST;
+	        
+	        if(content === undefined || content === null) {
+	            content = $i.$_POST.value;
+	        }
+	        if(binaryData) {
+	            content = binaryData.data;
+	        }
+	      
+	        if (content === undefined || content === null)
+	            return er({ message: "Content/value parameter missing", code: "CONTENT_MISSING" });
+	            
+	        // Ensure the 'path' exists in POST or GET
+	        if (!path) {
+	            path = $i.$_GET.path;
+	        }
+	        if (!path) return er({ message: "Path parameter missing", code: "PATH_MISSING" });
+	
+	        var userid = $i?.request?.user?.info?.userId;
+	        if (!userid) return er({ message: "User not logged in", code: "USER_NOT_LOGGED_IN" });
+	    
+	        var isAuthorized = await verifyAlias({$i, aliasId, userid });
+	        if (!isAuthorized) return er({ message: "Unauthorized", code: "UNAUTHORIZED" });
+	
+	        var currentSize = await checkAliasSize({$i, aliasId});
+	        
+	        var newFileSize
+	        var strContent = content;
+	        if(Buffer.isBuffer(content)) {
+	            newFileSize == content.length;
+	        } else if(typeof(content) == "object") {
+	            try {
+	                strContent = JSON.stringify(content);
+	            } catch(e){}
+	        }
+	        try {
+	            newFileSize = Buffer.byteLength(strContent, 'utf8');
+	            if (currentSize + newFileSize > 10 * 1024 * 1024) {
+	                return er({ message: "File size limit exceeded", code: "FILE_SIZE_LIMIT" });
+	            }
+	        } catch(e) {
+	            return er({
+	                message: "Issue saving file",
+	                details: e.stack
+	            })
+	        }
+	        
+	        // Write the file to the alias's file system
+	        try {
+	            var filePath = `${sp}/aliases/${aliasId}/fileSystem/${path}`;
+	            var wr = await $i.db.write(filePath, content);
+	
+	        } catch(e) {
+	            return er({
+	                message: "Couldn't write",
+	                details: e
+	            })
+	        }
+	        return { success: {
+	            filePath,
+	            path,
+	            aliasId,
+	            userid,
+	            wr
+	        } };
+	    } catch(e) {
+	        return er({ message: "System Error", code: "SYSTEM", details:e.stack });
+	    }
 	}
 
 	// Read data from the API (readFile)
@@ -302,26 +326,34 @@ class APIHandler {
 		}
 	}
 
-	async write(st, key, val) {
-		if (!val) {
-			return await this
-				.makeFolder(
-					`${st}/${key}`)
-		} else {
-			return await this
-				.makeFile(st, key,
-					val)
-		}
-	}
+
+    async write(st, key, val, type = null) {
+        // Explicitly check type first
+        if (type === 'directory') {
+            // It's a folder request
+            return await this.makeFolder(`${st}/${key}`);
+        } else if (type === 'file') {
+            // It's a file request
+            return await this.makeFile(st, key, val || "");
+        }
+
+        // Fallback legacy logic if no type provided
+        if (val === null || val === undefined) {
+            return await this.makeFolder(`${st}/${key}`);
+        } else {
+            return await this.makeFile(st, key, val);
+        }
+    }
+
+    
 
 	async read(st, key) {
 		return await this.readFile(
 			st, key);
 	}
-	async Koysayv(st, key, val) {
-		return await this.write(st,
-			key, val);
-	}
+	async Koysayv(st, key, val, type = null) {
+	        return await this.write(st, key, val, type);
+	    }
 
 	async Laynin(st, key) {
 		return await this.read(st,

@@ -262,7 +262,7 @@ async function readFolder({$i}) {
         //return {wgy:2}
         /*if (!folderContents) return er({ message: "Folder not found", code: "FOLDER_NOT_FOUND" });*/
 	//console.log("Getting", folderPath, path, folderContents)
-	 console.log("READING",folderPath,folderContents );
+	// console.log("READING",folderPath,folderContents );
         return folderContents || [];  // List files and folders
     } catch(e) {
         return er({ message: "System Error", code: "SYSTEM", details:e.stack });

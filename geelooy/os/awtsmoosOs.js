@@ -86,9 +86,10 @@ export default class AwtsmoosOS {
         this.windowHandler.addWindow(...args)
     }
 
-    async createFile({path, title, content=""}) {
-	console.log("writing FILE",path);
-        await this.db.Koysayv(path, title, content);
+     async createFile({path, title, content=""}) {
+        console.log("writing FILE", path, title);
+        // Explicitly pass 'file' type so empty content is allowed
+        await this.db.Koysayv(path, title, content, 'file');
         await this.showFilesAtPath({
             path
         });
@@ -109,7 +110,9 @@ async updateDefaultProgram(extension, programName) {
 }
 
     async createFolder({path, title}) {
-        await this.db.Koysayv(path, title+".folder", "");
+        // Pass 'directory' type explicitly
+        
+        await this.db.Koysayv(path, title, null, 'directory');
         await this.showFilesAtPath({
             path
         });

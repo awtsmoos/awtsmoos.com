@@ -95,7 +95,8 @@ restore() {
         
         if(!this.isFullscreened) {
             this.oldDim =  Object.assign({},getComputedStyle(this.win));
-            console.log(window.k=this.oldDim)
+            
+            (window.k=this.oldDim)
             //fullscreen the window
             this.win.style.left = 0;
             
