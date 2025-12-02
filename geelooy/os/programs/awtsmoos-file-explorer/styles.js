@@ -139,7 +139,11 @@ export default /*css*/`
 
 /* Tree View */
 .file-explorer-sidebar ul { list-style: none; padding-left: 12px; margin: 0; padding-top: 8px; }
-.tree-node-content { display: flex; align-items: center; padding: 5px; border-radius: 5px; cursor: pointer; }
+.tree-node-content {
+ display: flex; 
+ 
+    user-select: none;
+ align-items: center; padding: 5px; border-radius: 5px; cursor: pointer; }
 .tree-node-content:hover { background-color: #dee2e6; }
 .tree-node-content.selected {
     background-color: var(--accent-blue-border);
@@ -319,6 +323,7 @@ export default /*css*/`
 
 .menu-buttons button, .view-controls button {
     background: var(--background-white);
+    user-select: none;
     border: 1px solid #ced4da;
     border-radius: 5px;
     padding: 6px 14px;
@@ -370,7 +375,9 @@ export default /*css*/`
 
 .path-input-container { display: none; width: 100%; }
 .path-input-container input { width: 100%; border: none; outline: none; font-size: 14px; background: transparent; }
-.edit-path-btn { background: none; border: none; cursor: pointer; color: #6c757d; font-size: 16px; padding: 0 8px; }
+.edit-path-btn {
+user-select:none;
+ background: none; border: none; cursor: pointer; color: #6c757d; font-size: 16px; padding: 0 8px; }
 .edit-path-btn:hover { color: var(--accent-blue); }
 
 /* Content Area, Sidebar, and Resizer */

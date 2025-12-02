@@ -316,14 +316,18 @@ body {
     order: 2; /* Sits between Header and Footer */
 }
 
-
+#BH {
+	position: fixed;
+	left:0px;top:0px;
+	z-index:6527831653781238175263219873283;
+}
 /* 
 ================================================================
   THE TOP CROWN (KETER) - SYSTEM HEADER
 ================================================================
 */
 .awtsmoos-top-header {
-    height: 28px; /* A thin, subtle emanation from above */
+    height: 36px; /* A thin, subtle emanation from above */
     background: linear-gradient(90deg, #1c2630, #2c3e50);
     border-bottom: 1px solid #455a64;
     display: flex;
@@ -336,6 +340,7 @@ body {
     order: 1; /* The highest point in the flex column */
     z-index: 1002;
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        flex-direction: row-reverse;
 }
 
 .login-area-container {
