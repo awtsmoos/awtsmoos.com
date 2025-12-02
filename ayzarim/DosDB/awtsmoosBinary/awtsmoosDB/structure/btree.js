@@ -81,11 +81,17 @@ class BTree {
 	    }
 	
 	    // Helper to read a Pointer structure (BlockID, Offset, Length, IsChain)
+	    // Helper to read a Pointer structure (BlockID, Offset, Length, IsChain)
 	    const readPtr = () => {
+            // B"H: 
+            //Safety guard. If we are at the edge, stop.
+	            if (offset + 6 > buffer.length) {
+	                return { blockId: 0, offset: 0, length: 0, isChain: false };
+	            }
+
 	        // CRITICAL FIX: Use 48-bit pointer for Block ID (6 bytes)
 	        // varInt breaks at 2GB (32-bit). 48-bit ensures 281PB.
 	        const blockId = readPointer48(buffer, offset); offset += 6;
-	        
 	        const o = serializer.readVarInt(buffer, offset); offset += o.bytesRead;
 	        const l = serializer.readVarInt(buffer, offset); offset += l.bytesRead;
 	        const c = buffer.readUInt8(offset); offset++;

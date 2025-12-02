@@ -104,7 +104,7 @@ class Collection {
             return;
         }
 
-        let offset=32;
+
 
         let offset=32;
         this.headPageId = readPointer48(buffer, offset); offset+=6;

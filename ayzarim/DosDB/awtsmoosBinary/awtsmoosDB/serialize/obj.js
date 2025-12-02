@@ -2,6 +2,9 @@
 const constants = require("../constants.js");
 const serializeValue = require("./serializeValue.js");
 const { writeConditional, packedLength, hashKey } = require("../utils/binaryHelpers.js");
+// B"H:
+// Added writeVarInt to match Parser expectation
+const { writeVarInt } = require("../utils/serializer.js");
 
 function serializeJSON(json) {
     let header = [Buffer.from(constants.MAGIC_JSON)];
@@ -111,11 +114,14 @@ function serializeJSON(json) {
     // This is readable, sequential, and requires 0 complex logic.
     
     const simpleBuffers = [Buffer.from(constants.MAGIC_JSON)];
-    simpleBuffers.push(writeConditional(keys.length).buffer);
+    // B"H:
+    // Use writeVarInt to match parser.js readVarInt
+    simpleBuffers.push(writeVarInt(keys.length));
     
     for(let key of keys) {
         const keyBuf = Buffer.from(key);
-        simpleBuffers.push(writeConditional(keyBuf.length).buffer);
+        // B"H: Use writeVarInt for Key Length
+        simpleBuffers.push(writeVarInt(keyBuf.length));
         simpleBuffers.push(keyBuf);
         simpleBuffers.push(serializeValue(json[key], true));
     }

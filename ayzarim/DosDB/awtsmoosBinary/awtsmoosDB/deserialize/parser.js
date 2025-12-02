@@ -142,6 +142,8 @@ function parseValue(buffer, offset, depth) {
         case T.FLOAT_NEG_4: val = -1 * floatHandler.decodeEncodedFloat(buffer.readUInt32BE(dataStart), 4); break;
 
         // --- Containers ---
+        case 6: // B"H:
+        // Explicitly handle Type 6 (Object)
         case T.OBJECT: 
             val = parseObject(buffer.subarray(dataStart, dataStart + length), depth + 1); 
             break;
