@@ -600,4 +600,26 @@ export default /*css*/`
     margin-bottom: 5px;
     background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23FFC107"><path d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zM13 9V3.5L18.5 9H13z"/></svg>'); 
 }
+
+
+/* Details View Icon Styles */
+.name-cell {
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Space between icon and text */
+}
+
+.small-icon {
+    width: 20px;
+    height: 20px;
+    min-width: 20px; /* Prevent squishing */
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+/* Override padding for name cell so icon isn't too close to edge */
+.row-cell.name-cell {
+    padding-left: 8px;
+}
 `;

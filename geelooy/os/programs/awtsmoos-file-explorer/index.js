@@ -285,10 +285,10 @@ export default ({
 
 
     function renderDetailsView(items, targetPath, holder) {
-	    // Apply the current column widths to the CSS variable
+	    // Apply the current column widths
 	    holder.style.setProperty('--grid-cols', state.columnWidths.join(' '));
 	
-	    // -- HEADER CREATION --
+	    // -- HEADER --
 	    const headerCols = [
 	        { name: 'Name', key: 'name', index: 0 },
 	        { name: 'Date Modified', key: 'date', index: 1 },
@@ -307,27 +307,23 @@ export default ({
 	            on: { click: () => setSort(col.key) }
 	        });
 	
-	        // Add Resizer Handle
+	        // Resizer Handle
 	        const resizer = createElement({ tag: 'div', attributes: { class: 'col-resizer' } });
 	        
 	        const startResize = (e) => {
-	            e.stopPropagation(); // Don't sort when resizing
+	            e.stopPropagation(); 
 	            e.preventDefault();
-	            
 	            const startX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
 	            const startWidth = cell.offsetWidth;
 	            
 	            document.body.style.cursor = 'col-resize';
-	            holder.classList.add('resizing'); // Prevents hover effects while resizing
+	            holder.classList.add('resizing');
 	
 	            const onMove = (moveEvent) => {
 	                const currentX = moveEvent.type.includes('touch') ? moveEvent.touches[0].clientX : moveEvent.clientX;
 	                const diff = currentX - startX;
-	                const newWidth = Math.max(50, startWidth + diff); // Min width 50px
-	                
-	                // Update State
+	                const newWidth = Math.max(50, startWidth + diff);
 	                state.columnWidths[col.index] = `${newWidth}px`;
-	                // Update DOM instantly via CSS var
 	                holder.style.setProperty('--grid-cols', state.columnWidths.join(' '));
 	            };
 	
@@ -348,7 +344,7 @@ export default ({
 	
 	        resizer.addEventListener('mousedown', startResize);
 	        resizer.addEventListener('touchstart', startResize, { passive: false });
-	        resizer.addEventListener('click', e => e.stopPropagation()); // Prevent sort click
+	        resizer.addEventListener('click', e => e.stopPropagation());
 	
 	        cell.appendChild(resizer);
 	        header.appendChild(cell);
@@ -356,7 +352,16 @@ export default ({
 	
 	    holder.appendChild(header);
 	
-	    // -- ROWS CREATION --
+	    // -- ROWS --
+	    if (items.length === 0) {
+	        holder.appendChild(createElement({ 
+	            tag: 'div', 
+	            attributes: { class: 'empty-folder-state' }, 
+	            html: 'Folder is empty' 
+	        }));
+	        return;
+	    }
+	
 	    items.forEach(item => {
 	        const itemName = item.name;
 	        const isFolder = item.type === 'directory' || itemName.endsWith('.folder');
@@ -372,16 +377,45 @@ export default ({
 	        const row = createElement({
 	            tag: 'div', attributes: { class: 'details-row' },
 	            children: [
-	                { tag: 'div', html: displayName, attributes: { class: 'row-cell name-cell' } },
+	                // FIX: Name Cell now has an Icon + Text
+	                { 
+	                    tag: 'div', 
+	                    attributes: { class: 'row-cell name-cell' },
+	                    children: [
+	                        { tag: 'div', attributes: { class: `small-icon ${getIconClass(itemName, isFolder)}` } },
+	                        { tag: 'span', html: displayName }
+	                    ]
+	                },
 	                { tag: 'div', html: dateStr, attributes: { class: 'row-cell' } },
 	                { tag: 'div', html: type, attributes: { class: 'row-cell' } }
 	            ],
-	            on: { click: (e) => handleItemClick(e, { targetPath, item: itemName, isFolder }) }
+	            on: { 
+	                // Single Click: Select
+	                click: (e) => {
+	                    e.stopPropagation();
+	                    holder.querySelectorAll('.details-row.selected').forEach(el => el.classList.remove('selected'));
+	                    row.classList.add('selected');
+	                },
+	                // Double Click: Open
+	                dblclick: (e) => handleItemClick(e, { targetPath, item: itemName, isFolder }),
+	                // Right Click
+	                contextmenu: event => {
+	                    holder.querySelectorAll('.details-row.selected').forEach(el => el.classList.remove('selected'));
+	                    row.classList.add('selected');
+	                    showContextMenu({ os, event, path: targetPath, title: itemName, isFolder });
+	                }
+	            }
 	        });
 	        
-	        row.oncontextmenu = event => showContextMenu({ os, event, path: targetPath, title: itemName, isFolder });
 	        holder.appendChild(row);
 	    });
+	    
+	    // Background click deselect
+	    holder.onclick = (e) => {
+	        if(e.target === holder) {
+	            holder.querySelectorAll('.details-row.selected').forEach(el => el.classList.remove('selected'));
+	        }
+	    };
 	}
 
     // Helper to toggle sort (add this to the file scope)
