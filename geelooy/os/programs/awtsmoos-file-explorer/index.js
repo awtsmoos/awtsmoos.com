@@ -173,24 +173,24 @@ export default ({
                     },
                     
                     contextmenu: event => {
-                         if (!state.selectionMode) {
-                             holder.querySelectorAll('.file-item.selected').forEach(el => el.classList.remove('selected'));
-                             itemDiv.classList.add('selected');
-                         }
-                         
-                         showContextMenu({ 
-                             os, 
-                             event, 
-                             path: targetPath, 
-                             title: itemName, 
-                             isFolder, 
-                             onRefresh: () => renderFiles(state.currentPath, body),
-                             onEnterSelectionMode: () => {
-                                 itemDiv.classList.add('selected');
-                                 enterSelectionMode();
-                             }
-                         });
-                    }
+			    if (!state.selectionMode) {
+			        holder.querySelectorAll('.file-item.selected').forEach(el => el.classList.remove('selected'));
+			        itemDiv.classList.add('selected');
+			    }
+			    
+			    showContextMenu({ 
+			        os, 
+			        event, 
+			        path: targetPath, 
+			        title: itemName, 
+			        isFolder, 
+			        onRefresh: () => renderFiles(state.currentPath, body),
+			        onEnterSelectionMode: () => {
+			            // FIX: Pass itemFullPath to the helper so it persists after re-render
+			            enterSelectionMode(itemFullPath);
+			        }
+			    });
+			}
                 }
             });
 
@@ -331,24 +331,26 @@ export default ({
                         }
                     },
                     
-                    contextmenu: event => {
-                        if (!state.selectionMode) {
-                            holder.querySelectorAll('.details-row.selected').forEach(el => el.classList.remove('selected'));
-                            row.classList.add('selected');
-                        }
-                        showContextMenu({ 
-                            os, 
-                            event, 
-                            path: targetPath, 
-                            title: itemName, 
-                            isFolder, 
-                            onRefresh: () => renderFiles(state.currentPath, body),
-                            onEnterSelectionMode: () => {
-                                 row.classList.add('selected');
-                                 enterSelectionMode();
-                            }
-                        });
-                    }
+                    
+                    
+			contextmenu: event => {
+			    if (!state.selectionMode) {
+			        holder.querySelectorAll('.details-row.selected').forEach(el => el.classList.remove('selected'));
+			        row.classList.add('selected');
+			    }
+			    showContextMenu({ 
+			        os, 
+			        event, 
+			        path: targetPath, 
+			        title: itemName, 
+			        isFolder, 
+			        onRefresh: () => renderFiles(state.currentPath, body),
+			        onEnterSelectionMode: () => {
+			             // FIX: Pass itemFullPath here too
+			             enterSelectionMode(itemFullPath);
+			        }
+			    });
+			}
                 }
             });
 
