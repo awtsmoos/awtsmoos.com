@@ -8,9 +8,7 @@ class Allocator {
         this.cursor = 2; 
         this.lastFreeHint = 2; 
         this.mutex = Promise.resolve();
-        // B"H: CRITICAL FIX - Concurrency must be 1.
-        // Parallel Read-Modify-Write on allocation bitmaps leads to race conditions
-        // where two requesters claim the same slot.
+        // Concurrency 1 is mandatory for bitmap safety
         this.semaphore = new (require('./concurrency.js'))(1);
     }
 
@@ -45,13 +43,11 @@ class Allocator {
                 const block = await this.pager.readBlock(ptr.blockId);
                 if (!block) throw new Error(`Block ${ptr.blockId} missing during write`);
                 
-                // B"H: Verify we are writing to the correct place
                 if (ptr.offset + data.length > constants.BLOCK_SIZE) {
                     throw new Error(`Write overflow in writeUserSpace. Block ${ptr.blockId}, Offset ${ptr.offset}, Len ${data.length}`);
                 }
 
                 data.copy(block, ptr.offset);
-                
                 await this.pager.writeBlock(ptr.blockId, block);
             } finally {
                 this.semaphore.release();
@@ -74,7 +70,6 @@ class Allocator {
                         this.log(`Page Alloc -> Reserved ID ${searchPtr}`);
                         this.cursor = searchPtr + 1;
                         this.lastFreeHint = searchPtr + 1;
-                        // Format it immediately to reserve it with the specific TYPE
                         const block = this.formatBlock(type);
                         await this.pager.writeBlock(searchPtr, block);
                         return { blockId: searchPtr, offset: 0, length: constants.BLOCK_SIZE, isChain: false };
@@ -106,13 +101,15 @@ class Allocator {
             const type = await this.pager.readBlockType(searchPtr);
             
             if (type === null) {
-                // End of file found, create new PAGE (Slab)
+                // End of file found, create new PAGE
                 this.log(`Small Alloc -> New Block ${searchPtr}`);
                 const block = this.formatBlock(constants.BLOCK_TYPE.PAGE);
-                
                 block.fill(0, constants.HEADER_SIZE, constants.BLOCK_SIZE);
                 
                 const bitmap = block.subarray(constants.BITMAP_OFFSET, constants.BITMAP_OFFSET + constants.BITMAP_SIZE);
+                // Ensure Header is marked
+                bitmap[0] |= 0x80;
+
                 const startUnit = this.findGap(bitmap, unitsNeeded);
                 
                 if (startUnit > 0) {
@@ -123,17 +120,9 @@ class Allocator {
                     this.lastFreeHint = searchPtr;
                     return { blockId: searchPtr, offset: startUnit * constants.UNIT_SIZE, length: sizeBytes }; 
                 }
-            } else if (type === constants.BLOCK_TYPE.FREE || type === constants.BLOCK_TYPE.PAGE) {
-                // Only allocate small items in PAGE blocks (Type 1).
-                // DO NOT touch COLLECTION_PAGE (Type 3) blocks.
+            } else if (type === constants.BLOCK_TYPE.PAGE) {
                 const block = await this.pager.readBlock(searchPtr);
                 if (block) {
-                    // Safety: If converting FREE to PAGE, ensure Header is protected
-                    if (type === constants.BLOCK_TYPE.FREE) {
-                         block.writeUInt32BE(constants.BLOCK_TYPE.PAGE, 0);
-                         block[constants.BITMAP_OFFSET] |= 0x80; // Mark Unit 0 (Header) as used
-                    }
-
                     const bitmap = block.subarray(constants.BITMAP_OFFSET, constants.BITMAP_OFFSET + constants.BITMAP_SIZE);
                     const startUnit = this.findGap(bitmap, unitsNeeded);
         
@@ -149,8 +138,21 @@ class Allocator {
                         return { blockId: searchPtr, offset: startUnit * constants.UNIT_SIZE, length: sizeBytes };
                     }
                 }
+            } else if (type === constants.BLOCK_TYPE.FREE) {
+                // Convert Free to Page
+                const block = this.formatBlock(constants.BLOCK_TYPE.PAGE);
+                block.fill(0, constants.HEADER_SIZE, constants.BLOCK_SIZE);
+                const bitmap = block.subarray(constants.BITMAP_OFFSET, constants.BITMAP_OFFSET + constants.BITMAP_SIZE);
+                const startUnit = this.findGap(bitmap, unitsNeeded);
+                
+                if (startUnit > 0) {
+                     this.markBitmap(bitmap, startUnit, unitsNeeded, true);
+                     await this.pager.writeBlock(searchPtr, block);
+                     this.lastFreeHint = searchPtr;
+                     return { blockId: searchPtr, offset: startUnit * constants.UNIT_SIZE, length: sizeBytes };
+                }
             }
-            // Skip OVERFLOW and COLLECTION_PAGE
+
             searchPtr++;
             if (searchPtr > 1000000) { 
                 if (looped) throw new Error("Disk Full");
@@ -196,14 +198,25 @@ class Allocator {
     
     async free(ptr) {
          if (!ptr || ptr.length === 0) return;
+         // Do not free chains here (omitted for brevity/safety in this context)
+         if (ptr.isChain) return;
+
          const task = async () => {
-             const block = await this.pager.readBlock(ptr.blockId);
-             if (block) {
-                 const bitmap = block.subarray(constants.BITMAP_OFFSET, constants.BITMAP_OFFSET + constants.BITMAP_SIZE);
-                 const startUnit = Math.floor(ptr.offset / constants.UNIT_SIZE);
-                 const unitsUsed = Math.ceil(ptr.length / constants.UNIT_SIZE);
-                 this.markBitmap(bitmap, startUnit, unitsUsed, false);
-                 await this.pager.writeBlock(ptr.blockId, block);
+             await this.semaphore.acquire();
+             try {
+                 const block = await this.pager.readBlock(ptr.blockId);
+                 if (block) {
+                     const bitmap = block.subarray(constants.BITMAP_OFFSET, constants.BITMAP_OFFSET + constants.BITMAP_SIZE);
+                     const startUnit = Math.floor(ptr.offset / constants.UNIT_SIZE);
+                     // Calculate units used based on *allocated* length (which we don't strictly track, but use ptr.length)
+                     // Critical: ptr.length is data length. Units used is ceil(length/32).
+                     const unitsUsed = Math.ceil(ptr.length / constants.UNIT_SIZE);
+                     
+                     this.markBitmap(bitmap, startUnit, unitsUsed, false);
+                     await this.pager.writeBlock(ptr.blockId, block);
+                 }
+             } finally {
+                 this.semaphore.release();
              }
          };
          this.mutex = this.mutex.then(task, task);
@@ -220,14 +233,16 @@ class Allocator {
     findGap(bitmap, count) {
         let run = 0;
         let start = -1;
+        // Constants: 16 bytes * 8 = 128 bits
         const maxBits = constants.BITMAP_SIZE * 8;
         
         for (let i = 0; i < maxBits; i++) {
             const byteIndex = Math.floor(i / 8);
-            if (byteIndex >= bitmap.length) break;
-
             const bitIndex = i % 8;
+            
+            // Check bit
             const isUsed = (bitmap[byteIndex] >> (7 - bitIndex)) & 1;
+            
             if (!isUsed) {
                 if (run === 0) start = i;
                 run++;
@@ -245,7 +260,7 @@ class Allocator {
             const byteIndex = Math.floor(idx / 8);
             const bitIndex = idx % 8;
             
-            if (byteIndex < bitmap.length) {
+            if (byteIndex < constants.BITMAP_SIZE) {
                 if (val) bitmap[byteIndex] |= (1 << (7 - bitIndex));
                 else bitmap[byteIndex] &= ~(1 << (7 - bitIndex));
             }

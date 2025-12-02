@@ -10,6 +10,7 @@ module.exports = {
     
     MAGIC_JSON: 'BJ',
     MAGIC_ARRAY: 'BA',
+    MAGIC_BTREE_NODE: 0xBN, // BTree Node Magic (Will use 0x42 for 'B')
     
     UNITS_PER_BLOCK: 128, // 4096 / 32
     MAX_ITEMS_PER_PAGE: 100, // Safe limit to prevent fragmentation issues

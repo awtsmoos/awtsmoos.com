@@ -5,28 +5,35 @@ import style from "./skins/2/characterDesignerStyle.js";
 export default {
     shaym: "character designer",
     className: "characterDesigner hidden",
-    ready(el) {
-        // Define helpers on the element so they are accessible
-        el.createMessageNode = (id) => ({
-            id: id,
-            message: "New Message",
-            responses: []
-        });
-
-        el.createResponse = () => ({
-            text: "Response",
-            type: "message", 
-            target: 0,
-            storeItems: []
-        });
-
-        // Initialize State on the element
-        el.characterState = {
-            name: "My NPC",
-            color: "#00ffff",
-            dialogueTree: [el.createMessageNode(0)]
-        };
+    
+    // B"H: State and Helpers defined as properties to ensure availability before children init
+    characterState: {
+        name: "My NPC",
+        color: "#00ffff",
+        dialogueTree: [
+            {
+                id: 0,
+                message: "B\"H\nShalom!",
+                responses: []
+            }
+        ]
     },
+    createMessageNode: (id) => ({
+        id: id,
+        message: "New Message",
+        responses: []
+    }),
+    createResponse: () => ({
+        text: "Response",
+        type: "message", 
+        target: 0,
+        storeItems: []
+    }),
+    
+    ready(el) {
+       // Post-render logic if needed
+    },
+
     children: [
         { tag: "style", innerHTML: style },
         

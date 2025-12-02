@@ -2,12 +2,9 @@
 // structure/btree.js
 const constants = require('../constants.js');
 const serializer = require('../utils/serializer.js');
-const serializeValue = require('../serialize/serializeValue.js');
 const {
-	writeConditional, 
-	packedLength, 
-	readPointer48, 
-	writePointer48 
+	writePointer48, 
+	readPointer48 
 } = require('../utils/binaryHelpers.js');
 
 class BTree {
@@ -15,6 +12,7 @@ class BTree {
         this.allocator = allocator;
         this.rootPtr = rootPtr;
         this.order = 80; 
+        this.NODE_MAGIC = 0x42; // 'B'
     }
 
     async getRoot() {
@@ -50,27 +48,36 @@ class BTree {
 	    }
 	
 	    let offset = 0;
-        if (buffer.length < 3) throw new Error("BTree Node Corruption: Buffer too small");
+        if (buffer.length < 4) throw new Error("BTree Node Corruption: Buffer too small");
+
+        // Verify Magic
+        const magic = buffer.readUInt8(offset); offset++;
+        if (magic !== this.NODE_MAGIC) {
+            throw new Error(`Invalid BTree Node Magic. Expected 0x42, got 0x${magic.toString(16)} at Block ${ptr.blockId} Offset ${ptr.offset}`);
+        }
 
 	    const flags = buffer.readUInt8(offset); offset++;
 	    const isLeaf = (flags & 1) === 1;
 	    const keyCount = buffer.readUInt16BE(offset); offset += 2;
+        
+        if (keyCount > 500) throw new Error(`Invalid KeyCount ${keyCount} (Garbage Data)`);
 	
 	    const keys = [];
 	    for (let i = 0; i < keyCount; i++) {
-            if (offset >= buffer.length) break;
+            if (offset >= buffer.length) throw new Error("Buffer overrun reading keys");
 	        const k = serializer.readString(buffer, offset);
 	        keys.push(k.value);
 	        offset += k.bytesRead;
 	    }
 	
 	    const readPtr = () => {
-	        if (offset + 9 > buffer.length) {
-                 return { blockId: 0, offset: 0, length: 0, isChain: false };
+	        if (offset + 6 > buffer.length) { // Minimum 6 bytes for blockID
+                 throw new Error("Buffer overrun reading pointers");
 	        }
 	        const blockId = readPointer48(buffer, offset); offset += 6;
 	        const o = serializer.readVarInt(buffer, offset); offset += o.bytesRead;
 	        const l = serializer.readVarInt(buffer, offset); offset += l.bytesRead;
+            if (offset >= buffer.length) throw new Error("Buffer overrun reading pointer flags");
 	        const c = buffer.readUInt8(offset); offset++;
 	        return { blockId: blockId, offset: o.value, length: l.value, isChain: c === 1 };
 	    };
@@ -94,6 +101,7 @@ class BTree {
 
     async saveNode(node) {
 	    const parts = [];
+        parts.push(Buffer.from([this.NODE_MAGIC])); // Magic
 	    parts.push(Buffer.from([node.isLeaf ? 1 : 0]));
 	    const countBuf = Buffer.alloc(2);
 	    countBuf.writeUInt16BE(node.keys.length);
@@ -136,7 +144,6 @@ class BTree {
 	            currentBlock++;
 	        }
 	    } else {
-	        // SHARED BLOCK WRITE FIX
 	        await this.allocator.writeUserSpace(newPtr, raw);
 	    }
 	    return newPtr;
