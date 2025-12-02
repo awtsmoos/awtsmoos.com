@@ -44,18 +44,18 @@ class Page {
     }
 
     add(key, type, pointer) {
+        // B"H: Update Logic - If key exists in this page, update it.
+        const existingIdx = this.items.findIndex(i => i.key === key);
+        if (existingIdx !== -1) {
+            this.items[existingIdx].type = type;
+            this.items[existingIdx].ptr = pointer;
+            this.isDirty = true;
+            return true;
+        }
+
         if (this.items.length >= constants.MAX_ITEMS_PER_PAGE) return false;
         
-        // B"H: Measure the vessel before pouring the wine.
-        // Approx overhead: KeyLen + Key + Type(1) + Ptr(6+Var+Var) ~ KeyLen + 20
         const estimatedSize = Buffer.byteLength(key) + 20;
-        
-        // We can't know exact total size easily without full serialize, 
-        // but we can be conservative. 
-        // If we want to be safe, we can try-catch the save, 
-        // but `add` must return false to trigger new page allocation in Collection.
-        
-        // Better Heuristic:
         let currentSize = constants.HEADER_SIZE; 
         for(let item of this.items) currentSize += (Buffer.byteLength(item.key) + 20);
         
@@ -90,7 +90,10 @@ class Page {
 
         const rawBuffer = Buffer.concat(parts);
         const block = Buffer.alloc(constants.BLOCK_SIZE);
-        block.writeUInt32BE(constants.BLOCK_TYPE.PAGE, 0);
+        
+        // B"H: CRITICAL Fix - Use COLLECTION_PAGE type so Allocator doesn't put BTree nodes here.
+        block.writeUInt32BE(constants.BLOCK_TYPE.COLLECTION_PAGE, 0);
+        
         block.fill(0xFF, constants.BITMAP_OFFSET, constants.BITMAP_OFFSET + constants.BITMAP_SIZE);
 
         if (rawBuffer.length > (constants.BLOCK_SIZE - constants.HEADER_SIZE)) {

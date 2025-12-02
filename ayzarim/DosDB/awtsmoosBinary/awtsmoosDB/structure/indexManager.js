@@ -113,7 +113,8 @@ class IndexManager {
             await this.saveRegistry();
         };
 
-        this.queue = this.queue.then(task).catch(err => console.error("Index Error:", err));
+        // B"H: Propagate error to main queue so app can detect failure
+        this.queue = this.queue.then(task);
     }
 
     flatten(obj, prefix = '', res = []) {
@@ -171,7 +172,7 @@ class IndexManager {
 	            await this.saveRegistry();
 	        }
 	    };
-	    this.queue = this.queue.then(task).catch(err => console.error("B\"H Index Delete Error:", err));
+	    this.queue = this.queue.then(task);
 	    return this.queue;
 	}
 }

@@ -9,6 +9,8 @@ import createProfile from "/scripts/awtsmoos/social/profileDropdown.js";
 
 import loginBtn from "./loginBtn.js";
 import startSlotsConfig from "./startSlotsConfig.js";
+import characterDesigner from "./characterDesigner.js"; // Import the designer
+
 var ui = [instructions, {
     shaym: "menuTop",
     className: "menuTop",
@@ -60,20 +62,7 @@ var ui = [instructions, {
             className: "hidden",
             textContent: "Debugging"
         }]
-    }, loginBtn /*
-            {
-                shaym: "profile and login",
-                className: "loginInfo awtsmoosBtn",
-                children: [
-                    {
-                        className: "loginHolder",
-                        children: [
-                            
-                            
-                        ]
-                    }
-                ]
-            }*/
+    }, loginBtn 
     ],
     style: {
         top: "0px"
@@ -302,42 +291,6 @@ var ui = [instructions, {
     }
 },
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
  {
     shaym: "inventoryScreen",
     awtsmoosClick: true,
@@ -536,6 +489,13 @@ var ui = [instructions, {
                     } : {
                         tag: "button", textContent: "Equip",
                         onclick: () => {
+                            // If it's the Neshama Maker, trigger it directly instead of equipping
+                            if (item.className === 'CharacterMaker') {
+                                // We can't access class methods here easily in the UI thread
+                                // But we can trigger use via a special equip action or just assume equip triggers 'shoot' for tools
+                                // For simplicity, let's allow equip, and handle 'shoot' (use) when equipped.
+                            }
+                            
                             const target = item.equipSlot || 'rightHand';
                             ui.peula("ikar", { olamPeula: { equipItem: { sourceType, index, target } } });
                             $("contextMenu")?.remove();
@@ -666,7 +626,8 @@ var ui = [instructions, {
             }));
         }
     }))
-}
+},
+characterDesigner
 ].concat(shlichusUI);
 
 if (navigator.userAgent.includes("Mobile")) {

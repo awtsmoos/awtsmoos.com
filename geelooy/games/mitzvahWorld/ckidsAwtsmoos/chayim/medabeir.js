@@ -435,12 +435,30 @@ export default class Medabeir extends Chai {
        
         if (!chosenResponse) return;
        
+        // B"H: Store Logic
+        if (chosenResponse.type === "store" || chosenResponse.action === "openStore") {
+            // For now, simulate a store by adding generic items to the player's inventory
+            if (me.olam && me.olam.player && me.olam.player.inventory) {
+                // Add some items
+                const itemsToAdd = [
+                    { id: 'brick_1x1x1', className: 'Brick', name: 'Bought Brick', quantity: 10 },
+                    { id: 'wheat', className: 'Wheat', name: 'Fresh Wheat', quantity: 5 }
+                ];
+                
+                itemsToAdd.forEach(item => me.olam.player.inventory.addItem(item, item.quantity));
+                
+                me.ayshPeula("close dialogue", "Thank you for your purchase! (Items added to inventory)");
+            }
+            this.state = "idle";
+            return;
+        }
+
         if (chosenResponse.nextMessageIndex !== undefined) {
             this.currentMessageIndex = chosenResponse.nextMessageIndex;
             this.currentSelectedMsgIndex = 0; // Resetting the selected message index to 0 for each new message, resolving the incrementing issue.
         }
         
-        if (chosenResponse.action) {
+        if (chosenResponse.action && typeof chosenResponse.action === 'function') {
             var keepGoing = await chosenResponse.action(this, this.nivraTalkingTo);
             if(!keepGoing)
                 this.state = "idle";

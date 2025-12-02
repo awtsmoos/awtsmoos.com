@@ -27,11 +27,7 @@ class Collection {
             const valData = serializeValue(value, false);
             const dataPtr = await this.allocator.allocate(valData.data.length);
             
-            // console.log(`[Collection] Allocated Data Ptr: Block ${dataPtr.blockId}, Offset ${dataPtr.offset}`);
-
             if (dataPtr.isChain) {
-                 // Chain logic: We own the whole blocks (Overflow), so direct write is safe.
-                 // Need to implement chain writing similar to BTree
                  let remaining = valData.data;
                  let currentBlock = dataPtr.blockId;
                  while(remaining.length > 0) {
@@ -45,15 +41,13 @@ class Collection {
                      currentBlock++;
                  }
             } else {
-                // Shared Block: Must use safe write
                 await this.allocator.writeUserSpace(dataPtr, valData.data);
-                
-                // console.log(`[Collection] Write Verified.`);
             }
     
             let page;
             if (this.tailPageId === 0) {
-                const newPagePtr = await this.allocator.allocatePage();
+                // B"H: Allocate dedicated COLLECTION_PAGE
+                const newPagePtr = await this.allocator.allocatePage(constants.BLOCK_TYPE.COLLECTION_PAGE);
                 this.headPageId = newPagePtr.blockId;
                 this.tailPageId = newPagePtr.blockId;
                 page = new Page(this.tailPageId, this.allocator);
@@ -64,7 +58,7 @@ class Collection {
     
             const added = page.add(key, valData.type, dataPtr);
             if (!added) {
-                const newPagePtr = await this.allocator.allocatePage();
+                const newPagePtr = await this.allocator.allocatePage(constants.BLOCK_TYPE.COLLECTION_PAGE);
                 page.nextPageId = newPagePtr.blockId;
                 await page.save(); 
                 

@@ -12,6 +12,8 @@ import inGameMenu from "./inGameMenu.js";
 import instructions from "./instructions.js"
 import shlichus from "./shlichus.js"
 import actionBars from "./actionBars.js"
+import characterDesignerStyle from "./characterDesignerStyle.js";
+
 export default /*css*/`
     /*B"H*/
     ${inventory}
@@ -30,4 +32,6 @@ export default /*css*/`
     ${shlichus}
 
     ${actionBars}
+    
+    ${characterDesignerStyle}
 `;

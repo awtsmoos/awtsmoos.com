@@ -97,6 +97,13 @@ async function go() {
 	            me.olam.player.inventory.unequipItem(slotName);
 	        }
 	    },
+        
+        async addItem(itemData) {
+            if (me.olam && me.olam.player && me.olam.player.inventory) {
+                console.log("Adding item to inventory via worker:", itemData);
+                me.olam.player.inventory.addItem(itemData, itemData.quantity || 1);
+            }
+        },
     
     
     

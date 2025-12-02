@@ -609,6 +609,16 @@ export default class Chossid extends Medabeir {
         description: 'Use this to retrieve sparks (blocks) from the world.',
         icon: '/games/mitzvahWorld/icons/items/hammer.svg' // You'll need an icon eventually
     }, 1);
+    
+    // B"H: Add the Neshama Maker Tool
+    this.inventory.addItem({
+        id: 'neshama_maker',
+        className: 'CharacterMaker',
+        name: 'Neshama Maker',
+        description: 'Design and create new souls to populate the world.',
+        icon: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48Y2lyY2xlIGN4PSIyNTYiIGN5PSIyNTYiIHI9IjIwMCIgZmlsbD0iIzRmNDRmNCIgc3Ryb2tlPSIjMDAwIiBzdHJva2Utd2lkdGg9IjIwIi8+PHBhdGggZD0iTTE1NiAxNTZhMTAwIDEwMCAwIDAgMSAyMDAgMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMDAwIiBzdHJva2Utd2lkdGg9IjIwIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48L3N2Zz4="
+    }, 1);
+
 	       // Add 64 standard 1x1x1 bricks
 	    this.inventory.addItem({
 	        id: 'brick_1x1x1',

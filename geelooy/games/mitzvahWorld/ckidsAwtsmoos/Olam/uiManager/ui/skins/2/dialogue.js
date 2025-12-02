@@ -1,146 +1,156 @@
 /**B"H
- * CSS for dialogue boxes
+ * CSS for dialogue boxes - EXTREME EDITION
  */
 
 import borderShadow from "../../resources/borderShadow.js";
 
-var approachTranslate = `translateX(0);`
 var DIALOGUE_BORDER = 2;
-var APPROACH_BORDER = 5;
+
 export default /*css*/`
     :root {
         --shadowWidth: 1.6px;
+        --neon-blue: #00f3ff;
+        --neon-pink: #bc13fe;
+        --glass-bg: rgba(20, 10, 40, 0.85);
     }
 
-    .dialogue > div:hover {
-        cursor: pointer;
-        background: rgb(36 21 80 / 25%);
-        box-shadow: 3px 3px 0px rgb(243 214 133 / 80%) inset, -3px -3px 0px rgb(241 219 155 / 80%) inset, 0 0 0 2px #ffe8a4;
+    @keyframes dialoguePop {
+        0% { transform: scale(0.8) translateY(20px); opacity: 0; }
+        60% { transform: scale(1.05) translateY(-5px); opacity: 1; }
+        100% { transform: scale(1) translateY(0); opacity: 1; }
+    }
+
+    @keyframes glowPulse {
+        0% { box-shadow: 0 0 5px var(--neon-blue), 0 0 10px var(--neon-blue), inset 0 0 5px var(--neon-pink); }
+        50% { box-shadow: 0 0 20px var(--neon-blue), 0 0 30px var(--neon-pink), inset 0 0 20px var(--neon-pink); }
+        100% { box-shadow: 0 0 5px var(--neon-blue), 0 0 10px var(--neon-blue), inset 0 0 5px var(--neon-pink); }
+    }
+
+    @keyframes textGlitch {
+        0% { text-shadow: 2px 2px 0px #ff00de, -2px -2px 0px #00ffff; }
+        25% { text-shadow: -2px 2px 0px #ff00de, 2px -2px 0px #00ffff; }
+        50% { text-shadow: 2px -2px 0px #ff00de, -2px 2px 0px #00ffff; }
+        75% { text-shadow: -2px -2px 0px #ff00de, 2px 2px 0px #00ffff; }
+        100% { text-shadow: 2px 2px 0px #ff00de, -2px -2px 0px #00ffff; }
     }
 
     .dialogue {
         display: flex;
-        max-width: 600px;
+        max-width: 650px;
         flex-direction: column;
-        z-index:100;
+        z-index: 100;
         justify-content: center;
-        align-items: left;
+        align-items: flex-start;
        
-        border-radius: 12px;
-        background: rgba(36, 21, 80, 0.50);
-        backdrop-filter: blur(4px);
-
-        /*styles for the
-        text of each dialogue*/
-
+        border-radius: 20px;
+        background: var(--glass-bg);
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+        border: 2px solid rgba(255, 255, 255, 0.1);
+        border-top: 2px solid rgba(255, 255, 255, 0.3);
+        border-left: 2px solid rgba(255, 255, 255, 0.3);
         
+        box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+        
+        padding: 25px;
+        gap: 15px;
+
         color: #FFF;
-       
-        font-family: Fredoka One;
-        font-size: 1.6em;
-        max-width: 30%;
-        font-style: normal;
+        font-family: 'Fredoka One', sans-serif;
+        font-size: 1.8em;
         font-weight: 500;
-        line-height: normal;
-        letter-spacing: 0.72px;
+        line-height: 1.4;
+        letter-spacing: 1px;
 
         opacity: 0;
         visibility: hidden;
-        transition: opacity 0.5s, visibility 0.5s;
+        transition: opacity 0.3s, visibility 0.3s, transform 0.3s;
+        
+        transform-origin: bottom center;
+    }
 
-
-        text-shadow: -${
-            DIALOGUE_BORDER
-        }px -${
-            DIALOGUE_BORDER
-        }px 0 #000, ${
-            DIALOGUE_BORDER
-        }px -${
-            DIALOGUE_BORDER
-        }px 0 #000, -${
-            DIALOGUE_BORDER
-        }px ${
-            DIALOGUE_BORDER
-        }px 0 #000, ${
-            DIALOGUE_BORDER
-        }px ${
-            DIALOGUE_BORDER
-        }px 0 #000;
-            
-
+    .dialogue.active {
+        animation: dialoguePop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        animation-fill-mode: forwards;
     }
 
     .dialogue.npc {
-        padding: 16px 12px;
+        border-right: 5px solid var(--neon-pink);
+        background: linear-gradient(135deg, rgba(40, 20, 60, 0.9), rgba(10, 5, 20, 0.95));
     }
 
-    .dialogue.chossid > div{
-        padding: 16px 12px;
-
+    .dialogue.chossid {
+        border-left: 5px solid var(--neon-blue);
+        background: linear-gradient(135deg, rgba(20, 40, 60, 0.9), rgba(5, 10, 30, 0.95));
+        align-items: flex-end;
     }
-    /*For a selected piece
-    of text within a dialogue
-    box*/
+
+    .dialogue > div {
+        background: rgba(255, 255, 255, 0.05);
+        padding: 15px 20px;
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        position: relative;
+        overflow: hidden;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .dialogue.chossid > div:hover {
+        cursor: pointer;
+        background: rgba(255, 255, 255, 0.15);
+        transform: translateX(10px) scale(1.02);
+        box-shadow: 0 0 20px rgba(0, 243, 255, 0.4);
+        border-color: var(--neon-blue);
+        z-index: 1;
+    }
+    
+    .dialogue.chossid > div:active {
+        transform: scale(0.98);
+    }
+
+    /* Selected Response Style */
     .selected {
-       
-        box-shadow: 3px 3px 0px rgba(
-            254, 203, 57, 0.80
-        ) inset, 
-        -3px -3px 0px rgba(
-            254, 203, 57, 0.80
-        ) inset, 
-        0 0 0 2px #FECB39;
-        text-shadow: ${
-            borderShadow(DIALOGUE_BORDER)
-        },
-        0px 0px 6px rgba(254, 203, 57, 0.80);
-       
+        background: linear-gradient(90deg, rgba(254, 203, 57, 0.2), rgba(254, 203, 57, 0.0)) !important;
+        border-left: 5px solid #FECB39 !important;
+        box-shadow: 0 0 25px rgba(254, 203, 57, 0.3);
+        padding-left: 25px !important;
     }
 
-    .selected:first-child {
-        border-radius: 12px 12px 0px 0px;
+    .selected::before {
+        content: "➤";
+        position: absolute;
+        left: 5px;
+        color: #FECB39;
+        animation: pulse 1s infinite;
     }
 
-    .selected:last-child {
-        border-radius: 0px 0px 12px 12px;
+    /* Approach Box */
+    .asApproachNpc {
+        position: absolute;
+        top: 20%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: rgba(0, 0, 0, 0.8);
+        color: var(--neon-blue);
+        border: 2px solid var(--neon-blue);
+        border-radius: 50px;
+        padding: 15px 40px;
+        font-family: 'Fredoka One', cursive;
+        font-size: 1.5em;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        box-shadow: 0 0 20px var(--neon-blue), inset 0 0 20px rgba(0, 243, 255, 0.2);
+        animation: glowPulse 2s infinite alternate;
+        white-space: nowrap;
+        pointer-events: none;
+        z-index: 2000;
     }
 
-
-
-    /*
-        box that happens when u 
-        appraoch it
-    */
-
-        .asApproachNpc {
-            animation: pulse 2s infinite;
-            background-color: #FFE4C4;
-            color: #6B4226;
-            top: 50px;
-            max-width: 50%;
-            left: 10px;
-            border: 2px solid #DAA520;
-            border-radius: 12px;
-            padding: 22px;
-            font-family: 'IM Fell English SC', serif;
-            letter-spacing: 1px;
-            font-size: 1.3em;
-            line-height: 1.5;
-            text-shadow: calc(-1* 5) calc(-1* 5) 0 #000, 5 calc(-1* 5) 0 #000, calc(-1* 5) 5 0 #000, 5 5 0 #000;
-            z-index: 1000;
-            transform-origin: left;
-        }
-
-   
-      @keyframes pulse {
-        0% {
-          transform: scale(1) ${approachTranslate};
-        }
-        50% {
-          transform: scale(1.1) ${approachTranslate};
-        }
-        100% {
-          transform: scale(1) ${approachTranslate};
-        }
-      }
+    @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.2); }
+        100% { transform: scale(1); }
+    }
 `;

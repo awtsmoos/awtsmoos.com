@@ -16,8 +16,9 @@ module.exports = {
     
     BLOCK_TYPE: {
         FREE: 0,
-        PAGE: 1,
-        OVERFLOW: 2
+        PAGE: 1, // Slab for small allocations (BTree nodes, etc)
+        OVERFLOW: 2,
+        COLLECTION_PAGE: 3 // Dedicated Page for Collection Keys (Exclusive access)
     },
     
     VAL_TYPE: {

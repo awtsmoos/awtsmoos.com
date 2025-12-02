@@ -34,6 +34,10 @@ export {default as Dialogue} from
 
 export {default as ShlichusActions} from 
     "../tochen/helpers/shlichusActions.js";
+
+export {default as CharacterMaker} from "./dvarim/characterMaker.js";
+export {default as CustomNpc} from "./dvarim/customNpc.js";
+
 //export {default as Pawnim} from "../ckidsAwtsmoos/hawmshawchos/Pawnim/index.js"
 export class ok{
 

@@ -8,7 +8,10 @@ class Allocator {
         this.cursor = 2; 
         this.lastFreeHint = 2; 
         this.mutex = Promise.resolve();
-        this.semaphore = new (require('./concurrency.js'))(100);
+        // B"H: CRITICAL FIX - Concurrency must be 1.
+        // Parallel Read-Modify-Write on allocation bitmaps leads to race conditions
+        // where two requesters claim the same slot.
+        this.semaphore = new (require('./concurrency.js'))(1);
     }
 
     log(msg) { console.log(`[Allocator] ${msg}`); }
@@ -31,10 +34,6 @@ class Allocator {
         return this.mutex;
     }
 
-    /**
-     * Safely writes user data to a block without corrupting the allocation bitmap.
-     * Use this for ANY write to a block that might be shared (non-chain, small allocations).
-     */
     writeUserSpace(ptr, data) {
         if (ptr.isChain) {
              throw new Error("B\"H: writeUserSpace only supports single-block shared writes.");
@@ -46,6 +45,11 @@ class Allocator {
                 const block = await this.pager.readBlock(ptr.blockId);
                 if (!block) throw new Error(`Block ${ptr.blockId} missing during write`);
                 
+                // B"H: Verify we are writing to the correct place
+                if (ptr.offset + data.length > constants.BLOCK_SIZE) {
+                    throw new Error(`Write overflow in writeUserSpace. Block ${ptr.blockId}, Offset ${ptr.offset}, Len ${data.length}`);
+                }
+
                 data.copy(block, ptr.offset);
                 
                 await this.pager.writeBlock(ptr.blockId, block);
@@ -57,26 +61,25 @@ class Allocator {
         return this.mutex;
     }
 
-    async allocatePage() {
+    async allocatePage(type = constants.BLOCK_TYPE.PAGE) {
         const task = async () => {
             await this.semaphore.acquire();
             try {
-                this.log(`Page Alloc -> Reserving Block ID`);
+                this.log(`Page Alloc -> Reserving Block ID for Type ${type}`);
                 let searchPtr = Math.max(this.cursor, this.lastFreeHint);
                 if (searchPtr < 2) searchPtr = 2;
                 while (true) {
-                    const type = await this.pager.readBlockType(searchPtr);
-                    if (type === null || type === constants.BLOCK_TYPE.FREE || type === 0) {
+                    const existingType = await this.pager.readBlockType(searchPtr);
+                    if (existingType === null || existingType === constants.BLOCK_TYPE.FREE || existingType === 0) {
                         this.log(`Page Alloc -> Reserved ID ${searchPtr}`);
                         this.cursor = searchPtr + 1;
                         this.lastFreeHint = searchPtr + 1;
-                        // Format it immediately to reserve it
-                        const block = this.formatBlock(constants.BLOCK_TYPE.PAGE);
+                        // Format it immediately to reserve it with the specific TYPE
+                        const block = this.formatBlock(type);
                         await this.pager.writeBlock(searchPtr, block);
                         return { blockId: searchPtr, offset: 0, length: constants.BLOCK_SIZE, isChain: false };
                     }
                     searchPtr++;
-                    // Safety break
                     if (searchPtr > 1000000) throw new Error("Disk Full or Allocator Loop");
                 }
             } finally {
@@ -97,13 +100,13 @@ class Allocator {
     async allocateSmall(unitsNeeded, sizeBytes) {
         let searchPtr = Math.max(this.cursor, this.lastFreeHint);
         if (searchPtr < 2) searchPtr = 2;
-        const startPtr = searchPtr;
         let looped = false;
 
         while (true) {
             const type = await this.pager.readBlockType(searchPtr);
             
             if (type === null) {
+                // End of file found, create new PAGE (Slab)
                 this.log(`Small Alloc -> New Block ${searchPtr}`);
                 const block = this.formatBlock(constants.BLOCK_TYPE.PAGE);
                 
@@ -121,14 +124,21 @@ class Allocator {
                     return { blockId: searchPtr, offset: startUnit * constants.UNIT_SIZE, length: sizeBytes }; 
                 }
             } else if (type === constants.BLOCK_TYPE.FREE || type === constants.BLOCK_TYPE.PAGE) {
+                // Only allocate small items in PAGE blocks (Type 1).
+                // DO NOT touch COLLECTION_PAGE (Type 3) blocks.
                 const block = await this.pager.readBlock(searchPtr);
                 if (block) {
+                    // Safety: If converting FREE to PAGE, ensure Header is protected
+                    if (type === constants.BLOCK_TYPE.FREE) {
+                         block.writeUInt32BE(constants.BLOCK_TYPE.PAGE, 0);
+                         block[constants.BITMAP_OFFSET] |= 0x80; // Mark Unit 0 (Header) as used
+                    }
+
                     const bitmap = block.subarray(constants.BITMAP_OFFSET, constants.BITMAP_OFFSET + constants.BITMAP_SIZE);
                     const startUnit = this.findGap(bitmap, unitsNeeded);
         
                     if (startUnit > 0) {
                         this.markBitmap(bitmap, startUnit, unitsNeeded, true);
-                        if (type === constants.BLOCK_TYPE.FREE) block.writeUInt32BE(constants.BLOCK_TYPE.PAGE, 0);
                         
                         const startByte = startUnit * constants.UNIT_SIZE;
                         const endByte = startByte + (unitsNeeded * constants.UNIT_SIZE);
@@ -140,6 +150,7 @@ class Allocator {
                     }
                 }
             }
+            // Skip OVERFLOW and COLLECTION_PAGE
             searchPtr++;
             if (searchPtr > 1000000) { 
                 if (looped) throw new Error("Disk Full");
@@ -202,7 +213,7 @@ class Allocator {
     formatBlock(type) {
         const buf = Buffer.alloc(constants.BLOCK_SIZE);
         buf.writeUInt32BE(type, 0);
-        buf[constants.BITMAP_OFFSET] = 0x80; 
+        buf[constants.BITMAP_OFFSET] = 0x80; // Reserve Unit 0 for Header
         return buf;
     }
 
