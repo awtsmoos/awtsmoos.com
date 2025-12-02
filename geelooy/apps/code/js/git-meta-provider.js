@@ -41,7 +41,7 @@ async getGitInfoForFolder(folderItem) {
         const objectStartIndex = textContent.indexOf('{');
         const objectEndIndex = textContent.lastIndexOf('}');
         if (objectStartIndex === -1 || objectEndIndex === -1 || objectEndIndex < objectStartIndex) {
-            console.warn("Found ikar.js but it was malformed.", { folderItem, content });
+          //  console.warn("Found ikar.js but it was malformed.", { folderItem, content });
             return null;
         }
         const jsonText = textContent.slice(objectStartIndex, objectEndIndex + 1);

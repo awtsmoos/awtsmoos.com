@@ -2,7 +2,6 @@
 // FILE: /Remember/awtsmoos/com/geelooy/os/programs/advanced-code-editor/index.js
 
 export default ({ os, system, fileName, content, path }) => {
-	var self ={};
     const container = document.createElement('div');
     container.style.cssText = `width: 100%; height: 100%; overflow: hidden;`;
 
@@ -11,27 +10,28 @@ export default ({ os, system, fileName, content, path }) => {
     iframe.style.cssText = `width: 100%; height: 100%; border: none;`;
     container.appendChild(iframe);
 
-    // --- PostMessage Communication ---
-    
-   
-    iframe.onload = () => {
-        // --- DEFINE THE CUSTOM MENU CONFIGURATION ---
+    // Track if we have sent the initial configuration
+    let initialLoadSent = false;
+
+    // Function to send configuration and content once editor is ready
+    const sendInitialLoad = () => {
+        if (initialLoadSent) return;
+        
+        // 1. Send Menu Config
         const awtsmoosMenuConfig = {
-            title: 'Awtsmoos', // The name that appears on the menu bar
+            title: 'Awtsmoos',
             items: [
                 { label: 'Run', action: 'run-js', icon: 'play' },
                 { label: 'Open in New Tab', action: 'open-public-url', icon: 'external-link' },
                 { label: 'Copy Public URL', action: 'copy-public-url', icon: 'link' }
             ]
         };
-
-        // Send the configuration to the editor. The editor will build the UI.
         iframe.contentWindow.postMessage({
             type: 'registerMenus',
-            payload: [awtsmoosMenuConfig] // Send as an array to support multiple menus in the future
+            payload: [awtsmoosMenuConfig]
         }, '*');
 
-        // --- The existing file-loading logic remains the same ---
+        // 2. Send Content (File or Folder)
         if (typeof content === 'string') {
             iframe.contentWindow.postMessage({
                 type: 'loadFile',
@@ -43,21 +43,16 @@ export default ({ os, system, fileName, content, path }) => {
                 payload: { folderName: content.osFolderName, folderPath: content.osPath }
             }, '*');
         }
+        
+        initialLoadSent = true;
     };
-    
-    // In advanced-code-editor/index.js, replace the entire handleMessageFromEditor function
-    
+
     const handleMessageFromEditor = async (event) => {
-        // Ensure the message is from our iframe
         if (event.source !== iframe.contentWindow) return;
         
         const { type, payload, requestId } = event.data;
         
-       // console.log("OS got request from:", { requestId, payload, type });
-    
-        // Helper to send responses back to the iframe
         const respond = (responsePayload, type='osResponse') => {
-       // console.log("OS sending response to editor:", { requestId, payload: responsePayload });
             iframe.contentWindow.postMessage({ type, requestId, payload: responsePayload }, '*');
         };
         
@@ -67,18 +62,18 @@ export default ({ os, system, fileName, content, path }) => {
     
         try {
             switch (type) {
-    
+                // B"H - HANDSHAKE LISTENER
+                case 'editorReady':
+                    sendInitialLoad();
+                    break;
+
                 // --- FILE SYSTEM PROVIDER REQUESTS ---
-	    
                 case 'requestFolderList':
-                // Map the object array to just names for the internal editor logic
-                const rawItems = await os.db.getAllKeys(payload.path);
-                
-                // Convert [{name: "file.js", ...}] -> ["file.js"]
-                const items = rawItems.map(item => item.name || item);
-                
-                respond({ items });
-                break;
+                    const rawItems = await os.db.getAllKeys(payload.path);
+                    // Extract just names to ensure compatibility
+                    const items = rawItems.map(item => (typeof item === 'string' ? item : item.name));
+                    respond({ items });
+                    break;
     
                 case 'requestFileContent':
                     const fileContent = await os.db.Laynin(payload.path, payload.fileName);
@@ -110,15 +105,13 @@ export default ({ os, system, fileName, content, path }) => {
                     respond({ success: true });
                     break;
     
-                // --- OTHER EDITOR-OS COMMUNICATION ---
-    
+                // --- OTHER ACTIONS ---
                 case 'customAction':
                     const { action, context } = payload;
                     switch (action) {
                         case 'run-js':
                             iframe.contentWindow.postMessage({ type: 'requestContent' }, '*');
                             break;
-                        
                         case 'open-public-url':
                         case 'copy-public-url':
                             if (!window.curAlias) {
@@ -126,7 +119,6 @@ export default ({ os, system, fileName, content, path }) => {
                                 break;
                             }
                             const { osPath, osFileName } = context;
-                           console.log(context)
                             const fullPath = `${osPath}/${osFileName}`;
                             const publicUrl = `${location.origin}/api/social/aliases/${curAlias}/fileSystem/readFile?${new URLSearchParams({ path: fullPath })}`;
     
@@ -154,12 +146,12 @@ export default ({ os, system, fileName, content, path }) => {
                     break;
                     
                 case "saveFile":
-	                self.content = () => payload.content;
-	                var fileName = payload.saveContext.osFileName;
-	                self.fileName = () => fileName;
-	                
-	                system?.save(self);
-	                respond({saved: fileName}, "saveSuccess");
+                    await os.createFile({
+                        path: payload.saveContext.osPath,
+                        title: payload.saveContext.osFileName,
+                        content: payload.content
+                    });
+	                respond({saved: payload.saveContext.osFileName}, "saveSuccess");
                 break;
             }
         } catch (error) {
@@ -168,7 +160,6 @@ export default ({ os, system, fileName, content, path }) => {
         }
     };
 
-    
     window.addEventListener('message', handleMessageFromEditor);
 
     return {

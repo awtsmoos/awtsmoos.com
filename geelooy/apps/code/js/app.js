@@ -271,6 +271,10 @@ async loadSession() {
 
             UI.hideLoading();
             UI.showToast("Welcome to the Awtsmoos Code Editor", 'success');
+            
+            // B"H - HANDSHAKE SIGNAL
+            // Tell the parent window (OS) that we are ready to receive commands.
+            window.parent.postMessage({ type: 'editorReady' }, '*');
 
         } catch (e) {
             console.error('[INIT_FATAL]', e);
@@ -447,19 +451,38 @@ async loadSession() {
                 return;
             }
             if (type === 'loadFolderAsWorkspace') {
-                const {
-                    folderName,
-                    folderPath
-                } = payload;
+                const { folderName, folderPath } = payload;
+                
+                // 1. Reset State
                 State.workspaces = [];
                 DOM.workspacesContainer.innerHTML = '';
                 State.domItemMap.clear();
+                
+                // 2. Add Workspace
                 const osWorkspace = {
                     name: folderName,
                     type: 'osfolder',
                     path: folderPath
                 };
-                Workspaces.add(osWorkspace, false);
+                
+                // FIX: Pass 'true' to force it to render in the sidebar immediately
+                Workspaces.add(osWorkspace, true);
+                
+                // 3. Auto-Expand the new workspace
+                // We find the DOM element we just created and programmatically click it
+                const wsId = State.workspaces[State.workspaces.length - 1].id;
+                // Construct the root item to match how Workspaces.renderWorkspace creates it
+                const rootItem = { ...osWorkspace, id: wsId, kind: 'directory', path: '/' };
+                const uniquePath = getItemUniquePath(rootItem);
+                
+                setTimeout(() => {
+                    const entry = State.domItemMap.get(uniquePath);
+                    if (entry && entry.el) {
+                        const titleEl = entry.el.querySelector('.workspace-header-title');
+                        if (titleEl) titleEl.click(); // Triggers expansion and FS list
+                    }
+                }, 100);
+
                 return;
             }
             if (type === 'registerMenus') {

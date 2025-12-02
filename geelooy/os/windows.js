@@ -7,27 +7,42 @@ export default class ResizableWindow {
     constructor({
         title, 
         content,
-        handler
+        handler,
+        hideTitleBar = false,
+        isFullscreen = false,
+        programId = null
     }={}) {
         this.title = title;
         this.content = content;
         this.minWidth = 100;
         this.minHeight = 100;
         this.handler = handler;
+        
+        this.hideTitleBar = hideTitleBar;
+        this.startFullscreen = isFullscreen;
+
         if(!window.awtsmoosWindowID) {
             window.awtsmoosWindowID = "BH-"+Date.now();
         }
         
-        
-        this.programId = title.endsWith('.folder')
-	        ? 'awtsmoosFileExplorer' : title; 
+        this.programId = programId || (title.endsWith('.folder') ? 'awtsmoosFileExplorer' : title);
 	        
-	this.lastDimensions = {}; // To store state before minimizing
+        this.lastDimensions = {}; // To store state before minimizing
         this.mainDiv = window.desktop;
         this.ID = window.awtsmoosWindowID;
+        
         this.createWindow();
-        this.addResizeHandles();
-        this.makeDraggable();
+        
+        if(this.startFullscreen) {
+            this.toggleFullscreen();
+        }
+
+        // Only add UI handles if it's a standard window
+        if (!this.hideTitleBar) {
+            this.addResizeHandles();
+            this.makeDraggable();
+        }
+        
         this.makeActive();
     }
 
@@ -94,32 +109,31 @@ restore() {
     toggleFullscreen() {
         
         if(!this.isFullscreened) {
-            this.oldDim =  Object.assign({},getComputedStyle(this.win));
+            // Save old dimensions if we have them
+            if (this.win.style.width) {
+                this.oldDim = Object.assign({}, getComputedStyle(this.win));
+            } else {
+                this.oldDim = { width: '500px', height: '500px', left: '100px', top: '100px' };
+            }
             
-            (window.k=this.oldDim)
-            //fullscreen the window
+            // Fullscreen the window
             this.win.style.left = 0;
-            
             this.win.style.top = 0;
+            this.win.style.width="100%";
+            // If title bar hidden, take full height. Else leave room for taskbar if desired
+            this.win.style.height = "100%"; 
             
-            this.win.style.width="100%"
-            
-            this.win.style.height="100%";
             this.isFullscreened = true;
-            this.oldFlsBtnH = this.fullScreenBtn.innerHTML;
-            this.fullScreenBtn.innerHTML = "o";
+            if(this.fullScreenBtn) this.fullScreenBtn.innerHTML = "o";
         } else {
             var {width, height, left, top} = this.oldDim;
             this.win.style.left = left;
-            
             this.win.style.top = top;
-            
-            this.win.style.width=width
-            
+            this.win.style.width=width;
             this.win.style.height=height;
             
             this.isFullscreened = false;
-            this.fullScreenBtn.innerHTML = this.oldFlsBtnH;
+            if(this.fullScreenBtn) this.fullScreenBtn.innerHTML = this.oldFlsBtnH;
         }
     }
 
@@ -186,9 +200,15 @@ restore() {
         });
         this.win.appendChild(header);
 
+        // HIDE HEADER IF REQUESTED
+        if (this.hideTitleBar) {
+            header.style.display = 'none';
+        }
+
         this.minWidth = this.winHeader.scrollWidth;
         this.minHeight = this.winHeader.scrollHeight;
         this.maxHeight = "500px";
+        
         // Create window body (content area)
         const body = document.createElement('div');
         body.className = 'window-content';
@@ -207,6 +227,11 @@ restore() {
 	        }
         }
         
+        // Adjust body height if header is hidden
+        if (this.hideTitleBar) {
+            body.style.height = "100%";
+        }
+
         this.win.appendChild(body);
         this.win.style.height = "500px";
         this.winBody.style.minWidth = `${this.minWidth}px`; // Set minimum width
@@ -324,6 +349,8 @@ restore() {
         // Make the window draggable by attaching events to the title bar, with mobile touch support
     makeDraggable() {
         const header = this.win.querySelector('.window-header');
+        if (!header) return; // Safety check
+        
         let offsetX, offsetY, rect;
 
         const onDragStart = (e) => {

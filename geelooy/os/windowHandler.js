@@ -80,46 +80,59 @@ onrestore(window) {
 
 
     
-    // In windowHandler.js, replace the entire addWindow method
-addWindow({title, content, path, os, programName = null, extension = null}) {
-    var ext = extension || this.getExtension(title);
-    var program;
-    if (programName && programs[programName]) {
-	program = programs[programName].launch;
-	} else {
-	program = getDefaultProgram(ext);
-	}
-    
-    if(program) {
-        var system = new System({path, os})
-        var programInstance = program({
-            os:system.os,
-            path,
-            title,
-            fileName: title, 
-            content, 
-            system,
-            extension:ext
-        })
-        content = programInstance?.div;
+    // In WindowHandler class
+
+    // REPLACEMENT for addWindow
+    addWindow(options) {
+        // Destructure what we need for logic, but keep 'options' available
+        const { title, content, path, os, programName = null, extension = null } = options;
+        
+        var ext = extension || this.getExtension(title || "");
+        var program;
+        
+        if (programName && programs[programName]) {
+            program = programs[programName].launch;
+        } else {
+            program = getDefaultProgram(ext);
+        }
+        
+        var finalContent = content;
+        var programInstance = null;
+
+        if(program) {
+            var system = new System({path, os})
+            programInstance = program({
+                os: system.os,
+                path,
+                title,
+                fileName: title, 
+                content, 
+                system,
+                extension: ext
+            })
+            finalContent = programInstance?.div || content;
+        }
+        
+        var wind = new ResizableWindow({
+            title, 
+            content: finalContent,
+            handler: this,
+            programId: programName || defaultPrograms[ext] || 'awtsmoosBinaryViewer',
+            
+            // PASS THROUGH NEW OPTIONS
+            hideTitleBar: options.hideTitleBar,
+            isFullscreen: options.isFullscreen
+        });
+        
+        wind.programInstance = programInstance;
+        
+        wind.onresize = e => {
+            programInstance?.onresize?.(e)
+        }
+        
+        programInstance?.init?.();
+        this.windows.push(wind);
     }
-    
-    var wind = new ResizableWindow({
-        title, content,
-        handler: this,
-        // THE FIX IS HERE: Use the correct 'defaultPrograms' variable
-        programId: programName || defaultPrograms[ext] || 'awtsmoosBinaryViewer'
-    });
-    
-    wind.programInstance = programInstance;
-    
-    wind.onresize = e => {
-        programInstance?.onresize?.(e)
-    }
-    
-    programInstance?.init?.();
-    this.windows.push(wind);
-}
 
     onactive(w)  {
        // console.log("ACTIVATING",w)

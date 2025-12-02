@@ -809,98 +809,78 @@ async getFullTree({ repoInfo, branch }) {
 	    async create(parentDir, name, kind) { throw new Error('File creation is not supported in embedded mode.'); },
 	    async delete(item) { throw new Error('File deletion is not supported in embedded mode.'); }
 	},
-
+	
+	
 	
 	OSFolder: {
-	    // Helper function to send a request and wait for a response
-	    _requestFromOS(type, payload) {
-	        return new Promise((resolve, reject) => {
-	            const requestId = State.postMessageRequestId++;
-	            State.postMessagePendingRequests.set(requestId, { resolve, reject });
-	            
-	            window.parent.postMessage({ type, payload, requestId }, '*');
-	            
-	            setTimeout(() => {
-	                if (State.postMessagePendingRequests.has(requestId)) {
-	                    State.postMessagePendingRequests.delete(requestId);
-	                    reject(new Error(`Request timed out: ${type}`));
-	                }
-	            }, 10000);
-	        });
-	    },
-	    
-	    // --- THIS IS THE CORRECTED FUNCTION ---
-	    async list(item) {
-	        // Step 1: Find the corresponding workspace in the state using the workspaceId.
-	        const workspace = State.workspaces.find(ws => ws.id === item.workspaceId);
+        _requestFromOS(type, payload) {
+            return new Promise((resolve, reject) => {
+                const requestId = State.postMessageRequestId++;
+                State.postMessagePendingRequests.set(requestId, { resolve, reject });
+                window.parent.postMessage({ type, payload, requestId }, '*');
+                setTimeout(() => {
+                    if (State.postMessagePendingRequests.has(requestId)) {
+                        State.postMessagePendingRequests.delete(requestId);
+                        reject(new Error(`Request timed out: ${type}`));
+                    }
+                }, 10000);
+            });
+        },
+        
+        async list(item) {
+            const workspace = State.workspaces.find(ws => ws.id === item.workspaceId);
+            if (!workspace || workspace.type !== 'osfolder') throw new Error("Could not find OS folder workspace.");
+    
+            const basePath = workspace.path;
+            const pathForOSRequest = item.path === '/' ? basePath : `${basePath}${item.path}`;
+    
+            const response = await this._requestFromOS('requestFolderList', { path: pathForOSRequest });
+     
+            return response.items.map(itemName => {
+                // Determine if it's a folder based on extension
+                const isDir = itemName.endsWith('.folder');
+                
+                return {
+                    name: itemName, // Keep original name for logic
+                    kind: isDir ? 'directory' : 'file',
+                    // Path MUST correspond to structure expected by OS
+                    path: item.path === '/' ? `/${itemName}` : `${item.path}/${itemName}`
+                };
+            });
+        },
+    
+        async read(item) {
+            const workspace = State.workspaces.find(ws => ws.id === item.workspaceId);
+            const fullOSPath = `${workspace.path}${item.path}`;
+            const parentPath = fullOSPath.substring(0, fullOSPath.lastIndexOf('/'));
+            const fileName = fullOSPath.substring(fullOSPath.lastIndexOf('/') + 1);
+
+            const response = await this._requestFromOS('requestFileContent', { path: parentPath, fileName: fileName });
+            return response.content;
+        },
+        
+        async write(item, content) {
+            const workspace = State.workspaces.find(ws => ws.id === item.workspaceId);
+            const fullOSPath = `${workspace.path}${item.path}`;
+            await this._requestFromOS('requestFileWrite', { fullPath: fullOSPath, content: content });
+        },
+    
+        async create(parentDir, name, kind) {
+            const workspace = State.workspaces.find(ws => ws.id === parentDir.workspaceId);
+            const parentOSPath = parentDir.path === '/' ? workspace.path : `${workspace.path}${parentDir.path}`;
+            const finalName = kind === 'directory' && !name.endsWith('.folder') ? `${name}.folder` : name;
+
+            await this._requestFromOS('requestItemCreate', { parentPath: parentOSPath, name: finalName, kind: kind });
+        },
+        
+        async delete(item) {
+            const workspace = State.workspaces.find(ws => ws.id === item.workspaceId);
+            const fullOSPath = `${workspace.path}${item.path}`;
+            await this._requestFromOS('requestItemDelete', { fullPath: fullOSPath, kind: item.kind });
+        }
+    },
+
 	
-	        // Safety check: If we can't find the workspace, we can't proceed.
-	        if (!workspace || workspace.type !== 'osfolder') {
-	            console.error("OSFolder provider could not find a valid workspace for item:", item);
-	            throw new Error("Could not find OS folder workspace.");
-	        }
-	
-	        // Step 2: Get the REAL base path from the workspace object.
-	        // This is the crucial link, e.g., "desktop.folder/add from new chabad library.folder"
-	        const basePath = workspace.path;
-	
-	        // Step 3: Translate the editor's path into the OS's absolute path.
-	        // If the editor asks for the root ('/'), we use the basePath.
-	        // If it asks for a sub-path like '/folderA', we append it to the basePath.
-	        const pathForOSRequest = basePath + (item.path === '/' ? '' : item.path);
-	
-	        // Step 4: Make the request to the OS using the true, fully-qualified path.
-	        const response = await this._requestFromOS('requestFolderList', { path: pathForOSRequest });
-	 
-		var kind = name => name.endsWith('.folder') ? 'directory' : 'file';
-		
-		var realName = name => kind(name) == "directory" ?
-			name.substring(
-				0,
-				name.indexOf(".folder")
-			) : name;
-		if(kind == "directory") {
-			realName  = name.substring(0, f);
-		}
-	        // Step 5: Map the response. For each child item the OS returns,
-	        // we construct its full path so the editor can work with it for subsequent actions.
-	        return response.items.map(name => ({
-	            name: realName(name),
-	            kind:kind(name),
-	            // The path for the child is its parent's full path plus its own name.
-	            path: `${pathForOSRequest}/${realName(name)}`
-	        }));
-	    },
-	
-	    async read(item) {
-	        const parentPath = item.path.substring(0, item.path.lastIndexOf('/'));
-	        const response = await this._requestFromOS('requestFileContent', { path: parentPath, fileName: item.name });
-	        return response.content;
-	    },
-	    
-	    async write(item, content) {
-	   
-	        await this._requestFromOS('requestFileWrite', {
-	            fullPath: item.path,
-	            content: content
-	        });
-	    },
-	
-	    async create(parentDir, name, kind) {
-	        await this._requestFromOS('requestItemCreate', {
-	            parentPath: parentDir.path,
-	            name: name,
-	            kind: kind
-	        });
-	    },
-	    
-	    async delete(item) {
-	         await this._requestFromOS('requestItemDelete', {
-	            fullPath: item.path,
-	            kind: item.kind
-	        });
-	    }
-	},
 	
 	
 	SSH: {

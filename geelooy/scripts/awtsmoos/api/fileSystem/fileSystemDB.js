@@ -191,7 +191,8 @@ class APIHandler {
 					method: 'GET', // GET for reading the file
 				});
 			var ct  =response.headers.get("content-type")
-			console.log("H",ct)
+		
+		
 			if(ct.includes("image")) {
 				return response.blob()
 			}

@@ -1,11 +1,7 @@
-// B"H
-// FILE: /Remember/awtsmoos.com/geelooy/os/contextMenuManager.js
-
 /**
  * Creates and displays a context menu for a file or folder.
  */
-
-export async function showContextMenu({ os, event, path, title, isFolder, onRefresh, onEnterSelectionMode }) {
+export async function showContextMenu({ os, event, path, title, isFolder, onRefresh, onOpen, onEnterSelectionMode }) {
     event.preventDefault();
     event.stopPropagation();
 
@@ -15,14 +11,29 @@ export async function showContextMenu({ os, event, path, title, isFolder, onRefr
     const fullPath = path === '/' ? title : `${path}/${title}`;
 
     const actions = {
-        // 1.Select Option (Confirms visual selection)
         Select: () => {
             if (onEnterSelectionMode) onEnterSelectionMode();
         },
         Open: async () => {
-            const content = await os.db.Laynin(path, title);
-            os.addWindow({ title, content, path, os });
-        },
+	        if (isFolder) {
+	            // If we have a specific way to open (like navigating current explorer), use it
+	            if (onOpen) {
+	                onOpen();
+	            } else {
+	                // Otherwise open a new Explorer window
+	                os.addWindow({
+	                    title: title,
+	                    path: fullPath,
+	                    os: os,
+	                    programName: 'awtsmoosFileExplorer'
+	                });
+	            }
+	        } else {
+	            // It is a file, read content and open
+	            const content = await os.db.Laynin(path, title);
+	            os.addWindow({ title, content, path, os });
+	        }
+	    },
     };
     
     // Helper function for creating the public URL
@@ -78,7 +89,6 @@ export async function showContextMenu({ os, event, path, title, isFolder, onRefr
         const newName = prompt(`Rename ${title} to:`, title);
         if (newName && newName !== title) {
             try {
-                // Construct full paths
                 const oldP = path === '/' ? title : `${path}/${title}`;
                 const newP = path === '/' ? newName : `${path}/${newName}`;
                 
@@ -154,11 +164,6 @@ export async function showContextMenu({ os, event, path, title, isFolder, onRefr
 }
 
 /**
-/**
- * Creates and displays a generic context menu from a map of actions.
- * Used for background clicks (Paste).
- */
-/**
  * Creates and displays a generic context menu from a map of actions.
  * Used for background clicks (Paste).
  */
@@ -173,7 +178,7 @@ export function showGenericContextMenu({ event, menuItems, os, currentPath, onRe
     if (os && os.clipboard && (os.clipboard.path || os.clipboard.paths) && currentPath) {
         menuItems.set(`Paste (${os.clipboard.action})`, async () => {
             
-            // 3. FIX: Handle multiple sources from 'paths'
+            // Handle multiple sources from 'paths'
             const sources = os.clipboard.paths || [os.clipboard.path];
             let successCount = 0;
             let errors = [];
@@ -228,7 +233,9 @@ export function showGenericContextMenu({ event, menuItems, os, currentPath, onRe
     });
     
     const separator = document.createElement("div");
-	separator.style.cssText = "height:1px; background:rgba(255,255,255,0.3); margin:5px 0;";
+	separator.style.height = "1px";
+	separator.style.backgroundColor = "rgba(255, 255, 255, 0.3)";
+	separator.style.margin = "5px 0";
 	menu.appendChild(separator);
 	
 	const cancelItem = document.createElement("div");

@@ -21,31 +21,39 @@ export default ({
 } = {}) => {
     
     // --- State and Variables ---
-   
+   const state = {
+    // This now correctly uses the full path passed by the OS.
+    currentPath: path || '/',
+
+    viewMode: 'icons',
+    sort: { by: 'name', order: 'asc' },
+    // Default widths for Name, Date, Type
+    columnWidths: ['2fr', '1fr', '1fr'],
+    selectionMode: false // Track selection mode
+};
 
     let body, sidebar, pathBreadcrumbs, pathInputContainer;
     let buildNode;
-    
-      const state = {
-    currentPath: path || '/',
-    viewMode: 'icons',
-    sort: { by: 'name', order: 'asc' },
-    columnWidths: ['2fr', '1fr', '1fr'],
-    selectionMode: false 
-};
-
 
     // --- SELECTION MODE HELPERS ---
 
-    // FIX: Async to wait for render, and takes initialPath to select the item that was right-clicked
+    // Async to wait for render, and takes initialPath to select the item that was right-clicked
+    // REPLACEMENT for enterSelectionMode
     async function enterSelectionMode(initialPath = null) {
         state.selectionMode = true;
         
-        // Wait for the re-render to finish so the DOM nodes exist
+        // 1. Capture current scroll position
+        const scrollPos = body.scrollTop;
+        
+        // 2. Re-render the view (which wipes the DOM)
         await renderFiles(state.currentPath, body); 
         
-        // Now find and select the specific item
+        // 3. Restore scroll position
+        body.scrollTop = scrollPos;
+        
+        // 4. Re-apply selection to the item that started it
         if (initialPath) {
+            // Find element by the data-path attribute we added
             const el = body.querySelector(`[data-path="${initialPath}"]`);
             if (el) {
                 el.classList.add('selected');
@@ -90,9 +98,7 @@ export default ({
 
         if (action === 'cut') {
             const paths = [];
-            // Use a Set to prevent potential duplicates in the clipboard
             const seen = new Set();
-            
             selectedEls.forEach(el => {
                 const p = el.dataset.path;
                 if (p && !seen.has(p)) {
@@ -101,15 +107,15 @@ export default ({
                 }
             });
 
+            // Store multiple paths in clipboard
             os.clipboard = {
                 action: 'cut',
                 paths: paths,
-                path: paths[0], 
+                path: paths[0], // Fallback
                 name: paths[0].split('/').pop() 
             };
 
-            // FIX: Do NOT call renderFiles() here. 
-            // exitSelectionMode() calls it, preventing the "Duplicate Ghosts" race condition.
+            // exitSelectionMode will trigger a refresh, showing ghosts
             exitSelectionMode();
         } 
         
@@ -126,273 +132,17 @@ export default ({
         }
     }
 
-    function renderIconView(items, targetPath, holder) {
-        if (items.length === 0) {
-            holder.innerHTML = '<div class="empty-folder-state">Folder is empty</div>';
-            return;
-        }
-
-        items.forEach(item => {
-            const itemName = item.name;
-            const isFolder = item.type === 'directory' || itemName.endsWith('.folder');
-            const displayName = itemName;
-            const itemFullPath = targetPath === '/' ? itemName : `${targetPath}/${itemName}`;
-            
-            const itemDiv = createElement({
-                tag: 'div',
-                attributes: { 
-                    class: 'file-item icon',
-                    draggable: 'true',
-                    'data-path': itemFullPath
-                },
-                children: [
-                    { tag: 'div', attributes: { class: getIconClass(itemName, isFolder) } },
-                    { tag: 'span', html: displayName }
-                ],
-                on: {
-                    dragstart: (e) => handleDragStart(e, itemFullPath, itemDiv.classList.contains('selected')),
-                    dragover: isFolder ? handleDragOver : null,
-                    dragleave: isFolder ? handleDragLeave : null,
-                    drop: isFolder ? (e) => handleDrop(e, itemFullPath) : null,
-
-                    click: (e) => {
-                        e.stopPropagation();
-                        
-                        if (state.selectionMode) {
-                            // SELECTION MODE: Toggle selection
-                            itemDiv.classList.toggle('selected');
-                            
-                            // 2. AUTO-CANCEL: If nothing is left selected, exit mode
-                            if (holder.querySelectorAll('.selected').length === 0) {
-                                exitSelectionMode();
-                            }
-                        } else {
-                            // NORMAL MODE: Single Click Opens
-                            handleItemClick(e, { targetPath, item: itemName, isFolder });
-                        }
-                    },
-                    
-                    contextmenu: event => {
-			    if (!state.selectionMode) {
-			        holder.querySelectorAll('.file-item.selected').forEach(el => el.classList.remove('selected'));
-			        itemDiv.classList.add('selected');
-			    }
-			    
-			    showContextMenu({ 
-			        os, 
-			        event, 
-			        path: targetPath, 
-			        title: itemName, 
-			        isFolder, 
-			        onRefresh: () => renderFiles(state.currentPath, body),
-			        onEnterSelectionMode: () => {
-			            // FIX: Pass itemFullPath to the helper so it persists after re-render
-			            enterSelectionMode(itemFullPath);
-			        }
-			    });
-			}
-                }
-            });
-
-            // Multi-Ghost Check (using the paths array)
-            if (os.clipboard && os.clipboard.action === 'cut') {
-                const paths = os.clipboard.paths || [os.clipboard.path];
-                if (paths.includes(itemFullPath)) {
-                    itemDiv.classList.add('cut-ghost');
-                }
-            }
-            
-            holder.appendChild(itemDiv);
-        });
-        
-        holder.onclick = () => {
-            if (!state.selectionMode) {
-                holder.querySelectorAll('.file-item.selected').forEach(el => el.classList.remove('selected'));
-            }
-        };
-    }
-
-    function renderDetailsView(items, targetPath, holder) {
-        holder.style.setProperty('--grid-cols', state.columnWidths.join(' '));
-    
-        const headerCols = [
-            { name: 'Name', key: 'name', index: 0 },
-            { name: 'Date Modified', key: 'date', index: 1 },
-            { name: 'Type', key: 'type', index: 2 }
-        ];
-    
-        const header = createElement({ tag: 'div', attributes: { class: 'details-header' } });
-    
-        headerCols.forEach(col => {
-            const cell = createElement({
-                tag: 'div',
-                attributes: { class: 'header-cell' },
-                children: [
-                    { tag: 'span', html: `${col.name} ${state.sort.by === col.key ? (state.sort.order === 'asc' ? '▲' : '▼') : ''}` }
-                ],
-                on: { click: () => setSort(col.key) }
-            });
-    
-            const resizer = createElement({ tag: 'div', attributes: { class: 'col-resizer' } });
-            
-            const startResize = (e) => {
-                e.stopPropagation(); e.preventDefault();
-                const startX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
-                const startWidth = cell.offsetWidth;
-                document.body.style.cursor = 'col-resize';
-                holder.classList.add('resizing');
-                const onMove = (me) => {
-                    const cx = me.type.includes('touch') ? me.touches[0].clientX : me.clientX;
-                    const nw = Math.max(50, startWidth + (cx - startX));
-                    state.columnWidths[col.index] = `${nw}px`;
-                    holder.style.setProperty('--grid-cols', state.columnWidths.join(' '));
-                };
-                const onStop = () => {
-                    document.body.style.cursor = 'default';
-                    holder.classList.remove('resizing');
-                    document.removeEventListener('mousemove', onMove);
-                    document.removeEventListener('mouseup', onStop);
-                    document.removeEventListener('touchmove', onMove);
-                    document.removeEventListener('touchend', onStop);
-                };
-                document.addEventListener('mousemove', onMove);
-                document.addEventListener('mouseup', onStop);
-                document.addEventListener('touchmove', onMove, { passive: false });
-                document.addEventListener('touchend', onStop);
-            };
-    
-            resizer.addEventListener('mousedown', startResize);
-            resizer.addEventListener('touchstart', startResize, { passive: false });
-            resizer.addEventListener('click', e => e.stopPropagation());
-    
-            cell.appendChild(resizer);
-            header.appendChild(cell);
-        });
-    
-        holder.appendChild(header);
-    
-        if (items.length === 0) {
-            holder.appendChild(createElement({ 
-                tag: 'div', 
-                attributes: { class: 'empty-folder-state' }, 
-                html: 'Folder is empty' 
-            }));
-            return;
-        }
-    
-        items.forEach(item => {
-            const itemName = item.name;
-            const isFolder = item.type === 'directory' || itemName.endsWith('.folder');
-            const displayName = itemName;
-            const itemFullPath = targetPath === '/' ? itemName : `${targetPath}/${itemName}`;
-            
-            let dateStr = "--";
-            if(item.modified) {
-                try { dateStr = new Date(item.modified).toLocaleString(); } catch(e) {}
-            }
-    
-            const type = isFolder ? 'Folder' : (itemName.split('.').pop().toUpperCase() + ' File');
-    
-            const row = createElement({
-                tag: 'div', 
-                attributes: { 
-                    class: 'details-row',
-                    draggable: 'true',
-                    'data-path': itemFullPath
-                },
-                children: [
-                    { 
-                        tag: 'div', 
-                        attributes: { class: 'row-cell name-cell' },
-                        children: [
-                            { tag: 'div', attributes: { class: `small-icon ${getIconClass(itemName, isFolder)}` } },
-                            { tag: 'span', html: displayName }
-                        ]
-                    },
-                    { tag: 'div', html: dateStr, attributes: { class: 'row-cell' } },
-                    { tag: 'div', html: type, attributes: { class: 'row-cell' } }
-                ],
-                on: { 
-                    dragstart: (e) => handleDragStart(e, itemFullPath, row.classList.contains('selected')),
-                    dragover: isFolder ? handleDragOver : null,
-                    dragleave: isFolder ? handleDragLeave : null,
-                    drop: isFolder ? (e) => handleDrop(e, itemFullPath) : null,
-
-                    click: (e) => {
-                        e.stopPropagation();
-                        if (state.selectionMode) {
-                            row.classList.toggle('selected');
-                            // 2. AUTO-CANCEL
-                            if (holder.querySelectorAll('.selected').length === 0) {
-                                exitSelectionMode();
-                            }
-                        } else {
-                            handleItemClick(e, { targetPath, item: itemName, isFolder });
-                        }
-                    },
-                    
-                    
-                    
-			contextmenu: event => {
-			    if (!state.selectionMode) {
-			        holder.querySelectorAll('.details-row.selected').forEach(el => el.classList.remove('selected'));
-			        row.classList.add('selected');
-			    }
-			    showContextMenu({ 
-			        os, 
-			        event, 
-			        path: targetPath, 
-			        title: itemName, 
-			        isFolder, 
-			        onRefresh: () => renderFiles(state.currentPath, body),
-			        onEnterSelectionMode: () => {
-			             // FIX: Pass itemFullPath here too
-			             enterSelectionMode(itemFullPath);
-			        }
-			    });
-			}
-                }
-            });
-
-            // Multi-Ghost Check
-            if (os.clipboard && os.clipboard.action === 'cut') {
-                const paths = os.clipboard.paths || [os.clipboard.path];
-                if (paths.includes(itemFullPath)) {
-                    row.classList.add('cut-ghost');
-                }
-            }
-            
-            holder.appendChild(row);
-        });
-        
-        holder.onclick = (e) => {
-            if (!state.selectionMode && e.target === holder) {
-                holder.querySelectorAll('.details-row.selected').forEach(el => el.classList.remove('selected'));
-            }
-        };
-    }
-
-    
-
-    
-
     // --- Drag and Drop Handlers ---
 
-    /**
-     * Handles the start of a drag operation.
-     * Collects paths of all selected items.
-     */
     const handleDragStart = (e, itemPath, isSelected) => {
         let pathsToMove = [];
 
-        // If the item being dragged is part of the selection, drag all selected items
         if (isSelected) {
             const selectedEls = body.querySelectorAll('.selected');
             selectedEls.forEach(el => {
                 if (el.dataset.path) pathsToMove.push(el.dataset.path);
             });
         } else {
-            // If dragging an unselected item, select it exclusively and drag only it
             body.querySelectorAll('.selected').forEach(el => el.classList.remove('selected'));
             e.target.classList.add('selected');
             pathsToMove = [itemPath];
@@ -400,15 +150,8 @@ export default ({
 
         e.dataTransfer.effectAllowed = 'move';
         e.dataTransfer.setData('application/json', JSON.stringify(pathsToMove));
-        
-        // Optional: Create a custom drag image or use default ghost
-        // e.dataTransfer.setDragImage(img, 0, 0); 
     };
 
-    /**
-     * Allow dropping by preventing default.
-     * Adds visual cue.
-     */
     const handleDragOver = (e) => {
         e.preventDefault();
         e.stopPropagation();
@@ -416,18 +159,12 @@ export default ({
         e.currentTarget.classList.add('drag-over');
     };
 
-    /**
-     * Clean up visual cue.
-     */
     const handleDragLeave = (e) => {
         e.preventDefault();
         e.stopPropagation();
         e.currentTarget.classList.remove('drag-over');
     };
 
-    /**
-     * Handles the drop logic (Move operation).
-     */
     const handleDrop = async (e, targetFolderPath) => {
         e.preventDefault();
         e.stopPropagation();
@@ -442,14 +179,10 @@ export default ({
 
             let movedCount = 0;
             for (const src of sourcePaths) {
-                // Calculate destination
                 const fileName = src.split('/').pop();
                 const dest = targetFolderPath === '/' ? fileName : `${targetFolderPath}/${fileName}`;
-
-                // Prevent moving into self or moving to same location
                 const currentParent = src.substring(0, src.lastIndexOf('/')) || '/';
                 
-                // Only move if destination is different
                 if (src !== dest && currentParent !== targetFolderPath) {
                     await os.db.move(src, dest);
                     movedCount++;
@@ -457,11 +190,7 @@ export default ({
             }
 
             if (movedCount > 0) {
-                // Refresh the current view
                 renderFiles(state.currentPath, body);
-                
-                // If we dropped into a folder in the sidebar, we might want to sync or expand
-                // But generally just refreshing the current view is sufficient visual feedback
             }
         } catch (err) {
             console.error("Drop failed:", err);
@@ -503,7 +232,6 @@ export default ({
             const isFolder = itemObj.type === 'directory' || item.endsWith('.folder') || currentPath === '/';
             const fullPath = currentPath === '/' ? item : `${currentPath}/${item}`;
             
-            // B"H - No replacement, show exact name as requested
             const displayName = item; 
 
             const li = createElement({ tag: 'li', attributes: { 'data-full-path': fullPath, class: 'tree-node' }});
@@ -511,7 +239,6 @@ export default ({
                 tag: 'div', 
                 attributes: { class: 'tree-node-content' },
                 on: {
-                    // Make sidebar folders drop targets
                     dragover: isFolder ? handleDragOver : null,
                     dragleave: isFolder ? handleDragLeave : null,
                     drop: isFolder ? (e) => handleDrop(e, fullPath) : null
@@ -547,7 +274,15 @@ export default ({
                 li.appendChild(contentWrapper);
             }
             
-            contentWrapper.oncontextmenu = event => showContextMenu({ os, event, path: currentPath, title: item, isFolder, onRefresh: () => renderFiles(state.currentPath, body) });
+            contentWrapper.oncontextmenu = event => showContextMenu({ 
+                os, 
+                event, 
+                path: currentPath, 
+                title: item, 
+                isFolder, 
+                onRefresh: () => renderFiles(state.currentPath, body),
+                onOpen: () => performOpenAction(currentPath, item, isFolder)
+            });
             parentUl.appendChild(li);
         }
     };
@@ -555,8 +290,8 @@ export default ({
     // --- Core UI and Event Handling ---
 
     function handleItemClick(event, { targetPath, item, isFolder }) {
-        event.stopPropagation();
-        event.preventDefault();
+        event?.stopPropagation();
+        event?.preventDefault();
         performOpenAction(targetPath, item, isFolder);
     }
     
@@ -614,6 +349,7 @@ export default ({
             items = await os.db.getAllKeys(targetPath);
         }
         
+        // Sorting
         items.sort((a, b) => {
             const aName = a.name || "";
             const bName = b.name || "";
@@ -663,7 +399,229 @@ export default ({
         return 'file-icon';
     }
 
+    function renderIconView(items, targetPath, holder) {
+        if (items.length === 0) {
+            holder.innerHTML = '<div class="empty-folder-state">Folder is empty</div>';
+            return;
+        }
+
+        items.forEach(item => {
+            const itemName = item.name;
+            const isFolder = item.type === 'directory' || itemName.endsWith('.folder');
+            const displayName = itemName; // Full name as requested
+            const itemFullPath = targetPath === '/' ? itemName : `${targetPath}/${itemName}`;
+            
+            const itemDiv = createElement({
+                tag: 'div',
+                attributes: { 
+                    class: 'file-item icon',
+                    draggable: 'true',
+                    'data-path': itemFullPath // Crucial for selection persistence
+                },
+                children: [
+                    { tag: 'div', attributes: { class: getIconClass(itemName, isFolder) } },
+                    { tag: 'span', html: displayName }
+                ],
+                on: {
+                    dragstart: (e) => handleDragStart(e, itemFullPath, itemDiv.classList.contains('selected')),
+                    dragover: isFolder ? handleDragOver : null,
+                    dragleave: isFolder ? handleDragLeave : null,
+                    drop: isFolder ? (e) => handleDrop(e, itemFullPath) : null,
+
+                    click: (e) => {
+                        e.stopPropagation();
+                        if (state.selectionMode) {
+                            itemDiv.classList.toggle('selected');
+                            // Auto-cancel if nothing left
+                            if (holder.querySelectorAll('.selected').length === 0) {
+                                exitSelectionMode();
+                            }
+                        } else {
+                            handleItemClick(e, { targetPath, item: itemName, isFolder });
+                        }
+                    },
+                    
+                    contextmenu: event => {
+                         if (!state.selectionMode) {
+                             holder.querySelectorAll('.file-item.selected').forEach(el => el.classList.remove('selected'));
+                             itemDiv.classList.add('selected');
+                         }
+                         
+                         showContextMenu({ 
+                             os, 
+                             event, 
+                             path: targetPath, 
+                             title: itemName, 
+                             isFolder, 
+                             onRefresh: () => renderFiles(state.currentPath, body),
+                             onOpen: () => performOpenAction(targetPath, itemName, isFolder),
+                             onEnterSelectionMode: () => {
+                                 // FIX: Pass the path so it persists after re-render
+                                 enterSelectionMode(itemFullPath);
+                             }
+                         });
+                    }
+                }
+            });
+
+            if (os.clipboard && os.clipboard.action === 'cut') {
+                const paths = os.clipboard.paths || [os.clipboard.path];
+                if (paths.includes(itemFullPath)) {
+                    itemDiv.classList.add('cut-ghost');
+                }
+            }
+            
+            holder.appendChild(itemDiv);
+        });
+        
+        holder.onclick = () => {
+            if (!state.selectionMode) {
+                holder.querySelectorAll('.file-item.selected').forEach(el => el.classList.remove('selected'));
+            }
+        };
+    }
+
+    function renderDetailsView(items, targetPath, holder) {
+        holder.style.setProperty('--grid-cols', state.columnWidths.join(' '));
     
+        // ... (Header creation code remains identical to previous steps) ...
+        const headerCols = [{ name: 'Name', key: 'name', index: 0 }, { name: 'Date Modified', key: 'date', index: 1 }, { name: 'Type', key: 'type', index: 2 }];
+        const header = createElement({ tag: 'div', attributes: { class: 'details-header' } });
+        headerCols.forEach(col => {
+            const cell = createElement({ tag: 'div', attributes: { class: 'header-cell' }, children: [{ tag: 'span', html: `${col.name} ${state.sort.by === col.key ? (state.sort.order === 'asc' ? '▲' : '▼') : ''}` }], on: { click: () => setSort(col.key) } });
+            const resizer = createElement({ tag: 'div', attributes: { class: 'col-resizer' } });
+            // ... (Resizer events identical to previous steps) ...
+            const startResize = (e) => {
+                e.stopPropagation(); e.preventDefault();
+                const startX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
+                const startWidth = cell.offsetWidth;
+                document.body.style.cursor = 'col-resize';
+                holder.classList.add('resizing');
+                const onMove = (me) => {
+                    const cx = me.type.includes('touch') ? me.touches[0].clientX : me.clientX;
+                    const nw = Math.max(50, startWidth + (cx - startX));
+                    state.columnWidths[col.index] = `${nw}px`;
+                    holder.style.setProperty('--grid-cols', state.columnWidths.join(' '));
+                };
+                const onStop = () => {
+                    document.body.style.cursor = 'default';
+                    holder.classList.remove('resizing');
+                    document.removeEventListener('mousemove', onMove);
+                    document.removeEventListener('mouseup', onStop);
+                    document.removeEventListener('touchmove', onMove);
+                    document.removeEventListener('touchend', onStop);
+                };
+                document.addEventListener('mousemove', onMove);
+                document.addEventListener('mouseup', onStop);
+                document.addEventListener('touchmove', onMove, { passive: false });
+                document.addEventListener('touchend', onStop);
+            };
+            resizer.addEventListener('mousedown', startResize);
+            resizer.addEventListener('touchstart', startResize, { passive: false });
+            resizer.addEventListener('click', e => e.stopPropagation());
+            cell.appendChild(resizer);
+            header.appendChild(cell);
+        });
+        holder.appendChild(header);
+        // ... (End Header) ...
+    
+        if (items.length === 0) {
+            holder.appendChild(createElement({ 
+                tag: 'div', 
+                attributes: { class: 'empty-folder-state' }, 
+                html: 'Folder is empty' 
+            }));
+            return;
+        }
+    
+        items.forEach(item => {
+            const itemName = item.name;
+            const isFolder = item.type === 'directory' || itemName.endsWith('.folder');
+            const displayName = itemName;
+            const itemFullPath = targetPath === '/' ? itemName : `${targetPath}/${itemName}`;
+            
+            let dateStr = "--";
+            if(item.modified) {
+                try { dateStr = new Date(item.modified).toLocaleString(); } catch(e) {}
+            }
+    
+            const type = isFolder ? 'Folder' : (itemName.split('.').pop().toUpperCase() + ' File');
+    
+            const row = createElement({
+                tag: 'div', 
+                attributes: { 
+                    class: 'details-row',
+                    draggable: 'true',
+                    'data-path': itemFullPath
+                },
+                children: [
+                    { 
+                        tag: 'div', 
+                        attributes: { class: 'row-cell name-cell' },
+                        children: [
+                            { tag: 'div', attributes: { class: `small-icon ${getIconClass(itemName, isFolder)}` } },
+                            { tag: 'span', html: displayName }
+                        ]
+                    },
+                    { tag: 'div', html: dateStr, attributes: { class: 'row-cell' } },
+                    { tag: 'div', html: type, attributes: { class: 'row-cell' } }
+                ],
+                on: { 
+                    dragstart: (e) => handleDragStart(e, itemFullPath, row.classList.contains('selected')),
+                    dragover: isFolder ? handleDragOver : null,
+                    dragleave: isFolder ? handleDragLeave : null,
+                    drop: isFolder ? (e) => handleDrop(e, itemFullPath) : null,
+
+                    click: (e) => {
+                        e.stopPropagation();
+                        if (state.selectionMode) {
+                            row.classList.toggle('selected');
+                            if (holder.querySelectorAll('.selected').length === 0) {
+                                exitSelectionMode();
+                            }
+                        } else {
+                            handleItemClick(e, { targetPath, item: itemName, isFolder });
+                        }
+                    },
+                    
+                    contextmenu: event => {
+                        if (!state.selectionMode) {
+                            holder.querySelectorAll('.details-row.selected').forEach(el => el.classList.remove('selected'));
+                            row.classList.add('selected');
+                        }
+                        showContextMenu({ 
+                            os, 
+                            event, 
+                            path: targetPath, 
+                            title: itemName, 
+                            isFolder, 
+                            onRefresh: () => renderFiles(state.currentPath, body),
+                            onOpen: () => performOpenAction(targetPath, itemName, isFolder),
+                            onEnterSelectionMode: () => {
+                                 // FIX: Pass the path so it persists
+                                 enterSelectionMode(itemFullPath);
+                            }
+                        });
+                    }
+                }
+            });
+
+            if (os.clipboard && os.clipboard.action === 'cut') {
+                const paths = os.clipboard.paths || [os.clipboard.path];
+                if (paths.includes(itemFullPath)) {
+                    row.classList.add('cut-ghost');
+                }
+            }
+            
+            holder.appendChild(row);
+        });
+        
+        holder.onclick = (e) => {
+            if (!state.selectionMode && e.target === holder) {
+                holder.querySelectorAll('.details-row.selected').forEach(el => el.classList.remove('selected'));
+            }
+        };
+    }
 
     function setSort(key) {
         if (state.sort.by === key) {
@@ -767,7 +725,6 @@ export default ({
     const homeContent = createElement({ 
         tag: 'div', 
         attributes: { class: 'tree-node-content' },
-        // Allow dropping onto the Home node
         on: {
             dragover: handleDragOver,
             dragleave: handleDragLeave,
@@ -938,7 +895,6 @@ async function syncSidebarToPath(path) {
         body = createElement({ 
             tag: "div", 
             attributes: { class: "file-explorer-body" },
-            // Enable dropping onto the background (to move items into current folder)
             on: {
                 dragover: handleDragOver,
                 dragleave: handleDragLeave,
@@ -974,13 +930,11 @@ async function syncSidebarToPath(path) {
         navigateTo(state.currentPath);
         
         body.addEventListener('contextmenu', event => {
-	    // Ensure the click is on the background, not a file item
 	    if (event.target === body || event.target.classList.contains('empty-folder-state')) {
 	        const menuItems = new Map([
 	            ['Toggle Full Screen', () => os.toggleFullScreen()]
 	        ]);
 	        
-            // Pass OS, path, and REFRESH capabilities to the context menu
 	        showGenericContextMenu({ 
                 event, 
                 menuItems,
