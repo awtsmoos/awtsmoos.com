@@ -365,7 +365,7 @@ export default ({
 	    items.forEach(item => {
 	        const itemName = item.name;
 	        const isFolder = item.type === 'directory' || itemName.endsWith('.folder');
-	        const displayName = itemName.replace('.folder', '');
+	        const displayName = itemName//.replace('.folder', '');
 	        
 	        let dateStr = "--";
 	        if(item.modified) {
@@ -441,7 +441,7 @@ export default ({
 
         const parts = currentPath.split('/').filter(p => p);
         parts.forEach((part, index) => {
-            const cleanPart = part.replace('.folder', '');
+            const cleanPart = part//.replace('.folder', '');
             const partPath = parts.slice(0, index + 1).join('/');
             pathBreadcrumbs.appendChild(createElement({
                 tag: 'span',
@@ -453,7 +453,7 @@ export default ({
                 pathBreadcrumbs.appendChild(createElement({ tag: 'span', attributes: { class: 'path-separator' }, html: '›' }));
             }
         });
-        pathInputContainer.querySelector('input').value = currentPath.replace(/\.folder/g, '');
+        pathInputContainer.querySelector('input').value = currentPath//.replace(/\.folder/g, '');
     }
 
     function createPathBar() {

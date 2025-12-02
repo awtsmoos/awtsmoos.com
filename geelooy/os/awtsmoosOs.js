@@ -181,7 +181,7 @@ async onFileClick({ path, title, event, isFolder }) {
             f.classList.add("folder")
             isFolder = true;
             // Clean up legacy folder names if they still have the extension
-            adjustedTitle = title.replace(".folder", "");
+            adjustedTitle = title//.replace(".folder", "");
         } else {
             f.classList.add("file")
         }

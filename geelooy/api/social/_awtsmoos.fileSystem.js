@@ -13,7 +13,7 @@ module.exports = ({$i}) => ({
         const { alias } = vars;
         $i.$_POST["aliasId"] = alias;
         return await moveEntry({ $i });
-    }
+    },
 
     "/aliases/:alias/fileSystem/readFile": async vars => {
         const { alias } = vars;
