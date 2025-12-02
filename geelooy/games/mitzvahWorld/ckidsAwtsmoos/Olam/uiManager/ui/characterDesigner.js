@@ -6,7 +6,7 @@ export default {
     shaym: "character designer",
     className: "characterDesigner hidden",
     
-    // B"H: State and Helpers defined as properties to ensure availability before children init
+    // B"H: State and Helpers defined as properties
     characterState: {
         name: "My NPC",
         color: "#00ffff",
@@ -18,7 +18,7 @@ export default {
             }
         ]
     },
-    // B"H: Changed to regular functions to avoid stringification syntax errors
+    
     createMessageNode: function(id) {
         return {
             id: id,
@@ -39,6 +39,55 @@ export default {
        // Post-render logic if needed
     },
 
+    on: {
+        // B"H: Event to open the designer with context (Create or Edit)
+        open(e, $, ui) {
+            console.log("B\"H - Opening Character Designer", e.detail);
+            const designer = e.target;
+            const { mode, item, index, sourceType } = e.detail;
+            
+            // Force visibility
+            designer.classList.remove("hidden");
+            designer.style.display = "flex"; 
+            
+            // Reset or Load State
+            if (mode === 'edit' && item && item.customData) {
+                designer.characterState = JSON.parse(JSON.stringify(item.customData));
+                designer.editContext = { index, sourceType }; // Store where we are editing from
+                
+                // Update Header Title
+                const titleEl = designer.querySelector(".cd-title");
+                if(titleEl) titleEl.textContent = "Editing: " + item.name;
+            } else {
+                // Default New Character State
+                designer.characterState = {
+                    name: "New Soul",
+                    color: "#00ffff",
+                    dialogueTree: [{ id: 0, message: "B\"H\nShalom!", responses: [] }]
+                };
+                designer.editContext = null; // Clear edit context
+                
+                const titleEl = designer.querySelector(".cd-title");
+                if(titleEl) titleEl.textContent = "Design New Soul";
+            }
+
+            // Refresh UI Inputs to match state
+            const nameInput = designer.querySelector(".cd-sidebar input.cd-input[type='text']"); 
+            if(nameInput) nameInput.value = designer.characterState.name;
+            
+            const colorInput = designer.querySelector(".cd-sidebar input[type='color']");
+            if(colorInput) colorInput.value = designer.characterState.color;
+
+            // Render Tree
+            const treeContainer = $("cd-tree-container");
+            if (treeContainer) {
+                ui.peula(treeContainer, { renderTree: true });
+            } else {
+                console.warn("B\"H - Tree container not found!");
+            }
+        }
+    },
+
     children: [
         { tag: "style", innerHTML: style },
         
@@ -53,7 +102,10 @@ export default {
                     textContent: "X",
                     onclick(e, $) {
                         const el = $("character designer");
-                        if (el) el.classList.add("hidden");
+                        if (el) {
+                            el.classList.add("hidden");
+                            el.style.display = "none";
+                        }
                     }
                 }
             ]
@@ -73,6 +125,7 @@ export default {
                                 { className: "cd-label", textContent: "Name" },
                                 {
                                     tag: "input",
+                                    type: "text", // Explicit type
                                     className: "cd-input",
                                     ready(input, $) {
                                         const el = $("character designer");
@@ -133,31 +186,56 @@ export default {
                         {
                             tag: "button",
                             className: "cd-create-btn",
-                            textContent: "CREATE SOUL",
+                            textContent: "SAVE SOUL",
                             onclick(e, $, ui) {
                                 const designer = $("character designer");
                                 if (!designer || !designer.characterState) return;
                                 
                                 const state = designer.characterState;
-                                // 1. Construct final item data
-                                const itemData = {
-                                    id: "custom_npc_" + Date.now(),
-                                    className: "CustomNpc",
-                                    name: state.name,
-                                    description: "A custom soul created by you.",
-                                    customData: JSON.parse(JSON.stringify(state)), // Deep copy
-                                    icon: "https://awtsmoos.com/api/social/aliases/awtsmoos/fileSystem/readFile?path=desktop.folder%2Fgame+data.folder%2Flogos.folder%2Fteffilin+micro+icon.png" 
-                                };
-
-                                // 2. Add to inventory via worker task 'addItem'
-                                ui.peula("ikar", {
-                                    olamPeula: {
-                                        addItem: itemData 
-                                    }
-                                });
                                 
-                                alert("Character Created! Check your Inventory.");
+                                // 1. Check Context (Create vs Update)
+                                if (designer.editContext) {
+                                    // Update existing item
+                                    const { index, sourceType } = designer.editContext;
+                                    
+                                    // We only send the fields we want to update
+                                    const updateData = {
+                                        name: state.name,
+                                        customData: JSON.parse(JSON.stringify(state))
+                                    };
+                                    
+                                    ui.peula("ikar", {
+                                        olamPeula: {
+                                            updateInventoryItem: {
+                                                sourceType,
+                                                index,
+                                                itemData: updateData
+                                            }
+                                        }
+                                    });
+                                    alert("Character Updated!");
+                                    
+                                } else {
+                                    // Create new item
+                                    const itemData = {
+                                        id: "custom_npc_" + Date.now(),
+                                        className: "CustomNpc",
+                                        name: state.name,
+                                        description: "A custom soul created by you.",
+                                        customData: JSON.parse(JSON.stringify(state)), // Deep copy
+                                        icon: "https://awtsmoos.com/api/social/aliases/awtsmoos/fileSystem/readFile?path=desktop.folder%2Fgame+data.folder%2Flogos.folder%2Fteffilin+micro+icon.png" 
+                                    };
+
+                                    ui.peula("ikar", {
+                                        olamPeula: {
+                                            addItem: itemData 
+                                        }
+                                    });
+                                    alert("New Character Created!");
+                                }
+                                
                                 designer.classList.add("hidden");
+                                designer.style.display = "none";
                             }
                         }
                     ]
@@ -171,7 +249,10 @@ export default {
                             shaym: "cd-tree-container",
                             className: "cd-tree-container",
                             ready(el, $, ui) {
-                                ui.peula(el, { renderTree: true });
+                                // Initial render if state exists (might be redundant due to 'open' event, but safe)
+                                const designer = $("character designer");
+                                if(designer && designer.characterState)
+                                    ui.peula(el, { renderTree: true });
                             },
                             on: {
                                 renderTree(e, $, ui) {

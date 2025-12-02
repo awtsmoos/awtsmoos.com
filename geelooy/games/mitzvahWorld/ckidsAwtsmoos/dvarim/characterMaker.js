@@ -1,3 +1,4 @@
+
 /**
  * B"H
  * @file characterMaker.js
@@ -23,13 +24,11 @@ export default class CharacterMaker extends Tool {
     }
 
     async shoot() {
-        // Open the Character Designer UI
-        this.olam.htmlAction({
-            shaym: "character designer",
-            methods: {
-                classList: {
-                    remove: "hidden"
-                }
+        // Open the Character Designer UI by sending the UI event
+        // This corresponds to the 'open' handler in characterDesigner.js
+        this.olam.ayshPeula("ui event", "character designer", {
+            open: { 
+                mode: 'create' 
             }
         });
     }

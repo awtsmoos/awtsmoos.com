@@ -1,3 +1,4 @@
+
 //B"H
 export default /*css*/`
 .characterDesigner {
@@ -17,6 +18,10 @@ export default /*css*/`
     color: white;
     font-family: 'Fredoka', sans-serif;
     z-index: 5000;
+}
+
+.characterDesigner.hidden {
+    display: none !important;
 }
 
 .cd-header {
