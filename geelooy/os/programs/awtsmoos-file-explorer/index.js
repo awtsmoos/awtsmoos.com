@@ -69,7 +69,7 @@ export default ({
             const item = itemObj.name;
             const isFolder = itemObj.type === 'directory' || item.endsWith('.folder') || currentPath === '/';
             const fullPath = currentPath === '/' ? item : `${currentPath}/${item}`;
-            const displayName = item.replace('.folder', '');
+            const displayName = item//.replace('.folder', '');
 
             const li = createElement({ tag: 'li', attributes: { 'data-full-path': fullPath, class: 'tree-node' }});
             const contentWrapper = createElement({ tag: 'div', attributes: { class: 'tree-node-content' }});
@@ -238,7 +238,7 @@ export default ({
 	        const itemName = item.name;
 	        // Check new API type OR legacy suffix
 	        const isFolder = item.type === 'directory' || itemName.endsWith('.folder');
-	        const displayName = itemName.replace('.folder', '');
+	        const displayName = itemName//.replace('.folder', '');
 	        
 	        const itemDiv = createElement({
 	            tag: 'div',
