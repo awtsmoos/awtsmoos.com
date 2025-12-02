@@ -181,11 +181,11 @@ export default {
 
             try {
                 // 2. Fetch Data
-                // Note: path is "desktop.folder/game data.folder/worlds.folder" based on your previous code
+                // Note: path is "desktop.folder/game data.folder/worlds"
                 const response = await fetch(
                     `/api/social/aliases/${alias}/fileSystem/readFolder?${
                         new URLSearchParams({
-                            path: `desktop.folder/game data.folder/worlds.folder`
+                            path: `desktop.folder/game data.folder/worlds`
                         })
                     }`
                 );
