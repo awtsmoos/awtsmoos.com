@@ -95,7 +95,10 @@ module.exports = {
             return {
                 name: dirent.name,
                 created: stats.birthtime,
-                modified: stats.mtime
+                modified: stats.mtime,
+                type: stats?.isDirectory?.() ? 
+	                "directory" :
+	                "file"
             };
         }));
 
@@ -113,10 +116,12 @@ module.exports = {
         }
 
         // Extract just the name for the final result
-        var sortedNames = entries.map(entry => entry.name);
+       /* var sortedNames = entries.map(entry => 
+	        entry.name
+	);*/
 
         // Apply pagination to the sorted names
-        var paginatedNames = sortedNames.slice(startIndex, startIndex + pageSize);
+        var paginatedNames = entries.slice(startIndex, startIndex + pageSize);
         if(!keepJSON) {
             paginatedNames = paginatedNames.map(q => removeJSONExtension(q))
         }

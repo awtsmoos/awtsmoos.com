@@ -33,29 +33,36 @@ export default ({
     let buildNode;
 
     // This is the recursive function that draws the sidebar tree.
+    // In awtsmoos-file-explorer/index.js
+    
     buildNode = async (currentPath, parentUl) => {
         parentUl.innerHTML = ''; 
         let items = [];
 
-        // It correctly asks the database for the root items or a folder's contents.
         if (currentPath === '/') {
-            items = await os.db.getAllStoreNames();
-            items = items.filter(item => !item.startsWith('.'));
+            let names = await os.db.getAllStoreNames();
+            // Convert to object structure for consistency
+            items = names.map(n => ({name: n, type: 'directory'})).filter(i => !i.name.startsWith('.'));
         } else {
             try {
                 items = await os.db.getAllKeys(currentPath);
             } catch (e) { return; }
         }
         
+        // Sort for Tree: Folders first, then names
         items.sort((a, b) => {
-            const isAFolder = a.endsWith('.folder') || currentPath === '/';
-            const isBFolder = b.endsWith('.folder') || currentPath === '/';
-            if (isAFolder !== isBFolder) return isAFolder ? -1 : 1;
-            return a.localeCompare(b);
+            const aName = a.name;
+            const bName = b.name;
+            const aIsFolder = a.type === 'directory' || aName.endsWith('.folder');
+            const bIsFolder = b.type === 'directory' || bName.endsWith('.folder');
+            
+            if (aIsFolder !== bIsFolder) return aIsFolder ? -1 : 1;
+            return aName.localeCompare(bName);
         });
 
-        for (const item of items) {
-            const isFolder = currentPath === '/' || item.endsWith('.folder');
+        for (const itemObj of items) {
+            const item = itemObj.name;
+            const isFolder = itemObj.type === 'directory' || item.endsWith('.folder') || currentPath === '/';
             const fullPath = currentPath === '/' ? item : `${currentPath}/${item}`;
             const displayName = item.replace('.folder', '');
 
@@ -145,22 +152,57 @@ export default ({
         await syncSidebarToPath(newPath);
     }
     
+    // In awtsmoos-file-explorer/index.js
+
+    // REPLACEMENT for renderFiles
     async function renderFiles(targetPath, holder) {
         holder.innerHTML = '';
         let items = [];
         
         if (targetPath === '/') {
             items = await os.db.getAllStoreNames();
-            items = items.filter(item => !item.startsWith('.'));
+            // Root might still return strings depending on implementation, 
+            // convert to objects if needed for consistency
+            items = items.map(i => typeof i === 'string' ? {name: i, type: 'directory'} : i);
+            items = items.filter(item => !item.name.startsWith('.'));
         } else {
             items = await os.db.getAllKeys(targetPath);
         }
         
+        // Sorting Logic
         items.sort((a, b) => {
-            const isAFolder = a.endsWith('.folder') || targetPath === '/';
-            const isBFolder = b.endsWith('.folder') || targetPath === '/';
-            if (isAFolder !== isBFolder) return isAFolder ? -1 : 1;
-            return state.sort.order === 'asc' ? a.localeCompare(b) : b.localeCompare(a);
+            const aName = a.name;
+            const bName = b.name;
+            const aIsFolder = a.type === 'directory' || aName.endsWith('.folder');
+            const bIsFolder = b.type === 'directory' || bName.endsWith('.folder');
+
+            // 1. Always Group Folders First
+            if (aIsFolder !== bIsFolder) {
+                return aIsFolder ? -1 : 1;
+            }
+
+            // 2. Sort based on selected criterion
+            let valA, valB;
+            
+            switch (state.sort.by) {
+                case 'date': // Modified date
+                    valA = new Date(a.modified || 0).getTime();
+                    valB = new Date(b.modified || 0).getTime();
+                    break;
+                case 'type':
+                    // If both are files, sort by extension
+                    valA = aName.split('.').pop();
+                    valB = bName.split('.').pop();
+                    break;
+                case 'name':
+                default:
+                    valA = aName.toLowerCase();
+                    valB = bName.toLowerCase();
+            }
+
+            if (valA < valB) return state.sort.order === 'asc' ? -1 : 1;
+            if (valA > valB) return state.sort.order === 'asc' ? 1 : -1;
+            return 0;
         });
 
         holder.className = `file-explorer-body ${state.viewMode}-view`;
@@ -179,51 +221,84 @@ export default ({
         return 'file-icon';
     }
 
+    // In awtsmoos-file-explorer/index.js
+
+    // REPLACEMENT for renderIconView
     function renderIconView(items, targetPath, holder) {
         items.forEach(item => {
-            const isFolder = item.endsWith('.folder') || targetPath === '/';
+            const itemName = item.name;
+            const isFolder = item.type === 'directory' || itemName.endsWith('.folder');
+            
             holder.appendChild(createElement({
                 tag: 'div',
                 attributes: { class: 'file-item icon' },
                 children: [
-                    { tag: 'div', attributes: { class: getIconClass(item) } },
-                    { tag: 'span', html: item.replace('.folder', '') }
+                    { tag: 'div', attributes: { class: getIconClass(itemName) } },
+                    { tag: 'span', html: itemName.replace('.folder', '') }
                 ],
                 on: {
-	                click: (e) => handleItemClick(e, { targetPath, item, isFolder }),
-	                contextmenu: event => showContextMenu({ os, event, path: targetPath, title: item, isFolder })
+	                click: (e) => handleItemClick(e, { targetPath, item: itemName, isFolder }),
+	                contextmenu: event => showContextMenu({ os, event, path: targetPath, title: itemName, isFolder })
                 }
             }));
         });
     }
 
+    // In awtsmoos-file-explorer/index.js
+
+    // REPLACEMENT for renderDetailsView
     function renderDetailsView(items, targetPath, holder) {
         const header = createElement({
             tag: 'div', attributes: { class: 'details-header' },
             children: [
                 { tag: 'div', html: 'Name ▼', on: { click: () => setSort('name') } },
-                { tag: 'div', html: 'Date Modified' },
-                { tag: 'div', html: 'Type' }
+                { tag: 'div', html: 'Date Modified', on: { click: () => setSort('date') } },
+                { tag: 'div', html: 'Type', on: { click: () => setSort('type') } }
             ]
         });
         holder.appendChild(header);
 
         items.forEach(item => {
-            const isFolder = item.endsWith('.folder') || targetPath === '/';
-            const displayName = item.replace('.folder', '');
-            const type = isFolder ? 'Folder' : (item.split('.').pop() || 'File');
+            const itemName = item.name;
+            const isFolder = item.type === 'directory' || itemName.endsWith('.folder');
+            const displayName = itemName.replace('.folder', '');
+            
+            // Format Date
+            let dateStr = "--";
+            if(item.modified) {
+                try {
+                    dateStr = new Date(item.modified).toLocaleString();
+                } catch(e) {}
+            }
+
+            const type = isFolder ? 'Folder' : (itemName.split('.').pop().toUpperCase() + ' File');
 
             const row = createElement({
                 tag: 'div', attributes: { class: 'details-row' },
                 children: [
                     { tag: 'div', html: displayName },
-                    { tag: 'div', html: '11/8/2025' },
+                    { tag: 'div', html: dateStr },
                     { tag: 'div', html: type }
                 ],
-                on: { click: (e) => handleItemClick(e, { targetPath, item, isFolder }) }
+                on: { click: (e) => handleItemClick(e, { targetPath, item: itemName, isFolder }) }
             });
+            
+            // Add context menu
+            row.oncontextmenu = event => showContextMenu({ os, event, path: targetPath, title: itemName, isFolder });
+            
             holder.appendChild(row);
         });
+    }
+
+    // Helper to toggle sort (add this to the file scope)
+    function setSort(key) {
+        if (state.sort.by === key) {
+            state.sort.order = state.sort.order === 'asc' ? 'desc' : 'asc';
+        } else {
+            state.sort.by = key;
+            state.sort.order = 'asc';
+        }
+        renderFiles(state.currentPath, body);
     }
 
     // --- UI Component Creation ---

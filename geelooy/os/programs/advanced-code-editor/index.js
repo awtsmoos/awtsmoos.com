@@ -71,10 +71,14 @@ export default ({ os, system, fileName, content, path }) => {
                 // --- FILE SYSTEM PROVIDER REQUESTS ---
 	    
                 case 'requestFolderList':
-                    // **THE FIX IS HERE:** We now use the full path from the payload to get the keys.
-                    const items = await os.db.getAllKeys(payload.path);
-                    respond({ items });
-                    break;
+                // Map the object array to just names for the internal editor logic
+                const rawItems = await os.db.getAllKeys(payload.path);
+                
+                // Convert [{name: "file.js", ...}] -> ["file.js"]
+                const items = rawItems.map(item => item.name || item);
+                
+                respond({ items });
+                break;
     
                 case 'requestFileContent':
                     const fileContent = await os.db.Laynin(payload.path, payload.fileName);

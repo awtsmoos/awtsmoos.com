@@ -14,8 +14,8 @@
  */
 
 // Incrementing the version is crucial to force the browser to update the worker.
-const CACHE_NAME = 'awtsmoos-cache-v14';
-const DB_NAME = 'awtsmoos-metadata-v14';
+const CACHE_NAME = 'awtsmoos-cache-v15';
+const DB_NAME = 'awtsmoos-metadata-v15';
 const STATUS_HEADER = 'Awtsmoos-File-Status';
 
 // --- IndexedDB Helper (Unchanged and Correct) ---
@@ -65,19 +65,48 @@ self.addEventListener('install', (event) => {
 });
 
 self.addEventListener('activate', (event) => {
-    console.log('[SW] Activate Event. New worker is now active.');
-    // Remove old caches to save space.
+    console.log('[SW] Activate Event. Cleaning up old assets...');
+
+    // 1. Clean up old Cache Storage
+    const cacheCleanup = caches.keys().then((cacheNames) => {
+        return Promise.all(
+            cacheNames
+                .filter(name => name.startsWith('awtsmoos-cache-') && name !== CACHE_NAME)
+                .map(name => {
+                    console.log(`[SW] Deleting old cache: ${name}`);
+                    return caches.delete(name);
+                })
+        );
+    });
+
+    // 2. Clean up old IndexedDB Metadata
+    const dbCleanup = (async () => {
+        // Check if browser supports listing databases (Chrome/Edge/Firefox do)
+        if (indexedDB.databases) {
+            try {
+                const dbs = await indexedDB.databases();
+                for (const db of dbs) {
+                    // If it starts with our prefix but isn't the CURRENT version, kill it.
+                    if (db.name && db.name.startsWith('awtsmoos-metadata-') && db.name !== DB_NAME) {
+                        console.log(`[SW] Deleting old DB: ${db.name}`);
+                        const req = indexedDB.deleteDatabase(db.name);
+                        req.onerror = () => console.warn(`[SW] Failed to delete DB ${db.name}`);
+                        req.onsuccess = () => console.log(`[SW] Deleted DB ${db.name}`);
+                    }
+                }
+            } catch (e) {
+                console.warn("[SW] Error cleaning old databases:", e);
+            }
+        }
+    })();
+
+    // Wait for both cleanups to finish, then take control immediately
     event.waitUntil(
-        caches.keys().then((cacheNames) => {
-            return Promise.all(
-                cacheNames
-                    .filter(name => name !== CACHE_NAME)
-                    .map(name => {
-                        console.log(`[SW] Deleting old cache: ${name}`);
-                        return caches.delete(name);
-                    })
-            );
-        }).then(() => self.clients.claim()) // Take control of all open clients.
+        Promise.all([cacheCleanup, dbCleanup])
+            .then(() => {
+                console.log('[SW] Cleanup complete. Claiming clients.');
+                return self.clients.claim();
+            })
     );
 });
 
@@ -109,7 +138,7 @@ self.addEventListener('fetch', (event) => {
 });
 
 /**
- * The main fetch handler, completely rewritten for safety.
+ * The main fetch handler.
  */
 async function handleFetch(request) {
     try {
@@ -123,55 +152,50 @@ async function handleFetch(request) {
             }
         });
 
-        // --- STEP 2: RIGOROUSLY VALIDATE THE INTERNAL RESPONSE ---
-        // If the response is not a perfect metadata response, we abort the strategy
-        // and fall back to a simple, clean network fetch of the ORIGINAL request.
-        if (!statusResponse.ok
-            //|| !statusResponse.headers.has(STATUS_HEADER)
-           ) {
-            console.warn('[SW] Metadata check failed or returned a non-metadata response. Defaulting to live network fetch.');
-            var t = await statusResponse.text()
-            console.log("weird", request.url, statusResponse, statusRequest.headers.get(STATUS_HEADER), t, "wow");
-            return fetchAndCache(request); // SAFE FALLBACK
+        // --- STEP 2: VALIDATE RESPONSE ---
+        if (!statusResponse.ok) {
+            return fetchAndCache(request); 
         }
 
-        // --- STEP 3: PROCESS THE VALID METADATA ---
-        // At this point, we are confident we have metadata. We will now process it,
-        // but the `statusResponse` object itself will be discarded and NEVER returned.
+        // --- STEP 3: PROCESS JSON ---
         let serverMeta;
         try {
             serverMeta = await statusResponse.json();
         } catch (e) {
-            console.warn(`[SW] Server sent non-JSON status response. Defaulting to live network fetch.`);
-            return fetchAndCache(request); // SAFE FALLBACK
+            return fetchAndCache(request); 
         }
 
-        // --- STEP 4: DECIDE: USE CACHE OR FETCH THE REAL RESOURCE ---
+        // --- STEP 3.5: SHAPE CHECK ---
+        if (
+            !serverMeta || 
+            typeof serverMeta.stateHash === 'undefined' || 
+            typeof serverMeta.logicModified === 'undefined'
+        ) {
+            return fetchAndCache(request);
+        }
+
+        // --- STEP 4: CHECK FRESHNESS ---
         const localMeta = await MetadataDB.get(request.url);
+        
         const isStale = !localMeta ||
-                        (serverMeta.logicModified > localMeta.logicModified) ||
-                        (serverMeta.dataModified > localMeta.dataModified) ||
+                        (serverMeta.logicModified > (localMeta.logicModified || 0)) ||
+                        (serverMeta.dataModified > (localMeta.dataModified || 0)) ||
                         (serverMeta.stateHash !== localMeta.stateHash);
 
         if (isStale) {
-            console.log(`[SW] Cache is stale for: ${request.url}. Fetching live version.`);
-            // Fetch the REAL resource, not the status one.
+            // console.log(`[SW] Stale. Fetching live: ${request.url}`);
             return fetchAndUpdateMetadata(request, serverMeta);
         } else {
-         //   console.log(`[SW] Cache is fresh for: ${request.url}. Serving from cache.`);
-            const cachedResponse = await caches.match(request);
-            // If cache was somehow cleared, fetch fresh as a final fallback.
+            // console.log(`[SW] Fresh. Serving cache: ${request.url}`);
+            const cachedResponse = await caches.match(request.url); 
             return cachedResponse || fetchAndUpdateMetadata(request, serverMeta);
         }
 
     } catch (error) {
-        // --- THE OFFLINE FAILSAFE ---
-        // This 'catch' block means the `fetch(statusRequest)` failed, almost certainly because the user is offline.
-        console.warn(`[SW] Network error during status check: ${error.message}. Trying cache as last resort.`);
-        const cachedResponse = await caches.match(request);
+        console.warn(`[SW] Network error: ${error.message}. Fallback to cache.`);
+        const cachedResponse = await caches.match(request.url);
         
-        // If we are offline, serve from cache if possible. Otherwise, we must fail.
-        return cachedResponse || new Response('Network unavailable and resource not found in cache.', {
+        return cachedResponse || new Response('Network unavailable', {
             status: 503,
             statusText: 'Service Unavailable'
         });
@@ -193,42 +217,49 @@ function createStatusRequest(request) {
 }
 
 /**
- * SAFE FALLBACK: Fetches the LIVE resource and caches it. Does not handle metadata.
+ * SAFE FALLBACK: Fetches LIVE resource using STRING URL.
  */
 async function fetchAndCache(request) {
-    const networkResponse = await fetch(request);
+    // FIX: Pass request.url (String) and manually include credentials.
+    // Do NOT pass the 'request' object directly.
+    const networkResponse = await fetch(request.url, { 
+        cache: 'reload',
+        credentials: 'include' // CRITICAL for auth
+    });
+
     if (networkResponse && networkResponse.ok) {
-        // Extra safety: ensure we are never caching a metadata response by mistake.
         if (!networkResponse.headers.has(STATUS_HEADER)) {
             const cache = await caches.open(CACHE_NAME);
-            await cache.put(request, networkResponse.clone());
-            var r = networkResponse.clone();
-            var g  = await r.text();
-            console.log("Cash",g);
+            // Key by URL String
+            await cache.put(request.url, networkResponse.clone());
         }
     }
     return networkResponse;
 }
 
 /**
- * PRIMARY UPDATE FUNCTION: Fetches the LIVE resource, updates the cache, AND updates the metadata.
+ * PRIMARY UPDATE: Fetches LIVE resource using STRING URL.
  */
 async function fetchAndUpdateMetadata(request, metadata) {
-    const networkResponse = await fetch(request);
+    // FIX: Pass request.url (String) and manually include credentials.
+    const networkResponse = await fetch(request.url, { 
+        cache: 'reload',
+        credentials: 'include' // CRITICAL for auth
+    });
+
     if (networkResponse && networkResponse.ok) {
-        // Extra safety: ensure we are never caching a metadata response by mistake.
         if (!networkResponse.headers.has(STATUS_HEADER)) {
             const cache = await caches.open(CACHE_NAME);
-            await cache.put(request, networkResponse.clone());
+            
+            // 1. Save Content keyed by URL String
+            await cache.put(request.url, networkResponse.clone());
+            
+            // 2. Save Metadata keyed by URL String
             await MetadataDB.set({ url: request.url, ...metadata });
-            var r = networkResponse.clone();
-            var g  = await r.text();
-            console.log("Cash",g);
         }
     }
     return networkResponse;
 }
-
 
 // B"H
 // Add to service-worker.js

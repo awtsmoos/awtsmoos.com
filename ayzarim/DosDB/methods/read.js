@@ -77,6 +77,7 @@ module.exports = {
     }) {
     //console.log("WHAT",id)
         const keepJSON = options.keepJSON;
+        var extra = options.extra;
         try {
             if(!options || typeof options !== "object") {
                 options = {};
@@ -172,12 +173,15 @@ module.exports = {
                         directory: allContents
                     } : allContents;
                 } else {
-                    const info = (fileIndexes || []).map(fileName =>
-                        !keepJSON ? this.removeJSONExtension(fileName) : fileName
-                    );
-                    return options.extra ? {
-                        directory: info
-                    } : info;
+                    (fileIndexes || []).forEach(entry=> {
+                        if(!keepJSON) {
+	                        entry.name = this.removeJSONExtension(fileName)
+                        }
+                    });
+                    if(!extra) {
+	                    fileIndexes = fileIndexes.map(q => q.name);
+                    }
+                    return fileIndexes;
                 }
             }
             

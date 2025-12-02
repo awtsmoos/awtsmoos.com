@@ -155,24 +155,34 @@ async onFileClick({ path, title, event, isFolder }) {
     }
 }
  
+    // In awtsmoosOs.js
+
+    // REPLACEMENT for renderFile
     async renderFile({
         path, 
         fileHolder,
-        title
+        fileObj // Changed from 'title' to accepting the whole object
     } = {}) {
+        var title = fileObj.name || fileObj; // Fallback for legacy strings
+        var type = fileObj.type; // "directory" or "file"
+        
         var f = document.createElement("div");
         f.awtsmoosFile = true;
         f.classList.add("awtsmoosIcon")
+        
         var isFolder = false;
-        var adjustedTitle = title
-        if(title.endsWith(".folder")) {
+        var adjustedTitle = title;
+
+        // Check new type property OR legacy naming convention
+        if(type === "directory" || title.endsWith(".folder")) {
             f.classList.add("folder")
             isFolder = true;
-            adjustedTitle = title.substring
-                (0, title.length - ".folder".length)
+            // Clean up legacy folder names if they still have the extension
+            adjustedTitle = title.replace(".folder", "");
         } else {
             f.classList.add("file")
         }
+        
         var icon = document.createElement("div")
         icon.className = "icon"
         f.appendChild(icon);
@@ -185,12 +195,12 @@ async onFileClick({ path, title, event, isFolder }) {
         } else
             nm.className = "fileName";
         f.appendChild(nm);
-	f.oncontextmenu = async event => {
-		event .preventDefault();
-		 showContextMenu({ os: this, event, path, title, isFolder });
-	}
+        
+        f.oncontextmenu = async event => {
+            event.preventDefault();
+            showContextMenu({ os: this, event, path, title, isFolder });
+        }
         f.onclick = async (event) => {
-            
             await this.onFileClick({
                 path,
                 title,
@@ -198,18 +208,25 @@ async onFileClick({ path, title, event, isFolder }) {
                 isFolder
             })
         };
-        
-        
 
         fileHolder.appendChild(f);
     }
+
+    
+    
+
+   
+    
+    
+    // In awtsmoosOs.js
 
     async showFilesAtPath({
         path,
         holder
     }) {
-    this.currentPathForRefresh = path;
-        if(path == "desktop.folder") {
+        this.currentPathForRefresh = path;
+        if(path == "desktop.folder" || 
+        path != "desktop") {
             holder = this.getDesktop();
         }
         if(!holder) return;
@@ -223,26 +240,29 @@ async onFileClick({ path, title, event, isFolder }) {
             holder.appendChild(fileArea);
         }
         fileArea.innerHTML = "";
+        
+        // Get the array of objects from the DB/API
         var gotFiles = await this.db.getAllKeys(path);
+        
+        // Sort using the new object-aware sorter
         gotFiles = sortFoldersFirst(gotFiles);
-        console.log(gotFiles)
-        gotFiles.forEach(w => {
+        
+        gotFiles.forEach(fileObj => {
             this.renderFile({
                 path,
                 fileHolder: fileArea,
-                title: w
+                fileObj: fileObj // Pass the full object
             })
         });
 
         var dropDiv = fileArea;
-        // Create overlay
+      
         const overlay = document.createElement('div');
         overlay.id = 'drag-overlay';
         overlay.className = 'drag-overlay';
         overlay.textContent = 'Drop files here!';
         dropDiv.appendChild(overlay);
 
-        // Drag and drop events
         dropDiv.addEventListener('dragover', (event) => {
             event.preventDefault();
             dropDiv.classList.add('drag-over');
@@ -265,12 +285,9 @@ async onFileClick({ path, title, event, isFolder }) {
             for (const file of files) {
                 const content = file.type.startsWith('text/') 
                     ? await file.text() 
-                    : await file.arrayBuffer(); // Handle binary/text files
-
-                // Save each file to the desktop
+                    : await file.arrayBuffer(); 
                 await os.createFile({path, title:file.name, content});
             }
-
             alert(`${files.length} file(s) uploaded successfully!`);
         });
 
@@ -278,7 +295,23 @@ async onFileClick({ path, title, event, isFolder }) {
     }
     
 }
+function sortFoldersFirst(arr) {
+    if(!Array.isArray(arr)) return [];
+    return arr.sort((a, b) => {
+        // Handle both new object format and old string format
+        const aName = a.name || a;
+        const bName = b.name || b;
+        const aType = a.type || (aName.endsWith('.folder') ? 'directory' : 'file');
+        const bType = b.type || (bName.endsWith('.folder') ? 'directory' : 'file');
 
+        // Folders always come first
+        if (aType === 'directory' && bType !== 'directory') return -1;
+        if (aType !== 'directory' && bType === 'directory') return 1;
+
+        // Alphabetical sort for same types
+        return aName.localeCompare(bName);
+    });
+}
 function makeDraggable(selector) {
     document.querySelectorAll(selector).forEach(div => {
         let isDragging = false;
@@ -442,17 +475,6 @@ function makeDraggable(selector) {
     
 }
 
-function sortFoldersFirst(arr) {
-    // Separate strings ending in '.folder'
-    //console.log(window.arr=arr,"searching")
-    const folders = arr.filter(item => item.endsWith('.folder')).sort();
-    
-    // Get the remaining strings in their original order
-    const others = arr.filter(item => !item.endsWith('.folder'));
-
-    // Combine the sorted folders with the rest of the strings
-    return [...folders, ...others];
-}
 
 function hasParentWithProperty(element, property, value = null) {
     let current = element;

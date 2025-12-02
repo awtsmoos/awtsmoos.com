@@ -252,14 +252,17 @@ async function readFolder({$i}) {
     
     // Read the contents of the folder in the alias's file system
     var folderPath = `${sp}/aliases/${aliasId}/fileSystem/${path}`;
+   
     try {
         var folderContents = await $i.db.read(folderPath, {
             pageSize:1000,
-            keepJSON: true
+            keepJSON: true,
+            extra: true
         })
         //return {wgy:2}
         /*if (!folderContents) return er({ message: "Folder not found", code: "FOLDER_NOT_FOUND" });*/
 	//console.log("Getting", folderPath, path, folderContents)
+	 console.log("READING",folderPath,folderContents );
         return folderContents || [];  // List files and folders
     } catch(e) {
         return er({ message: "System Error", code: "SYSTEM", details:e.stack });
