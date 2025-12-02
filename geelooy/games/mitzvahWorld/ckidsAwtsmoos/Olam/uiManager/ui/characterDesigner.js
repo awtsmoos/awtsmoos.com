@@ -1,30 +1,32 @@
+
 // B"H
 import style from "./skins/2/characterDesignerStyle.js";
-
-// Helper to create a new message node
-const createMessageNode = (id) => ({
-    id: id,
-    message: "New Message",
-    responses: []
-});
-
-// Helper to create a new response
-const createResponse = () => ({
-    text: "Response",
-    type: "message", // 'message' or 'store'
-    target: 0, // Target message index
-    storeItems: [] // If type is store
-});
-
-let currentCharacter = {
-    name: "My NPC",
-    color: "#00ffff",
-    dialogueTree: [createMessageNode(0)]
-};
 
 export default {
     shaym: "character designer",
     className: "characterDesigner hidden",
+    ready(el) {
+        // Define helpers on the element so they are accessible
+        el.createMessageNode = (id) => ({
+            id: id,
+            message: "New Message",
+            responses: []
+        });
+
+        el.createResponse = () => ({
+            text: "Response",
+            type: "message", 
+            target: 0,
+            storeItems: []
+        });
+
+        // Initialize State on the element
+        el.characterState = {
+            name: "My NPC",
+            color: "#00ffff",
+            dialogueTree: [el.createMessageNode(0)]
+        };
+    },
     children: [
         { tag: "style", innerHTML: style },
         
@@ -59,8 +61,14 @@ export default {
                                 {
                                     tag: "input",
                                     className: "cd-input",
-                                    value: currentCharacter.name,
-                                    oninput(e) { currentCharacter.name = e.target.value; }
+                                    ready(input, $) {
+                                        const state = $("character designer").characterState;
+                                        input.value = state.name;
+                                    },
+                                    oninput(e, $) { 
+                                        const state = $("character designer").characterState;
+                                        state.name = e.target.value; 
+                                    }
                                 }
                             ]
                         },
@@ -72,8 +80,14 @@ export default {
                                     tag: "input",
                                     type: "color",
                                     className: "cd-input",
-                                    value: currentCharacter.color,
-                                    oninput(e) { currentCharacter.color = e.target.value; }
+                                    ready(input, $) {
+                                        const state = $("character designer").characterState;
+                                        input.value = state.color;
+                                    },
+                                    oninput(e, $) { 
+                                        const state = $("character designer").characterState;
+                                        state.color = e.target.value; 
+                                    }
                                 }
                             ]
                         },
@@ -82,8 +96,10 @@ export default {
                             className: "cd-btn secondary",
                             textContent: "+ Add Message Node",
                             onclick(e, $, ui) {
-                                const newId = currentCharacter.dialogueTree.length;
-                                currentCharacter.dialogueTree.push(createMessageNode(newId));
+                                const designer = $("character designer");
+                                const state = designer.characterState;
+                                const newId = state.dialogueTree.length;
+                                state.dialogueTree.push(designer.createMessageNode(newId));
                                 ui.peula($("cd-tree-container"), { renderTree: true });
                             }
                         },
@@ -92,30 +108,21 @@ export default {
                             className: "cd-create-btn",
                             textContent: "CREATE SOUL",
                             onclick(e, $, ui) {
+                                const state = $("character designer").characterState;
                                 // 1. Construct final item data
                                 const itemData = {
                                     id: "custom_npc_" + Date.now(),
                                     className: "CustomNpc",
-                                    name: currentCharacter.name,
+                                    name: state.name,
                                     description: "A custom soul created by you.",
-                                    customData: JSON.parse(JSON.stringify(currentCharacter)),
+                                    customData: JSON.parse(JSON.stringify(state)), // Deep copy
                                     icon: "https://awtsmoos.com/api/social/aliases/awtsmoos/fileSystem/readFile?path=desktop.folder%2Fgame+data.folder%2Flogos.folder%2Fteffilin+micro+icon.png" 
                                 };
 
-                                // 2. Add to inventory via olamPeula
+                                // 2. Add to inventory via worker task 'addItem'
                                 ui.peula("ikar", {
                                     olamPeula: {
-                                        equipItem: { // Hack: Use a custom peula or reuse existing logic
-                                            // Actually, we need a generic 'addItem'
-                                            // Since 'equipItem' is specific, let's create a new handler in oyved.js or reuse 'activeObjectAction' logic?
-                                            // Better: define a custom command in `OlamWorkerManager`.
-                                            // For now, assume 'addItem' exists or simulate it.
-                                            
-                                            // Let's use a workaround: pass it to the main thread via a custom event, then worker.
-                                            // Wait, 'ui.peula("ikar", ...)' sends to worker manager.
-                                            // We need to add 'addItem' to `oyved.js` tawfeekeem.
-                                            addItem: itemData 
-                                        }
+                                        addItem: itemData 
                                     }
                                 });
                                 
@@ -139,9 +146,12 @@ export default {
                             on: {
                                 renderTree(e, $, ui) {
                                     const container = e.target;
+                                    const designer = $("character designer");
+                                    const state = designer.characterState;
+                                    
                                     container.innerHTML = ""; // Clear
 
-                                    currentCharacter.dialogueTree.forEach((node, index) => {
+                                    state.dialogueTree.forEach((node, index) => {
                                         ui.html({
                                             parent: container,
                                             className: "cd-node",
@@ -200,8 +210,9 @@ export default {
                                                                                     style: { width: "60px" },
                                                                                     value: resp.target || 0,
                                                                                     oninput(ev) { 
-                                                                                        resp.nextMessageIndex = parseInt(ev.target.value); 
-                                                                                        resp.target = parseInt(ev.target.value);
+                                                                                        const val = parseInt(ev.target.value) || 0;
+                                                                                        resp.nextMessageIndex = val; 
+                                                                                        resp.target = val;
                                                                                     }
                                                                                 } : null,
                                                                                 
@@ -209,8 +220,11 @@ export default {
                                                                                     tag: "button",
                                                                                     className: "cd-btn secondary",
                                                                                     style: { fontSize: "10px", padding: "5px" },
-                                                                                    textContent: "Set Items (Simulated)",
-                                                                                    onclick() { alert("Store items will be [Brick, Wheat] for this demo."); resp.action = "openStore"; }
+                                                                                    textContent: "Set Items (Default)",
+                                                                                    onclick() { 
+                                                                                        alert("Store configured with default items (Brick, Wheat)."); 
+                                                                                        resp.action = "openStore"; 
+                                                                                    }
                                                                                 } : null,
 
                                                                                 {
@@ -236,7 +250,7 @@ export default {
                                                                 style: { marginTop: "10px" },
                                                                 textContent: "+ Add Response",
                                                                 onclick() {
-                                                                    node.responses.push(createResponse());
+                                                                    node.responses.push(designer.createResponse());
                                                                     renderResponses();
                                                                 }
                                                             });

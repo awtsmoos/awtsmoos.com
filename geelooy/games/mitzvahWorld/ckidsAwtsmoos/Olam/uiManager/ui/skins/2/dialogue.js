@@ -1,3 +1,4 @@
+
 /**B"H
  * CSS for dialogue boxes - EXTREME EDITION
  */
@@ -26,12 +27,13 @@ export default /*css*/`
         100% { box-shadow: 0 0 5px var(--neon-blue), 0 0 10px var(--neon-blue), inset 0 0 5px var(--neon-pink); }
     }
 
-    @keyframes textGlitch {
-        0% { text-shadow: 2px 2px 0px #ff00de, -2px -2px 0px #00ffff; }
-        25% { text-shadow: -2px 2px 0px #ff00de, 2px -2px 0px #00ffff; }
-        50% { text-shadow: 2px -2px 0px #ff00de, -2px 2px 0px #00ffff; }
-        75% { text-shadow: -2px -2px 0px #ff00de, 2px 2px 0px #00ffff; }
-        100% { text-shadow: 2px 2px 0px #ff00de, -2px -2px 0px #00ffff; }
+    @keyframes insaneGlitch {
+        0% { transform: translate(0); text-shadow: none; }
+        20% { transform: translate(-2px, 2px); text-shadow: 2px 0 #ff00ea, -2px 0 #00dbff; }
+        40% { transform: translate(2px, -2px); text-shadow: -2px 0 #ff00ea, 2px 0 #00dbff; }
+        60% { transform: translate(-2px, 0); text-shadow: 2px 0 #ff00ea, -2px 0 #00dbff; }
+        80% { transform: translate(2px, 2px); text-shadow: -2px 0 #ff00ea, 2px 0 #00dbff; }
+        100% { transform: translate(0); text-shadow: none; }
     }
 
     .dialogue {
@@ -104,6 +106,7 @@ export default /*css*/`
         box-shadow: 0 0 20px rgba(0, 243, 255, 0.4);
         border-color: var(--neon-blue);
         z-index: 1;
+        animation: insaneGlitch 0.3s infinite;
     }
     
     .dialogue.chossid > div:active {
