@@ -5,10 +5,17 @@ var {
     makeFolder,
     deleteEntry,
     readFolder,
-    moveEntry
+    moveEntry,
+    copyEntry
 } = require("./helper/fileSystem.js");
 
 module.exports = ({$i}) => ({
+	"/aliases/:alias/fileSystem/copyEntry": async vars => {
+        const { alias } = vars;
+        $i.$_POST["aliasId"] = alias;
+        var { copyEntry } = require("./helper/fileSystem.js");
+        return await copyEntry({ $i });
+    },
 	"/aliases/:alias/fileSystem/moveEntry": async vars => {
         const { alias } = vars;
         $i.$_POST["aliasId"] = alias;

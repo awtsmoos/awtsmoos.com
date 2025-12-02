@@ -84,6 +84,31 @@ export async function showContextMenu({ os, event, path, title, isFolder, onRefr
         };
     }
 
+    
+    
+    actions.Copy = () => {
+        // Store intent in OS clipboard
+        os.clipboard = {
+            action: 'copy',
+            path: fullPath,
+            name: title
+        };
+        // No ghosting needed for copy
+    };
+
+    // --- CUT (Move) ---
+    actions.Cut = () => {
+        // Store intent in OS clipboard
+        os.clipboard = {
+            action: 'cut',
+            path: fullPath, // Source path
+            name: title
+        };
+        
+        // Refresh immediately to apply the .cut-ghost CSS class
+        if (onRefresh) onRefresh(); 
+    };
+    
     // --- RENAME ---
     actions.Rename = async () => {
         const newName = prompt(`Rename ${title} to:`, title);
@@ -101,19 +126,6 @@ export async function showContextMenu({ os, event, path, title, isFolder, onRefr
                 alert("Rename failed: " + e.message);
             }
         }
-    };
-
-    // --- CUT (Move) ---
-    actions.Cut = () => {
-        // Store intent in OS clipboard
-        os.clipboard = {
-            action: 'cut',
-            path: fullPath, // Source path
-            name: title
-        };
-        
-        // Refresh immediately to apply the .cut-ghost CSS class
-        if (onRefresh) onRefresh(); 
     };
 
     // --- DELETE ---
@@ -196,6 +208,9 @@ export function showGenericContextMenu({ event, menuItems, os, currentPath, onRe
                     if (os.clipboard.action === 'cut') {
                         await os.db.move(src, dest);
                         successCount++;
+                    }  else if (os.clipboard.action === 'copy') {
+                        await os.db.copy(src, dest);
+                        successCount++;
                     }
                     // Future 'copy' logic here
                 } catch (innerErr) {
@@ -204,8 +219,9 @@ export function showGenericContextMenu({ event, menuItems, os, currentPath, onRe
                 }
             }
 
+            // We only clear the clipboard on CUT. 
+            // On COPY, we keep the light available for further emanations (multiple pastes).
             if (os.clipboard.action === 'cut' && errors.length === 0) {
-                // Clear clipboard only if all moved successfully
                 os.clipboard = { action: null, path: null, paths: null, name: null };
             }
 

@@ -4,8 +4,11 @@ const { writeConditional, packTypeAndLengthSize } = require("../utils/binaryHelp
 
 module.exports = {
     decode(buffer, typeId) {
-        if (!buffer || buffer.length === 0) {
-            console.log(`[V1_Adapter] Warn: Buffer is empty for type ${typeId}`);
+        // B"H:
+        // Only return null if the buffer is undefined/null. 
+        // Zero-length buffers are valid for Booleans, Nulls, and Empty Strings.
+        if (!buffer) {
+            console.log(`[V1_Adapter] Warn: Buffer is null for type ${typeId}`);
             return null;
         }
         

@@ -22,7 +22,8 @@ module .exports ={
     deleteEntry,
     readFolder,
     renameFolder,
-    moveEntry
+    moveEntry,
+    copyEntry
 };
 
 // Handles moving files AND folders
@@ -347,4 +348,37 @@ async function checkAliasSize({$i, aliasId}) {
     }
     */
     return totalSize;
+}
+
+
+// Handles copying files AND folders
+async function copyEntry({$i}) {
+    try {
+        let { aliasId, oldPath, newPath } = $i.$_POST;
+        
+        // Basic Validation
+        if (!oldPath || !newPath) {
+             return er({ message: "oldPath or newPath missing", code: "ARGS_MISSING" });
+        }
+
+        // Auth Check
+        var userid = $i?.request?.user?.info?.userId;
+        if (!userid) return er({ message: "User not logged in", code: "USER_NOT_LOGGED_IN" });
+        var isAuthorized = await verifyAlias({$i, aliasId, userid });
+        if (!isAuthorized) return er({ message: "Unauthorized", code: "UNAUTHORIZED" });
+
+        // Construct full system paths
+        var fullOldPath = `${sp}/aliases/${aliasId}/fileSystem/${oldPath}`;
+        var fullNewPath = `${sp}/aliases/${aliasId}/fileSystem/${newPath}`;
+
+        // Perform the Copy
+        var result = await $i.db.copy(fullOldPath, fullNewPath);
+
+        if(result.error) return er(result.error);
+        
+        return { success: true, copiedFrom: oldPath, copiedTo: newPath };
+
+    } catch(e) {
+        return er({ message: "Copy failed", code: "COPY_ERROR", details: e.stack });
+    }
 }

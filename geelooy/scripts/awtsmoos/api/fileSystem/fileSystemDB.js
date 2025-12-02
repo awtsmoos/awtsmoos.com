@@ -16,11 +16,11 @@ class APIHandler {
 	
 	async rename(oldPath, newPath) {
 	        const aliasId = this.getCurrentAlias();
-	        const url = new URL(`${this.baseUrl}aliases/${aliasId}/fileSystem/renameFolder`);
+	        // B"H - We use the existing moveEntry vessel for renaming
+	        const url = new URL(`${this.baseUrl}aliases/${aliasId}/fileSystem/moveEntry`);
 	        
-	        // The server expects 'path' (old) and 'newPath'
 	        const params = new URLSearchParams({
-	            path: oldPath,
+	            oldPath: oldPath,
 	            newPath: newPath
 	        });
 	
@@ -267,14 +267,12 @@ class APIHandler {
 		}
 	}
 
-	async renameFolder(storeName,
-		oldKey, newKey) {
-
-
-		await this.makeFolder(
-			storeName, newKey);
-		await this.delete(storeName,
-			oldKey);
+	async renameFolder(storeName, oldKey, newKey) {
+        // Construct the full paths relative to the current context
+	        const oldPath = storeName ? `${storeName}/${oldKey}` : oldKey;
+	        const newPath = storeName ? `${storeName}/${newKey}` : newKey;
+        
+		await this.rename(oldPath, newPath);
 	}
 	// Rename a file (key) (as before)
 	async renameFile(storeName, oldKey,
@@ -297,6 +295,30 @@ class APIHandler {
 			`Renamed key "${oldKey}" to "${newKey}".`
 			);
 	}
+	
+	
+	
+    async copy(oldPath, newPath) {
+        const aliasId = this.getCurrentAlias();
+        const url = new URL(`${this.baseUrl}aliases/${aliasId}/fileSystem/copyEntry`);
+        
+        const params = new URLSearchParams({
+            oldPath: oldPath,
+            newPath: newPath
+        });
+
+        try {
+            const response = await fetch(url, {
+                method: 'POST',
+                body: params
+            });
+            await this.handleResponse(response);
+            return true;
+        } catch (error) {
+            console.error("Copy failed:", error);
+            throw error;
+        }
+    }
 
 
 	// Delete a key from a store (deleteFile)

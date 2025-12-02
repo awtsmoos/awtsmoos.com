@@ -98,16 +98,13 @@ class Collection {
    async load() {
         let buffer = await this.allocator.pager.readBlock(this.headerId);
         
-        // B"H: If the vessel is empty, we must form it.
+        // B"H: If the vessel is empty, create the header.
         if (!buffer) {
-            this.log("Initializing New Collection Header...");
-            buffer = Buffer.alloc(constants.BLOCK_SIZE);
-            // Reserve Block 1 (Header) in Allocator so it isn't overwritten? 
-            // Actually, Allocator starts cursor at 2, so Block 1 is safe implicitely.
-            // Just save the initial state.
             await this.saveHeader(); 
-            return; // State is now default (0,0,0) from constructor
+            return;
         }
+
+        let offset=32;
 
         let offset=32;
         this.headPageId = readPointer48(buffer, offset); offset+=6;

@@ -432,8 +432,8 @@ class BTree {
 	    const result = await this.removeRecursive(root, key);
 	    
 	    if (result.modified) {
-	        // If root became empty and has children, we might shrink tree (optional optimization)
-	        // For now, just save the changes.
+            // B"H: The Head has moved; we must follow.
+            this.rootPtr = result.newPtr;
 	    }
 	}
 	

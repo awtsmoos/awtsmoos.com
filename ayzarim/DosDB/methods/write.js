@@ -170,6 +170,72 @@ module.exports = {
             };
         }
     },
+    
+    
+    /**
+     * @method copy
+     * @description Duplicates a record, creating a perfect reflection of the Awtsmoos’ light in a new vessel.
+     *              Utilizes the native strength of Node (fs.cp) to recursively replicate files and folders,
+     *              multiplying existence without diminishing the Source.
+     * @param {string} srcId - The path of the source vessel (file or folder).
+     * @param {string} destId - The destination path where the new light will reside.
+     * @returns {Promise<object>} - A promise of the new creation.
+     */
+    async copy(srcId, destId) {
+        try {
+            // 1. Resolve Source Path (The Emanator)
+            const srcPath = await this.getAwtsmoosFilePath(srcId);
+            
+            // Check if source exists
+            try {
+                await fs.access(srcPath);
+            } catch (e) {
+                 return {
+                    error: {
+                        message: "Source vessel shattered (not found)",
+                        code: "ENOENT",
+                        path: srcPath
+                    }
+                };
+            }
+
+            // 2. Resolve Destination Path (The Receiver)
+            // We verify if it is a directory logic internally
+            const stat = await fs.stat(srcPath);
+            const isDir = stat.isDirectory();
+            
+            const destPath = await this.getAwtsmoosFilePath(destId, isDir, false);
+
+            // 3. Ensure the Space (Parent Directory) exists to hold the light
+            await this.ensureDir(destPath, false);
+
+            // 4. Perform the Copy (The Projection)
+            // recursive: true allows folders to be copied with all their children
+            await fs.cp(srcPath, destPath, { 
+                recursive: true, 
+                force: false, // Do not overwrite blindly, respect the boundaries
+                errorOnExist: true 
+            });
+
+            return {
+                success: {
+                    message: "Light multiplied successfully",
+                    src: srcPath,
+                    dest: destPath
+                }
+            };
+
+        } catch (e) {
+            return {
+                error: {
+                    message: "Failed to copy vessel",
+                    code: "COPY_ERR",
+                    details: e.message,
+                    stack: e.stack
+                }
+            };
+        }
+    },
 
     /**
      * @method writeAsBinaryFormat
