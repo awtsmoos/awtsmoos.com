@@ -45,6 +45,24 @@ class Page {
 
     add(key, type, pointer) {
         if (this.items.length >= constants.MAX_ITEMS_PER_PAGE) return false;
+        
+        // B"H: Measure the vessel before pouring the wine.
+        // Approx overhead: KeyLen + Key + Type(1) + Ptr(6+Var+Var) ~ KeyLen + 20
+        const estimatedSize = Buffer.byteLength(key) + 20;
+        
+        // We can't know exact total size easily without full serialize, 
+        // but we can be conservative. 
+        // If we want to be safe, we can try-catch the save, 
+        // but `add` must return false to trigger new page allocation in Collection.
+        
+        // Better Heuristic:
+        let currentSize = constants.HEADER_SIZE; 
+        for(let item of this.items) currentSize += (Buffer.byteLength(item.key) + 20);
+        
+        if ((currentSize + estimatedSize) > (constants.BLOCK_SIZE - 64)) {
+            return false; // Force new page
+        }
+
         this.items.push({ key, type, ptr: pointer });
         this.isDirty = true;
         return true;

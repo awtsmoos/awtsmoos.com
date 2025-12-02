@@ -79,11 +79,15 @@ class Collection {
                 await page.save(); 
             }
             this.totalCount++;
+            // Save initial header to secure the count
             await this.saveHeader();
 
             if (typeof value === 'object' && value !== null) {
                 this.indexManager.indexObject(dataPtr, value);
+                // Wait for the Indexing to complete (writing new Registry blocks)
                 await this.indexManager.queue;
+                // B"H: The Map has changed; we must record the new coordinates of the Registry.
+                await this.saveHeader(); 
             }
             return dataPtr;
         };
@@ -91,9 +95,20 @@ class Collection {
         return this.writeLock;
     }
     
-    async load() {
-        const buffer = await this.allocator.pager.readBlock(this.headerId);
-        if(!buffer) throw new Error("Header not found");
+   async load() {
+        let buffer = await this.allocator.pager.readBlock(this.headerId);
+        
+        // B"H: If the vessel is empty, we must form it.
+        if (!buffer) {
+            this.log("Initializing New Collection Header...");
+            buffer = Buffer.alloc(constants.BLOCK_SIZE);
+            // Reserve Block 1 (Header) in Allocator so it isn't overwritten? 
+            // Actually, Allocator starts cursor at 2, so Block 1 is safe implicitely.
+            // Just save the initial state.
+            await this.saveHeader(); 
+            return; // State is now default (0,0,0) from constructor
+        }
+
         let offset=32;
         this.headPageId = readPointer48(buffer, offset); offset+=6;
         this.tailPageId = readPointer48(buffer, offset); offset+=6;

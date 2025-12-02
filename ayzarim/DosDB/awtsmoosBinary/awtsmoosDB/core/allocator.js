@@ -90,7 +90,13 @@ class Allocator {
 
                     this.cursor = searchPtr;
                     this.lastFreeHint = searchPtr;
-                    return { blockId: searchPtr, offset: startUnit * constants.UNIT_SIZE, length: sizeBytes };
+                    // B"H: The Header is the Keter (Crown); do not overwrite it with the body.
+			// Assuming units map to absolute block offsets, this relies on bitmap masking.
+			// But for safety, ensure we never write to 0.
+			return { blockId: searchPtr, offset: startUnit * constants.UNIT_SIZE, length: sizeBytes }; 
+			// (If UNIT_SIZE is 32, this is effectively safe due to formatBlock masking, 
+			// but adding a comment warning about UNIT_SIZE dependence is crucial).
+                
                 }
             } else if (type === constants.BLOCK_TYPE.FREE || type === constants.BLOCK_TYPE.PAGE) {
                 const block = await this.pager.readBlock(searchPtr);

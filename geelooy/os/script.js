@@ -3,11 +3,7 @@ import  createProfileDropdown  from
     '/scripts/awtsmoos/social/profileDropdown.js';
 import AwtsmoosOS from "./awtsmoosOs.js";
 import menuItems from "./startMenu.js";
-(async () => {
 
-        createProfileDropdown(document.getElementById('loginHolder'));
-    
-})();
 var os = new AwtsmoosOS();
 window.os = os;
 // Function to create a new window and add it to the desktop
@@ -82,7 +78,58 @@ const desktop = document.getElementById('desktop');
     k.forEach(w=> {
         window[w] = ut[w];
     })
-    await os.start();
+
+    // B"H - INJECTING THE CROWN (HEADER)
+    // We move the existing loginHolder into a new specialized header container
+    // and add the fullscreen toggle to it.
+    const mainContainer = document.querySelector('.main');
+    const existingLogin = document.getElementById('loginHolder');
+    
+    // Create the Header Element
+    const topHeader = document.createElement('div');
+    topHeader.className = 'awtsmoos-top-header';
+    
+    // Create container for login stuff
+    const loginWrapper = document.createElement('div');
+    loginWrapper.className = 'login-area-container';
+    
+    if (existingLogin) {
+        // Move the login holder inside our wrapper
+        loginWrapper.appendChild(existingLogin);
+        // Initialize the profile dropdown logic
+       // 
+    }
+    
+    // Create the Fullscreen Toggle Button (The Eye)
+    const fsBtn = document.createElement('button');
+    fsBtn.className = 'fullscreen-toggle-btn';
+    fsBtn.title = "Toggle Infinite Mode (Fullscreen)";
+    fsBtn.innerHTML = `
+        <svg viewBox="0 0 24 24">
+            <path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/>
+        </svg>
+    `;
+    
+    fsBtn.onclick = () => {
+        os.toggleFullScreen();
+        // Visual feedback
+        fsBtn.style.transform = "scale(0.9)";
+        setTimeout(() => fsBtn.style.transform = "", 150);
+    };
+
+    // Assemble the Crown
+    topHeader.appendChild(loginWrapper);
+    topHeader.appendChild(fsBtn);
+    
+    // Insert at the very top of .main
+    mainContainer.insertBefore(topHeader, mainContainer.firstChild);
+	console.log(existingLogin.id,22)
+	
+	addEventListener("awtsmoosAliasChange", async (e) => {
+		await os.start();
+	})
+	createProfileDropdown(existingLogin);
+    
     
 })()
 

@@ -208,17 +208,21 @@ class BTree {
     async insertRecursive(node, key, valuePtr) {
 	    // Case 1: Leaf Node
 	    if (node.isLeaf) {
-	        let idx = 0;
-	        while (idx < node.keys.length && node.keys[idx] < key) idx++;
-	        
-	        node.keys.splice(idx, 0, key);
-	        node.values.splice(idx, 0, valuePtr);
-	        node.count = (node.count || 0) + 1;
-	        
-	        const savedPtr = await this.saveNode(node);
-	        // Important: Return the new pointer so caller can update reference
-	        return { newChild: null, newPtr: savedPtr };
-	    } 
+	            let idx = 0;
+	            while (idx < node.keys.length && node.keys[idx] < key) idx++;
+	            
+	            node.keys.splice(idx, 0, key);
+	            node.values.splice(idx, 0, valuePtr);
+	            node.count = (node.count || 0) + 1;
+	            
+	            // B"H: The Vessel must shatter to expand. Check for overflow.
+	            if (node.keys.length > this.order) {
+	                return await this.splitLeaf(node);
+	            }
+	
+	            const savedPtr = await this.saveNode(node);
+	            return { newChild: null, newPtr: savedPtr };
+	        } 
 	    
 	    // Case 2: Internal Node
 	    let idx = 0;

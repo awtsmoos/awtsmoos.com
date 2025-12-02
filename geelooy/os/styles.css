@@ -1,31 +1,53 @@
 /*B"H*/
 
 /* --- General Body and HTML --- */
+/*B"H*/
+
+/* --- General Body and HTML --- */
 body, html {
     width: 100%;
     height: 100%;
-}
-.hidden {
-display:none
-}
-body {
     margin: 0;
     padding: 0;
-    overflow: hidden;
-    /* Windows XP's primary font for that authentic feel */
-    font-family: 'Tahoma', 'Segoe UI', Geneva, Verdana, sans-serif;
-    /* A deep, modern version of the Bliss background blue */
+    overflow: hidden; /* The Essence is contained, no leakage to the outer void */
+}
+
+/* 
+   The Main Vessel (Kli) 
+   It unifies the distinct sefirot (Header, Desktop, Footer) 
+   into a single column of divine emanation.
+*/
+.main {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100vw;
     background-color: #0d47a1;
 }
 
+.hidden {
+    display:none
+}
+
+body {
+    /* Windows XP's primary font for that authentic feel */
+    font-family: 'Tahoma', 'Segoe UI', Geneva, Verdana, sans-serif;
+    background-color: #0d47a1;
+}
 /* 
 ================================================================
   TASKBAR STYLES (MODERN "LUNA" THEME)
 ================================================================
 */
+/* 
+================================================================
+  TASKBAR STYLES (MODERN "LUNA" THEME)
+  The Foundation (Malchus) - It supports the structure from below
+================================================================
+*/
 #start-bar {
-    position: fixed;
-    bottom: 0;
+    position: relative; /* Not fixed, but part of the organic whole */
+    flex-shrink: 0;     /* The foundation must remain solid, never shrinking */
     width: 100%;
     /* 
       A rich, glossy gradient inspired by Windows XP's Luna theme,
@@ -35,16 +57,14 @@ body {
     color: white;
     display: flex;
     align-items: center;
-    height: 38px; /* A sleeker, more modern height */
+    height: 38px; 
     z-index: 1000;
-    /* A sharp top border to create a "glass" effect */
     border-top: 1px solid #7cbbff;
     padding: 0 5px;
     gap: 5px;
-    /* Add a subtle shadow to lift it off the desktop */
     box-shadow: 0 -2px 15px rgba(0, 0, 0, 0.3);
+    order: 3; /* Ensures it stays at the bottom visual hierarchy */
 }
-
 
 /* 
 ================================================================
@@ -283,9 +303,75 @@ body {
 }
 
 #desktop {
-    width: 100%;
-    height: calc(100vh - 38px);
     position: relative;
-    overflow: hidden;
+    width: 100%;
+    /* 
+       The Tiferet (Beauty) - The central space.
+       It expands to fill the void left by Keter and Malchus.
+    */
+    flex-grow: 1; 
+    height: auto; /* Let the container dictate the limit */
+    overflow: hidden; /* Scrollbars belong to windows, not the void itself */
     transition: background-color 0.3s ease;
+    order: 2; /* Sits between Header and Footer */
 }
+
+
+/* 
+================================================================
+  THE TOP CROWN (KETER) - SYSTEM HEADER
+================================================================
+*/
+.awtsmoos-top-header {
+    height: 28px; /* A thin, subtle emanation from above */
+    background: linear-gradient(90deg, #1c2630, #2c3e50);
+    border-bottom: 1px solid #455a64;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 10px;
+    color: #cfd8dc;
+    font-size: 12px;
+    flex-shrink: 0; /* It remains constant */
+    order: 1; /* The highest point in the flex column */
+    z-index: 1002;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.login-area-container {
+    display: flex;
+    align-items: center;
+}
+
+/* 
+   The Eye of Providence (Fullscreen Toggle) 
+   Expands the perception to encompass the whole (Screen).
+*/
+.fullscreen-toggle-btn {
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.2);
+    color: #fff;
+    cursor: pointer;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+}
+
+.fullscreen-toggle-btn:hover {
+    background: rgba(255,255,255,0.1);
+    transform: scale(1.1) rotate(90deg); /* A spark of movement */
+    border-color: #4fc3f7;
+    box-shadow: 0 0 8px rgba(79, 195, 247, 0.6);
+}
+
+.fullscreen-toggle-btn svg {
+    fill: currentColor;
+    width: 14px;
+    height: 14px;
+    pointer-events: none;
+}
+
