@@ -27,31 +27,28 @@ class Collection {
             const valData = serializeValue(value, false);
             const dataPtr = await this.allocator.allocate(valData.data.length);
             
-            console.log(`[Collection] Allocated Data Ptr: Block ${dataPtr.blockId}, Offset ${dataPtr.offset}`);
+            // console.log(`[Collection] Allocated Data Ptr: Block ${dataPtr.blockId}, Offset ${dataPtr.offset}`);
 
             if (dataPtr.isChain) {
-                 // Chain logic (omitted for brevity, assume correct)
+                 // Chain logic: We own the whole blocks (Overflow), so direct write is safe.
+                 // Need to implement chain writing similar to BTree
+                 let remaining = valData.data;
+                 let currentBlock = dataPtr.blockId;
+                 while(remaining.length > 0) {
+                     let blk = await this.allocator.pager.readBlock(currentBlock);
+                     const start = (currentBlock === dataPtr.blockId) ? dataPtr.offset : constants.UNIT_SIZE;
+                     const avail = constants.BLOCK_SIZE - start;
+                     const chunk = Math.min(remaining.length, avail);
+                     remaining.subarray(0, chunk).copy(blk, start);
+                     await this.allocator.pager.writeBlock(currentBlock, blk);
+                     remaining = remaining.subarray(chunk);
+                     currentBlock++;
+                 }
             } else {
-                let block = await this.allocator.pager.readBlock(dataPtr.blockId);
-                // Paranoid verification of read
-                if (!block) throw new Error(`[Collection] Block ${dataPtr.blockId} failed to read after allocation`);
-
-                valData.data.copy(block, dataPtr.offset);
+                // Shared Block: Must use safe write
+                await this.allocator.writeUserSpace(dataPtr, valData.data);
                 
-                // Log what we are writing
-                const debugHex = block.subarray(dataPtr.offset, dataPtr.offset + valData.data.length).toString('hex');
-                console.log(`[Collection] Writing Data to Block ${dataPtr.blockId} @ ${dataPtr.offset}: ${debugHex}`);
-
-                await this.allocator.pager.writeBlock(dataPtr.blockId, block);
-                
-                // READ BACK VERIFY
-                const check = await this.allocator.pager.readBlock(dataPtr.blockId);
-                const checkHex = check.subarray(dataPtr.offset, dataPtr.offset + valData.data.length).toString('hex');
-                if (checkHex !== debugHex) {
-                    console.error(`[Collection] CRITICAL WRITE FAILURE on Block ${dataPtr.blockId}. Read back: ${checkHex}`);
-                } else {
-                    console.log(`[Collection] Write Verified.`);
-                }
+                // console.log(`[Collection] Write Verified.`);
             }
     
             let page;
@@ -79,14 +76,11 @@ class Collection {
                 await page.save(); 
             }
             this.totalCount++;
-            // Save initial header to secure the count
             await this.saveHeader();
 
             if (typeof value === 'object' && value !== null) {
                 this.indexManager.indexObject(dataPtr, value);
-                // Wait for the Indexing to complete (writing new Registry blocks)
                 await this.indexManager.queue;
-                // B"H: The Map has changed; we must record the new coordinates of the Registry.
                 await this.saveHeader(); 
             }
             return dataPtr;
@@ -98,13 +92,10 @@ class Collection {
    async load() {
         let buffer = await this.allocator.pager.readBlock(this.headerId);
         
-        // B"H: If the vessel is empty, create the header.
         if (!buffer) {
             await this.saveHeader(); 
             return;
         }
-
-
 
         let offset=32;
         this.headPageId = readPointer48(buffer, offset); offset+=6;

@@ -31,6 +31,32 @@ class Allocator {
         return this.mutex;
     }
 
+    /**
+     * Safely writes user data to a block without corrupting the allocation bitmap.
+     * Use this for ANY write to a block that might be shared (non-chain, small allocations).
+     */
+    writeUserSpace(ptr, data) {
+        if (ptr.isChain) {
+             throw new Error("B\"H: writeUserSpace only supports single-block shared writes.");
+        }
+
+        const task = async () => {
+            await this.semaphore.acquire();
+            try {
+                const block = await this.pager.readBlock(ptr.blockId);
+                if (!block) throw new Error(`Block ${ptr.blockId} missing during write`);
+                
+                data.copy(block, ptr.offset);
+                
+                await this.pager.writeBlock(ptr.blockId, block);
+            } finally {
+                this.semaphore.release();
+            }
+        };
+        this.mutex = this.mutex.then(task, task);
+        return this.mutex;
+    }
+
     async allocatePage() {
         const task = async () => {
             await this.semaphore.acquire();
@@ -78,11 +104,9 @@ class Allocator {
             const type = await this.pager.readBlockType(searchPtr);
             
             if (type === null) {
-                // New Block found at EOF
                 this.log(`Small Alloc -> New Block ${searchPtr}`);
                 const block = this.formatBlock(constants.BLOCK_TYPE.PAGE);
                 
-                // Clear Data Area (32-4096)
                 block.fill(0, constants.HEADER_SIZE, constants.BLOCK_SIZE);
                 
                 const bitmap = block.subarray(constants.BITMAP_OFFSET, constants.BITMAP_OFFSET + constants.BITMAP_SIZE);
@@ -106,7 +130,6 @@ class Allocator {
                         this.markBitmap(bitmap, startUnit, unitsNeeded, true);
                         if (type === constants.BLOCK_TYPE.FREE) block.writeUInt32BE(constants.BLOCK_TYPE.PAGE, 0);
                         
-                        // B"H: Purify the vessel.
                         const startByte = startUnit * constants.UNIT_SIZE;
                         const endByte = startByte + (unitsNeeded * constants.UNIT_SIZE);
                         block.fill(0, startByte, endByte);
@@ -118,7 +141,6 @@ class Allocator {
                 }
             }
             searchPtr++;
-            // Wrap around logic
             if (searchPtr > 1000000) { 
                 if (looped) throw new Error("Disk Full");
                 searchPtr = 2; 
@@ -133,7 +155,6 @@ class Allocator {
         let startBlock = await this.findSequentialBlocks(blocksNeeded);
         for (let i = 0; i < blocksNeeded; i++) {
             const blk = this.formatBlock(constants.BLOCK_TYPE.OVERFLOW);
-            // Mark all as used in overflow blocks
             blk.fill(0xFF, constants.BITMAP_OFFSET, constants.BITMAP_OFFSET + constants.BITMAP_SIZE);
             await this.pager.writeBlock(startBlock + i, blk);
         }
@@ -181,7 +202,6 @@ class Allocator {
     formatBlock(type) {
         const buf = Buffer.alloc(constants.BLOCK_SIZE);
         buf.writeUInt32BE(type, 0);
-        // Mark first unit (Header) as used. 0b10000000
         buf[constants.BITMAP_OFFSET] = 0x80; 
         return buf;
     }
@@ -189,16 +209,13 @@ class Allocator {
     findGap(bitmap, count) {
         let run = 0;
         let start = -1;
-        // B"H: Ensure we don't scan past the bitmap buffer
         const maxBits = constants.BITMAP_SIZE * 8;
         
         for (let i = 0; i < maxBits; i++) {
             const byteIndex = Math.floor(i / 8);
-            const bitIndex = i % 8;
-            
-            // Safety Check
             if (byteIndex >= bitmap.length) break;
 
+            const bitIndex = i % 8;
             const isUsed = (bitmap[byteIndex] >> (7 - bitIndex)) & 1;
             if (!isUsed) {
                 if (run === 0) start = i;

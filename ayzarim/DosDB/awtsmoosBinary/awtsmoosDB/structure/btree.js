@@ -45,13 +45,11 @@ class BTree {
 	        }
 	    } else {
 	        const block = await this.allocator.pager.readBlock(ptr.blockId);
-            // B"H: If block is missing or corrupt, assume empty/error
             if (!block) throw new Error(`Block ${ptr.blockId} missing`);
 	        buffer = block.subarray(ptr.offset, ptr.offset + ptr.length);
 	    }
 	
 	    let offset = 0;
-        // Safety: Ensure we have enough data for minimal header (Flag + KeyCount = 3 bytes)
         if (buffer.length < 3) throw new Error("BTree Node Corruption: Buffer too small");
 
 	    const flags = buffer.readUInt8(offset); offset++;
@@ -60,7 +58,6 @@ class BTree {
 	
 	    const keys = [];
 	    for (let i = 0; i < keyCount; i++) {
-            // Safety Check
             if (offset >= buffer.length) break;
 	        const k = serializer.readString(buffer, offset);
 	        keys.push(k.value);
@@ -68,9 +65,7 @@ class BTree {
 	    }
 	
 	    const readPtr = () => {
-            // Safety guard: Pointer is minimum 9 bytes (6+1+1+1)
 	        if (offset + 9 > buffer.length) {
-	             // Use dummy if corrupt
                  return { blockId: 0, offset: 0, length: 0, isChain: false };
 	        }
 	        const blockId = readPointer48(buffer, offset); offset += 6;
@@ -89,7 +84,6 @@ class BTree {
 	        for (let i = 0; i <= keyCount; i++) children.push(readPtr());
 	    }
 	
-        // Final count safety check
         let count = 0;
         if (offset + 4 <= buffer.length) {
     	    count = buffer.readUInt32BE(offset);
@@ -129,7 +123,6 @@ class BTree {
 	    const newPtr = await this.allocator.allocate(raw.length);
 	
 	    if (newPtr.isChain) {
-            // Chain writing logic (omitted for brevity, essentially same as before)
             let remaining = raw;
 	        let currentBlock = newPtr.blockId;
 	        while (remaining.length > 0) {
@@ -143,9 +136,8 @@ class BTree {
 	            currentBlock++;
 	        }
 	    } else {
-	        const blk = await this.allocator.pager.readBlock(newPtr.blockId);
-	        raw.copy(blk, newPtr.offset);
-	        await this.allocator.pager.writeBlock(newPtr.blockId, blk);
+	        // SHARED BLOCK WRITE FIX
+	        await this.allocator.writeUserSpace(newPtr, raw);
 	    }
 	    return newPtr;
 	}
@@ -165,7 +157,6 @@ class BTree {
         }
     }
     
- 
     async insertRecursive(node, key, valuePtr) {
         if (node.isLeaf) {
             let idx = 0;
