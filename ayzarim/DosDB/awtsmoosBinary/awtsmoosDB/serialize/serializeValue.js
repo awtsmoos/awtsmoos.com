@@ -16,6 +16,11 @@ function hasDecimal(num) {
 function serializeValue(value, fullBuffer = true) {
     if (!serializeArray_fn) serializeArray_fn = require("./array.js");
     if (!serializeJSON_fn) serializeJSON_fn = require("./obj.js");
+    
+    // B"H: Safety check to ensure the scribe has arrived.
+    if (Array.isArray(value) && typeof serializeArray_fn !== 'function') {
+        serializeArray_fn = require("./array.js");
+    }
 
     let type = 0;
     let data = Buffer.alloc(0);

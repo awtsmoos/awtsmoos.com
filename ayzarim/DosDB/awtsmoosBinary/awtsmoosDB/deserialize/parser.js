@@ -2,7 +2,13 @@
 // Strict Parser for all V1 Types + New Universal V2 Types.
 const constants = require("../constants.js");
 const { unpackTypeAndLengthSize, readConditional } = require("../utils/binaryHelpers.js");
-const { readVarInt, readString } = require("../utils/serializer.js");
+
+// B"H
+// We import the entire object and bind methods to preserve 'this' context,
+// as readString relies on this.readVarInt internally.
+const serializer = require("../utils/serializer.js");
+const readVarInt = serializer.readVarInt.bind(serializer);
+const readString = serializer.readString.bind(serializer);
 const floatHandler = require("../utils/floatHandler.js");
 const stringPacker = require("../utils/stringPacker.js");
 
