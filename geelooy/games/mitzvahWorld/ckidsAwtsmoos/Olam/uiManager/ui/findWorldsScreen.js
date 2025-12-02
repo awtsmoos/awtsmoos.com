@@ -218,7 +218,7 @@ export default {
                                     const fileRes = await fetch(
                                         `/api/social/aliases/${alias}/fileSystem/readFile?${
                                             new URLSearchParams({
-                                                path: `desktop.folder/game data.folder/worlds.folder/${filename}`
+                                                path: `desktop.folder/game data.folder/worlds/${filename}`
                                             })   
                                         }`
                                     );
