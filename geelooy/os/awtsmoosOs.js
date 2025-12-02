@@ -21,6 +21,12 @@ export default class AwtsmoosOS {
         window.os = this;
         
         this.currentPathForRefresh = 'desktop.folder';
+        
+        this.clipboard = {
+            action: null, // 'cut' or 'copy'
+            path: null,   // The source path
+            name: null    // The filename/foldername
+        };
     }
     
 	toggleFullScreen() {

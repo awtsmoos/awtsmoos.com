@@ -13,6 +13,52 @@ class APIHandler {
 	async init(name) {
 		this.dbName = name;
 	}
+	
+	async rename(oldPath, newPath) {
+	        const aliasId = this.getCurrentAlias();
+	        const url = new URL(`${this.baseUrl}aliases/${aliasId}/fileSystem/renameFolder`);
+	        
+	        // The server expects 'path' (old) and 'newPath'
+	        const params = new URLSearchParams({
+	            path: oldPath,
+	            newPath: newPath
+	        });
+	
+	        try {
+	            const response = await fetch(url, {
+	                method: 'POST',
+	                body: params
+	            });
+	            await this.handleResponse(response);
+	            return true;
+	        } catch (error) {
+	            console.error("Rename failed:", error);
+	            throw error;
+	        }
+	    }
+	
+	    // ---MOVE METHOD (Cut/Paste) ---
+	    async move(oldPath, newPath) {
+	        const aliasId = this.getCurrentAlias();
+	        const url = new URL(`${this.baseUrl}aliases/${aliasId}/fileSystem/moveEntry`);
+	        
+	        const params = new URLSearchParams({
+	            oldPath: oldPath,
+	            newPath: newPath
+	        });
+	
+	        try {
+	            const response = await fetch(url, {
+	                method: 'POST',
+	                body: params
+	            });
+	            await this.handleResponse(response);
+	            return true;
+	        } catch (error) {
+	            console.error("Move failed:", error);
+	            throw error;
+	        }
+	    }
 
 	// Helper function to get the current alias
 	getCurrentAlias() {
@@ -46,29 +92,7 @@ class APIHandler {
 		return response.json();
 	}
 	
-	async move(oldPath, newPath) {
-        const aliasId = this.getCurrentAlias();
-        const url = new URL(`${this.baseUrl}aliases/${aliasId}/fileSystem/moveEntry`);
-        
-        const params = new URLSearchParams({
-            oldPath: oldPath,
-            newPath: newPath
-        });
-
-        try {
-            const response = await fetch(url, {
-                method: 'POST',
-                body: params
-            });
-
-            await this.handleResponse(response);
-            console.log(`Moved "${oldPath}" to "${newPath}" successfully.`);
-            return true;
-        } catch (error) {
-            console.error("Error moving entry:", error);
-            throw error;
-        }
-    }
+	
 
 
 	async makeFile({$i}) {

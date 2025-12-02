@@ -1,6 +1,13 @@
 //B"H
+import  createProfileDropdown  from 
+    '/scripts/awtsmoos/social/profileDropdown.js';
 import AwtsmoosOS from "./awtsmoosOs.js";
 import menuItems from "./startMenu.js";
+(async () => {
+
+        createProfileDropdown(document.getElementById('loginHolder'));
+    
+})();
 var os = new AwtsmoosOS();
 window.os = os;
 // Function to create a new window and add it to the desktop

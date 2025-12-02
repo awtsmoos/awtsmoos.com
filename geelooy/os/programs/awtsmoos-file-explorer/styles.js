@@ -598,7 +598,7 @@ export default /*css*/`
     width: 64px; 
     height: 64px; 
     margin-bottom: 5px;
-    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23FFC107"><path d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zM13 9V3.5L18.5 9H13z"/></svg>'); 
+   
 }
 
 
@@ -621,5 +621,69 @@ export default /*css*/`
 /* Override padding for name cell so icon isn't too close to edge */
 .row-cell.name-cell {
     padding-left: 8px;
+}
+
+/* Visual state for selected items */
+.file-item.icon.selected,
+.details-row.selected {
+    background-color: #cce8ff;
+    border-color: #99d1ff;
+    outline: 1px solid #007bff;
+    border-radius: 4px;
+}
+
+/* Visual state for 'Cut' items (The Ghost) */
+.cut-ghost {
+    opacity: 0.5;
+    filter: grayscale(100%);
+    transition: opacity 0.2s;
+}
+
+
+/* ... existing styles ... */
+
+/* Floating Selection Action Bar */
+.selection-action-bar {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #333;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 50px;
+    display: flex;
+    gap: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    z-index: 100;
+    animation: slideUp 0.3s ease-out;
+}
+
+.selection-action-bar button {
+    background: transparent;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14px;
+    padding: 5px 10px;
+    border-radius: 20px;
+    transition: background 0.2s;
+}
+
+.selection-action-bar button:hover {
+    background: rgba(255,255,255,0.2);
+}
+
+.selection-action-bar button.cancel-btn {
+    background: #d9534f;
+}
+.selection-action-bar button.cancel-btn:hover {
+    background: #c9302c;
+}
+
+@keyframes slideUp {
+    from { transform: translate(-50%, 100%); opacity: 0; }
+    to { transform: translate(-50%, 0); opacity: 1; }
 }
 `;
