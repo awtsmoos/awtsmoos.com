@@ -21,10 +21,40 @@ module .exports ={
     makeFolder,
     deleteEntry,
     readFolder,
-    renameFolder
+    renameFolder,
+    moveEntry
 };
 
+// Handles moving files AND folders
+async function moveEntry({$i}) {
+    try {
+        let { aliasId, oldPath, newPath } = $i.$_POST;
+        
+        // Basic Validation
+        if (!oldPath || !newPath) {
+             return er({ message: "oldPath or newPath missing", code: "ARGS_MISSING" });
+        }
 
+        // Auth Check
+        var userid = $i?.request?.user?.info?.userId;
+        if (!userid) return er({ message: "User not logged in", code: "USER_NOT_LOGGED_IN" });
+        var isAuthorized = await verifyAlias({$i, aliasId, userid });
+        if (!isAuthorized) return er({ message: "Unauthorized", code: "UNAUTHORIZED" });
+
+        // Construct full system paths
+        var fullOldPath = `${sp}/aliases/${aliasId}/fileSystem/${oldPath}`;
+        var fullNewPath = `${sp}/aliases/${aliasId}/fileSystem/${newPath}`;
+
+        // Perform the Move (Rename)
+        // Note: DOSDB's rename works for both files and folders usually
+        await $i.db.rename(fullOldPath, fullNewPath);
+
+        return { success: true, movedFrom: oldPath, movedTo: newPath };
+
+    } catch(e) {
+        return er({ message: "Move failed", code: "MOVE_ERROR", details: e.stack });
+    }
+}
 async function readFile({$i}) {
     let { aliasId, path } = $i.$_POST;
     if (!path) path = $i.$_GET.path;

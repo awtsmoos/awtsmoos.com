@@ -140,7 +140,7 @@ module.exports = {
                     }
                 }
                 
-                const fileIndexes = await this.getDirectoryIndecies({
+                var fileIndexes = await this.getDirectoryIndecies({
                     directoryPath: filePath,
                     page: options.page || 1,
                     pageSize: options.max === true ? 500 : options.pageSize || 10,

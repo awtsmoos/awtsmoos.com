@@ -45,6 +45,30 @@ class APIHandler {
 		}
 		return response.json();
 	}
+	
+	async move(oldPath, newPath) {
+        const aliasId = this.getCurrentAlias();
+        const url = new URL(`${this.baseUrl}aliases/${aliasId}/fileSystem/moveEntry`);
+        
+        const params = new URLSearchParams({
+            oldPath: oldPath,
+            newPath: newPath
+        });
+
+        try {
+            const response = await fetch(url, {
+                method: 'POST',
+                body: params
+            });
+
+            await this.handleResponse(response);
+            console.log(`Moved "${oldPath}" to "${newPath}" successfully.`);
+            return true;
+        } catch (error) {
+            console.error("Error moving entry:", error);
+            throw error;
+        }
+    }
 
 
 	async makeFile({$i}) {

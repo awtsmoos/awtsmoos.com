@@ -532,4 +532,72 @@ export default /*css*/`
     background-color: var(--accent-blue);
     color: white;
     border-color: var(--accent-blue);
-}`;
+}
+
+
+/* Append to existing styles */
+
+/* Selected Item State */
+.file-item.icon.selected,
+.details-row.selected {
+    background-color: #cce8ff;
+    border-color: #99d1ff;
+    outline: 1px solid #007bff;
+    border-radius: 4px;
+}
+
+/* Nav Up Button */
+.nav-btn {
+    background: transparent;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    padding: 0 8px;
+    color: #555;
+    border-right: 1px solid #ddd;
+    margin-right: 5px;
+    display: flex;
+    align-items: center;
+}
+.nav-btn:hover {
+    color: #007bff;
+    background-color: #eee;
+}
+
+/* Empty State */
+.empty-folder-state {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #888;
+    font-style: italic;
+    font-size: 1.2rem;
+    grid-column: 1 / -1; /* Span all columns in grid */
+}
+
+/* Icon Container */
+.file-item.icon {
+    justify-content: flex-start;
+    gap: 5px;
+    text-align: center;
+    height: 110px; /* Fixed height for uniformity */
+    overflow: hidden;
+    /* Ensure border doesn't jump layout when selected */
+    border: 1px solid transparent; 
+}
+
+.file-item.icon:hover {
+    background-color: #e5f3ff;
+    border-color: #e5f3ff;
+}
+
+/* Ensure Folder SVG is visible */
+.folder-icon { 
+    width: 64px; 
+    height: 64px; 
+    margin-bottom: 5px;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23FFC107"><path d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zM13 9V3.5L18.5 9H13z"/></svg>'); 
+}
+`;

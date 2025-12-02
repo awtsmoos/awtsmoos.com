@@ -219,9 +219,9 @@ export default ({
     }
 
     function getIconClass(itemName, isFolder) {
-	
-	
-	    if (isFolder || itemName.endsWith('.folder') || itemName === 'desktop.folder') return 'folder-icon';
+	    if (isFolder || itemName.endsWith('.folder') || itemName === 'desktop.folder') {
+	        return 'folder-icon';
+	    }
 	    if (itemName.endsWith('.js')) return 'js-icon';
 	    if (itemName.endsWith('.css')) return 'css-icon';
 	    if (itemName.endsWith('.html')) return 'html-icon';
@@ -229,25 +229,58 @@ export default ({
 	}
     
     function renderIconView(items, targetPath, holder) {
+	    if (items.length === 0) {
+	        holder.innerHTML = '<div class="empty-folder-state">Folder is empty</div>';
+	        return;
+	    }
+	
 	    items.forEach(item => {
 	        const itemName = item.name;
-	        // Check both new API type and old suffix convention
+	        // Check new API type OR legacy suffix
 	        const isFolder = item.type === 'directory' || itemName.endsWith('.folder');
+	        const displayName = itemName.replace('.folder', '');
 	        
-	        holder.appendChild(createElement({
+	        const itemDiv = createElement({
 	            tag: 'div',
 	            attributes: { class: 'file-item icon' },
 	            children: [
-	                // FIX: Pass isFolder to the icon selector
 	                { tag: 'div', attributes: { class: getIconClass(itemName, isFolder) } },
-	                { tag: 'span', html: itemName.replace('.folder', '') }
+	                { tag: 'span', html: displayName }
 	            ],
 	            on: {
-	                click: (e) => handleItemClick(e, { targetPath, item: itemName, isFolder }),
-	                contextmenu: event => showContextMenu({ os, event, path: targetPath, title: itemName, isFolder })
+	                // SINGLE CLICK: Select
+	                click: (e) => {
+	                    e.stopPropagation();
+	                    // 1. Remove 'selected' from all other items
+	                    holder.querySelectorAll('.file-item.selected').forEach(el => el.classList.remove('selected'));
+	                    // 2. Add 'selected' to this item
+	                    itemDiv.classList.add('selected');
+	                },
+	                
+	                // DOUBLE CLICK: Open
+	                dblclick: (e) => {
+	                    e.stopPropagation();
+	                    handleItemClick(e, { targetPath, item: itemName, isFolder });
+	                },
+	                
+	                // RIGHT CLICK: Select + Context Menu
+	                contextmenu: event => {
+	                     // Select this item on right click too
+	                     holder.querySelectorAll('.file-item.selected').forEach(el => el.classList.remove('selected'));
+	                     itemDiv.classList.add('selected');
+	                     
+	                     showContextMenu({ os, event, path: targetPath, title: itemName, isFolder });
+	                }
 	            }
-	        }));
+	        });
+	        
+	        holder.appendChild(itemDiv);
 	    });
+	    
+	    // Clicking on white space deselects everything
+	    holder.onclick = () => {
+	        holder.querySelectorAll('.file-item.selected').forEach(el => el.classList.remove('selected'));
+	    };
 	}
 
 
@@ -390,51 +423,65 @@ export default ({
     }
 
     function createPathBar() {
-        pathBreadcrumbs = createElement({ tag: 'div', attributes: { class: 'path-breadcrumbs' }});
-        
-        const pathInput = createElement({ tag: 'input', attributes: { type: 'text' }});
-        pathInputContainer = createElement({ tag: 'div', attributes: { class: 'path-input-container' }});
-        pathInputContainer.appendChild(pathInput);
-
-        const editBtn = createElement({ tag: 'button', attributes: { class: 'edit-path-btn' }, html: '✎' });
-
-        const switchToEditMode = () => {
-            pathBreadcrumbs.style.display = 'none';
-            editBtn.style.display = 'none';
-            pathInputContainer.style.display = 'flex';
-            pathInput.focus();
-            pathInput.select();
-        };
-        
-        editBtn.onclick = switchToEditMode;
-
-        const onEditEnd = () => {
-            pathBreadcrumbs.style.display = 'flex';
-            editBtn.style.display = 'block';
-            pathInputContainer.style.display = 'none';
-        };
-
-        pathInput.addEventListener('blur', onEditEnd);
-        pathInput.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') {
-                navigateTo(pathInput.value.trim());
-                onEditEnd();
-            }
-        });
-        
-        const container = createElement({
-            tag: 'div',
-            attributes: { class: 'path-bar-container' },
-            on: { click: (e) => {
-                if (e.target.classList.contains('path-bar-container') || e.target.classList.contains('path-breadcrumbs')) {
-                    switchToEditMode();
-                }
-            }}
-        });
-
-        container.append(pathBreadcrumbs, pathInputContainer, editBtn);
-        return container;
-    }
+	    pathBreadcrumbs = createElement({ tag: 'div', attributes: { class: 'path-breadcrumbs' }});
+	    
+	    const pathInput = createElement({ tag: 'input', attributes: { type: 'text' }});
+	    pathInputContainer = createElement({ tag: 'div', attributes: { class: 'path-input-container' }});
+	    pathInputContainer.appendChild(pathInput);
+	
+	    // --- UP BUTTON ---
+	    const upBtn = createElement({ 
+	        tag: 'button', 
+	        attributes: { class: 'nav-btn', title: 'Go Up' }, 
+	        html: '↑',
+	        on: { click: () => {
+	            if(state.currentPath === '/' || !state.currentPath) return;
+	            // Remove last segment to go up
+	            const parent = state.currentPath.split('/').slice(0, -1).join('/') || '/';
+	            navigateTo(parent);
+	        }}
+	    });
+	
+	    const editBtn = createElement({ tag: 'button', attributes: { class: 'edit-path-btn' }, html: '✎' });
+	
+	    const switchToEditMode = () => {
+	        pathBreadcrumbs.style.display = 'none';
+	        editBtn.style.display = 'none';
+	        pathInputContainer.style.display = 'flex';
+	        pathInput.focus();
+	        pathInput.select();
+	    };
+	    
+	    editBtn.onclick = switchToEditMode;
+	
+	    const onEditEnd = () => {
+	        pathBreadcrumbs.style.display = 'flex';
+	        editBtn.style.display = 'block';
+	        pathInputContainer.style.display = 'none';
+	    };
+	
+	    pathInput.addEventListener('blur', onEditEnd);
+	    pathInput.addEventListener('keydown', (e) => {
+	        if (e.key === 'Enter') {
+	            navigateTo(pathInput.value.trim());
+	            onEditEnd();
+	        }
+	    });
+	    
+	    const container = createElement({
+	        tag: 'div',
+	        attributes: { class: 'path-bar-container' },
+	        on: { click: (e) => {
+	            if (e.target.classList.contains('path-bar-container') || e.target.classList.contains('path-breadcrumbs')) {
+	                switchToEditMode();
+	            }
+	        }}
+	    });
+	
+	    // Add Up button to the start
+	    container.append(upBtn, pathBreadcrumbs, pathInputContainer, editBtn);
+	    return container;
+	}
 
     async function buildFileTree(rootPath, parentElement) {
     parentElement.innerHTML = '';

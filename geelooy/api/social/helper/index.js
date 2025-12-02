@@ -7,7 +7,7 @@
 // General Utilities
 var { loggedIn, er } = require("./general.js");
 
-// Mail (Assuming unchanged)
+// Mail 
 var {
     getMail,
     sendMail,
@@ -22,7 +22,7 @@ var {
     getLatestNotification
 } = require("./mail.js");
 
-// Comments (Assuming largely unchanged, but check dependencies like deleteAllCommentsOfParent)
+// Comments 
 var {
     addComment, getComment, deleteComment, updateAllCommentIndexes,
     addCommentIndexToAlias, deleteAllCommentsOfAlias, deleteAllCommentsOfParent,
@@ -31,10 +31,10 @@ var {
     getCommentsByAliasAtVerseSection, getVerseSectionsCommentedByAuthorInParent,
     getAuthorsCommentingAtVerseSectionInParent,
     addLotsOfCommentsToPostByVerseSections
-    // Removed getComment duplicates
+ 
 } = require("./comments/index.js");
 
-// Posts (Now Series-Centric)
+// Posts 
 var {
     getPostsOfAliasInSeries,
 	getSeriesOfPostsOfAliasInHeichel,
@@ -52,10 +52,10 @@ var {
     getPostFromSeries,       // Renamed/Rewritten
     getPostsInSeries,        // Renamed/Rewritten
     getPostsByProperty       // Renamed/Rewritten
-    // Removed old post functions
+
 } = require("./post/index.js");
 
-// Heichel (Assuming unchanged)
+// Heichel
 var {
     verifyHeichelAuthority, updateHeichel, getHeichel, getHeichelos,
     deleteHeichel, verifyHeichelViewAuthority, createHeichel,
@@ -63,7 +63,7 @@ var {
 	generateHeichelId
 } = require("./heichel.js");
 
-// Series (Rewritten)
+// Series
 var {
     makeNewSeries,
     editSeriesDetails,
