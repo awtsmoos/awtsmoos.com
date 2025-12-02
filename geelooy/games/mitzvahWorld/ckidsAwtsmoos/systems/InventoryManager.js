@@ -1,3 +1,4 @@
+
 /**
  * B"H
  * Manages inventory and equipment.
@@ -122,6 +123,34 @@ export default class InventoryManager {
         return quantity > 0 ? false : true;
     }
     
+    /**
+     * B"H
+     * Updates an item at a specific location with new data.
+     */
+    updateItem(sourceType, index, newItemData) {
+        const sourceArray = sourceType === 'action' ? this.actionSlots : this.slots;
+        if (index < 0 || index >= sourceArray.length) return;
+
+        const existingItem = sourceArray[index];
+        if (!existingItem) return;
+
+        // Merge existing properties with new data (preserving quantity, etc if not specified)
+        const updatedItem = {
+            ...existingItem,
+            ...newItemData
+        };
+        
+        // Ensure static class properties are re-applied
+        const itemClass = AWTSMOOS[updatedItem.className];
+        if (itemClass && itemClass.isBuildable) {
+            updatedItem.isBuildable = true;
+        }
+
+        sourceArray[index] = updatedItem;
+        this.updateUI();
+        this.save();
+    }
+
     /**
      * B"H
      * Iterates through all inventory slots and updates them with static properties
@@ -307,7 +336,7 @@ export default class InventoryManager {
                 icon: itemClass?.icon || "",
                 description: slot.description || itemClass?.description || "",
                 name: slot.name || itemClass?.itemName || slot.className,
-                equipSlot: slot.equipSlot || (slot.className === 'Tool' || slot.className === 'Brick' ? 'rightHand' : (itemClass && itemClass.prototype instanceof AWTSMOOS.Apparel ? 'jacket' : null))
+                equipSlot: slot.equipSlot || (slot.className === 'Tool' || slot.className === 'Brick' || slot.className === 'CustomNpc' ? 'rightHand' : (itemClass && itemClass.prototype instanceof AWTSMOOS.Apparel ? 'jacket' : null))
             };
         };
 

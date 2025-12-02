@@ -18,17 +18,22 @@ export default {
             }
         ]
     },
-    createMessageNode: (id) => ({
-        id: id,
-        message: "New Message",
-        responses: []
-    }),
-    createResponse: () => ({
-        text: "Response",
-        type: "message", 
-        target: 0,
-        storeItems: []
-    }),
+    // B"H: Changed to regular functions to avoid stringification syntax errors
+    createMessageNode: function(id) {
+        return {
+            id: id,
+            message: "New Message",
+            responses: []
+        };
+    },
+    createResponse: function() {
+        return {
+            text: "Response",
+            type: "message", 
+            target: 0,
+            storeItems: []
+        };
+    },
     
     ready(el) {
        // Post-render logic if needed
@@ -47,7 +52,8 @@ export default {
                     className: "cd-close",
                     textContent: "X",
                     onclick(e, $) {
-                        $("character designer").classList.add("hidden");
+                        const el = $("character designer");
+                        if (el) el.classList.add("hidden");
                     }
                 }
             ]
@@ -69,12 +75,16 @@ export default {
                                     tag: "input",
                                     className: "cd-input",
                                     ready(input, $) {
-                                        const state = $("character designer").characterState;
-                                        input.value = state.name;
+                                        const el = $("character designer");
+                                        if (el && el.characterState) {
+                                            input.value = el.characterState.name;
+                                        }
                                     },
                                     oninput(e, $) { 
-                                        const state = $("character designer").characterState;
-                                        state.name = e.target.value; 
+                                        const el = $("character designer");
+                                        if (el && el.characterState) {
+                                            el.characterState.name = e.target.value; 
+                                        }
                                     }
                                 }
                             ]
@@ -88,12 +98,16 @@ export default {
                                     type: "color",
                                     className: "cd-input",
                                     ready(input, $) {
-                                        const state = $("character designer").characterState;
-                                        input.value = state.color;
+                                        const el = $("character designer");
+                                        if (el && el.characterState) {
+                                            input.value = el.characterState.color;
+                                        }
                                     },
                                     oninput(e, $) { 
-                                        const state = $("character designer").characterState;
-                                        state.color = e.target.value; 
+                                        const el = $("character designer");
+                                        if (el && el.characterState) {
+                                            el.characterState.color = e.target.value; 
+                                        }
                                     }
                                 }
                             ]
@@ -104,10 +118,16 @@ export default {
                             textContent: "+ Add Message Node",
                             onclick(e, $, ui) {
                                 const designer = $("character designer");
+                                if (!designer || !designer.characterState) return;
+                                
                                 const state = designer.characterState;
                                 const newId = state.dialogueTree.length;
                                 state.dialogueTree.push(designer.createMessageNode(newId));
-                                ui.peula($("cd-tree-container"), { renderTree: true });
+                                
+                                const treeContainer = $("cd-tree-container");
+                                if (treeContainer) {
+                                    ui.peula(treeContainer, { renderTree: true });
+                                }
                             }
                         },
                         {
@@ -115,7 +135,10 @@ export default {
                             className: "cd-create-btn",
                             textContent: "CREATE SOUL",
                             onclick(e, $, ui) {
-                                const state = $("character designer").characterState;
+                                const designer = $("character designer");
+                                if (!designer || !designer.characterState) return;
+                                
+                                const state = designer.characterState;
                                 // 1. Construct final item data
                                 const itemData = {
                                     id: "custom_npc_" + Date.now(),
@@ -134,7 +157,7 @@ export default {
                                 });
                                 
                                 alert("Character Created! Check your Inventory.");
-                                $("character designer").classList.add("hidden");
+                                designer.classList.add("hidden");
                             }
                         }
                     ]
@@ -154,6 +177,8 @@ export default {
                                 renderTree(e, $, ui) {
                                     const container = e.target;
                                     const designer = $("character designer");
+                                    if (!designer || !designer.characterState) return;
+                                    
                                     const state = designer.characterState;
                                     
                                     container.innerHTML = ""; // Clear

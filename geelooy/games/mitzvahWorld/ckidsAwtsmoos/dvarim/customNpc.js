@@ -1,3 +1,4 @@
+
 /**
  * B"H
  * @file customNpc.js
@@ -10,6 +11,7 @@ export default class CustomNpc extends Medabeir {
     type = "customNpc";
     static itemName = "Custom NPC";
     static description = "A custom designed character.";
+    static isBuildable = true; // B"H: Allow placement in the world
     
     constructor(op) {
         // Hydrate from itemData if available

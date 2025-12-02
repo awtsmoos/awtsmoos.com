@@ -23,7 +23,7 @@ function writeVarInt(value) {
 }
 
 function readVarInt(buffer, offset) {
-    if (offset >= buffer.length) throw new Error("Buffer overrun in readVarInt");
+    if (offset >= buffer.length) throw new Error(`Buffer overrun in readVarInt. Offset ${offset} >= ${buffer.length}`);
     const first = buffer.readUInt8(offset);
     if (first < 0xfd) {
         return { value: first, bytesRead: 1 };
@@ -49,7 +49,9 @@ function readString(buffer, offset) {
     const lenInfo = readVarInt(buffer, offset);
     const start = offset + lenInfo.bytesRead;
     const end = start + lenInfo.value;
-    if (end > buffer.length) throw new Error("Buffer overrun in readString");
+    if (end > buffer.length) {
+        throw new Error(`Buffer overrun in readString. Reading ${lenInfo.value} bytes from ${start}, but buffer ends at ${buffer.length}`);
+    }
     const str = buffer.toString('utf8', start, end);
     return { value: str, bytesRead: lenInfo.bytesRead + lenInfo.value };
 }

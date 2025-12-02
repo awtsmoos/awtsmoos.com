@@ -1,3 +1,4 @@
+
 /**
  * B"H
  * Worker
@@ -103,6 +104,12 @@ async function go() {
                 console.log("Adding item to inventory via worker:", itemData);
                 me.olam.player.inventory.addItem(itemData, itemData.quantity || 1);
             }
+        },
+        
+        async updateInventoryItem({ sourceType, index, itemData }) {
+             if (me.olam && me.olam.player && me.olam.player.inventory) {
+                 me.olam.player.inventory.updateItem(sourceType, index, itemData);
+             }
         },
     
     

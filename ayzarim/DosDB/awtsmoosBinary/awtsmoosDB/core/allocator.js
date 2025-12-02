@@ -93,8 +93,9 @@ class Allocator {
     }
 
     async allocateSmall(unitsNeeded, sizeBytes) {
-        let searchPtr = Math.max(this.cursor, this.lastFreeHint);
-        if (searchPtr < 2) searchPtr = 2;
+        // B"H: Paranoid Mode - Always reset search to beginning/cursor to avoid stale hints
+        // We trust the bitmap on disk over any cached state.
+        let searchPtr = 2; // Always scan from start of user space
         let looped = false;
 
         while (true) {
@@ -116,8 +117,6 @@ class Allocator {
                     this.markBitmap(bitmap, startUnit, unitsNeeded, true);
                     await this.pager.writeBlock(searchPtr, block);
                     
-                    this.cursor = searchPtr;
-                    this.lastFreeHint = searchPtr;
                     return { blockId: searchPtr, offset: startUnit * constants.UNIT_SIZE, length: sizeBytes }; 
                 }
             } else if (type === constants.BLOCK_TYPE.PAGE) {
@@ -134,7 +133,6 @@ class Allocator {
                         block.fill(0, startByte, endByte);
 
                         await this.pager.writeBlock(searchPtr, block);
-                        this.lastFreeHint = searchPtr;
                         return { blockId: searchPtr, offset: startUnit * constants.UNIT_SIZE, length: sizeBytes };
                     }
                 }
@@ -143,12 +141,14 @@ class Allocator {
                 const block = this.formatBlock(constants.BLOCK_TYPE.PAGE);
                 block.fill(0, constants.HEADER_SIZE, constants.BLOCK_SIZE);
                 const bitmap = block.subarray(constants.BITMAP_OFFSET, constants.BITMAP_OFFSET + constants.BITMAP_SIZE);
+                
+                // IMPORTANT: formatBlock sets 0x80, so Unit 0 is implicitly marked.
+                
                 const startUnit = this.findGap(bitmap, unitsNeeded);
                 
                 if (startUnit > 0) {
                      this.markBitmap(bitmap, startUnit, unitsNeeded, true);
                      await this.pager.writeBlock(searchPtr, block);
-                     this.lastFreeHint = searchPtr;
                      return { blockId: searchPtr, offset: startUnit * constants.UNIT_SIZE, length: sizeBytes };
                 }
             }
@@ -198,7 +198,6 @@ class Allocator {
     
     async free(ptr) {
          if (!ptr || ptr.length === 0) return;
-         // Do not free chains here (omitted for brevity/safety in this context)
          if (ptr.isChain) return;
 
          const task = async () => {
@@ -208,8 +207,6 @@ class Allocator {
                  if (block) {
                      const bitmap = block.subarray(constants.BITMAP_OFFSET, constants.BITMAP_OFFSET + constants.BITMAP_SIZE);
                      const startUnit = Math.floor(ptr.offset / constants.UNIT_SIZE);
-                     // Calculate units used based on *allocated* length (which we don't strictly track, but use ptr.length)
-                     // Critical: ptr.length is data length. Units used is ceil(length/32).
                      const unitsUsed = Math.ceil(ptr.length / constants.UNIT_SIZE);
                      
                      this.markBitmap(bitmap, startUnit, unitsUsed, false);
@@ -233,14 +230,12 @@ class Allocator {
     findGap(bitmap, count) {
         let run = 0;
         let start = -1;
-        // Constants: 16 bytes * 8 = 128 bits
         const maxBits = constants.BITMAP_SIZE * 8;
         
         for (let i = 0; i < maxBits; i++) {
             const byteIndex = Math.floor(i / 8);
             const bitIndex = i % 8;
             
-            // Check bit
             const isUsed = (bitmap[byteIndex] >> (7 - bitIndex)) & 1;
             
             if (!isUsed) {

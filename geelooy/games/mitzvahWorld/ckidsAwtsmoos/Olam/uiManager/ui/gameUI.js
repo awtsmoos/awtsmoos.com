@@ -1,3 +1,4 @@
+
 /**
  * B"H
  * UI components that involve the in game experience
@@ -479,6 +480,33 @@ var ui = [instructions, {
                     
                 },
                 children: [
+                    // B"H: Special Logic for CharacterMaker Tool
+                    item.className === 'CharacterMaker' ? {
+                         tag: "button", textContent: "Design New Soul",
+                         onclick: () => {
+                             ui.peula($("character designer"), { open: { mode: 'create' } });
+                             $("inventoryScreen").classList.add("hidden"); // Hide inventory to focus on design
+                             $("contextMenu")?.remove();
+                         }
+                    } : null,
+
+                    // B"H: Special Logic for Editing Custom NPC
+                    item.className === 'CustomNpc' ? {
+                         tag: "button", textContent: "Edit Soul",
+                         onclick: () => {
+                             ui.peula($("character designer"), { 
+                                 open: { 
+                                     mode: 'edit',
+                                     item: item,
+                                     index: index,
+                                     sourceType: sourceType
+                                 } 
+                             });
+                             $("inventoryScreen").classList.add("hidden");
+                             $("contextMenu")?.remove();
+                         }
+                    } : null,
+
                     // Dynamic Equip/Unequip Button
                     item.isEquipped ? {
                         tag: "button", textContent: "Unequip",
@@ -489,13 +517,6 @@ var ui = [instructions, {
                     } : {
                         tag: "button", textContent: "Equip",
                         onclick: () => {
-                            // If it's the Neshama Maker, trigger it directly instead of equipping
-                            if (item.className === 'CharacterMaker') {
-                                // We can't access class methods here easily in the UI thread
-                                // But we can trigger use via a special equip action or just assume equip triggers 'shoot' for tools
-                                // For simplicity, let's allow equip, and handle 'shoot' (use) when equipped.
-                            }
-                            
                             const target = item.equipSlot || 'rightHand';
                             ui.peula("ikar", { olamPeula: { equipItem: { sourceType, index, target } } });
                             $("contextMenu")?.remove();
