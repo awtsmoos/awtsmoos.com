@@ -10,26 +10,61 @@ class Allocator {
         this.mutex = Promise.resolve();
         // Concurrency 1 is mandatory for bitmap safety
         this.semaphore = new (require('./concurrency.js'))(1);
+        
+        // B"H: Strict Constants Enforcement
+        this.UNIT_SIZE = constants.UNIT_SIZE || 32;
+        this.BLOCK_SIZE = constants.BLOCK_SIZE || 4096;
+        
+        // Paranoid Header Size: Force 64 bytes (2 units) to ensure no overlap with Bitmap/Metadata
+        this.HEADER_SIZE = 64; 
     }
 
-    log(msg) { console.log(`[Allocator] ${msg}`); }
+    log(msg) { 
+        // console.log(`[Allocator] ${msg}`); 
+    }
 
-    allocate(sizeBytes) {
+    /**
+     * Executes a function within the allocator's lock.
+     */
+    async executeLocked(fn) {
         const task = async () => {
             await this.semaphore.acquire();
             try {
-                const effectiveSize = Math.max(1, sizeBytes); 
-                const unitsNeeded = Math.ceil(effectiveSize / constants.UNIT_SIZE);
-                if (unitsNeeded <= (constants.UNITS_PER_BLOCK - 1)) {
-                    return await this.allocateSmall(unitsNeeded, sizeBytes);
-                }
-                return await this.allocateLarge(unitsNeeded, sizeBytes);
+                return await fn();
             } finally {
                 this.semaphore.release();
             }
         };
-        this.mutex = this.mutex.then(task, task); 
+        this.mutex = this.mutex.then(task, task);
         return this.mutex;
+    }
+
+    /**
+     * Locked IO Helpers for external consumers (Page, Collection)
+     */
+    async readBlockLocked(blockId) {
+        return this.executeLocked(() => this.pager.readBlock(blockId));
+    }
+
+    async writeBlockLocked(blockId, buffer) {
+        return this.executeLocked(() => this.pager.writeBlock(blockId, buffer));
+    }
+    
+    async readSequentialLocked(startBlockId, numberOfBlocks) {
+        return this.executeLocked(() => this.pager.readSequential(startBlockId, numberOfBlocks));
+    }
+
+    allocate(sizeBytes) {
+        return this.executeLocked(async () => {
+            const effectiveSize = Math.max(1, sizeBytes); 
+            const unitsNeeded = Math.ceil(effectiveSize / this.UNIT_SIZE);
+            const maxUnits = Math.floor((this.BLOCK_SIZE - this.HEADER_SIZE) / this.UNIT_SIZE);
+            
+            if (unitsNeeded <= maxUnits) {
+                return await this.allocateSmall(unitsNeeded, sizeBytes);
+            }
+            return await this.allocateLarge(unitsNeeded, sizeBytes);
+        });
     }
 
     writeUserSpace(ptr, data) {
@@ -37,89 +72,99 @@ class Allocator {
              throw new Error("B\"H: writeUserSpace only supports single-block shared writes.");
         }
 
-        const task = async () => {
-            await this.semaphore.acquire();
-            try {
-                const block = await this.pager.readBlock(ptr.blockId);
-                if (!block) throw new Error(`Block ${ptr.blockId} missing during write`);
-                
-                if (ptr.offset + data.length > constants.BLOCK_SIZE) {
-                    throw new Error(`Write overflow in writeUserSpace. Block ${ptr.blockId}, Offset ${ptr.offset}, Len ${data.length}`);
-                }
-
-                data.copy(block, ptr.offset);
-                await this.pager.writeBlock(ptr.blockId, block);
-            } finally {
-                this.semaphore.release();
+        return this.executeLocked(async () => {
+            // Paranoid Check: Ensure we aren't writing to the Header
+            if (ptr.offset < this.HEADER_SIZE) {
+                throw new Error(`B"H: Critical - Attempt to write into Header Space! Block ${ptr.blockId}, Offset ${ptr.offset}`);
             }
-        };
-        this.mutex = this.mutex.then(task, task);
-        return this.mutex;
+            
+            if (ptr.offset + data.length > this.BLOCK_SIZE) {
+                throw new Error(`Write overflow in writeUserSpace. Block ${ptr.blockId}, Offset ${ptr.offset}, Len ${data.length}`);
+            }
+
+            // Verify Block Integrity before write
+            const existingType = await this.pager.readBlockType(ptr.blockId);
+            if (existingType !== constants.BLOCK_TYPE.PAGE && existingType !== constants.BLOCK_TYPE.COLLECTION_HEADER && existingType !== constants.BLOCK_TYPE.COLLECTION_PAGE) {
+                 if (existingType === constants.BLOCK_TYPE.FREE) {
+                     throw new Error(`B"H: Critical - Attempt to write to FREE block ${ptr.blockId}`);
+                 }
+            }
+
+            const block = await this.pager.readBlock(ptr.blockId);
+            if (!block) throw new Error(`Block ${ptr.blockId} missing during write`);
+            
+            data.copy(block, ptr.offset);
+            await this.pager.writeBlock(ptr.blockId, block);
+        });
     }
 
     async allocatePage(type = constants.BLOCK_TYPE.PAGE) {
-        const task = async () => {
-            await this.semaphore.acquire();
-            try {
-                this.log(`Page Alloc -> Reserving Block ID for Type ${type}`);
-                let searchPtr = Math.max(this.cursor, this.lastFreeHint);
-                if (searchPtr < 2) searchPtr = 2;
-                while (true) {
-                    const existingType = await this.pager.readBlockType(searchPtr);
-                    if (existingType === null || existingType === constants.BLOCK_TYPE.FREE || existingType === 0) {
-                        this.log(`Page Alloc -> Reserved ID ${searchPtr}`);
-                        this.cursor = searchPtr + 1;
-                        this.lastFreeHint = searchPtr + 1;
-                        const block = this.formatBlock(type);
-                        await this.pager.writeBlock(searchPtr, block);
-                        return { blockId: searchPtr, offset: 0, length: constants.BLOCK_SIZE, isChain: false };
-                    }
-                    searchPtr++;
-                    if (searchPtr > 1000000) throw new Error("Disk Full or Allocator Loop");
+        return this.executeLocked(async () => {
+            this.log(`Page Alloc -> Reserving Block ID for Type ${type}`);
+            let searchPtr = Math.max(this.cursor, this.lastFreeHint);
+            if (searchPtr < 2) searchPtr = 2;
+            
+            let looped = false;
+            while (true) {
+                const existingType = await this.pager.readBlockType(searchPtr);
+                if (existingType === null || existingType === constants.BLOCK_TYPE.FREE || existingType === 0) {
+                    this.log(`Page Alloc -> Reserved ID ${searchPtr}`);
+                    this.cursor = searchPtr + 1;
+                    this.lastFreeHint = searchPtr + 1;
+                    const block = this.formatBlock(type);
+                    await this.pager.writeBlock(searchPtr, block);
+                    return { blockId: searchPtr, offset: 0, length: this.BLOCK_SIZE, isChain: false };
                 }
-            } finally {
-                this.semaphore.release();
+                searchPtr++;
+                if (searchPtr > 1000000) {
+                    if (looped) throw new Error("Disk Full");
+                    searchPtr = 2;
+                    looped = true;
+                }
             }
-        };
-        this.mutex = this.mutex.then(task, task);
-        return this.mutex;
+        });
     }
 
     async saveState() {
-        const sb = await this.pager.readBlock(0);
-        if (!sb) return; 
-        writePointer48(sb, this.cursor, constants.SB_OFFSETS.NEXT_SEQ_BLOCK);
-        await this.pager.writeBlock(0, sb);
+        return this.executeLocked(async () => {
+            let sb = await this.pager.readBlock(0);
+            if (!sb) sb = Buffer.alloc(this.BLOCK_SIZE);
+            writePointer48(sb, this.cursor, constants.SB_OFFSETS.NEXT_SEQ_BLOCK);
+            await this.pager.writeBlock(0, sb);
+        });
     }
 
+    // Internal methods must NOT use executeLocked as they are called within it
     async allocateSmall(unitsNeeded, sizeBytes) {
-        // B"H: Paranoid Mode - Always reset search to beginning/cursor to avoid stale hints
-        // We trust the bitmap on disk over any cached state.
-        let searchPtr = 2; // Always scan from start of user space
+        let searchPtr = 2; 
         let looped = false;
 
         while (true) {
             const type = await this.pager.readBlockType(searchPtr);
             
-            if (type === null) {
-                // End of file found, create new PAGE
+            // Case 1: New Block (Free)
+            if (type === null || type === 0 || type === constants.BLOCK_TYPE.FREE) {
                 this.log(`Small Alloc -> New Block ${searchPtr}`);
                 const block = this.formatBlock(constants.BLOCK_TYPE.PAGE);
-                block.fill(0, constants.HEADER_SIZE, constants.BLOCK_SIZE);
+                
+                // Zero out user space (after header)
+                block.fill(0, this.HEADER_SIZE, this.BLOCK_SIZE);
                 
                 const bitmap = block.subarray(constants.BITMAP_OFFSET, constants.BITMAP_OFFSET + constants.BITMAP_SIZE);
-                // Ensure Header is marked
-                bitmap[0] |= 0x80;
-
+                
+                // Since it's new, we skip header units (0,1). Alloc starts at 2.
+                // formatBlock already marks header units.
+                // We find next gap starting from 0 (which will return 2).
                 const startUnit = this.findGap(bitmap, unitsNeeded);
                 
                 if (startUnit > 0) {
                     this.markBitmap(bitmap, startUnit, unitsNeeded, true);
                     await this.pager.writeBlock(searchPtr, block);
-                    
-                    return { blockId: searchPtr, offset: startUnit * constants.UNIT_SIZE, length: sizeBytes }; 
+                    return { blockId: searchPtr, offset: startUnit * this.UNIT_SIZE, length: sizeBytes }; 
                 }
-            } else if (type === constants.BLOCK_TYPE.PAGE) {
+            } 
+            // Case 2: Existing Page
+            else if (type === constants.BLOCK_TYPE.PAGE) {
                 const block = await this.pager.readBlock(searchPtr);
                 if (block) {
                     const bitmap = block.subarray(constants.BITMAP_OFFSET, constants.BITMAP_OFFSET + constants.BITMAP_SIZE);
@@ -128,28 +173,20 @@ class Allocator {
                     if (startUnit > 0) {
                         this.markBitmap(bitmap, startUnit, unitsNeeded, true);
                         
-                        const startByte = startUnit * constants.UNIT_SIZE;
-                        const endByte = startByte + (unitsNeeded * constants.UNIT_SIZE);
+                        const startByte = startUnit * this.UNIT_SIZE;
+                        const endByte = startByte + (unitsNeeded * this.UNIT_SIZE);
+                        
+                        if (startByte < this.HEADER_SIZE) {
+                             throw new Error(`B"H: Allocator calculated startByte ${startByte} inside Header Region!`);
+                        }
+                        
+                        // Zero out ONLY the allocated region to prevent corrupting other data in shared block
+                        // B"H: Added safety check - ensure we aren't zeroing something that looks like a header
                         block.fill(0, startByte, endByte);
-
+                        
                         await this.pager.writeBlock(searchPtr, block);
-                        return { blockId: searchPtr, offset: startUnit * constants.UNIT_SIZE, length: sizeBytes };
+                        return { blockId: searchPtr, offset: startByte, length: sizeBytes };
                     }
-                }
-            } else if (type === constants.BLOCK_TYPE.FREE) {
-                // Convert Free to Page
-                const block = this.formatBlock(constants.BLOCK_TYPE.PAGE);
-                block.fill(0, constants.HEADER_SIZE, constants.BLOCK_SIZE);
-                const bitmap = block.subarray(constants.BITMAP_OFFSET, constants.BITMAP_OFFSET + constants.BITMAP_SIZE);
-                
-                // IMPORTANT: formatBlock sets 0x80, so Unit 0 is implicitly marked.
-                
-                const startUnit = this.findGap(bitmap, unitsNeeded);
-                
-                if (startUnit > 0) {
-                     this.markBitmap(bitmap, startUnit, unitsNeeded, true);
-                     await this.pager.writeBlock(searchPtr, block);
-                     return { blockId: searchPtr, offset: startUnit * constants.UNIT_SIZE, length: sizeBytes };
                 }
             }
 
@@ -163,7 +200,7 @@ class Allocator {
     }
 
     async allocateLarge(units, size) {
-        const DATA_PER_BLOCK = constants.BLOCK_SIZE - constants.UNIT_SIZE; 
+        const DATA_PER_BLOCK = this.BLOCK_SIZE - this.UNIT_SIZE; 
         const blocksNeeded = Math.ceil(size / DATA_PER_BLOCK);
         let startBlock = await this.findSequentialBlocks(blocksNeeded);
         for (let i = 0; i < blocksNeeded; i++) {
@@ -173,7 +210,7 @@ class Allocator {
         }
         this.lastFreeHint = startBlock + blocksNeeded;
         if (this.lastFreeHint > this.cursor) this.cursor = this.lastFreeHint;
-        return { blockId: startBlock, offset: constants.UNIT_SIZE, length: size, isChain: true };
+        return { blockId: startBlock, offset: this.UNIT_SIZE, length: size, isChain: true };
     }
 
     async findSequentialBlocks(count) {
@@ -200,30 +237,30 @@ class Allocator {
          if (!ptr || ptr.length === 0) return;
          if (ptr.isChain) return;
 
-         const task = async () => {
-             await this.semaphore.acquire();
-             try {
-                 const block = await this.pager.readBlock(ptr.blockId);
-                 if (block) {
-                     const bitmap = block.subarray(constants.BITMAP_OFFSET, constants.BITMAP_OFFSET + constants.BITMAP_SIZE);
-                     const startUnit = Math.floor(ptr.offset / constants.UNIT_SIZE);
-                     const unitsUsed = Math.ceil(ptr.length / constants.UNIT_SIZE);
-                     
-                     this.markBitmap(bitmap, startUnit, unitsUsed, false);
-                     await this.pager.writeBlock(ptr.blockId, block);
-                 }
-             } finally {
-                 this.semaphore.release();
+         return this.executeLocked(async () => {
+             const block = await this.pager.readBlock(ptr.blockId);
+             if (block) {
+                 const bitmap = block.subarray(constants.BITMAP_OFFSET, constants.BITMAP_OFFSET + constants.BITMAP_SIZE);
+                 const startUnit = Math.floor(ptr.offset / this.UNIT_SIZE);
+                 const unitsUsed = Math.ceil(ptr.length / this.UNIT_SIZE);
+                 
+                 this.markBitmap(bitmap, startUnit, unitsUsed, false);
+                 await this.pager.writeBlock(ptr.blockId, block);
              }
-         };
-         this.mutex = this.mutex.then(task, task);
-         await this.mutex;
+         });
     }
 
     formatBlock(type) {
-        const buf = Buffer.alloc(constants.BLOCK_SIZE);
+        const buf = Buffer.alloc(this.BLOCK_SIZE);
         buf.writeUInt32BE(type, 0);
-        buf[constants.BITMAP_OFFSET] = 0x80; // Reserve Unit 0 for Header
+        
+        // Header units = 2 (64 bytes / 32)
+        const headerUnits = Math.ceil(this.HEADER_SIZE / this.UNIT_SIZE);
+        
+        const bitmap = buf.subarray(constants.BITMAP_OFFSET, constants.BITMAP_OFFSET + constants.BITMAP_SIZE);
+        // Mark first N units as used (Header space)
+        this.markBitmap(bitmap, 0, headerUnits, true);
+        
         return buf;
     }
 

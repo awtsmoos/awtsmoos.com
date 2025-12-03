@@ -28,6 +28,7 @@ function serializeArray(arr) {
         currentOffset += itemBuffer.length;
     }
 
+    // Determine offset size
     const offsetSize = currentOffset < 256 ? 1 : currentOffset < 65536 ? 2 : 4;
     const arrayLenInfo = writeConditional(arr.length);
     
@@ -35,6 +36,7 @@ function serializeArray(arr) {
     const packed = (packedLength(arrayLenInfo.size) << 2) | packedLength(offsetSize);
     offsetSizePlaceholder.writeUInt8(packed);
 
+    // B"H: Construct Index Table
     const indexTable = Buffer.alloc(arr.length * offsetSize);
     offsets.forEach((off, i) => writeToBuffer(indexTable, off, offsetSize, i * offsetSize));
 

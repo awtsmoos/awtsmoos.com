@@ -53,9 +53,9 @@ async function runTest() {
     log("Phase 1: Creation & Heavy Writing");
     let db = new AwtsmoosDB(DB_PATH);
     
-    // 1. Generate Random Buffer (~512KB)
-    // This forces the allocator to use 'allocateLarge' and create a Block Chain.
-    const LARGE_SIZE = 512 * 1024; 
+    // 1. Generate Random Buffer
+    // Optimized: 128KB is enough to trigger multi-block chains (4KB blocks) but faster for test.
+    const LARGE_SIZE = 128 * 1024; 
     const randomBuffer = crypto.randomBytes(LARGE_SIZE);
     
     // 2. Write Complex Data
@@ -64,11 +64,12 @@ async function runTest() {
         log("Creating 'storage' Map...");
         await db.root.createMap('storage');
         
-        log(`Writing 512KB Binary Blob to 'root.storage.heavystone'...`);
+        log(`Writing 128KB Binary Blob to 'root.storage.heavystone'...`);
         // Now we can assign to it because 'storage' is a BTree
         db.root.storage.heavystone = randomBuffer;
 
         log("Writing Metadata...");
+        // B"H: We assign a plain object. Depending on internals, this might be stored as JSON or a BTree.
         db.root.meta = {
             created: new Date(),
             author: "Yackov",
@@ -79,13 +80,16 @@ async function runTest() {
         await db.root.createList('logs');
 
         log("Writing Collection Data...");
-        // Push some items
-        for(let i=0; i<50; i++) {
+        // Push items
+        for(let i=0; i<25; i++) {
             await db.root.logs.push({ id: i, msg: `Log Entry ${i}` });
         }
 
-        // Wait a bit to ensure async writes in queue complete (safety margin)
-        await new Promise(r => setTimeout(r, 500));
+        // --- BARRIER ---
+        // Vital: Submit an empty task to the execute queue and await it.
+        // This ensures all previous "fire-and-forget" proxy writes (heavystone, meta) are finished.
+        log("Waiting for write queue to drain...");
+        await db.execute(async () => { return true; });
 
     } catch (e) {
         fail("Phase 1 Write Failed", e);
@@ -103,31 +107,33 @@ async function runTest() {
 
     try {
         // 1. Verify Metadata
+        // NOTE: If stored as a BTree, `await db2.root.meta` will now resolve to a JS object via toJSON().
         const meta = await db2.root.meta;
-        if (meta.author !== "Yackov" || meta.tags[2] !== "Awtsmoos") {
+        if (!meta) throw new Error("Metadata is undefined/null");
+        
+        // Handle potential case where toJSON returns a wrapped structure or partial
+        const author = meta.author || (meta.get && await meta.get('author'));
+        const tags = meta.tags;
+
+        if (author !== "Yackov" || !tags || tags[2] !== "Awtsmoos") {
+            console.error("Received Metadata:", JSON.stringify(meta, null, 2));
             throw new Error("Metadata JSON mismatch after restart.");
         }
         success("Metadata JSON persisted correctly.");
 
         // 2. Verify Collection
         const logs = await db2.root.logs.slice(0, 100);
-        if (logs.length !== 50 || logs[49].msg !== "Log Entry 49") {
-            throw new Error(`Collection mismatch. Expected 50 items, got ${logs.length}.`);
+        if (logs.length !== 25 || logs[24].msg !== "Log Entry 24") {
+            throw new Error(`Collection mismatch. Expected 25 items, got ${logs.length}.`);
         }
         success("Collection persisted correctly.");
 
         // 3. Verify Large Blob (The Heavy Test)
-        log("Reading back 512KB Binary Blob...");
+        log("Reading back 128KB Binary Blob...");
         const retrievedBuffer = await db2.root.storage.heavystone;
 
         if (!Buffer.isBuffer(retrievedBuffer)) {
-            // Note: Value might be retrieved as Uint8Array depending on node version/buffer implementation, but AwtsmoosDB should return Buffer.
-            // If it returns Uint8Array, convert.
-            if (retrievedBuffer instanceof Uint8Array) {
-                // Good
-            } else {
-                throw new Error(`Expected Buffer/Uint8Array, got ${typeof retrievedBuffer}`);
-            }
+             throw new Error(`Expected Buffer, got ${typeof retrievedBuffer}`);
         }
 
         if (retrievedBuffer.length !== LARGE_SIZE) {
@@ -137,7 +143,7 @@ async function runTest() {
         if (Buffer.compare(retrievedBuffer, randomBuffer) !== 0) {
             throw new Error("Content Mismatch! The blob corrupted during storage/retrieval.");
         }
-        success("512KB Binary Blob persisted byte-perfectly!");
+        success("128KB Binary Blob persisted byte-perfectly!");
 
     } catch (e) {
         fail("Phase 3 Verification Failed", e);

@@ -21,6 +21,7 @@ class Collection {
         this.indexManager = new IndexManager(allocator);
         this.registryPtr = null; 
         this.writeLock = Promise.resolve();
+        this.MAGIC_HEAD = "CLHD"; // Collection Header Signature
     }
 
     log(msg) { 
@@ -38,19 +39,27 @@ class Collection {
     
             // 1. Serialize and Store the Value (The Light)
             const valData = serializeValue(value, false);
-            const dataPtr = await this.allocator.allocate(valData.data.length);
+            // Handle edge case of empty data (e.g. empty string)
+            const allocSize = Math.max(1, valData.data.length);
+            const dataPtr = await this.allocator.allocate(allocSize);
             
             if (dataPtr.isChain) {
                  // Chain writing logic for large values
                  let remaining = valData.data;
                  let currentBlock = dataPtr.blockId;
                  while(remaining.length > 0) {
-                     let blk = await this.allocator.pager.readBlock(currentBlock);
+                     // B"H: Locked Read
+                     let blk = await this.allocator.readBlockLocked(currentBlock);
+                     if (!blk) blk = Buffer.alloc(constants.BLOCK_SIZE);
+
                      const start = (currentBlock === dataPtr.blockId) ? dataPtr.offset : constants.UNIT_SIZE;
                      const avail = constants.BLOCK_SIZE - start;
                      const chunk = Math.min(remaining.length, avail);
+                     
                      remaining.subarray(0, chunk).copy(blk, start);
-                     await this.allocator.pager.writeBlock(currentBlock, blk);
+                     // B"H: Locked Write
+                     await this.allocator.writeBlockLocked(currentBlock, blk);
+                     
                      remaining = remaining.subarray(chunk);
                      currentBlock++;
                  }
@@ -78,7 +87,6 @@ class Collection {
                 const newPagePtr = await this.allocator.allocatePage(constants.BLOCK_TYPE.COLLECTION_PAGE);
                 
                 // Link old tail to new page
-                // FIX: Use method that sets dirty flag
                 page.setNextPage(newPagePtr.blockId);
                 await page.save(); 
                 
@@ -97,7 +105,10 @@ class Collection {
             // 3. Update Indexes if necessary
             if (typeof value === 'object' && value !== null) {
                 this.indexManager.indexObject(dataPtr, value);
+                // We rely on queue to process, but we must save header to point to registry
+                // Wait for index op to queue up, then ensure registry ptr is saved next cycle
                 await this.indexManager.queue;
+                this.registryPtr = this.indexManager.registryPtr;
                 await this.saveHeader(); 
             }
             return dataPtr;
@@ -108,17 +119,48 @@ class Collection {
     }
     
    async load() {
-        let buffer = await this.allocator.pager.readBlock(this.headerId);
+        if (!this.headerId || this.headerId <= 0 || isNaN(this.headerId)) {
+             console.error(`B"H: Collection Load Failed. Invalid Header ID: ${this.headerId}`);
+             return;
+        }
+
+        // B"H: Locked Read for atomic consistency
+        let buffer = await this.allocator.readBlockLocked(this.headerId);
         
         if (!buffer) {
+            // Block doesn't exist yet, initialize header
             await this.saveHeader(); 
             return;
         }
 
-        let offset=32;
+        // B"H: Strict Block Type Check
+        const type = buffer.readUInt32BE(0);
+        if (type !== (constants.BLOCK_TYPE.COLLECTION_HEADER || 3) && type !== 0) {
+             // If type is wrong, this is NOT a collection header.
+             // It might be a reused block ID. Fail gracefully.
+             console.error(`B"H: Collection Load Failed. Block ${this.headerId} has type ${type}, expected COLLECTION_HEADER`);
+             return;
+        }
+
+        // B"H: Validate Signature "CLHD" at offset 4 (after Block Type)
+        // Offset 0: Type (4 bytes)
+        // Offset 4: Sig (4 bytes)
+        const signature = buffer.toString('utf8', 4, 8);
+        if (signature !== this.MAGIC_HEAD) {
+            // If signature is missing, assume uninitialized or corrupted
+            this.headPageId = 0;
+            this.tailPageId = 0;
+            this.totalCount = 0;
+            this.registryPtr = null;
+            return;
+        }
+
+        let offset = 8; // Skip Type(4) + Sig(4)
+        
         this.headPageId = readPointer48(buffer, offset); offset+=6;
         this.tailPageId = readPointer48(buffer, offset); offset+=6;
         this.totalCount = buffer.readUInt32BE(offset);
+        offset += 4;
         
         const hasRegistry = buffer.readUInt8(offset); offset++;
         if (hasRegistry === 1) {
@@ -127,21 +169,45 @@ class Collection {
             const l = buffer.readUInt32BE(offset); offset+=4;
             const c = buffer.readUInt8(offset); offset++;
             this.registryPtr = { blockId: b, offset: o, length: l, isChain: c === 1 };
-        } else this.registryPtr = null;
+        } else {
+            this.registryPtr = null;
+        }
         
         await this.indexManager.load(this.registryPtr);
     }
 
     async saveHeader() {
-        const buffer = await this.allocator.pager.readBlock(this.headerId);
-        let offset=32; // Skip Block Header
+        if (!this.headerId || this.headerId <= 0 || isNaN(this.headerId)) {
+             console.error(`B"H: Collection SaveHeader Failed. Invalid Header ID: ${this.headerId}`);
+             return;
+        }
+
+        // Allocate a fresh buffer to ensure no garbage
+        let buffer = Buffer.alloc(constants.BLOCK_SIZE);
+        
+        // Write Block Type
+        buffer.writeUInt32BE(constants.BLOCK_TYPE.COLLECTION_HEADER || 3, 0);
+        
+        // Write Signature "CLHD"
+        buffer.write(this.MAGIC_HEAD, 4);
+
+        // Mark header as used in bitmap
+        // Fixed: Use 'buffer.fill', not 'block.fill' (which caused ReferenceError)
+        buffer.fill(0xFF, constants.BITMAP_OFFSET, constants.BITMAP_OFFSET + constants.BITMAP_SIZE);
+
+        let offset = 8; // Type(4) + Sig(4)
         
         writePointer48(buffer, this.headPageId, offset); offset+=6;
         writePointer48(buffer, this.tailPageId, offset); offset+=6;
         buffer.writeUInt32BE(this.totalCount, offset); offset+=4;
         
+        // Ensure we persist the latest registry pointer from the manager
         if (this.indexManager.registryPtr) {
-            const ptr = this.indexManager.registryPtr;
+            this.registryPtr = this.indexManager.registryPtr;
+        }
+
+        if (this.registryPtr) {
+            const ptr = this.registryPtr;
             buffer.writeUInt8(1, offset); offset++; 
             writePointer48(buffer, ptr.blockId, offset); offset+=6;
             buffer.writeUInt32BE(ptr.offset, offset); offset+=4;
@@ -151,7 +217,8 @@ class Collection {
             buffer.writeUInt8(0, offset);
         }
         
-        await this.allocator.pager.writeBlock(this.headerId, buffer);
+        // B"H: Locked Write for atomic consistency
+        await this.allocator.writeBlockLocked(this.headerId, buffer);
     }
 
     async getPage(pageIndex) {

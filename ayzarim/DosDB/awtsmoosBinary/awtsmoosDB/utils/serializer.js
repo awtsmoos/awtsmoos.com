@@ -1,59 +1,65 @@
 // B"H
-const { writeConditional, packedLength } = require('./binaryHelpers.js');
+/**
+ * @module serializer
+ * @description
+ *  Shared serialization primitives used by Parser, LiveHandle, and BTree.
+ *  Ensures consistency in VarInt decoding/encoding.
+ */
 
+// Writes a Variable Integer (1-9 bytes)
 function writeVarInt(value) {
-    if (value < 0xfd) {
-        return Buffer.from([value]);
-    } else if (value <= 0xffff) {
-        const b = Buffer.alloc(3);
-        b[0] = 0xfd;
-        b.writeUInt16BE(value, 1);
-        return b;
-    } else if (value <= 0xffffffff) {
-        const b = Buffer.alloc(5);
-        b[0] = 0xfe;
-        b.writeUInt32BE(value, 1);
-        return b;
-    } else {
-        const b = Buffer.alloc(9);
-        b[0] = 0xff;
-        b.writeBigUInt64BE(BigInt(value), 1);
-        return b;
+    // Determine size
+    let size = 0;
+    let v = value;
+    do {
+        size++;
+        v = Math.floor(v / 128);
+    } while (v > 0);
+
+    const buf = Buffer.alloc(size);
+    let temp = value;
+    for (let i = 0; i < size - 1; i++) {
+        buf.writeUInt8((temp & 0x7F) | 0x80, i);
+        temp = Math.floor(temp / 128);
     }
+    buf.writeUInt8(temp & 0x7F, size - 1);
+    return buf;
 }
 
-function readVarInt(buffer, offset) {
-    if (offset >= buffer.length) throw new Error(`Buffer overrun in readVarInt. Offset ${offset} >= ${buffer.length}`);
-    const first = buffer.readUInt8(offset);
-    if (first < 0xfd) {
-        return { value: first, bytesRead: 1 };
-    } else if (first === 0xfd) {
-        if (offset + 3 > buffer.length) throw new Error("Buffer overrun in readVarInt (16)");
-        return { value: buffer.readUInt16BE(offset + 1), bytesRead: 3 };
-    } else if (first === 0xfe) {
-        if (offset + 5 > buffer.length) throw new Error("Buffer overrun in readVarInt (32)");
-        return { value: buffer.readUInt32BE(offset + 1), bytesRead: 5 };
-    } else {
-        if (offset + 9 > buffer.length) throw new Error("Buffer overrun in readVarInt (64)");
-        return { value: Number(buffer.readBigUInt64BE(offset + 1)), bytesRead: 9 };
+// Reads a Variable Integer
+function readVarInt(buf, offset) {
+    let value = 0;
+    let shift = 0;
+    let bytesRead = 0;
+    
+    while (true) {
+        if (offset + bytesRead >= buf.length) break;
+        const b = buf.readUInt8(offset + bytesRead);
+        value += (b & 0x7F) * Math.pow(128, bytesRead); // Use Math.pow for safety with larger numbers within safe range
+        bytesRead++;
+        if ((b & 0x80) === 0) break;
     }
+    return { value, bytesRead };
 }
 
+// Writes a string prefixed by VarInt Length
 function writeString(str) {
-    const buf = Buffer.from(str, 'utf8');
-    const lenBuf = writeVarInt(buf.length);
-    return Buffer.concat([lenBuf, buf]);
+    const strBuf = Buffer.from(str, 'utf8');
+    const lenBuf = writeVarInt(strBuf.length);
+    return Buffer.concat([lenBuf, strBuf]);
 }
 
-function readString(buffer, offset) {
-    const lenInfo = readVarInt(buffer, offset);
-    const start = offset + lenInfo.bytesRead;
-    const end = start + lenInfo.value;
-    if (end > buffer.length) {
-        throw new Error(`Buffer overrun in readString. Reading ${lenInfo.value} bytes from ${start}, but buffer ends at ${buffer.length}`);
-    }
-    const str = buffer.toString('utf8', start, end);
-    return { value: str, bytesRead: lenInfo.bytesRead + lenInfo.value };
+// Reads a string prefixed by VarInt Length
+function readString(buf, offset) {
+    const len = readVarInt(buf, offset);
+    const start = offset + len.bytesRead;
+    const str = buf.toString('utf8', start, start + len.value);
+    return { value: str, bytesRead: len.bytesRead + len.value };
 }
 
-module.exports = { writeVarInt, readVarInt, writeString, readString };
+module.exports = {
+    writeVarInt,
+    readVarInt,
+    writeString,
+    readString
+};

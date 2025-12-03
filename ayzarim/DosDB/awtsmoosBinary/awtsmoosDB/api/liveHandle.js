@@ -5,6 +5,10 @@
  *  The Yadayim (Hands) of the Database.
  *  Handles the chaining of potentiality (Promises) into actuality (Values).
  *  Acts as a Vessel (Kli) that proxies the Light of the Data.
+ * 
+ *  FIXES:
+ *  - Robust _writePtr and _readPtr implementation.
+ *  - Guarded against zero-length buffers in signature verification.
  */
 
 const BTree = require('../structure/btree.js');
@@ -12,6 +16,8 @@ const Collection = require('../structure/collection.js');
 const parser = require('../deserialize/parser.js');
 const v1Adapter = require('../deserialize/v1_adapter.js');
 const constants = require('../constants.js');
+const { writePointer48, readPointer48 } = require('../utils/binaryHelpers.js');
+const serializer = require('../utils/serializer.js');
 
 // Redefine constants to avoid circular import runtime issues
 const TYPE_RAW = 1;
@@ -39,9 +45,10 @@ class LiveHandle {
                 // 2. Iterator
                 if (prop === Symbol.asyncIterator) return target.iterator.bind(target);
                 
-                // 3. Inspection
+                // 3. Inspection / Serialization
                 if (prop === 'constructor') return LiveHandle;
                 if (prop === 'toString') return () => `[LiveHandle ${target.mode}]`;
+                if (prop === 'toJSON') return target.toJSON.bind(target);
 
                 // 4. Collection/Mutation Methods
                 if (prop === 'push') return target.push.bind(target);
@@ -71,6 +78,61 @@ class LiveHandle {
     }
 
     /**
+     * Helper: Writes a pointer structure to a buffer at specific offset.
+     * Manual implementation to bypass potential scope issues with this.db
+     */
+    _writePtr(buf, offset, ptr) {
+        if (!ptr) throw new Error("B\"H: Cannot write null pointer");
+        if (offset + 6 > buf.length) throw new Error("B\"H: Buffer overflow in _writePtr (BlockID)");
+        
+        writePointer48(buf, ptr.blockId, offset);
+        
+        // serializer.writeVarInt returns a Buffer
+        const offBuf = serializer.writeVarInt(ptr.offset);
+        if (offset + 6 + offBuf.length > buf.length) throw new Error("B\"H: Buffer overflow in _writePtr (Offset)");
+        offBuf.copy(buf, offset + 6);
+        
+        const lenBuf = serializer.writeVarInt(ptr.length);
+        if (offset + 6 + offBuf.length + lenBuf.length > buf.length) throw new Error("B\"H: Buffer overflow in _writePtr (Length)");
+        lenBuf.copy(buf, offset + 6 + offBuf.length);
+        
+        const finalOff = offset + 6 + offBuf.length + lenBuf.length;
+        if (finalOff >= buf.length) throw new Error("B\"H: Buffer overflow in _writePtr (ChainFlag)");
+        buf.writeUInt8(ptr.isChain ? 1 : 0, finalOff);
+    }
+
+    /**
+     * Helper: Reads a pointer structure from a buffer at specific offset.
+     * Mirrors _writePtr logic exactly.
+     */
+    _readPtr(buf, offset) {
+        if (!buf || offset >= buf.length) return null;
+        if (offset + 6 > buf.length) return null; // Safety for BlockID read
+
+        const blockId = readPointer48(buf, offset);
+        
+        // Read Offset VarInt
+        const o = serializer.readVarInt(buf, offset + 6);
+        // Read Length VarInt
+        const l = serializer.readVarInt(buf, offset + 6 + o.bytesRead);
+        
+        // Safety check for chain flag read
+        const chainIdx = offset + 6 + o.bytesRead + l.bytesRead;
+        if (chainIdx >= buf.length) return null; // Incomplete pointer
+        
+        const c = buf.readUInt8(chainIdx);
+        
+        // B"H: Sanity check - if length is 0, it might be a read from zeroed buffer
+        if (l.value === 0 && blockId === 0 && o.value === 0) {
+             // Technically valid (empty block at 0), but often indicates corruption in this context
+             // Return null to trigger safety checks downstream
+             return null;
+        }
+
+        return { blockId, offset: o.value, length: l.value, isChain: c === 1 };
+    }
+
+    /**
      * Navigate deeper into the Tree.
      * Returns a new LiveHandle representing the child.
      */
@@ -88,9 +150,22 @@ class LiveHandle {
                 if (this.mode === 'BTREE') {
                     if (!ptr) return null;
                     const metaBuf = await this.db._readChainSafe(ptr);
-                    const handlePtr = this.db._readPtrFromBuf(metaBuf, 1);
+                    if (!metaBuf) return null; 
+
+                    // Use local _readPtr
+                    const handlePtr = this._readPtr(metaBuf, 1);
+                    if (!handlePtr) return null;
+
                     const handleBuf = await this.db._readChainSafe(handlePtr);
-                    const rootPtr = this.db._readPtrFromBuf(handleBuf, 4);
+                    if (!handleBuf) return null; 
+
+                    // B"H: Validate "TREE" signature
+                    if (handleBuf.length < 4 || handleBuf.toString('utf8', 0, 4) !== "TREE") {
+                        return null;
+                    }
+
+                    // Use local _readPtr
+                    const rootPtr = this._readPtr(handleBuf, 4);
                     tree = new BTree(this.db.allocator, rootPtr);
                 } else {
                     return null; // Values/Collections don't have keyed children
@@ -105,7 +180,7 @@ class LiveHandle {
     }
 
     /**
-     * Resolves this handle to a JS Value (Primitive or Plain Object).
+     * Resolves this handle to a JS Value.
      */
     async resolveSelf() {
         const ptr = await this.ptrPromise;
@@ -114,8 +189,9 @@ class LiveHandle {
         
         if (this.mode === 'DEFERRED') await this.detectMode(ptr);
 
-        if (this.mode === 'BTREE') return "[AwtsmoosDB Object]";
-        if (this.mode === 'COLLECTION') return "[AwtsmoosDB Collection]";
+        if (this.mode === 'BTREE' || this.mode === 'COLLECTION') {
+            return this.toJSON();
+        }
         
         // VALUE
         return await this.db._resolveValueFull(ptr);
@@ -125,10 +201,46 @@ class LiveHandle {
         if (!ptr) { this.mode = 'VALUE'; return; }
         const metaBuf = await this.db._readChainSafe(ptr);
         if (!metaBuf) { this.mode = 'VALUE'; return; }
-        const type = metaBuf.readUInt8(0);
+        const type = metaBuf.length > 0 ? metaBuf.readUInt8(0) : 0;
+        
         if (type === TYPE_BTREE) this.mode = 'BTREE';
         else if (type === TYPE_COLLECTION) this.mode = 'COLLECTION';
         else this.mode = 'VALUE';
+    }
+
+    /**
+     * Converts the current handle's data to a JSON-compatible JS object/array.
+     */
+    async toJSON(depth = 0) {
+        if (depth > 5) return "[Max Depth Exceeded]";
+        
+        try {
+            const ptr = await this.ptrPromise;
+            if (!ptr) return undefined;
+            
+            if (this.mode === 'DEFERRED') await this.detectMode(ptr);
+            
+            if (this.mode === 'BTREE') {
+                const tree = await this._getCurrentTree(ptr);
+                // Get all keys (limit to prevent explosion)
+                const allItems = await tree.getRange(0, 500); 
+                const result = {};
+                for(const item of allItems) {
+                    const childHandle = new LiveHandle(this.db, Promise.resolve(item.ptr), 'DEFERRED');
+                    result[item.key] = await childHandle.toJSON(depth + 1);
+                }
+                return result;
+            } 
+            else if (this.mode === 'COLLECTION') {
+                return this.slice(0, 500); 
+            } 
+            else {
+                 return this.db._resolveValueFull(ptr);
+            }
+        } catch (e) {
+            console.warn("B\"H: toJSON Error:", e.message);
+            return { error: "Failed to resolve structure" };
+        }
     }
 
     /**
@@ -142,108 +254,115 @@ class LiveHandle {
         if (this.mode !== 'BTREE') throw new Error("Operation requires a Map/Object context");
 
         const metaBuf = await this.db._readChainSafe(ptr);
-        const handlePtr = this.db._readPtrFromBuf(metaBuf, 1);
+        if (!metaBuf) throw new Error("Meta Block missing");
+        
+        const handlePtr = this._readPtr(metaBuf, 1);
+        if (!handlePtr) throw new Error("Invalid Handle Pointer in Meta Block");
+
         const handleBuf = await this.db._readChainSafe(handlePtr);
-        const rootPtr = this.db._readPtrFromBuf(handleBuf, 4);
+        if (!handleBuf) throw new Error("Handle Block missing");
+
+        // B"H: Strict Signature Verification with detailed error logging
+        if (handleBuf.length < 4 || handleBuf.toString('utf8', 0, 4) !== "TREE") {
+             const hex = handleBuf ? handleBuf.subarray(0, Math.min(32, handleBuf.length)).toString('hex') : "null";
+             const len = handleBuf ? handleBuf.length : 0;
+             throw new Error(`Invalid BTREE signature. Len: ${len}. Got: ${hex}`);
+        }
+
+        const rootPtr = this._readPtr(handleBuf, 4);
         return new BTree(this.db.allocator, rootPtr);
     }
 
     /**
-     * Updates the parent pointer after a structural change (e.g. root split/move).
+     * Updates the parent pointer after a structural change.
      */
     async _updateTreePointer(ptr, tree) {
          if (this.mode === 'ROOT') {
             await this.db._writeRootPtrToSB(tree.rootPtr);
         } else {
             const metaBuf = await this.db._readChainSafe(ptr);
-            const handlePtr = this.db._readPtrFromBuf(metaBuf, 1);
+            const handlePtr = this._readPtr(metaBuf, 1);
             
-            const newHandleBuf = Buffer.alloc(20);
+            const newHandleBuf = Buffer.alloc(32); 
             newHandleBuf.write("TREE", 0);
-            this.db._writePtrToBuf(newHandleBuf, 4, tree.rootPtr);
+            this._writePtr(newHandleBuf, 4, tree.rootPtr);
             await this.db._writeChainSafe(handlePtr, newHandleBuf);
         }
+        if (this.db.allocator) await this.db.allocator.saveState();
     }
 
-    /**
-     * Creates a new Sub-Map (BTree) at the given key.
-     */
     async createMap(key) {
         return this.db.execute(async () => {
             const ptr = await this.ptrPromise;
             await this.db.ensureOpen();
             const tree = await this._getCurrentTree(ptr);
 
-            // 1. Create New BTree
             const newTree = new BTree(this.db.allocator);
-            await newTree.getRoot(); // Initialize the root
+            await newTree.getRoot(); 
             const newRootPtr = newTree.rootPtr;
 
-            // 2. Create Handle for New Tree
-            // [Type 4 "TREE"][RootPtr 15] -> 19 bytes used
-            const handleBuf = Buffer.alloc(20);
+            // 1. Create Handle Block
+            const handleBuf = Buffer.alloc(32); 
             handleBuf.write("TREE", 0);
-            this.db._writePtrToBuf(handleBuf, 4, newRootPtr);
-            const handlePtr = await this.db.allocator.allocate(20);
+            this._writePtr(handleBuf, 4, newRootPtr);
+            const handlePtr = await this.db.allocator.allocate(32);
             await this.db.allocator.writeUserSpace(handlePtr, handleBuf);
 
-            // 3. Create Meta Pointer [Type 2 (BTREE)][HandlePtr 15]
-            // Fixed: Buffer size must accommodate the full pointer (15 bytes) + type (1 byte)
-            const metaBuf = Buffer.alloc(16);
+            // 2. Create Meta Block
+            const metaBuf = Buffer.alloc(32); 
             metaBuf.writeUInt8(TYPE_BTREE, 0);
-            this.db._writePtrToBuf(metaBuf, 1, handlePtr);
-            const metaPtr = await this.db.allocator.allocate(16);
+            this._writePtr(metaBuf, 1, handlePtr);
+            const metaPtr = await this.db.allocator.allocate(32);
             await this.db.allocator.writeUserSpace(metaPtr, metaBuf);
 
-            // 4. Insert into Current Tree
             await tree.insert(key, metaPtr);
-            
-            // 5. Update Parent
             await this._updateTreePointer(ptr, tree);
         });
     }
 
-    /**
-     * Creates a new Collection (List) at the given key.
-     */
     async createList(key) {
         return this.db.execute(async () => {
             const ptr = await this.ptrPromise;
             await this.db.ensureOpen();
             const tree = await this._getCurrentTree(ptr);
 
-            // 1. Create Collection Header
+            // 1. Alloc Header Block (Collection)
             const headerPtr = await this.db.allocator.allocatePage(constants.BLOCK_TYPE.COLLECTION_HEADER || 3);
             const col = new Collection(headerPtr.blockId, this.db.allocator);
+            // This initializes signature "CLHD"
             await col.saveHeader();
 
-            // 2. Create Handle for Collection
-            // [Type "COLL"][HeaderPtr 15]
-            const handleBuf = Buffer.alloc(20);
+            // 2. Alloc Handle Block (Data pointing to Header)
+            const handleBuf = Buffer.alloc(32);
             handleBuf.write("COLL", 0);
-            this.db._writePtrToBuf(handleBuf, 4, { blockId: headerPtr.blockId, offset: 0, length: constants.BLOCK_SIZE, isChain: false });
-            const handlePtr = await this.db.allocator.allocate(20);
+            
+            // Manual ptr writing for Header (Block 0 offset, Block Size length)
+            this._writePtr(handleBuf, 4, { blockId: headerPtr.blockId, offset: 0, length: constants.BLOCK_SIZE, isChain: false });
+            
+            const handlePtr = await this.db.allocator.allocate(32);
             await this.db.allocator.writeUserSpace(handlePtr, handleBuf);
 
-            // 3. Create Meta Pointer [Type 3 (COLLECTION)][HandlePtr 15]
-            // Fixed: Buffer size must accommodate the full pointer
-            const metaBuf = Buffer.alloc(16);
+            // VERIFICATION READ
+            const verifyBuf = await this.db._readChainSafe(handlePtr);
+            if (!verifyBuf || verifyBuf.length < 4 || verifyBuf.toString('utf8', 0, 4) !== "COLL") {
+                const hex = verifyBuf ? verifyBuf.subarray(0, Math.min(32, verifyBuf.length)).toString('hex') : "null";
+                throw new Error(`B"H: Fatal - Failed to write Collection Handle! Got: ${hex}`);
+            }
+
+            // 3. Alloc Meta Block (Pointing to Handle)
+            const metaBuf = Buffer.alloc(32); 
             metaBuf.writeUInt8(TYPE_COLLECTION, 0);
-            this.db._writePtrToBuf(metaBuf, 1, handlePtr);
-            const metaPtr = await this.db.allocator.allocate(16);
+            this._writePtr(metaBuf, 1, handlePtr);
+            
+            const metaPtr = await this.db.allocator.allocate(32);
             await this.db.allocator.writeUserSpace(metaPtr, metaBuf);
 
-            // 4. Insert into Current Tree
+            // 4. Insert into Tree
             await tree.insert(key, metaPtr);
-
-            // 5. Update Parent
             await this._updateTreePointer(ptr, tree);
         });
     }
 
-    /**
-     * Sets a property on the current BTree.
-     */
     async set(key, value) {
         const ptr = await this.ptrPromise;
         await this.db.ensureOpen();
@@ -255,9 +374,6 @@ class LiveHandle {
         await this._updateTreePointer(ptr, tree);
     }
 
-    /**
-     * Deletes a property.
-     */
     async delete(key) {
         const ptr = await this.ptrPromise;
         await this.db.ensureOpen();
@@ -272,25 +388,26 @@ class LiveHandle {
             if (this.mode !== 'BTREE') return false;
 
             const metaBuf = await this.db._readChainSafe(ptr);
-            const handlePtr = this.db._readPtrFromBuf(metaBuf, 1);
+            if (!metaBuf) return false;
+
+            const handlePtr = this._readPtr(metaBuf, 1);
             const handleBuf = await this.db._readChainSafe(handlePtr);
-            const rootPtr = this.db._readPtrFromBuf(handleBuf, 4);
+            if (!handleBuf) return false;
+
+            const rootPtr = this._readPtr(handleBuf, 4);
             tree = new BTree(this.db.allocator, rootPtr);
             
             await tree.remove(key);
             
-            // Update handle with new root
-            const newHandleBuf = Buffer.alloc(20);
+            const newHandleBuf = Buffer.alloc(32); 
             newHandleBuf.write("TREE", 0);
-            this.db._writePtrToBuf(newHandleBuf, 4, tree.rootPtr);
+            this._writePtr(newHandleBuf, 4, tree.rootPtr);
             await this.db._writeChainSafe(handlePtr, newHandleBuf);
         }
+        if (this.db.allocator) await this.db.allocator.saveState();
         return true;
     }
 
-    /**
-     * Collection: Push item
-     */
     async push(item) {
         return this.db.execute(async () => {
             const ptr = await this.ptrPromise;
@@ -300,9 +417,19 @@ class LiveHandle {
             if (this.mode !== 'COLLECTION') throw new Error("Cannot push to non-collection");
 
             const metaBuf = await this.db._readChainSafe(ptr);
-            const dataPtr = this.db._readPtrFromBuf(metaBuf, 1);
+            if (!metaBuf) throw new Error("Meta Block missing in push");
             
-            const col = new Collection(dataPtr.blockId, this.db.allocator);
+            const handlePtr = this._readPtr(metaBuf, 1);
+            const handleBuf = await this.db._readChainSafe(handlePtr);
+            if (!handleBuf) throw new Error("Handle Block missing in push");
+            
+            if (handleBuf.length < 4 || handleBuf.toString('utf8', 0, 4) !== "COLL") {
+                const hex = handleBuf ? handleBuf.subarray(0, Math.min(32, handleBuf.length)).toString('hex') : "null";
+                throw new Error(`Invalid Collection Handle Signature in push. Got: ${hex}`);
+            }
+
+            const headerPtr = this._readPtr(handleBuf, 4);
+            const col = new Collection(headerPtr.blockId, this.db.allocator);
             await col.load();
             
             await col.append(Date.now().toString() + Math.random(), item);
@@ -310,9 +437,6 @@ class LiveHandle {
         });
     }
 
-    /**
-     * Collection: Slice items
-     */
     async slice(start = 0, end = 100) {
         const ptr = await this.ptrPromise;
         await this.db.ensureOpen();
@@ -320,10 +444,30 @@ class LiveHandle {
         if (this.mode === 'DEFERRED') await this.detectMode(ptr);
         if (this.mode !== 'COLLECTION') return [];
 
+        // Meta -> Handle -> Header
         const metaBuf = await this.db._readChainSafe(ptr);
-        const dataPtr = this.db._readPtrFromBuf(metaBuf, 1);
-        
-        const col = new Collection(dataPtr.blockId, this.db.allocator);
+        if (!metaBuf) return [];
+
+        const handlePtr = this._readPtr(metaBuf, 1);
+        const handleBuf = await this.db._readChainSafe(handlePtr);
+        if (!handleBuf) {
+            console.warn("B\"H: Slice - Missing Handle Buffer");
+            return [];
+        }
+
+        if (handleBuf.length < 4 || handleBuf.toString('utf8', 0, 4) !== "COLL") {
+            const hex = handleBuf ? handleBuf.subarray(0, Math.min(32, handleBuf.length)).toString('hex') : "null";
+            console.warn(`B\"H: Slice - Invalid Collection Signature in Handle. Got: ${hex}`);
+            return [];
+        }
+
+        const headerPtr = this._readPtr(handleBuf, 4);
+        if (!headerPtr || headerPtr.blockId === 0) {
+             console.warn("B\"H: Slice - Invalid Header Pointer");
+             return [];
+        }
+
+        const col = new Collection(headerPtr.blockId, this.db.allocator);
         await col.load();
         
         const res = [];
@@ -347,9 +491,6 @@ class LiveHandle {
         return res;
     }
 
-    /**
-     * Async Iterator for streaming data
-     */
     async *iterator() {
         const ptr = await this.ptrPromise;
         await this.db.ensureOpen();
@@ -357,8 +498,17 @@ class LiveHandle {
 
         if (this.mode === 'COLLECTION') {
              const metaBuf = await this.db._readChainSafe(ptr);
-             const dataPtr = this.db._readPtrFromBuf(metaBuf, 1);
-             const col = new Collection(dataPtr.blockId, this.db.allocator);
+             if (!metaBuf) return;
+
+             const handlePtr = this._readPtr(metaBuf, 1);
+             const handleBuf = await this.db._readChainSafe(handlePtr);
+             if (!handleBuf) return;
+
+             if (handleBuf.length < 4 || handleBuf.toString('utf8', 0, 4) !== "COLL") return;
+
+             const headerPtr = this._readPtr(handleBuf, 4);
+
+             const col = new Collection(headerPtr.blockId, this.db.allocator);
              await col.load();
              
              let currPage = col.headPageId;

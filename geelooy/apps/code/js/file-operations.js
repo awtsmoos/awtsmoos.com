@@ -83,87 +83,95 @@ export const FileOperations = {
 
     
     // B"H - IN: js/file-operations.js
-// ACTION: Replace the entire function with this one.
+    // ACTION: Updated to create a "Fake File" for clipboard
+    async copyAllContents(items) {
+        if (!items || items.length === 0) {
+            UI.showToast("Nothing selected to copy.", "info");
+            return;
+        }
 
-async copyAllContents(items) {
-    if (!items || items.length === 0) {
-        UI.showToast("Nothing selected to copy.", "info");
-        return;
-    }
+        UI.showLoading("Formatting as Markdown...");
+        let combinedContent = 'B"H\n\n'; // Start with a single header for the whole document
 
-    UI.showLoading("Formatting as Markdown...");
-    let combinedContent = 'B"H\n\n'; // Start with a single header for the whole document
+        try {
+            const processItem = async (item) => {
+                if (!item || !item.kind) return;
 
-    try {
-        const processItem = async (item) => {
-            if (!item || !item.kind) return;
+                if (item.kind === 'file') {
+                    const content = await FileSystemProvider.read(item);
+                    let textContent = '';
 
-            if (item.kind === 'file') {
-                const content = await FileSystemProvider.read(item);
-                let textContent = '';
+                    if (typeof content === 'string') {
+                        textContent = content;
+                    } else if (content instanceof Blob) {
+                        textContent = await content.text();
+                    } else if (typeof content === 'object' && content !== null && content.isBinary) {
+                        textContent = `[Binary file content not displayed: ${item.name}]`;
+                    } else if (content) {
+                        textContent = `[Unsupported content type for ${item.name}]`;
+                    }
 
-                if (typeof content === 'string') {
-                    textContent = content;
-                } else if (content instanceof Blob) {
-                    textContent = await content.text();
-                } else if (typeof content === 'object' && content !== null && content.isBinary) {
-                    textContent = `[Binary file content not displayed: ${item.name}]`;
-                } else if (content) {
-                    textContent = `[Unsupported content type for ${item.name}]`;
-                }
+                    // --- NEW: Standard Markdown Formatting ---
+                    const langMap = {
+                        '.js': 'javascript', '.mjs': 'javascript', '.css': 'css',
+                        '.html': 'html', '.htm': 'html', '.xml': 'xml', '.svg': 'xml',
+                        '.json': 'json', '.md': 'markdown', '.py': 'python',
+                        '.sh': 'shell', '.java': 'java', '.c': 'c', '.cpp': 'cpp'
+                    };
+                    const extension = '.' + (item.name || '').split('.').pop().toLowerCase();
+                    const langIdentifier = langMap[extension] || ''; // Gets 'javascript', 'css', etc.
 
-                // --- NEW: Standard Markdown Formatting ---
-                const langMap = {
-                    '.js': 'javascript', '.mjs': 'javascript', '.css': 'css',
-                    '.html': 'html', '.htm': 'html', '.xml': 'xml', '.svg': 'xml',
-                    '.json': 'json', '.md': 'markdown', '.py': 'python',
-                    '.sh': 'shell', '.java': 'java', '.c': 'c', '.cpp': 'cpp'
-                };
-                const extension = '.' + (item.name || '').split('.').pop().toLowerCase();
-                const langIdentifier = langMap[extension] || ''; // Gets 'javascript', 'css', etc.
+                    // Build the clean Markdown output for a file
+                    combinedContent += `### File: \`${item.path || item.name}\`\n\n`;
+                    combinedContent += '```' + langIdentifier + '\n';
+                    combinedContent += textContent.trim() + '\n'; // Trim to remove extra whitespace
+                    combinedContent += '```\n\n';
+                    combinedContent += '---\n\n'; // A standard horizontal rule separator
 
-                // Build the clean Markdown output for a file
-                combinedContent += `### File: \`${item.path || item.name}\`\n\n`;
-                combinedContent += '```' + langIdentifier + '\n';
-                combinedContent += textContent.trim() + '\n'; // Trim to remove extra whitespace
-                combinedContent += '```\n\n';
-                combinedContent += '---\n\n'; // A standard horizontal rule separator
+                } else if (item.kind === 'directory') {
+                    // Use a clean Markdown header for the directory path
+                    combinedContent += `## Directory: \`${item.path || item.name}\`\n\n`;
+                    
+                    const children = await FileSystemProvider.list(item);
+                    children.sort((a, b) => (a.kind === b.kind) ? a.name.localeCompare(b.name) : (a.kind === 'directory' ? -1 : 1));
 
-            } else if (item.kind === 'directory') {
-                // Use a clean Markdown header for the directory path
-                combinedContent += `## Directory: \`${item.path || item.name}\`\n\n`;
-                
-                const children = await FileSystemProvider.list(item);
-                children.sort((a, b) => (a.kind === b.kind) ? a.name.localeCompare(b.name) : (a.kind === 'directory' ? -1 : 1));
-
-                for (const child of children) {
-                    const workspace = State.workspaces.find(ws => ws.id === (item.workspaceId ?? item.id));
-                    if (workspace) {
-                        const fullChildItem = { ...workspace, ...child, workspaceId: workspace.id };
-                        await processItem(fullChildItem);
+                    for (const child of children) {
+                        const workspace = State.workspaces.find(ws => ws.id === (item.workspaceId ?? item.id));
+                        if (workspace) {
+                            const fullChildItem = { ...workspace, ...child, workspaceId: workspace.id };
+                            await processItem(fullChildItem);
+                        }
                     }
                 }
+            };
+
+            for (const item of items) {
+                await processItem(item);
             }
-        };
 
-        for (const item of items) {
-            await processItem(item);
+            if (combinedContent) {
+                // B"H - CREATE THE FAKE FILE
+                // We determine a suitable filename. If single item, use its name + .txt. If multiple, generic name.
+                const filename = items.length === 1 ? `${items[0].name}.txt` : `Selection_Export.txt`;
+                
+                // Create a File object.
+                // This is the magic. By passing a File object to the clipboard module, 
+                // we enable the potential for it to be treated as a file upload in supporting apps.
+                const fakeFile = new File([combinedContent], filename, { type: "text/plain" });
+                
+                const success = await Clipboard.write(fakeFile);
+                UI.showToast(success ? 'Contents copied as File & Text!' : 'Failed to copy contents.', success ? 'success' : 'error');
+            } else {
+                UI.showToast('No text content found to copy.', 'info');
+            }
+
+        } catch (error) {
+            console.error("Error copying all contents:", error);
+            UI.showToast(`Error: ${error.message}`, 'error');
+        } finally {
+            UI.hideLoading();
         }
-
-        if (combinedContent) {
-            const success = await Clipboard.write(combinedContent);
-            UI.showToast(success ? 'Contents copied as Markdown!' : 'Failed to copy contents.', success ? 'success' : 'error');
-        } else {
-            UI.showToast('No text content found to copy.', 'info');
-        }
-
-    } catch (error) {
-        console.error("Error copying all contents:", error);
-        UI.showToast(`Error: ${error.message}`, 'error');
-    } finally {
-        UI.hideLoading();
-    }
-},
+    },
     
 
 	

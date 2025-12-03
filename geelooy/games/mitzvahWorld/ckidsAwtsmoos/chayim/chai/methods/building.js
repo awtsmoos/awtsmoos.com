@@ -1,4 +1,3 @@
-
 /**
  * B"H
  * @file building.js
@@ -141,8 +140,20 @@ export default {
             let mesh = null;
 
             if (item.className === "CustomNpc") {
-                const modelPath = item.customData?.modelPath || "awtsmoos://new_awduhm";
+                let modelPath = item.customData?.modelPath;
                 
+                // B"H: Verify model exists in current world components.
+                // If not, fallback to the player's current path or a safe default.
+                const componentExists = modelPath && this.olam.getComponent(modelPath);
+                
+                if (!componentExists) {
+                    if (this.olam.chossid && this.olam.chossid.path) {
+                        modelPath = this.olam.chossid.path;
+                    } else {
+                        modelPath = "awtsmoos://awduhm";
+                    }
+                }
+
                 let gltf = await this.olam.boyrayNivra({ 
                     path: modelPath, 
                     isSolid: false,

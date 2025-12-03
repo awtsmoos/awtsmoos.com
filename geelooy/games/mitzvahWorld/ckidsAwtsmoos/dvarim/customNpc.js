@@ -21,7 +21,10 @@ export default class CustomNpc extends Medabeir {
     type = "customNpc";
     static itemName = "Custom NPC";
     static description = "A custom designed character.";
-    static isBuildable = true; // B"H: Allow placement in the world via the Ray
+    static isBuildable = true; 
+    
+    // B"H: Explicit User Icon
+    static icon = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iIzAwRkZGRiI+PHBhdGggZD0iTTEyIDEyYzIuMjEgMCA0LTEuNzkgNC00cy0xLjc5LTQtNC00LTQgMS43OS00IDQgMS43OSA0IDQgNHptMCAyYy0yLjY3IDAtOCAxLjM0LTggNHYyaDE2di0yYzAtMi42Ni01LjMzLTQtOC00eiIvPjwvc3ZnPg==";
     
     // Store Properties
     shopInventory = [];
@@ -42,8 +45,9 @@ export default class CustomNpc extends Medabeir {
         // they are NOT *part* of the static world geometry.
         op.isSolid = false; 
         
-        // Default appearance - The Player Model
-        op.path = customData.modelPath || "awtsmoos://new_awduhm";
+        // Default appearance - Using a safe default initially.
+        // 'heescheel' will overwrite this with the player's path if available.
+        op.path = customData.modelPath || "awtsmoos://awduhm";
         
         super(op);
         
@@ -72,6 +76,42 @@ export default class CustomNpc extends Medabeir {
             "left turn": "left turn",
             "dance silly": "dance silly"
         };
+    }
+
+    async heescheel(olam) {
+        const player = olam.player || olam.chossid;
+
+        // B"H: Ensure we are using a valid model path.
+        // Prioritize the player's path if the requested path is missing or generic.
+        const currentPathValid = this.path && olam.getComponent(this.path);
+        
+        if (!currentPathValid || this.path === "awtsmoos://new_awduhm") {
+            if (player && player.path) {
+                this.path = player.path;
+            } else {
+                this.path = "awtsmoos://awduhm";
+            }
+        }
+
+        await super.heescheel(olam);
+        
+        // B"H: Sync Garments with Player
+        // This gives the NPC the same "Levush" (Clothing) as the creator.
+        if (player && player.garments && this.garments) {
+             for(const [garmentName, playerMesh] of Object.entries(player.garments)) {
+                 if (this.garments[garmentName]) {
+                     this.garments[garmentName].visible = playerMesh.visible;
+                 }
+             }
+        } else if (this.garments) {
+            // Fallback to default visibility if player reference is missing
+	        var keys = Object.keys(this.garments);
+	        keys.forEach(k => {
+		        if(!this.garmentsDefault[k]) {
+			        this.garments[k].visible = false;
+		        }
+	        })
+        }
     }
 
     /**

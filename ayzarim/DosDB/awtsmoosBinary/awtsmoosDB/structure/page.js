@@ -26,12 +26,21 @@ class Page {
      * Loads the Page from the Ether (Disk).
      */
     async load() {
-        const buffer = await this.allocator.pager.readBlock(this.id);
+        if (!this.id || this.id <= 0 || isNaN(this.id)) return;
+        
+        // B"H: Use Locked Read
+        const buffer = await this.allocator.readBlockLocked(this.id);
         if (!buffer) return; 
         
         // Skip Block Header to get to Page Data
         let offset = constants.HEADER_SIZE; 
         
+        // Ensure buffer is large enough for NextPageId (6 bytes)
+        if (offset + 6 > buffer.length) {
+            console.error(`[Page ${this.id}] Buffer too small for header.`);
+            return;
+        }
+
         this.nextPageId = readPointer48(buffer, offset);
         offset += 6;
         
@@ -39,15 +48,26 @@ class Page {
         const count = countInfo.value;
         offset += countInfo.bytesRead;
 
+        // B"H: Safety Check - Prevent allocation of huge arrays if reading garbage
+        if (count > constants.MAX_ITEMS_PER_PAGE || count < 0) {
+            this.items = [];
+            return;
+        }
+
         this.items = [];
         for (let i = 0; i < count; i++) {
+            // Bounds check - ensure we have at least min header bytes (KeyLen+Type+Ptr)
+            if (offset + 10 >= buffer.length) break;
+
             const keyInfo = serializer.readString(buffer, offset);
             const key = keyInfo.value;
             offset += keyInfo.bytesRead;
             
+            if (offset >= buffer.length) break;
             const type = buffer.readUInt8(offset);
             offset += 1;
             
+            if (offset + 6 >= buffer.length) break;
             const blockId = readPointer48(buffer, offset);
             offset += 6;
             
@@ -69,8 +89,10 @@ class Page {
      * @param {number} id 
      */
     setNextPage(id) {
-        this.nextPageId = id;
-        this.isDirty = true; 
+        if (this.nextPageId !== id) {
+            this.nextPageId = id;
+            this.isDirty = true; 
+        }
     }
 
     /**
@@ -94,8 +116,6 @@ class Page {
         const estimatedSize = Buffer.byteLength(key) + 20;
         
         // Calculate current usage
-        // Note: We shouldn't rely on `currentSize` accumulation variable from previous adds
-        // because `load()` doesn't populate it. We re-calculate.
         let currentSize = 0;
         // nextPageId (6) + Count (VarInt ~1-3)
         currentSize += 6 + 5; 
@@ -120,7 +140,6 @@ class Page {
     async save() {
         if (!this.isDirty) return;
 
-        // console.log(`[Page ${this.id}] SAVING... ItemCount=${this.items.length}.`);
         const parts = [];
         
         const nextBuf = Buffer.alloc(6);
@@ -144,8 +163,8 @@ class Page {
         const rawBuffer = Buffer.concat(parts);
         const block = Buffer.alloc(constants.BLOCK_SIZE);
         
-        // Use COLLECTION_PAGE type
-        block.writeUInt32BE(constants.BLOCK_TYPE.COLLECTION_PAGE, 0);
+        // Use COLLECTION_PAGE type to distinguish from BTREE nodes or DATA
+        block.writeUInt32BE(constants.BLOCK_TYPE.COLLECTION_PAGE || 4, 0);
         
         // Mark header as used in bitmap
         block.fill(0xFF, constants.BITMAP_OFFSET, constants.BITMAP_OFFSET + constants.BITMAP_SIZE);
@@ -156,9 +175,9 @@ class Page {
         
         rawBuffer.copy(block, constants.HEADER_SIZE);
         
-        await this.allocator.pager.writeBlock(this.id, block);
+        // B"H: Use Locked Write
+        await this.allocator.writeBlockLocked(this.id, block);
         this.isDirty = false;
-        // console.log(`[Page ${this.id}] Saved.`);
     }
 }
 module.exports = Page;

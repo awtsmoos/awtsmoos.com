@@ -221,9 +221,17 @@ export default class {
                     // Get the component from the Olam
                     var component = this.getComponent(nivra.path);
                     
-                    // If the component doesn't exist, throw an error
+                    // If the component doesn't exist, fallback or error
                     if (!component) {
-                        console.log("LOL nothing is found",component)
+                        console.warn(`B"H: Component "${nivra.path}" not found. Fallback to primitive.`);
+                        // B"H: Fallback to prevent crash
+                        var fallbackGolem = {
+                            guf: { BoxGeometry: [1, 2, 1] },
+                            toyr: { MeshLambertMaterial: { color: 0xff0000, wireframe: true } } // Red wireframe to indicate error
+                        };
+                        var mesh = await this.generateThreeJsMesh(fallbackGolem);
+                        mesh.userData.error = true;
+                        return mesh;
                     }
     
                     // Use the component's data URL as the path
@@ -261,6 +269,12 @@ export default class {
                         
                         var lastTime = Date.now();
                         gltf = await new Promise((r,j) => {
+                            // B"H: Ensure derech is valid string before loading
+                            if (!derech || typeof derech !== 'string') {
+                                j("Invalid model path (derech)");
+                                return;
+                            }
+
                             this.loader.load(derech, onloadParsed => {
                                 r(onloadParsed)
                             },
