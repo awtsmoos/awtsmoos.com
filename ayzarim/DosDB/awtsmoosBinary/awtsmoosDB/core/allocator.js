@@ -85,7 +85,9 @@ class Allocator {
             // Verify Block Integrity before write
             const existingType = await this.pager.readBlockType(ptr.blockId);
             if (existingType !== constants.BLOCK_TYPE.PAGE && existingType !== constants.BLOCK_TYPE.COLLECTION_HEADER && existingType !== constants.BLOCK_TYPE.COLLECTION_PAGE) {
-                 if (existingType === constants.BLOCK_TYPE.FREE) {
+                 if (existingType === constants.BLOCK_TYPE.FREE || existingType === 0) {
+                     // B"H: If the block is free, it means 'allocate' failed to persist the block initialization,
+                     // or there is a race condition.
                      throw new Error(`B"H: Critical - Attempt to write to FREE block ${ptr.blockId}`);
                  }
             }
@@ -147,14 +149,12 @@ class Allocator {
                 this.log(`Small Alloc -> New Block ${searchPtr}`);
                 const block = this.formatBlock(constants.BLOCK_TYPE.PAGE);
                 
-                // Zero out user space (after header)
+                // Zero out user space (after header) for NEW blocks
                 block.fill(0, this.HEADER_SIZE, this.BLOCK_SIZE);
                 
                 const bitmap = block.subarray(constants.BITMAP_OFFSET, constants.BITMAP_OFFSET + constants.BITMAP_SIZE);
                 
-                // Since it's new, we skip header units (0,1). Alloc starts at 2.
-                // formatBlock already marks header units.
-                // We find next gap starting from 0 (which will return 2).
+                // Alloc starts at unit 2 (units 0,1 are header)
                 const startUnit = this.findGap(bitmap, unitsNeeded);
                 
                 if (startUnit > 0) {
@@ -174,15 +174,16 @@ class Allocator {
                         this.markBitmap(bitmap, startUnit, unitsNeeded, true);
                         
                         const startByte = startUnit * this.UNIT_SIZE;
-                        const endByte = startByte + (unitsNeeded * this.UNIT_SIZE);
                         
                         if (startByte < this.HEADER_SIZE) {
                              throw new Error(`B"H: Allocator calculated startByte ${startByte} inside Header Region!`);
                         }
                         
-                        // Zero out ONLY the allocated region to prevent corrupting other data in shared block
-                        // B"H: Added safety check - ensure we aren't zeroing something that looks like a header
-                        block.fill(0, startByte, endByte);
+                        // B"H: FIX - DO NOT ZERO OUT DATA FOR EXISTING SHARED BLOCKS.
+                        // Zeroing here introduces a race condition where we might overwrite
+                        // data written by a parallel operation if our `readBlock` was slightly stale
+                        // or if the write pipeline is interleaved.
+                        // The `writeUserSpace` function will overwrite this region with actual data anyway.
                         
                         await this.pager.writeBlock(searchPtr, block);
                         return { blockId: searchPtr, offset: startByte, length: sizeBytes };

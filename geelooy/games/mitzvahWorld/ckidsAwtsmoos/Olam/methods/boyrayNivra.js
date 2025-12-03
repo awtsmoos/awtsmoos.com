@@ -638,15 +638,18 @@ export default class {
                     this.interactableNivrayim
                     .push(nivra);
                    
-                    
-                    if(nivra.type != "chossid") { 
+                    // B"H FIX: DO NOT add dynamic entities (NPCs, Player, Animals) to the static Octree.
+                    // This prevents the infinite loop/freeze caused by traversing complex character rigs synchronously.
+                    // Dynamic entities are checked via direct raycast in Ayin.js.
+                    if(nivra.type != "chossid" && nivra.type != "customNpc" && nivra.type != "medabeir" && nivra.type != "chai") { 
                         nivra.needsOctreeChange = true;
                         nivra.on(
                             "changeOctreePosition", () => {
-                                var currentChild = 0;
-                                gltf.scene.traverse(child => {
-                                    this.interactiveOctree.fromGraphNode(child);
-                                })
+                                // B"H FIX: Optimized Interactive Octree Generation
+                                // Instead of traversing and calling fromGraphNode on EVERY child (O(N^2) explosion),
+                                // we simply pass the root scene to the octree manager once.
+                                // The octree manager handles traversal efficiently.
+                                this.interactiveOctree.fromGraphNode(gltf.scene);
                             }
                         );
                     }

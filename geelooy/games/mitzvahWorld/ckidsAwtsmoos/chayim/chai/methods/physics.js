@@ -1,4 +1,3 @@
-
 /**
  * B"H
  * @file physics.js
@@ -157,7 +156,9 @@ export default {
         const deltaPosition = this.velocity.clone().multiplyScalar(deltaTime);
         
         const capsule = this.collider;
-        const numSteps = Math.ceil(deltaPosition.length() / (capsule.radius * 0.5));
+        // B"H FIX: Clamp numSteps to prevent freezing if physics blows up or radius is tiny
+        let numSteps = Math.ceil(deltaPosition.length() / (capsule.radius * 0.5));
+        if (numSteps > 20) numSteps = 20; // Safety clamp
 
         if (numSteps > 1) {
             const stepDelta = deltaPosition.clone().divideScalar(numSteps);

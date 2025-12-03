@@ -51,7 +51,9 @@ export default class {
                 if (self.nivrayim) {
                     for(const n of self.nivrayim) {
                         // Check if it's an active character with velocity (not the player, who is already added)
-                        if (n !== self.chossid && n.velocity && n.onFloor !== undefined) {
+                        // B"H FIX: Ensure we ONLY track entities that are fully ready. 
+                        // Accessing properties or positions of unready entities can cause race conditions or freezes.
+                        if (n !== self.chossid && n.velocity && n.onFloor !== undefined && n.isReady) {
                             foci.push({
                                 position: n.mesh.position,
                                 velocity: n.velocity

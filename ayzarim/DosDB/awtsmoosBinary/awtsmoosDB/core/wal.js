@@ -77,7 +77,12 @@ class WAL {
         const readHandle = await fs.open(this.path, 'r');
 
         const PACKET_SIZE = 6 + constants.BLOCK_SIZE;
+        // B"H: FIX - Do NOT reuse a single buffer for async writes.
+        // If writeRaw is slow, the next read might overwrite the buffer content before the write completes.
+        // Although we await writeRaw, fs operations can hold references.
+        // We will alloc a new buffer for the *read*, but copy data for the *write*.
         const buffer = Buffer.alloc(PACKET_SIZE);
+        
         let recoveredCount = 0;
         let position = 0;
 
@@ -92,7 +97,10 @@ class WAL {
                 }
 
                 const blockId = readPointer48(buffer, 0);
-                const data = buffer.subarray(6, 6 + constants.BLOCK_SIZE);
+                
+                // B"H: COPY data to a new buffer to ensure no aliasing issues during writeRaw
+                const data = Buffer.alloc(constants.BLOCK_SIZE);
+                buffer.copy(data, 0, 6, 6 + constants.BLOCK_SIZE);
 
                 // Replay
                 await pager.writeRaw(blockId, data);

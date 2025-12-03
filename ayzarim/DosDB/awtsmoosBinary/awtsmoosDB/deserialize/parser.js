@@ -41,9 +41,15 @@ function parseObject(buffer, depth) {
 
 function parseArray(buffer, depth) {
     if (depth > MAX_DEPTH) throw new Error("B\"H: Maximum Recursion Depth Exceeded");
+    if (buffer.length <= 2) return [];
+
     let offset = 2; 
     const packed = buffer.readUInt8(offset); offset++;
     const lenSize = [1,2,4,8][(packed >> 2) & 0b11];
+    
+    // B"H: Safety check for buffer length before reading array length
+    if (buffer.length < offset + lenSize) return [];
+    
     const arrLen = readConditional(buffer, buffer.length - lenSize, lenSize);
     const result = [];
     let current = offset;
@@ -67,6 +73,9 @@ function parseValue(buffer, offset, depth) {
     
     let length = 0;
     if (lengthSize > 0) {
+        if (offset + lengthSize > buffer.length) {
+             return { value: undefined, bytesRead: 0 }; // Truncated
+        }
         length = readConditional(buffer, offset, lengthSize);
         offset += lengthSize;
     }
@@ -74,6 +83,10 @@ function parseValue(buffer, offset, depth) {
     const dataStart = offset;
     offset += length; 
     
+    if (offset > buffer.length) {
+         return { value: undefined, bytesRead: 0 }; // Truncated
+    }
+
     let val;
     const T = constants.VAL_TYPE;
 

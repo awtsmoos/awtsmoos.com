@@ -9,6 +9,7 @@
  *  FIXES:
  *  - Robust _writePtr and _readPtr implementation.
  *  - Guarded against zero-length buffers in signature verification.
+ *  - Explicit check for zero-length pointers in _readPtr.
  */
 
 const BTree = require('../structure/btree.js');
@@ -122,10 +123,14 @@ class LiveHandle {
         
         const c = buf.readUInt8(chainIdx);
         
-        // B"H: Sanity check - if length is 0, it might be a read from zeroed buffer
-        if (l.value === 0 && blockId === 0 && o.value === 0) {
-             // Technically valid (empty block at 0), but often indicates corruption in this context
-             // Return null to trigger safety checks downstream
+        // B"H: FIX - Treat 0-length pointers as null/invalid in this context.
+        // A Handle block for a BTree or Collection MUST have content (>0 length).
+        if (l.value === 0) {
+             return null;
+        }
+
+        // Standard null check
+        if (blockId === 0 && o.value === 0) {
              return null;
         }
 
@@ -270,6 +275,10 @@ class LiveHandle {
         }
 
         const rootPtr = this._readPtr(handleBuf, 4);
+        // Root Ptr can be null for empty trees, handle that gracefully
+        if (!rootPtr) {
+             return new BTree(this.db.allocator, null);
+        }
         return new BTree(this.db.allocator, rootPtr);
     }
 
