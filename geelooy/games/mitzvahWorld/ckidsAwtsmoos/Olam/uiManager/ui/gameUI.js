@@ -1,4 +1,3 @@
-
 /**
  * B"H
  * UI components that involve the in game experience
@@ -226,7 +225,6 @@ var ui = [instructions, {
             }
 
             actionSlotsData.forEach((slotData, index) => {
-                // --- B"H: Tooltip functions for revealing the item's essence ---
                 const showTooltip = (event) => {
                     if (!slotData) return;
                     const tooltip = $("icon tooltip");
@@ -242,20 +240,20 @@ var ui = [instructions, {
                     }
                 };
                 const hideTooltip = () => $("icon tooltip")?.classList.add('hidden');
-                // -----------------------------------------------------------------
 
                 const slot = ui.html({
                     parent: slotsContainer,
                     className: "actionSlot " + (slotData ? 'occupied' : 'empty'),
+                    ready(el) { el.awtsmoosItemData = slotData; }, // B"H: Cache item data on the DOM element
                     children: [{
                         className: "innerSlot" + (slotData && slotData.isEquipped ? " equipped-indicator" : ""),
-                        on: { // B"H: Restored hover events for tooltips
+                        on: { 
                             mouseenter: showTooltip,
                             mousemove: showTooltip,
                             mouseleave: hideTooltip,
                             touchstart: showTooltip
                         },
-                        onclick: (event) => { // B"H: FIXED to open context menu
+                        onclick: (event) => { 
                             if (slotData) {
                                 const rect = event.currentTarget.getBoundingClientRect();
                                 ui.peula($("inventoryScreen"), {
@@ -264,7 +262,7 @@ var ui = [instructions, {
                                         index: index, // The index within the actionSlots array
                                         x: rect.right,
                                         y: rect.top,
-                                        sourceType: 'action' // CRITICAL: Identify the source
+                                        sourceType: 'action' 
                                     }
                                 });
                             }
@@ -339,14 +337,14 @@ var ui = [instructions, {
                 ui.html({
                     parent: slotsContainer,
                     className: "actionSlot " + (slotData ? 'occupied' : 'empty'),
-                    draggable: !!slotData, // B"H: Make item draggable
+                    draggable: !!slotData,
+                    ready(el) { el.awtsmoosItemData = slotData; }, // B"H: Cache item data on the DOM element
                     on: {
-                        dragstart: (event) => { // Store its index when dragging
+                        dragstart: (event) => {
                             event.dataTransfer.setData("text/plain", index);
                         }
                     },
                     children: [{
-                        // B"H: Add equipped indicator class if needed
                         className: "innerSlot" + (slotData && slotData.isEquipped ? " equipped-indicator" : ""),
                         onclick: (event) => {
                             if (slotData) {
@@ -357,7 +355,7 @@ var ui = [instructions, {
                                         index: index,
                                         x: rect.right,
                                         y: rect.top,
-                                        sourceType: 'inventory' // Specify source
+                                        sourceType: 'inventory' 
                                     }
                                 });
                             }
@@ -378,15 +376,7 @@ var ui = [instructions, {
             });
         },
 
-        // 2. Update Equipment Sidebar (No changes needed here from your version)
-        /**
-         * B"H
-         * The soul's garments (Levushim) must be made manifest in the world.
-         * This function is the mirror that reflects what the Chossid has equipped,
-         * drawing the item's essence from the potential of the inventory and displaying it
-         * in the sacred space of the equipment slots. It is here that a simple tool
-         * or garment is revealed to be a vessel for holy action.
-         */
+        // 2. Update Equipment Sidebar
         updateEquipment(e, $, ui) {
             const equipData = e.detail;
 
@@ -420,8 +410,6 @@ var ui = [instructions, {
                     innerHTML: item ? "" : `<span style='font-size:10px; color:#aaa; text-transform:uppercase'>${slotName.replace("Hand", "")}</span>`,
                     onclick: (ev) => {
                         if (item) {
-                            // When clicked, a request is sent to the soul (the worker)
-                            // to retract this garment's light from the world (unequip).
                             ui.peula("ikar", {
                                 olamPeula: {
                                     unequipItem: slotName
@@ -449,25 +437,22 @@ var ui = [instructions, {
             const {item, index, x, y, sourceType} = e.detail;
             $("contextMenu")?.remove();
             
-           
             const btnStyle = {
                 background: "none", border: "none", color: "white", textAlign: "left",
                 cursor: "pointer", padding: "8px", borderBottom: "1px solid #444", fontSize: "14px"
             };
 
-            // --- B"H: Smart Positioning Logic ---
             let newX = x;
             let newY = y;
-            const menuWidth = 150; // Estimated width
-            const menuHeight = 120; // Estimated height
+            const menuWidth = 150; 
+            const menuHeight = 120; 
 
             if (x + menuWidth > window.innerWidth) {
-                newX = x - menuWidth - 40; // Flip to the left of the slot
+                newX = x - menuWidth - 40; 
             }
             if (y + menuHeight > window.innerHeight) {
-                newY = y - menuHeight; // Flip above the cursor
+                newY = y - menuHeight; 
             }
-            // ------------------------------------
 
             ui.html({
                 shaym: "contextMenu",
@@ -475,22 +460,19 @@ var ui = [instructions, {
                 className: "awtsmoosContextMenu",
                 style: {
                     position: "absolute",
-                    left: newX + "px", // Use calculated position
-                    top: newY + "px",  // Use calculated position
-                    
+                    left: newX + "px", 
+                    top: newY + "px",  
                 },
                 children: [
-                    // B"H: Special Logic for CharacterMaker Tool
                     item.className === 'CharacterMaker' ? {
                          tag: "button", textContent: "Design New Soul",
                          onclick: () => {
                              ui.peula($("character designer"), { open: { mode: 'create' } });
-                             $("inventoryScreen").classList.add("hidden"); // Hide inventory to focus on design
+                             $("inventoryScreen").classList.add("hidden"); 
                              $("contextMenu")?.remove();
                          }
                     } : null,
 
-                    // B"H: Special Logic for Editing Custom NPC
                     item.className === 'CustomNpc' ? {
                          tag: "button", textContent: "Edit Soul",
                          onclick: () => {
@@ -507,7 +489,6 @@ var ui = [instructions, {
                          }
                     } : null,
 
-                    // Dynamic Equip/Unequip Button
                     item.isEquipped ? {
                         tag: "button", textContent: "Unequip",
                         onclick: () => {
@@ -523,7 +504,6 @@ var ui = [instructions, {
                         }
                     },
                     
-                    // Dynamic Move To/From Action Bar Button
                     sourceType === 'inventory' ? {
                         tag: "button", textContent: "Move to Action Bar",
                         onclick: () => {
@@ -540,7 +520,7 @@ var ui = [instructions, {
                             ui.peula("ikar", { olamPeula: { moveToActionBar: { fromInventoryIndex: index, toActionIndex: targetIndex } } });
                             $("contextMenu")?.remove();
                         }
-                    } : { // If source is 'action'
+                    } : { 
                         tag: "button", textContent: "Move to Inventory",
                         onclick: () => {
                              ui.peula("ikar", { olamPeula: { moveFromActionBar: { actionIndex: index } } });
@@ -548,14 +528,11 @@ var ui = [instructions, {
                         }
                     },
 
-                    // Close Button
                     {
                         tag: "button", textContent: "Close",
                         onclick: () => $("contextMenu")?.remove()
                     }
                 ].filter(Boolean).map(btn => ({...btn, className: 'ctx-btn', style: {...btnStyle, borderBottom: "1px solid #444"}}))
-            
-            
             });
         }
     },
@@ -577,23 +554,19 @@ var ui = [instructions, {
     }, {
         className: "inventory-body",
         children: [
-            // LEFT SIDEBAR: Equipment Wrapper
             {
                 className: "equip-slots-holder",
                 children: [
                     {
                         className: "equipment-slots"
-                        // Styles handled in CSS now
                     }
                 ]
             }, 
-            // RIGHT SIDE: Inventory Grid Wrapper
             {
                 className: "main-slots-holder",
                 children: [
                     {
                         className: "slots"
-                        // Styles handled in CSS now
                     }
                 ]
             }
@@ -621,8 +594,7 @@ var ui = [instructions, {
             })
         },
     },
-    children: ["Grab", // "Rotate", "Scale", 
-    "Delete"].map( (q, i, a) => ({
+    children: ["Grab", "Delete"].map( (q, i, a) => ({
         shaym: "menu item " + q,
         innerHTML: q,
         className: q,

@@ -1,90 +1,66 @@
-
 // B"H
 import style from "./skins/2/characterDesignerStyle.js";
 
 export default {
     shaym: "character designer",
     className: "characterDesigner hidden",
+    awtsmoosClick: true, 
     
-    // B"H: State and Helpers defined as properties
+    // B"H: State for the soul being forged
     characterState: {
         name: "My NPC",
         color: "#00ffff",
-        dialogueTree: [
-            {
-                id: 0,
-                message: "B\"H\nShalom!",
-                responses: []
-            }
-        ]
+        dialogueTree: [{ id: 0, message: "B\"H\nShalom!", responses: [] }],
+        shopInventory: [],
+        contractPercentage: 100,
+        ownerId: null
     },
     
     createMessageNode: function(id) {
-        return {
-            id: id,
-            message: "New Message",
-            responses: []
-        };
+        return { id: id, message: "New Message", responses: [] };
     },
     createResponse: function() {
-        return {
-            text: "Response",
-            type: "message", 
-            target: 0,
-            storeItems: []
-        };
+        return { text: "Response", type: "message", target: 0 };
     },
     
-    ready(el) {
-       // Post-render logic if needed
-    },
-
     on: {
-        // B"H: Event to open the designer with context (Create or Edit)
         open(e, $, ui) {
-            console.log("B\"H - Opening Character Designer", e.detail);
             const designer = e.target;
-            const { mode, item, index, sourceType } = e.detail;
+            const { mode, item, index, sourceType, liveEntity } = e.detail;
             
-            // Force visibility
             designer.classList.remove("hidden");
             designer.style.display = "flex"; 
             
-            // Reset or Load State
+            // B"H: If editing a live entity in the world, capture its reference
+            designer.liveEntity = liveEntity;
+
+            // Load State
             if (mode === 'edit' && item && item.customData) {
                 designer.characterState = JSON.parse(JSON.stringify(item.customData));
-                designer.editContext = { index, sourceType }; // Store where we are editing from
-                
-                // Update Header Title
-                const titleEl = designer.querySelector(".cd-title");
-                if(titleEl) titleEl.textContent = "Editing: " + item.name;
+                designer.editContext = { index, sourceType };
+                $("cd-title").textContent = "Editing: " + item.name;
             } else {
-                // Default New Character State
                 designer.characterState = {
                     name: "New Soul",
                     color: "#00ffff",
-                    dialogueTree: [{ id: 0, message: "B\"H\nShalom!", responses: [] }]
+                    dialogueTree: [{ id: 0, message: "B\"H\nShalom!", responses: [] }],
+                    shopInventory: [],
+                    contractPercentage: 100,
+                    ownerId: "player" // Placeholder, should be actual player ID
                 };
-                designer.editContext = null; // Clear edit context
-                
-                const titleEl = designer.querySelector(".cd-title");
-                if(titleEl) titleEl.textContent = "Design New Soul";
+                designer.editContext = null;
+                $("cd-title").textContent = "Design New Soul";
             }
 
-            // Refresh UI Inputs to match state
-            const nameInput = designer.querySelector(".cd-sidebar input.cd-input[type='text']"); 
+            // Bind basic inputs
+            const nameInput = designer.querySelector(".cd-sidebar input.cd-name-input"); 
             if(nameInput) nameInput.value = designer.characterState.name;
             
-            const colorInput = designer.querySelector(".cd-sidebar input[type='color']");
+            const colorInput = designer.querySelector(".cd-sidebar input.cd-color-input");
             if(colorInput) colorInput.value = designer.characterState.color;
 
-            // Render Tree
-            const treeContainer = $("cd-tree-container");
-            if (treeContainer) {
-                ui.peula(treeContainer, { renderTree: true });
-            } else {
-                console.warn("B\"H - Tree container not found!");
-            }
+            // Default to Dialogue View
+            ui.peula($("cd-content-area"), { renderView: "dialogue" });
         }
     },
 
@@ -94,19 +70,14 @@ export default {
         // --- Header ---
         {
             className: "cd-header",
+            awtsmoosClick: true,
             children: [
-                { className: "cd-title", textContent: "Neshama Designer" },
+                { shaym: "cd-title", className: "cd-title", textContent: "Neshama Designer" },
                 {
                     tag: "button",
                     className: "cd-close",
                     textContent: "X",
-                    onclick(e, $) {
-                        const el = $("character designer");
-                        if (el) {
-                            el.classList.add("hidden");
-                            el.style.display = "none";
-                        }
-                    }
+                    onclick(e, $) { $("character designer").classList.add("hidden"); }
                 }
             ]
         },
@@ -114,8 +85,9 @@ export default {
         // --- Body ---
         {
             className: "cd-body",
+            awtsmoosClick: true,
             children: [
-                // --- Sidebar (Settings) ---
+                // --- Sidebar (Global Settings) ---
                 {
                     className: "cd-sidebar",
                     children: [
@@ -124,21 +96,8 @@ export default {
                             children: [
                                 { className: "cd-label", textContent: "Name" },
                                 {
-                                    tag: "input",
-                                    type: "text", // Explicit type
-                                    className: "cd-input",
-                                    ready(input, $) {
-                                        const el = $("character designer");
-                                        if (el && el.characterState) {
-                                            input.value = el.characterState.name;
-                                        }
-                                    },
-                                    oninput(e, $) { 
-                                        const el = $("character designer");
-                                        if (el && el.characterState) {
-                                            el.characterState.name = e.target.value; 
-                                        }
-                                    }
+                                    tag: "input", type: "text", className: "cd-input cd-name-input",
+                                    oninput(e, $) { $("character designer").characterState.name = e.target.value; }
                                 }
                             ]
                         },
@@ -147,237 +106,202 @@ export default {
                             children: [
                                 { className: "cd-label", textContent: "Aura Color" },
                                 {
-                                    tag: "input",
-                                    type: "color",
-                                    className: "cd-input",
-                                    ready(input, $) {
-                                        const el = $("character designer");
-                                        if (el && el.characterState) {
-                                            input.value = el.characterState.color;
-                                        }
-                                    },
-                                    oninput(e, $) { 
-                                        const el = $("character designer");
-                                        if (el && el.characterState) {
-                                            el.characterState.color = e.target.value; 
-                                        }
-                                    }
+                                    tag: "input", type: "color", className: "cd-input cd-color-input",
+                                    oninput(e, $) { $("character designer").characterState.color = e.target.value; }
                                 }
                             ]
                         },
+                        // Navigation Buttons
                         {
-                            tag: "button",
-                            className: "cd-btn secondary",
-                            textContent: "+ Add Message Node",
-                            onclick(e, $, ui) {
-                                const designer = $("character designer");
-                                if (!designer || !designer.characterState) return;
-                                
-                                const state = designer.characterState;
-                                const newId = state.dialogueTree.length;
-                                state.dialogueTree.push(designer.createMessageNode(newId));
-                                
-                                const treeContainer = $("cd-tree-container");
-                                if (treeContainer) {
-                                    ui.peula(treeContainer, { renderTree: true });
-                                }
-                            }
+                            tag: "button", className: "cd-btn", textContent: "Dialogue Editor",
+                            onclick(e, $, ui) { ui.peula($("cd-content-area"), { renderView: "dialogue" }); }
                         },
                         {
-                            tag: "button",
-                            className: "cd-create-btn",
-                            textContent: "SAVE SOUL",
+                            tag: "button", className: "cd-btn", textContent: "Store Management",
+                            onclick(e, $, ui) { ui.peula($("cd-content-area"), { renderView: "store" }); }
+                        },
+                        {
+                            tag: "button", className: "cd-create-btn", textContent: "SAVE SOUL",
                             onclick(e, $, ui) {
                                 const designer = $("character designer");
-                                if (!designer || !designer.characterState) return;
-                                
                                 const state = designer.characterState;
                                 
-                                // 1. Check Context (Create vs Update)
+                                // Save to Inventory/World logic (Same as before)
                                 if (designer.editContext) {
-                                    // Update existing item
                                     const { index, sourceType } = designer.editContext;
-                                    
-                                    // We only send the fields we want to update
-                                    const updateData = {
-                                        name: state.name,
-                                        customData: JSON.parse(JSON.stringify(state))
-                                    };
-                                    
-                                    ui.peula("ikar", {
-                                        olamPeula: {
-                                            updateInventoryItem: {
-                                                sourceType,
-                                                index,
-                                                itemData: updateData
-                                            }
-                                        }
-                                    });
-                                    alert("Character Updated!");
-                                    
+                                    const updateData = { name: state.name, customData: state };
+                                    ui.peula("ikar", { olamPeula: { updateInventoryItem: { sourceType, index, itemData: updateData } } });
+                                } else if (designer.liveEntity) {
+                                    // Update live entity logic here
+                                    Object.assign(designer.liveEntity, state); // naive update
+                                    designer.liveEntity.shopInventory = state.shopInventory; // ensure deep props
+                                    designer.liveEntity.balance = state.balance || 0;
+                                    alert("Updated live entity!");
                                 } else {
-                                    // Create new item
                                     const itemData = {
-                                        id: "custom_npc_" + Date.now(),
-                                        className: "CustomNpc",
-                                        name: state.name,
-                                        description: "A custom soul created by you.",
-                                        customData: JSON.parse(JSON.stringify(state)), // Deep copy
-                                        icon: "https://awtsmoos.com/api/social/aliases/awtsmoos/fileSystem/readFile?path=desktop.folder%2Fgame+data.folder%2Flogos.folder%2Fteffilin+micro+icon.png" 
+                                        id: "custom_npc_" + Date.now(), className: "CustomNpc",
+                                        name: state.name, description: "A custom soul.", customData: state,
+                                        icon: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48Y2lyY2xlIGN4PSIyNTYiIGN5PSIyNTYiIHI9IjIwMCIgZmlsbD0iIzRmNDRmNCIgc3Ryb2tlPSIjMDAwIiBzdHJva2Utd2lkdGg9IjIwIi8+PHBhdGggZD0iTTE1NiAxNTZhMTAwIDEwMCAwIDAgMSAyMDAgMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMDAwIiBzdHJva2Utd2lkdGg9IjIwIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48L3N2Zz4=" 
                                     };
-
-                                    ui.peula("ikar", {
-                                        olamPeula: {
-                                            addItem: itemData 
-                                        }
-                                    });
-                                    alert("New Character Created!");
+                                    ui.peula("ikar", { olamPeula: { addItem: itemData } });
                                 }
-                                
                                 designer.classList.add("hidden");
-                                designer.style.display = "none";
                             }
                         }
                     ]
                 },
 
-                // --- Main Area (Dialogue Tree Editor) ---
+                // --- Main Content Area (Dynamic) ---
                 {
+                    shaym: "cd-content-area",
                     className: "cd-main",
-                    children: [
-                        {
-                            shaym: "cd-tree-container",
-                            className: "cd-tree-container",
-                            ready(el, $, ui) {
-                                // Initial render if state exists (might be redundant due to 'open' event, but safe)
-                                const designer = $("character designer");
-                                if(designer && designer.characterState)
-                                    ui.peula(el, { renderTree: true });
-                            },
-                            on: {
-                                renderTree(e, $, ui) {
-                                    const container = e.target;
-                                    const designer = $("character designer");
-                                    if (!designer || !designer.characterState) return;
-                                    
-                                    const state = designer.characterState;
-                                    
-                                    container.innerHTML = ""; // Clear
-
-                                    state.dialogueTree.forEach((node, index) => {
-                                        ui.html({
-                                            parent: container,
-                                            className: "cd-node",
-                                            children: [
-                                                {
-                                                    className: "cd-node-header",
-                                                    textContent: `Node ID: ${index}`
-                                                },
-                                                {
-                                                    tag: "textarea",
-                                                    className: "cd-input",
-                                                    style: { width: "100%", height: "60px" },
-                                                    value: node.message,
-                                                    oninput(ev) { node.message = ev.target.value; }
-                                                },
-                                                {
-                                                    className: "cd-response-list",
-                                                    ready(listEl) {
-                                                        // Render Responses
-                                                        const renderResponses = () => {
-                                                            listEl.innerHTML = "";
-                                                            node.responses.forEach((resp, rIndex) => {
-                                                                ui.html({
-                                                                    parent: listEl,
-                                                                    className: "cd-response",
-                                                                    children: [
-                                                                        {
-                                                                            tag: "input",
-                                                                            className: "cd-input",
-                                                                            value: resp.text,
-                                                                            placeholder: "Response Text",
-                                                                            oninput(ev) { resp.text = ev.target.value; }
-                                                                        },
-                                                                        {
-                                                                            className: "cd-row",
+                    awtsmoosClick: true,
+                    on: {
+                        renderView(e, $, ui) {
+                            const container = e.target;
+                            const view = e.detail;
+                            container.innerHTML = "";
+                            const designer = $("character designer");
+                            
+                            if (view === "dialogue") {
+                                // --- Render Dialogue Tree ---
+                                ui.html({
+                                    parent: container,
+                                    className: "cd-tree-container",
+                                    ready(el) { ui.peula(el, { renderTree: true }); }, // Triggers existing logic
+                                    on: {
+                                        renderTree: (ev, $$, uii) => {
+                                            const state = designer.characterState;
+                                            ev.target.innerHTML = "";
+                                            uii.html({ parent: ev.target, tag: "button", className: "cd-btn secondary", textContent: "+ Add Node", onclick() { state.dialogueTree.push(designer.createMessageNode(state.dialogueTree.length)); uii.peula(ev.target, {renderTree:true}); } });
+                                            
+                                            state.dialogueTree.forEach((node, idx) => {
+                                                uii.html({
+                                                    parent: ev.target, className: "cd-node",
+                                                    children: [
+                                                        { textContent: `ID: ${idx}`, className: "cd-label" },
+                                                        { tag: "textarea", className: "cd-input", value: node.message, oninput(x) { node.message = x.target.value; } },
+                                                        {
+                                                            className: "cd-response-list",
+                                                            ready(lst) {
+                                                                const refresh = () => {
+                                                                    lst.innerHTML = "";
+                                                                    node.responses.forEach((r, ri) => {
+                                                                        uii.html({
+                                                                            parent: lst, className: "cd-response",
                                                                             children: [
-                                                                                {
-                                                                                    tag: "select",
-                                                                                    className: "cd-select",
-                                                                                    value: resp.type,
-                                                                                    onchange(ev) { 
-                                                                                        resp.type = ev.target.value;
-                                                                                        renderResponses(); // Re-render to show/hide fields
-                                                                                    },
-                                                                                    children: [
-                                                                                        { tag: "option", value: "message", textContent: "Go to Node" },
-                                                                                        { tag: "option", value: "store", textContent: "Open Store" },
-                                                                                        { tag: "option", value: "close", textContent: "Close Dialogue" }
-                                                                                    ]
-                                                                                },
-                                                                                // Dynamic fields based on type
-                                                                                resp.type === "message" ? {
-                                                                                    tag: "input",
-                                                                                    type: "number",
-                                                                                    className: "cd-input",
-                                                                                    style: { width: "60px" },
-                                                                                    value: resp.target || 0,
-                                                                                    oninput(ev) { 
-                                                                                        const val = parseInt(ev.target.value) || 0;
-                                                                                        resp.nextMessageIndex = val; 
-                                                                                        resp.target = val;
-                                                                                    }
-                                                                                } : null,
-                                                                                
-                                                                                resp.type === "store" ? {
-                                                                                    tag: "button",
-                                                                                    className: "cd-btn secondary",
-                                                                                    style: { fontSize: "10px", padding: "5px" },
-                                                                                    textContent: "Set Items (Default)",
-                                                                                    onclick() { 
-                                                                                        alert("Store configured with default items (Brick, Wheat)."); 
-                                                                                        resp.action = "openStore"; 
-                                                                                    }
-                                                                                } : null,
-
-                                                                                {
-                                                                                    tag: "button",
-                                                                                    textContent: "X",
-                                                                                    style: { background: "red", border: "none", color: "white", cursor: "pointer" },
-                                                                                    onclick() {
-                                                                                        node.responses.splice(rIndex, 1);
-                                                                                        renderResponses();
-                                                                                    }
-                                                                                }
+                                                                                { tag: "input", className: "cd-input", value: r.text, oninput(x){ r.text=x.target.value } },
+                                                                                { tag: "select", className: "cd-select", value: r.type, onchange(x){ r.type=x.target.value; refresh(); }, children: [{tag:"option", value:"message", textContent:"Goto"}, {tag:"option", value:"close", textContent:"Close"}] },
+                                                                                r.type==="message" ? { tag:"input", type:"number", className:"cd-input", value: r.target||0, oninput(x){ r.target = parseInt(x.target.value); } } : null
                                                                             ]
-                                                                        }
-                                                                    ]
-                                                                });
+                                                                        })
+                                                                    });
+                                                                    uii.html({ parent: lst, tag:"button", textContent:"+ Response", className:"cd-btn secondary", onclick(){ node.responses.push(designer.createResponse()); refresh(); } })
+                                                                };
+                                                                refresh();
+                                                            }
+                                                        }
+                                                    ]
+                                                })
+                                            });
+                                        }
+                                    }
+                                });
+                            } else if (view === "store") {
+                                // --- Render Store Management ---
+                                ui.html({
+                                    parent: container,
+                                    className: "cd-store-container",
+                                    children: [
+                                        { className: "cd-title", textContent: "Store Inventory" },
+                                        { className: "cd-label", textContent: "My Cut (%)" },
+                                        {
+                                            tag: "input", type: "number", className: "cd-input",
+                                            value: designer.characterState.contractPercentage,
+                                            oninput(ev) { designer.characterState.contractPercentage = parseInt(ev.target.value); }
+                                        },
+                                        {
+                                            className: "cd-input-group",
+                                            children: [
+                                                { className: "cd-label", textContent: "Add Item from Player Inventory:" },
+                                                {
+                                                    tag: "select", className: "cd-select",
+                                                    shaym: "player-inv-select",
+                                                    ready(sel) {
+                                                        sel.innerHTML = "<option>Select Item...</option>";
+                                                        // B"H: Grab real inventory data from the DOM cache
+                                                        const slots = document.querySelectorAll(".awtsmoosInventoryViewer .slots .actionSlot");
+                                                        slots.forEach(slot => {
+                                                            // Assuming updateSlots attaches 'awtsmoosItemData' to the DOM element
+                                                            const item = slot.awtsmoosItemData;
+                                                            if (item) {
+                                                                const opt = document.createElement("option");
+                                                                opt.textContent = `${item.name} (x${item.quantity})`;
+                                                                opt.value = item.name; // Storing name for now, simpler for prototype
+                                                                opt.awtsmoosRef = item; // Store ref to full item
+                                                                sel.appendChild(opt);
+                                                            }
+                                                        });
+                                                    }
+                                                },
+                                                {
+                                                    tag: "button", className: "cd-btn", textContent: "Add to Shop",
+                                                    onclick(ev, $$) {
+                                                        const sel = $$("player-inv-select");
+                                                        if(sel.selectedIndex > 0) {
+                                                            const name = sel.value;
+                                                            // In a real implementation, we might want to consume the item from the player's inventory here
+                                                            // For now, we simulate copying it to the shop.
+                                                            designer.characterState.shopInventory.push({
+                                                                name: name,
+                                                                price: 10, // Default price
+                                                                quantity: 1
                                                             });
-                                                            
-                                                            // Add Response Button
-                                                            ui.html({
-                                                                parent: listEl,
-                                                                tag: "button",
-                                                                className: "cd-btn secondary",
-                                                                style: { marginTop: "10px" },
-                                                                textContent: "+ Add Response",
-                                                                onclick() {
-                                                                    node.responses.push(designer.createResponse());
-                                                                    renderResponses();
-                                                                }
-                                                            });
-                                                        };
-                                                        renderResponses();
+                                                            ui.peula($("cd-content-area"), { renderView: "store" }); // Refresh
+                                                        }
                                                     }
                                                 }
                                             ]
-                                        });
-                                    });
-                                }
+                                        },
+                                        {
+                                            className: "cd-grid",
+                                            style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px", marginTop: "20px" },
+                                            ready(grid) {
+                                                designer.characterState.shopInventory.forEach((item, idx) => {
+                                                    ui.html({
+                                                        parent: grid,
+                                                        className: "cd-card fw-card", // Reuse existing card style
+                                                        children: [
+                                                            { className: "fw-card-title", textContent: item.name },
+                                                            { className: "cd-label", textContent: "Price:" },
+                                                            {
+                                                                tag: "input", type: "number", className: "cd-input", value: item.price,
+                                                                style: { width: "80px" },
+                                                                oninput(x) { item.price = parseInt(x.target.value); }
+                                                            },
+                                                            { className: "cd-label", textContent: "Qty:" },
+                                                            {
+                                                                tag: "input", type: "number", className: "cd-input", value: item.quantity,
+                                                                style: { width: "80px" },
+                                                                oninput(x) { item.quantity = parseInt(x.target.value); }
+                                                            },
+                                                            {
+                                                                tag: "button", className: "cd-btn secondary", textContent: "Remove",
+                                                                onclick() {
+                                                                    designer.characterState.shopInventory.splice(idx, 1);
+                                                                    ui.peula($("cd-content-area"), { renderView: "store" });
+                                                                }
+                                                            }
+                                                        ]
+                                                    });
+                                                });
+                                            }
+                                        }
+                                    ]
+                                });
                             }
                         }
-                    ]
+                    }
                 }
             ]
         }

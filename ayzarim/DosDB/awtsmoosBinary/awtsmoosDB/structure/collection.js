@@ -1,4 +1,10 @@
 // B"H
+/**
+ * @file collection.js
+ * @description
+ *  Manages a sequential list of items (The Many).
+ *  Handles the chaining of Pages and the Indexing of Objects.
+ */
 const Page = require('./page.js');
 const constants = require('../constants.js');
 const serializeValue = require('../serialize/serializeValue.js');
@@ -17,17 +23,25 @@ class Collection {
         this.writeLock = Promise.resolve();
     }
 
-    log(msg) { console.log(`[Collection ${this.headerId}] ${msg}`); }
+    log(msg) { 
+        // console.log(`[Collection ${this.headerId}] ${msg}`); 
+    }
 
+    /**
+     * Appends an Item to the Collection.
+     * Handles Page Splitting if the current Tail is full.
+     */
     async append(key, value) {
         const task = async () => {
             this.log(`Append "${key}"`);
             await this.load(); 
     
+            // 1. Serialize and Store the Value (The Light)
             const valData = serializeValue(value, false);
             const dataPtr = await this.allocator.allocate(valData.data.length);
             
             if (dataPtr.isChain) {
+                 // Chain writing logic for large values
                  let remaining = valData.data;
                  let currentBlock = dataPtr.blockId;
                  while(remaining.length > 0) {
@@ -44,9 +58,10 @@ class Collection {
                 await this.allocator.writeUserSpace(dataPtr, valData.data);
             }
     
+            // 2. Add Reference to Page (The Vessel)
             let page;
             if (this.tailPageId === 0) {
-                // B"H: Allocate dedicated COLLECTION_PAGE
+                // First Page Creation
                 const newPagePtr = await this.allocator.allocatePage(constants.BLOCK_TYPE.COLLECTION_PAGE);
                 this.headPageId = newPagePtr.blockId;
                 this.tailPageId = newPagePtr.blockId;
@@ -57,11 +72,17 @@ class Collection {
             }
     
             const added = page.add(key, valData.type, dataPtr);
+            
             if (!added) {
+                // Page Full -> Extend the Chain
                 const newPagePtr = await this.allocator.allocatePage(constants.BLOCK_TYPE.COLLECTION_PAGE);
-                page.nextPageId = newPagePtr.blockId;
+                
+                // Link old tail to new page
+                // FIX: Use method that sets dirty flag
+                page.setNextPage(newPagePtr.blockId);
                 await page.save(); 
                 
+                // Initialize new page
                 const newPage = new Page(newPagePtr.blockId, this.allocator);
                 newPage.add(key, valData.type, dataPtr);
                 this.tailPageId = newPagePtr.blockId;
@@ -69,9 +90,11 @@ class Collection {
             } else {
                 await page.save(); 
             }
+            
             this.totalCount++;
             await this.saveHeader();
 
+            // 3. Update Indexes if necessary
             if (typeof value === 'object' && value !== null) {
                 this.indexManager.indexObject(dataPtr, value);
                 await this.indexManager.queue;
@@ -79,6 +102,7 @@ class Collection {
             }
             return dataPtr;
         };
+        // Enforce write serialization
         this.writeLock = this.writeLock.then(task, task);
         return this.writeLock;
     }
@@ -95,6 +119,7 @@ class Collection {
         this.headPageId = readPointer48(buffer, offset); offset+=6;
         this.tailPageId = readPointer48(buffer, offset); offset+=6;
         this.totalCount = buffer.readUInt32BE(offset);
+        
         const hasRegistry = buffer.readUInt8(offset); offset++;
         if (hasRegistry === 1) {
             const b = readPointer48(buffer, offset); offset+=6;
@@ -103,14 +128,18 @@ class Collection {
             const c = buffer.readUInt8(offset); offset++;
             this.registryPtr = { blockId: b, offset: o, length: l, isChain: c === 1 };
         } else this.registryPtr = null;
+        
         await this.indexManager.load(this.registryPtr);
     }
+
     async saveHeader() {
         const buffer = await this.allocator.pager.readBlock(this.headerId);
-        let offset=32;
+        let offset=32; // Skip Block Header
+        
         writePointer48(buffer, this.headPageId, offset); offset+=6;
         writePointer48(buffer, this.tailPageId, offset); offset+=6;
         buffer.writeUInt32BE(this.totalCount, offset); offset+=4;
+        
         if (this.indexManager.registryPtr) {
             const ptr = this.indexManager.registryPtr;
             buffer.writeUInt8(1, offset); offset++; 
@@ -118,9 +147,13 @@ class Collection {
             buffer.writeUInt32BE(ptr.offset, offset); offset+=4;
             buffer.writeUInt32BE(ptr.length, offset); offset+=4;
             buffer.writeUInt8(ptr.isChain ? 1 : 0, offset); offset++;
-        } else buffer.writeUInt8(0, offset);
+        } else {
+            buffer.writeUInt8(0, offset);
+        }
+        
         await this.allocator.pager.writeBlock(this.headerId, buffer);
     }
+
     async getPage(pageIndex) {
          await this.load();
          let curr = this.headPageId;
@@ -138,6 +171,7 @@ class Collection {
          }
          return [];
     }
+
     async delete(key) { return false; }
     async getSortedPage() { return []; }
 }

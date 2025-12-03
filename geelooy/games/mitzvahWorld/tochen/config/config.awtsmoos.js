@@ -2,7 +2,8 @@
 export default {
 	backup: "/api/social/aliases/h/fileSystem/readFile?path=desktop.folder%2Fok.js",
 	startingLevel: 
-		"https://awtsmoos.com/api/social/aliases/awtsmoos/fileSystem/readFile?path=desktop.folder%2Fgame+data.folder%2Ftest.folder%2Fworld.js"
+	
+	"/api/social/aliases/awtsmoos/fileSystem/readFile?path=desktop.folder%2Fgame+data.folder%2Ftest.folder%2Fworld.js"
 	//"https://awtsmoos.com/api/social/aliases/awtsmoos/fileSystem/readFile?path=desktop%2Fgame+data.folder%2F1.folder%2Fawtsmoos+level.js"
 	//"https://awtsmoos.com/api/social/aliases/awtsmoos/fileSystem/readFile?path=desktop%2Fgame+data.folder%2Ftest.folder%2Fworld.js"
 	//"/games/mitzvahWorld/tochen/worlds/promisedLand.js"

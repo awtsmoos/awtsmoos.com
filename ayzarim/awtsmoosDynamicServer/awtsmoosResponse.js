@@ -348,10 +348,7 @@ class AwtsmoosResponse {
 		    
 		    // B"H
 		    // Allow Service Worker to validate metadata
-	            const { response } = templateObjectGenerator.dependencies;
-	            response.setHeader('Awtsmoos-File-Status', 'true'); 
-		    response.setHeader('Content-Type', 'application/json; charset=utf-8');    
-		    return {
+	            return {
 		        responseType: 'application/json',
 		        statusResponse: true,
 		        actualResponse: {

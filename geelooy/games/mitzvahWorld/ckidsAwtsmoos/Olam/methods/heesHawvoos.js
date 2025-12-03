@@ -5,6 +5,8 @@
  * game update and rendering
  */
 
+import * as THREE from '/games/scripts/build/three.module.js';
+
 export default class {
 
     velz = 0;
@@ -12,74 +14,83 @@ export default class {
     async heesHawvoos() {
         var self = this;
         var firstTime = false;
+        
         // This will be the loop we call every frame.
         async function go(time) {
              // Delta time (in seconds) is the amount of time that has passed since the last frame.
             // We limit it to a max of 0.1 seconds to avoid large jumps if the frame rate drops.
-            // We divide by STEPS_PER_FRAME to get the time step for each physics update.
-            // Note: We moved the calculation inside the loop to ensure it's up to date.
-            
             self.deltaTime = Math.min(0.1, self.clock.getDelta())
-             // The physics updates.
-            // We do this STEPS_PER_FRAME times to ensure consistent behavior even if the frame rate varies.
-            var envRendered = false//self.environment.update(self.deltaTime)
+            
+            // 1. Shlichus Update
             if(self.shlichusHandler) {
                 self.shlichusHandler.update(self.deltaTime)
             }
 
+            // 2. Water Animation
             if(self.mayim) {
                 self.mayim.forEach(w => {
                     w.material.uniforms[ 'time' ].value += 1.0 / 60.0;
                 })
             }
             
+            // 3. Octree Physics World Update
+            // B"H: We must gather ALL "Chai" (living) entities to tell the world where to generate physics.
+            // The world exists for the sake of those who inhabit it.
             if (self.worldOctree) {
-		    if (self.frameCount === undefined) self.frameCount = 0;
-		    self.frameCount++;
-		    if (self.frameCount % 100 === 0) {
-		       
-		    }
-	       
-	       
-	    }
+                const foci = [];
                 
-
-                
-   
-                if(self.nivrayim) {
-                    self.nivrayim.forEach(n => 
-                        n.isReady && 
-                        (n.heesHawveh?
-                        n.heesHawvoos(self.deltaTime) : 0)
-                    );
+                // Add Player
+                if (self.chossid) {
+                    foci.push({ 
+                        position: self.chossid.mesh.position, 
+                        velocity: self.chossid.velocity 
+                    });
                 }
                 
+                // Add Active NPCs (Medabeir/CustomNpc)
+                if (self.nivrayim) {
+                    for(const n of self.nivrayim) {
+                        // Check if it's an active character with velocity (not the player, who is already added)
+                        if (n !== self.chossid && n.velocity && n.onFloor !== undefined) {
+                            foci.push({
+                                position: n.mesh.position,
+                                velocity: n.velocity
+                            });
+                        }
+                    }
+                }
+
+                // Update the World Bubble around these points
+                self.worldOctree.update(foci, null); 
                 
-
-            
-
-                self.ayin.update(self.deltaTime);
-
-
+                // Periodic Cleanup Log
+                if (self.frameCount === undefined) self.frameCount = 0;
+                self.frameCount++;
+                if (self.frameCount % 100 === 0) {
+                   // self.worldOctree.scheduleStaticCleanup(); 
+                }
+            }
                 
-
+            // 4. Update All Creations (Nivrayim)
+            if(self.nivrayim) {
+                self.nivrayim.forEach(n => 
+                    n.isReady && 
+                    (n.heesHawveh ? n.heesHawvoos(self.deltaTime) : 0)
+                );
+            }
                 
-                
-            
+            // 5. Update Camera (Ayin)
+            self.ayin.update(self.deltaTime);
 
-            if(self.coby&&self.postprocessing) {
+            // 6. Rendering
+            if(self.coby && self.postprocessing) {
                 var rend = false//self.postprocessingRender();
                 if(!rend) realRender(time);
             } else {
                 realRender(time)
             }
 
-            
-
-            
-            var frames = 0;
             async function realRender() {
-              
                 // The rendering. This is done once per frame.
                 if(!firstTime) {
                     firstTime = true;
@@ -89,32 +100,16 @@ export default class {
                 
                // self.octreeDebugHelper.box.copy(self.worldOctree.getDebugBoundingBox());
                 if(self.renderer) {
-                    
-                    if(!envRendered) {
-                        
+                    // if(!envRendered) {
                         self.renderer.renderAsync(
                             self.scene,
-                            self.activeCamera
-                            ||
-                            self.ayin.camera
+                            self.activeCamera || self.ayin.camera
                         );
-                    }
-
-                    
+                    // }
                 }
-                if(self.hoveredNivra) {
-                    
-                    /*
-                    self.ayshPeula("mousemove", {
-                        clientX: self.achbar.x,
-                        clientY: self.achbar.y
-                    })*/
-                }
-                
             }
             
             if(!self.destroyed)
-                // Ask the browser to call go again, next frame
                 requestAnimationFrame(go);
         }
         
@@ -126,9 +121,7 @@ export default class {
             if(self.minimap) {
             //    await self.minimap.render()
             }
-            
         }
-        
        // requestAnimationFrame(minimapRender);
     }
 }
