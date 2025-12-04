@@ -1,17 +1,16 @@
+
 /* CORE: Variables, Reset, Typography */
 :root {
     --bg-void: #000000;
     --bg-deep: #030304;
     --bg-surface: #0a0a0c;
     --bg-surface-hover: #121215;
-    --bg-glass: rgba(5, 5, 8, 0.85);
+    --bg-glass: rgba(5, 5, 8, 0.9);
     
     --neon-gold: #ffb700;
-    --neon-gold-dim: rgba(255, 183, 0, 0.1);
     --neon-cyan: #06b6d4;
     --neon-emerald: #10b981;
     --neon-fire: #ef4444;
-    --neon-amber: #f59e0b;
 
     --text-primary: #ffffff;
     --text-secondary: #a1a1aa;
@@ -20,7 +19,8 @@
     --sidebar-w: 320px;
     --header-h: 60px;
     
-    --font-stack: 'Courier New', monospace; /* Cyber feel */
+    --font-stack: 'Inter', system-ui, sans-serif;
+    --font-mono: 'Courier New', monospace;
 }
 
 *, *::before, *::after {
@@ -35,8 +35,20 @@ html, body {
     overflow: hidden;
     background: var(--bg-void);
     color: var(--text-primary);
-    font-family: 'Inter', system-ui, sans-serif;
+    font-family: var(--font-stack);
     font-size: 14px;
+}
+
+/* CRT SCANLINE EFFECT */
+body::before {
+    content: " ";
+    display: block;
+    position: absolute;
+    top: 0; left: 0; bottom: 0; right: 0;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+    z-index: 99999;
+    background-size: 100% 2px, 3px 100%;
+    pointer-events: none;
 }
 
 #root { width: 100%; height: 100%; display: flex; flex-direction: column; }
@@ -48,11 +60,25 @@ html, body {
     display: grid;
     grid-template-columns: var(--sidebar-w) 1fr;
     height: 100%; width: 100%;
-    background: var(--bg-deep);
+    background: transparent;
     overflow: hidden;
     position: relative;
-    z-index: 2; /* Above canvas */
+    z-index: 5; /* Ensure above canvas */
 }
+
+/* MODAL HOLO BORDER */
+.holo-border {
+    position: relative;
+    border: 1px solid rgba(6, 182, 212, 0.5);
+    box-shadow: 0 0 15px rgba(6, 182, 212, 0.2), inset 0 0 20px rgba(0,0,0,0.8);
+}
+.holo-border::after {
+    content:''; position: absolute; top:-2px; left:-2px; right:-2px; bottom:-2px;
+    border-radius: 22px;
+    background: linear-gradient(45deg, var(--neon-cyan), transparent, var(--neon-emerald), transparent);
+    z-index: -1; opacity: 0.5; animation: holoRotate 4s linear infinite;
+}
+@keyframes holoRotate { 0% { filter: hue-rotate(0deg); } 100% { filter: hue-rotate(360deg); } }
 
 /* OFFLINE */
 body.offline { filter: grayscale(1) brightness(0.7); }

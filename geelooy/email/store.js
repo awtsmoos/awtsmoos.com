@@ -1,18 +1,17 @@
+
 // B"H
-import { connectSocket } from './network.js';
-import { refreshSnippets } from './network.js';
+import { connectSocket, refreshSnippets } from './network.js';
 
 export const state = {
     alias: null,
-    threads: {},        // Cache: { threadId: [msgs] }
-    snippets: [],       // Sidebar list
+    threads: {},        
+    snippets: [],       
     activeThread: null,
-    view: 'inbox',      // 'inbox' | 'requests'
+    view: 'inbox',      
     pagination: {},
     settings: { gatekeeperMode: false, approved: {}, rules: [] },
     replyingTo: null,
-    
-    // Reactive Listeners
+    isLoadingHistory: false,
     listeners: new Set()
 };
 
@@ -26,37 +25,46 @@ export function notify(key, value) {
 
 // Global Auth logic
 export async function initAuth(ui) {
-    // 1. Listen for the signal from profileDropdown
-    // This event fires when session is checked or alias is switched
+    console.log("Awtsmoos Mail: Initializing Identity Protocols...");
+
+    // 1. Immediate Check
+    if(window.curAlias) {
+        console.log("Awtsmoos Mail: Identity found in memory:", window.curAlias);
+        await login(window.curAlias, ui);
+    }
+
+    // 2. Event Listener (The Critical Link)
     window.addEventListener("awtsmoosAliasChange", async (e) => {
         const id = e.detail ? e.detail.id : null;
+        console.log("Awtsmoos Mail: Signal Received >", id);
+        
         if(id) {
             await login(id, ui);
         } else {
-            // Null ID means not logged in or no alias selected
+            console.log("Awtsmoos Mail: Identity Dissolved.");
+            state.alias = null;
             showLoginOverlay(ui, true);
         }
     });
-
-    // We do not manually check window.curAlias here because 
-    // profileDropdown will automatically fetch session on mount 
-    // and fire the event above.
 }
 
 async function login(alias, ui) {
-    if(state.alias === alias) return; // Debounce
+    if(state.alias === alias) return;
     
     state.alias = alias;
     window.curAlias = alias;
-    showLoginOverlay(ui, false); // Hide overlay
     
-    // Update Sidebar User Badge
+    showLoginOverlay(ui, false);
+    
+    // Update Sidebar
     const statusText = ui.getHtml('userStatusText');
     if(statusText) {
         statusText.textContent = `@${alias}`;
         statusText.style.color = 'var(--neon-emerald)';
+        statusText.style.textShadow = '0 0 10px var(--neon-emerald)';
     }
 
+    // Connect Network
     connectSocket(alias);
     await refreshSnippets();
     
