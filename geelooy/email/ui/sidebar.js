@@ -98,10 +98,15 @@ export function renderThreadList() {
 
     threads.forEach(t => {
         const name = t.correspondent.replace(/_at_/g, '@');
+        
+        // B"H - Fix for classList empty token error
+        const itemClasses = ['thread-item'];
+        if (state.activeThread === t.correspondent) itemClasses.push('active');
+
         _uiRef.html({
             parent: list,
             tag: 'div',
-            classList: ['thread-item', state.activeThread === t.correspondent ? 'active' : ''],
+            classList: itemClasses,
             events: {
                 click: () => switchChat(_uiRef, t.correspondent, name)
             },
