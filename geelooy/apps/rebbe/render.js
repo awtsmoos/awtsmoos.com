@@ -35,6 +35,19 @@ function setupGlobalListeners() {
     el('btn-settings').onclick = () => openModal('modal-settings');
     el('btn-close-settings').onclick = () => closeModal('modal-settings');
     el('btn-clear-db').onclick = callbacks.onClearDB;
+    
+    // Search
+    el('btn-search').onclick = () => openModal('modal-search');
+    el('btn-close-search').onclick = () => closeModal('modal-search');
+    el('btn-exec-search').onclick = () => {
+        const month = el('inp-month').value;
+        const day = el('inp-day').value;
+        if(!day) {
+            alert("DAY COORDINATE REQUIRED");
+            return;
+        }
+        callbacks.onSearch(month, day);
+    };
 
     // Close Context Menu on click elsewhere
     document.addEventListener('click', (e) => {
@@ -42,6 +55,30 @@ function setupGlobalListeners() {
         if (!menu.classList.contains('hidden') && !menu.contains(e.target)) {
             menu.classList.add('hidden');
         }
+    });
+}
+
+export function renderSearchResults(results) {
+    const list = el('search-results');
+    list.innerHTML = '';
+    
+    if (results.length === 0) {
+        list.innerHTML = '<div class="search-placeholder" style="color:var(--c-magenta)">NO VECTORS FOUND</div>';
+        return;
+    }
+    
+    results.forEach(res => {
+        const d = document.createElement('div');
+        d.className = 'search-result-item';
+        d.innerHTML = `
+            <div class="s-title">${res.title}</div>
+            <div class="s-meta">
+                ${res.year} | ${res.month} ${res.day}
+            </div>
+            <div class="s-meta" style="color:var(--c-cyan)">${res.folder}</div>
+        `;
+        d.onclick = () => callbacks.onSearchResultSelect(res);
+        list.appendChild(d);
     });
 }
 
@@ -66,11 +103,10 @@ export function renderYears(yearsMap) {
             callbacks.onYearSelect(year, yearsMap[year]);
         };
         
-        // Year Download Menu
         const btn = d.querySelector('.dl-badge');
         btn.onclick = (e) => {
             e.stopPropagation();
-            showContextMenu(e.pageX, e.pageY, 'year', yearsMap[year].split('-')[0] + '-' + yearsMap[year].split('-')[1]);
+            showContextMenu(e.pageX, e.pageY, 'year', yearsMap[year].split('-')[1]);
         };
 
         list.appendChild(d);
@@ -136,7 +172,6 @@ export function renderTracks(tracks) {
                 <div class="dl-badge">⬇</div>
             `;
             
-            // Async Check
             callbacks.checkStatus(t.path).then(saved => {
                 const s = d.querySelector('.status-text');
                 if (s) s.textContent = saved ? "SYNCED" : "CLOUD";
@@ -168,8 +203,6 @@ export function setTracksLoading(isLoading) {
     }
 }
 
-// --- Player Updates ---
-
 export function updatePlayer(name, time, dur) {
     el('track-name').textContent = name || "AWAITING INPUT";
     el('track-time').textContent = `${fmt(time)} / ${fmt(dur)}`;
@@ -185,8 +218,6 @@ export function updateActiveTrack(idx) {
         t.scrollIntoView({block: 'nearest'});
     }
 }
-
-// --- Utils ---
 
 export function log(msg, isErr=false) {
     const d = document.createElement('div');

@@ -2,59 +2,74 @@
 // network.js - Archive.org Interaction via index.json
 
 const BASE_URL = 'https://archive.org/download';
-// We permit .opus in the filter, but we will swap it to .mp3 in the map
+const INDICES_BUCKET = 'awtsmoos-master-indices';
 const AUDIO_EXTS = ['.mp3', '.opus', '.ogg', '.wav', '.m4a', '.flac'];
 
 /**
- * Fetches the root index.json for a Year (Identifier) to get sub-folders.
+ * Searches the Master Index Bucket by Date.
+ * @param {string|number} monthId - 1-12
+ * @param {string|number} day - 1-30
  */
+export async function searchByDate(monthId, day) {
+    // Strategy: Fetch the Day Index, then filter by Month client-side.
+    // This is efficient because days have ~1/30th of total events.
+    if (!day) throw new Error("Day is required for vector search.");
+    
+    const url = `${BASE_URL}/${INDICES_BUCKET}/days/${day}.json`;
+    console.log(`[NET] SEARCH VECTOR: ${url}`);
+    
+    try {
+        const res = await fetch(url);
+        if (!res.ok) throw new Error("Index Not Found (404)");
+        const json = await res.json();
+        
+        if (!json.events) return [];
+        
+        // Filter by month if provided
+        let results = json.events;
+        if (monthId) {
+            results = results.filter(e => e.month_id == monthId);
+        }
+        
+        return results;
+    } catch (e) {
+        console.error(e);
+        return [];
+    }
+}
+
 export async function fetchYearFolders(yearId, logCallback) {
     const url = `${BASE_URL}/${yearId}/index.json`;
     logCallback(`NET: GET INDEX ${url}...`);
-    
     try {
         const res = await fetch(url);
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const json = await res.json();
-        
-        if (!json.contents || !Array.isArray(json.contents)) {
-            throw new Error("Invalid Index JSON format");
-        }
+        if (!json.contents || !Array.isArray(json.contents)) throw new Error("Invalid Index JSON format");
 
-        // Filter for directories
         const folders = json.contents
             .filter(item => item.type === 'directory')
             .map(item => item.name);
 
         logCallback(`NET: OK. Found ${folders.length} folders.`);
         return folders;
-        
     } catch (e) {
         logCallback(`NET ERROR: ${e.message}`, true);
         throw e;
     }
 }
 
-/**
- * Fetches the index.json for a specific sub-folder to get audio tracks.
- */
 export async function fetchFolderTracks(yearId, folderName, logCallback) {
-    // Encode the folder name for the URL, but keep it readable for the user logs
     const encodedPath = encodeURIComponent(folderName);
     const url = `${BASE_URL}/${yearId}/${encodedPath}/index.json`;
-    
     logCallback(`NET: GET TRACKS ${folderName}...`);
 
     try {
         const res = await fetch(url);
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const json = await res.json();
+        if (!json.contents || !Array.isArray(json.contents)) throw new Error("Invalid Folder Index JSON");
 
-        if (!json.contents || !Array.isArray(json.contents)) {
-            throw new Error("Invalid Folder Index JSON");
-        }
-
-        // Filter for audio files
         const tracks = json.contents
             .filter(item => {
                 if (item.type !== 'file') return false;
@@ -64,25 +79,19 @@ export async function fetchFolderTracks(yearId, folderName, logCallback) {
             .map(item => {
                 let name = item.name;
                 let urlName = item.name;
-
-                // NORMALIZATION PROTOCOL:
-                // Force .opus to be treated as .mp3 for both Display and Network URL
                 if (name.toLowerCase().endsWith('.opus')) {
                     name = name.replace(/\.opus$/i, '.mp3');
-                    urlName = name; // Assuming files on server are also renamed to .mp3
+                    urlName = name; 
                 }
-
                 return {
                     name: name,
-                    path: `${folderName}/${name}`, // Logical path for DB key
-                    url: `${BASE_URL}/${yearId}/${encodedPath}/${encodeURIComponent(urlName)}`, // Full Download URL
+                    path: `${folderName}/${name}`,
+                    url: `${BASE_URL}/${yearId}/${encodedPath}/${encodeURIComponent(urlName)}`, 
                     size: item.size
                 };
             });
-
         logCallback(`NET: OK. Found ${tracks.length} tracks.`);
         return tracks;
-
     } catch (e) {
         logCallback(`NET ERROR: ${e.message}`, true);
         throw e;

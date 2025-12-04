@@ -2,10 +2,11 @@
 // main.js - Core Controller
 
 import { initDB, saveTrack, getTrack, clearAllTracks, YEARS } from './store.js';
-import { fetchYearFolders, fetchFolderTracks, fetchBlob } from './network.js';
+import { fetchYearFolders, fetchFolderTracks, fetchBlob, searchByDate } from './network.js';
 import * as Render from './render.js';
 import * as Audio from './audio.js';
 import { initViz, setVisualizerData } from './viz.js';
+import { initFX } from './fx.js';
 
 const state = {
     folders: {}, 
@@ -25,9 +26,13 @@ async function init() {
         onSeek: Audio.seek,
         onDownloadAction: handleDownloadAction,
         onClearDB: handleClearDB,
+        onSearch: handleSearch,
+        onSearchResultSelect: loadSearchResult,
         checkStatus: async (path) => !!(await getTrack(path)),
         isPlaying: Audio.isPlaying
     });
+
+    initFX(); // START PARTICLES
 
     Render.log("SYSTEM INITIALIZED // OMEGA PROTOCOL");
     
@@ -53,6 +58,60 @@ async function init() {
     Render.renderYears(YEARS);
 }
 
+// --- Search ---
+
+async function handleSearch(month, day) {
+    Render.log(`INITIATING SEARCH VECTOR: ${month || 'ALL'}/${day}`);
+    Render.renderSearchResults([]); // Clear
+    
+    try {
+        const results = await searchByDate(month, day);
+        if (results.length === 0) {
+            Render.log("NO VECTORS FOUND", true);
+        } else {
+            Render.log(`VECTORS IDENTIFIED: ${results.length}`);
+        }
+        Render.renderSearchResults(results);
+    } catch (e) {
+        Render.log("SEARCH FAILED: SECTOR UNREACHABLE", true);
+        Render.renderSearchResults([]);
+    }
+}
+
+async function loadSearchResult(item) {
+    // Item contains: bucket, folder, year, title
+    Render.closeModal('modal-search');
+    
+    // Find the Year ID mapping
+    // bucket is likely "57xx-timestamp" or just "57xx" depending on indexer
+    // We need to match it to our YEARS map
+    let yearKey = Object.keys(YEARS).find(k => YEARS[k] === item.bucket);
+    
+    if (!yearKey) {
+        // Fallback: try to find key that is contained in bucket string
+        yearKey = Object.keys(YEARS).find(k => item.bucket.includes(k));
+    }
+
+    if (!yearKey) {
+        Render.log("ERROR: UNMAPPED TEMPORAL NODE", true);
+        return;
+    }
+
+    // 1. Select Year
+    await loadYear(yearKey, YEARS[yearKey]);
+    
+    // 2. Select Folder
+    // Verify folder exists in the list we just fetched
+    if (state.folders.hasOwnProperty(item.folder)) {
+        await loadFolder(item.folder);
+    } else {
+        // Force load it anyway (it might be deep nested or not in root index)
+        Render.log(`FORCE MOUNTING: ${item.folder}`);
+        state.folders[item.folder] = null;
+        await loadFolder(item.folder);
+    }
+}
+
 // --- Navigation ---
 
 async function loadYear(year, id) {
@@ -65,10 +124,6 @@ async function loadYear(year, id) {
     
     try {
         const folderNames = await fetchYearFolders(id, (msg, err) => Render.log(msg, err));
-        if (folderNames.length === 0) {
-            Render.log("NO DATA VECTORS FOUND", true);
-            return;
-        }
         folderNames.forEach(name => state.folders[name] = null);
         Render.renderFolders(state.folders);
     } catch(e) {
@@ -99,13 +154,10 @@ async function loadFolder(name) {
 
 async function playTrack(idx) {
     if(idx < 0 || idx >= state.currentTracks.length) return;
-    
     state.trackIndex = idx;
     const track = state.currentTracks[idx];
-    
     Render.updateActiveTrack(idx);
     Render.log(`BUFFERING: ${track.name}`);
-    
     try {
         const localBlob = await getTrack(track.path);
         if(localBlob) {
@@ -130,41 +182,26 @@ function prevTrack() {
 // --- Advanced Downloads ---
 
 async function handleDownloadAction(type, target, method) {
-    // type: 'track' | 'folder' | 'year'
-    // target: index (track) | name (folder) | id (year)
-    // method: 'app' | 'disk' | 'zip'
-
     if (type === 'year' && method === 'zip') {
         const bucketId = target;
-        Render.log(`INITIATING ARCHIVE RETRIEVAL: ${bucketId}`);
-        // Redirect to Archive.org compress page which allows downloading the zip
         const url = `https://archive.org/compress/${bucketId}`;
         window.open(url, '_blank');
         return;
     }
-
     if (type === 'track') {
         const track = state.currentTracks[target];
         if (!track) return;
-        
-        if (method === 'app') {
-            await downloadToApp(track);
-        } else {
-            await downloadToDisk(track);
-        }
+        if (method === 'app') await downloadToApp(track);
+        else await downloadToDisk(track);
     } else if (type === 'folder') {
         const name = target;
-        // Ensure loaded
         if (state.folders[name] === null) await loadFolder(name);
-        
         const tracks = state.folders[name];
         if (!tracks) return;
-
         Render.log(`BATCH OPERATION: ${tracks.length} ITEMS`);
-        
         for (const track of tracks) {
             if (method === 'app') {
-                if (await getTrack(track.path)) continue; // Skip existing in App
+                if (await getTrack(track.path)) continue; 
                 await downloadToApp(track);
             } else {
                 await downloadToDisk(track);
@@ -175,11 +212,9 @@ async function handleDownloadAction(type, target, method) {
 }
 
 async function downloadToApp(track) {
-    Render.log(`SYNCING TO CORE: ${track.name}...`);
     try {
         const blob = await fetchBlob(track.url);
         await saveTrack(track.path, blob);
-        Render.log(`SYNC COMPLETE: ${track.name}`);
         // Refresh UI
         if(state.currentTracks.includes(track)) Render.renderTracks(state.currentTracks);
     } catch(e) {
@@ -188,17 +223,9 @@ async function downloadToApp(track) {
 }
 
 async function downloadToDisk(track) {
-    Render.log(`EXTRACTING: ${track.name}...`);
     try {
-        // Smart Check: Check DB first!
         let blob = await getTrack(track.path);
-        if (blob) {
-            Render.log(`EXTRACTING FROM CORE CACHE...`);
-        } else {
-            blob = await fetchBlob(track.url);
-        }
-        
-        // Trigger DL
+        if (!blob) blob = await fetchBlob(track.url);
         const a = document.createElement('a');
         a.href = URL.createObjectURL(blob);
         a.download = track.name;
@@ -206,7 +233,6 @@ async function downloadToDisk(track) {
         a.click();
         document.body.removeChild(a);
         URL.revokeObjectURL(a.href);
-        Render.log(`EXTRACTED: ${track.name}`);
     } catch(e) {
         Render.log(`EXTRACTION FAILED: ${track.name}`, true);
     }
@@ -217,7 +243,6 @@ async function handleClearDB() {
         await clearAllTracks();
         Render.log("CORE MEMORY PURGED");
         Render.closeModal('modal-settings');
-        // Refresh current view
         if(state.currentTracks.length > 0) Render.renderTracks(state.currentTracks);
         if(Object.keys(state.folders).length > 0) Render.renderFolders(state.folders);
     } catch(e) {

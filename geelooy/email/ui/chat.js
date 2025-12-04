@@ -167,8 +167,11 @@ function handleScroll(e) {
     const el = e.target;
     FX.setScroll(el.scrollTop);
     if (el.scrollTop < 50 && !state.isLoadingHistory) {
-        _uiRef.getHtml('wormhole').classList.remove('hidden');
-        setTimeout(() => _uiRef.getHtml('wormhole').classList.add('hidden'), 1000);
+        const wh = _uiRef.getHtml('wormhole');
+        if(wh) {
+            wh.classList.remove('hidden');
+            setTimeout(() => wh.classList.add('hidden'), 1000);
+        }
     }
     const now = Date.now();
     const dt = now - lastScrollTime;
@@ -226,6 +229,7 @@ export function renderMessages(threadId) {
     const container = _uiRef.getHtml('msgContainer');
     const msgs = state.threads[threadId] || [];
     const wormhole = container.querySelector('.wormhole-loader');
+    
     container.innerHTML = '';
     if(wormhole) container.appendChild(wormhole);
     
@@ -233,10 +237,14 @@ export function renderMessages(threadId) {
         const isMe = m.direction === 'outgoing';
         const isNew = index === msgs.length - 1; 
 
+        // Fix: Removed empty strings from classList to prevent "The token provided must not be empty" error
+        const rowClasses = ['msg-row', isMe ? 'me' : 'them'];
+        if (isNew) rowClasses.push('glitch-entry');
+
         const row = _uiRef.html({
             parent: container,
             tag: 'div',
-            classList: ['msg-row', isMe ? 'me' : 'them', isNew ? 'glitch-entry' : ''].filter(Boolean),
+            classList: rowClasses,
             dataset: { id: m.id },
             ready: (el) => attachSwipePhysics(el, m),
             events: {
@@ -253,7 +261,12 @@ export function renderMessages(threadId) {
                             classList: ['msg-bubble', 'magnetic'], 
                             children: [
                                 m.subject ? { tag: 'div', classList: ['msg-subject'], textContent: m.subject } : null,
-                                { tag: 'div', classList: ['msg-content', isNew ? 'decrypting' : ''], innerHTML: smartParse(m.content) },
+                                { 
+                                    tag: 'div', 
+                                    // Fix: Filter boolean to avoid empty class string
+                                    classList: ['msg-content', isNew ? 'decrypting' : null].filter(Boolean), 
+                                    innerHTML: smartParse(m.content) 
+                                },
                                 { 
                                     tag: 'div', classList: ['msg-footer'],
                                     children: [

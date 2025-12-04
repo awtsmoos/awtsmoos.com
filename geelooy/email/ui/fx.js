@@ -15,6 +15,7 @@ export const FX = {
     scrollSpeed: 0,
     soundTheme: 'cyber',
     hudElement: null,
+    simulatedAudio: 0,
     
     init(canvas) {
         if(!canvas) return;
@@ -299,15 +300,48 @@ export const FX = {
         this.playSound('sent');
     },
 
+    // --- DOM Interaction Physics ---
+    applyTilt(el, e) {
+        if (!el || !e) return;
+        const rect = el.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        
+        // Calculate rotation based on mouse position
+        const rotateX = ((y - centerY) / centerY) * -15; // Max 15deg
+        const rotateY = ((x - centerX) / centerX) * 15;
+        
+        el.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.05)`;
+        el.style.zIndex = 10;
+        el.style.transition = 'transform 0.1s ease-out';
+    },
+
+    resetTilt(el) {
+        if (!el) return;
+        el.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
+        el.style.zIndex = 1;
+        el.style.transition = 'transform 0.5s ease-out';
+        setTimeout(() => { if(el) el.style.zIndex = ''; }, 200);
+    },
+
     // Bridges
     sparks(x, y) { this.explode(x, y); },
     kabbalahMolecule(x, y) { this.explode(x, y); },
-    setTether() {}, clearTether() {},
+    setTether(el1, el2) { /* Tethers implemented in canvas layer if needed, currently physics based */ }, 
+    clearTether() {},
     setScroll(y) { const diff = (y - (this.lastScroll||y)); this.scrollSpeed = diff * 0.1; this.lastScroll = y; },
     setTheme(n) { this.soundTheme = n; },
-    dissolveScreen(el) { el.style.transition='1s'; el.style.opacity='0'; setTimeout(()=>el.style.opacity='1',1000); },
+    dissolveScreen(el) { 
+        if(!el) return;
+        el.style.transition='opacity 0.3s'; 
+        el.style.opacity='0'; 
+        setTimeout(()=>el.style.opacity='1',300); 
+    },
     triggerSonar(x,y) { this.explode(x,y); this.playSound('type'); },
     decryptText(el, txt) { 
+        if(!el || !txt) return;
         const chars = "אבגדהוזחטיכלמנסעפצקרשת0123456789";
         let iter = 0;
         const interval = setInterval(() => {

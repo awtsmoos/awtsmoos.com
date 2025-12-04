@@ -10,6 +10,7 @@
 <body>
     <!-- BACKGROUND LAYERS -->
     <canvas id="viz-canvas"></canvas>
+    <canvas id="fx-canvas"></canvas> <!-- NEW FX LAYER -->
     <div class="scanlines"></div>
     <div class="vignette"></div>
     <div class="noise"></div>
@@ -25,6 +26,7 @@
             </div>
             <div class="sys-controls">
                 <div id="sys-status" class="sys-stat">CORE: ONLINE</div>
+                <button id="btn-search" class="btn-icon">🔍</button> <!-- SEARCH BTN -->
                 <button id="btn-settings" class="btn-icon">⚙</button>
             </div>
         </header>
@@ -91,6 +93,46 @@
 
     <!-- OVERLAYS / MODALS -->
     <div id="overlay-layer" class="overlay-layer hidden">
+        
+        <!-- Search Modal -->
+        <div id="modal-search" class="modal hidden">
+            <div class="modal-head">MATRIX ACCESS // SEARCH</div>
+            <div class="modal-body">
+                <div class="search-grid">
+                    <div class="search-field">
+                        <label>HEBREW MONTH</label>
+                        <select id="inp-month" class="cyber-input">
+                            <option value="">ANY VECTOR</option>
+                            <option value="1">TISHREI</option>
+                            <option value="2">CHESHVAN</option>
+                            <option value="3">KISLEV</option>
+                            <option value="4">TEVES</option>
+                            <option value="5">SHEVAT</option>
+                            <option value="6">ADAR</option>
+                            <option value="7">NISAN</option>
+                            <option value="8">IYAR</option>
+                            <option value="9">SIVAN</option>
+                            <option value="10">TAMUZ</option>
+                            <option value="11">AV</option>
+                            <option value="12">ELUL</option>
+                        </select>
+                    </div>
+                    <div class="search-field">
+                        <label>DAY (1-30)</label>
+                        <input type="number" id="inp-day" class="cyber-input" min="1" max="30" placeholder="ANY">
+                    </div>
+                </div>
+                <button id="btn-exec-search" class="btn-action full-width">INITIATE SCAN</button>
+                
+                <div id="search-results" class="search-results custom-scroll">
+                    <div class="search-placeholder">WAITING FOR COORDINATES...</div>
+                </div>
+            </div>
+            <div class="modal-foot">
+                <button id="btn-close-search" class="btn-danger">TERMINATE</button>
+            </div>
+        </div>
+
         <!-- Settings Modal -->
         <div id="modal-settings" class="modal hidden">
             <div class="modal-head">SYSTEM CONFIG</div>
@@ -113,6 +155,7 @@
 
     <!-- MODULES -->
     <script type="module" src="gl-engine.js"></script>
+    <script type="module" src="fx.js"></script>
     <script type="module" src="main.js"></script>
 </body>
 </html>
