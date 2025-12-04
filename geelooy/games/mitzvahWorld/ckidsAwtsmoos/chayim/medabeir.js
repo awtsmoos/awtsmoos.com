@@ -288,21 +288,10 @@ export default class Medabeir extends Chai {
        
         if (!chosenResponse) return;
        
-        // B"H: Store Logic
-        if (chosenResponse.type === "store" || chosenResponse.action === "openStore") {
-            if (me.olam && me.olam.player && me.olam.player.inventory) {
-                const itemsToAdd = [
-                    { id: 'brick_1x1x1', className: 'Brick', name: 'Bought Brick', quantity: 10 },
-                    { id: 'wheat', className: 'Wheat', name: 'Fresh Wheat', quantity: 5 }
-                ];
-                
-                itemsToAdd.forEach(item => me.olam.player.inventory.addItem(item, item.quantity));
-                me.ayshPeula("close dialogue", "Thank you for your purchase! (Items added to inventory)");
-            }
-            this.state = "idle";
-            return;
-        }
-
+        // B"H: Removed hardcoded store logic.
+        // The specific logic (adding items etc) is now handled by the 'action' callback
+        // in CustomNpc.js or the dialogue definition itself.
+        
         if (chosenResponse.nextMessageIndex !== undefined) {
             this.currentMessageIndex = chosenResponse.nextMessageIndex;
             this.currentSelectedMsgIndex = 0; 

@@ -1,4 +1,3 @@
-
 /**B"H
  * CSS for dialogue boxes - EXTREME EDITION
  */
@@ -39,9 +38,13 @@ export default /*css*/`
     .dialogue {
         display: flex;
         max-width: 650px;
+        /* B"H: Allow scrolling for many options */
+        max-height: 60vh;
+        overflow-y: auto;
+        
         flex-direction: column;
         z-index: 100;
-        justify-content: center;
+        justify-content: flex-start; /* Changed to flex-start for scrolling content */
         align-items: flex-start;
        
         border-radius: 20px;
@@ -69,6 +72,22 @@ export default /*css*/`
         transition: opacity 0.3s, visibility 0.3s, transform 0.3s;
         
         transform-origin: bottom center;
+        
+        /* Custom Scrollbar */
+        scrollbar-width: thin;
+        scrollbar-color: var(--neon-pink) rgba(0,0,0,0.3);
+    }
+    
+    .dialogue::-webkit-scrollbar {
+        width: 8px;
+    }
+    .dialogue::-webkit-scrollbar-track {
+        background: rgba(0,0,0,0.3);
+        border-radius: 4px;
+    }
+    .dialogue::-webkit-scrollbar-thumb {
+        background-color: var(--neon-pink);
+        border-radius: 4px;
     }
 
     .dialogue.active {
@@ -84,7 +103,7 @@ export default /*css*/`
     .dialogue.chossid {
         border-left: 5px solid var(--neon-blue);
         background: linear-gradient(135deg, rgba(20, 40, 60, 0.9), rgba(5, 10, 30, 0.95));
-        align-items: flex-end;
+        align-items: stretch; /* Stretch items to full width */
     }
 
     .dialogue > div {
@@ -97,6 +116,7 @@ export default /*css*/`
         overflow: hidden;
         width: 100%;
         box-sizing: border-box;
+        flex-shrink: 0; /* Prevent shrinking in flex container */
     }
 
     .dialogue.chossid > div:hover {
@@ -173,14 +193,12 @@ export default /*css*/`
         .dialogue.npc {
             top: 20% !important;
             max-height: 30%;
-            overflow-y: auto;
         }
 
         .dialogue.chossid {
              top: auto !important;
              bottom: 5% !important;
              max-height: 40%;
-             overflow-y: auto;
              border-left: 3px solid var(--neon-blue);
         }
     }

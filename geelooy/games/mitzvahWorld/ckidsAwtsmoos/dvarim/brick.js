@@ -20,6 +20,10 @@ export default class Brick extends Tzomayach {
     static description = "A sturdy 1x1x1 building brick. Use it to build structures.";
     static stackSize = 1024;
     static isBuildable = true;
+
+    // B"H: Value in Perutahs
+    sellValue = 5; 
+
     constructor(op) {
 	    // B"H - STEP 1: Determine dimensions first.
 	    // Use dimensions from the options (op), or default to 1x1x1.
@@ -48,5 +52,6 @@ export default class Brick extends Tzomayach {
 	
 	    // B"H - STEP 4: Set the instance property for reference.
 	    this.dimensions = dimensions;
+        if(op.sellValue) this.sellValue = op.sellValue;
 	}
 }

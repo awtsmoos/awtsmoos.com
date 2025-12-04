@@ -376,6 +376,13 @@ var ui = [instructions, {
             });
         },
 
+        // B"H: Update Wallet Display (Separated from updateSlots)
+        updateWallet(e, $, ui) {
+            const walletVal = e.detail || 0; 
+            const walletEl = $("wallet-amount-text");
+            if(walletEl) walletEl.textContent = walletVal + " Perutahs";
+        },
+
         // 2. Update Equipment Sidebar
         updateEquipment(e, $, ui) {
             const equipData = e.detail;
@@ -567,6 +574,31 @@ var ui = [instructions, {
                 children: [
                     {
                         className: "slots"
+                    },
+                    // B"H: Wallet Section
+                    {
+                        className: "wallet-display",
+                        children: [
+                            { className: "wallet-title", textContent: "Wallet" },
+                            { 
+                                className: "wallet-amount",
+                                children: [
+                                    { className: "wallet-coin-icon" },
+                                    { shaym: "wallet-amount-text", textContent: "0 Perutahs" }
+                                ]
+                            },
+                            {
+                                className: "conversion-table",
+                                innerHTML: `
+                                    1 Isar = 8 Perutahs<br>
+                                    1 Pundyon = 16 Perutahs<br>
+                                    1 Me'ah = 32 Perutahs<br>
+                                    1 Dinar = 192 Perutahs (Silver)<br>
+                                    1 Sela = 768 Perutahs<br>
+                                    1 Darkon = 1536 Perutahs (Gold)
+                                `
+                            }
+                        ]
                     }
                 ]
             }

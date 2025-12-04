@@ -1,9 +1,9 @@
-
 /**
  * B"H
  * Manages inventory and equipment.
  */
 import * as AWTSMOOS from "../awtsmoosCkidsGames.js";
+import { CurrencySystem } from "../dvarim/coin.js"; // Import helper
 
 export default class InventoryManager {
     constructor(owner) {
@@ -11,18 +11,15 @@ export default class InventoryManager {
         this.slots = [];
         this.maxSlots = 36;
         
-        // B"H: The vessel for items held in readiness (the hotbar).
         this.actionSlots = [];
         this.maxActionSlots = 4;
         
-        
-        // B"H - NEW: Equipment Slots
         this.equipment = {
             head: null,
             jacket: null,
             legs: null,
             feet: null,
-            rightHand: null, // Active Tool/Weapon
+            rightHand: null, 
             leftHand: null
         };
 
@@ -34,36 +31,93 @@ export default class InventoryManager {
         for (let i = 0; i < this.maxSlots; i++) {
             this.slots.push(null);
         }
-        // B"H: Initialize the action slots as empty potential.
         for (let i = 0; i < this.maxActionSlots; i++) {
             this.actionSlots.push(null);
         }
     }
     
     save() {
-        // Only save if there is an active Olam
         if (!this.owner || !this.owner.olam) return;
-
-        // Clear any pending save to prevent spamming
         if (this._saveTimeout) clearTimeout(this._saveTimeout);
-
-        // Wait 1 second after the last change, then save
         this._saveTimeout = setTimeout(() => {
-            
-            // Prepare the data
             const saveData = {
                 inventory: {
                     slots: this.slots,
                     equipment: this.equipment
                 }
             };
-
-            // Send to Main Thread
             this.owner.olam.ayshPeula("saveSettings", saveData);
-            
-            // console.log("B\"H - Inventory Saved to Cloud");
         }, 1000); 
     }
+    
+    // --- B"H: WALLET & CURRENCY LOGIC ---
+
+    /**
+     * Calculates the total value of all coins in inventory (Slots + Action Bar).
+     */
+    getWalletValue() {
+        let total = 0;
+        const countSlot = (slot) => {
+            if (slot && slot.className === 'Coin') {
+                // If item has explicit value property, use it. Defaults to 1.
+                const val = slot.value || 1;
+                total += val * slot.quantity;
+            }
+        };
+
+        this.slots.forEach(countSlot);
+        this.actionSlots.forEach(countSlot);
+        return total;
+    }
+
+    /**
+     * Removes specific amount of value from inventory, preferring smaller coins,
+     * and managing change.
+     * Simplification: We remove ALL coins, subtract cost, and add back the remainder using the optimal coin set.
+     */
+    deductCurrency(amount) {
+        const currentTotal = this.getWalletValue();
+        if (currentTotal < amount) return false;
+
+        const newTotal = currentTotal - amount;
+
+        // 1. Clear all existing coins
+        const clearSlot = (slot, index, array) => {
+            if (slot && slot.className === 'Coin') {
+                array[index] = null;
+            }
+        };
+        this.slots.forEach(clearSlot);
+        this.actionSlots.forEach(clearSlot);
+
+        // 2. Generate new coin set for the remainder
+        const change = CurrencySystem.convert(newTotal);
+
+        // 3. Add them back
+        for (const [type, count] of Object.entries(change)) {
+            // Map type names back to values
+            const val = CurrencySystem.VALUES[type];
+            this.addItem({
+                id: 'coin_' + val,
+                className: 'Coin',
+                name: CurrencySystem.NAMES[val],
+                value: val,
+                quantity: count,
+                icon: CurrencySystem.getBase64Icon(val),
+                description: `Value: ${val} Perutahs`
+            }, count);
+        }
+        
+        this.updateUI();
+        return true;
+    }
+
+    exchangeCurrency() {
+        // Just re-running deductCurrency(0) effectively consolidates everything
+        // because it clears all coins and adds back the total value in optimal denominations.
+        this.deductCurrency(0);
+    }
+    // ------------------------------------
 
     addItem(itemData, quantity = 1) {
         if (!itemData || !itemData.id || !itemData.className) {
@@ -77,10 +131,16 @@ export default class InventoryManager {
             return false;
         }
 
-        // B"H: Enhance item data with static class properties
         const enhancedItemData = { ...itemData };
         if (itemClass.isBuildable) {
             enhancedItemData.isBuildable = true;
+        }
+        
+        // B"H: Ensure coins have correct static properties
+        if (enhancedItemData.className === 'Coin') {
+             if(!enhancedItemData.value) enhancedItemData.value = 1;
+             enhancedItemData.icon = CurrencySystem.getBase64Icon(enhancedItemData.value);
+             enhancedItemData.name = CurrencySystem.NAMES[enhancedItemData.value];
         }
 
         const maxStack = itemClass.stackSize || 512;
@@ -123,10 +183,6 @@ export default class InventoryManager {
         return quantity > 0 ? false : true;
     }
     
-    /**
-     * B"H
-     * Updates an item at a specific location with new data.
-     */
     updateItem(sourceType, index, newItemData) {
         const sourceArray = sourceType === 'action' ? this.actionSlots : this.slots;
         if (index < 0 || index >= sourceArray.length) return;
@@ -134,13 +190,11 @@ export default class InventoryManager {
         const existingItem = sourceArray[index];
         if (!existingItem) return;
 
-        // Merge existing properties with new data (preserving quantity, etc if not specified)
         const updatedItem = {
             ...existingItem,
             ...newItemData
         };
         
-        // Ensure static class properties are re-applied
         const itemClass = AWTSMOOS[updatedItem.className];
         if (itemClass && itemClass.isBuildable) {
             updatedItem.isBuildable = true;
@@ -151,18 +205,11 @@ export default class InventoryManager {
         this.save();
     }
 
-    /**
-     * B"H
-     * Iterates through all inventory slots and updates them with static properties
-     * from their Class definitions (like isBuildable).
-     * Call this after loading saved data.
-     */
     hydrateItems() {
         const processItem = (item) => {
             if (!item || !item.className) return item;
             const ItemClass = AWTSMOOS[item.className];
             if (ItemClass) {
-                // Inject isBuildable if the Class declares it
                 if (ItemClass.isBuildable) {
                     item.isBuildable = true;
                 }
@@ -174,36 +221,25 @@ export default class InventoryManager {
         this.actionSlots = this.actionSlots.map(processItem);
     }
     
-    /**
-     * B"H
-     * Reduces the quantity of a specific item object, regardless of where it is
-     * (Hotbar OR Equipment). If quantity hits 0, it clears the slot/equipment.
-     */
     consumeItem(itemReference, amount = 1) {
         if (!itemReference) return;
 
         itemReference.quantity -= amount;
 
         if (itemReference.quantity <= 0) {
-            // 1. Check if it's in the main inventory slots
             const slotIndex = this.slots.indexOf(itemReference);
             if (slotIndex > -1) {
                 this.slots[slotIndex] = null;
             }
-
-            // 2. Check if it's in equipment
             else {
                 for (const [key, equippedItem] of Object.entries(this.equipment)) {
                     if (equippedItem === itemReference) {
                         this.equipment[key] = null;
-                        // Also update visuals (remove mesh from player model)
                         this.updateVisuals(key, itemReference, false);
                         break;
                     }
                 }
             }
-            
-            // If we just consumed the last item in hand, update the ghost block state
             this.owner.updateHandState();
         }
 
@@ -226,28 +262,8 @@ export default class InventoryManager {
     }
     
 
-    
-
-    
-
-    /**
-     * B"H
-     * Toggles meshes on the player model based on equipment.
-     * Looks for children in `this.owner.garments` or `this.owner.bodyParts`.
-     */
     updateVisuals(slotName, item, isEquipping) {
-        // Example: item.id might be "jacket_black"
-        // The player model needs a child named "jacket" or similar.
-        
-        // 1. Check for direct garment mapping
-        // (Assumes you set up `this.owner.garments` in `boyrayNivra.js`)
         if (this.owner.garments) {
-            // Logic: If equipping a "Jacket", turn ON the jacket mesh. 
-            // If unequipping, turn OFF.
-            
-            // Ideally, the Item Data has a property 'garmentName' matching the mesh name.
-            // Fallback to checking if the item ID string contains the mesh name.
-            
             for (const [meshName, meshObj] of Object.entries(this.owner.garments)) {
                  if (item.id.toLowerCase().includes(meshName.toLowerCase())) {
                      meshObj.visible = isEquipping;
@@ -278,12 +294,6 @@ export default class InventoryManager {
         this.save();
     }
     
-    
-    /**
-     * B"H
-     * A helper to check if an item at a specific slot is currently equipped.
-     * Returns the equipment slot name (e.g., 'rightHand') if true, otherwise null.
-     */
     isEquipped(sourceType, index) {
         for (const [slotName, ref] of Object.entries(this.equipment)) {
             if (ref && ref.sourceType === sourceType && ref.index === index) {
@@ -293,10 +303,6 @@ export default class InventoryManager {
         return null;
     }
 
-    /**
-     * B"H
-     * Moves an item from an action slot back to the first available inventory slot.
-     */
     moveFromActionBar(actionIndex) {
         if (actionIndex < 0 || actionIndex >= this.actionSlots.length) return;
         const itemToMove = this.actionSlots[actionIndex];
@@ -308,7 +314,6 @@ export default class InventoryManager {
             this.slots[emptySlotIndex] = itemToMove;
             this.actionSlots[actionIndex] = null;
 
-            // If the moved item was equipped, update its reference to the new inventory slot
             const equippedIn = this.isEquipped('action', actionIndex);
             if (equippedIn) {
                 this.equipment[equippedIn] = { sourceType: 'inventory', index: emptySlotIndex };
@@ -321,10 +326,6 @@ export default class InventoryManager {
         }
     }
 
-    /**
-     * B"H
-     * A vessel for Divine Light to flow into the user interface.
-     */
     async updateUI() {
         if (!this.owner.olam || !this.owner.olam.ayshPeula) return;
 
@@ -333,7 +334,7 @@ export default class InventoryManager {
             const itemClass = AWTSMOOS[slot.className];
             return {
                 ...slot,
-                icon: itemClass?.icon || "",
+                icon: slot.icon || itemClass?.icon || "",
                 description: slot.description || itemClass?.description || "",
                 name: slot.name || itemClass?.itemName || slot.className,
                 equipSlot: slot.equipSlot || (slot.className === 'Tool' || slot.className === 'Brick' || slot.className === 'CustomNpc' ? 'rightHand' : (itemClass && itemClass.prototype instanceof AWTSMOOS.Apparel ? 'jacket' : null))
@@ -372,7 +373,9 @@ export default class InventoryManager {
 
         this.owner.olam.ayshPeula("ui event", "inventoryScreen", {
             updateSlots: uiSlots,
-            updateEquipment: uiEquipment
+            updateEquipment: uiEquipment,
+            // B"H: Use a distinct key for the wallet update
+            updateWallet: this.getWalletValue()
         });
         
         this.owner.olam.ayshPeula("ui event", "action bar", {
@@ -382,16 +385,11 @@ export default class InventoryManager {
     
     
 
-    /**
-     * B"H
-     * Equips an item by creating a reference to it. The item does not move.
-     */
     equipItem({ sourceType, index, target }) {
         const sourceArray = sourceType === 'action' ? this.actionSlots : this.slots;
         const itemToEquip = sourceArray[index];
         if (!itemToEquip || !target) return;
 
-        // If something is already equipped in the target slot, sever its connection first.
         const currentEquippedRef = this.equipment[target];
         if (currentEquippedRef) {
              const oldSource = currentEquippedRef.sourceType === 'action' ? this.actionSlots : this.slots;
@@ -399,7 +397,6 @@ export default class InventoryManager {
              if(oldItem) this.updateVisuals(target, oldItem, false);
         }
         
-        // Create the new spiritual connection (reference)
         this.equipment[target] = { sourceType, index };
         
         this.updateVisuals(target, itemToEquip, true);
@@ -409,10 +406,6 @@ export default class InventoryManager {
         if (target === 'rightHand') this.owner.updateHandState();
     }
 
-    /**
-     * B"H
-     * Unequips an item by severing its reference.
-     */
     unequipItem(equipSlotName) {
 	const equippedRef = this.equipment[equipSlotName];
         if (!equippedRef) return;
