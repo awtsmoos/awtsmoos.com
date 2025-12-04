@@ -142,8 +142,6 @@ export default {
             if (item.className === "CustomNpc") {
                 let modelPath = item.customData?.modelPath;
                 
-                // B"H: Verify model exists in current world components.
-                // If not, fallback to the player's current path or a safe default.
                 const componentExists = modelPath && this.olam.getComponent(modelPath);
                 
                 if (!componentExists) {
@@ -163,16 +161,13 @@ export default {
                 if (gltf && gltf.scene) {
                     mesh = gltf.scene;
                     
-                    // B"H: Sync ghost appearance with player garments
                     const player = this.olam.chossid;
                     if (player && player.garments && player.path === modelPath) {
                         mesh.traverse(child => {
-                            // Find corresponding garment on player
                             const playerGarment = Object.values(player.garments).find(g => g.name === child.name);
                             if (playerGarment) {
                                 child.visible = playerGarment.visible;
                             } else if (player.defaultGarments && player.defaultGarments[child.name]) {
-                                // If it's a known garment type but not in the player's active list (hidden), hide it
                                 child.visible = false;
                             }
                         });
@@ -195,7 +190,6 @@ export default {
             } else {
                 try {
                     const fileName = item.className.toLowerCase() + ".js"; 
-                    // B"H: Fixed import path to correctly reach dvarim folder
                     const itemModule = await import(`../../../dvarim/${fileName}`);
                     const ItemClass = itemModule.default;
                     const tempItem = new ItemClass(item);
@@ -248,56 +242,66 @@ export default {
     },
 
     async placeObject() {
-        if (!this.activeObject || !this.activeObject.mesh) return;
+        // B"H: Added robust check to prevent crash
+        if (!this.activeObject || !this.activeObject.mesh) {
+             this._isGeneratingGhost = false; // Ensure flag is reset
+             return;
+        }
+
         const activeItem = this.getActiveItem(); 
         if (!activeItem || !activeItem.isBuildable) return;
 
         const itemData = activeItem; 
         
-        this.activeObject.mesh.updateMatrixWorld(true);
-        const worldPosition = new THREE.Vector3();
-        const worldQuaternion = new THREE.Quaternion();
-        const worldScale = new THREE.Vector3();
-        this.activeObject.mesh.matrixWorld.decompose(worldPosition, worldQuaternion, worldScale);
-        const worldRotation = new THREE.Euler().setFromQuaternion(worldQuaternion);
+        // B"H: Double check before updateMatrixWorld
+        if(this.activeObject && this.activeObject.mesh) {
+             this.activeObject.mesh.updateMatrixWorld(true);
+             const worldPosition = new THREE.Vector3();
+             const worldQuaternion = new THREE.Quaternion();
+             const worldScale = new THREE.Vector3();
+             this.activeObject.mesh.matrixWorld.decompose(worldPosition, worldQuaternion, worldScale);
+             const worldRotation = new THREE.Euler().setFromQuaternion(worldQuaternion);
 
-        this.inventory.consumeItem(activeItem, 1);
+             this.inventory.consumeItem(activeItem, 1);
 
-        if (activeItem.className === "CustomNpc") {
-            const currentPlayer = this.olam.chossid ? this.olam.chossid.name : "player";
-            if(itemData.customData && !itemData.customData.ownerId) {
-                itemData.customData.ownerId = currentPlayer;
-            }
+             if (activeItem.className === "CustomNpc") {
+                 const currentPlayer = this.olam.chossid ? this.olam.chossid.name : "player";
+                 if(itemData.customData && !itemData.customData.ownerId) {
+                     itemData.customData.ownerId = currentPlayer;
+                 }
 
-            await this.olam.loadNivrayim({
-                CustomNpc: [{
-                    ...itemData, 
-                    position: worldPosition,
-                    rotation: worldRotation,
-                    isSolid: false 
-                }]
-            });
-        } else {
-            const type = itemData.className || 'Domem';
-            await this.olam.addObject(type, {
-                position: worldPosition,
-                scale: worldScale,
-                rotation: worldRotation,
-                golem: this.activeObject.mesh.awtsmoosGolem, 
-                itemData, 
-                ...(itemData.dimensions ? { dimensions: itemData.dimensions } : {}),
-                isSolid: true,
-                interactable: true,
-                name: "BH_permanent_block_" + Date.now()
-            });
-        }
-        
-        this.spawnHebrewParticles(worldPosition);
+                 await this.olam.loadNivrayim({
+                     CustomNpc: [{
+                         ...itemData, 
+                         position: worldPosition,
+                         rotation: worldRotation,
+                         isSolid: false 
+                     }]
+                 });
+             } else {
+                 const type = itemData.className || 'Domem';
+                 await this.olam.addObject(type, {
+                     position: worldPosition,
+                     scale: worldScale,
+                     rotation: worldRotation,
+                     golem: this.activeObject.mesh.awtsmoosGolem, 
+                     itemData, 
+                     ...(itemData.dimensions ? { dimensions: itemData.dimensions } : {}),
+                     isSolid: true,
+                     interactable: true,
+                     name: "BH_permanent_block_" + Date.now()
+                 });
+             }
+             
+             this.spawnHebrewParticles(worldPosition);
 
-        if (!this.getActiveItem()) {
-            this.removeRay();
-        } else {
-            this.removeActiveObject(); 
+             if (!this.getActiveItem()) {
+                 this.removeRay();
+             } else {
+                 this.removeActiveObject(); 
+                 // Re-trigger ghost generation
+                 this.placeBlockOnRay();
+             }
         }
     },
 

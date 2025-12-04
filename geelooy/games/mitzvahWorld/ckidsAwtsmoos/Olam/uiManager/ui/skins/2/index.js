@@ -13,6 +13,8 @@ import instructions from "./instructions.js"
 import shlichus from "./shlichus.js"
 import actionBars from "./actionBars.js"
 import characterDesignerStyle from "./characterDesignerStyle.js";
+import store from "./store.js";
+import effects from "./effects.js";
 
 export default /*css*/`
     /*B"H*/
@@ -34,4 +36,8 @@ export default /*css*/`
     ${actionBars}
     
     ${characterDesignerStyle}
+
+    ${store}
+
+    ${effects}
 `;

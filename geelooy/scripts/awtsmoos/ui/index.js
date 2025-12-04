@@ -347,7 +347,8 @@ setHtml(el, opts = {}) {
             "toldos",
             "awtsmoosOnChange",
             "tolda",
-            "outerHTML"
+            "outerHTML",
+            "dataset"
         ];
     
     
@@ -414,6 +415,20 @@ setHtml(el, opts = {}) {
                 w,
                 attr[w]
             )
+            
+        });
+    }
+    
+    var ds= opts.dataset;
+    if(
+        ds&&
+        typeof(ds)
+        == "object"
+    ) {
+        Object.keys(ds)
+        .forEach(w => {
+           
+            el.dataset[w] = ds[w];
             
         });
     }

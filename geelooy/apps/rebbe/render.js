@@ -57,12 +57,22 @@ export function renderYears(yearsMap) {
         d.innerHTML = `
             <div>${year}</div>
             <div class="item-meta">ID: ${yearsMap[year].split('-')[1]}</div>
+            <div class="dl-badge">⬇</div>
         `;
-        d.onclick = () => {
+        d.onclick = (e) => {
+            if(e.target.className.includes('dl-badge')) return;
             document.querySelectorAll('.year-item').forEach(i=>i.classList.remove('active'));
             d.classList.add('active');
             callbacks.onYearSelect(year, yearsMap[year]);
         };
+        
+        // Year Download Menu
+        const btn = d.querySelector('.dl-badge');
+        btn.onclick = (e) => {
+            e.stopPropagation();
+            showContextMenu(e.pageX, e.pageY, 'year', yearsMap[year].split('-')[0] + '-' + yearsMap[year].split('-')[1]);
+        };
+
         list.appendChild(d);
     });
 }
@@ -199,25 +209,39 @@ export function closeModal(id) {
 
 function showContextMenu(x, y, type, target) {
     const menu = el('ctx-menu');
-    menu.innerHTML = `
-        <div class="ctx-head">SELECT PROTOCOL</div>
-        <div class="ctx-item" id="ctx-app">SYNC TO CORE (APP)</div>
-        <div class="ctx-item" id="ctx-disk">EXTRACT TO DISK (FILE)</div>
-    `;
     
-    menu.style.left = Math.min(x, window.innerWidth - 160) + 'px';
-    menu.style.top = Math.min(y, window.innerHeight - 100) + 'px';
+    let html = `<div class="ctx-head">SELECT PROTOCOL</div>`;
+    
+    if (type === 'year') {
+         html += `<div class="ctx-item" id="ctx-zip">DOWNLOAD ARCHIVE (.ZIP)</div>`;
+    } else {
+        html += `
+            <div class="ctx-item" id="ctx-app">SYNC TO CORE (APP)</div>
+            <div class="ctx-item" id="ctx-disk">EXTRACT TO DISK (FILE)</div>
+        `;
+    }
+    
+    menu.innerHTML = html;
+    
+    menu.style.left = Math.min(x, window.innerWidth - 200) + 'px';
+    menu.style.top = Math.min(y, window.innerHeight - 150) + 'px';
     menu.classList.remove('hidden');
 
-    el('ctx-app').onclick = () => {
-        menu.classList.add('hidden');
-        callbacks.onDownloadAction(type, target, 'app');
-    };
-
-    el('ctx-disk').onclick = () => {
-        menu.classList.add('hidden');
-        callbacks.onDownloadAction(type, target, 'disk');
-    };
+    if (type === 'year') {
+        el('ctx-zip').onclick = () => {
+             menu.classList.add('hidden');
+             callbacks.onDownloadAction(type, target, 'zip');
+        };
+    } else {
+        el('ctx-app').onclick = () => {
+            menu.classList.add('hidden');
+            callbacks.onDownloadAction(type, target, 'app');
+        };
+        el('ctx-disk').onclick = () => {
+            menu.classList.add('hidden');
+            callbacks.onDownloadAction(type, target, 'disk');
+        };
+    }
 }
 
 function fmt(s) {

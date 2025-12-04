@@ -130,9 +130,18 @@ function prevTrack() {
 // --- Advanced Downloads ---
 
 async function handleDownloadAction(type, target, method) {
-    // type: 'track' | 'folder'
-    // target: index (for track) or name (for folder)
-    // method: 'app' (IndexedDB) | 'disk' (File)
+    // type: 'track' | 'folder' | 'year'
+    // target: index (track) | name (folder) | id (year)
+    // method: 'app' | 'disk' | 'zip'
+
+    if (type === 'year' && method === 'zip') {
+        const bucketId = target;
+        Render.log(`INITIATING ARCHIVE RETRIEVAL: ${bucketId}`);
+        // Redirect to Archive.org compress page which allows downloading the zip
+        const url = `https://archive.org/compress/${bucketId}`;
+        window.open(url, '_blank');
+        return;
+    }
 
     if (type === 'track') {
         const track = state.currentTracks[target];

@@ -9,7 +9,211 @@ import createProfile from "/scripts/awtsmoos/social/profileDropdown.js";
 
 import loginBtn from "./loginBtn.js";
 import startSlotsConfig from "./startSlotsConfig.js";
-import characterDesigner from "./characterDesigner.js"; // Import the designer
+import characterDesigner from "./characterDesigner.js"; 
+
+// B"H: Store Logic & UI
+const storeScreen = {
+    shaym: "storeScreen",
+    className: "store-container hidden",
+    awtsmoosClick: true,
+    activeTab: 'buy',
+    npcId: null,
+    
+    on: {
+        open(e, $, ui) {
+            const data = e.detail; // B"H FIX: Direct access to payload
+            const store = $("storeScreen");
+            store.classList.remove("hidden");
+            store.npcId = data.entityId;
+            
+            const title = store.querySelector(".store-title");
+            if(title) title.textContent = data.npcName + "'s Store";
+            
+            store.activeTab = data.mode || 'buy';
+            store.items = data.items;
+            store.playerItems = data.playerInventory;
+            
+            ui.peula(store, { render: true });
+        },
+        
+        update(e, $, ui) {
+             const data = e.detail; // B"H FIX: Direct access to payload
+             const store = $("storeScreen");
+             if(data.items) store.items = data.items;
+             if(data.playerInventory) store.playerItems = data.playerInventory;
+             ui.peula(store, { render: true });
+        },
+        
+        close(e, $, ui) {
+            $("storeScreen").classList.add("hidden");
+        },
+        
+        render(e, $, ui) {
+            const store = $("storeScreen");
+            const grid = store.querySelector(".store-grid");
+            const details = store.querySelector(".store-details");
+            const tabs = store.querySelectorAll(".store-tab");
+            
+            // Update Tabs
+            tabs.forEach(t => {
+                if(t.dataset.tab === store.activeTab) t.classList.add("active");
+                else t.classList.remove("active");
+            });
+            
+            grid.innerHTML = "";
+            details.innerHTML = "<div style='opacity:0.5'>Select an item to see details</div>";
+
+            let itemsToRender = [];
+            
+            if (store.activeTab === 'buy') {
+                itemsToRender = store.items.map((itm, idx) => ({...itm, originalIndex: idx, type: 'buy'}));
+            } else if (store.activeTab === 'sell') {
+                // Filter sellable items from player inventory
+                store.playerItems.forEach((itm, idx) => {
+                    if(itm && itm.sellValue && itm.className !== 'Coin') {
+                        itemsToRender.push({...itm, originalIndex: idx, type: 'sell', price: itm.sellValue});
+                    }
+                });
+            }
+
+            itemsToRender.forEach(item => {
+                ui.html({
+                    parent: grid,
+                    className: "store-item",
+                    onclick: () => ui.peula(store, { showDetails: item }),
+                    children: [
+                        { className: "store-item-icon", style: { backgroundImage: item.icon ? `url(${item.icon})` : 'none' } }, // B"H: Need icons!
+                        { className: "store-item-qty", textContent: item.quantity || 1 }
+                    ]
+                });
+            });
+        },
+        
+        showDetails(e, $, ui) {
+            const item = e.detail;
+            const details = $("storeScreen").querySelector(".store-details");
+            details.innerHTML = "";
+            
+            ui.html({
+                parent: details,
+                children: [
+                    { tag: "h3", textContent: item.name },
+                    { textContent: item.description || "No description." },
+                    { textContent: item.type === 'buy' ? `Cost: ${item.price} Perutahs` : `Value: ${item.price} Perutahs` },
+                    {
+                        tag: "button",
+                        className: "action-btn",
+                        textContent: item.type === 'buy' ? "BUY" : "SELL",
+                        onclick: () => {
+                            ui.peula("ikar", {
+                                olamPeula: {
+                                    htmlPeula: {
+                                        shopAction: {
+                                            action: item.type,
+                                            payload: { index: item.originalIndex },
+                                            entityId: $("storeScreen").npcId
+                                        }
+                                    }
+                                }
+                            });
+                        }
+                    }
+                ]
+            });
+        }
+    },
+    
+    children: [
+        // Header
+        {
+            className: "store-header",
+            children: [
+                { className: "store-title", textContent: "Store" },
+                { 
+                    tag: "button", className: "awtsmoosBtn", textContent: "Close",
+                    onclick(e, $) { $("storeScreen").classList.add("hidden"); }
+                }
+            ]
+        },
+        // Tabs
+        {
+            className: "store-tabs",
+            children: [
+                { 
+                    className: "store-tab", textContent: "BUY", dataset: { tab: 'buy' },
+                    onclick(e, $, ui) { $("storeScreen").activeTab = 'buy'; ui.peula($("storeScreen"), { render: true }); }
+                },
+                { 
+                    className: "store-tab", textContent: "SELL", dataset: { tab: 'sell' },
+                    onclick(e, $, ui) { $("storeScreen").activeTab = 'sell'; ui.peula($("storeScreen"), { render: true }); }
+                },
+                {
+                    className: "store-tab", textContent: "EXCHANGE", dataset: { tab: 'exchange' },
+                    onclick(e, $, ui) {
+                        // Trigger exchange immediately
+                         ui.peula("ikar", {
+                            olamPeula: {
+                                htmlPeula: {
+                                    shopAction: {
+                                        action: 'exchange',
+                                        entityId: $("storeScreen").npcId
+                                    }
+                                }
+                            }
+                        });
+                    }
+                }
+            ]
+        },
+        // Content
+        {
+            className: "store-content",
+            children: [
+                { className: "store-grid" },
+                { className: "store-details" }
+            ]
+        }
+    ]
+};
+
+// B"H: Effects Overlay
+const effectsOverlay = {
+    shaym: "effectsOverlay",
+    className: "effects-overlay",
+    style: { pointerEvents: "none", position: "absolute", top:0, left:0, width:"100%", height:"100%", zIndex: 2000 },
+    on: {
+        awtsmoosRevealed(e, $, ui) {
+            const data = e.detail;
+            
+            if (data.text) {
+                const el = document.createElement("div");
+                el.className = "floating-text";
+                el.textContent = data.text;
+                el.style.color = data.color || "white";
+                el.style.left = (window.innerWidth/2) + "px";
+                el.style.top = (window.innerHeight/2) + "px";
+                e.target.appendChild(el);
+                setTimeout(() => el.remove(), 2000);
+            }
+            
+            if (data.effect === 'transaction') {
+                // Intense Hebrew Letter Explosion
+                for(let i=0; i<20; i++) {
+                    const letter = document.createElement("div");
+                    letter.className = "hebrew-particle";
+                    letter.textContent = ["א","ב","ג","ד","ה","ו","ז","ח","ט","י"][Math.floor(Math.random()*10)];
+                    letter.style.left = (window.innerWidth/2) + "px";
+                    letter.style.top = (window.innerHeight/2) + "px";
+                    letter.style.setProperty('--tx', (Math.random()*400 - 200) + "px");
+                    letter.style.setProperty('--ty', (Math.random()*400 - 200) + "px");
+                    letter.style.color = `hsl(${Math.random()*360}, 100%, 50%)`;
+                    e.target.appendChild(letter);
+                    setTimeout(() => letter.remove(), 1500);
+                }
+            }
+        }
+    }
+};
 
 var ui = [instructions, {
     shaym: "menuTop",
@@ -652,7 +856,9 @@ var ui = [instructions, {
         }
     }))
 },
-characterDesigner
+characterDesigner,
+storeScreen,
+effectsOverlay
 ].concat(shlichusUI);
 
 if (navigator.userAgent.includes("Mobile")) {

@@ -25,7 +25,7 @@ export default class CustomNpc extends Medabeir {
     salesLog = [];
     ownerId = null; 
 
-    constructor(op) {
+    constructor(op, olam) {
         const customData = op.itemData?.customData || op.customData || {};
         
         op.name = customData.name || "Anonymous Soul";
@@ -35,6 +35,9 @@ export default class CustomNpc extends Medabeir {
         op.heesHawveh = true;
 
         super(op);
+        
+        // B"H FIX: Manually assign olam because intermediate classes drop it
+        if(olam) this.olam = olam;
         
         if(!this.id) this.id = op.id || Utils.generateID();
 
@@ -55,6 +58,22 @@ export default class CustomNpc extends Medabeir {
 
         this.velocity.y = -5; 
         
+        // B"H: Listen for Shop Actions from the UI
+        if (this.olam) {
+            this.olam.on("htmlPeula shopAction", (data) => {
+                if (data.entityId === this.id) {
+                    this.handleShopAction(data.action, data.payload, data.buyerName);
+                }
+            });
+        }
+
+        // B"H: Listen for nivraYotsee to close the store
+        this.on("nivraYotsee", nivra => {
+            if (nivra.type === 'chossid' && this.olam) {
+                this.olam.ayshPeula("ui event", "storeScreen", { close: true });
+            }
+        });
+
         this.messageTree = (myself) => {
             if (!this.olam) {
                 return [{ message: "Initializing...", responses: [] }];
@@ -106,11 +125,12 @@ export default class CustomNpc extends Medabeir {
                         action: (me) => {
                             if (me.balance > 0) {
                                 me.olam.player.inventory.addItem({
-                                    id: 'coin', className: 'Coin', name: 'Perutah', quantity: me.balance
+                                    id: 'coin_1', className: 'Coin', name: 'Perutah', quantity: me.balance, value: 1
                                 }, me.balance);
                                 const amount = me.balance;
                                 me.balance = 0;
-                                me.ayshPeula("close dialogue", `Transferred ${amount} coins to you.`);
+                                me.ayshPeula("close dialogue", `Transferred ${amount} perutahs to you.`);
+                                me.spawnHebrewParticles(me.mesh.position);
                             } else {
                                 me.ayshPeula("close dialogue", "No profits to collect yet.");
                             }
@@ -179,146 +199,48 @@ export default class CustomNpc extends Medabeir {
         }
     }
 
+    openShopUI(buyer) {
+        // B"H: Close any existing dialogue
+        this.ayshPeula("close dialogue", "");
+        
+        // B"H: Open the Visual Store UI
+        this.olam.ayshPeula("ui event", "storeScreen", {
+            open: {
+                mode: 'buy',
+                entityId: this.id,
+                npcName: this.name,
+                items: this.shopInventory,
+                playerInventory: buyer.inventory.slots
+            }
+        });
+    }
+
     /**
      * B"H
-     * Opens the main shop hub.
+     * Handles actions sent from the Store UI.
      */
-    openShopUI(buyer) {
-        const responses = [
-            {
-                text: "Buy Items",
-                action: () => { this.openBuyUI(buyer); return false; }
-            },
-            {
-                text: "Sell Items",
-                action: () => { this.openSellUI(buyer); return false; }
-            },
-            {
-                text: "Exchange Currency (Make Change)",
-                action: () => { this.openExchangeUI(buyer); return false; }
-            },
-            {
-                text: "Goodbye",
-                close: "Shalom!"
-            }
-        ];
-
-        this.changeResponseAndGoToIt({
-            message: "B\"H\nWelcome to the store. What would you like to do?",
-            responses: responses
-        });
-    }
-
-    openBuyUI(buyer) {
-        const shopResponses = this.shopInventory.map((item, index) => ({
-            text: `Buy ${item.name} (${item.price} perutahs) [${item.quantity} left]`,
-            action: (me, buyer) => {
-                this.sellItem(index, buyer);
-            }
-        }));
-
-        shopResponses.push({ text: "Back", action: () => { this.openShopUI(buyer); return false; } });
+    handleShopAction(action, payload, buyerName) {
+        const buyer = this.olam.chossid; // Assume local player for now
+        if (!buyer) return;
         
-        this.changeResponseAndGoToIt({
-            message: "B\"H\nTake a look at what I have gathered.",
-            responses: shopResponses
-        });
-    }
-
-    openSellUI(buyer) {
-        const buyerInv = buyer.inventory;
-        const sellableResponses = [];
-
-        // Scan player inventory for items with value
-        buyerInv.slots.forEach((slot, index) => {
-            if(!slot) return;
-            
-            // Get base class to check static properties if needed, or instance properties
-            const ItemClass = AWTSMOOS[slot.className];
-            const value = slot.sellValue || (ItemClass ? new ItemClass({}).sellValue : 0);
-
-            if(value > 0 && slot.className !== 'Coin') {
-                 sellableResponses.push({
-                     text: `Sell ${slot.name} for ${value} perutahs`,
-                     action: () => {
-                         this.buyItemFromPlayer(index, value, buyer);
-                         return false;
-                     }
-                 });
-            }
-        });
-
-        if(sellableResponses.length === 0) {
-            this.changeResponseAndGoToIt({
-                message: "You don't have anything I want to buy right now.",
-                responses: [{ text: "Back", action: () => { this.openShopUI(buyer); return false; } }]
-            });
-            return;
+        if (action === 'buy') {
+            this.processBuy(payload.index, buyer);
+        } else if (action === 'sell') {
+            this.processSell(payload.index, buyer);
+        } else if (action === 'exchange') {
+            buyer.inventory.exchangeCurrency();
+            this.playSound("awtsmoos://dingSound", { volume: 0.6 });
+            this.olam.ayshPeula("ui event", "effectsOverlay", { text: "Wallet Optimized!", color: "#00ff00" });
+            this.refreshStoreUI(buyer);
         }
-
-        sellableResponses.push({ text: "Back", action: () => { this.openShopUI(buyer); return false; } });
-
-        this.changeResponseAndGoToIt({
-            message: "I can buy these from you:",
-            responses: sellableResponses
-        });
     }
 
-    openExchangeUI(buyer) {
-        const inv = buyer.inventory;
-        const walletValue = inv.getWalletValue();
-        
-        const responses = [
-            {
-                text: "Consolidate Coins (Convert to largest possible coins)",
-                action: () => {
-                    inv.exchangeCurrency(); 
-                    this.ayshPeula("close dialogue", "Your wallet has been optimized!");
-                    return false;
-                }
-            },
-            { text: "Back", action: () => { this.openShopUI(buyer); return false; } }
-        ];
-
-        this.changeResponseAndGoToIt({
-            message: `You have ${walletValue} total value in Perutahs.\nI can help you exchange small coins for large ones (or vice versa, automatically).`,
-            responses: responses
-        });
-    }
-
-    buyItemFromPlayer(slotIndex, value, buyer) {
-        const item = buyer.inventory.slots[slotIndex];
-        if(!item) return;
-
-        // Remove item from player
-        buyer.inventory.removeItem(slotIndex, 1);
-
-        // B"H: Give money to player
-        // Use 'coin_1' (Perutah) to ensure it stacks correctly with other single coins
-        buyer.inventory.addItem({
-            id: 'coin_1', className: 'Coin', name: 'Perutah', value: 1, quantity: value
-        }, value);
-
-        // Feedback sound
-        this.playSound("awtsmoos://dingSound", { volume: 0.5 });
-
-        // Add to shop inventory (optional, but nice for persistence)
-        this.shopInventory.push({
-            name: item.name,
-            price: Math.ceil(value * 1.2), // Mark up price for resale
-            quantity: 1
-        });
-
-        this.openSellUI(buyer); // Refresh list
-    }
-
-    sellItem(index, buyer) {
+    processBuy(index, buyer) {
         const item = this.shopInventory[index];
         if (!item) return;
 
         if (item.quantity <= 0) {
-            this.ayshPeula("close dialogue", "Sorry, that item is out of stock.");
-            this.shopInventory.splice(index, 1);
+            this.olam.ayshPeula("ui event", "effectsOverlay", { text: "Out of Stock!", color: "red" });
             return;
         }
 
@@ -326,39 +248,81 @@ export default class CustomNpc extends Medabeir {
         const walletValue = buyerInv.getWalletValue();
 
         if (walletValue >= item.price) {
-            // 1. Deduct Cost
             buyerInv.deductCurrency(item.price);
 
-            // 2. Add Item
             const itemToAdd = {
                 id: item.name.toLowerCase().replace(/\s/g, "_") + "_" + Date.now(),
                 name: item.name,
-                className: "Brick", // Default class if unknown, ideally store class in shop data
+                className: "Brick", 
                 quantity: 1,
-                description: "Bought from " + this.name
+                description: "Bought from " + this.name,
+                // B"H: Add random color if it's a brick
+                customData: { color: Math.random() * 0xffffff }
             };
             buyerInv.addItem(itemToAdd);
 
-            // 3. Update Shop
             item.quantity--;
             if (item.quantity <= 0) {
                 this.shopInventory.splice(index, 1);
             }
 
-            // 4. Update NPC Profit
             const profit = item.price;
             const ownerShare = Math.floor(profit * (this.contractPercentage / 100));
             this.balance += ownerShare;
-            this.salesLog.push(`Sold ${item.name} for ${item.price} (Owner gets ${ownerShare}) at ${new Date().toLocaleTimeString()}`);
+            this.salesLog.push(`Sold ${item.name} for ${item.price}`);
 
             this.playSound("awtsmoos://dingSound", { volume: 0.5 });
-            this.openBuyUI(buyer); // Refresh
-        } else {
-            this.changeResponseAndGoToIt({
-                message: "You don't have enough Perutahs!",
-                responses: [{ text: "Back", action: () => { this.openShopUI(buyer); return false; } }]
+            this.olam.ayshPeula("ui event", "effectsOverlay", { 
+                effect: 'transaction', 
+                text: `-${item.price} P`,
+                color: 'red',
+                icon: item.name.charAt(0) // Simple icon placeholder
             });
+
+            this.refreshStoreUI(buyer);
+        } else {
+            this.olam.ayshPeula("ui event", "effectsOverlay", { text: "Not enough funds!", color: "red" });
         }
+    }
+
+    processSell(slotIndex, buyer) {
+        const slot = buyer.inventory.slots[slotIndex];
+        if (!slot) return;
+        
+        const ItemClass = AWTSMOOS[slot.className];
+        const value = slot.sellValue || (ItemClass ? new ItemClass({}).sellValue : 0);
+
+        if (value > 0) {
+            buyer.inventory.removeItem(slotIndex, 1);
+            buyer.inventory.addItem({
+                id: 'coin_1', className: 'Coin', name: 'Perutah', value: 1, quantity: value
+            }, value);
+
+            // Add to shop (optional markup logic could go here)
+            this.shopInventory.push({
+                name: slot.name,
+                price: Math.ceil(value * 1.2),
+                quantity: 1
+            });
+
+            this.playSound("awtsmoos://dingSound", { volume: 0.5 });
+            this.olam.ayshPeula("ui event", "effectsOverlay", { 
+                effect: 'transaction', 
+                text: `+${value} P`,
+                color: '#00ff00'
+            });
+
+            this.refreshStoreUI(buyer);
+        }
+    }
+
+    refreshStoreUI(buyer) {
+        this.olam.ayshPeula("ui event", "storeScreen", {
+            update: {
+                items: this.shopInventory,
+                playerInventory: buyer.inventory.slots
+            }
+        });
     }
 
     serialize() {

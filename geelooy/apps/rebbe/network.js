@@ -2,6 +2,7 @@
 // network.js - Archive.org Interaction via index.json
 
 const BASE_URL = 'https://archive.org/download';
+// We permit .opus in the filter, but we will swap it to .mp3 in the map
 const AUDIO_EXTS = ['.mp3', '.opus', '.ogg', '.wav', '.m4a', '.flac'];
 
 /**
@@ -60,12 +61,24 @@ export async function fetchFolderTracks(yearId, folderName, logCallback) {
                 const lower = item.name.toLowerCase();
                 return AUDIO_EXTS.some(ext => lower.endsWith(ext));
             })
-            .map(item => ({
-                name: item.name,
-                path: `${folderName}/${item.name}`, // Logical path for DB key
-                url: `${BASE_URL}/${yearId}/${encodedPath}/${encodeURIComponent(item.name)}`, // Full Download URL
-                size: item.size
-            }));
+            .map(item => {
+                let name = item.name;
+                let urlName = item.name;
+
+                // NORMALIZATION PROTOCOL:
+                // Force .opus to be treated as .mp3 for both Display and Network URL
+                if (name.toLowerCase().endsWith('.opus')) {
+                    name = name.replace(/\.opus$/i, '.mp3');
+                    urlName = name; // Assuming files on server are also renamed to .mp3
+                }
+
+                return {
+                    name: name,
+                    path: `${folderName}/${name}`, // Logical path for DB key
+                    url: `${BASE_URL}/${yearId}/${encodedPath}/${encodeURIComponent(urlName)}`, // Full Download URL
+                    size: item.size
+                };
+            });
 
         logCallback(`NET: OK. Found ${tracks.length} tracks.`);
         return tracks;

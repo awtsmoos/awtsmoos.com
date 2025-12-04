@@ -4,7 +4,7 @@
 :root {
     --c-black: #000000;
     --c-void: #050505;
-    --c-panel: rgba(8, 8, 12, 0.90);
+    --c-panel: rgba(8, 8, 12, 0.65); /* Increased Transparency */
     
     /* EXTREME NEON PALETTE */
     --c-cyan: #00f3ff;
@@ -26,10 +26,10 @@
     --trans-speed: 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
-* { 
-    box-sizing: border-box; 
-    user-select: none; 
-    -webkit-tap-highlight-color: transparent; 
+* {
+    box-sizing: border-box;
+    user-select: none;
+    -webkit-tap-highlight-color: #000000;
 }
 
 body {
@@ -45,13 +45,18 @@ body {
     letter-spacing: 0.05em;
 }
 
+/* --- UTILS --- */
+.hidden {
+    display: none !important;
+}
+
 /* --- FX LAYERS --- */
 #viz-canvas {
     position: absolute; top: 0; left: 0; width: 100%; height: 100%;
     z-index: 50; /* Above UI for hologram effect */
     pointer-events: none;
     mix-blend-mode: screen; /* Crucial for hologram look */
-    opacity: 0.8;
+    opacity: 0.9;
 }
 
 .scanlines {
@@ -75,12 +80,13 @@ body {
 
 /* --- APP LAYOUT --- */
 #app-root {
-    position: relative; z-index: 10;
-    display: flex; flex-direction: column; height: 100%;
+    position: relative;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
     /* Subtle grid pattern background */
-    background-image: 
-        linear-gradient(rgba(0, 243, 255, 0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0, 243, 255, 0.03) 1px, transparent 1px);
+    background-image: linear-gradient(rgb(0 243 255 / 90%) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 243, 255, 0.8) 1px, #000000fa 1px);
     background-size: 40px 40px;
 }
 
@@ -88,7 +94,7 @@ body {
 header {
     height: 80px;
     border-bottom: var(--border-thick);
-    background: rgba(0, 0, 0, 0.8);
+    background: rgba(0, 0, 0, 0.6); /* More transparent */
     backdrop-filter: blur(10px);
     display: flex; align-items: center; justify-content: space-between;
     padding: 0 30px;
@@ -121,7 +127,7 @@ header {
     background: rgba(0,255,102,0.1);
 }
 .btn-icon {
-    background: black; border: 2px solid var(--c-cyan); color: var(--c-cyan);
+    background: rgba(0,0,0,0.5); border: 2px solid var(--c-cyan); color: var(--c-cyan);
     width: 44px; height: 44px; 
     font-size: 24px; cursor: pointer;
     display: flex; align-items: center; justify-content: center;
@@ -141,26 +147,49 @@ header {
     display: flex; flex-direction: column;
     background: var(--c-panel);
     border-right: var(--border-thick);
-    backdrop-filter: blur(15px);
+    backdrop-filter: blur(12px);
     
     /* Flex Animation */
     flex-grow: 0; flex-basis: 0; min-width: 0;
     transition: flex-grow 0.4s cubic-bezier(0.16, 1, 0.3, 1), min-width 0.4s;
     will-change: flex-grow, min-width;
+    overflow: hidden; 
+}
+
+/* Clean up closed panels */
+.panel:not(.open) {
+    min-width: 0;
+    border-right: none;
+    flex-grow: 0.001; /* Tiny growth to allow transition */
+}
+/* Hide content immediately when closing */
+.panel:not(.open) > * {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.1s;
 }
 
 .panel.open {
     flex-grow: 1;
-    min-width: 350px; /* Big panels */
+    min-width: 350px; 
     box-shadow: 0 0 30px rgba(0,0,0,0.5);
 }
+.panel.open > * {
+    opacity: 1;
+    pointer-events: auto;
+    transition: opacity 0.4s 0.2s; /* Delay fade in */
+}
 
-/* Years column is static size but grows on mobile */
+/* Years column */
 #col-years { 
     flex-grow: 0; min-width: 280px; width: 280px; 
     border-right: 4px solid var(--c-cyan); 
     z-index: 30;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    background: rgba(8, 8, 12, 0.75); /* Slightly clearer for main nav */
 }
+#col-years > * { opacity: 1 !important; pointer-events: auto !important; }
 
 .p-head {
     height: 60px;
@@ -169,6 +198,7 @@ header {
     display: flex; align-items: center; justify-content: space-between;
     padding: 0 20px;
     flex-shrink: 0;
+    white-space: nowrap;
 }
 .p-title { 
     font-weight: 900; color: var(--c-cyan); 
@@ -195,46 +225,48 @@ header {
 /* --- ITEMS (The Big Text) --- */
 .item {
     padding: 20px 20px;
-    border-bottom: 1px solid rgba(255,255,255,0.1);
-    font-size: 18px; /* BIGGER */
-    color: #cccccc;
-    position: relative; 
+    border-bottom: 1px solid rgb(203 9 9 / 78%);
+    font-size: 18px; 
+    color: #000000;
+    position: relative;
     transition: var(--trans-speed);
     cursor: pointer;
-    background: rgba(0,0,0,0.2);
+    background: rgba(255, 187, 21, 0.85); /* Semi-transparent */
 }
-.item:nth-child(odd) { background: rgba(255,255,255,0.02); }
+.item:nth-child(odd) {
+    background: rgba(255, 255, 255, 0.75);
+    color: black;
+}
 
 .item:hover { 
     background: var(--c-cyan); 
     color: black; 
-    padding-left: 35px; /* Slide effect */
+    padding-left: 35px; 
     border-bottom-color: var(--c-cyan);
 }
 
 .item.active {
-    background: rgba(0, 243, 255, 0.1);
+    background: rgba(0, 243, 255, 0.2);
     color: var(--c-white);
     border-left: 8px solid var(--c-cyan);
-    border-right: 8px solid var(--c-cyan); /* Dual border */
+    border-right: 8px solid var(--c-cyan);
     text-shadow: 0 0 8px rgba(255,255,255,0.8);
 }
-/* Invert active hover for impact */
 .item.active:hover {
     background: var(--c-cyan); color: black; text-shadow: none;
 }
 
-.item-meta { 
-    font-size: 12px; 
-    margin-top: 6px; 
-    color: var(--c-cyan); 
-    opacity: 0.8; 
-    display: flex; justify-content: space-between; 
+.item-meta {
+    font-size: 12px;
+    margin-top: 6px;
+    color: #000000;
+    opacity: 0.8;
+    display: flex;
+    justify-content: space-between;
     font-weight: bold;
 }
 .item:hover .item-meta { color: black; opacity: 1; }
 
-/* Status Badges */
 .status-text {
     background: #000; color: var(--c-cyan);
     padding: 2px 6px; border: 1px solid var(--c-cyan);
@@ -244,7 +276,6 @@ header {
     border-color: var(--c-lime); color: var(--c-lime);
 }
 
-/* Download Circle */
 .dl-badge {
     position: absolute; right: 20px; top: 50%; transform: translateY(-50%);
     width: 36px; height: 36px;
@@ -267,14 +298,14 @@ header {
 /* --- TERMINAL --- */
 #terminal-wrap {
     height: 150px; 
-    background: #000; 
+    background: rgba(0,0,0,0.8); 
     border-top: 4px solid var(--c-lime);
     padding: 10px; flex-shrink: 0;
     box-shadow: 0 -10px 30px rgba(0, 255, 102, 0.1);
 }
 #terminal {
     height: 100%; overflow-y: auto; 
-    font-size: 14px; /* BIGGER LOGS */
+    font-size: 14px; 
     color: var(--c-lime);
     display: flex; flex-direction: column-reverse;
 }
@@ -288,8 +319,8 @@ header {
 
 /* --- DECK (Footer) --- */
 #deck {
-    height: 120px; /* TALLER */
-    background: #020202; 
+    height: 120px; 
+    background: rgba(2, 2, 2, 0.9); 
     border-top: var(--border-thick);
     flex-shrink: 0; display: flex; flex-direction: column;
     z-index: 100;
@@ -331,7 +362,7 @@ header {
     justify-content: center; overflow: hidden; 
 }
 .t-title { 
-    font-size: 28px; /* MASSIVE TRACK TITLE */
+    font-size: 28px; 
     font-weight: 900; color: var(--c-yellow); 
     text-transform: uppercase; white-space: nowrap; 
     overflow: hidden; text-overflow: ellipsis; 
@@ -341,7 +372,7 @@ header {
 
 /* --- SCROLLBARS --- */
 .custom-scroll::-webkit-scrollbar { width: 12px; }
-.custom-scroll::-webkit-scrollbar-track { background: #000; border-left: 1px solid #333; }
+.custom-scroll::-webkit-scrollbar-track { background: rgba(0,0,0,0.5); border-left: 1px solid #333; }
 .custom-scroll::-webkit-scrollbar-thumb { 
     background: var(--c-cyan); 
     border: 2px solid black; 
@@ -352,10 +383,15 @@ header {
 /* --- MODALS & CONTEXT --- */
 .overlay-layer {
     background: rgba(0,0,0,0.85); backdrop-filter: blur(10px);
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    z-index: 150;
+    display: flex; align-items: center; justify-content: center;
 }
 .modal {
     width: 400px; border: 4px solid var(--c-cyan);
     box-shadow: 0 0 50px rgba(0, 243, 255, 0.3);
+    background: black;
+    z-index: 160;
 }
 .modal-head { 
     background: var(--c-cyan); color: black; font-size: 20px; padding: 15px; 
@@ -365,6 +401,16 @@ header {
 .btn-danger {
     font-size: 16px; border: 2px solid var(--c-magenta); padding: 15px 30px;
     font-weight: bold; letter-spacing: 1px;
+    background: rgba(255, 0, 85, 0.1); color: var(--c-magenta);
+    cursor: pointer;
+}
+.btn-danger:hover {
+    background: var(--c-magenta); color: white;
+}
+.modal-foot { padding: 20px; text-align: right; }
+.btn-action {
+    background: var(--c-cyan); color: black; border: none; padding: 10px 20px;
+    font-weight: bold; cursor: pointer;
 }
 
 /* CONTEXT MENU */
@@ -372,12 +418,14 @@ header {
     border: 2px solid var(--c-cyan);
     min-width: 250px;
     background: rgba(10, 10, 10, 0.98);
+    position: absolute;
+    z-index: 200;
 }
 .ctx-head { 
     background: var(--c-cyan); color: black; font-weight: bold; font-size: 12px; padding: 8px 15px; 
 }
 .ctx-item { 
-    padding: 15px 20px; font-size: 16px; color: white; border-bottom: 1px solid #333; 
+    padding: 15px 20px; font-size: 16px; color: white; border-bottom: 1px solid #333; cursor: pointer;
 }
 .ctx-item:hover { 
     background: var(--c-cyan); color: black; padding-left: 25px; 
@@ -387,7 +435,7 @@ header {
 @media (max-width: 768px) {
     header { padding: 0 15px; height: 60px; }
     .brand-glitch { font-size: 24px; }
-    .sys-controls { display: none; } /* Save space */
+    .sys-controls { display: none; } 
     
     #main-grid { display: block; }
     
@@ -395,8 +443,12 @@ header {
         position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
         z-index: 20; transform: translateX(100%); 
         transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        opacity: 1 !important; 
+        pointer-events: auto !important;
+        background: rgba(0,0,0,0.9);
     }
-    
+    .panel:not(.open) > * { opacity: 1; pointer-events: auto; }
+
     #col-years { 
         position: relative; transform: translateX(0); z-index: 10; width: 100%; 
     }
