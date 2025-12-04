@@ -5,11 +5,30 @@
     <meta charset="utf-8">
     <title>Awtsmoos Quantum Mail</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <link rel="stylesheet" href="./styles.css">
+    
+    <!-- Modular "Extreme" Styles -->
+    <link rel="stylesheet" href="./css/core.css">
+    <link rel="stylesheet" href="./css/sidebar.css">
+    <link rel="stylesheet" href="./css/chat.css">
+    <link rel="stylesheet" href="./css/composer.css">
+    <link rel="stylesheet" href="./css/fx.css">
+    
     <meta name="theme-color" content="#000000">
 </head>
 <body>
     <div id="root"></div>
+    
+    <!-- Physics Filters -->
+    <svg style="position: absolute; width: 0; height: 0; pointer-events: none;">
+        <defs>
+            <filter id="goo">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
+                <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -9" result="goo" />
+                <feComposite in="SourceGraphic" in2="goo" operator="atop"/>
+            </filter>
+        </defs>
+    </svg>
+
     <script type="module" src="./index.js"></script>
 </body>
 </html>

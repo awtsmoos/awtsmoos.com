@@ -107,6 +107,7 @@ export const FX = {
     },
 
     initShaders() {
+        // UPDATED SHADER WITH PARALLAX FIX
         const vert = `#version 300 es
         in vec2 a_position; 
         
@@ -132,22 +133,34 @@ export const FX = {
             float distCenter = distance(pos.xy, u_resolution * 0.5);
             pos.z += sin(distCenter * 0.005 + u_time) * u_scrollSpeed * 5.0;
 
-            // 2. Black Hole Mouse Physics
-            float distMouse = distance(pos.xy, u_mouse);
-            float gravity = 300.0;
-            if (distMouse < gravity) {
-                vec2 dir = normalize(pos.xy - u_mouse);
-                float force = (gravity - distMouse) / gravity;
-                pos.xy -= dir * force * 50.0; 
-                pos.z += force * 200.0; 
-            }
-
-            // 3. Perspective
+            // 2. Perspective Scale Calculation
             float fov = 1000.0;
             float scale = fov / (fov - pos.z);
             
+            // 3. Screen Space Projection for Interaction
+            // Calculate where the particle IS visibly on the screen
+            vec2 visualPos = (pos.xy - u_resolution * 0.5) * scale + u_resolution * 0.5;
+
+            // 4. Black Hole Mouse Physics (Screen Space)
+            // Interact based on visual position, not world position
+            float distMouse = distance(visualPos, u_mouse);
+            float gravity = 250.0; 
+            
+            if (distMouse < gravity) {
+                vec2 dir = normalize(visualPos - u_mouse);
+                float force = (gravity - distMouse) / gravity;
+                
+                // Apply force to World Position relative to scale
+                pos.xy -= dir * force * 40.0 / scale; 
+                pos.z += force * 150.0; 
+            }
+
+            // Recalculate projection with new position
+            scale = fov / (fov - pos.z);
             vec2 screenPos = (pos.xy - u_resolution * 0.5) * scale + u_resolution * 0.5;
             vec2 vertPos = (a_position - 0.5) * i_size * scale;
+            
+            // Map to Clip Space
             vec2 clipPos = ((screenPos + vertPos) / u_resolution) * 2.0 - 1.0;
             
             gl_Position = vec4(clipPos, pos.z/2000.0, 1.0);

@@ -1,0 +1,65 @@
+/* CORE: Variables, Reset, Typography */
+:root {
+    --bg-void: #000000;
+    --bg-deep: #030304;
+    --bg-surface: #0a0a0c;
+    --bg-surface-hover: #121215;
+    --bg-glass: rgba(5, 5, 8, 0.85);
+    
+    --neon-gold: #ffb700;
+    --neon-gold-dim: rgba(255, 183, 0, 0.1);
+    --neon-cyan: #06b6d4;
+    --neon-emerald: #10b981;
+    --neon-fire: #ef4444;
+    --neon-amber: #f59e0b;
+
+    --text-primary: #ffffff;
+    --text-secondary: #a1a1aa;
+    --text-muted: #52525b;
+
+    --sidebar-w: 320px;
+    --header-h: 60px;
+    
+    --font-stack: 'Courier New', monospace; /* Cyber feel */
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+    scrollbar-width: thin;
+    scrollbar-color: var(--neon-cyan) transparent;
+}
+
+html, body {
+    height: 100%; width: 100%; margin: 0; padding: 0;
+    overflow: hidden;
+    background: var(--bg-void);
+    color: var(--text-primary);
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 14px;
+}
+
+#root { width: 100%; height: 100%; display: flex; flex-direction: column; }
+.hidden { display: none !important; }
+.flex { display: flex; }
+
+/* LAYOUT */
+.app-container {
+    display: grid;
+    grid-template-columns: var(--sidebar-w) 1fr;
+    height: 100%; width: 100%;
+    background: var(--bg-deep);
+    overflow: hidden;
+    position: relative;
+    z-index: 2; /* Above canvas */
+}
+
+/* OFFLINE */
+body.offline { filter: grayscale(1) brightness(0.7); }
+body.offline::after {
+    content: "CONNECTION SEVERED";
+    position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    font-size: 3rem; color: #fff; font-weight: 900; letter-spacing: 10px;
+    z-index: 9999; pointer-events: none; opacity: 0.5;
+    text-shadow: 0 0 20px #000;
+}
