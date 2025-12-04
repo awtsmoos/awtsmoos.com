@@ -1,299 +1,181 @@
 //B"H
-/* 
-  Pure WebGL Visualization
-  Effect: A 3D stream/tunnel of Hebrew letters that pulse and wave based on audio frequency.
-*/
+// viz.js - Merkavah Vortex Visualizer
+import { GLEngine } from './gl-engine.js';
 
-const canvas = document.getElementById('viz-canvas');
-const gl = canvas.getContext('webgl', { alpha: false });
+// --- SHADERS ---
+const VS = `#version 300 es
+in float aIdx;
 
-let width, height;
-let audioData = new Uint8Array(128); // Placeholder
+uniform highp float uTime;
+uniform highp float uBass;
+uniform highp float uMid;
+uniform highp float uTreb;
+uniform mat4 uProj;
 
-// Hebrew Glyphs
-const CHARS = "אבגדהוזחטיכלמנסעפצקרשת";
+out float vIdx;
+out float vDepth;
+out float vAlpha;
 
-// Shaders
-const vsSource = `
-  attribute vec3 aPosition;
-  attribute vec2 aTexCoord;
-  attribute float aOffset;
-  attribute float aSpeed;
-  attribute float aCharIndex;
-
-  uniform mat4 uProjection;
-  uniform float uTime;
-  uniform float uAudioHigh;
-  uniform float uAudioLow;
-
-  varying vec2 vTexCoord;
-  varying float vOpacity;
-  varying float vCharIndex;
-
-  void main() {
-    // Move particles towards camera
-    float zPos = mod(aPosition.z + uTime * aSpeed, 20.0) - 15.0; // Range -15 to 5
+void main() {
+    vIdx = aIdx;
     
-    // Wave effect based on X and Time + Audio
-    float wave = sin(aPosition.x * 0.5 + uTime * 2.0) * (0.5 + uAudioLow * 0.01);
+    // Merkavah Geometry: A sphere of rotating rings
+    float total = 2000.0;
+    float phi = acos( -1.0 + (2.0 * aIdx) / total );
+    float theta = sqrt(total * 3.14159) * phi;
     
-    vec3 pos = vec3(aPosition.x, aPosition.y + wave, zPos);
+    float rBase = 8.0;
+    float r = rBase + (uBass * 5.0 * sin(aIdx * 0.1 + uTime));
     
-    // Scale based on audio (kick)
-    float scale = 1.0 + (uAudioHigh * 0.005 * step(10.0, aSpeed));
-
-    gl_Position = uProjection * vec4(pos * scale, 1.0);
+    // Chaos Rotation
+    float t = uTime * 0.2;
+    float x0 = r * sin(phi) * cos(theta);
+    float y0 = r * sin(phi) * sin(theta);
+    float z0 = r * cos(phi);
     
-    vTexCoord = aTexCoord;
+    // 3D Rotation Matrix (Y and Z axes)
+    float c = cos(t); float s = sin(t);
+    float x1 = x0 * c - z0 * s;
+    float z1 = x0 * s + z0 * c;
     
-    // Fade out far away and very close
-    float dist = abs(zPos);
-    vOpacity = 1.0 - smoothstep(10.0, 15.0, dist);
-    vOpacity *= smoothstep(0.0, 2.0, dist + 15.0);
+    // Treble Jitter
+    x1 += (sin(uTime * 10.0 + aIdx) * uTreb * 0.5);
     
-    vCharIndex = aCharIndex;
-    gl_PointSize = 64.0 / dist; // Simple point size simulation if used points, but using quads
-  }
+    gl_Position = uProj * vec4(x1, y0, z1 - 20.0, 1.0);
+    gl_PointSize = (400.0 / gl_Position.w) * (0.8 + uMid);
+    
+    vDepth = z1;
+    vAlpha = 1.0;
+}
 `;
 
-const fsSource = `
-  precision mediump float;
-  
-  varying vec2 vTexCoord;
-  varying float vOpacity;
-  varying float vCharIndex;
-  
-  uniform sampler2D uTexture;
-  uniform vec3 uColor1;
-  uniform vec3 uColor2;
+const FS = `#version 300 es
+precision mediump float;
 
-  void main() {
-    // Calculate UV for the specific character in the atlas
-    // Atlas is 1 row, 22 chars
-    float charWidth = 1.0 / 22.0;
-    float charLeft = floor(vCharIndex) * charWidth;
-    vec2 charUV = vec2(charLeft + vTexCoord.x * charWidth, vTexCoord.y);
+uniform sampler2D uAtlas;
+uniform highp float uTime;
+in float vIdx;
+in float vAlpha;
+
+out vec4 fragColor;
+
+void main() {
+    float charCount = 22.0;
+    float charIdx = mod(vIdx, charCount);
     
-    vec4 texColor = texture2D(uTexture, charUV);
+    float u = (charIdx + gl_PointCoord.x) / charCount;
+    float v = gl_PointCoord.y;
     
-    if(texColor.a < 0.1) discard;
+    vec4 tex = texture(uAtlas, vec2(u, v));
     
-    vec3 color = mix(uColor1, uColor2, vTexCoord.y);
-    gl_FragColor = vec4(color, texColor.a * vOpacity);
-  }
+    // Cyberpunk Color Palette
+    vec3 col = vec3(0.0);
+    float blink = sin(uTime * 5.0 + vIdx) > 0.9 ? 2.0 : 1.0;
+    
+    if (mod(vIdx, 3.0) == 0.0) col = vec3(0.0, 0.9, 1.0); // Cyan
+    else if (mod(vIdx, 3.0) == 1.0) col = vec3(1.0, 0.0, 0.4); // Pink
+    else col = vec3(0.0, 1.0, 0.5); // Green
+    
+    fragColor = vec4(col * blink, tex.a * vAlpha);
+}
 `;
 
-// Helper: Compile Shader
-function loadShader(gl, type, source) {
-  const shader = gl.createShader(type);
-  gl.shaderSource(shader, source);
-  gl.compileShader(shader);
-  if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-    console.error(gl.getShaderInfoLog(shader));
-    gl.deleteShader(shader);
-    return null;
-  }
-  return shader;
+let engine = null;
+let audioData = new Uint8Array(128);
+let isRunning = false;
+
+export function initViz(canvas) {
+    if(!canvas) return;
+    try {
+        engine = new GLEngine(canvas);
+        const prog = engine.createProgram('vortex', VS, FS);
+        
+        if (!prog) {
+            console.error("VIZ ERROR: Failed to create shader program 'vortex'. Aborting visualization.");
+            return;
+        }
+        
+        const atlas = createHebrewAtlas();
+        engine.createTextureFromCanvas('atlas', atlas);
+        
+        // 2000 Particles
+        const count = 2000;
+        const data = new Float32Array(count);
+        for(let i=0; i<count; i++) data[i] = i;
+        engine.createBuffer('particles', data);
+        
+        isRunning = true;
+        loop();
+    } catch(e) { console.error("VIZ CRITICAL:", e); }
 }
-
-// Helper: Link Program
-function initShaderProgram(gl, vs, fs) {
-  const vertexShader = loadShader(gl, gl.VERTEX_SHADER, vs);
-  const fragmentShader = loadShader(gl, gl.FRAGMENT_SHADER, fs);
-  const shaderProgram = gl.createProgram();
-  gl.attachShader(shaderProgram, vertexShader);
-  gl.attachShader(shaderProgram, fragmentShader);
-  gl.linkProgram(shaderProgram);
-  return shaderProgram;
-}
-
-const shaderProgram = initShaderProgram(gl, vsSource, fsSource);
-
-// Locations
-const programInfo = {
-  attribs: {
-    vertexPosition: gl.getAttribLocation(shaderProgram, 'aPosition'),
-    textureCoord: gl.getAttribLocation(shaderProgram, 'aTexCoord'),
-    speed: gl.getAttribLocation(shaderProgram, 'aSpeed'),
-    charIndex: gl.getAttribLocation(shaderProgram, 'aCharIndex'),
-  },
-  uniforms: {
-    projection: gl.getUniformLocation(shaderProgram, 'uProjection'),
-    time: gl.getUniformLocation(shaderProgram, 'uTime'),
-    audioHigh: gl.getUniformLocation(shaderProgram, 'uAudioHigh'),
-    audioLow: gl.getUniformLocation(shaderProgram, 'uAudioLow'),
-    texture: gl.getUniformLocation(shaderProgram, 'uTexture'),
-    color1: gl.getUniformLocation(shaderProgram, 'uColor1'),
-    color2: gl.getUniformLocation(shaderProgram, 'uColor2'),
-  },
-};
-
-// Texture Atlas Generation
-function createGlyphTexture() {
-  const cvs = document.createElement('canvas');
-  cvs.width = 1024;
-  cvs.height = 64;
-  const ctx = cvs.getContext('2d');
-  ctx.fillStyle = 'rgba(0,0,0,0)';
-  ctx.fillRect(0, 0, 1024, 64);
-  
-  ctx.font = 'bold 48px "Courier New", monospace';
-  ctx.fillStyle = 'white';
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-  
-  const step = 1024 / 22;
-  for(let i=0; i<CHARS.length; i++) {
-    ctx.fillText(CHARS[i], step * i + step/2, 32);
-  }
-  
-  const tex = gl.createTexture();
-  gl.bindTexture(gl.TEXTURE_2D, tex);
-  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, cvs);
-  gl.generateMipmap(gl.TEXTURE_2D);
-  return tex;
-}
-
-const glyphTexture = createGlyphTexture();
-
-// Buffers
-const PARTICLE_COUNT = 400;
-const positions = [];
-const texCoords = [];
-const speeds = [];
-const charIndices = [];
-const indices = [];
-
-for(let i = 0; i < PARTICLE_COUNT; i++) {
-  // Random position in tunnel
-  const x = (Math.random() - 0.5) * 20;
-  const y = (Math.random() - 0.5) * 10;
-  const z = (Math.random() * 20) - 15;
-  
-  const speed = 2.0 + Math.random() * 5.0;
-  const charIdx = Math.floor(Math.random() * 22);
-  const size = 0.5 + Math.random() * 0.5;
-
-  // Quad vertices (4 per particle)
-  // BL, BR, TR, TL
-  const baseIdx = i * 4;
-  
-  positions.push(x - size, y - size, z);
-  positions.push(x + size, y - size, z);
-  positions.push(x + size, y + size, z);
-  positions.push(x - size, y + size, z);
-  
-  texCoords.push(0, 1);
-  texCoords.push(1, 1);
-  texCoords.push(1, 0);
-  texCoords.push(0, 0);
-  
-  // Per vertex data (instanced would be better but this is simple enough)
-  for(let j=0; j<4; j++) {
-    speeds.push(speed);
-    charIndices.push(charIdx);
-  }
-  
-  indices.push(baseIdx, baseIdx + 1, baseIdx + 2);
-  indices.push(baseIdx, baseIdx + 2, baseIdx + 3);
-}
-
-function createBuffer(data) {
-  const buf = gl.createBuffer();
-  gl.bindBuffer(gl.ARRAY_BUFFER, buf);
-  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(data), gl.STATIC_DRAW);
-  return buf;
-}
-
-const posBuffer = createBuffer(positions);
-const texBuffer = createBuffer(texCoords);
-const speedBuffer = createBuffer(speeds);
-const charBuffer = createBuffer(charIndices);
-
-const indexBuffer = gl.createBuffer();
-gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
-gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(indices), gl.STATIC_DRAW);
-
-// Resize
-function resize() {
-  width = canvas.width = window.innerWidth;
-  height = canvas.height = window.innerHeight;
-  gl.viewport(0, 0, width, height);
-}
-window.addEventListener('resize', resize);
-resize();
-
-// Projection Matrix
-function makePerspective(fov, aspect, near, far) {
-  const f = 1.0 / Math.tan(fov / 2);
-  return [
-    f / aspect, 0, 0, 0,
-    0, f, 0, 0,
-    0, 0, (far + near) * (1 / (near - far)), -1,
-    0, 0, (2 * far * near) * (1 / (near - far)), 0
-  ];
-}
-
-// Render Loop
-let startTime = Date.now();
 
 export function setVisualizerData(data) {
-  audioData = data;
+    audioData = data;
 }
 
-function render() {
-  const now = (Date.now() - startTime) * 0.001;
-  
-  gl.clearColor(0.01, 0.01, 0.02, 1.0);
-  gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-  
-  gl.enable(gl.BLEND);
-  gl.blendFunc(gl.SRC_ALPHA, gl.ONE); // Additive blending for neon glow
-  
-  gl.useProgram(shaderProgram);
-  
-  // Set Attributes
-  const setAttrib = (buf, loc, size) => {
-    gl.bindBuffer(gl.ARRAY_BUFFER, buf);
-    gl.vertexAttribPointer(loc, size, gl.FLOAT, false, 0, 0);
-    gl.enableVertexAttribArray(loc);
-  };
-  
-  setAttrib(posBuffer, programInfo.attribs.vertexPosition, 3);
-  setAttrib(texBuffer, programInfo.attribs.textureCoord, 2);
-  setAttrib(speedBuffer, programInfo.attribs.speed, 1);
-  setAttrib(charBuffer, programInfo.attribs.charIndex, 1);
-  
-  gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
-  
-  // Set Uniforms
-  const projMat = makePerspective(Math.PI / 4, width / height, 0.1, 100.0);
-  gl.uniformMatrix4fv(programInfo.uniforms.projection, false, projMat);
-  
-  gl.uniform1f(programInfo.uniforms.time, now);
-  
-  // Calculate audio reactivity
-  let avgLow = 0;
-  let avgHigh = 0;
-  for(let i=0; i<30; i++) avgLow += audioData[i];
-  for(let i=30; i<100; i++) avgHigh += audioData[i];
-  avgLow /= 30;
-  avgHigh /= 70;
-  
-  gl.uniform1f(programInfo.uniforms.audioLow, avgLow);
-  gl.uniform1f(programInfo.uniforms.audioHigh, avgHigh);
-  
-  gl.activeTexture(gl.TEXTURE0);
-  gl.bindTexture(gl.TEXTURE_2D, glyphTexture);
-  gl.uniform1i(programInfo.uniforms.texture, 0);
-  
-  // Neon Colors
-  gl.uniform3f(programInfo.uniforms.color1, 0.0, 0.95, 1.0); // Cyan
-  gl.uniform3f(programInfo.uniforms.color2, 0.73, 0.07, 1.0); // Purple
-  
-  gl.drawElements(gl.TRIANGLES, indices.length, gl.UNSIGNED_SHORT, 0);
-  
-  requestAnimationFrame(render);
+function loop() {
+    if(!isRunning || !engine || !engine.gl) return;
+    requestAnimationFrame(loop);
+    
+    const gl = engine.gl;
+    const prog = engine.programs['vortex'];
+
+    // SAFETY CHECK: If program doesn't exist, don't try to use it.
+    if (!prog) return;
+
+    engine.clear();
+    gl.enable(gl.BLEND);
+    gl.blendFunc(gl.SRC_ALPHA, gl.ONE);
+    
+    gl.useProgram(prog);
+    
+    gl.activeTexture(gl.TEXTURE0);
+    gl.bindTexture(gl.TEXTURE_2D, engine.textures['atlas']);
+    
+    // Safely get uniform location
+    const uAtlasLoc = gl.getUniformLocation(prog, 'uAtlas');
+    if (uAtlasLoc) gl.uniform1i(uAtlasLoc, 0);
+    
+    const aIdx = gl.getAttribLocation(prog, 'aIdx');
+    if (aIdx !== -1) {
+        gl.bindBuffer(gl.ARRAY_BUFFER, engine.buffers['particles']);
+        gl.enableVertexAttribArray(aIdx);
+        gl.vertexAttribPointer(aIdx, 1, gl.FLOAT, false, 0, 0);
+    }
+    
+    // Analyze Audio
+    let bass = 0, mid = 0, treb = 0;
+    for(let i=0; i<10; i++) bass += audioData[i];
+    for(let i=20; i<60; i++) mid += audioData[i];
+    for(let i=80; i<120; i++) treb += audioData[i];
+    
+    bass /= (10 * 255);
+    mid /= (40 * 255);
+    treb /= (40 * 255);
+    
+    // Projection
+    const aspect = engine.width / engine.height;
+    const fov = 1.0;
+    const f = 1.0 / Math.tan(fov/2);
+    const m = [f/aspect,0,0,0, 0,f,0,0, 0,0,-1,-1, 0,0,-2,0];
+    
+    gl.uniformMatrix4fv(gl.getUniformLocation(prog, 'uProj'), false, m);
+    gl.uniform1f(gl.getUniformLocation(prog, 'uTime'), performance.now() * 0.001);
+    gl.uniform1f(gl.getUniformLocation(prog, 'uBass'), bass);
+    gl.uniform1f(gl.getUniformLocation(prog, 'uMid'), mid);
+    gl.uniform1f(gl.getUniformLocation(prog, 'uTreb'), treb);
+    
+    gl.drawArrays(gl.POINTS, 0, 2000);
 }
 
-render();
+function createHebrewAtlas() {
+    const c = document.createElement('canvas');
+    c.width = 1024; c.height = 64;
+    const ctx = c.getContext('2d');
+    ctx.shadowColor = "white"; ctx.shadowBlur = 15;
+    ctx.fillStyle = "white"; ctx.font = "bold 44px 'Courier New'";
+    ctx.textAlign = "center"; ctx.textBaseline = "middle";
+    const chars = "אבגדהוזחטיכלמנסעפצקרשת";
+    for(let i=0; i<22; i++) ctx.fillText(chars[i], i*(1024/22) + (1024/44), 32);
+    return c;
+}
