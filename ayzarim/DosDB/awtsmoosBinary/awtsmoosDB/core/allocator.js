@@ -24,16 +24,13 @@ class Allocator {
     async init() {
         if (this.initialized) return;
         
-        // Load State from SuperBlock (Block 0)
         const sb = await this.pager.readBlock(0);
         if (sb) {
-            // B"H: Read Cursor from SAFE offset
             const offset = constants.SB_OFFSETS.NEXT_SEQ_BLOCK; 
             const savedCursor = readPointer48(sb, offset); 
             
             this.log(`Init: Read Saved Cursor: ${savedCursor} from offset ${offset}`);
 
-            // Sanity Check: Cursor cannot be insane.
             if (savedCursor > 2 && savedCursor < 1000000000) {
                 this.cursor = savedCursor;
                 this.lastFreeHint = savedCursor;
@@ -99,17 +96,15 @@ class Allocator {
                 throw new Error(`Write overflow in writeUserSpace. Block ${ptr.blockId}, Offset ${ptr.offset}, Len ${data.length}`);
             }
 
-            // B"H: FIX - Pass blockId directly, NOT an arrow function.
             const existingType = await this.pager.readBlockType(ptr.blockId);
             
-            // Validation Logic
             if (existingType !== constants.BLOCK_TYPE.PAGE && 
                 existingType !== constants.BLOCK_TYPE.COLLECTION_HEADER && 
                 existingType !== constants.BLOCK_TYPE.COLLECTION_PAGE &&
                 existingType !== constants.BLOCK_TYPE.META) {
                  
                  if (existingType === constants.BLOCK_TYPE.FREE || existingType === 0) {
-                     // Allowed: Initializing a new block
+                     // Allowed
                  } else {
                      this.log(`WARN: Writing user space to Block ${ptr.blockId} with unexpected type ${existingType}.`);
                  }
@@ -136,7 +131,7 @@ class Allocator {
                     this.lastFreeHint = searchPtr + 1;
                     const block = this.formatBlock(type);
                     await this.pager.writeBlock(searchPtr, block);
-                    await this._saveStateInternal(); // Persist cursor
+                    await this._saveStateInternal(); 
                     return { blockId: searchPtr, offset: 0, length: this.BLOCK_SIZE, isChain: false };
                 }
                 searchPtr++;
@@ -159,7 +154,6 @@ class Allocator {
         let sb = await this.pager.readBlock(0);
         if (!sb) sb = Buffer.alloc(this.BLOCK_SIZE);
         
-        // Write Safe Header Signature if missing
         const magic = "AwtsmoosDB_V1B\"H";
         sb.write(magic, 0);
 
@@ -188,7 +182,6 @@ class Allocator {
         while (true) {
             const type = await this.pager.readBlockType(searchPtr);
             
-            // Allow allocation in FREE blocks or Existing PAGEs
             if (type === null || type === 0 || type === constants.BLOCK_TYPE.FREE) {
                 if (await this.isBlockTrulyFree(searchPtr)) {
                     const block = this.formatBlock(constants.BLOCK_TYPE.PAGE);

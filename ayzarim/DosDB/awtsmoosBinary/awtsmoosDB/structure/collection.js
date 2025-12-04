@@ -4,6 +4,7 @@
  * @description
  *  Manages a sequential list of items (The Many).
  *  Handles the chaining of Pages and the Indexing of Objects.
+ *  FIX: Moved Metadata to HEADER_SIZE (64) to avoid Bitmap collision.
  */
 const Page = require('./page.js');
 const constants = require('../constants.js');
@@ -25,30 +26,31 @@ class Collection {
     }
 
     log(msg) { 
-        // console.log(`[Collection ${this.headerId}] ${msg}`); 
+        if (this.allocator && this.allocator.db && this.allocator.db.debug) {
+            console.log(`[Collection ${this.headerId}] ${msg}`); 
+        }
     }
 
     /**
      * Appends an Item to the Collection.
-     * Handles Page Splitting if the current Tail is full.
      */
     async append(key, value) {
         const task = async () => {
-            this.log(`Append "${key}"`);
+            this.log(`Append initiated for key: "${key}"`);
             await this.load(); 
     
-            // 1. Serialize and Store the Value (The Light)
+            // 1. Serialize and Store the Value
             const valData = serializeValue(value, false);
-            // Handle edge case of empty data (e.g. empty string)
             const allocSize = Math.max(1, valData.data.length);
+            
+            this.log(`Allocating value blob of size ${allocSize} for "${key}"`);
             const dataPtr = await this.allocator.allocate(allocSize);
             
             if (dataPtr.isChain) {
-                 // Chain writing logic for large values
+                 this.log(`Value is large (Chain). Writing to Block ${dataPtr.blockId}...`);
                  let remaining = valData.data;
                  let currentBlock = dataPtr.blockId;
                  while(remaining.length > 0) {
-                     // B"H: Locked Read
                      let blk = await this.allocator.readBlockLocked(currentBlock);
                      if (!blk) blk = Buffer.alloc(constants.BLOCK_SIZE);
 
@@ -57,7 +59,6 @@ class Collection {
                      const chunk = Math.min(remaining.length, avail);
                      
                      remaining.subarray(0, chunk).copy(blk, start);
-                     // B"H: Locked Write
                      await this.allocator.writeBlockLocked(currentBlock, blk);
                      
                      remaining = remaining.subarray(chunk);
@@ -67,10 +68,10 @@ class Collection {
                 await this.allocator.writeUserSpace(dataPtr, valData.data);
             }
     
-            // 2. Add Reference to Page (The Vessel)
+            // 2. Add Reference to Page
             let page;
             if (this.tailPageId === 0) {
-                // First Page Creation
+                this.log(`First item. Allocating Head Page.`);
                 const newPagePtr = await this.allocator.allocatePage(constants.BLOCK_TYPE.COLLECTION_PAGE);
                 this.headPageId = newPagePtr.blockId;
                 this.tailPageId = newPagePtr.blockId;
@@ -83,14 +84,12 @@ class Collection {
             const added = page.add(key, valData.type, dataPtr);
             
             if (!added) {
-                // Page Full -> Extend the Chain
+                this.log(`Tail page ${this.tailPageId} full. Splitting/Chaining.`);
                 const newPagePtr = await this.allocator.allocatePage(constants.BLOCK_TYPE.COLLECTION_PAGE);
                 
-                // Link old tail to new page
                 page.setNextPage(newPagePtr.blockId);
                 await page.save(); 
                 
-                // Initialize new page
                 const newPage = new Page(newPagePtr.blockId, this.allocator);
                 newPage.add(key, valData.type, dataPtr);
                 this.tailPageId = newPagePtr.blockId;
@@ -102,18 +101,15 @@ class Collection {
             this.totalCount++;
             await this.saveHeader();
 
-            // 3. Update Indexes if necessary
             if (typeof value === 'object' && value !== null) {
                 this.indexManager.indexObject(dataPtr, value);
-                // We rely on queue to process, but we must save header to point to registry
-                // Wait for index op to queue up, then ensure registry ptr is saved next cycle
                 await this.indexManager.queue;
                 this.registryPtr = this.indexManager.registryPtr;
                 await this.saveHeader(); 
             }
+            this.log(`Append Complete. Total: ${this.totalCount}`);
             return dataPtr;
         };
-        // Enforce write serialization
         this.writeLock = this.writeLock.then(task, task);
         return this.writeLock;
     }
@@ -124,43 +120,37 @@ class Collection {
              return;
         }
 
-        // B"H: Locked Read for atomic consistency
-        let buffer = await this.allocator.readBlockLocked(this.headerId);
+        const buffer = await this.allocator.readBlockLocked(this.headerId);
         
         if (!buffer) {
-            // Block doesn't exist yet, initialize header
+            this.log(`Header block ${this.headerId} empty. Initializing new.`);
             await this.saveHeader(); 
             return;
         }
 
-        // B"H: Strict Block Type Check
         const type = buffer.readUInt32BE(0);
         if (type !== (constants.BLOCK_TYPE.COLLECTION_HEADER || 3) && type !== 0) {
-             // If type is wrong, this is NOT a collection header.
-             // It might be a reused block ID. Fail gracefully.
-             console.error(`B"H: Collection Load Failed. Block ${this.headerId} has type ${type}, expected COLLECTION_HEADER`);
+             this.log(`WARN: Block ${this.headerId} has invalid type ${type}. Expected COLLECTION_HEADER.`);
              return;
         }
 
-        // B"H: Validate Signature "CLHD" at offset 4 (after Block Type)
-        // Offset 0: Type (4 bytes)
-        // Offset 4: Sig (4 bytes)
-        const signature = buffer.toString('utf8', 4, 8);
+        // B"H: FIX - Read from HEADER_SIZE (64)
+        let offset = constants.HEADER_SIZE;
+        const signature = buffer.toString('utf8', offset, offset + 4);
+        
         if (signature !== this.MAGIC_HEAD) {
-            // If signature is missing, assume uninitialized or corrupted
+            this.log(`Signature mismatch at offset ${offset}. Got "${signature}", expected "${this.MAGIC_HEAD}". Assuming empty.`);
             this.headPageId = 0;
             this.tailPageId = 0;
             this.totalCount = 0;
             this.registryPtr = null;
             return;
         }
+        offset += 4;
 
-        let offset = 8; // Skip Type(4) + Sig(4)
-        
         this.headPageId = readPointer48(buffer, offset); offset+=6;
         this.tailPageId = readPointer48(buffer, offset); offset+=6;
-        this.totalCount = buffer.readUInt32BE(offset);
-        offset += 4;
+        this.totalCount = buffer.readUInt32BE(offset); offset += 4;
         
         const hasRegistry = buffer.readUInt8(offset); offset++;
         if (hasRegistry === 1) {
@@ -173,35 +163,31 @@ class Collection {
             this.registryPtr = null;
         }
         
+        this.log(`Loaded Header. Head: ${this.headPageId}, Tail: ${this.tailPageId}, Count: ${this.totalCount}`);
         await this.indexManager.load(this.registryPtr);
     }
 
     async saveHeader() {
-        if (!this.headerId || this.headerId <= 0 || isNaN(this.headerId)) {
-             console.error(`B"H: Collection SaveHeader Failed. Invalid Header ID: ${this.headerId}`);
-             return;
-        }
-
-        // Allocate a fresh buffer to ensure no garbage
+        this.log(`Saving Header ${this.headerId}...`);
+        
         let buffer = Buffer.alloc(constants.BLOCK_SIZE);
         
-        // Write Block Type
+        // Write Block Type at 0
         buffer.writeUInt32BE(constants.BLOCK_TYPE.COLLECTION_HEADER || 3, 0);
         
-        // Write Signature "CLHD"
-        buffer.write(this.MAGIC_HEAD, 4);
-
-        // Mark header as used in bitmap
-        // Fixed: Use 'buffer.fill', not 'block.fill' (which caused ReferenceError)
+        // Fill Bitmap (4-20) with FF to mark block as "used/meta"
         buffer.fill(0xFF, constants.BITMAP_OFFSET, constants.BITMAP_OFFSET + constants.BITMAP_SIZE);
 
-        let offset = 8; // Type(4) + Sig(4)
+        // B"H: FIX - Start writing custom data at HEADER_SIZE (64)
+        let offset = constants.HEADER_SIZE;
         
+        // Write Signature "CLHD"
+        buffer.write(this.MAGIC_HEAD, offset); offset += 4;
+
         writePointer48(buffer, this.headPageId, offset); offset+=6;
         writePointer48(buffer, this.tailPageId, offset); offset+=6;
         buffer.writeUInt32BE(this.totalCount, offset); offset+=4;
         
-        // Ensure we persist the latest registry pointer from the manager
         if (this.indexManager.registryPtr) {
             this.registryPtr = this.indexManager.registryPtr;
         }
@@ -217,7 +203,6 @@ class Collection {
             buffer.writeUInt8(0, offset);
         }
         
-        // B"H: Locked Write for atomic consistency
         await this.allocator.writeBlockLocked(this.headerId, buffer);
     }
 

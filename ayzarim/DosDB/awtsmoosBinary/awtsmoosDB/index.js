@@ -8,10 +8,8 @@ const Allocator = require('./core/allocator.js');
 const LiveHandle = require('./api/liveHandle.js');
 const BTree = require('./structure/btree.js');
 const constants = require('./constants.js');
-const serializer = require('./utils/serializer.js');
-const v1Adapter = require('./deserialize/v1_adapter.js');
 const serializeValue = require('./serialize/serializeValue.js');
-const { writePointer48 } = require('./utils/binaryHelpers.js');
+const { writePointer48, readPointer48 } = require('./utils/binaryHelpers.js');
 
 class AwtsmoosDB {
     constructor(filePath, options = {}) {
@@ -19,11 +17,14 @@ class AwtsmoosDB {
         this.debug = options.debug || false;
         
         this.pager = new Pager(filePath);
+        // Pass 'this' to allocator so it can access db.debug for logging
         this.allocator = new Allocator(this.pager, this);
         this.executionQueue = Promise.resolve();
         
         // Root Proxy
         this.root = new LiveHandle(this, Promise.resolve(null), 'ROOT');
+        
+        if (this.debug) console.log(`[AwtsmoosDB] Initialized at ${filePath}`);
     }
 
     log(msg) {
@@ -56,6 +57,29 @@ class AwtsmoosDB {
         };
         this.executionQueue = this.executionQueue.then(task, task);
         return this.executionQueue;
+    }
+
+    /**
+     * Closes the database connection.
+     * Waits for pending operations, saves state, and closes file handles.
+     */
+    async close() {
+        this.log("Closing Database...");
+        
+        // 1. Wait for all pending tasks to complete
+        await this.executionQueue;
+        
+        // 2. Force save Allocator state (Cursor, etc.)
+        if (this.allocator) {
+            await this.allocator.saveState();
+        }
+
+        // 3. Close Pager (flushes WAL, closes file)
+        if (this.pager) {
+            await this.pager.close();
+        }
+        
+        this.log("Database Closed.");
     }
 
     async _readChainSafe(ptr) {
@@ -107,6 +131,7 @@ class AwtsmoosDB {
             
             while (remaining.length > 0) {
                 const blk = await this.allocator.readBlockLocked(currentBlock);
+                // Allocate overflow block if it doesn't exist (though allocator should have done this)
                 if (!blk) throw new Error(`Chain Write: Missing Block ${currentBlock}`);
 
                 const start = (currentBlock === ptr.blockId) ? ptr.offset : constants.UNIT_SIZE;
@@ -123,12 +148,19 @@ class AwtsmoosDB {
     }
 
     async _writeMetaValue(value) {
+        // Serialize value to buffer
         const fullBuf = serializeValue(value, true);
+        
+        // Allocate space for Data
         const ptr = await this.allocator.allocate(fullBuf.length);
+        
+        // Write Data
         await this._writeChainSafe(ptr, fullBuf);
         
+        // Create Meta Block (pointing to Data)
         const metaBuf = Buffer.alloc(32);
-        metaBuf.writeUInt8(0, 0); // 0 = VALUE in meta context
+        // Type 0 = VALUE default in LiveHandle logic
+        metaBuf.writeUInt8(0, 0); 
         this._writePtrToBuf(metaBuf, 1, ptr);
         
         const metaPtr = await this.allocator.allocate(32);
@@ -137,10 +169,6 @@ class AwtsmoosDB {
     }
     
     async _resolveValueFull(metaPtr) {
-        return this._resolveValueFull_v2(metaPtr);
-    }
-    
-    async _resolveValueFull_v2(metaPtr) {
         const metaBuf = await this._readChainSafe(metaPtr);
         if (!metaBuf) return undefined;
 
@@ -154,6 +182,10 @@ class AwtsmoosDB {
         return parser.parse(valBuf);
     }
 
+    /**
+     * Helper: Writes a pointer structure to a buffer.
+     * Fixed size: 6 (Block) + 4 (Off) + 4 (Len) + 1 (Chain) = 15 bytes.
+     */
     _writePtrToBuf(buf, offset, ptr) {
         writePointer48(buf, ptr.blockId, offset);
         buf.writeUInt32BE(ptr.offset, offset + 6);
@@ -163,12 +195,14 @@ class AwtsmoosDB {
     
     _readPtrFromBuf(buf, offset) {
         if (!buf || offset + 15 > buf.length) return null;
-        const b = require('./utils/binaryHelpers.js').readPointer48(buf, offset);
+        const b = readPointer48(buf, offset);
         const o = buf.readUInt32BE(offset + 6);
         const l = buf.readUInt32BE(offset + 10);
         const c = buf.readUInt8(offset + 14);
-        // Valid pointer check: Length > 0 or it's a null ptr.
+        
+        // Valid pointer check: Length > 0
         if (l === 0) return null;
+        
         return { blockId: b, offset: o, length: l, isChain: c === 1 };
     }
 

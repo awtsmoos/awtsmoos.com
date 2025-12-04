@@ -35,14 +35,14 @@ class Page {
     async load() {
         if (!this.id || this.id <= 0 || isNaN(this.id)) return;
         
-        // B"H: Use Locked Read
         const buffer = await this.allocator.readBlockLocked(this.id);
-        if (!buffer) return; 
+        if (!buffer) {
+            this.log("Read failed: Block is null");
+            return; 
+        }
         
-        // Skip Block Header to get to Page Data
         let offset = constants.HEADER_SIZE; 
         
-        // Ensure buffer is large enough for NextPageId (6 bytes)
         if (offset + 6 > buffer.length) {
             this.log(`Buffer too small for header.`);
             return;
@@ -55,15 +55,14 @@ class Page {
         const count = countInfo.value;
         offset += countInfo.bytesRead;
 
-        // B"H: Safety Check
         if (count > constants.MAX_ITEMS_PER_PAGE || count < 0) {
+            this.log(`Invalid item count ${count}. Clearing page.`);
             this.items = [];
             return;
         }
 
         this.items = [];
         for (let i = 0; i < count; i++) {
-            // Bounds check
             if (offset + 10 >= buffer.length) break;
 
             const keyInfo = serializer.readString(buffer, offset);
@@ -74,12 +73,11 @@ class Page {
             const type = buffer.readUInt8(offset);
             offset += 1;
             
-            if (offset + 7 >= buffer.length) break; // +6 (Id) + 1 (Flags/Chain)
+            if (offset + 7 >= buffer.length) break; 
             
             const blockId = readPointer48(buffer, offset);
             offset += 6;
 
-            // B"H: Read isChain Flag
             const flags = buffer.readUInt8(offset);
             offset += 1;
             const isChain = (flags & 1) === 1;
@@ -94,7 +92,7 @@ class Page {
                 key, type, ptr: { blockId, offset: offsetInfo.value, length: lenInfo.value, isChain }
             });
         }
-        this.log(`Loaded ${this.items.length} items.`);
+        this.log(`Loaded ${this.items.length} items. NextPage: ${this.nextPageId}`);
     }
 
     /**
@@ -111,7 +109,6 @@ class Page {
      * Adds an Item to the Page if space permits.
      */
     add(key, type, pointer) {
-        // Update existing if present
         const existingIdx = this.items.findIndex(i => i.key === key);
         if (existingIdx !== -1) {
             this.items[existingIdx].type = type;
@@ -122,18 +119,18 @@ class Page {
 
         if (this.items.length >= constants.MAX_ITEMS_PER_PAGE) return false;
         
-        // Calculate size estimation
-        const estimatedSize = Buffer.byteLength(key) + 22; // +2 extra for flags
+        const estimatedSize = Buffer.byteLength(key) + 22; 
         
         let currentSize = 0;
-        currentSize += 6 + 5; // Header
+        currentSize += 6 + 5; 
         
         for(let item of this.items) {
              currentSize += (Buffer.byteLength(item.key) + 22); 
         }
         
         if ((currentSize + estimatedSize) > (constants.BLOCK_SIZE - constants.HEADER_SIZE - 64)) {
-            return false; // Force new page
+            this.log("Page full (size limit).");
+            return false;
         }
 
         this.items.push({ key, type, ptr: pointer });
@@ -146,7 +143,7 @@ class Page {
      */
     async save() {
         if (!this.isDirty) return;
-        this.log(`Saving ${this.items.length} items to disk.`);
+        this.log(`Saving ${this.items.length} items to disk. NextPage: ${this.nextPageId}`);
 
         const parts = [];
         
@@ -164,7 +161,6 @@ class Page {
             writePointer48(bIdBuf, item.ptr.blockId, 0);
             parts.push(bIdBuf);
 
-            // B"H: Save isChain Flag
             parts.push(Buffer.from([item.ptr.isChain ? 1 : 0]));
             
             parts.push(serializer.writeVarInt(item.ptr.offset));
