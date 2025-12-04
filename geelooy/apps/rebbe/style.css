@@ -105,8 +105,11 @@ header {
     flex-grow: 0; min-width: 280px; width: 280px; 
     border-right: 4px solid var(--c-cyan); z-index: 30;
     background: rgba(8, 8, 12, 0.9); display: flex !important;
+    
 }
-#col-years > * { display: flex !important; opacity: 1 !important; }
+#col-years > * { 
+flex-direction: column;
+display: flex !important; opacity: 1 !important; }
 
 .p-head { height: 60px; border-bottom: var(--border-thick); display: flex; align-items: center; justify-content: space-between; padding: 0 20px; flex-shrink: 0; }
 .p-title { color: var(--c-cyan); font-size: 20px; font-weight: 900; }
