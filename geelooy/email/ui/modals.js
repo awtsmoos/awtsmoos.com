@@ -20,7 +20,8 @@ export function renderLoginOverlay(ui, root) {
                 { 
                     tag: 'div', 
                     shaym: 'authWrapper',
-                    style: 'width: 100%; display: flex; justify-content: center; position: relative; z-index: 100;',
+                    // Added min-height to ensure dropdown has space to render if empty initially
+                    style: 'width: 100%; min-height: 60px; display: flex; justify-content: center; position: relative; z-index: 100;',
                     ready: (el) => {
                         console.log("Mounting Profile Dropdown...");
                         try {
@@ -82,12 +83,12 @@ export function renderComposeModal(ui, root) {
                             const sub = ui.getHtml('newSub').value;
                             const body = ui.getHtml('newBody').value;
                             if(to && body) {
-                                FX.playSound('sent');
+                                if(FX.playSound) FX.playSound('sent');
                                 await sendMessageApi(to, sub, body);
                                 ui.getHtml('composeModal').classList.remove('visible');
                                 ui.getHtml('newTo').value = '';
                                 ui.getHtml('newBody').value = '';
-                                FX.explode(window.innerWidth/2, window.innerHeight/2, '#0f0');
+                                if(FX.explode) FX.explode(window.innerWidth/2, window.innerHeight/2, '#0f0');
                             }
                         }
                     }

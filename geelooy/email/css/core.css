@@ -63,7 +63,8 @@ body::before {
     background: transparent;
     overflow: hidden;
     position: relative;
-    z-index: 5; /* Ensure above canvas */
+    /* IMPORTANT: Ensure UI sits above canvas */
+    z-index: 5; 
 }
 
 /* MODAL HOLO BORDER */

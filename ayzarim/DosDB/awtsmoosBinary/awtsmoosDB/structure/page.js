@@ -4,6 +4,7 @@
  * @description
  *  Represents a single Dappim (Page) in the Book of Data.
  *  It holds the Othios (Letters/Items) and points to the next page.
+ *  FIX: Now saves 'isChain' property of pointers to avoid data loss on large values.
  */
 const constants = require('../constants.js');
 const serializer = require('../utils/serializer.js');
@@ -18,8 +19,14 @@ class Page {
         this.id = id;
         this.allocator = allocator;
         this.nextPageId = 0; 
-        this.items = [];
+        this.items = []; // { key, type, ptr: { blockId, offset, length, isChain } }
         this.isDirty = false; 
+    }
+
+    log(msg) {
+        if (this.allocator && this.allocator.db && this.allocator.db.debug) {
+            console.log(`[Page ${this.id}] ${msg}`);
+        }
     }
 
     /**
@@ -37,7 +44,7 @@ class Page {
         
         // Ensure buffer is large enough for NextPageId (6 bytes)
         if (offset + 6 > buffer.length) {
-            console.error(`[Page ${this.id}] Buffer too small for header.`);
+            this.log(`Buffer too small for header.`);
             return;
         }
 
@@ -48,7 +55,7 @@ class Page {
         const count = countInfo.value;
         offset += countInfo.bytesRead;
 
-        // B"H: Safety Check - Prevent allocation of huge arrays if reading garbage
+        // B"H: Safety Check
         if (count > constants.MAX_ITEMS_PER_PAGE || count < 0) {
             this.items = [];
             return;
@@ -56,7 +63,7 @@ class Page {
 
         this.items = [];
         for (let i = 0; i < count; i++) {
-            // Bounds check - ensure we have at least min header bytes (KeyLen+Type+Ptr)
+            // Bounds check
             if (offset + 10 >= buffer.length) break;
 
             const keyInfo = serializer.readString(buffer, offset);
@@ -67,9 +74,15 @@ class Page {
             const type = buffer.readUInt8(offset);
             offset += 1;
             
-            if (offset + 6 >= buffer.length) break;
+            if (offset + 7 >= buffer.length) break; // +6 (Id) + 1 (Flags/Chain)
+            
             const blockId = readPointer48(buffer, offset);
             offset += 6;
+
+            // B"H: Read isChain Flag
+            const flags = buffer.readUInt8(offset);
+            offset += 1;
+            const isChain = (flags & 1) === 1;
             
             const offsetInfo = serializer.readVarInt(buffer, offset);
             offset += offsetInfo.bytesRead;
@@ -78,15 +91,14 @@ class Page {
             offset += lenInfo.bytesRead;
 
             this.items.push({
-                key, type, ptr: { blockId, offset: offsetInfo.value, length: lenInfo.value }
+                key, type, ptr: { blockId, offset: offsetInfo.value, length: lenInfo.value, isChain }
             });
         }
+        this.log(`Loaded ${this.items.length} items.`);
     }
 
     /**
      * Sets the pointer to the next page.
-     * Essential for the Chain of Transmission (Shalsheles).
-     * @param {number} id 
      */
     setNextPage(id) {
         if (this.nextPageId !== id) {
@@ -97,7 +109,6 @@ class Page {
 
     /**
      * Adds an Item to the Page if space permits.
-     * @returns {boolean} true if added, false if page is full (Tzimtzum required).
      */
     add(key, type, pointer) {
         // Update existing if present
@@ -111,20 +122,16 @@ class Page {
 
         if (this.items.length >= constants.MAX_ITEMS_PER_PAGE) return false;
         
-        // Calculate size to see if it fits
-        // Basic estimation: Key + 20 bytes metadata + overhead
-        const estimatedSize = Buffer.byteLength(key) + 20;
+        // Calculate size estimation
+        const estimatedSize = Buffer.byteLength(key) + 22; // +2 extra for flags
         
-        // Calculate current usage
         let currentSize = 0;
-        // nextPageId (6) + Count (VarInt ~1-3)
-        currentSize += 6 + 5; 
+        currentSize += 6 + 5; // Header
         
         for(let item of this.items) {
-             currentSize += (Buffer.byteLength(item.key) + 20); // Approx
+             currentSize += (Buffer.byteLength(item.key) + 22); 
         }
         
-        // Check overflow
         if ((currentSize + estimatedSize) > (constants.BLOCK_SIZE - constants.HEADER_SIZE - 64)) {
             return false; // Force new page
         }
@@ -139,6 +146,7 @@ class Page {
      */
     async save() {
         if (!this.isDirty) return;
+        this.log(`Saving ${this.items.length} items to disk.`);
 
         const parts = [];
         
@@ -155,6 +163,9 @@ class Page {
             const bIdBuf = Buffer.alloc(6);
             writePointer48(bIdBuf, item.ptr.blockId, 0);
             parts.push(bIdBuf);
+
+            // B"H: Save isChain Flag
+            parts.push(Buffer.from([item.ptr.isChain ? 1 : 0]));
             
             parts.push(serializer.writeVarInt(item.ptr.offset));
             parts.push(serializer.writeVarInt(item.ptr.length));
@@ -163,7 +174,6 @@ class Page {
         const rawBuffer = Buffer.concat(parts);
         const block = Buffer.alloc(constants.BLOCK_SIZE);
         
-        // Use COLLECTION_PAGE type to distinguish from BTREE nodes or DATA
         block.writeUInt32BE(constants.BLOCK_TYPE.COLLECTION_PAGE || 4, 0);
         
         // Mark header as used in bitmap
@@ -175,7 +185,6 @@ class Page {
         
         rawBuffer.copy(block, constants.HEADER_SIZE);
         
-        // B"H: Use Locked Write
         await this.allocator.writeBlockLocked(this.id, block);
         this.isDirty = false;
     }

@@ -75,10 +75,11 @@ export function connectSocket(alias) {
     socket.onmessage = (e) => {
         try {
             const data = JSON.parse(e.data);
+            
             if (data.type === 'NEW_MAIL' && data.message) {
                 const m = data.message;
-                FX.playSound('sent'); // Reuse sent sound for incoming for now
-                FX.triggerSonar(window.innerWidth/2, 50);
+                if(FX.playSound) FX.playSound('sent'); 
+                if(FX.triggerSonar) FX.triggerSonar(window.innerWidth/2, 50);
                 
                 const tid = m.correspondent || m.from; 
                 
@@ -91,12 +92,20 @@ export function connectSocket(alias) {
                 }
                 refreshSnippets();
             }
+            // GHOST / BROADCAST TYPING
+            else if (data.type === 'LIVE_PREVIEW') {
+                notify('ghost', data);
+            }
         } catch(e){}
     };
 }
 
 export function broadcastTyping(content) {
     if (state.activeThread && socket && socket.readyState === 1) {
-        // Optional feature
+        socket.send(JSON.stringify({
+            type: 'LIVE_PREVIEW',
+            to: state.activeThread, 
+            content: content
+        }));
     }
 }

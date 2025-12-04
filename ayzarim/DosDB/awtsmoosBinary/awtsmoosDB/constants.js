@@ -1,68 +1,76 @@
 // B"H
 module.exports = {
     BLOCK_SIZE: 4096,
-    HEADER_SIZE: 32,
+    HEADER_SIZE: 64,
     UNIT_SIZE: 32,
-    // 4096 bytes / 32 bytes per unit = 128 units.
-    // 128 units / 8 bits per byte = 16 bytes needed for bitmap.
-    BITMAP_SIZE: 16, 
-    BITMAP_OFFSET: 4, // After BlockType (4 bytes)
     
-    MAGIC_JSON: 'BJ',
-    MAGIC_ARRAY: 'BA',
-    MAGIC_BTREE_NODE: 0x42, // BTree Node Magic (ASCII 'B')
-    GUARD_BYTE: 0xFF, // Tail verification byte
+    BITMAP_OFFSET: 4, // After Type (4 bytes)
+    BITMAP_SIZE: 16,  // (4096-64)/32 = 126 bits -> 16 bytes
     
-    UNITS_PER_BLOCK: 128, // 4096 / 32
-    MAX_ITEMS_PER_PAGE: 100, // Safe limit to prevent fragmentation issues
+    MAGIC_JSON: "AwtsmoosJSON",
+    MAGIC_ARRAY: "AwtsmoosARRAY",
+    MAGIC_BTREE_NODE: 0x42,
+    GUARD_BYTE: 0xFF,
     
+    // B"H: Moved NEXT_SEQ_BLOCK to 64 to avoid Magic String collision in Block 0
+    SB_OFFSETS: {
+        NEXT_SEQ_BLOCK: 64 
+    },
+
     BLOCK_TYPE: {
         FREE: 0,
-        PAGE: 1, // Slab for small allocations (BTree nodes, etc)
-        OVERFLOW: 2,
-        COLLECTION_PAGE: 3 // Dedicated Page for Collection Keys (Exclusive access)
+        PAGE: 1, // Shared Small Blocks
+        BTREE_NODE: 2,
+        COLLECTION_HEADER: 3,
+        COLLECTION_PAGE: 4,
+        OVERFLOW: 5,
+        META: 6
     },
-    
+
     VAL_TYPE: {
         NULL: 0,
         UNDEFINED: 1,
         BOOLEAN_TRUE: 2,
         BOOLEAN_FALSE: 3,
-        UINT8: 4,
-        UINT16: 5,
-        UINT32: 6,
-        UINT64: 7,
-        INT8_NEG: 8,
-        INT16_NEG: 9,
-        INT32_NEG: 10,
-        INT64_NEG: 11,
-        FLOAT_1: 12,
-        FLOAT_2: 13,
-        FLOAT_4: 14,
-        FLOAT_NEG_1: 15,
-        FLOAT_NEG_2: 16,
-        FLOAT_NEG_4: 17,
+        NAN: 4,
+        INFINITY: 5,
+        NEG_INFINITY: 6,
+        
+        UINT8: 10,
+        UINT16: 11,
+        UINT32: 12,
+        UINT64: 13,
+        
+        INT8_NEG: 14,
+        INT16_NEG: 15,
+        INT32_NEG: 16,
+        INT64_NEG: 17,
+        
         DOUBLE_POS: 18,
         DOUBLE_NEG: 19,
-        STRING: 20,
-        BUFFER: 21,
-        ARRAY: 22,
-        OBJECT: 23,
-        DATE: 24,
-        JS_BIGINT: 25,
-        REGEXP: 26,
-        MAP: 27,
-        SET: 28,
-        ERROR: 29,
-        FUNCTION: 30,
-        NAN: 31,
-        INFINITY: 32,
-        NEG_INFINITY: 33,
-        STRING_RLE: 34,
-        STRING_HEBREW: 35
+        
+        FLOAT_1: 20,
+        FLOAT_2: 21,
+        FLOAT_4: 22,
+        FLOAT_NEG_1: 23,
+        FLOAT_NEG_2: 24,
+        FLOAT_NEG_4: 25,
+        
+        STRING: 30,
+        STRING_RLE: 31,
+        STRING_HEBREW: 32,
+        
+        BUFFER: 40,
+        ARRAY: 50,
+        OBJECT: 51,
+        MAP: 52,
+        SET: 53,
+        DATE: 54,
+        REGEXP: 55,
+        ERROR: 56,
+        FUNCTION: 57,
+        JS_BIGINT: 58
     },
     
-    SB_OFFSETS: {
-        NEXT_SEQ_BLOCK: 32 // Offset in SuperBlock for generator state
-    }
+    MAX_ITEMS_PER_PAGE: 1000 // Safety limit
 };

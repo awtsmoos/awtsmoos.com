@@ -1,3 +1,4 @@
+
 // B"H
 import { state } from '../store.js';
 import { refreshSnippets } from '../network.js';
@@ -28,7 +29,7 @@ export function renderSidebar(ui, parent) {
         ]
     });
 
-    // Resize Handle
+    // Resize Handle (Desktop Only via CSS)
     ui.html({
         parent: ui.getHtml('appContainer'),
         tag: 'div', classList: ['resize-handle'],
@@ -45,7 +46,7 @@ export function renderSidebar(ui, parent) {
         ]
     });
 
-    // Thread List
+    // Thread List Container
     ui.html({ parent, tag: 'div', shaym: 'threadList', classList: ['thread-list'] });
 }
 
@@ -83,7 +84,7 @@ export function renderThreadList() {
     const list = _uiRef.getHtml('threadList');
     list.innerHTML = '';
 
-    const threads = state.snippets.filter(t => state.view === 'requests' ? false : true); // Logic placeholder
+    const threads = state.snippets.filter(t => state.view === 'requests' ? false : true); 
 
     if (threads.length === 0) {
         _uiRef.html({ parent: list, tag: 'div', style: 'padding:20px; text-align:center; color:#555;', textContent: 'Void.' });
@@ -94,17 +95,20 @@ export function renderThreadList() {
         const name = t.correspondent.replace(/_at_/g, '@');
         const bg = getQuantumColor(name);
         
+        // Safety: Filter Boolean removes nulls/empty strings to prevent SyntaxError
+        const itemClasses = ['thread-item', state.activeThread === t.correspondent ? 'active' : null].filter(Boolean);
+
         _uiRef.html({
             parent: list,
             tag: 'div',
-            classList: ['thread-item', state.activeThread === t.correspondent ? 'active' : ''].filter(Boolean),
+            classList: itemClasses,
             events: {
                 click: () => { 
-                    FX.playSound('hover'); 
+                    if(FX.playSound) FX.playSound('hover'); 
                     switchChat(_uiRef, t.correspondent, name);
                 },
-                mousemove: (e) => FX.applyTilt(e.currentTarget, e),
-                mouseleave: (e) => FX.resetTilt(e.currentTarget)
+                mousemove: (e) => { if(FX.applyTilt) FX.applyTilt(e.currentTarget, e); },
+                mouseleave: (e) => { if(FX.resetTilt) FX.resetTilt(e.currentTarget); }
             },
             children: [
                 { tag: 'div', classList: ['avatar-circle'], style: `background: ${bg}`, textContent: name[0].toUpperCase() },

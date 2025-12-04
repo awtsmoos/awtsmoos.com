@@ -8,7 +8,13 @@ const CONFIG = {
     STORAGE_KEY: 'ia_hyper_creds',
     CONCURRENCY: 8, // Max simultaneous uploads PER BUCKET domain sharding allows effectively higher
     RETRIES: 3,
-    API_HOST: 's3.us.archive.org'
+    API_HOST: 's3.us.archive.org',
+    // OPTIONAL: Hardcode existing buckets here to skip duplicate files.
+    // The system checks if a selected folder matches these names (or starts with name + '-')
+    // If a match is found, it fetches the file list and skips duplicates.
+    EXISTING_BUCKETS: [
+	    "5746-1764880253"
+    ] 
 };
 
 // --- STATE ---
@@ -19,7 +25,8 @@ const state = {
     stats: {
         total: 0,
         success: 0,
-        error: 0
+        error: 0,
+        skipped: 0
     },
     // Map to track files per bucket for "Bucket Complete" notifications
     bucketTrackers: new Map() 
@@ -108,6 +115,23 @@ async function selectDirectory() {
 async function processRootEntry(entry) {
     const bucketName = generateBucketName(entry.name);
     
+    // Check for Existing Buckets to prevent duplicates
+    const cleanName = sanitizeName(entry.name);
+    const relevantBuckets = CONFIG.EXISTING_BUCKETS.filter(b => 
+        b === cleanName || b.startsWith(cleanName + '-')
+    );
+
+    let existingFiles = new Set();
+    
+    if (relevantBuckets.length > 0) {
+        log(`DETECTED PREVIOUS VERSIONS: ${relevantBuckets.join(', ')}`, 'pink');
+        log(`FETCHING METADATA TO PREVENT DUPLICATES...`, 'system');
+        existingFiles = await fetchExistingFileLists(relevantBuckets);
+        if (existingFiles.size > 0) {
+            log(`INDEXED ${existingFiles.size} EXISTING FILES. DUPLICATES WILL BE SKIPPED.`, 'success');
+        }
+    }
+
     // Initialize Tracker for this bucket
     if (!state.bucketTrackers.has(bucketName)) {
         state.bucketTrackers.set(bucketName, { total: 0, completed: 0, linkShown: false });
@@ -116,30 +140,38 @@ async function processRootEntry(entry) {
 
     if (entry.kind === 'file') {
         const file = await entry.getFile();
-        addToQueue(file, bucketName, file.name);
+        addToQueue(file, bucketName, file.name, existingFiles);
     } else if (entry.kind === 'directory') {
         // Recursive scan
-        await scanDirectory(entry, bucketName, '');
+        await scanDirectory(entry, bucketName, '', existingFiles);
     }
 }
 
-async function scanDirectory(dirHandle, bucketName, pathPrefix) {
+async function scanDirectory(dirHandle, bucketName, pathPrefix, existingFiles) {
     for await (const entry of dirHandle.values()) {
         const fullPath = pathPrefix ? `${pathPrefix}/${entry.name}` : entry.name;
         
         if (entry.kind === 'file') {
             const file = await entry.getFile();
-            addToQueue(file, bucketName, fullPath);
+            addToQueue(file, bucketName, fullPath, existingFiles);
         } else if (entry.kind === 'directory') {
             // Determine if we should await or let it run. 
             // Awaiting ensures we find files in order, but recursion is fast enough.
-            await scanDirectory(entry, bucketName, fullPath);
+            await scanDirectory(entry, bucketName, fullPath, existingFiles);
         }
     }
 }
 
 // --- QUEUE SYSTEM ---
-function addToQueue(file, bucket, key) {
+function addToQueue(file, bucket, key, existingFiles) {
+    // Check duplication
+    if (existingFiles && existingFiles.has(key)) {
+        state.stats.skipped++;
+        log(`SKIP [DUPLICATE]: ${key}`, 'dim');
+        // Do not update tracker total, effectively ignoring this file in the completion count
+        return;
+    }
+
     // Update Bucket Stats
     const tracker = state.bucketTrackers.get(bucket);
     tracker.total++;
@@ -245,6 +277,25 @@ function handleError(item, logId, msg) {
 
 // --- UTILS ---
 
+// Fetch existing files from Internet Archive Metadata API
+async function fetchExistingFileLists(buckets) {
+    const files = new Set();
+    // Process in parallel
+    await Promise.all(buckets.map(async (bucket) => {
+        try {
+            const res = await fetch(`https://archive.org/metadata/${bucket}`);
+            if (!res.ok) throw new Error(res.statusText);
+            const json = await res.json();
+            if (json.files && Array.isArray(json.files)) {
+                json.files.forEach(f => files.add(f.name));
+            }
+        } catch (e) {
+            log(`WARN: Unable to fetch metadata for ${bucket}: ${e.message}`, 'pink');
+        }
+    }));
+    return files;
+}
+
 // Helper to update the UI counters
 function updateStats() {
     els.queueCount.textContent = state.queue.length;
@@ -273,12 +324,16 @@ function renderLogLine(msg, type) {
     return `<span class="timestamp">[${time}]</span> <span class="${type}">${msg}</span>`;
 }
 
-function generateBucketName(name) {
-    // Sanitization for S3 Bucket names
-    let clean = name.toLowerCase()
+function sanitizeName(name) {
+    return name.toLowerCase()
         .replace(/[^a-z0-9]/g, '-')
         .replace(/-+/g, '-')
         .replace(/^-|-$/g, '');
+}
+
+function generateBucketName(name) {
+    // Sanitization for S3 Bucket names
+    let clean = sanitizeName(name);
     
     // Append timestamp to ensure uniqueness and group "run"
     // We use a shorter timestamp to keep bucket name length manageable

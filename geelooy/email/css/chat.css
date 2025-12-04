@@ -1,3 +1,4 @@
+
 /* CHAT: Messages, Bubbles, Glitch */
 .chat-area { 
     position: relative; display: flex; flex-direction: column;
@@ -54,6 +55,15 @@
 .msg-time { 
     display: block; font-size: 0.65rem; margin-top: 4px; opacity: 0.6; text-align: right;
     font-family: monospace; letter-spacing: 1px;
+}
+
+/* GHOST BUBBLE (Broadcast Typing) */
+.ghost-row { opacity: 0.8; }
+.ghost-bubble {
+    background: transparent !important;
+    border: 1px dashed var(--neon-cyan) !important;
+    color: var(--neon-cyan) !important;
+    box-shadow: 0 0 10px rgba(6, 182, 212, 0.2) !important;
 }
 
 /* SWIPE WRAPPER */

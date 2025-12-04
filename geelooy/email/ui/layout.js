@@ -1,31 +1,29 @@
+
 // B"H
 import { renderSidebar } from './sidebar.js';
 import { renderChat } from './chat.js';
-import { renderLoginOverlay } from './modals.js';
-import { renderComposeModal } from './modals.js';
+import { renderLoginOverlay, renderComposeModal } from './modals.js';
 
 export function renderAppLayout(ui, root) {
-    // 1. Overlay (Login)
+    // 1. Render Overlays (Modals) - Z-Index 9999
     renderLoginOverlay(ui, root);
-
-    // 2. Compose Modal
     renderComposeModal(ui, root);
 
-    // 3. Main Grid
+    // 2. Render Main Application Grid - Z-Index 5
     ui.html({
         parent: root,
         tag: 'div',
         shaym: 'appContainer',
-        classList: ['app-container'],
+        classList: ['app-container'], 
         children: [
-            // Sidebar Column
+            // Left Column: Sidebar
             {
                 tag: 'aside',
                 classList: ['sidebar'],
                 shaym: 'sidebarPanel',
                 ready: (el) => renderSidebar(ui, el)
             },
-            // Chat Column
+            // Right Column: Chat Area
             {
                 tag: 'main',
                 classList: ['chat-area'],
