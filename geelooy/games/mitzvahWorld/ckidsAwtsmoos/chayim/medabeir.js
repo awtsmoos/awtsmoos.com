@@ -324,8 +324,9 @@ export default class Medabeir extends Chai {
             if(typeof(str) == "string") {
                 this.ayshPeula("close dialogue", str);
             }
-            // B"H: Important cleanup for dynamic trees
+            // B"H: Important cleanup for dynamic trees - ensure we revert to main tree next time
             this._tempTree = null; 
+            this.currentMessageIndex = 0;
             this.state = "idle";
         }
 

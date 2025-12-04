@@ -124,7 +124,7 @@ export default class CustomNpc extends Medabeir {
                                     mode: 'edit',
                                     // Pass fresh serialization to editor
                                     item: { customData: me.serialize().customData, name: me.name },
-                                    liveEntityId: me.id, 
+                                    liveEntityId: me.id, // B"H: Critical - pass the ID of the actual entity
                                     sourceType: 'world'
                                 }
                             });

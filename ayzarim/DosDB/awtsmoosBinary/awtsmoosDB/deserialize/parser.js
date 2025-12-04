@@ -53,7 +53,7 @@ function parseArray(buffer, depth) {
          return undefined;
     }
 
-    // Min size: Magic(2) + Config(1) + Len(1) = 4
+    // Min size: Magic + Config(1) + Len(1)
     if (buffer.length < magicLen + 2) return [];
 
     // Format: [MAGIC][Config][Items...][IndexTable][ArrayLen]
@@ -62,11 +62,9 @@ function parseArray(buffer, depth) {
     const configByte = buffer.readUInt8(magicLen);
     
     // Extract sizes
-    // Bits 2-3: Length Size Index
     const lenSizeIndex = (configByte >> 2) & 0b11;
     const lenSize = [1, 2, 4, 8][lenSizeIndex];
     
-    // Bits 0-1: Offset Size Index (used for Index Table)
     const offsetSizeIndex = configByte & 0b11;
     const offsetSize = [1, 2, 4, 8][offsetSizeIndex];
     
@@ -85,13 +83,15 @@ function parseArray(buffer, depth) {
     if (arrLen === 0) return [];
 
     // 3. Calculate Boundaries
-    // The Index Table sits between Items and the Length Footer.
-    // IndexTable Size = arrLen * offsetSize.
     const indexTableSize = arrLen * offsetSize;
+    // itemsEndOffset is where the Index Table starts.
     const itemsEndOffset = lenOffset - indexTableSize;
 
-    // Sanity check
-    if (itemsEndOffset < magicLen + 1) return [];
+    // Safety: Items cannot start before Header+Config
+    if (itemsEndOffset < magicLen + 1) {
+        // This implies the buffer is too small to hold items + index table
+        return [];
+    }
 
     // 4. Parse Items Sequentially
     let offset = magicLen + 1; // Start after Config
@@ -223,7 +223,6 @@ function parseValue(buffer, offset, depth) {
 		val = stringPacker.unpackRLE(buffer.subarray(dataStart, dataStart + length));
 	break;
         default: 
-            // console.warn("B\"H Unknown Type:", type);
             val = buffer.subarray(dataStart, dataStart + length);
     }
 

@@ -1,8 +1,6 @@
 // B"H
 import style from "./skins/2/characterDesignerStyle.js";
 
-let currentEditContext = null; // Module-level variable to persist context
-
 export default {
     shaym: "character designer",
     className: "characterDesigner hidden",
@@ -29,12 +27,14 @@ export default {
             const designer = e.target;
             const { mode, item, index, sourceType, liveEntityId } = e.detail;
             
+            console.log("B\"H Opening Designer. Context:", { mode, liveEntityId, sourceType });
+
             designer.classList.remove("hidden");
             designer.style.display = "flex"; 
             
-            // B"H: Persist context
-            currentEditContext = { index, sourceType, liveEntityId, item };
-            designer.awtsmoosEditContext = currentEditContext;
+            // B"H: Store context directly on the DOM element to persist across eval/scope barriers
+            // This fixes the ReferenceError: currentEditContext is not defined
+            designer.awtsmoosEditContext = { index, sourceType, liveEntityId, item };
 
             // Load State
             if (mode === 'edit' && item && item.customData) {
@@ -139,11 +139,14 @@ export default {
                             onclick(e, $, ui) {
                                 const designer = $("character designer");
                                 const state = designer.characterState;
-                                const ctx = currentEditContext || designer.awtsmoosEditContext || {};
+                                // B"H: Retrieve context from the DOM element. 
+                                // This is vital because 'eval' context loses variables, but DOM properties persist.
+                                const ctx = designer.awtsmoosEditContext || {};
                                 
+                                console.log("B\"H Saving. Context:", ctx);
+
                                 if (ctx.sourceType === 'world' && ctx.liveEntityId) {
                                     // B"H: Update Live Entity
-                                    console.log("B\"H: Saving to live entity...", ctx.liveEntityId);
                                     ui.peula("ikar", { 
                                         olamPeula: { 
                                             updateLiveEntity: { 
@@ -158,7 +161,6 @@ export default {
                                     alert("Changes saved to world entity!");
                                 } else if (ctx.sourceType === 'inventory' || ctx.sourceType === 'action') {
                                     // Update Inventory Item
-                                    console.log("B\"H: Saving to inventory item...");
                                     const updateData = { name: state.name, customData: state };
                                     ui.peula("ikar", { 
                                         olamPeula: { 
@@ -172,7 +174,6 @@ export default {
                                     alert("Changes saved to inventory item!");
                                 } else {
                                     // Create New Item
-                                    console.log("B\"H: Creating new soul item...");
                                     const itemData = {
                                         id: "custom_npc_" + Date.now(), className: "CustomNpc",
                                         name: state.name, description: "A custom soul.", customData: state,
@@ -231,7 +232,7 @@ export default {
                                                                                 parent: lst, className: "cd-response",
                                                                                 children: [
                                                                                     { tag: "input", className: "cd-input", value: r.text, placeholder:"Response text", oninput(x){ r.text=x.target.value } },
-                                                                                    { tag: "select", className: "cd-select", value: r.type, onchange(x){ r.type=x.target.value; refresh(); }, children: [{tag:"option", value:"message", textContent:"Goto"}, {tag:"option", value:"close", textContent:"Close"}] },
+                                                                                    { tag: "select", className: "cd-select", value: r.type, onchange(x){ r.type=x.target.value; refresh(); }, children: [{tag:"option", value:"message", textContent:"Goto"}, {tag:"option", value:"close", textContent:"Close"}, {tag:"option", value:"store", textContent:"Open Shop"}] },
                                                                                     r.type==="message" ? { tag:"input", type:"number", placeholder:"Target ID", className:"cd-input", value: r.target||0, oninput(x){ r.target = parseInt(x.target.value); } } : null,
                                                                                     { tag: "button", className: "cd-btn secondary", textContent: "Del", onclick(){ node.responses.splice(ri, 1); refresh(); } }
                                                                                 ]

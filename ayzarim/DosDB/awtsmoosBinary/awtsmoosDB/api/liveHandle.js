@@ -278,6 +278,7 @@ class LiveHandle {
             this._writePtr(newHandleBuf, 4, tree.rootPtr);
             await this.db._writeChainSafe(handlePtr, newHandleBuf);
         }
+        // Force Allocator State Save
         if (this.db.allocator) await this.db.allocator.saveState();
     }
 
@@ -299,8 +300,6 @@ class LiveHandle {
             const handlePtr = await this.db.allocator.allocate(32);
             await this.db.allocator.writeUserSpace(handlePtr, handleBuf);
 
-            if (this.db.pager && this.db.pager.handle) await this.db.pager.handle.sync();
-
             // 2. Create Meta Block
             const metaBuf = Buffer.alloc(32); 
             metaBuf.writeUInt8(TYPE_BTREE, 0);
@@ -308,13 +307,12 @@ class LiveHandle {
             const metaPtr = await this.db.allocator.allocate(32);
             await this.db.allocator.writeUserSpace(metaPtr, metaBuf);
 
-            if (this.db.pager && this.db.pager.handle) await this.db.pager.handle.sync();
-
             await tree.insert(key, metaPtr);
             await this._updateTreePointer(ptr, tree);
             
-            // B"H: Persist Allocator State
+            // Paranoid Persistence
             if (this.db.allocator) await this.db.allocator.saveState();
+            if (this.db.pager && this.db.pager.handle) await this.db.pager.handle.sync();
         });
     }
 
@@ -328,7 +326,7 @@ class LiveHandle {
             const headerPtr = await this.db.allocator.allocatePage(constants.BLOCK_TYPE.COLLECTION_HEADER || 3);
             const col = new Collection(headerPtr.blockId, this.db.allocator);
             await col.saveHeader(); 
-
+            
             // 2. Alloc Handle Block (Data pointing to Header)
             const handleBuf = Buffer.alloc(32);
             handleBuf.write("COLL", 0);
@@ -338,17 +336,11 @@ class LiveHandle {
             const handlePtr = await this.db.allocator.allocate(32);
             await this.db.allocator.writeUserSpace(handlePtr, handleBuf);
 
-            // Force Sync of Pager to disk for the handle data
-            if (this.db.pager && this.db.pager.handle) {
-                await this.db.pager.handle.sync();
-            }
-
-            // B"H: VERIFICATION READ (Diagnostic)
+            // B"H: VERIFY WRITE IMMEDIATELY
+            // This forces a read from the Pager's perspective to ensure it 'took'.
             const verifyBuf = await this.db._readChainSafe(handlePtr);
-            if (!verifyBuf || verifyBuf.length < 4 || verifyBuf.toString('utf8', 0, 4) !== "COLL") {
-                const hex = verifyBuf ? verifyBuf.subarray(0, Math.min(32, verifyBuf.length)).toString('hex') : "null";
-                // Fatal error because we just wrote it. If this fails, Pager/Allocator is broken.
-                throw new Error(`B"H: Fatal - Failed to persist Collection Handle! Got: ${hex}. Ptr: ${JSON.stringify(handlePtr)}`);
+            if (!verifyBuf || verifyBuf.toString('utf8', 0, 4) !== "COLL") {
+                 throw new Error("B\"H: Fatal - Write Verification Failed in createList.");
             }
 
             // 3. Alloc Meta Block (Pointing to Handle)
@@ -359,16 +351,13 @@ class LiveHandle {
             const metaPtr = await this.db.allocator.allocate(32);
             await this.db.allocator.writeUserSpace(metaPtr, metaBuf);
 
-            if (this.db.pager && this.db.pager.handle) {
-                await this.db.pager.handle.sync();
-            }
-
             // 4. Insert into Tree
             await tree.insert(key, metaPtr);
             await this._updateTreePointer(ptr, tree);
             
-            // B"H: Persist Allocator State
+            // B"H: Paranoid Persistence to ensure cursor & data survival
             if (this.db.allocator) await this.db.allocator.saveState();
+            if (this.db.pager && this.db.pager.handle) await this.db.pager.handle.sync();
         });
     }
 
@@ -382,8 +371,9 @@ class LiveHandle {
 
         await this._updateTreePointer(ptr, tree);
         
-        // B"H: Persist Allocator State (set allocates new values)
+        // Paranoid Persistence
         if (this.db.allocator) await this.db.allocator.saveState();
+        if (this.db.pager && this.db.pager.handle) await this.db.pager.handle.sync();
     }
 
     async delete(key) {
@@ -447,8 +437,6 @@ class LiveHandle {
             await col.append(Date.now().toString() + Math.random(), item);
             
             if (this.db.pager && this.db.pager.handle) await this.db.pager.handle.sync();
-            
-            // B"H: Persist Allocator State (push allocates new pages/items)
             if (this.db.allocator) await this.db.allocator.saveState();
             
             return true;
