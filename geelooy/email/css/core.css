@@ -1,4 +1,3 @@
-
 /* CORE: Variables, Reset, Typography */
 :root {
     --bg-void: #000000;
@@ -90,3 +89,66 @@ body.offline::after {
     z-index: 9999; pointer-events: none; opacity: 0.5;
     text-shadow: 0 0 20px #000;
 }
+
+/* --- OVERLAYS & MODALS (Ported from styles.css) --- */
+.overlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(10px);
+    z-index: 9999; display: flex; justify-content: center; align-items: center;
+    opacity: 0; pointer-events: none; transition: opacity 0.3s;
+}
+.overlay.visible { opacity: 1; pointer-events: auto; }
+
+.modal-card {
+    background: #0e0e11; 
+    border: 1px solid rgba(255,255,255,0.1); 
+    border-radius: 20px;
+    padding: 24px; width: 100%; max-width: 480px; 
+    box-shadow: 0 20px 50px #000;
+    position: relative;
+}
+
+.modal-title {
+    font-size: 1.5rem; font-weight: 700; color: #fff; margin-bottom: 20px;
+    text-shadow: 0 0 10px rgba(255,255,255,0.2);
+}
+
+.close-modal {
+    cursor: pointer; font-size: 1.5rem; color: #888; transition: color 0.2s;
+}
+.close-modal:hover { color: #fff; }
+
+/* --- FORMS (Ported from styles.css) --- */
+.input-group { margin-bottom: 16px; }
+
+.input-label { 
+    display: block; color: var(--text-secondary); 
+    margin-bottom: 8px; font-size: 0.9rem; 
+}
+
+.styled-input { 
+    width: 100%; padding: 12px; 
+    background: rgba(255,255,255,0.05); 
+    border: 1px solid rgba(255,255,255,0.1); 
+    color: #fff; border-radius: 8px; 
+    font-family: inherit;
+    transition: border-color 0.2s, background 0.2s;
+}
+.styled-input:focus { 
+    outline: none; border-color: var(--neon-cyan); 
+    background: rgba(255,255,255,0.08); 
+    box-shadow: 0 0 10px rgba(6,182,212,0.1);
+}
+
+.btn-primary { 
+    width: 100%; padding: 14px; 
+    background: var(--neon-gold); 
+    color: #000;
+    border: none; font-weight: 800; cursor: pointer; border-radius: 10px; 
+    text-transform: uppercase; letter-spacing: 1px;
+    transition: transform 0.1s, box-shadow 0.2s;
+}
+.btn-primary:hover { 
+    transform: translateY(-2px); 
+    box-shadow: 0 0 20px var(--neon-gold); 
+}
+.btn-primary:active { transform: translateY(1px); }

@@ -43,6 +43,8 @@ class LiveHandle {
                 if (prop === 'push') return target.push.bind(target);
                 if (prop === 'slice') return target.slice.bind(target);
                 if (prop === 'delete' || prop === 'deleteProperty') return target.delete.bind(target);
+                // B"H: Fix - Expose set method
+                if (prop === 'set') return target.set.bind(target);
                 
                 if (prop === 'createMap') return target.createMap.bind(target);
                 if (prop === 'createList') return target.createList.bind(target);
@@ -287,6 +289,7 @@ class LiveHandle {
     }
 
     async set(key, value) {
+        this.log(`Set "${key}" requested.`);
         const ptr = await this.ptrPromise;
         await this.db.ensureOpen();
         const tree = await this._getCurrentTree(ptr);

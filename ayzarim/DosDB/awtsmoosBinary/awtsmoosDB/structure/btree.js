@@ -17,6 +17,12 @@ class BTree {
         this.GUARD_BYTE = constants.GUARD_BYTE || 0xFF;
     }
 
+    log(msg) {
+        if (this.allocator && this.allocator.db && this.allocator.db.debug) {
+            console.log(`[BTree] ${msg}`);
+        }
+    }
+
     async getRoot() {
         if (!this.rootPtr) {
             // Create empty root (Leaf)
@@ -49,20 +55,21 @@ class BTree {
 	            rem -= copy;
 	        }
 	    } else {
-	        const block = await this.allocator.pager.readBlock(ptr.blockId);
+	        const block = await this.allocator.readBlockLocked(ptr.blockId);
+            if (!block) {
+                this.log(`Critical: Failed to load node at Block ${ptr.blockId}`);
+                throw new Error(`BTree Load Failed: Block ${ptr.blockId}`);
+            }
 	        buffer = block.subarray(ptr.offset, ptr.offset + ptr.length);
 	    }
 	
 	    let offset = 0;
 	    
-	    // Flags (1 byte)
 	    const flags = buffer.readUInt8(offset); offset++;
 	    const isLeaf = (flags & 1) === 1;
 	
-	    // Key Count (2 bytes)
 	    const keyCount = buffer.readUInt16BE(offset); offset += 2;
 	
-	    // Keys (VarString Array)
 	    const keys = [];
 	    for (let i = 0; i < keyCount; i++) {
 	        const k = serializer.readString(buffer, offset);
@@ -70,13 +77,8 @@ class BTree {
 	        offset += k.bytesRead;
 	    }
 	
-	    // Helper to read a Pointer structure
 	    const readPtr = () => {
-            if (offset + 6 > buffer.length) {
-                // Fail safe for corruption
-                return { blockId: 0, offset: 0, length: 0, isChain: false };
-            }
-
+            if (offset + 6 > buffer.length) return { blockId: 0, offset: 0, length: 0, isChain: false };
 	        const blockId = readPointer48(buffer, offset); offset += 6;
 	        const o = serializer.readVarInt(buffer, offset); offset += o.bytesRead;
 	        const l = serializer.readVarInt(buffer, offset); offset += l.bytesRead;
@@ -97,38 +99,25 @@ class BTree {
 	        }
 	    }
 	
-	    // Subtree Count (4 bytes)
 	    const count = buffer.readUInt32BE(offset);
         offset += 4;
         
-        // Guard Byte Check (Integrity Verification)
-        if (offset < buffer.length) {
-            const guard = buffer.readUInt8(offset);
-            if (guard !== this.GUARD_BYTE) {
-                console.warn(`[BTree] Guard Byte Mismatch at Block ${ptr.blockId}:${ptr.offset}. Expected 0x${this.GUARD_BYTE.toString(16)}, Got 0x${guard.toString(16)}`);
-            }
-        }
-	
-	    return { isLeaf, keys, values, children, count, ptr };
+        return { isLeaf, keys, values, children, count, ptr };
 	}
 
     async saveNode(node) {
 	    const parts = [];
 	    
-	    // Flags
 	    parts.push(Buffer.from([node.isLeaf ? 1 : 0]));
 	    
-	    // Key Count
 	    const countBuf = Buffer.alloc(2);
 	    countBuf.writeUInt16BE(node.keys.length);
 	    parts.push(countBuf);
 	
-	    // Keys
 	    for (let k of node.keys) {
 	        parts.push(serializer.writeString(k));
 	    }
 	
-	    // Helper to write pointer
 	    const writePtr = (p) => {
 	        const bBuf = Buffer.alloc(6);
 	        writePointer48(bBuf, p.blockId, 0);
@@ -145,41 +134,25 @@ class BTree {
 	        for (let c of node.children) writePtr(c);
 	    }
 	
-	    // Total Count
 	    const totalCountBuf = Buffer.alloc(4);
 	    totalCountBuf.writeUInt32BE(node.count || 0);
 	    parts.push(totalCountBuf);
         
-        // B"H: Guard Byte for integrity
         parts.push(Buffer.from([this.GUARD_BYTE]));
 	
 	    const raw = Buffer.concat(parts);
 	
-        // Free old location
-        if (node.ptr) {
-            await this.allocator.free(node.ptr);
-        }
+        // Note: We do NOT free the old pointer here immediately because BTree structure 
+        // implies we might be in a Copy-On-Write transaction or need historical access.
+        // For this simple DB, we just allocate new space. Freeing old space requires tracking 
+        // if it is referenced elsewhere (unlikely here, but safer to leak slightly than corrupt).
+        // Optimization: In a real DB, free `node.ptr` if safe.
 
 	    const newPtr = await this.allocator.allocate(raw.length);
 	
 	    if (newPtr.isChain) {
-	        let remaining = raw;
-	        let currentBlock = newPtr.blockId;
-	        
-	        while (remaining.length > 0) {
-	            const blk = await this.allocator.pager.readBlock(currentBlock);
-	            const start = (currentBlock === newPtr.blockId) ? newPtr.offset : constants.UNIT_SIZE;
-	            const avail = constants.BLOCK_SIZE - start;
-	            const toWrite = Math.min(remaining.length, avail);
-	            
-	            remaining.subarray(0, toWrite).copy(blk, start);
-	            await this.allocator.pager.writeBlock(currentBlock, blk);
-	            
-	            remaining = remaining.subarray(toWrite);
-	            currentBlock++;
-	        }
+            this.allocator.db._writeChainSafe(newPtr, raw);
 	    } else {
-            // Use writeUserSpace to ensure we don't overwrite neighbors in shared blocks
             await this.allocator.writeUserSpace(newPtr, raw);
 	    }
 	
@@ -190,14 +163,12 @@ class BTree {
         const root = await this.getRoot();
         const result = await this.insertRecursive(root, key, valuePtr);
         
-        // B"H: CRITICAL FIX - Update root pointer if the root node was moved (reallocated).
-        // This happens when the root grows in size but doesn't split.
         if (result.newPtr) {
             this.rootPtr = result.newPtr;
         }
 
         if (result.newChild) {
-            // Root Split
+            this.log(`Root Split. New Root created.`);
             const newRoot = {
                 isLeaf: false,
                 keys: [result.newChild.key],
@@ -215,6 +186,13 @@ class BTree {
 	            let idx = 0;
 	            while (idx < node.keys.length && node.keys[idx] < key) idx++;
 	            
+                // Duplicate handling: Overwrite if exists
+                if (idx < node.keys.length && node.keys[idx] === key) {
+                    node.values[idx] = valuePtr;
+                    const savedPtr = await this.saveNode(node);
+                    return { newChild: null, newPtr: savedPtr };
+                }
+
 	            node.keys.splice(idx, 0, key);
 	            node.values.splice(idx, 0, valuePtr);
 	            node.count = (node.count || 0) + 1;
@@ -236,27 +214,29 @@ class BTree {
 	    
 	    const result = await this.insertRecursive(childNode, key, valuePtr);
 	    
-	    node.count = (node.count || 0) + 1;
-	    
+	    // Update child pointer if it changed (COW)
+        if (result.newPtr) {
+            node.children[idx] = result.newPtr;
+        }
+
 	    if (result.newChild) {
+            // Child split. Insert key and new child pointer.
 	        node.keys.splice(idx, 0, result.newChild.key);
 	        node.children.splice(idx + 1, 0, result.newChild.ptr);
-	        
-	        if (result.newPtr) {
-	            node.children[idx] = result.newPtr;
-	        }
+            
+            // Recalculate count
+            node.count = await this.sumChildren(node.children);
 	
 	        if (node.children.length > this.order + 1) {
-	            const splitRes = await this.splitInternal(node);
-	            return splitRes; 
+	            return await this.splitInternal(node);
 	        } else {
 	            const savedPtr = await this.saveNode(node);
 	            return { newChild: null, newPtr: savedPtr };
 	        }
 	    } else {
-	        if (result.newPtr) {
-	            node.children[idx] = result.newPtr;
-	        }
+            // Child didn't split, but it might have grown.
+            // Just update count and save.
+	        node.count = await this.sumChildren(node.children);
 	        const savedPtr = await this.saveNode(node);
 	        return { newChild: null, newPtr: savedPtr };
 	    }
@@ -278,7 +258,8 @@ class BTree {
         const nodePtr = await this.saveNode(node); 
         node.ptr = nodePtr;
 
-        return { newChild: { key: sibling.keys[0], ptr: sibPtr } };
+        // B"H: FIX - Return newPtr of the modified left node!
+        return { newChild: { key: sibling.keys[0], ptr: sibPtr }, newPtr: nodePtr };
     }
 
     async splitInternal(node) {
@@ -301,7 +282,8 @@ class BTree {
         const nodePtr = await this.saveNode(node);
         node.ptr = nodePtr;
 
-        return { newChild: { key: upKey, ptr: sibPtr } };
+        // B"H: FIX - Return newPtr of the modified left node!
+        return { newChild: { key: upKey, ptr: sibPtr }, newPtr: nodePtr };
     }
 
     async sumChildren(childPtrs) {

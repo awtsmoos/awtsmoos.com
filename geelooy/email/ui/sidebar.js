@@ -1,4 +1,3 @@
-
 // B"H
 import { state } from '../store.js';
 import { refreshSnippets } from '../network.js';
@@ -34,6 +33,24 @@ export function renderSidebar(ui, parent) {
         parent: ui.getHtml('appContainer'),
         tag: 'div', classList: ['resize-handle'],
         events: { mousedown: initResize }
+    });
+
+    // NEW TRANSMISSION BUTTON
+    ui.html({
+        parent,
+        tag: 'button',
+        classList: ['fab-compose'],
+        textContent: '+ NEW TRANSMISSION',
+        events: {
+            click: () => {
+                const modal = ui.getHtml('composeModal');
+                if(modal) {
+                     modal.classList.remove('hidden');
+                     setTimeout(() => modal.classList.add('visible'), 10);
+                     if(FX.playSound) FX.playSound('hover');
+                }
+            }
+        }
     });
 
     // Tabs
