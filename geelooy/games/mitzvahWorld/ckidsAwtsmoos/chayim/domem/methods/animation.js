@@ -1,4 +1,3 @@
-
 /**
  * B"H
  * @file animation.js
@@ -48,7 +47,11 @@ export default {
             done
         } = options;
 
-        const clip = this.animations.find(anim => anim.name.includes(shaym));
+        // B"H: Case-insensitive search to ensure "idle" finds "Idle"
+        const clip = this.animations.find(anim => 
+            anim.name.toLowerCase().includes(shaym.toLowerCase())
+        );
+        
         if (!clip) return;
 
         const newAction = this.animationMixer.clipAction(clip);

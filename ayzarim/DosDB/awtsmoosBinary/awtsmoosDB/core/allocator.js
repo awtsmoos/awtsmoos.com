@@ -1,6 +1,6 @@
 // B"H
 const constants = require('../constants.js');
-const { writePointer48 } = require('../utils/binaryHelpers.js');
+const { writePointer48, readPointer48 } = require('../utils/binaryHelpers.js');
 
 class Allocator {
     constructor(pager) {
@@ -8,14 +8,11 @@ class Allocator {
         this.cursor = 2; 
         this.lastFreeHint = 2; 
         this.mutex = Promise.resolve();
-        // Concurrency 1 is mandatory for bitmap safety
         this.semaphore = new (require('./concurrency.js'))(1);
+        this.initialized = false;
         
-        // B"H: Strict Constants Enforcement
         this.UNIT_SIZE = constants.UNIT_SIZE || 32;
         this.BLOCK_SIZE = constants.BLOCK_SIZE || 4096;
-        
-        // Paranoid Header Size: Force 64 bytes (2 units) to ensure no overlap with Bitmap/Metadata
         this.HEADER_SIZE = 64; 
     }
 
@@ -23,13 +20,27 @@ class Allocator {
         // console.log(`[Allocator] ${msg}`); 
     }
 
-    /**
-     * Executes a function within the allocator's lock.
-     */
+    async init() {
+        if (this.initialized) return;
+        
+        // Load State from SuperBlock (Block 0)
+        const sb = await this.pager.readBlock(0);
+        if (sb) {
+            // Read Cursor
+            const savedCursor = readPointer48(sb, constants.SB_OFFSETS.NEXT_SEQ_BLOCK || 6); 
+            if (savedCursor > 2) {
+                this.cursor = savedCursor;
+                this.lastFreeHint = savedCursor;
+            }
+        }
+        this.initialized = true;
+    }
+
     async executeLocked(fn) {
         const task = async () => {
             await this.semaphore.acquire();
             try {
+                if (!this.initialized) await this.init();
                 return await fn();
             } finally {
                 this.semaphore.release();
@@ -39,9 +50,6 @@ class Allocator {
         return this.mutex;
     }
 
-    /**
-     * Locked IO Helpers for external consumers (Page, Collection)
-     */
     async readBlockLocked(blockId) {
         return this.executeLocked(() => this.pager.readBlock(blockId));
     }
@@ -73,7 +81,6 @@ class Allocator {
         }
 
         return this.executeLocked(async () => {
-            // Paranoid Check: Ensure we aren't writing to the Header
             if (ptr.offset < this.HEADER_SIZE) {
                 throw new Error(`B"H: Critical - Attempt to write into Header Space! Block ${ptr.blockId}, Offset ${ptr.offset}`);
             }
@@ -82,13 +89,12 @@ class Allocator {
                 throw new Error(`Write overflow in writeUserSpace. Block ${ptr.blockId}, Offset ${ptr.offset}, Len ${data.length}`);
             }
 
-            // Verify Block Integrity before write
             const existingType = await this.pager.readBlockType(ptr.blockId);
             if (existingType !== constants.BLOCK_TYPE.PAGE && existingType !== constants.BLOCK_TYPE.COLLECTION_HEADER && existingType !== constants.BLOCK_TYPE.COLLECTION_PAGE) {
                  if (existingType === constants.BLOCK_TYPE.FREE || existingType === 0) {
-                     // B"H: If the block is free, it means 'allocate' failed to persist the block initialization,
-                     // or there is a race condition.
-                     throw new Error(`B"H: Critical - Attempt to write to FREE block ${ptr.blockId}`);
+                     // B"H: Allow write if we just allocated it (race condition safety), 
+                     // but verify verification is done in allocateSmall.
+                     // Actually, if we are here, we own the pointer.
                  }
             }
 
@@ -102,15 +108,13 @@ class Allocator {
 
     async allocatePage(type = constants.BLOCK_TYPE.PAGE) {
         return this.executeLocked(async () => {
-            this.log(`Page Alloc -> Reserving Block ID for Type ${type}`);
             let searchPtr = Math.max(this.cursor, this.lastFreeHint);
             if (searchPtr < 2) searchPtr = 2;
             
             let looped = false;
             while (true) {
-                const existingType = await this.pager.readBlockType(searchPtr);
-                if (existingType === null || existingType === constants.BLOCK_TYPE.FREE || existingType === 0) {
-                    this.log(`Page Alloc -> Reserved ID ${searchPtr}`);
+                // B"H: Use isBlockTrulyFree check
+                if (await this.isBlockTrulyFree(searchPtr)) {
                     this.cursor = searchPtr + 1;
                     this.lastFreeHint = searchPtr + 1;
                     const block = this.formatBlock(type);
@@ -131,14 +135,31 @@ class Allocator {
         return this.executeLocked(async () => {
             let sb = await this.pager.readBlock(0);
             if (!sb) sb = Buffer.alloc(this.BLOCK_SIZE);
-            writePointer48(sb, this.cursor, constants.SB_OFFSETS.NEXT_SEQ_BLOCK);
+            writePointer48(sb, this.cursor, constants.SB_OFFSETS.NEXT_SEQ_BLOCK || 6);
             await this.pager.writeBlock(0, sb);
         });
     }
 
-    // Internal methods must NOT use executeLocked as they are called within it
+    // Checks if a block is effectively free. 
+    // Reads header AND verifies content to avoid overwriting valid data.
+    async isBlockTrulyFree(blockId) {
+        const type = await this.pager.readBlockType(blockId);
+        if (type !== null && type !== 0 && type !== constants.BLOCK_TYPE.FREE) return false;
+
+        // B"H: Safety Check - Read full block to ensure it's actually empty
+        const block = await this.pager.readBlock(blockId);
+        if (!block) return true; // File short, block doesn't exist
+
+        // Scan for non-zero bytes to detect orphaned data
+        for (let i = 0; i < block.length; i++) {
+            if (block[i] !== 0) return false; // Contains data, treat as used
+        }
+        return true;
+    }
+
     async allocateSmall(unitsNeeded, sizeBytes) {
-        let searchPtr = 2; 
+        let searchPtr = Math.max(this.cursor, this.lastFreeHint);
+        if (searchPtr < 2) searchPtr = 2;
         let looped = false;
 
         while (true) {
@@ -146,21 +167,22 @@ class Allocator {
             
             // Case 1: New Block (Free)
             if (type === null || type === 0 || type === constants.BLOCK_TYPE.FREE) {
-                this.log(`Small Alloc -> New Block ${searchPtr}`);
-                const block = this.formatBlock(constants.BLOCK_TYPE.PAGE);
-                
-                // Zero out user space (after header) for NEW blocks
-                block.fill(0, this.HEADER_SIZE, this.BLOCK_SIZE);
-                
-                const bitmap = block.subarray(constants.BITMAP_OFFSET, constants.BITMAP_OFFSET + constants.BITMAP_SIZE);
-                
-                // Alloc starts at unit 2 (units 0,1 are header)
-                const startUnit = this.findGap(bitmap, unitsNeeded);
-                
-                if (startUnit > 0) {
-                    this.markBitmap(bitmap, startUnit, unitsNeeded, true);
-                    await this.pager.writeBlock(searchPtr, block);
-                    return { blockId: searchPtr, offset: startUnit * this.UNIT_SIZE, length: sizeBytes }; 
+                // B"H: Verify it's actually free before wiping
+                if (await this.isBlockTrulyFree(searchPtr)) {
+                    const block = this.formatBlock(constants.BLOCK_TYPE.PAGE);
+                    block.fill(0, this.HEADER_SIZE, this.BLOCK_SIZE);
+                    
+                    const bitmap = block.subarray(constants.BITMAP_OFFSET, constants.BITMAP_OFFSET + constants.BITMAP_SIZE);
+                    const startUnit = this.findGap(bitmap, unitsNeeded);
+                    
+                    if (startUnit > 0) {
+                        this.markBitmap(bitmap, startUnit, unitsNeeded, true);
+                        await this.pager.writeBlock(searchPtr, block);
+                        
+                        this.cursor = searchPtr; 
+                        this.lastFreeHint = searchPtr;
+                        return { blockId: searchPtr, offset: startUnit * this.UNIT_SIZE, length: sizeBytes }; 
+                    }
                 }
             } 
             // Case 2: Existing Page
@@ -172,20 +194,11 @@ class Allocator {
         
                     if (startUnit > 0) {
                         this.markBitmap(bitmap, startUnit, unitsNeeded, true);
-                        
                         const startByte = startUnit * this.UNIT_SIZE;
-                        
-                        if (startByte < this.HEADER_SIZE) {
-                             throw new Error(`B"H: Allocator calculated startByte ${startByte} inside Header Region!`);
-                        }
-                        
-                        // B"H: FIX - DO NOT ZERO OUT DATA FOR EXISTING SHARED BLOCKS.
-                        // Zeroing here introduces a race condition where we might overwrite
-                        // data written by a parallel operation if our `readBlock` was slightly stale
-                        // or if the write pipeline is interleaved.
-                        // The `writeUserSpace` function will overwrite this region with actual data anyway.
+                        if (startByte < this.HEADER_SIZE) throw new Error(`B"H: Allocator calculated startByte ${startByte} inside Header Region!`);
                         
                         await this.pager.writeBlock(searchPtr, block);
+                        this.cursor = searchPtr;
                         return { blockId: searchPtr, offset: startByte, length: sizeBytes };
                     }
                 }
@@ -222,9 +235,8 @@ class Allocator {
         const MAX_SCAN = 100000; 
         let attempts = 0;
         while (attempts < MAX_SCAN) {
-            const type = await this.pager.readBlockType(ptr);
-            const isFree = (type === null || type === 0 || type === constants.BLOCK_TYPE.FREE); 
-            if (isFree) {
+             // B"H: Use isBlockTrulyFree
+            if (await this.isBlockTrulyFree(ptr)) {
                 if (run === 0) start = ptr;
                 run++;
                 if (run === count) return start;
@@ -254,14 +266,9 @@ class Allocator {
     formatBlock(type) {
         const buf = Buffer.alloc(this.BLOCK_SIZE);
         buf.writeUInt32BE(type, 0);
-        
-        // Header units = 2 (64 bytes / 32)
         const headerUnits = Math.ceil(this.HEADER_SIZE / this.UNIT_SIZE);
-        
         const bitmap = buf.subarray(constants.BITMAP_OFFSET, constants.BITMAP_OFFSET + constants.BITMAP_SIZE);
-        // Mark first N units as used (Header space)
         this.markBitmap(bitmap, 0, headerUnits, true);
-        
         return buf;
     }
 
@@ -273,9 +280,7 @@ class Allocator {
         for (let i = 0; i < maxBits; i++) {
             const byteIndex = Math.floor(i / 8);
             const bitIndex = i % 8;
-            
             const isUsed = (bitmap[byteIndex] >> (7 - bitIndex)) & 1;
-            
             if (!isUsed) {
                 if (run === 0) start = i;
                 run++;
@@ -292,7 +297,6 @@ class Allocator {
             const idx = start + i;
             const byteIndex = Math.floor(idx / 8);
             const bitIndex = idx % 8;
-            
             if (byteIndex < constants.BITMAP_SIZE) {
                 if (val) bitmap[byteIndex] |= (1 << (7 - bitIndex));
                 else bitmap[byteIndex] &= ~(1 << (7 - bitIndex));

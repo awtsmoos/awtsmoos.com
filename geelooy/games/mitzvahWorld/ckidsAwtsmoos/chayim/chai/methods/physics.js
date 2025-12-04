@@ -6,6 +6,7 @@
  */
 import * as THREE from '/games/scripts/build/three.module.js';
 import Utils from "../../../utils.js";
+import Tzomayach from "../../tzomayach.js";
 
 const _ground_check_ray = new THREE.Ray();
 
@@ -304,9 +305,8 @@ export default {
             throw new Error("Player position is NaN!");
         }
 
-        // Call super update if needed for other systems (animations)
-        if(this.animationMixer) {
-             this.animationMixer.update(deltaTime);
-        }
+        // B"H: Ensure inheritance logic runs!
+        // This is critical for interactions (Tzomayach proximity checks) and animation updates (Domem)
+        Tzomayach.prototype.heesHawvoos.call(this, deltaTime);
     }
 };

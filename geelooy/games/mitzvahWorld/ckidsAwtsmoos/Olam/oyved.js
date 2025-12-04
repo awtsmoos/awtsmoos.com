@@ -111,6 +111,25 @@ async function go() {
                  me.olam.player.inventory.updateItem(sourceType, index, itemData);
              }
         },
+        
+        async updateLiveEntity({ id, data }) {
+            if (me.olam && me.olam.nivrayim) {
+                const entity = me.olam.nivrayim.find(n => n.id === id);
+                if (entity && entity.type === 'customNpc') {
+                    // Apply updates
+                    if(data.name) entity.name = data.name;
+                    if(data.customData) {
+                        entity.customData = data.customData;
+                        if(data.customData.shopInventory) entity.shopInventory = data.customData.shopInventory;
+                        if(data.customData.balance !== undefined) entity.balance = data.customData.balance;
+                        if(data.customData.contractPercentage !== undefined) entity.contractPercentage = data.customData.contractPercentage;
+                        
+                        // Force refresh message tree logic if needed (getter handles it)
+                    }
+                    console.log("B\"H - Updated live entity:", entity.name);
+                }
+            }
+        },
     
     
     

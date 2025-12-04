@@ -2,10 +2,6 @@
 // Strict Parser for all V1 Types + New Universal V2 Types.
 const constants = require("../constants.js");
 const { unpackTypeAndLengthSize, readConditional } = require("../utils/binaryHelpers.js");
-
-// B"H
-// We import the entire object and bind methods to preserve 'this' context,
-// as readString relies on this.readVarInt internally.
 const serializer = require("../utils/serializer.js");
 const readVarInt = serializer.readVarInt.bind(serializer);
 const readString = serializer.readString.bind(serializer);
@@ -16,16 +12,25 @@ const MAX_DEPTH = 512;
 
 function parse(buffer) {
     if (!buffer || buffer.length === 0) return undefined;
-    const magic = buffer.subarray(0, 2).toString();
-    if (magic === constants.MAGIC_JSON) return parseObject(buffer, 0);
-    if (magic === constants.MAGIC_ARRAY) return parseArray(buffer, 0);
+    
+    // Check for JSON Magic
+    const magicJsonLen = constants.MAGIC_JSON.length;
+    if (buffer.length >= magicJsonLen && buffer.subarray(0, magicJsonLen).toString() === constants.MAGIC_JSON) {
+        return parseObject(buffer, 0);
+    }
+
+    // Check for ARRAY Magic
+    const magicArrLen = constants.MAGIC_ARRAY.length;
+    if (buffer.length >= magicArrLen && buffer.subarray(0, magicArrLen).toString() === constants.MAGIC_ARRAY) {
+        return parseArray(buffer, 0);
+    }
+
     return parseValue(buffer, 0, 0).value;
 }
 
-// Helpers for recursion
 function parseObject(buffer, depth) {
     if (depth > MAX_DEPTH) throw new Error("B\"H: Maximum Recursion Depth Exceeded");
-    let offset = 2; 
+    let offset = constants.MAGIC_JSON.length; 
     const countInfo = readVarInt(buffer, offset);
     const count = countInfo.value;
     offset += countInfo.bytesRead;
@@ -41,25 +46,54 @@ function parseObject(buffer, depth) {
 
 function parseArray(buffer, depth) {
     if (depth > MAX_DEPTH) throw new Error("B\"H: Maximum Recursion Depth Exceeded");
-    if (buffer.length <= 2) return [];
-
-    let offset = 2; 
-    const packed = buffer.readUInt8(offset); offset++;
-    const lenSize = [1,2,4,8][(packed >> 2) & 0b11];
     
-    // B"H: Safety check for buffer length before reading array length
-    if (buffer.length < offset + lenSize) return [];
-    
-    const arrLen = readConditional(buffer, buffer.length - lenSize, lenSize);
-    const result = [];
-    let current = offset;
-    for(let i=0; i<arrLen; i++) {
-        if (current >= buffer.length) break; 
-        const { value, bytesRead } = parseValue(buffer, current, depth + 1);
-        if (bytesRead === 0) break; 
-        result.push(value);
-        current += bytesRead;
+    const magicLen = constants.MAGIC_ARRAY.length;
+    // B"H: Strict Magic Check
+    if (buffer.length < magicLen || buffer.subarray(0, magicLen).toString() !== constants.MAGIC_ARRAY) {
+         // Return undefined to signal corruption instead of [], forcing mismatch error
+         return undefined;
     }
+
+    // Min size: Magic(2) + Config(1) + Len(1) = 4
+    if (buffer.length < magicLen + 2) return [];
+
+    // Format: [MAGIC][Config][Items...][IndexTable][ArrayLen]
+    
+    // 1. Read Config Byte
+    const configByte = buffer.readUInt8(magicLen);
+    
+    // Extract sizes (2 bits each)
+    // packedLength inverse: 0->1, 1->2, 2->4, 3->8
+    const lenSizeIndex = (configByte >> 2) & 0b11;
+    const lenSize = [1, 2, 4, 8][lenSizeIndex];
+    
+    // 2. Read Array Length MANUALLY from END of buffer
+    if (buffer.length < lenSize) return []; 
+    const lenOffset = buffer.length - lenSize;
+    let arrLen = 0;
+    
+    // B"H: Manual Read to ensure no ambiguity
+    if (lenSize === 1) arrLen = buffer.readUInt8(lenOffset);
+    else if (lenSize === 2) arrLen = buffer.readUInt16BE(lenOffset);
+    else if (lenSize === 4) arrLen = buffer.readUInt32BE(lenOffset);
+    else if (lenSize === 8) arrLen = Number(buffer.readBigUInt64BE(lenOffset));
+
+    // 3. Parse Items Sequentially
+    let offset = magicLen + 1; // Start after Config
+    const result = [];
+    
+    for(let i=0; i<arrLen; i++) {
+        // Bounds check
+        if (offset >= lenOffset) break; 
+        
+        const { value, bytesRead } = parseValue(buffer, offset, depth + 1);
+        
+        if (bytesRead === 0) break; 
+        
+        result.push(value);
+        offset += bytesRead;
+    }
+    
     return result;
 }
 
@@ -74,7 +108,7 @@ function parseValue(buffer, offset, depth) {
     let length = 0;
     if (lengthSize > 0) {
         if (offset + lengthSize > buffer.length) {
-             return { value: undefined, bytesRead: 0 }; // Truncated
+             return { value: undefined, bytesRead: 0 }; 
         }
         length = readConditional(buffer, offset, lengthSize);
         offset += lengthSize;
@@ -84,7 +118,7 @@ function parseValue(buffer, offset, depth) {
     offset += length; 
     
     if (offset > buffer.length) {
-         return { value: undefined, bytesRead: 0 }; // Truncated
+         return { value: undefined, bytesRead: 0 }; 
     }
 
     let val;
@@ -117,13 +151,11 @@ function parseValue(buffer, offset, depth) {
             break;
         }
         case T.MAP: {
-            // Data is stored as an Array of [k,v] entries
             const entries = parseArray(buffer.subarray(dataStart, dataStart + length), depth + 1);
             val = new Map(entries);
             break;
         }
         case T.SET: {
-            // Data is stored as an Array of values
             const values = parseArray(buffer.subarray(dataStart, dataStart + length), depth + 1);
             val = new Set(values);
             break;
@@ -140,7 +172,6 @@ function parseValue(buffer, offset, depth) {
         case T.UINT8: val = buffer.readUInt8(dataStart); break;
         case T.UINT16: val = buffer.readUInt16BE(dataStart); break;
         case T.UINT32: val = buffer.readUInt32BE(dataStart); break;
-        // Note: UINT64 casts to Number. Use JS_BIGINT for real bigints.
         case T.UINT64: val = Number(buffer.readBigUInt64BE(dataStart)); break;
         
         case T.INT8_NEG: val = -1 * buffer.readUInt8(dataStart); break;
@@ -161,8 +192,7 @@ function parseValue(buffer, offset, depth) {
         case T.FLOAT_NEG_4: val = -1 * floatHandler.decodeEncodedFloat(buffer.readUInt32BE(dataStart), 4); break;
 
         // --- Containers ---
-        case 6: // B"H:
-        // Explicitly handle Type 6 (Object)
+        case 6: 
         case T.OBJECT: 
             val = parseObject(buffer.subarray(dataStart, dataStart + length), depth + 1); 
             break;

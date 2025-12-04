@@ -24,7 +24,7 @@ export default class CustomNpc extends Medabeir {
     static isBuildable = true; 
     
     // B"H: Explicit User Icon
-    static icon = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iIzAwRkZGRiI+PHBhdGggZD0iTTEyIDEyYzIuMjEgMCA0LTEuNzkgNC00cy0xLjc5LTQtNC00LTQgMS43OS00IDQgMS43OSA0IDQgNHptMCAyYy0yLjY3IDAtOCAxLjM0LTggNHYyaDE2di0yYzAtMi42Ni01LjMzLTQtOC00eiIvPjwvc3ZnPg==";
+    static icon = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iIzRmNDRmNCI+PHBhdGggZD0iTTEyIDEyYzIuMjEgMCA0LTEuNzkgNC00cy0xLjc5LTQtNC00LTQgMS43OS00IDQgMS43OSA0IDQgNHptMCAyYy0yLjY3IDAtOCAxLjM0LTggNHYyaDE2di0yYzAtMi42Ni01LjMzLTQtOC00eiIvPjwvc3ZnPg==";
     
     // Store Properties
     shopInventory = [];
@@ -49,9 +49,18 @@ export default class CustomNpc extends Medabeir {
         // 'heescheel' will overwrite this with the player's path if available.
         op.path = customData.modelPath || "awtsmoos://awduhm";
         
+        // B"H: Ensure physics/animation update loop runs
+        op.heesHawveh = true;
+
         super(op);
         
         this.customData = customData;
+        
+        // B"H FIX: Ensure dialogueTree structure exists in data for serialization/editing
+        if (!this.customData.dialogueTree || !Array.isArray(this.customData.dialogueTree) || this.customData.dialogueTree.length === 0) {
+            this.customData.dialogueTree = [{ message: "B\"H\nShalom! I am a new soul in this world.", responses: [] }];
+        }
+
         this.interactable = true;
         this.proximity = 3;
         
@@ -65,24 +74,123 @@ export default class CustomNpc extends Medabeir {
         // Set initial velocity for "falling" effect upon creation
         this.velocity.y = -5; 
         
-        // Animation Mapping specifically for new_awduhm
-        this.chaweeyoosMap = {
-            run: "run",
-            idle: "idle", // or "stand"
-            walk: "walk",
-            jump: "jump",
-            falling: "falling", 
-            "right turn": "right turn",
-            "left turn": "left turn",
-            "dance silly": "dance silly"
+        // B"H: Initialize Message Tree Logic
+        // We assign this to the property so the Medabeir getter picks it up as the function.
+        this.messageTree = (myself) => {
+            // B"H FIX: Safety check for constructor phase.
+            if (!this.olam) {
+                return [{ message: "Initializing...", responses: [] }];
+            }
+
+            // 1. Determine Identity
+            const currentPlayerId = this.olam.chossid ? this.olam.chossid.name : "player";
+            const isOwner = !this.ownerId || (this.ownerId === currentPlayerId);
+
+            // 2. Load Standard Dialogue Tree (The "Neshama" of the NPC)
+            // Use the ensured data from customData
+            let dialogueTree = Utils.copyObj(this.customData.dialogueTree);
+
+            // 3. Inject Shop Button (if inventory exists)
+            // This applies to BOTH owners and strangers, so the owner can test/buy too.
+            if (this.shopInventory.length > 0) {
+                const rootNode = dialogueTree[0];
+                if (!rootNode.responses) rootNode.responses = [];
+                
+                if(!rootNode.responses.find(r => r.isShopButton)) {
+                    rootNode.responses.push({
+                        text: "Show me your wares",
+                        isShopButton: true,
+                        action: (me, buyer) => {
+                            this.openShopUI(buyer);
+                            return false; 
+                        }
+                    });
+                }
+            }
+
+            // 4. If Owner, Inject Management Options into the Root Node
+            if (isOwner) {
+                const rootNode = dialogueTree[0];
+                if (!rootNode.responses) rootNode.responses = [];
+                
+                // Append Owner Actions
+                rootNode.responses.push(
+                    {
+                        text: "⭐ Collect Profits",
+                        action: (me) => {
+                            if (me.balance > 0) {
+                                me.olam.player.inventory.addItem({
+                                    id: 'coin', className: 'Coin', name: 'Perutah', quantity: me.balance
+                                }, me.balance);
+                                
+                                const amount = me.balance;
+                                me.balance = 0;
+                                me.ayshPeula("close dialogue", `Transferred ${amount} coins to you.`);
+                            } else {
+                                me.ayshPeula("close dialogue", "No profits to collect yet.");
+                            }
+                        }
+                    },
+                    {
+                        text: "⭐ View Sales Log",
+                        action: (me) => {
+                            const log = me.salesLog.length ? me.salesLog.slice(-5).join("\n") : "No sales yet.";
+                            me.ayshPeula("close dialogue", `Sales Log (Last 5):\n${log}`);
+                        }
+                    },
+                    {
+                        text: "⭐ Collect Me (Return to Inventory)",
+                        action: (me) => {
+                             if (me.olam.player && me.olam.player.inventory) {
+                                const serialized = me.serialize();
+                                const itemData = serialized.itemData || {
+                                    id: "custom_npc_" + Date.now(),
+                                    className: "CustomNpc",
+                                    name: me.name,
+                                    customData: serialized.customData
+                                };
+                                me.olam.player.inventory.addItem(itemData);
+                                me.ayshPeula("close dialogue", "Returning to source...");
+                                console.log("B\"H: Returning soul to inventory", itemData.name);
+                                setTimeout(() => {
+                                    console.log("B\"H: Removing entity from world now.");
+                                    me.olam.sealayk(me);
+                                }, 500);
+                            } else {
+                                me.ayshPeula("close dialogue", "Error: Player inventory not found.");
+                            }
+                        }
+                    },
+                    {
+                        text: "⭐ Edit Dialogue/Settings",
+                        action: (me) => {
+                            me.olam.ayshPeula("ui event", "character designer", {
+                                open: { 
+                                    mode: 'edit',
+                                    item: { customData: me.serialize().customData, name: me.name },
+                                    liveEntityId: me.id, 
+                                    sourceType: 'world'
+                                }
+                            });
+                            me.ayshPeula("close dialogue", "Opening editor...");
+                        }
+                    }
+                );
+            }
+            
+            // 5. Fallback for empty responses
+            if (!dialogueTree[0].responses || dialogueTree[0].responses.length === 0) {
+                 dialogueTree[0].responses = [
+                     { text: "Goodbye", close: "Shalom!" }
+                 ];
+            }
+
+            return dialogueTree;
         };
     }
 
     async heescheel(olam) {
         const player = olam.player || olam.chossid;
-
-        // B"H: Ensure we are using a valid model path.
-        // Prioritize the player's path if the requested path is missing or generic.
         const currentPathValid = this.path && olam.getComponent(this.path);
         
         if (!currentPathValid || this.path === "awtsmoos://new_awduhm") {
@@ -94,9 +202,8 @@ export default class CustomNpc extends Medabeir {
         }
 
         await super.heescheel(olam);
+        this.isReady = true; 
         
-        // B"H: Sync Garments with Player
-        // This gives the NPC the same "Levush" (Clothing) as the creator.
         if (player && player.garments && this.garments) {
              for(const [garmentName, playerMesh] of Object.entries(player.garments)) {
                  if (this.garments[garmentName]) {
@@ -104,7 +211,6 @@ export default class CustomNpc extends Medabeir {
                  }
              }
         } else if (this.garments) {
-            // Fallback to default visibility if player reference is missing
 	        var keys = Object.keys(this.garments);
 	        keys.forEach(k => {
 		        if(!this.garmentsDefault[k]) {
@@ -114,109 +220,6 @@ export default class CustomNpc extends Medabeir {
         }
     }
 
-    /**
-     * B"H
-     * Determines the dialogue tree based on the soul standing before it.
-     * If the Owner approaches, it reveals the "Pnimiyus" (Inner management).
-     * If a Stranger approaches, it reveals the "Chitzoniyus" (Outer commerce/dialogue).
-     */
-    messageTree(myself) {
-        // 1. Owner Interaction (Management)
-        // Check if the interactor is the owner.
-        // We use `this.olam.player` as the current player.
-        const currentPlayerId = this.olam.chossid ? this.olam.chossid.name : "player";
-        const isOwner = !this.ownerId || (this.ownerId === currentPlayerId);
-
-        if (isOwner) {
-            return [
-                {
-                    message: `B"H\nGreetings, my Creator. I have earned ${this.balance} coins.`,
-                    responses: [
-                        {
-                            text: "Collect Profits",
-                            action: (me) => {
-                                if (me.balance > 0) {
-                                    // Transfer funds to player
-                                    me.olam.player.inventory.addItem({
-                                        id: 'coin', className: 'Coin', name: 'Perutah', quantity: me.balance
-                                    }, me.balance);
-                                    
-                                    const amount = me.balance;
-                                    me.balance = 0;
-                                    me.ayshPeula("close dialogue", `Transferred ${amount} coins to you.`);
-                                } else {
-                                    me.ayshPeula("close dialogue", "No profits to collect yet.");
-                                }
-                            }
-                        },
-                        {
-                            text: "View Sales Log",
-                            action: (me) => {
-                                const log = me.salesLog.length ? me.salesLog.slice(-5).join("\n") : "No sales yet.";
-                                me.ayshPeula("close dialogue", `Sales Log (Last 5):\n${log}`);
-                            }
-                        },
-                        {
-                            text: "Return to Inventory (Collect Me)",
-                            action: (me) => {
-                                me.collectObject(); // Self-collection
-                                me.ayshPeula("close dialogue", "Returning to source...");
-                            }
-                        },
-                        {
-                            text: "Edit Dialogue/Settings",
-                            action: (me) => {
-                                // Trigger UI event to open editor for THIS entity
-                                me.olam.ayshPeula("ui event", "character designer", {
-                                    open: { 
-                                        mode: 'edit',
-                                        item: { customData: me.serialize().customData, name: me.name },
-                                        // We need a way to reference this live entity in the update callback
-                                        liveEntity: me 
-                                    }
-                                });
-                                me.ayshPeula("close dialogue", "Opening editor...");
-                            }
-                        },
-                        {
-                            text: "Goodbye",
-                            close: "See you soon!"
-                        }
-                    ]
-                }
-            ];
-        }
-
-        // 2. Stranger Interaction (Shop & Default Dialogue)
-        const dialogueTree = this.customData && this.customData.dialogueTree ? 
-                             Utils.copyObj(this.customData.dialogueTree) : 
-                             [{ message: "B\"H\nShalom.", responses: [] }];
-
-        // Inject "View Shop" option into the first node if inventory exists
-        if (this.shopInventory.length > 0) {
-            const rootNode = dialogueTree[0];
-            if (!rootNode.responses) rootNode.responses = [];
-            
-            // Avoid duplicate shop buttons
-            if(!rootNode.responses.find(r => r.isShopButton)) {
-                rootNode.responses.push({
-                    text: "Show me your wares",
-                    isShopButton: true,
-                    action: (me, buyer) => {
-                        this.openShopUI(buyer);
-                        return false; // Stop dialogue, switch to shop UI
-                    }
-                });
-            }
-        }
-
-        return dialogueTree;
-    }
-
-    /**
-     * B"H
-     * Opens a dynamic UI for purchasing items.
-     */
     openShopUI(buyer) {
         const shopResponses = this.shopInventory.map((item, index) => ({
             text: `Buy ${item.name} (${item.price} coins) [${item.quantity} left]`,
@@ -226,9 +229,6 @@ export default class CustomNpc extends Medabeir {
         }));
 
         shopResponses.push({ text: "Nevermind", close: "Come back soon!" });
-
-        // Inject a temporary message node into the conversation
-        // This uses the `changeResponseAndGoToIt` method on Medabeir
         this.changeResponseAndGoToIt({
             message: "B\"H\nTake a look at what I have gathered.",
             responses: shopResponses
@@ -241,23 +241,17 @@ export default class CustomNpc extends Medabeir {
 
         if (item.quantity <= 0) {
             this.ayshPeula("close dialogue", "Sorry, that item is out of stock.");
-            // Remove empty item from inventory
             this.shopInventory.splice(index, 1);
             return;
         }
 
-        // Check Buyer Funds (Assuming 'coin' in inventory)
-        // This is a simplified check; for a robust game, use a proper wallet system
         const buyerInv = buyer.inventory;
         let hasFunds = false;
-        // Find coins
         const coinSlot = buyerInv.slots.find(s => s && s.className === 'Coin');
         
         if (coinSlot && coinSlot.quantity >= item.price) {
             hasFunds = true;
             buyerInv.consumeItem(coinSlot, item.price);
-        } else {
-            // Check equipment or other slots? Assuming main slots for now.
         }
 
         if(!hasFunds) {
@@ -265,12 +259,10 @@ export default class CustomNpc extends Medabeir {
             return;
         }
         
-        // Add Item to Buyer (Generic Item)
-        // We construct a basic item from the shop data
         const itemToAdd = {
             id: item.name.toLowerCase().replace(/\s/g, "_") + "_" + Date.now(),
             name: item.name,
-            className: "Brick", // Defaulting to generic object for now
+            className: "Brick",
             quantity: 1,
             description: "Bought from " + this.name
         };
@@ -279,27 +271,20 @@ export default class CustomNpc extends Medabeir {
             buyer.inventory.addItem(itemToAdd);
         }
 
-        // Decrement Stock
         item.quantity--;
         if (item.quantity <= 0) {
             this.shopInventory.splice(index, 1);
         }
 
-        // Add Profit to Owner's Balance based on Contract
         const profit = item.price;
         const ownerShare = Math.floor(profit * (this.contractPercentage / 100));
         this.balance += ownerShare;
         
-        // Log
         this.salesLog.push(`Sold ${item.name} for ${item.price} (Owner gets ${ownerShare}) at ${new Date().toLocaleTimeString()}`);
 
         this.ayshPeula("close dialogue", "Thank you for your purchase!");
     }
 
-    /**
-     * B"H
-     * Serializes the soul's data to be preserved across sessions.
-     */
     serialize() {
         const base = super.serialize();
         base.customData = {
@@ -314,9 +299,8 @@ export default class CustomNpc extends Medabeir {
             modelPath: this.path
         };
         
-        // Ensure we save the itemData wrapper so it can be re-instantiated correctly
         base.itemData = {
-            id: this.name + "_" + Date.now(), // Unique ID
+            id: this.name + "_" + Date.now(),
             className: "CustomNpc",
             name: this.name,
             customData: base.customData

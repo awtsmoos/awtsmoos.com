@@ -156,4 +156,32 @@ export default /*css*/`
         50% { transform: scale(1.2); }
         100% { transform: scale(1); }
     }
+
+    /* Mobile Optimizations */
+    @media (max-width: 768px) {
+        .dialogue {
+            font-size: 16px;
+            padding: 15px;
+            max-width: none;
+            width: 90%;
+            left: 5% !important;
+            right: 5% !important;
+            transform: none !important;
+            bottom: auto !important;
+        }
+        
+        .dialogue.npc {
+            top: 20% !important;
+            max-height: 30%;
+            overflow-y: auto;
+        }
+
+        .dialogue.chossid {
+             top: auto !important;
+             bottom: 5% !important;
+             max-height: 40%;
+             overflow-y: auto;
+             border-left: 3px solid var(--neon-blue);
+        }
+    }
 `;

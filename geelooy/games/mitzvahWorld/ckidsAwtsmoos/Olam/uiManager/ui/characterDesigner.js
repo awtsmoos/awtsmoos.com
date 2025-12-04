@@ -17,7 +17,7 @@ export default {
     },
     
     createMessageNode: function(id) {
-        return { id: id, message: "New Message", responses: [] };
+        return { id: id, message: "New Message", responses: [{ text: "Goodbye", type: "close" }] };
     },
     createResponse: function() {
         return { text: "Response", type: "message", target: 0 };
@@ -26,29 +26,40 @@ export default {
     on: {
         open(e, $, ui) {
             const designer = e.target;
-            const { mode, item, index, sourceType, liveEntity } = e.detail;
+            const { mode, item, index, sourceType, liveEntityId } = e.detail;
             
             designer.classList.remove("hidden");
             designer.style.display = "flex"; 
             
-            // B"H: If editing a live entity in the world, capture its reference
-            designer.liveEntity = liveEntity;
+            // B"H: Context for what we are editing (Inventory Item or Live Entity in World)
+            // Renamed to avoid conflict with HTMLElement.editContext API
+            designer.awtsmoosEditContext = { index, sourceType, liveEntityId, item };
 
             // Load State
             if (mode === 'edit' && item && item.customData) {
                 designer.characterState = JSON.parse(JSON.stringify(item.customData));
-                designer.editContext = { index, sourceType };
+                
+                // B"H FIX: Ensure dialogueTree is valid to prevent crashes
+                if (!designer.characterState.dialogueTree || !Array.isArray(designer.characterState.dialogueTree)) {
+                    designer.characterState.dialogueTree = [{ id: 0, message: "B\"H\nShalom!", responses: [] }];
+                }
+
                 $("cd-title").textContent = "Editing: " + item.name;
             } else {
                 designer.characterState = {
                     name: "New Soul",
                     color: "#00ffff",
-                    dialogueTree: [{ id: 0, message: "B\"H\nShalom!", responses: [] }],
+                    dialogueTree: [{ 
+                        id: 0, 
+                        message: "B\"H\nShalom! I was just created.", 
+                        responses: [
+                            { text: "Nice to meet you!", type: "close" }
+                        ] 
+                    }],
                     shopInventory: [],
                     contractPercentage: 100,
-                    ownerId: "player" // Placeholder, should be actual player ID
+                    ownerId: "player"
                 };
-                designer.editContext = null;
                 $("cd-title").textContent = "Design New Soul";
             }
 
@@ -125,19 +136,35 @@ export default {
                             onclick(e, $, ui) {
                                 const designer = $("character designer");
                                 const state = designer.characterState;
+                                const ctx = designer.awtsmoosEditContext || {};
                                 
-                                // Save to Inventory/World logic (Same as before)
-                                if (designer.editContext) {
-                                    const { index, sourceType } = designer.editContext;
+                                if (ctx.sourceType === 'world' && ctx.liveEntityId) {
+                                    // B"H: Update Live Entity via Worker Message
+                                    ui.peula("ikar", { 
+                                        olamPeula: { 
+                                            updateLiveEntity: { 
+                                                id: ctx.liveEntityId, 
+                                                data: { 
+                                                    name: state.name, 
+                                                    customData: state 
+                                                } 
+                                            } 
+                                        } 
+                                    });
+                                } else if (ctx.sourceType === 'inventory' || ctx.sourceType === 'action') {
+                                    // Update Inventory Item
                                     const updateData = { name: state.name, customData: state };
-                                    ui.peula("ikar", { olamPeula: { updateInventoryItem: { sourceType, index, itemData: updateData } } });
-                                } else if (designer.liveEntity) {
-                                    // Update live entity logic here
-                                    Object.assign(designer.liveEntity, state); // naive update
-                                    designer.liveEntity.shopInventory = state.shopInventory; // ensure deep props
-                                    designer.liveEntity.balance = state.balance || 0;
-                                    alert("Updated live entity!");
+                                    ui.peula("ikar", { 
+                                        olamPeula: { 
+                                            updateInventoryItem: { 
+                                                sourceType: ctx.sourceType, 
+                                                index: ctx.index, 
+                                                itemData: updateData 
+                                            } 
+                                        } 
+                                    });
                                 } else {
+                                    // Create New Item
                                     const itemData = {
                                         id: "custom_npc_" + Date.now(), className: "CustomNpc",
                                         name: state.name, description: "A custom soul.", customData: state,
@@ -172,6 +199,9 @@ export default {
                                     on: {
                                         renderTree: (ev, $$, uii) => {
                                             const state = designer.characterState;
+                                            // B"H FIX: Ensure tree exists before rendering
+                                            if (!state.dialogueTree) state.dialogueTree = [];
+
                                             ev.target.innerHTML = "";
                                             uii.html({ parent: ev.target, tag: "button", className: "cd-btn secondary", textContent: "+ Add Node", onclick() { state.dialogueTree.push(designer.createMessageNode(state.dialogueTree.length)); uii.peula(ev.target, {renderTree:true}); } });
                                             
@@ -186,17 +216,20 @@ export default {
                                                             ready(lst) {
                                                                 const refresh = () => {
                                                                     lst.innerHTML = "";
-                                                                    node.responses.forEach((r, ri) => {
-                                                                        uii.html({
-                                                                            parent: lst, className: "cd-response",
-                                                                            children: [
-                                                                                { tag: "input", className: "cd-input", value: r.text, oninput(x){ r.text=x.target.value } },
-                                                                                { tag: "select", className: "cd-select", value: r.type, onchange(x){ r.type=x.target.value; refresh(); }, children: [{tag:"option", value:"message", textContent:"Goto"}, {tag:"option", value:"close", textContent:"Close"}] },
-                                                                                r.type==="message" ? { tag:"input", type:"number", className:"cd-input", value: r.target||0, oninput(x){ r.target = parseInt(x.target.value); } } : null
-                                                                            ]
-                                                                        })
-                                                                    });
-                                                                    uii.html({ parent: lst, tag:"button", textContent:"+ Response", className:"cd-btn secondary", onclick(){ node.responses.push(designer.createResponse()); refresh(); } })
+                                                                    if(node.responses && Array.isArray(node.responses)) {
+                                                                        node.responses.forEach((r, ri) => {
+                                                                            uii.html({
+                                                                                parent: lst, className: "cd-response",
+                                                                                children: [
+                                                                                    { tag: "input", className: "cd-input", value: r.text, oninput(x){ r.text=x.target.value } },
+                                                                                    { tag: "select", className: "cd-select", value: r.type, onchange(x){ r.type=x.target.value; refresh(); }, children: [{tag:"option", value:"message", textContent:"Goto"}, {tag:"option", value:"close", textContent:"Close"}] },
+                                                                                    r.type==="message" ? { tag:"input", type:"number", className:"cd-input", value: r.target||0, oninput(x){ r.target = parseInt(x.target.value); } } : null,
+                                                                                    { tag: "button", className: "cd-btn secondary", textContent: "Del", onclick(){ node.responses.splice(ri, 1); refresh(); } }
+                                                                                ]
+                                                                            })
+                                                                        });
+                                                                    }
+                                                                    uii.html({ parent: lst, tag:"button", textContent:"+ Response", className:"cd-btn secondary", onclick(){ if(!node.responses) node.responses=[]; node.responses.push(designer.createResponse()); refresh(); } })
                                                                 };
                                                                 refresh();
                                                             }

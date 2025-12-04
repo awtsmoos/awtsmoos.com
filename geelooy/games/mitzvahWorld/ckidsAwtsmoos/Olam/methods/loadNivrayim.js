@@ -64,9 +64,12 @@ export default class {
                     }
                 });
                 
-                if (options.interactable) {
+                // B"H FIX: Do NOT add dynamic/skinned entities to the static interactive Octree.
+                // It crashes on SkinnedMeshes and is meant for static level geometry.
+                if (options.interactable && type !== 'CustomNpc' && type !== 'Chossid' && type !== 'Medabeir') {
                     this.interactiveOctree.fromGraphNode(mesh);
                 }
+                
                 this.nivrayimGroup.add(mesh);
             }
             

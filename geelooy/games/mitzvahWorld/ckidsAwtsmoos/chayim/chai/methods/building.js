@@ -162,6 +162,22 @@ export default {
                 
                 if (gltf && gltf.scene) {
                     mesh = gltf.scene;
+                    
+                    // B"H: Sync ghost appearance with player garments
+                    const player = this.olam.chossid;
+                    if (player && player.garments && player.path === modelPath) {
+                        mesh.traverse(child => {
+                            // Find corresponding garment on player
+                            const playerGarment = Object.values(player.garments).find(g => g.name === child.name);
+                            if (playerGarment) {
+                                child.visible = playerGarment.visible;
+                            } else if (player.defaultGarments && player.defaultGarments[child.name]) {
+                                // If it's a known garment type but not in the player's active list (hidden), hide it
+                                child.visible = false;
+                            }
+                        });
+                    }
+
                     if (gltf.animations && gltf.animations.length) {
                         const mixer = new THREE.AnimationMixer(mesh);
                         const clip = THREE.AnimationClip.findByName(gltf.animations, "falling") || gltf.animations[0];

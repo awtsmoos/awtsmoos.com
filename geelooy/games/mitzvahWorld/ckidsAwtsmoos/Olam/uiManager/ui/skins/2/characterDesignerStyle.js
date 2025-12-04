@@ -1,4 +1,3 @@
-
 //B"H
 export default /*css*/`
 .characterDesigner {
@@ -90,6 +89,11 @@ export default /*css*/`
     border-radius: 5px;
     color: white;
     font-family: inherit;
+}
+
+textarea.cd-input {
+    min-height: 80px;
+    resize: vertical;
 }
 
 .cd-btn {

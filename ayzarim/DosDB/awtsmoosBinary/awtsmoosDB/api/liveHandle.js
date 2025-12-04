@@ -5,11 +5,6 @@
  *  The Yadayim (Hands) of the Database.
  *  Handles the chaining of potentiality (Promises) into actuality (Values).
  *  Acts as a Vessel (Kli) that proxies the Light of the Data.
- * 
- *  FIXES:
- *  - Robust _writePtr and _readPtr implementation.
- *  - Guarded against zero-length buffers in signature verification.
- *  - Explicit check for zero-length pointers in _readPtr.
  */
 
 const BTree = require('../structure/btree.js');
@@ -80,61 +75,45 @@ class LiveHandle {
 
     /**
      * Helper: Writes a pointer structure to a buffer at specific offset.
-     * Manual implementation to bypass potential scope issues with this.db
+     * Uses FIXED WIDTH (4 byte) integers for Offset and Length to ensure consistency.
+     * Total Size: 6 (Block) + 4 (Off) + 4 (Len) + 1 (Chain) = 15 bytes.
      */
     _writePtr(buf, offset, ptr) {
         if (!ptr) throw new Error("B\"H: Cannot write null pointer");
-        if (offset + 6 > buf.length) throw new Error("B\"H: Buffer overflow in _writePtr (BlockID)");
+        if (offset + 15 > buf.length) throw new Error("B\"H: Buffer overflow in _writePtr (Total Size)");
         
         writePointer48(buf, ptr.blockId, offset);
         
-        // serializer.writeVarInt returns a Buffer
-        const offBuf = serializer.writeVarInt(ptr.offset);
-        if (offset + 6 + offBuf.length > buf.length) throw new Error("B\"H: Buffer overflow in _writePtr (Offset)");
-        offBuf.copy(buf, offset + 6);
+        // Use Fixed UInt32BE for robustness
+        buf.writeUInt32BE(ptr.offset, offset + 6);
+        buf.writeUInt32BE(ptr.length, offset + 10);
         
-        const lenBuf = serializer.writeVarInt(ptr.length);
-        if (offset + 6 + offBuf.length + lenBuf.length > buf.length) throw new Error("B\"H: Buffer overflow in _writePtr (Length)");
-        lenBuf.copy(buf, offset + 6 + offBuf.length);
-        
-        const finalOff = offset + 6 + offBuf.length + lenBuf.length;
-        if (finalOff >= buf.length) throw new Error("B\"H: Buffer overflow in _writePtr (ChainFlag)");
-        buf.writeUInt8(ptr.isChain ? 1 : 0, finalOff);
+        buf.writeUInt8(ptr.isChain ? 1 : 0, offset + 14);
     }
 
     /**
      * Helper: Reads a pointer structure from a buffer at specific offset.
-     * Mirrors _writePtr logic exactly.
+     * Uses FIXED WIDTH (4 byte) integers.
      */
     _readPtr(buf, offset) {
         if (!buf || offset >= buf.length) return null;
-        if (offset + 6 > buf.length) return null; // Safety for BlockID read
+        if (offset + 15 > buf.length) return null; // Safety for 15-byte read
 
         const blockId = readPointer48(buf, offset);
         
-        // Read Offset VarInt
-        const o = serializer.readVarInt(buf, offset + 6);
-        // Read Length VarInt
-        const l = serializer.readVarInt(buf, offset + 6 + o.bytesRead);
+        // Read Fixed UInt32BE
+        const o = buf.readUInt32BE(offset + 6);
+        const l = buf.readUInt32BE(offset + 10);
         
-        // Safety check for chain flag read
-        const chainIdx = offset + 6 + o.bytesRead + l.bytesRead;
-        if (chainIdx >= buf.length) return null; // Incomplete pointer
-        
-        const c = buf.readUInt8(chainIdx);
+        const c = buf.readUInt8(offset + 14);
         
         // B"H: FIX - Treat 0-length pointers as null/invalid in this context.
-        // A Handle block for a BTree or Collection MUST have content (>0 length).
-        if (l.value === 0) {
-             return null;
-        }
+        if (l === 0) return null;
 
         // Standard null check
-        if (blockId === 0 && o.value === 0) {
-             return null;
-        }
+        if (blockId === 0 && o === 0) return null;
 
-        return { blockId, offset: o.value, length: l.value, isChain: c === 1 };
+        return { blockId, offset: o, length: l, isChain: c === 1 };
     }
 
     /**
@@ -169,7 +148,7 @@ class LiveHandle {
                         return null;
                     }
 
-                    // Use local _readPtr
+                    // Use local _readPtr (Offset 4 for "TREE")
                     const rootPtr = this._readPtr(handleBuf, 4);
                     tree = new BTree(this.db.allocator, rootPtr);
                 } else {
@@ -262,12 +241,15 @@ class LiveHandle {
         if (!metaBuf) throw new Error("Meta Block missing");
         
         const handlePtr = this._readPtr(metaBuf, 1);
-        if (!handlePtr) throw new Error("Invalid Handle Pointer in Meta Block");
+        if (!handlePtr) {
+             const hex = metaBuf.toString('hex');
+             throw new Error(`Invalid Handle Pointer in Meta Block. Dump: ${hex}`);
+        }
 
         const handleBuf = await this.db._readChainSafe(handlePtr);
         if (!handleBuf) throw new Error("Handle Block missing");
 
-        // B"H: Strict Signature Verification with detailed error logging
+        // B"H: Strict Signature Verification
         if (handleBuf.length < 4 || handleBuf.toString('utf8', 0, 4) !== "TREE") {
              const hex = handleBuf ? handleBuf.subarray(0, Math.min(32, handleBuf.length)).toString('hex') : "null";
              const len = handleBuf ? handleBuf.length : 0;
@@ -275,7 +257,6 @@ class LiveHandle {
         }
 
         const rootPtr = this._readPtr(handleBuf, 4);
-        // Root Ptr can be null for empty trees, handle that gracefully
         if (!rootPtr) {
              return new BTree(this.db.allocator, null);
         }
@@ -311,11 +292,14 @@ class LiveHandle {
             const newRootPtr = newTree.rootPtr;
 
             // 1. Create Handle Block
+            // "TREE" (4) + Ptr (15) = 19 bytes. Fits in 32.
             const handleBuf = Buffer.alloc(32); 
             handleBuf.write("TREE", 0);
             this._writePtr(handleBuf, 4, newRootPtr);
             const handlePtr = await this.db.allocator.allocate(32);
             await this.db.allocator.writeUserSpace(handlePtr, handleBuf);
+
+            if (this.db.pager && this.db.pager.handle) await this.db.pager.handle.sync();
 
             // 2. Create Meta Block
             const metaBuf = Buffer.alloc(32); 
@@ -323,6 +307,8 @@ class LiveHandle {
             this._writePtr(metaBuf, 1, handlePtr);
             const metaPtr = await this.db.allocator.allocate(32);
             await this.db.allocator.writeUserSpace(metaPtr, metaBuf);
+
+            if (this.db.pager && this.db.pager.handle) await this.db.pager.handle.sync();
 
             await tree.insert(key, metaPtr);
             await this._updateTreePointer(ptr, tree);
@@ -338,24 +324,28 @@ class LiveHandle {
             // 1. Alloc Header Block (Collection)
             const headerPtr = await this.db.allocator.allocatePage(constants.BLOCK_TYPE.COLLECTION_HEADER || 3);
             const col = new Collection(headerPtr.blockId, this.db.allocator);
-            // This initializes signature "CLHD"
-            await col.saveHeader();
+            await col.saveHeader(); 
 
             // 2. Alloc Handle Block (Data pointing to Header)
             const handleBuf = Buffer.alloc(32);
             handleBuf.write("COLL", 0);
             
-            // Manual ptr writing for Header (Block 0 offset, Block Size length)
             this._writePtr(handleBuf, 4, { blockId: headerPtr.blockId, offset: 0, length: constants.BLOCK_SIZE, isChain: false });
             
             const handlePtr = await this.db.allocator.allocate(32);
             await this.db.allocator.writeUserSpace(handlePtr, handleBuf);
 
-            // VERIFICATION READ
+            // Force Sync of Pager to disk for the handle data
+            if (this.db.pager && this.db.pager.handle) {
+                await this.db.pager.handle.sync();
+            }
+
+            // B"H: VERIFICATION READ (Diagnostic)
             const verifyBuf = await this.db._readChainSafe(handlePtr);
             if (!verifyBuf || verifyBuf.length < 4 || verifyBuf.toString('utf8', 0, 4) !== "COLL") {
                 const hex = verifyBuf ? verifyBuf.subarray(0, Math.min(32, verifyBuf.length)).toString('hex') : "null";
-                throw new Error(`B"H: Fatal - Failed to write Collection Handle! Got: ${hex}`);
+                // Fatal error because we just wrote it. If this fails, Pager/Allocator is broken.
+                throw new Error(`B"H: Fatal - Failed to persist Collection Handle! Got: ${hex}. Ptr: ${JSON.stringify(handlePtr)}`);
             }
 
             // 3. Alloc Meta Block (Pointing to Handle)
@@ -365,6 +355,10 @@ class LiveHandle {
             
             const metaPtr = await this.db.allocator.allocate(32);
             await this.db.allocator.writeUserSpace(metaPtr, metaBuf);
+
+            if (this.db.pager && this.db.pager.handle) {
+                await this.db.pager.handle.sync();
+            }
 
             // 4. Insert into Tree
             await tree.insert(key, metaPtr);
@@ -442,6 +436,9 @@ class LiveHandle {
             await col.load();
             
             await col.append(Date.now().toString() + Math.random(), item);
+            
+            if (this.db.pager && this.db.pager.handle) await this.db.pager.handle.sync();
+            
             return true;
         });
     }
@@ -453,12 +450,13 @@ class LiveHandle {
         if (this.mode === 'DEFERRED') await this.detectMode(ptr);
         if (this.mode !== 'COLLECTION') return [];
 
-        // Meta -> Handle -> Header
         const metaBuf = await this.db._readChainSafe(ptr);
         if (!metaBuf) return [];
 
         const handlePtr = this._readPtr(metaBuf, 1);
         const handleBuf = await this.db._readChainSafe(handlePtr);
+        
+        // B"H: Debugging Info on Corruption
         if (!handleBuf) {
             console.warn("B\"H: Slice - Missing Handle Buffer");
             return [];
@@ -467,6 +465,7 @@ class LiveHandle {
         if (handleBuf.length < 4 || handleBuf.toString('utf8', 0, 4) !== "COLL") {
             const hex = handleBuf ? handleBuf.subarray(0, Math.min(32, handleBuf.length)).toString('hex') : "null";
             console.warn(`B\"H: Slice - Invalid Collection Signature in Handle. Got: ${hex}`);
+            // Return empty instead of throwing to avoid crash, but log error.
             return [];
         }
 
