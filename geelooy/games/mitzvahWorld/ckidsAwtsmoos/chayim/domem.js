@@ -1,3 +1,4 @@
+
 /**
  * B"H
  * @file domem.js
@@ -171,9 +172,11 @@ export default class Domem extends Nivra {
             })
 		});
 
+        // B"H FIX: RECURSION PREVENTION
+        // Only request deletion from Olam if we haven't already been marked for deletion by Olam.
         this.on("sealayk", () => {
-            if(this.olam) {
-                this.olam?.sealayk(this)
+            if(this.olam && !this.wasSealayked) {
+                this.olam.sealayk(this);
             }
         });
 
@@ -1166,7 +1169,3 @@ export default class Domem extends Nivra {
         }
     }
 }
-
-                
-
-            

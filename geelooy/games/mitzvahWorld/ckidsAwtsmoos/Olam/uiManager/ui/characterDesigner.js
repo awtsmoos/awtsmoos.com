@@ -1,3 +1,4 @@
+
 // B"H
 import style from "./skins/2/characterDesignerStyle.js";
 
@@ -33,7 +34,6 @@ export default {
             designer.style.display = "flex"; 
             
             // B"H: Store context directly on the DOM element to persist across eval/scope barriers
-            // This fixes the ReferenceError: currentEditContext is not defined
             designer.awtsmoosEditContext = { index, sourceType, liveEntityId, item };
 
             // Load State
@@ -140,7 +140,6 @@ export default {
                                 const designer = $("character designer");
                                 const state = designer.characterState;
                                 // B"H: Retrieve context from the DOM element. 
-                                // This is vital because 'eval' context loses variables, but DOM properties persist.
                                 const ctx = designer.awtsmoosEditContext || {};
                                 
                                 console.log("B\"H Saving. Context:", ctx);

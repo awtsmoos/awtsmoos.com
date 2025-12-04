@@ -1,3 +1,4 @@
+
 /**
  * B"H
  * @file customNpc.js
@@ -78,14 +79,19 @@ export default class CustomNpc extends Medabeir {
                              r.nextMessageIndex = r.target;
                          } else if (r.type === "close") {
                              r.close = "Shalom!";
+                         } else if (r.type === "store") {
+                             r.action = "openStore";
                          }
                      });
                 }
             });
 
+            // B"H: If there are multiple nodes, we allow the tree logic to navigate them.
+            // However, we inject the "System Options" (Shop/Edit) into the FIRST node.
             const rootNode = dialogueTree[0];
             if (!rootNode.responses) rootNode.responses = [];
             
+            // Add Shop Option if configured
             if (this.shopInventory.length > 0) {
                 if(!rootNode.responses.find(r => r.isShopButton)) {
                     rootNode.responses.push({
@@ -99,6 +105,7 @@ export default class CustomNpc extends Medabeir {
                 }
             }
 
+            // Add Owner Options
             if (isOwner) {
                 rootNode.responses.push(
                     {
