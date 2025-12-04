@@ -1,7 +1,7 @@
 // B"H
 const constants = require("../constants.js");
 const serializeValue = require("./serializeValue.js");
-const { writeConditional, packedLength } = require("../utils/binaryHelpers.js");
+const { writeConditional } = require("../utils/binaryHelpers.js");
 
 function serializeArray(arr) {
     // 1. Header
@@ -29,17 +29,31 @@ function serializeArray(arr) {
 
     // 3. Determine Sizes
     // offsets are absolute from start of buffer.
-    // currentOffset is the total size BEFORE Index Table. 
+    // If currentOffset (End of Data) fits in 255, we use 1 byte.
+    // B"H: Logic Match with Parser: Parser calculates indexTableSize based on arrLen * offsetSize.
     const offsetSize = currentOffset < 256 ? 1 : currentOffset < 65536 ? 2 : 4;
     
     // Array Length VarInt
     const lenInfo = writeConditional(arr.length);
     
-    // Pack Config Byte
-    const lenSizePacked = packedLength(lenInfo.size);
-    const offsetSizePacked = packedLength(offsetSize);
+    // Pack Config Byte MANUALLY
+    // Parser expects:
+    // Bits 2-3: Len Size Index (0=1, 1=2, 2=4, 3=8)
+    // Bits 0-1: Offset Size Index (0=1, 1=2, 2=4, 3=8)
     
-    const packed = (lenSizePacked << 2) | offsetSizePacked;
+    // Map size to index: 1->0, 2->1, 4->2, 8->3
+    const getIndex = (sz) => {
+        if (sz === 1) return 0;
+        if (sz === 2) return 1;
+        if (sz === 4) return 2;
+        if (sz === 8) return 3;
+        return 3; // Fallback
+    };
+
+    const lenSizeIndex = getIndex(lenInfo.size);
+    const offsetSizeIndex = getIndex(offsetSize);
+    
+    const packed = (lenSizeIndex << 2) | offsetSizeIndex;
     configByteBuf.writeUInt8(packed, 0);
 
     // 4. Build Index Table
@@ -48,6 +62,7 @@ function serializeArray(arr) {
         const off = offsets[i];
         const writePos = i * offsetSize;
         
+        // Strict Big-Endian Writing
         if (offsetSize === 1) indexTable.writeUInt8(off, writePos);
         else if (offsetSize === 2) indexTable.writeUInt16BE(off, writePos);
         else if (offsetSize === 4) indexTable.writeUInt32BE(off, writePos);

@@ -278,8 +278,9 @@ class LiveHandle {
             this._writePtr(newHandleBuf, 4, tree.rootPtr);
             await this.db._writeChainSafe(handlePtr, newHandleBuf);
         }
-        // Force Allocator State Save
+        // FORCE SAVE STATE
         if (this.db.allocator) await this.db.allocator.saveState();
+        if (this.db.pager && this.db.pager.handle) await this.db.pager.handle.sync();
     }
 
     async createMap(key) {
@@ -310,7 +311,7 @@ class LiveHandle {
             await tree.insert(key, metaPtr);
             await this._updateTreePointer(ptr, tree);
             
-            // Paranoid Persistence
+            // B"H: Paranoid Persistence
             if (this.db.allocator) await this.db.allocator.saveState();
             if (this.db.pager && this.db.pager.handle) await this.db.pager.handle.sync();
         });
@@ -336,8 +337,10 @@ class LiveHandle {
             const handlePtr = await this.db.allocator.allocate(32);
             await this.db.allocator.writeUserSpace(handlePtr, handleBuf);
 
-            // B"H: VERIFY WRITE IMMEDIATELY
-            // This forces a read from the Pager's perspective to ensure it 'took'.
+            // B"H: VERIFY WRITE IMMEDIATELY & SYNC
+            if (this.db.allocator) await this.db.allocator.saveState();
+            if (this.db.pager && this.db.pager.handle) await this.db.pager.handle.sync();
+
             const verifyBuf = await this.db._readChainSafe(handlePtr);
             if (!verifyBuf || verifyBuf.toString('utf8', 0, 4) !== "COLL") {
                  throw new Error("B\"H: Fatal - Write Verification Failed in createList.");
@@ -354,7 +357,7 @@ class LiveHandle {
             // 4. Insert into Tree
             await tree.insert(key, metaPtr);
             await this._updateTreePointer(ptr, tree);
-            
+
             // B"H: Paranoid Persistence to ensure cursor & data survival
             if (this.db.allocator) await this.db.allocator.saveState();
             if (this.db.pager && this.db.pager.handle) await this.db.pager.handle.sync();
@@ -371,7 +374,7 @@ class LiveHandle {
 
         await this._updateTreePointer(ptr, tree);
         
-        // Paranoid Persistence
+        // FORCE SAVE
         if (this.db.allocator) await this.db.allocator.saveState();
         if (this.db.pager && this.db.pager.handle) await this.db.pager.handle.sync();
     }
@@ -406,7 +409,11 @@ class LiveHandle {
             this._writePtr(newHandleBuf, 4, tree.rootPtr);
             await this.db._writeChainSafe(handlePtr, newHandleBuf);
         }
+        
+        // FORCE SAVE
         if (this.db.allocator) await this.db.allocator.saveState();
+        if (this.db.pager && this.db.pager.handle) await this.db.pager.handle.sync();
+        
         return true;
     }
 
@@ -436,8 +443,9 @@ class LiveHandle {
             
             await col.append(Date.now().toString() + Math.random(), item);
             
-            if (this.db.pager && this.db.pager.handle) await this.db.pager.handle.sync();
+            // FORCE SAVE
             if (this.db.allocator) await this.db.allocator.saveState();
+            if (this.db.pager && this.db.pager.handle) await this.db.pager.handle.sync();
             
             return true;
         });

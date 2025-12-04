@@ -23,7 +23,7 @@ export function renderSidebar(ui, parent) {
                 classList: ['user-badge'], 
                 children: [
                     { tag: 'span', classList: ['status-dot'] },
-                    { tag: 'span', textContent: 'Online' } // alias loaded later
+                    { tag: 'span', shaym: 'userStatusText', textContent: 'Connecting...' } 
                 ] 
             }
         ]
@@ -120,7 +120,8 @@ export function renderThreadList() {
                         },
                         { tag: 'div', classList: ['thread-snippet'], textContent: t.snippet || t.subject || "..." }
                     ]
-                }
+                },
+                t.unreadCount > 0 ? { tag: 'div', classList: ['unread-dot'], textContent: t.unreadCount } : null
             ]
         });
     });

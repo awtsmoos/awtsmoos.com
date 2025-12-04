@@ -26,28 +26,37 @@ export function notify(key, value) {
 
 // Global Auth logic
 export async function initAuth(ui) {
-    let id = window.curAlias;
-    
-    // Check if loaded via event
-    if (!id) {
-        // Wait for event or show login
-        showLoginOverlay(ui, true);
-    } else {
-        await login(id, ui);
-    }
-    
+    // 1. Listen for the signal from profileDropdown
+    // This event fires when session is checked or alias is switched
     window.addEventListener("awtsmoosAliasChange", async (e) => {
-        if(e.detail && e.detail.id) {
-            await login(e.detail.id, ui);
+        const id = e.detail ? e.detail.id : null;
+        if(id) {
+            await login(id, ui);
+        } else {
+            // Null ID means not logged in or no alias selected
+            showLoginOverlay(ui, true);
         }
     });
+
+    // We do not manually check window.curAlias here because 
+    // profileDropdown will automatically fetch session on mount 
+    // and fire the event above.
 }
 
 async function login(alias, ui) {
+    if(state.alias === alias) return; // Debounce
+    
     state.alias = alias;
     window.curAlias = alias;
-    showLoginOverlay(ui, false);
+    showLoginOverlay(ui, false); // Hide overlay
     
+    // Update Sidebar User Badge
+    const statusText = ui.getHtml('userStatusText');
+    if(statusText) {
+        statusText.textContent = `@${alias}`;
+        statusText.style.color = 'var(--neon-emerald)';
+    }
+
     connectSocket(alias);
     await refreshSnippets();
     

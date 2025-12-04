@@ -75,6 +75,7 @@ function parseArray(buffer, depth) {
     const lenOffset = buffer.length - lenSize;
     let arrLen = 0;
     
+    // B"H: Read Array Length
     if (lenSize === 1) arrLen = buffer.readUInt8(lenOffset);
     else if (lenSize === 2) arrLen = buffer.readUInt16BE(lenOffset);
     else if (lenSize === 4) arrLen = buffer.readUInt32BE(lenOffset);
@@ -89,7 +90,7 @@ function parseArray(buffer, depth) {
 
     // Safety: Items cannot start before Header+Config
     if (itemsEndOffset < magicLen + 1) {
-        // This implies the buffer is too small to hold items + index table
+        // This implies the buffer is too small or corrupted
         return [];
     }
 
@@ -98,7 +99,7 @@ function parseArray(buffer, depth) {
     const result = [];
     
     for(let i=0; i<arrLen; i++) {
-        // Stop if we hit the Index Table
+        // Strict boundary check: If we've reached the Index Table, stop.
         if (offset >= itemsEndOffset) break; 
         
         const { value, bytesRead } = parseValue(buffer, offset, depth + 1);

@@ -1,24 +1,28 @@
 // B"H
 import { sendMessageApi } from '../network.js';
+import createProfileDropdown from '/scripts/awtsmoos/social/profileDropdown.js';
 
 export function renderLoginOverlay(ui, root) {
     ui.html({
         parent: root,
         tag: 'div',
         shaym: 'loginOverlay',
-        classList: ['overlay'], // .visible added by store
+        classList: ['overlay'], // .visible managed by store
         children: [{
             tag: 'div',
             classList: ['modal-card'],
+            style: 'text-align: center; min-height: 350px; display: flex; flex-direction: column; justify-content: center; align-items: center;',
             children: [
-                { tag: 'h2', classList: ['modal-title'], textContent: 'Access Restricted' },
-                { tag: 'p', style: 'color:#aaa; margin-bottom:20px;', textContent: 'Please log in to access the Quantum Network.' },
+                { tag: 'h2', classList: ['modal-title'], textContent: 'Identity Verification' },
+                { tag: 'p', style: 'color:#aaa; margin-bottom:20px;', textContent: 'The Void requires a name.' },
                 { 
-                    tag: 'a', 
-                    classList: ['btn-primary'], 
-                    style: 'text-align:center; display:block; text-decoration:none;',
-                    textContent: 'Login / Select Alias',
-                    attributes: { href: '/login' }
+                    tag: 'div', 
+                    shaym: 'authWrapper',
+                    style: 'width: 100%; display: flex; justify-content: center; position: relative; z-index: 100;',
+                    ready: (el) => {
+                        // Initialize the provided dropdown script here
+                        createProfileDropdown(el);
+                    }
                 }
             ]
         }]
