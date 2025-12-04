@@ -11,29 +11,31 @@ const AUDIO_EXTS = ['.mp3', '.opus', '.ogg', '.wav', '.m4a', '.flac'];
  * @param {string|number} day - 1-30
  */
 export async function searchByDate(monthId, day) {
-    // Strategy: Fetch the Day Index, then filter by Month client-side.
-    // This is efficient because days have ~1/30th of total events.
     if (!day) throw new Error("Day is required for vector search.");
     
-    const url = `${BASE_URL}/${INDICES_BUCKET}/days/${day}.json`;
+    // We fetch the Day index (1-30) which is smaller than fetching a whole year or filtering blindly
+    const url = `${BASE_URL}/${INDICES_BUCKET}/days/${day}.json?t=${Date.now()}`; // Cache bust
     console.log(`[NET] SEARCH VECTOR: ${url}`);
     
     try {
         const res = await fetch(url);
-        if (!res.ok) throw new Error("Index Not Found (404)");
+        if (!res.ok) {
+            if(res.status === 404) return []; // No events on this day
+            throw new Error("Index Not Found");
+        }
         const json = await res.json();
         
         if (!json.events) return [];
         
-        // Filter by month if provided
         let results = json.events;
+        // Filter by Month ID (Adar I/II are both 6 here)
         if (monthId) {
             results = results.filter(e => e.month_id == monthId);
         }
         
         return results;
     } catch (e) {
-        console.error(e);
+        console.error("Search Error:", e);
         return [];
     }
 }
@@ -79,6 +81,7 @@ export async function fetchFolderTracks(yearId, folderName, logCallback) {
             .map(item => {
                 let name = item.name;
                 let urlName = item.name;
+                // Force .opus -> .mp3 normalization
                 if (name.toLowerCase().endsWith('.opus')) {
                     name = name.replace(/\.opus$/i, '.mp3');
                     urlName = name; 
