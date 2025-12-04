@@ -1,7 +1,7 @@
 // B"H
 const constants = require("../constants.js");
 const serializeValue = require("./serializeValue.js");
-const { writeConditional, writeToBuffer, packedLength } = require("../utils/binaryHelpers.js");
+const { writeConditional, writeToBuffer } = require("../utils/binaryHelpers.js");
 
 function serializeArray(arr) {
     // 1. Header
@@ -28,6 +28,7 @@ function serializeArray(arr) {
 
     // 3. Determine Sizes
     // Offset Size: 1, 2, 4, or 8 bytes
+    // B"H: Strict Logic - if offset < 256, use 1 byte. < 65536, 2 bytes. Else 4.
     const offsetSize = currentOffset < 256 ? 1 : currentOffset < 65536 ? 2 : 4;
     
     // Array Length VarInt
@@ -36,8 +37,21 @@ function serializeArray(arr) {
     // Pack Config Byte:
     // Bits 2-3: Array Length Size (0=1, 1=2, 2=4, 3=8)
     // Bits 0-1: Offset Size (0=1, 1=2, 2=4, 3=8)
-    // packedLength returns 0 for size 1, 1 for size 2, etc.
-    const packed = (packedLength(lenInfo.size) << 2) | packedLength(offsetSize);
+    
+    // B"H: Manual bit packing to avoid dependency ambiguity
+    let lenSizePacked = 0;
+    if (lenInfo.size === 1) lenSizePacked = 0;
+    else if (lenInfo.size === 2) lenSizePacked = 1;
+    else if (lenInfo.size === 4) lenSizePacked = 2;
+    else if (lenInfo.size === 8) lenSizePacked = 3;
+    
+    let offsetSizePacked = 0;
+    if (offsetSize === 1) offsetSizePacked = 0;
+    else if (offsetSize === 2) offsetSizePacked = 1;
+    else if (offsetSize === 4) offsetSizePacked = 2;
+    else if (offsetSize === 8) offsetSizePacked = 3;
+    
+    const packed = (lenSizePacked << 2) | offsetSizePacked;
     configByteBuf.writeUInt8(packed, 0);
 
     // 4. Build Index Table

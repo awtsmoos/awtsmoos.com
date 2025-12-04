@@ -312,6 +312,9 @@ class LiveHandle {
 
             await tree.insert(key, metaPtr);
             await this._updateTreePointer(ptr, tree);
+            
+            // B"H: Persist Allocator State
+            if (this.db.allocator) await this.db.allocator.saveState();
         });
     }
 
@@ -363,6 +366,9 @@ class LiveHandle {
             // 4. Insert into Tree
             await tree.insert(key, metaPtr);
             await this._updateTreePointer(ptr, tree);
+            
+            // B"H: Persist Allocator State
+            if (this.db.allocator) await this.db.allocator.saveState();
         });
     }
 
@@ -375,6 +381,9 @@ class LiveHandle {
         await tree.insert(key, metaPtr);
 
         await this._updateTreePointer(ptr, tree);
+        
+        // B"H: Persist Allocator State (set allocates new values)
+        if (this.db.allocator) await this.db.allocator.saveState();
     }
 
     async delete(key) {
@@ -438,6 +447,9 @@ class LiveHandle {
             await col.append(Date.now().toString() + Math.random(), item);
             
             if (this.db.pager && this.db.pager.handle) await this.db.pager.handle.sync();
+            
+            // B"H: Persist Allocator State (push allocates new pages/items)
+            if (this.db.allocator) await this.db.allocator.saveState();
             
             return true;
         });

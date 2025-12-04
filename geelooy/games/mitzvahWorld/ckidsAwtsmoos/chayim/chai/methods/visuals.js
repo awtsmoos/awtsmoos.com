@@ -1,4 +1,3 @@
-
 /**
  * B"H
  * @file visuals.js
@@ -20,7 +19,7 @@ export default {
         this.radius = Math.max(size.x, size.z) / 2 * 0.8;
     },
 
-    spawnHebrewParticles(position, count = 6) {
+    spawnHebrewParticles(position, count = 10) { // B"H: Increased count
         if (!this.olam) return;
         
         for (let i = 0; i < count; i++) {
@@ -32,11 +31,13 @@ export default {
             if (!mesh) continue;
 
             mesh.position.copy(position);
+            // Offset slightly so they don't spawn inside the block
+            mesh.position.y += 0.5; 
             
             const velocity = new THREE.Vector3(
-                (Math.random() - 0.5) * 10,
-                (Math.random() * 5) + 2, 
-                (Math.random() - 0.5) * 10
+                (Math.random() - 0.5) * 15, // B"H: Bigger explosion
+                (Math.random() * 10) + 5, 
+                (Math.random() - 0.5) * 15
             );
 
             const rotSpeed = new THREE.Vector3(
@@ -45,13 +46,20 @@ export default {
                 Math.random() - 0.5
             );
 
+            // Make them bigger and shiny
+            mesh.scale.setScalar(3.0); // B"H: Bigger letters
+            if(mesh.material) {
+                mesh.material.emissive = new THREE.Color(0xffaa00);
+                mesh.material.emissiveIntensity = 0.8;
+            }
+
             this.olam.scene.add(mesh);
             
             this.particles.push({
                 mesh,
                 velocity,
                 rotSpeed,
-                life: 1.0 
+                life: 2.0 
             });
         }
     },
@@ -73,8 +81,8 @@ export default {
             p.mesh.rotation.y += p.rotSpeed.y;
             p.mesh.rotation.z += p.rotSpeed.z;
             
-            const scale = p.life; 
-            p.mesh.scale.setScalar(scale * 0.5); 
+            const scale = p.life * 3.0; 
+            p.mesh.scale.setScalar(scale); 
         }
     },
 

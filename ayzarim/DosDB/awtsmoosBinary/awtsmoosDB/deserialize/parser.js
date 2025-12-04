@@ -50,7 +50,6 @@ function parseArray(buffer, depth) {
     const magicLen = constants.MAGIC_ARRAY.length;
     // B"H: Strict Magic Check
     if (buffer.length < magicLen || buffer.subarray(0, magicLen).toString() !== constants.MAGIC_ARRAY) {
-         // Return undefined to signal corruption instead of [], forcing mismatch error
          return undefined;
     }
 
@@ -62,29 +61,45 @@ function parseArray(buffer, depth) {
     // 1. Read Config Byte
     const configByte = buffer.readUInt8(magicLen);
     
-    // Extract sizes (2 bits each)
-    // packedLength inverse: 0->1, 1->2, 2->4, 3->8
+    // Extract sizes
+    // Bits 2-3: Length Size Index
     const lenSizeIndex = (configByte >> 2) & 0b11;
     const lenSize = [1, 2, 4, 8][lenSizeIndex];
     
+    // Bits 0-1: Offset Size Index (used for Index Table)
+    const offsetSizeIndex = configByte & 0b11;
+    const offsetSize = [1, 2, 4, 8][offsetSizeIndex];
+    
     // 2. Read Array Length MANUALLY from END of buffer
-    if (buffer.length < lenSize) return []; 
+    if (buffer.length < lenSize) {
+        return []; 
+    }
     const lenOffset = buffer.length - lenSize;
     let arrLen = 0;
     
-    // B"H: Manual Read to ensure no ambiguity
     if (lenSize === 1) arrLen = buffer.readUInt8(lenOffset);
     else if (lenSize === 2) arrLen = buffer.readUInt16BE(lenOffset);
     else if (lenSize === 4) arrLen = buffer.readUInt32BE(lenOffset);
     else if (lenSize === 8) arrLen = Number(buffer.readBigUInt64BE(lenOffset));
 
-    // 3. Parse Items Sequentially
+    if (arrLen === 0) return [];
+
+    // 3. Calculate Boundaries
+    // The Index Table sits between Items and the Length Footer.
+    // IndexTable Size = arrLen * offsetSize.
+    const indexTableSize = arrLen * offsetSize;
+    const itemsEndOffset = lenOffset - indexTableSize;
+
+    // Sanity check
+    if (itemsEndOffset < magicLen + 1) return [];
+
+    // 4. Parse Items Sequentially
     let offset = magicLen + 1; // Start after Config
     const result = [];
     
     for(let i=0; i<arrLen; i++) {
-        // Bounds check
-        if (offset >= lenOffset) break; 
+        // Stop if we hit the Index Table
+        if (offset >= itemsEndOffset) break; 
         
         const { value, bytesRead } = parseValue(buffer, offset, depth + 1);
         
@@ -208,7 +223,7 @@ function parseValue(buffer, offset, depth) {
 		val = stringPacker.unpackRLE(buffer.subarray(dataStart, dataStart + length));
 	break;
         default: 
-            console.warn("B\"H Unknown Type:", type);
+            // console.warn("B\"H Unknown Type:", type);
             val = buffer.subarray(dataStart, dataStart + length);
     }
 

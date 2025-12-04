@@ -17,10 +17,27 @@ export default class {
          * keep track of if it was removed
          */
         nivra.wasSealayked = true;
+        
+        // B"H: Force hide the approach prompt (Press B...) when deleting objects
+        try {
+            this.htmlAction({
+                shaym: "approach npc msg",
+                methods: { classList: { add: "hidden" } }
+            });
+        } catch(e) { console.log(e); }
+
+        // B"H: Trigger sealayk event BEFORE destroying everything so listeners can clean up.
+        try {
+            if(nivra && nivra.ayshPeula) {
+		        nivra.ayshPeula("sealayk"); 
+            }
+        } catch(e) {
+            console.log("Error firing sealayk event", e);
+        }
+
         if(nivra.isMesh) {
             try {
                 if(nivra.isSolid) {
-                    
                     this.worldOctree.removeMesh(nivra)
                 }
                 if(nivra.isInteractive) {
@@ -36,16 +53,12 @@ export default class {
         try {
             if(m) {
                 m.removeFromParent();
-                
             }
             if(nivra.modelMesh) {
                 nivra.modelMesh.removeFromParent();
             }
-            
-           
         } catch(e){
             console.log("No",e)
-            
         }
 
         if(nivra.addedToPlaceholder) {
@@ -54,22 +67,18 @@ export default class {
         
         if(nivra.isSolid) {
             try {
-                
                 if(nivra.mesh) {
                     this.worldOctree.removeMesh(nivra.mesh);
                     if(nivra.isInteractive) {
-                        this.interactiveOctree
-                        .removeMesh(nivra.mesh);
+                        this.interactiveOctree.removeMesh(nivra.mesh);
                     }
                 }
-                
-                return;
             } catch(e){
                 console.log(e,"Oct")
             }
         }
 
-        ind = this.nivrayimWithPlaceholders.indexOf(nivra);
+        var ind = this.nivrayimWithPlaceholders.indexOf(nivra);
         if(ind > -1) {
             this.nivrayimWithPlaceholders.splice(ind, 1);
         }
@@ -78,27 +87,13 @@ export default class {
         if(ind > -1) {
             this.interactableNivrayim.splice(ind, 1);
         }
-        try {
-            if(nivra && nivra.ayshPeula) {
-                
-		      //  nivra.ayshPeula("sealayk")
-            }
-        } catch(e) {
 
-        }
-
-        var ind = this.nivrayim.indexOf(nivra)
+        ind = this.nivrayim.indexOf(nivra)
         if(ind > -1) {
-            
-           // delete this.nivrayim[ind];
             this.nivrayim.splice(ind, 1);
             nivra.clearAll();
         } else {
-            console.log("Couldnt find",nivra,ind)
+          //  console.log("Couldnt find",nivra,ind)
         }
-        
-     
-
-        
     }
 }
