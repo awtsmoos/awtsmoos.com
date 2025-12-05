@@ -1,4 +1,3 @@
-
 /**
  * B"H
  * Worker
@@ -265,9 +264,9 @@ export default ${
         
         async htmlPeula(obj={}) {
             for(var k in obj) {
-                me.olam.ayshPeula("htmlPeula", {
-                    [k]: obj[k]
-                });
+                // B"H FIX: Dispatch event as "htmlPeula [key]" so specific listeners can catch it.
+                // e.g. "htmlPeula toggleToOption"
+                me.olam.ayshPeula("htmlPeula " + k, obj[k]);
             }
         },
 

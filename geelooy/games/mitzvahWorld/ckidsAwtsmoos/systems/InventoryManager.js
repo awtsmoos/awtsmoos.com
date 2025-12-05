@@ -1,4 +1,3 @@
-
 /**
  * B"H
  * Manages inventory and equipment.
@@ -82,22 +81,48 @@ export default class InventoryManager {
 
     exchangeCurrency() { this.deductCurrency(0); }
 
+    // B"H: Helper to ensure item data has defaults from its Class
+    enrichItemData(itemData) {
+        if (!itemData || !itemData.className) return itemData;
+        
+        const ItemClass = AWTSMOOS[itemData.className];
+        if (ItemClass) {
+            // Instantiate dummy to get instance properties (like sellValue)
+            try {
+                const tempInstance = new ItemClass({});
+                
+                if (itemData.sellValue === undefined) {
+                    itemData.sellValue = tempInstance.sellValue || 0;
+                }
+                
+                if (!itemData.name) itemData.name = ItemClass.itemName || tempInstance.name || itemData.className;
+                if (!itemData.description) itemData.description = ItemClass.description || tempInstance.description || "";
+                if (!itemData.icon) itemData.icon = ItemClass.icon || "";
+                
+                if (ItemClass.isBuildable) itemData.isBuildable = true;
+            } catch (e) {
+                console.warn("B\"H: Could not hydrate item class", itemData.className, e);
+            }
+        }
+        
+        // Special handling for Coins
+        if (itemData.className === 'Coin') {
+             if(!itemData.value) itemData.value = 1;
+             itemData.icon = CurrencySystem.getBase64Icon(itemData.value);
+             itemData.name = CurrencySystem.NAMES[itemData.value];
+        }
+        
+        return itemData;
+    }
+
     addItem(itemData, quantity = 1) {
         if (!itemData || !itemData.id || !itemData.className) return false;
 
-        const itemClass = AWTSMOOS[itemData.className];
-        if (!itemClass) return false;
-
-        const enhancedItemData = { ...itemData };
-        if (itemClass.isBuildable) enhancedItemData.isBuildable = true;
+        // B"H: Enrich data before adding
+        const enhancedItemData = this.enrichItemData({ ...itemData });
         
-        if (enhancedItemData.className === 'Coin') {
-             if(!enhancedItemData.value) enhancedItemData.value = 1;
-             enhancedItemData.icon = CurrencySystem.getBase64Icon(enhancedItemData.value);
-             enhancedItemData.name = CurrencySystem.NAMES[enhancedItemData.value];
-        }
-
-        const maxStack = itemClass.stackSize || 512;
+        const itemClass = AWTSMOOS[enhancedItemData.className];
+        const maxStack = itemClass ? (itemClass.stackSize || 512) : 512;
         const uniqueItemId = enhancedItemData.id; 
 
         for (let i = 0; i < this.slots.length; i++) {
@@ -129,21 +154,27 @@ export default class InventoryManager {
         if (index < 0 || index >= sourceArray.length) return;
         const existingItem = sourceArray[index];
         if (!existingItem) return;
-        const updatedItem = { ...existingItem, ...newItemData };
+        
+        // Merge and re-enrich
+        const updatedItem = this.enrichItemData({ ...existingItem, ...newItemData });
+        
         sourceArray[index] = updatedItem;
         this.updateUI();
         this.save();
     }
 
     hydrateItems() {
-        const processItem = (item) => {
-            if (!item || !item.className) return item;
-            const ItemClass = AWTSMOOS[item.className];
-            if (ItemClass && ItemClass.isBuildable) item.isBuildable = true;
-            return item;
-        };
-        this.slots = this.slots.map(processItem);
-        this.actionSlots = this.actionSlots.map(processItem);
+        // B"H: Hydrate existing items on load
+        this.slots = this.slots.map(item => item ? this.enrichItemData(item) : null);
+        this.actionSlots = this.actionSlots.map(item => item ? this.enrichItemData(item) : null);
+        
+        // Re-map equipment to point to the hydrated objects if they exist in slots
+        // (Equipment logic relies on references, but hydration replaces objects in map)
+        // Actually, map keeps refs, so we should update equipment refs too if we replaced objects.
+        // Since we mapped, we replaced objects.
+        // However, typically equipment holds a reference like { sourceType, index }. 
+        // InventoryManager uses indirect reference via `this.equipment[slot] = { sourceType: '...', index: ... }`
+        // so we are safe.
     }
     
     consumeItem(itemReference, amount = 1) {
@@ -156,11 +187,14 @@ export default class InventoryManager {
                 const actionIndex = this.actionSlots.indexOf(itemReference);
                 if(actionIndex > -1) this.actionSlots[actionIndex] = null;
                 else {
-                    for (const [key, equippedItem] of Object.entries(this.equipment)) {
-                        if (equippedItem === itemReference) {
-                            this.equipment[key] = null;
-                            this.updateVisuals(key, itemReference, false);
-                            break;
+                    for (const [key, equippedRef] of Object.entries(this.equipment)) {
+                        if (equippedRef) {
+                            const source = equippedRef.sourceType === 'action' ? this.actionSlots : this.slots;
+                            if (source[equippedRef.index] === itemReference) {
+                                this.equipment[key] = null;
+                                this.updateVisuals(key, itemReference, false);
+                                break;
+                            }
                         }
                     }
                 }
@@ -228,18 +262,15 @@ export default class InventoryManager {
 
         const formatSlot = async (slot) => {
             if (!slot) return null;
-            const itemClass = AWTSMOOS[slot.className];
             
-            // B"H: Ensure sellValue is populated
-            const sellValue = slot.sellValue || (itemClass ? (new itemClass({})).sellValue : 0);
-
+            // Ensure data is enriched before sending to UI (double check)
+            const itemData = this.enrichItemData(slot);
+            
             return {
-                ...slot,
-                icon: slot.icon || itemClass?.icon || "",
-                description: slot.description || itemClass?.description || "",
-                name: slot.name || itemClass?.itemName || slot.className,
-                sellValue: sellValue,
-                equipSlot: slot.equipSlot || (slot.className === 'Tool' || slot.className === 'Brick' || slot.className === 'CustomNpc' ? 'rightHand' : (itemClass && itemClass.prototype instanceof AWTSMOOS.Apparel ? 'jacket' : null))
+                ...itemData,
+                // Explicitly pass sellValue for the store
+                sellValue: itemData.sellValue || 0,
+                equipSlot: itemData.equipSlot || (itemData.className === 'Tool' || itemData.className === 'Brick' || itemData.className === 'CustomNpc' ? 'rightHand' : (itemData.className === 'Apparel' ? 'jacket' : null))
             };
         };
 
@@ -317,13 +348,6 @@ export default class InventoryManager {
     }
     
     sortInventory() {
-        // B"H: Sort by name
-        // Note: This implementation only sorts by name and pushes nulls to end.
-        // It resets indices, so we MUST clear equipment if we don't re-map it.
-        // For simplicity in this version, we'll sort but acknowledge equipment will be unequipped or misaligned.
-        // To fix properly, we'd need to remap equipment indices or unequip everything first.
-        // Let's choose SAFETY: Unequip all before sorting.
-        
         this.equipment = { head: null, jacket: null, legs: null, feet: null, rightHand: null, leftHand: null };
 
         this.slots.sort((a, b) => {

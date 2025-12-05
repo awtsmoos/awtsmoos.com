@@ -12,6 +12,8 @@ const serializeValue = require('../serialize/serializeValue.js');
 const IndexManager = require('./indexManager.js');
 const { writePointer48, readPointer48 } = require('../utils/binaryHelpers.js');
 
+const HEADER_SIZE = constants.HEADER_SIZE || 64;
+
 class Collection {
     constructor(rootBlockId, allocator) {
         this.headerId = rootBlockId;
@@ -54,7 +56,8 @@ class Collection {
                      let blk = await this.allocator.readBlockLocked(currentBlock);
                      if (!blk) blk = Buffer.alloc(constants.BLOCK_SIZE);
 
-                     const start = (currentBlock === dataPtr.blockId) ? dataPtr.offset : constants.UNIT_SIZE;
+                     // B"H: FIX - Use HEADER_SIZE for subsequent blocks to avoid header corruption
+                     const start = (currentBlock === dataPtr.blockId) ? dataPtr.offset : HEADER_SIZE;
                      const avail = constants.BLOCK_SIZE - start;
                      const chunk = Math.min(remaining.length, avail);
                      

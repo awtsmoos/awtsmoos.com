@@ -15,6 +15,11 @@ class Allocator {
         this.UNIT_SIZE = constants.UNIT_SIZE || 32;
         this.BLOCK_SIZE = constants.BLOCK_SIZE || 4096;
         this.HEADER_SIZE = constants.HEADER_SIZE || 64; 
+        
+        // B"H: Removed hardcoded 1,000,000 limit.
+        // Using a dynamic max based on 48-bit pointer capability (approx 281 TB).
+        // Practically, we wrap when we hit a safe integer limit or disk space runs out physically.
+        this.MAX_BLOCKS = Number.MAX_SAFE_INTEGER; 
     }
 
     log(msg) { 
@@ -31,7 +36,7 @@ class Allocator {
             
             this.log(`Init: Read Saved Cursor: ${savedCursor} from offset ${offset}`);
 
-            if (savedCursor > 2 && savedCursor < 1000000000) {
+            if (savedCursor > 2 && savedCursor < this.MAX_BLOCKS) {
                 this.cursor = savedCursor;
                 this.lastFreeHint = savedCursor;
             } else {
@@ -67,6 +72,32 @@ class Allocator {
     
     async readSequentialLocked(startBlockId, numberOfBlocks) {
         return this.executeLocked(() => this.pager.readSequential(startBlockId, numberOfBlocks));
+    }
+
+    /**
+     * B"H: Atomic SuperBlock Update.
+     * Prevents race conditions where DB updates RootPtr and Allocator updates Cursor concurrently.
+     * @param {Function} modifierFn - (buffer) => void
+     */
+    async updateSuperBlock(modifierFn) {
+        return this.executeLocked(async () => {
+            let sb = await this.pager.readBlock(0);
+            if (!sb) sb = Buffer.alloc(this.BLOCK_SIZE);
+            
+            // Ensure Magic
+            const magic = "AwtsmoosDB_V1B\"H";
+            if (sb.toString('utf8', 0, magic.length) !== magic) {
+                sb.write(magic, 0);
+            }
+            
+            // Allow caller to modify SB (e.g. update Root Ptr)
+            if (modifierFn) modifierFn(sb);
+            
+            // Always enforce current cursor state
+            writePointer48(sb, this.cursor, constants.SB_OFFSETS.NEXT_SEQ_BLOCK);
+            
+            await this.pager.writeBlock(0, sb);
+        });
     }
 
     allocate(sizeBytes) {
@@ -138,7 +169,7 @@ class Allocator {
                     return { blockId: searchPtr, offset: 0, length: this.BLOCK_SIZE, isChain: false };
                 }
                 searchPtr++;
-                if (searchPtr > 1000000) {
+                if (searchPtr > this.MAX_BLOCKS) {
                     if (looped) throw new Error("Disk Full");
                     searchPtr = 2;
                     looped = true;
@@ -154,26 +185,58 @@ class Allocator {
     }
 
     async _saveStateInternal() {
+        // B"H: Internal save doesn't need to read SB if we trust we are the only writer,
+        // BUT for safety against external modification (DB Root Ptr), we should read-mod-write.
+        // HOWEVER, _saveStateInternal is called from within allocate(), which is locked.
+        // To avoid recursion deadlock, we do NOT call updateSuperBlock here.
+        // We do a direct read-mod-write.
+        
         let sb = await this.pager.readBlock(0);
         if (!sb) sb = Buffer.alloc(this.BLOCK_SIZE);
         
         const magic = "AwtsmoosDB_V1B\"H";
-        sb.write(magic, 0);
+        if (sb.toString('utf8', 0, magic.length) !== magic) {
+            sb.write(magic, 0);
+        }
 
         writePointer48(sb, this.cursor, constants.SB_OFFSETS.NEXT_SEQ_BLOCK);
         await this.pager.writeBlock(0, sb);
     }
 
     async isBlockTrulyFree(blockId) {
-        const type = await this.pager.readBlockType(blockId);
-        if (type !== null && type !== 0 && type !== constants.BLOCK_TYPE.FREE) return false;
+        // B"H: Strict check. Read the full block.
+        // Trusting readBlockType (first 4 bytes) is risky if the block was written but type somehow corrupted or zeroed,
+        // YET still contains valid bitmap data.
         
         const block = await this.pager.readBlock(blockId);
-        if (!block) return true; 
+        if (!block) return true; // File end / Null block
 
-        for (let i = 0; i < block.length; i++) {
+        // 1. Check Type (Bytes 0-4)
+        const type = block.readUInt32BE(0);
+        if (type !== 0 && type !== constants.BLOCK_TYPE.FREE) return false;
+
+        // 2. Check Bitmap (Bytes 4-20)
+        // Even if type is 0, if bitmap shows allocation, DO NOT TOUCH.
+        // This handles cases where type header might be zero (initially) but block is in use.
+        const bitmapSize = constants.BITMAP_SIZE || 16;
+        const bitmap = block.subarray(constants.BITMAP_OFFSET, constants.BITMAP_OFFSET + bitmapSize);
+        
+        // Header units (usually 2 units = 64 bytes) are always marked used in a valid block.
+        // But if it's "Free", the bitmap should be all zeros.
+        for(let i=0; i<bitmap.length; i++) {
+            if (bitmap[i] !== 0) {
+                // Bitmap has activity. This block is NOT free.
+                return false;
+            }
+        }
+
+        // 3. Check Content (Bytes 64+)
+        // If bitmap is empty, check if data area has content.
+        // This is the "Nuclear Option" check.
+        for (let i = this.HEADER_SIZE; i < block.length; i++) {
             if (block[i] !== 0) return false; 
         }
+        
         return true;
     }
 
@@ -183,6 +246,7 @@ class Allocator {
         let looped = false;
 
         while (true) {
+            // B"H: Optimization - Peek Type first, but don't trust it fully if 0.
             const type = await this.pager.readBlockType(searchPtr);
             
             if (type === null || type === 0 || type === constants.BLOCK_TYPE.FREE) {
@@ -231,7 +295,7 @@ class Allocator {
             }
 
             searchPtr++;
-            if (searchPtr > 1000000) { 
+            if (searchPtr > this.MAX_BLOCKS) { 
                 if (looped) throw new Error("Disk Full");
                 searchPtr = 2; 
                 looped = true;
@@ -240,8 +304,9 @@ class Allocator {
     }
 
     async allocateLarge(units, size) {
-        const DATA_PER_BLOCK = this.BLOCK_SIZE - this.UNIT_SIZE; 
-        const blocksNeeded = Math.ceil(size / DATA_PER_BLOCK);
+        const availablePerBlock = this.BLOCK_SIZE - this.HEADER_SIZE;
+        const blocksNeeded = Math.ceil(size / availablePerBlock);
+        
         let startBlock = await this.findSequentialBlocks(blocksNeeded);
         
         this.log(`Allocating Large Chain: Start ${startBlock}, Count ${blocksNeeded}`);
@@ -255,7 +320,7 @@ class Allocator {
         if (this.lastFreeHint > this.cursor) this.cursor = this.lastFreeHint;
         await this._saveStateInternal();
 
-        return { blockId: startBlock, offset: this.UNIT_SIZE, length: size, isChain: true };
+        return { blockId: startBlock, offset: this.HEADER_SIZE, length: size, isChain: true };
     }
 
     async findSequentialBlocks(count) {
@@ -263,7 +328,7 @@ class Allocator {
         if (ptr < 2) ptr = 2;
         let run = 0;
         let start = -1;
-        const MAX_SCAN = 100000; 
+        const MAX_SCAN = 2000000; 
         let attempts = 0;
         while (attempts < MAX_SCAN) {
             if (await this.isBlockTrulyFree(ptr)) {
@@ -272,15 +337,29 @@ class Allocator {
                 if (run === count) return start;
             } else { run = 0; }
             ptr++; attempts++;
+            
+            if (ptr > this.MAX_BLOCKS) ptr = 2;
         }
         throw new Error("Disk Full - Could not find sequential blocks");
     }
     
     async free(ptr) {
          if (!ptr || ptr.length === 0) return;
-         if (ptr.isChain) return;
 
          return this.executeLocked(async () => {
+             if (ptr.isChain) {
+                 const availablePerBlock = this.BLOCK_SIZE - this.HEADER_SIZE;
+                 const blocksUsed = Math.ceil(ptr.length / availablePerBlock);
+                 
+                 for (let i = 0; i < blocksUsed; i++) {
+                     const blockId = ptr.blockId + i;
+                     const cleanBuf = Buffer.alloc(this.BLOCK_SIZE);
+                     await this.pager.writeBlock(blockId, cleanBuf);
+                 }
+                 this.log(`Freed Chain: Start ${ptr.blockId}, Count ${blocksUsed}`);
+                 return;
+             }
+
              const block = await this.pager.readBlock(ptr.blockId);
              if (block) {
                  const bitmap = block.subarray(constants.BITMAP_OFFSET, constants.BITMAP_OFFSET + constants.BITMAP_SIZE);

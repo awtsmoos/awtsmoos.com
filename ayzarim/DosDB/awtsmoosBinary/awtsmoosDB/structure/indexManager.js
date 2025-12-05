@@ -3,6 +3,8 @@
 const BTree = require('./btree.js');
 const constants = require('../constants.js');
 
+const HEADER_SIZE = constants.HEADER_SIZE || 64;
+
 class IndexManager {
     constructor(allocator) {
         this.allocator = allocator;
@@ -24,8 +26,17 @@ class IndexManager {
 	
 	    let buffer;
 	    if (registryPtr.isChain) {
-	        const endBlockId = Math.floor(((registryPtr.blockId * constants.BLOCK_SIZE) + registryPtr.offset + registryPtr.length - 1) / constants.BLOCK_SIZE);
-	        const blocksToRead = (endBlockId - registryPtr.blockId) + 1;
+            // B"H: FIX - Correctly calculate blocksToRead based on capacity
+	        const firstBlockCap = constants.BLOCK_SIZE - registryPtr.offset;
+            const subsequentBlockCap = constants.BLOCK_SIZE - HEADER_SIZE;
+            
+            let remainingLen = registryPtr.length;
+            let blocksToRead = 1;
+            
+            if (remainingLen > firstBlockCap) {
+                remainingLen -= firstBlockCap;
+                blocksToRead += Math.ceil(remainingLen / subsequentBlockCap);
+            }
 	
 	        const rawChain = await this.allocator.pager.readSequential(registryPtr.blockId, blocksToRead);
 	        buffer = Buffer.alloc(registryPtr.length);
@@ -34,7 +45,8 @@ class IndexManager {
 	        let rem = registryPtr.length;
 	        for (let i = 0; i < blocksToRead; i++) {
 	            const blockView = rawChain.subarray(i * constants.BLOCK_SIZE, (i + 1) * constants.BLOCK_SIZE);
-	            const start = (i === 0) ? registryPtr.offset : constants.UNIT_SIZE;
+                // B"H: FIX - Use HEADER_SIZE
+	            const start = (i === 0) ? registryPtr.offset : HEADER_SIZE;
 	            const avail = constants.BLOCK_SIZE - start;
 	            const copy = Math.min(rem, avail);
 	            
@@ -84,7 +96,8 @@ class IndexManager {
 	        let currentBlock = newPtr.blockId;
 	        while (remaining.length > 0) {
 	            const blk = await this.allocator.pager.readBlock(currentBlock);
-	            const start = (currentBlock === newPtr.blockId) ? newPtr.offset : constants.UNIT_SIZE;
+                // B"H: FIX - Use HEADER_SIZE
+	            const start = (currentBlock === newPtr.blockId) ? newPtr.offset : HEADER_SIZE;
 	            const avail = constants.BLOCK_SIZE - start;
 	            const chunk = Math.min(remaining.length, avail);
 	            remaining.subarray(0, chunk).copy(blk, start);

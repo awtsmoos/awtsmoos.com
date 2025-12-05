@@ -11,7 +11,7 @@ async function runTest() {
     }
     
     // Debug off for speed
-    const db = new AwtsmoosDB(dbPath, { debug: false});
+    const db = new AwtsmoosDB(dbPath, { debug: true});
     
     try {
         console.log("B\"H - Starting ULTIMATE EXTREME Stress Test...");
@@ -153,7 +153,7 @@ async function runTest() {
         console.log(`\n[Extreme] Phase 5: The Great Flood (Restart)...`);
         await db.close();
         
-        const db2 = new AwtsmoosDB(dbPath, { debug: false });
+        const db2 = new AwtsmoosDB(dbPath, { debug: true});
         await db2.ensureOpen();
         
         // Verify Penthouse via Reconstructed Chain

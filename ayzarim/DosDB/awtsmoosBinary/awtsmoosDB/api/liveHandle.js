@@ -17,6 +17,10 @@ const TYPE_RAW = 1;
 const TYPE_BTREE = 2;
 const TYPE_COLLECTION = 3;
 
+// B"H: SuperBlock Offsets
+// Explicitly define to prevent collision with Allocator (which uses 64)
+const SB_ROOT_PTR_OFFSET = 16; 
+
 class LiveHandle {
     /**
      * @param {Object} db - The AwtsmoosDB Instance
@@ -30,20 +34,28 @@ class LiveHandle {
 
         return new Proxy(this, {
             get: (target, prop) => {
+                // B"H: Prevent infinite recursion during console.log/inspection
+                if (typeof prop === 'symbol') {
+                    if (prop === Symbol.asyncIterator) return target.iterator.bind(target);
+                    if (prop === Symbol.toStringTag) return 'LiveHandle';
+                    if (prop === Symbol.toPrimitive) return () => `[LiveHandle ${target.mode}]`;
+                    return undefined;
+                }
+                if (prop === 'inspect' || prop === 'valueOf' || prop === 'toString') {
+                    return () => `[LiveHandle ${target.mode}]`;
+                }
+
                 if (prop === 'then') return (res, rej) => target.resolveSelf().then(res, rej);
                 if (prop === 'catch') return (cb) => target.resolveSelf().catch(cb);
                 if (prop === 'finally') return (cb) => target.resolveSelf().finally(cb);
                 
-                if (prop === Symbol.asyncIterator) return target.iterator.bind(target);
-                
                 if (prop === 'constructor') return LiveHandle;
-                if (prop === 'toString') return () => `[LiveHandle ${target.mode}]`;
                 if (prop === 'toJSON') return target.toJSON.bind(target);
 
                 if (prop === 'push') return target.push.bind(target);
                 if (prop === 'slice') return target.slice.bind(target);
                 if (prop === 'delete' || prop === 'deleteProperty') return target.delete.bind(target);
-                // B"H: Fix - Expose set method
+                
                 if (prop === 'set') return target.set.bind(target);
                 
                 if (prop === 'createMap') return target.createMap.bind(target);
@@ -94,6 +106,9 @@ class LiveHandle {
     }
 
     navigate(key) {
+        // B"H: If key is not a string, we cannot search BTree.
+        if (typeof key !== 'string') return undefined;
+
         this.log(`Navigating to child: "${key}"`);
         const nextPromise = this.ptrPromise.then(async (ptr) => {
             await this.db.ensureOpen();
@@ -214,7 +229,13 @@ class LiveHandle {
 
     async _updateTreePointer(ptr, tree) {
          if (this.mode === 'ROOT') {
-            await this.db._writeRootPtrToSB(tree.rootPtr);
+            // B"H: Atomic Root Pointer Update via Allocator
+            await this.db.allocator.updateSuperBlock((sb) => {
+                 writePointer48(sb, tree.rootPtr.blockId, SB_ROOT_PTR_OFFSET);
+                 sb.writeUInt32BE(tree.rootPtr.offset, SB_ROOT_PTR_OFFSET + 6);
+                 sb.writeUInt32BE(tree.rootPtr.length, SB_ROOT_PTR_OFFSET + 10);
+                 sb.writeUInt8(tree.rootPtr.isChain ? 1 : 0, SB_ROOT_PTR_OFFSET + 14);
+            });
         } else {
             const metaBuf = await this.db._readChainSafe(ptr);
             const handlePtr = this._readPtr(metaBuf, 1);
@@ -223,8 +244,9 @@ class LiveHandle {
             newHandleBuf.write("TREE", 0);
             this._writePtr(newHandleBuf, 4, tree.rootPtr);
             await this.db._writeChainSafe(handlePtr, newHandleBuf);
+            // B"H: Ensure allocator state (cursor) is synced to disk
+            if (this.db.allocator) await this.db.allocator.saveState();
         }
-        if (this.db.allocator) await this.db.allocator.saveState();
     }
 
     async createMap(key) {
@@ -233,6 +255,9 @@ class LiveHandle {
             const ptr = await this.ptrPromise;
             await this.db.ensureOpen();
             const tree = await this._getCurrentTree(ptr);
+
+            // B"H: Capture old root for safe freeing
+            const oldRoot = tree.rootPtr;
 
             const newTree = new BTree(this.db.allocator);
             await newTree.getRoot(); 
@@ -252,6 +277,11 @@ class LiveHandle {
 
             await tree.insert(key, metaPtr);
             await this._updateTreePointer(ptr, tree);
+            
+            // B"H: Free old root only after persistent handle update
+            if (oldRoot && tree.rootPtr && (oldRoot.blockId !== tree.rootPtr.blockId || oldRoot.offset !== tree.rootPtr.offset)) {
+                 await this.db.allocator.free(oldRoot);
+            }
         });
     }
 
@@ -261,6 +291,9 @@ class LiveHandle {
             const ptr = await this.ptrPromise;
             await this.db.ensureOpen();
             const tree = await this._getCurrentTree(ptr);
+            
+            // B"H: Capture old root
+            const oldRoot = tree.rootPtr;
 
             // 1. Alloc Header Block (Collection)
             const headerPtr = await this.db.allocator.allocatePage(constants.BLOCK_TYPE.COLLECTION_HEADER || 3);
@@ -285,6 +318,11 @@ class LiveHandle {
 
             await tree.insert(key, metaPtr);
             await this._updateTreePointer(ptr, tree);
+            
+            // B"H: Free old root
+            if (oldRoot && tree.rootPtr && (oldRoot.blockId !== tree.rootPtr.blockId || oldRoot.offset !== tree.rootPtr.offset)) {
+                 await this.db.allocator.free(oldRoot);
+            }
         });
     }
 
@@ -293,11 +331,19 @@ class LiveHandle {
         const ptr = await this.ptrPromise;
         await this.db.ensureOpen();
         const tree = await this._getCurrentTree(ptr);
+        
+        // B"H: Capture old root
+        const oldRoot = tree.rootPtr;
 
         const metaPtr = await this.db._writeMetaValue(value);
         await tree.insert(key, metaPtr);
 
         await this._updateTreePointer(ptr, tree);
+        
+        // B"H: Free old root
+        if (oldRoot && tree.rootPtr && (oldRoot.blockId !== tree.rootPtr.blockId || oldRoot.offset !== tree.rootPtr.offset)) {
+             await this.db.allocator.free(oldRoot);
+        }
     }
 
     async delete(key) {
@@ -307,8 +353,17 @@ class LiveHandle {
         let tree;
         if (this.mode === 'ROOT') {
             tree = await this.db._loadRootTree();
+            const oldRoot = tree.rootPtr; // Capture
+            
             await tree.remove(key);
-            await this.db._writeRootPtrToSB(tree.rootPtr);
+            
+            await this._updateTreePointer(ptr, tree);
+            
+            // Free Old Root
+             if (oldRoot && tree.rootPtr && (oldRoot.blockId !== tree.rootPtr.blockId || oldRoot.offset !== tree.rootPtr.offset)) {
+                 await this.db.allocator.free(oldRoot);
+            }
+            
         } else {
             if (this.mode === 'DEFERRED') await this.detectMode(ptr);
             if (this.mode !== 'BTREE') return false;
@@ -319,12 +374,20 @@ class LiveHandle {
             const rootPtr = this._readPtr(handleBuf, 4);
             tree = new BTree(this.db.allocator, rootPtr);
             
+            const oldRoot = tree.rootPtr; // Capture
+            
             await tree.remove(key);
             
             const newHandleBuf = Buffer.alloc(32); 
             newHandleBuf.write("TREE", 0);
             this._writePtr(newHandleBuf, 4, tree.rootPtr);
             await this.db._writeChainSafe(handlePtr, newHandleBuf);
+            if (this.db.allocator) await this.db.allocator.saveState();
+            
+             // Free Old Root
+             if (oldRoot && tree.rootPtr && (oldRoot.blockId !== tree.rootPtr.blockId || oldRoot.offset !== tree.rootPtr.offset)) {
+                 await this.db.allocator.free(oldRoot);
+            }
         }
         return true;
     }

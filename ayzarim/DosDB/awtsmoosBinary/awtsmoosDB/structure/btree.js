@@ -7,6 +7,9 @@ const {
 	readPointer48 
 } = require('../utils/binaryHelpers.js');
 
+const HEADER_SIZE = constants.HEADER_SIZE || 64;
+const UNIT_SIZE = constants.UNIT_SIZE || 32;
+
 class BTree {
     constructor(allocator, rootPtr = null) {
         this.allocator = allocator;
@@ -39,9 +42,18 @@ class BTree {
 
 	    let buffer;
 	    if (ptr.isChain) {
-	        const endBlockId = Math.floor(((ptr.blockId * constants.BLOCK_SIZE) + ptr.offset + ptr.length - 1) / constants.BLOCK_SIZE);
-	        const blocksToRead = (endBlockId - ptr.blockId) + 1;
-	
+            // B"H: FIX - Calculate blocksToRead based on capacity (BLOCK_SIZE - HEADER_SIZE), not just raw offset math.
+            const firstBlockCap = constants.BLOCK_SIZE - ptr.offset;
+            const subsequentBlockCap = constants.BLOCK_SIZE - HEADER_SIZE;
+            
+            let remainingLen = ptr.length;
+            let blocksToRead = 1;
+            
+            if (remainingLen > firstBlockCap) {
+                remainingLen -= firstBlockCap;
+                blocksToRead += Math.ceil(remainingLen / subsequentBlockCap);
+            }
+
 	        const rawChain = await this.allocator.pager.readSequential(ptr.blockId, blocksToRead);
 	        buffer = Buffer.alloc(ptr.length);
 	        
@@ -50,7 +62,8 @@ class BTree {
 	        
 	        for (let i = 0; i < blocksToRead; i++) {
 	            const blockView = rawChain.subarray(i * constants.BLOCK_SIZE, (i + 1) * constants.BLOCK_SIZE);
-	            const start = (i === 0) ? ptr.offset : constants.UNIT_SIZE;
+                // B"H: FIX - Use HEADER_SIZE for subsequent blocks, not UNIT_SIZE
+	            const start = (i === 0) ? ptr.offset : HEADER_SIZE;
 	            const avail = constants.BLOCK_SIZE - start;
 	            const copy = Math.min(rem, avail);
 	            
@@ -195,10 +208,6 @@ class BTree {
 	
 	    const raw = Buffer.concat(parts);
         
-        // B"H: FIX - Do NOT free the old pointer here.
-        // We must delay freeing until the PARENT has been successfully saved with the new pointer.
-        // This prevents dangling pointers if a crash occurs or if space is reused aggressively.
-        
         // Retry Loop: Attempt to allocate and write up to 3 times to prevent transient corruption
         let attempts = 0;
         let lastError = null;
@@ -209,7 +218,25 @@ class BTree {
                 const newPtr = await this.allocator.allocate(raw.length);
             
                 if (newPtr.isChain) {
-                    await this.allocator.db._writeChainSafe(newPtr, raw);
+                    // B"H: Explicitly handle chain writing here to guarantee HEADER_SIZE safety.
+                    // Relying on `db._writeChainSafe` is risky if it uses UNIT_SIZE defaults.
+                    let remaining = raw;
+                    let currentBlock = newPtr.blockId;
+                    
+                    while(remaining.length > 0) {
+                        let blk = await this.allocator.readBlockLocked(currentBlock);
+                        if (!blk) blk = Buffer.alloc(constants.BLOCK_SIZE);
+
+                        const start = (currentBlock === newPtr.blockId) ? newPtr.offset : HEADER_SIZE;
+                        const avail = constants.BLOCK_SIZE - start;
+                        const chunk = Math.min(remaining.length, avail);
+                        
+                        remaining.subarray(0, chunk).copy(blk, start);
+                        await this.allocator.writeBlockLocked(currentBlock, blk);
+                        
+                        remaining = remaining.subarray(chunk);
+                        currentBlock++;
+                    }
                 } else {
                     await this.allocator.writeUserSpace(newPtr, raw);
                 }
@@ -229,17 +256,13 @@ class BTree {
 
     async insert(key, valuePtr) {
         const root = await this.getRoot();
-        const oldRootPtr = this.rootPtr; // Capture old root for deferred freeing
+        // B"H: We do NOT free oldRootPtr here anymore. 
+        // The caller (LiveHandle) handles it after updating the persistence layer.
         
         const result = await this.insertRecursive(root, key, valuePtr);
         
         if (result.newPtr) {
             this.rootPtr = result.newPtr;
-            
-            // B"H: Free old root only after successful update
-            if (oldRootPtr && result.newPtr.blockId !== oldRootPtr.blockId) {
-                await this.allocator.free(oldRootPtr);
-            }
         }
 
         if (result.newChild) {
@@ -305,17 +328,12 @@ class BTree {
             node.count = await this.sumChildren(node.children);
 	
 	        if (node.children.length > this.order + 1) {
-	            // Split handles saving of 'node', but we must defer freeing 'childPtr' until caller saves us.
-                // However, split returns 'newPtr' for THIS node.
-                // The caller will handle freeing THIS node's old ptr.
-                // WE must handle freeing the CHILD's old ptr.
+	            // Split handles saving of 'node'.
+                // Safe to free old child AFTER save logic.
                 
                 const splitRes = await this.splitInternal(node);
                 
-                // Now that we have processed the child update (and potentially split), 
-                // and successfully saved ourselves (via splitInternal),
-                // it is safe to free the old child pointer IF it changed.
-                 if (result.newPtr && childPtr && result.newPtr.blockId !== childPtr.blockId) {
+                 if (result.newPtr && childPtr && (result.newPtr.blockId !== childPtr.blockId || result.newPtr.offset !== childPtr.offset)) {
                     await this.allocator.free(childPtr);
                 }
                 
@@ -324,7 +342,7 @@ class BTree {
 	            const savedPtr = await this.saveNode(node);
                 
                 // Safe to free old child
-                if (result.newPtr && childPtr && result.newPtr.blockId !== childPtr.blockId) {
+                if (result.newPtr && childPtr && (result.newPtr.blockId !== childPtr.blockId || result.newPtr.offset !== childPtr.offset)) {
                     await this.allocator.free(childPtr);
                 }
 
@@ -335,7 +353,7 @@ class BTree {
 	        const savedPtr = await this.saveNode(node);
             
             // Safe to free old child
-            if (result.newPtr && childPtr && result.newPtr.blockId !== childPtr.blockId) {
+            if (result.newPtr && childPtr && (result.newPtr.blockId !== childPtr.blockId || result.newPtr.offset !== childPtr.offset)) {
                 await this.allocator.free(childPtr);
             }
 
@@ -475,15 +493,12 @@ class BTree {
     
     async remove(key) {
 	    const root = await this.getRoot();
-        const oldRootPtr = this.rootPtr;
+        // B"H: Do NOT free oldRootPtr here. Caller must do it.
         
 	    const result = await this.removeRecursive(root, key);
 	    
 	    if (result.modified) {
             this.rootPtr = result.newPtr;
-            if (oldRootPtr && result.newPtr.blockId !== oldRootPtr.blockId) {
-                await this.allocator.free(oldRootPtr);
-            }
 	    }
 	}
 	
@@ -516,7 +531,7 @@ class BTree {
 	        const savedPtr = await this.saveNode(node);
             
             // Safe to free old child
-            if (result.newPtr && childPtr && result.newPtr.blockId !== childPtr.blockId) {
+            if (result.newPtr && childPtr && (result.newPtr.blockId !== childPtr.blockId || result.newPtr.offset !== childPtr.offset)) {
                 await this.allocator.free(childPtr);
             }
 

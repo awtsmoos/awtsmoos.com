@@ -1,3 +1,4 @@
+
 /**
  * B"H
  * UI components that involve the in game experience
@@ -13,23 +14,7 @@ import storeScreen from "./screens/storeScreen.js";
 import effectsOverlay from "./components/effectsOverlay.js";
 import questLog from "./screens/questLog.js";
 
-// B"H: Define global sound helper for UI interactions
-// This ensures the function exists in the main thread's global scope
-const soundScript = {
-    tag: "script",
-    innerHTML: `
-    window.playUiSound = function(type) {
-        const audio = new Audio();
-        if (type === 'click') audio.src = "https://firebasestorage.googleapis.com/v0/b/ckids-games-assets.appspot.com/o/sound%2Feffects%2Fui%2Fclick.mp3?alt=media"; 
-        else if (type === 'hover') audio.src = "https://firebasestorage.googleapis.com/v0/b/ckids-games-assets.appspot.com/o/sound%2Feffects%2Fui%2Fhover.mp3?alt=media";
-        else if (type === 'success') audio.src = "https://firebasestorage.googleapis.com/v0/b/ckids-games-assets.appspot.com/o/sound%2Feffects%2Fding.ogg?alt=media";
-        audio.volume = 0.3;
-        audio.play().catch(e=>{});
-    };
-    `
-};
-
-var ui = [soundScript, instructions, {
+var ui = [instructions, {
     shaym: "menuTop",
     className: "menuTop",
     children: [{
@@ -50,7 +35,6 @@ var ui = [soundScript, instructions, {
             rd.onclick = me.onclick;
         },
         onclick(e, $) {
-            window.playUiSound('click');
             var m = $("menu");
             if (!m) return;
             m.classList.toggle("offscreen");
@@ -88,7 +72,6 @@ var ui = [soundScript, instructions, {
     children: [{
         className: "minimize opened",
         onclick(e, $, ui, el) {
-            window.playUiSound('click');
             var slots = $("action bar");
             if (!slots) return;
             slots.classList.toggle("minimized");
@@ -105,7 +88,6 @@ var ui = [soundScript, instructions, {
 
         function showTooltip() {
             if (!tooltip) return;
-            window.playUiSound('hover');
             tooltip.innerHTML = `<div class="header">${bagSlotInfo.name}</div><div class="description">${bagSlotInfo.description}</div>`;
             tooltip.classList.remove("hidden");
         }
@@ -123,7 +105,6 @@ var ui = [soundScript, instructions, {
                 className: "innerSlot",
                 on: { mouseenter: showTooltip, mousemove: moveTooltip, mouseleave: hideTooltip },
                 onclick(e) {
-                    window.playUiSound('click');
                     const inventoryScreen = $f(bagSlotInfo.show);
                     if (inventoryScreen) inventoryScreen.classList.remove("hidden");
                 },
@@ -142,7 +123,6 @@ var ui = [soundScript, instructions, {
             actionSlotsData.forEach((slotData, index) => {
                 const showTooltip = (event) => {
                     if (!slotData) return;
-                    window.playUiSound('hover');
                     const tooltip = $("icon tooltip");
                     if (tooltip) {
                         tooltip.innerHTML = `<div class="header">${slotData.name}</div><div class="description">${slotData.description}</div>`;
@@ -162,7 +142,6 @@ var ui = [soundScript, instructions, {
                         className: "innerSlot" + (slotData && slotData.isEquipped ? " equipped-indicator" : ""),
                         on: { mouseenter: showTooltip, mousemove: showTooltip, mouseleave: hideTooltip, touchstart: showTooltip },
                         onclick: (event) => { 
-                            window.playUiSound('click');
                             if (slotData) {
                                 const rect = event.currentTarget.getBoundingClientRect();
                                 ui.peula($("inventoryScreen"), {
@@ -208,7 +187,6 @@ var ui = [soundScript, instructions, {
             slotsData.forEach((slotData, index) => {
                 const showTooltip = (event) => {
                     if (!slotData) return;
-                    window.playUiSound('hover');
                     const tooltip = $("icon tooltip");
                     if (tooltip) {
                         tooltip.innerHTML = `<div class="header">${slotData.name || 'Item'}</div><div class="description">${slotData.description || ''}</div>`;
@@ -229,7 +207,6 @@ var ui = [soundScript, instructions, {
                     children: [{
                         className: "innerSlot" + (slotData && slotData.isEquipped ? " equipped-indicator" : ""),
                         onclick: (event) => {
-                            window.playUiSound('click');
                             if (slotData) {
                                 const rect = event.currentTarget.getBoundingClientRect();
                                 ui.peula($("inventoryScreen"), {
@@ -266,7 +243,6 @@ var ui = [soundScript, instructions, {
                     innerHTML: item ? "" : `<span style='font-size:10px; color:#aaa; text-transform:uppercase'>${slotName.replace("Hand", "")}</span>`,
                     onclick: (ev) => {
                         if (item) {
-                            window.playUiSound('click');
                             ui.peula("ikar", { olamPeula: { unequipItem: slotName } });
                         }
                     },
@@ -303,7 +279,6 @@ var ui = [soundScript, instructions, {
                 // SORT BUTTON
                 tag: "button", className: "awtsmoosBtn small", style: { marginLeft: "auto", marginRight: "10px", padding: "5px 10px", fontSize: "14px" }, textContent: "SORT",
                 onclick: (e, $, ui) => { 
-                    window.playUiSound('click');
                     // Trigger sort in worker/logic
                     ui.peula("ikar", { olamPeula: { sortInventory: true } });
                 } 
@@ -336,10 +311,6 @@ var ui = [soundScript, instructions, {
     children: ["Grab", "Delete"].map( (q, i, a) => ({ shaym: "menu item " + q, innerHTML: q, className: q, on: { awtsmoosHighlight(e) { var par = e.target.parentNode; Array.from(par.children).forEach(w => w.classList.remove("active")); e.target.classList.add("active") } }, onclick: async (e) => { ikar.dispatchEvent(new CustomEvent("olamPeula",{ detail: { activeObjectAction: e.target.innerHTML } })); } }))
 }, characterDesigner, storeScreen, effectsOverlay, questLog].concat(shlichusUI);
 
-// Quest Log update listener for sound
-questLog.on.questUpdated = (e) => {
-    window.playUiSound('success');
-};
 
 if (navigator.userAgent.includes("Mobile")) {
     ui = ui.concat(joystick);

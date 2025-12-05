@@ -113,9 +113,11 @@ export default function htmlHandlers(manager) {
 
         htmlPeula(obj) {
             if(!obj) return;
-            // Allows sending generic html peulas
+            // B"H FIX: Forward generic HTML peulas directly to the Olam event system
+            // instead of trying to run them as HTML actions.
+            // This allows Dialogue.js to listen for "htmlPeula toggleToOption".
             for(var k in obj) {
-                 manager.tawfeekim.htmlAction({ [k]: obj[k] }, true);
+                 manager.olam.ayshPeula("htmlPeula " + k, obj[k]);
             }
         },
 
