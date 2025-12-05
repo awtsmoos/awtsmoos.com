@@ -14,8 +14,8 @@
  */
 
 // Incrementing the version is crucial to force the browser to update the worker.
-const CACHE_NAME = 'awtsmoos-cache-v16';
-const DB_NAME = 'awtsmoos-metadata-v16';
+const CACHE_NAME = 'awtsmoos-cache-v18';
+const DB_NAME = 'awtsmoos-metadata-v18';
 const STATUS_HEADER = 'Awtsmoos-File-Status';
 
 // --- IndexedDB Helper (Unchanged and Correct) ---
@@ -165,6 +165,21 @@ async function handleFetch(request) {
             return fetchAndCache(request); 
         }
 
+        // --- STEP 3.25: CHECK FOR EXPLICIT REDIRECT INSTRUCTION ---
+        if (serverMeta && serverMeta.redirect) {
+            // The server is telling us this path should be redirected.
+            // We construct a manual 301 response.
+            // Explicitly set Content-Length to 0 to prevent hangs.
+            return new Response(null, {
+                status: 301,
+                statusText: "Moved Permanently",
+                headers: {
+                    "Location": serverMeta.redirect,
+                    "Content-Length": "0"
+                }
+            });
+        }
+
         // --- STEP 3.5: SHAPE CHECK ---
         if (
             !serverMeta || 
@@ -211,7 +226,7 @@ function createStatusRequest(request) {
     return new Request(request.url, {
         method: 'GET',
         headers: newHeaders,
-        redirect: 'manual',
+        redirect: 'manual', // We must not follow redirects automatically for status checks
         credentials: request.credentials,
     });
 }
@@ -224,11 +239,25 @@ async function fetchAndCache(request) {
     // Do NOT pass the 'request' object directly.
     const networkResponse = await fetch(request.url, { 
         cache: 'reload',
-        credentials: 'include' // CRITICAL for auth
+        credentials: 'include' 
     });
 
-    if (networkResponse && networkResponse.ok) {
-        if (!networkResponse.headers.has(STATUS_HEADER)) {
+    if (networkResponse) {
+        // IMPORTANT: If the network followed a redirect (e.g. 301 from /games to /games/), 
+        // we must tell the browser to redirect too, otherwise the URL bar stays wrong 
+        // and relative links break.
+        if (networkResponse.redirected && networkResponse.url !== request.url) {
+             return new Response(null, {
+                status: 301,
+                statusText: "Moved Permanently",
+                headers: {
+                    "Location": networkResponse.url,
+                    "Content-Length": "0"
+                }
+            });
+        }
+
+        if (networkResponse.ok && !networkResponse.headers.has(STATUS_HEADER)) {
             const cache = await caches.open(CACHE_NAME);
             // Key by URL String
             await cache.put(request.url, networkResponse.clone());
@@ -244,11 +273,23 @@ async function fetchAndUpdateMetadata(request, metadata) {
     // FIX: Pass request.url (String) and manually include credentials.
     const networkResponse = await fetch(request.url, { 
         cache: 'reload',
-        credentials: 'include' // CRITICAL for auth
+        credentials: 'include' 
     });
 
-    if (networkResponse && networkResponse.ok) {
-        if (!networkResponse.headers.has(STATUS_HEADER)) {
+    if (networkResponse) {
+        // Handle redirect enforcement here as well
+        if (networkResponse.redirected && networkResponse.url !== request.url) {
+             return new Response(null, {
+                status: 301,
+                statusText: "Moved Permanently",
+                headers: {
+                    "Location": networkResponse.url,
+                    "Content-Length": "0"
+                }
+            });
+        }
+
+        if (networkResponse.ok && !networkResponse.headers.has(STATUS_HEADER)) {
             const cache = await caches.open(CACHE_NAME);
             
             // 1. Save Content keyed by URL String

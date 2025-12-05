@@ -64,7 +64,6 @@ export default function coreHandlers(manager) {
         
         async getBitmap(data) {
              // Just pass through if needed, or handle if logic exists
-             // The worker usually sends this, but if main thread receives it:
              if(data && data.transfer) {
                  // Handle bitmap if needed
              }
@@ -83,18 +82,6 @@ export default function coreHandlers(manager) {
         getWindowSize(id) {
             const size = { width: innerWidth, height: innerHeight };
             eved.postMessage({ sized: { size, id } });
-        },
-        
-        // Input events proxies
-        mouseup(e){ eved.postMessage({"mouseup": e}); },
-        mousedown(e){ eved.postMessage({"mousedown": e}); },
-        rightmousedown(e){ eved.postMessage({"rightmousedown": e}); },
-        rightmouseup(e){ eved.postMessage({"rightmouseup": e}); },
-        presskey(e){ eved.postMessage({"presskey": e}); },
-        keyup(e){ eved.postMessage({"keyup": e}); },
-        keydown(e){ eved.postMessage({"keydown": e}); },
-        wheel(e){ eved.postMessage({"wheel": e}); },
-        mousemove(e){ eved.postMessage({"mousemove": e}); },
-        resize(e){ eved.postMessage({"resize": e}); }
+        }
     };
 }

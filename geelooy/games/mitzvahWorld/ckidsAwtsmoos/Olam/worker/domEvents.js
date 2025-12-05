@@ -36,16 +36,23 @@ export default function setupDomEvents(manager) {
         return false;
     }
 
+    function send(type, event) {
+        const cloned = Utils.clone(event);
+        if (cloned) {
+            eved.postMessage({[type]: cloned});
+        }
+    }
+
     window.addEventListener('resize', () => {
         eved.postMessage({'resize': { width: innerWidth, height: innerHeight }});
     });
 
     window.addEventListener('keydown', (event) => {
-        eved.postMessage({"keydown": Utils.clone(event)});
+        send("keydown", event);
     });
 
     window.addEventListener('keyup', (event) => {
-        eved.postMessage({"keyup": Utils.clone(event)});
+        send("keyup", event);
     });
 
     window.addEventListener("contextmenu", e => {
@@ -61,20 +68,20 @@ export default function setupDomEvents(manager) {
         if (classNameStr.includes("menuTop") || classNameStr.includes("mitzvahBtn")) return;
 
         if (el.tagName !== "svg" && el.tagName !== "path" && el.tagName !== "rect") {
-            if (ch(event)) eved.postMessage({"mousedown": Utils.clone(event)});
+            if (ch(event)) send("mousedown", event);
         }
     });
 
     window.addEventListener('mouseup', (event) => {
-        eved.postMessage({"mouseup": Utils.clone(event)});
+        send("mouseup", event);
     });
 
     window.addEventListener('mousemove', (event) => {
-        eved.postMessage({"mousemove": Utils.clone(event)});
+        send("mousemove", event);
     });
 
     window.addEventListener('wheel', (event) => {
-        if (ch(event)) eved.postMessage({"wheel": Utils.clone(event)});
+        if (ch(event)) send("wheel", event);
     });
 
     // Mobile Controls Logic
@@ -93,6 +100,13 @@ function setupMobileControls(manager) {
     // Constants from original file
     const ZOOM_INTENSITY = 26; 
     const TURN_INTENSITY = 1.3;
+
+    function send(type, event) {
+        const cloned = Utils.clone(event);
+        if (cloned) {
+            eved.postMessage({[type]: cloned});
+        }
+    }
 
     window.addEventListener("touchstart", event => {
         const joystickBase = document.getElementById('joystick-base');
@@ -114,7 +128,7 @@ function setupMobileControls(manager) {
         } 
         
         // Camera movement touch
-        const activeTouch = event.touches[0]; // Simplify for now
+        const activeTouch = event.touches[0]; 
         const clonedTouch = Utils.clone(activeTouch);
         clonedTouch.button = 2; // Right click emulation
         clonedTouch.isAwtsmoosMobile = true;

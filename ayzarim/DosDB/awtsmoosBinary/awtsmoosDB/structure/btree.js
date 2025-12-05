@@ -195,10 +195,9 @@ class BTree {
 	
 	    const raw = Buffer.concat(parts);
         
-        // Free old pointer before allocating new one to allow reuse
-        if (node.ptr) {
-            await this.allocator.free(node.ptr);
-        }
+        // B"H: FIX - Do NOT free the old pointer here.
+        // We must delay freeing until the PARENT has been successfully saved with the new pointer.
+        // This prevents dangling pointers if a crash occurs or if space is reused aggressively.
         
         // Retry Loop: Attempt to allocate and write up to 3 times to prevent transient corruption
         let attempts = 0;
@@ -216,15 +215,12 @@ class BTree {
                 }
                 
                 // CRITICAL: Verify the write immediately
-                // This ensures we never return a pointer to a zeroed block
                 await this.loadNode(newPtr);
                 
                 return newPtr;
             } catch (e) {
                 this.log(`Save Node Attempt ${attempts} failed: ${e.message}. Retrying...`);
                 lastError = e;
-                // If it was a verification failure, the block is corrupt or not written.
-                // We just loop to allocate a NEW block (likely different location) and try again.
             }
         }
         
@@ -233,10 +229,17 @@ class BTree {
 
     async insert(key, valuePtr) {
         const root = await this.getRoot();
+        const oldRootPtr = this.rootPtr; // Capture old root for deferred freeing
+        
         const result = await this.insertRecursive(root, key, valuePtr);
         
         if (result.newPtr) {
             this.rootPtr = result.newPtr;
+            
+            // B"H: Free old root only after successful update
+            if (oldRootPtr && result.newPtr.blockId !== oldRootPtr.blockId) {
+                await this.allocator.free(oldRootPtr);
+            }
         }
 
         if (result.newChild) {
@@ -285,7 +288,7 @@ class BTree {
              throw new Error(`BTree Integrity Error: Index ${idx} out of bounds for children length ${node.children.length}`);
         }
 
-	    const childPtr = node.children[idx];
+	    const childPtr = node.children[idx]; // Capture Old Child Ptr
 	    const childNode = await this.loadNode(childPtr);
 	    
 	    const result = await this.insertRecursive(childNode, key, valuePtr);
@@ -302,14 +305,40 @@ class BTree {
             node.count = await this.sumChildren(node.children);
 	
 	        if (node.children.length > this.order + 1) {
-	            return await this.splitInternal(node);
+	            // Split handles saving of 'node', but we must defer freeing 'childPtr' until caller saves us.
+                // However, split returns 'newPtr' for THIS node.
+                // The caller will handle freeing THIS node's old ptr.
+                // WE must handle freeing the CHILD's old ptr.
+                
+                const splitRes = await this.splitInternal(node);
+                
+                // Now that we have processed the child update (and potentially split), 
+                // and successfully saved ourselves (via splitInternal),
+                // it is safe to free the old child pointer IF it changed.
+                 if (result.newPtr && childPtr && result.newPtr.blockId !== childPtr.blockId) {
+                    await this.allocator.free(childPtr);
+                }
+                
+	            return splitRes;
 	        } else {
 	            const savedPtr = await this.saveNode(node);
+                
+                // Safe to free old child
+                if (result.newPtr && childPtr && result.newPtr.blockId !== childPtr.blockId) {
+                    await this.allocator.free(childPtr);
+                }
+
 	            return { newChild: null, newPtr: savedPtr };
 	        }
 	    } else {
 	        node.count = await this.sumChildren(node.children);
 	        const savedPtr = await this.saveNode(node);
+            
+            // Safe to free old child
+            if (result.newPtr && childPtr && result.newPtr.blockId !== childPtr.blockId) {
+                await this.allocator.free(childPtr);
+            }
+
 	        return { newChild: null, newPtr: savedPtr };
 	    }
 	}
@@ -446,10 +475,15 @@ class BTree {
     
     async remove(key) {
 	    const root = await this.getRoot();
+        const oldRootPtr = this.rootPtr;
+        
 	    const result = await this.removeRecursive(root, key);
 	    
 	    if (result.modified) {
             this.rootPtr = result.newPtr;
+            if (oldRootPtr && result.newPtr.blockId !== oldRootPtr.blockId) {
+                await this.allocator.free(oldRootPtr);
+            }
 	    }
 	}
 	
@@ -470,7 +504,7 @@ class BTree {
 	    let idx = 0;
 	    while (idx < node.keys.length && key >= node.keys[idx]) idx++;
 	    
-	    const childPtr = node.children[idx];
+	    const childPtr = node.children[idx]; // Capture Old
 	    const childNode = await this.loadNode(childPtr);
 	    
 	    const result = await this.removeRecursive(childNode, key);
@@ -480,6 +514,12 @@ class BTree {
 	        node.count += result.countDelta;
 	        
 	        const savedPtr = await this.saveNode(node);
+            
+            // Safe to free old child
+            if (result.newPtr && childPtr && result.newPtr.blockId !== childPtr.blockId) {
+                await this.allocator.free(childPtr);
+            }
+
 	        return { modified: true, newPtr: savedPtr, countDelta: result.countDelta };
 	    }
 	    

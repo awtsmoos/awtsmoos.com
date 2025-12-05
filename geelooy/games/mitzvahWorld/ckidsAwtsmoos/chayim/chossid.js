@@ -1,3 +1,4 @@
+
 /**
  * B"H
  * Player = Chossid
@@ -387,16 +388,21 @@ export default class Chossid extends Medabeir {
                 case ACTION_SELECT:
                     if(this.selected) {
                         this.selectMenuOption();
+                        return;
                     }
+                    
+                    // B"H: Prioritize active dialogue interactions over world block selection.
+                    // If we are talking to someone, 'Enter' should confirm the dialogue choice,
+                    // NOT select the NPC mesh (which happens if we check intersected first).
+                    if(this.interactingWith) {
+                        await this.interactingWith.selectOption();
+                        return;
+                    }
+
                     if(this.intersected) {
                         await this.selectIntersected();
                         return;
                     }
-                    if(!this.interactingWith) {
-                        
-                        return;
-                    }
-                    await this.interactingWith.selectOption();
 
                 break;
 

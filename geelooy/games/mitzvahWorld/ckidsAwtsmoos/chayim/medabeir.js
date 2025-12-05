@@ -12,6 +12,7 @@
 
 import Chai from "./chai.js";
 import * as AWTSMOOS from "../awtsmoosCkidsGames.js";
+import Utils from "../utils.js";
 
 export default class Medabeir extends Chai {
     type = "medabeir";
@@ -261,7 +262,9 @@ export default class Medabeir extends Chai {
             const currentTree = typeof(this._messageTreeFunction) == "function" ? 
                 this._messageTreeFunction(this) : this._messageTree;
             
-            this._tempTree = JSON.parse(JSON.stringify(currentTree));
+            // B"H: Use Utils.copyObj instead of JSON stringify/parse to PRESERVE FUNCTIONS
+            // This is essential because dialogue actions are functions, and JSON kills them.
+            this._tempTree = Utils.copyObj(currentTree);
         }
 
         var msg = this._tempTree[msgIndex];

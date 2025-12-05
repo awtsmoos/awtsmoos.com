@@ -32,7 +32,7 @@ export default function setupMessageHandler(manager) {
 
     manager.handleMessageEvent = (event) => {
         const data = event.data;
-        if (typeof data === 'object') {
+        if (typeof data === 'object' && data !== null) {
             Object.keys(data).forEach(key => {
                 const task = manager.tawfeekim[key];
                 const k = data[key];
@@ -50,7 +50,13 @@ export default function setupMessageHandler(manager) {
                 }
                 
                 // Execute custom tasks
-                if (manager.customTawfeekeem[key]) manager.customTawfeekeem[key](k);
+                if (manager.customTawfeekeem && manager.customTawfeekeem[key]) {
+                    try {
+                        manager.customTawfeekeem[key](k);
+                    } catch(e) {
+                        console.error("B\"H - Error in custom task:", key, e);
+                    }
+                }
 
                 // Handle Promises (generic logic for all returned events)
                 // If any event returns with an ID, we check if there's a promise waiting for it

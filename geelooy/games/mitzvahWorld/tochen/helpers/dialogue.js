@@ -1,3 +1,4 @@
+
 /**
  * B"H
  * a class to help with dialogue
@@ -83,12 +84,18 @@ export default class Dialogue extends Interaction {
                             "data-index": i
                         },
                         onclick: function(e, $, ui) {
-                            var ind = e.target.getAttribute("data-index");
+                            // B"H FIX: Robustly find the data-index even if clicked on child elements
+                            var target = e.target.closest("[data-index]");
+                            if (!target) return;
                             
-                        
-                            ui.peula(e.target, {
-                                toggleToOption: {
-                                    id: ind
+                            var ind = target.getAttribute("data-index");
+                            
+                            // B"H FIX: Wrap in htmlPeula so worker router catches it and fires the event on Olam
+                            ui.peula(target, {
+                                htmlPeula: {
+                                    toggleToOption: {
+                                        id: ind
+                                    }
                                 }
                             });
                         },

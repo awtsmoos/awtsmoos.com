@@ -1,4 +1,3 @@
-
 /**
  * B"H
  * UI components that involve the in game experience
@@ -14,17 +13,23 @@ import storeScreen from "./screens/storeScreen.js";
 import effectsOverlay from "./components/effectsOverlay.js";
 import questLog from "./screens/questLog.js";
 
-// B"H: Audio Helper for UI sounds
-function playUiSound(type) {
-    const audio = new Audio();
-    if (type === 'click') audio.src = "https://firebasestorage.googleapis.com/v0/b/ckids-games-assets.appspot.com/o/sound%2Feffects%2Fui%2Fclick.mp3?alt=media"; 
-    else if (type === 'hover') audio.src = "https://firebasestorage.googleapis.com/v0/b/ckids-games-assets.appspot.com/o/sound%2Feffects%2Fui%2Fhover.mp3?alt=media";
-    else if (type === 'success') audio.src = "https://firebasestorage.googleapis.com/v0/b/ckids-games-assets.appspot.com/o/sound%2Feffects%2Fding.ogg?alt=media";
-    audio.volume = 0.3;
-    audio.play().catch(e=>{});
-}
+// B"H: Define global sound helper for UI interactions
+// This ensures the function exists in the main thread's global scope
+const soundScript = {
+    tag: "script",
+    innerHTML: `
+    window.playUiSound = function(type) {
+        const audio = new Audio();
+        if (type === 'click') audio.src = "https://firebasestorage.googleapis.com/v0/b/ckids-games-assets.appspot.com/o/sound%2Feffects%2Fui%2Fclick.mp3?alt=media"; 
+        else if (type === 'hover') audio.src = "https://firebasestorage.googleapis.com/v0/b/ckids-games-assets.appspot.com/o/sound%2Feffects%2Fui%2Fhover.mp3?alt=media";
+        else if (type === 'success') audio.src = "https://firebasestorage.googleapis.com/v0/b/ckids-games-assets.appspot.com/o/sound%2Feffects%2Fding.ogg?alt=media";
+        audio.volume = 0.3;
+        audio.play().catch(e=>{});
+    };
+    `
+};
 
-var ui = [instructions, {
+var ui = [soundScript, instructions, {
     shaym: "menuTop",
     className: "menuTop",
     children: [{
@@ -45,7 +50,7 @@ var ui = [instructions, {
             rd.onclick = me.onclick;
         },
         onclick(e, $) {
-            playUiSound('click');
+            window.playUiSound('click');
             var m = $("menu");
             if (!m) return;
             m.classList.toggle("offscreen");
@@ -83,7 +88,7 @@ var ui = [instructions, {
     children: [{
         className: "minimize opened",
         onclick(e, $, ui, el) {
-            playUiSound('click');
+            window.playUiSound('click');
             var slots = $("action bar");
             if (!slots) return;
             slots.classList.toggle("minimized");
@@ -100,7 +105,7 @@ var ui = [instructions, {
 
         function showTooltip() {
             if (!tooltip) return;
-            playUiSound('hover');
+            window.playUiSound('hover');
             tooltip.innerHTML = `<div class="header">${bagSlotInfo.name}</div><div class="description">${bagSlotInfo.description}</div>`;
             tooltip.classList.remove("hidden");
         }
@@ -118,7 +123,7 @@ var ui = [instructions, {
                 className: "innerSlot",
                 on: { mouseenter: showTooltip, mousemove: moveTooltip, mouseleave: hideTooltip },
                 onclick(e) {
-                    playUiSound('click');
+                    window.playUiSound('click');
                     const inventoryScreen = $f(bagSlotInfo.show);
                     if (inventoryScreen) inventoryScreen.classList.remove("hidden");
                 },
@@ -137,7 +142,7 @@ var ui = [instructions, {
             actionSlotsData.forEach((slotData, index) => {
                 const showTooltip = (event) => {
                     if (!slotData) return;
-                    playUiSound('hover');
+                    window.playUiSound('hover');
                     const tooltip = $("icon tooltip");
                     if (tooltip) {
                         tooltip.innerHTML = `<div class="header">${slotData.name}</div><div class="description">${slotData.description}</div>`;
@@ -157,7 +162,7 @@ var ui = [instructions, {
                         className: "innerSlot" + (slotData && slotData.isEquipped ? " equipped-indicator" : ""),
                         on: { mouseenter: showTooltip, mousemove: showTooltip, mouseleave: hideTooltip, touchstart: showTooltip },
                         onclick: (event) => { 
-                            playUiSound('click');
+                            window.playUiSound('click');
                             if (slotData) {
                                 const rect = event.currentTarget.getBoundingClientRect();
                                 ui.peula($("inventoryScreen"), {
@@ -203,7 +208,7 @@ var ui = [instructions, {
             slotsData.forEach((slotData, index) => {
                 const showTooltip = (event) => {
                     if (!slotData) return;
-                    playUiSound('hover');
+                    window.playUiSound('hover');
                     const tooltip = $("icon tooltip");
                     if (tooltip) {
                         tooltip.innerHTML = `<div class="header">${slotData.name || 'Item'}</div><div class="description">${slotData.description || ''}</div>`;
@@ -224,7 +229,7 @@ var ui = [instructions, {
                     children: [{
                         className: "innerSlot" + (slotData && slotData.isEquipped ? " equipped-indicator" : ""),
                         onclick: (event) => {
-                            playUiSound('click');
+                            window.playUiSound('click');
                             if (slotData) {
                                 const rect = event.currentTarget.getBoundingClientRect();
                                 ui.peula($("inventoryScreen"), {
@@ -261,7 +266,7 @@ var ui = [instructions, {
                     innerHTML: item ? "" : `<span style='font-size:10px; color:#aaa; text-transform:uppercase'>${slotName.replace("Hand", "")}</span>`,
                     onclick: (ev) => {
                         if (item) {
-                            playUiSound('click');
+                            window.playUiSound('click');
                             ui.peula("ikar", { olamPeula: { unequipItem: slotName } });
                         }
                     },
@@ -298,7 +303,7 @@ var ui = [instructions, {
                 // SORT BUTTON
                 tag: "button", className: "awtsmoosBtn small", style: { marginLeft: "auto", marginRight: "10px", padding: "5px 10px", fontSize: "14px" }, textContent: "SORT",
                 onclick: (e, $, ui) => { 
-                    playUiSound('click');
+                    window.playUiSound('click');
                     // Trigger sort in worker/logic
                     ui.peula("ikar", { olamPeula: { sortInventory: true } });
                 } 
@@ -333,7 +338,7 @@ var ui = [instructions, {
 
 // Quest Log update listener for sound
 questLog.on.questUpdated = (e) => {
-    playUiSound('success');
+    window.playUiSound('success');
 };
 
 if (navigator.userAgent.includes("Mobile")) {

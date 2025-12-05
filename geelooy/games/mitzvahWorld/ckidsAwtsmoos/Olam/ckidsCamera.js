@@ -186,7 +186,9 @@ import * as THREE from '/games/scripts/build/three.module.js';
 
                 this.target.rotateOffset = 0;
             } else {
-                this.desiredDistance -= this.deltaY * 0.02 * this.zoomRate * Math.abs(this.desiredDistance) * this.speedDistance;
+                // B"H: Safety check for deltaY to prevent NaN propagation
+                const dY = (typeof this.deltaY === 'number' && !isNaN(this.deltaY)) ? this.deltaY : 0;
+                this.desiredDistance -= dY * 0.02 * this.zoomRate * Math.abs(this.desiredDistance) * this.speedDistance;
                 this.desiredDistance = Math.max(Math.min(this.desiredDistance, this.maxDistance), this.minDistance);
             }
         } else {
@@ -463,8 +465,9 @@ import * as THREE from '/games/scripts/build/three.module.js';
     }
 
     zoom(deltaY) {
-        this.newMovement=true
-        this.deltaY = deltaY;
+        this.newMovement=true;
+        // B"H: Ensure deltaY is a valid number to prevent NaN
+        this.deltaY = (typeof deltaY === 'number' && !isNaN(deltaY)) ? deltaY : 0;
     }
 
     panDown(amount) {
