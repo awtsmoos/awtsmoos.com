@@ -1,78 +1,18 @@
+
 // B"H
-/**
- * @file merkava-compiler.js
- * @version 1.2.5 - The Architect (Rectified)
- */
-
-(function(root, factory) {
-    if (typeof module === 'object' && module.exports) {
-        module.exports = factory(require('./merkava-opcodes.js'));
-    } else {
-        root.MerkavaCompiler = factory(root.MerkavaOpcodes);
-    }
-}(typeof self !== 'undefined' ? self : this, function(OpcodesModule) {
-
-    const { OPCODES } = OpcodesModule;
-
-    class BytecodeBuilder {
-        constructor() { this.bytes = []; }
-        write8(byte) { this.bytes.push(byte & 0xFF); return this.bytes.length - 1; }
-        write16(int) { this.bytes.push(int & 0xFF); this.bytes.push((int >> 8) & 0xFF); return this.bytes.length - 2; }
-        patch16(index, value) { this.bytes[index] = value & 0xFF; this.bytes[index + 1] = (value >> 8) & 0xFF; }
-        get currentAddress() { return this.bytes.length; }
-        toBuffer() { return new Uint8Array(this.bytes); }
-    }
-
-    class CompilerScope {
-        constructor(parent = null, isFunctionBoundary = false) {
-            this.parent = parent;
-            this.locals = new Map();
-            this.isFunctionBoundary = isFunctionBoundary;
-
-            if (isFunctionBoundary) {
-                this.stackIndex = 0;
-                this.depth = parent ? parent.depth + 1 : 0;
-            } else {
-                this.stackIndex = parent ? parent.stackIndex : 0;
-                this.depth = parent ? parent.depth : 0;
-            }
-        }
-        
-        declare(name) {
-            const index = this.stackIndex++;
-            this.locals.set(name, index);
-            return index;
-        }
-        
-        resolve(name) {
-            if (this.locals.has(name)) {
-                return { type: 'LOCAL', index: this.locals.get(name), depth: 0 };
-            }
-
-            if (this.parent) {
-                const res = this.parent.resolve(name);
-                if (res.type === 'GLOBAL') return res;
-
-                if (!this.isFunctionBoundary) {
-                    return res; 
-                } else {
-                    return { 
-                        type: 'UPVALUE', 
-                        index: res.index, 
-                        depth: res.depth + 1 
-                    };
-                }
-            }
-            
-            return { type: 'GLOBAL' };
-        }
-    }
+(function(root) {
+    root.MerkavaCompiler = root.MerkavaCompiler || {};
+    
+    // Dependencies
+    const { OPCODES } = root.MerkavaOpcodes;
+    const Scope = root.MerkavaCompiler.Scope;
+    const BytecodeBuilder = root.MerkavaCompiler.BytecodeBuilder;
 
     class Compiler {
         constructor() {
             this.constants = [];
             this.buffer = new BytecodeBuilder();
-            this.scope = new CompilerScope(null, true);
+            this.scope = new Scope(null, true);
             this.loops = [];
         }
 
@@ -410,26 +350,19 @@
         }
 
         _visitCall(node) {
-            // B"H - SYSCALL INTERCEPTION
-            // We must intercept 'syscall(id, ...args)' calls and emit the OPCODES.SYSCALL
-            // instead of a standard function call.
             if (node.callee.type === 'Identifier' && node.callee.name === 'syscall') {
                 const args = node.arguments;
                 if (args.length < 1) throw new Error("syscall requires ID");
-                
                 const idArg = args[0];
                 if (idArg.type !== 'Literal' || typeof idArg.value !== 'number') {
                     throw new Error("Syscall ID must be a literal number");
                 }
-                
-                // Push arguments (skipping the ID)
                 for (let i = 1; i < args.length; i++) {
                     this._visit(args[i]);
                 }
-                
                 this.buffer.write8(OPCODES.SYSCALL);
                 this.buffer.write8(idArg.value);
-                this.buffer.write8(args.length - 1); // argCount excluding ID
+                this.buffer.write8(args.length - 1); 
                 return;
             }
 
@@ -451,7 +384,7 @@
                 }
                 this.buffer.write8(OPCODES.ALLOC_ARRAY);
                 node.arguments.forEach((arg) => {
-                     this.buffer.write8(OPCODES.DUP); // Array
+                     this.buffer.write8(OPCODES.DUP); 
                      if(arg.type === 'SpreadElement') {
                          this._visit(arg.argument);
                          this.buffer.write8(OPCODES.SYSCALL);
@@ -597,7 +530,7 @@
         }
 
         _visitFor(node) {
-            this.scope = new CompilerScope(this.scope, false);
+            this.scope = new Scope(this.scope, false);
             if (node.init) this._visit(node.init);
             const start = this.buffer.currentAddress;
             if (node.test) {
@@ -642,7 +575,7 @@
         }
 
         _visitForOf(node) {
-            this.scope = new CompilerScope(this.scope, false);
+            this.scope = new Scope(this.scope, false);
             this._visit(node.right);
             this.buffer.write8(OPCODES.DUP); 
             const symIdx = this._addConstant("Symbol");
@@ -701,7 +634,7 @@
             this._visit(node.right); 
             this.buffer.write8(OPCODES.CALL);
             this.buffer.write8(1); 
-            this.scope = new CompilerScope(this.scope, false); 
+            this.scope = new Scope(this.scope, false); 
             const keysIdx = this.scope.declare("<keys>");
             this.buffer.write8(OPCODES.STORE_LOCAL);
             this.buffer.write8(keysIdx);
@@ -726,7 +659,7 @@
             const catchStartAddr = this.buffer.currentAddress;
             this.buffer.patch16(catchOffsetLoc, catchStartAddr - catchOffsetLoc - 2);
             if (node.handler) {
-                this.scope = new CompilerScope(this.scope, false);
+                this.scope = new Scope(this.scope, false);
                 this.buffer.write8(OPCODES.LOAD_ERROR); 
                 if (node.handler.param) {
                     this._compileDestructuring(node.handler.param);
@@ -767,7 +700,7 @@
 
         _visitFuncExpr(node) {
             const funcCompiler = new Compiler();
-            funcCompiler.scope = new CompilerScope(this.scope, true);
+            funcCompiler.scope = new Scope(this.scope, true);
             node.params.forEach(p => {
                 if (p.type === 'Identifier') funcCompiler.scope.declare(p.name);
             });
@@ -896,5 +829,5 @@
         }
     }
 
-    return { Compiler };
-}));
+    root.MerkavaCompiler.Compiler = Compiler;
+})(typeof self !== 'undefined' ? self : this);

@@ -11,7 +11,7 @@ class BTree {
     constructor(allocator, rootPtr = null) {
         this.allocator = allocator;
         this.rootPtr = rootPtr;
-        // Low order to force splits
+        // Low order to force splits and exercise logic freqently
         this.order = 10; 
         this.NODE_MAGIC = constants.MAGIC_BTREE_NODE || 0x42;
         this.GUARD_BYTE = constants.GUARD_BYTE || 0xFF;
@@ -33,6 +33,10 @@ class BTree {
     }
 
     async loadNode(ptr) {
+        if (!ptr || ptr.length === 0) {
+            throw new Error("BTree: Attempted to load null pointer");
+        }
+
 	    let buffer;
 	    if (ptr.isChain) {
 	        const endBlockId = Math.floor(((ptr.blockId * constants.BLOCK_SIZE) + ptr.offset + ptr.length - 1) / constants.BLOCK_SIZE);
@@ -62,32 +66,48 @@ class BTree {
             }
 	        buffer = block.subarray(ptr.offset, ptr.offset + ptr.length);
 	    }
+        
+        if (buffer.length === 0) {
+            throw new Error(`BTree: Loaded 0-length buffer for Ptr Block ${ptr.blockId} Off ${ptr.offset}`);
+        }
 	
 	    let offset = 0;
 	    
+        // Safety check for OOB
+        if (offset >= buffer.length) throw new Error("BTree: Buffer too short for Flags");
 	    const flags = buffer.readUInt8(offset); offset++;
 	    const isLeaf = (flags & 1) === 1;
 	
+        if (offset + 2 > buffer.length) throw new Error("BTree: Buffer too short for KeyCount");
 	    const keyCount = buffer.readUInt16BE(offset); offset += 2;
 	
 	    const keys = [];
 	    for (let i = 0; i < keyCount; i++) {
+            if (offset >= buffer.length) throw new Error("BTree: Buffer truncation reading Keys");
 	        const k = serializer.readString(buffer, offset);
 	        keys.push(k.value);
 	        offset += k.bytesRead;
             
-            // Validation
+            // Validation: Ensure sorted
             if (i > 0 && keys[i] < keys[i-1]) {
                 throw new Error(`BTree Corruption: Node keys unsorted on load. ${keys[i-1]} > ${keys[i]}`);
             }
 	    }
 	
 	    const readPtr = () => {
-            if (offset + 6 > buffer.length) return { blockId: 0, offset: 0, length: 0, isChain: false };
+            // Strict bound check: We need at least 6 bytes for blockID + 2 bytes min for varints + 1 byte chain = 9 bytes
+            if (offset + 6 > buffer.length) {
+                return null;
+            }
 	        const blockId = readPointer48(buffer, offset); offset += 6;
 	        const o = serializer.readVarInt(buffer, offset); offset += o.bytesRead;
 	        const l = serializer.readVarInt(buffer, offset); offset += l.bytesRead;
+            
+            if (offset >= buffer.length) return null;
 	        const c = buffer.readUInt8(offset); offset++;
+            
+            if (blockId === 0) return null; // Treat blockId 0 as null/corruption
+
 	        return { blockId: blockId, offset: o.value, length: l.value, isChain: c === 1 };
 	    };
 	
@@ -96,22 +116,42 @@ class BTree {
 	
 	    if (isLeaf) {
 	        for (let i = 0; i < keyCount; i++) {
-	            values.push(readPtr());
+                const val = readPtr();
+                if (!val) throw new Error("BTree: Buffer truncation or Corruption reading Values");
+	            values.push(val);
 	        }
 	    } else {
 	        for (let i = 0; i <= keyCount; i++) {
-	            children.push(readPtr());
+                const child = readPtr();
+                if (!child) throw new Error(`BTree: Buffer truncation or Corruption reading Children. Expected ${keyCount+1}, got ${i}. Block ${ptr.blockId}, Offset ${ptr.offset}`);
+	            children.push(child);
 	        }
 	    }
 	
-	    const count = buffer.readUInt32BE(offset);
-        offset += 4;
+        if (offset + 4 > buffer.length) {
+             this.log("Warn: BTree Node Buffer missing Count/Guard");
+        } else {
+            const count = buffer.readUInt32BE(offset);
+            offset += 4;
+            return { isLeaf, keys, values, children, count, ptr };
+        }
         
-        return { isLeaf, keys, values, children, count, ptr };
+        return { isLeaf, keys, values, children, count: 0, ptr };
 	}
 
     async saveNode(node) {
-        // Validation
+        // Invariant Check
+        if (!node.isLeaf) {
+            if (node.children.length !== node.keys.length + 1) {
+                throw new Error(`BTree Save Invariant Violation: Internal Node has ${node.keys.length} keys but ${node.children.length} children. Expected ${node.keys.length + 1}.`);
+            }
+        } else {
+             if (node.values.length !== node.keys.length) {
+                throw new Error(`BTree Save Invariant Violation: Leaf Node has ${node.keys.length} keys but ${node.values.length} values.`);
+            }
+        }
+
+        // Validation: Ensure sorted
         for (let i = 1; i < node.keys.length; i++) {
             if (node.keys[i] < node.keys[i-1]) {
                 throw new Error(`BTree Save Error: Keys unsorted before save. ${node.keys[i-1]} > ${node.keys[i]}`);
@@ -131,6 +171,7 @@ class BTree {
 	    }
 	
 	    const writePtr = (p) => {
+            if (!p || p.blockId === 0) throw new Error("BTree Save Error: Attempting to write null/invalid pointer");
 	        const bBuf = Buffer.alloc(6);
 	        writePointer48(bBuf, p.blockId, 0);
 	        parts.push(bBuf);
@@ -154,19 +195,40 @@ class BTree {
 	
 	    const raw = Buffer.concat(parts);
         
+        // Free old pointer before allocating new one to allow reuse
         if (node.ptr) {
             await this.allocator.free(node.ptr);
         }
-	
-	    const newPtr = await this.allocator.allocate(raw.length);
-	
-	    if (newPtr.isChain) {
-            this.allocator.db._writeChainSafe(newPtr, raw);
-	    } else {
-            await this.allocator.writeUserSpace(newPtr, raw);
-	    }
-	
-	    return newPtr;
+        
+        // Retry Loop: Attempt to allocate and write up to 3 times to prevent transient corruption
+        let attempts = 0;
+        let lastError = null;
+        
+        while (attempts < 3) {
+            attempts++;
+            try {
+                const newPtr = await this.allocator.allocate(raw.length);
+            
+                if (newPtr.isChain) {
+                    await this.allocator.db._writeChainSafe(newPtr, raw);
+                } else {
+                    await this.allocator.writeUserSpace(newPtr, raw);
+                }
+                
+                // CRITICAL: Verify the write immediately
+                // This ensures we never return a pointer to a zeroed block
+                await this.loadNode(newPtr);
+                
+                return newPtr;
+            } catch (e) {
+                this.log(`Save Node Attempt ${attempts} failed: ${e.message}. Retrying...`);
+                lastError = e;
+                // If it was a verification failure, the block is corrupt or not written.
+                // We just loop to allocate a NEW block (likely different location) and try again.
+            }
+        }
+        
+        throw new Error(`BTree Save Failed after 3 attempts. Last Error: ${lastError ? lastError.message : 'Unknown'}`);
 	}
 
     async insert(key, valuePtr) {
@@ -219,11 +281,16 @@ class BTree {
         // Navigation: Keys >= Separator go Right
 	    while (idx < node.keys.length && key >= node.keys[idx]) idx++;
 	    
+        if (idx >= node.children.length) {
+             throw new Error(`BTree Integrity Error: Index ${idx} out of bounds for children length ${node.children.length}`);
+        }
+
 	    const childPtr = node.children[idx];
 	    const childNode = await this.loadNode(childPtr);
 	    
 	    const result = await this.insertRecursive(childNode, key, valuePtr);
 	    
+        // Update pointer if child moved
         if (result.newPtr) {
             node.children[idx] = result.newPtr;
         }
@@ -298,7 +365,10 @@ class BTree {
 
     async sumChildren(childPtrs) {
         let sum = 0;
-        for(let p of childPtrs) sum += await this.getSubtreeCount(p);
+        for(let p of childPtrs) {
+            if(!p) continue;
+            sum += await this.getSubtreeCount(p);
+        }
         return sum;
     }
 
@@ -366,8 +436,6 @@ class BTree {
 	        const childCount = childNode.count;
             const childEnd = accumulator + childCount;
 	        
-            // B"H: FIX - If startRank is 0, we must assume we want everything.
-            // Also traverse if valid intersection.
             if (startRank === 0 || childEnd > startRank) {
                 await this.collectRange(childNode, startRank, limit, results, accumulator);
             }

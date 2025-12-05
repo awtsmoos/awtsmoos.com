@@ -1,39 +1,10 @@
+
 // B"H
-/**
- * @file merkava-vm.js
- * @version 1.0.6 - The Engine of Creation (Atomic Memory Access)
- */
-
-(function(root, factory) {
-    if (typeof module === 'object' && module.exports) {
-        module.exports = factory(require('./merkava-opcodes.js'), require('./merkava-memory.js'));
-    } else {
-        root.MerkavaVM = factory(root.MerkavaOpcodes, root.MerkavaMemory);
-    }
-}(typeof self !== 'undefined' ? self : this, function(OpcodesModule, MemoryModule) {
-
-    const { OPCODES, VM_THREAD_STATUS } = OpcodesModule;
-    const { isPageFault } = MemoryModule;
-
-    class Thread {
-        constructor(id, codeObject, memory) {
-            this.id = id;
-            this.status = VM_THREAD_STATUS.RUNNING;
-            this.ip = 0; 
-            this.currentStartIP = 0; 
-            this.bp = 0; 
-            this.sp = 0; 
-            
-            this.stack = []; 
-            this.frames = []; 
-            this.code = codeObject.bytecode; 
-            this.constants = codeObject.constants; 
-            
-            this.scopePtr = null; 
-            this.catchStack = [];
-            this.errorRegister = null;
-        }
-    }
+(function(root) {
+    // Dependencies
+    const { OPCODES, VM_THREAD_STATUS } = root.MerkavaOpcodes;
+    const { isPageFault } = root.MerkavaMemory;
+    const Thread = root.MerkavaVM.Thread;
 
     class MerkavaVM {
         constructor(memoryManager, hostAPI = {}, hostContext = {}) {
@@ -115,7 +86,6 @@
                 return;
             }
             
-            // B"H - Capture IP before execution for retry logic
             thread.currentStartIP = thread.ip;
 
             const opcode = thread.code[thread.ip];
@@ -136,16 +106,11 @@
                     break;
                 }
                 case OPCODES.SET_PROTOTYPE: {
-                    // Peek to prevent stack corruption on PageFault
                     const protoPtr = thread.stack[thread.stack.length - 1];
                     const ctorPtr = thread.stack[thread.stack.length - 2];
-                    
-                    const ctorClosure = this.memory.get(ctorPtr); // Can throw PAGE_FAULT
-                    
-                    // Safe to pop now
-                    thread.stack.pop(); // proto
-                    thread.stack.pop(); // ctor
-                    
+                    const ctorClosure = this.memory.get(ctorPtr); 
+                    thread.stack.pop(); 
+                    thread.stack.pop(); 
                     ctorClosure.prototypePtr = protoPtr;
                     this.memory.set(ctorPtr, ctorClosure);
                     thread.stack.push(ctorPtr);
@@ -153,7 +118,7 @@
                 }
                 case OPCODES.ENTER_TRY: {
                     const catchOffset = this._readInt16(thread);
-                    this._readInt16(thread); // finallyOffset
+                    this._readInt16(thread); 
                     thread.catchStack.push({
                         catchIP: (thread.ip - 2) + catchOffset,
                         stackSize: thread.stack.length 
@@ -169,18 +134,13 @@
                 case OPCODES.NEW: {
                     const argCount = this._readUint8(thread);
                     const frameSize = argCount + 1;
-                    
-                    // Peek constructor pointer
                     const constructorPtr = thread.stack[thread.stack.length - frameSize];
-                    
                     let Constructor;
                     if (typeof constructorPtr === 'function') {
                         Constructor = constructorPtr;
                     } else {
-                        Constructor = this.memory.get(constructorPtr); // Can throw PAGE_FAULT
+                        Constructor = this.memory.get(constructorPtr); 
                     }
-
-                    // Safe to mutate stack now
                     const callFrame = thread.stack.splice(thread.stack.length - frameSize);
                     const args = callFrame.slice(1);
 
@@ -212,9 +172,7 @@
                             instancePtr: instancePtr,
                             prevScopePtr: thread.scopePtr
                         });
-                        // Scope Reset for Constructor
                         thread.scopePtr = Constructor.moduleScopePtr || null;
-                        
                         thread.stack = [instancePtr, ...args];
                         thread.bp = 1;
                         thread.code = Constructor.bytecode;
@@ -293,32 +251,19 @@
                 case OPCODES.LOAD_GLOBAL: {
                     const name = thread.constants[this._readInt16(thread)];
                     let val = undefined, found = false;
-                    
-                    // Access memory.get first to trigger fault if needed
                     let moduleScope, globalScope;
-                    if (thread.scopePtr) { 
-                        moduleScope = this.memory.get(thread.scopePtr); // PAGE_FAULT Check
-                    }
-                    const globalPtr = 1;
-                    globalScope = this.memory.get(globalPtr); // PAGE_FAULT Check
-
+                    if (thread.scopePtr) moduleScope = this.memory.get(thread.scopePtr);
+                    globalScope = this.memory.get(1);
                     if (moduleScope && name in moduleScope) { val = moduleScope[name]; found = true; }
-                    
-                    if (!found) {
-                        if (globalScope && name in globalScope) { val = globalScope[name]; found = true; }
-                    }
+                    if (!found && globalScope && name in globalScope) { val = globalScope[name]; found = true; }
                     if (!found && name in this.hostContext) { val = this.hostContext[name]; found = true; }
                     thread.stack.push(val);
                     break;
                 }
                 case OPCODES.STORE_GLOBAL: {
                     const name = thread.constants[this._readInt16(thread)];
-                    
-                    // B"H - Atomic Check: Ensure scope is in RAM before popping value
                     const ptr = thread.scopePtr || 1;
-                    const scope = this.memory.get(ptr); // PAGE_FAULT Check
-                    
-                    // Safe to pop
+                    const scope = this.memory.get(ptr); 
                     const val = thread.stack.pop();
                     scope[name] = val;
                     this.memory.set(ptr, scope);
@@ -327,17 +272,15 @@
                 case OPCODES.ALLOC_ARRAY: thread.stack.push(this.memory.allocate([])); break;
                 case OPCODES.ALLOC_OBJECT: thread.stack.push(this.memory.allocate({})); break;
                 case OPCODES.GET_PROP: {
-                    // Peek
                     const key = thread.stack[thread.stack.length - 1];
                     const objPtr = thread.stack[thread.stack.length - 2];
-                    
                     let resultVal;
                     if ((typeof objPtr === 'object' && objPtr !== null) || typeof objPtr === 'function') {
                         const val = objPtr[key];
                         resultVal = (typeof val === 'function') ? val.bind(objPtr) : val;
                     } else {
                         try {
-                            const obj = this.memory.get(objPtr); // PAGE_FAULT Check
+                            const obj = this.memory.get(objPtr);
                             resultVal = obj[key];
                         } catch (e) {
                             if (e && e.type === "PRIMITIVE_ACCESS") {
@@ -346,27 +289,17 @@
                             } else throw e;
                         }
                     }
-                    
-                    // Safe to mutate stack
-                    thread.stack.pop(); // key
-                    thread.stack.pop(); // obj
-                    thread.stack.push(resultVal);
+                    thread.stack.pop(); thread.stack.pop(); thread.stack.push(resultVal);
                     break;
                 }
                 case OPCODES.SET_PROP: {
-                    // Peek
                     const objPtr = thread.stack[thread.stack.length - 3];
-                    
                     if (!((typeof objPtr === 'object' && objPtr !== null) || typeof objPtr === 'function')) {
-                        // Ensure it's in memory
-                        this.memory.get(objPtr); // PAGE_FAULT Check
+                        this.memory.get(objPtr); 
                     }
-                    
-                    // Safe to pop
                     const val = thread.stack.pop(); 
                     const key = thread.stack.pop(); 
-                    const target = thread.stack.pop(); // popped objPtr
-
+                    const target = thread.stack.pop();
                     if ((typeof target === 'object' && target !== null) || typeof target === 'function') {
                         target[key] = val;
                     } else {
@@ -400,18 +333,13 @@
                 case OPCODES.CALL: {
                     const argCount = this._readUint8(thread);
                     const frameSize = argCount + 2;
-                    
-                    // Peek Func Ptr
                     const funcPtr = thread.stack[thread.stack.length - frameSize];
-                    
                     let funcObj;
                     if (typeof funcPtr === 'function') funcObj = funcPtr;
                     else {
-                        try { funcObj = this.memory.get(funcPtr); } // PAGE_FAULT Check
+                        try { funcObj = this.memory.get(funcPtr); } 
                         catch (e) { if (e && e.type === "PRIMITIVE_ACCESS") break; else throw e; }
                     }
-
-                    // Safe to mutate stack
                     const prevStack = thread.stack.slice(0, thread.stack.length - frameSize);
                     const callFrame = thread.stack.splice(thread.stack.length - frameSize);
                     const thisVal = callFrame[1];
@@ -439,9 +367,7 @@
                             returnIP: thread.ip, prevBP: thread.bp, prevStack: prevStack, 
                             code: thread.code, constants: thread.constants, prevScopePtr: thread.scopePtr
                         });
-                        
                         thread.scopePtr = funcObj.moduleScopePtr || null;
-                        
                         thread.stack = [thisVal, ...args];
                         thread.bp = 1; 
                         thread.code = funcObj.bytecode;
@@ -486,8 +412,6 @@
 
         _handleInterrupt(thread, error) {
             if (isPageFault(error)) {
-                // B"H - Restore IP to the START of the current instruction
-                // Because we peeked/checked memory before popping, the stack is still valid.
                 thread.ip = thread.currentStartIP; 
                 thread.status = VM_THREAD_STATUS.WAITING_FOR_PAGE;
                 this.memory.resolveFault(error.ptr).then(success => {
@@ -496,14 +420,12 @@
                 });
                 return;
             }
-
             if (thread.catchStack.length > 0) {
                 const handler = thread.catchStack.pop();
                 thread.ip = handler.catchIP;
                 while (thread.stack.length > handler.stackSize) thread.stack.pop();
                 thread.errorRegister = error.message || error;
             } else {
-                const msg = error ? (error.message || String(error)) : "Unknown Error";
                 console.error(`[VM] Thread #${thread.id} Crash:`, error);
                 thread.status = VM_THREAD_STATUS.CRASHED;
             }
@@ -518,5 +440,5 @@
         }
     }
 
-    return MerkavaVM;
-}));
+    root.MerkavaVM = MerkavaVM;
+})(typeof self !== 'undefined' ? self : this);

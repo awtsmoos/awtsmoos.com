@@ -1,6 +1,6 @@
 // B"H
 import { state } from '../store.js';
-import { refreshSnippets, sendMessage } from '../network.js';
+import { refreshSnippets } from '../network.js';
 import { formatTime } from '../helpers.js';
 import { FX } from './fx.js';
 
@@ -8,9 +8,6 @@ let _uiRef = null;
 
 export function renderSidebar(ui, parent) {
     _uiRef = ui;
-    
-    // Ensure parent is clear or set up correctly
-    // The parent is 'sidebarWrapper' from index.tsx
     
     // Header
     ui.html({
@@ -214,6 +211,8 @@ function switchChat(ui, correspondent, displayName) {
                                 e.target.value = '';
                                 msgArea.scrollTop = msgArea.scrollHeight;
                                 if(FX.playSound) FX.playSound('sent');
+                                
+                                // Network call would go here
                             }
                         }
                     }
@@ -281,13 +280,14 @@ function renderMessage(ui, parent, msg, prevMsg, chatName) {
         classList: ['message-bubble']
     });
 
-    // Content - DIRECT INNERHTML ASSIGNMENT TO FIX RENDERING
+    // Content
     const contentEl = ui.html({
         parent: bubble,
         tag: 'div',
         classList: ['message-content']
     });
-    // This is the critical fix. We set innerHTML directly on the element.
+    
+    // DIRECT HTML INJECTION
     contentEl.innerHTML = robustParse(msg.body);
 
     // Time
@@ -308,14 +308,17 @@ function robustParse(text) {
         .replace(/&#039;/g, "'")
         .replace(/&amp;/g, '&');
 
-    // Markdown
+    // Formatting
     decoded = decoded.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
     decoded = decoded.replace(/\*(.*?)\*/g, '<i>$1</i>');
     decoded = decoded.replace(/```([\s\S]*?)```/g, '<pre><code>$1</code></pre>');
     decoded = decoded.replace(/`([^`]+)`/g, '<code>$1</code>');
     
-    // Auto-Link
-    decoded = decoded.replace(/(?<!=")(https?:\/\/[^\s<]+)/g, '<a href="$1" target="_blank">$1</a>');
+    // Auto-Link with Inline Styles to FORCE Cyan Color (No Blue)
+    decoded = decoded.replace(
+        /(?<!=")(https?:\/\/[^\s<]+)/g, 
+        '<a href="$1" target="_blank" style="color:#06b6d4;text-decoration:none;border-bottom:1px dotted #06b6d4;">$1</a>'
+    );
     
     // Newlines (preserve inside pre)
     let parts = decoded.split(/(<pre[\s\S]*?<\/pre>)/g);

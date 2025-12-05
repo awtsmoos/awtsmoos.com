@@ -1,7 +1,8 @@
+
 // B"H
 /**
  * @file merkava-sdk.js
- * @version 1.4.3 - The Fractal Worker (Rectified)
+ * @version 1.5.0 - The Orchestrator
  */
 
 (function(root, factory) {
@@ -25,23 +26,31 @@
         }
     } catch(e) {}
 
-    // B"H - Path to the Immutable Parser
     const PARSER_PATH = '../MerkavaASTParser/parser-core.js';
+
+    // The Manifest of Fragments
+    const MODULES = [
+        'merkava-opcodes.js',
+        'merkava-memory/adapter.js',
+        'merkava-memory/index.js',
+        'merkava-compiler/scope.js',
+        'merkava-compiler/builder.js',
+        'merkava-compiler/index.js',
+        'merkava-vm/thread.js',
+        'merkava-vm/index.js',
+        'merkava-debugger.js'
+    ];
 
     const loadScript = (filename) => {
         return new Promise((resolve, reject) => {
             if (typeof importScripts === 'function') {
                 try { 
-                    // B"H - Relative paths in importScripts need absolute base in some envs
                     const url = filename.startsWith('..') ? BASE_PATH + filename : BASE_PATH + filename;
                     importScripts(url); 
                     resolve(); 
                 } catch (e) { reject(e); }
             } else {
-                const globalName = filename.replace('.js','').replace(/-/g,'');
-                if (window[globalName]) return resolve();
                 const script = document.createElement('script');
-                // B"H - Browser handles relative paths natively
                 script.src = filename.startsWith('..') ? BASE_PATH + filename : BASE_PATH + filename;
                 script.onload = resolve;
                 script.onerror = () => reject(new Error(`Failed to load ${filename}`));
@@ -52,19 +61,13 @@
 
     const getWorkerBootstrapCode = (basePath) => `
         self.window = self;
-        importScripts('${basePath}merkava-opcodes.js');
-        importScripts('${basePath}merkava-memory.js');
-        importScripts('${basePath}merkava-compiler.js');
-        importScripts('${basePath}merkava-vm.js');
-        importScripts('${basePath}merkava-debugger.js');
-        importScripts('${basePath}merkava-sdk.js'); 
+        // Load the fragmented world
+        ${MODULES.map(m => `importScripts('${basePath}${m}');`).join('\n')}
         
-        // Load External Parser
         importScripts('${basePath}${PARSER_PATH}'); 
 
         self.onmessage = async (e) => {
             if (e.data && e.data.type === 'MERKAVA_INIT') {
-                // Wait for Parser Promise
                 if (self.MerkavahParserPromise) await self.MerkavahParserPromise;
 
                 const { sourceCode, options } = e.data;
@@ -93,13 +96,12 @@
 
         async init() {
             if (this.isReady) return;
-            await loadScript('merkava-opcodes.js');
-            await loadScript('merkava-memory.js');
-            await loadScript('merkava-compiler.js');
-            await loadScript('merkava-vm.js');
-            await loadScript('merkava-debugger.js');
             
-            // Load external parser
+            // Load all shards sequentially
+            for (const mod of MODULES) {
+                await loadScript(mod);
+            }
+            
             if (!self.MerkavahParserPromise && !self.MerkavahParser) {
                 await loadScript(PARSER_PATH);
             }
@@ -109,7 +111,7 @@
             } else if (self.MerkavahParser) {
                 this.ParserClass = self.MerkavahParser;
             } else {
-                throw new Error("Failed to load MerkavaParser from " + PARSER_PATH);
+                throw new Error("Failed to load MerkavaParser");
             }
             
             this.isReady = true;
@@ -134,6 +136,9 @@
             const memory = new self.MerkavaMemory.MemoryManager(options.ramLimit || 1000);
             await memory.init();
             
+            if (memory.nextPtr > 1 && !memory.ram.has(1)) {
+                await memory.resolveFault(1);
+            }
             if (memory.nextPtr === 1) memory.allocate({});
 
             class MerkavaWorker {
@@ -146,7 +151,6 @@
                     const blob = new Blob([getWorkerBootstrapCode(BASE_PATH)], { type: 'application/javascript' });
                     this.native = new Worker(URL.createObjectURL(blob));
                     this.native.onmessage = (e) => {
-                        // TIKKUN: Guard against null e.data
                         if (e.data && e.data.type === 'MERKAVA_MSG' && this.onmessage) this.onmessage({ data: e.data.payload });
                     };
                     const safeOptions = { 

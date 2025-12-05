@@ -1,7 +1,7 @@
 
 /**
  * B"H
- * The OlamWorkerManager class (Refactored)
+ * The OlamWorkerManager class (Refactored & Robust)
  */
 
 import Utils from "../utils.js";
