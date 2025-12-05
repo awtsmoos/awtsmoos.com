@@ -1,161 +1,183 @@
-<!--B"H-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AWTSMOOS // OMEGA</title>
-    <link rel="stylesheet" href="style.css">
+    <title>AWTSMOOS ARCHIVE // OMEGA</title>
+    <link rel="stylesheet" href="styles/core.css">
+    <link rel="stylesheet" href="styles/ui.css">
+    <link rel="stylesheet" href="styles/studio.css">
 </head>
 <body>
-    <!-- BACKGROUND LAYERS -->
-    <canvas id="viz-canvas"></canvas>
-    <canvas id="fx-canvas"></canvas> <!-- NEW FX LAYER -->
-    <div class="scanlines"></div>
-    <div class="vignette"></div>
-    <div class="noise"></div>
+    <header>
+        <div class="logo">AWTSMOOS <span>ARCHIVE</span></div>
+        <div class="tools">
+            <button class="tool-btn" id="btn-share" title="Share Link">
+                <svg viewBox="0 0 24 24"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg>
+            </button>
+            <button class="tool-btn" id="btn-search" title="Search Archive">
+                <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+            </button>
+            <button class="tool-btn" id="btn-settings" title="System Settings">
+                <svg viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L3.15 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.04.64.09.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
+            </button>
+        </div>
+    </header>
 
-    <!-- UI ROOT -->
-    <div id="app-root">
+    <main>
+        <div class="col open" id="col-years">
+            <div class="col-head">TIMELINE</div>
+            <div class="col-list" id="list-years"></div>
+        </div>
+        <div class="col" id="col-folders">
+            <div class="col-head">EVENTS</div>
+            <div class="col-list" id="list-folders"></div>
+        </div>
+        <div class="col" id="col-tracks">
+            <div class="col-head" id="header-tracks-title">AUDIO DATA</div>
+            <div class="col-list" id="list-tracks"></div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="controls">
+            <div class="ctrl-btn" id="btn-prev">
+                <svg viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg>
+            </div>
+            <div class="ctrl-btn" id="btn-play">
+                <svg viewBox="0 0 24 24" id="icon-play"><path d="M8 5v14l11-7z"/></svg>
+                <svg viewBox="0 0 24 24" id="icon-pause" class="hidden"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+            </div>
+            <div class="ctrl-btn" id="btn-next">
+                <svg viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg>
+            </div>
+        </div>
+        <div class="info">
+            <div class="track-title" id="player-track-title">AWAITING INPUT</div>
+            <div class="progress-container">
+                <div class="progress-fill" id="player-fill"></div>
+            </div>
+            <div class="time-display">
+                <span id="player-time">00:00 / 00:00</span>
+                <span style="color:var(--c-cyan);">MP3 // VBR</span>
+            </div>
+        </div>
+    </footer>
+
+    <div id="terminal-wrap">
+        <div class="term-head">SYSTEM LOG</div>
+        <div id="terminal"></div>
+    </div>
+
+    <!-- OVERLAY & MODALS -->
+    <div id="overlay-layer" class="hidden">
         
-        <!-- HEADER -->
-        <header>
-            <div class="brand">
-                <span class="brand-glitch" data-text="AWTSMOOS">AWTSMOOS</span>
-                <span class="brand-sub">ARCHIVE // OMEGA</span>
-            </div>
-            <div class="sys-controls">
-                <div id="sys-status" class="sys-stat">CORE: ONLINE</div>
-                <button id="btn-search" class="btn-icon">🔍</button> <!-- SEARCH BTN -->
-                <button id="btn-settings" class="btn-icon">⚙</button>
-            </div>
-        </header>
-
-        <!-- MAIN INTERFACE -->
-        <div id="main-grid">
-            <!-- Col 1: Years -->
-            <div id="col-years" class="panel open">
-                <div class="p-head">
-                    <span class="p-title">TIMELINE</span>
-                    <div class="p-dec">///</div>
-                </div>
-                <div id="list-years" class="list-content custom-scroll"></div>
-            </div>
-
-            <!-- Col 2: Folders -->
-            <div id="col-folders" class="panel">
-                <div class="p-head">
-                    <span class="p-title">EVENTS</span>
-                    <button id="btn-close-folders" class="btn-close">×</button>
-                </div>
-                <div id="list-folders" class="list-content custom-scroll"></div>
-            </div>
-
-            <!-- Col 3: Tracks -->
-            <div id="col-tracks" class="panel">
-                <div class="p-head">
-                    <span class="p-title">AUDIO DATA</span>
-                    <button id="btn-close-tracks" class="btn-close">×</button>
-                </div>
-                <div id="list-tracks" class="list-content custom-scroll"></div>
+        <!-- SEARCH MODAL -->
+        <div class="modal hidden" id="modal-search">
+            <h2>SEARCH ARCHIVE</h2>
+            <input type="text" id="inp-search" placeholder="ENTER KEYWORDS..." style="width:100%; padding:15px; background:#111; border:1px solid var(--c-cyan); color:#fff; font-family:inherit; font-size:1.1rem; outline:none;">
+            <div class="search-res" id="search-results"></div>
+            <div style="text-align:right;">
+                <button class="modal-btn modal-close">CANCEL</button>
             </div>
         </div>
 
-        <!-- TERMINAL LOG -->
-        <div id="terminal-wrap">
-            <div id="terminal" class="custom-scroll">
-                <div class="log-line">> SYSTEM BOOT SEQUENCE INITIATED...</div>
-            </div>
-        </div>
-
-        <!-- AUDIO DECK -->
-        <footer id="deck">
-            <div class="scrubber-container" id="scrubber">
-                <div class="scrubber-track"></div>
-                <div class="scrubber-fill" id="fill"></div>
-                <div class="scrubber-thumb"></div>
+        <!-- SETTINGS MODAL -->
+        <div class="modal hidden" id="modal-settings">
+            <h2>SYSTEM CONFIG</h2>
+            
+            <div class="setting-row">
+                <div class="setting-label">LOCAL CACHE STORAGE</div>
+                <button class="modal-btn danger" id="btn-action-clear">PURGE DATA</button>
             </div>
             
-            <div class="deck-main">
-                <div class="controls">
-                    <button id="btn-prev" class="btn-ctrl">⏮</button>
-                    <button id="btn-play" class="btn-ctrl btn-play">▶</button>
-                    <button id="btn-next" class="btn-ctrl">⏭</button>
-                </div>
-
-                <div class="track-info">
-                    <div id="track-name" class="t-title">AWAITING INPUT</div>
-                    <div id="track-time" class="t-meta">00:00:00</div>
-                </div>
+            <div class="setting-row">
+                <div class="setting-label">AUDIO STREAM QUALITY</div>
+                <span style="color:var(--c-cyan);">HIGH (128kbps)</span>
             </div>
-        </footer>
-    </div>
 
-    <!-- OVERLAYS / MODALS -->
-    <div id="overlay-layer" class="overlay-layer hidden">
-        
-        <!-- Search Modal -->
-        <div id="modal-search" class="modal hidden">
-            <div class="modal-head">MATRIX ACCESS // SEARCH</div>
-            <div class="modal-body">
-                <div class="search-grid">
-                    <div class="search-field">
-                        <label>HEBREW MONTH</label>
-                        <select id="inp-month" class="cyber-input">
-                            <option value="">ANY VECTOR</option>
-                            <option value="1">TISHREI</option>
-                            <option value="2">CHESHVAN</option>
-                            <option value="3">KISLEV</option>
-                            <option value="4">TEVES</option>
-                            <option value="5">SHEVAT</option>
-                            <option value="6">ADAR</option>
-                            <option value="7">NISAN</option>
-                            <option value="8">IYAR</option>
-                            <option value="9">SIVAN</option>
-                            <option value="10">TAMUZ</option>
-                            <option value="11">AV</option>
-                            <option value="12">ELUL</option>
-                        </select>
-                    </div>
-                    <div class="search-field">
-                        <label>DAY (1-30)</label>
-                        <input type="number" id="inp-day" class="cyber-input" min="1" max="30" placeholder="ANY">
-                    </div>
-                </div>
-                <button id="btn-exec-search" class="btn-action full-width">INITIATE SCAN</button>
-                
-                <div id="search-results" class="search-results custom-scroll">
-                    <div class="search-placeholder">WAITING FOR COORDINATES...</div>
-                </div>
+            <div class="setting-row">
+                <div class="setting-label">VERSION</div>
+                <span style="color:#666;">OMEGA-BUILD-2.1</span>
             </div>
-            <div class="modal-foot">
-                <button id="btn-close-search" class="btn-danger">TERMINATE</button>
+
+            <div style="text-align:right;">
+                <button class="modal-btn modal-close">CLOSE</button>
             </div>
         </div>
 
-        <!-- Settings Modal -->
-        <div id="modal-settings" class="modal hidden">
-            <div class="modal-head">SYSTEM CONFIG</div>
-            <div class="modal-body">
-                <p>STORAGE MANAGEMENT</p>
-                <div class="setting-row">
-                    <span>INDEXED DB STORAGE</span>
-                    <button id="btn-clear-db" class="btn-danger">PURGE CORE DATA</button>
-                </div>
-                <p class="warn-text">WARNING: PURGING WILL REMOVE ALL OFFLINE CONTENT.</p>
+        <!-- VIDEO GEN MODAL -->
+        <div class="modal hidden" id="modal-video">
+            <h2>VIDEO GEN</h2>
+            <div class="setting-row">
+                <label>START (s)</label>
+                <input type="number" id="vid-start" value="0" class="cyber-input" style="width:80px">
             </div>
-            <div class="modal-foot">
-                <button id="btn-close-settings" class="btn-action">CLOSE</button>
+            <div class="setting-row">
+                <label>DURATION (s)</label>
+                <input type="number" id="vid-duration" value="15" class="cyber-input" style="width:80px">
+            </div>
+            <div class="setting-row">
+                <label>RESOLUTION</label>
+                <select id="vid-res" class="cyber-input">
+                    <option value="portrait">PORTRAIT (9:16)</option>
+                    <option value="landscape">LANDSCAPE (16:9)</option>
+                    <option value="square">SQUARE (1:1)</option>
+                </select>
+            </div>
+            
+            <div id="vid-status-text">READY</div>
+            <div style="width:100%; height:4px; background:#333; margin:15px 0;"><div id="vid-progress-fill" style="height:100%; width:0%; background:#f0f;"></div></div>
+            
+            <div style="display:flex; gap:10px; justify-content:flex-end; margin-top:20px;">
+                <button class="modal-btn" id="btn-generate-analyze">OPEN STUDIO</button>
+                <button class="modal-btn" id="btn-download-audio">DL AUDIO SLICE</button>
+                <button class="modal-btn modal-close">CLOSE</button>
             </div>
         </div>
+
+        <!-- STUDIO MODAL -->
+        <div class="modal hidden" id="modal-studio" style="width:95vw; height:95vh; max-width:none; padding:0; display:flex; flex-direction:column; background:black;">
+            <div class="studio-top" style="flex:2; display:flex; min-height:0;">
+                <div class="studio-props">
+                    <div class="prop-content" style="padding:15px;"></div>
+                </div>
+                <div class="studio-preview-wrapper">
+                    <canvas id="studio-preview-canvas"></canvas>
+                    <div class="preview-overlay">
+                         <div class="studio-stat" id="studio-status">READY</div>
+                    </div>
+                </div>
+            </div>
+            <div class="studio-bottom">
+                 <div class="timeline-header">
+                     <div class="track-head">TIME</div>
+                     <div class="ruler-container" id="timeline-ruler"></div>
+                 </div>
+                 <div class="timeline-tracks" id="timeline-tracks" class="custom-scroll">
+                     <div id="timeline-playhead" class="timeline-playhead"></div>
+                 </div>
+            </div>
+             <div style="height:50px; border-top:1px solid #333; display:flex; align-items:center; padding:0 10px; gap:10px; background:#111;">
+                 <button class="btn-tool" id="st-play">PLAY</button>
+                 <button class="btn-tool" id="st-stop">STOP</button>
+                 <input type="range" id="st-zoom" min="10" max="300" value="100" style="width:100px">
+                 <div style="flex:1"></div>
+                 <button class="btn-tool" id="st-detect-beats">DETECT BEATS</button>
+                 <button class="btn-tool" id="st-gen-caps">AI CAPS</button>
+                 <button class="btn-tool" id="st-gen-img">AI IMG</button>
+                 <label class="btn-tool">
+                     UPLOAD <input type="file" id="st-upload" hidden>
+                 </label>
+                 <button class="btn-tool" id="st-export" style="color:var(--c-magenta); border-color:var(--c-magenta);">EXPORT MP4</button>
+                 <button class="btn-tool" id="btn-close-studio">EXIT</button>
+             </div>
+        </div>
     </div>
+    
+    <div id="ctx-menu" class="hidden" style="position:fixed; background:#000; border:1px solid var(--c-cyan); padding:10px; z-index:500; box-shadow:0 0 10px rgba(0,255,255,0.2);"></div>
+    <canvas id="matrix-bg" style="position:fixed; top:0; left:0; width:100%; height:100%; z-index:-1; pointer-events:none; opacity:0.1;"></canvas>
 
-    <!-- CONTEXT MENU (Dynamic) -->
-    <div id="ctx-menu" class="ctx-menu hidden"></div>
-
-    <!-- MODULES -->
-    <script type="module" src="gl-engine.js"></script>
-    <script type="module" src="fx.js"></script>
     <script type="module" src="main.js"></script>
 </body>
 </html>

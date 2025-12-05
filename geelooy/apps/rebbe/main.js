@@ -1,253 +1,249 @@
 //B"H
 // main.js - Core Controller
-
-import { initDB, saveTrack, getTrack, clearAllTracks, YEARS } from './store.js';
-import { fetchYearFolders, fetchFolderTracks, fetchBlob, searchByDate } from './network.js';
-import * as Render from './render.js';
+import state from './modules/state.js';
 import * as Audio from './audio.js';
-import { initViz, setVisualizerData } from './viz.js';
-import { initFX } from './fx.js';
+import * as Network from './modules/network.js';
+import * as Store from './store.js';
+import * as Render from './render.js'; 
+import * as VideoGen from './modules/video-gen.js';
 
-const state = {
-    folders: {}, 
-    currentTracks: [],
-    trackIndex: -1,
-    currentYearId: null
-};
+let folderMap = {}; // Will hold array of folder names
 
-async function init() {
-    Render.initUI({
-        onYearSelect: loadYear,
-        onFolderSelect: loadFolder,
-        onTrackSelect: playTrack,
-        onPlayPause: Audio.togglePlay,
-        onNext: nextTrack,
-        onPrev: prevTrack,
-        onSeek: Audio.seek,
-        onDownloadAction: handleDownloadAction,
-        onClearDB: handleClearDB,
-        onSearch: handleSearch,
-        onSearchResultSelect: loadSearchResult,
-        checkStatus: async (path) => !!(await getTrack(path)),
-        isPlaying: Audio.isPlaying
-    });
-
-    initFX(); // START PARTICLES
-
-    Render.log("SYSTEM INITIALIZED // OMEGA PROTOCOL");
+export async function init() {
+    Render.log("INIT CORE SYSTEM...");
     
+    // Initialize Matrix Background
     try {
-        await initDB();
-        Render.log("CORE DATABASE MOUNTED");
+        if (Render.initBackgroundEffect) {
+            Render.initBackgroundEffect();
+        }
     } catch(e) {
-        Render.log("DB ERROR: PERSISTENCE DISABLED", true);
+        console.warn("Background FX failed", e);
     }
 
-    initViz(document.getElementById('viz-canvas'));
-    
+    // Initialize UI Listeners
+    Render.initUI({
+        onYearSelect: handleYearSelect,
+        onFolderSelect: handleFolderSelect,
+        onTrackSelect: handleTrackSelect,
+        onPlayPause: Audio.togglePlay,
+        onNext: handleNext,
+        onPrev: handlePrev,
+        
+        // Seek Handlers
+        onSeek: Audio.seek,
+        onSeekRelative: (amt) => Audio.seek((Audio.audioEl.currentTime + amt)),
+        onSeekFraction: (pct) => {
+            if(Audio.audioEl && Audio.audioEl.duration) {
+                Audio.seek(Audio.audioEl.duration * pct);
+            }
+        },
+
+        checkStatus: Store.isCached, // Now exists in Store
+        onDownloadAction: handleDownloadAction,
+        onSearch: handleSearch,
+        onSearchResultSelect: handleSearchResultSelect,
+        onClearDB: handleClearDB,
+        onShare: () => {
+             // URL is already updated by handleTrackSelect
+             const url = window.location.href;
+             navigator.clipboard.writeText(url).then(()=>alert("LINK COPIED: " + url));
+        },
+        isPlaying: Audio.isPlaying,
+        
+        // Video Gen Handlers
+        onOpenSliceModal: () => {
+             if(Audio.audioEl && Audio.audioEl.duration) {
+                 Render.updateVideoModalDefaults(Audio.audioEl.currentTime);
+                 Render.openModal('modal-video');
+             } else {
+                 alert("PLEASE LOAD AUDIO TRACK FIRST");
+             }
+        },
+        onAnalyzeVideo: async (start, dur, res) => {
+            const ready = await VideoGen.handleAnalyzeVideo(start, dur, res, state, () => {
+                Render.openCaptionEditor();
+            });
+        },
+        onDownloadAudioSlice: (st) => VideoGen.handleDownloadAudioSlice(st),
+        onRenderFinal: (st) => VideoGen.renderFinalVideo(st)
+    });
+
     Audio.setCallbacks({
         onUpdate: (cur, dur) => {
-            const t = state.currentTracks[state.trackIndex];
-            Render.updatePlayer(t ? t.name : '', cur, dur);
-            setVisualizerData(Audio.getFreqData());
+            state.currentTime = cur;
+            state.currentDuration = dur;
+            Render.updatePlayer(state.currentTracks[state.trackIndex]?.title, cur, dur);
         },
-        onEnd: nextTrack,
-        onError: () => Render.log("AUDIO STREAM ERROR - CHECK NETWORK", true)
+        onEnd: handleNext,
+        onError: () => Render.log("AUDIO ERROR", true)
     });
 
-    Render.renderYears(YEARS);
-}
-
-// --- Search ---
-
-async function handleSearch(month, day) {
-    Render.log(`INITIATING SEARCH VECTOR: ${month || 'ALL'}/${day}`);
-    Render.renderSearchResults([]); // Clear
-    
+    // Boot Sequence
     try {
-        const results = await searchByDate(month, day);
-        if (results.length === 0) {
-            Render.log("NO VECTORS FOUND", true);
-        } else {
-            Render.log(`VECTORS IDENTIFIED: ${results.length}`);
-        }
-        Render.renderSearchResults(results);
-    } catch (e) {
-        Render.log("SEARCH FAILED: SECTOR UNREACHABLE", true);
-        Render.renderSearchResults([]);
-    }
-}
+        await Store.initDB(); // Ensure DB is open
+        Render.log("FETCHING INDEX...");
+        const years = await Network.fetchIndex();
+        Render.renderYears(years);
+        Render.log("READY.");
 
-async function loadSearchResult(item) {
-    // Item contains: bucket, folder, year, title
-    Render.closeModal('modal-search');
-    
-    // Find the Year ID mapping
-    // bucket is likely "57xx-timestamp" or just "57xx" depending on indexer
-    // We need to match it to our YEARS map
-    let yearKey = Object.keys(YEARS).find(k => YEARS[k] === item.bucket);
-    
-    if (!yearKey) {
-        // Fallback: try to find key that is contained in bucket string
-        yearKey = Object.keys(YEARS).find(k => item.bucket.includes(k));
-    }
-
-    if (!yearKey) {
-        Render.log("ERROR: UNMAPPED TEMPORAL NODE", true);
-        return;
-    }
-
-    // 1. Select Year
-    await loadYear(yearKey, YEARS[yearKey]);
-    
-    // 2. Select Folder
-    // Verify folder exists in the list we just fetched
-    if (state.folders.hasOwnProperty(item.folder)) {
-        await loadFolder(item.folder);
-    } else {
-        // Force load it anyway (it might be deep nested or not in root index)
-        Render.log(`FORCE MOUNTING: ${item.folder}`);
-        state.folders[item.folder] = null;
-        await loadFolder(item.folder);
-    }
-}
-
-// --- Navigation ---
-
-async function loadYear(year, id) {
-    state.currentYearId = id;
-    state.folders = {}; 
-    Render.log(`ACCESSING ARCHIVE NODE: ${year}`);
-    
-    document.getElementById('col-folders').classList.remove('open');
-    document.getElementById('col-tracks').classList.remove('open');
-    
-    try {
-        const folderNames = await fetchYearFolders(id, (msg, err) => Render.log(msg, err));
-        folderNames.forEach(name => state.folders[name] = null);
-        Render.renderFolders(state.folders);
-    } catch(e) {
-        Render.log("FATAL: YEAR FETCH FAILED", true);
-    }
-}
-
-async function loadFolder(name) {
-    if (state.folders[name] === null) {
-        Render.setTracksLoading(true);
-        try {
-            const tracks = await fetchFolderTracks(state.currentYearId, name, (msg, err) => Render.log(msg, err));
-            state.folders[name] = tracks.sort((a,b) => a.name.localeCompare(b.name));
-        } catch (e) {
-            Render.log("TRACK DATA CORRUPTED", true);
-            Render.setTracksLoading(false);
-            return;
-        }
-    }
-    state.currentTracks = state.folders[name];
-    state.trackIndex = -1;
-    Render.log(`MOUNTED: ${name}`);
-    Render.renderTracks(state.currentTracks);
-    Render.setTracksLoading(false);
-}
-
-// --- Audio ---
-
-async function playTrack(idx) {
-    if(idx < 0 || idx >= state.currentTracks.length) return;
-    state.trackIndex = idx;
-    const track = state.currentTracks[idx];
-    Render.updateActiveTrack(idx);
-    Render.log(`BUFFERING: ${track.name}`);
-    try {
-        const localBlob = await getTrack(track.path);
-        if(localBlob) {
-            Render.log("SOURCE: CORE MEMORY");
-            Audio.playBlob(localBlob);
-        } else {
-            Render.log("SOURCE: NETWORK STREAM");
-            Audio.playUrl(track.url);
-        }
-    } catch (e) {
-        Render.log("PLAYBACK FAILURE", true);
-    }
-}
-
-function nextTrack() {
-    if(state.trackIndex < state.currentTracks.length - 1) playTrack(state.trackIndex + 1);
-}
-function prevTrack() {
-    if(state.trackIndex > 0) playTrack(state.trackIndex - 1);
-}
-
-// --- Advanced Downloads ---
-
-async function handleDownloadAction(type, target, method) {
-    if (type === 'year' && method === 'zip') {
-        const bucketId = target;
-        const url = `https://archive.org/compress/${bucketId}`;
-        window.open(url, '_blank');
-        return;
-    }
-    if (type === 'track') {
-        const track = state.currentTracks[target];
-        if (!track) return;
-        if (method === 'app') await downloadToApp(track);
-        else await downloadToDisk(track);
-    } else if (type === 'folder') {
-        const name = target;
-        if (state.folders[name] === null) await loadFolder(name);
-        const tracks = state.folders[name];
-        if (!tracks) return;
-        Render.log(`BATCH OPERATION: ${tracks.length} ITEMS`);
-        for (const track of tracks) {
-            if (method === 'app') {
-                if (await getTrack(track.path)) continue; 
-                await downloadToApp(track);
-            } else {
-                await downloadToDisk(track);
+        // --- Deep Linking Logic ---
+        const params = new URLSearchParams(window.location.search);
+        const yearParam = params.get('year');
+        
+        if (yearParam) {
+            await handleYearSelect(yearParam);
+            
+            const folderParam = params.get('folder');
+            if (folderParam) {
+                // Find index of folder name (decoded) in the map
+                const folderIdx = folderMap.indexOf(folderParam);
+                if (folderIdx !== -1) {
+                    await handleFolderSelect(folderIdx);
+                    
+                    const trackParam = params.get('track');
+                    if (trackParam) {
+                        const trackIdx = parseInt(trackParam);
+                        if (!isNaN(trackIdx)) {
+                            // Delay slightly to allow UI to settle
+                            setTimeout(async () => {
+                                await handleTrackSelect(trackIdx);
+                                const timeParam = params.get('time');
+                                if (timeParam) {
+                                    setTimeout(() => {
+                                        if(Audio.audioEl) Audio.seek(parseFloat(timeParam));
+                                    }, 500);
+                                }
+                            }, 100);
+                        }
+                    }
+                } else {
+                    Render.log(`FOLDER NOT FOUND: ${folderParam}`, true);
+                }
             }
         }
-        Render.log("BATCH OPERATION COMPLETE");
+
+    } catch(e) {
+        Render.log("BOOT ERROR: " + e.message, true);
+        console.error(e); // Ensure visibility in dev tools
     }
 }
 
-async function downloadToApp(track) {
+// --- Handlers ---
+
+async function handleYearSelect(yid) {
+    state.currentYearId = yid;
+    Render.log(`ACCESSING YEAR ${yid}...`);
     try {
-        const blob = await fetchBlob(track.url);
-        await saveTrack(track.path, blob);
-        // Refresh UI
-        if(state.currentTracks.includes(track)) Render.renderTracks(state.currentTracks);
-    } catch(e) {
-        Render.log(`SYNC FAILED: ${track.name}`, true);
+        // fetchYear returns array of folder names
+        const folders = await Network.fetchYear(yid);
+        folderMap = folders; // Store array for index lookup
+        Render.renderFolders(folders);
+        
+        document.getElementById('col-folders').classList.add('open');
+        document.getElementById('col-tracks').classList.remove('open');
+        updateURL({ year: yid });
+    } catch(e) { Render.log("ERROR: " + e.message, true); }
+}
+
+async function handleFolderSelect(fid) {
+    // fid is the INDEX from the view loop
+    const folderName = folderMap[fid]; 
+    if(!folderName) return Render.log("INVALID FOLDER ID", true);
+
+    state.currentFolderName = folderName;
+    Render.log(`OPENING ${folderName}...`);
+    try {
+        Render.setTracksLoading(true, state.currentFolderName);
+        // Pass both YearKey and FolderName to resolve correctly
+        const tracks = await Network.fetchFolder(state.currentYearId, folderName);
+        state.currentTracks = tracks;
+        state.folders[fid] = tracks;
+        Render.renderTracks(tracks, state.currentFolderName);
+        Render.setTracksLoading(false, state.currentFolderName);
+        
+        document.getElementById('col-tracks').classList.add('open');
+        updateURL({ year: state.currentYearId, folder: folderName });
+    } catch(e) { Render.log("ERROR: " + e.message, true); }
+}
+
+async function handleTrackSelect(idx) {
+    state.trackIndex = idx;
+    const track = state.currentTracks[idx];
+    if(!track) return;
+
+    Render.log(`LOADING: ${track.title}`);
+    Render.updateActiveTrack(idx);
+    
+    updateURL({ 
+        year: state.currentYearId, 
+        folder: state.currentFolderName, 
+        track: idx 
+    });
+
+    // Check Cache
+    const cached = await Store.getTrack(track.path);
+    if(cached) {
+        Render.log("PLAYING FROM LOCAL CACHE");
+        Audio.playBlob(cached);
+    } else {
+        Render.log("STREAMING FROM NETWORK...");
+        // Audio.playUrl handles the actual playback. 
+        // Ensure track.url is correct (handled in Network)
+        Audio.playUrl(track.url);
+        // Cache in background
+        Network.fetchBlob(track.url).then(b => Store.saveTrack(track.path, b)).catch(e=>console.warn("Cache fail", e));
     }
 }
 
-async function downloadToDisk(track) {
-    try {
-        let blob = await getTrack(track.path);
-        if (!blob) blob = await fetchBlob(track.url);
-        const a = document.createElement('a');
-        a.href = URL.createObjectURL(blob);
-        a.download = track.name;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(a.href);
-    } catch(e) {
-        Render.log(`EXTRACTION FAILED: ${track.name}`, true);
+function updateURL(params) {
+    const url = new URL(window.location);
+    if(params.year) url.searchParams.set('year', params.year);
+    if(params.folder) url.searchParams.set('folder', params.folder);
+    if(params.track !== undefined) url.searchParams.set('track', params.track);
+    // Don't set time continuously, only on share
+    window.history.replaceState({}, '', url);
+}
+
+function handleNext() {
+    if(state.trackIndex < state.currentTracks.length - 1) {
+        handleTrackSelect(state.trackIndex + 1);
     }
+}
+
+function handlePrev() {
+    if(state.trackIndex > 0) {
+        handleTrackSelect(state.trackIndex - 1);
+    }
+}
+
+async function handleSearch(m, d) {
+    Render.log(`SEARCHING ${m}/${d}...`);
+    try {
+        const res = await Network.search(m, d);
+        Render.renderSearchResults(res);
+        Render.log(`FOUND ${res.length} ENTRIES`);
+    } catch(e) { Render.log("SEARCH FAILED", true); }
+}
+
+async function handleSearchResultSelect(path) {
+    alert("Deep linking not yet implemented for: " + path);
+}
+
+function handleDownloadAction(track) {
+    const a = document.createElement('a');
+    a.href = track.url;
+    a.download = track.title + ".mp3";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
 }
 
 async function handleClearDB() {
-    try {
-        await clearAllTracks();
-        Render.log("CORE MEMORY PURGED");
-        Render.closeModal('modal-settings');
-        if(state.currentTracks.length > 0) Render.renderTracks(state.currentTracks);
-        if(Object.keys(state.folders).length > 0) Render.renderFolders(state.folders);
-    } catch(e) {
-        Render.log("PURGE FAILED", true);
-    }
+    await Store.clearAllTracks();
+    alert("CACHE CLEARED");
+    location.reload();
 }
 
+// Boot
 init();

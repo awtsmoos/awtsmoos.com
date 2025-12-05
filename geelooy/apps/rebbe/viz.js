@@ -1,202 +1,156 @@
 //B"H
-// viz.js - Merkavah Vortex Visualizer with Data Texture
-import { GLEngine } from './gl-engine.js';
+// viz.js - High Performance Hebrew Visualizer
 
-// --- SHADERS ---
-const VS = `#version 300 es
-in float aIdx;
+const CHARS = "אבגדהוזחטיכלמנסעפצקרשת";
+let canvas, ctx;
+let particles = [];
+let width, height;
+let isActive = false;
+let isPaused = true; 
+let dataProvider = null; // New data provider callback
+let mouseX = 0, mouseY = 0;
 
-uniform highp float uTime;
-uniform sampler2D uAudioData; // 128x1 Texture containing frequency data
-uniform mat4 uProj;
+const COLORS = [];
+for(let i=0; i<360; i+=10) COLORS.push(`hsl(${i}, 100%, 50%)`);
 
-out float vIdx;
-out float vAmp;
-
-void main() {
-    vIdx = aIdx;
-    
-    // Map particle index to audio frequency bin
-    // We have 2000 particles, 128 audio bins.
-    // Wrap around:
-    float freqCoord = mod(aIdx, 128.0) / 128.0;
-    
-    // Sample Audio Amplitude from Texture (Red Channel)
-    float amp = texture(uAudioData, vec2(freqCoord, 0.5)).r;
-    vAmp = amp; // Pass to fragment shader for coloring
-    
-    // GEOMETRY: The "Audio Stargate"
-    // A circle that expands and spikes based on amplitude
-    
-    float total = 2000.0;
-    float theta = (aIdx / total) * 6.28318 * 4.0 + (uTime * 0.2); // 4 Loops
-    
-    // Base Radius + Audio Displacement
-    float rBase = 12.0;
-    float r = rBase + (amp * 15.0); // Intense displacement
-    
-    // Spiral Depth
-    float z = (mod(aIdx, 500.0) / 500.0) * -10.0 - 15.0; 
-    
-    // Position
-    float x = r * cos(theta);
-    float y = r * sin(theta);
-    
-    // Add some trebel jitter
-    if (mod(aIdx, 5.0) == 0.0) {
-        x += (sin(uTime * 10.0 + aIdx) * amp * 2.0);
+class HebrewParticle {
+    constructor() {
+        this.reset();
     }
-
-    gl_Position = uProj * vec4(x, y, z, 1.0);
     
-    // Size scales with amplitude
-    gl_PointSize = (500.0 / gl_Position.w) * (0.8 + amp * 2.0);
-}
-`;
-
-const FS = `#version 300 es
-precision mediump float;
-
-uniform sampler2D uAtlas;
-uniform highp float uTime;
-in float vIdx;
-in float vAmp;
-
-out vec4 fragColor;
-
-void main() {
-    float charCount = 22.0;
-    float charIdx = mod(vIdx, charCount);
+    reset() {
+        this.x = Math.random() * width;
+        this.y = Math.random() * height;
+        this.char = CHARS[Math.floor(Math.random() * CHARS.length)];
+        this.baseSize = Math.random() * 20 + 10;
+        this.size = this.baseSize;
+        this.baseVx = (Math.random() - 0.5) * 2;
+        this.baseVy = (Math.random() - 0.5) * 2;
+        this.hue = Math.floor(Math.random() * 36); 
+        this.isBass = Math.random() > 0.85; 
+    }
     
-    float u = (charIdx + gl_PointCoord.x) / charCount;
-    float v = gl_PointCoord.y;
-    
-    vec4 tex = texture(uAtlas, vec2(u, v));
-    if(tex.a < 0.1) discard;
-    
-    // Reactive Colors
-    vec3 col = vec3(0.0);
-    
-    // Base Color cycles
-    vec3 base = vec3(0.0, 1.0, 1.0); // Cyan
-    if (vAmp > 0.6) base = vec3(1.0, 0.0, 0.5); // Magenta High Energy
-    else if (vAmp > 0.3) base = vec3(0.0, 1.0, 0.5); // Green Mid
-    
-    // Flash
-    col = base * (1.0 + vAmp * 2.0);
+    update(bass, mid) {
+        // Base drift speed (always active, even when paused)
+        const driftSpeed = 0.2;
+        let vx = this.baseVx * driftSpeed;
+        let vy = this.baseVy * driftSpeed;
 
-    fragColor = vec4(col, tex.a);
-}
-`;
-
-let engine = null;
-let audioTexture = null;
-let audioData = new Uint8Array(128); // Raw data container
-let isRunning = false;
-
-export function initViz(canvas) {
-    if(!canvas) return;
-    try {
-        engine = new GLEngine(canvas);
-        const prog = engine.createProgram('vortex', VS, FS);
-        
-        if (!prog) {
-            console.error("VIZ ERROR: Failed to create shader program 'vortex'. Aborting visualization.");
-            return;
+        if (!isPaused) {
+            // Audio reactive boosting
+            const energy = this.isBass ? bass : mid;
+            // Lower threshold for visual movement
+            if (energy > 0.001) {
+                const velocityScale = energy * (this.isBass ? 20 : 8); 
+                vx += this.baseVx * velocityScale;
+                vy += this.baseVy * velocityScale;
+            }
+            // Audio size reactivity
+            this.size = this.baseSize + (energy * (this.isBass ? 80 : 30));
+        } else {
+             this.size = this.baseSize; // Reset size when paused
         }
-        
-        // 1. Create Font Atlas
-        const atlas = createHebrewAtlas();
-        engine.createTextureFromCanvas('atlas', atlas);
-        
-        // 2. Create Audio Data Texture (128x1, Red component only is sufficient, using Luminance or RGB)
-        const gl = engine.gl;
-        audioTexture = gl.createTexture();
-        gl.bindTexture(gl.TEXTURE_2D, audioTexture);
-        // Initialize with zeros
-        gl.texImage2D(gl.TEXTURE_2D, 0, gl.LUMINANCE, 128, 1, 0, gl.LUMINANCE, gl.UNSIGNED_BYTE, new Uint8Array(128));
-        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
-        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
-        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
 
-        engine.textures['audio'] = audioTexture;
+        this.x += vx;
+        this.y += vy;
 
-        // 3. Particles
-        const count = 2000;
-        const data = new Float32Array(count);
-        for(let i=0; i<count; i++) data[i] = i;
-        engine.createBuffer('particles', data);
+        // Mouse Gravity
+        const dx = mouseX - this.x;
+        const dy = mouseY - this.y;
+        const dist = Math.sqrt(dx*dx + dy*dy);
+        if(dist < 300) {
+            const pull = isPaused ? 0.001 : (this.isBass ? bass : mid) * 0.02;
+            this.x += dx * pull;
+            this.y += dy * pull;
+        }
+
+        // Color Cycle
+        if (!isPaused && bass > 0.8 && Math.random() > 0.9) {
+             this.hue = (this.hue + 5) % 36;
+        }
+
+        // Hard Wrap
+        if(this.x < -20) this.x = width + 20;
+        else if(this.x > width + 20) this.x = -20;
         
-        isRunning = true;
-        loop();
-    } catch(e) { console.error("VIZ CRITICAL:", e); }
+        if(this.y < -20) this.y = height + 20;
+        else if(this.y > height + 20) this.y = -20;
+    }
+    
+    draw(ctx) {
+        ctx.fillStyle = COLORS[this.hue]; 
+        ctx.font = `${this.size | 0}px monospace`; 
+        ctx.fillText(this.char, this.x | 0, this.y | 0);
+    }
 }
 
-export function setVisualizerData(data) {
-    // data is Uint8Array(128)
-    audioData = data;
+export function initViz(c, provider) {
+    canvas = c;
+    ctx = canvas.getContext('2d', { alpha: false }); 
+    dataProvider = provider;
+    resize();
+    window.addEventListener('resize', resize);
+    window.addEventListener('mousemove', e => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+    });
+    
+    particles = new Array(400).fill(0).map(() => new HebrewParticle());
+    
+    isActive = true;
+    requestAnimationFrame(loop);
+}
+
+function resize() {
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = window.innerHeight;
+}
+
+export function setPaused(p) {
+    isPaused = p;
 }
 
 function loop() {
-    if(!isRunning || !engine || !engine.gl) return;
+    if (!isActive) return;
     requestAnimationFrame(loop);
     
-    const gl = engine.gl;
-    const prog = engine.programs['vortex'];
-
-    if (!prog) return;
-
-    // Update Audio Texture
-    gl.bindTexture(gl.TEXTURE_2D, engine.textures['audio']);
-    gl.texSubImage2D(gl.TEXTURE_2D, 0, 0, 0, 128, 1, gl.LUMINANCE, gl.UNSIGNED_BYTE, audioData);
-
-    engine.clear();
-    gl.enable(gl.BLEND);
-    gl.blendFunc(gl.SRC_ALPHA, gl.ONE);
+    ctx.fillStyle = '#000000';
+    ctx.fillRect(0, 0, width, height);
     
-    gl.useProgram(prog);
+    let bass = 0, mid = 0;
     
-    // Bind Atlas to Unit 0
-    gl.activeTexture(gl.TEXTURE0);
-    gl.bindTexture(gl.TEXTURE_2D, engine.textures['atlas']);
-    gl.uniform1i(gl.getUniformLocation(prog, 'uAtlas'), 0);
-
-    // Bind AudioData to Unit 1
-    gl.activeTexture(gl.TEXTURE1);
-    gl.bindTexture(gl.TEXTURE_2D, engine.textures['audio']);
-    gl.uniform1i(gl.getUniformLocation(prog, 'uAudioData'), 1);
-    
-    const aIdx = gl.getAttribLocation(prog, 'aIdx');
-    if (aIdx !== -1) {
-        gl.bindBuffer(gl.ARRAY_BUFFER, engine.buffers['particles']);
-        gl.enableVertexAttribArray(aIdx);
-        gl.vertexAttribPointer(aIdx, 1, gl.FLOAT, false, 0, 0);
+    // Poll data every frame for smoothness
+    if (!isPaused && dataProvider) {
+        const data = dataProvider();
+        if (data) {
+            bass = (data[0] + data[1] + data[2] + data[3] + data[4]) / 1275; 
+            mid = (data[10] + data[20] + data[30]) / 765; 
+            if (bass < 0.05) bass = 0;
+            if (mid < 0.05) mid = 0;
+            if (bass > 1) bass = 1;
+        }
     }
     
-    // Projection
-    const aspect = engine.width / engine.height;
-    const fov = 1.0; 
-    const f = 1.0 / Math.tan(fov/2);
-    const m = [f/aspect,0,0,0, 0,f,0,0, 0,0,-1,-1, 0,0,-2,0];
-    
-    gl.uniformMatrix4fv(gl.getUniformLocation(prog, 'uProj'), false, m);
-    gl.uniform1f(gl.getUniformLocation(prog, 'uTime'), performance.now() * 0.001);
-    
-    gl.drawArrays(gl.POINTS, 0, 2000);
-}
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
 
-function createHebrewAtlas() {
-    const c = document.createElement('canvas');
-    c.width = 1024; c.height = 64;
-    const ctx = c.getContext('2d');
-    ctx.fillStyle = "rgba(0,0,0,0)";
-    ctx.fillRect(0,0,1024,64);
+    const len = particles.length;
+    for(let i=0; i<len; i++) {
+        const p = particles[i];
+        p.update(bass, mid);
+        p.draw(ctx);
+    }
     
-    ctx.shadowColor = "cyan"; ctx.shadowBlur = 10;
-    ctx.fillStyle = "white"; ctx.font = "900 48px 'Courier New'";
-    ctx.textAlign = "center"; ctx.textBaseline = "middle";
-    const chars = "אבגדהוזחטיכלמנסעפצקרשת";
-    for(let i=0; i<22; i++) ctx.fillText(chars[i], i*(1024/22) + (1024/44), 32);
-    return c;
+    // Center Shapes
+    if (!isPaused && bass > 0.1) {
+        ctx.strokeStyle = '#00FFFF';
+        ctx.lineWidth = (bass * 20) | 0;
+        ctx.beginPath();
+        const r = (bass * height * 0.4) | 0;
+        ctx.arc(width/2, height/2, r, 0, 6.28); 
+        ctx.stroke();
+        
+        ctx.strokeStyle = '#FF00FF';
+        ctx.strokeRect((width/2 - r), (height/2 - r), r*2, r*2);
+    }
 }

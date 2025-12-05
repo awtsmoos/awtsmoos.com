@@ -1,0 +1,115 @@
+<!--B"H-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Awtsmoos Native Zip</title>
+    <link rel="stylesheet" href="style.css">
+    <script type="module" src="main.js"></script>
+</head>
+<body>
+
+    <header class="header-panel">
+        <h1 class="header-title">Awtsmoos Zip</h1>
+        <p class="header-subtitle">Create & Deconstruct Reality</p>
+    </header>
+
+    <main class="app-container">
+
+        <!-- Creation Section -->
+        <section class="void-card">
+            <h2 class="card-title">1. Manifest Content (Write)</h2>
+            
+            <div class="grid-split">
+                
+                <!-- Text File Creator -->
+                <div>
+                    <div class="input-group">
+                        <label class="input-label">Filename</label>
+                        <input type="text" id="fileNameInput" placeholder="essence.txt" class="void-input">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">Content</label>
+                        <textarea id="fileContentInput" placeholder="Write into existence..." class="void-input void-textarea"></textarea>
+                    </div>
+                    <button id="addTextBtn" type="button" class="btn btn-primary">
+                        Create Text File
+                    </button>
+                </div>
+
+                <!-- File Uploader -->
+                <div>
+                    <div class="input-group" style="height: 100%;">
+                        <label class="input-label">Physical Upload</label>
+                        <div class="upload-zone">
+                            <input type="file" id="fileUploadInput" multiple class="upload-input">
+                            <div class="upload-icon">⚡</div>
+                            <span style="color: var(--text-muted);">Drop files or click to summon</span>
+                            <span style="font-size: 0.7rem; color: #555; margin-top:0.5rem;">(Multiple allowed)</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Folder Creator -->
+            <div style="margin-top: 2rem; border-top: 1px solid var(--glass-border); padding-top: 1.5rem;">
+                <div class="flex-row">
+                    <input type="text" id="folderNameInput" placeholder="folder_name" class="void-input grow">
+                    <button id="addFolderBtn" type="button" class="btn btn-secondary" style="width: auto; padding-left: 2rem; padding-right: 2rem;">
+                        Add Folder
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Structure Review -->
+        <section class="void-card">
+            <h2 class="card-title" style="color: #00ff88;">2. Review Structure</h2>
+            <div id="fileList" class="file-list-container">
+                <p id="emptyMsg" class="empty-state">The void is currently empty.</p>
+                <!-- Items injected by JS -->
+            </div>
+            
+            <div style="text-align: center; margin-top: 2rem;">
+                <button id="downloadBtn" type="button" disabled class="btn btn-large">
+                    GENERATE ZIP
+                </button>
+            </div>
+        </section>
+
+        <!-- Read Section -->
+        <section class="void-card" style="border-color: rgba(255, 0, 255, 0.2);">
+            <h2 class="card-title" style="color: #ff00ff;">3. Analyze Reality (Read ZIP)</h2>
+            <div class="input-group">
+                <label class="input-label">Upload Existing ZIP Archive</label>
+                <div class="upload-zone" style="min-height: 120px;">
+                    <input type="file" id="zipReadInput" accept=".zip" class="upload-input">
+                    <div class="upload-icon" style="color: #ff00ff;">👁️</div>
+                    <span style="color: var(--text-muted);">Drop a ZIP file here to analyze contents</span>
+                </div>
+            </div>
+
+            <h3 class="input-label" style="margin-top: 1.5rem;">Archive Contents (Click to Download)</h3>
+            <div id="readList" class="file-list-container" style="height: 250px; border-color: rgba(255,0,255,0.1);">
+                <p id="readEmptyMsg" class="empty-state">Waiting for archive input...</p>
+            </div>
+        </section>
+
+        <!-- Logger -->
+        <section>
+             <div id="statusContainer" class="status-log">
+                <div class="log-header">SYSTEM LOG</div>
+                <div id="statusMsg">Initializing...</div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="footer">
+        Native Modules • Zero Dependencies • Infinite Potential
+    </footer>
+
+</body>
+</html>

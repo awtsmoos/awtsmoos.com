@@ -1,142 +1,200 @@
 //B"H
-// audio.js - Audio Engine with CORS Fallback
+// audio.js - Pure Web Audio API Implementation
 
-let ctx = null;
-let audio = null;
-let analyser = null;
-let sourceNode = null;
-let callbacks = {};
-let mode = 'HiFi'; // 'HiFi' (Visuals) or 'Stream' (No Visuals)
+let audioCtx;
+let sourceNode;
+let analyser;
+let audioBuffer;
+let gainNode;
 
-function initCtx() {
-    if(ctx) return;
-    const AC = window.AudioContext || window.webkitAudioContext;
-    ctx = new AC();
-    analyser = ctx.createAnalyser();
+// Playback state
+let startTime = 0; // Context time when playback started
+let pauseOffset = 0; // Offset in seconds
+let isPlayingFlag = false;
+let callbacks = { onUpdate: null, onEnd: null, onError: null };
+let animationFrameId;
+
+export function init() {
+    if (audioCtx) return;
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    audioCtx = new AudioContext();
+    analyser = audioCtx.createAnalyser();
     analyser.fftSize = 256;
-    analyser.smoothingTimeConstant = 0.8;
+    gainNode = audioCtx.createGain();
+    gainNode.connect(analyser);
+    analyser.connect(audioCtx.destination);
+    
+    // Resume context if suspended (browser policy)
+    const resume = () => { if(audioCtx.state==='suspended') audioCtx.resume(); };
+    document.addEventListener('click', resume, { once: true });
+    document.addEventListener('touchstart', resume, { once: true });
+}
+
+function resumeContext() {
+    if (audioCtx && audioCtx.state === 'suspended') {
+        audioCtx.resume();
+    }
 }
 
 export function setCallbacks(cbs) {
-    callbacks = cbs;
+    callbacks = { ...callbacks, ...cbs };
+    if(!audioCtx) init();
 }
 
-export function playUrl(url) {
-    initCtx();
-    
-    // Reset
-    if(audio) {
-        audio.pause();
-        audio.src = '';
-    }
-    if(sourceNode) {
-        try { sourceNode.disconnect(); } catch(e){}
-    }
-    if(ctx.state === 'suspended') ctx.resume();
+// Helper to fetch and decode
+async function loadBuffer(urlOrBlob) {
+    if (!audioCtx) init();
+    resumeContext();
 
-    // Create new audio element for every track to clear strict CORS locks
-    audio = new Audio();
-    audio.crossOrigin = "anonymous";
-    audio.src = url;
-
-    setupEvents(audio);
-
-    // Try to connect to Web Audio API
-    // If CORS fails here, it throws immediately or on play
     try {
-        sourceNode = ctx.createMediaElementSource(audio);
-        sourceNode.connect(analyser);
-        analyser.connect(ctx.destination);
-        mode = 'HiFi';
-    } catch(e) {
-        console.warn("CORS Restricted. Switching to Stream Mode.", e);
-        // Fallback: Just play through the element, no Analyser connection
-        // The browser handles routing to speakers automatically for Audio elements not connected to graph
-        mode = 'Stream';
-    }
+        let arrayBuffer;
+        if (typeof urlOrBlob === 'string') {
+            const res = await fetch(urlOrBlob);
+            arrayBuffer = await res.arrayBuffer();
+        } else if (urlOrBlob instanceof Blob) {
+            arrayBuffer = await urlOrBlob.arrayBuffer();
+        } else {
+            throw new Error("Invalid audio source");
+        }
 
-    const playPromise = audio.play();
-    if(playPromise) {
-        playPromise.catch(e => {
-            console.error("Playback Error:", e);
-            if(e.name === "NotSupportedError" || e.message.includes("CORS") || e.message.includes("source")) {
-                 // Final fallback attempt: Remove crossorigin attribute and try again
-                 // This forces the browser to treat it as an opaque response
-                 console.log("Retrying in Opaque Mode...");
-                 audio.crossOrigin = null; 
-                 audio.src = url;
-                 audio.play();
-                 mode = 'Stream';
-            }
-        });
+        const decoded = await audioCtx.decodeAudioData(arrayBuffer);
+        return decoded;
+    } catch (e) {
+        if (callbacks.onError) callbacks.onError(e);
+        console.error("Audio Load Error:", e);
+        return null;
     }
 }
 
-export function playBlob(blob) {
-    initCtx();
-    if(audio) audio.pause();
-    
-    const url = URL.createObjectURL(blob);
-    audio = new Audio();
-    // Blobs are local, so CORS is fine
-    sourceNode = ctx.createMediaElementSource(audio);
-    sourceNode.connect(analyser);
-    analyser.connect(ctx.destination);
-    mode = 'HiFi';
-    
-    setupEvents(audio);
-    audio.src = url;
-    audio.play();
+function stopSource() {
+    if (sourceNode) {
+        try {
+            sourceNode.stop();
+            sourceNode.disconnect();
+        } catch (e) {}
+        sourceNode = null;
+    }
+    if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+        animationFrameId = null;
+    }
+    isPlayingFlag = false;
 }
 
-function setupEvents(aud) {
-    aud.ontimeupdate = () => {
-        if(callbacks.onUpdate) callbacks.onUpdate(aud.currentTime, aud.duration || 0);
+function playBuffer(buffer, offset) {
+    stopSource();
+    audioBuffer = buffer;
+    
+    sourceNode = audioCtx.createBufferSource();
+    sourceNode.buffer = audioBuffer;
+    sourceNode.connect(gainNode);
+    
+    // Handle looping or end
+    sourceNode.onended = () => {
+        // Only trigger onEnd if we reached the end naturally, not if we stopped it manually
+        // Check if expected end time has passed
+        const expectedDuration = buffer.duration - offset;
+        const elapsed = audioCtx.currentTime - startTime;
+        
+        if (isPlayingFlag && elapsed >= expectedDuration - 0.1) {
+            isPlayingFlag = false;
+            cancelAnimationFrame(animationFrameId);
+            pauseOffset = 0; // Reset
+            if (callbacks.onEnd) callbacks.onEnd();
+        }
     };
-    aud.onended = () => {
-        if(callbacks.onEnd) callbacks.onEnd();
-    };
-    aud.onerror = (e) => {
-        console.error("Audio Object Error", e);
-        if(callbacks.onError) callbacks.onError();
-    };
+
+    sourceNode.start(0, offset);
+    startTime = audioCtx.currentTime;
+    pauseOffset = offset;
+    isPlayingFlag = true;
+
+    updateLoop();
+}
+
+function updateLoop() {
+    if (!isPlayingFlag) return;
+    
+    // Calculate current time
+    const elapsed = audioCtx.currentTime - startTime;
+    const current = pauseOffset + elapsed;
+    
+    if (callbacks.onUpdate && audioBuffer) {
+        callbacks.onUpdate(current, audioBuffer.duration);
+    }
+    
+    animationFrameId = requestAnimationFrame(updateLoop);
+}
+
+export async function playUrl(url) {
+    // Reset state
+    stopSource();
+    pauseOffset = 0;
+    if(callbacks.onUpdate) callbacks.onUpdate(0, 0);
+    
+    const buffer = await loadBuffer(url);
+    if (buffer) {
+        playBuffer(buffer, 0);
+    }
+}
+
+export async function playBlob(blob) {
+    stopSource();
+    pauseOffset = 0;
+    const buffer = await loadBuffer(blob);
+    if (buffer) {
+        playBuffer(buffer, 0);
+    }
 }
 
 export function togglePlay() {
-    if(!audio) return;
-    if(audio.paused) audio.play();
-    else audio.pause();
+    if (!audioBuffer) return;
+    
+    if (isPlayingFlag) {
+        // Pause
+        const elapsed = audioCtx.currentTime - startTime;
+        pauseOffset += elapsed;
+        stopSource(); 
+        // Update UI one last time
+        if (callbacks.onUpdate) callbacks.onUpdate(pauseOffset, audioBuffer.duration);
+    } else {
+        // Resume
+        if(audioCtx.state === 'suspended') audioCtx.resume();
+        playBuffer(audioBuffer, pauseOffset);
+    }
 }
 
-export function seek(pct) {
-    if(!audio) return;
-    if(Number.isFinite(audio.duration)) {
-        audio.currentTime = pct * audio.duration;
+export function seek(time) { // Time in seconds
+    if (!audioBuffer) return;
+    const duration = audioBuffer.duration;
+    time = Math.max(0, Math.min(time, duration));
+    
+    pauseOffset = time;
+    
+    if (isPlayingFlag) {
+        playBuffer(audioBuffer, pauseOffset);
+    } else {
+        if (callbacks.onUpdate) callbacks.onUpdate(pauseOffset, duration);
     }
 }
 
 export function isPlaying() {
-    return audio && !audio.paused;
+    return isPlayingFlag;
 }
 
 export function getFreqData() {
-    const arr = new Uint8Array(128);
-    
-    if (mode === 'HiFi' && analyser) {
-        analyser.getByteFrequencyData(arr);
-    } else if (mode === 'Stream' && isPlaying()) {
-        // SYNTHETIC VISUALIZATION
-        // Generate fake beat data based on time to keep the visualizer alive
-        const t = performance.now() / 1000;
-        const beat = Math.sin(t * 10) * 0.5 + 0.5; // Simulate bass
-        const hihat = Math.random() * 0.5;
-        
-        for(let i=0; i<128; i++) {
-            if(i < 10) arr[i] = beat * 200; // Bass range
-            else if(i > 100) arr[i] = hihat * 100; // Treble
-            else arr[i] = Math.max(0, beat * 100 - i);
-        }
-    }
-    
-    return arr;
+    const data = new Uint8Array(analyser ? analyser.frequencyBinCount : 0);
+    if(analyser) analyser.getByteFrequencyData(data);
+    return data;
 }
+
+// Proxy object to mimic HTMLAudioElement interface for other modules
+export const audioEl = {
+    get currentTime() { 
+        if(!audioCtx) return 0;
+        if(isPlayingFlag) return pauseOffset + (audioCtx.currentTime - startTime);
+        return pauseOffset; 
+    },
+    get duration() { return audioBuffer ? audioBuffer.duration : 0; },
+    get paused() { return !isPlayingFlag; }
+};

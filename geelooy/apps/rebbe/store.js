@@ -33,9 +33,9 @@ export const YEARS = {
   "5742": "5742-1764759611",
   "5743": "5743-1764759611",
   
-  5744: "5744-1764882096",
-  5745: "5745-1764882096",
-  5746: "5746-1764882096",
+  "5744": "5744-1764882096",
+  "5745": "5745-1764882096",
+  "5746": "5746-1764882096",
   
   "5747": "5747-1764759611",
   "5748": "5748-1764805608",
@@ -43,57 +43,91 @@ export const YEARS = {
   "5750": "5750-1764833216",
   "5751": "5751-1764833216",
   "5752": "5752-1764833216"
- 
-
 };
 
-const DB_NAME = "AwtsmoosExtremeDB";
-const STORE_NAME = "tracks";
-
+const DB_NAME = 'RebbeArchiveCore';
+const DB_VERSION = 2; // Bump version for new store
 let db = null;
 
 export function initDB() {
-  return new Promise((resolve, reject) => {
-    const request = indexedDB.open(DB_NAME, 1);
-    request.onupgradeneeded = (e) => {
-      db = e.target.result;
-      if(!db.objectStoreNames.contains(STORE_NAME)) {
-        db.createObjectStore(STORE_NAME, { keyPath: "path" });
-      }
-    };
-    request.onsuccess = (e) => {
-      db = e.target.result;
-      resolve();
-    };
-    request.onerror = (e) => reject(e);
-  });
+    return new Promise((resolve, reject) => {
+        const request = indexedDB.open(DB_NAME, DB_VERSION);
+        
+        request.onupgradeneeded = (e) => {
+            const d = e.target.result;
+            if(!d.objectStoreNames.contains('tracks')) {
+                d.createObjectStore('tracks', { keyPath: 'path' });
+            }
+            if(!d.objectStoreNames.contains('searchCache')) {
+                d.createObjectStore('searchCache', { keyPath: 'key' });
+            }
+        };
+
+        request.onsuccess = (e) => {
+            db = e.target.result;
+            resolve();
+        };
+
+        request.onerror = (e) => reject(e);
+    });
 }
 
 export async function saveTrack(path, blob) {
-  if(!db) await initDB();
-  const tx = db.transaction(STORE_NAME, "readwrite");
-  const store = tx.objectStore(STORE_NAME);
-  store.put({ path, blob, savedAt: Date.now() });
+    if(!db) return;
+    return new Promise((resolve, reject) => {
+        const tx = db.transaction('tracks', 'readwrite');
+        const store = tx.objectStore('tracks');
+        store.put({ path, blob });
+        tx.oncomplete = resolve;
+        tx.onerror = reject;
+    });
 }
 
 export async function getTrack(path) {
-  if(!db) await initDB();
-  return new Promise(resolve => {
-    const tx = db.transaction(STORE_NAME, "readonly");
-    const store = tx.objectStore(STORE_NAME);
-    const req = store.get(path);
-    req.onsuccess = () => resolve(req.result ? req.result.blob : null);
-    req.onerror = () => resolve(null);
-  });
+    if(!db) return null;
+    return new Promise((resolve) => {
+        const tx = db.transaction('tracks', 'readonly');
+        const store = tx.objectStore('tracks');
+        const req = store.get(path);
+        req.onsuccess = () => resolve(req.result ? req.result.blob : null);
+        req.onerror = () => resolve(null);
+    });
+}
+
+// Added missing helper to check cache status
+export async function isCached(path) {
+    const t = await getTrack(path);
+    return !!t;
+}
+
+export async function saveSearchIndex(key, data) {
+    if(!db) return;
+    return new Promise((resolve, reject) => {
+        const tx = db.transaction('searchCache', 'readwrite');
+        const store = tx.objectStore('searchCache');
+        store.put({ key, data, timestamp: Date.now() });
+        tx.oncomplete = resolve;
+        tx.onerror = reject;
+    });
+}
+
+export async function getSearchIndex(key) {
+    if(!db) return null;
+    return new Promise((resolve) => {
+        const tx = db.transaction('searchCache', 'readonly');
+        const store = tx.objectStore('searchCache');
+        const req = store.get(key);
+        req.onsuccess = () => resolve(req.result ? req.result.data : null);
+        req.onerror = () => resolve(null);
+    });
 }
 
 export async function clearAllTracks() {
-    if(!db) await initDB();
-    return new Promise((resolve, reject) => {
-        const tx = db.transaction(STORE_NAME, "readwrite");
-        const store = tx.objectStore(STORE_NAME);
-        const req = store.clear();
-        req.onsuccess = () => resolve();
-        req.onerror = (e) => reject(e);
+    if(!db) return;
+    return new Promise((resolve) => {
+        const tx = db.transaction(['tracks', 'searchCache'], 'readwrite');
+        tx.objectStore('tracks').clear();
+        tx.objectStore('searchCache').clear();
+        tx.oncomplete = resolve;
     });
 }
