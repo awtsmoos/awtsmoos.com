@@ -35,8 +35,9 @@ class Reader {
             const allItems = await tree.getRange(0, 500); 
             const result = {};
             for(const item of allItems) {
-                const childHandle = new this.LiveHandleClass(this.db, Promise.resolve(item.ptr), 'DEFERRED');
-                result[item.key] = await childHandle.toJSON(depth + 1);
+                // B"H: Resolve value fully for JSON
+                const val = await this.db._resolveValueFull(item.ptr);
+                result[item.key] = val;
             }
             return result;
         } 
@@ -104,7 +105,13 @@ class Reader {
         const ptr = await this.handle.ptrPromise;
         await this.db.ensureOpen();
         if (this.handle.mode === 'DEFERRED') await this.handle.nav.detectMode(ptr);
-        if (this.handle.mode === 'COLLECTION') {
+        
+        if (this.handle.mode === 'BTREE') {
+            // B"H: Implement BTree Iteration
+            const tree = await this.handle.tree.getCurrentTree(ptr);
+            yield* this._iterateTree(tree, tree.rootPtr);
+        }
+        else if (this.handle.mode === 'COLLECTION') {
              const metaBuf = await this.db._readChainSafe(ptr);
              const handlePtr = _readPtr(metaBuf, 1);
              const handleBuf = await this.db._readChainSafe(handlePtr);
@@ -121,6 +128,27 @@ class Reader {
                 }
                 currPage = page.nextPageId;
              }
+        }
+    }
+
+    async *_iterateTree(tree, nodePtr) {
+        if (!nodePtr || nodePtr.blockId === 0) return;
+        
+        const node = await tree.loadNode(nodePtr);
+        
+        if (node.isLeaf) {
+            for(let i = 0; i < node.keys.length; i++) {
+                const key = node.keys[i];
+                const valPtr = node.values[i];
+                // Resolve value
+                const value = await this.db._resolveValueFull(valPtr);
+                yield { key, value };
+            }
+        } else {
+            // Internal Node: Traverse children in order
+            for(const childPtr of node.children) {
+                yield* this._iterateTree(tree, childPtr);
+            }
         }
     }
 }
