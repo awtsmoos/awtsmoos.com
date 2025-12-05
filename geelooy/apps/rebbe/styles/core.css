@@ -1,0 +1,68 @@
+/* B"H */
+/* CORE STYLES */
+
+:root {
+    --c-black: #000000;
+    --c-void: #050505;
+    --c-panel: rgba(8, 8, 12, 0.95); 
+     
+    --c-cyan: #00f3ff;
+    --c-magenta: #ff0055;
+    --c-lime: #00ff66;
+    --c-yellow: #ffcc00;
+    --c-white: #ffffff;
+    
+    --font-primary: 'Courier New', monospace;
+    
+    --glow-cyan: 0 0 15px rgba(0, 243, 255, 0.6);
+    --glow-magenta: 0 0 15px rgba(255, 0, 85, 0.6);
+    --glow-lime: 0 0 15px rgba(0, 255, 102, 0.6);
+    
+    --border-thick: 2px solid var(--c-cyan);
+    --border-thin: 1px solid rgba(0, 243, 255, 0.3);
+    
+    --trans-speed: 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+* {
+    box-sizing: border-box;
+    user-select: none;
+    -webkit-tap-highlight-color: #000000;
+}
+
+body {
+    margin: 0;
+    background: #000000;
+    color: var(--c-white);
+    font-family: var(--font-primary);
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    font-weight: bold;
+    letter-spacing: 0.05em;
+    cursor: crosshair;
+}
+
+.hidden { display: none !important; }
+
+/* LAYERS */
+#viz-canvas, #fx-canvas, .scanlines, .vignette {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none;
+}
+#viz-canvas { z-index: 0; mix-blend-mode: screen; opacity: 0.6; }
+#fx-canvas { z-index: 1; }
+.scanlines { z-index: 2; opacity: 0.2; background: repeating-linear-gradient(to bottom, transparent 0, transparent 2px, rgba(0,0,0,0.5) 2px, rgba(0,0,0,0.5) 4px); }
+.vignette { z-index: 3; opacity: 0.4; background: radial-gradient(circle, transparent 60%, black 100%); }
+
+#app-root {
+    position: relative; z-index: 10; display: flex; flex-direction: column; height: 100%;
+    /* Subtle grid on app root itself */
+    background-image: linear-gradient(rgb(0 243 255 / 5%) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 243, 255, 0.05) 1px, transparent 1px);
+    background-size: 40px 40px;
+}
+
+/* SCROLLBARS */
+.custom-scroll::-webkit-scrollbar { width: 5px; height: 5px; }
+.custom-scroll::-webkit-scrollbar-track { background: #000; }
+.custom-scroll::-webkit-scrollbar-thumb { background: var(--c-cyan); }
