@@ -10,6 +10,7 @@ class BTreeWriter {
         this.btree = btree;
         this.allocator = btree.allocator;
         this.GUARD_BYTE = constants.GUARD_BYTE || 0xFF;
+        this.MAGIC = Buffer.from("BNOD"); // B"H: B-Tree Node Signature
     }
 
     log(msg) {
@@ -33,6 +34,9 @@ class BTreeWriter {
         }
 
 	    const parts = [];
+        // B"H: Add Magic Signature
+        parts.push(this.MAGIC);
+
 	    parts.push(Buffer.from([node.isLeaf ? 1 : 0]));
 	    
 	    const countBuf = Buffer.alloc(2);
@@ -73,7 +77,7 @@ class BTreeWriter {
                 // B"H LOG: Trace allocation
                 this.log(`Requesting allocation of ${raw.length} bytes...`);
                 const newPtr = await this.allocator.allocate(raw.length);
-                this.log(`Allocated Node at ${newPtr.blockId}:${newPtr.offset}`);
+                this.log(`Allocated Node at ${newPtr.blockId}:${newPtr.offset} (Req Len: ${raw.length}, Alloc Len: ${newPtr.length})`);
             
                 if (newPtr.isChain) {
                     let remaining = raw;
@@ -99,7 +103,8 @@ class BTreeWriter {
                 
                 // Verify immediate read-back to ensure we wrote it correctly
                 // this.log(`Verifying Node write at ${newPtr.blockId}:${newPtr.offset}`);
-                await this.btree.io.reader.loadNode(newPtr);
+                // B"H: Optimizaton - Skip verification for speed unless debugging
+                // await this.btree.io.reader.loadNode(newPtr);
                 return newPtr;
             } catch (e) {
                 this.log(`Save Node Attempt ${attempts} failed: ${e.message}`);

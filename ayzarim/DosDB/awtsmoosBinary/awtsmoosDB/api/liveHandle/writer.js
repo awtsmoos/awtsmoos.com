@@ -55,11 +55,19 @@ class Writer {
             await this.verifyRootUpdate(ptr, tree.rootPtr);
             this.handle.log(`[Writer] Root Update Verified.`);
 
-            // B"H: Free old root only after persistent handle update verified
-            if (oldRoot && tree.rootPtr && (oldRoot.blockId !== tree.rootPtr.blockId || oldRoot.offset !== tree.rootPtr.offset)) {
+            // B"H: Transactional Free - Flush internal frees from Ops
+            await tree.flushFrees();
+
+            // B"H: Free old root only if it has a valid Block ID (i.e. not a fresh recovered root)
+            if (oldRoot && oldRoot.blockId && tree.rootPtr && (oldRoot.blockId !== tree.rootPtr.blockId || oldRoot.offset !== tree.rootPtr.offset)) {
                  this.handle.log(`[Writer] Freeing Old Root ${oldRoot.blockId}:${oldRoot.offset}`);
                  await this.db.allocator.free(oldRoot);
             }
+            
+            // B"H: Update handle mode
+            // If the user immediately uses the child handle, we want it to be known as BTREE
+            // However, this `createMap` is on the PARENT. 
+            // The child handle will be created fresh via navigation.
         });
     }
 
@@ -104,7 +112,10 @@ class Writer {
             
             await this.verifyRootUpdate(ptr, tree.rootPtr);
 
-            if (oldRoot && tree.rootPtr && (oldRoot.blockId !== tree.rootPtr.blockId || oldRoot.offset !== tree.rootPtr.offset)) {
+            // B"H: Transactional Free - Flush internal frees from Ops
+            await tree.flushFrees();
+
+            if (oldRoot && oldRoot.blockId && tree.rootPtr && (oldRoot.blockId !== tree.rootPtr.blockId || oldRoot.offset !== tree.rootPtr.offset)) {
                  this.handle.log(`[Writer] Freeing Old Root ${oldRoot.blockId}:${oldRoot.offset}`);
                  await this.db.allocator.free(oldRoot);
             }
@@ -126,7 +137,10 @@ class Writer {
         
         await this.verifyRootUpdate(ptr, tree.rootPtr);
 
-        if (oldRoot && tree.rootPtr && (oldRoot.blockId !== tree.rootPtr.blockId || oldRoot.offset !== tree.rootPtr.offset)) {
+        // B"H: Transactional Free - Flush internal frees from Ops
+        await tree.flushFrees();
+
+        if (oldRoot && oldRoot.blockId && tree.rootPtr && (oldRoot.blockId !== tree.rootPtr.blockId || oldRoot.offset !== tree.rootPtr.offset)) {
              await this.db.allocator.free(oldRoot);
         }
     }
@@ -143,9 +157,12 @@ class Writer {
             await tree.remove(key);
             
             await this.handle.tree.updateTreePointer(ptr, tree);
-            await this.verifyRootUpdate(ptr, tree.rootPtr); // Now supported for ROOT
+            await this.verifyRootUpdate(ptr, tree.rootPtr); 
+
+            // B"H: Transactional Free - Flush internal frees from Ops
+            await tree.flushFrees();
             
-             if (oldRoot && tree.rootPtr && (oldRoot.blockId !== tree.rootPtr.blockId || oldRoot.offset !== tree.rootPtr.offset)) {
+             if (oldRoot && oldRoot.blockId && tree.rootPtr && (oldRoot.blockId !== tree.rootPtr.blockId || oldRoot.offset !== tree.rootPtr.offset)) {
                  await this.db.allocator.free(oldRoot);
             }
             
@@ -175,8 +192,11 @@ class Writer {
             if (!checkRoot || checkRoot.blockId !== tree.rootPtr.blockId || checkRoot.offset !== tree.rootPtr.offset) {
                  throw new Error("B\"H: Critical - Delete failed to persist new root pointer.");
             }
+
+            // B"H: Transactional Free - Flush internal frees from Ops
+            await tree.flushFrees();
             
-             if (oldRoot && tree.rootPtr && (oldRoot.blockId !== tree.rootPtr.blockId || oldRoot.offset !== tree.rootPtr.offset)) {
+             if (oldRoot && oldRoot.blockId && tree.rootPtr && (oldRoot.blockId !== tree.rootPtr.blockId || oldRoot.offset !== tree.rootPtr.offset)) {
                  await this.db.allocator.free(oldRoot);
             }
         }
@@ -189,8 +209,17 @@ class Writer {
             const ptr = await this.handle.ptrPromise;
             await this.db.ensureOpen();
             
+            // B"H: FORCE mode detection if DEFERRED to prevent race condition 
+            // where metadata was written but Navigator hasn't updated local mode.
             if (this.handle.mode === 'DEFERRED') await this.handle.nav.detectMode(ptr);
-            if (this.handle.mode !== 'COLLECTION') throw new Error("Cannot push to non-collection");
+            
+            if (this.handle.mode !== 'COLLECTION') {
+                // Double check by re-reading meta
+                 await this.handle.nav.detectMode(ptr);
+                 if (this.handle.mode !== 'COLLECTION') {
+                    throw new Error(`Cannot push to non-collection. Mode: ${this.handle.mode}`);
+                 }
+            }
 
             const metaBuf = await this.db._readChainSafe(ptr);
             const handlePtr = _readPtr(metaBuf, 1);

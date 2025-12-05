@@ -70,13 +70,15 @@ class Ops {
 	        if (node.children.length > this.btree.order + 1) {
                 const splitRes = await this.splitInternal(node);
                  if (result.newPtr && childPtr && (result.newPtr.blockId !== childPtr.blockId || result.newPtr.offset !== childPtr.offset)) {
-                    await this.btree.allocator.free(childPtr);
+                    // B"H: Defer free
+                    this.btree.registerFree(childPtr);
                 }
 	            return splitRes;
 	        } else {
 	            const savedPtr = await this.btree.saveNode(node);
                 if (result.newPtr && childPtr && (result.newPtr.blockId !== childPtr.blockId || result.newPtr.offset !== childPtr.offset)) {
-                    await this.btree.allocator.free(childPtr);
+                    // B"H: Defer free
+                    this.btree.registerFree(childPtr);
                 }
 	            return { newChild: null, newPtr: savedPtr };
 	        }
@@ -84,7 +86,8 @@ class Ops {
 	        node.count = await this.btree.sumChildren(node.children);
 	        const savedPtr = await this.btree.saveNode(node);
             if (result.newPtr && childPtr && (result.newPtr.blockId !== childPtr.blockId || result.newPtr.offset !== childPtr.offset)) {
-                await this.btree.allocator.free(childPtr);
+                // B"H: Defer free
+                this.btree.registerFree(childPtr);
             }
 	        return { newChild: null, newPtr: savedPtr };
 	    }
@@ -172,7 +175,8 @@ class Ops {
 	        const savedPtr = await this.btree.saveNode(node);
             
             if (result.newPtr && childPtr && (result.newPtr.blockId !== childPtr.blockId || result.newPtr.offset !== childPtr.offset)) {
-                await this.btree.allocator.free(childPtr);
+                // B"H: Defer free
+                this.btree.registerFree(childPtr);
             }
 	        return { modified: true, newPtr: savedPtr, countDelta: result.countDelta };
 	    }

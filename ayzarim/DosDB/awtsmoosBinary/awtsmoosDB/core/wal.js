@@ -3,7 +3,7 @@
  * @module WAL
  * @description Write-Ahead Log Manager.
  * MEMORY SAFE VERSION: Streams recovery to allow infinite log sizes without OOM.
- * WINDOWS FIX: Uses 'r+' instead of 'a+' to allow ftruncate.
+ * WINDOWS FIX: Uses 'r+' and MANUAL OFFSET TRACKING to avoid fs.stat lag overwrites.
  */
 
 const fs = require('fs').promises;
@@ -14,6 +14,7 @@ class WAL {
     constructor(walPath) {
         this.path = walPath;
         this.handle = null;
+        this.currentOffset = 0; // B"H: Manual offset tracking
     }
 
     async init() {
@@ -25,6 +26,8 @@ class WAL {
                 await fs.writeFile(this.path, Buffer.alloc(0));
             }
             this.handle = await fs.open(this.path, 'r+');
+            const stats = await this.handle.stat();
+            this.currentOffset = stats.size;
         }
     }
 
@@ -43,11 +46,9 @@ class WAL {
             data.copy(packet, 6);
         }
 
-        // With 'r+', we must append manually to the end of the file.
-        // stat() is safer than tracking offset if multiple processes (though Node is single-threaded here).
-        // Optimization: For now, just use handle.stat to find end.
-        const stats = await this.handle.stat();
-        await this.handle.write(packet, 0, packet.length, stats.size);
+        // B"H: Use manual offset to ensure we never overwrite tail due to stat lag
+        await this.handle.write(packet, 0, packet.length, this.currentOffset);
+        this.currentOffset += packet.length;
         
         await this.handle.sync();
     }
@@ -56,6 +57,7 @@ class WAL {
         if (this.handle) {
             await this.handle.truncate(0);
             await this.handle.sync();
+            this.currentOffset = 0;
         }
     }
 
@@ -65,7 +67,7 @@ class WAL {
      */
     async recover(pager) {
         await this.init();
-        const stats = await this.handle.stat();
+        const stats = await this.handle.stat(); // Initial check is fine
         if (stats.size === 0) return;
 
         console.log("B\"H: Unclean shutdown detected. Streaming WAL recovery...");
@@ -78,9 +80,6 @@ class WAL {
 
         const PACKET_SIZE = 6 + constants.BLOCK_SIZE;
         // B"H: FIX - Do NOT reuse a single buffer for async writes.
-        // If writeRaw is slow, the next read might overwrite the buffer content before the write completes.
-        // Although we await writeRaw, fs operations can hold references.
-        // We will alloc a new buffer for the *read*, but copy data for the *write*.
         const buffer = Buffer.alloc(PACKET_SIZE);
         
         let recoveredCount = 0;
@@ -116,6 +115,8 @@ class WAL {
         
         // Re-open for business (r+)
         this.handle = await fs.open(this.path, 'r+');
+        this.currentOffset = 0; // We are about to clear it
+        
         // Clear log only after successful replay
         await this.clear();
     }

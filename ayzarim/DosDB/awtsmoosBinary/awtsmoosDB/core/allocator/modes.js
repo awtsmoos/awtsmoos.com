@@ -12,7 +12,20 @@ class AllocationModes {
         if (searchPtr < 2) searchPtr = 2;
         
         let looped = false;
+        const protectedBlock = this.allocator.getProtectedBlockId();
+
         while (true) {
+            // B"H: Sanctuary Check - Never allocate the Root Block
+            if (searchPtr === protectedBlock) {
+                searchPtr++;
+                if (searchPtr > this.allocator.MAX_BLOCKS) {
+                    if (looped) throw new Error("Disk Full");
+                    searchPtr = 2;
+                    looped = true;
+                }
+                continue;
+            }
+
             if (await this.isBlockTrulyFree(searchPtr)) {
                 this.allocator.log(`Allocating Page Block: ${searchPtr}`);
                 this.allocator.cursor = searchPtr + 1;
@@ -21,7 +34,8 @@ class AllocationModes {
                 // Clear ghost data
                 block.fill(0, this.allocator.HEADER_SIZE, this.allocator.BLOCK_SIZE);
                 
-                await this.allocator.pager.writeBlock(searchPtr, block);
+                // B"H: Use synced write to update Cache + Disk
+                await this.allocator._writeBlockSynced(searchPtr, block);
                 await this.allocator._saveStateInternal(); 
                 return { blockId: searchPtr, offset: 0, length: this.allocator.BLOCK_SIZE, isChain: false };
             }
@@ -38,19 +52,38 @@ class AllocationModes {
         let searchPtr = Math.max(this.allocator.cursor, this.allocator.lastFreeHint);
         if (searchPtr < 2) searchPtr = 2;
         let looped = false;
+        const protectedBlock = this.allocator.getProtectedBlockId();
 
         while (true) {
-            const type = await this.allocator.pager.readBlockType(searchPtr);
+            // B"H: Sanctuary Check - Never allocate the Root Block
+            if (searchPtr === protectedBlock) {
+                 searchPtr++;
+                 if (searchPtr > this.allocator.MAX_BLOCKS) { 
+                    if (looped) throw new Error("Disk Full");
+                    searchPtr = 2; 
+                    looped = true;
+                }
+                continue;
+            }
+
+            // B"H: Use synced read for type check to ensure we see cached page types
+            const block = await this.allocator._readBlockSynced(searchPtr);
+            const type = block ? block.readUInt32BE(0) : 0;
             
-            if (type === null || type === 0 || type === constants.BLOCK_TYPE.FREE) {
+            if (type === 0 || type === constants.BLOCK_TYPE.FREE) {
                 if (await this.isBlockTrulyFree(searchPtr)) {
-                    const block = this.allocator.formatBlock(constants.BLOCK_TYPE.PAGE);
-                    block.fill(0, this.allocator.HEADER_SIZE, this.allocator.BLOCK_SIZE);
+                    const newBlock = this.allocator.formatBlock(constants.BLOCK_TYPE.PAGE);
+                    newBlock.fill(0, this.allocator.HEADER_SIZE, this.allocator.BLOCK_SIZE);
                     
-                    const startUnit = BitmapManager.findGap(block, unitsNeeded);
-                    if (startUnit > 0) {
-                        BitmapManager.mark(block, startUnit, unitsNeeded, true);
-                        await this.allocator.pager.writeBlock(searchPtr, block);
+                    const startUnit = BitmapManager.findGap(newBlock, unitsNeeded);
+                    // B"H: HEADER PROTECTION - startUnit MUST represent an offset >= HEADER_SIZE
+                    // If startUnit is too small (e.g. 0 or 1), it means findGap thinks the header is free.
+                    // We must force search past header.
+                    const minUnit = Math.ceil(this.allocator.HEADER_SIZE / this.allocator.UNIT_SIZE);
+                    
+                    if (startUnit >= minUnit) {
+                        BitmapManager.mark(newBlock, startUnit, unitsNeeded, true);
+                        await this.allocator._writeBlockSynced(searchPtr, newBlock);
                         
                         this.allocator.cursor = searchPtr; 
                         this.allocator.lastFreeHint = searchPtr;
@@ -62,18 +95,21 @@ class AllocationModes {
                 }
             } 
             else if (type === constants.BLOCK_TYPE.PAGE) {
-                const block = await this.allocator.pager.readBlock(searchPtr);
                 if (block) {
                     const startUnit = BitmapManager.findGap(block, unitsNeeded);
-                    if (startUnit > 0) {
+                    const minUnit = Math.ceil(this.allocator.HEADER_SIZE / this.allocator.UNIT_SIZE);
+
+                    if (startUnit >= minUnit) {
                         BitmapManager.mark(block, startUnit, unitsNeeded, true);
                         const startByte = startUnit * this.allocator.UNIT_SIZE;
+                        
+                        // Redundant Check, but critical
                         if (startByte < this.allocator.HEADER_SIZE) throw new Error(`Allocator Error: Offset ${startByte} in Header`);
                         
                         // Clear space to prevent ghost data
                         block.fill(0, startByte, startByte + sizeBytes);
 
-                        await this.allocator.pager.writeBlock(searchPtr, block);
+                        await this.allocator._writeBlockSynced(searchPtr, block);
                         this.allocator.cursor = searchPtr;
                         await this.allocator._saveStateInternal();
                         
@@ -102,7 +138,8 @@ class AllocationModes {
         for (let i = 0; i < blocksNeeded; i++) {
             const blk = this.allocator.formatBlock(constants.BLOCK_TYPE.OVERFLOW);
             blk.fill(0xFF, constants.BITMAP_OFFSET, constants.BITMAP_OFFSET + constants.BITMAP_SIZE);
-            await this.allocator.pager.writeBlock(startBlock + i, blk);
+            // Use synced write
+            await this.allocator._writeBlockSynced(startBlock + i, blk);
         }
         this.allocator.lastFreeHint = startBlock + blocksNeeded;
         if (this.allocator.lastFreeHint > this.allocator.cursor) this.allocator.cursor = this.allocator.lastFreeHint;
@@ -118,7 +155,18 @@ class AllocationModes {
         let start = -1;
         const MAX_SCAN = 2000000; 
         let attempts = 0;
+        const protectedBlock = this.allocator.getProtectedBlockId();
+
         while (attempts < MAX_SCAN) {
+            // B"H: Sanctuary Check
+            if (ptr === protectedBlock) {
+                 run = 0;
+                 ptr++;
+                 attempts++;
+                 if (ptr > this.allocator.MAX_BLOCKS) ptr = 2;
+                 continue;
+            }
+
             if (await this.isBlockTrulyFree(ptr)) {
                 if (run === 0) start = ptr;
                 run++;
@@ -131,7 +179,8 @@ class AllocationModes {
     }
 
     async isBlockTrulyFree(blockId) {
-        const block = await this.allocator.pager.readBlock(blockId);
+        // B"H: Use synced read to check cache state
+        const block = await this.allocator._readBlockSynced(blockId);
         if (!block) return true; 
 
         const type = block.readUInt32BE(0);

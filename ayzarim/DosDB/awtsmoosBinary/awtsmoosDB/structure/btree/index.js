@@ -16,12 +16,33 @@ class BTree {
         this.io = new NodeIO(this);
         this.ops = new Ops(this);
         this.query = new Query(this);
+
+        // B"H: Transactional Free List
+        // We accumulate nodes to be freed here and only release them
+        // once the new root is securely anchored in the SuperBlock/Handle.
+        this.pendingFrees = [];
     }
 
     log(msg) {
         if (this.allocator && this.allocator.db && this.allocator.db.debug) {
             console.log(`[BTree] ${msg}`);
         }
+    }
+
+    // B"H: Defer-Free Mechanism
+    registerFree(ptr) {
+        if (ptr && ptr.blockId !== 0) {
+            this.pendingFrees.push(ptr);
+        }
+    }
+
+    async flushFrees() {
+        if (this.pendingFrees.length === 0) return;
+        this.log(`Flushing ${this.pendingFrees.length} deferred frees.`);
+        for(const ptr of this.pendingFrees) {
+            await this.allocator.free(ptr);
+        }
+        this.pendingFrees = [];
     }
 
     // Facade Methods
