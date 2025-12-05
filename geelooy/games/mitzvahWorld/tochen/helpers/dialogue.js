@@ -1,16 +1,16 @@
-
 /**
  * B"H
  * a class to help with dialogue
  */
 import Interaction from "./tzomayachInteraction.js";
 function processText(txt) {
+    if(!txt) return "";
     return txt.split('\n').map(line => line.trimStart()).join('\n');
 }
+
 export default class Dialogue extends Interaction {
     
     constructor(me, opts = {}) {
-        
         opts.approachAction = (nivra) => {
             var asset = this.me.asset;
             if(asset) {
@@ -20,256 +20,173 @@ export default class Dialogue extends Interaction {
                 }
             }
             this.me.state = "talking";
-
-
             this.me.nivraTalkingTo = nivra;
 
-            if(this.me.state == "idle") {
-                this.me.state = "talking";
-            }
-            
-
-
-            /**a nivra
-             * that entered interaction zone
-             */
-
-                
-
-                /**
+            /**
              * Turn on dialogue
-             * of character.
-             * 
-             * Opens 
-             * system of dialogue screens
-             * that can be navigated
-             * with forward action and 
-             * back action button.
              */
             var curMsg = this.me.currentMessage;
+            
+            // --- Event: Update Message Text ---
             this.me.on("chose", () => {
                 curMsg = this.me.currentMessage;
+                if(!curMsg) return;
                 
                 this.me.olam.htmlAction(
                     this.opts.npcMessageShaym,
                     {
-                        innerText: processText(curMsg
-                            .message)
+                        innerText: processText(curMsg.message || "...")
                     }
                 );
-
-                
-                
             });
 
+            // --- Event: Render Responses ---
             this.me.on("selectedMessage", async () => {
-          
-                if(this.me.state == "idle")
-                    return;
-                /*if(!nivra.interactingWith)
-                    return;*/
+                if(this.me.state == "idle") return;
+                
                 var self = this;
                 curMsg = this.me.currentMessage;
-                if(curMsg.responses) {
-                    var ch = this.me.currentMessage
-                    .responses.map((q,i)=>({
-                        innerText:(
-                            i+1
-                        ) + ". " + processText(q.text),
-                        className: i == 
-                            this.me.currentSelectedMsgIndex
-                            ? 
-                            "selected" : "",
+                
+                if(curMsg && curMsg.responses) {
+                    var ch = curMsg.responses.map((q,i)=>({
+                        innerText: (i+1) + ". " + processText(q.text),
+                        className: i == this.me.currentSelectedMsgIndex ? "selected" : "",
                         attributes: {
-                            "data-index": i
+                            "data-index": i,
+                            // B"H: Embed Entity ID to prevent cross-talk between NPCs
+                            "data-entity-id": this.me.id 
                         },
                         onclick: function(e, $, ui) {
-                            // B"H FIX: Robustly find the data-index even if clicked on child elements
                             var target = e.target.closest("[data-index]");
                             if (!target) return;
                             
                             var ind = target.getAttribute("data-index");
+                            var entId = target.getAttribute("data-entity-id");
                             
-                            // B"H FIX: Wrap in htmlPeula so worker router catches it and fires the event on Olam
-                            ui.peula(target, {
-                                htmlPeula: {
-                                    toggleToOption: {
-                                        id: ind
+                            // B"H FIX: Dispatch event to 'ikar' (Main UI Root) wrapped in 'olamPeula'
+                            // This ensures the UIManager's listener catches it and forwards it to the Worker.
+                            var ikar = $("ikar");
+                            if(ikar) {
+                                ikar.dispatchEvent(new CustomEvent("olamPeula", {
+                                    detail: {
+                                        htmlPeula: {
+                                            toggleToOption: {
+                                                id: ind,
+                                                entityId: entId
+                                            }
+                                        }
                                     }
-                                }
-                            });
+                                }));
+                            }
                         },
                         awtsmoosClick: true
                     }));
                     
                     this.me.olam.htmlAction(
                         this.opts.chossidMessageShaym,
-                        {
-                            children: ch
-                            
-                        }
+                        { children: ch }
                     );
 
-                    var self = this
-                    async function toggle(ind) {
-                        var id = ind.id;
-                        self.me.olam.clear("htmlPeula toggleToOption");
+                    // --- Listener for this specific interaction ---
+                    var self = this;
+                    async function toggle(data) {
+                        // B"H: CRITICAL FILTER
+                        // Only respond if this event is meant for ME
+                        if (data.entityId !== self.me.id) return;
 
-                        self.me.olam.on("htmlPeula toggleToOption", async (...a) => await toggle(...a))
-                    //    console.log("Trying to choose",ind, id)
-                        await self.me.chooseResponse(id)
-                        
+                        var idx = data.id;
+                        await self.me.chooseResponse(idx);
                     }
-                    self.me.olam.clear("htmlPeula toggleToOption");
-
-                    this.me.olam.on("htmlPeula toggleToOption", async (...a) => await toggle(...a))
-                }
                     
+                    if(!self._toggleListener) {
+                        self._toggleListener = async (...a) => await toggle(...a);
+                        this.me.olam.on("htmlPeula toggleToOption", self._toggleListener);
+                    }
+                }
             });
             
             this.me.isShowing = true;
             this.me.olam.htmlAction({
-
                 shaym: this.opts.npcMessageShaym,
-                methods: {
-                    classList: {
-                        add: "active"
-                    }
-                }
+                methods: { classList: { add: "active" } }
             });
-
 
             this.me.olam.htmlAction({
-
                 shaym: this.opts.chossidMessageShaym,
-                methods: {
-                    classList: {
-                        add: "active"
-                    }
-                }
+                methods: { classList: { add: "active" } }
             });
 
-
+            // Trigger Initial Render
             this.me.ayshPeula("chose");
-            
-            
-            
-            
             this.me.selectResponse();
-            this.me.ayshPeula("selectedMessage")
+            this.me.ayshPeula("selectedMessage");
 
+            // --- Event: Close Dialogue ---
             this.me.on("close dialogue", (message) => {
                 this.me.olam.activeCamera = null;
                 
                 this.me.isShowing = false;
                 this.me.currentMessageIndex = 0;
                 this.me.state = "idle";
+                
+                // Clean up listeners
+                if(this._toggleListener) {
+                    this.me.olam.remove("htmlPeula toggleToOption", this._toggleListener);
+                    this._toggleListener = null;
+                }
+                
                 this.me.clear("close dialogue");
                 this.clearEvents();
                 
-                var msg = message ||
-                "bye bye!";
-
-                /**
-                 * Make a variable
-                 * length of how
-                 * much time the 
-                 * message should
-                 * still exist before it
-                 * fades away 
-                 * based on last response length.
-                 */
-                var lng = msg.length * 62.5;
+                var msg = message || "bye bye!";
+                var lng = msg.length * 62.5; // Reading time
                 
                 this.me.olam.htmlAction({
-
                     shaym: this.opts.npcMessageShaym,
-                    
-                    properties: {
-                        innerHTML: msg
-                    }
+                    properties: { innerHTML: msg }
                 });
 
-                
-
-                
                 this.me.olam.htmlAction({
-
                     shaym: this.opts.chossidMessageShaym,
-                    methods: {
-                        classList: {
-                            remove: "active"
-                        }
-                    }
+                    methods: { classList: { remove: "active" } }
                 });
                 
                 setTimeout(() => {
                     if(this.me.isShowing) return;
-                    
                     this.me.olam.htmlAction({
-
                         shaym: this.opts.npcMessageShaym,
-                        
-                        methods: {
-                            classList: {
-                                remove: "active"
-                            }
-                        }
+                        methods: { classList: { remove: "active" } }
                     });
                 }, lng);
-                
             });
         }
-        super(me, opts);
         
+        super(me, opts);
     }
    
-
     clearDialogueEvents() {
-        this.me.olam.clear("htmlPeula toggleToOption")
+        if(this._toggleListener) {
+            this.me.olam.remove("htmlPeula toggleToOption", this._toggleListener);
+            this._toggleListener = null;
+        }
         this.me.clear("chose");
         this.me.clear("selectedMessage");
     }
+    
     clearEvents() {
         super.clearEvents();
-        this.clearDialogueEvents()
+        this.clearDialogueEvents();
     }
 
     nivraNeechnas(nivra) {
-        
-
-        
-        
         super.nivraNeechnas(nivra, this.me);
 
-        /**
-         * Only interact with player
-         */
-        if(
-            nivra.type != "chossid"
-        ) return;
+        if(nivra.type != "chossid") return;
 
         this.me.on("initial approach", () => {
-            
-
-            
-
-
             this.me.on("was moved away from", () => {
-                
                 this.me.currentMessageIndex = 0;
-                
-    
-                
             });
-
-
-            
         });
-
-        
-
-        
-        
     }
 }

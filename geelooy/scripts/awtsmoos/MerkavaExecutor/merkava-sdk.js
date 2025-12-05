@@ -1,4 +1,3 @@
-
 // B"H
 /**
  * @file merkava-sdk.js
@@ -26,7 +25,8 @@
         }
     } catch(e) {}
 
-    const PARSER_PATH = '../MerkavaASTParser/parser-core.js';
+    // B"H - FIXED: Absolute URL for Parser to ensure it loads in flat environments
+    const PARSER_PATH = 'https://awtsmoos.com/geelooy/scripts/awtsmoos/MerkavaASTParser/parser-core.js';
 
     // The Manifest of Fragments
     const MODULES = [
@@ -45,13 +45,14 @@
         return new Promise((resolve, reject) => {
             if (typeof importScripts === 'function') {
                 try { 
-                    const url = filename.startsWith('..') ? BASE_PATH + filename : BASE_PATH + filename;
+                    // Handle external URLs or local paths
+                    const url = filename.startsWith('http') ? filename : (BASE_PATH + filename);
                     importScripts(url); 
                     resolve(); 
                 } catch (e) { reject(e); }
             } else {
                 const script = document.createElement('script');
-                script.src = filename.startsWith('..') ? BASE_PATH + filename : BASE_PATH + filename;
+                script.src = filename.startsWith('http') ? filename : (BASE_PATH + filename);
                 script.onload = resolve;
                 script.onerror = () => reject(new Error(`Failed to load ${filename}`));
                 document.head.appendChild(script);
@@ -64,7 +65,7 @@
         // Load the fragmented world
         ${MODULES.map(m => `importScripts('${basePath}${m}');`).join('\n')}
         
-        importScripts('${basePath}${PARSER_PATH}'); 
+        importScripts('${PARSER_PATH}'); 
 
         self.onmessage = async (e) => {
             if (e.data && e.data.type === 'MERKAVA_INIT') {
@@ -102,6 +103,7 @@
                 await loadScript(mod);
             }
             
+            // Load Parser explicitly
             if (!self.MerkavahParserPromise && !self.MerkavahParser) {
                 await loadScript(PARSER_PATH);
             }
