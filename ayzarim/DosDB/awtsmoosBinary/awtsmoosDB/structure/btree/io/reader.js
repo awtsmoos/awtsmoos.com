@@ -4,6 +4,8 @@ const serializer = require('../../../utils/serializer.js');
 const { readPointer48 } = require('../../../utils/binaryHelpers.js');
 
 const HEADER_SIZE = constants.HEADER_SIZE || 64;
+const VAL_POINTER = 1; 
+const VAL_INLINE = 2; // B"H: Stage 2 - New Type for Inline Data
 
 class BTreeReader {
     constructor(btree) {
@@ -109,8 +111,6 @@ class BTreeReader {
             offset += 4;
             
             if (sig !== this.MAGIC) {
-                // If it's a legacy node (from before this fix), it won't have BNOD.
-                // But for a new DB stress test, this indicates we are reading a wrong block (e.g. Handle or Meta).
                 throw new Error(`BTree Corruption: Invalid Signature "${sig}" at ${ptr.blockId}:${ptr.offset}. Expected "BNOD". This implies a Pointer Mismatch.`);
             }
 
@@ -123,7 +123,6 @@ class BTreeReader {
         
             // B"H: Sanity Check for Corruption
             if (keyCount > 0 && keyCount * 2 > buffer.length) {
-                 // Heuristic: Each key needs at least 1 byte + overhead.
                 throw new Error(`BTree Corruption: KeyCount ${keyCount} unlikely for Node Length ${buffer.length}. Block ${ptr.blockId} was likely overwritten.`);
             }
 
@@ -158,9 +157,35 @@ class BTreeReader {
         
             if (isLeaf) {
                 for (let i = 0; i < keyCount; i++) {
-                    const val = readPtr();
-                    if (!val) throw new Error("BTree: Buffer truncation or Corruption reading Values");
-                    values.push(val);
+                    // B"H: Protocol Upgrade - Read Type Byte
+                    if (offset >= buffer.length) throw new Error("BTree: Buffer truncation reading Value Type");
+                    const type = buffer.readUInt8(offset); offset++;
+
+                    if (type === VAL_POINTER) {
+                        const val = readPtr();
+                        if (!val) throw new Error("BTree: Buffer truncation or Corruption reading Values");
+                        values.push(val);
+                    } 
+                    else if (type === VAL_INLINE) {
+                        // B"H: Stage 2 - Read Inline Data
+                        const lenInfo = serializer.readVarInt(buffer, offset);
+                        offset += lenInfo.bytesRead;
+                        
+                        if (offset + lenInfo.value > buffer.length) {
+                            throw new Error(`BTree: Inline Buffer truncation. Len ${lenInfo.value}, Remaining ${buffer.length - offset}`);
+                        }
+                        
+                        const buf = buffer.subarray(offset, offset + lenInfo.value);
+                        // Clone buffer to be safe
+                        const bufCopy = Buffer.alloc(buf.length);
+                        buf.copy(bufCopy);
+                        
+                        offset += lenInfo.value;
+                        values.push({ isInline: true, data: bufCopy });
+                    }
+                    else {
+                         throw new Error(`BTree: Unsupported Value Type ${type} at ${ptr.blockId}:${ptr.offset}`);
+                    }
                 }
             } else {
                 for (let i = 0; i <= keyCount; i++) {

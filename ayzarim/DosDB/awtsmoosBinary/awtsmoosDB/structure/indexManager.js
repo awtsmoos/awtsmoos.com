@@ -132,11 +132,18 @@ class IndexManager {
 
     flatten(obj, prefix = '', res = []) {
         if (prefix.split('.').length > 10) return res; 
+        
         for (let key in obj) {
             if (!Object.hasOwnProperty.call(obj, key)) continue;
             const val = obj[key];
             const newKey = prefix ? `${prefix}.${key}` : key;
-            if (val && typeof val === 'object' && !Array.isArray(val)) {
+            
+            // B"H: OPTIMIZATION - Do NOT recurse into Buffers or TypedArrays
+            // Indexing every byte of a buffer creates an explosion of write operations.
+            if (val && (Buffer.isBuffer(val) || ArrayBuffer.isView(val))) {
+                 res.push({ path: newKey, value: val });
+            }
+            else if (val && typeof val === 'object' && !Array.isArray(val)) {
                 this.flatten(val, newKey, res);
             } else if (Array.isArray(val)) {
                  val.forEach(v => {

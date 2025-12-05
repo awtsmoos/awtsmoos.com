@@ -15,6 +15,8 @@ class AwtsmoosDB {
     constructor(filePath, options = {}) {
         this.filePath = filePath;
         this.debug = options.debug || false;
+        // B"H: Auto-Checkpoint Threshold (default 2MB)
+        this.walCheckpointLimit = options.walCheckpointLimit || 2 * 1024 * 1024;
         
         this.pager = new Pager(filePath);
         // Pass 'this' to allocator so it can access db.debug for logging
@@ -44,12 +46,23 @@ class AwtsmoosDB {
 
     /**
      * Executes a write operation sequentially.
+     * B"H: Added Auto-Checkpoint logic.
      */
     execute(fn) {
         const task = async () => {
             try {
                 this.log("Executing Task...");
-                return await fn();
+                const result = await fn();
+
+                // B"H: Check if WAL needs maintenance
+                if (this.pager && this.pager.wal && this.pager.wal.currentOffset > this.walCheckpointLimit) {
+                    this.log("Auto-Checkpointing WAL (Limit Exceeded)...");
+                    if (this.allocator) await this.allocator.saveState();
+                    await this.pager.checkpoint();
+                    this.log("WAL Checkpoint Complete.");
+                }
+
+                return result;
             } catch (e) {
                 console.error("B\"H: DB Execution Error:", e);
                 throw e;
@@ -60,8 +73,20 @@ class AwtsmoosDB {
     }
 
     /**
+     * Manual Checkpoint.
+     * Flushes everything to .db and clears .wal.
+     */
+    async checkpoint() {
+        return this.execute(async () => {
+            this.log("Performing Manual Checkpoint...");
+            if (this.allocator) await this.allocator.saveState();
+            if (this.pager) await this.pager.checkpoint();
+        });
+    }
+
+    /**
      * Closes the database connection.
-     * Waits for pending operations, saves state, and closes file handles.
+     * Waits for pending operations, saves state, CHECKS POINTS (Clears WAL), and closes file handles.
      */
     async close() {
         this.log("Closing Database...");
@@ -69,12 +94,16 @@ class AwtsmoosDB {
         // 1. Wait for all pending tasks to complete
         await this.executionQueue;
         
-        // 2. Force save Allocator state (Cursor, etc.)
-        if (this.allocator) {
-            await this.allocator.saveState();
+        // 2. Perform Final Checkpoint (Safe to delete WAL now)
+        try {
+            this.log("Final Checkpoint...");
+            if (this.allocator) await this.allocator.saveState();
+            if (this.pager) await this.pager.checkpoint();
+        } catch (e) {
+            console.error("B\"H: Error during final checkpoint:", e);
         }
 
-        // 3. Close Pager (flushes WAL, closes file)
+        // 3. Close Pager (closes file)
         if (this.pager) {
             await this.pager.close();
         }
@@ -169,6 +198,17 @@ class AwtsmoosDB {
     }
     
     async _resolveValueFull(metaPtr) {
+        // B"H: Stage 2 - Inline Value Support
+        // If the B-Tree reader returned an inline value object (VAL_INLINE), 
+        // we skip the disk read and decode the buffer directly.
+        if (metaPtr && metaPtr.isInline) {
+            const parser = require('./deserialize/parser.js');
+            // metaPtr.data contains the raw serialized buffer [Type][Len][Data]
+            // We pass it directly to the parser.
+            return parser.parse(metaPtr.data);
+        }
+
+        // Standard Pointer Logic
         const metaBuf = await this._readChainSafe(metaPtr);
         if (!metaBuf) return undefined;
 
@@ -208,7 +248,8 @@ class AwtsmoosDB {
 
     async _loadRootTree() {
         const sb = await this.pager.readBlock(0);
-        const ROOT_OFFSET = 80;
+        // B"H: Correct Offset is 64 (ROOT_PTR_OFFSET)
+        const ROOT_OFFSET = 64; 
         
         const ptr = this._readPtrFromBuf(sb, ROOT_OFFSET);
         
@@ -226,7 +267,8 @@ class AwtsmoosDB {
     async _writeRootPtrToSB(ptr) {
         this.log(`Writing Root Ptr to SuperBlock: ${JSON.stringify(ptr)}`);
         const sb = await this.pager.readBlock(0);
-        const ROOT_OFFSET = 80;
+        // B"H: Correct Offset is 64
+        const ROOT_OFFSET = 64; 
         this._writePtrToBuf(sb, ROOT_OFFSET, ptr);
         await this.pager.writeBlock(0, sb);
     }

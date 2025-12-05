@@ -73,14 +73,15 @@ class Pager {
             buffer.copy(writeBuffer);
         }
 
+        // B"H: WAL guarantees durability.
         await this.wal.log(blockId, writeBuffer);
 
         const offset = Number(BigInt(blockId) * BigInt(constants.BLOCK_SIZE));
         
         const { bytesWritten } = await this.handle.write(writeBuffer, 0, constants.BLOCK_SIZE, offset);
         
-        // Force Flush
-        await this.handle.sync();
+        // B"H: PERFORMANCE FIX - Removed await this.handle.sync();
+        // The WAL is synced. The main file relies on OS cache until Checkpoint.
 
         if (bytesWritten !== constants.BLOCK_SIZE) {
             console.error(`[Pager] Partial Write: Wrote ${bytesWritten} of ${constants.BLOCK_SIZE} bytes.`);
@@ -90,7 +91,20 @@ class Pager {
     async writeRaw(blockId, buffer) {
         const offset = Number(BigInt(blockId) * BigInt(constants.BLOCK_SIZE));
         await this.handle.write(buffer, 0, constants.BLOCK_SIZE, offset);
-        await this.handle.sync(); 
+        // B"H: writeRaw is used by WAL recovery. We don't strictly need to sync every block during recovery either,
+        // but it is safer to leave it or rely on a final sync at the end of recovery.
+        // For consistency with writeBlock, we remove immediate sync here too.
+    }
+
+    /**
+     * B"H: Safety Checkpoint
+     * Syncs main DB and clears WAL.
+     */
+    async checkpoint() {
+        if (this.handle) {
+            await this.handle.sync(); // Ensure all data is physically on disk
+        }
+        await this.wal.clear(); // Safe to wipe log now
     }
 
     async close() {
