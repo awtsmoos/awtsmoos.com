@@ -106,7 +106,7 @@ class Pager {
         }
         await this.wal.clear(); // Safe to wipe log now
     }
-
+ 
     async close() {
         if (this.handle) {
             await this.handle.close();
