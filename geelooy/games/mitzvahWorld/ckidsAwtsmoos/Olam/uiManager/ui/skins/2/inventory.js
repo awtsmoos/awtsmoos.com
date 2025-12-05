@@ -1,4 +1,3 @@
-
 //B"H
 
 export default /*css*/`
@@ -135,7 +134,30 @@ export default /*css*/`
 		align-items: center;
 		position: relative; 
         box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        transition: all 0.2s ease;
 	}
+    
+    /* B"H: VIVID ANIMATION FOR DROP TARGET */
+    .actionSlot.drag-hover-active {
+        border-color: #00ffed;
+        box-shadow: 0 0 20px #00ffed, inset 0 0 25px #00ffed;
+        transform: scale(1.15);
+        z-index: 10;
+        background: #3e3e8e;
+        animation: slotPulse 0.5s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    @keyframes slotPulse {
+        from { 
+            box-shadow: 0 0 15px #00ffed, inset 0 0 15px #00ffed; 
+            border-color: #00ffed;
+        }
+        to { 
+            box-shadow: 0 0 30px #bc13fe, inset 0 0 40px #bc13fe; 
+            border-color: #bc13fe;
+            transform: scale(1.2);
+        }
+    }
 
 	.slots .innerSlot {
 		width: 90%;

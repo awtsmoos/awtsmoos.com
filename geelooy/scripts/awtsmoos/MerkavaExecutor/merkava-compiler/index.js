@@ -161,20 +161,50 @@
             }
         }
 
+        // B"H - Helper to register variables in scope before generating code
+        _declarePattern(pattern) {
+            if (pattern.type === 'Identifier') {
+                this.scope.declare(pattern.name);
+            } else if (pattern.type === 'ObjectPattern') {
+                for (const prop of pattern.properties) {
+                    if (prop.type === 'RestElement') this._declarePattern(prop.argument);
+                    else this._declarePattern(prop.value);
+                }
+            } else if (pattern.type === 'ArrayPattern') {
+                for (const elem of pattern.elements) {
+                    if (elem) {
+                        if (elem.type === 'RestElement') this._declarePattern(elem.argument);
+                        else this._declarePattern(elem);
+                    }
+                }
+            } else if (pattern.type === 'AssignmentPattern') {
+                this._declarePattern(pattern.left);
+            }
+        }
+
         _visitVarDecl(node) {
             for (const decl of node.declarations) {
+                // 1. Emit Initialization Code (pushes value to stack)
                 if (decl.init) this._visit(decl.init);
                 else this.buffer.write8(this.OPCODES.PUSH_UNDEFINED);
 
+                // 2. Handle Scope Registration and Storage
                 if (this.scope.depth === 0) {
+                    // Global Scope
                     if (decl.id.type === 'Identifier') {
                         const nameIdx = this._addConstant(decl.id.name);
                         this.buffer.write8(this.OPCODES.STORE_GLOBAL);
                         this.buffer.write16(nameIdx);
                     } else {
+                        // For globals, we don't 'declare' in the scope object in the same way 
+                        // as locals because they are dynamic, but we use destructuring logic.
                         this._compileDestructuring(decl.id);
                     }
                 } else {
+                    // Local Scope - CRITICAL FIX
+                    // Must declare the variable name in the CompilerScope 
+                    // BEFORE generating the STORE code, so _visitIdentifier resolves it as LOCAL.
+                    this._declarePattern(decl.id);
                     this._compileDestructuring(decl.id);
                 }
             }
@@ -295,7 +325,7 @@
                 return;
             }
             const res = this.scope.resolve(node.name);
-            // B"H - Fix: check if res exists (scope.resolve returns null for global)
+            // B"H - Safe check for result type. If it's GLOBAL, it falls to 'else'
             if (res && res.type === 'LOCAL') {
                 this.buffer.write8(mode === 'LOAD' ? this.OPCODES.LOAD_LOCAL : this.OPCODES.STORE_LOCAL);
                 this.buffer.write8(res.index);

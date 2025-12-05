@@ -167,14 +167,6 @@ export default class InventoryManager {
         // B"H: Hydrate existing items on load
         this.slots = this.slots.map(item => item ? this.enrichItemData(item) : null);
         this.actionSlots = this.actionSlots.map(item => item ? this.enrichItemData(item) : null);
-        
-        // Re-map equipment to point to the hydrated objects if they exist in slots
-        // (Equipment logic relies on references, but hydration replaces objects in map)
-        // Actually, map keeps refs, so we should update equipment refs too if we replaced objects.
-        // Since we mapped, we replaced objects.
-        // However, typically equipment holds a reference like { sourceType, index }. 
-        // InventoryManager uses indirect reference via `this.equipment[slot] = { sourceType: '...', index: ... }`
-        // so we are safe.
     }
     
     consumeItem(itemReference, amount = 1) {
@@ -227,34 +219,193 @@ export default class InventoryManager {
         }
     }
     
-    moveToActionBar(fromInventoryIndex, toActionIndex) {
-        if (fromInventoryIndex < 0 || fromInventoryIndex >= this.slots.length || toActionIndex < 0 || toActionIndex >= this.maxActionSlots) return;
-        const itemToMove = this.slots[fromInventoryIndex];
-        const itemInTarget = this.actionSlots[toActionIndex];
-        this.actionSlots[toActionIndex] = itemToMove;
-        this.slots[fromInventoryIndex] = itemInTarget;
-        this.updateUI();
-        this.save();
+    // B"H: Generic Move Item Logic supporting drag-and-drop and stacking
+    moveItem({ fromSource, fromIndex, toSource, toIndex, amount }) {
+        try {
+            console.log("B\"H Inventory: moveItem START", { fromSource, fromIndex, toSource, toIndex, amount });
+
+            const fromArray = fromSource === 'action' ? this.actionSlots : this.slots;
+            const toArray = toSource === 'action' ? this.actionSlots : this.slots;
+            
+            // Validation - Explicit type conversion
+            const fIdx = parseInt(fromIndex);
+            const tIdx = parseInt(toIndex);
+            
+            if (!fromArray || !toArray) {
+                 console.error("B\"H Inventory: Invalid Move Source/Dest Arrays. Aborting.", fromSource, toSource);
+                 return;
+            }
+            if (isNaN(fIdx) || fIdx < 0 || fIdx >= fromArray.length) {
+                console.warn("B\"H Inventory: Invalid From Index", fIdx);
+                return;
+            }
+            if (isNaN(tIdx) || tIdx < 0 || tIdx >= toArray.length) {
+                console.warn("B\"H Inventory: Invalid To Index", tIdx);
+                return;
+            }
+
+            const item = fromArray[fIdx];
+            if (!item) {
+                 console.warn("B\"H Inventory: Attempted to move null item from", fromSource, fIdx);
+                 return; 
+            }
+
+            // Determine Quantity - Robust Parsing
+            const maxQty = parseInt(item.quantity || 1);
+            // Fix: Handle null/undefined amount by defaulting to maxQty, otherwise parse
+            let qtyToMove = (amount === null || amount === undefined) ? maxQty : parseInt(amount);
+            
+            if (isNaN(qtyToMove) || qtyToMove <= 0) qtyToMove = maxQty;
+            if (qtyToMove > maxQty) qtyToMove = maxQty;
+
+            console.log("B\"H Inventory: Moving Quantity", qtyToMove, "of", item.name);
+
+            // Prevent move to same slot
+            if (fromSource === toSource && fIdx === tIdx) {
+                console.log("B\"H Inventory: Dropped on same slot, ignoring.");
+                return;
+            }
+
+            const targetItem = toArray[tIdx];
+
+            if (!targetItem) {
+                // Case 1: Target is Empty
+                console.log("B\"H Inventory: Target Slot is Empty.");
+                
+                // B"H FIX: Strict comparison causes issues if types differ. Use >= logic.
+                // If we are moving equal to or more than what we have (which is maxQty), it's a full move.
+                if (qtyToMove >= maxQty) {
+                    // Full move - Copy Ref and Nullify Origin
+                    console.log("B\"H Inventory: Performing Full Move.");
+                    toArray[tIdx] = item; 
+                    fromArray[fIdx] = null;
+                    console.log("B\"H Inventory: Full Move Success");
+                    // If item was equipped from old slot, update equipment reference
+                    this.updateEquipmentRefAfterMove(fromSource, fIdx, toSource, tIdx);
+                } else {
+                    // Split
+                    console.log("B\"H Inventory: Performing Split.");
+                    const newItem = { ...item, quantity: qtyToMove, id: item.id + "_split_" + Date.now() };
+                    // New item is not equipped by default
+                    newItem.isEquipped = false;
+                    delete newItem.equippedIn;
+                    
+                    toArray[tIdx] = newItem;
+                    item.quantity -= qtyToMove;
+                    
+                    // B"H FIX: Clean up source if split drained it (sanity check)
+                    if (item.quantity <= 0) {
+                        console.log("B\"H Inventory: Source drained during split, clearing.");
+                        fromArray[fIdx] = null;
+                        this.updateEquipmentRefAfterMove(fromSource, fIdx, null, null);
+                    }
+                    
+                    console.log("B\"H Inventory: Split Success. New Qty:", newItem.quantity, "Old Qty:", item.quantity);
+                }
+            } else {
+                // Case 2: Target is Occupied
+                console.log("B\"H Inventory: Target Slot Occupied by", targetItem.name);
+                
+                // Check for stacking (Same Class, Same Name)
+                if (targetItem.className === item.className && targetItem.name === item.name) {
+                    // Stack
+                    console.log("B\"H Inventory: Attempting Stack.");
+                    const ItemClass = AWTSMOOS[item.className];
+                    const maxStack = ItemClass ? (ItemClass.stackSize || 512) : 512;
+                    
+                    const space = maxStack - targetItem.quantity;
+                    const actualMove = Math.min(qtyToMove, space);
+                    
+                    if (actualMove > 0) {
+                        targetItem.quantity += actualMove;
+                        item.quantity -= actualMove;
+                        console.log("B\"H Inventory: Stack Success. Moved:", actualMove);
+                        if (item.quantity <= 0) {
+                            fromArray[fIdx] = null;
+                            this.updateEquipmentRefAfterMove(fromSource, fIdx, null, null); // Item gone
+                        }
+                    } else {
+                        console.log("B\"H Inventory: Target Full (Max Stack).");
+                    }
+                } else {
+                    // Swap (Only possible if moving full amount)
+                    if (qtyToMove >= maxQty) {
+                        console.log("B\"H Inventory: Swapping Items.");
+                        toArray[tIdx] = item;
+                        fromArray[fIdx] = targetItem;
+                        console.log("B\"H Inventory: Swap Success");
+                        
+                        // Update equipment references for BOTH swapped items
+                        this.updateEquipmentRefAfterMove(fromSource, fIdx, toSource, tIdx); 
+                        this.updateEquipmentRefAfterMove(toSource, tIdx, fromSource, fIdx); 
+                        
+                        this.fixEquipmentReferences();
+                    } else {
+                        console.warn("B\"H Inventory: Cannot swap partial stack");
+                    }
+                }
+            }
+            
+            console.log("B\"H Inventory: Updating UI and Saving.");
+            this.updateUI();
+            this.save();
+        } catch(e) {
+            console.error("B\"H Inventory Error in moveItem:", e);
+            // Ensure UI is updated even on error to sync with real state
+            this.updateUI();
+        }
     }
     
+    // Helper to fix equipment pointers after a swap or move
+    fixEquipmentReferences() {
+        // Iterate over all equipment slots
+        // Since we only store {source, index}, if items swap, we don't need to do anything complex.
+        // The item that lands in the equipped slot effectively becomes equipped.
+    }
+    
+    updateEquipmentRefAfterMove(oldSource, oldIndex, newSource, newIndex) {
+        for (const [key, ref] of Object.entries(this.equipment)) {
+            if (ref && ref.sourceType === oldSource && ref.index === oldIndex) {
+                if (newSource === null) {
+                    // Item destroyed/gone
+                    this.equipment[key] = null;
+                    // Update owner visual state
+                    if (key === 'rightHand') this.owner.updateHandState();
+                } else {
+                    // Point to new location
+                    this.equipment[key] = { sourceType: newSource, index: newIndex };
+                }
+            }
+        }
+    }
+
+    moveToActionBar(fromInventoryIndex, toActionIndex) {
+        this.moveItem({
+            fromSource: 'inventory',
+            fromIndex: fromInventoryIndex,
+            toSource: 'action',
+            toIndex: toActionIndex
+        });
+    }
+    
+    moveFromActionBar(actionIndex) {
+        // Find first empty slot
+        const emptyIndex = this.slots.findIndex(s => s === null);
+        if (emptyIndex !== -1) {
+            this.moveItem({
+                fromSource: 'action',
+                fromIndex: actionIndex,
+                toSource: 'inventory',
+                toIndex: emptyIndex
+            });
+        }
+    }
+
     isEquipped(sourceType, index) {
         for (const [slotName, ref] of Object.entries(this.equipment)) {
             if (ref && ref.sourceType === sourceType && ref.index === index) return slotName;
         }
         return null;
-    }
-
-    moveFromActionBar(actionIndex) {
-        if (actionIndex < 0 || actionIndex >= this.actionSlots.length) return;
-        const itemToMove = this.actionSlots[actionIndex];
-        if (!itemToMove) return;
-        const emptySlotIndex = this.slots.findIndex(slot => slot === null);
-        if (emptySlotIndex !== -1) {
-            this.slots[emptySlotIndex] = itemToMove;
-            this.actionSlots[actionIndex] = null;
-            this.updateUI();
-            this.save();
-        }
     }
 
     async updateUI() {

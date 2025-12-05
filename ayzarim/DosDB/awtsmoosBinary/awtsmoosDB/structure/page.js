@@ -10,6 +10,8 @@ const constants = require('../constants.js');
 const serializer = require('../utils/serializer.js');
 const { readPointer48, writePointer48 } = require('../utils/binaryHelpers.js');
 
+const HEADER_SIZE = constants.HEADER_SIZE || 64;
+
 class Page {
     /**
      * @param {number} id - The Block ID
@@ -41,7 +43,8 @@ class Page {
             return; 
         }
         
-        let offset = constants.HEADER_SIZE; 
+        // B"H: Use Safe HEADER_SIZE
+        let offset = HEADER_SIZE; 
         
         if (offset + 6 > buffer.length) {
             this.log(`Buffer too small for header.`);
@@ -128,7 +131,8 @@ class Page {
              currentSize += (Buffer.byteLength(item.key) + 22); 
         }
         
-        if ((currentSize + estimatedSize) > (constants.BLOCK_SIZE - constants.HEADER_SIZE - 64)) {
+        // B"H: Use HEADER_SIZE for calculation
+        if ((currentSize + estimatedSize) > (constants.BLOCK_SIZE - HEADER_SIZE - 64)) {
             this.log("Page full (size limit).");
             return false;
         }
@@ -175,11 +179,13 @@ class Page {
         // Mark header as used in bitmap
         block.fill(0xFF, constants.BITMAP_OFFSET, constants.BITMAP_OFFSET + constants.BITMAP_SIZE);
 
-        if (rawBuffer.length > (constants.BLOCK_SIZE - constants.HEADER_SIZE)) {
+        if (rawBuffer.length > (constants.BLOCK_SIZE - HEADER_SIZE)) {
             throw new Error(`Page Overflow in Page ${this.id}`);
         }
         
-        rawBuffer.copy(block, constants.HEADER_SIZE);
+        // B"H: FIX - Copy to HEADER_SIZE (64), NOT 0.
+        // Prevents overwriting Block Type and Bitmap!
+        rawBuffer.copy(block, HEADER_SIZE);
         
         await this.allocator.writeBlockLocked(this.id, block);
         this.isDirty = false;

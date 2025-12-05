@@ -27,7 +27,7 @@ export default class UIManager {
                 ...mainMenu
             ]
         });
-        console.log("iar",window.ikar=h);
+       // console.log("iar",window.ikar=h);
 
 
         var first = false;
@@ -46,13 +46,13 @@ export default class UIManager {
 
         h?.addEventListener("olamPeula", peula => {
             var det = peula.detail;
-            console.log("Got olam peula",peula)
+         //   console.log("Got olam peula",peula)
             if(
                 window .socket && 
                 window .socket.eved && 
                 det
             ) {
-               console.log("Sending",window?.socket?.eved,det)
+      //         console.log("Sending",window?.socket?.eved,det)
                 Object.keys(det).forEach(w => {
                     window?.socket?.eved?.postMessage?.({
                         [w]: det[w]
@@ -94,7 +94,7 @@ export default class UIManager {
     /*includes making new UI etc.*/
     initializeForFirstTime(e, opts={}) {
         var onstart = opts.onstart ;
-        console.log(opts)
+        //console.log(opts)
 
         
         
@@ -176,14 +176,15 @@ export default class UIManager {
          */
 
         var par = ui.$g("gameID")
-        console.log("parent",par)
+     
+     
         var menu = ui.html({
             shaym: "menu",
             parent: par,
             className: "gameMenu offscreen",
         })
 
-        console.log(window.m = menu)
+        window.m = menu;
         if(!Array.isArray(gameMenu)) {
             return console.log("No menu array");
         }
