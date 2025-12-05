@@ -35,7 +35,6 @@ class Reader {
             const allItems = await tree.getRange(0, 500); 
             const result = {};
             for(const item of allItems) {
-                // B"H: Resolve value fully for JSON
                 const val = await this.db._resolveValueFull(item.ptr);
                 result[item.key] = val;
             }
@@ -101,15 +100,51 @@ class Reader {
         return res;
     }
 
+    // B"H: Fast Length Retrieval (O(1))
+    async length() {
+        const ptr = await this.handle.ptrPromise;
+        if (!ptr) return 0;
+        await this.db.ensureOpen();
+        
+        if (this.handle.mode === 'DEFERRED') await this.handle.nav.detectMode(ptr);
+
+        if (this.handle.mode === 'BTREE') {
+            const tree = await this.handle.tree.getCurrentTree(ptr);
+            const root = await tree.getRoot();
+            return root.count || 0;
+        } 
+        else if (this.handle.mode === 'COLLECTION') {
+             const metaBuf = await this.db._readChainSafe(ptr);
+             const handlePtr = _readPtr(metaBuf, 1);
+             const handleBuf = await this.db._readChainSafe(handlePtr);
+             const headerPtr = _readPtr(handleBuf, 4);
+             
+             const col = new Collection(headerPtr.blockId, this.db.allocator);
+             await col.load();
+             return col.totalCount;
+        }
+        return 0;
+    }
+
+    async *keys() { yield* this._iterateGeneric('KEY'); }
+    async *values() { yield* this._iterateGeneric('VALUE'); }
+    async *entries() { yield* this._iterateGeneric('ENTRY'); }
+    
+    // Default Iterator (Value for List, Entry for Map for backwards compat)
+    // Actually, standard Map iterator is [key, value], but our previous tests expected {key, value} for BTree
+    // Let's stick to values() behavior for Collections and {key, value} objects for BTree to match 'comprehensive_features.js'
     async *iterator() {
+        yield* this._iterateGeneric('DEFAULT');
+    }
+
+    async *_iterateGeneric(mode) {
         const ptr = await this.handle.ptrPromise;
         await this.db.ensureOpen();
         if (this.handle.mode === 'DEFERRED') await this.handle.nav.detectMode(ptr);
         
         if (this.handle.mode === 'BTREE') {
-            // B"H: Implement BTree Iteration
             const tree = await this.handle.tree.getCurrentTree(ptr);
-            yield* this._iterateTree(tree, tree.rootPtr);
+            yield* this._iterateTree(tree, tree.rootPtr, mode);
         }
         else if (this.handle.mode === 'COLLECTION') {
              const metaBuf = await this.db._readChainSafe(ptr);
@@ -123,15 +158,24 @@ class Reader {
                 const page = new (require('../../structure/page.js'))(currPage, this.db.allocator);
                 await page.load();
                 for(let item of page.items) {
-                    const valBuf = await this.db._readChainSafe(item.ptr);
-                    yield v1Adapter.decode(valBuf, item.type);
+                    if (mode === 'KEY') {
+                        yield item.key; // Generated Key
+                    } else if (mode === 'ENTRY') {
+                        const valBuf = await this.db._readChainSafe(item.ptr);
+                        const val = v1Adapter.decode(valBuf, item.type);
+                        yield [item.key, val];
+                    } else {
+                        // VALUE or DEFAULT
+                        const valBuf = await this.db._readChainSafe(item.ptr);
+                        yield v1Adapter.decode(valBuf, item.type);
+                    }
                 }
                 currPage = page.nextPageId;
              }
         }
     }
 
-    async *_iterateTree(tree, nodePtr) {
+    async *_iterateTree(tree, nodePtr, mode) {
         if (!nodePtr || nodePtr.blockId === 0) return;
         
         const node = await tree.loadNode(nodePtr);
@@ -139,15 +183,21 @@ class Reader {
         if (node.isLeaf) {
             for(let i = 0; i < node.keys.length; i++) {
                 const key = node.keys[i];
-                const valPtr = node.values[i];
-                // Resolve value
-                const value = await this.db._resolveValueFull(valPtr);
-                yield { key, value };
+                
+                if (mode === 'KEY') {
+                    yield key;
+                } else {
+                    const valPtr = node.values[i];
+                    const value = await this.db._resolveValueFull(valPtr);
+                    
+                    if (mode === 'VALUE') yield value;
+                    else if (mode === 'ENTRY') yield [key, value];
+                    else yield { key, value }; // DEFAULT: { key, value } obj for BTree
+                }
             }
         } else {
-            // Internal Node: Traverse children in order
             for(const childPtr of node.children) {
-                yield* this._iterateTree(tree, childPtr);
+                yield* this._iterateTree(tree, childPtr, mode);
             }
         }
     }

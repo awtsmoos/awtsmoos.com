@@ -57,6 +57,12 @@ class LiveHandle {
                 if (prop === 'createMap') return target.writer.createMap.bind(target.writer);
                 if (prop === 'createList') return target.writer.createList.bind(target.writer);
 
+                // B"H: Introspection
+                if (prop === 'length') return target.reader.length(); // Returns Promise<number>
+                if (prop === 'keys') return target.reader.keys.bind(target.reader);
+                if (prop === 'values') return target.reader.values.bind(target.reader);
+                if (prop === 'entries') return target.reader.entries.bind(target.reader);
+
                 return target.navigate(prop);
             },
             set: (target, prop, value) => {
