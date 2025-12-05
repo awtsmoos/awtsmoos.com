@@ -1,186 +1,133 @@
 # B"H - AwtsmoosDB
 
-**AwtsmoosDB** is a high-performance, pure JavaScript, transactional, persistent database engine built from scratch. It is designed to handle complex nested structures, ordered B-Trees, and efficient append-only Collections, all backed by a robust, crash-resistant disk format.
+**AwtsmoosDB** is a high-performance, pure JavaScript, transactional, persistent database engine built from scratch. It provides a MongoDB-like nested API backed by a robust B-Tree and Write-Ahead Log (WAL) architecture.
 
 It requires **zero dependencies** and runs natively in Node.js.
 
 ---
 
-## 📖 Usage Guide & Examples
+## 📖 Usage Cookbook
 
-### 1. Quick Start
-
-Initialize the database. No manual setup is required; the DB file is created automatically.
+### 1. Initialization
+Lazy loading. The file is created automatically on the first write.
 
 ```javascript
 const AwtsmoosDB = require('./index.js');
-
-// Initialize (Lazy Loading)
-const db = new AwtsmoosDB('./my_database.db');
-
-// Basic Key-Value Storage on the Root Object
-async function main() {
-    // Storing values
-    await db.root.set("server_status", "online");
-    await db.root.set("uptime", Date.now());
-
-    // Retrieving values
-    const status = await db.root.server_status;
-    console.log(`Server is: ${status}`);
-}
-
-main();
+const db = new AwtsmoosDB('./my_database.db', { 
+    walCheckpointLimit: 5 * 1024 * 1024 // Auto-cleanup WAL after 5MB
+});
 ```
 
----
-
-### 2. B-Tree Maps (Sorted Key-Value Stores)
-
-Use `createMap` to create a sub-namespace that supports **automatic sorting** of keys. This is perfect for dictionaries, user indexes, or caches.
+### 2. Basic Key-Value Storage
+Anything can be a key. Any JSON-serializable value (plus Date, Buffer, Map, Set) can be stored.
 
 ```javascript
-async function mapExample() {
-    // Create a new B-Tree Map
-    await db.root.createMap("inventory");
+await db.root.set("status", "active");
+await db.root.set("count", 42);
+await db.root.set("meta", { created: new Date(), tags: ["new", "verified"] });
 
-    // Insert items (Order doesn't matter, DB sorts them)
-    await db.root.inventory.set("zebra_cake", { price: 5, stock: 100 });
-    await db.root.inventory.set("apple", { price: 1, stock: 50 });
-    await db.root.inventory.set("mango", { price: 3, stock: 20 });
-
-    // Retrieve specific item
-    const apple = await db.root.inventory.apple;
-    console.log("Apple Price:", apple.price);
-
-    // Iteration is guaranteed to be ALPHABETICAL
-    console.log("--- Inventory List ---");
-    for await (const item of db.root.inventory) {
-        // Yields { key: "apple", value: {...} } then "mango", then "zebra_cake"
-        console.log(`${item.key}: $${item.value.price}`);
-    }
-}
+const val = await db.root.count; // 42
 ```
 
----
-
-### 3. Collections (Append-Only Lists & Pagination)
-
-Use `createList` to create efficient linked-list collections. Supports `push` and `slice` (pagination). Ideal for logs, feeds, and transaction histories.
+### 3. B-Tree Maps (Sorted Storage)
+Use `createMap` for sorted key-value pairs (Dictionaries, Indexes).
 
 ```javascript
-async function listExample() {
-    // Create a Collection
-    await db.root.createList("audit_logs");
+await db.root.createMap("users");
 
-    // Push thousands of items efficiently
-    for (let i = 0; i < 1000; i++) {
-        await db.root.audit_logs.push({
-            id: i,
-            timestamp: Date.now(),
-            action: `Login Attempt #${i}`
-        });
-    }
+await db.root.users.set("zebra", { id: 99 });
+await db.root.users.set("apple", { id: 1 });
 
-    // Pagination: Get items 500 to 505 (Zero-load on other items)
-    const page = await db.root.audit_logs.slice(500, 505);
-    
-    page.forEach(log => {
-        console.log(`[${log.id}] ${log.action}`);
-    });
+// Iteration is Alphabetical: apple -> zebra
+for await (const user of db.root.users) {
+    console.log(user.key, user.value);
 }
+
+// Get Count (Fast O(1))
+const count = await db.root.users.length;
 ```
 
----
-
-### 4. Deeply Nested Structures & Binary Data
-
-AwtsmoosDB supports storing complex JSON-like objects, `Buffer` (binary data), `Date`, `RegExp`, `Map`, and `Set` natively.
+### 4. Collections (Lists & Feeds)
+Use `createList` for append-only logs or feeds. Optimized for push/slice.
 
 ```javascript
-async function complexDataExample() {
-    const fs = require('fs').promises;
-    const imageBuffer = await fs.readFile('./logo.png'); // Binary data
+await db.root.createList("logs");
 
-    await db.root.set("user_profile", {
-        id: 1,
-        meta: {
-            created: new Date(),
-            tags: new Set(["admin", "pro_user"]),
-            preferences: new Map([["theme", "dark"]])
-        },
-        // Store raw binary directly in the JSON structure
-        avatar: imageBuffer 
-    });
+// Push items
+await db.root.logs.push({ msg: "Login", ts: Date.now() });
+await db.root.logs.push({ msg: "Logout", ts: Date.now() });
 
-    // Retrieval is seamless
-    const profile = await db.root.user_profile;
-    
-    console.log("Created At:", profile.meta.created.toISOString());
-    console.log("Avatar Size:", profile.avatar.length, "bytes");
-    
-    // You can also write the buffer back to disk
-    await fs.writeFile('./retrieved_logo.png', profile.avatar);
-}
+// Get Length (Fast O(1))
+const len = await db.root.logs.length;
+
+// Slicing (Pagination) - Efficiently reads only the needed blocks
+const recent = await db.root.logs.slice(0, 10);
 ```
 
----
-
-### 5. Nested Databases (The "Tower")
-
-You can nest Maps inside Maps indefinitely.
+### 5. Introspection (Keys, Values, Entries)
+Iterate efficiently without loading everything.
 
 ```javascript
-async function nestedMaps() {
-    await db.root.createMap("usa");
-    await db.root.usa.createMap("ny");
-    await db.root.usa.ny.createMap("nyc");
-    
-    await db.root.usa.ny.nyc.set("population", 8000000);
-    
-    // Access via path
-    const pop = await db.root.usa.ny.nyc.population;
+// Get all keys
+for await (const key of db.root.users.keys()) {
+    console.log("User:", key);
 }
+
+// Get all values
+for await (const val of db.root.users.values()) {
+    console.log("Data:", val);
+}
+
+// Get entries [key, value]
+for await (const [k, v] of db.root.users.entries()) {
+    console.log(k, v);
+}
+```
+
+### 6. Binary Data (Images / Files)
+Store raw Buffers directly.
+
+```javascript
+const buf = Buffer.from("B\"H");
+await db.root.set("my_file", buf);
+
+const readBack = await db.root.my_file;
+console.log(readBack.toString()); // B"H
+```
+
+### 7. Deep Nesting
+Nest Maps inside Maps indefinitely.
+
+```javascript
+await db.root.createMap("usa");
+await db.root.usa.createMap("ny");
+await db.root.usa.ny.set("weather", "cloudy");
+
+console.log(await db.root.usa.ny.weather);
 ```
 
 ---
 
-## ⚙️ Architecture & Internals
+## ⚙️ Architecture & Reliability
 
-AwtsmoosDB is designed with a **Copy-on-Write (CoW)** architecture to ensure transactional integrity and crash resistance.
+### Crash Resistance (WAL)
+AwtsmoosDB uses a **Write-Ahead Log (WAL)**. Every change is appended to `.wal` first. If the process crashes mid-write, the database replays the log on next startup to restore consistency.
+- **Auto-Checkpoint**: The system automatically flushes the WAL to the main DB and truncates it when it exceeds a size limit (default 2MB) or on close.
 
-### 1. The Pager & Block Structure
-- **Block Size**: 4096 bytes (4KB).
-- **SuperBlock (Block 0)**: Contains the Root Pointer and the Allocator Cursor.
-    - **Root Pointer**: Offset `64`. Points to the root B-Tree node.
-    - **Cursor**: Offset `128`. Tracks the next free block for allocation.
-- **Sanctuary Protection**: The first `64` bytes of *every* block (Header Space) are strictly protected by the Allocator. User data is never written there. This prevents Bitmap corruption.
+### Transactional Integrity
+- **Copy-on-Write (CoW)**: Modified B-Tree nodes are written to new blocks. The old path remains valid until the new Root is successfully anchored.
+- **Defer-Free**: Old blocks are only freed *after* the transaction is fully committed to the SuperBlock.
 
-### 2. The Allocator
-- **Bitmaps**: Every block tracks usage of its own internal units (32-byte chunks) via a bitmap in the header.
-- **Smart Allocation**:
-    - **Small**: Finds gaps inside existing pages to minimize fragmentation.
-    - **Page**: Allocates full blocks for B-Tree nodes.
-    - **Large (Chain)**: Allocates sequential blocks for large binary blobs (e.g., images).
+### Allocator Safety
+- **Sanctuary**: The first 64 bytes of every block (Header) are strictly protected. User data cannot overwrite headers, preventing bitmap corruption.
+- **Offsets**: The SuperBlock Cursor (Offset 128) and Root Pointer (Offset 64) are physically separated to prevent collision.
 
-### 3. B-Tree Engine (Maps)
-- **Type Safety**: Every node starts with a `BNOD` magic signature. This prevents the "Frankenstein Pointer" bug where the DB might try to interpret a List Handle as a B-Tree Node.
-- **Transactional Writes**:
-    - When a key is inserted, we **copy** the modified leaf node to a new location (CoW).
-    - We propagate the change up to the root, creating a new path.
-    - The SuperBlock is updated to point to the new Root **atomically**.
-- **Deferred Freeing**:
-    - Old nodes are NOT freed immediately. They are added to a `pendingFrees` list.
-    - Only *after* the new Root is successfully persisted to disk do we flush the `pendingFrees` list. This ensures that if the power goes out mid-write, the DB simply loads the old (valid) root on restart.
+### Type Safety
+- **BNOD Signature**: Every B-Tree node is signed with `BNOD`. The reader verifies this signature before parsing, preventing "Frankenstein Pointers" (reading garbage data as keys).
 
-### 4. Collection Engine (Lists)
-- Implements a Linked-List of **Page Blocks**.
-- **Handles**: A Collection is represented by a persistent Handle Block (`COLL` signature) that points to the Head and Tail pages.
-- **Slicing**: Efficiently traverses the linked list to retrieve only the requested range of items.
-
-### 5. Crash Recovery (WAL)
-- **Write-Ahead Log**: All writes are appended to a `.wal` file before hitting the main `.db` file.
-- **Auto-Recovery**: On startup, if an unclean shutdown is detected, the WAL is replayed to restore consistency.
-- **Corruption Heuristics**: If a corrupted Root is detected (e.g., due to disk rot), the engine automatically resets the root to a safe empty state to allow the application to continue.
+### Performance
+- **Inline Values**: Small data (< 48 bytes) can be stored directly inside B-Tree nodes.
+- **No-Sync Storm**: Write operations sync the WAL but let the OS cache the main DB file, providing high write throughput without sacrificing durability.
 
 ---
 
