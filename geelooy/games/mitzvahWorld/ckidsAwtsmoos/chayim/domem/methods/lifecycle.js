@@ -5,12 +5,14 @@
  * Creation, instantiation, and destruction of the object.
  */
 import * as THREE from '/games/scripts/build/three.module.js';
+import Nivra from "../../nivra.js"; 
 
 export default {
     async heescheel(olam, info) {
         this.olam = olam;
         
-        await super.heescheel(olam);
+        // B"H: Fix for super call in object literal mixin
+        await Nivra.prototype.heescheel.call(this, olam);
         
         if(this.isTemplate) {
             return true;
@@ -130,11 +132,13 @@ export default {
     },
 
     async ready() {
-        await super.ready();
+        // B"H: Fix for super call in object literal mixin
+        await Nivra.prototype.ready.call(this);
     },
     
     async afterBriyah() {
-        super.afterBriyah();
+        // B"H: Fix for super call in object literal mixin
+        await Nivra.prototype.afterBriyah.call(this);
         if(this.playAll) {
             this.heesHawveh = true;
             if(this.chaweeyoos)

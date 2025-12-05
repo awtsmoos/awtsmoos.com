@@ -5,6 +5,7 @@
  * Saving state and removing from existence.
  */
 import Utils from '../../../utils.js';
+import Nivra from "../../nivra.js";
 
 export default {
     getPath() {
@@ -42,7 +43,8 @@ export default {
     },
 
     serialize() {
-        super.serialize();
+        // B"H: Fix for super call in object literal mixin
+        Nivra.prototype.serialize.call(this);
         
         this.serialized = {
             ...this.serialized,

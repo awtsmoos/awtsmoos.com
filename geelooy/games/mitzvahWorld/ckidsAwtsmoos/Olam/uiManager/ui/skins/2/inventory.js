@@ -1,3 +1,4 @@
+
 //B"H
 
 export default /*css*/`
@@ -33,6 +34,19 @@ export default /*css*/`
         text-shadow: 0 0 5px #FFD700;
         flex-shrink: 0; 
 	}
+
+    .awtsmoosBtn.small {
+        border: 1px solid #FFD700;
+        background: transparent;
+        color: #FFD700;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+    .awtsmoosBtn.small:hover {
+        background: #FFD700;
+        color: #000;
+    }
 
     .awtsmoosInventoryViewer .header .close {
 		display: flex;
@@ -246,4 +260,31 @@ export default /*css*/`
     }
     .ctx-btn:hover { background: #4435B2; }
     .ctx-btn:last-child { border-bottom: none; }
+    
+    .awtsmoos-tooltip {
+        position: absolute;
+        background: rgba(0,0,0,0.9);
+        border: 1px solid #FFD700;
+        color: white;
+        padding: 5px 10px;
+        border-radius: 5px;
+        font-size: 14px;
+        pointer-events: none;
+        z-index: 3000;
+    }
+    
+    .locked::after {
+        content: "";
+        position: absolute;
+        top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(0,0,0,0.6);
+        border-radius: 12px;
+    }
+    .locked-icon {
+        position: absolute;
+        top: 50%; left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 24px;
+        z-index: 2;
+    }
 `;

@@ -1,3 +1,4 @@
+
 /**
  * B"H
  * @file customNpc.js
@@ -16,8 +17,7 @@ export default class CustomNpc extends Medabeir {
     static itemName = "Custom NPC";
     static description = "A custom designed character.";
     static isBuildable = true; 
-    
-    static icon = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iIzRmNDRmNCI+PHBhdGggZD0iTTEyIDEyYzIuMjEgMCA0LTEuNzkgNC00cy0xLjc5LTQtNC00LTQgMS43OS00IDQgMS43OSA0IDQgNHptMCAyYy0yLjY3IDAtOCAxLjM0LTggNHYyaDE2di0yYzAtMi42Ni01LjMzLTQtOC00eiIvPjwvc3ZnPg==";
+    static icon = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48Y2lyY2xlIGN4PSIyNTYiIGN5PSIyNTYiIHI9IjIwMCIgZmlsbD0iIzRmNDRmNCIgc3Ryb2tlPSIjMDAwIiBzdHJva2Utd2lkdGg9IjIwIi8+PHBhdGggZD0iTTE1NiAxNTZhMTAwIDEwMCAwIDAgMSAyMDAgMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMDAwIiBzdHJva2Utd2lkdGg9IjIwIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48L3N2Zz4=";
     
     shopInventory = [];
     balance = 0;
@@ -36,7 +36,6 @@ export default class CustomNpc extends Medabeir {
 
         super(op);
         
-        // B"H FIX: Manually assign olam because intermediate classes drop it
         if(olam) this.olam = olam;
         
         if(!this.id) this.id = op.id || Utils.generateID();
@@ -58,7 +57,6 @@ export default class CustomNpc extends Medabeir {
 
         this.velocity.y = -5; 
         
-        // B"H: Listen for Shop Actions from the UI
         if (this.olam) {
             this.olam.on("htmlPeula shopAction", (data) => {
                 if (data.entityId === this.id) {
@@ -67,7 +65,6 @@ export default class CustomNpc extends Medabeir {
             });
         }
 
-        // B"H: Listen for nivraYotsee to close the store
         this.on("nivraYotsee", nivra => {
             if (nivra.type === 'chossid' && this.olam) {
                 this.olam.ayshPeula("ui event", "storeScreen", { close: true });
@@ -88,17 +85,24 @@ export default class CustomNpc extends Medabeir {
                 if(node.id === undefined) node.id = index;
                 if(node.responses) {
                      node.responses.forEach(r => {
-                         if(r.type === "message" && r.target !== undefined) {
-                             r.nextMessageIndex = r.target;
-                         } else if (r.type === "close") {
-                             r.close = "Shalom!";
-                         } else if (r.type === "store") {
+                         if(r.type === "message" && r.target !== undefined) r.nextMessageIndex = r.target;
+                         else if (r.type === "close") r.close = "Shalom!";
+                         else if (r.type === "store") {
                              r.action = (me, buyer) => {
                                 this.openShopUI(buyer);
                                 return false;
                              }
                          }
                      });
+                }
+                
+                if (!node.responses || node.responses.length === 0) {
+                    node.responses = [{ text: "Goodbye", close: "Shalom!" }];
+                } else {
+                     const hasClose = node.responses.some(r => r.close || r.type === 'close');
+                     if (!hasClose && !isOwner) { 
+                         node.responses.push({ text: "Goodbye", close: "See you later." });
+                     }
                 }
             });
 
@@ -166,30 +170,14 @@ export default class CustomNpc extends Medabeir {
                     }
                 );
             }
-            
-            if (dialogueTree[0].responses.length === 0) {
-                 dialogueTree[0].responses = [{ text: "Goodbye", close: "Shalom!" }];
-            }
-
             return dialogueTree;
         };
     }
 
     async heescheel(olam) {
-        const player = olam.player || olam.chossid;
-        const currentPathValid = this.path && olam.getComponent(this.path);
-        
-        if (!currentPathValid || this.path === "awtsmoos://new_awduhm") {
-            if (player && player.path) {
-                this.path = player.path;
-            } else {
-                this.path = "awtsmoos://awduhm";
-            }
-        }
-
         await super.heescheel(olam);
         this.isReady = true; 
-        
+        const player = olam.player || olam.chossid;
         if (player && player.garments && this.garments) {
              for(const [garmentName, playerMesh] of Object.entries(player.garments)) {
                  if (this.garments[garmentName]) {
@@ -200,34 +188,43 @@ export default class CustomNpc extends Medabeir {
     }
 
     openShopUI(buyer) {
-        // B"H: Close any existing dialogue
         this.ayshPeula("close dialogue", "");
+        this.olam.htmlAction({
+             shaym: "approach npc msg",
+             methods: { classList: { add: "hidden" } }
+        });
         
-        // B"H: Open the Visual Store UI
+        // B"H: Hydrate shop items with icons and static data
+        const hydratedShopItems = this.shopInventory.map(item => {
+             // Attempt to guess class if missing (legacy items might be missing it)
+             const className = item.className || 'Brick'; 
+             const ItemClass = AWTSMOOS[className];
+             return {
+                 ...item,
+                 icon: item.icon || (ItemClass ? ItemClass.icon : ""),
+                 description: item.description || (ItemClass ? ItemClass.description : ""),
+                 className: className
+             };
+        });
+
         this.olam.ayshPeula("ui event", "storeScreen", {
             open: {
                 mode: 'buy',
                 entityId: this.id,
                 npcName: this.name,
-                items: this.shopInventory,
+                items: hydratedShopItems,
                 playerInventory: buyer.inventory.slots
             }
         });
     }
 
-    /**
-     * B"H
-     * Handles actions sent from the Store UI.
-     */
     handleShopAction(action, payload, buyerName) {
-        const buyer = this.olam.chossid; // Assume local player for now
+        const buyer = this.olam.chossid;
         if (!buyer) return;
         
-        if (action === 'buy') {
-            this.processBuy(payload.index, buyer);
-        } else if (action === 'sell') {
-            this.processSell(payload.index, buyer);
-        } else if (action === 'exchange') {
+        if (action === 'buy') this.processBuy(payload.index, buyer);
+        else if (action === 'sell') this.processSell(payload.originalIndex, buyer);
+        else if (action === 'exchange') {
             buyer.inventory.exchangeCurrency();
             this.playSound("awtsmoos://dingSound", { volume: 0.6 });
             this.olam.ayshPeula("ui event", "effectsOverlay", { text: "Wallet Optimized!", color: "#00ff00" });
@@ -236,6 +233,7 @@ export default class CustomNpc extends Medabeir {
     }
 
     processBuy(index, buyer) {
+        // Note: we use the raw this.shopInventory here.
         const item = this.shopInventory[index];
         if (!item) return;
 
@@ -250,21 +248,20 @@ export default class CustomNpc extends Medabeir {
         if (walletValue >= item.price) {
             buyerInv.deductCurrency(item.price);
 
+            // Ensure we pass a valid className to addItem
+            const className = item.className || 'Brick';
             const itemToAdd = {
                 id: item.name.toLowerCase().replace(/\s/g, "_") + "_" + Date.now(),
                 name: item.name,
-                className: "Brick", 
+                className: className,
                 quantity: 1,
                 description: "Bought from " + this.name,
-                // B"H: Add random color if it's a brick
                 customData: { color: Math.random() * 0xffffff }
             };
             buyerInv.addItem(itemToAdd);
 
             item.quantity--;
-            if (item.quantity <= 0) {
-                this.shopInventory.splice(index, 1);
-            }
+            if (item.quantity <= 0) this.shopInventory.splice(index, 1);
 
             const profit = item.price;
             const ownerShare = Math.floor(profit * (this.contractPercentage / 100));
@@ -273,10 +270,7 @@ export default class CustomNpc extends Medabeir {
 
             this.playSound("awtsmoos://dingSound", { volume: 0.5 });
             this.olam.ayshPeula("ui event", "effectsOverlay", { 
-                effect: 'transaction', 
-                text: `-${item.price} P`,
-                color: 'red',
-                icon: item.name.charAt(0) // Simple icon placeholder
+                effect: 'transaction', text: `-${item.price} P`, color: 'red', icon: item.name.charAt(0) 
             });
 
             this.refreshStoreUI(buyer);
@@ -293,23 +287,30 @@ export default class CustomNpc extends Medabeir {
         const value = slot.sellValue || (ItemClass ? new ItemClass({}).sellValue : 0);
 
         if (value > 0) {
+            if (slot.isEquipped) {
+                 this.olam.ayshPeula("ui event", "effectsOverlay", { text: "Cannot sell equipped item!", color: "red" });
+                 return;
+            }
+            
             buyer.inventory.removeItem(slotIndex, 1);
             buyer.inventory.addItem({
                 id: 'coin_1', className: 'Coin', name: 'Perutah', value: 1, quantity: value
             }, value);
 
-            // Add to shop (optional markup logic could go here)
-            this.shopInventory.push({
-                name: slot.name,
-                price: Math.ceil(value * 1.2),
-                quantity: 1
-            });
+            const existing = this.shopInventory.find(i => i.name === slot.name);
+            if (existing) existing.quantity++;
+            else {
+                this.shopInventory.push({
+                    name: slot.name,
+                    price: Math.ceil(value * 1.2),
+                    quantity: 1,
+                    className: slot.className // IMPORTANT: Store the class name for future icon lookups
+                });
+            }
 
             this.playSound("awtsmoos://dingSound", { volume: 0.5 });
             this.olam.ayshPeula("ui event", "effectsOverlay", { 
-                effect: 'transaction', 
-                text: `+${value} P`,
-                color: '#00ff00'
+                effect: 'transaction', text: `+${value} P`, color: '#00ff00'
             });
 
             this.refreshStoreUI(buyer);
@@ -317,11 +318,20 @@ export default class CustomNpc extends Medabeir {
     }
 
     refreshStoreUI(buyer) {
+        // Re-hydrate just like openShopUI
+        const hydratedShopItems = this.shopInventory.map(item => {
+             const className = item.className || 'Brick';
+             const ItemClass = AWTSMOOS[className];
+             return {
+                 ...item,
+                 icon: item.icon || (ItemClass ? ItemClass.icon : ""),
+                 description: item.description || (ItemClass ? ItemClass.description : ""),
+                 className: className
+             };
+        });
+        
         this.olam.ayshPeula("ui event", "storeScreen", {
-            update: {
-                items: this.shopInventory,
-                playerInventory: buyer.inventory.slots
-            }
+            update: { items: hydratedShopItems, playerInventory: buyer.inventory.slots }
         });
     }
 
@@ -338,7 +348,6 @@ export default class CustomNpc extends Medabeir {
             ownerId: this.ownerId,
             modelPath: this.path
         };
-        
         base.itemData = {
             id: this.name + "_" + Date.now(),
             className: "CustomNpc",

@@ -11,8 +11,8 @@ class BTree {
     constructor(allocator, rootPtr = null) {
         this.allocator = allocator;
         this.rootPtr = rootPtr;
-        // Optimization: 4096 bytes / ~50 bytes per entry = ~80 children.
-        this.order = 80; 
+        // Optimization: Low order for testing splits (usually 80+)
+        this.order = 10; 
         this.NODE_MAGIC = constants.MAGIC_BTREE_NODE || 0x42;
         this.GUARD_BYTE = constants.GUARD_BYTE || 0xFF;
     }
@@ -75,6 +75,11 @@ class BTree {
 	        const k = serializer.readString(buffer, offset);
 	        keys.push(k.value);
 	        offset += k.bytesRead;
+            
+            // B"H: Validation - Ensure Sorted on Load
+            if (i > 0 && keys[i] < keys[i-1]) {
+                throw new Error(`BTree Corruption: Node keys unsorted on load. ${keys[i-1]} > ${keys[i]}`);
+            }
 	    }
 	
 	    const readPtr = () => {
@@ -106,6 +111,23 @@ class BTree {
 	}
 
     async saveNode(node) {
+        // Validation
+        for (let i = 1; i < node.keys.length; i++) {
+            if (node.keys[i] < node.keys[i-1]) {
+                throw new Error(`BTree Save Error: Keys unsorted before save. ${node.keys[i-1]} > ${node.keys[i]}`);
+            }
+        }
+
+        if (!node.isLeaf) {
+            if (node.children.length !== node.keys.length + 1) {
+                throw new Error(`BTree Corruption: Internal Node has ${node.keys.length} keys but ${node.children.length} children.`);
+            }
+        } else {
+            if (node.values.length !== node.keys.length) {
+                throw new Error(`BTree Corruption: Leaf Node has ${node.keys.length} keys but ${node.values.length} values.`);
+            }
+        }
+
 	    const parts = [];
 	    
 	    parts.push(Buffer.from([node.isLeaf ? 1 : 0]));
@@ -141,13 +163,11 @@ class BTree {
         parts.push(Buffer.from([this.GUARD_BYTE]));
 	
 	    const raw = Buffer.concat(parts);
+        
+        if (node.ptr) {
+            await this.allocator.free(node.ptr);
+        }
 	
-        // Note: We do NOT free the old pointer here immediately because BTree structure 
-        // implies we might be in a Copy-On-Write transaction or need historical access.
-        // For this simple DB, we just allocate new space. Freeing old space requires tracking 
-        // if it is referenced elsewhere (unlikely here, but safer to leak slightly than corrupt).
-        // Optimization: In a real DB, free `node.ptr` if safe.
-
 	    const newPtr = await this.allocator.allocate(raw.length);
 	
 	    if (newPtr.isChain) {
@@ -184,9 +204,8 @@ class BTree {
 	    // Case 1: Leaf Node
 	    if (node.isLeaf) {
 	            let idx = 0;
-	            while (idx < node.keys.length && node.keys[idx] < key) idx++;
+	            while (idx < node.keys.length && key > node.keys[idx]) idx++;
 	            
-                // Duplicate handling: Overwrite if exists
                 if (idx < node.keys.length && node.keys[idx] === key) {
                     node.values[idx] = valuePtr;
                     const savedPtr = await this.saveNode(node);
@@ -207,6 +226,9 @@ class BTree {
 	    
 	    // Case 2: Internal Node
 	    let idx = 0;
+        // B"H: Strict Separator Logic
+        // Keys: K0, K1
+        // Children: C0 (<K0), C1 (>=K0, <K1), C2 (>=K1)
 	    while (idx < node.keys.length && key >= node.keys[idx]) idx++;
 	    
 	    const childPtr = node.children[idx];
@@ -214,17 +236,15 @@ class BTree {
 	    
 	    const result = await this.insertRecursive(childNode, key, valuePtr);
 	    
-	    // Update child pointer if it changed (COW)
         if (result.newPtr) {
             node.children[idx] = result.newPtr;
         }
 
 	    if (result.newChild) {
-            // Child split. Insert key and new child pointer.
+            // Insert Separator Key and New Right Child
 	        node.keys.splice(idx, 0, result.newChild.key);
 	        node.children.splice(idx + 1, 0, result.newChild.ptr);
             
-            // Recalculate count
             node.count = await this.sumChildren(node.children);
 	
 	        if (node.children.length > this.order + 1) {
@@ -234,8 +254,6 @@ class BTree {
 	            return { newChild: null, newPtr: savedPtr };
 	        }
 	    } else {
-            // Child didn't split, but it might have grown.
-            // Just update count and save.
 	        node.count = await this.sumChildren(node.children);
 	        const savedPtr = await this.saveNode(node);
 	        return { newChild: null, newPtr: savedPtr };
@@ -243,38 +261,49 @@ class BTree {
 	}
 
     async splitLeaf(node) {
+        this.log(`Splitting Leaf. Keys: ${node.keys.length}`);
         const mid = Math.floor(node.keys.length / 2);
+        
+        const siblingKeys = node.keys.splice(mid);
+        const siblingValues = node.values.splice(mid);
+
         const sibling = {
             isLeaf: true,
-            keys: node.keys.splice(mid),
-            values: node.values.splice(mid),
+            keys: siblingKeys,
+            values: siblingValues,
             children: [],
-            count: 0
+            count: siblingKeys.length
         };
-        sibling.count = sibling.keys.length;
         node.count = node.keys.length;
 
         const sibPtr = await this.saveNode(sibling);
         const nodePtr = await this.saveNode(node); 
         node.ptr = nodePtr;
 
-        // B"H: FIX - Return newPtr of the modified left node!
+        // B+ Tree: Promoted key is the first key of the right sibling
         return { newChild: { key: sibling.keys[0], ptr: sibPtr }, newPtr: nodePtr };
     }
 
     async splitInternal(node) {
+        this.log(`Splitting Internal. Keys: ${node.keys.length}`);
         const mid = Math.floor(node.keys.length / 2);
         const upKey = node.keys[mid];
         
+        // Split Keys: Left [0..mid-1], Right [mid+1..end]
+        const siblingKeys = node.keys.splice(mid + 1);
+        node.keys.pop(); // Remove upKey
+
+        // Split Children: Left [0..mid], Right [mid+1..end]
+        const siblingChildren = node.children.splice(mid + 1);
+
         const sibling = {
             isLeaf: false,
-            keys: node.keys.splice(mid + 1),
-            children: node.children.splice(mid + 1),
+            keys: siblingKeys,
+            children: siblingChildren,
             values: [],
             count: 0
         };
-        node.keys.pop(); // Remove upKey
-
+        
         sibling.count = await this.sumChildren(sibling.children);
         node.count = await this.sumChildren(node.children);
 
@@ -282,7 +311,6 @@ class BTree {
         const nodePtr = await this.saveNode(node);
         node.ptr = nodePtr;
 
-        // B"H: FIX - Return newPtr of the modified left node!
         return { newChild: { key: upKey, ptr: sibPtr }, newPtr: nodePtr };
     }
 
@@ -331,26 +359,23 @@ class BTree {
 	    if (results.length >= limit) return; 
 	
 	    if (node.isLeaf) {
-	        const leafStart = currentOffset;
-	        const leafEnd = currentOffset + node.count;
-	
-	        if (leafEnd > startRank) {
-                let localIdx = 0;
-	            if (startRank > leafStart) {
-                    localIdx = startRank - leafStart;
-                }
-	            
-	            while (localIdx < node.keys.length && results.length < limit) {
-	                results.push({
-	                    key: node.keys[localIdx],
-	                    ptr: node.values[localIdx]
-	                });
-	                localIdx++;
-	            }
-	        }
+            let localIdx = 0;
+            if (startRank > currentOffset) {
+                localIdx = startRank - currentOffset;
+            }
+            if (localIdx < 0) localIdx = 0;
+
+            while (localIdx < node.keys.length && results.length < limit) {
+                results.push({
+                    key: node.keys[localIdx],
+                    ptr: node.values[localIdx]
+                });
+                localIdx++;
+            }
 	        return;
 	    }
 	
+        // Internal Node
 	    let accumulator = currentOffset;
 	    for (let i = 0; i < node.children.length; i++) {
             if (results.length >= limit) return;
@@ -358,10 +383,10 @@ class BTree {
 	        const childPtr = node.children[i];
 	        const childNode = await this.loadNode(childPtr);
 	        const childCount = childNode.count;
+            const childEnd = accumulator + childCount;
 	        
-	        const childEnd = accumulator + childCount;
-	        
-	        if (childEnd > startRank) {
+            // B"H: FIX - Always traverse if startRank is 0 to ensure sorted collection
+            if (startRank === 0 || childEnd > startRank) {
                 await this.collectRange(childNode, startRank, limit, results, accumulator);
             }
 	        

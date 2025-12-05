@@ -1,4 +1,3 @@
-
 // B"H
 import style from "./skins/2/characterDesignerStyle.js";
 
@@ -13,7 +12,11 @@ export default {
         dialogueTree: [{ id: 0, message: "B\"H\nShalom!", responses: [] }],
         shopInventory: [],
         contractPercentage: 100,
-        ownerId: null
+        ownerId: null,
+        clothes: {
+             jacket: true,
+             yarmulke: true
+        }
     },
     
     createMessageNode: function(id) {
@@ -61,7 +64,8 @@ export default {
                     }],
                     shopInventory: [],
                     contractPercentage: 100,
-                    ownerId: "player"
+                    ownerId: "player",
+                    clothes: { jacket: true, yarmulke: true }
                 };
                 $("cd-title").textContent = "Design New Soul";
             }
@@ -133,6 +137,10 @@ export default {
                         {
                             tag: "button", className: "cd-btn", textContent: "Store Management",
                             onclick(e, $, ui) { ui.peula($("cd-content-area"), { renderView: "store" }); }
+                        },
+                        {
+                            tag: "button", className: "cd-btn", textContent: "Appearance",
+                            onclick(e, $, ui) { ui.peula($("cd-content-area"), { renderView: "clothes" }); }
                         },
                         {
                             tag: "button", className: "cd-create-btn", textContent: "SAVE SOUL",
@@ -336,6 +344,43 @@ export default {
                                                     });
                                                 });
                                             }
+                                        }
+                                    ]
+                                });
+                            } else if (view === "clothes") {
+                                // B"H: Clothes Selection View
+                                if (!designer.characterState.clothes) designer.characterState.clothes = { jacket: true, yarmulke: true };
+                                const clothes = designer.characterState.clothes;
+
+                                ui.html({
+                                    parent: container,
+                                    className: "cd-clothes-container",
+                                    children: [
+                                        { className: "cd-title", textContent: "Wardrobe (Levushim)" },
+                                        { tag: "p", textContent: "Toggle garments for this soul:" },
+                                        {
+                                            className: "cd-grid",
+                                            style: { display: "grid", gap: "10px", marginTop: "20px" },
+                                            children: [
+                                                {
+                                                    className: "cd-row",
+                                                    children: [
+                                                        { tag: "input", type: "checkbox", checked: clothes.jacket !== false, 
+                                                          onchange(e) { clothes.jacket = e.target.checked; } 
+                                                        },
+                                                        { tag: "label", textContent: "Chassid Jacket", style: { fontSize: "18px" } }
+                                                    ]
+                                                },
+                                                {
+                                                    className: "cd-row",
+                                                    children: [
+                                                        { tag: "input", type: "checkbox", checked: clothes.yarmulke !== false, 
+                                                          onchange(e) { clothes.yarmulke = e.target.checked; } 
+                                                        },
+                                                        { tag: "label", textContent: "Kippah / Yarmulke", style: { fontSize: "18px" } }
+                                                    ]
+                                                }
+                                            ]
                                         }
                                     ]
                                 });
