@@ -318,22 +318,22 @@ export default class InventoryManager {
     
     sortInventory() {
         // B"H: Sort by name
+        // Note: This implementation only sorts by name and pushes nulls to end.
+        // It resets indices, so we MUST clear equipment if we don't re-map it.
+        // For simplicity in this version, we'll sort but acknowledge equipment will be unequipped or misaligned.
+        // To fix properly, we'd need to remap equipment indices or unequip everything first.
+        // Let's choose SAFETY: Unequip all before sorting.
+        
+        this.equipment = { head: null, jacket: null, legs: null, feet: null, rightHand: null, leftHand: null };
+
         this.slots.sort((a, b) => {
             if (!a && !b) return 0;
-            if (!a) return 1;
+            if (!a) return 1; // Nulls last
             if (!b) return -1;
             return (a.name || "").localeCompare(b.name || "");
         });
-        // Rebuild equipment indices because movement invalidates them
-        // NOTE: For simplicity, we might just clear equipment if sorting, or need complex remapping.
-        // Better approach for now: Only sort empty slots to end, then by name.
-        // Given the complexity of preserving equipment links, we will just do a simple sort and reset UI.
-        // Equipment refs might break if they point to indices.
-        // FIX: In InventoryManager, references are by index. Sorting breaks this.
-        // We must update equipment refs.
         
-        // TODO: Implement robust remapping or simply unequip all before sort for safety in MVP.
-        // For now, let's just update UI.
         this.updateUI(); 
+        this.save();
     }
 }

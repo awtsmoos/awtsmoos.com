@@ -130,6 +130,9 @@ class Allocator {
                     this.cursor = searchPtr + 1;
                     this.lastFreeHint = searchPtr + 1;
                     const block = this.formatBlock(type);
+                    // B"H: Fill with 0 to clear ghost data
+                    block.fill(0, this.HEADER_SIZE, this.BLOCK_SIZE);
+                    
                     await this.pager.writeBlock(searchPtr, block);
                     await this._saveStateInternal(); 
                     return { blockId: searchPtr, offset: 0, length: this.BLOCK_SIZE, isChain: false };
@@ -214,6 +217,9 @@ class Allocator {
                         const startByte = startUnit * this.UNIT_SIZE;
                         if (startByte < this.HEADER_SIZE) throw new Error(`Allocator Error: Offset ${startByte} in Header`);
                         
+                        // B"H: Clear the allocated space to prevent ghost data
+                        block.fill(0, startByte, startByte + sizeBytes);
+
                         await this.pager.writeBlock(searchPtr, block);
                         this.cursor = searchPtr;
                         await this._saveStateInternal();

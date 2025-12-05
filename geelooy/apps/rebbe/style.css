@@ -5,7 +5,7 @@
     --c-black: #000000;
     --c-void: #050505;
     --c-panel: rgba(8, 8, 12, 0.7); 
-    
+     
     --c-cyan: #00f3ff;
     --c-magenta: #ff0055;
     --c-lime: #00ff66;
@@ -99,7 +99,7 @@ header {
 
 /* OPEN STATE */
 .panel.open { flex-grow: 1; min-width: 350px; opacity: 1; }
-.panel.open > * { opacity: 1; display: flex; pointer-events: auto; }
+.panel.open > * {opacity: 1;display: flex;pointer-events: auto;flex-direction: column;}
 
 #col-years { 
     flex-grow: 0; min-width: 280px; width: 280px; 

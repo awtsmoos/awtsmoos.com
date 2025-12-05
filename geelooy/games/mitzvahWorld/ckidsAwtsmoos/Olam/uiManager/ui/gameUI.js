@@ -19,6 +19,7 @@ function playUiSound(type) {
     const audio = new Audio();
     if (type === 'click') audio.src = "https://firebasestorage.googleapis.com/v0/b/ckids-games-assets.appspot.com/o/sound%2Feffects%2Fui%2Fclick.mp3?alt=media"; 
     else if (type === 'hover') audio.src = "https://firebasestorage.googleapis.com/v0/b/ckids-games-assets.appspot.com/o/sound%2Feffects%2Fui%2Fhover.mp3?alt=media";
+    else if (type === 'success') audio.src = "https://firebasestorage.googleapis.com/v0/b/ckids-games-assets.appspot.com/o/sound%2Feffects%2Fding.ogg?alt=media";
     audio.volume = 0.3;
     audio.play().catch(e=>{});
 }
@@ -296,7 +297,11 @@ var ui = [instructions, {
             { 
                 // SORT BUTTON
                 tag: "button", className: "awtsmoosBtn small", style: { marginLeft: "auto", marginRight: "10px", padding: "5px 10px", fontSize: "14px" }, textContent: "SORT",
-                onclick: () => { /* Sort logic implemented in inventory manager but UI can trigger it? No direct DOM sort, must trigger worker */ } 
+                onclick: (e, $, ui) => { 
+                    playUiSound('click');
+                    // Trigger sort in worker/logic
+                    ui.peula("ikar", { olamPeula: { sortInventory: true } });
+                } 
             },
             { className: "close", innerHTML: "X", onclick(e, $f) { $f("inventoryScreen")?.classList.add("hidden"); $f("contextMenu")?.remove(); } }
         ]
@@ -325,6 +330,11 @@ var ui = [instructions, {
     on: { awtsmoosOptions(e) { window?.socket?.postMessage?.({ uiEvented: { awtsmoosResponse: { array: Array.from(e.target.children).map(q => q.innerText) }, id: e.detail?._awtsmoosId } }) } },
     children: ["Grab", "Delete"].map( (q, i, a) => ({ shaym: "menu item " + q, innerHTML: q, className: q, on: { awtsmoosHighlight(e) { var par = e.target.parentNode; Array.from(par.children).forEach(w => w.classList.remove("active")); e.target.classList.add("active") } }, onclick: async (e) => { ikar.dispatchEvent(new CustomEvent("olamPeula",{ detail: { activeObjectAction: e.target.innerHTML } })); } }))
 }, characterDesigner, storeScreen, effectsOverlay, questLog].concat(shlichusUI);
+
+// Quest Log update listener for sound
+questLog.on.questUpdated = (e) => {
+    playUiSound('success');
+};
 
 if (navigator.userAgent.includes("Mobile")) {
     ui = ui.concat(joystick);

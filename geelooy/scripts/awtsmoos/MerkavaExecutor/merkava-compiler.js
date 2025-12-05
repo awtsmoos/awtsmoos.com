@@ -1,7 +1,7 @@
 // B"H
 /**
  * @file merkava-compiler.js
- * @version 1.2.1 - The Architect (Rectified)
+ * @version 1.2.4 - The Architect (Rectified)
  */
 
 (function(root, factory) {
@@ -410,10 +410,28 @@
         }
 
         _visitCall(node) {
+            if (node.callee.type === 'Identifier' && node.callee.name === 'syscall') {
+                const args = node.arguments;
+                if (args.length < 1) throw new Error("syscall requires ID");
+                
+                const idArg = args[0];
+                if (idArg.type !== 'Literal' || typeof idArg.value !== 'number') {
+                    throw new Error("Syscall ID must be a literal number");
+                }
+                
+                for (let i = 1; i < args.length; i++) {
+                    this._visit(args[i]);
+                }
+                
+                this.buffer.write8(OPCODES.SYSCALL);
+                this.buffer.write8(idArg.value);
+                this.buffer.write8(args.length - 1);
+                return;
+            }
+
             const hasSpread = node.arguments.some(a => a.type === 'SpreadElement');
             if (hasSpread) {
                 this._visit(node.callee);
-                let thisValCode = OPCODES.PUSH_UNDEFINED;
                 if (node.callee.type === 'MemberExpression') {
                     this.buffer.write8(OPCODES.DUP); 
                     this._emitConstant('apply');

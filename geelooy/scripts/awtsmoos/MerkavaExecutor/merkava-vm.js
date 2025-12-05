@@ -1,7 +1,7 @@
 // B"H
 /**
  * @file merkava-vm.js
- * @version 1.0.1 - The Engine of Creation (Rectified)
+ * @version 1.0.4 - The Engine of Creation (Rectified)
  */
 
 (function(root, factory) {
@@ -20,7 +20,7 @@
             this.id = id;
             this.status = VM_THREAD_STATUS.RUNNING;
             this.ip = 0; 
-            this.currentStartIP = 0; // Fix for page faults
+            this.currentStartIP = 0; 
             this.bp = 0; 
             this.sp = 0; 
             
@@ -115,7 +115,7 @@
                 return;
             }
             
-            thread.currentStartIP = thread.ip; // TIKKUN: Checkpoint IP for Faults
+            thread.currentStartIP = thread.ip;
 
             const opcode = thread.code[thread.ip];
             thread.ip++;
@@ -145,7 +145,7 @@
                 }
                 case OPCODES.ENTER_TRY: {
                     const catchOffset = this._readInt16(thread);
-                    this._readInt16(thread); // finallyOffset (unused)
+                    this._readInt16(thread); // finallyOffset
                     thread.catchStack.push({
                         catchIP: (thread.ip - 2) + catchOffset,
                         stackSize: thread.stack.length 
@@ -200,7 +200,9 @@
                             instancePtr: instancePtr,
                             prevScopePtr: thread.scopePtr
                         });
-                        if (Constructor.moduleScopePtr) thread.scopePtr = Constructor.moduleScopePtr;
+                        // Scope Reset for Constructor
+                        thread.scopePtr = Constructor.moduleScopePtr || null;
+                        
                         thread.stack = [instancePtr, ...args];
                         thread.bp = 1;
                         thread.code = Constructor.bytecode;
@@ -288,7 +290,6 @@
                         if (globalScope && name in globalScope) { val = globalScope[name]; found = true; }
                     }
                     if (!found && name in this.hostContext) { val = this.hostContext[name]; found = true; }
-                    if (!found) console.warn(`[VM] '${name}' undefined.`);
                     thread.stack.push(val);
                     break;
                 }
@@ -315,7 +316,7 @@
                             const obj = this.memory.get(objPtr);
                             resultVal = obj[key];
                         } catch (e) {
-                            if (e.type === "PRIMITIVE_ACCESS") {
+                            if (e && e.type === "PRIMITIVE_ACCESS") {
                                 const val = Object(objPtr)[key];
                                 resultVal = (typeof val === 'function') ? val.bind(objPtr) : val;
                             } else throw e;
@@ -371,7 +372,7 @@
                     if (typeof funcPtr === 'function') funcObj = funcPtr;
                     else {
                         try { funcObj = this.memory.get(funcPtr); } 
-                        catch (e) { if (e.type === "PRIMITIVE_ACCESS") break; else throw e; }
+                        catch (e) { if (e && e.type === "PRIMITIVE_ACCESS") break; else throw e; }
                     }
 
                     if (typeof funcObj === 'function') {
@@ -396,12 +397,20 @@
                             returnIP: thread.ip, prevBP: thread.bp, prevStack: prevStack, 
                             code: thread.code, constants: thread.constants, prevScopePtr: thread.scopePtr
                         });
-                        if (funcObj.moduleScopePtr) thread.scopePtr = funcObj.moduleScopePtr;
+                        
+                        // B"H - TIKKUN: STRICT SCOPE RESET
+                        // If the closure has a moduleScopePtr (captured module context), use it.
+                        // If it is NULL (meaning it was defined in the Global Root), we MUST explicit set scopePtr to NULL.
+                        // Otherwise, we accidentally inherit the Caller's scope.
+                        thread.scopePtr = funcObj.moduleScopePtr || null;
+                        
                         thread.stack = [thisVal, ...args];
                         thread.bp = 1; 
                         thread.code = funcObj.bytecode;
                         thread.constants = funcObj.constants;
                         thread.ip = 0;
+                    } else {
+                        this._handleInterrupt(thread, `TypeError: ${funcPtr} is not a function`);
                     }
                     break;
                 }
@@ -439,7 +448,7 @@
 
         _handleInterrupt(thread, error) {
             if (isPageFault(error)) {
-                thread.ip = thread.currentStartIP; // RESET IP TO START OF INSTRUCTION
+                thread.ip = thread.currentStartIP; 
                 thread.status = VM_THREAD_STATUS.WAITING_FOR_PAGE;
                 this.memory.resolveFault(error.ptr).then(success => {
                     if (success) thread.status = VM_THREAD_STATUS.RUNNING;
@@ -454,6 +463,7 @@
                 while (thread.stack.length > handler.stackSize) thread.stack.pop();
                 thread.errorRegister = error.message || error;
             } else {
+                const msg = error ? (error.message || String(error)) : "Unknown Error";
                 console.error(`[VM] Thread #${thread.id} Crash:`, error);
                 thread.status = VM_THREAD_STATUS.CRASHED;
             }

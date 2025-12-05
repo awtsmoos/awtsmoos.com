@@ -72,7 +72,8 @@ export default {
             }
 
             if (itemsToRender.length === 0) {
-                 grid.innerHTML = "<div style='grid-column: 1/-1; text-align:center; padding:20px; color:#aaa;'>Nothing here!</div>";
+                 const msg = store.activeTab === 'sell' ? "No valuables found to sell!" : "Nothing here!";
+                 grid.innerHTML = `<div style='grid-column: 1/-1; text-align:center; padding:20px; color:#aaa;'>${msg}</div>`;
             } else {
                 itemsToRender.forEach(item => {
                     ui.html({
@@ -80,10 +81,7 @@ export default {
                         className: "store-item" + (item.isEquipped ? " locked" : ""),
                         onclick: () => {
                             if (!item.isEquipped) {
-                                // Play simple click sound via custom event if needed, or rely on gameUI
                                 ui.peula(store, { showDetails: item });
-                            } else {
-                                // Play 'error' sound logic
                             }
                         },
                         on: {

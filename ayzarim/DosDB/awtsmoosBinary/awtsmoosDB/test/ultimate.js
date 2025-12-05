@@ -11,7 +11,7 @@ async function runTest() {
     }
     
     // Debug off for speed
-    const db = new AwtsmoosDB(dbPath, { debug: false });
+    const db = new AwtsmoosDB(dbPath, { debug: false});
     
     try {
         console.log("B\"H - Starting ULTIMATE EXTREME Stress Test...");

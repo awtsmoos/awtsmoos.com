@@ -1,7 +1,7 @@
 // B"H
 /**
  * @file merkava-sdk.js
- * @version 1.4.1 - The Fractal Worker (Rectified)
+ * @version 1.4.3 - The Fractal Worker (Rectified)
  */
 
 (function(root, factory) {
@@ -26,23 +26,22 @@
     } catch(e) {}
 
     // B"H - Path to the Immutable Parser
-    // Assuming the folder structure is:
-    // /MerkavaExecutor/
-    // /MerkavaASTParser/
     const PARSER_PATH = '../MerkavaASTParser/parser-core.js';
 
     const loadScript = (filename) => {
         return new Promise((resolve, reject) => {
             if (typeof importScripts === 'function') {
                 try { 
-                    // Handle relative path for Worker importScripts if needed
+                    // B"H - Relative paths in importScripts need absolute base in some envs
                     const url = filename.startsWith('..') ? BASE_PATH + filename : BASE_PATH + filename;
                     importScripts(url); 
                     resolve(); 
                 } catch (e) { reject(e); }
             } else {
-                if (window[filename.replace('.js','').replace(/-/g,'')]) return resolve();
+                const globalName = filename.replace('.js','').replace(/-/g,'');
+                if (window[globalName]) return resolve();
                 const script = document.createElement('script');
+                // B"H - Browser handles relative paths natively
                 script.src = filename.startsWith('..') ? BASE_PATH + filename : BASE_PATH + filename;
                 script.onload = resolve;
                 script.onerror = () => reject(new Error(`Failed to load ${filename}`));
@@ -101,17 +100,16 @@
             await loadScript('merkava-debugger.js');
             
             // Load external parser
-            if (!self.MerkavahParser) {
+            if (!self.MerkavahParserPromise && !self.MerkavahParser) {
                 await loadScript(PARSER_PATH);
-                if (self.MerkavahParserPromise) {
-                    this.ParserClass = await self.MerkavahParserPromise;
-                } else if (self.MerkavahParser) {
-                    this.ParserClass = self.MerkavahParser;
-                } else {
-                    throw new Error("Failed to load MerkavaParser from " + PARSER_PATH);
-                }
-            } else {
+            }
+            
+            if (self.MerkavahParserPromise) {
+                this.ParserClass = await self.MerkavahParserPromise;
+            } else if (self.MerkavahParser) {
                 this.ParserClass = self.MerkavahParser;
+            } else {
+                throw new Error("Failed to load MerkavaParser from " + PARSER_PATH);
             }
             
             this.isReady = true;
@@ -124,7 +122,6 @@
             if (!Parser) throw new Error("Parser not loaded");
 
             const parser = new Parser(sourceCode);
-            // Manually register if needed, though parser-core usually auto-exports the class
             if(parser.registerExpressionParsers) parser.registerExpressionParsers();
             if(parser.registerStatementParsers) parser.registerStatementParsers();
             if(parser.registerDeclarationParsers) parser.registerDeclarationParsers();
@@ -149,9 +146,9 @@
                     const blob = new Blob([getWorkerBootstrapCode(BASE_PATH)], { type: 'application/javascript' });
                     this.native = new Worker(URL.createObjectURL(blob));
                     this.native.onmessage = (e) => {
-                        if (e.data.type === 'MERKAVA_MSG' && this.onmessage) this.onmessage({ data: e.data.payload });
+                        // TIKKUN: Guard against null e.data
+                        if (e.data && e.data.type === 'MERKAVA_MSG' && this.onmessage) this.onmessage({ data: e.data.payload });
                     };
-                    // Sanitize options for cloning
                     const safeOptions = { 
                         debug: options.debug, 
                         ramLimit: options.ramLimit 
