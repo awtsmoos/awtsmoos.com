@@ -357,8 +357,14 @@ export const GitManager = {
                 }
             }
         } catch (e) {
-            UI.showToast(`Commit failed: ${e.message}`, 'error', 8000);
+           
+            let finalMessage = `COMMIT FAILED: ${e.message}`;
+            if (e.message && (e.message.includes("Bad credentials") || e.message.includes("token"))) {
+                finalMessage += "\nPlease check your GitHub token in Settings.";
+            }
+            UI.showToast(finalMessage, 'error', 8000);
             console.error("COMMIT FAILED:", e);
+           
         } finally {
             UI.hideLoading();
         }
@@ -471,7 +477,7 @@ export const GitManager = {
 
     /*B"H*/
     /**
-     * Performs a robust, segmented commit strategy.
+     * Performs a robust, segmented commit strategy to avoid API size limits.
      */
     async performCommit(gitContextItem, gitInfo, changeSet, commitMessage) {
         const { repoInfo, branch } = gitInfo;

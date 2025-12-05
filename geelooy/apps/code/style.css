@@ -1137,3 +1137,16 @@ details summary::-webkit-details-marker { display: none; }
     font-size: 0.9em; 
     /* This will display next to the dirty indicator if a file is both dirty and uncommitted */
 }
+
+/*B"H*/
+/* --- Drag and Drop Highlight --- */
+.drag-over-target {
+    background-color: rgba(0, 246, 255, 0.15) !important;
+    box-shadow: inset 0 0 0 1px var(--neon-cyan);
+    border-radius: var(--radius-sm);
+}
+/* Ensure transparency so the highlight is visible on both headers and list items */
+.drag-over-target > .workspace-header,
+.drag-over-target > .tree-item-name-wrap {
+    background-color: transparent !important;
+}

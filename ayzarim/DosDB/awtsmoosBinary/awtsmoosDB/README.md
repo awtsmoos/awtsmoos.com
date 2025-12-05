@@ -1,171 +1,187 @@
-#B"H
+# B"H - AwtsmoosDB
 
-# AwtsmoosDB Architecture Documentation
+**AwtsmoosDB** is a high-performance, pure JavaScript, transactional, persistent database engine built from scratch. It is designed to handle complex nested structures, ordered B-Trees, and efficient append-only Collections, all backed by a robust, crash-resistant disk format.
 
-> **"The Console View Database"**
-> An on-disk data structure designed to mirror the memory efficiency of a JavaScript Runtime Inspector.
-
-## 1. Core Philosophy
-Most databases force a choice between **read speed** (monolithic files) and **write speed** (fragmented logs). AwtsmoosDB achieves "Best of Everything" by enforcing a unique access pattern: **Recursive Pagination**.
-
-Just as a browser console doesn't crash when you inspect an Array of 10 million items (because it only renders indices 0-100), AwtsmoosDB never loads data it doesn't need. It physically separates the **Index** (Keys/Structure) from the **Data** (Values) while keeping related data physically clustered for sequential I/O.
-
-### Key Features
-*   **Unified Block Architecture:** No separate "small" and "large" storage files. Every 4KB block can handle tiny boolean flags or chunks of a massive video file.
-*   **Bitmap Allocator:** Solves fragmentation. Stores small objects (32 bytes) inside the headers of other blocks.
-*   **Sequential Chaining:** Large files are not scattered; they are allocated in contiguous disk sectors for maximum read throughput.
-*   **Runtime Fidelity:** Supports `Infinity`, `NaN`, `-0`, `Buffer`, and specific Float precisions (1-byte vs 8-byte), preserving the exact state of JavaScript runtime values.
+It requires **zero dependencies** and runs natively in Node.js.
 
 ---
 
-## 2. Physical Layout: The Unified Block
+## 📖 Usage Guide & Examples
 
-The file is divided into strictly aligned **4096-byte (4KB)** Blocks.
+### 1. Quick Start
 
-### The Unit System
-To handle variable data sizes without fragmentation, every Block is logically divided into **128 Units** of **32 bytes** each.
-
-| Unit Index | Offset | Purpose |
-| :--- | :--- | :--- |
-| **0** | 0 - 31 | **Block Header (Metadata)** |
-| **1** | 32 - 63 | Data Slot 1 |
-| **...** | ... | ... |
-| **127** | 4064 - 4095 | Data Slot 127 |
-
-### The Header (Unit 0)
-The first 32 bytes of *every single block* contain the map for that block:
-1.  **Block Type (4 Bytes):** Is this a Page? A Superblock? Raw Data?
-2.  **Next Block ID (4 Bytes):** Used if this block is part of a large sequential chain.
-3.  **The Bitmap (16 Bytes / 128 Bits):** The genius of the system.
-    *   Bit 0 is always `1` (Header is occupied).
-    *   If Bit `N` is `0`, then Unit `N` (32 bytes) is empty.
-    *   This allows the Allocator to find "holes" for small data instantly.
-
----
-
-## 3. Logical Architecture: The Collection & Page
-
-There is only one logical data structure in AwtsmoosDB: **The Collection**.
-*   The Root Database is a Collection.
-*   A nested Object is a Collection.
-*   An Array is a Collection.
-
-A Collection is a **Linked List of Pages**.
-
-### The Page (The Bucket)
-A Page is a block that contains **Index Entries**. It does **NOT** contain data (unless the data is tiny).
-*   **Capacity:** Strictly capped (e.g., 100 items).
-*   **Entry Format:** `[Key] [Type] [Pointer]`
-*   **Pointer:** A structure `{ blockId, offset, length }`.
-
-**The "Console View" Effect:**
-When you ask for `db.get("users")`, the DB reads the Root Page. It sees "users" points to **Collection ID 500**. It returns a lightweight proxy. It does **not** read Collection 500. Only when you "expand" that proxy does the DB load **Page 1** of Collection 500.
-
----
-
-## 4. Operational Mechanics
-
-### A. Allocation Strategies (The Allocator)
-The Allocator switches modes based on data size to optimize disk usage.
-
-#### Mode 1: Heap Allocation (Small Data < 4KB)
-*   **Input:** "Store 50 bytes."
-*   **Calculation:** Needs `ceil(50/32) = 2 Units`.
-*   **Scan:** It looks at the current "Hot Block". It checks the Bitmap for **2 contiguous zeros**.
-*   **Action:** It flips those bits to `1` and writes the data to those specific 32-byte slots.
-*   **Result:** Zero fragmentation. Small objects pack tightly.
-
-#### Mode 2: Sequential Chain (Large Data > 4KB)
-*   **Input:** "Store 10MB."
-*   **Calculation:** Needs ~2560 Blocks.
-*   **Scan:** It looks at the "High Water Mark" of the file (end of file).
-*   **Action:** It reserves 2560 contiguous blocks IDs. It marks them as `OVERFLOW`.
-*   **Result:** The drive head seeks once and writes sequentially. Reading is equally fast.
-
-### B. The Write Pipeline
-1.  **Serialize:** Convert JS Value -> Binary Buffer (Awtsmoos Format).
-2.  **Allocate:** Ask Allocator for space. Receive Pointer `{ blockId, offset, length }`.
-3.  **Write Data:** Pager writes the buffer to the physical offsets.
-4.  **Index:** Load the Tail Page of the current Collection.
-5.  **Append:** Add Key + Pointer to the Page.
-6.  **Split:** If Page > 100 items, allocate a new Page block and link them.
-
-### C. The Read Pipeline
-1.  **Lookup:** Traverse Linked List of Pages to find the Key.
-2.  **Resolve Pointer:**
-    *   If `length < 4096`: Read specific block, slice specific offsets.
-    *   If `length > 4096`: Identify the chain length. Issue a **Bulk Read** (e.g., read 10MB in one syscall) for maximum throughput.
-3.  **Deserialize:** Convert Binary Buffer -> JS Value.
-
----
-
-## 5. Type System & Serialization
-AwtsmoosDB preserves the *exact* semantics of the JavaScript runtime.
-
-| Type | ID | Description |
-| :--- | :--- | :--- |
-| **Integers** | 4, 9, 10, 22 | Auto-scales (UInt8 to UInt64) based on magnitude. |
-| **Floats** | 14-16 | **Compressed.** If `1.5` fits in 1 byte, it uses 1 byte. Falls back to Double (8 bytes). |
-| **Special** | 24-26 | Explicit support for `Infinity`, `-Infinity`, `NaN`. |
-| **Buffer** | 8 | Native binary storage (zero serialization cost). |
-| **Functions** | 27 | Stored as strings. |
-
----
-
-## 6. Directory Map
-
-### `/core`
-The engine room.
-*   **`pager.js`**: Low-level FS wrapper. Handles 4KB block read/write and sequential bursts.
-*   **`allocator.js`**: The intelligence. Manages Bitmaps, finds free space, handles chains.
-
-### `/structure`
-The logic layer.
-*   **`page.js`**: Manages a single bucket of 100 items. Handles VarInt metadata encoding.
-*   **`collection.js`**: Manages the Linked List logic (Head/Tail) and total counts.
-
-### `/serialize` & `/deserialize`
-The translation layer.
-*   **`serializeValue.js`**: Determines the Type ID and compresses data.
-*   **`parser.js`**: Strict parsing logic to restore values.
-
-### `/utils`
-*   **`binaryHelpers.js`**: Bitwise logic, Packing/Unpacking, Hashing.
-*   **`floatHandler.js`**: The complex math for compressing floating point numbers.
-
----
-
-## 7. Future Proofing & Recovery
-*   **Corruption:** Every block has a Type header. A recovery tool can scan the file linearly and reconstruct the Index even if the Root Pointer is lost.
-*   **Expansion:** The Bitmap system allows us to mark blocks as "Free" upon deletion. The Allocator automatically reuses these holes before growing the file size.
-
-
-
-
-## 8. HTAP & The "Magic" Sort (V2 Features)
-AwtsmoosDB includes a sophisticated Hybrid Transactional/Analytical Processing engine.
-
-### The "Fire and Forget" Indexer
-When you save a complex object, the database performs a **Write-Heavy / Read-Instant** trade-off.
-1.  **Timeline Write:** The data is immediately appended to the insertion log (0ms latency).
-2.  **Async Flattening:** A background process walks every property of your object (e.g., `user.address.city`).
-3.  **B+ Tree Injection:** It inserts pointers into separate B+ Trees for *every single property*.
-
-### The Result: Instant Deep Sorting
-This architecture allows you to perform queries that are impossible in standard key-value stores:
+Initialize the database. No manual setup is required; the DB file is created automatically.
 
 ```javascript
-// Sort by a deep nested property, get page 50, fast.
-await db.getConsoleView("user.address.zipCode", 50);
+const AwtsmoosDB = require('./index.js');
+
+// Initialize (Lazy Loading)
+const db = new AwtsmoosDB('./my_database.db');
+
+// Basic Key-Value Storage on the Root Object
+async function main() {
+    // Storing values
+    await db.root.set("server_status", "online");
+    await db.root.set("uptime", Date.now());
+
+    // Retrieving values
+    const status = await db.root.server_status;
+    console.log(`Server is: ${status}`);
+}
+
+main();
 ```
 
-The database uses **Count-Augmented B+ Trees** to jump directly to the 5,000th item in the sorted index without reading the 4,999 items before it.
+---
 
-### Automatic Defragmentation
+### 2. B-Tree Maps (Sorted Key-Value Stores)
 
-The Allocator includes a free() mechanism. When you delete() an item:
-1. The space in the 4KB block is marked as "Free" in the Bitmap.
-2. The next time you set(), the Allocator automatically fills this hole.
-3. This ensures the database file behaves like a reusable heap, not an append-only log.
+Use `createMap` to create a sub-namespace that supports **automatic sorting** of keys. This is perfect for dictionaries, user indexes, or caches.
 
+```javascript
+async function mapExample() {
+    // Create a new B-Tree Map
+    await db.root.createMap("inventory");
 
+    // Insert items (Order doesn't matter, DB sorts them)
+    await db.root.inventory.set("zebra_cake", { price: 5, stock: 100 });
+    await db.root.inventory.set("apple", { price: 1, stock: 50 });
+    await db.root.inventory.set("mango", { price: 3, stock: 20 });
+
+    // Retrieve specific item
+    const apple = await db.root.inventory.apple;
+    console.log("Apple Price:", apple.price);
+
+    // Iteration is guaranteed to be ALPHABETICAL
+    console.log("--- Inventory List ---");
+    for await (const item of db.root.inventory) {
+        // Yields { key: "apple", value: {...} } then "mango", then "zebra_cake"
+        console.log(`${item.key}: $${item.value.price}`);
+    }
+}
+```
+
+---
+
+### 3. Collections (Append-Only Lists & Pagination)
+
+Use `createList` to create efficient linked-list collections. Supports `push` and `slice` (pagination). Ideal for logs, feeds, and transaction histories.
+
+```javascript
+async function listExample() {
+    // Create a Collection
+    await db.root.createList("audit_logs");
+
+    // Push thousands of items efficiently
+    for (let i = 0; i < 1000; i++) {
+        await db.root.audit_logs.push({
+            id: i,
+            timestamp: Date.now(),
+            action: `Login Attempt #${i}`
+        });
+    }
+
+    // Pagination: Get items 500 to 505 (Zero-load on other items)
+    const page = await db.root.audit_logs.slice(500, 505);
+    
+    page.forEach(log => {
+        console.log(`[${log.id}] ${log.action}`);
+    });
+}
+```
+
+---
+
+### 4. Deeply Nested Structures & Binary Data
+
+AwtsmoosDB supports storing complex JSON-like objects, `Buffer` (binary data), `Date`, `RegExp`, `Map`, and `Set` natively.
+
+```javascript
+async function complexDataExample() {
+    const fs = require('fs').promises;
+    const imageBuffer = await fs.readFile('./logo.png'); // Binary data
+
+    await db.root.set("user_profile", {
+        id: 1,
+        meta: {
+            created: new Date(),
+            tags: new Set(["admin", "pro_user"]),
+            preferences: new Map([["theme", "dark"]])
+        },
+        // Store raw binary directly in the JSON structure
+        avatar: imageBuffer 
+    });
+
+    // Retrieval is seamless
+    const profile = await db.root.user_profile;
+    
+    console.log("Created At:", profile.meta.created.toISOString());
+    console.log("Avatar Size:", profile.avatar.length, "bytes");
+    
+    // You can also write the buffer back to disk
+    await fs.writeFile('./retrieved_logo.png', profile.avatar);
+}
+```
+
+---
+
+### 5. Nested Databases (The "Tower")
+
+You can nest Maps inside Maps indefinitely.
+
+```javascript
+async function nestedMaps() {
+    await db.root.createMap("usa");
+    await db.root.usa.createMap("ny");
+    await db.root.usa.ny.createMap("nyc");
+    
+    await db.root.usa.ny.nyc.set("population", 8000000);
+    
+    // Access via path
+    const pop = await db.root.usa.ny.nyc.population;
+}
+```
+
+---
+
+## ⚙️ Architecture & Internals
+
+AwtsmoosDB is designed with a **Copy-on-Write (CoW)** architecture to ensure transactional integrity and crash resistance.
+
+### 1. The Pager & Block Structure
+- **Block Size**: 4096 bytes (4KB).
+- **SuperBlock (Block 0)**: Contains the Root Pointer and the Allocator Cursor.
+    - **Root Pointer**: Offset `64`. Points to the root B-Tree node.
+    - **Cursor**: Offset `128`. Tracks the next free block for allocation.
+- **Sanctuary Protection**: The first `64` bytes of *every* block (Header Space) are strictly protected by the Allocator. User data is never written there. This prevents Bitmap corruption.
+
+### 2. The Allocator
+- **Bitmaps**: Every block tracks usage of its own internal units (32-byte chunks) via a bitmap in the header.
+- **Smart Allocation**:
+    - **Small**: Finds gaps inside existing pages to minimize fragmentation.
+    - **Page**: Allocates full blocks for B-Tree nodes.
+    - **Large (Chain)**: Allocates sequential blocks for large binary blobs (e.g., images).
+
+### 3. B-Tree Engine (Maps)
+- **Type Safety**: Every node starts with a `BNOD` magic signature. This prevents the "Frankenstein Pointer" bug where the DB might try to interpret a List Handle as a B-Tree Node.
+- **Transactional Writes**:
+    - When a key is inserted, we **copy** the modified leaf node to a new location (CoW).
+    - We propagate the change up to the root, creating a new path.
+    - The SuperBlock is updated to point to the new Root **atomically**.
+- **Deferred Freeing**:
+    - Old nodes are NOT freed immediately. They are added to a `pendingFrees` list.
+    - Only *after* the new Root is successfully persisted to disk do we flush the `pendingFrees` list. This ensures that if the power goes out mid-write, the DB simply loads the old (valid) root on restart.
+
+### 4. Collection Engine (Lists)
+- Implements a Linked-List of **Page Blocks**.
+- **Handles**: A Collection is represented by a persistent Handle Block (`COLL` signature) that points to the Head and Tail pages.
+- **Slicing**: Efficiently traverses the linked list to retrieve only the requested range of items.
+
+### 5. Crash Recovery (WAL)
+- **Write-Ahead Log**: All writes are appended to a `.wal` file before hitting the main `.db` file.
+- **Auto-Recovery**: On startup, if an unclean shutdown is detected, the WAL is replayed to restore consistency.
+- **Corruption Heuristics**: If a corrupted Root is detected (e.g., due to disk rot), the engine automatically resets the root to a safe empty state to allow the application to continue.
+
+---
+
+**Built with <3 for the Awtsmoos.**

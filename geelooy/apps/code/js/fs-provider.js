@@ -531,8 +531,16 @@ api: async (endpoint, options = {}) => {
     
     const response = await fetch(`https://api.github.com${fetchEndpoint}`, { ...options, headers });
     
+    if (response.status === 422) {
+        const err = await response.json().catch(() => ({ message: response.statusText }));
+        // Provide a more specific error message for the large file issue.
+        throw new Error("Sorry, your input was too large to process. Consider creating the blob in a local clone of the repository and then pushing it to GitHub.");
+    }
+    
     if (!response.ok) {
         const err = await response.json().catch(() => ({ message: response.statusText }));
+        // Provide a clearer error for authentication issues.
+        if (response.status === 401) throw new Error("Bad credentials. Your GitHub token may be invalid or expired.");
         throw new Error(err.message || `GitHub API Error: ${response.status}`);
     }
     
