@@ -1,12 +1,239 @@
 /* B"H */
 
-/* ... (Fieldset & Input styles remain same) ... */
+/* --- Fieldsets & Containers --- */
+fieldset {
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: var(--radius-md);
+    padding: 15px;
+    margin-bottom: 20px;
+    position: relative;
+}
 
-/* Buttons */
-.main-buttons { 
-    display: flex; 
-    gap: 15px; 
-    margin-top: 10px; 
+legend {
+    color: var(--primary);
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    padding: 0 8px;
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+/* --- Typography & Labels --- */
+label {
+    display: block;
+    color: var(--text-dim);
+    font-size: 0.85rem;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* --- Text Inputs, Numbers, Selects --- */
+input[type="text"], 
+input[type="number"], 
+select, 
+textarea {
+    width: 100%;
+    background: var(--bg-input);
+    border: 1px solid #333;
+    color: #fff;
+    padding: 10px;
+    border-radius: var(--radius-sm);
+    font-family: inherit;
+    font-size: 16px; /* Prevents zoom on mobile */
+    transition: 0.2s;
+    appearance: none; /* Removes default OS styling */
+}
+
+input:focus, 
+textarea:focus, 
+select:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 10px var(--primary-dim);
+    background: rgba(0, 0, 0, 0.8);
+}
+
+textarea {
+    resize: vertical;
+    min-height: 80px;
+    line-height: 1.4;
+}
+
+/* --- File Inputs (Custom Styling) --- */
+.file-label {
+    display: block;
+    margin-bottom: 12px;
+}
+
+input[type="file"] {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px dashed #444;
+    padding: 8px;
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    cursor: pointer;
+}
+
+input[type="file"]::file-selector-button {
+    background: var(--secondary);
+    border: none;
+    color: #fff;
+    padding: 6px 12px;
+    border-radius: 4px;
+    margin-right: 10px;
+    font-family: var(--font-display);
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+input[type="file"]::file-selector-button:hover {
+    background: #ff3377;
+    box-shadow: 0 0 10px var(--secondary);
+}
+
+/* --- Toggles & Switches --- */
+.toggle-switch {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    color: #fff;
+    margin-top: 5px;
+}
+
+.toggle-switch input {
+    width: auto;
+    accent-color: var(--primary);
+    width: 20px;
+    height: 20px;
+}
+
+/* --- Toggle Cards (FX Grid) --- */
+.toggle-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid transparent;
+    padding: 8px 4px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: 0.2s;
+    text-align: center;
+    font-size: 0.75rem;
+    min-height: 60px;
+    user-select: none;
+}
+
+.toggle-card input {
+    display: none;
+}
+
+.toggle-card span {
+    margin-top: 4px;
+    color: var(--text-dim);
+}
+
+/* Active State for Cards */
+.toggle-card:has(input:checked) {
+    background: var(--primary-dim);
+    border-color: var(--primary);
+    box-shadow: 0 0 10px var(--primary-dim);
+}
+
+.toggle-card:has(input:checked) span {
+    color: #fff;
+    font-weight: bold;
+    text-shadow: 0 0 5px var(--primary);
+}
+
+/* --- Tabs --- */
+.tabs {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 10px;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 4px;
+    border-radius: 6px;
+}
+
+.tab {
+    flex: 1;
+    text-align: center;
+    padding: 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    color: var(--text-dim);
+    transition: 0.2s;
+}
+
+.tab:has(input:checked) {
+    background: var(--primary);
+    color: #000;
+    font-weight: bold;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.tab input {
+    display: none;
+}
+
+/* --- Sliders (Range) --- */
+.slider-group {
+    margin-bottom: 15px;
+}
+
+.value-display {
+    float: right;
+    color: var(--primary);
+    font-weight: bold;
+}
+
+input[type="range"] {
+    width: 100%;
+    height: 6px;
+    background: #333;
+    appearance: none;
+    border-radius: 3px;
+    margin: 10px 0;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    appearance: none;
+    width: 22px;
+    height: 22px;
+    background: var(--primary);
+    border-radius: 50%;
+    box-shadow: 0 0 10px var(--primary);
+    cursor: pointer;
+    margin-top: -8px;
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+    height: 6px;
+    background: #444;
+    border-radius: 3px;
+}
+
+/* --- Color Picker --- */
+input[type="color"] {
+    height: 40px;
+    padding: 2px;
+    border: 1px solid #444;
+    background: #222;
+    cursor: pointer;
+    width: 100%;
+}
+
+/* --- Buttons --- */
+.main-buttons {
+    display: flex;
+    gap: 15px;
+    margin-top: 10px;
     width: 100%;
 }
 
@@ -14,7 +241,7 @@
     background: linear-gradient(135deg, var(--primary), #00a8a8);
     border: none;
     color: #000;
-    font-weight: bold;
+    font-weight: 700;
     padding: 16px 24px;
     font-family: var(--font-display);
     font-size: 1.6rem;
@@ -23,16 +250,18 @@
     flex: 2;
     transition: transform 0.1s;
     box-shadow: 0 4px 15px rgba(0, 242, 234, 0.2);
-    /* Prevent text wrap glitch */
-    white-space: nowrap;
     display: flex;
     justify-content: center;
     align-items: center;
+    white-space: nowrap;
 }
-.primary-btn:active { transform: scale(0.98); }
+
+.primary-btn:active {
+    transform: scale(0.98);
+}
 
 .secondary-btn {
-    background: #333;
+    background: #222;
     color: #fff;
     border: 1px solid #444;
     padding: 16px 20px;
@@ -41,19 +270,36 @@
     flex: 1;
     font-weight: 600;
     font-size: 1rem;
-    /* Prevent text wrap glitch */
-    white-space: nowrap;
     display: flex;
     justify-content: center;
     align-items: center;
+    white-space: nowrap;
 }
-.secondary-btn:active { background: #444; }
+
+.secondary-btn:active {
+    background: #333;
+}
 
 .icon-btn {
-    background: transparent; border: 1px solid #333; color: var(--text-dim);
-    width: 36px; height: 36px; border-radius: 4px; cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
+    background: transparent;
+    border: 1px solid #333;
+    color: var(--text-dim);
+    width: 36px;
+    height: 36px;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
 }
-.icon-btn:hover { color: #fff; border-color: #fff; }
 
-/* ... (Keep the rest of your components.css) ... */
+.icon-btn:hover {
+    color: #fff;
+    border-color: #fff;
+}
+
+/* --- Helpers --- */
+.hidden-control {
+    display: none !important;
+}
