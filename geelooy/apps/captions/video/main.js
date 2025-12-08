@@ -2,49 +2,20 @@
     ב"ה
     B"H
 */
-document.addEventListener('DOMContentLoaded', function() {
-    
-    // --- DOM Elements ---
-    const dom = {
-        controlsWrapper: document.getElementById('controls-wrapper'),
-        renderButton: document.getElementById('renderButton'),
-        previewButton: document.getElementById('previewButton'),
-        cancelButton: document.getElementById('cancelButton'),
-        previewCanvas: document.getElementById('previewCanvas'),
-        outputVideo: document.getElementById('outputVideo'),
-        status: document.getElementById('status'),
-        progressContainer: document.getElementById('progressContainer'),
-        progressBar: document.getElementById('progressBar'),
-        renderMode: document.getElementById('renderMode'),
-        timingControls: document.getElementById('timing-controls'),
-        captionSource: document.getElementById('captionSource'),
-        mainCaptions: document.getElementById('mainCaptions'),
-        translationCaptions: document.getElementById('translationCaptions'),
-        presetSelect: document.getElementById('preset-select'),
-        savePresetBtn: document.getElementById('save-preset-btn'),
-        deletePresetBtn: document.getElementById('delete-preset-btn'),
-        randomizeAllBtn: document.getElementById('randomize-all-btn'),
-        dynamicBackgroundToggle: document.getElementById('dynamicBackgroundToggle'),
-        fpsControls: document.getElementById('fps-controls'),
-        
-        // New Inputs
-        enableImageDownload: document.getElementById('enableImageDownload'),
-        imageDownloadFolderControls: document.getElementById('image-download-folder-controls'),
-        selectDownloadFolderButton: document.getElementById('selectDownloadFolderButton'),
-        selectedDownloadFolderDisplay: document.getElementById('selectedDownloadFolderDisplay'),
-        backgroundImageInput: document.getElementById('backgroundImageInput'),
-        portalImagesInput: document.getElementById('portalImages')
-    };
-    
-    const pCtx = dom.previewCanvas.getContext('2d');
+import { dom, pCtx, setStatus, updateUIState } from './js_modules/ui_helpers.js';
+import { getSettings, getCaptionData } from './js_modules/data_helpers.js';
+import { initDB, saveSettings, loadSettings, savePreset, deletePreset, applyPreset } from './js_modules/storage_helpers.js';
+import { processImageDownloadQueue } from './js_modules/download_helpers.js';
 
+document.addEventListener('DOMContentLoaded', async function() {
+    
     // --- App State ---
-    let appState = {
+    const appState = {
         appStatus: 'IDLE',
         worker: null,
         db: null,
-        bgImageBitmap: null, // Specific Background
-        portalImageBitmaps: [], // Floating Portals
+        bgImageBitmap: null,
+        portalImageBitmaps: [],
         simpleCaptions: { main: '', translation: '' },
         srtCaptions: { main: '', translation: '' },
         currentVideoURL: null,
@@ -53,35 +24,11 @@ document.addEventListener('DOMContentLoaded', function() {
         isDownloadingImages: false,
         processedCount: 0,
     };
-    
-    // --- Helper: Status ---
-    function setStatus(message, type = '') {
-        dom.status.textContent = message;
-        dom.status.className = type;
-    }
 
-    // --- Helper: Get Bitmaps Array for Worker ---
-    // The worker expects [Background|null, Portal1, Portal2, ...]
-    function getWorkerBitmaps() {
-        const bitmaps = [];
-        // Index 0: Background (or null if not set)
-        bitmaps.push(appState.bgImageBitmap || null);
-        // Index 1+: Portals
-        if (appState.portalImageBitmaps && appState.portalImageBitmaps.length > 0) {
-            bitmaps.push(...appState.portalImageBitmaps);
-        }
-        return bitmaps;
-    }
-
-    function getTransferables() {
-        const bitmaps = getWorkerBitmaps();
-        // Filter out nulls because you can't transfer null
-        return bitmaps.filter(b => b instanceof ImageBitmap);
-    }
-
+    // --- Worker Management ---
     function initializeWorker() {
+        if (appState.worker) appState.worker.terminate();
         try {
-            if (appState.worker) appState.worker.terminate();
             appState.worker = new Worker('ein_sof_worker.js');
             appState.worker.onmessage = handleWorkerMessage;
             appState.worker.onerror = (err) => {
@@ -89,8 +36,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 setStatus(`Engine Error: ${err.message}`, 'error');
                 appState.appStatus = 'IDLE';
             };
-        } catch (error) {
-            setStatus('FATAL: Engine Init Failed.', 'error');
+        } catch (e) {
+             setStatus('FATAL: Engine Init Failed.', 'error');
         }
     }
 
@@ -100,7 +47,7 @@ document.addEventListener('DOMContentLoaded', function() {
             case 'WORKER_READY':
                 setStatus('Engine Ready.');
                 appState.appStatus = 'IDLE';
-                updateUIState();
+                updateUIState(appState);
                 break;
             case 'STATUS_UPDATE':
                 setStatus(payload.message);
@@ -114,7 +61,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 payload.bitmap.close();
                 setStatus('Preview generated.', 'success');
                 appState.appStatus = 'IDLE';
-                updateUIState();
+                updateUIState(appState);
                 break;
             case 'VIDEO_COMPLETE':
                 if (appState.currentVideoURL) URL.revokeObjectURL(appState.currentVideoURL);
@@ -125,55 +72,44 @@ document.addEventListener('DOMContentLoaded', function() {
                 dom.progressContainer.style.display = 'none';
                 setStatus('Render Complete.', 'success');
                 appState.appStatus = 'IDLE';
-                updateUIState();
+                updateUIState(appState);
                 break;
             case 'IMAGE_COMPLETE':
                 appState.imageDownloadQueue.push(payload);
-                processImageDownloadQueue();
+                processImageDownloadQueue(appState);
                 break;
             case 'BATCH_COMPLETE':
                 setStatus('Batch Finished.', 'success');
                 dom.progressContainer.style.display = 'none';
                 appState.appStatus = 'IDLE';
-                updateUIState();
+                updateUIState(appState);
                 break;
             case 'FATAL_ERROR':
                 setStatus(`Error: ${payload.message}`, 'error');
                 appState.appStatus = 'IDLE';
-                updateUIState();
+                updateUIState(appState);
                 break;
         }
     }
 
+    // --- Action Handlers ---
+
     async function handleRender() {
         if (appState.appStatus !== 'IDLE') return;
         appState.appStatus = 'RENDERING';
-        updateUIState();
+        updateUIState(appState);
         setStatus('Preparing...');
         
         const settings = getSettings();
         const resolution = {
-            width: parseInt(document.getElementById('videoWidth').value),
-            height: parseInt(document.getElementById('videoHeight').value)
+            width: parseInt(dom.videoWidth.value),
+            height: parseInt(dom.videoHeight.value)
         };
         const mode = dom.renderMode.value;
         const enableImageDownload = dom.enableImageDownload.checked;
-        const captionData = await getCaptionData();
+        const captionData = await getCaptionData(appState);
 
-        // Prepare Bitmaps and Transferables
-        // Note: We clone them because transfer closes the original
-        // But since we reload them from file input on change, or we just want to send them:
-        // Actually, ImageBitmaps are transferable. Once transferred, they are gone from main thread.
-        // We need to re-create them next time or just let them go.
-        // Since user might render twice, we should probably re-create them or accept they are gone.
-        // For now, let's transfer. If user renders again, they might need to reload images 
-        // OR we don't transfer, we just clone? No, structuredClone of ImageBitmap throws.
-        // We MUST transfer.
-        
-        // Wait! If I transfer appState.bgImageBitmap, it becomes unusable for Preview.
-        // Solution: Create the bitmap RIGHT BEFORE sending, from the file input files.
-        // This ensures every render gets a fresh bitmap.
-        
+        // Prepare Bitmaps
         const bgFile = dom.backgroundImageInput.files[0];
         const portalFiles = Array.from(dom.portalImagesInput.files);
         
@@ -185,11 +121,9 @@ document.addEventListener('DOMContentLoaded', function() {
             freshPortalBitmaps = await Promise.all(portalFiles.map(f => createImageBitmap(f)));
         }
 
-        // Construct the Payload array
         const workerBitmaps = [freshBgBitmap, ...freshPortalBitmaps];
-        const transferables = workerBitmaps.filter(b => b); // Remove nulls for transfer list
+        const transferables = workerBitmaps.filter(b => b); // Remove nulls
         
-        // Audio
         const transferableObjects = [...transferables];
         if (captionData.plainAudioBuffer) {
             captionData.plainAudioBuffer.channels.forEach(c => transferableObjects.push(c.buffer));
@@ -202,9 +136,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 settings,
                 resolution,
                 captionData,
-                portalBitmaps: workerBitmaps, // Pass the array [BG, P1, P2...]
+                portalBitmaps: workerBitmaps,
                 plainAudioBuffer: captionData.plainAudioBuffer,
-                fps: parseInt(document.getElementById('frameRate').value)
+                fps: parseInt(dom.frameRate.value)
             }
         }, transferableObjects);
     }
@@ -214,13 +148,12 @@ document.addEventListener('DOMContentLoaded', function() {
         appState.appStatus = 'PREVIEWING';
         setStatus('Previewing...');
         
-        const settings = resolveSettings(getSettings());
+        const settings = getSettings();
         const resolution = { 
-            width: parseInt(document.getElementById('videoWidth').value), 
-            height: parseInt(document.getElementById('videoHeight').value) 
+            width: parseInt(dom.videoWidth.value), 
+            height: parseInt(dom.videoHeight.value) 
         };
         
-        // Re-load bitmaps for preview (since previous render might have transferred them)
         const bgFile = dom.backgroundImageInput.files[0];
         const portalFiles = Array.from(dom.portalImagesInput.files);
         
@@ -246,111 +179,74 @@ document.addEventListener('DOMContentLoaded', function() {
         }, transferables);
     }
 
-    // --- Settings & UI Logic ---
-    function updateUIState() {
-        const isIdle = appState.appStatus === 'IDLE';
-        dom.controlsWrapper.classList.toggle('rendering', !isIdle);
-        dom.renderButton.disabled = !isIdle;
-        dom.previewButton.disabled = !isIdle;
-        
-        const isVideo = dom.renderMode.value === 'video';
-        dom.timingControls.classList.toggle('hidden-control', !isVideo);
-        document.getElementById('dual-caption-toggle-container').classList.toggle('hidden-control', !isVideo);
-        dom.imageDownloadFolderControls.classList.toggle('hidden-control', !dom.enableImageDownload.checked);
-    }
-
-    function getSettings() {
-        const settings = {};
-        document.querySelectorAll('[id]').forEach(el => {
-            if (el.type === 'checkbox') settings[el.id] = el.checked;
-            else if (el.type !== 'file' && !el.readOnly && el.value !== undefined) settings[el.id] = el.value;
-        });
-        document.querySelectorAll('.control-group[data-control-name]').forEach(group => {
-            const name = group.dataset.controlName;
-            const input = group.querySelector('input');
-            const isRandom = group.classList.contains('randomize-active');
-            if (isRandom) {
-                // Simplified random logic for UI retrieval
-                settings[name] = { randomize: true, min: 0, max: 100 }; // simplified
-            } else {
-                settings[name] = (input.type === 'range' || input.type === 'number') ? parseFloat(input.value) : input.value;
-            }
-        });
-        return settings;
-    }
-    
-    function resolveSettings(s) { return s; } // Pass through for now
-
-    async function getCaptionData() {
-        // ... (Same parsing logic as before) ...
-        // Keeping it brief for the fix
-        const duration = parseFloat(document.getElementById('captionDuration').value) || 2.5;
-        const text = dom.mainCaptions.value;
-        const primary = text.trim() ? text.split(/\n\s*\n/).map((t,i) => ({ startTime: i*duration, endTime: (i+1)*duration, text: t.trim() })) : [];
-        
-        // Audio
-        let plainAudioBuffer = null;
-        const aFile = document.getElementById('audioFile').files[0];
-        if (aFile) {
-            const ac = new (window.AudioContext || window.webkitAudioContext)();
-            const ab = await ac.decodeAudioData(await aFile.arrayBuffer());
-            plainAudioBuffer = { channels: [ab.getChannelData(0)], sampleRate: ab.sampleRate, duration: ab.duration };
-            ac.close();
-        }
-        return { primary, translation: [], plainAudioBuffer };
-    }
-
-    // Download Logic (Queue)
-    function triggerDownload(blob, filename) {
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url; a.download = filename; a.click();
-        URL.revokeObjectURL(url);
-    }
-    
-    async function processImageDownloadQueue() {
-        if (appState.isDownloadingImages || appState.imageDownloadQueue.length === 0) return;
-        appState.isDownloadingImages = true;
-        
-        const item = appState.imageDownloadQueue.shift();
-        if (appState.selectedDownloadDirectoryHandle) {
-             // File System API logic
-             try {
-                const handle = await appState.selectedDownloadDirectoryHandle.getFileHandle(item.filename, { create: true });
-                const w = await handle.createWritable();
-                await w.write(item.blob);
-                await w.close();
-             } catch(e) { console.error(e); }
-        } else {
-            triggerDownload(item.blob, item.filename);
-        }
-        
-        setTimeout(() => {
-            appState.isDownloadingImages = false;
-            processImageDownloadQueue();
-        }, 200); // Small delay
-    }
-
-    // --- Init ---
+    // --- Init Listeners ---
     dom.renderButton.addEventListener('click', handleRender);
     dom.previewButton.addEventListener('click', handlePreview);
     dom.cancelButton.addEventListener('click', () => {
         if(appState.worker) appState.worker.terminate();
         initializeWorker();
     });
+
+    // Inputs changing state
+    dom.renderMode.addEventListener('change', () => updateUIState(appState));
+    dom.enableImageDownload.addEventListener('change', () => updateUIState(appState));
+    dom.captionSource.addEventListener('change', () => updateUIState(appState));
+    
+    // DB Actions
+    dom.savePresetBtn.addEventListener('click', () => savePreset(appState));
+    dom.deletePresetBtn.addEventListener('click', () => deletePreset(appState));
+    dom.presetSelect.addEventListener('change', (e) => applyPreset(appState, e.target.value));
     
     // Directory Picker
     dom.selectDownloadFolderButton.addEventListener('click', async () => {
         if ('showDirectoryPicker' in window) {
             appState.selectedDownloadDirectoryHandle = await window.showDirectoryPicker();
-            dom.selectedDownloadFolderDisplay.textContent = "Folder Selected";
+            dom.selectedDownloadFolderDisplay.textContent = "Folder Selected: " + appState.selectedDownloadDirectoryHandle.name;
+        } else {
+             alert("File System Access API not supported in this browser.");
         }
     });
 
-    dom.renderMode.addEventListener('change', updateUIState);
-    dom.enableImageDownload.addEventListener('change', updateUIState);
+    // Range Sliders display update
+    document.getElementById('controls').addEventListener('input', (e) => {
+        if(e.target.type === 'range') {
+            const display = document.getElementById(e.target.id + 'Value');
+            if(display) display.textContent = e.target.value;
+        }
+        saveSettings(appState);
+    });
 
-    // Initial Setup
+    // Randomize toggles logic
+    document.querySelectorAll('.randomize-toggle').forEach(toggle => {
+        toggle.addEventListener('click', function() {
+            this.closest('.control-group').classList.toggle('randomize-active');
+            this.classList.toggle('active');
+            saveSettings(appState);
+        });
+    });
+    
+    document.getElementById('randomize-all-btn').addEventListener('click', () => {
+         document.querySelectorAll('fieldset .randomize-toggle:not(.active)').forEach(t => t.click());
+    });
+    
+    document.querySelectorAll('.fieldset-randomize').forEach(btn => {
+        btn.addEventListener('click', () => {
+            btn.closest('fieldset').querySelectorAll('.randomize-toggle:not(.active)').forEach(t => t.click());
+        });
+    });
+    
+    // SRT File reading
+    dom.srtFile.addEventListener('change', async (e) => { 
+        if(e.target.files[0]) appState.srtCaptions.main = await e.target.files[0].text(); 
+        document.getElementById('srtPreview').value = appState.srtCaptions.main;
+    });
+    dom.translationSrtFile.addEventListener('change', async (e) => { 
+        if(e.target.files[0]) appState.srtCaptions.translation = await e.target.files[0].text(); 
+    });
+
+    // Start
+    await initDB(appState);
+    await loadSettings(appState);
     initializeWorker();
-    updateUIState();
+    updateUIState(appState);
 });

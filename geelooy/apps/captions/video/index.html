@@ -11,7 +11,7 @@ B"H
     <link rel="stylesheet" href="style.css" type="text/css">
 </head>
 <body>
-
+    <!-- HTML Content remains exactly the same as before -->
     <div id="controls-wrapper">
         <div id="controls">
             <div id="settings-container">
@@ -58,7 +58,7 @@ B"H
                     <div class="form-group" id="fps-controls"><label>FPS</label><input type="number" id="frameRate" value="24" min="1" max="60"></div>
                 </fieldset>
 
-                <!-- NEW: Background Image Section -->
+                <!-- Background Image Section -->
                 <fieldset>
                     <legend>Olam (World)</legend>
                     <span class="fieldset-randomize" title="Randomize">🎲</span>
@@ -144,6 +144,7 @@ B"H
         <video id="outputVideo" controls loop playsinline></video>
     </div>
     
-    <script src="main.js"></script>
+    <!-- Changed to module -->
+    <script type="module" src="main.js"></script>
 </body>
 </html>
