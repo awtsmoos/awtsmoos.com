@@ -26,6 +26,15 @@ export const dom = {
     dynamicBackgroundToggle: document.getElementById('dynamicBackgroundToggle'),
     fpsControls: document.getElementById('fps-controls'),
     
+    // Resolution & FPS (Previously Missing)
+    videoWidth: document.getElementById('videoWidth'),
+    videoHeight: document.getElementById('videoHeight'),
+    frameRate: document.getElementById('frameRate'),
+    
+    // Caption Files (Previously Missing)
+    srtFile: document.getElementById('srtFile'),
+    translationSrtFile: document.getElementById('translationSrtFile'),
+    
     // Feature Inputs
     enableImageDownload: document.getElementById('enableImageDownload'),
     imageDownloadFolderControls: document.getElementById('image-download-folder-controls'),
