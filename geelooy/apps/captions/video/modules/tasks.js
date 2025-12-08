@@ -6,11 +6,11 @@ B"H
 self.taskHandlers = {};
 
 const renderFrame = (ctx, settings, res, bitmaps, time, pCap, sCap, pal, cache, audioSlice) => {
-    // 1. BG
+    // 1. BG (Includes Portals)
     const { canvas: bg, palette } = self.einSofRenderer.generateBg(settings, res, bitmaps, time);
     ctx.drawImage(bg, 0, 0);
     
-    // 2. Universe
+    // 2. Universe (Particles)
     const uni = self.einSofRenderer.generateUniverse({ ...settings, time }, res, palette);
     const glowC = new OffscreenCanvas(res.width, res.height).getContext('2d');
     self.einSofRenderer.renderParticles(ctx, glowC, uni.particles);
@@ -19,15 +19,20 @@ const renderFrame = (ctx, settings, res, bitmaps, time, pCap, sCap, pal, cache, 
     ctx.globalCompositeOperation = 'source-over';
 
     // 3. Text & HUD
-    // COMPATIBILITY FIX: Replaced ?. with standard (obj ? obj.prop : undefined) logic
-    self.einSofRenderer.renderHeader(ctx, settings.headerText, res);
+    // Check checks
+    const header = settings.headerText ? settings.headerText : '';
+    self.einSofRenderer.renderHeader(ctx, header, res);
     
-    const pText = pCap ? pCap.text : undefined;
-    const sText = sCap ? sCap.text : undefined;
+    const pText = pCap ? pCap.text : null;
+    const sText = sCap ? sCap.text : null;
     
     self.einSofRenderer.renderText(ctx, pText, sText, settings, res, pal, cache);
-    self.einSofRenderer.renderVCRStamp(ctx, res, settings.enableVCRStamp);
-    self.einSofRenderer.renderWaveform(ctx, res, audioSlice, settings.enableWaveform);
+    
+    const vcr = (settings.enableVCRStamp === true);
+    self.einSofRenderer.renderVCRStamp(ctx, res, vcr);
+    
+    const wave = (settings.enableWaveform === true);
+    self.einSofRenderer.renderWaveform(ctx, res, audioSlice, wave);
 
     // 4. FX
     self.einSofRenderer.applyFX(ctx, settings, res);
@@ -36,20 +41,26 @@ const renderFrame = (ctx, settings, res, bitmaps, time, pCap, sCap, pal, cache, 
 self.taskHandlers.handleRender = async (payload) => {
     const { mode, settings, resolution, captionData, portalBitmaps, plainAudioBuffer, fps } = payload;
     const ctx = new OffscreenCanvas(resolution.width, resolution.height).getContext('2d');
+    
+    // We don't rely on cache for text wrapping anymore, but we await it to keep flow
     const cache = await self.einSofRenderer.cacheOverlays(captionData, settings, resolution);
     const { timeEvents } = self.utils.createTimeEvents(captionData, plainAudioBuffer);
     
     const getAudioSlice = (t) => {
         if(!plainAudioBuffer) return null;
         const idx = Math.floor(t * plainAudioBuffer.sampleRate);
-        return plainAudioBuffer.channels[0].subarray(idx, idx + 1024);
+        if (plainAudioBuffer.channels && plainAudioBuffer.channels[0]) {
+             return plainAudioBuffer.channels[0].subarray(idx, idx + 1024);
+        }
+        return null;
     };
 
     self.postMessage({ type: 'STATUS_UPDATE', payload: { message: 'Rendering...' } });
 
     if (mode === 'video') {
         self.postMessage({ type: 'STATUS_UPDATE', payload: { message: 'Video encoding started (Simulated)' } });
-        // Video loop logic here
+        // NOTE: In the real full implementation, the mediabunny loop goes here.
+        // For now, we simulate success so you see the logs.
         self.postMessage({ type: 'VIDEO_COMPLETE', payload: { blob: new Blob([], {type:'video/mp4'}) } });
     } else {
         const caps = captionData.primary;
@@ -57,7 +68,22 @@ self.taskHandlers.handleRender = async (payload) => {
             const cap = caps[i];
             const t = cap.startTime;
             
-            renderFrame(ctx, self.utils.resolveSettings(settings, true), resolution, portalBitmaps, t, cap, null, ['#FFF'], cache, getAudioSlice(t));
+            // Find corresponding translation
+            const sCap = self.utils.findCaption(t, captionData.translation);
+            
+            // Render
+            renderFrame(
+                ctx, 
+                self.utils.resolveSettings(settings, true), 
+                resolution, 
+                portalBitmaps, 
+                t * 1000, // Time in ms
+                cap, 
+                sCap, 
+                ['#FFF', '#CCC', '#888', '#444', '#000'], // Default palette fallback
+                cache, 
+                getAudioSlice(t)
+            );
             
             const blob = await ctx.canvas.convertToBlob();
             self.postMessage({ 
@@ -76,13 +102,20 @@ self.taskHandlers.handlePreview = async (payload) => {
     const ctx = cvs.getContext('2d');
     
     const resSettings = self.utils.resolveSettings(settings, true);
-    const cache = new Map(); 
-    cache.set(primaryCaption, { 
-        primaryBox: { x: 50, y: 50, width: resolution.width-100, height: 200 },
-        secondaryBox: null
-    });
-
-    renderFrame(ctx, resSettings, resolution, portalBitmaps, 0, { text: primaryCaption }, null, ['#F0F'], cache, null);
+    
+    // Pass empty cache as text renders dynamically now
+    renderFrame(
+        ctx, 
+        resSettings, 
+        resolution, 
+        portalBitmaps, 
+        0, 
+        { text: primaryCaption }, 
+        null, 
+        ['#F0F', '#0FF', '#FFF', '#000', '#111'], 
+        new Map(), 
+        null
+    );
     
     const bitmap = cvs.transferToImageBitmap();
     self.postMessage({ type: 'PREVIEW_READY', payload: { bitmap } }, [bitmap]);
