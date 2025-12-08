@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Awtsmoos Ein Sof [Quantum V5]</title>
+    <title>Awtsmoos Ein Sof [Quantum V5.2]</title>
     <link rel="stylesheet" href="css/variables.css">
     <link rel="stylesheet" href="css/layout.css">
     <link rel="stylesheet" href="css/components.css">
@@ -15,16 +15,17 @@
         <!-- CONTROLS -->
         <aside id="controls-wrapper" class="glass-panel">
             <header>
-                <div class="logo-area"><h1>EIN SOF</h1><span class="version">V5.1</span></div>
+                <div class="logo-area"><h1>EIN SOF</h1><span class="version">V5.2</span></div>
                 <div class="header-actions">
                      <select id="preset-select"><option value="">Presets...</option></select>
                      <button id="save-preset-btn" class="icon-btn" title="Save">💾</button>
-                     <button id="delete-preset-btn" class="icon-btn" title="Delete">🗑️</button>
                      <button id="randomize-all-btn" class="icon-btn" title="Chaos">🎲</button>
                 </div>
             </header>
 
             <div id="controls" class="scroll-area">
+                
+                <!-- CORE SETTINGS -->
                 <fieldset>
                     <legend>Merkabah (Core)</legend>
                     <div class="row">
@@ -37,9 +38,11 @@
                     </div>
                 </fieldset>
 
+                <!-- INPUT SETTINGS -->
                 <fieldset>
                     <legend>Kelim (Input)</legend>
                     <div class="form-group"><label>Header Text</label><input type="text" id="headerText" placeholder="Top Title..."></div>
+                    
                     <div class="tabs">
                         <label class="tab"><input type="radio" name="capSrc" value="simple" checked onclick="document.getElementById('captionSource').value='simple';"> Simple</label>
                         <label class="tab"><input type="radio" name="capSrc" value="srt" onclick="document.getElementById('captionSource').value='srt';"> SRT</label>
@@ -47,8 +50,7 @@
                     <select id="captionSource" style="display:none;"><option value="simple">Simple</option><option value="srt">SRT</option></select>
 
                     <div id="simple-caption-controls">
-                        <textarea id="mainCaptions" placeholder="Captions..."></textarea>
-                        <!-- FIXED: ID added back to container -->
+                        <textarea id="mainCaptions" placeholder="Enter captions..."></textarea>
                         <div class="row" id="dual-caption-toggle-container">
                             <label class="toggle-switch"><input type="checkbox" id="dualCaptionToggle"> Dual Language</label>
                         </div>
@@ -56,27 +58,73 @@
                     </div>
 
                     <div id="srt-caption-controls" class="hidden-control">
-                        <input type="file" id="srtFile" class="file-input">
-                        <input type="file" id="translationSrtFile" class="file-input">
+                        <label class="file-label">Primary SRT <input type="file" id="srtFile"></label>
+                        <label class="file-label">Trans SRT <input type="file" id="translationSrtFile"></label>
                     </div>
-                    <div class="form-group"><label>Audio</label><input type="file" id="audioFile" class="file-input" accept="audio/*"></div>
+                    <div class="form-group">
+                        <label class="file-label">Audio Source <input type="file" id="audioFile" accept="audio/*"></label>
+                    </div>
                 </fieldset>
 
+                <!-- PARTICLE SYSTEM (RESTORED!) -->
                 <fieldset>
-                    <legend>Olam (Visuals)</legend>
+                    <legend>Olam Yetzirah (Particles)</legend>
                     <span class="fieldset-randomize">🎲</span>
-                    <div class="form-group bg-selector">
-                        <label>Background</label><input type="file" id="backgroundImageInput" class="file-input" accept="image/*">
-                        <div class="slider-group" data-control-name="backgroundOpacity">
+                    
+                    <div class="control-group" data-control-name="particleDensity">
+                        <label>Density <span class="value-display" id="particleDensityValue">150</span></label>
+                        <input type="range" id="particleDensity" min="0" max="300" value="150">
+                    </div>
+                    
+                    <div class="row">
+                        <div class="control-group half" data-control-name="minParticleSize">
+                            <label>Min Size</label>
+                            <input type="range" id="minParticleSize" min="1" max="50" value="5">
+                        </div>
+                        <div class="control-group half" data-control-name="maxParticleSize">
+                            <label>Max Size</label>
+                            <input type="range" id="maxParticleSize" min="5" max="150" value="80">
+                        </div>
+                    </div>
+
+                    <div class="control-group" data-control-name="particleSpeed">
+                        <label>Warp Speed <span class="value-display" id="particleSpeedValue">1.0</span></label>
+                        <input type="range" id="particleSpeed" min="0" max="5" step="0.1" value="1.0">
+                    </div>
+
+                    <div class="control-group" data-control-name="particleColorShift">
+                        <label>Color Shift</label>
+                        <input type="range" id="particleColorShift" min="0" max="180" value="30">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Characters</label>
+                        <input type="text" id="particleChars" value="אבגדהוזחטיכלמנסעפצקרשת•">
+                    </div>
+                </fieldset>
+
+                <!-- VISUALS -->
+                <fieldset>
+                    <legend>Olam HaBa (Visuals)</legend>
+                    <span class="fieldset-randomize">🎲</span>
+                    
+                    <div class="form-group">
+                        <label class="file-label">Background Image <input type="file" id="backgroundImageInput" accept="image/*"></label>
+                        <div class="slider-group" data-control-name="backgroundOpacity" style="margin-top:10px;">
                             <label>Opacity</label><input type="range" id="backgroundOpacity" min="0" max="1" step="0.05" value="1.0">
                         </div>
                     </div>
+
                     <div class="control-group" data-control-name="basePaletteColor">
                         <label>Base Color</label><input type="color" id="basePaletteColor" value="#8A2BE2">
                     </div>
-                    <div class="form-group"><label>Portals</label><input type="file" id="portalImages" class="file-input" accept="image/*" multiple></div>
+                    
+                    <div class="form-group">
+                        <label class="file-label">Floating Portals <input type="file" id="portalImages" accept="image/*" multiple></label>
+                    </div>
                 </fieldset>
 
+                <!-- EFFECTS -->
                 <fieldset>
                     <legend>Tohu (FX)</legend>
                     <span class="fieldset-randomize">🎲</span>
@@ -100,6 +148,7 @@
                     </div>
                 </fieldset>
 
+                <!-- OUTPUT -->
                 <fieldset>
                     <legend>Output</legend>
                     <div class="form-group">
@@ -116,23 +165,4 @@
                 <div id="status">Ready</div>
                 <div id="progressContainer"><div id="progressBar"></div></div>
                 <div class="main-buttons">
-                    <button id="previewButton" class="secondary-btn">👁️ Preview</button>
-                    <button id="renderButton" class="primary-btn">RENDER</button>
-                </div>
-            </footer>
-        </aside>
-
-        <!-- PREVIEW -->
-        <main id="preview-wrapper">
-            <div id="mobile-close-preview"><button id="mobile-close-btn">✖ CLOSE</button></div>
-            <div id="preview-container">
-                <canvas id="previewCanvas"></canvas>
-                <video id="outputVideo" class="hidden" controls loop playsinline></video>
-                <div id="render-overlay"><div class="loader"></div><button id="cancelButton">ABORT</button></div>
-            </div>
-        </main>
-    </div>
-    
-    <script type="module" src="main.js"></script>
-</body>
-</html>
+                    <button id="previewButton" class="secondary-btn">👁️ Preview<

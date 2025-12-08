@@ -1,126 +1,43 @@
 /* B"H */
 
-/* ... (Keep existing fieldset/input styles from previous answer) ... */
+/* ... (Previous Styles) ... */
 
-fieldset {
-    border: 1px solid rgba(255,255,255,0.05);
-    background: rgba(255,255,255,0.01);
-    border-radius: var(--radius-md);
-    padding: 15px;
-    margin-bottom: 20px;
-    position: relative;
-}
-legend {
-    color: var(--primary);
-    font-family: var(--font-display);
-    font-size: 1.2rem;
-    padding: 0 10px;
-}
-
-input[type="text"], input[type="number"], select, textarea {
-    width: 100%;
-    background: var(--bg-input);
-    border: 1px solid #333;
-    color: #fff;
-    padding: 8px;
-    border-radius: var(--radius-sm);
-    font-family: inherit;
-    font-size: 16px; /* Prevents iOS auto-zoom */
-    transition: 0.2s;
-}
-input:focus, textarea:focus, select:focus {
-    outline: none;
-    border-color: var(--primary);
-    box-shadow: 0 0 10px var(--primary-dim);
-}
-textarea { resize: vertical; min-height: 80px; }
-
-/* Buttons */
-.main-buttons { 
-    display: flex; 
-    gap: 15px; 
-    margin-top: 10px; 
-    width: 100%;
-}
-
-.primary-btn {
-    background: linear-gradient(135deg, var(--primary), #00a8a8);
-    border: none;
-    color: #000;
-    font-weight: bold;
-    padding: 16px 24px; /* Taller touch target */
-    font-family: var(--font-display);
-    font-size: 1.6rem;
-    border-radius: var(--radius-sm);
-    cursor: pointer;
-    flex: 2; /* Takes 2/3 space */
-    transition: transform 0.1s;
-    box-shadow: 0 4px 15px rgba(0, 242, 234, 0.2);
-}
-.primary-btn:active { transform: scale(0.98); }
-
-.secondary-btn {
-    background: #333;
-    color: #fff;
-    border: 1px solid #444;
-    padding: 16px 20px; /* Taller touch target */
-    border-radius: var(--radius-sm);
-    cursor: pointer;
-    flex: 1; /* Takes 1/3 space */
-    font-weight: 600;
-    font-size: 1rem;
-}
-.secondary-btn:active { background: #444; }
-
-.icon-btn {
-    background: transparent; border: 1px solid #333; color: var(--text-dim);
-    width: 36px; height: 36px; border-radius: 4px; cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-}
-.icon-btn:hover { color: #fff; border-color: #fff; }
-
-/* ... (Keep Toggle Cards & Range Sliders from previous answer) ... */
-.toggle-card {
+/* --- Custom File Inputs --- */
+.file-label {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background: rgba(255,255,255,0.03);
-    border: 1px solid transparent;
-    padding: 10px 5px;
+    gap: 5px;
+    margin-bottom: 10px;
+    font-size: 0.9rem;
+    color: var(--text-dim);
+    cursor: pointer;
+}
+
+/* Hide the ugly default text somewhat, style the button part */
+input[type="file"] {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid #444;
     border-radius: var(--radius-sm);
+    padding: 8px;
+    color: #fff;
+    font-family: monospace;
+    width: 100%;
+}
+
+input[type="file"]::file-selector-button {
+    background: var(--secondary);
+    border: none;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 4px;
+    margin-right: 10px;
+    font-family: var(--font-display);
     cursor: pointer;
     transition: 0.2s;
-    text-align: center;
-    font-size: 0.8rem;
-    min-height: 70px; /* Ensure easy tapping */
-}
-.toggle-card input { display: none; }
-.toggle-card span { margin-top: 5px; color: var(--text-dim); }
-
-.toggle-card:has(input:checked) {
-    background: var(--primary-dim);
-    border-color: var(--primary);
-}
-.toggle-card:has(input:checked) span {
-    color: #fff;
-    text-shadow: 0 0 5px var(--primary);
 }
 
-input[type="range"] {
-    width: 100%;
-    height: 6px; /* Thicker track */
-    background: #333;
-    appearance: none;
-    border-radius: 3px;
-    margin: 10px 0;
+input[type="file"]::file-selector-button:hover {
+    background: #ff3377;
 }
-input[type="range"]::-webkit-slider-thumb {
-    appearance: none;
-    width: 22px; height: 22px; /* Larger thumb */
-    background: var(--primary);
-    border-radius: 50%;
-    box-shadow: 0 0 10px var(--primary);
-    cursor: pointer;
-    margin-top: -8px;
-}
+
+/* ... (Keep Toggle Cards & Buttons) ... */
