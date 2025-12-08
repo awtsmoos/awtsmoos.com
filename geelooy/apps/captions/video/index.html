@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Awtsmoos Ein Sof [Quantum V5.2]</title>
+    <title>Awtsmoos Ein Sof [Quantum V5.3]</title>
     <link rel="stylesheet" href="css/variables.css">
     <link rel="stylesheet" href="css/layout.css">
     <link rel="stylesheet" href="css/components.css">
@@ -15,7 +15,7 @@
         <!-- CONTROLS -->
         <aside id="controls-wrapper" class="glass-panel">
             <header>
-                <div class="logo-area"><h1>EIN SOF</h1><span class="version">V5.2</span></div>
+                <div class="logo-area"><h1>EIN SOF</h1><span class="version">V5.3</span></div>
                 <div class="header-actions">
                      <select id="preset-select"><option value="">Presets...</option></select>
                      <button id="save-preset-btn" class="icon-btn" title="Save">💾</button>
@@ -25,7 +25,7 @@
 
             <div id="controls" class="scroll-area">
                 
-                <!-- CORE SETTINGS -->
+                <!-- CORE -->
                 <fieldset>
                     <legend>Merkabah (Core)</legend>
                     <div class="row">
@@ -38,7 +38,7 @@
                     </div>
                 </fieldset>
 
-                <!-- INPUT SETTINGS -->
+                <!-- INPUT -->
                 <fieldset>
                     <legend>Kelim (Input)</legend>
                     <div class="form-group"><label>Header Text</label><input type="text" id="headerText" placeholder="Top Title..."></div>
@@ -66,40 +66,30 @@
                     </div>
                 </fieldset>
 
-                <!-- PARTICLE SYSTEM (RESTORED!) -->
+                <!-- PARTICLES -->
                 <fieldset>
                     <legend>Olam Yetzirah (Particles)</legend>
                     <span class="fieldset-randomize">🎲</span>
-                    
                     <div class="control-group" data-control-name="particleDensity">
                         <label>Density <span class="value-display" id="particleDensityValue">150</span></label>
                         <input type="range" id="particleDensity" min="0" max="300" value="150">
                     </div>
-                    
                     <div class="row">
                         <div class="control-group half" data-control-name="minParticleSize">
-                            <label>Min Size</label>
-                            <input type="range" id="minParticleSize" min="1" max="50" value="5">
+                            <label>Min Size</label><input type="range" id="minParticleSize" min="1" max="50" value="5">
                         </div>
                         <div class="control-group half" data-control-name="maxParticleSize">
-                            <label>Max Size</label>
-                            <input type="range" id="maxParticleSize" min="5" max="150" value="80">
+                            <label>Max Size</label><input type="range" id="maxParticleSize" min="5" max="150" value="80">
                         </div>
                     </div>
-
                     <div class="control-group" data-control-name="particleSpeed">
-                        <label>Warp Speed <span class="value-display" id="particleSpeedValue">1.0</span></label>
-                        <input type="range" id="particleSpeed" min="0" max="5" step="0.1" value="1.0">
+                        <label>Speed</label><input type="range" id="particleSpeed" min="0" max="5" step="0.1" value="1.0">
                     </div>
-
                     <div class="control-group" data-control-name="particleColorShift">
-                        <label>Color Shift</label>
-                        <input type="range" id="particleColorShift" min="0" max="180" value="30">
+                        <label>Color Shift</label><input type="range" id="particleColorShift" min="0" max="180" value="30">
                     </div>
-
                     <div class="form-group">
-                        <label>Characters</label>
-                        <input type="text" id="particleChars" value="אבגדהוזחטיכלמנסעפצקרשת•">
+                        <label>Chars</label><input type="text" id="particleChars" value="אבגדהוזחטיכלמנסעפצקרשת•">
                     </div>
                 </fieldset>
 
@@ -107,24 +97,21 @@
                 <fieldset>
                     <legend>Olam HaBa (Visuals)</legend>
                     <span class="fieldset-randomize">🎲</span>
-                    
                     <div class="form-group">
-                        <label class="file-label">Background Image <input type="file" id="backgroundImageInput" accept="image/*"></label>
-                        <div class="slider-group" data-control-name="backgroundOpacity" style="margin-top:10px;">
-                            <label>Opacity</label><input type="range" id="backgroundOpacity" min="0" max="1" step="0.05" value="1.0">
+                        <label class="file-label">Background <input type="file" id="backgroundImageInput" accept="image/*"></label>
+                        <div class="slider-group" data-control-name="backgroundOpacity">
+                            <label>BG Opacity</label><input type="range" id="backgroundOpacity" min="0" max="1" step="0.05" value="1.0">
                         </div>
                     </div>
-
                     <div class="control-group" data-control-name="basePaletteColor">
                         <label>Base Color</label><input type="color" id="basePaletteColor" value="#8A2BE2">
                     </div>
-                    
                     <div class="form-group">
-                        <label class="file-label">Floating Portals <input type="file" id="portalImages" accept="image/*" multiple></label>
+                        <label class="file-label">Portals <input type="file" id="portalImages" accept="image/*" multiple></label>
                     </div>
                 </fieldset>
 
-                <!-- EFFECTS -->
+                <!-- FX -->
                 <fieldset>
                     <legend>Tohu (FX)</legend>
                     <span class="fieldset-randomize">🎲</span>
@@ -156,13 +143,36 @@
                     </div>
                     <div id="image-download-folder-controls" class="hidden-control">
                         <button id="selectDownloadFolderButton" class="secondary-btn">Select Folder</button>
-                        <div id="selectedDownloadFolderDisplay" class="status-text">None selected</div>
+                        <div id="selectedDownloadFolderDisplay" class="status-text"></div>
                     </div>
                 </fieldset>
             </div>
 
+            <!-- FOOTER (FIXED) -->
             <footer id="actions-footer">
                 <div id="status">Ready</div>
                 <div id="progressContainer"><div id="progressBar"></div></div>
                 <div class="main-buttons">
-                    <button id="previewButton" class="secondary-btn">👁️ Preview<
+                    <button id="previewButton" class="secondary-btn">👁 Preview</button>
+                    <button id="renderButton" class="primary-btn">RENDER</button>
+                </div>
+            </footer>
+        </aside>
+
+        <!-- PREVIEW SHEET -->
+        <main id="preview-wrapper">
+            <header id="mobile-preview-header">
+                <h3>Preview</h3>
+                <button id="mobile-close-btn" class="icon-btn">✕</button>
+            </header>
+            <div id="preview-container">
+                <canvas id="previewCanvas"></canvas>
+                <video id="outputVideo" class="hidden" controls loop playsinline></video>
+                <div id="render-overlay"><div class="loader"></div><button id="cancelButton">ABORT</button></div>
+            </div>
+        </main>
+    </div>
+    
+    <script type="module" src="main.js"></script>
+</body>
+</html>
