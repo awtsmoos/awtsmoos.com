@@ -18,9 +18,14 @@ const renderFrame = (ctx, settings, res, bitmaps, time, pCap, sCap, pal, cache, 
     ctx.drawImage(glowC.canvas, 0, 0);
     ctx.globalCompositeOperation = 'source-over';
 
-    // 3. Text & HUD - STRICT FORMATTING: No spaces in optional chaining
+    // 3. Text & HUD
+    // COMPATIBILITY FIX: Replaced ?. with standard (obj ? obj.prop : undefined) logic
     self.einSofRenderer.renderHeader(ctx, settings.headerText, res);
-    self.einSofRenderer.renderText(ctx, pCap?.text, sCap?.text, settings, res, pal, cache);
+    
+    const pText = pCap ? pCap.text : undefined;
+    const sText = sCap ? sCap.text : undefined;
+    
+    self.einSofRenderer.renderText(ctx, pText, sText, settings, res, pal, cache);
     self.einSofRenderer.renderVCRStamp(ctx, res, settings.enableVCRStamp);
     self.einSofRenderer.renderWaveform(ctx, res, audioSlice, settings.enableWaveform);
 

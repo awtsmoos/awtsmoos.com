@@ -16,8 +16,8 @@ self.einSofRenderer.generateBg = function(settings, res, bitmaps, time = 0) {
         if (rC > rR) tw = res.height * rC; else th = res.width / rC;
         
         ctx.save();
-        // STRICT FORMATTING: No spaces around ??
-        ctx.globalAlpha = settings.backgroundOpacity??1.0;
+        // COMPATIBILITY FIX: Replaced ??
+        ctx.globalAlpha = (settings.backgroundOpacity !== undefined) ? settings.backgroundOpacity : 1.0;
         ctx.drawImage(bgImg, (res.width - tw) / 2, (res.height - th) / 2, tw, th);
         ctx.restore();
     } else {

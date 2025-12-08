@@ -49,12 +49,12 @@ self.utils.resolveSettings = function(settings, isDynamic = false) {
     }
     if (isDynamic) res.time = performance.now();
     
-    // STRICT FORMATTING: No spaces around ??
-    res.enableTextGlitch = res.enableTextGlitch??false;
-    res.enableWaveform = res.enableWaveform??false;
-    res.cinematicBarHeight = res.cinematicBarHeight??0; 
-    res.particleSpeed = res.particleSpeed??1.0;
-    res.enableVCRStamp = res.enableVCRStamp??false;
+    // COMPATIBILITY FIX: Replaced ?? with standard checks
+    res.enableTextGlitch = (res.enableTextGlitch !== undefined) ? res.enableTextGlitch : false;
+    res.enableWaveform = (res.enableWaveform !== undefined) ? res.enableWaveform : false;
+    res.cinematicBarHeight = (res.cinematicBarHeight !== undefined) ? res.cinematicBarHeight : 0; 
+    res.particleSpeed = (res.particleSpeed !== undefined) ? res.particleSpeed : 1.0;
+    res.enableVCRStamp = (res.enableVCRStamp !== undefined) ? res.enableVCRStamp : false;
     
     return res;
 };
