@@ -2,14 +2,14 @@
     ב"ה
     B"H
 */
-import { dom, pCtx, setStatus, updateUIState } from './js_modules/ui_helpers.js';
+import { dom, pCtx, setStatus, updateUIState, showPreviewPanel, hidePreviewPanel, showCanvas, showVideo } from './js_modules/ui_helpers.js';
 import { getSettings, getCaptionData } from './js_modules/data_helpers.js';
 import { initDB, saveSettings, loadSettings, savePreset, deletePreset, applyPreset } from './js_modules/storage_helpers.js';
 import { processImageDownloadQueue } from './js_modules/download_helpers.js';
 
 document.addEventListener('DOMContentLoaded', async function() {
     
-    // --- App State ---
+    // ... (appState remains same)
     const appState = {
         appStatus: 'IDLE',
         worker: null,
@@ -23,11 +23,10 @@ document.addEventListener('DOMContentLoaded', async function() {
         imageDownloadQueue: [],
         isDownloadingImages: false,
         processedCount: 0,
-        // Debounce timer for auto-preview
         previewTimer: null 
     };
 
-    // --- Worker Management ---
+    // ... (initializeWorker remains same)
     function initializeWorker() {
         if (appState.worker) appState.worker.terminate();
         try {
@@ -50,7 +49,7 @@ document.addEventListener('DOMContentLoaded', async function() {
                 setStatus('Ready.');
                 appState.appStatus = 'IDLE';
                 updateUIState(appState);
-                triggerAutoPreview(); // Initial preview
+                triggerAutoPreview(); 
                 break;
             case 'STATUS_UPDATE':
                 setStatus(payload.message);
@@ -60,12 +59,11 @@ document.addEventListener('DOMContentLoaded', async function() {
                 dom.progressBar.style.width = `${payload.percent}%`;
                 break;
             case 'PREVIEW_READY':
-                // Draw logic
+                showCanvas(); // Ensure canvas is visible
                 pCtx.clearRect(0,0, dom.previewCanvas.width, dom.previewCanvas.height);
                 pCtx.drawImage(payload.bitmap, 0, 0, dom.previewCanvas.width, dom.previewCanvas.height);
                 payload.bitmap.close();
                 
-                // Only reset status if we are not in the middle of a render
                 if(appState.appStatus === 'PREVIEWING') {
                     appState.appStatus = 'IDLE';
                     setStatus('Preview Updated.');
@@ -74,9 +72,12 @@ document.addEventListener('DOMContentLoaded', async function() {
             case 'VIDEO_COMPLETE':
                 if (appState.currentVideoURL) URL.revokeObjectURL(appState.currentVideoURL);
                 appState.currentVideoURL = URL.createObjectURL(payload.blob);
+                
                 dom.outputVideo.src = appState.currentVideoURL;
-                dom.outputVideo.style.display = 'block';
-                dom.previewCanvas.style.display = 'none';
+                
+                showVideo(); // Switch to Video Mode
+                showPreviewPanel(); // Force open panel on mobile
+                
                 dom.progressContainer.style.display = 'none';
                 setStatus('Render Complete.', 'success');
                 appState.appStatus = 'IDLE';
@@ -100,25 +101,31 @@ document.addEventListener('DOMContentLoaded', async function() {
         }
     }
 
-    // --- Real-time Preview Logic ---
+    // --- Real-time Preview ---
     function triggerAutoPreview() {
-        // Debounce: Wait 300ms after last change
         if (appState.previewTimer) clearTimeout(appState.previewTimer);
-        
+        // Longer debounce on mobile to prevent lag while typing
+        const delay = (window.innerWidth < 900) ? 600 : 300;
         appState.previewTimer = setTimeout(() => {
             if (appState.appStatus === 'IDLE') {
-                handlePreview();
+                // On mobile, we DO update the preview logic, but we DON'T force the panel open.
+                // We just render silently to the canvas so when they click "Preview", it's ready.
+                handlePreview(false); 
             }
-        }, 300);
+        }, delay);
     }
 
-    // --- Action Handlers ---
+    // --- Actions ---
 
     async function handleRender() {
         if (appState.appStatus !== 'IDLE') return;
         appState.appStatus = 'RENDERING';
         updateUIState(appState);
         setStatus('Preparing...');
+        
+        // Force Open Panel so they see progress
+        showPreviewPanel();
+        showCanvas(); // Show canvas while rendering frames
         
         const settings = getSettings();
         const resolution = {
@@ -129,7 +136,6 @@ document.addEventListener('DOMContentLoaded', async function() {
         const enableImageDownload = dom.enableImageDownload.checked;
         const captionData = await getCaptionData(appState);
 
-        // Prepare Bitmaps
         const bgFile = dom.backgroundImageInput.files[0];
         const portalFiles = Array.from(dom.portalImagesInput.files);
         
@@ -163,12 +169,15 @@ document.addEventListener('DOMContentLoaded', async function() {
         }, transferableObjects);
     }
 
-    async function handlePreview() {
+    // forcePanel param: boolean, whether to slide up the mobile sheet
+    async function handlePreview(forcePanel = true) {
         if (appState.appStatus !== 'IDLE' && appState.appStatus !== 'PREVIEWING') return;
+        appState.appStatus = 'PREVIEWING';
         
-        // Don't change UI state to 'PREVIEWING' to avoid flickering buttons
-        // Just set internal flag if needed, but worker handles it.
-        appState.appStatus = 'PREVIEWING'; 
+        if (forcePanel) {
+            showPreviewPanel();
+            showCanvas();
+        }
         
         const settings = getSettings();
         const resolution = { 
@@ -176,7 +185,6 @@ document.addEventListener('DOMContentLoaded', async function() {
             height: parseInt(dom.videoHeight.value) 
         };
         
-        // Ensure canvas matches resolution aspect ratio visually
         dom.previewCanvas.width = resolution.width;
         dom.previewCanvas.height = resolution.height;
 
@@ -205,22 +213,25 @@ document.addEventListener('DOMContentLoaded', async function() {
         }, transferables);
     }
 
-    // --- Init Listeners ---
+    // --- Listeners ---
     dom.renderButton.addEventListener('click', handleRender);
-    dom.previewButton.addEventListener('click', handlePreview); // Manual refresh
+    
+    // Manual "Preview" Button - Forces panel open
+    dom.previewButton.addEventListener('click', () => handlePreview(true));
+    
+    // Close Mobile Preview
+    dom.mobileCloseBtn.addEventListener('click', hidePreviewPanel);
+
     dom.cancelButton.addEventListener('click', () => {
         if(appState.worker) appState.worker.terminate();
         initializeWorker();
+        hidePreviewPanel();
     });
 
-    // AUTO-PREVIEW LISTENER
-    // Listen to 'input' and 'change' on the whole controls wrapper
-    // This catches everything: text typing, sliders dragging, checkboxes
     document.getElementById('controls').addEventListener('input', (e) => {
-        saveSettings(appState); // Save while typing/dragging
-        triggerAutoPreview();   // Trigger preview
+        saveSettings(appState); 
+        triggerAutoPreview();   
         
-        // Update slider values visually
         if(e.target.type === 'range') {
             const group = e.target.closest('.control-group') || e.target.closest('.slider-group');
             if(group) {
@@ -230,37 +241,26 @@ document.addEventListener('DOMContentLoaded', async function() {
         }
     });
     
-    // Checkboxes usually fire 'change' not 'input'
     document.getElementById('controls').addEventListener('change', (e) => {
         saveSettings(appState);
         updateUIState(appState);
         triggerAutoPreview();
     });
 
-    // DB Actions
+    // DB & File Init
     dom.savePresetBtn.addEventListener('click', () => savePreset(appState));
     dom.deletePresetBtn.addEventListener('click', () => deletePreset(appState));
     dom.presetSelect.addEventListener('change', (e) => applyPreset(appState, e.target.value));
     
-    // Directory Picker
     dom.selectDownloadFolderButton.addEventListener('click', async () => {
         if ('showDirectoryPicker' in window) {
             appState.selectedDownloadDirectoryHandle = await window.showDirectoryPicker();
-            dom.selectedDownloadFolderDisplay.textContent = "Folder Selected: " + appState.selectedDownloadDirectoryHandle.name;
+            dom.selectedDownloadFolderDisplay.textContent = "Selected: " + appState.selectedDownloadDirectoryHandle.name;
         } else {
-             alert("File System Access API not supported.");
+             alert("Not supported on this browser.");
         }
     });
 
-    // Toggle Randomize UI
-    document.getElementById('controls').addEventListener('click', (e) => {
-        if(e.target.classList.contains('fieldset-randomize')) {
-            // Randomize specific section logic here
-            // For now, just trigger preview
-            triggerAutoPreview();
-        }
-    });
-    
     // Start
     await initDB(appState);
     await loadSettings(appState);

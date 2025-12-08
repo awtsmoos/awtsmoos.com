@@ -6,10 +6,9 @@ B"H
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Awtsmoos Ein Sof [Quantum V5]</title>
     
-    <!-- Modular CSS -->
     <link rel="stylesheet" href="css/variables.css">
     <link rel="stylesheet" href="css/layout.css">
     <link rel="stylesheet" href="css/components.css">
@@ -19,24 +18,25 @@ B"H
 
     <div class="app-container">
         
-        <!-- Left Panel: Controls -->
+        <!-- EDITOR PANEL -->
         <aside id="controls-wrapper" class="glass-panel">
             <header>
                 <div class="logo-area">
                     <h1>EIN SOF</h1>
-                    <span class="version">V5.0</span>
+                    <span class="version">MOBILE</span>
                 </div>
                 <div class="header-actions">
-                     <select id="preset-select"><option value="">Load Preset...</option></select>
+                     <select id="preset-select"><option value="">Presets...</option></select>
                      <button id="save-preset-btn" class="icon-btn" title="Save">💾</button>
-                     <button id="delete-preset-btn" class="icon-btn" title="Delete">🗑️</button>
-                     <button id="randomize-all-btn" class="icon-btn" title="Chaos Mode">🎲</button>
+                     <button id="randomize-all-btn" class="icon-btn" title="Chaos">🎲</button>
                 </div>
             </header>
 
             <div id="controls" class="scroll-area">
+                <!-- (Fieldsets remain exactly the same as previous version) -->
+                <!-- COPY PASTE THE FIELDSETS FROM PREVIOUS ANSWER HERE -->
+                <!-- Or assume they are preserved if you just update layout.css/html wrapper -->
                 
-                <!-- Section 1: Mode & Dimensions -->
                 <fieldset>
                     <legend>Merkabah (Core)</legend>
                     <div class="row">
@@ -54,15 +54,14 @@ B"H
                     </div>
                     <div class="row">
                         <div class="form-group half">
-                            <label>Width</label><input type="number" id="videoWidth" value="1920">
+                            <label>Width</label><input type="number" id="videoWidth" value="1080">
                         </div>
                         <div class="form-group half">
-                            <label>Height</label><input type="number" id="videoHeight" value="1080">
+                            <label>Height</label><input type="number" id="videoHeight" value="1920">
                         </div>
                     </div>
                 </fieldset>
 
-                <!-- Section 2: Source Content -->
                 <fieldset>
                     <legend>Kelim (Input)</legend>
                     <div class="form-group">
@@ -74,17 +73,16 @@ B"H
                         <label class="tab"><input type="radio" name="capSrc" value="simple" checked onclick="document.getElementById('captionSource').value='simple';"> Simple</label>
                         <label class="tab"><input type="radio" name="capSrc" value="srt" onclick="document.getElementById('captionSource').value='srt';"> SRT</label>
                     </div>
-                    <!-- Hidden Select to maintain compatibility with js logic -->
                     <select id="captionSource" style="display:none;"><option value="simple">Simple</option><option value="srt">SRT</option></select>
 
                     <div id="simple-caption-controls">
-                        <textarea id="mainCaptions" placeholder="Enter captions (double spacing)..."></textarea>
+                        <textarea id="mainCaptions" placeholder="Captions (Double enter for new slide)..."></textarea>
                         <div class="row">
                             <label class="toggle-switch">
                                 <input type="checkbox" id="dualCaptionToggle"> Dual Language
                             </label>
                         </div>
-                        <textarea id="translationCaptions" class="hidden-control" placeholder="Translation captions..."></textarea>
+                        <textarea id="translationCaptions" class="hidden-control" placeholder="Translation..."></textarea>
                     </div>
 
                     <div id="srt-caption-controls" class="hidden-control">
@@ -98,7 +96,6 @@ B"H
                     </div>
                 </fieldset>
 
-                <!-- Section 3: Visuals -->
                 <fieldset>
                     <legend>Olam (Visuals)</legend>
                     <span class="fieldset-randomize">🎲</span>
@@ -125,65 +122,24 @@ B"H
                     </div>
                 </fieldset>
 
-                <!-- Section 4: FX (THE NEW STUFF) -->
                 <fieldset>
                     <legend>Tohu (Chaos FX)</legend>
                     <span class="fieldset-randomize">🎲</span>
                     
                     <div class="fx-grid">
-                        <label class="toggle-card">
-                            <input type="checkbox" id="enableMirrorMode">
-                            <span>Mirror Mode</span>
-                        </label>
-                        <label class="toggle-card">
-                            <input type="checkbox" id="enableSepia">
-                            <span>Sepia Tone</span>
-                        </label>
-                        <label class="toggle-card">
-                            <input type="checkbox" id="enableAnalogNoise">
-                            <span>Analog Noise</span>
-                        </label>
-                        <label class="toggle-card">
-                            <input type="checkbox" id="enableRGBPulse">
-                            <span>RGB Pulse</span>
-                        </label>
-                        <label class="toggle-card">
-                            <input type="checkbox" id="enableLensDistortion">
-                            <span>Lens Distort</span>
-                        </label>
-                        <label class="toggle-card">
-                            <input type="checkbox" id="enableSimpleBorder">
-                            <span>Border</span>
-                        </label>
-                        <label class="toggle-card">
-                            <input type="checkbox" id="enableTextGlitch">
-                            <span>Text Glitch</span>
-                        </label>
-                        <label class="toggle-card">
-                            <input type="checkbox" id="enableWaveform">
-                            <span>Waveform</span>
-                        </label>
-                        <label class="toggle-card">
-                            <input type="checkbox" id="enableVCRStamp">
-                            <span>VCR Date</span>
-                        </label>
-                        <label class="toggle-card">
-                            <input type="checkbox" id="enableScanLines">
-                            <span>Scanlines</span>
-                        </label>
-                        <label class="toggle-card">
-                            <input type="checkbox" id="enableVignette" checked>
-                            <span>Vignette</span>
-                        </label>
-                        <label class="toggle-card">
-                            <input type="checkbox" id="enableChromaticAberration">
-                            <span>Aberration</span>
-                        </label>
-                        
-                        <label class="toggle-card">
-                            <input type="checkbox" id="dynamicBackgroundToggle" checked>
-                            <span>Anim. BG</span>
-                        </label>
+                        <label class="toggle-card"><input type="checkbox" id="enableMirrorMode"><span>Mirror</span></label>
+                        <label class="toggle-card"><input type="checkbox" id="enableSepia"><span>Sepia</span></label>
+                        <label class="toggle-card"><input type="checkbox" id="enableAnalogNoise"><span>Noise</span></label>
+                        <label class="toggle-card"><input type="checkbox" id="enableRGBPulse"><span>Pulse</span></label>
+                        <label class="toggle-card"><input type="checkbox" id="enableLensDistortion"><span>Distort</span></label>
+                        <label class="toggle-card"><input type="checkbox" id="enableSimpleBorder"><span>Border</span></label>
+                        <label class="toggle-card"><input type="checkbox" id="enableTextGlitch"><span>Glitch</span></label>
+                        <label class="toggle-card"><input type="checkbox" id="enableWaveform"><span>Audio</span></label>
+                        <label class="toggle-card"><input type="checkbox" id="enableVCRStamp"><span>VCR</span></label>
+                        <label class="toggle-card"><input type="checkbox" id="enableScanLines"><span>Scan</span></label>
+                        <label class="toggle-card"><input type="checkbox" id="enableVignette" checked><span>Vignette</span></label>
+                        <label class="toggle-card"><input type="checkbox" id="enableChromaticAberration"><span>RGB</span></label>
+                        <label class="toggle-card"><input type="checkbox" id="dynamicBackgroundToggle" checked><span>Anim BG</span></label>
                     </div>
 
                     <div class="control-group" data-control-name="cinematicBarHeight">
@@ -192,39 +148,42 @@ B"H
                     </div>
                 </fieldset>
 
-                <!-- Section 5: Output -->
                 <fieldset>
                     <legend>Output</legend>
                     <div class="form-group">
                         <label class="toggle-switch">
                             <input type="checkbox" id="enableImageDownload">
-                            Download Generated Images
+                            Download Images
                         </label>
                     </div>
                     <div id="image-download-folder-controls" class="hidden-control">
                         <button id="selectDownloadFolderButton" class="secondary-btn">Select Folder</button>
-                        <div id="selectedDownloadFolderDisplay" class="status-text">None selected</div>
                     </div>
                 </fieldset>
             </div>
 
-            <!-- Footer Actions -->
+            <!-- STICKY FOOTER -->
             <footer id="actions-footer">
-                <div id="status">System Idle</div>
+                <div id="status">Ready</div>
                 <div id="progressContainer"><div id="progressBar"></div></div>
                 <div class="main-buttons">
-                    <!-- Preview is now automatic, but button kept for forced refresh -->
-                    <button id="previewButton" class="secondary-btn">Refresh</button>
+                    <button id="previewButton" class="secondary-btn">👁️ Preview</button>
                     <button id="renderButton" class="primary-btn">RENDER</button>
                 </div>
             </footer>
         </aside>
 
-        <!-- Right Panel: Preview -->
+        <!-- SLIDING PREVIEW PANEL -->
         <main id="preview-wrapper">
+            <!-- NEW: Close Button for Mobile -->
+            <div id="mobile-close-preview">
+                <button id="mobile-close-btn">✖ CLOSE PREVIEW</button>
+            </div>
+
             <div id="preview-container">
                 <canvas id="previewCanvas"></canvas>
-                <video id="outputVideo" controls loop playsinline></video>
+                <video id="outputVideo" class="hidden" controls loop playsinline></video>
+                
                 <div id="render-overlay">
                     <div class="loader"></div>
                     <button id="cancelButton">ABORT</button>

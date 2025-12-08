@@ -3,14 +3,19 @@
 B"H
 */
 
-// --- DOM Cache ---
 export const dom = {
+    // ... (Keep all existing DOM references)
     controlsWrapper: document.getElementById('controls-wrapper'),
     renderButton: document.getElementById('renderButton'),
     previewButton: document.getElementById('previewButton'),
     cancelButton: document.getElementById('cancelButton'),
+    
+    previewWrapper: document.getElementById('preview-wrapper'), // NEW
+    mobileCloseBtn: document.getElementById('mobile-close-btn'), // NEW
+    
     previewCanvas: document.getElementById('previewCanvas'),
     outputVideo: document.getElementById('outputVideo'),
+    // ... (Keep existing references)
     status: document.getElementById('status'),
     progressContainer: document.getElementById('progressContainer'),
     progressBar: document.getElementById('progressBar'),
@@ -25,17 +30,11 @@ export const dom = {
     randomizeAllBtn: document.getElementById('randomize-all-btn'),
     dynamicBackgroundToggle: document.getElementById('dynamicBackgroundToggle'),
     fpsControls: document.getElementById('fps-controls'),
-    
-    // Resolution & FPS (Previously Missing)
     videoWidth: document.getElementById('videoWidth'),
     videoHeight: document.getElementById('videoHeight'),
     frameRate: document.getElementById('frameRate'),
-    
-    // Caption Files (Previously Missing)
     srtFile: document.getElementById('srtFile'),
     translationSrtFile: document.getElementById('translationSrtFile'),
-    
-    // Feature Inputs
     enableImageDownload: document.getElementById('enableImageDownload'),
     imageDownloadFolderControls: document.getElementById('image-download-folder-controls'),
     selectDownloadFolderButton: document.getElementById('selectDownloadFolderButton'),
@@ -51,22 +50,42 @@ export function setStatus(message, type = '') {
     dom.status.className = type;
 }
 
+// NEW: Handle Visual State Logic
+export function showPreviewPanel() {
+    // On desktop, this does nothing (already visible)
+    // On mobile, this adds class to slide up
+    dom.previewWrapper.classList.add('mobile-visible');
+}
+
+export function hidePreviewPanel() {
+    dom.previewWrapper.classList.remove('mobile-visible');
+    // Pause video if playing to save resources
+    if (!dom.outputVideo.paused) dom.outputVideo.pause();
+}
+
+export function showCanvas() {
+    dom.previewCanvas.classList.remove('hidden');
+    dom.outputVideo.classList.add('hidden');
+}
+
+export function showVideo() {
+    dom.previewCanvas.classList.add('hidden');
+    dom.outputVideo.classList.remove('hidden');
+}
+
 export function updateUIState(appState) {
     const isIdle = appState.appStatus === 'IDLE';
     dom.controlsWrapper.classList.toggle('rendering', !isIdle);
     
-    // Disable main buttons if not idle
     dom.renderButton.disabled = !isIdle;
     dom.previewButton.disabled = !isIdle;
     
     const isVideo = dom.renderMode.value === 'video';
     
-    // Toggle Visibility
     dom.timingControls.classList.toggle('hidden-control', !isVideo);
     document.getElementById('dual-caption-toggle-container').classList.toggle('hidden-control', !isVideo);
     dom.imageDownloadFolderControls.classList.toggle('hidden-control', !dom.enableImageDownload.checked);
 
-    // Update specific text input placeholders based on source
     const isSrt = dom.captionSource.value === 'srt';
     document.getElementById('simple-caption-controls').classList.toggle('hidden-control', isSrt);
     document.getElementById('srt-caption-controls').classList.toggle('hidden-control', !isSrt);

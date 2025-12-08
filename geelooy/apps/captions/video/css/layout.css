@@ -1,23 +1,16 @@
 /* B"H */
+
+/* --- DESKTOP (Default) --- */
 .app-container {
     display: grid;
     grid-template-columns: 400px 1fr;
     height: 100vh;
     gap: 20px;
     padding: 20px;
+    overflow: hidden;
 }
 
-/* Mobile Layout */
-@media (max-width: 900px) {
-    .app-container {
-        grid-template-columns: 1fr;
-        grid-template-rows: 60vh 1fr;
-        height: auto;
-        overflow-y: auto;
-    }
-}
-
-/* Left Panel */
+/* Left Panel (Controls) */
 .glass-panel {
     background: var(--bg-panel);
     backdrop-filter: blur(10px);
@@ -27,31 +20,26 @@
     flex-direction: column;
     overflow: hidden;
     box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    z-index: 2;
 }
 
 header {
-    padding: 20px;
+    padding: 15px 20px;
     border-bottom: var(--glass-border);
     background: linear-gradient(90deg, rgba(0,0,0,0.2), transparent);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
-
-.logo-area h1 {
-    margin: 0; font-family: var(--font-display); font-size: 2rem;
-    letter-spacing: 2px; color: var(--primary);
-    text-shadow: 0 0 10px var(--primary-dim);
-    display: inline-block;
-}
-.version { font-size: 0.7rem; color: var(--accent); vertical-align: super; }
 
 .scroll-area {
     flex-grow: 1;
     overflow-y: auto;
     padding: 20px;
+    padding-bottom: 80px; /* Space for footer */
 }
-.scroll-area::-webkit-scrollbar { width: 6px; }
-.scroll-area::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 3px; }
 
-/* Right Panel */
+/* Right Panel (Preview Wrapper) */
 #preview-wrapper {
     display: flex;
     align-items: center;
@@ -61,28 +49,101 @@ header {
     border: var(--glass-border);
     position: relative;
     overflow: hidden;
+    /* Desktop: It's just the right column */
 }
 
 #preview-container {
     width: 100%;
-    aspect-ratio: 16 / 9;
-    max-height: 90vh;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     position: relative;
-    box-shadow: 0 0 50px rgba(0,0,0,0.8);
-    background: #000;
 }
 
+/* Ensure only one visual is active at a time via JS toggling */
 #previewCanvas, #outputVideo {
-    width: 100%; height: 100%; object-fit: contain; display: block;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    box-shadow: 0 0 50px rgba(0,0,0,0.5);
+}
+#previewCanvas.hidden, #outputVideo.hidden {
+    display: none !important;
 }
 
-/* Grid for Controls */
-.row { display: flex; gap: 10px; margin-bottom: 10px; }
-.half { flex: 1; }
+/* Mobile Close Button (Hidden on Desktop) */
+#mobile-close-preview {
+    display: none;
+}
 
-.fx-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
-    gap: 8px;
-    margin-bottom: 15px;
+/* --- MOBILE LAYOUT (The Fix) --- */
+@media (max-width: 900px) {
+    .app-container {
+        display: block; /* No grid */
+        padding: 0;
+        height: 100vh;
+        position: relative;
+    }
+
+    /* Controls take full screen */
+    .glass-panel {
+        width: 100%;
+        height: 100%;
+        border-radius: 0;
+        border: none;
+    }
+
+    /* PREVIEW IS NOW A SLIDING MODAL */
+    #preview-wrapper {
+        position: fixed;
+        top: 0; left: 0; width: 100%; height: 100%;
+        z-index: 100;
+        background: #000;
+        border-radius: 0;
+        border: none;
+        
+        /* Hidden state: Pushed down */
+        transform: translateY(100%);
+        transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* Active state: Slide up */
+    #preview-wrapper.mobile-visible {
+        transform: translateY(0%);
+    }
+
+    /* The Close Button Bar */
+    #mobile-close-preview {
+        display: flex;
+        width: 100%;
+        padding: 15px;
+        background: var(--bg-panel);
+        border-bottom: var(--glass-border);
+        justify-content: flex-end;
+    }
+    
+    #mobile-close-btn {
+        background: transparent;
+        border: 1px solid var(--secondary);
+        color: var(--secondary);
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-family: var(--font-display);
+        font-size: 1.2rem;
+        cursor: pointer;
+    }
+
+    #preview-container {
+        flex-grow: 1;
+        background: #000;
+    }
+    
+    /* Adjust controls padding for touch */
+    .scroll-area {
+        padding: 15px;
+        padding-bottom: 100px; /* More space for mobile footer */
+    }
 }
