@@ -1,16 +1,13 @@
-
 <!--
-
 B"H
 ב"ה
-
 -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Awtsmoos Ein Sof Engine [Quantum Core v4.2 - Audio Patched]</title>
+    <title>Awtsmoos Ein Sof Engine [Quantum Core v5.0]</title>
     <link rel="stylesheet" href="style.css" type="text/css">
 </head>
 <body>
@@ -19,8 +16,7 @@ B"H
         <div id="controls">
             <div id="settings-container">
                 <h4>B"H</h4>
-                
-                <h2>Awtsmoos Ein Sof Engine</h2>
+                <h2>Awtsmoos Ein Sof</h2>
 
                 <div class="header-actions">
                      <select id="preset-select"><option value="">Load Preset...</option></select>
@@ -30,132 +26,116 @@ B"H
                 </div>
     
                 <fieldset>
-                    <legend>Merkabah (Chariot)</legend>
-                    <span class="fieldset-randomize" title="Randomize Section">🎲</span>
-                     <div class="form-group"><label for="renderMode">Render Mode</label><select id="renderMode"><option value="video">Video</option><option value="image">Image</option></select></div>
+                    <legend>Merkabah (Mode)</legend>
+                    <div class="form-group"><label for="renderMode">Render Mode</label><select id="renderMode"><option value="video">Video</option><option value="image">Image Batch</option></select></div>
                 </fieldset>
                 
                 <fieldset>
-                    <legend>Kelim (Vessels)</legend>
-                    <span class="fieldset-randomize" title="Randomize Section">🎲</span>
-                    <div class="form-group"><label for="headerText">Frame Header</label><input type="text" id="headerText" placeholder="Optional text above main caption"></div>
+                    <legend>Kelim (Content)</legend>
+                    <div class="form-group"><label for="headerText">Frame Header</label><input type="text" id="headerText" placeholder="Top Header Text"></div>
+                    
                     <div id="simple-caption-controls">
-                        <div class="form-group"><label for="mainCaptions">Captions</label><textarea id="mainCaptions" placeholder="Separate captions with a blank line."></textarea></div>
-                        <div class="form-group hidden-control" id="translation-controls"><label for="translationCaptions">Translation Captions</label><textarea id="translationCaptions" placeholder="For dual language videos."></textarea></div>
+                        <div class="form-group"><label for="mainCaptions">Captions</label><textarea id="mainCaptions" placeholder="Enter captions here..."></textarea></div>
+                        <div class="form-group hidden-control" id="translation-controls"><label for="translationCaptions">Translation</label><textarea id="translationCaptions" placeholder="Translation..."></textarea></div>
                     </div>
+
                      <div id="srt-caption-controls" class="hidden-control">
-                        <div class="form-group"><label for="srtFile">Primary SRT File</label><input type="file" id="srtFile" accept=".srt,.txt"></div>
-                        <textarea id="srtPreview" readonly placeholder="Primary SRT content will appear here..."></textarea>
-                        <div class="form-group" style="margin-top:20px;"><label for="translationSrtFile">Translation SRT File (Optional)</label><input type="file" id="translationSrtFile" accept=".srt,.txt"></div>
-                        <textarea id="translationSrtPreview" readonly placeholder="Translation SRT content will appear here..."></textarea>
+                        <div class="form-group"><label>Primary SRT</label><input type="file" id="srtFile" accept=".srt,.txt"></div>
+                        <textarea id="srtPreview" readonly placeholder="SRT content..."></textarea>
+                        <div class="form-group" style="margin-top:20px;"><label>Translation SRT</label><input type="file" id="translationSrtFile" accept=".srt,.txt"></div>
                     </div>
-                    <label class="toggle-switch hidden-control" style="margin-top:10px;" id="dual-caption-toggle-container"><input type="checkbox" id="dualCaptionToggle"> Enable Vertical Translation</label>
+                    
+                    <label class="toggle-switch hidden-control" id="dual-caption-toggle-container" style="margin-top:10px;">
+                        <input type="checkbox" id="dualCaptionToggle"> Enable Translation
+                    </label>
                 </fieldset>
     
                 <fieldset class="hidden-control" id="timing-controls">
-                    <legend>Orot (Lights & Time)</legend>
-                    <span class="fieldset-randomize" title="Randomize Section">🎲</span>
-                    <div class="form-group"><label for="captionSource">Caption Timing</label><select id="captionSource"><option value="simple">Simple Mode</option><option value="srt">SRT Mode</option></select></div>
-                    <div class="form-group" id="simple-timing-controls"><label for="captionDuration">Duration per Caption (s)</label><input type="number" id="captionDuration" value="2.5" min="0.1" step="0.1"></div>
-                    <div class="form-group"><label for="audioFile">Audio Source (Optional)</label><input type="file" id="audioFile" accept="audio/*"></div>
-                    <div class="form-group"><label class="toggle-switch"><input type="checkbox" id="dynamicBackgroundToggle" checked> Dynamic Background</label></div>
-                    <div class="form-group" id="fps-controls"><label for="frameRate">Frame Rate (FPS)</label><input type="number" id="frameRate" value="24" min="1" max="60" step="1"></div>
+                    <legend>Orot (Timing)</legend>
+                    <div class="form-group"><label>Source</label><select id="captionSource"><option value="simple">Simple Split</option><option value="srt">SRT File</option></select></div>
+                    <div class="form-group" id="simple-timing-controls"><label>Secs/Caption</label><input type="number" id="captionDuration" value="2.5" step="0.1"></div>
+                    <div class="form-group"><label>Audio (Optional)</label><input type="file" id="audioFile" accept="audio/*"></div>
+                    <div class="form-group" id="fps-controls"><label>FPS</label><input type="number" id="frameRate" value="24" min="1" max="60"></div>
                 </fieldset>
-                
-                <fieldset>
-                    <legend>Gevulot (Boundaries)</legend>
-                    <span class="fieldset-randomize" title="Randomize Section">🎲</span>
-                    <div class="form-group"><label for="videoWidth">Width</label><input type="number" id="videoWidth" value="1920" min="100" step="2"></div>
-                    <div class="form-group"><label for="videoHeight">Height</label><input type="number" id="videoHeight" value="1080" min="100" step="2"></div>
-                </fieldset>
-    
-                <fieldset>
-                    <legend>Olam Yetzirah (Formation)</legend>
-                    <span class="fieldset-randomize" title="Randomize Section">🎲</span>
-                    <div class="control-group" data-control-name="particleDensity"><label for="particleDensity">Particle Density <span class="value-display" id="particleDensityValue">150</span></label><span class="randomize-toggle">🌱</span><input type="range" id="particleDensity" min="0" max="200" value="150"><div class="randomize-controls"><label>Min</label><input type="number" class="rand-min" value="50"><label>Max</label><input type="number" class="rand-max" value="200"></div></div>
-                    <div class="control-group" data-control-name="minParticleSize"><label for="minParticleSize">Min Particle Size <span class="value-display" id="minParticleSizeValue">10</span></label><span class="randomize-toggle">🌱</span><input type="range" id="minParticleSize" min="1" max="50" value="10"><div class="randomize-controls"><label>Min</label><input type="number" class="rand-min" value="5"><label>Max</label><input type="number" class="rand-max" value="15"></div></div>
-                    <div class="control-group" data-control-name="maxParticleSize"><label for="maxParticleSize">Max Particle Size <span class="value-display" id="maxParticleSizeValue">90</span></label><span class="randomize-toggle">🌱</span><input type="range" id="maxParticleSize" min="10" max="150" value="90"><div class="randomize-controls"><label>Min</label><input type="number" class="rand-min" value="70"><label>Max</label><input type="number" class="rand-max" value="120"></div></div>
-                    <div class="form-group"><label for="particleChars">Particle Characters</label><textarea id="particleChars" style="height: 100px;">אבגדהוזחטיכלמנסעפצקרשת</textarea></div>
-                </fieldset>
-    
-                <fieldset>
-                    <legend>Kavim v'Sefirot (Connections)</legend>
-                    <span class="fieldset-randomize" title="Randomize Section">🎲</span>
-                    <div class="form-group"><label for="networkType">Algorithm</label><select id="networkType"><option value="web">Fine Web</option><option value="arcs">Energy Arcs</option><option value="synapse">Neural Synapse</option><option value="none">None</option></select></div>
-                    <div class="control-group" data-control-name="connectionDensity"><label for="connectionDensity">Connection Density <span class="value-display" id="connectionDensityValue">4</span></label><span class="randomize-toggle">🌱</span><input type="range" id="connectionDensity" min="0" max="10" value="4"><div class="randomize-controls"><label>Min</label><input type="number" class="rand-min" value="2"><label>Max</label><input type="number" class="rand-max" value="6"></div></div>
-                </fieldset>
-                
-                <fieldset>
-                    <legend>Olam Briah (Creation)</legend>
-                    <span class="fieldset-randomize" title="Randomize Section">🎲</span>
-                    <div class="control-group" data-control-name="basePaletteColor"><label for="basePaletteColor">Base Palette Color</label><span class="randomize-toggle">🌱</span><input type="color" id="basePaletteColor" value="#8A2BE2"><div class="randomize-controls"></div></div>
-                    <div class="form-group" id="regen-bg-controls"><label class="toggle-switch"><input type="checkbox" id="regenerateBgToggle"> Randomize Palette Per Caption</label></div>
-                    <div class="form-group"><label class="toggle-switch"><input type="checkbox" id="randomizeBoxColorToggle"> Randomize Box Color</label></div>
-                </fieldset>
-    
-                <fieldset>
-                    <legend>Tzelem (Form & Text)</legend>
-                    <span class="fieldset-randomize" title="Randomize Section">🎲</span>
-                    <div class="control-group" data-control-name="textBoxWidth"><label for="textBoxWidth">Box Width (%) <span class="value-display" id="textBoxWidthValue">80</span></label><span class="randomize-toggle">🌱</span><input type="range" id="textBoxWidth" min="10" max="100" value="80"><div class="randomize-controls"><label>Min</label><input type="number" class="rand-min" value="60"><label>Max</label><input type="number" class="rand-max" value="95"></div></div>
-                    <div class="control-group" data-control-name="textBoxHeight"><label for="textBoxHeight">Box Height (%) <span class="value-display" id="textBoxHeightValue">80</span></label><span class="randomize-toggle">🌱</span><input type="range" id="textBoxHeight" min="10" max="100" value="80"><div class="randomize-controls"><label>Min</label><input type="number" class="rand-min" value="60"><label>Max</label><input type="number" class="rand-max" value="95"></div></div>
-                    <div class="control-group" data-control-name="textBoxPadding"><label for="textBoxPadding">Padding (%) <span class="value-display" id="textBoxPaddingValue">8</span></label><span class="randomize-toggle">🌱</span><input type="range" id="textBoxPadding" min="0" max="25" value="8"><div class="randomize-controls"><label>Min</label><input type="number" class="rand-min" value="5"><label>Max</label><input type="number" class="rand-max" value="15"></div></div>
-                    <div class="control-group" data-control-name="textBoxBorderRadius"><label for="textBoxBorderRadius">Border Radius (px) <span class="value-display" id="textBoxBorderRadiusValue">20</span></label><span class="randomize-toggle">🌱</span><input type="range" id="textBoxBorderRadius" min="0" max="200" value="20"><div class="randomize-controls"><label>Min</label><input type="number" class="rand-min" value="10"><label>Max</label><input type="number" class="rand-max" value="50"></div></div>
-                    <div class="control-group" data-control-name="textBoxGap"><label for="textBoxGap">Dual Box Gap (px) <span class="value-display" id="textBoxGapValue">30</span></label><span class="randomize-toggle">🌱</span><input type="range" id="textBoxGap" min="0" max="200" value="30"><div class="randomize-controls"><label>Min</label><input type="number" class="rand-min" value="20"><label>Max</label><input type="number" class="rand-max" value="80"></div></div>
-                    <div class="control-group" data-control-name="textBoxOpacity"><label for="textBoxOpacity">Box Opacity <span class="value-display" id="textBoxOpacityValue">0.75</span></label><span class="randomize-toggle">🌱</span><input type="range" id="textBoxOpacity" min="0" max="1" value="0.75" step="0.01"><div class="randomize-controls"><label>Min</label><input type="number" class="rand-min" value="0.5" step="0.01"><label>Max</label><input type="number" class="rand-max" value="0.9" step="0.01"></div></div>
-                </fieldset>
-    
-                 <fieldset>
-                    <legend>Portals (Images)</legend>
-                    <span class="fieldset-randomize" title="Randomize Section">🎲</span>
-                    <div class="form-group"><label for="portalImages">Portal Images (Optional)</label><input type="file" id="portalImages" accept="image/*" multiple></div>
-                    <div class="control-group" data-control-name="portalCount"><label for="portalCount">Portal Count <span class="value-display" id="portalCountValue">3</span></label><span class="randomize-toggle">🌱</span><input type="range" id="portalCount" min="0" max="10" value="3" step="1"><div class="randomize-controls"><label>Min</label><input type="number" class="rand-min" value="1"><label>Max</label><input type="number" class="rand-max" value="5"></div></div>
-                </fieldset>
-    
-                <fieldset>
-                    <legend>Olam HaTohu (Chaos & FX)</legend>
-                    <span class="fieldset-randomize" title="Randomize Section">🎲</span>
-                    <div class="control-group" data-control-name="bloomIntensity"><label for="bloomIntensity">Bloom Intensity <span class="value-display" id="bloomIntensityValue">10</span></label><span class="randomize-toggle">🌱</span><input type="range" id="bloomIntensity" min="0" max="30" value="10"><div class="randomize-controls"><label>Min</label><input type="number" class="rand-min" value="5"><label>Max</label><input type="number" class="rand-max" value="15"></div></div>
-                    <div class="control-group" data-control-name="quantumDistortion"><label for="quantumDistortion">Quantum Distortion <span class="value-display" id="quantumDistortionValue">0</span></label><span class="randomize-toggle">🌱</span><input type="range" id="quantumDistortion" min="0" max="15" value="0" step="0.1"><div class="randomize-controls"><label>Min</label><input type="number" class="rand-min" value="0"><label>Max</label><input type="number" class="rand-max" value="5"></div></div>
-                    <div class="form-group"><label class="toggle-switch"><input type="checkbox" id="enableVignette" checked> Enable Vignette</label></div>
-                    <div class="form-group"><label class="toggle-switch"><input type="checkbox" id="enableFilmGrain"> Enable Film Grain</label></div>
-                    <div class="form-group"><label class="toggle-switch"><input type="checkbox" id="enableLensflare"> Enable Lens Flare</label></div>
-                    <div class="form-group"><label class="toggle-switch"><input type="checkbox" id="enableGodRays"> Enable God Rays</label></div>
-                    <div class="form-group"><label class="toggle-switch"><input type="checkbox" id="enableInterference"> Enable Static Interference</label></div>
-                    <div class="form-group"><label class="toggle-switch"><input type="checkbox" id="enableLightLeaks"> Enable Light Leaks</label></div>
-                    <div class="form-group"><label class="toggle-switch"><input type="checkbox" id="enableCRTCurvature"> Enable CRT Curvature</label></div>
-                    <div class="form-group"><label class="toggle-switch"><input type="checkbox" id="enableChromaticAberration"> Enable Chromatic Aberration</label></div>
-                    <div class="form-group"><label class="toggle-switch"><input type="checkbox" id="enableScanLines"> Enable Scan Lines</label></div>
-                    <div class="form-group"><label class="toggle-switch"><input type="checkbox" id="enableRgbShift"> Enable RGB Shift</label></div>
 
+                <!-- NEW: Background Image Section -->
+                <fieldset>
+                    <legend>Olam (World)</legend>
+                    <span class="fieldset-randomize" title="Randomize">🎲</span>
+                    
+                    <div class="form-group" style="border: 1px solid #444; padding: 10px; border-radius: 8px; background: #222;">
+                        <label style="color: #00f2ea;">Background Image (Base)</label>
+                        <input type="file" id="backgroundImageInput" accept="image/*">
+                        <div style="margin-top:5px; font-size: 11px; color: #888;">Overrides Nebula if set.</div>
+                    </div>
+                    
+                    <div class="control-group" data-control-name="backgroundOpacity">
+                        <label>BG Opacity <span class="value-display" id="backgroundOpacityValue">1.0</span></label>
+                        <input type="range" id="backgroundOpacity" min="0" max="1" step="0.05" value="1.0">
+                    </div>
+
+                    <div class="form-group"><label class="toggle-switch"><input type="checkbox" id="dynamicBackgroundToggle" checked> Dynamic Colors</label></div>
+                    <div class="control-group" data-control-name="basePaletteColor">
+                        <label>Base Color</label><span class="randomize-toggle">🌱</span>
+                        <input type="color" id="basePaletteColor" value="#8A2BE2">
+                    </div>
+                </fieldset>
+    
+                <!-- Portals Section -->
+                <fieldset>
+                    <legend>Portals (Floating)</legend>
+                    <span class="fieldset-randomize" title="Randomize">🎲</span>
                     <div class="form-group">
-    <label class="toggle-switch"><input type="checkbox" id="enableImageDownload"> Enable Image Batch Download</label>
-</div>
-<div class="form-group hidden-control" id="image-download-folder-controls">
-    <button id="selectDownloadFolderButton">Select Download Folder</button>
-    <div id="selectedDownloadFolderDisplay">No folder selected</div>
-</div>
+                        <label>Floating Images</label>
+                        <input type="file" id="portalImages" accept="image/*" multiple>
+                    </div>
                 </fieldset>
     
                 <fieldset>
-                    <legend>Olam Asiyah</legend>
-                    <span class="fieldset-randomize" title="Randomize Section">🎲</span>
-                    <div class="control-group" data-control-name="particleColorShift"><label for="particleColorShift">Particle Color Shift <span class="value-display" id="particleColorShiftValue">30</span></label><span class="randomize-toggle">🌱</span><input type="range" id="particleColorShift" min="0" max="180" value="30"><div class="randomize-controls"><label>Min</label><input type="number" class="rand-min" value="0"><label>Max</label><input type="number" class="rand-max" value="90"></div></div>
-                    <div class="form-group"><label class="toggle-switch"><input type="checkbox" id="enableLensDirt"> Enable Lens Dirt/Scratches</label></div>
-                    <div class="form-group"><label class="toggle-switch"><input type="checkbox" id="enableDustAndScratches"> Enable Dust & Scratches</label></div>
-                    <div class="form-group"><label class="toggle-switch"><input type="checkbox" id="enableDataCorruption"> Enable Data Corruption Text</label></div>
+                    <legend>Effects & Glitch</legend>
+                    <span class="fieldset-randomize" title="Randomize">🎲</span>
+                    <div class="form-group"><label class="toggle-switch"><input type="checkbox" id="enableTextGlitch"> Enable Text Glitch</label></div>
+                    <div class="form-group"><label class="toggle-switch"><input type="checkbox" id="enableWaveform"> Enable Audio Waveform</label></div>
+                    <div class="form-group"><label class="toggle-switch"><input type="checkbox" id="enableVCRStamp"> VCR Date Stamp</label></div>
+                    
+                    <div class="control-group" data-control-name="cinematicBarHeight">
+                        <label>Cinematic Bars % <span class="value-display" id="cinematicBarHeightValue">0</span></label>
+                        <input type="range" id="cinematicBarHeight" min="0" max="20" value="0">
+                    </div>
+
+                    <div class="form-group"><label class="toggle-switch"><input type="checkbox" id="enableScanLines"> Scan Lines</label></div>
+                    <div class="form-group"><label class="toggle-switch"><input type="checkbox" id="enableVignette" checked> Vignette</label></div>
+                    <div class="form-group"><label class="toggle-switch"><input type="checkbox" id="enableChromaticAberration"> Chromatic Aberration</label></div>
+                </fieldset>
+
+                <fieldset>
+                    <legend>Output</legend>
+                    <div class="form-group"><label>Resolution</label>
+                        <div style="display:flex; gap:10px;">
+                            <input type="number" id="videoWidth" value="1920" placeholder="W">
+                            <input type="number" id="videoHeight" value="1080" placeholder="H">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="toggle-switch"><input type="checkbox" id="enableImageDownload"> Download Images</label>
+                    </div>
+                    <div class="form-group hidden-control" id="image-download-folder-controls">
+                        <button id="selectDownloadFolderButton">Select Output Folder</button>
+                        <div id="selectedDownloadFolderDisplay" style="font-size:12px; margin-top:5px; color:#aaa;">No folder selected</div>
+                    </div>
                 </fieldset>
             </div>
             <div id="actions-footer">
-                <div id="status">Initializing Engine...</div>
+                <div id="status">Ready.</div>
                 <div id="progressContainer" class="progress-bar-container"><div id="progressBar" class="progress-bar"></div></div>
                 <div class="button-group">
                     <button id="previewButton" title="Quick Preview">👁️</button>
-                    <button id="renderButton" disabled>R E N D E R</button>
+                    <button id="renderButton">R E N D E R</button>
                 </div>
             </div>
         </div>
         <div id="render-overlay">
-            <button id="cancelButton">C A N C E L</button>
+            <button id="cancelButton">STOP</button>
         </div>
     </div>
 
@@ -164,8 +144,6 @@ B"H
         <video id="outputVideo" controls loop playsinline></video>
     </div>
     
-    <script src="main.js">
-    
-    </script>
+    <script src="main.js"></script>
 </body>
 </html>
