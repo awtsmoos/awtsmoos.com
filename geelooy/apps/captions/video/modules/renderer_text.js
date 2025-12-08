@@ -3,11 +3,21 @@
 B"H
 */
 
+// 1. Define cacheOverlays IMMEDIATELY so it exists even if later code fails
+self.einSofRenderer.cacheOverlays = async function(data, settings, res) {
+    // We calculate layout dynamically now, so we return an empty map.
+    // This function must exist to satisfy the tasks.js interface.
+    return new Map();
+};
+
+// 2. Helper: Measure text width
 self.einSofRenderer.measureLine = function(ctx, text) {
     return ctx.measureText(text).width;
 };
 
+// 3. Helper: Wrap text
 self.einSofRenderer.wrapText = function(ctx, text, maxWidth) {
+    if (!text) return [];
     const words = text.split(' ');
     let lines = [];
     let currentLine = words[0];
@@ -26,14 +36,16 @@ self.einSofRenderer.wrapText = function(ctx, text, maxWidth) {
     return lines;
 };
 
+// 4. Layout Calculation
 self.einSofRenderer.calculateOptimalLayout = function(ctx, text, boxWidth, boxHeight, fontName) {
     let minSize = 10;
     let maxSize = 200; 
     
-    // Fail-safe defaults
+    // Default safe state
     ctx.font = `bold ${minSize}px ${fontName}`;
     let optimalSize = minSize;
-    let optimalLines = this.wrapText(ctx, text, boxWidth);
+    // Explicit reference to self.einSofRenderer instead of 'this'
+    let optimalLines = self.einSofRenderer.wrapText(ctx, text, boxWidth);
     
     let low = minSize;
     let high = maxSize;
@@ -42,7 +54,7 @@ self.einSofRenderer.calculateOptimalLayout = function(ctx, text, boxWidth, boxHe
         const midSize = Math.floor((low + high) / 2);
         ctx.font = `bold ${midSize}px ${fontName}`;
         
-        const lines = this.wrapText(ctx, text, boxWidth);
+        const lines = self.einSofRenderer.wrapText(ctx, text, boxWidth);
         const lineHeight = midSize * 1.2;
         const totalHeight = lines.length * lineHeight;
         const maxLineWidth = lines.reduce((max, line) => Math.max(max, ctx.measureText(line).width), 0);
@@ -63,6 +75,7 @@ self.einSofRenderer.calculateOptimalLayout = function(ctx, text, boxWidth, boxHe
     };
 };
 
+// 5. Main Render Function
 self.einSofRenderer.renderText = function(ctx, pText, sText, settings, res, pal, cache) {
     
     const applyGlitch = (txt) => {
@@ -73,42 +86,33 @@ self.einSofRenderer.renderText = function(ctx, pText, sText, settings, res, pal,
     const drawBox = (txt, isPrimary) => {
         if (!txt) return;
 
-        // 1. Get Box Dimensions (Layout) with STRICT DEFAULTS
-        // If settings are missing, default to 80% width/height to ensure visibility
+        // --- Defaults ---
         const pctW = (settings.textBoxWidth !== undefined) ? settings.textBoxWidth : 80;
         const pctH = (settings.textBoxHeight !== undefined) ? settings.textBoxHeight : 30;
+        const gap = (settings.textBoxGap !== undefined) ? settings.textBoxGap : 20;
         
         const boxW = res.width * (pctW / 100);
         const boxH = res.height * (pctH / 100);
         
-        let x, y;
+        let x = (res.width - boxW) / 2;
+        let y;
         
         if (sText) {
-            const gap = (settings.textBoxGap !== undefined) ? settings.textBoxGap : 20;
-            const dualH = (boxH - gap) / 2; // Split height for dual mode
-            x = (res.width - boxW) / 2;
-            
-            // If dual mode, primary is top or bottom? Usually primary on top or split.
-            // Let's stack them centered.
-            const totalH = (boxH * 2) + gap;
-            const startY = (res.height - totalH) / 2;
-            
+            // Stacked layout for dual captions
+            const totalStackHeight = (boxH * 2) + gap;
+            const startY = (res.height - totalStackHeight) / 2;
             y = isPrimary ? startY : startY + boxH + gap;
         } else {
-            x = (res.width - boxW) / 2;
+            // Centered for single caption
             y = (res.height - boxH) / 2;
         }
 
-        // 2. Draw Box Background
+        // --- Draw Box ---
         ctx.save();
         const boxColor = settings.randomizeBoxColorToggle ? (pal[4] || '#101018') : '#101018';
         const opacity = (settings.textBoxOpacity !== undefined) ? settings.textBoxOpacity : 0.75;
         
         ctx.fillStyle = self.einSofRenderer.hexToRgba(boxColor, opacity);
-        
-        // Draw Box
-        const rad = settings.textBoxBorderRadius || 20;
-        // Simple rect fallback if roundRect fails or for speed
         ctx.fillRect(x, y, boxW, boxH);
         
         // Border
@@ -116,19 +120,19 @@ self.einSofRenderer.renderText = function(ctx, pText, sText, settings, res, pal,
         ctx.lineWidth = 2;
         ctx.strokeRect(x, y, boxW, boxH);
 
-        // 3. Calculate Text Layout
+        // --- Text Layout ---
         const finalTxt = applyGlitch(txt);
         const padding = 20;
         let innerW = boxW - (padding * 2);
         let innerH = boxH - (padding * 2);
         
-        // Sanity check
-        if (innerW < 10) innerW = boxW;
-        if (innerH < 10) innerH = boxH;
+        if (innerW < 10) innerW = 10;
+        if (innerH < 10) innerH = 10;
 
-        const layout = this.calculateOptimalLayout(ctx, finalTxt, innerW, innerH, 'sans-serif');
+        // Explicit reference
+        const layout = self.einSofRenderer.calculateOptimalLayout(ctx, finalTxt, innerW, innerH, 'sans-serif');
 
-        // 4. Render Lines
+        // --- Render Text ---
         ctx.fillStyle = '#FFFFFF';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
@@ -140,7 +144,6 @@ self.einSofRenderer.renderText = function(ctx, pText, sText, settings, res, pal,
         ctx.shadowOffsetY = 2;
 
         const totalTextH = layout.lines.length * layout.lineHeight;
-        // Center text vertically in the box
         let startY = y + (boxH - totalTextH) / 2 + (layout.lineHeight / 2);
 
         layout.lines.forEach((line, index) => {
