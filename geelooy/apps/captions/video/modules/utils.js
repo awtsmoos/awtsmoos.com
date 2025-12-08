@@ -49,12 +49,12 @@ self.utils.resolveSettings = function(settings, isDynamic = false) {
     }
     if (isDynamic) res.time = performance.now();
     
-    // Defaults for new features
-    res.enableTextGlitch = res.enableTextGlitch ?? false;
-    res.enableWaveform = res.enableWaveform ?? false;
-    res.cinematicBarHeight = res.cinematicBarHeight ?? 0; // % of screen
-    res.particleSpeed = res.particleSpeed ?? 1.0;
-    res.enableVCRStamp = res.enableVCRStamp ?? false;
+    // STRICT FORMATTING: No spaces around ??
+    res.enableTextGlitch = res.enableTextGlitch??false;
+    res.enableWaveform = res.enableWaveform??false;
+    res.cinematicBarHeight = res.cinematicBarHeight??0; 
+    res.particleSpeed = res.particleSpeed??1.0;
+    res.enableVCRStamp = res.enableVCRStamp??false;
     
     return res;
 };
