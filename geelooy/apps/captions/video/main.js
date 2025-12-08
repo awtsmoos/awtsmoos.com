@@ -347,4 +347,10 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    dom.renderMode.addEventListener('chan
+    dom.renderMode.addEventListener('change', updateUIState);
+    dom.enableImageDownload.addEventListener('change', updateUIState);
+
+    // Initial Setup
+    initializeWorker();
+    updateUIState();
+});
