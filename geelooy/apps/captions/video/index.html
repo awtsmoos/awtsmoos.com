@@ -1,74 +1,45 @@
-<!--
-B"H
-ב"ה
--->
+<!-- B"H -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Awtsmoos Ein Sof [Quantum V5]</title>
-    
     <link rel="stylesheet" href="css/variables.css">
     <link rel="stylesheet" href="css/layout.css">
     <link rel="stylesheet" href="css/components.css">
     <link rel="stylesheet" href="css/effects.css">
 </head>
 <body>
-
     <div class="app-container">
-        
-        <!-- EDITOR PANEL -->
+        <!-- CONTROLS -->
         <aside id="controls-wrapper" class="glass-panel">
             <header>
-                <div class="logo-area">
-                    <h1>EIN SOF</h1>
-                    <span class="version">MOBILE</span>
-                </div>
+                <div class="logo-area"><h1>EIN SOF</h1><span class="version">V5.1</span></div>
                 <div class="header-actions">
                      <select id="preset-select"><option value="">Presets...</option></select>
                      <button id="save-preset-btn" class="icon-btn" title="Save">💾</button>
+                     <button id="delete-preset-btn" class="icon-btn" title="Delete">🗑️</button>
                      <button id="randomize-all-btn" class="icon-btn" title="Chaos">🎲</button>
                 </div>
             </header>
 
             <div id="controls" class="scroll-area">
-                <!-- (Fieldsets remain exactly the same as previous version) -->
-                <!-- COPY PASTE THE FIELDSETS FROM PREVIOUS ANSWER HERE -->
-                <!-- Or assume they are preserved if you just update layout.css/html wrapper -->
-                
                 <fieldset>
                     <legend>Merkabah (Core)</legend>
                     <div class="row">
-                        <div class="form-group half">
-                            <label>Mode</label>
-                            <select id="renderMode">
-                                <option value="image">Image Batch</option>
-                                <option value="video">Video</option>
-                            </select>
-                        </div>
-                        <div class="form-group half">
-                            <label>FPS</label>
-                            <input type="number" id="frameRate" value="24" min="1" max="60">
-                        </div>
+                        <div class="form-group half"><label>Mode</label><select id="renderMode"><option value="image">Image Batch</option><option value="video">Video</option></select></div>
+                        <div class="form-group half"><label>FPS</label><input type="number" id="frameRate" value="24" min="1" max="60"></div>
                     </div>
                     <div class="row">
-                        <div class="form-group half">
-                            <label>Width</label><input type="number" id="videoWidth" value="1080">
-                        </div>
-                        <div class="form-group half">
-                            <label>Height</label><input type="number" id="videoHeight" value="1920">
-                        </div>
+                        <div class="form-group half"><label>Width</label><input type="number" id="videoWidth" value="1080"></div>
+                        <div class="form-group half"><label>Height</label><input type="number" id="videoHeight" value="1920"></div>
                     </div>
                 </fieldset>
 
                 <fieldset>
                     <legend>Kelim (Input)</legend>
-                    <div class="form-group">
-                        <label>Header Text</label>
-                        <input type="text" id="headerText" placeholder="Top Title...">
-                    </div>
-                    
+                    <div class="form-group"><label>Header Text</label><input type="text" id="headerText" placeholder="Top Title..."></div>
                     <div class="tabs">
                         <label class="tab"><input type="radio" name="capSrc" value="simple" checked onclick="document.getElementById('captionSource').value='simple';"> Simple</label>
                         <label class="tab"><input type="radio" name="capSrc" value="srt" onclick="document.getElementById('captionSource').value='srt';"> SRT</label>
@@ -76,56 +47,39 @@ B"H
                     <select id="captionSource" style="display:none;"><option value="simple">Simple</option><option value="srt">SRT</option></select>
 
                     <div id="simple-caption-controls">
-                        <textarea id="mainCaptions" placeholder="Captions (Double enter for new slide)..."></textarea>
-                        <div class="row">
-                            <label class="toggle-switch">
-                                <input type="checkbox" id="dualCaptionToggle"> Dual Language
-                            </label>
+                        <textarea id="mainCaptions" placeholder="Captions..."></textarea>
+                        <!-- FIXED: ID added back to container -->
+                        <div class="row" id="dual-caption-toggle-container">
+                            <label class="toggle-switch"><input type="checkbox" id="dualCaptionToggle"> Dual Language</label>
                         </div>
                         <textarea id="translationCaptions" class="hidden-control" placeholder="Translation..."></textarea>
                     </div>
 
                     <div id="srt-caption-controls" class="hidden-control">
-                        <input type="file" id="srtFile" class="file-input" data-label="Primary SRT">
-                        <input type="file" id="translationSrtFile" class="file-input" data-label="Trans SRT">
+                        <input type="file" id="srtFile" class="file-input">
+                        <input type="file" id="translationSrtFile" class="file-input">
                     </div>
-                    
-                    <div class="form-group">
-                        <label>Audio Source</label>
-                        <input type="file" id="audioFile" class="file-input" accept="audio/*">
-                    </div>
+                    <div class="form-group"><label>Audio</label><input type="file" id="audioFile" class="file-input" accept="audio/*"></div>
                 </fieldset>
 
                 <fieldset>
                     <legend>Olam (Visuals)</legend>
                     <span class="fieldset-randomize">🎲</span>
-                    
                     <div class="form-group bg-selector">
-                        <label>Background Image</label>
-                        <input type="file" id="backgroundImageInput" class="file-input" accept="image/*">
+                        <label>Background</label><input type="file" id="backgroundImageInput" class="file-input" accept="image/*">
                         <div class="slider-group" data-control-name="backgroundOpacity">
-                            <label>Opacity</label>
-                            <input type="range" id="backgroundOpacity" min="0" max="1" step="0.05" value="1.0">
+                            <label>Opacity</label><input type="range" id="backgroundOpacity" min="0" max="1" step="0.05" value="1.0">
                         </div>
                     </div>
-
                     <div class="control-group" data-control-name="basePaletteColor">
-                        <label>Base Color</label>
-                        <div class="color-picker-wrapper">
-                            <input type="color" id="basePaletteColor" value="#8A2BE2">
-                        </div>
+                        <label>Base Color</label><input type="color" id="basePaletteColor" value="#8A2BE2">
                     </div>
-                    
-                    <div class="form-group">
-                        <label>Floating Portals</label>
-                        <input type="file" id="portalImages" class="file-input" accept="image/*" multiple>
-                    </div>
+                    <div class="form-group"><label>Portals</label><input type="file" id="portalImages" class="file-input" accept="image/*" multiple></div>
                 </fieldset>
 
                 <fieldset>
-                    <legend>Tohu (Chaos FX)</legend>
+                    <legend>Tohu (FX)</legend>
                     <span class="fieldset-randomize">🎲</span>
-                    
                     <div class="fx-grid">
                         <label class="toggle-card"><input type="checkbox" id="enableMirrorMode"><span>Mirror</span></label>
                         <label class="toggle-card"><input type="checkbox" id="enableSepia"><span>Sepia</span></label>
@@ -141,28 +95,23 @@ B"H
                         <label class="toggle-card"><input type="checkbox" id="enableChromaticAberration"><span>RGB</span></label>
                         <label class="toggle-card"><input type="checkbox" id="dynamicBackgroundToggle" checked><span>Anim BG</span></label>
                     </div>
-
                     <div class="control-group" data-control-name="cinematicBarHeight">
-                        <label>Cinema Bars %</label>
-                        <input type="range" id="cinematicBarHeight" min="0" max="20" value="0">
+                        <label>Cinema Bars %</label><input type="range" id="cinematicBarHeight" min="0" max="20" value="0">
                     </div>
                 </fieldset>
 
                 <fieldset>
                     <legend>Output</legend>
                     <div class="form-group">
-                        <label class="toggle-switch">
-                            <input type="checkbox" id="enableImageDownload">
-                            Download Images
-                        </label>
+                        <label class="toggle-switch"><input type="checkbox" id="enableImageDownload"> Download Images</label>
                     </div>
                     <div id="image-download-folder-controls" class="hidden-control">
                         <button id="selectDownloadFolderButton" class="secondary-btn">Select Folder</button>
+                        <div id="selectedDownloadFolderDisplay" class="status-text">None selected</div>
                     </div>
                 </fieldset>
             </div>
 
-            <!-- STICKY FOOTER -->
             <footer id="actions-footer">
                 <div id="status">Ready</div>
                 <div id="progressContainer"><div id="progressBar"></div></div>
@@ -173,24 +122,15 @@ B"H
             </footer>
         </aside>
 
-        <!-- SLIDING PREVIEW PANEL -->
+        <!-- PREVIEW -->
         <main id="preview-wrapper">
-            <!-- NEW: Close Button for Mobile -->
-            <div id="mobile-close-preview">
-                <button id="mobile-close-btn">✖ CLOSE PREVIEW</button>
-            </div>
-
+            <div id="mobile-close-preview"><button id="mobile-close-btn">✖ CLOSE</button></div>
             <div id="preview-container">
                 <canvas id="previewCanvas"></canvas>
                 <video id="outputVideo" class="hidden" controls loop playsinline></video>
-                
-                <div id="render-overlay">
-                    <div class="loader"></div>
-                    <button id="cancelButton">ABORT</button>
-                </div>
+                <div id="render-overlay"><div class="loader"></div><button id="cancelButton">ABORT</button></div>
             </div>
         </main>
-
     </div>
     
     <script type="module" src="main.js"></script>
