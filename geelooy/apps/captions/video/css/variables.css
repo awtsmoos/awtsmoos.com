@@ -1,0 +1,37 @@
+/* B"H */
+:root {
+    --bg-dark: #050508;
+    --bg-panel: rgba(20, 20, 25, 0.7);
+    --bg-input: rgba(0, 0, 0, 0.5);
+    
+    --primary: #00f2ea;
+    --primary-dim: rgba(0, 242, 234, 0.1);
+    --secondary: #ff0055;
+    --accent: #f9c80e;
+    
+    --text-main: #e0e0e0;
+    --text-dim: #888;
+    
+    --glass-border: 1px solid rgba(255, 255, 255, 0.1);
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 16px;
+    
+    --font-display: 'Teko', sans-serif;
+    --font-ui: 'Segoe UI', system-ui, sans-serif;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Teko:wght@500;700&display=swap');
+
+* { box-sizing: border-box; }
+body {
+    margin: 0; padding: 0;
+    background-color: var(--bg-dark);
+    background-image: 
+        radial-gradient(circle at 10% 20%, rgba(0, 242, 234, 0.05) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(255, 0, 85, 0.05) 0%, transparent 40%);
+    color: var(--text-main);
+    font-family: var(--font-ui);
+    height: 100vh;
+    overflow: hidden;
+}

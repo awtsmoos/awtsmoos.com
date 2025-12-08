@@ -23,6 +23,8 @@ document.addEventListener('DOMContentLoaded', async function() {
         imageDownloadQueue: [],
         isDownloadingImages: false,
         processedCount: 0,
+        // Debounce timer for auto-preview
+        previewTimer: null 
     };
 
     // --- Worker Management ---
@@ -45,9 +47,10 @@ document.addEventListener('DOMContentLoaded', async function() {
         const { type, payload } = event.data;
         switch (type) {
             case 'WORKER_READY':
-                setStatus('Engine Ready.');
+                setStatus('Ready.');
                 appState.appStatus = 'IDLE';
                 updateUIState(appState);
+                triggerAutoPreview(); // Initial preview
                 break;
             case 'STATUS_UPDATE':
                 setStatus(payload.message);
@@ -57,11 +60,16 @@ document.addEventListener('DOMContentLoaded', async function() {
                 dom.progressBar.style.width = `${payload.percent}%`;
                 break;
             case 'PREVIEW_READY':
+                // Draw logic
+                pCtx.clearRect(0,0, dom.previewCanvas.width, dom.previewCanvas.height);
                 pCtx.drawImage(payload.bitmap, 0, 0, dom.previewCanvas.width, dom.previewCanvas.height);
                 payload.bitmap.close();
-                setStatus('Preview generated.', 'success');
-                appState.appStatus = 'IDLE';
-                updateUIState(appState);
+                
+                // Only reset status if we are not in the middle of a render
+                if(appState.appStatus === 'PREVIEWING') {
+                    appState.appStatus = 'IDLE';
+                    setStatus('Preview Updated.');
+                }
                 break;
             case 'VIDEO_COMPLETE':
                 if (appState.currentVideoURL) URL.revokeObjectURL(appState.currentVideoURL);
@@ -90,6 +98,18 @@ document.addEventListener('DOMContentLoaded', async function() {
                 updateUIState(appState);
                 break;
         }
+    }
+
+    // --- Real-time Preview Logic ---
+    function triggerAutoPreview() {
+        // Debounce: Wait 300ms after last change
+        if (appState.previewTimer) clearTimeout(appState.previewTimer);
+        
+        appState.previewTimer = setTimeout(() => {
+            if (appState.appStatus === 'IDLE') {
+                handlePreview();
+            }
+        }, 300);
     }
 
     // --- Action Handlers ---
@@ -122,7 +142,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         }
 
         const workerBitmaps = [freshBgBitmap, ...freshPortalBitmaps];
-        const transferables = workerBitmaps.filter(b => b); // Remove nulls
+        const transferables = workerBitmaps.filter(b => b); 
         
         const transferableObjects = [...transferables];
         if (captionData.plainAudioBuffer) {
@@ -144,9 +164,11 @@ document.addEventListener('DOMContentLoaded', async function() {
     }
 
     async function handlePreview() {
-        if (appState.appStatus !== 'IDLE') return;
-        appState.appStatus = 'PREVIEWING';
-        setStatus('Previewing...');
+        if (appState.appStatus !== 'IDLE' && appState.appStatus !== 'PREVIEWING') return;
+        
+        // Don't change UI state to 'PREVIEWING' to avoid flickering buttons
+        // Just set internal flag if needed, but worker handles it.
+        appState.appStatus = 'PREVIEWING'; 
         
         const settings = getSettings();
         const resolution = { 
@@ -154,6 +176,10 @@ document.addEventListener('DOMContentLoaded', async function() {
             height: parseInt(dom.videoHeight.value) 
         };
         
+        // Ensure canvas matches resolution aspect ratio visually
+        dom.previewCanvas.width = resolution.width;
+        dom.previewCanvas.height = resolution.height;
+
         const bgFile = dom.backgroundImageInput.files[0];
         const portalFiles = Array.from(dom.portalImagesInput.files);
         
@@ -181,17 +207,36 @@ document.addEventListener('DOMContentLoaded', async function() {
 
     // --- Init Listeners ---
     dom.renderButton.addEventListener('click', handleRender);
-    dom.previewButton.addEventListener('click', handlePreview);
+    dom.previewButton.addEventListener('click', handlePreview); // Manual refresh
     dom.cancelButton.addEventListener('click', () => {
         if(appState.worker) appState.worker.terminate();
         initializeWorker();
     });
 
-    // Inputs changing state
-    dom.renderMode.addEventListener('change', () => updateUIState(appState));
-    dom.enableImageDownload.addEventListener('change', () => updateUIState(appState));
-    dom.captionSource.addEventListener('change', () => updateUIState(appState));
+    // AUTO-PREVIEW LISTENER
+    // Listen to 'input' and 'change' on the whole controls wrapper
+    // This catches everything: text typing, sliders dragging, checkboxes
+    document.getElementById('controls').addEventListener('input', (e) => {
+        saveSettings(appState); // Save while typing/dragging
+        triggerAutoPreview();   // Trigger preview
+        
+        // Update slider values visually
+        if(e.target.type === 'range') {
+            const group = e.target.closest('.control-group') || e.target.closest('.slider-group');
+            if(group) {
+                const display = group.querySelector('.value-display');
+                if(display) display.textContent = e.target.value;
+            }
+        }
+    });
     
+    // Checkboxes usually fire 'change' not 'input'
+    document.getElementById('controls').addEventListener('change', (e) => {
+        saveSettings(appState);
+        updateUIState(appState);
+        triggerAutoPreview();
+    });
+
     // DB Actions
     dom.savePresetBtn.addEventListener('click', () => savePreset(appState));
     dom.deletePresetBtn.addEventListener('click', () => deletePreset(appState));
@@ -203,47 +248,19 @@ document.addEventListener('DOMContentLoaded', async function() {
             appState.selectedDownloadDirectoryHandle = await window.showDirectoryPicker();
             dom.selectedDownloadFolderDisplay.textContent = "Folder Selected: " + appState.selectedDownloadDirectoryHandle.name;
         } else {
-             alert("File System Access API not supported in this browser.");
+             alert("File System Access API not supported.");
         }
     });
 
-    // Range Sliders display update
-    document.getElementById('controls').addEventListener('input', (e) => {
-        if(e.target.type === 'range') {
-            const display = document.getElementById(e.target.id + 'Value');
-            if(display) display.textContent = e.target.value;
+    // Toggle Randomize UI
+    document.getElementById('controls').addEventListener('click', (e) => {
+        if(e.target.classList.contains('fieldset-randomize')) {
+            // Randomize specific section logic here
+            // For now, just trigger preview
+            triggerAutoPreview();
         }
-        saveSettings(appState);
-    });
-
-    // Randomize toggles logic
-    document.querySelectorAll('.randomize-toggle').forEach(toggle => {
-        toggle.addEventListener('click', function() {
-            this.closest('.control-group').classList.toggle('randomize-active');
-            this.classList.toggle('active');
-            saveSettings(appState);
-        });
     });
     
-    document.getElementById('randomize-all-btn').addEventListener('click', () => {
-         document.querySelectorAll('fieldset .randomize-toggle:not(.active)').forEach(t => t.click());
-    });
-    
-    document.querySelectorAll('.fieldset-randomize').forEach(btn => {
-        btn.addEventListener('click', () => {
-            btn.closest('fieldset').querySelectorAll('.randomize-toggle:not(.active)').forEach(t => t.click());
-        });
-    });
-    
-    // SRT File reading
-    dom.srtFile.addEventListener('change', async (e) => { 
-        if(e.target.files[0]) appState.srtCaptions.main = await e.target.files[0].text(); 
-        document.getElementById('srtPreview').value = appState.srtCaptions.main;
-    });
-    dom.translationSrtFile.addEventListener('change', async (e) => { 
-        if(e.target.files[0]) appState.srtCaptions.translation = await e.target.files[0].text(); 
-    });
-
     // Start
     await initDB(appState);
     await loadSettings(appState);

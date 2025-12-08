@@ -7,144 +7,233 @@ B"H
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Awtsmoos Ein Sof Engine [Quantum Core v5.0]</title>
-    <link rel="stylesheet" href="style.css" type="text/css">
+    <title>Awtsmoos Ein Sof [Quantum V5]</title>
+    
+    <!-- Modular CSS -->
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/effects.css">
 </head>
 <body>
-    <!-- HTML Content remains exactly the same as before -->
-    <div id="controls-wrapper">
-        <div id="controls">
-            <div id="settings-container">
-                <h4>B"H</h4>
-                <h2>Awtsmoos Ein Sof</h2>
 
+    <div class="app-container">
+        
+        <!-- Left Panel: Controls -->
+        <aside id="controls-wrapper" class="glass-panel">
+            <header>
+                <div class="logo-area">
+                    <h1>EIN SOF</h1>
+                    <span class="version">V5.0</span>
+                </div>
                 <div class="header-actions">
                      <select id="preset-select"><option value="">Load Preset...</option></select>
-                     <button id="save-preset-btn">Save</button>
-                     <button id="delete-preset-btn">Delete</button>
-                     <button id="randomize-all-btn">Randomize All</button>
+                     <button id="save-preset-btn" class="icon-btn" title="Save">💾</button>
+                     <button id="delete-preset-btn" class="icon-btn" title="Delete">🗑️</button>
+                     <button id="randomize-all-btn" class="icon-btn" title="Chaos Mode">🎲</button>
                 </div>
-    
-                <fieldset>
-                    <legend>Merkabah (Mode)</legend>
-                    <div class="form-group"><label for="renderMode">Render Mode</label><select id="renderMode"><option value="video">Video</option><option value="image">Image Batch</option></select></div>
-                </fieldset>
+            </header>
+
+            <div id="controls" class="scroll-area">
                 
+                <!-- Section 1: Mode & Dimensions -->
                 <fieldset>
-                    <legend>Kelim (Content)</legend>
-                    <div class="form-group"><label for="headerText">Frame Header</label><input type="text" id="headerText" placeholder="Top Header Text"></div>
-                    
-                    <div id="simple-caption-controls">
-                        <div class="form-group"><label for="mainCaptions">Captions</label><textarea id="mainCaptions" placeholder="Enter captions here..."></textarea></div>
-                        <div class="form-group hidden-control" id="translation-controls"><label for="translationCaptions">Translation</label><textarea id="translationCaptions" placeholder="Translation..."></textarea></div>
-                    </div>
-
-                     <div id="srt-caption-controls" class="hidden-control">
-                        <div class="form-group"><label>Primary SRT</label><input type="file" id="srtFile" accept=".srt,.txt"></div>
-                        <textarea id="srtPreview" readonly placeholder="SRT content..."></textarea>
-                        <div class="form-group" style="margin-top:20px;"><label>Translation SRT</label><input type="file" id="translationSrtFile" accept=".srt,.txt"></div>
-                    </div>
-                    
-                    <label class="toggle-switch hidden-control" id="dual-caption-toggle-container" style="margin-top:10px;">
-                        <input type="checkbox" id="dualCaptionToggle"> Enable Translation
-                    </label>
-                </fieldset>
-    
-                <fieldset class="hidden-control" id="timing-controls">
-                    <legend>Orot (Timing)</legend>
-                    <div class="form-group"><label>Source</label><select id="captionSource"><option value="simple">Simple Split</option><option value="srt">SRT File</option></select></div>
-                    <div class="form-group" id="simple-timing-controls"><label>Secs/Caption</label><input type="number" id="captionDuration" value="2.5" step="0.1"></div>
-                    <div class="form-group"><label>Audio (Optional)</label><input type="file" id="audioFile" accept="audio/*"></div>
-                    <div class="form-group" id="fps-controls"><label>FPS</label><input type="number" id="frameRate" value="24" min="1" max="60"></div>
-                </fieldset>
-
-                <!-- Background Image Section -->
-                <fieldset>
-                    <legend>Olam (World)</legend>
-                    <span class="fieldset-randomize" title="Randomize">🎲</span>
-                    
-                    <div class="form-group" style="border: 1px solid #444; padding: 10px; border-radius: 8px; background: #222;">
-                        <label style="color: #00f2ea;">Background Image (Base)</label>
-                        <input type="file" id="backgroundImageInput" accept="image/*">
-                        <div style="margin-top:5px; font-size: 11px; color: #888;">Overrides Nebula if set.</div>
-                    </div>
-                    
-                    <div class="control-group" data-control-name="backgroundOpacity">
-                        <label>BG Opacity <span class="value-display" id="backgroundOpacityValue">1.0</span></label>
-                        <input type="range" id="backgroundOpacity" min="0" max="1" step="0.05" value="1.0">
-                    </div>
-
-                    <div class="form-group"><label class="toggle-switch"><input type="checkbox" id="dynamicBackgroundToggle" checked> Dynamic Colors</label></div>
-                    <div class="control-group" data-control-name="basePaletteColor">
-                        <label>Base Color</label><span class="randomize-toggle">🌱</span>
-                        <input type="color" id="basePaletteColor" value="#8A2BE2">
-                    </div>
-                </fieldset>
-    
-                <!-- Portals Section -->
-                <fieldset>
-                    <legend>Portals (Floating)</legend>
-                    <span class="fieldset-randomize" title="Randomize">🎲</span>
-                    <div class="form-group">
-                        <label>Floating Images</label>
-                        <input type="file" id="portalImages" accept="image/*" multiple>
-                    </div>
-                </fieldset>
-    
-                <fieldset>
-                    <legend>Effects & Glitch</legend>
-                    <span class="fieldset-randomize" title="Randomize">🎲</span>
-                    <div class="form-group"><label class="toggle-switch"><input type="checkbox" id="enableTextGlitch"> Enable Text Glitch</label></div>
-                    <div class="form-group"><label class="toggle-switch"><input type="checkbox" id="enableWaveform"> Enable Audio Waveform</label></div>
-                    <div class="form-group"><label class="toggle-switch"><input type="checkbox" id="enableVCRStamp"> VCR Date Stamp</label></div>
-                    
-                    <div class="control-group" data-control-name="cinematicBarHeight">
-                        <label>Cinematic Bars % <span class="value-display" id="cinematicBarHeightValue">0</span></label>
-                        <input type="range" id="cinematicBarHeight" min="0" max="20" value="0">
-                    </div>
-
-                    <div class="form-group"><label class="toggle-switch"><input type="checkbox" id="enableScanLines"> Scan Lines</label></div>
-                    <div class="form-group"><label class="toggle-switch"><input type="checkbox" id="enableVignette" checked> Vignette</label></div>
-                    <div class="form-group"><label class="toggle-switch"><input type="checkbox" id="enableChromaticAberration"> Chromatic Aberration</label></div>
-                </fieldset>
-
-                <fieldset>
-                    <legend>Output</legend>
-                    <div class="form-group"><label>Resolution</label>
-                        <div style="display:flex; gap:10px;">
-                            <input type="number" id="videoWidth" value="1920" placeholder="W">
-                            <input type="number" id="videoHeight" value="1080" placeholder="H">
+                    <legend>Merkabah (Core)</legend>
+                    <div class="row">
+                        <div class="form-group half">
+                            <label>Mode</label>
+                            <select id="renderMode">
+                                <option value="image">Image Batch</option>
+                                <option value="video">Video</option>
+                            </select>
+                        </div>
+                        <div class="form-group half">
+                            <label>FPS</label>
+                            <input type="number" id="frameRate" value="24" min="1" max="60">
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label class="toggle-switch"><input type="checkbox" id="enableImageDownload"> Download Images</label>
+                    <div class="row">
+                        <div class="form-group half">
+                            <label>Width</label><input type="number" id="videoWidth" value="1920">
+                        </div>
+                        <div class="form-group half">
+                            <label>Height</label><input type="number" id="videoHeight" value="1080">
+                        </div>
                     </div>
-                    <div class="form-group hidden-control" id="image-download-folder-controls">
-                        <button id="selectDownloadFolderButton">Select Output Folder</button>
-                        <div id="selectedDownloadFolderDisplay" style="font-size:12px; margin-top:5px; color:#aaa;">No folder selected</div>
+                </fieldset>
+
+                <!-- Section 2: Source Content -->
+                <fieldset>
+                    <legend>Kelim (Input)</legend>
+                    <div class="form-group">
+                        <label>Header Text</label>
+                        <input type="text" id="headerText" placeholder="Top Title...">
+                    </div>
+                    
+                    <div class="tabs">
+                        <label class="tab"><input type="radio" name="capSrc" value="simple" checked onclick="document.getElementById('captionSource').value='simple';"> Simple</label>
+                        <label class="tab"><input type="radio" name="capSrc" value="srt" onclick="document.getElementById('captionSource').value='srt';"> SRT</label>
+                    </div>
+                    <!-- Hidden Select to maintain compatibility with js logic -->
+                    <select id="captionSource" style="display:none;"><option value="simple">Simple</option><option value="srt">SRT</option></select>
+
+                    <div id="simple-caption-controls">
+                        <textarea id="mainCaptions" placeholder="Enter captions (double spacing)..."></textarea>
+                        <div class="row">
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="dualCaptionToggle"> Dual Language
+                            </label>
+                        </div>
+                        <textarea id="translationCaptions" class="hidden-control" placeholder="Translation captions..."></textarea>
+                    </div>
+
+                    <div id="srt-caption-controls" class="hidden-control">
+                        <input type="file" id="srtFile" class="file-input" data-label="Primary SRT">
+                        <input type="file" id="translationSrtFile" class="file-input" data-label="Trans SRT">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Audio Source</label>
+                        <input type="file" id="audioFile" class="file-input" accept="audio/*">
+                    </div>
+                </fieldset>
+
+                <!-- Section 3: Visuals -->
+                <fieldset>
+                    <legend>Olam (Visuals)</legend>
+                    <span class="fieldset-randomize">🎲</span>
+                    
+                    <div class="form-group bg-selector">
+                        <label>Background Image</label>
+                        <input type="file" id="backgroundImageInput" class="file-input" accept="image/*">
+                        <div class="slider-group" data-control-name="backgroundOpacity">
+                            <label>Opacity</label>
+                            <input type="range" id="backgroundOpacity" min="0" max="1" step="0.05" value="1.0">
+                        </div>
+                    </div>
+
+                    <div class="control-group" data-control-name="basePaletteColor">
+                        <label>Base Color</label>
+                        <div class="color-picker-wrapper">
+                            <input type="color" id="basePaletteColor" value="#8A2BE2">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Floating Portals</label>
+                        <input type="file" id="portalImages" class="file-input" accept="image/*" multiple>
+                    </div>
+                </fieldset>
+
+                <!-- Section 4: FX (THE NEW STUFF) -->
+                <fieldset>
+                    <legend>Tohu (Chaos FX)</legend>
+                    <span class="fieldset-randomize">🎲</span>
+                    
+                    <div class="fx-grid">
+                        <label class="toggle-card">
+                            <input type="checkbox" id="enableMirrorMode">
+                            <span>Mirror Mode</span>
+                        </label>
+                        <label class="toggle-card">
+                            <input type="checkbox" id="enableSepia">
+                            <span>Sepia Tone</span>
+                        </label>
+                        <label class="toggle-card">
+                            <input type="checkbox" id="enableAnalogNoise">
+                            <span>Analog Noise</span>
+                        </label>
+                        <label class="toggle-card">
+                            <input type="checkbox" id="enableRGBPulse">
+                            <span>RGB Pulse</span>
+                        </label>
+                        <label class="toggle-card">
+                            <input type="checkbox" id="enableLensDistortion">
+                            <span>Lens Distort</span>
+                        </label>
+                        <label class="toggle-card">
+                            <input type="checkbox" id="enableSimpleBorder">
+                            <span>Border</span>
+                        </label>
+                        <label class="toggle-card">
+                            <input type="checkbox" id="enableTextGlitch">
+                            <span>Text Glitch</span>
+                        </label>
+                        <label class="toggle-card">
+                            <input type="checkbox" id="enableWaveform">
+                            <span>Waveform</span>
+                        </label>
+                        <label class="toggle-card">
+                            <input type="checkbox" id="enableVCRStamp">
+                            <span>VCR Date</span>
+                        </label>
+                        <label class="toggle-card">
+                            <input type="checkbox" id="enableScanLines">
+                            <span>Scanlines</span>
+                        </label>
+                        <label class="toggle-card">
+                            <input type="checkbox" id="enableVignette" checked>
+                            <span>Vignette</span>
+                        </label>
+                        <label class="toggle-card">
+                            <input type="checkbox" id="enableChromaticAberration">
+                            <span>Aberration</span>
+                        </label>
+                        
+                        <label class="toggle-card">
+                            <input type="checkbox" id="dynamicBackgroundToggle" checked>
+                            <span>Anim. BG</span>
+                        </label>
+                    </div>
+
+                    <div class="control-group" data-control-name="cinematicBarHeight">
+                        <label>Cinema Bars %</label>
+                        <input type="range" id="cinematicBarHeight" min="0" max="20" value="0">
+                    </div>
+                </fieldset>
+
+                <!-- Section 5: Output -->
+                <fieldset>
+                    <legend>Output</legend>
+                    <div class="form-group">
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="enableImageDownload">
+                            Download Generated Images
+                        </label>
+                    </div>
+                    <div id="image-download-folder-controls" class="hidden-control">
+                        <button id="selectDownloadFolderButton" class="secondary-btn">Select Folder</button>
+                        <div id="selectedDownloadFolderDisplay" class="status-text">None selected</div>
                     </div>
                 </fieldset>
             </div>
-            <div id="actions-footer">
-                <div id="status">Ready.</div>
-                <div id="progressContainer" class="progress-bar-container"><div id="progressBar" class="progress-bar"></div></div>
-                <div class="button-group">
-                    <button id="previewButton" title="Quick Preview">👁️</button>
-                    <button id="renderButton">R E N D E R</button>
+
+            <!-- Footer Actions -->
+            <footer id="actions-footer">
+                <div id="status">System Idle</div>
+                <div id="progressContainer"><div id="progressBar"></div></div>
+                <div class="main-buttons">
+                    <!-- Preview is now automatic, but button kept for forced refresh -->
+                    <button id="previewButton" class="secondary-btn">Refresh</button>
+                    <button id="renderButton" class="primary-btn">RENDER</button>
+                </div>
+            </footer>
+        </aside>
+
+        <!-- Right Panel: Preview -->
+        <main id="preview-wrapper">
+            <div id="preview-container">
+                <canvas id="previewCanvas"></canvas>
+                <video id="outputVideo" controls loop playsinline></video>
+                <div id="render-overlay">
+                    <div class="loader"></div>
+                    <button id="cancelButton">ABORT</button>
                 </div>
             </div>
-        </div>
-        <div id="render-overlay">
-            <button id="cancelButton">STOP</button>
-        </div>
-    </div>
+        </main>
 
-    <div id="preview-container">
-        <canvas id="previewCanvas"></canvas>
-        <video id="outputVideo" controls loop playsinline></video>
     </div>
     
-    <!-- Changed to module -->
     <script type="module" src="main.js"></script>
 </body>
 </html>

@@ -1,0 +1,88 @@
+/* B"H */
+.app-container {
+    display: grid;
+    grid-template-columns: 400px 1fr;
+    height: 100vh;
+    gap: 20px;
+    padding: 20px;
+}
+
+/* Mobile Layout */
+@media (max-width: 900px) {
+    .app-container {
+        grid-template-columns: 1fr;
+        grid-template-rows: 60vh 1fr;
+        height: auto;
+        overflow-y: auto;
+    }
+}
+
+/* Left Panel */
+.glass-panel {
+    background: var(--bg-panel);
+    backdrop-filter: blur(10px);
+    border: var(--glass-border);
+    border-radius: var(--radius-lg);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+header {
+    padding: 20px;
+    border-bottom: var(--glass-border);
+    background: linear-gradient(90deg, rgba(0,0,0,0.2), transparent);
+}
+
+.logo-area h1 {
+    margin: 0; font-family: var(--font-display); font-size: 2rem;
+    letter-spacing: 2px; color: var(--primary);
+    text-shadow: 0 0 10px var(--primary-dim);
+    display: inline-block;
+}
+.version { font-size: 0.7rem; color: var(--accent); vertical-align: super; }
+
+.scroll-area {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 20px;
+}
+.scroll-area::-webkit-scrollbar { width: 6px; }
+.scroll-area::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 3px; }
+
+/* Right Panel */
+#preview-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,0.3);
+    border-radius: var(--radius-lg);
+    border: var(--glass-border);
+    position: relative;
+    overflow: hidden;
+}
+
+#preview-container {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    max-height: 90vh;
+    position: relative;
+    box-shadow: 0 0 50px rgba(0,0,0,0.8);
+    background: #000;
+}
+
+#previewCanvas, #outputVideo {
+    width: 100%; height: 100%; object-fit: contain; display: block;
+}
+
+/* Grid for Controls */
+.row { display: flex; gap: 10px; margin-bottom: 10px; }
+.half { flex: 1; }
+
+.fx-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+    gap: 8px;
+    margin-bottom: 15px;
+}
