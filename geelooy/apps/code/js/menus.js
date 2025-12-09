@@ -1,799 +1,244 @@
-//B"H
-//FILE: js/menus.js
+// B"H
+// FILE: js/menus.js
 import { State, DOM } from "./state.js";
-
-import { UI } from "./ui.js";
-
-import { App } from "./app.js";
-
-import { Tabs } from "./tabs.js";
-
-import { Workspaces, getItemUniquePath } from "./workspaces.js";
-
-import { FindReplace } from "./find-replace.js";
-
-import { Clipboard } from "./clipboard.js";
-
-import { FileSystemProvider } from "./fs-provider.js";
-
+import { getItemUniquePath } from "./workspaces.js";
+import { Actions } from "./actions.js";
 import { Editor } from "./editor.js";
-
-
-
-import { FileOperations } from "./file-operations.js";
-
-import { SelectionManager } from "./selection-manager.js";
-
-import { AwtsmoosHandler } from "./awtsmoos-handler.js";
-
-import { GitManager } from "./git-manager.js";
-
 import { beautify } from "/scripts/awtsmoos/MerkavaBeautifier/beautifier.js";
 
+// Global exposure for debugging or legacy access
 window.beautify = beautify;
-
 window.editor = Editor;
 
 export const Menus = {
-	registerCustomMenus(menuConfigs) {
-		if (!Array.isArray(menuConfigs))
-			return;
-		State.customMenus = menuConfigs;
-	},
-		/**
-     * Handles clicks on the document to hide any open menus.
-     */
-handleDocumentClick: (e) => {
-		if (!DOM.contextMenu.contains(
-			e.target
-		) && !DOM.mainMenu.contains(
-			e.target
-		)) {
-			Menus.hideAll();
-		}
-	},
-		/*B"H*/
-	/**
- * Unfurls the context menu, a scroll of potential actions. This corrected version
- * properly identifies ANY writable local directory, even nested ones, as a candidate
- * for repository initialization, fulfilling the true potential of creation anywhere.
- * @param {Event} e - The contextmenu event, the spark of user intent.
- * @param {object} item - The file or folder item, a vessel of data upon which to act.
- */
-show(e, item) {
-		e.preventDefault();
-		e.stopPropagation();
-		if (State.isSelectionModeActive)
-			return;
-		State.contextTarget = item;
-		this.hideAll();
-		setTimeout(
-			() => document.addEventListener(
-				"click",
-				this.handleDocumentClick
-			),
-			0
-		);
-		const mapKey = getItemUniquePath(item);
-		const targetEl = (State.domItemMap.get(mapKey))?.el;
-		if (targetEl)
-			targetEl.classList.add("context-active");
-		const isDir = item.kind === "directory";
-		const isWorkspaceRoot = item.path === "/";
-		const workspace = State.workspaces.find(
-			(ws) => ws.id === (item.workspaceId || item.id)
-		);
-		const isReadOnly = workspace?.readOnly || false;
-		const isGitClone = item.isGitClone;
-		//THIS IS THE KEY CHANGE: A folder is a candidate for initialization if it's a directory,
-		//not part of a read-only workspace, and not part of a direct GitHub workspace view.
-		const isCandidateForInit = isDir && !isReadOnly && item.type !== "github";
-		const menuItems = [];
-		//--- Standard Actions ---
-		menuItems.push(
-			{
-				label: `Copy "${
-					item.name
-				}"`,
-				action: "copy-single",
-				icon: "copy"
-			}
-		);
-		menuItems.push(
-			{
-				label: "Select",
-				action: "start-selection",
-				icon: "select-all"
-			}
-		);
-		menuItems.push(
-			{
-				label: "Copy All Contents",
-				action: "copy-all-contents",
-				icon: "clipboard"
-			}
-		);
-		menuItems.push(
-			{
-				isSeparator: true
-			}
-		);
-		//--- Git Actions (Conditional) ---
-		if (isDir && !isReadOnly) {
-			if (isGitClone) {
-				menuItems.push(
-					{
-						label: "Git Actions...",
-						action: "git-actions",
-						icon: "git-branch"
-					}
-				);
-			} else if (isCandidateForInit) {
-				//Only show init if it's not already a git clone.
-				menuItems.push(
-					{
-						label: "Initialize as GitHub Repo...",
-						action: "git-init",
-						icon: "github"
-					}
-				);
-			}
-		}
-		//--- Mutable Actions (Conditional) ---
-		if (!isReadOnly) {
-			const clipboardItemUniquePath = State.fileClipboard?.[0];
-			const clipboardItem = clipboardItemUniquePath ? (State.domItemMap.get(clipboardItemUniquePath))?.item : null;
-			if (isDir && clipboardItem) {
-				menuItems.push(
-					{
-						isSeparator: true
-					}
-				);
-				menuItems.push(
-					{
-						label: `Paste item(s) here`,
-						action: "paste",
-						icon: "clipboard"
-					}
-				);
-			}
-			if (isDir) {
-				menuItems.push(
-					{
-						isSeparator: true
-					}
-				);
-				menuItems.push(
-					{
-						label: "New File",
-						action: "new-file",
-						icon: "file"
-					}
-				);
-				menuItems.push(
-					{
-						label: "New Folder",
-						action: "new-folder",
-						icon: "folder"
-					}
-				);
-			}
-		}
-		menuItems.push(
-			{
-				isSeparator: true
-			}
-		);
-		//--- Destructive/Final Actions ---
-		if (!isReadOnly && !isWorkspaceRoot) {
-			menuItems.push(
-				{
-					label: "Delete",
-					action: "delete",
-					icon: "trash",
-					danger: true
-				}
-			);
-		}
-		if (isWorkspaceRoot) {
-			menuItems.push(
-				{
-					label: "Remove Workspace",
-					action: "delete-workspace",
-					icon: "x",
-					danger: true
-				}
-			);
-		}
-		menuItems.push(
-			{
-				isSeparator: true
-			}
-		);
-		menuItems.push(
-			{
-				label: "Cancel",
-				action: "cancel-menu",
-				icon: "x"
-			}
-		);
-		DOM.contextMenu.innerHTML = (menuItems.map(
-			(i) => {
-				if (i.isSeparator)
-					return `<hr class="menu-separator">`;
-				const dangerStyle = i.danger ? 'style="color: var(--color-accent-danger);"' : "";
-				return `
-            <button class="menu-button" data-action="${
-					i.action
-				}" ${dangerStyle}>
-                <svg class="svg-icon"><use href="#icon-${
-					i.icon
-				}"/></svg> ${
-					i.label
-				}
-            </button>
-        `;
-			}
-		)).join("");
-		this.positionAndDisplay(
-			DOM.contextMenu,
-			e
-		);
-	},
-		/*B"H*/
-	/**
- * Unfurls the main application menu. This unified version now correctly perceives
- * both direct GitHub workspaces AND local clones as "Git-aware" contexts.
- * It uses this unified perception to correctly show or hide the "Commit All Changes"
- * option, providing a consistent workflow for all Git-related operations.
- * @param {Event} e - The click event.
- */
-showMainMenu(e) {
-		e.stopPropagation();
-		if (DOM.mainMenu.style.display === "block") {
-			this.hideAll();
-			return;
-		}
-		this.hideAll();
-		document.addEventListener(
-			"click",
-			this.handleDocumentClick,
-			{
-				once: true,
-				capture: true
-			}
-		);
-		const activeTab = State.tabs.find(
-			(t) => t.id === State.activeTabId
-		);
-		let isGitAware = false;
-		let isReadOnly = true;
-		//Default to safe/read-only.
-		let gitContextWorkspaceId = null;
-		if (activeTab) {
-			const workspace = State.workspaces.find(
-				(ws) => ws.id === activeTab.item.workspaceId
-			);
-			isReadOnly = workspace?.readOnly || false;
-			//Check for direct GitHub workspace.
-			if (activeTab.item.type === "github") {
-				isGitAware = true;
-				gitContextWorkspaceId = activeTab.item.workspaceId;
-			} else //Check for local clones by traversing up the file tree from the active tab.
-			if (activeTab.item.type === "local" || activeTab.item.type === "indexeddb") {
-				const findGitRoot = (item) => {
-					if (!item || !item.path)
-						return null;
-					const uniquePath = getItemUniquePath(item);
-					const entry = State.domItemMap.get(uniquePath);
-					
-					// B"H - FIX: Safe navigation. entry might be undefined if the folder is collapsed.
-					if (entry?.item?.isGitClone)
-						return entry.item;
-					const parentPath = item.path.substring(
-						0, 
-						item.path.lastIndexOf("/")
-					) || "/";
-					if (item.path === parentPath)
-						return null;
-					//We've reached the root of the workspace.
-					return findGitRoot(
-						{
-							...item,
-							path: parentPath,
-							kind: "directory"
-						}
-					);
-				};
-				const gitRoot = findGitRoot(
-					activeTab.item
-				);
-				if (gitRoot) {
-					isGitAware = true;
-					//The context is the workspace the clone lives in.
-					gitContextWorkspaceId = gitRoot.workspaceId;
-				}
-			}
-		}
-		//--- Stage 1: Define universal actions ---
-		const menuItems = [
-			{
-				label: "New File",
-				action: "new-temp-file",
-				icon: "file"
-			},
-			{
-				label: "Open File...",
-				action: "open-file",
-				icon: "folder"
-			}
-		];
-		//--- Stage 2: Add mutable actions if the context allows ---
-		if (!isReadOnly) {
-			menuItems.push(
-				{
-					isSeparator: true
-				}
-			);
-			menuItems.push(
-				{
-					label: "Beautify",
-					action: "beautify",
-					icon: ""
-				}
-			);
-			menuItems.push(
-				{
-					label: "Save",
-					action: "save",
-					icon: "save",
-					disabled: !activeTab || !activeTab.isDirty
-				}
-			);
-			//If the context is ANY form of Git, show the commit button.
-			//It's enabled by default, as the actual check for changes happens when clicked.
-			if (isGitAware) {
-				menuItems.push(
-					{
-						label: "Commit All Changes",
-						action: "commit-changes",
-						icon: "git-branch"
-					}
-				);
-			}
-		}
-		//--- Stage 3: Universal tools of observation and transport ---
-		menuItems.push(
-			{
-				isSeparator: true
-			},
-			{
-				label: "Download",
-				action: "download",
-				icon: "download",
-				disabled: !activeTab
-			}
-		);
-		if (activeTab && (activeTab.item.name.toLowerCase()).endsWith(".html") || (activeTab.item.name.toLowerCase()).endsWith(".htm")) {
-			menuItems.push(
-				{
-					label: "Preview HTML",
-					action: "view-html",
-					icon: "eye"
-				}
-			);
-		}
-		if (activeTab && (activeTab.item.name.toLowerCase()).endsWith(".json") || (activeTab.item.name.toLowerCase()).endsWith(".awtsmoosjson") && !activeTab.isHexView) {
-			menuItems.push(
-				{
-					label: activeTab.isAltarView ? "Reconstitute to Text" : "Transmute to Altar",
-					action: "toggle-altar-view",
-					icon: "brain-circuit"
-				}
-			);
-		}
-		if (activeTab && (activeTab.item.name.toLowerCase()).endsWith(".awtsmoosjson")) {
-			menuItems.push(
-				{
-					label: activeTab.isHexView ? "View as JSON" : "View as Hex",
-					action: "toggle-awtsmoos-view",
-					icon: activeTab.isHexView ? "eye" : "brain-circuit"
-				}
-			);
-		}
-		//--- Stage 4: The final set of universal editor utilities ---
-		const hasSelection = activeTab && DOM.editor.selectionStart !== DOM.editor.selectionEnd;
-		menuItems.push(
-			{
-				isSeparator: true
-			},
-			{
-				label: "Find / Replace",
-				action: "find-replace",
-				icon: "search",
-				disabled: !activeTab
-			},
-			{
-				label: "Select All",
-				action: "select-all",
-				icon: "select-all",
-				disabled: !activeTab
-			},
-			{
-				label: "Copy",
-				action: "copy",
-				icon: "copy",
-				disabled: !hasSelection
-			},
-			{
-				label: "Copy All",
-				action: "copy-all",
-				icon: "copy",
-				disabled: !activeTab
-			},
-			{
-				isSeparator: true
-			},
-			{
-				label: "Toggle Keyboard Helper",
-				action: "toggle-keyboard-helper",
-				icon: "laptop"
-			},
-			{
-				label: "Toggle Fullscreen",
-				action: "toggle-fullscreen",
-				icon: "fullscreen"
-			},
-			{
-				label: "Settings",
-				action: "settings",
-				icon: "settings"
-			}
-		);
-		//--- Final Rendering ---
-		DOM.mainMenu.innerHTML = (menuItems.map(
-			(i) => {
-				if (i.isSeparator)
-					return `<hr class="menu-separator">`;
-				return `<button class="menu-button" data-action="${
-					i.action
-				}" ${
-					i.disabled ? "disabled" : ""
-				}>
-                <svg class="svg-icon"><use href="#icon-${
-					i.icon
-				}"/></svg> ${
-					i.label
-				}
-            </button>`;
-			}
-		)).join("");
-		const btnRect = DOM.hamburgerMenuBtn.getBoundingClientRect();
-		this.positionAndDisplay(
-			DOM.mainMenu,
-			{
-				clientX: btnRect.left,
-				clientY: btnRect.bottom + 5
-			}
-		);
-	},
-		/**
-     * Hides all menus and cleans up associated state and listeners.
-     */
-hideAll() {
-		DOM.contextMenu.style.display = "none";
-		DOM.mainMenu.style.display = "none";
-		(document.querySelectorAll(".context-active")).forEach(
-			(el) => el.classList.remove("context-active")
-		);
-		document.removeEventListener(
-			"click",
-			this.handleDocumentClick
-		);
-	},
-		/**
-     * Positions a menu element on the screen, ensuring it doesn't render outside the viewport.
-     * @param {HTMLElement} menu - The menu element to position.
-     * @param {object} coords - An object with `clientX` and `clientY`.
-     */
-positionAndDisplay(menu, coords) {
-		setTimeout(
-			() => {
-				const {
-					clientX: x,
-					clientY: y
-				} = coords;
-				menu.style.display = "block";
-				const menuRect = menu.getBoundingClientRect();
-				const adjustedX = x + menuRect.width > window.innerWidth ? window.innerWidth - menuRect.width - 5 : x;
-				let adjustedY = y;
-				if (y + menuRect.height > window.innerHeight) {
-					adjustedY = y - menuRect.height;
-					if (adjustedY < 0)
-						adjustedY = 5;
-				}
-				menu.style.left = `${adjustedX}px`;
-				menu.style.top = `${adjustedY}px`;
-			},
-			10
-		);
-	},
-		/*B"H*/
-	/**
- * The central nexus for all user intentions. It receives an action and
- * dispatches it to the appropriate module, turning intent into reality.
- * It now understands the call to initialize a repository.
- * @param {string} action - The `data-action` attribute from the clicked button.
- */
-async handleAction(action) {
-		const item = State.contextTarget;
-		this.hideAll();
-		//The first act is always to return to a state of calm.
-		const activeTab = State?.tabs?.find?.(
-			(t) => t?.id === State?.activeTabId
-		);
-		try {
-			switch (action) {
-				case "git-init":
-					if (item)
-						GitManager.initializeRepository(item);
-					break;
-				case "cancel-menu":
-					//This action requires no action; its purpose was fulfilled by `hideAll()`.
-					break;
-				case "beautify":
-					console.log("Editor");
-					var cont = Editor.getContent();
-					var bew = await beautify(cont);
-					console.log(bew);
-					Editor.currentHighlighter.setText(bew);
-					break;
-				//--- Existing Main Menu Actions ---
-				case "commit-changes":
-					App.commitAllChanges();
-					break;
-				case "new-temp-file":
-					Tabs.createTemporary();
-					break;
-				case "open-file":
-					App.openLocalFile();
-					break;
-				case "save":
-					Tabs.saveActive();
-					break;
-				case "download":
-					Tabs.downloadActive();
-					break;
-				case "toggle-awtsmoos-view":
-					if (activeTab) {
-						activeTab.isHexView = !activeTab.isHexView;
-						activeTab.forceReload = true;
-						Tabs.activate(
-							activeTab.id
-						);
-					}
-					break;
-				case "view-html":
-		                    if (activeTab) {
-		                        // B"H - We grab the CURRENT content from the editor (unsaved changes included)
-		                        const content = Editor.getContent();
-		                        
-		                        // We simply create the preview tab. 
-		                        // The architecture in Editor.js and html-preview-processor.js handles the rest.
-		                        Tabs.createPreview(
-		                            activeTab.item,
-		                            content
-		                        );
-		                    }
-		                    break;
-				case "find-replace":
-					FindReplace.show();
-					break;
-				case "settings":
-					App.showSettings();
-					break;
-				case "toggle-keyboard-helper":
-					DOM.keyboardHelper.classList.toggle("is-visible");
-					break;
-				case "toggle-fullscreen":
-					App.toggleFullscreen();
-					break;
-				case "toggle-altar-view":
-					if (activeTab) {
-						activeTab.isAltarView = !activeTab.isAltarView;
-						Tabs.activate(
-							activeTab.id,
-							true
-						);
-					}
-					break;
-				case "select-all":
-					if (activeTab)
-						DOM.editor.select();
-					break;
-				case "copy":
-					const selectedText = DOM.editor.value.substring(
-						DOM.editor.selectionStart,
-						DOM.editor.selectionEnd
-					);
-					if (selectedText) {
-						await Clipboard.write(selectedText);
-						UI.showToast(
-							"Selection copied!",
-							"success"
-						);
-					}
-					break;
-				case "copy-all":
-					if (activeTab && DOM.editor.value) {
-						await Clipboard.write(
-							DOM.editor.value
-						);
-						UI.showToast(
-							"All content copied!",
-							"success"
-						);
-					}
-					break;
-				case "copy-all-contents":
-					if (item)
-						FileOperations.copyAllContents(
-							[
-								item
-							]
-						);
-					break;
-				case "new-file":
+    registerCustomMenus(menuConfigs) {
+        if (!Array.isArray(menuConfigs)) return;
+        State.customMenus = menuConfigs;
+    },
 
-				case "new-folder":
-					if (item) {
-						const kind = action === "new-folder" ? "directory" : "file";
-						const name = await UI.showDialog(
-							{
-								title: `Create New ${kind}`,
-								hasInput: true,
-								placeholder: `Enter ${kind} name...`
-							}
-						);
-						if (name) {
-							await FileSystemProvider.create(
-								item,
-								name,
-								kind
-							);
-							UI.showToast(
-								`${kind} '${name}' created.`,
-								"success"
-							);
-							await Workspaces.refreshNode(item);
-							if (kind === "file") {
-								const newPath = item.path === "/" ? `/${name}` : `${
-									item.path
-								}/${name}`;
-								//We create the item object and explicitly give it content.
-								//This tells Tabs.create, "This is a new being, its substance is this
-								//empty string. Do not try to read it from a source it doesn't have."
-								const newFileItem = {
-									...item,
-																		//Inherit context like workspaceId and type
-name,
-									path: newPath,
-									kind: "file",
-									content: ""
-								};
-								//The explicit declaration of substance.
-								Tabs.create(newFileItem);
-							}
-						}
-					}
-					break;
-				/*B"H*/
-				case "start-selection":
-					SelectionManager.start(
-						item,
-						State.contextEvent
-					);
-					break;
-				case "copy-single":
-					if (item) {
-						State.fileClipboard = [
-							getItemUniquePath(item)
-						];
-						UI.showToast(
-							`Copied "${
-								item.name
-							}" to clipboard.`,
-							"success"
-						);
-					}
-					break;
-				case "paste":
-					if (item && item.kind === "directory")
-						FileOperations.paste(item);
-					else
-						UI.showToast(
-							"Paste target must be a directory.",
-							"warning"
-						);
-					break;
-				case "delete-workspace":
-					if (item && item.path === "/") {
-						const confirmed = await UI.showDialog(
-							{
-								title: "Remove Workspace",
-								message: `Remove '${
-									item.name
-								}'?`,
-								okText: "Remove"
-							}
-						);
-						if (confirmed) {
-							Workspaces.remove(
-								item.id || item.workspaceId
-							);
-							UI.showToast(
-								`Workspace removed.`,
-								"success"
-							);
-						}
-					}
-					break;
-				case "delete":
-					if (item) {
-						const confirmed = await UI.showDialog(
-							{
-								title: "Confirm Deletion",
-								message: `Delete '${
-									item.name
-								}'?`,
-								okText: "Delete"
-							}
-						);
-						if (confirmed) {
-							const tab = State.tabs.find(
-								(t) => t.uniquePath === Tabs.getUniquePath(item)
-							);
-							if (tab)
-								await Tabs.close(
-									tab.id,
-									true
-								);
-							await FileSystemProvider.delete(item);
-							const parentPath = item.path.substring(
-								0,
-								item.path.lastIndexOf("/")
-							) || "/";
-							await Workspaces.refreshNode(
-								{
-									...item,
-									path: parentPath,
-									kind: "directory"
-								}
-							);
-							UI.showToast(
-								`'${
-									item.name
-								}' deleted.`,
-								"success"
-							);
-						}
-					}
-					break;
-			}
-		} catch (e) {
-			UI.showToast(
-				`Error: ${
-					e.message
-				}`,
-				"error"
-			);
-			console.error(
-				"Action failed:",
-				action,
-				e
-			);
-		} finally {
-			UI.hideLoading();
-		}
-	}
+    handleDocumentClick: (e) => {
+        if (!DOM.contextMenu.contains(e.target) && !DOM.mainMenu.contains(e.target)) {
+            Menus.hideAll();
+        }
+    },
+
+    show(e, item) {
+        e.preventDefault();
+        e.stopPropagation();
+        if (State.isSelectionModeActive) return;
+        
+        State.contextTarget = item;
+        this.hideAll();
+        
+        setTimeout(() => document.addEventListener("click", this.handleDocumentClick), 0);
+        
+        const mapKey = getItemUniquePath(item);
+        const targetEl = (State.domItemMap.get(mapKey))?.el;
+        if (targetEl) targetEl.classList.add("context-active");
+        
+        const isDir = item.kind === "directory";
+        const isFile = item.kind === "file";
+        const isWorkspaceRoot = item.path === "/";
+        const workspace = State.workspaces.find((ws) => ws.id === (item.workspaceId || item.id));
+        const isReadOnly = workspace?.readOnly || false;
+        const isGitClone = item.isGitClone;
+        const isCandidateForInit = isDir && !isReadOnly && item.type !== "github";
+        
+        const menuItems = [];
+        
+        menuItems.push({ label: `Copy "${item.name}"`, action: "copy-single", icon: "copy" });
+        
+        // B"H - New Download/Zip Options
+        if (isDir) {
+            menuItems.push({ label: "Copy as ZIP", action: "copy-zip-single", icon: "save" });
+            menuItems.push({ label: "Download ZIP", action: "download-zip-single", icon: "download" });
+        } else if (isFile) {
+            menuItems.push({ label: "Download File", action: "download-file", icon: "download" });
+        }
+
+        menuItems.push({ isSeparator: true });
+        menuItems.push({ label: "Select", action: "start-selection", icon: "select-all" });
+        menuItems.push({ label: "Copy All Contents", action: "copy-all-contents", icon: "clipboard" });
+        menuItems.push({ isSeparator: true });
+
+        if (isDir && !isReadOnly) {
+            if (isGitClone) {
+                menuItems.push({ label: "Git Actions...", action: "git-actions", icon: "git-branch" });
+            } else if (isCandidateForInit) {
+                menuItems.push({ label: "Initialize as GitHub Repo...", action: "git-init", icon: "github" });
+            }
+        }
+
+        if (!isReadOnly) {
+            const clipboardItemUniquePath = State.fileClipboard?.[0];
+            const clipboardItem = clipboardItemUniquePath ? (State.domItemMap.get(clipboardItemUniquePath))?.item : null;
+            const hasZipClipboard = !!State.clipboardZip;
+
+            if (isDir && (clipboardItem || hasZipClipboard)) {
+                menuItems.push({ isSeparator: true });
+                const pasteLabel = hasZipClipboard ? "Paste ZIP" : "Paste item(s) here";
+                menuItems.push({ label: pasteLabel, action: "paste", icon: "clipboard" });
+            }
+            if (isDir) {
+                menuItems.push({ isSeparator: true });
+                menuItems.push({ label: "New File", action: "new-file", icon: "file" });
+                menuItems.push({ label: "New Folder", action: "new-folder", icon: "folder" });
+            }
+        }
+        
+        menuItems.push({ isSeparator: true });
+
+        if (!isReadOnly && !isWorkspaceRoot) {
+            menuItems.push({ label: "Delete", action: "delete", icon: "trash", danger: true });
+        }
+        if (isWorkspaceRoot) {
+            menuItems.push({ label: "Remove Workspace", action: "delete-workspace", icon: "x", danger: true });
+        }
+        
+        menuItems.push({ isSeparator: true });
+        menuItems.push({ label: "Cancel", action: "cancel-menu", icon: "x" });
+
+        this.renderMenu(DOM.contextMenu, menuItems, e);
+    },
+
+    showMainMenu(e) {
+        e.stopPropagation();
+        if (DOM.mainMenu.style.display === "block") {
+            this.hideAll();
+            return;
+        }
+        this.hideAll();
+        document.addEventListener("click", this.handleDocumentClick, { once: true, capture: true });
+        
+        const activeTab = State.tabs.find((t) => t.id === State.activeTabId);
+        let isGitAware = false;
+        let isReadOnly = true;
+        
+        if (activeTab) {
+            const workspace = State.workspaces.find((ws) => ws.id === activeTab.item.workspaceId);
+            isReadOnly = workspace?.readOnly || false;
+            
+            if (activeTab.item.type === "github") {
+                isGitAware = true;
+            } else if (activeTab.item.type === "local" || activeTab.item.type === "indexeddb") {
+                const findGitRoot = (item) => {
+                    if (!item || !item.path) return null;
+                    const uniquePath = getItemUniquePath(item);
+                    const entry = State.domItemMap.get(uniquePath);
+                    if (entry?.item?.isGitClone) return entry.item;
+                    const parentPath = item.path.substring(0, item.path.lastIndexOf("/")) || "/";
+                    if (item.path === parentPath) return null;
+                    return findGitRoot({ ...item, path: parentPath, kind: "directory" });
+                };
+                if (findGitRoot(activeTab.item)) isGitAware = true;
+            }
+        }
+
+        const menuItems = [
+            { label: "New File", action: "new-temp-file", icon: "file" },
+            { label: "Open File...", action: "open-file", icon: "folder" }
+        ];
+
+        if (!isReadOnly) {
+            menuItems.push({ isSeparator: true });
+            menuItems.push({ label: "Beautify", action: "beautify", icon: "brain" });
+            menuItems.push({ label: "Save", action: "save", icon: "save", disabled: !activeTab || !activeTab.isDirty });
+            if (isGitAware) {
+                menuItems.push({ label: "Commit All Changes", action: "commit-changes", icon: "git-branch" });
+            }
+        }
+
+        menuItems.push({ isSeparator: true });
+        menuItems.push({ label: "Download", action: "download", icon: "download", disabled: !activeTab });
+
+        if (activeTab) {
+            const name = activeTab.item.name.toLowerCase();
+            if (name.endsWith(".html") || name.endsWith(".htm")) {
+                menuItems.push({ label: "Preview HTML", action: "view-html", icon: "eye" });
+            }
+            if ((name.endsWith(".json") || name.endsWith(".awtsmoosjson")) && !activeTab.isHexView) {
+                menuItems.push({ 
+                    label: activeTab.isAltarView ? "Reconstitute to Text" : "Transmute to Altar", 
+                    action: "toggle-altar-view", icon: "brain-circuit" 
+                });
+            }
+            if (name.endsWith(".awtsmoosjson")) {
+                menuItems.push({ 
+                    label: activeTab.isHexView ? "View as JSON" : "View as Hex", 
+                    action: "toggle-awtsmoos-view", icon: activeTab.isHexView ? "eye" : "brain-circuit" 
+                });
+            }
+        }
+
+        const hasSelection = activeTab && DOM.editor.selectionStart !== DOM.editor.selectionEnd;
+        menuItems.push({ isSeparator: true });
+        menuItems.push({ label: "Find / Replace", action: "find-replace", icon: "search", disabled: !activeTab });
+        menuItems.push({ label: "Select All", action: "select-all", icon: "select-all", disabled: !activeTab });
+        menuItems.push({ label: "Copy", action: "copy", icon: "copy", disabled: !hasSelection });
+        menuItems.push({ label: "Copy All", action: "copy-all", icon: "copy", disabled: !activeTab });
+        menuItems.push({ isSeparator: true });
+        menuItems.push({ label: "Toggle Keyboard Helper", action: "toggle-keyboard-helper", icon: "laptop" });
+        menuItems.push({ label: "Toggle Fullscreen", action: "toggle-fullscreen", icon: "fullscreen" });
+        menuItems.push({ label: "Settings", action: "settings", icon: "settings" });
+
+        const btnRect = DOM.hamburgerMenuBtn.getBoundingClientRect();
+        this.renderMenu(DOM.mainMenu, menuItems, { clientX: btnRect.left, clientY: btnRect.bottom + 5 });
+    },
+
+    renderMenu(container, items, coords) {
+        container.innerHTML = items.map(i => {
+            if (i.isSeparator) return `<hr class="menu-separator">`;
+            const dangerStyle = i.danger ? 'style="color: var(--color-accent-danger);"' : "";
+            return `
+                <button class="menu-button" data-action="${i.action}" ${i.disabled ? "disabled" : ""} ${dangerStyle}>
+                    <svg class="svg-icon"><use href="#icon-${i.icon || 'play'}"/></svg> 
+                    ${i.label}
+                </button>`;
+        }).join("");
+        
+        this.positionAndDisplay(container, coords);
+    },
+
+    hideAll() {
+        DOM.contextMenu.style.display = "none";
+        DOM.mainMenu.style.display = "none";
+        document.querySelectorAll(".context-active").forEach(el => el.classList.remove("context-active"));
+        document.removeEventListener("click", this.handleDocumentClick);
+    },
+
+    positionAndDisplay(menu, coords) {
+        // Delay to ensure rendering has occurred for dimension calculation
+        setTimeout(() => {
+            const { clientX: x, clientY: y } = coords;
+            menu.style.display = "block";
+            const menuRect = menu.getBoundingClientRect();
+            
+            // Prevent Horizontal Overflow
+            const adjustedX = x + menuRect.width > window.innerWidth 
+                ? window.innerWidth - menuRect.width - 5 
+                : x;
+            
+            // Prevent Vertical Overflow (Smart positioning: Flip up if needed)
+            let adjustedY = y;
+            if (y + menuRect.height > window.innerHeight) {
+                // If there's more space above than below, go up
+                if (y > window.innerHeight / 2) {
+                    adjustedY = y - menuRect.height;
+                    // Additional safety if element is taller than y position
+                    if (adjustedY < 0) adjustedY = 5; 
+                } else {
+                    // Stick to bottom edge
+                    adjustedY = window.innerHeight - menuRect.height - 5;
+                }
+            }
+            
+            menu.style.left = `${adjustedX}px`;
+            menu.style.top = `${adjustedY}px`;
+        }, 10);
+    },
+
+    handleAction(action) {
+        this.hideAll();
+        Actions.handle(action);
+    }
 };
