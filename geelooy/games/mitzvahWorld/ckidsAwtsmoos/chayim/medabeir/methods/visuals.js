@@ -1,5 +1,13 @@
 
 
+
+
+
+
+
+
+
+
 /**
  * B"H
  * @file visuals.js
@@ -25,119 +33,154 @@ export default {
     /**
      * B"H
      * Recalculates visibility of all garments based on current equipment.
+     * Uses EXACT mesh names provided by the user.
      */
     updateAppearance() {
-        if (!this.garments) return;
         if (!this.inventory) return;
 
-        // Helper to resolve the actual item object from the equipment reference
-        const getItem = (ref) => {
-            if (!ref) return null;
-            // If it's already an item object (legacy support or direct assignment)
-            if (ref.id && ref.className) return ref; 
+        // B"H: The EXACT mesh names as provided.
+        // DO NOT GUESS.
+        const MESHES = {
+            JACKET: "jacket",
+            JACKET_TEFFILIN: "jacket-teffilin", // The rolled up jacket
+            OUTER_SHIRT: "outer-shirt",
             
-            // If it's a reference pointer { sourceType, index }
-            if (ref.sourceType && ref.index !== undefined) {
-                const source = ref.sourceType === 'action' ? this.inventory.actionSlots : this.inventory.slots;
-                if (source && source[ref.index]) {
-                    return source[ref.index];
-                }
+            // Arm Teffilin
+            TEFFILIN_ARM_STRAPS: "teffilin-arm-straps",
+            TEFFILIN_ARM_BOX: "teffiln-arm-box", // Sic: "teffiln"
+            
+            // Head Teffilin
+            TEFFILIN_HEAD_STRAPS: "head-teffilin-straps",
+            TEFFILIN_HEAD_BOX: "teffilin-head-box",
+            
+            GLASSES: "glasses",
+            TOP_HAT: "top-hat",
+            // Note: Yarmulke/Kippah isn't in the provided list, but we handle it if found
+            YAMULKA: "yamulka" 
+        };
+
+        // Helper to find mesh by name in garments or children
+        const findMesh = (name) => {
+            if (this.garments && this.garments[name]) return this.garments[name];
+            if (this.modelMesh) {
+                let found = null;
+                this.modelMesh.traverse(c => {
+                    if (c.name === name) found = c;
+                });
+                return found;
             }
             return null;
         };
 
-        // 1. Reset all garments to invisible
-        for (const meshName in this.garments) {
-            this.garments[meshName].visible = false;
-        }
+        // Helper to set visibility
+        const setVis = (name, visible, colorHex = null) => {
+            const mesh = findMesh(name);
+            if (mesh) {
+                mesh.visible = visible;
+                if (visible && colorHex) {
+                    this.applyMaterialColor(mesh, colorHex);
+                }
+            }
+        };
 
-        const equippedRefs = this.inventory.equipment;
+        // 1. Reset everything to invisible first (optional, but safer)
+        // Actually, let's just set based on logic to avoid flicker.
+
+        // 2. Get Equipped Items
+        const getItem = (slot) => {
+            const ref = this.inventory.equipment[slot];
+            if (!ref) return null;
+            if (ref.id && ref.className) return ref;
+            const source = ref.sourceType === 'action' ? this.inventory.actionSlots : this.inventory.slots;
+            return source ? source[ref.index] : null;
+        };
+
+        const jacketItem = getItem('jacket');
+        const headItem = getItem('head');
+        const leftHandItem = getItem('leftHand');
+        const rightHandItem = getItem('rightHand');
         
-        // Resolve actual items
-        const jacketItem = getItem(equippedRefs.jacket);
-        const headItem = getItem(equippedRefs.head);
-        const legsItem = getItem(equippedRefs.legs);
-        const feetItem = getItem(equippedRefs.feet);
-        const leftHandItem = getItem(equippedRefs.leftHand);
-        const rightHandItem = getItem(equippedRefs.rightHand);
+        // 3. Determine States
+        const isTeffilin = (item) => item && item.id && item.id.toLowerCase().includes("teffilin");
+        
+        // Check arm teffilin (usually left hand, checking both to be safe)
+        const hasArmTeffilin = isTeffilin(leftHandItem) || isTeffilin(rightHandItem);
+        const hasHeadTeffilin = isTeffilin(headItem);
+        const hasJacket = !!jacketItem;
 
-        // 2. Determine States
-        let jacketEquipped = !!jacketItem;
-        let armTeffilinEquipped = (leftHandItem?.id?.includes("teffilin_arm") || rightHandItem?.id?.includes("teffilin_arm")); 
-        let headTeffilinEquipped = (headItem?.id?.includes("teffilin_head"));
+        // 4. Apply Logic
 
-        // 3. Logic for Jacket & Teffilin
-        if (jacketEquipped) {
-            const jacketColor = jacketItem.customData?.color;
-            if (armTeffilinEquipped) {
-                // Wear special jacket (rolled sleeve)
-                if (this.garments["jacket-teffilin"]) {
-                    this.garments["jacket-teffilin"].visible = true;
-                    if (jacketColor) this.applyMaterialColor(this.garments["jacket-teffilin"], jacketColor);
-                }
+        // --- JACKET & SHIRT ---
+        setVis(MESHES.OUTER_SHIRT, true); // Shirt always on under jacket
+
+        if (hasJacket) {
+            const color = jacketItem.customData?.color || "#FFFFFF";
+            
+            if (hasArmTeffilin) {
+                // Wearing Teffilin: Show Special Jacket, Hide Regular
+                setVis(MESHES.JACKET, false);
+                setVis(MESHES.JACKET_TEFFILIN, true, color);
             } else {
-                // Wear regular jacket
-                if (this.garments["jacket"]) {
-                    this.garments["jacket"].visible = true;
-                    if (jacketColor) this.applyMaterialColor(this.garments["jacket"], jacketColor);
-                }
+                // Normal: Show Regular Jacket, Hide Special
+                setVis(MESHES.JACKET, true, color);
+                setVis(MESHES.JACKET_TEFFILIN, false);
             }
         } else {
-            // If NO jacket, ensure outer-shirt is visible (or whatever default undergarment)
-            if(this.garments["outer-shirt"]) this.garments["outer-shirt"].visible = true;
+            // No Jacket
+            setVis(MESHES.JACKET, false);
+            setVis(MESHES.JACKET_TEFFILIN, false);
         }
 
-        // 4. Logic for Arm Teffilin
-        if (armTeffilinEquipped) {
-            if (this.garments["teffilin-arm-straps"]) this.garments["teffilin-arm-straps"].visible = true;
-            if (this.garments["teffiln-arm-box"]) this.garments["teffiln-arm-box"].visible = true;
-        }
-
-        // 5. Logic for Head Teffilin
-        if (headTeffilinEquipped) {
-            if (this.garments["head-teffilin-straps"]) this.garments["head-teffilin-straps"].visible = true;
-            if (this.garments["teffilin-head-box"]) this.garments["teffilin-head-box"].visible = true;
+        // --- ARM TEFFILIN ---
+        if (hasArmTeffilin) {
+            setVis(MESHES.TEFFILIN_ARM_STRAPS, true);
+            setVis(MESHES.TEFFILIN_ARM_BOX, true);
         } else {
-            // 6. Hats
+            setVis(MESHES.TEFFILIN_ARM_STRAPS, false);
+            setVis(MESHES.TEFFILIN_ARM_BOX, false);
+        }
+
+        // --- HEAD TEFFILIN ---
+        if (hasHeadTeffilin) {
+            setVis(MESHES.TEFFILIN_HEAD_STRAPS, true);
+            setVis(MESHES.TEFFILIN_HEAD_BOX, true);
+            // Hide hat if wearing Shel Rosh? Usually yes.
+            setVis(MESHES.TOP_HAT, false);
+            setVis(MESHES.YAMULKA, false); // Usually Kippah is worn, but mesh might conflict? Let's leave it hidden for now or assume Head Teffilin replaces Head slot.
+        } else {
+            setVis(MESHES.TEFFILIN_HEAD_STRAPS, false);
+            setVis(MESHES.TEFFILIN_HEAD_BOX, false);
+
+            // --- HAT ---
             if (headItem) {
-                const id = (headItem.id || "").toLowerCase();
-                let meshName = null;
-                
-                if (id.includes("yarmulke") || id.includes("kippah")) meshName = "yamulka";
-                else if (id.includes("hat") || id.includes("fedora")) meshName = "top-hat";
-                
-                if (meshName && this.garments[meshName]) {
-                    this.garments[meshName].visible = true;
-                    if (headItem.customData?.color) {
-                        this.applyMaterialColor(this.garments[meshName], headItem.customData.color);
-                    }
+                const color = headItem.customData?.color;
+                if (headItem.id.includes("hat") || headItem.id.includes("fedora")) {
+                    setVis(MESHES.TOP_HAT, true, color);
+                    setVis(MESHES.YAMULKA, false);
+                } else if (headItem.id.includes("yarmulke") || headItem.id.includes("kippah")) {
+                    setVis(MESHES.TOP_HAT, false);
+                    setVis(MESHES.YAMULKA, true, color);
                 }
             } else {
-                 if(this.garments["yamulka"]) this.garments["yamulka"].visible = true;
+                // Default headwear
+                setVis(MESHES.TOP_HAT, false);
+                setVis(MESHES.YAMULKA, true); 
             }
         }
 
-        // 7. Pants & Shoes (Material based)
-        if (legsItem && legsItem.customData?.color) {
-            this.applyColorToMaterialName("pants", legsItem.customData.color);
-        }
-        if (feetItem && feetItem.customData?.color) {
-            this.applyColorToMaterialName("shoes", feetItem.customData.color);
-        }
+        // --- GLASSES ---
+        // Always show glasses mesh if it exists (or control via item if implemented)
+        setVis(MESHES.GLASSES, true);
     },
 
     applyMaterialColor(object3D, colorHex) {
         if (!object3D) return;
         
-        // B"H: Deep recursive traversal to catch ALL nested meshes in a group
         object3D.traverse((child) => {
             if (child.isMesh) {
-                // Handle single material or array of materials
                 const materials = Array.isArray(child.material) ? child.material : [child.material];
                 
                 materials.forEach((mat, index) => {
-                    // Clone to avoid global side effects if this asset is reused elsewhere
-                    // We check if WE specifically cloned it for this instance.
                     if (!child.userData.hasClonedMaterial) {
                          if(Array.isArray(child.material)) {
                              child.material = child.material.map(m => m.clone());
@@ -147,15 +190,11 @@ export default {
                          child.userData.hasClonedMaterial = true;
                     }
 
-                    // Re-fetch materials after potential cloning
                     const currentMats = Array.isArray(child.material) ? child.material : [child.material];
                     const targetMat = currentMats[index];
                     
                     if (targetMat) {
                         targetMat.color.set(colorHex);
-                        // B"H: Ensure update happens. Sometimes texture maps override color if not configured right.
-                        // Setting map to null would force color, but might lose detail. 
-                        // For now, we assume the texture is tintable (grayscale/white).
                         targetMat.needsUpdate = true; 
                     }
                 });
@@ -163,28 +202,8 @@ export default {
         });
     },
 
-    applyColorToMaterialName(matName, colorHex) {
-        if(!this.mesh) return;
-        this.mesh.traverse(child => {
-             if(child.isMesh && child.material) {
-                 const mats = Array.isArray(child.material) ? child.material : [child.material];
-                 mats.forEach(m => {
-                     if(m.name === matName) {
-                         m.color.set(colorHex);
-                         m.needsUpdate = true;
-                     }
-                 });
-             }
-        });
-    },
-
-    // B"H: Default implementation to prevent crashes in child classes
-    adjustDOF() {
-        // No-op for base Medabeir
-    },
-
-    initializeEyelid(ref) { 
-    },
+    adjustDOF() { },
+    initializeEyelid(ref) { },
 
     setupGoof() {
         if(this.goofParts && this.mesh) {

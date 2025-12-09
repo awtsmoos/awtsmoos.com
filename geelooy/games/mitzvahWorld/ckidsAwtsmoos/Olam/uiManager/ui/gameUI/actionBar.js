@@ -3,6 +3,7 @@
 
 
 
+
 // B"H
 import startSlotsConfig from "../startSlotsConfig.js";
 
@@ -126,12 +127,10 @@ export default {
                         // Open Inventory Screen in container mode
                         ui.peula("ikar", { 
                             olamPeula: { 
-                                htmlPeula: { 
-                                    openContainer: { 
-                                        item: slotData, 
-                                        index: index, 
-                                        sourceType: 'action' 
-                                    } 
+                                openContainer: { 
+                                    item: slotData, 
+                                    index: index, 
+                                    sourceType: 'action' 
                                 } 
                             } 
                         });

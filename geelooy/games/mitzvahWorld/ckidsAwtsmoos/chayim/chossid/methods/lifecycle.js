@@ -1,4 +1,9 @@
 
+
+
+
+
+
 /**
  * B"H
  * @file lifecycle.js
@@ -43,42 +48,49 @@ export default {
         }
 
         var self = this;
-
-        self.defaultGarments = {
-            jacket: { 
-                id: 'chossid_jacket_default',
-                className: 'Apparel',
-                name: 'Chossid Jacket',
-                description: 'A traditional jacket.',
-                icon: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cGF0aCBkPSJNIDIwIDE1IEwgMjAgOTAgTCA4MCA5MCBMIDgwIDE1IEwgNjAgMTUgTCA1MCAyNSBMIDQwIDE1IFoiIGZpbGw9IiMzMzMiIHN0cm9rZT0iIzAwMCIgc3Ryb2tlLXdpZHRoPSI0IiAvPjwvc3ZnPg=='
-            },
-            yarmulke: { 
-                id: 'chossid_yarmulke_default',
-                className: 'Apparel',
-                name: 'Kippah',
-                description: 'A sign of reverence.',
-                icon: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cGF0aCBkPSJNIDEwIDUwIEEgNDAgMjAgMCAwIDEgOTAgNTAiIGZpbGw9IiMyMjIiIHN0cm9rZT0iIzExMSIgc3Ryb2tlLXdpZHRoPSIzIi8+PC9zdmc+'
-            }
-        };
+        
+        // B"H: The EXACT names provided by the user
+        const targetGarments = [
+            "jacket",
+            "jacket-teffilin",
+            "outer-shirt",
+            "teffilin-arm-straps",
+            "glasses",
+            "head-teffilin-straps",
+            "teffilin-head-box",
+            "top-hat",
+            "teffiln-arm-box",
+            "yamulka" // Adding this just in case
+        ];
 
         if (self.modelMesh) {
+            if(!self.garments) self.garments = {};
+
             self.modelMesh.traverse((child) => {
                 if (child.isMesh) child.frustumCulled = false;
+                
                 if(child?.name == ("body")) {
                     self.updateDimensionsFromModel(child);
                     self.olam.ayin.target = self;
 	            }
-                // B"H: Collect garments
-                if(self.defaultGarments && self.defaultGarments[child.name]) {
-                    if(!self.garments) self.garments = {};
+
+                // B"H: Explicit Registration
+                if (targetGarments.includes(child.name)) {
                     self.garments[child.name] = child;
+                    // Default to hidden to let updateAppearance handle it
+                    child.visible = false; 
                 }
             });
 
-            // B"H: Equip initial defaults if slots are empty
-            if (!self.inventory.equipment.jacket && self.garments.jacket) {
-                self.updateAppearance();
+            // B"H: Force an update now that we have the meshes
+            // If default equipment exists (like a jacket), this will show it.
+            if (!self.inventory.equipment.jacket && self.garments["jacket"]) {
+                // If nothing equipped, maybe default to jacket?
+                // Or rely on inventory saving.
             }
+            
+            // This call is crucial to set initial state correctly
+            self.updateAppearance();
             self.inventory.updateUI();
         }
     },

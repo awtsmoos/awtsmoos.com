@@ -1,4 +1,6 @@
 
+
+
 /**
  * B"H
  * Inventory Methods for Worker
@@ -56,6 +58,18 @@ export default function(me) {
         async sortInventory() {
             if (me.olam && me.olam.player && me.olam.player.inventory) {
                 me.olam.player.inventory.sortInventory();
+            }
+        },
+        // B"H: New direct handlers for container logic
+        async openContainer(data) {
+            const { item, index, sourceType } = data;
+            if (me.olam && me.olam.player && me.olam.player.inventory) {
+                me.olam.player.inventory.openContainer(item, index, sourceType);
+            }
+        },
+        async closeContainer() {
+            if (me.olam && me.olam.player && me.olam.player.inventory) {
+                me.olam.player.inventory.closeContainer();
             }
         }
     };

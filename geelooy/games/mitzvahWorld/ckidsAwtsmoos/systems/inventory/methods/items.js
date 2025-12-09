@@ -1,6 +1,12 @@
 
 
 
+
+
+
+
+
+
 /**
  * B"H
  * Item manipulation logic for InventoryManager
@@ -11,6 +17,9 @@ import { CurrencySystem } from "../../../dvarim/coin.js";
 export default {
     enrichItemData(itemData) {
         if (!itemData || !itemData.className) return itemData;
+        
+        // B"H: Preserve original icon if it exists
+        const originalIcon = itemData.icon;
         
         const ItemClass = AWTSMOOS[itemData.className];
         if (ItemClass) {
@@ -23,12 +32,21 @@ export default {
                 
                 if (!itemData.name) itemData.name = ItemClass.itemName || tempInstance.name || itemData.className;
                 if (!itemData.description) itemData.description = ItemClass.description || tempInstance.description || "";
-                if (!itemData.icon) itemData.icon = ItemClass.icon || "";
                 
                 if (ItemClass.isBuildable) itemData.isBuildable = true;
             } catch (e) {
                 console.warn("B\"H: Could not hydrate item class", itemData.className, e);
             }
+        }
+        
+        // B"H: Logic to determine final icon
+        // 1. If original item had an icon, keep it.
+        // 2. If not, try class static icon.
+        // 3. Fallback to empty.
+        if (!itemData.icon) {
+            if (originalIcon) itemData.icon = originalIcon;
+            else if (ItemClass && ItemClass.icon) itemData.icon = ItemClass.icon;
+            else itemData.icon = "";
         }
         
         if (itemData.className === 'Coin') {

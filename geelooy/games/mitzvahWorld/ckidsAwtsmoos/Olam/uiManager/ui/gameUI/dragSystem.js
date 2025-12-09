@@ -59,6 +59,7 @@ export default function initDragSystem() {
             
             // B"H: Store the specific click handler for this slot
             window.AwtsmoosDragSystem.pendingClickCallback = (evt) => {
+                 // console.log("B\"H DragSystem: Executing pending click callback for slot", index, source);
                  if (typeof onClick === 'function') onClick(evt);
             };
         };
@@ -180,10 +181,17 @@ export default function initDragSystem() {
         } else if (wasPotential) {
             // B"H: If we were potentially dragging but didn't move far enough, it's a CLICK.
             // Execute the stored callback.
+            // console.log("B\"H DragSystem: Potential drag ended without movement - firing CLICK callback");
             if (sys.pendingClickCallback) {
                 // Ensure target is valid (might need to find the specific slot again if mouse moved slightly)
                 // For simplicity, pass the event we have.
-                sys.pendingClickCallback(e);
+                try {
+                    sys.pendingClickCallback(e);
+                } catch(err) {
+                    console.error("B\"H Error in click callback:", err);
+                }
+            } else {
+                // console.warn("B\"H DragSystem: No pending click callback found despite potential state");
             }
             sys.isPotentialDrag = false;
             sys.pendingClickCallback = null;

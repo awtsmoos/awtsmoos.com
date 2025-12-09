@@ -1,4 +1,7 @@
 
+
+
+
 /**
  * B"H
  * UI and Container logic
@@ -6,39 +9,44 @@
 
 export default {
     openContainer(item, index, sourceType) {
+        console.log("B\"H Inventory System: openContainer called", { item, index, sourceType });
+        
         // B"H: Retrieve the ACTUAL item from the inventory arrays.
-        // 'item' passed from UI might be a detached copy or missing runtime data.
         let realItem = null;
         if (sourceType === 'inventory' && this.slots[index]) {
             realItem = this.slots[index];
         } else if (sourceType === 'action' && this.actionSlots[index]) {
             realItem = this.actionSlots[index];
         } else if (sourceType === 'container' && this.activeContainer) {
-            // Nested containers not fully supported yet, but logic would go here
              realItem = this.activeContainer.customData.slots[index];
         }
         
-        // Fallback to passed item if lookup fails (unlikely if indices are correct)
-        // Note: Using the passed item directly might disconnect it from the inventory array if not careful,
-        // but it's better than crashing.
-        if (!realItem) realItem = item;
-        
+        if (!realItem) {
+            console.warn("B\"H Inventory: Could not find real item at index, using passed item copy.", index, sourceType);
+            realItem = item;
+        }
+
         if (!realItem) return;
         
         // Ensure slots structure exists on the REAL item
         if (!realItem.customData) realItem.customData = {};
         
-        // B"H: Initialize slots if missing, defaulting to 8 if not specified
         if (!realItem.customData.slots) {
+             console.log("B\"H Inventory: Initializing slots for container.");
              const defaultSize = 8;
              realItem.customData.slots = new Array(defaultSize).fill(null);
         }
+
+        // B"H: Hydrate the items inside the container so icons show up in UI!
+        realItem.customData.slots = realItem.customData.slots.map(s => s ? this.enrichItemData(s) : null);
         
         this.activeContainer = realItem;
+        console.log("B\"H Inventory: Active container set to", this.activeContainer.name);
         this.updateUI();
     },
     
     closeContainer() {
+        console.log("B\"H Inventory: Closing container.");
         this.activeContainer = null;
         this.updateUI();
     },

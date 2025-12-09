@@ -6,6 +6,25 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // B"H
 export default {
     shaym: "inventoryScreen",
@@ -23,43 +42,42 @@ export default {
 
             const inventoryElement = $("inventoryScreen");
             if (!inventoryElement) return;
-            const slotsContainer = inventoryElement.querySelector(".slots");
-            if (!slotsContainer) return;
-            slotsContainer.innerHTML = '';
             
-            // B"H: Update Title and Style for Container Mode
             const titleEl = inventoryElement.querySelector(".header .text");
             const header = inventoryElement.querySelector(".header");
             const body = inventoryElement.querySelector(".main-slots-holder");
             
+            // B"H: Find the button by class. If checking ID, make sure it has one. 
+            // We use class .back-inv-btn
+            const backBtn = inventoryElement.querySelector(".back-inv-btn");
+
             if(titleEl) {
                 if(containerMode) {
                     titleEl.textContent = containerName || "Container";
-                    header.style.backgroundColor = "rgba(100, 50, 0, 0.5)"; 
-                    body.style.backgroundColor = "rgba(50, 30, 10, 0.5)";
                     
-                    let backBtn = inventoryElement.querySelector(".back-inv-btn");
-                    if(!backBtn) {
-                        ui.html({
-                            parent: header,
-                            tag: "button",
-                            className: "awtsmoosBtn small back-inv-btn",
-                            style: { marginRight: "10px", padding: "5px 10px" },
-                            textContent: "⬅ Back to Inventory",
-                            onclick: () => {
-                                ui.peula("ikar", { olamPeula: { htmlPeula: { closeContainer: true } } });
-                            }
-                        });
-                        header.insertBefore(header.lastChild, header.firstChild);
+                    if(backBtn) {
+                        backBtn.classList.remove("hidden"); 
                     }
+                    
+                    // Visual cue for container mode
+                    if(header) header.style.backgroundColor = "rgba(50, 20, 0, 0.8)"; 
+                    if(body) body.style.backgroundColor = "rgba(30, 15, 5, 0.6)";
+
                 } else {
                     titleEl.textContent = "Inventory";
-                    header.style.backgroundColor = ""; 
-                    body.style.backgroundColor = "";
-                    const backBtn = inventoryElement.querySelector(".back-inv-btn");
-                    if(backBtn) backBtn.remove();
+                    if(backBtn) {
+                        backBtn.classList.add("hidden"); 
+                    }
+                    
+                    if(header) header.style.backgroundColor = ""; 
+                    if(body) body.style.backgroundColor = "";
                 }
             }
+
+            // --- SLOT RENDERING ---
+            const slotsContainer = inventoryElement.querySelector(".slots");
+            if (!slotsContainer) return;
+            slotsContainer.innerHTML = '';
 
             if(Array.isArray(slotsData)) {
                 slotsData.forEach((slotData, index) => {
@@ -117,8 +135,7 @@ export default {
                         }
                     }
 
-                    // B"H: Consolidated Click Handler Logic
-                    // This function is passed to the drag system and executed if a drag doesn't occur.
+                    // B"H: Logic for clicking a slot
                     const handleClick = (event) => {
                          if (!slotData) return;
                          
@@ -131,12 +148,10 @@ export default {
                              if (!containerMode) {
                                  ui.peula("ikar", { 
                                     olamPeula: { 
-                                        htmlPeula: { 
-                                            openContainer: { 
-                                                item: slotData, 
-                                                index: index, 
-                                                sourceType: currentSourceType 
-                                            } 
+                                        openContainer: { 
+                                            item: slotData, 
+                                            index: index, 
+                                            sourceType: currentSourceType 
                                         } 
                                     } 
                                 });
@@ -163,14 +178,12 @@ export default {
                         ready(el) {
                              if(typeof window !== 'undefined' && typeof window.attachSlotDragListeners === 'function') {
                                 const sourceType = containerMode ? 'container' : 'inventory';
-                                // Pass handleClick as the last argument
                                 window.attachSlotDragListeners(el, { item: slotData }, sourceType, index, ui, handleClick);
                              }
                         },
                         children: [{
                             className: "innerSlot" + (slotData && slotData.isEquipped ? " equipped-indicator" : ""),
                             on: { mouseenter: showTooltip, mouseleave: hideTooltip },
-                            // Removed manual onclick to avoid conflict. Logic is now in handleClick via drag listeners.
                             children: slotData ? [
                                 { tag: 'div', className: className, style: iconStyle, textContent: textIcon }, 
                                 { tag: 'div', className: 'slotQuantity', textContent: slotData.quantity > 1 ? slotData.quantity : '' }
@@ -230,8 +243,12 @@ export default {
                     } else if (item.icon) {
                         textIcon = item.icon;
                         iconStyle = {
-                            display: 'flex', justifyContent: 'center', alignItems: 'center',
-                            fontSize: '24px', width: '100%', height: '100%'
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            fontSize: '40px',
+                            width: '100%',
+                            height: '100%'
                         };
                     }
                     children.push({ className: className, style: iconStyle, textContent: textIcon });
@@ -259,19 +276,17 @@ export default {
             if (x + 150 > window.innerWidth) newX = x - 190;
             if (y + 120 > window.innerHeight) newY = y - 120;
 
-            // B"H: Safe check for container properties
             const isContainer = item.isContainer || item.className === 'Container' || (item.customData && item.customData.slots);
 
             ui.html({
                 shaym: "contextMenu", parent: "ikar", className: "awtsmoosContextMenu",
                 style: { position: "absolute", left: newX + "px", top: newY + "px" },
                 children: [
-                    // B"H: If in inventory/action and is a container, show open button
                     isContainer && sourceType !== 'container' ? { 
                         tag: "button", 
                         textContent: "Open", 
                         onclick: () => { 
-                            ui.peula("ikar", { olamPeula: { htmlPeula: { openContainer: { item, index, sourceType } } } }); 
+                            ui.peula("ikar", { olamPeula: { openContainer: { item, index, sourceType } } }); 
                             $("contextMenu")?.remove(); 
                         } 
                     } : null,
@@ -311,6 +326,16 @@ export default {
     children: [{
         className: "header",
         children: [
+            // B"H: The Back Button is now PERMANENTLY in the structure, just hidden
+            { 
+                tag: "button", 
+                className: "awtsmoosBtn small back-inv-btn hidden", // Starts hidden
+                style: { marginRight: "10px", padding: "5px 10px", fontSize: "14px", fontWeight: "bold" },
+                textContent: "⬅ Back",
+                onclick: (e, $, ui) => {
+                     ui.peula("ikar", { olamPeula: { closeContainer: true } });
+                }
+            },
             { className: "text", textContent: "Inventory" }, 
             { 
                 tag: "button", className: "awtsmoosBtn small", style: { marginLeft: "auto", marginRight: "10px", padding: "5px 10px", fontSize: "14px" }, textContent: "SORT",
