@@ -1,34 +1,26 @@
 // B"H
 // FILE: js/zip/zip-explorer.js
 
-import { ZipReader } from '/scripts/awtsmoos/zip/decoder.js';
-import { ZipFile } from '/scripts/awtsmoos/zip/encoder.js';
-import { DOM, State } from '../state.js';
 import { UI } from '../ui.js';
-import { Tabs } from '../tabs/index.js';
-import { Editor } from '../editor.js';
-import { FileSystemProvider } from '../fs-provider.js';
-import { Workspaces } from '../workspaces.js';
+import { State } from '../state.js';
+import { ZipState } from './state.js';
+import { ZipRenderer } from './render.js';
+import { ZipOps } from './ops.js';
 
 export const ZipExplorer = {
-    currentZip: null,
+    // Current Zip is now tracked by the Active Tab's state
+    get currentZip() {
+        const tab = State.tabs.find(t => t.id === State.activeTabId);
+        return tab?.zipState;
+    },
     
     async open(blob, tab) {
-        UI.showLoading("Decompressing archive...");
+        UI.showLoading("Opening archive...");
         try {
-            this.currentZip = {
-                tabId: tab.id,
-                reader: new ZipReader(),
-                entries: [],
-                modifications: new Map(), // filename -> content (string/blob)
-                name: tab.item.name,
-                sourceItem: tab.item
-            };
+            // B"H - Initialize or Retrieve State attached to Tab
+            await ZipState.getOrInit(tab);
             
-            await this.currentZip.reader.load(blob);
-            this.currentZip.entries = this.currentZip.reader.getEntries();
-            
-            this.render();
+            this.render(tab);
             UI.switchView('zip');
         } catch(e) {
             console.error(e);
@@ -38,242 +30,157 @@ export const ZipExplorer = {
         }
     },
 
-    render() {
-        const container = DOM.zipExplorerWrapper;
-        if (!container) return; 
-        
-        container.innerHTML = `
-            <div class="zip-toolbar">
-                <div class="zip-info">
-                    <span class="zip-filename">${this.currentZip.name}</span>
-                    <span class="zip-stats">${this.currentZip.entries.length} items</span>
-                </div>
-                <div class="zip-actions">
-                    <button id="zip-extract-all" class="secondary-btn">Extract All</button>
-                    <button id="zip-save-btn" class="primary-btn">Save Changes</button>
-                </div>
-            </div>
-            <div class="zip-content">
-                <table class="zip-table">
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th>Name</th>
-                            <th>Size</th>
-                            <th>Ratio</th>
-                        </tr>
-                    </thead>
-                    <tbody id="zip-table-body"></tbody>
-                </table>
-            </div>
-        `;
-        
-        const tbody = container.querySelector('#zip-table-body');
-        const entries = this.currentZip.entries.sort((a, b) => {
-            // Dirs first, then alphabetical
-            if (a.isDir !== b.isDir) return b.isDir ? 1 : -1;
-            return a.filename.localeCompare(b.filename);
-        });
-        
-        if (entries.length === 0) {
-            tbody.innerHTML = `<tr><td colspan="4" class="zip-empty-msg">Archive is empty.</td></tr>`;
-        }
-
-        entries.forEach(entry => {
-            const tr = document.createElement('tr');
-            tr.className = 'zip-row';
-            if (this.currentZip.modifications.has(entry.filename)) tr.classList.add('modified');
-            
-            const ratio = entry.compressedSize > 0 ? Math.round((entry.compressedSize / entry.uncompressedSize) * 100) : 0;
-            const sizeStr = entry.isDir ? '' : this._formatSize(entry.uncompressedSize);
-            
-            tr.innerHTML = `
-                <td class="zip-icon-cell">${entry.isDir ? '📁' : '📄'}</td>
-                <td class="zip-name-cell">${entry.filename}</td>
-                <td class="zip-size-cell">${sizeStr}</td>
-                <td class="zip-ratio-cell">${entry.isDir ? '-' : ratio + '%'}</td>
-            `;
-            
-            if (!entry.isDir) {
-                tr.onclick = () => this.openEntry(entry);
-            }
-            tbody.appendChild(tr);
-        });
-        
-        container.querySelector('#zip-save-btn').onclick = () => this.saveZipToDisk();
-        container.querySelector('#zip-extract-all').onclick = () => this.extractAll();
-    },
-    
-    _formatSize(bytes) {
-        if (bytes === 0) return '0 B';
-        const k = 1024;
-        const sizes = ['B', 'KB', 'MB', 'GB'];
-        const i = Math.floor(Math.log(bytes) / Math.log(k));
-        return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
+    render(tab) {
+        // If no tab provided, use active
+        const targetTab = tab || State.tabs.find(t => t.id === State.activeTabId);
+        if (!targetTab) return;
+        ZipRenderer.render(targetTab, ZipOps);
     },
 
+    // Delegate Operations
     async openEntry(entry) {
-        UI.showLoading(`Extracting ${entry.filename}...`);
-        try {
-            let content = this.currentZip.modifications.get(entry.filename);
-            
-            if (!content) {
-                const blob = await entry.getData();
-                // B"H - Do NOT assume text here. Pass blob to Tabs.create.
-                // Tabs logic will handle type detection via MimeUtil and _handleStandardContent.
-                content = blob; 
-            }
-            
-            const item = {
-                name: entry.filename.split('/').pop(),
-                path: entry.filename,
-                type: 'zip-entry',
-                zipTabId: this.currentZip.tabId,
-                workspaceId: 'zip' 
-            };
-            
-            Tabs.create({ ...item, content: content }, false, false); 
-            
-        } catch(e) {
-            console.error(e);
-            UI.showToast("Error extracting file: " + e.message, 'error');
-        } finally {
-            UI.hideLoading();
-        }
+        const tab = State.tabs.find(t => t.id === State.activeTabId);
+        if(tab) await ZipOps.openEntry(tab, entry);
     },
 
-    updateEntry(filename, content) {
-        if (!this.currentZip) return;
-        this.currentZip.modifications.set(filename, content);
-        UI.showToast(`Updated ${filename} in archive memory.`, 'success');
-        
-        const zipTab = State.tabs.find(t => t.id === this.currentZip.tabId);
-        if (zipTab) {
-            zipTab.isDirty = true;
-            Tabs.render();
-        }
-        this.render(); // Re-render to show modified status
+    async createItem(kind) {
+        const tab = State.tabs.find(t => t.id === State.activeTabId);
+        if(tab) await ZipOps.createItem(tab, kind);
+    },
+
+    async deleteItem(filename) {
+        const tab = State.tabs.find(t => t.id === State.activeTabId);
+        if(tab) await ZipOps.deleteItem(tab, filename);
     },
 
     async saveZipToDisk() {
-        if (!this.currentZip) return;
-        UI.showLoading("Recompressing ZIP...");
-        
-        try {
-            const encoder = new ZipFile();
-            const originalEntries = this.currentZip.entries;
-            
-            for (const entry of originalEntries) {
-                if (entry.isDir) {
-                    encoder.addFolder(entry.filename);
-                    continue;
-                }
-                
-                let data;
-                if (this.currentZip.modifications.has(entry.filename)) {
-                    const content = this.currentZip.modifications.get(entry.filename);
-                    // Encode string to Uint8Array if needed
-                    data = new TextEncoder().encode(content);
-                } else {
-                    const blob = await entry.getData();
-                    data = await blob.arrayBuffer();
-                    data = new Uint8Array(data);
-                }
-                
-                encoder.addFile(entry.filename, data);
-            }
-            
-            const newBlob = encoder.build();
-            
-            const zipTab = State.tabs.find(t => t.id === this.currentZip.tabId);
-            if (zipTab) {
-                await import('../tabs/persistence.js').then(m => m.TabsPersistence.save({ ...zipTab, content: newBlob }, Tabs));
-            }
-            
-        } catch(e) {
-            console.error(e);
-            UI.showToast("Failed to save ZIP: " + e.message, 'error');
-        } finally {
-            UI.hideLoading();
-        }
+        const tab = State.tabs.find(t => t.id === State.activeTabId);
+        if(tab) await ZipOps.save(tab);
     },
 
     async extractAll() {
-        if (!this.currentZip || !this.currentZip.sourceItem) return;
+        const tab = State.tabs.find(t => t.id === State.activeTabId);
+        if(tab) await ZipOps.extractAll(tab);
+    },
+
+    // Called by TabsPersistence for sub-file updates
+    updateEntry(subFileTab, content) {
+        let zipTabId;
         
-        const sourceItem = this.currentZip.sourceItem;
-        const parentPath = sourceItem.path.substring(0, sourceItem.path.lastIndexOf('/')) || '/';
-        const zipName = sourceItem.name.replace(/\.zip$/i, '');
-        const targetFolderName = await UI.showDialog({
-            title: "Extract All",
-            message: `Extract to folder "${zipName}"?`,
-            hasInput: true,
-            inputValue: zipName, // B"H - Assuming dialog supports this, if not it will just be text
-            okText: "Extract",
-            cancelText: "Cancel"
-        });
-
-        if (!targetFolderName) return;
-
-        UI.showLoading("Extracting archive...");
-        try {
-            // 1. Create Target Directory
-            // We need to construct a "directory" item to pass to create/write
-            const workspace = State.workspaces.find(ws => ws.id === sourceItem.workspaceId);
-            if (!workspace) throw new Error("Workspace not found.");
-
-            const parentDirItem = { ...workspace, path: parentPath, kind: 'directory' };
-            
-            // Check existence logic could be here, but FileSystemProvider.create usually handles it or throws
-            // B"H - Create the root extraction folder
-            try {
-                await FileSystemProvider.create(parentDirItem, targetFolderName, 'directory');
-            } catch(e) {
-                // If it exists, we might want to ask to overwrite, but for now we proceed/merge
-                console.warn("Folder might exist, merging...", e);
+        // Handle both (tab, content) and legacy (filename, content) signatures for robustness
+        if (typeof subFileTab === 'string') {
+            // Legacy fallback: try to find tab by path
+            const filename = subFileTab;
+            const foundTab = State.tabs.find(t => t.item.path === filename && t.item.type === 'zip-entry');
+            zipTabId = foundTab?.item?.zipTabId;
+        } else {
+            // Correct way: use the tab object
+            zipTabId = subFileTab.item.zipTabId;
+        }
+        
+        if (zipTabId) {
+            const zipTab = State.tabs.find(t => t.id === zipTabId);
+            if (zipTab) {
+                const filename = typeof subFileTab === 'string' ? subFileTab : subFileTab.item.path;
+                ZipOps.updateEntry(zipTab, filename, content);
+            } else {
+                console.warn("Parent Zip Tab not found for update.");
             }
+        }
+    },
 
-            const targetRootPath = parentPath === '/' ? `/${targetFolderName}` : `${parentPath}/${targetFolderName}`;
-            const targetRootItem = { ...workspace, path: targetRootPath, kind: 'directory' };
-
-            // 2. Iterate Entries
-            for (const entry of this.currentZip.entries) {
-                const parts = entry.filename.split('/');
-                const fileName = parts.pop();
-                const dirPath = parts.join('/');
-                
-                // Ensure directories exist
-                let currentDir = targetRootItem;
-                if (dirPath) {
-                    const dirs = dirPath.split('/');
-                    let currentPathAccum = targetRootPath;
-                    for (const dir of dirs) {
-                        const nextPath = `${currentPathAccum}/${dir}`;
-                        try {
-                            await FileSystemProvider.create({ ...workspace, path: currentPathAccum, kind: 'directory' }, dir, 'directory');
-                        } catch(e) {/* ignore exists */}
-                        currentPathAccum = nextPath;
+    // B"H - Virtual FileSystem Interface for Provider routing
+    fs: {
+        async list(item) {
+            const tab = State.tabs.find(t => t.id === item.zipTabId);
+            if (!tab || !tab.zipState) throw new Error("Zip tab closed or invalid.");
+            
+            const entries = ZipState.getDisplayEntries(tab.zipState);
+            const dirPath = item.path.endsWith('/') ? item.path.slice(0, -1) : item.path;
+            
+            // Filter entries strictly within this directory
+            // Note: Flat zip structure vs tree structure. We need to simulate folder content.
+            // If item.path is root (e.g. just the filename), list all top level?
+            // Actually, Transfer.js recursive copy expects children.
+            // Zip filenames are full paths (e.g. "folder/sub/file.txt").
+            
+            // Simple logic: return entries that start with dirPath + '/' and have no more slashes
+            const results = [];
+            const prefix = dirPath ? dirPath + '/' : ''; // For root, prefix is empty?
+            
+            entries.forEach(e => {
+                if (e.filename.startsWith(prefix) && e.filename !== prefix.slice(0, -1)) {
+                    const relative = e.filename.substring(prefix.length);
+                    if (!relative.includes('/')) {
+                        results.push({
+                            name: relative,
+                            kind: e.isDir ? 'directory' : 'file',
+                            path: e.filename,
+                            type: 'zip-entry',
+                            zipTabId: item.zipTabId,
+                            workspaceId: 'zip'
+                        });
+                    } else if (e.isDir && relative.endsWith('/')) {
+                         // Trailing slash directory handling
+                         const cleanRel = relative.slice(0, -1);
+                         if(!cleanRel.includes('/')) {
+                             results.push({
+                                name: cleanRel,
+                                kind: 'directory',
+                                path: e.filename,
+                                type: 'zip-entry',
+                                zipTabId: item.zipTabId,
+                                workspaceId: 'zip'
+                             });
+                         }
                     }
-                    currentDir = { ...workspace, path: currentPathAccum, kind: 'directory' };
                 }
+            });
+            return results;
+        },
 
-                if (!entry.isDir) {
-                    // Write File
-                    const blob = await entry.getData();
-                    const arrayBuffer = await blob.arrayBuffer();
-                    const fileItem = { ...workspace, path: `${currentDir.path}/${fileName}`, kind: 'file' };
-                    await FileSystemProvider.write(fileItem, arrayBuffer);
-                }
+        async read(item) {
+            const tab = State.tabs.find(t => t.id === item.zipTabId);
+            if (!tab || !tab.zipState) throw new Error("Zip tab closed.");
+            
+            // Check modifications
+            if (tab.zipState.modifications.has(item.path)) {
+                return tab.zipState.modifications.get(item.path);
             }
             
-            UI.showToast("Extraction complete!", "success");
-            await Workspaces.refreshNode(parentDirItem);
+            // Check original entries
+            const entry = tab.zipState.entries.find(e => e.filename === item.path);
+            if (entry) {
+                const blob = await entry.getData();
+                return blob;
+            }
+            throw new Error("File not found in archive.");
+        },
 
-        } catch (e) {
-            console.error(e);
-            UI.showToast("Extraction failed: " + e.message, "error");
-        } finally {
-            UI.hideLoading();
+        async write(item, content) {
+            const tab = State.tabs.find(t => t.id === item.zipTabId);
+            if (!tab) throw new Error("Zip tab not found.");
+            // B"H - Ensure no leading slash for internal zip paths
+            const cleanPath = item.path.startsWith('/') ? item.path.slice(1) : item.path;
+            ZipOps.updateEntry(tab, cleanPath, content);
+        },
+
+        async create(parentDir, name, kind) {
+            const tab = State.tabs.find(t => t.id === parentDir.zipTabId);
+            if (!tab) throw new Error("Zip tab not found.");
+            
+            const newPath = parentDir.path ? `${parentDir.path}/${name}` : name;
+            // Ensure no leading slash if parentDir.path was empty/undefined
+            const cleanPath = newPath.startsWith('/') ? newPath.slice(1) : newPath;
+            
+            await ZipOps.createEntry(tab, cleanPath, kind);
+        },
+
+        async delete(item) {
+            const tab = State.tabs.find(t => t.id === item.zipTabId);
+            if (!tab) return;
+            // Bypass UI confirmation
+            ZipOps.deleteEntry(tab, item.path);
         }
     }
 };

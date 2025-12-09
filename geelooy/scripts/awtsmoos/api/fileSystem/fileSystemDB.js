@@ -101,17 +101,38 @@ class APIHandler {
 		const url = new URL(
 			`${this.baseUrl}aliases/${aliasId}/fileSystem/makeFile`
 			);
-		const params =
-			new URLSearchParams({
+		
+		let body;
+		// B"H - Check if content is binary
+		const isBinary = content instanceof Blob || 
+		                 content instanceof ArrayBuffer || 
+		                 content instanceof Uint8Array || 
+		                 content instanceof File;
+
+		if (isBinary) {
+		    const formData = new FormData();
+		    formData.append('path', st + "/" + key);
+		    
+		    let blob = content;
+		    if (content instanceof ArrayBuffer || content instanceof Uint8Array) {
+		        blob = new Blob([content]);
+		    }
+		    
+		    // The server expects 'binaryData' for file uploads
+		    formData.append('binaryData', blob, key);
+		    body = formData;
+		} else {
+		    body = new URLSearchParams({
 				path: st + "/" + key,
 				content
 			});
+		}
 
 		try {
 			const response =
 				await fetch(url, {
 					method: 'POST', // POST for creating a folder
-					body: params
+					body: body
 				});
 
 			await this
@@ -146,13 +167,18 @@ class APIHandler {
 				await fetch(url, {
 					method: 'GET', // GET for reading the file
 				});
-			var ct  =response.headers.get("content-type")
-		
-		
-			if(ct.includes("image")) {
-				return response.blob()
+			var ct  =response.headers.get("content-type");
+		    
+		    // B"H - Robust content type check
+			if(ct && (ct.includes("text/") || 
+               ct.includes("json") || 
+               ct.includes("javascript") || 
+               ct.includes("xml"))) {
+				return response.text();
 			}
-			return response.text();
+			
+			// Default to blob for binary or unknown types
+			return response.blob();
 		} catch (error) {
 			console.error(
 				"Error reading file:",
@@ -233,23 +259,33 @@ class APIHandler {
 	// Rename a file (key) (as before)
 	async renameFile(storeName, oldKey,
 		newKey) {
-		const value = await this
-			.readFile(storeName,
-				oldKey);
-		if (!value) {
-			throw new Error(
-				`Key "${oldKey}" does not exist.`
-				);
+		// B"H - Optimized to use server-side rename if available, otherwise fallback
+		try {
+		    const oldPath = storeName ? `${storeName}/${oldKey}` : oldKey;
+            const newPath = storeName ? `${storeName}/${newKey}` : newKey;
+            await this.rename(oldPath, newPath);
+            console.log(`Renamed key "${oldKey}" to "${newKey}".`);
+            return;
+		} catch(e) {
+		    // Fallback logic
+		    const value = await this
+    			.readFile(storeName,
+    				oldKey);
+    		if (!value) {
+    			throw new Error(
+    				`Key "${oldKey}" does not exist.`
+    				);
+    		}
+    
+    		await this.makeFile(
+    			storeName, newKey,
+    			value);
+    		await this.delete(storeName,
+    			oldKey);
+    		console.log(
+    			`Renamed key "${oldKey}" to "${newKey}".`
+    			);
 		}
-
-		await this.makeFile(
-			storeName, newKey,
-			value);
-		await this.delete(storeName,
-			oldKey);
-		console.log(
-			`Renamed key "${oldKey}" to "${newKey}".`
-			);
 	}
 	
 	

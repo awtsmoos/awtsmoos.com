@@ -13,6 +13,13 @@ showContextMenu,
  showGenericContextMenu
 } from '../../contextMenuManager.js';
 
+// Reusable Chevron SVG Icon
+const getChevronIcon = () => `
+    <svg viewBox="0 0 24 24">
+        <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
+    </svg>
+`;
+
 export default ({
     os,
     path,
@@ -38,7 +45,6 @@ export default ({
     // --- SELECTION MODE HELPERS ---
 
     // Async to wait for render, and takes initialPath to select the item that was right-clicked
-    // REPLACEMENT for enterSelectionMode
     async function enterSelectionMode(initialPath = null) {
         state.selectionMode = true;
         
@@ -170,6 +176,39 @@ export default ({
         e.stopPropagation();
         e.currentTarget.classList.remove('drag-over');
 
+        // B"H - Handle Native OS File Drops
+        if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+            const files = Array.from(e.dataTransfer.files);
+            let importedCount = 0;
+            
+            for (const file of files) {
+                // Heuristic for text vs binary
+                const isText = file.type.startsWith('text/') || 
+                               file.type === 'application/json' ||
+                               file.type === 'application/javascript' ||
+                               file.type.includes('xml');
+                
+                try {
+                    const content = isText ? await file.text() : await file.arrayBuffer();
+                    await os.createFile({
+                        path: targetFolderPath,
+                        title: file.name,
+                        content: content
+                    });
+                    importedCount++;
+                } catch (err) {
+                    console.error("Error importing native file:", file.name, err);
+                }
+            }
+            
+            if (importedCount > 0) {
+                system.makeToast(`${importedCount} file(s) imported.`, "success");
+                renderFiles(state.currentPath, body);
+            }
+            return;
+        }
+
+        // B"H - Handle Internal App Drag & Drop
         const data = e.dataTransfer.getData('application/json');
         if (!data) return;
 
@@ -248,28 +287,44 @@ export default ({
             const nameSpan = createElement({ tag: 'span', attributes: { class: 'node-name' }, html: displayName });
 
             if (isFolder) {
-                const toggle = createElement({ tag: 'span', attributes: { class: 'toggle' }, html: '►' });
+                // B"H - Use SVG Chevron Icon for better aesthetics
+                const toggle = createElement({ 
+                    tag: 'div', 
+                    attributes: { class: 'toggle-icon' }, 
+                    html: getChevronIcon() 
+                });
+                
                 contentWrapper.append(toggle, nameSpan);
                 const childrenUl = createElement({ tag: 'ul', attributes: { class: 'tree-children collapsed' }});
 
                 const expand = async () => {
                     if (childrenUl.classList.contains('collapsed')) {
                         childrenUl.classList.remove('collapsed');
-                        toggle.innerHTML = '▼';
+                        toggle.classList.add('expanded'); // Rotate icon
                         await buildNode(fullPath, childrenUl);
                     }
                 };
                 const collapse = () => {
                     childrenUl.classList.add('collapsed');
-                    toggle.innerHTML = '►';
+                    toggle.classList.remove('expanded'); // Reset rotation
                 };
                 
-                toggle.onclick = (e) => { e.stopPropagation(); childrenUl.classList.contains('collapsed') ? expand() : collapse(); };
-                contentWrapper.onclick = (e) => { e.stopPropagation(); navigateTo(fullPath); };
+                toggle.onclick = (e) => { 
+                    e.stopPropagation(); 
+                    childrenUl.classList.contains('collapsed') ? expand() : collapse(); 
+                };
+                
+                // Clicking the label should open the folder in view
+                contentWrapper.onclick = (e) => { 
+                    e.stopPropagation(); 
+                    navigateTo(fullPath); 
+                };
+                
                 li.append(contentWrapper, childrenUl);
             } else {
-                const fileIconPlaceholder = createElement({ tag: 'span', attributes: { class: 'toggle' } });
-                contentWrapper.append(fileIconPlaceholder, nameSpan);
+                // Spacer for files to align with folders
+                const spacer = createElement({ tag: 'div', attributes: { class: 'toggle-icon' } });
+                contentWrapper.append(spacer, nameSpan);
                 contentWrapper.onclick = () => performOpenAction(currentPath, item, false);
                 li.appendChild(contentWrapper);
             }
@@ -731,7 +786,14 @@ export default ({
             drop: (e) => handleDrop(e, '/')
         }
     });
-    const homeToggle = createElement({ tag: 'span', attributes: { class: 'toggle' }, html: '►' });
+    
+    // B"H - Updated Home Toggle with SVG
+    const homeToggle = createElement({ 
+        tag: 'div', 
+        attributes: { class: 'toggle-icon' }, 
+        html: getChevronIcon() 
+    });
+    
     const homeName = createElement({ tag: 'span', attributes: { class: 'node-name' }, html: 'Home' });
     homeContent.append(homeToggle, homeName);
 
@@ -740,14 +802,14 @@ export default ({
     const expandHome = async () => {
         if (homeChildrenUl.classList.contains('collapsed')) {
             homeChildrenUl.classList.remove('collapsed');
-            homeToggle.innerHTML = '▼';
+            homeToggle.classList.add('expanded');
             await buildNode('/', homeChildrenUl); 
         }
     };
 
     const collapseHome = () => {
         homeChildrenUl.classList.add('collapsed');
-        homeToggle.innerHTML = '►';
+        homeToggle.classList.remove('expanded');
     };
 
     homeToggle.onclick = (e) => { e.stopPropagation(); homeChildrenUl.classList.contains('collapsed') ? expandHome() : collapseHome(); };
@@ -773,9 +835,9 @@ async function syncSidebarToPath(path) {
     }
     
     if (homeChildrenUl.classList.contains('collapsed')) {
-        const homeToggle = homeLi.querySelector(':scope > .tree-node-content > .toggle');
+        const homeToggle = homeLi.querySelector(':scope > .tree-node-content > .toggle-icon');
         homeChildrenUl.classList.remove('collapsed');
-        if(homeToggle) homeToggle.innerHTML = '▼';
+        if(homeToggle) homeToggle.classList.add('expanded');
         await buildNode('/', homeChildrenUl); 
     }
 
@@ -804,9 +866,9 @@ async function syncSidebarToPath(path) {
         const isFolder = !!childrenUl;
 
         if (isFolder && childrenUl.classList.contains('collapsed')) {
-            const toggle = nodeLi.querySelector(':scope > .tree-node-content > .toggle');
+            const toggle = nodeLi.querySelector(':scope > .tree-node-content > .toggle-icon');
             childrenUl.classList.remove('collapsed');
-            if (toggle) toggle.innerHTML = '▼';
+            if (toggle) toggle.classList.add('expanded');
             await buildNode(nodeLi.getAttribute('data-full-path'), childrenUl); 
         }
         
@@ -862,7 +924,7 @@ async function syncSidebarToPath(path) {
 	                });
 	                await renderFiles(state.currentPath, body);
 	         }})}},
-                { tag: "button", html: "New Folder?", on: { 
+                { tag: "button", html: "New Folder", on: { 
                     click: () => showInputDialog({ title: 'Enter New Folder Name', callback: async (name) => { 
                         await os.createFolder({ path: state.currentPath, title: name }); 
                         
@@ -872,6 +934,7 @@ async function syncSidebarToPath(path) {
                         await syncSidebarToPath(state.currentPath);
                     }})
                 }},
+                // B"H - Updated Import to wait for promise before refresh
                 { tag: "button", html: "Import", on: { click: () => importFiles({ os, path: state.currentPath }).then(() => renderFiles(state.currentPath, body)) }},
             ]
         });
