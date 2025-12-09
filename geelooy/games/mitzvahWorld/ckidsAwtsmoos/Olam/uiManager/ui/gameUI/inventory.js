@@ -172,7 +172,7 @@ export default {
             const equipContainer = inventoryElement.querySelector(".equipment-slots");
             if (!equipContainer) return;
             equipContainer.innerHTML = "";
-            const slotOrder = ["head", "jacket", "legs", "feet", "rightHand", "leftHand"];
+            const slotOrder = ["head", "shirt", "jacket", "legs", "feet", "rightHand", "leftHand"]; // B"H: Added shirt
 
             slotOrder.forEach(slotName => {
                 const item = equipData[slotName];

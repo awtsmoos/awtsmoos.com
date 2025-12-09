@@ -1,3 +1,4 @@
+
 // B"H
 /**
  * @file index.js
@@ -106,6 +107,8 @@ class AwtsmoosDB {
 
     async _readChainSafe(ptr) {
         if (!ptr || ptr.blockId === 0) return null;
+        
+        // B"H: FIX - MUST use Allocator to respect Cache!
         if (ptr.isChain) {
             // Calculate blocks needed
             const totalSize = ptr.length;
@@ -117,7 +120,8 @@ class AwtsmoosDB {
                 blocksNeeded += Math.ceil((totalSize - firstBlockCap) / subBlockCap);
             }
 
-            const raw = await this.allocator.pager.readSequential(ptr.blockId, blocksNeeded);
+            // USE ALLOCATOR LOCKED READ
+            const raw = await this.allocator.readSequentialLocked(ptr.blockId, blocksNeeded);
             const buf = Buffer.alloc(totalSize);
             
             let readOffset = 0;
@@ -138,7 +142,9 @@ class AwtsmoosDB {
             return buf;
 
         } else {
-            const block = await this.allocator.pager.readBlock(ptr.blockId);
+            // USE ALLOCATOR LOCKED READ
+            const block = await this.allocator.readBlockLocked(ptr.blockId);
+            if (!block) return null;
             return block.subarray(ptr.offset, ptr.offset + ptr.length);
         }
     }
@@ -155,12 +161,15 @@ class AwtsmoosDB {
                 const avail = constants.BLOCK_SIZE - start;
                 const chunk = Math.min(remaining.length, avail);
                 
-                // Read block first to preserve header if needed (though usually we overwrite)
-                let blk = await this.allocator.pager.readBlock(currentBlock);
+                // Read block via Allocator (cached)
+                let blk = await this.allocator.readBlockLocked(currentBlock);
                 if (!blk) blk = Buffer.alloc(constants.BLOCK_SIZE);
                 
+                // Copy data
                 remaining.subarray(0, chunk).copy(blk, start);
-                await this.allocator.pager.writeBlock(currentBlock, blk);
+                
+                // Write block via Allocator (cached)
+                await this.allocator.writeBlockLocked(currentBlock, blk);
                 
                 remaining = remaining.subarray(chunk);
                 currentBlock++;
@@ -179,30 +188,7 @@ class AwtsmoosDB {
         const metaBuf = await this._readChainSafe(ptr);
         if (!metaBuf) return undefined;
         
-        // Use v1 adapter to decode standard [Type][Len][Data] blocks
-        const v1Adapter = require('./deserialize/v1_adapter.js');
-        // Meta blocks usually start with Type Byte.
-        // However, v1Adapter expects the raw data part sometimes or handles the wrapper?
-        // serializeValue produces [Type][Len][Data]. 
-        // MetaBlock contains [Type][PtrToHandle] OR just [Type][Len][Data] if inlined?
-        // In current Writer.set, we do `_writeMetaValue` which calls `serializeValue`.
-        // So the buffer at `ptr` IS the [Type][Len][Data] blob.
-        
-        // Check for special types (Collections/Trees)
-        const type = metaBuf[0] >> 2; // Unpack type from first byte
-        
-        if (type === constants.VAL_TYPE.OBJECT || type === constants.VAL_TYPE.MAP || type === constants.VAL_TYPE.ARRAY) {
-             // For complex types, we might want to return the LiveHandle wrapper if accessed directly?
-             // But _resolveValueFull implies "get me the JS value".
-        }
-        
-        // Pass 0 as typeId is irrelevant here because the buffer contains the type header
-        // v1Adapter.decode expects just the data if typeId is provided, OR full buffer?
-        // Let's look at v1_adapter.decode:
-        // It constructs the wrapper. So it expects `buffer` to be just DATA.
-        // But `metaBuf` IS the full wrapper.
-        
-        // FIX: The parser handles full wrappers.
+        // Use parser to handle full structure
         const parser = require('./deserialize/parser.js');
         return parser.parse(metaBuf);
     }

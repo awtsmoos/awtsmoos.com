@@ -1,3 +1,4 @@
+
 /**
  * B"H
  * Player = Chossid
@@ -12,6 +13,7 @@ import interactionMethods from './methods/interaction.js';
 import lifecycleMethods from './methods/lifecycle.js';
 import visualMethods from './methods/visuals.js';
 import updateMethods from './methods/update.js';
+import inventorySetupMethods from './methods/inventory-setup.js'; // B"H
 
 export default class Chossid extends Medabeir {
     type = "chossid";
@@ -36,3 +38,4 @@ Object.assign(Chossid.prototype, interactionMethods);
 Object.assign(Chossid.prototype, lifecycleMethods);
 Object.assign(Chossid.prototype, visualMethods);
 Object.assign(Chossid.prototype, updateMethods);
+Object.assign(Chossid.prototype, inventorySetupMethods); // B"H

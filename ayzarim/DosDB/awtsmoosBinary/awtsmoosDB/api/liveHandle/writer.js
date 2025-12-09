@@ -18,7 +18,8 @@ class Writer {
             await this.db.ensureOpen();
             const tree = await this.handle.tree.getCurrentTree(ptr);
 
-            // B"H: Capture old root for safe freeing
+            // B"H: For Replacement (CreateMap overwrites), we DO free the old root manually
+            // because Ops.insert is not involved.
             const oldRoot = tree.rootPtr;
             this.handle.log(`[Writer] Old Root: ${oldRoot ? `${oldRoot.blockId}:${oldRoot.offset}` : 'NULL'}`);
 
@@ -51,7 +52,6 @@ class Writer {
             this.handle.log(`[Writer] Updating Tree Pointer...`);
             await this.handle.tree.updateTreePointer(ptr, tree);
             
-            // B"H: CRITICAL FIX - Verify Root Update BEFORE freeing Old Root
             await this.verifyRootUpdate(ptr, tree.rootPtr);
             this.handle.log(`[Writer] Root Update Verified.`);
 
@@ -123,7 +123,9 @@ class Writer {
         await this.db.ensureOpen();
         const tree = await this.handle.tree.getCurrentTree(ptr);
         
-        const oldRoot = tree.rootPtr;
+        // B"H: Logic Change - Do NOT capture and free oldRoot manually here.
+        // Ops.insert() will register the old root for freeing ONLY if it was rewritten.
+        // If it was split, it will be kept.
 
         const metaPtr = await this.db._writeMetaValue(value);
         await tree.insert(key, metaPtr);
@@ -132,12 +134,8 @@ class Writer {
         
         await this.verifyRootUpdate(ptr, tree.rootPtr);
 
-        // B"H: Transactional Free - Flush internal frees from Ops
+        // B"H: Transactional Free - Flush internal frees from Ops (which now includes Old Root if valid)
         await tree.flushFrees();
-
-        if (oldRoot && oldRoot.blockId && tree.rootPtr && (oldRoot.blockId !== tree.rootPtr.blockId || oldRoot.offset !== tree.rootPtr.offset)) {
-             await this.db.allocator.free(oldRoot);
-        }
     }
 
     async delete(key) {
@@ -147,19 +145,14 @@ class Writer {
         let tree;
         if (this.handle.mode === 'ROOT') {
             tree = await this.db._loadRootTree();
-            const oldRoot = tree.rootPtr; 
+            // B"H: Removed manual oldRoot free logic. Delegated to Ops + flushFrees.
             
             await tree.remove(key);
             
             await this.handle.tree.updateTreePointer(ptr, tree);
             await this.verifyRootUpdate(ptr, tree.rootPtr); 
 
-            // B"H: Transactional Free - Flush internal frees from Ops
             await tree.flushFrees();
-            
-             if (oldRoot && oldRoot.blockId && tree.rootPtr && (oldRoot.blockId !== tree.rootPtr.blockId || oldRoot.offset !== tree.rootPtr.offset)) {
-                 await this.db.allocator.free(oldRoot);
-            }
             
         } else {
             if (this.handle.mode === 'DEFERRED') await this.handle.nav.detectMode(ptr);
@@ -171,7 +164,7 @@ class Writer {
             const rootPtr = _readPtr(handleBuf, 4);
             tree = new BTree(this.db.allocator, rootPtr);
             
-            const oldRoot = tree.rootPtr; 
+            // B"H: Removed manual oldRoot free logic. Delegated to Ops + flushFrees.
             
             await tree.remove(key);
             
@@ -188,12 +181,7 @@ class Writer {
                  throw new Error("B\"H: Critical - Delete failed to persist new root pointer.");
             }
 
-            // B"H: Transactional Free - Flush internal frees from Ops
             await tree.flushFrees();
-            
-             if (oldRoot && oldRoot.blockId && tree.rootPtr && (oldRoot.blockId !== tree.rootPtr.blockId || oldRoot.offset !== tree.rootPtr.offset)) {
-                 await this.db.allocator.free(oldRoot);
-            }
         }
         return true;
     }

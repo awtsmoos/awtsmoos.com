@@ -6,14 +6,23 @@ class Ops {
 
     async insert(key, valuePtr) {
         const root = await this.btree.getRoot();
+        const oldRootPtr = this.btree.rootPtr; // Capture state
+
         const result = await this.insertRecursive(root, key, valuePtr);
         
         if (result.newPtr) {
+            // B"H: CoW Update - The old root node is replaced by a new one.
+            // We must free the old root, BUT only if it actually changed block/offset.
+            if (oldRootPtr && result.newPtr && (oldRootPtr.blockId !== result.newPtr.blockId || oldRootPtr.offset !== result.newPtr.offset)) {
+                 this.btree.registerFree(oldRootPtr);
+            }
             this.btree.rootPtr = result.newPtr;
         }
 
         if (result.newChild) {
             this.btree.log(`Root Split. New Root created.`);
+            // B"H: Root Split - The old root (this.btree.rootPtr) becomes a child.
+            // DO NOT FREE IT.
             const newRoot = {
                 isLeaf: false,
                 keys: [result.newChild.key],
@@ -141,8 +150,13 @@ class Ops {
 
     async remove(key) {
 	    const root = await this.btree.getRoot();
+        const oldRootPtr = this.btree.rootPtr;
+
 	    const result = await this.removeRecursive(root, key);
 	    if (result.modified) {
+             if (oldRootPtr && result.newPtr && (oldRootPtr.blockId !== result.newPtr.blockId || oldRootPtr.offset !== result.newPtr.offset)) {
+                 this.btree.registerFree(oldRootPtr);
+            }
             this.btree.rootPtr = result.newPtr;
 	    }
 	}

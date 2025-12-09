@@ -14,6 +14,10 @@
 
 
 
+
+
+
+
 /**
  * B"H
  * @file visuals.js
@@ -48,6 +52,30 @@ export default {
                 child.visible = false;
             });
         }
+    },
+    
+    // B"H: Helper for setting shape keys - Updated to traverse children
+    setMorphInfluence(object, name, value) {
+        if (!object) return;
+
+        const apply = (mesh) => {
+            if (mesh.morphTargetDictionary && mesh.morphTargetInfluences) {
+                const index = mesh.morphTargetDictionary[name];
+                if (index !== undefined) {
+                    mesh.morphTargetInfluences[index] = value;
+                }
+            }
+        };
+
+        // Check the object itself
+        apply(object);
+
+        // Check all children (crucial if 'outer-shirt' is a Group)
+        object.traverse((child) => {
+            if (child.isMesh) {
+                apply(child);
+            }
+        });
     },
 
     updateAppearance() {
@@ -97,6 +125,7 @@ export default {
 
         const jacketItem = getItem('jacket');
         const headItem = getItem('head');
+        const shirtItem = getItem('shirt'); 
         const leftHandItem = getItem('leftHand');
         const rightHandItem = getItem('rightHand'); 
         
@@ -106,8 +135,31 @@ export default {
         const hasHeadTeffilin = isTeffilin(headItem);
         const hasJacket = !!jacketItem;
 
-        // --- SHIRT (Always on) ---
-        this.wear(MESHES.OUTER_SHIRT);
+        // --- SHIRT Logic ---
+        const outerShirtMesh = this.garments[MESHES.OUTER_SHIRT];
+        
+        if (shirtItem) {
+            // If shirt is equipped, show it
+            this.wear(MESHES.OUTER_SHIRT);
+            
+            if (outerShirtMesh) {
+                // Apply Shirt Color
+                const color = shirtItem.customData?.color;
+                if (color) this.applyMaterialColor(outerShirtMesh, color);
+                
+                // Apply Rolled-Up Shape Key if Arm Teffilin is worn
+                const influence = hasArmTeffilin ? 1 : 0;
+                this.setMorphInfluence(outerShirtMesh, "rolled-up", influence);
+            }
+        } else {
+            // If no shirt equipped, hide the outer layer (showing inner skin/shirt)
+            this.takeOff(MESHES.OUTER_SHIRT);
+            
+            // B"H: Reset shape key just in case it becomes visible later or for cached state
+            if (outerShirtMesh) {
+                this.setMorphInfluence(outerShirtMesh, "rolled-up", 0);
+            }
+        }
 
         // --- JACKET Logic ---
         if (hasJacket) {
