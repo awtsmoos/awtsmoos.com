@@ -1,3 +1,4 @@
+
 // B"H
 // FILE: js/file-ops/transfer.js
 import { State } from '../state.js';
@@ -9,6 +10,7 @@ import { Workspaces, getItemUniquePath } from '../workspaces.js';
 import { Tabs } from '../tabs/index.js';
 import { GitMetaProvider } from '../git-meta-provider.js';
 import { Exporter } from './exporter.js';
+import { calculateGitBlobSha } from '../git-sha-calculator.js';
 
 export const Transfer = {
     async copySelected() {
@@ -295,35 +297,140 @@ export const Transfer = {
     async pullAndOverwrite(folderToUpdate, gitInfo) {
         const confirmed = await UI.showDialog({
             title: 'Confirm Overwrite',
-            message: `Update '${folderToUpdate.name}' from GitHub? Local changes will be lost.`,
+            message: `Update '${folderToUpdate.name}' from GitHub? This will fetch new changes and overwrite conflicted files.`,
             okText: 'Pull',
             cancelText: 'Cancel'
         });
         if (!confirmed) return;
 
-        UI.showLoading(`Pulling changes...`);
+        UI.showLoading(`Connecting to GitHub...`);
         try {
             const sourceRepoItem = { type: 'github', workspaceId: folderToUpdate.workspaceId, ...gitInfo };
             const newTreeData = await FileSystemProvider.GitHub.getFullTree(sourceRepoItem);
             const newFiles = newTreeData.tree;
+            
+            // Normalize paths: remove leading slashes to ensure map matching is accurate
+            const normalize = p => p.startsWith('/') ? p.slice(1) : p;
+            
+            // Map old files for quick lookup
+            const oldFilesMap = new Map((gitInfo.remoteTree || []).filter(f => f.type === 'blob').map(f => [normalize(f.path), f]));
+            
+            const filesToDownload = [];
+            const filesToDelete = [];
+            const newFilesMap = new Set();
 
+            let skippedCount = 0;
+
+            // 1. Identify Downloads (Additions & Modifications)
             for (const fileNode of newFiles) {
                 if (fileNode.type !== 'blob') continue;
-                UI.showLoading(`Downloading ${fileNode.path}...`);
-                const content = await FileSystemProvider.GitHub.read({ ...sourceRepoItem, path: fileNode.path, sha: fileNode.sha, name: 'file' });
-                const destPath = `${folderToUpdate.path}/${fileNode.path}`;
                 
+                const normPath = normalize(fileNode.path);
+                newFilesMap.add(normPath);
+
+                const oldNode = oldFilesMap.get(normPath);
+                
+                // Case A: SHA is different from what we recorded last time (Metadata Diff)
+                // Case B: File is completely new to us
+                if (!oldNode || oldNode.sha !== fileNode.sha) {
+                    
+                    // B"H - SMART PULL CHECK
+                    // Before committing to download, let's verify if the LOCAL file already matches the REMOTE.
+                    // This handles cases where metadata (ikar.js) is stale/missing but files are present.
+                    try {
+                        // Construct path for local lookup
+                        const localPath = folderToUpdate.path === '/' ? `/${normPath}` : `${folderToUpdate.path}/${normPath}`;
+                        const localItem = { ...folderToUpdate, path: localPath, kind: 'file' };
+                        
+                        // Read local content
+                        const content = await FileSystemProvider.read(localItem);
+                        
+                        let bytes;
+                        if (content instanceof Blob) bytes = new Uint8Array(await content.arrayBuffer());
+                        else if (typeof content === 'string') bytes = new TextEncoder().encode(content);
+                        else if (content && content.base64Content) bytes = Uint8Array.from(atob(content.base64Content), c => c.charCodeAt(0));
+                        else bytes = new Uint8Array(0);
+
+                        const localSha = await calculateGitBlobSha(bytes);
+                        
+                        if (localSha === fileNode.sha) {
+                            // Content matches! No need to download.
+                            skippedCount++;
+                            continue; // Skip pushing to filesToDownload
+                        }
+                    } catch (readErr) {
+                        // File likely doesn't exist locally, so we MUST download.
+                    }
+
+                    filesToDownload.push(fileNode);
+                }
+            }
+
+            // 2. Identify Deletions
+            // If it was in the old tree but not in the new tree, it should be deleted.
+            for (const [path, oldNode] of oldFilesMap) {
+                if (!newFilesMap.has(path)) {
+                    filesToDelete.push(oldNode);
+                }
+            }
+
+            // Check if there's actually anything to do
+            if (filesToDownload.length === 0 && filesToDelete.length === 0) {
+                // If nothing to download/delete, but we skipped files or baseSHA changed, we still update metadata.
+                if (gitInfo.baseCommitSHA === newTreeData.sha && skippedCount === 0) {
+                    UI.showToast("Already up to date.", "success");
+                    UI.hideLoading();
+                    return;
+                }
+                // If we skipped files, we still proceed to update metadata (Step 5)
+            }
+
+            // 3. Process Deletions
+            if (filesToDelete.length > 0) {
+                UI.showLoading(`Removing ${filesToDelete.length} obsolete files...`);
+                for (const file of filesToDelete) {
+                    const normPath = normalize(file.path);
+                    const fullPath = folderToUpdate.path === '/' ? `/${normPath}` : `${folderToUpdate.path}/${normPath}`;
+                    await FileSystemProvider.delete({ ...folderToUpdate, path: fullPath, kind: 'file' });
+                }
+            }
+
+            // 4. Process Downloads
+            let processed = 0;
+            for (const fileNode of filesToDownload) {
+                processed++;
+                const percentage = Math.round((processed / filesToDownload.length) * 100);
+                UI.showLoading(`Downloading ${processed}/${filesToDownload.length} (${percentage}%)\n${fileNode.path}`);
+                
+                const content = await FileSystemProvider.GitHub.read({ ...sourceRepoItem, path: fileNode.path, sha: fileNode.sha, name: 'file' });
+                const normPath = normalize(fileNode.path);
+                const destPath = folderToUpdate.path === '/' ? `/${normPath}` : `${folderToUpdate.path}/${normPath}`;
+                
+                // Ensure parent directory exists (for deep paths)
+                const parts = destPath.split('/');
+                if (parts.length > 2) { // e.g. /folder/file.js
+                     // Simple heuristic: just write. FileSystemProvider.write usually creates handle recursively in Local/IDB.
+                     // If strict FS, we might need mkdirs. IndexedDB provider handles it. Local handles it via getHandle({create:true}).
+                }
+
                 await FileSystemProvider.write({ ...folderToUpdate, path: destPath }, content);
             }
 
+            // 5. Update Metadata
             const updatedGitInfo = { ...gitInfo, baseCommitSHA: newTreeData.sha, remoteTree: newTreeData.tree };
             const ikarContent = `// B"H\n\nconst ikar = ${JSON.stringify(updatedGitInfo, null, 4)};`;
             await FileSystemProvider.write({ ...folderToUpdate, path: `${folderToUpdate.path}/.awtsmoos-repo/ikar.js` }, ikarContent);
 
             await Workspaces.refreshNode(folderToUpdate);
-            UI.showToast('Pull successful.', 'success');
+            
+            let msg = `Pull complete.`;
+            if (filesToDownload.length > 0) msg += ` Updated ${filesToDownload.length} files.`;
+            if (skippedCount > 0) msg += ` (Skipped ${skippedCount} identical files).`;
+            
+            UI.showToast(msg, 'success');
         } catch (e) {
             UI.showToast(`Pull Failed: ${e.message}`, 'error');
+            console.error(e);
         } finally {
             UI.hideLoading();
         }

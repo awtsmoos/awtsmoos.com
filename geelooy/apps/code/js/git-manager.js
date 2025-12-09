@@ -1,3 +1,4 @@
+
 // B"H
 // FILE: js/git-manager.js
 
@@ -251,6 +252,8 @@ export const GitManager = {
         if (hasConflicts) {
             dialogConfig.okText = null; 
             dialogConfig.message = "You have unsaved changes that conflict with newer versions on the remote. Please back up your code, then discard changes or manually merge.";
+            // B"H - ADDITION: Allow force pull even on conflict to break deadlock
+            dialogConfig.secondaryOk = { text: 'Pull & Overwrite (Force)', actionKey: 'force_pull' };
         } else if (isBehind) {
             dialogConfig.okText = 'Pull & Overwrite Local Changes';
         } else if (hasDirty && !hasInscribed) {
@@ -293,6 +296,7 @@ export const GitManager = {
 
         try {
             if (dialogResult === 'tertiary') await this.discardChanges(gitContextItem);
+            else if (dialogResult === 'force_pull') FileOperations.pullAndOverwrite(gitContextItem, gitInfo); // Handle force pull
             else if (isBehind) FileOperations.pullAndOverwrite(gitContextItem, gitInfo);
             else if (isAhead && !hasConflicts) {
                 const commitMessage = document.getElementById('dialog-textarea')?.value || `B"H\nUpdate`;

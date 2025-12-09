@@ -33,6 +33,9 @@
 
 
 
+
+
+
 // B"H
 export default {
     shaym: "inventoryScreen",
@@ -43,10 +46,11 @@ export default {
     },
     on: {
         updateSlots(e, $, ui) {
-            const detail = e.detail;
-            const slotsData = detail.updateSlots || detail; 
-            const containerMode = detail.containerMode;
-            const containerName = detail.containerName;
+            // B"H: Handle bundled data from updateUI
+            const data = e.detail || e;
+            const slotsData = data.slots || (Array.isArray(data) ? data : []); 
+            const containerMode = !!data.containerMode;
+            const containerName = data.containerName;
 
             const inventoryElement = $("inventoryScreen");
             if (!inventoryElement) return;
@@ -68,7 +72,7 @@ export default {
                 }
             }
             
-            // B"H: Force Display Logic
+            // B"H: Force Display Logic for Back Button
             if(backBtn) {
                 if(containerMode) {
                      backBtn.classList.remove("hidden");

@@ -8,6 +8,8 @@
 
 
 
+
+
 /**
  * B"H
  * UI and Container logic
@@ -150,7 +152,6 @@ export default {
                 }
                 
                 if (item) {
-                    // B"H: Critical Fix - Enrich the equipment item here to ensure icon exists!
                      uiEquipment[key] = await formatSlot(item);
                 } else {
                      uiEquipment[key] = null;
@@ -158,12 +159,15 @@ export default {
             } else { uiEquipment[key] = null; }
         }
 
+        // B"H: Bundle everything into the updateSlots payload so the UI handler receives all context
         this.owner.olam.ayshPeula("ui event", "inventoryScreen", {
-            updateSlots: uiSlots,
+            updateSlots: {
+                slots: uiSlots,
+                containerMode: !!this.activeContainer,
+                containerName: containerName
+            },
             updateEquipment: uiEquipment,
-            updateWallet: this.getWalletValue(),
-            containerMode: !!this.activeContainer,
-            containerName: containerName
+            updateWallet: this.getWalletValue()
         });
         
         this.owner.olam.ayshPeula("ui event", "action bar", {
