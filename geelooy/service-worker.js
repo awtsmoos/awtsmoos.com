@@ -14,11 +14,11 @@
  */
 
 // Incrementing the version is crucial to force the browser to update the worker.
-const CACHE_NAME = 'awtsmoos-cache-v18';
-const DB_NAME = 'awtsmoos-metadata-v18';
+const CACHE_NAME = 'awtsmoos-cache-v19';
+const DB_NAME = 'awtsmoos-metadata-v19';
 const STATUS_HEADER = 'Awtsmoos-File-Status';
 
-// --- IndexedDB Helper (Unchanged and Correct) ---
+// --- IndexedDB Helper ---
 const MetadataDB = {
     _db: null,
     async _getDB() {
