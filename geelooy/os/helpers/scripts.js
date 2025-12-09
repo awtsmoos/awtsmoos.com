@@ -34,8 +34,8 @@ function loadFiles(callback) {
     return new Promise((resolve) => {
         const input = document.createElement('input');
         input.type = 'file';
-        input.multiple = true; // Allow multiple file selection
-        input.style.display = 'none'; // Make input invisible
+        input.multiple = true; 
+        input.style.display = 'none'; 
         document.body.appendChild(input);
         
         input.onchange = async () => {
@@ -46,14 +46,16 @@ function loadFiles(callback) {
                 }
                 alert(`${files.length} file(s) imported successfully!`);
             }
-            document.body.removeChild(input); // Clean up
-            resolve(files.length);
+            document.body.removeChild(input); 
+            resolve(files.length); // B"H - Resolve promise when done
         };
         
-        // Optional: Detect cancel (focus return) - simple implementation
-        // If user cancels, this promise might hang without a timeout or focus listener,
-        // but for standard file input API, onchange is the only reliable event.
-        
-        input.click(); // Trigger file selection dialog
+        // Handle cancel
+        input.addEventListener('cancel', () => {
+             document.body.removeChild(input);
+             resolve(0);
+        });
+
+        input.click(); 
     });
 }

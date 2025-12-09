@@ -1,3 +1,4 @@
+
 //B"H
 import System from "./system.js"
 import ResizableWindow from "./windows.js"
@@ -20,7 +21,7 @@ export default class WindowHandler {
     getExtension(title) {
         var l = title.lastIndexOf(".")
         if(l > -1) {
-            return title.substring(l)
+            return title.substring(l).toLowerCase();
         }
         return ".js";
     }
@@ -117,7 +118,7 @@ onrestore(window) {
             title, 
             content: finalContent,
             handler: this,
-            programId: programName || defaultPrograms[ext] || 'awtsmoosBinaryViewer',
+            programId: programName || defaultPrograms[ext] || 'advancedCodeEditor',
             
             // PASS THROUGH NEW OPTIONS
             hideTitleBar: options.hideTitleBar,

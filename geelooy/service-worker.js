@@ -18,42 +18,128 @@ const CACHE_NAME = 'awtsmoos-cache-v19';
 const DB_NAME = 'awtsmoos-metadata-v19';
 const STATUS_HEADER = 'Awtsmoos-File-Status';
 
-// --- IndexedDB Helper ---
+// --- IndexedDB Helper (Robust Version) ---
 const MetadataDB = {
     _db: null,
+    _opening: null, // Promise to handle concurrent open requests
+
     async _getDB() {
         if (this._db) return this._db;
-        return new Promise((resolve, reject) => {
+        if (this._opening) return this._opening;
+
+        this._opening = new Promise((resolve, reject) => {
             const request = indexedDB.open(DB_NAME, 1);
-            request.onupgradeneeded = () => request.result.createObjectStore('metadata', { keyPath: 'url' });
-            request.onsuccess = () => { this._db = request.result; resolve(this._db); };
-            request.onerror = (e) => { console.error('IndexedDB error:', e); reject('IndexedDB error'); };
+            
+            request.onupgradeneeded = (event) => {
+                const db = event.target.result;
+                if (!db.objectStoreNames.contains('metadata')) {
+                    db.createObjectStore('metadata', { keyPath: 'url' });
+                }
+            };
+
+            request.onsuccess = (event) => {
+                const db = event.target.result;
+                this._db = db;
+                this._opening = null;
+
+                // CRITICAL: Listen for closure events to prevent "The database connection is closing" errors
+                db.onclose = () => {
+                    console.log('[MetadataDB] Connection closed automatically.');
+                    this._db = null;
+                };
+                
+                db.onversionchange = () => {
+                    console.log('[MetadataDB] Version change detected. Closing.');
+                    db.close();
+                    this._db = null;
+                };
+                
+                db.onerror = (e) => {
+                     console.log('[MetadataDB] Connection error:', e);
+                     this._db = null;
+                };
+
+                resolve(db);
+            };
+
+            request.onerror = (e) => {
+                console.error('IndexedDB open error:', e);
+                this._opening = null;
+                reject('IndexedDB error');
+            };
         });
+        
+        return this._opening;
     },
+
     async get(url) {
         try {
-            const db = await this._getDB();
-            const tx = db.transaction('metadata', 'readonly').objectStore('metadata');
-            const req = tx.get(url);
-            return new Promise(resolve => {
-                req.onsuccess = () => resolve(req.result);
-                req.onerror = () => resolve(null); // Resolve null on error
-            });
+            return await this._performGet(url);
         } catch (e) {
+            // RETRY STRATEGY: If connection is bad, reset and try ONCE more.
+            if (e && (e.name === 'InvalidStateError' || e.message?.includes('closing'))) {
+                console.warn('[MetadataDB] Connection closed during get. Retrying...');
+                this._db = null;
+                try {
+                    return await this._performGet(url);
+                } catch (retryErr) {
+                    console.error('[MetadataDB] Retry failed:', retryErr);
+                    return null;
+                }
+            }
             console.error("Failed to get from IndexedDB", e);
             return null;
         }
     },
+
+    async _performGet(url) {
+        const db = await this._getDB();
+        return new Promise((resolve, reject) => {
+            try {
+                const tx = db.transaction('metadata', 'readonly');
+                const store = tx.objectStore('metadata');
+                const req = store.get(url);
+                req.onsuccess = () => resolve(req.result);
+                req.onerror = () => resolve(null); // Resolve null on error to keep flow moving
+            } catch (err) {
+                reject(err); // Catch synchronous transaction creation errors
+            }
+        });
+    },
+
     async set(metadata) {
         try {
-            const db = await this._getDB();
-            const tx = db.transaction('metadata', 'readwrite').objectStore('metadata');
-            await tx.put(metadata);
-            return tx.done;
+            await this._performSet(metadata);
         } catch (e) {
-            console.error("Failed to write to IndexedDB", e);
-            return Promise.resolve();
+             // RETRY STRATEGY
+             if (e && (e.name === 'InvalidStateError' || e.message?.includes('closing'))) {
+                console.warn('[MetadataDB] Connection closed during set. Retrying...');
+                this._db = null;
+                try {
+                    await this._performSet(metadata);
+                } catch (retryErr) {
+                    console.error('[MetadataDB] Set retry failed', retryErr);
+                }
+            } else {
+                console.error("Failed to write to IndexedDB", e);
+            }
         }
+    },
+
+    async _performSet(metadata) {
+         const db = await this._getDB();
+         return new Promise((resolve, reject) => {
+             try {
+                 const tx = db.transaction('metadata', 'readwrite');
+                 const store = tx.objectStore('metadata');
+                 store.put(metadata);
+                 // Native JS uses oncomplete, not .done
+                 tx.oncomplete = () => resolve();
+                 tx.onerror = () => reject(tx.error);
+             } catch (err) {
+                 reject(err);
+             }
+         });
     }
 };
 

@@ -1,3 +1,4 @@
+
 // B"H
 // FILE: /Remember/awtsmoos/com/geelooy/os/programs/open-with-selector/index.js
 
@@ -7,12 +8,18 @@ export default ({ os, content, extension } = {}) => {
     const { filePath, fileTitle } = content;
     let compatiblePrograms = programsByExtension[extension] || [];
 	
-	// If no specific programs are listed, it's a binary or generic file.
-	// In that case, add the default binary viewer as the only option.
+	// If no specific programs are listed, default to Advanced Code Editor
+	// as it is optimized for all content types (including binary).
 	if (compatiblePrograms.length === 0) {
-	    compatiblePrograms.push('awtsmoosBinaryViewer');
+	    compatiblePrograms.push('advancedCodeEditor');
 	}
-    let selectedProgram = defaultPrograms[extension]; // Pre-select the current default
+	
+	// Ensure Advanced Code Editor is always an option if it isn't already
+	if (!compatiblePrograms.includes('advancedCodeEditor')) {
+	    compatiblePrograms.push('advancedCodeEditor');
+	}
+
+    let selectedProgram = defaultPrograms[extension] || compatiblePrograms[0]; 
 
     // --- Main Container ---
     const container = document.createElement('div');
@@ -65,8 +72,8 @@ export default ({ os, content, extension } = {}) => {
         const fileContent = await os.db.Laynin(filePath, fileTitle);
         os.addWindow({ title: fileTitle, content: fileContent, path: filePath, os: os, programName: programToUse });
         // Close this "Open With" window
-        const thisWindowHeader = container.closest(`.${window.awtsmoosWindowID}-window`).querySelector('.window-header');
-        thisWindowHeader.querySelector('.close').click();
+        const thisWindowHeader = container.closest(`.${window.awtsmoosWindowID}-window`)?.querySelector('.window-header');
+        thisWindowHeader?.querySelector('.close')?.click();
     };
 
     onceButton.onclick = () => openFile(selectedProgram);
@@ -77,7 +84,11 @@ export default ({ os, content, extension } = {}) => {
     };
 
     // --- Initial Selection ---
-    programList.querySelector(`button[data-prog-name="${selectedProgram}"]`)?.click();
+    if(selectedProgram) {
+        const defaultBtn = programList.querySelector(`button[data-prog-name="${selectedProgram}"]`);
+        if(defaultBtn) defaultBtn.click();
+        else if(programList.firstChild) programList.firstChild.click();
+    }
 
     return { div: container };
 };
