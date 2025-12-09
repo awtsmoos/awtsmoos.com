@@ -8,9 +8,10 @@ export const GitDiff = {
     async calculateDiff(gitContextItem, gitInfo) {
         const changeSet = {
             creations: [],
-            updates: [], 
+            updates: [],
             deletions: [],
-            dirtyFiles: []
+            dirtyFiles: [],
+            conflicts: [] // B"H - New Conflict Tracking
         };
 
         const remoteFileMap = new Map(
@@ -35,6 +36,21 @@ export const GitDiff = {
             const relPath = getRelativePath(tab.item.path);
             if (relPath) {
                 changeSet.dirtyFiles.push({ tabItem: tab.item, relativePath: relPath });
+                
+                // B"H - Conflict Detection
+                // If the file exists on remote, check if our base SHA matches the remote's current SHA.
+                if (remoteFileMap.has(relPath)) {
+                    const remoteFile = remoteFileMap.get(relPath);
+                    // If we have a base SHA and it differs, it means the remote updated since we opened/saved.
+                    if (tab.item.sha && tab.item.sha !== remoteFile.sha) {
+                        changeSet.conflicts.push({
+                            path: relPath,
+                            reason: "Remote file has changed since you opened it.",
+                            remoteSha: remoteFile.sha,
+                            localBaseSha: tab.item.sha
+                        });
+                    }
+                }
             }
         });
 
@@ -50,6 +66,19 @@ export const GitDiff = {
                 changeSet.creations.push({ path: relativePath, content: change.content });
             } else {
                 changeSet.updates.push({ path: relativePath, content: change.content });
+                
+                // Check conflicts for staged files too (if item metadata stored the base SHA)
+                if (change.item && change.item.sha) {
+                     const remoteFile = remoteFileMap.get(relativePath);
+                     if (remoteFile && remoteFile.sha !== change.item.sha) {
+                         changeSet.conflicts.push({
+                            path: relativePath,
+                            reason: "Remote file changed after you staged this edit.",
+                            remoteSha: remoteFile.sha,
+                            localBaseSha: change.item.sha
+                        });
+                     }
+                }
             }
         }
 
