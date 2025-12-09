@@ -2,6 +2,7 @@
 const Collection = require('../../structure/collection.js');
 const v1Adapter = require('../../deserialize/v1_adapter.js');
 const { _readPtr } = require('./utils.js');
+const Page = require('../../structure/page.js');
 
 class Reader {
     constructor(handle, LiveHandleClass) {
@@ -15,6 +16,12 @@ class Reader {
         if (!ptr && this.handle.mode !== 'ROOT') return undefined;
         if (this.handle.mode === 'ROOT') return "[AwtsmoosDB Root]";
         
+        // B"H: If ptr has explicit type (from Collection), trust it and decode directly.
+        if (ptr && ptr.type !== undefined) {
+             const valBuf = await this.db._readChainSafe(ptr);
+             return v1Adapter.decode(valBuf, ptr.type);
+        }
+
         if (this.handle.mode === 'DEFERRED') await this.handle.nav.detectMode(ptr);
 
         if (this.handle.mode === 'BTREE' || this.handle.mode === 'COLLECTION') {
@@ -28,6 +35,13 @@ class Reader {
         if (depth > 5) return "[Max Depth Exceeded]";
         const ptr = await this.handle.ptrPromise;
         if (!ptr) return undefined;
+        
+        // B"H: Direct decode for typed pointers
+        if (ptr.type !== undefined) {
+             const valBuf = await this.db._readChainSafe(ptr);
+             return v1Adapter.decode(valBuf, ptr.type);
+        }
+
         if (this.handle.mode === 'DEFERRED') await this.handle.nav.detectMode(ptr);
         
         if (this.handle.mode === 'BTREE') {
@@ -84,7 +98,7 @@ class Reader {
         let count = 0;
         
         while(currPage !== 0 && count < end) {
-            const page = new (require('../../structure/page.js'))(currPage, this.db.allocator);
+            const page = new Page(currPage, this.db.allocator);
             await page.load();
             
             for(let item of page.items) {
@@ -131,8 +145,6 @@ class Reader {
     async *entries() { yield* this._iterateGeneric('ENTRY'); }
     
     // Default Iterator (Value for List, Entry for Map for backwards compat)
-    // Actually, standard Map iterator is [key, value], but our previous tests expected {key, value} for BTree
-    // Let's stick to values() behavior for Collections and {key, value} objects for BTree to match 'comprehensive_features.js'
     async *iterator() {
         yield* this._iterateGeneric('DEFAULT');
     }
@@ -155,11 +167,11 @@ class Reader {
              await col.load();
              let currPage = col.headPageId;
              while(currPage !== 0) {
-                const page = new (require('../../structure/page.js'))(currPage, this.db.allocator);
+                const page = new Page(currPage, this.db.allocator);
                 await page.load();
                 for(let item of page.items) {
                     if (mode === 'KEY') {
-                        yield item.key; // Generated Key
+                        yield item.key; 
                     } else if (mode === 'ENTRY') {
                         const valBuf = await this.db._readChainSafe(item.ptr);
                         const val = v1Adapter.decode(valBuf, item.type);

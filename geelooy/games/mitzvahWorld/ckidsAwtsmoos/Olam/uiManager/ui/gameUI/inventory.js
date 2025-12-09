@@ -25,6 +25,14 @@
 
 
 
+
+
+
+
+
+
+
+
 // B"H
 export default {
     shaym: "inventoryScreen",
@@ -46,31 +54,28 @@ export default {
             const titleEl = inventoryElement.querySelector(".header .text");
             const header = inventoryElement.querySelector(".header");
             const body = inventoryElement.querySelector(".main-slots-holder");
-            
-            // B"H: Find the button by class. If checking ID, make sure it has one. 
-            // We use class .back-inv-btn
             const backBtn = inventoryElement.querySelector(".back-inv-btn");
 
             if(titleEl) {
                 if(containerMode) {
                     titleEl.textContent = containerName || "Container";
-                    
-                    if(backBtn) {
-                        backBtn.classList.remove("hidden"); 
-                    }
-                    
-                    // Visual cue for container mode
                     if(header) header.style.backgroundColor = "rgba(50, 20, 0, 0.8)"; 
                     if(body) body.style.backgroundColor = "rgba(30, 15, 5, 0.6)";
-
                 } else {
                     titleEl.textContent = "Inventory";
-                    if(backBtn) {
-                        backBtn.classList.add("hidden"); 
-                    }
-                    
                     if(header) header.style.backgroundColor = ""; 
                     if(body) body.style.backgroundColor = "";
+                }
+            }
+            
+            // B"H: Force Display Logic
+            if(backBtn) {
+                if(containerMode) {
+                     backBtn.classList.remove("hidden");
+                     backBtn.style.display = "block";
+                } else {
+                     backBtn.classList.add("hidden");
+                     backBtn.style.display = "none";
                 }
             }
 
@@ -135,13 +140,10 @@ export default {
                         }
                     }
 
-                    // B"H: Logic for clicking a slot
                     const handleClick = (event) => {
                          if (!slotData) return;
                          
                          const currentSourceType = containerMode ? 'container' : 'inventory';
-                         
-                         // Robust container check
                          const isContainer = slotData.isContainer || slotData.className === 'Container' || (slotData.customData && slotData.customData.slots);
 
                          if (isContainer) {
@@ -159,7 +161,6 @@ export default {
                              }
                          }
                          
-                         // Context Menu Fallback
                          const rect = event.target ? event.target.getBoundingClientRect() : { right: event.clientX, top: event.clientY };
                          ui.peula($("inventoryScreen"), {
                             showContextMenu: { 
@@ -326,11 +327,11 @@ export default {
     children: [{
         className: "header",
         children: [
-            // B"H: The Back Button is now PERMANENTLY in the structure, just hidden
+            // B"H: Correctly placed BACK button
             { 
                 tag: "button", 
-                className: "awtsmoosBtn small back-inv-btn hidden", // Starts hidden
-                style: { marginRight: "10px", padding: "5px 10px", fontSize: "14px", fontWeight: "bold" },
+                className: "awtsmoosBtn small back-inv-btn hidden", 
+                style: { marginRight: "10px", padding: "5px 10px", fontSize: "14px", fontWeight: "bold", display: "none" },
                 textContent: "⬅ Back",
                 onclick: (e, $, ui) => {
                      ui.peula("ikar", { olamPeula: { closeContainer: true } });

@@ -29,34 +29,26 @@ async function runTest() {
 
     try {
         // --- PHASE 1: The Creation of Worlds (Deep Nesting) ---
-        console.log("\n[1] Constructing Deep Nested Worlds...");
+        console.log("\n[1] Constructing Deep Nested Worlds (Maps)...");
         
-        db.root.universe = {
-            milkyWay: {
-                solarSystem: {
-                    earth: {
-                        continents: {
-                            asia: {
-                                countries: {
-                                    israel: {
-                                        cities: {
-                                            jerusalem: { 
-                                                population: 936425,
-                                                spiritualLevel: "High"
-                                            },
-                                            telAviv: {
-                                                population: 460613,
-                                                humidity: "Very High"
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        };
+        // B"H: Construct hierarchy explicitly to allow deep traversal/updates
+        await db.root.createMap("universe");
+        await db.root.universe.createMap("milkyWay");
+        await db.root.universe.milkyWay.createMap("solarSystem");
+        await db.root.universe.milkyWay.solarSystem.createMap("earth");
+        await db.root.universe.milkyWay.solarSystem.earth.createMap("continents");
+        await db.root.universe.milkyWay.solarSystem.earth.continents.createMap("asia");
+        await db.root.universe.milkyWay.solarSystem.earth.continents.asia.createMap("countries");
+        await db.root.universe.milkyWay.solarSystem.earth.continents.asia.countries.createMap("israel");
+        await db.root.universe.milkyWay.solarSystem.earth.continents.asia.countries.israel.createMap("cities");
+        
+        await db.root.universe.milkyWay.solarSystem.earth.continents.asia.countries.israel.cities.createMap("jerusalem");
+        await db.root.universe.milkyWay.solarSystem.earth.continents.asia.countries.israel.cities.jerusalem.set("population", 936425);
+        await db.root.universe.milkyWay.solarSystem.earth.continents.asia.countries.israel.cities.jerusalem.set("spiritualLevel", "High");
+
+        await db.root.universe.milkyWay.solarSystem.earth.continents.asia.countries.israel.cities.createMap("telAviv");
+        await db.root.universe.milkyWay.solarSystem.earth.continents.asia.countries.israel.cities.telAviv.set("population", 460613);
+        await db.root.universe.milkyWay.solarSystem.earth.continents.asia.countries.israel.cities.telAviv.set("humidity", "Very High");
 
         await db.waitForIdle();
         
@@ -67,9 +59,10 @@ async function runTest() {
 
         // Deep Update (Adding a neighborhood)
         console.log("    Adding Nachlaot...");
-        db.root.universe.milkyWay.solarSystem.earth.continents.asia.countries.israel.cities.jerusalem.neighborhoods = {
-            nachlaot: { catCount: 500 }
-        };
+        await db.root.universe.milkyWay.solarSystem.earth.continents.asia.countries.israel.cities.jerusalem.createMap("neighborhoods");
+        await db.root.universe.milkyWay.solarSystem.earth.continents.asia.countries.israel.cities.jerusalem.neighborhoods.createMap("nachlaot");
+        await db.root.universe.milkyWay.solarSystem.earth.continents.asia.countries.israel.cities.jerusalem.neighborhoods.nachlaot.set("catCount", 500);
+
         await db.waitForIdle();
         
         const cats = await db.root.universe.milkyWay.solarSystem.earth.continents.asia.countries.israel.cities.jerusalem.neighborhoods.nachlaot.catCount;
@@ -80,8 +73,8 @@ async function runTest() {
         // --- PHASE 2: The Flood (Collection Stress) ---
         console.log("\n[2] Stressing Collections (Page Splits)...");
         
-        // Initialize empty array
-        db.root.logs = [];
+        // Initialize list explicitly
+        await db.root.createList("logs");
         await db.waitForIdle();
         
         // B"H: CRITICAL FIX - Capture the handle ONCE before the loop.
@@ -124,15 +117,17 @@ async function runTest() {
         // --- PHASE 3: Complex Mixed Types ---
         console.log("\n[3] Testing Mixed Structures (Objects in Arrays in Objects)...");
         
-        db.root.appState = {
-            activeUsers: [
-                { id: 1, preferences: { theme: 'dark' } },
-                { id: 2, preferences: { theme: 'light' } }
-            ],
-            systemSettings: {
-                version: 2.0
-            }
-        };
+        // B"H: Construct structure via createMap/createList to support nested pushes
+        await db.root.createMap("appState");
+        await db.root.appState.createList("activeUsers");
+        
+        // Add initial users
+        await db.root.appState.activeUsers.push({ id: 1, preferences: { theme: 'dark' } });
+        await db.root.appState.activeUsers.push({ id: 2, preferences: { theme: 'light' } });
+        
+        await db.root.appState.createMap("systemSettings");
+        await db.root.appState.systemSettings.set("version", 2.0);
+        
         await db.waitForIdle();
 
         // Push to nested collection

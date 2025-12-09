@@ -49,6 +49,8 @@ class LiveHandle {
                 if (prop === 'toJSON') return target.reader.toJSON.bind(target.reader);
 
                 if (prop === 'push') return target.writer.push.bind(target.writer);
+                // B"H: Added splice
+                if (prop === 'splice') return target.writer.splice.bind(target.writer); 
                 if (prop === 'slice') return target.reader.slice.bind(target.reader);
                 if (prop === 'delete' || prop === 'deleteProperty') return target.writer.delete.bind(target.writer);
                 

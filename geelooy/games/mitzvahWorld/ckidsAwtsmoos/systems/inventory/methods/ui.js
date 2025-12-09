@@ -2,6 +2,12 @@
 
 
 
+
+
+
+
+
+
 /**
  * B"H
  * UI and Container logic
@@ -11,7 +17,6 @@ export default {
     openContainer(item, index, sourceType) {
         console.log("B\"H Inventory System: openContainer called", { item, index, sourceType });
         
-        // B"H: Retrieve the ACTUAL item from the inventory arrays.
         let realItem = null;
         if (sourceType === 'inventory' && this.slots[index]) {
             realItem = this.slots[index];
@@ -28,7 +33,6 @@ export default {
 
         if (!realItem) return;
         
-        // Ensure slots structure exists on the REAL item
         if (!realItem.customData) realItem.customData = {};
         
         if (!realItem.customData.slots) {
@@ -37,16 +41,14 @@ export default {
              realItem.customData.slots = new Array(defaultSize).fill(null);
         }
 
-        // B"H: Hydrate the items inside the container so icons show up in UI!
+        // B"H: Hydrate container contents immediately
         realItem.customData.slots = realItem.customData.slots.map(s => s ? this.enrichItemData(s) : null);
         
         this.activeContainer = realItem;
-        console.log("B\"H Inventory: Active container set to", this.activeContainer.name);
         this.updateUI();
     },
     
     closeContainer() {
-        console.log("B\"H Inventory: Closing container.");
         this.activeContainer = null;
         this.updateUI();
     },
@@ -68,9 +70,8 @@ export default {
 
         const formatSlot = async (slot) => {
             if (!slot) return null;
+            // B"H: Always enrich before sending to UI to ensure ICON IS PRESENT
             const itemData = this.enrichItemData(slot);
-            
-            // Explicitly set isContainer here as a safeguard for the UI
             const isContainer = itemData.className === 'Container' || itemData.isContainer || (itemData.customData && !!itemData.customData.slots);
             
             return {
@@ -84,15 +85,27 @@ export default {
         const equippedMap = new Map();
         for (const [slotName, ref] of Object.entries(this.equipment)) {
             if (ref) {
-                const key = `${ref.sourceType}-${ref.index}`;
+                let key;
+                if (ref.sourceType === 'container') {
+                    key = `container-${ref.containerId}-${ref.index}`;
+                } else {
+                    key = `${ref.sourceType}-${ref.index}`;
+                }
                 equippedMap.set(key, slotName);
             }
         }
 
-        const formatWithEquippedStatus = async (slot, index, sourceType) => {
+        const formatWithEquippedStatus = async (slot, index, sourceType, containerId = null) => {
             if (!slot) return null;
             const formatted = await formatSlot(slot);
-            const key = `${sourceType}-${index}`;
+            
+            let key;
+            if (sourceType === 'container') {
+                 key = `container-${containerId}-${index}`;
+            } else {
+                 key = `${sourceType}-${index}`;
+            }
+
             if (equippedMap.has(key)) {
                 formatted.isEquipped = true;
                 formatted.equippedIn = equippedMap.get(key);
@@ -103,32 +116,44 @@ export default {
         let visibleSlots;
         let sourceType;
         let containerName = null;
+        let activeContainerId = null;
         
         if (this.activeContainer) {
             visibleSlots = this.activeContainer.customData.slots;
             sourceType = 'container';
             containerName = this.activeContainer.name || "Container";
+            activeContainerId = this.activeContainer.id;
         } else {
             visibleSlots = this.slots;
             sourceType = 'inventory';
         }
 
-        const uiSlots = await Promise.all(visibleSlots.map((s, i) => formatWithEquippedStatus(s, i, sourceType)));
+        const uiSlots = await Promise.all(visibleSlots.map((s, i) => formatWithEquippedStatus(s, i, sourceType, activeContainerId)));
         const uiActionSlots = await Promise.all(this.actionSlots.map((s, i) => formatWithEquippedStatus(s, i, 'action')));
         
         const uiEquipment = {};
         for (const [key, ref] of Object.entries(this.equipment)) {
             if (ref) {
-                const sourceArray = ref.sourceType === 'action' ? this.actionSlots : this.slots;
-                if (ref.sourceType === 'inventory' || ref.sourceType === 'action') {
-                     const item = sourceArray[ref.index];
-                     if(item) {
-                        uiEquipment[key] = await formatSlot(item);
-                     } else {
-                         uiEquipment[key] = null;
-                     }
+                let item = null;
+                if (ref.sourceType === 'inventory') item = this.slots[ref.index];
+                else if (ref.sourceType === 'action') item = this.actionSlots[ref.index];
+                else if (ref.sourceType === 'container') {
+                    if (this.activeContainer && this.activeContainer.id === ref.containerId) {
+                        item = this.activeContainer.customData.slots[ref.index];
+                    } else {
+                        // Find the bag in main inventory
+                        const bag = this.slots.find(s => s && s.id === ref.containerId);
+                        if (bag && bag.customData && bag.customData.slots) {
+                             item = bag.customData.slots[ref.index];
+                        }
+                    }
+                }
+                
+                if (item) {
+                    // B"H: Critical Fix - Enrich the equipment item here to ensure icon exists!
+                     uiEquipment[key] = await formatSlot(item);
                 } else {
-                    uiEquipment[key] = null; 
+                     uiEquipment[key] = null;
                 }
             } else { uiEquipment[key] = null; }
         }

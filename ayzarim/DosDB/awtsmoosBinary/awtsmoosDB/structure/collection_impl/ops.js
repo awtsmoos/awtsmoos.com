@@ -11,39 +11,27 @@ class CollectionOps {
         this.allocator = collection.allocator;
     }
 
+    // Helper to write data blob
+    async _writeData(value) {
+        // B"H: FIX - Use 'false' to get raw DATA payload only.
+        // The Page stores the Type. We do not want to store Type/Len header in the blob
+        // because v1Adapter.decode wraps it again.
+        const { type, data } = serializeValue(value, false);
+        
+        // Allocate and write RAW data
+        const ptr = await this.allocator.allocate(data.length);
+        await this.allocator.db._writeChainSafe(ptr, data);
+        
+        return ptr;
+    }
+
     async append(key, value) {
         const task = async () => {
             this.col.log(`Append initiated for key: "${key}"`);
             await this.col.load(); 
-    
-            // 1. Serialize and Store the Value
-            const valData = serializeValue(value, false);
-            const allocSize = Math.max(1, valData.data.length);
             
-            this.col.log(`Allocating value blob of size ${allocSize} for "${key}"`);
-            const dataPtr = await this.allocator.allocate(allocSize);
-            
-            if (dataPtr.isChain) {
-                 this.col.log(`Value is large (Chain). Writing to Block ${dataPtr.blockId}...`);
-                 let remaining = valData.data;
-                 let currentBlock = dataPtr.blockId;
-                 while(remaining.length > 0) {
-                     let blk = await this.allocator.readBlockLocked(currentBlock);
-                     if (!blk) blk = Buffer.alloc(constants.BLOCK_SIZE);
-
-                     const start = (currentBlock === dataPtr.blockId) ? dataPtr.offset : HEADER_SIZE;
-                     const avail = constants.BLOCK_SIZE - start;
-                     const chunk = Math.min(remaining.length, avail);
-                     
-                     remaining.subarray(0, chunk).copy(blk, start);
-                     await this.allocator.writeBlockLocked(currentBlock, blk);
-                     
-                     remaining = remaining.subarray(chunk);
-                     currentBlock++;
-                 }
-            } else {
-                await this.allocator.writeUserSpace(dataPtr, valData.data);
-            }
+            const dataPtr = await this._writeData(value);
+            const type = serializeValue(value, false).type;
     
             // 2. Add Reference to Page
             let page;
@@ -58,7 +46,7 @@ class CollectionOps {
                 await page.load();
             }
     
-            const added = page.add(key, valData.type, dataPtr);
+            const added = page.add(key, type, dataPtr);
             
             if (!added) {
                 this.col.log(`Tail page ${this.col.tailPageId} full. Splitting/Chaining.`);
@@ -68,7 +56,7 @@ class CollectionOps {
                 await page.save(); 
                 
                 const newPage = new Page(newPagePtr.blockId, this.allocator);
-                newPage.add(key, valData.type, dataPtr);
+                newPage.add(key, type, dataPtr);
                 this.col.tailPageId = newPagePtr.blockId;
                 await newPage.save(); 
             } else {
@@ -90,6 +78,148 @@ class CollectionOps {
         this.col.writeLock = this.col.writeLock.then(task, task);
         return this.col.writeLock;
     }
-}
 
+    // B"H: New Splice Implementation with Page Splits and Merges
+    async splice(start, deleteCount, ...items) {
+        const task = async () => {
+            this.col.log(`Splice: Start ${start}, Delete ${deleteCount}, Insert ${items.length}`);
+            await this.col.load();
+
+            // 1. Prepare new items
+            const newEntryPtrs = [];
+            for (const item of items) {
+                const dataPtr = await this._writeData(item);
+                const { type } = serializeValue(item, false);
+                const key = Date.now().toString(36) + Math.random().toString(36).substr(2, 5);
+                newEntryPtrs.push({ key, type, ptr: dataPtr });
+            }
+
+            // Case: Empty List
+            if (this.col.headPageId === 0) {
+                if (items.length > 0) {
+                    const newPagePtr = await this.allocator.allocatePage(constants.BLOCK_TYPE.COLLECTION_PAGE);
+                    this.col.headPageId = newPagePtr.blockId;
+                    this.col.tailPageId = newPagePtr.blockId;
+                    let page = new Page(newPagePtr.blockId, this.allocator);
+                    
+                    for (const entry of newEntryPtrs) {
+                         if (!page.add(entry.key, entry.type, entry.ptr)) {
+                             const nextPtr = await this.allocator.allocatePage(constants.BLOCK_TYPE.COLLECTION_PAGE);
+                             page.setNextPage(nextPtr.blockId);
+                             await page.save();
+                             page = new Page(nextPtr.blockId, this.allocator);
+                             page.add(entry.key, entry.type, entry.ptr);
+                             this.col.tailPageId = page.id;
+                         }
+                    }
+                    await page.save();
+                    this.col.totalCount += items.length;
+                    await this.col.saveHeader();
+                }
+                return;
+            }
+
+            // 2. Traversal
+            let currentPageId = this.col.headPageId;
+            let prevPageId = 0;
+            let currentIndex = 0;
+            
+            while (currentPageId !== 0) {
+                const page = new Page(currentPageId, this.allocator);
+                await page.load();
+                const countInPage = page.items.length;
+                
+                // Check if our operation starts in this page or at the very end of it
+                if (currentIndex + countInPage >= start) {
+                    const localStart = Math.max(0, start - currentIndex);
+                    
+                    // --- DELETION ---
+                    let localDelete = 0;
+                    if (deleteCount > 0) {
+                        // How many can we delete from this page?
+                        localDelete = Math.min(deleteCount, countInPage - localStart);
+                        page.items.splice(localStart, localDelete);
+                        deleteCount -= localDelete;
+                        this.col.totalCount -= localDelete;
+                    }
+
+                    // --- INSERTION ---
+                    // Only insert if this is the start page
+                    if (newEntryPtrs.length > 0) {
+                        // Insert into array at localStart
+                        // We use spread to insert
+                        page.items.splice(localStart, 0, ...newEntryPtrs);
+                        this.col.totalCount += newEntryPtrs.length;
+                        // Clear the array so we don't insert again in next loop
+                        newEntryPtrs.length = 0;
+                    }
+                    
+                    // --- SPLITTING (Mitosis) ---
+                    // Check if page is overflowed
+                    while (page.calcSize() > (constants.BLOCK_SIZE - HEADER_SIZE)) {
+                         this.col.log(`Page ${page.id} overflow during splice. Splitting.`);
+                         // Split logic: Move 2nd half to new page
+                         const mid = Math.floor(page.items.length / 2);
+                         const rightItems = page.items.splice(mid);
+                         
+                         const newPagePtr = await this.allocator.allocatePage(constants.BLOCK_TYPE.COLLECTION_PAGE);
+                         const newPage = new Page(newPagePtr.blockId, this.allocator);
+                         newPage.items = rightItems;
+                         newPage.nextPageId = page.nextPageId;
+                         newPage.isDirty = true;
+                         
+                         // Link current -> new
+                         page.nextPageId = newPagePtr.blockId;
+                         
+                         // If we were tail, update tail
+                         if (this.col.tailPageId === page.id) {
+                             this.col.tailPageId = newPage.id;
+                         }
+                         
+                         await newPage.save();
+                    }
+
+                    // --- EMPTY PAGE HANDLING ---
+                    // If page is empty after delete (and no insert), unlink it
+                    if (page.items.length === 0 && this.col.headPageId !== this.col.tailPageId) {
+                         // Don't remove if it's the ONLY page (keep one empty page)
+                         if (prevPageId !== 0) {
+                             const prevPage = new Page(prevPageId, this.allocator);
+                             await prevPage.load();
+                             prevPage.setNextPage(page.nextPageId);
+                             await prevPage.save();
+                             
+                             if (this.col.tailPageId === page.id) {
+                                 this.col.tailPageId = prevPageId;
+                             }
+                             // TODO: Free page logic
+                         } else {
+                             // It's head. Move head.
+                             this.col.headPageId = page.nextPageId;
+                         }
+                    } else {
+                         page.isDirty = true;
+                         await page.save();
+                    }
+
+                    if (deleteCount > 0) {
+                         // Continue the loop.
+                    } else {
+                        // Done
+                        break;
+                    }
+                }
+                
+                currentIndex += countInPage;
+                prevPageId = currentPageId;
+                currentPageId = page.nextPageId;
+            }
+
+            await this.col.saveHeader();
+            return true;
+        };
+        this.col.writeLock = this.col.writeLock.then(task, task);
+        return this.col.writeLock;
+    }
+}
 module.exports = CollectionOps;

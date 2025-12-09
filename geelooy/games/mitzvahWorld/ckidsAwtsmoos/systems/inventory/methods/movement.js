@@ -1,4 +1,6 @@
 
+
+
 /**
  * B"H
  * Item movement and equipment logic
@@ -27,6 +29,10 @@ export default {
             const item = fromArray[fIdx];
             if (!item) return;
 
+            // B"H: Capture container ID if moving from a container
+            const fromContainerId = fromSource === 'container' && this.activeContainer ? this.activeContainer.id : null;
+            const toContainerId = toSource === 'container' && this.activeContainer ? this.activeContainer.id : null;
+
             const maxQty = parseInt(item.quantity || 1);
             let qtyToMove = (amount === null || amount === undefined) ? maxQty : parseInt(amount);
             if (isNaN(qtyToMove) || qtyToMove <= 0) qtyToMove = maxQty;
@@ -40,21 +46,22 @@ export default {
                 if (qtyToMove >= maxQty) {
                     toArray[tIdx] = item; 
                     fromArray[fIdx] = null;
-                    this.updateEquipmentRefAfterMove(fromSource, fIdx, toSource, tIdx);
+                    this.updateEquipmentRefAfterMove(fromSource, fIdx, toSource, tIdx, fromContainerId, toContainerId);
                 } else {
                     const newItem = { ...item, quantity: qtyToMove, id: item.id + "_split_" + Date.now() };
+                    // Reset equipment status on split
                     newItem.isEquipped = false;
                     delete newItem.equippedIn;
+                    
                     toArray[tIdx] = newItem;
                     item.quantity -= qtyToMove;
                     if (item.quantity <= 0) {
                         fromArray[fIdx] = null;
-                        this.updateEquipmentRefAfterMove(fromSource, fIdx, null, null);
+                        this.updateEquipmentRefAfterMove(fromSource, fIdx, null, null, fromContainerId, null);
                     }
                 }
             } else {
                 if (targetItem.className === item.className && targetItem.name === item.name) {
-                    // Stacking logic requires we know stack size. Assuming max 512 for now or enrichment handles it.
                     const maxStack = 512; 
                     const space = maxStack - targetItem.quantity;
                     const actualMove = Math.min(qtyToMove, space);
@@ -64,15 +71,16 @@ export default {
                         item.quantity -= actualMove;
                         if (item.quantity <= 0) {
                             fromArray[fIdx] = null;
-                            this.updateEquipmentRefAfterMove(fromSource, fIdx, null, null);
+                            this.updateEquipmentRefAfterMove(fromSource, fIdx, null, null, fromContainerId, null);
                         }
                     }
                 } else {
                     if (qtyToMove >= maxQty) {
                         toArray[tIdx] = item;
                         fromArray[fIdx] = targetItem;
-                        this.updateEquipmentRefAfterMove(fromSource, fIdx, toSource, tIdx); 
-                        this.updateEquipmentRefAfterMove(toSource, tIdx, fromSource, fIdx); 
+                        // Swap equipment references if necessary
+                        this.updateEquipmentRefAfterMove(fromSource, fIdx, toSource, tIdx, fromContainerId, toContainerId); 
+                        this.updateEquipmentRefAfterMove(toSource, tIdx, fromSource, fIdx, toContainerId, fromContainerId); 
                     }
                 }
             }
@@ -84,25 +92,28 @@ export default {
         }
     },
     
-    updateEquipmentRefAfterMove(oldSource, oldIndex, newSource, newIndex) {
+    updateEquipmentRefAfterMove(oldSource, oldIndex, newSource, newIndex, oldContainerId = null, newContainerId = null) {
         for (const [key, ref] of Object.entries(this.equipment)) {
             if (ref && ref.sourceType === oldSource && ref.index === oldIndex) {
+                // If it was in a container, verify the container ID matches
+                if (oldSource === 'container' && ref.containerId !== oldContainerId) {
+                    continue; 
+                }
+
                 if (newSource === null) {
+                    // Item deleted/fully moved to nowhere? Unequip.
                     this.equipment[key] = null;
                     if (key === 'rightHand') this.owner.updateHandState();
                     this.updateVisuals(key, null, false);
                 } else {
-                    this.equipment[key] = { sourceType: newSource, index: newIndex };
+                    // Update reference
+                    const newRef = { sourceType: newSource, index: newIndex };
+                    if (newSource === 'container' && newContainerId) {
+                        newRef.containerId = newContainerId;
+                    }
+                    this.equipment[key] = newRef;
                 }
             }
-        }
-        if (newSource === 'container') {
-             for (const [key, ref] of Object.entries(this.equipment)) {
-                if (ref && ref.sourceType === oldSource && ref.index === oldIndex) {
-                    this.equipment[key] = null;
-                    this.updateVisuals(key, null, false);
-                }
-             }
         }
     },
 
@@ -131,23 +142,55 @@ export default {
     },
 
     equipItem({ sourceType, index, target }) {
+        let containerId = null;
+        
         if (sourceType === 'container') {
-            console.warn("B\"H: Equipping from container not supported yet.");
-            return;
+            if (!this.activeContainer) {
+                console.warn("B\"H: Cannot equip from container when no container is active.");
+                return;
+            }
+            containerId = this.activeContainer.id;
         }
         
-        const sourceArray = sourceType === 'action' ? this.actionSlots : this.slots;
-        const itemToEquip = sourceArray[index];
+        let sourceArray;
+        if (sourceType === 'action') sourceArray = this.actionSlots;
+        else if (sourceType === 'inventory') sourceArray = this.slots;
+        else if (sourceType === 'container') sourceArray = this.activeContainer.customData.slots;
+        
+        const itemToEquip = sourceArray ? sourceArray[index] : null;
         if (!itemToEquip || !target) return;
 
+        // Unequip current if exists
         const currentEquippedRef = this.equipment[target];
         if (currentEquippedRef) {
-             const oldSource = currentEquippedRef.sourceType === 'action' ? this.actionSlots : this.slots;
-             const oldItem = oldSource[currentEquippedRef.index];
-             if(oldItem) this.updateVisuals(target, oldItem, false);
+            let oldSourceArray;
+            if (currentEquippedRef.sourceType === 'action') oldSourceArray = this.actionSlots;
+            else if (currentEquippedRef.sourceType === 'inventory') oldSourceArray = this.slots;
+            else if (currentEquippedRef.sourceType === 'container') {
+                // If it's a container item, we might not be able to un-visualize it if the bag is closed, 
+                // but we try. If bag is open, we can access it.
+                if (this.activeContainer && this.activeContainer.id === currentEquippedRef.containerId) {
+                    oldSourceArray = this.activeContainer.customData.slots;
+                } else {
+                    // Fallback: Try to find the container in the inventory
+                    const bag = this.slots.find(s => s && s.id === currentEquippedRef.containerId);
+                    if (bag && bag.customData && bag.customData.slots) {
+                         oldSourceArray = bag.customData.slots;
+                    }
+                }
+            }
+
+            if (oldSourceArray) {
+                const oldItem = oldSourceArray[currentEquippedRef.index];
+                if(oldItem) this.updateVisuals(target, oldItem, false);
+            }
         }
         
-        this.equipment[target] = { sourceType, index };
+        // Set new equipment
+        const newRef = { sourceType, index };
+        if (containerId) newRef.containerId = containerId;
+        
+        this.equipment[target] = newRef;
         this.updateVisuals(target, itemToEquip, true);
         this.updateUI();
         this.save();
@@ -158,8 +201,20 @@ export default {
 	    const equippedRef = this.equipment[equipSlotName];
         if (!equippedRef) return;
         
-        if (equippedRef.sourceType === 'inventory' || equippedRef.sourceType === 'action') {
-            const sourceArray = equippedRef.sourceType === 'action' ? this.actionSlots : this.slots;
+        let sourceArray;
+        if (equippedRef.sourceType === 'action') sourceArray = this.actionSlots;
+        else if (equippedRef.sourceType === 'inventory') sourceArray = this.slots;
+        else if (equippedRef.sourceType === 'container') {
+             // Try to find the bag
+             if (this.activeContainer && this.activeContainer.id === equippedRef.containerId) {
+                 sourceArray = this.activeContainer.customData.slots;
+             } else {
+                 const bag = this.slots.find(s => s && s.id === equippedRef.containerId);
+                 if (bag) sourceArray = bag.customData.slots;
+             }
+        }
+
+        if (sourceArray) {
             const itemToUnequip = sourceArray[equippedRef.index];
             if (itemToUnequip) this.updateVisuals(equipSlotName, itemToUnequip, false);
         }
@@ -173,6 +228,7 @@ export default {
     sortInventory() {
         if (this.activeContainer) return;
         
+        // Simple sort destroys equipment references for now, so unequip everything
         this.equipment = { head: null, jacket: null, legs: null, feet: null, rightHand: null, leftHand: null };
 
         this.slots.sort((a, b) => {

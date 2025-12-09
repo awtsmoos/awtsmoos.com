@@ -7,6 +7,9 @@
 
 
 
+
+
+
 /**
  * B"H
  * Item manipulation logic for InventoryManager
@@ -40,9 +43,6 @@ export default {
         }
         
         // B"H: Logic to determine final icon
-        // 1. If original item had an icon, keep it.
-        // 2. If not, try class static icon.
-        // 3. Fallback to empty.
         if (!itemData.icon) {
             if (originalIcon) itemData.icon = originalIcon;
             else if (ItemClass && ItemClass.icon) itemData.icon = ItemClass.icon;
@@ -55,12 +55,10 @@ export default {
              itemData.name = CurrencySystem.NAMES[itemData.value];
         }
 
-        // B"H: If item has custom color, flag it as tintable for the UI
         if (itemData.customData && itemData.customData.color) {
             itemData.isTintable = true;
         }
 
-        // B"H: Ensure isContainer is preserved and checked against slots presence
         if (
             itemData.isContainer || 
             itemData.className === 'Container' || 
@@ -127,8 +125,20 @@ export default {
     },
 
     hydrateItems() {
-        this.slots = this.slots.map(item => item ? this.enrichItemData(item) : null);
-        this.actionSlots = this.actionSlots.map(item => item ? this.enrichItemData(item) : null);
+        // B"H: Recursively hydrate items to ensure nested containers (like Teffilin bags)
+        // have their contents fully initialized with icons and correct data.
+        const hydrateRecursive = (item) => {
+            if (!item) return null;
+            const enriched = this.enrichItemData(item);
+            
+            if (enriched.isContainer && enriched.customData && enriched.customData.slots) {
+                enriched.customData.slots = enriched.customData.slots.map(hydrateRecursive);
+            }
+            return enriched;
+        };
+
+        this.slots = this.slots.map(hydrateRecursive);
+        this.actionSlots = this.actionSlots.map(hydrateRecursive);
     },
 
     consumeItem(itemReference, amount = 1) {

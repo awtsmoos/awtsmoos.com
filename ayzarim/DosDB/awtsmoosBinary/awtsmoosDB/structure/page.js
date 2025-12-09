@@ -4,7 +4,6 @@
  * @description
  *  Represents a single Dappim (Page) in the Book of Data.
  *  It holds the Othios (Letters/Items) and points to the next page.
- *  FIX: Now saves 'isChain' property of pointers to avoid data loss on large values.
  */
 const constants = require('../constants.js');
 const serializer = require('../utils/serializer.js');
@@ -122,17 +121,9 @@ class Page {
 
         if (this.items.length >= constants.MAX_ITEMS_PER_PAGE) return false;
         
+        // B"H: Check size before adding to avoid save failure
         const estimatedSize = Buffer.byteLength(key) + 22; 
-        
-        let currentSize = 0;
-        currentSize += 6 + 5; 
-        
-        for(let item of this.items) {
-             currentSize += (Buffer.byteLength(item.key) + 22); 
-        }
-        
-        // B"H: Use HEADER_SIZE for calculation
-        if ((currentSize + estimatedSize) > (constants.BLOCK_SIZE - HEADER_SIZE - 64)) {
+        if ((this.calcSize() + estimatedSize) > (constants.BLOCK_SIZE - HEADER_SIZE)) {
             this.log("Page full (size limit).");
             return false;
         }
@@ -140,6 +131,35 @@ class Page {
         this.items.push({ key, type, ptr: pointer });
         this.isDirty = true;
         return true;
+    }
+
+    /**
+     * B"H: Calculates the current byte size of the page content.
+     * Crucial for Splice/Insert operations to predict overflow.
+     */
+    calcSize() {
+        let size = 6; // NextPagePtr (6)
+        
+        // Count VarInt (Estimated)
+        const count = this.items.length;
+        if (count < 128) size += 1;
+        else if (count < 16384) size += 2;
+        else size += 3;
+
+        for (const item of this.items) {
+             const keyLen = Buffer.byteLength(item.key);
+             const keyVarInt = keyLen < 128 ? 1 : (keyLen < 16384 ? 2 : 3);
+             size += (keyVarInt + keyLen);
+             
+             size += 1; // Type
+             size += 6; // BlockId
+             size += 1; // IsChain
+             
+             // Offset & Length VarInts.
+             size += serializer.writeVarInt(item.ptr.offset).length;
+             size += serializer.writeVarInt(item.ptr.length).length;
+        }
+        return size;
     }
 
     /**
@@ -180,11 +200,9 @@ class Page {
         block.fill(0xFF, constants.BITMAP_OFFSET, constants.BITMAP_OFFSET + constants.BITMAP_SIZE);
 
         if (rawBuffer.length > (constants.BLOCK_SIZE - HEADER_SIZE)) {
-            throw new Error(`Page Overflow in Page ${this.id}`);
+            throw new Error(`Page Overflow in Page ${this.id}. Size: ${rawBuffer.length}`);
         }
         
-        // B"H: FIX - Copy to HEADER_SIZE (64), NOT 0.
-        // Prevents overwriting Block Type and Bitmap!
         rawBuffer.copy(block, HEADER_SIZE);
         
         await this.allocator.writeBlockLocked(this.id, block);

@@ -63,11 +63,6 @@ class Writer {
                  this.handle.log(`[Writer] Freeing Old Root ${oldRoot.blockId}:${oldRoot.offset}`);
                  await this.db.allocator.free(oldRoot);
             }
-            
-            // B"H: Update handle mode
-            // If the user immediately uses the child handle, we want it to be known as BTREE
-            // However, this `createMap` is on the PARENT. 
-            // The child handle will be created fresh via navigation.
         });
     }
 
@@ -209,12 +204,9 @@ class Writer {
             const ptr = await this.handle.ptrPromise;
             await this.db.ensureOpen();
             
-            // B"H: FORCE mode detection if DEFERRED to prevent race condition 
-            // where metadata was written but Navigator hasn't updated local mode.
             if (this.handle.mode === 'DEFERRED') await this.handle.nav.detectMode(ptr);
             
             if (this.handle.mode !== 'COLLECTION') {
-                // Double check by re-reading meta
                  await this.handle.nav.detectMode(ptr);
                  if (this.handle.mode !== 'COLLECTION') {
                     throw new Error(`Cannot push to non-collection. Mode: ${this.handle.mode}`);
@@ -233,8 +225,34 @@ class Writer {
             const col = new Collection(headerPtr.blockId, this.db.allocator);
             await col.load();
             
-            await col.append(Date.now().toString() + Math.random(), item);
+            // Random key for uniqueness in page structure
+            await col.append(Date.now().toString(36) + Math.random().toString(36).substr(2, 5), item);
             return true;
+        });
+    }
+
+    // B"H: Splice Method
+    async splice(start, deleteCount, ...items) {
+        return this.db.execute(async () => {
+             this.handle.log(`Splice requested at ${start}.`);
+             const ptr = await this.handle.ptrPromise;
+             await this.db.ensureOpen();
+
+             if (this.handle.mode === 'DEFERRED') await this.handle.nav.detectMode(ptr);
+             if (this.handle.mode !== 'COLLECTION') {
+                 throw new Error(`Cannot splice non-collection. Mode: ${this.handle.mode}`);
+             }
+
+             const metaBuf = await this.db._readChainSafe(ptr);
+             const handlePtr = _readPtr(metaBuf, 1);
+             const handleBuf = await this.db._readChainSafe(handlePtr);
+             const headerPtr = _readPtr(handleBuf, 4);
+             
+             const col = new Collection(headerPtr.blockId, this.db.allocator);
+             await col.load();
+             
+             await col.splice(start, deleteCount, ...items);
+             return true;
         });
     }
 
@@ -242,8 +260,6 @@ class Writer {
     async verifyRootUpdate(ptr, expectedRoot) {
         if (this.handle.mode === 'ROOT') {
              // B"H: Verify SuperBlock directly.
-             // We use pager.readBlock(0) to bypass any potential stale caches in allocator memory
-             // and ensure the data hit the disk (or at least OS cache).
              const sb = await this.db.allocator.pager.readBlock(0);
              if (!sb) throw new Error("B\"H: Verification Failed - SuperBlock read failed.");
              

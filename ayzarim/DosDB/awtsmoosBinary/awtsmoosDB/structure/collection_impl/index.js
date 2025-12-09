@@ -34,8 +34,11 @@ class Collection {
     async saveHeader() { return this.io.saveHeader(); }
     
     async append(key, value) { return this.ops.append(key, value); }
+    async splice(start, deleteCount, ...items) { return this.ops.splice(start, deleteCount, ...items); }
     
     async getPage(pageIndex) { return this.read.getPage(pageIndex); }
+    async getItem(index) { return this.read.getItem(index); }
+    
     async delete(key) { return false; }
     async getSortedPage() { return []; }
 }
