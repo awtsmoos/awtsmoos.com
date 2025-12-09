@@ -198,7 +198,7 @@
     font-family: var(--font-code);
     font-size: 0.85em;
     color: var(--color-text-tertiary);
-}
+} 
 
 .fc-statusbar {
     padding: 8px 16px;

@@ -256,7 +256,7 @@ export const FileCommander = {
             crumb.onclick = () => this.navigate({ ...this.currentPathItem, path: crumbPath, kind: 'directory' });
             this.breadcrumbs.appendChild(crumb);
         });
-    },
+    }, 
 
     _formatSize(bytes) {
         if (!bytes) return '0 B';
