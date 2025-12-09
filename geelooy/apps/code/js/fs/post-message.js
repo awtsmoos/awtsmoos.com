@@ -1,8 +1,11 @@
+
 // B"H
 // FILE: js/fs/post-message.js
 
 export const PostMessageProvider = {
     async read(item) {
+        // B"H - Return hidden initial content if available (for OS load alignment)
+        if (item._initialContent !== undefined) return item._initialContent;
         return item.content || ''; 
     },
     async write(item, content) {

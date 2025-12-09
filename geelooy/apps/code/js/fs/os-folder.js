@@ -1,3 +1,4 @@
+
 // B"H
 // FILE: js/fs/os-folder.js
 import { State } from '../state.js';
@@ -26,15 +27,22 @@ export const OSFolderProvider = {
 
         const response = await this._requestFromOS('requestFolderList', { path: pathForOSRequest });
  
-        return response.items.map(itemName => {
-            // Determine if it's a folder based on extension or OS hint if available
-            // For now, relying on user logic from previous code (e.g. .folder suffix or implicit)
-            const isDir = itemName.endsWith('.folder') || !itemName.includes('.'); 
+        return response.items.map(itemData => {
+            // itemData can be string (legacy) or object (new rich format)
+            const name = typeof itemData === 'string' ? itemData : itemData.name;
+            
+            // Determine kind if not explicit
+            let kind = itemData.kind;
+            if (!kind) {
+                 kind = (name.endsWith('.folder') || !name.includes('.')) ? 'directory' : 'file';
+            }
             
             return {
-                name: itemName, 
-                kind: isDir ? 'directory' : 'file',
-                path: item.path === '/' ? `/${itemName}` : `${item.path}/${itemName}`
+                name: name, 
+                kind: kind === 'directory' ? 'directory' : 'file',
+                path: item.path === '/' ? `/${name}` : `${item.path}/${name}`,
+                size: itemData.size || 0,
+                lastModified: itemData.lastModified || 0
             };
         });
     },

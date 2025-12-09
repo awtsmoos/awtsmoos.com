@@ -1,3 +1,4 @@
+
 // B"H
 // FILE: js/app/event-listeners.js
 
@@ -25,6 +26,24 @@ export function setupEventListeners() {
             else resolve(payload);
             return;
         }
+        
+        // B"H - Handle Workspace Opening (Folders)
+        if (type === 'loadWorkspace') {
+            const { name, path, type: wsType } = payload;
+            
+            // Remove 'collapsed' state so user can see the sidebar
+            const appContainer = document.querySelector('.app-container');
+            const sidebarCollapseBtn = document.getElementById('sidebar-collapse-btn');
+            const resizer = document.getElementById('sidebar-resizer');
+            
+            if (appContainer) appContainer.classList.remove('sidebar-collapsed');
+            if (sidebarCollapseBtn) sidebarCollapseBtn.style.display = 'flex';
+            if (resizer) resizer.style.display = 'block';
+            
+            Workspaces.add({ name, path, type: wsType }, true);
+            return;
+        }
+
         if (type === 'loadFile') {
             const appContainer = document.querySelector('.app-container');
             const sidebarCollapseBtn = document.getElementById('sidebar-collapse-btn');
@@ -40,10 +59,13 @@ export function setupEventListeners() {
             const externalWorkspace = { name: `OS File`, type: 'postmessage' };
             Workspaces.add(externalWorkspace, false);
             const wsId = State.workspaces[State.workspaces.length - 1].id;
+            
+            // B"H - Store content as _initialContent to simulate a standard file load
+            // via FileSystemProvider, ensuring identical behavior to internal files.
             const fileItem = {
                 name: fileName, path: fileName, kind: 'file',
                 type: 'postmessage', workspaceId: wsId,
-                saveContext, content
+                saveContext, _initialContent: content
             };
 
             await Tabs.create(fileItem, false, false);

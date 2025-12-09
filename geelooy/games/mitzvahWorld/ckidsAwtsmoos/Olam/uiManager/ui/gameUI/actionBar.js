@@ -1,4 +1,8 @@
 
+
+
+
+
 // B"H
 import startSlotsConfig from "../startSlotsConfig.js";
 
@@ -51,7 +55,7 @@ export default {
         
         function hideTooltip() { if (tooltip) tooltip.classList.add("hidden"); }
 
-        // Render the Default Bag Slot - THIS IS THE MISSING BAG
+        // Render the Default Bag Slot
         ui.html({
             parent: slotsContainer,
             className: "actionSlot occupied",
@@ -91,6 +95,64 @@ export default {
                     }
                 };
                 const hideTooltip = () => $("icon tooltip")?.classList.add('hidden');
+                
+                let iconStyle = {};
+                let textIcon = null;
+                
+                if (slotData) {
+                    const isUrl = slotData.icon && (slotData.icon.includes('/') || slotData.icon.includes('data:'));
+                    if (isUrl) {
+                        iconStyle = { backgroundImage: `url(${slotData.icon})` };
+                    } else if (slotData.icon) {
+                        textIcon = slotData.icon;
+                         iconStyle = {
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            fontSize: '40px',
+                            width: '100%',
+                            height: '100%'
+                        };
+                    }
+                }
+
+                // B"H: Define Click Logic to be passed to Drag Listener
+                const handleClick = (event) => {
+                    if (!slotData) return;
+                    
+                    const isContainer = slotData.isContainer || slotData.className === 'Container' || (slotData.customData && slotData.customData.slots);
+
+                    if (isContainer) {
+                        // Open Inventory Screen in container mode
+                        ui.peula("ikar", { 
+                            olamPeula: { 
+                                htmlPeula: { 
+                                    openContainer: { 
+                                        item: slotData, 
+                                        index: index, 
+                                        sourceType: 'action' 
+                                    } 
+                                } 
+                            } 
+                        });
+                        
+                        // Also show inventory if hidden
+                        const inv = $("inventoryScreen");
+                        if(inv) inv.classList.remove("hidden");
+                        return;
+                    }
+
+                    const rect = event.target ? event.target.getBoundingClientRect() : { right: event.clientX, top: event.clientY };
+                    ui.peula($("inventoryScreen"), {
+                        showContextMenu: { 
+                            item: slotData, 
+                            index: index, 
+                            x: rect.right || event.clientX, 
+                            y: rect.top || event.clientY, 
+                            sourceType: 'action' 
+                        }
+                    });
+                };
 
                 ui.html({
                     parent: slotsContainer,
@@ -98,25 +160,15 @@ export default {
                     ready(el) { 
                          // B"H FIX: Strict check for window and function existence to prevent ReferenceError
                          if(typeof window !== 'undefined' && typeof window.attachSlotDragListeners === 'function') {
-                            window.attachSlotDragListeners(el, { item: slotData }, 'action', index, ui);
+                            window.attachSlotDragListeners(el, { item: slotData }, 'action', index, ui, handleClick);
                          }
                     },
                     children: [{
                         className: "innerSlot" + (slotData && slotData.isEquipped ? " equipped-indicator" : ""),
                         on: { mouseenter: showTooltip, mouseleave: hideTooltip },
-                        // Onclick for Right Click / Context Menu is handled by attachSlotDragListeners filtering buttons,
-                        // But we add explicit onclick here for standard context menu triggering just in case
-                         onclick: (event) => { 
-                            if (slotData) {
-                                const rect = event.currentTarget.getBoundingClientRect();
-                                ui.peula($("inventoryScreen"), {
-                                    showContextMenu: { item: slotData, index: index, x: rect.right, y: rect.top, sourceType: 'action' }
-                                });
-                            }
-                        },
                         children: slotData ? [
-                            { className: 'slotBtn', style: { backgroundImage: `url(${slotData.icon})` }},
-                            { className: 'slotQuantity', textContent: slotData.quantity > 1 ? slotData.quantity : '' }
+                             { className: 'slotBtn', style: iconStyle, textContent: textIcon },
+                             { className: 'slotQuantity', textContent: slotData.quantity > 1 ? slotData.quantity : '' }
                         ] : []
                     }]
                 });

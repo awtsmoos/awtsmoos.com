@@ -1,3 +1,4 @@
+
 /**
  * B"H
  * 
@@ -17,6 +18,7 @@ export {default as Medabeir} from "./chayim/medabeir.js";
 export {default as Chossid} from "./chayim/chossid.js"
 export {default as Tool} from "./dvarim/tool.js"; 
 export {default as Coin} from "./dvarim/coin.js";
+export {default as Container} from "./dvarim/container.js";
 
 export {default as Wheat} from "./dvarim/wheat.js";
 export {default as Portal} from "./dvarim/portal.js";

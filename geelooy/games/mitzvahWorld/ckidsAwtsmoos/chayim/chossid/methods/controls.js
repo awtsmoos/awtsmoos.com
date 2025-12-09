@@ -1,3 +1,4 @@
+
 /**
  * B"H
  * @file controls.js
@@ -88,6 +89,18 @@ export default {
 
                 case "KeyG":
                     isInEditorMode = !isInEditorMode;
+                    break;
+                
+                case "KeyV": // Dance
+                    // Find a dance animation if available
+                    if (this.animations) {
+                        const dance = this.animations.find(a => a.name.toLowerCase().includes("dance"));
+                        if (dance) {
+                            this.isDancing = !this.isDancing;
+                            if(this.isDancing) this.playChaweeyoos("dance silly"); // Or specific name
+                            else this.playChaweeyoos(this.getChaweeyoos("idle"));
+                        }
+                    }
                     break;
 
                 case ACTION_TOGGLE:

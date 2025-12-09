@@ -1,4 +1,5 @@
 
+
 /**
  * B"H
  * HTML Worker Handlers
@@ -113,6 +114,17 @@ export default function htmlHandlers(manager) {
 
         htmlPeula(obj) {
             if(!obj) return;
+            
+            // B"H: Special Handling for Inventory Container Operations which come via htmlPeula key
+            if (obj.openContainer && manager.olam && manager.olam.player && manager.olam.player.inventory) {
+                const { item, index, sourceType } = obj.openContainer;
+                // Important: Verify item is a container again or just trust UI
+                manager.olam.player.inventory.openContainer(item, index, sourceType);
+            }
+            if (obj.closeContainer && manager.olam && manager.olam.player && manager.olam.player.inventory) {
+                manager.olam.player.inventory.closeContainer();
+            }
+
             // B"H FIX: Forward generic HTML peulas directly to the Olam event system
             // instead of trying to run them as HTML actions.
             // This allows Dialogue.js to listen for "htmlPeula toggleToOption".

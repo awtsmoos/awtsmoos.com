@@ -1,4 +1,5 @@
-/* B"H - FILE COMMANDER STYLES */
+/* B"H
+ - FILE COMMANDER STYLES */
 
 .file-commander-overlay {
     position: fixed;
@@ -36,7 +37,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 16px 24px;
+    padding: 0px 10px;
     background-color: var(--color-bg-secondary);
     border-bottom: 1px solid var(--color-border);
 }

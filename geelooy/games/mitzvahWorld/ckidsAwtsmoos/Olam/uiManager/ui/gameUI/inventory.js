@@ -1,4 +1,11 @@
 
+
+
+
+
+
+
+
 // B"H
 export default {
     shaym: "inventoryScreen",
@@ -9,52 +16,169 @@ export default {
     },
     on: {
         updateSlots(e, $, ui) {
-            const slotsData = e.detail;
+            const detail = e.detail;
+            const slotsData = detail.updateSlots || detail; 
+            const containerMode = detail.containerMode;
+            const containerName = detail.containerName;
+
             const inventoryElement = $("inventoryScreen");
             if (!inventoryElement) return;
             const slotsContainer = inventoryElement.querySelector(".slots");
             if (!slotsContainer) return;
             slotsContainer.innerHTML = '';
-
-            slotsData.forEach((slotData, index) => {
-                const showTooltip = (event) => {
-                    if (!slotData) return;
-                    const tooltip = $("icon tooltip");
-                    if (tooltip) {
-                        tooltip.innerHTML = `<div class="header">${slotData.name || 'Item'}</div><div class="description">${slotData.description || ''}</div>`;
-                        tooltip.classList.remove('hidden');
-                        const x = event.pageX || (event.touches && event.touches[0].pageX);
-                        const y = event.pageY || (event.touches && event.touches[0].pageY);
-                        if(x && y) { tooltip.style.left = (x + 15) + 'px'; tooltip.style.top = (y + 15) + 'px'; }
-                    }
-                };
-                const hideTooltip = () => $("icon tooltip")?.classList.add('hidden');
-
-                ui.html({
-                    parent: slotsContainer,
-                    className: "actionSlot " + (slotData ? 'occupied' : 'empty'),
-                    ready(el) {
-                         // B"H FIX: Strict check for window and function existence to prevent ReferenceError
-                         if(typeof window !== 'undefined' && typeof window.attachSlotDragListeners === 'function') {
-                            window.attachSlotDragListeners(el, { item: slotData }, 'inventory', index, ui);
-                         }
-                    },
-                    children: [{
-                        className: "innerSlot" + (slotData && slotData.isEquipped ? " equipped-indicator" : ""),
-                        on: { mouseenter: showTooltip, mouseleave: hideTooltip },
-                        onclick: (event) => {
-                            // Explicit click handler for context menu
-                            if (slotData) {
-                                const rect = event.currentTarget.getBoundingClientRect();
-                                ui.peula($("inventoryScreen"), {
-                                    showContextMenu: { item: slotData, index: index, x: rect.right, y: rect.top, sourceType: 'inventory' }
-                                });
+            
+            // B"H: Update Title and Style for Container Mode
+            const titleEl = inventoryElement.querySelector(".header .text");
+            const header = inventoryElement.querySelector(".header");
+            const body = inventoryElement.querySelector(".main-slots-holder");
+            
+            if(titleEl) {
+                if(containerMode) {
+                    titleEl.textContent = containerName || "Container";
+                    header.style.backgroundColor = "rgba(100, 50, 0, 0.5)"; 
+                    body.style.backgroundColor = "rgba(50, 30, 10, 0.5)";
+                    
+                    let backBtn = inventoryElement.querySelector(".back-inv-btn");
+                    if(!backBtn) {
+                        ui.html({
+                            parent: header,
+                            tag: "button",
+                            className: "awtsmoosBtn small back-inv-btn",
+                            style: { marginRight: "10px", padding: "5px 10px" },
+                            textContent: "⬅ Back to Inventory",
+                            onclick: () => {
+                                ui.peula("ikar", { olamPeula: { htmlPeula: { closeContainer: true } } });
                             }
+                        });
+                        header.insertBefore(header.lastChild, header.firstChild);
+                    }
+                } else {
+                    titleEl.textContent = "Inventory";
+                    header.style.backgroundColor = ""; 
+                    body.style.backgroundColor = "";
+                    const backBtn = inventoryElement.querySelector(".back-inv-btn");
+                    if(backBtn) backBtn.remove();
+                }
+            }
+
+            if(Array.isArray(slotsData)) {
+                slotsData.forEach((slotData, index) => {
+                    const showTooltip = (event) => {
+                        if (!slotData) return;
+                        const tooltip = $("icon tooltip");
+                        if (tooltip) {
+                            tooltip.innerHTML = `<div class="header">${slotData.name || 'Item'}</div><div class="description">${slotData.description || ''}</div>`;
+                            tooltip.classList.remove('hidden');
+                            const x = event.pageX || (event.touches && event.touches[0].pageX);
+                            const y = event.pageY || (event.touches && event.touches[0].pageY);
+                            if(x && y) { tooltip.style.left = (x + 15) + 'px'; tooltip.style.top = (y + 15) + 'px'; }
+                        }
+                    };
+                    const hideTooltip = () => $("icon tooltip")?.classList.add('hidden');
+
+                    let iconStyle = {};
+                    let className = 'slotBtn';
+                    let textIcon = null;
+
+                    if (slotData) {
+                        const isUrl = slotData.icon && (slotData.icon.includes('/') || slotData.icon.includes('data:'));
+                        
+                        if (isUrl) {
+                            if (slotData.isTintable && slotData.customData && slotData.customData.color) {
+                                const color = slotData.customData.color;
+                                iconStyle = {
+                                    backgroundColor: color,
+                                    maskImage: `url(${slotData.icon})`,
+                                    WebkitMaskImage: `url(${slotData.icon})`,
+                                    maskSize: "contain",
+                                    WebkitMaskSize: "contain",
+                                    maskRepeat: "no-repeat",
+                                    WebkitMaskRepeat: "no-repeat",
+                                    maskPosition: "center",
+                                    WebkitMaskPosition: "center",
+                                    width: "100%", height: "100%"
+                                };
+                                className = 'slotBtn tinted-icon';
+                            } else {
+                                iconStyle = { 
+                                    backgroundImage: `url(${slotData.icon})` 
+                                };
+                            }
+                        } else if (slotData.icon) {
+                            textIcon = slotData.icon;
+                            iconStyle = {
+                                display: 'flex',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                fontSize: '40px',
+                                width: '100%',
+                                height: '100%'
+                            };
+                        }
+                    }
+
+                    // B"H: Consolidated Click Handler Logic
+                    // This function is passed to the drag system and executed if a drag doesn't occur.
+                    const handleClick = (event) => {
+                         if (!slotData) return;
+                         
+                         const currentSourceType = containerMode ? 'container' : 'inventory';
+                         
+                         // Robust container check
+                         const isContainer = slotData.isContainer || slotData.className === 'Container' || (slotData.customData && slotData.customData.slots);
+
+                         if (isContainer) {
+                             if (!containerMode) {
+                                 ui.peula("ikar", { 
+                                    olamPeula: { 
+                                        htmlPeula: { 
+                                            openContainer: { 
+                                                item: slotData, 
+                                                index: index, 
+                                                sourceType: currentSourceType 
+                                            } 
+                                        } 
+                                    } 
+                                });
+                                return;
+                             }
+                         }
+                         
+                         // Context Menu Fallback
+                         const rect = event.target ? event.target.getBoundingClientRect() : { right: event.clientX, top: event.clientY };
+                         ui.peula($("inventoryScreen"), {
+                            showContextMenu: { 
+                                item: slotData, 
+                                index: index, 
+                                x: rect.right || event.clientX, 
+                                y: rect.top || event.clientY, 
+                                sourceType: currentSourceType 
+                            }
+                        });
+                    };
+
+                    ui.html({
+                        parent: slotsContainer,
+                        className: "actionSlot " + (slotData ? 'occupied' : 'empty'),
+                        ready(el) {
+                             if(typeof window !== 'undefined' && typeof window.attachSlotDragListeners === 'function') {
+                                const sourceType = containerMode ? 'container' : 'inventory';
+                                // Pass handleClick as the last argument
+                                window.attachSlotDragListeners(el, { item: slotData }, sourceType, index, ui, handleClick);
+                             }
                         },
-                        children: slotData ? [{ tag: 'div', className: 'slotBtn', style: { backgroundImage: `url(${slotData.icon})` } }, { tag: 'div', className: 'slotQuantity', textContent: slotData.quantity > 1 ? slotData.quantity : '' }] : []
-                    }]
+                        children: [{
+                            className: "innerSlot" + (slotData && slotData.isEquipped ? " equipped-indicator" : ""),
+                            on: { mouseenter: showTooltip, mouseleave: hideTooltip },
+                            // Removed manual onclick to avoid conflict. Logic is now in handleClick via drag listeners.
+                            children: slotData ? [
+                                { tag: 'div', className: className, style: iconStyle, textContent: textIcon }, 
+                                { tag: 'div', className: 'slotQuantity', textContent: slotData.quantity > 1 ? slotData.quantity : '' }
+                            ] : []
+                        }]
+                    });
                 });
-            });
+            }
         },
         updateWallet(e, $, ui) {
             const walletVal = e.detail || 0; 
@@ -72,6 +196,47 @@ export default {
 
             slotOrder.forEach(slotName => {
                 const item = equipData[slotName];
+                let iconStyle = {};
+                let className = 'slotBtn';
+                let children = [];
+                let textIcon = null;
+
+                if (item) {
+                     const isUrl = item.icon && (item.icon.includes('/') || item.icon.includes('data:'));
+                     if (isUrl) {
+                         if (item.isTintable && item.customData && item.customData.color) {
+                            const color = item.customData.color;
+                            iconStyle = {
+                                backgroundColor: color,
+                                maskImage: `url(${item.icon})`,
+                                WebkitMaskImage: `url(${item.icon})`,
+                                maskSize: "contain",
+                                WebkitMaskSize: "contain",
+                                maskRepeat: "no-repeat",
+                                WebkitMaskRepeat: "no-repeat",
+                                maskPosition: "center",
+                                WebkitMaskPosition: "center",
+                                width: "100%", height: "100%"
+                            };
+                        } else {
+                            iconStyle = { 
+                                backgroundImage: `url(${item.icon})`,
+                                width: "100%", height: "100%", 
+                                backgroundSize: "contain", 
+                                backgroundRepeat: "no-repeat", 
+                                backgroundPosition: "center" 
+                            };
+                        }
+                    } else if (item.icon) {
+                        textIcon = item.icon;
+                        iconStyle = {
+                            display: 'flex', justifyContent: 'center', alignItems: 'center',
+                            fontSize: '24px', width: '100%', height: '100%'
+                        };
+                    }
+                    children.push({ className: className, style: iconStyle, textContent: textIcon });
+                }
+
                 ui.html({
                     parent: equipContainer,
                     className: "equip-slot " + slotName,
@@ -82,7 +247,7 @@ export default {
                             ui.peula("ikar", { olamPeula: { unequipItem: slotName } });
                         }
                     },
-                    children: item ? [{ className: "slotBtn", style: { backgroundImage: `url(${item.icon})`, width: "100%", height: "100%", backgroundSize: "contain", backgroundRepeat: "no-repeat", backgroundPosition: "center" } }] : []
+                    children: children
                 });
             });
         },
@@ -94,17 +259,26 @@ export default {
             if (x + 150 > window.innerWidth) newX = x - 190;
             if (y + 120 > window.innerHeight) newY = y - 120;
 
+            // B"H: Safe check for container properties
+            const isContainer = item.isContainer || item.className === 'Container' || (item.customData && item.customData.slots);
+
             ui.html({
                 shaym: "contextMenu", parent: "ikar", className: "awtsmoosContextMenu",
                 style: { position: "absolute", left: newX + "px", top: newY + "px" },
                 children: [
+                    // B"H: If in inventory/action and is a container, show open button
+                    isContainer && sourceType !== 'container' ? { 
+                        tag: "button", 
+                        textContent: "Open", 
+                        onclick: () => { 
+                            ui.peula("ikar", { olamPeula: { htmlPeula: { openContainer: { item, index, sourceType } } } }); 
+                            $("contextMenu")?.remove(); 
+                        } 
+                    } : null,
                     { 
                         tag: "button", textContent: "Drag Item", 
                         onclick: (ev) => { 
-                            // B"H: Start Visual Manual Drag
                             if(typeof window.startManualDrag === 'function') {
-                                // Need to prevent event bubbling? Not really, just start it.
-                                // Delay slightly to ensure click is processed
                                 setTimeout(() => window.startManualDrag(item, sourceType, index, null), 50);
                             }
                             $("contextMenu")?.remove(); 
@@ -113,26 +287,22 @@ export default {
                     { 
                         tag: "button", textContent: "Split Stack", 
                         onclick: () => { 
-                            // B"H: Open Quantity Modal
                             $("quantityModal").classList.remove("hidden");
                             const inp = $("qtyInput");
                             if(inp) {
                                 inp.value = "1";
                                 inp.max = item.quantity;
                             }
-                            
-                            // Define callback for modal confirmation
                             window.AwtsmoosDragSystem.pendingSplitCallback = (qty) => {
                                 setTimeout(() => window.startManualDrag(item, sourceType, index, qty), 50);
                             };
-                            
                             $("contextMenu")?.remove(); 
                         } 
                     },
                     item.className === 'CharacterMaker' ? { tag: "button", textContent: "Design New Soul", onclick: () => { ui.peula($("character designer"), { open: { mode: 'create' } }); $("inventoryScreen").classList.add("hidden"); $("contextMenu")?.remove(); } } : null,
                     item.className === 'CustomNpc' ? { tag: "button", textContent: "Edit Soul", onclick: () => { ui.peula($("character designer"), { open: { mode: 'edit', item: item, index: index, sourceType: sourceType } }); $("inventoryScreen").classList.add("hidden"); $("contextMenu")?.remove(); } } : null,
                     item.isEquipped ? { tag: "button", textContent: "Unequip", onclick: () => { ui.peula("ikar", { olamPeula: { unequipItem: item.equippedIn } }); $("contextMenu")?.remove(); } } : { tag: "button", textContent: "Equip", onclick: () => { const target = item.equipSlot || 'rightHand'; ui.peula("ikar", { olamPeula: { equipItem: { sourceType, index, target } } }); $("contextMenu")?.remove(); } },
-                    sourceType === 'inventory' ? { tag: "button", textContent: "Move to Action Bar", onclick: () => { ui.peula("ikar", { olamPeula: { moveToActionBar: { fromInventoryIndex: index, toActionIndex: 0 /* Default handled by server */ } } }); $("contextMenu")?.remove(); } } : { tag: "button", textContent: "Move to Inventory", onclick: () => { ui.peula("ikar", { olamPeula: { moveFromActionBar: { actionIndex: index } } }); $("contextMenu")?.remove(); } },
+                    sourceType === 'inventory' ? { tag: "button", textContent: "Move to Action Bar", onclick: () => { ui.peula("ikar", { olamPeula: { moveToActionBar: { fromInventoryIndex: index, toActionIndex: 0 /* Default handled by server */ } } }); $("contextMenu")?.remove(); } } : (sourceType === 'action' ? { tag: "button", textContent: "Move to Inventory", onclick: () => { ui.peula("ikar", { olamPeula: { moveFromActionBar: { actionIndex: index } } }); $("contextMenu")?.remove(); } } : null),
                     { tag: "button", textContent: "Close", onclick: () => $("contextMenu")?.remove() }
                 ].filter(Boolean).map(btn => ({...btn, className: 'ctx-btn', style: {...btnStyle, borderBottom: "1px solid #444"}}))
             });

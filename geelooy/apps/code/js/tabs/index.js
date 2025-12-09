@@ -1,3 +1,5 @@
+
+
 // B"H
 // FILE: js/tabs/index.js
 
@@ -132,11 +134,20 @@ export const Tabs = {
             return;
         }
 
-        // B"H - Content Loading Guard & Blob Processing Fix
-        // If content is Blob but type is text (common with Zip opening), we must decode it.
-        if (tab.content instanceof Blob && tab.fileType === 'text') {
-             await this._handleStandardContent(tab, tab.content);
-        } else if (tab.content === null || tab.forceReload) {
+        // B"H - Content Loading & Processing Guard
+        // Check if content is pre-loaded (from drag-drop or external source) but not yet processed (no rawContent/ArrayBuffer).
+        const hasPreloadedContent = tab.content !== null && tab.content !== undefined;
+        const needsProcessing = !tab.rawContent && !tab.arrayBuffer;
+
+        if (hasPreloadedContent && needsProcessing) {
+            // Process the pre-loaded content based on file type
+            if (tab.fileType === 'zip') {
+                 this._handleZipContent(tab, tab.content);
+            } else {
+                 await this._handleStandardContent(tab, tab.content);
+            }
+        } else if (!hasPreloadedContent || tab.forceReload) {
+            // No content, or forced reload: Fetch from file system
             const loaded = await this._loadTabContent(tab);
             if (!loaded) {
                 return;

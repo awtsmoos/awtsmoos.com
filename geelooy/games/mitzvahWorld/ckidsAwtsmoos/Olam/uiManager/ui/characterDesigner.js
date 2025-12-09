@@ -1,3 +1,4 @@
+
 // B"H
 import style from "./skins/2/characterDesignerStyle.js";
 
@@ -36,22 +37,18 @@ export default {
             designer.classList.remove("hidden");
             designer.style.display = "flex"; 
             
-            // B"H: Store context directly on the DOM element to persist across eval/scope barriers
             designer.awtsmoosEditContext = { index, sourceType, liveEntityId, item };
 
             // Load State
             if (mode === 'edit' && item && item.customData) {
-                // Deep clone to avoid modifying reference directly before save
                 designer.characterState = JSON.parse(JSON.stringify(item.customData));
                 
-                // Ensure dialogueTree is valid
                 if (!designer.characterState.dialogueTree || !Array.isArray(designer.characterState.dialogueTree)) {
                     designer.characterState.dialogueTree = [{ id: 0, message: "B\"H\nShalom!", responses: [] }];
                 }
 
                 $("cd-title").textContent = "Editing: " + (item.name || "Soul");
             } else {
-                // Reset to default
                 designer.characterState = {
                     name: "New Soul",
                     color: "#00ffff",
@@ -70,14 +67,12 @@ export default {
                 $("cd-title").textContent = "Design New Soul";
             }
 
-            // Bind basic inputs manually to ensure they reflect state
             const nameInput = designer.querySelector(".cd-sidebar input.cd-name-input"); 
             if(nameInput) nameInput.value = designer.characterState.name || "";
             
             const colorInput = designer.querySelector(".cd-sidebar input.cd-color-input");
             if(colorInput) colorInput.value = designer.characterState.color || "#00ffff";
 
-            // Default to Dialogue View
             ui.peula($("cd-content-area"), { renderView: "dialogue" });
         }
     },
@@ -85,7 +80,6 @@ export default {
     children: [
         { tag: "style", innerHTML: style },
         
-        // --- Header ---
         {
             className: "cd-header",
             awtsmoosClick: true,
@@ -100,12 +94,10 @@ export default {
             ]
         },
 
-        // --- Body ---
         {
             className: "cd-body",
             awtsmoosClick: true,
             children: [
-                // --- Sidebar (Global Settings) ---
                 {
                     className: "cd-sidebar",
                     children: [
@@ -129,7 +121,6 @@ export default {
                                 }
                             ]
                         },
-                        // Navigation Buttons
                         {
                             tag: "button", className: "cd-btn", textContent: "Dialogue Editor",
                             onclick(e, $, ui) { ui.peula($("cd-content-area"), { renderView: "dialogue" }); }
@@ -147,13 +138,9 @@ export default {
                             onclick(e, $, ui) {
                                 const designer = $("character designer");
                                 const state = designer.characterState;
-                                // B"H: Retrieve context from the DOM element. 
                                 const ctx = designer.awtsmoosEditContext || {};
                                 
-                                console.log("B\"H Saving. Context:", ctx);
-
                                 if (ctx.sourceType === 'world' && ctx.liveEntityId) {
-                                    // B"H: Update Live Entity
                                     ui.peula("ikar", { 
                                         olamPeula: { 
                                             updateLiveEntity: { 
@@ -167,7 +154,6 @@ export default {
                                     });
                                     alert("Changes saved to world entity!");
                                 } else if (ctx.sourceType === 'inventory' || ctx.sourceType === 'action') {
-                                    // Update Inventory Item
                                     const updateData = { name: state.name, customData: state };
                                     ui.peula("ikar", { 
                                         olamPeula: { 
@@ -180,7 +166,6 @@ export default {
                                     });
                                     alert("Changes saved to inventory item!");
                                 } else {
-                                    // Create New Item
                                     const itemData = {
                                         id: "custom_npc_" + Date.now(), className: "CustomNpc",
                                         name: state.name, description: "A custom soul.", customData: state,
@@ -208,7 +193,6 @@ export default {
                             const designer = $("character designer");
                             
                             if (view === "dialogue") {
-                                // --- Render Dialogue Tree ---
                                 ui.html({
                                     parent: container,
                                     className: "cd-tree-container",
@@ -232,7 +216,6 @@ export default {
                                                             ready(lst) {
                                                                 const refresh = () => {
                                                                     lst.innerHTML = "";
-                                                                    // Always re-read response list from node to capture adds/deletes
                                                                     if(node.responses && Array.isArray(node.responses)) {
                                                                         node.responses.forEach((r, ri) => {
                                                                             uii.html({
@@ -258,7 +241,6 @@ export default {
                                     }
                                 });
                             } else if (view === "store") {
-                                // --- Render Store Management ---
                                 ui.html({
                                     parent: container,
                                     className: "cd-store-container",
@@ -281,7 +263,7 @@ export default {
                                                         sel.innerHTML = "<option>Select Item...</option>";
                                                         const slots = document.querySelectorAll(".awtsmoosInventoryViewer .slots .actionSlot");
                                                         slots.forEach(slot => {
-                                                            const item = slot.awtsmoosItemData;
+                                                            const item = slot.awtsmoosSlotData ? slot.awtsmoosSlotData.item : null;
                                                             if (item) {
                                                                 const opt = document.createElement("option");
                                                                 opt.textContent = `${item.name} (x${item.quantity})`;
@@ -351,6 +333,10 @@ export default {
                                 // B"H: Clothes Selection View
                                 if (!designer.characterState.clothes) designer.characterState.clothes = { jacket: true, yarmulke: true };
                                 const clothes = designer.characterState.clothes;
+                                
+                                // Get available clothing items from inventory to select from
+                                // For now, we use a simple list of standard garments
+                                // In future, iterate inventory for 'Apparel' class items
 
                                 ui.html({
                                     parent: container,

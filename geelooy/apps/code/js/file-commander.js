@@ -91,14 +91,13 @@ export const FileCommander = {
     show(startItem) {
         if (!this.overlay) this.init();
         
-        // Default to first workspace root if no item provided
-        if (!startItem && State.workspaces.length > 0) {
-            startItem = { ...State.workspaces[0], path: '/', kind: 'directory' };
+        // B"H - Virtual Root Logic
+        // If no start item is provided, we start at the virtual root of all workspaces.
+        if (!startItem) {
+            startItem = { kind: 'root', name: 'Workspaces', path: '/' };
         }
         
-        if (startItem) {
-            this.navigate(startItem);
-        }
+        this.navigate(startItem);
         
         this.overlay.classList.remove('hidden');
         // B"H - Force reflow to ensure transition plays correctly from display: none
@@ -112,6 +111,23 @@ export const FileCommander = {
     },
 
     async navigate(item) {
+        // B"H - Virtual Root Navigation
+        if (item.kind === 'root') {
+            this.currentPathItem = item;
+            this.currentFiles = State.workspaces.map(ws => ({
+                name: ws.name,
+                kind: 'directory',
+                path: '/', // Root of the workspace
+                workspaceId: ws.id,
+                type: ws.type,
+                repoInfo: ws.repoInfo,
+                isWorkspaceRoot: true
+            }));
+            this._updateBreadcrumbs();
+            this.render();
+            return;
+        }
+
         if (!item || item.kind !== 'directory') return;
         
         this.currentPathItem = item;
@@ -130,8 +146,16 @@ export const FileCommander = {
     },
 
     goUp() {
-        if (!this.currentPathItem || this.currentPathItem.path === '/') return;
+        if (!this.currentPathItem) return;
         
+        // If at root of a workspace, go to Virtual Root (Workspaces list)
+        if (this.currentPathItem.path === '/' && this.currentPathItem.kind !== 'root') {
+             this.navigate({ kind: 'root', name: 'Workspaces', path: '/' });
+             return;
+        }
+        
+        if (this.currentPathItem.kind === 'root') return; // Cannot go up from absolute root
+
         const parentPath = this.currentPathItem.path.substring(0, this.currentPathItem.path.lastIndexOf('/')) || '/';
         const parentItem = { ...this.currentPathItem, path: parentPath, kind: 'directory' };
         this.navigate(parentItem);
@@ -183,7 +207,15 @@ export const FileCommander = {
             itemEl.className = 'fc-item';
             
             const isDir = file.kind === 'directory';
-            const icon = isDir ? 'folder' : 'file';
+            let icon = isDir ? 'folder' : 'file';
+            
+            // B"H - Workspace Icons
+            if (this.currentPathItem.kind === 'root') {
+                 if (file.type === 'github') icon = 'github';
+                 else if (file.type === 'local') icon = 'laptop';
+                 else if (file.type === 'ssh') icon = 'ssh';
+                 else if (file.type === 'indexeddb') icon = 'brain';
+            }
             
             let sizeStr = isDir ? '--' : this._formatSize(file.size);
             let dateStr = file.lastModified ? new Date(file.lastModified).toLocaleDateString() : '--';
@@ -229,10 +261,28 @@ export const FileCommander = {
         this.breadcrumbs.innerHTML = '';
         if (!this.currentPathItem) return;
 
-        // Workspace Root
+        // Virtual Root Breadcrumb
+        const rootSpan = document.createElement('span');
+        rootSpan.className = 'fc-crumb root';
+        rootSpan.textContent = 'Workspaces';
+        rootSpan.onclick = () => this.navigate({ kind: 'root', name: 'Workspaces', path: '/' });
+        this.breadcrumbs.appendChild(rootSpan);
+
+        if (this.currentPathItem.kind === 'root') return;
+
+        // Separator
+        const sep1 = document.createElement('span');
+        sep1.className = 'fc-sep';
+        sep1.textContent = '>';
+        this.breadcrumbs.appendChild(sep1);
+
+        // Workspace Name
+        const ws = State.workspaces.find(ws => ws.id === this.currentPathItem.workspaceId);
+        const wsName = ws ? ws.name : 'Unknown';
+        
         const wsSpan = document.createElement('span');
-        wsSpan.className = 'fc-crumb root';
-        wsSpan.textContent = State.workspaces.find(ws => ws.id === this.currentPathItem.workspaceId)?.name || 'Root';
+        wsSpan.className = 'fc-crumb';
+        wsSpan.textContent = wsName;
         wsSpan.onclick = () => this.navigate({ ...this.currentPathItem, path: '/', kind: 'directory' });
         this.breadcrumbs.appendChild(wsSpan);
 
@@ -241,14 +291,14 @@ export const FileCommander = {
         const parts = this.currentPathItem.path.split('/').filter(Boolean);
         let currentAccum = '';
         
-        parts.forEach((part, index) => {
+        parts.forEach((part) => {
             const sep = document.createElement('span');
             sep.className = 'fc-sep';
             sep.textContent = '/';
             this.breadcrumbs.appendChild(sep);
 
             currentAccum += '/' + part;
-            const crumbPath = currentAccum; // Capture for closure
+            const crumbPath = currentAccum; 
             
             const crumb = document.createElement('span');
             crumb.className = 'fc-crumb';
