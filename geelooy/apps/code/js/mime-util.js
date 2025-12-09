@@ -14,9 +14,6 @@ const MimeMap = {
     '.xml':  { type: 'text', mime: 'text/xml' },
     '.yml':  { type: 'text', mime: 'text/plain' },
     
-    
-    
-    
     '.svg':  { type: 'text', mime: 'text/xml' },
     '.md':   { type: 'text', mime: 'text/markdown' },
     '.txt':  { type: 'text', mime: 'text/plain' },
@@ -55,6 +52,9 @@ const MimeMap = {
 
     // PDF files (will be previewed)
     '.pdf':  { type: 'pdf', mime: 'application/pdf' },
+    
+    // Archives
+    '.zip': { type: 'zip', mime: 'application/zip' }
 };
 
 const defaultType = { type: 'binary', mime: 'application/octet-stream' };

@@ -8,6 +8,7 @@ import { SelectionManager } from '../selection-manager.js';
 import { Workspaces, getItemUniquePath } from '../workspaces.js';
 import { Tabs } from '../tabs/index.js';
 import { GitMetaProvider } from '../git-meta-provider.js';
+import { Exporter } from './exporter.js';
 
 export const Transfer = {
     async copySelected() {
@@ -194,10 +195,28 @@ export const Transfer = {
 
     async paste(destinationDir) {
         if (State.clipboardZip) {
-            const { blob, name } = State.clipboardZip;
+            let blob;
+            let name = State.clipboardZip.name;
+
+            // B"H - Handle Lazy Zip
+            if (State.clipboardZip.type === 'lazy-zip') {
+                UI.showToast("Starting to generate ZIP...", "info");
+                UI.showLoading("Compressing items for Paste...\n(This process happens in your browser)");
+                try {
+                    // Actual Zipping happens here, triggered by paste
+                    blob = await Exporter.createZipBlob(State.clipboardZip.items);
+                } catch(e) {
+                    UI.showToast("Compression failed: " + e.message, "error");
+                    UI.hideLoading();
+                    return;
+                }
+            } else {
+                blob = State.clipboardZip.blob;
+            }
+
             const newItem = { ...destinationDir, name, kind: 'file', path: destinationDir.path === '/' ? `/${name}` : `${destinationDir.path}/${name}` };
             
-            UI.showLoading("Pasting ZIP...");
+            UI.showLoading("Writing ZIP to disk...");
             try {
                 const arrayBuffer = await blob.arrayBuffer();
                 await FileSystemProvider.write(newItem, arrayBuffer);
@@ -221,10 +240,6 @@ export const Transfer = {
 
         // Clone logic if pasting a root github repo
         if (State.fileClipboard.length === 1 && sourceItem && sourceItem.type === 'github' && sourceItem.path === '/') {
-            // To keep this file smaller, we'll implement simple copy here, but Clone logic 
-            // is large. For now, let's assume we copy content. 
-            // If you need full Clone support, import it from a specific clone module.
-            // For now, I will include standard paste.
             UI.showToast("Repository cloning is handled via Git Manager.", "info");
         } else {
             await this.standardPaste(destinationDir);
@@ -277,7 +292,6 @@ export const Transfer = {
         }
     },
     
-    // Moved pull logic here to keep file-operations.js clean
     async pullAndOverwrite(folderToUpdate, gitInfo) {
         const confirmed = await UI.showDialog({
             title: 'Confirm Overwrite',
@@ -293,25 +307,15 @@ export const Transfer = {
             const newTreeData = await FileSystemProvider.GitHub.getFullTree(sourceRepoItem);
             const newFiles = newTreeData.tree;
 
-            // Simplified: Delete all local, write all remote. 
-            // In a real optimized system, we'd diff.
-            // For robustness in this implementation, we will iterate download.
-            
             for (const fileNode of newFiles) {
                 if (fileNode.type !== 'blob') continue;
                 UI.showLoading(`Downloading ${fileNode.path}...`);
                 const content = await FileSystemProvider.GitHub.read({ ...sourceRepoItem, path: fileNode.path, sha: fileNode.sha, name: 'file' });
                 const destPath = `${folderToUpdate.path}/${fileNode.path}`;
                 
-                // Ensure parent exists (basic check)
-                // Note: _ensurePathExists logic omitted for brevity in this split, 
-                // assuming write() handles basic creation or we just write.
-                // If IndexedDB provider requires explicit folder creation, it should be added here.
-                
                 await FileSystemProvider.write({ ...folderToUpdate, path: destPath }, content);
             }
 
-            // Update Metadata
             const updatedGitInfo = { ...gitInfo, baseCommitSHA: newTreeData.sha, remoteTree: newTreeData.tree };
             const ikarContent = `// B"H\n\nconst ikar = ${JSON.stringify(updatedGitInfo, null, 4)};`;
             await FileSystemProvider.write({ ...folderToUpdate, path: `${folderToUpdate.path}/.awtsmoos-repo/ikar.js` }, ikarContent);

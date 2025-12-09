@@ -13,6 +13,7 @@ export const State = {
     nextWorkspaceId: 0,
     contextTarget: null,
     hexEditorInstance: null,
+    zipExplorerInstance: null, // B"H - Instance for the Zip Explorer
     gitDb: null,
     
     postMessageRequestId: 0,
@@ -28,6 +29,7 @@ export const State = {
     
     
     fileClipboard: [], // Will store the full item objects to be copied
+    clipboardZip: null, // B"H - Stores a Blob when "Copy as ZIP" is used
     selectedItems: new Set(), // Will store unique paths of selected items in the UI
     
     isSelectionModeActive: false,
@@ -53,8 +55,8 @@ export const DOM = {};
 export function initializeDOM() {
     DOM.sidebar = document.getElementById('sidebar');
     DOM.sidebarOverlay = document.getElementById('sidebar-overlay');
-    DOM.hamburgerMenuBtn = document.getElementById('main-menu-btn');      // <-- FIX
-DOM.mobileSidebarToggle = document.getElementById('sidebar-toggle-btn'); // <-- FIX
+    DOM.hamburgerMenuBtn = document.getElementById('main-menu-btn');      
+    DOM.mobileSidebarToggle = document.getElementById('sidebar-toggle-btn'); 
     
     
     DOM.mainMenu = document.getElementById('main-menu');
@@ -93,12 +95,5 @@ DOM.mobileSidebarToggle = document.getElementById('sidebar-toggle-btn'); // <-- 
     DOM.dataAltarContainer = document.getElementById("data-altar-container");
 
 	DOM.hexEditorWrapper = document.getElementById('hex-editor-wrapper');
+    DOM.zipExplorerWrapper = document.getElementById('zip-editor-wrapper'); // B"H
 }
-
-
-
-
-
-
-
-

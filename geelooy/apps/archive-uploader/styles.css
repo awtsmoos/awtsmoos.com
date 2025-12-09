@@ -244,6 +244,7 @@ button:disabled {
     background: #000;
     position: relative;
     min-height: 0; /* Critical for flex scrolling */
+    max-height: 250px;
 }
 
 .console-header {

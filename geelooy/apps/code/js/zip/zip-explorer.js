@@ -7,6 +7,8 @@ import { DOM, State } from '../state.js';
 import { UI } from '../ui.js';
 import { Tabs } from '../tabs/index.js';
 import { Editor } from '../editor.js';
+import { FileSystemProvider } from '../fs-provider.js';
+import { Workspaces } from '../workspaces.js';
 
 export const ZipExplorer = {
     currentZip: null,
@@ -19,7 +21,8 @@ export const ZipExplorer = {
                 reader: new ZipReader(),
                 entries: [],
                 modifications: new Map(), // filename -> content (string/blob)
-                name: tab.item.name
+                name: tab.item.name,
+                sourceItem: tab.item
             };
             
             await this.currentZip.reader.load(blob);
@@ -98,7 +101,7 @@ export const ZipExplorer = {
         });
         
         container.querySelector('#zip-save-btn').onclick = () => this.saveZipToDisk();
-        container.querySelector('#zip-extract-all').onclick = () => UI.showToast("Extraction feature coming soon!", "info");
+        container.querySelector('#zip-extract-all').onclick = () => this.extractAll();
     },
     
     _formatSize(bytes) {
@@ -116,8 +119,9 @@ export const ZipExplorer = {
             
             if (!content) {
                 const blob = await entry.getData();
-                // Basic heuristic: check if binary? For now assuming text for editor unless ext says otherwise
-                content = await blob.text(); 
+                // B"H - Do NOT assume text here. Pass blob to Tabs.create.
+                // Tabs logic will handle type detection via MimeUtil and _handleStandardContent.
+                content = blob; 
             }
             
             const item = {
@@ -131,6 +135,7 @@ export const ZipExplorer = {
             Tabs.create({ ...item, content: content }, false, false); 
             
         } catch(e) {
+            console.error(e);
             UI.showToast("Error extracting file: " + e.message, 'error');
         } finally {
             UI.hideLoading();
@@ -188,6 +193,85 @@ export const ZipExplorer = {
         } catch(e) {
             console.error(e);
             UI.showToast("Failed to save ZIP: " + e.message, 'error');
+        } finally {
+            UI.hideLoading();
+        }
+    },
+
+    async extractAll() {
+        if (!this.currentZip || !this.currentZip.sourceItem) return;
+        
+        const sourceItem = this.currentZip.sourceItem;
+        const parentPath = sourceItem.path.substring(0, sourceItem.path.lastIndexOf('/')) || '/';
+        const zipName = sourceItem.name.replace(/\.zip$/i, '');
+        const targetFolderName = await UI.showDialog({
+            title: "Extract All",
+            message: `Extract to folder "${zipName}"?`,
+            hasInput: true,
+            inputValue: zipName, // B"H - Assuming dialog supports this, if not it will just be text
+            okText: "Extract",
+            cancelText: "Cancel"
+        });
+
+        if (!targetFolderName) return;
+
+        UI.showLoading("Extracting archive...");
+        try {
+            // 1. Create Target Directory
+            // We need to construct a "directory" item to pass to create/write
+            const workspace = State.workspaces.find(ws => ws.id === sourceItem.workspaceId);
+            if (!workspace) throw new Error("Workspace not found.");
+
+            const parentDirItem = { ...workspace, path: parentPath, kind: 'directory' };
+            
+            // Check existence logic could be here, but FileSystemProvider.create usually handles it or throws
+            // B"H - Create the root extraction folder
+            try {
+                await FileSystemProvider.create(parentDirItem, targetFolderName, 'directory');
+            } catch(e) {
+                // If it exists, we might want to ask to overwrite, but for now we proceed/merge
+                console.warn("Folder might exist, merging...", e);
+            }
+
+            const targetRootPath = parentPath === '/' ? `/${targetFolderName}` : `${parentPath}/${targetFolderName}`;
+            const targetRootItem = { ...workspace, path: targetRootPath, kind: 'directory' };
+
+            // 2. Iterate Entries
+            for (const entry of this.currentZip.entries) {
+                const parts = entry.filename.split('/');
+                const fileName = parts.pop();
+                const dirPath = parts.join('/');
+                
+                // Ensure directories exist
+                let currentDir = targetRootItem;
+                if (dirPath) {
+                    const dirs = dirPath.split('/');
+                    let currentPathAccum = targetRootPath;
+                    for (const dir of dirs) {
+                        const nextPath = `${currentPathAccum}/${dir}`;
+                        try {
+                            await FileSystemProvider.create({ ...workspace, path: currentPathAccum, kind: 'directory' }, dir, 'directory');
+                        } catch(e) {/* ignore exists */}
+                        currentPathAccum = nextPath;
+                    }
+                    currentDir = { ...workspace, path: currentPathAccum, kind: 'directory' };
+                }
+
+                if (!entry.isDir) {
+                    // Write File
+                    const blob = await entry.getData();
+                    const arrayBuffer = await blob.arrayBuffer();
+                    const fileItem = { ...workspace, path: `${currentDir.path}/${fileName}`, kind: 'file' };
+                    await FileSystemProvider.write(fileItem, arrayBuffer);
+                }
+            }
+            
+            UI.showToast("Extraction complete!", "success");
+            await Workspaces.refreshNode(parentDirItem);
+
+        } catch (e) {
+            console.error(e);
+            UI.showToast("Extraction failed: " + e.message, "error");
         } finally {
             UI.hideLoading();
         }

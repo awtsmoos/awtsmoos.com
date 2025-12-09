@@ -177,7 +177,7 @@ div#logoutSection {
 }
 
 .hidden {
-    display: none;
+    display: none !important;
 }
 
 .notLoggedIn {

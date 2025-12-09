@@ -2,7 +2,7 @@
 // FILE: js/ui.js
 
 import { DOM } from './state.js';
-import { App } from './app.js'; // Needed for getTabString
+import { App } from './app.js'; 
 
 /**
  * UI Module: Handles all UI updates like dialogs, toasts, and loading indicators.
@@ -28,32 +28,8 @@ export const UI = {
             }, duration);
         }, 10);
     },
-    /*B"H*/
-// ACTION: Replace the 'showDialog' method with this version, which can now handle two primary actions.
-
-/**
- * Manifests a dialog, a chamber of choice. This evolved version can now conjure
- * two primary paths for the user (`okText` and `secondaryOk`), allowing for
- * more nuanced and powerful decisions, such as choosing between committing all
- * changes or only those already saved.
- * @param {object} options - The configuration for the dialog.
- * @param {string} options.title - The title text.
- * @param {string} [options.message] - The main message text.
- * @param {boolean} [options.hasInput=false] - If true, shows a text input.
- * @param {string} [options.inputType='text'] - The type for the input field.
- * @param {string} [options.placeholder=''] - The placeholder for the input.
- * @param {boolean} [options.hasTextarea=false] - If true, shows a textarea.
- * @param {string} [options.textareaContent=''] - Initial content for the textarea.
- * @param {string} [options.okText='OK'] - Text for the primary confirmation button.
- * @param {string} [options.cancelText='Cancel'] - Text for the cancellation button.
- * @param {string} [options.contentHTML=''] - Raw HTML to inject into the dialog body.
- * @param {object} [options.tertiary] - Configuration for a third, lesser button (e.g., discard).
- * @param {object} [options.secondaryOk] - Configuration for a second primary button.
- * @param {string} options.secondaryOk.text - The text for this second button.
- * @param {string} options.secondaryOk.actionKey - The value the promise will resolve with if clicked.
- * @returns {Promise<any>} Resolves with input value, `true` (for ok), `null` (for cancel), 'tertiary', or the secondaryOk actionKey.
- */
-showDialog: ({ title, message, hasInput = false, inputType = 'text', placeholder = '', hasTextarea = false, textareaContent = '', okText = 'OK', cancelText = 'Cancel', contentHTML = '', tertiary = null, secondaryOk = null }) => {
+    
+    showDialog: ({ title, message, hasInput = false, inputType = 'text', placeholder = '', hasTextarea = false, textareaContent = '', okText = 'OK', cancelText = 'Cancel', contentHTML = '', tertiary = null, secondaryOk = null }) => {
     return new Promise(resolve => {
         const dialog = DOM.genericDialog;
         
@@ -111,9 +87,6 @@ showDialog: ({ title, message, hasInput = false, inputType = 'text', placeholder
     });
 },
 
-
-
-
     updateLineNumbers: () => {
         if (DOM.editorWrapper.classList.contains('hidden')) return;
         const lineCount = DOM.editor.value.split('\n').length || 1;
@@ -123,13 +96,16 @@ showDialog: ({ title, message, hasInput = false, inputType = 'text', placeholder
         }
     },
     
-    switchView(viewName) { // Can be 'editor', 'preview', 'console', or 'empty'
+    switchView(viewName) { 
         if (viewName !== 'editor') DOM.keyboardHelper.classList.remove('is-visible');
         DOM.editorWrapper.classList.add('hidden');
         DOM.previewer.classList.add('hidden');
         DOM.consoleHost.classList.add('hidden');
         DOM.emptyEditorMessage.classList.add('hidden');
-	DOM.hexEditorWrapper.classList.add('hidden');
+        DOM.hexEditorWrapper.classList.add('hidden');
+        DOM.dataAltarContainer.classList.add('hidden');
+        if (DOM.zipExplorerWrapper) DOM.zipExplorerWrapper.classList.add('hidden');
+
         switch(viewName) {
             case 'editor':
                 DOM.editorWrapper.classList.remove('hidden');
@@ -140,13 +116,18 @@ showDialog: ({ title, message, hasInput = false, inputType = 'text', placeholder
             case 'console':
                 DOM.consoleHost.classList.remove('hidden');
                 break;
-                
-            case 'altar': DOM.dataAltarContainer.classList.remove('hidden'); break;
+            case 'altar': 
+                DOM.dataAltarContainer.classList.remove('hidden'); 
+                break;
             case 'empty':
                 DOM.emptyEditorMessage.classList.remove('hidden');
                 break;
-                
-            case 'hex': DOM.hexEditorWrapper.classList.remove('hidden'); break;
+            case 'hex': 
+                DOM.hexEditorWrapper.classList.remove('hidden'); 
+                break;
+            case 'zip':
+                if (DOM.zipExplorerWrapper) DOM.zipExplorerWrapper.classList.remove('hidden');
+                break;
         }
     },
     syncScroll: () => DOM.lineNumbers.scrollTop = DOM.editor.scrollTop

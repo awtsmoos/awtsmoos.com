@@ -9,26 +9,25 @@ import { ZipFile } from '/scripts/awtsmoos/zip/encoder.js';
 export const Exporter = {
     async copyAsZip(items) {
         if (!items || items.length === 0) return;
-        UI.showLoading("Compressing...");
-        try {
-            const blob = await this._createZip(items);
-            State.clipboardZip = { blob, name: 'selection.zip' };
-            State.fileClipboard = []; // Clear standard clipboard
-            UI.showToast("Copied as ZIP!", "success");
-        } catch(e) {
-            UI.showToast("Zip failed: " + e.message, "error");
-            console.error(e);
-        } finally {
-            UI.hideLoading();
-            SelectionManager.end();
-        }
+        
+        // B"H - Lazy Copy Strategy
+        // We do not compress yet. We store the intent and references.
+        State.clipboardZip = { 
+            items: items, 
+            type: 'lazy-zip', 
+            name: items.length === 1 ? `${items[0].name}.zip` : 'selection.zip' 
+        };
+        State.fileClipboard = []; // Clear standard clipboard
+        
+        UI.showToast("Copied to clipboard (Zip on Paste)", "success");
+        SelectionManager.end();
     },
 
     async downloadAsZip(items) {
         if (!items || items.length === 0) return;
         UI.showLoading("Compressing for download...");
         try {
-            const blob = await this._createZip(items);
+            const blob = await this.createZipBlob(items);
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
@@ -45,7 +44,7 @@ export const Exporter = {
         }
     },
 
-    async _createZip(items) {
+    async createZipBlob(items) {
         const zip = new ZipFile();
         
         const processItem = async (item, basePath) => {

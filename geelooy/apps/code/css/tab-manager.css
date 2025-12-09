@@ -6,8 +6,8 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(13, 15, 18, 0.95);
-    backdrop-filter: blur(10px);
+    background-color: rgba(13, 15, 18, 0.98);
+    backdrop-filter: blur(15px);
     z-index: 20000;
     display: flex;
     flex-direction: column;
@@ -35,6 +35,7 @@
     color: var(--neon-cyan);
     font-size: 2em;
     text-shadow: 0 0 20px var(--glow-cyan);
+    letter-spacing: 2px;
 }
 
 .tm-controls {
@@ -51,106 +52,227 @@
     width: 300px;
     color: white;
     font-size: 1.1em;
+    outline: none;
+    transition: box-shadow 0.2s ease;
+}
+#tm-search:focus {
+    box-shadow: 0 0 10px var(--glow-cyan);
+    border-color: var(--neon-cyan);
 }
 
 .tm-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 20px;
     overflow-y: auto;
-    padding-bottom: 40px;
+    padding-bottom: 80px; /* Space for floating bar */
 }
 
+/* CARD STYLES */
 .tm-card {
     background-color: var(--color-bg-secondary);
     border: 1px solid var(--color-border);
-    border-radius: 8px;
-    padding: 16px;
+    border-radius: 12px;
+    padding: 20px;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 12px;
     cursor: pointer;
     transition: all 0.2s ease;
     position: relative;
     overflow: hidden;
+    height: 120px; /* Fixed height for uniformity */
+    user-select: none;
 }
 
 .tm-card:hover {
     transform: translateY(-4px);
     border-color: var(--neon-cyan);
     box-shadow: 0 10px 20px -5px rgba(0,0,0,0.5);
+    background-color: var(--color-bg-tertiary);
+}
+
+/* Selection Mode Styles */
+.tab-manager-overlay.selection-mode .tm-card {
+    border-style: dashed;
+}
+.tab-manager-overlay.selection-mode .tm-card:hover {
+    transform: none; /* Disable hover lift in selection mode to focus on toggle */
 }
 
 .tm-card.selected {
-    background-color: rgba(0, 246, 255, 0.15);
-    border-color: var(--neon-cyan);
+    background-color: rgba(0, 246, 255, 0.1);
+    border: 2px solid var(--neon-cyan);
+    box-shadow: 0 0 15px var(--glow-cyan) inset;
 }
 
 .tm-card.active-tab {
     border-left: 4px solid var(--neon-magenta);
 }
 
+/* Pinned State */
+.tm-card.pinned {
+    border-top: 3px solid var(--neon-lime);
+}
+.tm-card.pinned::after {
+    content: '📌';
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    font-size: 1.2em;
+}
+
+/* Dragging Styles */
+.tm-card.dragging {
+    opacity: 0.5;
+    transform: scale(0.95);
+    box-shadow: 0 0 20px var(--neon-magenta);
+}
+
 .tm-card-header {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 14px;
+    flex-grow: 1; /* Allow taking up space */
 }
 
 .tm-icon {
-    font-size: 1.5em;
+    font-size: 2em;
     color: var(--color-text-tertiary);
+    flex-shrink: 0;
 }
 
 .tm-info {
     flex-grow: 1;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .tm-name {
     display: block;
     font-weight: 700;
+    font-size: 1.1em;
     color: var(--color-text-primary);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    margin-bottom: 6px; /* Vertical Offset */
 }
 
 .tm-path {
     display: block;
-    font-size: 0.8em;
+    font-size: 0.85em;
     color: var(--color-text-tertiary);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
-.tm-status {
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    width: 10px;
-    height: 10px;
+/* Status Indicators */
+.tm-status-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
     border-radius: 50%;
+    margin-right: 6px;
+    background-color: transparent;
 }
+.tm-status-dot.dirty { background-color: var(--neon-magenta); box-shadow: 0 0 5px var(--neon-magenta); }
+.tm-status-dot.uncommitted { background-color: var(--neon-lime); box-shadow: 0 0 5px var(--neon-lime); }
 
-.tm-status.dirty { background-color: var(--neon-magenta); box-shadow: 0 0 5px var(--neon-magenta); }
-.tm-status.uncommitted { background-color: var(--neon-lime); box-shadow: 0 0 5px var(--neon-lime); }
 
-.tm-actions {
+/* FLOATING ACTION BAR */
+.tm-selection-bar {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(30, 34, 50, 0.95);
+    border: 1px solid var(--neon-cyan);
+    box-shadow: 0 5px 30px var(--glow-cyan);
+    border-radius: 50px;
+    padding: 10px 24px;
     display: flex;
-    justify-content: flex-end;
-    margin-top: auto;
+    align-items: center;
+    gap: 20px;
+    z-index: 20002;
+    animation: slideUp 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-.tm-close-btn {
-    background: transparent;
-    border: none;
-    color: var(--color-text-tertiary);
-    cursor: pointer;
-    padding: 4px;
-    border-radius: 4px;
+@keyframes slideUp { from { transform: translate(-50%, 50px); opacity: 0; } to { transform: translate(-50%, 0); opacity: 1; } }
+
+.tm-selection-info {
+    font-weight: 700;
+    color: var(--neon-cyan);
+    border-right: 1px solid var(--color-border);
+    padding-right: 20px;
 }
-.tm-close-btn:hover {
-    background-color: var(--color-accent-danger-translucent);
+
+.tm-selection-actions {
+    display: flex;
+    gap: 10px;
+}
+
+/* CONTEXT MENU */
+.tm-context-menu {
+    position: absolute;
+    background-color: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    padding: 6px;
+    display: flex;
+    flex-direction: column;
+    min-width: 150px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+    z-index: 20005;
+    backdrop-filter: blur(10px);
+}
+
+.tm-context-menu button {
+    background: none;
+    border: none;
+    color: var(--color-text-primary);
+    text-align: left;
+    padding: 10px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.95em;
+    transition: background 0.1s;
+}
+
+.tm-context-menu button:hover {
+    background-color: var(--color-accent-primary);
+    color: var(--color-bg-deep);
+}
+
+.tm-context-menu button.danger {
     color: var(--color-accent-danger);
+}
+.tm-context-menu button.danger:hover {
+    background-color: var(--color-accent-danger);
+    color: white;
+}
+
+@media (max-width: 768px) {
+    .tm-selection-bar {
+        width: 90%;
+        border-radius: 12px;
+        flex-direction: column;
+        gap: 10px;
+        padding: 15px;
+    }
+    .tm-selection-info {
+        border-right: none;
+        border-bottom: 1px solid var(--color-border);
+        padding-right: 0;
+        padding-bottom: 10px;
+        width: 100%;
+        text-align: center;
+    }
+    .tm-selection-actions {
+        width: 100%;
+        justify-content: space-between;
+    }
 }

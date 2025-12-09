@@ -13,9 +13,9 @@ const TOKEN = {
 
 
     EOF: 'EOF',
-    
+    DELETE: 'DELETE',
     VOID: 'VOID',
-    
+    DEBUGGER: 'DEBUGGER',
     LOGICAL_OR_ASSIGN: '||=',
     LOGICAL_AND_ASSIGN: '&&=',
     
@@ -46,7 +46,6 @@ const TOKEN = {
     PRIVATE_IDENT: 'PRIVATE_IDENT',
     
      STRING: 'STRING',
-     
      
      WITH: 'WITH',
     TEMPLATE_HEAD: 'TEMPLATE_HEAD', TEMPLATE_MIDDLE: 'TEMPLATE_MIDDLE', TEMPLATE_TAIL: 'TEMPLATE_TAIL',
@@ -92,10 +91,10 @@ const KEYWORDS = {
     'async': TOKEN.ASYNC, 'await': TOKEN.AWAIT, 'yield': TOKEN.YIELD,
     'typeof': TOKEN.TYPEOF, 'instanceof': TOKEN.INSTANCEOF, 'in': TOKEN.IN,
     'try': TOKEN.TRY, 'catch': TOKEN.CATCH, 'finally': TOKEN.FINALLY, 'throw': TOKEN.THROW,
-    
-    
+    'delete': TOKEN.DELETE,
+       
     'void': TOKEN.VOID,
-    
+    'debugger': TOKEN.DEBUGGER,
     
     'with': TOKEN.WITH, //the final frontier
 };
@@ -132,6 +131,10 @@ const PRECEDENCE = {
 // B"H
 
 const PRECEDENCES = {
+
+	[TOKEN.VOID]: PRECEDENCE.PREFIX,
+    [TOKEN.DELETE]: PRECEDENCE.PREFIX, // <-- Add this line
+    [TOKEN.TYPEOF]: PRECEDENCE.PREFIX,
     [TOKEN.COMMA]: PRECEDENCE.SEQUENCE,
 
     // ALL Assignment operators have the same precedence.

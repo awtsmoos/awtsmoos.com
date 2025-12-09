@@ -129,8 +129,16 @@ export const Tabs = {
             return;
         }
 
+        // B"H - Content Loading Guard
+        // We only render if content load succeeds or if we already have content.
         if (tab.content === null || tab.forceReload) {
-            await this._loadTabContent(tab);
+            const loaded = await this._loadTabContent(tab);
+            if (!loaded) {
+                // If loading failed, do not attempt to render the view with null content.
+                // The UI should have shown a toast from _loadTabContent.
+                // We keep the view as is (or empty) to avoid overwriting editor state with blankness.
+                return;
+            }
         }
 
         this._renderTabView(tab);
@@ -147,6 +155,7 @@ export const Tabs = {
             let fileContent;
             
             if (tab.item.type === 'zip-entry') {
+                // Zip entries pass content directly via Tabs.create
                 fileContent = tab.content;
             } else {
                 const gitInfo = await this._getGitInfoForTab(tab);
@@ -165,11 +174,14 @@ export const Tabs = {
                 tab.fileType = 'zip';
                 this._handleZipContent(tab, fileContent);
             } else {
-                this._handleStandardContent(tab, fileContent);
+                await this._handleStandardContent(tab, fileContent);
             }
             tab.forceReload = false;
+            return true; // Success
         } catch (e) {
-            UI.showToast(`Error: ${e.message}`, 'error');
+            console.error("Tab Load Error:", e);
+            UI.showToast(`Error opening file: ${e.message}`, 'error');
+            return false; // Failed
         } finally {
             UI.hideLoading();
         }
@@ -184,6 +196,8 @@ export const Tabs = {
                 const bytes = new Uint8Array(len);
                 for (let i = 0; i < len; i++) bytes[i] = binStr.charCodeAt(i);
                 tab.rawContent = new Blob([bytes], {type: 'application/zip'});
+        } else if (fileContent instanceof ArrayBuffer || ArrayBuffer.isView(fileContent)) {
+             tab.rawContent = new Blob([fileContent], {type: 'application/zip'});
         } else {
             tab.rawContent = new Blob([fileContent], {type: 'application/zip'});
         }
@@ -198,14 +212,21 @@ export const Tabs = {
             arrayBuffer = new TextEncoder().encode(fileContent).buffer;
         } else if (fileContent.isBinary) {
             arrayBuffer = Uint8Array.from(atob(fileContent.base64Content), c => c.charCodeAt(0)).buffer;
+        } else if (fileContent instanceof ArrayBuffer) {
+            arrayBuffer = fileContent;
+        } else if (ArrayBuffer.isView(fileContent)) {
+            arrayBuffer = fileContent.buffer;
         } else {
             arrayBuffer = new ArrayBuffer(0);
         }
         tab.arrayBuffer = arrayBuffer;
 
         if (tab.fileType === 'text' || tab.item.name.toLowerCase().endsWith('.awtsmoosjson')) {
-                if (typeof fileContent === 'string') tab.content = fileContent;
-                else tab.content = new TextDecoder().decode(arrayBuffer);
+                if (typeof fileContent === 'string') {
+                    tab.content = fileContent;
+                } else {
+                    tab.content = new TextDecoder().decode(arrayBuffer);
+                }
         } else {
             tab.content = fileContent;
         }
@@ -216,12 +237,20 @@ export const Tabs = {
             await ZipExplorer.open(tab.rawContent, tab);
         } else if (tab.fileType === 'text') {
             const targetScroll = Number(tab.scrollPos) || 0;
-            await Editor.showTextEditor(tab.content || '', tab.item.name, targetScroll);
+            // Guard against null content being passed to editor
+            const textContent = (tab.content === null || tab.content === undefined) ? '' : tab.content;
+            await Editor.showTextEditor(textContent, tab.item.name, targetScroll);
         } else if (tab.isHexView) {
             UI.switchView('hex');
             State.hexEditorInstance.load(tab.arrayBuffer);
         } else {
-            Editor.showPreviewer(tab.rawContent, { type: tab.fileType, name: tab.item.name }, tab.id);
+            // Ensure rawContent is safe for Editor.showPreviewer
+            let safeContent = tab.rawContent;
+            if (!(safeContent instanceof Blob) && !safeContent.isBinary && tab.arrayBuffer) {
+                // If it's a binary array but not a blob yet, make it one
+                safeContent = new Blob([tab.arrayBuffer], { type: MimeUtil.getInfo(tab.item.name).mime });
+            }
+            Editor.showPreviewer(safeContent, { type: tab.fileType, name: tab.item.name }, tab.id);
         }
     },
 
