@@ -167,18 +167,18 @@ class APIHandler {
 				await fetch(url, {
 					method: 'GET', // GET for reading the file
 				});
-			var ct  =response.headers.get("content-type");
+			
+			var ct  = response.headers.get("content-type") || "";
 		    
-		    // B"H - Robust content type check
-			if(ct && (ct.includes("text/") || 
-               ct.includes("json") || 
-               ct.includes("javascript") || 
-               ct.includes("xml"))) {
-				return response.text();
+		    // B"H - Correctly identify binary vs text.
+		    // If it's explicitly an image, zip, or pdf, OR if the filename ends in .zip, return Blob.
+		    // This prevents text() from corrupting the binary data of zip files.
+			if(ct.includes("image") || ct.includes("zip") || ct.includes("pdf") || key.toLowerCase().endsWith(".zip")) {
+				return response.blob();
 			}
 			
-			// Default to blob for binary or unknown types
-			return response.blob();
+			// Default to text for everything else (js, html, json, etc.)
+			return response.text();
 		} catch (error) {
 			console.error(
 				"Error reading file:",

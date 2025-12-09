@@ -1,3 +1,4 @@
+
 /**
  * B"H
  * @file lifecycle.js
@@ -49,14 +50,14 @@ export default {
                 className: 'Apparel',
                 name: 'Chossid Jacket',
                 description: 'A traditional jacket.',
-                icon: '/games/mitzvahWorld/icons/items/jacket.svg'
+                icon: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cGF0aCBkPSJNIDIwIDE1IEwgMjAgOTAgTCA4MCA5MCBMIDgwIDE1IEwgNjAgMTUgTCA1MCAyNSBMIDQwIDE1IFoiIGZpbGw9IiMzMzMiIHN0cm9rZT0iIzAwMCIgc3Ryb2tlLXdpZHRoPSI0IiAvPjwvc3ZnPg=='
             },
             yarmulke: { 
                 id: 'chossid_yarmulke_default',
                 className: 'Apparel',
                 name: 'Kippah',
                 description: 'A sign of reverence.',
-                icon: '/games/mitzvahWorld/icons/items/yarmulke.svg'
+                icon: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cGF0aCBkPSJNIDEwIDUwIEEgNDAgMjAgMCAwIDEgOTAgNTAiIGZpbGw9IiMyMjIiIHN0cm9rZT0iIzExMSIgc3Ryb2tlLXdpZHRoPSIzIi8+PC9zdmc+'
             }
         };
 
@@ -67,17 +68,16 @@ export default {
                     self.updateDimensionsFromModel(child);
                     self.olam.ayin.target = self;
 	            }
+                // B"H: Collect garments
                 if(self.defaultGarments && self.defaultGarments[child.name]) {
                     if(!self.garments) self.garments = {};
                     self.garments[child.name] = child;
                 }
             });
 
-            if (self.garments && self.garments.jacket) {
-                self.inventory.equipment.jacket = self.defaultGarments.jacket;
-            }
-            if (self.garments && self.garments.yarmulke) {
-                self.inventory.equipment.head = self.defaultGarments.yarmulke;
+            // B"H: Equip initial defaults if slots are empty
+            if (!self.inventory.equipment.jacket && self.garments.jacket) {
+                self.updateAppearance();
             }
             self.inventory.updateUI();
         }
@@ -133,12 +133,24 @@ export default {
         
         await this.olam?.minimap?.setMinimapItems?.([this], "chossid");
         
+        // B"H: Remover Item
+        this.inventory.addItem({
+            id: 'remover_tool',
+            className: 'Tool',
+            name: 'Remover',
+            description: 'Removes equipped items.',
+            icon: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48Y2lyY2xlIGN4PSI1MCIgY3k9IjUwIiByPSI0MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZWQiIHN0cm9rZS13aWR0aD0iMTAiLz48bGluZSB4MT0iMjAiIHkxPSIyMCIgeDI9IjgwIiB5Mj0iODAiIHN0cm9rZT0icmVkIiBzdHJva2Utd2lkdGg9IjEwIi8+PC9zdmc+' // Red circle slash
+        }, 1);
+
+        // B"H: Sparks Hammer
+        const hammerIcon = `data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImEiIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjAlIj48c3RvcCBvZmZzZXQ9IjAlIiBzdHlsZT0ic3RvcC1jb2xvcjojOEI0NTEzO3N0b3Atb3BhY2l0eToxIi8+PHN0b3Agb2Zmc2V0PSI1MCUiIHN0eWxlPSJzdG9wLWNvbG9yOiNBMDUyMkQ7c3RvcC1vcGFjaXR5OjEiLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiM4QjQ1MTM7c3RvcC1vcGFjaXR5OjEiLz48L2xpbmVhckdyYWRpZW50PjxsaW5lYXJHcmFkaWVudCBpZD0iYiIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+PHN0b3Agb2Zmc2V0PSIwJSIgc3R5bGU9InN0b3AtY29sb3I6I0ZGRDcwMDtzdG9wLW9wYWNpdHk6MSIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6I0ZGQTUwMDtzdG9wLW9wYWNpdHk6MSIvPjwvbGluZWFyR3JhZGllbnQ+PGZpbHRlciBpZD0iYyIgeD0iLTIwJSIgeT0iLTIwJSIgd2lkdGg9IjE0MCUiIGhlaWdodD0iMTQwJSI+PGZlR2F1c3NpYW5CbHVyIHN0ZERldmlhdGlvbj0iNSIgcmVzdWx0PSJibHVyIi8+PGZlQ29tcG9zaXRlIGluPSJTb3VyY2VHcmFwaGljIiBpbjI9ImJsdXIiIG9wZXJhdG9yPSJvdmVyIi8+PC9maWx0ZXI+PC9kZWZzPjxyZWN0IHg9IjIzNiIgeT0iMTUwIiB3aWR0aD0iNDAiIGhlaWdodD0iMzAwIiByeD0iNSIgZmlsbD0idXJsKCNhKSIgc3Ryb2tlPSIjNWUzMDBkIiBzdHJva2Utd2lkdGg9IjIiIHRyYW5zZm9ybT0icm90YXRlKC0xNSAyNTYgMjU2KSIvPjxnIHRyYW5zZm9ybT0icm90YXRlKC0xNSAyNTYgMjU2KSI+PHJlY3QgeD0iMTY2IiB5PSIxMDAiIHdpZHRoPSI2MCIgaGVpZ2h0PSI4MCIgcng9IjUiIGZpbGw9IiM1NTUiIHN0cm9rZT0iIzMzMyIgc3Ryb2tlLXdpZHRoPSIyIi8+PHJlY3QgeD0iMjI2IiB5PSI4MCIgd2lkdGg9IjEyMCIgaGVpZ2h0PSIxMjAiIHJ4PSIxMCIgZmlsbD0idXJsKCNiKSIgc3Ryb2tlPSIjQjg4NjBCIiBzdHJva2Utd2lkdGg9IjQiIGZpbHRlcj0idXJsKCNjKSIvPjxwYXRoIGQ9Ik0yODYgMTEwbDEwIDIwIDIwIDEwLTIwIDEwLTEwIDIwLTEwLTIwLTIwLTEwIDIwLTEweiIgZmlsbD0iI0ZGRiIgZmlsbC1vcGFjaXR5PSIuOCIvPjwvZz48cGF0aCBkPSJNMzYwIDgwbDIwLTIwTTM3MCAxMDBoMzBNMzYwIDEyMGwyMCAyMCIgc3Ryb2tlPSIjMDBGRkZGIiBzdHJva2Utd2lkdGg9IjQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjwvc3ZnPg==`;
+
 	    this.inventory.addItem({
             id: 'sparks_hammer',
             className: 'Tool', 
             name: 'Sparks Collector',
             description: 'Use this to retrieve sparks (blocks) from the world.',
-            icon: '/games/mitzvahWorld/icons/items/hammer.svg'
+            icon: hammerIcon
         }, 1);
         
         this.inventory.addItem({
@@ -149,6 +161,99 @@ export default {
             icon: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48Y2lyY2xlIGN4PSIyNTYiIGN5PSIyNTYiIHI9IjIwMCIgZmlsbD0iIzRmNDRmNCIgc3Ryb2tlPSIjMDAwIiBzdHJva2Utd2lkdGg9IjIwIi8+PHBhdGggZD0iTTE1NiAxNTZhMTAwIDEwMCAwIDAgMSAyMDAgMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMDAwIiBzdHJva2Utd2lkdGg9IjIwIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48L3N2Zz4="
         }, 1);
 
+        // B"H: Teffilin Bag (Apparel Container)
+        this.inventory.addItem({
+            id: 'rashi_teffilin_bag',
+            className: 'Apparel', 
+            isContainer: true,
+            name: 'Rashi Teffilin',
+            description: 'A velvet bag containing Rashi Teffilin.',
+            icon: '🎒', // Emoji Icon
+            customData: {
+                slots: [
+                    {
+                        id: 'teffilin_arm_rashi',
+                        className: 'Apparel',
+                        name: 'Teffilin Shel Yad',
+                        description: 'Teffilin for the arm.',
+                        equipSlot: 'leftHand',
+                        icon: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MCA1MCI+PHJlY3QgeD0iMTUiIHk9IjE1IiB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIGZpbGw9ImJsYWNrIi8+PHBhdGggZD0iTSAzNSAyNSBMIDQ1IDI1IiBzdHJva2U9ImJsYWNrIiBzdHJva2Utd2lkdGg9IjMiLz48L3N2Zz4=',
+                        quantity: 1
+                    },
+                    {
+                        id: 'teffilin_head_rashi',
+                        className: 'Apparel',
+                        name: 'Teffilin Shel Rosh',
+                        description: 'Teffilin for the head.',
+                        equipSlot: 'head',
+                        icon: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MCA1MCI+PHJlY3QgeD0iMTUiIHk9IjEwIiB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIGZpbGw9ImJsYWNrIi8+PHBhdGggZD0iTSAyNSAzMCBMIDQ1IDMwIiBzdHJva2U9ImJsYWNrIiBzdHJva2Utd2lkdGg9IjMiLz48L3N2Zz4=',
+                        quantity: 1
+                    },
+                    null, null
+                ]
+            }
+        }, 1);
+
+        // B"H: Small Pouch
+        this.inventory.addItem({
+            id: 'small_pouch',
+            className: 'Container',
+            name: 'Small Pouch',
+            description: 'A small leather pouch. Holds 4 items.',
+            icon: '👛',
+            customData: {
+                slots: [null, null, null, null]
+            }
+        });
+
+        // B"H: Large Backpack
+        this.inventory.addItem({
+            id: 'large_backpack',
+            className: 'Container',
+            name: 'Large Backpack',
+            description: 'A large backpack. Holds 16 items.',
+            icon: '🎒',
+            customData: {
+                slots: new Array(16).fill(null)
+            }
+        });
+
+        // B"H: Colored Jackets and Hats
+        const colors = [
+            { name: "White", hex: "#FFFFFF" },
+            { name: "Grey", hex: "#808080" },
+            { name: "Blue", hex: "#0000FF" },
+            { name: "Black", hex: "#111111" }
+        ];
+
+        // Jacket Icon (SVG)
+        const jacketIcon = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cGF0aCBkPSJNIDIwIDE1IEwgMjAgOTAgTCA4MCA5MCBMIDgwIDE1IEwgNjAgMTUgTCA1MCAyNSBMIDQwIDE1IFoiIGZpbGw9IndoaXRlIiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iNCIgLz48L3N2Zz4=';
+        
+        // B"H: PROPER Top Hat Icon
+        const hatIcon = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cGF0aCBkPSJNIDIwIDcwIEwgODAgNzAgTCA4MCA4MCBMIDIwIDgwIFogTSAzMCAzMCBMIDcwIDMwIEwgNzAgNzAgTCAzMCA3MCBaIiBmaWxsPSJ3aGl0ZSIgc3Ryb2tlPSIjMDAwIiBzdHJva2Utd2lkdGg9IjMiLz48L3N2Zz4=';
+
+        colors.forEach(c => {
+            this.inventory.addItem({
+                id: `jacket_${c.name.toLowerCase()}`,
+                className: 'Apparel',
+                name: `${c.name} Jacket`,
+                description: `A stylish ${c.name.toLowerCase()} jacket.`,
+                equipSlot: 'jacket',
+                icon: jacketIcon,
+                customData: { color: c.hex } // B"H: Color for tinting
+            });
+            
+            this.inventory.addItem({
+                id: `hat_${c.name.toLowerCase()}`,
+                className: 'Apparel',
+                name: `${c.name} Hat`,
+                description: `A ${c.name.toLowerCase()} fedora.`,
+                equipSlot: 'head',
+                icon: hatIcon,
+                customData: { color: c.hex } // B"H: Color for tinting
+            });
+        });
+
         // Default Building Blocks
 	    this.inventory.addItem({
 	        id: 'brick_1x1x1',
@@ -156,77 +261,5 @@ export default {
 	        name: 'Standard Brick',
 	        description: 'A classic 1x1x1 brick.'
 	    }, 64);
-	
-	    this.inventory.addItem({
-	        id: 'brick_2x2x2',
-	        className: 'Brick',
-	        name: 'Cube Brick',
-	        description: 'A large 2x2x2 brick.',
-	        dimensions: { x: 2, y: 2, z: 2 }
-	    }, 32);
-	
-	    this.inventory.addItem({
-	        id: 'brick_1x1x4',
-	        className: 'Brick',
-	        name: 'Plank Brick',
-	        description: 'A long 1x1x4 plank.',
-	        dimensions: { x: 1, y: 1, z: 4 }
-	    }, 16);
-	    
-	    this.inventory.addItem({
-	        id: 'brick_1x0.5x2',
-	        className: 'Brick',
-	        name: 'Thin Plank Brick',
-	        description: 'A long 1x0.5x2 plank',
-	        dimensions: { x: 1, y: 0.5, z: 2 }
-	    }, 1024);
-	    
-	    this.inventory.addItem({
-	        id: 'brick_4x0.25x4',
-	        className: 'Brick',
-	        name: 'Thin Plane Brick',
-	        description: 'A long 4x0.25x4 plane',
-	        dimensions: { x: 4, y: 0.25, z: 4 }
-	    }, 1024);
-	    
-	    this.inventory.addItem({
-	        id: 'brick_40x0.25x40',
-	        className: 'Brick',
-	        name: 'Giant Brick Plane',
-	        description: 'A long 40x0.25x40 plane',
-	        dimensions: { x: 40, y: 0.25, z: 40 }
-	    }, 1024);
-	    
-	    this.inventory.addItem({
-	        id: 'stairs_brick_1',
-	        className: 'Stairs',
-	        name: 'Brick Stairs',
-	        description: 'Stairs to reach higher levels.',
-	        dimensions: { x: 1, y: 1, z: 1 } 
-	    }, 64);
-	    
-	    this.inventory.addItem({
-	        id: 'stairs_wide_4',
-	        className: 'Stairs',
-	        name: 'Wide Stairs',
-	        description: 'A very wide staircase (4x1x1).',
-	        dimensions: { x: 4, y: 1, z: 1 } 
-	    }, 100);
-
-        this.inventory.addItem({
-	        id: 'stairs_tall_2',
-	        className: 'Stairs',
-	        name: 'Tall Stairs',
-	        description: 'Steep stairs reaching 2 units high.',
-	        dimensions: { x: 2, y: 2, z: 2 } 
-	    }, 50);
-
-        this.inventory.addItem({
-	        id: 'stairs_grand',
-	        className: 'Stairs',
-	        name: 'Grand Staircase',
-	        description: 'A massive 4x4x4 staircase.',
-	        dimensions: { x: 4, y: 4, z: 4 } 
-	    }, 50);
     }
 };

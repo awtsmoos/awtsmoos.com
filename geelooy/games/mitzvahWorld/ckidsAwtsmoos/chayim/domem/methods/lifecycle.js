@@ -1,4 +1,5 @@
 
+
 /**
  * B"H
  * @file lifecycle.js
@@ -6,6 +7,7 @@
  */
 import * as THREE from '/games/scripts/build/three.module.js';
 import Nivra from "../../nivra.js"; 
+import Utils from '../../../utils.js';
 
 export default {
     async heescheel(olam, info) {
@@ -62,6 +64,16 @@ export default {
                                 this.instanced = false;
                             }
                         }
+                        
+                        // B"H: Collect materials without duplicates
+                        if(!this.materials) this.materials = [];
+                        this.mesh.traverse(child => {
+                            if(child.isMesh && child.material) {
+                                if(!this.materials.includes(child.material)) {
+                                    this.materials.push(child.material);
+                                }
+                            }
+                        });
                     }
 
                     this.mesh.position.copy(this.position.vector3());

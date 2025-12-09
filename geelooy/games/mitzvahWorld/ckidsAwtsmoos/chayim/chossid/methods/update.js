@@ -1,3 +1,4 @@
+
 /**
  * B"H
  * @file update.js
@@ -15,8 +16,14 @@ export default {
 			this.controls(deltaTime);
 		}
 
-        this.adjustDOF()
-        this.postProcessing();
+        // B"H: Safety check for function existence
+        if(typeof this.adjustDOF === 'function') {
+            this.adjustDOF();
+        }
+        
+        if(typeof this.postProcessing === 'function') {
+            this.postProcessing();
+        }
         
         Medabeir.prototype.heesHawvoos.call(this, deltaTime);
     }
