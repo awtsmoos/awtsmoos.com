@@ -41,6 +41,11 @@ class LiveHandle {
                     return () => `[LiveHandle ${target.mode}]`;
                 }
 
+                // B"H: Allow internal access to components
+                if (prop === 'tree' || prop === 'nav' || prop === 'reader' || prop === 'writer' || prop === 'db') {
+                    return target[prop];
+                }
+
                 if (prop === 'then') return (res, rej) => target.reader.resolveSelf().then(res, rej);
                 if (prop === 'catch') return (cb) => target.reader.resolveSelf().catch(cb);
                 if (prop === 'finally') return (cb) => target.reader.resolveSelf().finally(cb);
@@ -68,12 +73,15 @@ class LiveHandle {
                 return target.navigate(prop);
             },
             set: (target, prop, value) => {
-                target.db.execute(() => target.writer.set(prop, value))
+                // B"H: Remove duplicate execute() wrapper to prevent deadlock.
+                // target.writer.set() now handles locking internally.
+                target.writer.set(prop, value)
                     .catch(e => console.error(`[LiveHandle] Set Error on ${prop}:`, e));
                 return true; 
             },
             deleteProperty: (target, prop) => {
-                target.db.execute(() => target.writer.delete(prop))
+                // B"H: Remove duplicate execute() wrapper.
+                target.writer.delete(prop)
                     .catch(e => console.error(`[LiveHandle] Delete Error on ${prop}:`, e));
                 return true;
             }

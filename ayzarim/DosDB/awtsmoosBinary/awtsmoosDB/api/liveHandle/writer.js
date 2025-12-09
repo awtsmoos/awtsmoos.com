@@ -118,72 +118,78 @@ class Writer {
     }
 
     async set(key, value) {
-        this.handle.log(`Set "${key}" requested.`);
-        const ptr = await this.handle.ptrPromise;
-        await this.db.ensureOpen();
-        const tree = await this.handle.tree.getCurrentTree(ptr);
-        
-        // B"H: Logic Change - Do NOT capture and free oldRoot manually here.
-        // Ops.insert() will register the old root for freeing ONLY if it was rewritten.
-        // If it was split, it will be kept.
+        // B"H: Encapsulate in execute to prevent Race Conditions during concurrent Set
+        return this.db.execute(async () => {
+            this.handle.log(`Set "${key}" requested.`);
+            const ptr = await this.handle.ptrPromise;
+            await this.db.ensureOpen();
+            const tree = await this.handle.tree.getCurrentTree(ptr);
+            
+            // B"H: Logic Change - Do NOT capture and free oldRoot manually here.
+            // Ops.insert() will register the old root for freeing ONLY if it was rewritten.
+            // If it was split, it will be kept.
 
-        const metaPtr = await this.db._writeMetaValue(value);
-        await tree.insert(key, metaPtr);
+            const metaPtr = await this.db._writeMetaValue(value);
+            await tree.insert(key, metaPtr);
 
-        await this.handle.tree.updateTreePointer(ptr, tree);
-        
-        await this.verifyRootUpdate(ptr, tree.rootPtr);
+            await this.handle.tree.updateTreePointer(ptr, tree);
+            
+            await this.verifyRootUpdate(ptr, tree.rootPtr);
 
-        // B"H: Transactional Free - Flush internal frees from Ops (which now includes Old Root if valid)
-        await tree.flushFrees();
+            // B"H: Transactional Free - Flush internal frees from Ops (which now includes Old Root if valid)
+            await tree.flushFrees();
+        });
     }
 
     async delete(key) {
-        const ptr = await this.handle.ptrPromise;
-        await this.db.ensureOpen();
-        
-        let tree;
-        if (this.handle.mode === 'ROOT') {
-            tree = await this.db._loadRootTree();
-            // B"H: Removed manual oldRoot free logic. Delegated to Ops + flushFrees.
+        // B"H: Encapsulate in execute to prevent Race Conditions
+        return this.db.execute(async () => {
+            const ptr = await this.handle.ptrPromise;
+            await this.db.ensureOpen();
             
-            await tree.remove(key);
-            
-            await this.handle.tree.updateTreePointer(ptr, tree);
-            await this.verifyRootUpdate(ptr, tree.rootPtr); 
+            let tree;
+            if (this.handle.mode === 'ROOT') {
+                tree = await this.db._loadRootTree();
+                // B"H: Removed manual oldRoot free logic. Delegated to Ops + flushFrees.
+                
+                await tree.remove(key);
+                
+                await this.handle.tree.updateTreePointer(ptr, tree);
+                await this.verifyRootUpdate(ptr, tree.rootPtr); 
 
-            await tree.flushFrees();
-            
-        } else {
-            if (this.handle.mode === 'DEFERRED') await this.handle.nav.detectMode(ptr);
-            if (this.handle.mode !== 'BTREE') return false;
+                await tree.flushFrees();
+                
+            } else {
+                if (this.handle.mode === 'DEFERRED') await this.handle.nav.detectMode(ptr);
+                if (this.handle.mode !== 'BTREE') return false;
 
-            const metaBuf = await this.db._readChainSafe(ptr);
-            const handlePtr = _readPtr(metaBuf, 1);
-            const handleBuf = await this.db._readChainSafe(handlePtr);
-            const rootPtr = _readPtr(handleBuf, 4);
-            tree = new BTree(this.db.allocator, rootPtr);
-            
-            // B"H: Removed manual oldRoot free logic. Delegated to Ops + flushFrees.
-            
-            await tree.remove(key);
-            
-            const newHandleBuf = Buffer.alloc(32); 
-            newHandleBuf.write("TREE", 0);
-            _writePtr(newHandleBuf, 4, tree.rootPtr);
-            await this.db._writeChainSafe(handlePtr, newHandleBuf);
-            if (this.db.allocator) await this.db.allocator.saveState();
+                const metaBuf = await this.db._readChainSafe(ptr);
+                const handlePtr = _readPtr(metaBuf, 1);
+                const handleBuf = await this.db._readChainSafe(handlePtr);
+                const rootPtr = _readPtr(handleBuf, 4);
+                tree = new BTree(this.db.allocator, rootPtr);
+                
+                // B"H: Removed manual oldRoot free logic. Delegated to Ops + flushFrees.
+                
+                await tree.remove(key);
+                
+                const newHandleBuf = Buffer.alloc(32); 
+                newHandleBuf.write("TREE", 0);
+                _writePtr(newHandleBuf, 4, tree.rootPtr);
+                await this.db._writeChainSafe(handlePtr, newHandleBuf);
+                if (this.db.allocator) await this.db.allocator.saveState();
 
-            // Verification
-            const checkBuf = await this.db._readChainSafe(handlePtr);
-            const checkRoot = _readPtr(checkBuf, 4);
-            if (!checkRoot || checkRoot.blockId !== tree.rootPtr.blockId || checkRoot.offset !== tree.rootPtr.offset) {
-                 throw new Error("B\"H: Critical - Delete failed to persist new root pointer.");
+                // Verification
+                const checkBuf = await this.db._readChainSafe(handlePtr);
+                const checkRoot = _readPtr(checkBuf, 4);
+                if (!checkRoot || checkRoot.blockId !== tree.rootPtr.blockId || checkRoot.offset !== tree.rootPtr.offset) {
+                     throw new Error("B\"H: Critical - Delete failed to persist new root pointer.");
+                }
+
+                await tree.flushFrees();
             }
-
-            await tree.flushFrees();
-        }
-        return true;
+            return true;
+        });
     }
 
     async push(item) {

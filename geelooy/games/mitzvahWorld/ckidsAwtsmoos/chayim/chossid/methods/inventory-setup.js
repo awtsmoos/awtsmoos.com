@@ -1,4 +1,6 @@
 
+
+
 /**
  * B"H
  * @file inventorySetup.js
@@ -42,7 +44,7 @@ export default {
             isContainer: true,
             name: 'Rashi Teffilin',
             description: 'A velvet bag containing Rashi Teffilin.',
-            icon: '🎒', // Emoji Icon
+            icon: '👜', // Emoji Icon
             customData: {
                 slots: [
                     {
@@ -73,8 +75,8 @@ export default {
             id: 'small_pouch',
             className: 'Container',
             name: 'Small Pouch',
-            description: 'A small leather pouch. Holds 4 items.',
-            icon: '👛',
+            description: 'A small briefcase. Holds 4 items.',
+            icon: '💼',
             customData: {
                 slots: [null, null, null, null]
             }
@@ -85,8 +87,8 @@ export default {
             id: 'large_backpack',
             className: 'Container',
             name: 'Large Backpack',
-            description: 'A large backpack. Holds 16 items.',
-            icon: '🎒',
+            description: 'A large suitcase. Holds 16 items.',
+            icon: '🧳',
             customData: {
                 slots: new Array(16).fill(null)
             }
@@ -108,6 +110,13 @@ export default {
 
         // Shirt Icon (Simple T-shirt shape)
         const shirtIcon = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cGF0aCBkPSJNIDIwIDIwIEwgMzAgMTAgTCA3MCAxMCBMIDgwIDIwIEwgODAgODAgTCAyMCA4MCBaIiBmaWxsPSJ3aGl0ZSIgc3Ryb2tlPSIjMDAwIiBzdHJva2Utd2lkdGg9IjIiLz48L3N2Zz4=';
+        
+        // Pants Icon
+        const pantsIcon = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cGF0aCBkPSJNIDMwIDEwIEwgNzAgMTAgTCA3MCA5MCBMIDU1IDkwIEwgNTAgNDAgTCA0NSA5MCBMIDMwIDkwIFoiIGZpbGw9IndoaXRlIiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMiIvPjwvc3ZnPg==';
+
+        // Shoes Icon
+        const shoeIcon = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cGF0aCBkPSJNIDEwIDUwIEwgNjAgNTAgTCA4MCA3MCBMIDgwIDgwIEwgMTAgODAgWiIgZmlsbD0id2hpdGUiIHN0cm9rZT0iIzAwMCIgc3Ryb2tlLXdpZHRoPSIyIi8+PC9zdmc+';
+
 
         colors.forEach(c => {
             this.inventory.addItem({
@@ -139,6 +148,48 @@ export default {
                 icon: shirtIcon,
                 customData: { color: c.hex }
             });
+        });
+
+        // B"H: Add Pants
+        this.inventory.addItem({
+            id: 'pants_jeans',
+            className: 'Apparel',
+            name: 'Blue Jeans',
+            description: 'Classic denim.',
+            equipSlot: 'legs',
+            icon: pantsIcon,
+            customData: { color: '#336699' }
+        });
+        
+        this.inventory.addItem({
+            id: 'pants_black',
+            className: 'Apparel',
+            name: 'Black Slacks',
+            description: 'Formal trousers.',
+            equipSlot: 'legs',
+            icon: pantsIcon,
+            customData: { color: '#111111' }
+        });
+
+        // B"H: Add Shoes
+        this.inventory.addItem({
+            id: 'shoes_red',
+            className: 'Apparel',
+            name: 'Red Sneakers',
+            description: 'Fast shoes.',
+            equipSlot: 'feet',
+            icon: shoeIcon,
+            customData: { color: '#FF0000' }
+        });
+        
+        this.inventory.addItem({
+            id: 'shoes_brown',
+            className: 'Apparel',
+            name: 'Brown Boots',
+            description: 'Leather boots.',
+            equipSlot: 'feet',
+            icon: shoeIcon,
+            customData: { color: '#8B4513' }
         });
 
         // Default Building Blocks

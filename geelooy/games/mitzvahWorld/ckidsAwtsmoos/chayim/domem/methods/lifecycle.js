@@ -1,5 +1,7 @@
 
 
+
+
 /**
  * B"H
  * @file lifecycle.js
@@ -65,13 +67,20 @@ export default {
                             }
                         }
                         
-                        // B"H: Collect materials without duplicates
-                        if(!this.materials) this.materials = [];
+                        // B"H: Collect materials into an Object Map (Name -> Material)
+                        // This allows O(1) access by name (e.g., this.materials['pants'])
+                        if(!this.materials) this.materials = {};
+                        
                         this.mesh.traverse(child => {
                             if(child.isMesh && child.material) {
-                                if(!this.materials.includes(child.material)) {
-                                    this.materials.push(child.material);
-                                }
+                                const mats = Array.isArray(child.material) ? child.material : [child.material];
+                                mats.forEach(m => {
+                                    // Use the material name as the key. 
+                                    // B"H: Assuming names are unique or last-write-wins is acceptable.
+                                    if(m.name) {
+                                        this.materials[m.name] = m;
+                                    }
+                                });
                             }
                         });
                     }

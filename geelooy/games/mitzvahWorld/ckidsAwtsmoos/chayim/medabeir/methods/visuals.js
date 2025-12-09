@@ -18,6 +18,9 @@
 
 
 
+
+
+
 /**
  * B"H
  * @file visuals.js
@@ -77,6 +80,18 @@ export default {
             }
         });
     },
+    
+    // B"H: New Helper to set color on a specific named material
+    setSmartMaterialColor(materialName, colorHex) {
+        if (!this.materials) return;
+        const mat = this.materials[materialName];
+        if (mat) {
+             // B"H: We should ideally check if we need to clone to avoid affecting other instances,
+             // but since we aggregated materials in lifecycle per-instance, modifying 'mat' is generally safe
+             // for this specific entity instance if loader handled cloning correctly.
+             mat.color.set(colorHex);
+        }
+    },
 
     updateAppearance() {
         if (!this.inventory) return;
@@ -126,6 +141,8 @@ export default {
         const jacketItem = getItem('jacket');
         const headItem = getItem('head');
         const shirtItem = getItem('shirt'); 
+        const legsItem = getItem('legs'); // Pants
+        const feetItem = getItem('feet'); // Shoes
         const leftHandItem = getItem('leftHand');
         const rightHandItem = getItem('rightHand'); 
         
@@ -135,15 +152,39 @@ export default {
         const hasHeadTeffilin = isTeffilin(headItem);
         const hasJacket = !!jacketItem;
 
-        // --- SHIRT Logic ---
+        // --- MATERIAL COLOR OVERRIDES (B"H) ---
+        // 1. Shoes
+        if (feetItem && feetItem.customData?.color) {
+            this.setSmartMaterialColor("shoes", feetItem.customData.color);
+        } else {
+            this.setSmartMaterialColor("shoes", "#111111"); // Default Black Leather
+        }
+
+        // 2. Pants
+        if (legsItem && legsItem.customData?.color) {
+            this.setSmartMaterialColor("pants", legsItem.customData.color);
+        } else {
+            this.setSmartMaterialColor("pants", "#222222"); // Default Dark Grey
+        }
+
+        // 3. Inner Shirt
+        if (shirtItem && shirtItem.customData?.color) {
+            this.setSmartMaterialColor("shirt", shirtItem.customData.color);
+        } else {
+            this.setSmartMaterialColor("shirt", "#FFFFFF"); // Default White
+        }
+
+
+        // --- OUTER SHIRT MESH Logic ---
         const outerShirtMesh = this.garments[MESHES.OUTER_SHIRT];
         
         if (shirtItem) {
-            // If shirt is equipped, show it
+            // If shirt is equipped, show the OUTER layer as well (assuming it represents the same item)
+            // Or if you want separate items, you can filter by ID. For now, any shirt item shows the mesh.
             this.wear(MESHES.OUTER_SHIRT);
             
             if (outerShirtMesh) {
-                // Apply Shirt Color
+                // Apply Shirt Color to Outer Mesh
                 const color = shirtItem.customData?.color;
                 if (color) this.applyMaterialColor(outerShirtMesh, color);
                 
@@ -152,10 +193,9 @@ export default {
                 this.setMorphInfluence(outerShirtMesh, "rolled-up", influence);
             }
         } else {
-            // If no shirt equipped, hide the outer layer (showing inner skin/shirt)
+            // If no shirt equipped, hide the outer layer (showing inner skin/shirt material)
             this.takeOff(MESHES.OUTER_SHIRT);
             
-            // B"H: Reset shape key just in case it becomes visible later or for cached state
             if (outerShirtMesh) {
                 this.setMorphInfluence(outerShirtMesh, "rolled-up", 0);
             }
