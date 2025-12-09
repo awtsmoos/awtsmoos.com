@@ -52,7 +52,7 @@ export const Menus = {
             menuItems.push({ label: "Refresh", action: "refresh", icon: "brain" }); // Reused brain icon for 'refresh' concept
             menuItems.push({ label: "Browse in Commander", action: "open-file-commander", icon: "folder" });
             menuItems.push({ isSeparator: true });
-        }
+        } 
 
         menuItems.push({ label: `Copy "${item.name}"`, action: "copy-single", icon: "copy" });
         

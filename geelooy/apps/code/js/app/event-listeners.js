@@ -13,6 +13,7 @@ import { Workspaces } from '../workspaces.js';
 import { App } from '../app.js';
 import { StatusBar } from '../statusbar.js';
 import { TabManagerOverlay } from '../tab-manager-overlay.js';
+import { FileCommander } from '../file-commander.js';
 
 export function setupEventListeners() {
     window.addEventListener('message', async (event) => {
@@ -63,6 +64,17 @@ export function setupEventListeners() {
                 UI.showToast("No active preview to attach console.", "error");
             }
         };
+    }
+    
+    // B"H - Bind File Commander Buttons (Main Menu & Sidebar Header)
+    const fcBtnMain = document.getElementById('file-commander-btn');
+    if (fcBtnMain) {
+        fcBtnMain.onclick = () => FileCommander.show();
+    }
+    
+    const fcBtnSidebar = document.getElementById('sidebar-file-commander-btn');
+    if (fcBtnSidebar) {
+        fcBtnSidebar.onclick = () => FileCommander.show();
     }
 
     const appContainer = document.querySelector('.app-container');
@@ -203,6 +215,8 @@ export function setupEventListeners() {
                  // Check if tab manager is open
                  if (TabManagerOverlay.overlay && TabManagerOverlay.overlay.classList.contains('visible')) {
                      TabManagerOverlay.hide();
+                 } else if (FileCommander.overlay && FileCommander.overlay.classList.contains('visible')) {
+                     FileCommander.hide();
                  } else {
                      Menus.hideAll();
                  }
@@ -255,7 +269,7 @@ export function setupEventListeners() {
         const editor = DOM.editor;
         const key = button.dataset.key;
         const pair = button.dataset.pair;
-        const start = editor.selectionStart;
+        const start = editor.selectionStart; 
         const end = editor.selectionEnd;
         if (pair) {
             const [charStart, charEnd] = pair;

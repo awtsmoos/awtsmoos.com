@@ -2,16 +2,28 @@
 // FILE: js/git-sha-calculator.js
 
 /**
- * Calculates a SHA-1 hash for a string in the exact same way Git does for its "blob" objects.
+ * Calculates a SHA-1 hash for a string or Uint8Array in the exact same way Git does for its "blob" objects.
  * This is crucial for accurately comparing local file content with the remote repository's state.
- * @param {string} content - The text content of the file.
+ * @param {string|Uint8Array} content - The content of the file.
  * @returns {Promise<string>} - The calculated 40-character hexadecimal SHA-1 hash.
  */
 export async function calculateGitBlobSha(content) {
+    let contentBytes;
+     
+    if (typeof content === 'string') {
+        const encoder = new TextEncoder();
+        contentBytes = encoder.encode(content);
+    } else if (content instanceof Uint8Array) {
+        contentBytes = content;
+    } else if (content instanceof ArrayBuffer) {
+        contentBytes = new Uint8Array(content);
+    } else {
+        // Fallback or error
+        throw new Error("Unsupported content type for SHA calculation");
+    }
+
     // 1. Git requires a specific header format: "blob <content.length>\0"
-    // The "\0" is a null character.
     const encoder = new TextEncoder();
-    const contentBytes = encoder.encode(content);
     const header = `blob ${contentBytes.length}\0`;
     const headerBytes = encoder.encode(header);
 

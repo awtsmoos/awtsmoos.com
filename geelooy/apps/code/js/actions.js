@@ -14,6 +14,7 @@ import { FileOperations } from './file-operations.js';
 import { SelectionManager } from './selection-manager.js';
 import { GitManager } from './git-manager.js';
 import { beautify } from "/scripts/awtsmoos/MerkavaBeautifier/beautifier.js";
+import { FileCommander } from './file-commander.js';
 
 export const Actions = {
     async handle(action, item = State.contextTarget) {
@@ -39,6 +40,59 @@ export const Actions = {
                             Workspaces.remove(item.id || item.workspaceId);
                             UI.showToast(`Workspace removed.`, "success");
                         }
+                    }
+                    break;
+                
+                // B"H - Refresh Logic
+                case "refresh":
+                    if (item && item.kind === 'directory') {
+                        UI.showLoading("Refreshing...");
+                        await Workspaces.refreshNode(item);
+                        
+                        // Intelligent Tab Reload & GitHub Sync
+                        const folderPath = item.path === '/' ? '' : item.path;
+                        const workspace = State.workspaces.find(ws => ws.id === item.workspaceId);
+                        
+                        // B"H - If GitHub, we must update the SHAs of open tabs from the new tree
+                        const isGithub = workspace && workspace.type === 'github';
+                        
+                        for (const tab of State.tabs) {
+                            if (tab.item.workspaceId !== item.workspaceId) continue;
+                            if (tab.isDirty) continue; // Don't touch dirty files
+                            
+                            // Check if tab is inside the refreshed folder
+                            // Handle root refresh '/' correctly
+                            const isInFolder = (folderPath === '') 
+                                ? true 
+                                : tab.item.path.startsWith(folderPath + '/');
+
+                            if (isInFolder) {
+                                // B"H - Update SHA for GitHub files
+                                if (isGithub && workspace._treeCache) {
+                                    const filePath = tab.item.path;
+                                    const parentPath = filePath.substring(0, filePath.lastIndexOf('/')); 
+                                    // Root parentPath is empty string in _treeCache keys
+                                    const lookupPath = parentPath.startsWith('/') ? parentPath.substring(1) : parentPath;
+                                    
+                                    const siblings = workspace._treeCache.get(lookupPath);
+                                    if (siblings) {
+                                        const fileName = filePath.split('/').pop();
+                                        const newFileRecord = siblings.find(f => f.name === fileName);
+                                        if (newFileRecord && newFileRecord.sha) {
+                                            // Update the SHA so the next read fetches new content
+                                            tab.item.sha = newFileRecord.sha;
+                                        }
+                                    }
+                                }
+
+                                tab.forceReload = true; 
+                                if (tab.id === State.activeTabId) {
+                                    await Tabs.activate(tab.id);
+                                }
+                            }
+                        }
+                        
+                        UI.showToast("Refreshed & Synced.", "success");
                     }
                     break;
 
@@ -74,6 +128,39 @@ export const Actions = {
                                 Tabs.create(newFileItem);
                             }
                         }
+                    }
+                    break;
+                
+                case "rename":
+                    if (item && item.type === 'local') {
+                        const newName = await UI.showDialog({
+                            title: "Rename Item",
+                            hasInput: true,
+                            inputType: 'text',
+                            placeholder: item.name,
+                            okText: "Rename"
+                        });
+                        
+                        if (newName && newName !== item.name) {
+                            UI.showLoading("Renaming...");
+                            await FileSystemProvider.rename(item, newName);
+                            
+                            // Refresh parent
+                            const parentPath = item.path.substring(0, item.path.lastIndexOf('/')) || '/';
+                            const parentItem = { ...item, path: parentPath, kind: 'directory' };
+                            await Workspaces.refreshNode(parentItem);
+                            
+                            UI.showToast("Item renamed.", "success");
+                        }
+                    } else {
+                        UI.showToast("Rename not supported for this item type.", "warning");
+                    }
+                    break;
+                
+                // B"H - Open File Commander from Context Menu
+                case "open-file-commander":
+                    if (item && item.kind === 'directory') {
+                        FileCommander.show(item);
                     }
                     break;
 
@@ -147,8 +234,7 @@ export const Actions = {
                     }
                     break;
                 
-                // B"H 
-                //Zip/Download handlers
+                // B"H - New Zip/Download handlers
                 case "copy-zip-single":
                     if (item) FileOperations.copyAsZip([item]);
                     break;
@@ -160,8 +246,20 @@ export const Actions = {
                     break;
 
                 case "paste":
-                    if (item && item.kind === "directory") FileOperations.paste(item);
-                    else UI.showToast("Paste target must be a directory.", "warning");
+                    if (item) {
+                        // B"H - Intelligent Parent Resolution
+                        let target = item;
+                        if (target.kind === 'file') {
+                             const parentPath = target.path.substring(0, target.path.lastIndexOf('/')) || '/';
+                             target = { ...target, path: parentPath, kind: 'directory' };
+                        }
+                        
+                        if (target.kind === "directory") {
+                            FileOperations.paste(target);
+                        } else {
+                            UI.showToast("Paste target must be a directory.", "warning");
+                        }
+                    }
                     break;
 
                 // --- Destructive ---

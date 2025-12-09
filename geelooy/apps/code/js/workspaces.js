@@ -216,7 +216,7 @@ export const Workspaces = {
                             cache.get(parentPath).push({
                                name: name,
                                kind: node.type === 'tree' ? 'directory' : 'file',
-                               path: node.path,
+                               path: node.path, 
                                sha: node.sha 
                             });
                         });
@@ -331,21 +331,32 @@ export const Workspaces = {
     async refreshNode(item) {
         const uniquePath = getItemUniquePath(item);
         const entry = State.domItemMap.get(uniquePath);
+        
+        // B"H - Clear Cache for GitHub Workspaces
+        const workspace = State.workspaces.find(ws => ws.id === item.workspaceId);
+        if (workspace && workspace.type === 'github') {
+            workspace._treeCache = null; // Bust cache to force API refetch
+        }
+
         if (!entry) return;
 
         const directoryElement = entry.el;
         
+        // If expanded, force re-render
         if (State.expandedFolders.has(uniquePath)) {
             directoryElement.classList.add('expanded');
+            
+            // Remove existing children to ensure clean slate
             let childrenContainer = directoryElement.querySelector('ul');
-            if (!childrenContainer) {
-                childrenContainer = document.createElement('ul');
-                const isRoot = directoryElement.classList.contains('workspace-root');
-                if (isRoot) childrenContainer.className = 'workspace-tree';
-                directoryElement.appendChild(childrenContainer);
+            if (childrenContainer) {
+                childrenContainer.remove();
             }
             
+            childrenContainer = document.createElement('ul');
             const isRoot = directoryElement.classList.contains('workspace-root');
+            if (isRoot) childrenContainer.className = 'workspace-tree';
+            directoryElement.appendChild(childrenContainer);
+            
             const depth = isRoot ? 1 : (item.path.match(/\//g) || []).length + 1;
             await this.renderTree(childrenContainer, item, depth);
         }

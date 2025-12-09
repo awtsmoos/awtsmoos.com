@@ -8,7 +8,7 @@ export const GitDiff = {
     async calculateDiff(gitContextItem, gitInfo) {
         const changeSet = {
             creations: [],
-            updates: [],
+            updates: [], 
             deletions: [],
             dirtyFiles: []
         };

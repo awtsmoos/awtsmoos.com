@@ -5,7 +5,7 @@ export async function loadIcons() {
     try {
         const response = await fetch('assets/icons.svg');
         if (!response.ok) throw new Error(`Status ${response.status}`);
-        const text = await response.text();
+        const text = await response.text(); 
         
         const div = document.createElement('div');
         div.innerHTML = text;

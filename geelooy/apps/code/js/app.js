@@ -444,7 +444,7 @@ export const App = {
             contentHTML,
             okText: 'Save',
             cancelText: 'Cancel'
-        });
+        }); 
 
         if (result) {
             const token = document.getElementById('github-token-input').value;
