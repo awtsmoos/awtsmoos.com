@@ -43,9 +43,17 @@ export const Menus = {
         const isReadOnly = workspace?.readOnly || false;
         const isGitClone = item.isGitClone;
         const isCandidateForInit = isDir && !isReadOnly && item.type !== "github";
+        const isLocal = item.type === 'local';
         
-        const menuItems = [];
+        const menuItems = []; 
         
+        // B"H - Directory Options
+        if (isDir) {
+            menuItems.push({ label: "Refresh", action: "refresh", icon: "brain" }); // Reused brain icon for 'refresh' concept
+            menuItems.push({ label: "Browse in Commander", action: "open-file-commander", icon: "folder" });
+            menuItems.push({ isSeparator: true });
+        }
+
         menuItems.push({ label: `Copy "${item.name}"`, action: "copy-single", icon: "copy" });
         
         // B"H - New Download/Zip Options
@@ -59,6 +67,12 @@ export const Menus = {
         menuItems.push({ isSeparator: true });
         menuItems.push({ label: "Select", action: "start-selection", icon: "select-all" });
         menuItems.push({ label: "Copy All Contents", action: "copy-all-contents", icon: "clipboard" });
+        
+        if (isLocal && !isWorkspaceRoot && !isReadOnly) {
+             menuItems.push({ isSeparator: true });
+             menuItems.push({ label: "Rename...", action: "rename", icon: "file" });
+        }
+
         menuItems.push({ isSeparator: true });
 
         if (isDir && !isReadOnly) {
@@ -74,7 +88,8 @@ export const Menus = {
             const clipboardItem = clipboardItemUniquePath ? (State.domItemMap.get(clipboardItemUniquePath))?.item : null;
             const hasZipClipboard = !!State.clipboardZip;
 
-            if (isDir && (clipboardItem || hasZipClipboard)) {
+            // B"H - Allow pasting if there is content, even if clicking a file (we will paste to parent)
+            if ((isDir || isFile) && (clipboardItem || hasZipClipboard)) {
                 menuItems.push({ isSeparator: true });
                 const pasteLabel = hasZipClipboard ? "Paste ZIP" : "Paste item(s) here";
                 menuItems.push({ label: pasteLabel, action: "paste", icon: "clipboard" });
