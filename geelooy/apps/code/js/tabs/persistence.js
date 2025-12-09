@@ -9,29 +9,32 @@ import { DataAltar } from '../DataAltar.js';
 import { ZipExplorer } from '../zip/zip-explorer.js';
 
 export const TabsPersistence = {
-    async save(tab, TabsController) {
+    async save(tab, TabsController, options = {}) {
         // Zip Entry Saving
         if (tab.item.type === 'zip-entry') {
             const content = (tab.id === State.activeTabId) ? Editor.getContent() : tab.content;
-            ZipExplorer.updateEntry(tab.item.path, content);
+            // B"H - Pass the tab object to correctly identify the parent zip
+            ZipExplorer.updateEntry(tab, content);
             tab.content = content;
             tab.isDirty = false;
             TabsController.render();
             return;
         }
         
-        // Main Zip Saving
-        if (tab.fileType === 'zip') {
+        // Main Zip Saving (Prevent Recursion)
+        if (tab.fileType === 'zip' && !options.skipZipRecompression) {
             await ZipExplorer.saveZipToDisk();
-            tab.isDirty = false;
-            TabsController.render();
+            // saveZipToDisk will call this method again with skipZipRecompression: true
             return;
         }
 
         const gitRootItem = await TabsController._getGitInfoForTab(tab);
 
         let contentToSave;
-        if (tab.id === State.activeTabId) {
+        // B"H - If content is provided in tab (e.g. from ZipExplorer), use it. Otherwise get from Editor if active.
+        if (tab.content instanceof Blob || tab.content instanceof Uint8Array || (typeof tab.content === 'string' && tab.id !== State.activeTabId)) {
+             contentToSave = tab.content;
+        } else if (tab.id === State.activeTabId) {
              if (tab.isHexView) contentToSave = State.hexEditorInstance.getUpdatedArrayBuffer();
              else if (tab.isAltarView) contentToSave = JSON.stringify(DataAltar.liveDataObject, null, '\t');
              else contentToSave = Editor.getContent();
@@ -49,7 +52,8 @@ export const TabsPersistence = {
                 await FileSystemProvider.write(tab.item, contentToSave);
                 tab.isDirty = false;
                 tab.isUncommitted = false;
-                tab.content = contentToSave;
+                // Update tab content reference
+                tab.content = contentToSave; 
                 TabsController.render();
                 UI.showToast(`Saved "${tab.item.name}"`, 'success');
             } catch (e) {

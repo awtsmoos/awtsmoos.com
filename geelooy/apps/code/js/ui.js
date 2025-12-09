@@ -29,7 +29,7 @@ export const UI = {
         }, 10);
     },
     
-    showDialog: ({ title, message, hasInput = false, inputType = 'text', placeholder = '', hasTextarea = false, textareaContent = '', okText = 'OK', cancelText = 'Cancel', contentHTML = '', tertiary = null, secondaryOk = null }) => {
+    showDialog: ({ title, message, hasInput = false, inputType = 'text', placeholder = '', inputValue = '', hasTextarea = false, textareaContent = '', okText = 'OK', cancelText = 'Cancel', contentHTML = '', tertiary = null, secondaryOk = null }) => {
     return new Promise(resolve => {
         const dialog = DOM.genericDialog;
         
@@ -48,7 +48,7 @@ export const UI = {
                 <h3>${title}</h3>
                 ${message ? `<p>${message}</p>` : ''}
                 ${contentHTML}
-                ${hasInput ? `<input type="${inputType}" id="dialog-input" placeholder="${placeholder}">` : ''}
+                ${hasInput ? `<input type="${inputType}" id="dialog-input" placeholder="${placeholder}" value="${inputValue}">` : ''}
                 ${hasTextarea ? `<textarea id="dialog-textarea" rows="5">${textareaContent}</textarea>` : ''}
                 <div class="dialog-button-bar">
                     ${tertiaryButtonHTML}

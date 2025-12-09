@@ -1,6 +1,5 @@
 // B"H
 // FILE: js/workspaces.js
-// B"H - IN: js/workspaces.js
 import { SelectionManager } from './selection-manager.js';
 import { State , DOM} from './state.js';
 import { FileSystemProvider } from './fs-provider.js';
@@ -10,9 +9,16 @@ import { App } from './app.js';
 import { GitManager } from './git-manager.js'; 
 import { GitMetaProvider } from './git-meta-provider.js'; 
 import { UI } from './ui.js';
-import { FileOperations } from './file-operations.js'; // B"H - Added Import
+import { FileOperations } from './file-operations.js'; 
+import { ZipExplorer } from './zip/zip-explorer.js'; // B"H - Import ZipExplorer
 
-export const getItemUniquePath = (item) => `${item.workspaceId ?? item.id}::${item.path ?? '/'}`;
+export const getItemUniquePath = (item) => {
+    // B"H - Unique ID for Zip Entries
+    if (item.type === 'zip-entry') {
+        return `zip-${item.zipTabId}::${item.path}`;
+    }
+    return `${item.workspaceId ?? item.id}::${item.path ?? '/'}`;
+};
 
 export const Workspaces = {
     render() {
@@ -216,7 +222,7 @@ export const Workspaces = {
                             cache.get(parentPath).push({
                                name: name,
                                kind: node.type === 'tree' ? 'directory' : 'file',
-                               path: node.path, 
+                               path: node.path,
                                sha: node.sha 
                             });
                         });
@@ -329,6 +335,16 @@ export const Workspaces = {
     },
     
     async refreshNode(item) {
+        // B"H - Zip Refresh Handling
+        if (item.type === 'zip-entry') {
+            const zipTab = State.tabs.find(t => t.id === item.zipTabId);
+            if (zipTab) {
+                // Just trigger re-render of the active view
+                ZipExplorer.render(zipTab);
+            }
+            return;
+        }
+
         const uniquePath = getItemUniquePath(item);
         const entry = State.domItemMap.get(uniquePath);
         

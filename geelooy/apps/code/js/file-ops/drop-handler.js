@@ -14,11 +14,15 @@ export const DropHandler = {
         UI.showLoading("Analyzing dropped items...");
 
         try {
-            const state = { overwriteAll: false };
+            const state = { 
+                overwriteAll: false,
+                processedCount: 0 
+            };
+            
             for (const entry of entries) {
                 await this._processDroppedEntry(entry, targetDir, state);
             }
-            UI.showToast("Drop complete!", "success");
+            UI.showToast(`Drop complete! Processed ${state.processedCount} items.`, "success");
         } catch (err) {
             if (err.message !== 'Cancelled') {
                 UI.showToast("Error during drop: " + err.message, "error");
@@ -31,6 +35,12 @@ export const DropHandler = {
     },
 
     async _processDroppedEntry(entry, parentDir, state) {
+        // Update UI every 5 items or if it's a directory (major step)
+        state.processedCount++;
+        if (entry.isDirectory || state.processedCount % 5 === 0) {
+            UI.showLoading(`Importing...\nItems Processed: ${state.processedCount}\nCurrent: ${entry.name}`);
+        }
+
         if (entry.isFile) {
             const exists = await this._checkExists(parentDir, entry.name, 'file');
             if (exists && !state.overwriteAll) {

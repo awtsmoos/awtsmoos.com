@@ -8,6 +8,7 @@ import { GitHubProvider } from './fs/github.js';
 import { SSHProvider } from './fs/ssh.js';
 import { OSFolderProvider } from './fs/os-folder.js';
 import { PostMessageProvider } from './fs/post-message.js';
+import { ZipExplorer } from './zip/zip-explorer.js'; // B"H - Import ZipExplorer
 
 export const FileSystemProvider = {
     // Sub-modules
@@ -26,6 +27,8 @@ export const FileSystemProvider = {
                 case 'indexeddb': return this.IndexedDB.list(item);
                 case 'github': return this.GitHub.list(item);
                 case 'osfolder': return this.OSFolder.list(item);
+                // B"H - Support listing Zip directories
+                case 'zip-entry': return ZipExplorer.fs.list(item);
                 default: throw new Error('Unsupported workspace type');
             }
         } catch (e) { console.error(`[FS LIST FAILED]`, e); throw e; }
@@ -36,7 +39,7 @@ export const FileSystemProvider = {
             switch (item.type) {
                 case 'local': return this.Local.listAllFiles(item);
                 case 'indexeddb': return this.IndexedDB.listAllFiles(item);
-                case 'github': return this.GitHub.listAllFiles(item); // Added Github Support if needed via tree
+                case 'github': return this.GitHub.listAllFiles(item); 
                 default: throw new Error(`listAllFiles is not supported for type '${item.type}'`);
             }
         } catch (e) { console.error(`[FS LIST ALL FAILED]`, e); throw e; }
@@ -51,6 +54,8 @@ export const FileSystemProvider = {
                 case 'github': return this.GitHub.read(item);
                 case 'postmessage': return this.PostMessage.read(item);
                 case 'osfolder': return this.OSFolder.read(item);
+                // B"H - Support reading Zip entries
+                case 'zip-entry': return ZipExplorer.fs.read(item);
             }
         } catch (e) { console.error(`[FS READ FAILED]`, e); throw e; }
     },
@@ -63,6 +68,8 @@ export const FileSystemProvider = {
                 case 'github': return this.GitHub.write(item, content, commitMessage);
                 case 'postmessage': return this.PostMessage.write(item, content);
                 case 'osfolder': return this.OSFolder.write(item, content);
+                // B"H - Support writing to Zip entries
+                case 'zip-entry': return ZipExplorer.fs.write(item, content);
             }
         } catch (e) { console.error(`[FS WRITE FAILED]`, e); throw e; }
     },
@@ -74,6 +81,8 @@ export const FileSystemProvider = {
                 case 'indexeddb': return this.IndexedDB.create(parentDir, name, kind);
                 case 'github': return this.GitHub.create(parentDir, name, kind);
                 case 'osfolder': return this.OSFolder.create(parentDir, name, kind);
+                // B"H - Support creating inside Zip
+                case 'zip-entry': return ZipExplorer.fs.create(parentDir, name, kind);
             }
         } catch (e) { console.error(`[FS CREATE FAILED]`, e); throw e; }
     },
@@ -85,6 +94,8 @@ export const FileSystemProvider = {
                 case 'indexeddb': return this.IndexedDB.delete(item);
                 case 'github': return this.GitHub.delete(item);
                 case 'osfolder': return this.OSFolder.delete(item);
+                // B"H - Support deleting from Zip
+                case 'zip-entry': return ZipExplorer.fs.delete(item);
             }
         } catch (e) { console.error(`[FS DELETE FAILED]`, e); throw e; }
     },

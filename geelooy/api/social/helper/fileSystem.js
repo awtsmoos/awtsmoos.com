@@ -149,7 +149,7 @@ async function makeFile({$i}) {
         var newFileSize
         var strContent = content;
         if(Buffer.isBuffer(content)) {
-	        newFileSize == content.length;
+	        newFileSize = content.length;
         } else if(typeof(content) == "object") {
             try {
                 strContent = JSON.stringify(content);

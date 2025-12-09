@@ -15,6 +15,7 @@ import { SelectionManager } from './selection-manager.js';
 import { GitManager } from './git-manager.js';
 import { beautify } from "/scripts/awtsmoos/MerkavaBeautifier/beautifier.js";
 import { FileCommander } from './file-commander.js';
+import { ZipExplorer } from './zip/zip-explorer.js';
 
 export const Actions = {
     async handle(action, item = State.contextTarget) {
@@ -112,6 +113,12 @@ export const Actions = {
                 case "new-file":
                 case "new-folder":
                     if (item) {
+                        // B"H - Route to Zip Explorer if inside a zip
+                        if (item.type === 'zip-entry') {
+                            await ZipExplorer.createItem(action === "new-folder" ? "directory" : "file");
+                            return;
+                        }
+
                         const kind = action === "new-folder" ? "directory" : "file";
                         const name = await UI.showDialog({
                             title: `Create New ${kind}`,
@@ -157,10 +164,21 @@ export const Actions = {
                     }
                     break;
                 
-                // B"H - Open File Commander from Context Menu
                 case "open-file-commander":
                     if (item && item.kind === 'directory') {
                         FileCommander.show(item);
+                    }
+                    break;
+                
+                case "open-zip-entry":
+                    if (item && item.type === 'zip-entry') {
+                        // We need the original entry object or enough info for ZipExplorer to find it
+                        // Since Menus.js constructs a lightweight item, we might need to find it in currentZip entries
+                        if (ZipExplorer.currentZip) {
+                            const entry = ZipExplorer.currentZip.entries.find(e => e.filename === item.path);
+                            if (entry) ZipExplorer.openEntry(entry);
+                            else ZipExplorer.openEntry({ filename: item.path, isDir: false, getData: async() => new Blob([]) }); // Fallback for new items
+                        }
                     }
                     break;
 
@@ -234,7 +252,6 @@ export const Actions = {
                     }
                     break;
                 
-                // B"H - New Zip/Download handlers
                 case "copy-zip-single":
                     if (item) FileOperations.copyAsZip([item]);
                     break;
@@ -247,11 +264,18 @@ export const Actions = {
 
                 case "paste":
                     if (item) {
-                        // B"H - Intelligent Parent Resolution
                         let target = item;
                         if (target.kind === 'file') {
-                             const parentPath = target.path.substring(0, target.path.lastIndexOf('/')) || '/';
-                             target = { ...target, path: parentPath, kind: 'directory' };
+                             // Handle Zip entry parent resolution correctly
+                             if (target.type === 'zip-entry') {
+                                 // Zip paths "folder/file" -> parent "folder". Root file "file" -> parent "".
+                                 const idx = target.path.lastIndexOf('/');
+                                 const parentPath = idx >= 0 ? target.path.substring(0, idx) : '';
+                                 target = { ...target, path: parentPath, kind: 'directory' };
+                             } else {
+                                 const parentPath = target.path.substring(0, target.path.lastIndexOf('/')) || '/';
+                                 target = { ...target, path: parentPath, kind: 'directory' };
+                             }
                         }
                         
                         if (target.kind === "directory") {
@@ -265,6 +289,12 @@ export const Actions = {
                 // --- Destructive ---
                 case "delete":
                     if (item) {
+                        // B"H - Zip Deletion
+                        if (item.type === 'zip-entry') {
+                            await ZipExplorer.deleteItem(item.path);
+                            return;
+                        }
+
                         const confirmed = await UI.showDialog({
                             title: "Confirm Deletion",
                             message: `Delete '${item.name}'?`,

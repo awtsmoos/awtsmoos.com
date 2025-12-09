@@ -47,7 +47,10 @@ export const Tabs = {
             id: State.nextTabId++,
             item,
             content: item.content !== undefined ? item.content : (isNewFile ? '' : null),
-            isDirty: isNewFile || item.content !== undefined,
+            // B"H - Dirty Logic Fix: 
+            // If item.content is provided, it's usually dirty (unsaved), UNLESS it's a zip-entry 
+            // which we load with content but treat as "clean" until edited.
+            isDirty: isNewFile || (item.content !== undefined && item.type !== 'zip-entry'),
             isUncommitted: false,
             uniquePath,
             scrollPos: 0,
@@ -129,14 +132,13 @@ export const Tabs = {
             return;
         }
 
-        // B"H - Content Loading Guard
-        // We only render if content load succeeds or if we already have content.
-        if (tab.content === null || tab.forceReload) {
+        // B"H - Content Loading Guard & Blob Processing Fix
+        // If content is Blob but type is text (common with Zip opening), we must decode it.
+        if (tab.content instanceof Blob && tab.fileType === 'text') {
+             await this._handleStandardContent(tab, tab.content);
+        } else if (tab.content === null || tab.forceReload) {
             const loaded = await this._loadTabContent(tab);
             if (!loaded) {
-                // If loading failed, do not attempt to render the view with null content.
-                // The UI should have shown a toast from _loadTabContent.
-                // We keep the view as is (or empty) to avoid overwriting editor state with blankness.
                 return;
             }
         }
@@ -236,6 +238,24 @@ export const Tabs = {
         if (tab.fileType === 'zip') {
             await ZipExplorer.open(tab.rawContent, tab);
         } else if (tab.fileType === 'text') {
+            // B"H - Altar View Logic
+            if (tab.isAltarView) {
+                UI.switchView('altar');
+                try {
+                    const content = (tab.content === null || tab.content === undefined) ? '' : tab.content;
+                    const jsonData = JSON.parse(content);
+                    DataAltar.manifest(jsonData);
+                } catch(e) {
+                    UI.showToast("Content is not valid JSON. Reverting to text.", "error");
+                    tab.isAltarView = false;
+                    // Fallthrough to standard text editor
+                    const targetScroll = Number(tab.scrollPos) || 0;
+                    const textContent = (tab.content === null || tab.content === undefined) ? '' : tab.content;
+                    await Editor.showTextEditor(textContent, tab.item.name, targetScroll);
+                }
+                return;
+            }
+
             const targetScroll = Number(tab.scrollPos) || 0;
             // Guard against null content being passed to editor
             const textContent = (tab.content === null || tab.content === undefined) ? '' : tab.content;

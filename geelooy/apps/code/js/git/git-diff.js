@@ -5,13 +5,19 @@ import { FileSystemProvider } from '../fs-provider.js';
 import { calculateGitBlobSha } from '../git-sha-calculator.js';
 
 export const GitDiff = {
-    async calculateDiff(gitContextItem, gitInfo) {
+    /**
+     * Calculates the difference between local state and remote git state.
+     * @param {object} gitContextItem - The root item of the repo.
+     * @param {object} gitInfo - The git metadata including remoteTree.
+     * @param {object} options - { fullScan: boolean } - If true, scans all local files for external changes.
+     */
+    async calculateDiff(gitContextItem, gitInfo, options = { fullScan: false }) {
         const changeSet = {
             creations: [],
             updates: [],
             deletions: [],
             dirtyFiles: [],
-            conflicts: [] // B"H - New Conflict Tracking
+            conflicts: []
         };
 
         const remoteFileMap = new Map(
@@ -30,18 +36,19 @@ export const GitDiff = {
             return null;
         };
 
-        // 1. Check open tabs for unsaved changes
+        const handledPaths = new Set(); 
+
+        // 1. Check open tabs for unsaved changes (Fast & Critical)
         State.tabs.forEach(tab => {
             if (!tab.isDirty || tab.item.workspaceId !== workspaceId) return;
             const relPath = getRelativePath(tab.item.path);
             if (relPath) {
                 changeSet.dirtyFiles.push({ tabItem: tab.item, relativePath: relPath });
+                handledPaths.add(relPath);
                 
-                // B"H - Conflict Detection
-                // If the file exists on remote, check if our base SHA matches the remote's current SHA.
+                // Conflict Detection
                 if (remoteFileMap.has(relPath)) {
                     const remoteFile = remoteFileMap.get(relPath);
-                    // If we have a base SHA and it differs, it means the remote updated since we opened/saved.
                     if (tab.item.sha && tab.item.sha !== remoteFile.sha) {
                         changeSet.conflicts.push({
                             path: relPath,
@@ -54,9 +61,8 @@ export const GitDiff = {
             }
         });
 
-        // 2. Check staged/uncommitted changes in IndexedDB
+        // 2. Check staged/uncommitted changes in IndexedDB (Fast & Critical)
         const uncommittedChanges = await FileSystemProvider.IndexedDB.listUncommittedForWorkspace(workspaceId);
-        const handledPaths = new Set(); 
         
         for (const change of uncommittedChanges) {
             const relativePath = change.item.path; 
@@ -67,7 +73,7 @@ export const GitDiff = {
             } else {
                 changeSet.updates.push({ path: relativePath, content: change.content });
                 
-                // Check conflicts for staged files too (if item metadata stored the base SHA)
+                // Check conflicts for staged files
                 if (change.item && change.item.sha) {
                      const remoteFile = remoteFileMap.get(relativePath);
                      if (remoteFile && remoteFile.sha !== change.item.sha) {
@@ -82,8 +88,9 @@ export const GitDiff = {
             }
         }
 
-        // 3. Scan local files for external modifications
-        if (gitContextItem.type !== 'github') {
+        // 3. Scan local files for external modifications (Slow - Optional)
+        // B"H - Only run this if explicitly requested or if it's a direct GitHub workspace (which doesn't scan disk anyway)
+        if (gitContextItem.type !== 'github' && options.fullScan) {
             const localFiles = await FileSystemProvider.listAllFiles(gitContextItem);
             const localFilePaths = new Set(); 
 
@@ -100,7 +107,6 @@ export const GitDiff = {
                     const rawContent = await FileSystemProvider.read({ ...gitContextItem, path: file.path });
                     let stringContent = '';
                     
-                    // Normalize content for SHA calculation
                     if (rawContent instanceof Blob) {
                         stringContent = await rawContent.text();
                     } else if (typeof rawContent === 'string') {
@@ -129,6 +135,7 @@ export const GitDiff = {
             // 4. Check for deletions (Remote has it, Local doesn't)
             for (const remoteFilePath of remoteFileMap.keys()) {
                 if (!localFilePaths.has(remoteFilePath)) {
+                    // Only mark as deleted if we actually scanned the disk and confirmed it's gone
                     changeSet.deletions.push({ path: remoteFilePath });
                 }
             }

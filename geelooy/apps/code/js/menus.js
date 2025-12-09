@@ -32,6 +32,12 @@ export const Menus = {
         
         setTimeout(() => document.addEventListener("click", this.handleDocumentClick), 0);
         
+        // B"H - Zip Entry Handling
+        if (item.type === 'zip-entry') {
+            this.showZipMenu(e, item);
+            return;
+        }
+        
         const mapKey = getItemUniquePath(item);
         const targetEl = (State.domItemMap.get(mapKey))?.el;
         if (targetEl) targetEl.classList.add("context-active");
@@ -45,14 +51,14 @@ export const Menus = {
         const isCandidateForInit = isDir && !isReadOnly && item.type !== "github";
         const isLocal = item.type === 'local';
         
-        const menuItems = []; 
+        const menuItems = [];
         
         // B"H - Directory Options
         if (isDir) {
-            menuItems.push({ label: "Refresh", action: "refresh", icon: "brain" }); // Reused brain icon for 'refresh' concept
+            menuItems.push({ label: "Refresh", action: "refresh", icon: "brain" }); 
             menuItems.push({ label: "Browse in Commander", action: "open-file-commander", icon: "folder" });
             menuItems.push({ isSeparator: true });
-        } 
+        }
 
         menuItems.push({ label: `Copy "${item.name}"`, action: "copy-single", icon: "copy" });
         
@@ -88,7 +94,6 @@ export const Menus = {
             const clipboardItem = clipboardItemUniquePath ? (State.domItemMap.get(clipboardItemUniquePath))?.item : null;
             const hasZipClipboard = !!State.clipboardZip;
 
-            // B"H - Allow pasting if there is content, even if clicking a file (we will paste to parent)
             if ((isDir || isFile) && (clipboardItem || hasZipClipboard)) {
                 menuItems.push({ isSeparator: true });
                 const pasteLabel = hasZipClipboard ? "Paste ZIP" : "Paste item(s) here";
@@ -110,6 +115,47 @@ export const Menus = {
             menuItems.push({ label: "Remove Workspace", action: "delete-workspace", icon: "x", danger: true });
         }
         
+        menuItems.push({ isSeparator: true });
+        menuItems.push({ label: "Cancel", action: "cancel-menu", icon: "x" });
+
+        this.renderMenu(DOM.contextMenu, menuItems, e);
+    },
+
+    // B"H - Specialized Menu for Zip Entries
+    showZipMenu(e, item) {
+        const menuItems = [];
+        
+        if (item.kind === 'file') {
+            menuItems.push({ label: "Open", action: "open-zip-entry", icon: "file" });
+        }
+        
+        menuItems.push({ label: `Copy "${item.name}"`, action: "copy-single", icon: "copy" });
+        
+        menuItems.push({ isSeparator: true });
+        menuItems.push({ label: "Select", action: "start-selection", icon: "select-all" });
+        menuItems.push({ label: "Copy All Contents", action: "copy-all-contents", icon: "clipboard" });
+
+        // Directory Actions (Paste)
+        if (item.kind === 'directory') {
+             const clipboardItemUniquePath = State.fileClipboard?.[0];
+             const clipboardItem = clipboardItemUniquePath ? (State.domItemMap.get(clipboardItemUniquePath))?.item : null;
+             const hasZipClipboard = !!State.clipboardZip;
+
+             if (clipboardItem || hasZipClipboard) {
+                menuItems.push({ isSeparator: true });
+                const pasteLabel = hasZipClipboard ? "Paste ZIP" : "Paste item(s) here";
+                menuItems.push({ label: pasteLabel, action: "paste", icon: "clipboard" });
+            }
+            
+            menuItems.push({ isSeparator: true });
+            menuItems.push({ label: "New File", action: "new-file", icon: "file" });
+            menuItems.push({ label: "New Folder", action: "new-folder", icon: "folder" });
+        }
+
+        menuItems.push({ isSeparator: true });
+        // Zip specific actions
+        menuItems.push({ label: "Delete from Zip", action: "delete", icon: "trash", danger: true });
+
         menuItems.push({ isSeparator: true });
         menuItems.push({ label: "Cancel", action: "cancel-menu", icon: "x" });
 

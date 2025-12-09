@@ -130,7 +130,7 @@ export const GitManager = {
         }
     },
 
-    async showGitUI(gitContextItem) {
+    async showGitUI(gitContextItem, fullScan = false) {
         UI.showLoading("Reading repository data...");
 
         let gitInfo = gitContextItem.type === 'github' ?
@@ -149,6 +149,8 @@ export const GitManager = {
             let remoteChanges = null;
 
             if (gitContextItem.type === 'github') {
+                // For GitHub workspace, we always need the tree for conflict checking, but API is fast enough usually.
+                // If performance issues arise, we can cache this too.
                 const treeData = await FileSystemProvider.GitHub.getFullTree(gitInfo);
                 gitInfo = { ...gitInfo, remoteTree: treeData.tree, baseCommitSHA: treeData.sha };
                 isBehind = false; 
@@ -177,13 +179,17 @@ export const GitManager = {
                 }
             }
 
-            const changeSet = await GitDiff.calculateDiff(gitContextItem, gitInfo);
+            // B"H - Pass fullScan option
+            if (fullScan) {
+                UI.showLoading("Scanning all local files (this may take a moment)...");
+            }
+            const changeSet = await GitDiff.calculateDiff(gitContextItem, gitInfo, { fullScan });
             const localChangesCount = (changeSet.creations.length + changeSet.updates.length + changeSet.deletions.length);
             const isAhead = localChangesCount > 0;
 
             UI.hideLoading();
             this.showCommitDialog(gitContextItem, gitInfo, {
-                isBehind, isAhead, localChangesCount, changeSet, remoteChanges
+                isBehind, isAhead, localChangesCount, changeSet, remoteChanges, fullScan
             });
 
         } catch (e) {
@@ -193,7 +199,7 @@ export const GitManager = {
         }
     },
 
-    async showCommitDialog(gitContextItem, gitInfo, { isBehind, changeSet, remoteChanges }) {
+    async showCommitDialog(gitContextItem, gitInfo, { isBehind, changeSet, remoteChanges, fullScan }) {
         const dirtyFiles = changeSet.dirtyFiles || [];
         const conflicts = changeSet.conflicts || [];
         const inscribedChanges = [...changeSet.creations, ...changeSet.updates, ...changeSet.deletions];
@@ -206,6 +212,7 @@ export const GitManager = {
         let localStatusMessage = isAhead ? `${localChangesCount} change(s) detected` : 'In sync with remote';
         if (isBehind) localStatusMessage = "Out of date with remote";
         if (hasConflicts) localStatusMessage = `<span style="color:var(--color-accent-danger)">⚠️ CONFLICTS DETECTED</span>`;
+        if (!fullScan && gitContextItem.type !== 'github') localStatusMessage += " <span style='font-size:0.8em; color:var(--color-text-tertiary)'> (Quick Scan)</span>";
 
         let statusHTML = `<div class="git-status-line">${localStatusMessage}</div>`;
         
@@ -234,6 +241,13 @@ export const GitManager = {
             tertiary: (isAhead && !isBehind) ? { text: 'Discard Changes', class: 'danger' } : null
         };
 
+        // B"H - Add "Scan for External Changes" button via secondaryOk if it's a local clone and we haven't scanned yet
+        if (!fullScan && gitContextItem.type !== 'github') {
+            dialogConfig.secondaryOk = { text: 'Scan for External Changes', actionKey: 'full_scan' };
+        } else if (hasDirty && hasInscribed && !hasConflicts) {
+            dialogConfig.secondaryOk = { text: 'Commit Inscribed Only', actionKey: 'commit_inscribed' };
+        }
+
         if (hasConflicts) {
             dialogConfig.okText = null; 
             dialogConfig.message = "You have unsaved changes that conflict with newer versions on the remote. Please back up your code, then discard changes or manually merge.";
@@ -243,13 +257,18 @@ export const GitManager = {
             dialogConfig.okText = 'Save and Commit All';
         } else if (hasDirty && hasInscribed) {
             dialogConfig.okText = 'Save and Commit All';
-            dialogConfig.secondaryOk = { text: 'Commit Inscribed Only', actionKey: 'commit_inscribed' };
         } else if (!hasDirty && hasInscribed) {
             dialogConfig.okText = 'Commit All';
         }
 
         const dialogResult = await UI.showDialog(dialogConfig);
         if (dialogResult === null) return;
+
+        // B"H - Handle Full Scan Request
+        if (dialogResult === 'full_scan') {
+            await this.showGitUI(gitContextItem, true);
+            return;
+        }
 
         const handleCommit = async (finalChangeSet, commitMessage) => {
             UI.showLoading("Committing to GitHub...");
@@ -289,7 +308,8 @@ export const GitManager = {
                         await Promise.all(savePromises);
                     }
                     UI.showLoading("Recalculating final changes...");
-                    const finalChangeSet = await GitDiff.calculateDiff(gitContextItem, gitInfo);
+                    // Recalculate diff to ensure saved changes are picked up as updates
+                    const finalChangeSet = await GitDiff.calculateDiff(gitContextItem, gitInfo, { fullScan });
                     await handleCommit(finalChangeSet, commitMessage);
                 }
             }
