@@ -101,7 +101,9 @@ export const FileCommander = {
         }
         
         this.overlay.classList.remove('hidden');
-        requestAnimationFrame(() => this.overlay.classList.add('visible'));
+        // B"H - Force reflow to ensure transition plays correctly from display: none
+        void this.overlay.offsetWidth;
+        this.overlay.classList.add('visible');
     },
 
     hide() {
@@ -110,15 +112,17 @@ export const FileCommander = {
     },
 
     async navigate(item) {
-        if (item.kind !== 'directory') return;
+        if (!item || item.kind !== 'directory') return;
         
         this.currentPathItem = item;
         UI.showLoading("Listing files...");
         try {
-            this.currentFiles = await FileSystemProvider.list(item);
+            const files = await FileSystemProvider.list(item);
+            this.currentFiles = Array.isArray(files) ? files : [];
             this._updateBreadcrumbs();
             this.render();
         } catch(e) {
+            console.error(e);
             UI.showToast("Failed to list directory: " + e.message, "error");
         } finally {
             UI.hideLoading();
@@ -153,6 +157,7 @@ export const FileCommander = {
     },
 
     render() {
+        if (!this.grid) return;
         this.grid.innerHTML = '';
         
         // Sort
