@@ -1,0 +1,45 @@
+/* B"H - VARIABLES */
+:root {
+    --font-ui: 'Inter', sans-serif;
+    --font-code: 'Fira Code', monospace;
+    --timing-fast: 0.15s;
+    --timing-med: 0.3s;
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --shadow-color: rgba(0, 0, 0, 0.6);
+
+    /* --- NEW EXTREME COLOR PALETTE --- */
+    --neon-cyan: #00f6ff;
+    --neon-magenta: #ff00ff;
+    --neon-lime: #a8ff00;
+    
+    --glow-cyan: rgba(0, 246, 255, 0.5);
+    --glow-magenta: rgba(255, 0, 255, 0.4);
+    --glow-lime: rgba(168, 255, 0, 0.6);
+
+    --color-bg-deep: #191c29;      
+    --color-bg-primary: #000000;   
+    --color-bg-secondary: #383e5e; 
+    --color-bg-tertiary: #505886;  
+    --color-border: #626AAE;       
+    --color-border-accent: var(--neon-cyan);
+    
+    --color-bg-accent-translucent: rgba(0, 149, 255, 0.15); 
+    
+    --color-text-primary: #ffffff; 
+    --color-text-secondary: #d1d9ff; 
+    --color-text-tertiary: #a0a8d0;   
+    
+    --color-accent-primary: var(--neon-cyan); 
+    --color-accent-secondary: var(--neon-lime); 
+    --color-accent-success: #a8ff00;
+    --color-accent-info: #00f6ff;
+    --color-accent-warning: #ffae57;
+    --color-accent-danger: #f75d65;
+    --color-accent-danger-translucent: rgba(247, 93, 101, 0.15);
+    --color-accent-danger-dark: #b93f46;
+
+    --color-backdrop: rgba(26, 29, 46, 0.6); 
+    --color-text-inverted: #fff;
+    --color-bg-hover: var(--color-bg-tertiary);
+}
