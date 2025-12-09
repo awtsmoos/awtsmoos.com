@@ -1,134 +1,243 @@
-# B"H - AwtsmoosDB
+# B"H - AwtsmoosDB: The Database of Infinite Potential
 
-**AwtsmoosDB** is a high-performance, pure JavaScript, transactional, persistent database engine built from scratch. It provides a MongoDB-like nested API backed by a robust B-Tree and Write-Ahead Log (WAL) architecture.
+> "In the beginning, there was the Void (Disk), and the Code hovered over the face of the waters."
 
-It requires **zero dependencies** and runs natively in Node.js.
+**AwtsmoosDB** is a pure JavaScript, transactional, persistent, schema-less object database. It creates a bridge between the **Abstract Will** (your JavaScript code) and the **Concrete Reality** (binary storage), handling the complexity of serialization, memory management, and data structural integrity with the grace of a living organism.
+
+It is built from scratch, utilizing **B-Trees** for order, **Linked Paged Collections** for flow, and a **Write-Ahead Log (WAL)** for eternity.
 
 ---
 
-## 📖 Usage Cookbook
+## 📜 Table of Contents
 
-### 1. Initialization
-Lazy loading. The file is created automatically on the first write.
+1.  [The Book of Genesis (Getting Started)](#the-book-of-genesis)
+2.  [The Book of Attributes (Primitives & Objects)](#the-book-of-attributes)
+3.  [The Book of Order (Maps & B-Trees)](#the-book-of-order)
+4.  [The Book of Flow (Collections & Arrays)](#the-book-of-flow)
+    *   [The Power of Splice](#the-power-of-splice)
+    *   [The Vision of Slice](#the-vision-of-slice)
+    *   [Direct Access](#direct-access)
+5.  [The Book of Depth (Nested Universes)](#the-book-of-depth)
+6.  [The Book of Formation (Architecture & Internals)](#the-book-of-formation)
+
+---
+
+## <a name="the-book-of-genesis"></a> The Book of Genesis
+
+To bring the database into existence, you simply invoke its name. It requires no heavy installation, no external daemons. It is *Atzmus*—self-contained.
 
 ```javascript
-const AwtsmoosDB = require('./index.js');
-const db = new AwtsmoosDB('./my_database.db', { 
-    walCheckpointLimit: 5 * 1024 * 1024 // Auto-cleanup WAL after 5MB
+const AwtsmoosDB = require('./awtsmoosDB');
+
+// The Path is the Vessel.
+const db = new AwtsmoosDB('./universe.db', { 
+    debug: false,
+    walCheckpointLimit: 5 * 1024 * 1024 // 5MB WAL
 });
-```
 
-### 2. Basic Key-Value Storage
-Anything can be a key. Any JSON-serializable value (plus Date, Buffer, Map, Set) can be stored.
-
-```javascript
-await db.root.set("status", "active");
-await db.root.set("count", 42);
-await db.root.set("meta", { created: new Date(), tags: ["new", "verified"] });
-
-const val = await db.root.count; // 42
-```
-
-### 3. B-Tree Maps (Sorted Storage)
-Use `createMap` for sorted key-value pairs (Dictionaries, Indexes).
-
-```javascript
-await db.root.createMap("users");
-
-await db.root.users.set("zebra", { id: 99 });
-await db.root.users.set("apple", { id: 1 });
-
-// Iteration is Alphabetical: apple -> zebra
-for await (const user of db.root.users) {
-    console.log(user.key, user.value);
-}
-
-// Get Count (Fast O(1))
-const count = await db.root.users.length;
-```
-
-### 4. Collections (Lists & Feeds)
-Use `createList` for append-only logs or feeds. Optimized for push/slice.
-
-```javascript
-await db.root.createList("logs");
-
-// Push items
-await db.root.logs.push({ msg: "Login", ts: Date.now() });
-await db.root.logs.push({ msg: "Logout", ts: Date.now() });
-
-// Get Length (Fast O(1))
-const len = await db.root.logs.length;
-
-// Slicing (Pagination) - Efficiently reads only the needed blocks
-const recent = await db.root.logs.slice(0, 10);
-```
-
-### 5. Introspection (Keys, Values, Entries)
-Iterate efficiently without loading everything.
-
-```javascript
-// Get all keys
-for await (const key of db.root.users.keys()) {
-    console.log("User:", key);
-}
-
-// Get all values
-for await (const val of db.root.users.values()) {
-    console.log("Data:", val);
-}
-
-// Get entries [key, value]
-for await (const [k, v] of db.root.users.entries()) {
-    console.log(k, v);
-}
-```
-
-### 6. Binary Data (Images / Files)
-Store raw Buffers directly.
-
-```javascript
-const buf = Buffer.from("B\"H");
-await db.root.set("my_file", buf);
-
-const readBack = await db.root.my_file;
-console.log(readBack.toString()); // B"H
-```
-
-### 7. Deep Nesting
-Nest Maps inside Maps indefinitely.
-
-```javascript
-await db.root.createMap("usa");
-await db.root.usa.createMap("ny");
-await db.root.usa.ny.set("weather", "cloudy");
-
-console.log(await db.root.usa.ny.weather);
+// Open the Gates of Understanding
+await db.open();
 ```
 
 ---
 
-## ⚙️ Architecture & Reliability
+## <a name="the-book-of-attributes"></a> The Book of Attributes
 
-### Crash Resistance (WAL)
-AwtsmoosDB uses a **Write-Ahead Log (WAL)**. Every change is appended to `.wal` first. If the process crashes mid-write, the database replays the log on next startup to restore consistency.
-- **Auto-Checkpoint**: The system automatically flushes the WAL to the main DB and truncates it when it exceeds a size limit (default 2MB) or on close.
+The `db.root` is the **Keter** (Crown). From here, all data emanates. You may assign simple lights (primitives) or complex structures (JSON objects) directly to it.
 
-### Transactional Integrity
-- **Copy-on-Write (CoW)**: Modified B-Tree nodes are written to new blocks. The old path remains valid until the new Root is successfully anchored.
-- **Defer-Free**: Old blocks are only freed *after* the transaction is fully committed to the SuperBlock.
+```javascript
+// Setting the Foundation
+db.root.name = "The Endless World";
+db.root.age = 13.8e9;
+db.root.isActive = true;
+db.root.metadata = { 
+    author: "The Scribe", 
+    tags: ["mystical", "binary"] 
+};
 
-### Allocator Safety
-- **Sanctuary**: The first 64 bytes of every block (Header) are strictly protected. User data cannot overwrite headers, preventing bitmap corruption.
-- **Offsets**: The SuperBlock Cursor (Offset 128) and Root Pointer (Offset 64) are physically separated to prevent collision.
+// Waiting for the Light to Settle (Persistence)
+await db.waitForIdle();
 
-### Type Safety
-- **BNOD Signature**: Every B-Tree node is signed with `BNOD`. The reader verifies this signature before parsing, preventing "Frankenstein Pointers" (reading garbage data as keys).
-
-### Performance
-- **Inline Values**: Small data (< 48 bytes) can be stored directly inside B-Tree nodes.
-- **No-Sync Storm**: Write operations sync the WAL but let the OS cache the main DB file, providing high write throughput without sacrificing durability.
+// Retrieval
+const name = await db.root.name;
+console.log(name); // "The Endless World"
+```
 
 ---
 
-**Built with <3 for the Awtsmoos.**
+## <a name="the-book-of-order"></a> The Book of Order (Maps)
+
+When you need structure that allows for **Infinite Expansion** and **Divine Order** (sorting), you create a **Map**. Internally, this manifests as a **B-Tree**, balancing itself automatically as data enters.
+
+### Creation and Assignment
+```javascript
+// Create a Container for Souls
+await db.root.createMap("souls");
+
+// Insert Entities (Keys are sorted automatically)
+await db.root.souls.set("charlie", { level: "Nefesh" });
+await db.root.souls.set("alice", { level: "Neshama" });
+await db.root.souls.set("bob", { level: "Ruach" });
+```
+
+### The Iteration (Walking the Tree)
+You can walk through the tree. It will always return keys in sorted order, regardless of insertion order.
+
+```javascript
+// Iterating Entries
+for await (const soul of db.root.souls) {
+    console.log(`${soul.key}: ${soul.value.level}`);
+}
+// Output:
+// alice: Neshama
+// bob: Ruach
+// charlie: Nefesh
+```
+
+### Introspection
+You may gaze at the keys or values independently.
+
+```javascript
+// Get all Keys
+for await (const key of db.root.souls.keys()) {
+    console.log(key);
+}
+
+// Get all Values
+for await (const val of db.root.souls.values()) {
+    console.log(val);
+}
+```
+
+---
+
+## <a name="the-book-of-flow"></a> The Book of Flow (Collections)
+
+When data must flow like a river—ordered by time or sequence—you use a **Collection** (List). Unlike a standard array which must be loaded entirely into memory, an AwtsmoosDB Collection is a **Linked Chain of Pages**. It can hold billions of items, yet you can read just one.
+
+### Creation & Expansion
+```javascript
+// Create the Timeline
+await db.root.createList("timeline");
+
+// Push events into the stream
+await db.root.timeline.push("Big Bang");
+await db.root.timeline.push("Formation of Stars");
+await db.root.timeline.push("Life");
+```
+
+### <a name="the-power-of-splice"></a> The Power of Splice (The Surgeon)
+The `splice` method is the scalpel. It allows you to perform surgical operations on the timeline: **Insert**, **Delete**, or **Replace** items at *any* index without rewriting the whole list.
+
+**Insertion (Mitosis):**
+If you splice into a full page, the database performs **Mitosis**, splitting the page into two linked pages to make room.
+
+```javascript
+// Insert "The Dinosaur Era" at index 2 (between Formation and Life)
+// splice(start, deleteCount, ...items)
+await db.root.timeline.splice(2, 0, "The Dinosaur Era");
+
+// Result: ["Big Bang", "Formation of Stars", "The Dinosaur Era", "Life"]
+```
+
+**Replacement:**
+```javascript
+// Replace "Life" (index 3) with "Intelligent Life"
+await db.root.timeline.splice(3, 1, "Intelligent Life");
+```
+
+**Deletion:**
+```javascript
+// Remove "The Dinosaur Era" (index 2)
+await db.root.timeline.splice(2, 1);
+```
+
+### <a name="the-vision-of-slice"></a> The Vision of Slice (Pagination)
+You need not consume the whole ocean to drink. `slice` retrieves a specific window of items.
+
+```javascript
+// Get items from index 0 to 10
+const page1 = await db.root.timeline.slice(0, 10);
+console.log(page1);
+```
+
+### <a name="direct-access"></a> Direct Access (The Portal)
+You can access any item in the list directly by its index, as if it were a simple array in memory.
+
+```javascript
+// Get the 5000th item instantly
+const event = await db.root.timeline[5000];
+
+// Get the length (O(1) operation)
+const count = await db.root.timeline.length;
+```
+
+---
+
+## <a name="the-book-of-depth"></a> The Book of Depth (Nested Universes)
+
+AwtsmoosDB allows for infinite recursion. Maps inside Lists inside Maps. The proxy handles the navigation seamlessly.
+
+```javascript
+// Constructing a Universe
+await db.root.createMap("universe");
+await db.root.universe.createMap("milkyWay");
+await db.root.universe.milkyWay.createMap("solarSystem");
+await db.root.universe.milkyWay.solarSystem.createList("planets");
+
+// Adding Earth
+await db.root.universe.milkyWay.solarSystem.planets.push({
+    name: "Earth",
+    population: 8e9,
+    properties: {
+        atmosphere: "Nitrogen/Oxygen",
+        hasWater: true
+    }
+});
+
+// Deep Reading (Dot Notation)
+const earth = await db.root.universe.milkyWay.solarSystem.planets[0];
+console.log(earth.properties.atmosphere); // "Nitrogen/Oxygen"
+
+// Deep Mutation
+earth.population = 9e9; // Modifying the local object...
+// To persist, we replace it in the list:
+await db.root.universe.milkyWay.solarSystem.planets.splice(0, 1, earth);
+```
+
+---
+
+## <a name="the-book-of-formation"></a> The Book of Formation (Architecture)
+
+How does the Awtsmoos maintain such order in the chaos of binary?
+
+### 1. The Divine Hand (LiveHandle Proxy)
+The API you interact with (`db.root.x`) is a **Proxy**. It intercepts your intent. When you ask for a property, it does not fetch the whole object; it returns a Promise of a Pointer. It traverses the B-Tree or Collection structure on-disk, only loading the specific Node or Page required.
+
+### 2. Tzimtzum (The Allocator)
+To create a world, one must make space. The **Allocator** manages the disk space. It uses a **Bitmap** to track used and free blocks (4KB pages). 
+*   **Sanctuary:** It protects the SuperBlock and Headers from being overwritten.
+*   **Healing:** If it detects corruption in the bitmap, it self-heals by scanning the block headers.
+
+### 3. The Tree of Knowledge (B-Tree)
+**Maps** are stored as B-Trees.
+*   **Nodes:** 4KB blocks containing sorted keys and pointers.
+*   **Inline Data:** Small values are stored *inside* the node for speed.
+*   **Leaves & Branches:** As you insert data, nodes split and grow upwards. The root is dynamic.
+
+### 4. The River of Pages (Collections)
+**Lists** are stored as a Linked List of Pages.
+*   **Pages:** Each page holds ~100-1000 items.
+*   **Mitosis:** When you `splice` data into a full page, it splits into two.
+*   **Indexing:** The Header keeps track of the Total Count, allowing `getItem(index)` to traverse the page chain intelligently without scanning every item.
+
+### 5. Gilgul (Persistence & WAL)
+Data is eternal.
+*   **Write-Ahead Log (WAL):** Every change is written to a sequential log (`.wal`) before touching the main database file. This ensures that even if the process crashes (power loss), the database can **Replay** the log upon resurrection (`db.open()`) and restore the state perfectly.
+*   **Checkpointing:** When the log gets too heavy, the system performs a "Tikkun" (Correction), flushing data to the main file and clearing the log.
+
+---
+
+> "The purpose of knowledge is not to know, but to create."
+
+**AwtsmoosDB** is ready. The vessel is prepared. Pour your light into it.
