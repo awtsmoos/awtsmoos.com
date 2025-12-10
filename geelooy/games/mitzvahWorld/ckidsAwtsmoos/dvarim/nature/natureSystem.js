@@ -10,23 +10,36 @@ export default class NatureSystem {
         this.olam = olam;
         this.pools = {}; 
         this.dummy = new THREE.Object3D();
+        this.raycaster = new THREE.Raycaster();
+        this.rayDown = new THREE.Vector3(0, -1, 0);
+        this.loadingPools = new Set();
         
         this.olam.on("heesHawvoos", (dt) => this.update(dt));
     }
     
     async initPool(type, maxInstances = 5000, modelPath) {
-        if(this.pools[type]) return this.pools[type];
-        
-        // B"H: Determine model path based on type if not provided
+        if (this.pools[type]) return this.pools[type];
+        if (this.loadingPools.has(type)) return null;
+
+        this.loadingPools.add(type);
+
+        // B"H: Map type to path
         if(!modelPath) {
-            switch(type) {
-                case 'grass': modelPath = "awtsmoos://grassModel"; break;
-                case 'rock1': modelPath = "awtsmoos://rockModel1"; break;
-                case 'rock2': modelPath = "awtsmoos://rockModel2"; break;
-                case 'rock3': modelPath = "awtsmoos://rockModel3"; break;
-                case 'flower_blue': modelPath = "awtsmoos://flowerBlue"; break;
-                case 'flower_yellow': modelPath = "awtsmoos://flowerYellow"; break;
-                case 'flower_white': modelPath = "awtsmoos://flowerWhite"; break;
+            if (type.includes('rock')) {
+                // Randomize rock model selection if just "rock" is passed, 
+                // but usually specific type should be passed here.
+                // We'll fallback to rock1 if generic.
+                if(type === 'rock') modelPath = "awtsmoos://rockModel1";
+                else if(type === 'rock1') modelPath = "awtsmoos://rockModel1";
+                else if(type === 'rock2') modelPath = "awtsmoos://rockModel2";
+                else if(type === 'rock3') modelPath = "awtsmoos://rockModel3";
+            } else if (type.includes('flower')) {
+                if(type === 'flower_blue') modelPath = "awtsmoos://flowerBlue";
+                else if(type === 'flower_yellow') modelPath = "awtsmoos://flowerYellow";
+                else if(type === 'flower_white') modelPath = "awtsmoos://flowerWhite";
+                else modelPath = "awtsmoos://flowerBlue"; // Default
+            } else {
+                modelPath = "awtsmoos://grassModel";
             }
         }
 
@@ -40,33 +53,55 @@ export default class NatureSystem {
                     if (gltf && gltf.scene) {
                         const mesh = gltf.scene.getObjectByProperty('isMesh', true);
                         if(mesh) {
-                            geometry = mesh.geometry;
+                            // B"H FIX: Bake the mesh's transform (scale) into the geometry
+                            // This fixes the "Huge Grass" issue if the GLB has internal scaling
+                            mesh.updateMatrixWorld(true);
+                            geometry = mesh.geometry.clone();
+                            geometry.applyMatrix4(mesh.matrixWorld); 
+                            
+                            // Re-center geometry to origin if needed (optional, but safer)
+                            geometry.computeBoundingBox();
+                            const center = new THREE.Vector3();
+                            geometry.boundingBox.getCenter(center);
+                            // We want bottom to be at 0,0,0 usually.
+                            const yOffset = geometry.boundingBox.min.y;
+                            geometry.translate(-center.x, -yOffset, -center.z);
+
                             material = mesh.material;
+                            
+                            // Ensure color space
                             if(material.map) material.map.colorSpace = THREE.SRGBColorSpace;
                         }
                     }
                 } catch(e) {
-                    console.warn("B\"H: Nature asset failed to load, using fallback", modelPath);
+                    console.warn("B\"H: Nature asset failed to load", modelPath, e);
                 }
             }
         }
         
-        // Fallback geometry if loading failed
+        // Fallback
         if (!geometry) {
-             console.warn("B\"H: Using fallback geometry for", type);
              if(type.includes('grass')) {
                  geometry = new THREE.ConeGeometry(0.1, 0.5, 4);
                  geometry.translate(0, 0.25, 0);
                  material = new THREE.MeshLambertMaterial({ color: 0x00aa00 });
+             } else if(type.includes('flower')) {
+                 geometry = new THREE.SphereGeometry(0.2, 8, 8);
+                 geometry.translate(0, 0.2, 0);
+                 material = new THREE.MeshLambertMaterial({ color: 0xff00ff });
              } else {
                  geometry = new THREE.DodecahedronGeometry(0.3);
                  material = new THREE.MeshLambertMaterial({ color: 0x888888 });
              }
         }
         
-        // Wind shader for grass and flowers
-        if (type === 'grass' || type.includes('flower')) {
-             material = material.clone(); // Ensure unique material per type
+        // Additional manual scaling if assets are still weird
+        if (type.includes('flower')) geometry.scale(0.3, 0.3, 0.3); 
+        if (type.includes('grass')) geometry.scale(0.2, 0.2, 0.2);
+
+        // Wind shader
+        if (type.includes('grass') || type.includes('flower')) {
+             material = material.clone(); 
              material.onBeforeCompile = (shader) => {
                 shader.uniforms.uTime = { value: 0 };
                 shader.vertexShader = `
@@ -87,7 +122,7 @@ export default class NatureSystem {
         instancedMesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
         instancedMesh.receiveShadow = true;
         instancedMesh.castShadow = true;
-        instancedMesh.frustumCulled = false; // B"H: Prevent flickering until bounds calc is fixed
+        instancedMesh.frustumCulled = false; 
         
         this.olam.scene.add(instancedMesh);
         
@@ -97,55 +132,58 @@ export default class NatureSystem {
             max: maxInstances,
             material: material
         };
-        
+
+        this.loadingPools.delete(type);
         return this.pools[type];
     }
     
-    paint(type, position, density = 1) {
-        // B"H: Randomize rock types if 'rock' is requested
+    paint(type, centerPosition, density = 1) {
+        // B"H: Select specific subtype
+        let actualType = type;
         if (type === 'rock') {
             const rockTypes = ['rock1', 'rock2', 'rock3'];
-            type = rockTypes[Math.floor(Math.random() * rockTypes.length)];
-        }
-        
-        // B"H: Randomize flower types if 'flower' is requested
-        if (type === 'flower') {
+            actualType = rockTypes[Math.floor(Math.random() * rockTypes.length)];
+        } else if (type === 'flower') {
             const flowerTypes = ['flower_blue', 'flower_white', 'flower_yellow'];
-            type = flowerTypes[Math.floor(Math.random() * flowerTypes.length)];
+            actualType = flowerTypes[Math.floor(Math.random() * flowerTypes.length)];
         }
 
-        const pool = this.pools[type];
+        const pool = this.pools[actualType];
         if(!pool) {
-            this.initPool(type).then(() => this.paint(type, position, density));
+            if (!this.loadingPools.has(actualType)) {
+                this.initPool(actualType).then(() => this.paint(type, centerPosition, density));
+            }
             return;
         }
         
-        const range = 3; 
-        const countToAdd = type.includes('rock') ? 1 : 5; // Rocks are sparser
-        
+        const countToAdd = type.includes('rock') ? 1 : 5; 
+        const range = 3;
+
         for(let i=0; i<countToAdd; i++) {
             if (pool.count >= pool.max) break;
             
             const offsetX = (Math.random() - 0.5) * range;
             const offsetZ = (Math.random() - 0.5) * range;
+            const targetX = centerPosition.x + offsetX;
+            const targetZ = centerPosition.z + offsetZ;
             
-            this.dummy.position.set(position.x + offsetX, position.y, position.z + offsetZ);
+            // Terrain Raycast
+            let yPos = centerPosition.y;
+            if(this.olam.worldOctree) {
+                this.raycaster.set(new THREE.Vector3(targetX, yPos + 10, targetZ), this.rayDown);
+                const hit = this.olam.worldOctree.rayIntersect(this.raycaster.ray);
+                if(hit) yPos = hit.position.y;
+            }
             
-            // Randomize rotation
+            this.dummy.position.set(targetX, yPos, targetZ);
             this.dummy.rotation.set(0, Math.random() * Math.PI * 2, 0);
             
-            // Scale variation
+            // Scale Variation (Base scale baked in initPool)
             let scale = 1;
-            // B"H FIX: Apply 0.1 scale to both grass and flowers
-            if (type === 'grass' || type.includes('flower')) {
+            if (actualType.includes('grass') || actualType.includes('flower')) {
                  scale = 0.8 + Math.random() * 0.4;
-                 // Base scale 0.1 because assets are huge
-                 this.dummy.scale.set(
-                     scale * 0.1, 
-                     scale * 0.1 * (0.8 + Math.random() * 0.5), 
-                     scale * 0.1
-                 );
-            } else if (type.includes('rock')) {
+                 this.dummy.scale.set(scale, scale * (0.8 + Math.random() * 0.5), scale);
+            } else {
                  scale = 0.5 + Math.random() * 1.5;
                  this.dummy.scale.setScalar(scale);
             } 

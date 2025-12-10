@@ -1,4 +1,5 @@
 
+
 /**
  * B"H
  * @file index.js
@@ -62,6 +63,9 @@ export default class Chai extends Tzomayach {
     activeObject = null;
     currentHighlighted = null;
     _isGeneratingGhost = false;
+    
+    // B"H: New State for Nature Painting
+    isPaintingMode = false;
 
     // Lists
     rays = [];
@@ -166,4 +170,3 @@ Object.assign(Chai.prototype, physicsMethods);
 Object.assign(Chai.prototype, raycastingMethods);
 Object.assign(Chai.prototype, buildingMethods);
 Object.assign(Chai.prototype, projectileMethods);
-        

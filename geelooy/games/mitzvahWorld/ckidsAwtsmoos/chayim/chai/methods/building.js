@@ -32,13 +32,14 @@ export default {
              // B"H FIX: Correct relative path to reach ckidsAwtsmoos root
              import('../../../dvarim/nature/natureSystem.js').then(m => {
                  this.olam.natureSystem = new m.default(this.olam);
-                 // Pre-load ONLY common assets to avoid spamming errors
+                 // Pre-load assets
                  this.olam.natureSystem.initPool('grass', 10000, "awtsmoos://grassModel");
              }).catch(e => console.error("B\"H: Failed to load NatureSystem", e));
         }
         
         // Continuous Painting Logic
-        if (this.olam.mouseDown && item && item.isPainter && this.activeRay) {
+        // B"H FIX: Only paint if painting mode is active
+        if (this.olam.mouseDown && item && item.isPainter && this.activeRay && this.isPaintingMode) {
              const origin = this.getRayStart();
              const direction = this.getRayDirection();
              const ray = new THREE.Ray(origin, direction);
@@ -52,6 +53,8 @@ export default {
         const currentId = item ? item.id : "empty";
         if (this.lastItemId !== currentId) {
             this.lastItemId = currentId;
+            // Reset painting mode when switching items
+            this.isPaintingMode = false;
             this.removeActiveObject(); 
         }
 
@@ -61,6 +64,21 @@ export default {
         if (item && (item.isBuildable || item.isPainter)) {
             if (!this.activeObject) {
                 this.placeBlockOnRay();
+            } else if (this.activeObject && item.isPainter) {
+                // Update ghost color based on painting mode
+                const mesh = this.activeObject.mesh;
+                if (mesh) {
+                    const color = this.isPaintingMode ? 0x00ff00 : 0xff0000;
+                    const opacity = this.isPaintingMode ? 0.8 : 0.3;
+                    
+                    mesh.traverse(c => {
+                        if (c.isMesh && c.material) {
+                            c.material.color.setHex(color);
+                            c.material.opacity = opacity;
+                            c.material.wireframe = !this.isPaintingMode;
+                        }
+                    });
+                }
             }
         } else {
             this.removeActiveObject();
@@ -72,13 +90,18 @@ export default {
         const item = this.getActiveItem();
         
         if (item && item.isPainter) {
-            // B"H: Optional - Allow single click paint on shoot
-            const origin = this.getRayStart();
-            const direction = this.getRayDirection();
-            const ray = new THREE.Ray(origin, direction);
-            const hit = this.olam.worldOctree.rayIntersect(ray);
-            if (hit && hit.distance < 15 && this.olam.natureSystem) {
-                this.olam.natureSystem.paint(item.natureType, hit.position);
+            // B"H: If in painting mode, click paints once. If not, it does nothing (toggles via 'B')
+            if (this.isPaintingMode) {
+                const origin = this.getRayStart();
+                const direction = this.getRayDirection();
+                const ray = new THREE.Ray(origin, direction);
+                const hit = this.olam.worldOctree.rayIntersect(ray);
+                if (hit && hit.distance < 15 && this.olam.natureSystem) {
+                    this.olam.natureSystem.paint(item.natureType, hit.position);
+                }
+            } else {
+                // Optional: Flash reminder to press B
+                this.olam.ayshPeula("ui event", "effectsOverlay", { text: "Press 'B' to toggle Paint Mode" });
             }
             return;
         }
@@ -189,12 +212,10 @@ export default {
                     blockDefinition = {}; 
                     itemData = { ...item };
                 } else if (item.className === "ProceduralTree") {
-                    // B"H FIX: Correct Import Path to new location
                     const treeModule = await import('../../../dvarim/nature/proceduralTree.js');
                     const TreeClass = treeModule.default;
                     const tempTree = new TreeClass(item, this.olam);
                     
-                    // B"H FIX: Manually trigger generation for the ghost since heescheel isn't called
                     tempTree.generateGeometry();
                     await tempTree.createMeshes(); 
                     
@@ -203,7 +224,7 @@ export default {
                     itemData = { ...item };
                 } else if (item.isPainter) {
                     // B"H: Ghost for Nature Tools (Painters)
-                    let modelPath = "awtsmoos://grassModel"; // Default
+                    let modelPath = "awtsmoos://grassModel"; 
                     const type = item.natureType || 'grass';
                     
                     if (type.includes('rock')) modelPath = "awtsmoos://rockModel1";
@@ -222,7 +243,6 @@ export default {
                          else if (result.isObject3D) mesh = result;
 
                          if(mesh) {
-                             // B"H FIX: Scale flowers down too!
                              if(type === 'grass' || type.includes('flower')) {
                                  mesh.scale.multiplyScalar(0.1); 
                              } else {
@@ -230,11 +250,14 @@ export default {
                              }
                              mesh.rotation.y = Math.random() * Math.PI * 2;
                          }
-                    } else {
-                        // B"H: Immediate Fallback if model loading fails
+                    } 
+                    
+                    // B"H: IMMEDIATE Fallback if model loading failed or returned nothing
+                    if (!mesh) {
                         let geo;
                         if(type === 'grass') geo = new THREE.CylinderGeometry(0.05, 0.05, 0.5);
-                        else geo = new THREE.DodecahedronGeometry(0.3);
+                        else if (type.includes('flower')) geo = new THREE.SphereGeometry(0.2); // Flowers get spheres
+                        else geo = new THREE.DodecahedronGeometry(0.3); // Rocks get dodecahedrons
                         
                         mesh = new THREE.Mesh(geo, new THREE.MeshBasicMaterial({ color: 0x00ff00, wireframe: true }));
                     }
@@ -262,7 +285,6 @@ export default {
                 console.warn("B\"H: Error loading ghost model for", item.name, e);
             }
 
-            // B"H: Ultimate Fallback if model loading failed completely
             if (!mesh) {
                 console.warn("B\"H: Generating fallback box for", item.name);
                 const geo = new THREE.BoxGeometry(0.5, 0.5, 0.5);
@@ -279,7 +301,14 @@ export default {
             const makeGhost = (mat) => {
                 if(mat) {
                     mat.transparent = true;
-                    mat.opacity = 0.6;
+                    // B"H: Visual feedback for painting mode
+                    if(item.isPainter) {
+                        mat.opacity = this.isPaintingMode ? 0.8 : 0.3;
+                        mat.color.setHex(this.isPaintingMode ? 0x00ff00 : 0xff0000);
+                        mat.wireframe = !this.isPaintingMode;
+                    } else {
+                        mat.opacity = 0.6;
+                    }
                     mat.depthWrite = false;
                 }
             };

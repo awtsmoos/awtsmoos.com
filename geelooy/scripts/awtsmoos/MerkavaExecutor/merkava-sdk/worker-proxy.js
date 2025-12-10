@@ -8,7 +8,12 @@
             this.parentVM = parentVM;
             this.options = options;
             this.nativeWorker = null;
-            this.onmessage = null; // Set by user code in VM: w.onmessage = ...
+            this.onmessage = null; 
+            
+            // B"H - Keep Parent VM Alive
+            if (this.parentVM) {
+                this.parentVM.pendingAsyncCount++;
+            }
 
             this._init();
         }
@@ -16,14 +21,13 @@
         async _init() {
             console.log(`[WorkerProxy] Resolving script: ${this.scriptUrl}`);
             
-            // 1. Resolve the User's Worker Script Code
+            // 1. Resolve User Code
             let userCode = "";
             try {
                 if (this.options.importResolver) {
                     const res = await this.options.importResolver(this.scriptUrl);
                     userCode = res.code || res;
                 } else {
-                    // Fallback fetch
                     const resp = await fetch(this.scriptUrl);
                     userCode = await resp.text();
                 }
@@ -31,121 +35,172 @@
                 console.error(`[WorkerProxy] Failed to resolve script: ${e.message}`);
             }
 
-            // 2. Locate Dependencies (Parser, etc)
+            // 2. Resolve Parser URL
             let parserUrl = null;
             if (typeof document !== 'undefined') {
                 const scripts = document.querySelectorAll('script');
                 for(let s of scripts) {
                     if (s.src && (s.src.includes('parser') || s.src.includes('MerkavaAST'))) {
-                        parserUrl = s.src;
+                        parserUrl = s.src; 
                         break;
                     }
                 }
             }
             if (!parserUrl) {
-                // If not found in DOM, assume standard relative structure
-                parserUrl = new URL('../MerkavaASTParser/parser-core.js', new URL(Internal.BASE_PATH, self.location.href)).href;
+                const base = new URL(Internal.BASE_PATH, self.location.href);
+                parserUrl = new URL('../MerkavaASTParser/parser-core.js', base).href;
             }
 
-            // 3. Create the Bootstrap Code for the Native Worker
-            const basePath = Internal.BASE_PATH;
-            const sdkUrl = new URL('merkava-sdk.js', new URL(basePath, self.location.href)).href;
+            // 3. Bootstrap
+            const basePath = new URL(Internal.BASE_PATH, self.location.href).href;
+            const sdkUrl = new URL('merkava-sdk.js', new URL(basePath)).href;
             
-            // B"H - Worker Bootstrap Script
-            // We inject logic to fix 'importScripts' so the Parser can load its siblings correctly inside a Blob.
             const bootstrapCode = `
                 // B"H - Inner Worker Bootstrap
                 self.MERKAVA_OVERRIDE_BASE_PATH = "${basePath}";
                 self.MERKAVA_PARSER_URL = "${parserUrl}";
 
-                // 1. Shim Document (for Parser checks)
+                // 0. Shim Window (Required for Parser libraries that assume Browser env)
+                self.window = self;
+
+                // 1. Shim Document (CRITICAL for Parser Base Path Detection)
                 self.document = self.document || {
-                    currentScript: null,
+                    currentScript: { src: "${parserUrl}" }, 
                     querySelectorAll: () => [],
                     createElement: () => ({ src: '' }),
                     head: { appendChild: () => {} },
                     body: { appendChild: () => {} }
                 };
 
-                // 2. Shim importScripts to handle Parser Dependencies
-                // The Parser library often tries to load sibling files (e.g. 'constants.js') via importScripts.
-                // In a Blob Worker, relative paths fail. We redirect them to the Parser's directory.
+                // 2. Shim importScripts for Relative Dependencies
                 const originalImportScripts = self.importScripts;
-                const parserBase = self.MERKAVA_PARSER_URL.substring(0, self.MERKAVA_PARSER_URL.lastIndexOf('/') + 1);
+                const parserBase = "${parserUrl}".substring(0, "${parserUrl}".lastIndexOf('/') + 1);
                 
                 self.importScripts = function(...urls) {
                     const fixedUrls = urls.map(u => {
-                        // If simple filename or relative path, assume it belongs to Parser if Parser isn't loaded yet
-                        if ((u.indexOf('/') === -1 || u.startsWith('./')) && !self.MerkavahParser) {
-                             return new URL(u, parserBase).href;
+                        if (!self.MerkavahParser) {
+                            if (u.startsWith('http://') && u.split('/').length === 3) {
+                                const fname = u.split('/').pop();
+                                return new URL(fname, parserBase).href;
+                            }
+                            if (u.indexOf('://') === -1) {
+                                 return new URL(u, parserBase).href;
+                            }
                         }
                         return u;
                     });
                     try {
                         return originalImportScripts.apply(self, fixedUrls);
                     } catch(e) {
-                        console.error("[InnerWorker] importScripts failed:", e);
+                        console.error("[InnerWorker] importScripts failed:", fixedUrls, e);
                         throw e;
                     }
                 };
                 
-                const SDK_URL = "${sdkUrl}";
-                console.log("[InnerWorker] Booting from:", SDK_URL);
-                
-                // 3. Load SDK
-                importScripts(SDK_URL);
+                try {
+                    importScripts("${sdkUrl}");
+                } catch(e) {
+                    console.error("[InnerWorker] SDK Load Failed:", e);
+                }
 
-                // 4. Initialize the Inner VM
-                Merkava.initWorker({
-                    isWorker: true
-                }).then(vm => {
-                    // Message Handler for Native Worker
-                    self.onmessage = function(e) {
-                        const msg = e.data;
-                        if (msg.type === 'EXEC_CODE') {
-                             console.log("[InnerWorker] Compiling & Running User Script...");
-                             vm.run(msg.code).catch(err => console.error(err));
-                        } else if (msg.type === 'USER_MSG') {
-                             // Dispatch to the VM's "self.onmessage" if it exists
-                             if (vm.context.onmessage) {
-                                 vm.context.onmessage({ data: msg.payload });
-                             }
-                        }
-                    };
+                // 4. Initialize Inner VM
+                if (typeof Merkava !== 'undefined') {
+                    Merkava.initWorker({ isWorker: true }).then(adapter => {
+                        
+                        let realVM = null;
+                        let msgQueue = [];
+                        let isRunning = false;
 
-                    // Bridge: VM -> Main Thread
-                    vm.context.postMessage = function(payload) {
-                        self.postMessage({ type: 'USER_MSG', payload: payload });
-                    };
-                    
-                    // Signal Ready
-                    self.postMessage({ type: 'READY' });
-                });
+                        // B"H - VM Driver: Resumes the VM loop
+                        const driveVM = () => {
+                            if (!realVM) return;
+                            if (isRunning) return; // Already loop active
+                            
+                            isRunning = true;
+                            const loop = () => {
+                                try {
+                                    const active = realVM.run(1000);
+                                    if (active) {
+                                        setTimeout(loop, 10);
+                                    } else {
+                                        isRunning = false;
+                                    }
+                                } catch (e) {
+                                    console.error("[InnerWorker] VM Crash:", e);
+                                    isRunning = false;
+                                }
+                            };
+                            loop();
+                        };
+
+                        // Processor for incoming messages
+                        const processQueue = () => {
+                            if (!realVM) return;
+                            
+                            // Check Heap (implicit global) OR Context (self.onmessage)
+                            const heapHandler = realVM.memory.getGlobal('onmessage');
+                            const contextHandler = realVM.context ? realVM.context.onmessage : null;
+                            const handler = heapHandler || contextHandler;
+
+                            // Race Condition Fix: If code hasn't set 'onmessage' yet, retry.
+                            if (!handler) {
+                                if (msgQueue.length > 0) {
+                                    // Retry in 50ms
+                                    setTimeout(processQueue, 50);
+                                }
+                                return;
+                            }
+                            
+                            while (msgQueue.length > 0) {
+                                const payload = msgQueue.shift();
+                                
+                                if (handler.type === 'CLOSURE') {
+                                    const t = realVM.spawn(handler.code);
+                                    t.currentScope = { 0: { data: payload } };
+                                    driveVM(); // IGNITE THE ENGINE
+                                } else if (typeof handler === 'function') {
+                                    handler({ data: payload });
+                                } else {
+                                    console.warn("[InnerWorker] 'onmessage' is not a function/closure:", handler);
+                                }
+                            }
+                        };
+
+                        self.onmessage = function(e) {
+                            const msg = e.data;
+                            if (msg.type === 'EXEC_CODE') {
+                                 // Run the user code. This returns the Real VM Instance.
+                                 adapter.run(msg.code).then(res => {
+                                     realVM = res.vm;
+                                     processQueue();
+                                 }).catch(err => console.error(err));
+                            } else if (msg.type === 'USER_MSG') {
+                                 msgQueue.push(msg.payload);
+                                 processQueue();
+                            }
+                        };
+                        
+                        self.postMessage({ type: 'READY' });
+                    });
+                }
             `;
 
             const blob = new Blob([bootstrapCode], { type: 'application/javascript' });
             const blobUrl = URL.createObjectURL(blob);
-
             this.nativeWorker = new Worker(blobUrl);
 
-            // 4. Handle Messages from Native Worker
             this.nativeWorker.onmessage = (e) => {
                 const msg = e.data;
                 if (msg.type === 'READY') {
-                    // Worker is ready, send the user code to execute
                     this.nativeWorker.postMessage({ type: 'EXEC_CODE', code: userCode });
                 } else if (msg.type === 'USER_MSG') {
-                    // Dispatch to the VM's "w.onmessage" listener
                     if (this.onmessage) {
-                        // We must spawn a thread in the PARENT VM to handle the callback
-                        // because 'onmessage' is a function/closure in the PARENT VM.
-                        
                         if (this.onmessage.type === 'CLOSURE') {
-                             // Closure logic: spawn thread
                              const thread = this.parentVM.spawn(this.onmessage.code);
-                             thread.currentScope = { 0: { data: msg.payload } }; // Arg 0 is event
+                             thread.currentScope = { 0: { data: msg.payload } }; 
+                             // B"H - Ignite the Parent VM if it was sleeping
+                             if (this.parentVM.wake) this.parentVM.wake();
                         } else if (typeof this.onmessage === 'function') {
-                             // Native JS function (if context allows)
                              this.onmessage({ data: msg.payload });
                         }
                     }
@@ -162,7 +217,12 @@
         }
 
         terminate() {
-            if (this.nativeWorker) this.nativeWorker.terminate();
+            if (this.nativeWorker) {
+                this.nativeWorker.terminate();
+                this.nativeWorker = null;
+                // Release hold on Parent VM
+                if (this.parentVM) this.parentVM.pendingAsyncCount--;
+            }
         }
     }
 

@@ -35,19 +35,18 @@
             // VM Initialization
             const vm = new self.MerkavaVM(memory, options.hostAPI || {}, context);
             
-            // Attach vm to context so WorkerProxy can use it if needed (to spawn callback threads)
+            // Link Context/VM
             context._vm = vm;
+            memory.ownerVM = vm; 
 
-            // Spawn Main Thread
             vm.spawn(codeObject);
 
-            // Execution Loop
             const resultPromise = new Promise((resolve, reject) => {
+                let loopActive = false;
+
                 const loop = () => {
                     try {
-                        // Check if VM is active (threads running OR waiting for async/RAF)
-                        const isVMActive = vm.run(1000); // 1000 cycles per frame
-                        
+                        const isVMActive = vm.run(1000); 
                         if (isVMActive) {
                             if (options.context && options.context.requestAnimationFrame) {
                                 options.context.requestAnimationFrame(loop);
@@ -55,16 +54,30 @@
                                 setTimeout(loop, 10);
                             }
                         } else {
-                            resolve({ status: 'COMPLETED', vm });
+                            loopActive = false;
+                            // Only resolve if we are truly done (no async tasks)
+                            if (vm.pendingAsyncCount <= 0) {
+                                resolve({ status: 'COMPLETED', vm });
+                            }
                         }
                     } catch (e) {
+                        loopActive = false;
                         reject(e);
                     }
                 };
+
+                // B"H - Allow external re-ignition of the loop
+                vm.wake = () => {
+                    if (!loopActive) {
+                        loopActive = true;
+                        loop();
+                    }
+                };
+
+                loopActive = true;
                 loop();
             });
 
-            // Return a control object
             return {
                 done: resultPromise,
                 vm: vm,
@@ -74,18 +87,27 @@
             };
         }
 
-        // Called by the Inner Worker to set up its environment
         async initWorkerEnv(options) {
+            // B"H - Worker Context Definition
+            // We do NOT set 'self' here circularly, _buildContext handles it.
+            const workerContext = {
+                // Override postMessage to use our protocol
+                postMessage: (data) => {
+                    self.postMessage({ type: 'USER_MSG', payload: data });
+                },
+                // B"H - Copy safe globals
+                console: self.console,
+                fetch: self.fetch ? self.fetch.bind(self) : undefined
+            };
+
             return {
-                context: {}, // Will be populated by _buildContext inside run
+                context: {}, 
                 run: async (source) => {
-                     // Inside the worker, we run this code.
                      const workerOptions = {
                          hostAPI: { 0: (...args) => console.log(...args) },
-                         context: self // Use the worker's self
+                         context: workerContext
                      };
                      
-                     // B"H - Merge passed options if needed (like imports)
                      if (options.importResolver) workerOptions.importResolver = options.importResolver;
                      
                      return this.run(source, workerOptions);
@@ -94,24 +116,23 @@
         }
 
         _buildContext(options, memory) {
-            // Helper to wrap VM Closures for Native APIs
             const wrapCallback = (cb) => {
                 if (cb && cb.type === 'CLOSURE') {
                     return (...args) => {
-                        // We must spawn a new thread in the VM to run this closure
-                        const vm = options.context?._vm || (memory.ownerVM); 
+                        const vm = memory.ownerVM; 
                         if (vm) {
                              const t = vm.spawn(cb.code);
-                             // Pass arguments by setting them in the initial scope
                              t.currentScope = {};
                              args.forEach((arg, i) => t.currentScope[i] = arg);
+                             if (vm.wake) vm.wake(); // Wake up VM for callback
+                        } else {
+                            console.error("[Merkava] Callback failed: VM not found.");
                         }
                     };
                 }
                 return cb;
             };
 
-            // Native TypedArray Wrapper Factory
             const createWrapper = (NativeConstructor) => {
                 return class {
                     constructor(arg, ...rest) {
@@ -129,36 +150,27 @@
             const userContext = options.context || {};
             
             const base = {
-                // Polyfills
                 SharedArrayBuffer: self.MerkavaVM.Polyfills.SharedArrayBuffer,
                 Atomics: self.MerkavaVM.Polyfills.Atomics,
-                
-                // Typed Arrays
                 Float32Array: createWrapper(Float32Array),
                 Int32Array: createWrapper(Int32Array),
                 Uint8Array: createWrapper(Uint8Array),
-                
-                // Standard Globals
                 console: userContext.console || console,
                 Math: Math,
                 JSON: JSON,
                 
-                // B"H - Wrapped Timers & RAF with Async Persistence
                 requestAnimationFrame: (cb) => {
-                    const vm = options.context?._vm || memory.ownerVM;
+                    const vm = memory.ownerVM;
                     if(vm) vm.pendingAsyncCount++;
-                    
                     const nativeRAF = userContext.requestAnimationFrame || self.requestAnimationFrame;
-                    
                     return nativeRAF.call(userContext || self, (...args) => {
                         if(vm) vm.pendingAsyncCount--;
                         wrapCallback(cb)(...args);
                     });
                 },
                 setTimeout: (cb, delay) => {
-                    const vm = options.context?._vm || memory.ownerVM;
+                    const vm = memory.ownerVM;
                     if(vm) vm.pendingAsyncCount++;
-
                     const nativeSTO = userContext.setTimeout || self.setTimeout;
                     return nativeSTO.call(userContext || self, (...args) => {
                         if(vm) vm.pendingAsyncCount--;
@@ -166,46 +178,34 @@
                     }, delay);
                 },
                 setInterval: (cb, delay) => {
-                    const vm = options.context?._vm || memory.ownerVM;
-                    // Interval keeps VM alive indefinitely until cleared (not fully handled here, but prevents immediate exit)
+                    const vm = memory.ownerVM;
                     if(vm) vm.pendingAsyncCount++; 
-
                     const nativeSI = userContext.setInterval || self.setInterval;
                     return nativeSI.call(userContext || self, (...args) => {
-                        // For interval, we don't decrement because it repeats? 
-                        // Simplified: treating as long-running task.
                         wrapCallback(cb)(...args);
                     }, delay);
                 },
                 
-                // ASYNC ImportScripts
                 importScripts: (...urls) => {
                     return new Promise(async (resolve, reject) => {
                         console.log("[VM] importScripts:", urls);
-                        
-                        const vm = options.context?._vm || memory.ownerVM;
+                        const vm = memory.ownerVM;
                         if(vm) vm.pendingAsyncCount++;
-
                         const cleanup = () => { if(vm) vm.pendingAsyncCount--; };
 
                         if (options.importResolver) {
                             try {
                                 const res = await options.importResolver(urls[0]);
                                 if (res && (res.code || typeof res === 'string')) {
-                                    // Compile & Run in-place
                                     const code = res.code || res;
-                                    const subVM = options.context._vm; 
-                                    
+                                    const subVM = memory.ownerVM; 
                                     if (subVM) {
                                          const p = new self.MerkavahParser(code);
                                          p.registerStatementParsers(); 
                                          p.registerExpressionParsers(); 
                                          p.registerDeclarationParsers();
                                          const co = (new self.MerkavaCompiler.Compiler()).compile(p.parse());
-                                         
-                                         // Spawn and wait
                                          const t = subVM.spawn(co);
-                                         
                                          const check = () => {
                                              if (t.status === 'COMPLETED') { cleanup(); resolve(); }
                                              else if (t.status === 'CRASHED') { cleanup(); reject(t.error); }
@@ -219,24 +219,27 @@
                                 console.error("[VM] Import Failed:", e);
                             }
                         }
-                        // Default Fallback
                         setTimeout(() => { cleanup(); resolve(); }, 100); 
                     });
                 },
 
-                // Worker Constructor
                 Worker: class {
                     constructor(url) {
-                        return new Internal.WorkerProxy(url, base._vm, options);
+                        return new Internal.WorkerProxy(url, memory.ownerVM, options);
                     }
                 }
             };
             
-            // Allow memory to know its VM for callbacks
-            if (!memory.ownerVM && base._vm) memory.ownerVM = base._vm;
+            // B"H - Merge Contexts
+            const finalContext = Object.assign({}, userContext, base);
 
-            // B"H - Merge 'base' LAST so our wrappers overwrite raw window functions
-            return Object.assign({}, userContext, base);
+            // B"H - Set Self References on the FINAL context
+            // This ensures self.prop = value writes to finalContext.prop
+            finalContext.self = finalContext;
+            finalContext.window = finalContext;
+            finalContext.globalThis = finalContext;
+
+            return finalContext;
         }
     }
 

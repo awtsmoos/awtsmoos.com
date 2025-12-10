@@ -36,8 +36,7 @@ export default class ProceduralTree extends Tzomayach {
 
     /**
      * B"H
-     * Generates the tree data structures (branches/leaves arrays) but does not create THREE meshes yet.
-     * Useful for ghosts/previews.
+     * Generates the tree data structures.
      */
     generateGeometry() {
         this.generator = new TreeGenerator(this.options, this.olam);
@@ -48,10 +47,6 @@ export default class ProceduralTree extends Tzomayach {
         this.leaves = generated.leaves;
     }
 
-    /**
-     * B"H
-     * Override heescheel to handle custom generation logic and avoid Domem's default white-box behavior.
-     */
     async heescheel(olam, info) {
         this.olam = olam;
         
@@ -64,14 +59,13 @@ export default class ProceduralTree extends Tzomayach {
         this.mesh = this.treeGroup;
         this.mesh.nivraAwtsmoos = this;
         
-        // 3. Apply Transforms from options (or default)
+        // 3. Apply Transforms
         if(this.position) this.mesh.position.copy(this.position.vector3());
         if(this.rotation) {
              this.mesh.rotation.set(this.rotation.x, this.rotation.y, this.rotation.z);
         }
         if(this.scale) this.mesh.scale.copy(this.scale.vector3());
         
-        // Ensure userData is populated for raycasting identification
         if(!this.mesh.userData) this.mesh.userData = {};
         if(this.itemData) this.mesh.userData.itemData = this.itemData;
         if(this.isSolid) this.mesh.userData.isSolid = true;
@@ -81,14 +75,13 @@ export default class ProceduralTree extends Tzomayach {
         // 4. Add to World Scene
         await olam.hoyseef(this);
         
-        // 5. Create Invisible Physics Proxy (Cylinder)
+        // 5. Create Invisible Physics Proxy
         if(this.isSolid) {
             const trunkHeight = this.options.branch.length[0];
             const trunkRadius = this.options.branch.radius[0];
             const proxyGeo = new THREE.CylinderGeometry(trunkRadius * 0.5, trunkRadius, trunkHeight, 8);
             proxyGeo.translate(0, trunkHeight/2, 0);
             
-            // Invisible material
             const proxyMesh = new THREE.Mesh(proxyGeo, new THREE.MeshBasicMaterial({ visible: false }));
             
             proxyMesh.position.copy(this.mesh.position);
@@ -96,7 +89,6 @@ export default class ProceduralTree extends Tzomayach {
             proxyMesh.scale.copy(this.mesh.scale);
             proxyMesh.updateMatrixWorld(true);
             
-            // IMPORTANT: Link back to the visual mesh so raycasting returns the tree, not the invisible cylinder
             proxyMesh.userData = { 
                 isSolid: true, 
                 visualReference: this.mesh,
@@ -107,22 +99,21 @@ export default class ProceduralTree extends Tzomayach {
             this.olam.interactiveOctree.fromGraphNode(proxyMesh);
         }
         
-        // 6. Fire standard event so other systems know we exist
         this.isReady = true;
         this.ayshPeula("heescheel", this);
         return true;
     }
     
     async createMeshes() {
-        if(!this.branches || !this.leaves) return; // Safety check
+        if(!this.branches || !this.leaves) return; 
 
+        // --- BRANCHES ---
         const branchGeo = new THREE.BufferGeometry();
         branchGeo.setAttribute('position', new THREE.Float32BufferAttribute(this.branches.verts, 3));
         branchGeo.setAttribute('normal', new THREE.Float32BufferAttribute(this.branches.normals, 3));
         branchGeo.setAttribute('uv', new THREE.Float32BufferAttribute(this.branches.uvs, 2));
         branchGeo.setIndex(this.branches.indices);
         
-        // B"H: Use Standard Material for PBR if textures allow
         const branchMat = new THREE.MeshStandardMaterial({ 
             color: new THREE.Color(this.options.bark.tint || 0x8B4513), 
             roughness: 1.0,
@@ -130,82 +121,67 @@ export default class ProceduralTree extends Tzomayach {
             flatShading: this.options.bark.flatShading
         }); 
         
-        // B"H: Dynamic Texture Loading based on Preset
-        const barkType = this.options.bark.type || 'oak';
-        const barkCap = barkType.charAt(0).toUpperCase() + barkType.slice(1); 
-
-        const texScale = this.options.bark.textureScale || {x:1, y:1};
-
-        if(this.options.bark.textured && this.olam) {
-             const loadTex = (key) => {
-                 // B"H: Safety Check - Ensure olam exists before calling getComponent
-                 if (!this.olam) return Promise.resolve(null);
-
-                 const path = this.olam.getComponent("awtsmoos://barkTexture" + barkCap + key);
-                 if(path) {
-                     return this.olam.loadTexture({ url: path, shouldRepeat: true, repeatX: texScale.x, repeatY: texScale.y })
-                     .catch(e => {
-                         console.warn("B\"H: Failed to load texture", path, e);
-                         return null;
-                     });
-                 }
-                 return Promise.resolve(null);
-             };
-
-             Promise.all([
-                 loadTex(""),          // Color
-                 loadTex("_normal"),
-                 loadTex("_roughness"),
-                 loadTex("_ao")
-             ]).then(([col, nrm, rgh, ao]) => {
-                 if(col) branchMat.map = col;
-                 if(nrm) branchMat.normalMap = nrm;
-                 if(rgh) branchMat.roughnessMap = rgh;
-                 if(ao) branchMat.aoMap = ao;
-                 branchMat.needsUpdate = true;
-             });
-        }
-        
-        const branches = new THREE.Mesh(branchGeo, branchMat);
-        branches.castShadow = true;
-        branches.receiveShadow = true;
-        
+        // --- LEAVES ---
         const leafGeo = new THREE.BufferGeometry();
         leafGeo.setAttribute('position', new THREE.Float32BufferAttribute(this.leaves.verts, 3));
         leafGeo.setAttribute('uv', new THREE.Float32BufferAttribute(this.leaves.uvs, 2));
         leafGeo.setIndex(this.leaves.indices);
         leafGeo.computeVertexNormals();
         
-        // Default green color fallback
+        // B"H FIX: Start with alphaTest 0 so leaves are visible immediately (as blocks).
+        // Transparency is enabled so they aren't fully black blocks, but tinted.
         this.leavesMaterial = new THREE.MeshPhongMaterial({
             color: this.options.leaves.tint || 0x228B22,
             side: THREE.DoubleSide,
-            alphaTest: this.options.leaves.alphaTest,
-            transparent: true, // B"H FIX: Leaves must be transparent
+            alphaTest: 0, // IMPORTANT: Disable alpha cull initially
+            transparent: true,
             shininess: 0
         });
-        
-        // B"H: Load Leaf Texture
-        const leafType = this.options.leaves.type || 'oak';
-        const leafCap = leafType.charAt(0).toUpperCase() + leafType.slice(1);
-        
-        if (this.olam) {
-            const leafPath = this.olam.getComponent("awtsmoos://leafTexture" + leafCap);
+
+        // B"H: Texture Loading
+        if(this.olam) {
+            // Load Bark
+            const barkType = this.options.bark.type || 'oak';
+            const barkCap = barkType.charAt(0).toUpperCase() + barkType.slice(1);
+            const texScale = this.options.bark.textureScale || {x:1, y:1};
             
+            const loadTex = (key) => {
+                 const path = this.olam.getComponent("awtsmoos://barkTexture" + barkCap + key);
+                 if(path) {
+                     return this.olam.loadTexture({ url: path, shouldRepeat: true, repeatX: texScale.x, repeatY: texScale.y });
+                 }
+                 return Promise.resolve(null);
+            };
+
+            Promise.all([loadTex(""), loadTex("_normal")]).then(([col, nrm]) => {
+                 if(col) branchMat.map = col;
+                 if(nrm) branchMat.normalMap = nrm;
+                 branchMat.needsUpdate = true;
+            });
+
+            // Load Leaves
+            const leafType = this.options.leaves.type || 'oak';
+            const leafCap = leafType.charAt(0).toUpperCase() + leafType.slice(1);
+            const leafPath = this.olam.getComponent("awtsmoos://leafTexture" + leafCap);
+
             if(leafPath) {
                  this.olam.loadTexture({ url: leafPath })
                  .then(tex => {
                      if (tex) {
+                         // B"H FIX: Texture loaded! Now we enable strict alpha testing for the cutout look.
                          this.leavesMaterial.map = tex;
+                         this.leavesMaterial.alphaTest = 0.5; 
                          this.leavesMaterial.needsUpdate = true;
+                     } else {
+                         this.generateFallbackLeaf();
                      }
                  })
-                 .catch(e => {
-                     console.warn("B\"H: Failed to load leaf texture", leafPath, e);
-                 });
+                 .catch(() => this.generateFallbackLeaf());
+            } else {
+                this.generateFallbackLeaf();
             }
         }
-
+        
         // B"H: Wind Shader Fix
         this.leavesMaterial.onBeforeCompile = (shader) => {
             shader.uniforms.uTime = { value: 0 };
@@ -214,7 +190,6 @@ export default class ProceduralTree extends Tzomayach {
                 '#include <project_vertex>',
                 `
                 vec4 mvPosition = vec4( transformed, 1.0 );
-                // B"H FIX: Ensure wind calculation doesn't produce NaN
                 float windOffset = position.x + position.z;
                 float wind = sin(uTime * 1.5 + windOffset * 0.5) * 0.1 * uv.y;
                 mvPosition.x += wind;
@@ -225,11 +200,42 @@ export default class ProceduralTree extends Tzomayach {
             this.leavesMaterial.userData.shader = shader;
         };
         
+        const branches = new THREE.Mesh(branchGeo, branchMat);
+        branches.castShadow = true;
+        branches.receiveShadow = true;
+        
         const leaves = new THREE.Mesh(leafGeo, this.leavesMaterial);
         leaves.castShadow = true;
         leaves.receiveShadow = true;
         
         this.treeGroup.add(branches);
         this.treeGroup.add(leaves);
+    }
+    
+    generateFallbackLeaf() {
+        const canvas = new OffscreenCanvas(64, 64);
+        const ctx = canvas.getContext('2d');
+        // Clear transparent
+        ctx.clearRect(0,0,64,64);
+        
+        // Draw leaf shape
+        ctx.fillStyle = '#228B22';
+        ctx.beginPath();
+        ctx.ellipse(32, 32, 15, 28, 0, 0, Math.PI * 2);
+        ctx.fill();
+        
+        // Draw veins
+        ctx.strokeStyle = '#006400';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(32, 4);
+        ctx.lineTo(32, 60);
+        ctx.stroke();
+        
+        const tex = new THREE.CanvasTexture(canvas);
+        this.leavesMaterial.map = tex;
+        // B"H: Fallback texture also needs alpha test to look like a leaf
+        this.leavesMaterial.alphaTest = 0.5;
+        this.leavesMaterial.needsUpdate = true;
     }
 }

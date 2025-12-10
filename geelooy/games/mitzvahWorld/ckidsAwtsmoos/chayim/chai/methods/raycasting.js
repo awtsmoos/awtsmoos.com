@@ -1,4 +1,5 @@
 
+
 /**
  * B"H
  * @file raycasting.js
@@ -97,11 +98,16 @@ export default {
         const item = this.getActiveItem();
         const mat = this.activeRay.visual.material;
 
-        if (item && item.isBuildable) {
+        if (item && item.isPainter) {
+            if(this.isPaintingMode) {
+                mat.color.setHex(0xFFD700); // B"H: Gold for Active Painting Mode
+                mat.opacity = 0.8;
+            } else {
+                mat.color.setHex(0x00ff00); // Green for Painter held but inactive
+                mat.opacity = 0.5;
+            }
+        } else if (item && item.isBuildable) {
             mat.color.setHex(0x0000ff); // Blue for buildable
-            mat.opacity = 0.5;
-        } else if (item && item.isPainter) {
-            mat.color.setHex(0x00ff00); // Green for nature painting
             mat.opacity = 0.5;
         } else if (item && item.className === 'Tool') {
             mat.color.setHex(0xff0000); // Red for tools

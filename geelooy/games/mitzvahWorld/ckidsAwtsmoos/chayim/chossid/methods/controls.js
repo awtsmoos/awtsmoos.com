@@ -104,6 +104,17 @@ export default {
                     break;
 
                 case ACTION_TOGGLE:
+                    // B"H: New Painting Logic
+                    const activeItem = this.getActiveItem();
+                    if (activeItem && activeItem.isPainter) {
+                        this.isPaintingMode = !this.isPaintingMode;
+                        this.olam.ayshPeula("ui event", "effectsOverlay", { 
+                            text: this.isPaintingMode ? "Painting Mode: ON" : "Painting Mode: OFF",
+                            color: this.isPaintingMode ? "#00ff00" : "#ff0000"
+                        });
+                        return; // Stop here, don't interact with NPCs
+                    }
+
                     if(!this.interactingWith) {
                         var npc = this.approachedEntities[0];
                         if(!npc) {
