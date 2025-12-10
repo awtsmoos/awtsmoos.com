@@ -101,52 +101,85 @@
             
             if (memory.nextPtr === 1) memory.allocate({});
 
+            // B"H - Capture VM instance for Workers
+            let activeVM = null;
+
             // B"H - Enhanced VM Worker Simulation
-            // We use a factory to create a worker that spawns a thread in the SAME VM.
             class MerkavaWorker {
                 constructor(scriptUrl) {
                     console.log(`[VM] Spawning Worker for ${scriptUrl}`);
-                    this.onmessage = null;
+                    this.onmessage = null; // This will be set by the VM script
+                    
                     // Simulate async startup
                     setTimeout(() => {
                         console.log(`[VM] Worker ${scriptUrl} started.`);
-                        // In a real full impl, we'd fetch scriptUrl, compile, and vm.spawn(code)
-                        // For this demo, we simulate a worker that echoes.
-                        if (this.onmessage) this.onmessage({ data: "Worker Ready" });
+                        if (this.onmessage) {
+                            this._triggerCallback({ data: "Worker Ready" });
+                        }
                     }, 100);
                 }
+
                 postMessage(msg) { 
                     console.log("[VM] Worker received:", msg);
-                    // Echo back with slight delay to simulate thread work
+                    // Echo back with slight delay
                     setTimeout(() => {
-                         if(this.onmessage) this.onmessage({data: { echo: msg, id: Math.random() }});
+                         if(this.onmessage) {
+                            this._triggerCallback({ data: { echo: msg, id: Math.random() } });
+                         }
                     }, 50);
                 }
+
+                _triggerCallback(eventData) {
+                    // TIKKUN: Bridge Host-to-VM
+                    // If onmessage is a VM Closure, we must spawn a thread to run it.
+                    if (this.onmessage && this.onmessage.type === 'CLOSURE' && activeVM) {
+                        // Spawn a new thread with the closure's code
+                        const thread = activeVM.spawn(this.onmessage.code);
+                        // Manually populate the scope with the event argument at index 0
+                        // The Compiler expects args at key 0, 1, 2... in currentScope.
+                        thread.currentScope = { 0: eventData };
+                    } else if (typeof this.onmessage === 'function') {
+                        // Fallback for pure JS context
+                        this.onmessage(eventData);
+                    }
+                }
             }
+
+            // B"H - TypedArray Wrapper Factory
+            // Wraps native TypedArrays to accept VM Pointers (memory references)
+            const createTypedArrayWrapper = (NativeConstructor) => {
+                return class extends NativeConstructor {
+                    constructor(arg, ...rest) {
+                        // If arg is a VM Pointer, dereference it from memory
+                        if (arg && arg.type === 'POINTER') {
+                            const realData = memory.get(arg.value);
+                            super(realData, ...rest);
+                        } else if (arg instanceof self.MerkavaVM.Polyfills.SharedArrayBuffer) {
+                             // Handle our Polyfill SAB
+                             super(arg._data.buffer, ...rest);
+                        } else {
+                            super(arg, ...rest);
+                        }
+                    }
+                }
+            };
 
             const vmContext = { 
                 ...options.context, 
                 Worker: MerkavaWorker,
+                
                 // Inject Simulated Polyfills
                 SharedArrayBuffer: self.MerkavaVM.Polyfills.SharedArrayBuffer,
                 Atomics: self.MerkavaVM.Polyfills.Atomics,
-                // Polyfill Int32Array to work with our SimBuffer if needed, 
-                // but standard TypedArrays work fine with standard ArrayBuffers.
-                // Our SimBuffer has a ._data (Uint8Array).
-                // We wrap standard Int32Array to accept our SimBuffer
-                Int32Array: class SimInt32Array extends Int32Array {
-                    constructor(buffer, byteOffset, length) {
-                        if (buffer instanceof self.MerkavaVM.Polyfills.SharedArrayBuffer) {
-                            super(buffer._data.buffer, byteOffset, length);
-                        } else {
-                            super(buffer, byteOffset, length);
-                        }
-                    }
-                },
+                
+                // B"H - Wrap TypedArrays for VM Compatibility
+                Float32Array: createTypedArrayWrapper(Float32Array),
+                Int32Array: createTypedArrayWrapper(Int32Array),
+                Uint8Array: createTypedArrayWrapper(Uint8Array),
+                Uint16Array: createTypedArrayWrapper(Uint16Array),
+                
                 importScripts: function(...urls) {
                     console.log("[VM] importScripts called for:", urls);
-                    // Simulate blocking/loading by defining a global
-                    // In a real VM we'd pause the thread.
                     if (memory.setGlobal) {
                         memory.setGlobal("IMPORTED_LIB_LOADED", true);
                     }
@@ -154,6 +187,8 @@
             };
             
             const vm = new self.MerkavaVM(memory, options.hostAPI || {}, vmContext);
+            activeVM = vm; // Set the reference for Workers
+
             vm.spawn(codeObject);
 
             let dbg = options.debug ? new self.MerkavaDebugger(vm) : null;
