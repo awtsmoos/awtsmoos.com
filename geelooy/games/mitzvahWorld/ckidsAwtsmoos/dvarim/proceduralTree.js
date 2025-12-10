@@ -52,41 +52,73 @@ export default class ProceduralTree extends Tzomayach {
         if(op.seed) this.options.seed = op.seed;
         else this.options.seed = Math.random() * 65536;
         
-        this.on("heescheel", async (olam) => {
-             this.generate();
-             this.mesh = this.treeGroup;
-             this.mesh.nivraAwtsmoos = this;
-             
-             if(this.position) this.mesh.position.copy(this.position.vector3());
-             if(this.rotation) this.mesh.rotation.set(this.rotation.x, this.rotation.y, this.rotation.z);
-             if(this.scale) this.mesh.scale.copy(this.scale);
-             
-             this.mesh.updateMatrixWorld(true);
-             
-             olam.nivrayimGroup.add(this.mesh);
-             
-             if(this.isSolid) {
-                 const trunkHeight = this.options.branch.length[0];
-                 const trunkRadius = this.options.branch.radius[0];
-                 const proxyGeo = new THREE.CylinderGeometry(trunkRadius * 0.5, trunkRadius, trunkHeight, 8);
-                 proxyGeo.translate(0, trunkHeight/2, 0);
-                 const proxyMesh = new THREE.Mesh(proxyGeo);
-                 
-                 proxyMesh.position.copy(this.mesh.position);
-                 proxyMesh.rotation.copy(this.mesh.rotation);
-                 proxyMesh.scale.copy(this.mesh.scale);
-                 proxyMesh.updateMatrixWorld(true);
-                 
-                 proxyMesh.userData = { isSolid: true, visualReference: this.mesh };
-                 this.olam.worldOctree.addObject(proxyMesh);
-             }
-        });
-        
+        // B"H: Wind Shader logic update
         this.on("heesHawvoos", (dt) => {
             if(this.leavesMaterial && this.leavesMaterial.userData.shader) {
                  this.leavesMaterial.userData.shader.uniforms.uTime.value += dt;
             }
         });
+    }
+
+    /**
+     * B"H
+     * Override heescheel to handle custom generation logic and avoid Domem's default white-box behavior.
+     */
+    async heescheel(olam, info) {
+        this.olam = olam;
+        
+        // 1. Generate the Tree Geometry
+        this.generate();
+        this.mesh = this.treeGroup;
+        this.mesh.nivraAwtsmoos = this;
+        
+        // 2. Apply Transforms from options (or default)
+        if(this.position) this.mesh.position.copy(this.position.vector3());
+        if(this.rotation) {
+             this.mesh.rotation.set(this.rotation.x, this.rotation.y, this.rotation.z);
+        }
+        if(this.scale) this.mesh.scale.copy(this.scale.vector3());
+        
+        // Ensure userData is populated for raycasting identification
+        if(!this.mesh.userData) this.mesh.userData = {};
+        if(this.itemData) this.mesh.userData.itemData = this.itemData;
+        if(this.isSolid) this.mesh.userData.isSolid = true;
+
+        this.mesh.updateMatrixWorld(true);
+        
+        // 3. Add to World Scene
+        await olam.hoyseef(this);
+        
+        // 4. Create Invisible Physics Proxy (Cylinder)
+        // Since tree mesh is too complex for basic collision, we use a simple trunk cylinder.
+        if(this.isSolid) {
+            const trunkHeight = this.options.branch.length[0];
+            const trunkRadius = this.options.branch.radius[0];
+            const proxyGeo = new THREE.CylinderGeometry(trunkRadius * 0.5, trunkRadius, trunkHeight, 8);
+            proxyGeo.translate(0, trunkHeight/2, 0);
+            
+            // Invisible material
+            const proxyMesh = new THREE.Mesh(proxyGeo, new THREE.MeshBasicMaterial({ visible: false }));
+            
+            proxyMesh.position.copy(this.mesh.position);
+            proxyMesh.rotation.copy(this.mesh.rotation);
+            proxyMesh.scale.copy(this.mesh.scale);
+            proxyMesh.updateMatrixWorld(true);
+            
+            // IMPORTANT: Link back to the visual mesh so raycasting returns the tree, not the invisible cylinder
+            proxyMesh.userData = { 
+                isSolid: true, 
+                visualReference: this.mesh,
+                itemData: this.itemData 
+            };
+            
+            this.olam.worldOctree.addObject(proxyMesh);
+            this.olam.interactiveOctree.fromGraphNode(proxyMesh);
+        }
+        
+        // 5. Fire standard event so other systems know we exist
+        this.ayshPeula("heescheel", this);
+        return true;
     }
     
     generate() {

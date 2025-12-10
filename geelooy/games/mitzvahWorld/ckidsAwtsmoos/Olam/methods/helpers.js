@@ -1,3 +1,4 @@
+
 /**
  * B"H
  * 
@@ -222,10 +223,8 @@ export default class {
                 
                 // onError callback
                 function (err) {
-                    console.log(
-                        'An error happened while loading texture:', err,
-                        url
-                    );
+                    console.warn('B"H: Error loading texture, resolving null to prevent hang:', url, err);
+                    resolve(null); // B"H: Resolve null instead of hanging
                 }
             );
         });
