@@ -16,6 +16,7 @@
             this.currentFrame = null;
             this.currentScope = {};
             this.environment = context; 
+            this.catchStack = []; // B"H - Stack of catch block addresses
         }
 
         read8() {
@@ -46,8 +47,18 @@
                     return false;
                 }
             } catch(e) {
-                console.error("VM Exception:", e);
-                this.status = 'CRASHED';
+                // B"H - Exception Handling Logic
+                if (this.catchStack && this.catchStack.length > 0) {
+                    const catchAddr = this.catchStack.pop();
+                    this.ip = catchAddr;
+                    // Push the error object onto the stack for the catch block
+                    this.push(e.vmValue || e.message || e);
+                    return true;
+                } else {
+                    console.error("VM Exception (Uncaught):", e);
+                    this.status = 'CRASHED';
+                    return false;
+                }
             }
             return true;
         }

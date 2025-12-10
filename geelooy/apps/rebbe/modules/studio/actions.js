@@ -121,6 +121,43 @@ export function moveLayer(dir) {
     renderTimeline();
 }
 
+export function splitClip() {
+    const t = state.currentTime;
+    let hit = false;
+    
+    // Check Media
+    for (let i = 0; i < state.mediaLayers.length; i++) {
+        const item = state.mediaLayers[i];
+        if (t > item.start && t < item.end) {
+            const newItem = JSON.parse(JSON.stringify(item));
+            newItem.id = Date.now() + Math.random();
+            newItem.start = t;
+            item.end = t;
+            state.mediaLayers.splice(i + 1, 0, newItem);
+            hit = true;
+            // Stop after one split or split all? Usually split all tracks at playhead is default for razor unless selection
+            // Let's split selection only if selected, else all under playhead.
+            if (state.selectedClipId === item.id) break;
+        }
+    }
+    
+    // Check Captions
+    for (let i = 0; i < state.captions.length; i++) {
+        const item = state.captions[i];
+        if (t > item.start && t < item.end) {
+            const newItem = JSON.parse(JSON.stringify(item));
+            newItem.id = Date.now() + Math.random();
+            newItem.start = t;
+            item.end = t;
+            state.captions.splice(i + 1, 0, newItem);
+            hit = true;
+            if (state.selectedClipId === item.id) break;
+        }
+    }
+
+    if (hit) renderTimeline();
+}
+
 // --- FEATURES ---
 
 export function detectBeats() {

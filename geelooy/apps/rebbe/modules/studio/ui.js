@@ -1,22 +1,75 @@
 //B"H
 // modules/studio/ui.js
 import state from '../state.js';
+import * as Actions from './actions.js';
+import * as VideoGen from '../video-gen.js';
 import { handleBlockDown, handleTimelineClick } from './interaction.js';
 import { renderGlobalProps, renderFXProps, renderClipProps } from './ui-props.js';
 
 const el = (id) => document.getElementById(id);
+
+export function bindStudioEvents() {
+    // Playback
+    el('st-play').onclick = () => Actions.togglePlay();
+    el('st-stop').onclick = () => Actions.stopAudio();
+    
+    // Tools
+    el('st-split').onclick = () => Actions.splitClip();
+    el('st-zoom').oninput = (e) => Actions.setZoom(e.target.value);
+    
+    // AI & Upload
+    el('st-detect-beats').onclick = () => Actions.detectBeats();
+    el('st-gen-caps').onclick = () => Actions.handleGenCaps();
+    el('st-gen-img').onclick = () => Actions.handleGenImage();
+    el('st-upload').onchange = (e) => Actions.handleUpload(e);
+    
+    // Export
+    el('st-export').onclick = () => VideoGen.renderFinalVideo(state);
+}
 
 export function renderTimeline() {
     const ruler = el('timeline-ruler');
     const trackContainer = el('timeline-tracks');
     if(!ruler || !trackContainer) return;
 
-    el('studio-bottom').onclick = handleTimelineClick;
+    // IMPORTANT: Allow scrubbing by clicking empty space in the tracks area too
+    trackContainer.onmousedown = (e) => {
+        // If clicking on a block, let the block handler take it (it stops propagation)
+        // If clicking on background, seek.
+        if(e.target === trackContainer || e.target.classList.contains('track-lane') || e.target.classList.contains('nle-track')) {
+             const rect = trackContainer.getBoundingClientRect();
+             const scroll = trackContainer.scrollLeft;
+             // Timeline header track-head width is 120px. The track lane starts at 120px absolute inside nle-track.
+             // But trackContainer contains the nle-track divs.
+             // The click x relative to trackContainer:
+             // Actually, timeline-tracks is a scrollable container.
+             // We need X relative to the start of the content.
+             
+             // Simple hack: The visual playhead position matches time * zoom.
+             // The offset of the click from the left of the container + scrollLeft
+             // But wait, there is a fixed "Track Head" on the left of each track lane (120px).
+             // Let's assume the user clicks to the right of the header.
+             
+             // This needs to align with `updatePlayhead` logic: left = 120 + x - scroll.
+             // So x = clickX - 120 + scroll?
+             // clickX is clientX relative to window.
+             
+             const containerRect = trackContainer.getBoundingClientRect();
+             const clickXInside = e.clientX - containerRect.left;
+             const contentX = clickXInside + trackContainer.scrollLeft - 120; // 120 is header width
+             
+             if (contentX >= 0) {
+                 Actions.seek(contentX / state.studioZoom);
+             }
+             
+             // Deselect if clicking background
+             handleTimelineClick(e);
+        }
+    };
 
     const zoom = state.studioZoom;
     const dur = state.pendingSlice ? state.pendingSlice.duration : 10;
-    const totalW = dur * zoom;
-
+    
     // 1. Ruler
     ruler.innerHTML = '';
     const step = zoom > 150 ? 0.5 : 1;
@@ -90,7 +143,8 @@ function renderTrackLane(container, title, items, type) {
     
     const lane = document.createElement('div');
     lane.className = 'track-lane';
-    lane.style.width = (state.studioZoom * (state.pendingSlice?.duration||10)) + 500 + 'px';
+    // Ensure the lane is at least as wide as the content or screen
+    lane.style.width = Math.max((state.studioZoom * (state.pendingSlice?.duration||10)) + 500, container.clientWidth) + 'px';
     
     items.forEach((item, idx) => {
         const b = document.createElement('div');

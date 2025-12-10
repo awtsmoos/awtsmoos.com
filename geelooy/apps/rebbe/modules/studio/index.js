@@ -3,7 +3,7 @@
 import { ctx, initAudioContext } from './context.js';
 import state from '../state.js';
 import { drawFrame } from './render.js';
-import { renderTimeline, updatePropertiesPanel } from './ui.js';
+import { renderTimeline, updatePropertiesPanel, bindStudioEvents } from './ui.js';
 import { initParticles } from './particles.js';
 import * as Actions from './actions.js';
 
@@ -17,11 +17,6 @@ export function initStudio() {
     ctx.canvas = canvas;
     ctx.g = canvas.getContext('2d');
 
-    // Only restore if state is empty AND we are NOT in a fresh slice session
-    // Actually, simplifying: let's autosave implicitly but only manual restore via console or button if added later.
-    // Automatically prompting 'confirm' here interrupts the flow of 'Open Studio'.
-    // Logic: If state.mediaLayers is NOT empty (because we added something?), keep it.
-    
     if(!state.studioGlobal) state.studioGlobal = { width: 1080, height: 1920, bg: '#000000' };
     if(!state.studioFX) state.studioFX = {};
 
@@ -37,12 +32,17 @@ export function initStudio() {
     canvas.height = state.studioGlobal.height;
 
     initParticles(canvas.width, canvas.height);
+    
+    // Bind UI interactions
+    bindStudioEvents();
     renderTimeline();
     updatePropertiesPanel();
 
+    // Keyboard Shortcuts
+    document.addEventListener('keydown', handleStudioKeys);
+
     if (!ctx.requestID) loop();
     
-    // Clear old interval if exists
     if(window.studioAutosaveInt) clearInterval(window.studioAutosaveInt);
     window.studioAutosaveInt = setInterval(autoSave, 5000);
 
@@ -52,6 +52,27 @@ export function initStudio() {
         renderTimeline,
         updatePropertiesPanel
     };
+}
+
+function handleStudioKeys(e) {
+    if (document.getElementById('modal-studio').classList.contains('hidden')) return;
+    
+    // Ignore if typing in an input
+    if(e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+
+    if (e.code === 'Space') {
+        e.preventDefault();
+        Actions.togglePlay();
+    } else if (e.code === 'Delete' || e.code === 'Backspace') {
+        Actions.deleteSelected();
+    } else if (e.key.toLowerCase() === 's' || e.key.toLowerCase() === 'c') {
+        // Razor / Split
+        Actions.splitClip();
+    } else if (e.code === 'ArrowLeft') {
+        Actions.seek(state.currentTime - 0.1);
+    } else if (e.code === 'ArrowRight') {
+        Actions.seek(state.currentTime + 0.1);
+    }
 }
 
 function autoSave() {
@@ -69,6 +90,7 @@ export function closeStudio() {
     Actions.stopAudio();
     if (ctx.requestID) { cancelAnimationFrame(ctx.requestID); ctx.requestID = null; }
     if(window.studioAutosaveInt) clearInterval(window.studioAutosaveInt);
+    document.removeEventListener('keydown', handleStudioKeys);
 }
 
 function loop() {
@@ -78,11 +100,10 @@ function loop() {
         return;
     }
     
-    // Check visibility to save resources
     const modal = document.getElementById('modal-studio');
     if (modal && modal.classList.contains('hidden')) {
         ctx.requestID = null;
-        return; // Stop loop if hidden
+        return; 
     }
 
     if (state.studioIsPlaying && ctx.audio) {

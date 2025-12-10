@@ -49,6 +49,12 @@
                     if (!thread.pop()) thread.ip += offset;
                     break;
                 }
+                // B"H - TIKKUN: Added JUMP_IF_TRUE for Logical OR (||)
+                case OPCODES.JUMP_IF_TRUE: {
+                    const offset = thread.read16();
+                    if (thread.pop()) thread.ip += offset;
+                    break;
+                }
 
                 // Scope & Globals
                 case OPCODES.STORE_GLOBAL: {
@@ -59,13 +65,10 @@
                 case OPCODES.LOAD_GLOBAL: {
                     const name = thread.constants[thread.read16()];
                     let val = vm.memory.getGlobal(name);
-                    
                     // B"H - TIKKUN: Fallback to Host Environment (Context)
-                    // If the value is not in VM memory, look for it in the provided context (e.g. document, console).
                     if (val === undefined && thread.environment && (name in thread.environment)) {
                         val = thread.environment[name];
                     }
-                    
                     thread.push(val);
                     break;
                 }
@@ -77,6 +80,11 @@
                 case OPCODES.LOAD_LOCAL: {
                     const idx = thread.read8();
                     thread.push(thread.currentScope ? thread.currentScope[idx] : undefined);
+                    break;
+                }
+                case OPCODES.NOT: {
+                    const a = thread.pop();
+                    thread.push(!a);
                     break;
                 }
 
@@ -102,7 +110,6 @@
                             vm.memory.set(objRef.value, target);
                         }
                     } else if (objRef && typeof objRef === 'object') {
-                        // B"H - TIKKUN: Support setting properties on Host Objects (like Canvas Context)
                         objRef[key] = val;
                     }
                     thread.push(val);
@@ -125,6 +132,26 @@
                     break;
                 }
 
+                // B"H - TIKKUN: Implemented NEW Opcode
+                case OPCODES.NEW: {
+                    const count = thread.read8();
+                    const args = [];
+                    for(let i=0; i<count; i++) args.unshift(thread.pop());
+                    const constructor = thread.pop();
+                    
+                    if (typeof constructor === 'function') {
+                         try {
+                            // Use Reflect.construct to handle classes correctly
+                            thread.push(Reflect.construct(constructor, args));
+                         } catch(e) {
+                            throw new Error(`[VM] NEW Error: ${e.message}`);
+                         }
+                    } else {
+                        throw new Error(`[VM] NEW Error: ${constructor} is not a constructor.`);
+                    }
+                    break;
+                }
+
                 case OPCODES.CALL: {
                     const count = thread.read8();
                     const args = [];
@@ -135,23 +162,25 @@
                     if (callee && callee.type === 'CLOSURE') {
                         thread.frames.push({
                             ip: thread.ip, bytecode: thread.bytecode,
-                            constants: thread.constants, scope: thread.currentScope
+                            constants: thread.constants, scope: thread.currentScope,
+                            catchStack: thread.catchStack // Save catch stack
                         });
                         thread.bytecode = callee.code.bytecode;
                         thread.constants = callee.code.constants;
                         thread.ip = 0;
                         thread.currentScope = {};
+                        // B"H: Reset catch stack for new function frame? 
+                        // Usually catch blocks are local to execution context.
+                        thread.catchStack = []; 
                         args.forEach((a, i) => thread.currentScope[i] = a);
                     } else if (typeof callee === 'function') {
-                        // B"H - TIKKUN: Use .apply to bind 'this' correctly for host methods
-                        // Unbox the 'this' context if it is a VM pointer
                         let realCtx = ctx;
                         if (realCtx && realCtx.type === 'POINTER') {
                             realCtx = vm.memory.get(realCtx.value);
                         }
                         thread.push(callee.apply(realCtx, args));
                     } else {
-                        throw new Error(`[VM] CALL Error: '${callee}' is not a function.`);
+                        throw new Error(`[VM] CALL Error: '${callee}' is not a function. Context: ${ctx}`);
                     }
                     break;
                 }
@@ -162,12 +191,37 @@
                         const f = thread.frames.pop();
                         thread.ip = f.ip; thread.bytecode = f.bytecode;
                         thread.constants = f.constants; thread.currentScope = f.scope;
+                        thread.catchStack = f.catchStack; // Restore catch stack
                         thread.push(res);
                     } else {
                         thread.push(res);
                         return 'COMPLETED';
                     }
                     break;
+                }
+
+                // B"H - TIKKUN: Exception Handling
+                case OPCODES.ENTER_TRY: {
+                    const catchOffset = thread.read16();
+                    if(!thread.catchStack) thread.catchStack = [];
+                    // Push the absolute address of the catch block
+                    thread.catchStack.push(thread.ip + catchOffset);
+                    break;
+                }
+                case OPCODES.EXIT_TRY: {
+                    if(thread.catchStack && thread.catchStack.length > 0) {
+                        thread.catchStack.pop();
+                    }
+                    break;
+                }
+                case OPCODES.THROW: {
+                    const err = thread.pop();
+                    // Unwind logic handled in Thread.step usually, but here we can simulate a jump
+                    // However, robust handling requires modifying the Thread's loop to handle exceptions.
+                    // For now, we will THROW a JS Error that the Thread catches, but we attach the VM Value.
+                    const vmError = new Error(err && err.message ? err.message : String(err));
+                    vmError.vmValue = err;
+                    throw vmError;
                 }
             }
             return 'CONTINUE';

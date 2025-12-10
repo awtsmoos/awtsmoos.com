@@ -28,6 +28,14 @@
                 case 'NewExpression': this._visitNew(node); break;
                 case 'BreakStatement': this._visitBreak(node); break;
                 case 'ContinueStatement': this._visitContinue(node); break;
+                
+                // B"H - TIKKUN: New Visitors
+                case 'TryStatement': this._visitTry(node); break;
+                case 'ThrowStatement': this._visitThrow(node); break;
+                case 'ExportNamedDeclaration': this._visitExportNamed(node); break;
+                case 'ExportDefaultDeclaration': this._visitExportDefault(node); break;
+                case 'ImportDeclaration': this._visitImport(node); break;
+                
                 case 'EmptyStatement': break;
                 default: throw new Error(`[Compiler] Unsupported Node Type: ${node.type}`);
             }
@@ -55,7 +63,6 @@
 
         _visitLogical(node) {
             this._visit(node.left);
-            // Duplicate left value for the check (consumed by jump instruction)
             this.buffer.write8(this.OPCODES.DUP);
             
             let jumpCode = (node.operator === '&&') ? this.OPCODES.JUMP_IF_FALSE : this.OPCODES.JUMP_IF_TRUE;
@@ -63,7 +70,6 @@
             this.buffer.write8(jumpCode);
             const jumpIdx = this.buffer.write16(0);
             
-            // If we didn't jump, pop the left value and evaluate right
             this.buffer.write8(this.OPCODES.POP);
             this._visit(node.right);
             
@@ -101,7 +107,6 @@
         },
 
         _visitCall(node) {
-            // Syscall Optimization
             if (node.callee.type === 'Identifier' && node.callee.name === 'syscall') {
                 const idArg = node.arguments[0];
                 if (!idArg || idArg.type !== 'Literal') throw new Error("Syscall ID must be literal");
@@ -112,35 +117,16 @@
                 return;
             }
 
-            // Handle 'this' context for MemberExpressions
-            // Stack Goal: [Callee, Context] (Top is Context)
             if (node.callee.type === 'MemberExpression') {
-                 // 1. Visit Object -> [Obj]
                  this._visit(node.callee.object);
-                 
-                 // 2. DUP Object (one for 'this', one for getting property) -> [Obj, Obj]
                  this.buffer.write8(this.OPCODES.DUP);
-                 
-                 // 3. Get Key -> [Obj, Obj, Key]
                  if (node.callee.computed) this._visit(node.callee.property);
                  else this._emitConstant(node.callee.property.name);
-                 
-                 // 4. GET_PROP -> Pops Key, Pops Obj, Pushes Func -> [Obj, Func]
                  this.buffer.write8(this.OPCODES.GET_PROP);
-                 
-                 // 5. SWAP -> [Func, Obj]
-                 // VM pops Ctx (Obj), then Callee (Func). Correct.
                  this.buffer.write8(this.OPCODES.SWAP);
             } else {
-                 // Normal Call (Identifier, etc)
-                 // 1. Visit Callee -> [Func]
                  this._visit(node.callee); 
-                 
-                 // 2. Push Undefined Context -> [Func, Undefined]
                  this.buffer.write8(this.OPCODES.PUSH_UNDEFINED);
-                 
-                 // NO SWAP. 
-                 // VM pops Ctx (Undefined), then Callee (Func). Correct.
             }
             
             node.arguments.forEach(arg => this._visit(arg));
@@ -158,19 +144,19 @@
         _visitObject(node) {
             this.buffer.write8(this.OPCODES.ALLOC_OBJECT);
             node.properties.forEach(prop => {
-                this.buffer.write8(this.OPCODES.DUP); // Keep object for next set
+                this.buffer.write8(this.OPCODES.DUP);
                 if (prop.key.type === 'Identifier' && !prop.computed) this._emitConstant(prop.key.name);
                 else this._visit(prop.key);
                 this._visit(prop.value);
                 this.buffer.write8(this.OPCODES.SET_PROP);
-                this.buffer.write8(this.OPCODES.POP); // Pop value left by SET_PROP
+                this.buffer.write8(this.OPCODES.POP);
             });
         },
 
         _visitArray(node) {
             this.buffer.write8(this.OPCODES.ALLOC_ARRAY);
             node.elements.forEach((elem, idx) => {
-                if (!elem) return; // Hole
+                if (!elem) return;
                 this.buffer.write8(this.OPCODES.DUP);
                 this._emitConstant(idx);
                 this._visit(elem);
@@ -189,12 +175,9 @@
             if (node.alternate) {
                 this.buffer.write8(this.OPCODES.JUMP);
                 const endJump = this.buffer.write16(0);
-                
                 const elseAddr = this.buffer.currentAddress;
                 this.buffer.patch16(elseJump, elseAddr - elseJump - 2);
-                
                 this._visit(node.alternate);
-                
                 const endAddr = this.buffer.currentAddress;
                 this.buffer.patch16(endJump, endAddr - endJump - 2);
             } else {
@@ -215,12 +198,10 @@
             
             this._visit(node.body);
             
-            // Loop back
             this.buffer.write8(this.OPCODES.JUMP);
             const backOffset = startAddr - (this.buffer.currentAddress + 2);
             this.buffer.write16(backOffset); 
             
-            // Patch loop exits
             const endAddr = this.buffer.currentAddress;
             this.buffer.patch16(endJump, endAddr - endJump - 2);
             
@@ -268,14 +249,10 @@
             if (node.argument.type === 'Identifier') {
                 this._visitIdentifier(node.argument, 'LOAD');
                 if (!node.prefix) this.buffer.write8(this.OPCODES.DUP); 
-                
                 this.buffer.write8(this.OPCODES.PUSH_CONST);
                 this.buffer.write16(this._addConstant(1));
-                
                 this.buffer.write8(node.operator === '++' ? this.OPCODES.ADD : this.OPCODES.SUB);
-                
                 if (node.prefix) this.buffer.write8(this.OPCODES.DUP);
-                
                 this._visitIdentifier(node.argument, 'STORE');
             }
         },
@@ -294,13 +271,12 @@
             this.buffer.write8(this.OPCODES.POP); 
         },
         
+        // B"H - TIKKUN: Use OPCODES.NEW for NewExpression
         _visitNew(node) {
             this._visit(node.callee);
-            this.buffer.write8(this.OPCODES.PUSH_UNDEFINED); // 'this' placeholder
-            // NO SWAP. [Func, Undefined]. VM pops Ctx(Undef), Callee(Func).
-            
+            // No PUSH_UNDEFINED for 'this' context, NEW opcode handles construction
             node.arguments.forEach(arg => this._visit(arg));
-            this.buffer.write8(this.OPCODES.CALL);
+            this.buffer.write8(this.OPCODES.NEW);
             this.buffer.write8(node.arguments.length);
         },
         
@@ -316,6 +292,67 @@
             const loop = this.loops[this.loops.length - 1];
             this.buffer.write8(this.OPCODES.JUMP);
             loop.continues.push(this.buffer.write16(0));
+        },
+        
+        // B"H - TIKKUN: Exports
+        _visitExportNamed(node) {
+            if (node.declaration) {
+                this._visit(node.declaration);
+            }
+            // Ignore specifiers for now in this VM
+        },
+
+        _visitExportDefault(node) {
+            this._visit(node.declaration);
+            // In a real module system we would assign this to a module exports object
+            this.buffer.write8(this.OPCODES.POP); // Discard result for now
+        },
+
+        // B"H - TIKKUN: Imports (No-op code gen for now)
+        _visitImport(node) {
+            // Imports are handled by the environment/linker usually
+        },
+
+        // B"H - TIKKUN: Try/Catch
+        _visitTry(node) {
+            this.buffer.write8(this.OPCODES.ENTER_TRY);
+            const catchJump = this.buffer.write16(0); // Placeholder for catch block offset
+
+            this._compileBlock(node.block.body);
+            
+            this.buffer.write8(this.OPCODES.EXIT_TRY);
+            this.buffer.write8(this.OPCODES.JUMP);
+            const skipCatch = this.buffer.write16(0); // Jump over catch block
+
+            // Patch ENTER_TRY jump to here (Start of Catch)
+            const catchStart = this.buffer.currentAddress;
+            this.buffer.patch16(catchJump, catchStart - catchJump - 2);
+
+            if (node.handler) {
+                // VM pushes Exception to stack on entry to catch
+                if (node.handler.param) {
+                    this.scope.declare(node.handler.param.name);
+                    this._visitIdentifier(node.handler.param, 'STORE');
+                    this.buffer.write8(this.OPCODES.POP); // Consume result of STORE
+                } else {
+                    this.buffer.write8(this.OPCODES.POP); // Pop exception if unused
+                }
+                this._compileBlock(node.handler.body.body);
+            }
+
+            // Patch Skip Jump (End of Try/Catch)
+            const endAddr = this.buffer.currentAddress;
+            this.buffer.patch16(skipCatch, endAddr - skipCatch - 2);
+            
+            if (node.finalizer) {
+                // Finally block code gen (naive implementation: executes after try or catch)
+                this._compileBlock(node.finalizer.body);
+            }
+        },
+
+        _visitThrow(node) {
+            this._visit(node.argument);
+            this.buffer.write8(this.OPCODES.THROW);
         }
     };
 })(typeof self !== 'undefined' ? self : this);

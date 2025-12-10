@@ -37,7 +37,9 @@
     </div>
     <div class="panel">
         <div id="output"></div>
-        <canvas id="vm-canvas" width="300" height="200"></canvas>
+        <div id="canvas-container">
+            <canvas id="vm-canvas" width="300" height="200"></canvas>
+        </div>
     </div>
 </div>
 
@@ -84,10 +86,14 @@ while(x < 250) {
 syscall(0, "Canvas Painted.");`,
     webgl: `// B"H - WebGL Void
 let cvs = document.getElementById('vm-canvas');
-let gl = cvs.getContext('webgl');
+// Try standard WebGL first, then fallback
+let gl = cvs.getContext('webgl') || cvs.getContext('experimental-webgl');
 
-if (!gl) syscall(0, "WebGL not supported");
-else {
+syscall(0, "GL Context:", gl);
+
+if (!gl) {
+    syscall(0, "WebGL not supported or context unavailable.");
+} else {
   gl.clearColor(0.2, 0.0, 0.4, 1.0); // Purple Void
   gl.clear(gl.COLOR_BUFFER_BIT);
   syscall(0, "WebGL Buffer Cleared.");
@@ -133,7 +139,8 @@ try {
 function loadTest() {
     const key = document.getElementById('test-select').value;
     document.getElementById('editor').value = TESTS[key];
-    document.getElementById('vm-canvas').style.display = (key === 'canvas' || key === 'webgl') ? 'block' : 'none';
+    const cvs = document.getElementById('vm-canvas');
+    if (cvs) cvs.style.display = (key === 'canvas' || key === 'webgl') ? 'block' : 'none';
 }
 
 function clearOut() { document.getElementById('output').innerHTML = ''; }
@@ -144,12 +151,23 @@ async function runCode() {
     const output = document.getElementById('output');
     const log = (...args) => output.innerHTML += args.join(' ') + '\n';
     
-    // Auto-clear canvas in DOM to ensure fresh paint
-    const cvs = document.getElementById('vm-canvas');
-    if (cvs.offsetParent !== null) {
-        cvs.width = cvs.width; // Reset canvas
-    }
+    // B"H - RECREATE CANVAS ELEMENT
+    // This is required to switch between 2D and WebGL contexts properly.
+    // A single canvas cannot change modes once initialized.
+    const container = document.getElementById('canvas-container');
+    const oldCvs = document.getElementById('vm-canvas');
+    if (oldCvs) container.removeChild(oldCvs);
     
+    const newCvs = document.createElement('canvas');
+    newCvs.id = 'vm-canvas';
+    newCvs.width = 300;
+    newCvs.height = 200;
+    
+    const key = document.getElementById('test-select').value;
+    newCvs.style.display = (key === 'canvas' || key === 'webgl') ? 'block' : 'none';
+    
+    container.appendChild(newCvs);
+
     try {
         await window.Merkava.run(src, {
             context: { 
