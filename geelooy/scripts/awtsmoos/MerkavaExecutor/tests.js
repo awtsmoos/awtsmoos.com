@@ -33,6 +33,38 @@ while(x < 250) {
 }
 syscall(0, "Canvas Painted.");`,
     
+    canvas_anim: `// B"H - 2D Canvas Animation (Bouncing Ball)
+let cvs = document.getElementById('vm-canvas');
+let ctx = cvs.getContext('2d');
+let x = 50;
+let y = 100;
+let dx = 2;
+let dy = 2;
+
+function draw(t) {
+  // Clear Frame
+  ctx.fillStyle = 'rgba(0,0,0,0.2)'; // Trail effect
+  ctx.fillRect(0, 0, 300, 200);
+  
+  // Update Physics
+  x = x + dx;
+  y = y + dy;
+  
+  if (x > 300 || x < 0) dx = -dx;
+  if (y > 200 || y < 0) dy = -dy;
+  
+  // Render Light
+  ctx.fillStyle = '#00FF00';
+  ctx.beginPath();
+  ctx.arc(x, y, 10, 0, 6.28);
+  ctx.fill();
+  
+  requestAnimationFrame(draw);
+}
+
+syscall(0, "Igniting 2D Loop...");
+requestAnimationFrame(draw);`,
+
     webgl: `// B"H - WebGL Void
 let cvs = document.getElementById('vm-canvas');
 let gl = cvs.getContext('webgl');
@@ -45,34 +77,30 @@ if (!gl) {
   syscall(0, "WebGL Buffer Cleared.");
 }`,
 
-    rainbow: `// B"H - Rotating Rainbow Triangle
+    rainbow: `// B"H - Paranoid Rainbow Triangle
+// Simple White Triangle on Red Background
 let cvs = document.getElementById('vm-canvas');
 let gl = cvs.getContext('webgl');
 
-// Shaders
+if (!gl) syscall(0, "Error: No WebGL");
+
+// 1. Shaders (Simplified)
 let vsSrc = \`
   attribute vec2 position;
-  attribute vec3 color;
-  varying vec3 vColor;
-  uniform float angle;
   void main() {
-    float c = cos(angle);
-    float s = sin(angle);
-    mat2 rot = mat2(c, -s, s, c);
-    gl_Position = vec4(rot * position, 0.0, 1.0);
-    vColor = color;
+    // Pass through position, fix aspect
+    gl_Position = vec4(position.x / 1.5, position.y, 0.0, 1.0);
+    gl_PointSize = 10.0;
   }
 \`;
 
 let fsSrc = \`
   precision mediump float;
-  varying vec3 vColor;
   void main() {
-    gl_FragColor = vec4(vColor, 1.0);
+    gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0); // WHITE
   }
 \`;
 
-// Compile Shader Helper
 function compile(type, src) {
   let s = gl.createShader(type);
   gl.shaderSource(s, src);
@@ -83,52 +111,64 @@ function compile(type, src) {
   return s;
 }
 
-let vs = compile(gl.VERTEX_SHADER, vsSrc);
-let fs = compile(gl.FRAGMENT_SHADER, fsSrc);
 let prog = gl.createProgram();
-gl.attachShader(prog, vs);
-gl.attachShader(prog, fs);
+gl.attachShader(prog, compile(gl.VERTEX_SHADER, vsSrc));
+gl.attachShader(prog, compile(gl.FRAGMENT_SHADER, fsSrc));
 gl.linkProgram(prog);
 gl.useProgram(prog);
 
-// Data: x, y, r, g, b
+// 2. Data
+// Triangle covering center
 let vertices = [
-   0.0,  0.5, 1.0, 0.0, 0.0,
-  -0.5, -0.5, 0.0, 1.0, 0.0,
-   0.5, -0.5, 0.0, 0.0, 1.0
+   0.0,  0.5,
+  -0.5, -0.5,
+   0.5, -0.5
 ];
 
+let floatData = new Float32Array(vertices);
+syscall(0, "FloatData Check:", floatData[0], floatData[1], floatData[2]);
+
+// 3. Buffer
 let buf = gl.createBuffer();
 gl.bindBuffer(gl.ARRAY_BUFFER, buf);
-gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
+gl.bufferData(gl.ARRAY_BUFFER, floatData, gl.STATIC_DRAW);
+
+// Verify Buffer on GPU
+let bufSize = gl.getBufferParameter(gl.ARRAY_BUFFER, gl.BUFFER_SIZE);
+syscall(0, "GPU Buffer Size (Bytes):", bufSize);
 
 let posLoc = gl.getAttribLocation(prog, "position");
-gl.enableVertexAttribArray(posLoc);
-gl.vertexAttribPointer(posLoc, 2, gl.FLOAT, false, 20, 0);
+syscall(0, "PosAttribLoc:", posLoc);
 
-let colLoc = gl.getAttribLocation(prog, "color");
-gl.enableVertexAttribArray(colLoc);
-gl.vertexAttribPointer(colLoc, 3, gl.FLOAT, false, 20, 8);
-
-let angleLoc = gl.getUniformLocation(prog, "angle");
-let angle = 0.0;
-
-// Animation Loop
-// In VM, infinite loops run until cycles exhausted.
-// We use a bounded loop to simulate a few frames.
-let frames = 0;
-while (frames < 20) {
-  gl.clearColor(0,0,0,1);
-  gl.clear(gl.COLOR_BUFFER_BIT);
-  
-  gl.uniform1f(angleLoc, angle);
-  gl.drawArrays(gl.TRIANGLES, 0, 3);
-  
-  angle = angle + 0.1;
-  frames++;
-  syscall(0, "Frame:", frames);
+// 4. Render Loop
+let frame = 0;
+function loop(t) {
+    gl.viewport(0,0,300,200);
+    
+    // Clear to RED
+    gl.clearColor(0.5, 0.0, 0.0, 1.0);
+    gl.clear(gl.COLOR_BUFFER_BIT);
+    
+    // Explicit Bind
+    gl.useProgram(prog);
+    gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+    
+    gl.enableVertexAttribArray(posLoc);
+    // Stride 0 (tightly packed), Offset 0
+    gl.vertexAttribPointer(posLoc, 2, gl.FLOAT, false, 0, 0);
+    
+    // Disable Culling & Depth to ensure visibility
+    gl.disable(gl.CULL_FACE);
+    gl.disable(gl.DEPTH_TEST);
+    
+    gl.drawArrays(gl.TRIANGLES, 0, 3);
+    
+    frame++;
+    if(frame % 60 == 0) syscall(0, "Frame:", frame);
+    requestAnimationFrame(loop);
 }
-syscall(0, "Animation Sequence Complete.");
+
+requestAnimationFrame(loop);
 `,
 
     workers: `// B"H - Merkava Worker
@@ -141,7 +181,7 @@ w.onmessage = function(e) {
 };
 
 w.postMessage("Ignite the Sephira");
-syscall(0, "Main: Message Sent.");`,
+syscall(0, "Main: Message Sent. Waiting for response...");`,
 
     atomics: `// B"H - Atomics from Scratch
 syscall(0, "Allocating Simulated Shared Memory...");

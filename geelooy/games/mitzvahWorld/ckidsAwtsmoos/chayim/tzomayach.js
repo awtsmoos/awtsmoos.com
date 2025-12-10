@@ -1,3 +1,4 @@
+
 /**
  * B"H
  * @file tzomayaach.js
@@ -15,8 +16,8 @@ import Utils from "../utils.js";
 export default class Tzomayach extends Domem {
     type = "tzomayach";
     
-    constructor(options) {
-        super(options);
+    constructor(options, olam) {
+        super(options, olam);
         this.heesHawveh = true;
         this.proximity = (p=>
             /**

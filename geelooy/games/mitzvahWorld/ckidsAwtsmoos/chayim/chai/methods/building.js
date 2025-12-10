@@ -57,7 +57,8 @@ export default {
 
         if (!this.activeRay) return;
 
-        if (item && item.isBuildable) {
+        // B"H: Show ghost for both Buildable items AND Painters (Nature Tools)
+        if (item && (item.isBuildable || item.isPainter)) {
             if (!this.activeObject) {
                 this.placeBlockOnRay();
             }
@@ -70,7 +71,7 @@ export default {
         if (!this.activeRay) return;
         const item = this.getActiveItem();
         
-        if (item && item.isPainter) return; // Handled in updateHandState
+        if (item && item.isPainter) return; // Handled in updateHandState via mouseDown
 
         if (item && item.isBuildable) {
             if (!this.activeObject) {
@@ -159,52 +160,90 @@ export default {
             this.removeActiveObject();
 
             const item = this.getActiveItem();
-            if (!item || !item.isBuildable) return;
+            if (!item || (!item.isBuildable && !item.isPainter)) return;
 
             let blockDefinition;
             let itemData = null;
             let mesh = null;
 
-            if (item.className === "CustomNpc") {
-                // ... (Existing NPC logic) ...
-                 let modelPath = item.customData?.modelPath;
-                const componentExists = modelPath && this.olam.getComponent(modelPath);
-                if (!componentExists) modelPath = "awtsmoos://awduhm";
-                let gltf = await this.olam.boyrayNivra({ path: modelPath, isSolid: false, name: "ghost_npc" });
-                if (gltf && gltf.scene) mesh = gltf.scene;
-                blockDefinition = {}; 
-                itemData = { ...item };
-            } else if (item.className === "ProceduralTree") {
-                // Special handling for Tree Ghost
-                const treeModule = await import('../../dvarim/proceduralTree.js');
-                const TreeClass = treeModule.default;
-                const tempTree = new TreeClass(item, this.olam);
-                // Force generation synchronously for ghost
-                tempTree.generate();
-                mesh = tempTree.treeGroup;
-                blockDefinition = {}; // Not using golem for tree
-                itemData = { ...item };
-            } else {
-                try {
-                    const fileName = item.className.toLowerCase() + ".js"; 
-                    const itemModule = await import(`../../../dvarim/${fileName}`);
-                    const ItemClass = itemModule.default;
-                    const tempItem = new ItemClass(item);
-                    blockDefinition = tempItem.originalOptions.golem;
+            try {
+                if (item.className === "CustomNpc") {
+                    let modelPath = item.customData?.modelPath;
+                    const componentExists = modelPath && this.olam.getComponent(modelPath);
+                    if (!componentExists) modelPath = "awtsmoos://awduhm";
+                    let gltf = await this.olam.boyrayNivra({ path: modelPath, isSolid: false, name: "ghost_npc" });
+                    if (gltf) {
+                         if(gltf.scene) mesh = gltf.scene;
+                         else if(gltf.isObject3D) mesh = gltf;
+                    }
+                    blockDefinition = {}; 
                     itemData = { ...item };
-                    delete itemData.golem; 
-                } catch (e) { console.error("Could not load item module", e); }
-                
-                if (!blockDefinition) {
-                    blockDefinition = {
-                        guf: { BoxGeometry: [1, 1, 1] },
-                        toyr: { MeshLambertMaterial: { color: "#a0522d" } }
-                    };
+                } else if (item.className === "ProceduralTree") {
+                    // B"H FIX: Correct Import Path
+                    const treeModule = await import('../../../dvarim/proceduralTree.js');
+                    const TreeClass = treeModule.default;
+                    const tempTree = new TreeClass(item, this.olam);
+                    // Force generation synchronously for ghost
+                    tempTree.generate();
+                    mesh = tempTree.treeGroup;
+                    blockDefinition = {}; 
+                    itemData = { ...item };
+                } else if (item.isPainter) {
+                    // B"H: Ghost for Nature Tools (Painters)
+                    let modelPath = "awtsmoos://grassModel"; // Default
+                    const type = item.natureType || 'grass';
+                    
+                    if (type.includes('rock')) modelPath = "awtsmoos://rockModel1";
+                    else if (type.includes('flower')) modelPath = "awtsmoos://flowerBlue";
+                    
+                    const result = await this.olam.boyrayNivra({ path: modelPath, isSolid: false, name: "ghost_nature" });
+                    if (result) {
+                         if(result.scene) mesh = result.scene;
+                         else if (result.isObject3D) mesh = result;
+
+                         if(mesh) {
+                             // Randomize look slightly for preview
+                             mesh.scale.multiplyScalar(0.8 + Math.random() * 0.4);
+                             mesh.rotation.y = Math.random() * Math.PI * 2;
+                         }
+                    }
+                    itemData = { ...item };
+                } else {
+                    try {
+                        const fileName = item.className.toLowerCase() + ".js"; 
+                        const itemModule = await import(`../../../dvarim/${fileName}`);
+                        const ItemClass = itemModule.default;
+                        const tempItem = new ItemClass(item);
+                        blockDefinition = tempItem.originalOptions.golem;
+                        itemData = { ...item };
+                        delete itemData.golem; 
+                    } catch (e) { console.error("Could not load item module", e); }
+                    
+                    if (!blockDefinition) {
+                        blockDefinition = {
+                            guf: { BoxGeometry: [1, 1, 1] },
+                            toyr: { MeshLambertMaterial: { color: "#a0522d" } }
+                        };
+                    }
+                    mesh = await this.olam.generateThreeJsMesh(blockDefinition);
                 }
-                mesh = await this.olam.generateThreeJsMesh(blockDefinition);
+            } catch(e) {
+                console.warn("B\"H: Error loading ghost model for", item.name, e);
             }
 
-            if (!mesh) return;
+            // B"H: Fallback if model loading failed
+            if (!mesh) {
+                console.warn("B\"H: Generating fallback box for", item.name);
+                const geo = new THREE.BoxGeometry(0.5, 0.5, 0.5);
+                const mat = new THREE.MeshBasicMaterial({ 
+                    color: 0xFF00FF, 
+                    wireframe: true, 
+                    transparent: true, 
+                    opacity: 0.5 
+                });
+                mesh = new THREE.Mesh(geo, mat);
+                itemData = { ...item };
+            }
             
             const makeGhost = (mat) => {
                 if(mat) {
@@ -233,6 +272,8 @@ export default {
                 this.alignObject();
             }
 
+        } catch(e) {
+            console.error("B\"H Error in placeBlockOnRay:", e);
         } finally {
             this._isGeneratingGhost = false;
         }
@@ -245,7 +286,7 @@ export default {
         }
 
         const activeItem = this.getActiveItem(); 
-        if (!activeItem || !activeItem.isBuildable) return;
+        if (!activeItem || !activeItem.isBuildable) return; // Painters handled in updateHandState
 
         const itemData = activeItem; 
         

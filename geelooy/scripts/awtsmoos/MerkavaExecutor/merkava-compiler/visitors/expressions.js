@@ -123,7 +123,7 @@
                 if (node.prefix) this.buffer.write8(this.OPCODES.DUP);
                 this._visitIdentifier(node.argument, 'STORE');
             }
-        },
+        }, 
 
         _visitNew(node) {
             this._visit(node.callee);

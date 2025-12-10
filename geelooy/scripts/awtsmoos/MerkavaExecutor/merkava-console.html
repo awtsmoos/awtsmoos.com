@@ -157,6 +157,7 @@
     <select id="test-select" onchange="loadTest()">
         <option value="intro">1. Intro (Sefer Yetzirah)</option>
         <option value="canvas">2. Canvas 2D (Sacred Geometry)</option>
+        <option value="canvas_anim">2b. Canvas Animation (Ball)</option>
         <option value="webgl">3. WebGL (Void Render)</option>
         <option value="rainbow">3b. WebGL (Rainbow Triangle)</option>
         <option value="workers">4. Workers (Parallel Emanation)</option>
@@ -189,6 +190,8 @@
 <script src="tests.js"></script>
 <script src="merkava-sdk.js"></script>
 <script>
+let currentRun = null; // Track active VM instance
+
 function loadTest() {
     const key = document.getElementById('test-select').value;
     // B"H - Load from global MERKAVA_TESTS defined in tests.js
@@ -198,13 +201,19 @@ function loadTest() {
     
     // Toggle Canvas Visibility
     const cvsContainer = document.getElementById('canvas-container');
-    const isGraphic = ['canvas', 'webgl', 'rainbow'].includes(key);
+    const isGraphic = ['canvas', 'webgl', 'rainbow', 'canvas_anim'].includes(key);
     cvsContainer.style.display = isGraphic ? 'flex' : 'none';
 }
 
 function clearOut() { document.getElementById('output').innerHTML = ''; }
 
 async function runCode() {
+    // B"H - Cancel previous run if active
+    if (currentRun && currentRun.cancel) {
+        currentRun.cancel();
+        currentRun = null;
+    }
+
     clearOut();
     const src = document.getElementById('editor').value;
     const output = document.getElementById('output');
@@ -233,17 +242,20 @@ async function runCode() {
     status.style.color = "#ffff00";
 
     try {
-        await window.Merkava.run(src, {
-            context: { 
-                document, window, console, 
-                // Note: SharedArrayBuffer and Atomics are polyfilled inside SDK 
-                // but we pass standard globals just in case.
-                setTimeout, setInterval, clearInterval
-            },
+        const runInstance = await window.Merkava.run(src, {
+            // B"H - TIKKUN: Pass 'window' as context so the VM can find JSON, Math, etc.
+            context: window,
             hostAPI: { 0: log }
         });
-        status.innerText = "COMPLETED";
-        status.style.color = "#00ff00";
+        
+        currentRun = runInstance;
+
+        // Wait for completion (or cancellation)
+        const result = await runInstance.done;
+        
+        status.innerText = result.status;
+        status.style.color = result.status === 'COMPLETED' ? "#00ff00" : "#ffaa00";
+        
     } catch(e) {
         log("Shevirah (Error):", e.message);
         status.innerText = "ERROR";

@@ -34,8 +34,8 @@ export default {
         "barkTextureWillow_ao": "https://awtsmoos.com/api/social/aliases/awtsmoos/fileSystem/readFile?path=desktop.folder%2Fgame+data.folder%2Ftextures.folder%2Fbark%2Fwillow_ao_1k.jpg",
 
         // --- LEAF TEXTURES ---
-        "leafTextureOak": "https://awtsmoos.com/api/social/aliases/awtsmoos/fileSystem/readFile?path=desktop.folder%2Fgame+data.folder%2Ftextures.folder%2Fleaves%2Foak_color.png",
-        "leafTexturePine": "https://awtsmoos.com/api/social/aliases/awtsmoos/fileSystem/readFile?path=desktop.folder%2Fgame+data.folder%2Ftextures.folder%2Fleaves%2Fpine_color.png",
+        "leafTextureOak": "https://awtsmoos.com/api/social/aliases/awtsmoos/fileSystem/readFile?path=desktop.folder%2Fgame+data.folder%2Ftextures.folder%2Fleaves%2Foak_leaf.png",
+        "leafTexturePine": "https://awtsmoos.com/api/social/aliases/awtsmoos/fileSystem/readFile?path=desktop.folder%2Fgame+data.folder%2Ftextures.folder%2Fleaves%2Fpine_leaf.png",
         "leafTextureAsh": "https://awtsmoos.com/api/social/aliases/awtsmoos/fileSystem/readFile?path=desktop.folder%2Fgame+data.folder%2Ftextures.folder%2Fleaves%2Fash_color.png",
         "leafTextureAspen": "https://awtsmoos.com/api/social/aliases/awtsmoos/fileSystem/readFile?path=desktop.folder%2Fgame+data.folder%2Ftextures.folder%2Fleaves%2Faspen_color.png",
 

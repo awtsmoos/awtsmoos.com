@@ -10,6 +10,7 @@
             this.hostAPI = hostAPI;
             this.context = context;
             this.threads = [];
+            this.pendingAsyncCount = 0; // B"H - Tracks active async tasks (Workers, etc.)
         }
 
         spawn(codeObject) {
@@ -48,12 +49,13 @@
             }
 
             // B"H - Return TRUE if any thread is still ALIVE (RUNNING, WAITING, BLOCKED, etc.)
-            // Return FALSE only if all threads are definitely finished (COMPLETED, HALTED, TERMINATED).
-            // This ensures the SDK loop keeps running for interactive apps waiting on input.
-            return this.threads.some(t => {
+            // OR if there are pending async operations (like Workers/Timers) keeping the VM alive.
+            const hasActiveThreads = this.threads.some(t => {
                 const s = t.status;
                 return s !== 'COMPLETED' && s !== 'TERMINATED' && s !== 'HALTED' && s !== 'KILLED';
             });
+
+            return hasActiveThreads || this.pendingAsyncCount > 0;
         }
     }
 

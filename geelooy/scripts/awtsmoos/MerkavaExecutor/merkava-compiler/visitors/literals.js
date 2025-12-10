@@ -45,7 +45,7 @@
                 this.buffer.write8(this.OPCODES.POP);
             });
         },
-
+ 
         _visitArray(node) {
             this.buffer.write8(this.OPCODES.ALLOC_ARRAY);
             node.elements.forEach((elem, idx) => {

@@ -42,7 +42,7 @@ export default class ProceduralTree extends Tzomayach {
     static isBuildable = true; 
     
     constructor(op, olam) {
-        super(op);
+        super(op, olam); // B"H: Pass 'olam' to parent to ensure this.olam is set
         
         // B"H: Load Preset
         const presetName = op.itemData?.preset || op.preset || 'Oak Medium';
@@ -260,8 +260,9 @@ export default class ProceduralTree extends Tzomayach {
         branchGeo.setIndex(this.branches.indices);
         
         // B"H: Use Standard Material for PBR if textures allow
+        // Set a default brown color so it's not white if textures fail
         const branchMat = new THREE.MeshStandardMaterial({ 
-            color: new THREE.Color(this.options.bark.tint),
+            color: new THREE.Color(this.options.bark.tint || 0x8B4513), 
             roughness: 1.0,
             metalness: 0.0,
             flatShading: this.options.bark.flatShading
@@ -273,8 +274,11 @@ export default class ProceduralTree extends Tzomayach {
 
         const texScale = this.options.bark.textureScale || {x:1, y:1};
 
-        if(this.options.bark.textured) {
+        if(this.options.bark.textured && this.olam) {
              const loadTex = (key) => {
+                 // B"H: Safety Check - Ensure olam exists before calling getComponent
+                 if (!this.olam) return Promise.resolve(null);
+
                  const path = this.olam.getComponent("awtsmoos://barkTexture" + barkCap + key);
                  if(path) {
                      return this.olam.loadTexture({ url: path, shouldRepeat: true, repeatX: texScale.x, repeatY: texScale.y });
@@ -306,8 +310,9 @@ export default class ProceduralTree extends Tzomayach {
         leafGeo.setIndex(this.leaves.indices);
         leafGeo.computeVertexNormals();
         
+        // Default green color fallback
         this.leavesMaterial = new THREE.MeshPhongMaterial({
-            color: this.options.leaves.tint,
+            color: this.options.leaves.tint || 0x228B22,
             side: THREE.DoubleSide,
             alphaTest: this.options.leaves.alphaTest,
             shininess: 0
@@ -316,30 +321,38 @@ export default class ProceduralTree extends Tzomayach {
         // B"H: Load Leaf Texture
         const leafType = this.options.leaves.type || 'oak';
         const leafCap = leafType.charAt(0).toUpperCase() + leafType.slice(1);
-        const leafPath = this.olam.getComponent("awtsmoos://leafTexture" + leafCap);
         
-        if(leafPath) {
-             this.olam.loadTexture({ url: leafPath }).then(tex => {
-                 this.leavesMaterial.map = tex;
-                 this.leavesMaterial.needsUpdate = true;
-             });
+        if (this.olam) {
+            const leafPath = this.olam.getComponent("awtsmoos://leafTexture" + leafCap);
+            
+            if(leafPath) {
+                 this.olam.loadTexture({ url: leafPath }).then(tex => {
+                     this.leavesMaterial.map = tex;
+                     this.leavesMaterial.needsUpdate = true;
+                 });
+            }
         }
 
-        // B"H: Wind Shader
+        // B"H: Wind Shader Fix
         this.leavesMaterial.onBeforeCompile = (shader) => {
             shader.uniforms.uTime = { value: 0 };
-            shader.vertexShader = `
-                uniform float uTime;
-                // Simplex noise function would go here (simplified sine for brevity)
-                void main() {
-            ` + shader.vertexShader.replace('#include <project_vertex>', `
+            
+            // B"H: Prepend uniform to the very start of the shader string
+            // Important: DO NOT wrap existing code in 'void main'. Just prepend.
+            shader.vertexShader = `uniform float uTime;\n` + shader.vertexShader;
+            
+            // Inject logic inside the existing main() function by replacing a standard include
+            shader.vertexShader = shader.vertexShader.replace(
+                '#include <project_vertex>',
+                `
                 vec4 mvPosition = vec4( transformed, 1.0 );
                 float windOffset = position.x + position.z;
                 float wind = sin(uTime * 1.5 + windOffset * 0.5) * 0.1 * uv.y;
                 mvPosition.x += wind;
                 mvPosition = modelViewMatrix * mvPosition;
                 gl_Position = projectionMatrix * mvPosition;
-            `);
+                `
+            );
             this.leavesMaterial.userData.shader = shader;
         };
         

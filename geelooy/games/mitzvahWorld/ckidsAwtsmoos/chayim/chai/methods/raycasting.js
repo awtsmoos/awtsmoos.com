@@ -98,15 +98,17 @@ export default {
         const mat = this.activeRay.visual.material;
 
         if (item && item.isBuildable) {
-            mat.color.setHex(0x0000ff); 
+            mat.color.setHex(0x0000ff); // Blue for buildable
+            mat.opacity = 0.5;
+        } else if (item && item.isPainter) {
+            mat.color.setHex(0x00ff00); // Green for nature painting
             mat.opacity = 0.5;
         } else if (item && item.className === 'Tool') {
-            mat.color.setHex(0xff0000); 
+            mat.color.setHex(0xff0000); // Red for tools
             mat.opacity = 0.8;
         } else {
-            mat.color.setHex(0xffffff);
+            mat.color.setHex(0xffffff); // White (inactive)
             mat.opacity = 0.1;
         }
     }
 };
-        

@@ -108,12 +108,17 @@
             class MerkavaWorker {
                 constructor(scriptUrl) {
                     console.log(`[VM] Spawning Worker for ${scriptUrl}`);
-                    this.onmessage = null; // This will be set by the VM script
+                    this.onmessage = null; 
                     
-                    // Simulate async startup
+                    // Increment Pending Async to keep VM alive during startup
+                    if (activeVM) activeVM.pendingAsyncCount++;
+
                     setTimeout(() => {
                         console.log(`[VM] Worker ${scriptUrl} started.`);
+                        if (activeVM) activeVM.pendingAsyncCount--;
+                        
                         if (this.onmessage) {
+                            // Signal 'ready' (optional)
                             this._triggerCallback({ data: "Worker Ready" });
                         }
                     }, 100);
@@ -121,8 +126,13 @@
 
                 postMessage(msg) { 
                     console.log("[VM] Worker received:", msg);
-                    // Echo back with slight delay
+                    
+                    // Keep VM alive while processing
+                    if (activeVM) activeVM.pendingAsyncCount++;
+                    
                     setTimeout(() => {
+                         if (activeVM) activeVM.pendingAsyncCount--;
+                         
                          if(this.onmessage) {
                             this._triggerCallback({ data: { echo: msg, id: Math.random() } });
                          }
@@ -130,72 +140,107 @@
                 }
 
                 _triggerCallback(eventData) {
-                    // TIKKUN: Bridge Host-to-VM
-                    // If onmessage is a VM Closure, we must spawn a thread to run it.
                     if (this.onmessage && this.onmessage.type === 'CLOSURE' && activeVM) {
-                        // Spawn a new thread with the closure's code
                         const thread = activeVM.spawn(this.onmessage.code);
-                        // Manually populate the scope with the event argument at index 0
-                        // The Compiler expects args at key 0, 1, 2... in currentScope.
                         thread.currentScope = { 0: eventData };
                     } else if (typeof this.onmessage === 'function') {
-                        // Fallback for pure JS context
                         this.onmessage(eventData);
                     }
                 }
             }
 
-            // B"H - TypedArray Wrapper Factory
-            // Wraps native TypedArrays to accept VM Pointers (memory references)
-            const createTypedArrayWrapper = (NativeConstructor) => {
-                return class extends NativeConstructor {
+            // B"H - TIKKUN: Factory for Native TypedArrays
+            const createTypedArrayWrapper = (NativeConstructor, Name) => {
+                return class {
                     constructor(arg, ...rest) {
-                        // If arg is a VM Pointer, dereference it from memory
                         if (arg && arg.type === 'POINTER') {
                             const realData = memory.get(arg.value);
-                            super(realData, ...rest);
+                            // B"H - Debug Logging
+                            if (!realData || !Array.isArray(realData)) {
+                                console.warn(`[VM] ${Name} init with bad pointer:`, realData);
+                                return new NativeConstructor(0);
+                            }
+                            return new NativeConstructor(realData, ...rest);
                         } else if (arg instanceof self.MerkavaVM.Polyfills.SharedArrayBuffer) {
-                             // Handle our Polyfill SAB
-                             super(arg._data.buffer, ...rest);
+                             return new NativeConstructor(arg._data.buffer, ...rest);
                         } else {
-                            super(arg, ...rest);
+                            return new NativeConstructor(arg, ...rest);
                         }
                     }
                 }
             };
 
-            const vmContext = { 
-                ...options.context, 
+            const baseContext = { 
                 Worker: MerkavaWorker,
-                
-                // Inject Simulated Polyfills
                 SharedArrayBuffer: self.MerkavaVM.Polyfills.SharedArrayBuffer,
                 Atomics: self.MerkavaVM.Polyfills.Atomics,
+                Float32Array: createTypedArrayWrapper(Float32Array, 'Float32Array'),
+                Int32Array: createTypedArrayWrapper(Int32Array, 'Int32Array'),
+                Uint8Array: createTypedArrayWrapper(Uint8Array, 'Uint8Array'),
+                Uint16Array: createTypedArrayWrapper(Uint16Array, 'Uint16Array'),
                 
-                // B"H - Wrap TypedArrays for VM Compatibility
-                Float32Array: createTypedArrayWrapper(Float32Array),
-                Int32Array: createTypedArrayWrapper(Int32Array),
-                Uint8Array: createTypedArrayWrapper(Uint8Array),
-                Uint16Array: createTypedArrayWrapper(Uint16Array),
+                // B"H - TIKKUN: Wrapper for requestAnimationFrame to handle VM Closures
+                requestAnimationFrame: (callback) => {
+                    // Keep VM alive until the frame fires
+                    if (activeVM) activeVM.pendingAsyncCount++;
+                    
+                    return self.requestAnimationFrame((timestamp) => {
+                         if (activeVM) activeVM.pendingAsyncCount--;
+                         
+                         if (callback && callback.type === 'CLOSURE' && activeVM) {
+                             const thread = activeVM.spawn(callback.code);
+                             // Pass timestamp as first argument
+                             thread.currentScope = { 0: timestamp };
+                         } else if (typeof callback === 'function') {
+                             callback(timestamp);
+                         }
+                    });
+                },
                 
                 importScripts: function(...urls) {
-                    console.log("[VM] importScripts called for:", urls);
-                    if (memory.setGlobal) {
-                        memory.setGlobal("IMPORTED_LIB_LOADED", true);
-                    }
+                    if (memory.setGlobal) memory.setGlobal("IMPORTED_LIB_LOADED", true);
                 }
             };
+
+            const vmContext = new Proxy(baseContext, {
+                get: (target, prop) => {
+                    // 1. Check base VM context
+                    if (prop in target) return target[prop];
+                    
+                    // 2. Check User Provided Context
+                    if (options.context) {
+                        if (prop in options.context) {
+                            const val = options.context[prop];
+                            if (typeof val === 'function') {
+                                return val.bind(options.context);
+                            }
+                            return val;
+                        }
+                    }
+                    return undefined;
+                },
+                has: (target, prop) => {
+                    return (prop in target) || (options.context && prop in options.context);
+                }
+            });
             
             const vm = new self.MerkavaVM(memory, options.hostAPI || {}, vmContext);
-            activeVM = vm; // Set the reference for Workers
+            activeVM = vm; 
 
             vm.spawn(codeObject);
 
             let dbg = options.debug ? new self.MerkavaDebugger(vm) : null;
             if(dbg) dbg.attach();
 
+            // B"H - Cancellation Logic
+            let isCancelled = false;
+
             const done = new Promise((resolve, reject) => {
                 const tick = () => {
+                    if (isCancelled) {
+                        resolve({ status: 'CANCELLED' });
+                        return;
+                    }
                     try {
                         if (vm.run(1000)) requestAnimationFrame(tick);
                         else resolve({ status: 'COMPLETED' });
@@ -204,7 +249,13 @@
                 tick();
             });
 
-            return { vm, memory, debugger: dbg, done };
+            return { 
+                vm, 
+                memory, 
+                debugger: dbg, 
+                done,
+                cancel: () => { isCancelled = true; } 
+            };
         }
     }
 

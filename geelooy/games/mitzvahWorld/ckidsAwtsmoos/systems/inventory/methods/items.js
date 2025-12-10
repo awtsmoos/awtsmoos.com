@@ -1,15 +1,3 @@
-
-
-
-
-
-
-
-
-
-
-
-
 /**
  * B"H
  * Item manipulation logic for InventoryManager
@@ -24,6 +12,18 @@ export default {
         // B"H: Preserve original icon if it exists
         const originalIcon = itemData.icon;
         
+        // B"H: Manual Class Property Injection
+        // This is necessary because AWTSMOOS might be incomplete due to circular dependencies
+        if (itemData.className === 'ProceduralTree') {
+            itemData.isBuildable = true;
+        }
+        if (itemData.className === 'NatureTool') {
+            itemData.isPainter = true;
+        }
+        if (itemData.className === 'Brick' || itemData.className === 'CustomNpc' || itemData.className === 'Stairs') {
+            itemData.isBuildable = true;
+        }
+
         const ItemClass = AWTSMOOS[itemData.className];
         if (ItemClass) {
             try {
