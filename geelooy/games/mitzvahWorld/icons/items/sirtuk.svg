@@ -1,0 +1,12 @@
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- B"H -->
+  <path d="M20 20 Q50 10 80 20 L85 90 L15 90 Z" fill="#111" stroke="#333" stroke-width="2"/>
+  <!-- Lapels -->
+  <path d="M50 20 L50 90" stroke="#000" stroke-width="2"/>
+  <path d="M50 20 L35 40 M50 20 L65 40" stroke="#333" stroke-width="1"/>
+  <!-- Buttons -->
+  <circle cx="55" cy="50" r="2" fill="#333"/>
+  <circle cx="55" cy="60" r="2" fill="#333"/>
+  <circle cx="55" cy="70" r="2" fill="#333"/>
+</svg>
