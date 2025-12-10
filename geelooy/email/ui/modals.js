@@ -113,7 +113,6 @@ export function renderComposeModal(ui, root) {
     });
 }
 
-// B"H: New function to fix missing export error in physics.js
 export function renderContextMenu(ui, x, y, msg, row) {
     // 1. Clear previous context menus
     const existing = document.querySelectorAll('.context-menu');

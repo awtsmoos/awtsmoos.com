@@ -126,3 +126,6 @@ export async function switchChat(ui, threadId, displayName) {
         notify('smartSuggestions', suggests);
     }
 }
+
+// Export internal render function for network usage
+export { renderMessages };

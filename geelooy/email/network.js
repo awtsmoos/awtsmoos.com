@@ -88,7 +88,7 @@ export function connectSocket(alias) {
                 state.threads[tid].push(m);
                 
                 if(state.activeThread === tid) {
-                    renderMessages(tid); 
+                    renderMessages(tid, state.threads[tid]); 
                 }
                 refreshSnippets();
             }
