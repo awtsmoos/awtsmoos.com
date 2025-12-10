@@ -199,6 +199,8 @@ let w = new Worker('worker_script.js');
 
 w.onmessage = function(e) {
   syscall(0, "Main: Received from Worker:", JSON.stringify(e.data));
+  syscall(0, "Main: Terminating Worker...");
+  w.terminate();
 };
 
 w.postMessage("Ignite the Sephira");
