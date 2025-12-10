@@ -1,137 +1,143 @@
 /* B"H */
 /* STUDIO NLE STYLES */
 
-/* Main Studio Modal - Fix for "Offset" bug on mobile */
 #modal-studio { 
     background: #000; 
     border: 2px solid var(--c-magenta);
-    box-shadow: 0 0 50px rgba(255, 0, 85, 0.2);
+    box-shadow: 0 0 60px rgba(255, 0, 85, 0.4);
     display: flex; flex-direction: column;
-    /* Explicitly use fixed positioning behavior */
-    width: 95vw; height: 95vh;
+    width: 98vw; height: 96vh;
+    padding: 0; overflow: hidden;
 }
 
-/* Studio Layout */
+/* Studio Top: Preview & Props */
 .studio-top { 
     flex: 2; display: flex; min-height: 0; 
-    border-bottom: 1px solid #333;
+    border-bottom: 2px solid #333;
 }
 
-/* Preview Area */
+/* Preview Canvas */
 .studio-preview-wrapper { 
-    flex: 1; background: #020202; position: relative; 
+    flex: 1; background: #050505; position: relative; 
     display: flex; align-items: center; justify-content: center; 
     overflow: hidden; 
 }
 #studio-preview-canvas { 
-    max-width: 95%; max-height: 95%; 
-    border: 1px solid #333; 
+    box-shadow: 0 0 40px #000; 
+    border: 1px solid #444; 
+    max-width: 95%; max-height: 95%;
 }
 .studio-stat { 
-    position: absolute; top: 10px; left: 10px;
+    position: absolute; top: 15px; left: 15px;
     background: rgba(0,0,0,0.8); color: var(--c-cyan); 
-    padding: 6px 12px; font-size: 11px;
+    padding: 8px 12px; font-size: 14px; font-weight: bold;
     border: 1px solid var(--c-cyan); 
 }
 
 /* Properties Panel */
 .studio-props { 
-    width: 320px; border-right: 1px solid #222; 
-    background: #080808; display: flex; flex-direction: column; 
+    width: 350px; border-right: 2px solid #222; 
+    background: #0a0a0a; display: flex; flex-direction: column; 
     z-index: 50;
 }
-.prop-tabs { display: flex; border-bottom: 1px solid #222; background: #000; }
+.prop-tabs { display: flex; border-bottom: 2px solid #222; background: #000; height: 50px; }
 .tab-btn { 
-    flex: 1; padding: 12px; background: #000; color: #555; 
-    cursor: pointer; border: none; font-weight: bold; font-size: 11px;
-    border-bottom: 2px solid transparent;
+    flex: 1; background: #111; color: #888; 
+    cursor: pointer; border: none; font-weight: bold; font-size: 14px;
+    border-bottom: 4px solid transparent; transition: 0.2s;
 }
-.tab-btn.active { color: var(--c-cyan); border-bottom-color: var(--c-cyan); }
+.tab-btn:hover { color: #fff; background: #222; }
+.tab-btn.active { color: var(--c-cyan); background: #000; border-bottom-color: var(--c-cyan); }
 
-.prop-content { padding: 15px; flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; }
+.prop-inner-content { 
+    padding: 20px; flex: 1; overflow-y: auto; 
+    display: flex; flex-direction: column; gap: 20px; 
+}
 
-.prop-group { display: flex; flex-direction: column; gap: 5px; }
-.prop-group label { font-size: 10px; color: var(--c-magenta); font-weight: bold; }
+.prop-group { display: flex; flex-direction: column; gap: 8px; }
+.prop-group label { font-size: 12px; color: var(--c-magenta); font-weight: bold; letter-spacing: 1px; }
 
 /* Timeline Area */
 .studio-bottom { 
-    flex: 1; background: #050505; 
+    flex: 1; background: #080808; 
     display: flex; flex-direction: column; 
-    position: relative; min-height: 250px; 
+    position: relative; min-height: 300px; 
     border-top: 1px solid var(--c-cyan); 
 }
 
-/* Timeline Toolbar */
-.timeline-toolbar {
-    height: 40px; background: #080808; border-top: 1px solid #222;
-    display: flex; align-items: center; padding: 0 10px; gap: 10px;
+/* Toolbar */
+.studio-toolbar {
+    height: 60px; background: #111; border-top: 2px solid #333;
+    display: flex; align-items: center; padding: 0 15px; gap: 15px;
+    overflow-x: auto;
+}
+/* Toolbar Buttons in Studio need to pop */
+.studio-toolbar .modal-btn {
+    padding: 8px 16px; font-size: 12px; white-space: nowrap;
 }
 
-/* Ruler & Tracks */
-.timeline-header { 
-    height: 30px; background: #0a0a0a; display: flex; border-bottom: 1px solid #333; 
-}
+/* Timeline Structure */
+.timeline-header { height: 40px; background: #000; display: flex; border-bottom: 1px solid #333; }
 .track-head { 
-    width: 150px; background: #050505; border-right: 2px solid var(--c-cyan); 
+    width: 160px; background: #050505; border-right: 2px solid var(--c-cyan); 
     display: flex; align-items: center; justify-content: center; 
-    font-size: 10px; color: #666; flex-shrink: 0;
+    font-size: 12px; color: #888; flex-shrink: 0; font-weight: bold;
 }
-.ruler-container { 
-    flex: 1; position: relative; overflow: hidden; background: #080808;
-}
+.ruler-container { flex: 1; position: relative; overflow: hidden; background: #0a0a0a; cursor: text; }
 .ruler-mark { 
     position: absolute; height: 100%; border-left: 1px solid #333; 
-    color: #555; font-size: 9px; padding-left: 2px; top: 0; pointer-events: none;
+    color: #666; font-size: 10px; padding-left: 4px; top: 0; pointer-events: none;
 }
+.ruler-mark.major { color: #aaa; border-left: 1px solid #666; font-weight: bold; }
 
-.timeline-tracks { 
-    flex: 1; overflow: auto; position: relative; background: #030303; 
-}
+.timeline-tracks { flex: 1; overflow: auto; position: relative; background: #030303; }
 
-/* Track Rows */
+/* Tracks */
 .nle-track { 
-    height: 70px; margin-bottom: 2px; background: #080808; 
-    border-bottom: 1px solid #111; display: flex; position: relative; 
+    height: 90px; margin-bottom: 2px; background: #0c0c0c; 
+    border-bottom: 1px solid #222; display: flex; position: relative; 
 }
-
 .track-label { 
-    width: 150px; background: #050505; 
+    width: 160px; background: #080808; 
     border-right: 2px solid var(--c-cyan);
-    color: #666; font-size: 10px; display: flex; flex-direction: column;
-    justify-content: center; padding: 0 10px; gap: 4px;
+    color: #888; font-size: 12px; display: flex; flex-direction: column;
+    justify-content: center; padding: 0 15px; gap: 5px;
     flex-shrink: 0; position: sticky; left: 0; z-index: 30; 
 }
 
-.track-lane { position: absolute; left: 150px; top: 0; height: 100%; }
+.track-lane { position: absolute; left: 160px; top: 0; height: 100%; }
 
 /* Clips */
 .nle-block { 
     position: absolute; height: 80%; top: 10%; 
-    cursor: pointer; overflow: hidden; border-radius: 2px; 
-    border: 1px solid transparent; background: rgba(0,255,255,0.1);
+    cursor: pointer; overflow: hidden; border-radius: 4px; 
+    border: 1px solid transparent; box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+    font-size: 12px; font-weight: bold; color: #fff;
 }
-.nle-block.selected { border: 2px solid white; z-index: 25; }
+.nle-block:hover { border-color: #fff; z-index: 20; filter: brightness(1.2); }
+.nle-block.selected { border: 2px solid #fff; box-shadow: 0 0 10px #fff; z-index: 25; }
 
-.audio-block { background: #001a00; border-color: #004400; }
-.media-block { background: #1a001a; border-color: var(--c-magenta); }
-.caption-block { background: #001a1a; border-color: var(--c-cyan); }
+.audio-block { background: #003300; border-color: #00ff66; }
+.media-block { background: #330033; border-color: var(--c-magenta); }
+.caption-block { background: #003333; border-color: var(--c-cyan); }
+.block-content { padding: 5px 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
 .timeline-playhead { 
     position: absolute; top: 0; bottom: 0; width: 2px; 
-    background: var(--c-magenta); z-index: 100; pointer-events: none; left: 150px; 
+    background: var(--c-magenta); z-index: 100; pointer-events: none; 
+    box-shadow: 0 0 10px var(--c-magenta); left: 160px;
 }
 
-/* Mobile Tweaks */
+/* Mobile Studio Fixes */
 @media (max-width: 768px) {
-    /* Fullscreen Modal on Mobile to fix offset issues */
-    #modal-studio { width: 100vw; height: 100vh; max-width: 100%; max-height: 100%; border: none; }
-    
+    #modal-studio { width: 100vw; height: 100vh; border: none; }
     .studio-top { flex-direction: column; }
-    /* Limit props height so timeline isn't pushed off */
-    .studio-props { width: 100%; height: auto; max-height: 150px; border-right: none; border-bottom: 1px solid #333; }
+    .studio-props { width: 100%; max-height: 180px; border-right: none; border-bottom: 2px solid #333; }
     
-    .track-head { width: 80px; }
-    .track-label { width: 80px; font-size: 9px; padding: 0 5px; }
+    .track-head, .track-label { width: 80px; font-size: 10px; padding: 0 5px; }
     .timeline-playhead { left: 80px; }
     .track-lane { left: 80px; }
+    
+    .studio-toolbar { padding: 0 5px; gap: 5px; }
+    .studio-toolbar .btn-tool { font-size: 10px; padding: 5px; }
 }

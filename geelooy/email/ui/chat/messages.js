@@ -75,7 +75,8 @@ export function renderMessages(threadId, msgs) {
         const row = ui.html({
             parent: container,
             tag: 'div',
-            classList: ['msg-row', isMe ? 'me' : 'them', isNew ? 'glitch-entry' : ''],
+            // FIXED: Added .filter(Boolean) to prevent empty string tokens in classList
+            classList: ['msg-row', isMe ? 'me' : 'them', isNew ? 'glitch-entry' : null].filter(Boolean),
             dataset: { id: m.id },
             ready: (el) => attachSwipePhysics(el, m),
             events: {
@@ -89,7 +90,8 @@ export function renderMessages(threadId, msgs) {
                         { tag: 'div', classList: ['swipe-icon'], textContent: isMe ? '↩️' : 'reply' },
                         {
                             tag: 'div',
-                            classList: ['msg-bubble', 'magnetic', sentiment], 
+                            // FIXED: Added .filter(Boolean) here as well
+                            classList: ['msg-bubble', 'magnetic', sentiment].filter(Boolean), 
                             children: [
                                 m.subject ? { tag: 'div', classList: ['msg-subject'], textContent: m.subject } : null,
                                 { 

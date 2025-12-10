@@ -1,203 +1,153 @@
 /* B"H */
-/* UI COMPONENTS - EXTREME OMEGA EDITION */
+/* UI COMPONENTS - HIGH CONTRAST */
 
-/* --- HEADER --- */
-header {
-    height: 60px;
-    flex-shrink: 0;
-    display: flex; justify-content: space-between; align-items: center;
-    padding: 0 20px;
-    background: rgba(2, 2, 5, 0.95);
-    border-bottom: 2px solid var(--c-cyan);
-    box-shadow: 0 5px 30px rgba(0, 243, 255, 0.15);
-    position: relative; z-index: 100;
-}
-
-.logo { 
-    font-size: 24px; font-weight: 900; letter-spacing: 4px; color: var(--c-white);
-    text-shadow: 2px 2px 0px var(--c-magenta);
-    font-family: var(--font-tech); text-transform: uppercase;
-    font-style: italic;
-}
-.logo span { color: var(--c-cyan); text-shadow: 0 0 10px var(--c-cyan); }
-
-.tools { display: flex; gap: 15px; }
-.tool-btn {
-    background: #000; border: 1px solid #444; color: #fff; /* White Text */
-    width: 40px; height: 40px;
-    display: flex; align-items: center; justify-content: center;
-    cursor: pointer; transition: all 0.2s;
-}
-.tool-btn:hover { 
-    border-color: var(--c-cyan); color: var(--c-cyan); 
-    background: rgba(0, 243, 255, 0.1);
-}
-.tool-btn svg { width: 20px; height: 20px; fill: currentColor; }
-
-/* --- MAIN LAYOUT --- */
-main {
-    flex: 1;
-    /* CRITICAL FIX: Constrain height to viewport minus header/footer to enable internal scrolling */
-    height: calc(100vh - 160px); 
-    display: flex; 
-    flex-direction: row;
-    overflow: hidden; 
-    position: relative; z-index: 10;
-    background: rgba(0,0,0,0.8);
-}
-
-.col {
-    flex: 1;
-    display: flex; flex-direction: column;
-    background: rgba(5, 5, 8, 0.8);
-    border-right: 1px solid #222;
-    min-width: 0; 
-    height: 100%;
-}
-
-/* Fixed width for Years to prevent squishing */
-#col-years { flex: 0 0 250px; }
-
-.col-head {
-    padding: 12px; background: #000;
-    color: var(--c-cyan); font-weight: bold; letter-spacing: 2px;
-    border-bottom: 1px solid #333; font-size: 11px;
-    text-transform: uppercase; display: flex; align-items: center;
-    flex-shrink: 0; gap: 10px;
-}
-
-.col-list {
-    flex: 1;
-    overflow-y: auto; /* Enables scrolling inside the column */
-    overflow-x: hidden;
-    padding-bottom: 20px;
-}
-
-/* List Items */
+/* --- LIST ITEMS --- */
 .item {
-    padding: 12px 15px;
-    border-left: 2px solid transparent;
-    cursor: pointer; color: #aaa; font-size: 13px;
-    transition: background 0.1s; 
-    border-bottom: 1px solid #111;
-    display: flex; align-items: center; justify-content: space-between; /* Space out actions */
+    padding: 18px;
+    border-bottom: 1px solid #222;
+    cursor: pointer;
+    color: #eee; /* Bright white text */
+    font-size: 16px; /* Larger text */
+    transition: all 0.15s;
+    display: flex; align-items: center; justify-content: space-between;
+    background: rgba(255,255,255,0.02);
 }
+.item:nth-child(even) { background: transparent; }
+
 .item:hover { 
-    background: rgba(0, 243, 255, 0.05);
-    color: var(--c-white); 
-    border-left: 2px solid var(--c-cyan);
+    background: rgba(0, 243, 255, 0.15); 
+    color: #fff; 
+    padding-left: 22px; 
+    border-left: 4px solid var(--c-cyan);
 }
 .item.active { 
-    background: var(--c-cyan); color: #000 !important; font-weight: bold; 
-    border-left: 6px solid var(--c-white);
+    background: var(--c-cyan); 
+    color: #000 !important; 
+    font-weight: 900; 
+    padding-left: 22px; 
+    box-shadow: 0 0 20px var(--c-cyan);
 }
 .item.active * { color: #000 !important; border-color: #000 !important; }
 
-.mini-btn {
-    background: transparent; border: 1px solid #444; color: #666;
-    width: 24px; height: 24px; border-radius: 4px; cursor: pointer;
-    font-size: 12px; display: flex; align-items: center; justify-content: center;
-    transition: 0.1s;
-}
-.mini-btn:hover { border-color: var(--c-cyan); color: var(--c-cyan); }
+.item .icon { font-size: 20px; margin-right: 12px; opacity: 0.9; }
+.year-item { color: var(--c-yellow); font-weight: bold; }
+.folder-item { color: #fff; }
 
-/* --- FOOTER --- */
+/* MINI BUTTONS IN LISTS */
+.mini-btn {
+    background: rgba(255,255,255,0.1); 
+    border: 1px solid #666; 
+    color: #ccc;
+    width: 36px; height: 36px; border-radius: 4px; 
+    cursor: pointer; font-size: 16px; 
+    display: flex; align-items: center; justify-content: center;
+    transition: 0.2s;
+}
+.mini-btn:hover { 
+    border-color: var(--c-cyan); 
+    color: var(--c-cyan); 
+    background: rgba(0,0,0,0.8); 
+    transform: scale(1.1); 
+    box-shadow: 0 0 10px var(--c-cyan);
+}
+
+/* --- BACK BUTTON (Mobile) --- */
+.btn-back {
+    background: #111; border: 1px solid var(--c-cyan); color: var(--c-cyan);
+    width: 40px; height: 40px; font-weight: bold; cursor: pointer;
+    font-size: 20px; display: none; /* Desktop hidden */
+}
+@media(max-width: 768px) { .btn-back { display: block; } }
+
+/* --- FOOTER & PLAYER --- */
 footer {
     height: 100px;
-    flex-shrink: 0;
-    background: #020202;
-    border-top: 1px solid #333;
+    background: #000;
+    border-top: 2px solid var(--c-cyan);
     display: flex; align-items: center;
     padding: 0 20px; gap: 20px;
     position: relative; z-index: 100;
+    box-shadow: 0 -5px 25px rgba(0,0,0,0.8);
 }
 
-.controls { display: flex; gap: 15px; align-items: center; }
+.controls { display: flex; gap: 25px; align-items: center; }
 
 .ctrl-btn {
-    width: 50px; height: 50px;
-    border: 2px solid #555; background: #000;
-    display: flex; justify-content: center; align-items: center;
-    cursor: pointer; color: #fff; /* High Contrast */
-    transition: all 0.2s;
+    width: 55px; height: 55px;
+    border: 2px solid #555; 
+    background: rgba(255,255,255,0.05); /* Visible bg against black */
     border-radius: 50%;
+    display: flex; justify-content: center; align-items: center;
+    cursor: pointer; color: #fff;
+    transition: all 0.2s;
 }
-.ctrl-btn:hover { border-color: var(--c-cyan); color: var(--c-cyan); box-shadow: 0 0 10px var(--c-cyan); }
+.ctrl-btn:hover { border-color: var(--c-cyan); color: var(--c-cyan); transform: scale(1.1); box-shadow: 0 0 15px var(--c-cyan); background: #000; }
+.ctrl-btn svg { width: 28px; height: 28px; fill: currentColor; }
 
-#btn-play { border-color: var(--c-cyan); color: var(--c-cyan); width: 60px; height: 60px; }
-#btn-play:hover { background: var(--c-cyan); color: black; }
+#btn-play { 
+    width: 70px; height: 70px; 
+    border-color: var(--c-cyan); color: var(--c-cyan); 
+    background: rgba(0, 243, 255, 0.1);
+}
+#btn-play:hover { background: var(--c-cyan); color: #000; box-shadow: 0 0 25px var(--c-cyan); }
 #btn-slice { border-color: var(--c-magenta); color: var(--c-magenta); }
+#btn-slice:hover { background: var(--c-magenta); color: #fff; }
 
-.info { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 8px; min-width: 0; }
+.info { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 12px; min-width: 0; }
 .track-title { 
-    color: var(--c-yellow); font-size: 14px; font-weight: bold; 
+    color: var(--c-yellow); font-size: 18px; font-weight: bold; 
+    letter-spacing: 1px; text-shadow: 0 0 5px rgba(255, 204, 0, 0.3);
     white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
 
 .progress-container {
-    width: 100%; height: 20px; /* Bigger Hit Area */
-    background: transparent;
+    width: 100%; height: 16px;
+    background: #222; border: 1px solid #444;
     cursor: pointer; position: relative;
-    display: flex; align-items: center;
-}
-/* Actual visible bar */
-.progress-bg {
-    width: 100%; height: 6px; background: #222; border: 1px solid #444; position: relative; overflow: hidden;
+    border-radius: 4px; overflow: hidden;
 }
 .progress-fill {
     height: 100%; background: var(--c-cyan); width: 0%;
+    box-shadow: 0 0 15px var(--c-cyan);
     transition: width 0.1s linear;
 }
-.progress-fill.loading {
-    background: repeating-linear-gradient(
-        45deg,
-        var(--c-cyan),
-        var(--c-cyan) 10px,
-        #005555 10px,
-        #005555 20px
-    );
-    animation: pulseLoad 1s linear infinite;
-}
-@keyframes pulseLoad { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
+.progress-fill.loading { background: repeating-linear-gradient(45deg, var(--c-cyan), var(--c-cyan) 10px, #004444 10px, #004444 20px); }
 
 .time-display {
-    display: flex; justify-content: space-between; font-size: 10px; color: #888; font-family: monospace;
+    display: flex; justify-content: space-between; 
+    font-size: 14px; color: #aaa; font-weight: bold;
 }
 
-/* --- MOBILE LAYOUT FIX --- */
-.btn-back { display: none; } /* Hidden by default */
-
-@media(max-width: 768px) {
-    main { 
-        display: block; /* Switch from Flex to Block for stacking */
-        position: relative; 
-    }
-    
-    .col { 
-        display: none; /* Hide all columns by default */
-        position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-        border-right: none;
-        background: #000;
-        z-index: 10;
-    }
-    
-    /* Only show the active column */
-    .col.open { display: flex; z-index: 20; }
-    
-    /* Back Button */
-    .btn-back {
-        display: block;
-        background: #111; border: 1px solid #444; color: var(--c-cyan);
-        width: 30px; height: 30px; font-weight: bold; cursor: pointer;
-    }
-
-    header { height: 50px; padding: 0 10px; }
-    .logo { font-size: 18px; }
-    .tools span { display: none; }
-    
-    footer { height: 140px; flex-direction: column; padding: 15px; gap: 10px; }
-    .info { width: 100%; text-align: center; order: 1; }
-    .controls { width: 100%; justify-content: space-around; order: 2; }
-    
-    #terminal-wrap { display: none; }
+/* --- MODALS --- */
+#overlay-layer {
+    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+    background: rgba(0,0,0,0.85); backdrop-filter: blur(8px);
+    z-index: 200; display: flex; justify-content: center; align-items: center;
 }
+.modal {
+    background: #000; border: 2px solid var(--c-cyan);
+    width: 550px; max-width: 90%; max-height: 90vh; overflow-y: auto;
+    padding: 30px; box-shadow: 0 0 60px rgba(0,243,255,0.25);
+    display: flex; flex-direction: column; gap: 20px;
+}
+.modal h2 { margin: 0; color: var(--c-magenta); border-bottom: 2px solid #333; padding-bottom: 15px; letter-spacing: 2px; font-size: 24px; text-transform: uppercase; }
+
+.cyber-input {
+    background: #1a1a1a; border: 1px solid #444; 
+    color: #fff; padding: 14px; font-size: 16px; 
+    width: 100%; font-family: monospace;
+}
+.cyber-input:focus { border-color: var(--c-cyan); outline: none; box-shadow: 0 0 15px rgba(0,243,255,0.3); }
+
+.modal-btn {
+    background: #000; border: 1px solid var(--c-cyan); color: var(--c-cyan);
+    padding: 12px 24px; cursor: pointer; font-weight: bold; font-size: 14px;
+    transition: 0.2s; letter-spacing: 1px; text-transform: uppercase;
+}
+.modal-btn:hover { background: var(--c-cyan); color: #000; box-shadow: 0 0 15px var(--c-cyan); }
+.modal-btn.danger { border-color: var(--c-magenta); color: var(--c-magenta); }
+.modal-btn.danger:hover { background: var(--c-magenta); color: #fff; box-shadow: 0 0 15px var(--c-magenta); }
+
+.search-res { max-height: 300px; overflow-y: auto; border: 1px solid #333; margin-top: 10px; }
+.result-item { padding: 15px; border-bottom: 1px solid #222; cursor: pointer; color: #eee; font-size: 16px; }
+.result-item:hover { background: #111; color: var(--c-cyan); padding-left: 20px; }
