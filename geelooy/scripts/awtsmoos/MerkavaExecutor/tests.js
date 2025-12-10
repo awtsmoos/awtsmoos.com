@@ -233,11 +233,56 @@ syscall(0, "Function say():", say());`,
 
     scripts: `// B"H - ImportScripts
 syscall(0, "Attempting Import...");
-importScripts('https://lib.js/core.js');
 
-if (typeof IMPORTED_LIB_LOADED !== 'undefined') {
-  syscall(0, "Success: Library Loaded via Sync Emulation.");
-} else {
-  syscall(0, "Note: Simulating async load...");
-}`
+// Note: 'worker_script.js' is defined in MOCK_FILES in index.html/console.html
+// importScripts will find it there and execute it.
+importScripts('worker_script.js');
+
+syscall(0, "ImportScripts Complete.");
+`,
+
+    pure_math: `// B"H - Pure Math (No Syscalls)
+// Tests environment globals like Math, console, and basic loops.
+
+console.log("Starting Pure Math Calculation...");
+
+let sum = 0;
+for(let i = 0; i < 100; i++) {
+    sum = sum + Math.sqrt(i);
+}
+
+console.log("Sum of Sqrts (0-99):", sum);
+
+let obj = { x: 10, y: 20 };
+obj.z = obj.x * obj.y;
+
+console.log("Object Computed:", JSON.stringify(obj));
+`,
+
+    async_fetch: `// B"H - Async Host Call (Mock Fetch)
+// This tests the VM's ability to pause on a Promise and resume.
+
+console.log("Initiating Async Fetch...");
+
+// Note: index.html mocks 'fetch' or we use a real one if allowed.
+// For this test we assume 'fetch' is available in the environment.
+
+// We will just fetch a dummy JSON (or fail gracefully if offline)
+try {
+    // Using a reliable public API for demo, or a blob
+    let res = fetch('https://jsonplaceholder.typicode.com/todos/1'); 
+    // The VM should PAUSE here until promise resolves
+    
+    console.log("Fetch Resolved. Status:", res.status);
+    
+    if (res.ok) {
+        let json = res.json(); // Another async call
+        console.log("Data:", json.title);
+    }
+} catch(e) {
+    console.error("Fetch failed:", e);
+}
+
+console.log("Async Process Complete.");
+`
 };

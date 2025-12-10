@@ -22,11 +22,67 @@ export function sliceAudioBuffer(originalBuffer, startTime, endTime) {
         const channelData = originalBuffer.getChannelData(i);
         const newChannelData = newBuffer.getChannelData(i);
         // Copy segment
-        newChannelData.set(channelData.subarray(startFrame, endFrame));
+        if (startFrame < channelData.length) {
+             const safeEnd = Math.min(endFrame, channelData.length);
+             if(safeEnd > startFrame) {
+                 newChannelData.set(channelData.subarray(startFrame, safeEnd));
+             }
+        }
     }
 
     return newBuffer;
 }
+
+/**
+ * Renders a waveform of the buffer segment to a canvas
+ */
+export function drawWaveformToCanvas(buffer, canvas, startTime, duration, color) {
+    const ctx = canvas.getContext('2d');
+    const width = canvas.width;
+    const height = canvas.height;
+    
+    ctx.clearRect(0, 0, width, height);
+    
+    const rate = buffer.sampleRate;
+    const startFrame = Math.floor(startTime * rate);
+    const endFrame = Math.floor((startTime + duration) * rate);
+    
+    // Bounds check
+    if (startFrame >= buffer.length) return;
+    const safeEnd = Math.min(endFrame, buffer.length);
+    const len = safeEnd - startFrame;
+    if (len <= 0) return;
+
+    const data = buffer.getChannelData(0); // Use mono for viz
+    const step = Math.ceil(len / width);
+    const amp = height / 2;
+
+    ctx.fillStyle = color || '#00ff00';
+    ctx.beginPath();
+    
+    // Optimized drawing: Draw min/max pairs for each pixel column
+    for (let i = 0; i < width; i++) {
+        let min = 1.0;
+        let max = -1.0;
+        
+        const idxBase = startFrame + (i * step);
+        for (let j = 0; j < step; j++) {
+            const idx = idxBase + j;
+            if (idx < safeEnd) {
+                const val = data[idx];
+                if (val < min) min = val;
+                if (val > max) max = val;
+            }
+        }
+        
+        // Convert to Y coords
+        const yMin = (1 + min) * amp;
+        const yMax = (1 + max) * amp;
+        
+        ctx.fillRect(i, yMin, 1, Math.max(1, yMax - yMin));
+    }
+}
+
 
 /**
  * Converts AudioBuffer to Blob (WAV) for API upload.
@@ -77,23 +133,14 @@ export async function bufferToWaveBlob(audioBuffer) {
     return new Blob([buffer], { type: "audio/wav" });
 }
 
-/**
- * Gets frequency data for a specific time in the buffer.
- * Simulates the AnalyserNode behavior but offline.
- */
 export function getFftAtTime(audioBuffer, time, fftSize = 256) {
     const rate = audioBuffer.sampleRate;
     const index = Math.floor(time * rate);
-    const data = new Uint8Array(fftSize / 2); // 128 bins
-    
-    // Simple Time-Domain to Frequency approximation (Quick & Dirty Magnitude)
-    // Real FFT is expensive in JS main thread loop, so we map amplitude envelope 
-    // and some noise to simulate visualizer look for the video generation
+    const data = new Uint8Array(fftSize / 2); 
     
     if (index < 0 || index >= audioBuffer.length) return data;
 
     const channel = audioBuffer.getChannelData(0);
-    // Look at a window around the time
     const windowSize = fftSize * 4; 
     let sum = 0;
     
@@ -101,21 +148,13 @@ export function getFftAtTime(audioBuffer, time, fftSize = 256) {
         const s = channel[index - windowSize/2 + i] || 0;
         sum += Math.abs(s);
     }
-    const avg = sum / windowSize; // 0 to 1
+    const avg = sum / windowSize; 
     
-    // Fill bins
     for(let i=0; i<data.length; i++) {
-        // Bass is stronger
         let val = avg * 255 * (1.0 + Math.sin(i * 0.1) * 0.5);
-        
-        // Add noise/variation based on index to look like FFT
         val *= (Math.random() * 0.2 + 0.8);
-        
-        // Decay high freqs
         if(i > 20) val *= 0.5;
-        
-        data[i] = Math.min(255, val * 4.0); // Boost
+        data[i] = Math.min(255, val * 4.0);
     }
-    
     return data;
 }

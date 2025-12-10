@@ -1,167 +1,30 @@
 //B"H
 // modules/studio/actions.js
-import state from '../state.js';
-import { ctx, initAudioContext } from './context.js';
-import { renderTimeline, updatePropertiesPanel } from './ui.js';
+// AGGREGATOR MODULE
+
+import * as History from './actions/history.js';
+import * as Transport from './actions/transport.js';
+import * as Edit from './actions/edit.js';
+import * as VideoGen from '../video-gen.js';
 import { bufferToWaveBlob } from '../audio-utils.js';
 import { generateAiImage, transcribeAudio } from '../../services/gemini.js';
+import state from '../state.js';
 
-// --- PLAYBACK ---
+// Re-export Core Sub-Modules
+export const { saveState, undo, redo } = History;
+export const { togglePlay, seek, startAudio, stopAudio, setZoom } = Transport;
+export const { 
+    splitClip, deleteSelected, duplicateSelected, moveLayer, 
+    addAudioCut, updateGlobal, updateParticle, updateFX, 
+    updateClip, updateClipDuration, updateClipStyle,
+    toggleTrackMute, updateTrackVolume
+} = Edit;
 
-export async function togglePlay() {
-    if (state.studioIsPlaying) stopAudio();
-    else await startAudio();
-    updateUI();
-}
-
-export function seek(time) {
-    stopAudio();
-    state.currentTime = Math.max(0, Math.min(time, state.pendingSlice?.duration || 10));
-    updateUI();
-    renderTimeline(); // Update playhead pos
-}
-
-async function startAudio() {
-    if (!state.pendingSlice) return;
-    initAudioContext();
-    if (ctx.audio.state === 'suspended') await ctx.audio.resume();
-
-    ctx.source = ctx.audio.createBufferSource();
-    ctx.source.buffer = state.pendingSlice;
-    ctx.source.connect(ctx.analyser);
-    ctx.analyser.connect(ctx.audio.destination);
-
-    const off = state.currentTime;
-    ctx.source.start(0, off);
-    
-    state.studioStartTime = ctx.audio.currentTime;
-    state.studioOffsetTime = off;
-    state.studioIsPlaying = true;
-    
-    syncMedia(true);
-}
-
-export function stopAudio() {
-    if (ctx.source) { try { ctx.source.stop(); } catch(e){} ctx.source = null; }
-    state.studioIsPlaying = false;
-    syncMedia(false);
-    updateUI();
-}
-
-function syncMedia(playing) {
-    Object.values(ctx.mediaCache).forEach(m => {
-        if (m.type === 'video' && m.el) {
-            if (playing) m.el.play().catch(e=>{});
-            else m.el.pause();
-        }
-    });
-}
-
-function updateUI() {
-    const b = document.getElementById('st-play');
-    if (b) b.textContent = state.studioIsPlaying ? "⏸ PAUSE" : "▶ PLAY";
-}
-
-// --- STATE MUTATIONS ---
-
-export function setZoom(v) { state.studioZoom = parseInt(v); renderTimeline(); }
-export function updateGlobal(k, v) { state.studioGlobal[k] = v; }
-export function updateParticle(k, v) { state.studioParticleSettings[k] = v; }
-export function updateFX(k, v) { state.studioFX[k] = v; }
-
-export function updateClip(k, v) {
-    const item = getSelected();
-    if (item) { item[k] = v; renderTimeline(); }
-}
-
-export function updateClipDuration(d) {
-    const item = getSelected();
-    if (item) { item.end = item.start + d; renderTimeline(); }
-}
-
-export function updateClipStyle(k, v) {
-    const item = getSelected();
-    if (item) {
-        if (!item.style) item.style = {};
-        item.style[k] = v;
-    }
-}
-
-export function deleteSelected() {
-    if (state.selectedType === 'media') {
-        state.mediaLayers = state.mediaLayers.filter(i => i.id !== state.selectedClipId);
-    } else {
-        state.captions = state.captions.filter(i => i.id !== state.selectedClipId);
-    }
-    state.selectedClipId = null;
-    renderTimeline();
-    updatePropertiesPanel();
-}
-
-export function duplicateSelected() {
-    const item = getSelected();
-    if(!item) return;
-    const copy = JSON.parse(JSON.stringify(item));
-    copy.id = Date.now() + Math.random();
-    copy.start += 1.0; 
-    copy.end += 1.0;
-    if(state.selectedType === 'media') state.mediaLayers.push(copy);
-    else state.captions.push(copy);
-    renderTimeline();
-}
-
-export function moveLayer(dir) {
-    if(state.selectedType !== 'media') return;
-    const idx = state.mediaLayers.findIndex(i => i.id === state.selectedClipId);
-    if(idx === -1) return;
-    const item = state.mediaLayers[idx];
-    state.mediaLayers.splice(idx, 1);
-    if(dir === 'up') state.mediaLayers.splice(Math.min(state.mediaLayers.length, idx+1), 0, item);
-    else state.mediaLayers.splice(Math.max(0, idx-1), 0, item);
-    renderTimeline();
-}
-
-export function splitClip() {
-    const t = state.currentTime;
-    let hit = false;
-    
-    // Check Media
-    for (let i = 0; i < state.mediaLayers.length; i++) {
-        const item = state.mediaLayers[i];
-        if (t > item.start && t < item.end) {
-            const newItem = JSON.parse(JSON.stringify(item));
-            newItem.id = Date.now() + Math.random();
-            newItem.start = t;
-            item.end = t;
-            state.mediaLayers.splice(i + 1, 0, newItem);
-            hit = true;
-            // Stop after one split or split all? Usually split all tracks at playhead is default for razor unless selection
-            // Let's split selection only if selected, else all under playhead.
-            if (state.selectedClipId === item.id) break;
-        }
-    }
-    
-    // Check Captions
-    for (let i = 0; i < state.captions.length; i++) {
-        const item = state.captions[i];
-        if (t > item.start && t < item.end) {
-            const newItem = JSON.parse(JSON.stringify(item));
-            newItem.id = Date.now() + Math.random();
-            newItem.start = t;
-            item.end = t;
-            state.captions.splice(i + 1, 0, newItem);
-            hit = true;
-            if (state.selectedClipId === item.id) break;
-        }
-    }
-
-    if (hit) renderTimeline();
-}
-
-// --- FEATURES ---
+// --- FEATURE ACTIONS (Remaining) ---
 
 export function detectBeats() {
     if(!state.pendingSlice) return alert("NO AUDIO LOADED");
+    History.saveState();
     
     document.getElementById('studio-status').textContent = "ANALYZING BEATS...";
     const data = state.pendingSlice.getChannelData(0);
@@ -178,11 +41,12 @@ export function detectBeats() {
     }
     
     state.studioBeats = beats;
-    renderTimeline();
+    if(window.Studio) window.Studio.renderTimeline();
     document.getElementById('studio-status').textContent = `FOUND ${beats.length} PEAKS`;
 }
 
 export function addGlyph(type='warning') {
+    History.saveState();
     state.mediaLayers.push({
         id: Date.now(),
         type: 'glyph',
@@ -193,10 +57,10 @@ export function addGlyph(type='warning') {
         blendMode: 'source-over',
         filter: { brightness: 100, blur: 0 }
     });
-    renderTimeline();
+    if(window.Studio) window.Studio.renderTimeline();
 }
 
-// --- AI ---
+// --- AI HANDLERS ---
 
 export async function handleGenCaps() {
     const key = getKey(); if(!key) return;
@@ -204,8 +68,9 @@ export async function handleGenCaps() {
     try {
         const blob = await bufferToWaveBlob(state.pendingSlice);
         const caps = await transcribeAudio(blob, key, {model:'gemini-2.5-flash'});
+        History.saveState();
         state.captions = caps.map(c => ({...c, id: Date.now() + Math.random(), style:{}}));
-        renderTimeline();
+        if(window.Studio) window.Studio.renderTimeline();
         document.getElementById('studio-status').textContent = "DONE";
     } catch(e) { alert(e.message); }
 }
@@ -217,13 +82,14 @@ export async function handleGenImage() {
     document.getElementById('studio-status').textContent = "GENERATING...";
     try {
         const src = await generateAiImage(p, key);
+        History.saveState();
         state.mediaLayers.push({
             id: Date.now(), type:'image', src, 
             start: state.currentTime, end: state.currentTime+5,
             x:0.5, y:0.5, scale:1, opacity:1, blendMode:'source-over',
             filter: { brightness: 100, blur: 0 }
         });
-        renderTimeline();
+        if(window.Studio) window.Studio.renderTimeline();
         document.getElementById('studio-status').textContent = "DONE";
     } catch(e) { alert(e.message); }
 }
@@ -231,19 +97,18 @@ export async function handleGenImage() {
 export function handleUpload(e) {
     const file = e.target.files[0];
     if(!file) return;
-    const reader = new FileReader();
-    reader.onload = (ev) => {
-        state.mediaLayers.push({
-            id: Date.now(),
-            type: file.type.startsWith('video')?'video':'image',
-            src: ev.target.result,
-            start: state.currentTime, end: state.currentTime+5,
-            x:0.5, y:0.5, scale:1, opacity:1, blendMode:'source-over',
-            filter: { brightness: 100, blur: 0 }
-        });
-        renderTimeline();
-    };
-    reader.readAsDataURL(file);
+    History.saveState();
+    
+    const url = URL.createObjectURL(file);
+    state.mediaLayers.push({
+        id: Date.now(),
+        type: file.type.startsWith('video')?'video':'image',
+        src: url,
+        start: state.currentTime, end: state.currentTime+5,
+        x:0.5, y:0.5, scale:1, opacity:1, blendMode:'source-over',
+        filter: { brightness: 100, blur: 0 }
+    });
+    if(window.Studio) window.Studio.renderTimeline();
 }
 
 function getKey() {
@@ -253,9 +118,4 @@ function getKey() {
         if(k) localStorage.setItem('gemini_api_key', k);
     }
     return k;
-}
-
-function getSelected() {
-    const list = state.selectedType === 'media' ? state.mediaLayers : state.captions;
-    return list.find(i => i.id === state.selectedClipId);
 }

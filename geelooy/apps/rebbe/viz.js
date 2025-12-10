@@ -1,156 +1,216 @@
 //B"H
-// viz.js - High Performance Hebrew Visualizer
+// viz.js - EXTREME MODULAR 3D ENGINE
 
-const CHARS = "אבגדהוזחטיכלמנסעפצקרשת";
-let canvas, ctx;
-let particles = [];
-let width, height;
-let isActive = false;
-let isPaused = true; 
-let dataProvider = null; // New data provider callback
-let mouseX = 0, mouseY = 0;
+const CONFIG = {
+    fov: 300,
+    colors: ["#00f3ff", "#ff0055", "#00ff66", "#ffffff"]
+};
 
-const COLORS = [];
-for(let i=0; i<360; i+=10) COLORS.push(`hsl(${i}, 100%, 50%)`);
+const GLYPHS = "אבגדהוזחטיכלמנסעפצקרשת0123456789";
 
-class HebrewParticle {
-    constructor() {
-        this.reset();
+// --- CORE ENGINE ---
+
+class Engine {
+    constructor(canvas, dataProvider) {
+        this.canvas = canvas;
+        this.ctx = canvas.getContext('2d', { alpha: false });
+        this.dataProvider = dataProvider;
+        this.width = 0;
+        this.height = 0;
+        this.cx = 0;
+        this.cy = 0;
+        this.active = false;
+        this.scene = null;
+        
+        // Bindings
+        this.resize = this.resize.bind(this);
+        this.loop = this.loop.bind(this);
+        
+        window.addEventListener('resize', this.resize);
+        this.resize();
     }
-    
-    reset() {
-        this.x = Math.random() * width;
-        this.y = Math.random() * height;
-        this.char = CHARS[Math.floor(Math.random() * CHARS.length)];
-        this.baseSize = Math.random() * 20 + 10;
-        this.size = this.baseSize;
-        this.baseVx = (Math.random() - 0.5) * 2;
-        this.baseVy = (Math.random() - 0.5) * 2;
-        this.hue = Math.floor(Math.random() * 36); 
-        this.isBass = Math.random() > 0.85; 
-    }
-    
-    update(bass, mid) {
-        // Base drift speed (always active, even when paused)
-        const driftSpeed = 0.2;
-        let vx = this.baseVx * driftSpeed;
-        let vy = this.baseVy * driftSpeed;
 
-        if (!isPaused) {
-            // Audio reactive boosting
-            const energy = this.isBass ? bass : mid;
-            // Lower threshold for visual movement
-            if (energy > 0.001) {
-                const velocityScale = energy * (this.isBass ? 20 : 8); 
-                vx += this.baseVx * velocityScale;
-                vy += this.baseVy * velocityScale;
+    resize() {
+        this.width = this.canvas.width = window.innerWidth;
+        this.height = this.canvas.height = window.innerHeight;
+        this.cx = this.width / 2;
+        this.cy = this.height / 2;
+        if(this.scene) this.scene.resize(this.width, this.height);
+    }
+
+    mount(scene) {
+        this.scene = scene;
+        this.scene.init(this.width, this.height);
+    }
+
+    start() {
+        if(this.active) return;
+        this.active = true;
+        this.loop();
+    }
+
+    stop() {
+        this.active = false;
+    }
+
+    getAudioData() {
+        if(!this.dataProvider) return { bass: 0, mid: 0, treble: 0 };
+        const data = this.dataProvider();
+        if(!data || data.length === 0) return { bass: 0, mid: 0, treble: 0 };
+        
+        // Simple 3-band separation
+        let b=0, m=0, t=0;
+        // Bass: 0-5 (approx 0-400Hz)
+        for(let i=0; i<5; i++) b+=data[i];
+        // Mid: 5-20
+        for(let i=5; i<20; i++) m+=data[i];
+        // Treble: 20+
+        for(let i=20; i<50; i++) t+=data[i];
+        
+        return {
+            bass: (b/5)/255,
+            mid: (m/15)/255,
+            treble: (t/30)/255
+        };
+    }
+
+    loop() {
+        if(!this.active) return;
+        requestAnimationFrame(this.loop);
+
+        const audio = this.getAudioData();
+        
+        // Post-Processing: Trail Effect
+        this.ctx.fillStyle = `rgba(0, 0, 0, 0.15)`; // High trail for "extreme" motion blur
+        this.ctx.fillRect(0, 0, this.width, this.height);
+
+        if(this.scene) {
+            this.ctx.save();
+            this.ctx.translate(this.cx, this.cy);
+            this.scene.update(audio);
+            this.scene.render(this.ctx, CONFIG.fov);
+            this.ctx.restore();
+        }
+    }
+}
+
+// --- SCENE GRAPH ---
+
+class Scene {
+    init(w, h) {}
+    resize(w, h) {}
+    update(audio) {}
+    render(ctx, fov) {}
+}
+
+class MatrixStormScene extends Scene {
+    constructor(particleCount = 600) {
+        super();
+        this.count = particleCount;
+        this.particles = [];
+        this.width = 0;
+        this.height = 0;
+    }
+
+    init(w, h) {
+        this.width = w;
+        this.height = h;
+        this.particles = new Array(this.count).fill(0).map(() => this.spawn());
+    }
+
+    resize(w, h) {
+        this.width = w;
+        this.height = h;
+    }
+
+    spawn() {
+        // Spawn in a 3D box
+        const spread = 2000;
+        return {
+            x: (Math.random() - 0.5) * spread,
+            y: (Math.random() - 0.5) * spread,
+            z: Math.random() * 2000 + 100, // Depth
+            char: GLYPHS[Math.floor(Math.random() * GLYPHS.length)],
+            speed: 5 + Math.random() * 10,
+            colorIdx: Math.floor(Math.random() * CONFIG.colors.length),
+            size: 10 + Math.random() * 20
+        };
+    }
+
+    update(audio) {
+        // Global Audio Mods
+        const speedMult = 1 + (audio.bass * 8); // Kicks make it fly
+        const glitchX = (audio.mid > 0.4) ? (Math.random()-0.5) * 50 : 0; // Snares shift x
+        
+        for (let p of this.particles) {
+            // Move towards camera
+            p.z -= p.speed * speedMult;
+            
+            // "Rain" effect (Y down)
+            p.y += (p.speed * 0.5) * speedMult;
+
+            // Apply Glitch
+            p.x += glitchX;
+
+            // Cycle Chars
+            if (Math.random() > 0.95) {
+                p.char = GLYPHS[Math.floor(Math.random() * GLYPHS.length)];
             }
-            // Audio size reactivity
-            this.size = this.baseSize + (energy * (this.isBass ? 80 : 30));
-        } else {
-             this.size = this.baseSize; // Reset size when paused
+
+            // Reset if out of bounds (behind camera or too far down)
+            if (p.z <= 1 || p.y > 1500) {
+                const newP = this.spawn();
+                p.x = newP.x;
+                p.y = -1000; // Reset to top
+                p.z = 2000;  // Reset to far away
+                p.char = newP.char;
+            }
         }
-
-        this.x += vx;
-        this.y += vy;
-
-        // Mouse Gravity
-        const dx = mouseX - this.x;
-        const dy = mouseY - this.y;
-        const dist = Math.sqrt(dx*dx + dy*dy);
-        if(dist < 300) {
-            const pull = isPaused ? 0.001 : (this.isBass ? bass : mid) * 0.02;
-            this.x += dx * pull;
-            this.y += dy * pull;
-        }
-
-        // Color Cycle
-        if (!isPaused && bass > 0.8 && Math.random() > 0.9) {
-             this.hue = (this.hue + 5) % 36;
-        }
-
-        // Hard Wrap
-        if(this.x < -20) this.x = width + 20;
-        else if(this.x > width + 20) this.x = -20;
-        
-        if(this.y < -20) this.y = height + 20;
-        else if(this.y > height + 20) this.y = -20;
     }
-    
-    draw(ctx) {
-        ctx.fillStyle = COLORS[this.hue]; 
-        ctx.font = `${this.size | 0}px monospace`; 
-        ctx.fillText(this.char, this.x | 0, this.y | 0);
+
+    render(ctx, fov) {
+        // Sort for transparency/occlusion (Painter's Algo)
+        this.particles.sort((a, b) => b.z - a.z);
+
+        for (let p of this.particles) {
+            if (p.z <= 0) continue;
+
+            const scale = fov / p.z;
+            const x2d = p.x * scale;
+            const y2d = p.y * scale;
+
+            // Culling
+            if (x2d < -this.width || x2d > this.width || y2d < -this.height || y2d > this.height) continue;
+
+            // Depth Fog (Alpha)
+            const alpha = Math.max(0, Math.min(1, (2000 - p.z) / 1000));
+            
+            ctx.globalAlpha = alpha;
+            ctx.fillStyle = CONFIG.colors[p.colorIdx];
+            ctx.font = `bold ${p.size * scale}px monospace`;
+            
+            // Glow for close particles
+            if (p.z < 500) {
+                ctx.shadowBlur = 10;
+                ctx.shadowColor = ctx.fillStyle;
+            } else {
+                ctx.shadowBlur = 0;
+            }
+
+            ctx.fillText(p.char, x2d, y2d);
+        }
+        ctx.globalAlpha = 1;
+        ctx.shadowBlur = 0;
     }
 }
 
-export function initViz(c, provider) {
-    canvas = c;
-    ctx = canvas.getContext('2d', { alpha: false }); 
-    dataProvider = provider;
-    resize();
-    window.addEventListener('resize', resize);
-    window.addEventListener('mousemove', e => {
-        mouseX = e.clientX;
-        mouseY = e.clientY;
-    });
-    
-    particles = new Array(400).fill(0).map(() => new HebrewParticle());
-    
-    isActive = true;
-    requestAnimationFrame(loop);
-}
+// --- EXPORTS ---
 
-function resize() {
-    width = canvas.width = window.innerWidth;
-    height = canvas.height = window.innerHeight;
-}
+let engine = null;
 
-export function setPaused(p) {
-    isPaused = p;
-}
-
-function loop() {
-    if (!isActive) return;
-    requestAnimationFrame(loop);
-    
-    ctx.fillStyle = '#000000';
-    ctx.fillRect(0, 0, width, height);
-    
-    let bass = 0, mid = 0;
-    
-    // Poll data every frame for smoothness
-    if (!isPaused && dataProvider) {
-        const data = dataProvider();
-        if (data) {
-            bass = (data[0] + data[1] + data[2] + data[3] + data[4]) / 1275; 
-            mid = (data[10] + data[20] + data[30]) / 765; 
-            if (bass < 0.05) bass = 0;
-            if (mid < 0.05) mid = 0;
-            if (bass > 1) bass = 1;
-        }
-    }
-    
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-
-    const len = particles.length;
-    for(let i=0; i<len; i++) {
-        const p = particles[i];
-        p.update(bass, mid);
-        p.draw(ctx);
-    }
-    
-    // Center Shapes
-    if (!isPaused && bass > 0.1) {
-        ctx.strokeStyle = '#00FFFF';
-        ctx.lineWidth = (bass * 20) | 0;
-        ctx.beginPath();
-        const r = (bass * height * 0.4) | 0;
-        ctx.arc(width/2, height/2, r, 0, 6.28); 
-        ctx.stroke();
-        
-        ctx.strokeStyle = '#FF00FF';
-        ctx.strokeRect((width/2 - r), (height/2 - r), r*2, r*2);
-    }
+export function initViz(canvas, dataProvider) {
+    if (engine) engine.stop();
+    engine = new Engine(canvas, dataProvider);
+    engine.mount(new MatrixStormScene());
+    engine.start();
 }

@@ -11,7 +11,8 @@ const state = {
     currentDuration: 0,
     
     // Video Gen State
-    pendingSlice: null, 
+    pendingSlice: null, // Legacy reference for Waveform/Shim
+    sourceAudioBuffer: null, // Full original buffer for NLE
     pendingAudioShim: null,
     pendingCaptions: [], 
     
@@ -19,8 +20,19 @@ const state = {
     mediaLayers: [], 
     captions: [],
     
-    // Main Audio Track Object (Selectable)
-    audioLayer: null, 
+    // Audio Tracks (Multi-clip)
+    audioLayers: [], 
+    
+    // History
+    history: [],
+    historyPtr: -1,
+
+    // Track Mixer
+    trackSettings: {
+        audio: { muted: false, solo: false, vol: 1.0 },
+        media: { visible: true, locked: false },
+        captions: { visible: true, locked: false }
+    },
 
     studioMode: 'captions',
     studioZoom: 100, 
@@ -51,10 +63,10 @@ const state = {
     
     studioParticleSettings: {
         enabled: true,
-        colorMode: 'rainbow', // Default rainbow!
+        colorMode: 'rainbow', 
         color: '#ffffff',
-        count: 500, // Extreme count
-        reactivity: 2.0, // High reactivity
+        count: 500, 
+        reactivity: 2.0, 
         mode: 'circle',
         waveIntensity: 80,
         speed: 1.0,
@@ -74,12 +86,20 @@ export default state;
 
 export function resetVideoState() {
     state.pendingSlice = null;
+    state.sourceAudioBuffer = null;
     state.pendingAudioShim = null;
     state.pendingCaptions = [];
     state.mediaLayers = [];
     state.captions = [];
     state.studioBeats = [];
-    state.audioLayer = null;
+    state.audioLayers = [];
+    state.history = [];
+    state.historyPtr = -1;
+    state.trackSettings = {
+        audio: { muted: false, solo: false, vol: 1.0 },
+        media: { visible: true, locked: false },
+        captions: { visible: true, locked: false }
+    };
     state.studioZoom = 100;
     state.studioScrollX = 0;
     state.studioIsPlaying = false;
@@ -88,16 +108,5 @@ export function resetVideoState() {
     state.studioFX = {
         pump: false, rgbSplit: false, mirrorX: false, mirrorY: false,
         vhs: false, colorCycle: false, jitter: false, vaporGrid: false
-    };
-    state.studioParticleSettings = {
-        enabled: true,
-        colorMode: 'rainbow',
-        color: '#ffffff',
-        count: 500,
-        reactivity: 2.0,
-        mode: 'circle',
-        waveIntensity: 80,
-        speed: 1.0,
-        sizeBase: 20
     };
 }
