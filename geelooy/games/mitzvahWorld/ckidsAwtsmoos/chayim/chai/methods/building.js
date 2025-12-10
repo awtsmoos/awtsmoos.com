@@ -29,12 +29,13 @@ export default {
         
         // Initialize Nature System if needed
         if (item && item.isPainter && !this.olam.natureSystem) {
-             import('../../dvarim/nature/natureSystem.js').then(m => {
+             // B"H FIX: Correct relative path to reach ckidsAwtsmoos root
+             import('../../../dvarim/nature/natureSystem.js').then(m => {
                  this.olam.natureSystem = new m.default(this.olam);
                  // Pre-load assets
                  this.olam.natureSystem.initPool('grass', 10000, "awtsmoos://grassModel");
                  this.olam.natureSystem.initPool('rock');
-             });
+             }).catch(e => console.error("B\"H: Failed to load NatureSystem", e));
         }
         
         // Continuous Painting Logic

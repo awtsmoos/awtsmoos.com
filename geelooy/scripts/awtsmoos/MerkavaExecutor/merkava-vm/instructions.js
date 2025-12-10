@@ -32,7 +32,15 @@
                 case OPCODES.MUL: { const b = thread.pop(); const a = thread.pop(); thread.push(a * b); break; }
                 case OPCODES.DIV: { const b = thread.pop(); const a = thread.pop(); thread.push(a / b); break; }
                 case OPCODES.MOD: { const b = thread.pop(); const a = thread.pop(); thread.push(a % b); break; }
+                case OPCODES.POW: { const b = thread.pop(); const a = thread.pop(); thread.push(Math.pow(a, b)); break; }
                 
+                case OPCODES.BIT_AND: { const b = thread.pop(); const a = thread.pop(); thread.push(a & b); break; }
+                case OPCODES.BIT_OR:  { const b = thread.pop(); const a = thread.pop(); thread.push(a | b); break; }
+                case OPCODES.BIT_XOR: { const b = thread.pop(); const a = thread.pop(); thread.push(a ^ b); break; }
+                case OPCODES.SHL:     { const b = thread.pop(); const a = thread.pop(); thread.push(a << b); break; }
+                case OPCODES.SHR:     { const b = thread.pop(); const a = thread.pop(); thread.push(a >> b); break; }
+                case OPCODES.USHR:    { const b = thread.pop(); const a = thread.pop(); thread.push(a >>> b); break; }
+
                 // Comparison
                 case OPCODES.LT: { const b = thread.pop(); const a = thread.pop(); thread.push(a < b); break; }
                 case OPCODES.LTE: { const b = thread.pop(); const a = thread.pop(); thread.push(a <= b); break; }
@@ -41,6 +49,9 @@
                 case OPCODES.EQ: { const b = thread.pop(); const a = thread.pop(); thread.push(a == b); break; }
                 case OPCODES.STRICT_EQ: { const b = thread.pop(); const a = thread.pop(); thread.push(a === b); break; }
                 case OPCODES.NEQ: { const b = thread.pop(); const a = thread.pop(); thread.push(a != b); break; }
+                case OPCODES.STRICT_NEQ: { const b = thread.pop(); const a = thread.pop(); thread.push(a !== b); break; }
+                case OPCODES.INSTANCEOF: { const b = thread.pop(); const a = thread.pop(); thread.push(a instanceof b); break; }
+                case OPCODES.IN: { const b = thread.pop(); const a = thread.pop(); thread.push(a in b); break; }
 
                 // Flow
                 case OPCODES.JUMP: thread.ip += thread.read16(); break;
@@ -49,7 +60,6 @@
                     if (!thread.pop()) thread.ip += offset;
                     break;
                 }
-                // B"H - TIKKUN: Added JUMP_IF_TRUE for Logical OR (||)
                 case OPCODES.JUMP_IF_TRUE: {
                     const offset = thread.read16();
                     if (thread.pop()) thread.ip += offset;
@@ -65,7 +75,6 @@
                 case OPCODES.LOAD_GLOBAL: {
                     const name = thread.constants[thread.read16()];
                     let val = vm.memory.getGlobal(name);
-                    // B"H - TIKKUN: Fallback to Host Environment (Context)
                     if (val === undefined && thread.environment && (name in thread.environment)) {
                         val = thread.environment[name];
                     }
@@ -82,9 +91,19 @@
                     thread.push(thread.currentScope ? thread.currentScope[idx] : undefined);
                     break;
                 }
-                case OPCODES.NOT: {
-                    const a = thread.pop();
-                    thread.push(!a);
+                
+                // Unary
+                case OPCODES.NOT: { thread.push(!thread.pop()); break; }
+                case OPCODES.BIT_NOT: { thread.push(~thread.pop()); break; }
+                // B"H - TIKKUN: Fixed Missing NEGATE
+                case OPCODES.NEGATE: { thread.push(-thread.pop()); break; }
+                case OPCODES.TYPEOF: { thread.push(typeof thread.pop()); break; }
+                case OPCODES.VOID: { thread.pop(); thread.push(undefined); break; }
+                case OPCODES.DELETE: { 
+                    const prop = thread.pop();
+                    const obj = thread.pop();
+                    if (obj && typeof obj === 'object') thread.push(delete obj[prop]);
+                    else thread.push(true);
                     break;
                 }
 
@@ -132,7 +151,6 @@
                     break;
                 }
 
-                // B"H - TIKKUN: Implemented NEW Opcode
                 case OPCODES.NEW: {
                     const count = thread.read8();
                     const args = [];
@@ -141,7 +159,6 @@
                     
                     if (typeof constructor === 'function') {
                          try {
-                            // Use Reflect.construct to handle classes correctly
                             thread.push(Reflect.construct(constructor, args));
                          } catch(e) {
                             throw new Error(`[VM] NEW Error: ${e.message}`);
@@ -169,8 +186,6 @@
                         thread.constants = callee.code.constants;
                         thread.ip = 0;
                         thread.currentScope = {};
-                        // B"H: Reset catch stack for new function frame? 
-                        // Usually catch blocks are local to execution context.
                         thread.catchStack = []; 
                         args.forEach((a, i) => thread.currentScope[i] = a);
                     } else if (typeof callee === 'function') {
@@ -200,11 +215,10 @@
                     break;
                 }
 
-                // B"H - TIKKUN: Exception Handling
+                // Exception Handling
                 case OPCODES.ENTER_TRY: {
                     const catchOffset = thread.read16();
                     if(!thread.catchStack) thread.catchStack = [];
-                    // Push the absolute address of the catch block
                     thread.catchStack.push(thread.ip + catchOffset);
                     break;
                 }
@@ -216,9 +230,6 @@
                 }
                 case OPCODES.THROW: {
                     const err = thread.pop();
-                    // Unwind logic handled in Thread.step usually, but here we can simulate a jump
-                    // However, robust handling requires modifying the Thread's loop to handle exceptions.
-                    // For now, we will THROW a JS Error that the Thread catches, but we attach the VM Value.
                     const vmError = new Error(err && err.message ? err.message : String(err));
                     vmError.vmValue = err;
                     throw vmError;

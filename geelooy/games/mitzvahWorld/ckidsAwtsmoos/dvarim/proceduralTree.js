@@ -281,7 +281,11 @@ export default class ProceduralTree extends Tzomayach {
 
                  const path = this.olam.getComponent("awtsmoos://barkTexture" + barkCap + key);
                  if(path) {
-                     return this.olam.loadTexture({ url: path, shouldRepeat: true, repeatX: texScale.x, repeatY: texScale.y });
+                     return this.olam.loadTexture({ url: path, shouldRepeat: true, repeatX: texScale.x, repeatY: texScale.y })
+                     .catch(e => {
+                         console.warn("B\"H: Failed to load texture", path, e);
+                         return null;
+                     });
                  }
                  return Promise.resolve(null);
              };
@@ -326,9 +330,14 @@ export default class ProceduralTree extends Tzomayach {
             const leafPath = this.olam.getComponent("awtsmoos://leafTexture" + leafCap);
             
             if(leafPath) {
-                 this.olam.loadTexture({ url: leafPath }).then(tex => {
+                 this.olam.loadTexture({ url: leafPath })
+                 .then(tex => {
                      this.leavesMaterial.map = tex;
                      this.leavesMaterial.needsUpdate = true;
+                 })
+                 .catch(e => {
+                     console.warn("B\"H: Failed to load leaf texture", leafPath, e);
+                     // Keep default color
                  });
             }
         }
