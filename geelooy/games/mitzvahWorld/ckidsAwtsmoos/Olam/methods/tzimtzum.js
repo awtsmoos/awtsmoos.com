@@ -1,7 +1,9 @@
+
 /**
  * B"H
  * the initial "tzimtzum" setup method for Olam
  */
+import defaultConfig from "../../defaultConfig.js";
 
 export default class {
     async tzimtzum/*go, create world and load things*/
@@ -16,7 +18,7 @@ export default class {
             var {
                 worldDayuhURL
             } = info;
-            if(typeof(worldDayuhURL == "string")) {
+            if(typeof(worldDayuhURL) == "string") {
                 try {
                     var f = await import(worldDayuhURL);
                     if(f?.default) {
@@ -28,6 +30,18 @@ export default class {
                     console.log("Couldn't load dayuh: ",worldDayuhURL )
                 }
             }
+            
+            // B"H: Merge Default Configuration
+            // This ensures nature assets are available in all worlds without editing them
+            if (defaultConfig) {
+                if (defaultConfig.components) {
+                    info.components = {
+                        ...defaultConfig.components,
+                        ...(info.components || {}) // World specific components override defaults
+                    };
+                }
+            }
+
             console.log("Info world",info,userInfo,systemInfo)
             /*
             if(info.windowVars) {

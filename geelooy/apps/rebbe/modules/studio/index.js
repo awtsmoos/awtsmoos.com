@@ -17,22 +17,11 @@ export function initStudio() {
     ctx.canvas = canvas;
     ctx.g = canvas.getContext('2d');
 
-    if(state.mediaLayers.length === 0 && state.captions.length === 0) {
-        try {
-            const saved = localStorage.getItem(AUTOSAVE_KEY);
-            if(saved) {
-                const parsed = JSON.parse(saved);
-                if(confirm("RESTORE PREVIOUS SESSION?")) {
-                    state.mediaLayers = parsed.mediaLayers || [];
-                    state.captions = parsed.captions || [];
-                    state.studioGlobal = parsed.studioGlobal || state.studioGlobal;
-                    state.studioBeats = parsed.studioBeats || [];
-                    state.studioFX = parsed.studioFX || state.studioFX;
-                }
-            }
-        } catch(e) {}
-    }
-
+    // Only restore if state is empty AND we are NOT in a fresh slice session
+    // Actually, simplifying: let's autosave implicitly but only manual restore via console or button if added later.
+    // Automatically prompting 'confirm' here interrupts the flow of 'Open Studio'.
+    // Logic: If state.mediaLayers is NOT empty (because we added something?), keep it.
+    
     if(!state.studioGlobal) state.studioGlobal = { width: 1080, height: 1920, bg: '#000000' };
     if(!state.studioFX) state.studioFX = {};
 
@@ -52,7 +41,10 @@ export function initStudio() {
     updatePropertiesPanel();
 
     if (!ctx.requestID) loop();
-    setInterval(autoSave, 5000);
+    
+    // Clear old interval if exists
+    if(window.studioAutosaveInt) clearInterval(window.studioAutosaveInt);
+    window.studioAutosaveInt = setInterval(autoSave, 5000);
 
     // Expose Actions AND UI functions to Window to break circular deps
     window.Studio = { 
@@ -76,12 +68,21 @@ function autoSave() {
 export function closeStudio() {
     Actions.stopAudio();
     if (ctx.requestID) { cancelAnimationFrame(ctx.requestID); ctx.requestID = null; }
+    if(window.studioAutosaveInt) clearInterval(window.studioAutosaveInt);
 }
 
 function loop() {
-    if (!document.getElementById('studio-preview-canvas')) {
+    const canvas = document.getElementById('studio-preview-canvas');
+    if (!canvas) {
         ctx.requestID = null;
         return;
+    }
+    
+    // Check visibility to save resources
+    const modal = document.getElementById('modal-studio');
+    if (modal && modal.classList.contains('hidden')) {
+        ctx.requestID = null;
+        return; // Stop loop if hidden
     }
 
     if (state.studioIsPlaying && ctx.audio) {

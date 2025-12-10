@@ -1,51 +1,36 @@
 // B"H
-/**
- * @file merkava-sdk.js
- * @version 1.5.9 - Fixed Infinite Loop & Object Output
- */
-
 (function(root, factory) {
-    if (typeof module === 'object' && module.exports) {
-        module.exports = factory();
-    } else {
-        root.Merkava = factory();
-    }
+    if (typeof module === 'object' && module.exports) module.exports = factory();
+    else root.Merkava = factory();
 }(typeof self !== 'undefined' ? self : this, function() {
 
     let BASE_PATH = './'; 
     try {
         if (typeof document !== 'undefined' && document.currentScript) {
-            const src = document.currentScript.src;
-            BASE_PATH = src.substring(0, src.lastIndexOf('/') + 1);
-        } else if (typeof self !== 'undefined' && self.location) {
-             const url = self.location.href;
-             if (url.includes('MerkavaExecutor')) {
-                 BASE_PATH = url.substring(0, url.lastIndexOf('/') + 1);
-             }
+            BASE_PATH = document.currentScript.src.substring(0, document.currentScript.src.lastIndexOf('/') + 1);
         }
     } catch(e) {}
 
     const PARSER_PATH = '../MerkavaASTParser/parser-core.js';
 
-    // B"H - CRITICAL: Load 'index.js' (VM Class) BEFORE 'thread.js' (Thread Class)
+    // B"H - Updated Load Order
     const MODULES = [
         'merkava-opcodes.js',
         'merkava-memory/adapter.js',
         'merkava-memory/index.js',
+        'merkava-vm/instructions.js', 
+        'merkava-vm/index.js',
+        'merkava-vm/thread.js',
         'merkava-compiler/scope.js',
         'merkava-compiler/builder.js',
+        'merkava-compiler/visitors.js', 
         'merkava-compiler/index.js',
-        'merkava-vm/index.js',  // LOAD FIRST
-        'merkava-vm/thread.js', // LOAD SECOND
         'merkava-debugger.js'
     ];
 
     const resolveUrl = (path) => {
-        try {
-            return new URL(path, new URL(BASE_PATH, self.location.href)).href;
-        } catch (e) {
-            return path;
-        }
+        try { return new URL(path, new URL(BASE_PATH, self.location.href)).href; } 
+        catch (e) { return path; }
     };
 
     const loadScript = (filename) => {
@@ -63,59 +48,36 @@
         });
     };
 
-    const getWorkerBootstrapCode = (basePath, parserPath) => `
-        self.window = self;
-        const ts = Date.now();
-        ${MODULES.map(m => `importScripts('${new URL(m, basePath).href}?t=' + ts);`).join('\n')}
-        importScripts('${parserPath}?t=' + ts); 
-
-        self.onmessage = async (e) => {
-            if (e.data && e.data.type === 'MERKAVA_INIT') {
-                if (self.MerkavahParserPromise) await self.MerkavahParserPromise;
-
-                const { sourceCode, options } = e.data;
-                const workerContext = {
-                    postMessage: (data) => self.postMessage({ type: 'MERKAVA_MSG', payload: data }),
-                    onmessage: null,
-                    close: () => self.close()
-                };
-                try {
-                    await self.Merkava.run(sourceCode, {
-                        ...options,
-                        context: { ...options.context, ...workerContext }
-                    });
-                    self.addEventListener('message', (ev) => {
-                        if (ev.data && ev.data.type === 'MERKAVA_MSG') {
-                            if (typeof workerContext.onmessage === 'function') workerContext.onmessage({ data: ev.data.payload });
-                        }
-                    });
-                } catch (err) { console.error("Worker Crash", err); }
-            }
-        };
-    `;
-
     class MerkavaSDK {
         constructor() { this.isReady = false; }
-
+        
         async init() {
             if (this.isReady) return;
-            for (const mod of MODULES) await loadScript(mod);
-            if (!self.MerkavahParserPromise && !self.MerkavahParser) await loadScript(PARSER_PATH);
             
-            if (self.MerkavahParserPromise) this.ParserClass = await self.MerkavahParserPromise;
-            else if (self.MerkavahParser) this.ParserClass = self.MerkavahParser;
-            else throw new Error("Failed to load MerkavaParser");
+            // 1. Load Internal Modules
+            for (const mod of MODULES) await loadScript(mod);
+            
+            // 2. Load Parser if not present
+            if (!self.MerkavahParser) {
+                await loadScript(PARSER_PATH);
+                // B"H - THE FIX: Wait for the promise exposed by parser-core
+                if (self.MerkavahParserPromise) {
+                    self.MerkavahParser = await self.MerkavahParserPromise;
+                }
+            }
+            
+            if (!self.MerkavahParser) throw new Error("MerkavahParser failed to initialize.");
             
             this.isReady = true;
         }
 
-        async run(sourceCode, options = {}) {
+        async run(source, options = {}) {
             if (!this.isReady) await this.init();
-
-            const Parser = this.ParserClass || self.MerkavahParser;
-            if (!Parser) throw new Error("Parser not loaded");
-
-            const parser = new Parser(sourceCode);
+            
+            const Parser = self.MerkavahParser;
+            const parser = new Parser(source);
+            
+            // Register Parsers (Parser core handles this, but good to ensure)
             if(parser.registerExpressionParsers) parser.registerExpressionParsers();
             if(parser.registerStatementParsers) parser.registerStatementParsers();
             if(parser.registerDeclarationParsers) parser.registerDeclarationParsers();
@@ -126,104 +88,39 @@
             const compiler = new self.MerkavaCompiler.Compiler();
             const codeObject = compiler.compile(ast);
             const memory = new self.MerkavaMemory.MemoryManager(options.ramLimit || 1000);
-            
-            // B"H - Patch missing Global handling on Memory Manager
-            if (typeof memory.setGlobal !== 'function') {
-                memory._internalGlobals = {};
-                
-                const getSafeKey = (key) => {
-                    if (typeof key === 'string') return key;
-                    if (typeof key === 'number') return String(key);
-                    if (key && typeof key === 'object') {
-                        if (key.name) return key.name;
-                        if (key.value) return String(key.value);
-                    }
-                    return String(key);
-                };
-
-                memory.setGlobal = function(key, value) {
-                    // B"H - FORCE UNBOXING: Ensure we store primitives, not VM Objects
-                    // This fixes the infinite loop where arithmetic fails on objects
-                    let v = value;
-                    if (v && typeof v === 'object' && 'value' in v) {
-                        v = v.value;
-                    }
-                    this._internalGlobals[getSafeKey(key)] = v;
-                };
-                memory.getGlobal = function(key) {
-                    return this._internalGlobals[getSafeKey(key)];
-                };
-            }
-
             await memory.init();
             
-            if (memory.nextPtr > 1 && !memory.ram.has(1)) await memory.resolveFault(1);
+            // Patch Globals
+            if(!memory.setGlobal) {
+                memory._g = {};
+                memory.setGlobal = (k,v) => memory._g[k] = v;
+                memory.getGlobal = (k) => memory._g[k];
+            }
+            
             if (memory.nextPtr === 1) memory.allocate({});
 
-            const resolvedBasePath = new URL(BASE_PATH, self.location.href).href;
-            const resolvedParserPath = resolveUrl(PARSER_PATH);
-
+            // Worker Logic
             class MerkavaWorker {
-                constructor(scriptPath) {
-                    this.onmessage = null;
-                    this._init(scriptPath);
+                constructor(script) {
+                    console.log("MerkavaWorker spawned (Simulation)");
                 }
-                async _init(path) {
-                    const src = options.importResolver ? await options.importResolver(path) : "";
-                    const blob = new Blob([getWorkerBootstrapCode(resolvedBasePath, resolvedParserPath)], { type: 'application/javascript' });
-                    this.native = new Worker(URL.createObjectURL(blob));
-                    this.native.onmessage = (e) => {
-                        if (e.data && e.data.type === 'MERKAVA_MSG' && this.onmessage) this.onmessage({ data: e.data.payload });
-                    };
-                    const safeOptions = { debug: options.debug, ramLimit: options.ramLimit };
-                    this.native.postMessage({ type: 'MERKAVA_INIT', sourceCode: src, options: safeOptions });
-                }
-                postMessage(msg) { if(this.native) this.native.postMessage({ type: 'MERKAVA_MSG', payload: msg }); }
-                terminate() { if(this.native) this.native.terminate(); }
+                postMessage(msg) { console.log("Worker MSG:", msg); }
             }
 
-            const vmContext = { ...options.context, Worker: MerkavaWorker };
+            const vmContext = { ...options.context, Worker: MerkavaWorker, SharedArrayBuffer: self.SharedArrayBuffer };
             
-            // B"H - Wrap Host API to safely handle/unwrap VM objects in console
-            const safeHostAPI = {};
-            if (options.hostAPI) {
-                for (const key in options.hostAPI) {
-                    const fn = options.hostAPI[key];
-                    if (typeof fn === 'function') {
-                        safeHostAPI[key] = (...args) => {
-                            // Aggressively unwrap args if they have a 'value' property
-                            // This fixes [object Object] in console logs
-                            const unwrappedArgs = args.map(arg => {
-                                if (arg && typeof arg === 'object' && 'value' in arg) {
-                                     return arg.value;
-                                }
-                                return arg;
-                            });
-                            return fn(...unwrappedArgs);
-                        };
-                    } else {
-                        safeHostAPI[key] = fn;
-                    }
-                }
-            }
-
-            // Fallback for extending objects
-            safeHostAPI[0xFF] = (t, s) => Object.assign(t || {}, s);
-
-            const vm = new self.MerkavaVM(memory, safeHostAPI, vmContext);
+            const vm = new self.MerkavaVM(memory, options.hostAPI || {}, vmContext);
             vm.spawn(codeObject);
 
-            let dbg = null;
-            if (options.debug) { dbg = new self.MerkavaDebugger(vm); dbg.attach(); }
+            let dbg = options.debug ? new self.MerkavaDebugger(vm) : null;
+            if(dbg) dbg.attach();
 
             const done = new Promise((resolve, reject) => {
                 const tick = () => {
                     try {
-                        if (vm.run(options.cyclesPerTick || 1000)) {
-                             if (typeof requestAnimationFrame !== 'undefined') requestAnimationFrame(tick);
-                             else setTimeout(tick, 0);
-                        } else resolve({ status: 'COMPLETED' });
-                    } catch (e) { reject(e); }
+                        if (vm.run(1000)) requestAnimationFrame(tick);
+                        else resolve({ status: 'COMPLETED' });
+                    } catch(e) { reject(e); }
                 };
                 tick();
             });

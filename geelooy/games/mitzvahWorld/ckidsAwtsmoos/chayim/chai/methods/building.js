@@ -1,7 +1,8 @@
+
 /**
  * B"H
  * @file building.js
- * Logic for placing and collecting items.
+ * Logic for placing, collecting, and painting items.
  */
 import * as THREE from '/games/scripts/build/three.module.js';
 
@@ -25,6 +26,29 @@ export default {
 
     updateHandState() {
         const item = this.getActiveItem();
+        
+        // Initialize Nature System if needed
+        if (item && item.isPainter && !this.olam.natureSystem) {
+             import('../../dvarim/nature/natureSystem.js').then(m => {
+                 this.olam.natureSystem = new m.default(this.olam);
+                 // Pre-load assets
+                 this.olam.natureSystem.initPool('grass', 10000, "awtsmoos://grassModel");
+                 this.olam.natureSystem.initPool('rock');
+             });
+        }
+        
+        // Continuous Painting Logic
+        if (this.olam.mouseDown && item && item.isPainter && this.activeRay) {
+             const origin = this.getRayStart();
+             const direction = this.getRayDirection();
+             const ray = new THREE.Ray(origin, direction);
+             const hit = this.olam.worldOctree.rayIntersect(ray);
+             
+             if (hit && hit.distance < 15 && this.olam.natureSystem) {
+                 this.olam.natureSystem.paint(item.natureType, hit.position);
+             }
+        }
+
         const currentId = item ? item.id : "empty";
         if (this.lastItemId !== currentId) {
             this.lastItemId = currentId;
@@ -45,6 +69,8 @@ export default {
     async shoot() {
         if (!this.activeRay) return;
         const item = this.getActiveItem();
+        
+        if (item && item.isPainter) return; // Handled in updateHandState
 
         if (item && item.isBuildable) {
             if (!this.activeObject) {
@@ -140,53 +166,24 @@ export default {
             let mesh = null;
 
             if (item.className === "CustomNpc") {
-                let modelPath = item.customData?.modelPath;
-                
+                // ... (Existing NPC logic) ...
+                 let modelPath = item.customData?.modelPath;
                 const componentExists = modelPath && this.olam.getComponent(modelPath);
-                
-                if (!componentExists) {
-                    if (this.olam.chossid && this.olam.chossid.path) {
-                        modelPath = this.olam.chossid.path;
-                    } else {
-                        modelPath = "awtsmoos://awduhm";
-                    }
-                }
-
-                let gltf = await this.olam.boyrayNivra({ 
-                    path: modelPath, 
-                    isSolid: false,
-                    name: "ghost_npc"
-                });
-                
-                if (gltf && gltf.scene) {
-                    mesh = gltf.scene;
-                    
-                    const player = this.olam.chossid;
-                    if (player && player.garments && player.path === modelPath) {
-                        mesh.traverse(child => {
-                            const playerGarment = Object.values(player.garments).find(g => g.name === child.name);
-                            if (playerGarment) {
-                                child.visible = playerGarment.visible;
-                            } else if (player.defaultGarments && player.defaultGarments[child.name]) {
-                                child.visible = false;
-                            }
-                        });
-                    }
-
-                    if (gltf.animations && gltf.animations.length) {
-                        const mixer = new THREE.AnimationMixer(mesh);
-                        const clip = THREE.AnimationClip.findByName(gltf.animations, "falling") || gltf.animations[0];
-                        if(clip) {
-                            const action = mixer.clipAction(clip);
-                            action.play();
-                            mixer.setTime(0);
-                            mesh.userData.onUpdate = (dt) => mixer.update(dt);
-                        }
-                    }
-                }
+                if (!componentExists) modelPath = "awtsmoos://awduhm";
+                let gltf = await this.olam.boyrayNivra({ path: modelPath, isSolid: false, name: "ghost_npc" });
+                if (gltf && gltf.scene) mesh = gltf.scene;
                 blockDefinition = {}; 
                 itemData = { ...item };
-
+            } else if (item.className === "ProceduralTree") {
+                // Special handling for Tree Ghost
+                const treeModule = await import('../../dvarim/proceduralTree.js');
+                const TreeClass = treeModule.default;
+                const tempTree = new TreeClass(item, this.olam);
+                // Force generation synchronously for ghost
+                tempTree.generate();
+                mesh = tempTree.treeGroup;
+                blockDefinition = {}; // Not using golem for tree
+                itemData = { ...item };
             } else {
                 try {
                     const fileName = item.className.toLowerCase() + ".js"; 
@@ -242,9 +239,8 @@ export default {
     },
 
     async placeObject() {
-        // B"H: Added robust check to prevent crash
         if (!this.activeObject || !this.activeObject.mesh) {
-             this._isGeneratingGhost = false; // Ensure flag is reset
+             this._isGeneratingGhost = false; 
              return;
         }
 
@@ -253,7 +249,6 @@ export default {
 
         const itemData = activeItem; 
         
-        // B"H: Double check before updateMatrixWorld
         if(this.activeObject && this.activeObject.mesh) {
              this.activeObject.mesh.updateMatrixWorld(true);
              const worldPosition = new THREE.Vector3();
@@ -265,18 +260,13 @@ export default {
              this.inventory.consumeItem(activeItem, 1);
 
              if (activeItem.className === "CustomNpc") {
-                 const currentPlayer = this.olam.chossid ? this.olam.chossid.name : "player";
-                 if(itemData.customData && !itemData.customData.ownerId) {
-                     itemData.customData.ownerId = currentPlayer;
-                 }
-
+                  await this.olam.loadNivrayim({
+                     CustomNpc: [{ ...itemData, position: worldPosition, rotation: worldRotation, isSolid: false }]
+                 });
+             } else if (activeItem.className === "ProceduralTree") {
+                 // Plant Tree
                  await this.olam.loadNivrayim({
-                     CustomNpc: [{
-                         ...itemData, 
-                         position: worldPosition,
-                         rotation: worldRotation,
-                         isSolid: false 
-                     }]
+                     ProceduralTree: [{ ...itemData, position: worldPosition, rotation: worldRotation, scale: worldScale, isSolid: true }]
                  });
              } else {
                  const type = itemData.className || 'Domem';
@@ -299,7 +289,6 @@ export default {
                  this.removeRay();
              } else {
                  this.removeActiveObject(); 
-                 // Re-trigger ghost generation
                  this.placeBlockOnRay();
              }
         }

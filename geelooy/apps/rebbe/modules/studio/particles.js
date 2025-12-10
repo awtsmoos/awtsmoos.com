@@ -31,13 +31,13 @@ function createParticle(w, h, index) {
 
 export function drawParticles(w, h, time) {
     const s = state.studioParticleSettings;
-    if(!s.enabled) return;
+    if(s.enabled === false) return; 
 
     const g = ctx.g;
-    const beat = ctx.bass * s.reactivity; // 0.0 to 1.0 approx
+    const beat = ctx.bass * s.reactivity; 
     
     // Global Rotation
-    const globalRot = time * s.rotationSpeed;
+    const globalRot = time * s.rotationSpeed || (time * 0.1);
 
     g.textAlign = 'center';
     g.textBaseline = 'middle';
@@ -51,14 +51,10 @@ export function drawParticles(w, h, time) {
         
         // --- POSITION LOGIC ---
         if (s.mode === 'circle') {
-            // Pulse radius with beat
             const r = p.radius + (beat * 100); 
-            // Sine wave distortion based on angle
             const wave = Math.sin(p.angle * 5 + time * 2) * (s.waveIntensity * ctx.mid);
             const rFinal = r + wave;
-            
             const a = p.angle + globalRot + (p.speed * time * 10);
-            
             x = w/2 + Math.cos(a) * rFinal;
             y = h/2 + Math.sin(a) * rFinal;
             
@@ -71,7 +67,6 @@ export function drawParticles(w, h, time) {
         } else { // Random
             p.x += Math.cos(p.angle) * (1 + beat * 5);
             p.y += Math.sin(p.angle) * (1 + beat * 5);
-            // Wrap
             if(p.x < -50) p.x = w+50; if(p.x > w+50) p.x = -50;
             if(p.y < -50) p.y = h+50; if(p.y > h+50) p.y = -50;
             x = p.x; y = p.y;
@@ -86,9 +81,7 @@ export function drawParticles(w, h, time) {
         } else if (s.colorMode === 'velocity') {
             color = `hsl(${200 + (beat*160)}, 100%, 60%)`;
         } else {
-            // Static / Base
-            color = s.baseColor;
-            // Opacity based on Z
+            color = s.color || '#ffffff'; // Fixed: was s.baseColor
             g.globalAlpha = 0.5 + (beat * 0.5);
         }
 
@@ -98,10 +91,10 @@ export function drawParticles(w, h, time) {
         g.globalAlpha = 1.0;
     }
     
-    // Optional Central Waveform Visualization
+    // Optional Central Waveform
     if(s.mode === 'circle' && ctx.bass > 0.1) {
         g.beginPath();
-        g.strokeStyle = s.baseColor;
+        g.strokeStyle = s.color || '#ffffff'; // Fixed
         g.lineWidth = 2;
         g.globalAlpha = 0.3;
         const radius = 100 + (beat * 50);

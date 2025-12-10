@@ -6,6 +6,7 @@ import * as Network from './modules/network.js';
 import * as Store from './store.js';
 import * as Render from './render.js'; 
 import * as VideoGen from './modules/video-gen.js';
+import { initStudio, closeStudio } from './modules/studio/index.js';
 
 let folderMap = {}; // Will hold array of folder names
 
@@ -39,13 +40,12 @@ export async function init() {
             }
         },
 
-        checkStatus: Store.isCached, // Now exists in Store
+        checkStatus: Store.isCached, 
         onDownloadAction: handleDownloadAction,
         onSearch: handleSearch,
         onSearchResultSelect: handleSearchResultSelect,
         onClearDB: handleClearDB,
         onShare: () => {
-             // URL is already updated by handleTrackSelect
              const url = window.location.href;
              navigator.clipboard.writeText(url).then(()=>alert("LINK COPIED: " + url));
         },
@@ -62,11 +62,19 @@ export async function init() {
         },
         onAnalyzeVideo: async (start, dur, res) => {
             const ready = await VideoGen.handleAnalyzeVideo(start, dur, res, state, () => {
-                Render.openCaptionEditor();
+                Render.closeModal('modal-video');
+                Render.openModal('modal-studio');
+                // INIT THE STUDIO ENGINE HERE
+                initStudio();
             });
         },
         onDownloadAudioSlice: (st) => VideoGen.handleDownloadAudioSlice(st),
-        onRenderFinal: (st) => VideoGen.renderFinalVideo(st)
+        onRenderFinal: (st) => VideoGen.renderFinalVideo(st),
+        
+        onCloseStudio: () => {
+            closeStudio();
+            Render.closeModal('modal-studio');
+        }
     });
 
     Audio.setCallbacks({
@@ -84,7 +92,7 @@ export async function init() {
         await Store.initDB(); // Ensure DB is open
         Render.log("FETCHING INDEX...");
         const years = await Network.fetchIndex();
-        Render.renderYears(years);
+        Render.renderYears(years, handleYearSelect);
         Render.log("READY.");
 
         // --- Deep Linking Logic ---
@@ -125,7 +133,7 @@ export async function init() {
 
     } catch(e) {
         Render.log("BOOT ERROR: " + e.message, true);
-        console.error(e); // Ensure visibility in dev tools
+        console.error(e);
     }
 }
 
@@ -135,10 +143,9 @@ async function handleYearSelect(yid) {
     state.currentYearId = yid;
     Render.log(`ACCESSING YEAR ${yid}...`);
     try {
-        // fetchYear returns array of folder names
         const folders = await Network.fetchYear(yid);
-        folderMap = folders; // Store array for index lookup
-        Render.renderFolders(folders);
+        folderMap = folders; 
+        Render.renderFolders(folders, handleFolderSelect);
         
         document.getElementById('col-folders').classList.add('open');
         document.getElementById('col-tracks').classList.remove('open');
@@ -147,7 +154,6 @@ async function handleYearSelect(yid) {
 }
 
 async function handleFolderSelect(fid) {
-    // fid is the INDEX from the view loop
     const folderName = folderMap[fid]; 
     if(!folderName) return Render.log("INVALID FOLDER ID", true);
 
@@ -155,11 +161,17 @@ async function handleFolderSelect(fid) {
     Render.log(`OPENING ${folderName}...`);
     try {
         Render.setTracksLoading(true, state.currentFolderName);
-        // Pass both YearKey and FolderName to resolve correctly
         const tracks = await Network.fetchFolder(state.currentYearId, folderName);
         state.currentTracks = tracks;
         state.folders[fid] = tracks;
-        Render.renderTracks(tracks, state.currentFolderName);
+        
+        Render.renderTracks(
+            tracks, 
+            state.currentFolderName, 
+            Store.isCached, 
+            handleTrackSelect, 
+            (x, y, t, el) => Render.showContextMenu(x, y, t, el, handleDownloadAction)
+        );
         Render.setTracksLoading(false, state.currentFolderName);
         
         document.getElementById('col-tracks').classList.add('open');
@@ -188,8 +200,6 @@ async function handleTrackSelect(idx) {
         Audio.playBlob(cached);
     } else {
         Render.log("STREAMING FROM NETWORK...");
-        // Audio.playUrl handles the actual playback. 
-        // Ensure track.url is correct (handled in Network)
         Audio.playUrl(track.url);
         // Cache in background
         Network.fetchBlob(track.url).then(b => Store.saveTrack(track.path, b)).catch(e=>console.warn("Cache fail", e));
@@ -201,7 +211,6 @@ function updateURL(params) {
     if(params.year) url.searchParams.set('year', params.year);
     if(params.folder) url.searchParams.set('folder', params.folder);
     if(params.track !== undefined) url.searchParams.set('track', params.track);
-    // Don't set time continuously, only on share
     window.history.replaceState({}, '', url);
 }
 

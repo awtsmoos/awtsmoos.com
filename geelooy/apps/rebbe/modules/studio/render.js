@@ -46,7 +46,7 @@ export function drawFrame() {
     }
 
     // 2. BG
-    g.fillStyle = state.studioGlobal.bg;
+    g.fillStyle = state.studioGlobal.bg || '#000000';
     if(fxSettings.colorCycle) {
         const hue = (t * 20) % 360;
         g.fillStyle = `hsl(${hue}, 50%, 10%)`;
@@ -88,7 +88,22 @@ export function drawFrame() {
     if (fxSettings.vhs) FX.drawVHS(g, width, height, t);
 
     // Visualizer
-    if (state.studioIsPlaying) FX.drawVisualizer(g, width, height);
+    if (state.studioIsPlaying) {
+        FX.drawVisualizer(g, width, height);
+    } else if (state.mediaLayers.length === 0 && state.captions.length === 0) {
+        // IDLE STATE PROMPT
+        g.save();
+        g.translate(width/2, height/2);
+        g.fillStyle = 'rgba(0, 243, 255, 0.5)';
+        g.textAlign = 'center';
+        g.textBaseline = 'middle';
+        g.font = 'bold 40px monospace';
+        g.fillText("STUDIO READY", 0, -30);
+        g.font = '20px monospace';
+        g.fillStyle = 'rgba(255, 255, 255, 0.5)';
+        g.fillText("DRAG MEDIA OR PRESS PLAY", 0, 30);
+        g.restore();
+    }
 
     g.restore();
 }

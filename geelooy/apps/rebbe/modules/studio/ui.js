@@ -55,7 +55,6 @@ export function renderTimeline() {
         const rect = ruler.getBoundingClientRect();
         const scrub = (evt) => {
             const x = evt.clientX - rect.left + trackContainer.scrollLeft;
-            // BREAKING CIRCULAR DEP: Use global Studio object
             if(window.Studio && window.Studio.seek) {
                 window.Studio.seek(Math.max(0, x / zoom));
             }
@@ -67,6 +66,15 @@ export function renderTimeline() {
 
     // 2. Tracks
     trackContainer.innerHTML = '';
+    
+    // Base Audio Track (Visual Only)
+    const audioBlock = [{
+        id: 'base-audio', start: 0, end: dur, 
+        type: 'audio-base', text: 'AUDIO SOURCE (MAIN)'
+    }];
+    renderTrackLane(trackContainer, "AUDIO", audioBlock, 'audio-base');
+
+    // Media & Captions
     renderTrackLane(trackContainer, "MEDIA", state.mediaLayers, 'media');
     renderTrackLane(trackContainer, "CAPTIONS", state.captions, 'caption');
 }
@@ -92,15 +100,21 @@ function renderTrackLane(container, title, items, type) {
         b.style.left = (item.start * state.studioZoom) + 'px';
         b.style.width = ((item.end - item.start) * state.studioZoom) + 'px';
         
-        if (type === 'caption') {
+        if (type === 'audio-base') {
+            b.style.background = 'repeating-linear-gradient(45deg, #111, #111 10px, #222 10px, #222 20px)';
+            b.style.border = '1px solid #444';
+            b.style.pointerEvents = 'none'; // Read only
+            b.innerHTML = `<div class="block-content" style="color:#666;">${item.text}</div>`;
+        } else if (type === 'caption') {
             b.innerHTML = `<div class="block-content"><div class="b-txt">${item.text}</div></div>`;
+            b.onmousedown = (e) => handleBlockDown(e, type, idx, item);
         } else {
             const bg = item.type === 'glyph' ? '' : `background-image:url(${item.src});`;
             const txt = item.type === 'glyph' ? item.src.toUpperCase() : '';
             b.innerHTML = `<div class="block-img" style="${bg} opacity:${item.opacity}; display:flex; align-items:center; justify-content:center; color:#fff; font-size:10px;">${txt}</div>`;
+            b.onmousedown = (e) => handleBlockDown(e, type, idx, item);
         }
         
-        b.onmousedown = (e) => handleBlockDown(e, type, idx, item);
         lane.appendChild(b);
     });
     

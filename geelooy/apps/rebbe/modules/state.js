@@ -46,6 +46,7 @@ const state = {
     },
     
     studioParticleSettings: {
+        enabled: true,
         color: '#ffffff',
         count: 200,
         reactivity: 1.0,
@@ -80,4 +81,5 @@ export function resetVideoState() {
         pump: false, rgbSplit: false, mirrorX: false, mirrorY: false,
         vhs: false, colorCycle: false, jitter: false, vaporGrid: false
     };
+    state.studioParticleSettings.enabled = true;
 }
