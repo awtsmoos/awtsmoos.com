@@ -4,49 +4,58 @@
  * Nature System - Manages Instanced Mesh painting
  */
 import * as THREE from '/games/scripts/build/three.module.js';
-import { simplex2d } from '../../utils/math/noise.js';
 
 export default class NatureSystem {
     constructor(olam) {
         this.olam = olam;
-        this.pools = {}; // { 'grass': { mesh, count, max } }
+        this.pools = {}; 
         this.dummy = new THREE.Object3D();
         
         this.olam.on("heesHawvoos", (dt) => this.update(dt));
     }
     
-    async initPool(type, maxInstances = 10000, modelPath) {
+    async initPool(type, maxInstances = 5000, modelPath) {
         if(this.pools[type]) return this.pools[type];
         
+        // B"H: Determine model path based on type if not provided
+        if(!modelPath) {
+            switch(type) {
+                case 'grass': modelPath = "awtsmoos://grassModel"; break;
+                case 'rock1': modelPath = "awtsmoos://rockModel1"; break;
+                case 'rock2': modelPath = "awtsmoos://rockModel2"; break;
+                case 'rock3': modelPath = "awtsmoos://rockModel3"; break;
+                case 'flower_blue': modelPath = "awtsmoos://flowerBlue"; break;
+                case 'flower_yellow': modelPath = "awtsmoos://flowerYellow"; break;
+                case 'flower_white': modelPath = "awtsmoos://flowerWhite"; break;
+            }
+        }
+
         let geometry, material;
         
         if (modelPath) {
-            // Load GLB
-            const gltf = await this.olam.boyrayNivra({ path: modelPath });
-            if (gltf && gltf.scene) {
-                const mesh = gltf.scene.getObjectByProperty('isMesh', true);
-                if(mesh) {
-                    geometry = mesh.geometry;
-                    material = mesh.material;
-                    if(material.map) material.map.colorSpace = THREE.SRGBColorSpace;
+            const actualPath = this.olam.getComponent(modelPath);
+            if(actualPath) {
+                const gltf = await this.olam.boyrayNivra({ path: actualPath });
+                if (gltf && gltf.scene) {
+                    const mesh = gltf.scene.getObjectByProperty('isMesh', true);
+                    if(mesh) {
+                        geometry = mesh.geometry;
+                        material = mesh.material;
+                        if(material.map) material.map.colorSpace = THREE.SRGBColorSpace;
+                    }
                 }
             }
         }
         
-        // Fallback
+        // Fallback geometry if loading failed
         if (!geometry) {
-             if (type === 'grass') {
-                 geometry = new THREE.PlaneGeometry(0.5, 1);
-                 geometry.translate(0, 0.5, 0); // Pivot at bottom
-                 material = new THREE.MeshLambertMaterial({ color: 0x33aa33, side: THREE.DoubleSide });
-             } else {
-                 geometry = new THREE.DodecahedronGeometry(0.5);
-                 material = new THREE.MeshLambertMaterial({ color: 0x888888 });
-             }
+             geometry = new THREE.DodecahedronGeometry(0.5);
+             material = new THREE.MeshLambertMaterial({ color: 0x888888 });
         }
         
-        // Wind shader for grass
-        if (type === 'grass') {
+        // Wind shader for grass and flowers
+        if (type === 'grass' || type.includes('flower')) {
+             material = material.clone(); // Ensure unique material per type
              material.onBeforeCompile = (shader) => {
                 shader.uniforms.uTime = { value: 0 };
                 shader.vertexShader = `
@@ -67,6 +76,7 @@ export default class NatureSystem {
         instancedMesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
         instancedMesh.receiveShadow = true;
         instancedMesh.castShadow = true;
+        instancedMesh.frustumCulled = false; // B"H: Prevent flickering until bounds calc is fixed
         
         this.olam.scene.add(instancedMesh);
         
@@ -81,16 +91,26 @@ export default class NatureSystem {
     }
     
     paint(type, position, density = 1) {
+        // B"H: Randomize rock types if 'rock' is requested
+        if (type === 'rock') {
+            const rockTypes = ['rock1', 'rock2', 'rock3'];
+            type = rockTypes[Math.floor(Math.random() * rockTypes.length)];
+        }
+        
+        // B"H: Randomize flower types if 'flower' is requested
+        if (type === 'flower') {
+            const flowerTypes = ['flower_blue', 'flower_white', 'flower_yellow'];
+            type = flowerTypes[Math.floor(Math.random() * flowerTypes.length)];
+        }
+
         const pool = this.pools[type];
         if(!pool) {
-            // Auto-init fallback
             this.initPool(type).then(() => this.paint(type, position, density));
             return;
         }
         
-        // Paint a patch
-        const range = 2; // radius
-        const countToAdd = 5;
+        const range = 3; 
+        const countToAdd = type.includes('rock') ? 1 : 5; // Rocks are sparser
         
         for(let i=0; i<countToAdd; i++) {
             if (pool.count >= pool.max) break;
@@ -100,11 +120,21 @@ export default class NatureSystem {
             
             this.dummy.position.set(position.x + offsetX, position.y, position.z + offsetZ);
             
-            // Randomize rotation/scale
+            // Randomize rotation
             this.dummy.rotation.set(0, Math.random() * Math.PI * 2, 0);
-            const scale = 0.8 + Math.random() * 0.4;
-            this.dummy.scale.setScalar(scale);
-            if(type === 'grass') this.dummy.scale.y *= (0.8 + Math.random() * 0.5);
+            
+            // Scale variation
+            let scale = 1;
+            if (type === 'grass') {
+                 scale = 0.8 + Math.random() * 0.4;
+                 this.dummy.scale.set(scale, scale * (0.8 + Math.random() * 0.5), scale);
+            } else if (type.includes('rock')) {
+                 scale = 0.5 + Math.random() * 1.5;
+                 this.dummy.scale.setScalar(scale);
+            } else if (type.includes('flower')) {
+                 scale = 0.5 + Math.random() * 0.5;
+                 this.dummy.scale.setScalar(scale);
+            }
             
             this.dummy.updateMatrix();
             pool.mesh.setMatrixAt(pool.count, this.dummy.matrix);
@@ -116,7 +146,6 @@ export default class NatureSystem {
     }
     
     update(dt) {
-        // Update shaders
         for(const key in this.pools) {
             const mat = this.pools[key].material;
             if(mat && mat.userData.shader) {

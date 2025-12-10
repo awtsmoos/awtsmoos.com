@@ -3,6 +3,55 @@
     root.MerkavaCompiler = root.MerkavaCompiler || {};
     const getOpcodes = () => (root.MerkavaOpcodes && root.MerkavaOpcodes.OPCODES) || {};
 
+    // Aggregated Visitors
+    const Visitors = Object.assign({}, 
+        root.MerkavaCompiler.Visitors.Declarations,
+        root.MerkavaCompiler.Visitors.Expressions,
+        root.MerkavaCompiler.Visitors.Statements,
+        root.MerkavaCompiler.Visitors.Literals,
+        {
+            // Main Dispatcher
+            _visit(node) {
+                if (!node) return;
+                switch (node.type) {
+                    case 'Literal': this._visitLiteral(node); break;
+                    case 'TemplateLiteral': this._visitTemplateLiteral(node); break; // B"H - Added TemplateLiteral
+                    case 'Identifier': this._visitIdentifier(node, 'LOAD'); break;
+                    case 'BinaryExpression': this._visitBinary(node); break;
+                    case 'LogicalExpression': this._visitLogical(node); break;
+                    case 'UnaryExpression': this._visitUnary(node); break;
+                    case 'UpdateExpression': this._visitUpdate(node); break;
+                    case 'CallExpression': this._visitCall(node); break;
+                    case 'MemberExpression': this._visitMember(node); break;
+                    case 'ExpressionStatement': this._visit(node.expression); this.buffer.write8(this.OPCODES.POP); break;
+                    case 'BlockStatement': this._compileBlock(node.body); break;
+                    case 'ReturnStatement': this._visitReturn(node); break;
+                    case 'FunctionDeclaration': this._visitFuncDecl(node); break;
+                    case 'FunctionExpression': this._visitFuncExpr(node); break; // B"H - Added FunctionExpression
+                    case 'VariableDeclaration': this._visitVarDecl(node); break;
+                    case 'AssignmentExpression': this._visitAssignment(node); break;
+                    case 'IfStatement': this._visitIf(node); break;
+                    case 'WhileStatement': this._visitWhile(node); break;
+                    case 'ObjectExpression': this._visitObject(node); break;
+                    case 'ArrayExpression': this._visitArray(node); break;
+                    case 'ThisExpression': this.buffer.write8(this.OPCODES.PUSH_THIS); break;
+                    case 'NewExpression': this._visitNew(node); break;
+                    case 'BreakStatement': this._visitBreak(node); break;
+                    case 'ContinueStatement': this._visitContinue(node); break;
+                    
+                    case 'TryStatement': this._visitTry(node); break;
+                    case 'ThrowStatement': this._visitThrow(node); break;
+                    case 'ExportNamedDeclaration': this._visitExportNamed(node); break;
+                    case 'ExportDefaultDeclaration': this._visitExportDefault(node); break;
+                    case 'ImportDeclaration': this._visitImport(node); break;
+                    
+                    case 'EmptyStatement': break;
+                    default: throw new Error(`[Compiler] Unsupported Node Type: ${node.type}`);
+                }
+            }
+        }
+    );
+
     class Compiler {
         constructor() {
             this.OPCODES = getOpcodes();
@@ -34,7 +83,6 @@
             statements.forEach(s => this._visit(s));
         }
 
-        // ... Other complex methods like _visitFuncExpr can remain here or move to another split file ...
         _visitFuncExpr(node) {
             const sub = new Compiler();
             sub.scope = new root.MerkavaCompiler.Scope(this.scope, true);
@@ -52,10 +100,6 @@
         }
     }
 
-    // Mixin Visitors
-    Object.assign(Compiler.prototype, root.MerkavaCompiler.Visitors);
-    // Add missing visitors from previous file if not in visitors.js (shortened for brevity of XML)
-    // In a real scenario, ALL methods from original index.js would be distributed.
-
+    Object.assign(Compiler.prototype, Visitors);
     root.MerkavaCompiler.Compiler = Compiler;
 })(typeof self !== 'undefined' ? self : this);

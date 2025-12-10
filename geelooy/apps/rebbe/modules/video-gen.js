@@ -4,29 +4,58 @@ import { sliceAudioBuffer } from './audio-utils.js';
 import { getTrack } from './store.js';
 import { fetchBlob } from './network.js';
 import * as Render from '../render.js';
+import * as Audio from '../audio.js';
 
 // Helper: Prepare the audio slice state
 async function ensureAudioState(startTime, duration, state) {
     if (state.pendingAudioShim && state.pendingSlice) return true;
     
-    const track = state.currentTracks[state.trackIndex];
-    if (!track) return false;
+    // FAST PATH: Check if Audio module already has the buffer in memory
+    const existingBuffer = Audio.getBuffer();
+    
+    let audioBuffer = null;
 
-    Render.updateVideoProgress("BUFFERING SOURCE...", 0.1);
+    if (existingBuffer) {
+        Render.updateVideoProgress("CLONING BUFFER...", 0.2);
+        audioBuffer = existingBuffer;
+    } else {
+        // SLOW PATH: Fetch and Decode
+        const track = state.currentTracks[state.trackIndex];
+        if (!track) return false;
+
+        Render.updateVideoProgress("BUFFERING SOURCE...", 0.1);
+        try {
+            let blob = await getTrack(track.path);
+            if (!blob) blob = await fetchBlob(track.url);
+            const arrayBuffer = await blob.arrayBuffer();
+            
+            const offlineCtx = new OfflineAudioContext(2, 44100, 44100);
+            audioBuffer = await offlineCtx.decodeAudioData(arrayBuffer);
+        } catch(e) {
+            Render.log(`AUDIO ERROR: ${e.message}`, true);
+            return false;
+        }
+    }
+
+    // Processing Slice
     try {
-        let blob = await getTrack(track.path);
-        if (!blob) blob = await fetchBlob(track.url);
-        const arrayBuffer = await blob.arrayBuffer();
-        
-        const offlineCtx = new OfflineAudioContext(2, 44100, 44100);
-        const audioBuffer = await offlineCtx.decodeAudioData(arrayBuffer);
-        
         // Clamp duration
         if (startTime >= audioBuffer.duration) return false;
         if (startTime + duration > audioBuffer.duration) duration = audioBuffer.duration - startTime;
 
         const slice = sliceAudioBuffer(audioBuffer, startTime, startTime + duration);
         state.pendingSlice = slice; 
+        
+        // Setup initial audio layer for timeline
+        state.audioLayer = {
+            id: 'main-audio',
+            type: 'audio',
+            start: 0,
+            end: slice.duration,
+            duration: slice.duration,
+            offset: 0,
+            vol: 1.0
+        };
         
         // Create Shim structure for Worker
         state.pendingAudioShim = {
@@ -41,7 +70,7 @@ async function ensureAudioState(startTime, duration, state) {
         }
         return true;
     } catch(e) {
-        Render.log(`AUDIO ERROR: ${e.message}`, true);
+        Render.log(`SLICE ERROR: ${e.message}`, true);
         return false;
     }
 }

@@ -7,6 +7,7 @@ let dragMode = null;
 let startX = 0;
 let originalStart = 0;
 let originalEnd = 0;
+let originalOffset = 0;
 
 export function handleBlockDown(e, type, index, item) {
     e.stopPropagation();
@@ -19,14 +20,16 @@ export function handleBlockDown(e, type, index, item) {
     }
 
     const rect = e.target.getBoundingClientRect();
-    const edgeMargin = 10;
+    const edgeMargin = 15; 
     const relX = e.clientX - rect.left;
     const w = rect.width;
 
     startX = e.clientX;
     originalStart = item.start;
     originalEnd = item.end;
+    originalOffset = item.offset || 0;
 
+    // Determine drag mode
     if (relX < edgeMargin) {
         dragMode = 'trim-start';
         document.body.style.cursor = 'ew-resize';
@@ -51,7 +54,7 @@ function handleMove(e) {
 
     const item = dragTarget.item;
     const dur = state.pendingSlice ? state.pendingSlice.duration : 100;
-    const minDur = 0.5;
+    const minDur = 0.2;
 
     // Snapping
     const SNAP_TOLERANCE = 10 / state.studioZoom;
@@ -67,27 +70,23 @@ function handleMove(e) {
         let newStart = snap(originalStart + deltaSec);
         let newEnd = newStart + length;
         
-        if (newStart < 0) { newStart = 0; newEnd = length; }
-        if (newEnd > dur) { newEnd = dur; newStart = dur - length; }
-
         item.start = newStart;
         item.end = newEnd;
     } 
     else if (dragMode === 'trim-start') {
         let newStart = snap(originalStart + deltaSec);
-        if (newStart < 0) newStart = 0;
         if (newStart > item.end - minDur) newStart = item.end - minDur;
         item.start = newStart;
     } 
     else if (dragMode === 'trim-end') {
         let newEnd = snap(originalEnd + deltaSec);
-        if (newEnd > dur) newEnd = dur;
         if (newEnd < item.start + minDur) newEnd = item.start + minDur;
         item.end = newEnd;
     }
 
+    // Optimization: Don't force re-render synchronously
     if(window.Studio && window.Studio.renderTimeline) {
-        window.Studio.renderTimeline();
+         requestAnimationFrame(() => window.Studio.renderTimeline());
     }
 }
 

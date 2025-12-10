@@ -32,28 +32,9 @@ export function renderTimeline() {
     const trackContainer = el('timeline-tracks');
     if(!ruler || !trackContainer) return;
 
-    // IMPORTANT: Allow scrubbing by clicking empty space in the tracks area too
+    // IMPORTANT: Allow scrubbing by clicking empty space
     trackContainer.onmousedown = (e) => {
-        // If clicking on a block, let the block handler take it (it stops propagation)
-        // If clicking on background, seek.
         if(e.target === trackContainer || e.target.classList.contains('track-lane') || e.target.classList.contains('nle-track')) {
-             const rect = trackContainer.getBoundingClientRect();
-             const scroll = trackContainer.scrollLeft;
-             // Timeline header track-head width is 120px. The track lane starts at 120px absolute inside nle-track.
-             // But trackContainer contains the nle-track divs.
-             // The click x relative to trackContainer:
-             // Actually, timeline-tracks is a scrollable container.
-             // We need X relative to the start of the content.
-             
-             // Simple hack: The visual playhead position matches time * zoom.
-             // The offset of the click from the left of the container + scrollLeft
-             // But wait, there is a fixed "Track Head" on the left of each track lane (120px).
-             // Let's assume the user clicks to the right of the header.
-             
-             // This needs to align with `updatePlayhead` logic: left = 120 + x - scroll.
-             // So x = clickX - 120 + scroll?
-             // clickX is clientX relative to window.
-             
              const containerRect = trackContainer.getBoundingClientRect();
              const clickXInside = e.clientX - containerRect.left;
              const contentX = clickXInside + trackContainer.scrollLeft - 120; // 120 is header width
@@ -61,8 +42,6 @@ export function renderTimeline() {
              if (contentX >= 0) {
                  Actions.seek(contentX / state.studioZoom);
              }
-             
-             // Deselect if clicking background
              handleTimelineClick(e);
         }
     };
@@ -120,12 +99,10 @@ export function renderTimeline() {
     // 2. Tracks
     trackContainer.innerHTML = '';
     
-    // Base Audio Track (Visual Only)
-    const audioBlock = [{
-        id: 'base-audio', start: 0, end: dur, 
-        type: 'audio-base', text: 'AUDIO SOURCE (MAIN)'
-    }];
-    renderTrackLane(trackContainer, "AUDIO", audioBlock, 'audio-base');
+    // Base Audio Track (Now Editable)
+    // Wrap state.audioLayer in array if exists
+    const audioItems = state.audioLayer ? [state.audioLayer] : [];
+    renderTrackLane(trackContainer, "AUDIO", audioItems, 'audio');
 
     // Media & Captions
     renderTrackLane(trackContainer, "MEDIA", state.mediaLayers, 'media');
@@ -143,7 +120,6 @@ function renderTrackLane(container, title, items, type) {
     
     const lane = document.createElement('div');
     lane.className = 'track-lane';
-    // Ensure the lane is at least as wide as the content or screen
     lane.style.width = Math.max((state.studioZoom * (state.pendingSlice?.duration||10)) + 500, container.clientWidth) + 'px';
     
     items.forEach((item, idx) => {
@@ -154,11 +130,11 @@ function renderTrackLane(container, title, items, type) {
         b.style.left = (item.start * state.studioZoom) + 'px';
         b.style.width = ((item.end - item.start) * state.studioZoom) + 'px';
         
-        if (type === 'audio-base') {
-            b.style.background = 'repeating-linear-gradient(45deg, #111, #111 10px, #222 10px, #222 20px)';
-            b.style.border = '1px solid #444';
-            b.style.pointerEvents = 'none'; // Read only
-            b.innerHTML = `<div class="block-content" style="color:#666;">${item.text}</div>`;
+        if (type === 'audio') {
+            b.style.background = 'repeating-linear-gradient(45deg, #004400, #004400 10px, #005500 10px, #005500 20px)';
+            b.style.border = '1px solid #00ff66';
+            b.innerHTML = `<div class="block-content" style="color:#00ff66; font-weight:bold;">MAIN AUDIO SOURCE</div>`;
+            b.onmousedown = (e) => handleBlockDown(e, type, idx, item);
         } else if (type === 'caption') {
             b.innerHTML = `<div class="block-content"><div class="b-txt">${item.text}</div></div>`;
             b.onmousedown = (e) => handleBlockDown(e, type, idx, item);

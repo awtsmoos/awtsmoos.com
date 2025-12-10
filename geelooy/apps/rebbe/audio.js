@@ -41,6 +41,10 @@ export function setCallbacks(cbs) {
     if(!audioCtx) init();
 }
 
+export function getBuffer() {
+    return audioBuffer;
+}
+
 // Helper to fetch and decode
 async function loadBuffer(urlOrBlob) {
     if (!audioCtx) init();

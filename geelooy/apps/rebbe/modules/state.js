@@ -18,6 +18,10 @@ const state = {
     // NLE / Studio State
     mediaLayers: [], 
     captions: [],
+    
+    // Main Audio Track Object (Selectable)
+    audioLayer: null, 
+
     studioMode: 'captions',
     studioZoom: 100, 
     studioScrollX: 0,
@@ -47,11 +51,14 @@ const state = {
     
     studioParticleSettings: {
         enabled: true,
+        colorMode: 'rainbow', // Default rainbow!
         color: '#ffffff',
-        count: 200,
-        reactivity: 1.0,
+        count: 500, // Extreme count
+        reactivity: 2.0, // High reactivity
         mode: 'circle',
-        waveIntensity: 50
+        waveIntensity: 80,
+        speed: 1.0,
+        sizeBase: 20
     },
 
     // UI State
@@ -72,6 +79,7 @@ export function resetVideoState() {
     state.mediaLayers = [];
     state.captions = [];
     state.studioBeats = [];
+    state.audioLayer = null;
     state.studioZoom = 100;
     state.studioScrollX = 0;
     state.studioIsPlaying = false;
@@ -81,5 +89,15 @@ export function resetVideoState() {
         pump: false, rgbSplit: false, mirrorX: false, mirrorY: false,
         vhs: false, colorCycle: false, jitter: false, vaporGrid: false
     };
-    state.studioParticleSettings.enabled = true;
+    state.studioParticleSettings = {
+        enabled: true,
+        colorMode: 'rainbow',
+        color: '#ffffff',
+        count: 500,
+        reactivity: 2.0,
+        mode: 'circle',
+        waveIntensity: 80,
+        speed: 1.0,
+        sizeBase: 20
+    };
 }

@@ -13,17 +13,22 @@
 
     const PARSER_PATH = '../MerkavaASTParser/parser-core.js';
 
-    // B"H - Updated Load Order
+    // B"H - Updated Load Order with Split Visitors and Polyfills
     const MODULES = [
         'merkava-opcodes.js',
         'merkava-memory/adapter.js',
         'merkava-memory/index.js',
+        'merkava-vm/polyfills.js', // B"H - Load Polyfills
         'merkava-vm/instructions.js', 
         'merkava-vm/index.js',
         'merkava-vm/thread.js',
         'merkava-compiler/scope.js',
         'merkava-compiler/builder.js',
-        'merkava-compiler/visitors.js', 
+        // Visitors
+        'merkava-compiler/visitors/declarations.js',
+        'merkava-compiler/visitors/expressions.js',
+        'merkava-compiler/visitors/statements.js',
+        'merkava-compiler/visitors/literals.js',
         'merkava-compiler/index.js',
         'merkava-debugger.js'
     ];
@@ -60,7 +65,6 @@
             // 2. Load Parser if not present
             if (!self.MerkavahParser) {
                 await loadScript(PARSER_PATH);
-                // B"H - THE FIX: Wait for the promise exposed by parser-core
                 if (self.MerkavahParserPromise) {
                     self.MerkavahParser = await self.MerkavahParserPromise;
                 }
@@ -77,7 +81,6 @@
             const Parser = self.MerkavahParser;
             const parser = new Parser(source);
             
-            // Register Parsers (Parser core handles this, but good to ensure)
             if(parser.registerExpressionParsers) parser.registerExpressionParsers();
             if(parser.registerStatementParsers) parser.registerStatementParsers();
             if(parser.registerDeclarationParsers) parser.registerDeclarationParsers();
@@ -90,7 +93,6 @@
             const memory = new self.MerkavaMemory.MemoryManager(options.ramLimit || 1000);
             await memory.init();
             
-            // Patch Globals
             if(!memory.setGlobal) {
                 memory._g = {};
                 memory.setGlobal = (k,v) => memory._g[k] = v;
@@ -99,15 +101,57 @@
             
             if (memory.nextPtr === 1) memory.allocate({});
 
-            // Worker Logic
+            // B"H - Enhanced VM Worker Simulation
+            // We use a factory to create a worker that spawns a thread in the SAME VM.
             class MerkavaWorker {
-                constructor(script) {
-                    console.log("MerkavaWorker spawned (Simulation)");
+                constructor(scriptUrl) {
+                    console.log(`[VM] Spawning Worker for ${scriptUrl}`);
+                    this.onmessage = null;
+                    // Simulate async startup
+                    setTimeout(() => {
+                        console.log(`[VM] Worker ${scriptUrl} started.`);
+                        // In a real full impl, we'd fetch scriptUrl, compile, and vm.spawn(code)
+                        // For this demo, we simulate a worker that echoes.
+                        if (this.onmessage) this.onmessage({ data: "Worker Ready" });
+                    }, 100);
                 }
-                postMessage(msg) { console.log("Worker MSG:", msg); }
+                postMessage(msg) { 
+                    console.log("[VM] Worker received:", msg);
+                    // Echo back with slight delay to simulate thread work
+                    setTimeout(() => {
+                         if(this.onmessage) this.onmessage({data: { echo: msg, id: Math.random() }});
+                    }, 50);
+                }
             }
 
-            const vmContext = { ...options.context, Worker: MerkavaWorker, SharedArrayBuffer: self.SharedArrayBuffer };
+            const vmContext = { 
+                ...options.context, 
+                Worker: MerkavaWorker,
+                // Inject Simulated Polyfills
+                SharedArrayBuffer: self.MerkavaVM.Polyfills.SharedArrayBuffer,
+                Atomics: self.MerkavaVM.Polyfills.Atomics,
+                // Polyfill Int32Array to work with our SimBuffer if needed, 
+                // but standard TypedArrays work fine with standard ArrayBuffers.
+                // Our SimBuffer has a ._data (Uint8Array).
+                // We wrap standard Int32Array to accept our SimBuffer
+                Int32Array: class SimInt32Array extends Int32Array {
+                    constructor(buffer, byteOffset, length) {
+                        if (buffer instanceof self.MerkavaVM.Polyfills.SharedArrayBuffer) {
+                            super(buffer._data.buffer, byteOffset, length);
+                        } else {
+                            super(buffer, byteOffset, length);
+                        }
+                    }
+                },
+                importScripts: function(...urls) {
+                    console.log("[VM] importScripts called for:", urls);
+                    // Simulate blocking/loading by defining a global
+                    // In a real VM we'd pause the thread.
+                    if (memory.setGlobal) {
+                        memory.setGlobal("IMPORTED_LIB_LOADED", true);
+                    }
+                }
+            };
             
             const vm = new self.MerkavaVM(memory, options.hostAPI || {}, vmContext);
             vm.spawn(codeObject);
