@@ -1,3 +1,4 @@
+
 // B"H
 // FILE: js/git/git-commit.js
 import { FileSystemProvider } from '../fs-provider.js';
@@ -6,8 +7,9 @@ import { UI } from '../ui.js';
 import { Tabs } from '../tabs.js';
 
 export const GitCommit = {
-    async performCommit(gitContextItem, gitInfo, changeSet, commitMessage) {
+    async performCommit(gitContextItem, gitInfo, changeSet, commitMessage, options = {}) {
         const { repoInfo, branch } = gitInfo;
+        const force = options.force || false;
         
         if (!gitInfo.remoteTree) gitInfo.remoteTree = [];
 
@@ -51,8 +53,9 @@ export const GitCommit = {
             }
 
             const messagePart = totalCommits > 1 ? ` (Part ${commitCount}/${totalCommits})` : '';
+            // Force is applied to the Ref update, which happens in _executeGitCommit
             const newCommitSHA = await this._executeGitCommit(
-                repoInfo, branch, currentParentSHA, treeItems, commitMessage + messagePart
+                repoInfo, branch, currentParentSHA, treeItems, commitMessage + messagePart, force
             );
 
             await this._saveIncrementalState(gitContextItem, gitInfo, newCommitSHA, currentBatchFiles, [], treeItems);
@@ -74,7 +77,7 @@ export const GitCommit = {
             }));
 
             const newCommitSHA = await this._executeGitCommit(
-                repoInfo, branch, currentParentSHA, treeItems, commitMessage + " (Deletions)"
+                repoInfo, branch, currentParentSHA, treeItems, commitMessage + " (Deletions)", force
             );
 
             await this._saveIncrementalState(gitContextItem, gitInfo, newCommitSHA, [], filesToDelete, treeItems);
@@ -128,7 +131,7 @@ export const GitCommit = {
         }
     },
 
-    async _executeGitCommit(repoInfo, branch, parentSHA, treeItems, message) {
+    async _executeGitCommit(repoInfo, branch, parentSHA, treeItems, message, force = false) {
         let treePayload = { tree: treeItems };
         if (parentSHA) {
             const parentCommit = await FileSystemProvider.GitHub.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/commits/${parentSHA}`);
@@ -140,8 +143,14 @@ export const GitCommit = {
         const newCommit = await FileSystemProvider.GitHub.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/commits`, {
             method: 'POST', body: JSON.stringify({ message, tree: newTree.sha, parents: parentSHA ? [parentSHA] : [] })
         });
+        
+        // B"H - Apply Force Push logic
         await FileSystemProvider.GitHub.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/refs/heads/${branch}`, {
-            method: 'PATCH', body: JSON.stringify({ sha: newCommit.sha })
+            method: 'PATCH', 
+            body: JSON.stringify({ 
+                sha: newCommit.sha,
+                force: force // Indicates force update
+            })
         });
         return newCommit.sha;
     },

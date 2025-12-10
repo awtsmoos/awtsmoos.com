@@ -40,7 +40,11 @@ export {default as ShlichusActions} from
 export {default as CharacterMaker} from "./dvarim/characterMaker.js";
 export {default as CustomNpc} from "./dvarim/customNpc.js";
 
-//export {default as Pawnim} from "../ckidsAwtsmoos/hawmshawchos/Pawnim/index.js"
+// B"H New Exports - Nature System
+export {default as ProceduralTree} from "./dvarim/nature/proceduralTree.js";
+export {default as NatureTool} from "./dvarim/nature/natureTool.js";
+export {default as ProceduralCloud} from "./dvarim/nature/proceduralCloud.js";
+
 export class ok{
 
 }

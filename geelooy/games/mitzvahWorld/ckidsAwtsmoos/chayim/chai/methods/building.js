@@ -72,7 +72,17 @@ export default {
         if (!this.activeRay) return;
         const item = this.getActiveItem();
         
-        if (item && item.isPainter) return; // Handled in updateHandState via mouseDown
+        if (item && item.isPainter) {
+            // B"H: Optional - Allow single click paint on shoot
+            const origin = this.getRayStart();
+            const direction = this.getRayDirection();
+            const ray = new THREE.Ray(origin, direction);
+            const hit = this.olam.worldOctree.rayIntersect(ray);
+            if (hit && hit.distance < 15 && this.olam.natureSystem) {
+                this.olam.natureSystem.paint(item.natureType, hit.position);
+            }
+            return;
+        }
 
         if (item && item.isBuildable) {
             if (!this.activeObject) {
@@ -180,12 +190,15 @@ export default {
                     blockDefinition = {}; 
                     itemData = { ...item };
                 } else if (item.className === "ProceduralTree") {
-                    // B"H FIX: Correct Import Path
-                    const treeModule = await import('../../../dvarim/proceduralTree.js');
+                    // B"H FIX: Correct Import Path to new location
+                    const treeModule = await import('../../../dvarim/nature/proceduralTree.js');
                     const TreeClass = treeModule.default;
                     const tempTree = new TreeClass(item, this.olam);
                     // Force generation synchronously for ghost
-                    tempTree.generate();
+                    // B"H: New modular generator requires explicit generation call
+                    if(tempTree.generator) tempTree.generator.generate(); // Pre-calc if needed
+                    await tempTree.createMeshes(); // Ensure meshes created
+                    
                     mesh = tempTree.treeGroup;
                     blockDefinition = {}; 
                     itemData = { ...item };
@@ -203,8 +216,12 @@ export default {
                          else if (result.isObject3D) mesh = result;
 
                          if(mesh) {
-                             // Randomize look slightly for preview
-                             mesh.scale.multiplyScalar(0.8 + Math.random() * 0.4);
+                             // B"H FIX: Scale down huge assets for ghost preview
+                             if(type === 'grass') {
+                                 mesh.scale.multiplyScalar(0.1); 
+                             } else {
+                                 mesh.scale.multiplyScalar(0.8 + Math.random() * 0.4);
+                             }
                              mesh.rotation.y = Math.random() * Math.PI * 2;
                          }
                     }

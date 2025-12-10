@@ -1,3 +1,4 @@
+
 /**
  * B"H
  * 
@@ -16,13 +17,16 @@ import //{Octree}
 // '../math/AwtsmoosOctree.js';
 
 //import WebGPURenderer from "/games/scripts/jsm/gpu/WebGPURenderer.js"
+
+// B"H: Polyfill Image for Web Worker environment so GLTFLoader checks pass
+if (typeof self !== 'undefined' && typeof Image === 'undefined') {
+    self.Image = class { constructor() {} };
+}
+
 export default class {
     loader = new GLTFLoader(); // A GLTFLoader for loading 3D models
     
-    
     cameraObjectDirection = new THREE.Vector3();
-
-   
 
     nivrayimGroup = new THREE.Group();
     
@@ -66,9 +70,6 @@ export default class {
     
     clock = new THREE.Clock(); // A clock for tracking time
     
-
-
-
     nivrayimBeforeLoad = [];
     renderer; // A renderer for the scene
     

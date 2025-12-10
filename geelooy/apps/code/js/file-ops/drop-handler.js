@@ -1,3 +1,4 @@
+
 // B"H
 // FILE: js/file-ops/drop-handler.js
 import { UI } from '../ui.js';
@@ -16,6 +17,7 @@ export const DropHandler = {
         try {
             const state = { 
                 overwriteAll: false,
+                mergeAll: false, // B"H - Added mergeAll flag
                 processedCount: 0 
             };
             
@@ -74,14 +76,19 @@ export const DropHandler = {
 
         } else if (entry.isDirectory) {
             const exists = await this._checkExists(parentDir, entry.name, 'directory');
-            if (exists && !state.overwriteAll) {
+            
+            // B"H - Merge logic check
+            if (exists && !state.mergeAll && !state.overwriteAll) {
                  const choice = await UI.showDialog({
                      title: "Folder Conflict",
-                     message: `Folder '${entry.name}' already exists. Merge?`,
+                     message: `Folder '${entry.name}' already exists. Merge contents?`,
                      okText: "Merge",
+                     secondaryOk: { text: "Merge All", actionKey: "merge_all" },
                      cancelText: "Cancel"
                  });
-                 if (!choice) throw new Error("Cancelled");
+                 
+                 if (choice === 'merge_all') state.mergeAll = true;
+                 else if (!choice) throw new Error("Cancelled");
             }
 
             if (!exists) {

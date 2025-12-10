@@ -1,3 +1,4 @@
+
 // B"H
 // FILE: js/git/git-diff.js
 import { State } from '../state.js';
@@ -7,11 +8,12 @@ import { calculateGitBlobSha } from '../git-sha-calculator.js';
 export const GitDiff = {
     /**
      * Calculates the difference between local state and remote git state.
+     * PERFORMANCE UPDATE: Only scans the file system if checkUntracked is true.
      * @param {object} gitContextItem - The root item of the repo.
      * @param {object} gitInfo - The git metadata including remoteTree.
-     * @param {object} options - { fullScan: boolean } - If true, scans all local files for external changes.
+     * @param {object} options - { checkUntracked: boolean }
      */
-    async calculateDiff(gitContextItem, gitInfo, options = { fullScan: false }) {
+    async calculateDiff(gitContextItem, gitInfo, options = { checkUntracked: false }) {
         const changeSet = {
             creations: [],
             updates: [],
@@ -28,6 +30,7 @@ export const GitDiff = {
         
         const workspaceId = gitContextItem.workspaceId || gitContextItem.id;
 
+        // Helper to normalize paths
         const getRelativePath = (fullPath) => {
             if (gitContextItem.type === 'github') return fullPath; 
             const cloneRoot = gitContextItem.path;
@@ -88,9 +91,10 @@ export const GitDiff = {
             }
         }
 
-        // 3. Scan local files for external modifications (Slow - Optional)
-        // B"H - Only run this if explicitly requested or if it's a direct GitHub workspace (which doesn't scan disk anyway)
-        if (gitContextItem.type !== 'github' && options.fullScan) {
+        // 3. Scan local file system (Slow - Only if requested)
+        // B"H - Optimization: We only walk the disk if options.checkUntracked is true.
+        // This prevents "HUGE AMOUNT OF TIME" delays on large repos unless explicitly refreshed.
+        if (options.checkUntracked && gitContextItem.type !== 'github') {
             const localFiles = await FileSystemProvider.listAllFiles(gitContextItem);
             const localFilePaths = new Set(); 
 
@@ -102,45 +106,51 @@ export const GitDiff = {
 
                 if (handledPaths.has(relPath)) continue;
 
-                // Read file content to check against remote
-                try {
-                    const rawContent = await FileSystemProvider.read({ ...gitContextItem, path: file.path });
-                    let stringContent = '';
-                    
-                    if (rawContent instanceof Blob) {
-                        stringContent = await rawContent.text();
-                    } else if (typeof rawContent === 'string') {
-                        stringContent = rawContent;
-                    } else if (rawContent && rawContent.base64Content) {
-                         stringContent = atob(rawContent.base64Content);
-                    }
-
-                    if (!remoteFileMap.has(relPath)) {
-                        // File exists locally but not remote -> Created
-                        changeSet.creations.push({ path: relPath, content: stringContent });
-                    } else {
-                        // File exists in both. Check if modified.
+                // Case A: File is NOT in remote -> It's a Creation (Add)
+                if (!remoteFileMap.has(relPath)) {
+                    // We must read the content to commit it
+                    try {
+                        const content = await this._readContent(gitContextItem, file.path);
+                        changeSet.creations.push({ path: relPath, content: content });
+                    } catch (e) { console.warn(`Failed to read new file ${relPath}`, e); }
+                } 
+                // Case B: File IS in remote -> Check modification (SHA calculation)
+                else {
+                    try {
+                        const content = await this._readContent(gitContextItem, file.path);
                         const remoteSha = remoteFileMap.get(relPath).sha;
-                        const localSha = await calculateGitBlobSha(stringContent);
+                        const localSha = await calculateGitBlobSha(content);
                         
                         if (localSha !== remoteSha) {
-                            changeSet.updates.push({ path: relPath, content: stringContent });
+                            changeSet.updates.push({ path: relPath, content: content });
                         }
+                    } catch (readErr) {
+                        console.warn(`Could not read ${relPath} for diff`, readErr);
                     }
-                } catch (readErr) {
-                    console.warn(`Could not read ${relPath} for diff`, readErr);
                 }
             }
 
             // 4. Check for deletions (Remote has it, Local doesn't)
+            // Only valid if we scanned the full list
             for (const remoteFilePath of remoteFileMap.keys()) {
-                if (!localFilePaths.has(remoteFilePath)) {
-                    // Only mark as deleted if we actually scanned the disk and confirmed it's gone
+                if (!localFilePaths.has(remoteFilePath) && !handledPaths.has(remoteFilePath)) {
                     changeSet.deletions.push({ path: remoteFilePath });
                 }
             }
         }
 
         return changeSet;
+    },
+
+    async _readContent(contextItem, filePath) {
+        const rawContent = await FileSystemProvider.read({ ...contextItem, path: filePath });
+        if (rawContent instanceof Blob) {
+            return await rawContent.text();
+        } else if (typeof rawContent === 'string') {
+            return rawContent;
+        } else if (rawContent && rawContent.base64Content) {
+             return atob(rawContent.base64Content);
+        }
+        return '';
     }
 };
