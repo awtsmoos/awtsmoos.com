@@ -1,6 +1,5 @@
 //B"H
 // ui/browser/years.js
-import { enableHackerText } from '../effects.js';
 
 export function renderYears(years, onSelect) {
     const list = document.getElementById('list-years');
@@ -27,7 +26,7 @@ export function renderYears(years, onSelect) {
         };
         d.appendChild(btnZip);
 
-        // enableHackerText(d.querySelector('.item-text'), y);
+        // Hacker text removed
 
         d.onclick = () => {
              document.querySelectorAll('.year-item').forEach(i=>i.classList.remove('active'));

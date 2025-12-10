@@ -1,6 +1,5 @@
 //B"H
 // ui/browser/search.js
-import { enableHackerText } from '../effects.js';
 
 export function renderSearchResults(res, onSelect) {
     const r = document.getElementById('search-results');
@@ -22,7 +21,8 @@ export function renderSearchResults(res, onSelect) {
         const text = document.createElement('span');
         text.textContent = title;
         text.style.fontFamily = 'monospace';
-        enableHackerText(text, title);
+        
+        // Hacker text removed
         
         d.appendChild(arrow);
         d.appendChild(text);

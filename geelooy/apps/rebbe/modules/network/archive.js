@@ -23,8 +23,14 @@ export async function fetchFolderTracks(yearId, folderName) {
     const url = `https://archive.org/metadata/${yearId}`;
     try {
         const json = await fetchJSON(url);
-        // Filter by folder prefix and mp3 format
-        const files = json.files.filter(f => f.name.startsWith(folderName + '/') && f.format === 'VBR MP3');
+        
+        // FIX: relaxed filter. Archive.org sometimes labels .mp3 files as "Opus" or "VBR MP3"
+        // We now filter by checking if it starts with the folder name AND ends with .mp3
+        const files = json.files.filter(f => {
+            const isInFolder = f.name.startsWith(folderName + '/');
+            const isMp3 = f.name.toLowerCase().endsWith('.mp3');
+            return isInFolder && isMp3;
+        });
         
         return files.map(f => {
             const rawName = f.name.split('/').pop().replace('.mp3', '');
@@ -33,10 +39,13 @@ export async function fetchFolderTracks(yearId, folderName) {
             // Encode path parts individually to match Archive.org server expectations
             const encodedPath = f.name.split('/').map(p => encodeURIComponent(p)).join('/');
 
+            // Handle missing length/duration safely
+            const dur = parseFloat(f.length || f.duration || 0);
+
             return {
                 title: cleanName,
                 name: cleanName,
-                duration: parseFloat(f.length || 0),
+                duration: dur,
                 path: `${yearId}/${f.name}`,
                 url: `https://archive.org/download/${yearId}/${encodedPath}`
             };

@@ -1,6 +1,5 @@
 //B"H
 // ui/browser/folders.js
-import { enableHackerText } from '../effects.js';
 
 export function renderFolders(folders, onSelect) {
     const list = document.getElementById('list-folders');
@@ -24,7 +23,7 @@ export function renderFolders(folders, onSelect) {
         d.appendChild(document.createTextNode(" "));
         d.appendChild(spanText);
         
-        enableHackerText(spanText, title);
+        // Hacker text removed
 
         d.onclick = () => {
              document.querySelectorAll('.folder-item').forEach(i=>i.classList.remove('active'));

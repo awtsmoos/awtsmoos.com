@@ -1,6 +1,5 @@
 //B"H
 // ui/browser/tracks.js
-import { enableHackerText } from '../effects.js';
 import { fmt } from '../utils.js';
 
 export function renderTracks(tracks, folderTitle, checkStatus, onSelect, onAction) {
@@ -33,7 +32,7 @@ export function renderTracks(tracks, folderTitle, checkStatus, onSelect, onActio
         nameSpan.style.textOverflow = 'ellipsis';
         left.appendChild(nameSpan);
         
-        // enableHackerText(nameSpan, t.title); // disabled for performance as requested
+        // Hacker text removed
 
         // Right side actions
         const actions = document.createElement('div');
