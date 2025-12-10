@@ -28,6 +28,8 @@ export async function init() {
         onYearSelect: Browser.handleYearSelect,
         onFolderSelect: Browser.handleFolderSelect,
         onTrackSelect: Browser.handleTrackSelect,
+        onBack: Browser.handleBack, // Navigation Back Handler
+        
         onPlayPause: Audio.togglePlay,
         onNext: Browser.handleNext,
         onPrev: Browser.handlePrev,
@@ -42,7 +44,7 @@ export async function init() {
         },
 
         checkStatus: Store.isCached, 
-        onDownloadAction: (t) => { /* Covered by context menu callback in browser.js mostly, or implement here */ },
+        onDownloadAction: (t) => { /* Handled internally by browser controller now */ },
         onSearch: handleSearch,
         onSearchResultSelect: handleSearchResultSelect,
         onClearDB: handleClearDB,

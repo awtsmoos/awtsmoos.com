@@ -31,11 +31,11 @@ export function initUI(cb) {
         };
     }
 
-    // Seeker
-    const fill = document.getElementById('player-fill');
-    if (fill && fill.parentElement) {
-        fill.parentElement.onclick = (e) => {
-            const rect = fill.parentElement.getBoundingClientRect();
+    // Seeker - Bind to the container, not the fill, for bigger hit area
+    const seeker = document.getElementById('player-seeker');
+    if (seeker) {
+        seeker.onclick = (e) => {
+            const rect = seeker.getBoundingClientRect();
             const pct = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
             if (cb.onSeekFraction) cb.onSeekFraction(pct);
         };
@@ -100,6 +100,13 @@ export function initUI(cb) {
             if(cb.onCloseStudio) cb.onCloseStudio();
         };
     }
+
+    // Navigation Back Buttons (Mobile)
+    const backTracks = document.getElementById('back-tracks');
+    if (backTracks && cb.onBack) backTracks.onclick = cb.onBack;
+    
+    const backFolders = document.getElementById('back-folders');
+    if (backFolders && cb.onBack) backFolders.onclick = cb.onBack;
 
     // Modal Close Logic
     document.querySelectorAll('.modal-close').forEach(b => {

@@ -40,8 +40,20 @@ export function updateActiveTrack(idx) {
 export function setTracksLoading(loading, title) {
     const h = document.getElementById('header-tracks-title');
     if(h) h.textContent = loading ? `LOADING ${title}...` : `AUDIO DATA // ${title}`;
+    
     const list = document.getElementById('list-tracks');
-    if (loading && list) list.innerHTML = '<div style="padding:20px; color:var(--c-cyan);">SCANNING SECTOR...</div>';
+    if (loading && list && list.children.length === 0) list.innerHTML = '<div style="padding:20px; color:var(--c-cyan);">SCANNING SECTOR...</div>';
+    
+    // Player Loading State
+    const pt = document.getElementById('player-track-title');
+    const fill = document.getElementById('player-fill');
+    
+    if (loading) {
+        if(pt) pt.textContent = title ? `LOADING: ${title}` : "BUFFERING...";
+        if(fill) fill.classList.add('loading');
+    } else {
+        if(fill) fill.classList.remove('loading');
+    }
 }
 
 export function updateVideoProgress(msg, pct) {

@@ -6,24 +6,28 @@ export function renderYears(years, onSelect) {
     const list = document.getElementById('list-years');
     if(!list) return;
     list.innerHTML = '';
-    Object.keys(years).forEach(y => {
+    Object.entries(years).forEach(([y, archiveId]) => {
         const d = document.createElement('div');
         d.className = 'item year-item';
         
-        const spanIcon = document.createElement('span');
-        spanIcon.className = 'icon';
-        spanIcon.textContent = '📁';
-        
-        const spanText = document.createElement('span');
-        spanText.className = 'item-text';
-        spanText.textContent = y;
-        spanText.style.fontFamily = 'monospace';
-        
-        d.appendChild(spanIcon);
-        d.appendChild(document.createTextNode(" "));
-        d.appendChild(spanText);
-        
-        enableHackerText(spanText, y);
+        const content = document.createElement('div');
+        content.style.flex = '1';
+        content.innerHTML = `<span class="icon">📁</span> <span class="item-text" style="font-family:monospace;">${y}</span>`;
+        d.appendChild(content);
+
+        // ZIP DL
+        const btnZip = document.createElement('button');
+        btnZip.innerHTML = '📦';
+        btnZip.className = 'mini-btn';
+        btnZip.title = "Download Year ZIP (Archive.org)";
+        btnZip.onclick = (e) => {
+            e.stopPropagation();
+            const url = `https://archive.org/compress/${archiveId}`;
+            window.open(url, '_blank');
+        };
+        d.appendChild(btnZip);
+
+        // enableHackerText(d.querySelector('.item-text'), y);
 
         d.onclick = () => {
              document.querySelectorAll('.year-item').forEach(i=>i.classList.remove('active'));

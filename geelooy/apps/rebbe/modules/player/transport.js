@@ -1,6 +1,9 @@
 //B"H
 // modules/player/transport.js
 import { pState, init, resumeContext, loadBuffer, setBuffer } from './core.js';
+import * as Render from '../../render.js'; // Import Render to update loading UI
+
+let loadRequestId = 0;
 
 export function setCallbacks(cbs) {
     pState.callbacks = { ...pState.callbacks, ...cbs };
@@ -9,21 +12,53 @@ export function setCallbacks(cbs) {
 
 export async function playUrl(url) {
     stopSource();
+    const currentId = ++loadRequestId; // Increment request ID
+    
+    // Notify Loading
+    Render.setTracksLoading(true, "BUFFERING");
+    
     pState.pauseOffset = 0;
     if(pState.callbacks.onUpdate) pState.callbacks.onUpdate(0, 0);
     
-    const buffer = await loadBuffer(url);
-    if (buffer) {
-        playBuffer(buffer, 0);
+    try {
+        const buffer = await loadBuffer(url);
+        
+        // Race Condition Check
+        if (currentId !== loadRequestId) {
+            console.log("Playback aborted: newer request detected.");
+            return;
+        }
+
+        Render.setTracksLoading(false, "");
+        if (buffer) {
+            playBuffer(buffer, 0);
+        }
+    } catch(e) {
+        if (currentId === loadRequestId) {
+            Render.setTracksLoading(false, "ERROR");
+            console.error(e);
+        }
     }
 }
 
 export async function playBlob(blob) {
     stopSource();
+    const currentId = ++loadRequestId;
+    
+    Render.setTracksLoading(true, "READING CACHE");
     pState.pauseOffset = 0;
-    const buffer = await loadBuffer(blob);
-    if (buffer) {
-        playBuffer(buffer, 0);
+    
+    try {
+        const buffer = await loadBuffer(blob);
+        
+        if (currentId !== loadRequestId) return;
+        
+        Render.setTracksLoading(false, "");
+        if (buffer) {
+            playBuffer(buffer, 0);
+        }
+    } catch (e) {
+         if (currentId === loadRequestId) Render.setTracksLoading(false, "ERROR");
     }
 }
 
@@ -33,7 +68,7 @@ export function togglePlay() {
     if (pState.isPlaying) {
         const elapsed = pState.ctx.currentTime - pState.startTime;
         pState.pauseOffset += elapsed;
-        stopSource(); 
+        stopSource(false); // Don't reset everything, just pause
         if (pState.callbacks.onUpdate) pState.callbacks.onUpdate(pState.pauseOffset, pState.buffer.duration);
     } else {
         if(pState.ctx.state === 'suspended') pState.ctx.resume();
@@ -59,7 +94,7 @@ export function isPlaying() {
     return pState.isPlaying;
 }
 
-function stopSource() {
+function stopSource(reset = true) {
     if (pState.source) {
         try {
             pState.source.stop();
@@ -75,7 +110,7 @@ function stopSource() {
 }
 
 function playBuffer(buffer, offset) {
-    stopSource();
+    stopSource(false);
     setBuffer(buffer);
     
     pState.source = pState.ctx.createBufferSource();
@@ -83,10 +118,12 @@ function playBuffer(buffer, offset) {
     pState.source.connect(pState.gain);
     
     pState.source.onended = () => {
+        // Only trigger end if we actually played past the end, not just stopped
         const expectedDuration = buffer.duration - offset;
         const elapsed = pState.ctx.currentTime - pState.startTime;
         
-        if (pState.isPlaying && elapsed >= expectedDuration - 0.1) {
+        // Use a small threshold
+        if (pState.isPlaying && elapsed >= expectedDuration - 0.2) {
             pState.isPlaying = false;
             cancelAnimationFrame(pState.animationFrameId);
             pState.pauseOffset = 0; 

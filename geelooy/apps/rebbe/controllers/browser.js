@@ -8,13 +8,26 @@ import * as Audio from '../audio.js';
 
 let folderMap = {};
 
-// Helper: On mobile, ensure only the active column is visible/on top
+// Mobile Navigation Logic
 function openColumn(colId) {
     if (window.innerWidth <= 768) {
+        // Hide all first
         document.querySelectorAll('.col').forEach(c => c.classList.remove('open'));
     }
     const target = document.getElementById(colId);
     if(target) target.classList.add('open');
+}
+
+export function handleBack() {
+    // Determine where we are
+    const tracksOpen = document.getElementById('col-tracks').classList.contains('open');
+    const foldersOpen = document.getElementById('col-folders').classList.contains('open');
+    
+    if (tracksOpen) {
+        openColumn('col-folders');
+    } else if (foldersOpen) {
+        openColumn('col-years');
+    }
 }
 
 export async function handleYearSelect(yid) {
@@ -46,8 +59,8 @@ export async function handleFolderSelect(fid) {
             tracks, 
             state.currentFolderName, 
             Store.isCached, 
-            handleTrackSelect, 
-            (x, y, t, el) => Render.showContextMenu(x, y, t, el, handleDownloadAction)
+            handleTrackSelect,
+            handleTrackAction // Context/Button action
         );
         Render.setTracksLoading(false, state.currentFolderName);
         
@@ -57,6 +70,8 @@ export async function handleFolderSelect(fid) {
 }
 
 export async function handleTrackSelect(idx) {
+    if (idx < 0 || idx >= state.currentTracks.length) return;
+
     state.trackIndex = idx;
     const track = state.currentTracks[idx];
     if(!track) return;
@@ -78,8 +93,33 @@ export async function handleTrackSelect(idx) {
     } else {
         Render.log("STREAMING FROM NETWORK...");
         Audio.playUrl(track.url);
-        // Cache in background
-        Network.fetchBlob(track.url).then(b => Store.saveTrack(track.path, b)).catch(e=>console.warn("Cache fail", e));
+        // Cache in background logic moved to explicit user action to save data/bandwidth
+        // or keep auto-cache if preferred. For now, we only play.
+    }
+}
+
+// Unified action handler
+export async function handleTrackAction(action, track) {
+    if (action === 'download') {
+         const a = document.createElement('a');
+         a.href = track.url;
+         a.download = track.title + ".mp3";
+         document.body.appendChild(a);
+         a.click();
+         document.body.removeChild(a);
+         Render.log(`DOWNLOADING ${track.title}...`);
+    } 
+    else if (action === 'cache') {
+         Render.log(`CACHING ${track.title}...`);
+         try {
+             const blob = await Network.fetchBlob(track.url);
+             await Store.saveTrack(track.path, blob);
+             Render.log("CACHED OK");
+             // Refresh list to show cached status
+             Render.renderTracks(state.currentTracks, state.currentFolderName, Store.isCached, handleTrackSelect, handleTrackAction);
+         } catch(e) {
+             Render.log("CACHE FAILED", true);
+         }
     }
 }
 
@@ -104,13 +144,4 @@ function updateURL(params) {
     if(params.folder) url.searchParams.set('folder', params.folder);
     if(params.track !== undefined) url.searchParams.set('track', params.track);
     window.history.replaceState({}, '', url);
-}
-
-function handleDownloadAction(track) {
-    const a = document.createElement('a');
-    a.href = track.url;
-    a.download = track.title + ".mp3";
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
 }

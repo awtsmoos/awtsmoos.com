@@ -30,11 +30,17 @@
             <div class="col-list" id="list-years"></div>
         </div>
         <div class="col" id="col-folders">
-            <div class="col-head">EVENTS</div>
+            <div class="col-head">
+                <button class="btn-back mobile-only" id="back-folders">←</button>
+                EVENTS
+            </div>
             <div class="col-list" id="list-folders"></div>
         </div>
         <div class="col" id="col-tracks">
-            <div class="col-head" id="header-tracks-title">AUDIO DATA</div>
+            <div class="col-head">
+                <button class="btn-back mobile-only" id="back-tracks">←</button>
+                <span id="header-tracks-title">AUDIO DATA</span>
+            </div>
             <div class="col-list" id="list-tracks"></div>
         </div>
     </main>
@@ -51,14 +57,16 @@
             <div class="ctrl-btn" id="btn-next">
                 <svg viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg>
             </div>
-            <div class="ctrl-btn" id="btn-slice" title="Open Studio" style="border-color:var(--c-magenta); color:var(--c-magenta);">
+            <div class="ctrl-btn" id="btn-slice" title="Open Studio">
                 <svg viewBox="0 0 24 24"><path d="M20.71 16.29l-3-3c-.39-.39-1.02-.39-1.41 0l-3 3c-.39.39-.39 1.02 0 1.41.39.39 1.02.39 1.41 0l1.29-1.29V21h2v-4.59l1.29 1.29c.39.39 1.02.39 1.41 0 .39-.39.39-1.02 0-1.41zM9.7 11.23c-1.38-1.55-3.55-2.23-5.7-2.23-1.66 0-3.32.41-4 1.63 1.34 1.46 3.28 2.37 5.25 2.37 2.05 0 3.79-.89 5-2.14.33.34.68.66 1.04.97l-3.07 3.07c-2.43 2.43-5.59 2.11-7.07.63-.39-.39-1.02-.39-1.41 0-.39.39-.39 1.02 0 1.41 2.26 2.26 6.78 2.72 9.9 -.4l3.18-3.18c.28.25.57.48.87.7l-4.04 4.04c-.39.39-.39 1.02 0 1.41.39.39 1.02.39 1.41 0l4.04-4.04c2.81 2.2 6.6 2.07 9.5-.83.39-.39.39-1.02 0-1.41-.39-.39-1.02-.39-1.41 0-1.89 1.89-4.32 2.3-6.6 1.4l5.95-5.95c.39-.39.39-1.02 0-1.41-.39-.39-1.02-.39-1.41 0l-5.95 5.95c.57-1.12 1.4-2.11 2.47-2.88.35-.26.42-.76.16-1.11-.26-.35-.76-.42-1.11-.16-2.13 1.54-3.41 3.65-3.8 5.76-.02-.02-.03-.04-.05-.06z"/></svg>
             </div>
         </div>
         <div class="info">
             <div class="track-title" id="player-track-title">AWAITING INPUT</div>
-            <div class="progress-container">
-                <div class="progress-fill" id="player-fill"></div>
+            <div class="progress-container" id="player-seeker">
+                <div class="progress-bg">
+                    <div class="progress-fill" id="player-fill"></div>
+                </div>
             </div>
             <div class="time-display">
                 <span id="player-time">00:00 / 00:00</span>
@@ -78,9 +86,9 @@
         <!-- SEARCH MODAL -->
         <div class="modal hidden" id="modal-search">
             <h2>SEARCH ARCHIVE</h2>
-            <input type="text" id="inp-search" placeholder="ENTER KEYWORDS..." style="width:100%; padding:15px; background:#111; border:1px solid var(--c-cyan); color:#fff; font-family:inherit; font-size:1.1rem; outline:none;">
+            <input type="text" id="inp-search" placeholder="ENTER KEYWORDS..." class="cyber-input">
             <div class="search-res" id="search-results"></div>
-            <div style="text-align:right;">
+            <div style="text-align:right; padding:10px;">
                 <button class="modal-btn modal-close">CANCEL</button>
             </div>
         </div>
@@ -99,12 +107,7 @@
                 <span style="color:var(--c-cyan);">HIGH (128kbps)</span>
             </div>
 
-            <div class="setting-row">
-                <div class="setting-label">VERSION</div>
-                <span style="color:#666;">OMEGA-BUILD-2.1</span>
-            </div>
-
-            <div style="text-align:right;">
+            <div style="text-align:right; padding:10px;">
                 <button class="modal-btn modal-close">CLOSE</button>
             </div>
         </div>
@@ -112,38 +115,40 @@
         <!-- VIDEO GEN MODAL -->
         <div class="modal hidden" id="modal-video">
             <h2>VIDEO GEN</h2>
-            <div class="setting-row">
-                <label>START (s)</label>
-                <input type="number" id="vid-start" value="0" class="cyber-input" style="width:80px">
-            </div>
-            <div class="setting-row">
-                <label>DURATION (s)</label>
-                <input type="number" id="vid-duration" value="15" class="cyber-input" style="width:80px">
-            </div>
-            <div class="setting-row">
-                <label>RESOLUTION</label>
-                <select id="vid-res" class="cyber-input">
-                    <option value="portrait">PORTRAIT (9:16)</option>
-                    <option value="landscape">LANDSCAPE (16:9)</option>
-                    <option value="square">SQUARE (1:1)</option>
-                </select>
-            </div>
-            
-            <div id="vid-status-text">READY</div>
-            <div style="width:100%; height:4px; background:#333; margin:15px 0;"><div id="vid-progress-fill" style="height:100%; width:0%; background:#f0f;"></div></div>
-            
-            <div style="display:flex; gap:10px; justify-content:flex-end; margin-top:20px;">
-                <button class="modal-btn" id="btn-generate-analyze">OPEN STUDIO</button>
-                <button class="modal-btn" id="btn-download-audio">DL AUDIO SLICE</button>
-                <button class="modal-btn modal-close">CLOSE</button>
+            <div class="modal-body">
+                <div class="setting-row">
+                    <label>START (s)</label>
+                    <input type="number" id="vid-start" value="0" class="cyber-input" style="width:80px">
+                </div>
+                <div class="setting-row">
+                    <label>DURATION (s)</label>
+                    <input type="number" id="vid-duration" value="15" class="cyber-input" style="width:80px">
+                </div>
+                <div class="setting-row">
+                    <label>RESOLUTION</label>
+                    <select id="vid-res" class="cyber-input">
+                        <option value="portrait">PORTRAIT (9:16)</option>
+                        <option value="landscape">LANDSCAPE (16:9)</option>
+                        <option value="square">SQUARE (1:1)</option>
+                    </select>
+                </div>
+                
+                <div id="vid-status-text">READY</div>
+                <div style="width:100%; height:4px; background:#333; margin:15px 0;"><div id="vid-progress-fill" style="height:100%; width:0%; background:#f0f;"></div></div>
+                
+                <div style="display:flex; gap:10px; justify-content:flex-end; margin-top:20px;">
+                    <button class="modal-btn" id="btn-generate-analyze">OPEN STUDIO</button>
+                    <button class="modal-btn" id="btn-download-audio">DL AUDIO SLICE</button>
+                    <button class="modal-btn modal-close">CLOSE</button>
+                </div>
             </div>
         </div>
 
         <!-- STUDIO MODAL -->
-        <div class="modal hidden" id="modal-studio" style="width:95vw; height:95vh; max-width:none; padding:0; display:flex; flex-direction:column; background:black;">
+        <div class="modal hidden" id="modal-studio">
             <div class="studio-top" style="flex:2; display:flex; min-height:0;">
                 <div class="studio-props">
-                    <div class="prop-content" style="padding:15px;"></div>
+                    <div class="prop-content" id="studio-props"></div>
                 </div>
                 <div class="studio-preview-wrapper">
                     <canvas id="studio-preview-canvas"></canvas>
@@ -157,7 +162,7 @@
                      <div class="track-head">TIME</div>
                      <div class="ruler-container" id="timeline-ruler"></div>
                  </div>
-                 <div class="timeline-tracks" id="timeline-tracks" class="custom-scroll">
+                 <div class="timeline-tracks" id="timeline-tracks">
                      <div id="timeline-playhead" class="timeline-playhead"></div>
                  </div>
             </div>

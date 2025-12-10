@@ -49,7 +49,18 @@ export function renderComposeModal(ui, root) {
             children: [
                 { tag: 'div', style: 'display:flex; justify-content:space-between; margin-bottom:15px;', children: [
                     { tag: 'h2', classList: ['modal-title'], style:'margin:0', textContent: 'New Transmission' },
-                    { tag: 'span', classList: ['close-modal'], textContent: '×', events: { click: () => ui.getHtml('composeModal').classList.remove('visible') } }
+                    { 
+                        tag: 'span', classList: ['close-modal'], textContent: '×', 
+                        events: { 
+                            click: () => {
+                                const modal = ui.getHtml('composeModal');
+                                if(modal) {
+                                    modal.classList.remove('visible');
+                                    setTimeout(() => modal.classList.add('hidden'), 300);
+                                }
+                            }
+                        } 
+                    }
                 ]},
                 
                 {
@@ -85,7 +96,11 @@ export function renderComposeModal(ui, root) {
                             if(to && body) {
                                 if(FX.playSound) FX.playSound('sent');
                                 await sendMessageApi(to, sub, body);
-                                ui.getHtml('composeModal').classList.remove('visible');
+                                const modal = ui.getHtml('composeModal');
+                                if(modal) {
+                                    modal.classList.remove('visible');
+                                    setTimeout(() => modal.classList.add('hidden'), 300);
+                                }
                                 ui.getHtml('newTo').value = '';
                                 ui.getHtml('newBody').value = '';
                                 if(FX.explode) FX.explode(window.innerWidth/2, window.innerHeight/2, '#0f0');
@@ -96,4 +111,95 @@ export function renderComposeModal(ui, root) {
             ]
         }]
     });
+}
+
+// B"H: New function to fix missing export error in physics.js
+export function renderContextMenu(ui, x, y, msg, row) {
+    // 1. Clear previous context menus
+    const existing = document.querySelectorAll('.context-menu');
+    existing.forEach(e => e.remove());
+
+    if(FX.playSound) FX.playSound('hover');
+
+    // 2. Bounds Checking to keep menu on screen
+    const menuW = 200;
+    const menuH = 180;
+    
+    let posX = x;
+    let posY = y;
+    
+    if (posX + menuW > window.innerWidth) posX = window.innerWidth - menuW - 10;
+    if (posY + menuH > window.innerHeight) posY = window.innerHeight - menuH - 10;
+
+    ui.html({
+        parent: document.body,
+        tag: 'div',
+        classList: ['context-menu'],
+        style: `left: ${posX}px; top: ${posY}px;`,
+        children: [
+            {
+                tag: 'div', classList: ['ctx-item'], textContent: 'Copy Text',
+                events: { click: () => {
+                    navigator.clipboard.writeText(msg.content || "");
+                    closeMenu();
+                }}
+            },
+            {
+                tag: 'div', classList: ['ctx-item'], textContent: 'Copy ID',
+                events: { click: () => {
+                    navigator.clipboard.writeText(msg.id || "N/A");
+                    closeMenu();
+                }}
+            },
+            { tag: 'div', classList: ['ctx-separator'] },
+            {
+                tag: 'div', classList: ['ctx-item'], textContent: 'Reply',
+                events: { click: () => {
+                    const input = document.querySelector('.composer-input');
+                    if(input) {
+                        const quote = (msg.content || "").substring(0, 50).replace(/\n/g, ' ');
+                        input.value = `> ${quote}...\n\n` + input.value;
+                        input.focus();
+                    }
+                    closeMenu();
+                }}
+            },
+            { tag: 'div', classList: ['ctx-separator'] },
+            {
+                tag: 'div', classList: ['ctx-item', 'ctx-danger'], textContent: 'Vanish (Local)',
+                events: { click: () => {
+                    if(row) {
+                        // Dramatic removal
+                        row.style.transition = 'all 0.5s cubic-bezier(0.55, 0.085, 0.68, 0.53)';
+                        row.style.transform = 'scale(0) rotate(45deg) skewX(20deg)';
+                        row.style.opacity = '0';
+                        row.style.filter = 'blur(10px)';
+                        setTimeout(() => row.remove(), 550);
+                    }
+                    closeMenu();
+                }}
+            }
+        ],
+        ready: (el) => {
+            // Delay listener to avoid immediate trigger
+            setTimeout(() => {
+                const close = (e) => {
+                    if (!el.contains(e.target)) {
+                        closeMenu();
+                        window.removeEventListener('pointerdown', close);
+                    }
+                };
+                window.addEventListener('pointerdown', close);
+            }, 50);
+        }
+    });
+
+    function closeMenu() {
+        const menu = document.querySelector('.context-menu');
+        if(menu) {
+            menu.style.opacity = '0';
+            menu.style.transform = 'scale(0.95)';
+            setTimeout(() => menu.remove(), 200);
+        }
+    }
 }

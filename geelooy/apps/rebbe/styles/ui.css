@@ -23,7 +23,7 @@ header {
 
 .tools { display: flex; gap: 15px; }
 .tool-btn {
-    background: #000; border: 1px solid #444; color: #666;
+    background: #000; border: 1px solid #444; color: #fff; /* White Text */
     width: 40px; height: 40px;
     display: flex; align-items: center; justify-content: center;
     cursor: pointer; transition: all 0.2s;
@@ -62,8 +62,8 @@ main {
     padding: 12px; background: #000;
     color: var(--c-cyan); font-weight: bold; letter-spacing: 2px;
     border-bottom: 1px solid #333; font-size: 11px;
-    text-transform: uppercase; display: flex; justify-content: space-between; align-items: center;
-    flex-shrink: 0;
+    text-transform: uppercase; display: flex; align-items: center;
+    flex-shrink: 0; gap: 10px;
 }
 
 .col-list {
@@ -77,10 +77,10 @@ main {
 .item {
     padding: 12px 15px;
     border-left: 2px solid transparent;
-    cursor: pointer; color: #888; font-size: 13px;
+    cursor: pointer; color: #aaa; font-size: 13px;
     transition: background 0.1s; 
     border-bottom: 1px solid #111;
-    display: flex; align-items: center; gap: 10px;
+    display: flex; align-items: center; justify-content: space-between; /* Space out actions */
 }
 .item:hover { 
     background: rgba(0, 243, 255, 0.05);
@@ -88,9 +88,18 @@ main {
     border-left: 2px solid var(--c-cyan);
 }
 .item.active { 
-    background: var(--c-cyan); color: #000; font-weight: bold; 
+    background: var(--c-cyan); color: #000 !important; font-weight: bold; 
     border-left: 6px solid var(--c-white);
 }
+.item.active * { color: #000 !important; border-color: #000 !important; }
+
+.mini-btn {
+    background: transparent; border: 1px solid #444; color: #666;
+    width: 24px; height: 24px; border-radius: 4px; cursor: pointer;
+    font-size: 12px; display: flex; align-items: center; justify-content: center;
+    transition: 0.1s;
+}
+.mini-btn:hover { border-color: var(--c-cyan); color: var(--c-cyan); }
 
 /* --- FOOTER --- */
 footer {
@@ -107,62 +116,57 @@ footer {
 
 .ctrl-btn {
     width: 50px; height: 50px;
-    border: 2px solid #333; background: #080808;
+    border: 2px solid #555; background: #000;
     display: flex; justify-content: center; align-items: center;
-    cursor: pointer; color: #666; transition: all 0.2s;
+    cursor: pointer; color: #fff; /* High Contrast */
+    transition: all 0.2s;
+    border-radius: 50%;
 }
-.ctrl-btn:hover { border-color: var(--c-cyan); color: var(--c-cyan); }
+.ctrl-btn:hover { border-color: var(--c-cyan); color: var(--c-cyan); box-shadow: 0 0 10px var(--c-cyan); }
+
 #btn-play { border-color: var(--c-cyan); color: var(--c-cyan); width: 60px; height: 60px; }
 #btn-play:hover { background: var(--c-cyan); color: black; }
 #btn-slice { border-color: var(--c-magenta); color: var(--c-magenta); }
 
-.info { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 5px; min-width: 0; }
+.info { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 8px; min-width: 0; }
 .track-title { 
     color: var(--c-yellow); font-size: 14px; font-weight: bold; 
     white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
 
 .progress-container {
-    width: 100%; height: 10px; background: #111;
-    cursor: pointer; position: relative; border: 1px solid #333;
+    width: 100%; height: 20px; /* Bigger Hit Area */
+    background: transparent;
+    cursor: pointer; position: relative;
+    display: flex; align-items: center;
+}
+/* Actual visible bar */
+.progress-bg {
+    width: 100%; height: 6px; background: #222; border: 1px solid #444; position: relative; overflow: hidden;
 }
 .progress-fill {
     height: 100%; background: var(--c-cyan); width: 0%;
+    transition: width 0.1s linear;
 }
+.progress-fill.loading {
+    background: repeating-linear-gradient(
+        45deg,
+        var(--c-cyan),
+        var(--c-cyan) 10px,
+        #005555 10px,
+        #005555 20px
+    );
+    animation: pulseLoad 1s linear infinite;
+}
+@keyframes pulseLoad { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
+
 .time-display {
-    display: flex; justify-content: space-between; font-size: 10px; color: #666; font-family: monospace;
-}
-
-/* --- OVERLAYS --- */
-#overlay-layer {
-    background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(5px);
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    z-index: 200; display: flex; align-items: center; justify-content: center;
-}
-
-.modal {
-    background: #000; border: 2px solid var(--c-cyan);
-    padding: 0; max-width: 90%; max-height: 90%;
-    display: flex; flex-direction: column;
-}
-.modal h2 { 
-    margin: 0; padding: 15px;
-    background: #111; color: var(--c-cyan); font-size: 16px; border-bottom: 1px solid #333;
-}
-
-.modal-content, .modal-body { padding: 20px; overflow-y: auto; }
-.setting-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; border-bottom: 1px solid #222; padding-bottom: 10px; }
-
-.modal-btn {
-    background: #000; border: 1px solid var(--c-cyan); color: var(--c-cyan);
-    padding: 10px 20px; cursor: pointer; font-weight: bold; margin-top: 10px;
-}
-.modal-btn:hover { background: var(--c-cyan); color: #000; }
-.cyber-input {
-    background: #111; border: 1px solid #333; color: white; padding: 8px; width: 100%;
+    display: flex; justify-content: space-between; font-size: 10px; color: #888; font-family: monospace;
 }
 
 /* --- MOBILE LAYOUT FIX --- */
+.btn-back { display: none; } /* Hidden by default */
+
 @media(max-width: 768px) {
     main { 
         display: block; /* Switch from Flex to Block for stacking */
@@ -180,6 +184,13 @@ footer {
     /* Only show the active column */
     .col.open { display: flex; z-index: 20; }
     
+    /* Back Button */
+    .btn-back {
+        display: block;
+        background: #111; border: 1px solid #444; color: var(--c-cyan);
+        width: 30px; height: 30px; font-weight: bold; cursor: pointer;
+    }
+
     header { height: 50px; padding: 0 10px; }
     .logo { font-size: 18px; }
     .tools span { display: none; }
