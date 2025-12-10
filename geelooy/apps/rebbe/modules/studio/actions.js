@@ -16,22 +16,9 @@ export async function togglePlay() {
 
 export function seek(time) {
     stopAudio();
-    const dur = state.pendingSlice ? state.pendingSlice.duration : 10;
-    
-    // Allow unrestricted seeking
-    state.currentTime = Math.max(0, Math.min(time, dur));
+    state.currentTime = Math.max(0, Math.min(time, state.pendingSlice?.duration || 10));
     updateUI();
-    
-    // Explicitly update playhead visual immediately
-    const p = document.getElementById('timeline-playhead');
-    const c = document.getElementById('timeline-tracks');
-    if (p && c) {
-        const x = state.currentTime * state.studioZoom;
-        const scroll = c.scrollLeft;
-        p.style.left = (120 + x - scroll) + 'px';
-    }
-    
-    // If user paused, we just rendered the frame at new time in 'loop' via state.currentTime update
+    renderTimeline(); // Update playhead pos
 }
 
 async function startAudio() {
@@ -39,50 +26,16 @@ async function startAudio() {
     initAudioContext();
     if (ctx.audio.state === 'suspended') await ctx.audio.resume();
 
-    // Mapping Timeline Time -> Buffer Time
-    let bufferOffset = state.currentTime;
-    let durationToPlay = state.pendingSlice.duration - state.currentTime;
-
-    if (state.audioLayer) {
-        // If playhead is before the audio track starts, jump to start
-        if (state.currentTime < state.audioLayer.start) {
-             state.currentTime = state.audioLayer.start;
-        }
-
-        // Buffer Offset = (CurrentTime - LayerStart) + LayerOffset
-        const relativeTime = state.currentTime - state.audioLayer.start;
-        bufferOffset = relativeTime + (state.audioLayer.offset || 0);
-        
-        // Ensure we don't play past the trimmed end
-        const clipDuration = state.audioLayer.end - state.audioLayer.start;
-        const remainingInClip = clipDuration - relativeTime;
-        
-        if (remainingInClip < durationToPlay) durationToPlay = remainingInClip;
-    }
-
-    if (bufferOffset < 0) bufferOffset = 0;
-    
-    // Check limits
-    if (bufferOffset >= state.pendingSlice.duration || durationToPlay <= 0) {
-        state.studioIsPlaying = false; 
-        updateUI();
-        return;
-    }
-
     ctx.source = ctx.audio.createBufferSource();
     ctx.source.buffer = state.pendingSlice;
-    
-    const gain = ctx.audio.createGain();
-    if (state.audioLayer) gain.gain.value = state.audioLayer.vol || 1.0;
-    
-    ctx.source.connect(gain);
-    gain.connect(ctx.analyser);
+    ctx.source.connect(ctx.analyser);
     ctx.analyser.connect(ctx.audio.destination);
 
-    ctx.source.start(0, bufferOffset, durationToPlay);
+    const off = state.currentTime;
+    ctx.source.start(0, off);
     
     state.studioStartTime = ctx.audio.currentTime;
-    state.studioOffsetTime = state.currentTime; 
+    state.studioOffsetTime = off;
     state.studioIsPlaying = true;
     
     syncMedia(true);
@@ -135,13 +88,6 @@ export function updateClipStyle(k, v) {
 }
 
 export function deleteSelected() {
-    if (state.selectedType === 'audio') {
-        if(confirm("Remove Audio Track?")) {
-            state.audioLayer = null;
-            renderTimeline();
-        }
-        return;
-    }
     if (state.selectedType === 'media') {
         state.mediaLayers = state.mediaLayers.filter(i => i.id !== state.selectedClipId);
     } else {
@@ -154,7 +100,7 @@ export function deleteSelected() {
 
 export function duplicateSelected() {
     const item = getSelected();
-    if(!item || state.selectedType === 'audio') return;
+    if(!item) return;
     const copy = JSON.parse(JSON.stringify(item));
     copy.id = Date.now() + Math.random();
     copy.start += 1.0; 
@@ -179,12 +125,6 @@ export function splitClip() {
     const t = state.currentTime;
     let hit = false;
     
-    // Audio Split
-    if (state.audioLayer && t > state.audioLayer.start && t < state.audioLayer.end) {
-        state.audioLayer.end = t;
-        hit = true;
-    }
-    
     // Check Media
     for (let i = 0; i < state.mediaLayers.length; i++) {
         const item = state.mediaLayers[i];
@@ -192,10 +132,11 @@ export function splitClip() {
             const newItem = JSON.parse(JSON.stringify(item));
             newItem.id = Date.now() + Math.random();
             newItem.start = t;
-            // newItem.end remains original
             item.end = t;
             state.mediaLayers.splice(i + 1, 0, newItem);
             hit = true;
+            // Stop after one split or split all? Usually split all tracks at playhead is default for razor unless selection
+            // Let's split selection only if selected, else all under playhead.
             if (state.selectedClipId === item.id) break;
         }
     }
@@ -290,19 +231,19 @@ export async function handleGenImage() {
 export function handleUpload(e) {
     const file = e.target.files[0];
     if(!file) return;
-    
-    // OPTIMIZATION: Use Blob URL for instant load
-    const url = URL.createObjectURL(file);
-    
-    state.mediaLayers.push({
-        id: Date.now(),
-        type: file.type.startsWith('video')?'video':'image',
-        src: url,
-        start: state.currentTime, end: state.currentTime+5,
-        x:0.5, y:0.5, scale:1, opacity:1, blendMode:'source-over',
-        filter: { brightness: 100, blur: 0 }
-    });
-    renderTimeline();
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+        state.mediaLayers.push({
+            id: Date.now(),
+            type: file.type.startsWith('video')?'video':'image',
+            src: ev.target.result,
+            start: state.currentTime, end: state.currentTime+5,
+            x:0.5, y:0.5, scale:1, opacity:1, blendMode:'source-over',
+            filter: { brightness: 100, blur: 0 }
+        });
+        renderTimeline();
+    };
+    reader.readAsDataURL(file);
 }
 
 function getKey() {
@@ -315,7 +256,6 @@ function getKey() {
 }
 
 function getSelected() {
-    if (state.selectedType === 'audio') return state.audioLayer;
     const list = state.selectedType === 'media' ? state.mediaLayers : state.captions;
     return list.find(i => i.id === state.selectedClipId);
 }

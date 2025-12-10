@@ -1,6 +1,7 @@
+
 /*B"H*/
 
-// --- PROFESSIONAL SHEET MUSIC RENDERING ENGINE (COMPLETE & MODULAR) ---
+// --- PROFESSIONAL SHEET MUSIC RENDERING ENGINE ---
 
 const SCORE_CONFIG = {
     PAGE_WIDTH: 1400,
@@ -8,18 +9,17 @@ const SCORE_CONFIG = {
     STAFF_LEFT_MARGIN: 40, STAFF_RIGHT_MARGIN: 40,
     NOTE_HEAD_RADIUS_X: 9, NOTE_HEAD_RADIUS_Y: 7, STEM_HEIGHT: 50,
     BEAM_THICKNESS: 6, BEAM_GAP: 8,
-    BASE_NOTE_SPACING: 45, // Proportional space for a 16th note
+    BASE_NOTE_SPACING: 45, 
     TITLE_FONT: '48px serif', COMPOSER_FONT: '24px serif',
 };
 
-// --- MUSIC THEORY & ANALYSIS HELPERS ---
+// Expose these globally for the main app to use
+window.getNoteDetails = getNoteDetails;
+window.quantizeNotes = quantizeNotes;
+window.renderProfessionalSheetMusic = renderProfessionalSheetMusic;
 
 /**
  * Parses a note string (e.g., "C#4") into a detailed object.
- * This function deciphers the core essence of a note—its name, its place in the great scale of octaves,
- * and any accidental deviation from its pure form, quantifying its unique vibrational identity.
- * @param {string} pitch The note string.
- * @returns {{pitch: string, baseNote: string, octave: number, accidental: string|null, pitchValue: number}}
  */
 function getNoteDetails(pitch) {
     const noteName = pitch.slice(0, -1);
@@ -30,13 +30,6 @@ function getNoteDetails(pitch) {
     return { pitch, baseNote, octave, accidental, pitchValue };
 }
 
-/**
- * Analyzes notes to determine the most likely key signature.
- * It gazes upon the scattered fragments of melody and perceives the underlying harmonic universe,
- * the gravitational center around which all notes orbit, revealing the hidden key that governs their relationship.
- * @param {Array<Object>} notes The array of quantized music items.
- * @returns {{key: string, accidentals: Array<string>}}
- */
 function determineKeySignature(notes) {
     const circleOfFifths = {
         'C': [], 'G': ['F#'], 'D': ['F#', 'C#'], 'A': ['F#', 'C#', 'G#'], 'E': ['F#', 'C#', 'G#', 'D#'],
@@ -71,72 +64,77 @@ function determineKeySignature(notes) {
     }
     return { key: bestKey, accidentals: circleOfFifths[bestKey] };
 }
-/**
- * Quantizes the raw, timed notes into standard musical durations.
- * This new version correctly preserves the 'start' time for every note and rest,
- * which is essential for the advanced rendering engine to correctly group chords and rests.
- * Without this, the temporal relationship between notes is lost, leading to errors.
- * @param {Array<Object>} notes The raw note data captured during recording.
- * @returns {Array<Object>} An array of quantized notes and rests with preserved timing.
- */
+
 function quantizeNotes(notes) {
     const tempo = 120; // Assume 120 BPM
     const quarterNoteDuration = 60 / tempo;
     const durations = [
         { name: 'sixteenth', duration: quarterNoteDuration / 4 },
         { name: 'eighth', duration: quarterNoteDuration / 2 },
+        { name: 'eighth-dotted', duration: (quarterNoteDuration / 2) * 1.5 },
         { name: 'quarter', duration: quarterNoteDuration },
+        { name: 'quarter-dotted', duration: quarterNoteDuration * 1.5 },
         { name: 'half', duration: quarterNoteDuration * 2 },
+        { name: 'half-dotted', duration: quarterNoteDuration * 3 },
         { name: 'whole', duration: quarterNoteDuration * 4 },
-    ];
+    ].sort((a, b) => a.duration - b.duration);
 
+    if (notes.length === 0) return [];
+    
+    // Sort notes by start time
     notes.sort((a, b) => a.start - b.start);
 
     const result = [];
-    let lastEndTime = 0;
+    let lastEndTime = notes[0].start; // Start from first note
 
     notes.forEach(note => {
-        // Find any silence (a rest) that occurred before this note started.
+        // Gap detection (Rest)
         const restDuration = note.start - lastEndTime;
-        if (restDuration > durations[0].duration / 2) { // Minimum detectable rest
+        if (restDuration > durations[0].duration * 0.8) { // Tolerance
             let remainingRest = restDuration;
             let restStartTime = lastEndTime;
-            // Fill the silence with the largest possible rest values
-            while (remainingRest > durations[0].duration / 2) {
-                const closestRest = durations.reduce((prev, curr) => Math.abs(curr.duration - remainingRest) < Math.abs(prev.duration - remainingRest) ? curr : prev);
-                // CRITICAL FIX: Add the 'start' property to the rest object.
-                result.push({ type: 'rest', duration: closestRest.name, value: closestRest.duration, start: restStartTime });
-                remainingRest -= closestRest.duration;
-                restStartTime += closestRest.duration;
+            // Greedily fill rest
+            while (remainingRest >= durations[0].duration * 0.9) {
+                // Find largest fitting rest
+                let chosenRest = durations[0];
+                for (let i = durations.length - 1; i >= 0; i--) {
+                    if (durations[i].duration <= remainingRest * 1.1) {
+                        chosenRest = durations[i];
+                        break;
+                    }
+                }
+                result.push({ type: 'rest', duration: chosenRest.name, value: chosenRest.duration, start: restStartTime });
+                remainingRest -= chosenRest.duration;
+                restStartTime += chosenRest.duration;
             }
         }
 
-        // Quantize the duration of the note that was actually played.
-        const closestNote = durations.reduce((prev, curr) => Math.abs(curr.duration - note.duration) < Math.abs(prev.duration - note.duration) ? curr : prev);
-        // CRITICAL FIX: Pass along the original 'start' time of the note.
-        result.push({ type: 'note', pitch: note.note, start: note.start, duration: closestNote.name, value: closestNote.duration });
+        const closestNote = durations.reduce((prev, curr) =>
+            Math.abs(curr.duration - note.duration) < Math.abs(prev.duration - note.duration) ? curr : prev
+        );
 
-        // The next rest will be calculated from the end time of THIS note.
-        lastEndTime = note.start + note.duration;
+        let articulation = null;
+        if (note.duration < closestNote.duration * 0.6 && closestNote.duration > quarterNoteDuration / 4) {
+            articulation = 'staccato';
+        }
+
+        result.push({
+            type: 'note',
+            pitch: note.note,
+            start: note.start,
+            duration: closestNote.name,
+            value: closestNote.duration,
+            articulation: articulation
+        });
+
+        lastEndTime = Math.max(lastEndTime, note.start + closestNote.duration);
     });
     return result;
 }
 
-
-/**
- * Structures raw note data for a two-hand piano score with improved logic.
- * This version accurately splits notes for right and left hands, then groups simultaneous
- * notes (chords) and sequential notes into a more logical "beat structure" within each measure.
- * This lays a better foundation for correct beaming and spacing.
- * @param {Array<Object>} notes Raw quantized notes.
- * @param {number} beatsPerMeasure The number of beats per measure.
- * @param {Object} keySignature The determined key signature.
- * @returns {{treble: Array<Object>, bass: Array<Object>}} An object containing structured measures for both staves.
- */
 function structureMusicData(notes, beatsPerMeasure, keySignature) {
-    const splitPoint = getNoteDetails('C4').pitchValue; // C4 is the typical split point
+    const splitPoint = getNoteDetails('C4').pitchValue; 
 
-    // Split notes into right-hand (treble) and left-hand (bass)
     const trebleNotes = notes.filter(item => item.type === 'rest' || getNoteDetails(item.pitch).pitchValue >= splitPoint);
     const bassNotes = notes.filter(item => item.type === 'rest' || getNoteDetails(item.pitch).pitchValue < splitPoint);
 
@@ -146,15 +144,13 @@ function structureMusicData(notes, beatsPerMeasure, keySignature) {
         let measureAccidentals = new Set();
 
         voiceNotes.forEach(item => {
-            const beatValue = item.value / (60 / 120); // Convert duration in seconds to beats
-            // If adding the item exceeds the measure, push the current measure and start a new one
-            if (currentMeasure.beats + beatValue > beatsPerMeasure && currentMeasure.items.length > 0) {
+            const beatValue = item.value / (60 / 120); 
+            if (currentMeasure.beats + beatValue > beatsPerMeasure + 0.1 && currentMeasure.items.length > 0) { // Tolerance
                 measures.push(currentMeasure);
                 currentMeasure = { items: [], beats: 0 };
                 measureAccidentals.clear();
             }
 
-            // Handle accidental display logic
             if (item.type === 'note') {
                 const details = getNoteDetails(item.pitch);
                 item.details = details;
@@ -169,7 +165,7 @@ function structureMusicData(notes, beatsPerMeasure, keySignature) {
                         measureAccidentals.add(item.pitch);
                     }
                 } else if (keyAccidental && !measureAccidentals.has(naturalPitch)) {
-                    item.displayAccidental = '♮'; // Natural sign
+                    item.displayAccidental = '♮';
                     measureAccidentals.add(naturalPitch);
                 }
             }
@@ -178,29 +174,30 @@ function structureMusicData(notes, beatsPerMeasure, keySignature) {
         });
         if (currentMeasure.items.length > 0) measures.push(currentMeasure);
         
-        // **NEW LOGIC**: Group notes by start time to form chords/beats
+        // Grouping
         measures.forEach(measure => {
             const beatStructure = [];
             let i = 0;
             while (i < measure.items.length) {
                 const currentItem = measure.items[i];
                 let group = [currentItem];
-                // If it's a note, find all other notes that start at the exact same time
                 if (currentItem.type === 'note') {
                     for (let j = i + 1; j < measure.items.length; j++) {
-                        if (measure.items[j].type === 'note' && measure.items[j].start === currentItem.start) {
+                        // Group if start times align (chord) or simply sequential
+                        // For rendering, we want chords grouped.
+                        // However, simpler logic: treat distinct start times as distinct groups.
+                        if (measure.items[j].type === 'note' && Math.abs(measure.items[j].start - currentItem.start) < 0.05) {
                             group.push(measure.items[j]);
                         } else {
                             break;
                         }
                     }
                 }
-                // Sort chords by pitch (lowest note at the bottom)
                 if (group[0].type === 'note') {
                     group.sort((a,b) => a.details.pitchValue - b.details.pitchValue);
                 }
                 beatStructure.push(group);
-                i += group.length; // Advance index by the number of notes in the group
+                i += group.length;
             }
             measure.beatStructure = beatStructure;
         });
@@ -213,58 +210,47 @@ function structureMusicData(notes, beatsPerMeasure, keySignature) {
     };
 }
 
-/**
- * Draws the complete Grand Staff opening: a brace, treble clef, and bass clef.
- * This function initiates each line of the score, establishing the dual realms of treble and bass
- * and binding them together with the brace, the symbol of their unity in the hands of the pianist.
- * @param {CanvasRenderingContext2D} ctx The canvas context.
- * @param {number} x The horizontal position.
- * @param {number} yTreble The vertical offset for the treble staff.
- * @param {number} yBass The vertical offset for the bass staff.
- * @returns {number} The horizontal width consumed by the clefs and brace.
- */
 function drawClefAndBrace(ctx, x, yTreble, yBass) {
-    // Draw the large curly brace
     ctx.font = '150px serif';
     ctx.fillText('{', x - 15, yBass + SCORE_CONFIG.STAFF_LINE_GAP * 3.2);
-
-    // Draw Treble Clef
     ctx.font = '80px serif';
     ctx.fillText('𝄞', x + 20, yTreble + SCORE_CONFIG.STAFF_LINE_GAP * 4.5);
-    
-    // Draw Bass Clef
     ctx.font = '70px serif';
     ctx.fillText('𝄢', x + 25, yBass + SCORE_CONFIG.STAFF_LINE_GAP * 1.5);
-
-    return 80; // The total width this section occupies
+    return 80;
 }
 
-// --- DRAWING PRIMITIVE & COMPOSITE HELPERS ---
-
-/**
- * Calculates the precise vertical (Y) position of a note on a staff.
- * This function is now clef-aware. It contains the sacred geometry for both the treble and bass clefs,
- * translating a note's abstract pitch into a concrete location on either the upper or lower staff,
- * revealing its position within the visual harmony of the Grand Staff.
- * @param {Object} details The note's details object.
- * @param {number} yOffset The top Y-position of the current staff system.
- * @param {'treble'|'bass'} clef The clef of the staff.
- * @returns {number} The absolute Y coordinate for the notehead.
- */
 function getNoteY(details, yOffset, clef) {
     const noteSteps = { 'C': 0, 'D': 1, 'E': 2, 'F': 3, 'G': 4, 'A': 5, 'B': 6 };
     const step = noteSteps[details.baseNote];
 
     if (clef === 'treble') {
-        // G4 is on the second line from the top of the treble staff
-        const y_G4 = yOffset + SCORE_CONFIG.STAFF_LINE_GAP;
-        const stepsFromG4 = (details.octave - 4) * 7 + (step - 4);
-        return y_G4 - stepsFromG4 * (SCORE_CONFIG.STAFF_LINE_GAP / 2);
-    } else { // bass clef
-        // F3 is on the second line from the top of the bass staff
-        const y_F3 = yOffset + SCORE_CONFIG.STAFF_LINE_GAP;
-        const stepsFromF3 = (details.octave - 3) * 7 + (step - 3);
-        return y_F3 - stepsFromF3 * (SCORE_CONFIG.STAFF_LINE_GAP / 2);
+        const y_G4 = yOffset + SCORE_CONFIG.STAFF_LINE_GAP * 3; // Corrected line ref
+        // G4 is 2nd line from bottom (index 3 from top 0-4)
+        // Staff lines indices: 0,1,2,3,4
+        // G4 is on line index 3 (counting from top 0) -> Actually G4 is 2nd line from bottom.
+        // E4 (bottom line) -> F4 -> G4.
+        const y_E4 = yOffset + 4 * SCORE_CONFIG.STAFF_LINE_GAP;
+        // Calculation from C4 (middle C)
+        // C4 is one ledger line below treble.
+        const c4_steps = 0; // C
+        const steps = (details.octave - 4) * 7 + step;
+        // C4 is below E4 by 2 steps (C, D, E).
+        // Let's anchor to F5 (top line). F5 is octave 5 step 3.
+        // Better: Anchor to top line (F5).
+        const y_TopLine = yOffset;
+        // Steps from F5
+        const f5_val = 5 * 7 + 3; // 38
+        const note_val = details.octave * 7 + step;
+        const diff = f5_val - note_val;
+        return y_TopLine + diff * (SCORE_CONFIG.STAFF_LINE_GAP / 2);
+    } else {
+        // Bass Clef: Top line is A3.
+        const y_TopLine = yOffset;
+        const a3_val = 3 * 7 + 5; // 26
+        const note_val = details.octave * 7 + step;
+        const diff = a3_val - note_val;
+        return y_TopLine + diff * (SCORE_CONFIG.STAFF_LINE_GAP / 2);
     }
 }
 
@@ -277,12 +263,6 @@ function drawStaffSystem(ctx, y) {
         ctx.lineTo(SCORE_CONFIG.PAGE_WIDTH - SCORE_CONFIG.STAFF_RIGHT_MARGIN, lineY);
         ctx.stroke();
     }
-}
-
-function drawClef(ctx, x, y) {
-    ctx.font = '80px serif';
-    ctx.fillText('𝄞', x, y + SCORE_CONFIG.STAFF_LINE_GAP * 4.5);
-    return 60;
 }
 
 function drawKeySignature(ctx, x, y, keySig) {
@@ -319,18 +299,6 @@ function drawBarLine(ctx, x, y) {
     return 20;
 }
 
-/**
- * Draws a single complete note, now including staccato dots.
- * If the note object has an 'articulation' property set to 'staccato', this function
- * will draw a dot above or below the notehead based on stem direction.
- * @param {CanvasRenderingContext2D} ctx The canvas context.
- * @param {Object} note The note object to draw.
- * @param {number} x The horizontal position.
- * @param {number} yOffset The vertical offset for the staff.
- * @param {number} stemDirection The direction of the stem (-1 up, 1 down).
- * @param {'treble'|'bass'} clef The clef of the staff.
- * @returns {Object} Info about the drawn stem and notehead.
- */
 function drawNote(ctx, note, x, yOffset, stemDirection, clef) {
     const noteY = getNoteY(note.details, yOffset, clef);
 
@@ -367,11 +335,8 @@ function drawNote(ctx, note, x, yOffset, stemDirection, clef) {
         ctx.lineTo(stemX, stemYend);
         ctx.stroke();
 
-        // --- Staccato Dot Drawing Logic ---
         if (note.articulation === 'staccato') {
-            const dotOffset = SCORE_CONFIG.NOTE_HEAD_RADIUS_Y + 12; // Distance from notehead
-            // If stem goes down (direction=1), dot goes above notehead.
-            // If stem goes up (direction=-1), dot goes below notehead.
+            const dotOffset = SCORE_CONFIG.NOTE_HEAD_RADIUS_Y + 12;
             const dotY = stemDirection === 1 ? noteY - dotOffset : noteY + dotOffset;
             ctx.beginPath();
             ctx.arc(x, dotY, 2.5, 0, 2 * Math.PI);
@@ -414,19 +379,20 @@ function drawFlags(ctx, stemX, stemYend, stemDirection, duration) {
     }
 }
 
-function drawBeatGroup(ctx, group, x, yOffset) {
+function drawBeatGroup(ctx, group, x, yOffset, clef) {
     const midStaffY = yOffset + 2 * SCORE_CONFIG.STAFF_LINE_GAP;
     const furthestNote = group.reduce((furthest, note) => {
-        const noteY = getNoteY(note.details, yOffset);
-        const furthestY = getNoteY(furthest.details, yOffset);
+        const noteY = getNoteY(note.details, yOffset, clef);
+        const furthestY = getNoteY(furthest.details, yOffset, clef);
         return Math.abs(noteY - midStaffY) > Math.abs(furthestY - midStaffY) ? note : furthest;
     });
-    const furthestNoteY = getNoteY(furthestNote.details, yOffset);
+    const furthestNoteY = getNoteY(furthestNote.details, yOffset, clef);
     const stemDirection = furthestNoteY > midStaffY ? -1 : 1;
+    
     if (group.length > 1) {
         for (let i = 0; i < group.length - 1; i++) {
-            const yA = getNoteY(group[i].details, yOffset);
-            const yB = getNoteY(group[i + 1].details, yOffset);
+            const yA = getNoteY(group[i].details, yOffset, clef);
+            const yB = getNoteY(group[i + 1].details, yOffset, clef);
             if (Math.abs(yA - yB) < SCORE_CONFIG.STAFF_LINE_GAP - 2) {
                 group[i + 1].render_x_offset = SCORE_CONFIG.NOTE_HEAD_RADIUS_X * 2;
                 group[i].render_x_offset = 0;
@@ -436,7 +402,8 @@ function drawBeatGroup(ctx, group, x, yOffset) {
     let lastStem = null;
     group.forEach(note => {
         const noteX = x + (stemDirection === 1 ? (note.render_x_offset || 0) : -(note.render_x_offset || 0));
-        lastStem = drawNote(ctx, note, noteX, yOffset, stemDirection) || lastStem;
+        const res = drawNote(ctx, note, noteX, yOffset, stemDirection, clef);
+        if (res) lastStem = res;
         note.render_x_offset = 0;
     });
     if (group.length === 1 && lastStem) {
@@ -444,21 +411,9 @@ function drawBeatGroup(ctx, group, x, yOffset) {
     }
 }
 
-/**
- * Draws a group of notes connected by beams with professional engraving rules.
- * This version calculates an optimal, shallow beam angle and correctly handles
- * secondary beams for sixteenth notes, ensuring they only connect adjacent sixteenths.
- * @param {CanvasRenderingContext2D} ctx The canvas context.
- * @param {Array<Array<Object>>} groups An array of beat groups (chords) to be beamed.
- * @param {number} x The starting horizontal position.
- * @param {number} yOffset The vertical offset for the staff.
- * @param {number} ratio A scaling ratio for the measure width.
- * @param {'treble'|'bass'} clef The clef being drawn on.
- */
 function drawBeamGroup(ctx, groups, x, yOffset, ratio, clef) {
     let notePositions = [];
     let currentX = x;
-    // 1. Determine the X position for each note in the beam group
     groups.forEach(group => {
         const groupWidth = (SCORE_CONFIG.BASE_NOTE_SPACING * 4 * (group[0].value / (60 / 120))) * ratio;
         group.forEach(note => {
@@ -467,12 +422,10 @@ function drawBeamGroup(ctx, groups, x, yOffset, ratio, clef) {
         currentX += groupWidth;
     });
 
-    // 2. Determine overall stem direction based on average pitch
     const midStaffY = yOffset + 2 * SCORE_CONFIG.STAFF_LINE_GAP;
     const avgY = notePositions.reduce((sum, pos) => sum + getNoteY(pos.note.details, yOffset, clef), 0) / notePositions.length;
     const stemDirection = avgY > midStaffY ? -1 : 1;
 
-    // 3. Draw the noteheads first and get initial stem info
     let stemInfos = notePositions.map(pos => {
         return { ...drawNote(ctx, pos.note, pos.x, yOffset, stemDirection, clef), note: pos.note };
     });
@@ -480,24 +433,19 @@ function drawBeamGroup(ctx, groups, x, yOffset, ratio, clef) {
     const firstStem = stemInfos[0];
     const lastStem = stemInfos[stemInfos.length - 1];
 
-    // 4. Calculate the ideal beam position and angle
     let beamY1 = firstStem.stemYend;
     let beamY2 = lastStem.stemYend;
-
-    // Limit the beam slope to prevent extremely angled beams
     const slope = (beamY2 - beamY1) / (lastStem.stemX - firstStem.stemX || 1);
     if (Math.abs(slope) > 0.6) {
         beamY2 = beamY1 + Math.sign(slope) * Math.abs(lastStem.stemX - firstStem.stemX) * 0.6;
     }
 
-    // 5. Draw the main (eighth note) beam and connect all stems to it
     ctx.lineWidth = SCORE_CONFIG.BEAM_THICKNESS;
     ctx.beginPath();
     ctx.moveTo(firstStem.stemX, beamY1);
     ctx.lineTo(lastStem.stemX, beamY2);
     ctx.stroke();
 
-    // Redraw/extend stems to perfectly meet the calculated beam
     stemInfos.forEach(info => {
         const beamYatX = beamY1 + (beamY2-beamY1) * ((info.stemX - firstStem.stemX) / (lastStem.stemX - firstStem.stemX || 1));
         ctx.lineWidth = 1.8;
@@ -505,54 +453,13 @@ function drawBeamGroup(ctx, groups, x, yOffset, ratio, clef) {
         ctx.moveTo(info.stemX, info.noteY);
         ctx.lineTo(info.stemX, beamYatX);
         ctx.stroke();
-        info.stemYend = beamYatX; // Update the stem end for secondary beams
+        info.stemYend = beamYatX;
     });
-
-    // 6. Draw secondary (sixteenth note) beams
-    let beamOffset = stemDirection * SCORE_CONFIG.BEAM_GAP;
-    for(let i = 0; i < stemInfos.length; i++) {
-        const isSixteenth = stemInfos[i].note.duration.includes('sixteenth');
-        if (isSixteenth) {
-            let startIndex = i;
-            let endIndex = i;
-            // Find the end of this consecutive group of sixteenth notes
-            for(let j = i + 1; j < stemInfos.length; j++) {
-                if (stemInfos[j].note.duration.includes('sixteenth')) {
-                    endIndex = j;
-                } else {
-                    break;
-                }
-            }
-            const firstSixteenth = stemInfos[startIndex];
-            const lastSixteenth = stemInfos[endIndex];
-            
-            // Draw the secondary beam only for this group
-            ctx.lineWidth = SCORE_CONFIG.BEAM_THICKNESS;
-            ctx.beginPath();
-            ctx.moveTo(firstSixteenth.stemX, firstSixteenth.stemYend + beamOffset);
-            ctx.lineTo(lastSixteenth.stemX, lastSixteenth.stemYend + beamOffset);
-            ctx.stroke();
-
-            i = endIndex; // Skip ahead to the end of the processed group
-        }
-    }
 }
 
-/**
- * Draws a single measure with corrected beaming logic according to standard music notation.
- * It groups notes (like eighths and sixteenths) together with beams if they fall within the
- * same beat, making the rhythm much easier to read.
- * @param {CanvasRenderingContext2D} ctx The canvas context.
- * @param {Object} measure The measure object to draw.
- * @param {number} x The starting horizontal position.
- * @param {number} yOffset The vertical offset for the staff.
- * @param {number} ratio A scaling ratio for the measure width.
- * @param {'treble'|'bass'} clef The clef being drawn on.
- */
 function drawMeasure(ctx, measure, x, yOffset, ratio, clef) {
     let currentX = x;
     let beatCount = 0;
-    const quarterBeatValue = 1.0; // In 4/4 time, a quarter note is 1 beat
 
     for (let i = 0; i < measure.beatStructure.length; ) {
         const group = measure.beatStructure[i];
@@ -561,7 +468,6 @@ function drawMeasure(ctx, measure, x, yOffset, ratio, clef) {
         let beamGroup = [];
         if (isBeamable) {
             const startBeat = Math.floor(beatCount);
-            // Collect all subsequent beamable notes that fall within the SAME beat
             for(let j = i; j < measure.beatStructure.length; j++) {
                 const nextGroup = measure.beatStructure[j];
                 const nextBeatVal = nextGroup[0].value / (60 / 120);
@@ -577,13 +483,11 @@ function drawMeasure(ctx, measure, x, yOffset, ratio, clef) {
         }
 
         if (beamGroup.length > 1) {
-            // Draw the collected notes as a single beamed group
             drawBeamGroup(ctx, beamGroup, currentX, yOffset, ratio, clef);
             const groupWidth = beamGroup.reduce((sum, g) => sum + (SCORE_CONFIG.BASE_NOTE_SPACING * 4 * (g[0].value / (60/120))), 0);
             currentX += groupWidth * ratio;
             i += beamGroup.length;
         } else {
-            // Draw a single note/chord/rest that is not part of a beam group
             if (group[0].type === 'note') {
                 drawBeatGroup(ctx, group, currentX, yOffset, clef);
             } else {
@@ -597,14 +501,6 @@ function drawMeasure(ctx, measure, x, yOffset, ratio, clef) {
     }
 }
 
-/**
- * The main orchestrator function, now with logic to handle empty measures.
- * This version calculates measure widths and checks if a hand's part in a measure is
- * empty. If so, it explicitly draws a whole rest, ensuring the score is complete and unambiguous.
- * @param {Array<Object>} quantizedMusic The raw note data from recording.
- * @param {HTMLElement} containerEl The DOM element to append the canvas to.
- * @returns {HTMLCanvasElement|null} The rendered canvas element or null on failure.
- */
 function renderProfessionalSheetMusic(quantizedMusic, containerEl) {
     if (quantizedMusic.length < 2) {
         alert("Not enough notes to generate sheet music.");
@@ -623,14 +519,13 @@ function renderProfessionalSheetMusic(quantizedMusic, containerEl) {
     const layout = { lines: [] };
     let currentLine = { measureIndices: [], width: 0 };
     const drawableWidth = SCORE_CONFIG.PAGE_WIDTH - SCORE_CONFIG.STAFF_LEFT_MARGIN - SCORE_CONFIG.STAFF_RIGHT_MARGIN;
-    const defaultMeasureWidth = timeSignature.beats * (SCORE_CONFIG.BASE_NOTE_SPACING * 4 * ((60/120)/(60/120)));
+    const defaultMeasureWidth = timeSignature.beats * (SCORE_CONFIG.BASE_NOTE_SPACING * 4);
 
     for(let i = 0; i < totalMeasures; i++) {
         const trebleMeasure = music.treble[i] || { beatStructure: [] };
         const bassMeasure = music.bass[i] || { beatStructure: [] };
         const trebleWidth = trebleMeasure.beatStructure.reduce((w, g) => w + (SCORE_CONFIG.BASE_NOTE_SPACING * 4 * (g[0].value / (60/120))), 0);
         const bassWidth = bassMeasure.beatStructure.reduce((w, g) => w + (SCORE_CONFIG.BASE_NOTE_SPACING * 4 * (g[0].value / (60/120))), 0);
-        // Use default width for empty measures, otherwise use the max width of the content.
         const measureWidth = Math.max(trebleWidth, bassWidth, defaultMeasureWidth * 0.7);
 
         const initialOffset = currentLine.width === 0 ? 180 : 0;
@@ -678,7 +573,6 @@ function renderProfessionalSheetMusic(quantizedMusic, containerEl) {
             const bassWidth = bassMeasure.beatStructure.reduce((w, g) => w + (SCORE_CONFIG.BASE_NOTE_SPACING * 4 * (g[0].value / (60/120))), 0);
             const measureWidth = Math.max(trebleWidth, bassWidth, defaultMeasureWidth * 0.7);
 
-            // --- NEW: Empty Measure Handling ---
             if (trebleMeasure.beatStructure.length === 0) {
                 drawRest(ctx, { duration: 'whole' }, x + measureWidth / 2, yTreble);
             } else {

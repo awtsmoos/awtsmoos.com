@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Extreme Web Synthesizer - Revamped</title>
+    <title>Awtsmoos Web Synthesizer - Ultimate</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -31,9 +31,13 @@
                         <label>Start:</label><select id="octave-select"><option value="1">C1</option><option value="2">C2</option><option value="3">C3</option><option value="4" selected>C4</option></select>
                         <label>Width:</label><input type="range" id="key-width-slider" min="60" max="240" step="10" value="160">
                         <br>
-                        <label><input type="checkbox" id="play-chords-checkbox"> Play Chords</label>
-                        <label id="always-dual-label"><input type="checkbox" id="always-dual-checkbox"> Always Dual View</label>
-                        <label id="independent-scroll-label" class="hidden-ui"><input type="checkbox" id="independent-scroll-checkbox"> Independent Scroll</label>
+                        <div class="checkbox-group">
+                            <label><input type="checkbox" id="play-chords-checkbox"> Play Chords</label>
+                            <label><input type="checkbox" id="auto-bass-checkbox"> Auto-Bass (B"H)</label>
+                            <label id="always-dual-label"><input type="checkbox" id="always-dual-checkbox"> Always Dual View</label>
+                            <label id="independent-scroll-label" class="hidden-ui"><input type="checkbox" id="independent-scroll-checkbox"> Independent Scroll</label>
+                             <label><input type="checkbox" id="desktop-keys-checkbox" checked> Show Keys (Desktop)</label>
+                        </div>
                         <br>
                         <button id="advanced-synth-toggle">Main Synth Settings</button>
                         <button id="chord-settings-toggle">Chord Settings</button>
@@ -45,7 +49,7 @@
                     
                     <div id="visual-effects-menu" class="nested-menu settings-content">
                     <div class="setting-item">
-                    <label for="myFPS">fps:</label><input id="myFPS" type="number" value="18">
+                    <label for="myFPS">fps:</label><input id="myFPS" type="number" value="30">
                          
     <label for="effect-select">Visual Effect:</label>
     <select id="effect-select" class="control-select">
@@ -80,6 +84,8 @@
                          <label>Chord Wave:</label><select id="chord-waveform-select">
                              <!-- Options populated by JS for chord synth -->
                          </select>
+                         <h4>Auto-Bass Settings</h4>
+                         <label>Bass Wave:</label><select id="bass-waveform-select"></select>
                     </div>
                     
                     <div id="audio-io-menu" class="nested-menu settings-content">
@@ -114,7 +120,7 @@
                         <br>
                         
                         <!-- New Pitch Envelope Controls -->
-                        <h4>Pitch Envelope (for that "down" effect)</h4>
+                        <h4>Pitch Envelope</h4>
                         <label>Pitch Depth (cents):</label><input type="range" id="pitch-depth-slider" min="0" max="100" step="1" value="15">
                         <label>Pitch Attack (sec):</label><input type="range" id="pitch-attack-slider" min="0.001" max="0.5" step="0.001" value="0.005">
                         <br>
@@ -134,11 +140,7 @@
     
     <div id="sheet-music-container" style="display: none;"></div>
     
-    
-<script src="sheetRender.js"></script>
-
-    <script src="script.js"></script>
-
-
+    <script src="sheetRender.js"></script>
+    <script type="module" src="main.js"></script>
 </body>
 </html>
