@@ -8,6 +8,15 @@ import * as Audio from '../audio.js';
 
 let folderMap = {};
 
+// Helper: On mobile, ensure only the active column is visible/on top
+function openColumn(colId) {
+    if (window.innerWidth <= 768) {
+        document.querySelectorAll('.col').forEach(c => c.classList.remove('open'));
+    }
+    const target = document.getElementById(colId);
+    if(target) target.classList.add('open');
+}
+
 export async function handleYearSelect(yid) {
     state.currentYearId = yid;
     Render.log(`ACCESSING YEAR ${yid}...`);
@@ -16,8 +25,7 @@ export async function handleYearSelect(yid) {
         folderMap = folders; 
         Render.renderFolders(folders, handleFolderSelect);
         
-        document.getElementById('col-folders').classList.add('open');
-        document.getElementById('col-tracks').classList.remove('open');
+        openColumn('col-folders'); // Switch view
         updateURL({ year: yid });
     } catch(e) { Render.log("ERROR: " + e.message, true); }
 }
@@ -43,7 +51,7 @@ export async function handleFolderSelect(fid) {
         );
         Render.setTracksLoading(false, state.currentFolderName);
         
-        document.getElementById('col-tracks').classList.add('open');
+        openColumn('col-tracks'); // Switch view
         updateURL({ year: state.currentYearId, folder: folderName });
     } catch(e) { Render.log("ERROR: " + e.message, true); }
 }
@@ -87,7 +95,6 @@ export function handlePrev() {
     }
 }
 
-// Helper to expose folderMap if needed for Deep Linking
 export function getFolderMap() { return folderMap; }
 export function setFolderMap(m) { folderMap = m; }
 
