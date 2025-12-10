@@ -32,9 +32,8 @@ export default {
              // B"H FIX: Correct relative path to reach ckidsAwtsmoos root
              import('../../../dvarim/nature/natureSystem.js').then(m => {
                  this.olam.natureSystem = new m.default(this.olam);
-                 // Pre-load assets
+                 // Pre-load ONLY common assets to avoid spamming errors
                  this.olam.natureSystem.initPool('grass', 10000, "awtsmoos://grassModel");
-                 this.olam.natureSystem.initPool('rock');
              }).catch(e => console.error("B\"H: Failed to load NatureSystem", e));
         }
         
@@ -194,10 +193,10 @@ export default {
                     const treeModule = await import('../../../dvarim/nature/proceduralTree.js');
                     const TreeClass = treeModule.default;
                     const tempTree = new TreeClass(item, this.olam);
-                    // Force generation synchronously for ghost
-                    // B"H: New modular generator requires explicit generation call
-                    if(tempTree.generator) tempTree.generator.generate(); // Pre-calc if needed
-                    await tempTree.createMeshes(); // Ensure meshes created
+                    
+                    // B"H FIX: Manually trigger generation for the ghost since heescheel isn't called
+                    tempTree.generateGeometry();
+                    await tempTree.createMeshes(); 
                     
                     mesh = tempTree.treeGroup;
                     blockDefinition = {}; 
@@ -210,20 +209,34 @@ export default {
                     if (type.includes('rock')) modelPath = "awtsmoos://rockModel1";
                     else if (type.includes('flower')) modelPath = "awtsmoos://flowerBlue";
                     
-                    const result = await this.olam.boyrayNivra({ path: modelPath, isSolid: false, name: "ghost_nature" });
-                    if (result) {
+                    // Try to load model, handle failure gracefully
+                    let result = null;
+                    try {
+                        result = await this.olam.boyrayNivra({ path: modelPath, isSolid: false, name: "ghost_nature" });
+                    } catch(e) {
+                        console.warn("B\"H: Failed to load ghost nature model", modelPath, e);
+                    }
+
+                    if (result && !result.userData?.error) {
                          if(result.scene) mesh = result.scene;
                          else if (result.isObject3D) mesh = result;
 
                          if(mesh) {
-                             // B"H FIX: Scale down huge assets for ghost preview
-                             if(type === 'grass') {
+                             // B"H FIX: Scale flowers down too!
+                             if(type === 'grass' || type.includes('flower')) {
                                  mesh.scale.multiplyScalar(0.1); 
                              } else {
                                  mesh.scale.multiplyScalar(0.8 + Math.random() * 0.4);
                              }
                              mesh.rotation.y = Math.random() * Math.PI * 2;
                          }
+                    } else {
+                        // B"H: Immediate Fallback if model loading fails
+                        let geo;
+                        if(type === 'grass') geo = new THREE.CylinderGeometry(0.05, 0.05, 0.5);
+                        else geo = new THREE.DodecahedronGeometry(0.3);
+                        
+                        mesh = new THREE.Mesh(geo, new THREE.MeshBasicMaterial({ color: 0x00ff00, wireframe: true }));
                     }
                     itemData = { ...item };
                 } else {
@@ -249,7 +262,7 @@ export default {
                 console.warn("B\"H: Error loading ghost model for", item.name, e);
             }
 
-            // B"H: Fallback if model loading failed
+            // B"H: Ultimate Fallback if model loading failed completely
             if (!mesh) {
                 console.warn("B\"H: Generating fallback box for", item.name);
                 const geo = new THREE.BoxGeometry(0.5, 0.5, 0.5);

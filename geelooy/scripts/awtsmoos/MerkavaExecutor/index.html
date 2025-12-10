@@ -220,6 +220,24 @@ counter;
 <!-- Load the SDK -->
 <script src="merkava-sdk.js"></script>
 
+<!-- Pre-define the Worker Script for Testing -->
+<script>
+// B"H - Define Mock Scripts
+window.MOCK_FILES = {
+    'worker_script.js': `
+        // B"H - Inner Worker Code
+        // This runs inside the Real Browser Worker, in its own VM!
+        
+        self.onmessage = function(e) {
+            syscall(0, "[Worker] Echoing Light:", e.data);
+            postMessage("Reflected Light: " + e.data);
+        };
+        
+        syscall(0, "[Worker] Initialized.");
+    `
+};
+</script>
+
 <script>
     // UI References
     const outputDiv = document.getElementById('output');
@@ -264,7 +282,7 @@ counter;
         document.getElementById('btn-pause').disabled = !isRunning;
         document.getElementById('btn-resume').disabled = isRunning;
         document.getElementById('btn-step').disabled = isRunning;
-        document.getElementById('debug-input').disabled = false; // Always allow debug interaction if context exists
+        document.getElementById('debug-input').disabled = false; 
     }
 
     // --- RUN HANDLER ---
@@ -274,41 +292,39 @@ counter;
         log("--- B\"H Starting New Process ---", 'log-sys');
         setStatus("INITIALIZING");
 
-        // Cancel previous run checks
         if (updateTimer) clearInterval(updateTimer);
 
         try {
-            // Initialize SDK
             if (!window.Merkava) throw new Error("SDK not loaded");
             
+            // B"H - Initialize first
+            await window.Merkava.init();
+
             activeContext = await window.Merkava.run(source, {
                 debug: true,
                 ramLimit: 500,
-                // B"H - PASS THE CONTEXT HERE
                 context: {
                     document: document,
                     window: window,
                     console: console, 
-                    // B"H - Wrapper to debug the Fetch call
-                    fetch: window.fetch.bind(window),
-                    // B"H - Give the VM the Laws of Physics
-                    
+                    fetch: window.fetch.bind(window)
                 },
-                // B"H - HANDLE IMPORTS
+                // B"H - Updated Import Resolver
                 importResolver: async (specifier) => {
                     log(`[Import] Loading ${specifier}...`);
-                    return { env: "production" }; // Mock module return
-                },
-                // B"H - HANDLE EXPORTS
-                exportHandler: (name, value) => {
-                    log(`[Export] ${name} = ${value}`, 'log-sys');
+                    
+                    // Check Mock Files
+                    if (window.MOCK_FILES && window.MOCK_FILES[specifier]) {
+                        return { code: window.MOCK_FILES[specifier] };
+                    }
+                    
+                    return { env: "production" }; 
                 },
                 hostAPI: {
                     0: (...args) => log(args.join(' '))
                 }
             });
 
-            // Setup UI Update Loop (Monitor RAM and Status)
             updateTimer = setInterval(() => {
                 if (activeContext && activeContext.memory) {
                     ramBadge.textContent = activeContext.memory.ram.size;
@@ -317,14 +333,9 @@ counter;
 
             setStatus("RUNNING");
 
-            // Wait for completion
-            activeContext.done.then(async (result) => { // B"H - Make this async
+            activeContext.done.then(async (result) => { 
                 setStatus("SAVING...");
-                
-                // B"H - THE CRITICAL FIX:
-                // Flush all dirty memory from RAM to IndexedDB to prevent data loss.
                 await activeContext.memory.flush();
-
                 setStatus("COMPLETED");
                 log(`Process Finished: ${result.status}`, 'log-sys');
                 clearInterval(updateTimer);
@@ -337,6 +348,7 @@ counter;
         } catch (e) {
             setStatus("ERROR");
             log(`Startup Failed: ${e.message}`, 'log-err');
+            console.error(e);
         }
     }
 
@@ -358,10 +370,6 @@ counter;
     }
 
     function stepVM() {
-        // Note: Our simple run loop in SDK might not support single-step granularity 
-        // unless we implemented the Promise pause logic in the SDK loop. 
-        // For V1, step logic is complex to wire to the loop. 
-        // Assuming SDK loop checks 'PAUSED_BY_DEBUGGER' and waits?
         debugLog("Step not fully implemented in V1 Loop.");
     }
 
@@ -396,27 +404,23 @@ counter;
                         break;
 
                     case 'inspect':
-                        // Inspect Thread #1 by default
                         const tid = parseInt(args[1] || "1");
                         const info = activeContext.debugger.inspectThread(tid);
                         debugLog(JSON.stringify(info, null, 2));
                         break;
 
                     case 'scan':
-                        // Scan for a numeric value
                         const val = parseFloat(args[1]);
                         if (isNaN(val)) { debugLog("Please provide a number."); break; }
                         
                         debugLog(`Scanning RAM and Disk for value: ${val}...`);
                         const results = await activeContext.debugger.scanMemory(obj => {
-                            // Basic heuristic: check if object has a value property matching
-                            // or is an array containing it.
                             return JSON.stringify(obj).includes(String(val));
                         });
                         
                         debugLog(`Found ${results.length} matches.`);
                         if (results.length > 0) {
-                            console.log("Scan Results:", results); // Detailed log to browser console
+                            console.log("Scan Results:", results); 
                             debugLog("Details logged to Browser DevTools Console.");
                         }
                         break;

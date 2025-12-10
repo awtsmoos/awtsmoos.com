@@ -36,25 +36,35 @@ export default class ProceduralTree extends Tzomayach {
 
     /**
      * B"H
+     * Generates the tree data structures (branches/leaves arrays) but does not create THREE meshes yet.
+     * Useful for ghosts/previews.
+     */
+    generateGeometry() {
+        this.generator = new TreeGenerator(this.options, this.olam);
+        const generated = this.generator.generate();
+        
+        this.treeGroup = generated.treeGroup;
+        this.branches = generated.branches;
+        this.leaves = generated.leaves;
+    }
+
+    /**
+     * B"H
      * Override heescheel to handle custom generation logic and avoid Domem's default white-box behavior.
      */
     async heescheel(olam, info) {
         this.olam = olam;
         
         // 1. Generate the Tree Geometry
-        this.generator = new TreeGenerator(this.options, olam);
-        const generated = this.generator.generate();
+        this.generateGeometry();
         
-        this.treeGroup = generated.treeGroup;
-        this.branches = generated.branches;
-        this.leaves = generated.leaves;
-        
+        // 2. Create Meshes
         await this.createMeshes();
         
         this.mesh = this.treeGroup;
         this.mesh.nivraAwtsmoos = this;
         
-        // 2. Apply Transforms from options (or default)
+        // 3. Apply Transforms from options (or default)
         if(this.position) this.mesh.position.copy(this.position.vector3());
         if(this.rotation) {
              this.mesh.rotation.set(this.rotation.x, this.rotation.y, this.rotation.z);
@@ -68,10 +78,10 @@ export default class ProceduralTree extends Tzomayach {
 
         this.mesh.updateMatrixWorld(true);
         
-        // 3. Add to World Scene
+        // 4. Add to World Scene
         await olam.hoyseef(this);
         
-        // 4. Create Invisible Physics Proxy (Cylinder)
+        // 5. Create Invisible Physics Proxy (Cylinder)
         if(this.isSolid) {
             const trunkHeight = this.options.branch.length[0];
             const trunkRadius = this.options.branch.radius[0];
@@ -97,13 +107,15 @@ export default class ProceduralTree extends Tzomayach {
             this.olam.interactiveOctree.fromGraphNode(proxyMesh);
         }
         
-        // 5. Fire standard event so other systems know we exist
+        // 6. Fire standard event so other systems know we exist
         this.isReady = true;
         this.ayshPeula("heescheel", this);
         return true;
     }
     
     async createMeshes() {
+        if(!this.branches || !this.leaves) return; // Safety check
+
         const branchGeo = new THREE.BufferGeometry();
         branchGeo.setAttribute('position', new THREE.Float32BufferAttribute(this.branches.verts, 3));
         branchGeo.setAttribute('normal', new THREE.Float32BufferAttribute(this.branches.normals, 3));
@@ -169,6 +181,7 @@ export default class ProceduralTree extends Tzomayach {
             color: this.options.leaves.tint || 0x228B22,
             side: THREE.DoubleSide,
             alphaTest: this.options.leaves.alphaTest,
+            transparent: true, // B"H FIX: Leaves must be transparent
             shininess: 0
         });
         
@@ -182,8 +195,10 @@ export default class ProceduralTree extends Tzomayach {
             if(leafPath) {
                  this.olam.loadTexture({ url: leafPath })
                  .then(tex => {
-                     this.leavesMaterial.map = tex;
-                     this.leavesMaterial.needsUpdate = true;
+                     if (tex) {
+                         this.leavesMaterial.map = tex;
+                         this.leavesMaterial.needsUpdate = true;
+                     }
                  })
                  .catch(e => {
                      console.warn("B\"H: Failed to load leaf texture", leafPath, e);
@@ -199,6 +214,7 @@ export default class ProceduralTree extends Tzomayach {
                 '#include <project_vertex>',
                 `
                 vec4 mvPosition = vec4( transformed, 1.0 );
+                // B"H FIX: Ensure wind calculation doesn't produce NaN
                 float windOffset = position.x + position.z;
                 float wind = sin(uTime * 1.5 + windOffset * 0.5) * 0.1 * uv.y;
                 mvPosition.x += wind;

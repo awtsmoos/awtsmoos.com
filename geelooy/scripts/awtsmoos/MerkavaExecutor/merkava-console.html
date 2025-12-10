@@ -189,17 +189,29 @@
 
 <script src="tests.js"></script>
 <script src="merkava-sdk.js"></script>
+
+<!-- Mock Files -->
 <script>
-let currentRun = null; // Track active VM instance
+window.MOCK_FILES = {
+    'worker_script.js': `
+        // B"H - Real Worker
+        self.onmessage = function(e) {
+            syscall(0, "[Worker] Echo:", e.data);
+            postMessage("Reflected: " + e.data);
+        };
+        syscall(0, "[Worker] Alive.");
+    `
+};
+</script>
+
+<script>
+let currentRun = null; 
 
 function loadTest() {
     const key = document.getElementById('test-select').value;
-    // B"H - Load from global MERKAVA_TESTS defined in tests.js
     if (window.MERKAVA_TESTS && window.MERKAVA_TESTS[key]) {
         document.getElementById('editor').value = window.MERKAVA_TESTS[key];
     }
-    
-    // Toggle Canvas Visibility
     const cvsContainer = document.getElementById('canvas-container');
     const isGraphic = ['canvas', 'webgl', 'rainbow', 'canvas_anim'].includes(key);
     cvsContainer.style.display = isGraphic ? 'flex' : 'none';
@@ -208,7 +220,6 @@ function loadTest() {
 function clearOut() { document.getElementById('output').innerHTML = ''; }
 
 async function runCode() {
-    // B"H - Cancel previous run if active
     if (currentRun && currentRun.cancel) {
         currentRun.cancel();
         currentRun = null;
@@ -227,7 +238,7 @@ async function runCode() {
         output.scrollTop = output.scrollHeight;
     };
     
-    // RECREATE CANVAS to reset Context
+    // RECREATE CANVAS
     const container = document.getElementById('canvas-container');
     const oldCvs = document.getElementById('vm-canvas');
     if (oldCvs) container.removeChild(oldCvs);
@@ -242,17 +253,23 @@ async function runCode() {
     status.style.color = "#ffff00";
 
     try {
+        await window.Merkava.init();
+        
         const runInstance = await window.Merkava.run(src, {
-            // B"H - TIKKUN: Pass 'window' as context so the VM can find JSON, Math, etc.
             context: window,
+            // Mock Import Resolver
+            importResolver: async (url) => {
+                 if (window.MOCK_FILES && window.MOCK_FILES[url]) {
+                     return { code: window.MOCK_FILES[url] };
+                 }
+                 return null;
+            },
             hostAPI: { 0: log }
         });
         
         currentRun = runInstance;
 
-        // Wait for completion (or cancellation)
         const result = await runInstance.done;
-        
         status.innerText = result.status;
         status.style.color = result.status === 'COMPLETED' ? "#00ff00" : "#ffaa00";
         
@@ -263,7 +280,6 @@ async function runCode() {
     }
 }
 
-// Init
 window.onload = loadTest;
 </script>
 </body>

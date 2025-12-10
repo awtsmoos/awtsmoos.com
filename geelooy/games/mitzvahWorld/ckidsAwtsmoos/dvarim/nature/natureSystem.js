@@ -35,22 +35,33 @@ export default class NatureSystem {
         if (modelPath) {
             const actualPath = this.olam.getComponent(modelPath);
             if(actualPath) {
-                const gltf = await this.olam.boyrayNivra({ path: actualPath });
-                if (gltf && gltf.scene) {
-                    const mesh = gltf.scene.getObjectByProperty('isMesh', true);
-                    if(mesh) {
-                        geometry = mesh.geometry;
-                        material = mesh.material;
-                        if(material.map) material.map.colorSpace = THREE.SRGBColorSpace;
+                try {
+                    const gltf = await this.olam.boyrayNivra({ path: actualPath });
+                    if (gltf && gltf.scene) {
+                        const mesh = gltf.scene.getObjectByProperty('isMesh', true);
+                        if(mesh) {
+                            geometry = mesh.geometry;
+                            material = mesh.material;
+                            if(material.map) material.map.colorSpace = THREE.SRGBColorSpace;
+                        }
                     }
+                } catch(e) {
+                    console.warn("B\"H: Nature asset failed to load, using fallback", modelPath);
                 }
             }
         }
         
         // Fallback geometry if loading failed
         if (!geometry) {
-             geometry = new THREE.DodecahedronGeometry(0.5);
-             material = new THREE.MeshLambertMaterial({ color: 0x888888 });
+             console.warn("B\"H: Using fallback geometry for", type);
+             if(type.includes('grass')) {
+                 geometry = new THREE.ConeGeometry(0.1, 0.5, 4);
+                 geometry.translate(0, 0.25, 0);
+                 material = new THREE.MeshLambertMaterial({ color: 0x00aa00 });
+             } else {
+                 geometry = new THREE.DodecahedronGeometry(0.3);
+                 material = new THREE.MeshLambertMaterial({ color: 0x888888 });
+             }
         }
         
         // Wind shader for grass and flowers
@@ -125,16 +136,19 @@ export default class NatureSystem {
             
             // Scale variation
             let scale = 1;
-            if (type === 'grass') {
+            // B"H FIX: Apply 0.1 scale to both grass and flowers
+            if (type === 'grass' || type.includes('flower')) {
                  scale = 0.8 + Math.random() * 0.4;
-                 this.dummy.scale.set(scale, scale * (0.8 + Math.random() * 0.5), scale);
+                 // Base scale 0.1 because assets are huge
+                 this.dummy.scale.set(
+                     scale * 0.1, 
+                     scale * 0.1 * (0.8 + Math.random() * 0.5), 
+                     scale * 0.1
+                 );
             } else if (type.includes('rock')) {
                  scale = 0.5 + Math.random() * 1.5;
                  this.dummy.scale.setScalar(scale);
-            } else if (type.includes('flower')) {
-                 scale = 0.5 + Math.random() * 0.5;
-                 this.dummy.scale.setScalar(scale);
-            }
+            } 
             
             this.dummy.updateMatrix();
             pool.mesh.setMatrixAt(pool.count, this.dummy.matrix);

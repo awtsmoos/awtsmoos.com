@@ -1,0 +1,42 @@
+/* B"H */
+/* BOOT SEQUENCE STYLES */
+
+#boot-sequence {
+    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+    background: #000; z-index: 10000;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Courier New', monospace;
+    transition: all 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.boot-center { width: 400px; display: flex; flex-direction: column; gap: 20px; }
+
+.boot-logo { 
+    font-size: 40px; font-weight: 900; color: #fff; letter-spacing: 5px; 
+    text-align: center; line-height: 1;
+}
+.boot-logo span { color: var(--c-cyan); font-size: 18px; letter-spacing: 12px; }
+
+.boot-log {
+    height: 150px; border: 1px solid #333; background: #050505;
+    padding: 10px; overflow-y: hidden; color: #00ff66; font-size: 12px;
+    display: flex; flex-direction: column; gap: 4px;
+    box-shadow: 0 0 20px rgba(0, 255, 102, 0.1);
+}
+
+.boot-line { animation: fadein 0.1s; }
+@keyframes fadein { from { opacity:0; } to { opacity:1; } }
+
+.boot-bar-container {
+    height: 4px; background: #111; width: 100%; position: relative; overflow: hidden;
+}
+.boot-bar-fill {
+    height: 100%; background: var(--c-cyan); width: 0%;
+    box-shadow: 0 0 10px var(--c-cyan);
+    transition: width 0.1s linear;
+}
+
+.boot-version {
+    position: absolute; bottom: 20px; right: 20px;
+    color: #444; font-size: 10px;
+}

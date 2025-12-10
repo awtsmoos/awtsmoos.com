@@ -19,8 +19,22 @@ import //{Octree}
 //import WebGPURenderer from "/games/scripts/jsm/gpu/WebGPURenderer.js"
 
 // B"H: Polyfill Image for Web Worker environment so GLTFLoader checks pass
+// Enhanced Polyfill to satisfy GLTFLoader requirements
 if (typeof self !== 'undefined' && typeof Image === 'undefined') {
-    self.Image = class { constructor() {} };
+    self.Image = class { 
+        constructor() {
+            this.src = '';
+            this.width = 0;
+            this.height = 0;
+            this.onload = null;
+            this.onerror = null;
+        }
+        addEventListener(type, listener) {
+            if (type === 'load') this.onload = listener;
+            if (type === 'error') this.onerror = listener;
+        }
+        removeEventListener() {}
+    };
 }
 
 export default class {
