@@ -32,6 +32,8 @@
                     case 'AssignmentExpression': this._visitAssignment(node); break;
                     case 'IfStatement': this._visitIf(node); break;
                     case 'WhileStatement': this._visitWhile(node); break;
+                    case 'ForStatement': this._visitFor(node); break; // B"H - Added For
+                    case 'ForOfStatement': this._visitForOf(node); break; // B"H - Added ForOf
                     case 'ObjectExpression': this._visitObject(node); break;
                     case 'ArrayExpression': this._visitArray(node); break;
                     case 'ThisExpression': this.buffer.write8(this.OPCODES.PUSH_THIS); break;

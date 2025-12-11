@@ -59,18 +59,9 @@ export function initChatLayout(ui, parent) {
                             { tag: 'div', classList: ['ctx-separator'] },
                             { 
                                 tag: 'div', classList: ['ctx-item', 'ctx-danger'], textContent: 'Delete Thread',
-                                events: { click: async (e) => { 
+                                events: { click: (e) => { 
                                     e.target.parentElement.classList.add('hidden');
-                                    if(confirm("Delete this thread from local reality?")) {
-                                        if(chatState.activeThreadId) {
-                                            await deleteThread(chatState.activeThreadId);
-                                            // Cleanup
-                                            delete globalState.threads[chatState.activeThreadId];
-                                            globalState.snippets = globalState.snippets.filter(s => s.correspondent !== chatState.activeThreadId);
-                                            renderThreadList();
-                                            document.querySelector('.back-button').click();
-                                        }
-                                    }
+                                    showDeleteConfirmation(ui, parent);
                                 } }
                             }
                         ],
@@ -147,6 +138,63 @@ export function initChatLayout(ui, parent) {
 
     renderComposer(ui, parent);
     setupDropZone(parent);
+}
+
+function showDeleteConfirmation(ui, parent) {
+    const confirmId = 'delConfirm_' + Date.now();
+    ui.html({
+        parent: parent.closest('.app-container') || parent,
+        tag: 'div',
+        dataset: { id: confirmId },
+        classList: ['overlay', 'visible'],
+        style: 'z-index: 10000; animation: fadeIn 0.2s forwards;',
+        children: [{
+            tag: 'div',
+            classList: ['modal-card', 'holo-border'],
+            style: 'border-color: var(--neon-fire); text-align:center; max-width: 400px; background: rgba(10,0,0,0.9);',
+            children: [
+                { tag: 'h3', style: 'color: var(--neon-fire); margin-top:0; font-size: 1.2rem; letter-spacing: 2px;', textContent: '⚠️ CRITICAL WARNING' },
+                { tag: 'p', style: 'color: #ccc; margin: 20px 0;', textContent: 'Permanently purge this timeline from local reality? This action cannot be undone.' },
+                { 
+                    tag: 'div', classList: ['flex'], style: 'gap: 12px; justify-content: center;',
+                    children: [
+                        { 
+                            tag: 'button', 
+                            classList: ['btn-primary'], 
+                            style: 'background: transparent; border: 1px solid #555; color: #aaa; flex:1;', 
+                            textContent: 'ABORT',
+                            events: { click: () => {
+                                const el = document.querySelector(`[data-id="${confirmId}"]`);
+                                if(el) el.remove();
+                            }}
+                        },
+                        { 
+                            tag: 'button', 
+                            classList: ['btn-primary'], 
+                            style: 'background: var(--neon-fire); color: #fff; box-shadow: 0 0 15px rgba(239, 68, 68, 0.4); flex:1;', 
+                            textContent: 'PURGE',
+                            events: { click: async () => {
+                                const el = document.querySelector(`[data-id="${confirmId}"]`);
+                                if(el) el.remove();
+                                
+                                if(chatState.activeThreadId) {
+                                    if(FX.playSound) FX.playSound('error'); // Reuse error sound or similar for dramatic effect
+                                    await deleteThread(chatState.activeThreadId);
+                                    
+                                    // Cleanup Local State
+                                    delete globalState.threads[chatState.activeThreadId];
+                                    globalState.snippets = globalState.snippets.filter(s => s.correspondent !== chatState.activeThreadId);
+                                    
+                                    renderThreadList();
+                                    document.querySelector('.back-button').click();
+                                }
+                            }}
+                        }
+                    ]
+                }
+            ]
+        }]
+    });
 }
 
 function handleCmdKey(e) {

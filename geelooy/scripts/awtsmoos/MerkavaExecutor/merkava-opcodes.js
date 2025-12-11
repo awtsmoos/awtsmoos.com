@@ -1,7 +1,7 @@
 // B"H
 /**
  * @file merkava-opcodes.js
- * @version 1.0.1 - The Language of the Golem
+ * @version 1.0.2 - The Language of the Golem
  */
 
 (function(root, factory) {
@@ -91,6 +91,12 @@
         EXIT_TRY: 0x93,
         DEBUGGER: 0x94,
         LOAD_ERROR: 0x95,
+
+        // B"H - Iteration Opcodes
+        GET_ITERATOR: 0xA0,
+        ITERATOR_NEXT: 0xA1,
+        ITERATOR_DONE: 0xA2,
+        ITERATOR_VALUE: 0xA3
     };
 
     const OPCODE_NAMES = Object.fromEntries(

@@ -95,7 +95,6 @@
                 // Unary
                 case OPCODES.NOT: { thread.push(!thread.pop()); break; }
                 case OPCODES.BIT_NOT: { thread.push(~thread.pop()); break; }
-                // B"H - TIKKUN: Fixed Missing NEGATE
                 case OPCODES.NEGATE: { thread.push(-thread.pop()); break; }
                 case OPCODES.TYPEOF: { thread.push(typeof thread.pop()); break; }
                 case OPCODES.VOID: { thread.pop(); thread.push(undefined); break; }
@@ -233,6 +232,32 @@
                     const vmError = new Error(err && err.message ? err.message : String(err));
                     vmError.vmValue = err;
                     throw vmError;
+                }
+
+                // B"H - Iterators
+                case OPCODES.GET_ITERATOR: {
+                    let obj = thread.pop();
+                    if (obj && obj.type === 'POINTER') obj = vm.memory.get(obj.value);
+                    if (obj === null || obj === undefined) throw new Error("Cannot iterate over null/undefined");
+                    if (typeof obj[Symbol.iterator] !== 'function') throw new Error(`${obj} is not iterable`);
+                    thread.push(obj[Symbol.iterator]());
+                    break;
+                }
+                case OPCODES.ITERATOR_NEXT: {
+                    const iter = thread.pop();
+                    thread.push(iter.next());
+                    break;
+                }
+                case OPCODES.ITERATOR_DONE: {
+                    const res = thread.pop();
+                    thread.push(res); 
+                    thread.push(res.done);
+                    break;
+                }
+                case OPCODES.ITERATOR_VALUE: {
+                    const res = thread.pop();
+                    thread.push(res.value);
+                    break;
                 }
             }
             return 'CONTINUE';

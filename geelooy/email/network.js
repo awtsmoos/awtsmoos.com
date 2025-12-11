@@ -63,6 +63,27 @@ export async function sendMessageApi(recipient, subject, content) {
     } catch(e) { alert("Transmission Failed"); }
 }
 
+export async function deleteThread(threadId) {
+    if (!state.alias) return false;
+    try {
+        const url = `${API_BASE}/deleteThread`;
+        // Sending as JSON or Form, using form to match existing style
+        const body = new URLSearchParams();
+        body.append("aliasId", state.alias);
+        body.append("threadId", threadId);
+
+        await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: body
+        });
+        return true;
+    } catch (e) {
+        console.error("Deletion Anomaly:", e);
+        return false;
+    }
+}
+
 export function connectSocket(alias) {
     if(socket) return;
     const proto = location.protocol === 'https:' ? 'wss' : 'ws';
