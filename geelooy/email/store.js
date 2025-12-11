@@ -1,6 +1,7 @@
 
 // B"H
 import { connectSocket, refreshSnippets } from './network.js';
+import { switchChat } from './ui/chat.js';
 
 export const state = {
     alias: null,
@@ -27,21 +28,17 @@ export function notify(key, value) {
 export async function initAuth(ui) {
     console.log("Awtsmoos Mail: Initializing Identity Protocols...");
 
-    // 1. Immediate Check: If window.curAlias exists, login immediately.
-    // This prevents the overlay from getting stuck if the script loaded fast.
+    // 1. Immediate Check
     if(window.curAlias) {
         console.log("Awtsmoos Mail: Identity found in memory:", window.curAlias);
         await login(window.curAlias, ui);
     } else {
-        // Ensure overlay is visible if no alias
         showLoginOverlay(ui, true);
     }
 
-    // 2. Event Listener: Listens for the profile dropdown changes
+    // 2. Event Listener
     window.addEventListener("awtsmoosAliasChange", async (e) => {
         const id = e.detail ? e.detail.id : null;
-        console.log("Awtsmoos Mail: Signal Received >", id);
-        
         if(id) {
             await login(id, ui);
         } else {
@@ -56,10 +53,8 @@ async function login(alias, ui) {
     state.alias = alias;
     window.curAlias = alias;
     
-    // Force hide overlay
     showLoginOverlay(ui, false);
     
-    // Update Sidebar Status
     try {
         const statusText = ui.getHtml('userStatusText');
         if(statusText) {
@@ -69,11 +64,24 @@ async function login(alias, ui) {
         }
     } catch(e) {}
 
-    // Connect Network
     connectSocket(alias);
     await refreshSnippets();
     
-    // Start Poll
+    // ROUTING CHECK: Load thread from URL if present
+    const params = new URLSearchParams(window.location.search);
+    const threadId = params.get('thread');
+    if(threadId) {
+        // Clean ID
+        let clean = threadId.replace(/@/g, '_at_');
+        if(!clean.endsWith('awtsmoos.com')) clean += '_at_awtsmoos.com';
+        
+        // Try to find display name
+        const found = state.snippets.find(s => s.correspondent === clean);
+        const name = found ? found.correspondent.replace(/_at_/g, '@') : clean.replace(/_at_/g, '@');
+        
+        switchChat(ui, clean, name);
+    }
+
     if(!window._mailPoll) {
         window._mailPoll = setInterval(refreshSnippets, 30000);
     }
@@ -84,7 +92,6 @@ function showLoginOverlay(ui, show) {
     if(ov) {
         if(show) {
             ov.classList.remove('hidden');
-            // Small delay to allow CSS transition if needed
             setTimeout(() => ov.classList.add('visible'), 10);
         }
         else {

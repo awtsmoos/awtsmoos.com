@@ -62,14 +62,17 @@ export const TabsPersistence = {
             return;
         }
         
+        // B"H - Parallel Save Optimization
+        UI.showLoading(`Saving ${tab.item.name}...`);
+        const savePromises = [];
+
+        // 1. Write to Actual File System (Local/GitHub/SSH)
         if (gitRootItem.type !== 'github') {
-            UI.showLoading(`Saving ${tab.item.name} to local clone...`);
-            await FileSystemProvider.write(tab.item, contentToSave);
+            savePromises.push(FileSystemProvider.write(tab.item, contentToSave));
         }
         
         try {
-            UI.showLoading(`Staging ${tab.item.name} for commit...`);
-            
+            // 2. Prepare Staging Logic (IDB)
             let relativePath;
             const isDirectRepo = gitRootItem.type === 'github';
             
@@ -91,17 +94,21 @@ export const TabsPersistence = {
             const itemForStaging = { ...tab.item, path: relativePath };
             const uniquePathForStaging = `${gitRootItem.workspaceId || gitRootItem.id}::${relativePath}`;
 
-            await FileSystemProvider.IndexedDB.writeUncommitted(uniquePathForStaging, contentToSave, itemForStaging);
+            // Add Staging Write to Promise List
+            savePromises.push(FileSystemProvider.IndexedDB.writeUncommitted(uniquePathForStaging, contentToSave, itemForStaging));
+
+            // Await both operations simultaneously
+            await Promise.all(savePromises);
 
             tab.isDirty = false;
             tab.isUncommitted = true;
             tab.content = contentToSave;
             TabsController.render();
-            UI.showToast(`"${tab.item.name}" is saved and ready to commit.`, 'success');
+            UI.showToast(`"${tab.item.name}" is saved.`, 'success');
 
         } catch (e) {
-            UI.showToast(`Staging for commit failed: ${e.message}`, 'error');
-            console.error("STAGING FAILED:", e);
+            UI.showToast(`Save failed: ${e.message}`, 'error');
+            console.error("SAVE FAILED:", e);
         } finally {
             UI.hideLoading();
         }

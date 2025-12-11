@@ -142,20 +142,22 @@ async showTextEditor(content = "", filename = "", scrollPos = 0) {
                 // B"H - Store it in the Ark (State)
                 State.previewIframes.set(tabId, iframe);
                 DOM.previewer.appendChild(iframe);
-
-                // Dynamically import the Processor to avoid circular dependencies at top level
-                
-                import('./html-preview-processor.js').then(({ orchestratePreview }) => {
-                    // Retrieve the full item context to resolve relative paths
-                    const tab = State.tabs.find(t => t.id === tabId);
-                    if (tab && tab.item) {
-                        // B"H - Pass the tab's content (which holds unsaved edits) to the orchestrator
-                        orchestratePreview(tab.item, iframe, tab.content);
-                    }
-                });
             } else {
                 DOM.previewer.appendChild(iframe);
             }
+
+            // B"H - LIVE UPDATE TRIGGER
+            // Dynamically import the Processor and force orchestration.
+            // This ensures that even if the iframe exists, we update its content 
+            // if the user has switched tabs or modified the source.
+            import('./html-preview-processor.js').then(({ orchestratePreview }) => {
+                const tab = State.tabs.find(t => t.id === tabId);
+                if (tab && tab.item) {
+                    // Use the tab's current content (which might be dirty/edited)
+                    orchestratePreview(tab.item, iframe, tab.content);
+                }
+            });
+
             return;
         }
         // --- END MERKAVA LOGIC ---

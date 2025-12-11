@@ -3,13 +3,51 @@
 import { sendMessageApi } from '../../network.js';
 import { FX } from '../fx.js';
 import { chatState } from '../chat/state.js';
-import { notify } from '../../store.js';
+import { notify, subscribe } from '../../store.js';
 import { composerState } from './state.js';
 import { htmlToMarkdown, markdownToHtml } from '../../helpers.js';
 import { renderMessages } from '../chat/messages.js';
 import { state as globalState } from '../../store.js';
 
 let currentMode = 'visual'; // visual, markdown, html
+
+// Init Subscription for Reply Events
+subscribe((key, val) => {
+    if (key === 'triggerReply') {
+        const ui = chatState.ui;
+        if(!ui) return;
+        
+        // 1. Fill Subject (prefixed with Re:)
+        const subjectInput = ui.getHtml('chatSubject');
+        const subjectWrapper = ui.getHtml('subjectWrapper');
+        if(subjectInput && val.msg) {
+            let sub = val.msg.subject || "";
+            if(sub === "(No Subject)") sub = "";
+            if(sub && !sub.startsWith("Re:")) sub = "Re: " + sub;
+            subjectInput.value = sub;
+            
+            // Show subject if hidden
+            if(subjectWrapper && subjectWrapper.classList.contains('hidden')) {
+                subjectWrapper.classList.remove('hidden');
+            }
+        }
+        
+        // 2. Quote Body
+        const visual = ui.getHtml('visualEditor');
+        const code = ui.getHtml('codeEditor');
+        
+        // Simple blockquote format
+        const quoteText = `<blockquote>${val.quote}...</blockquote><br>`;
+        
+        if(currentMode === 'visual') {
+            visual.innerHTML = quoteText + visual.innerHTML;
+            visual.focus();
+        } else {
+            code.value = `> ${val.quote}...\n\n` + code.value;
+            code.focus();
+        }
+    }
+});
 
 export function toggleSubject(ui) {
     const wrap = ui.getHtml('subjectWrapper');
@@ -98,9 +136,6 @@ export async function handleSend(ui) {
     if (currentMode === 'visual') txt = visual.innerHTML;
     else txt = code.value;
 
-    // Convert MD to HTML if needed before sending, or send as is? 
-    // The backend handles capsules, but usually we send HTML or Plain.
-    // If in Markdown mode, let's convert to HTML for better display on other end
     if (currentMode === 'markdown') txt = markdownToHtml(txt);
 
     if (!txt.trim() || !chatState.activeThreadId) return;
@@ -110,12 +145,15 @@ export async function handleSend(ui) {
     // 1. Clear Input
     visual.innerHTML = '';
     code.value = '';
+    // Do not clear subject automatically? Usually good to keep context, but let's clear for now.
+    // Actually, mail apps usually clear subject if it was a new composition, but reply chains keep it.
+    // For now, we clear to avoid sticky subject issues.
     if(subjectInput) subjectInput.value = '';
     
     // 2. Clear Ghost
     notify('broadcast', { type: 'LIVE_PREVIEW', to: chatState.activeThreadId, content: '' });
 
-    // 3. OPTIMISTIC UPDATE (Immediate UI Feedback)
+    // 3. OPTIMISTIC UPDATE
     const tempId = 'temp_' + Date.now();
     const tempMsg = {
         id: tempId,
@@ -130,15 +168,11 @@ export async function handleSend(ui) {
     if(!globalState.threads[chatState.activeThreadId]) globalState.threads[chatState.activeThreadId] = [];
     globalState.threads[chatState.activeThreadId].push(tempMsg);
     
-    // Render immediately
     renderMessages(chatState.activeThreadId, globalState.threads[chatState.activeThreadId]);
 
     try {
         await sendMessageApi(chatState.activeThreadId, (subjectInput ? subjectInput.value : null), txt);
         if (FX.explode) FX.explode(window.innerWidth / 2, window.innerHeight - 50);
-        
-        // Remove temp message handled by network refresh or keep it?
-        // Usually refreshSnippets/loadHistory will sync the real ID.
         
     } catch (err) {
         console.error("Transmission failed", err);
@@ -156,7 +190,6 @@ export async function handleSend(ui) {
     }
 }
 
-// --- MAGNETIC PHYSICS ---
 export function handleMagneticMove(e) {
     const btn = e.target;
     const rect = btn.getBoundingClientRect();

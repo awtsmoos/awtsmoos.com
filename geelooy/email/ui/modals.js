@@ -3,6 +3,7 @@
 import { sendMessageApi } from '../network.js';
 import createProfileDropdown from '/scripts/awtsmoos/social/profileDropdown.js';
 import { FX } from './fx.js';
+import { notify } from '../store.js';
 
 export function renderLoginOverlay(ui, root) {
     ui.html({
@@ -20,7 +21,6 @@ export function renderLoginOverlay(ui, root) {
                 { 
                     tag: 'div', 
                     shaym: 'authWrapper',
-                    // Added min-height to ensure dropdown has space to render if empty initially
                     style: 'width: 100%; min-height: 60px; display: flex; justify-content: center; position: relative; z-index: 100;',
                     ready: (el) => {
                         console.log("Mounting Profile Dropdown...");
@@ -114,15 +114,13 @@ export function renderComposeModal(ui, root) {
 }
 
 export function renderContextMenu(ui, x, y, msg, row) {
-    // 1. Clear previous context menus
     const existing = document.querySelectorAll('.context-menu');
     existing.forEach(e => e.remove());
 
     if(FX.playSound) FX.playSound('hover');
 
-    // 2. Bounds Checking to keep menu on screen
     const menuW = 200;
-    const menuH = 180;
+    const menuH = 140; // Reduced height
     
     let posX = x;
     let posY = y;
@@ -143,23 +141,12 @@ export function renderContextMenu(ui, x, y, msg, row) {
                     closeMenu();
                 }}
             },
-            {
-                tag: 'div', classList: ['ctx-item'], textContent: 'Copy ID',
-                events: { click: () => {
-                    navigator.clipboard.writeText(msg.id || "N/A");
-                    closeMenu();
-                }}
-            },
             { tag: 'div', classList: ['ctx-separator'] },
             {
                 tag: 'div', classList: ['ctx-item'], textContent: 'Reply',
                 events: { click: () => {
-                    const input = document.querySelector('.composer-input');
-                    if(input) {
-                        const quote = (msg.content || "").substring(0, 50).replace(/\n/g, ' ');
-                        input.value = `> ${quote}...\n\n` + input.value;
-                        input.focus();
-                    }
+                    const quote = (msg.content || "").substring(0, 50).replace(/\n/g, ' ');
+                    notify('triggerReply', { msg, name: msg.fromName || "User", quote });
                     closeMenu();
                 }}
             },
@@ -168,7 +155,6 @@ export function renderContextMenu(ui, x, y, msg, row) {
                 tag: 'div', classList: ['ctx-item', 'ctx-danger'], textContent: 'Vanish (Local)',
                 events: { click: () => {
                     if(row) {
-                        // Dramatic removal
                         row.style.transition = 'all 0.5s cubic-bezier(0.55, 0.085, 0.68, 0.53)';
                         row.style.transform = 'scale(0) rotate(45deg) skewX(20deg)';
                         row.style.opacity = '0';
@@ -180,7 +166,6 @@ export function renderContextMenu(ui, x, y, msg, row) {
             }
         ],
         ready: (el) => {
-            // Delay listener to avoid immediate trigger
             setTimeout(() => {
                 const close = (e) => {
                     if (!el.contains(e.target)) {

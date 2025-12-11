@@ -84,7 +84,12 @@ function cleanupChat() {
 export async function switchChat(ui, threadId, displayName) {
     const container = ui.getHtml('msgContainer');
     
-    // 1. Singularity Transition Effect
+    // 1. Update URL without reloading
+    const url = new URL(window.location);
+    url.searchParams.set('thread', threadId);
+    window.history.pushState({}, '', url);
+
+    // 2. Singularity Transition Effect
     if(container) {
         container.style.transition = 'transform 0.5s cubic-bezier(0.55, 0.055, 0.675, 0.19)';
         container.style.transform = 'scale(0) rotate(720deg)';
@@ -94,7 +99,7 @@ export async function switchChat(ui, threadId, displayName) {
     if(FX.dissolveScreen) FX.dissolveScreen(container);
     await new Promise(r => setTimeout(r, 500)); 
 
-    // 2. Reset styles & Set State
+    // 3. Reset styles & Set State
     if(container) {
         container.style.transition = 'none';
         container.style.transform = 'scale(1) rotate(0deg)';
@@ -104,19 +109,21 @@ export async function switchChat(ui, threadId, displayName) {
     state.activeThread = threadId;
     chatState.activeThreadId = threadId;
 
-    ui.getHtml('chatTitle').textContent = displayName;
+    const titleEl = ui.getHtml('chatTitle');
+    if(titleEl) titleEl.textContent = displayName;
+    
     ui.getHtml('appContainer').classList.add('view-chat'); 
     
-    // 3. Load Data
+    // 4. Load Data
     container.innerHTML = `<div class="singularity-loader"></div>`;
     
     await loadThreadHistory(threadId);
     
-    // 4. Initial Render
+    // 5. Initial Render
     const msgs = state.threads[threadId] || [];
     renderMessages(threadId, msgs);
 
-    // 5. Smart Suggestions
+    // 6. Smart Suggestions
     const lastMsg = msgs[msgs.length-1];
     if (lastMsg && lastMsg.direction !== 'outgoing') {
         const text = (lastMsg.content || "").toLowerCase();

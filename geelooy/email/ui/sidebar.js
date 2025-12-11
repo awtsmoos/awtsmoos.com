@@ -1,8 +1,9 @@
+
 // B"H
 import { state } from '../store.js';
 import { formatTime } from '../helpers.js';
 import { FX } from './fx.js';
-import { switchChat } from './chat.js'; // IMPORT THE REAL LOGIC
+import { switchChat } from './chat.js';
 
 let _uiRef = null;
 
@@ -44,21 +45,24 @@ export function renderSidebar(ui, parent) {
         }
     });
 
-    // Tabs
+    // Tabs - UPDATED
     ui.html({
         parent,
         tag: 'div', classList: ['tabs-container'],
         children: [
-            { tag: 'button', classList: ['nav-tab', 'active'], textContent: 'Inbox', events: { click: () => setView('inbox') } },
-            { tag: 'button', classList: ['nav-tab'], textContent: 'Sent', events: { click: () => setView('requests') } }
+            { tag: 'button', classList: ['nav-tab', 'active'], textContent: 'Inbox', events: { click: (e) => updateTabs(e, 'inbox') } },
+            { tag: 'button', classList: ['nav-tab'], textContent: 'Requests', events: { click: (e) => updateTabs(e, 'requests') } }
         ]
     });
 
     // Thread List Container
     ui.html({ parent, tag: 'div', shaym: 'threadList', classList: ['thread-list'] });
-    
-    // NOTE: We removed the rogue 'mainChatView' creation code here. 
-    // The chat view is now correctly handled by ui/chat.js inside the .chat-area created by layout.js
+}
+
+function updateTabs(e, view) {
+    document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+    e.target.classList.add('active');
+    setView(view);
 }
 
 function setView(view) {
@@ -79,7 +83,11 @@ export function renderThreadList() {
     const list = _uiRef.getHtml('threadList');
     list.innerHTML = '';
 
-    const threads = state.snippets ? state.snippets.filter(t => state.view === 'requests' ? false : true) : [];
+    const threads = state.snippets ? state.snippets.filter(t => {
+        if(state.view === 'requests') return t.status === 'request';
+        // Inbox: Show if not a request (so status is inbox, undefined, or null)
+        return (!t.status || t.status === 'inbox');
+    }) : [];
 
     if (threads.length === 0) {
         _uiRef.html({ parent: list, tag: 'div', style: 'padding:20px; text-align:center; color:#555;', textContent: 'Void.' });
@@ -98,9 +106,8 @@ export function renderThreadList() {
             events: {
                 click: () => { 
                     if(FX.playSound) FX.playSound('hover'); 
-                    // DELEGATE TO CHAT CONTROLLER
                     switchChat(_uiRef, t.correspondent, name);
-                    renderThreadList(); // Re-render to update active state
+                    renderThreadList(); 
                 }
             },
             children: [
