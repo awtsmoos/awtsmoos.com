@@ -9,7 +9,7 @@ const SDK_PATH = '/scripts/awtsmoos/MerkavaExecutor/merkava-sdk.js';
 
 /**
  * B"H
- * The Orchestrator - v3.0 (Total Redo)
+ * The Orchestrator - v3.1 (Shim Recursion Fix)
  * This engine constructs a self-contained environment within the iframe.
  * It resolves relative paths, inlines CSS, and bootstraps the Merkava Runtime
  * inside the iframe itself, ensuring perfect isolation and execution context.
@@ -78,40 +78,64 @@ export const orchestratePreview = async (item, iframe, contentOverride = null) =
     const shimScript = doc.createElement('script');
     shimScript.textContent = /*js*/`
     (function() {
-        // B"H - Double Buffering Shim
+        // B"H - Double Buffering Shim (Recursion Fixed)
         const _getContext = HTMLCanvasElement.prototype.getContext;
         const _rAF = window.requestAnimationFrame;
         const canvasMap = new WeakMap();
 
         HTMLCanvasElement.prototype.getContext = function(type, options) {
             if (type !== '2d') return _getContext.call(this, type, options);
+            
+            // 1. Get the Real Context
             const realCtx = _getContext.call(this, type, options);
+            
+            // 2. Create Offscreen Canvas
             const offscreen = document.createElement('canvas');
-            offscreen.width = this.width; offscreen.height = this.height;
-            const offCtx = offscreen.getContext('2d');
+            offscreen.width = this.width; 
+            offscreen.height = this.height;
+            
+            // 3. Get Offscreen Context (CRITICAL: Use _getContext.call to bypass recursion)
+            const offCtx = _getContext.call(offscreen, '2d');
+            
             canvasMap.set(this, { offscreen, offCtx, realCtx });
             
-            // Proxy to sync dimensions
+            // 4. Return Proxy to intercept draws
             return new Proxy(offCtx, {
-                get(t, p) { if(p==='canvas') return realCtx.canvas; return t[p]; },
+                get(t, p) { 
+                    if (p === 'canvas') return realCtx.canvas;
+                    const val = t[p];
+                    if (typeof val === 'function') {
+                        // Bind methods to the offscreen context to prevent Illegal Invocation
+                        return val.bind(t);
+                    }
+                    return val;
+                },
                 set(t, p, v) { 
-                    if(p==='width'||p==='height') offscreen[p] = v; 
-                    t[p] = v; return true; 
+                    if (p === 'width' || p === 'height') {
+                        offscreen[p] = v;
+                        realCtx.canvas[p] = v; // Sync real canvas size too
+                    }
+                    t[p] = v; 
+                    return true; 
                 }
             });
         };
 
         window.requestAnimationFrame = function(cb) {
-            // Blit phase
+            // Blit phase: Copy offscreen buffers to real canvases
             const canvases = document.getElementsByTagName('canvas');
             for(let cvs of canvases) {
                 const data = canvasMap.get(cvs);
                 if(data && cvs.width > 0 && cvs.height > 0) {
                     const { offscreen, realCtx } = data;
+                    
+                    // Sync dimensions if they drifted
                     if(offscreen.width !== cvs.width) offscreen.width = cvs.width;
                     if(offscreen.height !== cvs.height) offscreen.height = cvs.height;
-                    realCtx.clearRect(0,0,cvs.width,cvs.height);
-                    realCtx.drawImage(offscreen,0,0);
+                    
+                    // Clear and Draw
+                    realCtx.clearRect(0, 0, cvs.width, cvs.height);
+                    realCtx.drawImage(offscreen, 0, 0);
                 }
             }
             return _rAF(cb);
@@ -149,11 +173,7 @@ export const orchestratePreview = async (item, iframe, contentOverride = null) =
         }
     }
 
-    // We need to pass the scripts to the bootstrap code.
-    // We cannot pass complex objects easily into `doc.write`, so we serialize them.
-    // However, we also need to fetch the content of external scripts NOW,
-    // because the iframe won't be able to easily query the parent's FileSystemProvider asynchronously during boot.
-    
+    // Pass scripts to bootstrap.
     for (const script of userScripts) {
         if (!script.isInline) {
             try {
@@ -170,8 +190,6 @@ export const orchestratePreview = async (item, iframe, contentOverride = null) =
     }
 
     // B"H - Calculate Absolute Base Path for SDK
-    // This ensures that the SDK in the blob-iframe knows where to fetch its modules from (the server),
-    // rather than trying to fetch from 'blob:.../merkava-sdk/' which doesn't exist.
     const sdkBaseDir = SDK_PATH.substring(0, SDK_PATH.lastIndexOf('/') + 1);
     const absoluteBase = new URL(sdkBaseDir, window.location.href).href;
 
