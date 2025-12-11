@@ -18,6 +18,20 @@ export function updatePropertiesPanel() {
     // Clear previous
     container.innerHTML = '';
 
+    // MOBILE CLOSE BUTTON (Injected dynamically)
+    if(window.innerWidth <= 768) {
+        const btnClose = document.createElement('button');
+        btnClose.className = 'btn-tool full-width';
+        btnClose.textContent = 'CLOSE PANEL';
+        btnClose.style.background = '#222';
+        btnClose.style.borderBottom = '1px solid #000';
+        btnClose.style.marginBottom = '0';
+        btnClose.style.borderRadius = '0';
+        btnClose.style.padding = '12px';
+        btnClose.onclick = () => container.classList.remove('open');
+        container.appendChild(btnClose);
+    }
+
     // Render Tabs
     const tabs = document.createElement('div');
     tabs.className = 'prop-tabs';

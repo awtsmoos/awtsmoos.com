@@ -145,8 +145,13 @@ export function updatePlayheadPosition() {
         const x = state.currentTime * state.studioZoom;
         const scroll = container.scrollLeft;
         
-        // Using transform for smoother performance than 'left' if possible, but left works for now
+        // Move Horizontally
         ph.style.left = (headerW + x - scroll) + 'px';
+        
+        // Scale Vertically to match ScrollHeight (Fix infinite scroll issue)
+        // We use Math.max to ensure it covers at least visible area
+        const height = Math.max(container.clientHeight, container.scrollHeight);
+        ph.style.height = height + 'px';
     }
 }
 
@@ -175,7 +180,7 @@ const ScrubManager = {
 
         // Cache geometry
         const header = document.querySelector('.track-head');
-        this.headerWidth = header ? header.offsetWidth : (window.innerWidth <= 768 ? 80 : 160);
+        this.headerWidth = header ? header.offsetWidth : (window.innerWidth <= 768 ? 60 : 140);
         this.containerScroll = document.getElementById('timeline-tracks').scrollLeft;
         
         // Initial Seek

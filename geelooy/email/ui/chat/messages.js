@@ -1,7 +1,7 @@
 
 // B"H
 import { chatState, getUiRef } from './state.js';
-import { attachSwipePhysics, handleRightClick, triggerReply } from './physics.js';
+import { attachSwipePhysics, handleRightClick, triggerReply, resetScrollPhysics } from './physics.js';
 import { smartParse } from '../../helpers.js';
 import { FX } from '../fx.js';
 import { renderContextMenu } from '../modals.js';
@@ -176,7 +176,13 @@ export function renderMessages(threadId, msgs) {
     if (wasNearBottom || msgs.length === 0 || msgs[msgs.length-1].direction === 'outgoing') {
         requestAnimationFrame(() => {
             container.scrollTop = container.scrollHeight;
-            requestAnimationFrame(() => container.scrollTop = container.scrollHeight);
+            resetScrollPhysics(container); // Reset to prevent glitching
+            
+            // Double assurance
+            requestAnimationFrame(() => {
+                container.scrollTop = container.scrollHeight;
+                resetScrollPhysics(container);
+            });
         });
     }
     
@@ -218,7 +224,6 @@ export function renderGhostBubble(content) {
         return;
     }
 
-    // FIXED: Use smartParse for rich text in ghost bubble
     const parsed = smartParse(content);
 
     if (!ghost) {

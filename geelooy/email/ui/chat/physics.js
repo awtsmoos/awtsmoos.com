@@ -5,6 +5,15 @@ import { FX } from '../fx.js';
 import { notify } from '../../store.js';
 import { renderContextMenu } from '../modals.js';
 
+// 0. RESET PHYSICS (Fix for load distortion)
+export function resetScrollPhysics(el) {
+    if(!el) return;
+    chatState.lastScrollTop = el.scrollTop;
+    chatState.lastScrollTime = Date.now();
+    el.style.setProperty('--scroll-skew', '0deg');
+    document.body.classList.remove('sonic-distortion');
+}
+
 // 1. SONIC BOOM SCROLL
 export function handleScroll(e) {
     const el = e.target;
@@ -28,6 +37,19 @@ export function handleScroll(e) {
     const now = Date.now();
     const dt = now - chatState.lastScrollTime;
     
+    // FIX: Detect programmatic teleportation (Load/Jump to bottom)
+    // If distance is huge and time is short, it's not a human scroll.
+    const dist = Math.abs(el.scrollTop - chatState.lastScrollTop);
+    
+    if (dist > 300 && dt < 100) {
+        // Reset state and exit to prevent massive skew distortion
+        chatState.lastScrollTop = el.scrollTop;
+        chatState.lastScrollTime = now;
+        el.style.setProperty('--scroll-skew', '0deg');
+        document.body.classList.remove('sonic-distortion');
+        return;
+    }
+    
     if (dt > 16) { // ~60fps cap
         const velocity = (el.scrollTop - chatState.lastScrollTop) / dt;
         chatState.scrollSpeed = velocity;
@@ -35,7 +57,8 @@ export function handleScroll(e) {
         // Sonic Boom Effect
         if (Math.abs(velocity) > 2.5) {
             document.body.classList.add('sonic-distortion');
-            const skew = Math.min(Math.max(velocity * 1.5, -8), 8);
+            // Cap skew to avoid unreadable text
+            const skew = Math.min(Math.max(velocity * 1.5, -6), 6); 
             el.style.setProperty('--scroll-skew', `${skew}deg`);
         } else {
             document.body.classList.remove('sonic-distortion');

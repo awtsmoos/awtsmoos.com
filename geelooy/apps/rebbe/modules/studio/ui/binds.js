@@ -35,6 +35,14 @@ export function bindStudioEvents() {
     if(el('btn-minimize')) el('btn-minimize').onclick = () => Actions.minimizeStudio();
     if(el('studio-fab')) el('studio-fab').onclick = () => Actions.restoreStudio();
 
+    // Mobile Props Toggle
+    if(el('btn-toggle-props')) {
+        el('btn-toggle-props').onclick = () => {
+            const p = document.getElementById('studio-props');
+            if(p) p.classList.add('open');
+        };
+    }
+
     // Preview Canvas Pan/Zoom
     const wrap = el('studio-preview-wrapper');
     const canvas = el('studio-preview-canvas');

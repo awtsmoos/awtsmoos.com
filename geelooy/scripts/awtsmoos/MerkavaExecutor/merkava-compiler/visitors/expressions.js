@@ -1,3 +1,4 @@
+
 // B"H
 (function(root) {
     root.MerkavaCompiler = root.MerkavaCompiler || {};
@@ -52,6 +53,28 @@
         },
 
         _visitCall(node) {
+            // B"H - Restore SYSCALL Logic
+            if (node.callee.type === 'Identifier' && node.callee.name === 'syscall') {
+                const idArg = node.arguments[0];
+                // Ensure the ID is a literal number
+                if (!idArg || idArg.type !== 'Literal') {
+                    // Fallback to normal call if not a literal (compiler restriction)
+                    // Or throw error if we want to enforce it.
+                    // For now, let's assume valid usage or throw for clarity.
+                    throw new Error("Syscall ID must be a literal number (e.g., syscall(0, ...))");
+                }
+                
+                // Compile arguments (skipping the ID)
+                for (let i = 1; i < node.arguments.length; i++) {
+                    this._visit(node.arguments[i]);
+                }
+                
+                this.buffer.write8(this.OPCODES.SYSCALL);
+                this.buffer.write8(idArg.value);
+                this.buffer.write8(node.arguments.length - 1); // Arg count excluding ID
+                return;
+            }
+
             if (node.callee.type === 'MemberExpression') {
                  this._visit(node.callee.object);
                  this.buffer.write8(this.OPCODES.DUP); 

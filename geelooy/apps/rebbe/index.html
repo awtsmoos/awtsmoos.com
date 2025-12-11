@@ -173,28 +173,30 @@
 
             <div class="studio-bottom" id="studio-bottom">
                  <div class="studio-toolbar">
-                     <button class="modal-btn" id="st-play" style="min-width:70px;">▶ PLAY</button>
-                     <button class="modal-btn" id="st-stop">STOP</button>
-                     <button class="modal-btn" id="st-split">SPLIT</button>
-                     <button class="modal-btn danger" id="st-delete" title="Delete Selected">DEL</button>
+                     <button class="modal-btn mobile-only" id="btn-toggle-props" style="background:#222; border:1px solid #444; color:#ccc;">PROPS</button>
+                     <div class="mobile-only" style="width:1px; height:20px; background:#333; margin:0 5px;"></div>
                      
-                     <div style="width:1px; height:30px; background:#333; margin:0 5px;"></div>
+                     <button class="modal-btn" id="st-play" style="min-width:60px;">▶</button>
+                     <button class="modal-btn" id="st-stop">◼</button>
+                     <button class="modal-btn" id="st-split" title="Split">✂</button>
+                     <button class="modal-btn danger" id="st-delete" title="Delete">✖</button>
+                     
+                     <div style="width:1px; height:20px; background:#333; margin:0 5px;"></div>
                      
                      <div style="display:flex; flex-direction:column; justify-content:center; gap:2px;">
-                         <label style="font-size:8px; color:#666; text-align:center;">ZOOM</label>
-                         <input type="range" id="st-zoom" min="10" max="300" value="100" style="width:70px; height:4px;">
+                         <input type="range" id="st-zoom" min="10" max="300" value="100" style="width:70px; height:4px;" title="Zoom">
                      </div>
 
-                     <div style="width:1px; height:30px; background:#333; margin:0 5px;"></div>
+                     <div style="width:1px; height:20px; background:#333; margin:0 5px;"></div>
 
                      <button class="modal-btn" id="st-detect-beats">BEATS</button>
-                     <button class="modal-btn" id="st-gen-caps">AI CAPS</button>
-                     <button class="modal-btn" id="st-gen-img">AI IMG</button>
-                     <label class="modal-btn" style="cursor:pointer;" title="Add Audio/Video/Image/Project">
-                         IMPORT <input type="file" id="st-upload" hidden>
+                     <button class="modal-btn" id="st-gen-caps">CAPS</button>
+                     <button class="modal-btn" id="st-gen-img">IMG</button>
+                     <label class="modal-btn" style="cursor:pointer;" title="Import">
+                         IMP <input type="file" id="st-upload" hidden>
                      </label>
                      <div style="flex:1"></div>
-                     <button class="modal-btn danger" id="st-export">EXPORT MP4</button>
+                     <button class="modal-btn danger" id="st-export">EXPORT</button>
                      <button class="modal-btn" id="btn-minimize" title="Minimize">_</button>
                      <button class="modal-btn modal-close" id="btn-close-studio">EXIT</button>
                  </div>
