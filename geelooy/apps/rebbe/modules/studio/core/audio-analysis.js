@@ -7,7 +7,7 @@ export function preAnalyzeAudio(audioBuffer) {
     
     const rawData = audioBuffer.getChannelData(0); // Use mono for analysis
     const sampleRate = audioBuffer.sampleRate;
-    const fps = 30; // Analysis resolution
+    const fps = 60; // INCREASED FPS FOR SMOOTHER PARTICLES
     const samplesPerFrame = Math.floor(sampleRate / fps);
     const totalFrames = Math.ceil(rawData.length / samplesPerFrame);
     
@@ -19,12 +19,16 @@ export function preAnalyzeAudio(audioBuffer) {
         
         let sum = 0;
         // Calculate RMS (Root Mean Square) for volume/energy
-        for (let j = start; j < end; j++) {
+        // Optimization: Step through samples to avoid heavy loop on large buffers
+        const step = 2; // Check every 2nd sample
+        let count = 0;
+        for (let j = start; j < end; j += step) {
             const s = rawData[j];
             sum += s * s;
+            count++;
         }
         
-        const rms = Math.sqrt(sum / (end - start));
+        const rms = Math.sqrt(sum / count);
         
         // Simple mapping to bass/mid/treble simulation for visualizer
         // Real FFT on full buffer is too heavy, RMS is good proxy for "energy"

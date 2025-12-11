@@ -1,7 +1,7 @@
 //B"H
 // modules/studio/project.js
 import state from '../state.js';
-import * as Render from '../render.js';
+import * as Render from '../../render.js';
 import { initStudio } from './core/lifecycle.js';
 
 const DB_NAME = 'RebbeStudioProjects';

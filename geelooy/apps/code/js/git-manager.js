@@ -214,7 +214,7 @@ export const GitManager = {
         let statusHTML = `<div class="git-status-line">${localStatusMessage}</div>`;
         
         // B"H - INCOMING REMOTE CHANGES
-        if (isBehind && remoteChanges) {
+        if (remoteChanges) {
              const count = remoteChanges.additions.length + remoteChanges.modifications.length + remoteChanges.deletions.length;
              if (count > 0) {
                  statusHTML += `<div class="changes-list" style="border-color: var(--color-accent-info);">
@@ -328,7 +328,7 @@ export const GitManager = {
             if (dialogResult === 'tertiary') await this.discardChanges(gitContextItem);
             else if (dialogResult === 'force_pull') FileOperations.pullAndOverwrite(gitContextItem, gitInfo);
             // B"H - If conflicts/behind and result is not force_push, it means they clicked 'Pull & Overwrite' (okText)
-            else if (isBehind && dialogResult !== 'force_push') FileOperations.pullAndOverwrite(gitContextItem, gitInfo);
+            else if ((isBehind || hasConflicts) && dialogResult !== 'force_push') FileOperations.pullAndOverwrite(gitContextItem, gitInfo);
             else if ((isAhead && !hasConflicts) || dialogResult === 'force_push') {
                 
                 const commitMessage = document.getElementById('dialog-textarea')?.value || `B"H\nUpdate`;

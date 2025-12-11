@@ -9,8 +9,14 @@ import { loop } from './loop.js';
 import { handleStudioKeys } from './input.js';
 import { autoSave } from './persistence.js';
 import { preAnalyzeAudio } from './audio-analysis.js';
+import * as Audio from '../../../audio.js'; // Import main audio
 
 export function initStudio() {
+    // 1. Pause Main App Audio
+    if(Audio.isPlaying()) {
+        Audio.togglePlay();
+    }
+
     initAudioContext();
     const canvas = document.getElementById('studio-preview-canvas');
     if (!canvas) return;
@@ -32,9 +38,29 @@ export function initStudio() {
     canvas.width = state.studioGlobal.width;
     canvas.height = state.studioGlobal.height;
 
-    // Run Audio Pre-Analysis for Scrubbing Visuals
+    // Run Audio Pre-Analysis for Scrubbing Visuals if buffer exists
     if (state.sourceAudioBuffer) {
         preAnalyzeAudio(state.sourceAudioBuffer);
+    } else {
+        // Initialize empty if no audio loaded yet (User can import later)
+        ctx.analysisData = [];
+    }
+
+    // --- RESTORE DEFAULT PARTICLES ---
+    // If no layers exist, or no effect layers, add a default one so it looks cool immediately.
+    const hasEffects = state.mediaLayers.some(l => l.type === 'effect');
+    if (!hasEffects) {
+        state.mediaLayers.push({
+            id: Date.now(),
+            type: 'effect',
+            effectType: 'particles',
+            start: 0,
+            end: 300, // Long duration default
+            opacity: 1.0,
+            config: {
+                mode: 'float', count: 200, colorMode: 'rainbow', reactivity: 1.0, sizeBase: 20
+            }
+        });
     }
 
     initParticles(canvas.width, canvas.height);

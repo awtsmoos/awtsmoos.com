@@ -143,6 +143,11 @@
     touch-action: pan-y; width: 100%;
     transform-style: preserve-3d;
 }
+
+/* FIXED: Alignment for ME vs THEM within the wrapper */
+.msg-row.me .swipe-wrapper { justify-content: flex-end; }
+.msg-row.them .swipe-wrapper { justify-content: flex-start; }
+
 .swipe-wrapper.swiping { user-select: none; -webkit-user-select: none; }
 
 .swipe-icon {

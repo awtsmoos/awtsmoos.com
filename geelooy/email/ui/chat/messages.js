@@ -28,12 +28,11 @@ function decryptText(element, finalString) {
         if(iterations >= plainText.length) { 
             clearInterval(interval);
             element.innerHTML = originalHTML;
-            element.classList.remove('decrypting'); // FIXED: Remove blue color class
+            element.classList.remove('decrypting'); 
         }
         iterations += 1; 
     }, 20);
     
-    // Safety fallback
     setTimeout(() => { 
         clearInterval(interval); 
         element.innerHTML = originalHTML; 
@@ -104,7 +103,6 @@ export function renderMessages(threadId, msgs) {
                                     tag: 'div', classList: ['msg-footer'],
                                     children: [
                                         { tag: 'span', classList: ['msg-time'], dataset: { ts: m.timeSent }, textContent: 'Just now' },
-                                        // Actions Container
                                         {
                                             tag: 'div', classList: ['msg-actions'],
                                             children: [
@@ -119,7 +117,7 @@ export function renderMessages(threadId, msgs) {
                                                         pointerdown: (e) => e.stopPropagation()
                                                     }
                                                 },
-                                                // MENU BUTTON (Kebab)
+                                                // MENU BUTTON
                                                 { 
                                                     tag: 'button', classList: ['action-btn'], title: 'Menu', innerHTML: '⋮',
                                                     events: { 
@@ -153,7 +151,6 @@ export function renderMessages(threadId, msgs) {
             ]
         });
 
-        // Add Copy Buttons to Code Blocks
         const blocks = row.querySelectorAll('pre');
         blocks.forEach(blk => {
             const btn = document.createElement('button');
@@ -221,6 +218,9 @@ export function renderGhostBubble(content) {
         return;
     }
 
+    // FIXED: Use smartParse for rich text in ghost bubble
+    const parsed = smartParse(content);
+
     if (!ghost) {
         ghost = document.createElement('div');
         ghost.id = 'ghostBubble';
@@ -231,7 +231,7 @@ export function renderGhostBubble(content) {
     }
     
     const contentEl = ghost.querySelector('.msg-content');
-    if(contentEl) contentEl.innerText = content;
+    if(contentEl) contentEl.innerHTML = parsed;
     container.scrollTop = container.scrollHeight;
 }
 

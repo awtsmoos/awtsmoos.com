@@ -11,17 +11,19 @@ let originalEnd = 0;
 let originalOffset = 0;
 
 export function handleBlockDown(e, type, index, item) {
+    // STOP propagation so the timeline background click doesn't deselect immediately
     e.stopPropagation();
-    
-    // Prevent mouse event firing after touch
-    if(e.type === 'mousedown' && e.sourceCapabilities && e.sourceCapabilities.firesTouchEvents) return;
+    e.preventDefault(); 
 
+    // Update Selection
     state.selectedClipId = item.id;
     state.selectedType = type;
     state.activeTab = 'clip';
     
-    if(window.Studio && window.Studio.updatePropertiesPanel) {
-        window.Studio.updatePropertiesPanel();
+    // FORCE UI REFRESH
+    if(window.Studio) {
+        if(window.Studio.renderTimeline) window.Studio.renderTimeline();
+        if(window.Studio.updatePropertiesPanel) window.Studio.updatePropertiesPanel();
     }
     
     // Save state for Undo before drag begins
@@ -166,12 +168,16 @@ function handleUp() {
 }
 
 export function handleTimelineClick(e) {
-    if (!e.target.closest('.nle-block')) {
-        state.selectedClipId = null;
-        state.activeTab = 'global';
-        if(window.Studio && window.Studio.updatePropertiesPanel) {
-            window.Studio.updatePropertiesPanel();
-        }
-        if(window.Studio && window.Studio.renderTimeline) window.Studio.renderTimeline();
+    // This fires when clicking the empty track container space
+    // We only deselect if we are NOT clicking a block.
+    // handleBlockDown calls stopPropagation, so theoretically this shouldn't fire
+    // if a block was clicked. However, just to be safe:
+    if (e.target.closest('.nle-block')) return; 
+
+    state.selectedClipId = null;
+    state.activeTab = 'global';
+    if(window.Studio && window.Studio.updatePropertiesPanel) {
+        window.Studio.updatePropertiesPanel();
     }
+    if(window.Studio && window.Studio.renderTimeline) window.Studio.renderTimeline();
 }

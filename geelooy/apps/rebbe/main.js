@@ -56,11 +56,18 @@ export async function init() {
         
         // Video Gen Handlers
         onOpenSliceModal: () => {
-             if(Audio.audioEl && Audio.audioEl.duration) {
+             // If Audio is loaded, offer to slice it.
+             // If NO audio, open Studio directly (Empty Project).
+             if(Audio.audioEl && Audio.audioEl.duration > 0) {
                  Render.updateVideoModalDefaults(Audio.audioEl.currentTime);
                  Render.openModal('modal-video');
              } else {
-                 alert("PLEASE LOAD AUDIO TRACK FIRST");
+                 if(confirm("No Audio Loaded. Open Empty Studio Project?")) {
+                     VideoGen.initEmptyStudio(() => {
+                         Render.openModal('modal-studio');
+                         initStudio();
+                     });
+                 }
              }
         },
         onAnalyzeVideo: async (start, dur, res) => {
@@ -78,6 +85,12 @@ export async function init() {
             Render.closeModal('modal-studio');
         }
     });
+    
+    // Bind Terminal Toggle
+    const btnTerm = document.getElementById('btn-term-toggle');
+    if(btnTerm) {
+        btnTerm.onclick = () => Render.toggleTerminal();
+    }
 
     Audio.setCallbacks({
         onUpdate: (cur, dur) => {

@@ -144,12 +144,12 @@ export const GitCommit = {
             method: 'POST', body: JSON.stringify({ message, tree: newTree.sha, parents: parentSHA ? [parentSHA] : [] })
         });
         
-        // B"H - Apply Force Push logic
+        // B"H - Apply Force Push logic if requested
         await FileSystemProvider.GitHub.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/refs/heads/${branch}`, {
             method: 'PATCH', 
             body: JSON.stringify({ 
                 sha: newCommit.sha,
-                force: force // Indicates force update
+                force: force 
             })
         });
         return newCommit.sha;
