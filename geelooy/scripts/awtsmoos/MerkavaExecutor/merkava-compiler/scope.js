@@ -19,6 +19,12 @@
         }
         
         declare(name) {
+            // B"H - Idempotent Declaration
+            // If the name is already declared in this scope, return its existing index.
+            // This is crucial for the multi-pass compiler strategy (Hoisting).
+            if (this.locals.has(name)) {
+                return this.locals.get(name);
+            }
             const index = this.stackIndex++;
             this.locals.set(name, index);
             return index;

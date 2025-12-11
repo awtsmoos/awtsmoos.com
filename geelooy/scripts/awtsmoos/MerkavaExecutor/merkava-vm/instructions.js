@@ -1,3 +1,4 @@
+
 // B"H
 (function(root) {
     root.MerkavaVM = root.MerkavaVM || {};
@@ -157,8 +158,14 @@
                     const count = thread.read8();
                     const args = [];
                     for(let i=0; i<count; i++) args.unshift(thread.pop());
-                    const ctx = thread.pop(); // this
+                    let ctx = thread.pop(); // this
                     const callee = thread.pop();
+
+                    // B"H - TIKKUN: Default 'this' to global environment if undefined/null
+                    // This mimics standard JS non-strict behavior and fixes implicit global calls (e.g. alert())
+                    if (ctx === undefined || ctx === null) {
+                        ctx = thread.environment; 
+                    }
 
                     if (callee && callee.type === 'CLOSURE') {
                         if (callee.isGenerator) {

@@ -21,6 +21,17 @@ export function renderComposerView(ui, parent) {
                     // TOP BAR: Tabs + Tools
                     {
                         tag: 'div', classList: ['flex', 'space-between', 'align-center'], style: 'background:rgba(255,255,255,0.02); padding-right:10px; border-bottom:1px solid rgba(255,255,255,0.05);',
+                        events: {
+                            // CLICK TO RESTORE
+                            click: (e) => {
+                                // Only trigger if minimized and not clicking a button
+                                if(ui.getHtml('composerArea').classList.contains('minimized')) {
+                                    if(e.target.tagName !== 'BUTTON') {
+                                        toggleMinimize(ui);
+                                    }
+                                }
+                            }
+                        },
                         children: [
                             {
                                 tag: 'div', classList: ['composer-tabs'],
@@ -54,7 +65,7 @@ export function renderComposerView(ui, parent) {
                                     {
                                         tag: 'button', classList: ['icon-btn', 'win-ctrl'], title: 'Minimize',
                                         textContent: '_', 
-                                        events: { click: () => toggleMinimize(ui) }
+                                        events: { click: (e) => { e.stopPropagation(); toggleMinimize(ui); } }
                                     }
                                 ]
                             }

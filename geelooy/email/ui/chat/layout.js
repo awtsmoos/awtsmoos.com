@@ -116,7 +116,18 @@ export function initChatLayout(ui, parent) {
             scroll: (e) => handleScroll(e),
             click: (e) => { if(FX.triggerSonar) FX.triggerSonar(e.clientX, e.clientY); },
             mousemove: (e) => handleMagneticField(e)
-        }
+        },
+        children: [
+            // EMPTY STATE / LANDING HERO
+            {
+                tag: 'div', classList: ['void-logo'], 
+                children: [
+                    { tag: 'div', style: 'font-size: 3rem; margin-bottom: 20px;', textContent: '⚛' },
+                    { tag: 'h2', textContent: 'Awaiting Transmission' },
+                    { tag: 'p', style: 'color: var(--text-secondary);', textContent: 'Select a frequency from the sidebar to begin.' }
+                ]
+            }
+        ]
     });
 
     // Wormhole Loader

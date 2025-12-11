@@ -1,3 +1,4 @@
+
 // B"H
 (function(root) {
     root.MerkavaCompiler = root.MerkavaCompiler || {};
@@ -110,16 +111,40 @@
 
         _compileBlock(statements) {
             if (Array.isArray(statements)) {
-                // B"H - HOISTING IMPLEMENTATION
-                // Pass 1: Compile Function Declarations first.
-                // This mimics JS hoisting, making functions available before they are called.
+                // B"H - HOISTING IMPLEMENTATION (3-PASS SYSTEM)
+
+                // Pass 0: Pre-declare Identifiers (Scope Population)
+                // This ensures that when we generate code in Pass 1 & 2,
+                // the compiler already knows these variables exist in the local scope.
+                statements.forEach(s => {
+                    if (s.type === 'FunctionDeclaration' && s.id) {
+                        this.scope.declare(s.id.name);
+                    } else if (s.type === 'VariableDeclaration' && s.kind === 'var') {
+                        // In JS, 'var' is function-scoped, but here we hoist it to the current block scope.
+                        // Ideally this should bubble up to the function scope, but block-level is a safe enough approximation
+                        // for this VM to prevent "Global lookup" errors.
+                        s.declarations.forEach(d => {
+                            if (d.id.type === 'Identifier') this.scope.declare(d.id.name);
+                        });
+                    }
+                    // Note: 'let' and 'const' are also declared here to simplify resolution,
+                    // effectively skipping TDZ checks but ensuring they resolve as Locals.
+                    else if (s.type === 'VariableDeclaration') {
+                        s.declarations.forEach(d => {
+                            if (d.id.type === 'Identifier') this.scope.declare(d.id.name);
+                        });
+                    }
+                });
+
+                // Pass 1: Compile Function Declarations (Code Generation for Hoisted Functions)
+                // This mimics JS hoisting by initializing functions before any other code runs.
                 statements.forEach(s => {
                     if (s.type === 'FunctionDeclaration') {
                         this._visit(s);
                     }
                 });
 
-                // Pass 2: Compile everything else.
+                // Pass 2: Compile Everything Else
                 statements.forEach(s => {
                     if (s.type !== 'FunctionDeclaration') {
                         this._visit(s);

@@ -34,6 +34,16 @@
     transform-style: preserve-3d;
 }
 
+/* VOID LOGO (Empty State) */
+.void-logo {
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    height: 100%; width: 100%; opacity: 0.5; text-align: center;
+    pointer-events: none; user-select: none;
+    animation: pulseVoid 4s infinite alternate;
+}
+@keyframes pulseVoid { from { opacity: 0.3; transform: scale(0.95); } to { opacity: 0.6; transform: scale(1.05); } }
+
+
 .msg-row { 
     display: flex; width: 100%; position: relative; margin-bottom: 12px; 
     transform-style: preserve-3d; 

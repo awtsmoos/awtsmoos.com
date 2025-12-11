@@ -1,3 +1,4 @@
+
 // B"H
 (function(root) {
     const Internal = root.MerkavaSDK_Internal = root.MerkavaSDK_Internal || {};
@@ -231,26 +232,41 @@
             };
             
             // B"H - TIKKUN: Robust Proxy for Context Delegation
+            // We now fallback to looking in 'userContext.window' if the property
+            // isn't found directly on 'userContext'. This is critical for globals.
             const finalContext = new Proxy(base, {
                 get(target, prop, receiver) {
                     if (Reflect.has(target, prop)) return Reflect.get(target, prop, receiver);
                     
                     try {
+                        // 1. Check direct context (e.g. custom vars passed in options)
                         if (userContext && (prop in userContext)) {
                             const val = userContext[prop];
                             if (typeof val === 'function') {
                                 // Robustly check for prototype property to avoid crashes on objects like `Object.create(null)`
                                 let hasProto = false;
-                                try {
-                                    hasProto = Object.prototype.hasOwnProperty.call(val, 'prototype');
-                                } catch (e) { /* ignore */ }
+                                try { hasProto = Object.prototype.hasOwnProperty.call(val, 'prototype'); } catch (e) { /* ignore */ }
 
                                 if (!hasProto) {
-                                    // It's a method or native function, likely needing binding to the window
+                                    // It's a method or native function, likely needing binding to the window/context
                                     try { return val.bind(userContext); } catch(e) { return val; }
                                 }
                             }
                             return val;
+                        }
+                        
+                        // 2. Check context.window (Fallback to real global if context wraps it)
+                        // This fixes issues where 'alert' is not on the context object but is on the window.
+                        if (userContext && userContext.window && (prop in userContext.window)) {
+                             const val = userContext.window[prop];
+                             if (typeof val === 'function') {
+                                 let hasProto = false;
+                                 try { hasProto = Object.prototype.hasOwnProperty.call(val, 'prototype'); } catch (e) {}
+                                 if (!hasProto) {
+                                     return val.bind(userContext.window);
+                                 }
+                             }
+                             return val;
                         }
                     } catch (e) {
                         // Suppress access errors (e.g. cross-origin/restricted properties)
@@ -259,7 +275,10 @@
                 },
                 has(target, prop) {
                     try {
-                        return Reflect.has(target, prop) || (userContext && prop in userContext);
+                        if (Reflect.has(target, prop)) return true;
+                        if (userContext && prop in userContext) return true;
+                        if (userContext && userContext.window && prop in userContext.window) return true;
+                        return false;
                     } catch (e) {
                         return false;
                     }
@@ -270,6 +289,7 @@
                             userContext[prop] = value;
                             return true;
                         }
+                        // We generally don't want to auto-create globals on window via set in the VM unless specified
                     } catch(e) {}
                     return Reflect.set(target, prop, value, receiver);
                 }

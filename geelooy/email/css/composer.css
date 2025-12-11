@@ -1,5 +1,4 @@
 
-
 /* COMPOSER: Holographic, Scanlines */
 .composer-area { 
     padding: 10px 16px; 
@@ -11,8 +10,13 @@
 /* MINIMIZED STATE */
 .composer-area.minimized {
     transform: translateY(calc(100% - 42px)); /* Keep header visible */
+    cursor: pointer;
 }
-.composer-area.minimized .composer-box { border-bottom-left-radius: 0; border-bottom-right-radius: 0; }
+.composer-area.minimized .composer-box { 
+    border-bottom-left-radius: 0; 
+    border-bottom-right-radius: 0; 
+    border-color: var(--neon-gold);
+}
 .composer-area.minimized .composer-content { opacity: 0; pointer-events: none; }
 
 /* FULLSCREEN STATE */
@@ -114,4 +118,3 @@
     transition: transform 0.2s; color: #000; font-size: 1.4rem;
 }
 .send-btn:hover { transform: scale(1.1) rotate(-10deg); box-shadow: 0 0 25px var(--neon-gold); }
-
