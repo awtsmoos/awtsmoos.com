@@ -35,16 +35,24 @@ export function handleScroll(e) {
         // Sonic Boom Effect
         if (Math.abs(velocity) > 2.5) {
             document.body.classList.add('sonic-distortion');
-            // Dynamic skew based on direction
-            const skew = Math.min(Math.max(velocity * 2, -10), 10);
-            el.style.transform = `skewY(${skew}deg)`;
+            // FIXED: Set CSS variable on container instead of transforming the container itself
+            // Transforming the scroll container breaks scrolling physics.
+            const skew = Math.min(Math.max(velocity * 1.5, -8), 8);
+            el.style.setProperty('--scroll-skew', `${skew}deg`);
         } else {
             document.body.classList.remove('sonic-distortion');
-            el.style.transform = 'skewY(0deg)';
+            el.style.setProperty('--scroll-skew', '0deg');
         }
         
         chatState.lastScrollTop = el.scrollTop;
         chatState.lastScrollTime = now;
+    } else {
+        // Debounce reset for stop
+        clearTimeout(el.skewResetTimer);
+        el.skewResetTimer = setTimeout(() => {
+             el.style.setProperty('--scroll-skew', '0deg');
+             document.body.classList.remove('sonic-distortion');
+        }, 100);
     }
 }
 
