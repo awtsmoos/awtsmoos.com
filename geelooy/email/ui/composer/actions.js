@@ -10,44 +10,50 @@ import { renderMessages } from '../chat/messages.js';
 import { state as globalState } from '../../store.js';
 
 let currentMode = 'visual'; // visual, markdown, html
+let listenersInitialized = false;
 
-// Init Subscription for Reply Events
-subscribe((key, val) => {
-    if (key === 'triggerReply') {
-        const ui = chatState.ui;
-        if(!ui) return;
-        
-        // 1. Fill Subject (prefixed with Re:)
-        const subjectInput = ui.getHtml('chatSubject');
-        const subjectWrapper = ui.getHtml('subjectWrapper');
-        if(subjectInput && val.msg) {
-            let sub = val.msg.subject || "";
-            if(sub === "(No Subject)") sub = "";
-            if(sub && !sub.startsWith("Re:")) sub = "Re: " + sub;
-            subjectInput.value = sub;
+// Initialize Subscription for Reply Events lazily
+export function initComposerListeners() {
+    if (listenersInitialized) return;
+    listenersInitialized = true;
+
+    subscribe((key, val) => {
+        if (key === 'triggerReply') {
+            const ui = chatState.ui;
+            if(!ui) return;
             
-            // Show subject if hidden
-            if(subjectWrapper && subjectWrapper.classList.contains('hidden')) {
-                subjectWrapper.classList.remove('hidden');
+            // 1. Fill Subject (prefixed with Re:)
+            const subjectInput = ui.getHtml('chatSubject');
+            const subjectWrapper = ui.getHtml('subjectWrapper');
+            if(subjectInput && val.msg) {
+                let sub = val.msg.subject || "";
+                if(sub === "(No Subject)") sub = "";
+                if(sub && !sub.startsWith("Re:")) sub = "Re: " + sub;
+                subjectInput.value = sub;
+                
+                // Show subject if hidden
+                if(subjectWrapper && subjectWrapper.classList.contains('hidden')) {
+                    subjectWrapper.classList.remove('hidden');
+                }
+            }
+            
+            // 2. Quote Body
+            const visual = ui.getHtml('visualEditor');
+            const code = ui.getHtml('codeEditor');
+            
+            // Simple blockquote format
+            const quoteText = `<blockquote>${val.quote}...</blockquote><br>`;
+            
+            if(currentMode === 'visual') {
+                visual.innerHTML = quoteText + visual.innerHTML;
+                visual.focus();
+            } else {
+                code.value = `> ${val.quote}...\n\n` + code.value;
+                code.focus();
             }
         }
-        
-        // 2. Quote Body
-        const visual = ui.getHtml('visualEditor');
-        const code = ui.getHtml('codeEditor');
-        
-        // Simple blockquote format
-        const quoteText = `<blockquote>${val.quote}...</blockquote><br>`;
-        
-        if(currentMode === 'visual') {
-            visual.innerHTML = quoteText + visual.innerHTML;
-            visual.focus();
-        } else {
-            code.value = `> ${val.quote}...\n\n` + code.value;
-            code.focus();
-        }
-    }
-});
+    });
+}
 
 export function toggleSubject(ui) {
     const wrap = ui.getHtml('subjectWrapper');
@@ -71,12 +77,11 @@ export function switchMode(e, ui) {
     if (currentMode === 'visual') {
         content = visual.innerHTML;
         if (newMode === 'markdown') content = htmlToMarkdown(content);
-        // if newMode is html, content is already html
     } 
     else if (currentMode === 'markdown') {
         content = code.value;
         if (newMode === 'visual') content = markdownToHtml(content);
-        else if (newMode === 'html') content = markdownToHtml(content); // simplistic
+        else if (newMode === 'html') content = markdownToHtml(content); 
     }
     else if (currentMode === 'html') {
         content = code.value;
@@ -145,9 +150,6 @@ export async function handleSend(ui) {
     // 1. Clear Input
     visual.innerHTML = '';
     code.value = '';
-    // Do not clear subject automatically? Usually good to keep context, but let's clear for now.
-    // Actually, mail apps usually clear subject if it was a new composition, but reply chains keep it.
-    // For now, we clear to avoid sticky subject issues.
     if(subjectInput) subjectInput.value = '';
     
     // 2. Clear Ghost

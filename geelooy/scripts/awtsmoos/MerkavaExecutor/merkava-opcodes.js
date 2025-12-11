@@ -1,7 +1,7 @@
 // B"H
 /**
  * @file merkava-opcodes.js
- * @version 2.0.0 - The Complete Language of Creation
+ * @version 2.1.0 - The Complete Language of Creation
  */
 
 (function(root, factory) {
@@ -35,9 +35,9 @@
         // Variables
         LOAD_LOCAL: 0x20,
         STORE_LOCAL: 0x21,
-        LOAD_GLOBAL: 0x22, // Checks global + with_stack
+        LOAD_GLOBAL: 0x22,
         STORE_GLOBAL: 0x23,
-        LOAD_UPVALUE: 0x24, // Closure support
+        LOAD_UPVALUE: 0x24,
         STORE_UPVALUE: 0x25,
 
         // Objects & Arrays
@@ -63,13 +63,13 @@
         CLOSURE: 0x70,
         CALL: 0x71,
         NEW: 0x72,
-        MAKE_CLASS: 0x73, // Defines a class constructor
-        GET_SUPER: 0x74,  // Retrieves superclass method
+        MAKE_CLASS: 0x73, 
+        GET_SUPER: 0x74,
 
         // Async & Generators
         AWAIT: 0x80,
         YIELD: 0x81,
-        YIELD_STAR: 0x82, // Delegated yield
+        YIELD_STAR: 0x82,
 
         // System
         SYSCALL: 0x90,
@@ -77,7 +77,7 @@
         ENTER_TRY: 0x92,
         EXIT_TRY: 0x93,
         DEBUGGER: 0x94,
-        IMPORT: 0x95, // Dynamic Import
+        IMPORT: 0x95,
 
         // Iteration & Control
         GET_ITERATOR: 0xA0,
@@ -85,11 +85,16 @@
         ITERATOR_DONE: 0xA2,
         ITERATOR_VALUE: 0xA3,
         
-        // Advanced Control Flow
-        ENUMERATE: 0xA4, // For-In keys
-        CHAIN_CHECK: 0xA5, // Optional Chaining branch
+        // Advanced
+        ENUMERATE: 0xA4,
+        CHAIN_CHECK: 0xA5,
         WITH_ENTER: 0xA6,
-        WITH_EXIT: 0xA7
+        WITH_EXIT: 0xA7,
+        
+        // Destructuring / Patterns
+        DESTRUCTURE_ARRAY: 0xB0, // [a,b] = c
+        DESTRUCTURE_OBJECT: 0xB1, // {a,b} = c
+        REST_ARRAY: 0xB2 // ...rest
     };
 
     const OPCODE_NAMES = Object.fromEntries(

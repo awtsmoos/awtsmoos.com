@@ -1,8 +1,11 @@
 
 // B"H
-import { handleInput, handleSend, handleMagneticMove, handleMagneticLeave, switchMode, toggleSubject } from './actions.js';
+import { handleInput, handleSend, handleMagneticMove, handleMagneticLeave, switchMode, toggleSubject, initComposerListeners } from './actions.js';
 
 export function renderComposerView(ui, parent) {
+    // Initialize listeners securely
+    initComposerListeners();
+
     // 1. Toolbar & Tabs Container
     ui.html({
         parent,

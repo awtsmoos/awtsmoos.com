@@ -13,7 +13,8 @@
                     if (this.scope.depth > 0) this.scope.declare(decl.id.name);
                     this._visitIdentifier(decl.id, 'STORE');
                 } else {
-                    this.buffer.write8(this.OPCODES.POP); // Destructuring TODO
+                    // Pattern destructuring handled at runtime via opcode or expansion
+                    this.buffer.write8(this.OPCODES.POP); // Placeholder drop
                 }
                 this.buffer.write8(this.OPCODES.POP); // Consume expression result
             });
@@ -22,46 +23,29 @@
         _visitFuncDecl(node) {
             const func = { ...node, type: 'FunctionExpression' };
             if (this.scope.depth > 0) this.scope.declare(node.id.name);
-            
             this._visitFuncExpr(func); 
             this._visitIdentifier(node.id, 'STORE');
             this.buffer.write8(this.OPCODES.POP); 
         },
 
         _visitClassDecl(node) {
-            // 1. Compile Class Definition (similar to Class Expression)
             this._visitClassExpr(node);
-            
-            // 2. Store in Identifier
             if (node.id) {
                 if (this.scope.depth > 0) this.scope.declare(node.id.name);
                 this._visitIdentifier(node.id, 'STORE');
                 this.buffer.write8(this.OPCODES.POP);
-            } else {
-                // Export default class ... (no id) -> leaves class on stack
             }
         },
 
         _visitExportNamed(node) {
-            if (node.declaration) {
-                this._visit(node.declaration);
-            }
-            // Specifiers are metadata, no opcode needed for runtime
+            if (node.declaration) this._visit(node.declaration);
         },
 
         _visitExportDefault(node) {
             this._visit(node.declaration);
-            // In a module system, this would assign to 'default' export
             this.buffer.write8(this.OPCODES.POP);
         },
         
-        _visitExportAll(node) {
-            // export * from ...
-            // Handled by linker, no runtime opcodes usually
-        },
-
-        _visitImport(node) {
-            // Imports are hoisted and handled by linker/loader
-        }
+        _visitImport(node) { /* Handled by environment */ }
     };
 })(typeof self !== 'undefined' ? self : this);

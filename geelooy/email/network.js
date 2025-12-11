@@ -1,8 +1,6 @@
 
 // B"H
 import { state, notify } from './store.js';
-import { renderThreadList } from './ui/sidebar.js';
-import { renderMessages } from './ui/chat.js';
 import { FX } from './ui/fx.js';
 
 const API_BASE = "/api/social/mail";
@@ -17,7 +15,8 @@ export async function refreshSnippets() {
             // Sort by time
             data.sort((a,b) => b.timeSent - a.timeSent);
             state.snippets = data;
-            renderThreadList();
+            // Notify UI instead of calling it directly
+            notify('snippets', data);
         }
     } catch (e) { console.error("Fetch Error", e); }
 }
@@ -67,7 +66,6 @@ export async function deleteThread(threadId) {
     if (!state.alias) return false;
     try {
         const url = `${API_BASE}/deleteThread`;
-        // Sending as JSON or Form, using form to match existing style
         const body = new URLSearchParams();
         body.append("aliasId", state.alias);
         body.append("threadId", threadId);
@@ -108,9 +106,8 @@ export function connectSocket(alias) {
                 if(!state.threads[tid]) state.threads[tid] = [];
                 state.threads[tid].push(m);
                 
-                if(state.activeThread === tid) {
-                    renderMessages(tid, state.threads[tid]); 
-                }
+                // Notify Store Listeners (Decoupled UI update)
+                notify('threads', state.threads); 
                 refreshSnippets();
             }
             // GHOST / BROADCAST TYPING

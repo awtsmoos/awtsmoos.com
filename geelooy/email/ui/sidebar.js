@@ -1,6 +1,6 @@
 
 // B"H
-import { state } from '../store.js';
+import { state, subscribe } from '../store.js';
 import { formatTime } from '../helpers.js';
 import { FX } from './fx.js';
 import { switchChat } from './chat.js';
@@ -10,6 +10,11 @@ let _uiRef = null;
 export function renderSidebar(ui, parent) {
     _uiRef = ui;
     
+    // Subscribe to updates (Decoupled from network.js)
+    subscribe((key, val) => {
+        if (key === 'snippets') renderThreadList();
+    });
+
     // Header
     ui.html({
         parent,

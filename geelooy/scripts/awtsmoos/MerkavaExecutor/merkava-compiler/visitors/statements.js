@@ -93,7 +93,6 @@
             const endJump = this.buffer.write16(0);
             this.buffer.write8(this.OPCODES.ITERATOR_VALUE);
             
-            // Assign to Left
             if (node.left.type === 'VariableDeclaration') {
                 const decl = node.left.declarations[0];
                 if (decl.id.type === 'Identifier') {
@@ -117,8 +116,6 @@
             this.buffer.write8(this.OPCODES.POP); // value
             this.buffer.write8(this.OPCODES.POP); // done
             this.buffer.write8(this.OPCODES.POP); // iter
-            
-            // Fix breaks to jump to cleanup (endAddr)
             loop.breaks.forEach(b => this.buffer.patch16(b, endAddr - b - 2));
             loop.continues.forEach(c => this.buffer.patch16(c, startAddr - c - 2));
             this.loops.pop();
@@ -126,9 +123,7 @@
 
         _visitForIn(node) {
             this._visit(node.right);
-            this.buffer.write8(this.OPCODES.ENUMERATE); // Pushes iterator of Keys
-            
-            // Use same logic as ForOf now
+            this.buffer.write8(this.OPCODES.ENUMERATE); 
             const startAddr = this.buffer.currentAddress;
             this.buffer.write8(this.OPCODES.DUP);
             this.buffer.write8(this.OPCODES.ITERATOR_NEXT);
@@ -138,7 +133,6 @@
             const endJump = this.buffer.write16(0);
             
             this.buffer.write8(this.OPCODES.ITERATOR_VALUE);
-            // Assign
             if (node.left.type === 'VariableDeclaration') {
                 const decl = node.left.declarations[0];
                 if (decl.id.type === 'Identifier') {
@@ -154,17 +148,14 @@
             const loop = { breaks: [], continues: [] };
             this.loops.push(loop);
             this._visit(node.body);
-            
             this.buffer.write8(this.OPCODES.JUMP);
             const backOffset = startAddr - (this.buffer.currentAddress + 2);
             this.buffer.write16(backOffset);
-            
             const endAddr = this.buffer.currentAddress;
             this.buffer.patch16(endJump, endAddr - endJump - 2);
-            this.buffer.write8(this.OPCODES.POP); // cleanup
+            this.buffer.write8(this.OPCODES.POP); 
             this.buffer.write8(this.OPCODES.POP);
             this.buffer.write8(this.OPCODES.POP);
-            
             loop.breaks.forEach(b => this.buffer.patch16(b, endAddr - b - 2));
             loop.continues.forEach(c => this.buffer.patch16(c, startAddr - c - 2));
             this.loops.pop();
@@ -173,47 +164,29 @@
         _visitSwitch(node) {
             this._visit(node.discriminant);
             const caseJumps = [];
-            const endJumps = [];
-            
             node.cases.forEach(c => {
                 if (c.test) {
-                    this.buffer.write8(this.OPCODES.DUP); // copy disc
+                    this.buffer.write8(this.OPCODES.DUP); 
                     this._visit(c.test);
-                    this.buffer.write8(this.OPCODES.EQ); // simplified equality
+                    this.buffer.write8(this.OPCODES.EQ); 
                     this.buffer.write8(this.OPCODES.JUMP_IF_TRUE);
                     caseJumps.push({ type: 'case', addr: this.buffer.write16(0) });
                 } else {
-                    // Default
                     this.buffer.write8(this.OPCODES.JUMP);
                     caseJumps.push({ type: 'default', addr: this.buffer.write16(0) });
                 }
             });
-            
-            // If no match, jump to end
-            this.buffer.write8(this.OPCODES.POP); // discard disc
+            this.buffer.write8(this.OPCODES.POP); 
             this.buffer.write8(this.OPCODES.JUMP);
             const noMatchJump = this.buffer.write16(0);
             
-            // Loop stack for break
             const loop = { breaks: [], continues: [] }; 
             this.loops.push(loop);
 
-            let hasDefault = false;
             node.cases.forEach((c, i) => {
                 const patchObj = caseJumps[i];
                 const addr = this.buffer.currentAddress;
                 this.buffer.patch16(patchObj.addr, addr - patchObj.addr - 2);
-                
-                if (patchObj.type === 'case') {
-                    // Pop discriminant duplicate (logic handled by jump structure above)
-                    // Actually, if we jump here, the stack still has the discriminant?
-                    // No, the EQ popped it. But we DUP'd it. 
-                    // Wait, if we jump here, we are entering the body.
-                    // The discriminant MUST be popped before entering any body if we jump from the check chain.
-                    // So every JUMP_IF_TRUE target must ensure stack is clean.
-                    // Simplified: We assume stack discipline is handled by the initial chain.
-                }
-                
                 c.consequent.forEach(stmt => this._visit(stmt));
             });
             
@@ -286,8 +259,6 @@
         },
 
         _visitLabeled(node) {
-            // Labeled statements support break/continue. 
-            // Simplified: treat as normal body.
             this._visit(node.body);
         }
     };

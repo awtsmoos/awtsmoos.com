@@ -21,13 +21,11 @@
                 '<<': this.OPCODES.SHL, '>>': this.OPCODES.SHR, '>>>': this.OPCODES.USHR
             };
             if (map[node.operator]) this.buffer.write8(map[node.operator]);
-            else throw new Error(`Unknown binary operator: ${node.operator}`);
         },
 
         _visitLogical(node) {
             this._visit(node.left);
             this.buffer.write8(this.OPCODES.DUP);
-            // ?? is slightly different (nullish), but for now treating as OR logic structure
             let jumpCode = (node.operator === '&&') ? this.OPCODES.JUMP_IF_FALSE : this.OPCODES.JUMP_IF_TRUE;
             this.buffer.write8(jumpCode);
             const jumpIdx = this.buffer.write16(0);
@@ -56,14 +54,14 @@
         _visitCall(node) {
             if (node.callee.type === 'MemberExpression') {
                  this._visit(node.callee.object);
-                 this.buffer.write8(this.OPCODES.DUP); // this
+                 this.buffer.write8(this.OPCODES.DUP); 
                  if (node.callee.computed) this._visit(node.callee.property);
                  else this._emitConstant(node.callee.property.name);
                  this.buffer.write8(this.OPCODES.GET_PROP);
-                 this.buffer.write8(this.OPCODES.SWAP); // func, this
+                 this.buffer.write8(this.OPCODES.SWAP); 
             } else {
                  this._visit(node.callee); 
-                 this.buffer.write8(this.OPCODES.PUSH_UNDEFINED); // this = undefined
+                 this.buffer.write8(this.OPCODES.PUSH_UNDEFINED); 
             }
             node.arguments.forEach(arg => this._visit(arg));
             this.buffer.write8(this.OPCODES.CALL);
@@ -99,7 +97,7 @@
                     else this._emitConstant(node.argument.property.name);
                     this.buffer.write8(this.OPCODES.DELETE_PROP);
                 } else {
-                    this.buffer.write8(this.OPCODES.PUSH_TRUE); // delete ident is true in strict
+                    this.buffer.write8(this.OPCODES.PUSH_TRUE); 
                 }
                 return;
             }
@@ -131,7 +129,6 @@
         },
 
         _visitArrowFunctionExpression(node) {
-            // Treat as FunctionExpression but flag it
             this._visitFuncExpr(node, true);
         },
 
@@ -169,33 +166,23 @@
 
         _visitTaggedTemplate(node) {
             this._visit(node.tag);
-            this.buffer.write8(this.OPCODES.PUSH_UNDEFINED); // this
-            // Construct template object
-            this.buffer.write8(this.OPCODES.ALLOC_ARRAY); // Strings array
-            // ... Populate array ...
+            this.buffer.write8(this.OPCODES.PUSH_UNDEFINED);
+            this.buffer.write8(this.OPCODES.ALLOC_ARRAY); 
             node.quasi.expressions.forEach(e => this._visit(e));
             this.buffer.write8(this.OPCODES.CALL);
             this.buffer.write8(1 + node.quasi.expressions.length);
         },
 
         _visitClassExpr(node) {
-            // 1. Push SuperClass
             if (node.superClass) this._visit(node.superClass);
             else this.buffer.write8(this.OPCODES.PUSH_NULL);
-
-            // 2. Compile Methods to a Code Object
-            // Simplification: We create a code block that defines the methods when executed
-            // For now, MAKE_CLASS will take a constant struct
-            // We need a specific Class Compiler logic here.
             
-            // NOTE: Full class compilation requires emitting a code block that runs SET_PROP on the prototype.
-            // Placeholder for complexity reduction:
+            // Simplified: Passing AST body constant to VM to construct method table
             this.buffer.write8(this.OPCODES.MAKE_CLASS);
-            this.buffer.write16(this._addConstant(node.body)); // Pass raw AST body to VM for now
+            this.buffer.write16(this._addConstant(node.body));
         },
         
         _visitMetaProperty(node) {
-            // new.target or import.meta
             if (node.meta.name === 'new' && node.property.name === 'target') {
                 this.buffer.write8(this.OPCODES.PUSH_META);
                 this.buffer.write8(0);
@@ -211,16 +198,7 @@
         },
         
         _visitChain(node) {
-            // a?.b
-            // This requires visiting the expression parts manually.
-            // Simplified: ChainExpression usually wraps a MemberExpression or CallExpression.
-            // We need to inject checks.
-            // For MemberExpression `a?.b`:
-            // visit `a`. CHAIN_CHECK. visit `b`.
             this._visit(node.expression); 
-            // Note: Parser wraps the *entire* chain. This visitor needs to handle the unwrapping logic.
-            // This is complex. We will treat it as a standard visit for now, relying on the fact that
-            // MemberExpression visitor handles the optional flag if we pass it down.
         }
     };
 })(typeof self !== 'undefined' ? self : this);

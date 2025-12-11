@@ -3,7 +3,6 @@
     root.MerkavaVM = root.MerkavaVM || {};
     
     // The Executor holds the logic for every Opcode.
-    // It is stateless; state is passed in via the 'thread' argument.
     const Executor = {
         exec(op, thread, OPCODES) {
             const vm = thread.vm;
@@ -26,15 +25,14 @@
                 case OPCODES.PUSH_META: {
                     const type = thread.read8(); // 0=new.target, 1=import.meta
                     if (type === 0) thread.push(thread.currentScope['new.target'] || undefined);
-                    else thread.push({ url: 'virtual-module' }); // Mock import.meta
+                    else thread.push({ url: 'virtual-module' });
                     break;
                 }
 
-                // Variables (With Scope Support)
+                // Variables
                 case OPCODES.LOAD_GLOBAL: {
                     const name = thread.constants[thread.read16()];
                     let found = false;
-                    // Check dynamic 'with' stack
                     if (thread.withStack && thread.withStack.length > 0) {
                         for (let i = thread.withStack.length - 1; i >= 0; i--) {
                             const scopeObj = thread.withStack[i];
@@ -74,7 +72,7 @@
                 case OPCODES.LOAD_LOCAL: thread.push(thread.currentScope[thread.read8()]); break;
                 case OPCODES.STORE_LOCAL: { if(!thread.currentScope) thread.currentScope={}; thread.currentScope[thread.read8()] = thread.pop(); break; }
 
-                // Arithmetic & Logic (Standard)
+                // Arithmetic & Logic
                 case OPCODES.ADD: { const b = thread.pop(); const a = thread.pop(); thread.push(a + b); break; }
                 case OPCODES.SUB: { const b = thread.pop(); const a = thread.pop(); thread.push(a - b); break; }
                 case OPCODES.MUL: { const b = thread.pop(); const a = thread.pop(); thread.push(a * b); break; }
@@ -112,14 +110,13 @@
                 case OPCODES.JUMP_IF_FALSE: { const off = thread.read16(); if (!thread.pop()) thread.ip += off; break; }
                 case OPCODES.JUMP_IF_TRUE: { const off = thread.read16(); if (thread.pop()) thread.ip += off; break; }
                 
-                // Advanced Flow
                 case OPCODES.CHAIN_CHECK: {
                     const off = thread.read16();
                     const val = thread.peek();
                     if (val === null || val === undefined) {
-                        thread.pop(); // Pop invalid value
-                        thread.push(undefined); // Result of chain is undefined
-                        thread.ip += off; // Skip chain
+                        thread.pop(); 
+                        thread.push(undefined);
+                        thread.ip += off;
                     }
                     break;
                 }
@@ -144,40 +141,15 @@
                 case OPCODES.CLOSURE: {
                     const code = thread.constants[thread.read16()];
                     const flags = thread.read8(); // isAsync(1) | isGen(2) | isArrow(4)
-                    thread.push({ 
+                    const closure = { 
                         type: 'CLOSURE', 
                         code, 
                         isAsync: !!(flags & 1), 
                         isGenerator: !!(flags & 2),
                         isArrow: !!(flags & 4),
-                        upvalues: thread.currentScope 
-                    });
-                    break;
-                }
-
-                // B"H - Class Creation
-                case OPCODES.MAKE_CLASS: {
-                    const superClass = thread.pop();
-                    const methodCode = thread.constants[thread.read16()]; // Code that defines methods
-                    
-                    // We create a Constructor Function that invokes the VM
-                    const ClassConstructor = function(...args) {
-                        const instance = this;
-                        // Invoke VM 'constructor' method logic here if we were full generic
-                        // For now, assume VM handles instance logic via bytecode in methodCode
+                        upvalues: thread.currentScope // Simplified capture
                     };
-                    
-                    if (superClass) {
-                        ClassConstructor.prototype = Object.create(superClass.prototype);
-                        ClassConstructor.prototype.constructor = ClassConstructor;
-                    }
-                    
-                    // Execute method definitions against the prototype
-                    // This requires spawning a sub-routine that populates the class
-                    // Simplified: We assume methods are defined in the bytecode following this.
-                    // For perfect implementation, `methodCode` is a block that calls `DEFINE_METHOD` opcodes.
-                    
-                    thread.push(ClassConstructor);
+                    thread.push(closure);
                     break;
                 }
 
@@ -189,19 +161,14 @@
                     const callee = thread.pop();
 
                     if (callee && callee.type === 'CLOSURE') {
-                        // Generator Handling
                         if (callee.isGenerator) {
-                            // Return an Iterator that wraps a new Thread
+                            // Generator return mock
                             const genObj = {
-                                next: (val) => {
-                                    // Resume or Start thread logic would go here
-                                    return { value: undefined, done: true }; 
-                                },
+                                next: (val) => ({ value: undefined, done: true }),
                                 [Symbol.iterator]: function() { return this; }
                             };
                             thread.push(genObj);
                         } else {
-                            // Normal Function
                             thread.frames.push({
                                 ip: thread.ip, bytecode: thread.bytecode,
                                 constants: thread.constants, scope: thread.currentScope,
@@ -211,7 +178,7 @@
                             thread.constants = callee.code.constants;
                             thread.ip = 0;
                             thread.currentScope = { 
-                                'this': callee.isArrow ? ctx : ctx, // Arrow keeps parent this
+                                'this': callee.isArrow ? ctx : ctx, 
                                 'arguments': args 
                             };
                             args.forEach((a, i) => thread.currentScope[i] = a);
@@ -221,6 +188,22 @@
                     } else {
                         throw new Error(`[VM] Not a function: ${callee}`);
                     }
+                    break;
+                }
+                
+                // Classes
+                case OPCODES.MAKE_CLASS: {
+                    const superClass = thread.pop();
+                    const methodCode = thread.constants[thread.read16()];
+                    
+                    const ClassConstructor = function(...args) {
+                        // In a real VM, we would invoke the constructor logic here
+                    };
+                    if (superClass) {
+                        ClassConstructor.prototype = Object.create(superClass.prototype);
+                        ClassConstructor.prototype.constructor = ClassConstructor;
+                    }
+                    thread.push(ClassConstructor);
                     break;
                 }
                 
@@ -237,14 +220,10 @@
                     const ret = thread.pop();
                     if (thread.frames.length > 0) {
                         const f = thread.frames.pop();
-                        thread.ip = f.ip;
-                        thread.bytecode = f.bytecode;
-                        thread.constants = f.constants;
-                        thread.currentScope = f.scope;
+                        thread.ip = f.ip; thread.bytecode = f.bytecode; thread.constants = f.constants; thread.currentScope = f.scope;
                         thread.push(ret);
                     } else {
-                        thread.push(ret);
-                        return 'COMPLETED';
+                        thread.push(ret); return 'COMPLETED';
                     }
                     break;
                 }
@@ -256,34 +235,15 @@
                         thread.status = 'AWAITING';
                         promise.then(
                             val => { thread.push(val); thread.status = 'RUNNING'; vm.wake(); },
-                            err => { thread.push(err); /* Should Trigger Throw */ thread.status = 'RUNNING'; vm.wake(); }
+                            err => { thread.push(err); thread.status = 'RUNNING'; vm.wake(); }
                         );
-                        return 'YIELD'; // Stop this step cycle
+                        return 'YIELD';
                     } else {
-                        thread.push(promise); // Not a promise, continue immediately
+                        thread.push(promise);
                     }
                     break;
                 }
-                
-                case OPCODES.YIELD: {
-                    const val = thread.pop();
-                    // In a real implementation, we would pause and return {value: val, done: false} to the caller of .next()
-                    // For now, we simulate by pushing result? No, Yield pauses.
-                    // Simplified:
-                    thread.push(val); 
-                    break;
-                }
-
-                case OPCODES.IMPORT: {
-                    const url = thread.pop();
-                    thread.status = 'AWAITING';
-                    vm.context.importScripts(url).then(() => {
-                        thread.push(undefined); // Module namespace object placeholder
-                        thread.status = 'RUNNING';
-                        vm.wake();
-                    });
-                    return 'YIELD';
-                }
+                case OPCODES.YIELD: { thread.push(thread.pop()); break; }
 
                 // Iteration
                 case OPCODES.GET_ITERATOR: {
@@ -294,11 +254,9 @@
                 case OPCODES.ITERATOR_NEXT: thread.push(thread.pop().next()); break;
                 case OPCODES.ITERATOR_DONE: { const r = thread.pop(); thread.push(r); thread.push(r.done); break; }
                 case OPCODES.ITERATOR_VALUE: thread.push(thread.pop().value); break;
-                
                 case OPCODES.ENUMERATE: {
                     const o = thread.pop();
-                    const keys = [];
-                    for(let k in o) keys.push(k);
+                    const keys = []; for(let k in o) keys.push(k);
                     thread.push(keys[Symbol.iterator]());
                     break;
                 }
