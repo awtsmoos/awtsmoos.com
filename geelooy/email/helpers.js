@@ -67,6 +67,17 @@ export function smartParse(text) {
     return str;
 }
 
+export function markdownToHtml(md) {
+    if(!md) return "";
+    let html = md
+        .replace(/\*\*(.*?)\*\*/g, '<b>$1</b>')
+        .replace(/\*(.*?)\*/g, '<i>$1</i>')
+        .replace(/^# (.*$)/gm, '<h1>$1</h1>')
+        .replace(/^## (.*$)/gm, '<h2>$1</h2>')
+        .replace(/\n/g, '<br>');
+    return html;
+}
+
 export function htmlToMarkdown(html) {
     let temp = document.createElement('div');
     temp.innerHTML = html;

@@ -11,6 +11,8 @@ export const ctx = {
     mediaCache: {},
     spectrum: new Uint8Array(256),
     waveform: new Uint8Array(256),
+    analysisData: [], // Stores frame-by-frame energy for scrubbing
+    activeSources: [], // Track playing sources
     bass: 0,
     mid: 0,
     treble: 0

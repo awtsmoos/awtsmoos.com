@@ -5,7 +5,7 @@ import state from '../../state.js';
 import * as FX from '../render-fx.js';
 import { drawParticles } from '../particles.js';
 import { drawMedia } from './layers.js';
-import { drawCaption } from './overlays.js';
+import { drawCaption, drawTransformGizmo } from './overlays.js';
 
 export function renderScene(g, width, height, t, fxSettings) {
     g.save();
@@ -27,21 +27,21 @@ export function renderScene(g, width, height, t, fxSettings) {
     // 1. Background
     drawBackground(g, width, height, t, fxSettings);
 
-    // 2. Particles
-    drawParticles(width, height, t);
-
-    // 3. Central Geometry (Beat Ring)
-    if (fxSettings.beatRing) {
-        FX.drawBeatRing(g, width, height, ctx.bass);
-    }
-
-    // 4. Layers
+    // 2. Media Layers
     state.mediaLayers.forEach(layer => {
         if (t >= layer.start && t <= layer.end) {
             if (layer.type === 'glyph') FX.drawGlyph(g, layer, width, height);
             else drawMedia(g, layer, width, height);
         }
     });
+
+    // 3. Particles
+    drawParticles(width, height, t);
+
+    // 4. Central Geometry
+    if (fxSettings.beatRing) {
+        FX.drawBeatRing(g, width, height, ctx.bass);
+    }
 
     // 5. Captions
     state.captions.forEach(cap => {
@@ -51,8 +51,11 @@ export function renderScene(g, width, height, t, fxSettings) {
     // FX: VHS
     if (fxSettings.vhs) FX.drawVHS(g, width, height, t);
     
-    // FX: CRT (New)
+    // FX: CRT
     if (fxSettings.crt) FX.drawCRT(g, width, height, t);
+
+    // 6. UI Overlays (Gizmo)
+    drawTransformGizmo(g, width, height);
 
     g.restore();
 }

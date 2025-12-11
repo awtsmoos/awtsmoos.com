@@ -8,6 +8,7 @@ import * as Actions from '../actions.js';
 import { loop } from './loop.js';
 import { handleStudioKeys } from './input.js';
 import { autoSave } from './persistence.js';
+import { preAnalyzeAudio } from './audio-analysis.js';
 
 export function initStudio() {
     initAudioContext();
@@ -30,6 +31,11 @@ export function initStudio() {
 
     canvas.width = state.studioGlobal.width;
     canvas.height = state.studioGlobal.height;
+
+    // Run Audio Pre-Analysis for Scrubbing Visuals
+    if (state.sourceAudioBuffer) {
+        preAnalyzeAudio(state.sourceAudioBuffer);
+    }
 
     initParticles(canvas.width, canvas.height);
     

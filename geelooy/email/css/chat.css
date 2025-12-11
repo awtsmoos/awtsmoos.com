@@ -16,7 +16,6 @@
 /* 3. SONIC BOOM DISTORTION CLASS */
 .sonic-distortion {
     filter: blur(2px) contrast(1.2);
-    /* Simple chromatic aberration via text-shadow could go here, but filter is faster */
 }
 
 .chat-header {
@@ -36,15 +35,14 @@
     display: flex; flex-direction: column; gap: 15px; z-index: 10;
     scrollbar-width: thin;
     scrollbar-color: var(--neon-cyan) transparent;
-    transform-style: preserve-3d; /* Essential for children 3D transforms */
+    transform-style: preserve-3d;
 }
 
 .msg-row { 
     display: flex; width: 100%; position: relative; margin-bottom: 12px; 
-    /* Important for tilt */
     transform-style: preserve-3d; 
-    transition: transform 0.1s; /* Smooth skew */
-    transform: skewY(var(--scroll-skew, 0deg)); /* APPLIED SKEW HERE */
+    transition: transform 0.1s;
+    transform: skewY(var(--scroll-skew, 0deg));
 }
 .msg-row.me { justify-content: flex-end; }
 .msg-row.them { justify-content: flex-start; }
@@ -55,8 +53,8 @@
     word-wrap: break-word; overflow-wrap: break-word;
     box-shadow: 0 4px 15px rgba(0,0,0,0.5);
     transition: transform 0.1s ease-out, filter 0.1s, box-shadow 0.2s; 
-    backface-visibility: hidden; /* Performance */
-    border: 1px solid transparent; /* Prepare for sentiment borders */
+    backface-visibility: hidden; 
+    border: 1px solid transparent; 
 }
 
 /* THEM STYLES */
@@ -123,6 +121,17 @@
     font-family: monospace; letter-spacing: 1px;
 }
 
+/* TTS BTN FIXED */
+.tts-btn {
+    background: transparent; border: 1px solid rgba(255,255,255,0.3);
+    color: inherit; border-radius: 50%; width: 20px; height: 20px;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 0.7rem; cursor: pointer; margin-left: 8px;
+    pointer-events: auto; /* CRITICAL FIX */
+    position: relative; z-index: 10;
+}
+.tts-btn:hover { background: rgba(255,255,255,0.2); }
+
 /* GHOST BUBBLE (Broadcast Typing) */
 .ghost-row { opacity: 0.8; }
 .ghost-bubble {
@@ -132,24 +141,25 @@
     box-shadow: 0 0 10px rgba(6, 182, 212, 0.2) !important;
 }
 
-/* SWIPE WRAPPER */
+/* SWIPE WRAPPER - UPDATED */
 .swipe-wrapper {
     display: flex; align-items: center; position: relative; 
     touch-action: pan-y; width: 100%;
     transform-style: preserve-3d;
 }
-.swipe-wrapper.swiping { user-select: none; }
+.swipe-wrapper.swiping { user-select: none; -webkit-user-select: none; }
 
 .swipe-icon {
-    width: 30px; height: 30px; border-radius: 50%;
-    background: var(--neon-gold); color: #000;
+    width: auto; height: 30px; border-radius: 15px; padding: 0 12px;
+    background: var(--neon-gold); color: #000; font-weight: bold; font-size: 0.8rem;
     display: flex; align-items: center; justify-content: center;
-    position: absolute; top: 50%; transform: translateY(-50%) scale(0);
+    position: absolute; top: 50%; transform: translateY(-50%) scale(0.5);
     opacity: 0; transition: transform 0.2s; z-index: 1; pointer-events: none;
     box-shadow: 0 0 10px var(--neon-gold);
+    white-space: nowrap;
 }
-.msg-row.them .swipe-icon { left: -40px; }
-.msg-row.me .swipe-icon { right: -40px; }
+.msg-row.them .swipe-icon { left: -80px; } /* Increased distance for label */
+.msg-row.me .swipe-icon { right: -80px; }
 
 /* 6. TIMELINE SCRUBBER DOTS */
 .time-scrubber {

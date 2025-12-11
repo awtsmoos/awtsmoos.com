@@ -31,12 +31,26 @@ export function drawMedia(g, layer, w, h) {
         const f = layer.filter || {};
         g.filter = `brightness(${f.brightness || 100}%) blur(${f.blur || 0}px)`;
 
+        // --- ASPECT RATIO FIX ---
+        // Do NOT stretch to w/h. Use native dimensions scaled.
+        let drawW, drawH;
+        if (media.type === 'image') {
+            drawW = media.el.naturalWidth;
+            drawH = media.el.naturalHeight;
+        } else {
+            drawW = media.el.videoWidth;
+            drawH = media.el.videoHeight;
+        }
+
         const scale = layer.scale || 1.0;
-        const x = (layer.x || 0.5) * w;
-        const y = (layer.y || 0.5) * h;
+        drawW *= scale;
+        drawH *= scale;
+
+        // Coordinates: Center of Image at (layer.x * canvasW, layer.y * canvasH)
+        const x = (layer.x !== undefined ? layer.x : 0.5) * w;
+        const y = (layer.y !== undefined ? layer.y : 0.5) * h;
         
         g.translate(x, y);
-        g.scale(scale, scale);
         g.rotate((layer.rotation || 0) * Math.PI / 180);
         
         if (f.hologram) {
@@ -51,15 +65,15 @@ export function drawMedia(g, layer, w, h) {
                  if (!state.studioIsPlaying && Math.abs(media.el.currentTime - vidTime) > 0.1) {
                      media.el.currentTime = vidTime;
                  }
-                 g.drawImage(media.el, -w/2, -h/2, w, h);
+                 g.drawImage(media.el, -drawW/2, -drawH/2, drawW, drawH);
             }
         } else {
-            g.drawImage(media.el, -w/2, -h/2, w, h);
+            g.drawImage(media.el, -drawW/2, -drawH/2, drawW, drawH);
         }
         
         if (f.hologram) {
             g.fillStyle = 'rgba(0, 255, 255, 0.1)';
-            for(let i=-h/2; i<h/2; i+=10) g.fillRect(-w/2, i, w, 2);
+            for(let i=-drawH/2; i<drawH/2; i+=10) g.fillRect(-drawW/2, i, drawW, 2);
         }
         g.restore();
     }

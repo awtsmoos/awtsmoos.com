@@ -5,14 +5,10 @@ import { attachSwipePhysics, handleRightClick } from './physics.js';
 import { smartParse } from '../../helpers.js';
 import { FX } from '../fx.js';
 
-// QUANTUM DECRYPTION (Local Implementation)
-// Decrypts text by cycling random characters before settling
 function decryptText(element, finalString) {
     if(!element) return;
     const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*";
     let iterations = 0;
-    
-    // We only animate the TEXT content to protect HTML structure
     const originalHTML = element.innerHTML;
     const plainText = element.innerText; 
     
@@ -27,7 +23,7 @@ function decryptText(element, finalString) {
         
         if(iterations >= plainText.length) { 
             clearInterval(interval);
-            element.innerHTML = originalHTML; // Restore formatted HTML (bold, links)
+            element.innerHTML = originalHTML; 
         }
         iterations += 1; 
     }, 30);
@@ -52,10 +48,8 @@ export function renderMessages(threadId, msgs) {
     const container = ui.getHtml('msgContainer');
     const wormhole = container.querySelector('.wormhole-loader');
     
-    // Intelligent Scroll Lock: Only auto-scroll if user is near bottom
     const wasNearBottom = container.scrollHeight - container.scrollTop - container.clientHeight < 150;
 
-    // Clear but preserve loader if it exists (though usually we clear all)
     container.innerHTML = '';
     if(wormhole) container.appendChild(wormhole);
     
@@ -64,21 +58,22 @@ export function renderMessages(threadId, msgs) {
         const isNew = index === msgs.length - 1; 
 
         const parsedContent = smartParse(m.content);
-        
-        // Decryption Rules: Only decrypt new messages that don't have complex tags
-        // We check raw content for tags to be safe
         const hasTags = /<[a-z][\s\S]*>/i.test(parsedContent); 
         const shouldDecrypt = isNew && !hasTags && m.content.length < 300;
-
         const sentiment = getSentimentClass(m.content);
 
         const row = ui.html({
             parent: container,
             tag: 'div',
-            // FIXED: Added .filter(Boolean) to prevent empty string tokens in classList
+            // Added .filter(Boolean)
             classList: ['msg-row', isMe ? 'me' : 'them', isNew ? 'glitch-entry' : null].filter(Boolean),
             dataset: { id: m.id },
-            ready: (el) => attachSwipePhysics(el, m),
+            // Attach physics to the ROW to handle the wrapper inside
+            ready: (el) => {
+                attachSwipePhysics(el, m);
+                // Remove glitch class after animation to prevent persistent distortion
+                if(isNew) setTimeout(() => el.classList.remove('glitch-entry'), 500);
+            },
             events: {
                 contextmenu: (e) => handleRightClick(e, m, row),
                 dblclick: (e) => { if(FX.explode) FX.explode(e.clientX, e.clientY, '#ef4444'); }
@@ -87,23 +82,35 @@ export function renderMessages(threadId, msgs) {
                 {
                     tag: 'div', classList: ['swipe-wrapper'],
                     children: [
-                        { tag: 'div', classList: ['swipe-icon'], textContent: isMe ? '↩️' : 'reply' },
+                        // Enhanced Swipe Icon
+                        { tag: 'div', classList: ['swipe-icon'], textContent: isMe ? '↩️' : 'REPLY' },
                         {
                             tag: 'div',
-                            // FIXED: Added .filter(Boolean) here as well
                             classList: ['msg-bubble', 'magnetic', sentiment].filter(Boolean), 
                             children: [
                                 m.subject ? { tag: 'div', classList: ['msg-subject'], textContent: m.subject } : null,
                                 { 
                                     tag: 'div', 
                                     classList: ['msg-content', shouldDecrypt ? 'decrypting' : ''].filter(Boolean), 
-                                    innerHTML: parsedContent // Set content initially
+                                    innerHTML: parsedContent 
                                 },
                                 { 
                                     tag: 'div', classList: ['msg-footer'],
                                     children: [
                                         { tag: 'span', classList: ['msg-time'], dataset: { ts: m.timeSent }, textContent: 'Just now' },
-                                        { tag: 'button', classList: ['tts-btn'], textContent: '🔊', events: { click: (e) => { e.stopPropagation(); if(FX.playTTS) FX.playTTS(m.content); }}}
+                                        // FIXED: Prevent Propagation on button click
+                                        { 
+                                            tag: 'button', classList: ['tts-btn'], textContent: '🔊', 
+                                            events: { 
+                                                click: (e) => { 
+                                                    e.stopPropagation(); 
+                                                    e.preventDefault();
+                                                    console.log("Playing audio...");
+                                                    if(FX.playTTS) FX.playTTS(m.content); 
+                                                },
+                                                pointerdown: (e) => e.stopPropagation() // Stop physics capture
+                                            }
+                                        }
                                     ] 
                                 }
                             ]
@@ -113,7 +120,6 @@ export function renderMessages(threadId, msgs) {
             ]
         });
 
-        // Attach Laser Copy Logic to Code Blocks
         const blocks = row.querySelectorAll('pre');
         blocks.forEach(blk => {
             const btn = document.createElement('button');
@@ -123,13 +129,10 @@ export function renderMessages(threadId, msgs) {
                 e.stopPropagation();
                 const code = blk.querySelector('code').innerText;
                 navigator.clipboard.writeText(code);
-                
-                // Laser Effect
                 const laser = document.createElement('div');
                 laser.className = 'laser-scan';
                 blk.appendChild(laser);
                 setTimeout(() => laser.remove(), 1000);
-                
                 btn.innerText = 'COPIED';
                 setTimeout(() => btn.innerText = '⚡ COPY', 2000);
             };
@@ -139,14 +142,10 @@ export function renderMessages(threadId, msgs) {
         if (shouldDecrypt) decryptText(row.querySelector('.msg-content'), m.content);
     });
     
-    // Improved Scroll handling: Use RAF to ensure DOM is ready
-    if (wasNearBottom || msgs.length === 0) {
+    if (wasNearBottom || msgs.length === 0 || msgs[msgs.length-1].direction === 'outgoing') {
         requestAnimationFrame(() => {
             container.scrollTop = container.scrollHeight;
-            // Double-tap for safety regarding dynamic content heights
-            requestAnimationFrame(() => {
-                container.scrollTop = container.scrollHeight;
-            });
+            requestAnimationFrame(() => container.scrollTop = container.scrollHeight);
         });
     }
     
@@ -158,14 +157,12 @@ function updateTimeline(msgs) {
     if(!ui) return;
     const scrubber = ui.getHtml('timeScrubber');
     if(!scrubber) return;
-    
     scrubber.innerHTML = '';
     if(msgs.length === 0) return;
 
     const startTime = msgs[0].timeSent;
     const endTime = msgs[msgs.length-1].timeSent;
     const duration = endTime - startTime;
-    
     if(duration <= 0) return;
 
     msgs.forEach(m => {
@@ -194,11 +191,7 @@ export function renderGhostBubble(content) {
         ghost = document.createElement('div');
         ghost.id = 'ghostBubble';
         ghost.className = 'msg-row them ghost-row';
-        ghost.innerHTML = `
-            <div class="msg-bubble ghost-bubble">
-                <div class="msg-content decrypting"></div>
-            </div>
-        `;
+        ghost.innerHTML = `<div class="msg-bubble ghost-bubble"><div class="msg-content decrypting"></div></div>`;
         container.appendChild(ghost);
         container.scrollTop = container.scrollHeight;
     }
@@ -213,7 +206,6 @@ export function updateRelativeTimes() {
         const ts = parseInt(el.dataset.ts);
         if(!ts) return;
         const diff = Math.floor((Date.now() - ts) / 1000);
-        
         if (diff < 60) el.textContent = `${diff}s ago`;
         else if (diff < 3600) el.textContent = `${Math.floor(diff/60)}m ago`;
         else {

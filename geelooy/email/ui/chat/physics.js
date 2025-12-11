@@ -35,8 +35,6 @@ export function handleScroll(e) {
         // Sonic Boom Effect
         if (Math.abs(velocity) > 2.5) {
             document.body.classList.add('sonic-distortion');
-            // FIXED: Set CSS variable on container instead of transforming the container itself
-            // Transforming the scroll container breaks scrolling physics.
             const skew = Math.min(Math.max(velocity * 1.5, -8), 8);
             el.style.setProperty('--scroll-skew', `${skew}deg`);
         } else {
@@ -62,7 +60,6 @@ export function handleMagneticField(e) {
     const mx = e.clientX;
     const my = e.clientY;
     
-    // Spotlight logic
     if (chatState.isSpotlightActive) {
         document.body.style.setProperty('--cursor-x', mx + 'px');
         document.body.style.setProperty('--cursor-y', my + 'px');
@@ -75,28 +72,16 @@ export function handleMagneticField(e) {
         
         const dist = Math.hypot(mx - cx, my - cy);
         
-        // 3D Tilt Effect
         if (dist < 300) {
             const dx = mx - cx;
             const dy = my - cy;
-            
-            // Calculate tilt angles (Max 15 degrees)
             const rotateX = -(dy / 20); 
             const rotateY = (dx / 20);
-            
-            // Magnetic Pull
             const force = (300 - dist) / 15; 
             const tx = (dx / dist) * force;
             const ty = (dy / dist) * force;
 
-            row.style.transform = `
-                perspective(1000px) 
-                translate3d(${tx}px, ${ty}px, 0) 
-                rotateX(${rotateX}deg) 
-                rotateY(${rotateY}deg)
-            `;
-            
-            // Lighting effect
+            row.style.transform = `perspective(1000px) translate3d(${tx}px, ${ty}px, 0) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
             row.style.filter = `brightness(${1 + (force/40)})`;
         } else {
             row.style.transform = 'perspective(1000px) translate3d(0,0,0) rotateX(0) rotateY(0)';
@@ -105,86 +90,111 @@ export function handleMagneticField(e) {
     });
 }
 
-// 3. INERTIAL SWIPE PHYSICS
+// 3. INERTIAL SWIPE PHYSICS (ENHANCED)
 export function attachSwipePhysics(row, msg) {
+    // IMPORTANT: We now swipe the WRAPPER to move everything, and prevent selection
     const wrapper = row.querySelector('.swipe-wrapper');
-    const bubble = row.querySelector('.msg-bubble');
     const icon = row.querySelector('.swipe-icon');
     
-    if(!wrapper || !bubble) return;
+    if(!wrapper) return;
 
     let startX = 0;
     let currentX = 0;
     let isDragging = false;
-    let longPressTimer;
+    let hasVibrated = false;
 
+    // Disable default touch actions to allow our physics
     wrapper.style.touchAction = "pan-y"; 
 
-    const start = (x) => {
-        startX = x;
-        isDragging = true;
-        wrapper.classList.add('swiping');
-        bubble.style.transition = 'none'; // Disable CSS transition for direct 1:1 physics
+    const start = (e) => {
+        // Only allow primary button
+        if(e.button !== 0 && e.pointerType === 'mouse') return;
         
-        longPressTimer = setTimeout(() => {
-            if (Math.abs(currentX - startX) < 5) {
-                handleRightClick({ preventDefault:()=>{}, clientX: x, clientY: wrapper.getBoundingClientRect().top }, msg, row);
-                isDragging = false; 
-                wrapper.classList.remove('swiping');
-            }
-        }, 600);
+        startX = e.clientX;
+        isDragging = true;
+        hasVibrated = false;
+        
+        // Lock selection
+        wrapper.classList.add('swiping');
+        wrapper.style.userSelect = 'none';
+        
+        // Remove transitions for instant tracking
+        wrapper.style.transition = 'none';
+        if(icon) icon.style.transition = 'none';
     };
 
-    const move = (x) => {
+    const move = (e) => {
         if (!isDragging) return;
-        currentX = x;
-        const diff = x - startX;
+        currentX = e.clientX;
+        const diff = currentX - startX;
         
-        if (Math.abs(diff) > 5) clearTimeout(longPressTimer); 
-        
-        // Damped Resistance (Logarithmic)
-        const resist = Math.sign(diff) * (Math.log10(Math.abs(diff) + 10) * 15);
-        
+        // Determine direction based on message type
         const isMe = row.classList.contains('me');
-        // Only allow swipe in the "reply" direction (Left for me, Right for them)
-        if ((isMe && diff < 0) || (!isMe && diff > 0)) {
-            bubble.style.transform = `translateX(${resist}px)`;
+        const allowed = (isMe && diff < 0) || (!isMe && diff > 0);
+        
+        if (allowed) {
+            // Logarithmic resistance
+            const resist = Math.sign(diff) * (Math.log10(Math.abs(diff) + 10) * 35);
+            
+            // Apply transform to the ENTIRE wrapper
+            wrapper.style.transform = `translateX(${resist}px)`;
             
             const abs = Math.abs(resist);
-            if (abs > 10) {
-                // Scale icon based on pull distance
-                const scale = Math.min(1.5, 0.5 + abs/30);
-                icon.style.opacity = Math.min(1, abs/30);
-                icon.style.transform = `scale(${scale}) translateY(-50%)`;
+            
+            // Icon Logic
+            if(icon) {
+                if (abs > 50) {
+                    icon.style.opacity = Math.min(1, (abs-50)/50);
+                    icon.style.transform = `translateY(-50%) scale(${Math.min(1.2, abs/70)})`;
+                    
+                    // Haptic Snap
+                    if (!hasVibrated && abs > 100 && navigator.vibrate) {
+                        navigator.vibrate(15);
+                        hasVibrated = true;
+                    }
+                } else {
+                    icon.style.opacity = 0;
+                }
             }
         }
     };
 
     const end = (e) => {
-        clearTimeout(longPressTimer);
         if (!isDragging) return;
         isDragging = false;
-        wrapper.classList.remove('swiping'); 
         
-        // Spring Snapback Animation
-        bubble.style.transition = 'transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)'; // Bouncy Bezier
-        bubble.style.transform = 'translateX(0)';
-        icon.style.opacity = 0;
-        icon.style.transform = 'scale(0) translateY(-50%)';
+        wrapper.classList.remove('swiping');
+        wrapper.style.userSelect = '';
         
+        // Spring Snapback
+        wrapper.style.transition = 'transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+        wrapper.style.transform = 'translateX(0)';
+        
+        if(icon) {
+            icon.style.transition = 'all 0.3s ease';
+            icon.style.opacity = 0;
+            icon.style.transform = 'translateY(-50%) scale(0.5)';
+        }
+
         const diff = currentX - startX;
         const isMe = row.classList.contains('me');
-        const threshold = 100; // Pixels to trigger
+        const threshold = 100; // Activation distance
 
         if ((isMe && diff < -threshold) || (!isMe && diff > threshold)) {
             if(FX.playSound) FX.playSound('hover');
-            if (navigator.vibrate) navigator.vibrate([10, 30, 10]); // Haptic feedback
-            notify('triggerReply', { msg, name: msg.fromName || (isMe ? "Yourself" : "Them") });
+            // Trigger Reply Action
+            const quote = (msg.content || "").substring(0, 50).replace(/\n/g, ' ');
+            notify('triggerReply', { msg, name: msg.fromName || (isMe ? "Yourself" : "Them"), quote });
         }
     };
 
-    wrapper.onpointerdown = (e) => { wrapper.setPointerCapture(e.pointerId); start(e.clientX); };
-    wrapper.onpointermove = (e) => move(e.clientX);
+    wrapper.onpointerdown = (e) => {
+        // Only capture if not clicking a button
+        if(e.target.tagName === 'BUTTON') return;
+        wrapper.setPointerCapture(e.pointerId); 
+        start(e); 
+    };
+    wrapper.onpointermove = (e) => move(e);
     wrapper.onpointerup = (e) => end(e);
     wrapper.onpointercancel = (e) => end(e);
 }
@@ -202,7 +212,6 @@ export function toggleSpotlight() {
     document.body.classList.toggle('spotlight-mode', chatState.isSpotlightActive);
     
     if(chatState.isSpotlightActive) {
-        // Center initially
         document.body.style.setProperty('--cursor-x', '50vw');
         document.body.style.setProperty('--cursor-y', '50vh');
     }
