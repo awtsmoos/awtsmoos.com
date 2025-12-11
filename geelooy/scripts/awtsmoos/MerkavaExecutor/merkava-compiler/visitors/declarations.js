@@ -10,25 +10,17 @@
                 else this.buffer.write8(this.OPCODES.PUSH_UNDEFINED);
                 
                 if (decl.id.type === 'Identifier') {
-                    // B"H - TIKKUN: Persistence Logic
-                    // If we are deep in a function (depth > 0), declare as LOCAL (Stack).
-                    // If we are at ROOT (depth 0), do NOT declare as local; 
-                    // _visitIdentifier will then default to GLOBAL (Heap).
-                    // This ensures top-level variables survive for async callbacks.
-                    if (this.scope.depth > 0) {
-                        this.scope.declare(decl.id.name);
-                    }
-                    
+                    if (this.scope.depth > 0) this.scope.declare(decl.id.name);
                     this._visitIdentifier(decl.id, 'STORE');
                 } else {
-                    this.buffer.write8(this.OPCODES.POP); 
+                    this.buffer.write8(this.OPCODES.POP); // Destructuring TODO
                 }
+                this.buffer.write8(this.OPCODES.POP); // Consume expression result
             });
         },
 
         _visitFuncDecl(node) {
             const func = { ...node, type: 'FunctionExpression' };
-            // B"H - Same logic for Function names
             if (this.scope.depth > 0) this.scope.declare(node.id.name);
             
             this._visitFuncExpr(func); 
@@ -36,19 +28,40 @@
             this.buffer.write8(this.OPCODES.POP); 
         },
 
+        _visitClassDecl(node) {
+            // 1. Compile Class Definition (similar to Class Expression)
+            this._visitClassExpr(node);
+            
+            // 2. Store in Identifier
+            if (node.id) {
+                if (this.scope.depth > 0) this.scope.declare(node.id.name);
+                this._visitIdentifier(node.id, 'STORE');
+                this.buffer.write8(this.OPCODES.POP);
+            } else {
+                // Export default class ... (no id) -> leaves class on stack
+            }
+        },
+
         _visitExportNamed(node) {
             if (node.declaration) {
                 this._visit(node.declaration);
             }
+            // Specifiers are metadata, no opcode needed for runtime
         },
 
         _visitExportDefault(node) {
             this._visit(node.declaration);
+            // In a module system, this would assign to 'default' export
             this.buffer.write8(this.OPCODES.POP);
+        },
+        
+        _visitExportAll(node) {
+            // export * from ...
+            // Handled by linker, no runtime opcodes usually
         },
 
         _visitImport(node) {
-            // No-op for bytecode generation, handled by runtime/linker
+            // Imports are hoisted and handled by linker/loader
         }
     };
 })(typeof self !== 'undefined' ? self : this);
