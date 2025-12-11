@@ -2,8 +2,16 @@
 // modules/player/analyzer.js
 import { pState } from './core.js';
 
+let dataArray = null;
+
 export function getFreqData() {
-    const data = new Uint8Array(pState.analyser ? pState.analyser.frequencyBinCount : 0);
-    if(pState.analyser) pState.analyser.getByteFrequencyData(data);
-    return data;
+    if (!pState.analyser) return new Uint8Array(0);
+    
+    // Lazy init or resize if needed (though binCount is usually constant)
+    if (!dataArray || dataArray.length !== pState.analyser.frequencyBinCount) {
+        dataArray = new Uint8Array(pState.analyser.frequencyBinCount);
+    }
+    
+    pState.analyser.getByteFrequencyData(dataArray);
+    return dataArray;
 }

@@ -186,7 +186,10 @@
                     } else if (typeof callee === 'function') {
                         thread.push(callee.apply(ctx, args));
                     } else {
-                        throw new Error(`[VM] Not a function: ${callee}`);
+                        // B"H - Enhanced Error Message
+                        const type = typeof callee;
+                        const msg = `[VM] TypeError: ${type === 'undefined' ? 'undefined' : type} is not a function (callee was ${String(callee)})`;
+                        throw new Error(msg);
                     }
                     break;
                 }

@@ -1,5 +1,5 @@
 //B"H
-// viz.js - EXTREME MODULAR 3D ENGINE
+// viz.js - EXTREME MODULAR 3D ENGINE (OPTIMIZED)
 
 const CONFIG = {
     fov: 300,
@@ -7,13 +7,15 @@ const CONFIG = {
 };
 
 const GLYPHS = "אבגדהוזחטיכלמנסעפצקרשת0123456789";
+const IS_MOBILE = window.innerWidth < 768;
 
 // --- CORE ENGINE ---
 
 class Engine {
     constructor(canvas, dataProvider) {
         this.canvas = canvas;
-        this.ctx = canvas.getContext('2d', { alpha: false });
+        // Alpha false for performance
+        this.ctx = canvas.getContext('2d', { alpha: false, desynchronized: true });
         this.dataProvider = dataProvider;
         this.width = 0;
         this.height = 0;
@@ -21,6 +23,7 @@ class Engine {
         this.cy = 0;
         this.active = false;
         this.scene = null;
+        this.reqId = null;
         
         // Bindings
         this.resize = this.resize.bind(this);
@@ -51,16 +54,17 @@ class Engine {
 
     stop() {
         this.active = false;
+        if(this.reqId) cancelAnimationFrame(this.reqId);
     }
 
     getAudioData() {
         if(!this.dataProvider) return { bass: 0, mid: 0, treble: 0 };
-        const data = this.dataProvider();
+        const data = this.dataProvider(); // Returns Uint8Array (Reused)
         if(!data || data.length === 0) return { bass: 0, mid: 0, treble: 0 };
         
-        // Simple 3-band separation
+        // Simple 3-band separation without allocating new arrays
         let b=0, m=0, t=0;
-        // Bass: 0-5 (approx 0-400Hz)
+        // Bass: 0-5
         for(let i=0; i<5; i++) b+=data[i];
         // Mid: 5-20
         for(let i=5; i<20; i++) m+=data[i];
@@ -76,12 +80,16 @@ class Engine {
 
     loop() {
         if(!this.active) return;
-        requestAnimationFrame(this.loop);
+        this.reqId = requestAnimationFrame(this.loop);
 
         const audio = this.getAudioData();
         
-        // Post-Processing: Trail Effect
-        this.ctx.fillStyle = `rgba(0, 0, 0, 0.15)`; // High trail for "extreme" motion blur
+        // Optimized Clear/Trail
+        // Only draw semi-transparent rect every frame on desktop
+        // On mobile, maybe every other frame or opaque clear?
+        // High trail is expensive due to overdraw, but looks cool.
+        
+        this.ctx.fillStyle = 'rgba(0, 0, 0, 0.2)'; 
         this.ctx.fillRect(0, 0, this.width, this.height);
 
         if(this.scene) {
@@ -104,9 +112,10 @@ class Scene {
 }
 
 class MatrixStormScene extends Scene {
-    constructor(particleCount = 600) {
+    constructor() {
         super();
-        this.count = particleCount;
+        // Reduce particle count on mobile to save GPU/CPU
+        this.count = IS_MOBILE ? 100 : 500;
         this.particles = [];
         this.width = 0;
         this.height = 0;
@@ -115,7 +124,8 @@ class MatrixStormScene extends Scene {
     init(w, h) {
         this.width = w;
         this.height = h;
-        this.particles = new Array(this.count).fill(0).map(() => this.spawn());
+        // Pre-allocate particles
+        this.particles = new Array(this.count).fill(0).map(() => this.createParticle());
     }
 
     resize(w, h) {
@@ -123,13 +133,12 @@ class MatrixStormScene extends Scene {
         this.height = h;
     }
 
-    spawn() {
-        // Spawn in a 3D box
+    createParticle() {
         const spread = 2000;
         return {
             x: (Math.random() - 0.5) * spread,
             y: (Math.random() - 0.5) * spread,
-            z: Math.random() * 2000 + 100, // Depth
+            z: Math.random() * 2000 + 100,
             char: GLYPHS[Math.floor(Math.random() * GLYPHS.length)],
             speed: 5 + Math.random() * 10,
             colorIdx: Math.floor(Math.random() * CONFIG.colors.length),
@@ -137,60 +146,74 @@ class MatrixStormScene extends Scene {
         };
     }
 
-    update(audio) {
-        // Global Audio Mods
-        const speedMult = 1 + (audio.bass * 8); // Kicks make it fly
-        const glitchX = (audio.mid > 0.4) ? (Math.random()-0.5) * 50 : 0; // Snares shift x
-        
-        for (let p of this.particles) {
-            // Move towards camera
-            p.z -= p.speed * speedMult;
-            
-            // "Rain" effect (Y down)
-            p.y += (p.speed * 0.5) * speedMult;
+    resetParticle(p) {
+        const spread = 2000;
+        p.x = (Math.random() - 0.5) * spread;
+        p.y = -1000; // Top
+        p.z = 2000;  // Far
+        p.char = GLYPHS[Math.floor(Math.random() * GLYPHS.length)];
+        // Keep size/speed variance or reset? Resetting is fine.
+        p.speed = 5 + Math.random() * 10;
+        p.colorIdx = Math.floor(Math.random() * CONFIG.colors.length);
+    }
 
-            // Apply Glitch
+    update(audio) {
+        const speedMult = 1 + (audio.bass * 8); 
+        const glitchX = (audio.mid > 0.4) ? (Math.random()-0.5) * 50 : 0;
+        
+        for (let i = 0; i < this.count; i++) {
+            const p = this.particles[i];
+            
+            p.z -= p.speed * speedMult;
+            p.y += (p.speed * 0.5) * speedMult;
             p.x += glitchX;
 
-            // Cycle Chars
-            if (Math.random() > 0.95) {
+            // Change char occasionally without allocation
+            if (Math.random() > 0.98) {
                 p.char = GLYPHS[Math.floor(Math.random() * GLYPHS.length)];
             }
 
-            // Reset if out of bounds (behind camera or too far down)
             if (p.z <= 1 || p.y > 1500) {
-                const newP = this.spawn();
-                p.x = newP.x;
-                p.y = -1000; // Reset to top
-                p.z = 2000;  // Reset to far away
-                p.char = newP.char;
+                this.resetParticle(p);
             }
         }
     }
 
     render(ctx, fov) {
-        // Sort for transparency/occlusion (Painter's Algo)
+        // Optimization: Don't sort every frame if possible, but for 3D depth effect sorting is needed.
+        // Array.sort is fast enough for 100-500 elements.
         this.particles.sort((a, b) => b.z - a.z);
 
-        for (let p of this.particles) {
+        // Cache color strings
+        const colors = CONFIG.colors;
+
+        for (let i = 0; i < this.count; i++) {
+            const p = this.particles[i];
             if (p.z <= 0) continue;
 
             const scale = fov / p.z;
             const x2d = p.x * scale;
             const y2d = p.y * scale;
 
-            // Culling
+            // Culling (Simple Box)
             if (x2d < -this.width || x2d > this.width || y2d < -this.height || y2d > this.height) continue;
 
-            // Depth Fog (Alpha)
-            const alpha = Math.max(0, Math.min(1, (2000 - p.z) / 1000));
+            // Depth Fog
+            // Use integer steps for opacity to reduce state changes? No, float is fine.
+            let alpha = (2000 - p.z) / 1000;
+            if (alpha < 0) alpha = 0; 
+            if (alpha > 1) alpha = 1;
             
             ctx.globalAlpha = alpha;
-            ctx.fillStyle = CONFIG.colors[p.colorIdx];
-            ctx.font = `bold ${p.size * scale}px monospace`;
+            ctx.fillStyle = colors[p.colorIdx];
             
-            // Glow for close particles
-            if (p.z < 500) {
+            // Font size bucketing could help, but scale is continuous.
+            // Using template literals creates strings. 
+            // Optimization: Just set it.
+            ctx.font = `bold ${Math.floor(p.size * scale)}px monospace`;
+            
+            // Disable shadow blur on mobile for performance
+            if (!IS_MOBILE && p.z < 500) {
                 ctx.shadowBlur = 10;
                 ctx.shadowColor = ctx.fillStyle;
             } else {
@@ -214,3 +237,6 @@ export function initViz(canvas, dataProvider) {
     engine.mount(new MatrixStormScene());
     engine.start();
 }
+
+export function pauseViz() { if(engine) engine.stop(); }
+export function resumeViz() { if(engine) engine.start(); }

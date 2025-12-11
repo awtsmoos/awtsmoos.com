@@ -230,14 +230,55 @@
                 }
             };
             
-            // B"H - Merge Contexts
-            const finalContext = Object.assign({}, userContext, base);
+            // B"H - TIKKUN: Robust Proxy for Context Delegation
+            const finalContext = new Proxy(base, {
+                get(target, prop, receiver) {
+                    if (Reflect.has(target, prop)) return Reflect.get(target, prop, receiver);
+                    
+                    try {
+                        if (userContext && (prop in userContext)) {
+                            const val = userContext[prop];
+                            if (typeof val === 'function') {
+                                // Robustly check for prototype property to avoid crashes on objects like `Object.create(null)`
+                                let hasProto = false;
+                                try {
+                                    hasProto = Object.prototype.hasOwnProperty.call(val, 'prototype');
+                                } catch (e) { /* ignore */ }
 
-            // B"H - Set Self References on the FINAL context
-            // This ensures self.prop = value writes to finalContext.prop
-            finalContext.self = finalContext;
-            finalContext.window = finalContext;
-            finalContext.globalThis = finalContext;
+                                if (!hasProto) {
+                                    // It's a method or native function, likely needing binding to the window
+                                    try { return val.bind(userContext); } catch(e) { return val; }
+                                }
+                            }
+                            return val;
+                        }
+                    } catch (e) {
+                        // Suppress access errors (e.g. cross-origin/restricted properties)
+                    }
+                    return undefined;
+                },
+                has(target, prop) {
+                    try {
+                        return Reflect.has(target, prop) || (userContext && prop in userContext);
+                    } catch (e) {
+                        return false;
+                    }
+                },
+                set(target, prop, value, receiver) {
+                    try {
+                        if (userContext && prop in userContext) {
+                            userContext[prop] = value;
+                            return true;
+                        }
+                    } catch(e) {}
+                    return Reflect.set(target, prop, value, receiver);
+                }
+            });
+
+            // Self-references explicitly added for robustness
+            base.self = finalContext;
+            base.window = finalContext;
+            base.globalThis = finalContext;
 
             return finalContext;
         }

@@ -7,6 +7,8 @@ import { drawWaveformToCanvas } from '../../../audio-utils.js';
 export function createBlock(type, item, idx) {
     const b = document.createElement('div');
     b.className = `nle-block ${type}-block`;
+    b.id = `block-${item.id}`; // CRITICAL: Add ID for direct access
+    
     if (state.selectedClipId === item.id) b.classList.add('selected');
     
     b.style.left = (item.start * state.studioZoom) + 'px';

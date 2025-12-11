@@ -17,6 +17,9 @@ export function initComposerListeners() {
     if (listenersInitialized) return;
     listenersInitialized = true;
 
+    // Default Enter setting
+    composerState.enterToSend = false; 
+
     subscribe((key, val) => {
         if (key === 'triggerReply') {
             const ui = chatState.ui;
@@ -37,18 +40,45 @@ export function initComposerListeners() {
                 }
             }
             
-            // 2. Quote Body
+            // 2. Quote Body with Holographic Shard Style
             const visual = ui.getHtml('visualEditor');
             const code = ui.getHtml('codeEditor');
             
-            // Simple blockquote format
-            const quoteText = `<blockquote>${val.quote}...</blockquote><br>`;
+            const quoteContent = val.quote || "...";
+            const quoteHtml = `
+                <div class="reply-shard" contenteditable="false">
+                    <div class="shard-meta">Replying to ${val.name}</div>
+                    <div class="shard-body">${quoteContent}</div>
+                </div>
+                <p><br></p>
+            `;
             
+            // Expand if minimized
+            const area = ui.getHtml('composerArea');
+            if(area && area.classList.contains('minimized')) toggleMinimize(ui);
+
             if(currentMode === 'visual') {
-                visual.innerHTML = quoteText + visual.innerHTML;
-                visual.focus();
+                visual.innerHTML = quoteHtml + visual.innerHTML;
+                
+                // Focus CURSOR at the <p> after the shard
+                setTimeout(() => {
+                    visual.focus();
+                    const range = document.createRange();
+                    const sel = window.getSelection();
+                    // Find the p tag we just added (last child of the inserted block approx)
+                    // Simplified: just select the last p or append one if missing
+                    const ps = visual.querySelectorAll('p');
+                    if(ps.length > 0) {
+                        const lastP = ps[0]; // The one after shard
+                        range.setStart(lastP, 0);
+                        range.collapse(true);
+                        sel.removeAllRanges();
+                        sel.addRange(range);
+                    }
+                }, 50);
+
             } else {
-                code.value = `> ${val.quote}...\n\n` + code.value;
+                code.value = `> ${quoteContent}\n\n` + code.value;
                 code.focus();
             }
         }
@@ -58,6 +88,36 @@ export function initComposerListeners() {
 export function toggleSubject(ui) {
     const wrap = ui.getHtml('subjectWrapper');
     if(wrap) wrap.classList.toggle('hidden');
+}
+
+export function toggleFullscreen(ui) {
+    const area = ui.getHtml('composerArea');
+    if(area) {
+        area.classList.remove('minimized');
+        area.classList.toggle('fullscreen');
+    }
+}
+
+export function toggleMinimize(ui) {
+    const area = ui.getHtml('composerArea');
+    if(area) {
+        area.classList.remove('fullscreen');
+        area.classList.toggle('minimized');
+    }
+}
+
+export function toggleEnterSend(e) {
+    composerState.enterToSend = !composerState.enterToSend;
+    const btn = e.target;
+    if(composerState.enterToSend) {
+        btn.textContent = 'ENTER: ➤';
+        btn.style.borderColor = 'var(--neon-gold)';
+        btn.style.color = 'var(--neon-gold)';
+    } else {
+        btn.textContent = 'ENTER: ↵';
+        btn.style.borderColor = '#333';
+        btn.style.color = '#aaa';
+    }
 }
 
 export function switchMode(e, ui) {

@@ -1,6 +1,6 @@
 //B"H
 // modules/studio/core/lifecycle.js
-import { ctx, initAudioContext } from '../context.js';
+import { ctx, initAudioContext, clearMediaCache } from '../context.js';
 import state from '../../state.js';
 import { renderTimeline, updatePropertiesPanel, bindStudioEvents, initResizer } from '../ui.js';
 import { initParticles } from '../particles.js';
@@ -9,9 +9,15 @@ import { loop } from './loop.js';
 import { handleStudioKeys } from './input.js';
 import { autoSave } from './persistence.js';
 import { preAnalyzeAudio } from './audio-analysis.js';
-import * as Audio from '../../../audio.js'; // Import main audio
+import * as Audio from '../../../audio.js'; 
+import { pauseBackground, resumeBackground } from '../../../ui/background.js';
+import { pauseViz, resumeViz } from '../../../viz.js';
 
 export function initStudio() {
+    // 0. PERFORMANCE: Pause main app visualizations
+    pauseBackground();
+    pauseViz();
+
     // 1. Pause Main App Audio
     if(Audio.isPlaying()) {
         Audio.togglePlay();
@@ -42,12 +48,10 @@ export function initStudio() {
     if (state.sourceAudioBuffer) {
         preAnalyzeAudio(state.sourceAudioBuffer);
     } else {
-        // Initialize empty if no audio loaded yet (User can import later)
         ctx.analysisData = [];
     }
 
     // --- RESTORE DEFAULT PARTICLES ---
-    // If no layers exist, or no effect layers, add a default one so it looks cool immediately.
     const hasEffects = state.mediaLayers.some(l => l.type === 'effect');
     if (!hasEffects) {
         state.mediaLayers.push({
@@ -55,7 +59,7 @@ export function initStudio() {
             type: 'effect',
             effectType: 'particles',
             start: 0,
-            end: 300, // Long duration default
+            end: 300, 
             opacity: 1.0,
             config: {
                 mode: 'float', count: 200, colorMode: 'rainbow', reactivity: 1.0, sizeBase: 20
@@ -65,13 +69,11 @@ export function initStudio() {
 
     initParticles(canvas.width, canvas.height);
     
-    // Bind UI interactions
     bindStudioEvents();
     renderTimeline();
     updatePropertiesPanel();
-    initResizer(); // Init Resizer logic
+    initResizer(); 
 
-    // Keyboard Shortcuts
     document.addEventListener('keydown', handleStudioKeys);
 
     if (!ctx.requestID) loop();
@@ -79,7 +81,6 @@ export function initStudio() {
     if(window.studioAutosaveInt) clearInterval(window.studioAutosaveInt);
     window.studioAutosaveInt = setInterval(autoSave, 5000);
 
-    // Expose Actions AND UI functions to Window to break circular deps
     window.Studio = { 
         ...Actions,
         renderTimeline,
@@ -92,4 +93,11 @@ export function closeStudio() {
     if (ctx.requestID) { cancelAnimationFrame(ctx.requestID); ctx.requestID = null; }
     if(window.studioAutosaveInt) clearInterval(window.studioAutosaveInt);
     document.removeEventListener('keydown', handleStudioKeys);
+    
+    // MEMORY CLEANUP
+    clearMediaCache();
+    
+    // RESUME BACKGROUNDS
+    resumeBackground();
+    resumeViz();
 }

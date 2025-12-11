@@ -20,7 +20,7 @@ export function handleBlockDown(e, type, index, item) {
     state.selectedType = type;
     state.activeTab = 'clip';
     
-    // FORCE UI REFRESH
+    // FORCE UI REFRESH (Only once on start)
     if(window.Studio) {
         if(window.Studio.renderTimeline) window.Studio.renderTimeline();
         if(window.Studio.updatePropertiesPanel) window.Studio.updatePropertiesPanel();
@@ -133,7 +133,17 @@ function handleMove(e) {
         item.end = newEnd;
     }
 
-    // UPDATE UI
+    // UPDATE DOM DIRECTLY (PERFORMANCE OPTIMIZATION)
+    // Do NOT re-render entire timeline. Just move the div.
+    const blockEl = document.getElementById(`block-${item.id}`);
+    if (blockEl) {
+        const left = item.start * state.studioZoom;
+        const width = (item.end - item.start) * state.studioZoom;
+        blockEl.style.left = `${left}px`;
+        blockEl.style.width = `${width}px`;
+    }
+
+    // UPDATE SNAP GUIDE UI
     const guide = document.getElementById('snap-guide');
     if (guide) {
         if (snapGuidePos !== null) {
@@ -148,10 +158,6 @@ function handleMove(e) {
             guide.style.display = 'none';
         }
     }
-
-    if(window.Studio && window.Studio.renderTimeline) {
-         requestAnimationFrame(() => window.Studio.renderTimeline());
-    }
 }
 
 function handleUp() {
@@ -165,13 +171,16 @@ function handleUp() {
     window.removeEventListener('touchmove', handleMove);
     window.removeEventListener('mouseup', handleUp);
     window.removeEventListener('touchend', handleUp);
+    
+    // Commit final state visually
+    if(window.Studio && window.Studio.renderTimeline) {
+        window.Studio.renderTimeline();
+        // Update waveform if trimmed
+        // (Block creation logic handles this in renderTimeline)
+    }
 }
 
 export function handleTimelineClick(e) {
-    // This fires when clicking the empty track container space
-    // We only deselect if we are NOT clicking a block.
-    // handleBlockDown calls stopPropagation, so theoretically this shouldn't fire
-    // if a block was clicked. However, just to be safe:
     if (e.target.closest('.nle-block')) return; 
 
     state.selectedClipId = null;

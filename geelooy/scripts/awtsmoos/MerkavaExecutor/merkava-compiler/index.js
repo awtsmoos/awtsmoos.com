@@ -110,7 +110,21 @@
 
         _compileBlock(statements) {
             if (Array.isArray(statements)) {
-                statements.forEach(s => this._visit(s));
+                // B"H - HOISTING IMPLEMENTATION
+                // Pass 1: Compile Function Declarations first.
+                // This mimics JS hoisting, making functions available before they are called.
+                statements.forEach(s => {
+                    if (s.type === 'FunctionDeclaration') {
+                        this._visit(s);
+                    }
+                });
+
+                // Pass 2: Compile everything else.
+                statements.forEach(s => {
+                    if (s.type !== 'FunctionDeclaration') {
+                        this._visit(s);
+                    }
+                });
             }
         }
 

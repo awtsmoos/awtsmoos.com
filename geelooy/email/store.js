@@ -71,13 +71,17 @@ async function login(alias, ui) {
     const params = new URLSearchParams(window.location.search);
     const threadId = params.get('thread');
     if(threadId) {
-        // Clean ID
+        // ID Cleaning: IDs in network often use _at_ instead of @
         let clean = threadId.replace(/@/g, '_at_');
-        if(!clean.endsWith('awtsmoos.com')) clean += '_at_awtsmoos.com';
+        // If it's a domain-less alias (like 'awtsmoos'), don't append suffix unless necessary logic exists
         
-        // Try to find display name
+        // Try to find display name from snippets
         const found = state.snippets.find(s => s.correspondent === clean);
-        const name = found ? found.correspondent.replace(/_at_/g, '@') : clean.replace(/_at_/g, '@');
+        
+        // Formatting for title: restore @ for visual
+        const name = found 
+            ? found.correspondent.replace(/_at_/g, '@') 
+            : clean.replace(/_at_/g, '@');
         
         switchChat(ui, clean, name);
     }

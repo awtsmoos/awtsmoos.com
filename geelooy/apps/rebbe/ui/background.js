@@ -1,6 +1,9 @@
 //B"H
 // ui/background.js
 
+let isPaused = false;
+let animationFrameId = null;
+
 export function initBackgroundEffect() {
     let canvas = document.getElementById('matrix-bg');
     if (!canvas) {
@@ -25,7 +28,10 @@ export function initBackgroundEffect() {
     const columns = width / fontSize;
     const drops = [];
     for (let i = 0; i < columns; i++) drops[i] = 1;
+
     function draw() {
+        if (isPaused) return;
+
         ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
         ctx.fillRect(0, 0, width, height);
         ctx.fillStyle = '#0ff';
@@ -36,7 +42,26 @@ export function initBackgroundEffect() {
             if (drops[i] * fontSize > height && Math.random() > 0.975) drops[i] = 0;
             drops[i]++;
         }
-        requestAnimationFrame(draw);
+        animationFrameId = requestAnimationFrame(draw);
     }
+    
+    // Handle Resize
+    window.addEventListener('resize', () => {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+    });
+
     draw();
+}
+
+export function pauseBackground() {
+    isPaused = true;
+    if(animationFrameId) cancelAnimationFrame(animationFrameId);
+}
+
+export function resumeBackground() {
+    if(isPaused) {
+        isPaused = false;
+        initBackgroundEffect(); // Restart loop logic (it handles existing canvas)
+    }
 }

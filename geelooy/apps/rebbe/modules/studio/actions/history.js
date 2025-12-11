@@ -3,9 +3,8 @@
 import state from '../../state.js';
 import * as Transport from './transport.js';
 
-// We need a way to trigger UI updates. 
-// Since we can't import UI directly without cycles, we rely on the global Studio object 
-// or a subscribed listener pattern. For this Extreme refactor, we use window.Studio.
+// Lower limit for Mobile RAM safety
+const HISTORY_LIMIT = 15;
 
 export function saveState() {
     // Remove future history if we are in the middle
@@ -13,6 +12,8 @@ export function saveState() {
         state.history = state.history.slice(0, state.historyPtr + 1);
     }
     
+    // Don't store full Base64 strings in history if possible?
+    // For now we just limit the count.
     const snapshot = JSON.stringify({
         mediaLayers: state.mediaLayers,
         audioLayers: state.audioLayers,
@@ -23,7 +24,7 @@ export function saveState() {
     });
     
     state.history.push(snapshot);
-    if(state.history.length > 50) state.history.shift();
+    if(state.history.length > HISTORY_LIMIT) state.history.shift();
     state.historyPtr = state.history.length - 1;
 }
 

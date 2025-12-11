@@ -14,9 +14,10 @@
             this.status = 'READY';
             this.frames = []; 
             this.currentFrame = null;
-            this.currentScope = {};
+            // B"H - Initialize 'this' to the global context (environment)
+            this.currentScope = { 'this': context };
             this.environment = context; 
-            this.catchStack = []; // B"H - Stack of catch block addresses
+            this.catchStack = []; 
         }
 
         read8() {

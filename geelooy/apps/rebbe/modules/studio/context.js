@@ -25,3 +25,19 @@ export function initAudioContext() {
         ctx.analyser.fftSize = 512;
     }
 }
+
+export function clearMediaCache() {
+    // Release object URLs if any (though we usually use src strings)
+    // Clear references to images/videos to allow GC
+    Object.keys(ctx.mediaCache).forEach(k => {
+        const item = ctx.mediaCache[k];
+        if(item.type === 'video' && item.el) {
+            item.el.pause();
+            item.el.src = "";
+            item.el.load();
+        }
+        item.el = null;
+    });
+    ctx.mediaCache = {};
+    ctx.analysisData = []; // Clear large analysis arrays
+}
