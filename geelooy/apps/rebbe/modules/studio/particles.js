@@ -1,149 +1,110 @@
 //B"H
 // modules/studio/particles.js
 import { ctx } from './context.js';
-import state from '../state.js';
+
+// We maintain a global pool for performance, but customization is per-layer.
+// Actually, for per-layer physics, we might need per-layer state.
+// To keep it simple but functional: We will hash particles based on layer ID or just use a shared pool 
+// but re-color/size them based on the current layer's config being drawn.
+// This means all particles move the same way? No, that looks bad.
+// Let's generate a unique seed offset for each layer call or use stateless procedural generation based on index.
 
 const CHARS = "אבגדהוזחטיכלמנסעפצקרשת";
+const COUNT = 500;
 const particles = [];
 
 export function initParticles(w, h) {
     particles.length = 0;
-    const count = 500; 
-    for(let i=0; i<count; i++) {
-        particles.push(createParticle(w, h, i));
+    for(let i=0; i<COUNT; i++) {
+        particles.push({
+            x: Math.random(), // Normalized 0-1
+            y: Math.random(),
+            z: Math.random(),
+            char: CHARS[Math.floor(Math.random() * CHARS.length)],
+            angle: Math.random() * Math.PI * 2,
+            speed: (Math.random() - 0.5) * 0.02,
+            baseVx: (Math.random() - 0.5) * 0.01,
+            baseVy: (Math.random() - 0.5) * 0.01,
+            hue: Math.random() * 360
+        });
     }
 }
 
-function createParticle(w, h, index) {
-    return {
-        id: index,
-        x: Math.random() * w,
-        y: Math.random() * h,
-        z: Math.random(), 
-        char: CHARS[Math.floor(Math.random() * CHARS.length)],
-        angle: Math.random() * Math.PI * 2,
-        radius: Math.random() * 200 + 50,
-        speed: (Math.random() - 0.5) * 0.02,
-        baseSize: 10 + Math.random() * 30,
-        hue: Math.floor(Math.random() * 360),
-        // Worker-style physics
-        baseVx: (Math.random() - 0.5) * 2,
-        baseVy: (Math.random() - 0.5) * 2
-    };
-}
+// Config defaults if missing
+const DEFAULTS = {
+    mode: 'float', colorMode: 'rainbow', color: '#fff', 
+    count: 200, reactivity: 1.0, sizeBase: 20, waveIntensity: 80
+};
 
-export function drawParticles(w, h, time) {
-    const s = state.studioParticleSettings;
-    if(s.enabled === false) return; 
-
-    const g = ctx.g;
-    const beat = ctx.bass * s.reactivity; 
+export function drawParticles(g, w, h, time, config = {}) {
+    const s = { ...DEFAULTS, ...config };
+    const beat = ctx.bass * s.reactivity;
     
-    // Global Time Rotation for circular modes
-    const globalRot = time * (s.rotationSpeed || 0.1);
-
     g.textAlign = 'center';
     g.textBaseline = 'middle';
-    g.font = 'bold 20px monospace'; // Base font, scaled later
-
+    
+    // We use the shared pool but apply transforms based on layer config
+    // To make layers look different, we offset the iteration
+    const seed = (s.count || 0) * 13; 
+    
     const activeCount = Math.min(particles.length, s.count);
     
     for(let i=0; i<activeCount; i++) {
-        const p = particles[i];
-        let x, y, color;
+        // Scramble index access for variety between layers
+        const idx = (i + seed) % particles.length;
+        const p = particles[idx];
         
-        // --- POSITION MODES ---
+        let x, y, scale, color;
+        
+        // --- PHYSICS SIMULATION (Stateless / Time-based) ---
+        // We calculate position based on time to avoid storing state per layer
         
         if (s.mode === 'float') {
-            // WORKER MATCHING LOGIC
-            // Use alternate energy for variety
             const energy = (i % 2 === 0) ? ctx.bass : ctx.mid;
+            const speed = (energy * 5 * s.reactivity) + 0.2;
             
-            // Only move significant amount if playing/energy exists
-            if (energy > 0.01) {
-                const speed = energy * 15 * s.reactivity;
-                p.x += p.baseVx * speed;
-                p.y += p.baseVy * speed;
-            } else {
-                // Drift slowly when silent
-                p.x += p.baseVx * 0.1;
-                p.y += p.baseVy * 0.1;
-            }
+            // Time-based movement wrapped 0-1
+            let dx = p.baseVx * time * 20 * speed;
+            let dy = p.baseVy * time * 20 * speed;
             
-            // Wrap
-            if(p.x < -50) p.x = w+50; else if(p.x > w+50) p.x = -50;
-            if(p.y < -50) p.y = h+50; else if(p.y > h+50) p.y = -50;
+            let px = (p.x + dx) % 1; if(px<0) px+=1;
+            let py = (p.y + dy) % 1; if(py<0) py+=1;
             
-            x = p.x; y = p.y;
+            x = px * w;
+            y = py * h;
+            
+            const size = s.sizeBase + (energy * 60 * s.reactivity);
+            scale = size / 20;
 
         } else if (s.mode === 'circle') {
-            const r = p.radius + (beat * 100); 
-            const wave = Math.sin(p.angle * 5 + time * 2) * (s.waveIntensity * ctx.mid);
-            const rFinal = r + wave;
-            const a = p.angle + globalRot + (p.speed * time * 10);
-            x = w/2 + Math.cos(a) * rFinal;
-            y = h/2 + Math.sin(a) * rFinal;
-            
-        } else if (s.mode === 'spiral') {
-             const r = (p.id * 0.5) + (beat * 50);
-             const a = p.angle + globalRot + (p.id * 0.1);
-             x = w/2 + Math.cos(a) * r;
-             y = h/2 + Math.sin(a) * r;
-
-        } else { // Random / Chaos
-            p.x += Math.cos(p.angle) * (1 + beat * 5);
-            p.y += Math.sin(p.angle) * (1 + beat * 5);
-            if(p.x < -50) p.x = w+50; if(p.x > w+50) p.x = -50;
-            if(p.y < -50) p.y = h+50; if(p.y > h+50) p.y = -50;
-            x = p.x; y = p.y;
-        }
-
-        // --- SIZE & COLOR ---
-        let scale;
-        if (s.mode === 'float') {
-             // Worker size logic: base + energy
-             const energy = (i % 2 === 0) ? ctx.bass : ctx.mid;
-             const size = p.baseSize + (energy * 60 * s.reactivity);
-             scale = size / 20;
+            const rBase = 200 + (beat * 100);
+            const a = p.angle + (time * 0.5) + (p.speed * time * 10);
+            const r = rBase + (Math.sin(a * 5) * s.waveIntensity * ctx.mid);
+            x = w/2 + Math.cos(a) * r;
+            y = h/2 + Math.sin(a) * r;
+            scale = (s.sizeBase * (1 + beat)) / 20;
         } else {
-             const targetSize = p.baseSize * (1 + beat * 2);
-             scale = targetSize / 20; 
+            // Chaos / Random
+            x = (p.x * w) + ((Math.random()-0.5) * beat * 50);
+            y = (p.y * h) + ((Math.random()-0.5) * beat * 50);
+            scale = s.sizeBase / 20;
         }
 
+        // --- COLOR ---
         if (s.colorMode === 'rainbow') {
-            // Worker uses manual hue cycle: (hue + time*10) % 36 (mapped to array)
-            // We use standard HSL
-            const hue = (p.hue + time * 20) % 360;
+            const hue = (p.hue + time * 50) % 360;
             color = `hsl(${hue}, 100%, 60%)`;
         } else if (s.colorMode === 'velocity') {
             color = `hsl(${200 + (beat*160)}, 100%, 60%)`;
         } else {
-            color = s.color || '#ffffff';
+            color = s.color;
         }
 
-        // Draw with Transform
         g.save();
         g.translate(x, y);
         g.scale(scale, scale);
         g.fillStyle = color;
         g.fillText(p.char, 0, 0);
         g.restore();
-    }
-    
-    // Circle Waveform (Only for circle mode)
-    if(s.mode === 'circle' && ctx.bass > 0.1) {
-        g.beginPath();
-        g.strokeStyle = s.color || '#ffffff';
-        g.lineWidth = 2;
-        g.globalAlpha = 0.3;
-        const radius = 100 + (beat * 50);
-        for(let i=0; i<=50; i++) {
-            const a = (i/50) * Math.PI * 2;
-            const r = radius + (Math.sin(i*10 + time*5) * ctx.mid * s.waveIntensity);
-            g.lineTo(w/2 + Math.cos(a)*r, h/2 + Math.sin(a)*r);
-        }
-        g.closePath();
-        g.stroke();
-        g.globalAlpha = 1.0;
     }
 }

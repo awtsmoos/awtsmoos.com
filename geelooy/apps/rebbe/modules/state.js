@@ -2,6 +2,7 @@
 // modules/state.js
 
 const state = {
+    // Browser State
     folders: {}, 
     currentTracks: [],
     currentFolderName: null,
@@ -11,16 +12,14 @@ const state = {
     currentDuration: 0,
     
     // Video Gen State
-    pendingSlice: null, // Legacy reference for Waveform/Shim
-    sourceAudioBuffer: null, // Full original buffer for NLE
+    pendingSlice: null, 
+    sourceAudioBuffer: null, 
     pendingAudioShim: null,
     pendingCaptions: [], 
     
     // NLE / Studio State
-    mediaLayers: [], 
+    mediaLayers: [], // Now contains Images, Videos, AND Effects
     captions: [],
-    
-    // Audio Tracks (Multi-clip)
     audioLayers: [], 
     
     // History
@@ -42,8 +41,8 @@ const state = {
     studioOffsetTime: 0, 
     studioBeats: [], 
     
-    // Canvas Viewport (The User's View of the Canvas)
-    previewViewport: { x: 0, y: 0, scale: 0.9 },
+    // Canvas Viewport
+    previewViewport: { x: 0, y: 0, scale: 0.8 },
 
     studioGlobal: {
         width: 1080,
@@ -52,39 +51,31 @@ const state = {
         bgPattern: 'none'
     },
     
-    // 8 Surprise FX
+    // Global FX (Post-Processing)
     studioFX: {
-        pump: false,       // 1. Audio Pump
-        rgbSplit: false,   // 2. Chromatic Aberration
-        mirrorX: false,    // 3. Mirror X
-        mirrorY: false,    // 4. Mirror Y
-        vhs: false,        // 5. VHS Overlay
-        colorCycle: false, // 6. Color Cycle
-        jitter: false,     // 7. Camera Shake
-        vaporGrid: false,  // 8. 3D Grid
-        beatRing: true,    // 9. Central Beat Ring (Default ON)
-        crt: false         // 10. CRT Monitor
+        pump: false,       
+        rgbSplit: false,   
+        mirrorX: false,    
+        mirrorY: false,    
+        vhs: false,        
+        colorCycle: false, 
+        jitter: false,     
+        vaporGrid: false,  
+        beatRing: true,    // Kept as global geometry for now, could be layer later
+        crt: false         
     },
     
-    studioParticleSettings: {
-        enabled: true,
-        colorMode: 'rainbow', 
-        color: '#ffffff',
-        count: 400, 
-        reactivity: 1.0, 
-        mode: 'float', // Default to Float to match video
-        waveIntensity: 80,
-        speed: 1.0,
-        sizeBase: 20
-    },
-
     // UI State
     selectedClipId: null,
     selectedType: null, 
     activeTab: 'global',
 
     resolutionSetting: 'portrait',
-    modelSetting: 'gemini-2.5-flash'
+    modelSetting: 'gemini-2.5-flash',
+    
+    // Project Metadata
+    projectId: null,
+    projectName: "Untitled Project"
 };
 
 export default state;
@@ -110,10 +101,7 @@ export function resetVideoState() {
     state.studioIsPlaying = false;
     state.studioOffsetTime = 0;
     state.selectedClipId = null;
-    state.previewViewport = { x: 0, y: 0, scale: 0.9 };
-    state.studioFX = {
-        pump: false, rgbSplit: false, mirrorX: false, mirrorY: false,
-        vhs: false, colorCycle: false, jitter: false, vaporGrid: false,
-        beatRing: true, crt: false
-    };
+    state.previewViewport = { x: 0, y: 0, scale: 0.8 };
+    state.projectId = Date.now();
+    state.projectName = "Untitled Project";
 }

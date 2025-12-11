@@ -31,6 +31,10 @@ export function bindStudioEvents() {
     // Export
     if(el('st-export')) el('st-export').onclick = () => VideoGen.renderFinalVideo(state);
 
+    // Minimize / Restore
+    if(el('btn-minimize')) el('btn-minimize').onclick = () => Actions.minimizeStudio();
+    if(el('studio-fab')) el('studio-fab').onclick = () => Actions.restoreStudio();
+
     // Preview Canvas Pan/Zoom
     const wrap = el('studio-preview-wrapper');
     const canvas = el('studio-preview-canvas');

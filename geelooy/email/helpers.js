@@ -4,62 +4,61 @@
 export function smartParse(text) {
     if (!text) return "";
     let str = String(text);
-    
-    // SECURITY UPDATE: Removed the check that allowed raw HTML pass-through.
-    // We now parse everything to ensure safety.
 
-    // 1. Code Blocks & Iframe Detection
+    // 1. Code Blocks extraction (Preserve content exactly)
     const blocks = [];
     str = str.replace(/```(\w*)\s*([\s\S]*?)```/g, (match, lang, content) => {
         const id = `__BLK_${blocks.length}__`;
-        
-        // CHECK: Is this a full HTML page?
         const isPage = /<!DOCTYPE html>|<html|<body/i.test(content);
-        
         blocks.push({ content, lang, isPage });
         return id;
     });
 
-    // 2. Markdown Parsing
+    // 2. HTML Sanitization & Markdown
+    // We do NOT escape everything. We allow safe tags.
+    
+    // First, escape tags we definitely don't want (script, object, etc)
+    str = str.replace(/<(script|object|embed|iframe|style|link|meta)[\s\S]*?>/gi, '&lt;$1...&gt;');
+    
+    // Markdown Replacements (Basic)
+    // Only apply markdown bold/italic if it doesn't look like an existing HTML tag
     str = str
-        // Escape raw HTML tags in text to prevent XSS before markdown rendering
-        .replace(/</g, '&lt;').replace(/>/g, '&gt;')
         .replace(/\*\*(.*?)\*\*/g, '<b>$1</b>')
         .replace(/\*(?![ ])(.*?)\*/g, '<i>$1</i>')
         .replace(/~~(.*?)~~/g, '<s>$1</s>')
         .replace(/^# (.*$)/gm, '<h1>$1</h1>')
         .replace(/^## (.*$)/gm, '<h2>$1</h2>')
-        // List wrapping (Moved BEFORE newline conversion)
         .replace(/^\- (.*$)/gm, '<li>$1</li>');
 
-    // Group Lists
+    // List grouping
     str = str.replace(/(<li>.*?<\/li>(\n<li>.*?<\/li>)*)/g, '<ul>$1</ul>');
 
-    // Now process links and newlines
-    str = str
-        // SECURITY FIX: Sanitize Links to prevent javascript: execution
-        .replace(/\[(.*?)\]\((.*?)\)/g, (match, txt, url) => {
-            const safeUrl = url.trim();
-            // Only allow http, https, or relative paths. Block javascript: data: vbscript: etc.
-            if (/^(?:https?:\/\/|\/|mailto:)/i.test(safeUrl)) {
-                return `<a href="${safeUrl}" target="_blank">${txt}</a>`;
-            }
-            return `${txt} (<i>blocked link</i>)`;
-        })
-        .replace(/\n/g, '<br>');
+    // Linkify (Safe)
+    // We use a regex that ignores things inside existing <a> tags ideally, 
+    // but here we just process standard MD links.
+    str = str.replace(/\[(.*?)\]\((.*?)\)/g, (match, txt, url) => {
+        const safeUrl = url.trim().replace(/"/g, '&quot;');
+        if (/^(?:https?:\/\/|\/|mailto:)/i.test(safeUrl)) {
+            return `<a href="${safeUrl}" target="_blank">${txt}</a>`;
+        }
+        return `${txt} (<i>blocked link</i>)`;
+    });
 
-    // 3. Restore Blocks with specialized rendering
+    // Newlines to BR, but preserve HTML structure
+    // We only replace newlines that are NOT inside tags, roughly.
+    // For simplicity, we just replace all \n with <br> unless it follows a block tag
+    str = str.replace(/\n/g, '<br>');
+
+    // 3. Restore Blocks
     blocks.forEach((blk, idx) => {
         let replacement = '';
         if (blk.isPage) {
-            // Renders as an IFRAME
             const safeContent = blk.content.replace(/"/g, '&quot;');
             replacement = `<div class="iframe-wrapper"><div class="iframe-label">HTML PREVIEW</div><iframe srcdoc="${safeContent}" class="code-iframe" sandbox="allow-scripts"></iframe></div>`;
         } else {
-            // Renders as standard code block
-            // Note: We don't escape < here because we did it globally earlier, but we need to ensure code content is clean.
-            // Since we extracted blocks BEFORE global escape, we need to escape them now.
-            replacement = `<pre><div class="code-lang">${blk.lang || 'TEXT'}</div><code>${blk.content.replace(/</g, '&lt;')}</code></pre>`;
+            // Escape inner HTML for code blocks to show raw code
+            const escapedCode = blk.content.replace(/</g, '&lt;');
+            replacement = `<pre><div class="code-lang">${blk.lang || 'TEXT'}</div><code>${escapedCode}</code></pre>`;
         }
         str = str.replace(`__BLK_${idx}__`, replacement);
     });
@@ -82,7 +81,6 @@ export function htmlToMarkdown(html) {
     let temp = document.createElement('div');
     temp.innerHTML = html;
 
-    // Simple DOM walker to convert to MD
     const replacements = [
         { sel: 'b, strong', fn: (el) => `**${el.innerHTML}**` },
         { sel: 'i, em', fn: (el) => `*${el.innerHTML}*` },

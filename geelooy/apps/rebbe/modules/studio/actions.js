@@ -9,16 +9,20 @@ import * as VideoGen from '../video-gen.js';
 import { bufferToWaveBlob } from '../audio-utils.js';
 import { generateAiImage, transcribeAudio } from '../../services/gemini.js';
 import state from '../state.js';
+import * as Project from './project.js'; // Import Project
 
 // Re-export Core Sub-Modules
 export const { saveState, undo, redo } = History;
 export const { togglePlay, seek, startAudio, stopAudio, setZoom } = Transport;
 export const { 
     splitClip, deleteSelected, duplicateSelected, moveLayer, 
-    addAudioCut, updateGlobal, updateParticle, updateFX, 
+    addAudioCut, addEffectLayer, setResolution, // New exports
+    updateGlobal, updateFX, 
     updateClip, updateClipDuration, updateClipStyle,
     toggleTrackMute, updateTrackVolume
 } = Edit;
+
+export const { saveProjectToDB, loadProjectList, loadProject, exportProjectJSON, importProjectJSON } = Project;
 
 // --- FEATURE ACTIONS (Remaining) ---
 
@@ -97,17 +101,32 @@ export async function handleGenImage() {
 export function handleUpload(e) {
     const file = e.target.files[0];
     if(!file) return;
-    History.saveState();
     
+    // Project Import check
+    if(file.name.endsWith('.json')) {
+        Project.importProjectJSON(file);
+        return;
+    }
+
+    History.saveState();
     const url = URL.createObjectURL(file);
-    state.mediaLayers.push({
-        id: Date.now(),
-        type: file.type.startsWith('video')?'video':'image',
-        src: url,
-        start: state.currentTime, end: state.currentTime+5,
-        x:0.5, y:0.5, scale:1, opacity:1, blendMode:'source-over',
-        filter: { brightness: 100, blur: 0 }
-    });
+    
+    if(file.type.startsWith('audio')) {
+        // Simple append for now - complex logic requires decoding audiobuffer
+        // We prompt user if they want to REPLACE source or just add ref
+        // For studio flow, replacing source is complex.
+        alert("Audio import detected. Currently used as visual layer unless used in 'Replace Source'.");
+        // Fallback to media layer for now or improve
+    } else {
+        state.mediaLayers.push({
+            id: Date.now(),
+            type: file.type.startsWith('video')?'video':'image',
+            src: url,
+            start: state.currentTime, end: state.currentTime+5,
+            x:0.5, y:0.5, scale:1, opacity:1, blendMode:'source-over',
+            filter: { brightness: 100, blur: 0 }
+        });
+    }
     if(window.Studio) window.Studio.renderTimeline();
 }
 
@@ -118,4 +137,22 @@ function getKey() {
         if(k) localStorage.setItem('gemini_api_key', k);
     }
     return k;
+}
+
+export function minimizeStudio() {
+    const m = document.getElementById('modal-studio');
+    const fab = document.getElementById('studio-fab');
+    if(m && fab) {
+        m.classList.add('hidden');
+        fab.classList.remove('hidden');
+    }
+}
+
+export function restoreStudio() {
+    const m = document.getElementById('modal-studio');
+    const fab = document.getElementById('studio-fab');
+    if(m && fab) {
+        m.classList.remove('hidden');
+        fab.classList.add('hidden');
+    }
 }

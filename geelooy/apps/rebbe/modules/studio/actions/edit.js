@@ -3,6 +3,7 @@
 import state from '../../state.js';
 import * as History from './history.js';
 import * as Transport from './transport.js';
+import { initParticles } from '../particles.js';
 
 export function splitClip() {
     History.saveState();
@@ -17,9 +18,8 @@ export function splitClip() {
              const newItem = JSON.parse(JSON.stringify(item));
              newItem.id = Date.now() + Math.random();
              newItem.start = t;
-             // newItem end remains original end
-             newItem.offset = item.offset + offsetDiff; // Shift offset in source
-             item.end = t; // Cut original
+             newItem.offset = item.offset + offsetDiff; 
+             item.end = t; 
              
              state.audioLayers.splice(i+1, 0, newItem);
              hit = true;
@@ -27,7 +27,7 @@ export function splitClip() {
         }
     }
     
-    // Check Media
+    // Check Media & Effects
     if(!hit) {
         for (let i = 0; i < state.mediaLayers.length; i++) {
             const item = state.mediaLayers[i];
@@ -43,22 +43,6 @@ export function splitClip() {
         }
     }
     
-    // Check Captions
-    if(!hit) {
-        for (let i = 0; i < state.captions.length; i++) {
-            const item = state.captions[i];
-            if (t > item.start && t < item.end) {
-                const newItem = JSON.parse(JSON.stringify(item));
-                newItem.id = Date.now() + Math.random();
-                newItem.start = t;
-                item.end = t;
-                state.captions.splice(i + 1, 0, newItem);
-                hit = true;
-                if (state.selectedClipId === item.id) break;
-            }
-        }
-    }
-
     if (hit && window.Studio) window.Studio.renderTimeline();
 }
 
@@ -66,10 +50,11 @@ export function deleteSelected() {
     History.saveState();
     if (state.selectedType === 'audio') {
         state.audioLayers = state.audioLayers.filter(i => i.id !== state.selectedClipId);
-    } else if (state.selectedType === 'media') {
-        state.mediaLayers = state.mediaLayers.filter(i => i.id !== state.selectedClipId);
-    } else {
+    } else if (state.selectedType === 'caption') {
         state.captions = state.captions.filter(i => i.id !== state.selectedClipId);
+    } else {
+        // Media or Effects
+        state.mediaLayers = state.mediaLayers.filter(i => i.id !== state.selectedClipId);
     }
     state.selectedClipId = null;
     
@@ -89,15 +74,17 @@ export function duplicateSelected() {
     copy.end += 1.0;
     
     if(state.selectedType === 'audio') state.audioLayers.push(copy);
-    else if(state.selectedType === 'media') state.mediaLayers.push(copy);
-    else state.captions.push(copy);
+    else if(state.selectedType === 'caption') state.captions.push(copy);
+    else state.mediaLayers.push(copy);
     
     if(window.Studio) window.Studio.renderTimeline();
 }
 
 export function moveLayer(dir) {
     History.saveState();
-    if(state.selectedType !== 'media') return;
+    // Allow for effects too
+    if(state.selectedType === 'audio' || state.selectedType === 'caption') return;
+    
     const idx = state.mediaLayers.findIndex(i => i.id === state.selectedClipId);
     if(idx === -1) return;
     const item = state.mediaLayers[idx];
@@ -109,39 +96,64 @@ export function moveLayer(dir) {
 }
 
 export function addAudioCut() {
-    if(!state.sourceAudioBuffer) return alert("No source audio loaded");
+    // If no buffer, allow adding a placeholder or trigger import
+    if(!state.sourceAudioBuffer) {
+        document.getElementById('st-upload').click(); 
+        return; 
+    }
     History.saveState();
     
-    const len = 5; // Default 5s cut
+    const len = 5; 
     const newLayer = {
-        id: Date.now(),
-        type: 'audio',
-        title: 'NEW CUT',
-        start: state.currentTime,
-        end: state.currentTime + len,
-        offset: 0, // Starts from beginning of source
-        vol: 1.0
+        id: Date.now(), type: 'audio', title: 'NEW CUT',
+        start: state.currentTime, end: state.currentTime + len,
+        offset: 0, vol: 1.0
     };
     state.audioLayers.push(newLayer);
+    if (window.Studio) { window.Studio.renderTimeline(); window.Studio.updatePropertiesPanel(); }
+}
+
+export function addEffectLayer(type) {
+    History.saveState();
+    state.mediaLayers.push({
+        id: Date.now(),
+        type: 'effect',
+        effectType: type, // 'particles'
+        start: state.currentTime,
+        end: state.currentTime + 5,
+        opacity: 1.0,
+        config: {
+            mode: 'float', count: 200, colorMode: 'rainbow', reactivity: 1.0, sizeBase: 20
+        }
+    });
+    if (window.Studio) window.Studio.renderTimeline();
+}
+
+export function setResolution(res) {
+    History.saveState();
+    state.resolutionSetting = res;
+    let w = 1080, h = 1920;
+    if(res === 'landscape') { w = 1920; h = 1080; }
+    if(res === 'square') { w = 1080; h = 1080; }
+    state.studioGlobal.width = w;
+    state.studioGlobal.height = h;
     
-    if (window.Studio) {
-        window.Studio.renderTimeline();
-        window.Studio.updatePropertiesPanel();
+    const c = document.getElementById('studio-preview-canvas');
+    if(c) {
+        c.width = w; c.height = h;
+        initParticles(w, h);
     }
 }
 
 // Helpers
 function getSelected() {
-    if (state.selectedType === 'audio') {
-         return state.audioLayers.find(i => i.id === state.selectedClipId);
-    }
-    const list = state.selectedType === 'media' ? state.mediaLayers : state.captions;
-    return list.find(i => i.id === state.selectedClipId);
+    if (state.selectedType === 'audio') return state.audioLayers.find(i => i.id === state.selectedClipId);
+    if (state.selectedType === 'caption') return state.captions.find(i => i.id === state.selectedClipId);
+    return state.mediaLayers.find(i => i.id === state.selectedClipId);
 }
 
 // State Updates
 export function updateGlobal(k, v) { History.saveState(); state.studioGlobal[k] = v; }
-export function updateParticle(k, v) { History.saveState(); state.studioParticleSettings[k] = v; }
 export function updateFX(k, v) { History.saveState(); state.studioFX[k] = v; }
 
 export function updateClip(k, v) {

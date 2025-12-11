@@ -56,14 +56,15 @@ export function handleScroll(e) {
 
 // 2. HOLOGRAPHIC TILT & MAGNETISM
 export function handleMagneticField(e) {
+    // FIXED: Only active if Spotlight Mode is explicitly toggled on
+    if (!chatState.isSpotlightActive) return;
+
     const rows = document.querySelectorAll('.msg-bubble');
     const mx = e.clientX;
     const my = e.clientY;
     
-    if (chatState.isSpotlightActive) {
-        document.body.style.setProperty('--cursor-x', mx + 'px');
-        document.body.style.setProperty('--cursor-y', my + 'px');
-    }
+    document.body.style.setProperty('--cursor-x', mx + 'px');
+    document.body.style.setProperty('--cursor-y', my + 'px');
     
     rows.forEach(row => {
         const rect = row.getBoundingClientRect();
@@ -92,7 +93,6 @@ export function handleMagneticField(e) {
 
 // 3. INERTIAL SWIPE PHYSICS (ENHANCED)
 export function attachSwipePhysics(row, msg) {
-    // IMPORTANT: We now swipe the WRAPPER to move everything, and prevent selection
     const wrapper = row.querySelector('.swipe-wrapper');
     const icon = row.querySelector('.swipe-icon');
     
@@ -103,23 +103,20 @@ export function attachSwipePhysics(row, msg) {
     let isDragging = false;
     let hasVibrated = false;
 
-    // Disable default touch actions to allow our physics
+    // Critical for touch devices
     wrapper.style.touchAction = "pan-y"; 
 
     const start = (e) => {
-        // Only allow primary button
-        if(e.button !== 0 && e.pointerType === 'mouse') return;
-        
+        // Allow touch or left mouse button
+        if(e.pointerType === 'mouse' && e.button !== 0) return;
+
         startX = e.clientX;
         isDragging = true;
         hasVibrated = false;
         
-        // Lock selection
         wrapper.classList.add('swiping');
-        wrapper.style.userSelect = 'none';
-        
-        // Remove transitions for instant tracking
-        wrapper.style.transition = 'none';
+        wrapper.setPointerCapture(e.pointerId);
+        wrapper.style.transition = 'none'; // Instant response
         if(icon) icon.style.transition = 'none';
     };
 
@@ -128,28 +125,24 @@ export function attachSwipePhysics(row, msg) {
         currentX = e.clientX;
         const diff = currentX - startX;
         
-        // Determine direction based on message type
         const isMe = row.classList.contains('me');
-        const allowed = (isMe && diff < 0) || (!isMe && diff > 0);
+        // Drag Left (if me), Drag Right (if them)
+        // We add a small buffer (5px) to prevent accidental micro-moves
+        const allowed = (isMe && diff < -5) || (!isMe && diff > 5);
         
         if (allowed) {
             // Logarithmic resistance
-            const resist = Math.sign(diff) * (Math.log10(Math.abs(diff) + 10) * 35);
-            
-            // Apply transform to the ENTIRE wrapper
+            const resist = Math.sign(diff) * (Math.log10(Math.abs(diff) + 10) * 40);
             wrapper.style.transform = `translateX(${resist}px)`;
             
             const abs = Math.abs(resist);
-            
-            // Icon Logic
             if(icon) {
-                if (abs > 50) {
-                    icon.style.opacity = Math.min(1, (abs-50)/50);
-                    icon.style.transform = `translateY(-50%) scale(${Math.min(1.2, abs/70)})`;
+                if (abs > 40) {
+                    icon.style.opacity = Math.min(1, (abs-40)/40);
+                    icon.style.transform = `translateY(-50%) scale(${Math.min(1.1, abs/60)})`;
                     
-                    // Haptic Snap
-                    if (!hasVibrated && abs > 100 && navigator.vibrate) {
-                        navigator.vibrate(15);
+                    if (!hasVibrated && abs > 80 && navigator.vibrate) {
+                        navigator.vibrate(10);
                         hasVibrated = true;
                     }
                 } else {
@@ -162,12 +155,10 @@ export function attachSwipePhysics(row, msg) {
     const end = (e) => {
         if (!isDragging) return;
         isDragging = false;
-        
         wrapper.classList.remove('swiping');
-        wrapper.style.userSelect = '';
         
         // Spring Snapback
-        wrapper.style.transition = 'transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+        wrapper.style.transition = 'transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
         wrapper.style.transform = 'translateX(0)';
         
         if(icon) {
@@ -178,25 +169,27 @@ export function attachSwipePhysics(row, msg) {
 
         const diff = currentX - startX;
         const isMe = row.classList.contains('me');
-        const threshold = 100; // Activation distance
+        const threshold = 80; // Lower threshold for easier trigger
 
         if ((isMe && diff < -threshold) || (!isMe && diff > threshold)) {
-            if(FX.playSound) FX.playSound('hover');
-            // Trigger Reply Action
-            const quote = (msg.content || "").substring(0, 50).replace(/\n/g, ' ');
-            notify('triggerReply', { msg, name: msg.fromName || (isMe ? "Yourself" : "Them"), quote });
+            triggerReply(msg, isMe);
         }
     };
 
-    wrapper.onpointerdown = (e) => {
-        // Only capture if not clicking a button
-        if(e.target.tagName === 'BUTTON') return;
-        wrapper.setPointerCapture(e.pointerId); 
-        start(e); 
-    };
-    wrapper.onpointermove = (e) => move(e);
-    wrapper.onpointerup = (e) => end(e);
-    wrapper.onpointercancel = (e) => end(e);
+    wrapper.onpointerdown = start;
+    wrapper.onpointermove = move;
+    wrapper.onpointerup = end;
+    wrapper.onpointercancel = end;
+}
+
+export function triggerReply(msg, isMe) {
+    if(FX.playSound) FX.playSound('hover');
+    const quote = (msg.content || "").substring(0, 50).replace(/\n/g, ' ');
+    notify('triggerReply', { msg, name: msg.fromName || (isMe ? "Yourself" : "Them"), quote });
+    
+    // Focus composer
+    const input = document.querySelector('.visual-editor');
+    if(input) input.focus();
 }
 
 export function handleRightClick(e, msg, row) {
@@ -211,8 +204,11 @@ export function toggleSpotlight() {
     chatState.isSpotlightActive = !chatState.isSpotlightActive;
     document.body.classList.toggle('spotlight-mode', chatState.isSpotlightActive);
     
-    if(chatState.isSpotlightActive) {
-        document.body.style.setProperty('--cursor-x', '50vw');
-        document.body.style.setProperty('--cursor-y', '50vh');
+    // Reset transforms when turning off
+    if(!chatState.isSpotlightActive) {
+        document.querySelectorAll('.msg-bubble').forEach(row => {
+            row.style.transform = 'none';
+            row.style.filter = 'none';
+        });
     }
 }

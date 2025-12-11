@@ -10,6 +10,11 @@ import { drawCaption, drawTransformGizmo } from './overlays.js';
 export function renderScene(g, width, height, t, fxSettings) {
     g.save();
     
+    // 0. Clip to Bounds (Prevents overlay bleeding)
+    g.beginPath();
+    g.rect(0, 0, width, height);
+    g.clip();
+
     // FX: Jitter
     if (fxSettings.jitter && ctx.treble > 0.4) {
         const amt = ctx.treble * 30;
@@ -27,18 +32,34 @@ export function renderScene(g, width, height, t, fxSettings) {
     // 1. Background
     drawBackground(g, width, height, t, fxSettings);
 
-    // 2. Media Layers
+    // 2. Combined Media & Effect Layers (Sorted by Array Order = Z-Index)
+    // We treat 'mediaLayers' as the unified stack.
     state.mediaLayers.forEach(layer => {
         if (t >= layer.start && t <= layer.end) {
-            if (layer.type === 'glyph') FX.drawGlyph(g, layer, width, height);
-            else drawMedia(g, layer, width, height);
+            g.save();
+            // Global Opacity for layer
+            g.globalAlpha = layer.opacity !== undefined ? layer.opacity : 1.0;
+            g.globalCompositeOperation = layer.blendMode || 'source-over';
+
+            if (layer.type === 'effect') {
+                // Render Effect Layer
+                if (layer.effectType === 'particles') {
+                    drawParticles(g, width, height, t, layer.config); 
+                } 
+                // Add more effect types here (e.g. Matrix, Fire)
+            } 
+            else if (layer.type === 'glyph') {
+                FX.drawGlyph(g, layer, width, height);
+            }
+            else {
+                // Render Image/Video
+                drawMedia(g, layer, width, height);
+            }
+            g.restore();
         }
     });
 
-    // 3. Particles
-    drawParticles(width, height, t);
-
-    // 4. Central Geometry
+    // 4. Central Geometry (Global FX - usually on top)
     if (fxSettings.beatRing) {
         FX.drawBeatRing(g, width, height, ctx.bass);
     }
@@ -48,13 +69,12 @@ export function renderScene(g, width, height, t, fxSettings) {
         if (t >= cap.start && t <= cap.end) drawCaption(g, cap, width, height);
     });
 
-    // FX: VHS
+    // Post-Processing FX
     if (fxSettings.vhs) FX.drawVHS(g, width, height, t);
-    
-    // FX: CRT
     if (fxSettings.crt) FX.drawCRT(g, width, height, t);
 
-    // 6. UI Overlays (Gizmo)
+    // 6. UI Overlays (Gizmo) - NOT Clipped (drawn on top of clip region? No, context is clipped)
+    // We might want gizmos outside clip? No, usually inside.
     drawTransformGizmo(g, width, height);
 
     g.restore();

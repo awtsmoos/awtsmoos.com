@@ -171,6 +171,8 @@
 .audio-block { background: #003300; border-color: #00ff66; }
 .media-block { background: #330033; border-color: var(--c-magenta); }
 .caption-block { background: #003333; border-color: var(--c-cyan); }
+.effect-block { background: #330033; border-color: #aa00ff; border-style:dashed; } 
+
 .block-content { padding: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%; }
 
 /* TRIM HANDLES */
@@ -198,6 +200,17 @@
     transition: left 0.05s linear; 
 }
 .timeline-playhead.dragging { transition: none; }
+
+/* Floating Studio FAB (Minimized) */
+#studio-fab {
+    position: fixed; bottom: 20px; right: 20px; z-index: 9999;
+    background: #000; border: 2px solid var(--c-magenta);
+    padding: 10px 20px; color: var(--c-magenta); font-weight: bold;
+    cursor: pointer; box-shadow: 0 0 20px rgba(255,0,85,0.5);
+    display: flex; align-items: center; gap: 10px;
+    animation: pulse 2s infinite;
+}
+#studio-fab:hover { background: var(--c-magenta); color: #fff; }
 
 /* Mobile Studio Fixes */
 @media (max-width: 768px) {

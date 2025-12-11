@@ -1,9 +1,10 @@
 
 // B"H
 import { chatState, getUiRef } from './state.js';
-import { attachSwipePhysics, handleRightClick } from './physics.js';
+import { attachSwipePhysics, handleRightClick, triggerReply } from './physics.js';
 import { smartParse } from '../../helpers.js';
 import { FX } from '../fx.js';
+import { renderContextMenu } from '../modals.js';
 
 function decryptText(element, finalString) {
     if(!element) return;
@@ -12,6 +13,9 @@ function decryptText(element, finalString) {
     const originalHTML = element.innerHTML;
     const plainText = element.innerText; 
     
+    // Ensure we start with the class
+    element.classList.add('decrypting');
+
     const interval = setInterval(() => {
         element.innerText = plainText
             .split("")
@@ -23,12 +27,18 @@ function decryptText(element, finalString) {
         
         if(iterations >= plainText.length) { 
             clearInterval(interval);
-            element.innerHTML = originalHTML; 
+            element.innerHTML = originalHTML;
+            element.classList.remove('decrypting'); // FIXED: Remove blue color class
         }
         iterations += 1; 
-    }, 30);
+    }, 20);
     
-    setTimeout(() => { clearInterval(interval); element.innerHTML = originalHTML; }, 2000);
+    // Safety fallback
+    setTimeout(() => { 
+        clearInterval(interval); 
+        element.innerHTML = originalHTML; 
+        element.classList.remove('decrypting'); 
+    }, 2000);
 }
 
 function getSentimentClass(text) {
@@ -65,13 +75,10 @@ export function renderMessages(threadId, msgs) {
         const row = ui.html({
             parent: container,
             tag: 'div',
-            // Added .filter(Boolean)
             classList: ['msg-row', isMe ? 'me' : 'them', isNew ? 'glitch-entry' : null].filter(Boolean),
             dataset: { id: m.id },
-            // Attach physics to the ROW to handle the wrapper inside
             ready: (el) => {
                 attachSwipePhysics(el, m);
-                // Remove glitch class after animation to prevent persistent distortion
                 if(isNew) setTimeout(() => el.classList.remove('glitch-entry'), 500);
             },
             events: {
@@ -82,8 +89,7 @@ export function renderMessages(threadId, msgs) {
                 {
                     tag: 'div', classList: ['swipe-wrapper'],
                     children: [
-                        // Enhanced Swipe Icon
-                        { tag: 'div', classList: ['swipe-icon'], textContent: isMe ? '↩️' : 'REPLY' },
+                        { tag: 'div', classList: ['swipe-icon'], textContent: 'REPLY' },
                         {
                             tag: 'div',
                             classList: ['msg-bubble', 'magnetic', sentiment].filter(Boolean), 
@@ -98,18 +104,45 @@ export function renderMessages(threadId, msgs) {
                                     tag: 'div', classList: ['msg-footer'],
                                     children: [
                                         { tag: 'span', classList: ['msg-time'], dataset: { ts: m.timeSent }, textContent: 'Just now' },
-                                        // FIXED: Prevent Propagation on button click
-                                        { 
-                                            tag: 'button', classList: ['tts-btn'], textContent: '🔊', 
-                                            events: { 
-                                                click: (e) => { 
-                                                    e.stopPropagation(); 
-                                                    e.preventDefault();
-                                                    console.log("Playing audio...");
-                                                    if(FX.playTTS) FX.playTTS(m.content); 
+                                        // Actions Container
+                                        {
+                                            tag: 'div', classList: ['msg-actions'],
+                                            children: [
+                                                // REPLY BUTTON
+                                                { 
+                                                    tag: 'button', classList: ['action-btn'], title: 'Reply', innerHTML: '↩',
+                                                    events: { 
+                                                        click: (e) => { 
+                                                            e.stopPropagation(); 
+                                                            triggerReply(m, isMe); 
+                                                        },
+                                                        pointerdown: (e) => e.stopPropagation()
+                                                    }
                                                 },
-                                                pointerdown: (e) => e.stopPropagation() // Stop physics capture
-                                            }
+                                                // MENU BUTTON (Kebab)
+                                                { 
+                                                    tag: 'button', classList: ['action-btn'], title: 'Menu', innerHTML: '⋮',
+                                                    events: { 
+                                                        click: (e) => { 
+                                                            e.stopPropagation(); 
+                                                            const rect = e.target.getBoundingClientRect();
+                                                            renderContextMenu(ui, rect.left, rect.bottom + 5, m, row);
+                                                        },
+                                                        pointerdown: (e) => e.stopPropagation()
+                                                    }
+                                                },
+                                                // TTS BUTTON
+                                                { 
+                                                    tag: 'button', classList: ['action-btn', 'tts-btn'], title: 'Speak', innerHTML: '🔊', 
+                                                    events: { 
+                                                        click: (e) => { 
+                                                            e.stopPropagation(); 
+                                                            if(FX.playTTS) FX.playTTS(m.content); 
+                                                        },
+                                                        pointerdown: (e) => e.stopPropagation()
+                                                    }
+                                                }
+                                            ]
                                         }
                                     ] 
                                 }
@@ -120,6 +153,7 @@ export function renderMessages(threadId, msgs) {
             ]
         });
 
+        // Add Copy Buttons to Code Blocks
         const blocks = row.querySelectorAll('pre');
         blocks.forEach(blk => {
             const btn = document.createElement('button');
