@@ -1,9 +1,9 @@
 //B"H
 // modules/player/transport.js
-import { pState, init, resumeContext, loadBuffer, setBuffer } from './core.js';
-import * as Render from '../../render.js'; // Import Render to update loading UI
+import { pState, init, resumeContext, setBuffer } from './core.js';
+import * as Render from '../../render.js';
 
-let loadRequestId = 0;
+let currentUrl = null;
 
 export function setCallbacks(cbs) {
     pState.callbacks = { ...pState.callbacks, ...cbs };
@@ -11,154 +11,66 @@ export function setCallbacks(cbs) {
 }
 
 export async function playUrl(url) {
-    stopSource();
-    const currentId = ++loadRequestId; // Increment request ID
+    if (!pState.ctx) init();
+    resumeContext();
     
-    // Notify Loading
-    Render.setTracksLoading(true, "BUFFERING");
-    
-    pState.pauseOffset = 0;
-    if(pState.callbacks.onUpdate) pState.callbacks.onUpdate(0, 0);
+    // Release previous object URL if it was a blob
+    if (currentUrl && currentUrl.startsWith('blob:')) {
+        URL.revokeObjectURL(currentUrl);
+    }
+    currentUrl = url;
+
+    // Reset Buffer state (since we are streaming now)
+    setBuffer(null);
+
+    Render.setTracksLoading(true, "CONNECTING STREAM");
     
     try {
-        const buffer = await loadBuffer(url);
-        
-        // Race Condition Check
-        if (currentId !== loadRequestId) {
-            console.log("Playback aborted: newer request detected.");
-            return;
-        }
-
+        pState.audioElement.src = url;
+        await pState.audioElement.play();
         Render.setTracksLoading(false, "");
-        if (buffer) {
-            playBuffer(buffer, 0);
-        }
     } catch(e) {
-        if (currentId === loadRequestId) {
-            Render.setTracksLoading(false, "ERROR");
-            console.error(e);
-        }
+        console.warn("Autoplay or Stream Error", e);
+        Render.setTracksLoading(false, "ERROR");
     }
 }
 
 export async function playBlob(blob) {
-    stopSource();
-    const currentId = ++loadRequestId;
-    
-    Render.setTracksLoading(true, "READING CACHE");
-    pState.pauseOffset = 0;
-    
-    try {
-        const buffer = await loadBuffer(blob);
-        
-        if (currentId !== loadRequestId) return;
-        
-        Render.setTracksLoading(false, "");
-        if (buffer) {
-            playBuffer(buffer, 0);
-        }
-    } catch (e) {
-         if (currentId === loadRequestId) Render.setTracksLoading(false, "ERROR");
-    }
+    const url = URL.createObjectURL(blob);
+    playUrl(url);
 }
 
 export function togglePlay() {
-    if (!pState.buffer) return;
+    if (!pState.audioElement) return;
     
-    if (pState.isPlaying) {
-        const elapsed = pState.ctx.currentTime - pState.startTime;
-        pState.pauseOffset += elapsed;
-        stopSource(false); // Don't reset everything, just pause
-        if (pState.callbacks.onUpdate) pState.callbacks.onUpdate(pState.pauseOffset, pState.buffer.duration);
+    if (pState.audioElement.paused) {
+        resumeContext();
+        pState.audioElement.play().catch(e => console.error(e));
     } else {
-        if(pState.ctx.state === 'suspended') pState.ctx.resume();
-        playBuffer(pState.buffer, pState.pauseOffset);
+        pState.audioElement.pause();
     }
 }
 
 export function seek(time) {
-    if (!pState.buffer) return;
-    const duration = pState.buffer.duration;
-    time = Math.max(0, Math.min(time, duration));
-    
-    pState.pauseOffset = time;
-    
-    if (pState.isPlaying) {
-        playBuffer(pState.buffer, pState.pauseOffset);
-    } else {
-        if (pState.callbacks.onUpdate) pState.callbacks.onUpdate(pState.pauseOffset, duration);
+    if (!pState.audioElement) return;
+    if (Number.isFinite(time)) {
+        pState.audioElement.currentTime = time;
     }
 }
 
 export function isPlaying() {
-    return pState.isPlaying;
+    return pState.audioElement ? !pState.audioElement.paused : false;
 }
 
-function stopSource(reset = true) {
-    if (pState.source) {
-        try {
-            pState.source.stop();
-            pState.source.disconnect();
-        } catch (e) {}
-        pState.source = null;
-    }
-    if (pState.animationFrameId) {
-        cancelAnimationFrame(pState.animationFrameId);
-        pState.animationFrameId = null;
-    }
-    pState.isPlaying = false;
-}
-
-function playBuffer(buffer, offset) {
-    stopSource(false);
-    setBuffer(buffer);
-    
-    pState.source = pState.ctx.createBufferSource();
-    pState.source.buffer = buffer;
-    pState.source.connect(pState.gain);
-    
-    pState.source.onended = () => {
-        // Only trigger end if we actually played past the end, not just stopped
-        const expectedDuration = buffer.duration - offset;
-        const elapsed = pState.ctx.currentTime - pState.startTime;
-        
-        // Use a small threshold
-        if (pState.isPlaying && elapsed >= expectedDuration - 0.2) {
-            pState.isPlaying = false;
-            cancelAnimationFrame(pState.animationFrameId);
-            pState.pauseOffset = 0; 
-            if (pState.callbacks.onEnd) pState.callbacks.onEnd();
-        }
-    };
-
-    pState.source.start(0, offset);
-    pState.startTime = pState.ctx.currentTime;
-    pState.pauseOffset = offset;
-    pState.isPlaying = true;
-
-    updateLoop();
-}
-
-function updateLoop() {
-    if (!pState.isPlaying) return;
-    
-    const elapsed = pState.ctx.currentTime - pState.startTime;
-    const current = pState.pauseOffset + elapsed;
-    
-    if (pState.callbacks.onUpdate && pState.buffer) {
-        pState.callbacks.onUpdate(current, pState.buffer.duration);
-    }
-    
-    pState.animationFrameId = requestAnimationFrame(updateLoop);
-}
-
-// Proxy Object
+// Proxy Object matching the interface expected by UI
 export const audioEl = {
     get currentTime() { 
-        if(!pState.ctx) return 0;
-        if(pState.isPlaying) return pState.pauseOffset + (pState.ctx.currentTime - pState.startTime);
-        return pState.pauseOffset; 
+        return pState.audioElement ? pState.audioElement.currentTime : 0; 
     },
-    get duration() { return pState.buffer ? pState.buffer.duration : 0; },
-    get paused() { return !pState.isPlaying; }
+    get duration() { 
+        return pState.audioElement ? (pState.audioElement.duration || 0) : 0; 
+    },
+    get paused() { 
+        return pState.audioElement ? pState.audioElement.paused : true; 
+    }
 };
