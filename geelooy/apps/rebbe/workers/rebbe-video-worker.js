@@ -44,8 +44,8 @@ async function handleExport({ audioShim, captions, mediaLayers, settings }) {
     // Pre-calculate audio data
     const analysisData = preAnalyzeAudio(audioShim, totalFrames);
     
-    // Initialize Particles
-    const particleSystem = new HebrewParticleSystem(settings.resolution);
+    // Initialize Particles with Settings
+    const particleSystem = new HebrewParticleSystem(settings.resolution, settings.particles);
 
     const renderer = new MediaBunnyBase({
         resolution: settings.resolution,
@@ -56,7 +56,8 @@ async function handleExport({ audioShim, captions, mediaLayers, settings }) {
             captions: captions || [], 
             mediaLayers: mediaLayers || [], 
             particleSystem, 
-            analysisData 
+            analysisData,
+            fx: settings.fx || { beatRing: true } 
         }, frame);
     }, {
         libraryPath: '/scripts/awtsmoos/video/mediabunny-library.js'
@@ -96,7 +97,7 @@ async function handleExport({ audioShim, captions, mediaLayers, settings }) {
     });
 }
 
-function drawFrame({ ctx, canvas, captions, mediaLayers, particleSystem, analysisData }, { time, frameNumber }) {
+function drawFrame({ ctx, canvas, captions, mediaLayers, particleSystem, analysisData, fx }, { time, frameNumber }) {
     const { width, height } = canvas;
     const centerX = width / 2;
     const centerY = height / 2;
@@ -112,7 +113,8 @@ function drawFrame({ ctx, canvas, captions, mediaLayers, particleSystem, analysi
     particleSystem.updateAndDraw(ctx, bass, mid, time);
 
     // 3. Central Geometry (Beat Reactive)
-    if (bass > 0.1) {
+    // Only draw if enabled in FX (defaults true)
+    if (fx.beatRing !== false && bass > 0.1) {
         ctx.beginPath();
         const r = (Math.min(width,height) * 0.2) + bass * 200;
         ctx.arc(centerX, centerY, r, 0, 6.28);
@@ -124,7 +126,6 @@ function drawFrame({ ctx, canvas, captions, mediaLayers, particleSystem, analysi
     }
 
     // 4. Media Layers (Images)
-    // Sorted by start time implicitly, but should loop through all
     mediaLayers.forEach(layer => {
         if (time >= layer.start && time <= layer.end) {
             if (layer.bitmap) {
@@ -210,10 +211,11 @@ function preAnalyzeAudio(shim, totalFrames) {
 
 // --- PARTICLE SYSTEM ---
 class HebrewParticleSystem {
-    constructor(resolution) {
+    constructor(resolution, settings = {}) {
         this.width = resolution.width;
         this.height = resolution.height;
-        this.particles = new Array(400).fill(0).map(() => this.createParticle());
+        this.settings = settings;
+        this.particles = new Array(settings.count || 400).fill(0).map(() => this.createParticle());
     }
 
     createParticle() {
@@ -221,7 +223,7 @@ class HebrewParticleSystem {
             x: Math.random() * this.width,
             y: Math.random() * this.height,
             char: CHARS[Math.floor(Math.random() * CHARS.length)],
-            baseSize: Math.random() * 20 + 10,
+            baseSize: Math.random() * (this.settings.sizeBase || 20) + 10,
             baseVx: (Math.random() - 0.5) * 2,
             baseVy: (Math.random() - 0.5) * 2,
             hue: Math.floor(Math.random() * 36)
@@ -229,14 +231,31 @@ class HebrewParticleSystem {
     }
 
     updateAndDraw(ctx, bass, mid, time) {
+        // If disabled, just return
+        if (this.settings.enabled === false) return;
+
+        const reactivity = this.settings.reactivity || 1.0;
+
         for (let i = 0; i < this.particles.length; i++) {
             const p = this.particles[i];
             
             const energy = (i % 2 === 0) ? bass : mid;
-            if (energy > 0.01) {
-                const speed = energy * 15;
-                p.x += p.baseVx * speed;
-                p.y += p.baseVy * speed;
+            
+            if (this.settings.mode === 'float' || !this.settings.mode) {
+                // Default Floating Logic
+                if (energy > 0.01) {
+                    const speed = energy * 15 * reactivity;
+                    p.x += p.baseVx * speed;
+                    p.y += p.baseVy * speed;
+                } else {
+                    p.x += p.baseVx * 0.1; 
+                    p.y += p.baseVy * 0.1;
+                }
+            } else {
+                // Placeholder for other modes if worker needs to support them
+                // For now, float is dominant
+                p.x += p.baseVx; 
+                p.y += p.baseVy;
             }
 
             if(p.x < -50) p.x = this.width + 50;
@@ -244,10 +263,20 @@ class HebrewParticleSystem {
             if(p.y < -50) p.y = this.height + 50;
             else if(p.y > this.height + 50) p.y = -50;
 
-            const size = p.baseSize + (energy * 60);
-            const hueIdx = (p.hue + Math.floor(time * 10)) % 36;
+            const size = p.baseSize + (energy * 60 * reactivity);
             
-            ctx.fillStyle = COLORS[hueIdx] || '#FFF';
+            // Color Handling
+            let color = '#FFF';
+            if (this.settings.colorMode === 'rainbow' || !this.settings.colorMode) {
+                const hueIdx = (p.hue + Math.floor(time * 10)) % 36;
+                color = COLORS[hueIdx] || '#FFF';
+            } else if (this.settings.colorMode === 'velocity') {
+                color = `hsl(${200 + (energy*160)}, 100%, 60%)`;
+            } else if (this.settings.colorMode === 'solid') {
+                color = this.settings.color || '#FFF';
+            }
+
+            ctx.fillStyle = color;
             ctx.font = `${size | 0}px monospace`;
             ctx.fillText(p.char, p.x | 0, p.y | 0);
         }

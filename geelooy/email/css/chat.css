@@ -1,4 +1,5 @@
 
+
 /* CHAT: Messages, Bubbles, Glitch */
 .chat-area { 
     position: relative; display: flex; flex-direction: column;
@@ -42,6 +43,8 @@
     display: flex; width: 100%; position: relative; margin-bottom: 12px; 
     /* Important for tilt */
     transform-style: preserve-3d; 
+    transition: transform 0.1s; /* Smooth skew */
+    transform: skewY(var(--scroll-skew, 0deg)); /* APPLIED SKEW HERE */
 }
 .msg-row.me { justify-content: flex-end; }
 .msg-row.them { justify-content: flex-start; }
@@ -154,12 +157,16 @@
     z-index: 50;
     /* Visual indicator bar */
     border-right: 1px solid rgba(255,255,255,0.05);
+    cursor: pointer;
 }
+.time-scrubber:hover { border-right-color: var(--neon-cyan); }
+
 .time-dot {
     position: absolute; right: 0; width: 6px; height: 6px; border-radius: 50%;
     transform: translate(50%, -50%);
     box-shadow: 0 0 4px currentColor;
     opacity: 0.7;
+    pointer-events: none;
 }
 
 /* GLITCH ENTRY ANIMATION */

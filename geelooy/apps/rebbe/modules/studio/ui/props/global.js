@@ -26,6 +26,7 @@ export function renderGlobalProps(container) {
             <label style="color:var(--c-magenta)">PARTICLES</label>
             <label>MODE</label>
             <select class="cyber-input" onchange="window.Studio.updateParticle('mode', this.value)">
+                <option value="float" ${state.studioParticleSettings.mode==='float'?'selected':''}>FLOAT (VIDEO DEFAULT)</option>
                 <option value="circle" ${state.studioParticleSettings.mode==='circle'?'selected':''}>PULSE CIRCLE</option>
                 <option value="spiral" ${state.studioParticleSettings.mode==='spiral'?'selected':''}>SPIRAL</option>
                 <option value="random" ${state.studioParticleSettings.mode==='random'?'selected':''}>CHAOS</option>

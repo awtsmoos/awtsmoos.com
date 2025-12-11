@@ -12,17 +12,35 @@ export function createBlock(type, item, idx) {
     b.style.left = (item.start * state.studioZoom) + 'px';
     b.style.width = ((item.end - item.start) * state.studioZoom) + 'px';
     
+    // Add Trim Handles
+    const hLeft = document.createElement('div');
+    hLeft.className = 'trim-handle left';
+    b.appendChild(hLeft);
+    
+    const hRight = document.createElement('div');
+    hRight.className = 'trim-handle right';
+    b.appendChild(hRight);
+
     if (type === 'audio') {
         buildAudioBlock(b, item);
     } else if (type === 'caption') {
-        b.innerHTML = `<div class="block-content"><div class="b-txt">${item.text}</div></div>`;
+        // Need wrapper to avoid overwriting handles with innerHTML
+        const c = document.createElement('div');
+        c.className = 'block-content';
+        c.innerHTML = `<div class="b-txt">${item.text}</div>`;
+        b.appendChild(c);
     } else {
         const bg = item.type === 'glyph' ? '' : `background-image:url(${item.src});`;
         const txt = item.type === 'glyph' ? item.src.toUpperCase() : '';
-        b.innerHTML = `<div class="block-img" style="${bg} opacity:${item.opacity}; display:flex; align-items:center; justify-content:center; color:#fff; font-size:10px;">${txt}</div>`;
+        const c = document.createElement('div');
+        c.className = 'block-img';
+        c.style.cssText = `${bg} opacity:${item.opacity}; display:flex; align-items:center; justify-content:center; color:#fff; font-size:10px; width:100%; height:100%; background-size:cover;`;
+        c.innerHTML = txt;
+        b.appendChild(c);
     }
     
     b.onmousedown = (e) => handleBlockDown(e, type, idx, item);
+    b.ontouchstart = (e) => handleBlockDown(e, type, idx, item); // Bind touch
     return b;
 }
 

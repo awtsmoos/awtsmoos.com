@@ -81,8 +81,11 @@ function renderMediaProps(container, item) {
             <label>BLEND MODE</label>
             <select class="cyber-input" onchange="window.Studio.updateClip('blendMode', this.value)">
                 <option value="source-over" ${item.blendMode==='source-over'?'selected':''}>NORMAL</option>
-                <option value="screen" ${item.blendMode==='screen'?'selected':''}>SCREEN</option>
+                <option value="screen" ${item.blendMode==='screen'?'selected':''}>SCREEN (ADD)</option>
                 <option value="overlay" ${item.blendMode==='overlay'?'selected':''}>OVERLAY</option>
+                <option value="multiply" ${item.blendMode==='multiply'?'selected':''}>MULTIPLY</option>
+                <option value="destination-in" ${item.blendMode==='destination-in'?'selected':''}>ALPHA MASK (IN)</option>
+                <option value="destination-out" ${item.blendMode==='destination-out'?'selected':''}>PUNCH OUT (MASK)</option>
             </select>
         </div>
         <div class="prop-group">

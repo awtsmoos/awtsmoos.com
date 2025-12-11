@@ -12,6 +12,10 @@ let originalOffset = 0;
 
 export function handleBlockDown(e, type, index, item) {
     e.stopPropagation();
+    
+    // Prevent mouse event firing after touch
+    if(e.type === 'mousedown' && e.sourceCapabilities && e.sourceCapabilities.firesTouchEvents) return;
+
     state.selectedClipId = item.id;
     state.selectedType = type;
     state.activeTab = 'clip';
@@ -23,48 +27,52 @@ export function handleBlockDown(e, type, index, item) {
     // Save state for Undo before drag begins
     Actions.saveState();
 
-    const rect = e.target.getBoundingClientRect();
-    const edgeMargin = 15; 
-    const relX = e.clientX - rect.left;
-    const w = rect.width;
+    let clientX = e.clientX;
+    if(e.touches && e.touches.length > 0) clientX = e.touches[0].clientX;
 
-    startX = e.clientX;
+    startX = clientX;
     originalStart = item.start;
     originalEnd = item.end;
     originalOffset = item.offset || 0;
 
-    // Determine drag mode
-    if (relX < edgeMargin) {
-        dragMode = 'trim-start';
-        document.body.style.cursor = 'ew-resize';
-    } else if (relX > w - edgeMargin) {
-        dragMode = 'trim-end';
-        document.body.style.cursor = 'ew-resize';
+    // Determine drag mode via Handles
+    if (e.target.classList.contains('trim-handle')) {
+        if (e.target.classList.contains('left')) {
+            dragMode = 'trim-start';
+            document.body.style.cursor = 'w-resize';
+        } else {
+            dragMode = 'trim-end';
+            document.body.style.cursor = 'e-resize';
+        }
     } else {
         dragMode = 'move';
         document.body.style.cursor = 'grabbing';
     }
 
     dragTarget = { type, index, item };
+    
     window.addEventListener('mousemove', handleMove);
+    window.addEventListener('touchmove', handleMove, {passive: false});
     window.addEventListener('mouseup', handleUp);
+    window.addEventListener('touchend', handleUp);
 }
 
 function handleMove(e) {
     if (!dragTarget) return;
 
-    const deltaPx = e.clientX - startX;
-    const deltaSec = deltaPx / state.studioZoom;
+    let clientX = e.clientX;
+    if(e.touches && e.touches.length > 0) {
+        clientX = e.touches[0].clientX;
+        e.preventDefault(); // Stop scroll
+    }
 
+    const deltaPx = clientX - startX;
+    const deltaSec = deltaPx / state.studioZoom;
     const item = dragTarget.item;
-    // const dur = state.pendingSlice ? state.pendingSlice.duration : 100; // Not used for limit currently
     const minDur = 0.1;
 
     // --- SNAPPING LOGIC ---
-    // Collect snap points: Start/End of all other clips + Playhead
     const snapPoints = [state.currentTime];
-    
-    // Helper to add points
     const addPoints = (layers) => {
         layers.forEach(l => {
             if (l.id !== item.id) {
@@ -78,13 +86,11 @@ function handleMove(e) {
     
     const SNAP_TOLERANCE_PX = 15;
     const SNAP_TOLERANCE_SEC = SNAP_TOLERANCE_PX / state.studioZoom;
-    
     let snapGuidePos = null;
 
     const applySnap = (rawTime) => {
         let bestDiff = Infinity;
         let bestTime = rawTime;
-        
         for (const pt of snapPoints) {
             const diff = Math.abs(pt - rawTime);
             if (diff < SNAP_TOLERANCE_SEC && diff < bestDiff) {
@@ -92,50 +98,31 @@ function handleMove(e) {
                 bestTime = pt;
             }
         }
-        
-        if (bestDiff !== Infinity) {
-             snapGuidePos = bestTime;
-             return bestTime;
-        }
+        if (bestDiff !== Infinity) { snapGuidePos = bestTime; return bestTime; }
         return rawTime;
     };
 
     if (dragMode === 'move') {
         const length = originalEnd - originalStart;
         const rawStart = originalStart + deltaSec;
-        
         let newStart = applySnap(rawStart);
-        // Also check if END snaps (secondary check)
         if (newStart === rawStart) {
             const rawEnd = rawStart + length;
             const snappedEnd = applySnap(rawEnd);
-            if (snappedEnd !== rawEnd) {
-                newStart = snappedEnd - length;
-            }
+            if (snappedEnd !== rawEnd) newStart = snappedEnd - length;
         }
-
         if (newStart < 0) newStart = 0;
-        
         item.start = newStart;
         item.end = newStart + length;
     } 
     else if (dragMode === 'trim-start') {
         let newStart = applySnap(originalStart + deltaSec);
-        
         if (newStart > item.end - minDur) newStart = item.end - minDur;
         if (newStart < 0) newStart = 0;
-
-        // Update offset for audio to keep content in place relative to time? 
-        // Standard NLE behavior: 
-        // If I trim start to the right (later), I am cropping the beginning.
-        // offset should increase by (newStart - originalStart)
-        
         if (dragTarget.type === 'audio') {
             const diff = newStart - originalStart;
-            // Only if we actually moved
              item.offset = originalOffset + diff;
         }
-
         item.start = newStart;
     } 
     else if (dragMode === 'trim-end') {
@@ -145,13 +132,10 @@ function handleMove(e) {
     }
 
     // UPDATE UI
-    // Update Guide
     const guide = document.getElementById('snap-guide');
     if (guide) {
         if (snapGuidePos !== null) {
             guide.style.display = 'block';
-            // Calculate position relative to tracks container logic
-            // Need header width
             const header = document.querySelector('.track-head');
             const tracks = document.getElementById('timeline-tracks');
             if(header && tracks) {
@@ -163,8 +147,6 @@ function handleMove(e) {
         }
     }
 
-    // Optimization: Don't force re-render synchronously full DOM
-    // But we need to update THIS block's position
     if(window.Studio && window.Studio.renderTimeline) {
          requestAnimationFrame(() => window.Studio.renderTimeline());
     }
@@ -178,7 +160,9 @@ function handleUp() {
     if(guide) guide.style.display = 'none';
     
     window.removeEventListener('mousemove', handleMove);
+    window.removeEventListener('touchmove', handleMove);
     window.removeEventListener('mouseup', handleUp);
+    window.removeEventListener('touchend', handleUp);
 }
 
 export function handleTimelineClick(e) {
@@ -188,7 +172,6 @@ export function handleTimelineClick(e) {
         if(window.Studio && window.Studio.updatePropertiesPanel) {
             window.Studio.updatePropertiesPanel();
         }
-        // Force redraw to remove selection outline
         if(window.Studio && window.Studio.renderTimeline) window.Studio.renderTimeline();
     }
 }

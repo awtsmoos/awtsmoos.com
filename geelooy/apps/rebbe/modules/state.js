@@ -41,6 +41,9 @@ const state = {
     studioStartTime: 0, 
     studioOffsetTime: 0, 
     studioBeats: [], 
+    
+    // Canvas Viewport (The User's View of the Canvas)
+    previewViewport: { x: 0, y: 0, scale: 0.9 },
 
     studioGlobal: {
         width: 1080,
@@ -58,16 +61,18 @@ const state = {
         vhs: false,        // 5. VHS Overlay
         colorCycle: false, // 6. Color Cycle
         jitter: false,     // 7. Camera Shake
-        vaporGrid: false   // 8. 3D Grid
+        vaporGrid: false,  // 8. 3D Grid
+        beatRing: true,    // 9. Central Beat Ring (Default ON)
+        crt: false         // 10. CRT Monitor
     },
     
     studioParticleSettings: {
         enabled: true,
         colorMode: 'rainbow', 
         color: '#ffffff',
-        count: 500, 
-        reactivity: 2.0, 
-        mode: 'circle',
+        count: 400, 
+        reactivity: 1.0, 
+        mode: 'float', // Default to Float to match video
         waveIntensity: 80,
         speed: 1.0,
         sizeBase: 20
@@ -105,8 +110,10 @@ export function resetVideoState() {
     state.studioIsPlaying = false;
     state.studioOffsetTime = 0;
     state.selectedClipId = null;
+    state.previewViewport = { x: 0, y: 0, scale: 0.9 };
     state.studioFX = {
         pump: false, rgbSplit: false, mirrorX: false, mirrorY: false,
-        vhs: false, colorCycle: false, jitter: false, vaporGrid: false
+        vhs: false, colorCycle: false, jitter: false, vaporGrid: false,
+        beatRing: true, crt: false
     };
 }

@@ -1,6 +1,20 @@
 //B"H
 // modules/studio/fx/geometry.js
 
+export function drawBeatRing(g, w, h, bass) {
+    if (bass > 0.1) {
+        g.save();
+        g.beginPath();
+        const r = (Math.min(w,h) * 0.2) + bass * 200;
+        g.arc(w/2, h/2, r, 0, 6.28);
+        g.strokeStyle = `hsl(${180 + bass * 100}, 100%, 50%)`;
+        g.lineWidth = (5 + bass * 20) | 0;
+        g.globalAlpha = 0.5;
+        g.stroke();
+        g.restore();
+    }
+}
+
 export function drawVaporGrid(g, w, h, t) {
     g.save();
     const horizon = h * 0.55;

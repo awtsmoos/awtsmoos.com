@@ -12,76 +12,100 @@
 
 /* Studio Top: Preview & Props */
 .studio-top { 
-    flex: 2; display: flex; min-height: 0; 
+    flex: 3; display: flex; min-height: 0; 
     border-bottom: 2px solid #333;
+    overflow: hidden;
+    position: relative;
 }
 
 /* Preview Canvas */
 .studio-preview-wrapper { 
-    flex: 1; background: #050505; position: relative; 
+    flex: 1; background: #111; position: relative; 
     display: flex; align-items: center; justify-content: center; 
     overflow: hidden; 
+    background-image: 
+        linear-gradient(45deg, #151515 25%, transparent 25%), 
+        linear-gradient(-45deg, #151515 25%, transparent 25%), 
+        linear-gradient(45deg, transparent 75%, #151515 75%), 
+        linear-gradient(-45deg, transparent 75%, #151515 75%);
+    background-size: 20px 20px;
+    background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
 }
+
 #studio-preview-canvas { 
-    box-shadow: 0 0 40px #000; 
-    border: 1px solid #444; 
-    max-width: 95%; max-height: 95%;
+    box-shadow: 0 0 50px rgba(0,0,0,0.8); 
+    border: 1px solid var(--c-cyan); 
+    /* No max-width/height here, managed by viewport transform in JS */
+    cursor: grab;
 }
+#studio-preview-canvas:active { cursor: grabbing; }
+
 .studio-stat { 
     position: absolute; top: 15px; left: 15px;
     background: rgba(0,0,0,0.8); color: var(--c-cyan); 
     padding: 8px 12px; font-size: 14px; font-weight: bold;
     border: 1px solid var(--c-cyan); 
+    pointer-events: none;
+    z-index: 100;
+}
+
+.studio-help-hint {
+    position: absolute; top: 15px; right: 15px;
+    color: #666; font-size: 10px; background: rgba(0,0,0,0.5);
+    padding: 5px; border-radius: 4px; pointer-events: none;
 }
 
 /* Properties Panel */
 .studio-props { 
-    width: 350px; border-right: 2px solid #222; 
+    width: 320px; border-right: 2px solid #222; 
     background: #0a0a0a; display: flex; flex-direction: column; 
-    z-index: 50;
+    z-index: 50; flex-shrink: 0;
 }
-.prop-tabs { display: flex; border-bottom: 2px solid #222; background: #000; height: 50px; }
+.prop-tabs { display: flex; border-bottom: 2px solid #222; background: #000; height: 40px; flex-shrink: 0; }
 .tab-btn { 
     flex: 1; background: #111; color: #888; 
-    cursor: pointer; border: none; font-weight: bold; font-size: 14px;
-    border-bottom: 4px solid transparent; transition: 0.2s;
+    cursor: pointer; border: none; font-weight: bold; font-size: 12px;
+    border-bottom: 3px solid transparent; transition: 0.2s;
 }
 .tab-btn:hover { color: #fff; background: #222; }
 .tab-btn.active { color: var(--c-cyan); background: #000; border-bottom-color: var(--c-cyan); }
 
 .prop-inner-content { 
-    padding: 20px; flex: 1; overflow-y: auto; 
-    display: flex; flex-direction: column; gap: 20px; 
+    padding: 15px; flex: 1; overflow-y: auto; 
+    display: flex; flex-direction: column; gap: 15px; 
 }
 
-.prop-group { display: flex; flex-direction: column; gap: 8px; }
-.prop-group label { font-size: 12px; color: var(--c-magenta); font-weight: bold; letter-spacing: 1px; }
+.prop-group { display: flex; flex-direction: column; gap: 5px; }
+.prop-group label { font-size: 11px; color: var(--c-magenta); font-weight: bold; letter-spacing: 1px; }
 
 /* Timeline Area */
 .studio-bottom { 
-    flex: 1; background: #080808; 
+    flex: 2; background: #080808; 
     display: flex; flex-direction: column; 
-    position: relative; min-height: 300px; 
+    position: relative; min-height: 250px; 
     border-top: 1px solid var(--c-cyan); 
 }
 
 /* Toolbar */
 .studio-toolbar {
-    height: 60px; background: #111; border-top: 2px solid #333;
-    display: flex; align-items: center; padding: 0 15px; gap: 15px;
-    overflow-x: auto;
+    height: 50px; background: #111; border-top: 2px solid #333;
+    display: flex; align-items: center; padding: 0 10px; gap: 10px;
+    overflow-x: auto; flex-shrink: 0;
+    scrollbar-width: thin;
 }
-/* Toolbar Buttons in Studio need to pop */
+.studio-toolbar::-webkit-scrollbar { height: 2px; }
+.studio-toolbar::-webkit-scrollbar-thumb { background: var(--c-cyan); }
+
 .studio-toolbar .modal-btn {
-    padding: 8px 16px; font-size: 12px; white-space: nowrap;
+    padding: 6px 12px; font-size: 11px; white-space: nowrap;
 }
 
 /* Timeline Structure */
-.timeline-header { height: 40px; background: #000; display: flex; border-bottom: 1px solid #333; }
+.timeline-header { height: 35px; background: #000; display: flex; border-bottom: 1px solid #333; position: relative; flex-shrink: 0; }
 .track-head { 
-    width: 160px; background: #050505; border-right: 2px solid var(--c-cyan); 
+    width: 140px; background: #050505; border-right: 2px solid var(--c-cyan); 
     display: flex; align-items: center; justify-content: center; 
-    font-size: 12px; color: #888; flex-shrink: 0; font-weight: bold;
+    font-size: 11px; color: #888; flex-shrink: 0; font-weight: bold;
 }
 .ruler-container { flex: 1; position: relative; overflow: hidden; background: #0a0a0a; cursor: text; }
 .ruler-mark { 
@@ -90,29 +114,36 @@
 }
 .ruler-mark.major { color: #aaa; border-left: 1px solid #666; font-weight: bold; }
 
+/* Scrub Trigger */
+#scrub-trigger {
+    position: absolute; top: 0; left: 140px; width: calc(100% - 140px); height: 100%;
+    z-index: 100; cursor: ew-resize;
+}
+
 .timeline-tracks { flex: 1; overflow: auto; position: relative; background: #030303; }
 
 /* Tracks */
 .nle-track { 
-    height: 90px; margin-bottom: 2px; background: #0c0c0c; 
+    height: 80px; margin-bottom: 2px; background: #0c0c0c; 
     border-bottom: 1px solid #222; display: flex; position: relative; 
 }
 .track-label { 
-    width: 160px; background: #080808; 
+    width: 140px; background: #080808; 
     border-right: 2px solid var(--c-cyan);
-    color: #888; font-size: 12px; display: flex; flex-direction: column;
-    justify-content: center; padding: 0 15px; gap: 5px;
+    color: #888; font-size: 11px; display: flex; flex-direction: column;
+    justify-content: center; padding: 0 10px; gap: 4px;
     flex-shrink: 0; position: sticky; left: 0; z-index: 30; 
 }
 
-.track-lane { position: absolute; left: 160px; top: 0; height: 100%; }
+.track-lane { position: absolute; left: 140px; top: 0; height: 100%; }
 
 /* Clips */
 .nle-block { 
-    position: absolute; height: 80%; top: 10%; 
-    cursor: pointer; overflow: hidden; border-radius: 4px; 
+    position: absolute; height: 70%; top: 15%; 
+    cursor: pointer; overflow: visible; border-radius: 2px; 
     border: 1px solid transparent; box-shadow: 0 2px 5px rgba(0,0,0,0.5);
-    font-size: 12px; font-weight: bold; color: #fff;
+    font-size: 11px; font-weight: bold; color: #fff;
+    touch-action: none; 
 }
 .nle-block:hover { border-color: #fff; z-index: 20; filter: brightness(1.2); }
 .nle-block.selected { border: 2px solid #fff; box-shadow: 0 0 10px #fff; z-index: 25; }
@@ -120,24 +151,71 @@
 .audio-block { background: #003300; border-color: #00ff66; }
 .media-block { background: #330033; border-color: var(--c-magenta); }
 .caption-block { background: #003333; border-color: var(--c-cyan); }
-.block-content { padding: 5px 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.block-content { padding: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%; }
+
+/* TRIM HANDLES */
+.trim-handle {
+    position: absolute; top: 0; bottom: 0; width: 15px; 
+    background: rgba(0,0,0,0.5); z-index: 30;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; transition: opacity 0.2s;
+}
+.nle-block:hover .trim-handle, .nle-block.selected .trim-handle { opacity: 1; }
+
+.trim-handle.left { left: 0; border-right: 1px solid rgba(255,255,255,0.5); cursor: w-resize; }
+.trim-handle.right { right: 0; border-left: 1px solid rgba(255,255,255,0.5); cursor: e-resize; }
+
+.trim-handle::after {
+    content: ''; width: 2px; height: 10px; background: #fff;
+}
+.audio-block .trim-handle { background: rgba(0,255,102,0.3); }
+.media-block .trim-handle { background: rgba(255,0,85,0.3); }
 
 .timeline-playhead { 
     position: absolute; top: 0; bottom: 0; width: 2px; 
     background: var(--c-magenta); z-index: 100; pointer-events: none; 
-    box-shadow: 0 0 10px var(--c-magenta); left: 160px;
+    box-shadow: 0 0 10px var(--c-magenta); left: 140px;
+    transition: left 0.05s linear; 
 }
+.timeline-playhead.dragging { transition: none; }
 
 /* Mobile Studio Fixes */
 @media (max-width: 768px) {
     #modal-studio { width: 100vw; height: 100vh; border: none; }
-    .studio-top { flex-direction: column; }
-    .studio-props { width: 100%; max-height: 180px; border-right: none; border-bottom: 2px solid #333; }
     
-    .track-head, .track-label { width: 80px; font-size: 10px; padding: 0 5px; }
-    .timeline-playhead { left: 80px; }
-    .track-lane { left: 80px; }
+    .studio-top { 
+        flex-direction: column; 
+        flex: 1; /* Grow to fill available space */
+        min-height: 40vh;
+    }
     
-    .studio-toolbar { padding: 0 5px; gap: 5px; }
+    .studio-preview-wrapper { 
+        flex: 1; /* Take all available space in top section */
+        border-bottom: 1px solid #333;
+        min-height: 250px;
+    }
+    
+    .studio-props { 
+        width: 100%; 
+        height: auto;
+        max-height: 120px; /* Limit prop height on mobile */
+        flex: none;
+        border-right: none; border-bottom: 2px solid #333; 
+        display: none; /* Hidden by default to prioritize view */
+    }
+    .studio-props.active { display: flex; } /* Show when toggled? For now, let's keep it visible but small */
+    .studio-props { display: flex; max-height: 100px; overflow-y: scroll; border-bottom: 4px solid var(--c-cyan); }
+    
+    .studio-bottom { flex: 0 0 40%; min-height: 0; }
+    
+    .track-head, .track-label { width: 70px; font-size: 10px; padding: 0 4px; }
+    .timeline-playhead { left: 70px; }
+    .track-lane { left: 70px; }
+    #scrub-trigger { left: 70px; width: calc(100% - 70px); }
+    
+    .studio-toolbar { padding: 0 5px; gap: 8px; }
     .studio-toolbar .btn-tool { font-size: 10px; padding: 5px; }
+    .prop-inner-content { padding: 5px; gap: 10px; }
+    .prop-group label { display: inline-block; width: 60px; }
+    .prop-group { flex-direction: row; align-items: center; }
 }

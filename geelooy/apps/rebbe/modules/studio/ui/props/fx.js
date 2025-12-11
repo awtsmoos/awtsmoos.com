@@ -8,6 +8,7 @@ export function renderFXProps(container) {
     
     container.innerHTML += `
         <label style="color:var(--c-lime); font-weight:bold;">MASTER FX</label>
+        <div class="prop-group"><label><input type="checkbox" ${fx.beatRing?'checked':''} onchange="${t('beatRing')}"> BEAT RING (CENTRAL)</label></div>
         <div class="prop-group"><label><input type="checkbox" ${fx.pump?'checked':''} onchange="${t('pump')}"> AUDIO PUMP</label></div>
         <div class="prop-group"><label><input type="checkbox" ${fx.rgbSplit?'checked':''} onchange="${t('rgbSplit')}"> RGB SPLIT</label></div>
         <div class="prop-group"><label><input type="checkbox" ${fx.mirrorX?'checked':''} onchange="${t('mirrorX')}"> MIRROR X</label></div>

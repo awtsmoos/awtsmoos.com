@@ -3,6 +3,10 @@
 import state from '../../state.js';
 import { ctx, initAudioContext } from '../context.js';
 
+// We import the playhead updater from UI to avoid duplicate logic
+// But to avoid circular deps, we might need to rely on window.Studio or a callback.
+// For now, we'll try to keep it isolated or check window.Studio.
+
 export async function togglePlay() {
     if (state.studioIsPlaying) stopAudio();
     else await startAudio();
@@ -11,23 +15,22 @@ export async function togglePlay() {
 
 export function seek(time) {
     stopAudio();
-    // Find bounds
-    let max = 10;
-    if (state.audioLayers.length > 0) {
-        max = Math.max(...state.audioLayers.map(l => l.end)) + 2;
-    }
     state.currentTime = Math.max(0, time);
     updateUI();
     
-    // Explicitly update playhead visual immediately
-    const p = document.getElementById('timeline-playhead');
-    const c = document.getElementById('timeline-tracks');
-    const header = document.querySelector('.track-head');
-    if (p && c && header) {
-        const offsetW = header.offsetWidth;
-        const x = state.currentTime * state.studioZoom;
-        const scroll = c.scrollLeft;
-        p.style.left = (offsetW + x - scroll) + 'px';
+    // Trigger Timeline Update via Global if available
+    if(window.Studio && window.Studio.renderTimeline) {
+        // Just update playhead if possible, but renderTimeline is safe fallback
+        // Ideally we expose updatePlayheadPosition globally
+         const ph = document.getElementById('timeline-playhead');
+         const container = document.getElementById('timeline-tracks');
+         const header = document.querySelector('.track-head');
+         if (ph && container && header) {
+            const headerW = header.offsetWidth;
+            const x = state.currentTime * state.studioZoom;
+            const scroll = container.scrollLeft;
+            ph.style.left = (headerW + x - scroll) + 'px';
+         }
     }
 }
 

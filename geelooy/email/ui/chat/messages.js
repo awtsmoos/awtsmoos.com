@@ -139,9 +139,15 @@ export function renderMessages(threadId, msgs) {
         if (shouldDecrypt) decryptText(row.querySelector('.msg-content'), m.content);
     });
     
-    // Scroll handling
+    // Improved Scroll handling: Use RAF to ensure DOM is ready
     if (wasNearBottom || msgs.length === 0) {
-        setTimeout(() => container.scrollTop = container.scrollHeight, 10);
+        requestAnimationFrame(() => {
+            container.scrollTop = container.scrollHeight;
+            // Double-tap for safety regarding dynamic content heights
+            requestAnimationFrame(() => {
+                container.scrollTop = container.scrollHeight;
+            });
+        });
     }
     
     updateTimeline(msgs);

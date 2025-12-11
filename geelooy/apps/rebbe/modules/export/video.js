@@ -77,7 +77,8 @@ export async function renderFinalVideo(state) {
             mediaLayers: workerLayers,
             settings: {
                 resolution: { width, height },
-                particles: state.studioParticleSettings
+                particles: state.studioParticleSettings,
+                fx: state.studioFX // Pass Global FX like beatRing
             }
         }
     }, transferables);

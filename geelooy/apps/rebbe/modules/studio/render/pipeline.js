@@ -11,12 +11,35 @@ export function drawFrame() {
     const g = ctx.g;
     const t = state.currentTime;
     const fxSettings = state.studioFX || {};
+    
+    // Clear entire canvas (including areas outside viewport if zoomed out)
+    g.save();
+    g.setTransform(1,0,0,1,0,0);
+    g.clearRect(0,0, width, height);
+    // Draw background outside viewport
+    g.fillStyle = '#111';
+    g.fillRect(0,0,width,height);
+    g.restore();
+
+    // APPLY PREVIEW VIEWPORT TRANSFORM
+    // We want to center the viewport first
+    const view = state.previewViewport;
+    g.save();
+    g.translate(width/2, height/2); // Center of canvas
+    g.translate(view.x, view.y);    // Pan
+    g.scale(view.scale, view.scale); // Zoom
+    g.translate(-width/2, -height/2); // Back to center
+
+    // Draw bounds border
+    g.strokeStyle = '#333';
+    g.lineWidth = 2;
+    g.strokeRect(0,0,width,height);
 
     // 1. Audio Analysis Phase
     analyzeAudio();
 
     // 2. Composition Phase (with Glitch Logic)
-    g.clearRect(0,0,width,height);
+    // We clear the video area specifically with background color in compositor
     applyComposition(g, width, height, t, fxSettings);
 
     // 3. Overlay Phase (Post-Process)
@@ -26,6 +49,8 @@ export function drawFrame() {
     if (state.studioIsPlaying) {
         drawMetrics(g, width, height);
     }
+    
+    g.restore();
 }
 
 function analyzeAudio() {

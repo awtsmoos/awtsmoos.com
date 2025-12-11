@@ -30,7 +30,12 @@ export function renderScene(g, width, height, t, fxSettings) {
     // 2. Particles
     drawParticles(width, height, t);
 
-    // 3. Layers
+    // 3. Central Geometry (Beat Ring)
+    if (fxSettings.beatRing) {
+        FX.drawBeatRing(g, width, height, ctx.bass);
+    }
+
+    // 4. Layers
     state.mediaLayers.forEach(layer => {
         if (t >= layer.start && t <= layer.end) {
             if (layer.type === 'glyph') FX.drawGlyph(g, layer, width, height);
@@ -38,7 +43,7 @@ export function renderScene(g, width, height, t, fxSettings) {
         }
     });
 
-    // 4. Captions
+    // 5. Captions
     state.captions.forEach(cap => {
         if (t >= cap.start && t <= cap.end) drawCaption(g, cap, width, height);
     });

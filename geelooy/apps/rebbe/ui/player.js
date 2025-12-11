@@ -38,21 +38,28 @@ export function updateActiveTrack(idx) {
 }
 
 export function setTracksLoading(loading, title) {
-    const h = document.getElementById('header-tracks-title');
-    if(h) h.textContent = loading ? `LOADING ${title}...` : `AUDIO DATA // ${title}`;
-    
-    const list = document.getElementById('list-tracks');
-    if (loading && list && list.children.length === 0) list.innerHTML = '<div style="padding:20px; color:var(--c-cyan);">SCANNING SECTOR...</div>';
-    
-    // Player Loading State
-    const pt = document.getElementById('player-track-title');
-    const fill = document.getElementById('player-fill');
+    const overlay = document.getElementById('loading-overlay');
+    const label = document.getElementById('loader-text');
     
     if (loading) {
-        if(pt) pt.textContent = title ? `LOADING: ${title}` : "BUFFERING...";
-        if(fill) fill.classList.add('loading');
+        if(overlay) overlay.classList.remove('hidden');
+        if(label && title) label.textContent = title.toUpperCase();
+        
+        // Backup Header Text
+        const h = document.getElementById('header-tracks-title');
+        if(h) h.textContent = `LOADING...`;
     } else {
-        if(fill) fill.classList.remove('loading');
+        if(overlay) {
+            // Slight delay for effect
+            setTimeout(() => overlay.classList.add('hidden'), 500);
+        }
+        const h = document.getElementById('header-tracks-title');
+        if(h) h.textContent = `AUDIO DATA`;
+    }
+    
+    const list = document.getElementById('list-tracks');
+    if (loading && list && list.children.length === 0) {
+        // Optional: Keep list clear or show skeleton
     }
 }
 

@@ -151,3 +151,57 @@ footer {
 .search-res { max-height: 300px; overflow-y: auto; border: 1px solid #333; margin-top: 10px; }
 .result-item { padding: 15px; border-bottom: 1px solid #222; cursor: pointer; color: #eee; font-size: 16px; }
 .result-item:hover { background: #111; color: var(--c-cyan); padding-left: 20px; }
+
+/* --- INSANE LOADING OVERLAY --- */
+#loading-overlay {
+    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+    background: rgba(0,0,0,0.95); z-index: 9999;
+    display: flex; align-items: center; justify-content: center;
+    backdrop-filter: blur(10px);
+}
+.loader-core {
+    position: relative; width: 200px; height: 200px;
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column;
+}
+.ring {
+    position: absolute; border-radius: 50%;
+    border: 2px solid transparent;
+}
+.r1 {
+    width: 100%; height: 100%; border-top-color: var(--c-cyan); border-bottom-color: var(--c-cyan);
+    animation: spin 2s linear infinite;
+    box-shadow: 0 0 20px var(--c-cyan);
+}
+.r2 {
+    width: 70%; height: 70%; border-left-color: var(--c-magenta); border-right-color: var(--c-magenta);
+    animation: spin 3s reverse linear infinite;
+    box-shadow: 0 0 15px var(--c-magenta);
+}
+.r3 {
+    width: 40%; height: 40%; border: 4px solid var(--c-lime);
+    animation: pulse 1s ease-in-out infinite;
+    box-shadow: 0 0 10px var(--c-lime);
+}
+.core-text {
+    margin-top: 240px; font-size: 24px; color: #fff; font-weight: 900; letter-spacing: 5px;
+    animation: glitch 1s infinite;
+}
+.core-sub {
+    font-size: 12px; color: var(--c-cyan); margin-top: 10px; letter-spacing: 2px;
+}
+
+@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+@keyframes pulse { 0% { transform: scale(0.8); opacity: 0.5; } 50% { transform: scale(1.1); opacity: 1; } 100% { transform: scale(0.8); opacity: 0.5; } }
+@keyframes glitch { 0% { transform: skew(0deg); } 20% { transform: skew(-10deg); } 40% { transform: skew(10deg); } 60% { transform: skew(-5deg); } 80% { transform: skew(5deg); } 100% { transform: skew(0deg); } }
+
+/* Range Styling */
+input[type=range] { -webkit-appearance: none; background: transparent; }
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none; height: 16px; width: 16px; border-radius: 50%;
+    background: var(--c-cyan); cursor: pointer; margin-top: -6px;
+    box-shadow: 0 0 10px var(--c-cyan);
+}
+input[type=range]::-webkit-slider-runnable-track {
+    width: 100%; height: 4px; cursor: pointer; background: #333; border-radius: 2px;
+}

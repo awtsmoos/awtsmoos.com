@@ -22,12 +22,7 @@ export function initChatLayout(ui, parent) {
                         tag: 'button', classList: ['back-button'], textContent: '←',
                         events: { click: () => {
                             // Trigger Cleanup via Custom Event or Callback managed by aggregator
-                            // For now, we manually assume the aggregator handles view switching
                             ui.getHtml('appContainer').classList.remove('view-chat');
-                            // We dispatch a cleanup event that the aggregator listens to? 
-                            // Or we simply rely on the aggregator's switch logic. 
-                            // Actually, let's call the global cleanup directly if we can, 
-                            // but better to dispatch an event for loose coupling.
                             document.dispatchEvent(new CustomEvent('chat:exit'));
                         }}
                     },
@@ -38,14 +33,22 @@ export function initChatLayout(ui, parent) {
         ]
     });
 
-    // 6. TIMELINE SCRUBBER
+    // 6. TIMELINE SCRUBBER - FIXED: Now requires Click or Drag
     ui.html({
         parent, tag: 'div', shaym: 'timeScrubber', classList: ['time-scrubber'],
         events: {
-            mousemove: (e) => {
+            click: (e) => {
                 const perc = e.offsetY / e.target.offsetHeight;
                 const con = ui.getHtml('msgContainer');
                 if(con) con.scrollTop = perc * con.scrollHeight;
+            },
+            mousemove: (e) => {
+                // Only scroll if primary mouse button is held down (buttons === 1)
+                if(e.buttons === 1) {
+                    const perc = e.offsetY / e.target.offsetHeight;
+                    const con = ui.getHtml('msgContainer');
+                    if(con) con.scrollTop = perc * con.scrollHeight;
+                }
             }
         }
     });

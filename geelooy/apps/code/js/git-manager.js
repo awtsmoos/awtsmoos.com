@@ -198,16 +198,14 @@ export const GitManager = {
         }
     },
 
-    async showCommitDialog(gitContextItem, gitInfo, { isBehind, changeSet, remoteChanges, performScan }) {
+    async showCommitDialog(gitContextItem, gitInfo, { isBehind, isAhead, localChangesCount, changeSet, remoteChanges, performScan }) {
         const dirtyFiles = changeSet.dirtyFiles || [];
         const conflicts = changeSet.conflicts || [];
         const inscribedChanges = [...changeSet.creations, ...changeSet.updates, ...changeSet.deletions];
         const hasDirty = dirtyFiles.length > 0;
         const hasInscribed = inscribedChanges.length > 0;
         const hasConflicts = conflicts.length > 0;
-        const isAhead = hasDirty || hasInscribed;
-        const localChangesCount = new Set([...dirtyFiles.map(f => f.relativePath), ...inscribedChanges.map(f => f.path)]).size;
-
+        
         let localStatusMessage = isAhead ? `${localChangesCount} change(s) detected` : 'In sync with remote';
         if (isBehind) localStatusMessage = "Out of date with remote";
         if (hasConflicts) localStatusMessage = `<span style="color:var(--color-accent-danger)">⚠️ CONFLICTS DETECTED</span>`;
@@ -215,6 +213,20 @@ export const GitManager = {
 
         let statusHTML = `<div class="git-status-line">${localStatusMessage}</div>`;
         
+        // B"H - INCOMING REMOTE CHANGES
+        if (isBehind && remoteChanges) {
+             const count = remoteChanges.additions.length + remoteChanges.modifications.length + remoteChanges.deletions.length;
+             if (count > 0) {
+                 statusHTML += `<div class="changes-list" style="border-color: var(--color-accent-info);">
+                    <strong>Incoming Remote Changes:</strong><ul>`;
+                 remoteChanges.additions.forEach(p => statusHTML += `<li><span class="tag created">NEW</span> ${p}</li>`);
+                 remoteChanges.modifications.forEach(p => statusHTML += `<li><span class="tag modified">MOD</span> ${p}</li>`);
+                 remoteChanges.deletions.forEach(p => statusHTML += `<li><span class="tag deleted">DEL</span> ${p}</li>`);
+                 statusHTML += `</ul></div>`;
+             }
+        }
+
+        // B"H - CONFLICTS
         if (hasConflicts) {
             statusHTML += `<div class="changes-list" style="border-color: var(--color-accent-danger);">
                 <strong>Conflicts (Remote differs from your base):</strong><ul>`;
@@ -222,6 +234,7 @@ export const GitManager = {
             statusHTML += `</ul></div>`;
         }
 
+        // B"H - LOCAL CHANGES
         if (isAhead) {
             statusHTML += `<div class="changes-list"><strong>Local Changes:</strong><ul>`;
             dirtyFiles.forEach(f => statusHTML += `<li><span class="tag modified dirty">UNSAVED</span> ${f.relativePath}</li>`);
@@ -248,12 +261,12 @@ export const GitManager = {
         }
 
         if (hasConflicts) {
-            dialogConfig.okText = null; 
-            dialogConfig.message = "You have unsaved changes that conflict with newer versions on the remote. Please back up your code, then discard changes or manually merge.";
-            dialogConfig.secondaryOk = { text: 'Pull & Overwrite (Force)', actionKey: 'force_pull' };
+            // B"H - UPDATED CONFLICT RESOLUTION
+            dialogConfig.message = "Unsaved/Local changes conflict with the remote state. Choose strategy:";
+            dialogConfig.okText = 'Pull & Overwrite Local';
+            dialogConfig.secondaryOk = { text: 'Push (Force Overwrite)', actionKey: 'force_push' };
         } else if (isBehind) {
             dialogConfig.okText = 'Pull & Overwrite Local Changes';
-            // B"H - ADDITION: Force Push Option
             dialogConfig.secondaryOk = { text: 'Push (Force Overwrite)', actionKey: 'force_push' };
         } else if (hasDirty && !hasInscribed) {
             dialogConfig.okText = 'Save and Commit All';
@@ -314,6 +327,7 @@ export const GitManager = {
         try {
             if (dialogResult === 'tertiary') await this.discardChanges(gitContextItem);
             else if (dialogResult === 'force_pull') FileOperations.pullAndOverwrite(gitContextItem, gitInfo);
+            // B"H - If conflicts/behind and result is not force_push, it means they clicked 'Pull & Overwrite' (okText)
             else if (isBehind && dialogResult !== 'force_push') FileOperations.pullAndOverwrite(gitContextItem, gitInfo);
             else if ((isAhead && !hasConflicts) || dialogResult === 'force_push') {
                 
