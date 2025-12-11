@@ -169,10 +169,20 @@ export const orchestratePreview = async (item, iframe, contentOverride = null) =
         }
     }
 
+    // B"H - Calculate Absolute Base Path for SDK
+    // This ensures that the SDK in the blob-iframe knows where to fetch its modules from (the server),
+    // rather than trying to fetch from 'blob:.../merkava-sdk/' which doesn't exist.
+    const sdkBaseDir = SDK_PATH.substring(0, SDK_PATH.lastIndexOf('/') + 1);
+    const absoluteBase = new URL(sdkBaseDir, window.location.href).href;
+
     const bootstrapScript = doc.createElement('script');
     bootstrapScript.textContent = /*js*/`
     (async function() {
         // B"H - Merkava Bootstrap
+        
+        // FORCE BASE PATH for module loading
+        window.MERKAVA_OVERRIDE_BASE_PATH = "${absoluteBase}";
+        
         const SDK_URL = "${SDK_PATH}";
         
         // 1. Load SDK

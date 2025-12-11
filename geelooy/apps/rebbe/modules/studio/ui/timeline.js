@@ -24,18 +24,72 @@ export function renderTimeline() {
     let dur = 15;
     if (state.audioLayers.length) dur = Math.max(dur, Math.max(...state.audioLayers.map(l=>l.end)));
     if (state.mediaLayers.length) dur = Math.max(dur, Math.max(...state.mediaLayers.map(l=>l.end)));
+    if (state.captions.length) dur = Math.max(dur, Math.max(...state.captions.map(l=>l.end)));
     dur += 5; // buffer
     
     // 1. Render Components
     renderRuler(ruler, dur, zoom);
     
     trackContainer.innerHTML = '';
-    renderTrackLane(trackContainer, "AUDIO", state.audioLayers, 'audio');
-    renderTrackLane(trackContainer, "MEDIA", state.mediaLayers, 'media');
+    
+    // RENDER LANES
+    // 1. Captions (Top)
     renderTrackLane(trackContainer, "CAPTIONS", state.captions, 'caption');
+
+    // 2. Media Layers (Dynamic Packing)
+    // We separate layers into "lanes" so overlapping clips don't sit on top of each other.
+    const mediaLanes = packLanes(state.mediaLayers);
+    
+    // Render Lanes in Reverse Order (Top Lane = Foreground/Top Z-Index) 
+    // This matches standard NLEs (V3 above V2 above V1)
+    for(let i = mediaLanes.length - 1; i >= 0; i--) {
+        const laneName = mediaLanes.length > 1 ? `MEDIA ${i+1}` : `MEDIA`;
+        renderTrackLane(trackContainer, laneName, mediaLanes[i], 'media');
+    }
+
+    // 3. Audio (Bottom)
+    renderTrackLane(trackContainer, "AUDIO", state.audioLayers, 'audio');
 
     ensurePlayhead(trackContainer);
     updatePlayheadPosition();
+}
+
+/**
+ * Packs overlapping clips into separate arrays (lanes).
+ * Clips that overlap in time will be pushed to the next lane.
+ * Preserves the input array order (Z-Index) logic: 
+ * If Clip B (index 1) overlaps Clip A (index 0), B goes to Lane 1.
+ */
+function packLanes(layers) {
+    if (!layers || layers.length === 0) return [[]];
+    
+    const lanes = [];
+    
+    layers.forEach(layer => {
+        let placed = false;
+        
+        // Try to place in existing lanes (starting from 0 = bottom)
+        for (let i = 0; i < lanes.length; i++) {
+            const lane = lanes[i];
+            // Check for collision
+            const hasOverlap = lane.some(existing => 
+                (layer.start < existing.end && layer.end > existing.start)
+            );
+            
+            if (!hasOverlap) {
+                lane.push(layer);
+                placed = true;
+                break;
+            }
+        }
+        
+        // If overlap in all lanes, create new one
+        if (!placed) {
+            lanes.push([layer]);
+        }
+    });
+    
+    return lanes.length > 0 ? lanes : [[]];
 }
 
 function ensurePlayhead(trackContainer) {
@@ -77,8 +131,6 @@ function bindTimelineInteraction(trackContainer) {
         // If clicking on empty space in track container (not a block), deselect
         if(e.target === trackContainer || e.target.classList.contains('track-lane')) {
              handleTimelineClick(e);
-             // Also allow seeking if clicking empty space?
-             // Optional: ScrubManager could handle this too if we bind it to container
         }
     };
 }

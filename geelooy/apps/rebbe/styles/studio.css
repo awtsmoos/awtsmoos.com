@@ -12,10 +12,28 @@
 
 /* Studio Top: Preview & Props */
 .studio-top { 
-    flex: 3; display: flex; min-height: 0; 
+    /* Use flex-basis or height for resizing via JS */
+    flex: 60; /* Initial relative size */
+    display: flex; min-height: 200px; 
     border-bottom: 2px solid #333;
     overflow: hidden;
     position: relative;
+}
+
+/* RESIZER */
+#studio-resizer {
+    height: 8px;
+    background: #111;
+    border-top: 1px solid #333;
+    border-bottom: 1px solid #333;
+    cursor: ns-resize;
+    flex-shrink: 0;
+    z-index: 100;
+    display: flex; justify-content: center; align-items: center;
+}
+#studio-resizer:hover { background: #222; border-color: var(--c-cyan); }
+#studio-resizer::after {
+    content: '....'; color: #555; letter-spacing: 2px; position: relative; top: -5px;
 }
 
 /* Preview Canvas */
@@ -104,10 +122,11 @@
 
 /* Timeline Area */
 .studio-bottom { 
-    flex: 2; background: #080808; 
+    flex: 40; /* Initial relative size */
+    background: #080808; 
     display: flex; flex-direction: column; 
-    position: relative; min-height: 250px; 
-    border-top: 1px solid var(--c-cyan); 
+    position: relative; min-height: 200px; 
+    /* Border removed, handled by resizer */
 }
 
 /* Toolbar */
@@ -218,7 +237,7 @@
     
     .studio-top { 
         flex-direction: column; 
-        flex: 1; /* Grow to fill available space */
+        flex: auto; /* Allow flexible sizing */
         min-height: 40vh;
     }
     
@@ -239,7 +258,7 @@
     .studio-props.active { display: flex; } 
     .studio-props { display: flex; max-height: 100px; overflow-y: scroll; border-bottom: 4px solid var(--c-cyan); }
     
-    .studio-bottom { flex: 0 0 40%; min-height: 0; }
+    .studio-bottom { flex: auto; min-height: 0; }
     
     .track-head, .track-label { width: 70px; font-size: 10px; padding: 0 4px; }
     .timeline-playhead { left: 70px; }

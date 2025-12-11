@@ -42,3 +42,58 @@ export function updatePropertiesPanel() {
     else if (state.activeTab === 'fx') renderFXProps(content);
     else renderClipProps(content);
 }
+
+// --- RESIZER LOGIC ---
+
+export function initResizer() {
+    const resizer = document.getElementById('studio-resizer');
+    const topPanel = document.querySelector('.studio-top');
+    const bottomPanel = document.querySelector('.studio-bottom');
+    const container = document.getElementById('modal-studio');
+    
+    if(!resizer || !topPanel || !bottomPanel || !container) return;
+
+    let isResizing = false;
+
+    resizer.addEventListener('mousedown', (e) => {
+        isResizing = true;
+        document.body.style.cursor = 'ns-resize';
+        e.preventDefault();
+    });
+    
+    // Touch support for mobile resizing
+    resizer.addEventListener('touchstart', (e) => {
+        isResizing = true;
+        e.preventDefault();
+    });
+
+    const onMove = (e) => {
+        if (!isResizing) return;
+        
+        let clientY = e.clientY;
+        if(e.touches && e.touches.length > 0) clientY = e.touches[0].clientY;
+
+        const rect = container.getBoundingClientRect();
+        const offset = clientY - rect.top;
+        const totalHeight = rect.height;
+        
+        // Constrain
+        if (offset > 100 && offset < totalHeight - 100) {
+            const pct = (offset / totalHeight) * 100;
+            topPanel.style.flex = `0 0 ${pct}%`;
+            bottomPanel.style.flex = `1 1 auto`; 
+        }
+    };
+
+    const onUp = () => {
+        if(isResizing) {
+            isResizing = false;
+            document.body.style.cursor = 'default';
+        }
+    };
+
+    window.addEventListener('mousemove', onMove);
+    window.addEventListener('touchmove', onMove, {passive:false});
+    window.addEventListener('mouseup', onUp);
+    window.addEventListener('touchend', onUp);
+}

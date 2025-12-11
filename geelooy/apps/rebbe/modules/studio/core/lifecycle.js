@@ -2,7 +2,7 @@
 // modules/studio/core/lifecycle.js
 import { ctx, initAudioContext } from '../context.js';
 import state from '../../state.js';
-import { renderTimeline, updatePropertiesPanel, bindStudioEvents } from '../ui.js';
+import { renderTimeline, updatePropertiesPanel, bindStudioEvents, initResizer } from '../ui.js';
 import { initParticles } from '../particles.js';
 import * as Actions from '../actions.js';
 import { loop } from './loop.js';
@@ -69,6 +69,7 @@ export function initStudio() {
     bindStudioEvents();
     renderTimeline();
     updatePropertiesPanel();
+    initResizer(); // Init Resizer logic
 
     // Keyboard Shortcuts
     document.addEventListener('keydown', handleStudioKeys);
