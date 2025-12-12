@@ -39,21 +39,43 @@ Biezras Hashem
                     <label class="radio-label">
                         <input type="radio" name="appMode" value="console" checked>
                         <span class="radio-custom"></span>
-                        <span>Console App (Text Output)</span>
+                        <span>Console App</span>
                     </label>
                     <label class="radio-label">
                         <input type="radio" name="appMode" value="gui">
                         <span class="radio-custom"></span>
-                        <span>GUI App (Window + Graphics)</span>
+                        <span>GUI App</span>
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="appMode" value="asm">
+                        <span class="radio-custom"></span>
+                        <span>Custom ASM</span>
                     </label>
                 </div>
             </div>
 
-            <div class="input-group">
+            <!-- Standard Text Input (Console/GUI) -->
+            <div id="standardInputGroup" class="input-group">
                 <label for="userText" class="input-label">Message / Window Title</label>
                 <input type="text" id="userText" placeholder="Hello, World!" 
                     class="input-field" autocomplete="off">
                 <p class="input-hint">For Console: Printed to stdout. For GUI: Used as Window Title.</p>
+            </div>
+
+            <!-- ASM Editor (ASM Mode) -->
+            <div id="asmInputGroup" class="input-group hidden">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                    <label for="asmEditor" class="input-label" style="margin-bottom:0;">Assembly Source (x64)</label>
+                    <select id="asmExampleSelect" class="input-field" style="width: auto; padding: 0.25rem 0.5rem; font-size: 0.8rem;">
+                        <option value="hello">Load: Hello World (GUI)</option>
+                        <option value="loop">Load: Console Loop</option>
+                        <option value="file">Load: File Writer</option>
+                        <option value="window">Load: Native Window</option>
+                        <option value="draw">Load: GDI Graphics</option>
+                    </select>
+                </div>
+                <textarea id="asmEditor" class="asm-editor" spellcheck="false"></textarea>
+                <p class="input-hint">Supported: .import, .data, .code, .subsystem, MOV [Mem], REG/IMM, CALL, JMP, CMP...</p>
             </div>
 
             <div class="info-panel">

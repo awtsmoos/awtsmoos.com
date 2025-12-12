@@ -66,6 +66,8 @@ export const OPCODES = {
     // XOR r/m64, imm8
     XOR_RM64_IMM8: 0x83, // /6
     
+    // CMP r/m64, r64
+    CMP_RM64_R64: 0x39,
     // CMP r/m64, imm8
     CMP_RM64_IMM8: 0x83, // /7
     
@@ -97,6 +99,10 @@ export const OPCODES = {
     JAE_REL8: 0x73,
     JE_REL8: 0x74, // JZ
     JNE_REL8: 0x75, // JNZ
+
+    // Conditional Jumps (Long / 32-bit)
+    JE_REL32: [0x0F, 0x84], // JZ rel32
+    JNE_REL32: [0x0F, 0x85], // JNZ rel32
     
     // --- System / Misc ---
     NOP: 0x90,

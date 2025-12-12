@@ -1,4 +1,5 @@
 
+
 // B"H
 // FILE: js/app/event-listeners.js
 
@@ -15,10 +16,52 @@ import { App } from '../app.js';
 import { StatusBar } from '../statusbar.js';
 import { TabManagerOverlay } from '../tab-manager-overlay.js';
 import { FileCommander } from '../file-commander.js';
+import { FileSystemProvider } from '../fs-provider.js';
 
 export function setupEventListeners() {
     window.addEventListener('message', async (event) => {
         const { type, payload, requestId, error } = event.data;
+        
+        // B"H - Handle Import Requests from Previews
+        if (type === 'import-request' && event.data.source === 'html-preview-bridge') {
+            const { specifier, referrer, workspaceId, id } = event.data;
+            
+            (async () => {
+                try {
+                    // 1. Resolve Path
+                    let absolutePath = specifier;
+                    if (specifier.startsWith('.')) {
+                        const parentDir = referrer.substring(0, referrer.lastIndexOf('/'));
+                        // Handle '..' and '.'
+                        const parts = (parentDir + '/' + specifier).split('/');
+                        const stack = [];
+                        for (const p of parts) {
+                            if (p === '' || p === '.') continue;
+                            if (p === '..') { if(stack.length) stack.pop(); }
+                            else stack.push(p);
+                        }
+                        absolutePath = '/' + stack.join('/');
+                    }
+                    
+                    // 2. Fetch Content
+                    const workspace = State.workspaces.find(ws => ws.id == workspaceId);
+                    if (!workspace) throw new Error(`Workspace ${workspaceId} not found`);
+                    
+                    const item = { ...workspace, path: absolutePath, kind: 'file' };
+                    let content = await FileSystemProvider.read(item);
+                    
+                    if (content instanceof Blob) content = await content.text();
+                    else if (content && content.base64Content) content = atob(content.base64Content);
+                    
+                    event.source.postMessage({ type: 'import-response', id, content }, '*');
+                } catch (e) {
+                    console.error("Import Request Failed:", e);
+                    event.source.postMessage({ type: 'import-response', id, error: e.message }, '*');
+                }
+            })();
+            return;
+        }
+
         if (State.postMessagePendingRequests.has(requestId)) {
             const { resolve, reject } = State.postMessagePendingRequests.get(requestId);
             State.postMessagePendingRequests.delete(requestId);

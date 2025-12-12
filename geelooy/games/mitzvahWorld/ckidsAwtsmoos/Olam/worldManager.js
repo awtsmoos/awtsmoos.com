@@ -1,3 +1,4 @@
+
 /**
  * B"H
  */
@@ -66,7 +67,8 @@ class ManagerOfAllWorlds {
             onstart(ob) {
                 console.log("STARTED")
                 self.startWorld(ob);
-                self.setOnmessage();
+                // B"H: Removed redundant self.setOnmessage(). 
+                // startWorld is async and sets up socket and listener internally when ready.
             }
         });
         this.ui = ui;

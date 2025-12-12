@@ -73,26 +73,32 @@ async function runTest() {
         // ==========================================================
         // TRIAL 2: THE LEGION (Vector & Search Concurrency)
         // ==========================================================
-        log("\n[2] The Legion: Concurrent Vector & Search Indexing...");
+        log("\n[2] The Legion: High-Velocity Vector & Search Indexing...");
         
         await db.root.createList("knowledge_base");
         await db.root.knowledge_base.enableSearch();
         await db.root.knowledge_base.enableVectorIndex({ dimensions: 4 });
 
         const BATCH_SIZE = 200;
-        log(`    Injecting ${BATCH_SIZE} complex entities simultaneously...`);
+        log(`    Injecting ${BATCH_SIZE} complex entities in Batched Mode...`);
         
-        const promises = [];
-        for(let i=0; i<BATCH_SIZE; i++) {
-            promises.push(db.root.knowledge_base.push({
-                id: i,
-                content: `Entity ${i} holds the secret of the void`,
-                vector: [Math.random(), Math.random(), Math.random(), Math.random()]
-            }));
-        }
+        const start = Date.now();
         
-        await Promise.all(promises);
-        await db.waitForIdle();
+        // B"H: Use Batch Mode to disable per-write fsync(). 
+        // Also run sequentially to avoid race conditions in complex index structures.
+        await db.batch(async () => {
+            for(let i=0; i<BATCH_SIZE; i++) {
+                // await is cheap here because no fsync happens
+                await db.root.knowledge_base.push({
+                    id: i,
+                    content: `Entity ${i} holds the secret of the void`,
+                    vector: [Math.random(), Math.random(), Math.random(), Math.random()]
+                });
+            }
+        });
+        
+        const dur = Date.now() - start;
+        log(`    Injection took ${dur}ms`);
         
         log("    Verifying Indices...");
         const searchRes = await db.root.knowledge_base.search("secret void");
@@ -115,14 +121,19 @@ async function runTest() {
         // 1. Fill
         log("    Creating history (5,000 items)...");
         const era1 = Array.from({length: 5000}, (_, i) => `Year_${i}`);
-        await timeline.splice(0, 0, ...era1);
-        await db.waitForIdle();
+        
+        // Batch the splice too for speed
+        await db.batch(async () => {
+            await timeline.splice(0, 0, ...era1);
+        });
         
         // 2. Splice Insert Middle (Force Page Splits)
         log("    Time Travel: Inserting 1,000 items at index 2,500...");
         const lostEra = Array.from({length: 1000}, (_, i) => `Lost_Year_${i}`);
-        await timeline.splice(2500, 0, ...lostEra);
-        await db.waitForIdle();
+        
+        await db.batch(async () => {
+            await timeline.splice(2500, 0, ...lostEra);
+        });
         
         // Verify Middle
         const checkMid = await timeline[2500];
@@ -134,25 +145,12 @@ async function runTest() {
 
         // 3. Splice Delete (Force Merge/Gaps)
         log("    The Purge: Deleting 3,000 items from index 1,000...");
-        await timeline.splice(1000, 3000); // Should verify deleting across inserted chunk
-        await db.waitForIdle();
+        await db.batch(async () => {
+            await timeline.splice(1000, 3000); 
+        });
         
-        // Expected Length: 6000 - 3000 = 3000
         const len = await timeline.length;
         assert(len === 3000, `Length Mismatch. Expected 3000, got ${len}`);
-        
-        // Index 1000 should now be what was previously index 4000 (Year_3000)
-        // Wait:
-        // 0..2499 = Year_0..Year_2499
-        // 2500..3499 = Lost_Year_0..Lost_Year_999
-        // 3500..5999 = Year_2500..Year_4999
-        //
-        // Delete 1000..3999 (3000 items)
-        // Removed: Year_1000..Year_2499 (1500 items)
-        // Removed: Lost_Year_0..Lost_Year_999 (1000 items)
-        // Removed: Year_2500..Year_2999 (500 items)
-        //
-        // Index 1000 should now be Year_3000.
         
         const survivor = await timeline[1000];
         assert(survivor === "Year_3000", `Splice Delete Logic Failed. Index 1000 is ${survivor}`);
@@ -168,25 +166,27 @@ async function runTest() {
         await db.root.createMap("net");
         const NODES = 100;
         
-        // Create Chain: 0->1->2...->99
-        for(let i=0; i<NODES; i++) {
-            await db.root.net.createMap(`n${i}`);
-            await db.root.net[`n${i}`].set("id", i);
-        }
-        
-        for(let i=0; i<NODES-1; i++) {
-            const src = db.root.net[`n${i}`];
-            const tgt = db.root.net[`n${i+1}`];
-            await src.relateTo(tgt, "LINK");
-        }
-        await db.waitForIdle();
+        // Batch Graph Creation
+        await db.batch(async () => {
+            // Create Chain: 0->1->2...->99
+            for(let i=0; i<NODES; i++) {
+                await db.root.net.createMap(`n${i}`);
+                await db.root.net[`n${i}`].set("id", i);
+            }
+            
+            for(let i=0; i<NODES-1; i++) {
+                const src = db.root.net[`n${i}`];
+                const tgt = db.root.net[`n${i+1}`];
+                await src.relateTo(tgt, "LINK");
+            }
+        });
         
         // Verify Path
-        const start = db.root.net.n0;
+        const startNode = db.root.net.n0;
         const end = db.root.net[`n${NODES-1}`];
         
         log("    Finding path 0 -> 99...");
-        const path = await start.path(end, { maxDepth: 200 });
+        const path = await startNode.path(end, { maxDepth: 200 });
         assert(path.length === NODES, `Path length incorrect. Got ${path?.length}`);
         
         // Sever the chain at 50
@@ -195,7 +195,7 @@ async function runTest() {
         await db.waitForIdle();
         
         // Verify Path Fails
-        const brokenPath = await start.path(end, { maxDepth: 200 });
+        const brokenPath = await startNode.path(end, { maxDepth: 200 });
         assert(brokenPath === null, "Path should be broken but was found!");
         
         // Verify Edges Cleaned

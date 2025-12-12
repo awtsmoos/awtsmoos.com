@@ -3,6 +3,7 @@
 const VectorStorage = require('./storage.js');
 const { getMetric } = require('./math.js');
 const SmartPointer = require('../../utils/smartPointer.js');
+const BinaryHeap = require('../../utils/binaryHeap.js');
 
 const M = 12; 
 const M_MAX0 = 24; 
@@ -12,20 +13,32 @@ const ML = 1 / Math.log(M);
 class HNSW {
     constructor(db, registry, keyMap, meta) {
         this.db = db;
-        this.registry = registry; // Sequence (ID -> NodePtr)
-        this.keyMap = keyMap;     // Map (Key -> NodeID)
+        this.registry = registry; 
+        this.keyMap = keyMap;     
         this.meta = meta; 
         this.storage = new VectorStorage(db.allocator);
         this.metric = getMetric(meta.metric || 'cosine');
         this.entryNodeID = meta.entryNodeID !== undefined ? meta.entryNodeID : -1;
+        
+        this.nodeCache = new Map();
+        this.CACHE_LIMIT = 2000; 
     }
 
     async _getNode(nodeId) {
         if (nodeId === -1 || nodeId === undefined) return null;
+        if (this.nodeCache.has(nodeId)) return this.nodeCache.get(nodeId);
+
         const ptr = await this.registry.reader.getItem(nodeId);
         if (!ptr) return null;
+        
         const node = await this.storage.loadNode(ptr);
         if (node.deleted) return null;
+        
+        if (this.nodeCache.size >= this.CACHE_LIMIT) {
+            const first = this.nodeCache.keys().next().value;
+            this.nodeCache.delete(first);
+        }
+        this.nodeCache.set(nodeId, node);
         return node;
     }
 
@@ -36,18 +49,20 @@ class HNSW {
             if (oldNode) {
                 oldNode.deleted = true;
                 const deadPtr = await this.storage.saveNode(oldNode);
-                await this.registry.splice(existingNodeID, 1, deadPtr);
+                if (!deadPtr.equals(oldNode.ptr)) await this.registry.splice(existingNodeID, 1, deadPtr);
             }
         }
 
         const level = Math.floor(-Math.log(Math.random()) * ML);
         const nodeId = await this.registry.length; 
-        const newNodePtr = await this.storage.createNode(vector, level, payloadPtr, nodeId);
         
+        const newNodePtr = await this.storage.createNode(vector, level, payloadPtr, nodeId);
         await this.registry.push(newNodePtr);
         await this.keyMap.set(String(key), nodeId); 
         
-        const newNode = await this.storage.loadNode(newNodePtr); 
+        const newNode = await this.storage.loadNode(newNodePtr);
+        this.nodeCache.set(nodeId, newNode);
+        
         let currObj = await this._getNode(this.entryNodeID);
         
         if (!currObj) {
@@ -90,7 +105,9 @@ class HNSW {
         }
 
         const savedPtr = await this.storage.saveNode(newNode);
-        await this.registry.splice(nodeId, 1, savedPtr);
+        if (!savedPtr.equals(newNodePtr)) {
+             await this.registry.splice(nodeId, 1, savedPtr);
+        }
         
         if (level > this.meta.entryNodeID) { 
             this.entryNodeID = nodeId;
@@ -106,9 +123,10 @@ class HNSW {
         if (node) {
             node.deleted = true;
             const ptr = await this.storage.saveNode(node);
-            await this.registry.splice(nodeId, 1, ptr);
+            if (!ptr.equals(node.ptr)) await this.registry.splice(nodeId, 1, ptr);
         }
         await this.keyMap.delete(String(key));
+        this.nodeCache.delete(nodeId);
     }
 
     async _searchLayer(entryPoint, queryVec, ef, level) {
@@ -120,11 +138,19 @@ class HNSW {
         visited.add(entryPoint.id);
         candidates.set(entryPoint.id, { dist: entryDist, node: entryPoint });
         
-        let W = [{ dist: entryDist, node: entryPoint }];
+        // B"H: Optimization - Use MinHeap for Working Set W
+        const W = new BinaryHeap(x => x.dist);
+        W.push({ dist: entryDist, node: entryPoint });
 
-        while (W.length > 0) {
-            W.sort((a, b) => a.dist - b.dist);
-            const current = W.shift();
+        let furthestDist = entryDist;
+
+        while (W.size() > 0) {
+            const current = W.pop();
+            const cDist = current.dist;
+            
+            // Optimization: If nearest candidate is worse than the worst result we have, stop.
+            if (cDist > furthestDist && candidates.size >= ef) break;
+
             const neighbors = current.node.neighbors[level] || [];
             for (const nId of neighbors) {
                 if (!visited.has(nId)) {
@@ -132,15 +158,39 @@ class HNSW {
                     const nNode = await this._getNode(nId);
                     if (!nNode) continue; 
                     const dist = this.metric(queryVec, nNode.vector);
-                    if (candidates.size < ef || dist < Array.from(candidates.values()).pop().dist) {
-                         W.push({ dist, node: nNode });
-                         candidates.set(nId, { dist, node: nNode });
+                    
+                    if (candidates.size < ef || dist < furthestDist) {
+                         const candidate = { dist, node: nNode };
+                         W.push(candidate);
+                         candidates.set(nId, candidate);
+                         
+                         if (dist > furthestDist) furthestDist = dist;
+
+                         if (candidates.size > ef) {
+                             // B"H: Remove worst. 
+                             // Optimized: Scan candidates once O(N) instead of Sort O(N log N)
+                             // Since ef is small (100), scan is fast.
+                             let maxD = -1;
+                             let maxId = -1;
+                             for (const [id, c] of candidates) {
+                                 if (c.dist > maxD) {
+                                     maxD = c.dist;
+                                     maxId = id;
+                                 }
+                             }
+                             if (maxId !== -1) {
+                                 candidates.delete(maxId);
+                                 // Update furthestDist to new max
+                                 furthestDist = 0;
+                                 for(const c of candidates.values()) if(c.dist > furthestDist) furthestDist = c.dist;
+                             }
+                         }
                     }
                 }
             }
         }
-        const sorted = Array.from(candidates.values()).sort((a, b) => a.dist - b.dist);
-        return sorted.slice(0, ef);
+        
+        return Array.from(candidates.values()).sort((a, b) => a.dist - b.dist);
     }
 
     _selectNeighbors(candidates, m) { return candidates.slice(0, m); }
@@ -160,9 +210,15 @@ class HNSW {
             nList.sort((a, b) => a.dist - b.dist);
             node.neighbors[level] = nList.slice(0, maxM).map(x => x.id);
         }
+        
+        const oldPtr = node.ptr;
         const newPtr = await this.storage.saveNode(node);
-        await this.registry.splice(node.id, 1, newPtr);
-        node.ptr = newPtr; 
+        
+        if (!newPtr.equals(oldPtr)) {
+            await this.registry.splice(node.id, 1, newPtr);
+            node.ptr = newPtr;
+        }
+        this.nodeCache.set(node.id, node);
     }
 }
 module.exports = HNSW;

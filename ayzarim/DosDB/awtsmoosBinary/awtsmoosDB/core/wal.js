@@ -1,9 +1,12 @@
+
 // B"H
 /**
  * @module WAL
  * @description Write-Ahead Log Manager.
  * MEMORY SAFE VERSION: Streams recovery to allow infinite log sizes without OOM.
  * WINDOWS FIX: Uses 'r+' and MANUAL OFFSET TRACKING to avoid fs.stat lag overwrites.
+ * BATCH SUPPORT: Adds skipSync for high-performance transactions.
+ * LIGHTNING OPTIMIZATION: Uses writev for Zero-Copy scatter/gather writes.
  */
 
 const fs = require('fs').promises;
@@ -15,6 +18,7 @@ class WAL {
         this.path = walPath;
         this.handle = null;
         this.currentOffset = 0; // B"H: Manual offset tracking
+        this.IOV_MAX = 500; // Conservative limit for writev vectors
     }
 
     async init() {
@@ -31,7 +35,7 @@ class WAL {
         }
     }
 
-    async log(blockId, data) {
+    async log(blockId, data, skipSync = false) {
         await this.init();
         
         // Packet: [BlockID (6)][Data (4096)]
@@ -50,7 +54,61 @@ class WAL {
         await this.handle.write(packet, 0, packet.length, this.currentOffset);
         this.currentOffset += packet.length;
         
+        if (!skipSync) {
+            await this.handle.sync();
+        }
+    }
+
+    /**
+     * B"H: Ultra-Fast Batch Logger (Zero-Copy)
+     * Uses fs.writev to write multiple blocks without creating a massive buffer.
+     */
+    async logBatch(dirtyBlocksMap) {
+        await this.init();
+        if (dirtyBlocksMap.size === 0) return;
+
+        // Sort keys for deterministic write order
+        const sortedIds = Array.from(dirtyBlocksMap.keys()).sort((a,b) => a - b);
+        const PACKET_SIZE = 6 + constants.BLOCK_SIZE;
+
+        let i = 0;
+        while (i < sortedIds.length) {
+            // Process in chunks to respect IOV_MAX (OS limits on vector I/O)
+            const end = Math.min(i + this.IOV_MAX, sortedIds.length);
+            const chunkIds = sortedIds.slice(i, end);
+            
+            const iov = [];
+            for (const blockId of chunkIds) {
+                // 1. Header (Small allocation, fast)
+                const header = Buffer.allocUnsafe(6);
+                writePointer48(header, blockId, 0);
+                iov.push(header);
+                
+                // 2. Data (Reference existing buffer, Zero Copy)
+                let data = dirtyBlocksMap.get(blockId);
+                if (data.length !== constants.BLOCK_SIZE) {
+                    // Should theoretically not happen in Pager logic, but safety first
+                    const padded = Buffer.alloc(constants.BLOCK_SIZE);
+                    data.copy(padded);
+                    data = padded;
+                }
+                iov.push(data);
+            }
+
+            // Scatter-Gather Write
+            await this.handle.writev(iov, this.currentOffset);
+            
+            this.currentOffset += chunkIds.length * PACKET_SIZE;
+            i = end;
+        }
+
         await this.handle.sync();
+    }
+
+    async sync() {
+        if (this.handle) {
+            await this.handle.sync();
+        }
     }
 
     async clear() {

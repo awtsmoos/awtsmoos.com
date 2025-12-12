@@ -1,3 +1,4 @@
+
 // B"H
 // FILE: js/html-preview-processor.js
 
@@ -169,7 +170,13 @@ export const orchestratePreview = async (item, iframe, contentOverride = null) =
         } else {
             let scriptPath = item.path; // Default to current file for inline
             if (src) scriptPath = resolveRelativePath(src);
-            userScripts.push({ path: scriptPath, content, isInline: !src });
+            // B"H - Include workspaceId for context resolution during imports
+            userScripts.push({ 
+                path: scriptPath, 
+                content, 
+                isInline: !src, 
+                workspaceId: item.workspaceId 
+            });
         }
     }
 
@@ -200,6 +207,7 @@ export const orchestratePreview = async (item, iframe, contentOverride = null) =
         
         // FORCE BASE PATH for module loading
         window.MERKAVA_OVERRIDE_BASE_PATH = "${absoluteBase}";
+        const WORKSPACE_ID = "${item.workspaceId}"; // B"H - Context for imports
         
         const SDK_URL = "${SDK_PATH}";
         
@@ -239,9 +247,34 @@ export const orchestratePreview = async (item, iframe, contentOverride = null) =
                     }
                 };
 
+                // B"H - Import Resolver Bridge
+                const importResolver = async (specifier) => {
+                    return new Promise((resolve, reject) => {
+                        const id = Math.random().toString(36).slice(2);
+                        const handler = (e) => {
+                            if (e.data.type === 'import-response' && e.data.id === id) {
+                                window.removeEventListener('message', handler);
+                                if (e.data.error) reject(new Error(e.data.error));
+                                else resolve(e.data.content);
+                            }
+                        };
+                        window.addEventListener('message', handler);
+                        
+                        window.parent.postMessage({
+                            source: 'html-preview-bridge',
+                            type: 'import-request',
+                            specifier: specifier,
+                            referrer: script.path,
+                            workspaceId: WORKSPACE_ID,
+                            id: id
+                        }, '*');
+                    });
+                };
+
                 await window.Merkava.run(script.content, {
                     context: window,
-                    hostAPI: hostAPI
+                    hostAPI: hostAPI,
+                    importResolver: importResolver
                 });
             } catch(e) {
                 console.error("Runtime Error:", e);

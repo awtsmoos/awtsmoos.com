@@ -52,6 +52,22 @@ export class CodeBuilder {
         this.buffer.push(0x00); // Placeholder
     }
 
+    // Jump to a label (Long jump 32-bit)
+    addJumpRel32(opcodes, labelName) {
+        if (Array.isArray(opcodes)) {
+            this.buffer.push(...opcodes);
+        } else {
+            this.buffer.push(opcodes);
+        }
+        this.labelPatches.push({ 
+            offset: this.buffer.length, 
+            type: 'rel32', 
+            target: labelName, 
+            instSize: 4 // 32-bit displacement
+        });
+        this.add32(0); // Placeholder
+    }
+
     // --- Imports & Data ---
     
     /**
@@ -62,6 +78,31 @@ export class CodeBuilder {
         this.buffer.push(OPCODES.CALL_RM64, 0x15); 
         this.callPatches.push({ offset: this.buffer.length, funcName: funcName });
         this.add32(0); // Placeholder
+    }
+
+    /**
+     * Indirect Jump to memory location (IAT) - Used for Tail Calls
+     * Opcode: FF 25 [disp32]
+     */
+    addJmpImport(funcName) {
+        this.buffer.push(0xFF, 0x25); 
+        this.callPatches.push({ offset: this.buffer.length, funcName: funcName });
+        this.add32(0); // Placeholder
+    }
+
+    /**
+     * CALL rel32 (Local Function)
+     * Opcode: E8 rel32
+     */
+    addCallRel(labelName) {
+        this.buffer.push(OPCODES.CALL_REL32);
+        this.labelPatches.push({ 
+            offset: this.buffer.length, 
+            type: 'rel32', 
+            target: labelName, 
+            instSize: 4 
+        });
+        this.add32(0);
     }
     
     /**
@@ -78,13 +119,25 @@ export class CodeBuilder {
 
     /**
      * LEA Reg, [RIP + disp32] -> To Data Blob ID
-     * @param {number} reg - Destination register (0-7)
+     * @param {number} reg - Destination register (0-15)
      * @param {number} dataId - The index of the data/string in the data section
      */
     addLeaRegRel(reg, dataId) {
-         // 48 8D (ModRM) xx xx xx xx
-         const modRM = makeModRM(MOD.INDIRECT, reg, 5);
-         this.buffer.push(PREFIXES.REX_W, OPCODES.LEA_R64_M, modRM);
+         // LEA opcode: 8D
+         // REX.W (0x48) is base.
+         // If reg >= 8, we need REX.R (0x04).
+         
+         let rex = PREFIXES.REX_W;
+         if (reg >= 8) {
+             rex |= PREFIXES.REX_R;
+         }
+
+         // ModRM: 
+         // Reg = reg & 7
+         // RM = 5 (RIP relative)
+         const modRM = makeModRM(MOD.INDIRECT, reg & 7, 5);
+         
+         this.buffer.push(rex, OPCODES.LEA_R64_M, modRM);
          this.dataPatches.push({ offset: this.buffer.length, id: dataId });
          this.add32(0);
     }
@@ -96,9 +149,14 @@ export class CodeBuilder {
      * @param {string} labelName 
      */
     addLeaLabel(reg, labelName) {
-        // 48 8D (ModRM) [disp32]
-        const modRM = makeModRM(MOD.INDIRECT, reg, 5);
-        this.buffer.push(PREFIXES.REX_W, OPCODES.LEA_R64_M, modRM);
+        // Handle extended registers
+        let rex = PREFIXES.REX_W;
+        if (reg >= 8) {
+             rex |= PREFIXES.REX_R;
+        }
+
+        const modRM = makeModRM(MOD.INDIRECT, reg & 7, 5);
+        this.buffer.push(rex, OPCODES.LEA_R64_M, modRM);
         
         // Patch relative to Next Instruction
         this.labelPatches.push({
@@ -123,7 +181,7 @@ export class CodeBuilder {
             const rel = targetOffset - (patch.offset + patch.instSize);
             
             if (patch.type === 'rel8') {
-                if (rel < -128 || rel > 127) throw new Error("Short jump out of range");
+                if (rel < -128 || rel > 127) throw new Error("Short jump out of range. Use addJumpRel32.");
                 this.buffer[patch.offset] = rel & 0xFF;
             } else if (patch.type === 'rel32') {
                 this.buffer[patch.offset] = rel & 0xFF;
