@@ -157,88 +157,132 @@ function emitInstruction(code, mnemonic, args, dataSymbols, imports) {
             }
             break;
         
+        case 'INC':
         case 'DEC':
+            // REX.W + FF /0 (INC) or /1 (DEC)
+            let extDigit = (mnemonic === 'INC') ? 0 : 1;
             if (op1.type === 'reg') {
                  const rex = PREFIXES.REX_W | (op1.val >= 8 ? PREFIXES.REX_B : 0);
-                 const modRM = makeModRM(MOD.DIRECT, 1, op1.val & 7);
+                 const modRM = makeModRM(MOD.DIRECT, extDigit, op1.val & 7);
                  code.addBytes([rex, 0xFF, modRM]);
+            } else {
+                throw new Error(`${mnemonic} only supports Reg`);
+            }
+            break;
+
+        case 'PUSH':
+            if (op1.type === 'reg') {
+                // 50 + rd. No REX.W needed for 64-bit push default, but REX.B if extended.
+                if (op1.val >= 8) {
+                    code.addBytes([PREFIXES.REX_B, OPCODES.PUSH_R64_BASE + (op1.val & 7)]);
+                } else {
+                    code.addBytes([OPCODES.PUSH_R64_BASE + (op1.val & 7)]);
+                }
+            } else {
+                throw new Error("PUSH only supports Reg");
+            }
+            break;
+
+        case 'POP':
+            if (op1.type === 'reg') {
+                // 58 + rd
+                if (op1.val >= 8) {
+                    code.addBytes([PREFIXES.REX_B, OPCODES.POP_R64_BASE + (op1.val & 7)]);
+                } else {
+                    code.addBytes([OPCODES.POP_R64_BASE + (op1.val & 7)]);
+                }
+            } else {
+                throw new Error("POP only supports Reg");
             }
             break;
 
         case 'LEA':
-            if (op1.type === 'reg' && op2.type === 'data') {
-                code.addLeaRegRel(op1.val, op2.val);
-            } 
-            else if (op1.type === 'reg' && op2.type === 'label') {
+            if (op1.type === 'reg' && op2.type === 'label') {
+                // LEA Reg, [Label] (RIP Relative)
+                // Case 1: Import? (Assuming function pointer logic if needed, but imports are usually called directly)
+                // Case 2: Code Label?
                 code.addLeaLabel(op1.val, op2.val);
-            } 
-            else if (op1.type === 'reg' && op2.type === 'mem') {
-                const rex = PREFIXES.REX_W | (op1.val >= 8 ? PREFIXES.REX_R : 0) | (op2.reg >= 8 ? PREFIXES.REX_B : 0);
-                const mod = MOD.DISP32; 
-                const modRM = makeModRM(mod, op1.val & 7, op2.reg & 7);
-                if ((op2.reg & 7) === 4) { 
-                    code.addBytes([rex, 0x8D, modRM, 0x24]);
-                } else {
-                    code.addBytes([rex, 0x8D, modRM]);
-                }
-                code.add32(op2.disp);
+            } else if (op1.type === 'reg' && op2.type === 'data') {
+                // LEA Reg, [Data]
+                code.addLeaRegRel(op1.val, op2.val);
+            } else if (op1.type === 'reg' && op2.type === 'mem') {
+                 // Standard LEA: LEA Reg, [Base+Disp]
+                 const rex = PREFIXES.REX_W | (op1.val >= 8 ? PREFIXES.REX_R : 0) | (op2.reg >= 8 ? PREFIXES.REX_B : 0);
+                 const mod = (op2.disp !== 0) ? MOD.DISP32 : MOD.INDIRECT;
+                 const modRM = makeModRM(mod, op1.val & 7, op2.reg & 7);
+                 code.addBytes([rex, OPCODES.LEA_R64_M, modRM]);
+                 if (mod === MOD.DISP32) code.add32(op2.disp);
             }
             else {
-                 throw new Error("LEA requires Register, Label/Mem");
+                throw new Error("Invalid LEA usage");
             }
             break;
 
         case 'CALL':
             if (op1.type === 'label') {
-                const importName = op1.val.endsWith('\0') ? op1.val : op1.val + '\0';
-                if (imports.has(importName)) {
-                    code.addCall(importName);
+                if (imports.has(op1.val)) {
+                    code.addCall(op1.val);
                 } else {
+                    // Local call
                     code.addCallRel(op1.val);
                 }
+            } else if (op1.type === 'reg') {
+                // Call Reg (Indirect): FF /2
+                const rex = (op1.val >= 8) ? PREFIXES.REX_B : 0; // No REX.W needed for near call? spec says yes/no depending.
+                // Actually 64-bit indirect call usually doesn't strictly need REX.W unless size override. 
+                // But let's check spec. "FF /2" -> CALL r/m64. REX.W Promotes to 64-bit operand size? 
+                // In 64-bit mode, operand size defaults to 64-bit for near calls.
+                const modRM = makeModRM(MOD.DIRECT, 2, op1.val & 7);
+                if (rex) code.addBytes([rex]);
+                code.addBytes([OPCODES.CALL_RM64, modRM]);
+            } else {
+                throw new Error("CALL target not supported");
             }
             break;
-            
-        case 'JMP':
-             if (op1.type === 'label') {
-                 const importName = op1.val.endsWith('\0') ? op1.val : op1.val + '\0';
-                 if (imports.has(importName)) {
-                     code.addJmpImport(importName);
-                 } else {
-                     code.addJumpRel32(OPCODES.JMP_REL32, op1.val);
-                 }
-             }
-             break;
-        
-        case 'JE':
-        case 'JZ':
-             if (op1.type === 'label') code.addJumpRel32(OPCODES.JE_REL32, op1.val);
-             break;
-             
-        case 'JNE':
-        case 'JNZ':
-             if (op1.type === 'label') code.addJumpRel32(OPCODES.JNE_REL32, op1.val);
-             break;
 
         case 'RET':
             code.addBytes([OPCODES.RET]);
             break;
 
-        case 'PUSH':
-            if (op1.type === 'reg') {
-                if (op1.val >= 8) code.addBytes([PREFIXES.REX_B]);
-                code.addBytes([0x50 + (op1.val & 7)]);
-            }
-            break;
-            
-        case 'POP':
-            if (op1.type === 'reg') {
-                 if (op1.val >= 8) code.addBytes([PREFIXES.REX_B]);
-                 code.addBytes([0x58 + (op1.val & 7)]);
+        case 'JMP':
+            if (op1.type === 'label') {
+                code.addJumpRel32(OPCODES.JMP_REL32, op1.val);
+            } else {
+                throw new Error("JMP only supports Label");
             }
             break;
 
+        case 'JE':
+        case 'JZ':
+            if (op1.type === 'label') code.addJumpRel32(OPCODES.JE_REL32, op1.val);
+            break;
+
+        case 'JNE':
+        case 'JNZ':
+            if (op1.type === 'label') code.addJumpRel32(OPCODES.JNE_REL32, op1.val);
+            break;
+            
+        case 'JL':
+            if (op1.type === 'label') code.addJumpRel32(OPCODES.JL_REL32, op1.val);
+            break;
+
+        case 'JGE':
+            if (op1.type === 'label') code.addJumpRel32(OPCODES.JGE_REL32, op1.val);
+            break;
+
+        case 'JLE':
+            if (op1.type === 'label') code.addJumpRel32(OPCODES.JLE_REL32, op1.val);
+            break;
+            
+        case 'JG':
+            if (op1.type === 'label') code.addJumpRel32(OPCODES.JG_REL32, op1.val);
+            break;
+
+        case 'NOP':
+            code.addBytes([OPCODES.NOP]);
+            break;
+
         default:
-            throw new Error("Unknown mnemonic: " + mnemonic);
+            throw new Error(`Unknown mnemonic: ${mnemonic}`);
     }
 }

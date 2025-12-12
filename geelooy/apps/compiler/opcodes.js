@@ -99,10 +99,19 @@ export const OPCODES = {
     JAE_REL8: 0x73,
     JE_REL8: 0x74, // JZ
     JNE_REL8: 0x75, // JNZ
+    JL_REL8: 0x7C,  // JL
+    JGE_REL8: 0x7D, // JGE
+    JLE_REL8: 0x7E, // JLE
+    JG_REL8: 0x7F,  // JG
 
     // Conditional Jumps (Long / 32-bit)
-    JE_REL32: [0x0F, 0x84], // JZ rel32
-    JNE_REL32: [0x0F, 0x85], // JNZ rel32
+    // 0F 8x cd
+    JE_REL32:  [0x0F, 0x84], // JZ
+    JNE_REL32: [0x0F, 0x85], // JNZ
+    JL_REL32:  [0x0F, 0x8C], // JL (Less)
+    JGE_REL32: [0x0F, 0x8D], // JGE (Greater or Equal)
+    JLE_REL32: [0x0F, 0x8E], // JLE (Less or Equal)
+    JG_REL32:  [0x0F, 0x8F], // JG (Greater)
     
     // --- System / Misc ---
     NOP: 0x90,

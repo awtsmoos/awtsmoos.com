@@ -5,7 +5,7 @@ Biezrash Hashem
 */
 
 import { compile } from './compiler.js';
-import { ASM_EXAMPLES } from './asm_examples.js';
+import { ASM_EXAMPLES } from './asm/examples/index.js';
 
 // UI Logic
 const radios = document.getElementsByName('appMode');

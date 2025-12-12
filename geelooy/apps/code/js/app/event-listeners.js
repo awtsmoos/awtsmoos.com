@@ -1,5 +1,3 @@
-
-
 // B"H
 // FILE: js/app/event-listeners.js
 
@@ -26,37 +24,65 @@ export function setupEventListeners() {
         if (type === 'import-request' && event.data.source === 'html-preview-bridge') {
             const { specifier, referrer, workspaceId, id } = event.data;
             
+            console.log(`[Import-Handler] Received request for "${specifier}" from "${referrer}" (ID: ${id})`);
+
             (async () => {
                 try {
-                    // 1. Resolve Path
+                    // 1. Robust Path Resolution using URL API
                     let absolutePath = specifier;
+                    
                     if (specifier.startsWith('.')) {
-                        const parentDir = referrer.substring(0, referrer.lastIndexOf('/'));
-                        // Handle '..' and '.'
-                        const parts = (parentDir + '/' + specifier).split('/');
-                        const stack = [];
-                        for (const p of parts) {
-                            if (p === '' || p === '.') continue;
-                            if (p === '..') { if(stack.length) stack.pop(); }
-                            else stack.push(p);
-                        }
-                        absolutePath = '/' + stack.join('/');
+                        // Ensure referrer has a leading slash for URL construction logic
+                        const referrerPath = referrer.startsWith('/') ? referrer : '/' + referrer;
+                        
+                        // Use a dummy origin. 
+                        const baseUrl = new URL(referrerPath, 'http://root');
+                        const resolvedUrl = new URL(specifier, baseUrl);
+                        absolutePath = resolvedUrl.pathname;
+                        // Decode URL-encoded characters (like %20 for spaces)
+                        absolutePath = decodeURIComponent(absolutePath);
                     }
                     
+                    console.log(`[Import-Handler] Resolved "${specifier}" -> "${absolutePath}"`);
+
                     // 2. Fetch Content
-                    const workspace = State.workspaces.find(ws => ws.id == workspaceId);
-                    if (!workspace) throw new Error(`Workspace ${workspaceId} not found`);
+                    const workspace = State.workspaces.find(ws => String(ws.id) === String(workspaceId));
+                    if (!workspace) {
+                        console.error(`[Import-Handler] Workspace ${workspaceId} not found!`);
+                        throw new Error(`Workspace ${workspaceId} not found`);
+                    }
                     
                     const item = { ...workspace, path: absolutePath, kind: 'file' };
-                    let content = await FileSystemProvider.read(item);
+                    let content;
+                    
+                    try {
+                        content = await FileSystemProvider.read(item);
+                        console.log(`[Import-Handler] Successfully read "${absolutePath}"`);
+                    } catch(readErr) {
+                        console.error(`[Import-Handler] FAILED to read "${absolutePath}". Error: ${readErr.message}`);
+                        
+                        // B"H - Diagnostics: List the parent directory to see what IS there
+                        try {
+                            const parentPath = absolutePath.substring(0, absolutePath.lastIndexOf('/')) || '/';
+                            console.warn(`[Import-Handler] Listing contents of parent "${parentPath}":`);
+                            const parentItem = { ...workspace, path: parentPath, kind: 'directory' };
+                            const children = await FileSystemProvider.list(parentItem);
+                            console.table(children.map(c => ({ name: c.name, path: c.path, kind: c.kind })));
+                        } catch(listErr) {
+                            console.warn("[Import-Handler] Could not list parent directory.", listErr);
+                        }
+                        
+                        throw readErr;
+                    }
                     
                     if (content instanceof Blob) content = await content.text();
                     else if (content && content.base64Content) content = atob(content.base64Content);
                     
                     event.source.postMessage({ type: 'import-response', id, content }, '*');
                 } catch (e) {
-                    console.error("Import Request Failed:", e);
-                    event.source.postMessage({ type: 'import-response', id, error: e.message }, '*');
+                    console.error(`[Import-Handler] Fatal Error processing "${specifier}":`, e);
+                    // B"H - Ensure error is a plain string to avoid cloning issues
+                    event.source.postMessage({ type: 'import-response', id, error: e.toString() }, '*');
                 }
             })();
             return;

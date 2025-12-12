@@ -32,6 +32,7 @@ class SequenceOps {
     async splice(start, deleteCount, newItems) {
         const root = await this.nodeIO.load(this.seq.ptr);
         
+        // Edge Case: Empty Root
         if (root.totalCount === 0 && newItems.length > 0) {
              const res = await this._spliceRecursive(root, 0, 0, newItems, 0);
              if (res.splitNodes && res.splitNodes.length > 0) await this._handleRootSplit(root, res.splitNodes);
@@ -43,7 +44,7 @@ class SequenceOps {
         if (result.splitNodes && result.splitNodes.length > 0) {
             await this._handleRootSplit(root, result.splitNodes);
         } else {
-            // Shrink Height check
+            // Shrink Height check (Optimization)
             if (!root.isLeaf && root.itemCount === 1) {
                  const childPtrBuf = root.buffer.subarray(DATA_OFFSET, DATA_OFFSET + 16);
                  const decoded = SmartPointer.decode(childPtrBuf);
@@ -52,8 +53,13 @@ class SequenceOps {
                  const cOff = decoded.payload.readUInt32BE(10);
                  const cChain = decoded.payload.readUInt8(14) === 1;
 
-                 await this.seq.allocator.v1.free(root.ptr);
-                 this.seq.ptr = { blockId: cBlockId, length: cLen, offset: cOff, isChain: cChain };
+                 // Only shrink if we can free the root safely
+                 try {
+                     await this.seq.allocator.v1.free(root.ptr);
+                     this.seq.ptr = { blockId: cBlockId, length: cLen, offset: cOff, isChain: cChain };
+                 } catch(e) {
+                     // If free fails (e.g. corruption), keep height to be safe
+                 }
             }
         }
     }
@@ -148,7 +154,7 @@ class SequenceOps {
              off += 20;
         }
         
-        newRoot.totalBytes = root.totalBytes;
+        newRoot.totalBytes = root.totalBytes; 
         for(const sn of splitNodes) newRoot.totalBytes += sn.totalBytes;
 
         await this.nodeIO.save(newRoot);
@@ -218,99 +224,174 @@ class SequenceOps {
         return { splitNodes, deltaBytes, deltaCount };
     }
 
+    // B"H: Corrected Multi-Node Splice Logic
     async _spliceInternal(node, start, deleteCount, newItems, depth) {
-        let currentOffset = 0; 
-        let childIndex = 0;
+        const existingEntries = this._readInternalEntries(node); 
         
-        // Find starting child
-        while (childIndex < node.itemCount) {
-            const childCountVal = node.buffer.readUInt32BE(DATA_OFFSET + (childIndex*20) + 16);
-            if (start < currentOffset + childCountVal) break;
-            currentOffset += childCountVal; 
-            childIndex++;
-        }
-        if (childIndex >= node.itemCount && node.itemCount > 0) childIndex = node.itemCount - 1;
-
+        let currentOffset = 0;
+        let deleteRemaining = deleteCount;
         let itemsToInsert = newItems;
-        let remainingDelete = deleteCount;
-        let localStart = Math.max(0, start - currentOffset);
+        
+        const newEntries = [];
         let accumulatedDeltaBytes = 0;
         let accumulatedDeltaCount = 0;
+        
+        const deleteRangeEnd = start + deleteCount;
 
-        while (remainingDelete > 0 || itemsToInsert.length > 0) {
-            if (childIndex >= node.itemCount) {
-                // Should not happen if logic is correct, but break to prevent infinite loop
-                break;
-            }
-
-            const childEntryOffset = DATA_OFFSET + (childIndex*20);
-            const childPtrBuf = node.buffer.subarray(childEntryOffset, childEntryOffset + 16);
-            const childCountVal = node.buffer.readUInt32BE(childEntryOffset + 16);
+        for (const entry of existingEntries) {
+            const childCount = entry.readUInt32BE(16);
+            const childStart = currentOffset;
+            const childEnd = currentOffset + childCount;
             
-            const decoded = SmartPointer.decode(childPtrBuf);
-            const childPtr = {
-                blockId: readPointer48(decoded.payload, 0),
-                length: decoded.payload.readUInt32BE(6),
-                offset: decoded.payload.readUInt32BE(10),
-                isChain: decoded.payload.readUInt8(14) === 1
-            };
+            // Does the operation overlap this child?
+            // Overlap if: 
+            // 1. Delete Range overlaps [childStart, childEnd]
+            // 2. Insert point (start) falls within [childStart, childEnd] (inclusive for append logic)
             
-            const childNode = await this.nodeIO.load(childPtr);
+            const overlapsDelete = (deleteRemaining > 0) && (Math.max(start, childStart) < Math.min(deleteRangeEnd, childEnd));
+            // Insertion logic: insert at 'start'. If start == childEnd, effectively handled by next child unless last.
+            const overlapsInsert = (itemsToInsert.length > 0) && (start >= childStart && start <= childEnd);
             
-            // Calculate how many items this child can handle for deletion
-            const availableToDelete = childCountVal - localStart;
-            const deleteForThisChild = Math.min(remainingDelete, availableToDelete);
-            
-            // Recursively splice this child
-            const result = await this._spliceRecursive(childNode, localStart, deleteForThisChild, itemsToInsert, depth + 1);
-            
-            accumulatedDeltaBytes += result.deltaBytes;
-            accumulatedDeltaCount += result.deltaCount;
-            node.totalBytes += result.deltaBytes; // Update parent stats
-
-            if (childNode.totalCount === 0) {
-                // Child became empty. Remove it entirely.
-                await this.seq.allocator.v1.free(childNode.ptr);
+            if (overlapsDelete || overlapsInsert) {
+                // Calculate local operation relative to child
+                const localStart = Math.max(0, start - currentOffset);
                 
-                const entries = this._readInternalEntries(node);
-                entries.splice(childIndex, 1);
-                await this._saveInternalEntries(node, entries);
+                // Calculate delete amount for this child
+                // Overlap interval: [max(start, childStart), min(deleteRangeEnd, childEnd)]
+                const intervalStart = Math.max(start, childStart);
+                const intervalEnd = Math.min(deleteRangeEnd, childEnd);
+                const localDelete = Math.max(0, intervalEnd - intervalStart);
                 
-                // Do NOT increment childIndex. 
-                // The next child has shifted into current `childIndex`.
-                // We loop again with same childIndex to process the next chunk.
-            } else {
-                // Child modified but survives. Update its count in parent.
-                node.buffer.writeUInt32BE(childNode.totalCount, childEntryOffset + 16);
+                // Items are inserted into the FIRST child that covers 'start'.
+                // If start < childStart, it means we are inserting before this child? 
+                // But we iterate in order. 'start' will be >= childStart unless logic fails.
+                // Exception: if start matches childStart, and we haven't inserted yet.
                 
-                if (result.splitNodes && result.splitNodes.length > 0) {
-                    // Child split. Insert new nodes after current child.
-                    await this._insertSplitNodes(node, childIndex + 1, result.splitNodes);
-                    childIndex += result.splitNodes.length; 
+                let myItems = [];
+                if (itemsToInsert.length > 0 && start >= childStart && start <= childEnd) {
+                    // Logic: Splice into this child.
+                    // If start == childEnd, we append to this child (handled by _spliceLeaf or recursive).
+                    // BUT: Only do this once.
+                    myItems = itemsToInsert;
+                    itemsToInsert = []; // Consumed
                 }
                 
-                // Move to next child
-                childIndex++;
+                // --- Load Child ---
+                const childPtrBuf = entry.subarray(0, 16);
+                const decoded = SmartPointer.decode(childPtrBuf);
+                const childPtr = {
+                    blockId: readPointer48(decoded.payload, 0),
+                    length: decoded.payload.readUInt32BE(6),
+                    offset: decoded.payload.readUInt32BE(10),
+                    isChain: decoded.payload.readUInt8(14) === 1
+                };
+                
+                const childNode = await this.nodeIO.load(childPtr);
+                
+                const result = await this._spliceRecursive(childNode, localStart, localDelete, myItems, depth + 1);
+                
+                deleteRemaining -= localDelete; // Decrease global counter
+                accumulatedDeltaBytes += result.deltaBytes;
+                accumulatedDeltaCount += result.deltaCount;
+                
+                // --- Rebuild Entries ---
+                if (childNode.totalCount > 0) {
+                    const newEntry = Buffer.alloc(20);
+                    childPtrBuf.copy(newEntry, 0);
+                    newEntry.writeUInt32BE(childNode.totalCount, 16);
+                    newEntries.push(newEntry);
+                } else {
+                    // Child emptied. Free it.
+                    await this.seq.allocator.v1.free(childNode.ptr);
+                }
+                
+                // Add any splits
+                if (result.splitNodes && result.splitNodes.length > 0) {
+                    for(const sn of result.splitNodes) {
+                        const ptr = SmartPointer.block(constants.TYPE_SEQUENCE, sn.ptr.blockId, sn.ptr.length, sn.ptr.isChain, sn.ptr.offset);
+                        const e = Buffer.alloc(20);
+                        ptr.copy(e, 0);
+                        e.writeUInt32BE(sn.totalCount, 16);
+                        newEntries.push(e);
+                    }
+                }
+                
+            } else {
+                // No interaction, keep entry
+                // BUT: If we deleted nodes before this, its index effectively shifts down.
+                // We just push it to the new list.
+                newEntries.push(entry);
             }
             
-            remainingDelete -= deleteForThisChild;
-            itemsToInsert = []; // Items only inserted into first relevant child
-            localStart = 0; // Subsequent children deletions start at 0
-            
-            if (remainingDelete <= 0 && itemsToInsert.length === 0) break;
+            currentOffset += childCount;
         }
-
-        // Recalculate total count for parent node
-        let newTotal = 0;
-        for(let i=0; i<node.itemCount; i++) newTotal += node.buffer.readUInt32BE(DATA_OFFSET + (i*20) + 16);
-        node.totalCount = newTotal;
-        await this.nodeIO.save(node);
-
+        
+        // Edge Case: Appending to empty or end
+        if (itemsToInsert.length > 0) {
+            if (newEntries.length > 0) {
+                // Append to last child
+                const lastEntry = newEntries[newEntries.length - 1];
+                const childPtrBuf = lastEntry.subarray(0, 16);
+                const decoded = SmartPointer.decode(childPtrBuf);
+                const childPtr = {
+                    blockId: readPointer48(decoded.payload, 0),
+                    length: decoded.payload.readUInt32BE(6),
+                    offset: decoded.payload.readUInt32BE(10),
+                    isChain: decoded.payload.readUInt8(14) === 1
+                };
+                
+                const childNode = await this.nodeIO.load(childPtr);
+                const res = await this._spliceRecursive(childNode, childNode.totalCount, 0, itemsToInsert, depth + 1);
+                
+                accumulatedDeltaBytes += res.deltaBytes;
+                accumulatedDeltaCount += res.deltaCount;
+                
+                lastEntry.writeUInt32BE(childNode.totalCount, 16);
+                
+                if (res.splitNodes) {
+                    for(const sn of res.splitNodes) {
+                        const ptr = SmartPointer.block(constants.TYPE_SEQUENCE, sn.ptr.blockId, sn.ptr.length, sn.ptr.isChain, sn.ptr.offset);
+                        const e = Buffer.alloc(20);
+                        ptr.copy(e, 0);
+                        e.writeUInt32BE(sn.totalCount, 16);
+                        newEntries.push(e);
+                    }
+                }
+            } else {
+                // Create new leaf
+                const newLeaf = await this.nodeIO.create(true);
+                const res = await this._spliceLeaf(newLeaf, 0, 0, itemsToInsert);
+                
+                const ptr = SmartPointer.block(constants.TYPE_SEQUENCE, newLeaf.ptr.blockId, newLeaf.ptr.length, newLeaf.ptr.isChain, newLeaf.ptr.offset);
+                const e = Buffer.alloc(20);
+                ptr.copy(e, 0);
+                e.writeUInt32BE(newLeaf.totalCount, 16);
+                newEntries.push(e);
+                
+                accumulatedDeltaBytes += res.deltaBytes;
+                accumulatedDeltaCount += res.deltaCount;
+                
+                if (res.splitNodes) {
+                     for(const sn of res.splitNodes) {
+                        const ptr2 = SmartPointer.block(constants.TYPE_SEQUENCE, sn.ptr.blockId, sn.ptr.length, sn.ptr.isChain, sn.ptr.offset);
+                        const e2 = Buffer.alloc(20);
+                        ptr2.copy(e2, 0);
+                        e2.writeUInt32BE(sn.totalCount, 16);
+                        newEntries.push(e2);
+                    }
+                }
+            }
+        }
+        
+        node.totalBytes += accumulatedDeltaBytes;
+        await this._saveInternalEntries(node, newEntries);
+        
         const MAX_INTERNAL = 200;
-        if (node.itemCount > MAX_INTERNAL) {
+        if (newEntries.length > MAX_INTERNAL) {
              const splitRes = await this._splitInternalNode(node);
              return { splitNodes: splitRes.splitNodes, deltaBytes: accumulatedDeltaBytes, deltaCount: accumulatedDeltaCount };
         }
+        
         return { splitNodes: null, deltaBytes: accumulatedDeltaBytes, deltaCount: accumulatedDeltaCount };
     }
     
@@ -339,9 +420,9 @@ class SequenceOps {
     }
 
     async _insertSplitNodes(node, index, splitNodes) {
+        // Kept for compatibility, though not used in new _spliceInternal
         const entries = this._readInternalEntries(node);
         const newEntries = [];
-        
         for(const sn of splitNodes) {
             const ptr = SmartPointer.block(constants.TYPE_SEQUENCE, sn.ptr.blockId, sn.ptr.length, sn.ptr.isChain, sn.ptr.offset);
             const entry = Buffer.alloc(20); 
@@ -349,7 +430,6 @@ class SequenceOps {
             entry.writeUInt32BE(sn.totalCount, 16);
             newEntries.push(entry);
         }
-        
         entries.splice(index, 0, ...newEntries);
         await this._saveInternalEntries(node, entries);
     }

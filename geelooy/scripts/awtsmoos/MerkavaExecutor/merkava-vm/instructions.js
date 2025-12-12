@@ -50,18 +50,28 @@
                     
                     if (!found) {
                         let val;
+                        let source = 'none';
                         // 2. B"H - TIKKUN: Check Module/Thread Environment FIRST
-                        // This ensures modules see their own top-level vars before shared globals.
                         if (thread.environment && (name in thread.environment)) {
                             val = thread.environment[name];
+                            source = 'env';
                         } 
                         // 3. Check Shared Global Heap & Host Context (Polyfills)
                         else {
                             val = vm.memory.getGlobal(name);
+                            if (val !== undefined) source = 'heap';
+                            
                             if (val === undefined && vm.context && (name in vm.context)) {
                                 val = vm.context[name];
+                                source = 'context';
                             }
                         }
+                        
+                        // Debug critical globals
+                        if (name === 'exports' || name === 'CANVAS_WIDTH') {
+                           if(vm.hostAPI[0]) vm.hostAPI[0](`[VM-OP] LOAD_GLOBAL '${name}' -> ${typeof val} (Source: ${source})`);
+                        }
+                        
                         thread.push(val);
                     }
                     break;
@@ -85,9 +95,11 @@
                     
                     if (!stored) {
                         // 2. B"H - TIKKUN: Store in Module/Thread Environment if available
-                        // This keeps module variables scoped to the module.
                         if (thread.environment) {
                             thread.environment[name] = val;
+                            if (name === 'CANVAS_WIDTH') {
+                               if(vm.hostAPI[0]) vm.hostAPI[0](`[VM-OP] STORE_GLOBAL '${name}' to environment.`);
+                            }
                         } else {
                             // 3. Fallback to Shared Heap
                             vm.memory.setGlobal(name, val);
@@ -184,7 +196,22 @@
                 case OPCODES.ALLOC_OBJECT: thread.push({}); break;
                 case OPCODES.ALLOC_ARRAY: thread.push([]); break;
                 case OPCODES.GET_PROP: { const k = thread.pop(); const o = thread.pop(); thread.push(o ? o[k] : undefined); break; }
-                case OPCODES.SET_PROP: { const v = thread.pop(); const k = thread.pop(); const o = thread.pop(); if(o) o[k] = v; thread.push(v); break; }
+                case OPCODES.SET_PROP: { 
+                    const v = thread.pop(); 
+                    const k = thread.pop(); 
+                    const o = thread.pop(); 
+                    if(o) {
+                        o[k] = v;
+                        // Debug export setting
+                        if (k === 'CANVAS_WIDTH' || k === 'DOVE_WIDTH' || k === 'flap') {
+                           if(vm.hostAPI[0]) vm.hostAPI[0](`[VM-OP] SET_PROP on object: ${k} = ${typeof v}`);
+                        }
+                    } else {
+                       if(vm.hostAPI[0]) vm.hostAPI[0](`[VM-OP] SET_PROP failed. Object is ${o}. Key: ${k}`);
+                    }
+                    thread.push(v); 
+                    break; 
+                }
 
                 // Functions & Closures
                 case OPCODES.CLOSURE: {
@@ -245,7 +272,7 @@
                     } else {
                         // B"H - Enhanced Error Info
                         const type = typeof callee;
-                        const msg = `[VM] TypeError: ${type === 'undefined' ? 'undefined' : type} is not a function (callee was ${String(callee)})`;
+                        const msg = `[VM] TypeError: ${type === 'undefined' ? 'undefined' : type} is not a function (callee was ${String(callee)}). Hint: Did an imported module fail to load? Check the logs for [Import] errors.`;
                         throw new Error(msg);
                     }
                     break;
@@ -376,10 +403,15 @@
                                 const active = originalStep();
                                 if (this.status === 'COMPLETED') {
                                     vm.moduleCache.set(path, exportsObj); // Cache exports
+                                    
+                                    // B"H - Debug log for loaded module
+                                    if(vm.hostAPI[0]) vm.hostAPI[0](`[VM] Module Loaded: ${path}. Keys: ${Object.keys(exportsObj).join(', ')}`);
+                                    
                                     thread.push(exportsObj); // Result for importer
                                     thread.status = 'RUNNING'; // Resume importer
                                 } else if (this.status === 'CRASHED' || this.status === 'TERMINATED') {
                                     // B"H - Safe Fallback for Crashed Modules
+                                    if(vm.hostAPI[0]) vm.hostAPI[0](`[VM] Module CRASHED: ${path}`);
                                     console.error(`[VM] Module ${path} CRASHED. Returning empty exports.`);
                                     thread.push(exportsObj); // Return what we have (maybe empty) to prevent callee error
                                     thread.status = 'RUNNING';
@@ -390,12 +422,14 @@
                             vm.wake(); 
                             
                         } catch(e) {
+                            if(vm.hostAPI[0]) vm.hostAPI[0](`[VM] Module Compilation Failed: ${path}`, e.message);
                             console.error(`[VM] Module Load Failed: ${path}`, e);
                             thread.push({}); // Push empty object on failure to avoid undefined
                             thread.status = 'RUNNING';
                             vm.wake();
                         }
                     }).catch(e => {
+                        if(vm.hostAPI[0]) vm.hostAPI[0](`[VM] Import Resolution Failed: ${path}`, e.message);
                         console.error(`[VM] Import Resolver Failed: ${path}`, e);
                         thread.push({});
                         thread.status = 'RUNNING';

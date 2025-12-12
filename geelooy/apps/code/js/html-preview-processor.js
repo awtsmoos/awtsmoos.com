@@ -1,4 +1,5 @@
 
+
 // B"H
 // FILE: js/html-preview-processor.js
 
@@ -249,6 +250,7 @@ export const orchestratePreview = async (item, iframe, contentOverride = null) =
 
                 // B"H - Import Resolver Bridge
                 const importResolver = async (specifier) => {
+                    if (hostAPI[0]) hostAPI[0]("[VM] Resolving Import: " + specifier);
                     return new Promise((resolve, reject) => {
                         const id = Math.random().toString(36).slice(2);
                         const handler = (e) => {

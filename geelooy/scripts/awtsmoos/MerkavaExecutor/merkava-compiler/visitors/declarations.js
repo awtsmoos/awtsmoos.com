@@ -43,19 +43,26 @@
         },
 
         _visitExportNamed(node) {
+            // B"H - Handling 'export const foo = ...'
             if (node.declaration) {
                 this._visit(node.declaration); // Defines the var/func locally
                 
-                // B"H - Export Logic: Register to 'exports' global
                 const names = [];
                 if (node.declaration.type === 'FunctionDeclaration') {
                     names.push(node.declaration.id.name);
                 } else if (node.declaration.type === 'VariableDeclaration') {
-                    node.declaration.declarations.forEach(d => names.push(d.id.name));
+                    node.declaration.declarations.forEach(d => {
+                        // Handle Identifier (const x = 1)
+                        if (d.id.type === 'Identifier') names.push(d.id.name);
+                        // Handle ObjectPattern (const { x } = y) - Simplified
+                        // Note: Destructuring support is limited in this lightweight compiler.
+                    });
                 } else if (node.declaration.type === 'ClassDeclaration' && node.declaration.id) {
                     names.push(node.declaration.id.name);
                 }
                 
+                // console.log("Compiling Exports:", names);
+
                 names.forEach(name => {
                     this._emitConstant('exports');
                     this.buffer.write8(this.OPCODES.LOAD_GLOBAL); // [exports]
@@ -71,21 +78,59 @@
                     this.buffer.write8(this.OPCODES.POP); // []
                 });
             }
+            
+            // B"H - Handling 'export { foo, bar as baz }'
+            if (node.specifiers && node.specifiers.length > 0) {
+                node.specifiers.forEach(spec => {
+                    const localName = spec.local.name;
+                    const exportName = spec.exported.name;
+                    
+                    this._emitConstant('exports');
+                    this.buffer.write8(this.OPCODES.LOAD_GLOBAL); // [exports]
+                    this.buffer.write8(this.OPCODES.DUP);         // [exports, exports]
+                    
+                    this._emitConstant(exportName); // [exports, exports, "exportName"]
+                    
+                    // Load the local value
+                    this._visitIdentifier({ type: 'Identifier', name: localName }, 'LOAD'); 
+                    
+                    this.buffer.write8(this.OPCODES.SET_PROP);
+                    this.buffer.write8(this.OPCODES.POP);
+                    this.buffer.write8(this.OPCODES.POP);
+                });
+            }
         },
 
         _visitExportDefault(node) {
-            this._visit(node.declaration); // Push Value
+            if (node.declaration.type === 'FunctionDeclaration' || node.declaration.type === 'ClassDeclaration') {
+                // If named, define locally first
+                if (node.declaration.id) {
+                    this._visit(node.declaration);
+                    // Push Identifier to store in default
+                    this._visitIdentifier(node.declaration.id, 'LOAD');
+                } else {
+                    // Anonymous function/class expression
+                    if (node.declaration.type === 'FunctionDeclaration') {
+                        // Treat as expression
+                        this._visitFuncExpr({...node.declaration, type: 'FunctionExpression'});
+                    } else {
+                        this._visitClassExpr({...node.declaration, type: 'ClassExpression'});
+                    }
+                }
+            } else {
+                this._visit(node.declaration); // Push Value (Expression)
+            }
+            
             // Store to exports.default
+            // Stack: [Val]
             this._emitConstant('exports');
-            this.buffer.write8(this.OPCODES.LOAD_GLOBAL); // [val, exports]
-            this.buffer.write8(this.OPCODES.SWAP);        // [exports, val]
-            this.buffer.write8(this.OPCODES.DUP);         // [exports, val, val] (Keep val for expression result?)
-            // Actually export default declaration usually returns the value? 
-            // In modules top level, return value is ignored.
-            // Stack: [exports, val]
-            this._emitConstant('default');                // [exports, val, "default"]
-            this.buffer.write8(this.OPCODES.SWAP);        // [exports, "default", val]
-            this.buffer.write8(this.OPCODES.SET_PROP);    // [exports, val]
+            this.buffer.write8(this.OPCODES.LOAD_GLOBAL); // [Val, exports]
+            this.buffer.write8(this.OPCODES.SWAP);        // [exports, Val]
+            this.buffer.write8(this.OPCODES.DUP);         // [exports, Val, Val]
+            
+            this._emitConstant('default');                // [exports, Val, Val, "default"]
+            this.buffer.write8(this.OPCODES.SWAP);        // [exports, Val, "default", Val]
+            this.buffer.write8(this.OPCODES.SET_PROP);    // [exports, Val] -> exports['default'] = Val
             this.buffer.write8(this.OPCODES.POP);         // [exports]
             this.buffer.write8(this.OPCODES.POP);         // []
         },

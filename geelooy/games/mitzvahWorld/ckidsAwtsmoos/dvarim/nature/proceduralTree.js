@@ -1,4 +1,5 @@
 
+
 /**
  * B"H
  * @file proceduralTree.js
@@ -26,13 +27,12 @@ export default class ProceduralTree extends Tzomayach {
         if(op.seed) this.options.seed = op.seed;
         else this.options.seed = Math.random() * 65536;
         
-        /* B"H: WIND SHADER DISABLED FOR DIAGNOSTICS
+        // B"H: Wind Shader Logic
         this.on("heesHawvoos", (dt) => {
             if(this.leavesMaterial && this.leavesMaterial.userData.shader) {
                  this.leavesMaterial.userData.shader.uniforms.uTime.value += dt;
             }
         });
-        */
     }
 
     /**
@@ -104,30 +104,6 @@ export default class ProceduralTree extends Tzomayach {
         this.ayshPeula("heescheel", this);
         return true;
     }
-    
-    // B"H: Create a MAGENTA placeholder to confirm mesh visibility immediately
-    createPlaceholderTexture() {
-        const width = 2;
-        const height = 2;
-        const size = width * height;
-        const data = new Uint8Array(4 * size);
-
-        // B"H: BRIGHT MAGENTA (255, 0, 255) to verify rendering
-        const r = 255, g = 0, b = 255; 
-
-        for (let i = 0; i < size; i++) {
-            const stride = i * 4;
-            data[stride] = r;
-            data[stride + 1] = g;
-            data[stride + 2] = b;
-            data[stride + 3] = 255; // Fully Opaque
-        }
-
-        const texture = new THREE.DataTexture(data, width, height, THREE.RGBAFormat);
-        texture.needsUpdate = true;
-        texture.colorSpace = THREE.SRGBColorSpace;
-        return texture;
-    }
 
     async createMeshes() {
         if(!this.branches || !this.leaves) return; 
@@ -153,19 +129,16 @@ export default class ProceduralTree extends Tzomayach {
         leafGeo.setIndex(this.leaves.indices);
         leafGeo.computeVertexNormals();
         
-        // B"H FIX: Use opaque placeholder texture immediately.
-        const defaultTex = this.createPlaceholderTexture();
-
-        // B"H FIX: Switch to MeshStandardMaterial to match branches and ensure lighting works.
+        // B"H: Reverted to MeshStandardMaterial for correct lighting and visibility
         this.leavesMaterial = new THREE.MeshStandardMaterial({
-            color: 0xffffff,
-            map: defaultTex,
+            color: this.options.leaves.tint || 0xffffff,
+            map: null, 
             side: THREE.DoubleSide,
-            alphaTest: 0.1, // Very low threshold to ensure pixels show up
-            transparent: false,
-            depthWrite: true, // Crucial for shadows
-            roughness: 1.0,
-            metalness: 0.0
+            alphaTest: 0.5, 
+            transparent: true, // B"H: Must be true for alpha test to work consistently with some loaders/contexts
+            depthWrite: true,
+            roughness: 0.8,
+            metalness: 0.1
         });
 
         // B"H: Texture Loading
@@ -198,11 +171,8 @@ export default class ProceduralTree extends Tzomayach {
                  this.olam.loadTexture({ url: leafPath })
                  .then(tex => {
                      if (tex) {
-                         console.log("B\"H Leaves Texture Loaded Successfully:", leafPath);
-                         // B"H FIX: Swap texture and force update
                          tex.colorSpace = THREE.SRGBColorSpace;
                          this.leavesMaterial.map = tex;
-                         this.leavesMaterial.alphaTest = 0.5; // Standard cutoff for leaf shapes
                          this.leavesMaterial.needsUpdate = true;
                      } 
                  })
@@ -210,12 +180,31 @@ export default class ProceduralTree extends Tzomayach {
             }
         }
         
-        /* B"H: WIND SHADER DISABLED TEMPORARILY
-           This eliminates the shader injection as a cause for invisible meshes.
+        // B"H: Wind Shader Injection
         this.leavesMaterial.onBeforeCompile = (shader) => {
-            // ...
+            shader.uniforms.uTime = { value: 0 };
+            shader.vertexShader = `uniform float uTime;\n` + shader.vertexShader;
+            shader.vertexShader = shader.vertexShader.replace(
+                '#include <project_vertex>',
+                `
+                vec4 mvPosition = vec4( transformed, 1.0 );
+                
+                // Simple wind effect based on height (uv.y) and position
+                float windStrength = 0.1;
+                float windSpeed = 1.5;
+                float windOffset = position.x + position.z;
+                
+                float wind = sin(uTime * windSpeed + windOffset * 0.5) * windStrength * uv.y;
+                
+                mvPosition.x += wind;
+                mvPosition.z += wind * 0.5; // Add some Z movement too
+
+                mvPosition = modelViewMatrix * mvPosition;
+                gl_Position = projectionMatrix * mvPosition;
+                `
+            );
+            this.leavesMaterial.userData.shader = shader;
         };
-        */
         
         const branches = new THREE.Mesh(branchGeo, branchMat);
         branches.castShadow = true;
@@ -224,9 +213,7 @@ export default class ProceduralTree extends Tzomayach {
         const leaves = new THREE.Mesh(leafGeo, this.leavesMaterial);
         leaves.castShadow = true;
         leaves.receiveShadow = true;
-        
-        // Debug Log
-        console.log("B\"H Tree Created. Leaf Vertices:", leafGeo.attributes.position.count);
+        leaves.frustumCulled = false; 
         
         this.treeGroup.add(branches);
         this.treeGroup.add(leaves);

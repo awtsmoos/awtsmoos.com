@@ -29,7 +29,6 @@ export default {
         
         // Initialize Nature System if needed
         if (item && item.isPainter && !this.olam.natureSystem) {
-             // B"H FIX: Correct relative path to reach ckidsAwtsmoos root
              import('../../../dvarim/nature/natureSystem.js').then(m => {
                  this.olam.natureSystem = new m.default(this.olam);
                  // Pre-load common assets
@@ -39,7 +38,6 @@ export default {
         }
         
         // Continuous Painting Logic
-        // B"H FIX: Only paint if painting mode is active
         if (this.olam.mouseDown && item && item.isPainter && this.activeRay && this.isPaintingMode) {
              const origin = this.getRayStart();
              const direction = this.getRayDirection();
@@ -47,7 +45,6 @@ export default {
              const hit = this.olam.worldOctree.rayIntersect(ray);
              
              if (hit && hit.distance < 15 && this.olam.natureSystem) {
-                 // console.log("B\"H Painting: Item Nature Type:", item.natureType);
                  this.olam.natureSystem.paint(item.natureType, hit.position);
              }
         }
@@ -229,6 +226,7 @@ export default {
                     let modelPath = "awtsmoos://grassModel"; 
                     const type = item.natureType || 'grass';
                     
+                    // Match the logic in NatureSystem.initPool
                     if (type.includes('rock')) modelPath = "awtsmoos://rockModel1";
                     else if (type.includes('flower')) modelPath = "awtsmoos://flowerBlue";
                     
@@ -245,10 +243,8 @@ export default {
                          else if (result.isObject3D) mesh = result;
 
                          if(mesh) {
-                            // B"H FIX: Normalize Ghost Geometry Size
-                            // This ensures the ghost matches the size of the placed nature items!
+                            // Normalize Ghost Geometry Size
                             mesh.updateMatrixWorld(true);
-                            // We must traverse to find the mesh geometry to measure it
                             let geometry = null;
                             mesh.traverse(c => { if(c.isMesh) geometry = c.geometry; });
                             
@@ -266,7 +262,6 @@ export default {
 
                                 if (height > 0.01) {
                                     const scaleFactor = targetHeight / height;
-                                    // Scale the root group to affect visual
                                     mesh.scale.setScalar(scaleFactor);
                                 }
                             }
@@ -275,12 +270,12 @@ export default {
                          }
                     } 
                     
-                    // B"H: IMMEDIATE Fallback if model loading failed or returned nothing
+                    // Fallback
                     if (!mesh) {
                         let geo;
                         if(type === 'grass') geo = new THREE.CylinderGeometry(0.05, 0.05, 0.5);
-                        else if (type.includes('flower')) geo = new THREE.SphereGeometry(0.2); // Flowers get spheres
-                        else geo = new THREE.DodecahedronGeometry(0.3); // Rocks get dodecahedrons
+                        else if (type.includes('flower')) geo = new THREE.SphereGeometry(0.2); 
+                        else geo = new THREE.DodecahedronGeometry(0.3);
                         
                         mesh = new THREE.Mesh(geo, new THREE.MeshBasicMaterial({ color: 0x00ff00, wireframe: true }));
                     }

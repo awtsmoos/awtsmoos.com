@@ -132,7 +132,8 @@ CALL ExitProcess
 ; Registers a class, creates a window, and handles messages.
 .subsystem gui
 .import KERNEL32.dll GetModuleHandleA ExitProcess
-.import USER32.dll RegisterClassA CreateWindowExA ShowWindow UpdateWindow GetMessageA TranslateMessage DispatchMessageA DefWindowProcA PostQuitMessage
+.import USER32.dll RegisterClassA CreateWindowExA ShowWindow UpdateWindow GetMessageA
+.import USER32.dll TranslateMessage DispatchMessageA DefWindowProcA PostQuitMessage
 
 .data
 ClassName: "MyWinClass"
@@ -230,16 +231,18 @@ on_destroy:
     draw: `; B"H
 ; Example: GDI Graphics
 ; ---------------------
-; Draws text and background on WM_PAINT.
+; Draws YELLOW text on DARK GRAY background.
 .subsystem gui
 .import KERNEL32.dll GetModuleHandleA ExitProcess
 .import GDI32.dll GetStockObject SetBkMode SetTextColor
-.import USER32.dll RegisterClassA CreateWindowExA ShowWindow UpdateWindow GetMessageA TranslateMessage DispatchMessageA DefWindowProcA PostQuitMessage BeginPaint EndPaint FillRect DrawTextA
+.import USER32.dll RegisterClassA CreateWindowExA ShowWindow GetMessageA
+.import USER32.dll TranslateMessage DispatchMessageA DefWindowProcA PostQuitMessage
+.import USER32.dll BeginPaint EndPaint FillRect DrawTextA GetClientRect
 
 .data
 ClassName: "GDIClass"
 Title: "B\\"H - Drawing"
-DrawText: "B\\"H - Awtsmoos Generated This!"
+TxtMsg: "B\\"H - Awtsmoos Generated This!"
 
 .code
 SUB RSP, 296 
@@ -327,51 +330,61 @@ on_paint:
     PUSH RSI
     PUSH RDI
     
-    ; Allocate Stack for Locals + Shadow Space
-    ; Total locals: PAINTSTRUCT (64) + RECT (16) + Padding = 80 bytes.
-    ; Shadow space: 32 bytes.
-    ; Alignment: Stack is currently misaligned by 3 pushes (24 bytes) + RetAddr (8) = 32 (Aligned 16).
-    ; We need to keep 16-byte alignment.
-    ; Let's alloc 128 bytes.
-    SUB RSP, 128
+    ; Stack Frame Layout:
+    ; +0 to +32   : Shadow Space (Args 1-4)
+    ; +32         : Arg 5 Slot
+    ; +40         : PAINTSTRUCT (64 bytes) -> [RSP+40]..[RSP+104]
+    ; +112        : RECT (16 bytes)        -> [RSP+112]..[RSP+128]
+    ; 
+    ; Alignment:
+    ; Entry: RSP%16 == 8 (RetAddr)
+    ; 3 Pushes: RSP%16 == 8 (8+24=32)
+    ; Need (SUB_AMOUNT) % 16 == 0.
+    ; Allocation: 144 bytes.
+    SUB RSP, 144
+    
+    MOV RBX, RCX      ; Save hWnd
     
     ; BeginPaint(hWnd, &ps)
-    MOV RBX, RCX      ; Save hWnd (passed in RCX) to RBX
-    
-    MOV RCX, RBX      ; Arg1: hWnd
-    LEA RDX, [RSP+40] ; Arg2: &ps (at RSP+40)
+    LEA RDX, [RSP+40] ; &ps
     CALL BeginPaint
     MOV RSI, RAX      ; RSI = hDC
 
-    ; FillRect(hDC, &rect, GetStockObject(BLACK_BRUSH))
-    ; rcPaint offset in PAINTSTRUCT is 12.
-    ; PS at RSP+40. rcPaint at RSP+52.
-    
-    MOV RCX, 4        ; BLACK_BRUSH
+    ; GetClientRect(hWnd, &rect)
+    ; This ensures we have the full window size, not just the update region.
+    MOV RCX, RBX      ; hWnd
+    LEA RDX, [RSP+112]; &rect
+    CALL GetClientRect
+
+    ; FillRect(hDC, &rect, DKGRAY_BRUSH)
+    ; DKGRAY_BRUSH = 3
+    MOV RCX, 3        
     CALL GetStockObject
     MOV RDI, RAX      ; Brush
     
     MOV RCX, RSI      ; hDC
-    LEA RDX, [RSP+52] ; &ps.rcPaint (RSP + 40 + 12)
+    LEA RDX, [RSP+112]; &rect
     MOV R8, RDI       ; hBrush
     CALL FillRect
     
-    ; SetTextColor
+    ; SetTextColor(hDC, YELLOW)
+    ; 0x00BBGGRR -> 0x0000FFFF (Red+Green=Yellow)
     MOV RCX, RSI
-    MOV RDX, 0x00FFFF00 ; Cyan
+    MOV RDX, 0x0000FFFF 
     CALL SetTextColor
     
-    ; SetBkMode
+    ; SetBkMode(hDC, TRANSPARENT)
     MOV RCX, RSI
     MOV RDX, 1          ; TRANSPARENT
     CALL SetBkMode
 
-    ; DrawTextA
-    MOV RCX, RSI
-    LEA RDX, DrawText
+    ; DrawTextA(hDC, Txt, -1, &rect, Format)
+    ; Format: DT_CENTER|DT_VCENTER|DT_SINGLELINE = 0x25
+    MOV RCX, RSI        ; hDC
+    LEA RDX, TxtMsg     ; lpString
     MOV R8, 0xFFFFFFFFFFFFFFFF ; -1
-    LEA R9, [RSP+52]    ; &ps.rcPaint
-    MOV [RSP+32], 0x25  ; DT_CENTER|DT_VCENTER|DT_SINGLELINE
+    LEA R9, [RSP+112]   ; &rect (Use Client Rect)
+    MOV [RSP+32], 0x25  ; Arg5
     CALL DrawTextA
 
     ; EndPaint(hWnd, &ps)
@@ -380,7 +393,7 @@ on_paint:
     CALL EndPaint
 
     ; Epilogue
-    ADD RSP, 128
+    ADD RSP, 144
     POP RDI
     POP RSI
     POP RBX

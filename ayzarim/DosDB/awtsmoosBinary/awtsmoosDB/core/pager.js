@@ -28,11 +28,16 @@ class Pager {
     async init() {
         if (!this.handle) {
             try {
-                await fs.access(this.filePath);
-            } catch {
-                await fs.writeFile(this.filePath, Buffer.alloc(0));
+                // B"H: Optimistic Open - Only check access if open fails
+                this.handle = await fs.open(this.filePath, 'r+');
+            } catch (e) {
+                if (e.code === 'ENOENT') {
+                    await fs.writeFile(this.filePath, Buffer.alloc(0));
+                    this.handle = await fs.open(this.filePath, 'r+');
+                } else {
+                    throw e;
+                }
             }
-            this.handle = await fs.open(this.filePath, 'r+');
             await this.wal.init();
             await this.wal.recover(this);
         }
@@ -80,7 +85,9 @@ class Pager {
             return copy;
         }
 
-        await this.init();
+        // B"H: Avoid re-init check on every read if handle exists
+        if (!this.handle) await this.init();
+
         const buffer = Buffer.alloc(constants.BLOCK_SIZE);
         const offset = Number(BigInt(blockId) * BigInt(constants.BLOCK_SIZE));
         
@@ -97,9 +104,6 @@ class Pager {
              console.log(`B"H [Pager] readBlock(${blockId}) DONE. Header: ${head}`);
         }
         
-        if (bytesRead < constants.BLOCK_SIZE) {
-            this.log(`WARN: readBlock(${blockId}) Partial Read: ${bytesRead}/${constants.BLOCK_SIZE}`);
-        }
         return buffer;
     }
     
@@ -109,7 +113,7 @@ class Pager {
             return this.dirtyBlocks.get(blockId).readUInt32BE(0);
         }
 
-        await this.init();
+        if (!this.handle) await this.init();
         const offset = Number(BigInt(blockId) * BigInt(constants.BLOCK_SIZE));
         const buffer = Buffer.alloc(4); 
         const { bytesRead } = await this.handle.read(buffer, 0, 4, offset);
@@ -118,48 +122,30 @@ class Pager {
     }
 
     async readSequential(startBlockId, numberOfBlocks) {
-        // B"H: Mixed Read Support
-        // If sequential read overlaps with dirty blocks, we must merge them.
-        // For simplicity/safety, if ANY block is dirty, we read them individually or reconstruct.
-        // Optimization: Check if any range overlaps dirty.
+        // B"H: Optimized Mixed Read Support
+        if (!this.handle) await this.init();
         
-        let hasDirty = false;
+        const totalSize = numberOfBlocks * constants.BLOCK_SIZE;
+        const buffer = Buffer.alloc(totalSize);
+        
+        // 1. Read everything from disk first (Bulk I/O)
+        const offset = Number(BigInt(startBlockId) * BigInt(constants.BLOCK_SIZE));
+        const bytesRead = await this._readExact(buffer, 0, totalSize, offset);
+        
+        // 2. Overlay dirty blocks from memory
         if (this.batchMode && this.dirtyBlocks.size > 0) {
             for(let i=0; i<numberOfBlocks; i++) {
-                if(this.dirtyBlocks.has(startBlockId + i)) {
-                    hasDirty = true;
-                    break;
+                const currentId = startBlockId + i;
+                if(this.dirtyBlocks.has(currentId)) {
+                    const dirty = this.dirtyBlocks.get(currentId);
+                    dirty.copy(buffer, i * constants.BLOCK_SIZE);
                 }
             }
         }
 
-        if (hasDirty) {
-            const buffer = Buffer.alloc(numberOfBlocks * constants.BLOCK_SIZE);
-            for(let i=0; i<numberOfBlocks; i++) {
-                const blk = await this.readBlock(startBlockId + i);
-                if (blk) blk.copy(buffer, i * constants.BLOCK_SIZE);
-            }
-            return buffer;
-        }
-
-        await this.init();
-        const totalSize = numberOfBlocks * constants.BLOCK_SIZE;
-        const buffer = Buffer.alloc(totalSize);
-        const offset = Number(BigInt(startBlockId) * BigInt(constants.BLOCK_SIZE));
-
-        if (this.debugBlocks.has(startBlockId)) {
-             console.log(`B"H [Pager] readSequential(${startBlockId}, n=${numberOfBlocks})`);
-        }
-
-        const bytesRead = await this._readExact(buffer, 0, totalSize, offset);
-        
         if (this.debugBlocks.has(startBlockId)) {
              const head = buffer.toString('hex', 0, 8);
-             console.log(`B"H [Pager] readSequential(${startBlockId}) DONE. First 8 bytes: ${head}`);
-        }
-
-        if (bytesRead < totalSize) {
-            this.log(`WARN: readSequential(${startBlockId}) Partial Read: ${bytesRead}/${totalSize}`);
+             console.log(`B"H [Pager] readSequential(${startBlockId}, n=${numberOfBlocks}) DONE. First 8 bytes: ${head}`);
         }
         
         return buffer;
@@ -219,7 +205,7 @@ class Pager {
     }
 
     async writeBlock(blockId, buffer) {
-        await this.init();
+        if (!this.handle) await this.init();
         
         let writeBuffer = buffer;
         if (buffer.length !== constants.BLOCK_SIZE) {
@@ -260,7 +246,7 @@ class Pager {
     }
 
     async truncate(blockCount) {
-        await this.init();
+        if (!this.handle) await this.init();
         const offset = Number(BigInt(blockCount) * BigInt(constants.BLOCK_SIZE));
         await this.handle.truncate(offset);
     }

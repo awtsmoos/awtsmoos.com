@@ -49,6 +49,7 @@ class HNSW {
             const oldNode = await this._getNode(existingNodeID);
             if (oldNode) {
                 oldNode.deleted = true;
+                // Save marks dirty in Pager, so it's fast
                 const deadPtr = await this.storage.saveNode(oldNode);
                 if (!deadPtr.equals(oldNode.ptr)) await this.registry.splice(existingNodeID, 1, deadPtr);
             }
