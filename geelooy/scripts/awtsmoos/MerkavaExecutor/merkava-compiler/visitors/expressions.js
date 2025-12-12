@@ -78,11 +78,15 @@
                  this.buffer.write8(this.OPCODES.DUP); // DUP Object
                  if (node.callee.computed) this._visit(node.callee.property);
                  else this._emitConstant(node.callee.property.name);
-                 this.buffer.write8(this.OPCODES.GET_PROP); // Pops Obj, Key. Pushes Func. Stack: [Obj, Func]
-                 // B"H - FIXED: Removed erroneous SWAP. Stack is correctly [this, callee].
+                 this.buffer.write8(this.OPCODES.GET_PROP); // Pops Obj, Key. Pushes Func.
+                 // B"H - FIXED: Stack is [Obj, Func]. Top is Func.
+                 // This matches the [Context, Function] layout required by CALL.
             } else {
-                 this._visit(node.callee); 
-                 this.buffer.write8(this.OPCODES.PUSH_UNDEFINED); 
+                 this._visit(node.callee); // Push Function
+                 this.buffer.write8(this.OPCODES.PUSH_UNDEFINED); // Push Context (undefined)
+                 // B"H - TIKKUN: Standardize Stack Layout to [Context, Function]
+                 // Current is [Func, Undefined]. Must SWAP.
+                 this.buffer.write8(this.OPCODES.SWAP);
             }
             node.arguments.forEach(arg => this._visit(arg));
             this.buffer.write8(this.OPCODES.CALL);

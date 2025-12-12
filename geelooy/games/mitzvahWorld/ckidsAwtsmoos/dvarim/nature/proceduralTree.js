@@ -134,7 +134,7 @@ export default class ProceduralTree extends Tzomayach {
         this.leavesMaterial = new THREE.MeshPhongMaterial({
             color: this.options.leaves.tint || 0x228B22,
             side: THREE.DoubleSide,
-            alphaTest: 0, // No culling initially
+            alphaTest: 0, // No culling initially (ensures visibility even if texture fails)
             transparent: false, // Opaque render queue for better depth sorting with alphaTest
             shininess: 0
         });

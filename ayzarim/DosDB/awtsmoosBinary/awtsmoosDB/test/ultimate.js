@@ -1,18 +1,22 @@
+
 // B"H
 const AwtsmoosDB = require('../index.js');
 const fs = require('fs').promises;
+const fsSync = require('fs');
 
 const DB_PATH = './ultimate_stress.db';
 
 async function runTest() {
+    // Clean up previous test
     try {
-        await fs.unlink(DB_PATH).catch(() => {});
-        await fs.unlink(DB_PATH + '.wal').catch(() => {});
+        if (fsSync.existsSync(DB_PATH)) fsSync.unlinkSync(DB_PATH);
+        if (fsSync.existsSync(DB_PATH + '.wal')) fsSync.unlinkSync(DB_PATH + '.wal');
     } catch(e) {}
 
     const db = new AwtsmoosDB(DB_PATH);
-    // B"H: Init is handled lazily via ensureOpen
-    // await db.init();
+    
+    // B"H: CRITICAL FIX - Must open DB before accessing root
+    await db.open();
     
     console.log("B\"H - Starting ULTIMATE EXTREME Stress Test...");
 
@@ -72,7 +76,11 @@ async function runTest() {
     if (libCheck !== undefined) throw new Error("Library failed to burn!");
     console.log("✅ Library Burned.");
 
+    await db.close();
     console.log("\nB\"H - ULTIMATE TEST PASSED. The Vessel holds the Light.");
 }
 
-runTest().catch(console.error);
+runTest().catch(e => {
+    console.error(e);
+    process.exit(1);
+});

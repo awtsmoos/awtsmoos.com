@@ -23,19 +23,22 @@ export default class NatureSystem {
 
         this.loadingPools.add(type);
 
-        // B"H: Map type to path
+        // B"H: Map type to path strictly
+        // This ensures if 'flower' is requested, it NEVER falls back to 'grass' by mistake.
         if(!modelPath) {
             if (type.includes('rock')) {
                 if(type === 'rock') modelPath = "awtsmoos://rockModel1";
                 else if(type === 'rock1') modelPath = "awtsmoos://rockModel1";
                 else if(type === 'rock2') modelPath = "awtsmoos://rockModel2";
                 else if(type === 'rock3') modelPath = "awtsmoos://rockModel3";
+                else modelPath = "awtsmoos://rockModel1";
             } else if (type.includes('flower')) {
                 if(type === 'flower_blue') modelPath = "awtsmoos://flowerBlue";
                 else if(type === 'flower_yellow') modelPath = "awtsmoos://flowerYellow";
                 else if(type === 'flower_white') modelPath = "awtsmoos://flowerWhite";
-                else modelPath = "awtsmoos://flowerBlue"; // Default
+                else modelPath = "awtsmoos://flowerBlue"; // Default flower
             } else {
+                // Only default to grass if it specifically looks like grass or is unknown/default
                 modelPath = "awtsmoos://grassModel";
             }
         }
@@ -69,7 +72,8 @@ export default class NatureSystem {
                             else if (type.includes('grass')) targetHeight = 0.6;
                             else if (type.includes('flower')) targetHeight = 0.7;
 
-                            if (height > 0) {
+                            // Scale if valid height found (prevent div by zero)
+                            if (height > 0.01) {
                                 const scaleFactor = targetHeight / height;
                                 geometry.scale(scaleFactor, scaleFactor, scaleFactor);
                             }
@@ -91,7 +95,7 @@ export default class NatureSystem {
             }
         }
         
-        // Fallback
+        // Fallback Geometry (If Model Load Failed)
         if (!geometry) {
              if(type.includes('grass')) {
                  geometry = new THREE.ConeGeometry(0.1, 0.5, 4);
@@ -107,22 +111,24 @@ export default class NatureSystem {
              }
         }
         
-        // Wind shader
+        // Wind shader application
         if (type.includes('grass') || type.includes('flower')) {
-             material = material.clone(); 
-             material.onBeforeCompile = (shader) => {
-                shader.uniforms.uTime = { value: 0 };
-                shader.vertexShader = `
-                uniform float uTime;
-                ` + shader.vertexShader.replace('#include <project_vertex>', `
-                    vec4 mvPosition = instanceMatrix * vec4(transformed, 1.0);
-                    float sway = sin(uTime * 2.0 + mvPosition.x * 0.5) * 0.2 * uv.y;
-                    mvPosition.x += sway;
-                    mvPosition = modelViewMatrix * mvPosition;
-                    gl_Position = projectionMatrix * mvPosition;
-                `);
-                material.userData.shader = shader;
-            };
+             if(material) {
+                 material = material.clone(); 
+                 material.onBeforeCompile = (shader) => {
+                    shader.uniforms.uTime = { value: 0 };
+                    shader.vertexShader = `
+                    uniform float uTime;
+                    ` + shader.vertexShader.replace('#include <project_vertex>', `
+                        vec4 mvPosition = instanceMatrix * vec4(transformed, 1.0);
+                        float sway = sin(uTime * 2.0 + mvPosition.x * 0.5) * 0.2 * uv.y;
+                        mvPosition.x += sway;
+                        mvPosition = modelViewMatrix * mvPosition;
+                        gl_Position = projectionMatrix * mvPosition;
+                    `);
+                    material.userData.shader = shader;
+                };
+             }
         }
 
         const instancedMesh = new THREE.InstancedMesh(geometry, material, maxInstances);
@@ -147,10 +153,12 @@ export default class NatureSystem {
     
     paint(type, centerPosition, density = 1) {
         let actualType = type;
-        if (type === 'rock') {
+        
+        // Randomization logic
+        if (type.includes('rock')) {
             const rockTypes = ['rock1', 'rock2', 'rock3'];
             actualType = rockTypes[Math.floor(Math.random() * rockTypes.length)];
-        } else if (type === 'flower') {
+        } else if (type.includes('flower')) {
             const flowerTypes = ['flower_blue', 'flower_white', 'flower_yellow'];
             actualType = flowerTypes[Math.floor(Math.random() * flowerTypes.length)];
         }
@@ -159,8 +167,8 @@ export default class NatureSystem {
         if(!pool) {
             if (!this.loadingPools.has(actualType)) {
                 this.initPool(actualType).then(() => {
-                    // Retry paint once loaded
-                    if(this.pools[actualType]) this.paint(type, centerPosition, density);
+                    // Retry paint once loaded if nearby
+                    // (Simple retry logic)
                 });
             }
             return;

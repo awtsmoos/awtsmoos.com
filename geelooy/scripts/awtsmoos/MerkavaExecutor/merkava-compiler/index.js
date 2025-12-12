@@ -112,7 +112,7 @@
             if (Array.isArray(statements)) {
                 // Pass 0: Pre-declare Identifiers (Scope Population)
                 // B"H - TIKKUN: Only declare locals if we are NOT at root (depth > 0).
-                // At root (depth 0), variables are implicitly GLOBALS.
+                // At root (depth 0), variables are implicitly GLOBALS to ensure persistence.
                 if (this.scope.depth > 0) {
                     statements.forEach(s => {
                         if (s.type === 'FunctionDeclaration' && s.id) {
@@ -125,7 +125,7 @@
                     });
                 }
 
-                // Pass 1: Compile Function Declarations
+                // Pass 1: Compile Function Declarations (Hoisting support)
                 statements.forEach(s => {
                     if (s.type === 'FunctionDeclaration') {
                         this._visit(s);

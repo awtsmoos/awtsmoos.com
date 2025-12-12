@@ -243,12 +243,33 @@ export default {
                          else if (result.isObject3D) mesh = result;
 
                          if(mesh) {
-                             if(type === 'grass' || type.includes('flower')) {
-                                 mesh.scale.multiplyScalar(0.1); 
-                             } else {
-                                 mesh.scale.multiplyScalar(0.8 + Math.random() * 0.4);
-                             }
-                             mesh.rotation.y = Math.random() * Math.PI * 2;
+                            // B"H FIX: Normalize Ghost Geometry Size
+                            // This ensures the ghost matches the size of the placed nature items!
+                            mesh.updateMatrixWorld(true);
+                            // We must traverse to find the mesh geometry to measure it
+                            let geometry = null;
+                            mesh.traverse(c => { if(c.isMesh) geometry = c.geometry; });
+                            
+                            if (geometry) {
+                                geometry.computeBoundingBox();
+                                const size = new THREE.Vector3();
+                                geometry.boundingBox.getSize(size);
+                                const height = size.y;
+                                
+                                // Target Heights (Match NatureSystem logic)
+                                let targetHeight = 0.5;
+                                if (type.includes('rock')) targetHeight = 0.8;
+                                else if (type.includes('grass')) targetHeight = 0.6;
+                                else if (type.includes('flower')) targetHeight = 0.7;
+
+                                if (height > 0.01) {
+                                    const scaleFactor = targetHeight / height;
+                                    // Scale the root group to affect visual
+                                    mesh.scale.setScalar(scaleFactor);
+                                }
+                            }
+                            
+                            mesh.rotation.y = Math.random() * Math.PI * 2;
                          }
                     } 
                     

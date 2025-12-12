@@ -47,23 +47,28 @@ export function createGuiApp(userMessage) {
 
     // --- Code Generation ---
     // Entry Point:
-    // SUB RSP, 40 (Aligns Stack)
+    // We must preserve Non-Volatile registers: RBX, RDI, RSI, R12-R15, RBP.
+    // We use RBX (for struct base) and RDI (for hInstance).
+    // Stack Align: 
+    // Call pushes 8 (RetAddr). RSP ends in 8.
+    // PUSH RBX (8) -> RSP ends in 0.
+    // PUSH RDI (8) -> RSP ends in 8.
+    // SUB RSP, 40 (0x28) -> RSP ends in 8 - 40 = -32 (0 mod 16).
+    // Correct.
+    
+    code.addBytes([0x53]); // PUSH RBX
+    code.addBytes([0x57]); // PUSH RDI
     code.addBytes([PREFIXES.REX_W, OPCODES.SUB_RM64_IMM8, 0xEC, 0x28]); 
 
     // GetModuleHandle(0)
     code.addBytes([OPCODES.XOR_RM64_R64, 0xC9]); // RCX = 0
     code.addCall("GetModuleHandleA\0");
     // RAX = hInstance
-
-    // LoadCursor(0, IDC_ARROW=32512)
-    // Save hInstance first? No, we can store it in struct later.
-    // Save hInstance to RBX temporarily? RBX is callee saved.
-    // Lets push RAX to stack? Or just MOV RDI, RAX (callee saved).
     code.addBytes([0x48, 0x89, 0xC7]); // MOV RDI, RAX (Save hInstance)
 
-    // LoadCursorA(0, 32512)
+    // LoadCursorA(0, IDC_ARROW=32512)
     code.addBytes([0x48, 0x31, 0xC9]); // RCX = 0
-    code.addBytes([0xBA, 0x00, 0x7F, 0x00, 0x00]); // RDX = 32512 (0x7F00)
+    code.addBytes([0xBA, 0x00, 0x7F, 0x00, 0x00]); // RDX = 32512
     code.addCall("LoadCursorA\0");
     // RAX = hCursor
 
@@ -74,9 +79,7 @@ export function createGuiApp(userMessage) {
     // MOV [RBX+24], RDI (hInstance)
     code.addBytes([0x48, 0x89, 0x7B, 0x18]); 
 
-    // MOV [RBX+40], RAX (hCursor) - Offset 40 (0x28) is hCursor? 
-    // Struct: style(0-4), lpfn(8-16), cb(16-24), hInst(24-32), hIcon(32-40), hCursor(40-48).
-    // Yes, 40 is hCursor.
+    // MOV [RBX+40], RAX (hCursor)
     code.addBytes([0x48, 0x89, 0x43, 0x28]); 
 
     // Set hbrBackground (Offset 48/0x30). COLOR_WINDOW+1 = 6.
@@ -96,11 +99,12 @@ export function createGuiApp(userMessage) {
 
     // CreateWindowExA
     // Stack Adjustment: SUB RSP, 0x60 (96 bytes). 
-    // Total frame = 0x28 + 0x60 = 0x88 (136). + 8 (Ret) = 144 (Aligned).
+    // Current RSP is aligned (0 mod 16).
+    // SUB 96 -> Aligned.
+    // Call pushes 8 -> 8 mod 16 (Correct for callee).
     code.addBytes([PREFIXES.REX_W, OPCODES.SUB_RM64_IMM8, 0xEC, 0x60]);
 
     // Args 12-5
-    
     // Param 12: lpParam = 0
     code.addBytes([0x48, 0xC7, 0x84, 0x24, 0x58, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]); 
     // Param 11: hInstance = RDI
@@ -120,7 +124,6 @@ export function createGuiApp(userMessage) {
 
     // Registers
     // R9 (Style) = WS_OVERLAPPEDWINDOW | WS_VISIBLE (0x10000000)
-    // WS_OVERLAPPEDWINDOW = 0x00CF0000. Total: 0x10CF0000.
     code.addBytes([0x41, 0xB9, 0x00, 0x00, 0xCF, 0x10]);
     // R8 (WindowName)
     code.addLeaRegRel(8, 1);
@@ -144,8 +147,14 @@ export function createGuiApp(userMessage) {
     code.addBytes([0x49, 0x31, 0xC9]); // R9 = 0
     code.addCall("GetMessageA\0");
 
-    // Test RAX, RAX (if 0, exit)
-    code.addBytes([0x48, 0x85, 0xC0]);
+    // Check Return Value
+    // 0 = WM_QUIT -> Exit
+    // -1 = Error -> Exit
+    code.addBytes([0x48, 0x85, 0xC0]); // TEST RAX, RAX
+    code.addJumpRel8(OPCODES.JE_REL8, "ExitApp");
+    
+    // CMP RAX, -1
+    code.addBytes([0x48, 0x83, 0xF8, 0xFF]); 
     code.addJumpRel8(OPCODES.JE_REL8, "ExitApp");
 
     // DispatchMessage(&msg)
@@ -155,6 +164,9 @@ export function createGuiApp(userMessage) {
     code.addJumpRel8(OPCODES.JMP_REL8, "MsgLoop");
 
     code.markLabel("ExitApp");
+    code.addBytes([PREFIXES.REX_W, 0x83, 0xC4, 0x28]); // ADD RSP, 40
+    code.addBytes([0x5F]); // POP RDI
+    code.addBytes([0x5B]); // POP RBX
     code.addBytes([OPCODES.XOR_RM64_R64, 0xC9]);
     code.addCall("ExitProcess\0");
 

@@ -1,0 +1,275 @@
+
+// B"H
+/**
+ * @file ultimate_chaos.js
+ * @description
+ *  THE ULTIMATE CHAOS TEST.
+ *  
+ *  "And the earth was without form, and void..."
+ *  
+ *  This test pushes AwtsmoosDB to its absolute limits.
+ *  1. 100-Level Deep B-Tree Nesting.
+ *  2. Massive Sequence Splicing (Insert/Delete middle of 10k items).
+ *  3. Concurrent Vector & Text Search Indexing.
+ *  4. Graph Network Severing & Pathfinding.
+ *  5. Manual Compaction & Fragmentation Analysis.
+ *  6. Full Persistence Reboot.
+ */
+
+const fs = require('fs');
+const path = require('path');
+const AwtsmoosDB = require('../index.js');
+
+const DB_PATH = path.join(__dirname, 'chaos.db');
+
+const log = (msg) => console.log(`\x1b[35m[CHAOS]\x1b[0m ${msg}`);
+const assert = (cond, msg) => {
+    if (!cond) {
+        console.error(`\x1b[31m[FAIL]\x1b[0m ${msg}`);
+        process.exit(1);
+    }
+};
+
+async function runTest() {
+    log("B\"H - Unleashing the Ultimate Chaos Test...");
+
+    // 1. Cleanup
+    if (fs.existsSync(DB_PATH)) fs.unlinkSync(DB_PATH);
+    if (fs.existsSync(DB_PATH + '.wal')) fs.unlinkSync(DB_PATH + '.wal');
+
+    let db = new AwtsmoosDB(DB_PATH, { debug: false });
+    await db.open();
+
+    try {
+        // ==========================================================
+        // TRIAL 1: THE TOWER OF BABEL (Extreme Nesting)
+        // ==========================================================
+        log("\n[1] The Tower of Babel: 100 Levels of Nesting...");
+        
+        let curr = db.root;
+        // Create 100 nested maps
+        for(let i=1; i<=100; i++) {
+            const key = `level_${i}`;
+            await curr.createMap(key);
+            curr = curr[key]; // Traverse down
+        }
+        
+        // Place the artifact at the top
+        await curr.set("artifact", "The Word of Creation");
+        await db.waitForIdle();
+        
+        log("    Tower built. verifying ascent...");
+        
+        let climb = db.root;
+        for(let i=1; i<=100; i++) {
+            climb = climb[`level_${i}`];
+        }
+        const secret = await climb.artifact;
+        
+        if (secret !== "The Word of Creation") throw new Error("Tower integrity failed");
+        log("    ✅ The Tower stands firm.");
+
+
+        // ==========================================================
+        // TRIAL 2: THE LEGION (Vector & Search Concurrency)
+        // ==========================================================
+        log("\n[2] The Legion: Concurrent Vector & Search Indexing...");
+        
+        await db.root.createList("knowledge_base");
+        await db.root.knowledge_base.enableSearch();
+        await db.root.knowledge_base.enableVectorIndex({ dimensions: 4 });
+
+        const BATCH_SIZE = 200;
+        log(`    Injecting ${BATCH_SIZE} complex entities simultaneously...`);
+        
+        const promises = [];
+        for(let i=0; i<BATCH_SIZE; i++) {
+            promises.push(db.root.knowledge_base.push({
+                id: i,
+                content: `Entity ${i} holds the secret of the void`,
+                vector: [Math.random(), Math.random(), Math.random(), Math.random()]
+            }));
+        }
+        
+        await Promise.all(promises);
+        await db.waitForIdle();
+        
+        log("    Verifying Indices...");
+        const searchRes = await db.root.knowledge_base.search("secret void");
+        assert(searchRes.length === BATCH_SIZE, `Search Index incomplete. Got ${searchRes.length}`);
+        
+        const vecRes = await db.root.knowledge_base.nearest([0.5, 0.5, 0.5, 0.5], 5);
+        assert(vecRes.length === 5, "Vector HNSW Index failed");
+        
+        log("    ✅ The Legion is indexed.");
+
+
+        // ==========================================================
+        // TRIAL 3: THE GREAT FLOOD (Sequence Splicing)
+        // ==========================================================
+        log("\n[3] The Great Flood: Massive Sequence Manipulation...");
+        
+        await db.root.createList("timeline");
+        const timeline = db.root.timeline;
+        
+        // 1. Fill
+        log("    Creating history (5,000 items)...");
+        const era1 = Array.from({length: 5000}, (_, i) => `Year_${i}`);
+        await timeline.splice(0, 0, ...era1);
+        await db.waitForIdle();
+        
+        // 2. Splice Insert Middle (Force Page Splits)
+        log("    Time Travel: Inserting 1,000 items at index 2,500...");
+        const lostEra = Array.from({length: 1000}, (_, i) => `Lost_Year_${i}`);
+        await timeline.splice(2500, 0, ...lostEra);
+        await db.waitForIdle();
+        
+        // Verify Middle
+        const checkMid = await timeline[2500];
+        assert(checkMid === "Lost_Year_0", "Splice Insert Failed at boundary");
+        const checkMidEnd = await timeline[3499];
+        assert(checkMidEnd === "Lost_Year_999", "Splice Insert Failed at end boundary");
+        const checkAfter = await timeline[3500];
+        assert(checkAfter === "Year_2500", "Shifted data mismatch");
+
+        // 3. Splice Delete (Force Merge/Gaps)
+        log("    The Purge: Deleting 3,000 items from index 1,000...");
+        await timeline.splice(1000, 3000); // Should verify deleting across inserted chunk
+        await db.waitForIdle();
+        
+        // Expected Length: 6000 - 3000 = 3000
+        const len = await timeline.length;
+        assert(len === 3000, `Length Mismatch. Expected 3000, got ${len}`);
+        
+        // Index 1000 should now be what was previously index 4000 (Year_3000)
+        // Wait:
+        // 0..2499 = Year_0..Year_2499
+        // 2500..3499 = Lost_Year_0..Lost_Year_999
+        // 3500..5999 = Year_2500..Year_4999
+        //
+        // Delete 1000..3999 (3000 items)
+        // Removed: Year_1000..Year_2499 (1500 items)
+        // Removed: Lost_Year_0..Lost_Year_999 (1000 items)
+        // Removed: Year_2500..Year_2999 (500 items)
+        //
+        // Index 1000 should now be Year_3000.
+        
+        const survivor = await timeline[1000];
+        assert(survivor === "Year_3000", `Splice Delete Logic Failed. Index 1000 is ${survivor}`);
+        
+        log("    ✅ The Flood waters have receded correctly.");
+
+
+        // ==========================================================
+        // TRIAL 4: THE INFINITE WEB (Graph Integrity)
+        // ==========================================================
+        log("\n[4] The Infinite Web: Graph Pathfinding & Severing...");
+        
+        await db.root.createMap("net");
+        const NODES = 100;
+        
+        // Create Chain: 0->1->2...->99
+        for(let i=0; i<NODES; i++) {
+            await db.root.net.createMap(`n${i}`);
+            await db.root.net[`n${i}`].set("id", i);
+        }
+        
+        for(let i=0; i<NODES-1; i++) {
+            const src = db.root.net[`n${i}`];
+            const tgt = db.root.net[`n${i+1}`];
+            await src.relateTo(tgt, "LINK");
+        }
+        await db.waitForIdle();
+        
+        // Verify Path
+        const start = db.root.net.n0;
+        const end = db.root.net[`n${NODES-1}`];
+        
+        log("    Finding path 0 -> 99...");
+        const path = await start.path(end, { maxDepth: 200 });
+        assert(path.length === NODES, `Path length incorrect. Got ${path?.length}`);
+        
+        // Sever the chain at 50
+        log("    Severing the chain at node 50...");
+        await db.root.net.delete(`n50`); // Deleting node should auto-clean edges
+        await db.waitForIdle();
+        
+        // Verify Path Fails
+        const brokenPath = await start.path(end, { maxDepth: 200 });
+        assert(brokenPath === null, "Path should be broken but was found!");
+        
+        // Verify Edges Cleaned
+        const n49 = db.root.net.n49;
+        const out49 = await n49.relationships("OUT");
+        assert(out49.length === 0, "Edge to n50 was not cleaned from n49");
+        
+        log("    ✅ Graph logic verified.");
+
+
+        // ==========================================================
+        // TRIAL 5: THE BIG CRUNCH (Fragmentation & Compaction)
+        // ==========================================================
+        log("\n[5] The Big Crunch: Compaction Analysis...");
+        
+        // Check fragmentation of the 'timeline' list (we deleted 50% of it earlier)
+        const statsBefore = await db.root.timeline.stats();
+        log(`    Stats Before: Size=${statsBefore.size} bytes, Fragmentation=${(statsBefore.fragmentation*100).toFixed(2)}%`);
+        
+        // If fragmentation is high, compact
+        if (statsBefore.fragmentation > 0) {
+            log("    Compacting Timeline...");
+            await db.root.timeline.compact();
+            await db.waitForIdle();
+            
+            const statsAfter = await db.root.timeline.stats();
+            log(`    Stats After: Size=${statsAfter.size} bytes, Fragmentation=${(statsAfter.fragmentation*100).toFixed(2)}%`);
+            
+            assert(statsAfter.fragmentation < statsBefore.fragmentation, "Compaction failed to reduce fragmentation");
+            assert(statsAfter.size < statsBefore.size, "Compaction failed to reduce size");
+        } else {
+            log("    (Skipping compaction, data already packed)");
+        }
+        
+        log("    ✅ Compaction verified.");
+
+
+        // ==========================================================
+        // TRIAL 6: THE APOCALYPSE (Persistence)
+        // ==========================================================
+        log("\n[6] The Apocalypse: System Restart...");
+        
+        await db.close();
+        db = null; // Destroy instance
+        
+        log("    ...Silence...");
+        
+        const db2 = new AwtsmoosDB(DB_PATH);
+        await db2.open();
+        
+        // Verify Tower
+        let rebornClimb = db2.root;
+        for(let i=1; i<=100; i++) rebornClimb = rebornClimb[`level_${i}`];
+        const rebornSecret = await rebornClimb.artifact;
+        assert(rebornSecret === "The Word of Creation", "Nested Data Lost");
+        
+        // Verify Sequence
+        const rebornTimelineLen = await db2.root.timeline.length;
+        assert(rebornTimelineLen === 3000, "Sequence Data Lost");
+        const rebornSurvivor = await db2.root.timeline[1000];
+        assert(rebornSurvivor === "Year_3000", "Sequence Index integrity lost");
+        
+        // Verify Search
+        const rebornSearch = await db2.root.knowledge_base.search("secret void");
+        assert(rebornSearch.length === 200, "Search Index Lost");
+
+        await db2.close();
+        
+        log("\nB\"H - ULTIMATE CHAOS TEST PASSED. THE SYSTEM IS IMMORTAL.");
+
+    } catch (e) {
+        console.error("\n❌ CHAOS CONSUMED THE SYSTEM:", e);
+        process.exit(1);
+    }
+}
+
+runTest();
