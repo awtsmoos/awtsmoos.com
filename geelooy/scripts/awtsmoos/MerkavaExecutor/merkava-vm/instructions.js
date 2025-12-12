@@ -1,4 +1,5 @@
 
+
 // B"H
 (function(root) {
     root.MerkavaVM = root.MerkavaVM || {};
@@ -24,7 +25,7 @@
                 
                 case OPCODES.PUSH_THIS: thread.push(thread.currentScope ? thread.currentScope['this'] : undefined); break;
                 case OPCODES.PUSH_META: {
-                    const type = thread.read8(); // 0=new.target, 1=import.meta
+                    const type = thread.read8(); 
                     if (type === 0) thread.push(thread.currentScope['new.target'] || undefined);
                     else thread.push({ url: 'virtual-module' });
                     break;
@@ -71,7 +72,31 @@
                     break;
                 }
                 case OPCODES.LOAD_LOCAL: thread.push(thread.currentScope[thread.read8()]); break;
-                case OPCODES.STORE_LOCAL: { if(!thread.currentScope) thread.currentScope={}; thread.currentScope[thread.read8()] = thread.pop(); break; }
+                case OPCODES.STORE_LOCAL: { 
+                    if(!thread.currentScope) thread.currentScope={}; 
+                    const idx = thread.read8();
+                    const val = thread.pop();
+                    thread.currentScope[idx] = val;
+                    break; 
+                }
+
+                // B"H - TIKKUN: Upvalues
+                case OPCODES.LOAD_UPVALUE: {
+                    const idx = thread.read8();
+                    const depth = thread.read8();
+                    let scope = thread.currentUpvalues; 
+                    thread.push(scope ? scope[idx] : undefined);
+                    break;
+                }
+                case OPCODES.STORE_UPVALUE: {
+                    const idx = thread.read8();
+                    const depth = thread.read8();
+                    const val = thread.pop();
+                    if (thread.currentUpvalues) {
+                        thread.currentUpvalues[idx] = val;
+                    }
+                    break;
+                }
 
                 // Arithmetic & Logic
                 case OPCODES.ADD: { const b = thread.pop(); const a = thread.pop(); thread.push(a + b); break; }
@@ -141,14 +166,14 @@
                 // Functions & Closures
                 case OPCODES.CLOSURE: {
                     const code = thread.constants[thread.read16()];
-                    const flags = thread.read8(); // isAsync(1) | isGen(2) | isArrow(4)
+                    const flags = thread.read8(); 
                     const closure = { 
                         type: 'CLOSURE', 
                         code, 
                         isAsync: !!(flags & 1), 
                         isGenerator: !!(flags & 2),
                         isArrow: !!(flags & 4),
-                        upvalues: thread.currentScope // Simplified capture
+                        upvalues: thread.currentScope // B"H - Capture current scope as upvalues
                     };
                     thread.push(closure);
                     break;
@@ -161,26 +186,26 @@
                     let ctx = thread.pop(); // this
                     const callee = thread.pop();
 
-                    // B"H - TIKKUN: Default 'this' to global environment if undefined/null
-                    // This mimics standard JS non-strict behavior and fixes implicit global calls (e.g. alert())
                     if (ctx === undefined || ctx === null) {
                         ctx = thread.environment; 
                     }
 
                     if (callee && callee.type === 'CLOSURE') {
                         if (callee.isGenerator) {
-                            // Generator return mock
                             const genObj = {
                                 next: (val) => ({ value: undefined, done: true }),
                                 [Symbol.iterator]: function() { return this; }
                             };
                             thread.push(genObj);
                         } else {
+                            // B"H - Push Frame with current upvalues
                             thread.frames.push({
                                 ip: thread.ip, bytecode: thread.bytecode,
                                 constants: thread.constants, scope: thread.currentScope,
+                                upvalues: thread.currentUpvalues, // Save previous upvalues
                                 stackSize: thread.stack.length
                             });
+                            
                             thread.bytecode = callee.code.bytecode;
                             thread.constants = callee.code.constants;
                             thread.ip = 0;
@@ -188,12 +213,15 @@
                                 'this': callee.isArrow ? ctx : ctx, 
                                 'arguments': args 
                             };
+                            // B"H - Restore captured upvalues
+                            thread.currentUpvalues = callee.upvalues;
+
                             args.forEach((a, i) => thread.currentScope[i] = a);
                         }
                     } else if (typeof callee === 'function') {
                         thread.push(callee.apply(ctx, args));
                     } else {
-                        // B"H - Enhanced Error Message
+                        // B"H - Enhanced Error Info
                         const type = typeof callee;
                         const msg = `[VM] TypeError: ${type === 'undefined' ? 'undefined' : type} is not a function (callee was ${String(callee)})`;
                         throw new Error(msg);
@@ -207,7 +235,6 @@
                     const methodCode = thread.constants[thread.read16()];
                     
                     const ClassConstructor = function(...args) {
-                        // In a real VM, we would invoke the constructor logic here
                     };
                     if (superClass) {
                         ClassConstructor.prototype = Object.create(superClass.prototype);
@@ -230,7 +257,9 @@
                     const ret = thread.pop();
                     if (thread.frames.length > 0) {
                         const f = thread.frames.pop();
-                        thread.ip = f.ip; thread.bytecode = f.bytecode; thread.constants = f.constants; thread.currentScope = f.scope;
+                        thread.ip = f.ip; thread.bytecode = f.bytecode; 
+                        thread.constants = f.constants; thread.currentScope = f.scope;
+                        thread.currentUpvalues = f.upvalues; // B"H - Restore Upvalues
                         thread.push(ret);
                     } else {
                         thread.push(ret); return 'COMPLETED';
