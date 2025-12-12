@@ -1,3 +1,4 @@
+
 // B"H
 (function(root) {
     root.MerkavaCompiler = root.MerkavaCompiler || {};
@@ -10,22 +11,24 @@
                 else this.buffer.write8(this.OPCODES.PUSH_UNDEFINED);
                 
                 if (decl.id.type === 'Identifier') {
+                    // Scope declaration happens in Pass 0 of _compileBlock, 
+                    // but we check depth > 0 for block-scoped safety in nested constructs
                     if (this.scope.depth > 0) this.scope.declare(decl.id.name);
                     this._visitIdentifier(decl.id, 'STORE');
                 } else {
-                    // Pattern destructuring handled at runtime via opcode or expansion
-                    this.buffer.write8(this.OPCODES.POP); // Placeholder drop
+                    this.buffer.write8(this.OPCODES.POP); 
                 }
-                this.buffer.write8(this.OPCODES.POP); // Consume expression result
             });
         },
 
         _visitFuncDecl(node) {
             const func = { ...node, type: 'FunctionExpression' };
+            // Pass 0 handles declaration for hoisting
             if (this.scope.depth > 0) this.scope.declare(node.id.name);
+            
             this._visitFuncExpr(func); 
+            // Store the closure into the variable
             this._visitIdentifier(node.id, 'STORE');
-            this.buffer.write8(this.OPCODES.POP); 
         },
 
         _visitClassDecl(node) {
@@ -33,7 +36,8 @@
             if (node.id) {
                 if (this.scope.depth > 0) this.scope.declare(node.id.name);
                 this._visitIdentifier(node.id, 'STORE');
-                this.buffer.write8(this.OPCODES.POP);
+            } else {
+                this.buffer.write8(this.OPCODES.POP); 
             }
         },
 

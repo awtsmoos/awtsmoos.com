@@ -4,7 +4,8 @@
     root.MerkavaCompiler = root.MerkavaCompiler || {};
     const getOpcodes = () => (root.MerkavaOpcodes && root.MerkavaOpcodes.OPCODES) || {};
 
-    const Visitors = Object.assign({}, 
+    // B"H - Re-aggregate Visitors on every execution to ensure freshness
+    const getVisitors = () => Object.assign({}, 
         root.MerkavaCompiler.Visitors.Declarations,
         root.MerkavaCompiler.Visitors.Expressions,
         root.MerkavaCompiler.Visitors.Statements,
@@ -12,16 +13,13 @@
         {
             _visit(node) {
                 if (!node) return;
-                // B"H - Comprehensive Node Dispatcher
                 switch (node.type) {
-                    // Literals & Primitives
                     case 'Literal': this._visitLiteral(node); break;
                     case 'TemplateLiteral': this._visitTemplateLiteral(node); break;
                     case 'Identifier': this._visitIdentifier(node, 'LOAD'); break;
                     case 'ThisExpression': this.buffer.write8(this.OPCODES.PUSH_THIS); break;
-                    case 'Super': this.buffer.write8(this.OPCODES.PUSH_THIS); break; // Simplified
+                    case 'Super': this.buffer.write8(this.OPCODES.PUSH_THIS); break;
                     
-                    // Expressions
                     case 'BinaryExpression': this._visitBinary(node); break;
                     case 'LogicalExpression': this._visitLogical(node); break;
                     case 'UnaryExpression': this._visitUnary(node); break;
@@ -44,7 +42,6 @@
                     case 'MetaProperty': this._visitMetaProperty(node); break;
                     case 'ImportExpression': this._visitImportExpression(node); break;
 
-                    // Statements
                     case 'ExpressionStatement': this._visit(node.expression); this.buffer.write8(this.OPCODES.POP); break;
                     case 'BlockStatement': this._compileBlock(node.body); break;
                     case 'ReturnStatement': this._visitReturn(node); break;
@@ -63,7 +60,6 @@
                     case 'LabeledStatement': this._visitLabeled(node); break;
                     case 'WithStatement': this._visitWith(node); break;
                     
-                    // Declarations
                     case 'FunctionDeclaration': this._visitFuncDecl(node); break;
                     case 'VariableDeclaration': this._visitVarDecl(node); break;
                     case 'ClassDeclaration': this._visitClassDecl(node); break;
@@ -89,6 +85,9 @@
             this.buffer = new root.MerkavaCompiler.BytecodeBuilder();
             this.scope = new root.MerkavaCompiler.Scope(null, true);
             this.loops = [];
+            
+            // B"H - Bind Visitors to instance to ensure latest logic is used
+            Object.assign(this, getVisitors());
         }
 
         compile(ast) {
@@ -111,33 +110,22 @@
 
         _compileBlock(statements) {
             if (Array.isArray(statements)) {
-                // B"H - HOISTING IMPLEMENTATION (3-PASS SYSTEM)
-
                 // Pass 0: Pre-declare Identifiers (Scope Population)
-                // This ensures that when we generate code in Pass 1 & 2,
-                // the compiler already knows these variables exist in the local scope.
-                statements.forEach(s => {
-                    if (s.type === 'FunctionDeclaration' && s.id) {
-                        this.scope.declare(s.id.name);
-                    } else if (s.type === 'VariableDeclaration' && s.kind === 'var') {
-                        // In JS, 'var' is function-scoped, but here we hoist it to the current block scope.
-                        // Ideally this should bubble up to the function scope, but block-level is a safe enough approximation
-                        // for this VM to prevent "Global lookup" errors.
-                        s.declarations.forEach(d => {
-                            if (d.id.type === 'Identifier') this.scope.declare(d.id.name);
-                        });
-                    }
-                    // Note: 'let' and 'const' are also declared here to simplify resolution,
-                    // effectively skipping TDZ checks but ensuring they resolve as Locals.
-                    else if (s.type === 'VariableDeclaration') {
-                        s.declarations.forEach(d => {
-                            if (d.id.type === 'Identifier') this.scope.declare(d.id.name);
-                        });
-                    }
-                });
+                // B"H - TIKKUN: Only declare locals if we are NOT at root (depth > 0).
+                // At root (depth 0), variables are implicitly GLOBALS.
+                if (this.scope.depth > 0) {
+                    statements.forEach(s => {
+                        if (s.type === 'FunctionDeclaration' && s.id) {
+                            this.scope.declare(s.id.name);
+                        } else if (s.type === 'VariableDeclaration') {
+                            s.declarations.forEach(d => {
+                                if (d.id.type === 'Identifier') this.scope.declare(d.id.name);
+                            });
+                        }
+                    });
+                }
 
-                // Pass 1: Compile Function Declarations (Code Generation for Hoisted Functions)
-                // This mimics JS hoisting by initializing functions before any other code runs.
+                // Pass 1: Compile Function Declarations
                 statements.forEach(s => {
                     if (s.type === 'FunctionDeclaration') {
                         this._visit(s);
@@ -159,7 +147,6 @@
             
             node.params.forEach(p => {
                 if (p.type === 'Identifier') sub.scope.declare(p.name);
-                // Simple pattern support
             });
             
             if (node.body.type === 'BlockStatement') {
@@ -167,7 +154,6 @@
                 sub.buffer.write8(this.OPCODES.PUSH_UNDEFINED);
                 sub.buffer.write8(this.OPCODES.RETURN);
             } else {
-                // Arrow expression body
                 sub._visit(node.body);
                 sub.buffer.write8(this.OPCODES.RETURN);
             }
@@ -176,7 +162,6 @@
             this.buffer.write8(this.OPCODES.CLOSURE);
             this.buffer.write16(this._addConstant(code));
             
-            // Flags: 1=Async, 2=Generator, 4=Arrow
             let flags = 0;
             if (node.async) flags |= 1;
             if (node.generator) flags |= 2;
@@ -185,6 +170,5 @@
         }
     }
 
-    Object.assign(Compiler.prototype, Visitors);
     root.MerkavaCompiler.Compiler = Compiler;
 })(typeof self !== 'undefined' ? self : this);

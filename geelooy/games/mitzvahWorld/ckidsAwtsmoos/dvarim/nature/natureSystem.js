@@ -26,9 +26,6 @@ export default class NatureSystem {
         // B"H: Map type to path
         if(!modelPath) {
             if (type.includes('rock')) {
-                // Randomize rock model selection if just "rock" is passed, 
-                // but usually specific type should be passed here.
-                // We'll fallback to rock1 if generic.
                 if(type === 'rock') modelPath = "awtsmoos://rockModel1";
                 else if(type === 'rock1') modelPath = "awtsmoos://rockModel1";
                 else if(type === 'rock2') modelPath = "awtsmoos://rockModel2";
@@ -53,23 +50,38 @@ export default class NatureSystem {
                     if (gltf && gltf.scene) {
                         const mesh = gltf.scene.getObjectByProperty('isMesh', true);
                         if(mesh) {
-                            // B"H FIX: Bake the mesh's transform (scale) into the geometry
-                            // This fixes the "Huge Grass" issue if the GLB has internal scaling
+                            // B"H FIX: Bake transform
                             mesh.updateMatrixWorld(true);
                             geometry = mesh.geometry.clone();
                             geometry.applyMatrix4(mesh.matrixWorld); 
                             
-                            // Re-center geometry to origin if needed (optional, but safer)
+                            // B"H FIX: Auto-Normalize Geometry Size
+                            // This prevents "HUGE" models by forcing them into a standard bounding box height.
+                            geometry.computeBoundingBox();
+                            const box = geometry.boundingBox;
+                            const size = new THREE.Vector3();
+                            box.getSize(size);
+                            const height = size.y;
+                            
+                            // Target height: Rocks bigger, grass/flowers smaller
+                            let targetHeight = 0.5;
+                            if (type.includes('rock')) targetHeight = 0.8;
+                            else if (type.includes('grass')) targetHeight = 0.6;
+                            else if (type.includes('flower')) targetHeight = 0.7;
+
+                            if (height > 0) {
+                                const scaleFactor = targetHeight / height;
+                                geometry.scale(scaleFactor, scaleFactor, scaleFactor);
+                            }
+
+                            // Re-center pivot to bottom center
                             geometry.computeBoundingBox();
                             const center = new THREE.Vector3();
                             geometry.boundingBox.getCenter(center);
-                            // We want bottom to be at 0,0,0 usually.
                             const yOffset = geometry.boundingBox.min.y;
                             geometry.translate(-center.x, -yOffset, -center.z);
 
                             material = mesh.material;
-                            
-                            // Ensure color space
                             if(material.map) material.map.colorSpace = THREE.SRGBColorSpace;
                         }
                     }
@@ -95,10 +107,6 @@ export default class NatureSystem {
              }
         }
         
-        // Additional manual scaling if assets are still weird
-        if (type.includes('flower')) geometry.scale(0.3, 0.3, 0.3); 
-        if (type.includes('grass')) geometry.scale(0.2, 0.2, 0.2);
-
         // Wind shader
         if (type.includes('grass') || type.includes('flower')) {
              material = material.clone(); 
@@ -138,7 +146,6 @@ export default class NatureSystem {
     }
     
     paint(type, centerPosition, density = 1) {
-        // B"H: Select specific subtype
         let actualType = type;
         if (type === 'rock') {
             const rockTypes = ['rock1', 'rock2', 'rock3'];
@@ -151,7 +158,10 @@ export default class NatureSystem {
         const pool = this.pools[actualType];
         if(!pool) {
             if (!this.loadingPools.has(actualType)) {
-                this.initPool(actualType).then(() => this.paint(type, centerPosition, density));
+                this.initPool(actualType).then(() => {
+                    // Retry paint once loaded
+                    if(this.pools[actualType]) this.paint(type, centerPosition, density);
+                });
             }
             return;
         }
@@ -167,7 +177,6 @@ export default class NatureSystem {
             const targetX = centerPosition.x + offsetX;
             const targetZ = centerPosition.z + offsetZ;
             
-            // Terrain Raycast
             let yPos = centerPosition.y;
             if(this.olam.worldOctree) {
                 this.raycaster.set(new THREE.Vector3(targetX, yPos + 10, targetZ), this.rayDown);
@@ -178,13 +187,12 @@ export default class NatureSystem {
             this.dummy.position.set(targetX, yPos, targetZ);
             this.dummy.rotation.set(0, Math.random() * Math.PI * 2, 0);
             
-            // Scale Variation (Base scale baked in initPool)
             let scale = 1;
             if (actualType.includes('grass') || actualType.includes('flower')) {
                  scale = 0.8 + Math.random() * 0.4;
                  this.dummy.scale.set(scale, scale * (0.8 + Math.random() * 0.5), scale);
             } else {
-                 scale = 0.5 + Math.random() * 1.5;
+                 scale = 0.8 + Math.random() * 0.5;
                  this.dummy.scale.setScalar(scale);
             } 
             

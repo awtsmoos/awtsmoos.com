@@ -45,7 +45,12 @@
             if (res && res.type === 'LOCAL') {
                 this.buffer.write8(mode === 'LOAD' ? this.OPCODES.LOAD_LOCAL : this.OPCODES.STORE_LOCAL);
                 this.buffer.write8(res.index);
+            } else if (res && res.type === 'UPVALUE') {
+                this.buffer.write8(mode === 'LOAD' ? this.OPCODES.LOAD_UPVALUE : this.OPCODES.STORE_UPVALUE);
+                this.buffer.write8(res.index); 
+                this.buffer.write8(res.depth); 
             } else {
+                // Fallback to GLOBAL (this will happen for top-level vars now)
                 const nameIdx = this._addConstant(node.name);
                 this.buffer.write8(mode === 'LOAD' ? this.OPCODES.LOAD_GLOBAL : this.OPCODES.STORE_GLOBAL);
                 this.buffer.write16(nameIdx);
@@ -56,32 +61,25 @@
             // B"H - Restore SYSCALL Logic
             if (node.callee.type === 'Identifier' && node.callee.name === 'syscall') {
                 const idArg = node.arguments[0];
-                // Ensure the ID is a literal number
                 if (!idArg || idArg.type !== 'Literal') {
-                    // Fallback to normal call if not a literal (compiler restriction)
-                    // Or throw error if we want to enforce it.
-                    // For now, let's assume valid usage or throw for clarity.
                     throw new Error("Syscall ID must be a literal number (e.g., syscall(0, ...))");
                 }
-                
-                // Compile arguments (skipping the ID)
                 for (let i = 1; i < node.arguments.length; i++) {
                     this._visit(node.arguments[i]);
                 }
-                
                 this.buffer.write8(this.OPCODES.SYSCALL);
                 this.buffer.write8(idArg.value);
-                this.buffer.write8(node.arguments.length - 1); // Arg count excluding ID
+                this.buffer.write8(node.arguments.length - 1); 
                 return;
             }
 
             if (node.callee.type === 'MemberExpression') {
-                 this._visit(node.callee.object);
-                 this.buffer.write8(this.OPCODES.DUP); 
+                 this._visit(node.callee.object); // Push Object
+                 this.buffer.write8(this.OPCODES.DUP); // DUP Object
                  if (node.callee.computed) this._visit(node.callee.property);
                  else this._emitConstant(node.callee.property.name);
-                 this.buffer.write8(this.OPCODES.GET_PROP);
-                 this.buffer.write8(this.OPCODES.SWAP); 
+                 this.buffer.write8(this.OPCODES.GET_PROP); // Pops Obj, Key. Pushes Func. Stack: [Obj, Func]
+                 // B"H - FIXED: Removed erroneous SWAP. Stack is correctly [this, callee].
             } else {
                  this._visit(node.callee); 
                  this.buffer.write8(this.OPCODES.PUSH_UNDEFINED); 
@@ -199,8 +197,6 @@
         _visitClassExpr(node) {
             if (node.superClass) this._visit(node.superClass);
             else this.buffer.write8(this.OPCODES.PUSH_NULL);
-            
-            // Simplified: Passing AST body constant to VM to construct method table
             this.buffer.write8(this.OPCODES.MAKE_CLASS);
             this.buffer.write16(this._addConstant(node.body));
         },

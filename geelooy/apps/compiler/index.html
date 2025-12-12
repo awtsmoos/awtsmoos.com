@@ -1,0 +1,85 @@
+<!--B"H
+Boruch Hashem
+Biezras Hashem
+--><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Awtsmoos EXE Compiler</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
+    </style>
+</head>
+<body class="app-body">
+
+    <!-- HOLY HEADERS -->
+    <div class="bh-corner-left">B"H</div>
+    <div class="bh-corner-right">ב״ה</div>
+
+    <div class="compiler-card">
+        
+        <!-- Header -->
+        <div class="card-header">
+            <h1 class="app-title">Awtsmoos EXE Compiler</h1>
+            <p class="app-subtitle">
+                Generating Existence from Nothingness.
+                <br>
+                Compiles native Windows 64-bit binaries in the browser.
+            </p>
+        </div>
+
+        <!-- Content -->
+        <div class="card-content">
+            
+            <div class="input-group">
+                <label class="input-label">App Mode</label>
+                <div class="mode-selector">
+                    <label class="radio-label">
+                        <input type="radio" name="appMode" value="console" checked>
+                        <span class="radio-custom"></span>
+                        <span>Console App (Text Output)</span>
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="appMode" value="gui">
+                        <span class="radio-custom"></span>
+                        <span>GUI App (Window + Graphics)</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label for="userText" class="input-label">Message / Window Title</label>
+                <input type="text" id="userText" placeholder="Hello, World!" 
+                    class="input-field" autocomplete="off">
+                <p class="input-hint">For Console: Printed to stdout. For GUI: Used as Window Title.</p>
+            </div>
+
+            <div class="info-panel">
+                <p class="info-title">Compilation Details:</p>
+                <ul class="info-list" id="infoList">
+                    <!-- Dynamic content based on mode -->
+                </ul>
+            </div>
+
+            <button id="compileBtn" class="btn-primary">
+                Compile & Download .EXE
+            </button>
+            
+            <div id="status" class="status-msg hidden">
+                <!-- Status text injected via JS -->
+            </div>
+
+        </div>
+        
+        <!-- Footer -->
+        <div class="card-footer">
+            Powered by Pure JavaScript. No Backend. No Libraries.
+        </div>
+    </div>
+
+    <!-- MODULE ENTRY POINT -->
+    <script type="module" src="script.js"></script>
+</body>
+</html>

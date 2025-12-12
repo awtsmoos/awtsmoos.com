@@ -128,13 +128,14 @@ export default class ProceduralTree extends Tzomayach {
         leafGeo.setIndex(this.leaves.indices);
         leafGeo.computeVertexNormals();
         
-        // B"H FIX: Start with alphaTest 0 so leaves are visible immediately (as blocks).
-        // Transparency is enabled so they aren't fully black blocks, but tinted.
+        // B"H FIX: Ensure visibility. 
+        // 1. DoubleSide so they can be seen from any angle.
+        // 2. alphaTest must be > 0 only if map exists, otherwise they vanish.
         this.leavesMaterial = new THREE.MeshPhongMaterial({
             color: this.options.leaves.tint || 0x228B22,
             side: THREE.DoubleSide,
-            alphaTest: 0, // IMPORTANT: Disable alpha cull initially
-            transparent: true,
+            alphaTest: 0, // No culling initially
+            transparent: false, // Opaque render queue for better depth sorting with alphaTest
             shininess: 0
         });
 
@@ -168,7 +169,7 @@ export default class ProceduralTree extends Tzomayach {
                  this.olam.loadTexture({ url: leafPath })
                  .then(tex => {
                      if (tex) {
-                         // B"H FIX: Texture loaded! Now we enable strict alpha testing for the cutout look.
+                         // B"H FIX: Enable alpha cutout only after load
                          this.leavesMaterial.map = tex;
                          this.leavesMaterial.alphaTest = 0.5; 
                          this.leavesMaterial.needsUpdate = true;
