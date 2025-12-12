@@ -322,56 +322,70 @@ on_destroy:
     RET
 
 on_paint:
-    SUB RSP, 120 ; Locals for PaintStruct(64) + Rect(16)
+    ; Prologue: Save Non-Volatile Registers
+    PUSH RBX
+    PUSH RSI
+    PUSH RDI
+    
+    ; Allocate Stack for Locals + Shadow Space
+    ; Total locals: PAINTSTRUCT (64) + RECT (16) + Padding = 80 bytes.
+    ; Shadow space: 32 bytes.
+    ; Alignment: Stack is currently misaligned by 3 pushes (24 bytes) + RetAddr (8) = 32 (Aligned 16).
+    ; We need to keep 16-byte alignment.
+    ; Let's alloc 128 bytes.
+    SUB RSP, 128
     
     ; BeginPaint(hWnd, &ps)
-    MOV RCX, R13      ; hWnd (Saved in R13 global? No, R13 is non-volatile in Loop but WndProc is callback)
-    ; We need hWnd from RCX! But registers are volatile.
-    ; First arg RCX is hWnd.
-    MOV RBX, RCX      ; Save hWnd in RBX
-
-    LEA RDX, [RSP+48] ; &ps (at +48)
+    MOV RBX, RCX      ; Save hWnd (passed in RCX) to RBX
+    
+    MOV RCX, RBX      ; Arg1: hWnd
+    LEA RDX, [RSP+40] ; Arg2: &ps (at RSP+40)
     CALL BeginPaint
     MOV RSI, RAX      ; RSI = hDC
 
     ; FillRect(hDC, &rect, GetStockObject(BLACK_BRUSH))
-    ; Let's assume full client area or small rect.
-    ; PaintStruct.rcPaint is at offset 8 of PS.
-    ; PS starts at RSP+48. rcPaint at RSP+56.
+    ; rcPaint offset in PAINTSTRUCT is 12.
+    ; PS at RSP+40. rcPaint at RSP+52.
     
     MOV RCX, 4        ; BLACK_BRUSH
     CALL GetStockObject
     MOV RDI, RAX      ; Brush
     
     MOV RCX, RSI      ; hDC
-    LEA RDX, [RSP+56] ; &ps.rcPaint
+    LEA RDX, [RSP+52] ; &ps.rcPaint (RSP + 40 + 12)
     MOV R8, RDI       ; hBrush
     CALL FillRect
     
-    ; DrawTextA(hDC, Text, -1, &rect, DT_CENTER|VCENTER|SINGLELINE)
-    ; Set Text Color
+    ; SetTextColor
     MOV RCX, RSI
-    MOV RDX, 0x00FFFF00 ; Cyan (BGR: 00 Freq Blue, FF Green, FF Red? No, 00BBGGRR) -> Cyan is 00FFFF
+    MOV RDX, 0x00FFFF00 ; Cyan
     CALL SetTextColor
     
+    ; SetBkMode
     MOV RCX, RSI
     MOV RDX, 1          ; TRANSPARENT
     CALL SetBkMode
 
+    ; DrawTextA
     MOV RCX, RSI
     LEA RDX, DrawText
     MOV R8, 0xFFFFFFFFFFFFFFFF ; -1
-    LEA R9, [RSP+56]    ; &ps.rcPaint
-    MOV [RSP+32], 0x25  ; DT_CENTER(1)|DT_VCENTER(4)|DT_SINGLELINE(20) = 0x25
+    LEA R9, [RSP+52]    ; &ps.rcPaint
+    MOV [RSP+32], 0x25  ; DT_CENTER|DT_VCENTER|DT_SINGLELINE
     CALL DrawTextA
 
     ; EndPaint(hWnd, &ps)
     MOV RCX, RBX
-    LEA RDX, [RSP+48]
+    LEA RDX, [RSP+40]
     CALL EndPaint
 
+    ; Epilogue
+    ADD RSP, 128
+    POP RDI
+    POP RSI
+    POP RBX
+    
     XOR RAX, RAX
-    ADD RSP, 120
     RET
 `
 };

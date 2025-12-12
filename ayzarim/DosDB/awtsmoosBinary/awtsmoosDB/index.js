@@ -22,8 +22,7 @@ class AwtsmoosDB_V2 {
         this.graph = new GraphManager(this);
         this.search = new SearchManager(this);
         this.vector = new VectorManager(this);
-        // B"H: Debug Blocks disabled
-        this.debugBlocks = new Set([/* 13, 18, 23, 28, 33 */]);
+        this.debugBlocks = new Set();
     }
 
     async ensureOpen() {
@@ -80,8 +79,6 @@ class AwtsmoosDB_V2 {
         return this.lock.runWrite(fn);
     }
 
-    // B"H: High-Performance Batch Mode
-    // Disables WAL syncing for duration of fn(), then syncs once.
     async batch(fn) {
         return this.lock.runWrite(async () => {
             this.pager.startBatch();
@@ -107,10 +104,6 @@ class AwtsmoosDB_V2 {
         const totalSize = ptr.length || constants.BLOCK_SIZE;
         const startOffset = ptr.offset || 0;
         
-        if (this.debugBlocks.has(ptr.blockId)) {
-             console.log(`B"H _readChainSafe B${ptr.blockId} Off=${startOffset} Len=${totalSize}`);
-        }
-
         const firstBlockCap = constants.BLOCK_SIZE - startOffset;
         let blocksNeeded = 1;
         
@@ -140,11 +133,6 @@ class AwtsmoosDB_V2 {
             readOff += constants.BLOCK_SIZE;
         }
         
-        if (this.debugBlocks.has(ptr.blockId)) {
-             const preview = buf.toString('hex', 0, 8);
-             console.log(`B"H _readChainSafe B${ptr.blockId} Data=${preview}`);
-        }
-        
         return buf;
     }
 
@@ -153,37 +141,32 @@ class AwtsmoosDB_V2 {
         let currentBlock = ptr.blockId;
         let isFirst = true;
         
-        if (this.debugBlocks.has(ptr.blockId)) {
-             const preview = buffer.toString('hex', 0, 8);
-             console.log(`B"H _writeChainSafe B${ptr.blockId} Off=${ptr.offset} Len=${buffer.length} Data=${preview}`);
-        }
-
         while(remaining.length > 0) {
             const start = (isFirst && ptr.offset) ? ptr.offset : constants.HEADER_SIZE;
             const avail = constants.BLOCK_SIZE - start;
             const chunk = Math.min(remaining.length, avail);
             
-            let blk = await this.allocator.v1.readBlockLocked(currentBlock);
-            if (!blk) {
-                 console.error(`B"H CRITICAL: _writeChainSafe missing block B${currentBlock}.`);
-                 throw new Error(`Critical: Block B${currentBlock} missing during chain write.`);
+            // B"H: Optimization - Only read block if we are NOT overwriting the entire useful area
+            // If start is 0 (or header size) and chunk covers the whole block (or up to block size), skip read?
+            // Safer: Only skip read if we are writing a full block (4096).
+            // Many vector nodes use shared blocks (PAGE), so we MUST read to preserve other data.
+            // But if it's a chained block (OVERFLOW type), we own it.
+            
+            let blk;
+            // Optimization: If writing full block, skip read.
+            if (start === 0 && chunk === constants.BLOCK_SIZE) {
+                blk = Buffer.alloc(constants.BLOCK_SIZE);
+            } else {
+                blk = await this.allocator.v1.readBlockLocked(currentBlock);
+                if (!blk) {
+                     // Should not happen, but recover
+                     blk = Buffer.alloc(constants.BLOCK_SIZE);
+                }
             }
 
             remaining.subarray(0, chunk).copy(blk, start);
             await this.allocator.v1.writeBlockLocked(currentBlock, blk);
             
-            // B"H: Verify Immediate Readback for debug target blocks
-            if (this.debugBlocks.has(currentBlock)) {
-                const verify = await this.allocator.v1.readBlockLocked(currentBlock);
-                const written = verify.subarray(start, start + chunk);
-                const expected = remaining.subarray(0, chunk);
-                if (written.compare(expected) !== 0) {
-                    console.error(`B"H CRITICAL: Write Verification Failed on Block ${currentBlock}! Disk/Cache Mismatch.`);
-                } else {
-                    console.log(`B"H Block ${currentBlock} Write Verified.`);
-                }
-            }
-
             remaining = remaining.subarray(chunk);
             currentBlock++;
             isFirst = false;

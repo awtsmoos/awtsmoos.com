@@ -21,7 +21,8 @@ class HNSW {
         this.entryNodeID = meta.entryNodeID !== undefined ? meta.entryNodeID : -1;
         
         this.nodeCache = new Map();
-        this.CACHE_LIMIT = 2000; 
+        // B"H: Increase Cache for Bulk Loads
+        this.CACHE_LIMIT = 5000; 
     }
 
     async _getNode(nodeId) {
@@ -138,7 +139,6 @@ class HNSW {
         visited.add(entryPoint.id);
         candidates.set(entryPoint.id, { dist: entryDist, node: entryPoint });
         
-        // B"H: Optimization - Use MinHeap for Working Set W
         const W = new BinaryHeap(x => x.dist);
         W.push({ dist: entryDist, node: entryPoint });
 
@@ -148,7 +148,6 @@ class HNSW {
             const current = W.pop();
             const cDist = current.dist;
             
-            // Optimization: If nearest candidate is worse than the worst result we have, stop.
             if (cDist > furthestDist && candidates.size >= ef) break;
 
             const neighbors = current.node.neighbors[level] || [];
@@ -167,9 +166,6 @@ class HNSW {
                          if (dist > furthestDist) furthestDist = dist;
 
                          if (candidates.size > ef) {
-                             // B"H: Remove worst. 
-                             // Optimized: Scan candidates once O(N) instead of Sort O(N log N)
-                             // Since ef is small (100), scan is fast.
                              let maxD = -1;
                              let maxId = -1;
                              for (const [id, c] of candidates) {
@@ -180,7 +176,6 @@ class HNSW {
                              }
                              if (maxId !== -1) {
                                  candidates.delete(maxId);
-                                 // Update furthestDist to new max
                                  furthestDist = 0;
                                  for(const c of candidates.values()) if(c.dist > furthestDist) furthestDist = c.dist;
                              }

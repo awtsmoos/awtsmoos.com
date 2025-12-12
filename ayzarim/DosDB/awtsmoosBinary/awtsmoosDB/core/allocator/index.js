@@ -1,3 +1,4 @@
+
 // B"H
 const constants = require('../../constants.js');
 const BitmapManager = require('./bitmap.js');
@@ -10,28 +11,25 @@ class Allocator {
         this.db = db;
         this.cursor = 2; 
         this.lastFreeHint = 2; 
-        this.mutex = Promise.resolve();
-        this.semaphore = new (require('../concurrency.js'))(1);
+        this.semaphore = new (require('../concurrency.js'))();
         this.initialized = false;
         
         this.superBlockCache = null;
-        // B"H: Block Cache to ensure Bitmap Consistency
         this.blockCache = new Map();
-        this.MAX_CACHE_SIZE = 1000; 
+        // B"H: Increase Cache Size for HNSW Construction
+        this.MAX_CACHE_SIZE = 5000; 
         
         this.UNIT_SIZE = constants.UNIT_SIZE || 32;
         this.BLOCK_SIZE = constants.BLOCK_SIZE || 4096;
         this.HEADER_SIZE = constants.HEADER_SIZE || 64; 
         
-        // B"H: FIX - Hardcode Offsets to prevent collision
-        // Root Pointer is at 64. Cursor MUST be elsewhere (128).
         this.CURSOR_OFFSET = 128; 
         this.ROOT_PTR_OFFSET = 64; 
         
         this.MAX_BLOCKS = Number.MAX_SAFE_INTEGER; 
-
-        // Sub-modules
         this.modes = new AllocationModes(this);
+        
+        this.debugBlocks = new Set();
     }
 
     log(msg) { 
@@ -47,8 +45,7 @@ class Allocator {
             sb.copy(this.superBlockCache);
 
             const savedCursor = readPointer48(sb, this.CURSOR_OFFSET); 
-            this.log(`Init: Read Saved Cursor: ${savedCursor}`);
-
+            
             if (savedCursor > 2 && savedCursor < this.MAX_BLOCKS) {
                 this.cursor = savedCursor;
                 this.lastFreeHint = savedCursor;
@@ -68,20 +65,11 @@ class Allocator {
     }
 
     async executeLocked(fn) {
-        const task = async () => {
-            await this.semaphore.acquire();
-            try {
-                if (!this.initialized) await this.init();
-                return await fn();
-            } finally {
-                this.semaphore.release();
-            }
-        };
-        this.mutex = this.mutex.then(task, task);
-        return this.mutex;
+        return this.semaphore.runWrite(async () => {
+            if (!this.initialized) await this.init();
+            return await fn();
+        });
     }
-
-    // --- Cache Management & Internal Synced IO (No Lock) ---
 
     _cacheBlock(blockId, buffer) {
         if (this.blockCache.size >= this.MAX_CACHE_SIZE) {
@@ -103,7 +91,6 @@ class Allocator {
         return null;
     }
 
-    // INTERNAL: Read that checks cache first, then disk. Updates cache.
     async _readBlockSynced(blockId) {
         const cached = this._getCachedBlock(blockId);
         if (cached) return cached;
@@ -113,13 +100,10 @@ class Allocator {
         return block;
     }
 
-    // INTERNAL: Write that updates cache first, then disk.
     async _writeBlockSynced(blockId, buffer) {
         this._cacheBlock(blockId, buffer);
         await this.pager.writeBlock(blockId, buffer);
     }
-
-    // --- Public Locked Methods ---
 
     async readBlockLocked(blockId) {
         return this.executeLocked(() => this._readBlockSynced(blockId));
@@ -132,12 +116,13 @@ class Allocator {
     async readSequentialLocked(start, count) {
         return this.executeLocked(async () => {
             if (count === 1) {
-                const b = await this._readBlockSynced(start);
-                return b;
+                return await this._readBlockSynced(start);
             }
             
+            // Read raw from disk first
             const buffer = await this.pager.readSequential(start, count);
             
+            // Overlay Cache
             for(let i=0; i<count; i++) {
                 const bid = start + i;
                 if (this.blockCache.has(bid)) {
@@ -145,17 +130,12 @@ class Allocator {
                     cached.copy(buffer, i * this.BLOCK_SIZE);
                 }
             }
-            
             return buffer;
         });
     }
 
-    /**
-     * B"H: Atomic SuperBlock Update.
-     */
     async updateSuperBlock(modifierFn) {
         return this.executeLocked(async () => {
-            // Read fresh from pager
             let sb = await this.pager.readBlock(0);
             if (!sb) sb = Buffer.alloc(this.BLOCK_SIZE);
             
@@ -170,15 +150,12 @@ class Allocator {
             
             writePointer48(this.superBlockCache, this.cursor, this.CURSOR_OFFSET);
             
-            this.log(`Updating SuperBlock. Cursor: ${this.cursor}`);
             await this.pager.writeBlock(0, this.superBlockCache);
         });
     }
 
-    // B"H: Sanctuary Safety Mechanism
     getProtectedBlockId() {
         if (!this.superBlockCache) return -1;
-        // Read Root Pointer (BlockId) from offset 64
         return readPointer48(this.superBlockCache, this.ROOT_PTR_OFFSET);
     }
 
@@ -202,14 +179,11 @@ class Allocator {
             if (ptr.offset < this.HEADER_SIZE) throw new Error(`B"H: Critical - Attempt to write into Header Space!`);
             if (ptr.offset + data.length > this.BLOCK_SIZE) throw new Error(`Write overflow in writeUserSpace.`);
 
-            // Use Synced Read
             let block = await this._readBlockSynced(ptr.blockId);
             
             const existingType = block ? block.readUInt32BE(0) : 0;
             
-            // Initialization
             if (!block || existingType === 0 || existingType === constants.BLOCK_TYPE.FREE) {
-                 this.log(`WARN: Writing to uninitialized block ${ptr.blockId}. Initializing.`);
                  if (!block) block = this.formatBlock(constants.BLOCK_TYPE.PAGE);
                  else {
                      block.writeUInt32BE(constants.BLOCK_TYPE.PAGE, 0);
@@ -217,18 +191,14 @@ class Allocator {
                  }
             }
 
-            // Self-Healing Bitmap
             const startUnit = Math.floor(ptr.offset / this.UNIT_SIZE);
             const unitsUsed = Math.ceil(data.length / this.UNIT_SIZE);
             
             if (!BitmapManager.check(block, startUnit, unitsUsed)) {
-                this.log(`WARN: Bitmap Desync detected at Block ${ptr.blockId}. Self-Healing bits ${startUnit}-${startUnit+unitsUsed}.`);
                 BitmapManager.mark(block, startUnit, unitsUsed, true);
             }
 
             data.copy(block, ptr.offset);
-            
-            // Use Synced Write
             await this._writeBlockSynced(ptr.blockId, block);
         });
     }
@@ -237,31 +207,68 @@ class Allocator {
          if (!ptr || ptr.length === 0) return;
 
          return this.executeLocked(async () => {
-             this.log(`Freeing ${ptr.blockId}:${ptr.offset} (Len ${ptr.length})`);
+             let maxFreedBlock = ptr.blockId;
+
              if (ptr.isChain) {
                  const availablePerBlock = this.BLOCK_SIZE - this.HEADER_SIZE;
                  const blocksUsed = Math.ceil(ptr.length / availablePerBlock);
                  for (let i = 0; i < blocksUsed; i++) {
                      const cleanBuf = Buffer.alloc(this.BLOCK_SIZE);
-                     // Clear cache + Write disk
                      await this._writeBlockSynced(ptr.blockId + i, cleanBuf);
                  }
-                 return;
+                 maxFreedBlock = ptr.blockId + blocksUsed - 1;
+             } else {
+                 const block = await this._readBlockSynced(ptr.blockId);
+                 if (block) {
+                     const startUnit = Math.floor(ptr.offset / this.UNIT_SIZE);
+                     const unitsUsed = Math.ceil(ptr.length / this.UNIT_SIZE);
+                     
+                     BitmapManager.mark(block, startUnit, unitsUsed, false);
+                     
+                     if (BitmapManager.isEmpty(block)) {
+                         block.writeUInt32BE(constants.BLOCK_TYPE.FREE, 0);
+                     }
+                     
+                     await this._writeBlockSynced(ptr.blockId, block);
+                 }
              }
 
-             const block = await this._readBlockSynced(ptr.blockId);
-             if (block) {
-                 const startUnit = Math.floor(ptr.offset / this.UNIT_SIZE);
-                 const unitsUsed = Math.ceil(ptr.length / this.UNIT_SIZE);
-                 
-                 BitmapManager.mark(block, startUnit, unitsUsed, false);
-                 
-                 await this._writeBlockSynced(ptr.blockId, block);
+             if (maxFreedBlock >= this.cursor - 1) {
+                 await this._tryShrinkFile();
              }
          });
     }
 
-    // Redirects to modes
+    async _tryShrinkFile() {
+        let newCursor = this.cursor;
+        while (newCursor > 2) {
+            const blockId = newCursor - 1;
+            const isFree = await this.modes.isBlockTrulyFree(blockId);
+            if (isFree) {
+                newCursor--;
+            } else {
+                break;
+            }
+        }
+
+        if (newCursor < this.cursor) {
+            this.cursor = newCursor;
+            this.lastFreeHint = Math.min(this.lastFreeHint, this.cursor);
+            await this._saveStateInternal();
+            await this.pager.truncate(this.cursor);
+        }
+    }
+
+    async getStats() {
+        return this.executeLocked(async () => {
+            return {
+                fileSize: this.cursor * this.BLOCK_SIZE,
+                totalBlocks: this.cursor,
+                freeHint: this.lastFreeHint
+            };
+        });
+    }
+
     async allocatePage(type) { return this.modes.allocatePage(type); }
     async findSequentialBlocks(count) { return this.modes.findSequentialBlocks(count); }
     async isBlockTrulyFree(blockId) { return this.modes.isBlockTrulyFree(blockId); }
@@ -288,8 +295,6 @@ class Allocator {
 
         this.superBlockCache = sb;
         writePointer48(this.superBlockCache, this.cursor, this.CURSOR_OFFSET);
-        
-        this.log(`_saveStateInternal: Persisting Cursor ${this.cursor}`);
         await this.pager.writeBlock(0, this.superBlockCache);
     }
 }
