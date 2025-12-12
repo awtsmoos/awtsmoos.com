@@ -32,8 +32,9 @@ export default {
              // B"H FIX: Correct relative path to reach ckidsAwtsmoos root
              import('../../../dvarim/nature/natureSystem.js').then(m => {
                  this.olam.natureSystem = new m.default(this.olam);
-                 // Pre-load assets
+                 // Pre-load common assets
                  this.olam.natureSystem.initPool('grass', 10000, "awtsmoos://grassModel");
+                 this.olam.natureSystem.initPool('flower_blue', 5000, "awtsmoos://flowerBlue");
              }).catch(e => console.error("B\"H: Failed to load NatureSystem", e));
         }
         
@@ -46,6 +47,7 @@ export default {
              const hit = this.olam.worldOctree.rayIntersect(ray);
              
              if (hit && hit.distance < 15 && this.olam.natureSystem) {
+                 // console.log("B\"H Painting: Item Nature Type:", item.natureType);
                  this.olam.natureSystem.paint(item.natureType, hit.position);
              }
         }

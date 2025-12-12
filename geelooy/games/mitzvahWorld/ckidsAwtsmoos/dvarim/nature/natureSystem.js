@@ -17,30 +17,33 @@ export default class NatureSystem {
         this.olam.on("heesHawvoos", (dt) => this.update(dt));
     }
     
-    async initPool(type, maxInstances = 5000, modelPath) {
+    async initPool(type, maxInstances = 5000, explicitPath = null) {
         if (this.pools[type]) return this.pools[type];
         if (this.loadingPools.has(type)) return null;
 
-        this.loadingPools.add(type);
+        console.log(`B"H Nature Log: initPool called for '${type}' with path: ${explicitPath}`);
 
-        // B"H: Map type to path strictly
-        // This ensures if 'flower' is requested, it NEVER falls back to 'grass' by mistake.
-        if(!modelPath) {
-            if (type.includes('rock')) {
-                if(type === 'rock') modelPath = "awtsmoos://rockModel1";
-                else if(type === 'rock1') modelPath = "awtsmoos://rockModel1";
-                else if(type === 'rock2') modelPath = "awtsmoos://rockModel2";
-                else if(type === 'rock3') modelPath = "awtsmoos://rockModel3";
-                else modelPath = "awtsmoos://rockModel1";
-            } else if (type.includes('flower')) {
-                if(type === 'flower_blue') modelPath = "awtsmoos://flowerBlue";
-                else if(type === 'flower_yellow') modelPath = "awtsmoos://flowerYellow";
-                else if(type === 'flower_white') modelPath = "awtsmoos://flowerWhite";
-                else modelPath = "awtsmoos://flowerBlue"; // Default flower
-            } else {
-                // Only default to grass if it specifically looks like grass or is unknown/default
-                modelPath = "awtsmoos://grassModel";
-            }
+        this.loadingPools.add(type);
+        
+        let modelPath = explicitPath;
+
+        // B"H: STRICT PATH MAPPING (FAILSAFE)
+        // Even if explicitPath is null, we check type content to ensure we don't accidentally load grass for a flower.
+        if (type.includes('flower')) {
+            if(type === 'flower_blue') modelPath = "awtsmoos://flowerBlue";
+            else if(type === 'flower_yellow') modelPath = "awtsmoos://flowerYellow";
+            else if(type === 'flower_white') modelPath = "awtsmoos://flowerWhite";
+            else modelPath = "awtsmoos://flowerBlue"; // Default flower
+            
+            console.log(`B"H Nature Log: Resolved Flower path to: ${modelPath}`);
+        } else if (type.includes('rock')) {
+            if(type === 'rock') modelPath = "awtsmoos://rockModel1";
+            else if(type === 'rock1') modelPath = "awtsmoos://rockModel1";
+            else if(type === 'rock2') modelPath = "awtsmoos://rockModel2";
+            else if(type === 'rock3') modelPath = "awtsmoos://rockModel3";
+            else modelPath = "awtsmoos://rockModel1";
+        } else if (type.includes('grass')) {
+            modelPath = "awtsmoos://grassModel";
         }
 
         let geometry, material;
@@ -48,37 +51,40 @@ export default class NatureSystem {
         if (modelPath) {
             const actualPath = this.olam.getComponent(modelPath);
             if(actualPath) {
+                console.log(`B"H Nature Log: Loading asset from: ${actualPath}`);
                 try {
                     const gltf = await this.olam.boyrayNivra({ path: actualPath });
                     if (gltf && gltf.scene) {
-                        const mesh = gltf.scene.getObjectByProperty('isMesh', true);
+                        // Find the first mesh
+                        let mesh = null;
+                        gltf.scene.traverse(c => {
+                             if(!mesh && c.isMesh) mesh = c;
+                        });
+
                         if(mesh) {
-                            // B"H FIX: Bake transform
+                            console.log(`B"H Nature Log: Mesh found for ${type}. Geometry vertices: ${mesh.geometry.attributes.position.count}`);
                             mesh.updateMatrixWorld(true);
                             geometry = mesh.geometry.clone();
                             geometry.applyMatrix4(mesh.matrixWorld); 
                             
-                            // B"H FIX: Auto-Normalize Geometry Size
-                            // This prevents "HUGE" models by forcing them into a standard bounding box height.
+                            // B"H: Auto-Normalize
                             geometry.computeBoundingBox();
                             const box = geometry.boundingBox;
                             const size = new THREE.Vector3();
                             box.getSize(size);
                             const height = size.y;
                             
-                            // Target height: Rocks bigger, grass/flowers smaller
                             let targetHeight = 0.5;
                             if (type.includes('rock')) targetHeight = 0.8;
                             else if (type.includes('grass')) targetHeight = 0.6;
                             else if (type.includes('flower')) targetHeight = 0.7;
 
-                            // Scale if valid height found (prevent div by zero)
                             if (height > 0.01) {
                                 const scaleFactor = targetHeight / height;
                                 geometry.scale(scaleFactor, scaleFactor, scaleFactor);
                             }
 
-                            // Re-center pivot to bottom center
+                            // Re-center
                             geometry.computeBoundingBox();
                             const center = new THREE.Vector3();
                             geometry.boundingBox.getCenter(center);
@@ -87,21 +93,27 @@ export default class NatureSystem {
 
                             material = mesh.material;
                             if(material.map) material.map.colorSpace = THREE.SRGBColorSpace;
+                        } else {
+                            console.warn(`B"H Nature Log: No mesh found in GLTF for ${type}`);
                         }
                     }
                 } catch(e) {
                     console.warn("B\"H: Nature asset failed to load", modelPath, e);
                 }
+            } else {
+                 console.warn("B\"H: Component path not found in config:", modelPath);
             }
         }
         
-        // Fallback Geometry (If Model Load Failed)
+        // Fallback Geometry - Ensures we don't accidentally render grass for flowers
         if (!geometry) {
+             console.warn(`B"H Nature Log: Using fallback geometry for ${type}`);
              if(type.includes('grass')) {
                  geometry = new THREE.ConeGeometry(0.1, 0.5, 4);
                  geometry.translate(0, 0.25, 0);
                  material = new THREE.MeshLambertMaterial({ color: 0x00aa00 });
              } else if(type.includes('flower')) {
+                 // Distinct fallback for flower
                  geometry = new THREE.SphereGeometry(0.2, 8, 8);
                  geometry.translate(0, 0.2, 0);
                  material = new THREE.MeshLambertMaterial({ color: 0xff00ff });
@@ -111,7 +123,7 @@ export default class NatureSystem {
              }
         }
         
-        // Wind shader application
+        // Wind shader
         if (type.includes('grass') || type.includes('flower')) {
              if(material) {
                  material = material.clone(); 
@@ -153,29 +165,41 @@ export default class NatureSystem {
     
     paint(type, centerPosition, density = 1) {
         let actualType = type;
+        let explicitPath = null;
         
-        // Randomization logic
-        if (type.includes('rock')) {
+        // console.log(`B"H Nature Log: Paint called for type: ${type}`);
+
+        // B"H: Randomization logic
+        if (type.includes('rock') && !type.match(/\d/)) {
             const rockTypes = ['rock1', 'rock2', 'rock3'];
             actualType = rockTypes[Math.floor(Math.random() * rockTypes.length)];
-        } else if (type.includes('flower')) {
+            explicitPath = "awtsmoos://rockModel" + actualType.replace("rock", "");
+        } else if (type.includes('flower') && !type.includes('_')) {
             const flowerTypes = ['flower_blue', 'flower_white', 'flower_yellow'];
             actualType = flowerTypes[Math.floor(Math.random() * flowerTypes.length)];
+            
+            // Map types to exact config keys
+            if(actualType === 'flower_blue') explicitPath = "awtsmoos://flowerBlue";
+            else if(actualType === 'flower_yellow') explicitPath = "awtsmoos://flowerYellow";
+            else if(actualType === 'flower_white') explicitPath = "awtsmoos://flowerWhite";
+        } else if (type === 'grass') {
+             explicitPath = "awtsmoos://grassModel";
         }
 
         const pool = this.pools[actualType];
         if(!pool) {
             if (!this.loadingPools.has(actualType)) {
-                this.initPool(actualType).then(() => {
-                    // Retry paint once loaded if nearby
-                    // (Simple retry logic)
+                console.log(`B"H Nature Log: Pool missing for ${actualType}. Initializing with path ${explicitPath}`);
+                // Pass the explicit path if we know it to guarantee correct loading
+                this.initPool(actualType, 5000, explicitPath).then(() => {
+                    // Retry logic could go here
                 });
             }
             return;
         }
         
-        const countToAdd = type.includes('rock') ? 1 : 5; 
-        const range = 3;
+        const countToAdd = type.includes('rock') ? 1 : 3; 
+        const range = 2;
 
         for(let i=0; i<countToAdd; i++) {
             if (pool.count >= pool.max) break;

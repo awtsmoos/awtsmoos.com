@@ -1,4 +1,5 @@
 
+
 // B"H
 (function(root) {
     root.MerkavaCompiler = root.MerkavaCompiler || {};
@@ -42,14 +43,82 @@
         },
 
         _visitExportNamed(node) {
-            if (node.declaration) this._visit(node.declaration);
+            if (node.declaration) {
+                this._visit(node.declaration); // Defines the var/func locally
+                
+                // B"H - Export Logic: Register to 'exports' global
+                const names = [];
+                if (node.declaration.type === 'FunctionDeclaration') {
+                    names.push(node.declaration.id.name);
+                } else if (node.declaration.type === 'VariableDeclaration') {
+                    node.declaration.declarations.forEach(d => names.push(d.id.name));
+                } else if (node.declaration.type === 'ClassDeclaration' && node.declaration.id) {
+                    names.push(node.declaration.id.name);
+                }
+                
+                names.forEach(name => {
+                    this._emitConstant('exports');
+                    this.buffer.write8(this.OPCODES.LOAD_GLOBAL); // [exports]
+                    this.buffer.write8(this.OPCODES.DUP);         // [exports, exports]
+                    
+                    this._emitConstant(name); // [exports, exports, "name"]
+                    
+                    // Load the value we just defined
+                    this._visitIdentifier({ type: 'Identifier', name }, 'LOAD'); // [exports, exports, "name", val]
+                    
+                    this.buffer.write8(this.OPCODES.SET_PROP); // [exports, val]
+                    this.buffer.write8(this.OPCODES.POP); // [exports]
+                    this.buffer.write8(this.OPCODES.POP); // []
+                });
+            }
         },
 
         _visitExportDefault(node) {
-            this._visit(node.declaration);
-            this.buffer.write8(this.OPCODES.POP);
+            this._visit(node.declaration); // Push Value
+            // Store to exports.default
+            this._emitConstant('exports');
+            this.buffer.write8(this.OPCODES.LOAD_GLOBAL); // [val, exports]
+            this.buffer.write8(this.OPCODES.SWAP);        // [exports, val]
+            this.buffer.write8(this.OPCODES.DUP);         // [exports, val, val] (Keep val for expression result?)
+            // Actually export default declaration usually returns the value? 
+            // In modules top level, return value is ignored.
+            // Stack: [exports, val]
+            this._emitConstant('default');                // [exports, val, "default"]
+            this.buffer.write8(this.OPCODES.SWAP);        // [exports, "default", val]
+            this.buffer.write8(this.OPCODES.SET_PROP);    // [exports, val]
+            this.buffer.write8(this.OPCODES.POP);         // [exports]
+            this.buffer.write8(this.OPCODES.POP);         // []
         },
         
-        _visitImport(node) { /* Handled by environment */ }
+        _visitImport(node) { 
+            // B"H - Implement Import Logic
+            this._visit(node.source); // Push filename string
+            this.buffer.write8(this.OPCODES.IMPORT_MODULE); 
+            // Stack now has [ModuleExportsObject]
+            
+            node.specifiers.forEach(spec => {
+                if (spec.type === 'ImportNamespaceSpecifier') {
+                    // import * as C from ...
+                    this.buffer.write8(this.OPCODES.DUP); // Keep module object for potentially others
+                    if (this.scope.depth > 0) this.scope.declare(spec.local.name);
+                    this._visitIdentifier(spec.local, 'STORE'); 
+                } else if (spec.type === 'ImportDefaultSpecifier') {
+                    // import C from ...
+                    this.buffer.write8(this.OPCODES.DUP); // [Mod, Mod]
+                    this._emitConstant('default');
+                    this.buffer.write8(this.OPCODES.GET_PROP); // [Mod, DefaultVal]
+                    if (this.scope.depth > 0) this.scope.declare(spec.local.name);
+                    this._visitIdentifier(spec.local, 'STORE'); // [Mod]
+                } else if (spec.type === 'ImportSpecifier') {
+                    // import { C } from ...
+                    this.buffer.write8(this.OPCODES.DUP);
+                    this._emitConstant(spec.imported.name);
+                    this.buffer.write8(this.OPCODES.GET_PROP);
+                    if (this.scope.depth > 0) this.scope.declare(spec.local.name);
+                    this._visitIdentifier(spec.local, 'STORE');
+                }
+            });
+            this.buffer.write8(this.OPCODES.POP); // Pop Module Object
+        }
     };
 })(typeof self !== 'undefined' ? self : this);

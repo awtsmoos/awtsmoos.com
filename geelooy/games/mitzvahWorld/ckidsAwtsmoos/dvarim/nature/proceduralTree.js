@@ -26,12 +26,13 @@ export default class ProceduralTree extends Tzomayach {
         if(op.seed) this.options.seed = op.seed;
         else this.options.seed = Math.random() * 65536;
         
-        // B"H: Wind Shader logic update
+        /* B"H: WIND SHADER DISABLED FOR DIAGNOSTICS
         this.on("heesHawvoos", (dt) => {
             if(this.leavesMaterial && this.leavesMaterial.userData.shader) {
                  this.leavesMaterial.userData.shader.uniforms.uTime.value += dt;
             }
         });
+        */
     }
 
     /**
@@ -104,6 +105,30 @@ export default class ProceduralTree extends Tzomayach {
         return true;
     }
     
+    // B"H: Create a MAGENTA placeholder to confirm mesh visibility immediately
+    createPlaceholderTexture() {
+        const width = 2;
+        const height = 2;
+        const size = width * height;
+        const data = new Uint8Array(4 * size);
+
+        // B"H: BRIGHT MAGENTA (255, 0, 255) to verify rendering
+        const r = 255, g = 0, b = 255; 
+
+        for (let i = 0; i < size; i++) {
+            const stride = i * 4;
+            data[stride] = r;
+            data[stride + 1] = g;
+            data[stride + 2] = b;
+            data[stride + 3] = 255; // Fully Opaque
+        }
+
+        const texture = new THREE.DataTexture(data, width, height, THREE.RGBAFormat);
+        texture.needsUpdate = true;
+        texture.colorSpace = THREE.SRGBColorSpace;
+        return texture;
+    }
+
     async createMeshes() {
         if(!this.branches || !this.leaves) return; 
 
@@ -128,15 +153,19 @@ export default class ProceduralTree extends Tzomayach {
         leafGeo.setIndex(this.leaves.indices);
         leafGeo.computeVertexNormals();
         
-        // B"H FIX: Ensure visibility. 
-        // 1. DoubleSide so they can be seen from any angle.
-        // 2. alphaTest must be > 0 only if map exists, otherwise they vanish.
-        this.leavesMaterial = new THREE.MeshPhongMaterial({
-            color: this.options.leaves.tint || 0x228B22,
+        // B"H FIX: Use opaque placeholder texture immediately.
+        const defaultTex = this.createPlaceholderTexture();
+
+        // B"H FIX: Switch to MeshStandardMaterial to match branches and ensure lighting works.
+        this.leavesMaterial = new THREE.MeshStandardMaterial({
+            color: 0xffffff,
+            map: defaultTex,
             side: THREE.DoubleSide,
-            alphaTest: 0, // No culling initially (ensures visibility even if texture fails)
-            transparent: false, // Opaque render queue for better depth sorting with alphaTest
-            shininess: 0
+            alphaTest: 0.1, // Very low threshold to ensure pixels show up
+            transparent: false,
+            depthWrite: true, // Crucial for shadows
+            roughness: 1.0,
+            metalness: 0.0
         });
 
         // B"H: Texture Loading
@@ -169,37 +198,24 @@ export default class ProceduralTree extends Tzomayach {
                  this.olam.loadTexture({ url: leafPath })
                  .then(tex => {
                      if (tex) {
-                         // B"H FIX: Enable alpha cutout only after load
+                         console.log("B\"H Leaves Texture Loaded Successfully:", leafPath);
+                         // B"H FIX: Swap texture and force update
+                         tex.colorSpace = THREE.SRGBColorSpace;
                          this.leavesMaterial.map = tex;
-                         this.leavesMaterial.alphaTest = 0.5; 
+                         this.leavesMaterial.alphaTest = 0.5; // Standard cutoff for leaf shapes
                          this.leavesMaterial.needsUpdate = true;
-                     } else {
-                         this.generateFallbackLeaf();
-                     }
+                     } 
                  })
-                 .catch(() => this.generateFallbackLeaf());
-            } else {
-                this.generateFallbackLeaf();
+                 .catch((e) => console.error("B\"H Tree Texture Fail", e));
             }
         }
         
-        // B"H: Wind Shader Fix
+        /* B"H: WIND SHADER DISABLED TEMPORARILY
+           This eliminates the shader injection as a cause for invisible meshes.
         this.leavesMaterial.onBeforeCompile = (shader) => {
-            shader.uniforms.uTime = { value: 0 };
-            shader.vertexShader = `uniform float uTime;\n` + shader.vertexShader;
-            shader.vertexShader = shader.vertexShader.replace(
-                '#include <project_vertex>',
-                `
-                vec4 mvPosition = vec4( transformed, 1.0 );
-                float windOffset = position.x + position.z;
-                float wind = sin(uTime * 1.5 + windOffset * 0.5) * 0.1 * uv.y;
-                mvPosition.x += wind;
-                mvPosition = modelViewMatrix * mvPosition;
-                gl_Position = projectionMatrix * mvPosition;
-                `
-            );
-            this.leavesMaterial.userData.shader = shader;
+            // ...
         };
+        */
         
         const branches = new THREE.Mesh(branchGeo, branchMat);
         branches.castShadow = true;
@@ -209,34 +225,10 @@ export default class ProceduralTree extends Tzomayach {
         leaves.castShadow = true;
         leaves.receiveShadow = true;
         
+        // Debug Log
+        console.log("B\"H Tree Created. Leaf Vertices:", leafGeo.attributes.position.count);
+        
         this.treeGroup.add(branches);
         this.treeGroup.add(leaves);
-    }
-    
-    generateFallbackLeaf() {
-        const canvas = new OffscreenCanvas(64, 64);
-        const ctx = canvas.getContext('2d');
-        // Clear transparent
-        ctx.clearRect(0,0,64,64);
-        
-        // Draw leaf shape
-        ctx.fillStyle = '#228B22';
-        ctx.beginPath();
-        ctx.ellipse(32, 32, 15, 28, 0, 0, Math.PI * 2);
-        ctx.fill();
-        
-        // Draw veins
-        ctx.strokeStyle = '#006400';
-        ctx.lineWidth = 2;
-        ctx.beginPath();
-        ctx.moveTo(32, 4);
-        ctx.lineTo(32, 60);
-        ctx.stroke();
-        
-        const tex = new THREE.CanvasTexture(canvas);
-        this.leavesMaterial.map = tex;
-        // B"H: Fallback texture also needs alpha test to look like a leaf
-        this.leavesMaterial.alphaTest = 0.5;
-        this.leavesMaterial.needsUpdate = true;
     }
 }

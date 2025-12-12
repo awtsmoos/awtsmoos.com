@@ -1,4 +1,5 @@
 
+
 // B"H
 (function(root) {
     const Internal = root.MerkavaSDK_Internal = root.MerkavaSDK_Internal || {};
@@ -33,8 +34,8 @@
             // Context Construction
             const context = this._buildContext(options, memory);
             
-            // VM Initialization
-            const vm = new self.MerkavaVM(memory, options.hostAPI || {}, context);
+            // VM Initialization (B"H - Pass Import Resolver)
+            const vm = new self.MerkavaVM(memory, options.hostAPI || {}, context, options.importResolver);
             
             // Link Context/VM
             context._vm = vm;
@@ -159,6 +160,8 @@
                 console: userContext.console || console,
                 Math: Math,
                 JSON: JSON,
+                // B"H - Explicitly expose document if available
+                document: userContext.document || (typeof document !== 'undefined' ? document : undefined),
                 
                 requestAnimationFrame: (cb) => {
                     const vm = memory.ownerVM;
@@ -232,8 +235,6 @@
             };
             
             // B"H - TIKKUN: Robust Proxy for Context Delegation
-            // We now fallback to looking in 'userContext.window' if the property
-            // isn't found directly on 'userContext'. This is critical for globals.
             const finalContext = new Proxy(base, {
                 get(target, prop, receiver) {
                     if (Reflect.has(target, prop)) return Reflect.get(target, prop, receiver);
@@ -243,20 +244,18 @@
                         if (userContext && (prop in userContext)) {
                             const val = userContext[prop];
                             if (typeof val === 'function') {
-                                // Robustly check for prototype property to avoid crashes on objects like `Object.create(null)`
+                                // Bind methods to the userContext if they aren't constructors
                                 let hasProto = false;
-                                try { hasProto = Object.prototype.hasOwnProperty.call(val, 'prototype'); } catch (e) { /* ignore */ }
+                                try { hasProto = Object.prototype.hasOwnProperty.call(val, 'prototype'); } catch (e) {}
 
                                 if (!hasProto) {
-                                    // It's a method or native function, likely needing binding to the window/context
-                                    try { return val.bind(userContext); } catch(e) { return val; }
+                                    return val.bind(userContext);
                                 }
                             }
                             return val;
                         }
                         
                         // 2. Check context.window (Fallback to real global if context wraps it)
-                        // This fixes issues where 'alert' is not on the context object but is on the window.
                         if (userContext && userContext.window && (prop in userContext.window)) {
                              const val = userContext.window[prop];
                              if (typeof val === 'function') {
@@ -269,7 +268,7 @@
                              return val;
                         }
                     } catch (e) {
-                        // Suppress access errors (e.g. cross-origin/restricted properties)
+                        // Suppress access errors
                     }
                     return undefined;
                 },
@@ -289,13 +288,12 @@
                             userContext[prop] = value;
                             return true;
                         }
-                        // We generally don't want to auto-create globals on window via set in the VM unless specified
                     } catch(e) {}
                     return Reflect.set(target, prop, value, receiver);
                 }
             });
 
-            // Self-references explicitly added for robustness
+            // Self-references
             base.self = finalContext;
             base.window = finalContext;
             base.globalThis = finalContext;

@@ -1,3 +1,4 @@
+
 // B"H
 (function(root) {
     // Ensure Namespace
@@ -5,10 +6,12 @@
     const previousNamespace = root.MerkavaVM || {};
     
     class MerkavaVM {
-        constructor(memoryManager, hostAPI = {}, context = {}) {
+        constructor(memoryManager, hostAPI = {}, context = {}, importResolver = null) {
             this.memory = memoryManager;
             this.hostAPI = hostAPI;
             this.context = context;
+            this.importResolver = importResolver;
+            this.moduleCache = new Map(); // Path -> Exports
             this.threads = [];
             this.pendingAsyncCount = 0; // B"H - Tracks active async tasks (Workers, etc.)
         }

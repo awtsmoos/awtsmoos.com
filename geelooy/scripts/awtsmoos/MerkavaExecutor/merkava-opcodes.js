@@ -1,7 +1,8 @@
+
 // B"H
 /**
  * @file merkava-opcodes.js
- * @version 2.1.0 - The Complete Language of Creation
+ * @version 2.2.0 - The Complete Language of Creation
  */
 
 (function(root, factory) {
@@ -78,6 +79,7 @@
         EXIT_TRY: 0x93,
         DEBUGGER: 0x94,
         IMPORT: 0x95,
+        IMPORT_MODULE: 0x96, // B"H - Static Import Support
 
         // Iteration & Control
         GET_ITERATOR: 0xA0,
