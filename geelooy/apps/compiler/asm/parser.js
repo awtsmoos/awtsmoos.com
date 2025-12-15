@@ -72,24 +72,36 @@ export function parseAsm(source) {
             const matchStr = line.match(/^(\w+):\s*"(.*)"$/);
             if (matchStr) {
                 const label = matchStr[1];
-                let content = matchStr[2];
-                // Handle basic escapes
-                content = content.replace(/\\"/g, '"').replace(/\\n/g, '\n').replace(/\\r/g, '\r');
+                const rawContent = matchStr[2];
                 
-                // Handle \xNN hex escapes manually
+                // Robust Escape Parsing
                 const bytes = [];
-                for(let i=0; i<content.length; i++) {
-                    if (content[i] === '\\' && content[i+1] === 'x') {
-                        const hex = content.substr(i+2, 2);
-                        if (/^[0-9A-Fa-f]{2}$/.test(hex)) {
-                             bytes.push(parseInt(hex, 16));
-                             i += 3;
-                             continue;
+                for(let i=0; i<rawContent.length; i++) {
+                    const c = rawContent[i];
+                    if (c === '\\') {
+                        i++;
+                        if (i >= rawContent.length) { bytes.push(92); break; }
+                        const next = rawContent[i];
+                        if (next === 'n') bytes.push(10);
+                        else if (next === 'r') bytes.push(13);
+                        else if (next === 't') bytes.push(9);
+                        else if (next === '0') bytes.push(0);
+                        else if (next === '"') bytes.push(34);
+                        else if (next === '\\') bytes.push(92);
+                        else if (next === 'x') {
+                             const hex = rawContent.substr(i+1, 2);
+                             if (/^[0-9A-Fa-f]{2}$/.test(hex)) {
+                                 bytes.push(parseInt(hex, 16));
+                                 i += 2;
+                             } else {
+                                 bytes.push(92); bytes.push(120);
+                             }
+                        } else {
+                             bytes.push(92); bytes.push(next.charCodeAt(0));
                         }
+                    } else {
+                        bytes.push(...stringToBytes(c));
                     }
-                    // Fallback to UTF-8 encoder for normal chars
-                    const charBytes = stringToBytes(content[i]);
-                    bytes.push(...charBytes);
                 }
                 bytes.push(0); // Null term
 
@@ -110,8 +122,18 @@ export function parseAsm(source) {
 
                 for (let part of parts) {
                     if (part.match(/^-?0x[0-9A-Fa-f]+$/) || part.match(/^-?\d+$/)) {
-                        let val = parseInt(part);
-                        // Byte logic: always push byte for numbers
+                        let val;
+                        // Handle Hex explicitly to avoid parsing issues with signs
+                        if (part.toLowerCase().includes('0x')) {
+                            const isNeg = part.startsWith('-');
+                            const clean = part.replace('-', '');
+                            val = parseInt(clean, 16);
+                            if (isNeg) val = -val;
+                        } else {
+                            val = parseInt(part, 10);
+                        }
+                        
+                        // Default to byte-sized chunks for flexibility
                         bufferParts.push(val & 0xFF);
                     } else {
                         // Symbol: assume 64-bit pointer
@@ -149,12 +171,10 @@ export function parseAsm(source) {
             // Instruction Parsing
             const firstSpace = line.indexOf(' ');
             if (firstSpace === -1) {
-                // Instruction without operands (e.g., RET)
                 tokens.push({ type: 'instr', mnemonic: line.toUpperCase(), args: [] });
             } else {
                 const mnemonic = line.substring(0, firstSpace).trim().toUpperCase();
                 const argsStr = line.substring(firstSpace).trim();
-                // Split args by comma, respecting spaces
                 const args = argsStr.split(',').map(s => s.trim());
                 tokens.push({ type: 'instr', mnemonic, args });
             }

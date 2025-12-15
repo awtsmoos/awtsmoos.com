@@ -59,6 +59,7 @@
                              val = thread.currentScope.exports;
                         }
                         // 3. Check Module/Thread Environment (Global Scope)
+                        // B"H - We use 'in' operator to check the environment (which might be a Proxy)
                         else if (thread.environment && (name in thread.environment)) {
                             val = thread.environment[name];
                         } 
@@ -198,7 +199,9 @@
                     const o = thread.pop(); 
                     
                     if (o === undefined || o === null) {
-                        throw new TypeError(`Cannot read properties of ${o} (reading '${k}')`);
+                        const msg = `[VM] TypeError: Cannot read property '${k}' of ${String(o)}`;
+                        if (vm.hostAPI && vm.hostAPI[0]) vm.hostAPI[0](msg);
+                        throw new TypeError(msg);
                     } else {
                         const val = o[k];
                         thread.push(val); 
@@ -212,7 +215,7 @@
                     if(o !== undefined && o !== null) {
                         o[k] = v;
                     } else {
-                       throw new TypeError(`Cannot set properties of ${o} (setting '${k}')`);
+                       throw new TypeError(`Cannot set property '${k}' of ${o}`);
                     }
                     thread.push(v); 
                     break; 
@@ -266,17 +269,22 @@
                             thread.bytecode = callee.code.bytecode;
                             thread.constants = callee.code.constants;
                             thread.ip = 0;
+                            
+                            const scopeThis = callee.isArrow 
+                                ? (callee.upvalues ? callee.upvalues['this'] : undefined) 
+                                : ctx;
+
                             thread.currentScope = { 
-                                'this': callee.isArrow ? ctx : ctx, 
+                                'this': scopeThis, 
                                 'arguments': args 
                             };
+                            
                             thread.currentUpvalues = callee.upvalues;
                             thread.environment = callee.environment || thread.environment;
 
                             args.forEach((a, i) => thread.currentScope[i] = a);
                         }
                     } else if (typeof callee === 'function') {
-                        // B"H - Automatic Callback Wrapping
                         if (!vm._callbackWrappers) vm._callbackWrappers = new WeakMap();
 
                         const wrappedArgs = args.map(arg => {
@@ -295,7 +303,7 @@
                                          const t = thread.vm.spawn(arg.code);
                                          
                                          t.currentScope = { 
-                                             'this': scopeThis,
+                                             'this': scopeThis, 
                                              'arguments': innerArgs 
                                          };
                                          
@@ -321,11 +329,13 @@
                             throw e;
                         }
                     } else {
-                        // B"H - Detailed Error Logging
                         const type = typeof callee;
-                        const msg = `[VM] TypeError: ${type} is not a function (callee was ${String(callee)}). Context was: ${String(ctx)}. Args: ${count}.`;
+                        let msg = `[VM] TypeError: ${type} is not a function (callee was ${String(callee)}). Context: ${String(ctx)}. Args: ${count}.`;
                         
-                        // Send error to Host API if available (for Console display)
+                        if (callee === undefined) {
+                            msg += " This likely means a required function or import (e.g. from constants.js) failed to resolve.";
+                        }
+
                         if(vm.hostAPI && vm.hostAPI[0]) {
                             vm.hostAPI[0](msg);
                         }
@@ -360,13 +370,19 @@
                 }
 
                 case OPCODES.RETURN: {
-                    const ret = thread.pop();
+                    let ret = thread.pop();
+                    
                     if (thread.frames.length > 0) {
                         const f = thread.frames.pop();
                         thread.ip = f.ip; thread.bytecode = f.bytecode; 
                         thread.constants = f.constants; thread.currentScope = f.scope;
                         thread.currentUpvalues = f.upvalues; 
                         thread.environment = f.environment;
+                        
+                        if (f.stackSize !== undefined && thread.stack.length > f.stackSize) {
+                            thread.stack.length = f.stackSize;
+                        }
+                        
                         thread.push(ret);
                     } else {
                         thread.push(ret); return 'COMPLETED';
@@ -453,28 +469,48 @@
                             const codeObj = compiler.compile(parser.parse());
                             
                             const exportsObj = {};
-                            const moduleContext = Object.create(vm.context);
-                            moduleContext.exports = exportsObj;
                             
-                            // B"H - Inject __define_live_export directly to ensure visibility
+                            // B"H - TIKKUN: Use Proxy for Module Context to prevent Object.create breakage
+                            const locals = {};
+                            const moduleContext = new Proxy(locals, {
+                                get(target, prop, receiver) {
+                                    if (prop in target) return target[prop];
+                                    if (prop === 'exports') return exportsObj;
+                                    // Fallback to VM Global Context
+                                    return vm.context[prop];
+                                },
+                                set(target, prop, value, receiver) {
+                                    // Always write to locals (masking globals)
+                                    target[prop] = value;
+                                    return true;
+                                },
+                                has(target, prop) {
+                                    return (prop in target) || (prop === 'exports') || (prop in vm.context);
+                                }
+                            });
+                            
+                            // Inject Helper
                             if (vm.context && vm.context.__define_live_export) {
-                                moduleContext.__define_live_export = vm.context.__define_live_export;
+                                locals.__define_live_export = vm.context.__define_live_export;
                             }
                             
                             const modThread = vm.spawn(codeObj);
                             modThread.environment = moduleContext;
                             modThread.currentScope = { 'this': moduleContext, 'exports': exportsObj };
                             
+                            // B"H - Ensure cache is set ONLY on success
+                            vm.moduleCache.set(path, exportsObj); 
+                            
                             const originalStep = modThread.step.bind(modThread);
                             modThread.step = function() {
                                 const active = originalStep();
                                 if (this.status === 'COMPLETED') {
-                                    vm.moduleCache.set(path, exportsObj); 
                                     thread.push(exportsObj); 
                                     thread.status = 'RUNNING'; 
                                 } else if (this.status === 'CRASHED' || this.status === 'TERMINATED') {
                                     console.error(`[VM] Module ${path} CRASHED.`);
-                                    thread.push({}); 
+                                    vm.moduleCache.delete(path);
+                                    thread.push({}); // Push empty to prevent caller crash
                                     thread.status = 'RUNNING';
                                 }
                                 return active;

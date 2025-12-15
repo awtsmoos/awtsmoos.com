@@ -1,8 +1,6 @@
 /* B"H */
-import { STDLIB } from './stdlib.js';
-
-export const source = `${STDLIB}
-import "KERNEL32.dll" CreateFileA CloseHandle;
+export const source = `// B"H
+#include <stdio.h>
 
 void main() {
     print("B\\"H - Writing to file 'c_output.txt'...\\n");

@@ -18,7 +18,30 @@ function genStmt(stmt, lines, locals, depth, loopStack, ctx) {
         if (stmt.expr) {
             genExpr(stmt.expr, lines, locals, depth, ctx); 
         }
-        lines.push(`MOV RSP, RBP`);
+        
+        // Restore Callee-Saved Registers
+        // The frame layout relative to RBP is:
+        // [RBP] = Old RBP
+        // [RBP-8] = RBX
+        // [RBP-16] = RDI
+        // [RBP-24] = RSI
+        // [RBP-32] = R12
+        // [RBP-40] = R13
+        // [RBP-48] = R14
+        // [RBP-56] = R15
+        // Locals start at [RBP-56-...]
+        
+        // We restore RSP to point to the last pushed register (R15 at RBP-56)
+        lines.push(`LEA RSP, [RBP-56]`);
+        
+        lines.push(`POP R15`);
+        lines.push(`POP R14`);
+        lines.push(`POP R13`);
+        lines.push(`POP R12`);
+        lines.push(`POP RSI`);
+        lines.push(`POP RDI`);
+        lines.push(`POP RBX`);
+        
         lines.push(`POP RBP`);
         lines.push(`RET`);
     } 

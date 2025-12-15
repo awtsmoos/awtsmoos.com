@@ -1,7 +1,7 @@
 /*
 B"H
 Boruch Hashem
-*/ 
+*/
 export class TokenStream {
     constructor(tokens) {
         this.tokens = tokens;
@@ -25,8 +25,16 @@ export class TokenStream {
     expect(type, val = null) {
         const t = this.peek();
         if (t.type !== type || (val && t.value !== val)) {
-            throw new Error(`Expected ${type} ${val || ''} but got ${t.type} '${t.value}'`);
+            const loc = `Line ${t.line}, Col ${t.col}`;
+            throw new Error(`[${loc}] Expected ${type} '${val || ''}' but got ${t.type} '${t.value}'`);
         }
         return this.consume();
+    }
+
+    // Helper to throw error at current position
+    error(msg) {
+        const t = this.peek();
+        const loc = `Line ${t.line}, Col ${t.col}`;
+        throw new Error(`[${loc}] ${msg}`);
     }
 }

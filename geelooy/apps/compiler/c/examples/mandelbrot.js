@@ -1,7 +1,7 @@
 /* B"H */
-import { STDLIB } from './stdlib.js';
-
-export const source = `${STDLIB}
+export const source = `// B"H
+#include <stdio.h>
+#include <unistd.h>
 
 void main() {
     print("B\\"H - Mandelbrot Set\\n");

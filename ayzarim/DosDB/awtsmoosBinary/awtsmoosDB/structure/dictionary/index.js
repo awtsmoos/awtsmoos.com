@@ -42,7 +42,14 @@ class DictionaryEngine {
         if (this.map && this.seq) return;
         
         try {
-            const block = await this.allocator.v1.db._readChainSafe(this.ptr);
+            // B"H: FIX - Force read full block size if pointer length implies it's too small for header
+            // This handles cases where index pointers might have incorrect lengths (e.g. 16 bytes)
+            const expectedSize = constants.BLOCK_SIZE;
+            let readLen = (this.ptr.length && this.ptr.length >= expectedSize) ? this.ptr.length : expectedSize;
+            
+            const ptrToRead = { ...this.ptr, length: readLen };
+            const block = await this.allocator.v1.db._readChainSafe(ptrToRead);
+            
             if (!block) throw new Error(`Dictionary Block ${this.ptr.blockId} missing`);
             
             const magic = block.toString('utf8', 0, 4);
@@ -60,7 +67,7 @@ class DictionaryEngine {
             const seqRes = await SmartPointer.resolve(block.subarray(20, 36), this.allocator);
             if (seqRes) this.seq = new Sequence(this.allocator, { blockId: seqRes.blockId, offset: seqRes.offset, length: seqRes.length, isChain: seqRes.isChain });
         } catch(e) {
-            console.error(`B"H - Dictionary Init Failed: ${e.message}`);
+            if(this.allocator.v1.db.debug) console.error(`B"H - Dictionary Init Failed: ${e.message}`);
             throw e;
         }
     }

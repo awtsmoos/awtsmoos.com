@@ -1,218 +1,407 @@
+
 // B"H
-const Collection = require('../../structure/collection.js');
-const v1Adapter = require('../../deserialize/v1_adapter.js');
-const { _readPtr } = require('./utils.js');
-const Page = require('../../structure/page.js');
+const constants = require('../../constants.js');
+const SmartPointer = require('../../utils/smartPointer.js');
+const Sequence = require('../../structure/sequence/index.js');
+const Dictionary = require('../../structure/dictionary/index.js');
+const MapEngine = require('../../structure/map/index.js');
+const keyEncoding = require('../../utils/keyEncoding.js');
+const { readPointer48 } = require('../../utils/binaryHelpers.js');
 
 class Reader {
-    constructor(handle, LiveHandleClass) {
+    constructor(handle) {
         this.handle = handle;
         this.db = handle.db;
-        this.LiveHandleClass = LiveHandleClass;
     }
 
     async resolveSelf() {
-        const ptr = await this.handle.ptrPromise;
-        if (!ptr && this.handle.mode !== 'ROOT') return undefined;
-        if (this.handle.mode === 'ROOT') return "[AwtsmoosDB Root]";
-        
-        // B"H: If ptr has explicit type (from Collection), trust it and decode directly.
-        if (ptr && ptr.type !== undefined) {
-             const valBuf = await this.db._readChainSafe(ptr);
-             return v1Adapter.decode(valBuf, ptr.type);
-        }
+        return this.db.read(async () => {
+            // B"H: Critical - Ensure we are resolved before trying to read
+            await this.handle.ensureResolved();
 
-        if (this.handle.mode === 'DEFERRED') await this.handle.nav.detectMode(ptr);
+            const context = new Map();
+            if (!this.handle.ptr || (this.handle.type === constants.TYPE_DICTIONARY && !this.handle.ptr)) {
+                // If resolving failed (ptr is still null), it means key doesn't exist.
+                if (this.handle !== this.db.root && !this.handle.ptr) return undefined;
 
-        if (this.handle.mode === 'BTREE' || this.handle.mode === 'COLLECTION') {
-            return this.toJSON();
-        }
-        
-        return await this.db._resolveValueFull(ptr);
-    }
-
-    async toJSON(depth = 0) {
-        if (depth > 5) return "[Max Depth Exceeded]";
-        const ptr = await this.handle.ptrPromise;
-        if (!ptr) return undefined;
-        
-        // B"H: Direct decode for typed pointers
-        if (ptr.type !== undefined) {
-             const valBuf = await this.db._readChainSafe(ptr);
-             return v1Adapter.decode(valBuf, ptr.type);
-        }
-
-        if (this.handle.mode === 'DEFERRED') await this.handle.nav.detectMode(ptr);
-        
-        if (this.handle.mode === 'BTREE') {
-            const tree = await this.handle.tree.getCurrentTree(ptr);
-            const allItems = await tree.getRange(0, 500); 
-            const result = {};
-            for(const item of allItems) {
-                const val = await this.db._resolveValueFull(item.ptr);
-                result[item.key] = val;
-            }
-            return result;
-        } 
-        else if (this.handle.mode === 'COLLECTION') {
-            return this.slice(0, 500); 
-        } 
-        else {
-             return this.db._resolveValueFull(ptr);
-        }
-    }
-
-    async slice(start = 0, end = 100) {
-        this.handle.log(`Slice ${start}-${end} requested.`);
-        const ptr = await this.handle.ptrPromise;
-        await this.db.ensureOpen();
-        
-        if (this.handle.mode === 'DEFERRED') await this.handle.nav.detectMode(ptr);
-        if (this.handle.mode !== 'COLLECTION') {
-            this.handle.log("Slice called on non-collection.");
-            return [];
-        }
-
-        const metaBuf = await this.db._readChainSafe(ptr);
-        const handlePtr = _readPtr(metaBuf, 1);
-        const handleBuf = await this.db._readChainSafe(handlePtr);
-        
-        if (!handleBuf || handleBuf.length < 4 || handleBuf.toString('utf8', 0, 4) !== "COLL") {
-            this.handle.log("Invalid Collection Signature.");
-            return [];
-        }
-
-        const headerPtr = _readPtr(handleBuf, 4);
-        if (!headerPtr || headerPtr.blockId === 0) {
-             this.handle.log("Invalid Header Pointer.");
-             return [];
-        }
-
-        const col = new Collection(headerPtr.blockId, this.db.allocator);
-        await col.load();
-        
-        this.handle.log(`Collection Loaded. Head: ${col.headPageId}, Total: ${col.totalCount}`);
-
-        const res = [];
-        let currPage = col.headPageId;
-        let count = 0;
-        
-        while(currPage !== 0 && count < end) {
-            const page = new Page(currPage, this.db.allocator);
-            await page.load();
-            
-            for(let item of page.items) {
-                if (count >= start && count < end) {
-                     const valBuf = await this.db._readChainSafe(item.ptr);
-                     res.push(v1Adapter.decode(valBuf, item.type));
-                }
-                count++;
-                if (count >= end) break;
-            }
-            currPage = page.nextPageId;
-        }
-        return res;
-    }
-
-    // B"H: Fast Length Retrieval (O(1))
-    async length() {
-        const ptr = await this.handle.ptrPromise;
-        if (!ptr) return 0;
-        await this.db.ensureOpen();
-        
-        if (this.handle.mode === 'DEFERRED') await this.handle.nav.detectMode(ptr);
-
-        if (this.handle.mode === 'BTREE') {
-            const tree = await this.handle.tree.getCurrentTree(ptr);
-            const root = await tree.getRoot();
-            return root.count || 0;
-        } 
-        else if (this.handle.mode === 'COLLECTION') {
-             const metaBuf = await this.db._readChainSafe(ptr);
-             const handlePtr = _readPtr(metaBuf, 1);
-             const handleBuf = await this.db._readChainSafe(handlePtr);
-             const headerPtr = _readPtr(handleBuf, 4);
-             
-             const col = new Collection(headerPtr.blockId, this.db.allocator);
-             await col.load();
-             return col.totalCount;
-        }
-        return 0;
-    }
-
-    async *keys() { yield* this._iterateGeneric('KEY'); }
-    async *values() { yield* this._iterateGeneric('VALUE'); }
-    async *entries() { yield* this._iterateGeneric('ENTRY'); }
-    
-    // Default Iterator (Value for List, Entry for Map for backwards compat)
-    async *iterator() {
-        yield* this._iterateGeneric('DEFAULT');
-    }
-
-    async *_iterateGeneric(mode) {
-        const ptr = await this.handle.ptrPromise;
-        await this.db.ensureOpen();
-        if (this.handle.mode === 'DEFERRED') await this.handle.nav.detectMode(ptr);
-        
-        if (this.handle.mode === 'BTREE') {
-            const tree = await this.handle.tree.getCurrentTree(ptr);
-            yield* this._iterateTree(tree, tree.rootPtr, mode);
-        }
-        else if (this.handle.mode === 'COLLECTION') {
-             const metaBuf = await this.db._readChainSafe(ptr);
-             const handlePtr = _readPtr(metaBuf, 1);
-             const handleBuf = await this.db._readChainSafe(handlePtr);
-             const headerPtr = _readPtr(handleBuf, 4);
-             const col = new Collection(headerPtr.blockId, this.db.allocator);
-             await col.load();
-             let currPage = col.headPageId;
-             while(currPage !== 0) {
-                const page = new Page(currPage, this.db.allocator);
-                await page.load();
-                for(let item of page.items) {
-                    if (mode === 'KEY') {
-                        yield item.key; 
-                    } else if (mode === 'ENTRY') {
-                        const valBuf = await this.db._readChainSafe(item.ptr);
-                        const val = v1Adapter.decode(valBuf, item.type);
-                        yield [item.key, val];
-                    } else {
-                        // VALUE or DEFAULT
-                        const valBuf = await this.db._readChainSafe(item.ptr);
-                        yield v1Adapter.decode(valBuf, item.type);
-                    }
-                }
-                currPage = page.nextPageId;
-             }
-        }
-    }
-
-    async *_iterateTree(tree, nodePtr, mode) {
-        if (!nodePtr || nodePtr.blockId === 0) return;
-        
-        const node = await tree.loadNode(nodePtr);
-        
-        if (node.isLeaf) {
-            for(let i = 0; i < node.keys.length; i++) {
-                const key = node.keys[i];
-                
-                if (mode === 'KEY') {
-                    yield key;
+                // Root Fallback
+                let structPtr = null;
+                if (this.db.rootPtrRaw) {
+                     const decoded = SmartPointer.decode(this.db.rootPtrRaw);
+                     structPtr = {
+                         blockId: readPointer48(decoded.payload, 0),
+                         length: decoded.payload.readUInt32BE(6),
+                         offset: decoded.payload.readUInt32BE(10),
+                         isChain: decoded.payload.readUInt8(14) === 1
+                     };
                 } else {
-                    const valPtr = node.values[i];
-                    const value = await this.db._resolveValueFull(valPtr);
-                    
-                    if (mode === 'VALUE') yield value;
-                    else if (mode === 'ENTRY') yield [key, value];
-                    else yield { key, value }; // DEFAULT: { key, value } obj for BTree
+                    return {}; // Empty root
                 }
+
+                const dict = new Dictionary(this.db.allocator, structPtr);
+                const obj = {};
+                context.set(structPtr.blockId, obj); 
+                await this._hydrateDictionary(dict, obj, context);
+                return obj;
             }
-        } else {
-            for(const childPtr of node.children) {
-                yield* this._iterateTree(tree, childPtr, mode);
+            const val = await SmartPointer.resolve(this.handle.ptr, this.db.allocator, context);
+            
+            // B"H: Recursively hydrate if it's a structure
+            if (val && val.isStructure) return await this._hydrateStructure(val, context);
+            
+            // B"H: For Custom Instances returned by SmartPointer.resolve
+            if (val && typeof val === 'object' && val.__className__) {
+                await this._hydrateObjectProperties(val, context);
+            }
+            
+            return val;
+        });
+    }
+
+    async _hydrateObjectProperties(obj, context) {
+        for (const key in obj) {
+            const val = obj[key];
+            if (val && val.isStructure) {
+                obj[key] = await this._hydrateStructure(val, context);
             }
         }
     }
-}
 
+    async _hydrateStructure(val, context) {
+        if (!val || !val.isStructure) return val;
+        if (context.has(val.blockId)) return context.get(val.blockId);
+
+        if (val.type === constants.TYPE_DICTIONARY) {
+            const dict = new Dictionary(this.db.allocator, val);
+            const obj = {};
+            context.set(val.blockId, obj);
+            await this._hydrateDictionary(dict, obj, context);
+            return obj;
+        }
+        
+        if (val.type === constants.TYPE_SEQUENCE) {
+            const seq = new Sequence(this.db.allocator, val);
+            const arr = [];
+            context.set(val.blockId, arr);
+            const len = await seq.length();
+            const limit = Math.min(len, 2000);
+            for(let i=0; i<limit; i++) {
+                let item = await seq.get(i, context);
+                if (item && item.isStructure) item = await this._hydrateStructure(item, context);
+                arr.push(item);
+            }
+            return arr;
+        }
+
+        if (val.type === constants.TYPE_SET) {
+            const seq = new Sequence(this.db.allocator, val);
+            const set = new Set();
+            context.set(val.blockId, set);
+            const len = await seq.length();
+            const limit = Math.min(len, 2000);
+            for(let i=0; i<limit; i++) {
+                let item = await seq.get(i, context);
+                if (item && item.isStructure) item = await this._hydrateStructure(item, context);
+                set.add(item);
+            }
+            return set;
+        }
+
+        if (val.type === constants.TYPE_MAP) {
+            const mapEngine = new MapEngine(this.db.allocator, val);
+            const map = new Map();
+            context.set(val.blockId, map);
+            let count = 0;
+            for await (const item of mapEngine.range()) {
+                if (count++ > 2000) break;
+                const realKey = keyEncoding.decode(item.key);
+                let realVal = item.value;
+                if (realVal && realVal.isStructure) realVal = await this._hydrateStructure(realVal, context);
+                map.set(realKey, realVal);
+            }
+            return map;
+        }
+        return val;
+    }
+
+    async _hydrateDictionary(dict, targetObj, context) {
+        let count = 0;
+        for await (const k of dict.keys()) {
+            if (count++ > 2000) break;
+            if (k === undefined || k === null) continue; // B"H: Skip invalid keys
+            let val = await dict.get(k, context);
+            const realKey = keyEncoding.decode(k);
+            if (val && val.isStructure) val = await this._hydrateStructure(val, context);
+            targetObj[realKey] = val;
+        }
+    }
+
+    _wrapIfNeeded(val, keyOrIndex) {
+        if (val && val.isStructure) {
+            const buf = SmartPointer.block(val.type, val.blockId, val.length, val.isChain, val.offset);
+            const LH = require('./index.js');
+            return new LH(this.db, buf, val.type, null);
+        }
+        return val;
+    }
+
+    async getItem(index) {
+        return this.db.read(async () => {
+            await this.handle.ensureResolved();
+            if (!this.handle.ptr) return undefined;
+
+            const res = await SmartPointer.resolve(this.handle.ptr, this.db.allocator);
+            const seq = new Sequence(this.db.allocator, res);
+            const val = await seq.get(index);
+            
+            // B"H: Hydrate Dictionaries automatically for easier consumption
+            if (val && val.isStructure && val.type === constants.TYPE_DICTIONARY) {
+                return await this._hydrateStructure(val, new Map());
+            }
+
+            if (val && val.isStructure) {
+                 const buf = SmartPointer.block(val.type, val.blockId, val.length, val.isChain, val.offset);
+                 const LH = require('./index.js');
+                 return new LH(this.db, buf, val.type, { parent: this.handle, key: index });
+            }
+            return val;
+        });
+    }
+
+    async slice(start, end) {
+        return this.db.read(async () => {
+            await this.handle.ensureResolved();
+            if (!this.handle.ptr) return [];
+
+            const res = await SmartPointer.resolve(this.handle.ptr, this.db.allocator);
+            const seq = new Sequence(this.db.allocator, res);
+            const rawItems = await seq.slice(start, end);
+            
+            const processed = [];
+            for (let item of rawItems) {
+                // B"H: Hydrate Dictionaries so tests/users get Objects, not Handles
+                if (item && item.isStructure && item.type === constants.TYPE_DICTIONARY) {
+                     processed.push(await this._hydrateStructure(item, new Map()));
+                } else {
+                     processed.push(this._wrapIfNeeded(item));
+                }
+            }
+            return processed;
+        });
+    }
+
+    async length() {
+        return this.db.read(async () => {
+            await this.handle.ensureResolved();
+            if (!this.handle.ptr) return 0;
+
+            const res = await SmartPointer.resolve(this.handle.ptr, this.db.allocator);
+            if (this.handle.type === constants.TYPE_SEQUENCE) {
+                const seq = new Sequence(this.db.allocator, res);
+                return seq.length();
+            } else if (this.handle.type === constants.TYPE_MAP) {
+                const map = new MapEngine(this.db.allocator, res);
+                const s = await map.stats();
+                return s.count;
+            } else if (this.handle.type === constants.TYPE_DICTIONARY) {
+                const dict = new Dictionary(this.db.allocator, res);
+                const s = await dict.stats();
+                return s.count;
+            }
+            return 0;
+        });
+    }
+
+    async byteSize() {
+        return this.db.read(async () => {
+            await this.handle.ensureResolved();
+            
+            let structPtr = null;
+            if (this.handle.ptr) {
+                structPtr = await SmartPointer.resolve(this.handle.ptr, this.db.allocator);
+            } else if (this.db.rootPtrRaw) {
+                 const decoded = SmartPointer.decode(this.db.rootPtrRaw);
+                 structPtr = {
+                     blockId: readPointer48(decoded.payload, 0),
+                     length: decoded.payload.readUInt32BE(6),
+                     offset: decoded.payload.readUInt32BE(10),
+                     isChain: decoded.payload.readUInt8(14) === 1
+                 };
+            }
+            
+            if (this.handle.type === constants.TYPE_SEQUENCE || this.handle.type === constants.TYPE_SET) {
+                const seq = new Sequence(this.db.allocator, structPtr);
+                return seq.byteSize();
+            }
+            if (this.handle.type === constants.TYPE_DICTIONARY) {
+                const dict = new Dictionary(this.db.allocator, structPtr);
+                const stats = await dict.stats();
+                return stats.size;
+            }
+            if (this.handle.type === constants.TYPE_MAP) {
+                const map = new MapEngine(this.db.allocator, structPtr);
+                const stats = await map.stats();
+                return stats.size;
+            }
+            
+            // Primitive
+            const val = await SmartPointer.resolve(this.handle.ptr, this.db.allocator);
+            if (Buffer.isBuffer(val)) return val.length;
+            if (typeof val === 'string') return Buffer.byteLength(val, 'utf8');
+            return 8; 
+        });
+    }
+
+    async stats() {
+        return this.db.read(async () => {
+            await this.handle.ensureResolved();
+            
+            let structPtr = null;
+            if (this.handle.ptr) {
+                structPtr = await SmartPointer.resolve(this.handle.ptr, this.db.allocator);
+            } else if (this.db.rootPtrRaw) {
+                 const decoded = SmartPointer.decode(this.db.rootPtrRaw);
+                 structPtr = {
+                     blockId: readPointer48(decoded.payload, 0),
+                     length: decoded.payload.readUInt32BE(6),
+                     offset: decoded.payload.readUInt32BE(10),
+                     isChain: decoded.payload.readUInt8(14) === 1
+                 };
+            }
+
+            if (this.handle.type === constants.TYPE_SEQUENCE) {
+                const seq = new Sequence(this.db.allocator, structPtr);
+                return seq.stats();
+            } 
+            else if (this.handle.type === constants.TYPE_DICTIONARY) {
+                const dict = new Dictionary(this.db.allocator, structPtr);
+                return dict.stats();
+            }
+            else if (this.handle.type === constants.TYPE_MAP) {
+                const map = new MapEngine(this.db.allocator, structPtr);
+                return map.stats();
+            }
+            return { error: "Stats not available for this type" };
+        });
+    }
+
+    async *iterator() {
+        await this.handle.ensureResolved();
+        
+        let structPtr = null;
+        if (this.handle.ptr) {
+            structPtr = await SmartPointer.resolve(this.handle.ptr, this.db.allocator);
+        } else if (this.db.rootPtrRaw) {
+             const decoded = SmartPointer.decode(this.db.rootPtrRaw);
+             structPtr = {
+                 blockId: readPointer48(decoded.payload, 0),
+                 length: decoded.payload.readUInt32BE(6),
+                 offset: decoded.payload.readUInt32BE(10),
+                 isChain: decoded.payload.readUInt8(14) === 1
+             };
+        }
+        
+        if (this.handle.type === constants.TYPE_DICTIONARY) {
+            const keys = await this.db.read(async () => {
+                const dict = new Dictionary(this.db.allocator, structPtr);
+                const k = [];
+                for await (const key of dict.keys()) k.push(key);
+                return k;
+            });
+            for(const k of keys) {
+                const val = await this.db.read(async () => {
+                    const dict = new Dictionary(this.db.allocator, structPtr);
+                    return dict.get(k);
+                });
+                // B"H: If value is also a dictionary, hydrate it for seamless usage
+                let wrappedVal = val;
+                if (val && val.isStructure && val.type === constants.TYPE_DICTIONARY) {
+                    wrappedVal = await this._hydrateStructure(val, new Map());
+                } else {
+                    wrappedVal = this._wrapIfNeeded(val);
+                }
+                const realKey = keyEncoding.decode(k);
+                yield [realKey, wrappedVal];
+            }
+        } 
+        else if (this.handle.type === constants.TYPE_MAP) {
+            const map = new MapEngine(this.db.allocator, structPtr);
+            for await (const item of map.range()) {
+                const realKey = keyEncoding.decode(item.key);
+                
+                let val = item.value;
+                // B"H: Auto-hydrate nested Dictionaries to allow property access in loops
+                if (val && val.isStructure && val.type === constants.TYPE_DICTIONARY) {
+                    val = await this._hydrateStructure(val, new Map());
+                } else {
+                    val = this._wrapIfNeeded(val);
+                }
+                
+                yield { key: realKey, value: val };
+            }
+        }
+        else if (this.handle.type === constants.TYPE_SEQUENCE) {
+            const len = await this.db.read(async () => {
+                const seq = new Sequence(this.db.allocator, structPtr);
+                return seq.length();
+            });
+            for(let i=0; i<len; i++) {
+                const val = await this.db.read(async () => {
+                    const seq = new Sequence(this.db.allocator, structPtr);
+                    return seq.get(i);
+                });
+                
+                let wrappedVal = val;
+                if (val && val.isStructure && val.type === constants.TYPE_DICTIONARY) {
+                    wrappedVal = await this._hydrateStructure(val, new Map());
+                } else {
+                    wrappedVal = this._wrapIfNeeded(val);
+                }
+                yield wrappedVal;
+            }
+        }
+    }
+
+    async *keys() {
+        await this.handle.ensureResolved();
+        let structPtr = null;
+        if (this.handle.ptr) {
+            structPtr = await SmartPointer.resolve(this.handle.ptr, this.db.allocator);
+        } else if (this.db.rootPtrRaw) {
+             const decoded = SmartPointer.decode(this.db.rootPtrRaw);
+             structPtr = {
+                 blockId: readPointer48(decoded.payload, 0),
+                 length: decoded.payload.readUInt32BE(6),
+                 offset: decoded.payload.readUInt32BE(10),
+                 isChain: decoded.payload.readUInt8(14) === 1
+             };
+        }
+
+        if (this.handle.type === constants.TYPE_DICTIONARY) {
+            const keys = await this.db.read(async () => {
+                const dict = new Dictionary(this.db.allocator, structPtr);
+                const k = [];
+                for await (const key of dict.keys()) k.push(key);
+                return k;
+            });
+            for(const k of keys) yield keyEncoding.decode(k);
+        } else if (this.handle.type === constants.TYPE_MAP) {
+            const map = new MapEngine(this.db.allocator, structPtr);
+            for await (const item of map.range()) {
+                yield keyEncoding.decode(item.key);
+            }
+        }
+    }
+
+    async *values() {
+        const iterator = this.iterator();
+        for await (const entry of iterator) {
+            if (Array.isArray(entry) && entry.length === 2 && this.handle.type === constants.TYPE_DICTIONARY) yield entry[1];
+            else if (this.handle.type === constants.TYPE_MAP) yield entry.value;
+            else yield entry;
+        }
+    }
+
+    async *entries() { yield* this.iterator(); }
+}
 module.exports = Reader;

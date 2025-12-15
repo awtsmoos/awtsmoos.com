@@ -1,7 +1,8 @@
 /* B"H */
-import { STDLIB } from './stdlib.js';
+export const source = `// B"H
+#include <stdio.h>
+#include <unistd.h>
 
-export const source = `${STDLIB}
 void main() {
     print("B\\"H - Console Output Test\\n");
     print("--------------------------\\n");

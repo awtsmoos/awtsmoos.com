@@ -104,6 +104,15 @@
             // Using Proxy allows us to forward access to the real window object with the correct 'this'.
             const context = new Proxy(overrides, {
                 get(target, prop, receiver) {
+                    // 0. Pass through Symbols (e.g. Symbol.iterator, Symbol.toPrimitive) 
+                    // to prevent TypeErrors in internal engine operations.
+                    if (typeof prop === 'symbol') {
+                        // Check target first
+                        if (prop in target) return target[prop];
+                        // Then baseContext
+                        return Reflect.get(baseContext, prop);
+                    }
+
                     // 1. Check overrides/local context first
                     if (prop in target) return target[prop];
                     
@@ -133,6 +142,14 @@
                     // Write to local overrides to avoid polluting the global window
                     target[prop] = value;
                     return true;
+                },
+                // B"H - Ensure proper ownership checks for 'in' operator
+                ownKeys(target) {
+                    return [...Reflect.ownKeys(target), ...Reflect.ownKeys(baseContext)];
+                },
+                getOwnPropertyDescriptor(target, prop) {
+                    if (prop in target) return Object.getOwnPropertyDescriptor(target, prop);
+                    return Object.getOwnPropertyDescriptor(baseContext, prop);
                 }
             });
 

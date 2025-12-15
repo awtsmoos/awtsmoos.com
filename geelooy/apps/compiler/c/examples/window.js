@@ -1,8 +1,7 @@
 /* B"H */
-import { STDLIB } from './stdlib.js';
-
-export const source = `${STDLIB}
-import "USER32.dll" RegisterClassA CreateWindowExA ShowWindow GetMessageA TranslateMessage DispatchMessageA DefWindowProcA PostQuitMessage;
+export const source = `// B"H
+#include <stdio.h>
+import "USER32.dll" RegisterClassA CreateWindowExA ShowWindow GetMessageA TranslateMessage DispatchMessageA DefWindowProcA PostQuitMessage MessageBoxA;
 import "KERNEL32.dll" GetModuleHandleA;
 
 // Global Name

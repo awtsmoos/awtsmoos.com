@@ -10,16 +10,16 @@ export function genAddr(expr, lines, locals, depth, ctx) {
             return { type: loc.varType, isArray: loc.isArray };
         } else {
             lines.push(`LEA RAX, [${expr.name}]`); // Global
-            // We don't track global types strictly in this simplified map yet, assume pointer/void
+            // Assume globals are pointers/arrays or int?
+            // For now, return a generic type that assumes 8-byte access unless cast
             return { type: { base: 'void', ptr: 0 }, isArray: false }; 
         }
     } 
     else if (expr.type === 'unary' && expr.op === '*') {
         genExpr(expr.expr, lines, locals, depth, ctx);
         // RAX is now the value of the pointer (which is an address).
-        // We return this as the "Address" for the dereference.
         
-        // Try to infer type for assignment sizing (char* vs int*)
+        // Try to infer type
         if (expr.expr.type === 'var') {
             const loc = locals.get(expr.expr.name);
             if (loc && loc.varType.ptr > 0) {
@@ -31,8 +31,6 @@ export function genAddr(expr, lines, locals, depth, ctx) {
     else if (expr.type === 'binop' && (expr.op === '.' || expr.op === '->')) {
         // Struct Access
         const fieldName = expr.right.name;
-        
-        // 1. Get Address of Base
         let baseType;
         
         if (expr.op === '.') {
@@ -41,28 +39,23 @@ export function genAddr(expr, lines, locals, depth, ctx) {
         } else {
             // -> means left is a pointer
             genExpr(expr.left, lines, locals, depth, ctx);
-            // HACK: Look up variable type from locals
             if (expr.left.type === 'var') {
                 const l = locals.get(expr.left.name);
                 if(l) baseType = { base: l.varType.base, ptr: l.varType.ptr - 1 };
             }
-            // If it was a return from malloc/function, we assume user casts or it matches.
         }
 
-        // 2. Add Offset
         if (baseType && ctx.structLayouts.has(baseType.base)) {
             const layout = ctx.structLayouts.get(baseType.base);
             const field = layout.fields.get(fieldName);
             if (field) {
                 lines.push(`ADD RAX, ${field.offset}`);
-                // Important: Return isArray status so genExpr knows not to dereference it further
                 return { type: field.type, isArray: field.isArray };
             }
             throw new Error(`Field '${fieldName}' not found in struct '${baseType.base}'`);
         }
         
-        if (!baseType) throw new Error("Cannot infer type for struct access");
-        throw new Error(`Struct layout not found for '${baseType.base}'`);
+        throw new Error("Cannot infer type for struct access");
     }
     
     // Indexing
@@ -73,18 +66,19 @@ export function genAddr(expr, lines, locals, depth, ctx) {
         lines.push(`POP RBX`);
         
         let size = 8;
-        if (meta.type && meta.type.ptr > 0) {
-             // Pointer arithmetic
-             if (meta.type.base === 'char') size = 1;
-             else if (meta.type.base === 'int') size = 8; // int64
+        if (meta.type) {
+             // If pointer or array, determine element size
+             if (meta.type.ptr > 0 || meta.isArray) {
+                 if (meta.type.base === 'char') size = 1;
+                 else if (meta.type.base === 'int') size = 8; 
+             }
         }
         
         lines.push(`IMUL RAX, ${size}`);
         lines.push(`ADD RAX, RBX`);
-        // Result is the address of the element.
-        // If meta.type was T*, element is T.
-        const elemType = (meta.type && meta.type.ptr > 0) 
-            ? { base: meta.type.base, ptr: meta.type.ptr - 1 }
+        
+        const elemType = (meta.type && (meta.type.ptr > 0 || meta.isArray)) 
+            ? { base: meta.type.base, ptr: Math.max(0, meta.type.ptr - 1) }
             : { base: 'unknown', ptr: 0 };
             
         return { type: elemType };
@@ -104,19 +98,22 @@ export function genExpr(expr, lines, locals, depth, ctx) {
     } else if (expr.type === 'var') {
         const loc = locals.get(expr.name);
         if (loc) {
-            // If it's an array, it decays to a pointer (LEA), same for Structs passed by value (not supported, so LEA)
+            // Arrays decay to pointer
             if (loc.isArray || (loc.varType.base !== 'int' && loc.varType.base !== 'char' && loc.varType.ptr === 0)) {
                 lines.push(`LEA RAX, [RBP${formatOffset(loc.offset)}]`);
             } else {
-                lines.push(`MOV RAX, [RBP${formatOffset(loc.offset)}]`);
+                // Char check
+                if (loc.varType.base === 'char' && loc.varType.ptr === 0) {
+                     lines.push(`MOVSX RAX, BYTE PTR [RBP${formatOffset(loc.offset)}]`);
+                } else {
+                     lines.push(`MOV RAX, [RBP${formatOffset(loc.offset)}]`);
+                }
             }
         } else {
-            // Global
             if (ctx.definedFunctions.has(expr.name)) lines.push(`LEA RAX, ${expr.name}`);
             else lines.push(`MOV RAX, [${expr.name}]`);
         }
     } else if (expr.type === 'call') {
-         // Check if function exists
          if (!ctx.definedFunctions.has(expr.name) && !ctx.importedFunctions.has(expr.name)) {
              throw new Error(`Call to undefined function: '${expr.name}'. Did you import it or define it?`);
          }
@@ -135,13 +132,8 @@ export function genExpr(expr, lines, locals, depth, ctx) {
         if (expr.op === '.' || expr.op === '->') {
             // Member Access
             const meta = genAddr(expr, lines, locals, depth, ctx);
+            if (meta.isArray) return; 
             
-            // If it's an array field, we return the address (decay to pointer)
-            if (meta.isArray) {
-                return; 
-            }
-            
-            // Otherwise load the value
             if (meta.type.ptr === 0 && meta.type.base === 'char') lines.push(`MOVSX RAX, BYTE PTR [RAX]`);
             else if (meta.type.ptr === 0 && meta.type.base === 'int') lines.push(`MOVSX RAX, DWORD PTR [RAX]`); 
             else lines.push(`MOV RAX, [RAX]`);
@@ -173,7 +165,19 @@ export function genExpr(expr, lines, locals, depth, ctx) {
             genAddr(expr.expr, lines, locals, depth, ctx);
         } else if (expr.op === '*') {
             genExpr(expr.expr, lines, locals, depth, ctx);
-            lines.push(`MOV RAX, [RAX]`);
+            // Check type if possible to do MOVSX for char*
+            let isChar = false;
+            // Simple check: if sub-expr is variable, look it up.
+            // This catches *ptr where ptr is char*
+            if (expr.expr.type === 'var') {
+                 const loc = locals.get(expr.expr.name);
+                 if (loc && loc.varType.base === 'char' && loc.varType.ptr === 1) isChar = true;
+                 if (loc && loc.varType.base === 'char' && loc.isArray) isChar = true; 
+            }
+            
+            if (isChar) lines.push(`MOVSX RAX, BYTE PTR [RAX]`);
+            else lines.push(`MOV RAX, [RAX]`);
+            
         } else if (expr.op === '-') {
             genExpr(expr.expr, lines, locals, depth, ctx);
             lines.push(`NEG RAX`);
@@ -189,7 +193,6 @@ export function genExpr(expr, lines, locals, depth, ctx) {
         const meta = genAddr(expr.left, lines, locals, depth+8, ctx);
         lines.push(`POP RBX`);
         
-        // Use type info to determine operand size
         if (meta && meta.type && meta.type.base === 'char' && meta.type.ptr === 0) {
             lines.push(`MOV [RAX], BL`);
         } else if (meta && meta.type && meta.type.base === 'int' && meta.type.ptr === 0) {

@@ -6,6 +6,8 @@ const SmartPointer = require('../../utils/smartPointer.js');
 const { readPointer48 } = require('../../utils/binaryHelpers.js');
 const MapEngine = require('../../structure/map/index.js');
 const Sequence = require('../../structure/sequence/index.js');
+const Dictionary = require('../../structure/dictionary/index.js');
+const keyEncoding = require('../../utils/keyEncoding.js');
 
 class SearchManager {
     constructor(db) {
@@ -39,12 +41,99 @@ class SearchManager {
         return !!idx.ptr;
     }
 
+    // Hydrate a structure pointer into a JS object/array
+    async _hydrateStructure(val, context = new Map()) {
+        if (!val) return val;
+        
+        // Handle Pointer Buffer passed directly (Manual Resolve)
+        if (Buffer.isBuffer(val) && val.length === 16) {
+             const decoded = SmartPointer.decode(val);
+             if (decoded && decoded.mode === constants.MODE_BLOCK) {
+                 // Convert Buffer to Descriptor manually to ensure hydration logic triggers
+                 val = {
+                     isStructure: true,
+                     type: decoded.type,
+                     blockId: readPointer48(decoded.payload, 0),
+                     length: decoded.payload.readUInt32BE(6),
+                     offset: decoded.payload.readUInt32BE(10),
+                     isChain: decoded.payload.readUInt8(14) === 1
+                 };
+             } else {
+                 // Try normal resolve
+                 val = await SmartPointer.resolve(val, this.db.allocator, context);
+             }
+        }
+
+        if (!val || !val.isStructure) return val;
+        
+        if (context.has(val.blockId)) return context.get(val.blockId);
+
+        if (val.type === constants.TYPE_DICTIONARY || val.type === constants.TYPE_CUSTOM_INSTANCE) {
+            const dict = new Dictionary(this.db.allocator, val);
+            const obj = {};
+            context.set(val.blockId, obj);
+            
+            // B"H: Iterate keys and hydrate values
+            try {
+                for await (const k of dict.keys()) {
+                    let v = await dict.get(k, context);
+                    // Recursively hydrate if it's a structure or pointer
+                    if (v && (v.isStructure || (Buffer.isBuffer(v) && v.length === 16))) {
+                        v = await this._hydrateStructure(v, context);
+                    }
+                    const realKey = keyEncoding.decode(k);
+                    obj[realKey] = v;
+                }
+            } catch(e) {
+                if(this.db.debug) console.warn("B\"H Search: Error hydrating Dictionary:", e.message);
+                return obj; // Return what we have (or empty) if init/iter fails
+            }
+            return obj;
+        }
+        
+        if (val.type === constants.TYPE_MAP) {
+            const mapEngine = new MapEngine(this.db.allocator, val);
+            const mapObj = {}; 
+            context.set(val.blockId, mapObj);
+            
+            let count = 0;
+            try {
+                for await (const item of mapEngine.range()) {
+                    if (count++ > 5000) break;
+                    let v = item.value;
+                    if (v && (v.isStructure || (Buffer.isBuffer(v) && v.length === 16))) {
+                        v = await this._hydrateStructure(v, context);
+                    }
+                    const realKey = keyEncoding.decode(item.key);
+                    mapObj[realKey] = v;
+                }
+            } catch(e) {}
+            return mapObj;
+        }
+
+        if (val.type === constants.TYPE_SEQUENCE || val.type === constants.TYPE_SET) {
+            const seq = new Sequence(this.db.allocator, val);
+            const arr = [];
+            context.set(val.blockId, arr);
+            
+            const len = await seq.length();
+            const limit = Math.min(len, 5000);
+            for(let i=0; i<limit; i++) {
+                let v = await seq.get(i, context);
+                if (v && (v.isStructure || (Buffer.isBuffer(v) && v.length === 16))) {
+                    v = await this._hydrateStructure(v, context);
+                }
+                arr.push(v);
+            }
+            return arr;
+        }
+
+        return val;
+    }
+
     async _hydrateForIndex(val) {
-        if (val && val.isStructure) {
-             const LH = require('../liveHandle/index.js');
-             const buf = SmartPointer.block(val.type, val.blockId, val.length, val.isChain, val.offset);
-             const h = new LH(this.db, buf, val.type, null);
-             return await h.reader.resolveSelf();
+        if (val && (val.isStructure || (Buffer.isBuffer(val) && val.length === 16))) {
+             return await this._hydrateStructure(val);
         }
         return val;
     }
@@ -81,8 +170,6 @@ class SearchManager {
 
         for await (const { ptr, value } of iterator) {
             const hydrated = await this._hydrateForIndex(value);
-            // B"H: Copy ptr to ensure stability. 
-            // 'ptr' from iterateRaw is a subarray view which might be unstable across async ops.
             const stablePtr = Buffer.alloc(16);
             ptr.copy(stablePtr);
             await this.updateIndex(path, stablePtr, null, null, hydrated);
@@ -176,9 +263,6 @@ class SearchManager {
         const queryTokens = [...tokenizer.tokenize(query)];
         if (queryTokens.length === 0) return [];
 
-        // B"H: Sort tokens by frequency (heuristic: or just process). 
-        // Optimization: Process smallest list first? For now, standard order.
-        
         const firstWord = queryTokens[0];
         const candidatesHandle = indexMap.get(firstWord);
         await candidatesHandle.ensureResolved();
@@ -196,7 +280,6 @@ class SearchManager {
             if(val) resultPtrs.push(val);
         }
         
-        // B"H: Optimization - Use Hex String Set for O(N) intersection
         for (let i = 1; i < queryTokens.length; i++) {
             if (resultPtrs.length === 0) return [];
 
@@ -213,7 +296,7 @@ class SearchManager {
             const l = await listSeq.length();
             
             for(let j=0; j<l; j++) {
-                const val = await listSeq.getPtr(j);
+                const val = await listSeq.getPtr(j); 
                 if(val) {
                     currentListHex.add(val.toString('hex'));
                 }
@@ -223,20 +306,50 @@ class SearchManager {
         }
 
         const objects = [];
+        const hydrationContext = new Map();
+
         for (const ptr of resultPtrs) {
-            // B"H: Resolve the pointer to the actual object
-            // Use resolvePointer helper to handle block/heap modes cleanly
-            const obj = await SmartPointer.resolve(ptr, this.db.allocator);
+            if (!Buffer.isBuffer(ptr)) continue;
             
-            if (obj && obj.isStructure) {
-                const tempHandle = new (require('../liveHandle/index.js'))(this.db, ptr, obj.type, null);
-                objects.push(await tempHandle.reader.resolveSelf());
-            } else {
-                // Check if it's a pointer to a Dictionary/Map (e.g. from a Collection)
-                // resolve returns the pointer details if MODE_BLOCK/HEAP
-                // But SmartPointer.resolve above handles it.
-                // If it returned a primitive, push it.
-                objects.push(obj);
+            try {
+                // 1. Try to resolve the pointer
+                let resolved = await SmartPointer.resolve(ptr, this.db.allocator, hydrationContext);
+                
+                // 2. If it's a structure, hydrate it
+                if (resolved && resolved.isStructure) {
+                    resolved = await this._hydrateStructure(resolved, hydrationContext);
+                } 
+                else if (Buffer.isBuffer(ptr) && ptr.length === 16) {
+                    // Fallback: If SmartPointer.resolve returned raw buffer (shouldn't happen for structs)
+                    // or if we have a raw pointer that needs explicit hydration check
+                    const decoded = SmartPointer.decode(ptr);
+                    
+                    // Explicitly hydrate Dictionaries and Maps if they weren't caught
+                    if (decoded && (decoded.type === constants.TYPE_DICTIONARY || decoded.type === constants.TYPE_MAP || decoded.type === constants.TYPE_CUSTOM_INSTANCE)) {
+                         resolved = await this._hydrateStructure(ptr, hydrationContext);
+                    }
+                }
+                
+                // B"H: Strict Filter
+                // If the result remains a Buffer(16), it means it's a raw pointer that wasn't hydrated to an Object.
+                // We should only keep it if the original data WAS a Buffer or String.
+                if (Buffer.isBuffer(resolved) && resolved.length === 16) {
+                    const decoded = SmartPointer.decode(ptr);
+                    const allowedTypes = [constants.TYPE_BUFFER, constants.TYPE_STRING, constants.TYPE_JSON];
+                    
+                    if (!allowedTypes.includes(decoded.type)) {
+                        // If it's a Dictionary(7) or Map(8) but still a Buffer, hydration failed. Skip.
+                        if (this.db.debug) console.warn(`B"H Search: Discarding unhydrated pointer of Type ${decoded.type}.`);
+                        continue; 
+                    }
+                }
+
+                if (resolved !== undefined) {
+                    objects.push(resolved);
+                }
+                
+            } catch (e) {
+                if (this.db.debug) console.warn(`B"H Search: Skipping stale index entry. ${e.message}`);
             }
         }
         return objects;
