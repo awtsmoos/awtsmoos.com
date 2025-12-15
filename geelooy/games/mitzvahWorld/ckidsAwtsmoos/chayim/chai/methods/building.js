@@ -32,8 +32,8 @@ export default {
              import('../../../dvarim/nature/natureSystem.js').then(m => {
                  this.olam.natureSystem = new m.default(this.olam);
                  // Pre-load common assets
-                 this.olam.natureSystem.initPool('grass', 10000, "awtsmoos://grassModel");
-                 this.olam.natureSystem.initPool('flower_blue', 5000, "awtsmoos://flowerBlue");
+                 this.olam.natureSystem.initPool('grass', 10000);
+                 this.olam.natureSystem.initPool('flower_blue', 5000);
              }).catch(e => console.error("B\"H: Failed to load NatureSystem", e));
         }
         
@@ -54,7 +54,9 @@ export default {
             this.lastItemId = currentId;
             // Reset painting mode when switching items
             this.isPaintingMode = false;
+            // B"H FIX: Explicitly clear ghost state when item changes
             this.removeActiveObject(); 
+            this._isGeneratingGhost = false; 
         }
 
         if (!this.activeRay) return;
@@ -62,7 +64,10 @@ export default {
         // B"H: Show ghost for both Buildable items AND Painters (Nature Tools)
         if (item && (item.isBuildable || item.isPainter)) {
             if (!this.activeObject) {
-                this.placeBlockOnRay();
+                // If not generating, start generating
+                if(!this._isGeneratingGhost) {
+                    this.placeBlockOnRay();
+                }
             } else if (this.activeObject && item.isPainter) {
                 // Update ghost color based on painting mode
                 const mesh = this.activeObject.mesh;
@@ -226,58 +231,34 @@ export default {
                     let modelPath = "awtsmoos://grassModel"; 
                     const type = item.natureType || 'grass';
                     
-                    // Match the logic in NatureSystem.initPool
-                    if (type.includes('rock')) modelPath = "awtsmoos://rockModel1";
-                    else if (type.includes('flower')) modelPath = "awtsmoos://flowerBlue";
+                    if (type.includes('flower')) modelPath = "awtsmoos://flowerBlue";
                     
-                    // Try to load model, handle failure gracefully
                     let result = null;
-                    try {
-                        result = await this.olam.boyrayNivra({ path: modelPath, isSolid: false, name: "ghost_nature" });
-                    } catch(e) {
-                        console.warn("B\"H: Failed to load ghost nature model", modelPath, e);
+                    if (type.includes('rock') || type.includes('grass')) {
+                        // Procedural Ghost
+                        const geomMod = await import('../../../dvarim/nature/procedural/geometryGenerator.js');
+                        const geom = geomMod.default.get(type);
+                        const mat = new THREE.MeshBasicMaterial({ color: 0x00ff00, wireframe: true });
+                        mesh = new THREE.Mesh(geom, mat);
+                    } else {
+                         // External Ghost (Flowers)
+                         try {
+                            result = await this.olam.boyrayNivra({ path: modelPath, isSolid: false, name: "ghost_nature" });
+                         } catch(e) { console.warn("Ghost load failed", e); }
+                         
+                         if (result) {
+                             if(result.scene) mesh = result.scene;
+                             else if (result.isObject3D) mesh = result;
+                         }
                     }
 
-                    if (result && !result.userData?.error) {
-                         if(result.scene) mesh = result.scene;
-                         else if (result.isObject3D) mesh = result;
-
-                         if(mesh) {
-                            // Normalize Ghost Geometry Size
-                            mesh.updateMatrixWorld(true);
-                            let geometry = null;
-                            mesh.traverse(c => { if(c.isMesh) geometry = c.geometry; });
-                            
-                            if (geometry) {
-                                geometry.computeBoundingBox();
-                                const size = new THREE.Vector3();
-                                geometry.boundingBox.getSize(size);
-                                const height = size.y;
-                                
-                                // Target Heights (Match NatureSystem logic)
-                                let targetHeight = 0.5;
-                                if (type.includes('rock')) targetHeight = 0.8;
-                                else if (type.includes('grass')) targetHeight = 0.6;
-                                else if (type.includes('flower')) targetHeight = 0.7;
-
-                                if (height > 0.01) {
-                                    const scaleFactor = targetHeight / height;
-                                    mesh.scale.setScalar(scaleFactor);
-                                }
-                            }
-                            
-                            mesh.rotation.y = Math.random() * Math.PI * 2;
-                         }
-                    } 
-                    
-                    // Fallback
-                    if (!mesh) {
-                        let geo;
-                        if(type === 'grass') geo = new THREE.CylinderGeometry(0.05, 0.05, 0.5);
-                        else if (type.includes('flower')) geo = new THREE.SphereGeometry(0.2); 
-                        else geo = new THREE.DodecahedronGeometry(0.3);
-                        
-                        mesh = new THREE.Mesh(geo, new THREE.MeshBasicMaterial({ color: 0x00ff00, wireframe: true }));
+                    if(mesh) {
+                        // Normalize Ghost Size
+                        if (!mesh.geometry && mesh.children.length > 0) {
+                             // Group normalization logic if needed
+                        } else if (mesh.geometry) {
+                            mesh.geometry.computeBoundingBox();
+                        }
                     }
                     itemData = { ...item };
                 } else {
@@ -319,7 +300,6 @@ export default {
             const makeGhost = (mat) => {
                 if(mat) {
                     mat.transparent = true;
-                    // B"H: Visual feedback for painting mode
                     if(item.isPainter) {
                         mat.opacity = this.isPaintingMode ? 0.8 : 0.3;
                         mat.color.setHex(this.isPaintingMode ? 0x00ff00 : 0xff0000);
@@ -364,7 +344,7 @@ export default {
         }
 
         const activeItem = this.getActiveItem(); 
-        if (!activeItem || !activeItem.isBuildable) return; // Painters handled in updateHandState
+        if (!activeItem || !activeItem.isBuildable) return; 
 
         const itemData = activeItem; 
         
@@ -383,9 +363,20 @@ export default {
                      CustomNpc: [{ ...itemData, position: worldPosition, rotation: worldRotation, isSolid: false }]
                  });
              } else if (activeItem.className === "ProceduralTree") {
-                 // Plant Tree
+                 // B"H FIX: Explicitly pass preset and seed from itemData to the options object
+                 // This ensures the generator uses the correct tree type
+                 const treeOptions = {
+                     ...itemData, 
+                     preset: itemData.preset, // Explicitly pluck preset
+                     seed: itemData.seed || Math.random() * 65536,
+                     position: worldPosition, 
+                     rotation: worldRotation, 
+                     scale: worldScale, 
+                     isSolid: true 
+                 };
+                 
                  await this.olam.loadNivrayim({
-                     ProceduralTree: [{ ...itemData, position: worldPosition, rotation: worldRotation, scale: worldScale, isSolid: true }]
+                     ProceduralTree: [treeOptions]
                  });
              } else {
                  const type = itemData.className || 'Domem';

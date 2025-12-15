@@ -6,6 +6,7 @@ Biezrash Hashem
 
 import { compile } from './compiler.js';
 import { ASM_EXAMPLES } from './asm/examples/index.js';
+import { C_EXAMPLES } from './c/examples/index.js';
 
 // UI Logic
 const radios = document.getElementsByName('appMode');
@@ -14,15 +15,30 @@ const standardInputGroup = document.getElementById('standardInputGroup');
 const asmInputGroup = document.getElementById('asmInputGroup');
 const asmEditor = document.getElementById('asmEditor');
 const asmSelect = document.getElementById('asmExampleSelect');
+const cSelect = document.getElementById('cExampleSelect');
+const asmLabel = document.querySelector('label[for="asmEditor"]');
 
 function updateInfo() {
     const mode = Array.from(radios).find(r => r.checked).value;
     
     // Toggle Inputs
-    if (mode === 'asm') {
+    if (mode === 'asm' || mode === 'c') {
         standardInputGroup.classList.add('hidden');
         asmInputGroup.classList.remove('hidden');
-        if (!asmEditor.value) asmEditor.value = ASM_EXAMPLES.hello;
+        
+        if (mode === 'asm') {
+            asmLabel.textContent = "Assembly Source (x64)";
+            asmSelect.classList.remove('hidden');
+            cSelect.classList.add('hidden');
+            // If empty or C code, reset to ASM default
+            if (!asmEditor.value.includes('.subsystem')) asmEditor.value = ASM_EXAMPLES.hello;
+        } else {
+            asmLabel.textContent = "Custom C Source";
+            asmSelect.classList.add('hidden');
+            cSelect.classList.remove('hidden');
+            // If empty or ASM code, reset to C default
+            if (asmEditor.value.includes('.subsystem')) asmEditor.value = C_EXAMPLES.hello;
+        }
     } else {
         standardInputGroup.classList.remove('hidden');
         asmInputGroup.classList.add('hidden');
@@ -43,12 +59,19 @@ function updateInfo() {
             <li>Imports: <span class="highlight">KERNEL32, USER32</span></li>
             <li>Action: <span class="highlight">MessageBoxA</span></li>
         `;
-    } else {
+    } else if (mode === 'asm') {
          infoList.innerHTML = `
             <li>Platform: <span class="highlight">Windows x64</span></li>
-            <li>Subsystem: <span class="highlight">Configurable</span></li>
-            <li>Features: <span class="highlight">Memory Ops, Labels, Loops</span></li>
+            <li>Features: <span class="highlight">Labels, Macros, RIP-Rel</span></li>
             <li>Control: <span class="highlight">CMP, JMP, CALL, RET</span></li>
+            <li>Data: <span class="highlight">Variables, Arrays</span></li>
+        `;
+    } else {
+        infoList.innerHTML = `
+            <li>Lang: <span class="highlight">Awtsmoos C</span></li>
+            <li>Features: <span class="highlight">Structs, Pointers, Recursion</span></li>
+            <li>Compiles To: <span class="highlight">Native Assembly</span></li>
+            <li>Output: <span class="highlight">Standalone EXE</span></li>
         `;
     }
 }
@@ -63,13 +86,43 @@ asmSelect.addEventListener('change', (e) => {
     }
 });
 
+// C Example Selector
+cSelect.addEventListener('change', (e) => {
+    const key = e.target.value;
+    if (C_EXAMPLES[key]) {
+        asmEditor.value = C_EXAMPLES[key];
+    }
+});
+
+// Populate C Select options dynamically
+function populateCSelect() {
+    cSelect.innerHTML = '';
+    const options = {
+        hello: "Load: Hello World (GUI)",
+        console: "Load: Console Output",
+        echo: "Load: Echo Input",
+        fib: "Load: Fibonacci (Recursion)",
+        file: "Load: File I/O",
+        list_dir: "Load: List Files (Win32)",
+        mandelbrot: "Load: Mandelbrot (Math)",
+        window: "Load: Native Window"
+    };
+    for(const [key, label] of Object.entries(options)) {
+        const opt = document.createElement('option');
+        opt.value = key;
+        opt.textContent = label;
+        cSelect.appendChild(opt);
+    }
+}
+populateCSelect();
+
 updateInfo(); // Init
 
 document.getElementById('compileBtn').addEventListener('click', () => {
     const mode = Array.from(radios).find(r => r.checked).value;
     
     let sourceInput;
-    if (mode === 'asm') {
+    if (mode === 'asm' || mode === 'c') {
         sourceInput = asmEditor.value;
     } else {
         const input = document.getElementById('userText');
@@ -91,7 +144,11 @@ document.getElementById('compileBtn').addEventListener('click', () => {
                 const url = URL.createObjectURL(exeBlob);
                 const a = document.createElement('a');
                 a.href = url;
-                a.download = mode === 'console' ? "awtsmoos_console.exe" : "awtsmoos_app.exe";
+                a.download = (mode === 'console' || mode === 'c') ? "awtsmoos_app.exe" : "awtsmoos_app.exe";
+                if (mode === 'console') a.download = 'console_app.exe';
+                if (mode === 'asm') a.download = 'asm_app.exe';
+                if (mode === 'c') a.download = 'c_app.exe';
+                
                 document.body.appendChild(a);
                 a.click();
                 document.body.removeChild(a);

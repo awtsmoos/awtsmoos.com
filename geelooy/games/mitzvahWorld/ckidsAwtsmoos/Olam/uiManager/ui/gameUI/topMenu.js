@@ -10,23 +10,26 @@ export default {
         className: "menuBtn",
         innerHTML: /*html*/
         `
-                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none" style="pointer-events:none;">
                 <path d="M4 16H28" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
                 <path d="M4 8H28" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
                 <path d="M4 24H28" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-                <rect class="menuBtnRect" x="0" y="0" width="100%" height="100%" />
+                <rect class="menuBtnRect" x="0" y="0" width="100%" height="100%" fill="transparent" />
                 </svg>
-                `,
-        ready(me, $) {
-            var rd = me.getElementsByClassName("btn")[0];
-            if (!rd) return;
-            rd.onclick = me.onclick;
-        },
+        `,
+        awtsmoosClick: true,
         onclick(e, $) {
-            var m = $("menu");
-            if (!m) return;
-            m.classList.toggle("offscreen");
-            m.classList.toggle("onscreen");
+            // Robust lookup for the menu
+            var m = $("menu") || document.querySelector(".gameMenu");
+            if (!m) return console.log("B\"H: Menu element not found!");
+            
+            if (m.classList.contains("offscreen")) {
+                m.classList.remove("offscreen");
+                m.classList.add("onscreen");
+            } else {
+                m.classList.remove("onscreen");
+                m.classList.add("offscreen");
+            }
         }
     }, {
         shaym: "title text holder",

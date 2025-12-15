@@ -1,3 +1,4 @@
+
 /**
  * B"H
  * Collective CSS
@@ -15,6 +16,7 @@ import actionBars from "./actionBars.js"
 import characterDesignerStyle from "./characterDesignerStyle.js";
 import store from "./store.js";
 import effects from "./effects.js";
+import saveGameStyle from "./saveGameStyle.js";
 
 export default /*css*/`
     /*B"H*/
@@ -40,4 +42,6 @@ export default /*css*/`
     ${store}
 
     ${effects}
+
+    ${saveGameStyle}
 `;

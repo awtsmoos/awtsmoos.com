@@ -1,3 +1,4 @@
+
 //B"H
 
 const FEATURED_ALIASES = ["awtsmoos"]; // You can add more hardcoded ones here
@@ -215,13 +216,10 @@ export default {
                             onclick: async () => {
                                 // --- LOAD WORLD LOGIC ---
                                 try {
-                                    const fileRes = await fetch(
-                                        `/api/social/aliases/${alias}/fileSystem/readFile?${
-                                            new URLSearchParams({
-                                                path: `desktop.folder/game data.folder/worlds/${filename}`
-                                            })   
-                                        }`
-                                    );
+                                    const filePath = `desktop.folder/game data.folder/worlds/${filename}`;
+                                    const sourcePathUrl = `/api/social/aliases/${alias}/fileSystem/readFile?${new URLSearchParams({ path: filePath })}`;
+                                    
+                                    const fileRes = await fetch(sourcePathUrl);
                                     const worldCode = await fileRes.text();
                                     
                                     // Create Blob URL
@@ -238,6 +236,7 @@ export default {
                                             new CustomEvent("start", {
                                                 detail: {
                                                     worldDayuhURL: blobUrl,
+                                                    sourcePath: sourcePathUrl, // B"H: Pass source path for URL history
                                                     gameUiHTML: mm.gameUiHTML
                                                 }
                                             })

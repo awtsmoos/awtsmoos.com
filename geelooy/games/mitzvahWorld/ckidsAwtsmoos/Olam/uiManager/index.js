@@ -1,3 +1,4 @@
+
 /**
  * B"H
  */
@@ -149,7 +150,13 @@ export default class UIManager {
             return false; //didn't load
         }
         var gameUiHTML = e.detail.gameUiHTML;
-        var ob = {gameUiHTML};
+        
+        // B"H: Copy all properties from event detail to ensure sourcePath and others are passed
+        var ob = {
+            ...e.detail, 
+            gameUiHTML
+        };
+        
         if(worldDayuh) {
             ob.worldDayuh = worldDayuh;
         }
@@ -214,8 +221,11 @@ export default class UIManager {
                 },
                 {
                     className:"svgHolder",
-                    innerHTML:/*html*/`
-                        ${btnBubble}
+                    innerHTML:`
+                        ${
+                        btnBubble
+                        }
+                        
                     `
                 }
             ],

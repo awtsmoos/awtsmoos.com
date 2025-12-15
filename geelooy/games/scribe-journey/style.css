@@ -1,15 +1,18 @@
-/* B"H - The Scribe's Journey - Fully Responsive Styles */
 
-/* --- 1. Root Variables and Body Reset --- */
+/* B"H - The Scribe's Journey - ATZMUS UNLEASHED v4.0 */
+
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rubik+Glitch&display=swap');
+
 :root {
-    --hp-high: #28a745; --hp-mid: #ffc107; --hp-low: #dc3545;
-    --kavanah: #007bff; --bg-main: #000; --bg-panel: #222;
-    --border-light: #555; --border-bright: #888; --text-main: #eee;
-    --accent-green: #4CAF50; --accent-green-dark: #45a049; --accent-red: #dc3545;
-    --accent-blue: #007bff; --text-error: #ffdd00; --disabled-color: #777;
-    --damage-color: #dc3545; --heal-color: #28a745; --xp-color: #17a2b8;
-    --capture-color: #9c27b0; --quest-available: #ffdd00; --quest-in-progress: #a0a0a0;
-    --quest-completed: #ffd700;
+    --neon-blue: #00f3ff;
+    --neon-pink: #ff00ff;
+    --neon-green: #00ff00;
+    --neon-gold: #ffd700;
+    --neon-red: #ff3333;
+    --neon-purple: #bc13fe;
+    --bg-dark: #020202;
+    --bg-glass: rgba(10, 10, 15, 0.9);
+    --grid-color: rgba(0, 243, 255, 0.1);
 }
 
 html, body {
@@ -17,278 +20,272 @@ html, body {
     height: 100%;
     margin: 0;
     padding: 0;
-    overflow: hidden; /* Critical for full-screen experience */
-    background-color: var(--bg-main);
-    color: var(--text-main);
-    font-family: 'Segoe UI Emoji', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+    overflow: hidden;
+    background-color: var(--bg-dark);
+    color: var(--neon-blue);
+    font-family: 'Share Tech Mono', monospace;
+    user-select: none;
+    -webkit-user-select: none;
 }
 
-body {
-    display: flex;
-    flex-direction: column;
+/* CRT OVERLAY - Lighter */
+body::after {
+    content: " ";
+    display: block;
+    position: absolute;
+    top: 0; left: 0; bottom: 0; right: 0;
+    background: 
+        linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), 
+        linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+    z-index: 2000;
+    background-size: 100% 4px, 6px 100%;
+    pointer-events: none;
+    animation: flicker 0.15s infinite;
+    opacity: 0.1; 
 }
 
-/* --- 2. Main Layout Containers --- */
+@keyframes flicker { 0% { opacity: 0.1; } 50% { opacity: 0.15; } 100% { opacity: 0.1; } }
+
+body::before {
+    content: " ";
+    display: block;
+    position: absolute;
+    top: 0; left: 0; bottom: 0; right: 0;
+    background: radial-gradient(circle at center, transparent 65%, rgba(0,0,0,0.5) 100%);
+    z-index: 1999;
+    pointer-events: none;
+    box-shadow: inset 0 0 50px rgba(0, 243, 255, 0.05);
+}
+
 #gameContainer {
-    position: relative; /* Anchor for all absolute UI elements */
+    position: relative;
     width: 100%;
-    flex-grow: 1; /* This makes the container fill all available vertical space */
+    height: 100%;
     display: flex;
-    align-items: center;
     justify-content: center;
+    align-items: center;
+    background: #000;
     overflow: hidden;
 }
 
 canvas {
     display: block;
-    background-color: #000;
-    /* This ensures the canvas scales while maintaining aspect ratio */
+    image-rendering: pixelated;
+    box-shadow: 0 0 50px rgba(0, 243, 255, 0.1);
+    border: 1px solid rgba(0, 243, 255, 0.3);
     max-width: 100%;
     max-height: 100%;
-    object-fit: contain;
 }
 
-#mobile-controls {
-    display: flex; /* ALWAYS visible now */
-    flex-direction: column;
-    align-items: center;
-    padding: 10px 0;
-    gap: 5px;
-    flex-shrink: 0; /* Prevents controls from being squished */
-    background-color: #111;
-}
-
-/* --- 3. Mobile Controls Styling --- */
-.dpad-row {
-    display: flex;
-    gap: 20px;
-    align-items: center;
-}
-
-.control-button {
-    width: 60px;
-    height: 60px;
-    background-color: #444;
-    border: 1px solid var(--border-bright);
-    color: white;
-    font-size: 1.8em;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    user-select: none;
-    border-radius: 50%;
-    box-shadow: 2px 2px 5px rgba(0,0,0,0.5);
-    transition: background-color 0.1s, transform 0.1s;
-    -webkit-tap-highlight-color: transparent;
-}
-
-.control-button:active, .control-button.active {
-    background-color: #666;
-    transform: scale(0.95);
-}
-
-#action-button {
-    background-color: var(--accent-blue);
-    font-size: 1em;
-    font-weight: bold;
-    color: #fff;
-    width: 70px;
-    height: 70px;
-}
-
-
-/* --- 4. Overlaid UI (Menus, Dialogue, Battle) --- */
-.menu-screen, .modal {
+/* UI SCREEN OVERLAYS */
+/* Updated to use Grid for perfect centering + scrollability */
+.menu-screen {
     position: absolute;
     top: 0; left: 0; width: 100%; height: 100%;
-    background-color: rgba(0, 0, 0, 0.97);
+    background: rgba(0, 0, 0, 0.85);
     display: none;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 20px;
-    z-index: 200;
-    color: var(--text-main);
-    backdrop-filter: blur(5px);
+    display: grid; /* Default override via JS usually, but here for structure */
+    place-items: center; /* Centers content horizontally and vertically */
+    overflow-y: auto; /* Allows scrolling if content is taller than screen */
+    padding: 20px;
+    box-sizing: border-box;
+    z-index: 50;
+    backdrop-filter: blur(8px);
 }
-.modal { z-index: 300; }
-
-.menu-screen h2, .modal-content h3 {
-    font-size: 2.5em; color: var(--text-main); text-shadow: 2px 2px 4px #000;
-}
-.menu-screen h3 { font-size: 1.2em; color: #ccc; margin-top: -15px; font-style: italic; }
 
 .modal-content {
-    background-color: var(--bg-panel); padding: 20px; border-radius: 10px;
-    box-shadow: 0 0 20px rgba(0,0,0,0.8); text-align: center; width: 90%;
-    max-width: 500px; display: flex; flex-direction: column; gap: 15px;
-    max-height: 85vh; overflow-y: auto; border: 1px solid var(--border-light);
+    background: linear-gradient(135deg, rgba(10,10,25,0.95) 0%, rgba(20,20,40,0.9) 100%);
+    padding: 30px;
+    border: 1px solid var(--neon-blue);
+    box-shadow: 0 0 40px rgba(0, 243, 255, 0.15);
+    border-radius: 4px;
+    max-width: 90%;
+    width: auto;
+    /* Removed max-height/overflow from here to let parent handle it or grow */
+    text-align: center;
+    color: #fff;
+    position: relative;
+    margin: 20px 0; /* Add margin so it doesn't touch edges when scrolling */
 }
 
-.menu-button {
-    background-color: var(--accent-green); border: none; color: white; padding: 15px 32px;
-    text-align: center; font-size: 1.2em; cursor: pointer; border-radius: 12px;
-    box-shadow: 0 4px #387d3b; width: 280px; transition: all 0.1s ease;
-}
-.menu-button:hover, .menu-button.selected { background-color: var(--accent-green-dark); }
-.menu-button:active { transform: translateY(2px); box-shadow: 0 2px #666; }
-.menu-button[disabled] { background-color: #555; cursor: not-allowed; color: var(--disabled-color); }
-
-/* --- Dialogue Box --- */
+/* DIALOGUE BOX - IMPROVED */
 #dialogue-box {
-    display: none;
     position: absolute;
-    bottom: 10px; left: 10px; right: 10px;
-    background-color: rgba(0,0,0,0.9); color: white; padding: 15px; border-radius: 8px;
-    border: 2px solid var(--accent-blue); z-index: 100; flex-direction: column;
-    box-shadow: 0 0 15px rgba(0,123,255,0.5);
-    max-height: 40%;
-    overflow-y: auto;
-}
-#dialogue-text { font-size: 1.1em; line-height: 1.4; margin-bottom: 10px; }
-#dialogue-choices { display: flex; flex-direction: column; gap: 8px; }
-.dialogue-choice { padding: 10px; background-color: #444; border-radius: 5px; cursor: pointer; border: 1px solid #666; transition: background-color 0.2s; }
-.dialogue-choice:hover, .dialogue-choice.selected { background-color: var(--accent-blue); }
-.disabled-choice { color: var(--disabled-color); font-style: italic; cursor: not-allowed; }
-#dialogue-continue-indicator { position: absolute; bottom: 5px; right: 10px; font-size: 1.5em; animation: blink 1s infinite step-start; display: none; color: #ccc; }
-
-/* --- Battle Screen --- */
-#battle-screen { background: linear-gradient(145deg, #1d2b45, #3c2a4d); }
-.battle-area { flex-grow: 1; position: relative; display: flex; justify-content: space-between; align-items: center; width: 100%; }
-.battle-musag-display { position: absolute; width: 45%; background-color: rgba(0,0,0,0.4); border: 2px solid var(--border-bright); border-radius: 8px; padding: 8px; display: flex; flex-direction: column; gap: 5px; box-shadow: 0 2px 10px rgba(0,0,0,0.5); }
-.musag-stats h4 { margin: 0; font-size: 1.1em; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; }
-.musag-stats .musag-level { font-size: 0.8em; color: #ccc; }
-.health-bar, .kavanah-bar { width: 100%; height: 10px; background-color: #555; border: 1px solid #222; border-radius: 5px; overflow: hidden; }
-.health-bar-inner, .kavanah-bar-inner { height: 100%; transition: width 0.4s ease-out, background-color 0.4s; }
-.health-bar-inner { background-color: var(--hp-high); }
-.kavanah-bar-inner { background-color: var(--kavanah); }
-.musag-emoji { font-size: 3em; text-align: center; position: relative; animation: float 2s ease-in-out infinite alternate; }
-#opponent-display { top: 5%; right: 5%; }
-#player-display { bottom: 5%; left: 5%; }
-.battle-ui-box { height: 120px; width: calc(100% - 20px); background-color: rgba(0,0,0,0.6); border: 2px solid #aaa; border-radius: 8px; display: flex; align-items: center; box-shadow: 0 -2px 15px rgba(0,0,0,0.6); position: relative; flex-shrink: 0; }
-#battle-log { width: 100%; padding: 15px; font-size: 1.1em; text-align: center; }
-#battle-menu-container { width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 5px; padding: 5px; }
-.battle-button { background-color: #444; border: 2px solid var(--border-bright); color: white; font-size: 1em; cursor: pointer; border-radius: 6px; display: flex; align-items: center; justify-content: center; padding: 8px 12px; min-height: 45px; }
-.battle-button:hover, .battle-button.selected { background-color: #666; border-color: #fff; }
-.battle-button[disabled] { background-color: #222; color: var(--disabled-color); cursor: not-allowed; }
-#battle-log-continue-indicator { position: absolute; bottom: 5px; right: 10px; font-size: 1.5em; animation: blink 1s infinite step-start; display: none; color: #ccc; }
-
-/* --- Animations & Effects --- */
-@keyframes float { 0% { transform: translateY(0px); } 100% { transform: translateY(-5px); } }
-@keyframes blink { 0% { opacity: 1; } 50% { opacity: 0; } 100% { opacity: 1; } }
-@keyframes moveUpFade { 0% { transform: translateY(0); opacity: 1; } 100% { transform: translateY(-30px); opacity: 0; } }
-.damage-number, .heal-number, .xp-number, .capture-number {
-    position: absolute; top: 10px; left: 50%; transform: translateX(-50%);
-    font-size: 1.5em; font-weight: bold; color: var(--damage-color);
-    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-    animation: moveUpFade 1s forwards; pointer-events: none; white-space: nowrap;
-}
-.heal-number { color: var(--heal-color); }
-.xp-number { color: var(--xp-color); }
-.capture-number { color: var(--capture-color); }
-
-/* Toast Notifications */
-#toast-container { position: absolute; bottom: 10px; left: 10px; right: 10px; z-index: 1000; pointer-events: none; display: flex; flex-direction: column; align-items: center;}
-.toast {
-    padding: 10px 15px; margin-bottom: 10px; color: white; border-radius: 20px;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.5); opacity: 0; transform: translateY(100%);
-    animation: slideUp 0.5s forwards, fadeOutToast 0.5s 2.5s forwards;
-    max-width: 80%;
-}
-.toast-info { background-color: #007bff; }
-.toast-success { background-color: #28a745; }
-.toast-warning { background-color: #ffc107; color: #333; }
-.toast-error { background-color: #dc3545; }
-@keyframes slideUp { to { opacity: 1; transform: translateY(0); } }
-@keyframes fadeOutToast { to { opacity: 0; } }
-
-
-/* --- 5. Desktop and Larger Screen Adjustments --- */
-@media (min-width: 768px) and (min-height: 600px) {
-    body {
-        justify-content: center; /* Center the game container vertically */
-    }
-
-    #gameContainer {
-        width: 800px; /* Fixed width */
-        height: 600px; /* Fixed height */
-        flex-grow: 0; /* Don't grow to fill space */
-        border: 2px solid var(--border-light);
-        border-radius: 10px;
-        box-shadow: 0 0 25px rgba(0, 0, 0, 0.8);
-    }
-
-    #mobile-controls {
-        display: none; /* Hide mobile controls on desktop */
-    }
-
-    .modal-content {
-        max-width: 600px;
-    }
-
-    #dialogue-box {
-        max-width: 760px; /* Match container width minus padding */
-        left: 50%;
-        transform: translateX(-50%);
-    }
-
-    .musag-emoji { font-size: 4em; }
-    .battle-musag-display { width: 40%; }
-}
-
-
-/* --- Shem (Team) Screen Styles --- */
-#shem-list {
-    display: flex;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 800px;
+    max-width: 95%;
+    background: rgba(0, 10, 20, 0.95);
+    border: 2px solid var(--neon-gold);
+    border-top: 4px solid var(--neon-gold);
+    color: #fff;
+    padding: 20px;
+    z-index: 60;
+    box-shadow: 0 5px 30px rgba(0, 0, 0, 0.8);
+    font-size: 1.1em;
+    display: none; 
     flex-direction: column;
-    gap: 15px;
-    width: 100%;
+    border-radius: 4px;
+}
+
+#dialogue-text {
+    margin-bottom: 15px;
+    line-height: 1.5;
+    text-shadow: 1px 1px 0 #000;
+}
+
+.dialogue-choice {
+    background: rgba(255, 215, 0, 0.1);
+    border: 1px solid var(--neon-gold);
+    color: var(--neon-gold);
+    padding: 10px 15px;
+    margin-top: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-weight: bold;
     text-align: left;
 }
-.musag-summary {
-    background-color: #444;
-    border: 1px solid #666;
-    border-radius: 8px;
-    padding: 15px;
+
+.dialogue-choice:hover {
+    background: var(--neon-gold);
+    color: #000;
+    transform: translateX(5px);
 }
-.musag-summary-header {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    margin-bottom: 10px;
+
+/* CHAT BOX - IMPROVED */
+#global-chat-box {
+    position: absolute;
+    bottom: 20px; left: 20px;
+    width: 320px;
+    max-height: 250px;
+    background: rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(188, 19, 254, 0.5);
+    pointer-events: auto;
+    z-index: 45;
+    font-size: 0.85em;
+    display: flex; 
+    flex-direction: column;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    transition: height 0.3s;
+    border-radius: 4px 4px 0 0;
 }
-.musag-summary-header .musag-emoji {
-    font-size: 2.5em;
-    animation: none; /* Disable float animation in menu */
+
+.chat-header {
+    background: rgba(188, 19, 254, 0.2);
+    padding: 5px 10px;
+    display: flex; justify-content: space-between; align-items: center;
+    border-bottom: 1px solid rgba(188, 19, 254, 0.3);
+    cursor: pointer;
+    font-weight: bold;
+    color: var(--neon-purple);
 }
-.musag-summary-header > div {
+
+#chat-messages {
     flex-grow: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column-reverse;
+    padding: 5px;
+    mask-image: linear-gradient(to bottom, transparent, black 10%);
 }
-.musag-stats-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 5px 15px;
-    font-size: 0.9em;
-    color: #ccc;
+
+#global-chat-box.minimized {
+    height: 30px;
+    overflow: hidden;
+}
+
+.chat-message {
+    padding: 3px 6px;
+    margin-bottom: 2px;
+    text-shadow: 1px 1px 0 #000;
+    word-wrap: break-word;
+}
+
+.chat-channel-trade { color: var(--neon-gold); }
+.chat-channel-lfg { color: var(--neon-green); }
+.chat-channel-general { color: #fff; }
+
+/* TOASTS - STRICTLY CENTERED */
+#toast-container {
+    position: absolute;
+    top: 15%;
+    left: 0;
+    right: 0; /* Strict strict centering */
+    margin: 0 auto;
+    width: 100%;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    pointer-events: none;
+    z-index: 100;
+}
+
+.toast {
+    background: rgba(0, 0, 0, 0.95);
+    border: 1px solid #fff;
+    padding: 10px 25px;
     margin-bottom: 10px;
-    border-top: 1px dashed #555;
-    padding-top: 10px;
+    border-radius: 4px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+    animation: slideDown 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    font-weight: bold;
+    text-align: center;
+    pointer-events: auto; /* Allow clicking through if needed, but mainly for display */
 }
-.musag-moves-list {
-    font-size: 0.9em;
+
+.toast-success { border-color: var(--neon-green); color: var(--neon-green); box-shadow: 0 0 15px rgba(0,255,0,0.2); }
+.toast-error { border-color: var(--neon-red); color: var(--neon-red); box-shadow: 0 0 15px rgba(255,0,0,0.2); }
+.toast-info { border-color: var(--neon-blue); color: var(--neon-blue); box-shadow: 0 0 15px rgba(0,243,255,0.2); }
+
+@keyframes slideDown {
+    from { transform: translateY(-20px) scale(0.9); opacity: 0; }
+    to { transform: translateY(0) scale(1); opacity: 1; }
 }
-.move-entry {
-    margin-top: 5px;
+
+/* MOBILE CONTROLS - FIXED VISIBILITY */
+#mobile-controls {
+    position: absolute;
+    bottom: 40px; right: 40px;
+    display: none !important; /* Force hidden on desktop */
+    flex-direction: column;
+    gap: 15px; z-index: 100;
 }
-.move-entry span:first-child {
-    color: var(--quest-available);
+
+@media (max-width: 768px) {
+    #mobile-controls { 
+        bottom: 20px; right: auto; left: 50%; transform: translateX(-50%); 
+        flex-direction: column; 
+        display: flex !important; /* Force show on mobile */
+    }
+    .dpad-row { display: flex; gap: 15px; }
+    #dialogue-box { bottom: 300px; width: 95%; font-size: 0.9em; }
+    #global-chat-box { display: none; } /* Hide chat on tiny screens usually */
+    
+    .modal-content {
+        width: 95%;
+    }
 }
-.move-entry span:last-child {
-    display: block;
-    font-size: 0.9em;
-    color: #bbb;
-    margin-left: 10px;
+
+/* GENERAL BUTTONS */
+.menu-button, .modal-action-button {
+    background: rgba(0, 20, 40, 0.8);
+    border: 1px solid var(--neon-blue);
+    color: var(--neon-blue);
+    padding: 12px 24px;
+    margin: 8px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: all 0.2s;
 }
+.menu-button:hover { background: var(--neon-blue); color: #000; box-shadow: 0 0 15px var(--neon-blue); }
+
+/* BATTLE HUD */
+.battle-area { display: flex; justify-content: space-between; align-items: flex-end; width: 100%; padding: 0 20px; box-sizing: border-box; }
+.battle-musag-display { width: 45%; background: rgba(0,0,0,0.8); border: 1px solid #555; padding: 10px; text-align: center; }
+.health-bar { height: 10px; background: #333; margin-top: 5px; }
+.health-bar-inner { height: 100%; background: #0f0; transition: width 0.3s; }
+.musag-emoji { font-size: 4em; animation: battleFloat 3s infinite; }
+@keyframes battleFloat { 0%, 100% {transform: translateY(0);} 50% {transform: translateY(-10px);} }

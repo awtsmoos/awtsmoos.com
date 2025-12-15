@@ -10,8 +10,13 @@ Biezrash Hashem
  */
 
 export const REGISTERS = {
+    // 64-bit
     RAX: 0, RCX: 1, RDX: 2, RBX: 3, RSP: 4, RBP: 5, RSI: 6, RDI: 7,
-    R8: 8, R9: 9, R10: 10, R11: 11, R12: 12, R13: 13, R14: 14, R15: 15
+    R8: 8, R9: 9, R10: 10, R11: 11, R12: 12, R13: 13, R14: 14, R15: 15,
+    
+    // 8-bit Aliases (Mapped to same index, instruction determines size)
+    AL: 0, CL: 1, DL: 2, BL: 3, SPL: 4, BPL: 5, SIL: 6, DIL: 7,
+    R8B: 8, R9B: 9, R10B: 10, R11B: 11, R12B: 12, R13B: 13, R14B: 14, R15B: 15
 };
 
 export const PREFIXES = {
@@ -65,6 +70,11 @@ export const OPCODES = {
     XOR_RM64_R64: 0x31,
     // XOR r/m64, imm8
     XOR_RM64_IMM8: 0x83, // /6
+
+    // AND r/m64, r64
+    AND_RM64_R64: 0x21,
+    // AND r/m64, imm8
+    AND_RM64_IMM8: 0x83, // /4
     
     // CMP r/m64, r64
     CMP_RM64_R64: 0x39,
@@ -74,6 +84,17 @@ export const OPCODES = {
     // INC / DEC
     INC_RM64: 0xFF, // /0
     DEC_RM64: 0xFF, // /1
+
+    // IMUL r64, r/m64 (Signed Multiply)
+    IMUL_R64_RM64: [0x0F, 0xAF],
+
+    // Shift Arithmetic Right: SAR r/m64, imm8
+    SAR_RM64_IMM8: 0xC1, // /7
+    // Shift Logical Left: SHL r/m64, imm8
+    SHL_RM64_IMM8: 0xC1, // /4
+
+    // MOVSX r64, r/m8 (Move with Sign Extension)
+    MOVSX_R64_RM8: [0x0F, 0xBE],
 
     // --- Control Flow ---
     
@@ -138,4 +159,15 @@ export const MOD = {
  */
 export function makeModRM(mod, reg, rm) {
     return ((mod & 3) << 6) | ((reg & 7) << 3) | (rm & 7);
+}
+
+/**
+ * Constructs a SIB byte.
+ * @param {number} scale - Scale factor (0=1x, 1=2x, 2=4x, 3=8x).
+ * @param {number} index - Index register (0-7).
+ * @param {number} base - Base register (0-7).
+ * @returns {number} The byte.
+ */
+export function makeSIB(scale, index, base) {
+    return ((scale & 3) << 6) | ((index & 7) << 3) | (base & 7);
 }

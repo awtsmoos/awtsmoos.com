@@ -2,9 +2,12 @@
 /**
  * B"H
  * Nature System - Manages Instanced Mesh painting
+ * Refactored to use modular generators and preserve multi-materials.
  */
 import * as THREE from '/games/scripts/build/three.module.js';
 import * as BufferGeometryUtils from '/games/scripts/jsm/utils/BufferGeometryUtils.js';
+import GeometryGenerator from './procedural/geometryGenerator.js';
+import MaterialGenerator from './procedural/materialGenerator.js';
 
 export default class NatureSystem {
     constructor(olam) {
@@ -14,212 +17,161 @@ export default class NatureSystem {
         this.raycaster = new THREE.Raycaster();
         this.rayDown = new THREE.Vector3(0, -1, 0);
         this.loadingPools = new Set();
+        this.colorHelper = new THREE.Color();
         
         this.olam.on("heesHawvoos", (dt) => this.update(dt));
     }
     
-    async initPool(type, maxInstances = 5000, explicitPath = null) {
+    async initPool(type, maxInstances = 5000) {
         if (this.pools[type]) return this.pools[type];
         if (this.loadingPools.has(type)) return null;
 
-        console.log(`B"H Nature Log: initPool called for '${type}' with path: ${explicitPath}`);
-
+        console.log(`B"H Nature Log: initPool called for '${type}'`);
         this.loadingPools.add(type);
         
-        let modelPath = explicitPath;
+        try {
+            let geometry = null;
+            let material = null;
+            let baseColor = new THREE.Color(0xffffff); // Default white (no tint)
 
-        // B"H: ABSOLUTE STRICT PATH MAPPING
-        if (!modelPath) {
+            // B"H: Flower Logic - STRICTLY EXTERNAL MODEL WITH MULTI-MATERIAL SUPPORT
             if (type.includes('flower')) {
-                if (type.includes('blue')) modelPath = "awtsmoos://flowerBlue";
-                else if (type.includes('yellow')) modelPath = "awtsmoos://flowerYellow";
+                let modelPath = "awtsmoos://flowerBlue";
+                if (type.includes('yellow')) modelPath = "awtsmoos://flowerYellow";
                 else if (type.includes('white')) modelPath = "awtsmoos://flowerWhite";
-                else modelPath = "awtsmoos://flowerBlue"; 
-            } else if (type.includes('rock')) {
-                if (type === 'rock1') modelPath = "awtsmoos://rockModel1";
-                else if (type === 'rock2') modelPath = "awtsmoos://rockModel2";
-                else if (type === 'rock3') modelPath = "awtsmoos://rockModel3";
-                else modelPath = "awtsmoos://rockModel1";
-            } else if (type.includes('grass')) {
-                modelPath = "awtsmoos://grassModel";
-            } else {
-                console.error(`B"H Nature Error: Unknown nature type '${type}' and no path provided.`);
-                this.loadingPools.delete(type);
-                return null;
-            }
-        }
-
-        let geometry;
-        let materials = [];
-        
-        if (modelPath) {
-            const actualPath = this.olam.getComponent(modelPath);
-            if(actualPath) {
-                try {
-                    const gltf = await this.olam.boyrayNivra({ path: actualPath });
-                    if (gltf && gltf.scene) {
-                        // B"H: Merge meshes while preserving Multi-Material assignment
-                        const geometries = [];
-                        
-                        gltf.scene.traverse(c => {
-                             if(c.isMesh) {
-                                 c.updateMatrixWorld(true);
-                                 const g = c.geometry.clone();
-                                 g.applyMatrix4(c.matrixWorld);
-                                 
-                                 // Add material to list if not present
-                                 // We use the materials array index for the geometry mapping
-                                 let matIndex = materials.indexOf(c.material);
-                                 if (matIndex === -1) {
-                                     materials.push(c.material);
-                                     matIndex = materials.length - 1;
-                                 }
-                                 
-                                 // We rely on mergeGeometries(..., true) to create groups.
-                                 // However, BufferGeometryUtils simply stacks them 0, 1, 2...
-                                 // So we must push them to 'geometries' in the SAME order as 'materials'.
-                                 // BUT a mesh might reuse a material. 
-                                 
-                                 // Strategy: Add a userData property to the geometry indicating which material index it wants.
-                                 // Then we manually fix the groups after merge.
-                                 g.userData = { materialIndex: matIndex };
-                                 geometries.push(g);
-                             }
-                        });
-
-                        if(geometries.length > 0) {
-                            // Merge with useGroups = true
-                            geometry = BufferGeometryUtils.mergeGeometries(geometries, true);
+                
+                const actualPath = this.olam.getComponent(modelPath);
+                if(actualPath) {
+                    try {
+                        const gltf = await this.olam.boyrayNivra({ path: actualPath });
+                        if (gltf && gltf.scene) {
+                            const geometries = [];
+                            const materials = [];
                             
-                            // B"H FIX: Remap groups to correct material indices
-                            // When merged, geometry.groups[i] corresponds to geometries[i]
-                            if (geometry.groups && geometry.groups.length === geometries.length) {
-                                for(let i=0; i<geometry.groups.length; i++) {
-                                    geometry.groups[i].materialIndex = geometries[i].userData.materialIndex;
+                            gltf.scene.traverse(c => {
+                                if(c.isMesh) {
+                                    c.updateMatrixWorld(true);
+                                    const g = c.geometry.clone();
+                                    g.applyMatrix4(c.matrixWorld);
+                                    
+                                    // Handle Material Groups
+                                    let matIndex = materials.indexOf(c.material);
+                                    if (matIndex === -1) {
+                                        // Clone material to ensure we can modify it for instancing (wind) without affecting original
+                                        const mClone = c.material.clone();
+                                        // Ensure double sided for flowers
+                                        mClone.side = THREE.DoubleSide; 
+                                        // Inject wind
+                                        MaterialGenerator.injectWind(mClone);
+                                        
+                                        materials.push(mClone);
+                                        matIndex = materials.length - 1;
+                                    }
+                                    
+                                    // Assign group index to all vertices of this geometry segment
+                                    const count = g.attributes.position.count;
+                                    g.clearGroups();
+                                    g.addGroup(0, Infinity, matIndex);
+                                    
+                                    // Trick: BufferGeometryUtils.mergeGeometries respects groups if useGroups is true
+                                    geometries.push(g);
                                 }
-                            }
-                            
-                            // Normalize size and center
-                            geometry.computeBoundingBox();
-                            const box = geometry.boundingBox;
-                            const size = new THREE.Vector3();
-                            box.getSize(size);
-                            const height = size.y;
-                            
-                            let targetHeight = 0.5;
-                            if (type.includes('rock')) targetHeight = 0.8;
-                            else if (type.includes('grass')) targetHeight = 0.6;
-                            else if (type.includes('flower')) targetHeight = 0.8;
-
-                            if (height > 0.01) {
-                                const scaleFactor = targetHeight / height;
-                                geometry.scale(scaleFactor, scaleFactor, scaleFactor);
-                            }
-
-                            geometry.computeBoundingBox();
-                            const center = new THREE.Vector3();
-                            geometry.boundingBox.getCenter(center);
-                            const yOffset = geometry.boundingBox.min.y;
-                            geometry.translate(-center.x, -yOffset, -center.z);
-
-                            // Ensure textures use SRGB
-                            materials.forEach(m => {
-                                if(m.map) m.map.colorSpace = THREE.SRGBColorSpace;
                             });
+
+                            if(geometries.length > 0) {
+                                // Merge with groups enabled
+                                geometry = BufferGeometryUtils.mergeGeometries(geometries, true);
+                                material = materials; // Array of materials
+                            }
                         }
+                    } catch(e) {
+                        console.warn("B\"H: Flower load failed", e);
                     }
-                } catch(e) {
-                    console.warn("B\"H: Nature asset failed to load", modelPath, e);
                 }
+            } 
+            // B"H: Rocks and Grass - STRICTLY PROCEDURAL (Improved)
+            else {
+                geometry = GeometryGenerator.get(type);
+                material = MaterialGenerator.get(type);
+                if(type.includes('grass')) baseColor.setHex(0x44aa44);
+                else if(type.includes('rock')) baseColor.setHex(0x888888);
             }
-        }
-        
-        // Fallback Geometry
-        if (!geometry) {
-             console.warn(`B"H Nature Log: Using fallback geometry for ${type}`);
-             if(type.includes('grass')) {
-                 geometry = new THREE.ConeGeometry(0.1, 0.5, 4);
-                 materials.push(new THREE.MeshLambertMaterial({ color: 0x00aa00 }));
-             } else {
-                 geometry = new THREE.BoxGeometry(0.3, 0.3, 0.3);
-                 materials.push(new THREE.MeshLambertMaterial({ color: 0xff00ff }));
-             }
-        }
-        
-        // Wind shader application for ALL materials
-        if (type.includes('grass') || type.includes('flower')) {
-             materials = materials.map(m => {
-                 const mat = m.clone();
-                 mat.side = THREE.DoubleSide; 
-                 mat.alphaTest = 0.5;
-                 mat.onBeforeCompile = (shader) => {
-                    shader.uniforms.uTime = { value: 0 };
-                    shader.vertexShader = `
-                    uniform float uTime;
-                    ` + shader.vertexShader.replace('#include <project_vertex>', `
-                        vec4 mvPosition = instanceMatrix * vec4(transformed, 1.0);
-                        float sway = sin(uTime * 2.0 + mvPosition.x * 0.5) * 0.1 * uv.y;
-                        mvPosition.x += sway;
-                        mvPosition = modelViewMatrix * mvPosition;
-                        gl_Position = projectionMatrix * mvPosition;
-                    `);
-                    mat.userData.shader = shader;
-                };
-                return mat;
-             });
-        }
 
-        // B"H: Create InstancedMesh with Array of Materials
-        const instancedMesh = new THREE.InstancedMesh(geometry, materials, maxInstances);
-        instancedMesh.count = 0;
-        instancedMesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
-        instancedMesh.receiveShadow = true;
-        instancedMesh.castShadow = true;
-        instancedMesh.frustumCulled = false; 
-        
-        this.olam.scene.add(instancedMesh);
-        
-        this.pools[type] = {
-            mesh: instancedMesh,
-            count: 0,
-            max: maxInstances,
-            materials: materials // Keep reference to array
-        };
+            // Fallback
+            if (!geometry) {
+                console.warn(`B"H: Fallback geometry for ${type}`);
+                geometry = new THREE.BoxGeometry(0.5, 0.5, 0.5);
+                material = new THREE.MeshBasicMaterial({ color: 0xff00ff });
+            }
 
-        this.loadingPools.delete(type);
-        return this.pools[type];
+            // Normalize Geometry (Center pivot at bottom)
+            geometry.computeBoundingBox();
+            const box = geometry.boundingBox;
+            const size = new THREE.Vector3();
+            box.getSize(size);
+            const height = size.y;
+            
+            // Scaling logic
+            let targetHeight = 0.5;
+            if (type.includes('rock')) targetHeight = 0.6;
+            else if (type.includes('grass')) targetHeight = 0.6;
+            else if (type.includes('flower')) targetHeight = 0.8;
+
+            if (height > 0.01) {
+                const scaleFactor = targetHeight / height;
+                geometry.scale(scaleFactor, scaleFactor, scaleFactor);
+            }
+            
+            geometry.computeBoundingBox();
+            const center = new THREE.Vector3();
+            geometry.boundingBox.getCenter(center);
+            geometry.translate(-center.x, -geometry.boundingBox.min.y, -center.z);
+
+            // Create InstancedMesh
+            const instancedMesh = new THREE.InstancedMesh(geometry, material, maxInstances);
+            instancedMesh.count = 0;
+            instancedMesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
+            if(instancedMesh.instanceColor) instancedMesh.instanceColor.setUsage(THREE.DynamicDrawUsage);
+            
+            // Shadows
+            instancedMesh.receiveShadow = true;
+            instancedMesh.castShadow = true;
+            instancedMesh.frustumCulled = false; 
+            
+            this.olam.scene.add(instancedMesh);
+            
+            this.pools[type] = {
+                mesh: instancedMesh,
+                count: 0,
+                max: maxInstances,
+                material: material,
+                baseColor: baseColor
+            };
+
+            return this.pools[type];
+        } catch (e) {
+            console.error("B\"H Nature System Critical Error:", e);
+        } finally {
+            this.loadingPools.delete(type);
+        }
     }
     
-    paint(type, centerPosition, density = 1) {
+    paint(type, centerPosition) {
+        // Resolve generic types
         let actualType = type;
-        let explicitPath = null;
-        
-        if (type.includes('flower')) {
-            if (type === 'flower') {
-                const flowerTypes = ['flower_blue', 'flower_white', 'flower_yellow'];
-                actualType = flowerTypes[Math.floor(Math.random() * flowerTypes.length)];
-            }
-            if(actualType === 'flower_blue') explicitPath = "awtsmoos://flowerBlue";
-            else if(actualType === 'flower_yellow') explicitPath = "awtsmoos://flowerYellow";
-            else if(actualType === 'flower_white') explicitPath = "awtsmoos://flowerWhite";
-            
-        } else if (type.includes('rock')) {
-            if (type === 'rock') {
-                 const rockTypes = ['rock1', 'rock2', 'rock3'];
-                 actualType = rockTypes[Math.floor(Math.random() * rockTypes.length)];
-            }
-            if(actualType === 'rock1') explicitPath = "awtsmoos://rockModel1";
-            else if(actualType === 'rock2') explicitPath = "awtsmoos://rockModel2";
-            else if(actualType === 'rock3') explicitPath = "awtsmoos://rockModel3";
-
-        } else if (type === 'grass') {
-             explicitPath = "awtsmoos://grassModel";
+        if (type === 'grass') actualType = 'grass_field'; 
+        else if (type === 'rock') {
+            const vars = ['rock_boulder', 'rock_slate'];
+            actualType = vars[Math.floor(Math.random() * vars.length)];
+        } else if (type === 'flower') {
+            const vars = ['flower_blue', 'flower_white', 'flower_yellow'];
+            actualType = vars[Math.floor(Math.random() * vars.length)];
         }
 
         const pool = this.pools[actualType];
         if(!pool) {
-            if (!this.loadingPools.has(actualType) && explicitPath) {
-                this.initPool(actualType, 5000, explicitPath);
+            if (!this.loadingPools.has(actualType)) {
+                this.initPool(actualType);
             }
             return;
         }
@@ -243,36 +195,78 @@ export default class NatureSystem {
             }
             
             this.dummy.position.set(targetX, yPos, targetZ);
-            this.dummy.rotation.set(0, Math.random() * Math.PI * 2, 0);
+            
+            // Random Rotation
+            this.dummy.rotation.set(
+                (Math.random() - 0.5) * 0.1, // Slight tilt X
+                Math.random() * Math.PI * 2, // Full rotation Y
+                (Math.random() - 0.5) * 0.1  // Slight tilt Z
+            );
             
             let scale = 1;
-            if (actualType.includes('grass') || actualType.includes('flower')) {
-                 scale = 0.8 + Math.random() * 0.4;
-                 this.dummy.scale.set(scale, scale * (0.8 + Math.random() * 0.5), scale);
+            
+            // B"H: Apply Base Color First
+            if(pool.baseColor) {
+                this.colorHelper.copy(pool.baseColor);
             } else {
-                 scale = 0.8 + Math.random() * 0.5;
-                 this.dummy.scale.setScalar(scale);
-            } 
+                this.colorHelper.setHex(0xffffff);
+            }
+
+            if (actualType.includes('grass')) {
+                 scale = 0.8 + Math.random() * 0.6;
+                 this.dummy.scale.set(scale, scale * (0.8 + Math.random() * 0.5), scale);
+                 
+                 // Grass Color Variation (Green shift)
+                 const h = (Math.random() - 0.5) * 0.08;
+                 const s = (Math.random() - 0.5) * 0.1; 
+                 const l = (Math.random() - 0.5) * 0.15;
+                 this.colorHelper.offsetHSL(h, s, l);
+                 
+            } else if (actualType.includes('rock')) {
+                 scale = 0.8 + Math.random() * 0.8;
+                 this.dummy.scale.set(scale, scale * 0.8, scale);
+
+                 // Rock Color Variation (Grey shift)
+                 const l = (Math.random() - 0.5) * 0.2; 
+                 this.colorHelper.offsetHSL(0, 0, l);
+
+            } else if (actualType.includes('flower')) {
+                 scale = 0.8 + Math.random() * 0.6;
+                 this.dummy.scale.set(scale, scale * (0.8 + Math.random() * 0.5), scale);
+                 
+                 // Flowers stay WHITE (baseColor) but vary brightness slightly
+                 const l = (Math.random() - 0.5) * 0.1;
+                 this.colorHelper.offsetHSL(0, 0, l);
+            }
             
             this.dummy.updateMatrix();
             pool.mesh.setMatrixAt(pool.count, this.dummy.matrix);
+            
+            // Apply Instance Color
+            if (pool.mesh.setColorAt) {
+                pool.mesh.setColorAt(pool.count, this.colorHelper);
+            }
+            
             pool.count++;
         }
         
         pool.mesh.count = pool.count;
         pool.mesh.instanceMatrix.needsUpdate = true;
+        if(pool.mesh.instanceColor) pool.mesh.instanceColor.needsUpdate = true;
     }
     
     update(dt) {
         for(const key in this.pools) {
-            // Update ALL materials in the array
-            const mats = this.pools[key].materials;
-            if(mats) {
-                mats.forEach(mat => {
+            const material = this.pools[key].material;
+            // Handle both single material and array of materials
+            if (Array.isArray(material)) {
+                material.forEach(mat => {
                     if(mat && mat.userData.shader) {
                         mat.userData.shader.uniforms.uTime.value += dt;
                     }
                 });
+            } else if (material && material.userData.shader) {
+                material.userData.shader.uniforms.uTime.value += dt;
             }
         }
     }

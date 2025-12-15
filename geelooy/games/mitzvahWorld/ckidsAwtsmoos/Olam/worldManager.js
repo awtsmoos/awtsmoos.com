@@ -67,8 +67,6 @@ class ManagerOfAllWorlds {
             onstart(ob) {
                 console.log("STARTED")
                 self.startWorld(ob);
-                // B"H: Removed redundant self.setOnmessage(). 
-                // startWorld is async and sets up socket and listener internally when ready.
             }
         });
         this.ui = ui;
@@ -77,17 +75,6 @@ class ManagerOfAllWorlds {
         if(!h) {
             console.log("Main menu not found")
         }
-
-
-
-       
-            
-            
-
-
-
-
-        
 
 	try {
 	       
@@ -198,8 +185,19 @@ class ManagerOfAllWorlds {
         var {
             worldDayuh,
             worldDayuhURL,
-            gameUiHTML
+            gameUiHTML,
+            sourcePath // B"H: New property for source file path
         } = ob;
+        
+        // B"H: Update URL Logic
+        if (sourcePath) {
+            window.currentWorldSourcePath = sourcePath;
+            const newUrl = new URL(window.location);
+            newUrl.searchParams.set('path', sourcePath);
+            window.history.pushState({ path: sourcePath }, '', newUrl);
+        } else {
+            window.currentWorldSourcePath = null;
+        }
 
         if (gameUiHTML) {
             this.gameUiHTML = gameUiHTML
@@ -210,12 +208,7 @@ class ManagerOfAllWorlds {
         Object.assign(ghtml, self.gameUiHTML);
 
         var windowVars = {};
-        try {
-            console.log("copied", windowVars);
-        } catch (e) {
-            console.log("Could't do it", e);
-        }
-
+        
         // --- NEW: LOAD PLAYER SETTINGS ---
         let playerSettings = null;
         

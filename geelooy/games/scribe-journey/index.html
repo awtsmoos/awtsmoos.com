@@ -1,21 +1,40 @@
+
 <!-- B"H -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>The Scribe's Journey: Echoes of Ein Sof</title>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/controls.css">
+    <script>
+        window.onerror = function(msg, url, line, col, error) {
+            if(msg.includes("ResizeObserver")) return;
+            console.error(msg, url, line);
+            return false;
+        };
+    </script>
 </head>
 <body>
     <div id="gameContainer">
         <canvas id="gameCanvas"></canvas>
 
+        <!-- Global Chat Box -->
+        <div id="global-chat-box">
+            <div class="chat-header" id="chat-header">
+                <span>Global Chat</span>
+                <span id="chat-toggle">[-]</span>
+            </div>
+            <div id="chat-messages"></div>
+        </div>
+
         <!-- Dialogue Box -->
         <div id="dialogue-box">
             <div id="dialogue-text"></div>
             <div id="dialogue-choices"></div>
-            <div id="dialogue-continue-indicator">▼</div>
+            <div id="dialogue-continue-indicator" style="text-align:right; color:#888; font-size:0.8em; margin-top:5px;">[PRESS SPACE]</div>
         </div>
 
         <!-- Battle Screen -->
@@ -29,23 +48,26 @@
                 <div id="player-display" class="battle-musag-display">
                     <div class="musag-stats"><h4 id="player-name"></h4><span id="player-level" class="musag-level"></span></div>
                     <div class="health-bar"><div id="player-hp-bar" class="health-bar-inner"></div></div>
-                    <div class="kavanah-bar"><div id="player-kavanah-bar" class="kavanah-bar-inner"></div></div>
+                    <div class="kavanah-bar" style="height:5px; background:#333; margin-top:2px;"><div id="player-kavanah-bar" class="kavanah-bar-inner" style="height:100%; background:cyan;"></div></div>
                     <div id="player-emoji" class="musag-emoji"></div>
                 </div>
             </div>
-            <div class="battle-ui-box">
+            <div class="battle-ui-box modal-content" style="width:90%; margin-top:20px;">
                 <div id="battle-log"></div>
                 <div id="battle-menu-container"></div>
+                <div id="battle-log-continue-indicator" style="display:none; text-align:right;">▼</div>
             </div>
-            <div id="battle-log-continue-indicator">▼</div>
         </div>
 
         <!-- Main Menu -->
-        <div id="main-menu" class="menu-screen">
-            <h2>The Scribe's Journey</h2>
-            <h3>Echoes of Ein Sof</h3>
-            <button class="menu-button" data-action="newGame">Begin Anew</button>
-            <button class="menu-button" data-action="loadGame" id="main-menu-load-game-button">Continue Chronicle</button>
+        <div id="main-menu" class="menu-screen" style="display:flex;">
+            <h2 class="extreme-pulse" style="font-size: 2.5em; margin-bottom: 10px;">The Scribe's Journey</h2>
+            <h3 style="font-size: 1.2em; color: var(--neon-pink);">Echoes of Ein Sof</h3>
+            <div style="margin-top: 40px;">
+                <button class="menu-button" data-action="newGame">Begin Anew</button>
+                <button class="menu-button" data-action="loadGame" id="main-menu-load-game-button">Continue Chronicle</button>
+            </div>
+            <div style="margin-top:30px; font-size: 0.8em; color: #555;">v2.7 Kabbalah Expansion</div>
         </div>
         
         <!-- In-Game Menu -->
@@ -54,9 +76,34 @@
             <button class="menu-button" data-action="resume">Resume</button>
             <button class="menu-button" data-action="inventory-screen">Satchel</button>
             <button class="menu-button" data-action="shem-screen">Shem (Team)</button>
+            <button class="menu-button" data-action="crafting-screen">Tikkun (Crafting)</button>
             <button class="menu-button" data-action="quest-log-screen">Tasks</button>
             <button class="menu-button" data-action="saveGame" id="game-menu-save-game-button">Inscribe Chronicle</button>
             <button class="menu-button" data-action="main-menu">Return to Title</button>
+        </div>
+
+        <!-- Gemach Screen -->
+        <div id="gemach-screen" class="menu-screen">
+            <div class="modal-content gemach-content">
+                <h3>Gemach of Loving Kindness</h3>
+                <div class="gemach-balance-box" style="border:1px solid var(--neon-gold); color:var(--neon-gold); padding:10px; margin:10px;">
+                    <div>Your Pockets: <span id="gemach-player-money">0</span>p</div>
+                    <div>Gemach Account: <span id="gemach-balance">0</span>p</div>
+                </div>
+                <div class="gemach-actions">
+                    <div class="gemach-action-group">
+                        <label>Deposit:</label>
+                        <button class="menu-button" data-action="gemachAction" data-type="deposit" data-amount="10">10p</button>
+                        <button class="menu-button" data-action="gemachAction" data-type="deposit" data-amount="100">100p</button>
+                    </div>
+                    <div class="gemach-action-group">
+                        <label>Withdraw:</label>
+                        <button class="menu-button" data-action="gemachAction" data-type="withdraw" data-amount="10">10p</button>
+                        <button class="menu-button" data-action="gemachAction" data-type="withdraw" data-amount="100">100p</button>
+                    </div>
+                </div>
+                <button class="modal-action-button" data-action="close-gemach">Exit Gemach</button>
+            </div>
         </div>
 
         <!-- Inventory Screen -->
@@ -64,7 +111,7 @@
             <div class="modal-content">
                 <h3>Satchel</h3>
                 <div id="inventory-list"></div>
-                <div id="player-money-display"></div>
+                <div id="player-money-display" style="margin:10px; color:var(--neon-gold);"></div>
                 <button class="modal-action-button" data-action="close-inventory">Close</button>
             </div>
         </div>
@@ -78,7 +125,7 @@
             </div>
         </div>
 
-        <!-- Generic Toast/Notification Container -->
+        <div id="otzar-screen" class="menu-screen"></div>
         <div id="toast-container"></div>
 
     </div>
@@ -88,7 +135,7 @@
         <div class="dpad-row"><div class="control-button" id="control-up">⬆️</div></div>
         <div class="dpad-row">
             <div class="control-button" id="control-left">⬅️</div>
-            <div class="control-button" id="action-button">ACTION</div>
+            <div class="control-button" id="action-button">ACT</div>
             <div class="control-button" id="control-right">➡️</div>
         </div>
         <div class="dpad-row"><div class="control-button" id="control-down">⬇️</div></div>

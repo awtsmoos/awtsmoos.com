@@ -1,5 +1,4 @@
 
-
 // B"H
 (function(root) {
     root.MerkavaCompiler = root.MerkavaCompiler || {};
@@ -43,7 +42,11 @@
         },
 
         _visitExportNamed(node) {
-            // B"H - Handling 'export const foo = ...'
+            // B"H - Live Binding Implementation
+            // We use __define_live_export(exports, exportName, this, localName)
+            // 'this' in a module scope corresponds to the module environment/context.
+
+            // 1. Handle Declarations (export let x = 1;)
             if (node.declaration) {
                 this._visit(node.declaration); // Defines the var/func locally
                 
@@ -52,66 +55,65 @@
                     names.push(node.declaration.id.name);
                 } else if (node.declaration.type === 'VariableDeclaration') {
                     node.declaration.declarations.forEach(d => {
-                        // Handle Identifier (const x = 1)
                         if (d.id.type === 'Identifier') names.push(d.id.name);
-                        // Handle ObjectPattern (const { x } = y) - Simplified
-                        // Note: Destructuring support is limited in this lightweight compiler.
                     });
                 } else if (node.declaration.type === 'ClassDeclaration' && node.declaration.id) {
                     names.push(node.declaration.id.name);
                 }
                 
-                // console.log("Compiling Exports:", names);
-
-                names.forEach(name => {
-                    this._emitConstant('exports');
-                    this.buffer.write8(this.OPCODES.LOAD_GLOBAL); // [exports]
-                    this.buffer.write8(this.OPCODES.DUP);         // [exports, exports]
-                    
-                    this._emitConstant(name); // [exports, exports, "name"]
-                    
-                    // Load the value we just defined
-                    this._visitIdentifier({ type: 'Identifier', name }, 'LOAD'); // [exports, exports, "name", val]
-                    
-                    this.buffer.write8(this.OPCODES.SET_PROP); // [exports, val]
-                    this.buffer.write8(this.OPCODES.POP); // [exports]
-                    this.buffer.write8(this.OPCODES.POP); // []
-                });
+                names.forEach(name => this._emitLiveExportCall(name, name));
             }
             
-            // B"H - Handling 'export { foo, bar as baz }'
+            // 2. Handle Specifiers (export { x, y as z })
             if (node.specifiers && node.specifiers.length > 0) {
                 node.specifiers.forEach(spec => {
-                    const localName = spec.local.name;
-                    const exportName = spec.exported.name;
-                    
-                    this._emitConstant('exports');
-                    this.buffer.write8(this.OPCODES.LOAD_GLOBAL); // [exports]
-                    this.buffer.write8(this.OPCODES.DUP);         // [exports, exports]
-                    
-                    this._emitConstant(exportName); // [exports, exports, "exportName"]
-                    
-                    // Load the local value
-                    this._visitIdentifier({ type: 'Identifier', name: localName }, 'LOAD'); 
-                    
-                    this.buffer.write8(this.OPCODES.SET_PROP);
-                    this.buffer.write8(this.OPCODES.POP);
-                    this.buffer.write8(this.OPCODES.POP);
+                    this._emitLiveExportCall(spec.exported.name, spec.local.name);
                 });
             }
         },
 
+        _emitLiveExportCall(exportName, localName) {
+            // Generates: __define_live_export(exports, 'exportName', this, 'localName')
+            
+            // 1. Load function __define_live_export
+            const fnIdx = this._addConstant('__define_live_export');
+            this.buffer.write8(this.OPCODES.LOAD_GLOBAL);
+            this.buffer.write16(fnIdx);
+            
+            // 2. Push Undefined Context (for CALL) - Stack: [Func, Undefined]
+            this.buffer.write8(this.OPCODES.PUSH_UNDEFINED);
+            this.buffer.write8(this.OPCODES.SWAP);
+            
+            // 3. Arg1: exports
+            const expIdx = this._addConstant('exports');
+            this.buffer.write8(this.OPCODES.LOAD_GLOBAL);
+            this.buffer.write16(expIdx);
+            
+            // 4. Arg2: exportName (string)
+            this._emitConstant(exportName);
+            
+            // 5. Arg3: this (Module Environment)
+            this.buffer.write8(this.OPCODES.PUSH_THIS);
+            
+            // 6. Arg4: localName (string)
+            this._emitConstant(localName);
+            
+            // 7. Call (4 arguments)
+            this.buffer.write8(this.OPCODES.CALL);
+            this.buffer.write8(4);
+            this.buffer.write8(this.OPCODES.POP); // Pop return value
+        },
+
         _visitExportDefault(node) {
             if (node.declaration.type === 'FunctionDeclaration' || node.declaration.type === 'ClassDeclaration') {
-                // If named, define locally first
                 if (node.declaration.id) {
                     this._visit(node.declaration);
-                    // Push Identifier to store in default
-                    this._visitIdentifier(node.declaration.id, 'LOAD');
+                    // Named function/class defaults can be live bound
+                    this._emitLiveExportCall('default', node.declaration.id.name);
+                    return;
                 } else {
-                    // Anonymous function/class expression
+                    // Anonymous: Treat as expression
                     if (node.declaration.type === 'FunctionDeclaration') {
-                        // Treat as expression
                         this._visitFuncExpr({...node.declaration, type: 'FunctionExpression'});
                     } else {
                         this._visitClassExpr({...node.declaration, type: 'ClassExpression'});
@@ -121,18 +123,20 @@
                 this._visit(node.declaration); // Push Value (Expression)
             }
             
-            // Store to exports.default
-            // Stack: [Val]
-            this._emitConstant('exports');
-            this.buffer.write8(this.OPCODES.LOAD_GLOBAL); // [Val, exports]
-            this.buffer.write8(this.OPCODES.SWAP);        // [exports, Val]
-            this.buffer.write8(this.OPCODES.DUP);         // [exports, Val, Val]
+            // Standard Value Export for default (exports['default'] = val)
+            // Note: 'export default x' is a value snapshot in JS, not a live binding to x (unlike named exports).
+            const exportsIdx = this._addConstant('exports');
+            this.buffer.write8(this.OPCODES.LOAD_GLOBAL); 
+            this.buffer.write16(exportsIdx);
             
-            this._emitConstant('default');                // [exports, Val, Val, "default"]
-            this.buffer.write8(this.OPCODES.SWAP);        // [exports, Val, "default", Val]
-            this.buffer.write8(this.OPCODES.SET_PROP);    // [exports, Val] -> exports['default'] = Val
-            this.buffer.write8(this.OPCODES.POP);         // [exports]
-            this.buffer.write8(this.OPCODES.POP);         // []
+            this.buffer.write8(this.OPCODES.SWAP);        
+            this.buffer.write8(this.OPCODES.DUP);         
+            
+            this._emitConstant('default');                
+            this.buffer.write8(this.OPCODES.SWAP);        
+            this.buffer.write8(this.OPCODES.SET_PROP);    
+            this.buffer.write8(this.OPCODES.POP);         
+            this.buffer.write8(this.OPCODES.POP);         
         },
         
         _visitImport(node) { 

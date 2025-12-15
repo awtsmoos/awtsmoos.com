@@ -1,3 +1,4 @@
+
 /**
  * B"H
  * in game menu items
@@ -14,6 +15,6 @@ export default [
     },
     {
         text: "Save World",
-        show: "Saving"
+        show: "saveGameScreen" // Points to the new UI component ID
     }
 ]
