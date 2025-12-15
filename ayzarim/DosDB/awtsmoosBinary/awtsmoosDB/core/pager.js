@@ -80,7 +80,7 @@ class Pager {
         // B"H: Check Dirty Cache first (Fast Path)
         if (this.batchMode && this.dirtyBlocks.has(blockId)) {
             const cached = this.dirtyBlocks.get(blockId);
-            const copy = Buffer.alloc(constants.BLOCK_SIZE);
+            const copy = Buffer.allocUnsafe(constants.BLOCK_SIZE);
             cached.copy(copy);
             return copy;
         }
@@ -88,7 +88,8 @@ class Pager {
         // B"H: Avoid re-init check on every read if handle exists
         if (!this.handle) await this.init();
 
-        const buffer = Buffer.alloc(constants.BLOCK_SIZE);
+        // B"H: Use allocUnsafe for read buffer
+        const buffer = Buffer.allocUnsafe(constants.BLOCK_SIZE);
         const offset = Number(BigInt(blockId) * BigInt(constants.BLOCK_SIZE));
         
         if (this.debugBlocks.has(blockId)) {
@@ -99,6 +100,11 @@ class Pager {
         
         if (bytesRead === 0) return null;
         
+        // If partial read (rare/EOF), fill remainder with 0?
+        if (bytesRead < constants.BLOCK_SIZE) {
+            buffer.fill(0, bytesRead);
+        }
+        
         if (this.debugBlocks.has(blockId)) {
              const head = buffer.toString('hex', 0, 8);
              console.log(`B"H [Pager] readBlock(${blockId}) DONE. Header: ${head}`);
@@ -108,29 +114,30 @@ class Pager {
     }
     
     async readBlockType(blockId) {
-        // Optimization: Read type from dirty cache if available
         if (this.batchMode && this.dirtyBlocks.has(blockId)) {
             return this.dirtyBlocks.get(blockId).readUInt32BE(0);
         }
 
         if (!this.handle) await this.init();
         const offset = Number(BigInt(blockId) * BigInt(constants.BLOCK_SIZE));
-        const buffer = Buffer.alloc(4); 
+        const buffer = Buffer.allocUnsafe(4); 
         const { bytesRead } = await this.handle.read(buffer, 0, 4, offset);
         if (bytesRead < 4) return null; 
         return buffer.readUInt32BE(0);
     }
 
     async readSequential(startBlockId, numberOfBlocks) {
-        // B"H: Optimized Mixed Read Support
         if (!this.handle) await this.init();
         
         const totalSize = numberOfBlocks * constants.BLOCK_SIZE;
-        const buffer = Buffer.alloc(totalSize);
+        const buffer = Buffer.allocUnsafe(totalSize);
         
-        // 1. Read everything from disk first (Bulk I/O)
         const offset = Number(BigInt(startBlockId) * BigInt(constants.BLOCK_SIZE));
         const bytesRead = await this._readExact(buffer, 0, totalSize, offset);
+        
+        if (bytesRead < totalSize) {
+            buffer.fill(0, bytesRead);
+        }
         
         // 2. Overlay dirty blocks from memory
         if (this.batchMode && this.dirtyBlocks.size > 0) {
@@ -159,12 +166,9 @@ class Pager {
     async endBatch() {
         if (!this.batchMode) return;
         
-        // 1. Write all dirty blocks to WAL in chunks (Sequential I/O, Low RAM)
         if (this.dirtyBlocks.size > 0) {
             await this.wal.logBatch(this.dirtyBlocks);
             
-            // 2. Write to main DB file
-            // Use writev to merge contiguous writes
             const sortedIds = Array.from(this.dirtyBlocks.keys()).sort((a,b) => a - b);
             
             if (sortedIds.length > 0) {
@@ -175,28 +179,23 @@ class Pager {
                     const id = sortedIds[i];
                     const prevId = sortedIds[i-1];
                     
-                    // Check contiguity and vector size limit
                     if (id === prevId + 1 && rangeBuffers.length < this.DB_IOV_MAX) {
                         rangeBuffers.push(this.dirtyBlocks.get(id));
                     } else {
-                        // Flush previous range
                         const offset = Number(BigInt(rangeStartId) * BigInt(constants.BLOCK_SIZE));
                         await this.handle.writev(rangeBuffers, offset);
                         
-                        // Start new range
                         rangeStartId = id;
                         rangeBuffers = [this.dirtyBlocks.get(id)];
                     }
                 }
                 
-                // Flush final range
                 if(rangeBuffers.length > 0) {
                     const offset = Number(BigInt(rangeStartId) * BigInt(constants.BLOCK_SIZE));
                     await this.handle.writev(rangeBuffers, offset);
                 }
             }
             
-            // 3. Clear WAL
             await this.wal.clear();
         }
 
@@ -209,22 +208,22 @@ class Pager {
         
         let writeBuffer = buffer;
         if (buffer.length !== constants.BLOCK_SIZE) {
+            // Must pad to block size
             writeBuffer = Buffer.alloc(constants.BLOCK_SIZE);
             buffer.copy(writeBuffer);
         }
 
         if (this.batchMode) {
-            // B"H: DEFERRED WRITE (Zero IO)
-            // Just update the map. 
-            // Clone the buffer to ensure it doesn't change outside
-            const cacheCopy = Buffer.alloc(constants.BLOCK_SIZE);
+            // B"H: DEFERRED WRITE
+            const cacheCopy = Buffer.allocUnsafe(constants.BLOCK_SIZE);
             writeBuffer.copy(cacheCopy);
             this.dirtyBlocks.set(blockId, cacheCopy);
             return;
         }
 
-        // Standard Mode: Write Immediately
-        await this.wal.log(blockId, writeBuffer, false);
+        // B"H: Standard Mode - Write Immediately but SKIP FSYNC for speed.
+        // We rely on waitForIdle() to call sync().
+        await this.wal.log(blockId, writeBuffer, true); // true = skipSync
 
         const offset = Number(BigInt(blockId) * BigInt(constants.BLOCK_SIZE));
         
@@ -251,10 +250,15 @@ class Pager {
         await this.handle.truncate(offset);
     }
 
-    async checkpoint() {
+    async sync() {
         if (this.handle) {
             await this.handle.sync(); 
         }
+        await this.wal.sync();
+    }
+
+    async checkpoint() {
+        await this.sync();
         await this.wal.clear(); 
     }
  

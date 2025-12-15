@@ -1,0 +1,43 @@
+
+// B"H
+// js/data/gates_37.js
+
+export const gates37 = [
+    { id: 'gate_37_1', name: 'Gate of Silence', icon: '🤫', desc: 'Immunity to "Confuse" status.', cost: 5, effect: { type: 'immune_status', status: 'confuse' } },
+    { id: 'gate_37_2', name: 'Gate of Tears', icon: '💧', desc: 'Drop Rate +20%.', cost: 10, effect: { type: 'drop_rate', amount: 1.2 } },
+    { id: 'gate_37_3', name: 'Gate of Awe', icon: '😨', desc: 'Enemies deal -10% damage.', cost: 15, effect: { type: 'damage_reduction', amount: 0.9 } },
+    { id: 'gate_37_4', name: 'Gate of Love', icon: '❤️', desc: 'Healing effects +30%.', cost: 12, effect: { type: 'heal_mult', amount: 1.3 } },
+    { id: 'gate_37_5', name: 'Gate of Unity', icon: '☝️', desc: 'Team attacks sync (Combo chance).', cost: 20, effect: { type: 'combo_chance', amount: 0.1 } },
+    { id: 'gate_37_6', name: 'Gate of Truth', icon: '✅', desc: 'Attacks never miss.', cost: 25, effect: { type: 'accuracy', amount: 999 } },
+    { id: 'gate_37_7', name: 'Gate of Peace', icon: '🕊️', desc: 'Encounter rate -50% (Toggleable).', cost: 15, effect: { type: 'encounter_rate', amount: 0.5 } },
+    { id: 'gate_37_8', name: 'Gate of Courage', icon: '🦁', desc: 'Attack +15%.', cost: 18, effect: { type: 'stat_boost', stat: 'attack', amount: 1.15 } },
+    { id: 'gate_37_9', name: 'Gate of Faith', icon: '🕍', desc: 'Survive fatal hit with 1HP once per battle.', cost: 30, effect: { type: 'endure_fatal' } },
+    { id: 'gate_37_10', name: 'Gate of Joy', icon: '😄', desc: 'Start battle with full Kavanah.', cost: 20, effect: { type: 'init_kavanah' } },
+    { id: 'gate_37_11', name: 'Gate of Giving', icon: '🎁', desc: 'Gold drops +50%.', cost: 15, effect: { type: 'money_mult', amount: 1.5 } },
+    { id: 'gate_37_12', name: 'Gate of Return', icon: '🔄', desc: 'XP gain +25%.', cost: 20, effect: { type: 'xp_mult', amount: 1.25 } },
+    { id: 'gate_37_13', name: 'Gate of Holiness', icon: '🔥', desc: 'Damage vs Qliphoth +50%.', cost: 25, effect: { type: 'damage_vs_type', target: 'Qliphoth', amount: 1.5 } },
+    { id: 'gate_37_14', name: 'Gate of Humility', icon: '🙇', desc: 'Defense +20%.', cost: 18, effect: { type: 'stat_boost', stat: 'defense', amount: 1.2 } },
+    { id: 'gate_37_15', name: 'Gate of Judgment', icon: '⚖️', desc: 'Reflect 10% damage.', cost: 22, effect: { type: 'reflect', amount: 0.1 } },
+    { id: 'gate_37_16', name: 'Gate of Mercy', icon: '🤲', desc: 'Regen 1% HP per turn.', cost: 25, effect: { type: 'regen', amount: 0.01 } },
+    { id: 'gate_37_17', name: 'Gate of Victory', icon: '🏆', desc: 'Crit Chance +15%.', cost: 20, effect: { type: 'crit_chance', amount: 0.15 } },
+    { id: 'gate_37_18', name: 'Gate of Splendor', icon: '✨', desc: 'Reveal hidden doors.', cost: 30, effect: { type: 'reveal_hidden' } },
+    { id: 'gate_37_19', name: 'Gate of Foundation', icon: '🏛️', desc: 'Immunity to "Poison".', cost: 10, effect: { type: 'immune_status', status: 'poison' } },
+    { id: 'gate_37_20', name: 'Gate of Kingship', icon: '👑', desc: 'Buy items for 20% less.', cost: 15, effect: { type: 'discount', amount: 0.8 } },
+    { id: 'gate_37_21', name: 'Gate of Wisdom', icon: '🧠', desc: 'Learn moves 5 levels earlier.', cost: 20, effect: { type: 'early_learn' } },
+    { id: 'gate_37_22', name: 'Gate of Understanding', icon: '💡', desc: 'Identify enemy stats.', cost: 10, effect: { type: 'identify' } },
+    { id: 'gate_37_23', name: 'Gate of Knowledge', icon: '🗝️', desc: 'Map radius x2.', cost: 15, effect: { type: 'map_radius', amount: 2 } },
+    { id: 'gate_37_24', name: 'Gate of Kindness', icon: '🍞', desc: 'Food effects +50%.', cost: 12, effect: { type: 'food_buff', amount: 1.5 } },
+    { id: 'gate_37_25', name: 'Gate of Strength', icon: '💪', desc: 'Carry capacity x2 (Inventory slots).', cost: 20, effect: { type: 'inventory_space', amount: 2 } },
+    { id: 'gate_37_26', name: 'Gate of Beauty', icon: '🌹', desc: 'Charisma +10 (Better dialogue options).', cost: 10, effect: { type: 'charisma' } },
+    { id: 'gate_37_27', name: 'Gate of Eternity', icon: '⏳', desc: 'Buffs last 1 turn longer.', cost: 15, effect: { type: 'buff_duration', amount: 1 } },
+    { id: 'gate_37_28', name: 'Gate of Glory', icon: '🌟', desc: 'Pre-emptive strike chance 20%.', cost: 20, effect: { type: 'preemptive', amount: 0.2 } },
+    { id: 'gate_37_29', name: 'Gate of Bond', icon: '🔗', desc: 'Catch rate +20%.', cost: 18, effect: { type: 'catch_rate', amount: 1.2 } },
+    { id: 'gate_37_30', name: 'Gate of Sovereignty', icon: '🏰', desc: 'Walking regenerates Money.', cost: 35, effect: { type: 'money_step' } },
+    { id: 'gate_37_31', name: 'Gate of Will', icon: '🎯', desc: 'Kavanah costs -20%.', cost: 25, effect: { type: 'cost_reduction', amount: 0.8 } },
+    { id: 'gate_37_32', name: 'Gate of Delight', icon: '😋', desc: 'Full heal after battle victory.', cost: 40, effect: { type: 'victory_heal' } },
+    { id: 'gate_37_33', name: 'Gate of Faith 2', icon: '🕍', desc: 'Immunity to "Curse".', cost: 15, effect: { type: 'immune_status', status: 'curse' } },
+    { id: 'gate_37_34', name: 'Gate of Trust', icon: '🤝', desc: 'Guaranteed flee.', cost: 10, effect: { type: 'guaranteed_flee' } },
+    { id: 'gate_37_35', name: 'Gate of Oneness', icon: '1️⃣', desc: 'All elemental resistances +20%.', cost: 30, effect: { type: 'all_resist', amount: 0.2 } },
+    { id: 'gate_37_36', name: 'Gate of Infinity', icon: '♾️', desc: 'Max Level cap increased to 200.', cost: 50, effect: { type: 'level_cap' } },
+    { id: 'gate_37_37', name: 'Gate of Redemption', icon: '🎺', desc: 'Summon Moshiach (Ultimate Attack).', cost: 100, effect: { type: 'ultimate_move' } }
+];

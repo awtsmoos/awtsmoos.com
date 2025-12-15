@@ -52,6 +52,7 @@ async function runTest() {
     // --- PHASE 1: Creation & Heavy Writing ---
     log("Phase 1: Creation & Heavy Writing");
     let db = new AwtsmoosDB(DB_PATH);
+    await db.open(); // B"H: FIX - Open database before use
     
     // 1. Generate Random Buffer
     // Optimized: 128KB is enough to trigger multi-block chains (4KB blocks) but faster for test.
@@ -89,7 +90,7 @@ async function runTest() {
         // Vital: Submit an empty task to the execute queue and await it.
         // This ensures all previous "fire-and-forget" proxy writes (heavystone, meta) are finished.
         log("Waiting for write queue to drain...");
-        await db.execute(async () => { return true; });
+        await db.waitForIdle(); 
 
     } catch (e) {
         fail("Phase 1 Write Failed", e);
@@ -104,6 +105,7 @@ async function runTest() {
     // --- PHASE 3: Resurrection (Techiyas HaMeisim) ---
     log("Phase 3: Re-opening Database from Disk...");
     const db2 = new AwtsmoosDB(DB_PATH);
+    await db2.open(); // B"H: FIX - Open database before use
 
     try {
         // 1. Verify Metadata

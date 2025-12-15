@@ -8,17 +8,15 @@ import { stringToBytes } from '../utils.js';
 /**
  * Parses raw ASM source into a structured context.
  * @param {string} source 
- * @returns {Object} { tokens, importDef, dataBlobs, dataSymbols, subsystem }
+ * @returns {Object} { tokens, importDef, dataBlobs, dataSymbols, subsystem, dataRelocs }
  */
 export function parseAsm(source) {
     const importDef = [];
     const importMap = new Map(); // DLL Name -> Object
     const dataBlobs = [];
     const dataSymbols = new Map(); // Label -> index in dataBlobs
+    const dataRelocs = []; // { blobId, offset, target }
     
-    // List of operations: 
-    // { type: 'label', value: 'name' } 
-    // { type: 'instr', mnemonic: 'MOV', args: ['RAX', 'RBX'] }
     const tokens = []; 
     
     let subsystem = 'gui'; 
@@ -70,19 +68,74 @@ export function parseAsm(source) {
         }
 
         if (currentSection === 'data') {
-            const match = line.match(/^(\w+):\s*"(.*)"$/);
-            if (match) {
-                const label = match[1];
-                let content = match[2];
+            // Case 1: String Data -> label: "string"
+            const matchStr = line.match(/^(\w+):\s*"(.*)"$/);
+            if (matchStr) {
+                const label = matchStr[1];
+                let content = matchStr[2];
                 // Handle basic escapes
                 content = content.replace(/\\"/g, '"').replace(/\\n/g, '\n').replace(/\\r/g, '\r');
-                const bytes = new Uint8Array([...stringToBytes(content), 0]);
+                
+                // Handle \xNN hex escapes manually
+                const bytes = [];
+                for(let i=0; i<content.length; i++) {
+                    if (content[i] === '\\' && content[i+1] === 'x') {
+                        const hex = content.substr(i+2, 2);
+                        if (/^[0-9A-Fa-f]{2}$/.test(hex)) {
+                             bytes.push(parseInt(hex, 16));
+                             i += 3;
+                             continue;
+                        }
+                    }
+                    // Fallback to UTF-8 encoder for normal chars
+                    const charBytes = stringToBytes(content[i]);
+                    bytes.push(...charBytes);
+                }
+                bytes.push(0); // Null term
+
                 dataSymbols.set(label, dataBlobs.length);
-                dataBlobs.push(bytes);
-            } else {
-                throw new Error("Invalid data definition: " + line);
+                dataBlobs.push(new Uint8Array(bytes));
+                continue;
             }
-            continue;
+
+            // Case 2: Numeric Array or Pointers -> label: 10, 0xFF, SomeLabel
+            const matchNum = line.match(/^(\w+):\s*(.+)$/);
+            if (matchNum) {
+                const label = matchNum[1];
+                const rawVals = matchNum[2];
+                const parts = rawVals.split(',').map(s => s.trim());
+                
+                const bufferParts = [];
+                const currentRelocs = [];
+
+                for (let part of parts) {
+                    if (part.match(/^-?0x[0-9A-Fa-f]+$/) || part.match(/^-?\d+$/)) {
+                        let val = parseInt(part);
+                        // Byte logic: always push byte for numbers
+                        bufferParts.push(val & 0xFF);
+                    } else {
+                        // Symbol: assume 64-bit pointer
+                        for(let k=0; k<8; k++) bufferParts.push(0);
+                        currentRelocs.push({
+                            offset: bufferParts.length - 8,
+                            target: part
+                        });
+                    }
+                }
+                
+                const buffer = new Uint8Array(bufferParts);
+                
+                const blobId = dataBlobs.length;
+                currentRelocs.forEach(r => {
+                    dataRelocs.push({ blobId, offset: r.offset, target: r.target });
+                });
+
+                dataSymbols.set(label, blobId);
+                dataBlobs.push(buffer);
+                continue;
+            }
+
+            throw new Error("Invalid data definition: " + line);
         }
 
         if (currentSection === 'code') {
@@ -113,6 +166,7 @@ export function parseAsm(source) {
         importDef,
         dataBlobs,
         dataSymbols,
-        subsystem
+        subsystem,
+        dataRelocs
     };
 }

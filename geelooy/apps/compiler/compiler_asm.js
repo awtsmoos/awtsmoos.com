@@ -4,7 +4,7 @@ Boruch Hashem
 Biezrash Hashem
 */
 import { parseAsm } from './asm/parser.js';
-import { emitAsm } from './asm/emitter.js';
+import { emitAsm } from './asm/emitter/index.js';
 
 /**
  * Parses ASM text and generates an artifact.
@@ -21,7 +21,9 @@ export function createCustomAsmApp(source) {
     return {
         code,
         dataBlobs: context.dataBlobs,
+        dataSymbols: context.dataSymbols, // Needed for linker relocs
         importDef: context.importDef,
-        mode: context.subsystem
+        mode: context.subsystem,
+        dataRelocs: context.dataRelocs
     };
 }

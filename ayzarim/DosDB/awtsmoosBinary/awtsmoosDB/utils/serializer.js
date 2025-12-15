@@ -1,14 +1,14 @@
+
 // B"H
 /**
  * @module serializer
  * @description
- *  Shared serialization primitives used by Parser, LiveHandle, and BTree.
- *  Ensures consistency in VarInt decoding/encoding.
+ *  Shared serialization primitives used by Parser, LiveHandle, and Structures.
+ *  Ensures consistency in VarInt decoding/encoding across the unified engine.
  */
 
 // Writes a Variable Integer (1-9 bytes)
 function writeVarInt(value) {
-    // Determine size
     let size = 0;
     let v = value;
     do {
@@ -29,13 +29,12 @@ function writeVarInt(value) {
 // Reads a Variable Integer
 function readVarInt(buf, offset) {
     let value = 0;
-    let shift = 0;
     let bytesRead = 0;
     
     while (true) {
         if (offset + bytesRead >= buf.length) break;
         const b = buf.readUInt8(offset + bytesRead);
-        value += (b & 0x7F) * Math.pow(128, bytesRead); // Use Math.pow for safety with larger numbers within safe range
+        value += (b & 0x7F) * Math.pow(128, bytesRead); 
         bytesRead++;
         if ((b & 0x80) === 0) break;
     }
@@ -57,9 +56,19 @@ function readString(buf, offset) {
     return { value: str, bytesRead: len.bytesRead + len.value };
 }
 
+// B"H: New zero-copy buffer reader
+function readBuffer(buf, offset) {
+    const len = readVarInt(buf, offset);
+    const start = offset + len.bytesRead;
+    // Return a subarray (view) instead of copy for speed
+    const data = buf.subarray(start, start + len.value);
+    return { value: data, bytesRead: len.bytesRead + len.value };
+}
+
 module.exports = {
     writeVarInt,
     readVarInt,
     writeString,
-    readString
+    readString,
+    readBuffer
 };

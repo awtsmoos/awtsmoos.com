@@ -95,7 +95,10 @@ class AwtsmoosDB_V2 {
     }
 
     async waitForIdle() { 
-        return this.lock.runWrite(async () => {});
+        return this.lock.runWrite(async () => {
+            // B"H: Group Commit - Sync to disk when idle
+            await this.pager.sync();
+        });
     }
 
     async _readChainSafe(ptr) {
@@ -114,7 +117,9 @@ class AwtsmoosDB_V2 {
         }
 
         const raw = await this.allocator.v1.readSequentialLocked(ptr.blockId, blocksNeeded);
-        const buf = Buffer.alloc(totalSize);
+        if (!raw) return null; // B"H: Safety Check against corruption
+
+        const buf = Buffer.allocUnsafe(totalSize); // B"H: Optimization - allocUnsafe since we copy into it
         
         let readOff = 0; 
         let writeOff = 0; 
@@ -125,7 +130,14 @@ class AwtsmoosDB_V2 {
             const avail = constants.BLOCK_SIZE - start;
             const chunk = Math.min(remaining, avail);
             
-            if (readOff + start + chunk > raw.length) break;
+            // B"H: Boundary check
+            if (readOff + start + chunk > raw.length) {
+                // If raw buffer is smaller than expected, partial fill or fail?
+                // For safety, break and return what we have (or null if critical).
+                // Usually indicates corruption or partial write recovery.
+                break;
+            }
+            
             raw.copy(buf, writeOff, readOff + start, readOff + start + chunk);
             
             writeOff += chunk;
@@ -133,6 +145,8 @@ class AwtsmoosDB_V2 {
             readOff += constants.BLOCK_SIZE;
         }
         
+        // If we allocated unsafe and didn't fill completely due to break, the end is garbage.
+        // But totalSize should match what's available.
         return buf;
     }
 
@@ -146,21 +160,15 @@ class AwtsmoosDB_V2 {
             const avail = constants.BLOCK_SIZE - start;
             const chunk = Math.min(remaining.length, avail);
             
-            // B"H: Optimization - Only read block if we are NOT overwriting the entire useful area
-            // If start is 0 (or header size) and chunk covers the whole block (or up to block size), skip read?
-            // Safer: Only skip read if we are writing a full block (4096).
-            // Many vector nodes use shared blocks (PAGE), so we MUST read to preserve other data.
-            // But if it's a chained block (OVERFLOW type), we own it.
-            
             let blk;
             // Optimization: If writing full block, skip read.
             if (start === 0 && chunk === constants.BLOCK_SIZE) {
-                blk = Buffer.alloc(constants.BLOCK_SIZE);
+                blk = Buffer.allocUnsafe(constants.BLOCK_SIZE);
             } else {
                 blk = await this.allocator.v1.readBlockLocked(currentBlock);
                 if (!blk) {
-                     // Should not happen, but recover
-                     blk = Buffer.alloc(constants.BLOCK_SIZE);
+                     blk = Buffer.allocUnsafe(constants.BLOCK_SIZE);
+                     blk.fill(0); // Zero out if new block
                 }
             }
 

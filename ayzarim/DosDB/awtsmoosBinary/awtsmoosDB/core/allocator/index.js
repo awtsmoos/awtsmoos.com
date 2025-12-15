@@ -16,8 +16,13 @@ class Allocator {
         
         this.superBlockCache = null;
         this.blockCache = new Map();
-        // B"H: Increase Cache Size for HNSW Construction
-        this.MAX_CACHE_SIZE = 5000; 
+        
+        // B"H: Optimization - Free Block Stack for O(1) Reuse
+        this.freeBlockStack = []; 
+        this.MAX_FREE_STACK = 5000; 
+
+        // B"H: Increase Cache Size for Speed (40MB approx)
+        this.MAX_CACHE_SIZE = 10000; 
         
         this.UNIT_SIZE = constants.UNIT_SIZE || 32;
         this.BLOCK_SIZE = constants.BLOCK_SIZE || 4096;
@@ -41,7 +46,7 @@ class Allocator {
         
         const sb = await this.pager.readBlock(0);
         if (sb) {
-            this.superBlockCache = Buffer.alloc(this.BLOCK_SIZE);
+            this.superBlockCache = Buffer.allocUnsafe(this.BLOCK_SIZE);
             sb.copy(this.superBlockCache);
 
             const savedCursor = readPointer48(sb, this.CURSOR_OFFSET); 
@@ -72,11 +77,16 @@ class Allocator {
     }
 
     _cacheBlock(blockId, buffer) {
-        if (this.blockCache.size >= this.MAX_CACHE_SIZE) {
+        // B"H: True LRU - Delete if exists to move to end (newest)
+        if (this.blockCache.has(blockId)) {
+            this.blockCache.delete(blockId);
+        } else if (this.blockCache.size >= this.MAX_CACHE_SIZE) {
+            // Evict oldest (first inserted)
             const firstKey = this.blockCache.keys().next().value;
             this.blockCache.delete(firstKey);
         }
-        const cached = Buffer.alloc(this.BLOCK_SIZE);
+        
+        const cached = Buffer.allocUnsafe(this.BLOCK_SIZE);
         buffer.copy(cached);
         this.blockCache.set(blockId, cached);
     }
@@ -84,7 +94,12 @@ class Allocator {
     _getCachedBlock(blockId) {
         if (this.blockCache.has(blockId)) {
             const cached = this.blockCache.get(blockId);
-            const copy = Buffer.alloc(this.BLOCK_SIZE);
+            
+            // B"H: True LRU - Promote to newest
+            this.blockCache.delete(blockId);
+            this.blockCache.set(blockId, cached);
+
+            const copy = Buffer.allocUnsafe(this.BLOCK_SIZE);
             cached.copy(copy);
             return copy;
         }
@@ -213,8 +228,15 @@ class Allocator {
                  const availablePerBlock = this.BLOCK_SIZE - this.HEADER_SIZE;
                  const blocksUsed = Math.ceil(ptr.length / availablePerBlock);
                  for (let i = 0; i < blocksUsed; i++) {
-                     const cleanBuf = Buffer.alloc(this.BLOCK_SIZE);
-                     await this._writeBlockSynced(ptr.blockId + i, cleanBuf);
+                     const bid = ptr.blockId + i;
+                     // B"H: Reset to TYPE_FREE immediately
+                     const cleanBuf = this.formatBlock(constants.BLOCK_TYPE.FREE);
+                     await this._writeBlockSynced(bid, cleanBuf);
+                     
+                     // B"H: Optimization - Add to free stack if safe
+                     if (this.freeBlockStack.length < this.MAX_FREE_STACK && bid < this.cursor) {
+                         this.freeBlockStack.push(bid);
+                     }
                  }
                  maxFreedBlock = ptr.blockId + blocksUsed - 1;
              } else {
@@ -227,6 +249,11 @@ class Allocator {
                      
                      if (BitmapManager.isEmpty(block)) {
                          block.writeUInt32BE(constants.BLOCK_TYPE.FREE, 0);
+                         
+                         // B"H: Optimization - Add to free stack
+                         if (this.freeBlockStack.length < this.MAX_FREE_STACK && ptr.blockId < this.cursor) {
+                             this.freeBlockStack.push(ptr.blockId);
+                         }
                      }
                      
                      await this._writeBlockSynced(ptr.blockId, block);
@@ -254,6 +281,10 @@ class Allocator {
         if (newCursor < this.cursor) {
             this.cursor = newCursor;
             this.lastFreeHint = Math.min(this.lastFreeHint, this.cursor);
+            
+            // Clear invalid free stack entries
+            this.freeBlockStack = this.freeBlockStack.filter(bid => bid < this.cursor);
+            
             await this._saveStateInternal();
             await this.pager.truncate(this.cursor);
         }
@@ -274,9 +305,12 @@ class Allocator {
     async isBlockTrulyFree(blockId) { return this.modes.isBlockTrulyFree(blockId); }
 
     formatBlock(type) {
+        // B"H: Optimization - Buffer.alloc (zeroed in C++) vs allocUnsafe + fill
         const buf = Buffer.alloc(this.BLOCK_SIZE);
         buf.writeUInt32BE(type, 0);
-        BitmapManager.markHeader(buf, this.HEADER_SIZE, this.UNIT_SIZE);
+        if (type !== constants.BLOCK_TYPE.FREE) {
+            BitmapManager.markHeader(buf, this.HEADER_SIZE, this.UNIT_SIZE);
+        }
         return buf;
     }
 

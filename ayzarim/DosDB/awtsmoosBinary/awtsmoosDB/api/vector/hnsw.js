@@ -4,6 +4,8 @@ const VectorStorage = require('./storage.js');
 const { getMetric } = require('./math.js');
 const SmartPointer = require('../../utils/smartPointer.js');
 const BinaryHeap = require('../../utils/binaryHeap.js');
+const Sequence = require('../../structure/sequence/index.js');
+const { readPointer48 } = require('../../utils/binaryHelpers.js');
 
 const M = 12; 
 const M_MAX0 = 24; 
@@ -13,7 +15,7 @@ const ML = 1 / Math.log(M);
 class HNSW {
     constructor(db, registry, keyMap, meta) {
         this.db = db;
-        this.registry = registry; 
+        this.registryHandle = registry; 
         this.keyMap = keyMap;     
         this.meta = meta; 
         this.storage = new VectorStorage(db.allocator);
@@ -21,15 +23,49 @@ class HNSW {
         this.entryNodeID = meta.entryNodeID !== undefined ? meta.entryNodeID : -1;
         
         this.nodeCache = new Map();
-        // B"H: Increase Cache for Bulk Loads
         this.CACHE_LIMIT = 5000; 
+        
+        // B"H: Persistent Registry Engine
+        this.registryEngine = null; 
+        this.ptrCache = new Map(); 
+        this.PTR_CACHE_LIMIT = 20000;
+    }
+
+    async _initRegistryEngine() {
+        if (this.registryEngine) return;
+        await this.registryHandle.ensureResolved();
+        if (this.registryHandle.ptr) {
+            const ptr = await SmartPointer.resolve(this.registryHandle.ptr, this.db.allocator);
+            this.registryEngine = new Sequence(this.db.allocator, ptr);
+        }
+    }
+
+    async _getRegistryPtr(index) {
+        if (this.ptrCache.has(index)) return this.ptrCache.get(index);
+        
+        if (!this.registryEngine) await this._initRegistryEngine();
+        
+        if (this.registryEngine) {
+            const ptr = await this.registryEngine.getPtr(index);
+            if (ptr) {
+                const copy = Buffer.allocUnsafe(16);
+                ptr.copy(copy);
+                if (this.ptrCache.size >= this.PTR_CACHE_LIMIT) {
+                    const first = this.ptrCache.keys().next().value;
+                    this.ptrCache.delete(first);
+                }
+                this.ptrCache.set(index, copy);
+                return copy;
+            }
+        }
+        return await this.registryHandle.reader.getItem(index);
     }
 
     async _getNode(nodeId) {
         if (nodeId === -1 || nodeId === undefined) return null;
         if (this.nodeCache.has(nodeId)) return this.nodeCache.get(nodeId);
 
-        const ptr = await this.registry.reader.getItem(nodeId);
+        const ptr = await this._getRegistryPtr(nodeId);
         if (!ptr) return null;
         
         const node = await this.storage.loadNode(ptr);
@@ -44,22 +80,33 @@ class HNSW {
     }
 
     async insert(key, vector, payloadPtr) {
+        // B"H: Optimization - Batch Mode Check
         const existingNodeID = await this.keyMap.get(String(key));
         if (existingNodeID !== undefined) {
             const oldNode = await this._getNode(existingNodeID);
             if (oldNode) {
                 oldNode.deleted = true;
-                // Save marks dirty in Pager, so it's fast
                 const deadPtr = await this.storage.saveNode(oldNode);
-                if (!deadPtr.equals(oldNode.ptr)) await this.registry.splice(existingNodeID, 1, deadPtr);
+                if (!deadPtr.equals(oldNode.ptr)) {
+                     // We don't really need to update registry for dead node if we mark it in storage
+                     // But for consistency:
+                     if(this.registryEngine) await this.registryEngine.set(existingNodeID, deadPtr);
+                }
             }
         }
 
         const level = Math.floor(-Math.log(Math.random()) * ML);
-        const nodeId = await this.registry.length; 
+        
+        if (!this.registryEngine) await this._initRegistryEngine();
+        const nodeId = this.registryEngine ? await this.registryEngine.length() : await this.registryHandle.length; 
         
         const newNodePtr = await this.storage.createNode(vector, level, payloadPtr, nodeId);
-        await this.registry.push(newNodePtr);
+        
+        // B"H: USE FAST APPEND
+        if (this.registryEngine) await this.registryEngine.ops.append(newNodePtr);
+        else await this.registryHandle.push(newNodePtr);
+        
+        this.ptrCache.set(nodeId, newNodePtr);
         await this.keyMap.set(String(key), nodeId); 
         
         const newNode = await this.storage.loadNode(newNodePtr);
@@ -106,10 +153,9 @@ class HNSW {
             if (candidates.length > 0) currObj = candidates[0].node;
         }
 
-        const savedPtr = await this.storage.saveNode(newNode);
-        if (!savedPtr.equals(newNodePtr)) {
-             await this.registry.splice(nodeId, 1, savedPtr);
-        }
+        // Save updated new node (neighbors changed)
+        // Note: saveNode returns SAME pointer if size fits, which vector storage handles.
+        await this.storage.saveNode(newNode);
         
         if (level > this.meta.entryNodeID) { 
             this.entryNodeID = nodeId;
@@ -124,8 +170,7 @@ class HNSW {
         const node = await this._getNode(nodeId);
         if (node) {
             node.deleted = true;
-            const ptr = await this.storage.saveNode(node);
-            if (!ptr.equals(node.ptr)) await this.registry.splice(nodeId, 1, ptr);
+            await this.storage.saveNode(node);
         }
         await this.keyMap.delete(String(key));
         this.nodeCache.delete(nodeId);
@@ -207,13 +252,7 @@ class HNSW {
             node.neighbors[level] = nList.slice(0, maxM).map(x => x.id);
         }
         
-        const oldPtr = node.ptr;
-        const newPtr = await this.storage.saveNode(node);
-        
-        if (!newPtr.equals(oldPtr)) {
-            await this.registry.splice(node.id, 1, newPtr);
-            node.ptr = newPtr;
-        }
+        await this.storage.saveNode(node);
         this.nodeCache.set(node.id, node);
     }
 }

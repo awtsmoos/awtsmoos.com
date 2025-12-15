@@ -1,0 +1,73 @@
+
+/* B"H */
+/* --- CONTROLS --- */
+
+#mobile-controls {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: none; /* Hidden by default (Desktop) */
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    z-index: 50;
+    padding-bottom: 20px; /* Safe area */
+}
+
+/* Only show controls on mobile devices (screens smaller than 768px) */
+@media (max-width: 768px) {
+    #mobile-controls {
+        display: flex;
+    }
+}
+
+.dpad-row {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    justify-content: center;
+}
+
+.control-button {
+    width: 60px;
+    height: 60px;
+    background: rgba(0, 0, 0, 0.5);
+    border: 2px solid var(--neon-green);
+    color: var(--neon-green);
+    font-size: 1.5em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    user-select: none;
+    border-radius: 10px;
+    box-shadow: 0 0 10px var(--neon-green);
+    backdrop-filter: blur(4px);
+    transition: all 0.1s;
+    touch-action: manipulation; /* Improves touch response */
+}
+
+.control-button:active, .control-button.active {
+    background: var(--neon-green);
+    color: #000;
+    box-shadow: 0 0 20px var(--neon-green);
+    transform: scale(0.9);
+}
+
+#action-button {
+    width: 80px;
+    height: 80px;
+    border-color: var(--neon-pink);
+    color: var(--neon-pink);
+    box-shadow: 0 0 10px var(--neon-pink);
+    border-radius: 50%;
+    font-size: 0.9em;
+    font-weight: bold;
+}
+
+#action-button:active, #action-button.active {
+    background: var(--neon-pink);
+    color: #fff;
+    box-shadow: 0 0 30px var(--neon-pink);
+}
