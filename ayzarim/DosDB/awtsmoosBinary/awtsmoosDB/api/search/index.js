@@ -1,9 +1,4 @@
 
-
-
-
-
-
 // B"H
 const tokenizer = require('./tokenizer.js');
 const constants = require('../../constants.js');
@@ -20,8 +15,6 @@ class SearchManager {
 
     async _init() {
         if (this.sysIndex) return;
-        
-        // B"H: Optimization - Direct check avoids full root hydration
         const hasSys = await this.db.root.has("__sys_search__");
         if (!hasSys) {
             await this.db.root.createMap("__sys_search__");
@@ -57,24 +50,17 @@ class SearchManager {
     }
 
     async reindex(path) {
-        // console.log(`B"H SearchManager.reindex(${path}) START`);
         const parts = [];
-        // B"H: Handle both 'root.users' and 'users' formats
         const rawParts = path.split('.');
         for(const p of rawParts) {
             if (p !== 'root') parts.push(p);
         }
 
         let curr = this.db.root;
-        
-        // B"H: Traverse Handles, not Values
         for (let i = 0; i < parts.length; i++) {
-            curr = curr.get(parts[i]); // Get child handle
-            await curr.ensureResolved(); // Ensure it points to data
-            if (!curr.ptr) {
-                // console.log(`B"H reindex: Path part '${parts[i]}' not found.`);
-                return; // Path doesn't exist
-            }
+            curr = curr.get(parts[i]); 
+            await curr.ensureResolved(); 
+            if (!curr.ptr) return; 
         }
 
         const ptr = curr.ptr;
@@ -90,28 +76,19 @@ class SearchManager {
             const seq = new Sequence(this.db.allocator, res);
             iterator = seq.iterateRaw();
         } else {
-            // console.log(`B"H reindex: Unsupported type ${curr.type}`);
             return;
         }
 
-        let count = 0;
         for await (const { ptr, value } of iterator) {
-            // console.log(`B"H reindex: Item ${count++} Value=${JSON.stringify(value)}`);
-            
-            // B"H: Hydrate value so we can extract tokens from Dictionary/Map content
             const hydrated = await this._hydrateForIndex(value);
-            
-            // Reindex: treat as new insertion (oldPtr=null)
-            await this.updateIndex(path, ptr, null, null, hydrated);
+            // B"H: Copy ptr to ensure stability. 
+            // 'ptr' from iterateRaw is a subarray view which might be unstable across async ops.
+            const stablePtr = Buffer.alloc(16);
+            ptr.copy(stablePtr);
+            await this.updateIndex(path, stablePtr, null, null, hydrated);
         }
-        // console.log(`B"H reindex: Processed ${count} items.`);
     }
 
-    /**
-     * B"H: Updates the inverted index.
-     * Handles Insertion (oldPtr=null), Deletion (newPtr=null), and Replacement.
-     * Crucially, removes oldPtr from index if it differs from newPtr to avoid dangling refs.
-     */
     async updateIndex(path, newPtr, oldPtr, oldVal, newVal) {
         if (!await this.isIndexed(path)) return;
 
@@ -119,8 +96,6 @@ class SearchManager {
         const newTokens = this._extractTokens(newVal);
         const indexMap = this.sysIndex.get(path);
 
-        // Scenario 1: Pointers are identical (In-place update or identical content ref)
-        // We only need to update the token lists for changed words.
         if (this._ptrsEqual(newPtr, oldPtr)) {
             const toAdd = [...newTokens].filter(x => !oldTokens.has(x));
             const toRemove = [...oldTokens].filter(x => !newTokens.has(x));
@@ -129,31 +104,25 @@ class SearchManager {
             await this._addToIndex(indexMap, toAdd, newPtr);
         } 
         else {
-            // Scenario 2: Pointers differ (Replacement, Move, Insert, or Delete)
-            // We must remove the OLD pointer from ALL its associated tokens.
-            // And add the NEW pointer to ALL its associated tokens.
-            
-            if (oldPtr) {
-                await this._removeFromIndex(indexMap, oldTokens, oldPtr);
-            }
-            
-            if (newPtr) {
-                await this._addToIndex(indexMap, newTokens, newPtr);
-            }
+            if (oldPtr) await this._removeFromIndex(indexMap, oldTokens, oldPtr);
+            if (newPtr) await this._addToIndex(indexMap, newTokens, newPtr);
         }
     }
 
     async _removeFromIndex(indexMap, tokens, ptr) {
         for (const word of tokens) {
-            const list = indexMap.get(word);
-            await list.ensureResolved();
+            const listHandle = indexMap.get(word);
+            await listHandle.ensureResolved();
             
-            if (list.ptr) {
-                const len = await list.length;
+            if (listHandle.ptr) {
+                const res = await SmartPointer.resolve(listHandle.ptr, this.db.allocator);
+                const seq = new Sequence(this.db.allocator, res);
+                
+                const len = await seq.length();
                 for (let i = 0; i < len; i++) {
-                    const storedPtr = await list.get(i);
-                    if (this._ptrsEqual(storedPtr, ptr)) {
-                        await list.splice(i, 1);
+                    const valPtr = await seq.getPtr(i);
+                    if (this._ptrsEqual(valPtr, ptr)) {
+                        await listHandle.splice(i, 1);
                         break;
                     }
                 }
@@ -168,18 +137,15 @@ class SearchManager {
             
             if (!list.ptr) {
                 await indexMap.createList(word);
-                // Refresh handle after creation
                 list = indexMap.get(word);
                 await list.ensureResolved();
             }
-            await list.push(ptr);
+            await list.writer.push(ptr, { isPtr: true });
         }
     }
 
     _extractTokens(val, set = new Set(), visited = new Set()) {
         if (!val) return set;
-        
-        // B"H: Cycle Detection
         if (typeof val === 'object' && val !== null) {
             if (visited.has(val)) return set;
             visited.add(val);
@@ -208,9 +174,11 @@ class SearchManager {
 
         const indexMap = this.sysIndex.get(path);
         const queryTokens = [...tokenizer.tokenize(query)];
-        
         if (queryTokens.length === 0) return [];
 
+        // B"H: Sort tokens by frequency (heuristic: or just process). 
+        // Optimization: Process smallest list first? For now, standard order.
+        
         const firstWord = queryTokens[0];
         const candidatesHandle = indexMap.get(firstWord);
         await candidatesHandle.ensureResolved();
@@ -218,31 +186,56 @@ class SearchManager {
         if (!candidatesHandle.ptr) return [];
 
         let resultPtrs = [];
-        const len = await candidatesHandle.length;
-        for(let i=0; i<len; i++) resultPtrs.push(await candidatesHandle.get(i));
-
+        
+        const firstRes = await SmartPointer.resolve(candidatesHandle.ptr, this.db.allocator);
+        const firstSeq = new Sequence(this.db.allocator, firstRes);
+        const len = await firstSeq.length();
+        
+        for(let i=0; i<len; i++) {
+            const val = await firstSeq.getPtr(i);
+            if(val) resultPtrs.push(val);
+        }
+        
+        // B"H: Optimization - Use Hex String Set for O(N) intersection
         for (let i = 1; i < queryTokens.length; i++) {
+            if (resultPtrs.length === 0) return [];
+
             const word = queryTokens[i];
             const listHandle = indexMap.get(word);
             await listHandle.ensureResolved();
+            if (!listHandle.ptr) {
+                return []; 
+            }
+
+            const currentListHex = new Set();
+            const listRes = await SmartPointer.resolve(listHandle.ptr, this.db.allocator);
+            const listSeq = new Sequence(this.db.allocator, listRes);
+            const l = await listSeq.length();
             
-            if (!listHandle.ptr) return []; 
+            for(let j=0; j<l; j++) {
+                const val = await listSeq.getPtr(j);
+                if(val) {
+                    currentListHex.add(val.toString('hex'));
+                }
+            }
 
-            const currentListPtrs = [];
-            const l = await listHandle.length;
-            for(let j=0; j<l; j++) currentListPtrs.push(await listHandle.get(j));
-
-            resultPtrs = resultPtrs.filter(p1 => currentListPtrs.some(p2 => p1.equals(p2)));
-            if (resultPtrs.length === 0) return [];
+            resultPtrs = resultPtrs.filter(p1 => currentListHex.has(p1.toString('hex')));
         }
 
         const objects = [];
         for (const ptr of resultPtrs) {
+            // B"H: Resolve the pointer to the actual object
+            // Use resolvePointer helper to handle block/heap modes cleanly
             const obj = await SmartPointer.resolve(ptr, this.db.allocator);
+            
             if (obj && obj.isStructure) {
                 const tempHandle = new (require('../liveHandle/index.js'))(this.db, ptr, obj.type, null);
                 objects.push(await tempHandle.reader.resolveSelf());
             } else {
+                // Check if it's a pointer to a Dictionary/Map (e.g. from a Collection)
+                // resolve returns the pointer details if MODE_BLOCK/HEAP
+                // But SmartPointer.resolve above handles it.
+                // If it returned a primitive, push it.
                 objects.push(obj);
             }
         }

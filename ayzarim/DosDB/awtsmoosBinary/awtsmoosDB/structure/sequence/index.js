@@ -125,11 +125,16 @@ class SequenceEngine {
             if (depth++ > this.MAX_DEPTH) throw new Error("B\"H: Sequence Max Depth Exceeded");
             
             const node = await this.nodeIO.load(currPtr);
-            if (localIndex >= node.totalCount) return undefined;
+            if (localIndex >= node.totalCount) {
+                return undefined;
+            }
 
             if (node.isLeaf) {
                 const offset = DATA_OFFSET + (localIndex * 16);
-                return node.buffer.subarray(offset, offset + 16);
+                // B"H: FIX - Correctly copy buffer. Use alloc to be safe.
+                const ptr = Buffer.alloc(16);
+                node.buffer.copy(ptr, 0, offset, offset + 16);
+                return ptr;
             } else {
                 let offset = DATA_OFFSET;
                 let foundChild = false;
@@ -144,12 +149,14 @@ class SequenceEngine {
                     localIndex -= childCount;
                     offset += 20;
                 }
-                if (!foundChild) return undefined;
+                if (!foundChild) {
+                    if(this.allocator.v1.db.debug) console.error(`B"H Seq.getPtr: Failed to find child for index ${index}. Node Dump:`, node);
+                    return undefined;
+                }
             }
         }
     }
 
-    // ... (rest of methods slice, compact, concat, iterateRaw are fine) ...
     async slice(start, end) {
         const len = await this.length();
         if (end === undefined) end = len;

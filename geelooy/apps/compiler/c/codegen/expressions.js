@@ -116,6 +116,11 @@ export function genExpr(expr, lines, locals, depth, ctx) {
             else lines.push(`MOV RAX, [${expr.name}]`);
         }
     } else if (expr.type === 'call') {
+         // Check if function exists
+         if (!ctx.definedFunctions.has(expr.name) && !ctx.importedFunctions.has(expr.name)) {
+             throw new Error(`Call to undefined function: '${expr.name}'. Did you import it or define it?`);
+         }
+
          const num = expr.args.length;
          const alloc = (Math.max(4, num) * 8) + ( (depth % 16 !== 0) ? 8 : 0);
          lines.push(`SUB RSP, ${alloc}`);
@@ -154,13 +159,29 @@ export function genExpr(expr, lines, locals, depth, ctx) {
         if (expr.op === '/') { lines.push(`CQO`); lines.push(`IDIV RBX`); }
         if (expr.op === '==') { lines.push(`CMP RAX, RBX`); lines.push(`MOV RAX, 0`); lines.push(`SETE AL`); }
         if (expr.op === '!=') { lines.push(`CMP RAX, RBX`); lines.push(`MOV RAX, 0`); lines.push(`SETNE AL`); }
-        // ... (other ops)
+        if (expr.op === '<') { lines.push(`CMP RAX, RBX`); lines.push(`MOV RAX, 0`); lines.push(`SETL AL`); }
+        if (expr.op === '>') { lines.push(`CMP RAX, RBX`); lines.push(`MOV RAX, 0`); lines.push(`SETG AL`); }
+        if (expr.op === '<=') { lines.push(`CMP RAX, RBX`); lines.push(`MOV RAX, 0`); lines.push(`SETLE AL`); }
+        if (expr.op === '>=') { lines.push(`CMP RAX, RBX`); lines.push(`MOV RAX, 0`); lines.push(`SETGE AL`); }
+        
+        if (expr.op === '&&') { lines.push(`AND RAX, RBX`); lines.push(`CMP RAX, 0`); lines.push(`SETNE AL`); }
+        if (expr.op === '||') { lines.push(`OR RAX, RBX`); lines.push(`CMP RAX, 0`); lines.push(`SETNE AL`); }
+        if (expr.op === '%') { lines.push(`CQO`); lines.push(`IDIV RBX`); lines.push(`MOV RAX, RDX`); }
+
     } else if (expr.type === 'unary') {
         if (expr.op === '&') {
             genAddr(expr.expr, lines, locals, depth, ctx);
         } else if (expr.op === '*') {
             genExpr(expr.expr, lines, locals, depth, ctx);
             lines.push(`MOV RAX, [RAX]`);
+        } else if (expr.op === '-') {
+            genExpr(expr.expr, lines, locals, depth, ctx);
+            lines.push(`NEG RAX`);
+        } else if (expr.op === '!') {
+            genExpr(expr.expr, lines, locals, depth, ctx);
+            lines.push(`CMP RAX, 0`);
+            lines.push(`MOV RAX, 0`);
+            lines.push(`SETE AL`);
         }
     } else if (expr.type === 'assign') {
         genExpr(expr.right, lines, locals, depth, ctx);

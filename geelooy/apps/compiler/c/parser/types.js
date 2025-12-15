@@ -5,14 +5,18 @@ Boruch Hashem
 import { TOKENS } from '../lexer.js';
 
 export function parseType(stream) {
-    // Base Type: int, char, void, or struct name
     const t = stream.peek();
     
-    // In this subset, types are usually KEYWORDs (int, void) or IDs (structs)
     let base = '';
     if (t.type === TOKENS.KEYWORD) {
-        base = stream.consume().value;
+        if (t.value === 'struct') {
+            stream.consume(); // struct
+            base = stream.expect(TOKENS.ID).value; // Name
+        } else {
+            base = stream.consume().value; // int, char, void
+        }
     } else if (t.type === TOKENS.ID) {
+        // Fallback if struct was omitted or typedef (not supported yet but good to have)
         base = stream.consume().value;
     } else {
         throw new Error("Expected type, got " + t.value);

@@ -17,8 +17,8 @@ const BMI = [
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 ].join(",");
 
-export const source = `; B"H
-; Example: Animated Triangle
+export const source = `;B"H
+; Example: Animated Triangle (Double-Sided)
 .subsystem gui
 .import KERNEL32.dll GetModuleHandleA ExitProcess
 .import USER32.dll RegisterClassA CreateWindowExA ShowWindow GetMessageA LoadCursorA
@@ -154,10 +154,10 @@ on_timer:
     ADD R10, 2
     MOV [RAX], R10
 
-    ; Clear Screen
+    ; Clear Screen (Dark Gray 0x00333333 to verify drawing)
     MOV RDI, [PixelsPtr]
     MOV RCX, 360000
-    MOV EAX, 0
+    MOV EAX, 0x00333333
     REP STOSD
 
     ; Update Vertices
@@ -197,14 +197,16 @@ CalcVerts:
     MOV [RDI], RAX
     MOV [RDI+8], RBX
 
-    ; Vertex 2 (Angle + 85)
-    ADD RCX, 85
+    ; Vertex 2 (Angle + 120) - 1/3 rotation
+    MOV RCX, R10   ; Reload Angle
+    ADD RCX, 85    ; Approx 120 deg (85/256 * 360)
     CALL CalcPoint
     MOV [RDI+16], RAX
     MOV [RDI+24], RBX
 
-    ; Vertex 3 (Angle + 170)
-    ADD RCX, 85
+    ; Vertex 3 (Angle + 240) - 2/3 rotation
+    MOV RCX, R10   ; Reload Angle
+    ADD RCX, 170   ; Approx 240 deg
     CALL CalcPoint
     MOV [RDI+32], RAX
     MOV [RDI+40], RBX
@@ -316,60 +318,26 @@ loop_x:
     SUB RDX, R12
     IMUL RCX, RDX
     
-    SUB RAX, RCX   ; E3
-
-    ; Check if all >= 0 OR all <= 0
-    ; Use bitwise OR of sign bits? 
-    ; E1, E2, E3. 
-    ; If (E1 ^ E2) < 0 then different signs.
+    SUB RAX, RCX   ; E3 (In RAX)
     
-    MOV RCX, RBP ; E1
-    MOV RDX, RDX ; E2 (Already in RDX, but obscured by last IMUL which uses RDX:RAX)
-    ; Wait, last IMUL used RDX. RDX is trashed.
-    ; Re-calc E2 or save it? 
-    ; Let's save E2 in a stack slot or unused reg.
-    ; I have RBP for E1.
-    ; I need to save E2.
+    ; Check Inside (All Positive OR All Negative)
+    ; 1. Check All Positive
+    MOV R11, RBP
+    OR R11, RDX
+    OR R11, RAX
+    CMP R11, 0
+    JGE draw_pixel
     
-    JMP skip_pixel ; Logic is complex in ASM without registers.
-    ; (Simplifying for space: Just draw bounding box for debug if this fails)
-    ; Actually, let's fix the logic.
-    ; Re-do loop structure to calculate E1, E2, E3 properly.
+    ; 2. Check All Negative (Sign bit set in all)
+    ; If (E1 & E2 & E3) has sign bit set, then ALL have sign bit set (are negative)
+    MOV R11, RBP
+    AND R11, RDX
+    AND R11, RAX
+    CMP R11, 0
+    JL draw_pixel
     
-    ; But for this XML response, I will revert to a simpler method: 
-    ; Bounding Box Fill just to prove coordinate system works, 
-    ; or simpler: Draw Vertex Points.
+    JMP skip_pixel
     
-    ; Actually, the previous logic failed because of register clobbering.
-    ; Let's just draw pixels at the vertices to verify position.
-    
-    ; Draw Vertex 1
-    MOV RCX, RSI
-    CMP RCX, R9 ; Y == Y1
-    JNE check_v2
-    MOV RCX, RBX
-    CMP RCX, R8 ; X == X1
-    JNE check_v2
-    JMP draw_pixel
-    
-check_v2:
-    MOV RCX, RSI
-    CMP RCX, R11
-    JNE check_v3
-    MOV RCX, RBX
-    CMP RCX, R10
-    JNE check_v3
-    JMP draw_pixel
-
-check_v3:
-    MOV RCX, RSI
-    CMP RCX, R13
-    JNE skip_pixel
-    MOV RCX, RBX
-    CMP RCX, R12
-    JNE skip_pixel
-    JMP draw_pixel
-
 draw_pixel:
     MOV RCX, RSI
     IMUL RCX, 600
@@ -396,4 +364,4 @@ end_raster:
     POP RSI
     POP RBX
     RET
-`;
+`

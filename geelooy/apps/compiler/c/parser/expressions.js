@@ -11,18 +11,15 @@ export function parseExpression(stream) {
 function parseAssign(stream) {
     let left = parseEquality(stream);
     
-    // Assignment: = += -= *= /=
-    const next = stream.peek().value;
-    if (['=', '+=', '-=', '*=', '/='].includes(next)) {
+    const t = stream.peek();
+    if (t.type === TOKENS.OP && ['=', '+=', '-=', '*=', '/='].includes(t.value)) {
         const op = stream.consume().value;
-        const right = parseAssign(stream); // Right-associative
+        const right = parseAssign(stream);
         
-        // Desugar compound assignment during parsing for simpler codegen
         if (op === '=') {
             return { type: 'assign', left, right };
         } else {
-            // x += 5  ->  x = x + 5
-            const binOp = op[0]; // +, -, *, /
+            const binOp = op[0];
             return {
                 type: 'assign',
                 left: left,
@@ -76,15 +73,11 @@ function parseMultiplicative(stream) {
 function parseUnary(stream) {
     const t = stream.peek();
     
-    // Prefix ++ / --
     if (t.value === '++' || t.value === '--') {
         const op = stream.consume().value;
         const target = parseUnary(stream);
-        // Desugar ++x -> x = x + 1 (Result is new value)
-        // Note: For C semantics, result of prefix is lvalue, but we return rvalue here.
         const one = { type: 'literal', val: '1' };
         const mathOp = (op === '++') ? '+' : '-';
-        
         return {
              type: 'assign',
              left: target,
@@ -103,25 +96,27 @@ function parseUnary(stream) {
 function parsePostfix(stream) {
     let expr = parsePrimary(stream);
     while (true) {
-        if (stream.peek().value === '[') {
+        const t = stream.peek();
+        if (t.value === '[') {
             stream.consume(); 
             const index = parseExpression(stream);
             stream.expect(TOKENS.PUNCT, ']');
             expr = { type: 'index', target: expr, index };
         } 
-        else if (stream.peek().value === '++' || stream.peek().value === '--') {
-            // Postfix x++ / x--
-            // returns OLD value. Complex to desugar perfectly in one expr without temp.
-            // Simplified: treat as prefix for now because we lack temp vars in this parser phase.
-            // TODO: Proper postfix support requires codegen support for 'dup'.
-            // For now, we will parse it but treat semantics as "update happened".
+        else if (t.value === '.') {
+            stream.consume();
+            const id = stream.expect(TOKENS.ID);
+            expr = { type: 'binop', op: '.', left: expr, right: { type: 'var', name: id.value } };
+        }
+        else if (t.value === '->') {
+            stream.consume();
+            const id = stream.expect(TOKENS.ID);
+            expr = { type: 'binop', op: '->', left: expr, right: { type: 'var', name: id.value } };
+        }
+        else if (t.value === '++' || t.value === '--') {
             const op = stream.consume().value;
             const mathOp = (op === '++') ? '+' : '-';
             const one = { type: 'literal', val: '1' };
-            
-            // Hack: Return the assignment. This behaves like prefix in value, 
-            // but effectively updates the var. 
-            // Most loops like `i++` ignore the return value anyway.
             expr = {
                 type: 'assign',
                 left: expr,
@@ -138,19 +133,38 @@ function parsePostfix(stream) {
 function parsePrimary(stream) {
     const t = stream.peek();
     
+    // Check specifically for closing parenthesis appearing where an expression is expected
+    if (t.value === ')') {
+        throw new Error("Syntax Error: Unexpected closing parenthesis ')'. You may have a trailing comma, missing argument, or empty parenthesis '()'.");
+    }
+
     if (t.type === TOKENS.NUM) return { type: 'literal', val: stream.consume().value };
     if (t.type === TOKENS.STRING) return { type: 'string', val: stream.consume().value };
     
     if (t.type === TOKENS.ID) {
         const name = stream.consume().value;
         if (stream.peek().value === '(') {
-            stream.consume();
+            stream.consume(); // (
             const args = [];
+            
+            // Argument Parsing Loop
+            // Supports: func(), func(a), func(a,b), func(a,)
+            
             if (stream.peek().value !== ')') {
-                do {
+                while (true) {
+                    if (stream.peek().value === ')') break;
+                    
                     args.push(parseExpression(stream));
-                } while (stream.peek().value === ',' && stream.consume());
+                    
+                    if (stream.peek().value === ',') {
+                        stream.consume();
+                        // If next is ')', we handle it in next iteration loop check
+                    } else {
+                        break;
+                    }
+                }
             }
+            
             stream.expect(TOKENS.PUNCT, ')');
             return { type: 'call', name, args };
         }
@@ -164,5 +178,5 @@ function parsePrimary(stream) {
         return e;
     }
     
-    throw new Error("Unexpected token: " + t.value);
+    throw new Error(`Unexpected token: '${t.value}' (Type: ${t.type})`);
 }

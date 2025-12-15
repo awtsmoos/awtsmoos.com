@@ -1,6 +1,6 @@
 /* B"H */
 
-export const source = `
+export const source = `//B"H
 #include <stdio.h>
 #include <dirent.h>
 #include <unistd.h>
@@ -17,8 +17,7 @@ void main() {
     if (d) {
         while ((dir = readdir(d)) != 0) {
             // d_name is a char array in the struct
-            // We can print it directly
-            // Struct access via pointer ->
+            // We can print it directly via pointer access
             char* name = dir->d_name;
             
             // Filter . and ..

@@ -184,6 +184,9 @@ export function renderGameState(ctx, renderState) {
 
     // 4. Render Entities
     const renderEntity = (e) => {
+        // FIX: Ensure emoji is valid and NOT the literal string "undefined"
+        if (!e.emoji || e.emoji === 'undefined') return; 
+
         const posX = e.pixelX !== undefined ? e.pixelX : e.x * TILE_SIZE;
         const posY = e.pixelY !== undefined ? e.pixelY : e.y * TILE_SIZE;
         const screenX = Math.floor(posX + TILE_SIZE / 2 + cameraOffsetX);
@@ -231,7 +234,9 @@ export function renderGameState(ctx, renderState) {
         ctx.font = `${SETTINGS.fontSize}px ${fontFace}`;
         
         // Trail doesn't rotate for simplicity/style
-        ctx.fillText(p.emoji, tX, tY);
+        if(p.emoji && p.emoji !== 'undefined') {
+            ctx.fillText(p.emoji, tX, tY);
+        }
     });
     ctx.globalAlpha = 1;
 
@@ -249,28 +254,26 @@ export function renderGameState(ctx, renderState) {
     ctx.save();
     ctx.translate(pX, pY);
     
-    // Directional Rotation (Corrected)
-    // Default emoji faces Right or forward. 
-    // Rotation is Clockwise from 3 o'clock in standard canvas, but implies logic for "Top Down"
+    // Directional Rotation
     if(p.direction === 'right') {
         ctx.scale(-1, 1); 
     } else if(p.direction === 'up') {
-        ctx.rotate(-Math.PI / 2); // -90 deg (Counter-Clockwise) points Up
+        ctx.rotate(Math.PI / 2); // 90 deg (Clockwise relative to Left-facing sprite = Up)
     } else if(p.direction === 'down') {
-        ctx.rotate(Math.PI / 2); // 90 deg (Clockwise) points Down
+        ctx.rotate(-Math.PI / 2); // -90 deg (Counter-Clockwise relative to Left-facing sprite = Down)
     }
     
     if (p.isMoving || Math.random() < 0.05) {
         ctx.globalAlpha = 0.7;
         ctx.fillStyle = 'red';
-        ctx.fillText(p.emoji, -2, 0); 
+        if(p.emoji && p.emoji !== 'undefined') ctx.fillText(p.emoji, -2, 0); 
         ctx.fillStyle = 'blue';
-        ctx.fillText(p.emoji, 2, 0);
+        if(p.emoji && p.emoji !== 'undefined') ctx.fillText(p.emoji, 2, 0);
     }
     
     ctx.globalAlpha = 1;
     ctx.fillStyle = '#fff';
-    ctx.fillText(p.emoji, 0, 0);
+    if(p.emoji && p.emoji !== 'undefined') ctx.fillText(p.emoji, 0, 0);
     ctx.restore();
 
     // 7. Particles

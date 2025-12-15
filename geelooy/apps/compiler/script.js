@@ -31,13 +31,20 @@ function updateInfo() {
             asmSelect.classList.remove('hidden');
             cSelect.classList.add('hidden');
             // If empty or C code, reset to ASM default
-            if (!asmEditor.value.includes('.subsystem')) asmEditor.value = ASM_EXAMPLES.hello;
+            if (!asmEditor.value.trim() || !asmEditor.value.includes('.subsystem')) {
+                 asmEditor.value = ASM_EXAMPLES.hello;
+            }
         } else {
             asmLabel.textContent = "Custom C Source";
             asmSelect.classList.add('hidden');
             cSelect.classList.remove('hidden');
-            // If empty or ASM code, reset to C default
-            if (asmEditor.value.includes('.subsystem')) asmEditor.value = C_EXAMPLES.hello;
+            
+            // ALWAYS force load default C example if switching to C mode and content is not C-like or empty
+            // This fixes "first example doesn't show up"
+            if (!asmEditor.value.trim() || asmEditor.value.includes('.subsystem')) {
+                asmEditor.value = C_EXAMPLES.hello;
+                cSelect.value = "hello"; 
+            }
         }
     } else {
         standardInputGroup.classList.remove('hidden');
@@ -116,7 +123,8 @@ function populateCSelect() {
 }
 populateCSelect();
 
-updateInfo(); // Init
+// Init
+updateInfo(); 
 
 document.getElementById('compileBtn').addEventListener('click', () => {
     const mode = Array.from(radios).find(r => r.checked).value;
@@ -144,10 +152,10 @@ document.getElementById('compileBtn').addEventListener('click', () => {
                 const url = URL.createObjectURL(exeBlob);
                 const a = document.createElement('a');
                 a.href = url;
-                a.download = (mode === 'console' || mode === 'c') ? "awtsmoos_app.exe" : "awtsmoos_app.exe";
                 if (mode === 'console') a.download = 'console_app.exe';
-                if (mode === 'asm') a.download = 'asm_app.exe';
-                if (mode === 'c') a.download = 'c_app.exe';
+                else if (mode === 'asm') a.download = 'asm_app.exe';
+                else if (mode === 'c') a.download = 'c_app.exe';
+                else a.download = 'gui_app.exe';
                 
                 document.body.appendChild(a);
                 a.click();

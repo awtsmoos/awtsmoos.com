@@ -52,7 +52,11 @@ export function initiate(state, opponentData, context, sendUIUpdate) {
         }
     }
 
-	sendUIUpdate({ screen: 'battle', battle: getBattleUIPayload(BATTLE_STATE, false, [], state) });
+	sendUIUpdate({ 
+        screen: 'battle', 
+        battle: getBattleUIPayload(BATTLE_STATE, false, [], state),
+        dialogue: { active: false } // FIX: Ensure overlapping dialogue is closed
+    });
 }
 
 export function handleAction(state, data, sendUIUpdate, trigger) {
@@ -219,6 +223,14 @@ function useItem(state, itemId, sendUIUpdate) {
 
 export function end(state, isWin, sendUIUpdate, sendToast, trigger) {
     const battle = state.battle;
+    
+    // FIX: Sync battle state back to player team
+    // This ensures damage/energy usage persists after battle.
+    if (state.player.team[0] && battle.player) {
+        state.player.team[0].currentHp = battle.player.currentHp;
+        state.player.team[0].currentKavanah = battle.player.currentKavanah;
+    }
+
     if (isWin) {
         let money = battle.opponent.moneyYield || { perutah: 10 };
         let xpGain = battle.opponent.xpYield || 20;
@@ -262,7 +274,12 @@ export function end(state, isWin, sendUIUpdate, sendToast, trigger) {
         state.player.currentMapId = 'malkuth_village';
         state.player.x = 5; state.player.y = 8;
         state.player.pixelX = 5*40; state.player.pixelY = 8*40;
-        state.player.team.forEach(m => m.currentHp = state.db.musagim[m.id].baseStats.hp); 
+        state.player.team.forEach(m => {
+            // FIX: Remove currentHp property to force recalculation of max HP on next retrieval
+            // This effectively heals the team on respawn properly based on their level.
+            delete m.currentHp;
+            delete m.currentKavanah;
+        }); 
     }
 
     state.battle = { active: false };

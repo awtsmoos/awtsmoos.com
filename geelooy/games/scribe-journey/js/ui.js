@@ -71,6 +71,20 @@ export function initUI(sendToWorker) {
     }
 
     document.body.addEventListener('click', (e) => {
+        // BATTLE BUTTON HANDLER
+        const battleBtn = e.target.closest('.battle-button');
+        
+        if (battleBtn) { 
+            e.preventDefault(); 
+            // FIX: Explicitly set the type to 'battleAction' and pass specific action as a separate property
+            // This prevents the 'action' property from the dataset (e.g., 'fight') overwriting the routing action 'battleAction'
+            sendToWorker('battleAction', { 
+                combatAction: battleBtn.dataset.action, 
+                value: battleBtn.dataset.value 
+            }); 
+            return;
+        }
+
         const button = e.target.closest('button[data-action]');
         if (button) { 
             e.preventDefault(); 
@@ -96,14 +110,12 @@ export function initUI(sendToWorker) {
         
         const choice = e.target.closest('.dialogue-choice');
         if (choice && choice.dataset.choiceIndex) { e.preventDefault(); sendToWorker('dialogueChoice', { index: parseInt(choice.dataset.choiceIndex) }); }
-        
-        const battleBtn = e.target.closest('.battle-button');
-        if (battleBtn) { e.preventDefault(); sendToWorker('battleAction', { ...battleBtn.dataset }); }
     });
 
     function showScreen(screenName) {
         Object.values(screens).forEach(s => { if(s) s.style.display = 'none' });
         if (screens[screenName]) {
+            // Force flex for screens other than game canvas to ensure proper centering
             const display = screenName === 'game' ? 'block' : 'flex';
             screens[screenName].style.display = display;
         } else {
@@ -181,9 +193,10 @@ export function initUI(sendToWorker) {
             battleLog.style.display = 'none'; 
             battleMenu.style.display = 'grid'; 
             battleMenu.style.gridTemplateColumns = "1fr 1fr";
-            battleMenu.style.gap = "10px";
+            battleMenu.style.gap = "15px"; 
             continueIndicator.style.display = 'none'; 
-            battleMenu.innerHTML = state.menu.buttons.map(btn => `<button class="battle-button" data-action="${btn.action}" data-value="${btn.value || ''}" ${btn.disabled ? 'disabled' : ''}>${btn.text}</button>`).join(''); 
+            // Add class battle-button explicitly
+            battleMenu.innerHTML = state.menu.buttons.map(btn => `<button class="battle-button" data-action="${btn.action}" data-value="${btn.value || ''}" style="${btn.style||''}" ${btn.disabled ? 'disabled' : ''}>${btn.text}</button>`).join(''); 
         } 
     }
 

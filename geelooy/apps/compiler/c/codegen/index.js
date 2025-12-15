@@ -14,9 +14,12 @@ export function generateAsm(ast) {
 
     // 2. Imports
     const dlls = {};
+    const importedFunctions = new Set();
+    
     for (const imp of ast.imports) {
         if (!dlls[imp.dll]) dlls[imp.dll] = [];
         dlls[imp.dll].push(imp.func);
+        importedFunctions.add(imp.func);
     }
     for (const dll in dlls) {
         output += `.import ${dll} ${dlls[dll].join(' ')}\n`;
@@ -43,23 +46,17 @@ export function generateAsm(ast) {
         } else if (g.value !== null) {
             // If it's a number, output bytes (little endian)
             if (/^-?\d+$/.test(g.value) || /^-?0x[0-9a-fA-F]+$/.test(g.value)) {
-                // Simple 64-bit int for now
-                let n = BigInt(g.value);
-                // Handle negative manually for raw bytes string if needed, 
-                // but assembler supports numeric literals.
                 output += `${g.name}: ${g.value}\n`;
             } else {
                 output += `${g.name}: ${g.value}\n`;
             }
         } else {
-             // Zero init based on type size? For now just 8 bytes
-             // If struct, we should reserve size.
+             // Zero init
              let size = 8;
              if (g.type.base !== 'int' && g.type.base !== 'char' && g.type.ptr === 0) {
                  const sl = structLayouts.get(g.type.base);
                  if (sl) size = sl.size;
              }
-             // Output zeros
              const zeros = new Array(size).fill(0).join(', ');
              output += `${g.name}: ${zeros}\n`;
         }
@@ -68,10 +65,14 @@ export function generateAsm(ast) {
     let codeOutput = `\n.code\n`;
     const definedFunctions = new Set(ast.functions.map(f => f.name));
     
-    // Context for codegen
+    // Validate Calls: Ensure all called functions are defined or imported
+    // This is a rough check; detailed checking happens during genFunction traversal,
+    // but we can pass the sets to the context.
+
     const ctx = {
         structLayouts,
         definedFunctions,
+        importedFunctions,
         getStringLabel
     };
 
@@ -85,8 +86,18 @@ start:
 SUB RSP, 40
 CALL main
 XOR RCX, RCX
-CALL ExitProcess
 `;
+         // Handle exit/ExitProcess resolution for start
+         if (definedFunctions.has('exit') || importedFunctions.has('exit')) {
+             codeOutput += `CALL exit\n`;
+         } else if (importedFunctions.has('ExitProcess')) {
+             codeOutput += `CALL ExitProcess\n`;
+         } else {
+             // Fallback: Assume ExitProcess is available if standard KERNEL32 was imported
+             // But if not, we might crash.
+             // We'll output ExitProcess and hope it was imported.
+             codeOutput += `CALL ExitProcess\n`;
+         }
     }
 
     // Emit String Literals

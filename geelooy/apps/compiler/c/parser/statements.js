@@ -96,7 +96,7 @@ export function parseStatement(stream) {
             if (stream.peek().value !== ';') {
                 // Check if init is a declaration or expression
                 // Simple parser assumption: decl starts with keyword type
-                if (['int', 'char', 'void'].includes(stream.peek().value)) {
+                if (['int', 'char', 'void', 'struct'].includes(stream.peek().value)) {
                     init = parseStatement(stream); // This handles the semicolon
                 } else {
                     init = { type: 'expr', expr: parseExpression(stream) };
@@ -170,7 +170,7 @@ export function parseStatement(stream) {
         }
         
         // Declaration
-        if (['int', 'char', 'void'].includes(t.value)) {
+        if (['int', 'char', 'void', 'struct'].includes(t.value)) {
             const varType = parseType(stream);
             const name = stream.expect(TOKENS.ID).value;
             let arraySize = null;

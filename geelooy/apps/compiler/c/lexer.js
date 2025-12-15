@@ -17,25 +17,80 @@ export const TOKENS = {
 const KEYWORDS = new Set([
     'import', 'void', 'int', 'char', 'return', 
     'if', 'else', 'while', 'for', 'do', 
-    'switch', 'case', 'default', 'break', 'continue'
+    'switch', 'case', 'default', 'break', 'continue',
+    'struct'
 ]);
 
 export function tokenize(source) {
     const tokens = [];
     let cursor = 0;
-    
-    // Remove comments
-    source = source.replace(/\/\*[\s\S]*?\*\//g, ' ');
-    source = source.replace(/\/\/.*$/gm, ' ');
 
     while (cursor < source.length) {
         const char = source[cursor];
 
+        // Whitespace
         if (/\s/.test(char)) {
             cursor++;
             continue;
         }
 
+        // Comments
+        if (char === '/') {
+            const next = source[cursor + 1];
+            if (next === '/') {
+                // Single-line comment: Skip until newline
+                cursor += 2;
+                while (cursor < source.length && source[cursor] !== '\n') {
+                    cursor++;
+                }
+                continue;
+            } else if (next === '*') {
+                // Multi-line comment: Skip until */
+                cursor += 2;
+                while (cursor < source.length && !(source[cursor] === '*' && source[cursor + 1] === '/')) {
+                    cursor++;
+                }
+                cursor += 2; // Skip closing */
+                continue;
+            }
+        }
+
+        // Strings (Handle escapes)
+        if (char === '"') {
+            let value = '';
+            cursor++; // Skip opening "
+            while (cursor < source.length && source[cursor] !== '"') {
+                if (source[cursor] === '\\') {
+                    cursor++; // Consume backslash
+                    if (cursor >= source.length) break;
+                    const nextChar = source[cursor];
+                    if (nextChar === 'n') { value += '\n'; cursor++; }
+                    else if (nextChar === 'r') { value += '\r'; cursor++; }
+                    else if (nextChar === 't') { value += '\t'; cursor++; }
+                    else if (nextChar === '0') { value += '\0'; cursor++; }
+                    else if (nextChar === '"') { value += '"'; cursor++; }
+                    else if (nextChar === '\\') { value += '\\'; cursor++; }
+                    else if (nextChar === 'x' || nextChar === 'X') {
+                         cursor++;
+                         const hex = source.substr(cursor, 2);
+                         if (/^[0-9A-Fa-f]{2}$/.test(hex)) {
+                             value += String.fromCharCode(parseInt(hex, 16));
+                             cursor += 2;
+                         } else {
+                             value += 'x';
+                         }
+                    }
+                    else { value += nextChar; cursor++; }
+                } else {
+                    value += source[cursor++];
+                }
+            }
+            if (source[cursor] === '"') cursor++; // Skip closing "
+            tokens.push({ type: TOKENS.STRING, value });
+            continue;
+        }
+
+        // IDs / Keywords
         if (/[a-zA-Z_]/.test(char)) {
             let value = '';
             while (cursor < source.length && /[a-zA-Z0-9_]/.test(source[cursor])) {
@@ -49,6 +104,7 @@ export function tokenize(source) {
             continue;
         }
 
+        // Numbers (Hex or Decimal)
         if (/[0-9]/.test(char)) {
             let value = '';
             if (source.startsWith('0x', cursor)) {
@@ -66,39 +122,6 @@ export function tokenize(source) {
             continue;
         }
 
-        if (char === '"') {
-            let value = '';
-            cursor++;
-            while (cursor < source.length && source[cursor] !== '"') {
-                if (source[cursor] === '\\') {
-                    cursor++;
-                    const next = source[cursor];
-                    if (next === 'n') { value += '\n'; cursor++; }
-                    else if (next === 'r') { value += '\r'; cursor++; }
-                    else if (next === 't') { value += '\t'; cursor++; }
-                    else if (next === '0') { value += '\0'; cursor++; }
-                    else if (next === '"') { value += '"'; cursor++; }
-                    else if (next === '\\') { value += '\\'; cursor++; }
-                    else if (next === 'x' || next === 'X') {
-                         cursor++;
-                         const hex = source.substr(cursor, 2);
-                         if (/^[0-9A-Fa-f]{2}$/.test(hex)) {
-                             value += String.fromCharCode(parseInt(hex, 16));
-                             cursor += 2;
-                         } else {
-                             value += 'x';
-                         }
-                    }
-                    else { value += next; cursor++; }
-                } else {
-                    value += source[cursor++];
-                }
-            }
-            cursor++; 
-            tokens.push({ type: TOKENS.STRING, value });
-            continue;
-        }
-
         // Multi-char Operators
         const twoChar = source.substr(cursor, 2);
         if (['==', '!=', '>=', '<=', '+=', '-=', '*=', '/=', '++', '--', '&&', '||', '->'].includes(twoChar)) {
@@ -107,13 +130,14 @@ export function tokenize(source) {
             continue;
         }
 
+        // Punctuation
         if ('(){};,[]:'.includes(char)) {
             tokens.push({ type: TOKENS.PUNCT, value: char });
             cursor++;
             continue;
         }
         
-        // Added '.' to operators for struct access
+        // Single-char Operators
         if ('+-*/=<>!&|%.'.includes(char)) {
             tokens.push({ type: TOKENS.OP, value: char });
             cursor++;

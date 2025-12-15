@@ -263,7 +263,9 @@ export function dispatch(payload) {
             if(GAME_STATE.dialogue.botInteraction) BotSystem.handleBotChoice(GAME_STATE, GAME_STATE.dialogue.choices[payload.index], callbacks.onUIUpdate, trigger);
             else World.handleDialogueChoice(GAME_STATE, payload.index, callbacks.onUIUpdate, trigger); 
         } else if (payload.action === 'battleAction') {
-            Combat.handleAction(GAME_STATE, payload, callbacks.onUIUpdate, trigger);
+            // FIX: Map the sub-property back to 'action' so Combat.handleAction understands it
+            const combatPayload = { ...payload, action: payload.combatAction };
+            Combat.handleAction(GAME_STATE, combatPayload, callbacks.onUIUpdate, trigger);
         } else {
             handleUIAction(GAME_STATE, payload, callbacks, trigger);
             if (payload.fetchPayload) {
