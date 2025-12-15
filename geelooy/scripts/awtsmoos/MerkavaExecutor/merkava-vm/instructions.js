@@ -1,5 +1,4 @@
 
-
 // B"H
 (function(root) {
     root.MerkavaVM = root.MerkavaVM || {};
@@ -14,7 +13,12 @@
                 case OPCODES.HALT: return 'HALT';
                 
                 // Stack
-                case OPCODES.PUSH_CONST: thread.push(thread.constants[thread.read16()]); break;
+                case OPCODES.PUSH_CONST: {
+                    const idx = thread.read16();
+                    const val = thread.constants[idx];
+                    thread.push(val); 
+                    break;
+                }
                 case OPCODES.PUSH_UNDEFINED: thread.push(undefined); break;
                 case OPCODES.PUSH_NULL: thread.push(null); break;
                 case OPCODES.PUSH_TRUE: thread.push(true); break;
@@ -35,6 +39,7 @@
                 case OPCODES.LOAD_GLOBAL: {
                     const name = thread.constants[thread.read16()];
                     let found = false;
+                    let val;
                     
                     // 1. Check `with` stack
                     if (thread.withStack && thread.withStack.length > 0) {
@@ -49,27 +54,25 @@
                     }
                     
                     if (!found) {
-                        let val;
-                        let source = 'none';
-                        // 2. B"H - TIKKUN: Check Module/Thread Environment FIRST
-                        if (thread.environment && (name in thread.environment)) {
+                        // 2. B"H - Priority Check for 'exports' in Module Scope
+                        // IMPORT_MODULE puts 'exports' in currentScope, but standard var lookups usually skip currentScope for globals.
+                        // We must explicitly check it here to support 'export' syntax relying on 'exports' object.
+                        if (name === 'exports' && thread.currentScope && thread.currentScope.exports) {
+                             val = thread.currentScope.exports;
+                        }
+                        // 3. Check Module/Thread Environment (Global Scope)
+                        else if (thread.environment && (name in thread.environment)) {
                             val = thread.environment[name];
-                            source = 'env';
                         } 
-                        // 3. Check Shared Global Heap & Host Context (Polyfills)
+                        // 4. Check Shared Global Heap & Host Context (Polyfills)
                         else {
                             val = vm.memory.getGlobal(name);
-                            if (val !== undefined) source = 'heap';
-                            
-                            if (val === undefined && vm.context && (name in vm.context)) {
-                                val = vm.context[name];
-                                source = 'context';
+                            if (val === undefined) {
+                                // Fallback to VM Context (Host Globals)
+                                if (vm.context && (name in vm.context)) {
+                                    val = vm.context[name];
+                                }
                             }
-                        }
-                        
-                        // Debug critical globals
-                        if (name === 'exports' || name === 'CANVAS_WIDTH') {
-                           if(vm.hostAPI[0]) vm.hostAPI[0](`[VM-OP] LOAD_GLOBAL '${name}' -> ${typeof val} (Source: ${source})`);
                         }
                         
                         thread.push(val);
@@ -94,12 +97,9 @@
                     }
                     
                     if (!stored) {
-                        // 2. B"H - TIKKUN: Store in Module/Thread Environment if available
+                        // 2. B"H - Store in Module/Thread Environment
                         if (thread.environment) {
                             thread.environment[name] = val;
-                            if (name === 'CANVAS_WIDTH') {
-                               if(vm.hostAPI[0]) vm.hostAPI[0](`[VM-OP] STORE_GLOBAL '${name}' to environment.`);
-                            }
                         } else {
                             // 3. Fallback to Shared Heap
                             vm.memory.setGlobal(name, val);
@@ -195,19 +195,26 @@
                 // Objects
                 case OPCODES.ALLOC_OBJECT: thread.push({}); break;
                 case OPCODES.ALLOC_ARRAY: thread.push([]); break;
-                case OPCODES.GET_PROP: { const k = thread.pop(); const o = thread.pop(); thread.push(o ? o[k] : undefined); break; }
+                case OPCODES.GET_PROP: { 
+                    const k = thread.pop(); 
+                    const o = thread.pop(); 
+                    
+                    if (o === undefined || o === null) {
+                        throw new TypeError(`Cannot read properties of ${o} (reading '${k}')`);
+                    } else {
+                        const val = o[k];
+                        thread.push(val); 
+                    }
+                    break; 
+                }
                 case OPCODES.SET_PROP: { 
                     const v = thread.pop(); 
                     const k = thread.pop(); 
                     const o = thread.pop(); 
-                    if(o) {
+                    if(o !== undefined && o !== null) {
                         o[k] = v;
-                        // Debug export setting
-                        if (k === 'CANVAS_WIDTH' || k === 'DOVE_WIDTH' || k === 'flap') {
-                           if(vm.hostAPI[0]) vm.hostAPI[0](`[VM-OP] SET_PROP on object: ${k} = ${typeof v}`);
-                        }
                     } else {
-                       if(vm.hostAPI[0]) vm.hostAPI[0](`[VM-OP] SET_PROP failed. Object is ${o}. Key: ${k}`);
+                       throw new TypeError(`Cannot set properties of ${o} (setting '${k}')`);
                     }
                     thread.push(v); 
                     break; 
@@ -223,7 +230,8 @@
                         isAsync: !!(flags & 1), 
                         isGenerator: !!(flags & 2),
                         isArrow: !!(flags & 4),
-                        upvalues: thread.currentScope 
+                        upvalues: thread.currentScope,
+                        environment: thread.environment 
                     };
                     thread.push(closure);
                     break;
@@ -253,7 +261,8 @@
                                 ip: thread.ip, bytecode: thread.bytecode,
                                 constants: thread.constants, scope: thread.currentScope,
                                 upvalues: thread.currentUpvalues, 
-                                stackSize: thread.stack.length
+                                stackSize: thread.stack.length,
+                                environment: thread.environment
                             });
                             
                             thread.bytecode = callee.code.bytecode;
@@ -264,16 +273,66 @@
                                 'arguments': args 
                             };
                             thread.currentUpvalues = callee.upvalues;
+                            thread.environment = callee.environment || thread.environment;
 
                             args.forEach((a, i) => thread.currentScope[i] = a);
                         }
                     } else if (typeof callee === 'function') {
-                        thread.push(callee.apply(ctx, args));
+                        // B"H - Automatic Callback Wrapping
+                        if (!vm._callbackWrappers) vm._callbackWrappers = new WeakMap();
+
+                        const wrappedArgs = args.map(arg => {
+                            if (arg && arg.type === 'CLOSURE') {
+                                if (vm._callbackWrappers.has(arg)) {
+                                    return vm._callbackWrappers.get(arg);
+                                }
+
+                                const wrapper = function(...innerArgs) {
+                                    const hostThis = this;
+                                    const scopeThis = arg.isArrow 
+                                        ? (arg.upvalues ? arg.upvalues['this'] : undefined) 
+                                        : hostThis;
+
+                                    if (thread.vm) {
+                                         const t = thread.vm.spawn(arg.code);
+                                         
+                                         t.currentScope = { 
+                                             'this': scopeThis,
+                                             'arguments': innerArgs 
+                                         };
+                                         
+                                         innerArgs.forEach((val, idx) => t.currentScope[idx] = val);
+                                         
+                                         t.currentUpvalues = arg.upvalues;
+                                         t.environment = arg.environment;
+                                         
+                                         if (thread.vm.wake) thread.vm.wake();
+                                    }
+                                };
+                                
+                                vm._callbackWrappers.set(arg, wrapper);
+                                return wrapper;
+                            }
+                            return arg;
+                        });
+
+                        try {
+                            thread.push(callee.apply(ctx, wrappedArgs));
+                        } catch(e) {
+                            console.error("[VM] Native Call Error:", e);
+                            throw e;
+                        }
                     } else {
-                        // B"H - Enhanced Error Info
+                        // B"H - Detailed Error Logging
                         const type = typeof callee;
-                        const msg = `[VM] TypeError: ${type === 'undefined' ? 'undefined' : type} is not a function (callee was ${String(callee)}). Hint: Did an imported module fail to load? Check the logs for [Import] errors.`;
-                        throw new Error(msg);
+                        const msg = `[VM] TypeError: ${type} is not a function (callee was ${String(callee)}). Context was: ${String(ctx)}. Args: ${count}.`;
+                        
+                        // Send error to Host API if available (for Console display)
+                        if(vm.hostAPI && vm.hostAPI[0]) {
+                            vm.hostAPI[0](msg);
+                        }
+                        
+                        throw new TypeError(msg);
                     }
                     break;
                 }
@@ -295,6 +354,9 @@
                     const args = [];
                     for(let i=0; i<count; i++) args.unshift(thread.pop());
                     const ctor = thread.pop();
+                    if (typeof ctor !== 'function') {
+                        throw new TypeError(`[VM] TypeError: ${typeof ctor} is not a constructor`);
+                    }
                     thread.push(new ctor(...args));
                     break;
                 }
@@ -306,6 +368,7 @@
                         thread.ip = f.ip; thread.bytecode = f.bytecode; 
                         thread.constants = f.constants; thread.currentScope = f.scope;
                         thread.currentUpvalues = f.upvalues; 
+                        thread.environment = f.environment;
                         thread.push(ret);
                     } else {
                         thread.push(ret); return 'COMPLETED';
@@ -331,6 +394,12 @@
 
                 case OPCODES.GET_ITERATOR: {
                     const o = thread.pop();
+                    if (o === undefined || o === null) {
+                         throw new TypeError(`Cannot get iterator of ${o}`);
+                    }
+                    if (typeof o[Symbol.iterator] !== 'function') {
+                         throw new TypeError(`${o} is not iterable`);
+                    }
                     thread.push(o[Symbol.iterator]());
                     break;
                 }
@@ -361,7 +430,6 @@
                 case OPCODES.IMPORT_MODULE: {
                     const path = thread.pop();
                     
-                    // Check Cache
                     if (vm.moduleCache.has(path)) {
                         thread.push(vm.moduleCache.get(path));
                         break;
@@ -371,15 +439,14 @@
                         throw new Error(`[VM] Import Error: No importResolver provided to resolve '${path}'`);
                     }
                     
-                    // Suspend current thread
                     thread.status = 'AWAITING';
+                    if(vm) vm.pendingAsyncCount++;
                     
                     vm.importResolver(path).then(async (res) => {
                         try {
                             const code = (res && (res.code || res.content || res)) || '';
                             if (!code) throw new Error(`Empty code for module ${path}`);
                             
-                            // 1. Compile Module
                             const parser = new self.MerkavahParser(code);
                             parser.registerStatementParsers(); 
                             parser.registerExpressionParsers(); 
@@ -387,33 +454,31 @@
                             const compiler = new self.MerkavaCompiler.Compiler();
                             const codeObj = compiler.compile(parser.parse());
                             
-                            // 2. Prepare Module Context
                             const exportsObj = {};
                             const moduleContext = Object.create(vm.context);
                             moduleContext.exports = exportsObj;
                             
-                            // 3. Spawn Sub-Thread
+                            // B"H - Inject __define_live_export directly to ensure visibility
+                            // This fixes the issue where LOAD_GLOBAL might miss it in the prototype chain
+                            // or if "in" operator behaves unexpectedly with Proxies in strict mode.
+                            if (vm.context && vm.context.__define_live_export) {
+                                moduleContext.__define_live_export = vm.context.__define_live_export;
+                            }
+                            
                             const modThread = vm.spawn(codeObj);
                             modThread.environment = moduleContext;
                             modThread.currentScope = { 'this': moduleContext, 'exports': exportsObj };
                             
-                            // 4. Hook into completion
                             const originalStep = modThread.step.bind(modThread);
                             modThread.step = function() {
                                 const active = originalStep();
                                 if (this.status === 'COMPLETED') {
-                                    vm.moduleCache.set(path, exportsObj); // Cache exports
-                                    
-                                    // B"H - Debug log for loaded module
-                                    if(vm.hostAPI[0]) vm.hostAPI[0](`[VM] Module Loaded: ${path}. Keys: ${Object.keys(exportsObj).join(', ')}`);
-                                    
-                                    thread.push(exportsObj); // Result for importer
-                                    thread.status = 'RUNNING'; // Resume importer
+                                    vm.moduleCache.set(path, exportsObj); 
+                                    thread.push(exportsObj); 
+                                    thread.status = 'RUNNING'; 
                                 } else if (this.status === 'CRASHED' || this.status === 'TERMINATED') {
-                                    // B"H - Safe Fallback for Crashed Modules
-                                    if(vm.hostAPI[0]) vm.hostAPI[0](`[VM] Module CRASHED: ${path}`);
-                                    console.error(`[VM] Module ${path} CRASHED. Returning empty exports.`);
-                                    thread.push(exportsObj); // Return what we have (maybe empty) to prevent callee error
+                                    console.error(`[VM] Module ${path} CRASHED.`);
+                                    thread.push({}); 
                                     thread.status = 'RUNNING';
                                 }
                                 return active;
@@ -424,9 +489,11 @@
                         } catch(e) {
                             if(vm.hostAPI[0]) vm.hostAPI[0](`[VM] Module Compilation Failed: ${path}`, e.message);
                             console.error(`[VM] Module Load Failed: ${path}`, e);
-                            thread.push({}); // Push empty object on failure to avoid undefined
+                            thread.push({}); 
                             thread.status = 'RUNNING';
                             vm.wake();
+                        } finally {
+                            if(vm) vm.pendingAsyncCount--;
                         }
                     }).catch(e => {
                         if(vm.hostAPI[0]) vm.hostAPI[0](`[VM] Import Resolution Failed: ${path}`, e.message);
@@ -434,6 +501,7 @@
                         thread.push({});
                         thread.status = 'RUNNING';
                         vm.wake();
+                        if(vm) vm.pendingAsyncCount--;
                     });
                     
                     return 'YIELD';

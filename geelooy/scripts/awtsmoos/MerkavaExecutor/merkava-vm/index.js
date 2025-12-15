@@ -55,7 +55,8 @@
             // OR if there are pending async operations (like Workers/Timers) keeping the VM alive.
             const hasActiveThreads = this.threads.some(t => {
                 const s = t.status;
-                return s !== 'COMPLETED' && s !== 'TERMINATED' && s !== 'HALTED' && s !== 'KILLED';
+                // B"H - Explicitly check for all non-terminal states, including READY/YIELDED
+                return s === 'RUNNING' || s === 'READY' || s === 'YIELDED' || s === 'AWAITING' || s === 'SUSPENDED';
             });
 
             return hasActiveThreads || this.pendingAsyncCount > 0;
