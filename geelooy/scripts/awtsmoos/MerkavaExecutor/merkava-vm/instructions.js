@@ -55,8 +55,6 @@
                     
                     if (!found) {
                         // 2. B"H - Priority Check for 'exports' in Module Scope
-                        // IMPORT_MODULE puts 'exports' in currentScope, but standard var lookups usually skip currentScope for globals.
-                        // We must explicitly check it here to support 'export' syntax relying on 'exports' object.
                         if (name === 'exports' && thread.currentScope && thread.currentScope.exports) {
                              val = thread.currentScope.exports;
                         }
@@ -459,8 +457,6 @@
                             moduleContext.exports = exportsObj;
                             
                             // B"H - Inject __define_live_export directly to ensure visibility
-                            // This fixes the issue where LOAD_GLOBAL might miss it in the prototype chain
-                            // or if "in" operator behaves unexpectedly with Proxies in strict mode.
                             if (vm.context && vm.context.__define_live_export) {
                                 moduleContext.__define_live_export = vm.context.__define_live_export;
                             }
