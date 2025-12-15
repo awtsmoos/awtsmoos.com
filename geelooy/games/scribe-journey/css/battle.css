@@ -1,0 +1,54 @@
+
+/* B"H */
+/* Battle UI */
+.battle-area {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    margin-bottom: 20px;
+    align-items: flex-end;
+}
+
+.battle-musag-display {
+    background: rgba(0, 20, 40, 0.8);
+    border: 1px solid var(--neon-blue);
+    padding: 10px;
+    text-align: center;
+    border-radius: 5px;
+    box-shadow: 0 0 15px rgba(0, 243, 255, 0.2);
+    width: 45%;
+}
+
+.health-bar {
+    background: #333;
+    border: 1px solid #555;
+    height: 10px;
+    margin-top: 5px;
+    width: 100%;
+}
+
+.health-bar-inner {
+    height: 100%;
+    background: var(--hp-high);
+    box-shadow: 0 0 5px var(--hp-high);
+    transition: width 0.3s;
+}
+
+.kavanah-bar {
+    background: #333;
+    border: 1px solid #555;
+    height: 6px;
+    margin-top: 2px;
+}
+.kavanah-bar-inner {
+    height: 100%;
+    background: var(--kavanah);
+    box-shadow: 0 0 5px var(--kavanah);
+}
+
+.musag-emoji {
+    font-size: 3em;
+    margin: 10px 0;
+    filter: drop-shadow(0 0 5px rgba(255,255,255,0.5));
+    animation: float 3s infinite ease-in-out;
+}

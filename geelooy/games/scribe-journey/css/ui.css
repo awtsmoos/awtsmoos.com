@@ -1,0 +1,126 @@
+
+/* B"H */
+/* --- UI COMPONENTS --- */
+
+.menu-screen {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 20;
+    backdrop-filter: blur(5px);
+}
+
+.modal-content {
+    background: var(--bg-panel);
+    padding: 20px;
+    border: 1px solid var(--neon-blue);
+    box-shadow: 0 0 15px var(--neon-blue);
+    border-radius: 2px;
+    max-width: 90%;
+    max-height: 80%;
+    overflow-y: auto;
+    text-align: center;
+    color: #fff;
+    position: relative;
+}
+
+/* Titles */
+h2, h3, h4 {
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin: 10px 0;
+    color: #fff;
+    text-shadow: 2px 2px 0px var(--neon-pink), -1px -1px 0 var(--neon-blue);
+    animation: textFlicker 3s infinite alternate;
+}
+
+/* Buttons */
+.menu-button, .modal-action-button, .battle-button {
+    background: transparent;
+    border: 1px solid var(--neon-blue);
+    color: var(--neon-blue);
+    padding: 12px 24px;
+    margin: 8px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 1.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 0 5px var(--neon-blue);
+    position: relative;
+    overflow: hidden;
+}
+
+.menu-button:hover, .modal-action-button:hover, .battle-button:hover:not(:disabled) {
+    background: var(--neon-blue);
+    color: #000;
+    box-shadow: 0 0 20px var(--neon-blue), 0 0 40px var(--neon-blue);
+    transform: scale(1.05);
+}
+
+.menu-button:active { transform: scale(0.95); }
+
+/* Dialogue Box */
+#dialogue-box {
+    position: absolute;
+    bottom: 25%; /* Above controls */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    background: rgba(0, 0, 0, 0.9);
+    border: 2px solid var(--neon-gold);
+    color: #fff;
+    padding: 15px;
+    z-index: 40;
+    box-shadow: 0 0 20px var(--neon-gold);
+}
+
+.dialogue-choice {
+    background: rgba(255, 215, 0, 0.1);
+    border: 1px solid var(--neon-gold);
+    padding: 8px;
+    margin-top: 5px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.dialogue-choice:hover { background: var(--neon-gold); color: #000; }
+
+/* Toasts */
+#toast-container {
+    position: absolute;
+    top: 10%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    pointer-events: none;
+    z-index: 100;
+}
+
+.toast {
+    background: rgba(0, 0, 0, 0.9);
+    border: 1px solid white;
+    padding: 10px 20px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    box-shadow: 0 0 10px white;
+    animation: slideDown 0.3s ease-out;
+}
+
+.toast-success { border-color: var(--neon-green); color: var(--neon-green); box-shadow: 0 0 10px var(--neon-green); }
+.toast-error { border-color: var(--neon-red); color: var(--neon-red); box-shadow: 0 0 10px var(--neon-red); }
+.toast-info { border-color: var(--neon-blue); color: var(--neon-blue); box-shadow: 0 0 10px var(--neon-blue); }
+
+/* Inventory & Lists */
+.inventory-item, .quest-log-item {
+    background: rgba(255, 255, 255, 0.05);
+    border-left: 3px solid var(--neon-blue);
+    margin-bottom: 5px;
+    padding: 8px;
+    text-align: left;
+}

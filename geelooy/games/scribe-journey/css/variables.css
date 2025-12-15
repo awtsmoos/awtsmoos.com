@@ -1,0 +1,19 @@
+
+/* B"H */
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+
+:root {
+    --neon-blue: #00f3ff;
+    --neon-pink: #ff00ff;
+    --neon-green: #00ff00;
+    --neon-gold: #ffd700;
+    --neon-red: #ff3333;
+    --bg-dark: #050505;
+    --bg-panel: rgba(10, 10, 15, 0.95);
+    --grid-color: rgba(0, 243, 255, 0.1);
+    
+    --hp-high: #00ff00; 
+    --hp-mid: #ffff00; 
+    --hp-low: #ff0000;
+    --kavanah: #00f3ff;
+}
