@@ -1,0 +1,132 @@
+/* B"H */
+
+const STD_KERNEL32 = `import "KERNEL32.dll" GetStdHandle WriteFile ReadFile ExitProcess Sleep CreateFileA CloseHandle FindFirstFileA FindNextFileA FindClose;`;
+
+const STDIO_H = `${STD_KERNEL32}
+int STDIN = -10;
+int STDOUT = -11;
+
+void print(char* str) {
+    int len = 0;
+    char* ptr = str;
+    while (*ptr != 0) { len++; ptr++; }
+    int written = 0;
+    int h = GetStdHandle(STDOUT);
+    WriteFile(h, str, len, &written, 0);
+}
+
+void printf(char* fmt, int a1, int a2, int a3, int a4) {
+    char* p = fmt;
+    int args[4];
+    args[0] = a1; args[1] = a2; args[2] = a3; args[3] = a4;
+    int argIdx = 0;
+    while (*p != 0) {
+        if (*p == 37) {
+            p++;
+            int val = args[argIdx]; argIdx++;
+            if (*p == 115) { print(val); } // s
+            else if (*p == 100) { // d
+                 if (val == 0) print("0");
+                 else {
+                     if (val < 0) { print("-"); val = -val; }
+                     char buf[32]; int i = 30; buf[31] = 0;
+                     while (val > 0) {
+                         int d = val / 10;
+                         int r = val - (d*10);
+                         buf[i] = r + 48; i--;
+                         val = d;
+                     }
+                     print(buf + i + 1);
+                 }
+            }
+            else if (*p == 120) { // x
+                print("0x");
+                 char buf[32]; int i = 30; buf[31] = 0;
+                 if (val == 0) print("0");
+                 while (val != 0) {
+                     int d = val / 16;
+                     int r = val - (d*16);
+                     if (r < 10) buf[i] = r + 48;
+                     else buf[i] = r + 55;
+                     i--;
+                     val = d;
+                 }
+                 print(buf + i + 1);
+            }
+            else if (*p == 99) { char b[2]; b[0]=val; b[1]=0; print(b); } // c
+        } else {
+            char b[2]; b[0]=*p; b[1]=0; print(b);
+        }
+        p++;
+    }
+}
+
+int fopen(char* f, char* m) {
+    int acc = 0x80000000; int cr = 3;
+    if (*m == 119) { acc = 0x40000000; cr = 2; }
+    return CreateFileA(f, acc, 0, 0, cr, 128, 0);
+}
+void fclose(int h) { CloseHandle(h); }
+`;
+
+const DIRENT_H = `${STD_KERNEL32}
+struct dirent {
+    int dwFileAttributes;
+    int ftCreationTimeL; int ftCreationTimeH;
+    int ftLastAccessTimeL; int ftLastAccessTimeH;
+    int ftLastWriteTimeL; int ftLastWriteTimeH;
+    int nFileSizeHigh;
+    int nFileSizeLow;
+    int dwReserved0;
+    int dwReserved1;
+    char d_name[260];
+    char cAlternateFileName[14];
+};
+
+struct DIR {
+    int hFind;
+    struct dirent data;
+    int first;
+};
+
+// Global storage for DIR (simplified, single instance per app in this toy compiler)
+// Ideally malloc, but we use static buffer for now.
+struct DIR _gDir;
+
+struct DIR* opendir(char* path) {
+    char search[260];
+    char* s = search; char* p = path;
+    while (*p != 0) { *s = *p; s++; p++; }
+    *s = 92; s++; *s = 42; s++; *s = 46; s++; *s = 42; s++; *s = 0; // \*.*
+    
+    int h = FindFirstFileA(search, &_gDir.data);
+    if (h == -1) return 0;
+    
+    _gDir.hFind = h;
+    _gDir.first = 1;
+    return &_gDir;
+}
+
+struct dirent* readdir(struct DIR* d) {
+    if (d->first) {
+        d->first = 0;
+        return &d->data;
+    }
+    if (FindNextFileA(d->hFind, &d->data)) return &d->data;
+    return 0;
+}
+
+void closedir(struct DIR* d) {
+    FindClose(d->hFind);
+}
+`;
+
+const UNISTD_H = `${STD_KERNEL32}
+void sleep(int ms) { Sleep(ms); }
+`;
+
+export const STD_LIBS = {
+    'stdio.h': STDIO_H,
+    'dirent.h': DIRENT_H,
+    'unistd.h': UNISTD_H
+};
