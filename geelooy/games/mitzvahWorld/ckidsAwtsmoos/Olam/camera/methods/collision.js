@@ -1,4 +1,5 @@
 
+
 // B"H
 
 export default {
@@ -41,7 +42,7 @@ export default {
             .mouseRaycaster
             .set(
                 startAlternative, 
-                directionAlternative.multiplyScalar(-1)
+                directionAlternative.multiplyScalar(-1) // Direction might need normalization if not already
             );
         } else {
             // Otherwise, default to raycasting from the camera using the mouse pointer
@@ -52,53 +53,56 @@ export default {
             );
         }
         
-        
-       
-        // 1. Check Static Octree (Buildings, Landscape)
         let closest = null;
-        var oct = this
-            .olam
-            .interactiveOctree
-            .rayIntersect(this.mouseRaycaster.ray);
-       
-        if(oct) {
-            oct.object = oct.triangle.awtsmoosification || oct.object; // Support older way or standard way
-            closest = oct;
-        }
-
-        // 2. B"H FIX: Check Dynamic Entities (NPCs) that were skipped from Octree
-        // We iterate over all interactable entities and check if they are dynamic
+        
+        // 1. B"H FIX: Check Dynamic Entities (NPCs) FIRST
+        // This ensures moving characters are prioritized over static background geometry.
         if (this.olam.interactableNivrayim) {
             for (const nivra of this.olam.interactableNivrayim) {
-                // Skip Chossid (Player) usually, unless desired
+                // Skip Chossid (Player)
                 if (nivra.type === 'chossid') continue;
 
-                // Only check dynamic types that we excluded from the octree
-                if (nivra.mesh && (nivra.type === 'customNpc' || nivra.type === 'medabeir' || nivra.type === 'chai')) {
-                    const hits = this.mouseRaycaster.intersectObject(nivra.mesh, true); // Recursive for complex models
+                // Only check entities that have a visible mesh
+                if (nivra.mesh && nivra.mesh.visible) {
+                    // Check intersection against the entire mesh hierarchy of the NPC
+                    const hits = this.mouseRaycaster.intersectObject(nivra.mesh, true); 
+                    
                     if (hits.length > 0) {
                         const hit = hits[0];
                         
-                        // Ensure the hit object is linked back to the Nivra for logic to work
-                        // The mesh should have 'nivraAwtsmoos' attached to it
-                        // If not, we can manually attach it or just rely on the fact that 'hit.object' is part of the hierarchy
-                        
-                        // Check if this hit is closer than the octree hit
+                        // Check if this hit is closer than previous hits
                         if (!closest || hit.distance < closest.distance) {
-                            closest = hit;
-                            
-                            // Ensure robustness: bubble up to find the root mesh that has nivraAwtsmoos
-                            // hit.object is the specific mesh part (e.g. 'Head'). We need the parent Nivra.
-                            let curr = hit.object;
-                            while(curr && !curr.nivraAwtsmoos) {
-                                curr = curr.parent;
-                            }
-                            if (curr && curr.nivraAwtsmoos) {
-                                // Fake the octree return structure for compatibility
-                                closest.object = curr; 
-                            }
+                            closest = {
+                                distance: hit.distance,
+                                point: hit.point,
+                                object: hit.object,
+                                nivraAwtsmoos: nivra // Direct reference to the logic class
+                            };
                         }
                     }
+                }
+            }
+        }
+
+        // 2. Check Static Octree (Buildings, Landscape)
+        // Only if no dynamic entity hit yet OR the static hit is closer
+        if (this.olam.interactiveOctree) {
+            var oct = this
+                .olam
+                .interactiveOctree
+                .rayIntersect(this.mouseRaycaster.ray);
+        
+            if(oct) {
+                // B"H: If we already hit an NPC, compare distances
+                if (!closest || oct.distance < closest.distance) {
+                     oct.object = oct.triangle.sourceMesh || oct.object; // Support sourceMesh from octree build
+                     
+                     // B"H: If the static object is actually linked to a dynamic entity (like a solid NPC), retrieve it
+                     if (oct.object && oct.object.nivraAwtsmoos) {
+                         oct.nivraAwtsmoos = oct.object.nivraAwtsmoos;
+                     }
+                     
+                     closest = oct;
                 }
             }
         }

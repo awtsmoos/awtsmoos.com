@@ -1,4 +1,5 @@
 
+
 /**
  * B"H
  * Inventory System Main Entry
@@ -23,21 +24,32 @@ export default class InventoryManager {
         // Load from UserProgressManager if available
         if (this.owner.olam && this.owner.olam.userProgressManager) {
             const saved = this.owner.olam.userProgressManager.data.inventory;
-            if (saved && saved.slots) {
+            if (saved && saved.slots && Array.isArray(saved.slots)) {
                 this.slots = saved.slots;
                 this.actionSlots = saved.actionSlots || [];
                 this.equipment = saved.equipment || this.equipment;
-            } else {
-                this.createEmpty();
-            }
-        } else {
-            this.createEmpty();
+            } 
+        }
+        
+        // B"H: CRITICAL FIX - Ensure slots array is fully populated
+        this.ensureCapacity();
+    }
+    
+    ensureCapacity() {
+        // Fill main slots
+        while (this.slots.length < this.maxSlots) {
+            this.slots.push(null);
+        }
+        // Fill action slots
+        while (this.actionSlots.length < this.maxActionSlots) {
+            this.actionSlots.push(null);
         }
     }
     
     createEmpty() {
-        for (let i = 0; i < this.maxSlots; i++) this.slots.push(null);
-        for (let i = 0; i < this.maxActionSlots; i++) this.actionSlots.push(null);
+        this.slots = [];
+        this.actionSlots = [];
+        this.ensureCapacity();
     }
     
     save() {

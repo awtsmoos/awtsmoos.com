@@ -1,4 +1,9 @@
 
+
+
+
+
+
 /**
  * B"H
  */
@@ -181,11 +186,31 @@ export default class UIManager {
         /**
          * generate game side-menu
          */
+        
+        // B"H: Robust Check for UI and Element existence
+        if (!this.ui) {
+            console.error("B\"H: UI not initialized in UIManager");
+            return;
+        }
+        
+        // B"H: Idempotency Check - if menu exists, don't recreate
+        if (this.ui.$g("menu")) {
+            console.log("B\"H: Game menu already exists, skipping creation.");
+            return;
+        }
 
-        var par = ui.$g("gameID")
+        // B"H: Look for parent using both internal map and DOM
+        var par = this.ui.$g("gameID") || document.querySelector(".gameUi");
+        
+        if (!par) {
+            console.warn("B\"H: Parent element 'gameID' (.gameUi) not found yet. Retrying in 500ms...");
+            setTimeout(() => this.makeGameMenu(), 500);
+            return;
+        }
+        
+        console.log("B\"H: Found Parent for Menu, creating now.");
      
-     
-        var menu = ui.html({
+        var menu = this.ui.html({
             shaym: "menu",
             parent: par,
             className: "gameMenu offscreen",
@@ -197,7 +222,7 @@ export default class UIManager {
         }
         gameMenu.forEach(w => {
             this.gameMenuItem(w);
-        })
+        });
     }
 
     gameMenuItem(opts={}) {

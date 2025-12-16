@@ -1,97 +1,116 @@
 
+
 /**
  * B"H
-
+ * Ikar (Main Entry Point)
  */
 
-/**
- * import data for world
- */
-
-console.log("B\"H",
-"\n","Starting the Ikar JS!\"")
+console.log("B\"H", "\n", "Starting the Ikar JS!");
 
 import ManagerOfAllWorlds from "./Olam/worldManager.js";
 import config from "../tochen/config/config.awtsmoos.js";
 
 try {
-    if(!window.invalid) {
+    if (!window.invalid) {
         var m = new ManagerOfAllWorlds('/oyvedEdom.js');
-        window.mana =  m;
-        
-        // B"H: Check for URL Parameters
-        const urlParams = new URLSearchParams(window.location.search);
-        const path = urlParams.get('path');
-        const alias = urlParams.get('alias');
-        
-        if (path) {
-            console.log("B\"H: Loading world from URL path:", path);
-            fetch(path)
-                .then(r => r.text())
-                .then(txt => {
-                    const blobUrl = URL.createObjectURL(
-                        new Blob([txt], { type: "application/javascript" })
-                    );
-                    
-                    // Wait for UI to be ready then start
-                    const checkUI = setInterval(() => {
-                        const ikar = document.getElementById("ikar");
-                        const mm = document.querySelector(".menu"); // main menu class
-                        if (ikar && mm && mm.gameUiHTML) {
-                            clearInterval(checkUI);
-                            
-                            // Hide Main Menu initially since we are auto-loading
-                            if(window.ui && window.ui.getHtml) {
-                                const menuEl = window.ui.getHtml("main menu");
-                                if(menuEl) menuEl.classList.add("hidden");
-                            }
+        window.mana = m;
 
-                            ikar.dispatchEvent(
-                                new CustomEvent("start", {
-                                    detail: {
-                                        worldDayuhURL: blobUrl,
-                                        sourcePath: path, // Pass source path for saving/URL logic
-                                        gameUiHTML: mm.gameUiHTML
-                                    }
-                                })
-                            );
-                        }
-                    }, 100);
-                })
-                .catch(e => {
-                    console.error("B\"H: Failed to load world from URL path", e);
-                    alert("Could not load world from URL.");
-                });
-        } else if (alias) {
-            // B"H: Deep link to Alias in World Browser
-            console.log("B\"H: Opening World Browser for alias:", alias);
-            const checkUI = setInterval(() => {
-                const ikar = document.getElementById("ikar");
-                const fw = document.querySelector(".findWorlds");
-                if (ikar && window.ui) {
-                    clearInterval(checkUI);
+        // B"H: Logic to handle Deep Linking / Auto-loading
+        const handleAutoLoad = () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const path = urlParams.get('path');
+            const alias = urlParams.get('alias');
+
+            // Helper to get UI elements safely
+            const getUI = () => {
+                 // Check if UI Manager has created elements
+                 if (!window.ui || !window.ui.getHtml) return null;
+                 const ikar = document.getElementById("ikar");
+                 // Use querySelector for elements that might not be registered in UI map yet
+                 const menu = document.querySelector(".menu"); 
+                 return { ikar, menu, ui: window.ui };
+            };
+
+            if (path) {
+                console.log("B\"H: Auto-loading from path:", path);
+                
+                // Polling for UI readiness
+                const checkReady = setInterval(() => {
+                    const { ikar, menu, ui } = getUI() || {};
                     
-                    // Hide Main Menu, Show Find Worlds
-                    const mm = window.ui.getHtml("main menu");
-                    if(mm) mm.classList.add("hidden");
-                    
-                    const fwEl = window.ui.getHtml("find worlds");
-                    if(fwEl) {
-                        fwEl.classList.remove("hidden");
-                        // Trigger the load
-                        window.ui.peula(fwEl, { 
-                            loadAliasWorlds: { 
-                                alias: alias, 
-                                title: `Deep Link: ${alias}` 
-                            } 
-                        });
+                    if (ikar && menu && menu.gameUiHTML) {
+                        clearInterval(checkReady);
+
+                        // 1. Hide Main Menu
+                        if(ui.getHtml("main menu")) ui.getHtml("main menu").classList.add("hidden");
+                        
+                        // 2. Fetch Code
+                        fetch(path)
+                            .then(r => {
+                                if(!r.ok) throw new Error("Failed to fetch world file");
+                                return r.text();
+                            })
+                            .then(txt => {
+                                const blobUrl = URL.createObjectURL(
+                                    new Blob([txt], { type: "application/javascript" })
+                                );
+
+                                // 3. Start Game
+                                ikar.dispatchEvent(
+                                    new CustomEvent("start", {
+                                        detail: {
+                                            worldDayuhURL: blobUrl,
+                                            sourcePath: path,
+                                            gameUiHTML: menu.gameUiHTML
+                                        }
+                                    })
+                                );
+                            })
+                            .catch(e => {
+                                console.error("B\"H Auto-load failed:", e);
+                                alert("Failed to load world from URL.\n" + e.message);
+                                // Show menu if fail
+                                if(ui.getHtml("main menu")) ui.getHtml("main menu").classList.remove("hidden");
+                            });
                     }
-                }
-            }, 100);
+                }, 100);
+
+            } else if (alias) {
+                console.log("B\"H: Auto-loading alias browser:", alias);
+                
+                const checkReady = setInterval(() => {
+                    const { ikar, ui } = getUI() || {};
+                    if (ikar && ui) {
+                        const fwScreen = ui.getHtml("find worlds");
+                        const menuScreen = ui.getHtml("main menu");
+                        
+                        if (fwScreen && menuScreen) {
+                            clearInterval(checkReady);
+                            
+                            menuScreen.classList.add("hidden");
+                            fwScreen.classList.remove("hidden");
+                            
+                            ui.peula(fwScreen, { 
+                                loadAliasWorlds: { 
+                                    alias: alias, 
+                                    title: `Deep Link: ${alias}` 
+                                } 
+                            });
+                        }
+                    }
+                }, 100);
+            }
+        };
+
+        // Initialize Auto-Load
+        if (document.readyState === 'complete') {
+            handleAutoLoad();
+        } else {
+            window.addEventListener('load', handleAutoLoad);
         }
-        
-        console.log("Loaded!",m)
+
+        console.log("Loaded!", m);
     }
-} catch(e) {
-    console.log("Issue!", e)
+} catch (e) {
+    console.log("Issue!", e);
 }

@@ -1,4 +1,5 @@
 
+
 /**
  * B"H
  * @file tzomayaach.js
@@ -19,14 +20,14 @@ export default class Tzomayach extends Domem {
     constructor(options, olam) {
         super(options, olam);
         this.heesHawveh = true;
-        this.proximity = (p=>
-            /**
-             * check if input proxomity 
-             * is a number.
-             */
-            typeof(p) == "number" 
-            ?p:0
-        )(options.proximity);
+        
+        // B"H: If it's interactable but has no proximity, give it a small default to enable the loop
+        let p = options.proximity;
+        if(options.interactable && (p === undefined || p === null || p <= 0)) {
+            p = 1.0; 
+        }
+
+        this.proximity = (typeof(p) == "number") ? p : 0;
         
 		this.on("sealayk",() => {
             
@@ -91,31 +92,36 @@ export default class Tzomayach extends Domem {
     heesHawvoos(deltaTime) {
         super.heesHawvoos(deltaTime);
       
-
         if(this.proximity > 0) {
-           
-            if(!this.proximityCollider) {
+            
+            // B"H: Safety check - ensure mesh exists
+            if(!this.mesh) return;
 
+            if(!this.proximityCollider) {
+                // B"H: Initialize proximity sphere if missing
                 this.proximityCollider = 
                 new THREE.Sphere(
                     this.mesh.position.clone(),
                     this.proximity
                 );
-                
-
             } else if(this.olam) {
-                this
-					.proximityCollider
-					.center.copy(this.mesh.position);
+                // B"H: Always update proximity collider to current mesh position
+                this.proximityCollider.center.copy(this.mesh.position);
+                
+                var interactables = this.olam.interactableNivrayim;
+
                 if(
-                    this.olam
-                    .interactableNivrayim.length
+                    interactables &&
+                    interactables.length
                 ) {
                    
-                    this
-                    .olam
-                    .interactableNivrayim
-                    .forEach(n => {
+                    interactables.forEach(n => {
+                        /**
+                         * B"H: Prevent self-interaction!
+                         * A soul cannot shake its own hand in the physical world.
+                         */
+                        if (n === this) return;
+
                         /**
                          * go through each
                          * nivra that can be 
@@ -128,16 +134,41 @@ export default class Tzomayach extends Domem {
                          * Only check interactions
                          * with nivrayim that have
                          * a capsule collider
-                         *  
+                         * 
+                         * B"H: Strict check as requested, but safely accessed
                          */
+                        var isCapsule = false;
+                        try {
+                             if(
+                                n.collider &&
+                                n.collider.constructor &&
+                                n.collider.constructor.name == "Capsule"
+                            ) {
+                                isCapsule = true;
+                            }
+                        } catch(e) {
+                           // Silent fail
+                        }
 
-                        if(
-                            n.collider &&
-                            n.collider.constructor &&
-                            n.collider.constructor.name == 
-                            "Capsule"
-                        ) {
+                        if(isCapsule) {
                             
+                            // B"H: HYSTERESIS LOGIC
+                            // Use a slightly larger radius for EXITing than ENTERing.
+                            // This prevents rapid flickering when standing on the edge.
+                            
+                            const isAlreadyColliding = this.objectsCollidingWith.includes(n);
+                            
+                            // If already colliding, we allow a buffer (e.g. 1.2x distance) before disconnecting
+                            const effectiveRadius = isAlreadyColliding ? 
+                                this.proximityCollider.radius * 1.2 : 
+                                this.proximityCollider.radius;
+
+                            // Create a temporary sphere with the effective radius for the check
+                            const checkSphere = {
+                                center: this.proximityCollider.center,
+                                radius: effectiveRadius
+                            };
+
                             if(
                                 /**
                                  * check if sphere,
@@ -149,7 +180,7 @@ export default class Tzomayach extends Domem {
                                  */
                                 Utils.capsuleSphereColliding(
                                     n.collider,
-                                    this.proximityCollider
+                                    checkSphere
                                 )
                             ) {
                                
@@ -161,13 +192,7 @@ export default class Tzomayach extends Domem {
                                  */
 
 
-                                if(
-                                    !this.objectsCollidingWith
-                                    .includes(
-                                        n
-                                    )
-                                ) {
-
+                                if(!isAlreadyColliding) {
                                     /**
                                      * * If we are NOT 
                                     * already colliding with it,
@@ -179,8 +204,7 @@ export default class Tzomayach extends Domem {
                                     * the interactive zone.
                                     */
 									
-                                    this.objectsCollidingWith
-                                    .push(n);
+                                    this.objectsCollidingWith.push(n);
                                     this.ayshPeula(
                                         "nivraNeechnas"/**
                                         creation entered */,
@@ -205,16 +229,7 @@ export default class Tzomayach extends Domem {
                                  * 
                                  */
 
-                                if(
-                                    /**
-                                     * if we were already
-                                     * colliding with it before
-                                     */
-                                    this.objectsCollidingWith
-                                    .includes(
-                                        n
-                                    )
-                                ) {
+                                if(isAlreadyColliding) {
                                     /**
                                      * remove it from array
                                      * of currently colliding

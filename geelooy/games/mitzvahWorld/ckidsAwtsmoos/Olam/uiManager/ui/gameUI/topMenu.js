@@ -1,4 +1,6 @@
 
+
+
 // B"H
 import loginBtn from "../loginBtn.js";
 
@@ -20,15 +22,41 @@ export default {
         awtsmoosClick: true,
         onclick(e, $) {
             // Robust lookup for the menu
-            var m = $("menu") || document.querySelector(".gameMenu");
-            if (!m) return console.log("B\"H: Menu element not found!");
+            var m = $("menu");
             
-            if (m.classList.contains("offscreen")) {
-                m.classList.remove("offscreen");
-                m.classList.add("onscreen");
-            } else {
-                m.classList.remove("onscreen");
-                m.classList.add("offscreen");
+            if (!m) {
+                m = document.querySelector(".gameMenu");
+            }
+            
+            // B"H: SELF-HEALING MECHANISM
+            // If menu is missing, create it immediately.
+            if (!m) {
+                console.log("B\"H: Menu not found. Attempting to force-create it now.");
+                if (window.mana && window.mana.uiManager) {
+                    window.mana.uiManager.makeGameMenu();
+                    // Try to find it again immediately
+                    setTimeout(() => {
+                         m = $("menu") || document.querySelector(".gameMenu");
+                         if (m) {
+                             console.log("B\"H: Menu created successfully on retry.");
+                             m.classList.remove("offscreen");
+                             m.classList.add("onscreen");
+                         } else {
+                             console.error("B\"H: Failed to create menu even after force call.");
+                         }
+                    }, 50);
+                    return;
+                }
+            }
+            
+            if (m) {
+                if (m.classList.contains("offscreen")) {
+                    m.classList.remove("offscreen");
+                    m.classList.add("onscreen");
+                } else {
+                    m.classList.remove("onscreen");
+                    m.classList.add("offscreen");
+                }
             }
         }
     }, {

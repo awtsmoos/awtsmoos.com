@@ -1,3 +1,4 @@
+
 /**B"H */
 
 export default class Interaction {
@@ -100,7 +101,7 @@ export default class Interaction {
                             },
                         },
                         properties: {
-                            innerText: ""
+                            textContent: ""
                         }
                     });
 				this.me.wasApproached = false;
@@ -125,7 +126,7 @@ export default class Interaction {
                             }
                         },
                         properties: {
-                            innerText: ""
+                            textContent: ""
                         }
                     });
                 if(typeof(

@@ -1,4 +1,5 @@
 
+
 /**
  * B"H
  * Player = Chossid
@@ -22,8 +23,8 @@ export default class Chossid extends Medabeir {
     _optionsSpeed = null;
     approachedEntities = [];
     
-    constructor(options) {
-        super(options);
+    constructor(options, olam) {
+        super(options, olam);
         this.inventory = new InventoryManager(this);
         this.selectedInventorySlot = 0;
         

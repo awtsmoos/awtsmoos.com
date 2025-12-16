@@ -1,4 +1,5 @@
 
+
 /**
  * B"H
  * @file inventorySetup.js
@@ -41,6 +42,15 @@ export default {
             name: 'Sparks Collector',
             description: 'Use this to retrieve sparks (blocks) from the world.',
             icon: icons.hammer
+        }, 1);
+        
+        // B"H: Character Designer
+        this.inventory.addItem({
+            id: 'character_maker',
+            className: 'CharacterMaker',
+            name: 'Neshama Maker',
+            description: 'Design custom NPCs.',
+            quantity: 1
         }, 1);
 
         // --- B"H MITZVAH ITEMS & APPAREL ---

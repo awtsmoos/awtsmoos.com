@@ -100,8 +100,8 @@ export default class Chai extends Tzomayach {
     get speed() { return this._speed; }
     set speed(v) { this._speed = v; }
 
-    constructor(options) {
-        super(options);
+    constructor(options, olam) {
+        super(options, olam);
         this.rotationSpeed = options.rotationSpeed || 2;
         this.heesHawveh = true;
         this.rayAnchor = new THREE.Group();
@@ -138,14 +138,14 @@ export default class Chai extends Tzomayach {
 
     async ready() {
         await super.ready();
-        this.olam.scene.add(this.rayAnchor);
+        if(this.olam) this.olam.scene.add(this.rayAnchor);
         this.speed = this.speed;
         this.animationSpeed = this.speed;
         
         // Setup separate mesh containers for physics vs visuals
         // This decouples rotation logic from collider logic
         this.empty = new THREE.Group();
-        this.olam.scene.add(this.empty);
+        if(this.olam) this.olam.scene.add(this.empty);
         
         const pos = this.mesh?.position;
         if(pos) {
@@ -157,7 +157,7 @@ export default class Chai extends Tzomayach {
         
         this.emptyCopy = this.empty.clone();
         this.nonRotatingEmptyForMovement = this.empty.clone();
-        this.olam.scene.add(this.emptyCopy);
+        if(this.olam) this.olam.scene.add(this.emptyCopy);
         
         this.setPosition(this.mesh.position);
     }

@@ -1,4 +1,5 @@
 
+
 /**
  * B"H
  * 
@@ -42,8 +43,11 @@ export default class Medabeir extends Chai {
     _messageTreeFunction = null;
     _tempTree = null;
 
-    constructor(options) {
-        super(options);
+    constructor(options, olam) {
+        // B"H: Default Proximity for all Medabeir (Speakers)
+        if(options.proximity === undefined) options.proximity = 3.0;
+
+        super(options, olam);
         
         // B"H: 1. Initialize Options FIRST
         if(options.dialogue) {

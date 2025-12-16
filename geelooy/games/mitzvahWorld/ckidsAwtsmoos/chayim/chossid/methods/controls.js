@@ -64,6 +64,19 @@ export default {
 
     setupInputListeners(olam) {
         var isOtherview = false;
+        
+        // B"H: Mouse Click Listener for NPC Interaction
+        olam.on("mousedown", (e) => {
+            if (e.button === 0) { // Left Click
+                if (this.handleClick) {
+                    this.handleClick(e);
+                } else {
+                    // Fallback if handleClick is missing
+                    this.shoot();
+                }
+            }
+        });
+
         olam.on("keypressed", async k => {
             this.ayshPeula("keypressed", k);
             this.dialogueControls(k);

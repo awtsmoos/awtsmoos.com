@@ -1,3 +1,5 @@
+
+
 // B"H
 // Store Screen Logic
 
@@ -14,6 +16,10 @@ export default {
             const store = $("storeScreen");
             store.classList.remove("hidden");
             store.npcId = data.entityId;
+            
+            // B"H: Hide interaction prompts when store opens
+            const prompt = $("approach npc msg");
+            if(prompt) prompt.classList.add("hidden");
             
             const title = store.querySelector(".store-title");
             if(title) title.textContent = data.npcName + "'s Store";
@@ -58,7 +64,11 @@ export default {
             } else if (store.activeTab === 'sell') {
                 if (store.playerItems) {
                     store.playerItems.forEach((itm, idx) => {
-                        if(itm && itm.sellValue && itm.sellValue > 0 && itm.className !== 'Coin') {
+                        // B"H: Ensure we check for item existence and sellValue
+                        // Even if sellValue isn't explicitly > 0, if it's an item, show it?
+                        // Let's stick to items with value for now, but ensure properties exist.
+                        // We filter nulls (empty slots).
+                        if(itm && itm.sellValue > 0 && itm.className !== 'Coin') {
                             itemsToRender.push({
                                 ...itm, 
                                 price: itm.sellValue,
@@ -75,6 +85,38 @@ export default {
                  grid.innerHTML = `<div style='grid-column: 1/-1; text-align:center; padding:20px; color:#aaa;'>${msg}</div>`;
             } else {
                 itemsToRender.forEach(item => {
+                    // B"H: Icon rendering logic (copied from slots.js for consistency)
+                    let iconStyle = {};
+                    let textIcon = null;
+                    if (item.icon && (item.icon.includes('/') || item.icon.includes('data:'))) {
+                         if (item.isTintable && item.customData && item.customData.color) {
+                            const color = item.customData.color;
+                            iconStyle = {
+                                backgroundColor: color,
+                                maskImage: `url(${item.icon})`,
+                                WebkitMaskImage: `url(${item.icon})`,
+                                maskSize: "contain",
+                                WebkitMaskSize: "contain",
+                                maskRepeat: "no-repeat",
+                                WebkitMaskRepeat: "no-repeat",
+                                maskPosition: "center",
+                                WebkitMaskPosition: "center",
+                                width: "100%", height: "100%"
+                            };
+                        } else {
+                            iconStyle = { 
+                                backgroundImage: `url(${item.icon})`,
+                                backgroundSize: 'contain',
+                                backgroundRepeat: 'no-repeat',
+                                backgroundPosition: 'center',
+                                width: '100%', height: '100%'
+                            };
+                        }
+                    } else if (item.icon) {
+                        textIcon = item.icon;
+                        iconStyle = { display: 'flex', justifyContent: 'center', alignItems: 'center', fontSize: '30px' };
+                    }
+
                     ui.html({
                         parent: grid,
                         className: "store-item" + (item.isEquipped ? " locked" : ""),
@@ -83,24 +125,11 @@ export default {
                                 ui.peula(store, { showDetails: item });
                             }
                         },
-                        on: {
-                            mouseenter(ev) {
-                                const tooltip = document.createElement("div");
-                                tooltip.className = "awtsmoos-tooltip";
-                                tooltip.innerHTML = `<strong>${item.name}</strong><br>${item.type === 'buy' ? 'Cost' : 'Value'}: ${item.price}`;
-                                tooltip.style.left = ev.pageX + 10 + "px";
-                                tooltip.style.top = ev.pageY + 10 + "px";
-                                document.body.appendChild(tooltip);
-                                ev.target._tooltip = tooltip;
-                            },
-                            mouseleave(ev) {
-                                if(ev.target._tooltip) ev.target._tooltip.remove();
-                            }
-                        },
                         children: [
                             { 
                                 className: "store-item-icon", 
-                                style: { backgroundImage: item.icon ? `url(${item.icon})` : 'none' } 
+                                style: iconStyle,
+                                textContent: textIcon
                             },
                             { className: "store-item-qty", textContent: item.quantity || 1 },
                             item.isEquipped ? { className: "locked-icon", textContent: "🔒" } : null
@@ -115,12 +144,38 @@ export default {
             const details = $("storeScreen").querySelector(".store-details");
             details.innerHTML = "";
             
+            // Icon for details
+            let iconStyle = {};
+            let textIcon = null;
+             if (item.icon && (item.icon.includes('/') || item.icon.includes('data:'))) {
+                 // Simplified for details: just image if not complex
+                  if (item.isTintable && item.customData && item.customData.color) {
+                       iconStyle = {
+                            backgroundColor: item.customData.color,
+                            maskImage: `url(${item.icon})`,
+                            WebkitMaskImage: `url(${item.icon})`,
+                            maskSize: "contain",
+                            WebkitMaskSize: "contain",
+                            maskRepeat: "no-repeat",
+                            WebkitMaskRepeat: "no-repeat",
+                            maskPosition: "center",
+                            width: "100px", height: "100px", margin:'0 auto'
+                        };
+                  } else {
+                      iconStyle = { backgroundImage: `url(${item.icon})`, width:'100px', height:'100px', margin:'0 auto', backgroundSize:'contain', backgroundRepeat:'no-repeat', backgroundPosition:'center' };
+                  }
+             } else if (item.icon) {
+                 textIcon = item.icon;
+                 iconStyle = { fontSize: '60px', textAlign:'center', display:'block', margin:'0 auto' };
+             }
+
             ui.html({
                 parent: details,
                 children: [
                     { 
                         className: "store-item-icon large", 
-                        style: { backgroundImage: item.icon ? `url(${item.icon})` : 'none', width:'100px', height:'100px', margin:'0 auto' } 
+                        style: iconStyle,
+                        textContent: textIcon
                     },
                     { tag: "h3", textContent: item.name },
                     { textContent: item.description || "No description available." },

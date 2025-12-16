@@ -1,4 +1,6 @@
 
+
+
 // B"H
 export default {
     shaym: "saveGameScreen",
@@ -41,8 +43,27 @@ export default {
             }
 
             $("saveGameScreen").classList.remove("hidden");
-            // Populate fields if owning
-            // ... (existing logic)
+            
+            // B"H: Auto-Populate from World State
+            const nameInput = $("sg-name-input");
+            const descInput = $("sg-desc-input");
+            
+            // Try to guess name from URL
+            let defaultName = "My New World";
+            const urlParams = new URLSearchParams(window.location.search);
+            const path = urlParams.get('path') || window.currentWorldSourcePath;
+            
+            if (path) {
+                // Extract filename from path
+                const parts = path.split('/');
+                const file = parts[parts.length - 1];
+                defaultName = file.replace('.js', '').replace(/_/g, ' ').replace('.folder', '');
+            } else if (window.mana && window.mana.gameState && window.mana.gameState.shaym) {
+                defaultName = window.mana.gameState.shaym;
+            }
+            
+            if (nameInput) nameInput.value = defaultName;
+            if (descInput) descInput.value = "A wonderful world built in Mitzvah World.";
         },
         doSave(e, $, ui) {
              const name = $("sg-name-input").value;
@@ -53,6 +74,19 @@ export default {
                 olamPeula: {
                     downloadWorld: {
                         name, description: desc, editors: editors.split(',').map(s=>s.trim()), overwrite: true
+                    }
+                }
+            });
+            $("saveGameScreen").classList.add("hidden");
+        },
+        doSaveAs(e, $, ui) {
+             const name = $("sg-name-input").value;
+             const desc = $("sg-desc-input").value;
+             // Force overwrite false for "Save As"
+             ui.peula("ikar", {
+                olamPeula: {
+                    downloadWorld: {
+                        name, description: desc, overwrite: false
                     }
                 }
             });

@@ -1,4 +1,6 @@
 
+
+
 // B"H
 export default function updateSlots(e, $, ui) {
     const data = e.detail || e;
@@ -48,8 +50,8 @@ export default function updateSlots(e, $, ui) {
                 if (tooltip) {
                     tooltip.innerHTML = `<div class="header">${slotData.name || 'Item'}</div><div class="description">${slotData.description || ''}</div>`;
                     tooltip.classList.remove('hidden');
-                    const x = event.pageX || (event.touches && event.touches[0].pageX);
-                    const y = event.pageY || (event.touches && event.touches[0].pageY);
+                    const x = event.clientX || (event.touches && event.touches[0].clientX);
+                    const y = event.clientY || (event.touches && event.touches[0].clientY);
                     if(x && y) { tooltip.style.left = (x + 15) + 'px'; tooltip.style.top = (y + 15) + 'px'; }
                 }
             };
