@@ -22,13 +22,17 @@ class HNSW {
         this.metric = getMetric(meta.metric || 'cosine');
         this.entryNodeID = meta.entryNodeID !== undefined ? meta.entryNodeID : -1;
         
+        // B"H: Optimization - Node Cache
         this.nodeCache = new Map();
-        this.CACHE_LIMIT = 5000; 
+        this.dirtyNodes = new Set(); // Track nodes that need saving
+        this.CACHE_LIMIT = 20000; // Increased for bulk operations
+        
+        // B"H: Optimization - Registry Cache (ID -> Buffer Pointer)
+        this.registryPtrs = []; 
+        this.registryLoaded = false;
         
         // B"H: Persistent Registry Engine
         this.registryEngine = null; 
-        this.ptrCache = new Map(); 
-        this.PTR_CACHE_LIMIT = 20000;
     }
 
     async _initRegistryEngine() {
@@ -37,28 +41,69 @@ class HNSW {
         if (this.registryHandle.ptr) {
             const ptr = await SmartPointer.resolve(this.registryHandle.ptr, this.db.allocator);
             this.registryEngine = new Sequence(this.db.allocator, ptr);
+            
+            // Preload Registry Count
+            const len = await this.registryEngine.length();
+            
+            // B"H: Sync cache length
+            if (this.registryPtrs.length < len) {
+                this.registryPtrs.length = len;
+            }
+            if (this.db.debug) console.log(`B"H HNSW Registry Init. Length: ${len}`);
         }
     }
 
     async _getRegistryPtr(index) {
-        if (this.ptrCache.has(index)) return this.ptrCache.get(index);
+        // B"H: Fast Path - In-Memory Array
+        if (this.registryPtrs[index]) return this.registryPtrs[index];
         
         if (!this.registryEngine) await this._initRegistryEngine();
         
         if (this.registryEngine) {
             const ptr = await this.registryEngine.getPtr(index);
             if (ptr) {
+                // Copy to safe buffer
                 const copy = Buffer.allocUnsafe(16);
                 ptr.copy(copy);
-                if (this.ptrCache.size >= this.PTR_CACHE_LIMIT) {
-                    const first = this.ptrCache.keys().next().value;
-                    this.ptrCache.delete(first);
-                }
-                this.ptrCache.set(index, copy);
+                this.registryPtrs[index] = copy;
                 return copy;
             }
         }
-        return await this.registryHandle.reader.getItem(index);
+        return null;
+    }
+
+    async _setRegistryPtr(index, ptr) {
+        // Cache immediately
+        const copy = Buffer.allocUnsafe(16);
+        ptr.copy(copy);
+        this.registryPtrs[index] = copy;
+        
+        // B"H: Ensure engine is ready
+        if (!this.registryEngine) await this._initRegistryEngine();
+        
+        // B"H: Optimization
+        // If we are in Batch Mode (implied by rapid inserts), relying on Sequence's internal cache is key.
+        // We ensure we reuse the same `registryEngine` instance across inserts.
+        
+        // Check actual length of engine to decide append vs set
+        const engineLen = this.registryEngine ? this.registryEngine.nodeIO.engine.cache.size > 0 ? this.registryPtrs.length : await this.registryEngine.length() : 0;
+        
+        // Use a simpler length check: registryPtrs tracks implied length.
+        // Or trust the engine.
+        
+        if (this.registryEngine) {
+             const actualLen = await this.registryEngine.length();
+             if (index >= actualLen) {
+                 await this.registryEngine.ops.append(ptr);
+             } else {
+                 await this.registryEngine.set(index, ptr);
+             }
+        } else {
+             // Fallback if sequence not init yet
+             await this.registryHandle.push(ptr);
+             // Re-init engine to capture the new state
+             await this._initRegistryEngine();
+        }
     }
 
     async _getNode(nodeId) {
@@ -66,57 +111,71 @@ class HNSW {
         if (this.nodeCache.has(nodeId)) return this.nodeCache.get(nodeId);
 
         const ptr = await this._getRegistryPtr(nodeId);
-        if (!ptr) return null;
+        if (!ptr) {
+            if (this.db.debug) console.log(`B"H HNSW _getNode(${nodeId}) failed: Pointer not found in registry.`);
+            return null;
+        }
         
         const node = await this.storage.loadNode(ptr);
         if (node.deleted) return null;
         
+        this._cacheNode(nodeId, node);
+        return node;
+    }
+    
+    _cacheNode(nodeId, node) {
         if (this.nodeCache.size >= this.CACHE_LIMIT) {
-            const first = this.nodeCache.keys().next().value;
-            this.nodeCache.delete(first);
+            // Evict non-dirty node if possible
+            for (const [key, val] of this.nodeCache) {
+                if (!this.dirtyNodes.has(key)) {
+                    this.nodeCache.delete(key);
+                    break;
+                }
+            }
+            // If still full (all dirty), we MUST flush some dirty nodes
+            if (this.nodeCache.size >= this.CACHE_LIMIT) {
+                this.flushCache(100); // Flush 100 nodes
+            }
         }
         this.nodeCache.set(nodeId, node);
-        return node;
     }
 
     async insert(key, vector, payloadPtr) {
-        // B"H: Optimization - Batch Mode Check
         const existingNodeID = await this.keyMap.get(String(key));
         if (existingNodeID !== undefined) {
             const oldNode = await this._getNode(existingNodeID);
             if (oldNode) {
                 oldNode.deleted = true;
-                const deadPtr = await this.storage.saveNode(oldNode);
-                if (!deadPtr.equals(oldNode.ptr)) {
-                     // We don't really need to update registry for dead node if we mark it in storage
-                     // But for consistency:
-                     if(this.registryEngine) await this.registryEngine.set(existingNodeID, deadPtr);
-                }
+                this.dirtyNodes.add(oldNode.id); // Mark dirty instead of saving immediately
             }
         }
 
         const level = Math.floor(-Math.log(Math.random()) * ML);
         
-        if (!this.registryEngine) await this._initRegistryEngine();
-        const nodeId = this.registryEngine ? await this.registryEngine.length() : await this.registryHandle.length; 
+        // Ensure registry engine is init to get correct ID
+        await this._initRegistryEngine();
         
+        // ID is next index
+        // B"H: Trust internal array length for ID generation to avoid excessive DB reads
+        const nodeId = this.registryPtrs.length; 
+        
+        // if (this.db.debug) console.log(`B"H HNSW Insert: Creating Node ID ${nodeId}`);
+
+        // Create initial node structure in memory
         const newNodePtr = await this.storage.createNode(vector, level, payloadPtr, nodeId);
+        await this._setRegistryPtr(nodeId, newNodePtr);
+        await this.keyMap.set(String(key), nodeId); // B"H: Persist Key Mapping
         
-        // B"H: USE FAST APPEND
-        if (this.registryEngine) await this.registryEngine.ops.append(newNodePtr);
-        else await this.registryHandle.push(newNodePtr);
-        
-        this.ptrCache.set(nodeId, newNodePtr);
-        await this.keyMap.set(String(key), nodeId); 
-        
-        const newNode = await this.storage.loadNode(newNodePtr);
+        const newNode = await this.storage.loadNode(newNodePtr); 
         this.nodeCache.set(nodeId, newNode);
+        this.dirtyNodes.add(nodeId); 
         
         let currObj = await this._getNode(this.entryNodeID);
         
         if (!currObj) {
             this.entryNodeID = nodeId;
             this.meta.entryNodeID = nodeId;
+            await this.flushCache(); // Ensure entry point is saved
             return nodeId;
         }
 
@@ -148,20 +207,66 @@ class HNSW {
             newNode.neighbors[l] = [];
             for(const n of neighbors) {
                 newNode.neighbors[l].push(n.node.id);
+                // Bi-directional connection
                 await this._addNeighbor(n.node, newNode.id, l);
             }
             if (candidates.length > 0) currObj = candidates[0].node;
         }
 
-        // Save updated new node (neighbors changed)
-        // Note: saveNode returns SAME pointer if size fits, which vector storage handles.
-        await this.storage.saveNode(newNode);
-        
-        if (level > this.meta.entryNodeID) { 
+        if (currObj && level > currObj.level) { 
             this.entryNodeID = nodeId;
             this.meta.entryNodeID = nodeId;
         }
+        else if (this.entryNodeID === -1) {
+             this.entryNodeID = nodeId;
+             this.meta.entryNodeID = nodeId;
+        }
+        
+        // Auto-flush occasionally to prevent memory explosion
+        if (this.dirtyNodes.size > 2000) {
+            await this.flushCache();
+        }
+        
         return nodeId;
+    }
+
+    async _addNeighbor(node, neighborID, level) {
+        if (!node.neighbors[level]) node.neighbors[level] = [];
+        if (node.neighbors[level].includes(neighborID)) return;
+        node.neighbors[level].push(neighborID);
+        
+        const maxM = level === 0 ? M_MAX0 : M;
+        if (node.neighbors[level].length > maxM) {
+            const nList = [];
+            for(const nId of node.neighbors[level]) {
+                const n = await this._getNode(nId);
+                if (n) nList.push({ id: nId, dist: this.metric(node.vector, n.vector) });
+            }
+            nList.sort((a, b) => a.dist - b.dist);
+            node.neighbors[level] = nList.slice(0, maxM).map(x => x.id);
+        }
+        
+        this.dirtyNodes.add(node.id); // Mark for lazy save
+    }
+
+    async flushCache(limit = Infinity) {
+        if (this.dirtyNodes.size === 0) return;
+        
+        const toSave = [];
+        let count = 0;
+        for (const id of this.dirtyNodes) {
+            if (count >= limit) break;
+            const node = this.nodeCache.get(id);
+            if (node) toSave.push(node);
+            count++;
+        }
+
+        // B"H: Parallel save 
+        await Promise.all(toSave.map(node => this.storage.saveNode(node)));
+        
+        for(const node of toSave) {
+            this.dirtyNodes.delete(node.id);
+        }
     }
 
     async delete(key) {
@@ -170,10 +275,10 @@ class HNSW {
         const node = await this._getNode(nodeId);
         if (node) {
             node.deleted = true;
-            await this.storage.saveNode(node);
+            this.dirtyNodes.add(nodeId);
         }
         await this.keyMap.delete(String(key));
-        this.nodeCache.delete(nodeId);
+        await this.flushCache(); 
     }
 
     async _searchLayer(entryPoint, queryVec, ef, level) {
@@ -230,30 +335,9 @@ class HNSW {
                 }
             }
         }
-        
         return Array.from(candidates.values()).sort((a, b) => a.dist - b.dist);
     }
 
     _selectNeighbors(candidates, m) { return candidates.slice(0, m); }
-
-    async _addNeighbor(node, neighborID, level) {
-        if (!node.neighbors[level]) node.neighbors[level] = [];
-        if (node.neighbors[level].includes(neighborID)) return;
-        node.neighbors[level].push(neighborID);
-        
-        const maxM = level === 0 ? M_MAX0 : M;
-        if (node.neighbors[level].length > maxM) {
-            const nList = [];
-            for(const nId of node.neighbors[level]) {
-                const n = await this._getNode(nId);
-                if (n) nList.push({ id: nId, dist: this.metric(node.vector, n.vector) });
-            }
-            nList.sort((a, b) => a.dist - b.dist);
-            node.neighbors[level] = nList.slice(0, maxM).map(x => x.id);
-        }
-        
-        await this.storage.saveNode(node);
-        this.nodeCache.set(node.id, node);
-    }
 }
 module.exports = HNSW;

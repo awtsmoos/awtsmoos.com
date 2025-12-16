@@ -42,12 +42,10 @@ class Writer {
         return engine;
     }
     
-    // Invalidate if we do an operation that might change the structure fundamentally externally
     _invalidateEngine() {
         if (this._cachedEngine && this._cachedEngine.ops && this._cachedEngine.ops.invalidate) {
             this._cachedEngine.ops.invalidate();
         }
-        // We don't necessarily need to nullify the engine, just its cache
     }
 
     async _hydrateForIndex(val) {
@@ -64,8 +62,6 @@ class Writer {
         const newPtr = engine.ptr;
         let oldPtr = null;
         
-        // ... (Existing logic to get oldPtr) ...
-        // Simplified for brevity, same logic as before
         if (this.handle.ptr) {
              const decoded = SmartPointer.decode(this.handle.ptr);
              if (decoded.mode === constants.MODE_BLOCK) {
@@ -86,9 +82,21 @@ class Writer {
         if (hasChanged) {
             const newPtrBuf = SmartPointer.block(type, newPtr.blockId, newPtr.length, newPtr.isChain, newPtr.offset);
             await this.handle._updatePointer(newPtrBuf);
-            // Update hash since pointer changed
             this._cachedStructPtrHash = `${newPtr.blockId}:${newPtr.offset}`;
         }
+    }
+
+    // B"H: New Graph Cleanup Helper
+    async _checkGraphCleanup(ptr) {
+        if (!ptr) return;
+        // Optimization: Only if graph exists
+        const hasGraph = await this.db.root.has("__graph__");
+        if (!hasGraph) return;
+        
+        // Pass pointer buffer directly to deleteNode
+        // Note: GraphManager deleteNode is async and handles edge cleanup.
+        // We fire and await to ensure consistency for test.
+        await this.db.graph.deleteNode(ptr);
     }
 
     async compact() {
@@ -141,11 +149,11 @@ class Writer {
         return null;
     }
 
-    async set(key, value) {
+    async set(key, value, options = {}) {
         return this.db.execute(async () => {
             try {
-                this._invalidateEngine(); // Set implies random access, invalidate sequential cache
-                await this._setRaw(key, value);
+                this._invalidateEngine(); 
+                await this._setRaw(key, value, options);
             } catch (e) {
                 console.error(`B"H - Writer.set error: ${e.message}`);
                 throw e;
@@ -167,28 +175,42 @@ class Writer {
         const valToSet = isPtr ? value : await this.builder.build(value);
         const path = this.handle.getPath();
         const searchIndexed = await this.db.search.isIndexed(path);
+        
+        if (this.db.debug) console.log(`B"H Writer._setRaw path="${path}" searchIndexed=${searchIndexed} key=${key}`);
+
         const vectorIndex = await this.db.vector.getIndex(path);
 
         let structPtr = await this._resolveStructPtr();
-        let oldVal = null;
-        let oldPtr = null;
-
-        if (searchIndexed) {
-            // Index logic... (omitted for brevity, assume same as before)
-        }
-
+        
         if (this.handle.type === constants.TYPE_SEQUENCE) {
             const seq = await this._getEngine(structPtr, constants.TYPE_SEQUENCE);
             const index = parseInt(key);
             if (isNaN(index)) throw new Error(`Invalid index '${String(key)}'`);
             
             const len = await seq.length();
+            
+            let oldPtr = null;
+            let oldVal = null;
+            
+            if (searchIndexed && index < len) {
+                oldPtr = await seq.getPtr(index);
+                if (oldPtr) oldVal = await this.handle.reader.getItem(index);
+            }
+
             if (index === len) await seq.push(valToSet);
             else if (index < len) await seq.set(index, valToSet, { skipFree });
             else throw new Error(`Index ${index} out of bounds`);
             
             await this._checkAutoCompact(seq, constants.TYPE_SEQUENCE);
-            // ... Index updates ...
+            
+            if (searchIndexed && index < len) {
+                if(this.db.debug) console.log(`B"H Writer Updating Index for ${path}...`);
+                await this.db.search.updateIndex(path, valToSet, oldPtr, oldVal, value);
+            } else if (searchIndexed && index === len) {
+                if(this.db.debug) console.log(`B"H Writer Adding to Index for ${path}...`);
+                await this.db.search.updateIndex(path, valToSet, null, null, value);
+            }
+            
             return;
         }
 
@@ -196,22 +218,21 @@ class Writer {
 
         if (this.handle.type === constants.TYPE_MAP) {
             const map = await this._getEngine(structPtr, constants.TYPE_MAP);
+            // If setting overwrites an existing key, we should check if we need to clean up graph/search.
+            // Map.set in current implementation doesn't return old value easily unless we query.
+            // For now, simple set.
             await map.set(encodedKey, valToSet, { isPtr: true, skipFree });
             await this._checkAutoCompact(map, constants.TYPE_MAP);
-            // ... Index updates ...
             return;
         }
 
         const dict = await this._getEngine(structPtr, constants.TYPE_DICTIONARY);
         await dict.set(encodedKey, valToSet, { isPtr: true, skipFree });
-        
-        // ... Index updates ...
     }
 
     async createMap(key) {
         return this.db.execute(async () => {
             this._invalidateEngine();
-            // ... (Same createMap logic) ...
             await this.handle.ensureResolved();
             let structPtr = await this._resolveStructPtr();
             
@@ -250,8 +271,6 @@ class Writer {
             let structPtr = await this._resolveStructPtr();
             const encodedKey = keyEncoding.encode(key);
 
-            // ... Index/Graph cleanup logic ...
-
             if (this.handle.type === constants.TYPE_DICTIONARY) {
                 const dict = await this._getEngine(structPtr, constants.TYPE_DICTIONARY);
                 return await dict.delete(encodedKey);
@@ -259,13 +278,33 @@ class Writer {
             if (this.handle.type === constants.TYPE_MAP) {
                 const map = await this._getEngine(structPtr, constants.TYPE_MAP);
                 const res = await map.delete(encodedKey);
+                
+                // B"H: If delete returned deletedPtr, clean up graph
+                if (res.success && res.deletedPtr) {
+                    await this._checkGraphCleanup(res.deletedPtr);
+                }
+                
                 await this._checkAutoCompact(map, constants.TYPE_MAP);
-                return res;
+                return res.success;
             }
             if (this.handle.type === constants.TYPE_SEQUENCE) {
                  const seq = await this._getEngine(structPtr, constants.TYPE_SEQUENCE);
                  const index = parseInt(key);
                  if(!isNaN(index)) {
+                     const path = this.handle.getPath();
+                     const isIndexed = await this.db.search.isIndexed(path);
+                     
+                     // B"H: Fetch old pointer for cleanup
+                     const oldPtr = await seq.getPtr(index);
+                     
+                     if (isIndexed && oldPtr) {
+                         const oldVal = await this.handle.reader.getItem(index);
+                         await this.db.search.updateIndex(path, null, oldPtr, oldVal, null);
+                     }
+                     
+                     // B"H: Graph cleanup
+                     if (oldPtr) await this._checkGraphCleanup(oldPtr);
+                     
                      await seq.splice(index, 1);
                      await this._checkAutoCompact(seq, constants.TYPE_SEQUENCE);
                      return true;
@@ -274,11 +313,12 @@ class Writer {
         });
     }
 
-    async push(value) {
+    async push(value, options = {}) {
         return this.db.execute(async () => {
             await this.handle.ensureResolved();
             if (this.handle.type !== constants.TYPE_SEQUENCE) throw new Error("Not a sequence");
             
+            const isPtr = (options === true) || (options && options.isPtr);
             const path = this.handle.getPath();
             const isIndexed = await this.db.search.isIndexed(path);
             const vectorIndex = await this.db.vector.getIndex(path);
@@ -289,7 +329,8 @@ class Writer {
             const seq = await this._getEngine(structPtr, constants.TYPE_SEQUENCE);
             
             const currentLen = await seq.length();
-            const valToPush = await this.builder.build(value);
+            
+            const valToPush = isPtr ? value : await this.builder.build(value);
 
             await seq.push(valToPush);
             await this._checkAutoCompact(seq, constants.TYPE_SEQUENCE);
@@ -313,16 +354,42 @@ class Writer {
             const path = this.handle.getPath();
             const structPtr = await this._resolveStructPtr();
             const seq = await this._getEngine(structPtr, constants.TYPE_SEQUENCE);
+            const isIndexed = await this.db.search.isIndexed(path);
             
-            // ... Index Logic ...
-
             const preparedItems = [];
             for(const item of items) preparedItems.push(await this.builder.build(item));
             
+            const toRemove = []; // [{ ptr, val }]
+            
+            // B"H: Always fetch ptrs for graph/search cleanup if deleting
+            if (deleteCount > 0) {
+                for (let i = 0; i < deleteCount; i++) {
+                    const idx = start + i;
+                    const ptr = await seq.getPtr(idx);
+                    if (ptr) {
+                        const val = isIndexed ? await this.handle.reader.getItem(idx) : null;
+                        toRemove.push({ ptr, val });
+                    }
+                }
+            }
+
             await seq.splice(start, deleteCount, ...preparedItems);
             await this._checkAutoCompact(seq, constants.TYPE_SEQUENCE);
-
-            // ... Index Update Logic ...
+            
+            // Cleanup
+            for(const r of toRemove) {
+                if (isIndexed) await this.db.search.updateIndex(path, null, r.ptr, r.val, null);
+                // Graph cleanup
+                await this._checkGraphCleanup(r.ptr);
+            }
+            
+            if (isIndexed) {
+                for(let i = 0; i < items.length; i++) {
+                    const newVal = items[i];
+                    const newPtr = preparedItems[i];
+                    await this.db.search.updateIndex(path, newPtr, null, null, newVal);
+                }
+            }
         });
     }
 
@@ -344,6 +411,11 @@ class Writer {
             const otherSeq = new Sequence(this.db.allocator, otherRes);
             await seq.concat(otherSeq);
             await this._checkAutoCompact(seq, constants.TYPE_SEQUENCE);
+            
+            const path = this.handle.getPath();
+            if (await this.db.search.isIndexed(path)) {
+                await this.db.search.reindex(path);
+            }
         });
     }
 }
