@@ -31,6 +31,11 @@ export default {
                             dashboard.classList.remove("hidden");
                             $("fw-results-grid").innerHTML = ""; // Clear results
                             $("fw-results-title").textContent = "Results";
+                            
+                            // Reset URL
+                            const url = new URL(window.location);
+                            url.searchParams.delete("alias");
+                            window.history.pushState({}, "", url);
                         } else {
                             // Go back to main menu
                             $("main menu").classList.remove("hidden");
@@ -167,6 +172,11 @@ export default {
         async loadAliasWorlds(e, $, ui) {
             const { alias, title } = e.detail;
             
+            // B"H: Update URL for deep linking
+            const url = new URL(window.location);
+            url.searchParams.set("alias", alias);
+            window.history.pushState({ alias: alias }, "", url);
+
             // 1. UI State Management
             $("fw-dashboard").classList.add("hidden");
             $("fw-results").classList.remove("hidden");

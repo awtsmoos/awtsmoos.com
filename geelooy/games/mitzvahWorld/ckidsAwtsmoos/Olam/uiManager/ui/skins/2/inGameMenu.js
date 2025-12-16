@@ -1,3 +1,4 @@
+
 /**
  * B"H
  */
@@ -196,7 +197,7 @@ export default /*css*/`
 
 
       .gameUi {
-        overflow:hidden;
+        overflow: visible; /* B"H: Changed to visible to allow login dropdown to show */
         width:100%;
         height:100%;
 		

@@ -39,21 +39,7 @@ export class Octree {
 		this.dynamicTriangles = [];
 	}
 	
-	addDynamicTriangle(triangle) {
-	    if (!this.box.intersectsTriangle(triangle)) {
-	        return;
-	    }
-	    if (this.subTrees.length > 0) {
-	        for (const subTree of this.subTrees) {
-	            subTree.addDynamicTriangle(triangle);
-	        }
-	    } else {
-            // B"H FIX: Clone the triangle but KEEP the mesh reference!
-            const clone = triangle.clone();
-            clone.sourceMesh = triangle.sourceMesh;
-	        this.dynamicTriangles.push(clone);
-	    }
-	}
+	
 	
 	/**
 	 * B"H
@@ -71,6 +57,22 @@ export class Octree {
 	    this._isManaged = false; // When cleared, it reverts to a normal, unmanaged octree.
 
 	    return this; // Allow chaining
+	}
+	
+	addDynamicTriangle(triangle) {
+	    if (!this.box.intersectsTriangle(triangle)) {
+	        return;
+	    }
+	    if (this.subTrees.length > 0) {
+	        for (const subTree of this.subTrees) {
+	            subTree.addDynamicTriangle(triangle);
+	        }
+	    } else {
+            // B"H FIX: Clone the triangle but KEEP the mesh reference!
+            const clone = triangle.clone();
+            clone.sourceMesh = triangle.sourceMesh;
+	        this.dynamicTriangles.push(clone);
+	    }
 	}
 	
 	/**

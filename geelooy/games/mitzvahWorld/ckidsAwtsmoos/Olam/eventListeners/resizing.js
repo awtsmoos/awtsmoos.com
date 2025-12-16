@@ -1,3 +1,4 @@
+
 /**
  * B"H
  * 
@@ -57,13 +58,15 @@
         /**
             * actual time when started
             */
+        console.log("B\"H - Olam Event: rendered first time triggered.");
         this.rendered = true
         this.renderer.renderedOnce = true;
         var windowSize = await this.ayshPeula("get window size")
         if(Array.isArray(windowSize)) {
             windowSize = windowSize[0]
         }
-
+        
+        console.log("B\"H - Requesting hide loading screen...");
         await this.ayshPeula("hide loading screen")
         
         this.windowSize.x = windowSize.width;

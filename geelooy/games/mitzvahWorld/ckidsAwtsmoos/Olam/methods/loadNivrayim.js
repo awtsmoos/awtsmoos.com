@@ -1,3 +1,4 @@
+
 /**
  * B"H
  * the method to load Nivrayim
@@ -5,47 +6,38 @@
 
 import Utils from '../../utils.js'
 import * as AWTSMOOS from '../../awtsmoosCkidsGames.js';
-export default class {
 
+export default class {
 
 	async addObject(type, options) {
         if (!AWTSMOOS[type]) {
-            console.error(`Olam.addObject: Type "${type}" does not exist.`);
+            console.error(`B"H - Olam.addObject: Type "${type}" does not exist.`);
             return;
         }
 
-        // 1. Create the logical object (Nivra)
         const nivra = new AWTSMOOS[type](options, this);
         let mesh;
 
-        // 2. Create the visual object (Mesh)
         if (options.golem) {
             mesh = await this.generateThreeJsMesh(options.golem);
             mesh.name = nivra.name;
             nivra.mesh = mesh;
             mesh.nivraAwtsmoos = nivra;
-		if(!mesh.userData) mesh.userData = {};
-            // 3. APPLY TRANSFORMATIONS DIRECTLY - This is the most critical step.
+		    if(!mesh.userData) mesh.userData = {};
+            
             if (options.position) mesh.position.copy(options.position);
-            if (options.rotation) mesh.rotation.copy(options.rotation); // It takes the Euler directly.
+            if (options.rotation) mesh.rotation.copy(options.rotation); 
             if (options.scale) mesh.scale.copy(options.scale);
             
             if (options.itemData) {
                 mesh.userData.itemData = options.itemData;
             }
 
-            // 4. Update the world matrix BEFORE passing to physics.
             mesh.updateMatrixWorld(true);
-            
-		if (mesh.geometry) {
-                mesh.geometry.sourceMesh = mesh; // Helper property
-            }
-            // 5. Add to physics and scene.
-            let physicsSuccess = true;
+            if (mesh.geometry) mesh.geometry.sourceMesh = mesh; 
 
+            let physicsSuccess = true;
             if (options.isSolid) {
-                // B"H 
-                //Failsafe: Only valid if physics accepts it
                 const playerPos = this.chossid ? this.chossid.mesh.position : null;
                 physicsSuccess = this.worldOctree.addObject(mesh, playerPos);
                 if (!physicsSuccess) {
@@ -54,7 +46,6 @@ export default class {
                 }
             }
             
-            // Only add visual mesh if physics (if required) was successful
             if (physicsSuccess) {
                 mesh.traverse(child => {
                     if(child.isMesh) {
@@ -64,26 +55,17 @@ export default class {
                     }
                 });
                 
-                // B"H FIX: Do NOT add dynamic/skinned entities to the static interactive Octree.
-                // It crashes on SkinnedMeshes and is meant for static level geometry.
                 if (options.interactable && type !== 'CustomNpc' && type !== 'Chossid' && type !== 'Medabeir') {
                     this.interactiveOctree.fromGraphNode(mesh);
                 }
-                
                 this.nivrayimGroup.add(mesh);
             }
             
         } else if (options.path) {
-            // Logic for adding GLBs dynamically at runtime can be added here in the future.
-            // For now, this ensures your brick-placing is fixed.
-            console.error("Dynamic GLB adding not fully implemented in this path yet. Use primitives with 'golem'.");
+            console.error(`B"H - addObject requires 'golem' for dynamic objects currently.`);
             return;
-        } else {
-             console.error("addObject requires either a 'golem' or a 'path'.");
-             return;
         }
         
-        // 6. Finalize the object.
         this.nivrayim.push(nivra);
         await nivra.ready();
         await nivra.afterBriyah();
@@ -92,6 +74,7 @@ export default class {
 
     async loadNivrayim(nivrayim) {
         try {
+            console.log("B\"H - loadNivrayim started");
             var nivrayimMade = [];
             var ent = Object.entries(nivrayim);
             
@@ -116,16 +99,9 @@ export default class {
                         options = entry[1];
                     }
 
-                    // --- NEW: INJECT PLAYER INVENTORY ---
-                    // If we are creating a Chossid (Player) and we have loaded settings...
                     if (type === "Chossid" && this.playerSettings && this.playerSettings.inventory) {
-                        console.log("B\"H - Injecting saved inventory into player.");
-                        
-                        // Overlay the saved inventory onto the creation options.
-                        // We use a shallow merge or direct replacement.
                         options.inventory = this.playerSettings.inventory;
                     }
-                    // ------------------------------------
 
                     let nivra;
                     var evaledObject = null;
@@ -134,16 +110,19 @@ export default class {
                         evaledObject = Utils.evalStringifiedFunctions(options);
                         var c = AWTSMOOS[type];
                         if (c && typeof(c) == "function") {
+                            // console.log(`B"H - Instantiating ${type}: ${name}`);
                             nivra = new c({
                                 name,
                                 ...evaledObject
                             }, this);
+                        } else {
+                            console.warn(`B"H - Class ${type} not found!`);
                         }
                     } catch (e) {
-                        console.log("Error handling stringified function", options, e, nivra);
+                        console.error("B\"H - Error instantiating nivra", options, e);
                     }
 
-                    if (!nivra) return null;
+                    if (!nivra) continue;
 
                     nivrayimMade.push(nivra);
                     
@@ -151,7 +130,7 @@ export default class {
                         "increase loading percentage", {
                             amount: (100) / (nivrayimMade.length),
                             nivra,
-                            action: "initting each nivra"
+                            action: "initting " + name
                         }
                     );
                 }
@@ -171,62 +150,51 @@ export default class {
             }
             this.totalSize = totalSize;
 
-            await this.ayshPeula("alert", "Loaded Nivra models, now initing")
+            console.log("B\"H - Initialization Phase (heescheel) starting for " + nivrayimMade.length + " entities.");
             
             for (var nivra of nivrayimMade) {
                 if (nivra.heescheel && typeof(nivra.heescheel) === "function") {
                     try {
+                        console.log(`B"H - heescheel: ${nivra.name} (${nivra.type})`);
                         await nivra.heescheel(this, {
                             nivrayimMade
                         });
+                        console.log(`B"H - heescheel done: ${nivra.name}`);
                     } catch(e) {
-                        console.log("problem laoding nivra", nivra, e);
+                        console.error(`B"H - problem loading nivra ${nivra.name}`, e);
                     }
                     this.ayshPeula("increase loading percentage", {
                         amount:(100) / (nivrayimMade.length),
                         nivra,
-                        action: "Setting up Nivra " + nivra.name + " in world...",
+                        action: "Setting up " + nivra.name,
                         info: { nivra }
                     });
                 }
             }
             
-            await this.ayshPeula("alert", "Made nivrayim")
+            console.log("B\"H - madeAll Phase");
             
             for (var nivra of nivrayimMade) {
                 if (nivra.madeAll) {
                     await nivra.madeAll(this);
-                    this.ayshPeula("increase loading percentage", {
-                        amount:(100) / (nivrayimMade.length),
-                        nivra,
-                        action: "Sending initial messages to nivra "+nivra.name
-                    });
                 }
             }
             
-            await this.ayshPeula("alert", "placing nivrayim")
+            console.log("B\"H - Placeholder/Entity Logic Phase");
             
             for (var nivra of nivrayimMade) {
                 await this.doPlaceholderAndEntityLogic(nivra);
-                this.ayshPeula("increase loading percentage", {
-                    amount:(100) / (nivrayimMade.length),
-                    nivra,
-                    action: "Setting up object placeholders for "+nivra.name
-                });
             }
+
+            console.log("B\"H - Ready Phase");
 
             for (var nivra of nivrayimMade) {
                 if (nivra.ready) {
                     await nivra.ready();
-                    this.ayshPeula("increase loading percentage", {
-                        amount:(100) / (nivrayimMade.length),
-                        nivra,
-                        action: "Calling ready state for nivra "+nivra.name
-                    });
                 }
             }
 
-            await this.ayshPeula("alert", "doing things after nivrayim made")
+            console.log("B\"H - AfterBriyah Phase");
             
 			for(var nivra of nivrayimMade) {
 				if(nivra.afterBriyah) {
@@ -238,13 +206,14 @@ export default class {
                 loadedNivrayim: Date.now()
             })
 
-            await this.ayshPeula("alert", "adding light")
+            console.log("B\"H - Adding Lights (Ohr)");
             
             if(!this.enlightened)
                 this.ohr();
+                
             return nivrayimMade;
         } catch (error) {
-            console.error("An error occurred while loading: ", error);
+            console.error("B\"H - CRITICAL ERROR in loadNivrayim: ", error);
         }
     }
 }

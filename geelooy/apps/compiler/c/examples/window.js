@@ -33,10 +33,22 @@ void main() {
     int hInstance = GetModuleHandleA(0);
     
     // Allocate WNDCLASSA on stack
+    // In this compiler, 'int' local vars are 8 bytes (64-bit).
+    // WNDCLASSA layout (72 bytes aligned to 8):
+    // 0: style (4) + pad
+    // 1: lpfnWndProc (8)
+    // 2: cbClsExtra (4) + cbWndExtra (4)  <- Packed into one 8-byte slot
+    // 3: hInstance (8)
+    // 4: hIcon (8)
+    // 5: hCursor (8)
+    // 6: hbrBackground (8)
+    // 7: lpszMenuName (8)
+    // 8: lpszClassName (8)
+    
     int wc[10]; 
     wc[0] = 3;           // style
     wc[1] = WndProc;     // lpfnWndProc
-    wc[2] = 0;           // cbCls/Wnd
+    wc[2] = 0;           // cbClsExtra & cbWndExtra
     wc[3] = hInstance;   // hInstance
     wc[4] = 0;           // hIcon
     wc[5] = 0;           // hCursor

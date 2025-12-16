@@ -221,11 +221,8 @@ export default class UIManager {
                 },
                 {
                     className:"svgHolder",
-                    innerHTML:`
-                        ${
-                        btnBubble
-                        }
-                        
+                    innerHTML:/*html*/ `
+                        ${btnBubble}
                     `
                 }
             ],

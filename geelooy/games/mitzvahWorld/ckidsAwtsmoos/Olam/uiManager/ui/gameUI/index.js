@@ -18,7 +18,9 @@ import topMenu from "./topMenu.js";
 import dialogues from "./dialogues.js";
 import { Saving, DragGhost, Tooltips, QuantityModal } from "./general.js";
 import actionBar from "./actionBar.js";
-import inventoryScreen from "./inventory.js";
+
+// B"H: Updated Inventory Import
+import inventoryScreen from "./inventory/index.js";
 
 // Initialize drag listeners globally
 initDragSystem();

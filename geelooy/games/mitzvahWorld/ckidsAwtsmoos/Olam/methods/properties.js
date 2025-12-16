@@ -10,11 +10,8 @@ import * as THREE from '/games/scripts/build/three.module.js';
 import { GLTFLoader } from '/games/scripts/jsm/loaders/GLTFLoader.js';
 import {DRACOLoader} from "/games/scripts/jsm/loaders/DRACOLoader.js"
 
-import //{Octree}
-{ OctreeWorld as Octree }
- from
-'../math/OctreeWorld.js';
-// '../math/AwtsmoosOctree.js';
+// B"H: Reverted to monolithic file import as requested
+import { OctreeWorld as Octree } from '../math/OctreeWorld.js';
 
 //import WebGPURenderer from "/games/scripts/jsm/gpu/WebGPURenderer.js"
 

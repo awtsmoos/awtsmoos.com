@@ -1,40 +1,46 @@
 /* B"H */
-
-export const source = `//B"H
+export const source = `// B"H
 #include <stdio.h>
-#include <dirent.h>
 #include <unistd.h>
+#include <dirent.h>
 
 void main() {
-    print("B\\"H - Directory Listing via dirent.h\\n");
-    print("-----------------------------------\\n");
+    printf("B\\"H - Directory Lister\\n");
+    printf("Scanning current directory...\\n");
+    fflush(0);
+
+    struct DIR* dir = opendir(".");
     
-    struct DIR* d;
-    struct dirent* dir;
-    
-    d = opendir(".");
-    
-    if (d) {
-        while ((dir = readdir(d)) != 0) {
-            // d_name is a char array in the struct
-            // We can print it directly via pointer access
-            char* name = dir->d_name;
-            
-            // Filter . and ..
-            char c = *name;
-            if (c != 46) {
-                print(name);
-                print("\\n");
-            }
-        }
-        closedir(d);
-    } else {
-        print("Failed to open directory.\\n");
+    if (dir == 0) {
+        printf("Error: opendir failed. (Handle is -1)\\n");
+        fflush(0);
+        sleep(5000);
+        exit(1);
     }
     
-    print("-----------------------------------\\n");
-    print("Done. Sleeping...\\n");
-    sleep(5000);
+    int count = 0;
+    struct dirent* ent;
+    
+    while (1) {
+        ent = readdir(dir);
+        if (ent == 0) break;
+        
+        char* name = ent->d_name;
+        
+        // name[0] != '.' (46)
+        if (name[0] != 46) {
+             printf("[File] %s\\n", name);
+             fflush(0); 
+             count++;
+        }
+    }
+    
+    closedir(dir);
+    
+    printf("Total: %d\\n", count);
+    printf("Done. Waiting 10 seconds before close...\\n");
+    fflush(0);
+    sleep(10000);
     exit(0);
 }
 `;

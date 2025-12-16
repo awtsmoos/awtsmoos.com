@@ -1,3 +1,4 @@
+
 /**
  * B"H
  * 
@@ -15,6 +16,8 @@ export default class {
         var self = this;
         var firstTime = false;
         
+        console.log("B\"H - Starting Game Loop (HeesHawvoos)");
+
         // This will be the loop we call every frame.
         async function go(time) {
              // Delta time (in seconds) is the amount of time that has passed since the last frame.
@@ -96,6 +99,7 @@ export default class {
                 // The rendering. This is done once per frame.
                 if(!firstTime) {
                     firstTime = true;
+                    console.log("B\"H - First Frame Rendered!");
                     self.ayshPeula("rendered first time")
                     self.ayshPeula("alert", "First time rendering " + self.renderer)
                 }

@@ -9,7 +9,7 @@ export function parseExpression(stream) {
 }
 
 function parseAssign(stream) {
-    let left = parseEquality(stream);
+    let left = parseLogicalOr(stream);
     
     const t = stream.peek();
     if (t.type === TOKENS.OP && ['=', '+=', '-=', '*=', '/='].includes(t.value)) {
@@ -26,6 +26,26 @@ function parseAssign(stream) {
                 right: { type: 'binop', op: binOp, left: left, right: right }
             };
         }
+    }
+    return left;
+}
+
+function parseLogicalOr(stream) {
+    let left = parseLogicalAnd(stream);
+    while (stream.peek().type === TOKENS.OP && stream.peek().value === '||') {
+        const op = stream.consume().value;
+        const right = parseLogicalAnd(stream);
+        left = { type: 'binop', op, left, right };
+    }
+    return left;
+}
+
+function parseLogicalAnd(stream) {
+    let left = parseEquality(stream);
+    while (stream.peek().type === TOKENS.OP && stream.peek().value === '&&') {
+        const op = stream.consume().value;
+        const right = parseEquality(stream);
+        left = { type: 'binop', op, left, right };
     }
     return left;
 }

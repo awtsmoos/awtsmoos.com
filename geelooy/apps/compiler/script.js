@@ -108,6 +108,7 @@ function populateCSelect() {
         hello: "Load: Hello World (GUI)",
         console: "Load: Console Output",
         echo: "Load: Echo Input",
+        input: "Load: Input Box (GUI)",
         fib: "Load: Fibonacci (Recursion)",
         file: "Load: File I/O",
         list_dir: "Load: List Files (Win32)",

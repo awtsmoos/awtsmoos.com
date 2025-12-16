@@ -1,3 +1,4 @@
+
 //B"H
 /**
  * Ayin - An enhanced Three.js camera class that follows a target object in the scene. 
@@ -8,16 +9,16 @@ import * as THREE from '/games/scripts/build/three.module.js';
 
  export default class Ayin {
     constructor(olam) {
-        var width, height, target;
+        var width = 1920, height = 1080; // B"H: Default dimensions to avoid NaN
         this.olam = olam;
         this.width = width;
         this.height = height;
-        this.target = target;
+        this.target = null;
         this.isFPS = false;
 
         this.mouseX = 0;
         this.mouseY = 0;
-        this.deltaY =0;
+        this.deltaY = 0;
 
         this.targetHeight = 1;
 
@@ -151,6 +152,12 @@ import * as THREE from '/games/scripts/build/three.module.js';
     sentToOlam = false;
     update() {
         if (!this.target) return;
+        
+        // B"H: NaN Check - If target is invalid (e.g. fallen into abyss), skip update to prevent camera glitch
+        if (isNaN(this.target.mesh.position.x) || isNaN(this.target.mesh.position.y) || isNaN(this.target.mesh.position.z)) {
+            console.log("WHTA")
+            return;
+        }
 
         this.newMovement=false
         if(
@@ -186,7 +193,7 @@ import * as THREE from '/games/scripts/build/three.module.js';
 
                 this.target.rotateOffset = 0;
             } else {
-                // B"H: Safety check for deltaY to prevent NaN propagation
+                // B"H: Safety check for deltaY
                 const dY = (typeof this.deltaY === 'number' && !isNaN(this.deltaY)) ? this.deltaY : 0;
                 this.desiredDistance -= dY * 0.02 * this.zoomRate * Math.abs(this.desiredDistance) * this.speedDistance;
                 this.desiredDistance = Math.max(Math.min(this.desiredDistance, this.maxDistance), this.minDistance);
@@ -296,7 +303,8 @@ import * as THREE from '/games/scripts/build/three.module.js';
        
             
             // Assuming raycaster is set up and pointing in the right direction
-            let collisionResult = this.olam.worldOctree.rayIntersect(this.raycaster.ray);
+            // B"H: Added safety check for worldOctree
+            let collisionResult = this.olam.worldOctree ? this.olam.worldOctree.rayIntersect(this.raycaster.ray) : null;
 
             if (collisionResult) {
                 // collisionResult contains the nearest intersection
@@ -415,7 +423,8 @@ import * as THREE from '/games/scripts/build/three.module.js';
         
 
         this.camera.rotation.copy(this.euler);
-        if(position) {
+        // B"H: NaN Check
+        if(position && !isNaN(position.x) && !isNaN(position.y) && !isNaN(position.z)) {
             this.camera.position.copy(position);
             this.cameraFollower.position.copy(position);
         }
@@ -423,8 +432,11 @@ import * as THREE from '/games/scripts/build/three.module.js';
 
         var pos = this.target.mesh.position.clone();
         pos.y += this.targetHeight
-        this.camera.lookAt(pos);
-        this.cameraFollower.lookAt(pos)
+        // B"H: NaN Check
+        if (!isNaN(pos.x)) {
+            this.camera.lookAt(pos);
+            this.cameraFollower.lookAt(pos)
+        }
         if(did) {
           //  this.userInputTheta = this.euler.y
         }
@@ -466,7 +478,6 @@ import * as THREE from '/games/scripts/build/three.module.js';
 
     zoom(deltaY) {
         this.newMovement=true;
-        // B"H: Ensure deltaY is a valid number to prevent NaN
         this.deltaY = (typeof deltaY === 'number' && !isNaN(deltaY)) ? deltaY : 0;
     }
 

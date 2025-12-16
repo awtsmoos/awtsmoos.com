@@ -4,7 +4,8 @@
 
 import * as THREE  from '/games/scripts/build/three.module.js';
 import { Capsule } from './Capsule.js'
-import { Octree as AwtsmoosOctree } from './AwtsmoosOctree.js';
+import { Octree as AwtsmoosOctree } from "./AwtsmoosOctree/index.js";
+//'./AwtsmoosOctree.js';
 import OctreeMath from './OctreeMath.js'; // B"H New Import
 
 var { Box3, Vector3, Group, Mesh, Sphere, Triangle, Matrix4} = THREE;

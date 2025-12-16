@@ -6,8 +6,7 @@
 
 import Utils from '../../utils.js'
 import * as THREE from '/games/scripts/build/three.module.js';
-import { Octree } from '../math/AwtsmoosOctree.js';
-import GeometryManager from '../math/GeometryManager.js';
+import { Octree } from '../math/AwtsmoosOctree/index.js';
 import generateThreeJsMesh from './helpers/generateMesh.js';
 
 export default class {
@@ -63,7 +62,7 @@ export default class {
                 
                 if(0&&gltfAsset) { } else { 
                     try {
-                        var lastTime = Date.now();
+                        console.log(`B"H - Loading Model: ${derech}`);
                         gltf = await new Promise((r,j) => {
                             if (!derech || typeof derech !== 'string') {
                                 j("Invalid model path (derech)");
@@ -73,18 +72,22 @@ export default class {
                             this.loader.load(derech, onloadParsed => { r(onloadParsed) },
                             async progress => {
                                 var { loaded, total } = progress;
-                                var percent = loaded/total;
-                                var loadingPercentage = percent * (nivra.size / this.totalSize);
-                                await this.ayshPeula("increase loading percentage", {
-                                    amount: 100 * loadingPercentage,
-                                    action: "building nivra model: "+nivra.name
-                                })
-                            }, error => { console.log(error); r(); });
+                                // Optional verbose progress logging
+                            }, error => { 
+                                console.error(`B"H - Error loading ${derech}:`, error); 
+                                r(null); // Resolve null to prevent hang
+                            });
                         })
+                        console.log(`B"H - Model Loaded: ${derech}`);
                     } catch(e) { throw e; }
                 }
                 
-                if(!gltf) throw "Couldn't load model!";
+                if(!gltf) {
+                     console.warn("B\"H - Failed to load model for", nivra.name);
+                     // Return empty object or fallback mesh?
+                     // For now, throw to trigger fallback logic if wrapped, or return null
+                     throw "Couldn't load model!";
+                }
                 
                 if(!gltfAsset) this.setAsset("GLTF/"+derech, gltf);
                 
@@ -105,13 +108,6 @@ export default class {
                     if(child?.userData?.["body-part"]) bodyParts[child.userData["body-part"]] = child;
                     
                     currentChild++;
-                    if(currentChild % 100 === 0) { // Throttle progress updates
-                        var loadingPercentage = currentChild / totalChildren;
-                        this.ayshPeula("increase loading percentage", {
-                            amount: 100 * loadingPercentage,
-                            action: "Traversing: "+nivra.name
-                        });
-                    }
 
                     child.nivraAwtsmoos = nivra;
                     
@@ -134,7 +130,6 @@ export default class {
                         }
                     }
 
-                    // Placeholder logic
                     if(typeof(child.userData.placeholder) == "string") {
                         var { position, rotation, scale } = this.getTransformation(child);
                         if(!placeholders[child.userData.placeholder]) placeholders[child.userData.placeholder] = [];
@@ -230,23 +225,4 @@ export default class {
             throw e;
         }
     }
-}
-
-function checkAndSetProperty(obj, prop, exceptProp) {
-    if (obj.userData && obj.userData[prop] && !obj.userData[exceptProp]) {
-        setPropToChildren(obj, prop);
-        return true;
-    }
-    for (let i = 0; i < obj.children.length; i++) {
-        if(!obj.userData[exceptProp])
-            if (checkAndSetProperty(obj.children[i], prop)) return true;
-    }
-    return false;
-}
-  
-function setPropToChildren(obj, prop) {
-    obj.traverse((child) => {
-      if (!child.userData) child.userData = {};
-      child.userData[prop] = true;
-    });
 }
