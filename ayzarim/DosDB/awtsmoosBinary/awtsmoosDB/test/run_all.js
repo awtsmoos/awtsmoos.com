@@ -23,6 +23,11 @@ const TESTS = [
     'universal_types.js',
     'ultimate_feature_test.js',
     
+    // B"H: New Mechanics Tests
+    'object_order.js',      // Insertion Order vs Sort Order
+    'range_test.js',        // Range/Seek Queries
+    'consistency.js',       // Read-After-Write Consistency
+    
     // B"H: Added Advanced Simulations
     'blog_engine_simulation.js',
     'graph_algo_test.js',
@@ -34,7 +39,7 @@ const TESTS = [
     'ultimate_chaos.js', // The Chaos
     'final_boss.js', // The Final Boss
     'genesis.js', // The Creation
-    'mega_simulation.js' // THE MEGA
+    'omega_simulation.js' // THE OMEGA
 ];
 
 function cleanupFiles() {

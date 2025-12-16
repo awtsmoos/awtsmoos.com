@@ -1,4 +1,5 @@
 
+
 // B"H
 const constants = require('../../constants.js');
 const SmartPointer = require('../../utils/smartPointer.js');
@@ -307,6 +308,36 @@ class Writer {
                 const encodedKey = keyEncoding.encode(key);
                 const dict = await this._getEngine(structPtr, constants.TYPE_DICTIONARY);
                 await dict.set(encodedKey, mapPtr, { isPtr: true });
+            }
+        });
+    }
+
+    // B"H: New Method for Insertion-Ordered Objects
+    async createObject(key) {
+        return this.db.execute(async () => {
+            this._invalidateEngine();
+            await this.handle.ensureResolved();
+            let structPtr = await this._resolveStructPtr();
+            
+            const dict = new Dictionary(this.db.allocator);
+            const dictPtr = await dict.create();
+
+            if (this.handle.type === constants.TYPE_SEQUENCE) {
+                const index = parseInt(key);
+                const seq = await this._getEngine(structPtr, constants.TYPE_SEQUENCE);
+                const len = await seq.length();
+                if (index === len) await seq.push(dictPtr);
+                else await seq.splice(index, 1, dictPtr);
+                await this._checkAutoCompact(seq, constants.TYPE_SEQUENCE);
+            } else if (this.handle.type === constants.TYPE_MAP) {
+                const encodedKey = keyEncoding.encode(key);
+                const mapEngine = await this._getEngine(structPtr, constants.TYPE_MAP);
+                await mapEngine.set(encodedKey, dictPtr, { isPtr: true });
+                await this._checkAutoCompact(mapEngine, constants.TYPE_MAP);
+            } else {
+                const encodedKey = keyEncoding.encode(key);
+                const parentDict = await this._getEngine(structPtr, constants.TYPE_DICTIONARY);
+                await parentDict.set(encodedKey, dictPtr, { isPtr: true });
             }
         });
     }

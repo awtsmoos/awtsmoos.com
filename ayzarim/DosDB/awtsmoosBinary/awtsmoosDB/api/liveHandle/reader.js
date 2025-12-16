@@ -14,6 +14,22 @@ class Reader {
         this.db = handle.db;
     }
 
+    // B"H: Helper to get the underlying structure pointer
+    async _resolveStructPtr() {
+        if (this.handle.ptr) {
+            return await SmartPointer.resolve(this.handle.ptr, this.db.allocator);
+        } else if (this.db.rootPtrRaw) {
+             const decoded = SmartPointer.decode(this.db.rootPtrRaw);
+             return {
+                 blockId: readPointer48(decoded.payload, 0),
+                 length: decoded.payload.readUInt32BE(6),
+                 offset: decoded.payload.readUInt32BE(10),
+                 isChain: decoded.payload.readUInt8(14) === 1
+             };
+        }
+        return null;
+    }
+
     async resolveSelf() {
         return this.db.read(async () => {
             // B"H: Critical - Ensure we are resolved before trying to read
@@ -25,18 +41,9 @@ class Reader {
                 if (this.handle !== this.db.root && !this.handle.ptr) return undefined;
 
                 // Root Fallback
-                let structPtr = null;
-                if (this.db.rootPtrRaw) {
-                     const decoded = SmartPointer.decode(this.db.rootPtrRaw);
-                     structPtr = {
-                         blockId: readPointer48(decoded.payload, 0),
-                         length: decoded.payload.readUInt32BE(6),
-                         offset: decoded.payload.readUInt32BE(10),
-                         isChain: decoded.payload.readUInt8(14) === 1
-                     };
-                } else {
-                    return {}; // Empty root
-                }
+                let structPtr = await this._resolveStructPtr();
+                
+                if (!structPtr) return {}; // Empty root
 
                 const dict = new Dictionary(this.db.allocator, structPtr);
                 const obj = {};
@@ -215,19 +222,7 @@ class Reader {
     async byteSize() {
         return this.db.read(async () => {
             await this.handle.ensureResolved();
-            
-            let structPtr = null;
-            if (this.handle.ptr) {
-                structPtr = await SmartPointer.resolve(this.handle.ptr, this.db.allocator);
-            } else if (this.db.rootPtrRaw) {
-                 const decoded = SmartPointer.decode(this.db.rootPtrRaw);
-                 structPtr = {
-                     blockId: readPointer48(decoded.payload, 0),
-                     length: decoded.payload.readUInt32BE(6),
-                     offset: decoded.payload.readUInt32BE(10),
-                     isChain: decoded.payload.readUInt8(14) === 1
-                 };
-            }
+            let structPtr = await this._resolveStructPtr();
             
             if (this.handle.type === constants.TYPE_SEQUENCE || this.handle.type === constants.TYPE_SET) {
                 const seq = new Sequence(this.db.allocator, structPtr);
@@ -255,19 +250,7 @@ class Reader {
     async stats() {
         return this.db.read(async () => {
             await this.handle.ensureResolved();
-            
-            let structPtr = null;
-            if (this.handle.ptr) {
-                structPtr = await SmartPointer.resolve(this.handle.ptr, this.db.allocator);
-            } else if (this.db.rootPtrRaw) {
-                 const decoded = SmartPointer.decode(this.db.rootPtrRaw);
-                 structPtr = {
-                     blockId: readPointer48(decoded.payload, 0),
-                     length: decoded.payload.readUInt32BE(6),
-                     offset: decoded.payload.readUInt32BE(10),
-                     isChain: decoded.payload.readUInt8(14) === 1
-                 };
-            }
+            let structPtr = await this._resolveStructPtr();
 
             if (this.handle.type === constants.TYPE_SEQUENCE) {
                 const seq = new Sequence(this.db.allocator, structPtr);
@@ -285,21 +268,36 @@ class Reader {
         });
     }
 
+    // B"H: New Optimized Seek Method
+    async *range(start, end) {
+        await this.handle.ensureResolved();
+        let structPtr = await this._resolveStructPtr();
+
+        if (this.handle.type === constants.TYPE_MAP) {
+            const map = new MapEngine(this.db.allocator, structPtr);
+            // B"H: Pass start/end directly to the engine's seek logic
+            for await (const item of map.range(start, end)) {
+                const realKey = keyEncoding.decode(item.key);
+                let val = item.value;
+                
+                // Hydrate nested Dictionaries
+                if (val && val.isStructure && val.type === constants.TYPE_DICTIONARY) {
+                    val = await this._hydrateStructure(val, new Map());
+                } else {
+                    val = this._wrapIfNeeded(val);
+                }
+                yield { key: realKey, value: val };
+            }
+        } else {
+            // For non-maps, fallback to standard iteration (filtering would be manual by user)
+            // Or ideally, range() is only for Sorted Maps.
+            // We just yield nothing for now if not supported.
+        }
+    }
+
     async *iterator() {
         await this.handle.ensureResolved();
-        
-        let structPtr = null;
-        if (this.handle.ptr) {
-            structPtr = await SmartPointer.resolve(this.handle.ptr, this.db.allocator);
-        } else if (this.db.rootPtrRaw) {
-             const decoded = SmartPointer.decode(this.db.rootPtrRaw);
-             structPtr = {
-                 blockId: readPointer48(decoded.payload, 0),
-                 length: decoded.payload.readUInt32BE(6),
-                 offset: decoded.payload.readUInt32BE(10),
-                 isChain: decoded.payload.readUInt8(14) === 1
-             };
-        }
+        let structPtr = await this._resolveStructPtr();
         
         if (this.handle.type === constants.TYPE_DICTIONARY) {
             const keys = await this.db.read(async () => {
@@ -364,18 +362,7 @@ class Reader {
 
     async *keys() {
         await this.handle.ensureResolved();
-        let structPtr = null;
-        if (this.handle.ptr) {
-            structPtr = await SmartPointer.resolve(this.handle.ptr, this.db.allocator);
-        } else if (this.db.rootPtrRaw) {
-             const decoded = SmartPointer.decode(this.db.rootPtrRaw);
-             structPtr = {
-                 blockId: readPointer48(decoded.payload, 0),
-                 length: decoded.payload.readUInt32BE(6),
-                 offset: decoded.payload.readUInt32BE(10),
-                 isChain: decoded.payload.readUInt8(14) === 1
-             };
-        }
+        let structPtr = await this._resolveStructPtr();
 
         if (this.handle.type === constants.TYPE_DICTIONARY) {
             const keys = await this.db.read(async () => {
