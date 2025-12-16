@@ -50,6 +50,14 @@ export default class CustomNpc extends Medabeir {
         this.shopInventory = customData.shopInventory || [];
         this.balance = customData.balance || 0;
         
+        // B"H: Pre-enrich shop items if possible to ensure class names
+        if (this.shopInventory) {
+            this.shopInventory.forEach(item => {
+                if (!item.className) item.className = "Brick"; // Default fallback
+                if (!item.icon) item.icon = ""; // Prevent undefined
+            });
+        }
+        
         this.iconState = null;
         
         // Hook into lifecycle

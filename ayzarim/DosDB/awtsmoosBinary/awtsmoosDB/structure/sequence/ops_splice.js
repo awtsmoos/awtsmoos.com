@@ -10,7 +10,6 @@ class SpliceOps {
 
     async splice(start, deleteCount, newItems, options = {}) {
         const root = await this.nodeIO.load(this.seq.ptr);
-        const initialRootTotal = root.totalCount;
         
         if (root.totalCount === 0 && newItems.length > 0) {
              const res = await this._spliceRecursive(root, 0, 0, newItems, options);
@@ -42,13 +41,8 @@ class SpliceOps {
         const actualStart = Math.min(start, ptrs.length);
         const actualDelete = Math.min(deleteCount, ptrs.length - actualStart);
         
-        let deltaBytes = 0;
-        for(const item of newItems) deltaBytes += Utils.getPtrSize(item);
-        for(let i=0; i<actualDelete; i++) deltaBytes -= Utils.getPtrSize(ptrs[actualStart + i]);
-        
         const removed = ptrs.splice(actualStart, actualDelete, ...newItems);
         
-        // B"H: Respect skipFree option to avoid double-freeing during updates
         if (!options.skipFree) {
             for(const p of removed) await this.seq.allocator.free(p).catch(()=>{});
         }
@@ -58,8 +52,13 @@ class SpliceOps {
         if (ptrs.length <= 250) {
             node.itemCount = ptrs.length;
             node.totalCount = ptrs.length;
+            
+            // B"H: Recalculate totalBytes from scratch (SAFE)
             let tb = 0;
             for(const p of ptrs) tb += Utils.getPtrSize(p);
+            
+            // Calculate delta for parent return
+            const deltaBytes = tb - node.totalBytes; 
             node.totalBytes = tb;
             
             node.buffer.fill(0, Utils.DATA_OFFSET);
@@ -75,6 +74,7 @@ class SpliceOps {
             const first = chunks[0];
             node.itemCount = first.length;
             node.totalCount = first.length;
+            
             let tb = 0; for(const p of first) tb += Utils.getPtrSize(p);
             node.totalBytes = tb;
             
@@ -98,7 +98,8 @@ class SpliceOps {
                 splitNodes.push(newNode);
             }
             
-            return { deltaCount, deltaBytes, splitNodes };
+            // Delta bytes not strictly needed here as parent recalculates, but returned for consistency
+            return { deltaCount, deltaBytes: 0, splitNodes }; 
         }
     }
 
@@ -116,7 +117,6 @@ class SpliceOps {
         let currentOffset = 0;
         const absoluteDeleteEnd = start + deleteCount;
         let insertItems = newItems;
-        let accDeltaBytes = 0;
         
         const newEntryList = [];
         
@@ -145,6 +145,7 @@ class SpliceOps {
                     const childPtr = Utils.decodePtr(childPtrBuf);
                     const childNode = await this.nodeIO.load(childPtr);
                     
+                    // Recursive cleanup
                     await this._spliceRecursive(childNode, 0, childNode.totalCount, [], options); 
                     await this.seq.allocator.v1.free(childNode.ptr);
                 } 
@@ -155,7 +156,7 @@ class SpliceOps {
                     
                     const res = await this._spliceRecursive(childNode, localStart, localDelete, localInsert, options);
                     
-                    accDeltaBytes += res.deltaBytes;
+                    // We ignore res.deltaBytes here because we will recalc totalBytes later
                     
                     if (childNode.totalCount > 0) {
                         entry.writeUInt32BE(childNode.totalCount, 16);
@@ -188,8 +189,6 @@ class SpliceOps {
                 
                 const res = await this._spliceRecursive(childNode, childNode.totalCount, 0, insertItems, options);
                 
-                accDeltaBytes += res.deltaBytes;
-                
                 lastEntry.writeUInt32BE(childNode.totalCount, 16);
                 
                 if (res.splitNodes) {
@@ -203,7 +202,6 @@ class SpliceOps {
             } else {
                 const newLeaf = await this.nodeIO.create(true);
                 const res = await this._spliceLeaf(newLeaf, 0, 0, insertItems, options);
-                accDeltaBytes += res.deltaBytes;
                 
                 const ne = Buffer.alloc(20);
                 Utils.encodePtr(newLeaf.ptr).copy(ne, 0);
@@ -221,12 +219,12 @@ class SpliceOps {
             }
         }
         
+        // B"H: RECALCULATION LOGIC (The Fix)
         let finalCount = 0;
         for(const e of newEntryList) {
             finalCount += e.readUInt32BE(16);
         }
         node.totalCount = finalCount;
-        node.totalBytes += accDeltaBytes;
         
         let trueDeltaCount = finalCount - initialTotalCount;
 
@@ -235,9 +233,12 @@ class SpliceOps {
             node.buffer.fill(0, Utils.DATA_OFFSET);
             let off = Utils.DATA_OFFSET;
             for(const e of newEntryList) { e.copy(node.buffer, off); off+=20; }
-            await this.nodeIO.save(node);
             
-            return { deltaCount: trueDeltaCount, deltaBytes: accDeltaBytes, splitNodes: null };
+            // Recalculate totalBytes from valid children
+            node.totalBytes = await Utils.sumChildrenBytes(this.nodeIO, newEntryList);
+            
+            await this.nodeIO.save(node);
+            return { deltaCount: trueDeltaCount, deltaBytes: 0, splitNodes: null };
         } else {
             const chunks = [];
             while(newEntryList.length > 0) chunks.push(newEntryList.splice(0, 200));
@@ -266,11 +267,7 @@ class SpliceOps {
                 splitNodes.push(nn);
             }
             
-            let totalItemsInAllParts = node.totalCount;
-            for(const sn of splitNodes) totalItemsInAllParts += sn.totalCount;
-            trueDeltaCount = totalItemsInAllParts - initialTotalCount;
-            
-            return { deltaCount: trueDeltaCount, deltaBytes: accDeltaBytes, splitNodes };
+            return { deltaCount: trueDeltaCount, deltaBytes: 0, splitNodes };
         }
     }
 }

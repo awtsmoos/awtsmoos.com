@@ -1,4 +1,5 @@
 
+
 //B"H
 
 const FEATURED_ALIASES = ["awtsmoos"]; // You can add more hardcoded ones here
@@ -121,8 +122,6 @@ export default {
 	                                setTimeout(() => {
 	                                        // use window.curAlias
 	                                        const myAlias = window.curAlias;
-	                                        try{console.log(this, window, window.curAlias)}catch(e){
-	                                        console.log(e)}
 	                                        if (myAlias) {
 	                                            ui.html({
 	                                                parent: el,

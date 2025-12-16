@@ -33,7 +33,8 @@ const TESTS = [
     'singularity.js', // The Hishtalshelus
     'ultimate_chaos.js', // The Chaos
     'final_boss.js', // The Final Boss
-    'genesis.js' // The Creation
+    'genesis.js', // The Creation
+    'mega_simulation.js' // THE MEGA
 ];
 
 function cleanupFiles() {

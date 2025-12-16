@@ -1,3 +1,4 @@
+
 // B"H
 const constants = require('../../constants.js');
 const SmartPointer = require('../../utils/smartPointer.js');
@@ -14,16 +15,34 @@ module.exports = {
 
     getPtrSize(ptrBuf) {
         if (!ptrBuf || ptrBuf.length !== 16) return 0;
+        
+        // B"H: Sanity check - Detect uninitialized memory (e.g. 0x8121...)
+        // Mode 0, 1, 2. Header byte should be < 0xC0 (192).
+        if (ptrBuf[0] > 0xC0) return 0; 
+
         if ((ptrBuf[0] >> 6) === constants.MODE_BLOCK) {
-             return ptrBuf.readUInt32BE(6); 
+             // B"H: FIX - Length is at offset 7 (1 byte header + 6 bytes BlockID)
+             // Payload structure: [BlockID (6)][Length (4)][Offset (4)][IsChain (1)]
+             // Pointer structure: [Header (1)][Payload (15)]
+             // So Length starts at index 1 + 6 = 7.
+             const len = ptrBuf.readUInt32BE(7); 
+             
+             // Sanity check: Single block/chain shouldn't claim to be > 1GB unless specialized.
+             // This prevents reading garbage bytes as massive sizes.
+             if (len > 1024 * 1024 * 1024) return 0;
+             return len;
         }
+        
         const decoded = SmartPointer.decode(ptrBuf);
         if (!decoded) return 0;
+        
         if (decoded.mode === constants.MODE_HEAP) return decoded.payload.readUInt32BE(10);
+        
         if (decoded.mode === constants.MODE_INLINE) {
              if (decoded.type === constants.TYPE_STRING) return decoded.payload[0];
              if (decoded.type === constants.TYPE_BOOLEAN) return 1;
              if (decoded.type === constants.TYPE_NUMBER) return 8;
+             if (decoded.type === constants.TYPE_NULL || decoded.type === constants.TYPE_UNDEFINED) return 0;
              return decoded.payload.length;
         }
         return 0;

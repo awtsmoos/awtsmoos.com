@@ -18,8 +18,10 @@ export default {
             store.npcId = data.entityId;
             
             // B"H: Hide interaction prompts when store opens
-            const prompt = $("approach npc msg");
-            if(prompt) prompt.classList.add("hidden");
+            ui.htmlAction({
+                shaym: "approach npc msg",
+                methods: { classList: { add: "hidden" } }
+            });
             
             const title = store.querySelector(".store-title");
             if(title) title.textContent = data.npcName + "'s Store";
@@ -85,9 +87,13 @@ export default {
                  grid.innerHTML = `<div style='grid-column: 1/-1; text-align:center; padding:20px; color:#aaa;'>${msg}</div>`;
             } else {
                 itemsToRender.forEach(item => {
-                    // B"H: Icon rendering logic (copied from slots.js for consistency)
+                    // B"H: Icon rendering logic
                     let iconStyle = {};
                     let textIcon = null;
+                    
+                    // Fallback default icon if missing
+                    if(!item.icon) item.icon = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48Y2lyY2xlIGN4PSI1MCIgY3k9IjUwIiByPSI0MCIgZmlsbD0iIzQ0NCIgc3Ryb2tlPSIjODg4IiBzdHJva2Utd2lkdGg9IjUiLz48dGV4dCB4PSI1MCIgeT0iNjUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiNmZmYiIGZvbnQtc2l6ZT0iNDAiPj88L3RleHQ+PC9zdmc+";
+
                     if (item.icon && (item.icon.includes('/') || item.icon.includes('data:'))) {
                          if (item.isTintable && item.customData && item.customData.color) {
                             const color = item.customData.color;
@@ -115,6 +121,10 @@ export default {
                     } else if (item.icon) {
                         textIcon = item.icon;
                         iconStyle = { display: 'flex', justifyContent: 'center', alignItems: 'center', fontSize: '30px' };
+                    } else {
+                         // Fallback Text Icon
+                         textIcon = (item.name || "?").charAt(0);
+                         iconStyle = { display: 'flex', justifyContent: 'center', alignItems: 'center', fontSize: '30px', background: "#555", borderRadius: "50%", width:"50px", height:"50px", margin: "10px auto" };
                     }
 
                     ui.html({
@@ -167,6 +177,9 @@ export default {
              } else if (item.icon) {
                  textIcon = item.icon;
                  iconStyle = { fontSize: '60px', textAlign:'center', display:'block', margin:'0 auto' };
+             } else {
+                 textIcon = (item.name || "?").charAt(0);
+                 iconStyle = { fontSize: '60px', textAlign:'center', display:'flex', justifyContent:'center', alignItems:'center', background:'#444', borderRadius:'50%', width:'100px', height:'100px', margin:'0 auto' };
              }
 
             ui.html({

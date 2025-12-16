@@ -1,4 +1,5 @@
 
+
 /**
  * B"H
  * @file update.js
@@ -15,6 +16,12 @@ export default {
 		if(!this.olam.isPlayingCutscene) {
 			this.controls(deltaTime);
 		}
+
+        // B"H: Continuous Interaction Check
+        // Ensure we check for hover targets even if mouse isn't moving (e.g. walking into range)
+        if(this.olam && this.olam.isLookingForSomething) {
+            this.checkHover(this.olam, false); // false = allow HTML updates
+        }
 
         // B"H: Safety check for function existence
         if(typeof this.adjustDOF === 'function') {

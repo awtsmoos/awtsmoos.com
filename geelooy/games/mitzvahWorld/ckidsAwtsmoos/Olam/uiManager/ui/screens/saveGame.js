@@ -1,6 +1,5 @@
 
 
-
 // B"H
 export default {
     shaym: "saveGameScreen",
@@ -9,19 +8,24 @@ export default {
     
     on: {
         open(e, $, ui) {
+            // Helper function to safely get elements
+            const $get = (id) => document.querySelector(`[shaym="${id}"]`);
+
             // B"H: Check if logged in via global window.curAlias
             if (!window.curAlias) {
                 // Not logged in!
-                ui.peula("ikar", {
-                    olamPeula: {
-                        htmlPeula: {
-                            effectsOverlay: { 
-                                text: "Please Log In to Save!", 
-                                color: "#ff4757" 
+                if(ui && ui.peula) {
+                    ui.peula("ikar", {
+                        olamPeula: {
+                            htmlPeula: {
+                                effectsOverlay: { 
+                                    text: "Please Log In to Save!", 
+                                    color: "#ff4757" 
+                                }
                             }
                         }
-                    }
-                });
+                    });
+                }
                 
                 // Highlight the Login Button to guide them
                 const loginBtn = document.querySelector(".loginStatus");
@@ -42,20 +46,26 @@ export default {
                 return; // Do not open the screen
             }
 
-            $("saveGameScreen").classList.remove("hidden");
+            const screen = $get("saveGameScreen");
+            if(screen) screen.classList.remove("hidden");
             
             // B"H: Auto-Populate from World State
-            const nameInput = $("sg-name-input");
-            const descInput = $("sg-desc-input");
+            const nameInput = $get("sg-name-input");
+            const descInput = $get("sg-desc-input");
             
             // Try to guess name from URL
             let defaultName = "My New World";
             const urlParams = new URLSearchParams(window.location.search);
-            const path = urlParams.get('path') || window.currentWorldSourcePath;
             
-            if (path) {
+            // Check 'level' param first (cleaner name)
+            const levelParam = urlParams.get('level');
+            const pathParam = urlParams.get('path') || window.currentWorldSourcePath;
+            
+            if (levelParam) {
+                 defaultName = levelParam;
+            } else if (pathParam) {
                 // Extract filename from path
-                const parts = path.split('/');
+                const parts = pathParam.split('/');
                 const file = parts[parts.length - 1];
                 defaultName = file.replace('.js', '').replace(/_/g, ' ').replace('.folder', '');
             } else if (window.mana && window.mana.gameState && window.mana.gameState.shaym) {
@@ -66,9 +76,17 @@ export default {
             if (descInput) descInput.value = "A wonderful world built in Mitzvah World.";
         },
         doSave(e, $, ui) {
-             const name = $("sg-name-input").value;
-             const desc = $("sg-desc-input").value;
-             const editors = $("sg-editors-input").value; // CSV
+             const $get = (id) => document.querySelector(`[shaym="${id}"]`);
+             
+             const nameInput = $get("sg-name-input");
+             const descInput = $get("sg-desc-input");
+             const editorsInput = $get("sg-editors-input");
+             
+             if(!nameInput) return;
+
+             const name = nameInput.value;
+             const desc = descInput.value;
+             const editors = editorsInput.value; // CSV
              
              ui.peula("ikar", {
                 olamPeula: {
@@ -77,11 +95,17 @@ export default {
                     }
                 }
             });
-            $("saveGameScreen").classList.add("hidden");
+            const screen = $get("saveGameScreen");
+            if(screen) screen.classList.add("hidden");
         },
         doSaveAs(e, $, ui) {
-             const name = $("sg-name-input").value;
-             const desc = $("sg-desc-input").value;
+             const $get = (id) => document.querySelector(`[shaym="${id}"]`);
+             
+             const nameInput = $get("sg-name-input");
+             const descInput = $get("sg-desc-input");
+
+             const name = nameInput.value;
+             const desc = descInput.value;
              // Force overwrite false for "Save As"
              ui.peula("ikar", {
                 olamPeula: {
@@ -90,7 +114,8 @@ export default {
                     }
                 }
             });
-            $("saveGameScreen").classList.add("hidden");
+            const screen = $get("saveGameScreen");
+            if(screen) screen.classList.add("hidden");
         }
     },
     
@@ -102,7 +127,16 @@ export default {
                     className: "sg-header",
                     children: [
                         { className: "sg-title", textContent: "WORLD SETTINGS" },
-                        { tag: "button", className: "sg-close-btn", textContent: "X", onclick(){ $("saveGameScreen").classList.add("hidden"); } }
+                        { 
+                            tag: "button", 
+                            className: "sg-close-btn", 
+                            textContent: "X", 
+                            onclick(e, $) { 
+                                // B"H: Manual DOM lookup to prevent reference errors
+                                const el = document.querySelector(".save-game-container");
+                                if(el) el.classList.add("hidden");
+                            } 
+                        }
                     ]
                 },
                 {
@@ -120,8 +154,21 @@ export default {
                          {
                              className: "sg-actions",
                              children: [
-                                 { tag: "button", className: "sg-btn primary", textContent: "SAVE", onclick(e,$,ui){ ui.peula($("saveGameScreen"), { doSave: true }); } },
-                                 { tag: "button", className: "sg-btn secondary", textContent: "SAVE AS COPY", onclick(e,$,ui){ ui.peula($("saveGameScreen"), { doSaveAs: true }); } }
+                                 { 
+                                     tag: "button", className: "sg-btn primary", textContent: "SAVE", 
+                                     onclick(e,$,ui){ 
+                                         // Pass custom logic manually to ensure it runs correctly
+                                         const saveGame = window.ui.getHtml("saveGameScreen");
+                                         if(saveGame) window.ui.peula(saveGame, { doSave: true });
+                                     } 
+                                 },
+                                 { 
+                                     tag: "button", className: "sg-btn secondary", textContent: "SAVE AS COPY", 
+                                     onclick(e,$,ui){ 
+                                         const saveGame = window.ui.getHtml("saveGameScreen");
+                                         if(saveGame) window.ui.peula(saveGame, { doSaveAs: true });
+                                     } 
+                                 }
                              ]
                          }
                     ]

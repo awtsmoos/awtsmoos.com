@@ -18,36 +18,87 @@ try {
         // B"H: Logic to handle Deep Linking / Auto-loading
         const handleAutoLoad = () => {
             const urlParams = new URLSearchParams(window.location.search);
-            const path = urlParams.get('path');
+            
+            // 1. New Parameter Logic: alias + level
             const alias = urlParams.get('alias');
+            const level = urlParams.get('level');
+            let path = urlParams.get('path');
+
+            // Construct path from alias + level if provided
+            if (alias && level && !path) {
+                // Ensure .js extension
+                const filename = level.endsWith('.js') ? level : level + '.js';
+                // Encode the internal path
+                const internalPath = encodeURIComponent(`desktop.folder/game data.folder/worlds/${filename}`);
+                path = `/api/social/aliases/${alias}/fileSystem/readFile?path=${internalPath}`;
+                console.log("B\"H: Constructed path from level param:", path);
+            }
 
             // Helper to get UI elements safely
             const getUI = () => {
-                 // Check if UI Manager has created elements
-                 if (!window.ui || !window.ui.getHtml) return null;
-                 const ikar = document.getElementById("ikar");
-                 // Use querySelector for elements that might not be registered in UI map yet
-                 const menu = document.querySelector(".menu"); 
-                 return { ikar, menu, ui: window.ui };
+                 // B"H: Use the UI Manager's internal map via the global mana instance.
+                 // The 'shaym' property is an internal key, NOT a DOM attribute.
+                 let ikar = null;
+                 let menu = null;
+
+                 if (window.mana && window.mana.ui && typeof window.mana.ui.$g === 'function') {
+                     ikar = window.mana.ui.$g("ikar");
+                     menu = window.mana.ui.$g("menu") || window.mana.ui.$g("main menu");
+                 }
+
+                 // Fallback DOM check (only works if classNames happen to match, mostly for menu)
+                 if (!menu) {
+                     menu = document.querySelector(".gameMenu") || document.querySelector(".menu");
+                 }
+                 
+                 return { ikar, menu };
             };
 
             if (path) {
                 console.log("B\"H: Auto-loading from path:", path);
                 
-                // Polling for UI readiness
+                let attempts = 0;
                 const checkReady = setInterval(() => {
-                    const { ikar, menu, ui } = getUI() || {};
-                    
-                    if (ikar && menu && menu.gameUiHTML) {
-                        clearInterval(checkReady);
+                    attempts++;
+                    // Timeout after 20 seconds
+                    if(attempts > 200) { 
+                        clearInterval(checkReady); 
+                        console.error("B\"H: Auto-load timed out. UI State check failed.", {
+                            hasMana: !!window.mana,
+                            hasUI: !!(window.mana && window.mana.ui),
+                            hasGameUI: !!window.awtsmoosGameUI
+                        });
+                        return;
+                    }
 
-                        // 1. Hide Main Menu
-                        if(ui.getHtml("main menu")) ui.getHtml("main menu").classList.add("hidden");
+                    const { ikar } = getUI();
+                    
+                    // B"H: Wait for global Game UI config AND the ikar element to be ready
+                    if (ikar && window.awtsmoosGameUI) {
+                        clearInterval(checkReady);
+                        console.log("B\"H: UI Ready. Starting auto-load sequence.");
+
+                        // Hide Main Menu manually
+                        const { menu } = getUI();
+                        if(menu) {
+                            menu.classList.add("hidden");
+                            menu.classList.add("offscreen");
+                            menu.classList.remove("onscreen");
+                        }
                         
+                        // Show Loading Screen
+                        let loading = null;
+                        if(window.mana && window.mana.ui && window.mana.ui.$g) {
+                            loading = window.mana.ui.$g("loading");
+                        }
+                        if(!loading) loading = document.querySelector(".loading");
+                        
+                        if(loading) loading.classList.remove("hidden");
+
                         // 2. Fetch Code
                         fetch(path)
                             .then(r => {
-                                if(!r.ok) throw new Error("Failed to fetch world file");
+                                if(!r.ok) throw new Error("Failed to fetch world file: " + r.statusText);
                                 return r.text();
                             })
                             .then(txt => {
@@ -61,16 +112,16 @@ try {
                                         detail: {
                                             worldDayuhURL: blobUrl,
                                             sourcePath: path,
-                                            gameUiHTML: menu.gameUiHTML
+                                            gameUiHTML: window.awtsmoosGameUI // Use globally exposed UI
                                         }
                                     })
                                 );
                             })
                             .catch(e => {
                                 console.error("B\"H Auto-load failed:", e);
-                                alert("Failed to load world from URL.\n" + e.message);
-                                // Show menu if fail
-                                if(ui.getHtml("main menu")) ui.getHtml("main menu").classList.remove("hidden");
+                                alert("Failed to load world.\n" + e.message);
+                                if(menu) menu.classList.remove("hidden");
+                                if(loading) loading.classList.add("hidden");
                             });
                     }
                 }, 100);
@@ -78,19 +129,28 @@ try {
             } else if (alias) {
                 console.log("B\"H: Auto-loading alias browser:", alias);
                 
+                let attempts = 0;
                 const checkReady = setInterval(() => {
-                    const { ikar, ui } = getUI() || {};
-                    if (ikar && ui) {
-                        const fwScreen = ui.getHtml("find worlds");
-                        const menuScreen = ui.getHtml("main menu");
+                    attempts++;
+                    if(attempts > 100) { clearInterval(checkReady); return; }
+                    
+                    const { ikar, menu } = getUI();
+                    // We need the 'ui' object to be ready on window
+                    if (ikar && window.ui) {
+                        clearInterval(checkReady);
                         
-                        if (fwScreen && menuScreen) {
-                            clearInterval(checkReady);
-                            
-                            menuScreen.classList.add("hidden");
+                        // Hide main menu
+                        if(menu) {
+                            menu.classList.add("hidden");
+                        }
+                        
+                        // Find and show "Find Worlds" screen
+                        const fwScreen = window.mana.ui.$g("find worlds") || document.querySelector(".findWorlds");
+                        if (fwScreen) {
                             fwScreen.classList.remove("hidden");
                             
-                            ui.peula(fwScreen, { 
+                            // Trigger the load logic via UI event
+                            window.ui.peula(fwScreen, { 
                                 loadAliasWorlds: { 
                                     alias: alias, 
                                     title: `Deep Link: ${alias}` 

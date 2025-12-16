@@ -1,3 +1,5 @@
+
+
 /**
  * B"H
  * Main menu with Play button,
@@ -26,6 +28,8 @@ var gameUiHTML = {
     ]
 }
 
+// B"H: Expose Game UI for Auto-Loader
+window.awtsmoosGameUI = gameUiHTML;
 
 export default [
    

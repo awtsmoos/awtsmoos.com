@@ -1,4 +1,5 @@
 
+
 /**
  * B"H
  */
@@ -189,11 +190,32 @@ class ManagerOfAllWorlds {
             sourcePath // B"H: New property for source file path
         } = ob;
         
-        // B"H: Update URL Logic
+        // B"H: Update URL Logic to use 'level' param if possible
         if (sourcePath) {
             window.currentWorldSourcePath = sourcePath;
             const newUrl = new URL(window.location);
-            newUrl.searchParams.set('path', sourcePath);
+            
+            // Attempt to extract level name from standard path
+            // e.g. .../worlds/myLevel.js -> myLevel
+            const decodedPath = decodeURIComponent(sourcePath);
+            // Matches any path ending in /worlds/[filename].js or just [filename].js
+            // This regex looks for the last segment ending in .js
+            const levelMatch = decodedPath.match(/worlds\/([^/]+)\.js$/) || decodedPath.match(/\/([^/]+)\.js$/);
+            
+            // Check for alias in window global or existing URL
+            const alias = window.curAlias || newUrl.searchParams.get('alias');
+
+            if (levelMatch && levelMatch[1] && alias) {
+                // We have both an alias and a clean level name
+                const levelName = levelMatch[1];
+                newUrl.searchParams.delete('path'); // Remove dirty path
+                newUrl.searchParams.set('alias', alias);
+                newUrl.searchParams.set('level', levelName);
+            } else {
+                // Fallback to raw path if we can't clean it up
+                newUrl.searchParams.set('path', sourcePath);
+            }
+            
             window.history.pushState({ path: sourcePath }, '', newUrl);
         } else {
             window.currentWorldSourcePath = null;

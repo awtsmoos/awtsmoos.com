@@ -23,6 +23,21 @@ export default {
     },
 
     handleClick(e) {
+        // B"H: Force a hover check immediately before processing click
+        // This ensures that even if mousemove didn't fire (e.g. static mouse), we find the target.
+        if (this.olam) {
+            // Temporarily set mouse pos if provided in event, but checkHover uses internal pointer state usually.
+            // If e contains coords, we might need to update olam.pointer first.
+            if(e.clientX !== undefined) {
+                 const rect = this.olam.boundingRect;
+                 if(rect) {
+                     this.olam.pointer.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+                     this.olam.pointer.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+                 }
+            }
+            this.checkHover(this.olam, true); // true = no html updates, just logic
+        }
+
         // B"H: Handles click on intersected entities
         if (this.intersected && this.intersected.niv) {
             const niv = this.intersected.niv;
@@ -30,11 +45,8 @@ export default {
 
             // Prioritize Dialogue/NPC Interaction
             if (niv.type === 'customNpc' || niv.type === 'medabeir' || niv.dialogue) {
-                // B"H: If checking for proximity, do it here. 
-                // Currently, we just fire the event.
+                // B"H: Trigger interaction regardless of proximity for now to fix usability
                 if (typeof niv.ayshPeula === 'function') {
-                    // Force the "accepted interaction" even if listener wasn't ready (handle lazily if needed)
-                    // If the NPC uses Interaction.js logic, it listens for this.
                     niv.ayshPeula("accepted interaction");
                 }
                 return;
@@ -90,6 +102,12 @@ export default {
         this.olam.htmlAction({
             selector: "body",
             properties: { style: { cursor: "default" } }
+        });
+        
+        // B"H: Hide Press B prompt
+        this.olam.htmlAction({
+            shaym: "approach npc msg",
+            methods: { classList: { add: "hidden" } }
         });
     },
 
@@ -150,6 +168,23 @@ export default {
     async checkHover(olam, nohtml = true) {
         if(!olam.isLookingForSomething) return;
         
+        // B"H: IF we are busy (talking, in a menu), DO NOT process hover logic that shows prompts.
+        // This fixes prompts appearing over the Store UI.
+        if (olam.chossid && (olam.chossid.state === 'talking' || olam.chossid.nivraTalkingTo)) {
+            // Ensure prompt is hidden if we are stuck in a hover state visually
+             if(!nohtml) {
+                 olam.htmlAction({
+                    shaym: "approach npc msg",
+                    methods: { classList: { add: "hidden" } }
+                 });
+                 olam.htmlAction({
+                    selector: "body",
+                    properties: { style: { cursor: "default" } }
+                 });
+             }
+             return;
+        }
+
         // Perform Raycast (this now checks both Octree AND Dynamic Entities)
         var hit = olam.ayin.getHovered(
             this.getRayStart(),
@@ -180,6 +215,7 @@ export default {
         if(niv && !niv.wasSealayked && niv.type != "chossid") {
             niv.isHoveredOver = true;
             
+            // B"H: Update Highlight only if target changed
             if(this.intersected?.niv !== niv) {
                 // Determine highlight color based on type
                 const isNPC = niv.type === 'customNpc' || niv.type === 'medabeir';
@@ -199,38 +235,27 @@ export default {
                         properties: { style: { cursor: "pointer" } }
                     });
                 }
+            }
 
-                // Show Label for NPCs or Dialogue objects
-                if(niv.dialogue || ob?.hasDialogue || isNPC) {
-                    const makeMessage = async ({tooFar=false, gone=false}={}) => {
-                        // B"H: IMPORTANT! Do not show label if specific UI screens are open!
-                        // We check the classList of known UI elements.
-                        // Since this runs in Worker context usually (via logic), we rely on htmlAction or state.
-                        // Assuming logic runs in main thread or has access to DOM via bridge...
-                        // Actually, 'checkHover' usually runs in Logic.
-                        // We can check `olam.chossid.state`.
-                        
-                        if (olam.chossid && olam.chossid.state === 'talking') return;
-                        
-                        // We can also send a query to UI, but that's async. 
-                        // Instead, relying on 'talking' state is best. 
-                        // The 'Store' sets state to 'talking' implicitly via dialogue interaction? No.
-                        // Let's assume if Store is open, we shouldn't see it. 
-                        
-                        // B"H: If we are calling htmlAction, we can add a condition there? No.
-                        // Let's just always update. The Store UI should have a higher z-index anyway.
-                        // BUT the user specifically complained.
-                        
-                        // Let's assume if `nivraTalkingTo` is set, we are busy.
-                        if (olam.chossid && olam.chossid.nivraTalkingTo) return;
+            // B"H FIX: ALWAYS check range and update prompts, even if target didn't change!
+            // This ensures walking away hides the prompt.
+            const isNPC = niv.type === 'customNpc' || niv.type === 'medabeir';
+            if ((niv.dialogue || ob?.hasDialogue || isNPC) && !nohtml) {
+                 let inRange = false;
+                 // Calculate distance if it's an NPC/Medabeir
+                 if (isNPC && olam.chossid) {
+                     const dist = olam.chossid.mesh.position.distanceTo(niv.mesh.position);
+                     if (dist <= (niv.proximity || 5)) {
+                         inRange = true;
+                     }
+                 } else {
+                     // For non-NPCs with dialogue (e.g. signs), assume hover is enough or use ray distance
+                     inRange = hit.distance < 10;
+                 }
 
-                        if(gone) {
-                            if(!nohtml) await olam.ayshPeula("hide label");
-                            return;
-                        }
-
+                 const makeMessage = async () => {
                         var msg = "B\"H\n" + (niv.name || "Friend");
-                        if(!niv.inRangeNivra && isNPC) {
+                        if(!inRange && isNPC) {
                              msg += "\n(Get closer to talk)";
                         } else if(isNPC) {
                              msg += "\n(Click or Press B to Talk)";
@@ -239,51 +264,37 @@ export default {
                         var tx = olam.achbar.x;
                         var ty = olam.achbar.y;
                         
-                        if(!nohtml)
-                            await olam.htmlAction({
-                                shaym: "minimap label",
-                                properties: {
-                                    innerHTML: msg,
-                                    style: { transform:`translate(${tx}px, ${ty}px)` }
-                                },
-                                methods: { classList: { remove: "invisible" } }
-                            });
+                        await olam.htmlAction({
+                            shaym: "minimap label",
+                            properties: {
+                                innerHTML: msg,
+                                style: { transform:`translate(${tx}px, ${ty}px)` }
+                            },
+                            methods: { classList: { remove: "invisible" } }
+                        });
                         
-                        // B"H: Also update "Press B" persistent prompt
+                        // B"H: Also update "Press B" persistent prompt based on RANGE
                         if (isNPC) {
-                             await olam.htmlAction({
-                                shaym: "approach npc msg",
-                                properties: {
-                                    textContent: niv.name
-                                },
-                                methods: { classList: { remove: "hidden" } }
-                             });
+                             if (inRange) {
+                                 await olam.htmlAction({
+                                    shaym: "approach npc msg",
+                                    properties: { textContent: niv.name },
+                                    methods: { classList: { remove: "hidden" } }
+                                 });
+                             } else {
+                                 await olam.htmlAction({
+                                    shaym: "approach npc msg",
+                                    methods: { classList: { add: "hidden" } }
+                                 });
+                             }
                         }
-                    };
-
-                    if(!nohtml) await makeMessage();
-
-                    // Setup events to clear label
-                    niv.on("someone left", async () => {
-                        if(!niv.isHoveredOver) return;
-                         // Just refresh message
-                         await makeMessage(); 
-                    });
-
-                    niv.on("was approached", async () => {
-                        if(!niv.isHoveredOver) return;
-                        await makeMessage();
-                    });
-                }
+                };
+                await makeMessage();
             }
+
         } else {
             if(this.intersected) {
                 this.removeIntersected();
-                // B"H: Explicitly hide the "Press B" prompt when not hovering
-                olam.htmlAction({
-                    shaym: "approach npc msg",
-                    methods: { classList: { add: "hidden" } }
-                });
             }
         }
         olam.hoveredNivra = niv;
