@@ -19,9 +19,10 @@ try {
         var m = new ManagerOfAllWorlds('/oyvedEdom.js');
         window.mana =  m;
         
-        // B"H: Check for World Path in URL
+        // B"H: Check for URL Parameters
         const urlParams = new URLSearchParams(window.location.search);
         const path = urlParams.get('path');
+        const alias = urlParams.get('alias');
         
         if (path) {
             console.log("B\"H: Loading world from URL path:", path);
@@ -61,6 +62,32 @@ try {
                     console.error("B\"H: Failed to load world from URL path", e);
                     alert("Could not load world from URL.");
                 });
+        } else if (alias) {
+            // B"H: Deep link to Alias in World Browser
+            console.log("B\"H: Opening World Browser for alias:", alias);
+            const checkUI = setInterval(() => {
+                const ikar = document.getElementById("ikar");
+                const fw = document.querySelector(".findWorlds");
+                if (ikar && window.ui) {
+                    clearInterval(checkUI);
+                    
+                    // Hide Main Menu, Show Find Worlds
+                    const mm = window.ui.getHtml("main menu");
+                    if(mm) mm.classList.add("hidden");
+                    
+                    const fwEl = window.ui.getHtml("find worlds");
+                    if(fwEl) {
+                        fwEl.classList.remove("hidden");
+                        // Trigger the load
+                        window.ui.peula(fwEl, { 
+                            loadAliasWorlds: { 
+                                alias: alias, 
+                                title: `Deep Link: ${alias}` 
+                            } 
+                        });
+                    }
+                }
+            }, 100);
         }
         
         console.log("Loaded!",m)

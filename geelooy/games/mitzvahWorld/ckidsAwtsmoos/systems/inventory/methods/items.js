@@ -1,3 +1,4 @@
+
 /**
  * B"H
  * Item manipulation logic for InventoryManager
@@ -8,41 +9,23 @@ import { CurrencySystem } from "../../../dvarim/coin.js";
 export default {
     enrichItemData(itemData) {
         if (!itemData || !itemData.className) return itemData;
-        
-        // B"H: Preserve original icon if it exists
         const originalIcon = itemData.icon;
         
-        // B"H: Manual Class Property Injection
-        // This is necessary because AWTSMOOS might be incomplete due to circular dependencies
-        if (itemData.className === 'ProceduralTree') {
-            itemData.isBuildable = true;
-        }
-        if (itemData.className === 'NatureTool') {
-            itemData.isPainter = true;
-        }
-        if (itemData.className === 'Brick' || itemData.className === 'CustomNpc' || itemData.className === 'Stairs') {
-            itemData.isBuildable = true;
-        }
+        if (itemData.className === 'ProceduralTree') itemData.isBuildable = true;
+        if (itemData.className === 'NatureTool') itemData.isPainter = true;
+        if (itemData.className === 'Brick' || itemData.className === 'CustomNpc' || itemData.className === 'Stairs') itemData.isBuildable = true;
 
         const ItemClass = AWTSMOOS[itemData.className];
         if (ItemClass) {
             try {
                 const tempInstance = new ItemClass({});
-                
-                if (itemData.sellValue === undefined) {
-                    itemData.sellValue = tempInstance.sellValue || 0;
-                }
-                
+                if (itemData.sellValue === undefined) itemData.sellValue = tempInstance.sellValue || 0;
                 if (!itemData.name) itemData.name = ItemClass.itemName || tempInstance.name || itemData.className;
                 if (!itemData.description) itemData.description = ItemClass.description || tempInstance.description || "";
-                
                 if (ItemClass.isBuildable) itemData.isBuildable = true;
-            } catch (e) {
-                console.warn("B\"H: Could not hydrate item class", itemData.className, e);
-            }
+            } catch (e) {}
         }
         
-        // B"H: Logic to determine final icon
         if (!itemData.icon) {
             if (originalIcon) itemData.icon = originalIcon;
             else if (ItemClass && ItemClass.icon) itemData.icon = ItemClass.icon;
@@ -55,17 +38,8 @@ export default {
              itemData.name = CurrencySystem.NAMES[itemData.value];
         }
 
-        if (itemData.customData && itemData.customData.color) {
-            itemData.isTintable = true;
-        }
-
-        if (
-            itemData.isContainer || 
-            itemData.className === 'Container' || 
-            (itemData.customData && itemData.customData.slots)
-        ) {
-            itemData.isContainer = true;
-        }
+        if (itemData.customData && itemData.customData.color) itemData.isTintable = true;
+        if (itemData.isContainer || itemData.className === 'Container' || (itemData.customData && itemData.customData.slots)) itemData.isContainer = true;
         
         return itemData;
     },
@@ -80,6 +54,7 @@ export default {
 
         // Always add to main slots for now
         const targetSlots = this.slots;
+        let added = false;
 
         for (let i = 0; i < targetSlots.length; i++) {
             const slot = targetSlots[i];
@@ -88,55 +63,66 @@ export default {
                 const toAdd = Math.min(quantity, canAdd);
                 slot.quantity += toAdd;
                 quantity -= toAdd;
-                if (quantity <= 0) { this.updateUI(); this.save(); return true; }
+                added = true;
+                if (quantity <= 0) break;
             }
         }
 
-        for (let i = 0; i < targetSlots.length; i++) {
-            if (targetSlots[i] === null) {
-                const toAdd = Math.min(quantity, maxStack);
-                targetSlots[i] = { ...enhancedItemData, quantity: toAdd };
-                quantity -= toAdd;
-                if (quantity <= 0) { this.updateUI(); this.save(); return true; }
+        if (quantity > 0) {
+            for (let i = 0; i < targetSlots.length; i++) {
+                if (targetSlots[i] === null) {
+                    const toAdd = Math.min(quantity, maxStack);
+                    targetSlots[i] = { ...enhancedItemData, quantity: toAdd };
+                    quantity -= toAdd;
+                    added = true;
+                    if (quantity <= 0) break;
+                }
             }
         }
         
-        this.updateUI();
-        return quantity > 0 ? false : true;
+        if (added) {
+            this.updateUI();
+            this.save();
+            
+            // B"H: Trigger Quest Check
+            if (this.owner.olam && this.owner.olam.shlichusHandler) {
+                // We use a small timeout to batch checks if adding multiple items
+                if (this._questCheckTimeout) clearTimeout(this._questCheckTimeout);
+                this._questCheckTimeout = setTimeout(() => {
+                    this.owner.olam.shlichusHandler.update(0.1); // Force update check
+                }, 200);
+            }
+        }
+        
+        return quantity <= 0;
     },
-
+    
+    // ... rest of items.js (updateItem, hydrateItems, etc.) ...
+    
     updateItem(sourceType, index, newItemData) {
         let sourceArray;
-        if (sourceType === 'container') {
-            sourceArray = this.activeContainer ? this.activeContainer.customData.slots : null;
-        } else {
-            sourceArray = sourceType === 'action' ? this.actionSlots : this.slots;
-        }
+        if (sourceType === 'container') sourceArray = this.activeContainer ? this.activeContainer.customData.slots : null;
+        else sourceArray = sourceType === 'action' ? this.actionSlots : this.slots;
         
         if (!sourceArray || index < 0 || index >= sourceArray.length) return;
         const existingItem = sourceArray[index];
         if (!existingItem) return;
         
         const updatedItem = this.enrichItemData({ ...existingItem, ...newItemData });
-        
         sourceArray[index] = updatedItem;
         this.updateUI();
         this.save();
     },
 
     hydrateItems() {
-        // B"H: Recursively hydrate items to ensure nested containers (like Teffilin bags)
-        // have their contents fully initialized with icons and correct data.
         const hydrateRecursive = (item) => {
             if (!item) return null;
             const enriched = this.enrichItemData(item);
-            
             if (enriched.isContainer && enriched.customData && enriched.customData.slots) {
                 enriched.customData.slots = enriched.customData.slots.map(hydrateRecursive);
             }
             return enriched;
         };
-
         this.slots = this.slots.map(hydrateRecursive);
         this.actionSlots = this.actionSlots.map(hydrateRecursive);
     },

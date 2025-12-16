@@ -1,21 +1,9 @@
+
 /**
  * B"H
  * Style for gima found at 
  * https://www.figma.com/file/QZERI89t767tpWJ3cJmls4/Mitzvah-world?node-id=3%3A2&mode=dev
  * 
- * 
- * times for 10/9/2023:
- * 
- * 6:49pm to 7:03pm
- * 
- * 7:32pm to 9:24pm
- * 
- * 9:42pm to 10:03pm
- * 
- * 10:15pm to 12:00am
- * 10/10/2023
- * 12:00am to 12:42am
- * 12:52am to 12:54am
  */
 
 export default /*css*/`
@@ -223,5 +211,40 @@ export default /*css*/`
     top: 50%;
     z-index: 5000;
     transform: translate( -50%, -50% );
+}
+
+.menuTop {
+    background: rgba(36, 21, 80, 0.50);
+    backdrop-filter: blur(4px);
+    display: flex;
+    width: 100%;
+    height: 10px;
+    padding: 12px 7px;
+    align-items: center;
+    gap: 28px;
+    /* B"H: Fix Z-Index to be above everything else (EffectsOverlay is 2000) */
+    position: absolute;
+    z-index: 3000;
+}
+
+.menuTop .titleTxt {
+    color: #FFF;
+    font-family: Fredoka One;
+    font-size: 1em;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 32px;
+    letter-spacing: 1.28px;
+}
+
+.menuTop .titleTxt .mtz {
+    color: #FECB39;
+
+    font-family: Fredoka One;
+    font-size: 1.2em;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 32px; /* 100% */
+    letter-spacing: 1.28px;
 }
 `;

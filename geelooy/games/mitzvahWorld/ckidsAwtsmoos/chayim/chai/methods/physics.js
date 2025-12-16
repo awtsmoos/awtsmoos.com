@@ -1,3 +1,5 @@
+
+
 /**
  * B"H
  * @file physics.js
@@ -13,6 +15,10 @@ const _ground_check_ray = new THREE.Ray();
 export default {
     
     setPosition(vec3) {
+        if (!vec3 || isNaN(vec3.x) || isNaN(vec3.y) || isNaN(vec3.z)) {
+            console.warn("B\"H: Attempted to set invalid position. Ignoring.");
+            return;
+        }
         this.collider.start.set(
             vec3.x, 
             vec3.y + this.height / 2, 
@@ -28,6 +34,7 @@ export default {
     },
 
     collisions() {
+        if (!this.olam.worldOctree) return; // B"H: Safety check
         const result = this.olam.worldOctree.capsuleIntersect(this.collider);
         if (result) {
             this.collider.translate(result.normal.multiplyScalar(result.depth));
@@ -65,6 +72,20 @@ export default {
             return;
         }
         
+        // B"H: NaN Protection / Auto-Reset
+        if (isNaN(this.mesh.position.x) || isNaN(this.mesh.position.y) || isNaN(this.mesh.position.z)) {
+            console.warn("B\"H: Player position became NaN! Resetting to safe default.", {
+                was: this.mesh.position.clone()
+            });
+            this.velocity.set(0, 0, 0);
+            this.setPosition(new THREE.Vector3(0, 15, 0)); // Drop from sky
+            // Ensure camera doesn't get stuck
+            if(this.olam && this.olam.ayin) {
+                this.olam.ayin.currentDistance = 5;
+            }
+            return;
+        }
+
         // Updates from other modules
         this.updateRayColor();      
         this.updateHandState();     
@@ -75,24 +96,44 @@ export default {
         if (this.activeObject && this.activeObject.mesh && this.activeObject.mesh.userData.onUpdate) {
             this.activeObject.mesh.userData.onUpdate(deltaTime);
         }
+        
+        // B"H: Check if World is still loading physics
+        const isWorldBusy = this.olam.worldOctree ? this.olam.worldOctree.isProcessing : true;
 
         // --- 1. GROUND CHECK ---
         const steepSlopeAngle = Math.cos(THREE.MathUtils.degToRad(50));
         _ground_check_ray.origin.copy(this.collider.start);
         _ground_check_ray.direction.set(0, -1, 0);
-        const groundHit = this.olam.worldOctree.rayIntersect(_ground_check_ray);
+        
+        // B"H FIX: Safety check for worldOctree availability
+        let groundHit = false;
+        if(this.olam.worldOctree) {
+            groundHit = this.olam.worldOctree.rayIntersect(_ground_check_ray);
+        }
+        
         this.onFloor = groundHit && groundHit.normal.y > steepSlopeAngle && groundHit.distance <= this.radius + 0.25;
 
         // --- 2. PHYSICS FORCES ---
         let damping = Math.exp(-20 * deltaTime) - 1;
+        
         if (!this.onFloor) {
-            this.velocity.y -= this.olam.GRAVITY * deltaTime;
+            // B"H FIX: Only apply gravity if world is done building.
+            // If world is busy building, suspend player in air to prevent falling into abyss.
+            if (!isWorldBusy) {
+                this.velocity.y -= this.olam.GRAVITY * deltaTime;
+            } else {
+                 this.velocity.y = 0; // Hover
+            }
+            
             const airDamping = damping * 0.1;
             this.velocity.x += this.velocity.x * airDamping;
             this.velocity.z += this.velocity.z * airDamping;
         } else {
             this.velocity.addScaledVector(this.velocity, damping);
         }
+        
+        // Terminal velocity cap to prevent explosion
+        this.velocity.y = Math.max(this.velocity.y, -50); 
 
         var speedDelta = deltaTime * (this.onFloor ? (this.speed * this.speedScale) : 8);
         if (!this.moving.running) {
@@ -159,21 +200,26 @@ export default {
         const capsule = this.collider;
         // B"H FIX: Clamp numSteps to prevent freezing if physics blows up or radius is tiny
         let numSteps = Math.ceil(deltaPosition.length() / (capsule.radius * 0.5));
-        if (numSteps > 20) numSteps = 20; // Safety clamp
+        if (numSteps > 10) numSteps = 10; // Safety clamp harder
 
-        if (numSteps > 1) {
-            const stepDelta = deltaPosition.clone().divideScalar(numSteps);
-            for (let i = 0; i < numSteps; i++) {
-                capsule.translate(stepDelta);
+        if(this.olam.worldOctree) {
+            if (numSteps > 1) {
+                const stepDelta = deltaPosition.clone().divideScalar(numSteps);
+                for (let i = 0; i < numSteps; i++) {
+                    capsule.translate(stepDelta);
+                    this.collisions();
+                }
+            } else {
+                capsule.translate(deltaPosition);
                 this.collisions();
             }
-        } else {
-            capsule.translate(deltaPosition);
-            this.collisions();
         }
 
         // --- 5. GROUND STICKING ---
-        const finalGroundHit = this.olam.worldOctree.rayIntersect(_ground_check_ray);
+        let finalGroundHit = false;
+        if(this.olam.worldOctree) {
+            finalGroundHit = this.olam.worldOctree.rayIntersect(_ground_check_ray);
+        }
         this.onFloor = finalGroundHit && finalGroundHit.normal.y > steepSlopeAngle && finalGroundHit.distance <= this.radius + 0.25;
 
         if (this.onFloor && this.velocity.y <= 0) {
@@ -189,6 +235,13 @@ export default {
                 this.velocity.z = 0;
             }
             this.velocity.y = 0;
+        }
+        
+        // B"H: Abyss Check - Respawn if fallen too far
+        if (this.collider.start.y < -100) {
+            console.log("B\"H: Player fell into abyss. Respawning.");
+            this.velocity.set(0, 0, 0);
+            this.setPosition(new THREE.Vector3(0, 10, 0));
         }
 
         // --- 6. ANIMATION STATE ---
@@ -295,14 +348,6 @@ export default {
         
         if (this.activeObject) {
             this.alignObject();
-        }
-        
-        if (isNaN(this.mesh.position.x) || isNaN(this.mesh.position.y) || isNaN(this.mesh.position.z)) {
-            console.error("!!! FATAL: Player position became NaN. Physics explosion detected!", {
-                pos: this.mesh.position,
-                vel: this.velocity
-            });
-            throw new Error("Player position is NaN!");
         }
 
         // B"H: Ensure inheritance logic runs!

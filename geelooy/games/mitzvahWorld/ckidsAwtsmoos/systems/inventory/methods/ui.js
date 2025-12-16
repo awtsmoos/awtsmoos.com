@@ -1,3 +1,4 @@
+
 /**
  * B"H
  * UI and Container logic
@@ -64,8 +65,15 @@ export default {
             const itemData = this.enrichItemData(slot);
             const isContainer = itemData.className === 'Container' || itemData.isContainer || (itemData.customData && !!itemData.customData.slots);
             
+            // B"H: Add visual cue for Quest Items description
+            let description = itemData.description || '';
+            if (itemData.isQuestItem) {
+                description = "[QUEST ITEM] " + description;
+            }
+
             return {
                 ...itemData,
+                description: description,
                 sellValue: itemData.sellValue || 0,
                 isContainer: isContainer,
                 equipSlot: itemData.equipSlot || (itemData.className === 'Tool' || itemData.className === 'Brick' || itemData.className === 'CustomNpc' ? 'rightHand' : (itemData.className === 'Apparel' ? 'jacket' : null))

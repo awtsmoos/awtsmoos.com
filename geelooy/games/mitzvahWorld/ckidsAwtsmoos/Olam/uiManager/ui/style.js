@@ -1,3 +1,4 @@
+
 /**
  * B"H
  * style js object for UI
@@ -49,10 +50,11 @@ export default {
         }
 
         .hidden {
-            visibility:none;
-			display:none;
-            opacity:0;
-            z-index:-100 !important;
+            visibility: hidden !important;
+            display: none !important;
+            opacity: 0 !important;
+            z-index: -1000 !important;
+            pointer-events: none !important;
         }
         
         .active {

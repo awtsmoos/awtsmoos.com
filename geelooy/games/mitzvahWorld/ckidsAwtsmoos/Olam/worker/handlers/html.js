@@ -1,8 +1,4 @@
 
-
-
-
-
 /**
  * B"H
  * HTML Worker Handlers
@@ -49,9 +45,17 @@ export default function htmlHandlers(manager) {
         },
 
         htmlCreate(info) {
-             const parsed = Utils.evalStringifiedFunctions(info || {});
-             myUi.html(parsed);
-             eved.postMessage({ htmlCreated: { shaym: info?.shaym, id: info?.id } });
+             try {
+                 // B"H: Wrap in try-catch to prevent worker hang if eval or html() fails
+                 const parsed = Utils.evalStringifiedFunctions(info || {});
+                 myUi.html(parsed);
+                 // Always reply success to unblock worker, even if partial failure
+                 eved.postMessage({ htmlCreated: { shaym: info?.shaym, id: info?.id } });
+             } catch (e) {
+                 console.error("B\"H Error in htmlCreate handler:", e);
+                 // Send response anyway to unblock, but maybe with error flag if needed
+                 eved.postMessage({ htmlCreated: { shaym: info?.shaym, id: info?.id, error: e.toString() } });
+             }
         },
         
         htmlDelete(info) {

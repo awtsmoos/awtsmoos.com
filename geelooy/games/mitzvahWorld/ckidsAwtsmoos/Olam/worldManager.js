@@ -209,37 +209,37 @@ class ManagerOfAllWorlds {
 
         var windowVars = {};
         
-        // --- NEW: LOAD PLAYER SETTINGS ---
+        // --- NEW: LOAD PLAYER SETTINGS (JSON) ---
         let playerSettings = null;
         
         // Only attempt load if user is logged in (has alias)
         if (window.curAlias) {
             try {
                 console.log("B\"H - Attempting to load player inventory...");
-                const settingsPath = "desktop.folder/game data.folder/awtsmoosSettings.js";
+                const settingsPath = "desktop.folder/game data.folder/playerData.json";
                 
                 // 1. Fetch the file text
                 const response = await fetch(`/api/social/aliases/${window.curAlias}/fileSystem/readFile?path=${encodeURIComponent(settingsPath)}`);
                 
                 if (response.ok) {
-                    const scriptText = await response.text();
-                    
-                    // 2. Import it as a module using a Blob URL
-                    const blob = new Blob([scriptText], { type: "application/javascript" });
-                    const url = URL.createObjectURL(blob);
-                    const module = await import(url);
-                    
-                    // 3. Extract the data
-                    if (module.default) {
-                        playerSettings = module.default;
-                        console.log("B\"H - Player settings loaded:", playerSettings);
+                    const text = await response.text();
+                    try {
+                        playerSettings = JSON.parse(text);
+                        // B"H: Check for error object returned by API
+                        if (playerSettings && (playerSettings.error || playerSettings.code === "NO_AWTS_RESP")) {
+                            console.log("B\"H - Player settings file not found or invalid (new user).");
+                            playerSettings = null;
+                        } else {
+                            console.log("B\"H - Player settings loaded successfully.");
+                        }
+                    } catch(parseError) {
+                         console.warn("B\"H - Error parsing settings JSON", parseError);
                     }
-                    URL.revokeObjectURL(url); // Cleanup
                 } else {
                     console.log("B\"H - No settings file found. Starting with empty/default inventory.");
                 }
             } catch (e) {
-                console.warn("B\"H - Could not load player settings (Network error or invalid file):", e);
+                console.warn("B\"H - Could not load player settings (Network error):", e);
             }
         }
         // ---------------------------------
@@ -249,10 +249,10 @@ class ManagerOfAllWorlds {
             gameState: this.gameState,
             windowVars,
             
-            // Pass the loaded settings into the Olam's 'set' property.
-            // Anything in 'set' is automatically assigned to 'this' in the Olam instance.
+            // B"H: Pass user state to the Worker
             set: {
-                playerSettings: playerSettings 
+                playerSettings: playerSettings,
+                curAlias: window.curAlias || null // Pass alias directly for saving
             },
             
             ...(worldDayuhURL ? {

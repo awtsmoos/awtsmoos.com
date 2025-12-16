@@ -2,32 +2,26 @@
 /**
  * B"H
  * @file customNpc.js
- * @description
- * In the Kabbalistic structure of the game, the CustomNpc represents a "Partzuf" - a distinct persona
- * created by the user (the local "Boreh" of this entity). 
  */
 
 import Medabeir from "../chayim/medabeir.js";
 import Utils from "../utils.js";
-import { CurrencySystem } from "./coin.js";
 import * as AWTSMOOS from "../awtsmoosCkidsGames.js";
+import { QUEST_STATE } from "../shleechoosHandler.js";
+
+// B"H: Icon SVG Data URIs
+const ICON_EXCLAMATION_YELLOW = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cGF0aCBkPSJNNDUgMTUgTDU1IDE1IEw1MyA2NSBMNDcgNjUgWiBNNDUgNzUgTDU1IDc1IEw1NSA4NSBMNDUgODUgWiIgZmlsbD0iI0ZGRDcwMCIgc3Ryb2tlPSIjMDAwIiBzdHJva2Utd2lkdGg9IjMiLz48L3N2Zz4=";
+const ICON_QUESTION_SILVER = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cGF0aCBkPSJNMzAgMzAgQzMwIDEwIDcwIDEwIDcwIDMwIEM3MCA1MCA1MCA1MCA1MCA3MCBMNTAgODAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI0MwQzBDMCIgc3Ryb2tlLXdpZHRoPSIxMCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PGNpcmNsZSBjeD0iNTAiIGN5PSI5MCIgcj0iNSIgZmlsbD0iI0MwQzBDMCIvPjwvc3ZnPg==";
+const ICON_QUESTION_YELLOW = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cGF0aCBkPSJNMzAgMzAgQzMwIDEwIDcwIDEwIDcwIDMwIEM3MCA1MCA1MCA1MCA1MCA3MCBMNTAgODAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI0ZGRDcwMCIgc3Ryb2tlLXdpZHRoPSIxMCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PGNpcmNsZSBjeD0iNTAiIGN5PSI5MCIgcj0iNSIgZmlsbD0iI0ZGRDcwMCIvPjwvc3ZnPg==";
 
 export default class CustomNpc extends Medabeir {
     type = "customNpc";
     static itemName = "Custom NPC";
     static description = "A custom designed character.";
     static isBuildable = true; 
-    static icon = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48Y2lyY2xlIGN4PSIyNTYiIGN5PSIyNTYiIHI9IjIwMCIgZmlsbD0iIzRmNDRmNCIgc3Ryb2tlPSIjMDAwIiBzdHJva2Utd2lkdGg9IjIwIi8+PHBhdGggZD0iTTE1NiAxNTZhMTAwIDEwMCAwIDAgMSAyMDAgMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMDAwIiBzdHJva2Utd2lkdGg9IjIwIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48L3N2Zz4=";
     
-    shopInventory = [];
-    balance = 0;
-    contractPercentage = 100; 
-    salesLog = [];
-    ownerId = null; 
-
     constructor(op, olam) {
         const customData = op.itemData?.customData || op.customData || {};
-        
         op.name = customData.name || "Anonymous Soul";
         op.placeholderName = op.name;
         op.isSolid = false; 
@@ -37,323 +31,115 @@ export default class CustomNpc extends Medabeir {
         super(op);
         
         if(olam) this.olam = olam;
-        
         if(!this.id) this.id = op.id || Utils.generateID();
-
+        
         this.customData = customData;
-        
-        if (!this.customData.dialogueTree || !Array.isArray(this.customData.dialogueTree) || this.customData.dialogueTree.length === 0) {
-            this.customData.dialogueTree = [{ message: "B\"H\nShalom! I am a new soul in this world.", responses: [] }];
-        }
+        this.quests = customData.quests || []; // List of quest definitions
 
-        this.interactable = true;
-        this.proximity = 3;
-        
+        // ... existing properties ...
         this.shopInventory = customData.shopInventory || [];
         this.balance = customData.balance || 0;
-        this.contractPercentage = customData.contractPercentage ?? 100;
-        this.ownerId = customData.ownerId || null;
-        this.salesLog = customData.salesLog || [];
-
-        this.velocity.y = -5; 
         
-        if (this.olam) {
-            this.olam.on("htmlPeula shopAction", (data) => {
-                if (data.entityId === this.id) {
-                    this.handleShopAction(data.action, data.payload, data.buyerName);
-                }
-            });
-        }
-
-        this.on("nivraYotsee", nivra => {
-            if (nivra.type === 'chossid' && this.olam) {
-                this.olam.ayshPeula("ui event", "storeScreen", { close: true });
-            }
+        this.iconState = null;
+        
+        // Hook into lifecycle
+        this.on("ready", () => {
+            this.registerMyQuests();
+            this.updateOverheadIcon();
         });
 
+        // Dynamic Message Tree to handle Quest Logic
         this.messageTree = (myself) => {
-            if (!this.olam) {
-                return [{ message: "Initializing...", responses: [] }];
-            }
-
-            const currentPlayerId = this.olam.chossid ? this.olam.chossid.name : "player";
-            const isOwner = !this.ownerId || (this.ownerId === currentPlayerId);
-
-            let dialogueTree = Utils.copyObj(this.customData.dialogueTree);
-
-            dialogueTree.forEach((node, index) => {
-                if(node.id === undefined) node.id = index;
-                if(node.responses) {
-                     node.responses.forEach(r => {
-                         if(r.type === "message" && r.target !== undefined) r.nextMessageIndex = r.target;
-                         else if (r.type === "close") r.close = "Shalom!";
-                         else if (r.type === "store") {
-                             r.action = (me, buyer) => {
-                                this.openShopUI(buyer);
-                                return false;
-                             }
-                         }
-                     });
-                }
-                
-                if (!node.responses || node.responses.length === 0) {
-                    node.responses = [{ text: "Goodbye", close: "Shalom!" }];
-                } else {
-                     const hasClose = node.responses.some(r => r.close || r.type === 'close');
-                     if (!hasClose && !isOwner) { 
-                         node.responses.push({ text: "Goodbye", close: "See you later." });
-                     }
-                }
-            });
-
-            const rootNode = dialogueTree[0];
-            if (!rootNode.responses) rootNode.responses = [];
-            
-            if (this.shopInventory.length > 0) {
-                if(!rootNode.responses.find(r => r.isShopButton)) {
-                    rootNode.responses.push({
-                        text: "Show me your wares",
-                        isShopButton: true,
-                        action: (me, buyer) => {
-                            this.openShopUI(buyer);
-                            return false; 
-                        }
-                    });
-                }
-            }
-
-            if (isOwner) {
-                rootNode.responses.push(
-                    {
-                        text: "⭐ Collect Profits",
-                        action: (me) => {
-                            if (me.balance > 0) {
-                                me.olam.player.inventory.addItem({
-                                    id: 'coin_1', className: 'Coin', name: 'Perutah', quantity: me.balance, value: 1
-                                }, me.balance);
-                                const amount = me.balance;
-                                me.balance = 0;
-                                me.ayshPeula("close dialogue", `Transferred ${amount} perutahs to you.`);
-                                me.spawnHebrewParticles(me.mesh.position);
-                            } else {
-                                me.ayshPeula("close dialogue", "No profits to collect yet.");
-                            }
-                        }
-                    },
-                    {
-                        text: "⭐ Edit Dialogue/Settings",
-                        action: (me) => {
-                            me.olam.ayshPeula("ui event", "character designer", {
-                                open: { 
-                                    mode: 'edit',
-                                    item: { customData: me.serialize().customData, name: me.name },
-                                    liveEntityId: me.id, 
-                                    sourceType: 'world'
-                                }
-                            });
-                            me.ayshPeula("close dialogue", "Opening editor...");
-                        }
-                    },
-                    {
-                        text: "⭐ Collect Me",
-                        action: (me) => {
-                             if (me.olam.player && me.olam.player.inventory) {
-                                const serialized = me.serialize();
-                                const itemData = serialized.itemData;
-                                me.olam.player.inventory.addItem(itemData);
-                                me.ayshPeula("close dialogue", "Returning to source...");
-                                setTimeout(() => {
-                                    me.olam.sealayk(me);
-                                }, 500);
-                            }
-                        }
-                    }
-                );
-            }
-            return dialogueTree;
-        };
-    }
-
-    async heescheel(olam) {
-        await super.heescheel(olam);
-        this.isReady = true; 
-        const player = olam.player || olam.chossid;
-        if (player && player.garments && this.garments) {
-             for(const [garmentName, playerMesh] of Object.entries(player.garments)) {
-                 if (this.garments[garmentName]) {
-                     this.garments[garmentName].visible = playerMesh.visible;
-                 }
+             const handler = this.olam.shlichusHandler;
+             if (!handler) return [{ message: "...", responses: [] }];
+             
+             // 1. Check for Turn-Ins
+             const turnIns = Array.from(handler.activeQuests.values()).filter(q => 
+                 q.returnToId === this.id && q.state === QUEST_STATE.READY_TO_TURN_IN
+             );
+             
+             if (turnIns.length > 0) {
+                 const q = turnIns[0];
+                 return [{
+                     message: "B\"H\nExcellent work on: " + q.title,
+                     responses: [{
+                         text: "Here is what I found/did.",
+                         action: (me) => { q.complete(); me.updateOverheadIcon(); }
+                     }]
+                 }];
              }
-        }
+             
+             // 2. Check for Available Quests
+             const available = Array.from(handler.activeQuests.values()).filter(q => 
+                 q.giverId === this.id && q.state === QUEST_STATE.AVAILABLE
+             );
+             
+             if (available.length > 0) {
+                 const q = available[0];
+                 return [{
+                     message: "B\"H\n" + (q.description || "I have a mitzvah opportunity for you."),
+                     responses: [
+                         {
+                             text: "I accept this mission (" + q.title + ")",
+                             action: (me) => { handler.acceptQuest(q.id); me.updateOverheadIcon(); }
+                         },
+                         { text: "Maybe later.", type: "close" }
+                     ]
+                 }];
+             }
+             
+             // 3. Check Active (Waiting)
+             const waiting = Array.from(handler.activeQuests.values()).filter(q => 
+                 q.returnToId === this.id && q.state === QUEST_STATE.ACTIVE
+             );
+             
+             if (waiting.length > 0) {
+                 return [{
+                     message: "Hatzlacha! I am waiting for you to complete: " + waiting[0].title,
+                     responses: [{ text: "I'm on it.", type: "close" }]
+                 }];
+             }
+
+             // 4. Default Dialogue
+             return this.customData.dialogueTree || [{ message: "Shalom!", responses: [{ text: "Bye", type: "close" }] }];
+        };
     }
 
-    openShopUI(buyer) {
-        this.ayshPeula("close dialogue", "");
-        this.olam.htmlAction({
-             shaym: "approach npc msg",
-             methods: { classList: { add: "hidden" } }
-        });
-        
-        // B"H: Hydrate shop items with icons and static data
-        const hydratedShopItems = this.shopInventory.map(item => {
-             // Attempt to guess class if missing (legacy items might be missing it)
-             const className = item.className || 'Brick'; 
-             const ItemClass = AWTSMOOS[className];
-             return {
-                 ...item,
-                 icon: item.icon || (ItemClass ? ItemClass.icon : ""),
-                 description: item.description || (ItemClass ? ItemClass.description : ""),
-                 className: className
-             };
-        });
-
-        this.olam.ayshPeula("ui event", "storeScreen", {
-            open: {
-                mode: 'buy',
-                entityId: this.id,
-                npcName: this.name,
-                items: hydratedShopItems,
-                playerInventory: buyer.inventory.slots
-            }
-        });
-    }
-
-    handleShopAction(action, payload, buyerName) {
-        const buyer = this.olam.chossid;
-        if (!buyer) return;
-        
-        if (action === 'buy') this.processBuy(payload.index, buyer);
-        else if (action === 'sell') this.processSell(payload.originalIndex, buyer);
-        else if (action === 'exchange') {
-            buyer.inventory.exchangeCurrency();
-            this.playSound("awtsmoos://dingSound", { volume: 0.6 });
-            this.olam.ayshPeula("ui event", "effectsOverlay", { text: "Wallet Optimized!", color: "#00ff00" });
-            this.refreshStoreUI(buyer);
-        }
-    }
-
-    processBuy(index, buyer) {
-        // Note: we use the raw this.shopInventory here.
-        const item = this.shopInventory[index];
-        if (!item) return;
-
-        if (item.quantity <= 0) {
-            this.olam.ayshPeula("ui event", "effectsOverlay", { text: "Out of Stock!", color: "red" });
-            return;
-        }
-
-        const buyerInv = buyer.inventory;
-        const walletValue = buyerInv.getWalletValue();
-
-        if (walletValue >= item.price) {
-            buyerInv.deductCurrency(item.price);
-
-            // Ensure we pass a valid className to addItem
-            const className = item.className || 'Brick';
-            const itemToAdd = {
-                id: item.name.toLowerCase().replace(/\s/g, "_") + "_" + Date.now(),
-                name: item.name,
-                className: className,
-                quantity: 1,
-                description: "Bought from " + this.name,
-                customData: { color: Math.random() * 0xffffff }
-            };
-            buyerInv.addItem(itemToAdd);
-
-            item.quantity--;
-            if (item.quantity <= 0) this.shopInventory.splice(index, 1);
-
-            const profit = item.price;
-            const ownerShare = Math.floor(profit * (this.contractPercentage / 100));
-            this.balance += ownerShare;
-            this.salesLog.push(`Sold ${item.name} for ${item.price}`);
-
-            this.playSound("awtsmoos://dingSound", { volume: 0.5 });
-            this.olam.ayshPeula("ui event", "effectsOverlay", { 
-                effect: 'transaction', text: `-${item.price} P`, color: 'red', icon: item.name.charAt(0) 
+    registerMyQuests() {
+        if (this.olam.shlichusHandler && this.quests.length > 0) {
+            this.quests.forEach(q => {
+                this.olam.shlichusHandler.registerQuest(this, q);
             });
-
-            this.refreshStoreUI(buyer);
-        } else {
-            this.olam.ayshPeula("ui event", "effectsOverlay", { text: "Not enough funds!", color: "red" });
         }
     }
 
-    processSell(slotIndex, buyer) {
-        const slot = buyer.inventory.slots[slotIndex];
-        if (!slot) return;
+    updateOverheadIcon() {
+        if (!this.olam.shlichusHandler) return;
         
-        const ItemClass = AWTSMOOS[slot.className];
-        const value = slot.sellValue || (ItemClass ? new ItemClass({}).sellValue : 0);
-
-        if (value > 0) {
-            if (slot.isEquipped) {
-                 this.olam.ayshPeula("ui event", "effectsOverlay", { text: "Cannot sell equipped item!", color: "red" });
-                 return;
-            }
+        const state = this.olam.shlichusHandler.getNpcState(this.id);
+        
+        let iconUrl = null;
+        if (state === 'READY') iconUrl = ICON_QUESTION_YELLOW;
+        else if (state === 'WAITING') iconUrl = ICON_QUESTION_SILVER;
+        else if (state === 'AVAILABLE') iconUrl = ICON_EXCLAMATION_YELLOW;
+        
+        if (this.iconState !== state) {
+            this.iconState = state;
+            // Update Minimap Icon
+            this.iconPath = iconUrl ? "custom_icon" : "chossid.svg"; // Use fallback if null
+            this.iconType = iconUrl ? "url" : "centered";
             
-            buyer.inventory.removeItem(slotIndex, 1);
-            buyer.inventory.addItem({
-                id: 'coin_1', className: 'Coin', name: 'Perutah', value: 1, quantity: value
-            }, value);
-
-            const existing = this.shopInventory.find(i => i.name === slot.name);
-            if (existing) existing.quantity++;
-            else {
-                this.shopInventory.push({
-                    name: slot.name,
-                    price: Math.ceil(value * 1.2),
-                    quantity: 1,
-                    className: slot.className // IMPORTANT: Store the class name for future icon lookups
-                });
+            // Send update to Minimap system
+            // We use a property bag that Minimap checks, or trigger a refresh
+            if (this.olam.minimap) {
+                 // Hack: remove and re-add to refresh icon
+                 this.olam.minimap.removeMinimapItem(this, "npcs");
+                 if (iconUrl) {
+                     // Monkey-patch getIcon for this instance to return the Data URI
+                     this.getIcon = async () => `<img src="${iconUrl}" style="width:100%;height:100%;" />`;
+                     this.olam.minimap.setMinimapItem(this, "npcs");
+                 }
             }
-
-            this.playSound("awtsmoos://dingSound", { volume: 0.5 });
-            this.olam.ayshPeula("ui event", "effectsOverlay", { 
-                effect: 'transaction', text: `+${value} P`, color: '#00ff00'
-            });
-
-            this.refreshStoreUI(buyer);
         }
-    }
-
-    refreshStoreUI(buyer) {
-        // Re-hydrate just like openShopUI
-        const hydratedShopItems = this.shopInventory.map(item => {
-             const className = item.className || 'Brick';
-             const ItemClass = AWTSMOOS[className];
-             return {
-                 ...item,
-                 icon: item.icon || (ItemClass ? ItemClass.icon : ""),
-                 description: item.description || (ItemClass ? ItemClass.description : ""),
-                 className: className
-             };
-        });
-        
-        this.olam.ayshPeula("ui event", "storeScreen", {
-            update: { items: hydratedShopItems, playerInventory: buyer.inventory.slots }
-        });
-    }
-
-    serialize() {
-        const base = super.serialize();
-        base.customData = {
-            name: this.name,
-            color: this.customData.color,
-            dialogueTree: this.customData.dialogueTree,
-            shopInventory: this.shopInventory,
-            balance: this.balance,
-            contractPercentage: this.contractPercentage,
-            salesLog: this.salesLog,
-            ownerId: this.ownerId,
-            modelPath: this.path
-        };
-        base.itemData = {
-            id: this.name + "_" + Date.now(),
-            className: "CustomNpc",
-            name: this.name,
-            customData: base.customData
-        };
-        return base;
     }
 }

@@ -9,10 +9,43 @@ export default function uiHandlers(manager) {
 
     return {
         hideLoadingScreen() {
-            myUi.htmlAction({
-                shaym: "loading",
-                methods: { classList: { add: "hidden" } }
-            });
+            console.log("B\"H - Main Thread: Received hideLoadingScreen command.");
+            try {
+                const el = myUi.getHtml("loading");
+                const hideElement = (element) => {
+                    if (element) {
+                        element.classList.add("hidden");
+                        element.style.display = "none"; // B"H: Force inline hide
+                        element.style.opacity = "0";
+                        element.style.zIndex = "-1000";
+                        console.log("B\"H - Hid element:", element);
+                    }
+                };
+
+                if (el) {
+                    hideElement(el);
+                } else {
+                    console.warn("B\"H - Loading element 'loading' not found in UI registry. Trying querySelector.");
+                    const domEl = document.querySelector(".loading");
+                    if (domEl) {
+                        hideElement(domEl);
+                    } else {
+                        console.error("B\"H - Loading element NOT FOUND anywhere.");
+                        // B"H: Last ditch attempt - hide by ID if it exists or generic class
+                        const genericLoaders = document.querySelectorAll('[class*="loading"]');
+                        genericLoaders.forEach(l => hideElement(l));
+                    }
+                }
+                
+                // Redundant check via htmlAction to ensure state sync if needed
+                myUi.htmlAction({
+                    shaym: "loading",
+                    methods: { classList: { add: "hidden" } },
+                    properties: { style: { display: "none" } }
+                });
+            } catch(e) {
+                console.error("B\"H - Error in hideLoadingScreen handler:", e);
+            }
         },
 
         resetPercentage() {

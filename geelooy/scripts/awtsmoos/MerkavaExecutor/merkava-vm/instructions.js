@@ -213,7 +213,16 @@
                     const k = thread.pop(); 
                     const o = thread.pop(); 
                     if(o !== undefined && o !== null) {
-                        o[k] = v;
+                        // B"H - Robust Styling: Handle CSSStyleDeclaration specifically to ensure updates
+                        if (typeof CSSStyleDeclaration !== 'undefined' && o instanceof CSSStyleDeclaration) {
+                            if (typeof o.setProperty === 'function') {
+                                o.setProperty(k, String(v));
+                            } else {
+                                o[k] = v;
+                            }
+                        } else {
+                            o[k] = v;
+                        }
                     } else {
                        throw new TypeError(`Cannot set property '${k}' of ${o}`);
                     }

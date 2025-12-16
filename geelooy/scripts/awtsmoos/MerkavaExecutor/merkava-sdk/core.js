@@ -1,3 +1,4 @@
+
 // B"H
 (function(root) {
     const Internal = root.MerkavaSDK_Internal = root.MerkavaSDK_Internal || {};
@@ -89,6 +90,9 @@
             overrides.setInterval = baseContext.setInterval ? baseContext.setInterval.bind(baseContext) : self.setInterval.bind(self);
             overrides.clearInterval = baseContext.clearInterval ? baseContext.clearInterval.bind(baseContext) : self.clearInterval.bind(self);
             
+            // B"H - Ensure CSSStyleDeclaration is available for instruction checks
+            overrides.CSSStyleDeclaration = self.CSSStyleDeclaration || baseContext.CSSStyleDeclaration;
+
             // B"H - REQUIRED FOR MODULE EXPORTS
             // The compiler emits calls to this for 'export let/var/func'
             overrides.__define_live_export = (exports, key, env, localKey) => {
