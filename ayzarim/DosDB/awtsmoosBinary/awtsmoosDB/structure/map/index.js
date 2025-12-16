@@ -18,6 +18,10 @@ class MapEngine {
             this.ptr = null;
         }
         
+        // B"H: Node Cache to optimize repeated traversals (e.g. root)
+        this.cache = new Map();
+        this.CACHE_LIMIT = 200;
+
         this.nodeIO = new MapNode(allocator, this); 
         this.ops = new MapOps(this);
         this.MAX_DEPTH = 100;
@@ -42,6 +46,9 @@ class MapEngine {
     async _destroyNode(ptr, depth) {
         if (depth > this.MAX_DEPTH) return;
         
+        // Remove from cache
+        if (this.cache.has(ptr.blockId)) this.cache.delete(ptr.blockId);
+
         const node = await this.nodeIO.load(ptr);
         if (node.isLeaf) {
             for(const valPtr of node.values) {
@@ -89,6 +96,8 @@ class MapEngine {
                 values: [], next: 0, totalCount: root.totalCount + res.split.totalCount, totalBytes: root.totalBytes + res.split.totalBytes 
             };
             
+            // B"H: Update root total stats by summing children
+            // Since we just split, root = left + right
             const leftNode = await this.nodeIO.load(leftChildPtr);
             const rightNodePtr = this._decodePtr(SmartPointer.decode(split.ptr).payload);
             const rightNode = await this.nodeIO.load(rightNodePtr);
@@ -151,10 +160,10 @@ class MapEngine {
         const res = await this.ops.delete(root, keyBuf);
         
         if (res.success && res.deletedPtr) {
-            // Free the pointer here, but return it for graph cleanup
-            // We use setTimeout to ensure it's freed AFTER the caller inspects it if needed?
-            // No, free it now. The caller just needs the Buffer to calculate Graph ID.
-            try { await this.allocator.free(res.deletedPtr); } catch(e) {}
+            // B"H: CRITICAL CHANGE
+            // Do NOT free the pointer here. 
+            // Return it to the caller (Writer) so it can read the value for index/graph cleanup.
+            // The Writer is responsible for calling allocator.free(res.deletedPtr).
             return { success: true, deletedPtr: res.deletedPtr };
         }
         

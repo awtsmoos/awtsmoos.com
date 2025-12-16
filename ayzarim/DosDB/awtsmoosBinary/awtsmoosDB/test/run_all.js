@@ -32,8 +32,27 @@ const TESTS = [
     'v2_flawless.js',
     'singularity.js', // The Hishtalshelus
     'ultimate_chaos.js', // The Chaos
-    'final_boss.js' // The Final Boss
+    'final_boss.js', // The Final Boss
+    'genesis.js' // The Creation
 ];
+
+function cleanupFiles() {
+    console.log("\x1b[36mB\"H - Cleaning up test artifacts (.db and .wal files)...\x1b[0m");
+    const dir = __dirname;
+    const files = fs.readdirSync(dir);
+    let count = 0;
+    for (const file of files) {
+        if (file.endsWith('.db') || file.endsWith('.wal')) {
+            try {
+                fs.unlinkSync(path.join(dir, file));
+                count++;
+            } catch (e) {
+                // Ignore busy files if any
+            }
+        }
+    }
+    console.log(`\x1b[36m    Deleted ${count} files.\x1b[0m`);
+}
 
 async function runScript(scriptName) {
     return new Promise((resolve, reject) => {
@@ -55,7 +74,10 @@ async function runScript(scriptName) {
 }
 
 async function main() {
-    console.log("\x1b[36mB\"H - Starting Full System Validation Suite...\x1b[0m");
+    // Initial cleanup
+    cleanupFiles();
+    
+    console.log("\n\x1b[36mB\"H - Starting Full System Validation Suite...\x1b[0m");
     const start = Date.now();
 
     for (const test of TESTS) {
@@ -63,12 +85,16 @@ async function main() {
             await runScript(test);
         } catch (e) {
             console.error("\n\x1b[41m!!! SYSTEM FAILURE DETECTED !!!\x1b[0m");
+            cleanupFiles(); // Attempt cleanup even on failure
             process.exit(1);
         }
     }
 
     const duration = ((Date.now() - start) / 1000).toFixed(2);
     console.log(`\n\x1b[42m\x1b[30m B"H - ALL SYSTEMS NOMINAL. TOTAL VICTORY IN ${duration}s. \x1b[0m`);
+    
+    // Final cleanup
+    cleanupFiles();
 }
 
 main();

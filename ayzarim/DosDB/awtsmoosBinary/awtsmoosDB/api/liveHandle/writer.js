@@ -96,7 +96,11 @@ class Writer {
         // Pass pointer buffer directly to deleteNode
         // Note: GraphManager deleteNode is async and handles edge cleanup.
         // We fire and await to ensure consistency for test.
-        await this.db.graph.deleteNode(ptr);
+        try {
+            await this.db.graph.deleteNode(ptr);
+        } catch(e) {
+            if(this.db.debug) console.warn("B\"H Graph Cleanup warning: " + e.message);
+        }
     }
 
     async compact() {
@@ -193,8 +197,13 @@ class Writer {
             let oldVal = null;
             
             if (searchIndexed && index < len) {
-                oldPtr = await seq.getPtr(index);
-                if (oldPtr) oldVal = await this.handle.reader.getItem(index);
+                try {
+                    oldPtr = await seq.getPtr(index);
+                    if (oldPtr) oldVal = await this.handle.reader.getItem(index);
+                } catch(e) {
+                    if (this.db.debug) console.warn(`B"H Writer: Failed to read oldVal for index ${index}. Corruption?`);
+                    oldVal = null; // Proceed with update despite corruption
+                }
             }
 
             if (index === len) await seq.push(valToSet);
@@ -205,10 +214,24 @@ class Writer {
             
             if (searchIndexed && index < len) {
                 if(this.db.debug) console.log(`B"H Writer Updating Index for ${path}...`);
-                await this.db.search.updateIndex(path, valToSet, oldPtr, oldVal, value);
+                try {
+                    await this.db.search.updateIndex(path, valToSet, oldPtr, oldVal, value);
+                } catch(e) {
+                    if(this.db.debug) console.warn("B\"H Index Update failed: " + e.message);
+                }
             } else if (searchIndexed && index === len) {
                 if(this.db.debug) console.log(`B"H Writer Adding to Index for ${path}...`);
-                await this.db.search.updateIndex(path, valToSet, null, null, value);
+                try {
+                    await this.db.search.updateIndex(path, valToSet, null, null, value);
+                } catch(e) {
+                    if(this.db.debug) console.warn("B\"H Index Add failed: " + e.message);
+                }
+            }
+            
+            // B"H: Update Vector Index on Set/Push
+            if (vectorIndex) {
+                const vec = this._extractVector(value);
+                if (vec) await this.db.vector.insert(path, index, vec, valToSet);
             }
             
             return;
@@ -218,11 +241,40 @@ class Writer {
 
         if (this.handle.type === constants.TYPE_MAP) {
             const map = await this._getEngine(structPtr, constants.TYPE_MAP);
-            // If setting overwrites an existing key, we should check if we need to clean up graph/search.
-            // Map.set in current implementation doesn't return old value easily unless we query.
-            // For now, simple set.
+            
+            let oldPtr = null;
+            let oldVal = null;
+            
+            // B"H: If Search Indexed, fetch old value before overwrite
+            if (searchIndexed) {
+                try {
+                    oldPtr = await map.getPtr(encodedKey);
+                    if (oldPtr) {
+                        const temp = await SmartPointer.resolve(oldPtr, this.db.allocator);
+                        oldVal = await this._hydrateForIndex(temp);
+                    }
+                } catch(e) {
+                    if (this.db.debug) console.warn(`B"H Writer: Failed to read oldVal for key ${key}. Corruption?`);
+                    oldVal = null;
+                }
+            }
+
             await map.set(encodedKey, valToSet, { isPtr: true, skipFree });
             await this._checkAutoCompact(map, constants.TYPE_MAP);
+            
+            // B"H: Update Search Index
+            if (searchIndexed) {
+                try {
+                    await this.db.search.updateIndex(path, valToSet, oldPtr, oldVal, value);
+                } catch(e) {
+                    if(this.db.debug) console.warn("B\"H Index Update failed: " + e.message);
+                }
+            }
+
+            if (vectorIndex) {
+                const vec = this._extractVector(value);
+                if (vec) await this.db.vector.insert(path, key, vec, valToSet);
+            }
             return;
         }
 
@@ -270,6 +322,10 @@ class Writer {
             if (!this.handle.ptr) return false;
             let structPtr = await this._resolveStructPtr();
             const encodedKey = keyEncoding.encode(key);
+            
+            const path = this.handle.getPath();
+            const vectorIndex = await this.db.vector.getIndex(path);
+            const searchIndexed = await this.db.search.isIndexed(path);
 
             if (this.handle.type === constants.TYPE_DICTIONARY) {
                 const dict = await this._getEngine(structPtr, constants.TYPE_DICTIONARY);
@@ -277,11 +333,28 @@ class Writer {
             }
             if (this.handle.type === constants.TYPE_MAP) {
                 const map = await this._getEngine(structPtr, constants.TYPE_MAP);
+                
+                // B"H: FIX - MapEngine.delete now returns {success, deletedPtr} without freeing.
+                // We must handle the freeing here AFTER using it for index cleanup.
                 const res = await map.delete(encodedKey);
                 
-                // B"H: If delete returned deletedPtr, clean up graph
                 if (res.success && res.deletedPtr) {
+                    if (searchIndexed) {
+                        try {
+                            const temp = await SmartPointer.resolve(res.deletedPtr, this.db.allocator);
+                            const oldVal = await this._hydrateForIndex(temp);
+                            await this.db.search.updateIndex(path, null, res.deletedPtr, oldVal, null);
+                        } catch(e) {
+                            if(this.db.debug) console.warn("B\"H Index Cleanup warning: " + e.message);
+                        }
+                    }
+                    
                     await this._checkGraphCleanup(res.deletedPtr);
+                    
+                    if (vectorIndex) await this.db.vector.delete(path, key);
+                    
+                    // NOW we free the block
+                    await this.db.allocator.free(res.deletedPtr);
                 }
                 
                 await this._checkAutoCompact(map, constants.TYPE_MAP);
@@ -291,19 +364,24 @@ class Writer {
                  const seq = await this._getEngine(structPtr, constants.TYPE_SEQUENCE);
                  const index = parseInt(key);
                  if(!isNaN(index)) {
-                     const path = this.handle.getPath();
-                     const isIndexed = await this.db.search.isIndexed(path);
                      
                      // B"H: Fetch old pointer for cleanup
                      const oldPtr = await seq.getPtr(index);
                      
-                     if (isIndexed && oldPtr) {
-                         const oldVal = await this.handle.reader.getItem(index);
-                         await this.db.search.updateIndex(path, null, oldPtr, oldVal, null);
+                     if (searchIndexed && oldPtr) {
+                         try {
+                             const oldVal = await this.handle.reader.getItem(index);
+                             await this.db.search.updateIndex(path, null, oldPtr, oldVal, null);
+                         } catch(e) {
+                             if(this.db.debug) console.warn("B\"H Index Cleanup warning: " + e.message);
+                         }
                      }
                      
-                     // B"H: Graph cleanup
-                     if (oldPtr) await this._checkGraphCleanup(oldPtr);
+                     // B"H: Graph & Vector cleanup
+                     if (oldPtr) {
+                         await this._checkGraphCleanup(oldPtr);
+                         if (vectorIndex) await this.db.vector.delete(path, index);
+                     }
                      
                      await seq.splice(index, 1);
                      await this._checkAutoCompact(seq, constants.TYPE_SEQUENCE);
@@ -336,7 +414,11 @@ class Writer {
             await this._checkAutoCompact(seq, constants.TYPE_SEQUENCE);
 
             if (isIndexed) {
-                await this.db.search.updateIndex(path, valToPush, null, null, value);
+                try {
+                    await this.db.search.updateIndex(path, valToPush, null, null, value);
+                } catch(e) {
+                    if(this.db.debug) console.warn("B\"H Index Update warning: " + e.message);
+                }
             }
             if (vectorIndex) {
                 const vec = this._extractVector(value);
@@ -345,16 +427,28 @@ class Writer {
         });
     }
 
-    async splice(start, deleteCount, ...items) {
+    async splice(start, deleteCount, ...args) {
         return this.db.execute(async () => {
             this._invalidateEngine(); // Splice invalidates simple append cache
             await this.handle.ensureResolved();
             if (this.handle.type !== constants.TYPE_SEQUENCE) throw new Error("Not a sequence");
             
+            let options = {};
+            let items = args;
+            // B"H: Check for options object at the end
+            if (args.length > 0) {
+                const last = args[args.length - 1];
+                if (last && typeof last === 'object' && last._isAwtsmoosOptions) {
+                    options = last;
+                    items = args.slice(0, -1);
+                }
+            }
+
             const path = this.handle.getPath();
             const structPtr = await this._resolveStructPtr();
             const seq = await this._getEngine(structPtr, constants.TYPE_SEQUENCE);
             const isIndexed = await this.db.search.isIndexed(path);
+            const vectorIndex = await this.db.vector.getIndex(path);
             
             const preparedItems = [];
             for(const item of items) preparedItems.push(await this.builder.build(item));
@@ -367,27 +461,73 @@ class Writer {
                     const idx = start + i;
                     const ptr = await seq.getPtr(idx);
                     if (ptr) {
-                        const val = isIndexed ? await this.handle.reader.getItem(idx) : null;
+                        let val = null;
+                        if (isIndexed) {
+                            try {
+                                val = await this.handle.reader.getItem(idx);
+                            } catch(e) {
+                                if (this.db.debug) console.warn(`B"H Writer: Corruption detected reading index ${idx}. Deleting anyway.`);
+                            }
+                        }
                         toRemove.push({ ptr, val });
                     }
                 }
             }
 
-            await seq.splice(start, deleteCount, ...preparedItems);
-            await this._checkAutoCompact(seq, constants.TYPE_SEQUENCE);
-            
-            // Cleanup
+            // Cleanup Logic
+            let removeIdx = 0;
             for(const r of toRemove) {
-                if (isIndexed) await this.db.search.updateIndex(path, null, r.ptr, r.val, null);
-                // Graph cleanup
-                await this._checkGraphCleanup(r.ptr);
+                if (isIndexed) {
+                    try {
+                        await this.db.search.updateIndex(path, null, r.ptr, r.val, null);
+                    } catch(e) {
+                        if(this.db.debug) console.warn("B\"H Index Cleanup warning: " + e.message);
+                    }
+                }
+                
+                // B"H: Only clean graph/vector if we are NOT in a skipFree (Ref) splice
+                // skipFree usually implies we are just removing a reference, not deleting the object.
+                if (!options.skipFree) {
+                    await this._checkGraphCleanup(r.ptr);
+                    if (vectorIndex) await this.db.vector.delete(path, start + removeIdx);
+                }
+                removeIdx++;
             }
+
+            // B"H: Call OPS splice directly to pass options
+            await seq.ops.splice(start, deleteCount, preparedItems, options);
+            await this._checkAutoCompact(seq, constants.TYPE_SEQUENCE);
             
             if (isIndexed) {
                 for(let i = 0; i < items.length; i++) {
                     const newVal = items[i];
                     const newPtr = preparedItems[i];
-                    await this.db.search.updateIndex(path, newPtr, null, null, newVal);
+                    try {
+                        await this.db.search.updateIndex(path, newPtr, null, null, newVal);
+                    } catch(e) {
+                        if(this.db.debug) console.warn("B\"H Index Update warning: " + e.message);
+                    }
+                }
+            }
+
+            // B"H: Handle Vector Insertion for spliced items
+            if (vectorIndex) {
+                if (this.db.debug) console.log(`B"H Writer: Processing vector insertion for ${items.length} items at start=${start}`);
+                for(let i = 0; i < items.length; i++) {
+                    const val = items[i];
+                    const vec = this._extractVector(val);
+                    if (vec) {
+                        if (this.db.debug) console.log(`B"H Writer: Vector found for item ${i}. Inserting...`);
+                        // The HNSW insert expects 'payload' to be the pointer to the item.
+                        const ptr = preparedItems[i]; 
+                        try {
+                            await this.db.vector.insert(path, start + i, vec, ptr);
+                        } catch(e) {
+                            console.error(`B"H Writer: Vector Insertion Failed: ${e.message}`);
+                        }
+                    } else {
+                        if (this.db.debug) console.log(`B"H Writer: No vector found for item ${i}`);
+                    }
                 }
             }
         });

@@ -8,6 +8,8 @@ class MapNode {
     constructor(allocator, engine) { 
         this.allocator = allocator; 
         this.engine = engine;
+        // B"H: Node Cache Disabled for Correctness during Batch Operations
+        // this.engine.cache is ignored to prevent stale/cyclic references.
     }
 
     async save(node, existingPtr = null) {
@@ -69,16 +71,14 @@ class MapNode {
     async load(ptr) {
         if (!ptr || !ptr.blockId) throw new Error("B\"H: MapNode Load Failed - Null Pointer");
         
-        // NO CACHE. Raw Disk Read.
+        // B"H: Direct Load (No Cache) to ensure consistency
         let block = await this.allocator.v1.db._readChainSafe(ptr);
         
-        // B"H: Retry logic for invalid signature (potential race condition in batch mode)
         let magic = block ? block.toString('utf8', 0, 4) : '';
         let retries = 0;
         
         while ((!block || magic !== constants.MAGIC_MAP_NODE) && retries < 3) {
-             // B"H: Race detected. Flush everything and retry.
-             if (this.allocator.v1.db.debug) console.warn(`B"H: MapNode race at ${ptr.blockId}. Retrying...`);
+             if (this.allocator.v1.db.debug) console.warn(`B"H: MapNode race at ${ptr.blockId}:${ptr.offset}. Retrying...`);
              await this.allocator.flushHeap();
              await this.allocator.v1.flush();
              block = await this.allocator.v1.db._readChainSafe(ptr);
@@ -90,7 +90,7 @@ class MapNode {
 
         if (magic !== constants.MAGIC_MAP_NODE) {
              const hex = block.subarray(0, 16).toString('hex');
-             throw new Error(`B"H: Invalid MapNode Signature at Block ${ptr.blockId}. Header: ${hex}`);
+             throw new Error(`B"H: Invalid MapNode Signature at Block ${ptr.blockId}:${ptr.offset}. Header: ${hex}`);
         }
 
         let offset = 4;

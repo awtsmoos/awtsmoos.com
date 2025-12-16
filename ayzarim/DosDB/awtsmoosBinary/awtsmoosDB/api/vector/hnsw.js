@@ -29,26 +29,18 @@ class HNSW {
         
         // B"H: Optimization - Registry Cache (ID -> Buffer Pointer)
         this.registryPtrs = []; 
-        this.registryLoaded = false;
-        
-        // B"H: Persistent Registry Engine
-        this.registryEngine = null; 
     }
 
-    async _initRegistryEngine() {
-        if (this.registryEngine) return;
+    async _initRegistryCache() {
+        // Only load if empty
+        if (this.registryPtrs.length > 0) return;
+        
         await this.registryHandle.ensureResolved();
         if (this.registryHandle.ptr) {
             const ptr = await SmartPointer.resolve(this.registryHandle.ptr, this.db.allocator);
-            this.registryEngine = new Sequence(this.db.allocator, ptr);
-            
-            // Preload Registry Count
-            const len = await this.registryEngine.length();
-            
-            // B"H: Sync cache length
-            if (this.registryPtrs.length < len) {
-                this.registryPtrs.length = len;
-            }
+            const engine = new Sequence(this.db.allocator, ptr);
+            const len = await engine.length();
+            this.registryPtrs.length = len; // Pre-size
             if (this.db.debug) console.log(`B"H HNSW Registry Init. Length: ${len}`);
         }
     }
@@ -57,17 +49,22 @@ class HNSW {
         // B"H: Fast Path - In-Memory Array
         if (this.registryPtrs[index]) return this.registryPtrs[index];
         
-        if (!this.registryEngine) await this._initRegistryEngine();
+        await this._initRegistryCache();
         
-        if (this.registryEngine) {
-            const ptr = await this.registryEngine.getPtr(index);
-            if (ptr) {
-                // Copy to safe buffer
-                const copy = Buffer.allocUnsafe(16);
-                ptr.copy(copy);
-                this.registryPtrs[index] = copy;
-                return copy;
-            }
+        // B"H: FIX - Do NOT use reader.getItem() because it hydrates the CustomInstance (VectorNode),
+        // which triggers Dictionary reads and fails if the node is corrupted or not a standard object.
+        // We just want the raw pointer Buffer to pass to storage.loadNode.
+        
+        const childHandle = this.registryHandle.get(index);
+        await childHandle.ensureResolved();
+        const ptr = childHandle.ptr;
+        
+        if (ptr && Buffer.isBuffer(ptr) && ptr.length === 16) {
+            // Copy to safe buffer
+            const copy = Buffer.allocUnsafe(16);
+            ptr.copy(copy);
+            this.registryPtrs[index] = copy;
+            return copy;
         }
         return null;
     }
@@ -78,31 +75,13 @@ class HNSW {
         ptr.copy(copy);
         this.registryPtrs[index] = copy;
         
-        // B"H: Ensure engine is ready
-        if (!this.registryEngine) await this._initRegistryEngine();
+        // B"H: Use Handle methods to ensure persistence chain is updated (sysVector -> registry)
+        const len = await this.registryHandle.length;
         
-        // B"H: Optimization
-        // If we are in Batch Mode (implied by rapid inserts), relying on Sequence's internal cache is key.
-        // We ensure we reuse the same `registryEngine` instance across inserts.
-        
-        // Check actual length of engine to decide append vs set
-        const engineLen = this.registryEngine ? this.registryEngine.nodeIO.engine.cache.size > 0 ? this.registryPtrs.length : await this.registryEngine.length() : 0;
-        
-        // Use a simpler length check: registryPtrs tracks implied length.
-        // Or trust the engine.
-        
-        if (this.registryEngine) {
-             const actualLen = await this.registryEngine.length();
-             if (index >= actualLen) {
-                 await this.registryEngine.ops.append(ptr);
-             } else {
-                 await this.registryEngine.set(index, ptr);
-             }
+        if (index >= len) {
+            await this.registryHandle.push(copy, { isPtr: true });
         } else {
-             // Fallback if sequence not init yet
-             await this.registryHandle.push(ptr);
-             // Re-init engine to capture the new state
-             await this._initRegistryEngine();
+            await this.registryHandle.set(index, copy, { isPtr: true });
         }
     }
 
@@ -112,12 +91,15 @@ class HNSW {
 
         const ptr = await this._getRegistryPtr(nodeId);
         if (!ptr) {
-            if (this.db.debug) console.log(`B"H HNSW _getNode(${nodeId}) failed: Pointer not found in registry.`);
+            // if (this.db.debug) console.log(`B"H HNSW _getNode(${nodeId}) failed: Pointer not found in registry.`);
             return null;
         }
         
         const node = await this.storage.loadNode(ptr);
-        if (node.deleted) return null;
+        
+        // B"H: Tombstone Support
+        // We return the node EVEN IF DELETED so we can traverse through it.
+        // The search logic must filter deleted nodes from final results.
         
         this._cacheNode(nodeId, node);
         return node;
@@ -152,29 +134,34 @@ class HNSW {
 
         const level = Math.floor(-Math.log(Math.random()) * ML);
         
-        // Ensure registry engine is init to get correct ID
-        await this._initRegistryEngine();
+        // Ensure cache is synced
+        await this._initRegistryCache();
         
         // ID is next index
-        // B"H: Trust internal array length for ID generation to avoid excessive DB reads
         const nodeId = this.registryPtrs.length; 
         
-        // if (this.db.debug) console.log(`B"H HNSW Insert: Creating Node ID ${nodeId}`);
-
         // Create initial node structure in memory
         const newNodePtr = await this.storage.createNode(vector, level, payloadPtr, nodeId);
+        
+        // Set Registry (This updates the sequence on disk and in memory cache)
         await this._setRegistryPtr(nodeId, newNodePtr);
+        
         await this.keyMap.set(String(key), nodeId); // B"H: Persist Key Mapping
         
         const newNode = await this.storage.loadNode(newNodePtr); 
         this.nodeCache.set(nodeId, newNode);
         this.dirtyNodes.add(nodeId); 
         
+        if (this.db.debug) console.log(`[HNSW-DEBUG] Insert Node ${nodeId} (Key: ${key}) Level: ${level}`);
+
         let currObj = await this._getNode(this.entryNodeID);
         
+        // B"H: If entry node is missing (uninitialized), set it.
+        // Note: currObj might be deleted (tombstone), which is fine for traversal start.
         if (!currObj) {
             this.entryNodeID = nodeId;
             this.meta.entryNodeID = nodeId;
+            if (this.db.debug) console.log(`[HNSW-DEBUG] First Node. Entry Point set to ${nodeId}`);
             await this.flushCache(); // Ensure entry point is saved
             return nodeId;
         }
@@ -202,6 +189,7 @@ class HNSW {
 
         for (let l = Math.min(level, currLevel); l >= 0; l--) {
             const candidates = await this._searchLayer(currObj, vector, EF_CONSTRUCTION, l);
+            // _searchLayer filters deleted nodes from 'candidates' result, so we only connect to valid nodes.
             const neighbors = this._selectNeighbors(candidates, l === 0 ? M_MAX0 : M);
             
             newNode.neighbors[l] = [];
@@ -210,12 +198,16 @@ class HNSW {
                 // Bi-directional connection
                 await this._addNeighbor(n.node, newNode.id, l);
             }
+            
+            if (this.db.debug) console.log(`[HNSW-DEBUG] Node ${nodeId} Layer ${l} connected to: ${newNode.neighbors[l].join(', ')}`);
+
             if (candidates.length > 0) currObj = candidates[0].node;
         }
 
         if (currObj && level > currObj.level) { 
             this.entryNodeID = nodeId;
             this.meta.entryNodeID = nodeId;
+            if (this.db.debug) console.log(`[HNSW-DEBUG] Entry Point Updated to ${nodeId} (Level ${level} > ${currObj.level})`);
         }
         else if (this.entryNodeID === -1) {
              this.entryNodeID = nodeId;
@@ -240,7 +232,11 @@ class HNSW {
             const nList = [];
             for(const nId of node.neighbors[level]) {
                 const n = await this._getNode(nId);
-                if (n) nList.push({ id: nId, dist: this.metric(node.vector, n.vector) });
+                // B"H: If neighbor is deleted, keep it for now (tombstone edge) or prune?
+                // Pruning here keeps graph clean.
+                if (n && !n.deleted) {
+                    nList.push({ id: nId, dist: this.metric(node.vector, n.vector) });
+                }
             }
             nList.sort((a, b) => a.dist - b.dist);
             node.neighbors[level] = nList.slice(0, maxM).map(x => x.id);
@@ -261,6 +257,10 @@ class HNSW {
             count++;
         }
 
+        if (this.db.debug && count < 10) { // Log small flushes
+             // console.log(`[HNSW-DEBUG] Flushing ${count} nodes: ${toSave.map(n=>n.id).join(', ')}`);
+        }
+
         // B"H: Parallel save 
         await Promise.all(toSave.map(node => this.storage.saveNode(node)));
         
@@ -274,11 +274,85 @@ class HNSW {
         if (nodeId === undefined) return;
         const node = await this._getNode(nodeId);
         if (node) {
+            if (this.db.debug) console.log(`[HNSW-DEBUG] Deleting Node ${nodeId} (Key: ${key})`);
             node.deleted = true;
             this.dirtyNodes.add(nodeId);
+            
+            // B"H: CRITICAL - If we deleted the entry point, we must find a new one.
+            if (nodeId === this.entryNodeID) {
+                if (this.db.debug) console.log(`[HNSW-DEBUG] Entry node ${nodeId} deleted. Finding replacement...`);
+                // B"H: Pass the deleted node so we can inherit its neighbors
+                await this._findNewEntryPoint(node);
+            }
         }
         await this.keyMap.delete(String(key));
         await this.flushCache(); 
+    }
+    
+    async _findNewEntryPoint(deletedNode = null) {
+        // Ensure cache full
+        await this._initRegistryCache();
+        
+        // B"H: Strategy 1 - Heir Apparent
+        if (deletedNode && deletedNode.neighbors) {
+            let bestCandidate = -1;
+            let maxLevel = -1;
+
+            // Check highest levels first
+            for (let l = deletedNode.level; l >= 0; l--) {
+                const neighbors = deletedNode.neighbors[l];
+                if (neighbors && neighbors.length > 0) {
+                    for (const nId of neighbors) {
+                        const n = await this._getNode(nId);
+                        if (n && !n.deleted) {
+                            if (n.level > maxLevel) {
+                                maxLevel = n.level;
+                                bestCandidate = n.id;
+                            }
+                        }
+                    }
+                }
+                // If we found a candidate in this level or higher, stop (prioritize top-down)
+                if (bestCandidate !== -1) break;
+            }
+
+            if (bestCandidate !== -1) {
+                this.entryNodeID = bestCandidate;
+                this.meta.entryNodeID = bestCandidate;
+                if (this.db.debug) console.log(`[HNSW-DEBUG] New Entry Point promoted from neighbors: Node ${bestCandidate}`);
+                return;
+            }
+        }
+
+        // B"H: Strategy 2 - Sequential Scan (Fallback)
+        const totalNodes = this.registryPtrs.length; 
+        for (let i = 0; i < totalNodes; i++) {
+            const candidate = await this._getNode(i);
+            if (candidate && !candidate.deleted) {
+                this.entryNodeID = i;
+                this.meta.entryNodeID = i;
+                if (this.db.debug) console.log(`[HNSW-DEBUG] New Entry Point found via scan: Node ${i}`);
+                return;
+            }
+        }
+        
+        // If no nodes left
+        this.entryNodeID = -1;
+        this.meta.entryNodeID = -1;
+        if (this.db.debug) console.log("[HNSW-DEBUG] Graph Empty. Resetting Entry Point.");
+    }
+
+    async _validateEntryPoint() {
+        // B"H: Self-Healing for Stale Entry Points
+        if (this.entryNodeID === -1) {
+             await this._findNewEntryPoint();
+             return;
+        }
+        const node = await this._getNode(this.entryNodeID);
+        if (!node || node.deleted) {
+             if (this.db.debug) console.log(`[HNSW-DEBUG] Stale/Deleted Entry Point ${this.entryNodeID}. Repairing...`);
+             await this._findNewEntryPoint(node);
+        }
     }
 
     async _searchLayer(entryPoint, queryVec, ef, level) {
@@ -288,17 +362,24 @@ class HNSW {
 
         const entryDist = this.metric(queryVec, entryPoint.vector);
         visited.add(entryPoint.id);
-        candidates.set(entryPoint.id, { dist: entryDist, node: entryPoint });
+        
+        // B"H: Only add to result candidates if NOT deleted.
+        // But we ALWAYS push to W (exploration heap) to traverse through tombstones.
+        if (!entryPoint.deleted) {
+            candidates.set(entryPoint.id, { dist: entryDist, node: entryPoint });
+        }
         
         const W = new BinaryHeap(x => x.dist);
         W.push({ dist: entryDist, node: entryPoint });
 
         let furthestDist = entryDist;
+        if (candidates.size === 0) furthestDist = Infinity;
 
         while (W.size() > 0) {
             const current = W.pop();
             const cDist = current.dist;
             
+            // B"H: Relaxed break condition: Only break if we have enough VALID candidates.
             if (cDist > furthestDist && candidates.size >= ef) break;
 
             const neighbors = current.node.neighbors[level] || [];
@@ -307,28 +388,32 @@ class HNSW {
                     visited.add(nId);
                     const nNode = await this._getNode(nId);
                     if (!nNode) continue; 
+                    
                     const dist = this.metric(queryVec, nNode.vector);
                     
                     if (candidates.size < ef || dist < furthestDist) {
                          const candidate = { dist, node: nNode };
                          W.push(candidate);
-                         candidates.set(nId, candidate);
                          
-                         if (dist > furthestDist) furthestDist = dist;
+                         if (!nNode.deleted) {
+                             candidates.set(nId, candidate);
+                             
+                             if (dist > furthestDist) furthestDist = dist;
 
-                         if (candidates.size > ef) {
-                             let maxD = -1;
-                             let maxId = -1;
-                             for (const [id, c] of candidates) {
-                                 if (c.dist > maxD) {
-                                     maxD = c.dist;
-                                     maxId = id;
+                             if (candidates.size > ef) {
+                                 let maxD = -1;
+                                 let maxId = -1;
+                                 for (const [id, c] of candidates) {
+                                     if (c.dist > maxD) {
+                                         maxD = c.dist;
+                                         maxId = id;
+                                     }
                                  }
-                             }
-                             if (maxId !== -1) {
-                                 candidates.delete(maxId);
-                                 furthestDist = 0;
-                                 for(const c of candidates.values()) if(c.dist > furthestDist) furthestDist = c.dist;
+                                 if (maxId !== -1) {
+                                     candidates.delete(maxId);
+                                     furthestDist = 0;
+                                     for(const c of candidates.values()) if(c.dist > furthestDist) furthestDist = c.dist;
+                                 }
                              }
                          }
                     }

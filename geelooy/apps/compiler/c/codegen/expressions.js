@@ -179,6 +179,11 @@ export function genExpr(expr, lines, locals, depth, ctx) {
              lines.push(`MOV [RSP+${i*8}], RAX`);
          });
          for(let i=0; i<Math.min(4,num); i++) lines.push(`MOV ${['RCX','RDX','R8','R9'][i]}, [RSP+${i*8}]`);
+         
+         // ABI: AL must contain the number of vector registers used for varargs.
+         // We don't support floats yet, so 0 is correct.
+         lines.push(`MOV RAX, 0`); 
+         
          lines.push(`CALL ${expr.name}`);
          lines.push(`ADD RSP, ${alloc}`);
     } else if (expr.type === 'binop') {

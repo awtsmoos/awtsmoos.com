@@ -2,7 +2,7 @@
 export const source = `// B"H
 #include <stdio.h>
 import "USER32.dll" RegisterClassA CreateWindowExA ShowWindow GetMessageA TranslateMessage DispatchMessageA DefWindowProcA PostQuitMessage MessageBoxA GetWindowTextA LoadCursorA;
-import "KERNEL32.dll" GetModuleHandleA ExitProcess;
+import "KERNEL32.dll" GetModuleHandleA ExitProcess GetLastError;
 
 char* ClassName = "InputWin";
 char* Title = "B\\"H - Input Box";
@@ -27,35 +27,41 @@ int WndProc(int hWnd, int msg, int wp, int lp) {
 void main() {
     int hInst = GetModuleHandleA(0);
     
-    // Load Cursor: 0 (System), 32512 (IDC_ARROW)
-    int hCursor = LoadCursorA(0, 32512); 
+    int hCursor = LoadCursorA(0, 32512); // IDC_ARROW
+    if (hCursor == 0) {
+        MessageBoxA(0, "Failed to load cursor!", "Error", 0);
+        // Continue anyway, it might work with default
+    }
     
-    // WNDCLASSA (10 ints = 80 bytes)
-    // We allocate 12 to be safe for alignment
-    int wc[12];
-    int i = 0;
-    while (i < 12) { wc[i] = 0; i++; }
+    // WNDCLASSA (10 ints = 80 bytes for safety)
+    int wc[16];
+    int j = 0;
+    while (j < 16) { wc[j] = 0; j++; }
     
+    // Layout (assuming int=8 bytes in this compiler)
     wc[0] = 3;           // style
     wc[1] = WndProc;     // lpfnWndProc
     wc[2] = 0;           // cbClsExtra/cbWndExtra
     wc[3] = hInst;       // hInstance
     wc[4] = 0;           // hIcon
-    wc[5] = hCursor;     // hCursor (Offset 40)
+    wc[5] = hCursor;     // hCursor 
     wc[6] = 6;           // hbrBackground
     wc[7] = 0;           // Menu
     wc[8] = ClassName;   // ClassName
     
     int atom = RegisterClassA(wc);
     if (atom == 0) {
-        MessageBoxA(0, "Failed to register class!", "Error", 0);
+        char errBuf[64];
+        int err = GetLastError();
+        sprintf(errBuf, "RegisterClass failed! Err: %d", err);
+        MessageBoxA(0, errBuf, "Error", 0);
         ExitProcess(1);
     }
     
     int hWnd = CreateWindowExA(0, ClassName, Title, 13565952, 100, 100, 400, 300, 0, 0, hInst, 0);
     
     if (hWnd == 0) {
-        MessageBoxA(0, "Failed to create window!", "Error", 0);
+        MessageBoxA(0, "CreateWindow failed!", "Error", 0);
         ExitProcess(1);
     }
     

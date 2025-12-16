@@ -119,7 +119,8 @@ export function generateAsm(ast) {
     if (ast.functions.find(f => f.name === 'main')) {
          codeOutput += `
 start:
-SUB RSP, 40
+AND RSP, 0xFFFFFFFFFFFFFFF0
+SUB RSP, 32
 CALL main
 XOR RCX, RCX
 `;

@@ -87,16 +87,21 @@ export function genFunction(func, ctx) {
     }
     
     // Stack Alignment Logic
-    // We need (TotalPushed + StackAlloc) % 16 == 0.
-    // TotalPushed = 8 (Ret) + 8 (RBP) + 56 (Regs) = 72 bytes.
-    // 72 % 16 = 8.
-    // So we need (8 + stackSize) % 16 == 0.
-    // This implies stackSize must be 8 (mod 16).
+    // We want RSP to be 16-byte aligned at the point where we make calls.
+    // Standard Windows x64 Entry: RSP is 8 (mod 16) (due to CALL pushing RetAddr).
+    // Push RBP (8) -> RSP is 0 (mod 16).
+    // Push 7 Regs (56) -> RSP is -56 (mod 16) = 8 (mod 16).
+    // So current RSP is 8 (mod 16).
+    // We want (RSP - stackSize) to be 0 (mod 16).
+    // So (8 - stackSize) = 0 (mod 16) -> stackSize must be 8 (mod 16).
     
     let stackSize = localOffset; 
-    const currentMisalignment = (72 + stackSize) % 16;
-    if (currentMisalignment !== 0) {
-        const padding = 16 - currentMisalignment;
+    const wantedMod = 8;
+    const currentMod = stackSize % 16;
+    
+    if (currentMod !== wantedMod) {
+        // We need to add padding to make stackSize % 16 == 8.
+        const padding = (wantedMod - currentMod + 16) % 16;
         stackSize += padding;
     }
     

@@ -33,7 +33,10 @@ class MapOps {
     async insert(node, keyBuf, valPtr, options = {}) {
         this.recursionDepth++;
         
-        if (this.recursionDepth > 200) throw new Error("Stack Overflow in Map Insertion");
+        if (this.recursionDepth > 200) {
+            console.error(`B"H Critical: Map Insertion Stack Overflow. Node: ID=${node.selfPtr.blockId} Off=${node.selfPtr.offset} Keys=${node.keys.length}`);
+            throw new Error("Stack Overflow in Map Insertion");
+        }
 
         try {
             // B"H: Binary Search on Buffer Keys

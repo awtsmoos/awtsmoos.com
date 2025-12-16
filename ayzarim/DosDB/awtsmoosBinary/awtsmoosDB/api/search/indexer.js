@@ -16,8 +16,20 @@ class SearchIndexer {
         const indexMap = this.sysIndex.get(path);
         await indexMap.ensureResolved(); 
         
-        const oldTokens = this._extractTokens(oldVal);
-        const newTokens = this._extractTokens(newVal);
+        let oldTokens, newTokens;
+        try {
+            oldTokens = this._extractTokens(oldVal);
+        } catch(e) {
+            oldTokens = new Set();
+            if (this.db.debug) console.warn("B\"H Indexer extract tokens error (old): " + e.message);
+        }
+        
+        try {
+            newTokens = this._extractTokens(newVal);
+        } catch(e) {
+            newTokens = new Set();
+            if (this.db.debug) console.warn("B\"H Indexer extract tokens error (new): " + e.message);
+        }
 
         if (this.db.debug) {
             console.log(`B"H Indexer [${path}]:`);
@@ -54,26 +66,31 @@ class SearchIndexer {
 
     async _removeFromIndex(indexMap, tokens, ptr) {
         for (const word of tokens) {
-            const listHandle = indexMap.get(word);
-            await listHandle.ensureResolved();
-            
-            if (listHandle.ptr) {
-                // Resolve the list to find the index of the pointer to remove
-                const res = await SmartPointer.resolve(listHandle.ptr, this.db.allocator);
-                const seq = new Sequence(this.db.allocator, res);
-                const len = await seq.length();
+            try {
+                const listHandle = indexMap.get(word);
+                await listHandle.ensureResolved();
                 
-                // Search backwards to safely remove (though unique ptrs usually exist once per doc)
-                for (let i = len - 1; i >= 0; i--) {
-                    const valPtr = await seq.getPtr(i);
-                    if (this._ptrsEqual(valPtr, ptr)) {
-                        // B"H: Use LiveHandle splice to update the chain
-                        if (this.db.debug) console.log(`     Removed from '${word}' at index ${i}`);
-                        await listHandle.splice(i, 1);
-                        // We assume one entry per document per word
-                        break; 
+                if (listHandle.ptr) {
+                    // Resolve the list to find the index of the pointer to remove
+                    const res = await SmartPointer.resolve(listHandle.ptr, this.db.allocator);
+                    const seq = new Sequence(this.db.allocator, res);
+                    const len = await seq.length();
+                    
+                    // Search backwards to safely remove (though unique ptrs usually exist once per doc)
+                    for (let i = len - 1; i >= 0; i--) {
+                        const valPtr = await seq.getPtr(i);
+                        if (this._ptrsEqual(valPtr, ptr)) {
+                            // B"H: Use LiveHandle splice to update the chain
+                            // CRITICAL: Pass skipFree to avoid double-freeing the object pointer!
+                            if (this.db.debug) console.log(`     Removed from '${word}' at index ${i}`);
+                            await listHandle.splice(i, 1, { _isAwtsmoosOptions: true, skipFree: true });
+                            // We assume one entry per document per word
+                            break; 
+                        }
                     }
                 }
+            } catch(e) {
+                if(this.db.debug) console.warn(`B"H Indexer: Failed to remove '${word}'. Continuing... Error: ${e.message}`);
             }
         }
     }
@@ -83,21 +100,25 @@ class SearchIndexer {
         ptr.copy(ptrCopy);
 
         for (const word of tokens) {
-            // B"H: Critical - Ensure we get a fresh handle for the word list
-            let list = indexMap.get(word);
-            await list.ensureResolved();
-            
-            if (!list.ptr) {
-                if (this.db.debug) console.log(`     Creating new list for '${word}'`);
-                await indexMap.createList(word);
-                // Re-acquire list handle after creation to ensure it has the pointer
-                list = indexMap.get(word);
+            try {
+                // B"H: Critical - Ensure we get a fresh handle for the word list
+                let list = indexMap.get(word);
                 await list.ensureResolved();
+                
+                if (!list.ptr) {
+                    if (this.db.debug) console.log(`     Creating new list for '${word}'`);
+                    await indexMap.createList(word);
+                    // Re-acquire list handle after creation to ensure it has the pointer
+                    list = indexMap.get(word);
+                    await list.ensureResolved();
+                }
+                
+                // Push the 16-byte Buffer as a Value
+                if (this.db.debug) console.log(`     Pushing ptr to '${word}'`);
+                await list.push(ptrCopy, { isPtr: true });
+            } catch(e) {
+                if(this.db.debug) console.warn(`B"H Indexer: Failed to add '${word}'. Continuing... Error: ${e.message}`);
             }
-            
-            // Push the 16-byte Buffer as a Value
-            if (this.db.debug) console.log(`     Pushing ptr to '${word}'`);
-            await list.push(ptrCopy, { isPtr: true });
         }
     }
 

@@ -185,8 +185,13 @@ class SearchManager {
             return;
         }
 
-        for await (const { ptr, value } of iterator) {
-            const hydrated = await this._hydrateForIndex(value);
+        // B"H: Correctly handle iterator result
+        for await (const item of iterator) {
+            const ptr = item.ptr;
+            // Resolve the value from the pointer to index it
+            const val = await SmartPointer.resolve(ptr, this.db.allocator);
+            const hydrated = await this._hydrateForIndex(val);
+            
             const stablePtr = Buffer.alloc(16);
             ptr.copy(stablePtr);
             await indexer.updateIndex(path, stablePtr, null, null, hydrated);

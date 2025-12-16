@@ -17,7 +17,7 @@ void main() {
     if (read > 2) {
         char* end = buffer + read;
         end = end - 2; 
-        *end = 0; // Remove \r\n
+        *end = 0; // Remove \\r\\n
     }
     
     print("You said: ");

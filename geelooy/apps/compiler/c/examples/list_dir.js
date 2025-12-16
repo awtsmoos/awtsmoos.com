@@ -5,21 +5,20 @@ export const source = `// B"H
 #include <dirent.h>
 
 void main() {
-    printf("B\\"H - Directory Lister\\n");
-    printf("Scanning current directory...\\n");
-    fflush(0);
+    print("B\\"H - Directory Lister\\n");
+    print("Scanning current directory...\\n");
 
     struct DIR* dir = opendir(".");
     
     if (dir == 0) {
-        printf("Error: opendir failed. (Handle is -1)\\n");
-        fflush(0);
+        print("Error: opendir failed. (Handle is -1)\\n");
         sleep(5000);
         exit(1);
     }
     
     int count = 0;
     struct dirent* ent;
+    char buf[512];
     
     while (1) {
         ent = readdir(dir);
@@ -29,17 +28,17 @@ void main() {
         
         // name[0] != '.' (46)
         if (name[0] != 46) {
-             printf("[File] %s\\n", name);
-             fflush(0); 
+             sprintf(buf, "[File] %s\\n", name);
+             print(buf);
              count++;
         }
     }
     
     closedir(dir);
     
-    printf("Total: %d\\n", count);
-    printf("Done. Waiting 10 seconds before close...\\n");
-    fflush(0);
+    print("Total Files: ");
+    print_int(count);
+    print("\\nDone. Waiting 10 seconds before close...\\n");
     sleep(10000);
     exit(0);
 }

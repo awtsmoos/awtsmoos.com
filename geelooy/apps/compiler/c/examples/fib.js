@@ -15,7 +15,7 @@ void main() {
     int f = fib(12);
     
     print("Result: ");
-    print_u(f); // Using unsigned print
+    print_int(f);
     print("\\n");
     
     // Check known correct value

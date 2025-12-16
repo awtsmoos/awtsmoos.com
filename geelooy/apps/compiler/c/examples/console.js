@@ -5,18 +5,22 @@ export const source = `// B"H
 #include <unistd.h>
 
 void main() {
-    printf("B\\"H - Console Output Test (via MSVCRT)\\n");
-    printf("--------------------------------------\\n");
-    printf("This uses standard printf! Random number: %d\\n", rand());
+    print("B\\"H - Console Output Test\\n");
+    print("--------------------------------------\\n");
+    print("Random number: ");
+    print_int(rand());
+    print("\\n");
     
     // Simple Loop
     int i = 0;
     while (i < 5) {
-        printf("Count: %d\\n", i);
+        print("Count: ");
+        print_int(i);
+        print("\\n");
         i = i + 1;
     }
     
-    printf("\\nDone. Waiting 3 seconds...\\n");
+    print("\\nDone. Waiting 3 seconds...\\n");
     sleep(3000);
     exit(0);
 }

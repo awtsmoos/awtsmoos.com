@@ -1,3 +1,4 @@
+
 // B"H
 /**
  * @module binaryHelpers
@@ -19,6 +20,7 @@ function writePointer48(buf, value, offset) {
 
 // Reads a 48-bit pointer from a buffer
 function readPointer48(buf, offset) {
+    if (offset + 6 > buf.length) return 0; // B"H: Safety Check
     const high = buf.readUInt16BE(offset);
     const low = buf.readUInt32BE(offset + 2);
     // B"H: Correct multiplication factor for 2^32
@@ -32,6 +34,15 @@ function packedLength(size) {
     if (size === 4) return 2; // 10
     if (size === 8) return 3; // 11
     return 0;
+}
+
+// Unpacks the 2-bit code to byte size
+function unpackLength(bits) {
+    if (bits === 0) return 1;
+    if (bits === 1) return 2;
+    if (bits === 2) return 4;
+    if (bits === 3) return 8;
+    return 1;
 }
 
 // Packs Type ID and Length Size into a single byte
@@ -67,6 +78,7 @@ function writeConditional(num) {
 
 // Reads a number of `size` bytes
 function readConditional(buf, offset, size) {
+    if (offset + size > buf.length) return 0; // B"H: Safety Check
     if (size === 1) return buf.readUInt8(offset);
     if (size === 2) return buf.readUInt16BE(offset);
     if (size === 4) return buf.readUInt32BE(offset);
@@ -93,6 +105,7 @@ module.exports = {
     writePointer48,
     readPointer48,
     packedLength,
+    unpackLength,
     packTypeAndLengthSize,
     unpackTypeAndLengthSize,
     writeConditional,
