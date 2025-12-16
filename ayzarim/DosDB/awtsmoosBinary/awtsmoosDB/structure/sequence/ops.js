@@ -1,3 +1,4 @@
+
 // B"H
 const AppendOps = require('./ops_append.js');
 const SpliceOps = require('./ops_splice.js');
@@ -18,12 +19,12 @@ class SequenceOps {
         return this.appendOps.append(itemPtr);
     }
 
-    async splice(start, deleteCount, newItems) {
-        return this.spliceOps.splice(start, deleteCount, newItems);
+    async splice(start, deleteCount, newItems, options = {}) {
+        return this.spliceOps.splice(start, deleteCount, newItems, options);
     }
 
-    async replace(index, newItem, options) {
-        await this.splice(index, 1, [newItem]);
+    async replace(index, newItem, options = {}) {
+        await this.splice(index, 1, [newItem], options);
     }
 }
 module.exports = SequenceOps;

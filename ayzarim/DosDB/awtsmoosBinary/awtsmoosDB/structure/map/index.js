@@ -18,9 +18,6 @@ class MapEngine {
             this.ptr = null;
         }
         
-        // B"H: CACHE REMOVED per instruction. 
-        // We rely on Raw Buffer Speed and OS Page Cache.
-        
         this.nodeIO = new MapNode(allocator, this); 
         this.ops = new MapOps(this);
         this.MAX_DEPTH = 100;
@@ -74,7 +71,6 @@ class MapEngine {
 
         const valPtr = isPtr ? value : ((Buffer.isBuffer(value) && value.length === 16) ? value : await this.allocator.save(value));
         
-        // B"H: Convert key to Buffer ONCE here
         const keyBuf = Buffer.isBuffer(key) ? key : Buffer.from(String(key), 'utf8');
 
         let root = await this.nodeIO.load(this.ptr);
@@ -116,8 +112,6 @@ class MapEngine {
     async getPtr(key) {
         let currPtr = this.ptr;
         let depth = 0;
-        
-        // B"H: Use Buffer for comparison
         const keyBuf = Buffer.isBuffer(key) ? key : Buffer.from(String(key), 'utf8');
         
         while (true) {
@@ -125,28 +119,17 @@ class MapEngine {
             if (!currPtr || currPtr.blockId === 0) return undefined;
             
             const node = await this.nodeIO.load(currPtr);
-            
-            // Binary Search
             let low = 0, high = node.keys.length - 1, idx = node.keys.length;
             
             while (low <= high) {
                 const mid = (low + high) >>> 1;
                 const cmp = keyBuf.compare(node.keys[mid]);
-                if (cmp === 0) { idx = mid + 1; break; } // Exact match (for leaf check)
+                if (cmp === 0) { idx = mid + 1; break; }
                 if (cmp < 0) { idx = mid; high = mid - 1; }
                 else { low = mid + 1; }
             }
-            // idx is now the insertion point (first key > searchKey)
             
             if (node.isLeaf) {
-                // Check if the previous key matches (since idx points to first > key)
-                // Wait, logic:
-                // Keys: [10, 20, 30]
-                // Search 20: cmp=0, idx=2.
-                // keys[2-1] = 20. Match.
-                // Search 15: cmp<0 at 20. idx=1. keys[0]=10. No match.
-                
-                // If binary search found exact match logic:
                 if (idx > 0 && node.keys[idx - 1].compare(keyBuf) === 0) {
                     return node.values[idx - 1];
                 }
@@ -160,53 +143,22 @@ class MapEngine {
         }
     }
 
+    // B"H: Returns object { success, deletedPtr }
     async delete(key) {
-        let currPtr = this.ptr;
-        const stack = [];
-        let depth = 0;
+        let root = await this.nodeIO.load(this.ptr);
         const keyBuf = Buffer.isBuffer(key) ? key : Buffer.from(String(key), 'utf8');
-
-        while (true) {
-            if (depth++ > this.MAX_DEPTH) throw new Error("B\"H: Map Max Depth Exceeded");
-            const node = await this.nodeIO.load(currPtr);
-            stack.push(node);
-            
-            // Binary Search
-            let low = 0, high = node.keys.length - 1, idx = node.keys.length;
-            while (low <= high) {
-                const mid = (low + high) >>> 1;
-                const cmp = keyBuf.compare(node.keys[mid]);
-                if (cmp === 0) { idx = mid + 1; break; }
-                if (cmp < 0) { idx = mid; high = mid - 1; }
-                else { low = mid + 1; }
-            }
-
-            if (node.isLeaf) {
-                if (idx > 0 && node.keys[idx - 1].compare(keyBuf) === 0) {
-                    const keySize = node.keys[idx-1].length;
-                    const valSize = this.ops._getPtrSize(node.values[idx-1]);
-                    const deltaBytes = -(keySize + valSize);
-                    
-                    node.keys.splice(idx - 1, 1);
-                    const removedVals = node.values.splice(idx - 1, 1);
-                    if (removedVals.length > 0) this.allocator.free(removedVals[0]).catch(e => {});
-                    
-                    node.totalCount -= 1; node.totalBytes += deltaBytes;
-                    await this.nodeIO.save(node, node.selfPtr);
-                    stack.pop();
-                    
-                    while(stack.length > 0) {
-                        const parent = stack.pop(); parent.totalCount -= 1; parent.totalBytes += deltaBytes;
-                        await this.nodeIO.save(parent, parent.selfPtr);
-                    }
-                    return true;
-                }
-                return false;
-            } else {
-                const childPtrBuf = node.children[idx];
-                currPtr = this._decodePtr(SmartPointer.decode(childPtrBuf).payload);
-            }
+        
+        const res = await this.ops.delete(root, keyBuf);
+        
+        if (res.success && res.deletedPtr) {
+            // Free the pointer here, but return it for graph cleanup
+            // We use setTimeout to ensure it's freed AFTER the caller inspects it if needed?
+            // No, free it now. The caller just needs the Buffer to calculate Graph ID.
+            try { await this.allocator.free(res.deletedPtr); } catch(e) {}
+            return { success: true, deletedPtr: res.deletedPtr };
         }
+        
+        return { success: false };
     }
 
     async* range(start, end) {
@@ -239,9 +191,8 @@ class MapEngine {
         } else {
             let idx = 0;
             if (start) {
-                // Binary Search for start index
                 let low = 0, high = node.keys.length - 1;
-                idx = node.keys.length; // Default to last child
+                idx = node.keys.length; 
                 while (low <= high) {
                     const mid = (low + high) >>> 1;
                     if (node.keys[mid].compare(start) >= 0) {

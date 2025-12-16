@@ -70,12 +70,27 @@ class MapNode {
         if (!ptr || !ptr.blockId) throw new Error("B\"H: MapNode Load Failed - Null Pointer");
         
         // NO CACHE. Raw Disk Read.
-        const block = await this.allocator.v1.db._readChainSafe(ptr);
+        let block = await this.allocator.v1.db._readChainSafe(ptr);
+        
+        // B"H: Retry logic for invalid signature (potential race condition in batch mode)
+        let magic = block ? block.toString('utf8', 0, 4) : '';
+        let retries = 0;
+        
+        while ((!block || magic !== constants.MAGIC_MAP_NODE) && retries < 3) {
+             // B"H: Race detected. Flush everything and retry.
+             if (this.allocator.v1.db.debug) console.warn(`B"H: MapNode race at ${ptr.blockId}. Retrying...`);
+             await this.allocator.flushHeap();
+             await this.allocator.v1.flush();
+             block = await this.allocator.v1.db._readChainSafe(ptr);
+             magic = block ? block.toString('utf8', 0, 4) : '';
+             retries++;
+        }
+
         if (!block) throw new Error(`B"H: MapNode Load Failed - Block ${ptr.blockId} Empty`);
 
-        const magic = block.toString('utf8', 0, 4);
         if (magic !== constants.MAGIC_MAP_NODE) {
-             throw new Error(`B"H: Invalid MapNode Signature at Block ${ptr.blockId}.`);
+             const hex = block.subarray(0, 16).toString('hex');
+             throw new Error(`B"H: Invalid MapNode Signature at Block ${ptr.blockId}. Header: ${hex}`);
         }
 
         let offset = 4;
@@ -86,7 +101,6 @@ class MapNode {
 
         const keys = [];
         for(let i=0; i<countInfo.value; i++) {
-            // B"H: Read as Buffer, do NOT convert to string. Zero-Copy view.
             const k = serializer.readBuffer(block, offset); 
             keys.push(k.value); 
             offset += k.bytesRead;

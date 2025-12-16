@@ -1,3 +1,4 @@
+
 // B"H
 const Utils = require('./ops_utils.js');
 
@@ -7,29 +8,29 @@ class SpliceOps {
         this.nodeIO = sequence.nodeIO;
     }
 
-    async splice(start, deleteCount, newItems) {
+    async splice(start, deleteCount, newItems, options = {}) {
         const root = await this.nodeIO.load(this.seq.ptr);
         const initialRootTotal = root.totalCount;
         
         if (root.totalCount === 0 && newItems.length > 0) {
-             const res = await this._spliceRecursive(root, 0, 0, newItems);
+             const res = await this._spliceRecursive(root, 0, 0, newItems, options);
              if (res.splitNodes && res.splitNodes.length > 0) await Utils.handleRootSplit(this.nodeIO, this.seq, root, res.splitNodes);
              return;
         }
         
-        const result = await this._spliceRecursive(root, start, deleteCount, newItems);
+        const result = await this._spliceRecursive(root, start, deleteCount, newItems, options);
         
         if (result.splitNodes && result.splitNodes.length > 0) {
             await Utils.handleRootSplit(this.nodeIO, this.seq, root, result.splitNodes);
         }
     }
 
-    async _spliceRecursive(node, start, deleteCount, newItems) {
-        if (node.isLeaf) return this._spliceLeaf(node, start, deleteCount, newItems);
-        else return this._spliceInternal(node, start, deleteCount, newItems);
+    async _spliceRecursive(node, start, deleteCount, newItems, options) {
+        if (node.isLeaf) return this._spliceLeaf(node, start, deleteCount, newItems, options);
+        else return this._spliceInternal(node, start, deleteCount, newItems, options);
     }
 
-    async _spliceLeaf(node, start, deleteCount, newItems) {
+    async _spliceLeaf(node, start, deleteCount, newItems, options) {
         const ptrs = [];
         for(let i=0; i<node.itemCount; i++) {
             const off = Utils.DATA_OFFSET + (i * Utils.POINTER_SIZE);
@@ -46,7 +47,11 @@ class SpliceOps {
         for(let i=0; i<actualDelete; i++) deltaBytes -= Utils.getPtrSize(ptrs[actualStart + i]);
         
         const removed = ptrs.splice(actualStart, actualDelete, ...newItems);
-        for(const p of removed) await this.seq.allocator.free(p).catch(()=>{});
+        
+        // B"H: Respect skipFree option to avoid double-freeing during updates
+        if (!options.skipFree) {
+            for(const p of removed) await this.seq.allocator.free(p).catch(()=>{});
+        }
         
         const deltaCount = newItems.length - actualDelete;
         
@@ -97,7 +102,7 @@ class SpliceOps {
         }
     }
 
-    async _spliceInternal(node, start, deleteCount, newItems) {
+    async _spliceInternal(node, start, deleteCount, newItems, options) {
         const initialTotalCount = node.totalCount;
         
         const entries = [];
@@ -140,7 +145,7 @@ class SpliceOps {
                     const childPtr = Utils.decodePtr(childPtrBuf);
                     const childNode = await this.nodeIO.load(childPtr);
                     
-                    await this._spliceRecursive(childNode, 0, childNode.totalCount, []); 
+                    await this._spliceRecursive(childNode, 0, childNode.totalCount, [], options); 
                     await this.seq.allocator.v1.free(childNode.ptr);
                 } 
                 else {
@@ -148,7 +153,7 @@ class SpliceOps {
                     const childPtr = Utils.decodePtr(childPtrBuf);
                     const childNode = await this.nodeIO.load(childPtr);
                     
-                    const res = await this._spliceRecursive(childNode, localStart, localDelete, localInsert);
+                    const res = await this._spliceRecursive(childNode, localStart, localDelete, localInsert, options);
                     
                     accDeltaBytes += res.deltaBytes;
                     
@@ -181,7 +186,7 @@ class SpliceOps {
                 const childPtr = Utils.decodePtr(lastEntry.subarray(0, 16));
                 const childNode = await this.nodeIO.load(childPtr);
                 
-                const res = await this._spliceRecursive(childNode, childNode.totalCount, 0, insertItems);
+                const res = await this._spliceRecursive(childNode, childNode.totalCount, 0, insertItems, options);
                 
                 accDeltaBytes += res.deltaBytes;
                 
@@ -197,7 +202,7 @@ class SpliceOps {
                 }
             } else {
                 const newLeaf = await this.nodeIO.create(true);
-                const res = await this._spliceLeaf(newLeaf, 0, 0, insertItems);
+                const res = await this._spliceLeaf(newLeaf, 0, 0, insertItems, options);
                 accDeltaBytes += res.deltaBytes;
                 
                 const ne = Buffer.alloc(20);

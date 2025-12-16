@@ -3,7 +3,7 @@ B"H
 Boruch Hashem
 Biezrash Hashem
 */
-import { REGISTERS, REGISTER_SIZES } from '../../opcodes.js';
+import { REGISTERS, REGISTER_SIZES } from '../opcodes.js';
 
 /**
  * Helper to parse a single operand string into a structured object.
@@ -11,17 +11,26 @@ import { REGISTERS, REGISTER_SIZES } from '../../opcodes.js';
 export function parseOperand(arg, dataSymbols) {
     if (!arg) return null;
     
+    let raw = arg;
+    let sizeOverride = null;
+
+    // Detect Size Directive
+    if (raw.startsWith('BYTE PTR ')) { sizeOverride = 8; raw = raw.substring(9).trim(); }
+    else if (raw.startsWith('WORD PTR ')) { sizeOverride = 16; raw = raw.substring(9).trim(); }
+    else if (raw.startsWith('DWORD PTR ')) { sizeOverride = 32; raw = raw.substring(10).trim(); }
+    else if (raw.startsWith('QWORD PTR ')) { sizeOverride = 64; raw = raw.substring(10).trim(); }
+
     // Check for [Label] (Data Symbol)
-    if (arg.startsWith('[') && arg.endsWith(']')) {
-        const content = arg.slice(1, -1).trim();
+    if (raw.startsWith('[') && raw.endsWith(']')) {
+        const content = raw.slice(1, -1).trim();
         if (dataSymbols.has(content)) {
-            return { type: 'mem', isData: true, id: dataSymbols.get(content) };
+            return { type: 'mem', isData: true, id: dataSymbols.get(content), size: sizeOverride || 64 };
         }
     }
     
     // Memory: Support [Reg], [Reg+Disp], [Reg+Reg], [Reg+Reg+Disp]
-    if (arg.startsWith('[') && arg.endsWith(']')) {
-        const content = arg.slice(1, -1).trim();
+    if (raw.startsWith('[') && raw.endsWith(']')) {
+        const content = raw.slice(1, -1).trim();
         const memMatch = content.match(/^([A-Za-z]\w*)\s*(?:([+\-])\s*([A-Za-z]\w*))?\s*(?:([+\-])\s*(0x[0-9A-Fa-f]+|\d+))?$/);
         
         if (memMatch) {
@@ -42,12 +51,12 @@ export function parseOperand(arg, dataSymbols) {
                 if (memMatch[4] === '-') disp = -disp;
             }
             
-            return { type: 'mem', base, index, scale: 0, disp };
+            return { type: 'mem', base, index, scale: 0, disp, size: sizeOverride || 64 };
         }
     }
 
     // Register?
-    const up = arg.toUpperCase();
+    const up = raw.toUpperCase();
     if (REGISTERS[up] !== undefined) {
         return { 
             type: 'reg', 
@@ -57,15 +66,15 @@ export function parseOperand(arg, dataSymbols) {
     }
 
     // Immediate?
-    if (arg.match(/^-?0x[0-9A-Fa-f]+$/) || arg.match(/^-?\d+$/)) {
-        return { type: 'imm', val: parseInt(arg) };
+    if (raw.match(/^-?0x[0-9A-Fa-f]+$/) || raw.match(/^-?\d+$/)) {
+        return { type: 'imm', val: parseInt(raw) };
     }
 
     // Label (Data)?
-    if (dataSymbols.has(arg)) {
-        return { type: 'data', val: dataSymbols.get(arg) };
+    if (dataSymbols.has(raw)) {
+        return { type: 'data', val: dataSymbols.get(raw) };
     }
     
     // Code Label or Import Name
-    return { type: 'label', val: arg };
+    return { type: 'label', val: raw };
 }

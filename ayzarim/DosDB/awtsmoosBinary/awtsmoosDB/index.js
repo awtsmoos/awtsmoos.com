@@ -13,7 +13,7 @@ const VectorManager = require('./api/vector/index.js');
 
 class AwtsmoosDB_V2 {
     constructor(filePath, options = {}) {
-        this.pager = new Pager(filePath);
+        this.pager = new Pager(filePath, options);
         this.allocator = new AllocatorV2(this.pager, this);
         this.lock = new ReadWriteLock();
         this.root = null; 
@@ -46,9 +46,8 @@ class AwtsmoosDB_V2 {
             if (this.debug) console.log("B\"H [Boot] Creating new Root Dictionary...");
             
             const dict = new Dictionary(this.allocator);
-            const rootPtr = await dict.create(); // This is a SmartPointer Buffer
+            const rootPtr = await dict.create(); 
             
-            // Decode to get details for SuperBlock storage
             const decoded = SmartPointer.decode(rootPtr);
             const blockId = readPointer48(decoded.payload, 0);
             const len = decoded.payload.readUInt32BE(6);
@@ -71,6 +70,7 @@ class AwtsmoosDB_V2 {
     }
 
     async close() {
+        await this.waitForIdle(); // Ensure flush
         await this.pager.close();
         this.root = null;
     }
@@ -85,6 +85,16 @@ class AwtsmoosDB_V2 {
             try {
                 await fn();
             } finally {
+                // B"H: Flush all caches before commit
+                if (this.vector && this.vector.indexes) {
+                    for (const index of this.vector.indexes.values()) {
+                        await index.flushCache();
+                    }
+                }
+                if (this.allocator) {
+                    await this.allocator.flushHeap(); // Flush small objects
+                    if (this.allocator.v1) await this.allocator.v1.flush(); // Flush block allocator active page
+                }
                 await this.pager.endBatch();
             }
         });
@@ -96,7 +106,17 @@ class AwtsmoosDB_V2 {
 
     async waitForIdle() { 
         return this.lock.runWrite(async () => {
-            // B"H: Group Commit - Sync to disk when idle
+            // B"H: Flush HNSW Caches
+            if (this.vector && this.vector.indexes) {
+                for (const index of this.vector.indexes.values()) {
+                    await index.flushCache();
+                }
+            }
+            // B"H: Flush Allocators
+            if (this.allocator) {
+                await this.allocator.flushHeap();
+                if (this.allocator.v1) await this.allocator.v1.flush();
+            }
             await this.pager.sync();
         });
     }
@@ -117,9 +137,9 @@ class AwtsmoosDB_V2 {
         }
 
         const raw = await this.allocator.v1.readSequentialLocked(ptr.blockId, blocksNeeded);
-        if (!raw) return null; // B"H: Safety Check against corruption
+        if (!raw) return null; 
 
-        const buf = Buffer.allocUnsafe(totalSize); // B"H: Optimization - allocUnsafe since we copy into it
+        const buf = Buffer.allocUnsafe(totalSize); 
         
         let readOff = 0; 
         let writeOff = 0; 
@@ -130,11 +150,7 @@ class AwtsmoosDB_V2 {
             const avail = constants.BLOCK_SIZE - start;
             const chunk = Math.min(remaining, avail);
             
-            // B"H: Boundary check
             if (readOff + start + chunk > raw.length) {
-                // If raw buffer is smaller than expected, partial fill or fail?
-                // For safety, break and return what we have (or null if critical).
-                // Usually indicates corruption or partial write recovery.
                 break;
             }
             
@@ -145,8 +161,6 @@ class AwtsmoosDB_V2 {
             readOff += constants.BLOCK_SIZE;
         }
         
-        // If we allocated unsafe and didn't fill completely due to break, the end is garbage.
-        // But totalSize should match what's available.
         return buf;
     }
 
@@ -160,20 +174,28 @@ class AwtsmoosDB_V2 {
             const avail = constants.BLOCK_SIZE - start;
             const chunk = Math.min(remaining.length, avail);
             
-            let blk;
-            // Optimization: If writing full block, skip read.
-            if (start === 0 && chunk === constants.BLOCK_SIZE) {
-                blk = Buffer.allocUnsafe(constants.BLOCK_SIZE);
-            } else {
-                blk = await this.allocator.v1.readBlockLocked(currentBlock);
-                if (!blk) {
-                     blk = Buffer.allocUnsafe(constants.BLOCK_SIZE);
-                     blk.fill(0); // Zero out if new block
+            // B"H: ATOMIC READ-MODIFY-WRITE FIX
+            // We must hold the allocator lock for the entire duration of reading the block,
+            // modifying it, and writing it back. This prevents race conditions where
+            // concurrent writes to the same block (e.g., activePage) overwrite each other.
+            await this.allocator.v1.executeLocked(async () => {
+                let blk;
+                
+                // Optimization: If writing a full block from 0, no need to read.
+                if (start === 0 && chunk === constants.BLOCK_SIZE) {
+                    blk = Buffer.allocUnsafe(constants.BLOCK_SIZE);
+                } else {
+                    // Use _readBlockSynced (internal) to avoid recursive locking issues if any (though lock is reentrant)
+                    blk = await this.allocator.v1._readBlockSynced(currentBlock);
+                    if (!blk) {
+                         blk = Buffer.allocUnsafe(constants.BLOCK_SIZE);
+                         blk.fill(0); 
+                    }
                 }
-            }
-
-            remaining.subarray(0, chunk).copy(blk, start);
-            await this.allocator.v1.writeBlockLocked(currentBlock, blk);
+    
+                remaining.subarray(0, chunk).copy(blk, start);
+                await this.allocator.v1._writeBlockSynced(currentBlock, blk);
+            });
             
             remaining = remaining.subarray(chunk);
             currentBlock++;

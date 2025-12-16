@@ -38,16 +38,12 @@ function dispatchInstruction(code, token, dataSymbols, imports) {
     // Prefix Handling: REP
     if (mnemonic === 'REP') {
         code.addBytes([PREFIXES.REP]);
-        
-        // The parser treats "REP STOSD" as mnemonic="REP", args=["STOSD"].
-        // We need to recursively dispatch the instruction in args[0].
         if (args.length > 0) {
             const nextMnemonic = args[0].toUpperCase();
-            // Construct a fake token for the next instruction
             const nextToken = {
                 type: 'instr',
                 mnemonic: nextMnemonic,
-                args: args.slice(1) // Remaining args if any
+                args: args.slice(1) 
             };
             dispatchInstruction(code, nextToken, dataSymbols, imports);
         }
@@ -57,18 +53,23 @@ function dispatchInstruction(code, token, dataSymbols, imports) {
     switch (mnemonic) {
         // --- String Instructions ---
         case 'STOSD':
-            // STOSD is 32-bit by default (AB). No REX needed for 32-bit operation in 64-bit mode for this opcode usually,
-            // but effectively it stores EAX.
             code.addBytes([OPCODES.STOSD]);
             break;
         case 'STOSB':
             code.addBytes([OPCODES.STOSB]);
+            break;
+        case 'MOVSB':
+            code.addBytes([OPCODES.MOVSB]);
+            break;
+        case 'MOVSD':
+            code.addBytes([OPCODES.MOVSD]);
             break;
 
         // --- Data Transfer ---
         case 'MOV':
         case 'LEA':
         case 'MOVSX':
+        case 'MOVZX':
         // CMOVcc
         case 'CMOVO': case 'CMOVNO': case 'CMOVB': case 'CMOVAE':
         case 'CMOVE': case 'CMOVNE': case 'CMOVBE': case 'CMOVA':
@@ -123,12 +124,17 @@ function dispatchInstruction(code, token, dataSymbols, imports) {
         case 'JGE':
         case 'JLE':
         case 'JG':
+        case 'CLD':
+        case 'STD':
             emitFlow(code, mnemonic, args, dataSymbols, imports);
             break;
 
         // --- Misc ---
         case 'NOP':
             code.addBytes([OPCODES.NOP]);
+            break;
+        case 'INT3':
+            code.addBytes([OPCODES.INT3]);
             break;
 
         default:

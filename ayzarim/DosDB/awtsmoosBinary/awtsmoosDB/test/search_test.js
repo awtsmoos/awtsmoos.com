@@ -28,7 +28,8 @@ async function runTest() {
     if (fs.existsSync(DB_PATH)) fs.unlinkSync(DB_PATH);
     if (fs.existsSync(DB_PATH + '.wal')) fs.unlinkSync(DB_PATH + '.wal');
 
-    const db = new AwtsmoosDB(DB_PATH, { debug: false });
+    // B"H: ENABLE DEBUGGING
+    const db = new AwtsmoosDB(DB_PATH, { debug: true });
     await db.open();
 
     try {
@@ -84,8 +85,10 @@ async function runTest() {
         log("[5] Modifying Data (Re-Indexing)...");
         
         const book2 = { id: 2, title: "The Code", content: "Code is pure light." };
+        console.log("[TEST DEBUG] Calling .set(1, book2)...");
         await db.root.library.set(1, book2); // Index 1 is the second item (id 2)
         await db.waitForIdle();
+        console.log("[TEST DEBUG] .set complete.");
         
         const newVoid = await db.root.library.search("void");
         console.log("newVoid:", JSON.stringify(newVoid, null, 2));

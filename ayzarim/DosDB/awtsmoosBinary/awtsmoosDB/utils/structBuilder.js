@@ -1,3 +1,4 @@
+
 // B"H
 const constants = require('../constants.js');
 const Dictionary = require('../structure/dictionary/index.js');
@@ -62,15 +63,17 @@ class StructBuilder {
         if (Array.isArray(value)) {
             const seq = new Sequence(this.allocator);
             await seq.create();
-            for (const item of value) {
-                const savedItem = await this.build(item, visited);
-                await seq.push(savedItem);
+            
+            // B"H: Parallelize Array Item Building
+            // We build all items first, then push pointers. 
+            // Sequence.push is sequential, but building items (allocating primitives/nested objs) can be parallel.
+            const builtItems = await Promise.all(value.map(item => this.build(item, visited)));
+            
+            for (const ptr of builtItems) {
+                await seq.push(ptr);
             }
             return SmartPointer.block(constants.TYPE_SEQUENCE, seq.ptr.blockId, seq.ptr.length, seq.ptr.isChain, seq.ptr.offset);
         } 
-        
-        // B"H: Optimization Removed. 
-        // Plain Objects are now stored as Dictionaries to ensure type fidelity (Buffers, Dates, etc.)
         
         // Custom Classes
         if (value.constructor && value.constructor.name !== 'Object') {
@@ -99,14 +102,24 @@ class StructBuilder {
                 visited.set(value, instancePtr);
 
                 const keys = Reflect.ownKeys(value);
+                const buildPromises = [];
+                
                 for (const k of keys) {
                     const desc = Object.getOwnPropertyDescriptor(value, k);
                     if (desc && (desc.enumerable || typeof k === 'symbol')) {
-                        const savedVal = await this.build(value[k], visited);
-                        const storageKey = keyEncoding.encode(k);
-                        await dict.set(storageKey, savedVal);
+                        buildPromises.push(async () => {
+                            const savedVal = await this.build(value[k], visited);
+                            const storageKey = keyEncoding.encode(k);
+                            return { key: storageKey, val: savedVal };
+                        });
                     }
                 }
+                
+                const results = await Promise.all(buildPromises.map(fn => fn()));
+                for(const res of results) {
+                    await dict.set(res.key, res.val);
+                }
+                
                 return instancePtr;
             }
         }
@@ -117,14 +130,27 @@ class StructBuilder {
         visited.set(value, dictPtr);
         
         const keys = Reflect.ownKeys(value);
+        const buildPromises = [];
+
         for (const k of keys) {
             const desc = Object.getOwnPropertyDescriptor(value, k);
             if (desc && (desc.enumerable || typeof k === 'symbol')) {
-                const savedVal = await this.build(value[k], visited);
-                const storageKey = keyEncoding.encode(k);
-                await dict.set(storageKey, savedVal);
+                buildPromises.push(async () => {
+                    const savedVal = await this.build(value[k], visited);
+                    const storageKey = keyEncoding.encode(k);
+                    return { key: storageKey, val: savedVal };
+                });
             }
         }
+
+        // Execute value building in parallel
+        const results = await Promise.all(buildPromises.map(fn => fn()));
+        
+        // Dictionary Set must be sequential to avoid lock contention on the same structure
+        for (const res of results) {
+            await dict.set(res.key, res.val);
+        }
+
         return dictPtr;
     }
 }

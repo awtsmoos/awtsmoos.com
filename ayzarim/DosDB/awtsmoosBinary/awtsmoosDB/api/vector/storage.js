@@ -36,7 +36,10 @@ class VectorStorage {
 
     async createNode(vector, level, payloadPtr, nodeId) {
         const floatArr = new Float32Array(vector);
-        const vecBuffer = Buffer.from(floatArr.buffer);
+        // B"H: Ensure we copy the data to a new Buffer to avoid offset issues later
+        const vecBuffer = Buffer.alloc(floatArr.byteLength);
+        const sourceView = new Uint8Array(floatArr.buffer, floatArr.byteOffset, floatArr.byteLength);
+        vecBuffer.set(sourceView);
         
         // B"H: Allocate Max Capacity upfront to avoid moving the node later
         const totalSize = this._calculateMaxSize(vecBuffer.length, level);
@@ -55,12 +58,20 @@ class VectorStorage {
 
         buffer.writeUInt32BE(nodeId, offset); offset += 4;
         
-        // Initialize neighbor counts to 0 (Buffer is zero-filled, but let's be explicit for headers)
-        // We just leave the space empty. saveNode will fill it.
+        // Explicitly initialize neighbor counts to 0
+        let neighborOffset = offset;
+        for(let i=0; i<=level; i++) {
+            buffer.writeUInt16BE(0, neighborOffset); // Count = 0
+            neighborOffset += 2;
+            const maxNeighbors = (i === 0) ? M_MAX0 : M;
+            neighborOffset += (maxNeighbors * 4);
+        }
         
         const ptr = await this.allocator.v1.allocate(totalSize);
         await this.allocator.v1.db._writeChainSafe(ptr, buffer);
         
+        // console.log(`[Storage] Created Node ID ${nodeId} at B${ptr.blockId}:${ptr.offset}. VecLen=${vector.length}`);
+
         // Return pointer with IS_STATIC flag implicitly (by not changing it later)
         return SmartPointer.block(constants.TYPE_CUSTOM_INSTANCE, ptr.blockId, totalSize, ptr.isChain, ptr.offset);
     }
@@ -79,8 +90,10 @@ class VectorStorage {
         if (buffer.length < 4) throw new Error(`Invalid Node Buffer (Len ${buffer.length})`);
         
         if (buffer.toString('utf8', 0, 4) !== MAGIC_VEC_NODE) {
-             // If zeroed, it might be corruption or empty alloc.
-             throw new Error("Invalid Vector Node Magic");
+             // throw new Error("Invalid Vector Node Magic");
+             // B"H: If corrupt, return a dummy deleted node to prevent crash loop, but warn
+             console.warn(`[Storage] Invalid Vector Node Magic at ${blockId}:${offsetVal}`);
+             return { id: -1, deleted: true, neighbors: [] };
         }
         offset += 4;
         
@@ -91,14 +104,21 @@ class VectorStorage {
         
         const vecBuf = buffer.subarray(offset, offset + vecLen);
         
-        const alignedVec = Buffer.alloc(vecLen);
-        vecBuf.copy(alignedVec);
-        const vector = new Float32Array(alignedVec.buffer, alignedVec.byteOffset, alignedVec.byteLength / 4);
+        // B"H: Safer Float32Array Reconstruction
+        const vector = new Float32Array(vecLen / 4);
+        const targetBuffer = Buffer.from(vector.buffer);
+        vecBuf.copy(targetBuffer);
+        
         offset += vecLen;
         
         const payloadPtr = buffer.subarray(offset, offset + 16);
         offset += 16;
         const id = buffer.readUInt32BE(offset); offset += 4;
+        
+        // B"H: DEBUG LOG
+        if (this.allocator.v1.db.debug) {
+             // console.log(`[Storage] Loaded Node ID ${id} (Ptr: B${blockId}:O${offsetVal}). Vector[0]=${vector[0]}`);
+        }
         
         const neighbors = []; 
         for(let i=0; i<=level; i++) {
@@ -122,7 +142,12 @@ class VectorStorage {
     }
 
     async saveNode(nodeData) {
-        const vecBuffer = Buffer.from(nodeData.vector.buffer);
+        // B"H: CRITICAL FIX - Respect TypedArray byteOffset!
+        // We create a clean buffer copy of the vector to ensure no slab issues.
+        const floatArr = nodeData.vector;
+        const vecBuffer = Buffer.alloc(floatArr.byteLength);
+        const sourceView = new Uint8Array(floatArr.buffer, floatArr.byteOffset, floatArr.byteLength);
+        vecBuffer.set(sourceView);
         
         // We reconstruct the buffer. 
         // B"H: IMPORTANT - We must preserve the TOTAL allocated size, not just used size.
@@ -160,6 +185,8 @@ class VectorStorage {
         const offVal = ptrInfo.payload.readUInt32BE(10);
         const isChain = ptrInfo.payload.readUInt8(14) === 1;
         
+        // console.log(`[Storage] Saving Node ID ${nodeData.id} to B${blockId}:O${offVal}`);
+
         const writePtr = { blockId, offset: offVal, length: totalAllocatedSize, isChain };
         await this.allocator.v1.db._writeChainSafe(writePtr, buffer);
         

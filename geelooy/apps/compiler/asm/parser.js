@@ -110,50 +110,55 @@ export function parseAsm(source) {
                 continue;
             }
 
-            // Case 2: Numeric Array or Pointers -> label: 10, 0xFF, SomeLabel
+            // Case 2: Numeric Array or Pointers with Label -> label: 10, 0xFF, SomeLabel
             const matchNum = line.match(/^(\w+):\s*(.+)$/);
             if (matchNum) {
                 const label = matchNum[1];
                 const rawVals = matchNum[2];
-                const parts = rawVals.split(',').map(s => s.trim());
-                
-                const bufferParts = [];
-                const currentRelocs = [];
-
-                for (let part of parts) {
-                    if (part.match(/^-?0x[0-9A-Fa-f]+$/) || part.match(/^-?\d+$/)) {
-                        let val;
-                        // Handle Hex explicitly to avoid parsing issues with signs
-                        if (part.toLowerCase().includes('0x')) {
-                            const isNeg = part.startsWith('-');
-                            const clean = part.replace('-', '');
-                            val = parseInt(clean, 16);
-                            if (isNeg) val = -val;
-                        } else {
-                            val = parseInt(part, 10);
-                        }
-                        
-                        // Default to byte-sized chunks for flexibility
-                        bufferParts.push(val & 0xFF);
-                    } else {
-                        // Symbol: assume 64-bit pointer
-                        for(let k=0; k<8; k++) bufferParts.push(0);
-                        currentRelocs.push({
-                            offset: bufferParts.length - 8,
-                            target: part
-                        });
-                    }
-                }
-                
-                const buffer = new Uint8Array(bufferParts);
+                const { buffer, relocs } = parseDataValues(rawVals);
                 
                 const blobId = dataBlobs.length;
-                currentRelocs.forEach(r => {
+                relocs.forEach(r => {
                     dataRelocs.push({ blobId, offset: r.offset, target: r.target });
                 });
 
                 dataSymbols.set(label, blobId);
                 dataBlobs.push(buffer);
+                continue;
+            }
+
+            // Case 3: 'db' directive or raw values (continuation)
+            if (line.match(/^(?:db|DB)\s+(.+)$/)) {
+                const rawVals = line.replace(/^(?:db|DB)\s+/i, '');
+                const { buffer, relocs } = parseDataValues(rawVals);
+
+                // Append to last blob if exists to keep alignment/grouping
+                if (dataBlobs.length > 0) {
+                    const lastBlobIdx = dataBlobs.length - 1;
+                    const lastBlob = dataBlobs[lastBlobIdx];
+                    
+                    // Create merged buffer
+                    const merged = new Uint8Array(lastBlob.length + buffer.length);
+                    merged.set(lastBlob);
+                    merged.set(buffer, lastBlob.length);
+                    dataBlobs[lastBlobIdx] = merged;
+
+                    // Adjust relocs
+                    relocs.forEach(r => {
+                         dataRelocs.push({ 
+                             blobId: lastBlobIdx, 
+                             offset: lastBlob.length + r.offset, 
+                             target: r.target 
+                         });
+                    });
+                } else {
+                    // Create anonymous blob
+                    const blobId = dataBlobs.length;
+                    relocs.forEach(r => {
+                        dataRelocs.push({ blobId, offset: r.offset, target: r.target });
+                    });
+                    dataBlobs.push(buffer);
+                }
                 continue;
             }
 
@@ -189,4 +194,34 @@ export function parseAsm(source) {
         subsystem,
         dataRelocs
     };
+}
+
+// Helper to parse comma-separated data values
+function parseDataValues(rawVals) {
+    const parts = rawVals.split(',').map(s => s.trim());
+    const bufferParts = [];
+    const relocs = [];
+
+    for (let part of parts) {
+        if (part.match(/^-?0x[0-9A-Fa-f]+$/) || part.match(/^-?\d+$/)) {
+            let val;
+            if (part.toLowerCase().includes('0x')) {
+                const isNeg = part.startsWith('-');
+                const clean = part.replace('-', '');
+                val = parseInt(clean, 16);
+                if (isNeg) val = -val;
+            } else {
+                val = parseInt(part, 10);
+            }
+            bufferParts.push(val & 0xFF);
+        } else {
+            // Symbol: assume 64-bit pointer
+            for(let k=0; k<8; k++) bufferParts.push(0);
+            relocs.push({
+                offset: bufferParts.length - 8,
+                target: part
+            });
+        }
+    }
+    return { buffer: new Uint8Array(bufferParts), relocs };
 }

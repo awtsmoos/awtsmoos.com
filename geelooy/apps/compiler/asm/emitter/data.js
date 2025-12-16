@@ -19,80 +19,150 @@ export function emitData(code, mnemonic, args, dataSymbols) {
     }
 
     if (mnemonic === 'MOV') {
-        // MOV Reg, Reg
+        const size = op1.size || 64; // Default to 64 if not specified
+
+        // 1. MOV Reg, Reg
         if (op1.type === 'reg' && op2.type === 'reg') {
-            const size = op1.size || 64;
             const rexW = (size === 64) ? PREFIXES.REX_W : 0;
             const rex = rexW | (op2.val >= 8 ? PREFIXES.REX_R : 0) | (op1.val >= 8 ? PREFIXES.REX_B : 0);
-            
             const modRM = makeModRM(MOD.DIRECT, op2.val & 7, op1.val & 7);
+            
+            if (size === 16) code.addBytes([PREFIXES.OS_OVERRIDE]);
             if (rex) code.addBytes([rex]);
-            code.addBytes([OPCODES.MOV_RM_R, modRM]);
+            
+            const opcode = (size === 8) ? OPCODES.MOV_RM8_R8 : OPCODES.MOV_RM_R;
+            code.addBytes([opcode, modRM]);
         } 
-        // MOV Reg, Imm
+        
+        // 2. MOV Reg, Imm
         else if (op1.type === 'reg' && op2.type === 'imm') {
-            const size = op1.size || 64;
             const rexW = (size === 64) ? PREFIXES.REX_W : 0;
             const rex = rexW | (op1.val >= 8 ? PREFIXES.REX_B : 0);
             
-            const baseOp = (size === 32) ? OPCODES.MOV_R32_IMM32_BASE : OPCODES.MOV_R64_IMM64_BASE;
-            
-            if (rex) code.addBytes([rex]);
-            code.addBytes([baseOp + (op1.val & 7)]);
-            
-            if (size === 64) {
+            if (size === 8) {
+                if (rex) code.addBytes([rex]);
+                code.addBytes([OPCODES.MOV_R8_IMM8_BASE + (op1.val & 7)]);
+                code.addBytes([op2.val & 0xFF]);
+            } else if (size === 16) {
+                code.addBytes([PREFIXES.OS_OVERRIDE]);
+                if (rex) code.addBytes([rex]);
+                code.addBytes([OPCODES.MOV_R32_IMM32_BASE + (op1.val & 7)]);
+                code.addBytes([op2.val & 0xFF, (op2.val >> 8) & 0xFF]);
+            } else if (size === 32) {
+                if (rex) code.addBytes([rex]); // Usually not needed for R32, clears high 32
+                code.addBytes([OPCODES.MOV_R32_IMM32_BASE + (op1.val & 7)]);
+                code.add32(op2.val);
+            } else { // 64
+                if (rex) code.addBytes([rex]);
+                code.addBytes([OPCODES.MOV_R64_IMM64_BASE + (op1.val & 7)]);
                 const v = BigInt(op2.val);
                 code.add32(Number(v & 0xFFFFFFFFn));
                 code.add32(Number((v >> 32n) & 0xFFFFFFFFn));
-            } else {
-                code.add32(op2.val);
             }
         }
-        // MOV [Mem], Imm
+        
+        // 3. MOV [Mem], Imm
         else if (op1.type === 'mem' && op2.type === 'imm') {
-            if (op1.isData) throw new Error("MOV [Label], Imm not supported");
+            if (op1.isData) throw new Error("MOV [Label], Imm not supported directly. Use register.");
             
-            const rex = PREFIXES.REX_W | (op1.base >= 8 ? PREFIXES.REX_B : 0) | ((op1.index && op1.index >= 8) ? PREFIXES.REX_X : 0);
+            const rexW = (size === 64) ? PREFIXES.REX_W : 0;
+            const rex = rexW | (op1.base >= 8 ? PREFIXES.REX_B : 0) | ((op1.index && op1.index >= 8) ? PREFIXES.REX_X : 0);
             
-            const bytes = emitMemBytes(op1, 0); 
+            if (size === 16) code.addBytes([PREFIXES.OS_OVERRIDE]);
             if (rex) code.addBytes([rex]);
-            code.addBytes([0xC7, ...bytes]);
-            code.add32(op2.val);
+
+            if (size === 8) {
+                code.addBytes([OPCODES.MOV_RM8_IMM8]);
+                const bytes = emitMemBytes(op1, 0); 
+                code.addBytes(bytes);
+                code.addBytes([op2.val & 0xFF]);
+            } else if (size === 16) {
+                code.addBytes([OPCODES.MOV_RM_IMM32]);
+                const bytes = emitMemBytes(op1, 0); 
+                code.addBytes(bytes);
+                code.addBytes([op2.val & 0xFF, (op2.val >> 8) & 0xFF]);
+            } else if (size === 32) {
+                code.addBytes([OPCODES.MOV_RM_IMM32]);
+                const bytes = emitMemBytes(op1, 0); 
+                code.addBytes(bytes);
+                code.add32(op2.val);
+            } else { // 64
+                code.addBytes([OPCODES.MOV_RM_IMM32]); // Sign-extended 32-bit imm to 64-bit mem
+                const bytes = emitMemBytes(op1, 0); 
+                code.addBytes(bytes);
+                code.add32(op2.val); // Limitation: Can only write 32-bit immediate to 64-bit mem
+            }
         }
-        // MOV [Mem], Reg
+        
+        // 4. MOV [Mem], Reg
         else if (op1.type === 'mem' && op2.type === 'reg') {
-             const size = op2.size || 64;
-             const rexW = (size === 64) ? PREFIXES.REX_W : 0;
+             // Size comes from Register size unless overridden, check conflict?
+             const regSize = op2.size || 64;
+             const opSize = size || regSize; 
+             
+             const rexW = (opSize === 64) ? PREFIXES.REX_W : 0;
              const rex = rexW | (op2.val >= 8 ? PREFIXES.REX_R : 0) | (op1.base >= 8 ? PREFIXES.REX_B : 0) | ((op1.index && op1.index >= 8) ? PREFIXES.REX_X : 0);
              
+             if (opSize === 16) code.addBytes([PREFIXES.OS_OVERRIDE]);
              if (op1.isData) {
                  if (rex) code.addBytes([rex]);
-                 code.addBytes([OPCODES.MOV_RM_R]); 
+                 const opcode = (opSize === 8) ? OPCODES.MOV_RM8_R8 : OPCODES.MOV_RM_R;
+                 code.addBytes([opcode]); 
                  emitRipData(op2.val, op1.id);
              } else {
                  const bytes = emitMemBytes(op1, op2.val);
                  if (rex) code.addBytes([rex]);
-                 code.addBytes([OPCODES.MOV_RM_R, ...bytes]);
+                 const opcode = (opSize === 8) ? OPCODES.MOV_RM8_R8 : OPCODES.MOV_RM_R;
+                 code.addBytes([opcode, ...bytes]);
              }
         }
-        // MOV Reg, [Mem]
+        
+        // 5. MOV Reg, [Mem]
         else if (op1.type === 'reg' && op2.type === 'mem') {
-             const size = op1.size || 64;
-             const rexW = (size === 64) ? PREFIXES.REX_W : 0;
+             const opSize = op1.size; // Destination determines size
+             const rexW = (opSize === 64) ? PREFIXES.REX_W : 0;
              const rex = rexW | (op1.val >= 8 ? PREFIXES.REX_R : 0);
              
+             if (opSize === 16) code.addBytes([PREFIXES.OS_OVERRIDE]);
+
              if (op2.isData) {
                  if (rex) code.addBytes([rex]);
-                 code.addBytes([OPCODES.MOV_R_RM]); 
+                 const opcode = (opSize === 8) ? OPCODES.MOV_R8_RM8 : OPCODES.MOV_R_RM;
+                 code.addBytes([opcode]); 
                  emitRipData(op1.val, op2.id);
              } else {
                  const extraRex = (op2.base >= 8 ? PREFIXES.REX_B : 0) | ((op2.index && op2.index >= 8) ? PREFIXES.REX_X : 0);
                  if (rex | extraRex) code.addBytes([rex | extraRex]);
+                 
+                 const opcode = (opSize === 8) ? OPCODES.MOV_R8_RM8 : OPCODES.MOV_R_RM;
                  const bytes = emitMemBytes(op2, op1.val);
-                 code.addBytes([OPCODES.MOV_R_RM, ...bytes]);
+                 code.addBytes([opcode, ...bytes]);
              }
         }
     } 
+    else if (mnemonic === 'MOVZX') {
+        // MOVZX Reg, R/M (Byte to ... )
+        if (op1.type === 'reg' && (op2.type === 'reg' || op2.type === 'mem')) {
+             const rexW = (op1.size === 64) ? PREFIXES.REX_W : 0;
+             const rex = rexW | (op1.val >= 8 ? PREFIXES.REX_R : 0);
+             
+             // Base is byte, dest is word/dword/qword
+             // Currently only supporting byte source
+             
+             if (op2.type === 'reg') {
+                 const finalRex = rex | (op2.val >= 8 ? PREFIXES.REX_B : 0);
+                 if (finalRex) code.addBytes([finalRex]);
+                 const modRM = makeModRM(MOD.DIRECT, op1.val & 7, op2.val & 7);
+                 code.addBytes([OPCODES.MOVZX_R_RM[0], OPCODES.MOVZX_R_RM[1], modRM]);
+             } else {
+                 const extraRex = (op2.base >= 8 ? PREFIXES.REX_B : 0) | ((op2.index && op2.index >= 8) ? PREFIXES.REX_X : 0);
+                 if (rex | extraRex) code.addBytes([rex | extraRex]);
+                 code.addBytes([OPCODES.MOVZX_R_RM[0], OPCODES.MOVZX_R_RM[1]]);
+                 const bytes = emitMemBytes(op2, op1.val);
+                 code.addBytes(bytes);
+             }
+        }
+    }
     else if (mnemonic.startsWith('CMOV')) {
         // CMOVcc DestReg, SourceReg/Mem
         if (op1.type !== 'reg') throw new Error(`${mnemonic} destination must be a register`);

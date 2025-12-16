@@ -92,9 +92,6 @@ class MapOps {
                 return { split, deltaCount: 1, deltaBytes, newPtr };
             } else {
                 // Internal Node
-                // Binary search returned idx where keyBuf < keys[idx].
-                // This corresponds to child at idx.
-                
                 const childPtrBuf = node.children[idx];
                 const decoded = SmartPointer.decode(childPtrBuf);
                 const childPtr = {
@@ -134,6 +131,60 @@ class MapOps {
             }
         } finally {
             this.recursionDepth--;
+        }
+    }
+
+    // B"H: New return format { success: bool, deletedPtr: Buffer }
+    async delete(node, keyBuf) {
+        // Binary Search
+        let low = 0, high = node.keys.length - 1, idx = node.keys.length;
+        while (low <= high) {
+            const mid = (low + high) >>> 1;
+            const cmp = keyBuf.compare(node.keys[mid]);
+            if (cmp === 0) { idx = mid + 1; break; }
+            if (cmp < 0) { idx = mid; high = mid - 1; }
+            else { low = mid + 1; }
+        }
+
+        if (node.isLeaf) {
+            if (idx > 0 && node.keys[idx - 1].compare(keyBuf) === 0) {
+                const keySize = node.keys[idx-1].length;
+                const valSize = this._getPtrSize(node.values[idx-1]);
+                const deltaBytes = -(keySize + valSize);
+                
+                node.keys.splice(idx - 1, 1);
+                const removedVals = node.values.splice(idx - 1, 1);
+                const deletedPtr = removedVals[0];
+                
+                // Do NOT free here. We return it so Caller (Writer) can invoke graph cleanup first.
+                // Caller is responsible for freeing.
+                
+                node.totalCount -= 1; node.totalBytes += deltaBytes;
+                await this.nodeIO.save(node, node.selfPtr);
+                
+                return { success: true, deletedPtr, deltaCount: -1, deltaBytes };
+            }
+            return { success: false };
+        } else {
+            const childPtrBuf = node.children[idx];
+            const decoded = SmartPointer.decode(childPtrBuf);
+            const childPtr = {
+                blockId: readPointer48(decoded.payload, 0),
+                length: decoded.payload.readUInt32BE(6),
+                offset: decoded.payload.readUInt32BE(10),
+                isChain: decoded.payload.readUInt8(14) === 1
+            };
+            
+            const child = await this.nodeIO.load(childPtr);
+            const res = await this.delete(child, keyBuf);
+            
+            if (res.success) {
+                node.totalCount += res.deltaCount;
+                node.totalBytes += res.deltaBytes;
+                // Save parent to update stats
+                await this.nodeIO.save(node, node.selfPtr);
+            }
+            return res;
         }
     }
 

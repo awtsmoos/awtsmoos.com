@@ -1,3 +1,4 @@
+
 // B"H
 const AllocatorV1 = require('./allocator/index.js');
 const HeapManager = require('./heap.js');
@@ -14,6 +15,11 @@ class AllocatorV2 {
 
     async init() { await this.v1.init(); }
     async readBlock(blockId) { return this.v1.readBlockLocked(blockId); }
+
+    // B"H: New Method to flush heap
+    async flushHeap() {
+        if (this.heap) await this.heap.flush();
+    }
 
     async save(val) {
         let type, data;

@@ -16,6 +16,10 @@ export const REGISTERS = {
     EAX: 0, ECX: 1, EDX: 2, EBX: 3, ESP: 4, EBP: 5, ESI: 6, EDI: 7,
     R8D: 8, R9D: 9, R10D: 10, R11D: 11, R12D: 12, R13D: 13, R14D: 14, R15D: 15,
     
+    // 16-bit
+    AX: 0, CX: 1, DX: 2, BX: 3, SP: 4, BP: 5, SI: 6, DI: 7,
+    R8W: 8, R9W: 9, R10W: 10, R11W: 11, R12W: 12, R13W: 13, R14W: 14, R15W: 15,
+
     // 8-bit
     AL: 0, CL: 1, DL: 2, BL: 3, SPL: 4, BPL: 5, SIL: 6, DIL: 7,
     R8B: 8, R9B: 9, R10B: 10, R11B: 11, R12B: 12, R13B: 13, R14B: 14, R15B: 15
@@ -26,6 +30,8 @@ export const REGISTER_SIZES = {
     R8: 64, R9: 64, R10: 64, R11: 64, R12: 64, R13: 64, R14: 64, R15: 64,
     EAX: 32, ECX: 32, EDX: 32, EBX: 32, ESP: 32, EBP: 32, ESI: 32, EDI: 32,
     R8D: 32, R9D: 32, R10D: 32, R11D: 32, R12D: 32, R13D: 32, R14D: 32, R15D: 32,
+    AX: 16, CX: 16, DX: 16, BX: 16, SP: 16, BP: 16, SI: 16, DI: 16,
+    R8W: 16, R9W: 16, R10W: 16, R11W: 16, R12W: 16, R13W: 16, R14W: 16, R15W: 16,
     AL: 8, CL: 8, DL: 8, BL: 8, SPL: 8, BPL: 8, SIL: 8, DIL: 8,
     R8B: 8, R9B: 8, R10B: 8, R11B: 8, R12B: 8, R13B: 8, R14B: 8, R15B: 8
 };
@@ -44,9 +50,15 @@ export const PREFIXES = {
 export const OPCODES = {
     MOV_RM_R: 0x89,
     MOV_R_RM: 0x8B,
+    MOV_RM8_R8: 0x88,
+    MOV_R8_RM8: 0x8A,
+    
     MOV_RM_IMM32: 0xC7, 
+    MOV_RM8_IMM8: 0xC6,
+
     MOV_R64_IMM64_BASE: 0xB8,
     MOV_R32_IMM32_BASE: 0xB8,
+    MOV_R8_IMM8_BASE: 0xB0,
 
     LEA_R64_M: 0x8D,
     
@@ -66,12 +78,15 @@ export const OPCODES = {
     IDIV_RM64: 0xF7, DIV_RM64: 0xF7, CQO: 0x99,
     SAR_RM64_IMM8: 0xC1, SHL_RM64_IMM8: 0xC1,
     MOVSX_R64_RM8: [0x0F, 0xBE],
+    MOVZX_R_RM: [0x0F, 0xB6], // Byte to Reg
 
     // String Instructions
     STOSB: 0xAA,
-    STOSD: 0xAB, // 32-bit by default, 64-bit with REX.W
+    STOSD: 0xAB, 
     MOVSB: 0xA4,
     MOVSD: 0xA5,
+    CLD: 0xFC,
+    STD: 0xFD,
 
     CMOV_O: [0x0F, 0x40], CMOV_NO: [0x0F, 0x41], CMOV_B: [0x0F, 0x42], CMOV_AE: [0x0F, 0x43],
     CMOV_E: [0x0F, 0x44], CMOV_NE: [0x0F, 0x45], CMOV_BE: [0x0F, 0x46], CMOV_A: [0x0F, 0x47],

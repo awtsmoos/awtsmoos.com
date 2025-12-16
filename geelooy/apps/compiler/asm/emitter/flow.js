@@ -3,12 +3,20 @@ B"H
 Boruch Hashem
 Biezrash Hashem
 */
-import { OPCODES, PREFIXES, makeModRM, MOD } from '../../opcodes.js';
+import { OPCODES, PREFIXES, makeModRM, MOD } from '../opcodes.js';
 import { parseOperand } from './operands.js';
 
 export function emitFlow(code, mnemonic, args, dataSymbols, imports) {
     if (mnemonic === 'RET') {
         code.addBytes([OPCODES.RET]);
+        return;
+    }
+    if (mnemonic === 'CLD') {
+        code.addBytes([OPCODES.CLD]);
+        return;
+    }
+    if (mnemonic === 'STD') {
+        code.addBytes([OPCODES.STD]);
         return;
     }
 
