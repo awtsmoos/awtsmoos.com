@@ -6,7 +6,6 @@ const SmartPointer = require('../../utils/smartPointer.js');
 
 const MAGIC_VEC_NODE = "VNOD";
 
-// B"H: Constants from HNSW to calculate max size
 const M = 12; 
 const M_MAX0 = 24; 
 
@@ -16,12 +15,6 @@ class VectorStorage {
     }
 
     _calculateMaxSize(vecLen, level) {
-        // Header: 4(Magic) + 1(Flags) + 1(Level) + 4(VecLen) + 16(Payload) + 4(ID) = 30 bytes
-        // Vector: vecLen bytes
-        // Neighbors: 
-        //   Level 0: 2(Count) + M_MAX0 * 4
-        //   Level >0: 2(Count) + M * 4
-        
         const headerSize = 30;
         const vecSize = vecLen;
         let neighborSize = 0;
@@ -36,19 +29,21 @@ class VectorStorage {
 
     async createNode(vector, level, payloadPtr, nodeId) {
         const floatArr = new Float32Array(vector);
-        // B"H: Ensure we copy the data to a new Buffer to avoid offset issues later
-        const vecBuffer = Buffer.alloc(floatArr.byteLength);
+        // B"H: Optimization - allocUnsafe
+        const vecBuffer = Buffer.allocUnsafe(floatArr.byteLength);
         const sourceView = new Uint8Array(floatArr.buffer, floatArr.byteOffset, floatArr.byteLength);
         vecBuffer.set(sourceView);
         
-        // B"H: Allocate Max Capacity upfront to avoid moving the node later
         const totalSize = this._calculateMaxSize(vecBuffer.length, level);
         
-        const buffer = Buffer.alloc(totalSize); // Zero-filled by default
+        // B"H: Optimization - allocUnsafe + fill(0)
+        const buffer = Buffer.allocUnsafe(totalSize);
+        buffer.fill(0);
+        
         let offset = 0;
         
         buffer.write(MAGIC_VEC_NODE, offset); offset += 4;
-        buffer.writeUInt8(0, offset); offset += 1; // Flags (Alive)
+        buffer.writeUInt8(0, offset); offset += 1; 
         buffer.writeUInt8(level, offset); offset += 1;
         buffer.writeUInt32BE(vecBuffer.length, offset); offset += 4;
         
@@ -58,10 +53,9 @@ class VectorStorage {
 
         buffer.writeUInt32BE(nodeId, offset); offset += 4;
         
-        // Explicitly initialize neighbor counts to 0
         let neighborOffset = offset;
         for(let i=0; i<=level; i++) {
-            buffer.writeUInt16BE(0, neighborOffset); // Count = 0
+            buffer.writeUInt16BE(0, neighborOffset); 
             neighborOffset += 2;
             const maxNeighbors = (i === 0) ? M_MAX0 : M;
             neighborOffset += (maxNeighbors * 4);
@@ -70,9 +64,6 @@ class VectorStorage {
         const ptr = await this.allocator.v1.allocate(totalSize);
         await this.allocator.v1.db._writeChainSafe(ptr, buffer);
         
-        // console.log(`[Storage] Created Node ID ${nodeId} at B${ptr.blockId}:${ptr.offset}. VecLen=${vector.length}`);
-
-        // Return pointer with IS_STATIC flag implicitly (by not changing it later)
         return SmartPointer.block(constants.TYPE_CUSTOM_INSTANCE, ptr.blockId, totalSize, ptr.isChain, ptr.offset);
     }
 
@@ -86,12 +77,9 @@ class VectorStorage {
         const buffer = await this.allocator.v1.db._readChainSafe({ blockId, length, isChain, offset: offsetVal });
         let offset = 0;
         
-        // Safety check
         if (buffer.length < 4) throw new Error(`Invalid Node Buffer (Len ${buffer.length})`);
         
         if (buffer.toString('utf8', 0, 4) !== MAGIC_VEC_NODE) {
-             // throw new Error("Invalid Vector Node Magic");
-             // B"H: If corrupt, return a dummy deleted node to prevent crash loop, but warn
              console.warn(`[Storage] Invalid Vector Node Magic at ${blockId}:${offsetVal}`);
              return { id: -1, deleted: true, neighbors: [] };
         }
@@ -104,7 +92,6 @@ class VectorStorage {
         
         const vecBuf = buffer.subarray(offset, offset + vecLen);
         
-        // B"H: Safer Float32Array Reconstruction
         const vector = new Float32Array(vecLen / 4);
         const targetBuffer = Buffer.from(vector.buffer);
         vecBuf.copy(targetBuffer);
@@ -114,11 +101,6 @@ class VectorStorage {
         const payloadPtr = buffer.subarray(offset, offset + 16);
         offset += 16;
         const id = buffer.readUInt32BE(offset); offset += 4;
-        
-        // B"H: DEBUG LOG
-        if (this.allocator.v1.db.debug) {
-             // console.log(`[Storage] Loaded Node ID ${id} (Ptr: B${blockId}:O${offsetVal}). Vector[0]=${vector[0]}`);
-        }
         
         const neighbors = []; 
         for(let i=0; i<=level; i++) {
@@ -130,7 +112,6 @@ class VectorStorage {
                 levelNeighbors.push(buffer.readUInt32BE(offset));
                 offset += 4;
             }
-            // Skip remaining capacity for this level to find next level
             const maxNeighbors = (i === 0) ? M_MAX0 : M;
             const remaining = maxNeighbors - count;
             offset += (remaining * 4);
@@ -142,21 +123,16 @@ class VectorStorage {
     }
 
     async saveNode(nodeData) {
-        // B"H: CRITICAL FIX - Respect TypedArray byteOffset!
-        // We create a clean buffer copy of the vector to ensure no slab issues.
         const floatArr = nodeData.vector;
-        const vecBuffer = Buffer.alloc(floatArr.byteLength);
+        const vecBuffer = Buffer.allocUnsafe(floatArr.byteLength);
         const sourceView = new Uint8Array(floatArr.buffer, floatArr.byteOffset, floatArr.byteLength);
         vecBuffer.set(sourceView);
-        
-        // We reconstruct the buffer. 
-        // B"H: IMPORTANT - We must preserve the TOTAL allocated size, not just used size.
-        // We use the pointer's length to know the allocated size.
         
         const ptrInfo = SmartPointer.decode(nodeData.ptr);
         const totalAllocatedSize = ptrInfo.payload.readUInt32BE(6);
         
-        const buffer = Buffer.alloc(totalAllocatedSize);
+        const buffer = Buffer.allocUnsafe(totalAllocatedSize);
+        buffer.fill(0); // Zeroing for safety as we jump offsets
         
         let offset = 0;
         buffer.write(MAGIC_VEC_NODE, offset); offset += 4;
@@ -173,25 +149,18 @@ class VectorStorage {
             for(const nId of list) { 
                 buffer.writeUInt32BE(nId, offset); offset += 4; 
             }
-            // Pad remainder
             const maxNeighbors = (i === 0) ? M_MAX0 : M;
             const remaining = maxNeighbors - list.length;
             offset += (remaining * 4);
         }
 
-        // B"H: IN-PLACE WRITE
-        // We do not free/allocate. We write back to the existing location.
         const blockId = readPointer48(ptrInfo.payload, 0);
         const offVal = ptrInfo.payload.readUInt32BE(10);
         const isChain = ptrInfo.payload.readUInt8(14) === 1;
         
-        // console.log(`[Storage] Saving Node ID ${nodeData.id} to B${blockId}:O${offVal}`);
-
         const writePtr = { blockId, offset: offVal, length: totalAllocatedSize, isChain };
         await this.allocator.v1.db._writeChainSafe(writePtr, buffer);
         
-        // Return the SAME pointer. 
-        // HNSW will detect this and skip registry update.
         return nodeData.ptr;
     }
 }

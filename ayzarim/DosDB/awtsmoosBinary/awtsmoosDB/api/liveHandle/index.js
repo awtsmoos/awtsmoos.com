@@ -1,171 +1,295 @@
 
-
 // B"H
 const Navigator = require('./navigator.js');
 const Writer = require('./writer.js');
 const Reader = require('./reader.js');
 const constants = require('../../constants.js');
-const Query = require('../query/index.js');
 const SmartPointer = require('../../utils/smartPointer.js');
+
+const ARRAY_MUTATORS_IN_PLACE = ['reverse', 'sort', 'fill', 'copyWithin'];
+const ARRAY_ACCESSORS = [
+    'join', 'toLocaleString', 'toString', 'includes', 'indexOf', 'lastIndexOf', 
+    'every', 'some', 'forEach', 'map', 'filter', 'reduce', 'reduceRight', 
+    'find', 'findIndex', 'findLast', 'findLastIndex', 'flat', 'flatMap', 'at',
+    'concat', 'toReversed', 'toSorted', 'toSpliced', 'with'
+];
 
 class LiveHandleV2 {
     constructor(db, ptrBuffer, type, context = null) {
-        this.db = db;
-        this.ptr = ptrBuffer;
-        this.type = type;
-        this.context = context; // { parent: LiveHandle, key: string }
-        this.isLiveHandle = true; // B"H: Identification Flag
+        const target = function() {}; 
         
-        this.nav = new Navigator(this);
-        this.writer = new Writer(this);
-        this.reader = new Reader(this);
+        target.db = db;
+        target.ptr = ptrBuffer;
+        target.type = type;
+        target.context = context; 
+        target.isLiveHandle = true; 
+        target.lastParentPtrHash = null; 
+        target.isUpdatingPointer = false; 
+        
+        target.lastMutationCount = -1;
+        target._cachedResolution = null; 
 
-        return new Proxy(this, {
-            get: (target, prop, receiver) => {
-                if (prop === 'ptr') return target.ptr;
-                if (prop === 'db') return target.db;
-                if (prop === 'type') return target.type;
-                if (prop === 'context') return target.context;
-                if (prop === 'isLiveHandle') return true;
-                if (prop === 'getPath') return target.getPath.bind(target);
-                if (prop === 'ensureResolved') return target.ensureResolved.bind(target);
+        target.ensureResolved = this.ensureResolved.bind(target);
+        target.getPath = this.getPath.bind(target);
+        target._updatePointer = this._updatePointer.bind(target);
+        
+        target.nav = new Navigator(target);
+        target.writer = new Writer(target);
+        target.reader = new Reader(target);
 
-                // Promise Interface -> Triggers Resolution
-                if (prop === 'then') return (res, rej) => target.reader.resolveSelf().then(res, rej);
-                if (prop === 'catch') return (cb) => target.reader.resolveSelf().catch(cb);
-                if (prop === 'finally') return (cb) => target.reader.resolveSelf().finally(cb);
+        return new Proxy(target, {
+            get: (tgt, prop, receiver) => {
+                if (prop === constants.SYMBOLS.INTERNALS) return tgt;
+
+                if (prop === 'then') return (res, rej) => tgt.reader.resolveSelf().then(res, rej);
+                if (prop === 'catch') return (cb) => tgt.reader.resolveSelf().catch(cb);
+                if (prop === 'finally') return (cb) => tgt.reader.resolveSelf().finally(cb);
                 
-                // Methods
-                if (prop === 'push') return target.writer.push.bind(target.writer);
-                if (prop === 'set') return target.writer.set.bind(target.writer);
-                if (prop === 'splice') return target.writer.splice.bind(target.writer);
-                if (prop === 'delete' || prop === 'deleteProperty') return target.writer.delete.bind(target.writer);
-                
-                if (prop === 'createMap') return target.writer.createMap.bind(target.writer);
-                if (prop === 'createObject') return target.writer.createObject.bind(target.writer); // B"H: New Method
-                if (prop === 'createList') return target.writer.createList.bind(target.writer);
-                
-                if (prop === 'concat') return target.writer.concat.bind(target.writer);
-
-                // B"H: Map-like Accessors
-                if (prop === 'get') return (key) => target.nav.navigate(key);
-                if (prop === 'has') return async (key) => {
-                    const child = target.nav.navigate(key);
-                    await child.ensureResolved();
-                    return !!child.ptr;
-                };
-
-                if (prop === 'slice') return target.reader.slice.bind(target.reader);
-                // B"H: Range Seek Support (with safety check)
-                if (prop === 'range') {
-                    if (typeof target.reader.range !== 'function') {
-                        throw new Error(`B"H: Reader.range is not implemented. Check reader.js.`);
+                if (tgt.type === constants.TYPE_SEQUENCE) {
+                    if (prop === 'set') return tgt.writer.set.bind(tgt.writer); 
+                    if (prop === 'push') return tgt.writer.push.bind(tgt.writer);
+                    if (prop === 'splice') return tgt.writer.splice.bind(tgt.writer);
+                    
+                    if (prop === 'pop') return async () => { 
+                        const len = await tgt.reader.length(); 
+                        if (len === 0) return undefined;
+                        const removed = await tgt.writer.splice(len-1, 1); 
+                        return removed[0];
+                    };
+                    
+                    if (prop === 'shift') return async () => {
+                        const len = await tgt.reader.length(); 
+                        if (len === 0) return undefined;
+                        const removed = await tgt.writer.splice(0, 1);
+                        return removed[0];
+                    };
+                    
+                    if (prop === 'unshift') return async (...items) => {
+                        await tgt.writer.splice(0, 0, ...items);
+                        return await tgt.reader.length();
+                    };
+                    
+                    if (prop === 'slice') return tgt.reader.slice.bind(tgt.reader);
+                    if (prop === 'entries') return tgt.reader.entries.bind(tgt.reader);
+                    if (prop === 'keys') return tgt.reader.keys.bind(tgt.reader);
+                    if (prop === 'values') return tgt.reader.values.bind(tgt.reader);
+                    if (prop === 'length') return tgt.reader.length();
+                    
+                    if (ARRAY_MUTATORS_IN_PLACE.includes(prop)) {
+                        return async (...args) => {
+                            const arr = await tgt.reader.resolveSelf();
+                            if (!Array.isArray(arr)) throw new Error("Underlying data is not an array");
+                            const res = arr[prop](...args);
+                            if (tgt.context && tgt.context.parent) {
+                                const parentH = tgt.context.parent[constants.SYMBOLS.INTERNALS] || tgt.context.parent;
+                                await parentH.writer.set(tgt.context.key, arr);
+                            } else {
+                                throw new Error("Cannot persist in-place mutation on root or detached sequence yet.");
+                            }
+                            return res; 
+                        };
                     }
-                    return target.reader.range.bind(target.reader);
+
+                    if (ARRAY_ACCESSORS.includes(prop)) {
+                        return async (...args) => {
+                            const arr = await tgt.reader.resolveSelf();
+                            if (!Array.isArray(arr)) return undefined;
+                            return arr[prop](...args);
+                        };
+                    }
+                    
+                    if (typeof prop === 'string' && !isNaN(prop) && Number.isInteger(parseFloat(prop))) {
+                         return tgt.nav.navigate(prop);
+                    }
+                }
+
+                if (tgt.type === constants.TYPE_MAP) {
+                    if (prop === 'get') return (key) => tgt.nav.navigate(key);
+                    if (prop === 'set') return tgt.writer.set.bind(tgt.writer);
+                    if (prop === 'delete') return tgt.writer.delete.bind(tgt.writer);
+                    if (prop === 'has') return (key) => tgt.db.has(receiver, key);
+                    if (prop === 'size') return tgt.reader.length();
+                    if (prop === 'entries') return tgt.reader.entries.bind(tgt.reader);
+                    if (prop === 'keys') return tgt.reader.keys.bind(tgt.reader);
+                    if (prop === 'values') return tgt.reader.values.bind(tgt.reader);
+                }
+
+                if (tgt.type === constants.TYPE_DICTIONARY) {
+                    if (prop === 'get') return (key) => tgt.nav.navigate(key);
+                    if (prop === 'set') return tgt.writer.set.bind(tgt.writer);
+                    if (prop === 'delete') return tgt.writer.delete.bind(tgt.writer);
+                    if (prop === 'has') return (key) => tgt.db.has(receiver, key);
+                    if (prop === 'entries') return tgt.reader.entries.bind(tgt.reader);
+                    if (prop === 'keys') return tgt.reader.keys.bind(tgt.reader);
+                    if (prop === 'values') return tgt.reader.values.bind(tgt.reader);
                 }
                 
-                if (prop === 'keys') return target.reader.keys.bind(target.reader);
-                if (prop === 'values') return target.reader.values.bind(target.reader);
-                if (prop === 'entries') return target.reader.entries.bind(target.reader);
-                if (prop === 'length') return target.reader.length(); 
-                if (prop === 'byteSize') return target.reader.byteSize();
+                if (prop === Symbol.asyncIterator) return tgt.reader.iterator.bind(tgt.reader);
+                if (prop === 'createMap') return tgt.writer.createMap.bind(tgt.writer);
+                if (prop === 'createList') return tgt.writer.createList.bind(tgt.writer);
+                if (prop === 'createObject') return tgt.writer.createObject.bind(tgt.writer);
+
+                if (prop === 'toString' || prop === Symbol.toStringTag || prop === 'valueOf' || prop === Symbol.toPrimitive || prop === Symbol.for('nodejs.util.inspect.custom')) {
+                    return () => `[LiveHandle ${tgt.getPath()}]`;
+                }
                 
-                if (prop === 'stats') return target.reader.stats.bind(target.reader);
-                if (prop === 'compact') return target.writer.compact.bind(target.writer);
-                
-                // B"H: Pass receiver (Proxy) to Query so it can access traps like .length and .get()
-                if (prop === 'query') return (q) => Query.execute(receiver, q);
-                if (prop === Symbol.asyncIterator) return target.reader.iterator.bind(target.reader);
+                if (prop === 'ensureResolved') return tgt.ensureResolved;
+                if (prop === 'getPath') return tgt.getPath;
 
-                if (prop === '_updatePointer') return target._updatePointer.bind(target);
-                if (prop === 'writer') return target.writer;
-                if (prop === 'reader') return target.reader;
-                if (prop === 'nav') return target.nav;
-
-                // Graph
-                if (prop === 'relateTo') return (targetNode, label, props) => target.db.graph.connect(target, targetNode, label, props);
-                if (prop === 'relationships') return (dir, label) => target.db.graph.getRelationships(target, dir, label);
-                if (prop === 'path') return (targetNode, opts) => target.db.graph.shortestPath(target, targetNode, opts);
-                if (prop === 'traverse') return (visitor, opts) => target.db.graph.traverse(target, visitor, opts);
-
-                // Search & Vector
-                if (prop === 'enableSearch') return () => target.db.search.enableIndex(target.getPath());
-                if (prop === 'search') return (query) => target.db.search.search(target.getPath(), query);
-                if (prop === 'enableVectorIndex') return (opts) => target.db.vector.enableVectorIndex(target.getPath(), opts);
-                if (prop === 'nearest') return (queryVec, k) => target.db.vector.nearest(target.getPath(), queryVec, k);
-
-                // B"H: Safe String Conversion to prevent "object is not a function" crashes
-                if (prop === 'toString' || prop === Symbol.toStringTag || prop === 'valueOf') {
-                    return () => `[LiveHandle ${target.getPath()}]`;
-                }
-                if (prop === Symbol.toPrimitive) {
-                    return () => `[LiveHandle ${target.getPath()}]`;
-                }
-                // Node.js console.log inspection
-                if (prop === Symbol.for('nodejs.util.inspect.custom')) {
-                    return () => `[LiveHandle ${target.getPath()}]`;
-                }
-
-                // Array Index Access (Numeric String)
-                if (typeof prop === 'string' && !isNaN(prop) && Number.isInteger(parseFloat(prop))) {
-                     // B"H: Return a Deferred Handle for the index.
-                     // The Reader will resolve it to the item value if awaited.
-                     return target.nav.navigate(prop);
-                }
-
-                // Child Navigation (Synchronous)
-                return target.nav.navigate(prop);
+                return tgt.nav.navigate(prop);
             },
-            set: (target, prop, value) => {
-                // Returns Promise (async set)
-                target.writer.set(prop, value);
+            
+            set: (tgt, prop, value) => {
+                tgt.writer.set(prop, value);
                 return true;
             },
-            deleteProperty: (target, prop) => {
-                target.writer.delete(prop);
+            
+            deleteProperty: (tgt, prop) => {
+                tgt.writer.delete(prop);
                 return true;
+            },
+
+            apply: async (tgt, thisArg, args) => {
+                // B"H: CRITICAL FIX - Pre-resolution ensures type safety
+                await tgt.ensureResolved(); 
+                
+                if (tgt.context && tgt.context.parent) {
+                    const parentH = tgt.context.parent[constants.SYMBOLS.INTERNALS] || tgt.context.parent;
+                    const method = tgt.context.key;
+                    
+                    // Force refresh of parent if type unknown
+                    if (!parentH.type) {
+                        parentH.writer.common.invalidateEngine();
+                        await parentH.ensureResolved(true);
+                    }
+                    
+                    if (!parentH.type) {
+                         const pt = (tgt.context && tgt.context.parent) ? (tgt.context.parent.type || 'null') : 'none';
+                         throw new Error(`B"H: Cannot execute method '${String(method)}' on non-existent object at ${parentH.getPath()} (Parent Type: ${pt})`);
+                    }
+                    
+                    if (parentH.type === constants.TYPE_MAP || parentH.type === constants.TYPE_DICTIONARY) {
+                        if (method === 'set') return parentH.writer.set(...args);
+                        if (method === 'get') return parentH.nav.navigate(...args);
+                        if (method === 'delete') return parentH.writer.delete(...args);
+                        if (method === 'has') return tgt.db.has(parentH, ...args);
+                        if (method === 'entries') return parentH.reader.entries(...args);
+                        if (method === 'keys') return parentH.reader.keys(...args);
+                        if (method === 'values') return parentH.reader.values(...args);
+                    }
+                    
+                    if (parentH.type === constants.TYPE_SEQUENCE) {
+                        if (method === 'set') return parentH.writer.set(...args);
+                        if (method === 'push') return parentH.writer.push(...args);
+                        if (method === 'splice') return parentH.writer.splice(...args);
+                        if (method === 'pop') { 
+                            const len = await parentH.reader.length(); 
+                            if (len === 0) return undefined;
+                            const removed = await parentH.writer.splice(len-1, 1); 
+                            return removed[0];
+                        }
+                        if (method === 'shift') {
+                            const len = await parentH.reader.length();
+                            if (len === 0) return undefined;
+                            const removed = await parentH.writer.splice(0, 1);
+                            return removed[0];
+                        }
+                        if (method === 'unshift') {
+                            await parentH.writer.splice(0, 0, ...args);
+                            return await parentH.reader.length();
+                        }
+                        
+                        if (method === 'slice') return parentH.reader.slice(...args);
+                        if (method === 'entries') return parentH.reader.entries(...args);
+                        if (method === 'keys') return parentH.reader.keys(...args);
+                        if (method === 'values') return parentH.reader.values(...args);
+                        
+                        if (ARRAY_MUTATORS_IN_PLACE.includes(method) || ARRAY_ACCESSORS.includes(method)) {
+                             const arr = await parentH.reader.resolveSelf();
+                             if (!Array.isArray(arr)) throw new Error("Not an array");
+                             const res = arr[method](...args);
+                             if (ARRAY_MUTATORS_IN_PLACE.includes(method)) {
+                                 if (parentH.context && parentH.context.parent) {
+                                     const grandParent = parentH.context.parent[constants.SYMBOLS.INTERNALS] || parentH.context.parent;
+                                     await grandParent.writer.set(parentH.context.key, arr);
+                                 }
+                             }
+                             return res;
+                        }
+                    }
+                }
+
+                if (tgt.ptr) {
+                    const source = await SmartPointer.resolve(tgt.ptr, tgt.db.allocator);
+                    if (typeof source === 'string') {
+                        const fn = new Function('return ' + source)();
+                        if (typeof fn === 'function') return fn.apply(thisArg, args);
+                    }
+                }
+                const pt = tgt.context && tgt.context.parent ? (tgt.context.parent.type || 'null') : 'none';
+                throw new Error(`B"H: Cannot execute undefined function at ${tgt.getPath()} (Type ID: ${tgt.type}, Parent Type: ${pt})`);
             }
         });
     }
 
-    /**
-     * B"H: Lazy Resolution Mechanism.
-     * Ensures this handle has a valid PTR and TYPE by consulting its parent.
-     */
-    async ensureResolved() {
-        if (this.ptr) return; // Already resolved
-        if (this === this.db.root) return; // Root is always resolved
+    async ensureResolved(force = false) {
+        if (this.isUpdatingPointer) return;
 
-        if (this.context && this.context.parent) {
-            // 1. Ensure Parent is resolved
-            await this.context.parent.ensureResolved();
+        return this.db.read(async () => {
+            const gc = this.db.mutationCount || 0;
             
-            // console.log(`B"H LiveHandle.ensureResolved [${this.getPath()}] Parent Resolved. Looking up key: ${this.context.key}`);
-
-            // 2. Ask Parent's Navigator to find our Key
-            const result = await this.context.parent.nav.resolveKey(this.context.key);
-            
-            if (result) {
-                // console.log(`B"H LiveHandle.ensureResolved [${this.getPath()}] FOUND! Type: ${result.type}`);
-                this.ptr = result.ptr;
-                this.type = result.type;
-            } else {
-                // console.log(`B"H LiveHandle.ensureResolved [${this.getPath()}] NOT FOUND.`);
-                // Key does not exist in DB yet.
-                // This is valid for a Handle we are about to write to.
-                // But for reading, it remains unresolved (ptr=null).
+            // B"H: Optimization
+            if (!force && this.lastMutationCount === gc && this.ptr) {
+                return;
             }
-        }
-    }
 
-    static async resolvePointer(ptr, db) {
-        const LH = require('./index.js');
-        const SP = require('../../utils/smartPointer.js');
-        const decoded = SP.decode(ptr);
-        if(!decoded) return null;
-        
-        const temp = new LH(db, ptr, decoded.type, null);
-        return await temp.reader.resolveSelf();
+            let parentChanged = false;
+            let parentH = null;
+            
+            if (this.context && this.context.parent) {
+                parentH = this.context.parent[constants.SYMBOLS.INTERNALS] || this.context.parent;
+                
+                await parentH.ensureResolved(force);
+                
+                const currentParentHash = parentH.ptr ? parentH.ptr.toString('hex') : 'null';
+                if (this.lastParentPtrHash !== currentParentHash) {
+                    parentChanged = true;
+                    this.lastParentPtrHash = currentParentHash;
+                }
+            }
+
+            if (this === this.db.root || this === this.db.root[constants.SYMBOLS.INTERNALS]) {
+                if (this.db.rootPtrRaw) {
+                    if (!this.ptr || Buffer.compare(this.ptr, this.db.rootPtrRaw) !== 0) {
+                        this.ptr = this.db.rootPtrRaw;
+                        const decoded = SmartPointer.decode(this.ptr);
+                        if (decoded) this.type = decoded.type;
+                        this.writer.common.invalidateEngine();
+                    }
+                }
+                this.lastMutationCount = gc;
+                return;
+            }
+
+            if (parentH) {
+                let result = await parentH.nav.resolveKey(this.context.key);
+                
+                // B"H: Retry logic for transient misses in heavy write load
+                if (!result && (force || parentChanged) && (parentH.type === constants.TYPE_DICTIONARY || parentH.type === constants.TYPE_MAP)) {
+                    parentH.writer.common.invalidateEngine();
+                    result = await parentH.nav.resolveKey(this.context.key);
+                }
+
+                if (result) {
+                    this.ptr = result.ptr;
+                    this.type = result.type;
+                } else {
+                    this.ptr = null;
+                    this.type = null; 
+                }
+            }
+            this.lastMutationCount = gc;
+        });
     }
 
     getPath() {
@@ -173,38 +297,64 @@ class LiveHandleV2 {
         let curr = this.context;
         while (curr) {
             parts.unshift(String(curr.key));
-            curr = curr.parent ? curr.parent.context : null;
+            curr = curr.parent ? (curr.parent[constants.SYMBOLS.INTERNALS] || curr.parent).context : null;
         }
         return parts.length > 0 ? parts.join('.') : 'root';
     }
 
     async _updatePointer(newPtrBuffer) {
-        // console.log(`B"H LiveHandle._updatePointer [${this.getPath()}] Updating Pointer...`);
         this.ptr = newPtrBuffer;
-        if (this.context && this.context.parent) {
-            await this.context.parent.ensureResolved();
-            // B"H: Pass options object with skipFree: true to prevent recursive destruction of the old pointer location.
-            // When a structure moves (e.g. Map resize), the old location is cleaned up by the structure itself.
-            // The parent just needs to point to the new location without killing the children (which are shared).
-            await this.context.parent.writer._setRaw(this.context.key, newPtrBuffer, { isPtr: true, skipFree: true });
-        } else if (this.db.root === this) {
-            // console.log(`B"H LiveHandle._updatePointer [ROOT] Updating SuperBlock...`);
-            const decoded = SmartPointer.decode(newPtrBuffer);
-            if (decoded && decoded.mode === constants.MODE_BLOCK) {
-                const blockId = require('../../utils/binaryHelpers.js').readPointer48(decoded.payload, 0);
-                const len = decoded.payload.readUInt32BE(6);
-                const off = decoded.payload.readUInt32BE(10);
-                const isChain = decoded.payload.readUInt8(14) === 1;
-                
-                await this.db.allocator.v1.updateSuperBlock((sb) => {
-                    require('../../utils/binaryHelpers.js').writePointer48(sb, blockId, 64);
-                    sb.writeUInt32BE(len, 70);
-                    sb.writeUInt32BE(off, 74);
-                    sb.writeUInt8(isChain ? 1 : 0, 78);
-                });
-                this.db.rootBlockId = blockId;
-            }
+        const decoded = SmartPointer.decode(newPtrBuffer);
+        if(decoded) this.type = decoded.type;
+
+        this.isUpdatingPointer = true;
+        
+        if (this.db) {
+            this.db.mutationCount = (this.db.mutationCount || 0) + 1;
+            this.lastMutationCount = this.db.mutationCount; 
         }
+
+        try {
+            if (this.context && this.context.parent) {
+                const parentH = this.context.parent[constants.SYMBOLS.INTERNALS] || this.context.parent;
+                // B"H: Optimization - We know parent exists, skip ensureResolved to prevent cycle? 
+                // No, we must ensure parent pointer is current before writing.
+                await parentH.ensureResolved(true); 
+                
+                await parentH.writer._setRaw(this.context.key, newPtrBuffer, { isPtr: true, skipFree: true });
+                if(parentH.ptr) this.lastParentPtrHash = parentH.ptr.toString('hex');
+                
+            } else if (this.db.root === this || this.db.root[constants.SYMBOLS.INTERNALS] === this) {
+                if (decoded && decoded.mode === constants.MODE_BLOCK) {
+                    const blockId = require('../../utils/binaryHelpers.js').readPointer48(decoded.payload, 0);
+                    const len = decoded.payload.readUInt32BE(6);
+                    const off = decoded.payload.readUInt32BE(10);
+                    const isChain = decoded.payload.readUInt8(14) === 1;
+                    
+                    this.db.rootPtrRaw = newPtrBuffer;
+                    this.db.rootBlockId = blockId;
+
+                    await this.db.allocator.v1.updateSuperBlock((sb) => {
+                        require('../../utils/binaryHelpers.js').writePointer48(sb, blockId, 64);
+                        sb.writeUInt32BE(len, 70);
+                        sb.writeUInt32BE(off, 74);
+                        sb.writeUInt8(isChain ? 1 : 0, 78);
+                    });
+                }
+            }
+        } finally {
+            this.isUpdatingPointer = false;
+        }
+    }
+    
+    static async resolvePointer(ptr, db) {
+        const LH = require('./index.js');
+        const SP = require('../../utils/smartPointer.js');
+        const decoded = SP.decode(ptr);
+        if(!decoded) return null;
+        const temp = new LH(db, ptr, decoded.type, null);
+        const internal = temp[constants.SYMBOLS.INTERNALS];
+        return await internal.reader.resolveSelf();
     }
 }
 module.exports = LiveHandleV2;

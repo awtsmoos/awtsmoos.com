@@ -25,10 +25,15 @@ class Navigator {
         return new LH(this.db, null, null, { parent: this.handle, key });
     }
 
+    _encodeNumber(num) {
+        const buf = Buffer.alloc(8);
+        buf.writeDoubleBE(num, 0);
+        return buf;
+    }
+
     // B"H: Asynchronous - Actually looks up the key in the Structure
     async resolveKey(key) {
         const path = this.handle.getPath();
-        // this.log(`resolveKey [${path}] Looking for '${key}'...`);
         await this.handle.ensureResolved();
         
         // If parent handle has no pointer, it doesn't exist, so child can't exist.
@@ -39,9 +44,6 @@ class Navigator {
 
         let structPtr = null;
         
-        // B"H: FIX - Manually decode pointer to get struct location.
-        // Do NOT use SmartPointer.resolve() because it hydrates TYPE_CUSTOM_INSTANCE into a JS object,
-        // preventing us from reading the raw block to find properties.
         if (this.handle.ptr) {
              const decoded = SmartPointer.decode(this.handle.ptr);
              if (decoded && decoded.mode === constants.MODE_BLOCK) {
@@ -71,7 +73,6 @@ class Navigator {
         }
 
         if (!structPtr) {
-             this.log(`resolveKey [${path}] StructPtr is Null!`);
              return null;
         }
 
@@ -79,19 +80,15 @@ class Navigator {
         
         // --- 1. Dictionary Lookup ---
         if (this.handle.type === constants.TYPE_DICTIONARY) {
+            // B"H: Attempt reuse from Writer (Hot Cache)
+            let dict = await this.handle.writer.common.getEngine(structPtr, constants.TYPE_DICTIONARY);
+            if (!dict) dict = new Dictionary(this.db.allocator, structPtr);
+            
             const encodedKey = keyEncoding.encode(key);
-            const dict = new Dictionary(this.db.allocator, structPtr);
             valPtr = await dict.getPtr(encodedKey);
         } 
         // --- 2. Custom Instance Lookup ---
         else if (this.handle.type === constants.TYPE_CUSTOM_INSTANCE) {
-            // A Custom Instance block contains: [NameStr][SourceStr][DictPtr(16 bytes)]
-            // We need to extract the DictPtr to look up properties.
-            
-            // B"H: Read the raw block. structPtr points to the meta block.
-            // Note: If MODE_HEAP, readBlockLocked/ChainSafe handles it differently usually, 
-            // but CustomInstances are almost always MODE_BLOCK due to size.
-            
             let blockData;
             if (structPtr.isHeap) {
                 const blk = await this.db.allocator.readBlock(structPtr.blockId);
@@ -108,11 +105,8 @@ class Navigator {
                 const sourceInfo = serializer.readString(blockData, offset);
                 offset += sourceInfo.bytesRead;
                 
-                // Dict Pointer is next 16 bytes
                 if (offset + 16 <= blockData.length) {
                     const dictPtrBuf = blockData.subarray(offset, offset + 16);
-                    
-                    // Decode this pointer to get the Dictionary Structure Location
                     const dictDecoded = SmartPointer.decode(dictPtrBuf);
                     if (dictDecoded && dictDecoded.mode === constants.MODE_BLOCK) {
                         const dictStruct = {
@@ -131,36 +125,50 @@ class Navigator {
         }
         // --- 3. Map Lookup ---
         else if (this.handle.type === constants.TYPE_MAP) {
+            // B"H: Support 'size' for Maps (mirrors JS Map.size)
+            if (key === 'size') {
+                // Reuse engine to get stats quickly
+                let map = await this.handle.writer.common.getEngine(structPtr, constants.TYPE_MAP);
+                if(!map) map = new MapEngine(this.db.allocator, structPtr);
+                
+                const stats = await map.stats();
+                const ptr = SmartPointer.inline(constants.TYPE_NUMBER, this._encodeNumber(stats.count));
+                return { ptr, type: constants.TYPE_NUMBER };
+            }
+            
+            // B"H: Attempt reuse from Writer (Hot Cache)
+            let map = await this.handle.writer.common.getEngine(structPtr, constants.TYPE_MAP);
+            if (!map) map = new MapEngine(this.db.allocator, structPtr);
+
             const encodedKey = keyEncoding.encode(key);
-            const map = new MapEngine(this.db.allocator, structPtr);
             valPtr = await map.getPtr(encodedKey);
-            if (!valPtr) this.log(`resolveKey [${path}] Map Lookup '${encodedKey}' FAILED in B${structPtr.blockId}.`);
         }
-        // --- 4. Sequence Lookup (Index Access) ---
+        // --- 4. Sequence Lookup (Index Access & Length) ---
         else if (this.handle.type === constants.TYPE_SEQUENCE) {
+            let seq = await this.handle.writer.common.getEngine(structPtr, constants.TYPE_SEQUENCE);
+            if (!seq) seq = new Sequence(this.db.allocator, structPtr);
+
+            if (key === 'length') {
+                const len = await seq.length();
+                const ptr = SmartPointer.inline(constants.TYPE_NUMBER, this._encodeNumber(len));
+                return { ptr, type: constants.TYPE_NUMBER };
+            }
             const idx = parseInt(key);
             if (!isNaN(idx)) {
-                const seq = new Sequence(this.db.allocator, structPtr);
                 valPtr = await seq.getPtr(idx);
             }
         }
         // --- 5. JSON Blob (No structural navigation) ---
         else if (this.handle.type === constants.TYPE_JSON) {
-            // Cannot navigate structurally into a JSON blob pointer.
             return null;
-        }
-        else {
-            this.log(`resolveKey [${path}] Unknown Handle Type: ${this.handle.type} (StructPtr: ${JSON.stringify(structPtr)})`);
         }
 
         if (!valPtr) {
-            // this.log(`resolveKey [${path}] Key '${key}' NOT FOUND in Block B${structPtr ? structPtr.blockId : '?'}. HandleType=${this.handle.type}`);
             return null;
         }
 
         const decoded = SmartPointer.decode(valPtr);
         if (decoded) {
-            // this.log(`resolveKey [${path}] FOUND '${key}' -> Type ${decoded.type}`);
             return { ptr: valPtr, type: decoded.type };
         }
         

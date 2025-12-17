@@ -1,5 +1,4 @@
 
-
 // B"H
 const HNSW = require('./hnsw.js');
 const VectorStorage = require('./storage.js');
@@ -11,30 +10,34 @@ const Sequence = require('../../structure/sequence/index.js');
 class VectorManager {
     constructor(db) {
         this.db = db;
-        this.sysVector = null;
         this.indexes = new Map(); 
     }
 
-    async _init() {
-        if (this.sysVector) return;
-        const hasSys = await this.db.root.has("__sys_vector__");
-        if (!hasSys) {
-            await this.db.root.createMap("__sys_vector__");
+    async _ensureSysVector() {
+        if (!this.db.root.__sys_vector__) {
+             const hasSys = await this.db.has(this.db.root, "__sys_vector__");
+             if (!hasSys) {
+                 await this.db.createMap(this.db.root, "__sys_vector__");
+             }
         }
-        this.sysVector = this.db.root.__sys_vector__;
     }
 
-    async enableVectorIndex(path, options = {}) {
-        await this._init();
-        const existing = await this.sysVector.get(path);
+    async enable(handle, options = {}) {
+        await this._ensureSysVector();
+        const sysVector = this.db.root.__sys_vector__;
         
-        // Always ensure meta exists
+        const h = handle[constants.SYMBOLS.INTERNALS] || handle;
+        await h.ensureResolved(true); // Force resolve target
+        const path = h.getPath();
+
+        const existing = await this.db.has(sysVector, path);
+        
         if (!existing) {
             const regPath = `__reg_${path.replace(/\./g, '_')}`;
-            await this.sysVector.createList(regPath);
+            await this.db.createList(sysVector, regPath);
             
             const mapPath = `__map_${path.replace(/\./g, '_')}`;
-            await this.sysVector.createMap(mapPath);
+            await this.db.createMap(sysVector, mapPath);
 
             const meta = {
                 dim: options.dimensions || 1536,
@@ -43,40 +46,68 @@ class VectorManager {
                 mapPath: mapPath,
                 entryNodeID: -1
             };
-            await this.sysVector.set(path, meta);
+            await sysVector.set(path, meta);
         }
         
-        // B"H: Trigger Backfill/Reindex to index any existing data
+        // B"H: Update Cache
+        this.db.sysCache.vector.add(path);
+        
         await this.reindex(path);
     }
 
     async getIndex(path) {
-        await this._init();
-        if (this.indexes.has(path)) return this.indexes.get(path);
-
-        const meta = await this.sysVector.get(path);
-        if (!meta) return null;
-
-        const registryHandle = this.sysVector[meta.regPath];
-        const mapHandle = this.sysVector[meta.mapPath];
+        const sysVector = this.db.root.__sys_vector__;
         
-        if (!registryHandle || !mapHandle) return null;
+        if (this.indexes.has(path)) {
+            const idx = this.indexes.get(path);
+            await idx.registryHandle.ensureResolved(true);
+            await idx.keyMap.ensureResolved(true);
+            return idx;
+        }
+
+        const metaH = sysVector[path];
+        const internalMetaH = metaH[constants.SYMBOLS.INTERNALS] || metaH;
+        await internalMetaH.ensureResolved(true);
+        
+        if (!internalMetaH.ptr) {
+             return null;
+        }
+
+        const meta = await metaH; // resolve value
+        
+        if (!meta) {
+             return null;
+        }
+
+        if (!meta.regPath || !meta.mapPath) {
+             if (this.db.debug) console.warn(`B"H VectorManager: Corrupt metadata for ${path} (missing paths).`);
+             return null;
+        }
+
+        const registryHandle = sysVector[meta.regPath];
+        const mapHandle = sysVector[meta.mapPath];
+        
+        await registryHandle.ensureResolved(true);
+        await mapHandle.ensureResolved(true);
+        
+        if (!registryHandle.ptr) {
+             if (this.db.debug) console.warn(`B"H VectorManager: Registry ${meta.regPath} missing (Ptr Null). Corruption possible.`);
+             return null;
+        }
 
         const hnsw = new HNSW(this.db, registryHandle, mapHandle, meta);
         
-        // B"H: Wrap Insert to persist meta changes (Entry Node updates)
         const originalInsert = hnsw.insert.bind(hnsw);
         hnsw.insert = async (key, vec, payload) => {
             const oldEntryID = hnsw.meta.entryNodeID;
             const res = await originalInsert(key, vec, payload);
             if (oldEntryID !== hnsw.meta.entryNodeID) {
                 meta.entryNodeID = hnsw.meta.entryNodeID;
-                await this.sysVector.set(path, meta);
+                await sysVector.set(path, meta);
             }
             return res;
         };
 
-        // B"H: Wrap Delete to persist meta changes (Entry Node updates on deletion)
         const originalDelete = hnsw.delete.bind(hnsw);
         hnsw.delete = async (key) => {
             const oldEntryID = hnsw.meta.entryNodeID;
@@ -84,7 +115,7 @@ class VectorManager {
             if (oldEntryID !== hnsw.meta.entryNodeID) {
                 if (this.db.debug) console.log(`B"H VectorManager: Persisting new Entry Node ID: ${hnsw.meta.entryNodeID}`);
                 meta.entryNodeID = hnsw.meta.entryNodeID;
-                await this.sysVector.set(path, meta);
+                await sysVector.set(path, meta);
             }
         };
 
@@ -93,51 +124,66 @@ class VectorManager {
     }
 
     async insert(path, key, vector, payload) {
-        const index = await this.getIndex(path);
-        if (!index) return;
-        let vec = vector;
-        if (Array.isArray(vector)) vec = new Float32Array(vector);
-        await index.insert(key, vec, payload);
-        // B"H: Ensure immediate flush for consistency in tests
-        await index.flushCache();
+        this.db._pendingIndexOps.push(async () => {
+            try {
+                const index = await this.getIndex(path);
+                if (!index) return;
+                let vec = vector;
+                if (Array.isArray(vector)) vec = new Float32Array(vector);
+                await index.insert(key, vec, payload);
+            } catch(e) {
+                console.error("B\"H Background Vector Insert Failed:", e);
+            }
+        });
     }
 
     async delete(path, key) {
-        const index = await this.getIndex(path);
-        if (!index) return;
-        await index.delete(key);
-        // B"H: Ensure immediate flush
-        await index.flushCache();
+        this.db._pendingIndexOps.push(async () => {
+            try {
+                const index = await this.getIndex(path);
+                if (!index) return;
+                await index.delete(key);
+            } catch(e) {
+                console.error("B\"H Background Vector Delete Failed:", e);
+            }
+        });
     }
 
-    async nearest(path, queryVector, k = 5) {
+    async nearest(handle, queryVector, k = 5) {
+        await this.db._flushBackgroundTasks();
+
+        const h = handle[constants.SYMBOLS.INTERNALS] || handle;
+        const path = h.getPath ? h.getPath() : handle; 
+
         const index = await this.getIndex(path);
-        if (!index) throw new Error(`Vector index not found for ${path}`);
+        if (!index) {
+             return [];
+        }
         
         await index.flushCache();
-
-        // B"H: Self-Healing Entry Point
         await index._validateEntryPoint();
 
         let vec = queryVector;
         if (Array.isArray(queryVector)) vec = new Float32Array(queryVector);
 
-        // B"H: Check if entry node is valid
+        if (index.registryPtrs.length === 0 || index.entryNodeID === -1) {
+             const size = await this.db.size(h);
+             if (size > 0) {
+                 if (this.db.debug) console.warn(`B"H VectorManager: Index empty but data exists (${size} items). Triggering Auto-Reindex for ${path}.`);
+                 await this.reindex(path);
+                 await index._validateEntryPoint();
+             }
+        }
+
         if (index.entryNodeID === -1 || index.entryNodeID === undefined) {
              return [];
         }
 
         const entryNode = await index._getNode(index.entryNodeID);
-        if (!entryNode) {
-            if (this.db.debug) console.warn(`B"H Vector: Entry Node ${index.entryNodeID} load failed.`);
-            return [];
-        }
+        if (!entryNode) return [];
 
-        // B"H: Increase ef_search for better recall, especially with tombstones
         const ef = Math.max(k * 2, 100);
-        
         const results = await index._searchLayer(entryNode, vec, ef, 0); 
-        
         const topK = results.slice(0, k);
         
         const hydrated = [];
@@ -149,22 +195,21 @@ class VectorManager {
         return hydrated;
     }
 
-    // B"H: Backfill Logic
     async reindex(path) {
         const index = await this.getIndex(path);
         if (!index) return;
 
-        // Traverse the data at 'path' and insert into HNSW
-        // 1. Resolve Path Handle
         const parts = [];
         const rawParts = path.split('.');
         for(const p of rawParts) if (p !== 'root') parts.push(p);
 
-        let curr = this.db.root;
+        let curr = this.db.root[constants.SYMBOLS.INTERNALS] || this.db.root;
         for (let i = 0; i < parts.length; i++) {
-            curr = curr.get(parts[i]); 
-            await curr.ensureResolved(); 
-            if (!curr.ptr) return; // Path doesn't exist
+            const next = curr.nav.navigate(parts[i]); 
+            const nextInt = next[constants.SYMBOLS.INTERNALS] || next;
+            await nextInt.ensureResolved(); 
+            if (!nextInt.ptr) return; 
+            curr = nextInt;
         }
 
         const ptr = curr.ptr;
@@ -189,12 +234,10 @@ class VectorManager {
             let value = item.value;
             let key = item.key;
 
-            // B"H: If value is missing (MapEngine.iterateRaw only yields ptr), resolve it.
             if (value === undefined && ptr) {
                 value = await SmartPointer.resolve(ptr, this.db.allocator);
             }
 
-            // Normalize Key
             let keyStr = count;
             if (key !== undefined) {
                 keyStr = Buffer.isBuffer(key) ? key.toString('utf8') : String(key);
@@ -230,7 +273,6 @@ class VectorManager {
     }
 
     async _hydrateForIndex(val) {
-        // Reuse SearchManager's hydration logic or simplified version
         if (val && (val.isStructure || (Buffer.isBuffer(val) && val.length === 16))) {
              return await this.db.search._hydrateStructure(val);
         }

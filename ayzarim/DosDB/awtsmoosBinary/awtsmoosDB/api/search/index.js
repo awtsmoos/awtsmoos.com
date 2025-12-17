@@ -13,43 +13,49 @@ const SearchIndexer = require('./indexer.js');
 class SearchManager {
     constructor(db) {
         this.db = db;
-        // B"H: Do not cache sysIndex permanently to avoid stale pointers if root moves
     }
 
-    // B"H: Changed to _ensureSysIndex to prevent Thenable unwrapping of LiveHandle
     async _ensureSysIndex() {
-        const hasSys = await this.db.root.has("__sys_search__");
+        const hasSys = await this.db.has(this.db.root, "__sys_search__");
         if (!hasSys) {
-            await this.db.root.createMap("__sys_search__");
+            await this.db.createMap(this.db.root, "__sys_search__");
         }
     }
 
-    async enableIndex(path) {
+    async enable(handle) {
         await this._ensureSysIndex();
-        const sysIndex = this.db.root.__sys_search__; // Get Handle synchronously
-        const existing = sysIndex.get(path);
-        await existing.ensureResolved();
-        if (!existing.ptr) {
-            await sysIndex.createMap(path);
+        
+        const h = handle[constants.SYMBOLS.INTERNALS] || handle;
+        await h.ensureResolved();
+        const path = h.getPath();
+        
+        const sysIndex = this.db.root.__sys_search__;
+        if (!await this.db.has(sysIndex, path)) {
+            await this.db.createMap(sysIndex, path);
         }
+        
+        // B"H: Update Fast Cache
+        this.db.sysCache.search.add(path);
+        
         await this.reindex(path);
     }
 
     async isIndexed(path) {
-        await this._ensureSysIndex();
-        const sysIndex = this.db.root.__sys_search__; // Get Handle synchronously
-        const idx = sysIndex.get(path);
-        await idx.ensureResolved();
-        return !!idx.ptr;
+        // B"H: Use Fast Cache
+        if (this.db.sysCache.loaded) {
+            return this.db.sysCache.search.has(path);
+        }
+        
+        const sysIndex = this.db.root.__sys_search__;
+        if (!sysIndex) return false;
+        return await this.db.has(sysIndex, path);
     }
 
-    // Hydrate a structure pointer into a JS object/array
     async _hydrateStructure(val, context = new Map()) {
         if (!val) return val;
         
         let descriptor = val;
 
-        // Handle Pointer Buffer passed directly (Manual Resolve)
         if (Buffer.isBuffer(val) && val.length === 16) {
              const decoded = SmartPointer.decode(val);
              if (decoded && decoded.mode === constants.MODE_BLOCK) {
@@ -85,8 +91,8 @@ class SearchManager {
                         obj[realKey] = v;
                     }
                 } catch(e) {
-                    if (this.db.debug) console.error("B\"H Search: Error iterating Dictionary keys:", e);
-                    return undefined; // Mark as invalid
+                    if (this.db.debug) console.warn(`B"H Search: Error iterating Dictionary keys in hydration: ${e.message}`);
+                    return undefined; 
                 }
                 return obj;
             }
@@ -137,7 +143,7 @@ class SearchManager {
             }
         } catch(e) {
             if (this.db.debug) console.error("B\"H Search: Structure Hydration Fatal Error:", e);
-            return undefined; // Return undefined on error to signal invalid/freed data
+            return undefined;
         }
 
         return descriptor;
@@ -162,11 +168,13 @@ class SearchManager {
             if (p !== 'root') parts.push(p);
         }
 
-        let curr = this.db.root;
+        let curr = this.db.root[constants.SYMBOLS.INTERNALS] || this.db.root;
         for (let i = 0; i < parts.length; i++) {
-            curr = curr.get(parts[i]); 
-            await curr.ensureResolved(); 
-            if (!curr.ptr) return; 
+            const next = curr.nav.navigate(parts[i]); 
+            const nextInt = next[constants.SYMBOLS.INTERNALS] || next;
+            await nextInt.ensureResolved(); 
+            if (!nextInt.ptr) return; 
+            curr = nextInt;
         }
 
         const ptr = curr.ptr;
@@ -185,10 +193,8 @@ class SearchManager {
             return;
         }
 
-        // B"H: Correctly handle iterator result
         for await (const item of iterator) {
             const ptr = item.ptr;
-            // Resolve the value from the pointer to index it
             const val = await SmartPointer.resolve(ptr, this.db.allocator);
             const hydrated = await this._hydrateForIndex(val);
             
@@ -198,33 +204,50 @@ class SearchManager {
         }
     }
 
-    // Proxy to Indexer
     async updateIndex(path, newPtr, oldPtr, oldVal, newVal) {
-        await this._ensureSysIndex();
-        const sysIndex = this.db.root.__sys_search__;
-        
-        const indexer = new SearchIndexer(this.db, sysIndex);
-        return indexer.updateIndex(path, newPtr, oldPtr, oldVal, newVal);
+        this.db._pendingIndexOps.push(async () => {
+            try {
+                await this._ensureSysIndex();
+                const sysIndex = this.db.root.__sys_search__;
+                const indexer = new SearchIndexer(this.db, sysIndex);
+                await indexer.updateIndex(path, newPtr, oldPtr, oldVal, newVal);
+            } catch(e) {
+                console.error("B\"H Background Search Index Update Failed:", e);
+            }
+        });
     }
 
-    async search(path, query) {
-        if (!await this.isIndexed(path)) throw new Error(`Path ${path} is not indexed. Call .enableSearch() first.`);
+    async run(handleOrPath, query) {
+        await this.db._flushBackgroundTasks();
+
+        let path = handleOrPath;
+        if (typeof handleOrPath !== 'string') {
+             const h = handleOrPath[constants.SYMBOLS.INTERNALS] || handleOrPath;
+             if (h.getPath) path = h.getPath();
+             else throw new Error("Invalid Handle or Path");
+        }
+
+        if (!await this.isIndexed(path)) throw new Error(`Path ${path} is not indexed. Call db.search.enable(handle) first.`);
 
         await this._ensureSysIndex();
         const sysIndex = this.db.root.__sys_search__;
-        const indexMap = sysIndex.get(path);
+        const indexMap = sysIndex[path];
+        
         const queryTokens = [...tokenizer.tokenize(query)];
         if (queryTokens.length === 0) return [];
 
         const firstWord = queryTokens[0];
-        const candidatesHandle = indexMap.get(firstWord);
-        await candidatesHandle.ensureResolved();
+        const candidatesHandle = indexMap[firstWord];
         
-        if (!candidatesHandle.ptr) return [];
+        const exists = await this.db.has(indexMap, firstWord);
+        if (!exists) return [];
 
         let resultPtrs = [];
         
-        const firstRes = await SmartPointer.resolve(candidatesHandle.ptr, this.db.allocator);
+        const h = candidatesHandle[constants.SYMBOLS.INTERNALS] || candidatesHandle;
+        await h.ensureResolved();
+        
+        const firstRes = await SmartPointer.resolve(h.ptr, this.db.allocator);
         const firstSeq = new Sequence(this.db.allocator, firstRes);
         const len = await firstSeq.length();
         
@@ -237,14 +260,15 @@ class SearchManager {
             if (resultPtrs.length === 0) return [];
 
             const word = queryTokens[i];
-            const listHandle = indexMap.get(word);
-            await listHandle.ensureResolved();
-            if (!listHandle.ptr) {
-                return []; 
-            }
+            
+            if (!await this.db.has(indexMap, word)) return [];
+            
+            const listHandle = indexMap[word];
+            const lh = listHandle[constants.SYMBOLS.INTERNALS] || listHandle;
+            await lh.ensureResolved();
 
             const currentListHex = new Set();
-            const listRes = await SmartPointer.resolve(listHandle.ptr, this.db.allocator);
+            const listRes = await SmartPointer.resolve(lh.ptr, this.db.allocator);
             const listSeq = new Sequence(this.db.allocator, listRes);
             const l = await listSeq.length();
             
@@ -266,7 +290,6 @@ class SearchManager {
             
             try {
                 let resolved = undefined;
-                
                 let tempResolved = await SmartPointer.resolve(ptr, this.db.allocator, hydrationContext);
                 
                 if (tempResolved && tempResolved.isStructure) {
@@ -277,23 +300,18 @@ class SearchManager {
                     resolved = tempResolved;
                 }
                 
-                // Strict Filter: Reject Buffers that claim to be structures but weren't hydrated
-                // B"H: Safety - Check if resolved is still a pointer to a freed block
                 if (Buffer.isBuffer(resolved) && resolved.length === 16) {
                     const decoded = SmartPointer.decode(resolved);
                     if (decoded && (decoded.type === constants.TYPE_DICTIONARY || decoded.type === constants.TYPE_MAP || decoded.type === constants.TYPE_SEQUENCE)) {
-                        // Unhydrated structure pointer -> likely freed or corrupted. Skip.
                         continue;
                     }
                 }
 
-                // B"H: Explicit check against undefined/null results from failed hydration
                 if (resolved !== undefined && resolved !== null) {
                     objects.push(resolved);
                 }
                 
             } catch (e) {
-                // B"H: If hydration fails (e.g. block corrupted/freed), we MUST ignore this result.
                 if (this.db.debug) console.warn(`B"H Search: Skipped result due to read error: ${e.message}`);
             }
         }

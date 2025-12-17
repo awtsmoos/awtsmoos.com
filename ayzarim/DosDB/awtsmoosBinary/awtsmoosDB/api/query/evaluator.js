@@ -1,7 +1,7 @@
 
 // B"H
 const operators = require('./operators.js');
-const keyEncoding = require('../../utils/keyEncoding.js');
+const constants = require('../../constants.js');
 
 class FilterEvaluator {
     constructor(db) {
@@ -31,16 +31,12 @@ class FilterEvaluator {
             const condition = criteria[key];
             const value = await this._resolvePath(item, key);
 
-            // B"H: Debug match failure
-            // if (key === 'name' && value === 'Bob') console.log(`B"H Evaluator Matched Bob!`);
-
             if (condition && typeof condition === 'object' && condition.$relatedTo) {
                 const match = await this._checkGraphRelationship(item, condition.$relatedTo);
                 if (!match) return false;
                 continue;
             }
             if (!this._compare(value, condition)) {
-                // console.log(`B"H Evaluator Mismatch: Key=${key} Val=${value} Cond=${JSON.stringify(condition)}`);
                 return false;
             }
         }
@@ -60,27 +56,29 @@ class FilterEvaluator {
     }
 
     async _getValue(obj, key) {
-        // B"H: Robust check for LiveHandle
-        if (obj && obj.isLiveHandle) {
-            // 1. Try Structural Navigation (Map/Dict/Seq)
-            const childHandle = obj.nav.navigate(key);
-            await childHandle.ensureResolved(); // Check if valid pointer exists
+        // B"H: Robust check for LiveHandle via Proxy or Internal
+        const h = obj && obj[constants.SYMBOLS.INTERNALS] ? obj[constants.SYMBOLS.INTERNALS] : obj;
+        
+        if (h && h.isLiveHandle) {
+            // 1. Try Structural Navigation
+            const childHandle = h.nav.navigate(key);
+            // Internal handle check
+            const childInt = childHandle[constants.SYMBOLS.INTERNALS];
+            await childInt.ensureResolved(); 
             
-            // Note: `await` on a LiveHandle automatically triggers `then()` which calls `resolveSelf()`.
-            if (childHandle.ptr) {
-                 return await childHandle.reader.resolveSelf();
+            if (childInt.ptr) {
+                 return await childInt.reader.resolveSelf();
             }
             
-            // 2. Fallback: If navigation failed (e.g., obj is a TYPE_JSON blob), 
-            // resolve the object itself and access the property directly.
-            const resolvedObj = await obj.reader.resolveSelf();
+            // 2. Fallback
+            const resolvedObj = await h.reader.resolveSelf();
             if (resolvedObj && typeof resolvedObj === 'object') {
                 return resolvedObj[key];
             }
             
             return undefined;
         }
-        return obj[key];
+        return obj ? obj[key] : undefined;
     }
 
     _compare(value, condition) {
@@ -98,17 +96,18 @@ class FilterEvaluator {
     }
 
     async _checkGraphRelationship(sourceHandle, criteria) {
-        // B"H: Safety Check - if sourceHandle is not a LiveHandle, it has no graph identity.
-        if (!sourceHandle || !sourceHandle.isLiveHandle) return false;
+        const h = sourceHandle && sourceHandle[constants.SYMBOLS.INTERNALS] ? sourceHandle[constants.SYMBOLS.INTERNALS] : sourceHandle;
+        if (!h || !h.isLiveHandle) return false;
 
         const direction = criteria.direction || 'BOTH';
         const label = criteria.label || null;
         
-        if (!sourceHandle.relationships) {
-            return false;
-        }
+        // Access via db manager because handle.relationships might be hidden or this is internal handle
+        // Wait, handle.relationships IS exposed on Proxy but h is internal handle.
+        // Internal handle doesn't have `relationships` method (it's in Proxy get trap).
+        // So we use db.graph.getRelationships directly.
         
-        const edges = await sourceHandle.relationships(direction, label);
+        const edges = await this.db.graph.getRelationships(h, direction, label);
         
         if (!criteria.match) return edges.length > 0;
         

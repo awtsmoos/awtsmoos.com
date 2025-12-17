@@ -1,4 +1,6 @@
 
+
+
 // B"H
 const VectorStorage = require('./storage.js');
 const { getMetric } = require('./math.js');
@@ -6,6 +8,7 @@ const SmartPointer = require('../../utils/smartPointer.js');
 const BinaryHeap = require('../../utils/binaryHeap.js');
 const Sequence = require('../../structure/sequence/index.js');
 const { readPointer48 } = require('../../utils/binaryHelpers.js');
+const ReadWriteLock = require('../../core/concurrency.js'); // B"H: Use existing lock class
 
 const M = 12; 
 const M_MAX0 = 24; 
@@ -29,20 +32,29 @@ class HNSW {
         
         // B"H: Optimization - Registry Cache (ID -> Buffer Pointer)
         this.registryPtrs = []; 
+        
+        // B"H: Concurrency Control
+        this.lock = new ReadWriteLock();
     }
 
     async _initRegistryCache() {
-        // Only load if empty
-        if (this.registryPtrs.length > 0) return;
+        // Only load if empty and we haven't checked yet (length could naturally be 0)
+        // We use a flag to know if we initialized
+        if (this._registryInitialized) return;
         
-        await this.registryHandle.ensureResolved();
+        // B"H: Force resolution from disk to ensure we see latest structure
+        await this.registryHandle.ensureResolved(true);
+        
         if (this.registryHandle.ptr) {
             const ptr = await SmartPointer.resolve(this.registryHandle.ptr, this.db.allocator);
             const engine = new Sequence(this.db.allocator, ptr);
             const len = await engine.length();
             this.registryPtrs.length = len; // Pre-size
-            if (this.db.debug) console.log(`B"H HNSW Registry Init. Length: ${len}`);
+            // if (this.db.debug) console.log(`B"H HNSW Registry Init. Length: ${len}`);
+        } else {
+             // if (this.db.debug) console.warn("B\"H HNSW: Registry Pointer Null during init!");
         }
+        this._registryInitialized = true;
     }
 
     async _getRegistryPtr(index) {
@@ -51,11 +63,12 @@ class HNSW {
         
         await this._initRegistryCache();
         
-        // B"H: FIX - Do NOT use reader.getItem() because it hydrates the CustomInstance (VectorNode),
-        // which triggers Dictionary reads and fails if the node is corrupted or not a standard object.
-        // We just want the raw pointer Buffer to pass to storage.loadNode.
+        // If still undefined, try fetch from handle (lazy load if sparse)
+        // B"H: CRITICAL FIX - Use bracket access [index] which works for Sequence LiveHandle.
+        // .get(index) is not a function on Sequence proxy.
+        const childHandle = this.registryHandle[index];
         
-        const childHandle = this.registryHandle.get(index);
+        // Ensure child handle resolves (navigates sequence)
         await childHandle.ensureResolved();
         const ptr = childHandle.ptr;
         
@@ -75,13 +88,17 @@ class HNSW {
         ptr.copy(copy);
         this.registryPtrs[index] = copy;
         
-        // B"H: Use Handle methods to ensure persistence chain is updated (sysVector -> registry)
-        const len = await this.registryHandle.length;
+        // B"H: CRITICAL PERSISTENCE FIX
+        // Check ACTUAL length from disk handle to determine push vs set.
+        // In-memory `this.registryPtrs.length` might be stale if other processes/handles modified it
+        // or if init was partial.
         
-        if (index >= len) {
-            await this.registryHandle.push(copy, { isPtr: true });
+        const currentLen = await this.registryHandle.length; 
+        
+        if (index >= currentLen) { 
+             await this.registryHandle.push(copy, { isPtr: true });
         } else {
-            await this.registryHandle.set(index, copy, { isPtr: true });
+             await this.registryHandle.set(index, copy, { isPtr: true });
         }
     }
 
@@ -123,103 +140,107 @@ class HNSW {
     }
 
     async insert(key, vector, payloadPtr) {
-        const existingNodeID = await this.keyMap.get(String(key));
-        if (existingNodeID !== undefined) {
-            const oldNode = await this._getNode(existingNodeID);
-            if (oldNode) {
-                oldNode.deleted = true;
-                this.dirtyNodes.add(oldNode.id); // Mark dirty instead of saving immediately
+        // B"H: ATOMIC INSERTION
+        // We must lock the insert process to ensure unique ID allocation and consistent graph updates.
+        return this.lock.runWrite(async () => {
+            const existingNodeID = await this.keyMap.get(String(key));
+            if (existingNodeID !== undefined) {
+                const oldNode = await this._getNode(existingNodeID);
+                if (oldNode) {
+                    oldNode.deleted = true;
+                    this.dirtyNodes.add(oldNode.id); // Mark dirty instead of saving immediately
+                }
             }
-        }
 
-        const level = Math.floor(-Math.log(Math.random()) * ML);
-        
-        // Ensure cache is synced
-        await this._initRegistryCache();
-        
-        // ID is next index
-        const nodeId = this.registryPtrs.length; 
-        
-        // Create initial node structure in memory
-        const newNodePtr = await this.storage.createNode(vector, level, payloadPtr, nodeId);
-        
-        // Set Registry (This updates the sequence on disk and in memory cache)
-        await this._setRegistryPtr(nodeId, newNodePtr);
-        
-        await this.keyMap.set(String(key), nodeId); // B"H: Persist Key Mapping
-        
-        const newNode = await this.storage.loadNode(newNodePtr); 
-        this.nodeCache.set(nodeId, newNode);
-        this.dirtyNodes.add(nodeId); 
-        
-        if (this.db.debug) console.log(`[HNSW-DEBUG] Insert Node ${nodeId} (Key: ${key}) Level: ${level}`);
+            const level = Math.floor(-Math.log(Math.random()) * ML);
+            
+            // Ensure cache is synced
+            await this._initRegistryCache();
+            
+            // ID is next index. CRITICAL: Lock prevents race here.
+            const nodeId = this.registryPtrs.length; 
+            
+            // Create initial node structure in memory
+            const newNodePtr = await this.storage.createNode(vector, level, payloadPtr, nodeId);
+            
+            // Set Registry (This updates the sequence on disk and in memory cache)
+            await this._setRegistryPtr(nodeId, newNodePtr);
+            
+            await this.keyMap.set(String(key), nodeId); // B"H: Persist Key Mapping
+            
+            const newNode = await this.storage.loadNode(newNodePtr); 
+            this.nodeCache.set(nodeId, newNode);
+            this.dirtyNodes.add(nodeId); 
+            
+            // if (this.db.debug) console.log(`[HNSW-DEBUG] Insert Node ${nodeId} (Key: ${key}) Level: ${level}`);
 
-        let currObj = await this._getNode(this.entryNodeID);
-        
-        // B"H: If entry node is missing (uninitialized), set it.
-        // Note: currObj might be deleted (tombstone), which is fine for traversal start.
-        if (!currObj) {
-            this.entryNodeID = nodeId;
-            this.meta.entryNodeID = nodeId;
-            if (this.db.debug) console.log(`[HNSW-DEBUG] First Node. Entry Point set to ${nodeId}`);
-            await this.flushCache(); // Ensure entry point is saved
-            return nodeId;
-        }
+            let currObj = await this._getNode(this.entryNodeID);
+            
+            // B"H: If entry node is missing (uninitialized), set it.
+            // Note: currObj might be deleted (tombstone), which is fine for traversal start.
+            if (!currObj) {
+                this.entryNodeID = nodeId;
+                this.meta.entryNodeID = nodeId;
+                // if (this.db.debug) console.log(`[HNSW-DEBUG] First Node. Entry Point set to ${nodeId}`);
+                await this.flushCache(); // Ensure entry point is saved
+                return nodeId;
+            }
 
-        let currDist = this.metric(vector, currObj.vector);
-        let currLevel = currObj.level;
+            let currDist = this.metric(vector, currObj.vector);
+            let currLevel = currObj.level;
 
-        for (let l = currLevel; l > level; l--) {
-            let changed = true;
-            while (changed) {
-                changed = false;
-                const neighbors = currObj.neighbors[l] || [];
-                for (const nId of neighbors) {
-                    const nNode = await this._getNode(nId);
-                    if (!nNode) continue; 
-                    const dist = this.metric(vector, nNode.vector);
-                    if (dist < currDist) {
-                        currDist = dist;
-                        currObj = nNode;
-                        changed = true;
+            for (let l = currLevel; l > level; l--) {
+                let changed = true;
+                while (changed) {
+                    changed = false;
+                    const neighbors = currObj.neighbors[l] || [];
+                    for (const nId of neighbors) {
+                        const nNode = await this._getNode(nId);
+                        if (!nNode) continue; 
+                        const dist = this.metric(vector, nNode.vector);
+                        if (dist < currDist) {
+                            currDist = dist;
+                            currObj = nNode;
+                            changed = true;
+                        }
                     }
                 }
             }
-        }
 
-        for (let l = Math.min(level, currLevel); l >= 0; l--) {
-            const candidates = await this._searchLayer(currObj, vector, EF_CONSTRUCTION, l);
-            // _searchLayer filters deleted nodes from 'candidates' result, so we only connect to valid nodes.
-            const neighbors = this._selectNeighbors(candidates, l === 0 ? M_MAX0 : M);
-            
-            newNode.neighbors[l] = [];
-            for(const n of neighbors) {
-                newNode.neighbors[l].push(n.node.id);
-                // Bi-directional connection
-                await this._addNeighbor(n.node, newNode.id, l);
+            for (let l = Math.min(level, currLevel); l >= 0; l--) {
+                const candidates = await this._searchLayer(currObj, vector, EF_CONSTRUCTION, l);
+                // _searchLayer filters deleted nodes from 'candidates' result, so we only connect to valid nodes.
+                const neighbors = this._selectNeighbors(candidates, l === 0 ? M_MAX0 : M);
+                
+                newNode.neighbors[l] = [];
+                for(const n of neighbors) {
+                    newNode.neighbors[l].push(n.node.id);
+                    // Bi-directional connection
+                    await this._addNeighbor(n.node, newNode.id, l);
+                }
+                
+                // if (this.db.debug) console.log(`[HNSW-DEBUG] Node ${nodeId} Layer ${l} connected to: ${newNode.neighbors[l].join(', ')}`);
+
+                if (candidates.length > 0) currObj = candidates[0].node;
+            }
+
+            if (currObj && level > currObj.level) { 
+                this.entryNodeID = nodeId;
+                this.meta.entryNodeID = nodeId;
+                // if (this.db.debug) console.log(`[HNSW-DEBUG] Entry Point Updated to ${nodeId} (Level ${level} > ${currObj.level})`);
+            }
+            else if (this.entryNodeID === -1) {
+                 this.entryNodeID = nodeId;
+                 this.meta.entryNodeID = nodeId;
             }
             
-            if (this.db.debug) console.log(`[HNSW-DEBUG] Node ${nodeId} Layer ${l} connected to: ${newNode.neighbors[l].join(', ')}`);
-
-            if (candidates.length > 0) currObj = candidates[0].node;
-        }
-
-        if (currObj && level > currObj.level) { 
-            this.entryNodeID = nodeId;
-            this.meta.entryNodeID = nodeId;
-            if (this.db.debug) console.log(`[HNSW-DEBUG] Entry Point Updated to ${nodeId} (Level ${level} > ${currObj.level})`);
-        }
-        else if (this.entryNodeID === -1) {
-             this.entryNodeID = nodeId;
-             this.meta.entryNodeID = nodeId;
-        }
-        
-        // Auto-flush occasionally to prevent memory explosion
-        if (this.dirtyNodes.size > 2000) {
-            await this.flushCache();
-        }
-        
-        return nodeId;
+            // Auto-flush occasionally to prevent memory explosion
+            if (this.dirtyNodes.size > 2000) {
+                await this.flushCache();
+            }
+            
+            return nodeId;
+        });
     }
 
     async _addNeighbor(node, neighborID, level) {
@@ -257,10 +278,6 @@ class HNSW {
             count++;
         }
 
-        if (this.db.debug && count < 10) { // Log small flushes
-             // console.log(`[HNSW-DEBUG] Flushing ${count} nodes: ${toSave.map(n=>n.id).join(', ')}`);
-        }
-
         // B"H: Parallel save 
         await Promise.all(toSave.map(node => this.storage.saveNode(node)));
         
@@ -274,13 +291,13 @@ class HNSW {
         if (nodeId === undefined) return;
         const node = await this._getNode(nodeId);
         if (node) {
-            if (this.db.debug) console.log(`[HNSW-DEBUG] Deleting Node ${nodeId} (Key: ${key})`);
+            // if (this.db.debug) console.log(`[HNSW-DEBUG] Deleting Node ${nodeId} (Key: ${key})`);
             node.deleted = true;
             this.dirtyNodes.add(nodeId);
             
             // B"H: CRITICAL - If we deleted the entry point, we must find a new one.
             if (nodeId === this.entryNodeID) {
-                if (this.db.debug) console.log(`[HNSW-DEBUG] Entry node ${nodeId} deleted. Finding replacement...`);
+                // if (this.db.debug) console.log(`[HNSW-DEBUG] Entry node ${nodeId} deleted. Finding replacement...`);
                 // B"H: Pass the deleted node so we can inherit its neighbors
                 await this._findNewEntryPoint(node);
             }
@@ -319,7 +336,7 @@ class HNSW {
             if (bestCandidate !== -1) {
                 this.entryNodeID = bestCandidate;
                 this.meta.entryNodeID = bestCandidate;
-                if (this.db.debug) console.log(`[HNSW-DEBUG] New Entry Point promoted from neighbors: Node ${bestCandidate}`);
+                // if (this.db.debug) console.log(`[HNSW-DEBUG] New Entry Point promoted from neighbors: Node ${bestCandidate}`);
                 return;
             }
         }
@@ -331,7 +348,7 @@ class HNSW {
             if (candidate && !candidate.deleted) {
                 this.entryNodeID = i;
                 this.meta.entryNodeID = i;
-                if (this.db.debug) console.log(`[HNSW-DEBUG] New Entry Point found via scan: Node ${i}`);
+                // if (this.db.debug) console.log(`[HNSW-DEBUG] New Entry Point found via scan: Node ${i}`);
                 return;
             }
         }
@@ -339,7 +356,7 @@ class HNSW {
         // If no nodes left
         this.entryNodeID = -1;
         this.meta.entryNodeID = -1;
-        if (this.db.debug) console.log("[HNSW-DEBUG] Graph Empty. Resetting Entry Point.");
+        // if (this.db.debug) console.log("[HNSW-DEBUG] Graph Empty. Resetting Entry Point.");
     }
 
     async _validateEntryPoint() {
@@ -350,7 +367,7 @@ class HNSW {
         }
         const node = await this._getNode(this.entryNodeID);
         if (!node || node.deleted) {
-             if (this.db.debug) console.log(`[HNSW-DEBUG] Stale/Deleted Entry Point ${this.entryNodeID}. Repairing...`);
+             // if (this.db.debug) console.log(`[HNSW-DEBUG] Stale/Deleted Entry Point ${this.entryNodeID}. Repairing...`);
              await this._findNewEntryPoint(node);
         }
     }

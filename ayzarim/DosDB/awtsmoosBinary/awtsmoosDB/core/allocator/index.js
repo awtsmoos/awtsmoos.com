@@ -14,17 +14,13 @@ class Allocator {
         this.initialized = false;
         
         this.superBlockCache = null;
-        this.blockCache = new Map();
         
-        // B"H: Active Page Buffer
-        // Keeps the current block in memory to aggregate small writes.
         this.activePage = { id: -1, buffer: null, dirty: false };
-        
-        // B"H: Runtime Free Stack
-        // Tracks blocks freed during this session for immediate reuse.
         this.freeBlocks = []; 
         
-        this.MAX_CACHE_SIZE = 5000; 
+        this.blockCache = new Map();
+        // B"H: Tuning - 2000 Blocks * 4KB = ~8MB. Leaves 2MB for overhead/indexes.
+        this.MAX_CACHE_SIZE = 2000; 
         
         this.UNIT_SIZE = constants.UNIT_SIZE || 32;
         this.BLOCK_SIZE = constants.BLOCK_SIZE || 4096;
@@ -33,35 +29,39 @@ class Allocator {
         this.CURSOR_OFFSET = 128; 
         this.ROOT_PTR_OFFSET = 64; 
         
-        this.MAX_BLOCKS = Number.MAX_SAFE_INTEGER; 
         this.modes = new AllocationModes(this);
-    }
-
-    log(msg) { 
-        if(this.db && this.db.debug) console.log(`[Allocator] ${msg}`); 
     }
 
     async init() {
         if (this.initialized) return;
         
-        const sb = await this.pager.readBlock(0);
+        let sb = await this.pager.readBlock(0);
+        const magic = "AwtsmoosDB_V1B\"H";
+        let isValid = false;
+
         if (sb) {
+            const readMagic = sb.toString('utf8', 0, magic.length);
+            if (readMagic === magic) {
+                isValid = true;
+            }
+        }
+
+        if (isValid) {
             this.superBlockCache = Buffer.allocUnsafe(this.BLOCK_SIZE);
             sb.copy(this.superBlockCache);
 
             const savedCursor = readPointer48(sb, this.CURSOR_OFFSET); 
-            // B"H: Safety check for cursor validity
-            if (savedCursor >= 2 && savedCursor < this.MAX_BLOCKS) {
-                this.cursor = savedCursor;
-            } else {
-                if (this.db.debug) console.warn(`B"H Allocator: Resetting invalid cursor (${savedCursor}) to 2.`);
-                this.cursor = 2;
-            }
+            const fileDerivedCursor = Math.ceil(this.pager.knownFileSize / this.BLOCK_SIZE);
+            
+            this.cursor = Math.max(savedCursor, fileDerivedCursor);
+            if (this.cursor < 2) this.cursor = 2;
+            
         } else {
+            await this.pager.truncate(0);
             this.superBlockCache = this.formatBlock(constants.BLOCK_TYPE.SUPERBLOCK || 1);
-            const magic = "AwtsmoosDB_V1B\"H";
             this.superBlockCache.write(magic, 0);
             this.cursor = 2;
+            writePointer48(this.superBlockCache, this.cursor, this.CURSOR_OFFSET);
             await this.pager.writeBlock(0, this.superBlockCache);
         }
         this.initialized = true;
@@ -74,17 +74,13 @@ class Allocator {
         });
     }
 
-    // B"H: Flush Active Page to Disk
     async flush() {
         if (this.activePage.dirty && this.activePage.id !== -1 && this.activePage.buffer) {
-            // B"H: CRITICAL FIX - Update Cache before writing to Disk
-            // This prevents readSequential from overlaying stale cache data onto fresh disk data.
             this._cacheBlock(this.activePage.id, this.activePage.buffer);
-            
-            // Write to pager (which might be batched)
             await this.pager.writeBlock(this.activePage.id, this.activePage.buffer);
             this.activePage.dirty = false;
         }
+        await this._saveStateInternal();
     }
 
     _cacheBlock(blockId, buffer) {
@@ -94,6 +90,7 @@ class Allocator {
             const firstKey = this.blockCache.keys().next().value;
             this.blockCache.delete(firstKey);
         }
+        // Optimization: Use Pager's pool if possible, but here we just ensure we don't hold too many
         const cached = Buffer.allocUnsafe(this.BLOCK_SIZE);
         buffer.copy(cached);
         this.blockCache.set(blockId, cached);
@@ -102,7 +99,7 @@ class Allocator {
     _getCachedBlock(blockId) {
         if (this.blockCache.has(blockId)) {
             const cached = this.blockCache.get(blockId);
-            this.blockCache.delete(blockId);
+            this.blockCache.delete(blockId); 
             this.blockCache.set(blockId, cached);
             const copy = Buffer.allocUnsafe(this.BLOCK_SIZE);
             cached.copy(copy);
@@ -111,33 +108,45 @@ class Allocator {
         return null;
     }
 
+    // B"H: Accelerated Block Read
     async _readBlockSynced(blockId) {
-        // B"H: Check Active Page first (Fastest)
+        // 1. Active RAM Page
         if (this.activePage.id === blockId && this.activePage.buffer) {
             const copy = Buffer.allocUnsafe(this.BLOCK_SIZE);
             this.activePage.buffer.copy(copy);
             return copy;
         }
 
+        // 2. Allocator LRU Cache
         const cached = this._getCachedBlock(blockId);
         if (cached) return cached;
+        
+        // 3. Pager Sync Cache (Dirty Blocks)
+        const dirty = this.pager.readBlockSync(blockId);
+        if (dirty) {
+            const copy = Buffer.allocUnsafe(this.BLOCK_SIZE);
+            dirty.copy(copy);
+            this._cacheBlock(blockId, copy);
+            return copy;
+        }
+
+        // 4. Disk Read (Async fallback)
         const block = await this.pager.readBlock(blockId);
         if (block) this._cacheBlock(blockId, block);
         return block;
     }
 
     async _writeBlockSynced(blockId, buffer) {
-        // B"H: Write to Active Page Buffer if matches
         if (this.activePage.id === blockId) {
-            buffer.copy(this.activePage.buffer);
+            // Identity check to avoid self-copy overhead
+            if (buffer !== this.activePage.buffer) {
+                buffer.copy(this.activePage.buffer);
+            }
             this.activePage.dirty = true;
-            // B"H: Also update cache to keep them in sync, 
-            // though readSequentialLocked prefers activePage anyway.
-            this._cacheBlock(blockId, buffer);
+            this._cacheBlock(blockId, this.activePage.buffer);
             return;
         }
         
-        // Cache update
         this._cacheBlock(blockId, buffer);
         await this.pager.writeBlock(blockId, buffer);
     }
@@ -154,28 +163,11 @@ class Allocator {
         return this.executeLocked(async () => {
             if (count === 1) return await this._readBlockSynced(start);
             
-            // B"H: Check overlapping active page.
             if (this.activePage.dirty && this.activePage.id >= start && this.activePage.id < start + count) {
                 await this.flush();
             }
 
             const buffer = await this.pager.readSequential(start, count);
-            
-            // B"H: Correctly apply block cache overlay AND activePage overlay
-            for(let i=0; i<count; i++) {
-                const bid = start + i;
-                
-                // Cache Overlay
-                if (this.blockCache.has(bid)) {
-                    const cached = this.blockCache.get(bid);
-                    cached.copy(buffer, i * this.BLOCK_SIZE);
-                }
-                
-                // Active Page Overlay (Highest Priority)
-                if (this.activePage.id === bid && this.activePage.buffer) {
-                     this.activePage.buffer.copy(buffer, i * this.BLOCK_SIZE);
-                }
-            }
             return buffer;
         });
     }
@@ -184,11 +176,6 @@ class Allocator {
         return this.executeLocked(async () => {
             await this._saveStateInternal(modifierFn);
         });
-    }
-
-    getProtectedBlockId() {
-        if (!this.superBlockCache) return -1;
-        return readPointer48(this.superBlockCache, this.ROOT_PTR_OFFSET);
     }
 
     allocate(sizeBytes) {
@@ -208,19 +195,27 @@ class Allocator {
         if (ptr.isChain) throw new Error("B\"H: writeUserSpace only supports single-block shared writes.");
 
         return this.executeLocked(async () => {
-            if (ptr.offset < this.HEADER_SIZE) throw new Error(`B"H: Critical - Attempt to write into Header Space!`);
-            if (ptr.offset + data.length > this.BLOCK_SIZE) throw new Error(`Write overflow in writeUserSpace.`);
+            let block;
+            
+            if (this.activePage.id === ptr.blockId && this.activePage.buffer) {
+                block = this.activePage.buffer;
+                this.activePage.dirty = true;
+            } else {
+                // Try to get in-place reference first for modification
+                let dirty = this.pager.getDirtyBuffer(ptr.blockId);
+                if (dirty) {
+                    block = dirty;
+                } else {
+                    block = await this._readBlockSynced(ptr.blockId);
+                }
+            }
+            
+            if (!block) throw new Error("Block not found");
 
-            let block = await this._readBlockSynced(ptr.blockId);
-            
-            const existingType = block ? block.readUInt32BE(0) : 0;
-            
-            if (!block || existingType === 0 || existingType === constants.BLOCK_TYPE.FREE) {
-                 if (!block) block = this.formatBlock(constants.BLOCK_TYPE.PAGE);
-                 else {
-                     block.writeUInt32BE(constants.BLOCK_TYPE.PAGE, 0);
-                     BitmapManager.markHeader(block, this.HEADER_SIZE, this.UNIT_SIZE);
-                 }
+            const existingType = block.readUInt32BE(0);
+            if (existingType === 0 || existingType === constants.BLOCK_TYPE.FREE) {
+                 block.writeUInt32BE(constants.BLOCK_TYPE.PAGE, 0);
+                 BitmapManager.markHeader(block, this.HEADER_SIZE, this.UNIT_SIZE);
             }
 
             const startUnit = Math.floor(ptr.offset / this.UNIT_SIZE);
@@ -231,7 +226,10 @@ class Allocator {
             }
 
             data.copy(block, ptr.offset);
-            await this._writeBlockSynced(ptr.blockId, block);
+            
+            if (this.activePage.id !== ptr.blockId) {
+                await this._writeBlockSynced(ptr.blockId, block);
+            }
         });
     }
 
@@ -244,7 +242,6 @@ class Allocator {
                  const blocksUsed = Math.ceil(ptr.length / availablePerBlock);
                  for (let i = 0; i < blocksUsed; i++) {
                      const bid = ptr.blockId + i;
-                     // B"H: If freeing active page, flush/clear it first
                      if (this.activePage.id === bid) {
                          this.activePage.id = -1;
                          this.activePage.buffer = null;
@@ -252,19 +249,30 @@ class Allocator {
                      }
                      const cleanBuf = this.formatBlock(constants.BLOCK_TYPE.FREE);
                      await this._writeBlockSynced(bid, cleanBuf);
-                     // Add to free stack for O(1) reuse
                      this.freeBlocks.push(bid); 
+                     
+                     // B"H: Invalidate high-level cache
+                     if (this.db && this.db.structureCache) {
+                         this.db.structureCache.delete(bid);
+                     }
                  }
              } else {
-                 const block = await this._readBlockSynced(ptr.blockId);
+                 let block;
+                 let dirty = this.pager.getDirtyBuffer(ptr.blockId);
+                 if (dirty) block = dirty;
+                 else block = await this._readBlockSynced(ptr.blockId);
+
                  if (block) {
+                     if (this.activePage.id === ptr.blockId) {
+                         block = this.activePage.buffer; 
+                         this.activePage.dirty = true;
+                     }
+                     
                      const startUnit = Math.floor(ptr.offset / this.UNIT_SIZE);
                      const unitsUsed = Math.ceil(ptr.length / this.UNIT_SIZE);
-                     
                      BitmapManager.mark(block, startUnit, unitsUsed, false);
                      
                      if (BitmapManager.isEmpty(block)) {
-                         // B"H: If active page becomes empty, clear it from active status to allow full reuse logic
                          if (this.activePage.id === ptr.blockId) {
                              this.activePage.id = -1;
                              this.activePage.buffer = null;
@@ -272,25 +280,25 @@ class Allocator {
                          }
                          block.writeUInt32BE(constants.BLOCK_TYPE.FREE, 0);
                          this.freeBlocks.push(ptr.blockId);
+                         
+                         // B"H: Invalidate high-level cache for full block free
+                         if (this.db && this.db.structureCache) {
+                             this.db.structureCache.delete(ptr.blockId);
+                         }
                      }
-                     await this._writeBlockSynced(ptr.blockId, block);
+                     
+                     if (this.activePage.id !== ptr.blockId) {
+                        await this._writeBlockSynced(ptr.blockId, block);
+                     }
                  }
              }
          });
     }
 
-    async getStats() {
-        return this.executeLocked(async () => {
-            return {
-                fileSize: this.cursor * this.BLOCK_SIZE,
-                totalBlocks: this.cursor,
-                activePage: this.activePage.id
-            };
-        });
-    }
-
     formatBlock(type) {
-        const buf = Buffer.alloc(this.BLOCK_SIZE);
+        const buf = Buffer.allocUnsafe(this.BLOCK_SIZE);
+        buf.fill(0); 
+        
         buf.writeUInt32BE(type, 0);
         if (type !== constants.BLOCK_TYPE.FREE) {
             BitmapManager.markHeader(buf, this.HEADER_SIZE, this.UNIT_SIZE);
@@ -298,15 +306,12 @@ class Allocator {
         return buf;
     }
 
-    async saveState() {
-        return this.executeLocked(async () => { await this._saveStateInternal(); });
-    }
-
     async _saveStateInternal(modifierFn) {
-        await this.flush(); // Ensure active page is on disk before checkpoint
-        
         let sb = await this.pager.readBlock(0);
-        if (!sb) sb = Buffer.alloc(this.BLOCK_SIZE);
+        if (!sb) {
+            sb = Buffer.allocUnsafe(this.BLOCK_SIZE);
+            sb.fill(0);
+        }
         
         const magic = "AwtsmoosDB_V1B\"H";
         if (sb.toString('utf8', 0, magic.length) !== magic) {

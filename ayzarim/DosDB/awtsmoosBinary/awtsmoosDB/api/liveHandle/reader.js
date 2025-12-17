@@ -32,18 +32,14 @@ class Reader {
 
     async resolveSelf() {
         return this.db.read(async () => {
-            // B"H: Critical - Ensure we are resolved before trying to read
             await this.handle.ensureResolved();
 
             const context = new Map();
             if (!this.handle.ptr || (this.handle.type === constants.TYPE_DICTIONARY && !this.handle.ptr)) {
-                // If resolving failed (ptr is still null), it means key doesn't exist.
                 if (this.handle !== this.db.root && !this.handle.ptr) return undefined;
 
-                // Root Fallback
                 let structPtr = await this._resolveStructPtr();
-                
-                if (!structPtr) return {}; // Empty root
+                if (!structPtr) return {}; 
 
                 const dict = new Dictionary(this.db.allocator, structPtr);
                 const obj = {};
@@ -53,10 +49,8 @@ class Reader {
             }
             const val = await SmartPointer.resolve(this.handle.ptr, this.db.allocator, context);
             
-            // B"H: Recursively hydrate if it's a structure
             if (val && val.isStructure) return await this._hydrateStructure(val, context);
             
-            // B"H: For Custom Instances returned by SmartPointer.resolve
             if (val && typeof val === 'object' && val.__className__) {
                 await this._hydrateObjectProperties(val, context);
             }
@@ -135,7 +129,7 @@ class Reader {
         let count = 0;
         for await (const k of dict.keys()) {
             if (count++ > 2000) break;
-            if (k === undefined || k === null) continue; // B"H: Skip invalid keys
+            if (k === undefined || k === null) continue;
             let val = await dict.get(k, context);
             const realKey = keyEncoding.decode(k);
             if (val && val.isStructure) val = await this._hydrateStructure(val, context);
@@ -161,7 +155,6 @@ class Reader {
             const seq = new Sequence(this.db.allocator, res);
             const val = await seq.get(index);
             
-            // B"H: Hydrate Dictionaries automatically for easier consumption
             if (val && val.isStructure && val.type === constants.TYPE_DICTIONARY) {
                 return await this._hydrateStructure(val, new Map());
             }
@@ -186,7 +179,6 @@ class Reader {
             
             const processed = [];
             for (let item of rawItems) {
-                // B"H: Hydrate Dictionaries so tests/users get Objects, not Handles
                 if (item && item.isStructure && item.type === constants.TYPE_DICTIONARY) {
                      processed.push(await this._hydrateStructure(item, new Map()));
                 } else {
@@ -203,7 +195,8 @@ class Reader {
             if (!this.handle.ptr) return 0;
 
             const res = await SmartPointer.resolve(this.handle.ptr, this.db.allocator);
-            if (this.handle.type === constants.TYPE_SEQUENCE) {
+            
+            if (this.handle.type === constants.TYPE_SEQUENCE || this.handle.type === constants.TYPE_SET) {
                 const seq = new Sequence(this.db.allocator, res);
                 return seq.length();
             } else if (this.handle.type === constants.TYPE_MAP) {
@@ -215,6 +208,15 @@ class Reader {
                 const s = await dict.stats();
                 return s.count;
             }
+            
+            // B"H: Primitives Support (Strings, Buffers, Arrays)
+            if (res && (typeof res === 'string' || Buffer.isBuffer(res) || Array.isArray(res))) {
+                return res.length;
+            }
+            if (res && res.size !== undefined) { // JS Set/Map
+                return res.size;
+            }
+            
             return 0;
         });
     }
@@ -239,7 +241,6 @@ class Reader {
                 return stats.size;
             }
             
-            // Primitive
             const val = await SmartPointer.resolve(this.handle.ptr, this.db.allocator);
             if (Buffer.isBuffer(val)) return val.length;
             if (typeof val === 'string') return Buffer.byteLength(val, 'utf8');
@@ -268,19 +269,15 @@ class Reader {
         });
     }
 
-    // B"H: New Optimized Seek Method
     async *range(start, end) {
         await this.handle.ensureResolved();
         let structPtr = await this._resolveStructPtr();
 
         if (this.handle.type === constants.TYPE_MAP) {
             const map = new MapEngine(this.db.allocator, structPtr);
-            // B"H: Pass start/end directly to the engine's seek logic
             for await (const item of map.range(start, end)) {
                 const realKey = keyEncoding.decode(item.key);
                 let val = item.value;
-                
-                // Hydrate nested Dictionaries
                 if (val && val.isStructure && val.type === constants.TYPE_DICTIONARY) {
                     val = await this._hydrateStructure(val, new Map());
                 } else {
@@ -288,10 +285,6 @@ class Reader {
                 }
                 yield { key: realKey, value: val };
             }
-        } else {
-            // For non-maps, fallback to standard iteration (filtering would be manual by user)
-            // Or ideally, range() is only for Sorted Maps.
-            // We just yield nothing for now if not supported.
         }
     }
 
@@ -299,7 +292,10 @@ class Reader {
         await this.handle.ensureResolved();
         let structPtr = await this._resolveStructPtr();
         
-        if (this.handle.type === constants.TYPE_DICTIONARY) {
+        // B"H: Explicitly check handle type after resolution
+        const type = this.handle.type;
+
+        if (type === constants.TYPE_DICTIONARY) {
             const keys = await this.db.read(async () => {
                 const dict = new Dictionary(this.db.allocator, structPtr);
                 const k = [];
@@ -311,7 +307,6 @@ class Reader {
                     const dict = new Dictionary(this.db.allocator, structPtr);
                     return dict.get(k);
                 });
-                // B"H: If value is also a dictionary, hydrate it for seamless usage
                 let wrappedVal = val;
                 if (val && val.isStructure && val.type === constants.TYPE_DICTIONARY) {
                     wrappedVal = await this._hydrateStructure(val, new Map());
@@ -319,26 +314,26 @@ class Reader {
                     wrappedVal = this._wrapIfNeeded(val);
                 }
                 const realKey = keyEncoding.decode(k);
+                
+                // B"H: Standard Iteration: Yield [Key, Value] array only. No extra props.
                 yield [realKey, wrappedVal];
             }
         } 
-        else if (this.handle.type === constants.TYPE_MAP) {
+        else if (type === constants.TYPE_MAP) {
             const map = new MapEngine(this.db.allocator, structPtr);
             for await (const item of map.range()) {
                 const realKey = keyEncoding.decode(item.key);
-                
                 let val = item.value;
-                // B"H: Auto-hydrate nested Dictionaries to allow property access in loops
                 if (val && val.isStructure && val.type === constants.TYPE_DICTIONARY) {
                     val = await this._hydrateStructure(val, new Map());
                 } else {
                     val = this._wrapIfNeeded(val);
                 }
-                
-                yield { key: realKey, value: val };
+                // B"H: Standard Iteration: Yield [Key, Value]
+                yield [realKey, val];
             }
         }
-        else if (this.handle.type === constants.TYPE_SEQUENCE) {
+        else if (type === constants.TYPE_SEQUENCE) {
             const len = await this.db.read(async () => {
                 const seq = new Sequence(this.db.allocator, structPtr);
                 return seq.length();
@@ -348,13 +343,13 @@ class Reader {
                     const seq = new Sequence(this.db.allocator, structPtr);
                     return seq.get(i);
                 });
-                
                 let wrappedVal = val;
                 if (val && val.isStructure && val.type === constants.TYPE_DICTIONARY) {
                     wrappedVal = await this._hydrateStructure(val, new Map());
                 } else {
                     wrappedVal = this._wrapIfNeeded(val);
                 }
+                // B"H: Standard Array Iteration: Yield Value only
                 yield wrappedVal;
             }
         }
@@ -363,32 +358,51 @@ class Reader {
     async *keys() {
         await this.handle.ensureResolved();
         let structPtr = await this._resolveStructPtr();
+        const type = this.handle.type;
 
-        if (this.handle.type === constants.TYPE_DICTIONARY) {
-            const keys = await this.db.read(async () => {
-                const dict = new Dictionary(this.db.allocator, structPtr);
-                const k = [];
-                for await (const key of dict.keys()) k.push(key);
-                return k;
-            });
-            for(const k of keys) yield keyEncoding.decode(k);
-        } else if (this.handle.type === constants.TYPE_MAP) {
+        if (type === constants.TYPE_DICTIONARY) {
+            const dict = new Dictionary(this.db.allocator, structPtr);
+            for await (const k of dict.keys()) yield keyEncoding.decode(k);
+        } else if (type === constants.TYPE_MAP) {
             const map = new MapEngine(this.db.allocator, structPtr);
-            for await (const item of map.range()) {
-                yield keyEncoding.decode(item.key);
-            }
+            for await (const item of map.range()) yield keyEncoding.decode(item.key);
+        } else if (type === constants.TYPE_SEQUENCE) {
+            const seq = new Sequence(this.db.allocator, structPtr);
+            const len = await seq.length();
+            for(let i=0; i<len; i++) yield i;
         }
     }
 
     async *values() {
+        // B"H: FIX - Ensure type is resolved BEFORE creating iterator
+        await this.handle.ensureResolved();
+        const type = this.handle.type;
         const iterator = this.iterator();
+        
         for await (const entry of iterator) {
-            if (Array.isArray(entry) && entry.length === 2 && this.handle.type === constants.TYPE_DICTIONARY) yield entry[1];
-            else if (this.handle.type === constants.TYPE_MAP) yield entry.value;
-            else yield entry;
+            if (Array.isArray(entry) && entry.length === 2 && (type === constants.TYPE_DICTIONARY || type === constants.TYPE_MAP)) {
+                yield entry[1];
+            } else {
+                yield entry;
+            }
         }
     }
 
-    async *entries() { yield* this.iterator(); }
+    async *entries() { 
+        await this.handle.ensureResolved();
+        // B"H: Grab type immediately after resolution to avoid race/stale props
+        const type = this.handle.type;
+        
+        if (type === constants.TYPE_SEQUENCE) {
+            let i = 0;
+            // Directly call iterator, which for sequence yields ONLY values
+            for await (const val of this.iterator()) {
+                yield [i++, val];
+            }
+        } else {
+            // For Map/Dict, iterator already yields [key, val]
+            yield* this.iterator(); 
+        }
+    }
 }
 module.exports = Reader;

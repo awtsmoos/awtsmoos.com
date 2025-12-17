@@ -12,17 +12,17 @@ class GraphManager {
 
     async _init() {
         if (this.graphRoot) return;
-        
-        // B"H: Optimization
-        const hasGraph = await this.db.root.has("__graph__");
+        // B"H: FIX - Use db.has()
+        const hasGraph = await this.db.has(this.db.root, "__graph__");
         if (!hasGraph) {
-            await this.db.root.createMap("__graph__");
+            await this.db.createMap(this.db.root, "__graph__");
         }
         this.graphRoot = this.db.root.__graph__;
     }
 
     _getId(handle) {
-        return this._getIdFromPtr(handle.ptr);
+        const h = handle && handle[constants.SYMBOLS.INTERNALS] ? handle[constants.SYMBOLS.INTERNALS] : handle;
+        return this._getIdFromPtr(h.ptr);
     }
 
     _getIdFromPtr(ptrBuf) {
@@ -45,11 +45,16 @@ class GraphManager {
 
     async connect(sourceHandle, targetHandle, label, props = {}) {
         await this._init();
-        if (sourceHandle.ensureResolved) await sourceHandle.ensureResolved();
-        if (targetHandle.ensureResolved) await targetHandle.ensureResolved();
+        
+        // B"H: Robust unwrapping (handle might be Proxy or Internal)
+        const src = sourceHandle && sourceHandle[constants.SYMBOLS.INTERNALS] ? sourceHandle[constants.SYMBOLS.INTERNALS] : sourceHandle;
+        const tgt = targetHandle && targetHandle[constants.SYMBOLS.INTERNALS] ? targetHandle[constants.SYMBOLS.INTERNALS] : targetHandle;
+        
+        await src.ensureResolved();
+        await tgt.ensureResolved();
 
-        const sourceId = this._getId(sourceHandle);
-        const targetId = this._getId(targetHandle);
+        const sourceId = this._getId(src);
+        const targetId = this._getId(tgt);
         
         if (!sourceId || !targetId) throw new Error("B\"H: Object cannot be a Graph Node (Invalid Pointer Type).");
 
@@ -58,8 +63,8 @@ class GraphManager {
 
         const edge = { 
             targetId, sourceId, label, props, timestamp: Date.now(),
-            sourcePtr: sourceHandle.ptr,
-            targetPtr: targetHandle.ptr
+            sourcePtr: src.ptr,
+            targetPtr: tgt.ptr
         };
         
         await this._addEdge(sourceId, "out", label, edge);
@@ -67,33 +72,39 @@ class GraphManager {
     }
 
     async _ensureNode(nodeId) {
-        const nodeEntry = this.graphRoot.get(nodeId); 
-        if (nodeEntry.ensureResolved) await nodeEntry.ensureResolved();
+        // B"H: FIX - Bracket access
+        const nodeEntry = this.graphRoot[nodeId]; 
+        await nodeEntry; // Triggers resolution
         
-        if (!nodeEntry.ptr) {
-            await this.graphRoot.createMap(nodeId);
-            const newNode = this.graphRoot.get(nodeId);
-            await newNode.createMap("in");
-            await newNode.createMap("out");
+        const internal = nodeEntry[constants.SYMBOLS.INTERNALS];
+        if (!internal.ptr) {
+            await this.db.createMap(this.graphRoot, nodeId);
+            // B"H: FIX - Bracket access
+            const newNode = this.graphRoot[nodeId];
+            await this.db.createMap(newNode, "in");
+            await this.db.createMap(newNode, "out");
         }
     }
 
     async _addEdge(nodeId, dir, label, edge) {
-        const nodeEntry = this.graphRoot.get(nodeId);
-        if(nodeEntry.ensureResolved) await nodeEntry.ensureResolved();
-
-        const dirMap = nodeEntry.get(dir); 
-        if(dirMap.ensureResolved) await dirMap.ensureResolved();
-
-        let labelList = dirMap.get(label); 
-        if(labelList.ensureResolved) await labelList.ensureResolved();
+        // B"H: FIX - Bracket access for all levels
+        const nodeEntry = this.graphRoot[nodeId];
+        const dirMap = nodeEntry[dir]; 
+        const labelList = dirMap[label]; 
         
-        if (!labelList.ptr) {
-            await dirMap.createList(label);
-            labelList = dirMap.get(label); 
-            if(labelList.ensureResolved) await labelList.ensureResolved();
+        const listInt = labelList[constants.SYMBOLS.INTERNALS];
+        await listInt.ensureResolved();
+        
+        if (!listInt.ptr) {
+            await this.db.createList(dirMap, label);
+            // Re-get
+            const newList = dirMap[label];
+            const newListInt = newList[constants.SYMBOLS.INTERNALS];
+            await newListInt.ensureResolved();
+            await newList.push(edge);
+        } else {
+            await labelList.push(edge);
         }
-        await labelList.push(edge);
     }
 
     async deleteNode(nodeIdentifier) {
@@ -104,57 +115,75 @@ class GraphManager {
         
         if (!nodeId) return;
 
-        const nodeEntry = this.graphRoot.get(nodeId);
-        if(nodeEntry.ensureResolved) await nodeEntry.ensureResolved();
-        if (!nodeEntry.ptr) return;
+        // B"H: FIX - Bracket access
+        const nodeEntry = this.graphRoot[nodeId];
+        const nodeInt = nodeEntry[constants.SYMBOLS.INTERNALS];
+        await nodeInt.ensureResolved();
+        
+        if (!nodeInt.ptr) return;
 
-        const inMap = nodeEntry.get("in");
-        if(inMap.ensureResolved) await inMap.ensureResolved();
-        if (inMap.ptr) {
-            for await (const label of inMap.keys()) {
-                const list = inMap.get(label); 
-                const edges = await list.reader.resolveSelf(); 
-                for (const edge of edges) await this._removeEdgeFromOther(edge.sourceId, 'out', edge.label, nodeId);
+        const inMap = nodeEntry["in"];
+        const inMapInt = inMap[constants.SYMBOLS.INTERNALS];
+        await inMapInt.ensureResolved();
+        
+        if (inMapInt.ptr) {
+            const labels = await this.db.keys(inMap);
+            for (const label of labels) {
+                const list = inMap[label]; 
+                const edges = await list; 
+                if (Array.isArray(edges)) {
+                    for (const edge of edges) await this._removeEdgeFromOther(edge.sourceId, 'out', edge.label, nodeId);
+                }
             }
         }
 
-        const outMap = nodeEntry.get("out");
-        if(outMap.ensureResolved) await outMap.ensureResolved();
-        if (outMap.ptr) {
-            for await (const label of outMap.keys()) {
-                const list = outMap.get(label); 
-                const edges = await list.reader.resolveSelf(); 
-                for (const edge of edges) await this._removeEdgeFromOther(edge.targetId, 'in', edge.label, nodeId);
+        const outMap = nodeEntry["out"];
+        const outMapInt = outMap[constants.SYMBOLS.INTERNALS];
+        await outMapInt.ensureResolved();
+        
+        if (outMapInt.ptr) {
+            const labels = await this.db.keys(outMap);
+            for (const label of labels) {
+                const list = outMap[label]; 
+                const edges = await list; 
+                if (Array.isArray(edges)) {
+                    for (const edge of edges) await this._removeEdgeFromOther(edge.targetId, 'in', edge.label, nodeId);
+                }
             }
         }
         await this.graphRoot.delete(nodeId);
     }
 
     async _removeEdgeFromOther(otherId, dir, label, targetNodeIdToRemove) {
-        const otherNode = this.graphRoot.get(otherId);
-        if(otherNode.ensureResolved) await otherNode.ensureResolved();
-        if (!otherNode.ptr) return;
+        // B"H: FIX - Bracket access
+        const otherNode = this.graphRoot[otherId];
+        const otherInt = otherNode[constants.SYMBOLS.INTERNALS];
+        await otherInt.ensureResolved();
+        if (!otherInt.ptr) return;
 
-        const dirMap = otherNode.get(dir);
-        if(dirMap.ensureResolved) await dirMap.ensureResolved();
-
-        const list = dirMap.get(label);
-        if(list.ensureResolved) await list.ensureResolved();
-        if (!list.ptr) return;
+        const dirMap = otherNode[dir];
+        const list = dirMap[label];
+        const listInt = list[constants.SYMBOLS.INTERNALS];
+        await listInt.ensureResolved();
+        if (!listInt.ptr) return;
 
         const len = await list.length;
         for (let i = len - 1; i >= 0; i--) {
-            const edgeVal = await list.get(i); 
-            const match = (dir === 'out' && String(edgeVal.targetId) === targetNodeIdToRemove) ||
-                          (dir === 'in' && String(edgeVal.sourceId) === targetNodeIdToRemove);
+            const edgeVal = await list[i]; 
+            const resolvedEdge = await edgeVal;
+            
+            const match = (dir === 'out' && String(resolvedEdge.targetId) === targetNodeIdToRemove) ||
+                          (dir === 'in' && String(resolvedEdge.sourceId) === targetNodeIdToRemove);
             if (match) await list.splice(i, 1);
         }
     }
 
     async getRelationships(handle, direction = 'BOTH', label = null) {
         await this._init();
-        if (handle.ensureResolved) await handle.ensureResolved();
-        const nodeId = this._getId(handle);
+        // B"H: Robust unwrapping
+        const h = handle && handle[constants.SYMBOLS.INTERNALS] ? handle[constants.SYMBOLS.INTERNALS] : handle;
+        await h.ensureResolved();
+        const nodeId = this._getId(h);
         if (!nodeId) return [];
         return await this._getEdgesFromId(nodeId, direction, label);
     }
@@ -165,33 +194,35 @@ class GraphManager {
         if (direction === 'OUT' || direction === 'BOTH') dirs.push('out');
         if (direction === 'IN' || direction === 'BOTH') dirs.push('in');
 
-        const nodeEntry = this.graphRoot.get(nodeId); 
-        if (nodeEntry.ensureResolved) await nodeEntry.ensureResolved();
-        if (!nodeEntry.ptr) return [];
+        // B"H: FIX - Bracket access
+        const nodeEntry = this.graphRoot[nodeId]; 
+        const nodeInt = nodeEntry[constants.SYMBOLS.INTERNALS];
+        await nodeInt.ensureResolved();
+        if (!nodeInt.ptr) return [];
 
         for (const dir of dirs) {
-            const dirMap = nodeEntry.get(dir); 
-            if (dirMap.ensureResolved) await dirMap.ensureResolved();
-            if (!dirMap.ptr) continue;
+            const dirMap = nodeEntry[dir]; 
+            const dirInt = dirMap[constants.SYMBOLS.INTERNALS];
+            await dirInt.ensureResolved();
+            if (!dirInt.ptr) continue;
 
             if (label) {
-                const list = dirMap.get(label); 
-                if (list.ensureResolved) await list.ensureResolved();
-                if (list.ptr) {
-                    const edges = await list.reader.resolveSelf(); 
+                const list = dirMap[label]; 
+                const listInt = list[constants.SYMBOLS.INTERNALS];
+                await listInt.ensureResolved();
+                if (listInt.ptr) {
+                    const edges = await list; 
                     if (Array.isArray(edges)) {
                         for (const edge of edges) results.push(await this._hydrateEdge(edge, dir));
                     }
                 }
             } else {
-                if (dirMap.keys) {
-                    for await (const lbl of dirMap.keys()) {
-                        const list = dirMap.get(lbl); 
-                        if (list.ensureResolved) await list.ensureResolved();
-                        const edges = await list.reader.resolveSelf(); 
-                        if (Array.isArray(edges)) {
-                            for (const edge of edges) results.push(await this._hydrateEdge(edge, dir));
-                        }
+                const labels = await this.db.keys(dirMap);
+                for (const lbl of labels) {
+                    const list = dirMap[lbl]; 
+                    const edges = await list; 
+                    if (Array.isArray(edges)) {
+                        for (const edge of edges) results.push(await this._hydrateEdge(edge, dir));
                     }
                 }
             }
@@ -233,16 +264,20 @@ class GraphManager {
         const reverseAdj = new Map(); // NodeID -> Array<SourceID>
         const nodes = new Set();
 
-        for await (const nodeKey of this.graphRoot.keys()) {
+        const nodeKeys = await this.db.keys(this.graphRoot);
+        for (const nodeKey of nodeKeys) {
             nodes.add(nodeKey);
-            const nodeEntry = this.graphRoot.get(nodeKey);
-            const outMap = nodeEntry.get('out');
-            await outMap.ensureResolved();
+            // B"H: FIX - Bracket access
+            const nodeEntry = this.graphRoot[nodeKey];
+            const outMap = nodeEntry['out'];
+            const outInt = outMap[constants.SYMBOLS.INTERNALS];
+            await outInt.ensureResolved();
             
-            if (outMap.ptr) {
-                for await (const label of outMap.keys()) {
-                    const list = outMap.get(label);
-                    const edges = await list.reader.resolveSelf(); // Array of edge objects
+            if (outInt.ptr) {
+                const labels = await this.db.keys(outMap);
+                for (const label of labels) {
+                    const list = outMap[label];
+                    const edges = await list; // Resolve array
                     for(const e of edges) {
                         const target = e.targetId;
                         nodes.add(target); // Ensure target exists in set
@@ -272,7 +307,6 @@ class GraphManager {
             const newScores = new Map();
             let sinkScore = 0;
             
-            // Handle sink nodes (nodes with no outgoing edges)
             for(const n of nodes) {
                 if(!adjList.has(n) || adjList.get(n).length === 0) {
                     sinkScore += scores.get(n);
@@ -293,7 +327,6 @@ class GraphManager {
             scores = newScores;
         }
         
-        // Sort
         const sorted = Array.from(scores.entries()).sort((a,b) => b[1] - a[1]);
         return sorted.map(([id, score]) => ({ id, score }));
     }
@@ -306,11 +339,9 @@ class GraphManager {
         const labels = new Map();
         nodes.forEach((n, i) => labels.set(n, i)); // Init unique labels
         
-        // B"H: Shuffle nodes for randomness
         const shuffled = [...nodes];
         
         for(let i=0; i<iterations; i++) {
-            // Fisher-Yates Shuffle
             for (let j = shuffled.length - 1; j > 0; j--) {
                 const k = Math.floor(Math.random() * (j + 1));
                 [shuffled[j], shuffled[k]] = [shuffled[k], shuffled[j]];
@@ -318,18 +349,15 @@ class GraphManager {
 
             let changeCount = 0;
             for(const n of shuffled) {
-                // Get neighbors (using both in/out for community detection is usually better for weak connectivity)
                 const neighbors = [ ...(adjList.get(n)||[]), ...(reverseAdj.get(n)||[]) ];
                 if(neighbors.length === 0) continue;
 
-                // Count labels
                 const counts = new Map();
                 for(const neighbor of neighbors) {
                     const l = labels.get(neighbor);
                     counts.set(l, (counts.get(l)||0) + 1);
                 }
                 
-                // Find max
                 let maxCount = -1;
                 let maxLabel = labels.get(n);
                 const candidates = [];
@@ -344,7 +372,6 @@ class GraphManager {
                     }
                 }
                 
-                // Randomly choose from ties
                 const chosen = candidates[Math.floor(Math.random() * candidates.length)];
                 
                 if (chosen !== labels.get(n)) {
@@ -355,7 +382,6 @@ class GraphManager {
             if (changeCount === 0) break; 
         }
         
-        // Group results
         const communities = new Map();
         for(const [n, l] of labels) {
             if(!communities.has(l)) communities.set(l, []);
@@ -375,14 +401,18 @@ class GraphManager {
         })).sort((a,b) => b.degree - a.degree);
     }
 
-    // Existing methods below
     async shortestPath(startHandle, endHandle, options = {}) {
         await this._init();
-        if (startHandle.ensureResolved) await startHandle.ensureResolved();
-        if (endHandle.ensureResolved) await endHandle.ensureResolved();
+        
+        // B"H: Robust unwrapping
+        const s = startHandle && startHandle[constants.SYMBOLS.INTERNALS] ? startHandle[constants.SYMBOLS.INTERNALS] : startHandle;
+        const e = endHandle && endHandle[constants.SYMBOLS.INTERNALS] ? endHandle[constants.SYMBOLS.INTERNALS] : endHandle;
+        
+        await s.ensureResolved();
+        await e.ensureResolved();
 
-        const startId = this._getId(startHandle);
-        const endId = this._getId(endHandle);
+        const startId = this._getId(s);
+        const endId = this._getId(e);
         const maxDepth = options.maxDepth || 5;
         const direction = options.direction || 'OUT';
         const label = options.label || null;
@@ -400,7 +430,8 @@ class GraphManager {
             const edges = await this._getEdgesFromId(id, direction, label);
             for(const edgeObj of edges) {
                 const neighborHandle = edgeObj.node;
-                const neighborId = this._getId(neighborHandle);
+                const nh = neighborHandle[constants.SYMBOLS.INTERNALS];
+                const neighborId = this._getId(nh);
                 if (neighborId === endId) return [...path, { edge: edgeObj, node: neighborHandle }];
                 if (!visited.has(neighborId)) {
                     visited.add(neighborId);
@@ -413,9 +444,12 @@ class GraphManager {
 
     async traverse(startHandle, visitor, options = {}) {
         await this._init();
-        if (startHandle.ensureResolved) await startHandle.ensureResolved();
+        
+        // B"H: Robust unwrapping
+        const s = startHandle && startHandle[constants.SYMBOLS.INTERNALS] ? startHandle[constants.SYMBOLS.INTERNALS] : startHandle;
+        await s.ensureResolved();
 
-        const startId = this._getId(startHandle);
+        const startId = this._getId(s);
         const maxDepth = options.maxDepth || 3;
         const direction = options.direction || 'OUT';
         const strategy = options.strategy || 'BFS'; 
@@ -432,7 +466,8 @@ class GraphManager {
             const edges = await this._getEdgesFromId(current.id, direction, null);
             for(const edge of edges) {
                 const neighborHandle = edge.node;
-                const neighborId = this._getId(neighborHandle);
+                const nh = neighborHandle[constants.SYMBOLS.INTERNALS];
+                const neighborId = this._getId(nh);
                 if (!visited.has(neighborId)) {
                     visited.add(neighborId);
                     stack.push({ id: neighborId, handle: neighborHandle, depth: current.depth + 1 });

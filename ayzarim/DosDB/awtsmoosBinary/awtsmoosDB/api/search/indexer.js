@@ -3,6 +3,8 @@
 const SmartPointer = require('../../utils/smartPointer.js');
 const Sequence = require('../../structure/sequence/index.js');
 const tokenizer = require('./tokenizer.js');
+const constants = require('../../constants.js');
+const LiveHandle = require('../liveHandle/index.js');
 
 class SearchIndexer {
     constructor(db, sysIndex) {
@@ -11,11 +13,29 @@ class SearchIndexer {
     }
 
     async updateIndex(path, newPtr, oldPtr, oldVal, newVal) {
-        // console.log(`B"H Indexer.updateIndex [${path}]...`);
-        // B"H: Refresh indexMap handle to ensure it points to the latest structure
-        const indexMap = this.sysIndex.get(path);
-        await indexMap.ensureResolved(); 
+        // B"H: Unwrap Proxy to use internal Navigator directly. Faster and safer.
+        const sysIndexInt = this.sysIndex[constants.SYMBOLS.INTERNALS] || this.sysIndex;
+        // Get the handle for the specific path (e.g. "root.library") map
+        const indexMap = sysIndexInt.nav.navigate(path);
         
+        // Ensure indexMap pointer is loaded
+        await indexMap.ensureResolved(true); 
+        
+        // If indexMap pointer is null, it means the map for 'path' inside '__sys_search__' doesn't exist yet.
+        if (!indexMap.ptr) {
+             if (this.db.debug) console.warn(`B"H Indexer: Index map for ${path} missing. Attempting self-heal.`);
+             // Use writer to create map
+             await sysIndexInt.writer.createMap(path);
+             await indexMap.ensureResolved(true); // Retry
+        }
+        
+        // B"H: Force type update if resolved but type missing (paranoid check)
+        const indexMapInt = indexMap[constants.SYMBOLS.INTERNALS] || indexMap;
+        if (indexMapInt.ptr && !indexMapInt.type) {
+             const decoded = SmartPointer.decode(indexMapInt.ptr);
+             if (decoded) indexMapInt.type = decoded.type;
+        }
+
         let oldTokens, newTokens;
         try {
             oldTokens = this._extractTokens(oldVal);
@@ -38,19 +58,12 @@ class SearchIndexer {
             console.log(`   PointerChanged: ${!this._ptrsEqual(newPtr, oldPtr)}`);
         }
 
-        // B"H: If pointers differ, we MUST do a full swap (remove old, add new).
-        // Optimization for same-pointer (content-only change) logic is risky if not handled perfectly.
-        // We prioritize correctness: treating as remove-then-add.
-        
         if (oldPtr) {
-            // If pointer changed, remove from ALL old tokens (even if shared), 
-            // because the old pointer is likely invalid/freed.
-            // If pointer is same, we only remove from tokens that are NO LONGER present.
             const tokensToRemove = this._ptrsEqual(newPtr, oldPtr) 
                 ? [...oldTokens].filter(x => !newTokens.has(x))
                 : oldTokens;
             
-            if (this.db.debug) console.log(`   Removing ptr from tokens: ${JSON.stringify([...tokensToRemove])}`);
+            if (this.db.debug) console.log(`   Adding ptr to tokens: ${JSON.stringify([...tokensToRemove])}`);
             await this._removeFromIndex(indexMap, tokensToRemove, oldPtr);
         }
 
@@ -65,88 +78,130 @@ class SearchIndexer {
     }
 
     async _removeFromIndex(indexMap, tokens, ptr) {
+        // Unwrap handle
+        const handle = indexMap[constants.SYMBOLS.INTERNALS] || indexMap;
+
+        // B"H: Sequential execution to prevent B-Tree corruption
         for (const word of tokens) {
             try {
-                const listHandle = indexMap.get(word);
-                await listHandle.ensureResolved();
+                // Use Navigator to find key directly without creating intermediate handles
+                const resolved = await handle.nav.resolveKey(word);
                 
-                if (listHandle.ptr) {
-                    // Resolve the list to find the index of the pointer to remove
-                    const res = await SmartPointer.resolve(listHandle.ptr, this.db.allocator);
+                if (resolved && resolved.ptr) {
+                    const res = await SmartPointer.resolve(resolved.ptr, this.db.allocator);
                     const seq = new Sequence(this.db.allocator, res);
                     const len = await seq.length();
                     
-                    // Search backwards to safely remove (though unique ptrs usually exist once per doc)
-                    for (let i = len - 1; i >= 0; i--) {
-                        const valPtr = await seq.getPtr(i);
-                        if (this._ptrsEqual(valPtr, ptr)) {
-                            // B"H: Use LiveHandle splice to update the chain
-                            // CRITICAL: Pass skipFree to avoid double-freeing the object pointer!
-                            if (this.db.debug) console.log(`     Removed from '${word}' at index ${i}`);
-                            await listHandle.splice(i, 1, { _isAwtsmoosOptions: true, skipFree: true });
-                            // We assume one entry per document per word
-                            break; 
+                    let foundIndex = -1;
+                    // Linear scan ok for now; optimizations possible later
+                    for (let i = 0; i < len; i++) {
+                        const p = await seq.getPtr(i);
+                        if (this._ptrsEqual(p, ptr)) {
+                            foundIndex = i;
+                            break;
                         }
+                    }
+                    if (foundIndex !== -1) {
+                        if (this.db.debug) console.log(`     Removed from '${word}' at index ${foundIndex}`);
+                        
+                        // Create temporary handle for splice
+                        const listHandle = new LiveHandle(this.db, resolved.ptr, resolved.type, { parent: handle, key: word });
+                        // Unwrap
+                        const listWriter = listHandle[constants.SYMBOLS.INTERNALS].writer;
+                        
+                        // B"H: CRITICAL FIX - Pass { skipFree: true }
+                        await listWriter.splice(foundIndex, 1, { skipFree: true, _isAwtsmoosOptions: true });
                     }
                 }
             } catch(e) {
-                if(this.db.debug) console.warn(`B"H Indexer: Failed to remove '${word}'. Continuing... Error: ${e.message}`);
+                console.error("B\"H Indexer Remove Error:", e);
             }
         }
     }
 
     async _addToIndex(indexMap, tokens, ptr) {
-        const ptrCopy = Buffer.alloc(16);
-        ptr.copy(ptrCopy);
+        // Unwrap handle to access internal writer
+        const handle = indexMap[constants.SYMBOLS.INTERNALS] || indexMap;
 
+        // B"H: Sequential execution to prevent B-Tree corruption
         for (const word of tokens) {
             try {
-                // B"H: Critical - Ensure we get a fresh handle for the word list
-                let list = indexMap.get(word);
-                await list.ensureResolved();
+                // B"H: First, try to resolve the key to see if it exists.
+                const resolved = await handle.nav.resolveKey(word);
                 
-                if (!list.ptr) {
-                    if (this.db.debug) console.log(`     Creating new list for '${word}'`);
-                    await indexMap.createList(word);
-                    // Re-acquire list handle after creation to ensure it has the pointer
-                    list = indexMap.get(word);
-                    await list.ensureResolved();
+                if (!resolved) {
+                    if (this.db.debug) console.log(`     Creating new WEAK list for '${word}'`);
+                    
+                    // B"H: OPTIMIZATION - Create and populate Sequence directly via Engine
+                    const seq = new Sequence(this.db.allocator);
+                    await seq.create({ isWeak: true });
+                    
+                    // Push the item pointer directly to the engine
+                    await seq.push(ptr);
+                    
+                    // Get the final pointer of the sequence
+                    const seqPtrBuf = SmartPointer.block(constants.TYPE_SEQUENCE, seq.ptr.blockId, seq.ptr.length, seq.ptr.isChain, seq.ptr.offset);
+                    
+                    // Set directly using writer (Bypasses Proxy Apply Trap)
+                    await handle.writer.set(word, seqPtrBuf, { isPtr: true, skipFree: true });
+                    
+                } else {
+                    if (this.db.debug) console.log(`     Pushing ptr to '${word}'`);
+                    
+                    // List exists, append to it.
+                    // We construct a temporary internal handle to use SequenceWriter logic
+                    const listHandle = new LiveHandle(this.db, resolved.ptr, resolved.type, { parent: handle, key: word });
+                    
+                    // B"H: CRITICAL FIX - Unwrap proxy to avoid 'undefined function' on push
+                    const listWriter = listHandle[constants.SYMBOLS.INTERNALS].writer;
+                    
+                    await listWriter.push(ptr, { isPtr: true });
                 }
-                
-                // Push the 16-byte Buffer as a Value
-                if (this.db.debug) console.log(`     Pushing ptr to '${word}'`);
-                await list.push(ptrCopy, { isPtr: true });
             } catch(e) {
-                if(this.db.debug) console.warn(`B"H Indexer: Failed to add '${word}'. Continuing... Error: ${e.message}`);
+                console.error("B\"H Indexer Add Error:", e);
             }
         }
     }
 
-    _extractTokens(val, set = new Set(), visited = new Set()) {
-        if (!val) return set;
-        if (typeof val === 'object' && val !== null) {
-            if (visited.has(val)) return set;
-            visited.add(val);
-        }
+    _extractTokens(val) {
+        const parts = [];
+        const stack = [val];
+        
+        while (stack.length > 0) {
+            const curr = stack.pop();
+            
+            if (curr === null || curr === undefined) continue;
+            
+            if (typeof curr === 'string') {
+                parts.push(curr);
+            } 
+            else if (typeof curr === 'number') {
+                parts.push(String(curr)); 
+            } 
+            else if (typeof curr === 'object') {
+                if (Buffer.isBuffer(curr)) continue;
+                if (curr instanceof Date) continue; 
+                if (curr instanceof RegExp) continue;
+                if (ArrayBuffer.isView(curr)) continue;
 
-        if (typeof val === 'string') {
-            const tokens = tokenizer.tokenize(val);
-            tokens.forEach(t => set.add(t));
-        } else if (typeof val === 'object') {
-            for (const key in val) {
-                // Recursively extract
-                this._extractTokens(val[key], set, visited);
+                if (Array.isArray(curr)) {
+                    for (let i = curr.length - 1; i >= 0; i--) stack.push(curr[i]);
+                } else {
+                    const keys = Object.keys(curr);
+                    for (let i = keys.length - 1; i >= 0; i--) {
+                        stack.push(curr[keys[i]]);
+                    }
+                }
             }
         }
-        return set;
+        
+        const text = parts.join(" ");
+        return tokenizer.tokenize(text);
     }
 
-    _ptrsEqual(a, b) {
-        if (!a && !b) return true;
-        if (!a || !b) return false;
-        if (Buffer.isBuffer(a) && Buffer.isBuffer(b)) return a.equals(b);
-        return false;
+    _ptrsEqual(p1, p2) {
+        if (!p1 || !p2) return false;
+        return p1.compare(p2) === 0;
     }
 }
-
 module.exports = SearchIndexer;
