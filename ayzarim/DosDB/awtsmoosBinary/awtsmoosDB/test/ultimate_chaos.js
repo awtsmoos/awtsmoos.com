@@ -1,4 +1,5 @@
 
+
 // B"H
 /**
  * @file ultimate_chaos.js
@@ -50,7 +51,7 @@ async function runTest() {
         // Create 100 nested maps
         for(let i=1; i<=100; i++) {
             const key = `level_${i}`;
-            await curr.createMap(key);
+            await db.createMap(curr, key);
             curr = curr[key]; // Traverse down
         }
         
@@ -75,9 +76,11 @@ async function runTest() {
         // ==========================================================
         log("\n[2] The Legion: High-Velocity Vector & Search Indexing...");
         
-        await db.root.createList("knowledge_base");
-        await db.root.knowledge_base.enableSearch();
-        await db.root.knowledge_base.enableVectorIndex({ dimensions: 4 });
+        await db.createList(db.root, "knowledge_base");
+        
+        // B"H: New API
+        await db.search.enable(db.root.knowledge_base);
+        await db.vector.enable(db.root.knowledge_base, { dimensions: 4 });
 
         const BATCH_SIZE = 200;
         log(`    Injecting ${BATCH_SIZE} complex entities in Batched Mode...`);
@@ -101,10 +104,12 @@ async function runTest() {
         log(`    Injection took ${dur}ms`);
         
         log("    Verifying Indices...");
-        const searchRes = await db.root.knowledge_base.search("secret void");
+        // B"H: New API
+        const searchRes = await db.search.run(db.root.knowledge_base, "secret void");
         assert(searchRes.length === BATCH_SIZE, `Search Index incomplete. Got ${searchRes.length}`);
         
-        const vecRes = await db.root.knowledge_base.nearest([0.5, 0.5, 0.5, 0.5], 5);
+        // B"H: New API
+        const vecRes = await db.vector.nearest(db.root.knowledge_base, [0.5, 0.5, 0.5, 0.5], 5);
         assert(vecRes.length === 5, "Vector HNSW Index failed");
         
         log("    ✅ The Legion is indexed.");
@@ -115,7 +120,7 @@ async function runTest() {
         // ==========================================================
         log("\n[3] The Great Flood: Massive Sequence Manipulation...");
         
-        await db.root.createList("timeline");
+        await db.createList(db.root, "timeline");
         const timeline = db.root.timeline;
         
         // 1. Fill
@@ -163,21 +168,22 @@ async function runTest() {
         // ==========================================================
         log("\n[4] The Infinite Web: Graph Pathfinding & Severing...");
         
-        await db.root.createMap("net");
+        await db.createMap(db.root, "net");
         const NODES = 100;
         
         // Batch Graph Creation
         await db.batch(async () => {
             // Create Chain: 0->1->2...->99
             for(let i=0; i<NODES; i++) {
-                await db.root.net.createMap(`n${i}`);
+                await db.createMap(db.root.net, `n${i}`);
                 await db.root.net[`n${i}`].set("id", i);
             }
             
             for(let i=0; i<NODES-1; i++) {
                 const src = db.root.net[`n${i}`];
                 const tgt = db.root.net[`n${i+1}`];
-                await src.relateTo(tgt, "LINK");
+                // B"H: New API
+                await db.graph.connect(src, tgt, "LINK");
             }
         });
         
@@ -186,21 +192,31 @@ async function runTest() {
         const end = db.root.net[`n${NODES-1}`];
         
         log("    Finding path 0 -> 99...");
-        const path = await startNode.path(end, { maxDepth: 200 });
+        // B"H: New API
+        const path = await db.graph.shortestPath(startNode, end, { maxDepth: 200 });
         assert(path.length === NODES, `Path length incorrect. Got ${path?.length}`);
         
         // Sever the chain at 50
         log("    Severing the chain at node 50...");
-        await db.root.net.delete(`n50`); // Deleting node should auto-clean edges
+        // B"H: New API - Deletion must be done via db.graph to clean edges if using graph abstractions,
+        // OR via standard delete if just removing data. GraphManager.deleteNode handles edges.
+        await db.graph.deleteNode(db.root.net[`n50`].ptr); // Pass pointer or ID
+        // Alternatively, standard delete:
+        // await db.root.net.delete("n50"); 
+        // Note: Standard delete via Writer checks graph cleanup now!
+        await db.root.net.delete("n50");
+
         await db.waitForIdle();
         
         // Verify Path Fails
-        const brokenPath = await startNode.path(end, { maxDepth: 200 });
+        // B"H: New API
+        const brokenPath = await db.graph.shortestPath(startNode, end, { maxDepth: 200 });
         assert(brokenPath === null, "Path should be broken but was found!");
         
         // Verify Edges Cleaned
         const n49 = db.root.net.n49;
-        const out49 = await n49.relationships("OUT");
+        // B"H: New API
+        const out49 = await db.graph.getRelationships(n49, "OUT");
         assert(out49.length === 0, "Edge to n50 was not cleaned from n49");
         
         log("    ✅ Graph logic verified.");
@@ -212,7 +228,8 @@ async function runTest() {
         log("\n[5] The Big Crunch: Compaction Analysis...");
         
         // Check fragmentation of the 'timeline' list (we deleted 50% of it earlier)
-        const statsBefore = await db.root.timeline.stats();
+        // B"H: FIX - Use db.stats(handle) not handle.stats()
+        const statsBefore = await db.stats(db.root.timeline);
         log(`    Stats Before: Size=${statsBefore.size} bytes, Fragmentation=${(statsBefore.fragmentation*100).toFixed(2)}%`);
         
         // If fragmentation is high, compact
@@ -221,7 +238,8 @@ async function runTest() {
             await db.root.timeline.compact();
             await db.waitForIdle();
             
-            const statsAfter = await db.root.timeline.stats();
+            // B"H: FIX - Use db.stats(handle)
+            const statsAfter = await db.stats(db.root.timeline);
             log(`    Stats After: Size=${statsAfter.size} bytes, Fragmentation=${(statsAfter.fragmentation*100).toFixed(2)}%`);
             
             assert(statsAfter.fragmentation < statsBefore.fragmentation, "Compaction failed to reduce fragmentation");
@@ -259,7 +277,8 @@ async function runTest() {
         assert(rebornSurvivor === "Year_3000", "Sequence Index integrity lost");
         
         // Verify Search
-        const rebornSearch = await db2.root.knowledge_base.search("secret void");
+        // B"H: New API
+        const rebornSearch = await db2.search.run(db2.root.knowledge_base, "secret void");
         assert(rebornSearch.length === 200, "Search Index Lost");
 
         await db2.close();

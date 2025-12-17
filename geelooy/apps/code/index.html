@@ -21,7 +21,8 @@
     <link href="css/editor-views.css" rel="stylesheet">
     <link href="css/zip-explorer.css" rel="stylesheet">
     <link href="css/tab-manager.css" rel="stylesheet">
-    <link href="css/file-commander.css" rel="stylesheet"> <!-- B"H -->
+    <link href="css/file-commander.css" rel="stylesheet"> 
+    <link href="css/search.css" rel="stylesheet"> <!-- B"H - Added Search CSS -->
     <!-- Fallback/Overwrites -->
     <link href="style.css" rel="stylesheet"> 
 </head>  
@@ -31,9 +32,14 @@
         <div class="sidebar" id="sidebar">
             <div class="sidebar-header">
             <span>Explorer</span>
-            <button id="sidebar-collapse-btn" title="Collapse Sidebar" class="icon-button"><svg class="svg-icon"><use href="#icon-arrow-left"></use></svg></button>
-            <button id="sidebar-file-commander-btn" title="File Commander" class="icon-button"><svg class="svg-icon"><use href="#icon-folder"></use></svg></button>
-                <button id="add-workspace-btn" title="Add Workspace" class="icon-button"><svg class="svg-icon"><use href="#icon-plus"></use></svg></button>
+            <div style="display:flex; gap: 4px;">
+                <button id="sidebar-search-btn" title="Search Files" class="icon-button"><svg class="svg-icon"><use href="#icon-search"></use></svg></button>
+                <button id="sidebar-collapse-btn" title="Collapse Sidebar" class="icon-button"><svg class="svg-icon"><use href="#icon-arrow-left"></use></svg></button>
+            </div>
+            </div>
+            <div class="sidebar-sub-header" style="padding: 0 10px 5px 10px; display:flex; justify-content:space-between; border-bottom: 1px solid var(--color-border);">
+                 <button id="sidebar-file-commander-btn" title="File Commander" class="icon-button"><svg class="svg-icon"><use href="#icon-folder"></use></svg></button>
+                 <button id="add-workspace-btn" title="Add Workspace" class="icon-button"><svg class="svg-icon"><use href="#icon-plus"></use></svg></button>
             </div>
             <div id="workspaces-container" class="workspaces-container"></div>
         </div>
@@ -172,6 +178,29 @@
             <button data-action="pin">Pin to Top</button>
             <div class="menu-separator"></div>
             <button data-action="close" class="danger">Close</button>
+        </div>
+    </div>
+    
+    <!-- B"H - SEARCH OVERLAY (NEW) -->
+    <div id="search-overlay" class="search-overlay hidden">
+        <div class="search-window">
+            <div class="search-header">
+                <h2>Global Search</h2>
+                <button id="search-close-btn" class="icon-button"><svg class="svg-icon"><use href="#icon-x"></use></svg></button>
+            </div>
+            <div class="search-controls">
+                <div class="search-input-group">
+                    <input type="text" id="global-search-input" placeholder="Search for files or content...">
+                    <button id="global-search-btn" class="primary-btn">Search</button>
+                </div>
+                <div class="search-options">
+                    <label><input type="checkbox" id="search-content-toggle"> Search Content (Slower)</label>
+                    <div id="search-scope-display" class="search-scope">Scope: All Workspaces</div>
+                </div>
+            </div>
+            <div id="search-results" class="search-results">
+                <div class="search-empty">Enter a query to begin.</div>
+            </div>
         </div>
     </div>
 

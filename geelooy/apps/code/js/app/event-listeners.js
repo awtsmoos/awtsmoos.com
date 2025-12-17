@@ -1,3 +1,4 @@
+
 // B"H
 // FILE: js/app/event-listeners.js
 
@@ -20,71 +21,61 @@ export function setupEventListeners() {
     window.addEventListener('message', async (event) => {
         const { type, payload, requestId, error } = event.data;
         
-        // B"H - Handle Import Requests from Previews
-        if (type === 'import-request' && event.data.source === 'html-preview-bridge') {
-            const { specifier, referrer, workspaceId, id } = event.data;
-            
-            console.log(`[Import-Handler] Received request for "${specifier}" from "${referrer}" (ID: ${id})`);
+        const handleFileRead = async (workspaceId, path) => {
+            const workspace = State.workspaces.find(ws => String(ws.id) === String(workspaceId));
+            if (!workspace) throw new Error(`Workspace ${workspaceId} not found`);
+            const item = { ...workspace, path: path, kind: 'file' };
+            let content = await FileSystemProvider.read(item);
+            if (content instanceof Blob) content = await content.text();
+            else if (content && content.base64Content) content = atob(content.base64Content);
+            return content;
+        };
 
-            (async () => {
-                try {
-                    // 1. Robust Path Resolution using URL API
-                    let absolutePath = specifier;
-                    
-                    if (specifier.startsWith('.')) {
-                        // Ensure referrer has a leading slash for URL construction logic
+        // B"H - Unified Handler for Import/Worker Fetch
+        if ((type === 'import-request' && event.data.source === 'html-preview-bridge') || 
+            type === 'fetch-worker-script' || 
+            type === 'fetch-script-content' ||
+            (type === 'FETCH_REQ')) { // Handle generic VM fetch request if used directly
+            
+            const { specifier, referrer, workspaceId, id, path } = event.data;
+            const targetPath = specifier || path;
+            
+            try {
+                let content;
+                
+                // B"H - System Asset Interception
+                // If the path requests a Merkava System file (and it wasn't intercepted by the Host Worker logic),
+                // serve it from the app root.
+                if (targetPath.includes('MerkavaExecutor') || targetPath.includes('merkava-sdk')) {
+                    const cleanPath = targetPath.startsWith('/') ? targetPath : '/' + targetPath;
+                    const response = await fetch(cleanPath);
+                    if (!response.ok) throw new Error(`System Asset Not Found: ${cleanPath}`);
+                    content = await response.text();
+                } else {
+                    // Workspace File Resolution
+                    let absolutePath = targetPath;
+                    if (referrer && targetPath.startsWith('.')) {
                         const referrerPath = referrer.startsWith('/') ? referrer : '/' + referrer;
-                        
-                        // Use a dummy origin. 
                         const baseUrl = new URL(referrerPath, 'http://root');
-                        const resolvedUrl = new URL(specifier, baseUrl);
-                        absolutePath = resolvedUrl.pathname;
-                        // Decode URL-encoded characters (like %20 for spaces)
+                        absolutePath = new URL(targetPath, baseUrl).pathname;
                         absolutePath = decodeURIComponent(absolutePath);
                     }
-                    
-                    console.log(`[Import-Handler] Resolved "${specifier}" -> "${absolutePath}"`);
-
-                    // 2. Fetch Content
-                    const workspace = State.workspaces.find(ws => String(ws.id) === String(workspaceId));
-                    if (!workspace) {
-                        console.error(`[Import-Handler] Workspace ${workspaceId} not found!`);
-                        throw new Error(`Workspace ${workspaceId} not found`);
-                    }
-                    
-                    const item = { ...workspace, path: absolutePath, kind: 'file' };
-                    let content;
-                    
-                    try {
-                        content = await FileSystemProvider.read(item);
-                        console.log(`[Import-Handler] Successfully read "${absolutePath}"`);
-                    } catch(readErr) {
-                        console.error(`[Import-Handler] FAILED to read "${absolutePath}". Error: ${readErr.message}`);
-                        
-                        // B"H - Diagnostics: List the parent directory to see what IS there
-                        try {
-                            const parentPath = absolutePath.substring(0, absolutePath.lastIndexOf('/')) || '/';
-                            console.warn(`[Import-Handler] Listing contents of parent "${parentPath}":`);
-                            const parentItem = { ...workspace, path: parentPath, kind: 'directory' };
-                            const children = await FileSystemProvider.list(parentItem);
-                            console.table(children.map(c => ({ name: c.name, path: c.path, kind: c.kind })));
-                        } catch(listErr) {
-                            console.warn("[Import-Handler] Could not list parent directory.", listErr);
-                        }
-                        
-                        throw readErr;
-                    }
-                    
-                    if (content instanceof Blob) content = await content.text();
-                    else if (content && content.base64Content) content = atob(content.base64Content);
-                    
-                    event.source.postMessage({ type: 'import-response', id, content }, '*');
-                } catch (e) {
-                    console.error(`[Import-Handler] Fatal Error processing "${specifier}":`, e);
-                    // B"H - Ensure error is a plain string to avoid cloning issues
-                    event.source.postMessage({ type: 'import-response', id, error: e.toString() }, '*');
+                    content = await handleFileRead(workspaceId, absolutePath);
                 }
-            })();
+                
+                // Respond based on request type
+                if (type === 'import-request') {
+                    event.source.postMessage({ type: 'import-response', id, content }, '*');
+                } else if (type === 'fetch-worker-script') {
+                    event.source.postMessage({ type: 'worker-script-response', id, content }, '*');
+                } else {
+                    event.source.postMessage({ type: 'script-content-response', id, content, path: targetPath }, '*');
+                }
+            } catch (e) {
+                const responseType = type === 'import-request' ? 'import-response' : 
+                                     type === 'fetch-worker-script' ? 'worker-script-response' : 'script-content-response';
+                event.source.postMessage({ type: responseType, id, error: e.toString() }, '*');
+            }
             return;
         }
 
@@ -96,19 +87,14 @@ export function setupEventListeners() {
             return;
         }
         
-        // B"H - Handle Workspace Opening (Folders)
         if (type === 'loadWorkspace') {
             const { name, path, type: wsType } = payload;
-            
-            // Remove 'collapsed' state so user can see the sidebar
             const appContainer = document.querySelector('.app-container');
             const sidebarCollapseBtn = document.getElementById('sidebar-collapse-btn');
             const resizer = document.getElementById('sidebar-resizer');
-            
             if (appContainer) appContainer.classList.remove('sidebar-collapsed');
             if (sidebarCollapseBtn) sidebarCollapseBtn.style.display = 'flex';
             if (resizer) resizer.style.display = 'block';
-            
             Workspaces.add({ name, path, type: wsType }, true);
             return;
         }
@@ -128,15 +114,11 @@ export function setupEventListeners() {
             const externalWorkspace = { name: `OS File`, type: 'postmessage' };
             Workspaces.add(externalWorkspace, false);
             const wsId = State.workspaces[State.workspaces.length - 1].id;
-            
-            // B"H - Store content as _initialContent to simulate a standard file load
-            // via FileSystemProvider, ensuring identical behavior to internal files.
             const fileItem = {
                 name: fileName, path: fileName, kind: 'file',
                 type: 'postmessage', workspaceId: wsId,
                 saveContext, _initialContent: content
             };
-
             await Tabs.create(fileItem, false, false);
             return;
         }
@@ -157,16 +139,11 @@ export function setupEventListeners() {
         };
     }
     
-    // B"H - Bind File Commander Buttons (Main Menu & Sidebar Header)
     const fcBtnMain = document.getElementById('file-commander-btn');
-    if (fcBtnMain) {
-        fcBtnMain.onclick = () => FileCommander.show();
-    }
+    if (fcBtnMain) fcBtnMain.onclick = () => FileCommander.show();
     
     const fcBtnSidebar = document.getElementById('sidebar-file-commander-btn');
-    if (fcBtnSidebar) {
-        fcBtnSidebar.onclick = () => FileCommander.show();
-    }
+    if (fcBtnSidebar) fcBtnSidebar.onclick = () => FileCommander.show();
 
     const appContainer = document.querySelector('.app-container');
     const sidebarCollapseBtn = document.getElementById('sidebar-collapse-btn');
@@ -303,7 +280,6 @@ export function setupEventListeners() {
             }
             
             if (!DOM.findReplacePanel.style.display || DOM.findReplacePanel.style.display === 'none') {
-                 // Check if tab manager is open
                  if (TabManagerOverlay.overlay && TabManagerOverlay.overlay.classList.contains('visible')) {
                      TabManagerOverlay.hide();
                  } else if (FileCommander.overlay && FileCommander.overlay.classList.contains('visible')) {
@@ -317,7 +293,6 @@ export function setupEventListeners() {
         }
     });
     
-    // Tab inputs logic
     const handleTabInInputs = (e) => {
         if (e.key === 'Tab') {
             e.preventDefault();

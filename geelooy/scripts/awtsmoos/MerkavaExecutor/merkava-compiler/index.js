@@ -1,11 +1,29 @@
 
-
 // B"H
 (function(root) {
     root.MerkavaCompiler = root.MerkavaCompiler || {};
-    const getOpcodes = () => (root.MerkavaOpcodes && root.MerkavaOpcodes.OPCODES) || {};
+    
+    // B"H - Robust Opcode Resolution
+    const getOpcodes = () => {
+        const g = typeof globalThis !== 'undefined' ? globalThis : 
+                  (typeof self !== 'undefined' ? self : 
+                  (typeof window !== 'undefined' ? window : root));
+                  
+        // Standard Global
+        if (g.MerkavaOpcodes && g.MerkavaOpcodes.OPCODES) {
+            return g.MerkavaOpcodes.OPCODES;
+        }
+        
+        // Default Export (Bundler compatibility)
+        if (g.MerkavaOpcodes && g.MerkavaOpcodes.default && g.MerkavaOpcodes.default.OPCODES) {
+            return g.MerkavaOpcodes.default.OPCODES;
+        }
 
-    // B"H - Re-aggregate Visitors on every execution to ensure freshness
+        console.error("[MerkavaCompiler] MerkavaOpcodes not found in global scope. Opcodes will be empty!");
+        throw new Error("Critical: MerkavaOpcodes not loaded. Cannot compile.");
+    };
+
+    // B"H - Re-aggregate Visitors
     const getVisitors = () => Object.assign({}, 
         root.MerkavaCompiler.Visitors.Declarations,
         root.MerkavaCompiler.Visitors.Expressions,
@@ -82,12 +100,20 @@
     class Compiler {
         constructor() {
             this.OPCODES = getOpcodes();
+            
+            // B"H - Strict Opcode Validation
+            // We must ensure PUSH_CONST is defined AND correct (0x13).
+            // If it is 0 or undefined, it will cause the "Unknown Opcode 10" sync error.
+            if (this.OPCODES.PUSH_CONST === undefined || this.OPCODES.PUSH_CONST !== 0x13) {
+                console.error("Invalid PUSH_CONST:", this.OPCODES.PUSH_CONST);
+                throw new Error("[MerkavaCompiler] Critical: PUSH_CONST is invalid. Check 'merkava-opcodes.js'.");
+            }
+
             this.constants = [];
             this.buffer = new root.MerkavaCompiler.BytecodeBuilder();
             this.scope = new root.MerkavaCompiler.Scope(null, true);
             this.loops = [];
             
-            // B"H - Bind Visitors to instance to ensure latest logic is used
             Object.assign(this, getVisitors());
         }
 
@@ -109,35 +135,44 @@
             this.buffer.write16(idx);
         }
 
+        _registerPattern(pattern) {
+            if (pattern.type === 'Identifier') {
+                this.scope.declare(pattern.name);
+            } else if (pattern.type === 'ObjectPattern') {
+                pattern.properties.forEach(prop => {
+                    if (prop.type === 'RestElement') {
+                        this._registerPattern(prop.argument);
+                    } else {
+                        this._registerPattern(prop.value);
+                    }
+                });
+            } else if (pattern.type === 'ArrayPattern') {
+                pattern.elements.forEach(elem => {
+                    if (elem) this._registerPattern(elem);
+                });
+            } else if (pattern.type === 'RestElement') {
+                this._registerPattern(pattern.argument);
+            }
+        }
+
         _compileBlock(statements) {
             if (Array.isArray(statements)) {
-                // Pass 0: Pre-declare Identifiers (Scope Population)
-                // B"H - TIKKUN: Only declare locals if we are NOT at root (depth > 0).
-                // At root (depth 0), variables are implicitly GLOBALS to ensure persistence.
                 if (this.scope.depth > 0) {
                     statements.forEach(s => {
                         if (s.type === 'FunctionDeclaration' && s.id) {
                             this.scope.declare(s.id.name);
                         } else if (s.type === 'VariableDeclaration') {
                             s.declarations.forEach(d => {
-                                if (d.id.type === 'Identifier') this.scope.declare(d.id.name);
+                                this._registerPattern(d.id);
                             });
                         }
                     });
                 }
-
-                // Pass 1: Compile Function Declarations (Hoisting support)
                 statements.forEach(s => {
-                    if (s.type === 'FunctionDeclaration') {
-                        this._visit(s);
-                    }
+                    if (s.type === 'FunctionDeclaration') this._visit(s);
                 });
-
-                // Pass 2: Compile Everything Else
                 statements.forEach(s => {
-                    if (s.type !== 'FunctionDeclaration') {
-                        this._visit(s);
-                    }
+                    if (s.type !== 'FunctionDeclaration') this._visit(s);
                 });
             }
         }
@@ -145,10 +180,7 @@
         _visitFuncExpr(node, isArrow = false) {
             const sub = new Compiler();
             sub.scope = new root.MerkavaCompiler.Scope(this.scope, true);
-            
-            node.params.forEach(p => {
-                if (p.type === 'Identifier') sub.scope.declare(p.name);
-            });
+            node.params.forEach(p => sub._registerPattern(p));
             
             if (node.body.type === 'BlockStatement') {
                 sub._compileBlock(node.body.body);

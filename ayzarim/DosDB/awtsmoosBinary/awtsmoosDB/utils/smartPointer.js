@@ -9,12 +9,22 @@ const AwtsmoosClassRegistry = new Map();
 
 class SmartPointer {
     static encode(type, mode, payloadBuffer) {
-        const buf = Buffer.alloc(constants.POINTER_SIZE);
+        // B"H: Optimization - allocUnsafe
+        const buf = Buffer.allocUnsafe(constants.POINTER_SIZE);
         const header = (mode << 6) | (type & 0x3F);
         buf.writeUInt8(header, 0);
+        
+        // Zero out payload area if unused, or copy payload
         if (payloadBuffer) {
             if (payloadBuffer.length > 15) throw new Error("B\"H: Pointer Payload exceeds 15 bytes");
             payloadBuffer.copy(buf, 1);
+            // Zero fill remaining bytes if any? 
+            // Usually not strictly needed if we decode by mode, but safer to zero remaining
+            if(payloadBuffer.length < 15) {
+                buf.fill(0, 1 + payloadBuffer.length);
+            }
+        } else {
+            buf.fill(0, 1);
         }
         return buf;
     }
@@ -34,7 +44,7 @@ class SmartPointer {
     }
 
     static heap(type, blockId, offset, length) {
-        const payload = Buffer.alloc(14); 
+        const payload = Buffer.allocUnsafe(14); 
         writePointer48(payload, blockId, 0);
         payload.writeUInt32BE(offset, 6);
         payload.writeUInt32BE(length, 10);
@@ -42,7 +52,7 @@ class SmartPointer {
     }
 
     static block(type, blockId, length = 0, isChain = false, offset = 0) {
-        const payload = Buffer.alloc(15);
+        const payload = Buffer.allocUnsafe(15);
         writePointer48(payload, blockId, 0);
         payload.writeUInt32BE(length, 6);
         payload.writeUInt32BE(offset, 10);
@@ -60,6 +70,9 @@ class SmartPointer {
             const blockId = readPointer48(ptr.payload, 0);
             const offset = ptr.payload.readUInt32BE(6);
             const length = ptr.payload.readUInt32BE(10);
+            
+            if (length === 0) return SmartPointer.decodeValue(ptr.type, Buffer.alloc(0), allocator, context, blockId);
+
             const firstBlockCap = constants.BLOCK_SIZE - offset;
             let raw;
             if (length > firstBlockCap) {
@@ -67,8 +80,13 @@ class SmartPointer {
             } else {
                 const block = await allocator.readBlock(blockId);
                 if (!block) return null;
-                raw = block.subarray(offset, offset + length);
+                if (offset + length > block.length) {
+                     raw = await allocator.v1.db._readChainSafe({ blockId, offset, length, isChain: false });
+                } else {
+                     raw = block.subarray(offset, offset + length);
+                }
             }
+            if (!raw) return undefined;
             return SmartPointer.decodeValue(ptr.type, raw, allocator, context);
         }
 
@@ -88,9 +106,9 @@ class SmartPointer {
                 ptr.type === constants.TYPE_FUNCTION || ptr.type === constants.TYPE_CUSTOM_INSTANCE) {
                 
                 const raw = await allocator.v1.db._readChainSafe({ blockId, length, isChain, offset });
+                if (!raw) return undefined;
                 return SmartPointer.decodeValue(ptr.type, raw, allocator, context, blockId);
             }
-            // B"H: Structure Return - Ensure blockId is valid
             return { isStructure: true, type: ptr.type, blockId, length, offset, isChain };
         }
     }
@@ -108,6 +126,7 @@ class SmartPointer {
     }
 
     static async decodeValue(type, buffer, allocator, context, blockId) {
+        if (!buffer) return undefined;
         if (type === constants.TYPE_STRING) return buffer.toString('utf8');
         if (type === constants.TYPE_BUFFER) return buffer;
         if (type === constants.TYPE_NUMBER) return parseFloat(buffer.toString());
@@ -117,8 +136,6 @@ class SmartPointer {
         if (type === constants.TYPE_SYMBOL) return Symbol.for(buffer.toString('utf8'));
         
         if (type === constants.TYPE_FUNCTION) {
-            // B"H: Return source string directly. Eval is unsafe and slow.
-            // Tests expect string.
             return buffer.toString('utf8');
         }
         
@@ -144,9 +161,7 @@ class SmartPointer {
                     `);
                     Cls = evalFn(...registryValues);
                     if (Cls) AwtsmoosClassRegistry.set(className, Cls);
-                } catch (e) {
-                    // console.warn(`[AwtsmoosDB] Warning: Could not recompile ${className}.`);
-                }
+                } catch (e) {}
             }
 
             const Dictionary = require('../structure/dictionary/index.js');
@@ -178,6 +193,7 @@ class SmartPointer {
         }
 
         if (type === constants.TYPE_TYPED_ARRAY) {
+            if (buffer.length < 1) return new Uint8Array(0);
             const viewType = buffer[0];
             const raw = buffer.subarray(1);
             const buf = raw.buffer.slice(raw.byteOffset, raw.byteOffset + raw.byteLength);

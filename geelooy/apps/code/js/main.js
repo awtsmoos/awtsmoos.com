@@ -5,6 +5,7 @@ import { App } from './app.js';
 import { initializeDOM } from './state.js'; // Correctly import the function
 import { FileCommander } from './file-commander.js';
 import { loadIcons } from './app/icon-loader.js';
+import { SearchSystem } from './search-system.js';
 
 // This event listener waits for the entire HTML page to be ready.
 document.addEventListener('DOMContentLoaded', async () => {
@@ -17,6 +18,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     
     // 2. Initialize secondary UI components
     FileCommander.init();
+    SearchSystem.init(); // B"H
     
     // 3. Only then do we initialize the rest of the application.
     await App.initialize();

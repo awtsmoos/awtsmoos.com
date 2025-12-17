@@ -1,4 +1,3 @@
-
 // B"H
 /**
  * @module binaryHelpers
@@ -65,7 +64,7 @@ function writeConditional(num) {
     let size = 1;
     if (num >= 256) size = 2;
     if (num >= 65536) size = 4;
-    if (num >= 4294967296) size = 8; // JS Max Safe Int fits in 8 bytes (double) but here we treat as uint64
+    if (num >= 4294967296) size = 8; 
 
     const buf = Buffer.alloc(size);
     if (size === 1) buf.writeUInt8(num, 0);
@@ -74,6 +73,28 @@ function writeConditional(num) {
     else buf.writeBigUInt64BE(BigInt(num), 0);
 
     return { buffer: buf, size };
+}
+
+// B"H: Zero-Allocation version
+function writeConditionalTo(buf, offset, num) {
+    let size = 1;
+    if (num >= 256) size = 2;
+    if (num >= 65536) size = 4;
+    if (num >= 4294967296) size = 8;
+
+    if (size === 1) buf.writeUInt8(num, offset);
+    else if (size === 2) buf.writeUInt16BE(num, offset);
+    else if (size === 4) buf.writeUInt32BE(num, offset);
+    else buf.writeBigUInt64BE(BigInt(num), offset);
+
+    return size;
+}
+
+function getConditionalSize(num) {
+    if (num < 256) return 1;
+    if (num < 65536) return 2;
+    if (num < 4294967296) return 4;
+    return 8;
 }
 
 // Reads a number of `size` bytes
@@ -109,6 +130,8 @@ module.exports = {
     packTypeAndLengthSize,
     unpackTypeAndLengthSize,
     writeConditional,
+    writeConditionalTo,
+    getConditionalSize,
     readConditional,
     writeToBuffer,
     hashKey

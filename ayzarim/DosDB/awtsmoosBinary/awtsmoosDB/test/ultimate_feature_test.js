@@ -1,3 +1,4 @@
+
 // B"H
 /**
  * @file ultimate_feature_test.js
@@ -21,7 +22,7 @@ async function runTest() {
     if (fs.existsSync(DB_PATH)) fs.unlinkSync(DB_PATH);
     if (fs.existsSync(DB_PATH + ".wal")) fs.unlinkSync(DB_PATH + ".wal");
 
-    const db = new AwtsmoosDB(DB_PATH, { debug: false });
+    const db = new AwtsmoosDB(DB_PATH, { debug: true });
     await db.open();
 
     try {
@@ -30,10 +31,10 @@ async function runTest() {
         // ======================================================
         console.log("\n[1] Genesis: Constructing the Multiverse...");
         
-        await db.root.createMap("multiverse");
-        await db.root.multiverse.createMap("dimension_c137");
-        await db.root.multiverse.dimension_c137.createMap("galaxies");
-        await db.root.multiverse.dimension_c137.galaxies.createMap("milky_way");
+        await db.createMap(db.root, "multiverse");
+        await db.createMap(db.root.multiverse, "dimension_c137");
+        await db.createMap(db.root.multiverse.dimension_c137, "galaxies");
+        await db.createMap(db.root.multiverse.dimension_c137.galaxies, "milky_way");
         
         // Primitive Set
         await db.root.multiverse.dimension_c137.galaxies.milky_way.set("description", "Spiral Galaxy");
@@ -52,44 +53,43 @@ async function runTest() {
         console.log("\n[2] History: Creating the Timeline (Collection)...");
         
         // Create List deep in the structure
-        await db.root.multiverse.dimension_c137.galaxies.milky_way.createList("timeline");
+        await db.createList(db.root.multiverse.dimension_c137.galaxies.milky_way, "timeline");
         const timeline = db.root.multiverse.dimension_c137.galaxies.milky_way.timeline;
 
         // 1. Push Initial Epochs
         console.log("    Pushing initial epochs...");
-        const epochs = ["Big Bang", "Formation", "Life", "Technology", "Singularity"];
+        const epochs = ["Creation", "Adam & Eve", "The Patriarchs", "First Temple", "Moshiach"];
         for(const e of epochs) await timeline.push(e);
 
-        // 2. Splice INSERT: "Dinosaur Era" between "Formation" (1) and "Life" (2)
-        console.log("    Splice INSERT: Adding 'Dinosaur Era'...");
-        await timeline.splice(2, 0, "Dinosaur Era");
-        // Expected: Big Bang, Formation, Dinosaur Era, Life, Technology, Singularity
+        // 2. Splice INSERT: "The Flood" between "Adam & Eve" (1) and "The Patriarchs" (2)
+        console.log("    Splice INSERT: Adding 'The Flood'...");
+        await timeline.splice(2, 0, "The Flood");
+        // Expected: Creation, Adam & Eve, The Flood, The Patriarchs, First Temple, Moshiach
 
         // 3. Direct Access Verification
         const item2 = await timeline[2];
         console.log(`    timeline[2]: ${item2}`);
-        if (item2 !== "Dinosaur Era") throw new Error("Splice Insert / Array Access Failed");
+        if (item2 !== "The Flood") throw new Error("Splice Insert / Array Access Failed");
 
-        // 4. Splice REPLACE: Rename "Technology" (4) to "The Information Age"
+        // 4. Splice REPLACE: Rename "First Temple" (4) to "Second Temple"
         console.log("    Splice REPLACE: Updating index 4...");
-        await timeline.splice(4, 1, "The Information Age");
+        await timeline.splice(4, 1, "Second Temple");
         
         const item4 = await timeline[4];
-        if (item4 !== "The Information Age") throw new Error("Splice Replace Failed");
+        if (item4 !== "Second Temple") throw new Error("Splice Replace Failed");
 
-        // 5. Splice DELETE: Remove "Singularity" (5)
+        // 5. Splice DELETE: Remove "Moshiach" (5) (Simulating Pre-Redemption)
         console.log("    Splice DELETE: Removing index 5...");
         await timeline.splice(5, 1); // remove 1 item at index 5
         
         const len = await timeline.length;
+        console.log(`    Current Timeline: ${JSON.stringify(await timeline.slice(0, 10))}`);
         if (len !== 5) throw new Error(`Length mismatch. Expected 5, got ${len}`);
         
         // 6. Slice Verification
         const allEvents = await timeline.slice(0, 10);
-        console.log("    Current Timeline:", JSON.stringify(allEvents));
-        // ["Big Bang","Formation","Dinosaur Era","Life","The Information Age"]
         
-        if (allEvents[2] !== "Dinosaur Era" || allEvents[4] !== "The Information Age") {
+        if (allEvents[2] !== "The Flood" || allEvents[4] !== "Second Temple") {
             throw new Error("Timeline Content Mismatch");
         }
 
@@ -105,8 +105,8 @@ async function runTest() {
         const discoveryDate = new Date("2023-01-01T00:00:00Z");
 
         await db.root.multiverse.dimension_c137.galaxies.milky_way.set("artifact", {
-            name: "Monolith",
-            origin: "Unknown",
+            name: "Luchos",
+            origin: "Sinai",
             discovered: discoveryDate,
             signal: alienData,
             properties: {
@@ -145,7 +145,7 @@ async function runTest() {
         console.log("\n[4] Evolution: Modifying Object in Collection...");
         
         // Scenario: We have a list of users, we want to update one.
-        await db.root.createList("agents");
+        await db.createList(db.root, "agents");
         await db.root.agents.push({ id: 007, name: "Bond", active: true });
         
         // 1. Fetch
@@ -176,7 +176,7 @@ async function runTest() {
         console.log("\n[5] Expansion: Massive Population Growth...");
         
         const starCount = 500;
-        await db.root.multiverse.dimension_c137.galaxies.milky_way.createList("stars");
+        await db.createList(db.root.multiverse.dimension_c137.galaxies.milky_way, "stars");
         const stars = db.root.multiverse.dimension_c137.galaxies.milky_way.stars;
 
         console.log(`    Spawning ${starCount} stars...`);
@@ -194,7 +194,11 @@ async function runTest() {
         
         // Check random star
         const star300 = await stars[300];
-        if (star300.id !== 300) throw new Error("Random Access in large collection failed");
+        if (star300.id !== 300) {
+             console.error(`    ❌ Access Error: Expected ID 300, got ID ${star300 ? star300.id : 'undefined'}`);
+             console.error(`    Full Object:`, JSON.stringify(star300));
+             throw new Error("Random Access in large collection failed");
+        }
 
         console.log("    ✅ Stress Expansion Verified.");
 
@@ -204,8 +208,10 @@ async function runTest() {
         // ======================================================
         console.log("\n[6] Entropy: Deleting The Artifact...");
         
-        // Delete property from Map
-        await db.root.multiverse.dimension_c137.galaxies.milky_way.deleteProperty("artifact");
+        // B"H: Use JavaScript delete operator on the proxy property
+        delete db.root.multiverse.dimension_c137.galaxies.milky_way.artifact;
+        
+        await db.waitForIdle();
         
         const check = await db.root.multiverse.dimension_c137.galaxies.milky_way.artifact;
         if (check !== undefined) throw new Error("Deletion Failed");

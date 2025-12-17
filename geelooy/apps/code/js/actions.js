@@ -49,76 +49,50 @@ export const Actions = {
                     if (item && item.kind === 'directory') {
                         UI.showLoading("Refreshing...");
                         await Workspaces.refreshNode(item);
-                        
-                        // Intelligent Tab Reload & GitHub Sync
                         const folderPath = item.path === '/' ? '' : item.path;
                         const workspace = State.workspaces.find(ws => ws.id === item.workspaceId);
-                        
-                        // B"H - If GitHub, we must update the SHAs of open tabs from the new tree
                         const isGithub = workspace && workspace.type === 'github';
                         
                         for (const tab of State.tabs) {
                             if (tab.item.workspaceId !== item.workspaceId) continue;
-                            if (tab.isDirty) continue; // Don't touch dirty files
+                            if (tab.isDirty) continue; 
                             
-                            // Check if tab is inside the refreshed folder
-                            // Handle root refresh '/' correctly
                             const isInFolder = (folderPath === '') 
                                 ? true 
                                 : tab.item.path.startsWith(folderPath + '/');
 
                             if (isInFolder) {
-                                // B"H - Update SHA for GitHub files
                                 if (isGithub && workspace._treeCache) {
                                     const filePath = tab.item.path;
                                     const parentPath = filePath.substring(0, filePath.lastIndexOf('/')); 
-                                    // Root parentPath is empty string in _treeCache keys
                                     const lookupPath = parentPath.startsWith('/') ? parentPath.substring(1) : parentPath;
-                                    
                                     const siblings = workspace._treeCache.get(lookupPath);
                                     if (siblings) {
                                         const fileName = filePath.split('/').pop();
                                         const newFileRecord = siblings.find(f => f.name === fileName);
-                                        if (newFileRecord && newFileRecord.sha) {
-                                            // Update the SHA so the next read fetches new content
-                                            tab.item.sha = newFileRecord.sha;
-                                        }
+                                        if (newFileRecord && newFileRecord.sha) tab.item.sha = newFileRecord.sha;
                                     }
                                 }
-
                                 tab.forceReload = true; 
-                                if (tab.id === State.activeTabId) {
-                                    await Tabs.activate(tab.id);
-                                }
+                                if (tab.id === State.activeTabId) await Tabs.activate(tab.id);
                             }
                         }
-                        
                         UI.showToast("Refreshed & Synced.", "success");
                     }
                     break;
 
                 // --- File Creation & IO ---
-                case "new-temp-file":
-                    Tabs.createTemporary();
-                    break;
-                case "open-file":
-                    App.openLocalFile();
-                    break;
-                case "save":
-                    Tabs.saveActive();
-                    break;
-                case "download":
-                    Tabs.downloadActive();
-                    break;
+                case "new-temp-file": Tabs.createTemporary(); break;
+                case "open-file": App.openLocalFile(); break;
+                case "save": Tabs.saveActive(); break;
+                case "download": Tabs.downloadActive(); break;
                 case "new-file":
                 case "new-folder":
                     if (item) {
-                        // B"H - Route to Zip Explorer if inside a zip
                         if (item.type === 'zip-entry') {
                             await ZipExplorer.createItem(action === "new-folder" ? "directory" : "file");
                             return;
                         }
-
                         const kind = action === "new-folder" ? "directory" : "file";
                         const name = await UI.showDialog({
                             title: `Create New ${kind}`,
@@ -145,18 +119,16 @@ export const Actions = {
                             hasInput: true,
                             inputType: 'text',
                             placeholder: item.name,
+                            inputValue: item.name, 
                             okText: "Rename"
                         });
                         
                         if (newName && newName !== item.name) {
                             UI.showLoading("Renaming...");
                             await FileSystemProvider.rename(item, newName);
-                            
-                            // Refresh parent
                             const parentPath = item.path.substring(0, item.path.lastIndexOf('/')) || '/';
                             const parentItem = { ...item, path: parentPath, kind: 'directory' };
                             await Workspaces.refreshNode(parentItem);
-                            
                             UI.showToast("Item renamed.", "success");
                         }
                     } else {
@@ -165,19 +137,15 @@ export const Actions = {
                     break;
                 
                 case "open-file-commander":
-                    if (item && item.kind === 'directory') {
-                        FileCommander.show(item);
-                    }
+                    if (item && item.kind === 'directory') FileCommander.show(item);
                     break;
                 
                 case "open-zip-entry":
                     if (item && item.type === 'zip-entry') {
-                        // We need the original entry object or enough info for ZipExplorer to find it
-                        // Since Menus.js constructs a lightweight item, we might need to find it in currentZip entries
                         if (ZipExplorer.currentZip) {
                             const entry = ZipExplorer.currentZip.entries.find(e => e.filename === item.path);
                             if (entry) ZipExplorer.openEntry(entry);
-                            else ZipExplorer.openEntry({ filename: item.path, isDir: false, getData: async() => new Blob([]) }); // Fallback for new items
+                            else ZipExplorer.openEntry({ filename: item.path, isDir: false, getData: async() => new Blob([]) });
                         }
                     }
                     break;
@@ -209,23 +177,13 @@ export const Actions = {
                         Tabs.activate(activeTab.id, true);
                     }
                     break;
-                case "find-replace":
-                    FindReplace.show();
-                    break;
-                case "toggle-keyboard-helper":
-                    DOM.keyboardHelper.classList.toggle("is-visible");
-                    break;
-                case "toggle-fullscreen":
-                    App.toggleFullscreen();
-                    break;
-                case "settings":
-                    App.showSettings();
-                    break;
+                case "find-replace": FindReplace.show(); break;
+                case "toggle-keyboard-helper": DOM.keyboardHelper.classList.toggle("is-visible"); break;
+                case "toggle-fullscreen": App.toggleFullscreen(); break;
+                case "settings": App.showSettings(); break;
 
                 // --- Clipboard & Selection ---
-                case "select-all":
-                    if (activeTab) DOM.editor.select();
-                    break;
+                case "select-all": if (activeTab) DOM.editor.select(); break;
                 case "copy":
                     const selectedText = DOM.editor.value.substring(DOM.editor.selectionStart, DOM.editor.selectionEnd);
                     if (selectedText) {
@@ -239,36 +197,23 @@ export const Actions = {
                         UI.showToast("All content copied!", "success");
                     }
                     break;
-                case "copy-all-contents":
-                    if (item) FileOperations.copyAllContents([item]);
-                    break;
-                case "start-selection":
-                    SelectionManager.start(item, State.contextEvent);
-                    break;
+                case "copy-all-contents": if (item) FileOperations.copyAllContents([item]); break;
+                case "start-selection": SelectionManager.start(item, State.contextEvent); break;
                 case "copy-single":
                     if (item) {
                         State.fileClipboard = [getItemUniquePath(item)];
                         UI.showToast(`Copied "${item.name}" to clipboard.`, "success");
                     }
                     break;
-                
-                case "copy-zip-single":
-                    if (item) FileOperations.copyAsZip([item]);
-                    break;
-                case "download-zip-single":
-                    if (item) FileOperations.downloadAsZip([item]);
-                    break;
-                case "download-file":
-                    if (item) FileOperations.downloadFile(item);
-                    break;
+                case "copy-zip-single": if (item) FileOperations.copyAsZip([item]); break;
+                case "download-zip-single": if (item) FileOperations.downloadAsZip([item]); break;
+                case "download-file": if (item) FileOperations.downloadFile(item); break;
 
                 case "paste":
                     if (item) {
                         let target = item;
                         if (target.kind === 'file') {
-                             // Handle Zip entry parent resolution correctly
                              if (target.type === 'zip-entry') {
-                                 // Zip paths "folder/file" -> parent "folder". Root file "file" -> parent "".
                                  const idx = target.path.lastIndexOf('/');
                                  const parentPath = idx >= 0 ? target.path.substring(0, idx) : '';
                                  target = { ...target, path: parentPath, kind: 'directory' };
@@ -277,24 +222,18 @@ export const Actions = {
                                  target = { ...target, path: parentPath, kind: 'directory' };
                              }
                         }
-                        
-                        if (target.kind === "directory") {
-                            FileOperations.paste(target);
-                        } else {
-                            UI.showToast("Paste target must be a directory.", "warning");
-                        }
+                        if (target.kind === "directory") FileOperations.paste(target);
+                        else UI.showToast("Paste target must be a directory.", "warning");
                     }
                     break;
 
                 // --- Destructive ---
                 case "delete":
                     if (item) {
-                        // B"H - Zip Deletion
                         if (item.type === 'zip-entry') {
                             await ZipExplorer.deleteItem(item.path);
                             return;
                         }
-
                         const confirmed = await UI.showDialog({
                             title: "Confirm Deletion",
                             message: `Delete '${item.name}'?`,
@@ -310,9 +249,7 @@ export const Actions = {
                         }
                     }
                     break;
-                    
-                case "cancel-menu":
-                    break;
+                case "cancel-menu": break;
             }
         } catch (e) {
             UI.showToast(`Error: ${e.message}`, "error");

@@ -50,7 +50,7 @@ async function runSimulation() {
     if (fs.existsSync(DB_PATH + '.wal')) fs.unlinkSync(DB_PATH + '.wal');
 
     // B"H: Enabled DEBUG mode for verbose internal logs
-    const db = new AwtsmoosDB(DB_PATH, { debug: false});
+    const db = new AwtsmoosDB(DB_PATH, { debug: false });
     await db.open();
 
     try {
@@ -65,7 +65,7 @@ async function runSimulation() {
         
         log("Chesed", `The Light Flows: Creating ${TOTAL_SOULS} Souls...`);
         
-        await db.root.createMap("souls");
+        await db.createMap(db.root, "souls");
         
         const startChesed = Date.now();
 
@@ -107,16 +107,19 @@ async function runSimulation() {
         
         // Enable indexes AFTER population
         debug("Enabling Vector Index...");
-        await db.root.souls.enableVectorIndex({ dimensions: 4, metric: 'cosine' });
+        // B"H: New API
+        await db.vector.enable(db.root.souls, { dimensions: 4, metric: 'cosine' });
         
         debug("Enabling Text Search Index...");
-        await db.root.souls.enableSearch();
+        // B"H: New API
+        await db.search.enable(db.root.souls);
         
         await db.waitForIdle();
         
         log("Chesed", `Indexing complete in ${Date.now() - startIndex}ms.`);
         
-        const count = await db.root.souls.length;
+        // B"H: Use db.size() for robustness, though .size property should also work.
+        const count = await db.size(db.root.souls);
         debug(`Total Souls Counted in DB: ${count}`);
         assert(count === TOTAL_SOULS, `Soul Count Mismatch: ${count}`);
 
@@ -124,7 +127,8 @@ async function runSimulation() {
         const TEST_TARGET_ID = `neshamah_15`;
         log("Chesed", `[Pre-Check] Testing Vector Search for ${TEST_TARGET_ID}...`);
         const preCheckSoul = await db.root.souls[TEST_TARGET_ID];
-        const preCheckRes = await db.root.souls.nearest(preCheckSoul.vector, 5);
+        // B"H: New API
+        const preCheckRes = await db.vector.nearest(db.root.souls, preCheckSoul.vector, 5);
         log("Chesed", `[Pre-Check] Found ${preCheckRes.length} results.`);
         assert(preCheckRes.length === 5, "Pre-check Vector k-NN failed.");
 
@@ -145,7 +149,8 @@ async function runSimulation() {
         
         await db.waitForIdle();
         
-        const remaining = await db.root.souls.length;
+        // B"H: Map uses .size
+        const remaining = await db.size(db.root.souls);
         log("Gevurah", `Remaining Souls: ${remaining}`);
         assert(remaining === TOTAL_SOULS - REMOVED_COUNT, `Gevurah failed to restrict correctly. Expected ${TOTAL_SOULS - REMOVED_COUNT}, got ${remaining}`);
         
@@ -171,7 +176,8 @@ async function runSimulation() {
         // Count = 10.
         
         debug("Executing Text Search: 'hidden light'...");
-        const hiddenSparks = await db.root.souls.search("hidden light");
+        // B"H: New API
+        const hiddenSparks = await db.search.run(db.root.souls, "hidden light");
         log("Tiferet", `Found ${hiddenSparks.length} hidden sparks via Text Search.`);
         
         if (hiddenSparks.length !== 10) {
@@ -196,7 +202,8 @@ async function runSimulation() {
         
         log("Tiferet", `Seeking neighbors for ${pivotSoul.name}...`);
         
-        const nearest = await db.root.souls.nearest(pivotSoul.vector, 5);
+        // B"H: New API
+        const nearest = await db.vector.nearest(db.root.souls, pivotSoul.vector, 5);
         
         log("Tiferet", `Found ${nearest.length} kindred spirits.`);
         nearest.forEach((n, i) => debug(`   ${i+1}. ${n.item.id} (Score: ${n.score.toFixed(4)})`));
@@ -210,13 +217,13 @@ async function runSimulation() {
         // =================================================================
         log("Yesod", "The Connection: Wiring the Web of Life...");
         
-        await db.root.createMap("network");
+        await db.createMap(db.root, "network");
         const NETWORK_SIZE = 10; // Scaled down
         const EDGES_PER_NODE = 2;
         
         await db.batch(async () => {
             for(let i=0; i<NETWORK_SIZE; i++) {
-                await db.root.network.createMap(`node_${i}`);
+                await db.createMap(db.root.network, `node_${i}`);
                 await db.root.network[`node_${i}`].set("energy", Math.random());
             }
             for(let i=0; i<NETWORK_SIZE; i++) {
@@ -224,12 +231,14 @@ async function runSimulation() {
                 for(let j=0; j<EDGES_PER_NODE; j++) {
                     const targetIdx = (i + j + 1) % NETWORK_SIZE;
                     const target = db.root.network[`node_${targetIdx}`];
-                    await source.relateTo(target, "GILGUL", { strength: Math.random() });
+                    // B"H: New API
+                    await db.graph.connect(source, target, "GILGUL", { strength: Math.random() });
                 }
             }
         });
         
         log("Yesod", "Calculating PageRank...");
+        // B"H: New API
         const ranks = await db.graph.pageRank({ iterations: 10 });
         const tzadik = ranks[0];
         
@@ -242,7 +251,7 @@ async function runSimulation() {
         // =================================================================
         log("Hod", "The Breaking: 50 Concurrent Updates...");
         
-        await db.root.createMap("fractal");
+        await db.createMap(db.root, "fractal");
         const ATTACKERS = 50;
         const promises = [];
         
@@ -271,7 +280,8 @@ async function runSimulation() {
         const db2 = new AwtsmoosDB(DB_PATH);
         await db2.open();
         
-        const rebornSouls = await db2.root.souls.length;
+        // B"H: Map uses .size
+        const rebornSouls = await db2.size(db2.root.souls);
         assert(rebornSouls === (TOTAL_SOULS - REMOVED_COUNT), "Souls did not survive the transition.");
         
         const fractalCheck = await db2.root.fractal[`shard_${ATTACKERS-1}`];

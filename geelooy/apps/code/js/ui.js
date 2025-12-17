@@ -4,9 +4,6 @@
 import { DOM } from './state.js';
 import { App } from './app.js'; 
 
-/**
- * UI Module: Handles all UI updates like dialogs, toasts, and loading indicators.
- */
 export const UI = {
     showLoading: (msg = 'Processing...') => {
         DOM.loadingOverlay.querySelector('span').textContent = msg;
@@ -62,6 +59,8 @@ export const UI = {
         const cancelBtn = dialog.querySelector('#dialog-cancel-btn');
         const tertiaryBtn = dialog.querySelector('#dialog-tertiary-btn');
         const secondaryOkBtn = dialog.querySelector('#dialog-secondary-ok-btn');
+        const inputEl = dialog.querySelector('#dialog-input');
+        const textareaEl = dialog.querySelector('#dialog-textarea');
 
         const cleanupAndResolve = (value) => {
             dialog.classList.remove('visible');
@@ -70,19 +69,33 @@ export const UI = {
         };
 
         const keydownHandler = (e) => {
-            if (e.key === 'Escape') { cancelBtn?.click(); }
+            if (e.key === 'Escape') { 
+                e.preventDefault();
+                cancelBtn?.click(); 
+            }
+            if (e.key === 'Enter') {
+                if (textareaEl && document.activeElement === textareaEl && !e.ctrlKey) return; 
+                e.preventDefault();
+                okBtn?.click();
+            }
         };
         
-        if (okBtn) okBtn.onclick = () => cleanupAndResolve(hasInput ? dialog.querySelector('#dialog-input').value : (hasTextarea ? dialog.querySelector('#dialog-textarea').value : true));
+        if (okBtn) okBtn.onclick = () => cleanupAndResolve(hasInput ? inputEl.value : (hasTextarea ? textareaEl.value : true));
         if (cancelBtn) cancelBtn.onclick = () => cleanupAndResolve(null);
         if (tertiaryBtn) tertiaryBtn.onclick = () => cleanupAndResolve('tertiary');
         if (secondaryOkBtn) secondaryOkBtn.onclick = () => cleanupAndResolve(secondaryOk.actionKey);
         
         dialog.classList.add('visible');
-        const input = dialog.querySelector('#dialog-input');
-        const textarea = dialog.querySelector('#dialog-textarea');
-        if (input) input.focus();
-        if (textarea) textarea.focus();
+        
+        if (inputEl) {
+            inputEl.focus();
+            if (inputValue) inputEl.select();
+        } else if (textareaEl) {
+            textareaEl.focus();
+        } else if (okBtn) {
+            okBtn.focus();
+        }
+
         document.addEventListener('keydown', keydownHandler);
     });
 },

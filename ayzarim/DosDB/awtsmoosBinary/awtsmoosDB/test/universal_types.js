@@ -1,3 +1,4 @@
+
 // B"H
 /**
  * @file universal_types.js
@@ -47,6 +48,12 @@ async function runTest() {
 
         const lErr = await db.root.errors.range;
         const lAgg = await db.root.errors.agg;
+
+        if (lErr.name !== "RangeError") {
+            console.log("DEBUG lErr:", lErr);
+            console.log("DEBUG lErr name:", lErr.name);
+            console.log("DEBUG lErr constructor:", lErr.constructor.name);
+        }
 
         assert(lErr.name === "RangeError", "RangeError name preserved");
         assert(lErr.message === "Out of bounds!", "RangeError message preserved");
