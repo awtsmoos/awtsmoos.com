@@ -15,10 +15,9 @@
         if (g.MerkavaOpcodes && g.MerkavaOpcodes.default && g.MerkavaOpcodes.default.OPCODES) {
             return g.MerkavaOpcodes.default.OPCODES;
         }
-        return {}; // Fallback, though executor will likely fail
+        console.warn("[Thread] OPCODES Missing! Fallback to empty.");
+        return {}; 
     };
-
-    const OPCODES = getOpcodes();
 
     class Thread {
         constructor(vm, codeObject, context = {}) {
@@ -34,15 +33,24 @@
             this.currentScope = { 'this': context };
             this.environment = context; 
             this.catchStack = []; 
+            
+            // B"H - Cache Opcodes once per thread to avoid repeated lookups
+            this.OPCODES = getOpcodes();
         }
 
         read8() {
-            if (this.ip >= this.bytecode.length) { this.status = 'COMPLETED'; return 0; }
+            if (this.ip >= this.bytecode.length) { 
+                this.status = 'COMPLETED'; 
+                return 0; 
+            }
             return this.bytecode[this.ip++];
         }
 
         read16() {
-            if (this.ip + 1 >= this.bytecode.length) { this.status = 'COMPLETED'; return 0; }
+            if (this.ip + 1 >= this.bytecode.length) { 
+                this.status = 'COMPLETED'; 
+                return 0; 
+            }
             const low = this.read8();
             const high = this.read8();
             let val = (high << 8) | low;
@@ -57,9 +65,17 @@
         step() {
             if (this.status !== 'RUNNING') return false;
             try {
+                // B"H - Safe Read
+                if (this.ip >= this.bytecode.length) {
+                    this.status = 'COMPLETED';
+                    return false;
+                }
+
                 const op = this.read8();
+                
                 // B"H - Pass the robustly resolved OPCODES to the executor
-                const result = root.MerkavaVM.Executor.exec(op, this, OPCODES);
+                const result = root.MerkavaVM.Executor.exec(op, this, this.OPCODES);
+                
                 if (result === 'HALT' || result === 'COMPLETED') {
                     this.status = 'COMPLETED';
                     return false;
@@ -74,6 +90,18 @@
                     return true;
                 } else {
                     console.error("VM Exception (Uncaught):", e);
+                    
+                    // B"H - CRASH DUMP
+                    try {
+                        const badIP = this.ip - 1; // IP was incremented by read8
+                        const start = Math.max(0, badIP - 5);
+                        const end = Math.min(this.bytecode.length, badIP + 5);
+                        const slice = this.bytecode.slice(start, end);
+                        const hex = Array.from(slice).map(b => b.toString(16).padStart(2, '0')).join(' ');
+                        console.error(`CRASH DUMP @ IP ${badIP.toString(16)}: [ ${hex} ]`);
+                        console.error(`Opcode was: ${this.bytecode[badIP] ? this.bytecode[badIP].toString(16) : 'N/A'} (0x${(badIP < this.bytecode.length ? this.bytecode[badIP] : 0).toString(16)})`);
+                    } catch(dumpErr) { console.error("Dump failed", dumpErr); }
+
                     this.status = 'CRASHED';
                     return false;
                 }

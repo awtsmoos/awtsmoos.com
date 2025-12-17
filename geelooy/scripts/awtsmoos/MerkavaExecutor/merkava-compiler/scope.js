@@ -1,7 +1,15 @@
 
 // B"H
 (function(root) {
-    root.MerkavaCompiler = root.MerkavaCompiler || {};
+    // B"H - Robust Global Resolution
+    let globalScope = root;
+    if (typeof globalThis !== 'undefined') globalScope = globalThis;
+    else if (typeof self !== 'undefined') globalScope = self;
+    else if (typeof window !== 'undefined') globalScope = window;
+
+    globalScope.MerkavaCompiler = globalScope.MerkavaCompiler || {};
+
+    console.log("[MerkavaCompiler] Initializing Scope Module...");
 
     class CompilerScope {
         constructor(parent = null, isFunctionBoundary = false) {
@@ -20,8 +28,6 @@
         
         declare(name) {
             // B"H - Idempotent Declaration
-            // If the name is already declared in this scope, return its existing index.
-            // This is crucial for the multi-pass compiler strategy (Hoisting).
             if (this.locals.has(name)) {
                 return this.locals.get(name);
             }
@@ -54,5 +60,7 @@
         }
     }
 
-    root.MerkavaCompiler.Scope = CompilerScope;
+    globalScope.MerkavaCompiler.Scope = CompilerScope;
+    console.log("[MerkavaCompiler] Scope Class Defined and Attached.");
+
 })(typeof self !== 'undefined' ? self : this);

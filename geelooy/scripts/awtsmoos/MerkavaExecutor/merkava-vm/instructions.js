@@ -8,23 +8,42 @@
         exec(op, thread, OPCODES) {
             const vm = thread.vm;
             
+            // B"H - Debug Trace for Crash Analysis
+            // console.log(`[VM EXEC] Op: 0x${op.toString(16)} (IP: ${thread.ip - 1})`);
+
             switch (op) {
+                case 0x00: // NOP
                 case OPCODES.NOP: break;
+                case 0x01: // HALT
                 case OPCODES.HALT: return 'HALT';
                 
-                // Stack
+                // --- STACK ---
+                case 0x13: // PUSH_CONST (19)
                 case OPCODES.PUSH_CONST: {
                     const idx = thread.read16();
-                    const val = thread.constants[idx];
-                    thread.push(val); 
+                    if (idx < 0 || idx >= thread.constants.length) {
+                        console.error(`[VM] PUSH_CONST Error: Index ${idx} out of bounds.`);
+                        thread.push(undefined);
+                    } else {
+                        thread.push(thread.constants[idx]); 
+                    }
                     break;
                 }
+                case 0x14: // PUSH_UNDEFINED
                 case OPCODES.PUSH_UNDEFINED: thread.push(undefined); break;
+                case 0x15: // PUSH_NULL
                 case OPCODES.PUSH_NULL: thread.push(null); break;
+                case 0x16: // PUSH_TRUE
                 case OPCODES.PUSH_TRUE: thread.push(true); break;
+                case 0x17: // PUSH_FALSE
                 case OPCODES.PUSH_FALSE: thread.push(false); break;
+                
+                case 0x10: // POP (16)
                 case OPCODES.POP: thread.pop(); break;
+                
+                case 0x11: // DUP
                 case OPCODES.DUP: thread.push(thread.peek()); break;
+                case 0x12: // SWAP
                 case OPCODES.SWAP: { const a = thread.pop(); const b = thread.pop(); thread.push(a); thread.push(b); break; }
                 
                 case OPCODES.PUSH_THIS: thread.push(thread.currentScope ? thread.currentScope['this'] : undefined); break;
@@ -35,9 +54,17 @@
                     break;
                 }
 
-                // Variables
+                // --- VARIABLES ---
+                case 0x22: // LOAD_GLOBAL
                 case OPCODES.LOAD_GLOBAL: {
-                    const name = thread.constants[thread.read16()];
+                    const idx = thread.read16();
+                    // Guard against invalid constant index
+                    if (idx < 0 || idx >= thread.constants.length) {
+                        console.warn(`[VM] LOAD_GLOBAL: Index ${idx} out of bounds. Pushing undefined.`);
+                        thread.push(undefined);
+                        break;
+                    }
+                    const name = thread.constants[idx];
                     let found = false;
                     let val;
                     
@@ -71,11 +98,22 @@
                     }
                     break;
                 }
+                
+                case 35: // 0x23 STORE_GLOBAL
                 case OPCODES.STORE_GLOBAL: {
-                    const name = thread.constants[thread.read16()];
+                    const idx = thread.read16();
+                    
+                    if (idx >= thread.constants.length) {
+                        console.error(`[VM] STORE_GLOBAL Error: Constant index ${idx} out of bounds.`);
+                        thread.pop(); 
+                        break;
+                    }
+                    
+                    const name = thread.constants[idx];
                     const val = thread.pop();
                     let stored = false;
                     
+                    // With Statement Handling
                     if (thread.withStack && thread.withStack.length > 0) {
                         for (let i = thread.withStack.length - 1; i >= 0; i--) {
                             const scopeObj = thread.withStack[i];
@@ -96,6 +134,7 @@
                     }
                     break;
                 }
+                
                 case OPCODES.LOAD_LOCAL: thread.push(thread.currentScope[thread.read8()]); break;
                 case OPCODES.STORE_LOCAL: { 
                     if(!thread.currentScope) thread.currentScope={}; 
@@ -122,9 +161,9 @@
                     break;
                 }
 
-                // Arithmetic & Logic
-                case OPCODES.ADD: { const b = thread.pop(); const a = thread.pop(); thread.push(a + b); break; }
-                case OPCODES.SUB: { const b = thread.pop(); const a = thread.pop(); thread.push(a - b); break; }
+                // --- MATH ---
+                case 0x40: case OPCODES.ADD: { const b = thread.pop(); const a = thread.pop(); thread.push(a + b); break; }
+                case 0x41: case OPCODES.SUB: { const b = thread.pop(); const a = thread.pop(); thread.push(a - b); break; }
                 case OPCODES.MUL: { const b = thread.pop(); const a = thread.pop(); thread.push(a * b); break; }
                 case OPCODES.DIV: { const b = thread.pop(); const a = thread.pop(); thread.push(a / b); break; }
                 case OPCODES.MOD: { const b = thread.pop(); const a = thread.pop(); thread.push(a % b); break; }
@@ -137,7 +176,7 @@
                 case OPCODES.SHR:     { const b = thread.pop(); const a = thread.pop(); thread.push(a >> b); break; }
                 case OPCODES.USHR:    { const b = thread.pop(); const a = thread.pop(); thread.push(a >>> b); break; }
 
-                case OPCODES.EQ: { const b = thread.pop(); const a = thread.pop(); thread.push(a == b); break; }
+                case 0x4C: case OPCODES.EQ: { const b = thread.pop(); const a = thread.pop(); thread.push(a == b); break; }
                 case OPCODES.STRICT_EQ: { const b = thread.pop(); const a = thread.pop(); thread.push(a === b); break; }
                 case OPCODES.NEQ: { const b = thread.pop(); const a = thread.pop(); thread.push(a != b); break; }
                 case OPCODES.STRICT_NEQ: { const b = thread.pop(); const a = thread.pop(); thread.push(a !== b); break; }
@@ -155,9 +194,12 @@
                 case OPCODES.VOID: { thread.pop(); thread.push(undefined); break; }
                 case OPCODES.DELETE_PROP: { const p = thread.pop(); const o = thread.pop(); thread.push(delete o[p]); break; }
 
-                // Flow Control
+                // --- FLOW ---
                 case OPCODES.JUMP: thread.ip += thread.read16(); break;
+                
+                case 0x04: // JUMP_IF_FALSE
                 case OPCODES.JUMP_IF_FALSE: { const off = thread.read16(); if (!thread.pop()) thread.ip += off; break; }
+                case 0x05:
                 case OPCODES.JUMP_IF_TRUE: { const off = thread.read16(); if (thread.pop()) thread.ip += off; break; }
                 
                 case OPCODES.CHAIN_CHECK: {
@@ -181,17 +223,16 @@
                     break;
                 }
 
-                // Objects
+                // --- OBJECTS ---
+                case 0x30:
                 case OPCODES.ALLOC_OBJECT: thread.push({}); break;
+                case 0x31:
                 case OPCODES.ALLOC_ARRAY: thread.push([]); break;
+                case 0x32:
                 case OPCODES.GET_PROP: { 
                     const k = thread.pop(); 
                     const o = thread.pop(); 
-                    
                     if (o === undefined || o === null) {
-                        // B"H - Silent undefined on null access, but warn for debugging
-                        // thread.push(undefined);
-                        // console.warn(`[VM WARN] Cannot read property '${k}' of ${String(o)}`);
                         thread.push(undefined);
                     } else {
                         let val = o[k];
@@ -202,11 +243,11 @@
                     }
                     break; 
                 }
+                case 0x33:
                 case OPCODES.SET_PROP: { 
                     const v = thread.pop(); 
                     const k = thread.pop(); 
                     const o = thread.pop(); 
-                    
                     if(o !== undefined && o !== null) {
                         if (typeof CSSStyleDeclaration !== 'undefined' && o instanceof CSSStyleDeclaration) {
                             if (typeof o.setProperty === 'function') o.setProperty(k, String(v));
@@ -214,19 +255,15 @@
                         } else {
                             o[k] = v;
                         }
-                    } else {
-                       // Silent failure for robustness
                     }
                     thread.push(v); 
                     break; 
                 }
                 
-                // B"H - NEW SPREAD OPCODES
                 case OPCODES.ARRAY_PUSH: {
                     const val = thread.pop();
                     const arr = thread.peek(); 
                     if (Array.isArray(arr)) arr.push(val);
-                    // else throw new TypeError("ARRAY_PUSH expected array");
                     break;
                 }
                 case OPCODES.ARRAY_SPREAD: {
@@ -252,24 +289,20 @@
                     const source = thread.pop();
                     const rest = {};
                     if (source !== null && source !== undefined) {
-                        // B"H - Safe Destructuring
-                        // 1. Convert source to object wrapper to allow 'in' check
                         const srcObj = Object(source);
-                        // 2. Ensure keys are compared as strings
                         const excludeSet = new Set(Array.isArray(keys) ? keys.map(String) : []);
-                        
                         for (const key in srcObj) {
                             if (!excludeSet.has(String(key))) {
                                 rest[key] = srcObj[key];
                             }
                         }
                     }
-                    // Pushes empty object if source was null/undefined, preventing crash
                     thread.push(rest);
                     break;
                 }
 
-                // Functions & Closures
+                // --- FUNCTIONS ---
+                case 0x70:
                 case OPCODES.CLOSURE: {
                     const code = thread.constants[thread.read16()];
                     const flags = thread.read8(); 
@@ -286,6 +319,7 @@
                     break;
                 }
 
+                case 0x71:
                 case OPCODES.CALL: {
                     const count = thread.read8();
                     const args = [];
@@ -319,15 +353,12 @@
                             args.forEach((a, i) => thread.currentScope[i] = a);
                         }
                     } else if (typeof callee === 'function') {
-                        // B"H - NATIVE CALL HANDLER
                         if (!vm._callbackWrappers) vm._callbackWrappers = new WeakMap();
                         
                         const wrappedArgs = args.map(arg => {
                             if (arg && arg.type === 'CLOSURE') {
                                 if (vm._callbackWrappers.has(arg)) return vm._callbackWrappers.get(arg);
                                 
-                                // B"H - Synchronous Wrapper
-                                // Native functions (like Array.map) expect the callback to execute NOW and return a value.
                                 const wrapper = function(...innerArgs) {
                                     const hostThis = this;
                                     const scopeThis = arg.isArrow ? (arg.upvalues ? arg.upvalues['this'] : undefined) : hostThis;
@@ -339,24 +370,17 @@
                                          t.currentUpvalues = arg.upvalues;
                                          t.environment = arg.environment;
                                          
-                                         // B"H - FORCE SYNCHRONOUS EXECUTION
                                          const MAX_CYCLES = 2000000;
                                          let cycles = 0;
                                          
-                                         // Step the thread until it's done or yields
                                          while(t.status === 'RUNNING' && cycles++ < MAX_CYCLES) {
                                              t.step();
                                          }
                                          
                                          if (t.status === 'CRASHED') {
                                              const err = t.stack[t.stack.length - 1];
-                                             console.error("[VM] Callback Crashed:", err);
                                              throw new Error("[VM] Callback Crashed: " + err);
-                                         } else if (t.status !== 'COMPLETED' && t.status !== 'HALTED') {
-                                             console.warn("[VM] Warning: Callback exceeded sync limit or yielded. Result may be undefined.");
                                          }
-                                         
-                                         // Return the value from the top of the stack (if any)
                                          if (t.stack.length > 0) return t.pop();
                                          return undefined;
                                     }
@@ -376,7 +400,6 @@
                             throw e;
                         }
                     } else {
-                        // console.warn(`[VM WARN] Attempted to call non-function: ${typeof callee}`);
                         thread.push(undefined);
                     }
                     break;
@@ -478,7 +501,6 @@
                     break;
                 }
 
-                // Async
                 case OPCODES.AWAIT: {
                     const promise = thread.pop();
                     if (promise && typeof promise.then === 'function') {
@@ -582,11 +604,26 @@
                     break;
                 }
 
+                // B"H - Trap for alignment issues (0x0A)
+                case 0x0A: {
+                    console.error(`[VM] TRAP: Opcode 0x0A encountered at IP ${thread.ip - 1}. This should be a STORE_GLOBAL argument.`);
+                    console.error("Context dump:", thread.bytecode.slice(thread.ip - 5, thread.ip + 5));
+                    throw new Error("Alignment Fault: Opcode 0x0A");
+                }
+
                 default:
+                    // B"H - Enhanced Debug Dump
+                    console.error(`[VM CRITICAL] Unknown Opcode: ${op} (0x${op.toString(16)}) at IP: ${thread.ip - 1}`);
+                    const start = Math.max(0, thread.ip - 5);
+                    const end = Math.min(thread.bytecode.length, thread.ip + 5);
+                    const slice = thread.bytecode.slice(start, end);
+                    const hex = Array.from(slice).map(b => b.toString(16).padStart(2, '0')).join(' ');
+                    console.error(`Context: [ ${hex} ]`);
                     throw new Error(`Unknown Opcode: ${op}`);
             }
         }
     };
 
     root.MerkavaVM.Executor = Executor;
+    console.log("[MerkavaVM] Executor Reloaded with Strict Debugging.");
 })(typeof self !== 'undefined' ? self : this);

@@ -1,4 +1,5 @@
 
+
 // B"H
 /**
  * @file ultimate_feature_test.js
@@ -22,7 +23,7 @@ async function runTest() {
     if (fs.existsSync(DB_PATH)) fs.unlinkSync(DB_PATH);
     if (fs.existsSync(DB_PATH + ".wal")) fs.unlinkSync(DB_PATH + ".wal");
 
-    const db = new AwtsmoosDB(DB_PATH, { debug: true });
+    const db = new AwtsmoosDB(DB_PATH, { debug: false });
     await db.open();
 
     try {
@@ -180,23 +181,40 @@ async function runTest() {
         const stars = db.root.multiverse.dimension_c137.galaxies.milky_way.stars;
 
         console.log(`    Spawning ${starCount} stars...`);
-        const promises = [];
+        
+        // B"H: Use SEQUENTIAL loop to ensure deterministic order.
+        // Promise.all with async writes causes race conditions in order of insertion due to variable resolution times.
         for(let i=0; i<starCount; i++) {
-            promises.push(stars.push({ id: i, type: "G-Type Main Sequence", luminosity: Math.random() }));
+            await stars.push({ id: i, type: "G-Type Main Sequence", luminosity: Math.random() });
+            if (i % 100 === 0) process.stdout.write('.');
         }
+        console.log(""); // Newline
         
-        await Promise.all(promises);
         await db.waitForIdle();
-        
+
         const starLen = await stars.length;
         console.log(`    Star Count: ${starLen}`);
         if (starLen !== starCount) throw new Error(`Stress Fail. Expected ${starCount}, got ${starLen}`);
         
         // Check random star
-        const star300 = await stars[300];
-        if (star300.id !== 300) {
-             console.error(`    ❌ Access Error: Expected ID 300, got ID ${star300 ? star300.id : 'undefined'}`);
+        const TARGET_ID = 300;
+        const star300 = await stars[TARGET_ID];
+        
+        if (!star300 || star300.id !== TARGET_ID) {
+             console.error(`    ❌ Access Error: Expected ID ${TARGET_ID}, got ID ${star300 ? star300.id : 'undefined'}`);
              console.error(`    Full Object:`, JSON.stringify(star300));
+             
+             // B"H: Deep Audit
+             console.log("    Running Deep Audit of Sequence...");
+             let idx = 0;
+             for await (const s of stars) {
+                 if (s.id !== idx) {
+                     console.error(`    Drift at Index ${idx}: Found ID ${s.id}`);
+                     break;
+                 }
+                 idx++;
+             }
+             
              throw new Error("Random Access in large collection failed");
         }
 

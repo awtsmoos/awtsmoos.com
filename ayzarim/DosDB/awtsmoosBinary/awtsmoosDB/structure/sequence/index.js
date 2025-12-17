@@ -1,4 +1,6 @@
 
+
+
 // B"H
 const constants = require('../../constants.js');
 const SmartPointer = require('../../utils/smartPointer.js');
@@ -18,13 +20,16 @@ class SequenceEngine {
             this.ptr = null;
         }
         
-        // Node Cache
         this.cache = new Map();
         this.CACHE_LIMIT = 200;
 
         this.nodeIO = new SequenceNode(allocator, this);
         this.ops = new SequenceOps(this);
         this.MAX_DEPTH = 100;
+    }
+
+    log(msg) {
+        if (this.allocator.v1.db.debug) console.log(`[SeqEngine] ${msg}`);
     }
 
     async create(options = {}) {
@@ -47,7 +52,6 @@ class SequenceEngine {
         const node = await this.nodeIO.load(ptr);
         
         if (node.isLeaf) {
-            // B"H: CRITICAL FIX - Only free items if the sequence is NOT weak (owns items)
             if (!node.isWeak) {
                 for(let i=0; i<node.itemCount; i++) {
                     const ptrOffset = DATA_OFFSET + (i * 16);
@@ -110,7 +114,6 @@ class SequenceEngine {
         if (Buffer.isBuffer(value) && value.length === 16) ptr = value;
         else ptr = await this.allocator.save(value);
         
-        // B"H: Use replace
         await this.ops.replace(index, ptr, options);
     }
 
@@ -124,37 +127,66 @@ class SequenceEngine {
         let currPtr = this.ptr;
         let localIndex = index;
         let depth = 0;
+        
+        const path = [];
 
         while(true) {
             if (depth++ > this.MAX_DEPTH) throw new Error("B\"H: Sequence Max Depth Exceeded");
             
             const node = await this.nodeIO.load(currPtr);
+            path.push(`B${currPtr.blockId}`);
+
             if (localIndex >= node.totalCount) {
+                if(this.allocator.v1.db.debug) console.error(`B"H Seq Error: Index ${index} out of bounds. Root total: ${node.totalCount}. Path: ${path.join('->')}`);
                 return undefined;
             }
 
             if (node.isLeaf) {
+                if (localIndex >= node.itemCount) {
+                     if(this.allocator.v1.db.debug) console.error(`B"H Seq Error: Reached Leaf B${currPtr.blockId} with localIndex ${localIndex} but itemCount is ${node.itemCount}. Path: ${path.join('->')}`);
+                     return undefined;
+                }
                 const offset = DATA_OFFSET + (localIndex * 16);
-                // B"H: FIX - Correctly copy buffer. Use alloc to be safe.
                 const ptr = Buffer.alloc(16);
                 node.buffer.copy(ptr, 0, offset, offset + 16);
                 return ptr;
             } else {
+                // Internal Node Logic with Logging
                 let offset = DATA_OFFSET;
                 let foundChild = false;
+                
+                // this.log(`[GetPtr] Visiting Internal B${currPtr.blockId}. LocalIdx: ${localIndex}. Children: ${node.itemCount}.`);
+
                 for(let i=0; i<node.itemCount; i++) {
                     const childCount = node.buffer.readUInt32BE(offset + 16);
+                    
                     if (localIndex < childCount) {
                         const childPtrBuf = node.buffer.subarray(offset, offset + 16);
                         currPtr = this._decodePtr(SmartPointer.decode(childPtrBuf).payload);
                         foundChild = true;
+                        
+                        // this.log(`[GetPtr] Descending to Child ${i} (B${currPtr.blockId}). ChildCount: ${childCount}.`);
+
+                        // B"H: DRIFT DETECTOR
+                        if (this.allocator.v1.db.debug) {
+                            const checkNode = await this.nodeIO.load(currPtr);
+                            if (checkNode.totalCount !== childCount) {
+                                console.error(`\nB"H DRIFT DETECTED at B${node.ptr.blockId} Child ${i} (B${currPtr.blockId})!`);
+                                console.error(`    Parent thinks count is: ${childCount}`);
+                                console.error(`    Child actual count is: ${checkNode.totalCount}`);
+                                console.error(`    Drift: ${childCount - checkNode.totalCount}`);
+                                console.error(`    Path: ${path.join(' -> ')}`);
+                            }
+                        }
+                        
                         break; 
                     }
+                    // this.log(`[GetPtr] Skipping Child ${i}. Count: ${childCount}. LocalIdx: ${localIndex} -> ${localIndex - childCount}`);
                     localIndex -= childCount;
                     offset += 20;
                 }
                 if (!foundChild) {
-                    if(this.allocator.v1.db.debug) console.error(`B"H Seq.getPtr: Failed to find child for index ${index}. Node Dump:`, node);
+                    if(this.allocator.v1.db.debug) console.error(`B"H Seq.getPtr: Failed to find child for index ${index} at B${currPtr.blockId}. LocalIndex: ${localIndex}`);
                     return undefined;
                 }
             }
@@ -192,7 +224,6 @@ class SequenceEngine {
         const myRoot = await this.nodeIO.load(this.ptr);
         const otherRoot = await this.nodeIO.load(otherSeq.ptr);
         
-        // B"H: New root inherits weakness from primary (left)
         const newRoot = await this.nodeIO.create(false, myRoot.isWeak);
         
         const leftPtr = SmartPointer.block(constants.TYPE_SEQUENCE, this.ptr.blockId, this.ptr.length, this.ptr.isChain, this.ptr.offset);

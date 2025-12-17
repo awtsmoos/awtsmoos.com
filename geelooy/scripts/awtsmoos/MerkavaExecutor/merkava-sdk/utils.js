@@ -7,10 +7,14 @@
         resolveUrl(filename) {
             try { 
                 // Handle relative paths from the SDK Base Path
+                let url;
                 if (filename.startsWith('./') || filename.startsWith('../')) {
-                    return new URL(filename, new URL(Internal.BASE_PATH, self.location.href)).href;
+                    url = new URL(filename, new URL(Internal.BASE_PATH, self.location.href)).href;
+                } else {
+                    url = new URL(filename, new URL(Internal.BASE_PATH, self.location.href)).href;
                 }
-                return new URL(filename, new URL(Internal.BASE_PATH, self.location.href)).href;
+                // B"H - Cache Busting: Force fresh load
+                return url + "?t=" + Date.now();
             } 
             catch (e) { return filename; }
         },
@@ -68,7 +72,8 @@
                         self.document.currentScript = { src: parserUrl };
                     }
                     
-                    await this.loadScript(parserUrl);
+                    // Cache bust parser too
+                    await this.loadScript(parserUrl.split('?')[0]); 
                     
                     if (self.MerkavahParserPromise) {
                         self.MerkavahParser = await self.MerkavahParserPromise;

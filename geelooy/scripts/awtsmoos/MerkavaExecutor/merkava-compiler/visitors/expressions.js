@@ -88,12 +88,15 @@
                  this.buffer.write8(this.OPCODES.SWAP);
             }
             node.arguments.forEach(arg => this._visit(arg));
-            this.buffer.write8(this.OPCODES.CALL);
+            
+            // B"H - FORCE OPCODES.CALL (0x71)
+            let callOp = this.OPCODES.CALL;
+            if (callOp === undefined) callOp = 0x71; 
+            
+            this.buffer.write8(callOp);
             this.buffer.write8(node.arguments.length);
 
             // B"H - INTERCEPTION: importScripts
-            // Force AWAIT after importScripts so the VM yields to the Promise returned by the custom bridge.
-            // DO NOT POP result here, as standard ExpressionStatement visitor handles the pop.
             if (node.callee.type === 'Identifier' && node.callee.name === 'importScripts') {
                 this.buffer.write8(this.OPCODES.AWAIT); 
             }

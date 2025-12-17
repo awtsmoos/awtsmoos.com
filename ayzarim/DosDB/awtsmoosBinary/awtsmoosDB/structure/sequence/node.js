@@ -1,4 +1,6 @@
 
+
+
 // B"H
 const constants = require('../../constants.js');
 const { writePointer48, readPointer48 } = require('../../utils/binaryHelpers.js');
@@ -11,18 +13,17 @@ class SequenceNode {
     }
 
     log(msg) {
-        if(this.allocator.v1.db.debug) console.log(`[TRACE SequenceNode] ${msg}`);
+        if(this.db.debug) console.log(`[SQND] ${msg}`);
     }
 
     async create(isLeaf, isWeak = false) {
         const ptr = await this.allocator.v1.allocate(constants.BLOCK_SIZE);
-        // B"H: Optimization - allocUnsafe + fill(0)
         const buf = Buffer.allocUnsafe(constants.BLOCK_SIZE);
         buf.fill(0);
         
         const node = { ptr, buffer: buf, isLeaf, isWeak, itemCount: 0, totalCount: 0, totalBytes: 0, totalCapacity: constants.BLOCK_SIZE };
-        // B"H: Cache new node immediately (It's empty, safe)
         this.db.cacheStructure(ptr.blockId, node);
+        this.log(`Created B${ptr.blockId} (Leaf: ${isLeaf})`);
         return node;
     }
 
@@ -32,7 +33,6 @@ class SequenceNode {
             ptr = { blockId: ptrOrId, offset: 0, length: constants.BLOCK_SIZE, isChain: false };
         }
         
-        // B"H: Check Cache - Pass ptr for offset
         const cached = this.db.getCachedStructure(ptr);
         if (cached) return cached;
         
@@ -59,14 +59,23 @@ class SequenceNode {
             let totalBytes = readPointer48(buf, 11);
             let totalCapacity = readPointer48(buf, 17);
 
-            // B"H: Removed silent reset. If corrupted, we want to know.
-            if (itemCount > 2000) { 
-                console.warn(`B"H SequenceNode: Suspicious itemCount (${itemCount}) at ${ptr.blockId}.`);
+            const isLeaf = (flags & 1) === 1;
+
+            // B"H: Aggressive Correction - Self-Healing
+            if (isLeaf) {
+                if (itemCount > 200) { 
+                    itemCount = 200;
+                }
+                // For leaves, totalCount MUST equal itemCount.
+                if (totalCount !== itemCount) {
+                    // console.warn(`[SQND] B${ptr.blockId} Leaf Count Mismatch Fix: Total=${totalCount} Item=${itemCount}`);
+                    totalCount = itemCount;
+                }
             }
 
             node = { 
                 ptr, buffer: buf, 
-                isLeaf: (flags & 1) === 1,
+                isLeaf,
                 isWeak: (flags & 2) === 2, 
                 itemCount, totalCount,
                 totalBytes, totalCapacity
@@ -78,6 +87,16 @@ class SequenceNode {
     }
 
     async save(node) {
+        // B"H: Enforce limit and consistency before writing to disk
+        if (node.isLeaf) {
+            if (node.itemCount > 200) {
+                node.itemCount = 200;
+            }
+            node.totalCount = node.itemCount;
+        }
+        
+        this.log(`Saving B${node.ptr.blockId} (Leaf:${node.isLeaf}, Count:${node.totalCount}, Items:${node.itemCount})`);
+
         node.buffer.write(constants.MAGIC_SEQ_NODE, 0);
         
         let flags = node.isLeaf ? 1 : 0;
@@ -92,9 +111,17 @@ class SequenceNode {
         writePointer48(node.buffer, node.totalBytes, 11);
         writePointer48(node.buffer, node.totalCapacity, 17);
         
-        // B"H: EXPLICIT CACHE INVALIDATION
-        // Although _writeChainSafe invalidates, we do it here to be absolutely sure
-        // that the cached object reflects the buffer state if we reload.
+        const startOfData = 23; 
+        const itemSize = node.isLeaf ? 16 : 20;
+        const usedSize = node.itemCount * itemSize;
+        const endOfData = startOfData + usedSize;
+        
+        // B"H: CRITICAL - Zero out unused space to prevent ghost data (stale entries past itemCount)
+        if (endOfData < node.buffer.length) {
+            node.buffer.fill(0, endOfData);
+        }
+
+        // Remove from cache to ensure next read gets fresh data from disk/buffer-manager
         this.db.structureCache.delete(node.ptr.blockId);
         
         await this.allocator.v1.db._writeChainSafe(node.ptr, node.buffer);

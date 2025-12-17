@@ -1,4 +1,6 @@
 
+
+
 // B"H
 const Pager = require('./core/pager.js');
 const AllocatorV2 = require('./core/type_allocator.js');
@@ -408,10 +410,11 @@ class AwtsmoosDB_V2 {
         let currentBlock = ptr.blockId;
         let isFirst = true;
         
-        if (this.debug) {
-             const headHex = buffer.length >= 4 ? buffer.subarray(0, 4).toString('utf8') : "N/A";
-             console.log(`B"H _writeChainSafe: Start B${ptr.blockId} (Off: ${ptr.offset}, Len: ${buffer.length}) [HEAD:${headHex}]`);
-        }
+        // B"H: Removed excessively verbose logging to focus on logic errors
+        // if (this.debug) {
+        //      const headHex = buffer.length >= 4 ? buffer.subarray(0, 4).toString('utf8') : "N/A";
+        //      console.log(`B"H _writeChainSafe: Start B${ptr.blockId} (Off: ${ptr.offset}, Len: ${buffer.length}) [HEAD:${headHex}]`);
+        // }
 
         while(remaining.length > 0) {
             const start = (isFirst && ptr.offset) ? ptr.offset : constants.HEADER_SIZE;

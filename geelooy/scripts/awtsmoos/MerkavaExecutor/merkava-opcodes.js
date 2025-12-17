@@ -2,14 +2,25 @@
 // B"H
 /**
  * @file merkava-opcodes.js
- * @version 2.3.1 - Frozen Truth
+ * @version 2.4.0 - Divine Decree
  */
 
 (function(root, factory) {
+    // B"H - Robust Global Resolution
+    let globalScope = root;
+    if (typeof globalThis !== 'undefined') globalScope = globalThis;
+    else if (typeof self !== 'undefined') globalScope = self;
+    else if (typeof window !== 'undefined') globalScope = window;
+
+    const opcodes = factory();
+    
+    // Explicitly attach to global to prevent module resolution failures
+    globalScope.MerkavaOpcodes = opcodes;
+    
     if (typeof module === 'object' && module.exports) {
-        module.exports = factory();
+        module.exports = opcodes;
     } else {
-        root.MerkavaOpcodes = factory();
+        root.MerkavaOpcodes = opcodes;
     }
 }(typeof self !== 'undefined' ? self : this, function() {
 
