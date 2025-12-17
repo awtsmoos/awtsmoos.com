@@ -1,3 +1,4 @@
+
 // B"H
 /**
  * Merkava SDK Bootloader
@@ -45,6 +46,7 @@
             'merkava-compiler/scope.js',
             'merkava-compiler/builder.js',
             'merkava-compiler/visitors.js',
+            // B"H - Ensure Visitors are loaded BEFORE the Compiler Index
             'merkava-compiler/visitors/declarations.js',
             'merkava-compiler/visitors/expressions.js',
             'merkava-compiler/visitors/statements.js',

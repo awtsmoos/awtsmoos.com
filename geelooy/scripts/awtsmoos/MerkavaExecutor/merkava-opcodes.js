@@ -2,7 +2,7 @@
 // B"H
 /**
  * @file merkava-opcodes.js
- * @version 2.2.0 - The Complete Language of Creation
+ * @version 2.3.1 - Frozen Truth
  */
 
 (function(root, factory) {
@@ -31,7 +31,7 @@
         PUSH_TRUE: 0x16,
         PUSH_FALSE: 0x17,
         PUSH_THIS: 0x18,
-        PUSH_META: 0x19, // new.target, import.meta
+        PUSH_META: 0x19,
 
         // Variables
         LOAD_LOCAL: 0x20,
@@ -79,7 +79,7 @@
         EXIT_TRY: 0x93,
         DEBUGGER: 0x94,
         IMPORT: 0x95,
-        IMPORT_MODULE: 0x96, // B"H - Static Import Support
+        IMPORT_MODULE: 0x96, 
 
         // Iteration & Control
         GET_ITERATOR: 0xA0,
@@ -93,11 +93,15 @@
         WITH_ENTER: 0xA6,
         WITH_EXIT: 0xA7,
         
-        // Destructuring / Patterns
-        DESTRUCTURE_ARRAY: 0xB0, // [a,b] = c
-        DESTRUCTURE_OBJECT: 0xB1, // {a,b} = c
-        REST_ARRAY: 0xB2 // ...rest
+        // Spread Support
+        ARRAY_PUSH: 0xB3,
+        ARRAY_SPREAD: 0xB4,
+        OBJECT_MERGE: 0xB5,
+        OBJECT_REST: 0xB6
     };
+
+    // B"H - Freeze to prevent accidental mutation or corruption
+    Object.freeze(OPCODES);
 
     const OPCODE_NAMES = Object.fromEntries(
         Object.entries(OPCODES).map(([k, v]) => [v, k])

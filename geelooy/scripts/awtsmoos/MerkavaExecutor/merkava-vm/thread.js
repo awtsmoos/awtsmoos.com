@@ -1,7 +1,24 @@
+
 // B"H
 (function(root) {
     root.MerkavaVM = root.MerkavaVM || {};
-    const OPCODES = (root.MerkavaOpcodes && root.MerkavaOpcodes.OPCODES) || {};
+
+    // B"H - Robust Opcode Resolution for Thread
+    const getOpcodes = () => {
+        const g = typeof globalThis !== 'undefined' ? globalThis : 
+                  (typeof self !== 'undefined' ? self : 
+                  (typeof window !== 'undefined' ? window : root));
+                  
+        if (g.MerkavaOpcodes && g.MerkavaOpcodes.OPCODES) {
+            return g.MerkavaOpcodes.OPCODES;
+        }
+        if (g.MerkavaOpcodes && g.MerkavaOpcodes.default && g.MerkavaOpcodes.default.OPCODES) {
+            return g.MerkavaOpcodes.default.OPCODES;
+        }
+        return {}; // Fallback, though executor will likely fail
+    };
+
+    const OPCODES = getOpcodes();
 
     class Thread {
         constructor(vm, codeObject, context = {}) {
@@ -14,7 +31,6 @@
             this.status = 'READY';
             this.frames = []; 
             this.currentFrame = null;
-            // B"H - Initialize 'this' to the global context (environment)
             this.currentScope = { 'this': context };
             this.environment = context; 
             this.catchStack = []; 
@@ -42,6 +58,7 @@
             if (this.status !== 'RUNNING') return false;
             try {
                 const op = this.read8();
+                // B"H - Pass the robustly resolved OPCODES to the executor
                 const result = root.MerkavaVM.Executor.exec(op, this, OPCODES);
                 if (result === 'HALT' || result === 'COMPLETED') {
                     this.status = 'COMPLETED';

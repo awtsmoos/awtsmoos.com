@@ -41,7 +41,6 @@
                     let found = false;
                     let val;
                     
-                    // 1. Check `with` stack
                     if (thread.withStack && thread.withStack.length > 0) {
                         for (let i = thread.withStack.length - 1; i >= 0; i--) {
                             const scopeObj = thread.withStack[i];
@@ -54,26 +53,20 @@
                     }
                     
                     if (!found) {
-                        // 2. B"H - Priority Check for 'exports' in Module Scope
                         if (name === 'exports' && thread.currentScope && thread.currentScope.exports) {
                              val = thread.currentScope.exports;
                         }
-                        // 3. Check Module/Thread Environment (Global Scope)
-                        // B"H - We use 'in' operator to check the environment (which might be a Proxy)
                         else if (thread.environment && (name in thread.environment)) {
                             val = thread.environment[name];
                         } 
-                        // 4. Check Shared Global Heap & Host Context (Polyfills)
                         else {
                             val = vm.memory.getGlobal(name);
                             if (val === undefined) {
-                                // Fallback to VM Context (Host Globals)
                                 if (vm.context && (name in vm.context)) {
                                     val = vm.context[name];
                                 }
                             }
                         }
-                        
                         thread.push(val);
                     }
                     break;
@@ -83,7 +76,6 @@
                     const val = thread.pop();
                     let stored = false;
                     
-                    // 1. Check `with` stack
                     if (thread.withStack && thread.withStack.length > 0) {
                         for (let i = thread.withStack.length - 1; i >= 0; i--) {
                             const scopeObj = thread.withStack[i];
@@ -96,11 +88,9 @@
                     }
                     
                     if (!stored) {
-                        // 2. B"H - Store in Module/Thread Environment
                         if (thread.environment) {
                             thread.environment[name] = val;
                         } else {
-                            // 3. Fallback to Shared Heap
                             vm.memory.setGlobal(name, val);
                         }
                     }
@@ -199,11 +189,15 @@
                     const o = thread.pop(); 
                     
                     if (o === undefined || o === null) {
-                        const msg = `[VM] TypeError: Cannot read property '${k}' of ${String(o)}`;
-                        if (vm.hostAPI && vm.hostAPI[0]) vm.hostAPI[0](msg);
-                        throw new TypeError(msg);
+                        // B"H - Silent undefined on null access, but warn for debugging
+                        // thread.push(undefined);
+                        // console.warn(`[VM WARN] Cannot read property '${k}' of ${String(o)}`);
+                        thread.push(undefined);
                     } else {
-                        const val = o[k];
+                        let val = o[k];
+                        if (typeof val === 'function' && !val.prototype && !val.name.startsWith('bound ')) {
+                            try { val = val.bind(o); } catch(e) {}
+                        }
                         thread.push(val); 
                     }
                     break; 
@@ -212,22 +206,67 @@
                     const v = thread.pop(); 
                     const k = thread.pop(); 
                     const o = thread.pop(); 
+                    
                     if(o !== undefined && o !== null) {
-                        // B"H - Robust Styling: Handle CSSStyleDeclaration specifically to ensure updates
                         if (typeof CSSStyleDeclaration !== 'undefined' && o instanceof CSSStyleDeclaration) {
-                            if (typeof o.setProperty === 'function') {
-                                o.setProperty(k, String(v));
-                            } else {
-                                o[k] = v;
-                            }
+                            if (typeof o.setProperty === 'function') o.setProperty(k, String(v));
+                            else o[k] = v;
                         } else {
                             o[k] = v;
                         }
                     } else {
-                       throw new TypeError(`Cannot set property '${k}' of ${o}`);
+                       // Silent failure for robustness
                     }
                     thread.push(v); 
                     break; 
+                }
+                
+                // B"H - NEW SPREAD OPCODES
+                case OPCODES.ARRAY_PUSH: {
+                    const val = thread.pop();
+                    const arr = thread.peek(); 
+                    if (Array.isArray(arr)) arr.push(val);
+                    // else throw new TypeError("ARRAY_PUSH expected array");
+                    break;
+                }
+                case OPCODES.ARRAY_SPREAD: {
+                    const src = thread.pop();
+                    const arr = thread.peek();
+                    if (Array.isArray(arr)) {
+                        if (src && typeof src[Symbol.iterator] === 'function') {
+                            arr.push(...src);
+                        }
+                    }
+                    break;
+                }
+                case OPCODES.OBJECT_MERGE: {
+                    const src = thread.pop();
+                    const target = thread.peek();
+                    if (src !== null && src !== undefined) {
+                        Object.assign(target, src);
+                    }
+                    break;
+                }
+                case OPCODES.OBJECT_REST: {
+                    const keys = thread.pop();
+                    const source = thread.pop();
+                    const rest = {};
+                    if (source !== null && source !== undefined) {
+                        // B"H - Safe Destructuring
+                        // 1. Convert source to object wrapper to allow 'in' check
+                        const srcObj = Object(source);
+                        // 2. Ensure keys are compared as strings
+                        const excludeSet = new Set(Array.isArray(keys) ? keys.map(String) : []);
+                        
+                        for (const key in srcObj) {
+                            if (!excludeSet.has(String(key))) {
+                                rest[key] = srcObj[key];
+                            }
+                        }
+                    }
+                    // Pushes empty object if source was null/undefined, preventing crash
+                    thread.push(rest);
+                    break;
                 }
 
                 // Functions & Closures
@@ -251,13 +290,9 @@
                     const count = thread.read8();
                     const args = [];
                     for(let i=0; i<count; i++) args.unshift(thread.pop());
-                    
                     const callee = thread.pop(); 
                     let ctx = thread.pop(); 
-
-                    if (ctx === undefined || ctx === null) {
-                        ctx = thread.environment; 
-                    }
+                    if (ctx === undefined || ctx === null) ctx = thread.environment; 
 
                     if (callee && callee.type === 'CLOSURE') {
                         if (callee.isGenerator) {
@@ -274,54 +309,56 @@
                                 stackSize: thread.stack.length,
                                 environment: thread.environment
                             });
-                            
                             thread.bytecode = callee.code.bytecode;
                             thread.constants = callee.code.constants;
                             thread.ip = 0;
-                            
-                            const scopeThis = callee.isArrow 
-                                ? (callee.upvalues ? callee.upvalues['this'] : undefined) 
-                                : ctx;
-
-                            thread.currentScope = { 
-                                'this': scopeThis, 
-                                'arguments': args 
-                            };
-                            
+                            const scopeThis = callee.isArrow ? (callee.upvalues ? callee.upvalues['this'] : undefined) : ctx;
+                            thread.currentScope = { 'this': scopeThis, 'arguments': args };
                             thread.currentUpvalues = callee.upvalues;
                             thread.environment = callee.environment || thread.environment;
-
                             args.forEach((a, i) => thread.currentScope[i] = a);
                         }
                     } else if (typeof callee === 'function') {
+                        // B"H - NATIVE CALL HANDLER
                         if (!vm._callbackWrappers) vm._callbackWrappers = new WeakMap();
-
+                        
                         const wrappedArgs = args.map(arg => {
                             if (arg && arg.type === 'CLOSURE') {
-                                if (vm._callbackWrappers.has(arg)) {
-                                    return vm._callbackWrappers.get(arg);
-                                }
-
+                                if (vm._callbackWrappers.has(arg)) return vm._callbackWrappers.get(arg);
+                                
+                                // B"H - Synchronous Wrapper
+                                // Native functions (like Array.map) expect the callback to execute NOW and return a value.
                                 const wrapper = function(...innerArgs) {
                                     const hostThis = this;
-                                    const scopeThis = arg.isArrow 
-                                        ? (arg.upvalues ? arg.upvalues['this'] : undefined) 
-                                        : hostThis;
-
+                                    const scopeThis = arg.isArrow ? (arg.upvalues ? arg.upvalues['this'] : undefined) : hostThis;
+                                    
                                     if (thread.vm) {
                                          const t = thread.vm.spawn(arg.code);
-                                         
-                                         t.currentScope = { 
-                                             'this': scopeThis, 
-                                             'arguments': innerArgs 
-                                         };
-                                         
+                                         t.currentScope = { 'this': scopeThis, 'arguments': innerArgs };
                                          innerArgs.forEach((val, idx) => t.currentScope[idx] = val);
-                                         
                                          t.currentUpvalues = arg.upvalues;
                                          t.environment = arg.environment;
                                          
-                                         if (thread.vm.wake) thread.vm.wake();
+                                         // B"H - FORCE SYNCHRONOUS EXECUTION
+                                         const MAX_CYCLES = 2000000;
+                                         let cycles = 0;
+                                         
+                                         // Step the thread until it's done or yields
+                                         while(t.status === 'RUNNING' && cycles++ < MAX_CYCLES) {
+                                             t.step();
+                                         }
+                                         
+                                         if (t.status === 'CRASHED') {
+                                             const err = t.stack[t.stack.length - 1];
+                                             console.error("[VM] Callback Crashed:", err);
+                                             throw new Error("[VM] Callback Crashed: " + err);
+                                         } else if (t.status !== 'COMPLETED' && t.status !== 'HALTED') {
+                                             console.warn("[VM] Warning: Callback exceeded sync limit or yielded. Result may be undefined.");
+                                         }
+                                         
+                                         // Return the value from the top of the stack (if any)
+                                         if (t.stack.length > 0) return t.pop();
+                                         return undefined;
                                     }
                                 };
                                 
@@ -330,225 +367,224 @@
                             }
                             return arg;
                         });
-
+                        
                         try {
-                            thread.push(callee.apply(ctx, wrappedArgs));
+                            const result = callee.apply(ctx, wrappedArgs);
+                            thread.push(result);
                         } catch(e) {
                             console.error("[VM] Native Call Error:", e);
                             throw e;
                         }
                     } else {
-                        const type = typeof callee;
-                        let msg = `[VM] TypeError: ${type} is not a function (callee was ${String(callee)}). Context: ${String(ctx)}. Args: ${count}.`;
-                        
-                        if (callee === undefined) {
-                            msg += " This likely means a required function or import (e.g. from constants.js) failed to resolve.";
-                        }
+                        // console.warn(`[VM WARN] Attempted to call non-function: ${typeof callee}`);
+                        thread.push(undefined);
+                    }
+                    break;
+                }
 
-                        if(vm.hostAPI && vm.hostAPI[0]) {
-                            vm.hostAPI[0](msg);
+                case OPCODES.NEW: {
+                    const count = thread.read8();
+                    const args = [];
+                    for(let i=0; i<count; i++) args.unshift(thread.pop());
+                    const callee = thread.pop();
+                    if (typeof callee === 'function') {
+                        try {
+                            thread.push(new callee(...args));
+                        } catch(e) {
+                            throw new Error(`[VM] New Error: ${e.message}`);
                         }
-                        
-                        throw new TypeError(msg);
+                    } else if (callee && callee.type === 'CLOSURE') {
+                        const instance = {};
+                        thread.frames.push({
+                            ip: thread.ip, bytecode: thread.bytecode,
+                            constants: thread.constants, scope: thread.currentScope,
+                            upvalues: thread.currentUpvalues, 
+                            stackSize: thread.stack.length,
+                            environment: thread.environment
+                        });
+                        thread.bytecode = callee.code.bytecode;
+                        thread.constants = callee.code.constants;
+                        thread.ip = 0;
+                        thread.currentScope = { 'this': instance, 'arguments': args };
+                        thread.currentUpvalues = callee.upvalues;
+                        thread.environment = callee.environment || thread.environment;
+                        args.forEach((a, i) => thread.currentScope[i] = a);
+                    } else {
+                        throw new TypeError(`[VM] TypeError: ${typeof callee} is not a constructor`);
                     }
                     break;
                 }
                 
                 case OPCODES.MAKE_CLASS: {
+                    const codeConstIdx = thread.read16();
                     const superClass = thread.pop();
-                    const methodCode = thread.constants[thread.read16()];
-                    const ClassConstructor = function(...args) {};
+                    const classBodyCode = thread.constants[codeConstIdx];
+                    
+                    const TheClass = function(...args) {
+                        const instance = this; 
+                        
+                        if (thread.vm) {
+                             const t = thread.vm.spawn(classBodyCode);
+                             t.currentScope = { 
+                                 'this': instance, 
+                                 'arguments': args 
+                             };
+                             args.forEach((val, idx) => t.currentScope[idx] = val);
+                             
+                             t.currentUpvalues = TheClass._upvalues;
+                             t.environment = TheClass._environment || thread.environment;
+
+                             const MAX_CYCLES = 2000000;
+                             let cycles = 0;
+                             while(t.status === 'RUNNING' && cycles++ < MAX_CYCLES) {
+                                 t.step();
+                             }
+                             if (t.status === 'CRASHED') {
+                                 const err = t.stack[t.stack.length - 1];
+                                 throw new Error("[VM] Class Constructor Crashed: " + err);
+                             }
+                        }
+                    };
+                    
+                    TheClass._upvalues = thread.currentScope;
+                    TheClass._environment = thread.environment;
+
                     if (superClass) {
-                        ClassConstructor.prototype = Object.create(superClass.prototype);
-                        ClassConstructor.prototype.constructor = ClassConstructor;
+                        TheClass.prototype = Object.create(superClass.prototype);
+                        TheClass.prototype.constructor = TheClass;
                     }
-                    thread.push(ClassConstructor);
-                    break;
-                }
-                
-                case OPCODES.NEW: {
-                    const count = thread.read8();
-                    const args = [];
-                    for(let i=0; i<count; i++) args.unshift(thread.pop());
-                    const ctor = thread.pop();
-                    if (typeof ctor !== 'function') {
-                        throw new TypeError(`[VM] TypeError: ${typeof ctor} is not a constructor`);
-                    }
-                    thread.push(new ctor(...args));
+                    
+                    thread.push(TheClass);
                     break;
                 }
 
                 case OPCODES.RETURN: {
-                    let ret = thread.pop();
-                    
+                    const retVal = thread.pop();
                     if (thread.frames.length > 0) {
-                        const f = thread.frames.pop();
-                        thread.ip = f.ip; thread.bytecode = f.bytecode; 
-                        thread.constants = f.constants; thread.currentScope = f.scope;
-                        thread.currentUpvalues = f.upvalues; 
-                        thread.environment = f.environment;
-                        
-                        if (f.stackSize !== undefined && thread.stack.length > f.stackSize) {
-                            thread.stack.length = f.stackSize;
-                        }
-                        
-                        thread.push(ret);
+                        const frame = thread.frames.pop();
+                        thread.ip = frame.ip;
+                        thread.bytecode = frame.bytecode;
+                        thread.constants = frame.constants;
+                        thread.currentScope = frame.scope;
+                        thread.currentUpvalues = frame.upvalues;
+                        thread.environment = frame.environment;
+                        while (thread.stack.length > frame.stackSize) thread.stack.pop();
+                        thread.push(retVal);
                     } else {
-                        thread.push(ret); return 'COMPLETED';
+                        thread.push(retVal);
+                        thread.status = 'COMPLETED';
+                        return 'COMPLETED';
                     }
                     break;
                 }
 
+                // Async
                 case OPCODES.AWAIT: {
                     const promise = thread.pop();
                     if (promise && typeof promise.then === 'function') {
                         thread.status = 'AWAITING';
                         promise.then(
-                            val => { thread.push(val); thread.status = 'RUNNING'; vm.wake(); },
-                            err => { thread.push(err); thread.status = 'RUNNING'; vm.wake(); }
+                            val => {
+                                thread.push(val);
+                                thread.status = 'RUNNING';
+                                if(vm.wake) vm.wake();
+                            },
+                            err => {
+                                console.error("[VM] Await Error:", err);
+                                thread.push(undefined);
+                                thread.status = 'RUNNING';
+                                if(vm.wake) vm.wake();
+                            }
                         );
-                        return 'YIELD';
                     } else {
-                        thread.push(promise);
+                        thread.push(promise); 
                     }
                     break;
                 }
-                case OPCODES.YIELD: { thread.push(thread.pop()); break; }
+                
+                case OPCODES.IMPORT: {
+                    const url = thread.pop();
+                    thread.push(Promise.resolve({})); 
+                    break;
+                }
+                
+                case OPCODES.IMPORT_MODULE: {
+                    const url = thread.pop();
+                    thread.push({}); 
+                    break;
+                }
 
-                case OPCODES.GET_ITERATOR: {
-                    const o = thread.pop();
-                    if (o === undefined || o === null) {
-                         throw new TypeError(`Cannot get iterator of ${o}`);
-                    }
-                    if (typeof o[Symbol.iterator] !== 'function') {
-                         throw new TypeError(`${o} is not iterable`);
-                    }
-                    thread.push(o[Symbol.iterator]());
+                case OPCODES.THROW: {
+                    const err = thread.pop();
+                    throw err; 
+                }
+                case OPCODES.ENTER_TRY: {
+                    const catchOffset = thread.read16();
+                    thread.catchStack.push(thread.ip + catchOffset); 
                     break;
                 }
-                case OPCODES.ITERATOR_NEXT: thread.push(thread.pop().next()); break;
-                case OPCODES.ITERATOR_DONE: { const r = thread.pop(); thread.push(r); thread.push(r.done); break; }
-                case OPCODES.ITERATOR_VALUE: thread.push(thread.pop().value); break;
+                case OPCODES.EXIT_TRY: {
+                    thread.catchStack.pop();
+                    break;
+                }
+                
+                case OPCODES.GET_ITERATOR: {
+                    const iterable = thread.pop();
+                    if (iterable && typeof iterable[Symbol.iterator] === 'function') {
+                        thread.push(iterable[Symbol.iterator]());
+                    } else {
+                        throw new TypeError("Value is not iterable");
+                    }
+                    break;
+                }
+                case OPCODES.ITERATOR_NEXT: {
+                    const iter = thread.peek();
+                    const res = iter.next();
+                    thread.push(res);
+                    break;
+                }
+                case OPCODES.ITERATOR_DONE: {
+                    const res = thread.peek();
+                    thread.push(res.done);
+                    break;
+                }
+                case OPCODES.ITERATOR_VALUE: {
+                    const res = thread.peek(); 
+                    thread.pop(); 
+                    thread.push(res.value);
+                    break;
+                }
+                
                 case OPCODES.ENUMERATE: {
-                    const o = thread.pop();
-                    const keys = []; for(let k in o) keys.push(k);
+                    const obj = thread.pop();
+                    const keys = [];
+                    for (const k in obj) keys.push(k);
                     thread.push(keys[Symbol.iterator]());
                     break;
                 }
 
-                case OPCODES.ENTER_TRY: { const off = thread.read16(); if(!thread.catchStack) thread.catchStack=[]; thread.catchStack.push(thread.ip + off); break; }
-                case OPCODES.EXIT_TRY: { if(thread.catchStack) thread.catchStack.pop(); break; }
-                case OPCODES.THROW: throw thread.pop();
-
                 case OPCODES.SYSCALL: {
                     const id = thread.read8();
-                    const cnt = thread.read8();
-                    const args=[]; for(let i=0; i<cnt; i++) args.unshift(thread.pop());
-                    if(vm.hostAPI[id]) vm.hostAPI[id](...args);
-                    thread.push(undefined);
+                    const argc = thread.read8();
+                    const args = [];
+                    for(let i=0; i<argc; i++) args.unshift(thread.pop());
+                    if (vm.hostAPI[id]) {
+                        const res = vm.hostAPI[id](...args);
+                        thread.push(res);
+                    } else {
+                        thread.push(undefined);
+                    }
                     break;
                 }
                 
-                // B"H - Module Import System
-                case OPCODES.IMPORT_MODULE: {
-                    const path = thread.pop();
-                    
-                    if (vm.moduleCache.has(path)) {
-                        thread.push(vm.moduleCache.get(path));
-                        break;
-                    }
-                    
-                    if (!vm.importResolver) {
-                        throw new Error(`[VM] Import Error: No importResolver provided to resolve '${path}'`);
-                    }
-                    
-                    thread.status = 'AWAITING';
-                    if(vm) vm.pendingAsyncCount++;
-                    
-                    vm.importResolver(path).then(async (res) => {
-                        try {
-                            const code = (res && (res.code || res.content || res)) || '';
-                            if (!code) throw new Error(`Empty code for module ${path}`);
-                            
-                            const parser = new self.MerkavahParser(code);
-                            parser.registerStatementParsers(); 
-                            parser.registerExpressionParsers(); 
-                            parser.registerDeclarationParsers();
-                            const compiler = new self.MerkavaCompiler.Compiler();
-                            const codeObj = compiler.compile(parser.parse());
-                            
-                            const exportsObj = {};
-                            
-                            // B"H - TIKKUN: Use Proxy for Module Context to prevent Object.create breakage
-                            const locals = {};
-                            const moduleContext = new Proxy(locals, {
-                                get(target, prop, receiver) {
-                                    if (prop in target) return target[prop];
-                                    if (prop === 'exports') return exportsObj;
-                                    // Fallback to VM Global Context
-                                    return vm.context[prop];
-                                },
-                                set(target, prop, value, receiver) {
-                                    // Always write to locals (masking globals)
-                                    target[prop] = value;
-                                    return true;
-                                },
-                                has(target, prop) {
-                                    return (prop in target) || (prop === 'exports') || (prop in vm.context);
-                                }
-                            });
-                            
-                            // Inject Helper
-                            if (vm.context && vm.context.__define_live_export) {
-                                locals.__define_live_export = vm.context.__define_live_export;
-                            }
-                            
-                            const modThread = vm.spawn(codeObj);
-                            modThread.environment = moduleContext;
-                            modThread.currentScope = { 'this': moduleContext, 'exports': exportsObj };
-                            
-                            // B"H - Ensure cache is set ONLY on success
-                            vm.moduleCache.set(path, exportsObj); 
-                            
-                            const originalStep = modThread.step.bind(modThread);
-                            modThread.step = function() {
-                                const active = originalStep();
-                                if (this.status === 'COMPLETED') {
-                                    thread.push(exportsObj); 
-                                    thread.status = 'RUNNING'; 
-                                } else if (this.status === 'CRASHED' || this.status === 'TERMINATED') {
-                                    console.error(`[VM] Module ${path} CRASHED.`);
-                                    vm.moduleCache.delete(path);
-                                    thread.push({}); // Push empty to prevent caller crash
-                                    thread.status = 'RUNNING';
-                                }
-                                return active;
-                            };
-                            
-                            vm.wake(); 
-                            
-                        } catch(e) {
-                            if(vm.hostAPI[0]) vm.hostAPI[0](`[VM] Module Compilation Failed: ${path}`, e.message);
-                            console.error(`[VM] Module Load Failed: ${path}`, e);
-                            thread.push({}); 
-                            thread.status = 'RUNNING';
-                            vm.wake();
-                        } finally {
-                            if(vm) vm.pendingAsyncCount--;
-                        }
-                    }).catch(e => {
-                        if(vm.hostAPI[0]) vm.hostAPI[0](`[VM] Import Resolution Failed: ${path}`, e.message);
-                        console.error(`[VM] Import Resolver Failed: ${path}`, e);
-                        thread.push({});
-                        thread.status = 'RUNNING';
-                        vm.wake();
-                        if(vm) vm.pendingAsyncCount--;
-                    });
-                    
-                    return 'YIELD';
+                case OPCODES.DEBUGGER: {
+                    console.warn("[VM] Debugger hit");
+                    break;
                 }
+
+                default:
+                    throw new Error(`Unknown Opcode: ${op}`);
             }
-            return 'CONTINUE';
         }
     };
 

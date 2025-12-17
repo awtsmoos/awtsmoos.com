@@ -1,3 +1,4 @@
+
 // B"H
 (function(root) {
     const Internal = root.MerkavaSDK_Internal = root.MerkavaSDK_Internal || {};
@@ -105,7 +106,9 @@
 
                 // 4. Initialize Inner VM
                 if (typeof Merkava !== 'undefined') {
-                    Merkava.initWorker({ isWorker: true }).then(adapter => {
+                    // B"H - Configure High RAM for Workers (500,000 objects)
+                    // This prevents page faults during Minimax recursion.
+                    Merkava.initWorker({ isWorker: true, ramLimit: 500000 }).then(adapter => {
                         
                         let realVM = null;
                         let msgQueue = [];
@@ -114,7 +117,7 @@
                         // B"H - VM Driver: Resumes the VM loop
                         const driveVM = () => {
                             if (!realVM) return;
-                            if (isRunning) return; // Already loop active
+                            if (isRunning) return; 
                             
                             isRunning = true;
                             const loop = () => {
@@ -133,19 +136,15 @@
                             loop();
                         };
 
-                        // Processor for incoming messages
                         const processQueue = () => {
                             if (!realVM) return;
                             
-                            // Check Heap (implicit global) OR Context (self.onmessage)
                             const heapHandler = realVM.memory.getGlobal('onmessage');
                             const contextHandler = realVM.context ? realVM.context.onmessage : null;
                             const handler = heapHandler || contextHandler;
 
-                            // Race Condition Fix: If code hasn't set 'onmessage' yet, retry.
                             if (!handler) {
                                 if (msgQueue.length > 0) {
-                                    // Retry in 50ms
                                     setTimeout(processQueue, 50);
                                 }
                                 return;
@@ -157,7 +156,7 @@
                                 if (handler.type === 'CLOSURE') {
                                     const t = realVM.spawn(handler.code);
                                     t.currentScope = { 0: { data: payload } };
-                                    driveVM(); // IGNITE THE ENGINE
+                                    driveVM(); 
                                 } else if (typeof handler === 'function') {
                                     handler({ data: payload });
                                 } else {
@@ -169,7 +168,6 @@
                         self.onmessage = function(e) {
                             const msg = e.data;
                             if (msg.type === 'EXEC_CODE') {
-                                 // Run the user code. This returns the Real VM Instance.
                                  adapter.run(msg.code).then(res => {
                                      realVM = res.vm;
                                      processQueue();
@@ -198,7 +196,6 @@
                         if (this.onmessage.type === 'CLOSURE') {
                              const thread = this.parentVM.spawn(this.onmessage.code);
                              thread.currentScope = { 0: { data: msg.payload } }; 
-                             // B"H - Ignite the Parent VM if it was sleeping
                              if (this.parentVM.wake) this.parentVM.wake();
                         } else if (typeof this.onmessage === 'function') {
                              this.onmessage({ data: msg.payload });
@@ -208,11 +205,11 @@
             };
         }
 
-        postMessage(msg) {
+        postMessage(msg, transfer) {
             if (this.nativeWorker) {
-                this.nativeWorker.postMessage({ type: 'USER_MSG', payload: msg });
+                this.nativeWorker.postMessage({ type: 'USER_MSG', payload: msg }, transfer);
             } else {
-                setTimeout(() => this.postMessage(msg), 50);
+                setTimeout(() => this.postMessage(msg, transfer), 50);
             }
         }
 
@@ -220,7 +217,6 @@
             if (this.nativeWorker) {
                 this.nativeWorker.terminate();
                 this.nativeWorker = null;
-                // Release hold on Parent VM
                 if (this.parentVM) this.parentVM.pendingAsyncCount--;
             }
         }

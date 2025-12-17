@@ -22,7 +22,8 @@
             const codeObject = compiler.compile(ast);
             
             // 3. Initialize Memory
-            const memory = new self.MerkavaMemory.MemoryManager(options.ramLimit || 1000);
+            // B"H - Increased RAM limit to 500,000 to support intensive AI recursion
+            const memory = new self.MerkavaMemory.MemoryManager(options.ramLimit || 500000);
             await memory.init();
             
             if(!memory.setGlobal) {
@@ -64,11 +65,13 @@
                 };
                 
                 // Attach wake handler to VM for event-driven execution (e.g. after AWAIT resolve)
+                // This default handler uses the internal loop. Hosts can override this.
                 vm.wake = () => {
                     setTimeout(check, 0);
                 };
                 
-                check();
+                // B"H - Delay start to next tick to allow Host to attach overrides/assign instances
+                setTimeout(check, 0);
             });
 
             return { vm, done: donePromise, memory };
@@ -85,6 +88,8 @@
             // Apply Polyfills & Overrides
             // Use .bind to ensure they work when detached and prevent illegal invocation
             overrides.console = baseContext.console || self.console;
+            // B"H - NOTE: setTimeout/Interval are now handled by the Host Wrapper in html-preview-templates.js
+            // But we keep fallbacks here just in case.
             overrides.setTimeout = baseContext.setTimeout ? baseContext.setTimeout.bind(baseContext) : self.setTimeout.bind(self);
             overrides.clearTimeout = baseContext.clearTimeout ? baseContext.clearTimeout.bind(baseContext) : self.clearTimeout.bind(self);
             overrides.setInterval = baseContext.setInterval ? baseContext.setInterval.bind(baseContext) : self.setInterval.bind(self);
@@ -94,7 +99,6 @@
             overrides.CSSStyleDeclaration = self.CSSStyleDeclaration || baseContext.CSSStyleDeclaration;
 
             // B"H - REQUIRED FOR MODULE EXPORTS
-            // The compiler emits calls to this for 'export let/var/func'
             overrides.__define_live_export = (exports, key, env, localKey) => {
                 Object.defineProperty(exports, key, {
                     get: () => env[localKey],
@@ -104,34 +108,19 @@
             };
 
             // B"H - TIKKUN: Use Proxy for Context
-            // Using Object.create(window) causes "Illegal invocation" for getters like innerWidth.
-            // Using Proxy allows us to forward access to the real window object with the correct 'this'.
             const context = new Proxy(overrides, {
                 get(target, prop, receiver) {
-                    // 0. Pass through Symbols (e.g. Symbol.iterator, Symbol.toPrimitive) 
-                    // to prevent TypeErrors in internal engine operations.
                     if (typeof prop === 'symbol') {
-                        // Check target first
                         if (prop in target) return target[prop];
-                        // Then baseContext
                         return Reflect.get(baseContext, prop);
                     }
 
-                    // 1. Check overrides/local context first
                     if (prop in target) return target[prop];
                     
-                    // 2. Check baseContext (Host Window)
-                    // We access it directly on baseContext so that getters run with baseContext as 'this'.
                     try {
                         const val = baseContext[prop];
-                        
-                        // 3. Smart Bind
-                        // Only bind functions that are NOT constructors (have no prototype or are specifically identified)
-                        // This fixes 'new Image()' failing because 'Image' was bound.
                         if (typeof val === 'function') {
-                            // If it has a prototype, it's likely a constructor (e.g. Image, Array). Don't bind.
-                            // If it doesn't (e.g. alert, setTimeout), bind it.
-                            if (val.prototype) return val; 
+                            if (val.prototype && val.name) return val; 
                             return val.bind(baseContext);
                         }
                         return val;
@@ -143,11 +132,24 @@
                     return (prop in target) || (prop in baseContext);
                 },
                 set(target, prop, value) {
-                    // Write to local overrides to avoid polluting the global window
+                    // B"H - TIKKUN: Smart Set Strategy
+                    
+                    // 1. If it's already in overrides, update overrides.
+                    if (prop in target) {
+                        target[prop] = value;
+                        return true;
+                    }
+                    
+                    // 2. If it's in baseContext, update baseContext (CRITICAL for onmessage).
+                    if (prop in baseContext) {
+                        baseContext[prop] = value;
+                        return true;
+                    }
+                    
+                    // 3. Otherwise, create new variable in overrides.
                     target[prop] = value;
                     return true;
                 },
-                // B"H - Ensure proper ownership checks for 'in' operator
                 ownKeys(target) {
                     return [...Reflect.ownKeys(target), ...Reflect.ownKeys(baseContext)];
                 },

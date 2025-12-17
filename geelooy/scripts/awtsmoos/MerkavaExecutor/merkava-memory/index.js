@@ -52,6 +52,12 @@
 
         set(ptr, newValue) {
             if (ptr === 0) throw new Error("[VMM] Segmentation Fault: Cannot write to NULL (0)");
+            
+            // Debug Log for Canvas Storage attempts
+            if (newValue && (newValue.toString().includes("Canvas") || newValue.constructor.name === "OffscreenCanvas")) {
+                console.log(`[VMM] Storing Canvas-like object at Ptr ${ptr}. Type: ${newValue.constructor.name}`);
+            }
+
             this.ram.set(ptr, newValue);
             this.dirtySet.add(ptr);
             this._checkEviction();
@@ -91,9 +97,16 @@
                         await this.db.putBatch(DB_CONFIG.STORE_HEAP, batch);
                     } catch (e) {
                         if (e.name === 'DataCloneError') {
+                            console.warn("[VMM] Eviction DataCloneError encountered. Attempting to pin non-persistable objects.");
                             for (const item of batch) {
                                 try { await this.db.put(DB_CONFIG.STORE_HEAP, item.key, item.value); } 
-                                catch (innerErr) { if (innerErr.name === 'DataCloneError') { pinnedPtrs.add(item.key); this.dirtySet.delete(item.key); } }
+                                catch (innerErr) { 
+                                    if (innerErr.name === 'DataCloneError') { 
+                                        console.log(`[VMM] Pinned object at Ptr ${item.key} (Cannot persist).`);
+                                        pinnedPtrs.add(item.key); 
+                                        this.dirtySet.delete(item.key); 
+                                    } 
+                                }
                             }
                         } else throw e;
                     }

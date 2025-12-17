@@ -21,7 +21,12 @@
                 '&': this.OPCODES.BIT_AND, '|': this.OPCODES.BIT_OR, '^': this.OPCODES.BIT_XOR,
                 '<<': this.OPCODES.SHL, '>>': this.OPCODES.SHR, '>>>': this.OPCODES.USHR
             };
-            if (map[node.operator]) this.buffer.write8(map[node.operator]);
+            
+            const op = map[node.operator];
+            if (op === undefined) {
+                throw new Error(`[Compiler] Unknown/Unmapped Binary Operator: ${node.operator}`);
+            }
+            this.buffer.write8(op);
         },
 
         _visitLogical(node) {
@@ -50,7 +55,6 @@
                 this.buffer.write8(res.index); 
                 this.buffer.write8(res.depth); 
             } else {
-                // Fallback to GLOBAL (this will happen for top-level vars now)
                 const nameIdx = this._addConstant(node.name);
                 this.buffer.write8(mode === 'LOAD' ? this.OPCODES.LOAD_GLOBAL : this.OPCODES.STORE_GLOBAL);
                 this.buffer.write16(nameIdx);
@@ -58,7 +62,6 @@
         },
 
         _visitCall(node) {
-            // B"H - Restore SYSCALL Logic
             if (node.callee.type === 'Identifier' && node.callee.name === 'syscall') {
                 const idArg = node.arguments[0];
                 if (!idArg || idArg.type !== 'Literal') {
@@ -74,23 +77,26 @@
             }
 
             if (node.callee.type === 'MemberExpression') {
-                 this._visit(node.callee.object); // Push Object
-                 this.buffer.write8(this.OPCODES.DUP); // DUP Object
+                 this._visit(node.callee.object);
+                 this.buffer.write8(this.OPCODES.DUP);
                  if (node.callee.computed) this._visit(node.callee.property);
                  else this._emitConstant(node.callee.property.name);
-                 this.buffer.write8(this.OPCODES.GET_PROP); // Pops Obj, Key. Pushes Func.
-                 // B"H - FIXED: Stack is [Obj, Func]. Top is Func.
-                 // This matches the [Context, Function] layout required by CALL.
+                 this.buffer.write8(this.OPCODES.GET_PROP);
             } else {
-                 this._visit(node.callee); // Push Function
-                 this.buffer.write8(this.OPCODES.PUSH_UNDEFINED); // Push Context (undefined)
-                 // B"H - TIKKUN: Standardize Stack Layout to [Context, Function]
-                 // Current is [Func, Undefined]. Must SWAP.
+                 this._visit(node.callee);
+                 this.buffer.write8(this.OPCODES.PUSH_UNDEFINED);
                  this.buffer.write8(this.OPCODES.SWAP);
             }
             node.arguments.forEach(arg => this._visit(arg));
             this.buffer.write8(this.OPCODES.CALL);
             this.buffer.write8(node.arguments.length);
+
+            // B"H - INTERCEPTION: importScripts
+            // Force AWAIT after importScripts so the VM yields to the Promise returned by the custom bridge.
+            // DO NOT POP result here, as standard ExpressionStatement visitor handles the pop.
+            if (node.callee.type === 'Identifier' && node.callee.name === 'importScripts') {
+                this.buffer.write8(this.OPCODES.AWAIT); 
+            }
         },
 
         _visitMember(node) {
