@@ -1,3 +1,4 @@
+
 // B"H
 /**
  * @file comprehensive_v2.js
@@ -59,7 +60,9 @@ async function runTest() {
         const listHandle = db.root.fractal.node_1;
         await listHandle.push({ id: 1, meta: {} }); // Object inside List
         
-        db.root.fractal.node_1[0].meta.active = true;
+        // Access via index
+        const item0 = db.root.fractal.node_1[0];
+        item0.meta.active = true;
         await db.waitForIdle();
         
         const deepCheck = await db.root.fractal.node_1[0];
@@ -98,9 +101,10 @@ async function runTest() {
         }
         await db.waitForIdle();
         
-        const keys = await db.root.myDict.keys();
-        let keyCount = 0;
-        for await (const k of keys) keyCount++;
+        // B"H: New API usage db.keys() returns Array
+        const keys = await db.keys(db.root.myDict);
+        const keyCount = keys.length;
+        
         assert(keyCount === 50, `Dictionary Key Count ${keyCount}`);
         
         await db.root.myDict.delete("key_0");

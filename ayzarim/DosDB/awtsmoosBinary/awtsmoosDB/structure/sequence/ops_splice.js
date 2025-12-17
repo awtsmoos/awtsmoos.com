@@ -43,7 +43,8 @@ class SpliceOps {
         
         const removed = ptrs.splice(actualStart, actualDelete, ...newItems);
         
-        if (!options.skipFree) {
+        // B"H: Check options AND node weakness
+        if (!options.skipFree && !node.isWeak) {
             for(const p of removed) await this.seq.allocator.free(p).catch(()=>{});
         }
         
@@ -86,7 +87,8 @@ class SpliceOps {
             const splitNodes = [];
             for(let i=1; i<chunks.length; i++) {
                 const ch = chunks[i];
-                const newNode = await this.nodeIO.create(true);
+                // B"H: Inherit isWeak
+                const newNode = await this.nodeIO.create(true, node.isWeak);
                 newNode.itemCount = ch.length;
                 newNode.totalCount = ch.length;
                 let ntb = 0; for(const p of ch) ntb += Utils.getPtrSize(p);
@@ -119,11 +121,17 @@ class SpliceOps {
         let insertItems = newItems;
         
         const newEntryList = [];
+        let itemsInserted = false;
         
         for(const entry of entries) {
             const childCount = entry.readUInt32BE(16);
             const childStart = currentOffset;
             const childEnd = currentOffset + childCount;
+            
+            // B"H: Improved Intersection Logic
+            // We insert if the insertion point falls within this child [Start, End]
+            // Priority: If start == childEnd, we prefer the NEXT child, UNLESS this is the last child.
+            // But here we handle 'insertHere' greedily if start matches childEnd for the current child (append).
             
             const insertHere = (insertItems.length > 0) && (start >= childStart && start <= childEnd);
             const deleteHere = (start < childEnd) && (absoluteDeleteEnd > childStart);
@@ -136,11 +144,29 @@ class SpliceOps {
                 
                 let localInsert = [];
                 if (insertHere) {
-                    localInsert = insertItems;
-                    insertItems = []; 
+                    // Check if we already inserted (to handle overlapping boundaries)
+                    // If start == childEnd, this condition matches current child AND next child (start == nextStart).
+                    // We only insert once.
+                    if (!itemsInserted) {
+                        // Edge case: If start == childStart, we usually want to insert in PREVIOUS child if possible (append),
+                        // but since we iterate forward, inserting at START of current child is effectively PREPEND.
+                        // However, standard splice at X means "Before item X".
+                        // So inserting at start of child X is correct.
+                        
+                        // BUT, if start == childEnd, we are appending to THIS child.
+                        // If next child exists, start == nextChildStart.
+                        // We should favor appending to THIS child to fill it up?
+                        // Or prepending to NEXT child?
+                        // Consistent behavior: favor current child (left-leaning).
+                        
+                        localInsert = insertItems;
+                        insertItems = []; 
+                        itemsInserted = true;
+                    }
                 }
                 
                 if (localStart === 0 && localDelete >= childCount && localInsert.length === 0) {
+                    // Full Delete of Child
                     const childPtrBuf = entry.subarray(0, 16);
                     const childPtr = Utils.decodePtr(childPtrBuf);
                     const childNode = await this.nodeIO.load(childPtr);
@@ -155,8 +181,6 @@ class SpliceOps {
                     const childNode = await this.nodeIO.load(childPtr);
                     
                     const res = await this._spliceRecursive(childNode, localStart, localDelete, localInsert, options);
-                    
-                    // We ignore res.deltaBytes here because we will recalc totalBytes later
                     
                     if (childNode.totalCount > 0) {
                         entry.writeUInt32BE(childNode.totalCount, 16);
@@ -181,8 +205,10 @@ class SpliceOps {
             currentOffset += childCount;
         }
         
+        // Handle insertion at the very end if not handled yet
         if (insertItems.length > 0) {
             if (newEntryList.length > 0) {
+                // Append to last child
                 const lastEntry = newEntryList[newEntryList.length - 1];
                 const childPtr = Utils.decodePtr(lastEntry.subarray(0, 16));
                 const childNode = await this.nodeIO.load(childPtr);
@@ -200,7 +226,8 @@ class SpliceOps {
                     }
                 }
             } else {
-                const newLeaf = await this.nodeIO.create(true);
+                // List was emptied, create new leaf
+                const newLeaf = await this.nodeIO.create(true, node.isWeak);
                 const res = await this._spliceLeaf(newLeaf, 0, 0, insertItems, options);
                 
                 const ne = Buffer.alloc(20);
@@ -219,7 +246,7 @@ class SpliceOps {
             }
         }
         
-        // B"H: RECALCULATION LOGIC (The Fix)
+        // B"H: RECALCULATION LOGIC
         let finalCount = 0;
         for(const e of newEntryList) {
             finalCount += e.readUInt32BE(16);
@@ -256,7 +283,8 @@ class SpliceOps {
             const splitNodes = [];
             for(let i=1; i<chunks.length; i++) {
                 const ch = chunks[i];
-                const nn = await this.nodeIO.create(false);
+                // B"H: Inherit isWeak
+                const nn = await this.nodeIO.create(false, node.isWeak);
                 nn.itemCount = ch.length;
                 let noff = Utils.DATA_OFFSET;
                 let nnc = 0;

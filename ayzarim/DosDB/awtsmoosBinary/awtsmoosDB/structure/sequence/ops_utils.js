@@ -15,20 +15,10 @@ module.exports = {
 
     getPtrSize(ptrBuf) {
         if (!ptrBuf || ptrBuf.length !== 16) return 0;
-        
-        // B"H: Sanity check - Detect uninitialized memory (e.g. 0x8121...)
-        // Mode 0, 1, 2. Header byte should be < 0xC0 (192).
         if (ptrBuf[0] > 0xC0) return 0; 
 
         if ((ptrBuf[0] >> 6) === constants.MODE_BLOCK) {
-             // B"H: FIX - Length is at offset 7 (1 byte header + 6 bytes BlockID)
-             // Payload structure: [BlockID (6)][Length (4)][Offset (4)][IsChain (1)]
-             // Pointer structure: [Header (1)][Payload (15)]
-             // So Length starts at index 1 + 6 = 7.
              const len = ptrBuf.readUInt32BE(7); 
-             
-             // Sanity check: Single block/chain shouldn't claim to be > 1GB unless specialized.
-             // This prevents reading garbage bytes as massive sizes.
              if (len > 1024 * 1024 * 1024) return 0;
              return len;
         }
@@ -62,7 +52,8 @@ module.exports = {
     },
 
     async handleRootSplit(nodeIO, seq, root, splitNodes) {
-        const newRoot = await nodeIO.create(false);
+        // B"H: New root inherits isWeak from current root to maintain non-destructive property
+        const newRoot = await nodeIO.create(false, root.isWeak);
         const entries = [];
         
         const leftEntry = Buffer.alloc(20);

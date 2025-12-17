@@ -27,8 +27,9 @@ class SequenceEngine {
         this.MAX_DEPTH = 100;
     }
 
-    async create() {
-        const root = await this.nodeIO.create(true);
+    async create(options = {}) {
+        const isWeak = options.isWeak || false;
+        const root = await this.nodeIO.create(true, isWeak);
         this.ptr = root.ptr;
         await this.nodeIO.save(root);
         return SmartPointer.block(constants.TYPE_SEQUENCE, this.ptr.blockId, this.ptr.length, this.ptr.isChain, this.ptr.offset);
@@ -46,10 +47,13 @@ class SequenceEngine {
         const node = await this.nodeIO.load(ptr);
         
         if (node.isLeaf) {
-            for(let i=0; i<node.itemCount; i++) {
-                const ptrOffset = DATA_OFFSET + (i * 16);
-                const ptrBuf = node.buffer.subarray(ptrOffset, ptrOffset+16);
-                try { await this.allocator.free(ptrBuf); } catch(e) {}
+            // B"H: CRITICAL FIX - Only free items if the sequence is NOT weak (owns items)
+            if (!node.isWeak) {
+                for(let i=0; i<node.itemCount; i++) {
+                    const ptrOffset = DATA_OFFSET + (i * 16);
+                    const ptrBuf = node.buffer.subarray(ptrOffset, ptrOffset+16);
+                    try { await this.allocator.free(ptrBuf); } catch(e) {}
+                }
             }
         } else {
              for(let i=0; i<node.itemCount; i++) {
@@ -187,7 +191,10 @@ class SequenceEngine {
         if (!otherSeq || !otherSeq.ptr) return;
         const myRoot = await this.nodeIO.load(this.ptr);
         const otherRoot = await this.nodeIO.load(otherSeq.ptr);
-        const newRoot = await this.nodeIO.create(false);
+        
+        // B"H: New root inherits weakness from primary (left)
+        const newRoot = await this.nodeIO.create(false, myRoot.isWeak);
+        
         const leftPtr = SmartPointer.block(constants.TYPE_SEQUENCE, this.ptr.blockId, this.ptr.length, this.ptr.isChain, this.ptr.offset);
         const rightPtr = SmartPointer.block(constants.TYPE_SEQUENCE, otherSeq.ptr.blockId, otherSeq.ptr.length, otherSeq.ptr.isChain, otherSeq.ptr.offset);
         const leftData = Buffer.alloc(20); leftPtr.copy(leftData, 0); leftData.writeUInt32BE(myRoot.totalCount, 16);

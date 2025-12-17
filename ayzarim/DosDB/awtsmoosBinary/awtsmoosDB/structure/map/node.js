@@ -8,42 +8,71 @@ class MapNode {
     constructor(allocator, engine) { 
         this.allocator = allocator; 
         this.engine = engine;
-        // B"H: Node Cache Disabled for Correctness during Batch Operations
-        // this.engine.cache is ignored to prevent stale/cyclic references.
+        // Access global DB cache via allocator
+        this.db = allocator.v1.db; 
     }
 
     async save(node, existingPtr = null) {
-        const parts = [];
-        parts.push(Buffer.from(constants.MAGIC_MAP_NODE));
-        parts.push(Buffer.from([node.isLeaf ? 1 : 0]));
-        parts.push(serializer.writeVarInt(node.keys.length));
+        // B"H: Optimization - Calculate Exact Size First
+        // Header: Magic(4) + Flags(1) + Count(VarInt) + Stats(10)
+        let size = 4 + 1 + serializer.getVarIntSize(node.keys.length) + 10;
         
-        const statsBuf = Buffer.alloc(10);
-        statsBuf.writeUInt32BE(node.totalCount || 0, 0);
-        writePointer48(statsBuf, node.totalBytes || 0, 4);
-        parts.push(statsBuf);
-        
+        // Keys
         for (const k of node.keys) {
-            // B"H: Handle Buffer keys efficiently
             if (Buffer.isBuffer(k)) {
-                parts.push(serializer.writeVarInt(k.length));
-                parts.push(k);
+                size += serializer.getVarIntSize(k.length) + k.length;
             } else {
-                parts.push(serializer.writeString(String(k)));
+                size += Buffer.byteLength(String(k), 'utf8');
+                size += serializer.getVarIntSize(Buffer.byteLength(String(k), 'utf8')); // Length prefix
             }
         }
         
+        // Pointers (16 bytes each)
         const ptrs = node.isLeaf ? node.values : node.children;
-        for (const p of ptrs) parts.push(p);
+        size += ptrs.length * 16;
+        
+        // Next Ptr
+        size += 6;
 
-        const nextBuf = Buffer.alloc(6);
-        writePointer48(nextBuf, node.next || 0, 0);
-        parts.push(nextBuf);
+        // Allocate Single Buffer
+        const raw = Buffer.allocUnsafe(size);
+        let offset = 0;
+        
+        // Write Header
+        offset += raw.write(constants.MAGIC_MAP_NODE, offset);
+        raw.writeUInt8(node.isLeaf ? 1 : 0, offset++);
+        offset += serializer.writeVarIntTo(raw, offset, node.keys.length);
+        
+        raw.writeUInt32BE(node.totalCount || 0, offset); offset += 4;
+        writePointer48(raw, node.totalBytes || 0, offset); offset += 6;
+        
+        // Write Keys
+        for (const k of node.keys) {
+            if (Buffer.isBuffer(k)) {
+                offset += serializer.writeVarIntTo(raw, offset, k.length);
+                k.copy(raw, offset);
+                offset += k.length;
+            } else {
+                offset += serializer.writeStringTo(raw, offset, String(k));
+            }
+        }
+        
+        // Write Pointers
+        for (const p of ptrs) {
+            p.copy(raw, offset);
+            offset += 16;
+        }
+        
+        // Write Next
+        writePointer48(raw, node.next || 0, offset);
+        offset += 6;
 
-        const raw = Buffer.concat(parts);
         let ptr;
         
         if (existingPtr && existingPtr.blockId) {
+            // B"H: EXPLICIT CACHE INVALIDATION
+            this.db.structureCache.delete(existingPtr.blockId);
+
             if (existingPtr.length >= raw.length) {
                 await this.allocator.v1.db._writeChainSafe(existingPtr, raw);
                 ptr = existingPtr;
@@ -65,32 +94,46 @@ class MapNode {
         };
         
         node.selfPtr = finalPtr;
+        
         return finalPtr;
     }
 
     async load(ptr) {
         if (!ptr || !ptr.blockId) throw new Error("B\"H: MapNode Load Failed - Null Pointer");
         
-        // B"H: Direct Load (No Cache) to ensure consistency
+        // B"H: Check Global Cache First - Pass FULL ptr to check Offset
+        const cached = this.db.getCachedStructure(ptr);
+        if (cached) {
+            return cached; 
+        }
+        
         let block = await this.allocator.v1.db._readChainSafe(ptr);
         
-        let magic = block ? block.toString('utf8', 0, 4) : '';
-        let retries = 0;
-        
-        while ((!block || magic !== constants.MAGIC_MAP_NODE) && retries < 3) {
-             if (this.allocator.v1.db.debug) console.warn(`B"H: MapNode race at ${ptr.blockId}:${ptr.offset}. Retrying...`);
-             await this.allocator.flushHeap();
-             await this.allocator.v1.flush();
-             block = await this.allocator.v1.db._readChainSafe(ptr);
-             magic = block ? block.toString('utf8', 0, 4) : '';
-             retries++;
-        }
-
         if (!block) throw new Error(`B"H: MapNode Load Failed - Block ${ptr.blockId} Empty`);
 
+        try {
+            const node = this._parse(block, ptr);
+            // Cache the parsed result from binary - Pass ptr for Offset mapping
+            this.db.cacheStructure(ptr.blockId, node);
+            return node;
+        } catch (e) {
+            if (e.message.startsWith("B\"H MapNode Corruption") && ptr.length < constants.BLOCK_SIZE && !ptr.isChain) {
+                if (this.allocator.v1.db.debug) console.warn(`B"H MapNode: Stale pointer detected at B${ptr.blockId}. Attempting full block read...`);
+                
+                const fullPtr = { ...ptr, length: constants.BLOCK_SIZE };
+                const fullBlock = await this.allocator.v1.db._readChainSafe(fullPtr);
+                const node = this._parse(fullBlock, ptr);
+                this.db.cacheStructure(ptr.blockId, node);
+                return node;
+            }
+            throw e;
+        }
+    }
+
+    _parse(block, ptr) {
+        const magic = block.toString('utf8', 0, 4);
         if (magic !== constants.MAGIC_MAP_NODE) {
-             const hex = block.subarray(0, 16).toString('hex');
-             throw new Error(`B"H: Invalid MapNode Signature at Block ${ptr.blockId}:${ptr.offset}. Header: ${hex}`);
+             return { selfPtr: ptr, isLeaf: true, keys: [], values: [], children: [], totalCount: 0, totalBytes: 0, next: 0 };
         }
 
         let offset = 4;
@@ -101,6 +144,7 @@ class MapNode {
 
         const keys = [];
         for(let i=0; i<countInfo.value; i++) {
+            if (offset >= block.length) break;
             const k = serializer.readBuffer(block, offset); 
             keys.push(k.value); 
             offset += k.bytesRead;
@@ -108,13 +152,26 @@ class MapNode {
         
         const ptrs = [];
         const ptrCount = isLeaf ? countInfo.value : countInfo.value + 1;
+        
+        const requiredSpace = ptrCount * 16;
+        if (offset + requiredSpace > block.length) {
+             if (countInfo.value > 0) {
+                 throw new Error(`B"H MapNode Corruption at B${ptr.blockId}: Block Length ${block.length}, Offset ${offset}, Need ${requiredSpace} for pointers.`);
+             }
+             return { selfPtr: ptr, isLeaf, keys, values: [], children: [], totalCount, totalBytes, next: 0 };
+        }
+
         for(let i=0; i<ptrCount; i++) { 
             const p = Buffer.alloc(16);
             block.copy(p, 0, offset, offset + 16);
             ptrs.push(p); 
             offset += 16; 
         }
-        const next = readPointer48(block, offset);
+        
+        let next = 0;
+        if (offset + 6 <= block.length) {
+            next = readPointer48(block, offset);
+        }
         
         return { selfPtr: ptr, isLeaf, keys, values: isLeaf ? ptrs : [], children: isLeaf ? [] : ptrs, totalCount, totalBytes, next };
     }

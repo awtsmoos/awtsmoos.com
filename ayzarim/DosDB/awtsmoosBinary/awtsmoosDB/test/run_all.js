@@ -2,13 +2,15 @@
 // B"H
 /**
  * @file run_all.js
- * @description THE OMEGA SCRIPT. Runs every single test in the suite.
+ * @description THE mega SCRIPT. Runs every single test in the suite.
  */
 const { spawn } = require('child_process');
 const path = require('path');
 const fs = require('fs');
 
 const TESTS = [
+    'type_confirmation.js', 
+    'nested_literal_proof.js', 
     'comprehensive_v2.js',
     'stress_test.js',
     'nested.js',
@@ -22,24 +24,22 @@ const TESTS = [
     'simulate_eternity.js',
     'universal_types.js',
     'ultimate_feature_test.js',
-    
-    // B"H: New Mechanics Tests
-    'object_order.js',      // Insertion Order vs Sort Order
-    'range_test.js',        // Range/Seek Queries
-    'consistency.js',       // Read-After-Write Consistency
-    
-    // B"H: Added Advanced Simulations
+    'object_order.js',      
+    'range_test.js',        
+    'consistency.js',       
+    'api_methods_test.js',  
+    'function_test.js',     
     'blog_engine_simulation.js',
     'graph_algo_test.js',
     'query_test.js',
     'query_complex.js',
     'live_test.js',
     'v2_flawless.js',
-    'singularity.js', // The Hishtalshelus
-    'ultimate_chaos.js', // The Chaos
-    'final_boss.js', // The Final Boss
-    'genesis.js', // The Creation
-    'omega_simulation.js' // THE OMEGA
+    'singularity.js', 
+    'ultimate_chaos.js', 
+    'final_boss.js', 
+    'genesis.js', 
+    'mega_simulation.js' 
 ];
 
 function cleanupFiles() {
@@ -65,14 +65,16 @@ async function runScript(scriptName) {
         const scriptPath = path.join(__dirname, scriptName);
         console.log(`\n\x1b[33m>>> RUNNING: ${scriptName} <<<\x1b[0m`);
         
+        const start = Date.now();
         const proc = spawn(process.execPath, [scriptPath], { stdio: 'inherit' });
         
         proc.on('close', (code) => {
+            const duration = ((Date.now() - start) / 1000).toFixed(2);
             if (code === 0) {
-                console.log(`\x1b[32m>>> PASSED: ${scriptName} <<<\x1b[0m`);
+                console.log(`\x1b[32m>>> PASSED: ${scriptName} (${duration}s) <<<\x1b[0m`);
                 resolve();
             } else {
-                console.error(`\x1b[31m>>> FAILED: ${scriptName} (Exit Code: ${code}) <<<\x1b[0m`);
+                console.error(`\x1b[31m>>> FAILED: ${scriptName} (${duration}s) (Exit Code: ${code}) <<<\x1b[0m`);
                 reject(new Error(`${scriptName} failed`));
             }
         });

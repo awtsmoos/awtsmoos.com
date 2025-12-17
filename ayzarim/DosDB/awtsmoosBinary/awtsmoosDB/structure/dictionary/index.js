@@ -17,6 +17,7 @@ class DictionaryEngine {
         }
         this.map = null;
         this.seq = null;
+        this.isDirty = false; 
     }
 
     async create() {
@@ -24,72 +25,84 @@ class DictionaryEngine {
         const mapPtr = await this.map.create();
         this.seq = new Sequence(this.allocator);
         const seqPtr = await this.seq.create();
-        const header = Buffer.alloc(constants.BLOCK_SIZE);
-        header.write(constants.MAGIC_DICT_DIR, 0);
-        mapPtr.copy(header, 4); seqPtr.copy(header, 20);
         
-        // Allocate block for Dictionary Header (Size 4KB typically)
+        // B"H: Reverted to full block allocation for stability
         const ptr = await this.allocator.v1.allocate(constants.BLOCK_SIZE);
-        await this.allocator.v1.db._writeChainSafe(ptr, header);
+        
+        const dictData = Buffer.alloc(36);
+        dictData.write(constants.MAGIC_DICT_DIR, 0);
+        mapPtr.copy(dictData, 4);
+        seqPtr.copy(dictData, 20);
+        
+        await this.allocator.v1.db._writeChainSafe(ptr, dictData);
+        
         this.ptr = ptr;
         
-        // Pass offset to block pointer
         return SmartPointer.block(constants.TYPE_DICTIONARY, this.ptr.blockId, this.ptr.length, this.ptr.isChain, this.ptr.offset);
     }
 
-    async _init() {
+    async _init(force = false) {
         if (!this.ptr) return;
-        if (this.map && this.seq) return;
         
-        try {
-            // B"H: FIX - Force read full block size if pointer length implies it's too small for header
-            // This handles cases where index pointers might have incorrect lengths (e.g. 16 bytes)
-            const expectedSize = constants.BLOCK_SIZE;
-            let readLen = (this.ptr.length && this.ptr.length >= expectedSize) ? this.ptr.length : expectedSize;
-            
-            const ptrToRead = { ...this.ptr, length: readLen };
-            const block = await this.allocator.v1.db._readChainSafe(ptrToRead);
-            
-            if (!block) throw new Error(`Dictionary Block ${this.ptr.blockId} missing`);
-            
-            const magic = block.toString('utf8', 0, 4);
-            if (magic !== constants.MAGIC_DICT_DIR) {
-                 const hex = block.subarray(0, 32).toString('hex');
-                 if (hex.startsWith("00000000")) {
-                     throw new Error(`B"H: Dictionary Corruption Detected at B${this.ptr.blockId}. Block is zeroed out. This usually happens if a WAL file from a previous run was applied to a fresh DB file. Please delete .wal files when deleting .db files.`);
-                 }
-                 throw new Error(`Invalid Dictionary Signature at ${this.ptr.blockId}:${this.ptr.offset||0}. Expected ${constants.MAGIC_DICT_DIR}, got '${magic.replace(/\0/g, '\\0')}' (Hex: ${hex})`);
-            }
+        if (!force && this.map && this.seq) return;
+        if (!force && this.isDirty && this.map && this.seq) return;
 
-            const mapRes = await SmartPointer.resolve(block.subarray(4, 20), this.allocator);
-            if (mapRes) this.map = new MapEngine(this.allocator, { blockId: mapRes.blockId, offset: mapRes.offset, length: mapRes.length, isChain: mapRes.isChain });
-            
-            const seqRes = await SmartPointer.resolve(block.subarray(20, 36), this.allocator);
-            if (seqRes) this.seq = new Sequence(this.allocator, { blockId: seqRes.blockId, offset: seqRes.offset, length: seqRes.length, isChain: seqRes.isChain });
-        } catch(e) {
-            if(this.allocator.v1.db.debug) console.error(`B"H - Dictionary Init Failed: ${e.message}`);
-            throw e;
+        const readLen = 36;
+        const ptrToRead = { ...this.ptr, length: readLen };
+        const block = await this.allocator.v1.db._readChainSafe(ptrToRead);
+        
+        if (!block) throw new Error(`Dictionary Block ${this.ptr.blockId} missing`);
+        
+        const magic = block.toString('utf8', 0, 4);
+        if (magic !== constants.MAGIC_DICT_DIR) {
+                const hex = block.subarray(0, 32).toString('hex');
+                if (hex.startsWith("00000000")) {
+                    throw new Error(`B"H: Dictionary Corruption at B${this.ptr.blockId}. Block zeroed.`);
+                }
+                throw new Error(`Invalid Dictionary Signature at ${this.ptr.blockId}. Expected DDIR, got ${magic}`);
         }
+
+        const mapRes = await SmartPointer.resolve(block.subarray(4, 20), this.allocator);
+        if (mapRes) {
+            if (!this.map || this.map.ptr.blockId !== mapRes.blockId || this.map.ptr.offset !== mapRes.offset) {
+                this.map = new MapEngine(this.allocator, { blockId: mapRes.blockId, offset: mapRes.offset, length: mapRes.length, isChain: mapRes.isChain });
+            }
+        }
+        
+        const seqRes = await SmartPointer.resolve(block.subarray(20, 36), this.allocator);
+        if (seqRes) {
+            if (!this.seq || this.seq.ptr.blockId !== seqRes.blockId || this.seq.ptr.offset !== seqRes.offset) {
+                this.seq = new Sequence(this.allocator, { blockId: seqRes.blockId, offset: seqRes.offset, length: seqRes.length, isChain: seqRes.isChain });
+            }
+        }
+        
+        if (force) this.isDirty = false;
     }
 
     async destroy() {
         if (!this.ptr) return;
-        try { await this._init(); } catch(e) { return; }
+        try { await this._init(); } catch(e) { 
+            await this.allocator.v1.free(this.ptr);
+            return;
+        }
         if (this.map) await this.map.destroy();
         if (this.seq) await this.seq.destroy();
         await this.allocator.v1.free(this.ptr);
     }
 
     async _saveHeader() {
-        const header = Buffer.alloc(constants.BLOCK_SIZE);
-        header.write(constants.MAGIC_DICT_DIR, 0);
-        SmartPointer.block(constants.TYPE_MAP, this.map.ptr.blockId, this.map.ptr.length, this.map.ptr.isChain, this.map.ptr.offset).copy(header, 4);
-        SmartPointer.block(constants.TYPE_SEQUENCE, this.seq.ptr.blockId, this.seq.ptr.length, this.seq.ptr.isChain, this.seq.ptr.offset).copy(header, 20);
-        await this.allocator.v1.db._writeChainSafe(this.ptr, header);
+        if (!this.map || !this.seq) return;
+        const dictData = Buffer.alloc(36);
+        dictData.write(constants.MAGIC_DICT_DIR, 0);
+        SmartPointer.block(constants.TYPE_MAP, this.map.ptr.blockId, this.map.ptr.length, this.map.ptr.isChain, this.map.ptr.offset).copy(dictData, 4);
+        SmartPointer.block(constants.TYPE_SEQUENCE, this.seq.ptr.blockId, this.seq.ptr.length, this.seq.ptr.isChain, this.seq.ptr.offset).copy(dictData, 20);
+        
+        await this.allocator.v1.db._writeChainSafe(this.ptr, dictData);
+        this.isDirty = false;
     }
 
     async set(key, value, options = {}) {
-        if (!this.map) await this._init();
+        await this._init(); 
         const existing = await this.map.get(key);
         
         const isPtr = (options === true) || (options && options.isPtr);
@@ -97,56 +110,82 @@ class DictionaryEngine {
 
         let valPtr = (isPtr) ? value : ((Buffer.isBuffer(value) && value.length === 16) ? value : await this.allocator.save(value));
         
+        const oldMapPtr = { ...this.map.ptr }; 
         await this.map.set(key, valPtr, { isPtr: true, skipFree });
-        if (existing === undefined) await this.seq.push(key);
-        await this._saveHeader();
+        
+        this.isDirty = true;
+        
+        // B"H: Strict check on object identity and value
+        if (this.map.ptr.blockId !== oldMapPtr.blockId || 
+            this.map.ptr.offset !== oldMapPtr.offset ||
+            this.map.ptr.length !== oldMapPtr.length) { 
+            await this._saveHeader();
+        }
+
+        if (existing === undefined) {
+            const oldSeqPtr = { ...this.seq.ptr };
+            await this.seq.push(key);
+            this.isDirty = true;
+            
+            if (this.seq.ptr.blockId !== oldSeqPtr.blockId || 
+                this.seq.ptr.offset !== oldSeqPtr.offset ||
+                this.seq.ptr.length !== oldSeqPtr.length) { 
+                await this._saveHeader();
+            }
+        }
     }
 
     async get(key, context) {
-        if (!this.map) await this._init();
+        await this._init();
         return this.map.get(key, context);
     }
 
     async getPtr(key) {
-        if (!this.map) await this._init();
+        await this._init();
         return this.map.getPtr(key);
     }
 
     async delete(key) {
-        if (!this.map) await this._init();
+        await this._init();
         const existing = await this.map.get(key);
         if (existing === undefined) return false;
+        
         await this.map.delete(key);
+        this.isDirty = true;
+        
         const len = await this.seq.length();
         for(let i=0; i<len; i++) {
             const k = await this.seq.get(i);
-            if (k === key) { await this.seq.splice(i, 1); break; }
+            if (k === key) { 
+                await this.seq.splice(i, 1); 
+                break; 
+            }
         }
         await this._saveHeader();
         return true;
     }
 
     async stats() {
-        if (!this.map) await this._init();
+        await this._init();
         const mapStats = await this.map.stats();
         const seqStats = await this.seq.stats();
         return { count: seqStats.count, size: mapStats.size + seqStats.size, capacity: seqStats.capacity };
     }
 
     async* keys() {
-        if (!this.seq) await this._init();
+        await this._init();
         const len = await this.seq.length();
         for(let i=0; i<len; i++) yield await this.seq.get(i);
     }
 
     async* values() {
-        if (!this.seq) await this._init();
+        await this._init();
         const len = await this.seq.length();
         for(let i=0; i<len; i++) yield await this.map.get(await this.seq.get(i));
     }
 
     async* entries() {
-        if (!this.seq) await this._init();
+        await this._init();
         const len = await this.seq.length();
         for(let i=0; i<len; i++) {
             const k = await this.seq.get(i);

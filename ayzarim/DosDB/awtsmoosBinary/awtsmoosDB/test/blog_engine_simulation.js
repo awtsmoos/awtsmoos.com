@@ -1,3 +1,4 @@
+
 // B"H
 const AwtsmoosDB = require('../index.js');
 const fs = require('fs').promises;
@@ -14,12 +15,13 @@ async function runTest() {
     } catch(e) {}
 
     const db = new AwtsmoosDB(DB_PATH);
+    await db.open();
 
     // ======================================================
     // Phase 1: User Management (B-Tree Sorting)
     // ======================================================
     console.log("\n[Phase 1] Registering Users...");
-    await db.root.createMap("users");
+    await db.createMap(db.root, "users");
 
     const users = [
         { username: "zeus", role: "moderator" },
@@ -45,11 +47,11 @@ async function runTest() {
     console.log("  Users Registered. Verifying alphabetical sort order:");
     let lastUser = "";
     
-    // Iterate the Map (Reader.js iterator logic)
-    for await (const u of db.root.users) {
-        console.log(`    👤 ${u.key} [${u.value.profile.role}]`);
-        if (u.key < lastUser) throw new Error("Users not sorted!");
-        lastUser = u.key;
+    // B"H: Iterator now returns standard [key, value] array
+    for await (const [key, value] of db.root.users) {
+        console.log(`    👤 ${key} [${value.profile.role}]`);
+        if (key < lastUser) throw new Error("Users not sorted!");
+        lastUser = key;
     }
     console.log("✅ User System Operational.");
 
@@ -58,7 +60,7 @@ async function runTest() {
     // Phase 2: Global Feed (Collection Push & Slice)
     // ======================================================
     console.log("\n[Phase 2] Generating Content Feed...");
-    await db.root.createList("global_feed");
+    await db.createList(db.root, "global_feed");
 
     const totalPosts = 50;
     console.log(`  Pushing ${totalPosts} blog posts...`);
@@ -99,6 +101,10 @@ async function runTest() {
     console.log("\n[Phase 3] Updating User Settings...");
     
     // Fetch Alice
+    // B"H: Maps use .get() in standard JS, but via proxy we used .alice. 
+    // Proxy get trap for Map forwards to navigate.
+    // However, the test uses .set() on handle earlier.
+    // `db.root.users` is a Map Handle. `db.root.users.alice` calls `nav.navigate('alice')`.
     const aliceData = await db.root.users.alice;
     console.log(`  Current Alice Stats: Posts=${aliceData.stats.posts}`);
     
@@ -106,7 +112,7 @@ async function runTest() {
     aliceData.stats.posts += 50;
     aliceData.profile.bio = "Updated Bio: I write about Awtsmoos.";
     
-    // Save back
+    // Save back using standard Map.set
     await db.root.users.set("alice", aliceData);
     
     // Verify

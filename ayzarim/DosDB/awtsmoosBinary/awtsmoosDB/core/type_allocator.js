@@ -95,6 +95,7 @@ class AllocatorV2 {
         else { 
             type = constants.TYPE_JSON; 
             try {
+                // B"H: Manual cyclic protection or special JSON replacer
                 const jsonStr = JSON.stringify(val, (k, v) => typeof v === 'bigint' ? v.toString() : v);
                 data = Buffer.from(jsonStr || "{}"); 
             } catch (e) {

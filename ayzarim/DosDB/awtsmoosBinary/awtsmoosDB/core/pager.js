@@ -5,52 +5,90 @@ const constants = require('../constants.js');
 const WAL = require('./wal.js');
 
 class Pager {
-    constructor(filePath) {
+    constructor(filePath, options = {}) {
         this.filePath = filePath;
         this.walPath = filePath + ".wal"; 
         this.handle = null;
         this.wal = new WAL(this.walPath);
-        // B"H: Debug Blocks disabled
-        this.debugBlocks = new Set([/* 13, 18, 23, 28, 33 */]); 
         
-        // B"H: Batch Optimization
-        this.batchMode = false;
-        this.dirtyBlocks = new Map(); // Map<blockId, Buffer>
+        // B"H: Always-On Write-Back Cache
+        this.dirtyBlocks = new Map(); 
         
-        // B"H: Limit for contiguous writes to avoid OS vector limits
+        // B"H: Strict RAM Limit
+        this.CACHE_LIMIT = 2500; // ~10MB
         this.DB_IOV_MAX = 500; 
-    }
+        
+        this.knownFileSize = 0;
 
-    log(msg) {
-        // console.log(`[TRACE Pager] ${msg}`);
+        // B"H: Optimization - Buffer Pool (The Pool of Siloam)
+        this.bufferPool = [];
+        this.MAX_POOL_SIZE = 2000; // ~8MB reserve
+        
+        // B"H: Batching Counter for Recursive Transactions
+        this.batchDepth = 0;
     }
 
     async init() {
         if (!this.handle) {
+            let isNewFile = false;
             try {
-                // B"H: Optimistic Open - Only check access if open fails
                 this.handle = await fs.open(this.filePath, 'r+');
+                const stats = await this.handle.stat();
+                this.knownFileSize = stats.size;
+                if (stats.size === 0) isNewFile = true;
+                
             } catch (e) {
                 if (e.code === 'ENOENT') {
                     await fs.writeFile(this.filePath, Buffer.alloc(0));
                     this.handle = await fs.open(this.filePath, 'r+');
+                    this.knownFileSize = 0;
+                    isNewFile = true;
                 } else {
                     throw e;
                 }
             }
+            
             await this.wal.init();
-            await this.wal.recover(this);
+            
+            if (isNewFile) {
+                await this.wal.clear();
+            } else {
+                await this.wal.recover(this);
+            }
         }
     }
 
-    /**
-     * B"H: Robust Read Helper
-     * Loops until 'length' bytes are read or EOF is reached.
-     */
+    _allocBuffer() {
+        if (this.bufferPool.length > 0) {
+            return this.bufferPool.pop();
+        }
+        return Buffer.allocUnsafe(constants.BLOCK_SIZE);
+    }
+
+    _recycleBuffer(buf) {
+        if (buf.length === constants.BLOCK_SIZE && this.bufferPool.length < this.MAX_POOL_SIZE) {
+            this.bufferPool.push(buf);
+        }
+    }
+
+    // B"H: Synchronous Check - The Lightning Flash
+    readBlockSync(blockId) {
+        if (this.dirtyBlocks.has(blockId)) {
+            return this.dirtyBlocks.get(blockId); 
+        }
+        return null;
+    }
+    
+    // B"H: Expose direct reference for in-place modification
+    getDirtyBuffer(blockId) {
+        if (this.dirtyBlocks.has(blockId)) {
+            return this.dirtyBlocks.get(blockId);
+        }
+        return null;
+    }
+
     async _readExact(buffer, offset, length, position) {
         let bytesReadTotal = 0;
-        let retries = 0;
-        
         while (bytesReadTotal < length) {
             const { bytesRead } = await this.handle.read(
                 buffer, 
@@ -58,199 +96,167 @@ class Pager {
                 length - bytesReadTotal, 
                 position + bytesReadTotal
             );
-
             if (bytesRead === 0) {
-                // EOF or Lag?
-                const stats = await this.handle.stat();
-                if (position + bytesReadTotal < stats.size) {
-                    if (retries++ < 5) {
-                        await new Promise(r => setTimeout(r, 10)); 
-                        continue;
-                    }
+                if (bytesReadTotal < length) {
+                    buffer.fill(0, offset + bytesReadTotal, offset + length);
                 }
-                break; // Genuine EOF
+                break;
             }
-            
             bytesReadTotal += bytesRead;
         }
         return bytesReadTotal;
     }
 
     async readBlock(blockId) {
-        // B"H: Check Dirty Cache first (Fast Path)
-        if (this.batchMode && this.dirtyBlocks.has(blockId)) {
-            const cached = this.dirtyBlocks.get(blockId);
-            const copy = Buffer.allocUnsafe(constants.BLOCK_SIZE);
+        // 1. Check Write-Back Cache (Sync)
+        const cached = this.readBlockSync(blockId);
+        if (cached) {
+            const copy = this._allocBuffer();
             cached.copy(copy);
             return copy;
         }
 
-        // B"H: Avoid re-init check on every read if handle exists
         if (!this.handle) await this.init();
 
-        // B"H: Use allocUnsafe for read buffer
-        const buffer = Buffer.allocUnsafe(constants.BLOCK_SIZE);
+        const buffer = this._allocBuffer();
         const offset = Number(BigInt(blockId) * BigInt(constants.BLOCK_SIZE));
         
-        if (this.debugBlocks.has(blockId)) {
-             console.log(`B"H [Pager] readBlock(${blockId}) @ ${offset}`);
+        if (offset >= this.knownFileSize) {
+             buffer.fill(0);
+             return buffer;
         }
-        
-        const bytesRead = await this._readExact(buffer, 0, constants.BLOCK_SIZE, offset);
-        
-        if (bytesRead === 0) return null;
-        
-        // If partial read (rare/EOF), fill remainder with 0?
-        if (bytesRead < constants.BLOCK_SIZE) {
-            buffer.fill(0, bytesRead);
-        }
-        
-        if (this.debugBlocks.has(blockId)) {
-             const head = buffer.toString('hex', 0, 8);
-             console.log(`B"H [Pager] readBlock(${blockId}) DONE. Header: ${head}`);
-        }
-        
+
+        await this._readExact(buffer, 0, constants.BLOCK_SIZE, offset);
         return buffer;
     }
     
-    async readBlockType(blockId) {
-        if (this.batchMode && this.dirtyBlocks.has(blockId)) {
-            return this.dirtyBlocks.get(blockId).readUInt32BE(0);
-        }
-
-        if (!this.handle) await this.init();
-        const offset = Number(BigInt(blockId) * BigInt(constants.BLOCK_SIZE));
-        const buffer = Buffer.allocUnsafe(4); 
-        const { bytesRead } = await this.handle.read(buffer, 0, 4, offset);
-        if (bytesRead < 4) return null; 
-        return buffer.readUInt32BE(0);
-    }
-
     async readSequential(startBlockId, numberOfBlocks) {
         if (!this.handle) await this.init();
         
         const totalSize = numberOfBlocks * constants.BLOCK_SIZE;
+        // Large buffer, don't pool
         const buffer = Buffer.allocUnsafe(totalSize);
         
         const offset = Number(BigInt(startBlockId) * BigInt(constants.BLOCK_SIZE));
-        const bytesRead = await this._readExact(buffer, 0, totalSize, offset);
         
-        if (bytesRead < totalSize) {
-            buffer.fill(0, bytesRead);
-        }
+        // 1. Read from Disk (Single Syscall)
+        await this._readExact(buffer, 0, totalSize, offset);
         
-        // 2. Overlay dirty blocks from memory
-        if (this.batchMode && this.dirtyBlocks.size > 0) {
+        // 2. Patch with Dirty Blocks (Overlay)
+        if (this.dirtyBlocks.size > 0) {
             for(let i=0; i<numberOfBlocks; i++) {
                 const currentId = startBlockId + i;
-                if(this.dirtyBlocks.has(currentId)) {
-                    const dirty = this.dirtyBlocks.get(currentId);
+                const dirty = this.dirtyBlocks.get(currentId);
+                if(dirty) {
                     dirty.copy(buffer, i * constants.BLOCK_SIZE);
                 }
             }
         }
-
-        if (this.debugBlocks.has(startBlockId)) {
-             const head = buffer.toString('hex', 0, 8);
-             console.log(`B"H [Pager] readSequential(${startBlockId}, n=${numberOfBlocks}) DONE. First 8 bytes: ${head}`);
-        }
-        
         return buffer;
     }
 
-    startBatch() {
-        this.batchMode = true;
-        this.dirtyBlocks.clear();
+    startBatch() { 
+        this.batchDepth++; 
     }
-
-    async endBatch() {
-        if (!this.batchMode) return;
-        
-        if (this.dirtyBlocks.size > 0) {
-            await this.wal.logBatch(this.dirtyBlocks);
-            
-            const sortedIds = Array.from(this.dirtyBlocks.keys()).sort((a,b) => a - b);
-            
-            if (sortedIds.length > 0) {
-                let rangeStartId = sortedIds[0];
-                let rangeBuffers = [this.dirtyBlocks.get(rangeStartId)];
-
-                for(let i=1; i<sortedIds.length; i++) {
-                    const id = sortedIds[i];
-                    const prevId = sortedIds[i-1];
-                    
-                    if (id === prevId + 1 && rangeBuffers.length < this.DB_IOV_MAX) {
-                        rangeBuffers.push(this.dirtyBlocks.get(id));
-                    } else {
-                        const offset = Number(BigInt(rangeStartId) * BigInt(constants.BLOCK_SIZE));
-                        await this.handle.writev(rangeBuffers, offset);
-                        
-                        rangeStartId = id;
-                        rangeBuffers = [this.dirtyBlocks.get(id)];
-                    }
-                }
-                
-                if(rangeBuffers.length > 0) {
-                    const offset = Number(BigInt(rangeStartId) * BigInt(constants.BLOCK_SIZE));
-                    await this.handle.writev(rangeBuffers, offset);
-                }
-            }
-            
-            await this.wal.clear();
+    
+    async endBatch() { 
+        if (this.batchDepth > 0) this.batchDepth--;
+        if (this.batchDepth === 0) {
+            await this.flushDirty(); 
         }
-
-        this.batchMode = false;
-        this.dirtyBlocks.clear();
+    }
+    
+    get isBatching() {
+        return this.batchDepth > 0;
     }
 
     async writeBlock(blockId, buffer) {
         if (!this.handle) await this.init();
         
-        let writeBuffer = buffer;
-        if (buffer.length !== constants.BLOCK_SIZE) {
-            // Must pad to block size
-            writeBuffer = Buffer.alloc(constants.BLOCK_SIZE);
-            buffer.copy(writeBuffer);
+        // B"H: Optimization - In-Place Update if already dirty
+        let bufferToStore;
+        if (this.dirtyBlocks.has(blockId)) {
+             bufferToStore = this.dirtyBlocks.get(blockId);
+             // If caller passed a different buffer, copy. If same ref, no-op.
+             if (buffer !== bufferToStore) {
+                 buffer.copy(bufferToStore);
+             }
+             // Move to end of Map (LRU)
+             this.dirtyBlocks.delete(blockId);
+             this.dirtyBlocks.set(blockId, bufferToStore);
+        } else {
+             bufferToStore = this._allocBuffer();
+             buffer.copy(bufferToStore);
+             this.dirtyBlocks.set(blockId, bufferToStore);
         }
 
-        if (this.batchMode) {
-            // B"H: DEFERRED WRITE
-            const cacheCopy = Buffer.allocUnsafe(constants.BLOCK_SIZE);
-            writeBuffer.copy(cacheCopy);
-            this.dirtyBlocks.set(blockId, cacheCopy);
-            return;
+        // B"H: WAL Log
+        // If batching, we skip WAL sync (pass true)
+        this.wal.log(blockId, bufferToStore, this.isBatching); 
+
+        // Auto-flush if pressure high
+        if (this.dirtyBlocks.size >= this.CACHE_LIMIT) {
+            await this.flushDirty();
+        }
+    }
+    
+    async flushDirty() {
+        if (this.dirtyBlocks.size === 0) return;
+
+        const sortedIds = Array.from(this.dirtyBlocks.keys()).sort((a,b) => a - b);
+        
+        let rangeStartId = sortedIds[0];
+        let rangeBuffers = [this.dirtyBlocks.get(rangeStartId)];
+
+        for(let i=1; i<sortedIds.length; i++) {
+            const id = sortedIds[i];
+            const prevId = sortedIds[i-1];
+            
+            if (id === prevId + 1 && rangeBuffers.length < this.DB_IOV_MAX) {
+                rangeBuffers.push(this.dirtyBlocks.get(id));
+            } else {
+                await this._writeVector(rangeStartId, rangeBuffers);
+                rangeStartId = id;
+                rangeBuffers = [this.dirtyBlocks.get(id)];
+            }
+        }
+        
+        if(rangeBuffers.length > 0) {
+            await this._writeVector(rangeStartId, rangeBuffers);
         }
 
-        // B"H: Standard Mode - Write Immediately but SKIP FSYNC for speed.
-        // We rely on waitForIdle() to call sync().
-        await this.wal.log(blockId, writeBuffer, true); // true = skipSync
+        await this.wal.flush();
 
-        const offset = Number(BigInt(blockId) * BigInt(constants.BLOCK_SIZE));
-        
-        if (this.debugBlocks.has(blockId)) {
-             const head = writeBuffer.toString('hex', 0, 8);
-             console.log(`B"H [Pager] writeBlock(${blockId}) Header: ${head}`);
+        for (const buf of this.dirtyBlocks.values()) {
+            this._recycleBuffer(buf);
         }
-        
-        const { bytesWritten } = await this.handle.write(writeBuffer, 0, constants.BLOCK_SIZE, offset);
-        
-        if (bytesWritten !== constants.BLOCK_SIZE) {
-            console.error(`[Pager] Partial Write: Wrote ${bytesWritten} of ${constants.BLOCK_SIZE} bytes.`);
-        }
+        this.dirtyBlocks.clear();
+    }
+
+    async _writeVector(startBlockId, buffers) {
+        const offset = Number(BigInt(startBlockId) * BigInt(constants.BLOCK_SIZE));
+        await this.handle.writev(buffers, offset);
+        const endOffset = offset + (buffers.length * constants.BLOCK_SIZE);
+        if (endOffset > this.knownFileSize) this.knownFileSize = endOffset;
     }
     
     async writeRaw(blockId, buffer) {
         const offset = Number(BigInt(blockId) * BigInt(constants.BLOCK_SIZE));
         await this.handle.write(buffer, 0, constants.BLOCK_SIZE, offset);
+        const endOffset = offset + constants.BLOCK_SIZE;
+        if (endOffset > this.knownFileSize) this.knownFileSize = endOffset;
     }
 
     async truncate(blockCount) {
         if (!this.handle) await this.init();
         const offset = Number(BigInt(blockCount) * BigInt(constants.BLOCK_SIZE));
         await this.handle.truncate(offset);
+        this.knownFileSize = offset;
+        await this.handle.sync();
     }
 
     async sync() {
+        await this.flushDirty();
         if (this.handle) {
             await this.handle.sync(); 
         }
@@ -263,11 +269,13 @@ class Pager {
     }
  
     async close() {
+        await this.sync();
         if (this.handle) {
             await this.handle.close();
             this.handle = null;
         }
         await this.wal.close();
+        this.bufferPool = [];
     }
 }
 

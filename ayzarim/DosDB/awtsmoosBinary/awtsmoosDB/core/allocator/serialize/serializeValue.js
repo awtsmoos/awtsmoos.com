@@ -1,13 +1,17 @@
+
 // B"H
 // Full-Featured Serializer: Handles Infinity, NaN, Negatives, TypedArrays, Date, RegExp, Map, Set, BigInt.
 
-const { packTypeAndLengthSize, writeConditional } = require("../utils/binaryHelpers.js");
+const { packTypeAndLengthSize, writeConditionalTo } = require("../utils/binaryHelpers.js");
 const constants = require("../constants.js");
 const floatHandler = require("../utils/floatHandler.js");
 const stringPacker = require("../utils/stringPacker.js");
 
 let serializeArray_fn = null;
 let serializeJSON_fn = null;
+
+// B"H: Optimization - Global Scratch Buffer to avoid allocations for small primitives
+const SCRATCH_BUFFER = Buffer.allocUnsafe(65536);
 
 function hasDecimal(num) {
     return num % 1 !== 0;
@@ -17,13 +21,14 @@ function serializeValue(value, fullBuffer = true) {
     if (!serializeArray_fn) serializeArray_fn = require("./array.js");
     if (!serializeJSON_fn) serializeJSON_fn = require("./obj.js");
     
-    // B"H: Safety check to ensure the scribe has arrived.
     if (Array.isArray(value) && typeof serializeArray_fn !== 'function') {
         serializeArray_fn = require("./array.js");
     }
 
     let type = 0;
-    let data = Buffer.alloc(0);
+    let data; 
+    let usingScratch = false;
+    let scratchLen = 0;
 
     // --- Special Values ---
     if (value === null) type = constants.VAL_TYPE.NULL;
@@ -34,7 +39,7 @@ function serializeValue(value, fullBuffer = true) {
     // --- Primitives ---
     else if (typeof value === 'bigint') {
         type = constants.VAL_TYPE.JS_BIGINT;
-        data = Buffer.from(value.toString()); // Store as string to support arbitrary size
+        data = Buffer.from(value.toString()); 
     }
     else if (typeof value === 'number') {
         if (isNaN(value)) {
@@ -49,36 +54,41 @@ function serializeValue(value, fullBuffer = true) {
             const absValue = Math.abs(value);
             
             if (!hasDecimal(value) && absValue <= Number.MAX_SAFE_INTEGER) {
-                const info = writeConditional(absValue);
+                // Optimize: Write to Scratch
+                usingScratch = true;
+                const size = writeConditionalTo(SCRATCH_BUFFER, 0, absValue);
+                scratchLen = size;
+                
                 if (!isNeg) {
-                    if (info.size === 1) type = constants.VAL_TYPE.UINT8;
-                    else if (info.size === 2) type = constants.VAL_TYPE.UINT16;
-                    else if (info.size === 4) type = constants.VAL_TYPE.UINT32;
+                    if (size === 1) type = constants.VAL_TYPE.UINT8;
+                    else if (size === 2) type = constants.VAL_TYPE.UINT16;
+                    else if (size === 4) type = constants.VAL_TYPE.UINT32;
                     else type = constants.VAL_TYPE.UINT64;
                 } else {
-                    if (info.size === 1) type = constants.VAL_TYPE.INT8_NEG;
-                    else if (info.size === 2) type = constants.VAL_TYPE.INT16_NEG;
-                    else if (info.size === 4) type = constants.VAL_TYPE.INT32_NEG;
+                    if (size === 1) type = constants.VAL_TYPE.INT8_NEG;
+                    else if (size === 2) type = constants.VAL_TYPE.INT16_NEG;
+                    else if (size === 4) type = constants.VAL_TYPE.INT32_NEG;
                     else type = constants.VAL_TYPE.INT64_NEG;
                 }
-                data = info.buffer;
             } else {
                 const encoded = floatHandler.writeDynamicFloat(value);
                 if (encoded !== null) {
-                    const info = writeConditional(encoded);
+                    usingScratch = true;
+                    const size = writeConditionalTo(SCRATCH_BUFFER, 0, encoded);
+                    scratchLen = size;
+                    
                     if (!isNeg) {
-                        if (info.size === 1) type = constants.VAL_TYPE.FLOAT_1;
-                        else if (info.size === 2) type = constants.VAL_TYPE.FLOAT_2;
-                        else if (info.size === 4) type = constants.VAL_TYPE.FLOAT_4;
+                        if (size === 1) type = constants.VAL_TYPE.FLOAT_1;
+                        else if (size === 2) type = constants.VAL_TYPE.FLOAT_2;
+                        else if (size === 4) type = constants.VAL_TYPE.FLOAT_4;
                     } else {
-                        if (info.size === 1) type = constants.VAL_TYPE.FLOAT_NEG_1;
-                        else if (info.size === 2) type = constants.VAL_TYPE.FLOAT_NEG_2;
-                        else if (info.size === 4) type = constants.VAL_TYPE.FLOAT_NEG_4;
+                        if (size === 1) type = constants.VAL_TYPE.FLOAT_NEG_1;
+                        else if (size === 2) type = constants.VAL_TYPE.FLOAT_NEG_2;
+                        else if (size === 4) type = constants.VAL_TYPE.FLOAT_NEG_4;
                     }
-                    data = info.buffer;
                 } else {
                     type = isNeg ? constants.VAL_TYPE.DOUBLE_NEG : constants.VAL_TYPE.DOUBLE_POS;
-                    data = Buffer.alloc(8);
+                    data = Buffer.allocUnsafe(8);
                     data.writeDoubleBE(absValue);
                 }
             }
@@ -88,25 +98,22 @@ function serializeValue(value, fullBuffer = true) {
     // --- Universal JS Objects ---
     else if (value instanceof Date) {
         type = constants.VAL_TYPE.DATE;
-        data = Buffer.alloc(8);
+        data = Buffer.allocUnsafe(8);
         data.writeDoubleBE(value.getTime());
     }
     else if (value instanceof RegExp) {
         type = constants.VAL_TYPE.REGEXP;
         const sourceBuf = Buffer.from(value.source, 'utf8');
         const flagsBuf = Buffer.from(value.flags, 'utf8');
-        // Format: [SourceLen (VarInt)] [Source] [Flags]
         const { writeVarInt } = require("../utils/serializer.js");
         data = Buffer.concat([writeVarInt(sourceBuf.length), sourceBuf, flagsBuf]);
     }
     else if (value instanceof Map) {
         type = constants.VAL_TYPE.MAP;
-        // Serialize as Array of entries: [[k,v], [k,v]]
         data = serializeArray_fn(Array.from(value.entries()));
     }
     else if (value instanceof Set) {
         type = constants.VAL_TYPE.SET;
-        // Serialize as Array of values: [v, v, v]
         data = serializeArray_fn(Array.from(value.values()));
     }
     else if (value instanceof Error) {
@@ -114,7 +121,6 @@ function serializeValue(value, fullBuffer = true) {
         const msg = value.message || "";
         const name = value.name || "Error";
         const stack = value.stack || "";
-        // Simple JSON serialization for Errors
         data = serializeJSON_fn({ name, message: msg, stack });
     }
     
@@ -136,14 +142,14 @@ function serializeValue(value, fullBuffer = true) {
         data = serializeJSON_fn(value);
     }
     else if (typeof value === 'string') {
-	    // 1. Try RLE (Best for repeating spaces/padding)
+	    // 1. Try RLE
 	    const rleBuf = stringPacker.packRLE(value);
 	    if (rleBuf) {
 	        type = constants.VAL_TYPE.STRING_RLE;
 	        data = rleBuf;
 	    } 
 	    else {
-	        // 2. Try Hebrew Packing (Best for Hebrew text)
+	        // 2. Try Hebrew Packing
 	        const hebrewBuf = stringPacker.packHebrew(value);
 	        if (hebrewBuf) {
 	            type = constants.VAL_TYPE.STRING_HEBREW;
@@ -156,18 +162,60 @@ function serializeValue(value, fullBuffer = true) {
 	    }
 	}
 
-    const valueLengthInfo = writeConditional(data.length);
-    const typeLengthByte = packTypeAndLengthSize(type, valueLengthInfo.size);
+    // Final Assembly
+    if (usingScratch) {
+        // We need to package the data from SCRATCH_BUFFER
+        // [TypeLengthByte][LengthInfo][Data]
+        
+        // 1. Write Length to Scratch (at offset scratchLen)
+        // writeConditionalTo returns size. 
+        // We need separate calls.
+        
+        // Length of data is scratchLen
+        const lenInfoSize = writeConditionalTo(SCRATCH_BUFFER, scratchLen, scratchLen);
+        
+        const typeLengthByte = packTypeAndLengthSize(type, lenInfoSize);
+        
+        if (!fullBuffer) {
+            // Return copy
+            const realData = Buffer.allocUnsafe(scratchLen);
+            SCRATCH_BUFFER.copy(realData, 0, 0, scratchLen);
+            // Construct pseudo length info object for caller compatibility
+            const lenBuf = Buffer.allocUnsafe(lenInfoSize);
+            SCRATCH_BUFFER.copy(lenBuf, 0, scratchLen, scratchLen + lenInfoSize);
+            
+            return { type, data: realData, valueLengthInfo: { buffer: lenBuf, size: lenInfoSize }, typeLengthByte };
+        }
+        
+        // Full Buffer: [TypeByte][Len][Data]
+        const totalSize = 1 + lenInfoSize + scratchLen;
+        const result = Buffer.allocUnsafe(totalSize);
+        
+        result[0] = typeLengthByte;
+        SCRATCH_BUFFER.copy(result, 1, scratchLen, scratchLen + lenInfoSize); // Copy Len
+        SCRATCH_BUFFER.copy(result, 1 + lenInfoSize, 0, scratchLen); // Copy Data
+        
+        return result;
+    } 
+    
+    // Normal Path (Buffers/Strings/Objects)
+    if (!data) data = Buffer.alloc(0);
+    
+    const lenInfoSize = writeConditionalTo(SCRATCH_BUFFER, 0, data.length);
+    const typeLengthByte = packTypeAndLengthSize(type, lenInfoSize);
 
     if (!fullBuffer) {
-        return { type, data, valueLengthInfo, typeLengthByte };
+        const lenBuf = Buffer.allocUnsafe(lenInfoSize);
+        SCRATCH_BUFFER.copy(lenBuf, 0, 0, lenInfoSize);
+        return { type, data, valueLengthInfo: { buffer: lenBuf, size: lenInfoSize }, typeLengthByte };
     }
 
-    return Buffer.concat([
-        Buffer.from([typeLengthByte]),
-        valueLengthInfo.buffer,
-        data
-    ]);
+    const wrapper = Buffer.allocUnsafe(1 + lenInfoSize + data.length);
+    wrapper[0] = typeLengthByte;
+    SCRATCH_BUFFER.copy(wrapper, 1, 0, lenInfoSize);
+    data.copy(wrapper, 1 + lenInfoSize);
+    
+    return wrapper;
 }
 
 module.exports = serializeValue;

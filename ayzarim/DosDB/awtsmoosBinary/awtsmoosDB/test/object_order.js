@@ -36,8 +36,8 @@ async function runTest() {
         }
         await db.waitForIdle();
 
-        let mapKeys = [];
-        for await (const k of db.root.myMap.keys()) mapKeys.push(k);
+        // B"H: Updated API
+        const mapKeys = await db.keys(db.root.myMap);
         
         console.log("    Input: ", keys.join(", "));
         console.log("    Map Output:", mapKeys.join(", "));
@@ -58,8 +58,8 @@ async function runTest() {
         }
         await db.waitForIdle();
 
-        let objKeys = [];
-        for await (const k of db.root.myObj.keys()) objKeys.push(k);
+        // B"H: Updated API
+        const objKeys = await db.keys(db.root.myObj);
         
         console.log("    Input: ", keys.join(", "));
         console.log("    Obj Output:", objKeys.join(", "));

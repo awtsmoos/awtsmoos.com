@@ -1,5 +1,4 @@
 
-
 // B"H
 /**
  * @file genesis.js
@@ -59,12 +58,13 @@ async function runSimulation() {
         // =================================================================
         log("\n[Day 1] Formation of the Vessels...");
         
-        await db.root.createMap("universe");
-        await db.root.universe.createList("beings");
+        await db.createMap(db.root, "universe");
+        await db.createList(db.root.universe, "beings");
         
         // Enable All Indices on the 'beings' collection
-        await db.root.universe.beings.enableSearch(); // Text
-        await db.root.universe.beings.enableVectorIndex({ dimensions: 4, metric: 'cosine' }); // Vector
+        // B"H: New API
+        await db.search.enable(db.root.universe.beings); // Text
+        await db.vector.enable(db.root.universe.beings, { dimensions: 4, metric: 'cosine' }); // Vector
         
         await db.waitForIdle();
         log("    ✅ Indices Active (Text + Vector).");
@@ -128,9 +128,10 @@ async function runSimulation() {
         const villain = db.root.universe.beings[49];
 
         // Connect them using the LiveHandles
-        await prophet.relateTo(disciple, "TEACHES", { since: "Epoch 1" });
-        await disciple.relateTo(prophet, "FOLLOWS", { devotion: 100 });
-        await villain.relateTo(prophet, "ENEMY_OF", { malice: 9000 });
+        // B"H: New API
+        await db.graph.connect(prophet, disciple, "TEACHES", { since: "Epoch 1" });
+        await db.graph.connect(disciple, prophet, "FOLLOWS", { devotion: 100 });
+        await db.graph.connect(villain, prophet, "ENEMY_OF", { malice: 9000 });
         
         await db.waitForIdle();
         log("    ✅ Graph Topology Established.");
@@ -143,7 +144,8 @@ async function runSimulation() {
 
         // 1. Find the Prophet via Soul (Vector)
         const searchVec = [0.99, 0.01, 0.0, 0.0]; 
-        const nearest = await db.root.universe.beings.nearest(searchVec, 1);
+        // B"H: New API
+        const nearest = await db.vector.nearest(db.root.universe.beings, searchVec, 1);
         
         if (nearest.length === 0) {
              throw new Error("Day 4: Vector Search failed completely (0 results).");
@@ -155,14 +157,16 @@ async function runSimulation() {
         assert(prophetFound.data.name === "Entity_0", `Vector Search failed. Expected Entity_0, got ${prophetFound.data.name}`);
 
         // 2. Who searches for the Light? (Text Search)
-        const seekers = await db.root.universe.beings.search("seeker light");
+        // B"H: New API
+        const seekers = await db.search.run(db.root.universe.beings, "seeker light");
         log(`    Text Search 'seeker light': Found ${seekers.length} beings.`);
         assert(seekers.length === 25, `Expected 25 Light Seekers, got ${seekers.length}`);
 
         // 3. Graph Query
         const prophetHandle = db.root.universe.beings[0];
         
-        const enemies = await prophetHandle.relationships("IN", "ENEMY_OF");
+        // B"H: New API
+        const enemies = await db.graph.getRelationships(prophetHandle, "IN", "ENEMY_OF");
         const villainNode = enemies[0].node;
         const villainName = await villainNode.data.name;
         
@@ -200,12 +204,14 @@ async function runSimulation() {
         // Restore Graph Connections for the New Prophet Node
         const newProphet = db.root.universe.beings[0];
         const newVillain = db.root.universe.beings[49];
-        await newVillain.relateTo(newProphet, "ENEMY_OF", { malice: 9000 }); // Re-link enemy
+        // B"H: New API
+        await db.graph.connect(newVillain, newProphet, "ENEMY_OF", { malice: 9000 }); // Re-link enemy
         
         await db.waitForIdle();
         
         // 4. Verify Update via Search Index
-        const rebornSearch = await db.root.universe.beings.search("reborn");
+        // B"H: New API
+        const rebornSearch = await db.search.run(db.root.universe.beings, "reborn");
         log(`    Search for 'reborn': Found ${rebornSearch.length}`);
         assert(rebornSearch.length === 1, "Index update on Splice failed");
         assert(rebornSearch[0].id === 'ent_0', "Wrong entity indexed");
@@ -253,7 +259,8 @@ async function runSimulation() {
         
         // B"H: Search for Pure Fire [1,0,0,0]
         // Entity_0 should be the ONLY one with exactly [1,0,0,0] (others are diluted [0.9, ...])
-        const vCheck = await db2.root.universe.beings.nearest([1,0,0,0], 5);
+        // B"H: New API
+        const vCheck = await db2.vector.nearest(db2.root.universe.beings, [1,0,0,0], 5);
         
         log("    [Trace] Vector Results:");
         vCheck.forEach((r, i) => {
@@ -267,7 +274,8 @@ async function runSimulation() {
 
         // 3. Check Graph Persistence
         const pNode = db2.root.universe.beings[0];
-        const pEnemies = await pNode.relationships("IN", "ENEMY_OF");
+        // B"H: New API
+        const pEnemies = await db2.graph.getRelationships(pNode, "IN", "ENEMY_OF");
         assert(pEnemies.length === 1, "Graph Edge lost persistence");
         
         // 4. Check Sequence Integrity

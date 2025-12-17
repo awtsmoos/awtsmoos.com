@@ -17,7 +17,7 @@ async function runTest() {
 
     try {
         console.log("    Seeding Data...");
-        await db.root.createList("users");
+        await db.createList(db.root, "users");
         for(let i=0; i<20; i++) {
             await db.root.users.push({
                 id: i,
@@ -28,7 +28,7 @@ async function runTest() {
         await db.waitForIdle();
 
         console.log("\n[1] Testing $slice Query...");
-        const sliceRes = await db.root.users.query({
+        const sliceRes = await db.query(db.root.users, {
             $slice: [5, 10]
         });
         console.log(`    Result Length: ${sliceRes.length}`);

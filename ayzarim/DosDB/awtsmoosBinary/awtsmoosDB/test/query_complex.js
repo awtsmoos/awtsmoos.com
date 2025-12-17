@@ -1,11 +1,4 @@
 
-
-
-
-
-
-
-
 // B"H
 const AwtsmoosDB = require('../index.js');
 const fs = require('fs');
@@ -24,7 +17,7 @@ async function runTest() {
 
     try {
         console.log("[Setup] Creating Data Graph...");
-        await db.root.createList("users");
+        await db.createList(db.root, "users");
         
         const users = [
             { name: "Alice", age: 25, role: "admin", address: { city: "Jerusalem" } },
@@ -35,32 +28,22 @@ async function runTest() {
 
         for(const u of users) await db.root.users.push(u);
         
-        // B"H: Do NOT await here. We need the LiveHandle proxies to perform graph operations.
         const aliceNode = db.root.users[0];
         const bobNode = db.root.users[1];
         const charlieNode = db.root.users[2];
         
-        await aliceNode.relateTo(bobNode, "FRIEND");
-        await bobNode.relateTo(charlieNode, "FRIEND");
+        await db.graph.connect(aliceNode, bobNode, "FRIEND");
+        await db.graph.connect(bobNode, charlieNode, "FRIEND");
 
         await db.waitForIdle();
         
         // Debug verify graph
-        const aliceName = await aliceNode.name;
-        const bobName = await bobNode.name;
-        console.log(`[Debug] Alice Name: ${aliceName}`);
-        console.log(`[Debug] Bob Name: ${bobName}`);
-        
-        const aliceFriends = await aliceNode.relationships("OUT", "FRIEND");
+        const aliceFriends = await db.graph.getRelationships(aliceNode, "OUT", "FRIEND");
         console.log(`[Debug] Alice has ${aliceFriends.length} friends.`);
-        if(aliceFriends.length > 0) {
-             const fName = await aliceFriends[0].node.name;
-             console.log(`[Debug] Alice's friend is: ${fName}`);
-        }
 
         // --- TEST 1: Simple Filter ---
         console.log("\n[1] Simple Filter (Age > 20)...");
-        const adults = await db.root.users.query({
+        const adults = await db.query(db.root.users, {
             $filter: { age: { $gt: 20 } }
         });
         console.log(`    Found: ${adults.length} (Expected 3)`);
@@ -69,7 +52,7 @@ async function runTest() {
 
         // --- TEST 2: Nested Path & Logic ---
         console.log("\n[2] Nested Path (Jerusalem) AND Logic...");
-        const jlmAdmins = await db.root.users.query({
+        const jlmAdmins = await db.query(db.root.users, {
             $filter: {
                 "address.city": "Jerusalem",
                 $or: [ { role: "admin" }, { role: "mod" } ]
@@ -81,7 +64,7 @@ async function runTest() {
 
         // --- TEST 3: Graph Relationship Query ---
         console.log("\n[3] Graph Query (Friends with Bob)...");
-        const friendsOfBob = await db.root.users.query({
+        const friendsOfBob = await db.query(db.root.users, {
             $filter: {
                 $relatedTo: {
                     direction: "OUT",
@@ -96,7 +79,7 @@ async function runTest() {
 
         // --- TEST 4: Projection ($map) ---
         console.log("\n[4] Projection (Map results)...");
-        const mapped = await db.root.users.query({
+        const mapped = await db.query(db.root.users, {
             $filter: { name: "Alice" },
             $map: {
                 userName: "name",

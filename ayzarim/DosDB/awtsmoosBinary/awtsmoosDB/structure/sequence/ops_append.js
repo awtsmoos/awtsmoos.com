@@ -1,3 +1,4 @@
+
 // B"H
 const Utils = require('./ops_utils.js');
 
@@ -8,9 +9,12 @@ class AppendOps {
     }
 
     async append(itemPtr) {
+        // B"H: Force fresh load of root to avoid stale cache in high concurrency
+        this.nodeIO.allocator.v1.db.structureCache.delete(this.seq.ptr.blockId);
         const root = await this.nodeIO.load(this.seq.ptr);
         const currentTotal = root.totalCount;
 
+        // B"H: Reduced threshold to 200 to be safe and consistent with SpliceOps logic.
         if (root.itemCount >= 200 && root.isLeaf) {
              return this.seq.ops.splice(currentTotal, 0, [itemPtr]);
         }
@@ -24,7 +28,8 @@ class AppendOps {
 
     async _appendRecursive(node, itemPtr) {
         if (node.isLeaf) {
-            if (node.itemCount < 250) {
+            // B"H: Strict check against 200 to trigger split earlier
+            if (node.itemCount < 200) {
                 const offset = Utils.DATA_OFFSET + (node.itemCount * Utils.POINTER_SIZE);
                 itemPtr.copy(node.buffer, offset);
                 
@@ -40,15 +45,21 @@ class AppendOps {
             }
         } else {
             const lastIdx = node.itemCount - 1;
+            if (lastIdx < 0) throw new Error(`B"H: Internal Node ${node.ptr.blockId} has 0 items but is not leaf.`);
+            
             const entryOffset = Utils.DATA_OFFSET + (lastIdx * Utils.ENTRY_SIZE);
             
             const childPtrBuf = node.buffer.subarray(entryOffset, entryOffset + 16);
             const childPtr = Utils.decodePtr(childPtrBuf);
             
+            // B"H: Force cache invalidation for the child to ensure we get fresh state (e.g. from previous splices)
+            this.nodeIO.allocator.v1.db.structureCache.delete(childPtr.blockId);
             const childNode = await this.nodeIO.load(childPtr);
             
             const res = await this._appendRecursive(childNode, itemPtr);
             
+            // B"H: Update parent's view of child's count immediately
+            // We use the childNode.totalCount which reflects the update from recursion
             node.buffer.writeUInt32BE(childNode.totalCount, entryOffset + 16);
             
             if (res.splitNode) {
@@ -59,12 +70,14 @@ class AppendOps {
                     node.buffer.writeUInt32BE(res.splitNode.totalCount, newEntryOff + 16);
                     
                     node.itemCount++;
+                    // B"H: Recalculate total from buffer to ensure consistency
                     node.totalCount = await this._recalcTotalCount(node);
                     node.totalBytes += res.deltaBytes;
                     
                     await this.nodeIO.save(node);
                     return { deltaCount: res.deltaCount, deltaBytes: res.deltaBytes, splitNode: null };
                 } else {
+                    // Update current node totals before splitting
                     node.totalCount = await this._recalcTotalCount(node);
                     node.totalBytes += res.deltaBytes;
                     
@@ -76,8 +89,10 @@ class AppendOps {
                     };
                 }
             } else {
-                node.totalCount += res.deltaCount;
+                // B"H: Recalculate totalCount strictly from buffer entries
+                node.totalCount = await this._recalcTotalCount(node);
                 node.totalBytes += res.deltaBytes;
+                
                 await this.nodeIO.save(node);
                 return res;
             }
@@ -87,15 +102,18 @@ class AppendOps {
     async _recalcTotalCount(node) {
         if (node.isLeaf) return node.itemCount;
         let sum = 0;
+        let off = Utils.DATA_OFFSET;
         for(let i=0; i<node.itemCount; i++) {
-            const off = Utils.DATA_OFFSET + (i * Utils.ENTRY_SIZE);
-            sum += node.buffer.readUInt32BE(off + 16);
+            const c = node.buffer.readUInt32BE(off + 16);
+            sum += c;
+            off += Utils.ENTRY_SIZE;
         }
         return sum;
     }
 
     async _splitLeafAndInsert(node, itemPtr) {
-        const newLeaf = await this.nodeIO.create(true);
+        // B"H: Create new leaf for the overflow item
+        const newLeaf = await this.nodeIO.create(true, node.isWeak);
         const offset = Utils.DATA_OFFSET;
         itemPtr.copy(newLeaf.buffer, offset);
         
@@ -110,7 +128,7 @@ class AppendOps {
     }
 
     async _splitInternalAndInsert(node, siblingNode) {
-        const newInternal = await this.nodeIO.create(false);
+        const newInternal = await this.nodeIO.create(false, node.isWeak);
         
         const sibEntry = Buffer.alloc(20);
         Utils.encodePtr(siblingNode.ptr).copy(sibEntry, 0);

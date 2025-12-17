@@ -3,9 +3,7 @@
 /**
  * @file graph_algo_test.js
  * @description
- *  Verifies Graph Algorithms:
- *  1. Shortest Path (BFS)
- *  2. Traversal (Visitor)
+ *  Verifies Graph Algorithms using Centralized API.
  */
 
 const fs = require('fs');
@@ -26,12 +24,10 @@ async function runTest() {
     try {
         console.log("[1] Building Graph Network...");
         
-        await db.root.createMap("net");
+        await db.createMap(db.root, "net");
         const net = db.root.net;
         
-        // B"H: Use Objects (Dictionaries) for Nodes to ensure Stable Pointers (IDs)
-        // Maps can move when modified, invalidating edges created before the modification.
-        // FIX: Initialize with IDs so verification works.
+        // Use standard Map set
         await net.set("A", { id: "A" });
         await net.set("B", { id: "B" });
         await net.set("C", { id: "C" });
@@ -41,19 +37,19 @@ async function runTest() {
         const [a, b, c, d, e] = [net.A, net.B, net.C, net.D, net.E];
         
         // Path 1 (Long): A -> B -> C -> D (Length 4)
-        await a.relateTo(b, "LINK");
-        await b.relateTo(c, "LINK");
-        await c.relateTo(d, "LINK");
+        await db.graph.connect(a, b, "LINK");
+        await db.graph.connect(b, c, "LINK");
+        await db.graph.connect(c, d, "LINK");
         
         // Path 2 (Short): A -> E -> D (Length 3)
-        await a.relateTo(e, "LINK");
-        await e.relateTo(d, "LINK");
+        await db.graph.connect(a, e, "LINK");
+        await db.graph.connect(e, d, "LINK");
         
         await db.waitForIdle();
 
         // --- TEST 1: Shortest Path ---
         console.log("\n[2] Testing Shortest Path (A -> D)...");
-        const path = await a.path(d);
+        const path = await db.graph.shortestPath(a, d);
         
         console.log(`    Path Length: ${path.length} nodes (Expected 3: A, E, D)`);
         
@@ -72,7 +68,7 @@ async function runTest() {
         // --- TEST 2: Traversal ---
         console.log("\n[3] Testing Traversal (BFS Visitor)...");
         const visited = [];
-        await a.traverse(async (node, depth) => {
+        await db.graph.traverse(a, async (node, depth) => {
             const id = await node.id;
             visited.push(id);
         });

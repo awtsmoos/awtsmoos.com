@@ -3,7 +3,7 @@
 /**
  * @file range_test.js
  * @description
- *  Demonstrates the power of the .range(start, end) method.
+ *  Demonstrates the power of the db.range(handle, start, end) method.
  *  Unlike a standard loop with `if(k < start) continue`, this method
  *  uses the B-Tree index to "teleport" (Seek) directly to the start key
  *  and stop reading disk immediately after the end key.
@@ -52,8 +52,8 @@ async function runTest() {
         let count = 0;
         const results = [];
 
-        // .range() yields { key, value } objects
-        for await (const entry of db.root.lexicon.range(START, END)) {
+        // B"H: New Syntax db.range(handle, start, end)
+        for await (const entry of db.range(db.root.lexicon, START, END)) {
             console.log(`    FOUND: ${entry.key} -> "${entry.value}"`);
             results.push(entry.key);
             count++;
