@@ -1,8 +1,4 @@
 
-
-
-
-
 // B"H
 const Pager = require('./core/pager.js');
 const AllocatorV2 = require('./core/type_allocator.js');
@@ -18,12 +14,19 @@ const Query = require('./api/query/index.js');
 
 class AwtsmoosDB_V2 {
     constructor(filePath, options = {}) {
-        this.pager = new Pager(filePath, options);
-        this.allocator = new AllocatorV2(this.pager, this);
+        // B"H: Configuration Defaults
+        this.config = {
+            cacheSize: options.cacheSize || 5000,
+            debug: options.debug || false,
+            ...options
+        };
+
+        this.pager = new Pager(filePath, this.config);
+        this.allocator = new AllocatorV2(this.pager, this, this.config);
         this.lock = new ReadWriteLock();
         this.root = null; 
         this.rootPtrRaw = null;
-        this.debug = options.debug || false; 
+        this.debug = this.config.debug; 
         this.graph = new GraphManager(this);
         this.search = new SearchManager(this);
         this.vector = new VectorManager(this);
@@ -42,8 +45,8 @@ class AwtsmoosDB_V2 {
         };
 
         this.structureCache = new Map();
-        // B"H: Optimization - Increase cache to reduce parsing overhead while staying under 10MB total
-        this.STRUCT_CACHE_LIMIT = 2000; 
+        // B"H: Scale structure cache with general cache size (approx 60%)
+        this.STRUCT_CACHE_LIMIT = Math.floor(this.config.cacheSize * 0.6); 
     }
 
     async ensureOpen() {
@@ -414,7 +417,12 @@ class AwtsmoosDB_V2 {
                 const avail = constants.BLOCK_SIZE - start;
                 const chunk = Math.min(remaining.length, avail);
                 
-                this.structureCache.delete(currentBlock);
+                // B"H: FIX - Invalidate the Allocator's read cache for this block.
+                // We are writing directly to the Pager's dirty buffer (or active page).
+                // If Allocator has a stale copy in blockCache, subsequent reads will be wrong.
+                if (this.allocator.v1.blockCache) {
+                    this.allocator.v1.invalidateCache(currentBlock);
+                }
 
                 let dirtyBuf = null;
                 // Since we are inside executeLocked, activePage access is safe
@@ -437,8 +445,6 @@ class AwtsmoosDB_V2 {
                     remaining.subarray(0, chunk).copy(blk, start);
                     await this.allocator.v1._writeBlockSynced(currentBlock, blk);
                 }
-                
-                this.structureCache.delete(currentBlock);
                 
                 remaining = remaining.subarray(chunk);
                 currentBlock++;
@@ -465,7 +471,6 @@ class AwtsmoosDB_V2 {
     }
     
     getCachedStructure(blockId, offset = 0) {
-        // B"H: Guard against null/undefined pointer which caused crashes
         if (blockId && typeof blockId === 'object' && blockId.blockId !== undefined) {
             offset = blockId.offset || 0;
             blockId = blockId.blockId;

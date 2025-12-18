@@ -1,6 +1,4 @@
 
-
-
 // B"H
 const VectorStorage = require('./storage.js');
 const { getMetric } = require('./math.js');
@@ -44,9 +42,7 @@ class HNSW {
         await this.registryHandle.ensureResolved(true);
         const currentPtr = this.registryHandle.ptr;
         
-        // Check if we have a valid sequence and if it matches the current handle pointer
         if (this.registrySequence && currentPtr && this.registrySequence.ptr) {
-            // Compare pointers (Buffer compare or property check)
             if (this._ptrsEqual(this.registrySequence.ptr, currentPtr)) {
                 return;
             }
@@ -54,17 +50,9 @@ class HNSW {
         
         if (currentPtr) {
             const ptr = await SmartPointer.resolve(currentPtr, this.db.allocator);
-            // Need block-level pointer for Sequence engine
-            let seqPtr = ptr;
-            if (ptr && !ptr.blockId && Buffer.isBuffer(currentPtr)) {
-                 // Should be resolved struct pointer
-                 // SmartPointer.resolve returns the payload struct if block mode
-            }
-            
             this.registrySequence = new Sequence(this.db.allocator, ptr);
             const len = await this.registrySequence.length();
             
-            // Only resize if growing; keep existing cached buffers
             if (this.registryPtrs.length < len) {
                 this.registryPtrs.length = len;
             }
@@ -77,9 +65,6 @@ class HNSW {
     _ptrsEqual(p1, p2) {
         if (!p1 || !p2) return false;
         if (p1.blockId !== undefined) {
-            // p1 is struct, p2 might be buffer?
-            // Usually handle.ptr is Buffer (Encoded), engine.ptr is Struct (Decoded).
-            // We can't easily compare without decoding p2.
             const decoded = SmartPointer.decode(p2);
             if (!decoded) return false;
             const blockId = readPointer48(decoded.payload, 0);
@@ -90,16 +75,13 @@ class HNSW {
     }
 
     async _getRegistryPtr(index) {
-        // Fast path: In-Memory Cache
         if (this.registryPtrs[index]) return this.registryPtrs[index];
         
         await this._initRegistryCache();
         
-        // Optimized path: Use Sequence Engine directly
         if (this.registrySequence) {
             const ptr = await this.registrySequence.getPtr(index);
             if (ptr) {
-                // Clone buffer to be safe against buffer pool reuse
                 const copy = Buffer.allocUnsafe(16);
                 ptr.copy(copy);
                 this.registryPtrs[index] = copy;
@@ -122,7 +104,6 @@ class HNSW {
     async _flushRegistry() {
         if (this.dirtyRegistryMax === -1) return;
 
-        // B"H: Wrap in Batch to prevent fsync on splice/set
         await this.db.batch(async () => {
             const start = this.dirtyRegistryMin;
             const end = this.dirtyRegistryMax;
@@ -134,7 +115,6 @@ class HNSW {
             
             if (start >= currentLen) {
                 const items = this.registryPtrs.slice(start, end + 1);
-                // Filter out any holes
                 const validItems = items.map(x => x || Buffer.alloc(16)); 
                 await this.registryHandle.splice(currentLen, 0, ...validItems, { isPtr: true, _isAwtsmoosOptions: true });
             } else {
@@ -151,7 +131,6 @@ class HNSW {
             }
         });
         
-        // B"H: Invalidate the raw engine reference because the root pointer CHANGED during splice/push
         this.registrySequence = null;
         this._registryInitialized = false; 
     }
@@ -164,6 +143,9 @@ class HNSW {
         if (!ptr) return null;
         
         const node = await this.storage.loadNode(ptr);
+        // B"H: If corrupt/null, do not cache, do not return
+        if (!node) return null;
+        
         this._cacheNode(nodeId, node);
         return node;
     }
@@ -177,7 +159,6 @@ class HNSW {
                 }
             }
             if (this.nodeCache.size >= this.CACHE_LIMIT) {
-                // Must force sync save if cache totally full of dirty nodes
                 this._forceFlushPartial();
             }
         }
@@ -185,14 +166,11 @@ class HNSW {
     }
     
     async _forceFlushPartial() {
-        // Just flush registry and some nodes synchronously to clear space
         await this.flushCache(100);
     }
 
     async insertBatch(items) {
-        // B"H: Optimization - Acquire lock ONCE for the entire batch
         return this.lock.runWrite(async () => {
-            // Pre-load cache
             await this._initRegistryCache();
             
             let epChanged = false;
@@ -226,7 +204,7 @@ class HNSW {
                     this.entryNodeID = nodeId;
                     this.meta.entryNodeID = nodeId;
                     epChanged = true;
-                    continue; // First node, done
+                    continue; 
                 }
 
                 let currDist = this.metric(vector, currObj.vector);
@@ -269,7 +247,6 @@ class HNSW {
                 }
             }
             
-            // Only flush if we hit limits, otherwise let db.waitForIdle do it
             if (this.dirtyNodes.size > 5000) {
                 await this.flushCache();
             }
@@ -280,7 +257,6 @@ class HNSW {
         });
     }
 
-    // Compatibility wrapper
     async insert(key, vector, payloadPtr) {
         return this.insertBatch([{ key, vector, payload: payloadPtr }]);
     }
@@ -320,7 +296,6 @@ class HNSW {
             count++;
         }
 
-        // Parallel save
         await Promise.all(toSave.map(node => this.storage.saveNode(node)));
         
         for(const node of toSave) {
@@ -329,7 +304,6 @@ class HNSW {
     }
 
     async delete(key) {
-        // ... (standard delete implementation unchanged for now) ...
         const nodeId = await this.keyMap.get(String(key));
         if (nodeId === undefined) return;
         const node = await this._getNode(nodeId);

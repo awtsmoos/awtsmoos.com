@@ -1,4 +1,3 @@
-
 // B"H
 const constants = require('../../constants.js');
 const SmartPointer = require('../../utils/smartPointer.js');
@@ -18,7 +17,6 @@ class MapEngine {
             this.ptr = null;
         }
         
-        // B"H: Node Cache to optimize repeated traversals (e.g. root)
         this.cache = new Map();
         this.CACHE_LIMIT = 200;
 
@@ -45,8 +43,6 @@ class MapEngine {
 
     async _destroyNode(ptr, depth) {
         if (depth > this.MAX_DEPTH) return;
-        
-        // Remove from cache
         if (this.cache.has(ptr.blockId)) this.cache.delete(ptr.blockId);
 
         const node = await this.nodeIO.load(ptr);
@@ -56,11 +52,14 @@ class MapEngine {
             }
         } else {
             for(const childPtrBuf of node.children) {
-                const decoded = SmartPointer.decode(childPtrBuf);
-                if (decoded && decoded.mode === constants.MODE_BLOCK) {
-                    const childPtr = this._decodePtr(decoded.payload);
-                    await this._destroyNode(childPtr, depth + 1);
-                }
+                // B"H: Optimization - direct read
+                const blockId = SmartPointer.getBlockId(childPtrBuf);
+                const len = SmartPointer.getLength(childPtrBuf);
+                const off = SmartPointer.getOffset(childPtrBuf);
+                const isChain = SmartPointer.isChain(childPtrBuf);
+                
+                const childPtr = { blockId, length: len, offset: off, isChain };
+                await this._destroyNode(childPtr, depth + 1);
             }
         }
         await this.allocator.v1.free(ptr);
@@ -96,10 +95,8 @@ class MapEngine {
                 values: [], next: 0, totalCount: root.totalCount + res.split.totalCount, totalBytes: root.totalBytes + res.split.totalBytes 
             };
             
-            // B"H: Update root total stats by summing children
-            // Since we just split, root = left + right
             const leftNode = await this.nodeIO.load(leftChildPtr);
-            const rightNodePtr = this._decodePtr(SmartPointer.decode(split.ptr).payload);
+            const rightNodePtr = this._decodePtrBuf(split.ptr);
             const rightNode = await this.nodeIO.load(rightNodePtr);
             
             newRoot.totalCount = leftNode.totalCount + rightNode.totalCount;
@@ -146,8 +143,7 @@ class MapEngine {
             } else {
                 if (idx >= node.children.length) return undefined;
                 const childPtrBuf = node.children[idx];
-                const decoded = SmartPointer.decode(childPtrBuf);
-                currPtr = this._decodePtr(decoded.payload);
+                currPtr = this._decodePtrBuf(childPtrBuf);
             }
         }
     }
@@ -160,10 +156,6 @@ class MapEngine {
         const res = await this.ops.delete(root, keyBuf);
         
         if (res.success && res.deletedPtr) {
-            // B"H: CRITICAL CHANGE
-            // Do NOT free the pointer here. 
-            // Return it to the caller (Writer) so it can read the value for index/graph cleanup.
-            // The Writer is responsible for calling allocator.free(res.deletedPtr).
             return { success: true, deletedPtr: res.deletedPtr };
         }
         
@@ -216,12 +208,20 @@ class MapEngine {
                 if (end && i > 0 && i <= node.keys.length && node.keys[i-1].compare(end) > 0) return;
 
                 const childPtrBuf = node.children[i];
-                const decoded = SmartPointer.decode(childPtrBuf);
-                const childPtr = this._decodePtr(decoded.payload);
+                const childPtr = this._decodePtrBuf(childPtrBuf);
                 
                 yield* this._iterateNode(childPtr, start, end, depth + 1);
             }
         }
+    }
+    
+    _decodePtrBuf(buf) {
+        return {
+            blockId: SmartPointer.getBlockId(buf),
+            length: SmartPointer.getLength(buf),
+            offset: SmartPointer.getOffset(buf),
+            isChain: SmartPointer.isChain(buf)
+        };
     }
     
     _decodePtr(payload) {

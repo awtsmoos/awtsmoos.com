@@ -1,6 +1,4 @@
 
-
-
 // B"H
 const SmartPointer = require('../../utils/smartPointer.js');
 const Sequence = require('../../structure/sequence/index.js');
@@ -16,7 +14,7 @@ class SearchIndexer {
         // activeBuffers accumulates new ops.
         this.activeBuffers = new Map();
         
-        this.BUFFER_LIMIT = 5000; 
+        this.BUFFER_LIMIT = 10000; 
         this.opsCount = 0;
         
         // Serialize flushes

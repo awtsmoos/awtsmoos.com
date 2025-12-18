@@ -1,6 +1,4 @@
 
-
-
 // B"H
 const constants = require('../../constants.js');
 const { writePointer48, readPointer48 } = require('../../utils/binaryHelpers.js');
@@ -23,7 +21,7 @@ class SequenceNode {
         
         const node = { ptr, buffer: buf, isLeaf, isWeak, itemCount: 0, totalCount: 0, totalBytes: 0, totalCapacity: constants.BLOCK_SIZE };
         this.db.cacheStructure(ptr.blockId, node);
-        //this.log(`Created B${ptr.blockId} (Leaf: ${isLeaf})`);
+        this.log(`Created B${ptr.blockId} (Leaf: ${isLeaf})`);
         return node;
     }
 
@@ -36,7 +34,19 @@ class SequenceNode {
         const cached = this.db.getCachedStructure(ptr);
         if (cached) return cached;
         
-        const buf = await this.allocator.v1.db._readChainSafe(ptr);
+        // B"H: Optimization - Zero copy read
+        let buf;
+        if (ptr.isChain) {
+            buf = await this.allocator.v1.db._readChainSafe(ptr);
+        } else {
+            buf = await this.allocator.v1.readBlockLocked(ptr.blockId, true);
+            if(buf) {
+                const copy = Buffer.allocUnsafe(buf.length);
+                buf.copy(copy);
+                buf = copy;
+            }
+        }
+        
         if (!buf) throw new Error(`Sequence Node ${ptr.blockId} missing`);
         
         const magic = buf.toString('utf8', 0, 4);
@@ -61,14 +71,11 @@ class SequenceNode {
 
             const isLeaf = (flags & 1) === 1;
 
-            // B"H: Aggressive Correction - Self-Healing
             if (isLeaf) {
                 if (itemCount > 200) { 
                     itemCount = 200;
                 }
-                // For leaves, totalCount MUST equal itemCount.
                 if (totalCount !== itemCount) {
-                    // console.warn(`[SQND] B${ptr.blockId} Leaf Count Mismatch Fix: Total=${totalCount} Item=${itemCount}`);
                     totalCount = itemCount;
                 }
             }
@@ -87,7 +94,6 @@ class SequenceNode {
     }
 
     async save(node) {
-        // B"H: Enforce limit and consistency before writing to disk
         if (node.isLeaf) {
             if (node.itemCount > 200) {
                 node.itemCount = 200;
@@ -95,7 +101,7 @@ class SequenceNode {
             node.totalCount = node.itemCount;
         }
         
-        //this.log(`Saving B${node.ptr.blockId} (Leaf:${node.isLeaf}, Count:${node.totalCount}, Items:${node.itemCount})`);
+        this.log(`Saving B${node.ptr.blockId} (Leaf:${node.isLeaf}, Count:${node.totalCount}, Items:${node.itemCount})`);
 
         node.buffer.write(constants.MAGIC_SEQ_NODE, 0);
         
@@ -116,13 +122,12 @@ class SequenceNode {
         const usedSize = node.itemCount * itemSize;
         const endOfData = startOfData + usedSize;
         
-        // B"H: CRITICAL - Zero out unused space to prevent ghost data (stale entries past itemCount)
         if (endOfData < node.buffer.length) {
             node.buffer.fill(0, endOfData);
         }
 
-        // Remove from cache to ensure next read gets fresh data from disk/buffer-manager
-        this.db.structureCache.delete(node.ptr.blockId);
+        // B"H: Optimization - Keep cache for sequential burst writes.
+        // this.db.structureCache.delete(node.ptr.blockId);
         
         await this.allocator.v1.db._writeChainSafe(node.ptr, node.buffer);
     }

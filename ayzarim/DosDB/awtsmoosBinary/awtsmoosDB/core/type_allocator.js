@@ -8,15 +8,14 @@ const { readPointer48 } = require('../utils/binaryHelpers.js');
 const serializer = require('../utils/serializer.js');
 
 class AllocatorV2 {
-    constructor(pager, db) {
-        this.v1 = new AllocatorV1(pager, db);
+    constructor(pager, db, options = {}) {
+        this.v1 = new AllocatorV1(pager, db, options);
         this.heap = new HeapManager(this.v1);
     }
 
     async init() { await this.v1.init(); }
     async readBlock(blockId) { return this.v1.readBlockLocked(blockId); }
 
-    // B"H: New Method to flush heap
     async flushHeap() {
         if (this.heap) await this.heap.flush();
     }
@@ -95,7 +94,6 @@ class AllocatorV2 {
         else { 
             type = constants.TYPE_JSON; 
             try {
-                // B"H: Manual cyclic protection or special JSON replacer
                 const jsonStr = JSON.stringify(val, (k, v) => typeof v === 'bigint' ? v.toString() : v);
                 data = Buffer.from(jsonStr || "{}"); 
             } catch (e) {
@@ -109,7 +107,6 @@ class AllocatorV2 {
         } else {
             const ptr = await this.v1.allocate(data.length);
             await this.v1.db._writeChainSafe(ptr, data);
-            // B"H: Pass offset to block pointer
             return SmartPointer.block(type, ptr.blockId, data.length, ptr.isChain, ptr.offset);
         }
     }
@@ -146,7 +143,6 @@ class AllocatorV2 {
              const offset = decoded.payload.readUInt32BE(10);
              const isChain = decoded.payload.readUInt8(14) === 1;
              
-             // Construct ptr object
              const ptr = { blockId, length, offset, isChain };
 
              if (decoded.type === constants.TYPE_SEQUENCE || decoded.type === constants.TYPE_SET) {
@@ -162,7 +158,6 @@ class AllocatorV2 {
                  await (new Dictionary(this, ptr)).destroy();
              }
              else {
-                 // Raw Block/Chain free
                  await this.v1.free(ptr);
              }
         }

@@ -15,25 +15,33 @@ module.exports = {
 
     getPtrSize(ptrBuf) {
         if (!ptrBuf || ptrBuf.length !== 16) return 0;
-        if (ptrBuf[0] > 0xC0) return 0; 
-
-        if ((ptrBuf[0] >> 6) === constants.MODE_BLOCK) {
+        // B"H: Fast Path - Direct Buffer Access
+        const header = ptrBuf[0];
+        const mode = (header >> 6) & 0x03;
+        
+        if (mode === constants.MODE_BLOCK) {
+             // Length is at index 7-10 (4 bytes) in buffer
+             // Payload starts at 1. readUInt32BE(6) relative to payload is 1+6 = 7.
              const len = ptrBuf.readUInt32BE(7); 
              if (len > 1024 * 1024 * 1024) return 0;
              return len;
         }
         
-        const decoded = SmartPointer.decode(ptrBuf);
-        if (!decoded) return 0;
+        if (mode === constants.MODE_HEAP) {
+            // Length is at index 11-14
+            return ptrBuf.readUInt32BE(11);
+        }
         
-        if (decoded.mode === constants.MODE_HEAP) return decoded.payload.readUInt32BE(10);
-        
-        if (decoded.mode === constants.MODE_INLINE) {
-             if (decoded.type === constants.TYPE_STRING) return decoded.payload[0];
-             if (decoded.type === constants.TYPE_BOOLEAN) return 1;
-             if (decoded.type === constants.TYPE_NUMBER) return 8;
-             if (decoded.type === constants.TYPE_NULL || decoded.type === constants.TYPE_UNDEFINED) return 0;
-             return decoded.payload.length;
+        const type = header & 0x3F;
+        if (mode === constants.MODE_INLINE) {
+             if (type === constants.TYPE_STRING) return ptrBuf[1];
+             if (type === constants.TYPE_BOOLEAN) return 1;
+             if (type === constants.TYPE_NUMBER) return 8;
+             if (type === constants.TYPE_NULL || type === constants.TYPE_UNDEFINED) return 0;
+             // Default inline length logic (15 - unused)
+             // But usually for strings it's length byte at [1].
+             // Just fall back for complex ones?
+             return 0;
         }
         return 0;
     },

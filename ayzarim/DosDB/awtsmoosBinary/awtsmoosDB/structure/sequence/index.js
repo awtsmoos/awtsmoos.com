@@ -1,8 +1,3 @@
-
-
-
-
-
 // B"H
 const constants = require('../../constants.js');
 const SmartPointer = require('../../utils/smartPointer.js');
@@ -65,11 +60,8 @@ class SequenceEngine {
              for(let i=0; i<node.itemCount; i++) {
                  const ptrOffset = DATA_OFFSET + (i * 20);
                  const ptrBuf = node.buffer.subarray(ptrOffset, ptrOffset+16);
-                 const decoded = SmartPointer.decode(ptrBuf);
-                 if (decoded && decoded.mode === constants.MODE_BLOCK) {
-                     const childPtr = this._decodePtr(decoded.payload);
-                     await this._destroyNode(childPtr, depth + 1);
-                 }
+                 const childPtr = this._decodePtrBuf(ptrBuf);
+                 await this._destroyNode(childPtr, depth + 1);
              }
         }
         await this.allocator.v1.free(ptr);
@@ -126,7 +118,6 @@ class SequenceEngine {
     }
 
     async getPtr(index) {
-        // B"H: FIX - Return undefined if not initialized
         if (!this.ptr) return undefined;
 
         let currPtr = this.ptr;
@@ -152,27 +143,21 @@ class SequenceEngine {
                      return undefined;
                 }
                 const offset = DATA_OFFSET + (localIndex * 16);
-                const ptr = Buffer.alloc(16);
+                const ptr = Buffer.allocUnsafe(16);
                 node.buffer.copy(ptr, 0, offset, offset + 16);
                 return ptr;
             } else {
-                // Internal Node Logic with Logging
                 let offset = DATA_OFFSET;
                 let foundChild = false;
                 
-                // this.log(`[GetPtr] Visiting Internal B${currPtr.blockId}. LocalIdx: ${localIndex}. Children: ${node.itemCount}.`);
-
                 for(let i=0; i<node.itemCount; i++) {
                     const childCount = node.buffer.readUInt32BE(offset + 16);
                     
                     if (localIndex < childCount) {
                         const childPtrBuf = node.buffer.subarray(offset, offset + 16);
-                        currPtr = this._decodePtr(SmartPointer.decode(childPtrBuf).payload);
+                        currPtr = this._decodePtrBuf(childPtrBuf);
                         foundChild = true;
                         
-                        // this.log(`[GetPtr] Descending to Child ${i} (B${currPtr.blockId}). ChildCount: ${childCount}.`);
-
-                        // B"H: DRIFT DETECTOR
                         if (this.allocator.v1.db.debug) {
                             const checkNode = await this.nodeIO.load(currPtr);
                             if (checkNode.totalCount !== childCount) {
@@ -186,7 +171,6 @@ class SequenceEngine {
                         
                         break; 
                     }
-                    // this.log(`[GetPtr] Skipping Child ${i}. Count: ${childCount}. LocalIdx: ${localIndex} -> ${localIndex - childCount}`);
                     localIndex -= childCount;
                     offset += 20;
                 }
@@ -260,10 +244,19 @@ class SequenceEngine {
             for(let i=0; i<node.itemCount; i++) {
                 const offset = DATA_OFFSET + (i * 20);
                 const childPtrBuf = node.buffer.subarray(offset, offset + 16);
-                const childPtr = this._decodePtr(SmartPointer.decode(childPtrBuf).payload);
+                const childPtr = this._decodePtrBuf(childPtrBuf);
                 yield* this._iterateNodeRaw(childPtr);
             }
         }
+    }
+
+    _decodePtrBuf(buf) {
+        return {
+            blockId: SmartPointer.getBlockId(buf),
+            length: SmartPointer.getLength(buf),
+            offset: SmartPointer.getOffset(buf),
+            isChain: SmartPointer.isChain(buf)
+        };
     }
 
     _decodePtr(payload) {

@@ -77,11 +77,14 @@ class VectorStorage {
         const buffer = await this.allocator.v1.db._readChainSafe({ blockId, length, isChain, offset: offsetVal });
         let offset = 0;
         
-        if (buffer.length < 4) throw new Error(`Invalid Node Buffer (Len ${buffer.length})`);
+        if (!buffer || buffer.length < 4) {
+             // B"H: Corrupt read or empty
+             return null;
+        }
         
         if (buffer.toString('utf8', 0, 4) !== MAGIC_VEC_NODE) {
-             console.warn(`[Storage] Invalid Vector Node Magic at ${blockId}:${offsetVal}`);
-             return { id: -1, deleted: true, neighbors: [] };
+             if (this.allocator.v1.db.debug) console.warn(`B"H [Storage] Invalid Vector Node Magic at ${blockId}:${offsetVal}`);
+             return null; // B"H: Return null on corruption to prevent further errors
         }
         offset += 4;
         
@@ -123,6 +126,12 @@ class VectorStorage {
     }
 
     async saveNode(nodeData) {
+        // B"H: Safety check for partial nodes
+        if (!nodeData || !nodeData.vector) {
+             if (this.allocator.v1.db.debug) console.warn("B\"H [VectorStorage] Skipping save of invalid node", nodeData ? nodeData.id : 'null');
+             return null;
+        }
+
         const floatArr = nodeData.vector;
         const vecBuffer = Buffer.allocUnsafe(floatArr.byteLength);
         const sourceView = new Uint8Array(floatArr.buffer, floatArr.byteOffset, floatArr.byteLength);

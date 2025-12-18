@@ -1,12 +1,4 @@
 
-
-
-
-
-
-
-
-
 // B"H
 const constants = require('../constants.js');
 const SmartPointer = require('../utils/smartPointer.js');
@@ -74,33 +66,36 @@ class GraphManager {
     }
 
     async connect(sourceHandle, targetHandle, label, props = {}) {
-        await this._init();
-        
-        // B"H: Robust unwrapping (handle might be Proxy or Internal)
-        const src = sourceHandle && sourceHandle[constants.SYMBOLS.INTERNALS] ? sourceHandle[constants.SYMBOLS.INTERNALS] : sourceHandle;
-        const tgt = targetHandle && targetHandle[constants.SYMBOLS.INTERNALS] ? targetHandle[constants.SYMBOLS.INTERNALS] : targetHandle;
-        
-        // Parallel resolve
-        await Promise.all([src.ensureResolved(), tgt.ensureResolved()]);
+        // B"H: Wrap in Batch to ensure atomicity and speed for multiple edge writes
+        await this.db.batch(async () => {
+            await this._init();
+            
+            // B"H: Robust unwrapping (handle might be Proxy or Internal)
+            const src = sourceHandle && sourceHandle[constants.SYMBOLS.INTERNALS] ? sourceHandle[constants.SYMBOLS.INTERNALS] : sourceHandle;
+            const tgt = targetHandle && targetHandle[constants.SYMBOLS.INTERNALS] ? targetHandle[constants.SYMBOLS.INTERNALS] : targetHandle;
+            
+            // Parallel resolve
+            await Promise.all([src.ensureResolved(), tgt.ensureResolved()]);
 
-        const sourceId = this._getId(src);
-        const targetId = this._getId(tgt);
-        
-        if (!sourceId || !targetId) throw new Error("B\"H: Object cannot be a Graph Node (Invalid Pointer Type).");
+            const sourceId = this._getId(src);
+            const targetId = this._getId(tgt);
+            
+            if (!sourceId || !targetId) throw new Error("B\"H: Object cannot be a Graph Node (Invalid Pointer Type).");
 
-        // B"H: FIX - Serialize node creation to prevent race conditions on graphRoot B-Tree updates
-        await this._ensureNode(sourceId);
-        await this._ensureNode(targetId);
+            // B"H: FIX - Serialize node creation to prevent race conditions on graphRoot B-Tree updates
+            await this._ensureNode(sourceId);
+            await this._ensureNode(targetId);
 
-        const edge = { 
-            targetId, sourceId, label, props, timestamp: Date.now(),
-            sourcePtr: src.ptr,
-            targetPtr: tgt.ptr
-        };
-        
-        // B"H: Optimization - Parallel Edge Write (These are separate sub-trees (nodes), so less risk, but safer to serialize inside batch)
-        await this._addEdge(sourceId, "out", label, edge);
-        await this._addEdge(targetId, "in", label, edge);
+            const edge = { 
+                targetId, sourceId, label, props, timestamp: Date.now(),
+                sourcePtr: src.ptr,
+                targetPtr: tgt.ptr
+            };
+            
+            // B"H: Optimization - Parallel Edge Write
+            await this._addEdge(sourceId, "out", label, edge);
+            await this._addEdge(targetId, "in", label, edge);
+        });
     }
 
     async _ensureNode(nodeId) {

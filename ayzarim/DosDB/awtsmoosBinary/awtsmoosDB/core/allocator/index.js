@@ -1,8 +1,4 @@
 
-
-
-
-
 // B"H
 const constants = require('../../constants.js');
 const BitmapManager = require('./bitmap.js');
@@ -10,11 +6,10 @@ const AllocationModes = require('./modes.js');
 const { writePointer48, readPointer48 } = require('../../utils/binaryHelpers.js');
 
 class Allocator {
-    constructor(pager, db) {
+    constructor(pager, db, options = {}) {
         this.pager = pager;
         this.db = db;
         this.cursor = 2; 
-        this.semaphore = new (require('../concurrency.js'))();
         this.initialized = false;
         
         this.superBlockCache = null;
@@ -23,8 +18,11 @@ class Allocator {
         this.freeBlocks = []; 
         
         this.blockCache = new Map();
-        // B"H: Tuning - 500 Blocks * 4KB = ~2MB. 
-        this.MAX_CACHE_SIZE = 500; 
+        
+        // B"H: Configurable Allocator Cache (Default ~60% of total cache blocks)
+        // If config.cacheSize is 5000, Allocator gets 3000.
+        const totalCache = options.cacheSize || 5000;
+        this.MAX_CACHE_SIZE = Math.floor(totalCache * 0.6); 
         
         this.UNIT_SIZE = constants.UNIT_SIZE || 32;
         this.BLOCK_SIZE = constants.BLOCK_SIZE || 4096;
@@ -57,7 +55,6 @@ class Allocator {
             const savedCursor = readPointer48(sb, this.CURSOR_OFFSET); 
             const fileDerivedCursor = Math.ceil(this.pager.knownFileSize / this.BLOCK_SIZE);
             
-            // B"H: Recovery - Trust file size if larger than saved cursor (lazy cursor update)
             this.cursor = Math.max(savedCursor, fileDerivedCursor);
             if (this.cursor < 2) this.cursor = 2;
             
@@ -73,68 +70,76 @@ class Allocator {
     }
 
     async executeLocked(fn) {
-        return this.semaphore.runWrite(async () => {
-            if (!this.initialized) await this.init();
-            return await fn();
-        });
+        if (!this.initialized) await this.init();
+        return await fn();
     }
 
     async flush() {
-        // B"H: Optimization - Only flush active page content. Do NOT write SuperBlock here.
-        // SuperBlock is written only on close/checkpoint or explicit update.
         if (this.activePage.dirty && this.activePage.id !== -1 && this.activePage.buffer) {
-            this._cacheBlock(this.activePage.id, this.activePage.buffer);
+            // Write directly to Pager, which updates its dirty cache
             await this.pager.writeBlock(this.activePage.id, this.activePage.buffer);
             this.activePage.dirty = false;
         }
-        // Removed: await this._saveStateInternal();
     }
 
     _cacheBlock(blockId, buffer) {
         if (this.blockCache.has(blockId)) {
+            // Refresh
             this.blockCache.delete(blockId);
         } else if (this.blockCache.size >= this.MAX_CACHE_SIZE) {
             const firstKey = this.blockCache.keys().next().value;
             this.blockCache.delete(firstKey);
         }
+        
         const cached = Buffer.allocUnsafe(this.BLOCK_SIZE);
         buffer.copy(cached);
         this.blockCache.set(blockId, cached);
     }
-
-    _getCachedBlock(blockId) {
+    
+    // B"H: New method to force invalidation when writing to Pager directly (e.g. chain write)
+    invalidateCache(blockId) {
         if (this.blockCache.has(blockId)) {
-            const cached = this.blockCache.get(blockId);
-            this.blockCache.delete(blockId); 
-            this.blockCache.set(blockId, cached);
-            const copy = Buffer.allocUnsafe(this.BLOCK_SIZE);
-            cached.copy(copy);
-            return copy;
+            this.blockCache.delete(blockId);
         }
-        return null;
     }
 
-    async _readBlockSynced(blockId) {
+    async _readBlockSynced(blockId, noCopy = false) {
         if (this.activePage.id === blockId && this.activePage.buffer) {
+            if (noCopy) return this.activePage.buffer;
             const copy = Buffer.allocUnsafe(this.BLOCK_SIZE);
             this.activePage.buffer.copy(copy);
             return copy;
         }
 
-        const cached = this._getCachedBlock(blockId);
-        if (cached) return cached;
+        // Check internal cache
+        if (this.blockCache.has(blockId)) {
+            const cached = this.blockCache.get(blockId);
+            if (noCopy) return cached;
+            
+            const copy = Buffer.allocUnsafe(this.BLOCK_SIZE);
+            cached.copy(copy);
+            return copy;
+        }
         
-        const dirty = this.pager.readBlockSync(blockId);
+        // Check Pager
+        const dirty = this.pager.readBlockSync(blockId, true); // Get ref
         if (dirty) {
+            this._cacheBlock(blockId, dirty);
+            if (noCopy) return dirty;
             const copy = Buffer.allocUnsafe(this.BLOCK_SIZE);
             dirty.copy(copy);
-            this._cacheBlock(blockId, copy);
             return copy;
         }
 
-        const block = await this.pager.readBlock(blockId);
-        if (block) this._cacheBlock(blockId, block);
-        return block;
+        const block = await this.pager.readBlock(blockId, true); // Get ref from Pager
+        if (block) {
+            this._cacheBlock(blockId, block);
+            if (noCopy) return block;
+            const copy = Buffer.allocUnsafe(this.BLOCK_SIZE);
+            block.copy(copy);
+            return copy;
+        }
+        return null;
     }
 
     async _writeBlockSynced(blockId, buffer) {
@@ -143,43 +148,44 @@ class Allocator {
                 buffer.copy(this.activePage.buffer);
             }
             this.activePage.dirty = true;
-            this._cacheBlock(blockId, this.activePage.buffer);
             return;
         }
         
+        // B"H: Update cache immediately
         this._cacheBlock(blockId, buffer);
         await this.pager.writeBlock(blockId, buffer);
     }
 
-    async readBlockLocked(blockId) {
-        return this.executeLocked(() => this._readBlockSynced(blockId));
+    async readBlockLocked(blockId, noCopy = false) {
+        if (!this.initialized) await this.init();
+        return this._readBlockSynced(blockId, noCopy);
     }
 
     async writeBlockLocked(blockId, buffer) {
-        return this.executeLocked(() => this._writeBlockSynced(blockId, buffer));
+        if (!this.initialized) await this.init();
+        return this._writeBlockSynced(blockId, buffer);
     }
 
     async readSequentialLocked(start, count) {
-        return this.executeLocked(async () => {
-            if (count === 1) return await this._readBlockSynced(start);
-            
-            if (this.activePage.dirty && this.activePage.id >= start && this.activePage.id < start + count) {
-                await this.flush();
-            }
+        if (!this.initialized) await this.init();
+        if (count === 1) return await this._readBlockSynced(start);
+        
+        if (this.activePage.dirty && this.activePage.id >= start && this.activePage.id < start + count) {
+            await this.flush();
+        }
 
-            const buffer = await this.pager.readSequential(start, count);
-            return buffer;
-        });
+        const buffer = await this.pager.readSequential(start, count);
+        return buffer;
     }
 
     async updateSuperBlock(modifierFn) {
-        return this.executeLocked(async () => {
-            await this._saveStateInternal(modifierFn);
-        });
+        if (!this.initialized) await this.init();
+        await this._saveStateInternal(modifierFn);
     }
 
     allocate(sizeBytes) {
-        return this.executeLocked(async () => {
+        const run = async () => {
+            if (!this.initialized) await this.init();
             const effectiveSize = Math.max(1, sizeBytes); 
             const unitsNeeded = Math.ceil(effectiveSize / this.UNIT_SIZE);
             const maxUnits = Math.floor((this.BLOCK_SIZE - this.HEADER_SIZE) / this.UNIT_SIZE);
@@ -188,13 +194,15 @@ class Allocator {
                 return await this.modes.allocateSmall(unitsNeeded, sizeBytes);
             }
             return await this.modes.allocateLarge(unitsNeeded, sizeBytes);
-        });
+        };
+        return run();
     }
 
     writeUserSpace(ptr, data) {
         if (ptr.isChain) throw new Error("B\"H: writeUserSpace only supports single-block shared writes.");
 
-        return this.executeLocked(async () => {
+        const run = async () => {
+            if (!this.initialized) await this.init();
             let block;
             
             if (this.activePage.id === ptr.blockId && this.activePage.buffer) {
@@ -229,13 +237,15 @@ class Allocator {
             if (this.activePage.id !== ptr.blockId) {
                 await this._writeBlockSynced(ptr.blockId, block);
             }
-        });
+        };
+        return run();
     }
 
     async free(ptr) {
          if (!ptr || ptr.length === 0) return;
 
-         return this.executeLocked(async () => {
+         const run = async () => {
+             if (!this.initialized) await this.init();
              if (ptr.isChain) {
                  const availablePerBlock = this.BLOCK_SIZE - this.HEADER_SIZE;
                  const blocksUsed = Math.ceil(ptr.length / availablePerBlock);
@@ -289,7 +299,8 @@ class Allocator {
                      }
                  }
              }
-         });
+         };
+         return run();
     }
 
     formatBlock(type) {

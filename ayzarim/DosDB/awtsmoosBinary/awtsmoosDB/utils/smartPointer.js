@@ -1,4 +1,3 @@
-
 // B"H
 const constants = require('../constants.js');
 const { writePointer48, readPointer48 } = require('./binaryHelpers.js');
@@ -19,7 +18,6 @@ class SmartPointer {
             if (payloadBuffer.length > 15) throw new Error("B\"H: Pointer Payload exceeds 15 bytes");
             payloadBuffer.copy(buf, 1);
             // Zero fill remaining bytes if any? 
-            // Usually not strictly needed if we decode by mode, but safer to zero remaining
             if(payloadBuffer.length < 15) {
                 buf.fill(0, 1 + payloadBuffer.length);
             }
@@ -37,6 +35,30 @@ class SmartPointer {
             type: header & 0x3F,
             payload: buf.subarray(1)
         };
+    }
+
+    // B"H: Fast Accessors (Zero Allocation)
+    static getMode(buf) { return (buf[0] >> 6) & 0x03; }
+    static getType(buf) { return buf[0] & 0x3F; }
+    
+    static getBlockId(buf) {
+        // Payload starts at 1. BlockID is first 6 bytes of payload (indices 1..6)
+        return readPointer48(buf, 1);
+    }
+    
+    static getLength(buf) {
+        // Payload start at 1. Length is at offset 6 in payload (index 7 in buf)
+        return buf.readUInt32BE(7);
+    }
+    
+    static getOffset(buf) {
+        // Payload start at 1. Offset is at offset 10 in payload (index 11 in buf)
+        return buf.readUInt32BE(11);
+    }
+    
+    static isChain(buf) {
+        // Payload start at 1. Chain flag is at offset 14 in payload (index 15 in buf)
+        return buf[15] === 1;
     }
 
     static inline(type, dataBuffer) {
@@ -78,7 +100,8 @@ class SmartPointer {
             if (length > firstBlockCap) {
                 raw = await allocator.v1.db._readChainSafe({ blockId, offset, length, isChain: true });
             } else {
-                const block = await allocator.readBlock(blockId);
+                // B"H: Use no-copy read since we slice immediately or use subarray
+                const block = await allocator.readBlock(blockId, true); 
                 if (!block) return null;
                 if (offset + length > block.length) {
                      raw = await allocator.v1.db._readChainSafe({ blockId, offset, length, isChain: false });
@@ -165,11 +188,11 @@ class SmartPointer {
             }
 
             const Dictionary = require('../structure/dictionary/index.js');
-            const dictRes = SmartPointer.decode(dictPtr);
-            const dictBlockId = readPointer48(dictRes.payload, 0);
-            const dictOffset = dictRes.payload.readUInt32BE(10);
-            const dictLength = dictRes.payload.readUInt32BE(6);
-            const dictIsChain = dictRes.payload.readUInt8(14) === 1;
+            // Decode ptr for dictionary manually to avoid circular ref issues or extra alloc
+            const dictBlockId = SmartPointer.getBlockId(dictPtr);
+            const dictLength = SmartPointer.getLength(dictPtr);
+            const dictOffset = SmartPointer.getOffset(dictPtr);
+            const dictIsChain = SmartPointer.isChain(dictPtr);
             
             const dict = new Dictionary(allocator, { blockId: dictBlockId, offset: dictOffset, length: dictLength, isChain: dictIsChain });
             
