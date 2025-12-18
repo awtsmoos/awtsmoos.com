@@ -56,6 +56,7 @@
             'merkava-debugger.js',
             // SDK Split Modules (New)
             'merkava-sdk/utils.js',
+            'merkava-sdk/worker-bootstrap.js', // B"H - New Bootstrap Module
             'merkava-sdk/worker-proxy.js',
             'merkava-sdk/core.js' 
         ],

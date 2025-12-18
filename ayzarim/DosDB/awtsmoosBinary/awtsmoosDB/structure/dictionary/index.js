@@ -1,4 +1,6 @@
 
+
+
 // B"H
 const constants = require('../../constants.js');
 const SmartPointer = require('../../utils/smartPointer.js');
@@ -103,6 +105,12 @@ class DictionaryEngine {
 
     async set(key, value, options = {}) {
         await this._init(); 
+        
+        // B"H: Robust Check
+        if (!this.map || !this.seq) {
+            throw new Error(`B"H: DictionaryEngine at B${this.ptr ? this.ptr.blockId : 'null'} failed to initialize internal structures.`);
+        }
+
         const existing = await this.map.get(key);
         
         const isPtr = (options === true) || (options && options.isPtr);
@@ -137,16 +145,19 @@ class DictionaryEngine {
 
     async get(key, context) {
         await this._init();
+        if(!this.map) return undefined;
         return this.map.get(key, context);
     }
 
     async getPtr(key) {
         await this._init();
+        if(!this.map) return undefined;
         return this.map.getPtr(key);
     }
 
     async delete(key) {
         await this._init();
+        if(!this.map) return false;
         const existing = await this.map.get(key);
         if (existing === undefined) return false;
         
@@ -174,18 +185,21 @@ class DictionaryEngine {
 
     async* keys() {
         await this._init();
+        if(!this.seq) return;
         const len = await this.seq.length();
         for(let i=0; i<len; i++) yield await this.seq.get(i);
     }
 
     async* values() {
         await this._init();
+        if(!this.seq) return;
         const len = await this.seq.length();
         for(let i=0; i<len; i++) yield await this.map.get(await this.seq.get(i));
     }
 
     async* entries() {
         await this._init();
+        if(!this.seq) return;
         const len = await this.seq.length();
         for(let i=0; i<len; i++) {
             const k = await this.seq.get(i);

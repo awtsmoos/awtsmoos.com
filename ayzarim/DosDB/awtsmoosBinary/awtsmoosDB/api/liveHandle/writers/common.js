@@ -1,4 +1,6 @@
 
+
+
 // B"H
 const constants = require('../../../constants.js');
 const SmartPointer = require('../../../utils/smartPointer.js');
@@ -18,7 +20,30 @@ class WriterCommon {
 
     async resolveStructPtr() {
         if (this.handle.ptr) {
-            return await SmartPointer.resolve(this.handle.ptr, this.db.allocator);
+            // B"H: FIX - Do NOT fully resolve. We need the pointer metadata, not the JS object.
+            const decoded = SmartPointer.decode(this.handle.ptr);
+            if (!decoded) return null;
+
+            if (decoded.mode === constants.MODE_BLOCK) {
+                return {
+                    blockId: readPointer48(decoded.payload, 0),
+                    length: decoded.payload.readUInt32BE(6),
+                    offset: decoded.payload.readUInt32BE(10),
+                    isChain: decoded.payload.readUInt8(14) === 1
+                };
+            }
+            
+            if (decoded.mode === constants.MODE_HEAP) {
+                return {
+                    blockId: readPointer48(decoded.payload, 0),
+                    offset: decoded.payload.readUInt32BE(6),
+                    length: decoded.payload.readUInt32BE(10),
+                    isChain: false,
+                    isHeap: true
+                };
+            }
+            
+            return null; // Inline pointers don't have block structs
         } else if (this.handle === this.db.root && this.db.rootPtrRaw) {
              const decoded = SmartPointer.decode(this.db.rootPtrRaw);
              return {

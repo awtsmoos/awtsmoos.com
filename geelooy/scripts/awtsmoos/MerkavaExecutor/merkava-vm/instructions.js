@@ -8,7 +8,7 @@
 
             switch (op) {
                 case 0x00: break; // NOP
-                case 0x0a: break; // B"H - Crumple Zone: Treat 0x0a as NOP if it leaks into instruction stream
+                case 0x0a: break; // B"H - Crumple Zone
                 case 0x01: return 'HALT';
 
                 // --- STACK ---
@@ -70,16 +70,11 @@
                 }
                 
                 case 0x23: { // STORE_GLOBAL
-                    // B"H - ABSOLUTE PRIORITY: Read Operand Index
-                    const idx = thread.read16(); // IP += 2
-                    
-                    // B"H - Execute Store Logic
+                    const idx = thread.read16();
                     const val = thread.pop();
-                    
                     if (idx >= 0 && idx < thread.constants.length) {
                         const name = thread.constants[idx];
                         let stored = false;
-                        
                         if (thread.withStack && thread.withStack.length > 0) {
                             for (let i = thread.withStack.length - 1; i >= 0; i--) {
                                 const scopeObj = thread.withStack[i];
@@ -90,7 +85,6 @@
                                 }
                             }
                         }
-                        
                         if (!stored) {
                             if (thread.environment) thread.environment[name] = val;
                             else vm.memory.setGlobal(name, val);
@@ -100,7 +94,7 @@
                 }
                 
                 case 0x20: thread.push(thread.currentScope[thread.read8()]); break; // LOAD_LOCAL
-                case 0x21: { // STORE_LOCAL
+                case 0x21: { 
                     if(!thread.currentScope) thread.currentScope={}; 
                     const idx = thread.read8();
                     const val = thread.pop();
@@ -249,6 +243,7 @@
                 case 0x70: { // CLOSURE
                     const code = thread.constants[thread.read16()];
                     const flags = thread.read8(); 
+                    
                     const closure = { 
                         type: 'CLOSURE', 
                         code, 
@@ -256,8 +251,27 @@
                         isGenerator: !!(flags & 2),
                         isArrow: !!(flags & 4),
                         upvalues: thread.currentScope,
-                        environment: thread.environment 
+                        environment: thread.environment,
+                        prototype: {} // B"H - Initial Prototype for Classes/Constructors
                     };
+                    
+                    // B"H - Attach 'bind' method for ES5 Compatibility (e.g., this.loop.bind(this))
+                    // When called, this returns a new Closure Struct with boundThis.
+                    closure.bind = function(thisArg, ...boundArgs) {
+                        return {
+                             type: 'CLOSURE',
+                             code: closure.code,
+                             isAsync: closure.isAsync,
+                             isGenerator: closure.isGenerator,
+                             isArrow: closure.isArrow,
+                             upvalues: closure.upvalues,
+                             environment: closure.environment,
+                             prototype: closure.prototype,
+                             boundThis: thisArg,
+                             boundArgs: boundArgs
+                        };
+                    };
+                    
                     thread.push(closure);
                     break;
                 }
@@ -271,28 +285,90 @@
                     if (ctx === undefined || ctx === null) ctx = thread.environment; 
 
                     if (callee && callee.type === 'CLOSURE') {
+                        // B"H - Handle Bound Arguments
+                        const finalArgs = (callee.boundArgs || []).concat(args);
+                        
                         thread.frames.push({
                             ip: thread.ip, bytecode: thread.bytecode,
                             constants: thread.constants, scope: thread.currentScope,
                             upvalues: thread.currentUpvalues, 
                             stackSize: thread.stack.length,
-                            environment: thread.environment
+                            environment: thread.environment,
+                            isConstructor: false 
                         });
                         thread.bytecode = callee.code.bytecode;
                         thread.constants = callee.code.constants;
                         thread.ip = 0;
-                        const scopeThis = callee.isArrow ? (callee.upvalues ? callee.upvalues['this'] : undefined) : ctx;
-                        thread.currentScope = { 'this': scopeThis, 'arguments': args };
+                        
+                        // B"H - Resolve 'this'
+                        const scopeThis = callee.isArrow 
+                            ? (callee.upvalues ? callee.upvalues['this'] : undefined) 
+                            : (callee.boundThis !== undefined ? callee.boundThis : ctx);
+                            
+                        thread.currentScope = { 'this': scopeThis, 'arguments': finalArgs };
                         thread.currentUpvalues = callee.upvalues;
                         thread.environment = callee.environment || thread.environment;
-                        args.forEach((a, i) => thread.currentScope[i] = a);
+                        finalArgs.forEach((a, i) => thread.currentScope[i] = a);
+                        
                     } else if (typeof callee === 'function') {
+                        // B"H - Auto-Bridge Closures for Native Calls
+                        // This allows passing VM Functions to Native APIs (like addEventListener, forEach, then)
+                        // without manual bridging overrides.
+                        const bridgedArgs = args.map(arg => {
+                            if (arg && arg.type === 'CLOSURE') {
+                                return (...innerArgs) => {
+                                    // B"H - Spawn Thread on Current VM
+                                    const t = vm.spawn(arg.code);
+                                    t.currentUpvalues = arg.upvalues;
+                                    t.environment = arg.environment || t.environment;
+                                    
+                                    // Handle 'this' and args
+                                    // For event listeners, 'this' is usually the target element.
+                                    // For callbacks, it depends.
+                                    // We respect boundThis if present, otherwise use call-site 'this' (implicit in native call? No, we can't easily get native caller 'this' here)
+                                    // Actually, in an arrow function (bridged), 'this' is from the native caller.
+                                    // But we can't easily capture that 'this' in a simple wrapper unless we use 'function() { ... }'
+                                    
+                                    // Let's use standard function to capture 'this'
+                                    // Wait, we are inside an arrow map, so 'this' is lexical.
+                                    // We need to construct the function properly.
+                                };
+                            }
+                            return arg;
+                        });
+
+                        // Re-do mapping with proper function declaration to capture 'this'
+                        for(let i=0; i<args.length; i++) {
+                            const arg = args[i];
+                            if (arg && arg.type === 'CLOSURE') {
+                                args[i] = function(...innerArgs) {
+                                    // 'this' here is the Native Context (e.g. the Element)
+                                    const nativeThis = this; 
+                                    const t = vm.spawn(arg.code);
+                                    t.currentUpvalues = arg.upvalues;
+                                    t.environment = arg.environment || t.environment;
+
+                                    const ctx = arg.boundThis !== undefined ? arg.boundThis : nativeThis;
+                                    const finalInnerArgs = (arg.boundArgs || []).concat(innerArgs);
+                                    
+                                    t.currentScope = { 
+                                        'this': ctx, 
+                                        'arguments': finalInnerArgs 
+                                    };
+                                    finalInnerArgs.forEach((a, i) => t.currentScope[i] = a);
+
+                                    if (vm.wake) vm.wake();
+                                };
+                            }
+                        }
+
                         try {
                             const result = callee.apply(ctx, args);
                             thread.push(result);
                         } catch(e) { throw e; }
                     } else {
-                        thread.push(undefined);
+                        // B"H - Improved Error Handling
+                        throw new TypeError(`[VM] Call Error: Callee is not a function (got ${typeof callee})`);
                     }
                     break;
                 }
@@ -302,10 +378,35 @@
                     const args = [];
                     for(let i=0; i<count; i++) args.unshift(thread.pop());
                     const callee = thread.pop();
-                    if (typeof callee === 'function') {
+                    
+                    if (callee && callee.type === 'CLOSURE') {
+                         // B"H - NEW CLOSURE LOGIC
+                         // 1. Create Instance linked to Prototype
+                         const proto = callee.prototype || {};
+                         const instance = Object.create(proto);
+                         
+                         // 2. Invoke as Constructor
+                        thread.frames.push({
+                            ip: thread.ip, bytecode: thread.bytecode,
+                            constants: thread.constants, scope: thread.currentScope,
+                            upvalues: thread.currentUpvalues, 
+                            stackSize: thread.stack.length,
+                            environment: thread.environment,
+                            isConstructor: true, 
+                            constructingInstance: instance
+                        });
+                        thread.bytecode = callee.code.bytecode;
+                        thread.constants = callee.code.constants;
+                        thread.ip = 0;
+                        thread.currentScope = { 'this': instance, 'arguments': args };
+                        thread.currentUpvalues = callee.upvalues;
+                        thread.environment = callee.environment || thread.environment;
+                        args.forEach((a, i) => thread.currentScope[i] = a);
+
+                    } else if (typeof callee === 'function') {
                         thread.push(new callee(...args));
                     } else {
-                        throw new TypeError(`[VM] New Error: Not a constructor`);
+                        throw new TypeError(`[VM] New Error: Not a constructor (${typeof callee})`);
                     }
                     break;
                 }
@@ -314,9 +415,8 @@
                     const codeConstIdx = thread.read16();
                     const superClass = thread.pop();
                     const classBodyCode = thread.constants[codeConstIdx];
-                    const TheClass = function(...args) {
-                         // Simplified Constructor for Stability
-                    };
+                    console.warn("[VM] MAKE_CLASS: Classes are not fully JIT-supported. Use 'function' syntax.");
+                    const TheClass = function(...args) { };
                     thread.push(TheClass);
                     break;
                 }
@@ -331,8 +431,19 @@
                         thread.currentScope = frame.scope;
                         thread.currentUpvalues = frame.upvalues;
                         thread.environment = frame.environment;
+                        
+                        // B"H - Constructor Return Logic
+                        let actualRet = retVal;
+                        if (frame.isConstructor) {
+                             if (retVal && (typeof retVal === 'object' || typeof retVal === 'function')) {
+                                 actualRet = retVal;
+                             } else {
+                                 actualRet = frame.constructingInstance || frame.scope['this'];
+                             }
+                        }
+                        
                         while (thread.stack.length > frame.stackSize) thread.stack.pop();
-                        thread.push(retVal);
+                        thread.push(actualRet);
                     } else {
                         thread.push(retVal);
                         thread.status = 'COMPLETED';
@@ -345,6 +456,11 @@
                     const promise = thread.pop();
                     if (promise && typeof promise.then === 'function') {
                         thread.status = 'AWAITING';
+                        // B"H - Bridging handled by CALL opcode now (or manual bridge for direct access)
+                        // If we are passing the thread.wake via bridge, it's safer.
+                        // However, 'then' might be native promise then.
+                        // Let's rely on standard promise behavior.
+                        
                         promise.then(
                             val => { thread.push(val); thread.status = 'RUNNING'; if(vm.wake) vm.wake(); },
                             err => { console.error("[VM] Await Error:", err); thread.push(undefined); thread.status = 'RUNNING'; if(vm.wake) vm.wake(); }

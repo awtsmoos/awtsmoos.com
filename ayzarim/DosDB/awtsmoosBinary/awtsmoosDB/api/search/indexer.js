@@ -1,4 +1,6 @@
 
+
+
 // B"H
 const SmartPointer = require('../../utils/smartPointer.js');
 const Sequence = require('../../structure/sequence/index.js');
@@ -10,12 +12,15 @@ class SearchIndexer {
     constructor(db, sysIndex) {
         this.db = db;
         this.sysIndex = sysIndex;
-        // B"H: Path-Aware Buffer
-        // Map<Path, Map<Token, { adds: Set<Hex>, removes: Set<Hex>, ... }>>
-        this.buffers = new Map();
+        // B"H: Double-Buffering
+        // activeBuffers accumulates new ops.
+        this.activeBuffers = new Map();
+        
         this.BUFFER_LIMIT = 5000; 
         this.opsCount = 0;
-        this.isFlushing = false;
+        
+        // Serialize flushes
+        this._flushQueue = Promise.resolve();
     }
 
     async updateIndex(path, newPtr, oldPtr, oldVal, newVal) {
@@ -38,8 +43,9 @@ class SearchIndexer {
             if (newTokens.size > 0 && newPtr) this._bufferOp(path, 'add', [...newTokens], newPtr);
         }
 
-        if (this.opsCount >= this.BUFFER_LIMIT && !this.isFlushing) {
-            await this.flush();
+        if (this.opsCount >= this.BUFFER_LIMIT) {
+            // Fire and forget flush (chained internally)
+            this.flush().catch(e => console.error("B\"H Auto-Flush Error:", e));
         }
     }
 
@@ -47,10 +53,10 @@ class SearchIndexer {
         if (!tokens || tokens.length === 0) return;
         const ptrHex = ptr.toString('hex');
 
-        if (!this.buffers.has(path)) {
-            this.buffers.set(path, new Map());
+        if (!this.activeBuffers.has(path)) {
+            this.activeBuffers.set(path, new Map());
         }
-        const pathBuffer = this.buffers.get(path);
+        const pathBuffer = this.activeBuffers.get(path);
 
         for (const token of tokens) {
             if (!pathBuffer.has(token)) {
@@ -85,62 +91,74 @@ class SearchIndexer {
     }
 
     async flush() {
-        if (this.opsCount === 0 || this.isFlushing) return;
-        this.isFlushing = true;
-        
-        if (this.db.debug) console.log(`B"H Indexer: Flushing ${this.opsCount} ops across ${this.buffers.size} paths...`);
+        // Return the promise so callers (waitForIdle) can await it
+        const flushTask = (async () => {
+            if (this.activeBuffers.size === 0) return;
 
-        try {
-            const rootHandle = this.sysIndex[constants.SYMBOLS.INTERNALS] || this.sysIndex;
-            await rootHandle.ensureResolved();
+            // B"H: Atomic Swap
+            const buffersToProcess = this.activeBuffers;
+            this.activeBuffers = new Map();
+            this.opsCount = 0;
 
-            for (const [path, tokenMap] of this.buffers) {
-                let indexHandle = await this._getPathIndexHandle(rootHandle, path);
-                
-                if (!indexHandle) {
-                    if (this.db.debug) console.warn(`B"H Indexer: Failed to resolve index handle for path ${path}`);
-                    continue;
-                }
+            if (this.db.debug) console.log(`B"H Indexer: Flushing batch across ${buffersToProcess.size} paths...`);
 
-                const sortedTokens = Array.from(tokenMap.keys()).sort();
-                
-                for (const word of sortedTokens) {
-                    const entry = tokenMap.get(word);
-                    const adds = Object.values(entry.rawAddPtrs);
-                    const removes = Object.values(entry.rawRemovePtrs);
+            // B"H: CRITICAL OPTIMIZATION - Wrap entire flush in a BATCH to prevent fsync on every token update.
+            await this.db.batch(async () => {
+                try {
+                    const rootHandle = this.sysIndex[constants.SYMBOLS.INTERNALS] || this.sysIndex;
+                    await rootHandle.ensureResolved();
 
-                    if (adds.length === 0 && removes.length === 0) continue;
+                    for (const [path, tokenMap] of buffersToProcess) {
+                        let indexHandle = await this._getPathIndexHandle(rootHandle, path);
+                        
+                        if (!indexHandle) {
+                            if (this.db.debug) console.warn(`B"H Indexer: Failed to resolve index handle for path ${path}`);
+                            continue;
+                        }
 
-                    try {
-                        await indexHandle.ensureResolved();
-                        const resolved = await indexHandle.nav.resolveKey(word);
+                        const sortedTokens = Array.from(tokenMap.keys()).sort();
+                        
+                        for (const word of sortedTokens) {
+                            const entry = tokenMap.get(word);
+                            const adds = Object.values(entry.rawAddPtrs);
+                            const removes = Object.values(entry.rawRemovePtrs);
 
-                        if (resolved && resolved.ptr) {
-                            if (removes.length > 0) {
-                                await this._batchRemove(indexHandle, resolved, removes, word);
-                                await indexHandle.ensureResolved(); 
-                            }
-                            if (adds.length > 0) {
-                                const resolvedAfter = await indexHandle.nav.resolveKey(word);
-                                if (resolvedAfter && resolvedAfter.ptr) {
-                                    await this._batchAdd(indexHandle, resolvedAfter, adds, word);
-                                } else {
+                            if (adds.length === 0 && removes.length === 0) continue;
+
+                            try {
+                                await indexHandle.ensureResolved();
+                                const resolved = await indexHandle.nav.resolveKey(word);
+
+                                if (resolved && resolved.ptr) {
+                                    if (removes.length > 0) {
+                                        await this._batchRemove(indexHandle, resolved, removes, word);
+                                        await indexHandle.ensureResolved(); 
+                                    }
+                                    if (adds.length > 0) {
+                                        const resolvedAfter = await indexHandle.nav.resolveKey(word);
+                                        if (resolvedAfter && resolvedAfter.ptr) {
+                                            await this._batchAdd(indexHandle, resolvedAfter, adds, word);
+                                        } else {
+                                            await this._createNewList(indexHandle, word, adds);
+                                        }
+                                    }
+                                } else if (adds.length > 0) {
                                     await this._createNewList(indexHandle, word, adds);
                                 }
+                            } catch(e) {
+                                console.error(`B"H Indexer Flush Error [${path} -> ${word}]:`, e);
                             }
-                        } else if (adds.length > 0) {
-                            await this._createNewList(indexHandle, word, adds);
                         }
-                    } catch(e) {
-                        console.error(`B"H Indexer Flush Error [${path} -> ${word}]:`, e);
                     }
+                } catch(err) {
+                    console.error("B\"H Indexer Fatal Flush Error:", err);
                 }
-            }
-        } finally {
-            this.buffers.clear();
-            this.opsCount = 0;
-            this.isFlushing = false;
-        }
+            });
+        })();
+
+        // Chain it
+        this._flushQueue = this._flushQueue.then(() => flushTask);
+        return this._flushQueue;
     }
 
     async _getPathIndexHandle(rootHandle, path) {
@@ -161,8 +179,6 @@ class SearchIndexer {
         const listWriter = listHandle[constants.SYMBOLS.INTERNALS].writer;
         const len = await listHandle.length;
         
-        // B"H: FIX - Pass _isAwtsmoosOptions. Also ensure splice works for appending.
-        // splice(len, 0, ...) is standard append.
         await listWriter.splice(len, 0, ...ptrs, { isPtr: true, _isAwtsmoosOptions: true });
     }
 
@@ -220,7 +236,6 @@ class SearchIndexer {
                 if (Array.isArray(curr)) {
                     for (let i = curr.length - 1; i >= 0; i--) stack.push(curr[i]);
                 } else {
-                    // B"H: Handle wrapped items (e.g. from tests) where props might be hidden or specific
                     const keys = Object.keys(curr);
                     for (let i = keys.length - 1; i >= 0; i--) stack.push(curr[keys[i]]);
                 }

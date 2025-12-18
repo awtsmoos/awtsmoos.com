@@ -1,4 +1,8 @@
 
+
+
+
+
 // B"H
 const constants = require('../../constants.js');
 const BitmapManager = require('./bitmap.js');
@@ -19,8 +23,8 @@ class Allocator {
         this.freeBlocks = []; 
         
         this.blockCache = new Map();
-        // B"H: Tuning - 2000 Blocks * 4KB = ~8MB. Leaves 2MB for overhead/indexes.
-        this.MAX_CACHE_SIZE = 2000; 
+        // B"H: Tuning - 500 Blocks * 4KB = ~2MB. 
+        this.MAX_CACHE_SIZE = 500; 
         
         this.UNIT_SIZE = constants.UNIT_SIZE || 32;
         this.BLOCK_SIZE = constants.BLOCK_SIZE || 4096;

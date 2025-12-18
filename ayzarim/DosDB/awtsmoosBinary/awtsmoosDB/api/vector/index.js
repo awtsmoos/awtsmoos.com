@@ -1,4 +1,6 @@
 
+
+
 // B"H
 const HNSW = require('./hnsw.js');
 const VectorStorage = require('./storage.js');
@@ -11,6 +13,11 @@ class VectorManager {
     constructor(db) {
         this.db = db;
         this.indexes = new Map(); 
+        
+        // B"H: Batch Buffering
+        // Map<Path, Array<{key, vector, payload}>>
+        this._insertBuffer = new Map();
+        this._deleteBuffer = new Map();
     }
 
     async _ensureSysVector() {
@@ -97,26 +104,10 @@ class VectorManager {
 
         const hnsw = new HNSW(this.db, registryHandle, mapHandle, meta);
         
-        const originalInsert = hnsw.insert.bind(hnsw);
-        hnsw.insert = async (key, vec, payload) => {
-            const oldEntryID = hnsw.meta.entryNodeID;
-            const res = await originalInsert(key, vec, payload);
-            if (oldEntryID !== hnsw.meta.entryNodeID) {
-                meta.entryNodeID = hnsw.meta.entryNodeID;
-                await sysVector.set(path, meta);
-            }
-            return res;
-        };
-
-        const originalDelete = hnsw.delete.bind(hnsw);
-        hnsw.delete = async (key) => {
-            const oldEntryID = hnsw.meta.entryNodeID;
-            await originalDelete(key);
-            if (oldEntryID !== hnsw.meta.entryNodeID) {
-                if (this.db.debug) console.log(`B"H VectorManager: Persisting new Entry Node ID: ${hnsw.meta.entryNodeID}`);
-                meta.entryNodeID = hnsw.meta.entryNodeID;
-                await sysVector.set(path, meta);
-            }
+        // Hook for persisting entry point changes
+        hnsw.onEntryPointChanged = async (newID) => {
+             meta.entryNodeID = newID;
+             await sysVector.set(path, meta);
         };
 
         this.indexes.set(path, hnsw);
@@ -124,29 +115,56 @@ class VectorManager {
     }
 
     async insert(path, key, vector, payload) {
-        this.db._pendingIndexOps.push(async () => {
-            try {
-                const index = await this.getIndex(path);
-                if (!index) return;
-                let vec = vector;
-                if (Array.isArray(vector)) vec = new Float32Array(vector);
-                await index.insert(key, vec, payload);
-            } catch(e) {
-                console.error("B\"H Background Vector Insert Failed:", e);
-            }
-        });
+        // B"H: Optimized Buffering
+        if (!this._insertBuffer.has(path)) {
+            this._insertBuffer.set(path, []);
+            // Schedule flush only once per batch
+            this.db._pendingIndexOps.push(() => this._flushInserts(path));
+        }
+        
+        let vec = vector;
+        if (Array.isArray(vector)) vec = new Float32Array(vector);
+        
+        this._insertBuffer.get(path).push({ key, vector: vec, payload });
+    }
+    
+    async _flushInserts(path) {
+        const items = this._insertBuffer.get(path);
+        if (!items || items.length === 0) return;
+        
+        // Clear buffer ref immediately so new ops start a new batch if needed
+        this._insertBuffer.delete(path);
+        
+        try {
+            const index = await this.getIndex(path);
+            if (!index) return;
+            
+            await index.insertBatch(items);
+        } catch(e) {
+            console.error(`B"H Vector Flush Failed for ${path}:`, e);
+        }
     }
 
     async delete(path, key) {
-        this.db._pendingIndexOps.push(async () => {
-            try {
-                const index = await this.getIndex(path);
-                if (!index) return;
-                await index.delete(key);
-            } catch(e) {
-                console.error("B\"H Background Vector Delete Failed:", e);
-            }
-        });
+        if (!this._deleteBuffer.has(path)) {
+            this._deleteBuffer.set(path, []);
+            this.db._pendingIndexOps.push(() => this._flushDeletes(path));
+        }
+        this._deleteBuffer.get(path).push(key);
+    }
+    
+    async _flushDeletes(path) {
+        const keys = this._deleteBuffer.get(path);
+        if (!keys || keys.length === 0) return;
+        this._deleteBuffer.delete(path);
+        
+        try {
+            const index = await this.getIndex(path);
+            if (!index) return;
+            for(const k of keys) await index.delete(k);
+        } catch(e) {
+            console.error(`B"H Vector Delete Flush Failed for ${path}:`, e);
+        }
     }
 
     async nearest(handle, queryVector, k = 5) {
@@ -229,6 +247,10 @@ class VectorManager {
         }
 
         let count = 0;
+        // Batch reindexing as well
+        const BATCH_SIZE = 100;
+        let batch = [];
+
         for await (const item of iterator) {
             const ptr = item.ptr;
             let value = item.value;
@@ -253,10 +275,17 @@ class VectorManager {
                 let v = vec;
                 if(Array.isArray(v)) v = new Float32Array(v);
                 
-                await index.insert(keyStr, v, stablePtr);
+                batch.push({ key: keyStr, vector: v, payload: stablePtr });
+                
+                if (batch.length >= BATCH_SIZE) {
+                    await index.insertBatch(batch);
+                    batch = [];
+                }
             }
             count++;
         }
+        
+        if (batch.length > 0) await index.insertBatch(batch);
         
         await index.flushCache();
     }

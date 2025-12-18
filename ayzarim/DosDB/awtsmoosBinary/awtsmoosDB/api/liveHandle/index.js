@@ -1,4 +1,6 @@
 
+
+
 // B"H
 const Navigator = require('./navigator.js');
 const Writer = require('./writer.js');
@@ -235,11 +237,18 @@ class LiveHandleV2 {
     async ensureResolved(force = false) {
         if (this.isUpdatingPointer) return;
 
+        // B"H: Optimization - Check without lock first
+        // If we are already resolved and no mutation happened in DB, skip lock overhead.
+        const gc = this.db.mutationCount || 0;
+        if (!force && this.lastMutationCount === gc && this.ptr) {
+            return;
+        }
+
         return this.db.read(async () => {
-            const gc = this.db.mutationCount || 0;
+            const gcLock = this.db.mutationCount || 0;
             
-            // B"H: Optimization
-            if (!force && this.lastMutationCount === gc && this.ptr) {
+            // Double-check inside lock
+            if (!force && this.lastMutationCount === gcLock && this.ptr) {
                 return;
             }
 
@@ -267,7 +276,7 @@ class LiveHandleV2 {
                         this.writer.common.invalidateEngine();
                     }
                 }
-                this.lastMutationCount = gc;
+                this.lastMutationCount = gcLock;
                 return;
             }
 
@@ -288,7 +297,7 @@ class LiveHandleV2 {
                     this.type = null; 
                 }
             }
-            this.lastMutationCount = gc;
+            this.lastMutationCount = gcLock;
         });
     }
 

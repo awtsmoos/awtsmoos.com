@@ -90,38 +90,30 @@
             const overrides = {};
             
             // B"H - VM Reference Holder
-            // This allows the context to reference the VM instance which is created *after* the context.
             const vmRef = { current: null };
 
             // B"H - Closure Bridge
-            // Converts a VM Closure object into a Native JS Function.
-            // This is crucial for requestAnimationFrame, setTimeout, etc.
             const bridge = (callback) => {
                 if (callback && callback.type === 'CLOSURE') {
                     return (...args) => {
                         const vm = vmRef.current;
                         if (!vm) return;
-                        
-                        // Spawn a new thread for the callback
                         const thread = vm.spawn(callback.code);
-                        
-                        // Restore Lexical Scope (Upvalues) from the Closure
                         thread.currentUpvalues = callback.upvalues;
                         thread.environment = callback.environment || thread.environment;
                         
-                        // Map Native Arguments to VM Scope (0, 1, 2...)
-                        // e.g., timestamp for RAF
+                        // B"H - Handle Bound Closures (this.loop.bind(this))
+                        const ctx = callback.boundThis !== undefined ? callback.boundThis : baseContext;
+                        const finalArgs = (callback.boundArgs || []).concat(args);
+
                         thread.currentScope = { 
-                            'this': baseContext, 
-                            'arguments': args 
+                            'this': ctx, 
+                            'arguments': finalArgs 
                         };
-                        args.forEach((arg, i) => thread.currentScope[i] = arg);
-                        
-                        // Ignite the VM Loop
+                        finalArgs.forEach((arg, i) => thread.currentScope[i] = arg);
                         if (vm.wake) vm.wake();
                     };
                 }
-                // If it's already a native function (or unknown), pass it through
                 return callback;
             };
 
@@ -130,11 +122,9 @@
             const clearers = ['cancelAnimationFrame', 'clearTimeout', 'clearInterval', 'clearImmediate'];
 
             schedulers.forEach(name => {
-                // Check both baseContext and Global Scope
                 const nativeFn = baseContext[name] || (typeof self !== 'undefined' ? self[name] : null);
                 if (typeof nativeFn === 'function') {
                     overrides[name] = (cb, ...args) => {
-                        // Call native function with BRIDGED callback
                         return nativeFn.call(baseContext, bridge(cb), ...args);
                     };
                 }
@@ -146,6 +136,95 @@
                      overrides[name] = nativeFn.bind(baseContext);
                  }
             });
+            
+            // B"H - SHADOW onmessage
+            // This is critical for Workers. By defining it here, the Proxy will
+            // write to 'overrides.onmessage' instead of 'baseContext.onmessage'.
+            // This prevents user code from overwriting the Native Worker's router.
+            overrides.onmessage = null;
+
+            // B"H - Worker Bridge
+            if (Internal.WorkerProxy) {
+                overrides.Worker = function(scriptUrl) {
+                     return new Internal.WorkerProxy(scriptUrl, vmRef.current, options);
+                };
+            }
+
+            // B"H - Polyfills
+            if (self.MerkavaVM && self.MerkavaVM.Polyfills) {
+                if (typeof SharedArrayBuffer === 'undefined') {
+                    overrides.SharedArrayBuffer = self.MerkavaVM.Polyfills.SharedArrayBuffer;
+                }
+                if (typeof Atomics === 'undefined') {
+                    overrides.Atomics = self.MerkavaVM.Polyfills.Atomics;
+                }
+            }
+
+            // B"H - ImportScripts with Virtual Execution Support
+            overrides.importScripts = async function(...urls) {
+                const vm = vmRef.current;
+                
+                for (const url of urls) {
+                    let code = null;
+
+                    // 1. Try Virtual Resolve
+                    if (options.importResolver) {
+                        try {
+                            const res = await options.importResolver(url);
+                            if (res && res.code) code = res.code;
+                            else if (typeof res === 'string') code = res;
+                        } catch(e) { /* Ignore resolve errors, fallback */ }
+                    }
+
+                    if (code) {
+                        try {
+                            // B"H - Virtual Execution
+                            if (!self.MerkavahParser || !self.MerkavaCompiler) {
+                                throw new Error("Cannot import virtual script: Parser/Compiler missing.");
+                            }
+                            
+                            // Parse
+                            const parser = new self.MerkavahParser(code);
+                            if(parser.registerExpressionParsers) parser.registerExpressionParsers();
+                            if(parser.registerStatementParsers) parser.registerStatementParsers();
+                            if(parser.registerDeclarationParsers) parser.registerDeclarationParsers();
+                            const ast = parser.parse();
+                            
+                            // Compile
+                            const compiler = new self.MerkavaCompiler.Compiler();
+                            const codeObj = compiler.compile(ast);
+                            
+                            // Spawn on CURRENT VM
+                            const thread = vm.spawn(codeObj);
+                            
+                            // B"H - CRITICAL FIX: Wake the VM Loop!
+                            // Since we added a new RUNNING thread, we must ensure the loop sees it immediately.
+                            if (vm.wake) vm.wake();
+                            
+                            // Await Completion
+                            await new Promise((resolve, reject) => {
+                                const mon = () => {
+                                    if (thread.status === 'COMPLETED') resolve();
+                                    else if (thread.status === 'CRASHED') {
+                                         const err = thread.stack.length > 0 ? thread.stack[thread.stack.length - 1] : "Imported script crashed";
+                                         reject(new Error(err));
+                                    }
+                                    else setTimeout(mon, 10);
+                                };
+                                mon();
+                            });
+                        } catch(err) {
+                            console.error(`[VM] Virtual Import Failed (${url}):`, err);
+                            throw err; // Re-throw to pause/crash the caller
+                        }
+                    } else {
+                        // 2. Native Fallback
+                        if (Internal.Utils && Internal.Utils.loadModules) {
+                            await Internal.Utils.loadModules([url]);
+                        }
+                    }
+                }
+            };
 
             // B"H - Standard Overrides
             overrides.console = baseContext.console || self.console;
@@ -159,54 +238,60 @@
                 });
             };
             
-            // Attach vmRef to overrides (non-enumerable) so run() can populate it
             Object.defineProperty(overrides, '__vmRef', { value: vmRef, enumerable: false });
 
-            // B"H - TIKKUN: Use Proxy for Context
+            // B"H - Proxy
             const context = new Proxy(overrides, {
                 get(target, prop, receiver) {
                     if (typeof prop === 'symbol') {
                         if (prop in target) return target[prop];
                         return Reflect.get(baseContext, prop);
                     }
-
                     if (prop in target) return target[prop];
-                    
                     try {
                         const val = baseContext[prop];
                         if (typeof val === 'function') {
+                            // B"H - SPECIAL CASE: onmessage
+                            // We MUST return the raw function for 'onmessage' to allow strict identity checks
+                            // in the Worker Bootstrap. If we bind it, identity checks fail, causing the
+                            // bootstrap to mistake the system router for a user handler.
+                            if (prop === 'onmessage') return val;
+
                             if (val.prototype && val.name) return val; 
                             return val.bind(baseContext);
                         }
                         return val;
-                    } catch (e) {
-                        return undefined;
-                    }
+                    } catch (e) { return undefined; }
                 },
-                has(target, prop) {
-                    return (prop in target) || (prop in baseContext);
-                },
+                has(target, prop) { return (prop in target) || (prop in baseContext); },
                 set(target, prop, value) {
-                    // Smart Set Strategy
-                    if (prop in target) {
-                        target[prop] = value;
-                        return true;
-                    }
-                    if (prop in baseContext) {
-                        baseContext[prop] = value;
-                        return true;
-                    }
-                    target[prop] = value;
-                    return true;
+                    // B"H - Fix: Always write to target (overrides) first!
+                    // If we blindly fall through to baseContext, we might overwrite native globals
+                    // like self.onmessage which breaks the VM host.
+                    if (prop in target) { target[prop] = value; return true; }
+                    
+                    // Only pass through if specifically NOT in target and EXISTS in base
+                    // AND it is NOT a critical system property we want to shadow.
+                    // But here, we initialized 'onmessage' in target, so it is caught above.
+                    
+                    if (prop in baseContext) { baseContext[prop] = value; return true; }
+                    target[prop] = value; return true;
                 },
-                ownKeys(target) {
-                    return [...Reflect.ownKeys(target), ...Reflect.ownKeys(baseContext)];
-                },
+                ownKeys(target) { return [...Reflect.ownKeys(target), ...Reflect.ownKeys(baseContext)]; },
                 getOwnPropertyDescriptor(target, prop) {
                     if (prop in target) return Object.getOwnPropertyDescriptor(target, prop);
                     return Object.getOwnPropertyDescriptor(baseContext, prop);
                 }
             });
+
+            // B"H - SELF-REFERENCE FIX
+            // We must explicitly point 'self', 'window', 'globalThis' to the PROXY.
+            // Otherwise, code like 'self.onmessage = ...' resolves 'self' to the Native Global,
+            // bypassing the Proxy and overwriting the System Router (native onmessage),
+            // while leaving the Proxy's 'overrides.onmessage' as null.
+            overrides.self = context;
+            overrides.window = context;
+            overrides.globalThis = context;
 
             return context;
         }

@@ -1,6 +1,8 @@
 
 
 
+
+
 // B"H
 const constants = require('../../constants.js');
 const SmartPointer = require('../../utils/smartPointer.js');
@@ -124,6 +126,9 @@ class SequenceEngine {
     }
 
     async getPtr(index) {
+        // B"H: FIX - Return undefined if not initialized
+        if (!this.ptr) return undefined;
+
         let currPtr = this.ptr;
         let localIndex = index;
         let depth = 0;

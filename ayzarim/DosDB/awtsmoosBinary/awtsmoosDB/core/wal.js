@@ -1,4 +1,6 @@
 
+
+
 // B"H
 const fs = require('fs').promises;
 const constants = require('../constants.js');
@@ -106,12 +108,18 @@ class WAL {
         await this.handle.close();
         
         const readHandle = await fs.open(this.path, 'r');
-        const PACKET_SIZE = 6 + constants.BLOCK_SIZE; // 4102 bytes
+        const PACKET_SIZE = 6 + constants.BLOCK_SIZE; 
         
         // B"H: Optimization - Read 4MB chunks
         const CHUNK_SIZE = 4 * 1024 * 1024; 
         const buffer = Buffer.alloc(CHUNK_SIZE);
         
+        // B"H: Recovery Cache Constraints
+        // We limit the in-memory recovery batch to 4MB to stay well under the 10MB total requirement.
+        const RECOVERY_BATCH_LIMIT = 4 * 1024 * 1024;
+        let batchSize = 0;
+        let recoveryBatch = new Map(); // BlockID -> Buffer
+
         let recoveredCount = 0;
         let position = 0;
         let leftOver = Buffer.alloc(0);
@@ -126,28 +134,88 @@ class WAL {
                 
                 while (offset + PACKET_SIZE <= chunk.length) {
                     const blockId = readPointer48(chunk, offset);
-                    // B"H: Optimization - Don't alloc new buffer if possible, or verify safety
-                    // pager.writeRaw expects a buffer.
+                    // Copy data safely
                     const data = Buffer.allocUnsafe(constants.BLOCK_SIZE);
                     chunk.copy(data, 0, offset + 6, offset + 6 + constants.BLOCK_SIZE);
 
-                    await pager.writeRaw(blockId, data);
-                    offset += PACKET_SIZE;
+                    // Add to Batch
+                    if (!recoveryBatch.has(blockId)) {
+                        batchSize += constants.BLOCK_SIZE;
+                    }
+                    recoveryBatch.set(blockId, data);
                     recoveredCount++;
+                    
+                    // Flush if batch full
+                    if (batchSize >= RECOVERY_BATCH_LIMIT) {
+                        await this._flushRecoveryBatch(pager, recoveryBatch);
+                        recoveryBatch.clear();
+                        batchSize = 0;
+                    }
+
+                    offset += PACKET_SIZE;
                 }
                 
-                // Save leftover bytes for next chunk
+                // Save leftover bytes
                 leftOver = chunk.subarray(offset);
                 position += bytesRead;
             }
+            
+            // Final Flush
+            if (recoveryBatch.size > 0) {
+                await this._flushRecoveryBatch(pager, recoveryBatch);
+            }
+
         } finally {
             await readHandle.close();
         }
 
-        console.log(`B\"H: Recovery Complete. Restored ${recoveredCount} blocks.`);
+        console.log(`B\"H: Recovery Complete. Restored ${recoveredCount} blocks (Optimized).`);
         this.handle = await fs.open(this.path, 'r+');
         this.currentOffset = 0; 
         await this.clear();
+    }
+    
+    // B"H: New Helper for Coalesced Writes
+    async _flushRecoveryBatch(pager, batchMap) {
+        if (batchMap.size === 0) return;
+        
+        // 1. Sort by Block ID to enable sequential writes
+        const sortedIds = Array.from(batchMap.keys()).sort((a, b) => a - b);
+        
+        let startBlock = sortedIds[0];
+        let currentRun = [batchMap.get(startBlock)];
+        
+        for (let i = 1; i < sortedIds.length; i++) {
+            const id = sortedIds[i];
+            const prev = sortedIds[i-1];
+            
+            if (id === prev + 1) {
+                // Contiguous: Add to run
+                currentRun.push(batchMap.get(id));
+            } else {
+                // Gap: Write current run and start new
+                await this._writeRun(pager, startBlock, currentRun);
+                startBlock = id;
+                currentRun = [batchMap.get(id)];
+            }
+        }
+        
+        // Write final run
+        if (currentRun.length > 0) {
+            await this._writeRun(pager, startBlock, currentRun);
+        }
+    }
+    
+    async _writeRun(pager, startBlock, buffers) {
+        // Concat buffers into one large buffer
+        const totalLen = buffers.length * constants.BLOCK_SIZE;
+        const megaBuffer = Buffer.allocUnsafe(totalLen);
+        for(let i=0; i<buffers.length; i++) {
+            buffers[i].copy(megaBuffer, i * constants.BLOCK_SIZE);
+        }
+        
+        // Single System Call
+        await pager.writeBufferedRange(startBlock, megaBuffer);
     }
 
     async close() {

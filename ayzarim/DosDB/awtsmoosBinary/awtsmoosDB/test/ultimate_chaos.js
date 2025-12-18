@@ -1,5 +1,6 @@
 
 
+
 // B"H
 /**
  * @file ultimate_chaos.js
@@ -97,8 +98,10 @@ async function runTest() {
                     content: `Entity ${i} holds the secret of the void`,
                     vector: [Math.random(), Math.random(), Math.random(), Math.random()]
                 });
+                if (i > 0 && i % 50 === 0) process.stdout.write('.');
             }
         });
+        console.log("");
         
         const dur = Date.now() - start;
         log(`    Injection took ${dur}ms`);

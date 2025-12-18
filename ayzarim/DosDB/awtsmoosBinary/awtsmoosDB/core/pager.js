@@ -1,4 +1,10 @@
 
+
+
+
+
+
+
 // B"H
 const fs = require('fs').promises;
 const constants = require('../constants.js');
@@ -17,15 +23,16 @@ class Pager {
         this.dirtyBlocks = new Map(); 
         this.flushingBlocks = new Map(); 
         
-        // B"H: Strict RAM Limit
-        this.CACHE_LIMIT = 2500; // ~10MB
-        this.DB_IOV_MAX = 500; 
+        // B"H: Tuning - 1500 Blocks * 4KB = ~6MB.
+        // This ensures large batches (e.g. 1000 items) fit in memory without flushing.
+        this.CACHE_LIMIT = 1500; 
+        this.DB_IOV_MAX = 100; 
         
         this.knownFileSize = 0;
 
         // B"H: Optimization - Buffer Pool (The Pool of Siloam)
         this.bufferPool = [];
-        this.MAX_POOL_SIZE = 2000; // ~8MB reserve
+        this.MAX_POOL_SIZE = 200; // ~800KB reserve
         
         // B"H: Batching Counter
         this.batchDepth = 0;
@@ -297,6 +304,15 @@ class Pager {
         const offset = Number(BigInt(blockId) * BigInt(constants.BLOCK_SIZE));
         await this.handle.write(buffer, 0, constants.BLOCK_SIZE, offset);
         const endOffset = offset + constants.BLOCK_SIZE;
+        if (endOffset > this.knownFileSize) this.knownFileSize = endOffset;
+    }
+    
+    // B"H: New Optimized Method for Bulk Recovery
+    async writeBufferedRange(startBlockId, buffer) {
+        if (!this.handle) await this.init();
+        const offset = Number(BigInt(startBlockId) * BigInt(constants.BLOCK_SIZE));
+        await this.handle.write(buffer, 0, buffer.length, offset);
+        const endOffset = offset + buffer.length;
         if (endOffset > this.knownFileSize) this.knownFileSize = endOffset;
     }
 

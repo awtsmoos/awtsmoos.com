@@ -11,6 +11,10 @@
             this.nativeWorker = null;
             this.onmessage = null; 
             
+            // B"H - Message Queue for Async Init
+            this.messageQueue = [];
+            this.isReady = false;
+            
             // B"H - Keep Parent VM Alive
             if (this.parentVM) {
                 this.parentVM.pendingAsyncCount++;
@@ -20,20 +24,26 @@
         }
 
         async _init() {
-            console.log(`[WorkerProxy] Resolving script: ${this.scriptUrl}`);
-            
             // 1. Resolve User Code
             let userCode = "";
             try {
                 if (this.options.importResolver) {
                     const res = await this.options.importResolver(this.scriptUrl);
-                    userCode = res.code || res;
+                    if (res) userCode = res.code || res;
+                    else if (!res &&(this.scriptUrl.startsWith('blob:') || this.scriptUrl.startsWith('http'))) {
+                         const resp = await fetch(this.scriptUrl);
+                         userCode = await resp.text();
+                    }
+                    else throw new Error("ImportResolver returned null");
                 } else {
                     const resp = await fetch(this.scriptUrl);
+                    if (!resp.ok) throw new Error(`Fetch failed: ${resp.status}`);
                     userCode = await resp.text();
                 }
             } catch(e) {
-                console.error(`[WorkerProxy] Failed to resolve script: ${e.message}`);
+                console.error(`[WorkerProxy] Failed to resolve script '${this.scriptUrl}': ${e.message}`);
+                this.terminate();
+                return;
             }
 
             // 2. Resolve Parser URL
@@ -52,164 +62,111 @@
                 parserUrl = new URL('../MerkavaASTParser/parser-core.js', base).href;
             }
 
-            // 3. Bootstrap
+            // 3. Bootstrap via Module
             const basePath = new URL(Internal.BASE_PATH, self.location.href).href;
             const sdkUrl = new URL('merkava-sdk.js', new URL(basePath)).href;
             
-            const bootstrapCode = `
-                // B"H - Inner Worker Bootstrap
-                self.MERKAVA_OVERRIDE_BASE_PATH = "${basePath}";
-                self.MERKAVA_PARSER_URL = "${parserUrl}";
-
-                // 0. Shim Window (Required for Parser libraries that assume Browser env)
-                self.window = self;
-
-                // 1. Shim Document (CRITICAL for Parser Base Path Detection)
-                self.document = self.document || {
-                    currentScript: { src: "${parserUrl}" }, 
-                    querySelectorAll: () => [],
-                    createElement: () => ({ src: '' }),
-                    head: { appendChild: () => {} },
-                    body: { appendChild: () => {} }
-                };
-
-                // 2. Shim importScripts for Relative Dependencies
-                const originalImportScripts = self.importScripts;
-                const parserBase = "${parserUrl}".substring(0, "${parserUrl}".lastIndexOf('/') + 1);
-                
-                self.importScripts = function(...urls) {
-                    const fixedUrls = urls.map(u => {
-                        if (!self.MerkavahParser) {
-                            if (u.startsWith('http://') && u.split('/').length === 3) {
-                                const fname = u.split('/').pop();
-                                return new URL(fname, parserBase).href;
-                            }
-                            if (u.indexOf('://') === -1) {
-                                 return new URL(u, parserBase).href;
-                            }
-                        }
-                        return u;
-                    });
-                    try {
-                        return originalImportScripts.apply(self, fixedUrls);
-                    } catch(e) {
-                        console.error("[InnerWorker] importScripts failed:", fixedUrls, e);
-                        throw e;
-                    }
-                };
-                
-                try {
-                    importScripts("${sdkUrl}");
-                } catch(e) {
-                    console.error("[InnerWorker] SDK Load Failed:", e);
-                }
-
-                // 4. Initialize Inner VM
-                if (typeof Merkava !== 'undefined') {
-                    // B"H - Configure High RAM for Workers (500,000 objects)
-                    // This prevents page faults during Minimax recursion.
-                    Merkava.initWorker({ isWorker: true, ramLimit: 500000 }).then(adapter => {
-                        
-                        let realVM = null;
-                        let msgQueue = [];
-                        let isRunning = false;
-
-                        // B"H - VM Driver: Resumes the VM loop
-                        const driveVM = () => {
-                            if (!realVM) return;
-                            if (isRunning) return; 
-                            
-                            isRunning = true;
-                            const loop = () => {
-                                try {
-                                    const active = realVM.run(1000);
-                                    if (active) {
-                                        setTimeout(loop, 10);
-                                    } else {
-                                        isRunning = false;
-                                    }
-                                } catch (e) {
-                                    console.error("[InnerWorker] VM Crash:", e);
-                                    isRunning = false;
-                                }
-                            };
-                            loop();
-                        };
-
-                        const processQueue = () => {
-                            if (!realVM) return;
-                            
-                            const heapHandler = realVM.memory.getGlobal('onmessage');
-                            const contextHandler = realVM.context ? realVM.context.onmessage : null;
-                            const handler = heapHandler || contextHandler;
-
-                            if (!handler) {
-                                if (msgQueue.length > 0) {
-                                    setTimeout(processQueue, 50);
-                                }
-                                return;
-                            }
-                            
-                            while (msgQueue.length > 0) {
-                                const payload = msgQueue.shift();
-                                
-                                if (handler.type === 'CLOSURE') {
-                                    const t = realVM.spawn(handler.code);
-                                    t.currentScope = { 0: { data: payload } };
-                                    driveVM(); 
-                                } else if (typeof handler === 'function') {
-                                    handler({ data: payload });
-                                } else {
-                                    console.warn("[InnerWorker] 'onmessage' is not a function/closure:", handler);
-                                }
-                            }
-                        };
-
-                        self.onmessage = function(e) {
-                            const msg = e.data;
-                            if (msg.type === 'EXEC_CODE') {
-                                 adapter.run(msg.code).then(res => {
-                                     realVM = res.vm;
-                                     processQueue();
-                                 }).catch(err => console.error(err));
-                            } else if (msg.type === 'USER_MSG') {
-                                 msgQueue.push(msg.payload);
-                                 processQueue();
-                            }
-                        };
-                        
-                        self.postMessage({ type: 'READY' });
-                    });
-                }
-            `;
+            // B"H - Use the separated Bootstrap Module
+            if (!Internal.WorkerBootstrap) {
+                console.error("[WorkerProxy] Critical: WorkerBootstrap module not loaded.");
+                this.terminate();
+                return;
+            }
+            
+            const bootstrapCode = Internal.WorkerBootstrap.generate(basePath, parserUrl, sdkUrl);
 
             const blob = new Blob([bootstrapCode], { type: 'application/javascript' });
             const blobUrl = URL.createObjectURL(blob);
             this.nativeWorker = new Worker(blobUrl);
 
-            this.nativeWorker.onmessage = (e) => {
+            this.nativeWorker.onmessage = async (e) => {
                 const msg = e.data;
                 if (msg.type === 'READY') {
+                    this.isReady = true;
                     this.nativeWorker.postMessage({ type: 'EXEC_CODE', code: userCode });
+                    
+                    // B"H - Flush Queue
+                    while (this.messageQueue.length > 0) {
+                        const { msg, transfer } = this.messageQueue.shift();
+                        this.nativeWorker.postMessage({ type: 'USER_MSG', payload: msg }, transfer);
+                    }
+                    
                 } else if (msg.type === 'USER_MSG') {
                     if (this.onmessage) {
                         if (this.onmessage.type === 'CLOSURE') {
                              const thread = this.parentVM.spawn(this.onmessage.code);
-                             thread.currentScope = { 0: { data: msg.payload } }; 
+                             // Restore parent state
+                             thread.currentUpvalues = this.onmessage.upvalues;
+                             thread.environment = this.onmessage.environment || thread.environment;
+                             
+                             thread.currentScope = { 
+                                 'this': this.parentVM.context,
+                                 'arguments': [{ data: msg.payload }],
+                                 0: { data: msg.payload } 
+                             }; 
                              if (this.parentVM.wake) this.parentVM.wake();
                         } else if (typeof this.onmessage === 'function') {
                              this.onmessage({ data: msg.payload });
                         }
                     }
+                    if (this.listeners && this.listeners['message']) {
+                        this.listeners['message'].forEach(cb => {
+                            if (typeof cb === 'function') cb({ data: msg.payload });
+                        });
+                    }
+                } else if (msg.type === 'SYSCALL') {
+                    if (this.parentVM.hostAPI && this.parentVM.hostAPI[0]) {
+                        this.parentVM.hostAPI[0]("[WorkerProxy]", ...msg.args);
+                    } else {
+                        console.log("[WorkerProxy Forward]", ...msg.args);
+                    }
+                } else if (msg.type === 'RESOLVE_FILE') {
+                    if (this.options.importResolver) {
+                        try {
+                            const res = await this.options.importResolver(msg.url);
+                            const code = res && res.code ? res.code : (typeof res === 'string' ? res : null);
+                            this.nativeWorker.postMessage({ 
+                                type: 'RESOLVE_FILE_RESULT', 
+                                id: msg.id, 
+                                found: !!code, 
+                                code: code 
+                            });
+                        } catch(err) {
+                             this.nativeWorker.postMessage({ type: 'RESOLVE_FILE_RESULT', id: msg.id, found: false });
+                        }
+                    } else {
+                        this.nativeWorker.postMessage({ type: 'RESOLVE_FILE_RESULT', id: msg.id, found: false });
+                    }
+                } else if (msg.type === 'ERROR') {
+                    console.error("[WorkerProxy] Inner Error:", msg.payload);
+                    if (this.parentVM.hostAPI && this.parentVM.hostAPI[0]) {
+                        this.parentVM.hostAPI[0]("[WorkerProxy Error]", msg.payload);
+                    }
+                    this.terminate(); 
                 }
             };
+            
+            this.nativeWorker.onerror = (e) => {
+                console.error("[WorkerProxy] Native Error:", e.message);
+                if (this.parentVM.hostAPI && this.parentVM.hostAPI[0]) {
+                    this.parentVM.hostAPI[0]("[WorkerProxy Native Error]", e.message);
+                }
+                this.terminate();
+            };
+        }
+        
+        addEventListener(type, callback) {
+            if (!this.listeners) this.listeners = {};
+            if (!this.listeners[type]) this.listeners[type] = [];
+            this.listeners[type].push(callback);
         }
 
         postMessage(msg, transfer) {
-            if (this.nativeWorker) {
+            if (this.nativeWorker && this.isReady) {
                 this.nativeWorker.postMessage({ type: 'USER_MSG', payload: msg }, transfer);
             } else {
-                setTimeout(() => this.postMessage(msg, transfer), 50);
+                // B"H - Queue message for reliable delivery
+                this.messageQueue.push({ msg, transfer });
             }
         }
 
@@ -217,7 +174,10 @@
             if (this.nativeWorker) {
                 this.nativeWorker.terminate();
                 this.nativeWorker = null;
-                if (this.parentVM) this.parentVM.pendingAsyncCount--;
+                this.isReady = false;
+                if (this.parentVM && this.parentVM.pendingAsyncCount > 0) {
+                    this.parentVM.pendingAsyncCount--;
+                }
             }
         }
     }

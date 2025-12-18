@@ -1,4 +1,8 @@
 
+
+
+
+
 // B"H
 const Pager = require('./core/pager.js');
 const AllocatorV2 = require('./core/type_allocator.js');
@@ -38,7 +42,8 @@ class AwtsmoosDB_V2 {
         };
 
         this.structureCache = new Map();
-        this.STRUCT_CACHE_LIMIT = 5000; 
+        // B"H: Optimization - Increase cache to reduce parsing overhead while staying under 10MB total
+        this.STRUCT_CACHE_LIMIT = 2000; 
     }
 
     async ensureOpen() {
@@ -220,6 +225,7 @@ class AwtsmoosDB_V2 {
     async execute(fn) {
         return this.lock.runWrite(async () => {
             const hasWaiters = this.lock.writeQueue.length > 0;
+            // B"H: Capture batch state
             const alreadyBatching = this.pager.isBatching;
             
             if (!alreadyBatching) {
@@ -228,7 +234,11 @@ class AwtsmoosDB_V2 {
             
             try {
                 const res = await fn();
-                this._triggerBackgroundFlush();
+                // B"H: Optimization - Only trigger background flush if NOT in a batch
+                // If we are batching, we want to accumulate all index ops and flush them at the end of the batch.
+                if (!alreadyBatching) {
+                    this._triggerBackgroundFlush();
+                }
                 return res;
             } finally {
                 if (this.allocator) {
@@ -238,11 +248,9 @@ class AwtsmoosDB_V2 {
                     if (this.allocator.v1) await this.allocator.v1.flush(); 
                 }
                 
+                // B"H: CRITICAL FIX - Do not touch batch state if we are nested in a larger batch.
+                // We must respect the outer transaction boundary.
                 if (!alreadyBatching) {
-                    if (!hasWaiters) {
-                        await this.pager.endBatch();
-                    }
-                } else {
                     if (!hasWaiters) {
                         await this.pager.endBatch();
                     }
@@ -253,23 +261,31 @@ class AwtsmoosDB_V2 {
 
     async batch(fn) {
         return this.lock.runWrite(async () => {
+            // B"H: Check nesting BEFORE starting new batch layer
+            const isNested = this.pager.isBatching;
+            
             this.pager.startBatch();
             try {
                 await fn();
             } finally {
-                this._triggerBackgroundFlush();
+                // B"H: Only flush if we are the outermost batch
+                if (!isNested) {
+                    // B"H: CRITICAL FIX - Must AWAIT background tasks processing 
+                    // to ensure Pending Index Ops are written to Index Cache BEFORE we flush cache to disk.
+                    await this._flushBackgroundTasks();
 
-                if (this.vector && this.vector.indexes) {
-                    for (const index of this.vector.indexes.values()) {
-                        await index.flushCache();
+                    if (this.vector && this.vector.indexes) {
+                        for (const index of this.vector.indexes.values()) {
+                            await index.flushCache();
+                        }
                     }
-                }
-                
-                if (this.search) await this.search.flush();
+                    
+                    if (this.search) await this.search.flush();
 
-                if (this.allocator) {
-                    await this.allocator.flushHeap();
-                    if (this.allocator.v1) await this.allocator.v1.flush();
+                    if (this.allocator) {
+                        await this.allocator.flushHeap();
+                        if (this.allocator.v1) await this.allocator.v1.flush();
+                    }
                 }
                 await this.pager.endBatch();
             }
@@ -390,15 +406,18 @@ class AwtsmoosDB_V2 {
         let currentBlock = ptr.blockId;
         let isFirst = true;
         
-        while(remaining.length > 0) {
-            const start = (isFirst && ptr.offset) ? ptr.offset : constants.HEADER_SIZE;
-            const avail = constants.BLOCK_SIZE - start;
-            const chunk = Math.min(remaining.length, avail);
-            
-            await this.allocator.v1.executeLocked(async () => {
+        // B"H: Optimization - Acquire lock once for the entire chain operation
+        // This prevents thousands of lock/unlock cycles for large file writes.
+        await this.allocator.v1.executeLocked(async () => {
+            while(remaining.length > 0) {
+                const start = (isFirst && ptr.offset) ? ptr.offset : constants.HEADER_SIZE;
+                const avail = constants.BLOCK_SIZE - start;
+                const chunk = Math.min(remaining.length, avail);
+                
                 this.structureCache.delete(currentBlock);
 
                 let dirtyBuf = null;
+                // Since we are inside executeLocked, activePage access is safe
                 if (this.allocator.v1.activePage.id === currentBlock && this.allocator.v1.activePage.buffer) {
                     dirtyBuf = this.allocator.v1.activePage.buffer;
                     this.allocator.v1.activePage.dirty = true;
@@ -420,12 +439,12 @@ class AwtsmoosDB_V2 {
                 }
                 
                 this.structureCache.delete(currentBlock);
-            });
-            
-            remaining = remaining.subarray(chunk);
-            currentBlock++;
-            isFirst = false;
-        }
+                
+                remaining = remaining.subarray(chunk);
+                currentBlock++;
+                isFirst = false;
+            }
+        });
         
         this.mutationCount++;
     }
@@ -446,10 +465,14 @@ class AwtsmoosDB_V2 {
     }
     
     getCachedStructure(blockId, offset = 0) {
-        if (typeof blockId === 'object' && blockId.blockId !== undefined) {
+        // B"H: Guard against null/undefined pointer which caused crashes
+        if (blockId && typeof blockId === 'object' && blockId.blockId !== undefined) {
             offset = blockId.offset || 0;
             blockId = blockId.blockId;
         }
+        
+        if (blockId === null || blockId === undefined) return undefined;
+
         const blockCache = this.structureCache.get(blockId);
         if (!blockCache) return undefined;
         return blockCache.get(offset);

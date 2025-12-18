@@ -1,4 +1,6 @@
 
+
+
 // B"H
 const constants = require('../../../constants.js');
 const keyEncoding = require('../../../utils/keyEncoding.js');
@@ -108,6 +110,10 @@ class MapWriter {
 
     async createStructure(key, type) {
         const structPtr = await this.common.resolveStructPtr();
+        if (!structPtr) {
+             throw new Error(`B"H: Cannot create '${key}' because parent '${this.handle.getPath()}' is not resolved (ptr is null).`);
+        }
+
         let newPtr;
         
         if (type === 'map') {

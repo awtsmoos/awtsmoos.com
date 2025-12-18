@@ -1,3 +1,4 @@
+
 // B"H
 // tests.js - The Scrolls of Testing
 
@@ -233,7 +234,7 @@ syscall(0, "Module System: Exports compiled successfully.");
 syscall(0, "Constant ALEPH:", ALEPH);
 syscall(0, "Function say():", say());`,
 
-    scripts: `// B"H - ImportScripts
+    scripts: `// B"H - ImportScripts (Main Thread)
 syscall(0, "Attempting Import...");
 
 // Note: 'worker_script.js' is defined in MOCK_FILES in index.html/console.html
@@ -243,48 +244,74 @@ importScripts('worker_script.js');
 syscall(0, "ImportScripts Complete.");
 `,
 
-    pure_math: `// B"H - Pure Math (No Syscalls)
-// Tests environment globals like Math, console, and basic loops.
+    complex_offscreen: `// B"H - Complex: Offscreen Canvas & Worker Modules (Dynamic Blob)
+syscall(0, "[Main] Starting Advanced Graphix...");
 
-console.log("Starting Pure Math Calculation...");
+// 1. Get Offscreen Control
+let cvs = document.getElementById('vm-canvas');
+let off = cvs.transferControlToOffscreen();
 
-let sum = 0;
-for(let i = 0; i < 100; i++) {
-    sum = sum + Math.sqrt(i);
-}
-
-console.log("Sum of Sqrts (0-99):", sum);
-
-let obj = { x: 10, y: 20 };
-obj.z = obj.x * obj.y;
-
-console.log("Object Computed:", JSON.stringify(obj));
-`,
-
-    async_fetch: `// B"H - Async Host Call (Mock Fetch)
-// This tests the VM's ability to pause on a Promise and resume.
-
-console.log("Initiating Async Fetch...");
-
-// Note: index.html mocks 'fetch' or we use a real one if allowed.
-// For this test we assume 'fetch' is available in the environment.
-
-// We will just fetch a dummy JSON (or fail gracefully if offline)
-try {
-    // Using a reliable public API for demo, or a blob
-    let res = fetch('https://jsonplaceholder.typicode.com/todos/1'); 
-    // The VM should PAUSE here until promise resolves
+// 2. Define Worker Source as String (Dynamic)
+// Note: This relies on 'renderer_lib.js' which is a VIRTUAL file!
+// The WorkerProxy will bridge the request for 'renderer_lib.js' back to the Main thread.
+const workerSource = \`
+    // B"H - Dynamic Graphics Worker
+    importScripts('renderer_lib.js');
     
-    console.log("Fetch Resolved. Status:", res.status);
-    
-    if (res.ok) {
-        let json = res.json(); // Another async call
-        console.log("Data:", json.title);
-    }
-} catch(e) {
-    console.error("Fetch failed:", e);
-}
+    let engine = null;
+    self.onmessage = function(e) {
+        if (e.data.canvas) {
+            syscall(0, "[GFX Worker] Received OffscreenCanvas.");
+            engine = new Renderer(e.data.canvas);
+            engine.start();
+        } else if (e.data.cmd === 'pulse') {
+            if (engine) engine.pulse();
+        } else if (e.data.cmd === 'input') {
+            if (engine) engine.handleInput(e.data);
+        }
+    };
+\`;
 
-console.log("Async Process Complete.");
+// 3. Create Blob URL
+const blob = new Blob([workerSource], {type: 'application/javascript'});
+const workerUrl = URL.createObjectURL(blob);
+
+syscall(0, "[Main] Spawning Worker from Blob...");
+let w = new Worker(workerUrl);
+
+// 4. Send Canvas
+syscall(0, "[Main] Transferring Canvas...");
+w.postMessage({ canvas: off }, [off]);
+
+// 5. Event Listeners (Interactive Mode)
+// B"H - Added Mouse & Keyboard handling
+// Note: Since 'cvs' is a DOM Node (Proxy) in the VM context, 
+// and 'addEventListener' is a native method, the VM will now bridge the closure automatically!
+cvs.addEventListener('mousedown', function(e) {
+    let rect = cvs.getBoundingClientRect();
+    let x = e.clientX - rect.left;
+    let y = e.clientY - rect.top;
+    syscall(0, "[Main] Click:", x, y);
+    w.postMessage({ cmd: 'input', type: 'click', x: x, y: y });
+});
+
+document.addEventListener('keydown', function(e) {
+    syscall(0, "[Main] Key:", e.key);
+    w.postMessage({ cmd: 'input', type: 'key', key: e.key });
+});
+
+syscall(0, "[Main] Listening for Input (Click Canvas or Press Keys)...");
+
+// 6. Background Heartbeat
+let tick = 0;
+function interact() {
+   tick++;
+   if (tick % 200 == 0) {
+      // Keep connection alive
+      w.postMessage({ cmd: 'pulse' });
+   }
+   requestAnimationFrame(interact);
+}
+interact();
 `
 };
