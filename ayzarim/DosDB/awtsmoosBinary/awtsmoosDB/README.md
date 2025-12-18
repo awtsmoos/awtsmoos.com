@@ -55,8 +55,15 @@ const AwtsmoosDB = require('awtsmoos-db');
 
 // Initialize the Universe
 const db = new AwtsmoosDB('./creation.db', {
-    cacheSize: 5000, // Blocks in RAM (The "Brain")
-    debug: false     // Verbose prophetic visions
+    // 1 Block = 4KB (4096 bytes).
+    // 5000 Blocks = ~20 MB RAM.
+    // 250,000 Blocks = ~1 GB RAM.
+    cacheSize: 5000, 
+    
+    // Alternatively, define in MB directly:
+    // cacheSizeMB: 100, 
+    
+    debug: false // Verbose prophetic visions
 });
 
 // Open the Gates
@@ -390,7 +397,8 @@ const loaded = await db.root.files.myImage;
 
 ### `AwtsmoosDB` Class
 *   `constructor(path, options)`:
-    *   `cacheSize`: (Default 5000) Pages to keep in RAM.
+    *   `cacheSize`: Number of 4KB blocks to keep in RAM.
+    *   `cacheSizeMB`: (Optional) Cache size in Megabytes (Auto-calculates blocks).
     *   `debug`: (Default false) Log internal ops.
 *   `open()`: Opens file/WAL.
 *   `close()`: Syncs and closes.

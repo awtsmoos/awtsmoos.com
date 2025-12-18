@@ -51,12 +51,75 @@ module.exports = {
     TYPE_REGEXP: 11,
     TYPE_ERROR: 12,
     
-    TYPE_BIGINT: 13,
+    TYPE_BIGINT: 13, // Legacy / Generic
     TYPE_SYMBOL: 14,
     TYPE_SET: 15,
     TYPE_TYPED_ARRAY: 16,
     TYPE_FUNCTION: 17,
     TYPE_CUSTOM_INSTANCE: 18,
+    
+    // B"H: Optimized Binary BigInts
+    TYPE_BIGINT_POS: 19,
+    TYPE_BIGINT_NEG: 20,
+
+    // --- Value Type Constants for Serializer (Internal) ---
+    VAL_TYPE: {
+        NULL: 0,
+        UNDEFINED: 1,
+        BOOLEAN_TRUE: 2,
+        BOOLEAN_FALSE: 3,
+        NAN: 4,
+        INFINITY: 5,
+        NEG_INFINITY: 6,
+        
+        // Integers (Variable Width)
+        UINT8: 7,
+        UINT16: 8,
+        UINT32: 9,
+        UINT64: 10,
+        
+        INT8_NEG: 11,
+        INT16_NEG: 12,
+        INT32_NEG: 13,
+        INT64_NEG: 14,
+        
+        // Floats
+        DOUBLE_POS: 15,
+        DOUBLE_NEG: 16,
+        
+        // Compact Floats (1, 2, 4 bytes)
+        FLOAT_1: 17,
+        FLOAT_2: 18,
+        FLOAT_4: 19,
+        FLOAT_NEG_1: 20,
+        FLOAT_NEG_2: 21,
+        FLOAT_NEG_4: 22,
+        
+        // Containers
+        STRING: 23,
+        BUFFER: 24,
+        ARRAY: 25,
+        OBJECT: 26,
+        
+        // Complex
+        DATE: 27,
+        JS_BIGINT: 28, // Generic
+        REGEXP: 29,
+        MAP: 30,
+        SET: 31,
+        ERROR: 32,
+        FUNCTION: 33,
+        SYMBOL: 34,
+        TYPED_ARRAY: 35,
+        
+        // String Optimizations
+        STRING_RLE: 36,
+        STRING_HEBREW: 37,
+        
+        // B"H: New Optimized BigInts
+        BIGINT_POS: 38,
+        BIGINT_NEG: 39
+    },
 
     // --- Internal Access Symbol ---
     SYMBOLS: {

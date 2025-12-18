@@ -1,3 +1,4 @@
+
 // B"H
 // Strict Parser for all V1 Types + New Universal V2 Types.
 const constants = require("../constants.js");
@@ -7,6 +8,7 @@ const readVarInt = serializer.readVarInt.bind(serializer);
 const readString = serializer.readString.bind(serializer);
 const floatHandler = require("../utils/floatHandler.js");
 const stringPacker = require("../utils/stringPacker.js");
+const bigIntUtils = require("../utils/bigIntUtils.js");
 
 const MAX_DEPTH = 512;
 
@@ -156,9 +158,16 @@ function parseValue(buffer, offset, depth) {
         case T.DATE: 
             val = new Date(buffer.readDoubleBE(dataStart)); 
             break;
-        case T.JS_BIGINT:
+        case T.JS_BIGINT: // Legacy
             val = BigInt(buffer.toString('utf8', dataStart, dataStart + length));
             break;
+        case T.BIGINT_POS:
+            val = bigIntUtils.fromBuffer(buffer.subarray(dataStart, dataStart + length), false);
+            break;
+        case T.BIGINT_NEG:
+            val = bigIntUtils.fromBuffer(buffer.subarray(dataStart, dataStart + length), true);
+            break;
+            
         case T.REGEXP: {
             const { value: sourceLen, bytesRead } = readVarInt(buffer, dataStart);
             const source = buffer.toString('utf8', dataStart + bytesRead, dataStart + bytesRead + sourceLen);

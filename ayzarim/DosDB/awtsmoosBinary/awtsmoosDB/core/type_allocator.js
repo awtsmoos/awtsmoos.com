@@ -6,6 +6,7 @@ const constants = require('../constants.js');
 const SmartPointer = require('../utils/smartPointer.js');
 const { readPointer48 } = require('../utils/binaryHelpers.js');
 const serializer = require('../utils/serializer.js');
+const bigIntUtils = require('../utils/bigIntUtils.js');
 
 class AllocatorV2 {
     constructor(pager, db, options = {}) {
@@ -33,8 +34,10 @@ class AllocatorV2 {
         }
         
         if (typeof val === 'bigint') {
-            type = constants.TYPE_BIGINT;
-            data = Buffer.from(val.toString());
+            // B"H: New Optimized Binary BigInt for Heap/Block storage
+            const { buffer, isNegative } = bigIntUtils.toBuffer(val);
+            data = buffer;
+            type = isNegative ? constants.TYPE_BIGINT_NEG : constants.TYPE_BIGINT_POS;
         }
         else if (typeof val === 'symbol') {
             type = constants.TYPE_SYMBOL;

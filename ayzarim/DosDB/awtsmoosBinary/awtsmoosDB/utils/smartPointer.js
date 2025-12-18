@@ -1,8 +1,10 @@
+
 // B"H
 const constants = require('../constants.js');
 const { writePointer48, readPointer48 } = require('./binaryHelpers.js');
 const serializer = require('./serializer.js');
 const keyEncoding = require('./keyEncoding.js');
+const bigIntUtils = require('./bigIntUtils.js');
 
 const AwtsmoosClassRegistry = new Map();
 
@@ -125,7 +127,8 @@ class SmartPointer {
 
             if (ptr.type === constants.TYPE_BUFFER || ptr.type === constants.TYPE_STRING || ptr.type === constants.TYPE_JSON || 
                 ptr.type === constants.TYPE_DATE || ptr.type === constants.TYPE_REGEXP || ptr.type === constants.TYPE_ERROR ||
-                ptr.type === constants.TYPE_BIGINT || ptr.type === constants.TYPE_SYMBOL || ptr.type === constants.TYPE_TYPED_ARRAY ||
+                ptr.type === constants.TYPE_BIGINT || ptr.type === constants.TYPE_BIGINT_POS || ptr.type === constants.TYPE_BIGINT_NEG ||
+                ptr.type === constants.TYPE_SYMBOL || ptr.type === constants.TYPE_TYPED_ARRAY ||
                 ptr.type === constants.TYPE_FUNCTION || ptr.type === constants.TYPE_CUSTOM_INSTANCE) {
                 
                 const raw = await allocator.v1.db._readChainSafe({ blockId, length, isChain, offset });
@@ -155,7 +158,10 @@ class SmartPointer {
         if (type === constants.TYPE_NUMBER) return parseFloat(buffer.toString());
         if (type === constants.TYPE_JSON) return JSON.parse(buffer.toString('utf8'));
         
-        if (type === constants.TYPE_BIGINT) return BigInt(buffer.toString('utf8'));
+        if (type === constants.TYPE_BIGINT) return BigInt(buffer.toString('utf8')); // Legacy
+        if (type === constants.TYPE_BIGINT_POS) return bigIntUtils.fromBuffer(buffer, false);
+        if (type === constants.TYPE_BIGINT_NEG) return bigIntUtils.fromBuffer(buffer, true);
+        
         if (type === constants.TYPE_SYMBOL) return Symbol.for(buffer.toString('utf8'));
         
         if (type === constants.TYPE_FUNCTION) {

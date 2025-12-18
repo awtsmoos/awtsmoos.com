@@ -15,8 +15,16 @@ const Query = require('./api/query/index.js');
 class AwtsmoosDB_V2 {
     constructor(filePath, options = {}) {
         // B"H: Configuration Defaults
+        let finalCacheSize = options.cacheSize || 5000;
+        
+        // Helper: Allow user to define cache in MB directly
+        if (options.cacheSizeMB) {
+            const bytes = options.cacheSizeMB * 1024 * 1024;
+            finalCacheSize = Math.ceil(bytes / constants.BLOCK_SIZE);
+        }
+
         this.config = {
-            cacheSize: options.cacheSize || 5000,
+            cacheSize: finalCacheSize,
             debug: options.debug || false,
             ...options
         };

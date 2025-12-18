@@ -6,6 +6,7 @@ const { packTypeAndLengthSize, writeConditionalTo } = require("../utils/binaryHe
 const constants = require("../constants.js");
 const floatHandler = require("../utils/floatHandler.js");
 const stringPacker = require("../utils/stringPacker.js");
+const bigIntUtils = require("../utils/bigIntUtils.js");
 
 let serializeArray_fn = null;
 let serializeJSON_fn = null;
@@ -38,8 +39,10 @@ function serializeValue(value, fullBuffer = true) {
     
     // --- Primitives ---
     else if (typeof value === 'bigint') {
-        type = constants.VAL_TYPE.JS_BIGINT;
-        data = Buffer.from(value.toString()); 
+        // B"H: New Optimized Binary BigInt
+        const { buffer, isNegative } = bigIntUtils.toBuffer(value);
+        data = buffer;
+        type = isNegative ? constants.VAL_TYPE.BIGINT_NEG : constants.VAL_TYPE.BIGINT_POS;
     }
     else if (typeof value === 'number') {
         if (isNaN(value)) {
@@ -164,30 +167,18 @@ function serializeValue(value, fullBuffer = true) {
 
     // Final Assembly
     if (usingScratch) {
-        // We need to package the data from SCRATCH_BUFFER
-        // [TypeLengthByte][LengthInfo][Data]
-        
-        // 1. Write Length to Scratch (at offset scratchLen)
-        // writeConditionalTo returns size. 
-        // We need separate calls.
-        
-        // Length of data is scratchLen
         const lenInfoSize = writeConditionalTo(SCRATCH_BUFFER, scratchLen, scratchLen);
-        
         const typeLengthByte = packTypeAndLengthSize(type, lenInfoSize);
         
         if (!fullBuffer) {
-            // Return copy
             const realData = Buffer.allocUnsafe(scratchLen);
             SCRATCH_BUFFER.copy(realData, 0, 0, scratchLen);
-            // Construct pseudo length info object for caller compatibility
             const lenBuf = Buffer.allocUnsafe(lenInfoSize);
             SCRATCH_BUFFER.copy(lenBuf, 0, scratchLen, scratchLen + lenInfoSize);
             
             return { type, data: realData, valueLengthInfo: { buffer: lenBuf, size: lenInfoSize }, typeLengthByte };
         }
         
-        // Full Buffer: [TypeByte][Len][Data]
         const totalSize = 1 + lenInfoSize + scratchLen;
         const result = Buffer.allocUnsafe(totalSize);
         
