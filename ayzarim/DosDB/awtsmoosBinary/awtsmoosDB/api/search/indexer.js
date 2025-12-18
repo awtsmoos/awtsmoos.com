@@ -10,191 +10,222 @@ class SearchIndexer {
     constructor(db, sysIndex) {
         this.db = db;
         this.sysIndex = sysIndex;
+        // B"H: Path-Aware Buffer
+        // Map<Path, Map<Token, { adds: Set<Hex>, removes: Set<Hex>, ... }>>
+        this.buffers = new Map();
+        this.BUFFER_LIMIT = 5000; 
+        this.opsCount = 0;
+        this.isFlushing = false;
     }
 
     async updateIndex(path, newPtr, oldPtr, oldVal, newVal) {
-        // B"H: Unwrap Proxy to use internal Navigator directly. Faster and safer.
-        const sysIndexInt = this.sysIndex[constants.SYMBOLS.INTERNALS] || this.sysIndex;
-        // Get the handle for the specific path (e.g. "root.library") map
-        const indexMap = sysIndexInt.nav.navigate(path);
-        
-        // Ensure indexMap pointer is loaded
-        await indexMap.ensureResolved(true); 
-        
-        // If indexMap pointer is null, it means the map for 'path' inside '__sys_search__' doesn't exist yet.
-        if (!indexMap.ptr) {
-             if (this.db.debug) console.warn(`B"H Indexer: Index map for ${path} missing. Attempting self-heal.`);
-             // Use writer to create map
-             await sysIndexInt.writer.createMap(path);
-             await indexMap.ensureResolved(true); // Retry
-        }
-        
-        // B"H: Force type update if resolved but type missing (paranoid check)
-        const indexMapInt = indexMap[constants.SYMBOLS.INTERNALS] || indexMap;
-        if (indexMapInt.ptr && !indexMapInt.type) {
-             const decoded = SmartPointer.decode(indexMapInt.ptr);
-             if (decoded) indexMapInt.type = decoded.type;
-        }
-
         let oldTokens, newTokens;
-        try {
-            oldTokens = this._extractTokens(oldVal);
-        } catch(e) {
-            oldTokens = new Set();
-            if (this.db.debug) console.warn("B\"H Indexer extract tokens error (old): " + e.message);
-        }
         
-        try {
-            newTokens = this._extractTokens(newVal);
-        } catch(e) {
-            newTokens = new Set();
-            if (this.db.debug) console.warn("B\"H Indexer extract tokens error (new): " + e.message);
-        }
+        try { oldTokens = this._extractTokens(oldVal); } 
+        catch(e) { oldTokens = new Set(); }
+        
+        try { newTokens = this._extractTokens(newVal); } 
+        catch(e) { newTokens = new Set(); }
 
-        if (this.db.debug) {
-            console.log(`B"H Indexer [${path}]:`);
-            console.log(`   OldTokens: [${Array.from(oldTokens).join(', ')}]`);
-            console.log(`   NewTokens: [${Array.from(newTokens).join(', ')}]`);
-            console.log(`   PointerChanged: ${!this._ptrsEqual(newPtr, oldPtr)}`);
-        }
-
-        if (oldPtr) {
-            const tokensToRemove = this._ptrsEqual(newPtr, oldPtr) 
-                ? [...oldTokens].filter(x => !newTokens.has(x))
-                : oldTokens;
+        if (this._ptrsEqual(newPtr, oldPtr)) {
+            const toAdd = [...newTokens].filter(x => !oldTokens.has(x));
+            const toRemove = [...oldTokens].filter(x => !newTokens.has(x));
             
-            if (this.db.debug) console.log(`   Adding ptr to tokens: ${JSON.stringify([...tokensToRemove])}`);
-            await this._removeFromIndex(indexMap, tokensToRemove, oldPtr);
+            if (toRemove.length > 0 && oldPtr) this._bufferOp(path, 'remove', toRemove, oldPtr);
+            if (toAdd.length > 0 && newPtr) this._bufferOp(path, 'add', toAdd, newPtr);
+        } else {
+            if (oldTokens.size > 0 && oldPtr) this._bufferOp(path, 'remove', [...oldTokens], oldPtr);
+            if (newTokens.size > 0 && newPtr) this._bufferOp(path, 'add', [...newTokens], newPtr);
         }
 
-        if (newPtr) {
-            const tokensToAdd = this._ptrsEqual(newPtr, oldPtr)
-                ? [...newTokens].filter(x => !oldTokens.has(x))
-                : newTokens;
-
-            if (this.db.debug) console.log(`   Adding ptr to tokens: ${JSON.stringify([...tokensToAdd])}`);
-            await this._addToIndex(indexMap, tokensToAdd, newPtr);
+        if (this.opsCount >= this.BUFFER_LIMIT && !this.isFlushing) {
+            await this.flush();
         }
     }
 
-    async _removeFromIndex(indexMap, tokens, ptr) {
-        // Unwrap handle
-        const handle = indexMap[constants.SYMBOLS.INTERNALS] || indexMap;
+    _bufferOp(path, type, tokens, ptr) {
+        if (!tokens || tokens.length === 0) return;
+        const ptrHex = ptr.toString('hex');
 
-        // B"H: Sequential execution to prevent B-Tree corruption
-        for (const word of tokens) {
-            try {
-                // Use Navigator to find key directly without creating intermediate handles
-                const resolved = await handle.nav.resolveKey(word);
-                
-                if (resolved && resolved.ptr) {
-                    const res = await SmartPointer.resolve(resolved.ptr, this.db.allocator);
-                    const seq = new Sequence(this.db.allocator, res);
-                    const len = await seq.length();
-                    
-                    let foundIndex = -1;
-                    // Linear scan ok for now; optimizations possible later
-                    for (let i = 0; i < len; i++) {
-                        const p = await seq.getPtr(i);
-                        if (this._ptrsEqual(p, ptr)) {
-                            foundIndex = i;
-                            break;
-                        }
-                    }
-                    if (foundIndex !== -1) {
-                        if (this.db.debug) console.log(`     Removed from '${word}' at index ${foundIndex}`);
-                        
-                        // Create temporary handle for splice
-                        const listHandle = new LiveHandle(this.db, resolved.ptr, resolved.type, { parent: handle, key: word });
-                        // Unwrap
-                        const listWriter = listHandle[constants.SYMBOLS.INTERNALS].writer;
-                        
-                        // B"H: CRITICAL FIX - Pass { skipFree: true }
-                        await listWriter.splice(foundIndex, 1, { skipFree: true, _isAwtsmoosOptions: true });
-                    }
-                }
-            } catch(e) {
-                console.error("B\"H Indexer Remove Error:", e);
+        if (!this.buffers.has(path)) {
+            this.buffers.set(path, new Map());
+        }
+        const pathBuffer = this.buffers.get(path);
+
+        for (const token of tokens) {
+            if (!pathBuffer.has(token)) {
+                pathBuffer.set(token, { 
+                    adds: new Set(), 
+                    removes: new Set(), 
+                    rawAddPtrs: {}, 
+                    rawRemovePtrs: {} 
+                });
             }
-        }
-    }
-
-    async _addToIndex(indexMap, tokens, ptr) {
-        // Unwrap handle to access internal writer
-        const handle = indexMap[constants.SYMBOLS.INTERNALS] || indexMap;
-
-        // B"H: Sequential execution to prevent B-Tree corruption
-        for (const word of tokens) {
-            try {
-                // B"H: First, try to resolve the key to see if it exists.
-                const resolved = await handle.nav.resolveKey(word);
-                
-                if (!resolved) {
-                    if (this.db.debug) console.log(`     Creating new WEAK list for '${word}'`);
-                    
-                    // B"H: OPTIMIZATION - Create and populate Sequence directly via Engine
-                    const seq = new Sequence(this.db.allocator);
-                    await seq.create({ isWeak: true });
-                    
-                    // Push the item pointer directly to the engine
-                    await seq.push(ptr);
-                    
-                    // Get the final pointer of the sequence
-                    const seqPtrBuf = SmartPointer.block(constants.TYPE_SEQUENCE, seq.ptr.blockId, seq.ptr.length, seq.ptr.isChain, seq.ptr.offset);
-                    
-                    // Set directly using writer (Bypasses Proxy Apply Trap)
-                    await handle.writer.set(word, seqPtrBuf, { isPtr: true, skipFree: true });
-                    
+            const entry = pathBuffer.get(token);
+            
+            if (type === 'add') {
+                if (entry.removes.has(ptrHex)) {
+                    entry.removes.delete(ptrHex);
+                    delete entry.rawRemovePtrs[ptrHex];
                 } else {
-                    if (this.db.debug) console.log(`     Pushing ptr to '${word}'`);
-                    
-                    // List exists, append to it.
-                    // We construct a temporary internal handle to use SequenceWriter logic
-                    const listHandle = new LiveHandle(this.db, resolved.ptr, resolved.type, { parent: handle, key: word });
-                    
-                    // B"H: CRITICAL FIX - Unwrap proxy to avoid 'undefined function' on push
-                    const listWriter = listHandle[constants.SYMBOLS.INTERNALS].writer;
-                    
-                    await listWriter.push(ptr, { isPtr: true });
+                    entry.adds.add(ptrHex);
+                    entry.rawAddPtrs[ptrHex] = ptr;
                 }
-            } catch(e) {
-                console.error("B\"H Indexer Add Error:", e);
+            } else {
+                if (entry.adds.has(ptrHex)) {
+                    entry.adds.delete(ptrHex);
+                    delete entry.rawAddPtrs[ptrHex];
+                } else {
+                    entry.removes.add(ptrHex);
+                    entry.rawRemovePtrs[ptrHex] = ptr;
+                }
+            }
+            this.opsCount++;
+        }
+    }
+
+    async flush() {
+        if (this.opsCount === 0 || this.isFlushing) return;
+        this.isFlushing = true;
+        
+        if (this.db.debug) console.log(`B"H Indexer: Flushing ${this.opsCount} ops across ${this.buffers.size} paths...`);
+
+        try {
+            const rootHandle = this.sysIndex[constants.SYMBOLS.INTERNALS] || this.sysIndex;
+            await rootHandle.ensureResolved();
+
+            for (const [path, tokenMap] of this.buffers) {
+                let indexHandle = await this._getPathIndexHandle(rootHandle, path);
+                
+                if (!indexHandle) {
+                    if (this.db.debug) console.warn(`B"H Indexer: Failed to resolve index handle for path ${path}`);
+                    continue;
+                }
+
+                const sortedTokens = Array.from(tokenMap.keys()).sort();
+                
+                for (const word of sortedTokens) {
+                    const entry = tokenMap.get(word);
+                    const adds = Object.values(entry.rawAddPtrs);
+                    const removes = Object.values(entry.rawRemovePtrs);
+
+                    if (adds.length === 0 && removes.length === 0) continue;
+
+                    try {
+                        await indexHandle.ensureResolved();
+                        const resolved = await indexHandle.nav.resolveKey(word);
+
+                        if (resolved && resolved.ptr) {
+                            if (removes.length > 0) {
+                                await this._batchRemove(indexHandle, resolved, removes, word);
+                                await indexHandle.ensureResolved(); 
+                            }
+                            if (adds.length > 0) {
+                                const resolvedAfter = await indexHandle.nav.resolveKey(word);
+                                if (resolvedAfter && resolvedAfter.ptr) {
+                                    await this._batchAdd(indexHandle, resolvedAfter, adds, word);
+                                } else {
+                                    await this._createNewList(indexHandle, word, adds);
+                                }
+                            }
+                        } else if (adds.length > 0) {
+                            await this._createNewList(indexHandle, word, adds);
+                        }
+                    } catch(e) {
+                        console.error(`B"H Indexer Flush Error [${path} -> ${word}]:`, e);
+                    }
+                }
+            }
+        } finally {
+            this.buffers.clear();
+            this.opsCount = 0;
+            this.isFlushing = false;
+        }
+    }
+
+    async _getPathIndexHandle(rootHandle, path) {
+        const handle = rootHandle.nav.navigate(path);
+        const hInt = handle[constants.SYMBOLS.INTERNALS] || handle;
+        await hInt.ensureResolved();
+        
+        if (!hInt.ptr) {
+            await rootHandle.writer.createMap(path);
+            await hInt.ensureResolved(true);
+        }
+        return hInt;
+    }
+
+    async _batchAdd(handle, resolved, ptrs, word) {
+        if (!ptrs || ptrs.length === 0) return;
+        const listHandle = new LiveHandle(this.db, resolved.ptr, resolved.type, { parent: handle, key: word });
+        const listWriter = listHandle[constants.SYMBOLS.INTERNALS].writer;
+        const len = await listHandle.length;
+        
+        // B"H: FIX - Pass _isAwtsmoosOptions. Also ensure splice works for appending.
+        // splice(len, 0, ...) is standard append.
+        await listWriter.splice(len, 0, ...ptrs, { isPtr: true, _isAwtsmoosOptions: true });
+    }
+
+    async _batchRemove(handle, resolved, ptrs, word) {
+        const res = await SmartPointer.resolve(resolved.ptr, this.db.allocator);
+        const seq = new Sequence(this.db.allocator, res);
+        const len = await seq.length();
+        
+        const ptrsHex = new Set(ptrs.map(p => p.toString('hex')));
+        const indicesToRemove = [];
+
+        for (let i = 0; i < len; i++) {
+            const p = await seq.getPtr(i);
+            if (p && ptrsHex.has(p.toString('hex'))) {
+                indicesToRemove.push(i);
             }
         }
+
+        indicesToRemove.sort((a, b) => b - a);
+        
+        const listHandle = new LiveHandle(this.db, resolved.ptr, resolved.type, { parent: handle, key: word });
+        const listWriter = listHandle[constants.SYMBOLS.INTERNALS].writer;
+
+        for (const idx of indicesToRemove) {
+            await listWriter.splice(idx, 1, { skipFree: true, _isAwtsmoosOptions: true });
+        }
+    }
+
+    async _createNewList(handle, word, ptrs) {
+        const seq = new Sequence(this.db.allocator);
+        await seq.create({ isWeak: true });
+        await seq.splice(0, 0, ...ptrs);
+        
+        const seqPtrBuf = SmartPointer.block(constants.TYPE_SEQUENCE, seq.ptr.blockId, seq.ptr.length, seq.ptr.isChain, seq.ptr.offset);
+        await handle.writer.set(word, seqPtrBuf, { isPtr: true, skipFree: true });
     }
 
     _extractTokens(val) {
         const parts = [];
         const stack = [val];
+        let depth = 0;
         
         while (stack.length > 0) {
+            if (depth++ > 500) break; 
             const curr = stack.pop();
-            
             if (curr === null || curr === undefined) continue;
-            
-            if (typeof curr === 'string') {
-                parts.push(curr);
-            } 
-            else if (typeof curr === 'number') {
-                parts.push(String(curr)); 
-            } 
+            if (typeof curr === 'string') parts.push(curr);
+            else if (typeof curr === 'number') parts.push(String(curr)); 
             else if (typeof curr === 'object') {
                 if (Buffer.isBuffer(curr)) continue;
                 if (curr instanceof Date) continue; 
                 if (curr instanceof RegExp) continue;
                 if (ArrayBuffer.isView(curr)) continue;
-
+                
                 if (Array.isArray(curr)) {
                     for (let i = curr.length - 1; i >= 0; i--) stack.push(curr[i]);
                 } else {
+                    // B"H: Handle wrapped items (e.g. from tests) where props might be hidden or specific
                     const keys = Object.keys(curr);
-                    for (let i = keys.length - 1; i >= 0; i--) {
-                        stack.push(curr[keys[i]]);
-                    }
+                    for (let i = keys.length - 1; i >= 0; i--) stack.push(curr[keys[i]]);
                 }
             }
         }
-        
         const text = parts.join(" ");
         return tokenizer.tokenize(text);
     }

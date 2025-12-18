@@ -22,6 +22,8 @@ class SequenceWriter {
         
         const valToSet = isPtr ? value : await this.builder.build(value);
         const path = this.handle.getPath();
+        
+        // B"H: Optimization - Check system cache directly if possible
         const searchIndexed = await this.db.search.isIndexed(path);
         const vectorIndex = await this.db.vector.getIndex(path);
 
@@ -62,7 +64,6 @@ class SequenceWriter {
 
     async push(value, options = {}) {
         const structPtr = await this.common.resolveStructPtr();
-        // B"H: Use cached engine to preserve append optimization
         const seq = await this.common.getEngine(structPtr, constants.TYPE_SEQUENCE);
         
         const isPtr = (options === true) || (options && options.isPtr);
@@ -78,7 +79,6 @@ class SequenceWriter {
 
         if (isIndexed) {
             try {
-                // B"H: Pass raw value for token extraction, valToPush (pointer) for storage
                 await this.db.search.updateIndex(path, valToPush, null, null, value);
             } catch(e) {
                 console.error(`B"H SequenceWriter: Push Index Update Failed for ${path}:`, e);
@@ -89,17 +89,15 @@ class SequenceWriter {
             if (vec) await this.db.vector.insert(path, currentLen, vec, valToPush);
         }
         
-        // B"H: Return new length
         return currentLen + 1;
     }
 
     async splice(start, deleteCount, ...args) {
-        this.common.invalidateEngine(); // Splice invalidates simple append cache
+        this.common.invalidateEngine(); 
         
         let options = {};
         let items = args;
         
-        // B"H: Enhanced Option Detection
         if (args.length > 0) {
             const last = args[args.length - 1];
             if (last && typeof last === 'object' && last._isAwtsmoosOptions) {
@@ -115,7 +113,15 @@ class SequenceWriter {
         const vectorIndex = await this.db.vector.getIndex(path);
         
         const preparedItems = [];
-        for(const item of items) preparedItems.push(await this.builder.build(item));
+        const isPtr = options.isPtr || false; // Check if inputs are already pointers
+
+        for(const item of items) {
+            if (isPtr && Buffer.isBuffer(item)) {
+                preparedItems.push(item);
+            } else {
+                preparedItems.push(await this.builder.build(item));
+            }
+        }
         
         const toRemove = []; 
         
@@ -124,7 +130,6 @@ class SequenceWriter {
                 const idx = start + i;
                 const ptr = await seq.getPtr(idx);
                 if (ptr) {
-                    // B"H: ALWAYS fetch val for return, not just if indexed
                     let val = null;
                     try { val = await this.handle.reader.getItem(idx); } catch(e) {}
                     toRemove.push({ ptr, val });
@@ -146,7 +151,7 @@ class SequenceWriter {
             removeIdx++;
         }
 
-        await seq.ops.splice(start, deleteCount, preparedItems, options);
+        await seq.splice(start, deleteCount, ...preparedItems);
         await this.common.checkAutoCompact(seq, constants.TYPE_SEQUENCE);
         
         if (isIndexed) {
@@ -154,14 +159,26 @@ class SequenceWriter {
                 const newVal = items[i];
                 const newPtr = preparedItems[i];
                 try {
-                    await this.db.search.updateIndex(path, newPtr, null, null, newVal);
+                    // If we passed pointers directly, 'newVal' is a buffer. 
+                    // Search Indexer needs value for tokenizing.
+                    // But if it's a pointer, we can't tokenize it easily without resolving.
+                    // However, internal ops (like buffer flush) pass isPtr=true and the 'value' is a Buffer pointer.
+                    // In that case, we should probably skip indexing because we don't have the text content here.
+                    // EXCEPT if the caller provided it.
+                    
+                    // B"H: If isPtr is true, newVal is the pointer. 
+                    // We can't index text from a pointer buffer unless we resolve it.
+                    // But for system operations (like index list management), we don't index the index itself.
+                    if (!isPtr) {
+                        await this.db.search.updateIndex(path, newPtr, null, null, newVal);
+                    }
                 } catch(e) {
                     console.error("B\"H SequenceWriter: Splice Index Update Failed:", e);
                 }
             }
         }
 
-        if (vectorIndex) {
+        if (vectorIndex && !isPtr) {
             for(let i = 0; i < items.length; i++) {
                 const val = items[i];
                 const vec = this.common.extractVector(val);
@@ -174,7 +191,6 @@ class SequenceWriter {
             }
         }
         
-        // B"H: Return removed items
         return toRemove.map(r => r.val);
     }
 

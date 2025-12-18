@@ -13,6 +13,8 @@ const SearchIndexer = require('./indexer.js');
 class SearchManager {
     constructor(db) {
         this.db = db;
+        // B"H: Persistent Indexer Instance to hold the buffer
+        this._indexer = null;
     }
 
     async _ensureSysIndex() {
@@ -20,6 +22,15 @@ class SearchManager {
         if (!hasSys) {
             await this.db.createMap(this.db.root, "__sys_search__");
         }
+    }
+    
+    // B"H: Get singleton indexer
+    _getIndexer() {
+        if (!this._indexer) {
+             const sysIndex = this.db.root.__sys_search__;
+             this._indexer = new SearchIndexer(this.db, sysIndex);
+        }
+        return this._indexer;
     }
 
     async enable(handle) {
@@ -34,18 +45,14 @@ class SearchManager {
             await this.db.createMap(sysIndex, path);
         }
         
-        // B"H: Update Fast Cache
         this.db.sysCache.search.add(path);
-        
         await this.reindex(path);
     }
 
     async isIndexed(path) {
-        // B"H: Use Fast Cache
         if (this.db.sysCache.loaded) {
             return this.db.sysCache.search.has(path);
         }
-        
         const sysIndex = this.db.root.__sys_search__;
         if (!sysIndex) return false;
         return await this.db.has(sysIndex, path);
@@ -158,9 +165,7 @@ class SearchManager {
 
     async reindex(path) {
         await this._ensureSysIndex();
-        const sysIndex = this.db.root.__sys_search__;
-        
-        const indexer = new SearchIndexer(this.db, sysIndex);
+        const indexer = this._getIndexer();
         
         const parts = [];
         const rawParts = path.split('.');
@@ -202,14 +207,15 @@ class SearchManager {
             ptr.copy(stablePtr);
             await indexer.updateIndex(path, stablePtr, null, null, hydrated);
         }
+        // Force flush at end of reindex
+        await indexer.flush();
     }
 
     async updateIndex(path, newPtr, oldPtr, oldVal, newVal) {
         this.db._pendingIndexOps.push(async () => {
             try {
                 await this._ensureSysIndex();
-                const sysIndex = this.db.root.__sys_search__;
-                const indexer = new SearchIndexer(this.db, sysIndex);
+                const indexer = this._getIndexer();
                 await indexer.updateIndex(path, newPtr, oldPtr, oldVal, newVal);
             } catch(e) {
                 console.error("B\"H Background Search Index Update Failed:", e);
@@ -217,8 +223,15 @@ class SearchManager {
         });
     }
 
+    // B"H: New Flush method for db.waitForIdle()
+    async flush() {
+        if (this._indexer) await this._indexer.flush();
+    }
+
     async run(handleOrPath, query) {
         await this.db._flushBackgroundTasks();
+        // B"H: Important - Flush memory buffer to disk before reading results
+        await this.flush();
 
         let path = handleOrPath;
         if (typeof handleOrPath !== 'string') {
@@ -231,6 +244,11 @@ class SearchManager {
 
         await this._ensureSysIndex();
         const sysIndex = this.db.root.__sys_search__;
+        // B"H: sysIndex is root.__sys_search__. We need sysIndex[path] which is the map of words for that path
+        // But actually, updateIndex writes to 'word' key on sysIndex directly?
+        // No, check indexer. It uses sysIndex.nav.navigate(path) -> indexMap.
+        // So the structure is root -> __sys_search__ -> [path] -> [word] -> Sequence
+        
         const indexMap = sysIndex[path];
         
         const queryTokens = [...tokenizer.tokenize(query)];

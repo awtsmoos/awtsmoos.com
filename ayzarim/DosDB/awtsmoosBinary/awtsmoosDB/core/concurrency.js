@@ -71,7 +71,16 @@ class ReadWriteLock {
         this.log("Requesting WRITE");
         if (this.writing || this.readers > 0) {
             this.log("WRITE Queued");
+            
+            // B"H: Debug Hangs
+            const timer = setTimeout(() => {
+                if (this.writeQueue.length > 0) {
+                    console.warn(`B"H WARNING: Lock ${this.id} waiting for WRITE for > 5s. (Readers: ${this.readers}, Writer Active: ${this.writing})`);
+                }
+            }, 5000);
+            
             await new Promise(resolve => this.writeQueue.push(resolve));
+            clearTimeout(timer);
             // When woken, 'writing' has already been set to true by _processQueue
         } else {
             this.writing = true;

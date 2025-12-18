@@ -141,6 +141,10 @@
                  console.warn("[MerkavaCompiler] POP mismatch! Enforcing 0x10");
                  this.OPCODES.POP = 0x10;
             }
+            if (this.OPCODES.STORE_GLOBAL === undefined || this.OPCODES.STORE_GLOBAL !== 0x23) {
+                 console.warn("[MerkavaCompiler] STORE_GLOBAL mismatch! Enforcing 0x23");
+                 this.OPCODES.STORE_GLOBAL = 0x23;
+            }
             
             // B"H - Check Dependencies on GLOBAL object
             const Builder = G.MerkavaCompiler.BytecodeBuilder;

@@ -23,7 +23,7 @@ class SequenceNode {
         
         const node = { ptr, buffer: buf, isLeaf, isWeak, itemCount: 0, totalCount: 0, totalBytes: 0, totalCapacity: constants.BLOCK_SIZE };
         this.db.cacheStructure(ptr.blockId, node);
-        this.log(`Created B${ptr.blockId} (Leaf: ${isLeaf})`);
+        //this.log(`Created B${ptr.blockId} (Leaf: ${isLeaf})`);
         return node;
     }
 
@@ -95,7 +95,7 @@ class SequenceNode {
             node.totalCount = node.itemCount;
         }
         
-        this.log(`Saving B${node.ptr.blockId} (Leaf:${node.isLeaf}, Count:${node.totalCount}, Items:${node.itemCount})`);
+        //this.log(`Saving B${node.ptr.blockId} (Leaf:${node.isLeaf}, Count:${node.totalCount}, Items:${node.itemCount})`);
 
         node.buffer.write(constants.MAGIC_SEQ_NODE, 0);
         

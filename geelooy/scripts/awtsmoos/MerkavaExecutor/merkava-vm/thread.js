@@ -3,22 +3,6 @@
 (function(root) {
     root.MerkavaVM = root.MerkavaVM || {};
 
-    // B"H - Robust Opcode Resolution for Thread
-    const getOpcodes = () => {
-        const g = typeof globalThis !== 'undefined' ? globalThis : 
-                  (typeof self !== 'undefined' ? self : 
-                  (typeof window !== 'undefined' ? window : root));
-                  
-        if (g.MerkavaOpcodes && g.MerkavaOpcodes.OPCODES) {
-            return g.MerkavaOpcodes.OPCODES;
-        }
-        if (g.MerkavaOpcodes && g.MerkavaOpcodes.default && g.MerkavaOpcodes.default.OPCODES) {
-            return g.MerkavaOpcodes.default.OPCODES;
-        }
-        console.warn("[Thread] OPCODES Missing! Fallback to empty.");
-        return {}; 
-    };
-
     class Thread {
         constructor(vm, codeObject, context = {}) {
             this.id = Math.floor(Math.random() * 100000);
@@ -29,13 +13,9 @@
             this.stack = []; 
             this.status = 'READY';
             this.frames = []; 
-            this.currentFrame = null;
             this.currentScope = { 'this': context };
             this.environment = context; 
             this.catchStack = []; 
-            
-            // B"H - Cache Opcodes once per thread to avoid repeated lookups
-            this.OPCODES = getOpcodes();
         }
 
         read8() {
@@ -51,8 +31,9 @@
                 this.status = 'COMPLETED'; 
                 return 0; 
             }
-            const low = this.read8();
-            const high = this.read8();
+            const low = this.bytecode[this.ip++];
+            const high = this.bytecode[this.ip++];
+            // B"H - Ensure valid integer math
             let val = (high << 8) | low;
             if (val >= 0x8000) val = val - 0x10000;
             return val;
@@ -65,43 +46,80 @@
         step() {
             if (this.status !== 'RUNNING') return false;
             try {
-                // B"H - Safe Read
                 if (this.ip >= this.bytecode.length) {
                     this.status = 'COMPLETED';
                     return false;
                 }
 
+                // B"H - Fetch Phase
                 const op = this.read8();
+                const ipAfterFetch = this.ip;
+
+                // B"H - Resolve Executor Dynamically
+                let executor = root.MerkavaExecutor;
+                if (!executor && root.MerkavaVM) executor = root.MerkavaVM.Executor;
                 
-                // B"H - Pass the robustly resolved OPCODES to the executor
-                const result = root.MerkavaVM.Executor.exec(op, this, this.OPCODES);
+                if (!executor) {
+                    console.error("[Thread] Executor not found! Critical Failure.");
+                    this.status = 'CRASHED';
+                    return false;
+                }
+
+                // B"H - Execute Phase
+                const result = executor.exec(op, this, null);
                 
+                // B"H - ALIGNMENT GUARD (Scorched Earth Policy)
+                // Determine if this opcode requires operands and if IP moved.
+                // 0x13 (PUSH_CONST), 0x22 (LOAD_GLOBAL), 0x23 (STORE_GLOBAL) all take 2 bytes.
+                let requiredArgs = 0;
+                if (op === 0x23 || op === 0x22 || op === 0x13) requiredArgs = 2;
+                
+                if (requiredArgs > 0) {
+                    const expectedIP = ipAfterFetch + requiredArgs;
+                    if (this.ip < expectedIP) {
+                        console.warn(`[Thread] GUARD: Fixed alignment for Op 0x${op.toString(16)}. IP ${this.ip} -> ${expectedIP}`);
+                        this.ip = expectedIP;
+                    }
+                }
+                
+                // B"H - Handle Result
                 if (result === 'HALT' || result === 'COMPLETED') {
                     this.status = 'COMPLETED';
                     return false;
                 }
+                
+                if (result === 'UNKNOWN_OP') {
+                    const badIP = this.ip - 1;
+                    
+                    // B"H - Self-Healing for 0x0a (Operand Interpretation Error)
+                    if (op === 0x0a) {
+                         console.warn(`[Thread] Healing: Skipped interpreted operand 0x0a at IP ${badIP}`);
+                         // Treat as NOP, continue.
+                         return true;
+                    }
+
+                    // Debug Context
+                    const context = [];
+                    for(let i = Math.max(0, badIP-5); i < Math.min(this.bytecode.length, badIP+5); i++) {
+                        const b = this.bytecode[i];
+                        context.push(b !== undefined ? b.toString(16).padStart(2,'0') : '??');
+                    }
+                    
+                    console.error(`[Thread] Halted. Unknown Opcode 0x${op.toString(16)} at IP ${badIP}`);
+                    console.error(`[Thread] Context: [ ${context.join(' ')} ]`);
+                    
+                    this.status = 'CRASHED';
+                    return false;
+                }
+                
             } catch(e) {
-                // B"H - Exception Handling Logic
                 if (this.catchStack && this.catchStack.length > 0) {
                     const catchAddr = this.catchStack.pop();
                     this.ip = catchAddr;
-                    // Push the error object onto the stack for the catch block
                     this.push(e.vmValue || e.message || e);
                     return true;
                 } else {
-                    console.error("VM Exception (Uncaught):", e);
-                    
-                    // B"H - CRASH DUMP
-                    try {
-                        const badIP = this.ip - 1; // IP was incremented by read8
-                        const start = Math.max(0, badIP - 5);
-                        const end = Math.min(this.bytecode.length, badIP + 5);
-                        const slice = this.bytecode.slice(start, end);
-                        const hex = Array.from(slice).map(b => b.toString(16).padStart(2, '0')).join(' ');
-                        console.error(`CRASH DUMP @ IP ${badIP.toString(16)}: [ ${hex} ]`);
-                        console.error(`Opcode was: ${this.bytecode[badIP] ? this.bytecode[badIP].toString(16) : 'N/A'} (0x${(badIP < this.bytecode.length ? this.bytecode[badIP] : 0).toString(16)})`);
-                    } catch(dumpErr) { console.error("Dump failed", dumpErr); }
-
+                    console.error("VM Exception:", e);
                     this.status = 'CRASHED';
                     return false;
                 }
@@ -109,5 +127,13 @@
             return true;
         }
     }
-    root.MerkavaVM.Thread = Thread;
+    
+    // B"H - Robust Attachment
+    if (root.MerkavaVM) {
+        root.MerkavaVM.Thread = Thread;
+    } else {
+        root.MerkavaVM = { Thread: Thread };
+    }
+    
+    console.log("[MerkavaVM] Thread Class Reloaded V5 (Scorched Earth Guard).");
 })(typeof self !== 'undefined' ? self : this);

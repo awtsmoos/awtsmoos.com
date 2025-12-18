@@ -53,6 +53,7 @@ class Allocator {
             const savedCursor = readPointer48(sb, this.CURSOR_OFFSET); 
             const fileDerivedCursor = Math.ceil(this.pager.knownFileSize / this.BLOCK_SIZE);
             
+            // B"H: Recovery - Trust file size if larger than saved cursor (lazy cursor update)
             this.cursor = Math.max(savedCursor, fileDerivedCursor);
             if (this.cursor < 2) this.cursor = 2;
             
@@ -75,12 +76,14 @@ class Allocator {
     }
 
     async flush() {
+        // B"H: Optimization - Only flush active page content. Do NOT write SuperBlock here.
+        // SuperBlock is written only on close/checkpoint or explicit update.
         if (this.activePage.dirty && this.activePage.id !== -1 && this.activePage.buffer) {
             this._cacheBlock(this.activePage.id, this.activePage.buffer);
             await this.pager.writeBlock(this.activePage.id, this.activePage.buffer);
             this.activePage.dirty = false;
         }
-        await this._saveStateInternal();
+        // Removed: await this._saveStateInternal();
     }
 
     _cacheBlock(blockId, buffer) {
@@ -90,7 +93,6 @@ class Allocator {
             const firstKey = this.blockCache.keys().next().value;
             this.blockCache.delete(firstKey);
         }
-        // Optimization: Use Pager's pool if possible, but here we just ensure we don't hold too many
         const cached = Buffer.allocUnsafe(this.BLOCK_SIZE);
         buffer.copy(cached);
         this.blockCache.set(blockId, cached);
@@ -108,20 +110,16 @@ class Allocator {
         return null;
     }
 
-    // B"H: Accelerated Block Read
     async _readBlockSynced(blockId) {
-        // 1. Active RAM Page
         if (this.activePage.id === blockId && this.activePage.buffer) {
             const copy = Buffer.allocUnsafe(this.BLOCK_SIZE);
             this.activePage.buffer.copy(copy);
             return copy;
         }
 
-        // 2. Allocator LRU Cache
         const cached = this._getCachedBlock(blockId);
         if (cached) return cached;
         
-        // 3. Pager Sync Cache (Dirty Blocks)
         const dirty = this.pager.readBlockSync(blockId);
         if (dirty) {
             const copy = Buffer.allocUnsafe(this.BLOCK_SIZE);
@@ -130,7 +128,6 @@ class Allocator {
             return copy;
         }
 
-        // 4. Disk Read (Async fallback)
         const block = await this.pager.readBlock(blockId);
         if (block) this._cacheBlock(blockId, block);
         return block;
@@ -138,7 +135,6 @@ class Allocator {
 
     async _writeBlockSynced(blockId, buffer) {
         if (this.activePage.id === blockId) {
-            // Identity check to avoid self-copy overhead
             if (buffer !== this.activePage.buffer) {
                 buffer.copy(this.activePage.buffer);
             }
@@ -201,7 +197,6 @@ class Allocator {
                 block = this.activePage.buffer;
                 this.activePage.dirty = true;
             } else {
-                // Try to get in-place reference first for modification
                 let dirty = this.pager.getDirtyBuffer(ptr.blockId);
                 if (dirty) {
                     block = dirty;
@@ -251,7 +246,6 @@ class Allocator {
                      await this._writeBlockSynced(bid, cleanBuf);
                      this.freeBlocks.push(bid); 
                      
-                     // B"H: Invalidate high-level cache
                      if (this.db && this.db.structureCache) {
                          this.db.structureCache.delete(bid);
                      }
@@ -281,7 +275,6 @@ class Allocator {
                          block.writeUInt32BE(constants.BLOCK_TYPE.FREE, 0);
                          this.freeBlocks.push(ptr.blockId);
                          
-                         // B"H: Invalidate high-level cache for full block free
                          if (this.db && this.db.structureCache) {
                              this.db.structureCache.delete(ptr.blockId);
                          }

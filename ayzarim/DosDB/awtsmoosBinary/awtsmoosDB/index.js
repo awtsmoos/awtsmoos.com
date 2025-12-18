@@ -1,6 +1,4 @@
 
-
-
 // B"H
 const Pager = require('./core/pager.js');
 const AllocatorV2 = require('./core/type_allocator.js');
@@ -27,23 +25,18 @@ class AwtsmoosDB_V2 {
         this.vector = new VectorManager(this);
         this.debugBlocks = new Set();
         
-        // B"H: Global Mutation Counter for Strong Consistency & Hot Path Caching
         this.mutationCount = 0;
         
-        // B"H: Deferred Index Queue for High Throughput
         this._pendingIndexOps = [];
+        this._isFlushing = false;
+        this._flushPromise = null;
         
-        // B"H: System Metadata Cache (Fast Lookup for Indexed Paths)
         this.sysCache = {
             search: new Set(),
             vector: new Set(),
             loaded: false
         };
 
-        // B"H: Global Parsed Structure Cache (High-Level Object Cache)
-        // Stores parsed MapNodes, SequenceNodes, etc. to avoid buffer parsing overhead.
-        // Key: BlockID (Number) -> Value: Map<Offset, Object>
-        // This allows multiple structures to exist in the same Heap Page (Block) without collision.
         this.structureCache = new Map();
         this.STRUCT_CACHE_LIMIT = 5000; 
     }
@@ -91,10 +84,7 @@ class AwtsmoosDB_V2 {
 
         this.root = new LiveHandle(this, this.rootPtrRaw, constants.TYPE_DICTIONARY, null);
         
-        // B"H: Initialize System Maps synchronously
         await this._initSystemMaps();
-        
-        // B"H: Preload Metadata Cache for Performance
         await this._preloadSysCache();
     }
     
@@ -113,10 +103,6 @@ class AwtsmoosDB_V2 {
     }
     
     async _preloadSysCache() {
-        // Optimistic Load: Read all keys from __sys_search__ and __sys_vector__ into memory
-        // This makes isIndexed() checks instantaneous.
-        
-        // Search
         if (await this.has(this.root, "__sys_search__")) {
             const h = this.root.__sys_search__;
             for await (const k of this.streamKeys(h)) {
@@ -124,7 +110,6 @@ class AwtsmoosDB_V2 {
             }
         }
         
-        // Vector
         if (await this.has(this.root, "__sys_vector__")) {
             const h = this.root.__sys_vector__;
             for await (const k of this.streamKeys(h)) {
@@ -234,10 +219,6 @@ class AwtsmoosDB_V2 {
 
     async execute(fn) {
         return this.lock.runWrite(async () => {
-            // B"H: SMART BATCHING (Group Commit)
-            // If the lock queue has waiting writers, we stay in "Batch Mode"
-            // effectively grouping multiple logical writes into a single disk sync.
-            
             const hasWaiters = this.lock.writeQueue.length > 0;
             const alreadyBatching = this.pager.isBatching;
             
@@ -247,46 +228,22 @@ class AwtsmoosDB_V2 {
             
             try {
                 const res = await fn();
-                // Flush in-memory background tasks (indexing) but don't force disk sync yet
-                await this._flushBackgroundTasks(true);
+                this._triggerBackgroundFlush();
                 return res;
             } finally {
-                // Ensure Heap and Caches are flushed to Pager (Memory)
                 if (this.allocator) {
                     await this.allocator.flushHeap();
-                    if (this.allocator.v1) await this.allocator.v1.flush();
+                    // B"H: Optimization - Only flush pages, do not force SuperBlock write here
+                    // Only explicit checkpoints or closes should force SB write.
+                    if (this.allocator.v1) await this.allocator.v1.flush(); 
                 }
                 
-                // If we started the batch, we are responsible for it.
                 if (!alreadyBatching) {
-                    // Only commit to disk if NO ONE else is waiting.
-                    // If waiters exist, we leave the batch open (Depth=1).
-                    // The last waiter (who sees hasWaiters=false) will close it.
                     if (!hasWaiters) {
                         await this.pager.endBatch();
-                    } else {
-                        // Pass baton: We leave Depth at 1. 
-                        // The next writer sees alreadyBatching=true.
-                        // They do their work.
-                        // They check hasWaiters.
-                        // Eventually, the last writer calls endBatch().
                     }
                 } else {
-                    // We joined an existing batch.
-                    // If we are the last one, we MUST close it (force sync).
-                    // But `pager.endBatch` decrements depth.
-                    // If we didn't increment depth, we shouldn't decrement.
-                    
-                    // CRITICAL FIX: The Pager's batch depth logic is recursive counter.
-                    // If we rely on shared batch, we must manage the counter correctly or bypass it.
-                    
-                    // Simplified: Since we didn't increment, we don't decrement.
-                    // But if we are the last waiter, the batch is effectively "Orphaned" if the starter exited.
-                    // Actually, the starter exited but LEFT the depth at 1.
-                    
                     if (!hasWaiters) {
-                        // We are the caboose. We must flush.
-                        // We call endBatch() to decrement the 1 left by the leader.
                         await this.pager.endBatch();
                     }
                 }
@@ -300,13 +257,16 @@ class AwtsmoosDB_V2 {
             try {
                 await fn();
             } finally {
-                await this._flushBackgroundTasks(true); 
-                
+                this._triggerBackgroundFlush();
+
                 if (this.vector && this.vector.indexes) {
                     for (const index of this.vector.indexes.values()) {
                         await index.flushCache();
                     }
                 }
+                
+                if (this.search) await this.search.flush();
+
                 if (this.allocator) {
                     await this.allocator.flushHeap();
                     if (this.allocator.v1) await this.allocator.v1.flush();
@@ -329,20 +289,47 @@ class AwtsmoosDB_V2 {
                     await index.flushCache();
                 }
             }
+            
+            if (this.search) await this.search.flush();
+
             if (this.allocator) {
                 await this.allocator.flushHeap();
-                if (this.allocator.v1) await this.allocator.v1.flush();
+                if (this.allocator.v1) {
+                    await this.allocator.v1.flush();
+                    // B"H: Checkpoint - Save SuperBlock explicitly here to persist cursor state
+                    await this.allocator.v1._saveStateInternal();
+                }
             }
-            // Force sync regardless of batch state to ensure durability
+            
             await this.pager.sync();
         });
     }
     
-    async _flushBackgroundTasks(isInsideBatch = false) {
-        if (this._pendingIndexOps.length === 0) return;
+    _triggerBackgroundFlush() {
+        if (this._isFlushing) return;
+        this._flushBackgroundTasks().catch(e => {
+            console.error("B\"H Background Flush Async Error:", e);
+        });
+    }
 
-        const runTasks = async () => {
+    async _flushBackgroundTasks() {
+        if (this._isFlushing && this._flushPromise) {
+            return this._flushPromise;
+        }
+        
+        if (this._pendingIndexOps.length === 0) return Promise.resolve();
+
+        this._isFlushing = true;
+        let resolveFlush;
+        this._flushPromise = new Promise(r => resolveFlush = r);
+
+        try {
+            let failsafe = 0;
             while (this._pendingIndexOps.length > 0) {
+                if (failsafe++ > 100000) {
+                    console.warn("B\"H: Background Task Loop Limit Reached (Possible Infinite Recursion)");
+                    break;
+                }
                 const op = this._pendingIndexOps.shift();
                 try {
                     await op();
@@ -350,17 +337,10 @@ class AwtsmoosDB_V2 {
                     console.error("B\"H Background Task Failed:", e);
                 }
             }
-        };
-
-        if (!isInsideBatch && !this.pager.isBatching) {
-            this.pager.startBatch();
-            try {
-                await runTasks();
-            } finally {
-                await this.pager.endBatch();
-            }
-        } else {
-            await runTasks();
+        } finally {
+            this._isFlushing = false;
+            this._flushPromise = null;
+            if (resolveFlush) resolveFlush();
         }
     }
 
@@ -410,26 +390,17 @@ class AwtsmoosDB_V2 {
         let currentBlock = ptr.blockId;
         let isFirst = true;
         
-        // B"H: Removed excessively verbose logging to focus on logic errors
-        // if (this.debug) {
-        //      const headHex = buffer.length >= 4 ? buffer.subarray(0, 4).toString('utf8') : "N/A";
-        //      console.log(`B"H _writeChainSafe: Start B${ptr.blockId} (Off: ${ptr.offset}, Len: ${buffer.length}) [HEAD:${headHex}]`);
-        // }
-
         while(remaining.length > 0) {
             const start = (isFirst && ptr.offset) ? ptr.offset : constants.HEADER_SIZE;
             const avail = constants.BLOCK_SIZE - start;
             const chunk = Math.min(remaining.length, avail);
             
             await this.allocator.v1.executeLocked(async () => {
-                // B"H: Invalidate ENTIRE Page in Global Structure Cache
-                // Any write to a block invalidates all cached structures within that block.
                 this.structureCache.delete(currentBlock);
 
                 let dirtyBuf = null;
                 if (this.allocator.v1.activePage.id === currentBlock && this.allocator.v1.activePage.buffer) {
                     dirtyBuf = this.allocator.v1.activePage.buffer;
-                    // B"H: CRITICAL FIX - Mark active page as dirty so it gets flushed to Pager!
                     this.allocator.v1.activePage.dirty = true;
                 } else {
                     dirtyBuf = this.pager.getDirtyBuffer(currentBlock);
@@ -448,7 +419,6 @@ class AwtsmoosDB_V2 {
                     await this.allocator.v1._writeBlockSynced(currentBlock, blk);
                 }
                 
-                // B"H: Redundant invalidate for safety
                 this.structureCache.delete(currentBlock);
             });
             
@@ -460,14 +430,11 @@ class AwtsmoosDB_V2 {
         this.mutationCount++;
     }
     
-    // B"H: Cache Management Helper - Updated for Composite Keys (BlockID -> Map<Offset, Struct>)
     cacheStructure(blockId, structure) {
-        // Ensure structure has an offset
         const offset = (structure.selfPtr && structure.selfPtr.offset) || (structure.ptr && structure.ptr.offset) || 0;
         
         if (!this.structureCache.has(blockId)) {
             if (this.structureCache.size >= this.STRUCT_CACHE_LIMIT) {
-                // Eviction Strategy: Remove oldest Block
                 const firstKey = this.structureCache.keys().next().value;
                 this.structureCache.delete(firstKey);
             }
@@ -479,15 +446,12 @@ class AwtsmoosDB_V2 {
     }
     
     getCachedStructure(blockId, offset = 0) {
-        // Handle object ptr passed as first arg
         if (typeof blockId === 'object' && blockId.blockId !== undefined) {
             offset = blockId.offset || 0;
             blockId = blockId.blockId;
         }
-        
         const blockCache = this.structureCache.get(blockId);
         if (!blockCache) return undefined;
-        
         return blockCache.get(offset);
     }
 }

@@ -11,8 +11,11 @@ class Pager {
         this.handle = null;
         this.wal = new WAL(this.walPath);
         
-        // B"H: Always-On Write-Back Cache
+        // B"H: Double-Buffered Write Cache
+        // dirtyBlocks: Accepts new writes immediately.
+        // flushingBlocks: Snapshotted blocks currently writing to disk.
         this.dirtyBlocks = new Map(); 
+        this.flushingBlocks = new Map(); 
         
         // B"H: Strict RAM Limit
         this.CACHE_LIMIT = 2500; // ~10MB
@@ -24,8 +27,12 @@ class Pager {
         this.bufferPool = [];
         this.MAX_POOL_SIZE = 2000; // ~8MB reserve
         
-        // B"H: Batching Counter for Recursive Transactions
+        // B"H: Batching Counter
         this.batchDepth = 0;
+        
+        // B"H: Flush Lock
+        this._flushLock = false;
+        this._flushQueue = [];
     }
 
     async init() {
@@ -73,9 +80,9 @@ class Pager {
 
     // B"H: Synchronous Check - The Lightning Flash
     readBlockSync(blockId) {
-        if (this.dirtyBlocks.has(blockId)) {
-            return this.dirtyBlocks.get(blockId); 
-        }
+        // Priority: Newest (dirty) -> Flushing -> None
+        if (this.dirtyBlocks.has(blockId)) return this.dirtyBlocks.get(blockId);
+        if (this.flushingBlocks.has(blockId)) return this.flushingBlocks.get(blockId);
         return null;
     }
     
@@ -83,6 +90,16 @@ class Pager {
     getDirtyBuffer(blockId) {
         if (this.dirtyBlocks.has(blockId)) {
             return this.dirtyBlocks.get(blockId);
+        }
+        
+        // If it's currently flushing, we CANNOT modify it in place because `fs.writev` is async reading it.
+        // We must Copy-On-Write (COW) it back to dirtyBlocks.
+        if (this.flushingBlocks.has(blockId)) {
+            const flushingBuf = this.flushingBlocks.get(blockId);
+            const newBuf = this._allocBuffer();
+            flushingBuf.copy(newBuf);
+            this.dirtyBlocks.set(blockId, newBuf);
+            return newBuf;
         }
         return null;
     }
@@ -142,14 +159,15 @@ class Pager {
         // 1. Read from Disk (Single Syscall)
         await this._readExact(buffer, 0, totalSize, offset);
         
-        // 2. Patch with Dirty Blocks (Overlay)
-        if (this.dirtyBlocks.size > 0) {
-            for(let i=0; i<numberOfBlocks; i++) {
-                const currentId = startBlockId + i;
-                const dirty = this.dirtyBlocks.get(currentId);
-                if(dirty) {
-                    dirty.copy(buffer, i * constants.BLOCK_SIZE);
-                }
+        // 2. Patch with Dirty/Flushing Blocks (Overlay)
+        for(let i=0; i<numberOfBlocks; i++) {
+            const currentId = startBlockId + i;
+            // Check Dirty (Newest)
+            let overlay = this.dirtyBlocks.get(currentId);
+            if (!overlay) overlay = this.flushingBlocks.get(currentId);
+            
+            if(overlay) {
+                overlay.copy(buffer, i * constants.BLOCK_SIZE);
             }
         }
         return buffer;
@@ -173,15 +191,14 @@ class Pager {
     async writeBlock(blockId, buffer) {
         if (!this.handle) await this.init();
         
-        // B"H: Optimization - In-Place Update if already dirty
+        // B"H: Update Dirty Cache
         let bufferToStore;
         if (this.dirtyBlocks.has(blockId)) {
              bufferToStore = this.dirtyBlocks.get(blockId);
-             // If caller passed a different buffer, copy. If same ref, no-op.
              if (buffer !== bufferToStore) {
                  buffer.copy(bufferToStore);
              }
-             // Move to end of Map (LRU)
+             // LRU refresh
              this.dirtyBlocks.delete(blockId);
              this.dirtyBlocks.set(blockId, bufferToStore);
         } else {
@@ -191,7 +208,6 @@ class Pager {
         }
 
         // B"H: WAL Log
-        // If batching, we skip WAL sync (pass true)
         this.wal.log(blockId, bufferToStore, this.isBatching); 
 
         // Auto-flush if pressure high
@@ -201,39 +217,76 @@ class Pager {
     }
     
     async flushDirty() {
-        if (this.dirtyBlocks.size === 0) return;
+        // Serialize Flushes
+        if (this._flushLock) {
+            await new Promise(resolve => this._flushQueue.push(resolve));
+        }
+        this._flushLock = true;
 
-        const sortedIds = Array.from(this.dirtyBlocks.keys()).sort((a,b) => a - b);
-        
-        let rangeStartId = sortedIds[0];
-        let rangeBuffers = [this.dirtyBlocks.get(rangeStartId)];
+        try {
+            if (this.dirtyBlocks.size === 0) return;
 
-        for(let i=1; i<sortedIds.length; i++) {
-            const id = sortedIds[i];
-            const prevId = sortedIds[i-1];
+            // B"H: Atomic Swap
+            // Move current dirty blocks to flushing state.
+            // Create new map for incoming writes.
+            this.flushingBlocks = this.dirtyBlocks;
+            this.dirtyBlocks = new Map();
+
+            const sortedIds = Array.from(this.flushingBlocks.keys()).sort((a,b) => a - b);
             
-            if (id === prevId + 1 && rangeBuffers.length < this.DB_IOV_MAX) {
-                rangeBuffers.push(this.dirtyBlocks.get(id));
-            } else {
+            let rangeStartId = sortedIds[0];
+            let rangeBuffers = [this.flushingBlocks.get(rangeStartId)];
+
+            for(let i=1; i<sortedIds.length; i++) {
+                const id = sortedIds[i];
+                const prevId = sortedIds[i-1];
+                
+                // B"H: Safety check
+                const buf = this.flushingBlocks.get(id);
+                if (!buf) continue;
+
+                if (id === prevId + 1 && rangeBuffers.length < this.DB_IOV_MAX) {
+                    rangeBuffers.push(buf);
+                } else {
+                    await this._writeVector(rangeStartId, rangeBuffers);
+                    rangeStartId = id;
+                    rangeBuffers = [buf];
+                }
+            }
+            
+            if(rangeBuffers.length > 0) {
                 await this._writeVector(rangeStartId, rangeBuffers);
-                rangeStartId = id;
-                rangeBuffers = [this.dirtyBlocks.get(id)];
+            }
+
+            await this.wal.flush();
+
+            // Recycle buffers
+            for (const buf of this.flushingBlocks.values()) {
+                this._recycleBuffer(buf);
+            }
+            this.flushingBlocks.clear();
+
+        } finally {
+            this._flushLock = false;
+            if (this._flushQueue.length > 0) {
+                const next = this._flushQueue.shift();
+                next();
             }
         }
-        
-        if(rangeBuffers.length > 0) {
-            await this._writeVector(rangeStartId, rangeBuffers);
-        }
-
-        await this.wal.flush();
-
-        for (const buf of this.dirtyBlocks.values()) {
-            this._recycleBuffer(buf);
-        }
-        this.dirtyBlocks.clear();
     }
 
     async _writeVector(startBlockId, buffers) {
+        // B"H: Validation
+        if (!buffers || buffers.length === 0) return;
+        // Check for undefined buffers which cause writev to throw
+        for(let i=0; i<buffers.length; i++) {
+            if (!buffers[i]) {
+                console.error(`B"H Pager Error: Undefined buffer at index ${i} in vector write. StartBlock: ${startBlockId}`);
+                // Heal: fill with zeros to prevent crash
+                buffers[i] = Buffer.alloc(constants.BLOCK_SIZE); 
+            }
+        }
+
         const offset = Number(BigInt(startBlockId) * BigInt(constants.BLOCK_SIZE));
         await this.handle.writev(buffers, offset);
         const endOffset = offset + (buffers.length * constants.BLOCK_SIZE);

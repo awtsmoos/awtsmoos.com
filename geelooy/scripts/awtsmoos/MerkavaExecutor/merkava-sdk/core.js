@@ -37,6 +37,10 @@
             const context = this._buildContext(options, memory);
             const vm = new self.MerkavaVM(memory, options.hostAPI, context, options.importResolver);
             
+            // B"H - Connect VM to Context Bridge
+            // This allows the async wrappers (raf, setTimeout) to spawn threads on this VM.
+            if (context.__vmRef) context.__vmRef.current = vm;
+
             // 5. Spawn Main Thread
             const thread = vm.spawn(codeObject);
             
@@ -84,21 +88,69 @@
         _buildContext(options, memory) {
             const baseContext = options.context || {};
             const overrides = {};
-
-            // Apply Polyfills & Overrides
-            // Use .bind to ensure they work when detached and prevent illegal invocation
-            overrides.console = baseContext.console || self.console;
-            // B"H - NOTE: setTimeout/Interval are now handled by the Host Wrapper in html-preview-templates.js
-            // But we keep fallbacks here just in case.
-            overrides.setTimeout = baseContext.setTimeout ? baseContext.setTimeout.bind(baseContext) : self.setTimeout.bind(self);
-            overrides.clearTimeout = baseContext.clearTimeout ? baseContext.clearTimeout.bind(baseContext) : self.clearTimeout.bind(self);
-            overrides.setInterval = baseContext.setInterval ? baseContext.setInterval.bind(baseContext) : self.setInterval.bind(self);
-            overrides.clearInterval = baseContext.clearInterval ? baseContext.clearInterval.bind(baseContext) : self.clearInterval.bind(self);
             
-            // B"H - Ensure CSSStyleDeclaration is available for instruction checks
+            // B"H - VM Reference Holder
+            // This allows the context to reference the VM instance which is created *after* the context.
+            const vmRef = { current: null };
+
+            // B"H - Closure Bridge
+            // Converts a VM Closure object into a Native JS Function.
+            // This is crucial for requestAnimationFrame, setTimeout, etc.
+            const bridge = (callback) => {
+                if (callback && callback.type === 'CLOSURE') {
+                    return (...args) => {
+                        const vm = vmRef.current;
+                        if (!vm) return;
+                        
+                        // Spawn a new thread for the callback
+                        const thread = vm.spawn(callback.code);
+                        
+                        // Restore Lexical Scope (Upvalues) from the Closure
+                        thread.currentUpvalues = callback.upvalues;
+                        thread.environment = callback.environment || thread.environment;
+                        
+                        // Map Native Arguments to VM Scope (0, 1, 2...)
+                        // e.g., timestamp for RAF
+                        thread.currentScope = { 
+                            'this': baseContext, 
+                            'arguments': args 
+                        };
+                        args.forEach((arg, i) => thread.currentScope[i] = arg);
+                        
+                        // Ignite the VM Loop
+                        if (vm.wake) vm.wake();
+                    };
+                }
+                // If it's already a native function (or unknown), pass it through
+                return callback;
+            };
+
+            // B"H - Override Async Schedulers
+            const schedulers = ['requestAnimationFrame', 'setTimeout', 'setInterval', 'setImmediate'];
+            const clearers = ['cancelAnimationFrame', 'clearTimeout', 'clearInterval', 'clearImmediate'];
+
+            schedulers.forEach(name => {
+                // Check both baseContext and Global Scope
+                const nativeFn = baseContext[name] || (typeof self !== 'undefined' ? self[name] : null);
+                if (typeof nativeFn === 'function') {
+                    overrides[name] = (cb, ...args) => {
+                        // Call native function with BRIDGED callback
+                        return nativeFn.call(baseContext, bridge(cb), ...args);
+                    };
+                }
+            });
+
+            clearers.forEach(name => {
+                 const nativeFn = baseContext[name] || (typeof self !== 'undefined' ? self[name] : null);
+                 if (typeof nativeFn === 'function') {
+                     overrides[name] = nativeFn.bind(baseContext);
+                 }
+            });
+
+            // B"H - Standard Overrides
+            overrides.console = baseContext.console || self.console;
             overrides.CSSStyleDeclaration = self.CSSStyleDeclaration || baseContext.CSSStyleDeclaration;
 
-            // B"H - REQUIRED FOR MODULE EXPORTS
             overrides.__define_live_export = (exports, key, env, localKey) => {
                 Object.defineProperty(exports, key, {
                     get: () => env[localKey],
@@ -106,6 +158,9 @@
                     configurable: true
                 });
             };
+            
+            // Attach vmRef to overrides (non-enumerable) so run() can populate it
+            Object.defineProperty(overrides, '__vmRef', { value: vmRef, enumerable: false });
 
             // B"H - TIKKUN: Use Proxy for Context
             const context = new Proxy(overrides, {
@@ -132,21 +187,15 @@
                     return (prop in target) || (prop in baseContext);
                 },
                 set(target, prop, value) {
-                    // B"H - TIKKUN: Smart Set Strategy
-                    
-                    // 1. If it's already in overrides, update overrides.
+                    // Smart Set Strategy
                     if (prop in target) {
                         target[prop] = value;
                         return true;
                     }
-                    
-                    // 2. If it's in baseContext, update baseContext (CRITICAL for onmessage).
                     if (prop in baseContext) {
                         baseContext[prop] = value;
                         return true;
                     }
-                    
-                    // 3. Otherwise, create new variable in overrides.
                     target[prop] = value;
                     return true;
                 },
