@@ -3,63 +3,45 @@ B"H
 
 # AwtsmoosDB: The Fractal Database of Infinite Light
 
-> *"In the beginning there was the Object. And the Object was with the Disk, and the Object WAS the Disk."*
+> *"The lowest world is connected to the highest world. Thus, in the coarse physical blocks of the Disk, the Essence of the Infinite Light is found."* — Based on *Sefer Yetzirah* & Chabad Chassidus
 
-**AwtsmoosDB** is a hyper-converged, persistence engine for Node.js that obliterates the boundary between Memory (RAM) and Storage (Disk). It is not just a database; it is a **Living Organism of Data**.
+**AwtsmoosDB** is not merely a database. It is a **hyper-converged persistence engine** that creates a "Dwelling Place in the Lower Worlds" (*Dirah B'Tachtonim*) for your JavaScript objects.
 
-It unifies:
-*   **Key-Value** (Dictionaries)
-*   **Ordered Maps** (B+ Trees)
-*   **Lists/Arrays** (Count-Indexed Trees)
-*   **Graph Networks** (Nodes & Edges)
-*   **Vector Search** (HNSW AI Embeddings)
-*   **Full-Text Search** (Inverted Indices)
-
-All accessible through a single, fractal JavaScript proxy called the **LiveHandle**.
+It obliterates the **Galut** (Exile) of serialization. In traditional databases, you must kill your objects (serialize to JSON) to bury them in the grave of the disk. In AwtsmoosDB, your objects live eternally. The Object *is* the Disk.
 
 ---
 
-B"H
 ## 📜 The Scroll of Contents
 
-1.  [🌌 The Philosophy (Ma'amar)](##-the-philosophy)
-2.  [⚡ Genesis (Installation)](##-genesis)
-3.  [🔮 The Divine Interface (LiveHandle)](##-the-divine-interface)
-4.  [🏗️ The Structures of Creation](##-the-structures-of-creation)
-    *   [The Aleph: Primitives](##-the-aleph-primitives)
-    *   [The Vessel: Objects (Insertion Order)](##-the-vessel-objects)
-    *   [The Tree of Life: Maps (Sorted Order)](##-the-tree-of-life-maps)
-    *   [The Infinite Chain: Sequences (Arrays)](##-the-infinite-chain-sequences)
-    *   [The Range: Teleportation](##-the-range-teleportation)
+1.  [🌌 The Philosophy (Chassidus)](##-the-philosophy-chassidus)
+2.  [⚡ Genesis (Installation)](##-genesis-installation)
+3.  [🔮 The Divine Interface (LiveHandle)](##-the-divine-interface-livehandle)
+4.  [🏗️ The Four Worlds (Data Structures)](##-the-four-worlds-data-structures)
 5.  [🕸️ The Web of Being (Graph DB)](##-the-web-of-being-graph-db)
 6.  [👁️ The Eye of Wisdom (Vector AI)](##-the-eye-of-wisdom-vector-ai)
 7.  [🗣️ The Voice (Full-Text Search)](##-the-voice-full-text-search)
 8.  [🧠 The Da'at (Query Engine)](##-the-daat-query-engine)
-9.  [⚰️ Resurrection (Classes)](##-resurrection-classes)
-10. [⏳ Time & Consistency](##-time--consistency)
-11. [⚙️ The Engine Room](##-the-engine-room)
+9.  [⚰️ Techiyas HaMeisim (Class Resurrection)](##-techiyas-hameisim-class-resurrection)
+10. [📚 The Book of Examples](##-the-book-of-examples)
+11. [⚙️ Complete API Reference](##-complete-api-reference)
 
 ---
 
-B"H
-## <a name="-the-philosophy"></a> 🌌 The Philosophy (Ma'amar)
+## <a name="-the-philosophy-chassidus"></a> 🌌 The Philosophy (Chassidus)
 
-> *"There is nothing new under the sun."* — Ecclesiastes 1:9
+In the teachings of Chassidus, it is explained that *Atzmus* (The Essence) is found in everything. There is no separation between the spiritual idea and the physical vessel.
 
-Most databases force you into "Exile" (Galut). You must take your living, breathing JavaScript objects, kill them (serialize to JSON strings), and bury them in a foreign table (SQL/NoSQL). When you want them back, you must dig them up and resurrect them.
-
-**AwtsmoosDB** brings "Redemption" (Geulah).
-Your objects live on the disk. They are never serialized into a monolithic string. They are stored as **Fractals**.
-*   A 1TB array is just a 16-byte pointer.
-*   Accessing `db.users[5000]` does not load the other 4,999 users. It seeks directly to the block containing index 5000.
-*   **No Schema.** The structure determines itself.
+**AwtsmoosDB** reflects this unity:
+*   **No Schema:** The vessel adapts to the light.
+*   **No Serialization:** The memory (`RAM`) and the storage (`Disk`) are treated as a single continuum.
+*   **Fractal Storage:** A list of 1 billion items is stored as a tree. Accessing item 1,000,000 takes `O(log n)` time. You do not load the whole array.
+*   **Lazy Loading:** Data is drawn down (*Hamshacha*) only when observed.
 
 ---
 
-B"H
-## <a name="-genesis"></a> ⚡ Genesis (Installation)
+## <a name="-genesis-installation"></a> ⚡ Genesis (Installation)
 
-To create the universe, one needs but a command.
+To bring this creation into your project:
 
 ```bash
 npm install awtsmoos-db
@@ -71,316 +53,385 @@ npm install awtsmoos-db
 // B"H
 const AwtsmoosDB = require('awtsmoos-db');
 
-// The universe is contained in a single file (plus a WAL for safety).
-const db = new AwtsmoosDB('./universe.db');
+// Initialize the Universe
+const db = new AwtsmoosDB('./creation.db', {
+    cacheSize: 5000, // Blocks in RAM (The "Brain")
+    debug: false     // Verbose prophetic visions
+});
 
-// Open the Gates of Wisdom
+// Open the Gates
 await db.open();
 
-// Creation is immediate.
-db.root.message = "Let there be light";
+// Creation is effortless
+db.root.light = "Infinite";
+await db.waitForIdle(); // Ensure it is written to the physical realm
 
-// The Write is asynchronous (fire-and-forget).
-// To guarantee it is written to the physical platter:
-await db.waitForIdle();
-
-// Reading back:
-const msg = await db.root.message;
-console.log(msg); // "Let there be light"
+console.log(await db.root.light); // "Infinite"
 ```
 
 ---
 
-B"H
-## <a name="-the-divine-interface"></a> 🔮 The Divine Interface (LiveHandle)
+## <a name="-the-divine-interface-livehandle"></a> 🔮 The Divine Interface (LiveHandle)
 
-The `LiveHandle` is the soul of the system. It is a Proxy that intercepts your access.
+The `LiveHandle` is the *Sefirah of Malchut*—the interface through which you interact with the essence. It behaves like a standard JavaScript Proxy.
 
-*   **Read**: Accessing a property returns a `Promise`. You must `await` it.
-*   **Write**: Assigning a property returns `true` immediately. The engine manages the I/O in the background via a Write-Ahead Log (WAL).
-
-### The Secret of Consistency
-> *"The end is wedged in the beginning."* — Sefer Yetzirah
-
-You do **not** need to wait for a write to finish before reading it back.
-The database maintains strict internal ordering.
-
-```javascript
-// B"H
-db.root.status = "Loading";
-db.root.status = "Ready";
-
-// This will ALWAYS be "Ready", even if the disk hasn't spun yet.
-// The read operation waits for the write queue to drain for that specific key.
-const current = await db.root.status; 
-```
+1.  **Read:** Accessing a property returns a `Promise`.
+    ```javascript
+    const val = await db.root.user.name;
+    ```
+2.  **Write:** Setting a property returns `true` immediately (asynchronous write).
+    ```javascript
+    db.root.user.name = "Yackov";
+    ```
+3.  **Traverse:** You can chain properties infinitely.
+    ```javascript
+    await db.root.galaxies.milkyWay.solarSystem.earth.set("inhabited", true);
+    ```
 
 ---
 
-B"H
-## <a name="-the-structures-of-creation"></a> 🏗️ The Structures of Creation
+## <a name="-the-four-worlds-data-structures"></a> 🏗️ The Four Worlds (Data Structures)
 
-### <a name="-the-aleph-primitives"></a> The Aleph: Primitives
-AwtsmoosDB stores all standard JS types natively.
+AwtsmoosDB creates specific structures based on how you interact with it.
 
-```javascript
-// B"H
-db.root.config = {
-    pi: 3.14159,                // Double
-    isActive: true,             // Boolean
-    created: new Date(),        // Date (Stored as double timestamp)
-    pattern: /Awtsmoos/i,       // RegExp
-    secret: Buffer.from("00"),  // Buffer (Binary)
-    big: 9007199254740991n      // BigInt (Stored as string)
-};
-```
+### 1. The World of Primitives (Scalars)
+Stores `String`, `Number`, `Boolean`, `null`, `undefined`, `BigInt`, `Date`, `RegExp`, `Buffer`.
 
-### <a name="-the-vessel-objects"></a> The Vessel: Objects (Insertion Order)
-Standard objects are stored as **Dictionaries**. They preserve the order in which keys were added.
+### 2. The World of Objects (Dictionaries)
+Created via `{}` assignment or `createObject`.
+*   **Nature:** Preserves Insertion Order.
+*   **Use Case:** Settings, User Profiles, irregular data.
 
-```javascript
-// B"H
-// Use createObject explicitly, or just assign a {} literal.
-await db.root.createObject("userProfile");
+### 3. The World of Maps (B-Trees)
+Created via `createMap`.
+*   **Nature:** Keys are **Sorted Alphabetically**.
+*   **Use Case:** Large datasets, Indices, Directories.
+*   **Power:** Supports Range Queries (`db.range`).
 
-await db.root.userProfile.set("name", "Yackov");
-await db.root.userProfile.set("age", 30);
-await db.root.userProfile.set("role", "Admin");
-
-// Iteration yields: name, age, role (Insertion Order)
-for await (const k of db.root.userProfile.keys()) {
-    console.log(k); 
-}
-```
-
-### <a name="-the-tree-of-life-maps"></a> The Tree of Life: Maps (Sorted Order)
-When you need keys sorted alphabetically (e.g., for range queries), use a **Map** (B+ Tree).
-
-```javascript
-// B"H
-await db.root.createMap("inventory");
-
-// Insert in random order
-await db.root.inventory.set("zebra", 10);
-await db.root.inventory.set("apple", 5);
-await db.root.inventory.set("mango", 20);
-
-// Iteration yields: apple, mango, zebra (Sorted Order)
-for await (const entry of db.root.inventory) {
-    console.log(entry.key, await entry.value);
-}
-```
-
-### <a name="-the-infinite-chain-sequences"></a> The Infinite Chain: Sequences (Arrays)
-Arrays in AwtsmoosDB are **Count-Indexed Trees**. They support O(log N) random access and splicing.
-
-```javascript
-// B"H
-await db.root.createList("timeline");
-
-// Push (Append)
-await db.root.timeline.push("Creation");
-await db.root.timeline.push("Flood");
-await db.root.timeline.push("Exodus");
-
-// Splice (Insert in Middle)
-// Insert "Patriarchs" at index 2
-await db.root.timeline.splice(2, 0, "Patriarchs");
-
-// Result: ["Creation", "Flood", "Patriarchs", "Exodus"]
-
-// Random Access
-const event = await db.root.timeline[2]; // "Patriarchs"
-```
-
-### <a name="-the-range-teleportation"></a> The Range: Teleportation
-If you use `createMap`, you can perform **Range Queries**. The engine seeks directly to the start key and stops at the end key.
-
-```javascript
-// B"H
-// Get all words between "M" and "P"
-const iterator = db.root.dictionary.range("M", "P");
-
-for await (const {key, value} of iterator) {
-    console.log(key); // Mango, Melon, Orange, Papaya...
-}
-// Does not read "Apple" (before M) or "Zebra" (after P). Efficient!
-```
+### 4. The World of Sequences (Arrays)
+Created via `[]` assignment or `createList`.
+*   **Nature:** Count-Indexed B-Tree.
+*   **Use Case:** Timelines, Logs, Feeds.
+*   **Power:** `push`, `pop`, `shift`, `unshift`, `splice` at any index instantly.
 
 ---
 
-B"H
 ## <a name="-the-web-of-being-graph-db"></a> 🕸️ The Web of Being (Graph DB)
 
-> *"Everything is connected to everything else."* — Zohar
+> *"Everything is connected to everything else."*
 
-Any object in the DB can be a **Node**. You can link them with **Edges**.
+Every object in AwtsmoosDB can be a **Node**. You can link any two objects with **Edges**.
 
 ```javascript
-// B"H
-const alice = db.root.users.alice;
-const bob = db.root.users.bob;
+const adam = db.root.users.adam;
+const eve = db.root.users.eve;
 
-// Alice KNOWS Bob since 2022
-await alice.relateTo(bob, "KNOWS", { since: 2022 });
+// Connect
+await db.graph.connect(adam, eve, "MARRIED_TO", { since: "Creation" });
 
-// Query Relations
-const friends = await alice.relationships("OUT", "KNOWS");
-const firstFriend = friends[0].node; // Resolves to bob's handle
-
-// Traversal (BFS)
-await alice.traverse(async (node, depth) => {
-    console.log(`Visited ${await node.name} at depth ${depth}`);
-}, { maxDepth: 3 });
-
-// Pathfinding (Shortest Path)
-const path = await alice.path(db.root.users.charlie);
-// [Alice] -> [Bob] -> [Charlie]
+// Traverse
+const relations = await db.graph.getRelationships(adam, "OUT");
+console.log(relations[0].label); // "MARRIED_TO"
 ```
 
 ---
 
-B"H
 ## <a name="-the-eye-of-wisdom-vector-ai"></a> 👁️ The Eye of Wisdom (Vector AI)
 
-Store embeddings and perform Semantic Search using the built-in **HNSW (Hierarchical Navigable Small World)** engine.
+Embeddings are the "Soul" of data. Store high-dimensional vectors and perform **HNSW (Hierarchical Navigable Small World)** searches.
 
 ```javascript
-// B"H
-await db.root.createList("memories");
+// Enable Vector Index on a list
+await db.vector.enable(db.root.memories, { dimensions: 1536 });
 
-// 1. Enable Index
-await db.root.memories.enableVectorIndex({ dimensions: 4, metric: 'cosine' });
-
-// 2. Insert Data (Must have 'vector' or 'embedding' field)
-await db.root.memories.push({ 
-    id: "mem_1", 
-    text: "I love coding", 
-    vector: [0.1, 0.9, 0.1, 0.0] 
+// Insert
+await db.root.memories.push({
+    text: "The essence of light",
+    vector: [0.1, 0.2, ...], // 1536 floats
 });
 
-// 3. Search
-const query = [0.1, 0.95, 0.0, 0.0];
-const results = await db.root.memories.nearest(query, 5); // Top 5
-
-console.log(results[0].item.text); // "I love coding"
-console.log(results[0].score);     // 0.001 (Distance)
+// Search
+const results = await db.vector.nearest(db.root.memories, queryVector, 5);
 ```
 
 ---
 
-B"H
 ## <a name="-the-voice-full-text-search"></a> 🗣️ The Voice (Full-Text Search)
 
-> *"And He spoke, and the world came into being."*
-
-Instant Google-like search over your objects.
+An Inverted Index engine built directly into the storage.
 
 ```javascript
-// B"H
-await db.root.createList("library");
-await db.root.library.enableSearch();
+// Enable Search Index
+await db.search.enable(db.root.library);
 
-await db.root.library.push({ title: "Tanya", content: "The book of the intermediate man" });
-await db.root.library.push({ title: "Zohar", content: "The book of radiance" });
+// Insert Data
+await db.root.library.push({ title: "Tanya", content: "Longer is shorter..." });
 
-// Search for partial matches
-const books = await db.root.library.search("radiance");
-console.log(books[0].title); // "Zohar"
+// Query
+const matches = await db.search.run(db.root.library, "longer shorter");
 ```
 
 ---
 
-B"H
 ## <a name="-the-daat-query-engine"></a> 🧠 The Da'at (Query Engine)
 
-Complex filtering with MongoDB-style syntax, plus Graph integration.
+A MongoDB-like query language that operates directly on the fractal structures.
 
 ```javascript
-// B"H
-const results = await db.root.users.query({
+const results = await db.query(db.root.users, {
     $filter: {
-        age: { $gte: 18 },
-        role: { $in: ["admin", "moderator"] },
-        // Graph Query Inside Filter!
+        age: { $gte: 13 },
+        "address.city": "Jerusalem",
         $relatedTo: {
-            direction: "OUT",
-            label: "MANAGES",
-            match: { department: "IT" }
+            label: "STUDENT_OF",
+            match: { name: "Rabbi Akiva" }
         }
     },
-    $slice: [0, 20], // Pagination
-    $map: {          // Projection
-        name: true,
-        yearsActive: "stats.years" 
-    }
+    $slice: [0, 10]
 });
 ```
 
 ---
 
-B"H
-## <a name="-resurrection-classes"></a> ⚰️ Resurrection (Classes)
+## <a name="-techiyas-hameisim-class-resurrection"></a> ⚰️ Techiyas HaMeisim (Class Resurrection)
 
-AwtsmoosDB performs *Techiyas HaMeisim* (Resurrection of the Dead).
-If you save an instance of a class, the database stores the **Source Code** of the class. When you read it back, it is re-instantiated with its methods intact.
+If you save an instance of a JavaScript Class, AwtsmoosDB saves the **Source Code** of the class. Upon reading, it dynamically resurrects the class prototype.
 
 ```javascript
-// B"H
-class Golem {
-    constructor(name) { this.name = name; this.active = false; }
-    activate() { this.active = true; return "EMET"; }
+class Soul {
+    sing() { return "Halleluyah"; }
 }
 
-// Save
-db.root.guardian = new Golem("Yosef");
-await db.waitForIdle();
-
-// -- RESTART DATABASE --
-
-// Load
-const g = await db.root.guardian;
-console.log(g.activate()); // "EMET" - Method works!
+db.root.neshamah = new Soul();
+// ... Restart Database ...
+const s = await db.root.neshamah;
+console.log(s.sing()); // "Halleluyah"
 ```
 
 ---
 
-B"H
-## <a name="-time--consistency"></a> ⏳ Time & Consistency
+## <a name="-the-book-of-examples"></a> 📚 The Book of Examples
 
-### The Read/Write Lock
-The database allows:
-*   **Multiple Simultaneous Readers**: Many `await db.root.x` calls can run in parallel.
-*   **Exclusive Writer**: Only one write transaction happens at a time, but it queues automatically.
-
-### Batch Mode
-For massive imports, use `batch()`. It disables the `fsync` (disk flush) after every write and only flushes once at the end.
+### Example 1: The Infinite Scroll (Splicing)
+Insert items into the middle of a massive array without rewriting the file.
 
 ```javascript
-// B"H
+await db.createList(db.root, "feed");
+
+// 1. Initial Load
+const batch1 = Array.from({length: 1000}, (_, i) => `Post ${i}`);
+await db.root.feed.push(...batch1);
+
+// 2. Insert Ad at index 500
+await db.root.feed.splice(500, 0, { type: "Ad", text: "Buy Mitvos!" });
+
+// 3. Verify
+const item500 = await db.root.feed[500];
+console.log(item500.type); // "Ad"
+```
+
+### Example 2: The Deep Dive (Nested Maps)
+Create a directory structure.
+
+```javascript
+await db.createMap(db.root, "filesystem");
+await db.createMap(db.root.filesystem, "home");
+await db.createMap(db.root.filesystem.home, "user");
+await db.root.filesystem.home.user.set("config.json", { theme: "dark" });
+
+// Access
+const config = await db.root.filesystem.home.user["config.json"];
+```
+
+### Example 3: The Social Network (Graph)
+finding friends of friends.
+
+```javascript
+// Assume users exist
+const me = db.root.users.me;
+const friend = db.root.users.friend;
+const stranger = db.root.users.stranger;
+
+await db.graph.connect(me, friend, "FRIEND");
+await db.graph.connect(friend, stranger, "FRIEND");
+
+// Find Path
+const path = await db.graph.shortestPath(me, stranger, { maxDepth: 3 });
+// Output: [ {node: me}, {edge:..., node: friend}, {edge:..., node: stranger} ]
+```
+
+### Example 4: The Librarian (Search & Vector)
+Hybrid search combining meaning and keywords.
+
+```javascript
+const library = db.root.library;
+
+// 1. Keyword Filter
+const candidates = await db.search.run(library, "kabbalah meditation");
+
+// 2. Semantic Rank (Re-ranking)
+const vectorResults = await db.vector.nearest(library, queryVec, 100);
+
+// Intersection Logic (Simplified)
+const bestMatch = vectorResults.find(v => candidates.some(c => c.id === v.item.id));
+```
+
+### Example 5: The Time Machine (Circular References)
+Saving objects that reference themselves.
+
+```javascript
+const chicken = { name: "Chicken" };
+const egg = { name: "Egg" };
+chicken.child = egg;
+egg.parent = chicken;
+
+db.root.paradox = chicken;
+await db.waitForIdle();
+
+const c = await db.root.paradox;
+const e = await c.child;
+const c2 = await e.parent; // Points back to Chicken!
+```
+
+### Example 6: The Architect (Batching)
+Importing massive data efficiently.
+
+```javascript
+const hugeData = fetchHugeData(); // 100k items
+
+// Disables FS Sync for individual writes
 await db.batch(async () => {
-    for(let i=0; i<10000; i++) {
-        await db.root.logs.push(i);
+    for(const item of hugeData) {
+        await db.root.bigList.push(item);
     }
 });
-// fsync happens once here. Lightning fast.
+// Syncs once at the end
+```
+
+### Example 7: The Accountant (BigInt & Maps)
+Precision math.
+
+```javascript
+const ledger = new Map();
+ledger.set("wallet_1", 9007199254740991n);
+ledger.set("wallet_2", 100n);
+
+db.root.ledger = ledger; // Auto-converts to B-Tree Map
+await db.waitForIdle();
+
+const bal = await db.root.ledger.get("wallet_1"); // Returns BigInt
+```
+
+### Example 8: The Mystic (Range Queries)
+Iterate alphabetically.
+
+```javascript
+await db.createMap(db.root, "dictionary");
+// ... insert words ...
+
+// Get words starting with 'a' through 'c'
+for await (const entry of db.range(db.root.dictionary, "a", "d")) {
+    console.log(entry.key); // apple, boy, cat...
+}
+```
+
+### Example 9: The Cleaner (Compaction)
+Reclaim space after deletions.
+
+```javascript
+await db.root.logs.splice(0, 5000); // Delete 5k items
+const stats = await db.stats(db.root.logs);
+
+if (stats.fragmentation > 0.3) {
+    console.log("Compacting...");
+    await db.compact(db.root.logs);
+}
+```
+
+### Example 10: The Observer (Graph Algorithms)
+Who is the most important node?
+
+```javascript
+// Run PageRank on the entire graph stored in 'db.root.network'
+const ranks = await db.graph.pageRank({ iterations: 20 });
+console.log("Most influential node:", ranks[0].id);
+```
+
+### Example 11: The Analyst (Complex Query)
+Projection and filtering.
+
+```javascript
+const result = await db.query(db.root.users, {
+    $filter: { age: { $gt: 18 } },
+    $map: {
+        fullName: "profile.name",
+        isAdmin: { $check: { role: "admin" } }
+    }
+});
+```
+
+### Example 12: The Binary Vault (Buffers)
+Storing images/files directly.
+
+```javascript
+const fs = require('fs');
+const img = fs.readFileSync('image.png');
+
+db.root.files.myImage = img;
+await db.waitForIdle();
+
+const loaded = await db.root.files.myImage;
+// loaded is a Buffer
 ```
 
 ---
 
-B"H
-## <a name="-the-engine-room"></a> ⚙️ The Engine Room
+## <a name="-complete-api-reference"></a> ⚙️ Complete API Reference
 
-1.  **The Pager**: Reads/Writes 4096-byte blocks. Handles the WAL (Write-Ahead Log) for crash recovery.
-2.  **The Allocator**: Manages free space using a bitmap in every block header. Supports "Heap" allocation (small objects sharing a block) and "Chain" allocation (large files spanning blocks).
-3.  **Smart Pointers**: 16-byte DNA stored in parent objects. Contains BlockID (48-bit), Length, Offset, and Flags.
-4.  **Engines**:
-    *   `MapEngine`: B+ Tree.
-    *   `SequenceEngine`: Count-Indexed B-Tree.
-    *   `VectorEngine`: HNSW Graph on Disk.
-    *   `Dictionary`: Hash-like insertion order storage.
+### `AwtsmoosDB` Class
+*   `constructor(path, options)`:
+    *   `cacheSize`: (Default 5000) Pages to keep in RAM.
+    *   `debug`: (Default false) Log internal ops.
+*   `open()`: Opens file/WAL.
+*   `close()`: Syncs and closes.
+*   `waitForIdle()`: **Crucial.** Awaits all pending background writes.
+*   `batch(fn)`: Runs `fn` without syncing to disk until completion.
+*   `compact(handle)`: Re-writes a specific structure to remove fragmentation.
+*   `stats(handle)`: Returns `{ count, size, capacity, fragmentation }`.
+*   `size(handle)`: Returns count of items.
+*   `keys(handle)`, `values(handle)`, `entries(handle)`: Returns Arrays.
+*   `streamKeys`, `streamValues`, `streamEntries`: Returns Async Iterators.
+*   `range(handle, start, end)`: Range iterator for Maps.
+
+### `db.graph`
+*   `connect(src, tgt, label, props)`: Creates an edge.
+*   `getRelationships(node, direction, label)`: Returns array of edges.
+*   `deleteNode(nodeHandle)`: Deletes node and cleans up edges.
+*   `shortestPath(start, end, options)`: BFS search.
+*   `traverse(start, visitor, options)`: Graph walker.
+*   `pageRank(options)`: Graph centrality algorithm.
+*   `communityDetection()`: Label propagation.
+
+### `db.vector`
+*   `enable(handle, config)`: Turns a List/Map into a Vector Store.
+    *   `dimensions`: (e.g., 1536)
+    *   `metric`: 'cosine', 'l2', 'dot'
+*   `nearest(handle, vec, k)`: Returns top `k` matches `{ item, score }`.
+*   `insert(path, key, vector, payload)`: Manual insert (auto-handled by `push`).
+
+### `db.search`
+*   `enable(handle)`: Indexes string content in the container.
+*   `run(handle, query)`: Returns matching objects.
+*   `reindex(path)`: Rebuilds index.
+
+### `db.query`
+*   `execute(handle, criteria)`:
+    *   `$filter`: Mongo-style filter.
+    *   `$map`: Projection.
+    *   `$slice`: Pagination.
+    *   `$relatedTo`: Graph filter.
 
 ---
 
 **B"H.**
-*May this tool bring clarity to your data and light to your code.*
+*The vessels are broken, but the light remains. Use this tool to gather the sparks.*
