@@ -97,6 +97,7 @@ async showTextEditor(content = "", filename = "", scrollPos = 0) {
 					".js": "js",
 					".mjs": "js",
 					".css": "css",
+					".c": "c",
 					".html": "html",
 					".htm": "html",
 					".svg": "html",

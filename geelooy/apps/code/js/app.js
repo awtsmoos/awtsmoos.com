@@ -11,11 +11,12 @@ import { Tabs } from './tabs/index.js';
 import { Workspaces } from './workspaces.js';
 import { FindReplace } from './find-replace.js';
 import { CustomMenu } from './custom-menu.js';
-import { GitManager } from "./git/index.js"; // B"H - Updated Import
+import { GitManager } from "./git/index.js"; 
 import { HexEditor } from './hex-editor.js';
 import { Session } from './session.js';
 import { setupEventListeners } from './app/event-listeners.js';
 import { TabManagerOverlay } from './tab-manager-overlay.js';
+import { ModelManager } from './vibe/model-manager.js'; // B"H - Import Model Manager
 
 export const App = {
     getTabString: () => State.useTabs ? '\t' : '    ',
@@ -44,6 +45,7 @@ export const App = {
             ]);
 
             this.loadSettings();
+            ModelManager.init(); // B"H - Init Vibe Model Manager
 
             const isEmbedded = new URLSearchParams(window.location.search).get('embedded') === 'true';
             if (!isEmbedded) {
@@ -100,7 +102,6 @@ export const App = {
         const gitContexts = [];
         let item = activeTab.item;
         
-        // B"H - Loop upwards to find ALL nested git repos
         if (item.type === 'github') {
             const ws = State.workspaces.find(w => w.id === item.workspaceId);
             if (ws) gitContexts.push(ws);
@@ -194,26 +195,61 @@ export const App = {
     },
 
     async showSettings() {
+        // B"H - Combined Settings HTML
         const contentHTML = `
-            <label for="github-token-input" style="font-weight: 600; margin-bottom: -8px;">GitHub Personal Access Token</label>
-            <input type="password" id="github-token-input" value="${State.githubToken || ''}" placeholder="ghp_...">
-            <div style="display: flex; align-items: center; gap: 10px; margin-top: 15px;">
-                <input type="checkbox" id="use-tabs-checkbox" ${State.useTabs ? 'checked' : ''} style="width: auto;">
-                <label for="use-tabs-checkbox">Use Tab Characters (instead of spaces)</label>
+            <div style="margin-bottom: 20px;">
+                <h4 style="margin-top:0; color:var(--neon-cyan);">General</h4>
+                <div style="margin-bottom: 10px;">
+                    <label for="github-token-input" style="font-weight: 600; font-size:0.9em;">GitHub Personal Access Token</label>
+                    <input type="password" id="github-token-input" value="${State.githubToken || ''}" placeholder="ghp_..." style="margin-top:5px;">
+                </div>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <input type="checkbox" id="use-tabs-checkbox" ${State.useTabs ? 'checked' : ''} style="width: auto;">
+                    <label for="use-tabs-checkbox">Use Tab Characters</label>
+                </div>
             </div>
+            
+            <hr style="border:0; border-top:1px solid var(--color-border); margin:20px 0;">
+            
+            <!-- B"H - Injected Vibe Settings -->
+            ${ModelManager.getSettingsPanelHTML()}
         `;
-        const result = await UI.showDialog({
+
+        // We use the Promise wrapper but also attach listeners immediately after display
+        const dialogPromise = UI.showDialog({
             title: 'Settings',
             contentHTML,
             okText: 'Save',
             cancelText: 'Cancel'
-        }); 
+        });
+
+        // B"H - Attach Model Manager Listeners to the open dialog
+        // We need a slight delay or synchronous access to the DOM which is now active
+        const dialogEl = document.getElementById('generic-dialog');
+        const contentContainer = dialogEl.querySelector('.dialog-content');
+        
+        // Helper to refresh the dialog content without closing it
+        const refreshSettingsUI = () => {
+            // Find the Vibe panel and replace it
+            const vibePanel = contentContainer.querySelector('.vibe-settings-panel');
+            if(vibePanel) {
+                vibePanel.outerHTML = ModelManager.getSettingsPanelHTML();
+                // Re-bind
+                ModelManager.bindSettingsEvents(contentContainer, refreshSettingsUI);
+            }
+        };
+
+        ModelManager.bindSettingsEvents(contentContainer, refreshSettingsUI);
+
+        const result = await dialogPromise;
 
         if (result) {
             const token = document.getElementById('github-token-input').value;
             State.githubToken = token || null;
             State.useTabs = document.getElementById('use-tabs-checkbox').checked;
             this.saveSettings();
+            
+            // ModelManager saves itself during interaction, so no explicit save needed here
             UI.showToast('Settings saved.', 'success');
         }
     },

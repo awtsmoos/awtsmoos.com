@@ -22,7 +22,8 @@
     <link href="css/zip-explorer.css" rel="stylesheet">
     <link href="css/tab-manager.css" rel="stylesheet">
     <link href="css/file-commander.css" rel="stylesheet"> 
-    <link href="css/search.css" rel="stylesheet"> <!-- B"H - Added Search CSS -->
+    <link href="css/search.css" rel="stylesheet"> 
+    <link href="css/vibe.css" rel="stylesheet"> <!-- B"H - Vibe Coding Styles -->
     <!-- Fallback/Overwrites -->
     <link href="style.css" rel="stylesheet"> 
 </head>  
@@ -93,8 +94,10 @@
             	<div id="console-host" class="hidden"></div>
     		<div id="iframe-cache" class="hidden" style="display:none;"></div>
 		<div id="hex-editor-wrapper" class="hidden"></div>
-        <!-- B"H - Zip Editor Wrapper -->
         <div id="zip-editor-wrapper" class="hidden"></div>
+        
+        <!-- B"H - Vibe Editor Wrapper -->
+        <div id="vibe-editor-wrapper" class="hidden"></div>
 
                 <div id="editor-wrapper" class="hidden">
                     <div id="line-numbers">1</div>
@@ -144,7 +147,6 @@
     <div id="toast-container" class="toast-container"></div>
     <div id="main-menu"></div>
     <div id="context-menu"></div>
-    <!-- B"H - ADD THIS NEW ELEMENT -->
     <div id="selection-menu" class="selection-menu-bar"></div>
     
     <!-- B"H - Tab Manager Overlay -->
@@ -181,7 +183,7 @@
         </div>
     </div>
     
-    <!-- B"H - SEARCH OVERLAY (NEW) -->
+    <!-- B"H - SEARCH OVERLAY -->
     <div id="search-overlay" class="search-overlay hidden">
         <div class="search-window">
             <div class="search-header">

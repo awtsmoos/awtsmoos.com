@@ -23,12 +23,19 @@ export function setupEventListeners() {
         const { type, payload, requestId, error } = event.data;
         
         const handleFileRead = async (workspaceId, path) => {
+            // B"H - Stream directly from Workspace (FileSystemProvider)
+            // We do NOT check open tabs here, as requested. The Workspace is the source of truth.
+            
             const workspace = State.workspaces.find(ws => String(ws.id) === String(workspaceId));
             if (!workspace) throw new Error(`Workspace ${workspaceId} not found`);
+            
             const item = { ...workspace, path: path, kind: 'file' };
             let content = await FileSystemProvider.read(item);
+            
+            // Normalize Content for Transport
             if (content instanceof Blob) content = await content.text();
             else if (content && content.base64Content) content = atob(content.base64Content);
+            
             return content;
         };
 
@@ -53,12 +60,22 @@ export function setupEventListeners() {
                 } else {
                     // Workspace File Resolution
                     let absolutePath = targetPath;
-                    if (referrer && targetPath.startsWith('.')) {
+                    
+                    // B"H - ROBUST RELATIVE PATH RESOLUTION
+                    // Handles 'register.js', './register.js', '../lib/script.js' relative to referrer
+                    if (referrer && !targetPath.startsWith('/') && !targetPath.match(/^[a-z]+:/)) {
                         const referrerPath = referrer.startsWith('/') ? referrer : '/' + referrer;
-                        const baseUrl = new URL(referrerPath, 'http://root');
-                        absolutePath = new URL(targetPath, baseUrl).pathname;
+                        // Use URL API for standard path resolution
+                        // We use a dummy domain 'http://root' to allow the URL constructor to work
+                        const baseUrl = new URL(referrerPath, 'http://root'); 
+                        const resolvedUrl = new URL(targetPath, baseUrl);
+                        absolutePath = resolvedUrl.pathname;
                         absolutePath = decodeURIComponent(absolutePath);
                     }
+                    
+                    // Ensure leading slash for workspace lookup consistency
+                    if (!absolutePath.startsWith('/')) absolutePath = '/' + absolutePath;
+
                     content = await handleFileRead(workspaceId, absolutePath);
                 }
                 
@@ -73,7 +90,10 @@ export function setupEventListeners() {
             } catch (e) {
                 const responseType = type === 'import-request' ? 'import-response' : 
                                      type === 'fetch-worker-script' ? 'worker-script-response' : 'script-content-response';
-                event.source.postMessage({ type: responseType, id, error: e.toString() }, '*');
+                // Only post back error if source exists
+                if (event.source) {
+                    event.source.postMessage({ type: responseType, id, error: e.toString() }, '*');
+                }
             }
             return;
         }
