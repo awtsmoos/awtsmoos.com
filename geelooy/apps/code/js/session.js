@@ -1,3 +1,4 @@
+
 // B"H
 // FILE: js/session.js
 import { State } from './state.js';
@@ -28,7 +29,8 @@ export const Session = {
 
             const persistableTabs = State.tabs
                 .filter(tab => {
-                    return (tab.item.workspaceId !== undefined && allowedWsIds.has(tab.item.workspaceId)) || tab.item.type === 'temp';
+                    // B"H - Explicitly allow 'vibe-session' item types
+                    return (tab.item.workspaceId !== undefined && allowedWsIds.has(tab.item.workspaceId)) || tab.item.type === 'temp' || tab.item.type === 'vibe-session';
                 })
                 .map(tab => {
                     const safeItem = {
@@ -39,8 +41,12 @@ export const Session = {
                         workspaceId: tab.item.workspaceId, 
                         repoInfo: tab.item.repoInfo,       
                         branch: tab.item.branch,           
-                        sha: tab.item.sha
+                        sha: tab.item.sha,
+                        originalType: tab.item.originalType // Persist original type for Vibe
                     };
+
+                    // B"H - For Vibe tabs, 'content' is the session object.
+                    const contentToSave = (tab.isDirty || tab.item.type === 'temp' || tab.fileType === 'vibe') ? tab.content : null;
 
                     return { 
                         id: tab.id,
@@ -50,7 +56,7 @@ export const Session = {
                         scrollPos: tab.scrollPos || 0,
                         fileType: tab.fileType,
                         item: safeItem,
-                        content: (tab.isDirty || tab.item.type === 'temp') ? tab.content : null 
+                        content: contentToSave
                     };
                 });
 
@@ -104,6 +110,12 @@ export const Session = {
                 let maxTabId = 0;
                 State.tabs = session.openTabs.map(t => {
                     if (t.id >= maxTabId) maxTabId = t.id + 1;
+                    
+                    // B"H - Vibe Hydration Logic
+                    if (t.fileType === 'vibe' && t.content) {
+                        t.vibeSession = t.content; // Restore session object
+                    }
+
                     return {
                         ...t,
                         forceReload: true, 

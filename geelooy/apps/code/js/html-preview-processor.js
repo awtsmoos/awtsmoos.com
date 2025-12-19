@@ -7,7 +7,7 @@ import { FileSystemProvider } from './fs-provider.js';
 import { getNetworkInterceptorScript } from './html-preview-templates.js';
 
 // B"H - Updated Path to SDK (Absolute to Root)
-const MERKAVA_SDK_PATH = '/MerkavaExecutor/merkava-sdk.js';
+const MERKAVA_SDK_PATH = '/scripts/awtsmoos/MerkavaExecutor/merkava-sdk.js';
 
 export const orchestratePreview = async (item, iframe, contentOverride = null) => {
     if (!iframe.parentNode) {
@@ -30,48 +30,60 @@ export const orchestratePreview = async (item, iframe, contentOverride = null) =
 
     if (!htmlContent) return;
 
-    // 1. Parse User HTML to process relative assets
+    // 1. Parse User HTML
     const parser = new DOMParser();
     const doc = parser.parseFromString(htmlContent, 'text/html');
     
-    // 2. Pre-load Assets (Simple Blob URL replacement for images/css)
+    // 2. Pre-load Assets
     await processAssets(doc, item);
 
-    // 3. Prepare SDK Injection
-    // We construct a bootstrap script that loads the SDK and initializes the VM.
-    
-    const scripts = Array.from(doc.querySelectorAll('script'));
-    const userScripts = [];
-    
-    for (const script of scripts) {
-        // Skip external scripts for now (handled by VM importResolver) unless we pre-fetch them?
-        // Actually, we let the VM handle external imports via the bridge.
-        if (script.hasAttribute('src')) {
-             // For VM, we want to capture these src attributes and run them through VM.import
-             // But simpler to just let them be, and intercept the fetch.
-             // HOWEVER, script tags in iframe execute immediately.
-             // We must change type to prevent browser execution.
-             script.type = 'application/merkava-script'; 
-             continue; 
-        }
+    // 3. Extract Scripts
+    const allScripts = Array.from(doc.querySelectorAll('script'));
+    const scriptQueue = [];
+
+    for (const script of allScripts) {
+        if (script.hasAttribute('data-merkava-internal')) continue;
+
+        const src = script.getAttribute('src');
+        const type = script.getAttribute('type') || 'text/javascript';
         
-        // Inline scripts
-        const content = script.innerHTML;
-        script.remove(); // Remove from DOM so browser doesn't run it raw
-        userScripts.push({ 
-            content, 
-            type: 'inline' 
-        });
+        if (type !== 'text/javascript' && type !== 'module' && type !== '' && type !== 'application/javascript') {
+            continue;
+        }
+
+        if (src) {
+            scriptQueue.push({ type: 'external', src: src });
+        } else {
+            scriptQueue.push({ type: 'inline', content: script.innerHTML });
+        }
+        script.remove();
     }
 
     // 4. Construct Final HTML
     const finalHtml = doc.documentElement.outerHTML;
+    
+    // B"H - DEEP TRACE LOGGING
+    console.log(`[Merkava Debug] HTML Injection Size: ${finalHtml.length} chars.`);
+    if (finalHtml.includes('p-vs-p')) {
+        console.log("[Merkava Debug] VERIFIED: ID 'p-vs-p' found in HTML payload.");
+    } else {
+        console.error("[Merkava Debug] CRITICAL: ID 'p-vs-p' NOT found in HTML payload!");
+    }
 
     try {
         const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+        console.log("[Merkava Debug] Opening Iframe Document for Write...");
         iframeDoc.open();
         iframeDoc.write(finalHtml);
         iframeDoc.close();
+        
+        // B"H - POST-WRITE VERIFICATION
+        const bodyContent = iframeDoc.body ? iframeDoc.body.innerHTML : 'NULL';
+        console.log(`[Merkava Debug] Document Written. Body Children: ${iframeDoc.body ? iframeDoc.body.children.length : 'No Body'}`);
+        if (!bodyContent.includes('p-vs-p')) {
+             console.error("[Merkava Debug] CRITICAL: ID 'p-vs-p' missing from Iframe Body after write!");
+             console.log("[Merkava Debug] Body Content Dump (First 500 chars):", bodyContent.substring(0, 500));
+        }
 
         if (!iframeDoc.head) {
             const head = iframeDoc.createElement('head');
@@ -79,83 +91,121 @@ export const orchestratePreview = async (item, iframe, contentOverride = null) =
         }
 
         // 5. Inject Interceptors & SDK
-        // Network Interceptor (for fetch/imports)
         const scriptNetwork = iframeDoc.createElement('script');
         scriptNetwork.textContent = getNetworkInterceptorScript(item.workspaceId, item.path);
+        scriptNetwork.setAttribute('data-merkava-internal', 'true');
         iframeDoc.head.insertBefore(scriptNetwork, iframeDoc.head.firstChild);
 
         // SDK Loader & Bootstrap
         const bootstrapScript = iframeDoc.createElement('script');
+        bootstrapScript.setAttribute('data-merkava-internal', 'true');
+        
+        const queueJson = JSON.stringify(scriptQueue);
+        
         bootstrapScript.textContent = `
-            // B"H - Merkava Bootstrap
-            (async function() {
-                console.log("[Merkava] Booting...");
+            // B"H - Merkava Bootstrap v5 (Trace Logging)
+            (function() {
+                console.log("[Merkava Debug] Bootstrap Script Started. Time:", Date.now());
                 
-                // 1. Load SDK
-                const sdkUrl = "${MERKAVA_SDK_PATH}";
-                await new Promise((resolve, reject) => {
-                    const s = document.createElement('script');
-                    s.src = sdkUrl + "?t=" + Date.now();
-                    s.onload = resolve;
-                    s.onerror = reject;
-                    document.head.appendChild(s);
-                });
-                
-                if (!window.Merkava) {
-                    console.error("[Merkava] SDK failed to load.");
-                    return;
-                }
-
-                // 2. Initialize
-                await window.Merkava.init();
-                console.log("[Merkava] SDK Initialized.");
-
-                // 3. Define Import Resolver (Bridge to Editor FS)
-                const importResolver = async (specifier) => {
-                    // Use the bridge function defined by Network Interceptor
-                    if (window._fetchFromParent) {
-                        try {
-                            const content = await window._fetchFromParent(specifier);
-                            return { code: content };
-                        } catch(e) {
-                            console.error("[Merkava] Import Failed:", specifier, e);
-                            return null;
+                const pollDOM = (callback) => {
+                    const check = () => {
+                        const body = document.body;
+                        const ready = document.readyState;
+                        const pVsP = document.getElementById('p-vs-p');
+                        
+                        console.log("[Merkava Debug] Polling DOM... State:", ready, "Body:", !!body, "Children:", body ? body.children.length : 0, "Target 'p-vs-p':", !!pVsP);
+                        
+                        // Strict check: Wait until the specific element we know causes the crash exists, or timeout
+                        // This assumes we know about 'p-vs-p', but generally checking children > 0 is the generic way.
+                        // We will rely on body children for generic support.
+                        if (body && (body.children.length > 0 || ready === 'complete')) {
+                            console.log("[Merkava Debug] DOM appears ready. Proceeding.");
+                            setTimeout(callback, 50); 
+                        } else {
+                            console.log("[Merkava Debug] DOM not ready. Retrying...");
+                            requestAnimationFrame(check);
                         }
-                    }
-                    return null;
+                    };
+                    check();
                 };
 
-                // 4. Run Inline Scripts
-                const scripts = ${JSON.stringify(userScripts)};
-                
-                for (const script of scripts) {
+                const boot = async () => {
+                    console.log("[Merkava Debug] Boot sequence initiated.");
+                    
+                    const sdkUrl = "${MERKAVA_SDK_PATH}";
                     try {
-                        await window.Merkava.run(script.content, {
-                            context: window, // Run in Window context
-                            importResolver: importResolver,
-                            ramLimit: 500000
+                        await new Promise((resolve, reject) => {
+                            const s = document.createElement('script');
+                            s.src = sdkUrl + "?t=" + Date.now();
+                            s.onload = resolve;
+                            s.onerror = () => reject(new Error("Failed to load SDK script"));
+                            document.head.appendChild(s);
                         });
+                        console.log("[Merkava Debug] SDK Script Loaded.");
                     } catch(e) {
-                        console.error("[Merkava] Script Error:", e);
+                        console.error("[Merkava Debug] Critical: SDK Load Failed.", e);
+                        return;
                     }
-                }
-                
-                // 5. Process <script type="application/merkava-script" src="...">
-                const externalScripts = document.querySelectorAll('script[type="application/merkava-script"]');
-                for (const s of externalScripts) {
-                    const src = s.getAttribute('src');
-                    if (src) {
-                        // Bridge fetch
-                        const res = await importResolver(src);
-                        if (res && res.code) {
-                             await window.Merkava.run(res.code, {
-                                context: window,
-                                importResolver: importResolver
-                            });
+                    
+                    if (!window.Merkava) {
+                        console.error("[Merkava Debug] SDK failed to initialize global object.");
+                        return;
+                    }
+
+                    await window.Merkava.init();
+                    console.log("[Merkava Debug] SDK Initialized. Starting VM...");
+
+                    const importResolver = async (specifier) => {
+                        if (window._fetchFromParent) {
+                            try {
+                                const content = await window._fetchFromParent(specifier);
+                                return { code: content };
+                            } catch(e) {
+                                console.warn("[Merkava Debug] Import 404/Error:", specifier, e.message);
+                                return null; 
+                            }
+                        }
+                        return null;
+                    };
+
+                    let sharedVM = null;
+                    const queue = ${queueJson};
+                    
+                    for (const task of queue) {
+                        try {
+                            let codeToRun = null;
+                            if (task.type === 'inline') {
+                                codeToRun = task.content;
+                            } else if (task.type === 'external') {
+                                console.log("[Merkava Debug] Fetching external script:", task.src);
+                                const res = await importResolver(task.src);
+                                if (res && res.code) codeToRun = res.code;
+                                else console.warn("[Merkava Debug] Skipping missing script:", task.src);
+                            }
+
+                            if (codeToRun) {
+                                console.log("[Merkava Debug] Spawning VM for script. Length:", codeToRun.length);
+                                const res = await window.Merkava.run(codeToRun, {
+                                    context: window,
+                                    importResolver: importResolver,
+                                    ramLimit: 500000,
+                                    existingVM: sharedVM
+                                });
+                                
+                                if (!sharedVM && res.vm) {
+                                    sharedVM = res.vm;
+                                    console.log("[Merkava Debug] Primary VM Established.");
+                                }
+                            }
+                        } catch(e) {
+                            console.error("[Merkava Debug] Script Execution Error:", e);
                         }
                     }
-                }
+                    console.log("[Merkava Debug] All scripts processed.");
+                };
 
+                // Trigger Polling
+                pollDOM(boot);
             })();
         `;
         iframeDoc.body.appendChild(bootstrapScript);
@@ -165,7 +215,6 @@ export const orchestratePreview = async (item, iframe, contentOverride = null) =
     }
 };
 
-// Helper: Pre-load images/css to Blob URLs to avoid 404s in iframe
 async function processAssets(doc, item) {
     const resolveRelativePath = (relPath) => {
         if (!relPath || relPath.startsWith('http') || relPath.startsWith('data:') || relPath.startsWith('blob:')) return null;
@@ -189,7 +238,6 @@ async function processAssets(doc, item) {
         const attr = el.tagName === 'LINK' ? 'href' : 'src';
         const rawPath = el.getAttribute(attr);
         const absPath = resolveRelativePath(rawPath);
-        
         if (absPath) {
             try {
                 let typeHint = 'text/plain';

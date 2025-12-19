@@ -13,7 +13,15 @@ import { SelectionManager } from '../selection-manager.js';
 import { getItemUniquePath, Workspaces } from '../workspaces.js';
 
 export const WorkspaceTreeRenderer = {
-    async renderTree(parentElement, parentItem, depth) {
+    /**
+     * B"H - renderTree
+     * @param {HTMLElement} parentElement - Container UL
+     * @param {Object} parentItem - Directory Item
+     * @param {Number} depth - Indentation depth
+     * @param {Boolean} registerDom - (Default true) If false, skips updating State.domItemMap.
+     *                                Use false for Vibe/secondary views to avoid hijacking the Main Explorer's scroll references.
+     */
+    async renderTree(parentElement, parentItem, depth, registerDom = true) {
         parentElement.innerHTML = `<li class="tree-item" style="--depth:${depth}; color: var(--color-text-tertiary);">Loading...</li>`;
         try {
             let children;
@@ -105,6 +113,10 @@ export const WorkspaceTreeRenderer = {
                         return;
                     }
                     if (child.kind === 'directory') {
+                        // Vibe Panel Expansion: Since we don't register DOM, we must check local state or assume simple toggle.
+                        // However, `State.expandedFolders` is global. 
+                        // If user expands in Vibe, it expands in Main Explorer too. This is desired "sense of folder structure".
+                        
                         if (State.expandedFolders.has(uniquePath)) {
                             State.expandedFolders.delete(uniquePath);
                             li.classList.remove('expanded');
@@ -114,7 +126,8 @@ export const WorkspaceTreeRenderer = {
                             li.classList.add('expanded');
                             const newUl = document.createElement('ul');
                             li.appendChild(newUl);
-                            this.renderTree(newUl, fullChildItem, depth + 1);
+                            // Pass registerDom flag recursively
+                            this.renderTree(newUl, fullChildItem, depth + 1, registerDom);
                         }
                         App.saveSession();
                     } else {
@@ -125,15 +138,21 @@ export const WorkspaceTreeRenderer = {
                     State.contextEvent = e;
                     Menus.show(e, fullChildItem);
                 };
-                State.domItemMap.set(uniquePath, {
-                    el: li,
-                    item: fullChildItem
-                });
+                
+                // B"H - DOM Registration Conditional
+                if (registerDom) {
+                    State.domItemMap.set(uniquePath, {
+                        el: li,
+                        item: fullChildItem
+                    });
+                }
+                
+                // Render already expanded folders
                 if (State.expandedFolders.has(uniquePath)) {
                     li.classList.add('expanded');
                     const newUl = document.createElement('ul');
                     li.appendChild(newUl);
-                    this.renderTree(newUl, fullChildItem, depth + 1);
+                    this.renderTree(newUl, fullChildItem, depth + 1, registerDom);
                 }
             }
         } catch (e) {

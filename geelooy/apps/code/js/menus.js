@@ -6,6 +6,7 @@ import { getItemUniquePath } from "./workspaces.js";
 import { Actions } from "./actions.js";
 import { Editor } from "./editor.js";
 import { beautify } from "/scripts/awtsmoos/MerkavaBeautifier/beautifier.js";
+import { VibeController } from "./vibe/vibe-controller.js"; // B"H - Import Vibe
 
 // Global exposure for debugging or legacy access
 window.beautify = beautify;
@@ -33,7 +34,6 @@ export const Menus = {
         
         setTimeout(() => document.addEventListener("click", this.handleDocumentClick), 0);
         
-        // B"H - Zip Entry Handling
         if (item.type === 'zip-entry') {
             this.showZipMenu(e, item);
             return;
@@ -55,16 +55,16 @@ export const Menus = {
         
         const menuItems = [];
         
-        // B"H - Directory Options
         if (isDir) {
             menuItems.push({ label: "Refresh", action: "refresh", icon: "brain" }); 
             menuItems.push({ label: "Browse in Commander", action: "open-file-commander", icon: "folder" });
+            // B"H - Vibe Code Option
+            menuItems.push({ label: "✨ Vibe Code", action: "open-vibe", icon: "brain-circuit" });
             menuItems.push({ isSeparator: true });
         }
 
         menuItems.push({ label: `Copy "${item.name}"`, action: "copy-single", icon: "copy" });
         
-        // B"H - New Download/Zip Options
         if (isDir) {
             menuItems.push({ label: "Copy as ZIP", action: "copy-zip-single", icon: "save" });
             menuItems.push({ label: "Download ZIP", action: "download-zip-single", icon: "download" });
@@ -86,10 +86,8 @@ export const Menus = {
         if (isDir && !isReadOnly) {
             if (isGitClone) {
                 menuItems.push({ label: "Git Actions...", action: "git-actions", icon: "git-branch" });
-                menuItems.push({ label: "Switch Branch...", action: "switch-branch", icon: "git-branch" }); // B"H
+                menuItems.push({ label: "Switch Branch...", action: "switch-branch", icon: "git-branch" });
             } else if (isGithubWS) {
-                // Git actions for direct workspace root or subfolders?
-                // Usually root.
                 if (isWorkspaceRoot) {
                     menuItems.push({ label: "Switch Branch...", action: "switch-branch", icon: "git-branch" });
                 }
@@ -130,7 +128,6 @@ export const Menus = {
         this.renderMenu(DOM.contextMenu, menuItems, e);
     },
 
-    // B"H - Specialized Menu for Zip Entries
     showZipMenu(e, item) {
         const menuItems = [];
         
@@ -144,7 +141,6 @@ export const Menus = {
         menuItems.push({ label: "Select", action: "start-selection", icon: "select-all" });
         menuItems.push({ label: "Copy All Contents", action: "copy-all-contents", icon: "clipboard" });
 
-        // Directory Actions (Paste)
         if (item.kind === 'directory') {
              const clipboardItemUniquePath = State.fileClipboard?.[0];
              const clipboardItem = clipboardItemUniquePath ? (State.domItemMap.get(clipboardItemUniquePath))?.item : null;
@@ -162,7 +158,6 @@ export const Menus = {
         }
 
         menuItems.push({ isSeparator: true });
-        // Zip specific actions
         menuItems.push({ label: "Delete from Zip", action: "delete", icon: "trash", danger: true });
 
         menuItems.push({ isSeparator: true });
@@ -277,27 +272,21 @@ export const Menus = {
     },
 
     positionAndDisplay(menu, coords) {
-        // Delay to ensure rendering has occurred for dimension calculation
         setTimeout(() => {
             const { clientX: x, clientY: y } = coords;
             menu.style.display = "block";
             const menuRect = menu.getBoundingClientRect();
             
-            // Prevent Horizontal Overflow
             const adjustedX = x + menuRect.width > window.innerWidth 
                 ? window.innerWidth - menuRect.width - 5 
                 : x;
             
-            // Prevent Vertical Overflow (Smart positioning: Flip up if needed)
             let adjustedY = y;
             if (y + menuRect.height > window.innerHeight) {
-                // If there's more space above than below, go up
                 if (y > window.innerHeight / 2) {
                     adjustedY = y - menuRect.height;
-                    // Additional safety if element is taller than y position
                     if (adjustedY < 0) adjustedY = 5; 
                 } else {
-                    // Stick to bottom edge
                     adjustedY = window.innerHeight - menuRect.height - 5;
                 }
             }
@@ -309,6 +298,13 @@ export const Menus = {
 
     handleAction(action) {
         this.hideAll();
-        Actions.handle(action);
+        // B"H - Intercept Vibe Action
+        if (action === 'open-vibe') {
+            VibeController.init();
+            // Just trigger open, which now creates a new tab
+            VibeController.open(State.contextTarget);
+        } else {
+            Actions.handle(action);
+        }
     }
 };

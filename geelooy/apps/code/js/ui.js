@@ -1,8 +1,9 @@
+
 // B"H
 // FILE: js/ui.js
 
 import { DOM } from './state.js';
-import { App } from './app.js'; 
+import { App } from './app.js';
 
 export const UI = {
     showLoading: (msg = 'Processing...') => {
@@ -118,6 +119,9 @@ export const UI = {
         DOM.hexEditorWrapper.classList.add('hidden');
         DOM.dataAltarContainer.classList.add('hidden');
         if (DOM.zipExplorerWrapper) DOM.zipExplorerWrapper.classList.add('hidden');
+        
+        const vibeWrapper = document.getElementById('vibe-editor-wrapper');
+        if(vibeWrapper) vibeWrapper.classList.add('hidden');
 
         switch(viewName) {
             case 'editor':
@@ -140,6 +144,9 @@ export const UI = {
                 break;
             case 'zip':
                 if (DOM.zipExplorerWrapper) DOM.zipExplorerWrapper.classList.remove('hidden');
+                break;
+            case 'vibe':
+                if(vibeWrapper) vibeWrapper.classList.remove('hidden');
                 break;
         }
     },

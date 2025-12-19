@@ -3,13 +3,110 @@
 (function(root) {
     const Internal = root.MerkavaSDK_Internal = root.MerkavaSDK_Internal || {};
 
+    // --- CONTEXT BUILDER (Merged for Stability) ---
+    Internal.ContextBuilder = {
+        build(options, memory) {
+            const base = options.context || {};
+            const overrides = {};
+            const vmRef = { current: null };
+
+            // 1. Built-in Globals
+            // B"H - Extended list to support complex apps (Blob, URL, Canvas, etc.)
+            const builtIns = [
+                'Object','Array','String','Number','Boolean','Date','Math','JSON','Promise',
+                'RegExp','Error','Map','Set','WeakMap','WeakSet','Symbol','Proxy','Reflect',
+                'parseInt','parseFloat','isNaN','isFinite','console','EventTarget','atob','btoa',
+                'Blob', 'URL', 'TextEncoder', 'TextDecoder', 'ImageBitmap', 'OffscreenCanvas',
+                'MessageChannel', 'MessagePort', 'ImageData', 'performance', 'setTimeout', 'setInterval',
+                'clearTimeout', 'clearInterval', 'requestAnimationFrame', 'cancelAnimationFrame'
+            ];
+            builtIns.forEach(k => { if(self[k]) overrides[k] = self[k]; });
+
+            // 2. Scheduler Bridge
+            const bridge = (cb) => {
+                if (cb && cb.type === 'CLOSURE') {
+                    // B"H - Must be a regular function to capture 'this' correctly for constructors
+                    return function(...args) {
+                        if (!vmRef.current) return;
+                        const t = vmRef.current.spawn(cb.code);
+                        t.currentUpvalues = cb.upvalues;
+                        t.environment = cb.environment || t.environment;
+                        
+                        // Use the 'this' from the call site (important for 'new Bridge()')
+                        // If 'this' is the global object/overrides, fallback to base/context
+                        const ctx = (this === overrides || this === self || this === undefined) ? base : this;
+                        
+                        t.currentScope = { 'this': ctx, 'arguments': args };
+                        args.forEach((a,i)=>t.currentScope[i]=a);
+                        if (vmRef.current.wake) vmRef.current.wake();
+                    };
+                }
+                return cb;
+            };
+
+            // Bridge specific timing functions that take callbacks
+            ['requestAnimationFrame','setTimeout','setInterval'].forEach(k => {
+                if (typeof self[k] === 'function') overrides[k] = (cb, ...args) => self[k](bridge(cb), ...args);
+            });
+            // These don't take callbacks, just IDs
+            ['cancelAnimationFrame','clearTimeout','clearInterval'].forEach(k => {
+                if(self[k]) overrides[k] = self[k];
+            });
+
+            // 3. Worker & System
+            if (Internal.WorkerProxy) {
+                // B"H - Must be a regular function to support 'new Worker(...)' usage
+                overrides.Worker = function(u) { 
+                    return new Internal.WorkerProxy(u, vmRef.current, options); 
+                };
+            }
+            
+            overrides.importScripts = async (...urls) => {
+                if (vmRef.current && vmRef.current.importScripts) await vmRef.current.importScripts(...urls);
+            };
+
+            // 4. Document Proxy
+            Object.defineProperty(overrides, 'document', {
+                get() {
+                    const doc = base.document || self.document;
+                    return new Proxy(doc, {
+                        get(t, p) {
+                            if (p === 'getElementById') return (id) => t.getElementById(id);
+                            if (p === 'addEventListener') return (ev, l, o) => t.addEventListener(ev, bridge(l), o);
+                            const v = t[p];
+                            return typeof v === 'function' ? v.bind(t) : v;
+                        }
+                    });
+                },
+                configurable: true
+            });
+
+            // 5. Global Proxy
+            Object.defineProperty(overrides, '__vmRef', { value: vmRef });
+            
+            const ctx = new Proxy(overrides, {
+                get(t, p) { 
+                    if (p in t) return t[p];
+                    return base[p];
+                },
+                set(t, p, v) {
+                    if (p in t) { t[p] = v; return true; }
+                    base[p] = (v && v.type === 'CLOSURE') ? bridge(v) : v;
+                    return true;
+                },
+                has(t, p) { return p in t || p in base; }
+            });
+            
+            overrides.self = overrides.window = overrides.globalThis = ctx;
+            return ctx;
+        }
+    };
+
     class MerkavaCore {
         async run(source, options = {}) {
-            // 1. Load Parser
             const Parser = self.MerkavahParser;
             if (!Parser) throw new Error("Parser not loaded.");
 
-            // 2. Parse & Compile
             const parser = new Parser(source);
             if(parser.registerExpressionParsers) parser.registerExpressionParsers();
             if(parser.registerStatementParsers) parser.registerStatementParsers();
@@ -21,282 +118,98 @@
             const compiler = new self.MerkavaCompiler.Compiler();
             const codeObject = compiler.compile(ast);
             
-            // 3. Initialize Memory
-            // B"H - Increased RAM limit to 500,000 to support intensive AI recursion
-            const memory = new self.MerkavaMemory.MemoryManager(options.ramLimit || 500000);
-            await memory.init();
-            
-            if(!memory.setGlobal) {
-                memory._g = {};
-                memory.setGlobal = (k,v) => memory._g[k] = v;
-                memory.getGlobal = (k) => memory._g[k];
+            let vm, memory;
+            if (options.existingVM) {
+                vm = options.existingVM;
+                memory = vm.memory;
+            } else {
+                memory = new self.MerkavaMemory.MemoryManager(options.ramLimit || 500000);
+                await memory.init();
+                if(!memory.setGlobal) { memory._g={}; memory.setGlobal=(k,v)=>memory._g[k]=v; memory.getGlobal=(k)=>memory._g[k]; }
+                if (memory.nextPtr === 1) memory.allocate({});
+
+                // B"H - Safe Context Build
+                if (!Internal.ContextBuilder) throw new Error("ContextBuilder failed to initialize.");
+                const context = Internal.ContextBuilder.build(options, memory);
+                
+                vm = new self.MerkavaVM(memory, options.hostAPI, context, options.importResolver);
+                if (context.__vmRef) context.__vmRef.current = vm;
+                
+                vm.importScripts = async (...urls) => this._handleImportScripts(vm, urls, options);
+                
+                this._initDriver(vm);
             }
-            if (memory.nextPtr === 1) memory.allocate({});
 
-            // 4. Build Context & VM
-            const context = this._buildContext(options, memory);
-            const vm = new self.MerkavaVM(memory, options.hostAPI, context, options.importResolver);
-            
-            // B"H - Connect VM to Context Bridge
-            // This allows the async wrappers (raf, setTimeout) to spawn threads on this VM.
-            if (context.__vmRef) context.__vmRef.current = vm;
-
-            // 5. Spawn Main Thread
             const thread = vm.spawn(codeObject);
+            if (vm.wake) vm.wake();
             
-            // B"H - Return a Promise that resolves when the VM is done
-            const donePromise = new Promise((resolve, reject) => {
-                const check = () => {
-                    try {
-                        const active = vm.run(1000); 
-                        if (active) {
-                            // If VM is still active (threads running or async pending), schedule next tick
-                            if (!vm.wake) {
-                                // Default polling if no wake mechanism is bound
-                                setTimeout(check, 10);
-                            }
-                        } else {
-                            if (thread.status === 'CRASHED') {
-                                const err = thread.stack.length > 0 ? thread.stack[thread.stack.length - 1] : "Unknown Error";
-                                reject(err);
-                            } else {
-                                resolve({ status: thread.status, value: thread.stack.length > 0 ? thread.peek() : undefined });
-                            }
-                        }
-                    } catch (e) {
-                        reject(e);
-                    }
-                };
-                
-                // Attach wake handler to VM for event-driven execution (e.g. after AWAIT resolve)
-                // This default handler uses the internal loop. Hosts can override this.
-                vm.wake = () => {
-                    setTimeout(check, 0);
-                };
-                
-                // B"H - Delay start to next tick to allow Host to attach overrides/assign instances
-                setTimeout(check, 0);
-            });
-
-            return { vm, done: donePromise, memory };
-        }
-
-        initWorkerEnv(options) {
-            return this;
-        }
-
-        _buildContext(options, memory) {
-            const baseContext = options.context || {};
-            const overrides = {};
-            
-            // B"H - VM Reference Holder
-            const vmRef = { current: null };
-
-            // B"H - Closure Bridge
-            const bridge = (callback) => {
-                if (callback && callback.type === 'CLOSURE') {
-                    return (...args) => {
-                        const vm = vmRef.current;
-                        if (!vm) return;
-                        const thread = vm.spawn(callback.code);
-                        thread.currentUpvalues = callback.upvalues;
-                        thread.environment = callback.environment || thread.environment;
-                        
-                        // B"H - Handle Bound Closures (this.loop.bind(this))
-                        const ctx = callback.boundThis !== undefined ? callback.boundThis : baseContext;
-                        const finalArgs = (callback.boundArgs || []).concat(args);
-
-                        thread.currentScope = { 
-                            'this': ctx, 
-                            'arguments': finalArgs 
-                        };
-                        finalArgs.forEach((arg, i) => thread.currentScope[i] = arg);
-                        if (vm.wake) vm.wake();
+            return { 
+                vm, memory, 
+                stop: () => {
+                    if (vm._driver) vm._driver.running = false;
+                    vm.threads = []; // Kill all threads
+                },
+                done: new Promise((res, rej) => {
+                    const mon = () => {
+                        if (thread.status === 'COMPLETED') res({ status: 'COMPLETED', value: thread.stack.length ? thread.peek() : undefined });
+                        else if (thread.status === 'CRASHED') rej(thread.stack.length ? thread.stack[thread.stack.length-1] : "Error");
+                        else if (vm._driver && !vm._driver.running && vm.threads.length === 0) res({ status: 'TERMINATED' }); // Handle stop()
+                        else setTimeout(mon, 50);
                     };
-                }
-                return callback;
+                    mon();
+                })
             };
+        }
 
-            // B"H - Override Async Schedulers
-            const schedulers = ['requestAnimationFrame', 'setTimeout', 'setInterval', 'setImmediate'];
-            const clearers = ['cancelAnimationFrame', 'clearTimeout', 'clearInterval', 'clearImmediate'];
+        initWorkerEnv(options) { return this; }
+        
+        _initDriver(vm) {
+            vm._driver = { running: false, kick: () => {
+                if (vm._driver.running) return;
+                vm._driver.running = true;
+                const loop = () => {
+                    if (!vm._driver.running) return;
+                    try { if (vm.run(1000)) setTimeout(loop, 10); else vm._driver.running = false; }
+                    catch (e) { console.error("[VM] Driver Crash", e); vm._driver.running = false; }
+                };
+                setTimeout(loop, 0);
+            }};
+            vm.wake = () => vm._driver.kick();
+        }
 
-            schedulers.forEach(name => {
-                const nativeFn = baseContext[name] || (typeof self !== 'undefined' ? self[name] : null);
-                if (typeof nativeFn === 'function') {
-                    overrides[name] = (cb, ...args) => {
-                        return nativeFn.call(baseContext, bridge(cb), ...args);
-                    };
-                }
-            });
-
-            clearers.forEach(name => {
-                 const nativeFn = baseContext[name] || (typeof self !== 'undefined' ? self[name] : null);
-                 if (typeof nativeFn === 'function') {
-                     overrides[name] = nativeFn.bind(baseContext);
+        async _handleImportScripts(vm, urls, options) {
+             const Compiler = self.MerkavaCompiler.Compiler;
+             const Parser = self.MerkavahParser;
+             for (const url of urls) {
+                 let code;
+                 if (options.importResolver) {
+                     const res = await options.importResolver(url).catch(e => console.warn(e));
+                     if (res) code = res.code || res;
                  }
-            });
-            
-            // B"H - SHADOW onmessage
-            // This is critical for Workers. By defining it here, the Proxy will
-            // write to 'overrides.onmessage' instead of 'baseContext.onmessage'.
-            // This prevents user code from overwriting the Native Worker's router.
-            overrides.onmessage = null;
-
-            // B"H - Worker Bridge
-            if (Internal.WorkerProxy) {
-                overrides.Worker = function(scriptUrl) {
-                     return new Internal.WorkerProxy(scriptUrl, vmRef.current, options);
-                };
-            }
-
-            // B"H - Polyfills
-            if (self.MerkavaVM && self.MerkavaVM.Polyfills) {
-                if (typeof SharedArrayBuffer === 'undefined') {
-                    overrides.SharedArrayBuffer = self.MerkavaVM.Polyfills.SharedArrayBuffer;
-                }
-                if (typeof Atomics === 'undefined') {
-                    overrides.Atomics = self.MerkavaVM.Polyfills.Atomics;
-                }
-            }
-
-            // B"H - ImportScripts with Virtual Execution Support
-            overrides.importScripts = async function(...urls) {
-                const vm = vmRef.current;
-                
-                for (const url of urls) {
-                    let code = null;
-
-                    // 1. Try Virtual Resolve
-                    if (options.importResolver) {
-                        try {
-                            const res = await options.importResolver(url);
-                            if (res && res.code) code = res.code;
-                            else if (typeof res === 'string') code = res;
-                        } catch(e) { /* Ignore resolve errors, fallback */ }
-                    }
-
-                    if (code) {
-                        try {
-                            // B"H - Virtual Execution
-                            if (!self.MerkavahParser || !self.MerkavaCompiler) {
-                                throw new Error("Cannot import virtual script: Parser/Compiler missing.");
-                            }
-                            
-                            // Parse
-                            const parser = new self.MerkavahParser(code);
-                            if(parser.registerExpressionParsers) parser.registerExpressionParsers();
-                            if(parser.registerStatementParsers) parser.registerStatementParsers();
-                            if(parser.registerDeclarationParsers) parser.registerDeclarationParsers();
-                            const ast = parser.parse();
-                            
-                            // Compile
-                            const compiler = new self.MerkavaCompiler.Compiler();
-                            const codeObj = compiler.compile(ast);
-                            
-                            // Spawn on CURRENT VM
-                            const thread = vm.spawn(codeObj);
-                            
-                            // B"H - CRITICAL FIX: Wake the VM Loop!
-                            // Since we added a new RUNNING thread, we must ensure the loop sees it immediately.
-                            if (vm.wake) vm.wake();
-                            
-                            // Await Completion
-                            await new Promise((resolve, reject) => {
-                                const mon = () => {
-                                    if (thread.status === 'COMPLETED') resolve();
-                                    else if (thread.status === 'CRASHED') {
-                                         const err = thread.stack.length > 0 ? thread.stack[thread.stack.length - 1] : "Imported script crashed";
-                                         reject(new Error(err));
-                                    }
-                                    else setTimeout(mon, 10);
-                                };
-                                mon();
-                            });
-                        } catch(err) {
-                            console.error(`[VM] Virtual Import Failed (${url}):`, err);
-                            throw err; // Re-throw to pause/crash the caller
-                        }
-                    } else {
-                        // 2. Native Fallback
-                        if (Internal.Utils && Internal.Utils.loadModules) {
-                            await Internal.Utils.loadModules([url]);
-                        }
-                    }
-                }
-            };
-
-            // B"H - Standard Overrides
-            overrides.console = baseContext.console || self.console;
-            overrides.CSSStyleDeclaration = self.CSSStyleDeclaration || baseContext.CSSStyleDeclaration;
-
-            overrides.__define_live_export = (exports, key, env, localKey) => {
-                Object.defineProperty(exports, key, {
-                    get: () => env[localKey],
-                    enumerable: true,
-                    configurable: true
-                });
-            };
-            
-            Object.defineProperty(overrides, '__vmRef', { value: vmRef, enumerable: false });
-
-            // B"H - Proxy
-            const context = new Proxy(overrides, {
-                get(target, prop, receiver) {
-                    if (typeof prop === 'symbol') {
-                        if (prop in target) return target[prop];
-                        return Reflect.get(baseContext, prop);
-                    }
-                    if (prop in target) return target[prop];
-                    try {
-                        const val = baseContext[prop];
-                        if (typeof val === 'function') {
-                            // B"H - SPECIAL CASE: onmessage
-                            // We MUST return the raw function for 'onmessage' to allow strict identity checks
-                            // in the Worker Bootstrap. If we bind it, identity checks fail, causing the
-                            // bootstrap to mistake the system router for a user handler.
-                            if (prop === 'onmessage') return val;
-
-                            if (val.prototype && val.name) return val; 
-                            return val.bind(baseContext);
-                        }
-                        return val;
-                    } catch (e) { return undefined; }
-                },
-                has(target, prop) { return (prop in target) || (prop in baseContext); },
-                set(target, prop, value) {
-                    // B"H - Fix: Always write to target (overrides) first!
-                    // If we blindly fall through to baseContext, we might overwrite native globals
-                    // like self.onmessage which breaks the VM host.
-                    if (prop in target) { target[prop] = value; return true; }
-                    
-                    // Only pass through if specifically NOT in target and EXISTS in base
-                    // AND it is NOT a critical system property we want to shadow.
-                    // But here, we initialized 'onmessage' in target, so it is caught above.
-                    
-                    if (prop in baseContext) { baseContext[prop] = value; return true; }
-                    target[prop] = value; return true;
-                },
-                ownKeys(target) { return [...Reflect.ownKeys(target), ...Reflect.ownKeys(baseContext)]; },
-                getOwnPropertyDescriptor(target, prop) {
-                    if (prop in target) return Object.getOwnPropertyDescriptor(target, prop);
-                    return Object.getOwnPropertyDescriptor(baseContext, prop);
-                }
-            });
-
-            // B"H - SELF-REFERENCE FIX
-            // We must explicitly point 'self', 'window', 'globalThis' to the PROXY.
-            // Otherwise, code like 'self.onmessage = ...' resolves 'self' to the Native Global,
-            // bypassing the Proxy and overwriting the System Router (native onmessage),
-            // while leaving the Proxy's 'overrides.onmessage' as null.
-            overrides.self = context;
-            overrides.window = context;
-            overrides.globalThis = context;
-
-            return context;
+                 if (!code) {
+                     const r = await fetch(url).catch(e => console.warn(e));
+                     if (r && r.ok) code = await r.text();
+                 }
+                 if (code) {
+                     const ast = new Parser(code).parse();
+                     const thread = vm.spawn(new Compiler().compile(ast));
+                     
+                     // B"H - WAIT FOR THREAD COMPLETION
+                     // Prevent race conditions by ensuring the script is fully executed
+                     // (and has defined its globals) before resolving the await.
+                     if (vm.wake) vm.wake(); // Ensure VM driver picks up the new thread
+                     
+                     await new Promise(resolve => {
+                         const check = () => {
+                             if (thread.status === 'COMPLETED' || thread.status === 'CRASHED') resolve();
+                             else setTimeout(check, 10);
+                         };
+                         check();
+                     });
+                 }
+             }
         }
     }
-
     Internal.Core = new MerkavaCore();
-
+    console.log("[MerkavaSDK] Core Initialized with ContextBuilder.");
 })(typeof self !== 'undefined' ? self : this);

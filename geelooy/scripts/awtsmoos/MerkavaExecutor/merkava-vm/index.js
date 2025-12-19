@@ -11,7 +11,6 @@
             this.hostAPI = hostAPI;
             this.context = context;
             this.importResolver = importResolver;
-            this.moduleCache = new Map(); // Path -> Exports
             this.threads = [];
             this.pendingAsyncCount = 0; // B"H - Tracks active async tasks (Workers, etc.)
         }

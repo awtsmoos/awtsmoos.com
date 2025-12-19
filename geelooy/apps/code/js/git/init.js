@@ -109,7 +109,7 @@ export const GitInit = {
                 const parentOfItem = { ...folderItem, path: folderItem.path.substring(0, folderItem.path.lastIndexOf('/')) || '/' };
                 await Workspaces.refreshNode(parentOfItem);
             }
-
+ 
             UI.hideLoading();
             UI.showToast(`'${repoName}' created and linked successfully!`, "success");
 

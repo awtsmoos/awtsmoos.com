@@ -78,11 +78,15 @@ if (!gl) {
   syscall(0, "WebGL Buffer Cleared.");
 }`,
 
-    rainbow: `// B"H - Rotating Rainbow Triangle (Restored)
+    rainbow: `// B"H - Rotating Rainbow Triangle (Deep Debug)
 let cvs = document.getElementById('vm-canvas');
 let gl = cvs.getContext('webgl');
 
-if (!gl) syscall(0, "Error: No WebGL");
+if (!gl) {
+    syscall(0, "CRITICAL: No WebGL Context");
+} else {
+    syscall(0, "WebGL Context Acquired:", gl);
+}
 
 // 1. Shaders
 let vsSrc = \`
@@ -92,17 +96,12 @@ let vsSrc = \`
   uniform float angle;
   
   void main() {
-    // Rotation Matrix
     float c = cos(angle);
     float s = sin(angle);
     mat2 rot = mat2(c, -s, s, c);
-    
     vec2 pos = rot * position;
-    
-    // Aspect Ratio Correction (300/200 = 1.5)
     gl_Position = vec4(pos.x / 1.5, pos.y, 0.0, 1.0);
     gl_PointSize = 10.0;
-    
     vColor = color;
   }
 \`;
@@ -116,81 +115,102 @@ let fsSrc = \`
 \`;
 
 function compile(type, src) {
+  syscall(0, "Compiling Type:", type);
   let s = gl.createShader(type);
+  
+  if (!s) {
+      syscall(0, "ERROR: gl.createShader returned null/undefined for type", type);
+      return null;
+  }
+  
   gl.shaderSource(s, src);
   gl.compileShader(s);
-  if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) {
-    syscall(0, "Shader Err:", gl.getShaderInfoLog(s));
+  
+  let status = gl.getShaderParameter(s, gl.COMPILE_STATUS);
+  
+  if (!status) {
+    syscall(0, "Shader Compile Error:", gl.getShaderInfoLog(s));
+    return null;
   }
+  
+  // syscall(0, "Compile Success. Returning shader object:", s);
   return s;
 }
 
 let prog = gl.createProgram();
-gl.attachShader(prog, compile(gl.VERTEX_SHADER, vsSrc));
-gl.attachShader(prog, compile(gl.FRAGMENT_SHADER, fsSrc));
-gl.linkProgram(prog);
-gl.useProgram(prog);
+let vs = compile(gl.VERTEX_SHADER, vsSrc);
+let fs = compile(gl.FRAGMENT_SHADER, fsSrc);
 
-// 2. Data
-// Interleaved: X, Y, R, G, B
-let vertices = [
-   0.0,  0.6,   1.0, 0.0, 0.0, // Top (Red)
-  -0.6, -0.6,   0.0, 1.0, 0.0, // Left (Green)
-   0.6, -0.6,   0.0, 0.0, 1.0  // Right (Blue)
-];
+syscall(0, "VS Handle:", vs);
+syscall(0, "FS Handle:", fs);
 
-let floatData = new Float32Array(vertices);
+if (!vs || !fs) {
+    syscall(0, "ABORT: Shaders failed to compile.");
+} else {
+    gl.attachShader(prog, vs);
+    gl.attachShader(prog, fs);
+    gl.linkProgram(prog);
+    
+    let linkStatus = gl.getProgramParameter(prog, gl.LINK_STATUS);
+    if (!linkStatus) {
+        syscall(0, "Program Link Error:", gl.getProgramInfoLog(prog));
+    } else {
+        gl.useProgram(prog);
+        syscall(0, "Program Linked & Active.");
+        
+        // 2. Data
+        let vertices = [
+           0.0,  0.6,   1.0, 0.0, 0.0, // Top (Red)
+          -0.6, -0.6,   0.0, 1.0, 0.0, // Left (Green)
+           0.6, -0.6,   0.0, 0.0, 1.0  // Right (Blue)
+        ];
 
-// 3. Buffer Setup
-let buf = gl.createBuffer();
-gl.bindBuffer(gl.ARRAY_BUFFER, buf);
-gl.bufferData(gl.ARRAY_BUFFER, floatData, gl.STATIC_DRAW);
+        let floatData = new Float32Array(vertices);
 
-// 4. Locations
-let posLoc = gl.getAttribLocation(prog, "position");
-let colLoc = gl.getAttribLocation(prog, "color");
-let angleLoc = gl.getUniformLocation(prog, "angle");
+        // 3. Buffer Setup
+        let buf = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+        gl.bufferData(gl.ARRAY_BUFFER, floatData, gl.STATIC_DRAW);
 
-syscall(0, "Locs - Pos:", posLoc, "Col:", colLoc);
+        // 4. Locations
+        let posLoc = gl.getAttribLocation(prog, "position");
+        let colLoc = gl.getAttribLocation(prog, "color");
+        let angleLoc = gl.getUniformLocation(prog, "angle");
 
-// 5. Render Loop
-let angle = 0.0;
-let frame = 0;
+        syscall(0, "Attributes - Pos:", posLoc, "Col:", colLoc);
 
-function loop(t) {
-    gl.viewport(0,0,300,200);
-    
-    // Clear to Dark Grey
-    gl.clearColor(0.1, 0.1, 0.1, 1.0);
-    gl.clear(gl.COLOR_BUFFER_BIT);
-    
-    // --- EXPLICIT STATE RE-BINDING ---
-    // Essential because each frame runs in a fresh VM Thread!
-    gl.useProgram(prog);
-    gl.bindBuffer(gl.ARRAY_BUFFER, buf);
-    
-    // Position Attribute: 2 floats, Stride 20 bytes (5*4), Offset 0
-    gl.enableVertexAttribArray(posLoc);
-    gl.vertexAttribPointer(posLoc, 2, gl.FLOAT, false, 20, 0);
-    
-    // Color Attribute: 3 floats, Stride 20 bytes, Offset 8 bytes (2*4)
-    gl.enableVertexAttribArray(colLoc);
-    gl.vertexAttribPointer(colLoc, 3, gl.FLOAT, false, 20, 8);
-    
-    // Update Rotation Uniform
-    gl.uniform1f(angleLoc, angle);
-    
-    gl.drawArrays(gl.TRIANGLES, 0, 3);
-    
-    // Update State (Global 'angle' persists in VM Memory)
-    angle = angle + 0.05;
-    frame++;
-    
-    if(frame % 120 == 0) syscall(0, "Frame:", frame, "Angle:", angle);
-    requestAnimationFrame(loop);
+        // 5. Render Loop
+        let angle = 0.0;
+        let frame = 0;
+
+        function loop(t) {
+            gl.viewport(0,0,300,200);
+            gl.clearColor(0.1, 0.1, 0.1, 1.0);
+            gl.clear(gl.COLOR_BUFFER_BIT);
+            
+            gl.useProgram(prog);
+            gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+            
+            gl.enableVertexAttribArray(posLoc);
+            gl.vertexAttribPointer(posLoc, 2, gl.FLOAT, false, 20, 0);
+            
+            gl.enableVertexAttribArray(colLoc);
+            gl.vertexAttribPointer(colLoc, 3, gl.FLOAT, false, 20, 8);
+            
+            gl.uniform1f(angleLoc, angle);
+            
+            gl.drawArrays(gl.TRIANGLES, 0, 3);
+            
+            angle = angle + 0.05;
+            frame++;
+            
+            if(frame % 120 == 0) syscall(0, "Frame:", frame);
+            requestAnimationFrame(loop);
+        }
+
+        requestAnimationFrame(loop);
+    }
 }
-
-requestAnimationFrame(loop);
 `,
 
     workers: `// B"H - Merkava Worker

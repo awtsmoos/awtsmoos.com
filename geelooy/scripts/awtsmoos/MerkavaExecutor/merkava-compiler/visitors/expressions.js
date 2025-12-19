@@ -46,6 +46,18 @@
                 this.buffer.write8(this.OPCODES.PUSH_UNDEFINED);
                 return;
             }
+
+            // B"H - CRITICAL GLOBAL GUARD
+            // Prevents local variables from shadowing these core primitives, 
+            // ensuring opcode LOAD_GLOBAL is always used.
+            const criticalGlobals = ['Object', 'Array', 'String', 'Number', 'console', 'window', 'document', 'Math', 'JSON', 'Symbol', 'Error', 'Promise'];
+            if (criticalGlobals.includes(node.name)) {
+                const nameIdx = this._addConstant(node.name);
+                this.buffer.write8(mode === 'LOAD' ? this.OPCODES.LOAD_GLOBAL : this.OPCODES.STORE_GLOBAL);
+                this.buffer.write16(nameIdx);
+                return;
+            }
+
             const res = this.scope.resolve(node.name);
             if (res && res.type === 'LOCAL') {
                 this.buffer.write8(mode === 'LOAD' ? this.OPCODES.LOAD_LOCAL : this.OPCODES.STORE_LOCAL);
@@ -89,14 +101,12 @@
             }
             node.arguments.forEach(arg => this._visit(arg));
             
-            // B"H - FORCE OPCODES.CALL (0x71)
             let callOp = this.OPCODES.CALL;
             if (callOp === undefined) callOp = 0x71; 
             
             this.buffer.write8(callOp);
             this.buffer.write8(node.arguments.length);
 
-            // B"H - INTERCEPTION: importScripts
             if (node.callee.type === 'Identifier' && node.callee.name === 'importScripts') {
                 this.buffer.write8(this.OPCODES.AWAIT); 
             }
@@ -208,10 +218,56 @@
         },
 
         _visitClassExpr(node) {
+            // 1. SuperClass (or null)
             if (node.superClass) this._visit(node.superClass);
             else this.buffer.write8(this.OPCODES.PUSH_NULL);
+
+            // 2. Compile Constructor
+            const ctor = node.body.body.find(m => m.kind === 'constructor');
+            if (ctor) {
+                this._visitFuncExpr(ctor.value); 
+            } else {
+                this.buffer.write8(this.OPCODES.PUSH_NULL);
+            }
+
+            // 3. Make Class (Links prototype chain)
+            // Stack: [Super, ConstructorClosure] -> [ClassClosure]
             this.buffer.write8(this.OPCODES.MAKE_CLASS);
-            this.buffer.write16(this._addConstant(node.body));
+            this.buffer.write16(0); 
+
+            // 4. Define Methods
+            node.body.body.forEach(method => {
+                if (method.kind === 'constructor') return;
+
+                this.buffer.write8(this.OPCODES.DUP); // Keep Class on Stack (Stack: [Class, Class])
+                
+                // Target: Class (static) or Class.prototype (instance)
+                if (!method.static) {
+                    this._emitConstant('prototype');
+                    this.buffer.write8(this.OPCODES.GET_PROP); 
+                    // Stack: [Class, Prototype]
+                }
+
+                // Key
+                if (method.computed) this._visit(method.key);
+                else this._emitConstant(method.key.name);
+
+                // Value (Closure)
+                this._visitFuncExpr(method.value);
+                // Stack: [Class, Target, Key, Value]
+
+                // Assign: target[key] = value
+                this.buffer.write8(this.OPCODES.SET_PROP); 
+                // SET_PROP consumes [Target, Key, Value] and pushes [Value]
+                // Stack: [Class, Value]
+                
+                this.buffer.write8(this.OPCODES.POP); // Pop the value result of SET_PROP
+                // Stack: [Class]
+                
+                // B"H - BUG FIX (Fix 34): 
+                // Removed extra POP. SET_PROP already consumed the target (Prototype/Class copy).
+                // If we pop again, we lose the Class for the next iteration!
+            });
         },
         
         _visitMetaProperty(node) {

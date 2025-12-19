@@ -1,5 +1,4 @@
 
-
 // B"H
 // FILE: js/tabs/index.js
 
@@ -12,6 +11,7 @@ import { App } from '../app.js';
 import { DataAltar } from '../DataAltar.js';
 import { getItemUniquePath } from '../workspaces.js'; 
 import { ZipExplorer } from '../zip/zip-explorer.js';
+import { VibeController } from '../vibe/vibe-controller.js'; // B"H
 
 import { TabsRenderer } from './rendering.js';
 import { TabsPersistence } from './persistence.js';
@@ -45,18 +45,22 @@ export const Tabs = {
             if (activate) await this.activate(existingTab.id);
             return;
         }
+        
+        let fileType = MimeUtil.getInfo(item.name).type;
+        // B"H - Explicit Vibe handling
+        if (item.type === 'vibe-session') {
+            fileType = 'vibe';
+        }
+
         const newTab = {
             id: State.nextTabId++,
             item,
             content: item.content !== undefined ? item.content : (isNewFile ? '' : null),
-            // B"H - Dirty Logic Fix: 
-            // If item.content is provided, it's usually dirty (unsaved), UNLESS it's a zip-entry 
-            // which we load with content but treat as "clean" until edited.
             isDirty: isNewFile || (item.content !== undefined && item.type !== 'zip-entry'),
             isUncommitted: false,
             uniquePath,
             scrollPos: 0,
-            fileType: MimeUtil.getInfo(item.name).type,
+            fileType: fileType,
         };
         State.tabs.push(newTab);
         if (shouldSave) App.saveSession();
@@ -134,24 +138,25 @@ export const Tabs = {
             return;
         }
 
-        // B"H - Content Loading & Processing Guard
-        // Check if content is pre-loaded (from drag-drop or external source) but not yet processed (no rawContent/ArrayBuffer).
+        // B"H - Vibe Tab Handling
+        if (tab.fileType === 'vibe') {
+            await VibeController.render(tab);
+            this.render();
+            return;
+        }
+
         const hasPreloadedContent = tab.content !== null && tab.content !== undefined;
         const needsProcessing = !tab.rawContent && !tab.arrayBuffer;
 
         if (hasPreloadedContent && needsProcessing) {
-            // Process the pre-loaded content based on file type
             if (tab.fileType === 'zip') {
                  this._handleZipContent(tab, tab.content);
             } else {
                  await this._handleStandardContent(tab, tab.content);
             }
         } else if (!hasPreloadedContent || tab.forceReload) {
-            // No content, or forced reload: Fetch from file system
             const loaded = await this._loadTabContent(tab);
-            if (!loaded) {
-                return;
-            }
+            if (!loaded) return;
         }
 
         this._renderTabView(tab);
@@ -168,7 +173,6 @@ export const Tabs = {
             let fileContent;
             
             if (tab.item.type === 'zip-entry') {
-                // Zip entries pass content directly via Tabs.create
                 fileContent = tab.content;
             } else {
                 const gitInfo = await this._getGitInfoForTab(tab);
@@ -190,11 +194,11 @@ export const Tabs = {
                 await this._handleStandardContent(tab, fileContent);
             }
             tab.forceReload = false;
-            return true; // Success
+            return true; 
         } catch (e) {
             console.error("Tab Load Error:", e);
             UI.showToast(`Error opening file: ${e.message}`, 'error');
-            return false; // Failed
+            return false; 
         } finally {
             UI.hideLoading();
         }
@@ -249,7 +253,6 @@ export const Tabs = {
         if (tab.fileType === 'zip') {
             await ZipExplorer.open(tab.rawContent, tab);
         } else if (tab.fileType === 'text') {
-            // B"H - Altar View Logic
             if (tab.isAltarView) {
                 UI.switchView('altar');
                 try {
@@ -259,7 +262,6 @@ export const Tabs = {
                 } catch(e) {
                     UI.showToast("Content is not valid JSON. Reverting to text.", "error");
                     tab.isAltarView = false;
-                    // Fallthrough to standard text editor
                     const targetScroll = Number(tab.scrollPos) || 0;
                     const textContent = (tab.content === null || tab.content === undefined) ? '' : tab.content;
                     await Editor.showTextEditor(textContent, tab.item.name, targetScroll);
@@ -268,17 +270,14 @@ export const Tabs = {
             }
 
             const targetScroll = Number(tab.scrollPos) || 0;
-            // Guard against null content being passed to editor
             const textContent = (tab.content === null || tab.content === undefined) ? '' : tab.content;
             await Editor.showTextEditor(textContent, tab.item.name, targetScroll);
         } else if (tab.isHexView) {
             UI.switchView('hex');
             State.hexEditorInstance.load(tab.arrayBuffer);
         } else {
-            // Ensure rawContent is safe for Editor.showPreviewer
             let safeContent = tab.rawContent;
             if (!(safeContent instanceof Blob) && !safeContent.isBinary && tab.arrayBuffer) {
-                // If it's a binary array but not a blob yet, make it one
                 safeContent = new Blob([tab.arrayBuffer], { type: MimeUtil.getInfo(tab.item.name).mime });
             }
             Editor.showPreviewer(safeContent, { type: tab.fileType, name: tab.item.name }, tab.id);
@@ -369,6 +368,13 @@ export const Tabs = {
     async saveActive() {
         const tab = State.tabs.find(t => t.id === State.activeTabId);
         if (!tab) return UI.showToast('No active file to save.', 'info');
+        
+        // Vibe tabs are "saved" by persistence of session data
+        if (tab.fileType === 'vibe') {
+            await this.save(tab);
+            return;
+        }
+
         if (tab.isPreview) return UI.showToast('Cannot save a preview tab.', 'info');
         if (tab.item.type === 'temp') {
             await this.saveAs(tab);
@@ -379,6 +385,15 @@ export const Tabs = {
     },
     
     async save(tab) {
+        // B"H - Custom save for Vibe Tabs
+        if (tab.fileType === 'vibe') {
+            // Vibe data is already in tab.content (vibeSession)
+            // Just trigger session save
+            App.saveSession();
+            tab.isDirty = false;
+            this.render();
+            return;
+        }
         return TabsPersistence.save(tab, this);
     },
 

@@ -325,9 +325,12 @@ function loadTest() {
 function clearOut() { document.getElementById('output').innerHTML = ''; }
 
 async function runCode() {
-    if (currentRun && currentRun.cancel) {
-        currentRun.cancel();
+    // B"H - KILL PREVIOUS VM
+    // Ensure we fully stop the previous instance, including its driver loop
+    if (currentRun && currentRun.stop) {
+        currentRun.stop();
         currentRun = null;
+        console.log("[Console] Previous VM Terminated.");
     }
 
     clearOut();
@@ -344,6 +347,8 @@ async function runCode() {
     };
     
     // RECREATE CANVAS
+    // B"H - Destroying and recreating the canvas is CRITICAL to ensure the WebGL context 
+    // is fresh and not tied to the old VM's state/variables.
     const container = document.getElementById('canvas-container');
     const oldCvs = document.getElementById('vm-canvas');
     if (oldCvs) container.removeChild(oldCvs);
