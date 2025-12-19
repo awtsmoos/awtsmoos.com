@@ -127,6 +127,7 @@ export const WorkspaceTreeRenderer = {
                             const newUl = document.createElement('ul');
                             li.appendChild(newUl);
                             // Pass registerDom flag recursively
+                            // B"H - CRITICAL FIX: Await recursion to ensure Reveal works
                             this.renderTree(newUl, fullChildItem, depth + 1, registerDom);
                         }
                         App.saveSession();
@@ -152,7 +153,8 @@ export const WorkspaceTreeRenderer = {
                     li.classList.add('expanded');
                     const newUl = document.createElement('ul');
                     li.appendChild(newUl);
-                    this.renderTree(newUl, fullChildItem, depth + 1, registerDom);
+                    // B"H - CRITICAL FIX: Await recursion to ensure Reveal works
+                    await this.renderTree(newUl, fullChildItem, depth + 1, registerDom);
                 }
             }
         } catch (e) {

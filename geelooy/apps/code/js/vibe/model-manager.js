@@ -3,19 +3,30 @@
 // FILE: js/vibe/model-manager.js
 
 import { UI } from '../ui.js';
+import { VibeAPI } from './api-client.js';
 
 export const ModelManager = {
     keys: [],
     currentKeyIndex: 0,
-    currentModel: 'gemini-2.0-flash', 
-    fallbackOrder: ['gemini-2.0-flash', 'gemini-2.0-flash-lite', 'gemini-2.0-pro-exp-02-05'],
+    currentModel: 'gemini-3-flash-preview', 
+    // B"H - Populate fallbackOrder from VibeAPI definitions
+    fallbackOrder: [
+        'gemini-3-flash-preview',
+        'gemini-3-pro-preview',
+        'gemini-2.0-flash', 
+        'gemini-2.0-flash-lite-preview-02-05', 
+        'gemini-2.0-pro-exp-02-05',
+        'gemini-1.5-pro',
+        'gemini-1.5-flash',
+        'gemini-1.5-flash-8b'
+    ],
 
     init() {
         const stored = localStorage.getItem('vivid_vibe_config');
         if (stored) {
             const config = JSON.parse(stored);
             this.keys = config.keys || [];
-            this.currentModel = config.currentModel || 'gemini-2.0-flash';
+            this.currentModel = config.currentModel || 'gemini-3-flash-preview';
         }
     },
 
@@ -67,6 +78,12 @@ export const ModelManager = {
              </div>`
         ).join('');
 
+        const modelOptions = this.fallbackOrder.map(m => {
+            const info = VibeAPI.MODELS[m] || { name: m };
+            const isSelected = m === this.currentModel ? 'selected' : '';
+            return `<option value="${m}" ${isSelected}>${info.name} (${m})</option>`;
+        }).join('');
+
         return `
             <div class="vibe-settings-panel" style="border: 1px solid var(--color-border); padding: 15px; border-radius: 8px; background: rgba(0,0,0,0.2);">
                 <h4 style="margin-top:0; color:var(--neon-cyan);">Gemini API Configuration</h4>
@@ -74,7 +91,7 @@ export const ModelManager = {
                 <div style="margin-bottom:15px;">
                     <label style="display:block; margin-bottom:5px; font-size:0.9em; color:var(--color-text-secondary);">Active Model</label>
                     <select id="vibe-model-select" style="width:100%; padding:8px; background:var(--color-bg-primary); color:white; border:1px solid var(--color-border); border-radius:4px;">
-                        ${this.fallbackOrder.map(m => `<option value="${m}" ${m===this.currentModel?'selected':''}>${m}</option>`).join('')}
+                        ${modelOptions}
                     </select>
                 </div>
 
