@@ -1,0 +1,296 @@
+
+// B"H
+// FILE: js/git/status-ui.js
+
+import { State } from '../state.js';
+import { UI } from '../ui.js';
+import { FileSystemProvider } from '../fs-provider.js';
+import { Workspaces } from '../workspaces.js';
+import { GitMetaProvider } from './meta.js';
+import { GitDiff } from './git-diff.js';
+import { GitCommit } from './git-commit.js';
+import { FileOperations } from '../file-operations.js';
+import { Tabs } from '../tabs.js';
+
+export const GitStatusUI = {
+    async showGitUI(gitContextItem, performScan = false) {
+        UI.showLoading("Reading repository data...");
+
+        let gitInfo = gitContextItem.type === 'github' ?
+            gitContextItem :
+            await GitMetaProvider.getGitInfoForFolder(gitContextItem);
+
+        if (!gitInfo) {
+            UI.hideLoading();
+            UI.showToast("This is not a Git-aware folder.", "error");
+            return;
+        }
+
+        UI.showLoading("Analyzing repository status...");
+        try {
+            let isBehind = false;
+            let remoteChanges = null;
+
+            if (gitContextItem.type === 'github') {
+                if (performScan || !gitInfo._treeCache) {
+                    const treeData = await FileSystemProvider.GitHub.getFullTree(gitInfo);
+                    gitInfo = { ...gitInfo, remoteTree: treeData.tree, baseCommitSHA: treeData.sha };
+                    const ws = State.workspaces.find(w => w.id === gitContextItem.id);
+                    if (ws) {
+                        ws.remoteTree = treeData.tree;
+                        ws.baseCommitSHA = treeData.sha;
+                    }
+                }
+                isBehind = false; 
+            } else {
+                const remoteCommitSHA = await FileSystemProvider.GitHub.getLatestCommitSHA(gitInfo);
+                isBehind = remoteCommitSHA !== gitInfo.baseCommitSHA;
+
+                if (isBehind) {
+                    UI.showLoading("Fetching remote changes...");
+                    const newTreeData = await FileSystemProvider.GitHub.getFullTree(gitInfo);
+                    const newRemoteTree = newTreeData.tree;
+                    const oldRemoteTree = gitInfo.remoteTree;
+
+                    const newFiles = new Map(newRemoteTree.map(f => [f.path, f]));
+                    const oldFiles = new Map(oldRemoteTree.map(f => [f.path, f]));
+
+                    remoteChanges = { additions: [], modifications: [], deletions: [] };
+
+                    newFiles.forEach((file, path) => {
+                        if (!oldFiles.has(path)) remoteChanges.additions.push(path);
+                        else if (oldFiles.get(path).sha !== file.sha) remoteChanges.modifications.push(path);
+                    });
+                    oldFiles.forEach((file, path) => {
+                        if (!newFiles.has(path)) remoteChanges.deletions.push(path);
+                    });
+                }
+            }
+
+            if (performScan) {
+                UI.showLoading("Scanning file system...");
+            }
+            const changeSet = await GitDiff.calculateDiff(gitContextItem, gitInfo, { checkUntracked: performScan });
+            const localChangesCount = (changeSet.creations.length + changeSet.updates.length + changeSet.deletions.length);
+            const isAhead = localChangesCount > 0;
+
+            UI.hideLoading();
+            this.showCommitDialog(gitContextItem, gitInfo, {
+                isBehind, isAhead, localChangesCount, changeSet, remoteChanges, performScan
+            });
+
+        } catch (e) {
+            UI.hideLoading();
+            UI.showToast(`Error checking Git status: ${e.message}`, 'error');
+            console.error(e);
+        }
+    },
+
+    async showCommitDialog(gitContextItem, gitInfo, { isBehind, isAhead, localChangesCount, changeSet, remoteChanges, performScan }) {
+        const dirtyFiles = changeSet.dirtyFiles || [];
+        const conflicts = changeSet.conflicts || [];
+        const inscribedChanges = [...changeSet.creations, ...changeSet.updates, ...changeSet.deletions];
+        const hasDirty = dirtyFiles.length > 0;
+        const hasInscribed = inscribedChanges.length > 0;
+        const hasConflicts = conflicts.length > 0;
+        
+        let localStatusMessage = isAhead ? `${localChangesCount} change(s) detected` : 'In sync with remote';
+        if (isBehind) localStatusMessage = "Out of date with remote";
+        if (hasConflicts) localStatusMessage = `<span style="color:var(--color-accent-danger)">⚠️ CONFLICTS DETECTED</span>`;
+        if (!performScan && gitContextItem.type !== 'github') localStatusMessage += " <span style='font-size:0.8em; color:var(--color-text-tertiary)'> (Quick Scan)</span>";
+
+        let statusHTML = `<div class="git-status-line">${localStatusMessage}</div>`;
+        
+        if (remoteChanges) {
+             const count = remoteChanges.additions.length + remoteChanges.modifications.length + remoteChanges.deletions.length;
+             if (count > 0) {
+                 statusHTML += `<div class="changes-list" style="border-color: var(--color-accent-info);">
+                    <strong>Incoming Remote Changes:</strong><ul>`;
+                 remoteChanges.additions.forEach(p => statusHTML += `<li><span class="tag created">NEW</span> ${p}</li>`);
+                 remoteChanges.modifications.forEach(p => statusHTML += `<li><span class="tag modified">MOD</span> ${p}</li>`);
+                 remoteChanges.deletions.forEach(p => statusHTML += `<li><span class="tag deleted">DEL</span> ${p}</li>`);
+                 statusHTML += `</ul></div>`;
+             }
+        }
+
+        if (hasConflicts) {
+            statusHTML += `<div class="changes-list" style="border-color: var(--color-accent-danger);">
+                <strong>Conflicts (Remote differs from your base):</strong><ul>`;
+            conflicts.forEach(c => statusHTML += `<li title="${c.reason}"><span class="tag deleted">CONFLICT</span> ${c.path}</li>`);
+            statusHTML += `</ul></div>`;
+        }
+
+        if (isAhead) {
+            statusHTML += `<div class="changes-list"><strong>Local Changes:</strong><ul>`;
+            dirtyFiles.forEach(f => statusHTML += `<li><span class="tag modified dirty">UNSAVED</span> ${f.relativePath}</li>`);
+            changeSet.creations.forEach(f => statusHTML += `<li><span class="tag created">ADDED</span> ${f.path}</li>`);
+            changeSet.updates.forEach(f => statusHTML += `<li><span class="tag modified">MODIFIED</span> ${f.path}</li>`);
+            changeSet.deletions.forEach(f => statusHTML += `<li><span class="tag deleted">DELETED</span> ${f.path}</li>`);
+            statusHTML += `</ul></div>`;
+        }
+
+        const dialogConfig = {
+            title: `Git Actions for ${gitContextItem.name}`,
+            contentHTML: statusHTML,
+            hasTextarea: isAhead && !isBehind && !hasConflicts,
+            textareaContent: `B"H\nUpdated at ${new Date().toLocaleString()}`,
+            cancelText: 'Close',
+            tertiary: (isAhead && !isBehind) ? { text: 'Discard Changes', class: 'danger' } : null
+        };
+
+        if (!performScan) {
+            dialogConfig.secondaryOk = { text: 'Scan for Changes', actionKey: 'full_scan' };
+        } else if (hasDirty && hasInscribed && !hasConflicts) {
+            dialogConfig.secondaryOk = { text: 'Commit Inscribed Only', actionKey: 'commit_inscribed' };
+        }
+
+        if (hasConflicts) {
+            dialogConfig.message = "Unsaved/Local changes conflict with the remote state. Choose strategy:";
+            dialogConfig.okText = 'Pull & Overwrite Local';
+            dialogConfig.secondaryOk = { text: 'Push (Force Overwrite)', actionKey: 'force_push' };
+        } else if (isBehind) {
+            dialogConfig.okText = 'Pull & Overwrite Local Changes';
+            dialogConfig.secondaryOk = { text: 'Push (Force Overwrite)', actionKey: 'force_push' };
+        } else if (hasDirty && !hasInscribed) {
+            dialogConfig.okText = 'Save and Commit All';
+        } else if (hasDirty && hasInscribed) {
+            dialogConfig.okText = 'Save and Commit All';
+        } else if (!hasDirty && hasInscribed) {
+            dialogConfig.okText = 'Commit All';
+        }
+
+        const dialogResult = await UI.showDialog(dialogConfig);
+        if (dialogResult === null) return;
+
+        if (dialogResult === 'full_scan') {
+            await this.showGitUI(gitContextItem, true);
+            return;
+        }
+
+        if (dialogResult === 'force_push') {
+            const confirmPush = await UI.showDialog({
+                title: "DANGER: Force Push",
+                message: "This will OVERWRITE the remote repository history with your local state. This action is destructive and cannot be undone.",
+                okText: "Yes, Force Push",
+                cancelText: "Cancel",
+                tertiary: null
+            });
+            if (!confirmPush) return;
+        }
+
+        try {
+            if (dialogResult === 'tertiary') await this.discardChanges(gitContextItem);
+            else if (dialogResult === 'force_pull') FileOperations.pullAndOverwrite(gitContextItem, gitInfo);
+            else if ((isBehind || hasConflicts) && dialogResult !== 'force_push') FileOperations.pullAndOverwrite(gitContextItem, gitInfo);
+            else if ((isAhead && !hasConflicts) || dialogResult === 'force_push') {
+                const commitMessage = document.getElementById('dialog-textarea')?.value || `B"H\nUpdate`;
+                const isForce = dialogResult === 'force_push';
+                await this.executeCommit(gitContextItem, gitInfo, changeSet, commitMessage, isForce, dialogResult, dirtyFiles, performScan);
+            }
+        } catch (e) {
+            let finalMessage = `COMMIT FAILED: ${e.message}`;
+            if (e.message && (e.message.includes("Bad credentials") || e.message.includes("token"))) {
+                finalMessage += "\nPlease check your GitHub token in Settings.";
+            }
+            UI.showToast(finalMessage, 'error', 8000);
+            console.error("COMMIT FAILED:", e);
+        } finally {
+            UI.hideLoading();
+        }
+    },
+
+    async executeCommit(gitContextItem, gitInfo, changeSet, commitMessage, isForce, dialogResult, dirtyFiles, performScan) {
+        if (dialogResult === 'commit_inscribed' || isForce) {
+            await this._handleCommit(gitContextItem, gitInfo, changeSet, commitMessage, isForce);
+        } else { 
+            const hasDirty = dirtyFiles.length > 0;
+            if (hasDirty) {
+                UI.showLoading("Saving all changes...");
+                const savePromises = dirtyFiles.map(df => {
+                    const tab = State.tabs.find(t => t.item === df.tabItem);
+                    return tab ? Tabs.save(tab) : Promise.resolve();
+                });
+                await Promise.all(savePromises);
+            }
+            UI.showLoading("Recalculating final changes...");
+            const finalChangeSet = await GitDiff.calculateDiff(gitContextItem, gitInfo, { checkUntracked: performScan });
+            await this._handleCommit(gitContextItem, gitInfo, finalChangeSet, commitMessage, isForce);
+        }
+    },
+
+    async _handleCommit(gitContextItem, gitInfo, finalChangeSet, commitMessage, force) {
+        UI.showLoading(force ? "Force Pushing to GitHub..." : "Committing to GitHub...");
+        
+        const newCommitSHA = await GitCommit.performCommit(
+            gitContextItem, 
+            gitInfo, 
+            finalChangeSet, 
+            commitMessage, 
+            { force }
+        );
+        
+        UI.showLoading("Verifying final repository state...");
+        const newTree = await FileSystemProvider.GitHub.getFullTree(gitInfo);
+        
+        if (gitContextItem.type !== 'github') {
+            const updatedGitInfo = { ...gitInfo, baseCommitSHA: newCommitSHA, remoteTree: newTree.tree };
+            const ikarFileContent = `// B"H\n\nconst ikar = ${JSON.stringify(updatedGitInfo, null, 4)};`;
+            const ikarFileItem = { ...gitContextItem, path: `${gitContextItem.path}/.awtsmoos-repo/ikar.js` };
+            await FileSystemProvider.write(ikarFileItem, ikarFileContent);
+        } else {
+            gitContextItem.remoteTree = newTree.tree;
+            gitContextItem.baseCommitSHA = newTree.sha;
+            await Workspaces.refreshNode(gitContextItem);
+        }
+        
+        UI.showToast(force ? "Force Push Successful!" : "Changes committed successfully!", "success");
+    },
+
+    async discardChanges(gitContextItem) {
+        const confirmed = await UI.showDialog({
+            title: 'Confirm Discard',
+            message: `Are you sure you want to discard all local, uncommitted changes in '${gitContextItem.name}'? This cannot be undone.`,
+            okText: 'Yes, Discard All',
+            cancelText: 'Cancel'
+        });
+
+        if (!confirmed) return;
+
+        UI.showLoading("Reverting local changes...");
+        try {
+            const workspaceId = gitContextItem.workspaceId || gitContextItem.id;
+
+            const uncommittedEntries = await FileSystemProvider.IndexedDB.listUncommittedForWorkspace(workspaceId);
+            const deletionPromises = uncommittedEntries.map(entry =>
+                FileSystemProvider.IndexedDB.deleteUncommitted(entry.uniquePath)
+            );
+            await Promise.all(deletionPromises);
+
+            const tabsToRevert = State.tabs.filter(tab => (tab.item.workspaceId === workspaceId) && (tab.isDirty || tab.isUncommitted));
+            let activeTabNeedsReload = false;
+
+            for (const tab of tabsToRevert) {
+                tab.isDirty = false;
+                tab.isUncommitted = false;
+                tab.content = null; 
+                tab.forceReload = true; 
+                if (tab.id === State.activeTabId) {
+                    activeTabNeedsReload = true;
+                }
+            }
+
+            Tabs.render();
+
+            if (activeTabNeedsReload) {
+                await Tabs.activate(State.activeTabId);
+            }
+
+            UI.showToast("Local changes have been discarded.", 'success');
+        } catch (e) {
+            UI.showToast(`Error discarding changes: ${e.message}`, 'error');
+            console.error("DISCARD FAILED:", e);
+        } finally {
+            UI.hideLoading();
+        }
+    }
+};

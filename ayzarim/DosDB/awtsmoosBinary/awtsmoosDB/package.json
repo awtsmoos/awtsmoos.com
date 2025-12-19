@@ -1,6 +1,6 @@
 {
   "name": "awtsmoos-db",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A database library for Awtsmoos projects",
   "main": "index.js",
   "scripts": {
@@ -16,6 +16,6 @@
   "license": "ISC",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/your-username/awtsmoos-db.git"
+    "url": "git+https://github.com/awtsmoos/awtsmoos-db.git"
   }
 }

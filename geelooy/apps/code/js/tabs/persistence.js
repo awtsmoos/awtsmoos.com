@@ -1,3 +1,4 @@
+
 // B"H
 // FILE: js/tabs/persistence.js
 
@@ -66,19 +67,27 @@ export const TabsPersistence = {
         UI.showLoading(`Saving ${tab.item.name}...`);
         const savePromises = [];
 
-        // 1. Write to Actual File System (Local/GitHub/SSH)
+        // 1. Write to Actual File System
+        // For Local/SSH, this writes to disk.
+        // For GitHub, the Provider now handles buffering to IDB, so we just call write.
+        // We DON'T need special exclusion logic anymore because GitHubProvider.write IS the staging write.
+        
+        // However, for Local Clones, we still want the duality: Write to Disk AND Write to Staging IDB.
+        // This is because LocalProvider writes to disk (which might be slow or external), and IDB is for diff calculation.
+        
         if (gitRootItem.type !== 'github') {
-            savePromises.push(FileSystemProvider.write(tab.item, contentToSave));
+             savePromises.push(FileSystemProvider.write(tab.item, contentToSave));
+        } else {
+             // For GitHub, we ONLY call write, which goes to IDB.
+             // We push it to promises list.
+             savePromises.push(FileSystemProvider.write(tab.item, contentToSave));
         }
         
         try {
-            // 2. Prepare Staging Logic (IDB)
-            let relativePath;
-            const isDirectRepo = gitRootItem.type === 'github';
-            
-            if (isDirectRepo) {
-                relativePath = tab.item.path;
-            } else {
+            // 2. Prepare Staging Logic (IDB) for Local Clones
+            // GitHub workspaces handled above via their own provider.
+            if (gitRootItem.type !== 'github') {
+                let relativePath;
                 const cloneRootPath = gitRootItem.path;
                 const fileFullPath = tab.item.path;
 
@@ -89,18 +98,20 @@ export const TabsPersistence = {
                 } else {
                     throw new Error("Cannot determine relative path for staging.");
                 }
+                
+                const itemForStaging = { ...tab.item, path: relativePath };
+                const uniquePathForStaging = `${gitRootItem.workspaceId || gitRootItem.id}::${relativePath}`;
+
+                // Add Staging Write to Promise List
+                savePromises.push(FileSystemProvider.IndexedDB.writeUncommitted(uniquePathForStaging, contentToSave, itemForStaging));
             }
-            
-            const itemForStaging = { ...tab.item, path: relativePath };
-            const uniquePathForStaging = `${gitRootItem.workspaceId || gitRootItem.id}::${relativePath}`;
 
-            // Add Staging Write to Promise List
-            savePromises.push(FileSystemProvider.IndexedDB.writeUncommitted(uniquePathForStaging, contentToSave, itemForStaging));
-
-            // Await both operations simultaneously
+            // Await both operations
             await Promise.all(savePromises);
 
             tab.isDirty = false;
+            // For GitHub, it's effectively "uncommitted" because it's in the overlay.
+            // For Local, it's uncommitted relative to Git HEAD.
             tab.isUncommitted = true;
             tab.content = contentToSave;
             TabsController.render();

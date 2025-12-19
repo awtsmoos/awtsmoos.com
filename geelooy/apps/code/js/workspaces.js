@@ -1,16 +1,14 @@
+
 // B"H
 // FILE: js/workspaces.js
-import { SelectionManager } from './selection-manager.js';
 import { State , DOM} from './state.js';
-import { FileSystemProvider } from './fs-provider.js';
-import { Tabs } from './tabs.js';
 import { Menus } from './menus.js';
 import { App } from './app.js';
-import { GitManager } from './git-manager.js'; 
-import { GitMetaProvider } from './git-meta-provider.js'; 
+import { GitManager } from './git/index.js'; // B"H - Updated Import
 import { UI } from './ui.js';
 import { FileOperations } from './file-operations.js'; 
-import { ZipExplorer } from './zip/zip-explorer.js'; // B"H - Import ZipExplorer
+import { Tabs } from './tabs.js';
+import { WorkspaceTreeRenderer } from './workspaces/tree-rendering.js'; // B"H
 
 export const getItemUniquePath = (item) => {
     // B"H - Unique ID for Zip Entries
@@ -104,6 +102,9 @@ export const Workspaces = {
             statusBadge = /*html*/`<span style="font-size: 0.7em; margin-left:8px; padding: 2px 6px; border-radius: 4px; background: var(--color-accent-danger); color: #fff;">⚠️ Lost</span>`;
         }
 
+        // B"H - Allow Git Actions for both Clones AND direct GitHub workspaces
+        const showGitActions = rootItem.isGitClone || rootItem.type === 'github';
+
         wsRoot.innerHTML = /*html*/ `
             <div class="workspace-header ${ws.isLocked ? 'locked-workspace' : ''}" title="${ws.isLocked ? 'Click to resume session' : rootItem.name}">
                 <div class="workspace-header-title">
@@ -114,7 +115,7 @@ export const Workspaces = {
                     </strong>
                 </div>
                 <div class="workspace-header-actions">
-                    ${rootItem.isGitClone ? `<button class="icon-button git-actions-btn" title="Git Actions"><svg class="svg-icon"><use href="#icon-git-branch"></use></svg></button>` : ''}
+                    ${showGitActions ? `<button class="icon-button git-actions-btn" title="Git Actions"><svg class="svg-icon"><use href="#icon-git-branch"></use></svg></button>` : ''}
                 </div>
             </div>
         `;
@@ -173,7 +174,7 @@ export const Workspaces = {
                 const tree = document.createElement('ul');
                 tree.className = 'workspace-tree';
                 wsRoot.appendChild(tree);
-                this.renderTree(tree, rootItem, 1);
+                WorkspaceTreeRenderer.renderTree(tree, rootItem, 1);
             }
         };
 
@@ -189,136 +190,7 @@ export const Workspaces = {
            const tree = document.createElement('ul');
            tree.className = 'workspace-tree';
            wsRoot.appendChild(tree);
-           this.renderTree(tree, rootItem, 1);
-        }
-    },
-
-    async renderTree(parentElement, parentItem, depth) {
-        parentElement.innerHTML = `<li class="tree-item" style="--depth:${depth}; color: var(--color-text-tertiary);">Loading...</li>`;
-        try {
-            let children;
-            const workspace = State.workspaces.find(ws => ws.id === parentItem.workspaceId);
-
-            if (parentItem.type === 'github' && workspace) {
-                if (!workspace._treeCache) {
-                    parentElement.innerHTML = `<li class="tree-item" style="--depth:${depth}; color: var(--color-text-tertiary);">Building repository map...</li>`;
-                    const fullTreeData = await FileSystemProvider.GitHub.getFullTree(parentItem);
-                    
-                    const cache = new Map();
-                    if (fullTreeData.tree) {
-                        fullTreeData.tree.forEach(node => {
-                            const pathParts = node.path.split('/');
-                            pathParts.pop(); 
-                            let parentPath = pathParts.join('/');
-                            if (!cache.has(parentPath)) {
-                                cache.set(parentPath, []);
-                            }
-                        });
-                        fullTreeData.tree.forEach(node => {
-                            const pathParts = node.path.split('/');
-                            const name = pathParts.pop();
-                            const parentPath = pathParts.join('/');
-                            
-                            cache.get(parentPath).push({
-                               name: name,
-                               kind: node.type === 'tree' ? 'directory' : 'file',
-                               path: node.path,
-                               sha: node.sha 
-                            });
-                        });
-                    }
-                    workspace._treeCache = cache;
-                }
-                const lookupPath = parentItem.path === '/' ? '' : parentItem.path;
-                children = workspace._treeCache.get(lookupPath) || [];
-            } else {
-                children = await FileSystemProvider.list(parentItem);
-            }
-
-            parentElement.innerHTML = '';
-            children.sort((a, b) => (a.kind === b.kind) ? a.name.localeCompare(b.name) : (a.kind === 'directory' ? -1 : 1));
-
-            if (children.length === 0) {
-                parentElement.innerHTML = `<li class="tree-item" style="--depth:${depth}; color: var(--color-text-tertiary); font-style: italic;">Empty</li>`;
-                return;
-            }
-
-            for (const child of children) {
-                if (child.name === '.gitkeep') continue;
-                const fullChildItem = { ...parentItem, ...child };
-                const uniquePath = getItemUniquePath(fullChildItem);
-                const gitInfo = child.kind === 'directory' ? await GitMetaProvider.getGitInfoForFolder(fullChildItem) : null;
-                fullChildItem.isGitClone = !!gitInfo;
-                const icon = fullChildItem.isGitClone ? 'git-folder' : (child.kind === 'directory' ? 'folder' : 'file');
-                const li = document.createElement('li');
-                li.className = 'tree-item';
-                li.style.setProperty('--depth', depth);
-                li.innerHTML = `
-                    <div class="tree-item-name-wrap">
-                        <span class="tree-item-arrow">${child.kind === 'directory' ? '▶' : '•'}</span>
-                        <svg class="svg-icon"><use href="#icon-${icon}"/></svg>
-                        <span class="tree-item-name">${child.name}</span>
-                    </div>`;
-                parentElement.appendChild(li);
-                const nameWrap = li.querySelector('.tree-item-name-wrap');
-                
-                // B"H - Attach DnD to Folder Items
-                if (child.kind === 'directory') {
-                    this.setupDragDrop(nameWrap, fullChildItem);
-                }
-
-                if (fullChildItem.isGitClone) {
-                    const gitBtn = document.createElement('button');
-                    gitBtn.className = 'icon-button git-actions-btn';
-                    gitBtn.title = 'Git Actions';
-                    gitBtn.innerHTML = `<svg class="svg-icon"><use href="#icon-git-branch"></use></svg>`;
-                    gitBtn.onclick = (e) => {
-                        e.stopPropagation();
-                        GitManager.showGitUI(fullChildItem);
-                    };
-                    nameWrap.appendChild(gitBtn);
-                }
-                nameWrap.onclick = (e) => {
-                    e.stopPropagation();
-                    if (State.isSelectionModeActive) {
-                        SelectionManager.toggle(fullChildItem);
-                        return;
-                    }
-                    if (child.kind === 'directory') {
-                        if (State.expandedFolders.has(uniquePath)) {
-                            State.expandedFolders.delete(uniquePath);
-                            li.classList.remove('expanded');
-                            li.querySelector('ul')?.remove();
-                        } else {
-                            State.expandedFolders.add(uniquePath);
-                            li.classList.add('expanded');
-                            const newUl = document.createElement('ul');
-                            li.appendChild(newUl);
-                            this.renderTree(newUl, fullChildItem, depth + 1);
-                        }
-                        App.saveSession();
-                    } else {
-                        Tabs.create(fullChildItem);
-                    }
-                };
-                nameWrap.oncontextmenu = (e) => {
-                    State.contextEvent = e;
-                    Menus.show(e, fullChildItem);
-                };
-                State.domItemMap.set(uniquePath, {
-                    el: li,
-                    item: fullChildItem
-                });
-                if (State.expandedFolders.has(uniquePath)) {
-                    li.classList.add('expanded');
-                    const newUl = document.createElement('ul');
-                    li.appendChild(newUl);
-                    this.renderTree(newUl, fullChildItem, depth + 1);
-                }
-            }
-        } catch (e) {
-            console.error("Error rendering tree:", e);
-            parentElement.innerHTML = `<li class="tree-item" style="color: var(--color-accent-danger); --depth:${depth};">Error: ${e.message}</li>`;
+           WorkspaceTreeRenderer.renderTree(tree, rootItem, 1);
         }
     },
 
@@ -339,8 +211,7 @@ export const Workspaces = {
         if (item.type === 'zip-entry') {
             const zipTab = State.tabs.find(t => t.id === item.zipTabId);
             if (zipTab) {
-                // Just trigger re-render of the active view
-                ZipExplorer.render(zipTab);
+                import('./zip/zip-explorer.js').then(m => m.ZipExplorer.render(zipTab));
             }
             return;
         }
@@ -374,7 +245,7 @@ export const Workspaces = {
             directoryElement.appendChild(childrenContainer);
             
             const depth = isRoot ? 1 : (item.path.match(/\//g) || []).length + 1;
-            await this.renderTree(childrenContainer, item, depth);
+            await WorkspaceTreeRenderer.renderTree(childrenContainer, item, depth);
         }
     }
 };

@@ -1,3 +1,4 @@
+
 // B"H
 // FILE: js/actions.js
 
@@ -12,7 +13,7 @@ import { FileSystemProvider } from './fs-provider.js';
 import { Editor } from './editor.js';
 import { FileOperations } from './file-operations.js';
 import { SelectionManager } from './selection-manager.js';
-import { GitManager } from './git-manager.js';
+import { GitManager } from './git/index.js'; // B"H - Updated Import
 import { beautify } from "/scripts/awtsmoos/MerkavaBeautifier/beautifier.js";
 import { FileCommander } from './file-commander.js';
 import { ZipExplorer } from './zip/zip-explorer.js';
@@ -29,6 +30,9 @@ export const Actions = {
                     break;
                 case "commit-changes":
                     App.commitAllChanges();
+                    break;
+                case "switch-branch":
+                    if (item) GitManager.switchBranch(item);
                     break;
                 case "delete-workspace":
                     if (item && item.path === "/") {

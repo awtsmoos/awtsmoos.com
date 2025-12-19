@@ -71,6 +71,16 @@ export const GitDiff = {
             const relativePath = change.item.path; 
             handledPaths.add(relativePath);
             
+            // B"H - Check for Deletion Marker (null content)
+            if (change.content === null) {
+                // If it exists in remote, it's a pending deletion
+                if (remoteFileMap.has(relativePath)) {
+                    changeSet.deletions.push({ path: relativePath });
+                }
+                // If not in remote, it was a creation that was cancelled/deleted locally before push
+                continue;
+            }
+
             if (!remoteFileMap.has(relativePath)) {
                 changeSet.creations.push({ path: relativePath, content: change.content });
             } else {

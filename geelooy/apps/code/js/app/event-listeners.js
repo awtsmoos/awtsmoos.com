@@ -16,6 +16,7 @@ import { StatusBar } from '../statusbar.js';
 import { TabManagerOverlay } from '../tab-manager-overlay.js';
 import { FileCommander } from '../file-commander.js';
 import { FileSystemProvider } from '../fs-provider.js';
+import { WorkspaceAddition } from '../features/workspace-addition.js'; // B"H
 
 export function setupEventListeners() {
     window.addEventListener('message', async (event) => {
@@ -35,7 +36,7 @@ export function setupEventListeners() {
         if ((type === 'import-request' && event.data.source === 'html-preview-bridge') || 
             type === 'fetch-worker-script' || 
             type === 'fetch-script-content' ||
-            (type === 'FETCH_REQ')) { // Handle generic VM fetch request if used directly
+            (type === 'FETCH_REQ')) { 
             
             const { specifier, referrer, workspaceId, id, path } = event.data;
             const targetPath = specifier || path;
@@ -44,8 +45,6 @@ export function setupEventListeners() {
                 let content;
                 
                 // B"H - System Asset Interception
-                // If the path requests a Merkava System file (and it wasn't intercepted by the Host Worker logic),
-                // serve it from the app root.
                 if (targetPath.includes('MerkavaExecutor') || targetPath.includes('merkava-sdk')) {
                     const cleanPath = targetPath.startsWith('/') ? targetPath : '/' + targetPath;
                     const response = await fetch(cleanPath);
@@ -257,7 +256,10 @@ export function setupEventListeners() {
         const button = e.target.closest('button');
         if (button && !button.disabled) Menus.handleAction(button.dataset.action);
     });
-    DOM.addWorkspaceBtn.onclick = () => App.showAddWorkspaceDialog();
+    
+    // B"H - Updated Workspace Addition Logic
+    DOM.addWorkspaceBtn.onclick = () => WorkspaceAddition.showDialog();
+    
     window.addEventListener('keydown', (e) => {
         const hasModifier = e.ctrlKey || e.metaKey;
         if (hasModifier && e.key.toLowerCase() === 's') {

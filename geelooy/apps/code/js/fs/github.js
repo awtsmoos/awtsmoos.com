@@ -1,8 +1,10 @@
+
 // B"H
 // FILE: js/fs/github.js
 import { State } from '../state.js';
 import { MimeUtil } from '../mime-util.js';
 import { UI } from '../ui.js';
+import { IndexedDBProvider } from './indexeddb.js'; // B"H
 
 export const GitHubProvider = {
     api: async (endpoint, options = {}) => {
@@ -70,8 +72,20 @@ export const GitHubProvider = {
     },
 
     async read(item) {
+        // B"H - Overlay Logic: Check local staging first!
+        const uniquePath = `${item.workspaceId}::${item.path}`;
+        try {
+            const stagedContent = await IndexedDBProvider.readUncommitted(uniquePath);
+            // If staged content exists, use it.
+            if (stagedContent === null) throw new Error("File deleted locally.");
+            return stagedContent;
+        } catch (e) {
+            if (e.message === "File deleted locally.") throw new Error("File not found (Deleted in staging)");
+            // If not found in staging, proceed to remote fetch
+        }
+
         let repoInfo = item.repoInfo;
-        const { sha, name } = item;
+        const { name, branch } = item;
 
         if (!repoInfo) {
             const workspace = State.workspaces.find(ws => ws.id === item.workspaceId);
@@ -84,64 +98,93 @@ export const GitHubProvider = {
             throw new Error(`Could not determine repository information for this read operation.`);
         }
 
-        if (!sha) {
-            throw new Error(`Cannot read file "${name}": its SHA identifier is missing.`);
+        // B"H - FRESHNESS CHECK
+        // To ensure we get the latest content (even if tree cache is stale), we fetch file metadata via 'contents'.
+        // This gives us the current SHA and content (if small enough).
+        // Using 'contents' API ensures we see changes made on GitHub.com immediately.
+        
+        let blobContent = null;
+        let blobEncoding = null;
+        
+        try {
+            // Path must not start with slash for API
+            const apiPath = item.path.startsWith('/') ? item.path.substring(1) : item.path;
+            const refBranch = branch || item.branch || 'main'; // Fallback
+            
+            const meta = await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/contents/${apiPath}?ref=${refBranch}`);
+            
+            if (meta.content) {
+                // Content provided directly (small files)
+                blobContent = meta.content;
+                blobEncoding = meta.encoding;
+            } else if (meta.sha) {
+                // Content too large/not provided, use SHA to fetch blob
+                // This updates the SHA to the LATEST one.
+                const blob = await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/blobs/${meta.sha}`);
+                blobContent = blob.content;
+                blobEncoding = blob.encoding;
+            }
+        } catch(e) {
+            // Fallback to item.sha if API fails (e.g. rate limit on contents vs blobs?) or file missing
+            console.warn("Freshness check failed, falling back to cached SHA", e);
+            if (!item.sha) throw e;
+            const blob = await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/blobs/${item.sha}`);
+            blobContent = blob.content;
+            blobEncoding = blob.encoding;
         }
 
-        const blob = await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/blobs/${sha}`);
+        if (blobEncoding !== 'base64') throw new Error("Unsupported encoding from GitHub");
         
-        if (blob.encoding !== 'base64') throw new Error("Unsupported encoding from GitHub");
         const fileInfo = MimeUtil.getInfo(name);
         if (fileInfo.type === 'text') {
-            return this.b64_to_utf8(blob.content);
+            // Strip newlines from base64 if present (GitHub API sends them)
+            const cleanBase64 = blobContent.replace(/\n/g, '');
+            return this.b64_to_utf8(cleanBase64);
         } else {
-            return { isBinary: true, base64Content: blob.content, mime: fileInfo.mime };
+            return { isBinary: true, base64Content: blobContent, mime: fileInfo.mime };
         }
     },
 
     async write(item, content, commitMessage) {
-        const { repoInfo, branch, path, name } = item;
-        let existingSha;
-        try {
-            const fileData = await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/contents/${path}?ref=${branch}`);
-            existingSha = fileData.sha;
-        } catch (e) { /* File doesn't exist, which is fine */ }
-
-        const result = await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/contents/${path}`, {
-            method: 'PUT',
-            body: JSON.stringify({
-                message: commitMessage || `B"H\nupdated ${name}!`,
-                content: this.utf8_to_b64(content),
-                sha: existingSha,
-                branch
-            })
-        });
-        item.sha = result.content.sha;
-
-        const workspace = State.workspaces.find(ws => ws.repoInfo?.repo === repoInfo.repo && ws.repoInfo?.owner === repoInfo.owner);
-        if (workspace) workspace._treeCache = null;
+        // B"H - Overlay Logic: Write to Local Staging (IDB) ONLY.
+        const uniquePath = `${item.workspaceId}::${item.path}`;
+        await IndexedDBProvider.writeUncommitted(uniquePath, content, item);
     },
 
-    async create({ repoInfo, branch, path }, name, kind) {
-        const newPath = (path === '/' ? name : `${path}/${name}`) + (kind === 'directory' ? '/.gitkeep' : '');
-        const message = `B"H\ncreate ${kind} '${name}'`;
-        await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/contents/${newPath}`, {
-            method: 'PUT',
-            body: JSON.stringify({
-                message,
-                content: kind === 'directory' ? '' : this.utf8_to_b64(''),
+    async create({ repoInfo, branch, path, workspaceId }, name, kind) {
+        // B"H - Overlay Logic: Create in Staging
+        const newPath = path === '/' ? name : `${path}/${name}`;
+        
+        if (kind === 'file') {
+            const item = { 
+                workspaceId, 
+                path: newPath, 
+                name, 
+                kind, 
+                repoInfo, 
+                branch 
+            };
+            const uniquePath = `${workspaceId}::${newPath}`;
+            await IndexedDBProvider.writeUncommitted(uniquePath, "", item);
+        } else {
+            const gitKeepPath = `${newPath}/.gitkeep`;
+            const item = {
+                workspaceId,
+                path: gitKeepPath,
+                name: '.gitkeep',
+                kind: 'file',
+                repoInfo,
                 branch
-            })
-        });
-
-        const workspace = State.workspaces.find(ws => ws.repoInfo?.repo === repoInfo.repo && ws.repoInfo?.owner === repoInfo.owner);
-        if (workspace) workspace._treeCache = null;
+            };
+            const uniquePath = `${workspaceId}::${gitKeepPath}`;
+            await IndexedDBProvider.writeUncommitted(uniquePath, "", item);
+        }
+        UI.showToast(`Item '${name}' staged for creation. Use Git Actions to commit.`, "info");
     },
 
     async _deletePathRecursively(repoInfo, branch, path) {
         const contents = await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/contents/${path}?ref=${branch}`);
         for (const item of contents) {
-            UI.showLoading(`Deleting: ${item.path}`);
             if (item.type === 'file') {
                 await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/contents/${item.path}`, {
                     method: 'DELETE',
@@ -158,26 +201,10 @@ export const GitHubProvider = {
     },
 
     async delete(item) {
-        const { repoInfo, branch, path, name } = item;
-        if (item.kind === 'file') {
-            const message = `B"H - Delete '${name}'`;
-            const fileData = await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/contents/${path}?ref=${branch}`);
-            await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/contents/${path}`, {
-                method: 'DELETE',
-                body: JSON.stringify({
-                    message,
-                    sha: fileData.sha,
-                    branch
-                })
-            });
-        } else if (item.kind === 'directory') {
-            await this._deletePathRecursively(repoInfo, branch, path);
-        } else {
-            throw new Error(`Unsupported item type for deletion: ${item.kind}`);
-        }
-
-        const workspace = State.workspaces.find(ws => ws.repoInfo?.repo === repoInfo.repo && ws.repoInfo?.owner === repoInfo.owner);
-        if (workspace) workspace._treeCache = null;
+        // B"H - Overlay Logic: Mark as Deleted in Staging
+        const uniquePath = `${item.workspaceId}::${item.path}`;
+        await IndexedDBProvider.writeUncommitted(uniquePath, null, item);
+        UI.showToast(`Item '${item.name}' staged for deletion.`, "info");
     },
 
     async getLatestCommitSHA({ repoInfo, branch }) {
@@ -208,28 +235,6 @@ export const GitHubProvider = {
     },
 
     async commitMultipleFiles({ repoInfo, branch, commitMessage, changeSet }) {
-        const latestCommitSHA = await this.getLatestCommitSHA({ repoInfo, branch });
-        const latestCommit = await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/commits/${latestCommitSHA}`);
-        const baseTreeSHA = latestCommit.tree.sha;
-        const filesToUpload = [...(changeSet.creations || []), ...(changeSet.updates || [])];
-        const blobCreationPromises = filesToUpload.map(file => 
-            this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/blobs`, {
-                method: 'POST', body: JSON.stringify({ content: this.utf8_to_b64(file.content), encoding: 'base64' })
-            }).then(blob => ({ path: file.path, sha: blob.sha }))
-        );
-        const createdBlobs = await Promise.all(blobCreationPromises);
-        const tree = [];
-        createdBlobs.forEach(blob => tree.push({ path: blob.path, mode: '100644', type: 'blob', sha: blob.sha }));
-        (changeSet.deletions || []).forEach(file => tree.push({ path: file.path, mode: '100644', type: 'blob', sha: null }));
-        const newTree = await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/trees`, {
-            method: 'POST', body: JSON.stringify({ base_tree: baseTreeSHA, tree: tree })
-        });
-        const newCommit = await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/commits`, {
-            method: 'POST', body: JSON.stringify({ message: commitMessage, tree: newTree.sha, parents: [latestCommitSHA] })
-        });
-        await this.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/refs/heads/${branch}`, {
-            method: 'PATCH', body: JSON.stringify({ sha: newCommit.sha })
-        });
-        return newCommit.sha;
+        return null; 
     }
 };

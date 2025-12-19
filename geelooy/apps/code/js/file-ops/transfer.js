@@ -8,7 +8,7 @@ import { Clipboard } from '../clipboard.js';
 import { SelectionManager } from '../selection-manager.js';
 import { Workspaces, getItemUniquePath } from '../workspaces.js';
 import { Tabs } from '../tabs/index.js';
-import { GitMetaProvider } from '../git-meta-provider.js';
+import { GitMetaProvider } from '../git/meta.js'; // B"H - Updated Import
 import { Exporter } from './exporter.js';
 import { calculateGitBlobSha } from '../git-sha-calculator.js';
 
@@ -369,7 +369,6 @@ export const Transfer = {
     },
     
     async pullAndOverwrite(folderToUpdate, gitInfo) {
-        // ... (Keep existing pull logic)
         const confirmed = await UI.showDialog({
             title: 'Confirm Overwrite',
             message: `Update '${folderToUpdate.name}' from GitHub? This will fetch new changes and overwrite conflicted files.`,

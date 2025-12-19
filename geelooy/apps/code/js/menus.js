@@ -1,3 +1,4 @@
+
 // B"H
 // FILE: js/menus.js
 import { State, DOM } from "./state.js";
@@ -50,6 +51,7 @@ export const Menus = {
         const isGitClone = item.isGitClone;
         const isCandidateForInit = isDir && !isReadOnly && item.type !== "github";
         const isLocal = item.type === 'local';
+        const isGithubWS = item.type === 'github';
         
         const menuItems = [];
         
@@ -84,6 +86,13 @@ export const Menus = {
         if (isDir && !isReadOnly) {
             if (isGitClone) {
                 menuItems.push({ label: "Git Actions...", action: "git-actions", icon: "git-branch" });
+                menuItems.push({ label: "Switch Branch...", action: "switch-branch", icon: "git-branch" }); // B"H
+            } else if (isGithubWS) {
+                // Git actions for direct workspace root or subfolders?
+                // Usually root.
+                if (isWorkspaceRoot) {
+                    menuItems.push({ label: "Switch Branch...", action: "switch-branch", icon: "git-branch" });
+                }
             } else if (isCandidateForInit) {
                 menuItems.push({ label: "Initialize as GitHub Repo...", action: "git-init", icon: "github" });
             }
