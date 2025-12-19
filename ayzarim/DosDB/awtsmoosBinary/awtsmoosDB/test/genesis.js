@@ -228,7 +228,7 @@ async function runSimulation() {
         delete globalThis.LifeForm; 
         
         // B"H: Open with Debug on Day 7 to trace HNSW Load
-        const db2 = new AwtsmoosDB(DB_PATH, { debug: true });
+        const db2 = new AwtsmoosDB(DB_PATH, { debug: false });
         await db2.open();
         
         // =================================================================

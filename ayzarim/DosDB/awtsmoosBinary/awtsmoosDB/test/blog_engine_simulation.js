@@ -3,10 +3,10 @@
 const AwtsmoosDB = require('../index.js');
 const fs = require('fs').promises;
 
-const DB_PATH = './blog_engine.db';
-
+const path = require('path');
+const DB_PATH = path.join(__dirname, 'blog_engine.db');
 async function runTest() {
-    console.log("B\"H - Starting Blog Engine Simulation...");
+    console.log("B\"H\n - Starting Blog Engine Simulation...");
 
     // 1. Clean Environment
     try {

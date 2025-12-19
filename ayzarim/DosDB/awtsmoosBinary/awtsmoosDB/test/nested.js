@@ -1,12 +1,19 @@
+
 // B"H
 const AwtsmoosDB = require('../index.js');
 const fs = require('fs');
 
+const path = require('path');
 async function runTest() {
-    const dbPath = './test_nested.db';
+    const dbPath = path.join(__dirname, 'test_nested.db');;;
+    const walPath = dbPath + '.wal';
+    
     // Clean up previous run
     if (fs.existsSync(dbPath)) {
         try { fs.unlinkSync(dbPath); } catch(e) {}
+    }
+    if (fs.existsSync(walPath)) {
+        try { fs.unlinkSync(walPath); } catch(e) {}
     }
     
     // Enable debug to see the logs requested
@@ -20,14 +27,14 @@ async function runTest() {
         // 1. Create Level 1 Map (root -> users)
         // ---------------------------------------------------------
         console.log("\n[Test] Creating 'users' Map on Root...");
-        await db.root.createMap('users');
+        await db.createMap(db.root, 'users');
         
         // ---------------------------------------------------------
         // 2. Create Level 2 Map (root -> users -> yackov)
         // ---------------------------------------------------------
         console.log("\n[Test] Creating 'yackov' Map inside 'users'...");
         // Access 'users' via proxy, then create 'yackov' inside it
-        await db.root.users.createMap('yackov');
+        await db.createMap(db.root.users, 'yackov');
 
         // ---------------------------------------------------------
         // 3. Set Primitives deep (root -> users -> yackov -> age/role)
@@ -41,7 +48,7 @@ async function runTest() {
         // 4. Create List deep (root -> users -> yackov -> logs)
         // ---------------------------------------------------------
         console.log("\n[Test] Creating 'logs' List inside 'root.users.yackov'...");
-        await db.root.users.yackov.createList('logs');
+        await db.createList(db.root.users.yackov, 'logs');
         
         // ---------------------------------------------------------
         // 5. Append to List
@@ -56,8 +63,20 @@ async function runTest() {
         // ---------------------------------------------------------
         console.log("\n[Test] Reading back structure (toJSON)...");
         
-        // Awaiting the handle triggers resolveSelf() -> toJSON()
-        const yackovObj = await db.root.users.yackov; 
+        // Awaiting the handle triggers resolveSelf(). 
+        // Since 'yackov' was created via createMap, it resolves to a JS Map.
+        const yackovContainer = await db.root.users.yackov; 
+        
+        // Helper to normalize Map/Object access for the test
+        const get = (obj, key) => (obj instanceof Map ? obj.get(key) : obj[key]);
+        
+        const yackovObj = {};
+        if (yackovContainer instanceof Map) {
+            for(const [k, v] of yackovContainer) yackovObj[k] = v;
+        } else {
+            Object.assign(yackovObj, yackovContainer);
+        }
+
         console.log("Resolved Object (yackov):", JSON.stringify(yackovObj, null, 2));
         
         if (yackovObj.age !== 30) throw new Error("Age mismatch");
@@ -90,6 +109,7 @@ async function runTest() {
 
     } catch (e) {
         console.error("\n❌ Test Failed:", e);
+        process.exit(1);
     } finally {
         await db.close();
     }

@@ -29,7 +29,7 @@ async function runTest() {
 
     await cleanup();
 
-    const db = new AwtsmoosDB(DB_PATH, { debug: true });
+    const db = new AwtsmoosDB(DB_PATH, { debug: false });
     await db.open();
 
     try {

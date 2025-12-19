@@ -92,7 +92,7 @@ The `LiveHandle` is the *Sefirah of Malchut*—the interface through which you i
     ```
 3.  **Traverse:** You can chain properties infinitely.
     ```javascript
-    await db.root.galaxies.milkyWay.solarSystem.earth.set("inhabited", true);
+    await db.root.atzilus.briah.yetzirah.asiyah.earth.set("inhabited", true);
     ```
 
 ---

@@ -4,7 +4,8 @@ const AwtsmoosDB = require('../index.js');
 const fs = require('fs').promises;
 const fsSync = require('fs');
 
-const DB_PATH = './ultimate_stress.db';
+const path = require('path');
+const DB_PATH = path.join(__dirname, 'ultimate_stress.db');;;;
 
 async function runTest() {
     // Clean up previous test
@@ -24,7 +25,7 @@ async function runTest() {
     let curr = db.root;
     for (let i = 1; i <= 15; i++) {
         const name = `level_${i}`;
-        await curr.createMap(name);
+        await db.createMap(curr, name);
         curr = curr[name];
     }
     
@@ -42,7 +43,7 @@ async function runTest() {
     console.log("✅ Tower built and verified.");
 
     console.log("\n[Extreme] Phase 2: The Library (Sorting 100 keys)...");
-    await db.root.createMap("library");
+    await db.createMap(db.root, "library");
     const keys = [];
     for(let i=0; i<100; i++) {
         const k = Math.random().toString(36).substring(7);

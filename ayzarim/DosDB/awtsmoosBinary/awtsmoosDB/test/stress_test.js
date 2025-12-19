@@ -1,13 +1,19 @@
+
 // B"H
 const AwtsmoosDB = require('../index.js');
 const fs = require('fs');
 
+const path = require('path');
 async function runTest() {
-    const dbPath = './stress_test.db';
+    const dbPath = path.join(__dirname, 'stress_test.db');;
+    const walPath = path.join(__dirname, 'stress_test.db.wal');
+    
+    
     // Clean up previous run
-    if (fs.existsSync(dbPath)) {
-        try { fs.unlinkSync(dbPath); } catch(e) {}
-    }
+    try { 
+        if (fs.existsSync(dbPath)) fs.unlinkSync(dbPath); 
+        if (fs.existsSync(walPath)) fs.unlinkSync(walPath);
+    } catch(e) {}
     
     // We keep debug off for the bulk operations to avoid flooding the console
     const db = new AwtsmoosDB(dbPath, { debug: false });
@@ -23,7 +29,7 @@ async function runTest() {
         // ---------------------------------------------------------
         console.log(`\n[Stress] Phase 1: Inserting ${COUNT} Users into BTree...`);
         const startBtree = Date.now();
-        await db.root.createMap('users');
+        await db.createMap(db.root, 'users');
         
         for (let i = 0; i < COUNT; i++) {
             await db.root.users.set(`user_${i}`, {
@@ -42,7 +48,7 @@ async function runTest() {
         // ---------------------------------------------------------
         console.log(`\n[Stress] Phase 2: Pushing ${COUNT} Logs into Collection...`);
         const startColl = Date.now();
-        await db.root.createList('logs');
+        await db.createList(db.root, 'logs');
         
         for (let i = 0; i < COUNT; i++) {
             await db.root.logs.push({
@@ -101,10 +107,12 @@ async function runTest() {
         console.log(`\n[Stress] Phase 4: Verification...`);
         
         // Verify User Count (via toJSON which fetches up to limit)
+        // B"H: users is a Map, so resolved object is a JS Map
         const usersObj = await db.root.users; 
-        const userKeys = Object.keys(usersObj);
-        console.log(`Users Count: ${userKeys.length} (Expected ${COUNT})`);
-        if (userKeys.length !== COUNT) throw new Error("User count mismatch");
+        const userCount = (usersObj instanceof Map) ? usersObj.size : Object.keys(usersObj).length;
+        
+        console.log(`Users Count: ${userCount} (Expected ${COUNT})`);
+        if (userCount !== COUNT) throw new Error("User count mismatch");
 
         // Verify Logs Count via slice
         const logsSlice = await db.root.logs.slice(0, COUNT + 10);
@@ -119,17 +127,13 @@ async function runTest() {
             // Using delete property syntax via proxy
             delete db.root.users[`user_${i}`];
         }
-        // Allow deletion queue to finish
-        // The delete via proxy is fired and forgotten unless we await something
-        // To ensure they are done, we can await a dummy execution or just wait a bit.
-        // Actually, the LiveHandle.deleteProperty returns 'true' but executes async.
-        // We need to synchronize.
+        
         await db.execute(() => Promise.resolve()); 
 
         const usersAfterDelete = await db.root.users;
-        const keysAfter = Object.keys(usersAfterDelete);
-        console.log(`Users Count after delete: ${keysAfter.length} (Expected ${COUNT - 50})`);
-        if (keysAfter.length !== COUNT - 50) throw new Error("Delete count mismatch");
+        const countAfter = (usersAfterDelete instanceof Map) ? usersAfterDelete.size : Object.keys(usersAfterDelete).length;
+        console.log(`Users Count after delete: ${countAfter} (Expected ${COUNT - 50})`);
+        if (countAfter !== COUNT - 50) throw new Error("Delete count mismatch");
         
         // ---------------------------------------------------------
         // 6. Persistence Check
