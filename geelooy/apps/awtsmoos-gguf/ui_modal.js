@@ -53,7 +53,7 @@ export function showConfirm(text) {
     });
 }
 
-// B"H - Token Inspector Logic
+// B"H - Token Inspector Logic (Heatmap Edition)
 export function showTokenInspector(tokenInfo) {
     if (!tokenModal) return;
 
@@ -62,13 +62,15 @@ export function showTokenInspector(tokenInfo) {
     const el = (id) => tokenModal.querySelector(`#${id}`);
     
     if(el('tokenHeaderText')) el('tokenHeaderText').innerText = `TOKEN [${id}]`;
-    if(el('tokenText')) el('tokenText').innerText = text.replace('\u2581', ' ');
+    if(el('tokenText')) el('tokenText').innerText = text ? text.replace('\u2581', ' ') : '...';
     if(el('tokenScore')) el('tokenScore').innerText = score ? score.toFixed(4) : 'N/A';
-    if(el('tokenSizeBytes')) el('tokenSizeBytes').innerText = `${(sizeBytes/1024).toFixed(2)} KB`;
+    if(el('tokenSizeBytes')) el('tokenSizeBytes').innerText = sizeBytes ? `${(sizeBytes/1024).toFixed(2)} KB` : 'Fetching...';
 
     const vecContainer = el('tokenVector');
     if (vecContainer) {
         vecContainer.innerHTML = '';
+        vecContainer.className = 'vector-heatmap'; // Use Heatmap Grid CSS
+        
         if (vector && vector.length > 0) {
             const frag = document.createDocumentFragment();
             let min = Infinity, max = -Infinity;
@@ -76,19 +78,33 @@ export function showTokenInspector(tokenInfo) {
                 if(vector[i] < min) min = vector[i];
                 if(vector[i] > max) max = vector[i];
             }
-            const range = max - min;
+            const range = max - min || 1;
             
-            for(let i=0; i<vector.length; i++) {
-                const bar = document.createElement('div');
+            // Limit render to avoid freezing UI on 4k dimensions
+            const limit = Math.min(vector.length, 2048);
+            
+            for(let i=0; i<limit; i++) {
+                const cell = document.createElement('div');
                 const val = vector[i];
                 const norm = (val - min) / range; // Normalize 0-1
-                const hue = norm * 120; // Green to Red (simplified)
-                bar.className = 'w-1 h-4 rounded-full';
-                bar.style.background = `hsl(${240 - (norm * 120)}, 70%, 50%)`;
-                bar.title = `[${i}]: ${val.toFixed(4)}`;
-                frag.appendChild(bar);
+                const hue = (1.0 - norm) * 240; // Blue (low) to Red (high)
+                
+                cell.className = 'vec-cell';
+                cell.style.backgroundColor = `hsl(${hue}, 70%, 50%)`;
+                cell.title = `[${i}]: ${val.toFixed(4)}`;
+                frag.appendChild(cell);
             }
             vecContainer.appendChild(frag);
+            
+            if (vector.length > limit) {
+                const more = document.createElement('div');
+                more.innerText = `... +${vector.length - limit} dims`;
+                more.style.color = '#666';
+                more.style.fontSize = '10px';
+                vecContainer.appendChild(more);
+            }
+        } else {
+            vecContainer.innerHTML = '<div style="padding:10px; color:#666;">Reading tensor data from worker...</div>';
         }
     }
 

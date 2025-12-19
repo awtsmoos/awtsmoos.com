@@ -135,6 +135,10 @@ function init() {
                     logEngine(`FATAL ERROR: ${payload}`, 'error');
                     setStatus("Error", false); setGeneratingState(false);
                     break;
+                case 'TOKEN_DATA':
+                    // B"H - Received Vector Data from Worker
+                    uiInspector.updateTokenInspector(payload);
+                    break;
                 case 'PURIFY_LOG':
                     logPurify(payload);
                     break;

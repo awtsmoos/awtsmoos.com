@@ -132,7 +132,10 @@ export const uiInspector = {
             const cell = document.createElement('div');
             cell.className = 'vocab-cell';
             cell.dataset.tokenId = i;
-            const word = this._vocab[i].replace('\u2581', ' ').replace('<0x0A>', '\\n');
+            // Truncate long words
+            let word = this._vocab[i].replace('\u2581', ' ').replace('<0x0A>', '\\n');
+            if(word.length > 12) word = word.substring(0, 10) + '..';
+            
             cell.innerHTML = `<span class="vocab-id">${i}</span><span class="vocab-word">${word}</span>`;
             cell.title = `[${i}] ${this._vocab[i]}`;
             cell.onclick = () => this.inspectToken(i);
@@ -142,22 +145,34 @@ export const uiInspector = {
     },
     
     inspectToken: function(id) {
-        // B"H - Calculate memory footprint from config
-        let tokenDataSize = 0;
-        if(this._config) {
-            const n_embd = this._config.n_embd || 0;
-            // 1 row from embedding matrix, 1 row from output matrix. Assume F32 for worst-case size.
-            tokenDataSize = (n_embd * 4) + (n_embd * 4); 
-        }
-
+        // Initial Show (Loading)
         const info = {
             id: id,
             text: this._vocab[id],
             score: this._scores[id],
-            vector: null, // This would require an async call to the worker
-            sizeBytes: tokenDataSize 
+            vector: null, 
+            sizeBytes: 0 
         };
-
+        showTokenInspector(info);
+        
+        // Request deep data from worker
+        if(this._worker) {
+            this._worker.postMessage({ type: 'INSPECT_TOKEN', payload: id });
+        }
+    },
+    
+    updateTokenInspector: function(payload) {
+        const { id, vector } = payload;
+        // B"H - Calculate memory footprint: Embedding (Float32)
+        const size = vector ? (vector.length * 4) : 0;
+        
+        const info = {
+            id: id,
+            text: this._vocab[id],
+            score: this._scores[id],
+            vector: vector,
+            sizeBytes: size
+        };
         showTokenInspector(info);
     },
 

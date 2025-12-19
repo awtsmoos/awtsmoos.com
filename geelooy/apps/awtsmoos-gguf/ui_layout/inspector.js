@@ -1,4 +1,3 @@
-
 // B"H
 import { el, icon } from './dom.js';
 
@@ -66,7 +65,8 @@ export function buildInspector() {
                             el('input', 'flex-1', '', { type: 'range', id: 'vocabSlider', min: '0', max: '0', value: '0', disabled: true }),
                             el('span', 'text-xs font-mono text-accent-blue w-24 text-right', '0 / 0', {id: 'vocabOffsetLabel'})
                         ]),
-                        el('div', 'flex-1 overflow-auto p-1', '', { id: 'vocabGrid' })
+                        /* B"H - Added vocab-grid class here explicitly */
+                        el('div', 'flex-1 overflow-auto p-1 vocab-grid', '', { id: 'vocabGrid' })
                     ], { id: 'vocabBrowserContainer' })
                 ])
             ]),

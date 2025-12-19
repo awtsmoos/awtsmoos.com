@@ -11,6 +11,7 @@ const GraphManager = require('./api/graphManager.js');
 const SearchManager = require('./api/search/index.js');
 const VectorManager = require('./api/vector/index.js');
 const Query = require('./api/query/index.js');
+const AIManager = require('./api/ai/index.js');
 
 class AwtsmoosDB_V2 {
     constructor(filePath, options = {}) {
@@ -38,6 +39,7 @@ class AwtsmoosDB_V2 {
         this.graph = new GraphManager(this);
         this.search = new SearchManager(this);
         this.vector = new VectorManager(this);
+        this.ai = new AIManager(this);
         this.debugBlocks = new Set();
         
         this.mutationCount = 0;
@@ -105,7 +107,7 @@ class AwtsmoosDB_V2 {
     }
     
     async _initSystemMaps() {
-        const sysMaps = ["__sys_vector__", "__sys_search__", "__graph__"];
+        const sysMaps = ["__sys_vector__", "__sys_search__", "__graph__", "ai"];
         
         await this.batch(async () => {
             for (const name of sysMaps) {
@@ -236,7 +238,6 @@ class AwtsmoosDB_V2 {
     async execute(fn) {
         return this.lock.runWrite(async () => {
             const hasWaiters = this.lock.writeQueue.length > 0;
-            // B"H: Capture batch state
             const alreadyBatching = this.pager.isBatching;
             
             if (!alreadyBatching) {
@@ -245,8 +246,6 @@ class AwtsmoosDB_V2 {
             
             try {
                 const res = await fn();
-                // B"H: Optimization - Only trigger background flush if NOT in a batch
-                // If we are batching, we want to accumulate all index ops and flush them at the end of the batch.
                 if (!alreadyBatching) {
                     this._triggerBackgroundFlush();
                 }
@@ -254,13 +253,9 @@ class AwtsmoosDB_V2 {
             } finally {
                 if (this.allocator) {
                     await this.allocator.flushHeap();
-                    // B"H: Optimization - Only flush pages, do not force SuperBlock write here
-                    // Only explicit checkpoints or closes should force SB write.
                     if (this.allocator.v1) await this.allocator.v1.flush(); 
                 }
                 
-                // B"H: CRITICAL FIX - Do not touch batch state if we are nested in a larger batch.
-                // We must respect the outer transaction boundary.
                 if (!alreadyBatching) {
                     if (!hasWaiters) {
                         await this.pager.endBatch();
@@ -272,17 +267,13 @@ class AwtsmoosDB_V2 {
 
     async batch(fn) {
         return this.lock.runWrite(async () => {
-            // B"H: Check nesting BEFORE starting new batch layer
             const isNested = this.pager.isBatching;
             
             this.pager.startBatch();
             try {
                 await fn();
             } finally {
-                // B"H: Only flush if we are the outermost batch
                 if (!isNested) {
-                    // B"H: CRITICAL FIX - Must AWAIT background tasks processing 
-                    // to ensure Pending Index Ops are written to Index Cache BEFORE we flush cache to disk.
                     await this._flushBackgroundTasks();
 
                     if (this.vector && this.vector.indexes) {
@@ -323,7 +314,6 @@ class AwtsmoosDB_V2 {
                 await this.allocator.flushHeap();
                 if (this.allocator.v1) {
                     await this.allocator.v1.flush();
-                    // B"H: Checkpoint - Save SuperBlock explicitly here to persist cursor state
                     await this.allocator.v1._saveStateInternal();
                 }
             }
@@ -354,7 +344,7 @@ class AwtsmoosDB_V2 {
             let failsafe = 0;
             while (this._pendingIndexOps.length > 0) {
                 if (failsafe++ > 100000) {
-                    console.warn("B\"H: Background Task Loop Limit Reached (Possible Infinite Recursion)");
+                    console.warn("B\"H: Background Task Loop Limit Reached");
                     break;
                 }
                 const op = this._pendingIndexOps.shift();
@@ -417,23 +407,17 @@ class AwtsmoosDB_V2 {
         let currentBlock = ptr.blockId;
         let isFirst = true;
         
-        // B"H: Optimization - Acquire lock once for the entire chain operation
-        // This prevents thousands of lock/unlock cycles for large file writes.
         await this.allocator.v1.executeLocked(async () => {
             while(remaining.length > 0) {
                 const start = (isFirst && ptr.offset) ? ptr.offset : constants.HEADER_SIZE;
                 const avail = constants.BLOCK_SIZE - start;
                 const chunk = Math.min(remaining.length, avail);
                 
-                // B"H: FIX - Invalidate the Allocator's read cache for this block.
-                // We are writing directly to the Pager's dirty buffer (or active page).
-                // If Allocator has a stale copy in blockCache, subsequent reads will be wrong.
                 if (this.allocator.v1.blockCache) {
                     this.allocator.v1.invalidateCache(currentBlock);
                 }
 
                 let dirtyBuf = null;
-                // Since we are inside executeLocked, activePage access is safe
                 if (this.allocator.v1.activePage.id === currentBlock && this.allocator.v1.activePage.buffer) {
                     dirtyBuf = this.allocator.v1.activePage.buffer;
                     this.allocator.v1.activePage.dirty = true;

@@ -5,9 +5,14 @@
 export const VibeAPI = {
     // Available Models
     MODELS: {
-        'gemini-2.0-flash-lite': { name: 'Gemini 2.0 Flash Lite', cost: 'low' },
-        'gemini-2.0-flash': { name: 'Gemini 2.0 Flash', cost: 'med' },
-        'gemini-2.0-pro-exp-02-05': { name: 'Gemini 2.0 Pro', cost: 'high' }
+        'gemini-3-pro-preview': { name: 'Gemini 3 Pro (Preview)', cost: 'high' },
+        'gemini-3-flash-preview': { name: 'Gemini 3 Flash (Preview)', cost: 'med' },
+        'gemini-2.0-flash': { name: 'Gemini 2.0 Flash', cost: 'low' },
+        'gemini-2.0-flash-lite-preview-02-05': { name: 'Gemini 2.0 Flash Lite', cost: 'lowest' },
+        'gemini-2.0-pro-exp-02-05': { name: 'Gemini 2.0 Pro Experimental', cost: 'high' },
+        'gemini-1.5-pro': { name: 'Gemini 1.5 Pro', cost: 'high' },
+        'gemini-1.5-flash': { name: 'Gemini 1.5 Flash', cost: 'low' },
+        'gemini-1.5-flash-8b': { name: 'Gemini 1.5 Flash-8B', cost: 'lowest' }
     },
 
     async streamChat(messages, apiKey, model, onChunk, onComplete, onError) {

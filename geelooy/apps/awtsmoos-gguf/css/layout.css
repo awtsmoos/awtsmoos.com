@@ -37,26 +37,23 @@
     background: var(--border-base);
     height: 100%;
     width: 100%;
-    overflow-y: auto; /* Allow scrolling for wrapped content */
+    overflow-y: auto; 
 }
 
 .insp-col {
     background: var(--bg-app);
     display: flex;
     flex-direction: column;
-    overflow-y: auto; /* CRITICAL: Each column scrolls independently */
+    overflow-y: auto; 
     padding: var(--gap-std);
     gap: var(--gap-std);
-    
-    /* Flex properties for wrapping */
     flex-grow: 1;
     flex-shrink: 1;
 }
 
-/* Base widths for wrapping behavior */
-.insp-col:nth-child(1) { flex-basis: 320px; min-width: 280px; } /* Left col */
-.insp-col:nth-child(2) { flex-basis: 500px; min-width: 320px; flex-grow: 2; } /* Center col */
-.insp-col:nth-child(3) { flex-basis: 320px; min-width: 280px; } /* Right col */
+.insp-col:nth-child(1) { flex-basis: 320px; min-width: 280px; } 
+.insp-col:nth-child(2) { flex-basis: 500px; min-width: 320px; flex-grow: 2; } 
+.insp-col:nth-child(3) { flex-basis: 320px; min-width: 280px; } 
 
 
 /* --- CHAT LAYOUT --- */
@@ -73,7 +70,7 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    min-width: 0; /* Prevents flex item from overflowing */
+    min-width: 0; 
     transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -110,11 +107,11 @@
     max-width: 900px;
     display: flex;
     gap: 12px;
-    align-items: flex-end;
+    align-items: flex-start; /* Align top for tall textarea */
     background: var(--bg-input);
     border: 1px solid var(--border-highlight);
     border-radius: 12px;
-    padding: 12px 20px;
+    padding: 16px;
     box-shadow: 0 4px 20px rgba(0,0,0,0.3);
     transition: border-color 0.2s, box-shadow 0.2s;
 }
@@ -125,16 +122,16 @@
 }
 
 #chatInput {
-    resize: none;
+    resize: vertical;
     height: auto;
-    min-height: 52px; /* B"H - Give it a substantial starting height */
-    /* max-height: 50vh; B"H - REMOVED FOR INFINITE GROWTH */
+    min-height: 150px !important; /* B"H - FORCE TALL HEIGHT */
+    max-height: 60vh;
     overflow-y: auto;
     background: transparent;
     border: none;
-    padding: 12px 8px; /* B"H - INCREASED PADDING */
+    padding: 4px 0;
     font-size: 16px;
-    line-height: 1.6; /* B"H - INCREASED LINE HEIGHT */
+    line-height: 1.6;
     flex: 1;
     outline: none;
     color: var(--text-primary);
@@ -142,7 +139,7 @@
 }
 
 
-/* --- CONSOLE SIDEBAR (RESPONSIVE) --- */
+/* --- CONSOLE SIDEBAR --- */
 .console-sidebar {
     background: #09090b;
     border-left: 1px solid var(--border-base);
@@ -161,43 +158,18 @@
 }
 
 .console-sidebar > * {
-    min-width: 420px; /* Prevent content from squishing during collapse */
+    min-width: 420px; 
 }
 
-
-/* --- MOBILE & NARROW SCREEN OVERRIDES --- */
+/* --- MOBILE --- */
 @media (max-width: 1024px) {
-    #app-root {
-        grid-template-rows: auto 1fr; /* Header takes auto height */
-    }
-
-    /* Make inspector columns stack */
-    #viewInspector {
-        flex-direction: column;
-        flex-wrap: nowrap; /* Prevent wrapping when stacked */
-    }
-    .insp-col {
-        flex-basis: auto !important; /* Reset basis for vertical stacking */
-        min-height: 0;
-        border-bottom: 1px solid var(--border-base);
-    }
+    #app-root { grid-template-rows: auto 1fr; }
+    #viewInspector { flex-direction: column; flex-wrap: nowrap; }
+    .insp-col { flex-basis: auto !important; min-height: 0; border-bottom: 1px solid var(--border-base); }
     
-    /* --- RESPONSIVE CHAT CONSOLE --- */
     .console-sidebar {
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        width: 90%;
-        max-width: 450px;
-        z-index: 50;
-        box-shadow: -10px 0 30px rgba(0,0,0,0.5);
-        transform: translateX(0);
+        position: absolute; top: 0; right: 0; bottom: 0; width: 90%; max-width: 450px; z-index: 50;
+        box-shadow: -10px 0 30px rgba(0,0,0,0.5); transform: translateX(0);
     }
-
-    .console-sidebar.collapsed {
-        transform: translateX(100%);
-        width: 90%; /* Restore width for animation */
-        border-left-color: var(--border-base);
-    }
+    .console-sidebar.collapsed { transform: translateX(100%); width: 90%; border-left-color: var(--border-base); }
 }
