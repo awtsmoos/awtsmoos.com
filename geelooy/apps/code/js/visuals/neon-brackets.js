@@ -3,11 +3,11 @@
 // FILE: js/visuals/neon-brackets.js
 
 import { DOM } from '../state.js';
-import { ParticleSystem } from './particle-system.js';
+import { ParticleSystem } from './particle-system.js'; 
 
 export const NeonBrackets = {
     ctx: null,
-    matchIndices: null, 
+    match: null, // { start: {x,y}, end: {x,y} }
     
     init(ctx) {
         this.ctx = ctx;
@@ -17,41 +17,29 @@ export const NeonBrackets = {
         const text = DOM.editor.value;
         const cursor = DOM.editor.selectionStart;
         
-        if (cursor === 0) {
-            this.matchIndices = null;
-            return;
-        }
-
         const charBefore = text[cursor - 1];
+        // const charAt = text[cursor]; // Not used currently
         
         const pairs = { '(': ')', '{': '}', '[': ']' };
         const revPairs = { ')': '(', '}': '{', ']': '[' };
         
-        this.matchIndices = null;
+        this.match = null;
         
         if (pairs[charBefore]) {
-            const partnerIdx = this._findMatch(text, cursor, 1, charBefore, pairs[charBefore]);
-            if (partnerIdx !== -1) {
-                this.matchIndices = { start: cursor - 1, end: partnerIdx };
-            }
-        } 
-        else if (revPairs[charBefore]) {
-            const partnerIdx = this._findMatch(text, cursor - 2, -1, charBefore, revPairs[charBefore]);
-            if (partnerIdx !== -1) {
-                this.matchIndices = { start: partnerIdx, end: cursor - 1 };
-            }
+            const partner = this._findMatch(text, cursor, 1, charBefore, pairs[charBefore]);
+            if (partner !== -1) this._setCoords(cursor - 1, partner);
+        } else if (revPairs[charBefore]) {
+            const partner = this._findMatch(text, cursor - 2, -1, charBefore, revPairs[charBefore]);
+            if (partner !== -1) this._setCoords(partner, cursor - 1);
         }
     },
     
     _findMatch(text, startPos, dir, openChar, closeChar) {
         let depth = 1;
         let i = startPos;
-        const len = text.length;
-        
-        while (i >= 0 && i < len) {
-            const char = text[i];
-            if (char === openChar) depth++;
-            else if (char === closeChar) depth--;
+        while (i >= 0 && i < text.length) {
+            if (text[i] === openChar) depth += dir;
+            else if (text[i] === closeChar) depth -= dir;
             
             if (depth === 0) return i;
             i += dir;
@@ -59,56 +47,44 @@ export const NeonBrackets = {
         return -1;
     },
     
+    _setCoords(idx1, idx2) {
+        const getXY = (idx) => {
+            const sub = DOM.editor.value.substring(0, idx);
+            const lines = sub.split('\n');
+            const line = lines.length;
+            const col = lines[lines.length-1].length + 1;
+            
+            // B"H - Use the shared, rectified calculation
+            const coords = ParticleSystem.getCoordinates(line, col);
+            return { x: coords.left, y: coords.top };
+        };
+        
+        this.match = { start: getXY(idx1), end: getXY(idx2) };
+    },
+    
     render() {
-        if (!this.matchIndices) return;
+        if (!this.match) return;
         
-        // 1. Get raw coordinates (Left edge of character)
-        const start = ParticleSystem.getCoordinates(this.matchIndices.start);
-        const end = ParticleSystem.getCoordinates(this.matchIndices.end);
+        const { start, end } = this.match;
         
-        // 2. Adjust X to center of character
-        const charW = ParticleSystem.charWidth || 8.4;
-        const halfChar = charW / 2;
-        
-        start.x += halfChar;
-        end.x += halfChar;
-
-        // Culling optimization (don't draw if off screen)
-        const winH = window.innerHeight;
-        const margin = 50;
-        if ((start.y < -margin && end.y < -margin) || (start.y > winH + margin && end.y > winH + margin)) {
-            return;
-        }
-
-        // 3. Draw the Curve
         this.ctx.beginPath();
         this.ctx.moveTo(start.x, start.y);
         
-        const dy = end.y - start.y;
-        const dx = end.x - start.x;
+        // Draw a bezier curve connecting them
+        const cp1x = start.x + 50;
+        const cp1y = start.y;
+        const cp2x = end.x - 50;
+        const cp2y = end.y;
         
-        // Determine curvature based on relative positions
-        const isVertical = Math.abs(dx) < 10;
-        const controlXOffset = isVertical ? 40 : 0;
+        this.ctx.bezierCurveTo(cp1x, cp1y, cp2x, cp2y, end.x, end.y);
         
-        this.ctx.bezierCurveTo(
-            start.x - controlXOffset, start.y + (dy/2), 
-            end.x - controlXOffset, end.y - (dy/2), 
-            end.x, end.y
-        );
-        
-        // Neon Glow Effect
-        this.ctx.shadowBlur = 10;
-        this.ctx.shadowColor = '#ff00ff';
-        this.ctx.strokeStyle = 'rgba(255, 0, 255, 0.8)';
+        this.ctx.strokeStyle = 'rgba(255, 0, 255, 0.5)';
         this.ctx.lineWidth = 2;
         this.ctx.stroke();
         
-        this.ctx.shadowBlur = 0;
-        
-        // Draw Endpoints
+        // Glow points
         this.ctx.fillStyle = '#ff00ff';
-        this.ctx.beginPath(); this.ctx.arc(start.x, start.y, 2.5, 0, Math.PI*2); this.ctx.fill();
-        this.ctx.beginPath(); this.ctx.arc(end.x, end.y, 2.5, 0, Math.PI*2); this.ctx.fill();
+        this.ctx.beginPath(); this.ctx.arc(start.x, start.y, 3, 0, Math.PI*2); this.ctx.fill();
+        this.ctx.beginPath(); this.ctx.arc(end.x, end.y, 3, 0, Math.PI*2); this.ctx.fill();
     }
 };

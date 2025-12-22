@@ -9,7 +9,7 @@ import { Editor } from '../editor.js';
 export const ParticleSystem = {
     ctx: null,
     pool: [], 
-    maxParticles: 150, // B"H - Increased for explosions
+    maxParticles: 150, 
     hebrewChars: "אבגדהוזחטיכלמנסעפצקרשת",
     
     init(ctx) {
@@ -33,8 +33,8 @@ export const ParticleSystem = {
         }
     },
     
-    // Helper to get caret coords - Public API now
-    getCaretCoordinates() {
+    // B"H - Generic Coordinate Calculator (Public API)
+    getCoordinates(line, col) {
         const editor = DOM.editor;
         if (!editor) return { left: 0, top: 0 };
         
@@ -45,7 +45,6 @@ export const ParticleSystem = {
         const fontSize = parseFloat(style.fontSize);
         const charWidth = fontSize * 0.6; // Approx
         
-        const { line, col } = Editor.getCursorInfo(); // 1-based
         const rect = editor.getBoundingClientRect();
         
         const top = rect.top + paddingTop + ((line - 1) * lineHeight) - editor.scrollTop + (lineHeight / 2);
@@ -54,12 +53,17 @@ export const ParticleSystem = {
         return { left, top };
     },
 
-    // B"H - NEW: Explosion Logic
+    // Specific helper for caret
+    getCaretCoordinates() {
+        const { line, col } = Editor.getCursorInfo(); // 1-based
+        return this.getCoordinates(line, col);
+    },
+
     spawnExplosion(x, y) {
         if (!VisualSettings.get('particles')) return;
         
         const particleCount = 15;
-        const colors = ['#ffd700', '#ff6400', '#00f6ff', '#ffffff']; // Gold, Red, Cyan, White
+        const colors = ['#ffd700', '#ff6400', '#00f6ff', '#ffffff']; 
 
         for (let i = 0; i < particleCount; i++) {
             const p = this.pool.find(p => !p.active);

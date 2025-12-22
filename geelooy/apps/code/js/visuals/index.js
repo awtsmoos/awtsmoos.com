@@ -1,3 +1,4 @@
+
 // B"H
 // FILE: js/visuals/index.js
 
@@ -29,6 +30,13 @@ export const VisualEngine = {
         this._resize();
         window.addEventListener('resize', () => this._resize());
         
+        // B"H - Bind Explosion Logic
+        this.canvasOverlay.addEventListener('pointerdown', (e) => {
+            if (e.target === this.canvasOverlay) {
+                ParticleSystem.spawnExplosion(e.clientX, e.clientY);
+            }
+        });
+        
         // Initialize Sub-Systems
         NebulaMap.init();
         ParticleSystem.init(this.ctxOverlay);
@@ -44,9 +52,8 @@ export const VisualEngine = {
     
     _resize() {
         if (!this.canvasOverlay) return;
-        const rect = document.body.getBoundingClientRect(); 
-        this.canvasOverlay.width = rect.width;
-        this.canvasOverlay.height = rect.height;
+        this.canvasOverlay.width = window.innerWidth;
+        this.canvasOverlay.height = window.innerHeight;
     },
     
     startLoop() {
@@ -59,24 +66,23 @@ export const VisualEngine = {
             // Clear Overlay Canvas
             this.ctxOverlay.clearRect(0, 0, this.canvasOverlay.width, this.canvasOverlay.height);
             
+            // B"H - Safety Wrapper: Prevents one faulty effect from freezing the entire engine (and HUD)
+            const safeRender = (fn) => {
+                try { fn(); } catch(e) { console.error("Visual Effect Error:", e); }
+            };
+
             // Update & Draw Sub-systems based on Settings
-            if (VisualSettings.get('zenRain')) {
-                ZenRain.update();
-            } else {
-                // B"H - Explicitly clear rain if disabled to prevent freezing artifacts
-                ZenRain.clear();
-            }
+            if (VisualSettings.get('zenRain')) safeRender(() => ZenRain.update());
             
             // Editor Overlays
-            if (VisualSettings.get('scopeLaser')) ScopeLaser.render();
-            if (VisualSettings.get('neonBrackets')) NeonBrackets.render();
-            if (VisualSettings.get('particles')) ParticleSystem.updateAndRender();
-            if (VisualSettings.get('caretRadar')) CaretRadar.render();
+            if (VisualSettings.get('scopeLaser')) safeRender(() => ScopeLaser.render());
+            if (VisualSettings.get('neonBrackets')) safeRender(() => NeonBrackets.render());
+            if (VisualSettings.get('particles')) safeRender(() => ParticleSystem.updateAndRender());
+            if (VisualSettings.get('caretRadar')) safeRender(() => CaretRadar.render());
             
             // Right-side Minimap 
-            if (VisualSettings.get('nebulaMap')) NebulaMap.render();
+            if (VisualSettings.get('nebulaMap')) safeRender(() => NebulaMap.render());
             else {
-                // Clear minimap if disabled but canvas exists
                 const mm = document.getElementById('minimap-canvas');
                 if (mm) {
                     const ctx = mm.getContext('2d');
@@ -84,12 +90,15 @@ export const VisualEngine = {
                 }
             }
             
-            if (VisualSettings.get('hud')) {
-                HUD.toggle(true);
-                HUD.update();
-            } else {
-                HUD.toggle(false);
-            }
+            // B"H - Ensure HUD logic runs even if earlier renderers failed
+            safeRender(() => {
+                if (VisualSettings.get('hud')) {
+                    HUD.toggle(true);
+                    HUD.update();
+                } else {
+                    HUD.toggle(false);
+                }
+            });
             
             requestAnimationFrame(loop);
         };
@@ -101,13 +110,11 @@ export const VisualEngine = {
         if (VisualSettings.get('zenRain')) ZenRain.addEnergy();
         if (VisualSettings.get('particles') && deletion) ParticleSystem.spawnFromCaret('delete');
         
-        // Shockwave
         if (VisualSettings.get('shockwave') && HUD.apm > 150) {
             document.body.classList.add('shockwave-active');
             setTimeout(() => document.body.classList.remove('shockwave-active'), 100);
         }
         
-        // Color Orbs (Debounced in logic usually, but handled by UI update loop)
         if (VisualSettings.get('colorOrbs')) {
              ColorOrbs.scanAndRender(document.getElementById('line-numbers'));
         }
