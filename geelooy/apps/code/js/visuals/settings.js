@@ -1,3 +1,4 @@
+
 // B"H
 // FILE: js/visuals/settings.js
 
@@ -5,13 +6,13 @@ export const VisualSettings = {
     config: {
         nebulaMap: true,
         scopeLaser: true,
-        particles: false, // Too distracting by default
+        particles: true, // B"H - Enabled by default (Optimized Pool)
         hud: true,
-        zenRain: false,   // Too distracting by default
+        zenRain: false,   
         caretRadar: true,
         neonBrackets: true,
         colorOrbs: true,
-        shockwave: false, // Too flashy by default
+        shockwave: false, 
         graphNav: true
     },
 
@@ -57,7 +58,7 @@ export const VisualSettings = {
                     ${toggles}
                 </div>
                 <p style="font-size:0.8em; color:gray; margin-top:10px;">
-                    Turn off effects if you need a cleaner workspace.
+                    Particles are now optimized with the Otiot HaKodesh engine.
                 </p>
                 <style>
                     .toggle-switch { position: relative; width: 40px; height: 20px; }

@@ -4,6 +4,7 @@ const Loader = require('./loader.js');
 const Model = require('./model.js');
 const Tokenizer = require('../tokenizer.js');
 const Logger = require('../utils/logger.js');
+const Wasm = require('../math/wasm_jit.js'); // Import
 
 class DirectEngine {
     constructor(filePath) {
@@ -23,6 +24,15 @@ class DirectEngine {
 
     async init() {
         Logger.log(`[Direct] Reading file: ${this.filePath}`);
+        
+        // B"H: Initialize WASM Memory (Heavy Allocation for Weights)
+        try {
+            await Wasm.init(12000); // ~750MB Initial
+            Logger.log(`[WASM] Initialized. Heap ready.`);
+        } catch(e) {
+            Logger.error(`[WASM] Failed to init: ${e.message}. Using JS fallback.`);
+        }
+
         this.buffer = fs.readFileSync(this.filePath);
         
         await this.loader.load(this.buffer);

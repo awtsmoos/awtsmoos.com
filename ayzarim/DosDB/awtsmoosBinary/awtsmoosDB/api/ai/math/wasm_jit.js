@@ -1,160 +1,132 @@
-
 // B"H
-// File: /BH/awtsmoos.com/ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/ai/math/wasm_jit.js
+// FIXED PATH: Go up 3 levels to reach 'awtsmoosDB', then into 'c_compiler'
+const CCompiler = require('../../../c_compiler/index.js');
 
-const C = {
-    MAGIC: [0x00, 0x61, 0x73, 0x6d],
-    VERSION: [0x01, 0x00, 0x00, 0x00],
-    SECTION_TYPE: 1, SECTION_IMPORT: 2, SECTION_FUNCTION: 3, SECTION_EXPORT: 7, SECTION_CODE: 10,
-    I32: 0x7f, F32: 0x7d, V128: 0x7b, VOID: 0x40,
-    
-    // Instructions
-    LOCAL_GET: 0x20, LOCAL_SET: 0x21,
-    I32_CONST: 0x41, I32_ADD: 0x6a, I32_SUB: 0x6b, I32_AND: 0x71, I32_SHR_U: 0x77,
-    F32_LOAD: 0x2a, F32_STORE: 0x38, F32_ADD: 0x92, F32_MUL: 0x94,
-    
-    // SIMD
-    V128_LOAD: [0x00], V128_CONST: [0x0c],
-    I8x16_SPLAT: [0x0f],
-    I8x16_EXTRACT_LANE_S: [0x15],
-    F32x4_ADD: [0xe4, 0x01], F32x4_MUL: [0xe6, 0x01],
-    F32x4_SPLAT: [0x13, 0xfd], // Prefix 0xfd is handled by helper
-    
-    // Custom logic helpers
-    BLOCK: 0x02, LOOP: 0x03, BR: 0x0c, BR_IF: 0x0d, END: 0x0b
-};
-
-const Encoder = {
-    toLEB128: (num) => {
-        const bytes = [];
-        let n = num;
-        while (true) {
-            let byte = n & 0x7f;
-            n >>>= 7;
-            if (n === 0) { bytes.push(byte); break; }
-            bytes.push(byte | 0x80);
+// Standard C Kernel for Matrix Multiplication
+// The C Compiler we built handles comments, loops, pointers, and floats.
+const C_SOURCE = `
+// B"H - Matrix Vector Mul Kernel
+void run(float* out, float* x, float* w, int n_out, int n_in) {
+    int i = 0;
+    while (i < n_out) {
+        float sum = 0.0;
+        int j = 0;
+        
+        // Main Loop (Unrolled 8x manually for speed)
+        // Optimization: Accessing w[] sequentially is cache-friendly
+        while (j < n_in - 7) {
+            // w index calculation: i * n_in + j
+            // In a fuller compiler we'd hoist (i*n_in), but our JIT is simple.
+            // Note: simple math parser handles operator precedence left-to-right 
+            // unless strict precedence rules were added. Parentheses help.
+            
+            // For safety with our simple parser, we compute offset in variable or rely on simple ops
+            // sum = sum + w[base + j] * x[j]
+            // We use the pointer logic of the parser.
+            
+            // Pointer arithmetic in C usually scales by type size.
+            // w[idx] is *(w + idx).
+            
+            int base = i * n_in;
+            
+            sum = sum + w[base + j]     * x[j];
+            sum = sum + w[base + j + 1] * x[j + 1];
+            sum = sum + w[base + j + 2] * x[j + 2];
+            sum = sum + w[base + j + 3] * x[j + 3];
+            sum = sum + w[base + j + 4] * x[j + 4];
+            sum = sum + w[base + j + 5] * x[j + 5];
+            sum = sum + w[base + j + 6] * x[j + 6];
+            sum = sum + w[base + j + 7] * x[j + 7];
+            j = j + 8;
         }
-        return bytes;
-    },
-    createSection: (id, payload) => [id, ...Encoder.toLEB128(payload.length), ...payload]
-};
+        
+        // Remainder
+        while (j < n_in) {
+            int base = i * n_in;
+            sum = sum + w[base + j] * x[j];
+            j = j + 1;
+        }
+        
+        out[i] = sum;
+        i = i + 1;
+    }
+}
+`;
 
 class WasmBackend {
     constructor() {
         this.instance = null;
         this.memory = null;
-        this.heapU8 = null;
         this.heapF32 = null;
-        this.ptr_x = 0;
-        this.ptr_w = 0;
-        this.ptr_out = 0;
+        this.heapOffset = 0;
     }
 
-    async init(initialPages = 256) { // 16MB Start
-        // 1. Define Type: (x_ptr, w_ptr, n_blocks) -> float_result
-        const typeSec = Encoder.createSection(C.SECTION_TYPE, [
-            0x01, 
-            0x60, 0x03, C.I32, C.I32, C.I32, 0x01, C.F32 
-        ]);
-
-        // 2. Imports
-        const impSec = Encoder.createSection(C.SECTION_IMPORT, [
-            0x01, 0x02, ...Buffer.from("js"), 0x03, ...Buffer.from("mem"),
-            0x02, 0x00, ...Encoder.toLEB128(initialPages)
-        ]);
-
-        // 3. Function Declarations
-        const funcSec = Encoder.createSection(C.SECTION_FUNCTION, [0x01, 0x00]);
-
-        // 4. Exports
-        const expSec = Encoder.createSection(C.SECTION_EXPORT, [
-            0x01, 0x09, ...Buffer.from("dot_q4_0"), 0x00, 0x00
-        ]);
-
-        // 5. Code Body (The Logic)
-        // param 0: ptr_x (F32 array)
-        // param 1: ptr_w (Q4_0 Block array)
-        // param 2: n_blocks (iterations)
+    async init(initialPages = 256) {
+        console.log("B\"H [WasmJIT] Compiling C Kernel via Modular Compiler...");
         
-        // Block Layout Q4_0 (18 bytes):
-        // 0-1: scale (F16) -> we treat as F16 but JS usually parses this. 
-        // For simplicity in V1 we will dequantize scale in JS and pass it? 
-        // NO. To be fast, Wasm must read bytes.
-        // Q4_0 Layout: 
-        // Bytes 0-1: Delta (float16)
-        // Bytes 2-17: 32 nibbles (qs)
-        
-        // This handwritten assembly is complex. For immediate results, we will write a "Float-Only" fallback 
-        // that assumes we pass 2 Float32Arrays, but we compile it to Wasm so it's faster than JS.
-        // Later we can implement the Q4 dequantizer in Wasm.
-        
-        const codeBody = [
-            // Locals: 0:ptr_x, 1:ptr_w, 2:n, 3:sum(f32), 4:i(i32)
-            0x02, 0x01, C.F32, 0x01, C.I32, 
+        try {
+            const binary = CCompiler.compile(C_SOURCE);
             
-            C.F32_CONST, 0, 0, 0, 0, C.LOCAL_SET, 3, // sum = 0
-            C.I32_CONST, 0, C.LOCAL_SET, 4,          // i = 0
+            // FULL HEX DUMP (Formatted)
+            console.log(`B"H [WasmJIT] Binary Size: ${binary.length} bytes`);
+            console.log("B\"H [WasmJIT] Hex Dump:");
             
-            C.BLOCK, C.VOID,
-            C.LOOP, C.VOID,
-                C.LOCAL_GET, 4, C.LOCAL_GET, 2, C.I32_GE_S, C.BR_IF, 1, // if i >= n break
-                
-                // Load X[i]
-                C.LOCAL_GET, 0, C.LOCAL_GET, 4, C.I32_CONST, 2, C.I32_SHL, C.I32_ADD, C.F32_LOAD, 0, 0,
-                // Load W[i]
-                C.LOCAL_GET, 1, C.LOCAL_GET, 4, C.I32_CONST, 2, C.I32_SHL, C.I32_ADD, C.F32_LOAD, 0, 0,
-                
-                C.F32_MUL,
-                C.LOCAL_GET, 3, C.F32_ADD, C.LOCAL_SET, 3, // sum += x*w
-                
-                C.LOCAL_GET, 4, C.I32_CONST, 1, C.I32_ADD, C.LOCAL_SET, 4, // i++
-                C.BR, 0,
-            C.END,
-            C.END,
+            let hexLines = [];
+            let currentLine = "";
+            for (let i = 0; i < binary.length; i++) {
+                const byte = binary[i].toString(16).padStart(2, '0').toUpperCase();
+                currentLine += byte + " ";
+                if ((i + 1) % 16 === 0) {
+                    hexLines.push(currentLine);
+                    currentLine = "";
+                }
+            }
+            if (currentLine) hexLines.push(currentLine);
+            console.log(hexLines.join('\n'));
+            console.log("---------------------------------------------------");
+
+            const module = await WebAssembly.instantiate(binary);
+            this.instance = module.instance;
+            this.memory = this.instance.exports.mem;
             
-            C.LOCAL_GET, 3, C.END
-        ];
-
-        const codeSec = Encoder.createSection(C.SECTION_CODE, [
-            0x01, ...Encoder.toLEB128(codeBody.length), ...codeBody
-        ]);
-
-        const binary = new Uint8Array([
-            ...C.MAGIC, ...C.VERSION,
-            ...typeSec, ...impSec, ...funcSec, ...expSec, ...codeSec
-        ]);
-
-        this.memory = new WebAssembly.Memory({ initial: initialPages });
-        this.heapU8 = new Uint8Array(this.memory.buffer);
-        this.heapF32 = new Float32Array(this.memory.buffer);
-        
-        const module = await WebAssembly.instantiate(binary, {
-            js: { mem: this.memory }
-        });
-        
-        this.instance = module.instance;
-        this.dot = this.instance.exports.dot_q4_0;
-        
-        // Pointers for reuse
-        this.ptr_x = 0; 
-        // 1MB for X vector (holds up to 256k dim)
-        this.ptr_w = 1024 * 1024; 
+            // Grow if needed
+            if (this.memory.buffer.byteLength < initialPages * 65536) {
+                const curPages = this.memory.buffer.byteLength / 65536;
+                const needed = initialPages - curPages;
+                if (needed > 0) this.memory.grow(needed);
+            }
+            
+            this.heapF32 = new Float32Array(this.memory.buffer);
+            this.fn = this.instance.exports.run;
+            this.heapOffset = 0;
+            console.log("B\"H [WasmJIT] Active and Ready.");
+            
+        } catch(e) {
+            console.error("B\"H [WasmJIT] Compiler Error:", e);
+            // Re-throw to ensure we fall back to JS if init fails
+            throw e; 
+        }
     }
 
-    /**
-     * Fast Dot Product using Wasm
-     * Copies data into Wasm Heap and runs loop.
-     * Note: This is "Phase 1" optimization (compiled loop).
-     * "Phase 2" requires implementing Q4 dequant logic inside Wasm to save copy time.
-     */
-    runDot(x, w) {
-        if (!this.instance) return 0;
+    alloc(sizeBytes) {
+        const ptr = this.heapOffset;
+        // Align to 8 bytes
+        const aligned = (sizeBytes + 7) & ~7;
         
-        // 1. Copy Data (Bottleneck, but faster than JS math loop)
-        this.heapF32.set(x, this.ptr_x >> 2);
-        this.heapF32.set(w, this.ptr_w >> 2); // W must be F32 for this temporary kernel
-        
-        return this.dot(this.ptr_x, this.ptr_w, x.length);
+        if (this.heapOffset + aligned > this.memory.buffer.byteLength) {
+            const needed = (this.heapOffset + aligned) - this.memory.buffer.byteLength;
+            const pages = Math.ceil(needed / 65536);
+            this.memory.grow(pages);
+            this.heapF32 = new Float32Array(this.memory.buffer);
+        }
+        this.heapOffset += aligned;
+        return ptr;
+    }
+
+    uploadF32(data) {
+        const ptr = this.alloc(data.length * 4);
+        this.heapF32.set(data, ptr >> 2);
+        return ptr;
     }
 }
 

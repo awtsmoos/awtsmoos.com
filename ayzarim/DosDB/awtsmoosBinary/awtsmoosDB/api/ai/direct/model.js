@@ -4,11 +4,17 @@ const Matrix = require('../math/matrix.js');
 const Act = require('../math/act.js');
 const Layers = require('./layers.js');
 const Logger = require('../utils/logger.js');
+const Wasm = require('../math/wasm_jit.js'); // Import WASM
 
 class Model {
     constructor(engine) {
         this.engine = engine;
         this.layers = new Layers(engine);
+        
+        // Cache for WASM pointers
+        this.wasm_w_out_ptr = 0;
+        this.wasm_out_buffer_ptr = 0;
+        this.wasm_x_ptr = 0;
     }
 
     async forward(token_id, pos) {
@@ -35,9 +41,7 @@ class Model {
         // Final Norm
         let w_norm = loader.getTensor(loader.globalTensorMap.output_norm);
         if (w_norm) {
-            // REVERTED to 0.0 because this is what worked in "Nice Works" state
-            const unitOffset = 0.0;
-            x = Stats.rmsNorm(x, w_norm, stats.norm_eps, unitOffset);
+            x = Stats.rmsNorm(x, w_norm, stats.norm_eps, 0.0);
         }
         
         return x;
@@ -49,9 +53,55 @@ class Model {
         
         const w_out_name = loader.globalTensorMap.output || loader.globalTensorMap.embed;
         
-        // Full Load (RAM Intensive but Verified Correct)
+        // --- WASM ACCELERATION ---
+        if (Wasm.instance) {
+            if (this.wasm_w_out_ptr === 0) {
+                Logger.log(`[WASM] Uploading Output Weights to GPU/WASM Heap...`);
+                // Force full load of weights
+                const w_out = loader.getTensor(w_out_name);
+                this.wasm_w_out_ptr = Wasm.uploadF32(w_out);
+                
+                // Pre-allocate output buffer in WASM
+                const vocabSize = this.engine.vocab.length;
+                this.wasm_out_buffer_ptr = Wasm.alloc(vocabSize * 4);
+                this.wasm_x_ptr = Wasm.alloc(hidden.length * 4);
+            }
+
+            const vocabSize = this.engine.vocab.length;
+            const n_embd = hidden.length;
+
+            // 1. Copy hidden state (small, fast)
+            Wasm.heapF32.set(hidden, this.wasm_x_ptr >> 2);
+
+            // 2. Run Kernel
+            Wasm.fn(
+                this.wasm_out_buffer_ptr, 
+                this.wasm_x_ptr, 
+                this.wasm_w_out_ptr, 
+                vocabSize, 
+                n_embd
+            );
+
+            // 3. Read result
+            // B"H: Avoid copy if possible, but Float32Array slice is fast enough
+            const logits = Wasm.heapF32.slice(
+                this.wasm_out_buffer_ptr >> 2, 
+                (this.wasm_out_buffer_ptr >> 2) + vocabSize
+            );
+
+            if (stats.final_soft_cap > 0) {
+                const cap = stats.final_soft_cap;
+                const invCap = 1.0 / cap;
+                for(let i=0; i<logits.length; i++) {
+                    logits[i] = cap * Math.tanh(logits[i] * invCap);
+                }
+            }
+            return logits;
+        }
+        // --- END WASM ---
+
+        // Fallback to JS
         const w_out = loader.getTensor(w_out_name);
-        
         const vocabSize = this.engine.vocab.length;
         const logits = Matrix.matVecMul(hidden, w_out, vocabSize);
 

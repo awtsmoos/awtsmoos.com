@@ -133,15 +133,17 @@ class Layers {
             if (params.attn_soft_cap > 0) cap_scores = Act.softCap(scores, params.attn_soft_cap);
             
             const probs = Stats.softmax(cap_scores);
-            const out_h = out_attn.subarray(h_off, h_off + params.head_dim);
+            // B"H: REMOVED SUBARRAY CREATION HERE (out_h) for speed.
             
             for (let i = 0; i < validLen; i++) {
                 const p = startPos + i;
                 const val = probs[i];
                 // B"H: Optimization: Access V directly without subarray
                 const v_full = this.engine.kv_cache[l].v[p];
+                
+                // Unrolled accumulation directly to out_attn using h_off
                 for (let j = 0; j < params.head_dim; j++) {
-                    out_h[j] += val * v_full[kv_off + j];
+                    out_attn[h_off + j] += val * v_full[kv_off + j];
                 }
             }
         }
