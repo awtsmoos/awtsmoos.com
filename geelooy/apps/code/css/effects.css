@@ -1,0 +1,32 @@
+/* B"H - EFFECTS CSS */
+
+/* ENTROPY MODE */
+#editor.entropy-active {
+    transition: filter 2s ease;
+}
+#editor.entropy-decay {
+    filter: blur(4px) opacity(0.5);
+    animation: pulse-decay 3s infinite alternate;
+}
+@keyframes pulse-decay {
+    from { filter: blur(4px) opacity(0.5); }
+    to { filter: blur(6px) opacity(0.3); }
+}
+
+/* SPOTLIGHT MODE */
+body.spotlight-mode::after {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.85);
+    pointer-events: none;
+    z-index: 9998;
+}
+body.spotlight-mode #editor-wrapper {
+    z-index: 9999;
+    position: relative;
+    box-shadow: 0 0 50px rgba(0, 246, 255, 0.2);
+}
+body.spotlight-mode #editor {
+    background-color: var(--color-bg-deep); /* Ensure readable bg */
+}

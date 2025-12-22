@@ -1,0 +1,72 @@
+
+/* B"H - TEXT EDITOR */
+#editor-wrapper { 
+    display: flex; 
+    flex-grow: 1; 
+    height: 100%; 
+    position: relative; 
+    overflow: hidden; /* Prevent wrapper scroll */
+    font-family: var(--font-code); 
+}
+
+/* PIXEL PERFECT ALIGNMENT FIX */
+#line-numbers { 
+    font-family: var(--font-code);
+    font-size: 14px !important; 
+    line-height: 24px !important; /* Force explicit PX line-height */
+    padding: 10px 8px; /* Standard padding top/bottom must match editor */
+    color: var(--color-text-tertiary); 
+    text-align: right; 
+    user-select: none; 
+    background-color: transparent; 
+    border-right: 1px solid var(--color-border);
+    overflow-y: hidden; 
+    white-space: pre; 
+    box-sizing: border-box;
+    min-width: 40px;
+}
+
+#editor { 
+    flex-grow: 1; 
+    height: 100%; 
+    border: none; 
+    background: transparent; 
+    color: var(--color-text-primary); 
+    font-family: var(--font-code);
+    font-size: 14px !important; 
+    line-height: 24px !important; /* Force explicit PX line-height to match */
+    padding: 10px; /* Matching top padding */
+    resize: none; 
+    outline: none; 
+    white-space: pre; 
+    overflow: auto;
+    box-sizing: border-box;
+    tab-size: 4;
+}
+
+/* Linter Styles */
+.lint-error-line {
+    background-color: rgba(247, 93, 101, 0.2);
+    position: absolute;
+    left: 0; right: 0;
+    pointer-events: none;
+}
+.lint-marker {
+    color: var(--color-accent-danger) !important;
+    font-weight: bold;
+    position: relative;
+}
+.lint-marker::after {
+    content: '●';
+    font-size: 8px;
+    position: absolute;
+    left: -6px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.empty-editor-message { 
+    position: absolute; top: 40%; left: 50%; transform: translate(-50%, -50%); 
+    color: var(--color-text-secondary); text-align: center; user-select: none; opacity: 0.6; padding: 16px;
+    letter-spacing: 4px;
+}
