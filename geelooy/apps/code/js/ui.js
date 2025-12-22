@@ -2,6 +2,7 @@
 // FILE: code/js/ui.js
 
 import { State, DOM } from './state.js';
+import { ColorOrbs } from './visuals/color-orbs.js';
 
 export const UI = {
     showLoading: (msg = 'Processing...') => {
@@ -34,9 +35,6 @@ export const UI = {
         document.body.appendChild(this._taskStack);
     },
 
-    /**
-     * B"H - Start a background task that doesn't block the UI.
-     */
     startTask(taskId, label) {
         this._ensureTaskStack();
         const card = document.createElement('div');
@@ -55,9 +53,6 @@ export const UI = {
         return taskId;
     },
 
-    /**
-     * B"H - Update background task progress.
-     */
     updateTask(taskId, progress, message = '') {
         const task = State.activeTasks.get(taskId);
         if (!task) return;
@@ -73,9 +68,6 @@ export const UI = {
         }
     },
 
-    /**
-     * B"H - Conclude background task with visual feedback.
-     */
     endTask(taskId, status = 'success', message = '') {
         const task = State.activeTasks.get(taskId);
         if (!task) return;
@@ -170,13 +162,33 @@ export const UI = {
     });
 },
 
-    updateLineNumbers: () => {
+    updateLineNumbers: (errors = []) => {
         if (DOM.editorWrapper.classList.contains('hidden')) return;
-        const lineCount = DOM.editor.value.split('\n').length || 1;
-        const numbersText = Array.from({ length: lineCount }, (_, i) => i + 1).join('\n');
-        if (DOM.lineNumbers.innerText !== numbersText) {
-            DOM.lineNumbers.innerText = numbersText;
+        
+        const text = DOM.editor.value;
+        // Count newlines to get line count. Fast.
+        let lineCount = 1;
+        for (let i = 0; i < text.length; i++) {
+            if (text[i] === '\n') lineCount++;
         }
+
+        const errorMap = new Map();
+        errors.forEach(e => errorMap.set(e.line, e));
+
+        let html = '';
+        for (let i = 1; i <= lineCount; i++) {
+            if (errorMap.has(i)) {
+                const err = errorMap.get(i);
+                html += `<div class="lint-marker" title="${err.message}">${i}</div>`;
+            } else {
+                html += `<div>${i}</div>`;
+            }
+        }
+        
+        DOM.lineNumbers.innerHTML = html;
+        
+        // B"H - Trigger Color Orbs Update
+        requestAnimationFrame(() => ColorOrbs.scanAndRender(DOM.lineNumbers));
     },
     
     switchView(viewName) { 

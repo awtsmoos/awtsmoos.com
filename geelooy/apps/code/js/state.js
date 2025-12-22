@@ -36,7 +36,9 @@ export const State = {
     consoleInstances: new Map(), 
     previewIframes: new Map(),   
     
-    activeTasks: new Map() // B"H - background taskId -> { card, label }
+    activeTasks: new Map(), // B"H - background taskId -> { card, label }
+    
+    closedTabHistory: [] // B"H - Stack for reopening tabs
 };
 
 /**

@@ -1,17 +1,15 @@
-
 // B"H
 // FILE: js/workspaces.js
 import { State , DOM} from './state.js';
 import { Menus } from './menus.js';
 import { App } from './app.js';
-import { GitManager } from './git/index.js'; // B"H - Updated Import
+import { GitManager } from './git/index.js'; 
 import { UI } from './ui.js';
 import { FileOperations } from './file-operations.js'; 
 import { Tabs } from './tabs.js';
-import { WorkspaceTreeRenderer } from './workspaces/tree-rendering.js'; // B"H
+import { WorkspaceTreeRenderer } from './workspaces/tree-rendering.js'; 
 
 export const getItemUniquePath = (item) => {
-    // B"H - Unique ID for Zip Entries
     if (item.type === 'zip-entry') {
         return `zip-${item.zipTabId}::${item.path}`;
     }
@@ -46,19 +44,14 @@ export const Workspaces = {
         }
     },
 
-    /*B"H*/
-    /**
-     * B"H - Helper to attach Drag & Drop listeners to a folder element.
-     */
     setupDragDrop(element, item) {
-        // Only directories (and the root) can receive drops
         if (!item || (item.kind !== 'directory' && item.path !== '/')) return;
 
         const isReadOnly = State.workspaces.find(ws => ws.id === item.workspaceId)?.readOnly;
         if (isReadOnly) return;
 
         element.addEventListener('dragover', (e) => {
-            e.preventDefault(); // Required to allow dropping
+            e.preventDefault(); 
             e.stopPropagation();
             element.classList.add('drag-over-target');
         });
@@ -74,7 +67,6 @@ export const Workspaces = {
             e.stopPropagation();
             element.classList.remove('drag-over-target');
             
-            // Check if files are being dropped (vs text/other)
             if (e.dataTransfer.types.includes('Files')) {
                 await FileOperations.handleDrop(e, item);
             }
@@ -93,7 +85,8 @@ export const Workspaces = {
         const icon = rootItem.isGitClone ? 'git-folder' : 
                      rootItem.type === 'local' ? 'laptop' : 
                      rootItem.type === 'github' ? 'github' : 
-                     rootItem.type === 'ssh' ? 'ssh' : 'brain';
+                     rootItem.type === 'ssh' ? 'ssh' : 
+                     rootItem.type === 'opfs' ? 'save' : 'brain';
 
         let statusBadge = '';
         if (ws.isLocked) {
@@ -102,7 +95,6 @@ export const Workspaces = {
             statusBadge = /*html*/`<span style="font-size: 0.7em; margin-left:8px; padding: 2px 6px; border-radius: 4px; background: var(--color-accent-danger); color: #fff;">⚠️ Lost</span>`;
         }
 
-        // B"H - Allow Git Actions for both Clones AND direct GitHub workspaces
         const showGitActions = rootItem.isGitClone || rootItem.type === 'github';
 
         wsRoot.innerHTML = /*html*/ `
@@ -122,7 +114,6 @@ export const Workspaces = {
         
         container.appendChild(wsRoot);
         
-        // B"H - Attach DnD to the Header (Root)
         const header = wsRoot.querySelector('.workspace-header');
         this.setupDragDrop(header, rootItem);
 
@@ -207,7 +198,6 @@ export const Workspaces = {
     },
     
     async refreshNode(item) {
-        // B"H - Zip Refresh Handling
         if (item.type === 'zip-entry') {
             const zipTab = State.tabs.find(t => t.id === item.zipTabId);
             if (zipTab) {
@@ -219,21 +209,18 @@ export const Workspaces = {
         const uniquePath = getItemUniquePath(item);
         const entry = State.domItemMap.get(uniquePath);
         
-        // B"H - Clear Cache for GitHub Workspaces
         const workspace = State.workspaces.find(ws => ws.id === item.workspaceId);
         if (workspace && workspace.type === 'github') {
-            workspace._treeCache = null; // Bust cache to force API refetch
+            workspace._treeCache = null; 
         }
 
         if (!entry) return;
 
         const directoryElement = entry.el;
         
-        // If expanded, force re-render
         if (State.expandedFolders.has(uniquePath)) {
             directoryElement.classList.add('expanded');
             
-            // Remove existing children to ensure clean slate
             let childrenContainer = directoryElement.querySelector('ul');
             if (childrenContainer) {
                 childrenContainer.remove();

@@ -3,14 +3,23 @@ import { State, DOM } from './state.js';
 import { Editor } from './editor.js';
 
 /**
- * StatusBar Module: Controls the bottom status bar, a ribbon of context
- * that reflects the current state of the editor's focus, including whether
- * the current realm is read-only.
+ * StatusBar Module: Controls the bottom status bar, a ribbon of context.
  */
 export const StatusBar = {
     update: () => {
+        // Line/Col
         const { line, col } = Editor.getCursorInfo();
-        DOM.statusLeft.textContent = `Ln ${line}, Col ${col}`;
+        let leftText = `Ln ${line}, Col ${col}`;
+        
+        // B"H - Word Count Calculation
+        if (State.activeTabId && !DOM.editorWrapper.classList.contains('hidden')) {
+            const text = DOM.editor.value;
+            const wordCount = text.trim().split(/\s+/).length;
+            leftText += `  |  Words: ${wordCount}`;
+        }
+        
+        DOM.statusLeft.textContent = leftText;
+
         const activeTab = State.tabs.find(t => t.id === State.activeTabId);
         if (activeTab) {
             StatusBar.updateLanguage(activeTab.item.name);

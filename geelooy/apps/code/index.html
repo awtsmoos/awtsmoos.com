@@ -8,7 +8,7 @@
     <meta http-equiv="Cross-Origin-Embedder-Policy" content="require-corp" />
     
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>⚡ Awtsmoos Code Editor ⚡</title>
+    <title>⚡ Awtsmoos Editor ⚡</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
@@ -18,17 +18,31 @@
     <link href="css/base.css" rel="stylesheet">
     <link href="css/layout.css" rel="stylesheet">
     <link href="css/components.css" rel="stylesheet">
-    <link href="css/editor-views.css" rel="stylesheet">
+    
+    <!-- Refactored Views -->
+    <link href="css/views/workspace.css" rel="stylesheet">
+    <link href="css/views/tabs.css" rel="stylesheet">
+    <link href="css/views/editor.css" rel="stylesheet">
+    <link href="css/views/tools.css" rel="stylesheet">
+    <link href="css/views/git.css" rel="stylesheet">
+
     <link href="css/zip-explorer.css" rel="stylesheet">
     <link href="css/tab-manager.css" rel="stylesheet">
     <link href="css/file-commander.css" rel="stylesheet"> 
     <link href="css/search.css" rel="stylesheet"> 
-    <link href="css/vibe.css" rel="stylesheet"> <!-- B"H - Vibe Coding Styles -->
-    <!-- Fallback/Overwrites -->
+    <link href="css/vibe.css" rel="stylesheet"> 
+    <link href="css/effects.css" rel="stylesheet"> 
+    <link href="css/visuals.css" rel="stylesheet"> 
     <link href="style.css" rel="stylesheet"> 
 </head>  
 <body>
     
+    <!-- B"H - Visual Engine Layer (Canvas Stack) -->
+    <div id="visual-layer" class="visual-layer">
+        <canvas id="canvas-bg"></canvas> <!-- Rain/Shockwaves -->
+        <canvas id="canvas-ui"></canvas> <!-- Graph Nav/HUD -->
+    </div>
+
     <div class="app-container">
         <div class="sidebar" id="sidebar">
             <div class="sidebar-header">
@@ -89,14 +103,18 @@
                 <button class="kh-btn" data-pair='""' title="Insert double quotes">" "</button>
             </div>
             <div class="editor-area">
+                
+                <!-- B"H - Editor Visual Overlays -->
+                <canvas id="canvas-overlay" class="editor-canvas"></canvas>
+                <canvas id="minimap-canvas" class="minimap-canvas"></canvas>
+                <div id="hud-stats" class="hud-stats"></div>
+
             <div id="previewer" class="hidden"></div>
             
             	<div id="console-host" class="hidden"></div>
     		<div id="iframe-cache" class="hidden" style="display:none;"></div>
 		<div id="hex-editor-wrapper" class="hidden"></div>
         <div id="zip-editor-wrapper" class="hidden"></div>
-        
-        <!-- B"H - Vibe Editor Wrapper -->
         <div id="vibe-editor-wrapper" class="hidden"></div>
 
                 <div id="editor-wrapper" class="hidden">
@@ -149,7 +167,7 @@
     <div id="context-menu"></div>
     <div id="selection-menu" class="selection-menu-bar"></div>
     
-    <!-- B"H - Tab Manager Overlay -->
+    <!-- Tab Manager -->
     <div id="tab-manager-overlay" class="tab-manager-overlay hidden">
         <div class="tm-header">
             <h2>Open Tabs</h2>
@@ -160,20 +178,14 @@
             </div>
         </div>
         <div id="tm-grid" class="tm-grid"></div>
-        
-        <!-- B"H - Floating Action Bar for Selection Mode -->
         <div id="tm-selection-bar" class="tm-selection-bar hidden">
-            <div class="tm-selection-info">
-                <span id="tm-selection-count">0 Selected</span>
-            </div>
+            <div class="tm-selection-info"><span id="tm-selection-count">0 Selected</span></div>
             <div class="tm-selection-actions">
                 <button id="tm-select-all" class="secondary-btn">Select All</button>
                 <button id="tm-close-selected" class="secondary-btn danger">Close Selected</button>
                 <button id="tm-cancel-selection" class="icon-button" title="Cancel"><svg class="svg-icon"><use href="#icon-x"></use></svg></button>
             </div>
         </div>
-        
-        <!-- B"H - Custom Context Menu for Tabs -->
         <div id="tm-context-menu" class="tm-context-menu hidden">
             <button data-action="open">Open</button>
             <button data-action="select">Select</button>
@@ -183,7 +195,7 @@
         </div>
     </div>
     
-    <!-- B"H - SEARCH OVERLAY -->
+    <!-- Global Search -->
     <div id="search-overlay" class="search-overlay hidden">
         <div class="search-window">
             <div class="search-header">
@@ -200,17 +212,19 @@
                     <div id="search-scope-display" class="search-scope">Scope: All Workspaces</div>
                 </div>
             </div>
-            <div id="search-results" class="search-results">
-                <div class="search-empty">Enter a query to begin.</div>
-            </div>
+            <div id="search-results" class="search-results"><div class="search-empty">Enter a query to begin.</div></div>
         </div>
+    </div>
+
+    <!-- B"H - Graph Nav Overlay -->
+    <div id="graph-nav-overlay" class="graph-nav-overlay hidden">
+        <button id="graph-nav-close" class="icon-button"><svg class="svg-icon"><use href="#icon-x"></use></svg></button>
+        <canvas id="graph-canvas"></canvas>
     </div>
 
     <div id="generic-dialog" class="dialog-overlay"></div>
 
-<script type="module" src="js/main.js">
-</script>
+<script type="module" src="js/main.js"></script>
 <script src="/register.js"></script>
-      
 </body>
 </html>
