@@ -1,4 +1,3 @@
-
 // B"H
 const Stats = require('../math/stats.js');
 const Matrix = require('../math/matrix.js');
@@ -17,14 +16,13 @@ class Model {
         const loader = this.engine.loader;
 
         // 1. Embedding
-        // getEmbeddingRow logic from model_loader.js
         const embInfo = loader.tensorMap.get('token_embd.weight') || loader.tensorMap.get('model.embed_tokens.weight');
         if (!embInfo) throw new Error("Embedding Missing");
         
+        // Load only the specific row for this token (Tiny RAM)
         let x = loader.getTensor(embInfo.name, token_id * stats.n_embd, stats.n_embd);
         if (!x) throw new Error("Embedding Missing for ID: " + token_id);
 
-        // Scale (Gemma)
         if (stats.useEmbScale) {
             const embScale = Math.sqrt(stats.n_embd);
             for(let i=0; i<x.length; i++) x[i] *= embScale;
@@ -47,16 +45,30 @@ class Model {
         const loader = this.engine.loader;
         
         const w_out_name = loader.globalTensorMap.output || loader.globalTensorMap.embed;
-        const w_out = loader.getTensor(w_out_name); // This will read the whole tensor?
-        // Note: matVecMul takes (x, w, n_out). w must be the full matrix.
-        // If w_out is huge (e.g. 256k vocab), loading it all into memory is heavy.
-        // But the browser implementation loads it: self.loadWeight('output.weight', false)
-        // If we want to match, we must load it.
-        
         const vocabSize = this.engine.vocab.length;
-        const logits = Matrix.matVecMul(hidden, w_out, vocabSize);
+        const dim = hidden.length; // stats.n_embd
+        
+        // B"H: Optimization - Chunked Processing
+        // Instead of loading the full 600MB matrix, we load it in 4k rows chunks.
+        const logits = new Float32Array(vocabSize);
+        const CHUNK_SIZE = 4096; 
+        
+        for (let offset = 0; offset < vocabSize; offset += CHUNK_SIZE) {
+            const count = Math.min(CHUNK_SIZE, vocabSize - offset);
+            
+            // Read chunk of weight matrix [count * dim] elements
+            // Note: tensor flattened layout is (Vocab * Dim)
+            const w_chunk = loader.getTensor(w_out_name, offset * dim, count * dim);
+            
+            // Multiply chunk
+            // matVecMul returns a float array of length 'count'
+            const chunkLogits = Matrix.matVecMul(hidden, w_chunk, count);
+            
+            // Copy into result
+            logits.set(chunkLogits, offset);
+        }
 
-        // FINAL SOFT CAPPING (Gemma 3)
+        // Final Soft Cap (Gemma 3)
         if (stats.final_soft_cap > 0) {
             const cap = stats.final_soft_cap;
             const invCap = 1.0 / cap;

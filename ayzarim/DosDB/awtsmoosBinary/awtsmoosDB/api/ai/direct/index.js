@@ -1,4 +1,3 @@
-
 // B"H
 const fs = require('fs');
 const Loader = require('./loader.js');
@@ -15,7 +14,10 @@ class DirectEngine {
         // State
         this.kv_cache = [];
         this.history = [];
-        this.buffer = null;
+        
+        this.fd = null;         // File Descriptor
+        this.headerBuffer = null; // Just the first few MBs
+        
         this.metadata = null;
         this.vocab = [];
         this.tokenizer = null;
@@ -23,12 +25,21 @@ class DirectEngine {
     }
 
     async init() {
-        Logger.log(`[Direct] Reading file: ${this.filePath}`);
-        this.buffer = fs.readFileSync(this.filePath);
+        Logger.log(`[Direct] Opening file: ${this.filePath}`);
         
-        await this.loader.load(this.buffer);
+        // 1. Open File Descriptor (No huge RAM spike)
+        this.fd = fs.openSync(this.filePath, 'r');
         
-        // Mock handle for Tokenizer
+        // 2. Read Header Chunk (e.g., 20MB to be safe for Vocab)
+        const stats = fs.fstatSync(this.fd);
+        const headerSize = Math.min(20 * 1024 * 1024, stats.size);
+        
+        this.headerBuffer = Buffer.allocUnsafe(headerSize);
+        fs.readSync(this.fd, this.headerBuffer, 0, headerSize, 0);
+        
+        // 3. Load Metadata (Parsing the buffer we just read)
+        await this.loader.load(this.headerBuffer);
+        
         const mockHandle = {
             config: { get: async (k) => {
                 if(k==='vocab_size') return this.vocab.length;
@@ -40,55 +51,71 @@ class DirectEngine {
         
         this.tokenizer = new Tokenizer(mockHandle);
         this.tokenizer.vocab = this.vocab;
-        // B"H: Scores might be missing in some GGUFs, handle gracefully
         this.tokenizer.scores = this.loader.scores ? new Float32Array(this.loader.scores) : new Float32Array(this.vocab.length).fill(0);
         
         await this.tokenizer.init(); 
         
-        // Debug Vocab
-        if (this.vocab.length > 100) {
-            const sos = '<start_of_turn>';
-            const idx = this.vocab.indexOf(sos);
-            Logger.log(`[Vocab] ID 105: '${this.vocab[105]}', SOS Index: ${idx}`);
-        }
-
         Logger.log(`[Direct] Ready. Arch: ${this.params.arch}, Layers: ${this.params.n_layer}, Embd: ${this.params.n_embd}`);
     }
 
-    async generate(prompt, callback) {
-        // B"H - The prompt now includes all necessary formatting from the test file.
+    resetContext() {
+        this.kv_cache = [];
+        this.history = [];
+        if(global.gc) global.gc();
+    }
+
+    async getEmbedding(text) {
+        let tokens = await this.tokenizer.tokenize(text);
+        const backupCache = this.kv_cache;
+        this.kv_cache = []; 
+        let lastHidden = null;
+        for (let i = 0; i < tokens.length; i++) {
+            lastHidden = await this.model.forward(tokens[i], i);
+        }
+        this.kv_cache = backupCache;
+        if (!lastHidden) return null;
+        return this._l2Normalize(lastHidden);
+    }
+
+    _l2Normalize(vec) {
+        let sum = 0.0;
+        for (let i = 0; i < vec.length; i++) sum += vec[i] * vec[i];
+        const mag = Math.sqrt(sum);
+        if (mag === 0) return vec;
+        const out = new Float32Array(vec.length);
+        for (let i = 0; i < vec.length; i++) out[i] = vec[i] / mag;
+        return out;
+    }
+
+    async generate(prompt, callback, options={}) {
         let fullPrompt = `<start_of_turn>user\n${prompt}<end_of_turn>\n<start_of_turn>model\n`;
         Logger.log(`[Direct] Formatted Prompt: ${JSON.stringify(fullPrompt)}`);
         
         let tokens = await this.tokenizer.tokenize(fullPrompt);
         
-        // Gemma 3: Ensure BOS (2) if start of session
         if (this.params.arch.includes('gemma') && this.history.length === 0 && tokens[0] !== 2) {
-             tokens.unshift(2); // BOS
-             Logger.log(`[Direct] Added BOS (2) at start.`);
+             tokens.unshift(2); 
         }
         
         let lastHidden = null;
         
-        // Context
         Logger.log(`[Direct] Processing Context (${tokens.length} tokens)...`);
         for (let i = 0; i < tokens.length; i++) {
             lastHidden = await this.model.forward(tokens[i], this.history.length);
             this.history.push(tokens[i]);
-            
-            if (i % 2 === 0) process.stdout.write('.');
+            if (i % 5 === 0) process.stdout.write('.');
         }
-        console.log(''); // Newline after dots
+        console.log('');
         
-        // Gen
         Logger.log(`[Direct] Generating...`);
-        for (let i = 0; i < 128; i++) { // Increased generation length
+        const maxTokens = options.maxTokens || 128;
+        
+        for (let i = 0; i < maxTokens; i++) {
             const logits = this.model.computeLogits(lastHidden);
             const next = this.sample(logits);
             
-            // Handle EOS
-            if (next === 1 || next === 106 || next === 107 || next === 2) {
-                Logger.log(`[Direct] EOS Token generated (${next}).`);
+            if (next === 1 || next === 106 || next === 107 || (next === 2 && this.history.length > 1)) {
+                Logger.log(`[Direct] EOS Token generated.`);
                 break; 
             }
             
@@ -101,7 +128,6 @@ class DirectEngine {
     }
 
     sample(logits) {
-        // Greedy for now to debug
         let max = -Infinity, idx = 0;
         for(let i=0; i<logits.length; i++) {
             if(logits[i] > max) { max = logits[i]; idx = i; }

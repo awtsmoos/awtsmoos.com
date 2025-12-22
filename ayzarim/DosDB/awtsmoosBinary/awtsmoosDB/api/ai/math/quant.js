@@ -1,116 +1,154 @@
-
 // B"H
-// Exact port from awtsmoos-gguf/worker_src/tensor_quant.js
 const { GGML_TYPE } = require('./types.js');
 
 const QK4_0 = 32;
 const QK8_0 = 32;
 
-function decodeF16(h) {
-    var s = (h & 0x8000) >> 15;
-    var e = (h & 0x7C00) >> 10;
-    var f = h & 0x03FF;
-    if(e == 0) return (s?-1:1) * Math.pow(2,-14) * (f/1024);
-    if(e == 0x1F) return f?NaN:((s?-1:1)*Infinity);
-    return (s?-1:1) * Math.pow(2, e-15) * (1 + f/1024);
-}
+// --- PRE-COMPUTE F16 TABLE ---
+const F16_TABLE = new Float32Array(65536);
 
-function dequantize(view, type, numElements) {
+(function initF16Table() {
+    const buffer = new ArrayBuffer(4);
+    const floatView = new Float32Array(buffer);
+    
+    for (let i = 0; i < 65536; i++) {
+        const s = (i & 0x8000) >> 15;
+        const e = (i & 0x7C00) >> 10;
+        const f = i & 0x03FF;
+
+        if (e === 0) {
+            floatView[0] = (s ? -1 : 1) * Math.pow(2, -14) * (f / 1024);
+        } else if (e === 0x1F) {
+            floatView[0] = f ? NaN : ((s ? -1 : 1) * Infinity);
+        } else {
+            floatView[0] = (s ? -1 : 1) * Math.pow(2, e - 15) * (1 + f / 1024);
+        }
+        F16_TABLE[i] = floatView[0];
+    }
+})();
+
+function dequantize(u8, type, numElements) {
     const result = new Float32Array(numElements);
 
-    // F32
     if (type === GGML_TYPE.F32) {
+        const view = new DataView(u8.buffer, u8.byteOffset, u8.byteLength);
         for (let i = 0; i < numElements; i++) result[i] = view.getFloat32(i * 4, true);
         return result;
     }
     
-    // F16
     if (type === GGML_TYPE.F16) {
-        for (let i = 0; i < numElements; i++) result[i] = decodeF16(view.getUint16(i * 2, true));
+        for (let i = 0; i < numElements; i++) {
+            const val = u8[i*2] | (u8[i*2+1] << 8);
+            result[i] = F16_TABLE[val];
+        }
         return result;
     }
 
-    // Q4_0
     if (type === GGML_TYPE.Q4_0) {
-        const blockSize = 18; 
         const blockCount = numElements / QK4_0;
-        
+        let inOffset = 0;
+        let outOffset = 0;
+
         for (let b = 0; b < blockCount; b++) {
-            const base = b * blockSize;
-            const d = decodeF16(view.getUint16(base, true));
+            // 1. Delta
+            const val = u8[inOffset] | (u8[inOffset + 1] << 8);
+            const d = F16_TABLE[val];
+            inOffset += 2;
+
+            // 2. Unrolled 16-byte processing (32 weights)
+            // This avoids loop overhead 16 times per block
             
-            for (let i = 0; i < 16; i++) {
-                const byte = view.getUint8(base + 2 + i);
-                const x0 = (byte & 0x0F) - 8;
-                const x1 = (byte >> 4) - 8;
-                result[b * QK4_0 + i] = x0 * d;
-                result[b * QK4_0 + i + 16] = x1 * d;
-            }
+            let byte, x0, x1;
+
+            // 0
+            byte = u8[inOffset++];
+            result[outOffset] = ((byte & 0x0F) - 8) * d;
+            result[outOffset + 16] = ((byte >> 4) - 8) * d;
+            // 1
+            byte = u8[inOffset++];
+            result[outOffset + 1] = ((byte & 0x0F) - 8) * d;
+            result[outOffset + 17] = ((byte >> 4) - 8) * d;
+            // 2
+            byte = u8[inOffset++];
+            result[outOffset + 2] = ((byte & 0x0F) - 8) * d;
+            result[outOffset + 18] = ((byte >> 4) - 8) * d;
+            // 3
+            byte = u8[inOffset++];
+            result[outOffset + 3] = ((byte & 0x0F) - 8) * d;
+            result[outOffset + 19] = ((byte >> 4) - 8) * d;
+            // 4
+            byte = u8[inOffset++];
+            result[outOffset + 4] = ((byte & 0x0F) - 8) * d;
+            result[outOffset + 20] = ((byte >> 4) - 8) * d;
+            // 5
+            byte = u8[inOffset++];
+            result[outOffset + 5] = ((byte & 0x0F) - 8) * d;
+            result[outOffset + 21] = ((byte >> 4) - 8) * d;
+            // 6
+            byte = u8[inOffset++];
+            result[outOffset + 6] = ((byte & 0x0F) - 8) * d;
+            result[outOffset + 22] = ((byte >> 4) - 8) * d;
+            // 7
+            byte = u8[inOffset++];
+            result[outOffset + 7] = ((byte & 0x0F) - 8) * d;
+            result[outOffset + 23] = ((byte >> 4) - 8) * d;
+            // 8
+            byte = u8[inOffset++];
+            result[outOffset + 8] = ((byte & 0x0F) - 8) * d;
+            result[outOffset + 24] = ((byte >> 4) - 8) * d;
+            // 9
+            byte = u8[inOffset++];
+            result[outOffset + 9] = ((byte & 0x0F) - 8) * d;
+            result[outOffset + 25] = ((byte >> 4) - 8) * d;
+            // 10
+            byte = u8[inOffset++];
+            result[outOffset + 10] = ((byte & 0x0F) - 8) * d;
+            result[outOffset + 26] = ((byte >> 4) - 8) * d;
+            // 11
+            byte = u8[inOffset++];
+            result[outOffset + 11] = ((byte & 0x0F) - 8) * d;
+            result[outOffset + 27] = ((byte >> 4) - 8) * d;
+            // 12
+            byte = u8[inOffset++];
+            result[outOffset + 12] = ((byte & 0x0F) - 8) * d;
+            result[outOffset + 28] = ((byte >> 4) - 8) * d;
+            // 13
+            byte = u8[inOffset++];
+            result[outOffset + 13] = ((byte & 0x0F) - 8) * d;
+            result[outOffset + 29] = ((byte >> 4) - 8) * d;
+            // 14
+            byte = u8[inOffset++];
+            result[outOffset + 14] = ((byte & 0x0F) - 8) * d;
+            result[outOffset + 30] = ((byte >> 4) - 8) * d;
+            // 15
+            byte = u8[inOffset++];
+            result[outOffset + 15] = ((byte & 0x0F) - 8) * d;
+            result[outOffset + 31] = ((byte >> 4) - 8) * d;
+
+            outOffset += 32;
         }
         return result;
     }
 
-    // Q8_0
     if (type === GGML_TYPE.Q8_0) {
-        const blockSize = 34;
         const blockCount = numElements / QK8_0;
+        let inOffset = 0;
+        let outOffset = 0;
+
         for (let b = 0; b < blockCount; b++) {
-            const base = b * blockSize;
-            const d = decodeF16(view.getUint16(base, true));
+            const val = u8[inOffset] | (u8[inOffset + 1] << 8);
+            const d = F16_TABLE[val];
+            inOffset += 2;
+
             for (let i = 0; i < 32; i++) {
-                result[b * QK8_0 + i] = view.getInt8(base + 2 + i) * d;
+                let v = u8[inOffset++];
+                if (v > 127) v -= 256;
+                result[outOffset++] = v * d;
             }
         }
         return result;
     }
-
-    // Q4_K
-    if (type === GGML_TYPE.Q4_K) {
-        const blockSize = 144;
-        const blockCount = numElements / 256;
-        
-        for (let b = 0; b < blockCount; b++) {
-            const base = b * blockSize;
-            const d = decodeF16(view.getUint16(base, true));
-            const dmin = decodeF16(view.getUint16(base + 2, true));
-            
-            const scalesBase = base + 4;
-            const qsBase = base + 16;
-            const sbBase = b * 256;
-            
-            for (let i = 0; i < 4; i++) {
-                const sc = view.getUint8(scalesBase + i);
-                const m  = view.getUint8(scalesBase + i + 4);
-                const ls = view.getUint8(scalesBase + i + 8);
-
-                const s0 = sc & 0x3F;
-                const m0 = m & 0x3F;
-                const d0 = d * s0;
-                const dm0 = dmin * m0;
-
-                const s1 = (ls & 0x0F) | ((sc >> 6) << 4);
-                const m1 = (ls >> 4) | ((m >> 6) << 4);
-                const d1 = d * s1;
-                const dm1 = dmin * m1;
-                
-                const qsOffset = qsBase + (i * 32);
-                const offset0 = sbBase + (i * 32);
-                const offset1 = sbBase + ((i + 4) * 32);
-
-                for (let j = 0; j < 32; j++) {
-                    const byte = view.getUint8(qsOffset + j);
-                    result[offset0 + j] = (byte & 0x0F) * d0 - dm0;
-                    result[offset1 + j] = (byte >> 4) * d1 - dm1;
-                }
-            }
-        }
-        return result;
-    }
-
-    // Fallback
-    // console.warn(`Unsupported Quantization Type: ${type}`);
-    result.fill(0);
-    return result;
+    return result; 
 }
 
-module.exports = { dequantize, decodeF16 };
+module.exports = { dequantize, decodeF16: (l, h) => F16_TABLE[l | (h << 8)], F16_TABLE };

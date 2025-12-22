@@ -1,4 +1,3 @@
-
 // B"H
 const GGUFParser = require('../utils/gguf_parser.js');
 const Config = require('./loader_config.js');
@@ -14,9 +13,10 @@ class Loader {
         this.globalTensorMap = {};
     }
 
-    async load(buffer) {
+    async load(headerBuffer) {
         Logger.log(`[Direct] Parsing GGUF Header...`);
-        const parsed = GGUFParser.parse(buffer);
+        // We parse only the header buffer
+        const parsed = GGUFParser.parse(headerBuffer);
         
         this.engine.metadata = parsed.kv;
         this.engine.vocab = parsed.vocab;
@@ -24,25 +24,33 @@ class Loader {
         this.tensorMap = parsed.tensorMap;
         this.dataOffset = parsed.dataOffset;
         
-        // 1. Map Weights
+        // Map Weights
         const maps = Tensors.mapWeights(this.tensorMap);
         this.layerTensorMap = maps.layerTensorMap;
         this.globalTensorMap = maps.globalTensorMap;
         
-        // 2. Infer Params
+        // Infer Params
         this.engine.params = Config.inferParams(this.engine.metadata, this.tensorMap);
     }
 
     getTensor(name, sliceStart = 0, sliceLength = null) {
         const info = this.tensorMap.get(name);
         if (!info) return null;
-        return Tensors.readTensor(this.engine.buffer, this.dataOffset, info, sliceStart, sliceLength);
+        
+        // B"H: Optimization - Pass File Descriptor and Header Buffer
+        return Tensors.readTensor(
+            this.engine.fd,           // File Descriptor
+            this.engine.headerBuffer, // Header (Fast RAM access if small)
+            this.dataOffset,          // Base Data Offset
+            info, 
+            sliceStart, 
+            sliceLength
+        );
     }
     
     getLayerWeight(layerIdx, alias) {
         if (!this.layerTensorMap[layerIdx]) return null;
         const realName = this.layerTensorMap[layerIdx][alias];
-        // If not in map, maybe try direct?
         if (!realName) return null;
         return this.getTensor(realName);
     }
