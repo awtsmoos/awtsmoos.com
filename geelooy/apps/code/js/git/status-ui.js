@@ -1,4 +1,3 @@
-
 // B"H
 // FILE: js/git/status-ui.js
 
@@ -195,7 +194,7 @@ export const GitStatusUI = {
             UI.showToast(finalMessage, 'error', 8000);
             console.error("COMMIT FAILED:", e);
         } finally {
-            UI.hideLoading();
+            // UI.hideLoading(); // Removed here as we want to control it more granularly or it's handled inside helpers
         }
     },
 
@@ -212,6 +211,7 @@ export const GitStatusUI = {
                 });
                 await Promise.all(savePromises);
             }
+            // Temporarily show loading for recalc, but hide before main commit to show Task UI
             UI.showLoading("Recalculating final changes...");
             const finalChangeSet = await GitDiff.calculateDiff(gitContextItem, gitInfo, { checkUntracked: performScan });
             await this._handleCommit(gitContextItem, gitInfo, finalChangeSet, commitMessage, isForce);
@@ -219,31 +219,40 @@ export const GitStatusUI = {
     },
 
     async _handleCommit(gitContextItem, gitInfo, finalChangeSet, commitMessage, force) {
-        UI.showLoading(force ? "Force Pushing to GitHub..." : "Committing to GitHub...");
+        // B"H - UNBLOCK UI: Hide the modal so the user can see the non-blocking task notification
+        UI.hideLoading();
         
-        const newCommitSHA = await GitCommit.performCommit(
-            gitContextItem, 
-            gitInfo, 
-            finalChangeSet, 
-            commitMessage, 
-            { force }
-        );
-        
-        UI.showLoading("Verifying final repository state...");
-        const newTree = await FileSystemProvider.GitHub.getFullTree(gitInfo);
-        
-        if (gitContextItem.type !== 'github') {
-            const updatedGitInfo = { ...gitInfo, baseCommitSHA: newCommitSHA, remoteTree: newTree.tree };
-            const ikarFileContent = `// B"H\n\nconst ikar = ${JSON.stringify(updatedGitInfo, null, 4)};`;
-            const ikarFileItem = { ...gitContextItem, path: `${gitContextItem.path}/.awtsmoos-repo/ikar.js` };
-            await FileSystemProvider.write(ikarFileItem, ikarFileContent);
-        } else {
-            gitContextItem.remoteTree = newTree.tree;
-            gitContextItem.baseCommitSHA = newTree.sha;
-            await Workspaces.refreshNode(gitContextItem);
+        try {
+            const newCommitSHA = await GitCommit.performCommit(
+                gitContextItem, 
+                gitInfo, 
+                finalChangeSet, 
+                commitMessage, 
+                { force }
+            );
+            
+            // Re-enable simple blocking load for the final sync step as it's usually fast
+            UI.showLoading("Verifying final repository state...");
+            
+            const newTree = await FileSystemProvider.GitHub.getFullTree(gitInfo);
+            
+            if (gitContextItem.type !== 'github') {
+                const updatedGitInfo = { ...gitInfo, baseCommitSHA: newCommitSHA, remoteTree: newTree.tree };
+                const ikarFileContent = `// B"H\n\nconst ikar = ${JSON.stringify(updatedGitInfo, null, 4)};`;
+                const ikarFileItem = { ...gitContextItem, path: `${gitContextItem.path}/.awtsmoos-repo/ikar.js` };
+                await FileSystemProvider.write(ikarFileItem, ikarFileContent);
+            } else {
+                gitContextItem.remoteTree = newTree.tree;
+                gitContextItem.baseCommitSHA = newTree.sha;
+                await Workspaces.refreshNode(gitContextItem);
+            }
+            
+            UI.hideLoading();
+            UI.showToast(force ? "Force Push Successful!" : "Changes committed successfully!", "success");
+        } catch (e) {
+            UI.hideLoading();
+            throw e; // Re-throw to be caught by caller for error toast
         }
-        
-        UI.showToast(force ? "Force Push Successful!" : "Changes committed successfully!", "success");
     },
 
     async discardChanges(gitContextItem) {

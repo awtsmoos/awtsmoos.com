@@ -58,13 +58,19 @@ export const UI = {
     /**
      * B"H - Update background task progress.
      */
-    updateTask(taskId, progress) {
+    updateTask(taskId, progress, message = '') {
         const task = State.activeTasks.get(taskId);
         if (!task) return;
         const fill = task.card.querySelector('.task-progress-fill');
         const percent = task.card.querySelector('.task-percent');
+        
         if (fill) fill.style.width = `${progress}%`;
         if (percent) percent.textContent = `${Math.round(progress)}%`;
+        
+        if (message) {
+            const labelEl = task.card.querySelector('.task-label');
+            if (labelEl) labelEl.textContent = message;
+        }
     },
 
     /**

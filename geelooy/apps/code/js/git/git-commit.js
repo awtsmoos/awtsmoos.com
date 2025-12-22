@@ -30,12 +30,18 @@ export const GitCommit = {
             // --- 1. Processing Uploads ---
             while (filesToUpload.length > 0) {
                 const currentBatchFiles = filesToUpload.splice(0, FILES_PER_COMMIT);
-                const progressLabel = `Part ${commitCount}/${totalBatches}: Uploading...`;
-                UI.updateTask(taskId, (itemsProcessed / totalItems) * 100);
+                const progressLabel = `Part ${commitCount}/${totalBatches}`;
+                
+                UI.updateTask(taskId, (itemsProcessed / totalItems) * 100, `${progressLabel}: Preparing...`);
 
                 const treeItems = [];
                 for (let i = 0; i < currentBatchFiles.length; i += BLOB_BATCH_SIZE) {
                     const blobBatch = currentBatchFiles.slice(i, i + BLOB_BATCH_SIZE);
+                    
+                    // B"H - Show specific files being uploaded
+                    const fileNames = blobBatch.map(f => f.path.split('/').pop()).join(', ');
+                    UI.updateTask(taskId, (itemsProcessed / totalItems) * 100, `Uploading: ${fileNames}`);
+
                     const results = await Promise.all(blobBatch.map(file => 
                         FileSystemProvider.GitHub.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/blobs`, {
                             method: 'POST',
@@ -56,6 +62,8 @@ export const GitCommit = {
                     UI.updateTask(taskId, (itemsProcessed / totalItems) * 100);
                 }
 
+                UI.updateTask(taskId, (itemsProcessed / totalItems) * 100, `${progressLabel}: Saving Commit...`);
+
                 const messagePart = totalBatches > 1 ? ` (Part ${commitCount}/${totalBatches})` : '';
                 const newCommitSHA = await this._executeGitCommit(
                     repoInfo, branch, currentParentSHA, treeItems, commitMessage + messagePart, force
@@ -68,6 +76,8 @@ export const GitCommit = {
 
             // --- 2. Process Deletions ---
             if (filesToDelete.length > 0) {
+                UI.updateTask(taskId, (itemsProcessed / totalItems) * 100, `Processing Deletions...`);
+                
                 const treeItems = filesToDelete.map(file => ({
                     path: file.path, mode: '100644', type: 'blob', sha: null
                 }));
