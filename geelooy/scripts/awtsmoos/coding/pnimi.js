@@ -475,7 +475,7 @@ unindentSelection() {
 			});
 			this.highlighterWorker.onmessage = this._onWorkerMessage.bind(this);
 			this.highlighterWorker.onerror = (e) => {
-				console.error("Error from highlighting worker:", e);
+				console.error("Error from highlighting worker:", e,e.stack);
 			}
 
 			// Send the initial text and language to the worker to prime its state.

@@ -1,46 +1,90 @@
+
 //B"H
 
 // js/main.js
 import { initInput } from './input.js';
 import { initUI } from './ui.js';
-import { renderGameState } from './render.js';
+import { renderGameState, updateTimeVisuals, addParticle } from './render.js';
+import * as GameEngine from './workers/gameWorker.js';
 
 document.addEventListener('DOMContentLoaded', () => {
-    console.log("B''H - Initializing The Scribe's Journey...");
+    console.log("B''H - Initializing The Scribe's Journey Extreme (Main Thread Mode)...");
 
     const canvas = document.getElementById('gameCanvas');
+    const container = document.getElementById('gameContainer');
     const ctx = canvas.getContext('2d');
     
-    // Default size, will be configured by worker on init
-    canvas.width = 400;
-    canvas.height = 400;
+    // Responsive Canvas Resizing
+    function resize() {
+        canvas.width = container.clientWidth;
+        canvas.height = container.clientHeight;
+        ctx.imageSmoothingEnabled = false; 
+    }
+    window.addEventListener('resize', resize);
+    resize();
 
-    const gameWorker = new Worker('./js/workers/gameWorker.js', { type: 'module' });
-
-    function sendToWorker(action, payload) {
-        gameWorker.postMessage({ action, payload });
+    // Inject extra menu buttons dynamically
+    const gameMenu = document.getElementById('gameMenu');
+    if (gameMenu && !document.querySelector('[data-action="bestiary-screen"]')) {
+        const createBtn = (text, action, color) => {
+            const btn = document.createElement('button');
+            btn.className = 'menu-button';
+            btn.dataset.action = action;
+            btn.textContent = text;
+            if(color) btn.style.color = color;
+            return btn;
+        };
+        
+        const returnBtn = gameMenu.lastElementChild;
+        gameMenu.insertBefore(createBtn('Quest Board (NPC Mode)', 'player-quest-screen', '#00ff00'), returnBtn);
+        gameMenu.insertBefore(createBtn('666 Features Log', 'features-screen', '#ff55ff'), returnBtn);
+        gameMenu.insertBefore(createBtn('Sefer HaYetzira (Bestiary)', 'bestiary-screen'), returnBtn);
+        gameMenu.insertBefore(createBtn('Mitzvah Tank (Achievements)', 'mitzvah-screen'), returnBtn);
+        gameMenu.insertBefore(createBtn('50 Gates (Cheats)', 'gates-screen', '#ffaa00'), returnBtn);
     }
 
-    const ui = initUI(sendToWorker);
-    initInput(sendToWorker);
-
-    gameWorker.onmessage = (e) => {
-        const { action, payload } = e.data;
-        switch (action) {
-            case 'gameStateUpdate':
-                renderGameState(ctx, payload.state);
-                break;
-            case 'uiUpdate':
-                ui.update(payload);
-                break;
-            case 'toast':
-                ui.showToast(payload.message, payload.type);
-                break;
+    const callbacks = {
+        onStateUpdate: (payload) => {
+            renderGameState(ctx, payload.state);
+        },
+        onTimeUpdate: (payload) => {
+            updateTimeVisuals(ctx, payload.timeOfDay, payload.weather, payload.moonPhase, payload.isShabbat, payload.lightLevel, payload.maxLightLevel);
+        },
+        onUIUpdate: (payload) => {
+            ui.update(payload);
+            // Handle Visual FX from worker
+            if (payload.fx) {
+                if (payload.fx.type === 'particles') {
+                    // Explode particles at player position
+                    for(let i=0; i<payload.fx.amount; i++) {
+                        addParticle('spark', canvas.width/2, canvas.height/2, payload.fx.color);
+                    }
+                }
+            }
+        },
+        onToast: (payload) => {
+            ui.showToast(payload.message, payload.type);
         }
     };
 
-    sendToWorker('init', {
-        canvasWidth: canvas.width,
-        canvasHeight: canvas.height
-    });
+    function sendToEngine(action, payload) {
+        if (action === 'input') {
+            GameEngine.dispatch(payload);
+        } else {
+            GameEngine.dispatch({ action, ...payload });
+        }
+    }
+
+    const ui = initUI(sendToEngine);
+    initInput(sendToEngine);
+
+    // Initialize Engine
+    GameEngine.initGame(callbacks);
+
+    // Start Loop
+    function loop(now) {
+        GameEngine.gameLoop(now);
+        requestAnimationFrame(loop);
+    }
+    requestAnimationFrame(loop);
 });
