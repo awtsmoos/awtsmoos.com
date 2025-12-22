@@ -14,9 +14,8 @@
     pointer-events: none; /* Crucial: Let clicks pass through rain */
 }
 
-/* B"H - FIXED COORDINATE SPACE */
 .editor-canvas {
-    position: fixed; /* Changed from absolute to fixed */
+    position: absolute;
     top: 0; left: 0; width: 100%; height: 100%;
     pointer-events: none;
     z-index: 100;

@@ -4,17 +4,17 @@ const Matrix = require('../math/matrix.js');
 const Act = require('../math/act.js');
 const Layers = require('./layers.js');
 const Logger = require('../utils/logger.js');
-const Wasm = require('../math/wasm_jit.js'); // Import WASM
+const Wasm = require('../math/wasm_jit.js');
 
 class Model {
     constructor(engine) {
         this.engine = engine;
         this.layers = new Layers(engine);
         
-        // Cache for WASM pointers
-        this.wasm_w_out_ptr = 0;
-        this.wasm_out_buffer_ptr = 0;
-        this.wasm_x_ptr = 0;
+        // B"H: Initialize to -1 because WASM pointers can be 0
+        this.wasm_w_out_ptr = -1;
+        this.wasm_out_buffer_ptr = -1;
+        this.wasm_x_ptr = -1;
     }
 
     async forward(token_id, pos) {
@@ -55,7 +55,8 @@ class Model {
         
         // --- WASM ACCELERATION ---
         if (Wasm.instance) {
-            if (this.wasm_w_out_ptr === 0) {
+            // B"H: Correct check for uninitialized pointer
+            if (this.wasm_w_out_ptr === -1) {
                 Logger.log(`[WASM] Uploading Output Weights to GPU/WASM Heap...`);
                 // Force full load of weights
                 const w_out = loader.getTensor(w_out_name);
@@ -83,7 +84,6 @@ class Model {
             );
 
             // 3. Read result
-            // B"H: Avoid copy if possible, but Float32Array slice is fast enough
             const logits = Wasm.heapF32.slice(
                 this.wasm_out_buffer_ptr >> 2, 
                 (this.wasm_out_buffer_ptr >> 2) + vocabSize

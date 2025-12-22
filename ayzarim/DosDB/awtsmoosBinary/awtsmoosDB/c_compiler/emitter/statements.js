@@ -5,12 +5,13 @@ const { generateExpr } = require('./expressions.js');
 function generateStmt(ctx, stmt) {
     if (stmt.type === 'VarDecl') {
         const type = (stmt.varType.base === 'float' && stmt.varType.pointers === 0) ? WASM.F32 : WASM.I32;
-        const index = ctx.localCount++;
-        ctx.locals.set(stmt.name, { index, type });
+        
+        // B"H: FIX - Use getOrDeclareLocal to handle shadowing/reuse correctly
+        const v = ctx.getOrDeclareLocal(stmt.name, type);
         
         if (stmt.init) {
             generateExpr(ctx, stmt.init);
-            ctx.code.push(WASM.LOCAL_SET, ...Encoder.toLEB128(index));
+            ctx.code.push(WASM.LOCAL_SET, ...Encoder.toLEB128(v.index));
         }
     }
     else if (stmt.type === 'While') {
@@ -32,7 +33,6 @@ function generateStmt(ctx, stmt) {
 }
 
 function generateBlock(ctx, node) {
-    // If it's a Block node, iterate body. If simple stmt, generate one.
     if (node.type === 'Block') {
         for(const s of node.body) generateStmt(ctx, s);
     } else {

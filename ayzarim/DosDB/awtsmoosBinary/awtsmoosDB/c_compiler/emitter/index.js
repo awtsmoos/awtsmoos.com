@@ -33,10 +33,8 @@ class Emitter {
         // 2. Func
         const funcSec = Encoder.section(3, Encoder.vec([0]));
 
-        // 3. Memory (Fixed: Allows Unlimited Growth or large initial)
-        // No max specified means unlimited (limited by host/browser 2GB/4GB)
-        // Limits: flags(0) min(LEB)
-        const memLimits = [0x00, ...Encoder.toLEB128(256)]; // Min 256 pages (16MB)
+        // 3. Memory
+        const memLimits = [0x00, ...Encoder.toLEB128(256)];
         const memSec = Encoder.section(5, Encoder.vec([memLimits]));
 
         // 4. Export
@@ -78,7 +76,18 @@ class Emitter {
     resolveVar(name) {
         if (this.locals.has(name)) return this.locals.get(name);
         if (this.params.has(name)) return this.params.get(name);
-        throw new Error(`Undefined variable: ${name}`);
+        return null; // Return null instead of throwing to allow checking existence
+    }
+
+    getOrDeclareLocal(name, type) {
+        // Reuse existing slot if available (Flat scope optimization)
+        let v = this.resolveVar(name);
+        if (v) return v;
+        
+        const index = this.localCount++;
+        v = { index, type };
+        this.locals.set(name, v);
+        return v;
     }
 }
 
