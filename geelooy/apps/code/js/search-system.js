@@ -49,7 +49,8 @@ export const SearchSystem = {
 
     show(scopeItem = null) {
         this.currentScopeItem = scopeItem;
-        this.scopeDisplay.textContent = scopeItem ? `Scope: ${scopeItem.name}` : "Scope: All Workspaces";
+        this._updateScopeDisplay();
+        
         this.input.value = '';
         this.resultsContainer.innerHTML = '<div class="search-empty">Enter query...</div>';
         
@@ -57,6 +58,24 @@ export const SearchSystem = {
         void this.overlay.offsetWidth;
         this.overlay.classList.add('visible');
         this.input.focus();
+    },
+    
+    _updateScopeDisplay() {
+        if (this.currentScopeItem) {
+            this.scopeDisplay.innerHTML = `Scope: <strong>${this.currentScopeItem.name}</strong> <span id="search-clear-scope" style="cursor:pointer; color:var(--color-accent-danger); margin-left:5px; font-weight:bold;">(×)</span>`;
+            
+            // Re-bind clear event since we rewrote innerHTML
+            const clearBtn = document.getElementById('search-clear-scope');
+            if (clearBtn) {
+                clearBtn.onclick = (e) => {
+                    e.stopPropagation();
+                    this.currentScopeItem = null;
+                    this._updateScopeDisplay();
+                };
+            }
+        } else {
+            this.scopeDisplay.textContent = "Scope: All Workspaces";
+        }
     },
 
     hide() {
@@ -128,12 +147,37 @@ export const SearchSystem = {
 
         let children = [];
         try {
-            if (item.type === 'github' || item.type === 'local' || item.type === 'indexeddb') {
+            // B"H - Optimized List Fetching for supported types
+            if (['github', 'local', 'indexeddb', 'opfs'].includes(item.type)) {
                 children = await FileSystemProvider.listAllFiles(item);
-            } else {
-                children = await FileSystemProvider.list(item);
-            }
+                // listAllFiles returns a flat array of files, so we iterate differently than a tree walk
+                
+                const chunkSize = 50;
+                for (let i = 0; i < children.length; i += chunkSize) {
+                    if (this.stopSearchFlag) return;
+                    const chunk = children.slice(i, i + chunkSize);
+                    await new Promise(r => setTimeout(r, 0)); // Yield to UI
+
+                    for (const child of chunk) {
+                        if (this.stopSearchFlag) return;
+                        
+                        // Note: child from listAllFiles usually has full path relative to root
+                        const fullChild = { ...item, ...child }; 
+                        
+                        if (child.name.toLowerCase().includes(query)) {
+                            onFound(fullChild, 'filename', null);
+                        } else if (searchContent) {
+                            await this._checkContent(fullChild, query, onFound);
+                        }
+                    }
+                }
+                return; // Done with this provider
+            } 
+            
+            // Fallback for other types (ssh, osfolder, etc.)
+            children = await FileSystemProvider.list(item);
         } catch (e) {
+            console.warn("Search list failed for", item.name, e);
             return;
         }
 
@@ -151,23 +195,27 @@ export const SearchSystem = {
                     onFound(fullChild, 'filename', null);
                 } 
                 else if (searchContent && child.kind === 'file') {
-                    const ext = child.name.split('.').pop().toLowerCase();
-                    if (!['png','jpg','zip','mp4','mp3','exe','bin','pdf'].includes(ext)) {
-                        try {
-                            const content = await FileSystemProvider.read(fullChild);
-                            if (typeof content === 'string' && content.toLowerCase().includes(query)) {
-                                const idx = content.toLowerCase().indexOf(query);
-                                const snippet = content.substring(Math.max(0, idx - 20), Math.min(content.length, idx + 40));
-                                onFound(fullChild, 'content', snippet);
-                            }
-                        } catch (e) {}
-                    }
+                    await this._checkContent(fullChild, query, onFound);
                 }
 
-                if (child.kind === 'directory' && !['github','local','indexeddb'].includes(item.type)) {
+                if (child.kind === 'directory') {
                     await this._searchRecursive(fullChild, query, searchContent, onFound);
                 }
             }
+        }
+    },
+    
+    async _checkContent(item, query, onFound) {
+        const ext = item.name.split('.').pop().toLowerCase();
+        if (!['png','jpg','zip','mp4','mp3','exe','bin','pdf'].includes(ext)) {
+            try {
+                const content = await FileSystemProvider.read(item);
+                if (typeof content === 'string' && content.toLowerCase().includes(query)) {
+                    const idx = content.toLowerCase().indexOf(query);
+                    const snippet = content.substring(Math.max(0, idx - 20), Math.min(content.length, idx + 40));
+                    onFound(item, 'content', snippet);
+                }
+            } catch (e) {}
         }
     },
 

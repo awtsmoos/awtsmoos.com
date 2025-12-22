@@ -1,4 +1,3 @@
-
 // B"H
 // FILE: js/git/branches.js
 
@@ -28,11 +27,14 @@ export const GitBranches = {
             currentBranch = gitInfo.branch;
         }
 
-        UI.showLoading("Fetching branches...");
+        const taskId = `git-branches-${Date.now()}`;
+        UI.startTask(taskId, "Fetching branches...");
+
         try {
             // 2. Fetch Branches
             const branchesData = await FileSystemProvider.GitHub.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/branches`);
             const branches = branchesData.map(b => b.name);
+            UI.endTask(taskId, 'success', 'Branches loaded.');
             
             // 3. Show Branch Selection Dialog
             const branchListHTML = branches.map(b => {
@@ -86,8 +88,10 @@ export const GitBranches = {
                 const newName = container.querySelector('#new-branch-name').value.trim();
                 if(!newName) return;
                 
+                const createTaskId = `git-create-branch-${Date.now()}`;
+                UI.startTask(createTaskId, "Creating branch...");
+                
                 try {
-                    UI.showLoading("Creating branch...");
                     // 1. Get SHA of current branch (or main)
                     const refData = await FileSystemProvider.GitHub.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/ref/heads/${currentBranch}`);
                     const sha = refData.object.sha;
@@ -101,25 +105,24 @@ export const GitBranches = {
                         })
                     });
                     
-                    UI.showToast(`Branch '${newName}' created!`, "success");
+                    UI.endTask(createTaskId, 'success', `Branch '${newName}' created!`);
                     this._performSwitch(item, repoInfo, newName);
                     dialog.querySelector('#dialog-cancel-btn').click();
                     
                 } catch(e) {
                     console.error(e);
-                    UI.showToast("Failed to create branch: " + e.message, "error");
-                    UI.hideLoading(); // Only hide if failed, performSwitch shows it again
+                    UI.endTask(createTaskId, 'error', "Failed to create branch: " + e.message);
                 }
             };
 
         } catch(e) {
-            UI.showToast("Failed to fetch branches: " + e.message, "error");
-            UI.hideLoading();
+            UI.endTask(taskId, 'error', "Failed to fetch branches: " + e.message);
         }
     },
 
     async _performSwitch(item, repoInfo, newBranch) {
-        UI.showLoading(`Switching to '${newBranch}'...`);
+        const taskId = `git-switch-${Date.now()}`;
+        UI.startTask(taskId, `Switching to '${newBranch}'...`);
         
         try {
             if (item.type === 'github') {
@@ -127,7 +130,7 @@ export const GitBranches = {
                 item.branch = newBranch;
                 item._treeCache = null; // Clear cache
                 await Workspaces.refreshNode(item);
-                UI.showToast(`Switched to branch '${newBranch}'`, "success");
+                UI.endTask(taskId, 'success', `Switched to branch '${newBranch}'`);
             } else {
                 // Local Clone: Needs logic
                 const gitInfo = await GitMetaProvider.getGitInfoForFolder(item);
@@ -141,6 +144,8 @@ export const GitBranches = {
                 const ikarItem = { ...item, path: `${item.path}/.awtsmoos-repo/ikar.js` };
                 await FileSystemProvider.write(ikarItem, ikarContent);
                 
+                UI.endTask(taskId, 'success', 'Metadata updated.');
+
                 // 3. Prompt for Pull
                 const pullNow = await UI.showDialog({
                     title: "Branch Switched (Metadata)",
@@ -157,9 +162,7 @@ export const GitBranches = {
             }
         } catch(e) {
             console.error(e);
-            UI.showToast("Switch failed: " + e.message, "error");
-        } finally {
-            UI.hideLoading();
+            UI.endTask(taskId, 'error', "Switch failed: " + e.message);
         }
     }
 };

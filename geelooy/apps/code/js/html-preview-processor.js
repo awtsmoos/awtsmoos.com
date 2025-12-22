@@ -1,4 +1,3 @@
-
 // B"H
 // FILE: js/html-preview-processor.js
 
@@ -6,7 +5,7 @@ import { State } from './state.js';
 import { FileSystemProvider } from './fs-provider.js';
 import { getNetworkInterceptorScript } from './html-preview-templates.js';
 
-// B"H - Updated Path to SDK (Absolute to Root)
+// B"H - Updated Path to SDK (Absolute Reality)
 const MERKAVA_SDK_PATH = '/scripts/awtsmoos/MerkavaExecutor/merkava-sdk.js';
 
 export const orchestratePreview = async (item, iframe, contentOverride = null) => {
@@ -62,29 +61,17 @@ export const orchestratePreview = async (item, iframe, contentOverride = null) =
     // 4. Construct Final HTML
     const finalHtml = doc.documentElement.outerHTML;
     
-    // B"H - DEEP TRACE LOGGING
     console.log(`[Merkava Debug] HTML Injection Size: ${finalHtml.length} chars.`);
-    if (finalHtml.includes('p-vs-p')) {
-        console.log("[Merkava Debug] VERIFIED: ID 'p-vs-p' found in HTML payload.");
-    } else {
-        console.error("[Merkava Debug] CRITICAL: ID 'p-vs-p' NOT found in HTML payload!");
-    }
 
     try {
+        // B"H - Safe Iframe Write
         const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
-        console.log("[Merkava Debug] Opening Iframe Document for Write...");
+        if(!iframeDoc) throw new Error("Cannot access iframe document.");
+        
         iframeDoc.open();
         iframeDoc.write(finalHtml);
         iframeDoc.close();
         
-        // B"H - POST-WRITE VERIFICATION
-        const bodyContent = iframeDoc.body ? iframeDoc.body.innerHTML : 'NULL';
-        console.log(`[Merkava Debug] Document Written. Body Children: ${iframeDoc.body ? iframeDoc.body.children.length : 'No Body'}`);
-        if (!bodyContent.includes('p-vs-p')) {
-             console.error("[Merkava Debug] CRITICAL: ID 'p-vs-p' missing from Iframe Body after write!");
-             console.log("[Merkava Debug] Body Content Dump (First 500 chars):", bodyContent.substring(0, 500));
-        }
-
         if (!iframeDoc.head) {
             const head = iframeDoc.createElement('head');
             iframeDoc.documentElement.insertBefore(head, iframeDoc.documentElement.firstChild);
@@ -111,18 +98,14 @@ export const orchestratePreview = async (item, iframe, contentOverride = null) =
                     const check = () => {
                         const body = document.body;
                         const ready = document.readyState;
-                        const pVsP = document.getElementById('p-vs-p');
                         
-                        console.log("[Merkava Debug] Polling DOM... State:", ready, "Body:", !!body, "Children:", body ? body.children.length : 0, "Target 'p-vs-p':", !!pVsP);
+                        // console.log("[Merkava Debug] Polling DOM... State:", ready);
                         
-                        // Strict check: Wait until the specific element we know causes the crash exists, or timeout
-                        // This assumes we know about 'p-vs-p', but generally checking children > 0 is the generic way.
-                        // We will rely on body children for generic support.
                         if (body && (body.children.length > 0 || ready === 'complete')) {
-                            console.log("[Merkava Debug] DOM appears ready. Proceeding.");
+                            // console.log("[Merkava Debug] DOM appears ready. Proceeding.");
                             setTimeout(callback, 50); 
                         } else {
-                            console.log("[Merkava Debug] DOM not ready. Retrying...");
+                            // console.log("[Merkava Debug] DOM not ready. Retrying...");
                             requestAnimationFrame(check);
                         }
                     };

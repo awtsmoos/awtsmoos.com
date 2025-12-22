@@ -1,4 +1,3 @@
-
 // B"H
 // FILE: js/fs/github.js
 import { State } from '../state.js';
@@ -58,8 +57,18 @@ export const GitHubProvider = {
         const fullTree = await this.getFullTree(item);
         if (!fullTree || !fullTree.tree) return [];
         
+        // B"H - Scoped Search Logic
+        // Remove leading slash for matching against GitHub paths
+        const rootPath = item.path.startsWith('/') ? item.path.slice(1) : item.path;
+        
         return fullTree.tree
             .filter(node => node.type === 'blob')
+            .filter(node => {
+                // If searching from root, include everything.
+                if (rootPath === '' || item.path === '/') return true;
+                // Otherwise, only include files that start with the folder path
+                return node.path.startsWith(rootPath + '/');
+            })
             .map(node => ({
                 name: node.path.split('/').pop(),
                 kind: 'file',

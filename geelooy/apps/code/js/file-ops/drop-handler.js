@@ -1,4 +1,3 @@
-
 // B"H
 // FILE: js/file-ops/drop-handler.js
 import { UI } from '../ui.js';
@@ -12,26 +11,29 @@ export const DropHandler = {
 
         if (entries.length === 0) return;
 
-        UI.showLoading("Analyzing dropped items...");
+        const taskId = `drop-${Date.now()}`;
+        UI.startTask(taskId, "Analyzing dropped items...");
 
         try {
             const state = { 
                 overwriteAll: false,
                 mergeAll: false, // B"H - Added mergeAll flag
-                processedCount: 0 
+                processedCount: 0,
+                taskId: taskId
             };
             
             for (const entry of entries) {
                 await this._processDroppedEntry(entry, targetDir, state);
             }
-            UI.showToast(`Drop complete! Processed ${state.processedCount} items.`, "success");
+            UI.endTask(taskId, 'success', `Drop complete! Processed ${state.processedCount} items.`);
         } catch (err) {
             if (err.message !== 'Cancelled') {
-                UI.showToast("Error during drop: " + err.message, "error");
+                UI.endTask(taskId, 'error', "Error during drop: " + err.message);
                 console.error(err);
+            } else {
+                UI.endTask(taskId, 'info', "Drop cancelled.");
             }
         } finally {
-            UI.hideLoading();
             Workspaces.refreshNode(targetDir);
         }
     },
@@ -40,7 +42,7 @@ export const DropHandler = {
         // Update UI every 5 items or if it's a directory (major step)
         state.processedCount++;
         if (entry.isDirectory || state.processedCount % 5 === 0) {
-            UI.showLoading(`Importing...\nItems Processed: ${state.processedCount}\nCurrent: ${entry.name}`);
+            UI.updateTask(state.taskId, 50, `Importing: ${entry.name}`);
         }
 
         if (entry.isFile) {

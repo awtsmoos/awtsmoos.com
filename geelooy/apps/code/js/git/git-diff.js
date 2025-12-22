@@ -1,4 +1,3 @@
-
 // B"H
 // FILE: js/git/git-diff.js
 import { State } from '../state.js';
@@ -102,8 +101,6 @@ export const GitDiff = {
         }
 
         // 3. Scan local file system (Slow - Only if requested)
-        // B"H - Optimization: We only walk the disk if options.checkUntracked is true.
-        // This prevents "HUGE AMOUNT OF TIME" delays on large repos unless explicitly refreshed.
         if (options.checkUntracked && gitContextItem.type !== 'github') {
             const localFiles = await FileSystemProvider.listAllFiles(gitContextItem);
             const localFilePaths = new Set(); 
@@ -118,7 +115,6 @@ export const GitDiff = {
 
                 // Case A: File is NOT in remote -> It's a Creation (Add)
                 if (!remoteFileMap.has(relPath)) {
-                    // We must read the content to commit it
                     try {
                         const content = await this._readContent(gitContextItem, file.path);
                         changeSet.creations.push({ path: relPath, content: content });
@@ -141,7 +137,6 @@ export const GitDiff = {
             }
 
             // 4. Check for deletions (Remote has it, Local doesn't)
-            // Only valid if we scanned the full list
             for (const remoteFilePath of remoteFileMap.keys()) {
                 if (!localFilePaths.has(remoteFilePath) && !handledPaths.has(remoteFilePath)) {
                     changeSet.deletions.push({ path: remoteFilePath });
@@ -162,5 +157,80 @@ export const GitDiff = {
              return atob(rawContent.base64Content);
         }
         return '';
+    },
+
+    // B"H - Compute Line Diff
+    // Simple line-based diff algorithm for the UI
+    computeLineDiff(oldText, newText) {
+        const oldLines = oldText ? oldText.split(/\r?\n/) : [];
+        const newLines = newText ? newText.split(/\r?\n/) : [];
+        const diff = [];
+
+        // Very basic LCS-like approximation for UI speed (not a full Myers Diff)
+        // Ideally, we'd use a library, but we want zero deps.
+        // We will do a simple match scan.
+        
+        let i = 0, j = 0;
+        
+        while (i < oldLines.length || j < newLines.length) {
+            if (i < oldLines.length && j < newLines.length && oldLines[i] === newLines[j]) {
+                diff.push({ type: 'same', content: oldLines[i], line: j + 1 });
+                i++; j++;
+            } else {
+                // Look ahead to see if it's an insertion or deletion
+                let foundMatch = false;
+                
+                // Try to find current oldLine in future newLines (Deletion check)
+                // Limit lookahead to keep it fast
+                const lookahead = 20; 
+                
+                // Check if new lines were inserted
+                let k = 1;
+                while (j + k < newLines.length && k < lookahead) {
+                    if (i < oldLines.length && oldLines[i] === newLines[j + k]) {
+                        // Found match later in new -> Everything in between is inserted
+                        while (k > 0) {
+                            diff.push({ type: 'added', content: newLines[j], line: j + 1 });
+                            j++; k--;
+                        }
+                        foundMatch = true;
+                        break;
+                    }
+                    k++;
+                }
+                
+                if (!foundMatch) {
+                    // Check if old lines were deleted
+                    k = 1;
+                    while (i + k < oldLines.length && k < lookahead) {
+                        if (j < newLines.length && oldLines[i + k] === newLines[j]) {
+                            // Found match later in old -> Everything in between is deleted
+                            while (k > 0) {
+                                diff.push({ type: 'removed', content: oldLines[i], line: i + 1 }); // Use i for removed
+                                i++; k--;
+                            }
+                            foundMatch = true;
+                            break;
+                        }
+                        k++;
+                    }
+                }
+
+                if (!foundMatch) {
+                    // No obvious match, assume strict modification (remove then add)
+                    // Or end of one file
+                    if (i < oldLines.length) {
+                        diff.push({ type: 'removed', content: oldLines[i], line: i + 1 });
+                        i++;
+                    }
+                    if (j < newLines.length) {
+                        diff.push({ type: 'added', content: newLines[j], line: j + 1 });
+                        j++;
+                    }
+                }
+            }
+        }
+        
+        return diff;
     }
 };

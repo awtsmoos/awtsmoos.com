@@ -25,6 +25,22 @@
     grid-column: 2 / 3; 
 }
 
+/* B"H - ZEN MODE */
+body.zen-mode .sidebar, 
+body.zen-mode .top-panel, 
+body.zen-mode .status-bar,
+body.zen-mode .sidebar-resizer { 
+    display: none !important; 
+}
+body.zen-mode .app-container {
+    grid-template-columns: 1fr !important;
+    grid-template-rows: 1fr !important;
+}
+body.zen-mode .main-content {
+    grid-row: 1 / 2;
+    grid-column: 1 / 2;
+}
+
 /* TOP PANEL */
 .top-panel {
     grid-row: 1 / 2;

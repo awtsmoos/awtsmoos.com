@@ -1,4 +1,3 @@
-
 // B"H
 // FILE: js/tabs/index.js
 
@@ -47,7 +46,6 @@ export const Tabs = {
         }
         
         let fileType = MimeUtil.getInfo(item.name).type;
-        // B"H - Explicit Vibe handling
         if (item.type === 'vibe-session') {
             fileType = 'vibe';
         }
@@ -138,7 +136,6 @@ export const Tabs = {
             return;
         }
 
-        // B"H - Vibe Tab Handling
         if (tab.fileType === 'vibe') {
             await VibeController.render(tab);
             this.render();
@@ -173,6 +170,8 @@ export const Tabs = {
             let fileContent;
             
             if (tab.item.type === 'zip-entry') {
+                fileContent = tab.content;
+            } else if (tab.item.type === 'temp') {
                 fileContent = tab.content;
             } else {
                 const gitInfo = await this._getGitInfoForTab(tab);
@@ -325,10 +324,14 @@ export const Tabs = {
             if (choice === true) {
                 await this.save(tabToClose);
             } else if (choice === null) {
-                // Proceed to close
-            } else {
                 return;
             }
+        }
+
+        // B"H - Save to history before removal
+        if (tabToClose.item.type !== 'temp') {
+            State.closedTabHistory.push(tabToClose.item);
+            if (State.closedTabHistory.length > 20) State.closedTabHistory.shift(); // Keep last 20
         }
 
         this._cleanupTabResources(tabToClose);
@@ -344,6 +347,17 @@ export const Tabs = {
         } else {
             this.render();
             App.saveSession();
+        }
+    },
+    
+    // B"H - New Method
+    async reopenLastClosed() {
+        const item = State.closedTabHistory.pop();
+        if (item) {
+            await this.create(item);
+            UI.showToast(`Reopened ${item.name}`, "success");
+        } else {
+            UI.showToast("No closed tabs in history.", "info");
         }
     },
 
@@ -369,7 +383,6 @@ export const Tabs = {
         const tab = State.tabs.find(t => t.id === State.activeTabId);
         if (!tab) return UI.showToast('No active file to save.', 'info');
         
-        // Vibe tabs are "saved" by persistence of session data
         if (tab.fileType === 'vibe') {
             await this.save(tab);
             return;
@@ -385,10 +398,7 @@ export const Tabs = {
     },
     
     async save(tab) {
-        // B"H - Custom save for Vibe Tabs
         if (tab.fileType === 'vibe') {
-            // Vibe data is already in tab.content (vibeSession)
-            // Just trigger session save
             App.saveSession();
             tab.isDirty = false;
             this.render();

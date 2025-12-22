@@ -1,4 +1,3 @@
-
 // B"H
 // FILE: js/git/init.js
 
@@ -42,8 +41,10 @@ export const GitInit = {
             return;
         }
 
+        const taskId = `git-init-${Date.now()}`;
+        UI.startTask(taskId, `Creating repository '${repoName}'...`);
+
         try {
-            UI.showLoading(`Creating repository '${repoName}' on GitHub...`);
             const newRepoData = await FileSystemProvider.GitHub.api('/user/repos', {
                 method: 'POST',
                 body: JSON.stringify({
@@ -54,7 +55,7 @@ export const GitInit = {
                 })
             });
 
-            UI.showLoading("Gathering local files for initial commit...");
+            UI.updateTask(taskId, 30, "Gathering local files...");
             const allFiles = await FileSystemProvider.listAllFiles(folderItem);
             const changeSet = { creations: [] };
 
@@ -74,7 +75,7 @@ export const GitInit = {
 
             if (changeSet.creations.length === 0) changeSet.creations.push({ path: '.gitkeep', content: '' });
 
-            UI.showLoading("Performing the first, sacred commit...");
+            UI.updateTask(taskId, 60, "Performing initial commit...");
             const repoInfo = { owner: newRepoData.owner.login, repo: newRepoData.name };
 
             const initialCommitSHA = await GitCommit.performCommit({ 
@@ -88,7 +89,7 @@ export const GitInit = {
                 remoteTree: [] 
             }, changeSet, 'B"H: Initial Commit');
 
-            UI.showLoading("Binding the folder to its celestial soul...");
+            UI.updateTask(taskId, 90, "Linking folder...");
             const newTree = await FileSystemProvider.GitHub.getFullTree({ repoInfo, branch: newRepoData.default_branch });
             
             if(folderItem.type !== 'github') {
@@ -110,16 +111,14 @@ export const GitInit = {
                 await Workspaces.refreshNode(parentOfItem);
             }
  
-            UI.hideLoading();
-            UI.showToast(`'${repoName}' created and linked successfully!`, "success");
+            UI.endTask(taskId, 'success', `'${repoName}' created successfully!`);
 
         } catch (e) {
-            UI.hideLoading();
             let errorMessage = e.message;
             if (e.message && e.message.toLowerCase().includes("name already exists")) {
-                errorMessage = "A repository with this name already exists on your account.";
+                errorMessage = "Repository name already exists.";
             }
-            UI.showToast(`Initialization failed: ${errorMessage}`, 'error', 8000);
+            UI.endTask(taskId, 'error', `Init failed: ${errorMessage}`);
             console.error("GIT INIT FAILED:", e);
         }
     }

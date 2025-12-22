@@ -21,7 +21,22 @@ export const GitCommit = {
         const FILES_PER_COMMIT = 25; 
         const BLOB_BATCH_SIZE = 5;   
 
-        let currentParentSHA = await FileSystemProvider.GitHub.getLatestCommitSHA({ repoInfo, branch });
+        let currentParentSHA;
+        // B"H - FORCE PUSH LOGIC FIX
+        // If forcing, we ignore the remote head and use our local base.
+        if (force) {
+            // Even if local is null (fresh), we push.
+            currentParentSHA = gitInfo.baseCommitSHA || null; 
+        } else {
+            // Standard push: Must know remote head
+            try {
+                currentParentSHA = await FileSystemProvider.GitHub.getLatestCommitSHA({ repoInfo, branch });
+            } catch(e) {
+                // If remote branch doesn't exist, start fresh (or from local base)
+                currentParentSHA = null;
+            }
+        }
+
         let commitCount = 1;
         let itemsProcessed = 0;
         const totalBatches = Math.ceil(filesToUpload.length / FILES_PER_COMMIT) + (filesToDelete.length > 0 ? 1 : 0);
@@ -38,7 +53,6 @@ export const GitCommit = {
                 for (let i = 0; i < currentBatchFiles.length; i += BLOB_BATCH_SIZE) {
                     const blobBatch = currentBatchFiles.slice(i, i + BLOB_BATCH_SIZE);
                     
-                    // B"H - Show specific files being uploaded
                     const fileNames = blobBatch.map(f => f.path.split('/').pop()).join(', ');
                     UI.updateTask(taskId, (itemsProcessed / totalItems) * 100, `Uploading: ${fileNames}`);
 
@@ -146,8 +160,13 @@ export const GitCommit = {
     async _executeGitCommit(repoInfo, branch, parentSHA, treeItems, message, force = false) {
         let treePayload = { tree: treeItems };
         if (parentSHA) {
-            const parentCommit = await FileSystemProvider.GitHub.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/commits/${parentSHA}`);
-            treePayload.base_tree = parentCommit.tree.sha;
+            try {
+                const parentCommit = await FileSystemProvider.GitHub.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/commits/${parentSHA}`);
+                treePayload.base_tree = parentCommit.tree.sha;
+            } catch (e) {
+                console.warn("[Git] Parent commit not found (orphan?)", parentSHA);
+                // If force is true, we proceed without base_tree
+            }
         }
         const newTree = await FileSystemProvider.GitHub.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/trees`, {
             method: 'POST', body: JSON.stringify(treePayload)

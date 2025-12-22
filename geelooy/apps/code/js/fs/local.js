@@ -3,11 +3,12 @@
 import { State } from '../state.js';
 
 export const LocalProvider = {
-    // Helper to find the root handle if the item handle is missing
+    // B"H - Cache to speed up repeated accesses (WeakMap key: rootHandle -> Map(path -> handle))
+    _handleCache: new WeakMap(),
+
     _getRootHandle(item) {
-        if (item.handle) return item.handle; // Use existing if available
+        if (item.handle) return item.handle; 
         
-        // If missing (e.g. after refresh), find the workspace
         const workspace = State.workspaces.find(ws => ws.id === item.workspaceId);
         if (!workspace) throw new Error(`Workspace not found for item: ${item.name}`);
         if (!workspace.handle) throw new Error(`Workspace '${workspace.name}' is not connected (Locked or Lost).`);
@@ -16,6 +17,20 @@ export const LocalProvider = {
     },
 
     async getHandle(rootHandle, path, { kind = 'directory', create = false } = {}) {
+        // B"H - Optimization: Check Cache
+        // We only cache READS for now to be safe, or cache aggressively if not creating.
+        // Let's implement a simple memory cache attached to the rootHandle object.
+        
+        if (!this._handleCache.has(rootHandle)) {
+            this._handleCache.set(rootHandle, new Map());
+        }
+        const cache = this._handleCache.get(rootHandle);
+        const cacheKey = `${kind}:${path}`; // Key by kind+path
+
+        if (!create && cache.has(cacheKey)) {
+            return cache.get(cacheKey);
+        }
+
         let currentHandle = rootHandle;
         const decodedPath = decodeURIComponent(path).replace(/^\//, '');
 
@@ -29,17 +44,30 @@ export const LocalProvider = {
 
             const isLastPart = i === parts.length - 1;
 
-            if (isLastPart && kind === 'file') {
-                currentHandle = await currentHandle.getFileHandle(part, { create });
-            } else {
+            // Try to resolve intermediate parts from cache to speed up deep access
+            // Construct partial path
+            if (!isLastPart) {
+                // Optimization: If we had a full path cache logic we could skip, but let's just do handle stepping.
+                // For now, simple stepping is robust.
                 currentHandle = await currentHandle.getDirectoryHandle(part, { create });
+            } else {
+                if (kind === 'file') {
+                    currentHandle = await currentHandle.getFileHandle(part, { create });
+                } else {
+                    currentHandle = await currentHandle.getDirectoryHandle(part, { create });
+                }
             }
         }
+        
+        // Update Cache
+        if (!create) {
+            cache.set(cacheKey, currentHandle);
+        }
+        
         return currentHandle;
     },
 
     async list({ handle, path, workspaceId }) {
-        // 1. Recover Root Handle if missing
         const root = handle || (State.workspaces.find(w => w.id === workspaceId)?.handle);
         if (!root) throw new Error("No handle available");
 
@@ -55,7 +83,7 @@ export const LocalProvider = {
                     const file = await entry.getFile();
                     size = file.size;
                     lastModified = file.lastModified;
-                } catch(e) { /* ignore perm issues */ }
+                } catch(e) { }
             }
 
             entries.push({ 
@@ -75,7 +103,6 @@ export const LocalProvider = {
         const root = this._getRootHandle(item);
         const allFiles = [];
         
-        // Recursive traverse function
         const traverse = async (dirHandle, currentPath) => {
             for await (const entry of dirHandle.values()) {
                 const newPath = `${currentPath}/${entry.name}`;
@@ -84,7 +111,7 @@ export const LocalProvider = {
                         name: entry.name,
                         kind: 'file',
                         path: newPath,
-                        workspaceId: item.workspaceId // Pass ID
+                        workspaceId: item.workspaceId
                     });
                 } else if (entry.kind === 'directory') {
                     await traverse(entry, newPath);
@@ -101,16 +128,15 @@ export const LocalProvider = {
         const root = this._getRootHandle(item);
         const relativePath = item.path.startsWith('/') ? item.path.substring(1) : item.path;
         const fileHandle = await this.getHandle(root, relativePath, { kind: 'file' });
-        // This returns a File object (Blob), which Tabs.activate now correctly handles
         return await fileHandle.getFile(); 
     },
 
     async write(item, content) {
-        // Find workspace to verify connection and get handle
         const workspace = State.workspaces.find(ws => ws.id === item.workspaceId);
         if (!workspace) throw new Error(`Critical error: Parent workspace not found.`);
         
         const performSave = async (rootHandle) => {
+            // B"H - Ensure the handle used for writing is fresh or valid
             const fileHandle = await this.getHandle(rootHandle, item.path, { kind: 'file', create: true });
             const writable = await fileHandle.createWritable();
             await writable.write(content);
@@ -118,18 +144,12 @@ export const LocalProvider = {
         };
 
         try {
-            // Try with the workspace's current handle
             await performSave(workspace.handle);
         } catch (e) {
-            // If the handle is stale (e.g., browser security change), try to recover
             if (e.name === 'NotAllowedError' || e.message.includes('state had changed')) {
                 console.warn(`Stale handle for "${workspace.name}". Requesting permission/re-select.`);
-                
-                // If it's just a permission lock, this might fix it?
-                // Usually write requires 'readwrite' permission specifically.
                 if ((await workspace.handle.queryPermission({mode:'readwrite'})) !== 'granted') {
                     await workspace.handle.requestPermission({mode:'readwrite'});
-                    // Retry immediately after permission grant
                     await performSave(workspace.handle);
                     return;
                 }
@@ -141,6 +161,10 @@ export const LocalProvider = {
     async create(parentDir, name, kind) {
         const root = this._getRootHandle(parentDir);
         const parentHandle = await this.getHandle(root, parentDir.path, { kind: 'directory' });
+        
+        // Invalidate cache for the parent path if we're creating something? 
+        // Not strictly needed as getHandle doesn't cache children lists, only direct handles.
+        
         if (kind === 'file') {
             await parentHandle.getFileHandle(name, { create: true });
         } else {
@@ -153,6 +177,14 @@ export const LocalProvider = {
         const parentPath = item.path.substring(0, item.path.lastIndexOf('/')) || '/';
         const name = item.path.substring(item.path.lastIndexOf('/') + 1);
         const parentHandle = await this.getHandle(root, parentPath);
+        
+        // Invalidate specific cache entry if it exists
+        if (this._handleCache.has(root)) {
+            const cache = this._handleCache.get(root);
+            const key = `${item.kind}:${item.path.startsWith('/') ? item.path.substring(1) : item.path}`;
+            cache.delete(key);
+        }
+        
         await parentHandle.removeEntry(name, { recursive: true });
     },
 
@@ -169,6 +201,13 @@ export const LocalProvider = {
 
         if (handle.move) {
             await handle.move(newName);
+            
+            // Invalidate cache for old path
+            if (this._handleCache.has(root)) {
+                const cache = this._handleCache.get(root);
+                const key = `${item.kind}:${path}`;
+                cache.delete(key);
+            }
         } else {
             throw new Error("Rename is not supported by your browser (Requires File System Access API 'move').");
         }

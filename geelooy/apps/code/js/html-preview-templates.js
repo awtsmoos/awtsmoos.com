@@ -1,10 +1,41 @@
-
 // B"H
 // FILE: js/html-preview-templates.js
 
 export const getNetworkInterceptorScript = (workspaceId, referrerPath) => /*js*/`
     (function() {
         console.log('B"H - Network Interceptor Active');
+        
+        // B"H - Global Error Sentinel
+        // Catches synch errors, promise rejections, and resource failures
+        
+        function reportError(type, msg, source, line, col) {
+            if (window.parent) {
+                window.parent.postMessage({
+                    source: 'html-preview-console',
+                    type: 'log',
+                    payload: { 
+                        level: 'error', 
+                        args: [{
+                            type: 'error', 
+                            message: msg || 'Unknown Error',
+                            stack: source ? (source + ':' + line + ':' + col) : 'No stack trace'
+                        }] 
+                    }
+                }, '*');
+            }
+        }
+
+        window.onerror = function(message, source, lineno, colno, error) {
+            console.error('[Preview Panic]', message, 'at', lineno + ':' + colno);
+            reportError('Runtime Error', message, source, lineno, colno);
+            return false; 
+        };
+
+        window.addEventListener('unhandledrejection', function(event) {
+            console.error('[Preview Promise Rejection]', event.reason);
+            reportError('Promise Rejection', event.reason ? event.reason.message : 'Unknown Reason');
+        });
+
         const WORKSPACE_ID = ${JSON.stringify(workspaceId)};
         const REFERRER = ${JSON.stringify(referrerPath)};
         
@@ -34,14 +65,18 @@ export const getNetworkInterceptorScript = (workspaceId, referrerPath) => /*js*/
                     }
                 };
                 window.addEventListener('message', handler);
-                window.parent.postMessage({
-                    source: 'html-preview-bridge',
-                    type: 'import-request',
-                    specifier: path,
-                    referrer: REFERRER,
-                    workspaceId: WORKSPACE_ID,
-                    id: id
-                }, '*');
+                if (window.parent) {
+                    window.parent.postMessage({
+                        source: 'html-preview-bridge',
+                        type: 'import-request',
+                        specifier: path,
+                        referrer: REFERRER,
+                        workspaceId: WORKSPACE_ID,
+                        id: id
+                    }, '*');
+                } else {
+                    reject(new Error("Detached iframe: cannot fetch resources."));
+                }
             });
         }
         window._fetchFromParent = fetchFromParent; 
@@ -57,8 +92,12 @@ export const getNetworkInterceptorScript = (workspaceId, referrerPath) => /*js*/
                     if (absPath.endsWith('.json')) type = 'application/json';
                     if (absPath.endsWith('.png')) type = 'image/png';
                     if (absPath.endsWith('.js')) type = 'application/javascript';
+                    if (absPath.endsWith('.html')) type = 'text/html';
                     return new Response(content, { status: 200, headers: { 'Content-Type': type } });
                 } catch(e) {
+                    console.warn("Fetch failed for", url, e);
+                    // B"H - Report 404s to console
+                    reportError('Network Error', '404 Not Found: ' + url);
                     return new Response(null, { status: 404, statusText: e.message });
                 }
             }

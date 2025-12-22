@@ -25,7 +25,10 @@ export const Exporter = {
 
     async downloadAsZip(items) {
         if (!items || items.length === 0) return;
-        UI.showLoading("Compressing for download...");
+        
+        const taskId = `zip-dl-${Date.now()}`;
+        UI.startTask(taskId, "Compressing for download...");
+        
         try {
             const blob = await this.createZipBlob(items);
             const url = URL.createObjectURL(blob);
@@ -34,12 +37,11 @@ export const Exporter = {
             a.download = items.length === 1 ? `${items[0].name}.zip` : 'archive.zip';
             a.click();
             URL.revokeObjectURL(url);
-            UI.showToast("Download started.", "success");
+            UI.endTask(taskId, 'success', "Download started.");
         } catch (e) {
-            UI.showToast("Download failed: " + e.message, "error");
+            UI.endTask(taskId, 'error', "Download failed: " + e.message);
             console.error(e);
         } finally {
-            UI.hideLoading();
             SelectionManager.end();
         }
     },
@@ -81,7 +83,10 @@ export const Exporter = {
 
     async downloadFile(item) {
         if (!item || item.kind !== 'file') return;
-        UI.showLoading(`Downloading ${item.name}...`);
+        
+        const taskId = `dl-${Date.now()}`;
+        UI.startTask(taskId, `Downloading ${item.name}...`);
+        
         try {
             const content = await FileSystemProvider.read(item);
             let blob;
@@ -109,15 +114,13 @@ export const Exporter = {
                 a.click();
                 document.body.removeChild(a);
                 URL.revokeObjectURL(url);
-                UI.showToast(`Download started for ${item.name}`, 'success');
+                UI.endTask(taskId, 'success', `Download started.`);
             } else {
                 throw new Error("Could not prepare file for download.");
             }
         } catch (e) {
-            UI.showToast("Download failed: " + e.message, 'error');
+            UI.endTask(taskId, 'error', "Download failed: " + e.message);
             console.error("Download Error:", e);
-        } finally {
-            UI.hideLoading();
         }
     }
 };

@@ -19,13 +19,17 @@ export const WorkspaceAddition = {
                     <svg class="svg-icon"><use href="#icon-github"></use></svg>
                     <span>GitHub Repo</span>
                 </button>
+                <button class="menu-button" data-action="opfs">
+                    <svg class="svg-icon"><use href="#icon-save"></use></svg>
+                    <span>Browser Storage (OPFS)</span>
+                </button>
                 <button class="menu-button" data-action="idb">
                     <svg class="svg-icon"><use href="#icon-brain"></use></svg>
-                    <span>Browser Storage</span>
+                    <span>Browser Storage (IDB)</span>
                 </button>
             </div>
             <style>
-                .workspace-options-grid { display: grid; gap: 10px; grid-template-columns: 1fr 1fr 1fr; }
+                .workspace-options-grid { display: grid; gap: 10px; grid-template-columns: 1fr 1fr; }
                 .workspace-options-grid .menu-button { 
                     justify-content: center; flex-direction: column; 
                     height: 100px; gap: 12px; font-weight: 600;
@@ -49,7 +53,6 @@ export const WorkspaceAddition = {
         });
 
         // Attach listener to the container (delegation)
-        // We use a short timeout to ensure the dialog DOM is inserted
         setTimeout(() => {
             const optionsContainer = document.getElementById('workspace-options');
             if (optionsContainer) {
@@ -58,14 +61,13 @@ export const WorkspaceAddition = {
                     if(!btn) return;
                     const action = btn.dataset.action;
                     
-                    // Close the dialog by triggering the cancel button
                     const closeBtn = document.getElementById('dialog-cancel-btn');
                     if(closeBtn) closeBtn.click();
                     
-                    // Dispatch Action
                     if (action === 'local') this.addLocal();
                     else if (action === 'github') this.addGithub();
                     else if (action === 'idb') this.addIdb();
+                    else if (action === 'opfs') this.addOpfs();
                 };
             }
         }, 50);
@@ -77,7 +79,6 @@ export const WorkspaceAddition = {
                 throw new Error("Your browser does not support the File System Access API.");
             }
             const handle = await window.showDirectoryPicker();
-            // Request permission immediately
             if (await handle.queryPermission({ mode: 'readwrite' }) !== 'granted') {
                 if (await handle.requestPermission({ mode: 'readwrite' }) !== 'granted') {
                     throw new Error('Permission denied.');
@@ -94,7 +95,6 @@ export const WorkspaceAddition = {
     },
 
     async addGithub() {
-        // 1. Check Token
         if (!State.githubToken) {
             const token = await UI.showDialog({
                 title: "GitHub Token Required",
@@ -110,25 +110,19 @@ export const WorkspaceAddition = {
             App.saveSettings();
         }
 
-        // 2. Get Repo Details with Expandable List
         const contentHTML = /*html*/`
             <p>Enter the repository path (owner/repo) or full URL.</p>
             <input type="text" id="repo-input" placeholder="awtsmoos/editor" style="margin-bottom: 10px;">
-            
             <div id="repo-list-container" style="border: 1px solid var(--color-border); border-radius: 4px; overflow: hidden; margin-top: 10px;">
                 <button id="load-repos-btn" class="menu-button" style="width: 100%; justify-content: space-between; border:none; background: var(--color-bg-secondary);">
                     <span>Load My Repositories</span>
                     <svg class="svg-icon" style="transition: transform 0.2s;"><use href="#icon-arrow-left" style="transform: rotate(-90deg);"></use></svg>
                 </button>
                 <div id="repo-list" style="display: none; max-height: 200px; overflow-y: auto; background: var(--color-bg-primary); border-top: 1px solid var(--color-border);">
-                    <div style="padding: 10px; text-align: center; color: var(--color-text-tertiary);">
-                        Loading...
-                    </div>
+                    <div style="padding: 10px; text-align: center; color: var(--color-text-tertiary);">Loading...</div>
                 </div>
-            </div>
-        `;
+            </div>`;
 
-        // We use setTimeout to attach listeners after dialog render
         setTimeout(() => {
             const loadBtn = document.getElementById('load-repos-btn');
             const repoList = document.getElementById('repo-list');
@@ -181,13 +175,11 @@ export const WorkspaceAddition = {
         
         if (!result) return;
         
-        // Retrieve manual input
         const repoInput = document.getElementById('repo-input');
         if(!repoInput) return;
         const repoUrl = repoInput.value;
         if (!repoUrl) return;
 
-        // Parse Owner/Repo
         let owner, repo;
         const clean = repoUrl.replace('https://github.com/', '').replace(/\/$/, '');
         const parts = clean.split('/');
@@ -199,7 +191,6 @@ export const WorkspaceAddition = {
             return;
         }
 
-        // 3. Get Branch
         const branch = await UI.showDialog({
             title: "Select Branch",
             message: "Enter the branch name to checkout (default: main).",
@@ -213,11 +204,9 @@ export const WorkspaceAddition = {
 
         UI.showLoading("Connecting to GitHub...");
         try {
-            // Verify access by fetching repo metadata
             const repoInfo = { owner, repo };
             await FileSystemProvider.GitHub.api(`/repos/${owner}/${repo}`);
             
-            // Add Workspace
             const wsId = State.nextWorkspaceId++;
             Workspaces.add({
                 id: wsId,
@@ -240,7 +229,13 @@ export const WorkspaceAddition = {
 
     addIdb() {
         const wsId = State.nextWorkspaceId++;
-        Workspaces.add({ id: wsId, name: 'Browser Storage', type: 'indexeddb' }, true);
-        UI.showToast("Browser Storage added.", "success");
+        Workspaces.add({ id: wsId, name: 'Browser Storage (IDB)', type: 'indexeddb' }, true);
+        UI.showToast("IndexedDB Storage added.", "success");
+    },
+
+    addOpfs() {
+        const wsId = State.nextWorkspaceId++;
+        Workspaces.add({ id: wsId, name: 'Browser Storage (OPFS)', type: 'opfs' }, true);
+        UI.showToast("Origin Private File System added.", "success");
     }
 };

@@ -1,4 +1,3 @@
-
 // B"H
 // FILE: js/app/event-listeners.js
 
@@ -16,30 +15,26 @@ import { StatusBar } from '../statusbar.js';
 import { TabManagerOverlay } from '../tab-manager-overlay.js';
 import { FileCommander } from '../file-commander.js';
 import { FileSystemProvider } from '../fs-provider.js';
-import { WorkspaceAddition } from '../features/workspace-addition.js'; // B"H
+import { WorkspaceAddition } from '../features/workspace-addition.js'; 
+import { CommandPalette } from '../command-palette.js'; 
+import { Effects } from '../effects.js'; 
+import { VisualEngine } from '../visuals/index.js'; // B"H
 
 export function setupEventListeners() {
     window.addEventListener('message', async (event) => {
+        // ... (Existing PostMessage Logic retained) ...
         const { type, payload, requestId, error } = event.data;
         
         const handleFileRead = async (workspaceId, path) => {
-            // B"H - Stream directly from Workspace (FileSystemProvider)
-            // We do NOT check open tabs here, as requested. The Workspace is the source of truth.
-            
             const workspace = State.workspaces.find(ws => String(ws.id) === String(workspaceId));
             if (!workspace) throw new Error(`Workspace ${workspaceId} not found`);
-            
             const item = { ...workspace, path: path, kind: 'file' };
             let content = await FileSystemProvider.read(item);
-            
-            // Normalize Content for Transport
             if (content instanceof Blob) content = await content.text();
             else if (content && content.base64Content) content = atob(content.base64Content);
-            
             return content;
         };
 
-        // B"H - Unified Handler for Import/Worker Fetch
         if ((type === 'import-request' && event.data.source === 'html-preview-bridge') || 
             type === 'fetch-worker-script' || 
             type === 'fetch-script-content' ||
@@ -50,36 +45,24 @@ export function setupEventListeners() {
             
             try {
                 let content;
-                
-                // B"H - System Asset Interception
                 if (targetPath.includes('MerkavaExecutor') || targetPath.includes('merkava-sdk')) {
                     const cleanPath = targetPath.startsWith('/') ? targetPath : '/' + targetPath;
                     const response = await fetch(cleanPath);
                     if (!response.ok) throw new Error(`System Asset Not Found: ${cleanPath}`);
                     content = await response.text();
                 } else {
-                    // Workspace File Resolution
                     let absolutePath = targetPath;
-                    
-                    // B"H - ROBUST RELATIVE PATH RESOLUTION
-                    // Handles 'register.js', './register.js', '../lib/script.js' relative to referrer
                     if (referrer && !targetPath.startsWith('/') && !targetPath.match(/^[a-z]+:/)) {
                         const referrerPath = referrer.startsWith('/') ? referrer : '/' + referrer;
-                        // Use URL API for standard path resolution
-                        // We use a dummy domain 'http://root' to allow the URL constructor to work
                         const baseUrl = new URL(referrerPath, 'http://root'); 
                         const resolvedUrl = new URL(targetPath, baseUrl);
                         absolutePath = resolvedUrl.pathname;
                         absolutePath = decodeURIComponent(absolutePath);
                     }
-                    
-                    // Ensure leading slash for workspace lookup consistency
                     if (!absolutePath.startsWith('/')) absolutePath = '/' + absolutePath;
-
                     content = await handleFileRead(workspaceId, absolutePath);
                 }
                 
-                // Respond based on request type
                 if (type === 'import-request') {
                     event.source.postMessage({ type: 'import-response', id, content }, '*');
                 } else if (type === 'fetch-worker-script') {
@@ -90,7 +73,6 @@ export function setupEventListeners() {
             } catch (e) {
                 const responseType = type === 'import-request' ? 'import-response' : 
                                      type === 'fetch-worker-script' ? 'worker-script-response' : 'script-content-response';
-                // Only post back error if source exists
                 if (event.source) {
                     event.source.postMessage({ type: responseType, id, error: e.toString() }, '*');
                 }
@@ -237,9 +219,23 @@ export function setupEventListeners() {
                 SelectionManager.end();
             }
         }
+        VisualEngine.onCaretMove(); // B"H - Trigger Visuals
     });
 
-    DOM.editor.addEventListener('input', () => {
+    DOM.editor.addEventListener('input', (e) => {
+        // B"H - Trigger Effects & Visuals
+        Effects.spawnParticles();
+        Effects.resetEntropy();
+        VisualEngine.onInput(DOM.editor.value, e.inputType === 'deleteContentBackward');
+        
+        // Time Travel Recording
+        if (!State.sessionHistory) State.sessionHistory = [];
+        if (State.sessionHistory.length > 500) State.sessionHistory.shift();
+        if (!DOM.editor.historyTimeout) {
+            State.sessionHistory.push(DOM.editor.value);
+            DOM.editor.historyTimeout = setTimeout(() => DOM.editor.historyTimeout = null, 1000);
+        }
+
         if (State.isRestoring) return; 
         const activeTab = State.tabs.find(t => t.id === State.activeTabId);
         if (activeTab) {
@@ -255,6 +251,8 @@ export function setupEventListeners() {
 
     DOM.editor.addEventListener('scroll', () => {
         UI.syncScroll();
+        VisualEngine.onScroll(); // B"H
+        
         if (State.isRestoring) return;
         const activeTab = State.tabs.find(t => t.id === State.activeTabId);
         if (activeTab && !DOM.editorWrapper.classList.contains('hidden')) {
@@ -263,8 +261,15 @@ export function setupEventListeners() {
         }
     });
 
-    DOM.editor.addEventListener('keyup', StatusBar.update);
-    DOM.editor.addEventListener('click', StatusBar.update);
+    DOM.editor.addEventListener('keyup', (e) => {
+        StatusBar.update();
+        VisualEngine.onCaretMove(); // B"H
+    });
+    DOM.editor.addEventListener('click', (e) => {
+        StatusBar.update();
+        VisualEngine.onCaretMove(); // B"H
+    });
+    
     new ResizeObserver(UI.updateLineNumbers).observe(DOM.editor);
     DOM.contextMenu.addEventListener('click', (e) => {
         e.stopPropagation();
@@ -277,21 +282,24 @@ export function setupEventListeners() {
         if (button && !button.disabled) Menus.handleAction(button.dataset.action);
     });
     
-    // B"H - Updated Workspace Addition Logic
     DOM.addWorkspaceBtn.onclick = () => WorkspaceAddition.showDialog();
     
+    // KEYBOARD SHORTCUTS
     window.addEventListener('keydown', (e) => {
         const hasModifier = e.ctrlKey || e.metaKey;
-        if (hasModifier && e.key.toLowerCase() === 's') {
-            e.preventDefault();
-            Tabs.saveActive();
+        const shift = e.shiftKey;
+        const alt = e.altKey;
+        
+        if (!hasModifier && e.key.length === 1) {
+            Effects.playKeystrokeSound(e.key);
         }
-        if (hasModifier && e.key.toLowerCase() === 'f') {
-            e.preventDefault();
-            const selectedText = DOM.editor.value.substring(DOM.editor.selectionStart, DOM.editor.selectionEnd);
-            FindReplace.show(selectedText);
-        }
+
         if (e.key === 'Escape') {
+            if (document.body.classList.contains('zen-mode')) {
+                document.body.classList.remove('zen-mode');
+                UI.showToast("Zen Mode Disabled", "info");
+                return;
+            }
             if (State.isSelectionModeActive) {
                 e.preventDefault();
                 SelectionManager.end();
@@ -301,6 +309,11 @@ export function setupEventListeners() {
                 return;
             }
             
+            if (CommandPalette.isOpen) {
+                CommandPalette.hide();
+                return;
+            }
+
             if (!DOM.findReplacePanel.style.display || DOM.findReplacePanel.style.display === 'none') {
                  if (TabManagerOverlay.overlay && TabManagerOverlay.overlay.classList.contains('visible')) {
                      TabManagerOverlay.hide();
@@ -313,21 +326,83 @@ export function setupEventListeners() {
                 FindReplace.hide();
             }
         }
+
+        if (hasModifier && shift && e.key.toLowerCase() === 'p') {
+            e.preventDefault();
+            CommandPalette.toggle();
+            return;
+        }
+        
+        if (hasModifier && shift && e.key.toLowerCase() === 't') {
+            e.preventDefault();
+            Tabs.reopenLastClosed();
+            return;
+        }
+
+        if (hasModifier && e.key.toLowerCase() === 'g') {
+            e.preventDefault();
+            Editor.promptGoToLine();
+            return;
+        }
+
+        if (hasModifier && e.key.toLowerCase() === 's') {
+            e.preventDefault();
+            Tabs.saveActive();
+        }
+        if (hasModifier && e.key.toLowerCase() === 'f') {
+            e.preventDefault();
+            const selectedText = DOM.editor.value.substring(DOM.editor.selectionStart, DOM.editor.selectionEnd);
+            FindReplace.show(selectedText);
+        }
     });
     
-    const handleTabInInputs = (e) => {
-        if (e.key === 'Tab') {
-            e.preventDefault();
-            const input = e.target;
-            const start = input.selectionStart;
-            const end = input.selectionEnd;
-            input.setRangeText(App.getTabString(), start, end, 'end');
-        }
-    };
-    DOM.findInput.addEventListener('keydown', handleTabInInputs);
-    DOM.replaceInput.addEventListener('keydown', handleTabInInputs);
-    
+    // Editor Specific Shortcuts
     DOM.editor.addEventListener('keydown', (e) => {
+        const hasModifier = e.ctrlKey || e.metaKey;
+        const shift = e.shiftKey;
+        const alt = e.altKey;
+
+        if (hasModifier && shift && e.key.toLowerCase() === 'd') {
+            e.preventDefault();
+            Editor.duplicateLine();
+            return;
+        }
+        
+        if (hasModifier && shift && e.key.toLowerCase() === 'k') {
+            e.preventDefault();
+            Editor.deleteLine();
+            return;
+        }
+        
+        if (hasModifier && e.key === '/') {
+            e.preventDefault();
+            Editor.toggleComment();
+            return;
+        }
+        
+        if (hasModifier && !shift && e.key === 'Enter') {
+            e.preventDefault();
+            Editor.insertLine('after');
+            return;
+        }
+        
+        if (hasModifier && shift && e.key === 'Enter') {
+            e.preventDefault();
+            Editor.insertLine('before');
+            return;
+        }
+
+        if (alt && e.key === 'ArrowUp') {
+            e.preventDefault();
+            Editor.moveLine(-1);
+            return;
+        }
+        if (alt && e.key === 'ArrowDown') {
+            e.preventDefault();
+            Editor.moveLine(1);
+            return;
+        }
+
         if (FindReplace.isFindSelectionActive) {
             return;
         }
@@ -348,6 +423,18 @@ export function setupEventListeners() {
             editor.dispatchEvent(new Event('input', { bubbles: true }));
         }
     });
+    
+    const handleTabInInputs = (e) => {
+        if (e.key === 'Tab') {
+            e.preventDefault();
+            const input = e.target;
+            const start = input.selectionStart;
+            const end = input.selectionEnd;
+            input.setRangeText(App.getTabString(), start, end, 'end');
+        }
+    };
+    DOM.findInput.addEventListener('keydown', handleTabInInputs);
+    DOM.replaceInput.addEventListener('keydown', handleTabInInputs);
     
     DOM.keyboardHelper.addEventListener('click', (e) => {
         const button = e.target.closest('button.kh-btn');
