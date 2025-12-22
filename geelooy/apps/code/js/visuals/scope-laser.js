@@ -1,15 +1,13 @@
-
 // B"H
 // FILE: js/visuals/scope-laser.js
 
 import { DOM } from '../state.js';
 import { Editor } from '../editor.js';
-import { ParticleSystem } from './particle-system.js';
 
 export const ScopeLaser = {
     ctx: null,
-    targetIndentPixels: 0,
-    currentIndentPixels: 0, // Lerp value
+    targetIndent: 0,
+    currentIndent: 0, // Lerp value
     targetY: 0,
     currentY: 0,
     
@@ -19,90 +17,79 @@ export const ScopeLaser = {
     
     updatePosition() {
         const editor = DOM.editor;
-        if (!editor) return;
-
         const text = editor.value;
         const start = editor.selectionStart;
         
-        // 1. Find the current line content
+        // Find current line start
         const lineStart = text.lastIndexOf('\n', start - 1) + 1;
         const lineEnd = text.indexOf('\n', start);
         const actualEnd = lineEnd === -1 ? text.length : lineEnd;
+        
         const lineText = text.substring(lineStart, actualEnd);
         
-        // 2. Extract leading whitespace
+        // Calculate indentation
         const match = lineText.match(/^\s*/);
-        const indentStr = match ? match[0] : '';
+        const indentSpace = match ? match[0].length : 0;
         
-        // 3. Calculate Visual Width of Indentation (Handling Tabs)
-        const style = window.getComputedStyle(editor);
-        const tabSize = parseInt(style.tabSize) || 4;
-        
-        let visualCol = 0;
-        for(const char of indentStr) {
-            if(char === '\t') {
-                visualCol += tabSize - (visualCol % tabSize);
-            } else {
-                visualCol++;
-            }
-        }
-        
-        // 4. Convert to Pixels (using the central physics engine width)
-        const charWidth = ParticleSystem.charWidth || 8.4;
-        this.targetIndentPixels = visualCol * charWidth;
+        this.targetIndent = indentSpace;
 
-        // 5. Calculate Y Position
-        // We reuse the metric cache from ParticleSystem to ensure perfect sync
-        const lineHeight = ParticleSystem.lineHeight || 24; 
-        const paddingTop = ParticleSystem.paddingTop || 10;
-        const borderTop = ParticleSystem.borderTop || 0;
-        
+        // Calculate Y Position based on Line Number
         const { line } = Editor.getCursorInfo(); // 1-based line number
-        // (line - 1) converts to 0-based index
-        const yPos = borderTop + paddingTop + ((line - 1) * lineHeight) - editor.scrollTop;
         
+        // Match CSS values exactly: Padding Top (10px) + (LineIndex * LineHeight (24px))
+        // We subtract scrollTop to keep it relative to the viewport
+        const lineHeight = 24; 
+        const paddingTop = 10;
+        
+        // Line is 1-based, so line-1 is 0-based index
+        const yPos = paddingTop + ((line - 1) * lineHeight) - editor.scrollTop;
+        
+        // Get Editor Rect to offset the canvas drawing (which covers whole screen)
         const rect = editor.getBoundingClientRect();
         this.targetY = rect.top + yPos;
     },
     
     render() {
-        // Smooth Animation (Lerp)
-        this.currentIndentPixels += (this.targetIndentPixels - this.currentIndentPixels) * 0.2;
+        // Lerp for smooth movement
+        this.currentIndent += (this.targetIndent - this.currentIndent) * 0.2;
         this.currentY += (this.targetY - this.currentY) * 0.3;
         
-        // Culling
+        // Don't draw if scrolled out of view loosely
         if (this.currentY < 0 || this.currentY > window.innerHeight) return;
 
         const editor = DOM.editor;
+        // Ensure we are getting the rect every frame in case of resize
         const rect = editor.getBoundingClientRect();
+        
+        // Calculate X based on font metrics
+        // Font size 14px * 0.6 (approx for Fira Code) is roughly 8.4px per char
+        // But let's measure to be safe or use the fixed width assumption
+        const charWidth = 14 * 0.6; 
+        
+        // CSS Padding Left + LineNumbers Width + Border
+        // Actually, rect.left includes the line numbers if the canvas covers the screen.
+        // But we want the laser INSIDE the editor text area.
+        // We need to know the editor's computed padding-left.
         const style = window.getComputedStyle(editor);
+        const paddingLeft = parseFloat(style.paddingLeft);
         
-        // Get left offsets
-        const paddingLeft = parseFloat(style.paddingLeft) || 10;
-        const borderLeft = parseFloat(style.borderLeftWidth) || 0;
+        const x = rect.left + paddingLeft + (this.currentIndent * charWidth);
         
-        // Absolute X position on screen
-        const x = rect.left + borderLeft + paddingLeft + this.currentIndentPixels;
-        
-        // Draw Vertical Scope Line
+        // Draw Vertical Line (The Scope)
         this.ctx.beginPath();
-        this.ctx.moveTo(x, this.currentY);
-        this.ctx.lineTo(x, this.currentY + 24); // Height of one line
+        this.ctx.moveTo(x, this.currentY); // Top of line
+        this.ctx.lineTo(x, this.currentY + 24); // Bottom of line (LineHeight)
         
-        // Enhanced Glow Style
-        this.ctx.strokeStyle = 'rgba(0, 246, 255, 0.6)';
+        // Outer Glow
+        this.ctx.strokeStyle = 'rgba(0, 246, 255, 0.5)';
         this.ctx.lineWidth = 2;
-        this.ctx.shadowBlur = 5;
-        this.ctx.shadowColor = 'rgba(0, 246, 255, 0.8)';
         this.ctx.stroke();
         
-        this.ctx.shadowBlur = 0;
-        
-        // Optional: Horizontal Guide (faint)
+        // Horizontal Guide (Optional - faint line across)
         this.ctx.beginPath();
         this.ctx.moveTo(rect.left, this.currentY + 24);
         this.ctx.lineTo(rect.right, this.currentY + 24);
-        this.ctx.strokeStyle = 'rgba(0, 246, 255, 0.08)';
+        this.ctx.strokeStyle = 'rgba(0, 246, 255, 0.05)';
         this.ctx.lineWidth = 1;
         this.ctx.stroke();
     }
