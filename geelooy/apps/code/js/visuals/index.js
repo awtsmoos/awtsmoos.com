@@ -1,3 +1,4 @@
+
 // B"H
 // FILE: js/visuals/index.js
 
@@ -44,9 +45,9 @@ export const VisualEngine = {
     
     _resize() {
         if (!this.canvasOverlay) return;
-        const rect = document.body.getBoundingClientRect(); 
-        this.canvasOverlay.width = rect.width;
-        this.canvasOverlay.height = rect.height;
+        // B"H - Use window dimensions to match position: fixed
+        this.canvasOverlay.width = window.innerWidth;
+        this.canvasOverlay.height = window.innerHeight;
     },
     
     startLoop() {
