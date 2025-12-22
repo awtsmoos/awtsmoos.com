@@ -1,8 +1,8 @@
 // B"H
-const fs = require('fs');
 const { dequantize } = require('../math/quant.js');
 const { getByteSize, GGML_TYPE } = require('../math/types.js');
 
+// GLOBAL WEIGHT CACHE (Map<StringName, Float32Array>)
 const tensorCache = new Map();
 
 function mapWeights(tensorMap) {
@@ -17,7 +17,6 @@ function mapWeights(tensorMap) {
         if (match) {
             const l = parseInt(match[1]);
             const suffix = match[2];
-            
             if (!layerTensorMap[l]) layerTensorMap[l] = {};
             if (suffix.match(/^(self_attn\.|attention\.|attn_)q\.weight$/) || suffix.match(/q_proj\.weight$/)) layerTensorMap[l]['attn_q'] = key;
             else if (suffix.match(/^(self_attn\.|attention\.|attn_)k\.weight$/) || suffix.match(/k_proj\.weight$/)) layerTensorMap[l]['attn_k'] = key;
@@ -41,16 +40,13 @@ function mapWeights(tensorMap) {
     return { layerTensorMap, globalTensorMap };
 }
 
-// B"H: FIXED SIGNATURE (7 arguments)
-function readTensor(fd, headerBuf, baseOffset, info, sliceStart = 0, sliceLength = null, raw = false) {
+// B"H: 5 Arguments (Standard)
+function readTensor(buffer, baseOffset, info, sliceStart = 0, sliceLength = null) {
     if (!info) return null;
 
-    const cacheKey = raw ? info.name + "_raw" : info.name;
     const isFullRead = (sliceStart === 0 && sliceLength === null);
-    
-    // 1. Check Cache
-    if (isFullRead && tensorCache.has(cacheKey)) {
-        return tensorCache.get(cacheKey);
+    if (isFullRead && tensorCache.has(info.name)) {
+        return tensorCache.get(info.name);
     }
 
     const numElements = info.dims.reduce((a, b) => a * b, 1);
@@ -59,44 +55,21 @@ function readTensor(fd, headerBuf, baseOffset, info, sliceStart = 0, sliceLength
     const { blockElements, blockSize } = getByteSize(type);
     
     const blockIndexStart = Math.floor(sliceStart / blockElements);
-    
-    // File Position
-    const absoluteStart = baseOffset + info.dataOffset + (blockIndexStart * blockSize);
+    const byteStart = baseOffset + info.dataOffset + (blockIndexStart * blockSize);
     const byteLength = Math.ceil(readLen / blockElements) * blockSize;
     
-    // 2. Read Bytes (Header Cache vs Disk)
-    let rawView;
-    let tempBuf = null;
+    if (byteStart >= buffer.byteLength) return new Float32Array(readLen);
 
-    // Check if within header buffer bounds
-    if (headerBuf && absoluteStart + byteLength <= headerBuf.length) {
-        rawView = new Uint8Array(headerBuf.buffer, headerBuf.byteOffset + absoluteStart, byteLength);
-    } else {
-        // Read from Disk
-        tempBuf = Buffer.allocUnsafe(byteLength);
-        const bytesRead = fs.readSync(fd, tempBuf, 0, byteLength, absoluteStart);
-        if (bytesRead < byteLength) {
-            tempBuf.fill(0, bytesRead); // Zero padding if partial read
-        }
-        rawView = new Uint8Array(tempBuf.buffer, tempBuf.byteOffset, byteLength);
+    let safeByteLength = byteLength;
+    if (byteStart + byteLength > buffer.byteLength) {
+         safeByteLength = buffer.byteLength - byteStart;
     }
 
-    // 3. Return Raw (For Output Head Chunking)
-    if (raw) {
-        if (isFullRead) {
-            // Clone if needed to ensure cache persistence
-            const cachedCopy = new Uint8Array(byteLength);
-            cachedCopy.set(rawView);
-            tensorCache.set(cacheKey, cachedCopy);
-            return cachedCopy;
-        }
-        // If slice and tempBuf exists, returning rawView relies on tempBuf. 
-        // JS will keep tempBuf alive as long as rawView is alive.
-        return rawView;
-    }
+    // Direct View
+    const rawView = new Uint8Array(buffer.buffer, buffer.byteOffset + byteStart, safeByteLength);
 
-    // 4. Dequantize to Float32 (Standard Path)
-    const fullResult = dequantize(rawView, type, byteLength / blockSize * blockElements);
+    // Dequantize (Always Float32)
+    const fullResult = dequantize(rawView, type, safeByteLength / blockSize * blockElements);
     
     const relativeStart = sliceStart - (blockIndexStart * blockElements);
     let final;
@@ -104,10 +77,10 @@ function readTensor(fd, headerBuf, baseOffset, info, sliceStart = 0, sliceLength
     if (relativeStart === 0 && readLen === fullResult.length) final = fullResult;
     else final = fullResult.subarray(relativeStart, relativeStart + readLen);
 
-    // 5. Smart Cache
-    // Cache float tensors only if < 20MB. This prevents RAM explosion.
-    if (isFullRead && final.byteLength < 20 * 1024 * 1024) {
-        tensorCache.set(cacheKey, final);
+    // B"H: OPTIMIZATION - Cache ALL tensors regardless of size.
+    // The cost of re-dequantizing 500MB+ Output Tensors per token is far higher than RAM cost.
+    if (isFullRead) {
+        tensorCache.set(info.name, final);
     }
     
     return final;

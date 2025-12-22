@@ -199,6 +199,7 @@ export const GitStatusUI = {
                 <button id="git-btn-pull" class="menu-button"><svg class="svg-icon"><use href="#icon-download"></use></svg> Pull</button>
                 <button id="git-btn-force-pull" class="menu-button danger"><svg class="svg-icon"><use href="#icon-alert-triangle"></use></svg> Force Pull</button>
                 <div style="flex-grow:1;"></div>
+                <button id="git-btn-stage-all" class="secondary-btn" style="margin-right: 10px;">Stage All</button>
                 <button id="git-magic-push-btn" class="primary-btn" title="Stage All, Commit, and Push immediately">⚡ Stage & Push All</button>
             </div>
 
@@ -238,6 +239,7 @@ export const GitStatusUI = {
         document.getElementById('git-cancel-btn').onclick = () => dialog.classList.remove('visible');
         document.getElementById('git-btn-refresh').onclick = () => { dialog.classList.remove('visible'); this.showGitUI(GitStageManager.gitContext, true); };
         document.getElementById('git-btn-pull').onclick = () => { dialog.classList.remove('visible'); FileOperations.pullAndOverwrite(GitStageManager.gitContext, GitStageManager.gitInfo); };
+        document.getElementById('git-btn-stage-all').onclick = () => window.gitStageAll();
         
         document.getElementById('git-btn-force-pull').onclick = async () => {
             dialog.classList.remove('visible');
