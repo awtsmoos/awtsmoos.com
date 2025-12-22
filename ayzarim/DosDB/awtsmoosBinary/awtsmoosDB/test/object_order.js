@@ -29,7 +29,7 @@ async function runTest() {
 
         // --- TEST 1: MAP (Sorted) ---
         console.log("\n[1] Testing createMap (Expected: Sorted A-Z)...");
-        await db.root.createMap("myMap");
+        await db.createMap(db.root, "myMap");
         
         for(const k of keys) {
             await db.root.myMap.set(k, 1);
@@ -51,7 +51,7 @@ async function runTest() {
 
         // --- TEST 2: OBJECT (Insertion Order) ---
         console.log("\n[2] Testing createObject (Expected: Insertion Order)...");
-        await db.root.createObject("myObj");
+        await db.createObject(db.root, "myObj");
         
         for(const k of keys) {
             await db.root.myObj.set(k, 1);

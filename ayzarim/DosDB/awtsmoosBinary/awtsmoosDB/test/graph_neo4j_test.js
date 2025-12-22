@@ -1,3 +1,4 @@
+
 // B"H
 /**
  * @file graph_neo4j_test.js
@@ -33,15 +34,15 @@ async function runTest() {
     try {
         log("[1] Creating Nodes (Alice, Bob, Charlie)...");
         
-        await db.root.createMap("people");
+        await db.createMap(db.root, "people");
         
-        await db.root.people.createMap("alice");
+        await db.createMap(db.root.people, "alice");
         await db.root.people.alice.set("age", 25);
         
-        await db.root.people.createMap("bob");
+        await db.createMap(db.root.people, "bob");
         await db.root.people.bob.set("age", 30);
         
-        await db.root.people.createMap("charlie");
+        await db.createMap(db.root.people, "charlie");
         await db.root.people.charlie.set("age", 35);
 
         const alice = db.root.people.alice;
@@ -50,15 +51,17 @@ async function runTest() {
 
         log("[2] Connecting Nodes (Relationships)...");
         
-        await alice.relateTo(bob, "KNOWS", { since: 2020 });
-        await bob.relateTo(charlie, "KNOWS", { since: 2021 });
-        await charlie.relateTo(alice, "LOVES", { intensity: 100 });
+        // B"H: New API - db.graph.connect(src, tgt, label, props)
+        await db.graph.connect(alice, bob, "KNOWS", { since: 2020 });
+        await db.graph.connect(bob, charlie, "KNOWS", { since: 2021 });
+        await db.graph.connect(charlie, alice, "LOVES", { intensity: 100 });
 
         await db.waitForIdle();
 
         log("[3] Querying Outgoing Relationships...");
         
-        const aliceOut = await alice.relationships("OUT", "KNOWS");
+        // B"H: New API - db.graph.getRelationships(node, dir, label)
+        const aliceOut = await db.graph.getRelationships(alice, "OUT", "KNOWS");
         assert(aliceOut.length === 1, "Alice has 1 outgoing KNOWS");
         
         const rel1 = aliceOut[0];
@@ -70,7 +73,7 @@ async function runTest() {
 
         log("[4] Querying Incoming Relationships...");
         
-        const bobIn = await bob.relationships("IN", "KNOWS");
+        const bobIn = await db.graph.getRelationships(bob, "IN", "KNOWS");
         assert(bobIn.length === 1, "Bob has 1 incoming KNOWS");
         
         const sourceNode = bobIn[0].node;
@@ -80,7 +83,7 @@ async function runTest() {
 
         log("[5] Mixed Directions & Labels...");
         
-        const aliceAll = await alice.relationships("BOTH");
+        const aliceAll = await db.graph.getRelationships(alice, "BOTH");
         assert(aliceAll.length === 2, "Alice has 2 total edges");
         
         const loves = aliceAll.find(r => r.label === "LOVES");

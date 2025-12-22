@@ -1,3 +1,4 @@
+
 // B"H
 // js/data/maps/sefirot.js
 
@@ -70,31 +71,6 @@ export const sefirotMaps = {
         interactables: {
              'to_chesed': {type: 'door', emoji: '🚪', targetMap: 'chesed_springs', targetX: 7, targetY: 3},
              'king_shlomo': {type: 'npc', emoji: '👑', dialogue: {start: ["Welcome to Tiferet, the realm of Balanced Beauty. Here, the severity of Gevurah and the kindness of Chesed meet in harmony. Your journey is one of finding this balance within all of creation."]}}
-        }
-    },
-    // ADDED: The entire new world of Hod!
-    'hod_library': {
-        width: 15,
-        baseLayerString: `
-📚📚📚📚📚📚📚📚📚📚📚📚📚📚📚
-📚⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜📚
-🚪⬜📚📚📚📚⬜📚📚📚📚⬜🤔⬜📚
-📚⬜📚⬜⬜⬜⬜⬜⬜⬜📚⬜⬜⬜📚
-📚⬜📚⬜⬜⬜👨‍🔬⬜⬜⬜📚⬜⬜⬜📚
-📚⬜📚⬜⬜⬜⬜⬜⬜⬜📚⬜⬜⬜📚
-📚⬜📚📚📚📚⬜📚📚📚📚⬜⬜⬜📚
-📚⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜📚
-📚📚📚📚📚📚📚📚📚📚📚📚📚📚📚
-        `,
-        encounters: {
-            '⬜': [ // Encounters can happen on any floor tile here!
-                { id: 'silent_syllogism', levelRange: [18, 22], chance: 1.0 }
-            ]
-        },
-        interactables: {
-            'to_atheneum': {type: 'door', emoji: '🚪', targetMap: 'scribe_atheneum_upstairs', targetX: 5, targetY: 2},
-            'silent_scholar': {type: 'npc', emoji: '👨‍🔬', dialogue: {start: ["(The scholar does not speak. He merely points to a line in an open sefer:) 'In Hod, there is no need for sound. Logic is the only voice, and structure is the only truth.'"]}},
-            'hidden_boss': {type: 'npc', emoji: '🤔', dialogue: {start: ["A concept of pure, unwavering logic stands before you. It does not challenge you with malice, but with the simple, irrefutable fact of its own existence. It will not move.", {startBattle: [{id: 'silent_syllogism', level: 25}]}]}},
         }
     }
 };

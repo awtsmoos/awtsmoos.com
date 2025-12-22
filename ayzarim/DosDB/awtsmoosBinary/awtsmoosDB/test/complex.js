@@ -1,3 +1,4 @@
+
 // B"H
 const AwtsmoosDB = require('../index.js');
 const fs = require('fs').promises;
@@ -11,11 +12,10 @@ async function runTest() {
     } catch(e) {}
 
     const db = new AwtsmoosDB(DB_PATH);
-    // B"H: Init is handled lazily via ensureOpen
-    // await db.init();
+    await db.open();
     
     console.log("[Test 1] BTree Sorting Verification...");
-    await db.root.createMap("dictionary");
+    await db.createMap(db.root, "dictionary");
     
     const words = ["zebra", "apple", "mango", "banana", "zen", "apricot"];
     for(let w of words) {
@@ -45,8 +45,8 @@ async function runTest() {
     console.log("✅ Nested Object Verified.");
     
     console.log("[Test 3] Collection in Map...");
-    await db.root.createMap("users");
-    await db.root.users.createList("active");
+    await db.createMap(db.root, "users");
+    await db.createList(db.root.users, "active");
     await db.root.users.active.push({ id: 1, name: "Reuven" });
     await db.root.users.active.push({ id: 2, name: "Shimon" });
     

@@ -28,7 +28,7 @@ async function runTest() {
     try {
         // --- SETUP ---
         console.log("\n[1] Setup: Creating List...");
-        await db.root.createList("items");
+        await db.createList(db.root, "items");
         
         // Initial State: [0, 1, 2, 3, 4]
         for(let i=0; i<5; i++) {

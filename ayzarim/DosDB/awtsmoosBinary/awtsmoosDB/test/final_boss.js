@@ -36,7 +36,7 @@ async function runTest() {
         // ======================================================
         console.log("\n[Round 1] The Swarm: 100 Parallel Writes...");
         
-        await db.root.createMap("swarm");
+        await db.createMap(db.root, "swarm");
         const promises = [];
         
         // Fire 100 async writes immediately
@@ -65,11 +65,11 @@ async function runTest() {
         console.log("\n[Round 2] The Shapeshifter: Type Mutation...");
         
         // 1. Start as Map
-        await db.root.createMap("shifter");
+        await db.createMap(db.root, "shifter");
         await db.root.shifter.set("form", "Map");
         
         // 2. Mutate to List (Overwrite)
-        await db.root.createList("shifter");
+        await db.createList(db.root, "shifter");
         await db.root.shifter.push("I am now a List");
         
         // 3. Mutate to Buffer (Overwrite)
@@ -90,7 +90,7 @@ async function runTest() {
         // ======================================================
         console.log("\n[Round 3] The Surgeon: Precise Splicing...");
         
-        await db.root.createList("patient");
+        await db.createList(db.root, "patient");
         // [A, B, C]
         await db.root.patient.push("A");
         await db.root.patient.push("B");

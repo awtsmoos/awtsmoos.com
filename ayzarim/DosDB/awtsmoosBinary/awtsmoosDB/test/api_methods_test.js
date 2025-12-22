@@ -55,7 +55,7 @@ async function runTest() {
 
         // --- 2. Map (B-Tree) ---
         console.log("\n[2] Testing Map (B-Tree)...");
-        await db.root.createMap("myMap");
+        await db.createMap(db.root, "myMap");
         await db.root.myMap.set("z", 26);
         await db.root.myMap.set("a", 1);
         await db.root.myMap.set("m", 13);
@@ -76,7 +76,7 @@ async function runTest() {
 
         // --- 3. Sequence (List) ---
         console.log("\n[3] Testing Sequence (List)...");
-        await db.root.createList("myList");
+        await db.createList(db.root, "myList");
         await db.root.myList.push("First");
         await db.root.myList.push("Second");
         await db.waitForIdle();

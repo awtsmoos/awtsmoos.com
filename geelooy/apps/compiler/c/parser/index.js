@@ -1,7 +1,7 @@
 /*
 B"H
 Boruch Hashem
-*/ 
+*/
 import { TokenStream } from './token_stream.js';
 import { parseProgram } from './declarations.js';
 

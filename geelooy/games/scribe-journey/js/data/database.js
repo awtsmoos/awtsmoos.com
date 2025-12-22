@@ -1,3 +1,4 @@
+
 // B"H
 // js/data/database.js
 
@@ -5,7 +6,7 @@ import { musagim } from './musagim.js';
 import { moves } from './moves.js';
 import { items } from './items.js';
 import { quests } from './quests.js';
-import { maps } from './maps.js';
+// Maps are no longer injected into state to save RAM. They are accessed via the Worker.
 
 export const TILE_SIZE = 40;
 export const PLAYER_SPEED = 180;
@@ -22,6 +23,7 @@ export function createDefaultGameState() {
         pixelY: 8 * TILE_SIZE, 
         direction: 'up', 
         emoji: '✍️',
+        level: 1, 
         isMoving: false, 
         moveStartTime: 0, 
         startX: 5, 
@@ -32,15 +34,18 @@ export function createDefaultGameState() {
         inventory: [], 
         team: [{ id: 'clay_golem', level: 5 }],
         activeQuests: [],
-        // FIX: Initialize the flags object to store world state progress.
+        completedQuests: [],
         flags: {}, 
+        // Optimization: Track map modifications (deleted entities, opened doors) here
+        // instead of cloning the entire map structure.
+        mapChanges: {} 
     };
 
     return {
         mode: 'main-menu',
         player: player,
         currentMapId: 'malkuth_village',
-        maps: maps,
+        // Maps removed from here to prevent massive RAM usage during state cloning/transfer
         db: {
             musagim,
             moves,
@@ -49,5 +54,6 @@ export function createDefaultGameState() {
         },
         dialogue: { active: false },
         battle: { active: false },
+        bots: [] 
     };
 }

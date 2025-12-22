@@ -1,3 +1,4 @@
+
 // B"H
 /**
  * @file persistence_stress.js
@@ -63,7 +64,7 @@ async function runTest() {
     try {
         // Create 'storage' as a Map (BTree container)
         log("Creating 'storage' Map...");
-        await db.root.createMap('storage');
+        await db.createMap(db.root, 'storage');
         
         log(`Writing 128KB Binary Blob to 'root.storage.heavystone'...`);
         // Now we can assign to it because 'storage' is a BTree
@@ -78,7 +79,7 @@ async function runTest() {
         };
 
         log("Creating 'logs' Collection...");
-        await db.root.createList('logs');
+        await db.createList(db.root, 'logs');
 
         log("Writing Collection Data...");
         // Push items

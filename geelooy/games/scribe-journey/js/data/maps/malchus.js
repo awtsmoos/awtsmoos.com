@@ -1,3 +1,4 @@
+
 // B"H
 // js/data/maps/malchus.js
 
@@ -16,7 +17,7 @@ export const malkuthMaps = {
 🌳⬜⬜⬜⬜⬜🌿⬜⬜⬜👨🐂⬜⬜⬜⬜⬜🌳
 🌳🌳🌳🌳🌳🌳🌳🌳🌳⬜⬜⬜⬜⬜⬜⬜🌳
 🌳⬜⬜⬜🌾🌾⬜⬜⬜⬜⬜🛒⬜⬜⬜⬜🌳
-🌳⬜⬜⬜🌾🌾⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜🌳
+🌳🚪⬜⬜🌾🌾⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜🌳
 🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳🌳
         `,
         // ADDED: The new, expandable encounter system!
@@ -31,6 +32,8 @@ export const malkuthMaps = {
             'house_1': { type: 'door', emoji: '🏠', targetMap: 'scribe_atheneum_main', targetX: 5, targetY: 6 },
             'house_2': { type: 'door', emoji: '🏠', targetMap: 'merchant_house', targetX: 3, targetY: 3 },
             'yesod_door': { type: 'door', emoji: '🚪', targetMap: 'yesod_shore', targetX: 1, targetY: 4 },
+            // ADDED: Door to Netzach
+            'netzach_door': { type: 'door', emoji: '🚪', targetMap: 'netzach_wilds_entrance', targetX: 18, targetY: 14 },
             
             'reuven': { type: 'npc', emoji: '👨', questGiver: 'nizkei_mamon_1_goring_ox', dialogue: { 
                 start: ["Scribe, thank heavens! My prize ox... gored by Shimon's beast! Shimon claims it was an accident, but I am ruined! Please, find the just path. The sage in the scholar's house might know the ancient laws."], 
@@ -115,4 +118,3 @@ export const malkuthMaps = {
         }
     },
 };
-

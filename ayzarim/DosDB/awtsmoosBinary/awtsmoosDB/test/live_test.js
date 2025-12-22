@@ -1,3 +1,4 @@
+
 // B"H
 /**
  * @file live_test.js
@@ -44,9 +45,9 @@ async function runTest() {
         // --- TEST 2: Nested Objects (BTree creation) ---
         console.log("\n[2] Testing Nested Objects (Maps)...");
         // B"H: Use createMap to enable deep traversal and modification
-        await db.root.createMap("config");
+        await db.createMap(db.root, "config");
         await db.root.config.set("theme", "dark");
-        await db.root.config.createMap("notifications");
+        await db.createMap(db.root.config, "notifications");
         await db.root.config.notifications.set("email", true);
         await db.root.config.notifications.set("sms", false);
         
@@ -86,7 +87,7 @@ async function runTest() {
         // --- TEST 4: Collections ---
         console.log("\n[4] Testing Collections...");
         // B"H: Explicitly create list to allow pushing
-        await db.root.createList("users");
+        await db.createList(db.root, "users");
         await db.root.users.push({ id: 1, name: "Alice" });
         await db.root.users.push({ id: 2, name: "Bob" });
         

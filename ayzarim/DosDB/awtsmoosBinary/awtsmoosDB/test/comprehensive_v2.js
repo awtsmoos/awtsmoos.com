@@ -54,7 +54,7 @@ async function runTest() {
         
         // --- TEST 2: Fractal Nesting ---
         log("--- TEST 2: Fractal Nesting ---");
-        await db.root.createMap("fractal");
+        await db.createMap(db.root, "fractal");
         await db.root.fractal.set("node_1", []); // List inside Map
         
         const listHandle = db.root.fractal.node_1;
@@ -93,7 +93,7 @@ async function runTest() {
 
         // --- TEST 4: Dictionary Mechanics ---
         log("--- TEST 4: Dictionary Mechanics ---");
-        await db.root.createMap("dict_test"); 
+        await db.createMap(db.root, "dict_test"); 
         db.root.myDict = {};
         
         for(let i=0; i<50; i++) {

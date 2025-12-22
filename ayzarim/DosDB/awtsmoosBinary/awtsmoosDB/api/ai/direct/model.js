@@ -1,6 +1,8 @@
 
 // B"H
-const Ops = require('../math/ops.js');
+const Stats = require('../math/stats.js');
+const Matrix = require('../math/matrix.js');
+const Act = require('../math/act.js');
 const Layers = require('./layers.js');
 const Logger = require('../utils/logger.js');
 
@@ -11,72 +13,56 @@ class Model {
     }
 
     async forward(token_id, pos) {
-        const p = this.engine.params;
-        
-        // 1. Embedding
-        const w_emb_raw = this.engine.loader.getRawTensor(
-            this.engine.loader.globalTensorMap.embed || 'token_embd.weight'
-        );
-        
-        if (!w_emb_raw) throw new Error("Embedding tensor missing");
+        const stats = this.engine.params;
+        const loader = this.engine.loader;
 
-        let x;
-        if (w_emb_raw.type === 2) { // Q4_0
-            const { blockElements, blockSize } = { blockElements: 32, blockSize: 18 };
-            const rowBytes = (p.n_embd / blockElements) * blockSize;
-            const start = token_id * rowBytes;
-            
-            if (start + rowBytes <= w_emb_raw.data.length) {
-                const chunk = w_emb_raw.data.subarray(start, start + rowBytes);
-                x = Ops.dequantizeQ4_0(chunk, p.n_embd);
-            } else {
-                x = new Float32Array(p.n_embd);
-            }
-        } else {
-             x = this.engine.loader.getTensor(
-                this.engine.loader.globalTensorMap.embed, 
-                token_id * p.n_embd, 
-                p.n_embd
-            );
-        }
+        // 1. Embedding
+        // getEmbeddingRow logic from model_loader.js
+        const embInfo = loader.tensorMap.get('token_embd.weight') || loader.tensorMap.get('model.embed_tokens.weight');
+        if (!embInfo) throw new Error("Embedding Missing");
         
+        let x = loader.getTensor(embInfo.name, token_id * stats.n_embd, stats.n_embd);
+        if (!x) throw new Error("Embedding Missing for ID: " + token_id);
+
         // Scale (Gemma)
-        if (p.useEmbScale) {
-            const scale = Math.sqrt(p.n_embd);
-            for(let i=0; i<x.length; i++) x[i] *= scale;
+        if (stats.useEmbScale) {
+            const embScale = Math.sqrt(stats.n_embd);
+            for(let i=0; i<x.length; i++) x[i] *= embScale;
         }
 
         // 2. Layers
-        for (let l = 0; l < p.n_layer; l++) {
+        for (let l = 0; l < stats.n_layer; l++) {
             x = this.layers.forward(x, l, pos);
         }
 
         // 3. Final Norm
-        const w_norm = this.engine.loader.getTensor(this.engine.loader.globalTensorMap.output_norm);
-        if (w_norm) {
-            const unitOffset = p.arch === 'gemma3' ? 1.0 : 0.0;
-            x = Ops.rmsNorm(x, w_norm, p.norm_eps, unitOffset);
-        }
+        let w_norm = loader.getTensor(loader.globalTensorMap.output_norm);
+        if (w_norm) x = Stats.rmsNorm(x, w_norm, stats.norm_eps, 0.0);
         
         return x;
     }
 
     computeLogits(hidden) {
-        const p = this.engine.params;
-        let w_name = this.engine.loader.globalTensorMap.output || this.engine.loader.globalTensorMap.embed;
-        const n_vocab = this.engine.vocab.length;
+        const stats = this.engine.params;
+        const loader = this.engine.loader;
         
-        const w_out = this.engine.loader.getTensor(w_name);
+        const w_out_name = loader.globalTensorMap.output || loader.globalTensorMap.embed;
+        const w_out = loader.getTensor(w_out_name); // This will read the whole tensor?
+        // Note: matVecMul takes (x, w, n_out). w must be the full matrix.
+        // If w_out is huge (e.g. 256k vocab), loading it all into memory is heavy.
+        // But the browser implementation loads it: self.loadWeight('output.weight', false)
+        // If we want to match, we must load it.
         
-        let logits;
-        if (w_out) {
-             logits = Ops.matVecMul(hidden, w_out, n_vocab);
-        } else {
-             logits = new Float32Array(n_vocab);
-        }
-        
-        if (p.final_soft_cap > 0) {
-            logits = Ops.softCap(logits, p.final_soft_cap);
+        const vocabSize = this.engine.vocab.length;
+        const logits = Matrix.matVecMul(hidden, w_out, vocabSize);
+
+        // FINAL SOFT CAPPING (Gemma 3)
+        if (stats.final_soft_cap > 0) {
+            const cap = stats.final_soft_cap;
+            const invCap = 1.0 / cap;
+            for(let i=0; i<logits.length; i++) {
+                logits[i] = cap * Math.tanh(logits[i] * invCap);
+            }
         }
         
         return logits;
