@@ -1,6 +1,5 @@
-
 // B"H
-// FILE: js/tabs/persistence.js
+// FILE: code/js/tabs/persistence.js
 
 import { State } from '../state.js';
 import { UI } from '../ui.js';
@@ -11,81 +10,59 @@ import { ZipExplorer } from '../zip/zip-explorer.js';
 
 export const TabsPersistence = {
     async save(tab, TabsController, options = {}) {
-        // Zip Entry Saving
-        if (tab.item.type === 'zip-entry') {
-            const content = (tab.id === State.activeTabId) ? Editor.getContent() : tab.content;
-            // B"H - Pass the tab object to correctly identify the parent zip
-            ZipExplorer.updateEntry(tab, content);
-            tab.content = content;
-            tab.isDirty = false;
-            TabsController.render();
-            return;
-        }
-        
-        // Main Zip Saving (Prevent Recursion)
-        if (tab.fileType === 'zip' && !options.skipZipRecompression) {
-            await ZipExplorer.saveZipToDisk();
-            // saveZipToDisk will call this method again with skipZipRecompression: true
-            return;
-        }
+        const taskId = `save-${Date.now()}`;
+        UI.startTask(taskId, `Saving ${tab.item.name}...`);
 
-        const gitRootItem = await TabsController._getGitInfoForTab(tab);
-
-        let contentToSave;
-        // B"H - If content is provided in tab (e.g. from ZipExplorer), use it. Otherwise get from Editor if active.
-        if (tab.content instanceof Blob || tab.content instanceof Uint8Array || (typeof tab.content === 'string' && tab.id !== State.activeTabId)) {
-             contentToSave = tab.content;
-        } else if (tab.id === State.activeTabId) {
-             if (tab.isHexView) contentToSave = State.hexEditorInstance.getUpdatedArrayBuffer();
-             else if (tab.isAltarView) contentToSave = JSON.stringify(DataAltar.liveDataObject, null, '\t');
-             else contentToSave = Editor.getContent();
-        } else {
-             contentToSave = tab.content;
-        }
-        
-        if (!gitRootItem) {
-            if (tab.item.readOnly) {
-                UI.showToast("This is a read-only file.", "warning");
+        try {
+            // Zip Entry Saving
+            if (tab.item.type === 'zip-entry') {
+                const content = (tab.id === State.activeTabId) ? Editor.getContent() : tab.content;
+                ZipExplorer.updateEntry(tab, content);
+                tab.content = content;
+                tab.isDirty = false;
+                TabsController.render();
+                UI.endTask(taskId, 'success', `Updated archive memory.`);
                 return;
             }
-            UI.showToast(`Saving ${tab.item.name}...`);
-            try {
+            
+            // Main Zip Saving (Prevent Recursion)
+            if (tab.fileType === 'zip' && !options.skipZipRecompression) {
+                await ZipExplorer.saveZipToDisk();
+                UI.endTask(taskId, 'success');
+                return;
+            }
+
+            const gitRootItem = await TabsController._getGitInfoForTab(tab);
+
+            let contentToSave;
+            if (tab.content instanceof Blob || tab.content instanceof Uint8Array || (typeof tab.content === 'string' && tab.id !== State.activeTabId)) {
+                 contentToSave = tab.content;
+            } else if (tab.id === State.activeTabId) {
+                 if (tab.isHexView) contentToSave = State.hexEditorInstance.getUpdatedArrayBuffer();
+                 else if (tab.isAltarView) contentToSave = JSON.stringify(DataAltar.liveDataObject, null, '\t');
+                 else contentToSave = Editor.getContent();
+            } else {
+                 contentToSave = tab.content;
+            }
+            
+            if (!gitRootItem) {
+                if (tab.item.readOnly) {
+                    UI.showToast("This is a read-only file.", "warning");
+                    UI.endTask(taskId, 'error', "Read-only");
+                    return;
+                }
                 await FileSystemProvider.write(tab.item, contentToSave);
                 tab.isDirty = false;
                 tab.isUncommitted = false;
-                // Update tab content reference
                 tab.content = contentToSave; 
                 TabsController.render();
-                UI.showToast(`Saved "${tab.item.name}"`, 'success');
-            } catch (e) {
-                UI.showToast(`Save failed: ${e.message}`, 'error');
+                UI.endTask(taskId, 'success', `Saved to disk.`);
+                return;
             }
-            return;
-        }
-        
-        // B"H - Parallel Save Optimization
-        UI.showLoading(`Saving ${tab.item.name}...`);
-        const savePromises = [];
-
-        // 1. Write to Actual File System
-        // For Local/SSH, this writes to disk.
-        // For GitHub, the Provider now handles buffering to IDB, so we just call write.
-        // We DON'T need special exclusion logic anymore because GitHubProvider.write IS the staging write.
-        
-        // However, for Local Clones, we still want the duality: Write to Disk AND Write to Staging IDB.
-        // This is because LocalProvider writes to disk (which might be slow or external), and IDB is for diff calculation.
-        
-        if (gitRootItem.type !== 'github') {
-             savePromises.push(FileSystemProvider.write(tab.item, contentToSave));
-        } else {
-             // For GitHub, we ONLY call write, which goes to IDB.
-             // We push it to promises list.
-             savePromises.push(FileSystemProvider.write(tab.item, contentToSave));
-        }
-        
-        try {
-            // 2. Prepare Staging Logic (IDB) for Local Clones
-            // GitHub workspaces handled above via their own provider.
+            
+            const savePromises = [];
+            savePromises.push(FileSystemProvider.write(tab.item, contentToSave));
+            
             if (gitRootItem.type !== 'github') {
                 let relativePath;
                 const cloneRootPath = gitRootItem.path;
@@ -101,27 +78,21 @@ export const TabsPersistence = {
                 
                 const itemForStaging = { ...tab.item, path: relativePath };
                 const uniquePathForStaging = `${gitRootItem.workspaceId || gitRootItem.id}::${relativePath}`;
-
-                // Add Staging Write to Promise List
                 savePromises.push(FileSystemProvider.IndexedDB.writeUncommitted(uniquePathForStaging, contentToSave, itemForStaging));
             }
 
-            // Await both operations
+            UI.updateTask(taskId, 50);
             await Promise.all(savePromises);
 
             tab.isDirty = false;
-            // For GitHub, it's effectively "uncommitted" because it's in the overlay.
-            // For Local, it's uncommitted relative to Git HEAD.
             tab.isUncommitted = true;
             tab.content = contentToSave;
             TabsController.render();
-            UI.showToast(`"${tab.item.name}" is saved.`, 'success');
+            UI.endTask(taskId, 'success', `Saved and Staged.`);
 
         } catch (e) {
-            UI.showToast(`Save failed: ${e.message}`, 'error');
+            UI.endTask(taskId, 'error', `Save failed: ${e.message}`);
             console.error("SAVE FAILED:", e);
-        } finally {
-            UI.hideLoading();
         }
     },
 

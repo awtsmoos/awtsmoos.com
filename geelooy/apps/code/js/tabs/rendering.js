@@ -1,8 +1,9 @@
 // B"H
-// FILE: js/tabs/rendering.js
+// FILE: code/js/tabs/rendering.js
 
 import { State } from '../state.js';
 import { StatusBar } from '../statusbar.js';
+import { Menus } from '../menus.js';
 
 export const TabsRenderer = {
     render(container, TabsController) {
@@ -41,12 +42,12 @@ export const TabsRenderer = {
         const closeButton = document.createElement('button');
         closeButton.className = 'close-tab-btn';
         closeButton.title = 'Close';
-        // Explicitly styling SVG to ensure visibility
         closeButton.innerHTML = `<svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>`;
 
         tabEl.appendChild(tabName);
         tabEl.appendChild(closeButton);
         
+        // --- CLICK HANDLING ---
         tabEl.onclick = (e) => {
             if (e.target.closest('.close-tab-btn')) {
                 e.stopPropagation();
@@ -54,6 +55,11 @@ export const TabsRenderer = {
             } else if (State.activeTabId !== tab.id) {
                 TabsController.activate(tab.id);
             }
+        };
+
+        // --- B"H - CONTEXT MENU HANDLING ---
+        tabEl.oncontextmenu = (e) => {
+            Menus.showTabMenu(e, tab);
         };
 
         return tabEl;
@@ -118,9 +124,6 @@ export const TabsRenderer = {
 
             State.activeTabId = draggedTabId;
             TabsController.render(); 
-            // We need to import App or handle saving elsewhere to avoid circular dependency, 
-            // but for now let's assume the main controller handles global save eventually.
-            // A simple event or callback would be cleaner.
         });
     }
 };

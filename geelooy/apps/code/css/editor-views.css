@@ -53,6 +53,15 @@
 .drag-over-target > .workspace-header,
 .drag-over-target > .tree-item-name-wrap { background-color: transparent !important; }
 
+/* B"H - Reveal Flash Effect */
+.reveal-flash > .tree-item-name-wrap {
+    animation: reveal-glow 2s ease-out;
+}
+@keyframes reveal-glow {
+    0% { background-color: var(--neon-cyan); box-shadow: 0 0 30px var(--glow-cyan); }
+    100% { background-color: transparent; box-shadow: none; }
+}
+
 
 /* TAB BAR */
 .tab-bar-wrapper {
@@ -188,7 +197,7 @@
     animation: altar-breathe 15s ease-in-out infinite;
 }
 .altar-node { padding-left: 2em; position: relative; border-left: 1px solid rgba(255, 0, 255, 0.2); }
-.altar-row { display: flex; align-items: center; min-height: 28px; padding: 2px 0; }
+.altar-row { display: center; align-items: center; min-height: 28px; padding: 2px 0; }
 .altar-row:hover { background: rgba(168, 255, 0, 0.05); }
 .altar-row:hover .altar-action-btn { opacity: 1; }
 .altar-key { color: var(--neon-cyan); font-weight: bold; padding: 2px 4px; border-radius: 3px; outline: none; cursor: text; }

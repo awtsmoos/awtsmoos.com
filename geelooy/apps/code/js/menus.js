@@ -1,16 +1,12 @@
-
 // B"H
-// FILE: js/menus.js
+// FILE: code/js/menus.js
 import { State, DOM } from "./state.js";
-import { getItemUniquePath } from "./workspaces.js";
+import { getItemUniquePath, Workspaces } from "./workspaces.js";
 import { Actions } from "./actions.js";
 import { Editor } from "./editor.js";
+import { Tabs } from "./tabs/index.js";
 import { beautify } from "/scripts/awtsmoos/MerkavaBeautifier/beautifier.js";
-import { VibeController } from "./vibe/vibe-controller.js"; // B"H - Import Vibe
-
-// Global exposure for debugging or legacy access
-window.beautify = beautify;
-window.editor = Editor;
+import { VibeController } from "./vibe/vibe-controller.js";
 
 export const Menus = {
     registerCustomMenus(menuConfigs) {
@@ -21,6 +17,99 @@ export const Menus = {
     handleDocumentClick: (e) => {
         if (!DOM.contextMenu.contains(e.target) && !DOM.mainMenu.contains(e.target)) {
             Menus.hideAll();
+        }
+    },
+
+    /**
+     * B"H - Show specialized menu for Tab Bar tabs.
+     */
+    showTabMenu(e, tab) {
+        e.preventDefault();
+        e.stopPropagation();
+        this.hideAll();
+
+        const menuItems = [
+            { label: "Show in Workspace", action: "reveal-in-workspace", icon: "search" },
+            { isSeparator: true },
+            { label: "Close", action: "close-tab-direct", icon: "x", danger: true }
+        ];
+
+        // Store the target tab for the action handler
+        State.contextTabTarget = tab;
+
+        this.renderMenu(DOM.contextMenu, menuItems, { clientX: e.clientX, clientY: e.clientY });
+    },
+
+    /**
+     * B"H - Reveal ritual. Recursively opens folders to find a file.
+     * Rewritten to be absolute: It forces refreshes down the chain to guarantee visibility.
+     */
+    async revealInWorkspace(tab) {
+        if (!tab || !tab.item || tab.item.path === '/') return;
+
+        const { workspaceId, path } = tab.item;
+        const workspace = State.workspaces.find(ws => ws.id === workspaceId);
+        if (!workspace) return;
+
+        // Ensure sidebar is open
+        const appContainer = document.querySelector('.app-container');
+        if (appContainer.classList.contains('sidebar-collapsed')) {
+             document.getElementById('sidebar-toggle-btn')?.click();
+        }
+
+        // 1. Ensure Workspace Root is Expanded and Refreshed
+        const rootItem = { ...workspace, path: '/', kind: 'directory' };
+        const rootUniquePath = getItemUniquePath(rootItem);
+        
+        if (!State.expandedFolders.has(rootUniquePath)) {
+            State.expandedFolders.add(rootUniquePath);
+        }
+        // Force refresh the root to ensure top-level children are in the DOM map
+        await Workspaces.refreshNode(rootItem);
+
+        // 2. Recursively Expand and Refresh Path Segments
+        const pathSegments = path.split('/').filter(Boolean);
+        let currentAccum = '';
+        
+        // Iterate up to the parent folder of the item
+        for (let i = 0; i < pathSegments.length - 1; i++) {
+            currentAccum += '/' + pathSegments[i];
+            const segmentItem = { ...tab.item, path: currentAccum, kind: 'directory' };
+            const uniquePath = getItemUniquePath(segmentItem);
+            
+            // Mark as expanded in state
+            if (!State.expandedFolders.has(uniquePath)) {
+                State.expandedFolders.add(uniquePath);
+            }
+            
+            // Critical: Await the refresh. This ensures the children (including the next segment)
+            // are rendered and registered in State.domItemMap before we proceed.
+            await Workspaces.refreshNode(segmentItem);
+        }
+
+        // 3. Locate and Flash the Element
+        const finalUniquePath = getItemUniquePath(tab.item);
+        
+        const flashElement = () => {
+            const entry = State.domItemMap.get(finalUniquePath);
+            if (entry && entry.el && document.body.contains(entry.el)) {
+                entry.el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                entry.el.classList.remove('reveal-flash');
+                void entry.el.offsetWidth; // Trigger reflow
+                entry.el.classList.add('reveal-flash');
+                setTimeout(() => entry.el.classList.remove('reveal-flash'), 2500);
+                return true;
+            }
+            return false;
+        };
+
+        if (!flashElement()) {
+            // Polling fallback for stubborn rendering cycles
+            let attempts = 0;
+            const poller = setInterval(() => {
+                attempts++;
+                if (flashElement() || attempts > 15) clearInterval(poller);
+            }, 100);
         }
     },
 
@@ -58,7 +147,6 @@ export const Menus = {
         if (isDir) {
             menuItems.push({ label: "Refresh", action: "refresh", icon: "brain" }); 
             menuItems.push({ label: "Browse in Commander", action: "open-file-commander", icon: "folder" });
-            // B"H - Vibe Code Option
             menuItems.push({ label: "✨ Vibe Code", action: "open-vibe", icon: "brain-circuit" });
             menuItems.push({ isSeparator: true });
         }
@@ -298,11 +386,13 @@ export const Menus = {
 
     handleAction(action) {
         this.hideAll();
-        // B"H - Intercept Vibe Action
         if (action === 'open-vibe') {
             VibeController.init();
-            // Just trigger open, which now creates a new tab
             VibeController.open(State.contextTarget);
+        } else if (action === 'reveal-in-workspace') {
+            this.revealInWorkspace(State.contextTabTarget);
+        } else if (action === 'close-tab-direct') {
+            if (State.contextTabTarget) Tabs.close(State.contextTabTarget.id);
         } else {
             Actions.handle(action);
         }

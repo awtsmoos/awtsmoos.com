@@ -1,6 +1,5 @@
-
 // B"H
-// FILE: js/git/git-commit.js
+// FILE: code/js/git/git-commit.js
 import { FileSystemProvider } from '../fs-provider.js';
 import { State } from '../state.js';
 import { UI } from '../ui.js';
@@ -10,81 +9,84 @@ export const GitCommit = {
     async performCommit(gitContextItem, gitInfo, changeSet, commitMessage, options = {}) {
         const { repoInfo, branch } = gitInfo;
         const force = options.force || false;
+        const taskId = `commit-${Date.now()}`;
+        UI.startTask(taskId, `Committing to ${repoInfo.repo}...`);
         
         if (!gitInfo.remoteTree) gitInfo.remoteTree = [];
 
         const filesToUpload = [...(changeSet.creations || []), ...(changeSet.updates || [])];
         const filesToDelete = changeSet.deletions || [];
+        const totalItems = filesToUpload.length + filesToDelete.length;
         
         const FILES_PER_COMMIT = 25; 
         const BLOB_BATCH_SIZE = 5;   
-        const COOL_DOWN_MS = 2000;   
 
         let currentParentSHA = await FileSystemProvider.GitHub.getLatestCommitSHA({ repoInfo, branch });
         let commitCount = 1;
-        const totalCommits = Math.ceil(filesToUpload.length / FILES_PER_COMMIT) + (filesToDelete.length > 0 ? 1 : 0);
+        let itemsProcessed = 0;
+        const totalBatches = Math.ceil(filesToUpload.length / FILES_PER_COMMIT) + (filesToDelete.length > 0 ? 1 : 0);
 
-        // --- 1. Processing Uploads ---
-        while (filesToUpload.length > 0) {
-            const currentBatchFiles = filesToUpload.splice(0, FILES_PER_COMMIT);
-            
-            UI.showLoading(`Processing Commit ${commitCount}/${totalCommits}: Uploading ${currentBatchFiles.length} files...`);
+        try {
+            // --- 1. Processing Uploads ---
+            while (filesToUpload.length > 0) {
+                const currentBatchFiles = filesToUpload.splice(0, FILES_PER_COMMIT);
+                const progressLabel = `Part ${commitCount}/${totalBatches}: Uploading...`;
+                UI.updateTask(taskId, (itemsProcessed / totalItems) * 100);
 
-            const treeItems = [];
-            for (let i = 0; i < currentBatchFiles.length; i += BLOB_BATCH_SIZE) {
-                const blobBatch = currentBatchFiles.slice(i, i + BLOB_BATCH_SIZE);
-                const results = await Promise.all(blobBatch.map(file => 
-                    FileSystemProvider.GitHub.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/blobs`, {
-                        method: 'POST',
-                        body: JSON.stringify({
-                            content: FileSystemProvider.GitHub.utf8_to_b64(file.content),
-                            encoding: 'base64'
-                        })
-                    }).then(blob => ({
-                        path: file.path,
-                        mode: '100644',
-                        type: 'blob',
-                        sha: blob.sha,
-                        _originalContent: file.content
-                    }))
-                ));
-                treeItems.push(...results);
-                await new Promise(r => setTimeout(r, 500)); 
+                const treeItems = [];
+                for (let i = 0; i < currentBatchFiles.length; i += BLOB_BATCH_SIZE) {
+                    const blobBatch = currentBatchFiles.slice(i, i + BLOB_BATCH_SIZE);
+                    const results = await Promise.all(blobBatch.map(file => 
+                        FileSystemProvider.GitHub.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/blobs`, {
+                            method: 'POST',
+                            body: JSON.stringify({
+                                content: FileSystemProvider.GitHub.utf8_to_b64(file.content),
+                                encoding: 'base64'
+                            })
+                        }).then(blob => ({
+                            path: file.path,
+                            mode: '100644',
+                            type: 'blob',
+                            sha: blob.sha,
+                            _originalContent: file.content
+                        }))
+                    ));
+                    treeItems.push(...results);
+                    itemsProcessed += blobBatch.length;
+                    UI.updateTask(taskId, (itemsProcessed / totalItems) * 100);
+                }
+
+                const messagePart = totalBatches > 1 ? ` (Part ${commitCount}/${totalBatches})` : '';
+                const newCommitSHA = await this._executeGitCommit(
+                    repoInfo, branch, currentParentSHA, treeItems, commitMessage + messagePart, force
+                );
+
+                await this._saveIncrementalState(gitContextItem, gitInfo, newCommitSHA, currentBatchFiles, [], treeItems);
+                currentParentSHA = newCommitSHA;
+                commitCount++;
             }
 
-            const messagePart = totalCommits > 1 ? ` (Part ${commitCount}/${totalCommits})` : '';
-            // Force is applied to the Ref update, which happens in _executeGitCommit
-            const newCommitSHA = await this._executeGitCommit(
-                repoInfo, branch, currentParentSHA, treeItems, commitMessage + messagePart, force
-            );
+            // --- 2. Process Deletions ---
+            if (filesToDelete.length > 0) {
+                const treeItems = filesToDelete.map(file => ({
+                    path: file.path, mode: '100644', type: 'blob', sha: null
+                }));
 
-            await this._saveIncrementalState(gitContextItem, gitInfo, newCommitSHA, currentBatchFiles, [], treeItems);
+                const newCommitSHA = await this._executeGitCommit(
+                    repoInfo, branch, currentParentSHA, treeItems, commitMessage + " (Deletions)", force
+                );
 
-            currentParentSHA = newCommitSHA;
-            commitCount++;
-
-            if (filesToUpload.length > 0) {
-                UI.showLoading(`Cooling down API (waiting ${COOL_DOWN_MS/1000}s)...`);
-                await new Promise(resolve => setTimeout(resolve, COOL_DOWN_MS));
+                await this._saveIncrementalState(gitContextItem, gitInfo, newCommitSHA, [], filesToDelete, treeItems);
+                currentParentSHA = newCommitSHA;
             }
+
+            UI.endTask(taskId, 'success', 'Changes pushed successfully.');
+            return currentParentSHA;
+
+        } catch (e) {
+            UI.endTask(taskId, 'error', `Commit failed: ${e.message}`);
+            throw e;
         }
-
-        // --- 2. Process Deletions ---
-        if (filesToDelete.length > 0) {
-            UI.showLoading(`Processing Commit ${commitCount}/${totalCommits}: Deleting ${filesToDelete.length} files...`);
-            const treeItems = filesToDelete.map(file => ({
-                path: file.path, mode: '100644', type: 'blob', sha: null
-            }));
-
-            const newCommitSHA = await this._executeGitCommit(
-                repoInfo, branch, currentParentSHA, treeItems, commitMessage + " (Deletions)", force
-            );
-
-            await this._saveIncrementalState(gitContextItem, gitInfo, newCommitSHA, [], filesToDelete, treeItems);
-            currentParentSHA = newCommitSHA;
-        }
-
-        return currentParentSHA;
     },
 
     async _saveIncrementalState(gitContextItem, gitInfo, newCommitSHA, processedFiles = [], processedDeletions = [], treeItems = []) {
@@ -144,7 +146,6 @@ export const GitCommit = {
             method: 'POST', body: JSON.stringify({ message, tree: newTree.sha, parents: parentSHA ? [parentSHA] : [] })
         });
         
-        // B"H - Apply Force Push logic if requested
         await FileSystemProvider.GitHub.api(`/repos/${repoInfo.owner}/${repoInfo.repo}/git/refs/heads/${branch}`, {
             method: 'PATCH', 
             body: JSON.stringify({ 
@@ -165,7 +166,6 @@ export const GitCommit = {
         const promises = allChanges.map(change => {
             const relativePath = change.path;
             const uniquePathForStaging = `${workspaceId}::${relativePath}`;
-
             const isDirectRepo = gitContextItem.type === 'github';
             let fullPath;
             if (isDirectRepo) {
@@ -174,23 +174,18 @@ export const GitCommit = {
                 const cloneRootPath = gitContextItem.path;
                 fullPath = cloneRootPath === '/' ? `/${relativePath}` : `${cloneRootPath}/${relativePath}`;
             }
-            
             const fullUniquePathToFind = `${workspaceId}::${fullPath}`;
             const tab = State.tabs.find(t => t.uniquePath === fullUniquePathToFind);
-            
             if (tab) {
                 tab.isDirty = false;
                 tab.isUncommitted = false;
-                
                 if (committedTreeMap && committedTreeMap.has(relativePath)) {
                     const newItemInfo = committedTreeMap.get(relativePath);
                     tab.item.sha = newItemInfo.sha;
                 }
             }
-            
             return FileSystemProvider.IndexedDB.deleteUncommitted(uniquePathForStaging);
         });
-
         await Promise.all(promises);
         Tabs.render();
     }

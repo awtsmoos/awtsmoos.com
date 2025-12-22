@@ -1,9 +1,7 @@
-
 // B"H
-// FILE: js/ui.js
+// FILE: code/js/ui.js
 
-import { DOM } from './state.js';
-import { App } from './app.js';
+import { State, DOM } from './state.js';
 
 export const UI = {
     showLoading: (msg = 'Processing...') => {
@@ -25,6 +23,71 @@ export const UI = {
                 setTimeout(() => toast.remove(), 300);
             }, duration);
         }, 10);
+    },
+
+    // B"H - NON-BLOCKING TASK UI
+    _taskStack: null,
+    _ensureTaskStack() {
+        if (this._taskStack) return;
+        this._taskStack = document.createElement('div');
+        this._taskStack.className = 'task-notification-stack';
+        document.body.appendChild(this._taskStack);
+    },
+
+    /**
+     * B"H - Start a background task that doesn't block the UI.
+     */
+    startTask(taskId, label) {
+        this._ensureTaskStack();
+        const card = document.createElement('div');
+        card.className = 'task-card';
+        card.innerHTML = `
+            <div class="task-info">
+                <span class="task-label">${label}</span>
+                <span class="task-percent">0%</span>
+            </div>
+            <div class="task-progress-bg">
+                <div class="task-progress-fill" style="width: 0%"></div>
+            </div>
+        `;
+        this._taskStack.appendChild(card);
+        State.activeTasks.set(taskId, { card, label });
+        return taskId;
+    },
+
+    /**
+     * B"H - Update background task progress.
+     */
+    updateTask(taskId, progress) {
+        const task = State.activeTasks.get(taskId);
+        if (!task) return;
+        const fill = task.card.querySelector('.task-progress-fill');
+        const percent = task.card.querySelector('.task-percent');
+        if (fill) fill.style.width = `${progress}%`;
+        if (percent) percent.textContent = `${Math.round(progress)}%`;
+    },
+
+    /**
+     * B"H - Conclude background task with visual feedback.
+     */
+    endTask(taskId, status = 'success', message = '') {
+        const task = State.activeTasks.get(taskId);
+        if (!task) return;
+        task.card.classList.add(status);
+        if (message) task.card.querySelector('.task-label').textContent = message;
+        
+        const fill = task.card.querySelector('.task-progress-fill');
+        const percent = task.card.querySelector('.task-percent');
+        if (fill) fill.style.width = '100%';
+        if (percent) percent.textContent = status === 'success' ? 'DONE' : 'ERROR';
+
+        setTimeout(() => {
+            task.card.classList.add('fading');
+            setTimeout(() => {
+                task.card.remove();
+                State.activeTasks.delete(taskId);
+            }, 500);
+        }, 3000);
     },
     
     showDialog: ({ title, message, hasInput = false, inputType = 'text', placeholder = '', inputValue = '', hasTextarea = false, textareaContent = '', okText = 'OK', cancelText = 'Cancel', contentHTML = '', tertiary = null, secondaryOk = null }) => {
