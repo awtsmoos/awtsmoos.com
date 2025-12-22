@@ -7,7 +7,7 @@ import { ParticleSystem } from './particle-system.js';
 
 export const NeonBrackets = {
     ctx: null,
-    match: null, // { start: {x,y}, end: {x,y} }
+    match: null, // { start: {line, col}, end: {line, col} }
     
     init(ctx) {
         this.ctx = ctx;
@@ -18,7 +18,6 @@ export const NeonBrackets = {
         const cursor = DOM.editor.selectionStart;
         
         const charBefore = text[cursor - 1];
-        // const charAt = text[cursor]; // Not used currently
         
         const pairs = { '(': ')', '{': '}', '[': ']' };
         const revPairs = { ')': '(', '}': '{', ']': '[' };
@@ -27,10 +26,10 @@ export const NeonBrackets = {
         
         if (pairs[charBefore]) {
             const partner = this._findMatch(text, cursor, 1, charBefore, pairs[charBefore]);
-            if (partner !== -1) this._setCoords(cursor - 1, partner);
+            if (partner !== -1) this._setMatchInfo(cursor - 1, partner);
         } else if (revPairs[charBefore]) {
             const partner = this._findMatch(text, cursor - 2, -1, charBefore, revPairs[charBefore]);
-            if (partner !== -1) this._setCoords(partner, cursor - 1);
+            if (partner !== -1) this._setMatchInfo(partner, cursor - 1);
         }
     },
     
@@ -38,8 +37,10 @@ export const NeonBrackets = {
         let depth = 1;
         let i = startPos;
         while (i >= 0 && i < text.length) {
-            if (text[i] === openChar) depth += dir;
-            else if (text[i] === closeChar) depth -= dir;
+            // B"H - Fixed logic: Nesting always increases depth, matching decreases it.
+            // Direction only affects traversal order.
+            if (text[i] === openChar) depth++;
+            else if (text[i] === closeChar) depth--;
             
             if (depth === 0) return i;
             i += dir;
@@ -47,25 +48,27 @@ export const NeonBrackets = {
         return -1;
     },
     
-    _setCoords(idx1, idx2) {
-        const getXY = (idx) => {
+    _setMatchInfo(idx1, idx2) {
+        const getLineCol = (idx) => {
             const sub = DOM.editor.value.substring(0, idx);
             const lines = sub.split('\n');
             const line = lines.length;
             const col = lines[lines.length-1].length + 1;
-            
-            // B"H - Use the shared, rectified calculation
-            const coords = ParticleSystem.getCoordinates(line, col);
-            return { x: coords.left, y: coords.top };
+            return { line, col };
         };
         
-        this.match = { start: getXY(idx1), end: getXY(idx2) };
+        this.match = { start: getLineCol(idx1), end: getLineCol(idx2) };
     },
     
     render() {
         if (!this.match) return;
         
-        const { start, end } = this.match;
+        // Calculate coords dynamically every frame to account for scroll
+        const startCoords = ParticleSystem.getCoordinates(this.match.start.line, this.match.start.col);
+        const endCoords = ParticleSystem.getCoordinates(this.match.end.line, this.match.end.col);
+        
+        const start = { x: startCoords.left, y: startCoords.top };
+        const end = { x: endCoords.left, y: endCoords.top };
         
         this.ctx.beginPath();
         this.ctx.moveTo(start.x, start.y);

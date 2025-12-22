@@ -11,10 +11,19 @@ class Model {
         this.engine = engine;
         this.layers = new Layers(engine);
         
-        // B"H: Initialize to -1 because WASM pointers can be 0
+        // Output Projection pointers
         this.wasm_w_out_ptr = -1;
         this.wasm_out_buffer_ptr = -1;
         this.wasm_x_ptr = -1;
+
+        // Layer Weights Cache (Map<String Key, Number Pointer>)
+        this.wasm_cache = new Map();
+        
+        // Shared Scratch Buffers for Layers to reduce allocation overhead
+        this.shared_input_ptr = -1;
+        this.shared_input_size = 0;
+        this.shared_output_ptr = -1;
+        this.shared_output_size = 0;
     }
 
     async forward(token_id, pos) {
@@ -47,34 +56,98 @@ class Model {
         return x;
     }
 
+    // B"H: New Optimized Executor for Layers
+    computeWasm(x, w, n_out, cacheKey) {
+        // Fallback if WASM failed to init or weights are missing
+        if (!Wasm.instance || !w) {
+            return Matrix.matVecMul(x, w, n_out);
+        }
+
+        try {
+            const n_in = x.length;
+
+            // 1. Prepare Weights (Cache them)
+            let w_ptr = this.wasm_cache.get(cacheKey);
+            if (w_ptr === undefined) {
+                // First time seeing this layer weight? Upload it.
+                // Note: This happens once per layer per session.
+                w_ptr = Wasm.uploadF32(w);
+                if (w_ptr === 0 && w.length > 0) {
+                    // OOM protection
+                    this.wasm_cache.set(cacheKey, -1); // Mark as failed
+                    return Matrix.matVecMul(x, w, n_out);
+                }
+                this.wasm_cache.set(cacheKey, w_ptr);
+            }
+
+            // If previously failed to upload, fallback
+            if (w_ptr === -1) return Matrix.matVecMul(x, w, n_out);
+
+            // 2. Prepare Input Buffer (Shared/Growing)
+            const inputSizeNeeded = n_in * 4;
+            if (this.shared_input_ptr === -1 || this.shared_input_size < inputSizeNeeded) {
+                // Align to 32 bytes for safety
+                this.shared_input_ptr = Wasm.alloc(inputSizeNeeded + 32);
+                this.shared_input_size = inputSizeNeeded + 32;
+            }
+            Wasm.heapF32.set(x, this.shared_input_ptr >> 2);
+
+            // 3. Prepare Output Buffer (Shared/Growing)
+            const outputSizeNeeded = n_out * 4;
+            if (this.shared_output_ptr === -1 || this.shared_output_size < outputSizeNeeded) {
+                this.shared_output_ptr = Wasm.alloc(outputSizeNeeded + 32);
+                this.shared_output_size = outputSizeNeeded + 32;
+            }
+
+            // 4. Run Kernel
+            Wasm.fn(
+                this.shared_output_ptr,
+                this.shared_input_ptr,
+                w_ptr,
+                n_out,
+                n_in
+            );
+
+            // 5. Retrieve Result
+            return Wasm.heapF32.slice(
+                this.shared_output_ptr >> 2,
+                (this.shared_output_ptr >> 2) + n_out
+            );
+
+        } catch (e) {
+            // Safety Net: Any error in WASM logic falls back to JS immediately
+            // console.warn("WASM Layer Error, falling back to JS:", e.message);
+            return Matrix.matVecMul(x, w, n_out);
+        }
+    }
+
     computeLogits(hidden) {
         const stats = this.engine.params;
         const loader = this.engine.loader;
         
         const w_out_name = loader.globalTensorMap.output || loader.globalTensorMap.embed;
         
-        // --- WASM ACCELERATION ---
+        // --- WASM ACCELERATION (Output Layer) ---
         if (Wasm.instance) {
-            // B"H: Correct check for uninitialized pointer
             if (this.wasm_w_out_ptr === -1) {
                 Logger.log(`[WASM] Uploading Output Weights to GPU/WASM Heap...`);
-                // Force full load of weights
                 const w_out = loader.getTensor(w_out_name);
                 this.wasm_w_out_ptr = Wasm.uploadF32(w_out);
                 
-                // Pre-allocate output buffer in WASM
                 const vocabSize = this.engine.vocab.length;
                 this.wasm_out_buffer_ptr = Wasm.alloc(vocabSize * 4);
                 this.wasm_x_ptr = Wasm.alloc(hidden.length * 4);
             }
 
+            // Check if upload succeeded (ptr could be 0, which is valid, but -1 is our init state)
+            // Actually, allocator returns 0 as valid. 
+            // We only fallback if uploadF32 failed (which we can catch if we want, but let's assume it works for output).
+            
             const vocabSize = this.engine.vocab.length;
             const n_embd = hidden.length;
 
-            // 1. Copy hidden state (small, fast)
             Wasm.heapF32.set(hidden, this.wasm_x_ptr >> 2);
 
-            // 2. Run Kernel
             Wasm.fn(
                 this.wasm_out_buffer_ptr, 
                 this.wasm_x_ptr, 
@@ -83,7 +156,6 @@ class Model {
                 n_embd
             );
 
-            // 3. Read result
             const logits = Wasm.heapF32.slice(
                 this.wasm_out_buffer_ptr >> 2, 
                 (this.wasm_out_buffer_ptr >> 2) + vocabSize
@@ -92,15 +164,12 @@ class Model {
             if (stats.final_soft_cap > 0) {
                 const cap = stats.final_soft_cap;
                 const invCap = 1.0 / cap;
-                for(let i=0; i<logits.length; i++) {
-                    logits[i] = cap * Math.tanh(logits[i] * invCap);
-                }
+                for(let i=0; i<logits.length; i++) logits[i] = cap * Math.tanh(logits[i] * invCap);
             }
             return logits;
         }
-        // --- END WASM ---
 
-        // Fallback to JS
+        // Fallback
         const w_out = loader.getTensor(w_out_name);
         const vocabSize = this.engine.vocab.length;
         const logits = Matrix.matVecMul(hidden, w_out, vocabSize);
@@ -108,9 +177,7 @@ class Model {
         if (stats.final_soft_cap > 0) {
             const cap = stats.final_soft_cap;
             const invCap = 1.0 / cap;
-            for(let i=0; i<logits.length; i++) {
-                logits[i] = cap * Math.tanh(logits[i] * invCap);
-            }
+            for(let i=0; i<logits.length; i++) logits[i] = cap * Math.tanh(logits[i] * invCap);
         }
         
         return logits;

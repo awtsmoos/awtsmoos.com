@@ -3,15 +3,12 @@
 // FILE: js/visuals/scope-laser.js
 
 import { DOM } from '../state.js';
-import { Editor } from '../editor.js';
 import { ParticleSystem } from './particle-system.js';
 
 export const ScopeLaser = {
     ctx: null,
-    targetIndentPixels: 0,
-    currentIndentPixels: 0, // Lerp value
-    targetY: 0,
-    currentY: 0,
+    targetIndent: 0,
+    currentIndent: 0, // Lerp value
     
     init(ctx) {
         this.ctx = ctx;
@@ -19,90 +16,74 @@ export const ScopeLaser = {
     
     updatePosition() {
         const editor = DOM.editor;
-        if (!editor) return;
-
         const text = editor.value;
         const start = editor.selectionStart;
         
-        // 1. Find the current line content
+        // Find current line start
         const lineStart = text.lastIndexOf('\n', start - 1) + 1;
         const lineEnd = text.indexOf('\n', start);
         const actualEnd = lineEnd === -1 ? text.length : lineEnd;
+        
         const lineText = text.substring(lineStart, actualEnd);
         
-        // 2. Extract leading whitespace
+        // Calculate indentation
         const match = lineText.match(/^\s*/);
-        const indentStr = match ? match[0] : '';
+        const indentSpace = match ? match[0].length : 0;
         
-        // 3. Calculate Visual Width of Indentation (Handling Tabs)
-        const style = window.getComputedStyle(editor);
-        const tabSize = parseInt(style.tabSize) || 4;
-        
-        let visualCol = 0;
-        for(const char of indentStr) {
-            if(char === '\t') {
-                visualCol += tabSize - (visualCol % tabSize);
-            } else {
-                visualCol++;
-            }
-        }
-        
-        // 4. Convert to Pixels (using the central physics engine width)
-        const charWidth = ParticleSystem.charWidth || 8.4;
-        this.targetIndentPixels = visualCol * charWidth;
-
-        // 5. Calculate Y Position
-        // We reuse the metric cache from ParticleSystem to ensure perfect sync
-        const lineHeight = ParticleSystem.lineHeight || 24; 
-        const paddingTop = ParticleSystem.paddingTop || 10;
-        const borderTop = ParticleSystem.borderTop || 0;
-        
-        const { line } = Editor.getCursorInfo(); // 1-based line number
-        // (line - 1) converts to 0-based index
-        const yPos = borderTop + paddingTop + ((line - 1) * lineHeight) - editor.scrollTop;
-        
-        const rect = editor.getBoundingClientRect();
-        this.targetY = rect.top + yPos;
+        this.targetIndent = indentSpace;
     },
     
     render() {
-        // Smooth Animation (Lerp)
-        this.currentIndentPixels += (this.targetIndentPixels - this.currentIndentPixels) * 0.2;
-        this.currentY += (this.targetY - this.currentY) * 0.3;
+        // Lerp for smooth movement
+        this.currentIndent += (this.targetIndent - this.currentIndent) * 0.2;
         
-        // Culling
-        if (this.currentY < 0 || this.currentY > window.innerHeight) return;
-
+        if (this.currentIndent < 0.5) return; // Don't draw at 0 indent
+        
         const editor = DOM.editor;
-        const rect = editor.getBoundingClientRect();
         const style = window.getComputedStyle(editor);
+        const fontSize = parseFloat(style.fontSize);
+        const charWidth = fontSize * 0.6; 
+        const paddingLeft = parseFloat(style.paddingLeft);
+        const rect = editor.getBoundingClientRect();
         
-        // Get left offsets
-        const paddingLeft = parseFloat(style.paddingLeft) || 10;
-        const borderLeft = parseFloat(style.borderLeftWidth) || 0;
+        // B"H - Added scrollLeft subtraction for horizontal scrolling support
+        const x = rect.left + paddingLeft + (this.currentIndent * charWidth) - editor.scrollLeft;
         
-        // Absolute X position on screen
-        const x = rect.left + borderLeft + paddingLeft + this.currentIndentPixels;
+        // Get Cursor Y for gradient center using ParticleSystem
+        const coords = ParticleSystem.getCaretCoordinates();
+        const y = coords.top;
         
-        // Draw Vertical Scope Line
+        // Define beam height (shorter)
+        const beamHeight = 250; 
+        const topY = y - (beamHeight / 2);
+        const bottomY = y + (beamHeight / 2);
+
+        // Draw Gradient Laser
+        const gradient = this.ctx.createLinearGradient(x, topY, x, bottomY);
+        gradient.addColorStop(0, 'rgba(0, 246, 255, 0)');
+        gradient.addColorStop(0.2, 'rgba(0, 246, 255, 0.05)');
+        gradient.addColorStop(0.5, 'rgba(0, 246, 255, 0.6)'); // Core intensity
+        gradient.addColorStop(0.8, 'rgba(0, 246, 255, 0.05)');
+        gradient.addColorStop(1, 'rgba(0, 246, 255, 0)');
+        
         this.ctx.beginPath();
-        this.ctx.moveTo(x, this.currentY);
-        this.ctx.lineTo(x, this.currentY + 24); // Height of one line
+        this.ctx.moveTo(x, topY);
+        this.ctx.lineTo(x, bottomY);
         
-        // Enhanced Glow Style
-        this.ctx.strokeStyle = 'rgba(0, 246, 255, 0.6)';
+        this.ctx.strokeStyle = gradient;
         this.ctx.lineWidth = 2;
-        this.ctx.shadowBlur = 5;
-        this.ctx.shadowColor = 'rgba(0, 246, 255, 0.8)';
         this.ctx.stroke();
         
-        this.ctx.shadowBlur = 0;
-        
-        // Optional: Horizontal Guide (faint)
+        // Inner Core (Thinner, White)
+        const innerGradient = this.ctx.createLinearGradient(x, topY + 50, x, bottomY - 50);
+        innerGradient.addColorStop(0, 'rgba(255, 255, 255, 0)');
+        innerGradient.addColorStop(0.5, 'rgba(255, 255, 255, 0.4)');
+        innerGradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
+
         this.ctx.beginPath();
-        this.ctx.moveTo(rect.left, this.currentY + 24);
-        this.ctx.lineTo(rect.right, this.currentY + 24);
-        this.ctx.strokeStyle = 'rgba(0, 246, 255, 0.08)';
+        this.ctx.moveTo(x, topY + 50);
+        this.ctx.lineTo(x, bottomY - 50);
+        this.ctx.strokeStyle = innerGradient;
         this.ctx.lineWidth = 1;
         this.ctx.stroke();
     }

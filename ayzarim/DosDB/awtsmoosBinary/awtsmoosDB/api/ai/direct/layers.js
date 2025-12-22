@@ -24,7 +24,6 @@ class Layers {
         const p = this.engine.params;
         const loader = this.engine.loader;
         
-        // B"H: Reverted to 0.0 (Workable State)
         const unitOffset = 0.0;
         
         let attn_norm_w = loader.getLayerWeight(l, 'attn_norm');
@@ -61,9 +60,11 @@ class Layers {
         
         if (!q_w || !k_w || !v_w) return new Float32Array(params.n_embd);
 
-        let q = Matrix.matVecMul(x, q_w, params.q_dim);
-        let k = Matrix.matVecMul(x, k_w, params.kv_dim);
-        let v = Matrix.matVecMul(x, v_w, params.kv_dim);
+        // B"H: Accelerated Calls
+        // Using cache keys L{layer}_Q, L{layer}_K, L{layer}_V
+        let q = this.engine.model.computeWasm(x, q_w, params.q_dim, `L${l}_Q`);
+        let k = this.engine.model.computeWasm(x, k_w, params.kv_dim, `L${l}_K`);
+        let v = this.engine.model.computeWasm(x, v_w, params.kv_dim, `L${l}_V`);
         
         if (params.arch.includes('gemma')) {
              let w_qn = loader.getLayerWeight(l, 'attn_q_norm');
@@ -112,20 +113,15 @@ class Layers {
         
         for (let h = 0; h < params.n_head; h++) {
             const h_off = h * params.head_dim;
-            // B"H: Avoid subarray creation for Q if possible, but for now we optimize inner loop
             const q_h_off = h_off; 
-            
             const kv_h = Math.floor(h / ratio);
             const kv_off = kv_h * params.head_dim; 
-            
             const validLen = pos - startPos + 1;
             const scores = new Float32Array(validLen);
             
             for (let i = 0; i < validLen; i++) {
                 const p = startPos + i;
-                // B"H: Optimization: Use dotProductChunk to avoid subarray creation for K
                 const k_full = this.engine.kv_cache[l].k[p];
-                // q_r is used via offset h_off
                 scores[i] = Matrix.dotProductChunk(q_r, q_h_off, k_full, kv_off, params.head_dim) * scale;
             }
 
@@ -133,15 +129,11 @@ class Layers {
             if (params.attn_soft_cap > 0) cap_scores = Act.softCap(scores, params.attn_soft_cap);
             
             const probs = Stats.softmax(cap_scores);
-            // B"H: REMOVED SUBARRAY CREATION HERE (out_h) for speed.
             
             for (let i = 0; i < validLen; i++) {
                 const p = startPos + i;
                 const val = probs[i];
-                // B"H: Optimization: Access V directly without subarray
                 const v_full = this.engine.kv_cache[l].v[p];
-                
-                // Unrolled accumulation directly to out_attn using h_off
                 for (let j = 0; j < params.head_dim; j++) {
                     out_attn[h_off + j] += val * v_full[kv_off + j];
                 }
@@ -149,7 +141,8 @@ class Layers {
         }
         
         let attn_proj_w = loader.getLayerWeight(l, 'attn_out');
-        return Matrix.matVecMul(out_attn, attn_proj_w, params.n_embd);
+        // B"H: Accelerated Output
+        return this.engine.model.computeWasm(out_attn, attn_proj_w, params.n_embd, `L${l}_OUT`);
     }
 
     computeFFN(x, l, params, loader) {
@@ -161,15 +154,17 @@ class Layers {
 
         const n_ff = w_g.length / params.n_embd;
 
-        const gate = Matrix.matVecMul(x, w_g, n_ff);
-        const up = Matrix.matVecMul(x, w_u, n_ff);
+        // B"H: Accelerated FFN
+        // These are large matrices (approx 2000x640), so speedup is significant.
+        const gate = this.engine.model.computeWasm(x, w_g, n_ff, `L${l}_FFN_G`);
+        const up = this.engine.model.computeWasm(x, w_u, n_ff, `L${l}_FFN_U`);
         
         let act;
         if (params.act_fn === 'gelu') act = Act.gelu(gate);
         else act = Stats.silu(gate);
 
         const act_mul = Matrix.mul(act, up);
-        return Matrix.matVecMul(act_mul, w_d, params.n_embd);
+        return this.engine.model.computeWasm(act_mul, w_d, params.n_embd, `L${l}_FFN_D`);
     }
 }
 
