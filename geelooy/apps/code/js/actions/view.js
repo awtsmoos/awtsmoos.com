@@ -1,3 +1,4 @@
+
 // B"H
 // FILE: js/actions/view.js
 import { State, DOM } from '../state.js';
@@ -9,6 +10,7 @@ import { FindReplace } from '../find-replace.js';
 import { CommandPalette } from '../command-palette.js';
 import { VisualSettings } from '../visuals/settings.js';
 import { Help } from '../help.js';
+import { ParticleSystem } from '../visuals/particle-system.js'; // B"H
 
 export const ViewActions = {
     toggleLineComment() { Editor.toggleComment(); },
@@ -38,6 +40,32 @@ export const ViewActions = {
         DOM.editor.style.whiteSpace = (currentWrap === 'pre-wrap') ? 'pre' : 'pre-wrap';
         UI.showToast(`Word Wrap: ${DOM.editor.style.whiteSpace === 'pre-wrap' ? 'ON' : 'OFF'}`, 'info');
     },
+
+    // B"H - FONT SIZE CONTROLS
+    _changeFontSize(delta) {
+        const editor = DOM.editor;
+        if (!editor) return;
+        
+        const style = window.getComputedStyle(editor);
+        const currentSize = parseFloat(style.fontSize);
+        const newSize = Math.max(10, Math.min(60, currentSize + delta)); // Clamp between 10px and 60px
+        
+        // Apply to Editor
+        editor.style.fontSize = `${newSize}px`;
+        // We also need to update the line numbers container to match!
+        const lineNums = document.getElementById('line-numbers');
+        if (lineNums) lineNums.style.fontSize = `${newSize}px`;
+        
+        // REFRESH HIGHLIGHTER & METRICS
+        if (Editor.currentHighlighter) {
+            Editor.currentHighlighter.refresh();
+        }
+        
+        UI.showToast(`Font Size: ${newSize}px`, "info");
+    },
+
+    increaseFontSize() { this._changeFontSize(2); },
+    decreaseFontSize() { this._changeFontSize(-2); },
 
     toggleTheme() {
         const body = document.body;

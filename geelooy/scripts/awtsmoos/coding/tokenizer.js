@@ -1,3 +1,4 @@
+
 // B"H
 /**
  * @file tokenizer.js
@@ -52,7 +53,48 @@ export const helpers = { _findUnescaped, _escape, _wrap };
 export function getJSToken(line, i, state) {
     const char = line[i];
     
-    // B"H - Regex Fix
+    // B"H - Tikkun for Template Literals: Explicit State Handling
+    const context = state.contextStack.length > 0 ? state.contextStack[state.contextStack.length - 1] : null;
+
+    // 1. Handle Active Template Literal Content
+    if (context && context.mode === 'template_literal') {
+        // If we hit the backtick, close the template
+        if (char === '`') {
+            state.contextStack.pop();
+            return { html: _wrap('`', 'string'), newIndex: i + 1 };
+        }
+        // If we hit ${, switch to interpolation mode
+        if (line.substring(i).startsWith('${')) {
+            state.contextStack.push({ mode: 'javascript_interpolation', terminator: '}', depth: 0 });
+            return { html: _wrap('${', 'controlKeyword'), newIndex: i + 2 };
+        }
+        // Otherwise, consume as string content
+        let p = i + 1;
+        while (p < line.length) {
+            if (line[p] === '`') break;
+            if (line.substring(p).startsWith('${')) break;
+            if (line[p] === '\\') p++; // Skip escaped char
+            p++;
+        }
+        return { html: _wrap(line.substring(i, p), 'string'), newIndex: p };
+    }
+
+    // 2. Handle Active Interpolation Logic (${...})
+    if (context && context.mode === 'javascript_interpolation') {
+        if (char === '{') {
+            context.depth = (context.depth || 0) + 1;
+        } else if (char === '}') {
+            if (context.depth && context.depth > 0) {
+                context.depth--;
+            } else {
+                // Closing the interpolation. Pop context and consume '}'
+                state.contextStack.pop();
+                return { html: _wrap('}', 'controlKeyword'), newIndex: i + 1 };
+            }
+        }
+    }
+
+    // 3. Regex Detection (Standard)
     if (char === '/') {
         if (line.substring(i, i + 2) === '/*') {
             state.contextStack.push({ mode: 'comment', terminator: '*/' });
@@ -88,22 +130,15 @@ export function getJSToken(line, i, state) {
         }
     }
     
-    // Template Literals & Interpolation
-	if (line.substring(i).startsWith('${')) {
-		state.contextStack.push({ mode: 'javascript_interpolation', terminator: '}', depth: 0 });
-		return { html: _wrap('${', 'controlKeyword'), newIndex: i + 2 };
-	}
-    const context = state.contextStack[state.contextStack.length - 1];
-    if (context.mode === 'javascript_interpolation') {
-        if (char === '{') context.depth = (context.depth || 0) + 1;
-        else if (char === '}') {
-            if (context.depth && context.depth > 0) context.depth--;
-            else return { html: '', newIndex: i }; // Let main dispatcher handle terminator
-        }
+    // 4. Start of Template Literal
+    if (char === '`') {
+        state.contextStack.push({ mode: 'template_literal', terminator: '`' });
+        return { html: _wrap('`', 'string'), newIndex: i + 1 };
     }
 
-    if ("'\"`".includes(char)) {
-        const mode = char === '`' ? 'template_literal' : 'string';
+    // 5. Start of Strings
+    if ("'\"".includes(char)) {
+        const mode = 'string';
         state.contextStack.push({ mode, terminator: char });
         return { html: _wrap(char, 'string'), newIndex: i + 1 };
     }
@@ -301,10 +336,7 @@ export function getJSONToken(line, i, state) {
     }
     
     if (char === '"') {
-        // B"H - THE TIKKUN (RECTIFICATION) IS HERE
         const endQuoteIndex = _findUnescaped(line, '"', i + 1);
-        
-        // Handle unterminated strings gracefully
         if (endQuoteIndex === -1) {
             const text = line.substring(i);
             return { html: _wrap(text, 'string'), newIndex: line.length };
@@ -338,6 +370,5 @@ export function getJSONToken(line, i, state) {
         return { html: _wrap(char, 'punctuation'), newIndex: i + 1 };
     }
 
-    // Fallback for anything else
     return { html: _escape(char), newIndex: i + 1 };
 }

@@ -4,43 +4,20 @@
 
 import { DOM } from '../state.js';
 import { VisualSettings } from './settings.js';
+import { Editor } from '../editor.js'; 
 
 export const ParticleSystem = {
     ctx: null,
-    // B"H - Object Pool for Zero-Allocation Rendering
     pool: [], 
-    activeParticles: [],
-    maxParticles: 60, // Hard limit for Low RAM
-    
-    // Layout Metrics (Cached)
-    charWidth: 0,
-    lineHeight: 24,
-    paddingTop: 10,
-    paddingLeft: 10,
-    borderLeft: 0,
-    borderTop: 0,
-    
-    // The Otiot (Letters)
+    maxParticles: 150, // B"H - Increased for explosions
     hebrewChars: "אבגדהוזחטיכלמנסעפצקרשת",
     
     init(ctx) {
         this.ctx = ctx;
-        this._measureCharWidth();
         this._initPool();
-        
-        window.addEventListener('resize', () => this._measureCharWidth());
-
-        if (document.fonts) {
-            document.fonts.ready.then(() => {
-                this._measureCharWidth();
-                setTimeout(() => this._measureCharWidth(), 500);
-            });
-        }
-        setInterval(() => this._measureCharWidth(), 2000);
     },
     
     _initPool() {
-        // Pre-allocate particles to avoid Garbage Collection stutter
         for(let i=0; i<this.maxParticles; i++) {
             this.pool.push({
                 active: false,
@@ -56,88 +33,76 @@ export const ParticleSystem = {
         }
     },
     
-    _measureCharWidth() {
-        if (!this.ctx || !DOM.editor) return;
-        const style = window.getComputedStyle(DOM.editor);
-        const fontSize = style.fontSize || '14px';
-        const fontFamily = style.fontFamily || 'monospace';
-        const fontWeight = style.fontWeight || 'normal';
-        this.ctx.font = `${fontWeight} ${fontSize} ${fontFamily}`;
-        
-        const testString = '0'.repeat(100);
-        const metrics = this.ctx.measureText(testString);
-        const avgWidth = metrics.width / 100;
-
-        if (avgWidth > 0) this.charWidth = avgWidth;
-        else this.charWidth = parseFloat(fontSize) * 0.6; 
-        
-        this.lineHeight = parseFloat(style.lineHeight) || 24;
-        this.paddingLeft = parseFloat(style.paddingLeft) || 10;
-        this.paddingTop = parseFloat(style.paddingTop) || 10;
-        this.borderLeft = parseFloat(style.borderLeftWidth) || 0;
-        this.borderTop = parseFloat(style.borderTopWidth) || 0; 
-    },
-    
-    getCoordinates(index) {
+    // Helper to get caret coords
+    _getCaretCoordinates() {
         const editor = DOM.editor;
-        if (!editor || index < 0) return { x: 0, y: 0 };
-        if (!this.charWidth) this._measureCharWidth();
-
-        const text = editor.value;
+        if (!editor) return { left: 0, top: 0 };
+        
         const style = window.getComputedStyle(editor);
-        const lineStart = text.lastIndexOf('\n', index - 1) + 1;
+        const lineHeight = parseFloat(style.lineHeight) || 24;
+        const paddingLeft = parseFloat(style.paddingLeft);
+        const paddingTop = parseFloat(style.paddingTop);
+        const fontSize = parseFloat(style.fontSize);
+        const charWidth = fontSize * 0.6; // Approx
         
-        let lineNum = 0;
-        for(let i=0; i<lineStart; i++) if (text[i] === '\n') lineNum++;
-
-        const tabSize = parseInt(style.tabSize) || 4;
-        let visualCol = 0;
-        for (let i = lineStart; i < index; i++) {
-            if (text[i] === '\t') {
-                visualCol += tabSize - (visualCol % tabSize);
-            } else {
-                visualCol++;
-            }
-        }
-
+        const { line, col } = Editor.getCursorInfo(); // 1-based
         const rect = editor.getBoundingClientRect();
-        const x = rect.left + this.borderLeft + this.paddingLeft + (visualCol * this.charWidth) - editor.scrollLeft;
-        const y = rect.top + this.borderTop + this.paddingTop + (lineNum * this.lineHeight) - editor.scrollTop + (this.lineHeight / 2);
-
-        return { x, y };
+        
+        const top = rect.top + paddingTop + ((line - 1) * lineHeight) - editor.scrollTop + (lineHeight / 2);
+        const left = rect.left + paddingLeft + ((col - 1) * charWidth) - editor.scrollLeft;
+        
+        return { left, top };
     },
 
-    getCaretCoordinates() {
-        const editor = DOM.editor;
-        if (!editor) return { x: 0, y: 0 };
-        return this.getCoordinates(editor.selectionEnd);
+    // B"H - NEW: Explosion Logic
+    spawnExplosion(x, y) {
+        if (!VisualSettings.get('particles')) return;
+        
+        const particleCount = 15;
+        const colors = ['#ffd700', '#ff6400', '#00f6ff', '#ffffff']; // Gold, Red, Cyan, White
+
+        for (let i = 0; i < particleCount; i++) {
+            const p = this.pool.find(p => !p.active);
+            if (!p) return;
+
+            const angle = Math.random() * Math.PI * 2;
+            const speed = Math.random() * 5 + 2;
+
+            p.active = true;
+            p.x = x;
+            p.y = y;
+            p.vx = Math.cos(angle) * speed;
+            p.vy = Math.sin(angle) * speed;
+            p.life = 1.0;
+            
+            p.color = colors[Math.floor(Math.random() * colors.length)];
+            p.size = Math.random() * 14 + 8;
+            p.char = this.hebrewChars[Math.floor(Math.random() * this.hebrewChars.length)];
+            p.rotation = Math.random() * Math.PI;
+            p.rotationSpeed = (Math.random() - 0.5) * 0.4;
+        }
     },
 
     spawnFromCaret(type) {
         if (!VisualSettings.get('particles')) return;
 
-        const { x, y } = this.getCaretCoordinates();
-        
-        // B"H - Limit spawn count based on active load
+        const { left, top } = this._getCaretCoordinates();
         const count = type === 'delete' ? 3 : 1; 
-        const baseColor = type === 'delete' ? '247, 93, 101' : '0, 246, 255'; // RGB values
+        const baseColor = type === 'delete' ? '#f75d65' : '#00f6ff'; 
         
         for (let i = 0; i < count; i++) {
-            // Find a dead particle in the pool
             const p = this.pool.find(p => !p.active);
-            if (!p) return; // Pool exhausted, skip spawn (Performance safety)
+            if (!p) return; 
 
             p.active = true;
-            p.x = x;
-            p.y = y;
+            p.x = left;
+            p.y = top;
             p.vx = (Math.random() - 0.5) * 4;
-            // Float up for typing, fall down for delete
             p.vy = type === 'delete' ? (Math.random() * 2) : (Math.random() * -3 - 1);
             p.life = 1.0;
             p.color = baseColor;
-            p.size = Math.random() * 10 + 12; // Larger for letters
+            p.size = Math.random() * 10 + 12; 
             
-            // B"H - Pick a random Hebrew Letter
             p.char = this.hebrewChars[Math.floor(Math.random() * this.hebrewChars.length)];
             p.rotation = (Math.random() - 0.5);
             p.rotationSpeed = (Math.random() - 0.5) * 0.2;
@@ -145,41 +110,31 @@ export const ParticleSystem = {
     },
     
     updateAndRender() {
-        // Only loop through pool, no new allocations
-        let activeCount = 0;
-        
         for (let i = 0; i < this.maxParticles; i++) {
             const p = this.pool[i];
             if (!p.active) continue;
-            
-            activeCount++;
             
             p.x += p.vx;
             p.y += p.vy;
             p.rotation += p.rotationSpeed;
             
-            // Gravity/Friction
             p.vx *= 0.95;
             p.vy *= 0.95;
-            p.life -= 0.03; // Fade out speed
+            p.life -= 0.03; 
             
             if (p.life <= 0) {
                 p.active = false;
                 continue;
             }
             
-            // Render
             this.ctx.save();
             this.ctx.translate(p.x, p.y);
             this.ctx.rotate(p.rotation);
             this.ctx.globalAlpha = p.life;
-            this.ctx.font = `${p.size}px "Times New Roman", serif`; // Serif looks better for Hebrew
-            this.ctx.fillStyle = `rgba(${p.color}, ${p.life})`;
-            
-            // Add Glow
+            this.ctx.font = `${p.size}px "Times New Roman", serif`; 
+            this.ctx.fillStyle = p.color;
             this.ctx.shadowBlur = 10;
-            this.ctx.shadowColor = `rgba(${p.color}, 1)`;
-            
+            this.ctx.shadowColor = p.color;
             this.ctx.fillText(p.char, -p.size/2, p.size/2);
             this.ctx.restore();
         }

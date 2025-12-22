@@ -1,3 +1,4 @@
+
 // B"H
 // FILE: js/menus/tabs.js
 
@@ -5,7 +6,7 @@ import { State, DOM } from '../state.js';
 import { Menus } from './index.js';
 import { MenuUI } from './ui.js';
 import { getItemUniquePath, Workspaces } from '../workspaces.js';
-import { Actions } from '../actions/index.js'; // B"H - Updated Import
+import { Actions } from '../actions.js';
 
 export const TabMenus = {
     showTabMenu(e, tab) {
@@ -28,7 +29,7 @@ export const TabMenus = {
 
     /**
      * B"H - Reveal ritual. Recursively opens folders to find a file.
-     * Updated to scroll progressively and handle already-open directories gracefully.
+     * The Tikkun: We use a polling "Seeker" to wait for the DOM to manifest after expansion.
      */
     async revealInWorkspace(tab) {
         if (!tab || !tab.item || tab.item.path === '/') return;
@@ -43,6 +44,25 @@ export const TabMenus = {
              document.getElementById('sidebar-toggle-btn')?.click();
         }
 
+        // Helper: Wait for element to exist in DOM
+        const waitForElement = async (uniquePath) => {
+            return new Promise((resolve) => {
+                const check = () => {
+                    const entry = State.domItemMap.get(uniquePath);
+                    if (entry && entry.el && document.body.contains(entry.el)) {
+                        resolve(entry.el);
+                    } else {
+                        // Keep checking rapidly
+                        requestAnimationFrame(check);
+                    }
+                };
+                // Fallback timeout to prevent infinite wait
+                const timer = setTimeout(() => resolve(null), 2000);
+                
+                check();
+            });
+        };
+
         // 1. Ensure Workspace Root is Expanded and Refreshed
         const rootItem = { ...workspace, path: '/', kind: 'directory' };
         const rootUniquePath = getItemUniquePath(rootItem);
@@ -53,13 +73,11 @@ export const TabMenus = {
             await Workspaces.refreshNode(rootItem);
         }
         
-        // Scroll Root into view if needed
-        rootEntry = State.domItemMap.get(rootUniquePath); // Re-get in case it was refreshed
-        if (rootEntry?.el) {
-            rootEntry.el.scrollIntoView({ behavior: 'auto', block: 'center' });
-        }
+        // Wait for root
+        const rootEl = await waitForElement(rootUniquePath);
+        if (rootEl) rootEl.scrollIntoView({ behavior: 'auto', block: 'center' });
 
-        // 2. Recursively Expand and Refresh Path Segments
+        // 2. Recursively Expand Path Segments
         const pathSegments = path.split('/').filter(Boolean);
         let currentAccum = '';
         
@@ -69,48 +87,29 @@ export const TabMenus = {
             const segmentItem = { ...tab.item, path: currentAccum, kind: 'directory' };
             const uniquePath = getItemUniquePath(segmentItem);
             
-            // Check if already open
+            // Expand
             if (!State.expandedFolders.has(uniquePath)) {
                 State.expandedFolders.add(uniquePath);
-                // Only refresh if we just opened it (to load children)
                 await Workspaces.refreshNode(segmentItem);
-            } else {
-                // Even if open, ensure DOM logic (like sub-uls) is intact. 
-                // Workspaces.refreshNode handles this check internally usually, 
-                // but let's call it to be safe or just find the DOM.
-                // Actually, if it's open, we just want to scroll to it.
             }
             
-            // Find DOM and Scroll
-            const entry = State.domItemMap.get(uniquePath);
-            if (entry?.el) {
-                entry.el.scrollIntoView({ behavior: 'auto', block: 'center' });
+            // Critical: Wait for this folder to render before trying to scroll or find its children
+            const el = await waitForElement(uniquePath);
+            if (el) {
+                el.scrollIntoView({ behavior: 'auto', block: 'center' });
             }
         }
 
         // 3. Locate and Flash the Element (The final target)
         const finalUniquePath = getItemUniquePath(tab.item);
         
-        const flashElement = () => {
-            const entry = State.domItemMap.get(finalUniquePath);
-            if (entry && entry.el && document.body.contains(entry.el)) {
-                entry.el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                entry.el.classList.remove('reveal-flash');
-                void entry.el.offsetWidth; // Trigger reflow
-                entry.el.classList.add('reveal-flash');
-                setTimeout(() => entry.el.classList.remove('reveal-flash'), 2500);
-                return true;
-            }
-            return false;
-        };
-
-        if (!flashElement()) {
-            // Polling fallback for stubborn rendering cycles
-            let attempts = 0;
-            const poller = setInterval(() => {
-                attempts++;
-                if (flashElement() || attempts > 15) clearInterval(poller);
-            }, 100);
+        const finalEl = await waitForElement(finalUniquePath);
+        if (finalEl) {
+            finalEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            finalEl.classList.remove('reveal-flash');
+            void finalEl.offsetWidth; // Trigger reflow
+            finalEl.classList.add('reveal-flash');
+            setTimeout(() => finalEl.classList.remove('reveal-flash'), 2500);
         }
     }
 };

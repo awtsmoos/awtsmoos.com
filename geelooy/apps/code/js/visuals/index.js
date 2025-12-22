@@ -30,6 +30,15 @@ export const VisualEngine = {
         this._resize();
         window.addEventListener('resize', () => this._resize());
         
+        // B"H - Bind Explosion Logic
+        // We use 'pointerdown' to handle both mouse and touch
+        this.canvasOverlay.addEventListener('pointerdown', (e) => {
+            // Only explode if user clicks directly on the editor area (canvas), not overlay UI
+            if (e.target === this.canvasOverlay) {
+                ParticleSystem.spawnExplosion(e.clientX, e.clientY);
+            }
+        });
+        
         // Initialize Sub-Systems
         NebulaMap.init();
         ParticleSystem.init(this.ctxOverlay);
@@ -61,12 +70,7 @@ export const VisualEngine = {
             this.ctxOverlay.clearRect(0, 0, this.canvasOverlay.width, this.canvasOverlay.height);
             
             // Update & Draw Sub-systems based on Settings
-            if (VisualSettings.get('zenRain')) {
-                ZenRain.update();
-            } else {
-                // B"H - Explicitly clear rain if disabled to prevent freezing artifacts
-                ZenRain.clear();
-            }
+            if (VisualSettings.get('zenRain')) ZenRain.update();
             
             // Editor Overlays
             if (VisualSettings.get('scopeLaser')) ScopeLaser.render();

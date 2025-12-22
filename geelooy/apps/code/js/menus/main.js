@@ -1,3 +1,4 @@
+
 // B"H
 // FILE: js/menus/main.js
 
@@ -83,12 +84,15 @@ export const MainMenu = {
         menuItems.push({ label: "Copy", action: "copy", icon: "copy", disabled: !hasSelection });
         menuItems.push({ label: "Copy All", action: "copy-all", icon: "copy", disabled: !activeTab });
         menuItems.push({ isSeparator: true });
-        menuItems.push({ label: "Visual Settings", action: "visual-settings", icon: "eye" }); // B"H - NEW
+        menuItems.push({ label: "Visual Settings", action: "visual-settings", icon: "eye" });
+        // B"H - Added Zoom Controls
+        menuItems.push({ label: "Zoom In", action: "increase-font-size", icon: "plus" });
+        menuItems.push({ label: "Zoom Out", action: "decrease-font-size", icon: "list" }); // Using list icon as minus fallback
         menuItems.push({ label: "Toggle Keyboard Helper", action: "toggle-keyboard-helper", icon: "laptop" });
         menuItems.push({ label: "Toggle Fullscreen", action: "toggle-fullscreen", icon: "fullscreen" });
         menuItems.push({ label: "Settings", action: "settings", icon: "settings" });
         menuItems.push({ isSeparator: true });
-        menuItems.push({ label: "Help & Docs", action: "show-docs", icon: "brain" }); // B"H - NEW
+        menuItems.push({ label: "Help & Docs", action: "show-docs", icon: "brain" });
 
         const btnRect = DOM.hamburgerMenuBtn.getBoundingClientRect();
         MenuUI.renderMenu(DOM.mainMenu, menuItems, { clientX: btnRect.left, clientY: btnRect.bottom + 5 });

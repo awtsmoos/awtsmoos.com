@@ -1,3 +1,4 @@
+
 // B"H
 // FILE: js/actions/index.js
 
@@ -32,6 +33,9 @@ export const Actions = {
                 case "show-docs": ViewActions.showDocs(); break;
                 case "visual-settings": ViewActions.visualSettings(); break;
                 case "toggle-word-wrap": ViewActions.toggleWordWrap(); break;
+                // B"H - Font Size
+                case "increase-font-size": ViewActions.increaseFontSize(); break;
+                case "decrease-font-size": ViewActions.decreaseFontSize(); break;
                 case "toggle-theme": ViewActions.toggleTheme(); break;
                 case "toggle-keyboard-helper": ViewActions.toggleKeyboardHelper(); break;
                 case "toggle-fullscreen": ViewActions.toggleFullscreen(); break;
