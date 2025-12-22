@@ -1,9 +1,8 @@
 // B"H
-// FIXED PATH: Go up 3 levels to reach 'awtsmoosDB', then into 'c_compiler'
 const CCompiler = require('../../../c_compiler/index.js');
 
 // Standard C Kernel for Matrix Multiplication
-// The C Compiler we built handles comments, loops, pointers, and floats.
+// This kernel uses manual unrolling and float arithmetic.
 const C_SOURCE = `
 // B"H - Matrix Vector Mul Kernel
 void run(float* out, float* x, float* w, int n_out, int n_in) {
@@ -13,22 +12,8 @@ void run(float* out, float* x, float* w, int n_out, int n_in) {
         int j = 0;
         
         // Main Loop (Unrolled 8x manually for speed)
-        // Optimization: Accessing w[] sequentially is cache-friendly
         while (j < n_in - 7) {
-            // w index calculation: i * n_in + j
-            // In a fuller compiler we'd hoist (i*n_in), but our JIT is simple.
-            // Note: simple math parser handles operator precedence left-to-right 
-            // unless strict precedence rules were added. Parentheses help.
-            
-            // For safety with our simple parser, we compute offset in variable or rely on simple ops
-            // sum = sum + w[base + j] * x[j]
-            // We use the pointer logic of the parser.
-            
-            // Pointer arithmetic in C usually scales by type size.
-            // w[idx] is *(w + idx).
-            
             int base = i * n_in;
-            
             sum = sum + w[base + j]     * x[j];
             sum = sum + w[base + j + 1] * x[j + 1];
             sum = sum + w[base + j + 2] * x[j + 2];
@@ -69,7 +54,6 @@ class WasmBackend {
             
             // FULL HEX DUMP (Formatted)
             console.log(`B"H [WasmJIT] Binary Size: ${binary.length} bytes`);
-            console.log("B\"H [WasmJIT] Hex Dump:");
             
             let hexLines = [];
             let currentLine = "";
@@ -103,14 +87,12 @@ class WasmBackend {
             
         } catch(e) {
             console.error("B\"H [WasmJIT] Compiler Error:", e);
-            // Re-throw to ensure we fall back to JS if init fails
             throw e; 
         }
     }
 
     alloc(sizeBytes) {
         const ptr = this.heapOffset;
-        // Align to 8 bytes
         const aligned = (sizeBytes + 7) & ~7;
         
         if (this.heapOffset + aligned > this.memory.buffer.byteLength) {

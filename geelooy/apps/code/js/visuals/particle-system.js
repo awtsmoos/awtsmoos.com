@@ -33,8 +33,8 @@ export const ParticleSystem = {
         }
     },
     
-    // Helper to get caret coords
-    _getCaretCoordinates() {
+    // Helper to get caret coords - Public API now
+    getCaretCoordinates() {
         const editor = DOM.editor;
         if (!editor) return { left: 0, top: 0 };
         
@@ -86,7 +86,7 @@ export const ParticleSystem = {
     spawnFromCaret(type) {
         if (!VisualSettings.get('particles')) return;
 
-        const { left, top } = this._getCaretCoordinates();
+        const { left, top } = this.getCaretCoordinates();
         const count = type === 'delete' ? 3 : 1; 
         const baseColor = type === 'delete' ? '#f75d65' : '#00f6ff'; 
         

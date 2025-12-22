@@ -6,7 +6,8 @@ import { State, DOM } from '../state.js';
 import { Menus } from './index.js';
 import { MenuUI } from './ui.js';
 import { getItemUniquePath, Workspaces } from '../workspaces.js';
-import { Actions } from '../actions.js';
+// B"H - Explicitly linking to the index file to bypass the phantom actions.js
+import { Actions } from '../actions/index.js';
 
 export const TabMenus = {
     showTabMenu(e, tab) {
@@ -29,7 +30,6 @@ export const TabMenus = {
 
     /**
      * B"H - Reveal ritual. Recursively opens folders to find a file.
-     * The Tikkun: We use a polling "Seeker" to wait for the DOM to manifest after expansion.
      */
     async revealInWorkspace(tab) {
         if (!tab || !tab.item || tab.item.path === '/') return;

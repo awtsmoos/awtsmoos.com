@@ -1,7 +1,7 @@
 // B"H
 /**
  * C Lexer
- * Handles comments (//, /* */), preprocessor directives, and tokens.
+ * Handles comments (single line and multi line), preprocessor directives, and tokens.
  */
 
 const TOKENS = {
@@ -46,7 +46,7 @@ function tokenize(source) {
                 // Multi line comment
                 i += 2;
                 while (i < len - 1 && !(source[i] === '*' && source[i+1] === '/')) i++;
-                i += 2; // Skip */
+                i += 2; // Skip closing slash
                 continue;
             } else {
                 // Division operator (assign handled later)

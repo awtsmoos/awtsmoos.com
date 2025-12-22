@@ -1,8 +1,10 @@
+
 // B"H
 // FILE: js/command-palette.js
 
 import { State } from './state.js';
-import { Actions } from './actions/index.js'; // B"H - Updated Import
+// B"H - Rectified Import Path: Explicitly pointing to index.js
+import { Actions } from './actions/index.js'; 
 import { Tabs } from './tabs/index.js';
 import { UI } from './ui.js';
 import { VisualEngine } from './visuals/index.js'; // B"H
@@ -24,7 +26,7 @@ export const CommandPalette = {
         { id: 'open-file', label: 'File: Open Local File', action: 'open-file', icon: 'folder' },
         
         // VIEW
-        { id: 'graph-nav', label: 'View: Graph Navigator', action: 'show-graph-nav', icon: 'brain-circuit' }, // B"H - NEW
+        { id: 'graph-nav', label: 'View: Graph Navigator', action: 'show-graph-nav', icon: 'brain-circuit' },
         { id: 'close-tab', label: 'View: Close Tab', action: 'close-tab-direct', icon: 'x' },
         { id: 'close-all', label: 'View: Close All Tabs', action: 'close-all-tabs', icon: 'x-circle' },
         { id: 'reopen-tab', label: 'View: Reopen Closed Tab', action: 'reopen-closed-tab', icon: 'arrow-left' },
