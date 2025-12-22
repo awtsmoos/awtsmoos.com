@@ -4,31 +4,25 @@ const { GGML_TYPE } = require('./types.js');
 const QK4_0 = 32;
 const QK8_0 = 32;
 
-// --- PRE-COMPUTE F16 TABLE ---
+// Pre-compute F16 Table (65k entries, ~256KB RAM)
 const F16_TABLE = new Float32Array(65536);
 
 (function initF16Table() {
     const buffer = new ArrayBuffer(4);
     const floatView = new Float32Array(buffer);
-    
     for (let i = 0; i < 65536; i++) {
         const s = (i & 0x8000) >> 15;
         const e = (i & 0x7C00) >> 10;
         const f = i & 0x03FF;
-
-        if (e === 0) {
-            floatView[0] = (s ? -1 : 1) * Math.pow(2, -14) * (f / 1024);
-        } else if (e === 0x1F) {
-            floatView[0] = f ? NaN : ((s ? -1 : 1) * Infinity);
-        } else {
-            floatView[0] = (s ? -1 : 1) * Math.pow(2, e - 15) * (1 + f / 1024);
-        }
+        if (e === 0) floatView[0] = (s ? -1 : 1) * Math.pow(2, -14) * (f / 1024);
+        else if (e === 0x1F) floatView[0] = f ? NaN : ((s ? -1 : 1) * Infinity);
+        else floatView[0] = (s ? -1 : 1) * Math.pow(2, e - 15) * (1 + f / 1024);
         F16_TABLE[i] = floatView[0];
     }
 })();
 
-function dequantize(u8, type, numElements) {
-    const result = new Float32Array(numElements);
+function dequantize(u8, type, numElements, out = null) {
+    const result = out || new Float32Array(numElements);
 
     if (type === GGML_TYPE.F32) {
         const view = new DataView(u8.buffer, u8.byteOffset, u8.byteLength);
@@ -50,81 +44,17 @@ function dequantize(u8, type, numElements) {
         let outOffset = 0;
 
         for (let b = 0; b < blockCount; b++) {
-            // 1. Delta
             const val = u8[inOffset] | (u8[inOffset + 1] << 8);
             const d = F16_TABLE[val];
             inOffset += 2;
 
-            // 2. Unrolled 16-byte processing (32 weights)
-            // This avoids loop overhead 16 times per block
-            
-            let byte, x0, x1;
-
-            // 0
-            byte = u8[inOffset++];
-            result[outOffset] = ((byte & 0x0F) - 8) * d;
-            result[outOffset + 16] = ((byte >> 4) - 8) * d;
-            // 1
-            byte = u8[inOffset++];
-            result[outOffset + 1] = ((byte & 0x0F) - 8) * d;
-            result[outOffset + 17] = ((byte >> 4) - 8) * d;
-            // 2
-            byte = u8[inOffset++];
-            result[outOffset + 2] = ((byte & 0x0F) - 8) * d;
-            result[outOffset + 18] = ((byte >> 4) - 8) * d;
-            // 3
-            byte = u8[inOffset++];
-            result[outOffset + 3] = ((byte & 0x0F) - 8) * d;
-            result[outOffset + 19] = ((byte >> 4) - 8) * d;
-            // 4
-            byte = u8[inOffset++];
-            result[outOffset + 4] = ((byte & 0x0F) - 8) * d;
-            result[outOffset + 20] = ((byte >> 4) - 8) * d;
-            // 5
-            byte = u8[inOffset++];
-            result[outOffset + 5] = ((byte & 0x0F) - 8) * d;
-            result[outOffset + 21] = ((byte >> 4) - 8) * d;
-            // 6
-            byte = u8[inOffset++];
-            result[outOffset + 6] = ((byte & 0x0F) - 8) * d;
-            result[outOffset + 22] = ((byte >> 4) - 8) * d;
-            // 7
-            byte = u8[inOffset++];
-            result[outOffset + 7] = ((byte & 0x0F) - 8) * d;
-            result[outOffset + 23] = ((byte >> 4) - 8) * d;
-            // 8
-            byte = u8[inOffset++];
-            result[outOffset + 8] = ((byte & 0x0F) - 8) * d;
-            result[outOffset + 24] = ((byte >> 4) - 8) * d;
-            // 9
-            byte = u8[inOffset++];
-            result[outOffset + 9] = ((byte & 0x0F) - 8) * d;
-            result[outOffset + 25] = ((byte >> 4) - 8) * d;
-            // 10
-            byte = u8[inOffset++];
-            result[outOffset + 10] = ((byte & 0x0F) - 8) * d;
-            result[outOffset + 26] = ((byte >> 4) - 8) * d;
-            // 11
-            byte = u8[inOffset++];
-            result[outOffset + 11] = ((byte & 0x0F) - 8) * d;
-            result[outOffset + 27] = ((byte >> 4) - 8) * d;
-            // 12
-            byte = u8[inOffset++];
-            result[outOffset + 12] = ((byte & 0x0F) - 8) * d;
-            result[outOffset + 28] = ((byte >> 4) - 8) * d;
-            // 13
-            byte = u8[inOffset++];
-            result[outOffset + 13] = ((byte & 0x0F) - 8) * d;
-            result[outOffset + 29] = ((byte >> 4) - 8) * d;
-            // 14
-            byte = u8[inOffset++];
-            result[outOffset + 14] = ((byte & 0x0F) - 8) * d;
-            result[outOffset + 30] = ((byte >> 4) - 8) * d;
-            // 15
-            byte = u8[inOffset++];
-            result[outOffset + 15] = ((byte & 0x0F) - 8) * d;
-            result[outOffset + 31] = ((byte >> 4) - 8) * d;
-
+            for (let i = 0; i < 16; i++) {
+                const byte = u8[inOffset++];
+                const x0 = (byte & 0x0F) - 8;
+                result[outOffset + i] = x0 * d;
+                const x1 = (byte >> 4) - 8;
+                result[outOffset + i + 16] = x1 * d;
+            }
             outOffset += 32;
         }
         return result;

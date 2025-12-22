@@ -1,9 +1,8 @@
 // B"H
 const fs = require('fs');
 const { dequantize } = require('../math/quant.js');
-const { getByteSize } = require('../math/types.js');
+const { getByteSize, GGML_TYPE } = require('../math/types.js');
 
-// Cache
 const tensorCache = new Map();
 
 function mapWeights(tensorMap) {
@@ -42,12 +41,16 @@ function mapWeights(tensorMap) {
     return { layerTensorMap, globalTensorMap };
 }
 
-function readTensor(fd, headerBuf, baseOffset, info, sliceStart = 0, sliceLength = null) {
+// B"H: FIXED SIGNATURE (7 arguments)
+function readTensor(fd, headerBuf, baseOffset, info, sliceStart = 0, sliceLength = null, raw = false) {
     if (!info) return null;
 
+    const cacheKey = raw ? info.name + "_raw" : info.name;
     const isFullRead = (sliceStart === 0 && sliceLength === null);
-    if (isFullRead && tensorCache.has(info.name)) {
-        return tensorCache.get(info.name);
+    
+    // 1. Check Cache
+    if (isFullRead && tensorCache.has(cacheKey)) {
+        return tensorCache.get(cacheKey);
     }
 
     const numElements = info.dims.reduce((a, b) => a * b, 1);
@@ -56,27 +59,43 @@ function readTensor(fd, headerBuf, baseOffset, info, sliceStart = 0, sliceLength
     const { blockElements, blockSize } = getByteSize(type);
     
     const blockIndexStart = Math.floor(sliceStart / blockElements);
-    // const blockIndexEnd = Math.ceil((sliceStart + readLen) / blockElements);
     
-    // Absolute Byte Position in File
+    // File Position
     const absoluteStart = baseOffset + info.dataOffset + (blockIndexStart * blockSize);
     const byteLength = Math.ceil(readLen / blockElements) * blockSize;
     
-    // B"H: Optimization - Check if in Header Buffer (RAM) or Disk
-    let rawBuffer;
-    
-    if (absoluteStart + byteLength <= headerBuf.length) {
-        // Fast path: Data is already in the header buffer we loaded
+    // 2. Read Bytes (Header Cache vs Disk)
+    let rawView;
+    let tempBuf = null;
+
+    // Check if within header buffer bounds
+    if (headerBuf && absoluteStart + byteLength <= headerBuf.length) {
         rawView = new Uint8Array(headerBuf.buffer, headerBuf.byteOffset + absoluteStart, byteLength);
     } else {
-        // Disk path: Read from FD
-        // Use a temporary buffer
-        const tempBuf = Buffer.allocUnsafe(byteLength);
-        fs.readSync(fd, tempBuf, 0, byteLength, absoluteStart);
+        // Read from Disk
+        tempBuf = Buffer.allocUnsafe(byteLength);
+        const bytesRead = fs.readSync(fd, tempBuf, 0, byteLength, absoluteStart);
+        if (bytesRead < byteLength) {
+            tempBuf.fill(0, bytesRead); // Zero padding if partial read
+        }
         rawView = new Uint8Array(tempBuf.buffer, tempBuf.byteOffset, byteLength);
     }
 
-    // Always Dequantize to Float32
+    // 3. Return Raw (For Output Head Chunking)
+    if (raw) {
+        if (isFullRead) {
+            // Clone if needed to ensure cache persistence
+            const cachedCopy = new Uint8Array(byteLength);
+            cachedCopy.set(rawView);
+            tensorCache.set(cacheKey, cachedCopy);
+            return cachedCopy;
+        }
+        // If slice and tempBuf exists, returning rawView relies on tempBuf. 
+        // JS will keep tempBuf alive as long as rawView is alive.
+        return rawView;
+    }
+
+    // 4. Dequantize to Float32 (Standard Path)
     const fullResult = dequantize(rawView, type, byteLength / blockSize * blockElements);
     
     const relativeStart = sliceStart - (blockIndexStart * blockElements);
@@ -85,8 +104,10 @@ function readTensor(fd, headerBuf, baseOffset, info, sliceStart = 0, sliceLength
     if (relativeStart === 0 && readLen === fullResult.length) final = fullResult;
     else final = fullResult.subarray(relativeStart, relativeStart + readLen);
 
-    if (isFullRead) {
-        tensorCache.set(info.name, final);
+    // 5. Smart Cache
+    // Cache float tensors only if < 20MB. This prevents RAM explosion.
+    if (isFullRead && final.byteLength < 20 * 1024 * 1024) {
+        tensorCache.set(cacheKey, final);
     }
     
     return final;

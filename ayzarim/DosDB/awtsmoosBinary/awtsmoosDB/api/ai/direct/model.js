@@ -2,6 +2,8 @@
 const Stats = require('../math/stats.js');
 const Matrix = require('../math/matrix.js');
 const Act = require('../math/act.js');
+const { dequantize } = require('../math/quant.js');
+const { getByteSize, GGML_TYPE } = require('../math/types.js');
 const Layers = require('./layers.js');
 const Logger = require('../utils/logger.js');
 
@@ -9,17 +11,17 @@ class Model {
     constructor(engine) {
         this.engine = engine;
         this.layers = new Layers(engine);
+        this.logitScratch = null;
     }
 
     async forward(token_id, pos) {
         const stats = this.engine.params;
         const loader = this.engine.loader;
 
-        // 1. Embedding
+        // Embedding
         const embInfo = loader.tensorMap.get('token_embd.weight') || loader.tensorMap.get('model.embed_tokens.weight');
         if (!embInfo) throw new Error("Embedding Missing");
         
-        // Load only the specific row for this token (Tiny RAM)
         let x = loader.getTensor(embInfo.name, token_id * stats.n_embd, stats.n_embd);
         if (!x) throw new Error("Embedding Missing for ID: " + token_id);
 
@@ -28,14 +30,16 @@ class Model {
             for(let i=0; i<x.length; i++) x[i] *= embScale;
         }
 
-        // 2. Layers
         for (let l = 0; l < stats.n_layer; l++) {
             x = this.layers.forward(x, l, pos);
         }
 
-        // 3. Final Norm
         let w_norm = loader.getTensor(loader.globalTensorMap.output_norm);
-        if (w_norm) x = Stats.rmsNorm(x, w_norm, stats.norm_eps, 0.0);
+        if (w_norm) {
+            // Gemma +1.0 Offset
+            const unitOffset = stats.arch.includes('gemma') ? 1.0 : 0.0;
+            x = Stats.rmsNorm(x, w_norm, stats.norm_eps, unitOffset);
+        }
         
         return x;
     }
@@ -46,29 +50,41 @@ class Model {
         
         const w_out_name = loader.globalTensorMap.output || loader.globalTensorMap.embed;
         const vocabSize = this.engine.vocab.length;
-        const dim = hidden.length; // stats.n_embd
+        const dim = hidden.length;
         
-        // B"H: Optimization - Chunked Processing
-        // Instead of loading the full 600MB matrix, we load it in 4k rows chunks.
+        // 1. Get RAW Compressed Output Head (80MB)
+        const w_raw = loader.getTensor(w_out_name, 0, null, true); 
+        const info = loader.tensorMap.get(w_out_name);
+        
         const logits = new Float32Array(vocabSize);
-        const CHUNK_SIZE = 4096; 
+        const CHUNK_ROWS = 1024;
         
-        for (let offset = 0; offset < vocabSize; offset += CHUNK_SIZE) {
-            const count = Math.min(CHUNK_SIZE, vocabSize - offset);
+        const type = info.type;
+        const { blockElements, blockSize } = getByteSize(type);
+        const bytesPerRow = (dim / blockElements) * blockSize;
+        
+        const neededSize = CHUNK_ROWS * dim;
+        if (!this.logitScratch || this.logitScratch.length < neededSize) {
+            this.logitScratch = new Float32Array(neededSize);
+        }
+        
+        for (let i = 0; i < vocabSize; i += CHUNK_ROWS) {
+            const count = Math.min(CHUNK_ROWS, vocabSize - i);
             
-            // Read chunk of weight matrix [count * dim] elements
-            // Note: tensor flattened layout is (Vocab * Dim)
-            const w_chunk = loader.getTensor(w_out_name, offset * dim, count * dim);
+            const startByte = i * bytesPerRow;
+            const chunkBytes = count * bytesPerRow;
+            const chunkRaw = w_raw.subarray(startByte, startByte + chunkBytes);
             
-            // Multiply chunk
-            // matVecMul returns a float array of length 'count'
-            const chunkLogits = Matrix.matVecMul(hidden, w_chunk, count);
+            // 2. Dequantize
+            dequantize(chunkRaw, type, count * dim, this.logitScratch);
             
-            // Copy into result
-            logits.set(chunkLogits, offset);
+            // 3. Multiply
+            const activeWeights = this.logitScratch.subarray(0, count * dim);
+            const chunkLogits = Matrix.matVecMul(hidden, activeWeights, count);
+            
+            logits.set(chunkLogits, i);
         }
 
-        // Final Soft Cap (Gemma 3)
         if (stats.final_soft_cap > 0) {
             const cap = stats.final_soft_cap;
             const invCap = 1.0 / cap;

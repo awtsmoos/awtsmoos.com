@@ -15,36 +15,31 @@ class Loader {
 
     async load(headerBuffer) {
         Logger.log(`[Direct] Parsing GGUF Header...`);
-        // We parse only the header buffer
         const parsed = GGUFParser.parse(headerBuffer);
-        
         this.engine.metadata = parsed.kv;
         this.engine.vocab = parsed.vocab;
         this.scores = parsed.scores;
         this.tensorMap = parsed.tensorMap;
         this.dataOffset = parsed.dataOffset;
-        
-        // Map Weights
         const maps = Tensors.mapWeights(this.tensorMap);
         this.layerTensorMap = maps.layerTensorMap;
         this.globalTensorMap = maps.globalTensorMap;
-        
-        // Infer Params
         this.engine.params = Config.inferParams(this.engine.metadata, this.tensorMap);
     }
 
-    getTensor(name, sliceStart = 0, sliceLength = null) {
+    getTensor(name, sliceStart = 0, sliceLength = null, raw = false) {
         const info = this.tensorMap.get(name);
         if (!info) return null;
         
-        // B"H: Optimization - Pass File Descriptor and Header Buffer
+        // B"H: FIX - Pass 7 arguments to match loader_tensors.js
         return Tensors.readTensor(
-            this.engine.fd,           // File Descriptor
-            this.engine.headerBuffer, // Header (Fast RAM access if small)
-            this.dataOffset,          // Base Data Offset
-            info, 
-            sliceStart, 
-            sliceLength
+            this.engine.fd,           // 1. File Descriptor
+            this.engine.headerBuffer, // 2. Header
+            this.dataOffset,          // 3. Offset
+            info,                     // 4. Info (was ending up here as 'offset' before)
+            sliceStart,               // 5.
+            sliceLength,              // 6.
+            raw                       // 7.
         );
     }
     

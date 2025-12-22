@@ -11,12 +11,12 @@ class DirectEngine {
         this.loader = new Loader(this);
         this.model = new Model(this);
         
-        // State
         this.kv_cache = [];
         this.history = [];
         
-        this.fd = null;         // File Descriptor
-        this.headerBuffer = null; // Just the first few MBs
+        // Low RAM Mode
+        this.fd = null;
+        this.headerBuffer = null;
         
         this.metadata = null;
         this.vocab = [];
@@ -25,19 +25,18 @@ class DirectEngine {
     }
 
     async init() {
-        Logger.log(`[Direct] Opening file: ${this.filePath}`);
+        Logger.log(`[Direct] Opening file (FD mode): ${this.filePath}`);
         
-        // 1. Open File Descriptor (No huge RAM spike)
+        // 1. Open File Descriptor
         this.fd = fs.openSync(this.filePath, 'r');
         
-        // 2. Read Header Chunk (e.g., 20MB to be safe for Vocab)
+        // 2. Read Header (10MB is enough for metadata + vocab usually)
         const stats = fs.fstatSync(this.fd);
-        const headerSize = Math.min(20 * 1024 * 1024, stats.size);
-        
+        const headerSize = Math.min(10 * 1024 * 1024, stats.size);
         this.headerBuffer = Buffer.allocUnsafe(headerSize);
         fs.readSync(this.fd, this.headerBuffer, 0, headerSize, 0);
         
-        // 3. Load Metadata (Parsing the buffer we just read)
+        // 3. Load
         await this.loader.load(this.headerBuffer);
         
         const mockHandle = {
