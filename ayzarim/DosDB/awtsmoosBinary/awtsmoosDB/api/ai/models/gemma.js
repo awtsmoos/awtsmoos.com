@@ -121,8 +121,7 @@ class GemmaModel {
         }
         
         const freq_base = isSliding ? p.rope_freq_local : p.rope_freq_global;
-        // const freq_scale = isSliding ? 1.0 : p.rope_scale; // Backend logic usually pre-calcs scale? 
-        // Logic from worker_src/model_attn.js: scale = isSliding ? 1.0 : params.rope_scale;
+        // const freq_scale = isSliding ? 1.0 : p.rope_scale; 
         
         this.applyRoPE(q, k, pos, p.head_dim, freq_base, p.rope_scale, p.rope_is_neox);
 
@@ -149,7 +148,7 @@ class GemmaModel {
             const kv_off = kv_h * head_dim;
             
             // Calculate Scores
-            const scores = [];
+            let scores = [];
             for (let t = 0; t <= pos; t++) {
                 if (t < startPos) { scores.push(-Infinity); continue; }
                 const k_t = kv_cache[l].k[t];
@@ -160,8 +159,15 @@ class GemmaModel {
                 scores.push(dot * scale);
             }
             
+            let scoreVec = new Float32Array(scores);
+            
+            // ATTN SOFT CAPPING
+            if (p.attn_soft_cap > 0) {
+                scoreVec = Ops.softCap(scoreVec, p.attn_soft_cap);
+            }
+            
             // Softmax
-            const probs = Ops.softmax(new Float32Array(scores));
+            const probs = Ops.softmax(scoreVec);
             
             // Weighted Sum
             const o_h = attn_out.subarray(h_off, h_off + head_dim);

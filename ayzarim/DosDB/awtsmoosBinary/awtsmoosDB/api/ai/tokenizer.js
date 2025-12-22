@@ -1,149 +1,308 @@
 
 // B"H
-class DBTokenizer {
+class PriorityQueue {
+    constructor(compareFn) {
+        this.heap = [];
+        this.compare = compareFn || ((a, b) => a - b);
+    }
+    push(item) {
+        this.heap.push(item);
+        this._siftUp();
+    }
+    pop() {
+        if (this.size() === 0) return null;
+        const top = this.heap[0];
+        const bottom = this.heap.pop();
+        if (this.size() > 0) {
+            this.heap[0] = bottom;
+            this._siftDown();
+        }
+        return top;
+    }
+    size() { return this.heap.length; }
+    isEmpty() { return this.heap.length === 0; }
+    _siftUp() {
+        let node = this.heap.length - 1;
+        while (node > 0) {
+            const parent = (node - 1) >>> 1;
+            if (this.compare(this.heap[node], this.heap[parent]) > 0) {
+                this._swap(node, parent);
+                node = parent;
+            } else break;
+        }
+    }
+    _siftDown() {
+        let node = 0;
+        while ((node * 2 + 1) < this.heap.length) {
+            let left = (node * 2) + 1;
+            let right = left + 1;
+            let largest = left;
+            if (right < this.heap.length && this.compare(this.heap[right], this.heap[left]) > 0) largest = right;
+            if (this.compare(this.heap[largest], this.heap[node]) > 0) {
+                this._swap(node, largest);
+                node = largest;
+            } else break;
+        }
+    }
+    _swap(i, j) {
+        const temp = this.heap[i];
+        this.heap[i] = this.heap[j];
+        this.heap[j] = temp;
+    }
+}
+
+class SPMTokenizer {
     constructor(modelHandle) {
         this.modelHandle = modelHandle;
-        
-        this.BUCKET_COUNT = 2048; // Matched with importer
-        this.CHUNK_SIZE = 1024;
-        
-        // LRU Cache for buckets
-        this.bucketCache = new Map();
-        this.chunkCache = new Map();
-        this.CACHE_LIMIT = 50; 
-
-        this.specials = {
-            '<start_of_turn>': 106,
-            '<end_of_turn>': 107,
-            '<bos>': 2,
-            '<eos>': 1,
-            '<unk>': 3
-        };
+        this.vocab = [];
+        this.scores = null; // B"H: Initialize as null
+        this.tokenMap = new Map();
+        this.byteTokens = new Map();
+        this.specialTokens = new Map();
+        this.initialized = false;
     }
 
     async init() {
-        this.BUCKET_COUNT = (await this.modelHandle.config.get('vocab_bucket_count')) || 2048;
-        this.CHUNK_SIZE = (await this.modelHandle.config.get('vocab_chunk_size')) || 1024;
-    }
-
-    _getBucketId(str) {
-        let hash = 5381;
-        for (let i = 0; i < str.length; i++) {
-            hash = ((hash << 5) + hash) + str.charCodeAt(i);
-        }
-        return (hash >>> 0) % this.BUCKET_COUNT;
-    }
-
-    async _loadBucket(bucketId) {
-        // Fast path for cache hit
-        if (this.bucketCache.has(bucketId)) return this.bucketCache.get(bucketId);
-        
-        const raw = await this.modelHandle.vocab_data.get(`bucket_${bucketId}`);
-        let data = {};
-        if (raw) {
-            try { data = JSON.parse(raw); } catch(e) {}
+        if (this.initialized) {
+            console.log(`B"H [Tokenizer] Already initialized.`);
+            return;
         }
         
-        if (this.bucketCache.size >= this.CACHE_LIMIT) {
-            const first = this.bucketCache.keys().next().value;
-            this.bucketCache.delete(first);
-        }
-        this.bucketCache.set(bucketId, data);
-        return data;
-    }
-
-    async _loadChunk(chunkId) {
-        if (this.chunkCache.has(chunkId)) return this.chunkCache.get(chunkId);
+        console.log(`B"H [Tokenizer] Initializing...`);
         
-        const raw = await this.modelHandle.vocab_data.get(`chunk_${chunkId}`);
-        let data = [];
-        if (raw) {
-            try { data = JSON.parse(raw); } catch(e) {}
+        // 1. Load Vocab from Chunks
+        const vocabSize = await this.modelHandle.config.get('vocab_size');
+        const chunkSize = (await this.modelHandle.config.get('vocab_chunk_size')) || 1024;
+        const chunkCount = Math.ceil(vocabSize / chunkSize);
+        
+        if (!this.vocab || this.vocab.length === 0) {
+            this.vocab = new Array(vocabSize);
+            for(let i=0; i<chunkCount; i++) {
+                const raw = await this.modelHandle.vocab_data.get(`chunk_${i}`);
+                if(raw) {
+                    const chunk = JSON.parse(raw);
+                    for(let k=0; k<chunk.length; k++) {
+                        const idx = i * chunkSize + k;
+                        if(idx < vocabSize) this.vocab[idx] = chunk[k];
+                    }
+                }
+            }
         }
         
-        if (this.chunkCache.size >= this.CACHE_LIMIT) {
-            const first = this.chunkCache.keys().next().value;
-            this.chunkCache.delete(first);
-        }
-        this.chunkCache.set(chunkId, data);
-        return data;
-    }
+        console.log(`B"H [Tokenizer] Vocab size: ${this.vocab.length}`);
 
-    async findId(token) {
-        const bId = this._getBucketId(token);
-        const bucket = await this._loadBucket(bId);
-        if (bucket && bucket[token] !== undefined) {
-            return bucket[token];
+        // 2. Load Scores - B"H: Fixed overwriting issue
+        // Only load if not already present
+        if (!this.scores || this.scores.length === 0) {
+            const scoresBuf = await this.modelHandle.config.get('scores_raw');
+            if (scoresBuf) {
+                const ab = scoresBuf.buffer.slice(
+                    scoresBuf.byteOffset, 
+                    scoresBuf.byteOffset + scoresBuf.byteLength
+                );
+                this.scores = new Float32Array(ab);
+                console.log(`B"H [Tokenizer] Loaded scores from buffer: ${this.scores.length}`);
+            } else {
+                this.scores = new Float32Array(vocabSize || this.vocab.length).fill(0);
+                console.warn(`B"H [Tokenizer] No scores found, using zeros.`);
+            }
+        } else {
+            console.log(`B"H [Tokenizer] Using pre-loaded scores: ${this.scores.length}`);
         }
-        return undefined;
+
+        // 3. Build Maps
+        const knownSpecials = new Set([
+            '<start_of_turn>', '<end_of_turn>', 
+            '<bos>', '<eos>', '<pad>', '<unk>', 
+            '<|endoftext|>', '<|im_start|>', '<|im_end|>',
+            '<|eot_id|>', '<|start_header_id|>', '<|end_header_id|>'
+        ]);
+
+        let collisionCount = 0;
+        let specialCount = 0;
+        let byteCount = 0;
+
+        for (let i = 0; i < this.vocab.length; i++) {
+            const text = this.vocab[i];
+            if(!text) continue;
+            
+            // B"H - FIX: Do not overwrite existing tokens. Lower ID takes precedence.
+            if (!this.tokenMap.has(text)) {
+                this.tokenMap.set(text, i);
+            } else {
+                collisionCount++;
+            }
+            
+            if (text.length === 6 && text.startsWith('<0x') && text.endsWith('>')) {
+                const hex = text.substring(3, 5);
+                const byteVal = parseInt(hex, 16);
+                if (!isNaN(byteVal)) {
+                    this.byteTokens.set(byteVal, i);
+                    byteCount++;
+                }
+            }
+
+            if (knownSpecials.has(text)) {
+                if (!this.specialTokens.has(text)) {
+                    this.specialTokens.set(text, i);
+                    specialCount++;
+                }
+            }
+        }
+        
+        console.log(`B"H [Tokenizer] Maps built. Map size: ${this.tokenMap.size}, Specials: ${specialCount}, Bytes: ${byteCount}, Collisions: ${collisionCount}`);
+        
+        this.addSpacePrefix = true; 
+        const asp = await this.modelHandle.config.get('tokenizer.ggml.add_space_prefix');
+        if (asp === false) this.addSpacePrefix = false;
+
+        this.initialized = true;
+        console.log(`B"H [Tokenizer] Ready. SpacePrefix: ${this.addSpacePrefix}`);
     }
 
     async tokenize(text) {
-        let processed = text.replace(/ /g, '\u2581'); 
-        let tokens = [];
-        for (const char of processed) tokens.push(char);
-
-        const mergedTokens = [];
-        let i = 0;
+        if (!this.initialized) await this.init();
         
-        while (i < tokens.length) {
-            // B"H - Parallel Lookahead for Speed
-            // We generate all candidates for the lookahead window [i, i+24]
-            // and fetch their IDs in parallel using Promise.all
-            const candidates = [];
-            let currentStr = "";
-            for (let j = 0; j < 24 && (i + j) < tokens.length; j++) {
-                currentStr += tokens[i + j];
-                candidates.push(currentStr);
-            }
+        // 1. Split by Special Tokens
+        const specialKeys = Array.from(this.specialTokens.keys());
+        let parts = [text];
+        
+        if (specialKeys.length > 0) {
+            specialKeys.sort((a, b) => b.length - a.length);
+            const pattern = new RegExp(`(${specialKeys.map(s => s.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&')).join('|')})`, 'g');
+            parts = text.split(pattern);
+        }
 
-            // This fires all DB reads (if not cached) in parallel
-            const results = await Promise.all(candidates.map(c => this.findId(c)));
-
-            // Find longest match (iterate backwards)
-            let matchId = -1;
-            let matchLen = 0;
-
-            for (let j = results.length - 1; j >= 0; j--) {
-                if (results[j] !== undefined) {
-                    matchLen = j + 1; // Length in characters
-                    matchId = results[j];
-                    break; 
-                }
-            }
-            
-            if (matchId !== -1) {
-                mergedTokens.push(matchId);
-                i += matchLen;
+        const output = [];
+        for (const part of parts) {
+            if (!part) continue;
+            if (this.specialTokens.has(part)) {
+                output.push(this.specialTokens.get(part));
+                // console.log(`B"H [Tokenizer] Matched special: ${part} -> ${this.specialTokens.get(part)}`);
             } else {
-                // Fallback: Single char or UNK
-                const char = tokens[i];
-                // We likely already checked char in results[0], but let's be safe
-                const id = results[0];
-                if (id !== undefined) {
-                    mergedTokens.push(id);
-                } else {
-                    mergedTokens.push(this.specials['<unk>'] || 3);
-                }
-                i++;
+                this._tokenizeSegment(part, output);
             }
         }
-        return mergedTokens;
+        
+        // B"H - Debug Logging for Tokenization
+        const debugStrs = output.map(id => {
+            const s = this.vocab[id] || '<UNK>';
+            return s.replace('\u2581', '_');
+        });
+        console.log(`B"H [Tokenizer] IDs: [${output.join(', ')}]`);
+        console.log(`B"H [Tokenizer] Tokens: ${debugStrs.join(' ')}`);
+        
+        return output;
+    }
+
+    _tokenizeSegment(text, output) {
+        // 2. Preprocess: Replace spaces with SPIECE_UNDERLINE
+        let processed = text.replace(/ /g, '\u2581');
+
+        if (this.addSpacePrefix) {
+            if (processed.length > 0 && processed[0] !== '\u2581' && text[0] !== '\n') {
+                processed = '\u2581' + processed;
+            }
+        }
+
+        // 3. Initial Symbol Split
+        const symbols = [];
+        let index = 0;
+        const chars = [...processed];
+        for (const char of chars) {
+            symbols.push({
+                text: char, n: 1, 
+                prev: index - 1, next: index + 1,
+                index: index, is_valid: true
+            });
+            index++;
+        }
+        if (symbols.length > 0) symbols[symbols.length - 1].next = -1;
+
+        // 4. Priority Queue for Bigrams
+        const pq = new PriorityQueue((a, b) => {
+            if (Math.abs(a.score - b.score) > 1e-6) return a.score - b.score; 
+            return b.left - a.left; 
+        });
+
+        const tryAddBigram = (leftIdx, rightIdx) => {
+            if (leftIdx === -1 || rightIdx === -1) return;
+            const symLeft = symbols[leftIdx];
+            const symRight = symbols[rightIdx];
+            if (!symLeft.is_valid || !symRight.is_valid) return;
+
+            const text = symLeft.text + symRight.text;
+            const id = this.tokenMap.get(text);
+            if (id !== undefined) {
+                const score = this.scores && this.scores.length > 0 ? this.scores[id] : -1000.0; // Default low score if missing
+                pq.push({ left: leftIdx, right: rightIdx, score, text });
+            }
+        };
+
+        for (let i = 1; i < symbols.length; i++) {
+            tryAddBigram(i - 1, i);
+        }
+
+        // 5. Merge Loop
+        while (!pq.isEmpty()) {
+            const bigram = pq.pop();
+            const leftSym = symbols[bigram.left];
+            const rightSym = symbols[bigram.right];
+
+            if (!leftSym.is_valid || !rightSym.is_valid) continue;
+            if (leftSym.text + rightSym.text !== bigram.text) continue; 
+
+            leftSym.text += rightSym.text;
+            leftSym.n += rightSym.n;
+            leftSym.next = rightSym.next;
+            rightSym.is_valid = false;
+            if (rightSym.next !== -1) symbols[rightSym.next].prev = bigram.left;
+
+            tryAddBigram(leftSym.prev, bigram.left);
+            tryAddBigram(bigram.left, leftSym.next);
+        }
+
+        // 6. Collect
+        let head = 0;
+        while(head < symbols.length && !symbols[head].is_valid) head++;
+
+        let ptr = head;
+        const encoder = new TextEncoder();
+        
+        while (ptr !== -1 && ptr < symbols.length) {
+            const sym = symbols[ptr];
+            const id = this.tokenMap.get(sym.text);
+            
+            if (id !== undefined) {
+                output.push(id);
+            } else {
+                // Byte Fallback
+                const bytes = encoder.encode(sym.text);
+                for(let k=0; k<bytes.length; k++) {
+                    const b = bytes[k];
+                    const byteTokenId = this.byteTokens.get(b);
+                    if (byteTokenId !== undefined) {
+                        output.push(byteTokenId);
+                    } else {
+                        const unkId = this.tokenMap.get('<unk>') !== undefined ? this.tokenMap.get('<unk>') : 0;
+                        output.push(unkId);
+                        // console.warn(`B"H [Tokenizer] Unk token fallback for char: '${String.fromCharCode(b)}' (Byte: ${b})`);
+                    }
+                }
+            }
+            ptr = sym.next;
+        }
     }
 
     async detokenize(ids) {
+        if (!this.initialized) await this.init();
         let text = "";
         for (const id of ids) {
-            const chunkId = Math.floor(id / this.CHUNK_SIZE);
-            const offset = id % this.CHUNK_SIZE;
-            
-            const chunk = await this._loadChunk(chunkId);
-            const token = chunk[offset];
-            
+            const token = this.vocab[id];
             if (token) text += token;
         }
         return text.replace(/\u2581/g, ' ').replace(/<0x0A>/g, '\n');
     }
 }
 
-module.exports = DBTokenizer;
+module.exports = SPMTokenizer;

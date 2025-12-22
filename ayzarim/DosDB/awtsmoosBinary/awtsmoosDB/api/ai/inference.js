@@ -20,7 +20,9 @@ class InferenceEngine {
             arch: 'llama',
             act_fn: 'silu',
             useEmbScale: false,
-            rope_is_neox: false
+            rope_is_neox: false,
+            attn_soft_cap: 0.0,
+            final_soft_cap: 0.0
         };
         this.kv_cache = [];
         this.history = [];
@@ -128,7 +130,15 @@ class InferenceEngine {
         this.params.sliding_window_pattern = (await getVal('attention.sliding_window_pattern')) || 0;
         if (isGemma && this.params.sliding_window > 0 && this.params.sliding_window_pattern === 0) this.params.sliding_window_pattern = 6;
 
-        console.log(`B"H [AI] Init ${this.params.arch}: L=${this.params.n_layer} Embd=${this.params.n_embd} Heads=${this.params.n_head}/${this.params.n_head_kv} Dim=${this.params.head_dim}`);
+        // Soft Capping (Gemma 2/3)
+        this.params.attn_soft_cap = (await getVal('attn_logit_softcapping')) || 0.0;
+        this.params.final_soft_cap = (await getVal('final_logit_softcapping')) || 0.0;
+        
+        if (this.params.arch === 'gemma3') {
+             this.params.attn_soft_cap = 0.0; // Disabled in Gemma 3
+        }
+
+        console.log(`B"H [AI] Init ${this.params.arch}: L=${this.params.n_layer} Embd=${this.params.n_embd} Heads=${this.params.n_head}/${this.params.n_head_kv} Dim=${this.params.head_dim} SoftCaps=${this.params.attn_soft_cap}/${this.params.final_soft_cap}`);
         
         if (this.useWasm) {
             this.wasm = new WasmBackend();
@@ -285,7 +295,18 @@ class InferenceEngine {
         if (!w) throw new Error("Logits weight missing");
         
         const logits = this.linear(hidden, w);
-        if (logits) this.vocabSize = logits.length;
+        if (logits) {
+            this.vocabSize = logits.length;
+            
+            // Final Soft Capping
+            if (this.params.final_soft_cap > 0) {
+                const cap = this.params.final_soft_cap;
+                const invCap = 1.0 / cap;
+                for(let i=0; i<logits.length; i++) {
+                    logits[i] = cap * Math.tanh(logits[i] * invCap);
+                }
+            }
+        }
         return logits;
     }
 
@@ -299,11 +320,13 @@ class InferenceEngine {
         const context = history.slice(start);
         const seen = new Set(context);
         
+        // 1. Penalty
         for (const id of seen) {
             if (logits[id] > 0) logits[id] /= penalty;
             else logits[id] *= penalty;
         }
 
+        // 0. Greedy Bypass
         if (temp < 0.01) {
             let max = -Infinity;
             let idx = 0;
@@ -313,12 +336,14 @@ class InferenceEngine {
             return idx;
         }
 
+        // 2. Temp Scaling
         let maxLogit = -Infinity;
         for (let i = 0; i < logits.length; i++) {
             logits[i] /= temp;
             if (logits[i] > maxLogit) maxLogit = logits[i];
         }
 
+        // 3. Softmax
         const probs = new Float32Array(logits.length);
         let sum = 0;
         for (let i = 0; i < logits.length; i++) {
@@ -327,16 +352,31 @@ class InferenceEngine {
             sum += p;
         }
         
+        // 4. Top-P
         const candidates = [];
+        // Dynamic Threshold: 0.0001 divided by vocab size is standard in worker_src/loop.js
+        // But here we use a safer relative threshold to avoid filtering everything in large vocabs
+        const threshold = 0.0001 / logits.length; 
+        
         for (let i = 0; i < probs.length; i++) {
-            const p = probs[i] / sum;
-            if (p > 0.0001) candidates.push({ id: i, p: p });
+            const norm_p = probs[i] / sum;
+            if (norm_p > threshold) candidates.push({ id: i, p: norm_p });
         }
         
         candidates.sort((a, b) => b.p - a.p);
         
+        // Robustness: If empty, fallback to argmax
+        if (candidates.length === 0) {
+            let max = -Infinity;
+            let idx = 0;
+            for (let i = 0; i < logits.length; i++) {
+                if (logits[i] > max) { max = logits[i]; idx = i; }
+            }
+            return idx;
+        }
+        
         let cumSum = 0;
-        let cutoff = 0;
+        let cutoff = candidates.length - 1; // Default to all candidates
         for (let i = 0; i < candidates.length; i++) {
             cumSum += candidates[i].p;
             if (cumSum >= top_p) {
@@ -345,6 +385,7 @@ class InferenceEngine {
             }
         }
         
+        // 5. Selection
         const r = Math.random() * cumSum;
         let acc = 0;
         for (let i = 0; i <= cutoff; i++) {
@@ -352,7 +393,7 @@ class InferenceEngine {
             if (acc >= r) return candidates[i].id;
         }
         
-        return candidates[0].id;
+        return candidates[cutoff].id;
     }
 }
 
