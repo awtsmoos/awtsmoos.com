@@ -1,4 +1,3 @@
-
 // B"H
 // FILE: js/file-ops/transfer.js
 import { State } from '../state.js';
@@ -31,12 +30,21 @@ export const Transfer = {
             return;
         }
 
-        UI.showLoading("Formatting as Markdown...");
+        const taskId = `copy-contents-${Date.now()}`;
+        UI.startTask(taskId, "Preparing markdown...");
+        
         let combinedContent = 'B"H\n\n'; 
+        let processedCount = 0;
 
         try {
             const processItem = async (item) => {
                 if (!item || !item.kind) return;
+
+                // Update UI periodically
+                processedCount++;
+                if (processedCount % 5 === 0) {
+                    UI.updateTask(taskId, 50, `Reading: ${item.name}`);
+                }
 
                 if (item.kind === 'file') {
                     const content = await FileSystemProvider.read(item);
@@ -77,20 +85,24 @@ export const Transfer = {
                 await processItem(item);
             }
 
+            UI.updateTask(taskId, 90, "Writing to clipboard...");
+
             if (combinedContent) {
                 const filename = items.length === 1 ? `${items[0].name}.txt` : `Selection_Export.txt`;
                 const fakeFile = new File([combinedContent], filename, { type: "text/plain" });
                 const success = await Clipboard.write(fakeFile);
-                UI.showToast(success ? 'Contents copied as File & Text!' : 'Failed to copy contents.', success ? 'success' : 'error');
+                if (success) {
+                    UI.endTask(taskId, 'success', 'Copied content to clipboard!');
+                } else {
+                    UI.endTask(taskId, 'error', 'Clipboard write failed.');
+                }
             } else {
-                UI.showToast('No text content found to copy.', 'info');
+                UI.endTask(taskId, 'info', 'No text content found.');
             }
 
         } catch (error) {
             console.error("Error copying all contents:", error);
-            UI.showToast(`Error: ${error.message}`, 'error');
-        } finally {
-            UI.hideLoading();
+            UI.endTask(taskId, 'error', `Error: ${error.message}`);
         }
     },
 
@@ -126,7 +138,9 @@ export const Transfer = {
         });
         if (!confirmed) return;
 
-        UI.showLoading(`Starting deletion...`);
+        const taskId = `delete-${Date.now()}`;
+        UI.startTask(taskId, `Deleting ${itemsToDelete.length} items...`);
+
         try {
             for (const item of itemsToDelete) {
                 const tab = State.tabs.find(t => t.uniquePath === Tabs.getUniquePath(item));
@@ -136,7 +150,9 @@ export const Transfer = {
             let count = 0;
             for (const item of itemsToDelete) {
                 count++;
-                UI.showLoading(`Deleting ${count} of ${itemsToDelete.length}: ${item.name}`);
+                const pct = (count / itemsToDelete.length) * 100;
+                UI.updateTask(taskId, pct, `Deleting: ${item.name}`);
+                
                 try {
                     await FileSystemProvider.delete(item);
                 } catch (e) {
@@ -145,13 +161,12 @@ export const Transfer = {
                 }
             }
             await this._refreshParents(itemsToDelete);
-            UI.showToast(`${itemsToDelete.length} item(s) processed for deletion.`, 'success');
+            UI.endTask(taskId, 'success', `Deleted ${itemsToDelete.length} items.`);
 
         } catch (e) {
-            UI.showToast(`Deletion failed: ${e.message}`, 'error');
+            UI.endTask(taskId, 'error', `Deletion failed: ${e.message}`);
         } finally {
             SelectionManager.end();
-            UI.hideLoading();
         }
     },
 
@@ -164,20 +179,26 @@ export const Transfer = {
         });
         if (!confirmed) return;
 
-        UI.showLoading('Deleting items...');
+        const taskId = `delete-${Date.now()}`;
+        UI.startTask(taskId, "Deleting items...");
+
         try {
+            let count = 0;
             for (const item of itemsToDelete) {
+                count++;
+                const pct = (count / itemsToDelete.length) * 100;
+                UI.updateTask(taskId, pct, `Deleting ${item.name}...`);
+
                 const tab = State.tabs.find(t => t.uniquePath === Tabs.getUniquePath(item));
                 if (tab) await Tabs.close(tab.id, true);
                 await FileSystemProvider.delete(item);
             }
             await this._refreshParents(itemsToDelete);
-            UI.showToast(`${itemsToDelete.length} item(s) deleted.`, 'success');
+            UI.endTask(taskId, 'success', `Deleted ${itemsToDelete.length} items.`);
         } catch (e) {
-            UI.showToast(`Deletion failed: ${e.message}`, 'error');
+            UI.endTask(taskId, 'error', `Deletion failed: ${e.message}`);
         } finally {
             SelectionManager.end();
-            UI.hideLoading();
         }
     },
 
@@ -200,16 +221,17 @@ export const Transfer = {
             let blob;
             let name = State.clipboardZip.name;
 
+            const taskId = `paste-zip-${Date.now()}`;
+            UI.startTask(taskId, "Preparing ZIP...");
+
             // B"H - Handle Lazy Zip
             if (State.clipboardZip.type === 'lazy-zip') {
-                UI.showToast("Starting to generate ZIP...", "info");
-                UI.showLoading("Compressing items for Paste...\n(This process happens in your browser)");
+                UI.updateTask(taskId, 20, "Compressing items...");
                 try {
                     // Actual Zipping happens here, triggered by paste
                     blob = await Exporter.createZipBlob(State.clipboardZip.items);
                 } catch(e) {
-                    UI.showToast("Compression failed: " + e.message, "error");
-                    UI.hideLoading();
+                    UI.endTask(taskId, 'error', "Compression failed: " + e.message);
                     return;
                 }
             } else {
@@ -218,15 +240,14 @@ export const Transfer = {
 
             const newItem = { ...destinationDir, name, kind: 'file', path: destinationDir.path === '/' ? `/${name}` : `${destinationDir.path}/${name}` };
             
-            UI.showLoading("Writing ZIP to disk...");
+            UI.updateTask(taskId, 70, "Writing ZIP to disk...");
             try {
                 const arrayBuffer = await blob.arrayBuffer();
                 await FileSystemProvider.write(newItem, arrayBuffer);
-                UI.showToast("Pasted ZIP archive.", "success");
+                UI.endTask(taskId, 'success', "Pasted ZIP archive.");
             } catch(e) {
-                UI.showToast("Failed to paste zip: " + e.message, "error");
+                UI.endTask(taskId, 'error', "Failed to write ZIP: " + e.message);
             } finally {
-                UI.hideLoading();
                 await Workspaces.refreshNode(destinationDir);
             }
             return;
@@ -262,7 +283,8 @@ export const Transfer = {
         
         if (!confirmed) return;
 
-        UI.showLoading(`Cloning ${repoName}...`);
+        const taskId = `clone-${Date.now()}`;
+        UI.startTask(taskId, `Cloning ${repoName}...`);
         
         try {
             // 1. Create target folder
@@ -274,6 +296,7 @@ export const Transfer = {
             };
 
             // 2. Fetch Remote Tree
+            UI.updateTask(taskId, 5, "Fetching file tree...");
             const treeData = await FileSystemProvider.GitHub.getFullTree(sourceRepoItem);
             
             // 3. Download Files
@@ -282,7 +305,8 @@ export const Transfer = {
             
             for (const file of files) {
                 count++;
-                UI.showLoading(`Downloading ${count}/${files.length}: ${file.path}`);
+                const pct = Math.round((count / files.length) * 100);
+                if (count % 2 === 0) UI.updateTask(taskId, pct, `Downloading: ${file.path}`);
                 
                 const content = await FileSystemProvider.GitHub.read({
                     ...sourceRepoItem,
@@ -295,7 +319,7 @@ export const Transfer = {
             }
 
             // 4. Create Metadata (ikar.js)
-            UI.showLoading("Finalizing Clone...");
+            UI.updateTask(taskId, 99, "Finalizing metadata...");
             const gitInfo = {
                 isClone: true,
                 repoInfo: sourceRepoItem.repoInfo,
@@ -311,19 +335,19 @@ export const Transfer = {
             const metaDir = { ...newRepoRoot, path: `${newRepoRoot.path}/.awtsmoos-repo` };
             await FileSystemProvider.write({ ...metaDir, path: `${metaDir.path}/ikar.js` }, ikarContent);
 
-            UI.showToast(`Cloned ${repoName} successfully!`, "success");
+            UI.endTask(taskId, 'success', `Cloned ${repoName} successfully!`);
             await Workspaces.refreshNode(destinationDir);
 
         } catch(e) {
             console.error("Clone Failed:", e);
-            UI.showToast("Clone Failed: " + e.message, "error");
-        } finally {
-            UI.hideLoading();
+            UI.endTask(taskId, 'error', "Clone Failed: " + e.message);
         }
     },
 
     async standardPaste(destinationDir) {
-        UI.showLoading("Pasting...");
+        const taskId = `paste-${Date.now()}`;
+        UI.startTask(taskId, "Pasting items...");
+
         try {
             const itemsToPaste = State.fileClipboard
                 .map(uniquePath => State.domItemMap.get(uniquePath)?.item)
@@ -331,23 +355,29 @@ export const Transfer = {
                 
             if (itemsToPaste.length === 0) throw new Error("Source items could not be found.");
             
+            let pastedCount = 0;
             for (const sourceItem of itemsToPaste) {
                 if (sourceItem.workspaceId === destinationDir.workspaceId && sourceItem.kind === 'directory' && (destinationDir.path === sourceItem.path || destinationDir.path.startsWith(`${sourceItem.path}/`))) {
                     throw new Error(`Cannot paste '${sourceItem.name}' into itself.`);
                 }
                 
-                await this._copyRecursive(sourceItem, destinationDir);
+                // Recursively copy with progress updates
+                await this._copyRecursive(sourceItem, destinationDir, (name) => {
+                    UI.updateTask(taskId, 50, `Copying: ${name}`); // Indeterminate % for deep copies
+                });
+                pastedCount++;
             }
-            UI.showToast(`Successfully pasted ${itemsToPaste.length} item(s)!`, "success");
+            UI.endTask(taskId, 'success', `Pasted ${pastedCount} item(s)!`);
         } catch (e) {
-            UI.showToast(`PASTE FAILED: ${e.message}`, 'error', 15000);
+            UI.endTask(taskId, 'error', `Paste Failed: ${e.message}`);
         } finally {
-            UI.hideLoading();
             await Workspaces.refreshNode(destinationDir);
         }
     },
 
-    async _copyRecursive(sourceItem, destinationDir) {
+    async _copyRecursive(sourceItem, destinationDir, onProgress) {
+        if (onProgress) onProgress(sourceItem.name);
+
         if (sourceItem.kind === 'file') {
             const fileContent = await FileSystemProvider.read(sourceItem);
             const newPath = destinationDir.path === '/' ? sourceItem.name : `${destinationDir.path}/${sourceItem.name}`;
@@ -363,7 +393,7 @@ export const Transfer = {
             };
             const children = await FileSystemProvider.list(sourceItem);
             for (const child of children) {
-                await this._copyRecursive({ ...sourceItem, ...child }, newDirItem);
+                await this._copyRecursive({ ...sourceItem, ...child }, newDirItem, onProgress);
             }
         }
     },
@@ -377,7 +407,9 @@ export const Transfer = {
         });
         if (!confirmed) return;
 
-        UI.showLoading(`Connecting to GitHub...`);
+        const taskId = `pull-${Date.now()}`;
+        UI.startTask(taskId, `Connecting to GitHub...`);
+
         try {
             const sourceRepoItem = { type: 'github', workspaceId: folderToUpdate.workspaceId, ...gitInfo };
             const newTreeData = await FileSystemProvider.GitHub.getFullTree(sourceRepoItem);
@@ -392,6 +424,8 @@ export const Transfer = {
 
             let skippedCount = 0;
 
+            // Phase 1: Calc Diff (Fast)
+            UI.updateTask(taskId, 10, "Calculating diff...");
             for (const fileNode of newFiles) {
                 if (fileNode.type !== 'blob') continue;
                 
@@ -432,14 +466,13 @@ export const Transfer = {
 
             if (filesToDownload.length === 0 && filesToDelete.length === 0) {
                 if (gitInfo.baseCommitSHA === newTreeData.sha && skippedCount === 0) {
-                    UI.showToast("Already up to date.", "success");
-                    UI.hideLoading();
+                    UI.endTask(taskId, 'success', "Already up to date.");
                     return;
                 }
             }
 
             if (filesToDelete.length > 0) {
-                UI.showLoading(`Removing ${filesToDelete.length} obsolete files...`);
+                UI.updateTask(taskId, 20, `Removing ${filesToDelete.length} obsolete files...`);
                 for (const file of filesToDelete) {
                     const normPath = normalize(file.path);
                     const fullPath = folderToUpdate.path === '/' ? `/${normPath}` : `${folderToUpdate.path}/${normPath}`;
@@ -451,7 +484,7 @@ export const Transfer = {
             for (const fileNode of filesToDownload) {
                 processed++;
                 const percentage = Math.round((processed / filesToDownload.length) * 100);
-                UI.showLoading(`Downloading ${processed}/${filesToDownload.length} (${percentage}%)\n${fileNode.path}`);
+                UI.updateTask(taskId, percentage, `Downloading: ${fileNode.path}`);
                 
                 const content = await FileSystemProvider.GitHub.read({ ...sourceRepoItem, path: fileNode.path, sha: fileNode.sha, name: 'file' });
                 const normPath = normalize(fileNode.path);
@@ -469,12 +502,10 @@ export const Transfer = {
             if (filesToDownload.length > 0) msg += ` Updated ${filesToDownload.length} files.`;
             if (skippedCount > 0) msg += ` (Skipped ${skippedCount} identical files).`;
             
-            UI.showToast(msg, 'success');
+            UI.endTask(taskId, 'success', msg);
         } catch (e) {
-            UI.showToast(`Pull Failed: ${e.message}`, 'error');
+            UI.endTask(taskId, 'error', `Pull Failed: ${e.message}`);
             console.error(e);
-        } finally {
-            UI.hideLoading();
         }
     }
 };
