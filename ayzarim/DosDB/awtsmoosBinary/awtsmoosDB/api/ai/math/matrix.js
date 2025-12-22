@@ -14,6 +14,27 @@ function dotProduct(vecA, vecB) {
     return sum;
 }
 
+// B"H: New Optimized Kernel for Attention (Avoids subarray allocations)
+function dotProductChunk(vecA, offsetA, vecB, offsetB, length) {
+    let sum = 0;
+    let i = 0;
+    const limit = length - 7;
+    for (; i < limit; i += 8) {
+        sum += vecA[offsetA + i] * vecB[offsetB + i] 
+             + vecA[offsetA + i + 1] * vecB[offsetB + i + 1] 
+             + vecA[offsetA + i + 2] * vecB[offsetB + i + 2] 
+             + vecA[offsetA + i + 3] * vecB[offsetB + i + 3]
+             + vecA[offsetA + i + 4] * vecB[offsetB + i + 4] 
+             + vecA[offsetA + i + 5] * vecB[offsetB + i + 5] 
+             + vecA[offsetA + i + 6] * vecB[offsetB + i + 6] 
+             + vecA[offsetA + i + 7] * vecB[offsetB + i + 7];
+    }
+    for (; i < length; i++) {
+        sum += vecA[offsetA + i] * vecB[offsetB + i];
+    }
+    return sum;
+}
+
 /**
  * FUSED Q4_0 Kernel
  * Computes Matrix * Vector directly from compressed bytes.
@@ -121,5 +142,4 @@ function mul(a, b) {
     return out;
 }
 
-// B"H: Export dedicated Q4 kernel
-module.exports = { dotProduct, matVecMul, matVecMulQ4, addInPlace, mul };
+module.exports = { dotProduct, dotProductChunk, matVecMul, matVecMulQ4, addInPlace, mul };

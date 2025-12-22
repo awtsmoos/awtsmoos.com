@@ -112,7 +112,9 @@ class Layers {
         
         for (let h = 0; h < params.n_head; h++) {
             const h_off = h * params.head_dim;
-            const q_h = q_r.subarray(h_off, h_off + params.head_dim);
+            // B"H: Avoid subarray creation for Q if possible, but for now we optimize inner loop
+            const q_h_off = h_off; 
+            
             const kv_h = Math.floor(h / ratio);
             const kv_off = kv_h * params.head_dim; 
             
@@ -121,8 +123,10 @@ class Layers {
             
             for (let i = 0; i < validLen; i++) {
                 const p = startPos + i;
-                const k_h = this.engine.kv_cache[l].k[p].subarray(kv_off, kv_off + params.head_dim);
-                scores[i] = Matrix.dotProduct(q_h, k_h) * scale;
+                // B"H: Optimization: Use dotProductChunk to avoid subarray creation for K
+                const k_full = this.engine.kv_cache[l].k[p];
+                // q_r is used via offset h_off
+                scores[i] = Matrix.dotProductChunk(q_r, q_h_off, k_full, kv_off, params.head_dim) * scale;
             }
 
             let cap_scores = scores;
@@ -134,8 +138,11 @@ class Layers {
             for (let i = 0; i < validLen; i++) {
                 const p = startPos + i;
                 const val = probs[i];
-                const v_h = this.engine.kv_cache[l].v[p].subarray(kv_off, kv_off + params.head_dim);
-                for (let j = 0; j < params.head_dim; j++) out_h[j] += val * v_h[j];
+                // B"H: Optimization: Access V directly without subarray
+                const v_full = this.engine.kv_cache[l].v[p];
+                for (let j = 0; j < params.head_dim; j++) {
+                    out_h[j] += val * v_full[kv_off + j];
+                }
             }
         }
         
