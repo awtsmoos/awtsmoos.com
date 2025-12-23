@@ -104,13 +104,18 @@ function inferParams(metadata, tensorMap) {
              p.query_pre_attn_scalar = p.head_dim; 
         }
         
-        if (p.arch === 'gemma3') {
-            p.attn_soft_cap = 0.0;
-        } else {
-            p.attn_soft_cap = findVal('attn_logit_softcapping') || 0.0; 
+        // B"H: FIX - Force default soft caps for Gemma if missing
+        p.attn_soft_cap = findVal('attn_logit_softcapping') || 0.0; 
+        if (p.attn_soft_cap === 0.0) {
+             p.attn_soft_cap = 50.0;
+             Logger.log(`[CONFIG] Gemma detected. Forcing attn_soft_cap: 50.0`);
         }
 
         p.final_soft_cap = findVal('final_logit_softcapping') || 0.0;
+        if (p.final_soft_cap === 0.0) {
+             p.final_soft_cap = 30.0;
+             Logger.log(`[CONFIG] Gemma detected. Forcing final_soft_cap: 30.0`);
+        }
     } 
     
     // 6. Layer Count

@@ -1,17 +1,23 @@
+
 // B"H
 const { tokenize } = require('./lexer.js');
-// CHANGE: Remove '.js' extension to load from the directory/index.js
 const { Parser } = require('./parser'); 
 const { Emitter } = require('./emitter');
+const Preprocessor = require('./preprocessor.js');
 
 function compile(source) {
-    const tokens = tokenize(source);
+    // 1. Preprocess Macros
+    const pre = new Preprocessor();
+    const expandedSource = pre.process(source);
     
-    // The new modular Parser class
+    // 2. Tokenize
+    const tokens = tokenize(expandedSource);
+    
+    // 3. Parse
     const parser = new Parser(tokens);
     const ast = parser.parse();
     
-    // The new modular Emitter class
+    // 4. Emit WASM
     const emitter = new Emitter();
     return emitter.emit(ast);
 }

@@ -9,7 +9,8 @@ const WASM = {
     I32_ADD: 0x6A, I32_SUB: 0x6B, I32_MUL: 0x6C, I32_LT_S: 0x48,
     F32_ADD: 0x92, F32_SUB: 0x93, F32_MUL: 0x94,
     F32_LOAD: 0x2A, F32_STORE: 0x38,
-    I32_SHL: 0x74
+    I32_SHL: 0x74,
+    DROP: 0x1A
 };
 
 const Encoder = {
@@ -27,7 +28,6 @@ const Encoder = {
     vec: (arr) => {
         let bytes = [];
         for (let item of arr) {
-            // B"H: FIX - Check if iterable before spreading
             if (Array.isArray(item) || ArrayBuffer.isView(item)) {
                 bytes.push(...item);
             } else {

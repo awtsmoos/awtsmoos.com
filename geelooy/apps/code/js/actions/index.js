@@ -1,4 +1,3 @@
-
 // B"H
 // FILE: js/actions/index.js
 
@@ -17,8 +16,15 @@ import { Editor } from '../editor.js';
 import { Tabs } from '../tabs/index.js';
 import { FileOperations } from '../file-operations.js';
 import { SelectionManager } from '../selection-manager.js';
-import { Workspaces } from '../workspaces.js';
+import { Workspaces, getItemUniquePath } from '../workspaces.js';
+import { ASTEngine } from '../tools/ast-engine.js';
+import { SearchSystem } from '../search-system.js'; // B"H
 
+/**
+ * --- ACTION HUB ---
+ * The central station for all commands. It receives a string ID and
+ * routes it to the appropriate sub-module. B"H.
+ */
 export const Actions = {
     async handle(action, item = State.contextTarget) {
         const activeTab = State.tabs.find(t => t.id === State.activeTabId);
@@ -33,7 +39,6 @@ export const Actions = {
                 case "show-docs": ViewActions.showDocs(); break;
                 case "visual-settings": ViewActions.visualSettings(); break;
                 case "toggle-word-wrap": ViewActions.toggleWordWrap(); break;
-                // B"H - Font Size
                 case "increase-font-size": ViewActions.increaseFontSize(); break;
                 case "decrease-font-size": ViewActions.decreaseFontSize(); break;
                 case "toggle-theme": ViewActions.toggleTheme(); break;
@@ -109,34 +114,14 @@ export const Actions = {
                 case "new-folder": FileActions.newItem(item, "new-folder"); break;
                 case "rename": FileActions.rename(item); break;
                 case "open-file-commander": FileActions.openFileCommander(item); break;
+                case "search-in-folder": SearchSystem.show(item); break; // B"H
                 case "open-zip-entry": FileActions.openZipEntry(item); break;
                 case "copy-relative-path": FileActions.copyRelativePath(item); break;
                 case "calculate-hash": FileActions.calculateHash(item); break;
                 case "delete": FileActions.deleteItem(item); break;
 
-                // --- MISC / TOOLS ---
-                case "eval-selection":
-                    const code = DOM.editor.value.substring(DOM.editor.selectionStart, DOM.editor.selectionEnd);
-                    if (!code) { UI.showToast("Select code to evaluate.", "warning"); return; }
-                    try {
-                        const result = eval(code);
-                        UI.showToast(`Result: ${result}`, "success");
-                        console.log("Eval Result:", result);
-                    } catch(e) {
-                        UI.showToast(`Error: ${e.message}`, "error");
-                    }
-                    break;
-                case "transmute-json":
-                    const text = DOM.editor.value;
-                    try {
-                        const obj = new Function(`return ${text}`)();
-                        const json = JSON.stringify(obj, null, 4);
-                        DOM.editor.value = json;
-                        UI.showToast("Transmuted to JSON.", "success");
-                    } catch(e) {
-                        UI.showToast("Invalid Object Syntax.", "error");
-                    }
-                    break;
+                // --- AST OPS ---
+                case "fold-functions": ASTEngine.foldBlocks(); break;
                 case "show-ast":
                     if (!activeTab) return;
                     const ast = Linter.getAST(DOM.editor.value);
@@ -244,7 +229,7 @@ export const Actions = {
                     }
                     break;
                 case "copy-all-contents": if (item) FileOperations.copyAllContents([item]); break;
-                case "start-selection": SelectionManager.start(item, State.contextEvent); break;
+                case "start-selection": SelectionManager.start(item); break;
                 case "copy-single":
                     if (item) {
                         State.fileClipboard = [getItemUniquePath(item)];
@@ -258,14 +243,8 @@ export const Actions = {
                     if (item) {
                         let target = item;
                         if (target.kind === 'file') {
-                             if (target.type === 'zip-entry') {
-                                 const idx = target.path.lastIndexOf('/');
-                                 const parentPath = idx >= 0 ? target.path.substring(0, idx) : '';
-                                 target = { ...target, path: parentPath, kind: 'directory' };
-                             } else {
-                                 const parentPath = target.path.substring(0, target.path.lastIndexOf('/')) || '/';
-                                 target = { ...target, path: parentPath, kind: 'directory' };
-                             }
+                             const parentPath = target.path.substring(0, target.path.lastIndexOf('/')) || '/';
+                             target = { ...target, path: parentPath, kind: 'directory' };
                         }
                         if (target.kind === "directory") FileOperations.paste(target);
                         else UI.showToast("Paste target must be a directory.", "warning");
@@ -277,8 +256,6 @@ export const Actions = {
         } catch (e) {
             UI.showToast(`Error: ${e.message}`, "error");
             console.error("Action failed:", action, e);
-        } finally {
-            // UI.hideLoading(); // Removed, handled by tasks
         }
     }
 };

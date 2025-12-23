@@ -1,3 +1,4 @@
+
 // B"H
 const { Encoder, WASM } = require('./wasm_defs.js');
 const { generateStmt } = require('./statements.js');
@@ -8,85 +9,58 @@ class Emitter {
         this.locals = new Map();
         this.localCount = 0;
         this.params = new Map();
-        this.labelStack = [];
+        this.funcTable = new Map(); 
     }
 
     emit(ast) {
-        const func = ast.body.find(n => n.type === 'Function');
-        
-        const paramTypes = func.params.map(p => {
+        const funcs = ast.body.filter(n => n.type === 'Function');
+        funcs.forEach((f, i) => this.funcTable.set(f.name, i));
+
+        const funcBodies = funcs.map(f => this._emitFunc(f));
+
+        const typePayloads = funcs.map(f => {
+            const pt = f.params.map(p => (p.type.base === 'float' && p.type.pointers === 0) ? WASM.F32 : WASM.I32);
+            return [0x60, ...Encoder.vec(pt), ...Encoder.vec([])];
+        });
+        const typeSec = Encoder.section(1, Encoder.vec(typePayloads));
+        const funcSec = Encoder.section(3, Encoder.vec(funcs.map((_, i) => i)));
+        const memSec = Encoder.section(5, Encoder.vec([[0x00, ...Encoder.toLEB128(256)]]));
+        const expSec = Encoder.section(7, Encoder.vec([
+            [...Encoder.str("mem"), 0x02, 0x00],
+            ...funcs.map((f, i) => [...Encoder.str(f.name), 0x00, ...Encoder.toLEB128(i)])
+        ]));
+        const codeSec = Encoder.section(10, Encoder.vec(funcBodies));
+
+        return new Uint8Array([0x00, 0x61, 0x73, 0x6d, 0x01, 0x00, 0x00, 0x00, ...typeSec, ...funcSec, ...memSec, ...expSec, ...codeSec]);
+    }
+
+    _emitFunc(f) {
+        this.code = []; this.locals.clear(); this.params.clear(); this.localCount = 0;
+        f.params.forEach(p => {
             const t = (p.type.base === 'float' && p.type.pointers === 0) ? WASM.F32 : WASM.I32;
             this.params.set(p.name, { index: this.localCount++, type: t });
-            return t;
         });
-
-        // Generate Body Code
-        for(const stmt of func.body.body) {
-            generateStmt(this, stmt);
-        }
-
-        // --- Build Sections ---
-        // 1. Type
-        const typePayload = [0x60, ...Encoder.vec(paramTypes), ...Encoder.vec([])];
-        const typeSec = Encoder.section(1, Encoder.vec([typePayload]));
-
-        // 2. Func
-        const funcSec = Encoder.section(3, Encoder.vec([0]));
-
-        // 3. Memory
-        const memLimits = [0x00, ...Encoder.toLEB128(256)];
-        const memSec = Encoder.section(5, Encoder.vec([memLimits]));
-
-        // 4. Export
-        const expVec = [
-            [...Encoder.str("mem"), 0x02, 0x00],
-            [...Encoder.str(func.name), 0x00, 0x00]
-        ];
-        const expSec = Encoder.section(7, Encoder.vec(expVec));
-
-        // 5. Code
-        // Locals
-        const varLocals = Array.from(this.locals.values()).filter(l => l.index >= paramTypes.length);
-        varLocals.sort((a,b) => a.index - b.index);
+        f.body.body.forEach(s => generateStmt(this, s));
         
+        const varLocals = Array.from(this.locals.values()).sort((a,b) => a.index - b.index);
         const localDefs = [];
         if (varLocals.length > 0) {
-            let currentType = varLocals[0].type;
-            let count = 0;
-            for(const l of varLocals) {
-                if (l.type === currentType) count++;
-                else {
-                    localDefs.push([...Encoder.toLEB128(count), currentType]);
-                    currentType = l.type;
-                    count = 1;
-                }
+            let curT = varLocals[0].type, count = 0;
+            for (const l of varLocals) {
+                if (l.type === curT) count++;
+                else { localDefs.push([...Encoder.toLEB128(count), curT]); curT = l.type; count = 1; }
             }
-            localDefs.push([...Encoder.toLEB128(count), currentType]);
+            localDefs.push([...Encoder.toLEB128(count), curT]);
         }
-
-        const funcBody = [...Encoder.vec(localDefs), ...this.code, WASM.END];
-        const codeSec = Encoder.section(10, Encoder.vec([[...Encoder.toLEB128(funcBody.length), ...funcBody]]));
-
-        return new Uint8Array([
-            0x00, 0x61, 0x73, 0x6d, 0x01, 0x00, 0x00, 0x00,
-            ...typeSec, ...funcSec, ...memSec, ...expSec, ...codeSec
-        ]);
+        const body = [...Encoder.vec(localDefs), ...this.code, WASM.END];
+        return [...Encoder.toLEB128(body.length), ...body];
     }
 
-    resolveVar(name) {
-        if (this.locals.has(name)) return this.locals.get(name);
-        if (this.params.has(name)) return this.params.get(name);
-        return null; // Return null instead of throwing to allow checking existence
-    }
-
+    resolveVar(name) { return this.locals.get(name) || this.params.get(name); }
+    resolveFuncIndex(name) { return this.funcTable.get(name) || 0; }
     getOrDeclareLocal(name, type) {
-        // Reuse existing slot if available (Flat scope optimization)
         let v = this.resolveVar(name);
-        if (v) return v;
-        
-        const index = this.localCount++;
-        v = { index, type };
-        this.locals.set(name, v);
+        if (!v) { v = { index: this.localCount++, type }; this.locals.set(name, v); }
         return v;
     }
 }

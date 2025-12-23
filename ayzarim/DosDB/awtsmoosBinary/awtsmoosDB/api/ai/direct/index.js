@@ -4,15 +4,24 @@ const Loader = require('./loader.js');
 const Model = require('./model.js');
 const Tokenizer = require('../tokenizer.js');
 const Logger = require('../utils/logger.js');
-const Wasm = require('../math/wasm_jit.js'); // Import
+const Wasm = require('../math/wasm_jit.js');
 
+/**
+ * @module DirectEngine
+ * @description The prime mover of inference. 
+ * This engine generates tokens line-by-line with a beautiful, normalized ledger.
+ */
 class DirectEngine {
-    constructor(filePath) {
+    constructor(filePath, options = {}) {
         this.filePath = filePath;
+        this.options = {
+            verbose: false, 
+            ...options
+        };
         this.loader = new Loader(this);
         this.model = new Model(this);
         
-        // State
+        // Inference State
         this.kv_cache = [];
         this.history = [];
         this.buffer = null; 
@@ -22,19 +31,19 @@ class DirectEngine {
         this.params = {};
     }
 
+    /**
+     * Initializes the engine, model, and tokenizer.
+     */
     async init() {
-        Logger.log(`[Direct] Reading file: ${this.filePath}`);
+        if (this.options.verbose) Logger.log(`[Direct] Loading Atzmus from: ${this.filePath}`);
         
-        // B"H: Initialize WASM Memory (Heavy Allocation for Weights)
         try {
-            await Wasm.init(12000); // ~750MB Initial
-            Logger.log(`[WASM] Initialized. Heap ready.`);
+            await Wasm.init(12000); 
         } catch(e) {
-            Logger.error(`[WASM] Failed to init: ${e.message}. Using JS fallback.`);
+            Logger.error(`[WASM] Hyper-Kernel failed to ignite. Falling back to slow JS math.`);
         }
 
         this.buffer = fs.readFileSync(this.filePath);
-        
         await this.loader.load(this.buffer);
         
         const mockHandle = {
@@ -51,83 +60,93 @@ class DirectEngine {
         this.tokenizer.scores = this.loader.scores ? new Float32Array(this.loader.scores) : new Float32Array(this.vocab.length).fill(0);
         
         await this.tokenizer.init(); 
-        
-        Logger.log(`[Direct] Ready. Arch: ${this.params.arch}, Layers: ${this.params.n_layer}, Embd: ${this.params.n_embd}`);
+        if (this.options.verbose) Logger.log(`[Direct] Ready. Architecture: ${this.params.arch}, Layers: ${this.params.n_layer}`);
     }
 
+    /**
+     * Resets the context of the inference.
+     */
     resetContext() {
         this.kv_cache = [];
         this.history = [];
         if(global.gc) global.gc();
     }
 
-    async getEmbedding(text) {
-        let tokens = await this.tokenizer.tokenize(text);
-        const backupCache = this.kv_cache;
-        this.kv_cache = []; 
-        let lastHidden = null;
-        for (let i = 0; i < tokens.length; i++) {
-            lastHidden = await this.model.forward(tokens[i], i);
-        }
-        this.kv_cache = backupCache;
-        if (!lastHidden) return null;
-        return this._l2Normalize(lastHidden);
-    }
-
-    _l2Normalize(vec) {
-        let sum = 0.0;
-        for (let i = 0; i < vec.length; i++) sum += vec[i] * vec[i];
-        const mag = Math.sqrt(sum);
-        if (mag === 0) return vec;
-        const out = new Float32Array(vec.length);
-        for (let i = 0; i < vec.length; i++) out[i] = vec[i] / mag;
-        return out;
-    }
-
+    /**
+     * Generates a text response.
+     * @param {string} prompt 
+     * @param {Function} callback 
+     * @param {object} options 
+     */
     async generate(prompt, callback, options={}) {
         let fullPrompt = `<start_of_turn>user\n${prompt}<end_of_turn>\n<start_of_turn>model\n`;
-        Logger.log(`[Direct] Formatted Prompt: ${JSON.stringify(fullPrompt)}`);
+        if (this.options.verbose) Logger.log(`[Direct] Processing Prompt (${fullPrompt.length} chars)...`);
         
         let tokens = await this.tokenizer.tokenize(fullPrompt);
-        
         if (this.params.arch.includes('gemma') && this.history.length === 0 && tokens[0] !== 2) {
              tokens.unshift(2); 
         }
         
         let lastHidden = null;
         
-        Logger.log(`[Direct] Processing Context (${tokens.length} tokens)...`);
+        // 1. Context Ingestion
+        if (this.options.verbose) console.log(`B"H [Tracing Prompt: ${tokens.length} tokens]`);
         for (let i = 0; i < tokens.length; i++) {
             lastHidden = await this.model.forward(tokens[i], this.history.length);
             this.history.push(tokens[i]);
-            if (i % 5 === 0) process.stdout.write('.');
         }
-        console.log('');
         
-        Logger.log(`[Direct] Generating...`);
+        if (this.options.verbose) Logger.log(`[Direct] Loop Active.`);
         const maxTokens = options.maxTokens || 128;
         
+        // 2. Generation Loop
         for (let i = 0; i < maxTokens; i++) {
-            const logits = this.model.computeLogits(lastHidden);
-            const next = this.sample(logits);
+            const tokenStartTime = process.hrtime.bigint();
             
-            if (next === 1 || next === 106 || next === 107 || (next === 2 && this.history.length > 1)) {
-                Logger.log(`[Direct] EOS Token generated.`);
+            const logits = await this.model.computeLogits(lastHidden);
+            
+            // B"H: Safety check to prevent <pad> (0) unless specifically chosen (rare).
+            // Actually, <pad> shouldn't be chosen. We can mask it.
+            // logits[0] = -Infinity; // Mask pad token
+            
+            const next_id = this.sample(logits);
+            
+            // B"H: Debug sample
+            // if (i === 0) console.log(`B"H [DEBUG] First sampled ID: ${next_id}. Logit[${next_id}] = ${logits[next_id]}`);
+            
+            if (next_id === 1 || next_id === 106 || next_id === 107 || (next_id === 2 && this.history.length > 1)) {
+                if (this.options.verbose) console.log(`B"H [End of Stream] Generation complete.`);
                 break; 
             }
             
-            const word = await this.tokenizer.detokenize([next]);
-            callback(word);
+            const word = await this.tokenizer.detokenize([next_id]);
             
-            this.history.push(next);
-            lastHidden = await this.model.forward(next, this.history.length - 1);
+            const tokenEndTime = process.hrtime.bigint();
+            const totalMs = Number(tokenEndTime - tokenStartTime) / 1e6;
+            
+            const timestamp = new Date().toISOString().split('T')[1].split('Z')[0];
+            const displayToken = JSON.stringify(word).replace(/^"|"$/g, '').padEnd(16);
+            
+            console.log(`[${timestamp}] | Token: "${displayToken}" | Speed: ${totalMs.toFixed(2).padStart(8)}ms`);
+            
+            if (callback) callback(word);
+            
+            this.history.push(next_id);
+            lastHidden = await this.model.forward(next_id, this.history.length - 1);
         }
     }
 
+    /**
+     * Greedy sampling of the logits.
+     * @param {Float32Array} logits 
+     */
     sample(logits) {
         let max = -Infinity, idx = 0;
-        for(let i=0; i<logits.length; i++) {
-            if(logits[i] > max) { max = logits[i]; idx = i; }
+        // B"H: Use Wasm.copyOut if needed
+        const data = (logits._wasmPtr !== undefined) ? Wasm.copyOut(logits) : logits;
+        
+        for(let i=0; i<data.length; i++) {
+            if(data[i] > max) { max = data[i]; idx = i; }
         }
         return idx;
     }

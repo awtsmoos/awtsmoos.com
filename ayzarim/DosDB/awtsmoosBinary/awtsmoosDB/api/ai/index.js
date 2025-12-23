@@ -11,9 +11,10 @@ class AIManager {
     /**
      * Loads a model and attaches a Brain.
      * @param {string} ggufPath 
+     * @param {object} options
      */
-    async loadBrain(ggufPath) {
-        const engine = new DirectEngine(ggufPath);
+    async loadBrain(ggufPath, options = {}) {
+        const engine = new DirectEngine(ggufPath, options);
         await engine.init();
         
         const brain = new AwtsmoosBrain(this.db, engine);
@@ -24,9 +25,11 @@ class AIManager {
 
     /**
      * Low-level model load (no memory/DB connection)
+     * @param {string} ggufPath 
+     * @param {object} options
      */
-    async loadModel(ggufPath) {
-        const engine = new DirectEngine(ggufPath);
+    async loadModel(ggufPath, options = {}) {
+        const engine = new DirectEngine(ggufPath, options);
         await engine.init();
         return engine;
     } 

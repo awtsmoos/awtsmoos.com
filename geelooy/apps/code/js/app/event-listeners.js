@@ -1,3 +1,4 @@
+
 // B"H
 // FILE: js/app/event-listeners.js
 
@@ -19,6 +20,7 @@ import { WorkspaceAddition } from '../features/workspace-addition.js';
 import { CommandPalette } from '../command-palette.js'; 
 import { Effects } from '../effects.js'; 
 import { VisualEngine } from '../visuals/index.js'; // B"H
+import { ASTEngine } from '../tools/ast-engine.js'; // B"H
 
 export function setupEventListeners() {
     window.addEventListener('message', async (event) => {
@@ -127,6 +129,11 @@ export function setupEventListeners() {
             CustomMenu.createFromConfig(payload);
             return;
         }
+    });
+
+    // B"H - Listen for fold clicks from the virtualized overlay
+    DOM.editor.addEventListener('fold-click', (e) => {
+        ASTEngine.unfoldById(e.detail.foldId);
     });
 
     if (DOM.viewConsoleBtn) {

@@ -1,3 +1,4 @@
+
 // B"H
 const { TOKENS } = require('../lexer.js');
 const { parseExpression } = require('./expressions.js');
@@ -15,6 +16,12 @@ function parseBlock(parser) {
 function parseStatement(parser) {
     const t = parser.peek();
     
+    // Empty Statement
+    if (t.value === ';') {
+        parser.consume();
+        return { type: 'Empty' };
+    }
+
     if (t.type === TOKENS.KEYWORD) {
         if (t.value === 'while') {
             parser.consume();
@@ -37,17 +44,21 @@ function parseStatement(parser) {
 }
 
 function parseDeclaration(parser) {
-    // Note: Calling parser.parseType() works because 'parser' is an instance passed at runtime.
-    // We do NOT import the Parser class here.
     const typeNode = parser.parseType();
-    const name = parser.expect(TOKENS.ID).value;
-    let init = null;
-    if (parser.peek().value === '=') {
-        parser.consume();
-        init = parseExpression(parser);
+    const decls = [];
+    while (true) {
+        const name = parser.expect(TOKENS.ID).value;
+        let init = null;
+        if (parser.peek().value === '=') {
+            parser.consume();
+            init = parseExpression(parser);
+        }
+        decls.push({ type: 'VarDecl', varType: typeNode, name, init });
+        if (parser.peek().value === ',') parser.consume();
+        else break;
     }
     parser.expect(TOKENS.PUNCT, ';');
-    return { type: 'VarDecl', varType: typeNode, name, init };
+    return decls.length === 1 ? decls[0] : { type: 'Block', body: decls };
 }
 
 module.exports = { parseStatement, parseBlock };

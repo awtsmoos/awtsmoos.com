@@ -1,14 +1,18 @@
-
 // B"H
 // FILE: js/command-palette.js
 
 import { State } from './state.js';
-// B"H - Rectified Import Path: Explicitly pointing to index.js
 import { Actions } from './actions/index.js'; 
 import { Tabs } from './tabs/index.js';
 import { UI } from './ui.js';
-import { VisualEngine } from './visuals/index.js'; // B"H
+import { VisualEngine } from './visuals/index.js';
+import { SearchSystem } from './search-system.js'; // B"H
 
+/**
+ * --- COMMAND PALETTE ---
+ * The divine nexus of intent. Allows for rapid access to all application
+ * rituals via text search. B"H.
+ */
 export const CommandPalette = {
     overlay: null,
     input: null,
@@ -25,6 +29,11 @@ export const CommandPalette = {
         { id: 'new-file', label: 'File: New File', action: 'new-temp-file', icon: 'file' },
         { id: 'open-file', label: 'File: Open Local File', action: 'open-file', icon: 'folder' },
         
+        // SEARCH & SCOPE (B"H)
+        { id: 'search-global', label: 'Search: Global Search', action: 'show-search', icon: 'search' },
+        { id: 'search-scope-file', label: 'Search: Set Scope to Current Folder', action: 'scope-to-active', icon: 'search' },
+        { id: 'search-scope-clear', label: 'Search: Clear Search Scope', action: 'scope-clear', icon: 'x' },
+
         // VIEW
         { id: 'graph-nav', label: 'View: Graph Navigator', action: 'show-graph-nav', icon: 'brain-circuit' },
         { id: 'close-tab', label: 'View: Close Tab', action: 'close-tab-direct', icon: 'x' },
@@ -48,6 +57,7 @@ export const CommandPalette = {
         // EDITING
         { id: 'find', label: 'Edit: Find/Replace', action: 'find-replace', icon: 'search' },
         { id: 'comment', label: 'Edit: Toggle Line Comment', action: 'toggle-line-comment', icon: 'list' },
+        { id: 'fold-all', label: 'Edit: Fold All Functions', action: 'fold-functions', icon: 'list' }, // B"H
         { id: 'ipsum', label: 'Edit: Insert Cyber Ipsum', action: 'insert-cyber-ipsum', icon: 'list' },
         { id: 'zalgo', label: 'Edit: Zalgoify Selection', action: 'zalgo-text', icon: 'brain' },
         { id: 'date', label: 'Edit: Insert Date/Time', action: 'insert-date', icon: 'list' },
@@ -82,7 +92,7 @@ export const CommandPalette = {
         // Create DOM
         const overlay = document.createElement('div');
         overlay.id = 'command-palette-overlay';
-        overlay.className = 'search-overlay hidden'; // Reuse search overlay styles for consistency
+        overlay.className = 'search-overlay hidden'; 
         overlay.innerHTML = `
             <div class="search-window command-palette-window">
                 <div class="search-header">
@@ -152,7 +162,7 @@ export const CommandPalette = {
         matchedCommands.forEach((cmd, index) => {
             const item = document.createElement('div');
             item.className = 'search-result-item';
-            if (index === 0) item.classList.add('selected'); // Auto-select first
+            if (index === 0) item.classList.add('selected'); 
             item.innerHTML = `
                 <div class="result-header">
                     <svg class="svg-icon"><use href="#icon-${cmd.icon}"></use></svg>
@@ -197,6 +207,20 @@ export const CommandPalette = {
         this.hide();
         if (cmd.action === 'reload-window') {
             location.reload();
+        } else if (cmd.action === 'show-search') {
+            SearchSystem.show();
+        } else if (cmd.action === 'scope-to-active') {
+             const tab = State.tabs.find(t => t.id === State.activeTabId);
+             if (tab && tab.item) {
+                 const parentPath = tab.item.path.substring(0, tab.item.path.lastIndexOf('/')) || '/';
+                 const parentItem = { ...tab.item, path: parentPath, kind: 'directory', name: parentPath.split('/').pop() || 'Root' };
+                 SearchSystem.show(parentItem);
+             } else {
+                 UI.showToast("No active file to scope search.", "warning");
+             }
+        } else if (cmd.action === 'scope-clear') {
+            SearchSystem.currentScopeItem = null;
+            UI.showToast("Search scope cleared.", "info");
         } else if (cmd.action === 'close-tab-direct') {
             if (State.activeTabId) Tabs.close(State.activeTabId);
         } else if (cmd.action === 'open-vibe-context') {
