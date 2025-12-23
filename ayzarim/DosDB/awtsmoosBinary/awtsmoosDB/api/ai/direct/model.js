@@ -1,3 +1,4 @@
+
 // B"H
 const Stats = require('../math/stats.js');
 const Matrix = require('../math/matrix.js');
@@ -5,6 +6,11 @@ const Act = require('../math/act.js');
 const Layers = require('./layers.js');
 const Wasm = require('../math/wasm_jit.js');
 
+/**
+ * B"H
+ * The Model Vessel.
+ * Coordinates the flow of light through the layers.
+ */
 class Model {
     constructor(engine) {
         this.engine = engine;
@@ -14,34 +20,30 @@ class Model {
         this.shared_input_size = 0;
     }
 
-    // B"H: Debug Helper - SHUTDOWN ON NAN
+    /**
+     * B"H
+     * Debug Helper - Ensures the signal hasn't collapsed into the void of NaN.
+     */
     debugCheck(name, tensor) {
-        if (!tensor) {
-            console.log(`B"H [DEBUG] ${name}: NULL/UNDEFINED`);
-            return;
-        }
+        if (!tensor) return;
         let data = tensor;
         if (tensor._wasmPtr !== undefined) {
             data = Wasm.copyOut(tensor);
         }
         
-        let hasNaN = false;
-        
-        // Fast scan
         for(let i=0; i<data.length; i++) {
-            if (Number.isNaN(data[i]) || !Number.isFinite(data[i])) { 
-                hasNaN = true; 
-                break; 
+            if (!Number.isFinite(data[i])) { 
+                const msg = `B"H [CRITICAL] ${name}: Signal Collapse (NaN/Inf) at index ${i}!`;
+                console.error(msg);
+                throw new Error(msg); 
             }
-        }
-        
-        if (hasNaN) {
-            const msg = `B"H [CRITICAL] ${name}: NaN/Inf DETECTED! Len=${data.length}. SHUTTING DOWN.`;
-            console.error(msg);
-            throw new Error(msg); // Hard Stop
         }
     }
 
+    /**
+     * B"H
+     * Measures the time of creation for a specific operation.
+     */
     trace(opName, fn) {
         const start = process.hrtime.bigint();
         const res = fn();
@@ -52,58 +54,56 @@ class Model {
         return res;
     }
 
+    /**
+     * B"H
+     * Propagates a single token through the entire network.
+     */
     async forward(token_id, pos) {
-        const stats = this.engine.params;
+        const params = this.engine.params;
         const loader = this.engine.loader;
 
         let x = this.trace(`Embedding [Token:${token_id}]`, () => {
             const embInfo = loader.tensorMap.get('token_embd.weight') || loader.tensorMap.get('model.embed_tokens.weight');
-            let vec = loader.getTensor(embInfo.name, token_id * stats.n_embd, stats.n_embd);
+            // B"H - CRITICAL: Never modify weights in-place. Copy them into a fresh vessel.
+            const rawVec = loader.getTensor(embInfo.name, token_id * params.n_embd, params.n_embd);
+            const vec = new Float32Array(rawVec); 
             
-            this.debugCheck("Embedding_Raw", vec);
-            
-            if (stats.useEmbScale) {
-                const embScale = Math.sqrt(stats.n_embd);
+            if (params.useEmbScale) {
+                const embScale = Math.sqrt(params.n_embd);
                 for(let i=0; i<vec.length; i++) vec[i] *= embScale;
             }
             return vec;
         });
-        
-        this.debugCheck("Embedding_Scaled", x);
 
-        for (let l = 0; l < stats.n_layer; l++) {
+        for (let l = 0; l < params.n_layer; l++) {
             x = this.layers.forward(x, l, pos, this.trace.bind(this));
-            this.debugCheck(`Layer_${l}_Output`, x);
+            
+            // B"H: If x is a Wasm view, we must copy it out to ensure subsequent 
+            // Wasm memory growth doesn't detach the view.
+            if (x._wasmPtr !== undefined) {
+                 x = Wasm.copyOut(x);
+            }
         }
 
+        // Final normalization and projection
         x = this.trace("Final LayerNorm", () => {
             let w_norm = loader.getTensor(loader.globalTensorMap.output_norm);
-            return w_norm ? Stats.rmsNorm(x, w_norm, stats.norm_eps) : x;
+            const res = w_norm ? Stats.rmsNorm(x, w_norm, params.norm_eps, params.norm_offset) : x;
+            return (res._wasmPtr !== undefined) ? Wasm.copyOut(res) : res;
         });
-        
-        this.debugCheck("Final_Norm", x);
         
         return x;
     }
 
+    /**
+     * B"H
+     * Bridges the JS hidden state to the Wasm matVecMul kernel.
+     */
     computeWasm(x, w, n_out, cacheKey) {
         if (!w) throw new Error(`B"H Model Error: Weights missing for ${cacheKey}`);
         
         const n_in = (x._wasmPtr !== undefined) ? x._wasmLon : x.length;
         
-        // B"H: Dimension Safety Check
-        if (w.length < n_out * n_in) {
-            // Note: If using quantized weights (e.g. Q4_0), w.length is bytes, not floats.
-            // But here w is likely Float32Array from loader.
-            // If it's Float32Array, exact match required.
-            if (w instanceof Float32Array && w.length !== n_out * n_in) {
-                 // Relax check for potential padding, but ensure MINIMUM size
-                 if (w.length < n_out * n_in) {
-                     throw new Error(`B"H Dimension Mismatch [${cacheKey}]: Input=${n_in}, Output=${n_out}, Expected=${n_in*n_out}, Actual=${w.length}`);
-                 }
-            }
-        }
-
         if (!Wasm.exports) return Matrix.matVecMul(x, w, n_out);
 
         let entry = this.pointer_cache.get(cacheKey);
@@ -133,16 +133,17 @@ class Model {
         return Wasm.view(entry.out_ptr, n_out);
     }
 
+    /**
+     * B"H
+     * Converts the final hidden state into probabilities over the vocabulary.
+     */
     computeLogits(hidden) {
         return this.trace("Output Logit Projection", () => {
             const loader = this.engine.loader;
             const w_out_name = loader.globalTensorMap.output || loader.globalTensorMap.embed;
             const logits = this.computeWasm(hidden, loader.getTensor(w_out_name), this.engine.vocab.length, 'FINAL_LOGITS');
             
-            this.debugCheck("Raw_Logits", logits);
-            
             const capped = (this.engine.params.final_soft_cap > 0) ? Act.softCap(logits, this.engine.params.final_soft_cap) : logits;
-            
             return capped;
         });
     }

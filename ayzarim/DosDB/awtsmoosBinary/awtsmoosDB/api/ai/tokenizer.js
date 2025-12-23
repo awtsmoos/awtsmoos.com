@@ -55,20 +55,16 @@ class SPMTokenizer {
     constructor(modelHandle) {
         this.modelHandle = modelHandle;
         this.vocab = [];
-        this.scores = null; // B"H: Initialize as null
+        this.scores = null;
         this.tokenMap = new Map();
         this.byteTokens = new Map();
         this.specialTokens = new Map();
         this.initialized = false;
+        this.addSpacePrefix = true;
     }
 
     async init() {
-        if (this.initialized) {
-            console.log(`B"H [Tokenizer] Already initialized.`);
-            return;
-        }
-        
-        console.log(`B"H [Tokenizer] Initializing...`);
+        if (this.initialized) return;
         
         // 1. Load Vocab from Chunks
         const vocabSize = await this.modelHandle.config.get('vocab_size');
@@ -89,10 +85,7 @@ class SPMTokenizer {
             }
         }
         
-        console.log(`B"H [Tokenizer] Vocab size: ${this.vocab.length}`);
-
-        // 2. Load Scores - B"H: Fixed overwriting issue
-        // Only load if not already present
+        // 2. Load Scores
         if (!this.scores || this.scores.length === 0) {
             const scoresBuf = await this.modelHandle.config.get('scores_raw');
             if (scoresBuf) {
@@ -101,13 +94,9 @@ class SPMTokenizer {
                     scoresBuf.byteOffset + scoresBuf.byteLength
                 );
                 this.scores = new Float32Array(ab);
-                console.log(`B"H [Tokenizer] Loaded scores from buffer: ${this.scores.length}`);
             } else {
                 this.scores = new Float32Array(vocabSize || this.vocab.length).fill(0);
-                console.warn(`B"H [Tokenizer] No scores found, using zeros.`);
             }
-        } else {
-            console.log(`B"H [Tokenizer] Using pre-loaded scores: ${this.scores.length}`);
         }
 
         // 3. Build Maps
@@ -118,19 +107,13 @@ class SPMTokenizer {
             '<|eot_id|>', '<|start_header_id|>', '<|end_header_id|>'
         ]);
 
-        let collisionCount = 0;
-        let specialCount = 0;
-        let byteCount = 0;
-
         for (let i = 0; i < this.vocab.length; i++) {
             const text = this.vocab[i];
             if(!text) continue;
             
-            // B"H - FIX: Do not overwrite existing tokens. Lower ID takes precedence.
+            // B"H: Strict overwrite to match browser behavior (first match wins usually, but browser does first pass)
             if (!this.tokenMap.has(text)) {
                 this.tokenMap.set(text, i);
-            } else {
-                collisionCount++;
             }
             
             if (text.length === 6 && text.startsWith('<0x') && text.endsWith('>')) {
@@ -138,26 +121,18 @@ class SPMTokenizer {
                 const byteVal = parseInt(hex, 16);
                 if (!isNaN(byteVal)) {
                     this.byteTokens.set(byteVal, i);
-                    byteCount++;
                 }
             }
 
             if (knownSpecials.has(text)) {
-                if (!this.specialTokens.has(text)) {
-                    this.specialTokens.set(text, i);
-                    specialCount++;
-                }
+                this.specialTokens.set(text, i);
             }
         }
         
-        console.log(`B"H [Tokenizer] Maps built. Map size: ${this.tokenMap.size}, Specials: ${specialCount}, Bytes: ${byteCount}, Collisions: ${collisionCount}`);
-        
-        this.addSpacePrefix = true; 
         const asp = await this.modelHandle.config.get('tokenizer.ggml.add_space_prefix');
         if (asp === false) this.addSpacePrefix = false;
 
         this.initialized = true;
-        console.log(`B"H [Tokenizer] Ready. SpacePrefix: ${this.addSpacePrefix}`);
     }
 
     async tokenize(text) {
@@ -178,19 +153,10 @@ class SPMTokenizer {
             if (!part) continue;
             if (this.specialTokens.has(part)) {
                 output.push(this.specialTokens.get(part));
-                // console.log(`B"H [Tokenizer] Matched special: ${part} -> ${this.specialTokens.get(part)}`);
             } else {
                 this._tokenizeSegment(part, output);
             }
         }
-        
-        // B"H - Debug Logging for Tokenization
-        const debugStrs = output.map(id => {
-            const s = this.vocab[id] || '<UNK>';
-            return s.replace('\u2581', '_');
-        });
-        console.log(`B"H [Tokenizer] IDs: [${output.join(', ')}]`);
-        console.log(`B"H [Tokenizer] Tokens: ${debugStrs.join(' ')}`);
         
         return output;
     }
@@ -234,7 +200,7 @@ class SPMTokenizer {
             const text = symLeft.text + symRight.text;
             const id = this.tokenMap.get(text);
             if (id !== undefined) {
-                const score = this.scores && this.scores.length > 0 ? this.scores[id] : -1000.0; // Default low score if missing
+                const score = this.scores && this.scores.length > 0 ? this.scores[id] : 0.0;
                 pq.push({ left: leftIdx, right: rightIdx, score, text });
             }
         };
@@ -284,9 +250,8 @@ class SPMTokenizer {
                     if (byteTokenId !== undefined) {
                         output.push(byteTokenId);
                     } else {
-                        const unkId = this.tokenMap.get('<unk>') !== undefined ? this.tokenMap.get('<unk>') : 0;
+                        const unkId = this.tokenMap.get('<unk>') || 0;
                         output.push(unkId);
-                        // console.warn(`B"H [Tokenizer] Unk token fallback for char: '${String.fromCharCode(b)}' (Byte: ${b})`);
                     }
                 }
             }

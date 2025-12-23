@@ -11,6 +11,126 @@ const awtsmoosBinary = require("../awtsmoosBinary/awtsmoosBinaryJSON/index.js")
 
 module.exports = {
     /**
+     * @method traverse
+     * @description Recursively walks the database, revealing the full structure of the Awtsmoos' creation in a single vessel.
+     *              "Maaseh Bereishis" - detailing the structure of the beginning.
+     * @param {string} id - The starting path (default root).
+     * @param {object} options - Options to guide the traversal.
+     * @param {function} options.onProgress - Callback (info) => void. Info: { count, path, type, depth }.
+     * @param {boolean} options.loadContent - If true, reads the essence (content) of files.
+     * @param {number} options.maxDepth - Limit the descent into the void (default Infinity).
+     * @param {boolean} options.fullDetails - If true, includes native fs.Stats.
+     * @returns {Promise<object>} - The hierarchical structure of the traversed paths.
+     */
+    async traverse(id = "/", options = {}) {
+        const {
+            onProgress,
+            loadContent = false,
+            maxDepth = Infinity,
+            fullDetails = false
+        } = options;
+
+        // Resolve the root path in the physical realm
+        const rootPath = await this.getAwtsmoosFilePath(id);
+        
+        let stats;
+        try {
+            stats = await fs.stat(rootPath);
+        } catch(e) {
+            return { 
+                error: { 
+                    message: "Path not found in the void", 
+                    path: id, 
+                    details: e.message 
+                } 
+            };
+        }
+
+        const result = {
+            path: id,
+            name: path.basename(id) || "root",
+            type: stats.isDirectory() ? "directory" : "file"
+        };
+        
+        if (fullDetails) result.stats = stats;
+
+        // If it's a single file, return it immediately
+        if (!stats.isDirectory()) {
+            if (loadContent) {
+                result.content = await this.get(id);
+            }
+            return result;
+        }
+
+        result.children = [];
+        let count = 0;
+
+        // Recursive function to walk the tree (The Kav extending downwards)
+        const processDir = async (node, absPath, relPath, depth) => {
+            if (depth >= maxDepth) return;
+
+            let entries;
+            try {
+                entries = await fs.readdir(absPath, { withFileTypes: true });
+            } catch(e) {
+                node.error = "Could not read directory: " + e.message;
+                return;
+            }
+
+            for (const entry of entries) {
+                const isDir = entry.isDirectory();
+                const rawName = entry.name;
+                
+                // We use the DB's logic to strip .awtsmoosJSON or .json for the ID/Name
+                const cleanName = this.removeJSONExtension(rawName);
+                
+                // Construct relative path for DB addressability
+                // Handle root slash carefully to avoid double slashes
+                const entryRelPath = relPath === "/" ? cleanName : path.join(relPath, cleanName);
+                const entryAbsPath = path.join(absPath, rawName);
+
+                count++;
+                if (onProgress) {
+                    onProgress({ 
+                        count, 
+                        path: entryRelPath, 
+                        type: isDir ? 'directory' : 'file',
+                        depth: depth + 1
+                    });
+                }
+
+                const child = {
+                    name: cleanName,
+                    path: entryRelPath,
+                    type: isDir ? "directory" : "file"
+                };
+
+                if (fullDetails) {
+                    try { 
+                        child.stats = await fs.stat(entryAbsPath); 
+                    } catch(e) {}
+                }
+
+                if (isDir) {
+                    child.children = [];
+                    await processDir(child, entryAbsPath, entryRelPath, depth + 1);
+                } else {
+                    if (loadContent) {
+                        // Use this.get to handle automatic parsing of .json/.awtsmoosJSON
+                        // Or raw reading if it's a regular file
+                        child.content = await this.get(entryRelPath);
+                    }
+                }
+                
+                node.children.push(child);
+            }
+        };
+
+        await processDir(result, rootPath, id, 0);
+        return result;
+    },
+
+    /**
 	 * @method readFileWithOffset
 	 * @description Reads a segment of a file, a finite glimpse into the Awtsmoos’ boundless scroll.
 	 * @param {string} filePath - The path to read from.
@@ -214,13 +334,15 @@ module.exports = {
                     },
                     isFile: true
                 });
-                var suc = data;
-                if(!data) return data;
-                if(data?.error) return null;
-                if(data?.success) {
-                    suc = data.success;
-
-                    if(suc?.success) {
+                
+                // --- Awtsmoos Logic Update ---
+                // If it is NOT a valid Awtsmoos binary object (success), AND it has no extension,
+                // we must assume it is a regular file (text, script, etc.) and read its essence directly.
+                let isValidBinary = false;
+                if(data && data.success) {
+                     isValidBinary = true;
+                     var suc = data.success;
+                     if(suc?.success) {
                         return !options?.extra ? 
                          suc.success : {
                             dynamicEntry: suc.success
@@ -229,13 +351,22 @@ module.exports = {
                     else return !options?.extra ? suc : {
                         dynamicEntry: suc
                     };
-                }  else return !options?.extra ? 
+                }
+
+                if (!isValidBinary && !ext) {
+                     try {
+                        const content = await fs.readFile(filePath);
+                        return options.extra ? { file: content } : content;
+                     } catch(e) {
+                         // If read failed, return the original error from binary attempt or null
+                     }
+                }
+                
+                return !options?.extra ? 
                     data : {
                         dynamicEntry: data
                     };
-                
 
-            
             } else {
                 const content = await fs.readFile(filePath);
                 return options.extra ? {

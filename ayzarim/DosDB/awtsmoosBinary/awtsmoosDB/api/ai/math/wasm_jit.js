@@ -1,73 +1,110 @@
+
 // B"H
 const CCompiler = require('../../../c_compiler/index.js');
 
 /**
  * @module WasmBackend
  * @description The unified sanctuary of mathematical manifestation.
- * 
- * B"H UPDATE:
- * Simplified Kernel. 16-Row Unrolling caused instability.
- * Reverted to 4-Row Unrolling which is numerically safer and easier to boundary check.
  */
 const C_SOURCE = /*c*/`
 
+// B"H: Standard Matrix-Vector Multiplication (Row-Major W)
+// y = W * x
 void matVecMul(float* out, float* x, float* w, int n_out, int n_in) {
     int i = 0;
-    
-    // 4-Row Interleaved Processing (Safe & Fast)
-    while (i < n_out - 3) {
-        float s0 = 0.0;
-        float s1 = 0.0;
-        float s2 = 0.0;
-        float s3 = 0.0;
-        
-        int offset0 = i * n_in;
-        int offset1 = (i + 1) * n_in;
-        int offset2 = (i + 2) * n_in;
-        int offset3 = (i + 3) * n_in;
-        
+    while (i < n_out) {
+        float s = 0.0;
+        int offset = i * n_in;
         int j = 0;
+        // Simple loop, let WASM engine optimize
         while (j < n_in) {
-            float val = x[j];
-            s0 = s0 + w[offset0 + j] * val;
-            s1 = s1 + w[offset1 + j] * val;
-            s2 = s2 + w[offset2 + j] * val;
-            s3 = s3 + w[offset3 + j] * val;
+            s = s + w[offset + j] * x[j];
             j = j + 1;
         }
-        
-        out[i] = s0;
-        out[i+1] = s1;
-        out[i+2] = s2;
-        out[i+3] = s3;
-        
-        i = i + 4;
-    }
-    
-    // Cleanup remaining rows
-    while (i < n_out) {
-        float s = 0.0; 
-        int off = i * n_in;
-        int j = 0;
-        while (j < n_in) { 
-            s = s + w[off + j] * x[j]; 
-            j = j + 1; 
-        }
-        out[i] = s; 
+        out[i] = s;
         i = i + 1;
     }
 }
 
 void vecMul(float* out, float* a, float* b, int n) {
-    int i = 0; while (i < n) { out[i] = a[i] * b[i]; i = i + 1; }
+    int i = 0; 
+    while (i < n) { 
+        out[i] = a[i] * b[i]; 
+        i = i + 1; 
+    }
 }
 
 void attnSum(float* out, float* scores, float* v_cache, int pos, int head_dim) {
     int i = 0;
     while (i <= pos) {
         float val = scores[i];
-        int j = 0; int off = i * head_dim;
-        while (j < head_dim) { out[j] = out[j] + val * v_cache[off + j]; j = j + 1; }
+        int j = 0; 
+        int off = i * head_dim;
+        while (j < head_dim) { 
+            out[j] = out[j] + val * v_cache[off + j]; 
+            j = j + 1; 
+        }
+        i = i + 1;
+    }
+}
+
+void rms_norm(float* out, float* x, float* w, int n, float eps) {
+    float ss = 0.0;
+    int i = 0;
+    while (i < n) {
+        float v = x[i];
+        ss = ss + v * v;
+        i = i + 1;
+    }
+    float mean = ss / n;
+    float scale = 1.0 / __builtin_sqrtf(mean + eps);
+    
+    i = 0;
+    while (i < n) {
+        out[i] = x[i] * scale * w[i];
+        i = i + 1;
+    }
+}
+
+void rms_norm_with_offset(float* out, float* x, float* w, int n, float eps, float offset) {
+    float ss = 0.0;
+    int i = 0;
+    while (i < n) {
+        float v = x[i];
+        ss = ss + v * v;
+        i = i + 1;
+    }
+    float mean = ss / n;
+    float scale = 1.0 / __builtin_sqrtf(mean + eps);
+    
+    i = 0;
+    while (i < n) {
+        out[i] = x[i] * scale * (w[i] + offset);
+        i = i + 1;
+    }
+}
+
+void rms_norm_no_w(float* out, float* x, int n, float eps) {
+    float ss = 0.0;
+    int i = 0;
+    while (i < n) {
+        float v = x[i];
+        ss = ss + v * v;
+        i = i + 1;
+    }
+    float mean = ss / n;
+    float scale = 1.0 / __builtin_sqrtf(mean + eps);
+    i = 0;
+    while (i < n) {
+        out[i] = x[i] * scale;
+        i = i + 1;
+    }
+}
+
+void add_inplace(float* a, float* b, int n) {
+    int i = 0;
+    while (i < n) {
+        a[i] = a[i] + b[i];
         i = i + 1;
     }
 }
@@ -83,12 +120,16 @@ class WasmBackend {
             const bin = CCompiler.compile(C_SOURCE);
             const mod = await WebAssembly.instantiate(bin);
             this.instance = mod.instance; this.exports = this.instance.exports;
+            
+            // Debug Exports
+            // console.log("B\"H [WasmJIT] Exports:", Object.keys(this.exports));
+            
             this.memory = this.exports.mem;
             const cur = this.memory.buffer.byteLength / 65536;
             if (cur < pages) this.memory.grow(pages - cur);
             this.heapF32 = new Float32Array(this.memory.buffer);
             this.heapOffset = 0;
-            console.log("B\"H [WasmJIT] Kernel Stabilized (4-Row Mode).");
+            console.log("B\"H [WasmJIT] Safe Kernel Initialized.");
         } catch(e) { console.error("B\"H [WasmJIT] Critical Error:", e); throw e; }
     }
 
@@ -121,6 +162,16 @@ class WasmBackend {
         v._wasmPtr = ptr;
         v._wasmLon = len;
         return v;
+    }
+    
+    // B"H: Strict Validator - Rejects NaN AND Infinity
+    isValid(view) {
+        if (!view) return false;
+        const len = view.length;
+        for(let i=0; i<len; i++) {
+            if (!Number.isFinite(view[i])) return false;
+        }
+        return true;
     }
 
     copyIn(ptr, data) {

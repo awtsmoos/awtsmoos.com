@@ -1,9 +1,11 @@
+
 //B"H
 //FILE: js/editor.js
 import { State, DOM } from "./state.js";
 import { UI } from "./ui.js";
 import { StatusBar } from "./statusbar.js";
 import { Linter } from "./tools/linter.js"; // B"H
+import { ASTEngine } from "./tools/ast-engine.js"; // B"H
 import pnimi from "/scripts/awtsmoos/coding/pnimi.js";
 
 export const Editor = {
@@ -15,6 +17,21 @@ export const Editor = {
 	init() {
         // B"H - Init Linter
         Linter.init().catch(e => console.warn("Linter init deferred", e));
+        
+        // B"H - Safety Interceptor: Unfold ALL on significant input to prevent data loss.
+        // This handles cases where user types inside/near a folded block.
+        DOM.editor.addEventListener('input', () => {
+            if (State.foldedRegistry.size > 0) {
+                // If there are folds, we check if we need to unfold.
+                // For maximum safety, we unfold EVERYTHING on edit.
+                // This prevents the "moved to bottom" bug completely by restoring truth.
+                const wasChanged = ASTEngine.unfoldAll();
+                if(wasChanged) {
+                    // Update highlighter with new unfolded content
+                    if(this.currentHighlighter) this.currentHighlighter.setText(DOM.editor.value);
+                }
+            }
+        });
     },
 		
     _getExt: (name) => {
@@ -201,6 +218,9 @@ export const Editor = {
     async showTextEditor(content = "", filename = "", scrollPos = 0) {
 		UI.switchView("editor");
 		State.isRestoring = true;
+        // B"H - Clear fold registry on new file load to prevent cross-contamination
+        State.foldedRegistry.clear();
+        
 		DOM.editor.value = content;
 		DOM.editor.setSelectionRange(0, 0);
 		

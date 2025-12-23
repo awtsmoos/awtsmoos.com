@@ -1,3 +1,4 @@
+
 // B"H
 // FILE: code/js/state.js
 
@@ -41,7 +42,8 @@ export const State = {
     closedTabHistory: [], // B"H - Stack for reopening tabs
 
     // B"H - NEW: Intelligence & Folding State
-    foldedRegistry: new Map(), // ID -> originalText
+    // We keep a global registry for simplicity, keyed by the unique ID inside the fold marker.
+    foldedRegistry: new Map(), 
     nextFoldId: 1
 };
 

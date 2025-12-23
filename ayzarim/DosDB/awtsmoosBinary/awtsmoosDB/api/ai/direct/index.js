@@ -1,3 +1,4 @@
+
 // B"H
 const fs = require('fs');
 const Loader = require('./loader.js');
@@ -9,7 +10,7 @@ const Wasm = require('../math/wasm_jit.js');
 /**
  * @module DirectEngine
  * @description The prime mover of inference. 
- * This engine generates tokens line-by-line with a beautiful, normalized ledger.
+ * This engine generates tokens with precise alignment to the browser worker.
  */
 class DirectEngine {
     constructor(filePath, options = {}) {
@@ -32,13 +33,15 @@ class DirectEngine {
     }
 
     /**
+     * B"H
      * Initializes the engine, model, and tokenizer.
      */
     async init() {
         if (this.options.verbose) Logger.log(`[Direct] Loading Atzmus from: ${this.filePath}`);
         
         try {
-            await Wasm.init(12000); 
+            // PHYSICS FIX - 2GB memory upfront prevents detachment
+            await Wasm.init(32768); 
         } catch(e) {
             Logger.error(`[WASM] Hyper-Kernel failed to ignite. Falling back to slow JS math.`);
         }
@@ -64,6 +67,7 @@ class DirectEngine {
     }
 
     /**
+     * B"H
      * Resets the context of the inference.
      */
     resetContext() {
@@ -73,16 +77,17 @@ class DirectEngine {
     }
 
     /**
-     * Generates a text response.
-     * @param {string} prompt 
-     * @param {Function} callback 
-     * @param {object} options 
+     * B"H
+     * Generates a text response using Gemma 3 IT templates.
      */
     async generate(prompt, callback, options={}) {
-        let fullPrompt = `<start_of_turn>user\n${prompt}<end_of_turn>\n<start_of_turn>model\n`;
-        if (this.options.verbose) Logger.log(`[Direct] Processing Prompt (${fullPrompt.length} chars)...`);
+        // B"H - Symmetry check: Match browser template exactly
+        let fullPrompt = `<start_of_turn>user\n${prompt.trim()}<end_of_turn>\n<start_of_turn>model\n`;
+        if (this.options.verbose) Logger.log(`[Direct] Processing Prompt...`);
         
         let tokens = await this.tokenizer.tokenize(fullPrompt);
+        
+        // Gemma logic: Ensure BOS (2) at the start of a fresh session
         if (this.params.arch.includes('gemma') && this.history.length === 0 && tokens[0] !== 2) {
              tokens.unshift(2); 
         }
@@ -90,32 +95,28 @@ class DirectEngine {
         let lastHidden = null;
         
         // 1. Context Ingestion
-        if (this.options.verbose) console.log(`B"H [Tracing Prompt: ${tokens.length} tokens]`);
         for (let i = 0; i < tokens.length; i++) {
             lastHidden = await this.model.forward(tokens[i], this.history.length);
             this.history.push(tokens[i]);
         }
         
-        if (this.options.verbose) Logger.log(`[Direct] Loop Active.`);
         const maxTokens = options.maxTokens || 128;
+        const config = {
+            temp: options.temp || 0.8,
+            top_p: options.top_p || 0.9,
+            repeat_penalty: options.repeat_penalty || 1.1,
+            penalty_n: 64
+        };
         
         // 2. Generation Loop
         for (let i = 0; i < maxTokens; i++) {
             const tokenStartTime = process.hrtime.bigint();
             
             const logits = await this.model.computeLogits(lastHidden);
+            const next_id = this.sample(logits, this.history, config);
             
-            // B"H: Safety check to prevent <pad> (0) unless specifically chosen (rare).
-            // Actually, <pad> shouldn't be chosen. We can mask it.
-            // logits[0] = -Infinity; // Mask pad token
-            
-            const next_id = this.sample(logits);
-            
-            // B"H: Debug sample
-            // if (i === 0) console.log(`B"H [DEBUG] First sampled ID: ${next_id}. Logit[${next_id}] = ${logits[next_id]}`);
-            
-            if (next_id === 1 || next_id === 106 || next_id === 107 || (next_id === 2 && this.history.length > 1)) {
-                if (this.options.verbose) console.log(`B"H [End of Stream] Generation complete.`);
+            // Standard Gemma End-of-Turn tokens
+            if (next_id === 1 || next_id === 106 || next_id === 107 || (next_id === 2 && this.history.length > tokens.length)) {
                 break; 
             }
             
@@ -137,18 +138,75 @@ class DirectEngine {
     }
 
     /**
-     * Greedy sampling of the logits.
-     * @param {Float32Array} logits 
+     * B"H
+     * Advanced Sampler with Nucleus Robustness.
      */
-    sample(logits) {
-        let max = -Infinity, idx = 0;
-        // B"H: Use Wasm.copyOut if needed
-        const data = (logits._wasmPtr !== undefined) ? Wasm.copyOut(logits) : logits;
+    sample(logits, history, config) {
+        let probs = (logits._wasmPtr !== undefined) ? Wasm.copyOut(logits) : new Float32Array(logits);
         
-        for(let i=0; i<data.length; i++) {
-            if(data[i] > max) { max = data[i]; idx = i; }
+        // 1. Repetition Penalty
+        const start = Math.max(0, history.length - config.penalty_n);
+        const context = history.slice(start);
+        const seen = new Set(context);
+        for (const id of seen) {
+            if (probs[id] > 0) probs[id] /= config.repeat_penalty;
+            else probs[id] *= config.repeat_penalty;
         }
-        return idx;
+
+        // 2. Temperature
+        let maxLogit = -Infinity;
+        if (config.temp <= 0) config.temp = 0.01;
+        for(let i=0; i<probs.length; i++) {
+            probs[i] /= config.temp;
+            if(probs[i] > maxLogit && Number.isFinite(probs[i])) maxLogit = probs[i];
+        }
+        
+        // 3. Softmax
+        let sum = 0;
+        for(let i=0; i<probs.length; i++) {
+            const p = Math.exp(probs[i] - maxLogit);
+            probs[i] = p;
+            sum += p;
+        }
+        
+        // 4. Top-P
+        let candidates = [];
+        const threshold = 0.0001 / (probs.length || 1);
+        for(let i=0; i<probs.length; i++) {
+            const p = probs[i] / (sum || 1);
+            if(p > threshold) candidates.push({ id: i, p });
+        }
+        
+        candidates.sort((a,b) => b.p - a.p);
+        
+        // Fallback to greedy if numerical collapse
+        if (candidates.length === 0) {
+            let topId = 0;
+            let topVal = -Infinity;
+            for(let i=0; i<probs.length; i++) {
+                if (probs[i] > topVal) { topVal = probs[i]; topId = i; }
+            }
+            return topId;
+        }
+
+        let cumSum = 0;
+        let cutoff = candidates.length - 1;
+        for(let i=0; i<candidates.length; i++) {
+            cumSum += candidates[i].p;
+            if(cumSum >= config.top_p) {
+                cutoff = i;
+                break;
+            }
+        }
+        
+        const r = Math.random() * cumSum;
+        let acc = 0;
+        for(let i=0; i<=cutoff; i++) {
+            acc += candidates[i].p;
+            if(acc >= r) return candidates[i].id;
+        }
+        
+        return candidates[0].id;
     }
 }
 

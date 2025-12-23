@@ -1,0 +1,294 @@
+//B"H
+import { injectAIChatCSS } from "../styles/aiChatStyles.js";
+import { markdownToHtml } from "../parsing.js";
+import { stripTags } from "../functions/utils.js";
+import { AwtsmoosPrompt } from "/scripts/awtsmoos/api/utils.js";
+
+var history = [];
+
+export function renderAIChat({ tab }) {
+    injectAIChatCSS();
+    tab.innerHTML = "";
+    
+    // Reset history if starting fresh? For now, we keep history persistent per session load 
+    // to allow closing/reopening tab without losing context.
+    
+    const container = document.createElement("div");
+    container.className = "ai-chat-container";
+    
+    // Controls
+    const controls = document.createElement("div");
+    controls.className = "ai-controls";
+    
+    const leftControls = document.createElement("div");
+    leftControls.className = "ai-controls-left";
+
+    const contextCheckbox = document.createElement("input");
+    contextCheckbox.type = "checkbox";
+    contextCheckbox.checked = true; 
+    contextCheckbox.id = "ai-context-toggle";
+    
+    const contextLabel = document.createElement("label");
+    contextLabel.htmlFor = "ai-context-toggle";
+    
+    const s = new URLSearchParams(location.search);
+    const idx = s.get("idx");
+    const hasSpecificContext = idx !== null;
+    
+    function updateLabel() {
+        if (!hasSpecificContext) {
+            contextLabel.textContent = "Analyzing: Full Post";
+            contextCheckbox.style.display = "none";
+        } else {
+            contextCheckbox.style.display = "inline-block";
+            if (contextCheckbox.checked) {
+                const rawText = getContextContent(idx);
+                const cleanText = stripTags(rawText).replace(/\s+/g, " ").trim();
+                const preview = cleanText.length > 35 ? cleanText.substring(0, 35) + "..." : cleanText;
+                contextLabel.textContent = `Analyzing Section ${parseInt(idx) + 1}: "${preview}"`;
+                contextLabel.title = cleanText; 
+            } else {
+                contextLabel.textContent = "Analyzing: Full Post";
+                contextLabel.title = "";
+            }
+        }
+    }
+    
+    updateLabel();
+    contextCheckbox.onchange = updateLabel;
+    
+    leftControls.appendChild(contextCheckbox);
+    leftControls.appendChild(contextLabel);
+    controls.appendChild(leftControls);
+
+    // Save Button
+    const saveBtn = document.createElement("button");
+    saveBtn.className = "ai-save-btn";
+    saveBtn.innerText = "Save to Comments";
+    saveBtn.onclick = async () => await saveChat(history, hasSpecificContext ? idx : "root");
+    controls.appendChild(saveBtn);
+
+    container.appendChild(controls);
+
+    // Messages Area
+    const messagesDiv = document.createElement("div");
+    messagesDiv.className = "ai-messages";
+    container.appendChild(messagesDiv);
+
+    // Render existing history
+    history.forEach(msg => appendMessage(msg.role, msg.text, messagesDiv));
+
+    if (history.length === 0) {
+        appendMessage("ai", "B\"H!\n I am ready to help you explore this Torah content. What would you like to know?", messagesDiv);
+    }
+
+    // Input Area
+    const inputArea = document.createElement("div");
+    inputArea.className = "ai-input-area";
+    
+    const textarea = document.createElement("textarea");
+    textarea.className = "ai-input-box";
+    textarea.placeholder = "Ask a question...";
+    textarea.rows = 1;
+    
+    textarea.addEventListener('input', function() {
+        this.style.height = 'auto';
+        this.style.height = (this.scrollHeight) + 'px';
+    });
+
+    textarea.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            sendBtn.click();
+        }
+    });
+
+    const sendBtn = document.createElement("button");
+    sendBtn.className = "ai-send-btn";
+    sendBtn.innerHTML = "➤";
+    
+    sendBtn.onclick = async () => {
+        const text = textarea.value.trim();
+        if (!text) return;
+        
+        textarea.value = "";
+        textarea.style.height = 'auto';
+        
+        // 1. User Message
+        appendMessage("user", text, messagesDiv);
+        history.push({ role: "user", text });
+        
+        // 2. Prepare Context
+        const useSection = hasSpecificContext && contextCheckbox.checked;
+        const contextText = getContextContent(useSection ? idx : null);
+        
+        // 3. AI Placeholder
+        const aiMsgDiv = appendMessage("ai", "", messagesDiv, true);
+        const contentDiv = aiMsgDiv.querySelector(".content");
+        
+        // 4. Call API
+        try {
+            const prompt = constructPrompt(text, contextText, history);
+            let streamedResponse = "";
+            
+            const finalResponse = await window.awtsmoosAi({
+                prompt: prompt,
+                onstream: (chunk) => {
+                    const txt = extractTextFromChunk(chunk);
+                    if (txt) {
+                        streamedResponse += txt;
+                        contentDiv.innerHTML = markdownToHtml(streamedResponse);
+                        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+                    }
+                }
+            });
+            
+            const responseText = (typeof finalResponse === 'string' && finalResponse.length > 0) 
+                ? finalResponse 
+                : streamedResponse;
+                
+            contentDiv.innerHTML = markdownToHtml(responseText);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+            
+            history.push({ role: "model", text: responseText });
+            aiMsgDiv.classList.remove("loading");
+            const typingInd = aiMsgDiv.querySelector(".typing-indicator");
+            if(typingInd) typingInd.remove();
+            
+        } catch (e) {
+            console.error(e);
+            contentDiv.textContent = "Error: Could not reach Awtsmoos AI.";
+            aiMsgDiv.classList.remove("loading");
+            const typingInd = aiMsgDiv.querySelector(".typing-indicator");
+            if(typingInd) typingInd.remove();
+        }
+    };
+
+    inputArea.appendChild(textarea);
+    inputArea.appendChild(sendBtn);
+    container.appendChild(inputArea);
+    
+    tab.appendChild(container);
+    
+    setTimeout(() => messagesDiv.scrollTop = messagesDiv.scrollHeight, 100);
+}
+
+function appendMessage(role, text, container, isLoading = false) {
+    const msgDiv = document.createElement("div");
+    msgDiv.className = `ai-message ${role}`;
+    
+    const content = document.createElement("div");
+    content.className = "content";
+    content.innerHTML = role === "user" ? text.replace(/\n/g, "<br>") : markdownToHtml(text);
+    msgDiv.appendChild(content);
+
+    if (isLoading) {
+        const indicator = document.createElement("div");
+        indicator.className = "typing-indicator";
+        indicator.innerHTML = "<span></span><span></span><span></span>";
+        msgDiv.appendChild(indicator);
+    }
+
+    container.appendChild(msgDiv);
+    container.scrollTop = container.scrollHeight;
+    return msgDiv;
+}
+
+function getContextContent(idx) {
+    if (idx !== null && window.sectionDayuh && window.sectionDayuh[idx]) {
+        let sec = window.sectionDayuh[idx];
+        return Array.isArray(sec) ? sec.flat(Infinity).join("\n") : sec;
+    }
+    
+    if (window.sectionDayuh) {
+        return window.sectionDayuh.flat(Infinity).join("\n\n");
+    }
+    
+    return document.getElementById("realPost")?.innerText || "";
+}
+
+function constructPrompt(currentMsg, context, hist) {
+    let cleanContext = stripTags(context);
+    let prompt = `B"H\nYou are a helpful, knowledgeable Torah assistant analyzing the following text:\n\n---\n${cleanContext}\n---\n\n`;
+    
+    if (hist.length > 1) { 
+        prompt += "Conversation History:\n";
+        hist.slice(0, -1).forEach(h => {
+            prompt += `${h.role === 'user' ? 'User' : 'AI'}: ${h.text}\n`;
+        });
+        prompt += "\n";
+    }
+    
+    prompt += `User: ${currentMsg}\nAI:`;
+    return prompt;
+}
+
+function extractTextFromChunk(chunk) {
+    const data = Array.isArray(chunk) ? chunk[0] : chunk;
+    return data?.candidates?.[0]?.content?.parts?.[0]?.text || "";
+}
+
+async function saveChat(chatHistory, verseSection) {
+    if (!chatHistory || chatHistory.length === 0) {
+        return AwtsmoosPrompt.go({ isAlert: true, headerTxt: "Chat is empty!" });
+    }
+    
+    if (!window.curAlias) {
+        return AwtsmoosPrompt.go({ isAlert: true, headerTxt: "You must be logged in with an alias to save comments." });
+    }
+    
+    // Check permission logic here if needed (mirrors CommentSection.js)
+    
+    const confirm = await AwtsmoosPrompt.go({ 
+        headerTxt: "Save this conversation as a comment?",
+        confirm: true
+    });
+    
+    if (!confirm) return;
+    
+    try {
+        const heichelId = window.post?.heichel?.id;
+        const postId = window.post?.id;
+        
+        // We structure the comment to contain the conversation data
+        const dayuhObject = {
+            conversation: chatHistory,
+            verseSection: verseSection === "root" ? "root" : parseInt(verseSection)
+        };
+        
+        const content = "Chat with Awtsmoos AI"; // Fallback/Title content
+        
+        const response = await fetch(location.origin + `/api/social/heichelos/${heichelId}/post/${postId}/comments/`, {
+            method: "POST",
+            body: new URLSearchParams({
+                aliasId: window.curAlias,
+                content: content,
+                seriesId: window?.post?.parentSeriesId,
+                dayuh: JSON.stringify(dayuhObject),
+            }),
+        });
+
+        const json = await response.json();
+
+        if (json.success && json.details?.id) {
+            const newCommentId = json.details.id;
+            const newCommentData = { id: newCommentId, author: window.curAlias, content: content, dayuh: dayuhObject };
+            
+            await window.commentLogic.handleNewComment({
+                aliasId: window.curAlias,
+                verseSection: verseSection,
+                commentId: newCommentId,
+                newCommentData: newCommentData
+            });
+            
+            AwtsmoosPrompt.go({ isAlert: true, headerTxt: "Chat saved successfully!" });
+            
+        } else {
+            const errorMessage = json.error || "An unknown error occurred.";
+            AwtsmoosPrompt.go({ isAlert: true, headerTxt: "Failed to save: " + errorMessage });
+        }
+    } catch (e) {
+        console.error("Save chat error:", e);
+        AwtsmoosPrompt.go({ isAlert: true, headerTxt: "Network error saving chat." });
+    }
+}

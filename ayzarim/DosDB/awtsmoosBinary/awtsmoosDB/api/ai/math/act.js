@@ -3,7 +3,6 @@
 
 /**
  * High-performance Pade Approximation of Tanh.
- * Drastically faster than Math.tanh for large-scale logit capping.
  */
 function fastTanh(x) {
     if (x > 4.97) return 1.0;
@@ -18,7 +17,7 @@ function softCap(x, cap) {
     const out = new Float32Array(x.length);
     const invCap = 1.0 / cap;
     for (let i = 0; i < x.length; i++) {
-        out[i] = cap * fastTanh(x[i] * invCap);
+        out[i] = cap * Math.tanh(x[i] * invCap);
     }
     return out;
 }
@@ -31,7 +30,8 @@ function gelu(x) {
     for (let i = 0; i < x.length; i++) {
         const v = x[i];
         const v3 = v * v * v;
-        out[i] = 0.5 * v * (1.0 + fastTanh(SQRT_2_PI * (v + COEF * v3)));
+        // B"H: Use Math.tanh for maximum compatibility/accuracy
+        out[i] = 0.5 * v * (1.0 + Math.tanh(SQRT_2_PI * (v + COEF * v3)));
     }
     return out;
 }
