@@ -895,7 +895,8 @@ body {
 .post-frame .content {
     /*background: url(https://i.imgur.com/9GkeNTZ.jpeg);*/
     background-size: cover;
-
+	
+    white-space: pre-wrap;
 }
 .post-frame > div {
     overflow-x:hidden;

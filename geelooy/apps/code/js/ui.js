@@ -163,8 +163,8 @@ export const UI = {
         for (let i = 1; i <= lines.length; i++) {
             const lineText = lines[i-1];
             
-            // B"H - Updated detection: Look for strict fold format
-            const isActuallyFolded = lineText.match(/'__FOLD:\d+__'/);
+            // B"H - New Detection logic for comment based fold markers
+            const isActuallyFolded = lineText.match(/\/\* \[FOLD:\d+\] \*\//);
             const isFoldablePotential = foldableLines.includes(i);
             
             const markerClass = errorMap.has(i) ? 'lint-marker' : '';

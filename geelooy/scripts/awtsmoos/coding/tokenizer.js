@@ -51,12 +51,13 @@ export const helpers = { _findUnescaped, _escape, _wrap };
 
 // --- JavaScript Tokenizer ---
 export function getJSToken(line, i, state) {
-    // B"H - Strict Fold Marker Check
-    // Looks exactly for `'__FOLD:` at the current position
-    if (line[i] === "'" && line.substring(i).startsWith("'__FOLD:")) {
-        const match = line.substring(i).match(/'__FOLD:(\d+)__'/);
+    // B"H - Updated Fold Marker Detection
+    // Look for the specific comment pattern: /* [FOLD:123] */
+    if (line[i] === '/' && line[i+1] === '*') {
+        const rest = line.substring(i);
+        const match = rest.match(/^\/\* \[FOLD:(\d+)\] \*\//);
         if (match) {
-            // Render it with 'folded' token type (styled as badge)
+            // Render it as a 'folded' token which will be styled as a badge
             return { html: _wrap(match[0], 'folded'), newIndex: i + match[0].length };
         }
     }

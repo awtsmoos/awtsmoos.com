@@ -98,8 +98,8 @@ export const DOMMethods = {
             const target = e.target.closest('.token-folded');
             if (target) {
                 const text = target.textContent;
-                // Parse format: '__FOLD:123__'
-                const match = text.match(/'__FOLD:(\d+)__'/);
+                // Parse format: '/* [FOLD:123] */'
+                const match = text.match(/\/\* \[FOLD:(\d+)\] \*\//);
                 if (match) {
                     const foldId = match[1];
                     // Dispatch upward to the textarea where the main app can hear it

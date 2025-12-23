@@ -1,9 +1,7 @@
 //B"H
-import {
-    AwtsmoosPrompt
-} from "/scripts/awtsmoos/api/utils.js";
- 
+import { AwtsmoosPrompt } from "/scripts/awtsmoos/api/utils.js";
 import { ImageUploader } from "./ImageUploader.js";
+import { injectCommentSectionCSS } from "./styles/commentSectionStyles.js";
 
 class CommentSection {
     imgResults = [];
@@ -85,7 +83,6 @@ class CommentSection {
                 this.galleryContainer.appendChild(img)
             })
             this.galleryContainer.style.display = "";
-            console.log("Results?",res);
         };
         this.addCommentArea.appendChild(imageUploadIcon);
     }
@@ -126,7 +123,6 @@ class CommentSection {
         this.buttonContainer.appendChild(this.submitBtn);
     }
 
-    // B"H
     async submitComment() {
         const content = this.commentBox.innerText.trim();
         const images = this.imgResults.map(q=>q?.success ? ({
@@ -174,20 +170,25 @@ class CommentSection {
 
             const json = await response.json();
 
-            
-            
-            // The server response contains the new comment's ID in `details.id`.
             if (json.success && json.details?.id) {
                 const newCommentId = json.details.id;
-		    const newCommentData = { id: newCommentId, author: currentAlias, content: content, dayuh: dayuhObject };
-		
-		    // Hand off ALL UI work to the conductor.
-		    await window.commentLogic.handleNewComment({
-		        aliasId: currentAlias,
-		        verseSection: verseSection,
-		        commentId: newCommentId,
-		        newCommentData: newCommentData
-		    });
+                const newCommentData = { id: newCommentId, author: currentAlias, content: content, dayuh: dayuhObject };
+                
+                await window.commentLogic.handleNewComment({
+                    aliasId: currentAlias,
+                    verseSection: verseSection,
+                    commentId: newCommentId,
+                    newCommentData: newCommentData
+                });
+                
+                // Reset form
+                this.commentBox.innerText = "";
+                this.galleryContainer.innerHTML = "";
+                this.galleryContainer.style.display = "none";
+                this.commentBox.style.display = "none";
+                this.buttonContainer.style.display = "none";
+                this.btn.style.display = "block";
+                
             } else {
                 const errorMessage = json.error || "An unknown error occurred on the server.";
                 await AwtsmoosPrompt.go({ isAlert: true, headerTxt: "Submission failed: " + errorMessage });
@@ -201,24 +202,9 @@ class CommentSection {
         }
     }
 
-
-
-    // Dynamically inject enhanced CSS
     injectCSS() {
-        var g = document.querySelector(".BH-awtsmooStylification")
-        if(g) return;
-        const style = document.createElement("style");
-        style.classList.add("BH-awtsmooStylification");
-        style.textContent = `
-           
-    
-            
-        `;
-        document.head.appendChild(style);
+        injectCommentSectionCSS();
     }
-
 }
 
 export { CommentSection };
-
-
