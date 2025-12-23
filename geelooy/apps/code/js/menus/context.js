@@ -6,6 +6,11 @@ import { getItemUniquePath } from '../workspaces.js';
 import { MenuUI } from './ui.js';
 import { Menus } from './index.js';
 
+/**
+ * --- CONTEXT MENU RITUALS ---
+ * Generates and positions context menus based on the essence of the target item.
+ * B"H.
+ */
 export const ContextMenu = {
     show(e, item) {
         e.preventDefault();
@@ -41,18 +46,19 @@ export const ContextMenu = {
         if (isDir) {
             menuItems.push({ label: "Refresh", action: "refresh", icon: "brain" }); 
             menuItems.push({ label: "Browse in Commander", action: "open-file-commander", icon: "folder" });
+            menuItems.push({ label: "Search in this Folder...", action: "search-in-folder", icon: "search" }); // B"H
             menuItems.push({ label: "✨ Vibe Code", action: "open-vibe", icon: "brain-circuit" });
             menuItems.push({ isSeparator: true });
         }
 
         menuItems.push({ label: `Copy "${item.name}"`, action: "copy-single", icon: "copy" });
-        menuItems.push({ label: "Copy Relative Path", action: "copy-relative-path", icon: "link" }); // B"H
+        menuItems.push({ label: "Copy Relative Path", action: "copy-relative-path", icon: "link" }); 
         
         if (isDir) {
             menuItems.push({ label: "Copy as ZIP", action: "copy-zip-single", icon: "save" });
             menuItems.push({ label: "Download ZIP", action: "download-zip-single", icon: "download" });
         } else if (isFile) {
-            menuItems.push({ label: "Calculate Hash", action: "calculate-hash", icon: "brain" }); // B"H
+            menuItems.push({ label: "Calculate Hash", action: "calculate-hash", icon: "brain" }); 
             menuItems.push({ label: "Download File", action: "download-file", icon: "download" });
         }
 

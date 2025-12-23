@@ -7,6 +7,11 @@ import { FileSystemProvider } from './fs-provider.js';
 import { Tabs } from './tabs.js';
 import { getItemUniquePath } from './workspaces.js';
 
+/**
+ * --- SEARCH SYSTEM ---
+ * The divine seeker. Allows finding files and content across workspaces,
+ * with support for targeted scopes. B"H.
+ */
 export const SearchSystem = {
     overlay: null,
     input: null,
@@ -47,12 +52,15 @@ export const SearchSystem = {
         });
     },
 
+    /**
+     * Opens the search window, optionally focused on a folder.
+     */
     show(scopeItem = null) {
         this.currentScopeItem = scopeItem;
         this._updateScopeDisplay();
         
         this.input.value = '';
-        this.resultsContainer.innerHTML = '<div class="search-empty">Enter query...</div>';
+        this.resultsContainer.innerHTML = '<div class="search-empty">Enter a query to seek truth...</div>';
         
         this.overlay.classList.remove('hidden');
         void this.overlay.offsetWidth;
@@ -62,15 +70,18 @@ export const SearchSystem = {
     
     _updateScopeDisplay() {
         if (this.currentScopeItem) {
-            this.scopeDisplay.innerHTML = `Scope: <strong>${this.currentScopeItem.name}</strong> <span id="search-clear-scope" style="cursor:pointer; color:var(--color-accent-danger); margin-left:5px; font-weight:bold;">(×)</span>`;
+            this.scopeDisplay.innerHTML = `
+                Scope: <strong style="color:var(--neon-cyan);">${this.currentScopeItem.name}</strong> 
+                <span id="search-clear-scope" style="cursor:pointer; color:var(--color-accent-danger); margin-left:10px; font-weight:bold; padding:2px 5px; border:1px solid; border-radius:4px;" title="Clear Scope">×</span>
+            `;
             
-            // Re-bind clear event since we rewrote innerHTML
             const clearBtn = document.getElementById('search-clear-scope');
             if (clearBtn) {
                 clearBtn.onclick = (e) => {
                     e.stopPropagation();
                     this.currentScopeItem = null;
                     this._updateScopeDisplay();
+                    UI.showToast("Search scope cleared to Global.", "info");
                 };
             }
         } else {
@@ -86,6 +97,9 @@ export const SearchSystem = {
 
     stopSearch() {
         this.stopSearchFlag = true;
+        this.isSearching = false;
+        this.searchButton.textContent = 'Search';
+        this.searchButton.classList.remove('danger');
     },
 
     async performSearch() {
@@ -97,18 +111,18 @@ export const SearchSystem = {
         this.searchButton.textContent = 'Stop';
         this.searchButton.classList.add('danger');
         
-        const searchContent = this.contentToggle.checked;
         this.resultsContainer.innerHTML = '';
-        
         const lowerQuery = query.toLowerCase();
         let matchCount = 0;
 
         try {
             const countDiv = document.createElement('div');
-            countDiv.style.padding = "5px 15px";
-            countDiv.style.fontSize = "0.8em";
+            countDiv.className = 'search-status-bar';
+            countDiv.style.padding = "10px 15px";
+            countDiv.style.fontSize = "0.9em";
             countDiv.style.color = "var(--neon-cyan)";
-            countDiv.textContent = "Searching...";
+            countDiv.style.borderBottom = "1px solid var(--color-border)";
+            countDiv.textContent = "Searching through the void...";
             this.resultsContainer.appendChild(countDiv);
 
             let roots = [];
@@ -120,7 +134,7 @@ export const SearchSystem = {
 
             for (const root of roots) {
                 if (this.stopSearchFlag) break;
-                await this._searchRecursive(root, lowerQuery, searchContent, (item, matchType, snippet) => {
+                await this._searchRecursive(root, lowerQuery, this.contentToggle.checked, (item, matchType, snippet) => {
                     matchCount++;
                     countDiv.textContent = `${matchCount} result(s) found...`;
                     this.renderResultItem(item, matchType, snippet, query);
@@ -128,13 +142,13 @@ export const SearchSystem = {
             }
             
             if (this.stopSearchFlag) {
-                countDiv.textContent = `${matchCount} result(s) (Stopped)`;
+                countDiv.textContent = `${matchCount} result(s) (Halted)`;
             } else {
-                countDiv.textContent = matchCount === 0 ? "No matches found." : `${matchCount} result(s) (Complete)`;
+                countDiv.textContent = matchCount === 0 ? "The search returned no essence." : `Total: ${matchCount} result(s)`;
             }
 
         } catch (e) {
-            this.resultsContainer.insertAdjacentHTML('afterbegin', `<div class="search-empty" style="color:var(--color-accent-danger)">Error: ${e.message}</div>`);
+            this.resultsContainer.insertAdjacentHTML('afterbegin', `<div class="search-empty" style="color:var(--color-accent-danger)">Error in search ritual: ${e.message}</div>`);
         } finally {
             this.isSearching = false;
             this.searchButton.textContent = 'Search';
@@ -147,76 +161,68 @@ export const SearchSystem = {
 
         let children = [];
         try {
-            // B"H - Optimized List Fetching for supported types
+            // Optimized batch fetching for supported providers
             if (['github', 'local', 'indexeddb', 'opfs'].includes(item.type)) {
                 children = await FileSystemProvider.listAllFiles(item);
-                // listAllFiles returns a flat array of files, so we iterate differently than a tree walk
                 
-                const chunkSize = 50;
+                const chunkSize = 100;
                 for (let i = 0; i < children.length; i += chunkSize) {
                     if (this.stopSearchFlag) return;
                     const chunk = children.slice(i, i + chunkSize);
-                    await new Promise(r => setTimeout(r, 0)); // Yield to UI
+                    await new Promise(r => setTimeout(r, 0)); // Yield to main thread
 
                     for (const child of chunk) {
                         if (this.stopSearchFlag) return;
-                        
-                        // Note: child from listAllFiles usually has full path relative to root
                         const fullChild = { ...item, ...child }; 
                         
                         if (child.name.toLowerCase().includes(query)) {
                             onFound(fullChild, 'filename', null);
-                        } else if (searchContent) {
+                        } else if (searchContent && child.kind === 'file') {
                             await this._checkContent(fullChild, query, onFound);
                         }
                     }
                 }
-                return; // Done with this provider
+                return; 
             } 
             
-            // Fallback for other types (ssh, osfolder, etc.)
+            // Sequential walk for others
             children = await FileSystemProvider.list(item);
         } catch (e) {
-            console.warn("Search list failed for", item.name, e);
+            console.warn("Search iteration failed:", item.name, e);
             return;
         }
 
-        const chunkSize = 50;
-        for (let i = 0; i < children.length; i += chunkSize) {
+        for (const child of children) {
             if (this.stopSearchFlag) return;
-            const chunk = children.slice(i, i + chunkSize);
-            await new Promise(r => setTimeout(r, 0));
+            const fullChild = { ...item, ...child };
+            
+            if (child.name.toLowerCase().includes(query)) {
+                onFound(fullChild, 'filename', null);
+            } else if (searchContent && child.kind === 'file') {
+                await this._checkContent(fullChild, query, onFound);
+            }
 
-            for (const child of chunk) {
-                if (this.stopSearchFlag) return;
-                const fullChild = { ...item, ...child };
-                
-                if (child.name.toLowerCase().includes(query)) {
-                    onFound(fullChild, 'filename', null);
-                } 
-                else if (searchContent && child.kind === 'file') {
-                    await this._checkContent(fullChild, query, onFound);
-                }
-
-                if (child.kind === 'directory') {
-                    await this._searchRecursive(fullChild, query, searchContent, onFound);
-                }
+            if (child.kind === 'directory') {
+                await this._searchRecursive(fullChild, query, searchContent, onFound);
             }
         }
     },
     
     async _checkContent(item, query, onFound) {
         const ext = item.name.split('.').pop().toLowerCase();
-        if (!['png','jpg','zip','mp4','mp3','exe','bin','pdf'].includes(ext)) {
-            try {
-                const content = await FileSystemProvider.read(item);
-                if (typeof content === 'string' && content.toLowerCase().includes(query)) {
-                    const idx = content.toLowerCase().indexOf(query);
-                    const snippet = content.substring(Math.max(0, idx - 20), Math.min(content.length, idx + 40));
-                    onFound(item, 'content', snippet);
-                }
-            } catch (e) {}
-        }
+        // Skip binary data
+        if (['png','jpg','zip','mp4','mp3','exe','bin','pdf','iso'].includes(ext)) return;
+        
+        try {
+            const content = await FileSystemProvider.read(item);
+            const text = (typeof content === 'string') ? content : (content instanceof Blob ? await content.text() : '');
+            
+            if (text.toLowerCase().includes(query)) {
+                const idx = text.toLowerCase().indexOf(query);
+                const snippet = text.substring(Math.max(0, idx - 30), Math.min(text.length, idx + 50));
+                onFound(item, 'content', snippet);
+            }
+        } catch (e) {}
     },
 
     renderResultItem(item, matchType, snippet, originalQuery) {
@@ -227,8 +233,9 @@ export const SearchSystem = {
         let snippetHtml = '';
         
         if (matchType === 'content' && snippet) {
+            const escaped = snippet.replace(/</g, '&lt;').replace(/>/g, '&gt;');
             const regex = new RegExp(`(${originalQuery})`, 'gi');
-            const highlighted = snippet.replace(regex, '<span class="result-match-highlight">$1</span>');
+            const highlighted = escaped.replace(regex, '<span class="result-match-highlight">$1</span>');
             snippetHtml = `<div class="result-snippet">...${highlighted}...</div>`;
         }
 

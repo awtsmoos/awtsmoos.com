@@ -1,4 +1,3 @@
-
 // B"H
 // FILE: js/visuals/settings.js
 
@@ -6,14 +5,15 @@ export const VisualSettings = {
     config: {
         nebulaMap: true,
         scopeLaser: true,
-        particles: true, // B"H - Enabled by default (Optimized Pool)
-        hud: true,
+        particles: true, 
+        hud: false,        // B"H - Defaulted to OFF
         zenRain: false,   
         caretRadar: true,
         neonBrackets: true,
         colorOrbs: true,
-        shockwave: false, 
-        graphNav: true
+        graphNav: true,
+        intelligence: true, // B"H - Hover Summaries
+        folding: true       // B"H - AST Scope Folding
     },
 
     init() {
@@ -33,7 +33,7 @@ export const VisualSettings = {
 
     set(key, value) {
         this.config[key] = value;
-        this.save();
+        this.save(); // B"H - Automatically saves on adjustment
     },
 
     getSettingsPanelHTML() {
@@ -58,7 +58,7 @@ export const VisualSettings = {
                     ${toggles}
                 </div>
                 <p style="font-size:0.8em; color:gray; margin-top:10px;">
-                    Particles are now optimized with the Otiot HaKodesh engine.
+                    Intelligence enables AST-powered hover summaries. Folding allows minimizing code blocks.
                 </p>
                 <style>
                     .toggle-switch { position: relative; width: 40px; height: 20px; }

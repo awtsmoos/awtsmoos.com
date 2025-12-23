@@ -10,6 +10,7 @@ export const Editor = {
 	currentHighlighter: null,
 	currentObjectURL: null,
     lintDebounce: null,
+    refreshDebounce: null,
 
 	init() {
         // B"H - Init Linter
@@ -241,7 +242,6 @@ export const Editor = {
     
     // B"H - Linter Logic
     runLinter(content, filename) {
-        // Only lint JS/JSON for now
         if (!filename || !filename.match(/\.(js|mjs|json|awtsmoosJSON)$/)) {
             this.clearLintErrors();
             return;
@@ -255,14 +255,11 @@ export const Editor = {
     },
 
     clearLintErrors() {
-        const lineNums = DOM.lineNumbers;
-        const existing = lineNums.querySelectorAll('.lint-marker');
-        existing.forEach(el => el.classList.remove('lint-marker'));
+        // UI.updateLineNumbers is called to refresh foldable icons even if no errors
+        UI.updateLineNumbers([]);
     },
 
     renderLintErrors(errors) {
-        this.clearLintErrors();
-        if (errors.length === 0) return;
         UI.updateLineNumbers(errors);
     },
 	

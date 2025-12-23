@@ -38,7 +38,11 @@ export const State = {
     
     activeTasks: new Map(), // B"H - background taskId -> { card, label }
     
-    closedTabHistory: [] // B"H - Stack for reopening tabs
+    closedTabHistory: [], // B"H - Stack for reopening tabs
+
+    // B"H - NEW: Intelligence & Folding State
+    foldedRegistry: new Map(), // ID -> originalText
+    nextFoldId: 1
 };
 
 /**
@@ -84,4 +88,13 @@ export function initializeDOM() {
     DOM.dataAltarContainer = document.getElementById("data-altar-container");
 	DOM.hexEditorWrapper = document.getElementById('hex-editor-wrapper');
     DOM.zipExplorerWrapper = document.getElementById('zip-editor-wrapper');
+    
+    // B"H - New Element
+    DOM.intelligenceTooltip = document.getElementById('intelligence-tooltip');
+    if (!DOM.intelligenceTooltip) {
+        DOM.intelligenceTooltip = document.createElement('div');
+        DOM.intelligenceTooltip.id = 'intelligence-tooltip';
+        DOM.intelligenceTooltip.className = 'intelligence-tooltip hidden';
+        document.body.appendChild(DOM.intelligenceTooltip);
+    }
 }

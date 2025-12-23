@@ -5,7 +5,18 @@ import { State } from '../state.js';
 import { StatusBar } from '../statusbar.js';
 import { Menus } from '../menus.js';
 
+/**
+ * --- TABS RENDERER ---
+ * The sacred architect of the tab bar. It gives physical form to the 
+ * abstract concepts of open files, managing their appearance,
+ * order, and interactions. B"H.
+ */
 export const TabsRenderer = {
+    /**
+     * Renders the entire tab bar row based on the current state.
+     * @param {HTMLElement} container - The tab-bar-wrapper element.
+     * @param {Object} TabsController - The parent Tabs management object.
+     */
     render(container, TabsController) {
         container.innerHTML = '';
         let draggedTabId = null;
@@ -18,11 +29,26 @@ export const TabsRenderer = {
 
         this._setupContainerDragEvents(container, () => draggedTabId, TabsController);
 
+        // B"H - SCROLL TRANSLATION RITUAL
+        // Transmute vertical scroll energy into horizontal movement for the tab bar.
+        if (!container.dataset.wheelBound) {
+            container.addEventListener('wheel', (e) => {
+                if (e.deltaY !== 0) {
+                    e.preventDefault();
+                    container.scrollLeft += e.deltaY;
+                }
+            }, { passive: false });
+            container.dataset.wheelBound = "true";
+        }
+
         const activeTabEl = container.querySelector('.tab.active');
         if (activeTabEl) activeTabEl.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
         StatusBar.update();
     },
 
+    /**
+     * Forges an individual tab element from a tab state object.
+     */
     _createTabElement(tab, TabsController) {
         const tabEl = document.createElement('div');
         tabEl.className = `tab ${tab.id === State.activeTabId ? 'active' : ''} ${tab.isDirty ? 'dirty' : ''} ${tab.isUncommitted ? 'uncommitted' : ''}`;
@@ -47,7 +73,7 @@ export const TabsRenderer = {
         tabEl.appendChild(tabName);
         tabEl.appendChild(closeButton);
         
-        // --- CLICK HANDLING ---
+        // --- PRIMARY CLICK HANDLING ---
         tabEl.onclick = (e) => {
             if (e.target.closest('.close-tab-btn')) {
                 e.stopPropagation();
@@ -57,7 +83,23 @@ export const TabsRenderer = {
             }
         };
 
-        // --- B"H - CONTEXT MENU HANDLING ---
+        // B"H - MIDDLE CLICK RITUAL
+        // Suppression of browser autoscroll to ensure the click reaches the soul of the application.
+        tabEl.addEventListener('mousedown', (e) => {
+            if (e.button === 1) { // Middle button
+                e.preventDefault(); // Stop autoscroll from triggering
+            }
+        });
+
+        tabEl.addEventListener('auxclick', (e) => {
+            if (e.button === 1) { // Middle button
+                e.preventDefault();
+                e.stopPropagation();
+                TabsController.close(tab.id);
+            }
+        });
+
+        // --- CONTEXT MENU HANDLING ---
         tabEl.oncontextmenu = (e) => {
             Menus.showTabMenu(e, tab);
         };
@@ -65,6 +107,9 @@ export const TabsRenderer = {
         return tabEl;
     },
 
+    /**
+     * Binds drag start/end events to enable tab reordering.
+     */
     _setupDragEvents(tabEl, tabId, setDraggedId, getDraggedId) {
         tabEl.addEventListener('dragstart', (e) => {
             setDraggedId(tabId);
@@ -77,6 +122,9 @@ export const TabsRenderer = {
         });
     },
 
+    /**
+     * Orchestrates the drop logic and dragover visual feedback for the container.
+     */
     _setupContainerDragEvents(container, getDraggedId, TabsController) {
         const getDragAfterElement = (container, x) => {
             const draggableElements = [...container.querySelectorAll('.tab:not(.dragging)')];

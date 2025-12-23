@@ -7,6 +7,7 @@ import { Editor } from '../editor.js';
 import { FileSystemProvider } from '../fs-provider.js';
 import { DataAltar } from '../DataAltar.js';
 import { ZipExplorer } from '../zip/zip-explorer.js';
+import { ASTEngine } from '../tools/ast-engine.js'; // B"H
 
 export const TabsPersistence = {
     async save(tab, TabsController, options = {}) {
@@ -30,6 +31,11 @@ export const TabsPersistence = {
                 await ZipExplorer.saveZipToDisk();
                 UI.endTask(taskId, 'success');
                 return;
+            }
+
+            // B"H - CRITICAL SAFETY RITUAL: Unfold all blocks before persistence
+            if (tab.id === State.activeTabId && tab.fileType === 'text') {
+                ASTEngine.unfoldAll();
             }
 
             const gitRootItem = await TabsController._getGitInfoForTab(tab);

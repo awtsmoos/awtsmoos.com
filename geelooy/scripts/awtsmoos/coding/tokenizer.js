@@ -51,6 +51,16 @@ export const helpers = { _findUnescaped, _escape, _wrap };
 
 // --- JavaScript Tokenizer ---
 export function getJSToken(line, i, state) {
+    // B"H - Strict Fold Marker Check
+    // Looks exactly for `'__FOLD:` at the current position
+    if (line[i] === "'" && line.substring(i).startsWith("'__FOLD:")) {
+        const match = line.substring(i).match(/'__FOLD:(\d+)__'/);
+        if (match) {
+            // Render it with 'folded' token type (styled as badge)
+            return { html: _wrap(match[0], 'folded'), newIndex: i + match[0].length };
+        }
+    }
+
     const char = line[i];
     
     // B"H - Tikkun for Template Literals: Explicit State Handling

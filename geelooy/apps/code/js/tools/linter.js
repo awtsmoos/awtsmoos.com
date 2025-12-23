@@ -1,73 +1,92 @@
 // B"H
 // FILE: js/tools/linter.js
 
+import { UI } from '../ui.js';
+
+/**
+ * --- LINTER & PARSER NEXUS ---
+ * Responsible for loading the Merkava AST Parser and performing
+ * static analysis on the source vessels. B"H.
+ */
 export const Linter = {
     parserClass: null,
+    isReady: false,
+    _astCache: new Map(), // Holy Memory: contentHash -> AST
     
     async init() {
-        if (this.parserClass) return;
+        if (this.parserClass || this.isReady) return;
         
-        // Wait for MerkavahParserPromise if it exists or load the script
-        if (window.MerkavahParserPromise) {
-            try {
-                this.parserClass = await window.MerkavahParserPromise;
-                console.log("B\"H - Linter: Merkava Parser attached.");
-            } catch(e) {
-                console.error("Linter failed to load parser:", e);
-            }
-        } else {
-            // Lazy load the parser script
-            // B"H - Corrected Path: Pointing to the absolute reality
-            await new Promise((resolve, reject) => {
+        // B"H - Timeout Race: Ensure we don't hang if offline
+        const loadPromise = new Promise((resolve) => {
+            if (window.MerkavahParserPromise) {
+                window.MerkavahParserPromise.then(cls => {
+                    this.parserClass = cls;
+                    this.isReady = true;
+                    UI.updateLineNumbers(); 
+                    resolve();
+                }).catch(() => resolve()); // Fail gracefully
+            } else {
                 const s = document.createElement('script');
                 s.src = '/scripts/awtsmoos/MerkavaASTParser/parser-core.js'; 
-                s.onload = async () => {
+                s.onload = () => {
                     if (window.MerkavahParserPromise) {
-                        try {
-                            this.parserClass = await window.MerkavahParserPromise;
+                        window.MerkavahParserPromise.then(cls => {
+                            this.parserClass = cls;
+                            this.isReady = true;
+                            UI.updateLineNumbers(); 
                             resolve();
-                        } catch(e) { reject(e); }
-                    } else reject("Parser promise not found after load.");
+                        }).catch(() => resolve());
+                    } else resolve();
                 };
-                s.onerror = (e) => {
-                    console.warn("Linter: Could not load parser from /scripts/awtsmoos/MerkavaASTParser/parser-core.js. Linting disabled.", e);
-                    resolve(); 
+                s.onerror = () => {
+                    console.warn("Linter script failed to load (Offline?)");
+                    resolve(); // Resolve anyway so app continues
                 };
                 document.head.appendChild(s);
-            });
+            }
+        });
+
+        // Timeout after 2 seconds
+        const timeoutPromise = new Promise(resolve => setTimeout(resolve, 2000));
+        
+        await Promise.race([loadPromise, timeoutPromise]);
+    },
+
+    /**
+     * B"H - Retrieves the AST, using cache if available.
+     */
+    getAST(code) {
+        if (!this.parserClass || !code.trim()) return { error: "Parser not loaded" };
+        
+        // Simple hash for cache lookup
+        const hash = code.length + code.substring(0, 100) + code.substring(code.length - 100);
+        if (this._astCache.has(hash)) return this._astCache.get(hash);
+
+        try {
+            const parser = new this.parserClass(code);
+            if (parser.registerDeclarationParsers) parser.registerDeclarationParsers();
+            if (parser.registerExpressionParsers) parser.registerExpressionParsers();
+            if (parser.registerStatementParsers) parser.registerStatementParsers();
+
+            const ast = parser.parse();
+            this._astCache.set(hash, ast);
+            // Limit cache size
+            if (this._astCache.size > 10) {
+                const firstKey = this._astCache.keys().next().value;
+                this._astCache.delete(firstKey);
+            }
+            return ast;
+        } catch (e) {
+            return { error: e.message };
         }
     },
 
     lint(code) {
-        if (!this.parserClass || !code.trim()) return [];
-        try {
-            const parser = new this.parserClass(code);
-            if (parser.registerDeclarationParsers) parser.registerDeclarationParsers();
-            if (parser.registerExpressionParsers) parser.registerExpressionParsers();
-            if (parser.registerStatementParsers) parser.registerStatementParsers();
-
-            parser.parse();
-            
-            if (parser.errors && parser.errors.length > 0) {
-                return parser.errors.map(e => this._parseError(e));
-            }
-            return [];
-        } catch (e) {
-            return [this._parseError(e.message)];
+        const ast = this.getAST(code);
+        if (ast && ast.errors && ast.errors.length > 0) {
+            return ast.errors.map(e => this._parseError(e));
         }
-    },
-    
-    getAST(code) {
-        if (!this.parserClass || !code.trim()) return { error: "Parser not loaded" };
-        try {
-            const parser = new this.parserClass(code);
-            if (parser.registerDeclarationParsers) parser.registerDeclarationParsers();
-            if (parser.registerExpressionParsers) parser.registerExpressionParsers();
-            if (parser.registerStatementParsers) parser.registerStatementParsers();
-            return parser.parse();
-        } catch(e) {
-            return { error: e.message };
-        }
+        return [];
     },
 
     _parseError(msg) {

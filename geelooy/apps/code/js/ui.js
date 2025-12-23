@@ -1,8 +1,11 @@
+
 // B"H
 // FILE: code/js/ui.js
 
 import { State, DOM } from './state.js';
 import { ColorOrbs } from './visuals/color-orbs.js';
+import { VisualSettings } from './visuals/settings.js';
+import { ASTEngine } from './tools/ast-engine.js';
 
 export const UI = {
     showLoading: (msg = 'Processing...') => {
@@ -26,7 +29,6 @@ export const UI = {
         }, 10);
     },
 
-    // B"H - NON-BLOCKING TASK UI
     _taskStack: null,
     _ensureTaskStack() {
         if (this._taskStack) return;
@@ -58,10 +60,8 @@ export const UI = {
         if (!task) return;
         const fill = task.card.querySelector('.task-progress-fill');
         const percent = task.card.querySelector('.task-percent');
-        
         if (fill) fill.style.width = `${progress}%`;
         if (percent) percent.textContent = `${Math.round(progress)}%`;
-        
         if (message) {
             const labelEl = task.card.querySelector('.task-label');
             if (labelEl) labelEl.textContent = message;
@@ -73,12 +73,10 @@ export const UI = {
         if (!task) return;
         task.card.classList.add(status);
         if (message) task.card.querySelector('.task-label').textContent = message;
-        
         const fill = task.card.querySelector('.task-progress-fill');
         const percent = task.card.querySelector('.task-percent');
         if (fill) fill.style.width = '100%';
         if (percent) percent.textContent = status === 'success' ? 'DONE' : 'ERROR';
-
         setTimeout(() => {
             task.card.classList.add('fading');
             setTimeout(() => {
@@ -91,16 +89,10 @@ export const UI = {
     showDialog: ({ title, message, hasInput = false, inputType = 'text', placeholder = '', inputValue = '', hasTextarea = false, textareaContent = '', okText = 'OK', cancelText = 'Cancel', contentHTML = '', tertiary = null, secondaryOk = null }) => {
     return new Promise(resolve => {
         const dialog = DOM.genericDialog;
-        
         let tertiaryButtonHTML = '';
-        if (tertiary) {
-            tertiaryButtonHTML = `<button class="secondary-btn ${tertiary.class || ''}" id="dialog-tertiary-btn" style="margin-right: auto;">${tertiary.text}</button>`;
-        }
-
+        if (tertiary) tertiaryButtonHTML = `<button class="secondary-btn ${tertiary.class || ''}" id="dialog-tertiary-btn" style="margin-right: auto;">${tertiary.text}</button>`;
         let secondaryOkButtonHTML = '';
-        if (secondaryOk) {
-            secondaryOkButtonHTML = `<button class="secondary-btn" id="dialog-secondary-ok-btn">${secondaryOk.text}</button>`;
-        }
+        if (secondaryOk) secondaryOkButtonHTML = `<button class="secondary-btn" id="dialog-secondary-ok-btn">${secondaryOk.text}</button>`;
 
         dialog.innerHTML = `
             <div class="dialog-content" id="dialog-content">
@@ -131,63 +123,80 @@ export const UI = {
         };
 
         const keydownHandler = (e) => {
-            if (e.key === 'Escape') { 
-                e.preventDefault();
-                cancelBtn?.click(); 
-            }
+            if (e.key === 'Escape') { e.preventDefault(); cancelBtn?.click(); }
             if (e.key === 'Enter') {
                 if (textareaEl && document.activeElement === textareaEl && !e.ctrlKey) return; 
-                e.preventDefault();
-                okBtn?.click();
+                e.preventDefault(); okBtn?.click();
             }
         };
-        
         if (okBtn) okBtn.onclick = () => cleanupAndResolve(hasInput ? inputEl.value : (hasTextarea ? textareaEl.value : true));
         if (cancelBtn) cancelBtn.onclick = () => cleanupAndResolve(null);
         if (tertiaryBtn) tertiaryBtn.onclick = () => cleanupAndResolve('tertiary');
         if (secondaryOkBtn) secondaryOkBtn.onclick = () => cleanupAndResolve(secondaryOk.actionKey);
-        
         dialog.classList.add('visible');
-        
-        if (inputEl) {
-            inputEl.focus();
-            if (inputValue) inputEl.select();
-        } else if (textareaEl) {
-            textareaEl.focus();
-        } else if (okBtn) {
-            okBtn.focus();
-        }
-
+        if (inputEl) { inputEl.focus(); if (inputValue) inputEl.select(); } 
+        else if (textareaEl) textareaEl.focus();
+        else if (okBtn) okBtn.focus();
         document.addEventListener('keydown', keydownHandler);
     });
 },
 
     updateLineNumbers: (errors = []) => {
         if (DOM.editorWrapper.classList.contains('hidden')) return;
-        
         const text = DOM.editor.value;
-        // Count newlines to get line count. Fast.
-        let lineCount = 1;
-        for (let i = 0; i < text.length; i++) {
-            if (text[i] === '\n') lineCount++;
+        const activeTab = State.tabs.find(t => t.id === State.activeTabId);
+        const lines = text.split('\n');
+
+        let foldableLines = [];
+        // Only run AST check if we are NOT viewing folded code, to save perf,
+        // or just accept that getFoldableLines ignores the string literal lines.
+        if (VisualSettings.get('folding') && activeTab && activeTab.fileType === 'text') {
+            try { 
+                foldableLines = ASTEngine.getFoldableLines(text); 
+            } catch(e) {}
         }
 
         const errorMap = new Map();
         errors.forEach(e => errorMap.set(e.line, e));
 
         let html = '';
-        for (let i = 1; i <= lineCount; i++) {
-            if (errorMap.has(i)) {
-                const err = errorMap.get(i);
-                html += `<div class="lint-marker" title="${err.message}">${i}</div>`;
+        for (let i = 1; i <= lines.length; i++) {
+            const lineText = lines[i-1];
+            
+            // B"H - Updated detection: Look for strict fold format
+            const isActuallyFolded = lineText.match(/'__FOLD:\d+__'/);
+            const isFoldablePotential = foldableLines.includes(i);
+            
+            const markerClass = errorMap.has(i) ? 'lint-marker' : '';
+            
+            let foldIcon = '';
+            if (isActuallyFolded) {
+                // Expanding Point (Right Arrow) - Indicates currently folded
+                foldIcon = `<span class="fold-gutter-icon folded" data-line="${i}" title="Expand" style="cursor:pointer; color:var(--neon-magenta); margin-right:5px; font-size:10px;">▶</span>`;
+            } else if (isFoldablePotential) {
+                // Contracting Point (Down Arrow) - Indicates can be folded
+                foldIcon = `<span class="fold-gutter-icon potential" data-line="${i}" title="Fold" style="cursor:pointer; color:var(--neon-cyan); margin-right:5px; font-size:10px; opacity:0.8;">▼</span>`;
             } else {
-                html += `<div>${i}</div>`;
+                foldIcon = `<span style="display:inline-block; width:18px;"></span>`;
             }
+
+            const title = errorMap.has(i) ? `title="${errorMap.get(i).message}"` : '';
+            html += `<div class="${markerClass}" ${title} style="display:flex; align-items:center; justify-content:flex-end; padding-right:8px; height:24px;">${foldIcon}${i}</div>`;
+        }
+        DOM.lineNumbers.innerHTML = html;
+
+        // Re-attach fold listener if missing
+        if (!DOM.lineNumbers.dataset.foldListener) {
+            DOM.lineNumbers.onclick = (e) => {
+                const icon = e.target.closest('.fold-gutter-icon');
+                if (icon) {
+                    e.stopPropagation();
+                    ASTEngine.toggleFoldAtLine(parseInt(icon.dataset.line));
+                }
+            };
+            DOM.lineNumbers.dataset.foldListener = "true";
         }
         
-        DOM.lineNumbers.innerHTML = html;
-        
-        // B"H - Trigger Color Orbs Update
         requestAnimationFrame(() => ColorOrbs.scanAndRender(DOM.lineNumbers));
     },
     
@@ -200,35 +209,17 @@ export const UI = {
         DOM.hexEditorWrapper.classList.add('hidden');
         DOM.dataAltarContainer.classList.add('hidden');
         if (DOM.zipExplorerWrapper) DOM.zipExplorerWrapper.classList.add('hidden');
-        
         const vibeWrapper = document.getElementById('vibe-editor-wrapper');
         if(vibeWrapper) vibeWrapper.classList.add('hidden');
-
         switch(viewName) {
-            case 'editor':
-                DOM.editorWrapper.classList.remove('hidden');
-                break;
-            case 'preview':
-                DOM.previewer.classList.remove('hidden');
-                break;
-            case 'console':
-                DOM.consoleHost.classList.remove('hidden');
-                break;
-            case 'altar': 
-                DOM.dataAltarContainer.classList.remove('hidden'); 
-                break;
-            case 'empty':
-                DOM.emptyEditorMessage.classList.remove('hidden');
-                break;
-            case 'hex': 
-                DOM.hexEditorWrapper.classList.remove('hidden'); 
-                break;
-            case 'zip':
-                if (DOM.zipExplorerWrapper) DOM.zipExplorerWrapper.classList.remove('hidden');
-                break;
-            case 'vibe':
-                if(vibeWrapper) vibeWrapper.classList.remove('hidden');
-                break;
+            case 'editor': DOM.editorWrapper.classList.remove('hidden'); break;
+            case 'preview': DOM.previewer.classList.remove('hidden'); break;
+            case 'console': DOM.consoleHost.classList.remove('hidden'); break;
+            case 'altar': DOM.dataAltarContainer.classList.remove('hidden'); break;
+            case 'empty': DOM.emptyEditorMessage.classList.remove('hidden'); break;
+            case 'hex': DOM.hexEditorWrapper.classList.remove('hidden'); break;
+            case 'zip': if (DOM.zipExplorerWrapper) DOM.zipExplorerWrapper.classList.remove('hidden'); break;
+            case 'vibe': if(vibeWrapper) vibeWrapper.classList.remove('hidden'); break;
         }
     },
     syncScroll: () => DOM.lineNumbers.scrollTop = DOM.editor.scrollTop

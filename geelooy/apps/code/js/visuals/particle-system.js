@@ -1,4 +1,3 @@
-
 // B"H
 // FILE: js/visuals/particle-system.js
 
@@ -9,7 +8,7 @@ import { Editor } from '../editor.js';
 export const ParticleSystem = {
     ctx: null,
     pool: [], 
-    maxParticles: 150, 
+    maxParticles: 300, // B"H - Increased pool for explosions
     hebrewChars: "אבגדהוזחטיכלמנסעפצקרשת",
     
     init(ctx) {
@@ -33,7 +32,6 @@ export const ParticleSystem = {
         }
     },
     
-    // B"H - Generic Coordinate Calculator (Public API)
     getCoordinates(line, col) {
         const editor = DOM.editor;
         if (!editor) return { left: 0, top: 0 };
@@ -43,7 +41,7 @@ export const ParticleSystem = {
         const paddingLeft = parseFloat(style.paddingLeft);
         const paddingTop = parseFloat(style.paddingTop);
         const fontSize = parseFloat(style.fontSize);
-        const charWidth = fontSize * 0.6; // Approx
+        const charWidth = fontSize * 0.6; 
         
         const rect = editor.getBoundingClientRect();
         
@@ -53,24 +51,21 @@ export const ParticleSystem = {
         return { left, top };
     },
 
-    // Specific helper for caret
     getCaretCoordinates() {
-        const { line, col } = Editor.getCursorInfo(); // 1-based
+        const { line, col } = Editor.getCursorInfo();
         return this.getCoordinates(line, col);
     },
 
     spawnExplosion(x, y) {
-        if (!VisualSettings.get('particles')) return;
-        
-        const particleCount = 15;
-        const colors = ['#ffd700', '#ff6400', '#00f6ff', '#ffffff']; 
+        const particleCount = 20;
+        const colors = ['#00f6ff', '#ff00ff', '#a8ff00', '#ffffff', '#ffd700']; 
 
         for (let i = 0; i < particleCount; i++) {
             const p = this.pool.find(p => !p.active);
-            if (!p) return;
+            if (!p) break;
 
             const angle = Math.random() * Math.PI * 2;
-            const speed = Math.random() * 5 + 2;
+            const speed = Math.random() * 8 + 2;
 
             p.active = true;
             p.x = x;
@@ -80,10 +75,10 @@ export const ParticleSystem = {
             p.life = 1.0;
             
             p.color = colors[Math.floor(Math.random() * colors.length)];
-            p.size = Math.random() * 14 + 8;
+            p.size = Math.random() * 18 + 10;
             p.char = this.hebrewChars[Math.floor(Math.random() * this.hebrewChars.length)];
             p.rotation = Math.random() * Math.PI;
-            p.rotationSpeed = (Math.random() - 0.5) * 0.4;
+            p.rotationSpeed = (Math.random() - 0.5) * 0.5;
         }
     },
 
@@ -96,7 +91,7 @@ export const ParticleSystem = {
         
         for (let i = 0; i < count; i++) {
             const p = this.pool.find(p => !p.active);
-            if (!p) return; 
+            if (!p) break; 
 
             p.active = true;
             p.x = left;
@@ -122,9 +117,9 @@ export const ParticleSystem = {
             p.y += p.vy;
             p.rotation += p.rotationSpeed;
             
-            p.vx *= 0.95;
-            p.vy *= 0.95;
-            p.life -= 0.03; 
+            p.vx *= 0.96;
+            p.vy += 0.1; // Gravity simulation
+            p.life -= 0.02; 
             
             if (p.life <= 0) {
                 p.active = false;
@@ -135,9 +130,9 @@ export const ParticleSystem = {
             this.ctx.translate(p.x, p.y);
             this.ctx.rotate(p.rotation);
             this.ctx.globalAlpha = p.life;
-            this.ctx.font = `${p.size}px "Times New Roman", serif`; 
+            this.ctx.font = `bold ${p.size}px "Times New Roman", serif`; 
             this.ctx.fillStyle = p.color;
-            this.ctx.shadowBlur = 10;
+            this.ctx.shadowBlur = 15;
             this.ctx.shadowColor = p.color;
             this.ctx.fillText(p.char, -p.size/2, p.size/2);
             this.ctx.restore();

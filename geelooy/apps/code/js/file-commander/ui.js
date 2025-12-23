@@ -4,16 +4,18 @@
 import { State } from '../state.js';
 import { Menus } from '../menus.js';
 import { Tabs } from '../tabs/index.js';
+import { SelectionManager } from '../selection-manager.js';
+import { getItemUniquePath } from '../workspaces.js';
 
 export const FileCommanderUI = {
     overlay: null,
     grid: null,
     breadcrumbs: null,
     sortBar: null,
-    viewMode: 'grid', // 'grid' | 'details'
-    sortMode: 'name', // 'name' | 'size' | 'date'
+    viewMode: 'details', // B"H - Set default to details
+    sortMode: 'name',    // B"H - Set default to name
     sortAsc: true,
-    controller: null, // Set by index.js
+    controller: null, 
 
     init(controller) {
         this.controller = controller;
@@ -34,16 +36,16 @@ export const FileCommanderUI = {
                     <button id="fc-up-btn" class="icon-button" title="Go Up"><svg class="svg-icon"><use href="#icon-arrow-left"></use></svg></button>
                     <div id="fc-breadcrumbs" class="fc-breadcrumbs"></div>
                     <div class="fc-view-options">
-                        <button id="fc-view-grid" class="icon-button active" title="Grid View"><svg class="svg-icon"><use href="#icon-brain"></use></svg></button>
-                        <button id="fc-view-details" class="icon-button" title="Details View"><svg class="svg-icon"><use href="#icon-list"></use></svg></button>
+                        <button id="fc-view-grid" class="icon-button" title="Grid View"><svg class="svg-icon"><use href="#icon-brain"></use></svg></button>
+                        <button id="fc-view-details" class="icon-button active" title="Details View"><svg class="svg-icon"><use href="#icon-list"></use></svg></button>
                     </div>
                 </div>
-                <div class="fc-sort-bar hidden" id="fc-sort-bar">
+                <div class="fc-sort-bar" id="fc-sort-bar">
                     <div class="fc-col-name" data-sort="name">Name</div>
                     <div class="fc-col-size" data-sort="size">Size</div>
                     <div class="fc-col-date" data-sort="date">Date</div>
                 </div>
-                <div id="fc-content" class="fc-content grid-view"></div>
+                <div id="fc-content" class="fc-content details-view"></div>
                 <div class="fc-statusbar">
                     <span id="fc-status-count">0 items</span>
                 </div>
@@ -172,8 +174,19 @@ export const FileCommanderUI = {
             }
 
             const fullItem = { ...currentPathItem, ...file };
+            const uniquePath = getItemUniquePath(fullItem);
+            
+            // Register item in map for selection system
+            State.domItemMap.set(uniquePath, { el: itemEl, item: fullItem });
+            if (State.selectedItems.has(uniquePath)) itemEl.classList.add('selected');
 
-            itemEl.onclick = () => {
+            itemEl.onclick = (e) => {
+                if (State.isSelectionModeActive || e.ctrlKey || e.metaKey) {
+                    State.contextEvent = e;
+                    SelectionManager.toggle(fullItem);
+                    return;
+                }
+                
                 if (isDir) {
                     this.controller.navigate(fullItem);
                 } else {
@@ -183,6 +196,7 @@ export const FileCommanderUI = {
             };
             
             itemEl.oncontextmenu = (e) => {
+                State.contextEvent = e;
                 Menus.show(e, fullItem);
             };
 

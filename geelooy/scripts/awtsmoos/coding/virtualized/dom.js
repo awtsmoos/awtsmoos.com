@@ -90,6 +90,23 @@ export const DOMMethods = {
         
         this.textarea.setAttribute("spellcheck", "false");
         this._applyColors();
+        
+        // B"H - Inline Fold Interaction
+        // We listen on the overlay (which has pointer-events: none), but specific children 
+        // (like .token-folded) have pointer-events: auto.
+        this.overlay.addEventListener('click', (e) => {
+            const target = e.target.closest('.token-folded');
+            if (target) {
+                const text = target.textContent;
+                // Parse format: '__FOLD:123__'
+                const match = text.match(/'__FOLD:(\d+)__'/);
+                if (match) {
+                    const foldId = match[1];
+                    // Dispatch upward to the textarea where the main app can hear it
+                    this.textarea.dispatchEvent(new CustomEvent('fold-click', { detail: { foldId }, bubbles: true }));
+                }
+            }
+        });
     },
 
     /** @private Injects dynamic CSS for tokens. */
@@ -105,6 +122,40 @@ export const DOMMethods = {
             .token-punctuation { color: ${this.colors.punctuation}; } .token-tag { color: ${this.colors.tag}; }
             .token-attribute-name { color: ${this.colors['attribute-name']}; } .token-attribute-value { color: ${this.colors['attribute-value']}; }
             .token-selector { color: ${this.colors.selector}; } .token-property { color: ${this.colors.property}; }
+            
+            /* B"H - Folded Token Style */
+            .token-folded { 
+                background-color: rgba(255, 255, 255, 0.1);
+                color: transparent !important;
+                border-radius: 4px;
+                padding: 0 4px;
+                position: relative;
+                display: inline-block;
+                width: 24px;
+                height: 1.2em;
+                vertical-align: middle;
+                overflow: hidden;
+                pointer-events: auto !important; /* Critical for interaction */
+                cursor: pointer;
+                z-index: 50;
+            }
+            .token-folded::after {
+                content: "↔";
+                position: absolute;
+                left: 0; top: 0;
+                width: 100%; height: 100%;
+                color: #a8ff00;
+                font-weight: bold;
+                text-align: center;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 12px;
+            }
+            .token-folded:hover {
+                background-color: rgba(168, 255, 0, 0.2);
+            }
+
             .virtualized-editor-caret { position: absolute; display: none; background-color: ${caretColor}; width: 2px; animation: blink 1s steps(1) infinite; z-index: 10; pointer-events: none; }
             @keyframes blink { 50% { opacity: 0; } }
         `;

@@ -1,3 +1,4 @@
+
 // B"H
 // FILE: js/workspaces.js
 import { State , DOM} from './state.js';
@@ -13,7 +14,12 @@ export const getItemUniquePath = (item) => {
     if (item.type === 'zip-entry') {
         return `zip-${item.zipTabId}::${item.path}`;
     }
-    return `${item.workspaceId ?? item.id}::${item.path ?? '/'}`;
+    const wsId = item.workspaceId ?? item.id;
+    // B"H - Ensure consistent root path format
+    let safePath = item.path ?? '/';
+    if (!safePath.startsWith('/')) safePath = '/' + safePath;
+    
+    return `${wsId}::${safePath}`;
 };
 
 export const Workspaces = {
