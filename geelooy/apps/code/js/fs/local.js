@@ -1,15 +1,21 @@
+
 // B"H
 // FILE: js/fs/local.js
 import { State } from '../state.js';
+import { IndexedDBProvider } from './indexeddb.js';
 
 export const LocalProvider = {
     _handleCache: new WeakMap(), // rootHandle -> Map(path -> handle)
 
     _getRootHandle(item) {
-        if (item.handle) return item.handle; 
+        // B"H - Priority: Global State > Item Handle
         const workspace = State.workspaces.find(ws => ws.id === item.workspaceId);
+        if (workspace && workspace.handle) return workspace.handle;
+        
+        if (item.handle) return item.handle; 
+        
         if (!workspace) throw new Error(`Workspace not found for item: ${item.name}`);
-        if (!workspace.handle) throw new Error(`Workspace '${workspace.name}' is not connected.`);
+        if (item.type === 'local' && !workspace.handle) throw new Error(`Workspace '${workspace.name}' is not connected.`);
         return workspace.handle;
     },
 
@@ -20,72 +26,135 @@ export const LocalProvider = {
         const cache = this._handleCache.get(rootHandle);
         const cacheKey = `${kind}:${path}`;
 
-        // B"H - Aggressive Caching
-        // Even if create is true, if we have a valid handle in cache, assume it's good.
-        // This avoids traversing the directory tree on every save.
         if (cache.has(cacheKey)) {
             return cache.get(cacheKey);
         }
 
         let currentHandle = rootHandle;
-        const decodedPath = decodeURIComponent(path).replace(/^\//, '');
+        const decodedPath = path.replace(/^\//, '');
 
         if (!decodedPath) return rootHandle;
 
         const parts = decodedPath.split('/');
         
-        // B"H - Optimization: Try to find a partial path in the cache
-        let startIdx = 0;
-        for (let i = parts.length - 1; i >= 0; i--) {
-             const partialPath = parts.slice(0, i + 1).join('/');
-             const partialKey = `directory:${partialPath}`;
-             if (cache.has(partialKey)) {
-                 currentHandle = cache.get(partialKey);
-                 startIdx = i + 1;
-                 break;
-             }
-        }
-
-        for (let i = startIdx; i < parts.length; i++) {
+        // B"H - Traverse from root to ensure validity
+        for (let i = 0; i < parts.length; i++) {
             const part = parts[i];
             if (!part) continue;
             const isLastPart = i === parts.length - 1;
-            if (!isLastPart) {
-                currentHandle = await currentHandle.getDirectoryHandle(part, { create });
-                // Cache intermediate directory handles
-                cache.set(`directory:${parts.slice(0, i+1).join('/')}`, currentHandle);
-            } else {
-                if (kind === 'file') {
-                    currentHandle = await currentHandle.getFileHandle(part, { create });
+            
+            try {
+                if (!isLastPart) {
+                    // Check cache for intermediate folders
+                    const subPath = parts.slice(0, i+1).join('/');
+                    const subKey = `directory:${subPath}`;
+                    
+                    if (cache.has(subKey)) {
+                        currentHandle = cache.get(subKey);
+                    } else {
+                        currentHandle = await currentHandle.getDirectoryHandle(part, { create });
+                        cache.set(subKey, currentHandle);
+                    }
                 } else {
-                    currentHandle = await currentHandle.getDirectoryHandle(part, { create });
+                    // Final element
+                    if (kind === 'file') {
+                        currentHandle = await currentHandle.getFileHandle(part, { create });
+                    } else {
+                        currentHandle = await currentHandle.getDirectoryHandle(part, { create });
+                    }
                 }
+            } catch (e) {
+                // If we hit a snag, clear intermediate cache for this path and re-throw
+                console.error(`[LocalProvider] Failed to get handle for part: "${part}" in path: "${path}"`, e);
+                cache.delete(cacheKey);
+                throw e;
             }
         }
         
-        // Cache the final handle
         cache.set(cacheKey, currentHandle);
         return currentHandle;
     },
 
+    // B"H - Brutal Cache Clear: Wipes memory AND reloads root handle from IDB
+    async clearCache(item, brutal = false) {
+        try {
+            // Resolve the workspace
+            const workspace = State.workspaces.find(ws => ws.id === item.workspaceId);
+            
+            // Get current root handle (might be stale)
+            const root = workspace ? workspace.handle : (item.handle || null);
+            
+            // 1. Wipe Memory Cache
+            if (root && this._handleCache.has(root)) {
+                if (brutal || item.path === '/') {
+                    this._handleCache.delete(root);
+                    console.log("[LocalProvider] Cache TOTALLY Annihilated (Brutal Refresh)");
+                } else {
+                    // Selective clear for sub-paths
+                    const cache = this._handleCache.get(root);
+                    const path = item.path.replace(/^\//, '');
+                    const keysToDelete = [];
+                    for (const key of cache.keys()) {
+                        if (key.includes(path)) keysToDelete.push(key);
+                    }
+                    keysToDelete.forEach(k => cache.delete(k));
+                }
+            }
+
+            // 2. Refresh Root Handle from Disk (IndexedDB)
+            // This mimics the "Close and Reopen" behavior the user requested.
+            if (brutal && item.type === 'local' && workspace) {
+                try {
+                    // Force fresh fetch from DB
+                    const freshHandle = await IndexedDBProvider.getHandle(workspace.id);
+                    if (freshHandle) {
+                        workspace.handle = freshHandle;
+                        // Pre-warm the new cache entry to ensure zero leakage
+                        this._handleCache.set(freshHandle, new Map());
+                        console.log("[LocalProvider] Root Handle Refreshed from Disk.");
+                    } else {
+                        console.warn("[LocalProvider] No handle found in IDB for refresh.");
+                    }
+                } catch(e) {
+                    console.error("[LocalProvider] Failed to refresh handle from IDB:", e);
+                }
+            }
+
+        } catch(e) {
+            console.warn("Failed to clear local cache:", e);
+        }
+    },
+
     async list({ handle, path, workspaceId }) {
-        const root = handle || (State.workspaces.find(w => w.id === workspaceId)?.handle);
-        if (!root) throw new Error("No handle available");
+        // B"H - Ensure we use the latest handle from workspace if valid
+        const ws = State.workspaces.find(w => w.id === workspaceId);
+        const root = handle || (ws ? ws.handle : null);
+        
+        if (!root) throw new Error("No handle available for listing");
+        
+        // B"H - Force fresh traversal logic on list if path is complex
         const dirHandle = await this.getHandle(root, path);
         const entries = [];
-        for await (const entry of dirHandle.values()) {
-            let size = 0; let lastModified = 0;
-            if (entry.kind === 'file') {
-                try {
-                    const file = await entry.getFile();
-                    size = file.size; lastModified = file.lastModified;
-                } catch(e) { }
+        
+        // B"H - HIGH STABILITY LISTING
+        // Iterate with extra safety against "cut out" issues.
+        try {
+            // Using a simple array push via for-await prevents some generator weirdness
+            for await (const [name, entry] of dirHandle.entries()) {
+                entries.push({ 
+                    name: name, 
+                    kind: entry.kind, 
+                    path: `${path === '/' ? '' : path}/${name}`,
+                    workspaceId: workspaceId,
+                    size: 0, 
+                    lastModified: 0 
+                });
             }
-            entries.push({ 
-                handle: root, name: entry.name, kind: entry.kind, 
-                path: `${path === '/' ? '' : path}/${entry.name}`,
-                workspaceId: workspaceId, size, lastModified
-            });
+        } catch (iteratorError) {
+            console.error(`Failed to fully iterate directory ${path}:`, iteratorError);
+            // If the iterator fails but gave us partials, we return them.
+            // We do NOT re-throw because a partial list is better than nothing,
+            // and the user can try refreshing again.
         }
         return entries;
     },
@@ -99,7 +168,8 @@ export const LocalProvider = {
                 if (entry.kind === 'file') {
                     allFiles.push({ name: entry.name, kind: 'file', path: newPath, workspaceId: item.workspaceId });
                 } else if (entry.kind === 'directory') {
-                    await traverse(entry, newPath);
+                    const subHandle = await dirHandle.getDirectoryHandle(entry.name);
+                    await traverse(subHandle, newPath);
                 }
             }
         };
@@ -122,12 +192,11 @@ export const LocalProvider = {
         const performSave = async (rootHandle) => {
             const relativePath = item.path.startsWith('/') ? item.path.substring(1) : item.path;
             
-            // Try to get existing handle using aggressive cache first
+            // Retry logic for stale handles
             let fileHandle;
             try {
                 fileHandle = await this.getHandle(rootHandle, relativePath, { kind: 'file', create: true });
             } catch(e) {
-                // If aggressive cached retrieval failed (e.g. invalid handle), clear cache and retry
                 if (this._handleCache.has(rootHandle)) {
                     this._handleCache.get(rootHandle).delete(`file:${relativePath}`);
                 }
@@ -163,7 +232,7 @@ export const LocalProvider = {
         const name = item.path.substring(item.path.lastIndexOf('/') + 1);
         const parentHandle = await this.getHandle(root, parentPath);
         
-        // Invalidate cache for this item
+        // Invalidate cache
         if (this._handleCache.has(root)) {
             const cache = this._handleCache.get(root);
             cache.delete(`${item.kind}:${item.path.replace(/^\//, '')}`);
@@ -181,8 +250,6 @@ export const LocalProvider = {
             if (this._handleCache.has(root)) {
                 const cache = this._handleCache.get(root);
                 cache.delete(`${item.kind}:${path}`);
-                // Re-cache with new name? Complex because path changes.
-                // Simpler to just delete old.
             }
         } else throw new Error("Rename not supported by your browser.");
     }

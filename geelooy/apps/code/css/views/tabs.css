@@ -34,6 +34,20 @@
     font-weight: 600;
     border-bottom: 2px solid var(--neon-cyan);
 }
+.tab.pinned {
+    border-bottom: 2px solid var(--neon-lime);
+    background: rgba(168, 255, 0, 0.05);
+    min-width: 100px;
+}
+.tab.pinned .tab-pin-icon {
+    font-size: 0.8em;
+    margin-right: 6px;
+    filter: grayscale(0.5);
+}
+.tab.pinned.active .tab-pin-icon {
+    filter: grayscale(0);
+}
+
 .tab.dirty .tab-name::before { content: '● '; color: var(--neon-magenta); font-size: 0.8em; margin-right: 4px; }
 .tab.uncommitted .tab-name::before { content: '● '; color: var(--neon-lime); font-size: 0.8em; margin-right: 4px; }
 

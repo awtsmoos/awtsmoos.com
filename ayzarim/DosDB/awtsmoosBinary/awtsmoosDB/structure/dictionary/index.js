@@ -1,4 +1,3 @@
-
 // B"H
 const constants = require('../../constants.js');
 const SmartPointer = require('../../utils/smartPointer.js');
@@ -11,7 +10,7 @@ class DictionaryEngine {
         if (ptr && typeof ptr === 'object') {
             this.ptr = ptr;
         } else if (typeof ptr === 'number') {
-            this.ptr = { blockId: ptr, offset: 0, length: constants.BLOCK_SIZE, isChain: false };
+            this.ptr = { blockId: ptr, offset: 0, length: 36, isChain: false };
         } else {
             this.ptr = null;
         }
@@ -19,7 +18,6 @@ class DictionaryEngine {
         this.seq = null;
         this.isDirty = false; 
         
-        // B"H: Stale Check
         this.lastDbMutation = -1;
         this.db = allocator.v1.db;
     }
@@ -30,8 +28,8 @@ class DictionaryEngine {
         this.seq = new Sequence(this.allocator);
         const seqPtr = await this.seq.create();
         
-        // B"H: Reverted to full block allocation for stability
-        const ptr = await this.allocator.v1.allocate(constants.BLOCK_SIZE);
+        // B"H: Optimization - Use small block allocation for header (36 bytes)
+        const ptr = await this.allocator.v1.allocate(36);
         
         const dictData = Buffer.alloc(36);
         dictData.write(constants.MAGIC_DICT_DIR, 0);
@@ -49,11 +47,12 @@ class DictionaryEngine {
     async _init(force = false) {
         if (!this.ptr) return;
         
-        // B"H: Auto-refresh if DB mutated since last load
         const currentMutation = this.db.mutationCount || 0;
         if (!force && this.map && this.seq && !this.isDirty && this.lastDbMutation === currentMutation) {
             return;
         }
+
+        if (this.isDirty) await this._saveHeader();
 
         const readLen = 36;
         const ptrToRead = { ...this.ptr, length: readLen };
@@ -85,7 +84,6 @@ class DictionaryEngine {
         }
         
         this.lastDbMutation = currentMutation;
-        if (force) this.isDirty = false;
     }
 
     async destroy() {
@@ -114,7 +112,6 @@ class DictionaryEngine {
     async set(key, value, options = {}) {
         await this._init(); 
         
-        // B"H: Robust Check
         if (!this.map || !this.seq) {
             throw new Error(`B"H: DictionaryEngine at B${this.ptr ? this.ptr.blockId : 'null'} failed to initialize internal structures.`);
         }
@@ -126,29 +123,13 @@ class DictionaryEngine {
 
         let valPtr = (isPtr) ? value : ((Buffer.isBuffer(value) && value.length === 16) ? value : await this.allocator.save(value));
         
-        const oldMapPtr = { ...this.map.ptr }; 
         await this.map.set(key, valPtr, { isPtr: true, skipFree });
         
-        this.isDirty = true;
-        
-        // B"H: Strict check on object identity and value
-        if (this.map.ptr.blockId !== oldMapPtr.blockId || 
-            this.map.ptr.offset !== oldMapPtr.offset ||
-            this.map.ptr.length !== oldMapPtr.length) { 
-            await this._saveHeader();
-        }
-
         if (existing === undefined) {
-            const oldSeqPtr = { ...this.seq.ptr };
             await this.seq.push(key);
-            this.isDirty = true;
-            
-            if (this.seq.ptr.blockId !== oldSeqPtr.blockId || 
-                this.seq.ptr.offset !== oldSeqPtr.offset ||
-                this.seq.ptr.length !== oldSeqPtr.length) { 
-                await this._saveHeader();
-            }
         }
+        
+        await this._saveHeader();
     }
 
     async get(key, context) {
@@ -170,7 +151,6 @@ class DictionaryEngine {
         if (existing === undefined) return false;
         
         await this.map.delete(key);
-        this.isDirty = true;
         
         const len = await this.seq.length();
         for(let i=0; i<len; i++) {

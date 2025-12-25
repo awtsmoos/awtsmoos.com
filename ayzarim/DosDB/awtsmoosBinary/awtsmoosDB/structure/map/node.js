@@ -1,4 +1,3 @@
-
 // B"H
 const constants = require('../../constants.js');
 const serializer = require('../../utils/serializer.js');
@@ -68,18 +67,13 @@ class MapNode {
 
         let ptr;
         
-        // B"H: Safer Allocation Strategy
-        // To avoid potential corruption where trailing data from a larger previous block
-        // confuses the parser (if the new data is smaller), we ALWAYS allocate fresh 
-        // if the size is different, or force a clean write.
-        
         if (existingPtr && existingPtr.blockId) {
             if (existingPtr.length === raw.length) {
-                 // Perfect fit, reuse
                  await this.allocator.v1.db._writeChainSafe(existingPtr, raw);
                  ptr = existingPtr;
             } else {
-                 // Size changed. Free and re-alloc to be safe.
+                 // Relocation: Clear old cache entry
+                 this.db.evictStructure(existingPtr);
                  await this.allocator.v1.free(existingPtr);
                  ptr = await this.allocator.v1.allocate(raw.length);
                  await this.allocator.v1.db._writeChainSafe(ptr, raw);
@@ -97,9 +91,7 @@ class MapNode {
         };
         
         node.selfPtr = finalPtr;
-        
-        // Ensure cache points to this object
-        this.db.cacheStructure(finalPtr.blockId, node);
+        this.db.cacheStructure(finalPtr, node);
         
         return finalPtr;
     }
@@ -108,21 +100,13 @@ class MapNode {
         if (!ptr || !ptr.blockId) throw new Error("B\"H: MapNode Load Failed - Null Pointer");
         
         const cached = this.db.getCachedStructure(ptr);
-        if (cached) {
-            return cached; 
-        }
+        if (cached) return cached; 
         
         let block;
         if (ptr.isChain) {
             block = await this.allocator.v1.db._readChainSafe(ptr);
         } else {
-            // B"H: CRITICAL FIX - Must set noCopy=false to ensure we own the buffer.
-            // If we use true (Zero Copy), we get a reference to the Pager's buffer/ActivePage.
-            // Since we cache the 'node' (and its keys which are subarrays of 'block'),
-            // if the Pager recycles that buffer later, our cached keys become corrupt.
             block = await this.allocator.v1.readBlockLocked(ptr.blockId, false); 
-            
-            // If offset is used, slice it.
             if (ptr.offset) block = block.subarray(ptr.offset, ptr.offset + ptr.length);
         }
         
@@ -130,15 +114,14 @@ class MapNode {
 
         try {
             const node = this._parse(block, ptr);
-            this.db.cacheStructure(ptr.blockId, node);
+            this.db.cacheStructure(ptr, node);
             return node;
         } catch (e) {
             if (e.message.startsWith("B\"H MapNode Corruption") && ptr.length < constants.BLOCK_SIZE && !ptr.isChain) {
-                // Retry with full block if partial read failed (alignment issue?)
                 const fullPtr = { ...ptr, length: constants.BLOCK_SIZE };
                 const fullBlock = await this.allocator.v1.db._readChainSafe(fullPtr);
                 const node = this._parse(fullBlock, ptr);
-                this.db.cacheStructure(ptr.blockId, node);
+                this.db.cacheStructure(ptr, node);
                 return node;
             }
             throw e;
@@ -146,7 +129,6 @@ class MapNode {
     }
 
     _parse(block, ptr) {
-        // B"H: Optimized parser to minimize object allocation
         const magic = block.toString('utf8', 0, 4);
         if (magic !== constants.MAGIC_MAP_NODE) {
              return { selfPtr: ptr, isLeaf: true, keys: [], values: [], children: [], totalCount: 0, totalBytes: 0, next: 0 };
@@ -155,7 +137,6 @@ class MapNode {
         let offset = 4;
         const isLeaf = block[offset] === 1; offset++;
         
-        // Read VarInt Inline
         let count = 0;
         let shift = 0;
         while (true) {
@@ -171,8 +152,6 @@ class MapNode {
         const keys = new Array(count);
         for(let i=0; i<count; i++) {
             if (offset >= block.length) break;
-            
-            // Read Buffer VarInt Inline
             let len = 0;
             let s = 0;
             while (true) {
@@ -181,7 +160,6 @@ class MapNode {
                 if ((b & 0x80) === 0) break;
                 s += 7;
             }
-            
             const k = block.subarray(offset, offset + len);
             keys[i] = k;
             offset += len;
@@ -203,9 +181,7 @@ class MapNode {
         }
         
         let next = 0;
-        if (offset + 6 <= block.length) {
-            next = readPointer48(block, offset);
-        }
+        if (offset + 6 <= block.length) next = readPointer48(block, offset);
         
         return { selfPtr: ptr, isLeaf, keys, values: isLeaf ? ptrs : [], children: isLeaf ? [] : ptrs, totalCount, totalBytes, next };
     }

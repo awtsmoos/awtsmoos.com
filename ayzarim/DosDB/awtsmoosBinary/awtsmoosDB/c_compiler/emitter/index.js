@@ -14,13 +14,7 @@ class Emitter {
 
     emit(ast) {
         const funcs = ast.body.filter(n => n.type === 'Function');
-        
-        // B"H: Populate function table with metadata before emitting bodies
-        funcs.forEach((f, i) => {
-            const retT = (f.retType.base === 'void') ? WASM.VOID : 
-                         ((f.retType.base === 'float' && f.retType.pointers === 0) ? WASM.F32 : WASM.I32);
-            this.funcTable.set(f.name, { index: i, retType: retT });
-        });
+        funcs.forEach((f, i) => this.funcTable.set(f.name, i));
 
         const funcBodies = funcs.map(f => this._emitFunc(f));
 
@@ -65,10 +59,7 @@ class Emitter {
     }
 
     resolveVar(name) { return this.locals.get(name) || this.params.get(name); }
-    resolveFuncIndex(name) { 
-        const info = this.funcTable.get(name);
-        return info ? info.index : 0; 
-    }
+    resolveFuncIndex(name) { return this.funcTable.get(name) || 0; }
     
     getOrDeclareLocal(name, type, cType = null) {
         let v = this.resolveVar(name);

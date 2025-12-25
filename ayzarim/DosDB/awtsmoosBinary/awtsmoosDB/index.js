@@ -1,4 +1,4 @@
-// B"H
+//B"H
 /**
  * @namespace AwtsmoosDB
  * @description 
@@ -6,7 +6,6 @@
  */
 const Pager = require('./core/pager.js');
 const AllocatorV2 = require('./core/type_allocator.js');
-const LiveHandle = require('./api/liveHandle/index.js');
 const constants = require('./constants.js');
 const Dictionary = require('./structure/dictionary/index.js');
 const { readPointer48, writePointer48 } = require('./utils/binaryHelpers.js');
@@ -53,27 +52,28 @@ class AwtsmoosDB_V2 {
     }
 
     /**
-     * @description Identifies an AwtsmoosDB Handle via the registry.
+     * @description Identifies if an object is an AwtsmoosDB Handle.
      */
     isHandle(obj) {
         return HandleRegistry.isHandle(obj);
     }
 
     /**
-     * @description Safely retrieves the internal metadata of a handle.
+     * @description Unwraps a handle to its internal soul.
      */
     _getSoul(handle) {
         return HandleRegistry.getSoul(handle);
     }
 
-    /**
-     * @description Ensures a handle is up-to-date.
-     */
     async ensureResolved(handle, force = false) {
         const soul = this._getSoul(handle);
         if (soul && soul.ensureResolved) {
              return await soul.ensureResolved(force);
         }
+    }
+
+    async query(handle, queryObj) {
+        return await Query.execute(handle, queryObj);
     }
 
     async open() {
@@ -87,33 +87,60 @@ class AwtsmoosDB_V2 {
         const savedRootChain = sb.readUInt8(78);
 
         const SmartPointer = require('./utils/smartPointer.js');
-        if (savedRootId === 0) {
-            const dict = new Dictionary(this.allocator);
-            const rootPtr = await dict.create(); 
-            const decoded = SmartPointer.decode(rootPtr);
-            await this.allocator.v1.updateSuperBlock((block) => {
-                writePointer48(block, readPointer48(decoded.payload, 0), 64);
-                block.writeUInt32BE(decoded.payload.readUInt32BE(6), 70);
-                block.writeUInt32BE(decoded.payload.readUInt32BE(10), 74);
-                block.writeUInt8(decoded.payload.readUInt8(14), 78);
-            });
-            this.rootPtrRaw = rootPtr;
-        } else {
-            this.rootPtrRaw = SmartPointer.block(constants.TYPE_DICTIONARY, savedRootId, savedRootLen, savedRootChain === 1, savedRootOff);
-        }
+        
+        // B"H: Genesis inside a batch for atomicity
+        await this.batch(async () => {
+            if (savedRootId === 0) {
+                const dict = new Dictionary(this.allocator);
+                const rootPtr = await dict.create(); 
+                const decoded = SmartPointer.decode(rootPtr);
+                await this.allocator.v1.updateSuperBlock((block) => {
+                    writePointer48(block, readPointer48(decoded.payload, 0), 64);
+                    block.writeUInt32BE(decoded.payload.readUInt32BE(6), 70);
+                    block.writeUInt32BE(decoded.payload.readUInt32BE(10), 74);
+                    block.writeUInt8(decoded.payload.readUInt8(14), 78);
+                });
+                this.rootPtrRaw = rootPtr;
+            } else {
+                this.rootPtrRaw = SmartPointer.block(constants.TYPE_DICTIONARY, savedRootId, savedRootLen, savedRootChain === 1, savedRootOff);
+            }
 
-        this.root = new LiveHandle(this, this.rootPtrRaw, constants.TYPE_DICTIONARY, null);
-        await this._initSystemMaps();
-        await this._preloadSysCache();
+            this.root = HandleRegistry.createHandle(this, this.rootPtrRaw, constants.TYPE_DICTIONARY, null);
+            
+            await this._initSystemMaps();
+            await this._preloadSysCache();
+        });
+    }
+
+    /**
+     * @description Ensures the database is open. Idempotent.
+     */
+    async ensureOpen() {
+        if (this.root) return;
+        return await this.open();
+    }
+
+    /**
+     * @description Pashut (Simple) API - Set value on root.
+     */
+    async set(key, value) {
+        if (!this.root) await this.ensureOpen();
+        return await this.root.set(key, value);
+    }
+
+    /**
+     * @description Pashut (Simple) API - Get value from root.
+     */
+    async get(key) {
+        if (!this.root) await this.ensureOpen();
+        return await this.root[key];
     }
     
     async _initSystemMaps() {
         const sysMaps = ["__sys_vector__", "__sys_search__", "__graph__", "ai"];
-        await this.batch(async () => {
-            for (const name of sysMaps) {
-                if (!await this.has(this.root, name)) await this.createMap(this.root, name);
-            }
-        });
+        for (const name of sysMaps) {
+            if (!await this.has(this.root, name)) await this.createMap(this.root, name);
+        }
     }
     
     async _preloadSysCache() {
@@ -145,9 +172,20 @@ class AwtsmoosDB_V2 {
         if (soul && soul.writer) await soul.writer.createList(key);
     }
 
+    async createObject(handle, key) {
+        const soul = this._getSoul(handle);
+        if (soul && soul.writer) await soul.writer.createObject(key);
+    }
+
     async compact(handle) {
         const soul = this._getSoul(handle);
         if (soul && soul.writer) return await soul.writer.compact();
+    }
+
+    async stats(handle) {
+        const soul = this._getSoul(handle);
+        if (!soul || !soul.reader) return { count: 0, size: 0, capacity: 0, fragmentation: 0 };
+        return await soul.reader.stats();
     }
 
     async size(handle) {
@@ -164,9 +202,40 @@ class AwtsmoosDB_V2 {
         return arr;
     }
 
+    async values(handle) {
+        const soul = this._getSoul(handle);
+        if (!soul || !soul.reader) return [];
+        const arr = [];
+        for await (const v of soul.reader.values()) arr.push(v);
+        return arr;
+    }
+
+    async entries(handle) {
+        const soul = this._getSoul(handle);
+        if (!soul || !soul.reader) return [];
+        const arr = [];
+        for await (const e of soul.reader.entries()) arr.push(e);
+        return arr;
+    }
+
     async *streamKeys(handle) {
         const soul = this._getSoul(handle);
         if (soul && soul.reader) yield* soul.reader.keys();
+    }
+
+    async *streamValues(handle) {
+        const soul = this._getSoul(handle);
+        if (soul && soul.reader) yield* soul.reader.values();
+    }
+
+    async *streamEntries(handle) {
+        const soul = this._getSoul(handle);
+        if (soul && soul.reader) yield* soul.reader.entries();
+    }
+
+    async *range(handle, start, end) {
+        const soul = this._getSoul(handle);
+        if (soul && soul.reader) yield* soul.reader.range(start, end);
     }
 
     async close() {
@@ -195,38 +264,92 @@ class AwtsmoosDB_V2 {
     async waitForIdle() { 
         return this.lock.runWrite(async () => {
             await this._flushBackgroundTasks();
-            if (this.allocator) await this.allocator.flushHeap();
+            if (this.allocator) {
+                await this.allocator.flushHeap();
+                await this.allocator.v1.flush(); // B"H: Vital Persistence Fix
+            }
             await this.pager.sync();
         });
     }
 
     async _flushBackgroundTasks() {
-        while (this._pendingIndexOps.length > 0) {
-            const op = this._pendingIndexOps.shift();
-            try { await op(); } catch(e) { console.error("B\"H Background Task Failed:", e); }
+        if (this._isFlushing) return;
+        this._isFlushing = true;
+        try {
+            while (this._pendingIndexOps.length > 0) {
+                const tasks = this._pendingIndexOps;
+                this._pendingIndexOps = [];
+                for (const task of tasks) await task();
+            }
+            await this.search.flush();
+            // B"H: Optimization - Check for recursive task additions
+            if (this._pendingIndexOps.length > 0) await this._flushBackgroundTasks();
+        } finally {
+            this._isFlushing = false;
         }
     }
 
-    async _readChainSafe(ptr) {
-        if (!ptr || !ptr.blockId) return null;
-        const raw = await this.allocator.v1.readSequentialLocked(ptr.blockId, Math.ceil(ptr.length / constants.BLOCK_SIZE) + 1);
-        const buf = Buffer.alloc(ptr.length);
-        raw.copy(buf, 0, ptr.offset || 0, (ptr.offset || 0) + ptr.length);
-        return buf;
+    cacheStructure(ptr, node) {
+        const key = ptr.blockId + ':' + (ptr.offset || 0);
+        if (this.structureCache.size >= this.STRUCT_CACHE_LIMIT) {
+             const it = this.structureCache.keys();
+             this.structureCache.delete(it.next().value);
+        }
+        this.structureCache.set(key, node);
     }
 
-    async _writeChainSafe(ptr, buffer) {
-        await this.allocator.v1.writeBlockLocked(ptr.blockId, buffer);
-        this.mutationCount++;
-    }
-    
-    cacheStructure(blockId, structure) {
-        if (this.structureCache.size >= this.STRUCT_CACHE_LIMIT) this.structureCache.delete(this.structureCache.keys().next().value);
-        this.structureCache.set(blockId, structure);
-    }
-    
     getCachedStructure(ptr) {
-        return this.structureCache.get(ptr.blockId);
+        const key = ptr.blockId + ':' + (ptr.offset || 0);
+        return this.structureCache.get(key);
+    }
+
+    evictStructure(ptr) {
+        const key = ptr.blockId + ':' + (ptr.offset || 0);
+        this.structureCache.delete(key);
+    }
+
+    async _readChainSafe(ptr) {
+        if (!ptr || ptr.blockId === 0) return null;
+        if (!ptr.isChain) {
+            const block = await this.allocator.v1.readBlockLocked(ptr.blockId, true);
+            if (!block) return null;
+            if (ptr.offset + ptr.length > block.length) return block.subarray(ptr.offset);
+            return block.subarray(ptr.offset, ptr.offset + ptr.length);
+        }
+        const availablePerBlock = constants.BLOCK_SIZE - constants.HEADER_SIZE;
+        const blocksNeeded = Math.ceil(ptr.length / availablePerBlock);
+        const mega = Buffer.allocUnsafe(ptr.length);
+        let bytesRead = 0;
+        for (let i = 0; i < blocksNeeded; i++) {
+            const bid = ptr.blockId + i;
+            const block = await this.allocator.v1.readBlockLocked(bid, true);
+            const chunk = Math.min(availablePerBlock, ptr.length - bytesRead);
+            block.copy(mega, bytesRead, constants.HEADER_SIZE, constants.HEADER_SIZE + chunk);
+            bytesRead += chunk;
+        }
+        return mega;
+    }
+
+    async _writeChainSafe(ptr, data) {
+        if (!ptr || ptr.blockId === 0) return;
+        if (!ptr.isChain) {
+            let block = await this.allocator.v1.readBlockLocked(ptr.blockId, false);
+            if (!block) block = this.allocator.v1.formatBlock(constants.BLOCK_TYPE.PAGE);
+            data.copy(block, ptr.offset);
+            await this.allocator.v1.writeBlockLocked(ptr.blockId, block);
+            return;
+        }
+        const availablePerBlock = constants.BLOCK_SIZE - constants.HEADER_SIZE;
+        let bytesWritten = 0;
+        for (let i = 0; bytesWritten < data.length; i++) {
+            const bid = ptr.blockId + i;
+            let block = await this.allocator.v1.readBlockLocked(bid, false);
+            if (!block) block = this.allocator.v1.formatBlock(constants.BLOCK_TYPE.OVERFLOW);
+            const chunk = Math.min(availablePerBlock, data.length - bytesWritten);
+            data.copy(block, constants.HEADER_SIZE, bytesWritten, bytesWritten + chunk);
+            await this.allocator.v1.writeBlockLocked(bid, block);
+            bytesWritten += chunk;
+        }
     }
 }
 

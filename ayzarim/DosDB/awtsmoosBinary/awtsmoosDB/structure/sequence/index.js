@@ -1,3 +1,4 @@
+
 // B"H
 const constants = require('../../constants.js');
 const SmartPointer = require('../../utils/smartPointer.js');
@@ -18,15 +19,13 @@ class SequenceEngine {
         }
         
         this.cache = new Map();
-        this.CACHE_LIMIT = 200;
-
         this.nodeIO = new SequenceNode(allocator, this);
         this.ops = new SequenceOps(this);
         this.MAX_DEPTH = 100;
     }
 
     log(msg) {
-        if (this.allocator.v1.db.debug) console.log(`[SeqEngine] ${msg}`);
+        if (this.allocator.v1.db.debug) console.log(`\x1b[32m[SeqEngine:B${this.ptr ? this.ptr.blockId : 'null'}]\x1b[0m ${msg}`);
     }
 
     async create(options = {}) {
@@ -44,8 +43,6 @@ class SequenceEngine {
 
     async _destroyNode(ptr, depth) {
         if (depth > this.MAX_DEPTH) return;
-        if (this.cache.has(ptr.blockId)) this.cache.delete(ptr.blockId);
-
         const node = await this.nodeIO.load(ptr);
         
         if (node.isLeaf) {
@@ -124,24 +121,17 @@ class SequenceEngine {
         let localIndex = index;
         let depth = 0;
         
-        const path = [];
-
         while(true) {
             if (depth++ > this.MAX_DEPTH) throw new Error("B\"H: Sequence Max Depth Exceeded");
             
             const node = await this.nodeIO.load(currPtr);
-            path.push(`B${currPtr.blockId}`);
 
             if (localIndex >= node.totalCount) {
-                if(this.allocator.v1.db.debug) console.error(`B"H Seq Error: Index ${index} out of bounds. Root total: ${node.totalCount}. Path: ${path.join('->')}`);
                 return undefined;
             }
 
             if (node.isLeaf) {
-                if (localIndex >= node.itemCount) {
-                     if(this.allocator.v1.db.debug) console.error(`B"H Seq Error: Reached Leaf B${currPtr.blockId} with localIndex ${localIndex} but itemCount is ${node.itemCount}. Path: ${path.join('->')}`);
-                     return undefined;
-                }
+                if (localIndex >= node.itemCount) return undefined;
                 const offset = DATA_OFFSET + (localIndex * 16);
                 const ptr = Buffer.allocUnsafe(16);
                 node.buffer.copy(ptr, 0, offset, offset + 16);
@@ -152,32 +142,16 @@ class SequenceEngine {
                 
                 for(let i=0; i<node.itemCount; i++) {
                     const childCount = node.buffer.readUInt32BE(offset + 16);
-                    
                     if (localIndex < childCount) {
                         const childPtrBuf = node.buffer.subarray(offset, offset + 16);
                         currPtr = this._decodePtrBuf(childPtrBuf);
                         foundChild = true;
-                        
-                        if (this.allocator.v1.db.debug) {
-                            const checkNode = await this.nodeIO.load(currPtr);
-                            if (checkNode.totalCount !== childCount) {
-                                console.error(`\nB"H DRIFT DETECTED at B${node.ptr.blockId} Child ${i} (B${currPtr.blockId})!`);
-                                console.error(`    Parent thinks count is: ${childCount}`);
-                                console.error(`    Child actual count is: ${checkNode.totalCount}`);
-                                console.error(`    Drift: ${childCount - checkNode.totalCount}`);
-                                console.error(`    Path: ${path.join(' -> ')}`);
-                            }
-                        }
-                        
                         break; 
                     }
                     localIndex -= childCount;
                     offset += 20;
                 }
-                if (!foundChild) {
-                    if(this.allocator.v1.db.debug) console.error(`B"H Seq.getPtr: Failed to find child for index ${index} at B${currPtr.blockId}. LocalIndex: ${localIndex}`);
-                    return undefined;
-                }
+                if (!foundChild) return undefined;
             }
         }
     }
@@ -256,15 +230,6 @@ class SequenceEngine {
             length: SmartPointer.getLength(buf),
             offset: SmartPointer.getOffset(buf),
             isChain: SmartPointer.isChain(buf)
-        };
-    }
-
-    _decodePtr(payload) {
-        return {
-            blockId: readPointer48(payload, 0),
-            length: payload.readUInt32BE(6),
-            offset: payload.readUInt32BE(10),
-            isChain: payload.readUInt8(14) === 1
         };
     }
 }

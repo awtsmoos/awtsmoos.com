@@ -1,7 +1,7 @@
 
 // B"H
 /**
- * @function WasmDefs
+ * @module WasmDefs
  * @description The immutable blueprint of the WebAssembly instruction set.
  */
 const WASM = {
@@ -13,10 +13,10 @@ const WASM = {
     
     // Integer Ops
     I32_ADD: 0x6A, I32_SUB: 0x6B, I32_MUL: 0x6C, I32_DIV_S: 0x6D,
-    I32_LT_S: 0x48, I32_GT_S: 0x4A, I32_LE_S: 0x4C, I32_GE_S: 0x4E,
+    I32_LT_S: 0x48, I32_GT_S: 0x4E, I32_LE_S: 0x4C, I32_GE_S: 0x50,
     I32_EQ: 0x46, I32_NE: 0x47,
     
-    // Bitwise Ops
+    // Bitwise Ops (B"H: Added for Q4_0 Decoding)
     I32_AND: 0x71, I32_OR: 0x72, I32_XOR: 0x73,
     I32_SHL: 0x74, I32_SHR_S: 0x75, I32_SHR_U: 0x76,
     
@@ -40,40 +40,17 @@ const WASM = {
 };
 
 const Encoder = {
-    // Unsigned LEB128 (varuint32) - For sizes, indices
-    toUnsignedLEB128: (num) => {
+    toLEB128: (num) => {
         const bytes = [];
         let n = num;
-        if (n < 0) n = (n >>> 0); // Force unsigned
-        do {
+        while (true) {
             let byte = n & 0x7f;
             n >>>= 7;
-            if (n !== 0) byte |= 0x80;
-            bytes.push(byte);
-        } while (n !== 0);
-        return bytes;
-    },
-
-    // Signed LEB128 (varint32) - For i32.const literals
-    toSignedLEB128: (num) => {
-        const bytes = [];
-        let value = num;
-        while (true) {
-            let byte = value & 0x7f;
-            value >>= 7;
-            const signBit = byte & 0x40;
-            if ((value === 0 && !signBit) || (value === -1 && signBit)) {
-                bytes.push(byte);
-                break;
-            }
+            if (n === 0) { bytes.push(byte); break; }
             bytes.push(byte | 0x80);
         }
         return bytes;
     },
-
-    // Alias for backward compatibility (defaults to unsigned for safety in section logic)
-    toLEB128: (num) => Encoder.toUnsignedLEB128(num),
-
     vec: (arr) => {
         let bytes = [];
         for (let item of arr) {
@@ -83,18 +60,18 @@ const Encoder = {
                 bytes.push(item);
             }
         }
-        return [...Encoder.toUnsignedLEB128(arr.length), ...bytes];
+        return [...Encoder.toLEB128(arr.length), ...bytes];
     },
     str: (s) => {
-        const b = (typeof TextEncoder !== 'undefined') ? new TextEncoder().encode(s) : Buffer.from(s);
-        return [...Encoder.toUnsignedLEB128(b.length), ...b];
+        const b = Buffer.from(s);
+        return [...Encoder.toLEB128(b.length), ...b];
     },
     ieee754: (v) => {
-        const buf = new ArrayBuffer(4);
-        new DataView(buf).setFloat32(0, v, true);
-        return Array.from(new Uint8Array(buf));
+        const buf = Buffer.allocUnsafe(4);
+        buf.writeFloatLE(v, 0);
+        return Array.from(buf);
     },
-    section: (id, content) => [id, ...Encoder.toUnsignedLEB128(content.length), ...content]
+    section: (id, content) => [id, ...Encoder.toLEB128(content.length), ...content]
 };
 
 module.exports = { WASM, Encoder };

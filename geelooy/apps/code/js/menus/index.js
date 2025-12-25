@@ -40,6 +40,27 @@ export const Menus = {
             this.revealInWorkspace(State.contextTabTarget);
         } else if (action === 'close-tab-direct') {
             if (State.contextTabTarget) Tabs.close(State.contextTabTarget.id);
+        } else if (action === 'close-right') {
+            if (State.contextTabTarget) {
+                const idx = State.tabs.findIndex(t => t.id === State.contextTabTarget.id);
+                if (idx !== -1) {
+                    const toClose = State.tabs.slice(idx + 1).map(t => t.id);
+                    toClose.forEach(id => Tabs.close(id, true));
+                }
+            }
+        } else if (action === 'close-left') {
+            if (State.contextTabTarget) {
+                const idx = State.tabs.findIndex(t => t.id === State.contextTabTarget.id);
+                if (idx !== -1) {
+                    const toClose = State.tabs.slice(0, idx).map(t => t.id);
+                    toClose.forEach(id => Tabs.close(id, true));
+                }
+            }
+        } else if (action === 'toggle-pin') {
+            if (State.contextTabTarget) {
+                State.contextTabTarget.pinned = !State.contextTabTarget.pinned;
+                Tabs.render();
+            }
         } else {
             Actions.handle(action);
         }

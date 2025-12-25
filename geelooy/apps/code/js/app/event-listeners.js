@@ -421,13 +421,28 @@ export function setupEventListeners() {
             const editor = DOM.editor;
             const fullText = editor.value;
             const cursorPosition = editor.selectionStart;
+            
+            // Find start of current line to read its indentation
             const lineStartPos = fullText.substring(0, cursorPosition).lastIndexOf('\n') + 1;
             const currentLineText = fullText.substring(lineStartPos, cursorPosition);
+            
+            // Detect leading whitespace (indentation)
             const leadingWhitespaceMatch = currentLineText.match(/^\s*/);
-            const indent = leadingWhitespaceMatch ? leadingWhitespaceMatch[0] : '';
+            let indent = leadingWhitespaceMatch ? leadingWhitespaceMatch[0] : '';
+            
+            // Smart Indentation: Increase indent if line ends with block opener
+            const trimmed = currentLineText.trim();
+            const lastChar = trimmed.slice(-1);
+            if (['{', '[', '('].includes(lastChar)) {
+                indent += App.getTabString();
+            }
+            
             const textToInsert = '\n' + indent;
             editor.setRangeText(textToInsert, cursorPosition, editor.selectionEnd, 'end');
             editor.dispatchEvent(new Event('input', { bubbles: true }));
+            
+            // Trigger Visual Engine updates
+            VisualEngine.onCaretMove();
         }
     });
     

@@ -18,6 +18,9 @@ export const Editor = {
         // B"H - Init Linter
         Linter.init().catch(e => console.warn("Linter init deferred", e));
         
+        // B"H - Dependency Injection for AST Engine to prevent circular deps
+        ASTEngine.setEditor(this);
+        
         // B"H - Safety Interceptor: Unfold ALL on significant input to prevent data loss.
         // This handles cases where user types inside/near a folded block.
         DOM.editor.addEventListener('input', () => {

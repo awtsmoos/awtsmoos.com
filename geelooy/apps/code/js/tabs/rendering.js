@@ -21,7 +21,14 @@ export const TabsRenderer = {
         container.innerHTML = '';
         let draggedTabId = null;
 
-        State.tabs.forEach((tab) => {
+        // B"H - Sort: Pinned tabs first
+        const sortedTabs = [...State.tabs].sort((a, b) => {
+            if (a.pinned && !b.pinned) return -1;
+            if (!a.pinned && b.pinned) return 1;
+            return 0; // Preserve original order otherwise
+        });
+
+        sortedTabs.forEach((tab) => {
             const tabEl = this._createTabElement(tab, TabsController);
             this._setupDragEvents(tabEl, tab.id, (id) => draggedTabId = id, () => draggedTabId);
             container.appendChild(tabEl);
@@ -30,7 +37,6 @@ export const TabsRenderer = {
         this._setupContainerDragEvents(container, () => draggedTabId, TabsController);
 
         // B"H - SCROLL TRANSLATION RITUAL
-        // Transmute vertical scroll energy into horizontal movement for the tab bar.
         if (!container.dataset.wheelBound) {
             container.addEventListener('wheel', (e) => {
                 if (e.deltaY !== 0) {
@@ -51,7 +57,8 @@ export const TabsRenderer = {
      */
     _createTabElement(tab, TabsController) {
         const tabEl = document.createElement('div');
-        tabEl.className = `tab ${tab.id === State.activeTabId ? 'active' : ''} ${tab.isDirty ? 'dirty' : ''} ${tab.isUncommitted ? 'uncommitted' : ''}`;
+        // B"H - Add 'pinned' class
+        tabEl.className = `tab ${tab.id === State.activeTabId ? 'active' : ''} ${tab.isDirty ? 'dirty' : ''} ${tab.isUncommitted ? 'uncommitted' : ''} ${tab.pinned ? 'pinned' : ''}`;
         tabEl.dataset.tabId = String(tab.id);
         
         const workspace = State.workspaces.find(ws => ws.id === tab.item.workspaceId);
@@ -60,6 +67,14 @@ export const TabsRenderer = {
         tabEl.title = `${wsName} :: ${fullPath}`;
         
         tabEl.draggable = true;
+        
+        // Pin Icon
+        if (tab.pinned) {
+            const pinIcon = document.createElement('span');
+            pinIcon.className = 'tab-pin-icon';
+            pinIcon.innerHTML = '📌';
+            tabEl.appendChild(pinIcon);
+        }
         
         const tabName = document.createElement('span');
         tabName.className = 'tab-name';
@@ -84,10 +99,9 @@ export const TabsRenderer = {
         };
 
         // B"H - MIDDLE CLICK RITUAL
-        // Suppression of browser autoscroll to ensure the click reaches the soul of the application.
         tabEl.addEventListener('mousedown', (e) => {
             if (e.button === 1) { // Middle button
-                e.preventDefault(); // Stop autoscroll from triggering
+                e.preventDefault(); 
             }
         });
 

@@ -1,8 +1,6 @@
 // B"H
 // FILE: js/tools/linter.js
 
-import { UI } from '../ui.js';
-
 /**
  * --- LINTER & PARSER NEXUS ---
  * Responsible for loading the Merkava AST Parser and performing
@@ -19,20 +17,27 @@ export const Linter = {
         // B"H - Timeout Race: Ensure we don't hang if offline
         const loadPromise = new Promise((resolve) => {
             if (window.MerkavahParserPromise) {
-                window.MerkavahParserPromise.then(cls => {
+                window.MerkavahParserPromise.then(async (cls) => {
                     this.parserClass = cls;
                     this.isReady = true;
+                    // Dynamic Import to break cycle
+                    const { UI } = await import('../ui.js');
                     UI.updateLineNumbers(); 
                     resolve();
-                }).catch(() => resolve()); // Fail gracefully
+                }).catch(() => {
+                    console.warn("Linter failed to load from global promise.");
+                    resolve();
+                }); 
             } else {
                 const s = document.createElement('script');
                 s.src = '/scripts/awtsmoos/MerkavaASTParser/parser-core.js'; 
                 s.onload = () => {
                     if (window.MerkavahParserPromise) {
-                        window.MerkavahParserPromise.then(cls => {
+                        window.MerkavahParserPromise.then(async (cls) => {
                             this.parserClass = cls;
                             this.isReady = true;
+                            // Dynamic Import to break cycle
+                            const { UI } = await import('../ui.js');
                             UI.updateLineNumbers(); 
                             resolve();
                         }).catch(() => resolve());
@@ -40,14 +45,15 @@ export const Linter = {
                 };
                 s.onerror = () => {
                     console.warn("Linter script failed to load (Offline?)");
-                    resolve(); // Resolve anyway so app continues
+                    // We resolve anyway so the app continues, but isReady remains false.
+                    resolve(); 
                 };
                 document.head.appendChild(s);
             }
         });
 
-        // Timeout after 2 seconds
-        const timeoutPromise = new Promise(resolve => setTimeout(resolve, 2000));
+        // Timeout after 500ms (Rapid Fallback)
+        const timeoutPromise = new Promise(resolve => setTimeout(resolve, 500));
         
         await Promise.race([loadPromise, timeoutPromise]);
     },
@@ -56,6 +62,7 @@ export const Linter = {
      * B"H - Retrieves the AST, using cache if available.
      */
     getAST(code) {
+        // Strict check: if not ready, don't try.
         if (!this.parserClass || !code.trim()) return { error: "Parser not loaded" };
         
         // Simple hash for cache lookup

@@ -53,6 +53,7 @@ export const Session = {
                         uniquePath: tab.uniquePath,
                         isDirty: tab.isDirty,
                         isUncommitted: tab.isUncommitted,
+                        pinned: tab.pinned || false, // B"H - Save Pinned State
                         scrollPos: tab.scrollPos || 0,
                         fileType: tab.fileType,
                         item: safeItem,
@@ -119,6 +120,7 @@ export const Session = {
                     return {
                         ...t,
                         forceReload: true, 
+                        pinned: !!t.pinned, // B"H - Restore Pinned State
                         scrollPos: typeof t.scrollPos === 'number' ? t.scrollPos : 0
                     };
                 });

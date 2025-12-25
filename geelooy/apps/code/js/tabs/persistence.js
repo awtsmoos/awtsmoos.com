@@ -1,3 +1,4 @@
+
 // B"H
 // FILE: code/js/tabs/persistence.js
 
@@ -71,15 +72,30 @@ export const TabsPersistence = {
             
             if (gitRootItem.type !== 'github') {
                 let relativePath;
-                const cloneRootPath = gitRootItem.path;
+                // B"H - Normalize Paths (Remove trailing/leading slashes for comparison)
+                // cloneRootPath is the folder that contains .awtsmoos-repo
+                const cloneRootPath = gitRootItem.path.endsWith('/') && gitRootItem.path.length > 1 
+                    ? gitRootItem.path.slice(0, -1) 
+                    : gitRootItem.path;
+                    
                 const fileFullPath = tab.item.path;
 
                 if (cloneRootPath === '/') {
-                    relativePath = fileFullPath.substring(1);
-                } else if (fileFullPath && fileFullPath.startsWith(cloneRootPath + '/')) {
-                    relativePath = fileFullPath.substring(cloneRootPath.length + 1);
+                    relativePath = fileFullPath.startsWith('/') ? fileFullPath.substring(1) : fileFullPath;
+                } else if (fileFullPath && fileFullPath.startsWith(cloneRootPath)) {
+                    // Check if it's an exact match (file is root?) or subpath
+                    if (fileFullPath === cloneRootPath) {
+                         throw new Error("File path equals repo root path.");
+                    }
+                    // Handle slash
+                    if (fileFullPath[cloneRootPath.length] === '/') {
+                        relativePath = fileFullPath.substring(cloneRootPath.length + 1);
+                    } else {
+                         throw new Error(`Path mismatch: ${fileFullPath} is not inside ${cloneRootPath}`);
+                    }
                 } else {
-                    throw new Error("Cannot determine relative path for staging.");
+                    console.error("Path Resolution Error:", { cloneRootPath, fileFullPath });
+                    throw new Error(`Cannot determine relative path. Root: ${cloneRootPath}, File: ${fileFullPath}`);
                 }
                 
                 const itemForStaging = { ...tab.item, path: relativePath };
