@@ -14,6 +14,7 @@ const floatHandler = require('../floatHandler.js');
 const serializer = require('../serializer.js');
 const codec = require('./codec.js');
 const registry = require('./registry.js');
+const parser = require('../../deserialize/parser.js');
 
 module.exports = {
     /**
@@ -52,7 +53,6 @@ module.exports = {
              if (!block) return undefined;
              
              if (offset + length > block.length) {
-                 // Fallback for edge cases where heap might have spanned (unlikely with current logic but safe)
                  raw = await allocator.v1.db._readChainSafe({ blockId, offset, length, isChain: false });
              } else {
                  raw = block.subarray(offset, offset + length);
@@ -70,6 +70,42 @@ module.exports = {
      */
     async decodeInline(type, payload, allocator, context, SmartPointer) {
         const T = constants.VAL_TYPE;
+        
+        // --- Variable Length Types (Prefixed with Length Byte) ---
+        const variableLengthTypes = [
+            T.STRING, T.BUFFER, T.TYPED_ARRAY, T.SYMBOL, 
+            T.BIGINT_POS, T.BIGINT_NEG
+        ];
+
+        let data = payload;
+        if (variableLengthTypes.includes(type)) {
+            const len = payload[0];
+            data = payload.subarray(1, 1 + len);
+        }
+
+        if (type === T.SYMBOL) return Symbol.for(data.toString('utf8'));
+        if (type === T.BIGINT_POS) return bigIntUtils.fromBuffer(data, false);
+        if (type === T.BIGINT_NEG) return bigIntUtils.fromBuffer(data, true);
+        if (type === T.BUFFER) return data;
+        if (type === T.STRING) return data.toString('utf8');
+
+        // Typed Array Inline
+        if (type === T.TYPED_ARRAY) {
+             if (data.length < 1) return new Uint8Array(0);
+             const viewType = data[0];
+             const rawContent = data.subarray(1);
+             // Create copy to ensure alignment and detachment from pointer buffer
+             const ab = rawContent.buffer.slice(rawContent.byteOffset, rawContent.byteOffset + rawContent.byteLength);
+             
+             switch(viewType) {
+                case 1: return new Int8Array(ab); case 2: return new Uint8Array(ab); case 4: return new Int16Array(ab);
+                case 5: return new Uint16Array(ab); case 6: return new Int32Array(ab); case 7: return new Uint32Array(ab);
+                case 8: return new Float32Array(ab); case 9: return new Float64Array(ab); case 10: return new BigInt64Array(ab);
+                case 11: return new BigUint64Array(ab); default: return new Uint8Array(ab);
+             }
+        }
+        
+        // --- Fixed Length & Self-Describing Types ---
         if (type === T.NULL) return null;
         if (type === T.UNDEFINED) return undefined;
         if (type === T.BOOLEAN_TRUE || type === T.BOOLEAN) return payload[0] === 1;
@@ -77,6 +113,7 @@ module.exports = {
         if (type === T.INFINITY) return Infinity;
         if (type === T.NEG_INFINITY) return -Infinity;
         if (type === T.NUMBER) return payload.readDoubleBE(0);
+        if (type === T.DATE) return new Date(payload.readDoubleBE(0));
         
         // Numerics
         if (type === T.UINT8) return payload.readUInt8(0);
@@ -95,12 +132,7 @@ module.exports = {
         if (type === T.FLOAT_NEG_2) return -1 * floatHandler.decodeEncodedFloat(payload.readUInt16BE(0), 2);
         if (type === T.FLOAT_NEG_4) return -1 * floatHandler.decodeEncodedFloat(payload.readUInt32BE(0), 4);
 
-        if (type === T.STRING) {
-            const len = payload[0];
-            return payload.toString('utf8', 1, 1 + len);
-        }
-
-        // Inline Structures (Smart Binary)
+        // Inline Structures (Smart Binary) - These handle their own length internally
         if (type === constants.TYPE_SMART_OBJECT || type === constants.TYPE_SMART_ARRAY) {
              const SmartBinary = require('../smartBinary.js');
              if (type === constants.TYPE_SMART_OBJECT) {
@@ -131,6 +163,18 @@ module.exports = {
     async decodeValue(type, buffer, allocator, context, ctxKey, SmartPointer) {
         if (!buffer) return undefined;
         const T = constants.VAL_TYPE;
+        
+        // Container Rehydration from Heap/Blobs
+        if (type === T.MAP) {
+            const parsed = parser.parse(buffer);
+            return Array.isArray(parsed) ? new Map(parsed) : new Map();
+        }
+        if (type === T.SET) {
+            const parsed = parser.parse(buffer);
+            return Array.isArray(parsed) ? new Set(parsed) : new Set();
+        }
+        if (type === T.ARRAY) return parser.parse(buffer);
+        if (type === T.OBJECT) return parser.parse(buffer);
         
         // Core Scalars
         if (type === T.STRING) return buffer.toString('utf8');

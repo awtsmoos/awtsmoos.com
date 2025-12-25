@@ -7,7 +7,6 @@
         /**
          * B"H
          * Constructs the sacred environment for the VM.
-         * The 'exports' vessel is now pre-manifested and globally accessible.
          */
         build(options, memory) {
             const base = options.context || {};
@@ -211,7 +210,7 @@
         /**
          * B"H
          * The Module Loading Alchemist.
-         * Spawns a sandboxed thread to resolve and execute ES modules.
+         * Creates a dedicated vessel for each module's truth.
          */
         async _importModule(vm, url, options) {
             if (vm._moduleCache[url]) return vm._moduleCache[url];
@@ -234,7 +233,6 @@
             const codeObj = new Compiler().compile(ast);
             
             const exports = {};
-            // B"H - IMPORTANT: We use vm.context directly (the proxy) to ensure the module sees the real global world.
             const thread = vm.spawn(codeObj);
             thread.environment = vm.context;
             thread.currentScope = { 'this': vm.context, 'exports': exports };
@@ -256,42 +254,17 @@
 
         /**
          * B"H
-         * The Sequential Inhaler.
-         * Pulls external logic into the current context using the shared 'exports' vessel.
+         * The Script Inhaler.
+         * Leverages the Module Alchemist to populate the global exports vessel.
          */
         async _handleImportScripts(vm, urls, options) {
-             const Compiler = self.MerkavaCompiler.Compiler;
-             const Parser = self.MerkavahParser;
              const sharedExports = vm.context.exports;
 
              for (const url of urls) {
-                 if (vm._moduleCache[url]) continue; // Skip already loaded scripts
-
-                 let code;
-                 if (options.importResolver) {
-                     const res = await options.importResolver(url).catch(e => null);
-                     if (res) code = res.code || res;
-                 }
-                 if (!code) {
-                     const r = await fetch(url).catch(e => null);
-                     if (r && r.ok) code = await r.text();
-                 }
-                 if (code) {
-                     const ast = new Parser(code).parse();
-                     const thread = vm.spawn(new Compiler().compile(ast));
-                     // B"H - Ensure scripts inherit the global environment correctly
-                     thread.environment = vm.context;
-                     thread.currentScope = { 'this': vm.context, 'exports': sharedExports };
-                     
-                     if (vm.wake) vm.wake();
-                     await new Promise(resolve => {
-                         const check = () => {
-                             if (thread.status === 'COMPLETED' || thread.status === 'CRASHED') resolve();
-                             else setTimeout(check, 10);
-                         };
-                         check();
-                     });
-                     vm._moduleCache[url] = sharedExports;
+                 const moduleExports = await this._importModule(vm, url, options);
+                 // B"H - Synchronize module exports with the global vessel
+                 if (moduleExports && typeof moduleExports === 'object') {
+                     Object.assign(sharedExports, moduleExports);
                  }
              }
         }

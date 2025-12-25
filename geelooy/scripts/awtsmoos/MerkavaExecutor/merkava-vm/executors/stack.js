@@ -71,28 +71,28 @@
     // --- VARIABLES (GLOBAL) ---
     H[0x22] = (t) => { // LOAD_GLOBAL
         const name = t.constants[t.readU16()];
-        let val, found = false;
         
-        // 1. Resolve 'exports' vessel with extreme priority
+        // 1. Infallible 'exports' resolution
         if (name === 'exports') {
             if (t.currentScope && t.currentScope.exports) { t.push(t.currentScope.exports); return; }
             if (t.environment && t.environment.exports) { t.push(t.environment.exports); return; }
+            if (t.vm.context && t.vm.context.exports) { t.push(t.vm.context.exports); return; }
+            t.push({}); return; // Last resort
         }
 
         // 2. Resolve via 'with' stack
         if (t.withStack?.length) {
             for (let i = t.withStack.length - 1; i >= 0; i--) {
-                if (name in t.withStack[i]) { t.push(t.withStack[i][name]); found = true; break; }
+                if (name in t.withStack[i]) { t.push(t.withStack[i][name]); return; }
             }
         }
         
         // 3. Final fallback to environment and host
-        if (!found) {
-            if (t.environment && name in t.environment) val = t.environment[name];
-            else {
-                val = t.vm.memory.getGlobal(name);
-                if (val === undefined && t.vm.context && name in t.vm.context) val = t.vm.context[name];
-            }
+        if (t.environment && name in t.environment) {
+            t.push(t.environment[name]);
+        } else {
+            let val = t.vm.memory.getGlobal(name);
+            if (val === undefined && t.vm.context && name in t.vm.context) val = t.vm.context[name];
             t.push(val);
         }
     };
