@@ -23,7 +23,6 @@ class SequenceWriter {
         const valToSet = isPtr ? value : await this.builder.build(value);
         const path = this.handle.getPath();
         
-        // B"H: Optimization - Check system cache directly if possible
         const searchIndexed = await this.db.search.isIndexed(path);
         const vectorIndex = await this.db.vector.getIndex(path);
 
@@ -36,8 +35,16 @@ class SequenceWriter {
             try {
                 oldPtr = await seq.getPtr(index);
                 if (oldPtr) oldVal = await this.handle.reader.getItem(index);
-            } catch(e) {
-                if(this.db.debug) console.warn("B\"H SequenceWriter: Error retrieving old value for index", e);
+            } catch(e) {}
+        }
+
+        // B"H: If this is a bubbling update and the pointer is identical, 
+        // we skip the sequence modification but STILL bubble the spark.
+        if (isPtr && index < len) {
+            const currentPtr = await seq.getPtr(index);
+            if (currentPtr && currentPtr.compare(valToSet) === 0) {
+                 await this.common.checkAutoCompact(seq, constants.TYPE_SEQUENCE);
+                 return;
             }
         }
 
@@ -51,9 +58,7 @@ class SequenceWriter {
             try {
                 if (index < len) await this.db.search.updateIndex(path, valToSet, oldPtr, oldVal, value);
                 else await this.db.search.updateIndex(path, valToSet, null, null, value);
-            } catch(e) {
-                console.error(`B"H SequenceWriter: Search Index Update Failed for ${path}:`, e);
-            }
+            } catch(e) {}
         }
         
         if (vectorIndex) {
@@ -78,11 +83,7 @@ class SequenceWriter {
         await this.common.checkAutoCompact(seq, constants.TYPE_SEQUENCE);
 
         if (isIndexed) {
-            try {
-                await this.db.search.updateIndex(path, valToPush, null, null, value);
-            } catch(e) {
-                console.error(`B"H SequenceWriter: Push Index Update Failed for ${path}:`, e);
-            }
+            try { await this.db.search.updateIndex(path, valToPush, null, null, value); } catch(e) {}
         }
         if (vectorIndex) {
             const vec = this.common.extractVector(value);
@@ -113,18 +114,14 @@ class SequenceWriter {
         const vectorIndex = await this.db.vector.getIndex(path);
         
         const preparedItems = [];
-        const isPtr = options.isPtr || false; // Check if inputs are already pointers
+        const isPtr = options.isPtr || false; 
 
         for(const item of items) {
-            if (isPtr && Buffer.isBuffer(item)) {
-                preparedItems.push(item);
-            } else {
-                preparedItems.push(await this.builder.build(item));
-            }
+            if (isPtr && Buffer.isBuffer(item)) preparedItems.push(item);
+            else preparedItems.push(await this.builder.build(item));
         }
         
         const toRemove = []; 
-        
         if (deleteCount > 0) {
             for (let i = 0; i < deleteCount; i++) {
                 const idx = start + i;
@@ -137,18 +134,12 @@ class SequenceWriter {
             }
         }
 
-        let removeIdx = 0;
         for(const r of toRemove) {
-            if (isIndexed) {
-                try {
-                    await this.db.search.updateIndex(path, null, r.ptr, r.val, null);
-                } catch(e) {}
-            }
+            if (isIndexed) try { await this.db.search.updateIndex(path, null, r.ptr, r.val, null); } catch(e) {}
             if (!options.skipFree) {
                 await this.common.checkGraphCleanup(r.ptr);
-                if (vectorIndex) await this.db.vector.delete(path, start + removeIdx);
+                if (vectorIndex) await this.db.vector.delete(path, start);
             }
-            removeIdx++;
         }
 
         await seq.splice(start, deleteCount, ...preparedItems);
@@ -156,38 +147,14 @@ class SequenceWriter {
         
         if (isIndexed) {
             for(let i = 0; i < items.length; i++) {
-                const newVal = items[i];
-                const newPtr = preparedItems[i];
-                try {
-                    // If we passed pointers directly, 'newVal' is a buffer. 
-                    // Search Indexer needs value for tokenizing.
-                    // But if it's a pointer, we can't tokenize it easily without resolving.
-                    // However, internal ops (like buffer flush) pass isPtr=true and the 'value' is a Buffer pointer.
-                    // In that case, we should probably skip indexing because we don't have the text content here.
-                    // EXCEPT if the caller provided it.
-                    
-                    // B"H: If isPtr is true, newVal is the pointer. 
-                    // We can't index text from a pointer buffer unless we resolve it.
-                    // But for system operations (like index list management), we don't index the index itself.
-                    if (!isPtr) {
-                        await this.db.search.updateIndex(path, newPtr, null, null, newVal);
-                    }
-                } catch(e) {
-                    console.error("B\"H SequenceWriter: Splice Index Update Failed:", e);
-                }
+                if (!isPtr) try { await this.db.search.updateIndex(path, preparedItems[i], null, null, items[i]); } catch(e) {}
             }
         }
 
         if (vectorIndex && !isPtr) {
             for(let i = 0; i < items.length; i++) {
-                const val = items[i];
-                const vec = this.common.extractVector(val);
-                if (vec) {
-                    const ptr = preparedItems[i]; 
-                    try {
-                        await this.db.vector.insert(path, start + i, vec, ptr);
-                    } catch(e) {}
-                }
+                const vec = this.common.extractVector(items[i]);
+                if (vec) try { await this.db.vector.insert(path, start + i, vec, preparedItems[i]); } catch(e) {}
             }
         }
         
@@ -210,9 +177,7 @@ class SequenceWriter {
             try {
                 const oldVal = await this.handle.reader.getItem(index);
                 await this.db.search.updateIndex(path, null, oldPtr, oldVal, null);
-            } catch(e) {
-                 console.error("B\"H SequenceWriter: Delete Index Update Failed:", e);
-            }
+            } catch(e) {}
         }
         
         if (oldPtr) {
@@ -227,8 +192,6 @@ class SequenceWriter {
 
     async createStructureInList(indexKey, type) {
         const index = parseInt(indexKey);
-        const structPtr = await this.common.resolveStructPtr();
-        
         let newPtr;
         if (type === 'map') {
             const map = new (require('../../../structure/map/index.js'))(this.db.allocator);
@@ -238,6 +201,7 @@ class SequenceWriter {
             newPtr = await dict.create();
         }
 
+        const structPtr = await this.common.resolveStructPtr();
         const seq = await this.common.getEngine(structPtr, constants.TYPE_SEQUENCE);
         const len = await seq.length();
         if (index === len) await seq.push(newPtr);

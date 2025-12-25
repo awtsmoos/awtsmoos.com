@@ -28,16 +28,26 @@ export const MainMenu = {
             if (activeTab.item.type === "github") {
                 isGitAware = true;
             } else if (['local', 'indexeddb', 'opfs'].includes(activeTab.item.type)) {
-                const findGitRoot = (item) => {
-                    if (!item || !item.path) return null;
-                    const uniquePath = getItemUniquePath(item);
-                    const entry = State.domItemMap.get(uniquePath);
-                    if (entry?.item?.isGitClone) return entry.item;
-                    const parentPath = item.path.substring(0, item.path.lastIndexOf("/")) || "/";
-                    if (item.path === parentPath) return null;
-                    return findGitRoot({ ...item, path: parentPath, kind: "directory" });
-                };
-                if (findGitRoot(activeTab.item)) isGitAware = true;
+                // B"H - Reliable Git Check: Check workspace AND up the tree for nested repos
+                if (workspace && workspace.isGitClone) {
+                    isGitAware = true;
+                } else {
+                    // Check ancestry for sub-repo
+                    let currPath = activeTab.item.path;
+                    const wsId = activeTab.item.workspaceId;
+                    let limit = 20; 
+                    while (limit-- > 0) {
+                        const uniquePath = `${wsId}::${currPath}`;
+                        const entry = State.domItemMap.get(uniquePath);
+                        if (entry && entry.item && entry.item.isGitClone) {
+                            isGitAware = true;
+                            break;
+                        }
+                        if (currPath === '/' || currPath === '') break;
+                        const lastSlash = currPath.lastIndexOf('/');
+                        currPath = lastSlash <= 0 ? '/' : currPath.substring(0, lastSlash);
+                    }
+                }
             }
         }
 

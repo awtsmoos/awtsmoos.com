@@ -1,4 +1,5 @@
 
+
 /**
  * B"H
  * Style for gima found at 
@@ -211,6 +212,10 @@ export default /*css*/`
     top: 50%;
     z-index: 5000;
     transform: translate( -50%, -50% );
+    background: rgba(0,0,0,0.9);
+    padding: 20px;
+    user-select: text; /* B"H: Allow copying error details */
+    -webkit-user-select: text;
 }
 
 .menuTop {

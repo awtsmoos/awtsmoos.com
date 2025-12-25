@@ -1,149 +1,132 @@
+
 // B"H
-const Navigator = require('./navigator.js');
-const Writer = require('./writer.js');
-const Reader = require('./reader.js');
-const constants = require('../../constants.js');
+/**
+ * @file index.js
+ * @description
+ *  Stateless resolution logic for database handles. 
+ *  Operates on the soul (state) provided by the HandleRegistry.
+ */
 const SmartPointer = require('../../utils/smartPointer.js');
 const HandleRegistry = require('../../core/handleRegistry.js');
 
-const ARRAY_MUTATORS = ['reverse', 'sort', 'fill', 'copyWithin'];
-const ARRAY_ACCESSORS = ['join', 'toLocaleString', 'toString', 'includes', 'indexOf', 'lastIndexOf', 'every', 'some', 'forEach', 'map', 'filter', 'reduce', 'at', 'concat', 'slice'];
-
-class LiveHandleV2 {
-    constructor(db, ptrBuffer, type, context = null) {
-        const target = function() {}; 
-        
-        target.db = db;
-        target.ptr = ptrBuffer;
-        target.type = type;
-        target.context = context; 
-        target.lastMutationCount = -1;
-        target.lastParentPtrHash = null;
-
-        target.ensureResolved = this.ensureResolved.bind(target);
-        target.getPath = this.getPath.bind(target);
-        target._updatePointer = this._updatePointer.bind(target);
-        
-        target.nav = new Navigator(target);
-        target.writer = new Writer(target);
-        target.reader = new Reader(target);
-
-        const proxy = new Proxy(target, {
-            get: (tgt, prop, receiver) => {
-                // B"H: Standard Thenable interface for 'await' support
-                if (prop === 'then') return (res, rej) => tgt.reader.resolveSelf().then(res, rej);
-                if (prop === 'catch') return (cb) => tgt.reader.resolveSelf().catch(cb);
-                if (prop === 'finally') return (cb) => tgt.reader.resolveSelf().finally(cb);
-                
-                // B"H: Data-Mirror Logic
-                if (tgt.type === constants.TYPE_SEQUENCE || tgt.type === constants.TYPE_SMART_ARRAY) {
-                    if (prop === 'push') return tgt.writer.push.bind(tgt.writer);
-                    if (prop === 'splice') return tgt.writer.splice.bind(tgt.writer);
-                    if (prop === 'length') return tgt.reader.length();
-                    if (ARRAY_MUTATORS.includes(prop) || ARRAY_ACCESSORS.includes(prop)) {
-                         return async (...args) => {
-                             const arr = await tgt.reader.resolveSelf();
-                             const res = arr[prop](...args);
-                             if (ARRAY_MUTATORS.includes(prop) && tgt.context && tgt.context.parent) {
-                                 const parentH = HandleRegistry.getSoul(tgt.context.parent);
-                                 await parentH.writer.set(tgt.context.key, arr);
-                             }
-                             return res;
-                         };
-                    }
-                }
-
-                if (prop === Symbol.asyncIterator) return tgt.reader.iterator.bind(tgt.reader);
-                
-                if (typeof prop === 'string' && prop !== 'prototype' && prop !== 'constructor') {
-                    return tgt.nav.navigate(prop);
-                }
-            },
-            
-            set: (tgt, prop, value) => {
-                tgt.writer.set(prop, value);
-                return true;
-            },
-            
-            deleteProperty: (tgt, prop) => {
-                tgt.writer.delete(prop);
-                return true;
-            },
-
-            apply: async (tgt, thisArg, args) => {
-                await tgt.ensureResolved();
-                if (tgt.ptr) {
-                    const source = await SmartPointer.resolve(tgt.ptr, tgt.db.allocator);
-                    if (typeof source === 'string') {
-                        const fn = new Function('return ' + source)();
-                        if (typeof fn === 'function') return fn.apply(thisArg, args);
-                    }
-                }
-                throw new Error(`B"H: Cannot execute undefined function at ${tgt.getPath()}`);
-            }
-        });
-
-        // Register the Body (Proxy) with its Soul (Target)
-        HandleRegistry.register(proxy, target);
-        return proxy;
+class LiveHandleLogic {
+    constructor(state) {
+        this.state = state;
     }
 
-    async ensureResolved(force = false) {
-        const gc = this.db.mutationCount || 0;
-        if (!force && this.lastMutationCount === gc && this.ptr) return;
+    log(msg) {
+        if (this.state.db.debug) {
+            console.log(`\x1b[35m[Soul:${this.getPath()}]\x1b[0m ${msg}`);
+        }
+    }
 
-        return this.db.read(async () => {
-            let parentH = null;
-            if (this.context && this.context.parent) {
-                parentH = HandleRegistry.getSoul(this.context.parent);
-                await parentH.ensureResolved(force);
+    /**
+     * @description Syncs the handle with the database.
+     */
+    async ensureResolved(force = false) {
+        const db = this.state.db;
+        const gc = db.mutationCount || 0;
+        
+        // B"H: If we are not forced and mutation counts match, we are technically current.
+        if (!force && this.state.ptr && this.state.lastMutationCount === gc) return;
+
+        return db.read(async () => {
+            let parentSoul = null;
+            if (this.state.context && this.state.context.parent) {
+                parentSoul = HandleRegistry.getSoul(this.state.context.parent);
+                if (parentSoul) {
+                     // B"H: If we are being forced (bubbling), force the parent too
+                     await parentSoul.ensureResolved(force);
+                }
             }
 
-            if (this === this.db.root || (HandleRegistry.getSoul(this.db.root) === this)) {
-                if (this.db.rootPtrRaw) {
-                    this.ptr = this.db.rootPtrRaw;
-                    const decoded = SmartPointer.decode(this.ptr);
-                    if (decoded) this.type = decoded.type;
+            const isRoot = (this.state.context === null || (db.root && HandleRegistry.getSoul(db.root) === this.state));
+            
+            if (isRoot) {
+                if (db.rootPtrRaw) {
+                    this.state.ptr = db.rootPtrRaw;
+                    const decoded = SmartPointer.decode(this.state.ptr);
+                    if (decoded) this.state.type = decoded.type;
                 }
-                this.lastMutationCount = this.db.mutationCount;
+                this.state.lastMutationCount = db.mutationCount;
                 return;
             }
 
-            if (parentH) {
-                const result = await parentH.nav.resolveKey(this.context.key);
+            if (parentSoul) {
+                const result = await parentSoul.nav.resolveKey(this.state.context.key);
                 if (result) {
-                    this.ptr = result.ptr;
-                    this.type = result.type;
+                    this.state.ptr = result.ptr;
+                    this.state.type = result.type;
+                    
+                    // Invalidate engine cache if the pointer has shifted
+                    if (this.state.writer && this.state.writer.common) {
+                        this.state.writer.common.invalidateEngine();
+                    }
+                } else {
+                    this.state.ptr = null;
+                    this.state.type = null;
                 }
             }
-            this.lastMutationCount = this.db.mutationCount;
+            
+            this.state.lastMutationCount = db.mutationCount;
         });
     }
 
     getPath() {
         const parts = [];
-        let curr = this.context;
-        while (curr) {
-            parts.unshift(String(curr.key));
-            const pSoul = HandleRegistry.getSoul(curr.parent);
-            curr = pSoul ? pSoul.context : null;
+        let curr = this.state;
+        while (curr && curr.context) {
+            parts.unshift(String(curr.context.key));
+            const pSoul = HandleRegistry.getSoul(curr.context.parent);
+            curr = pSoul || null;
         }
         return parts.length > 0 ? parts.join('.') : 'root';
     }
 
+    /**
+     * @description Authoritatively updates the pointer and notifies the parent hierarchy.
+     */
     async _updatePointer(newPtrBuffer) {
-        this.ptr = newPtrBuffer;
-        const decoded = SmartPointer.decode(newPtrBuffer);
-        if(decoded) this.type = decoded.type;
+        if (!newPtrBuffer) return;
         
-        if (this.context && this.context.parent) {
-            const pSoul = HandleRegistry.getSoul(this.context.parent);
-            await pSoul.writer._setRaw(this.context.key, newPtrBuffer, { isPtr: true, skipFree: true });
-        } else if (this.db.root === this || (HandleRegistry.getSoul(this.db.root) === this)) {
-            this.db.rootPtrRaw = newPtrBuffer;
-            // Superblock update logic here...
+        const oldP = this.state.ptr ? this.state.ptr.toString('hex') : 'null';
+        const newP = newPtrBuffer.toString('hex');
+        
+        // B"H: Always update the state pointer
+        this.state.ptr = newPtrBuffer;
+        const decoded = SmartPointer.decode(newPtrBuffer);
+        if(decoded) this.state.type = decoded.type;
+        
+        // Invalidate engine cache because the internal data has been modified
+        if (this.state.writer && this.state.writer.common) {
+            this.state.writer.common.invalidateEngine();
         }
-        this.db.mutationCount++;
+
+        // B"H: Sync mutation count so we don't immediately re-resolve our own update
+        // during this specific transaction.
+        this.state.lastMutationCount = this.state.db.mutationCount;
+        
+        const db = this.state.db;
+        const isRoot = (this.state.context === null || (db.root && HandleRegistry.getSoul(db.root) === this.state));
+
+        if (this.state.context && this.state.context.parent) {
+            const pSoul = HandleRegistry.getSoul(this.state.context.parent);
+            if (pSoul) {
+                this.log(`Bubbling update to parent: ${pSoul.getPath()}`);
+                // B"H: isPtr:true ensures the parent treats this as a structural update notification
+                await pSoul.writer._setRaw(this.state.context.key, newPtrBuffer, { isPtr: true, skipFree: true });
+            }
+        } else if (isRoot) {
+            this.state.db.rootPtrRaw = newPtrBuffer;
+        }
     }
 }
-module.exports = LiveHandleV2;
+
+LiveHandleLogic.resolvePointer = async (ptrBuf, db) => {
+    const SmartPointer = require('../../utils/smartPointer.js');
+    const decoded = SmartPointer.decode(ptrBuf);
+    if (!decoded) return null;
+    return HandleRegistry.createHandle(db, ptrBuf, decoded.type, null);
+};
+
+module.exports = LiveHandleLogic;

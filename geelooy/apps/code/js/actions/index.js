@@ -1,3 +1,4 @@
+
 // B"H
 // FILE: js/actions/index.js
 
@@ -18,20 +19,18 @@ import { FileOperations } from '../file-operations.js';
 import { SelectionManager } from '../selection-manager.js';
 import { Workspaces, getItemUniquePath } from '../workspaces.js';
 import { ASTEngine } from '../tools/ast-engine.js';
-import { SearchSystem } from '../search-system.js'; // B"H
+import { SearchSystem } from '../search-system.js'; 
+import { FileSystemProvider } from '../fs-provider.js'; // B"H
+import { GitMetaProvider } from '../git/meta.js'; // B"H
+import { IndexedDBProvider } from '../fs/indexeddb.js'; // B"H
 
-/**
- * --- ACTION HUB ---
- * The central station for all commands. It receives a string ID and
- * routes it to the appropriate sub-module. B"H.
- */
 export const Actions = {
     async handle(action, item = State.contextTarget) {
         const activeTab = State.tabs.find(t => t.id === State.activeTabId);
 
         try {
             switch (action) {
-                // --- VIEW & UI ---
+                // ... (Existing cases unchanged) ...
                 case "toggle-line-comment": ViewActions.toggleLineComment(); break;
                 case "insert-line-before": ViewActions.insertLineBefore(); break;
                 case "insert-line-after": ViewActions.insertLineAfter(); break;
@@ -53,8 +52,6 @@ export const Actions = {
                 case "close-other-tabs": ViewActions.closeOtherTabs(); break;
                 case "close-all-tabs": ViewActions.closeAllTabs(); break;
                 case "reopen-closed-tab": ViewActions.reopenClosedTab(); break;
-
-                // --- EFFECTS ---
                 case "toggle-matrix": Effects.toggleMatrix(); break;
                 case "toggle-power": Effects.togglePowerMode(); break;
                 case "toggle-sonic": Effects.toggleSonic(); break;
@@ -88,8 +85,6 @@ export const Actions = {
                         }
                     }, 100);
                     break;
-
-                // --- TEXT OPS ---
                 case "insert-cyber-ipsum": TextActions.insertCyberIpsum(); break;
                 case "zalgo-text": TextActions.zalgoText(); break;
                 case "text-binary": TextActions.textBinary(); break;
@@ -104,8 +99,6 @@ export const Actions = {
                 case "sort-lines": TextActions.sortLines(); break;
                 case "insert-date": TextActions.insertDate(); break;
                 case "insert-uuid": TextActions.insertUUID(); break;
-
-                // --- FILE OPS ---
                 case "new-temp-file": FileActions.newTempFile(); break;
                 case "open-file": FileActions.openLocalFile(); break;
                 case "save": FileActions.save(); break;
@@ -114,13 +107,11 @@ export const Actions = {
                 case "new-folder": FileActions.newItem(item, "new-folder"); break;
                 case "rename": FileActions.rename(item); break;
                 case "open-file-commander": FileActions.openFileCommander(item); break;
-                case "search-in-folder": SearchSystem.show(item); break; // B"H
+                case "search-in-folder": SearchSystem.show(item); break; 
                 case "open-zip-entry": FileActions.openZipEntry(item); break;
                 case "copy-relative-path": FileActions.copyRelativePath(item); break;
                 case "calculate-hash": FileActions.calculateHash(item); break;
                 case "delete": FileActions.deleteItem(item); break;
-
-                // --- AST OPS ---
                 case "fold-functions": ASTEngine.foldBlocks(); break;
                 case "show-ast":
                     if (!activeTab) return;
@@ -159,7 +150,6 @@ export const Actions = {
                         });
                     }
                     break;
-                
                 case "beautify":
                     if(Editor.currentHighlighter) {
                         const cont = Editor.getContent();
@@ -186,11 +176,48 @@ export const Actions = {
                         Tabs.activate(activeTab.id, true);
                     }
                     break;
-
-                // --- GIT ---
                 case "git-init": if (item) GitManager.initializeRepository(item); break;
                 case "commit-changes": App.commitAllChanges(); break;
                 case "switch-branch": if (item) GitManager.switchBranch(item); break;
+                
+                // B"H - Correctly handle Git Actions from context menu
+                case "git-actions":
+                    if (item) {
+                        // Find the root repo for this item
+                        let rootItem = item;
+                        if (item.type === 'github') {
+                            const ws = State.workspaces.find(w => w.id === (item.workspaceId || item.id));
+                            rootItem = ws || item;
+                        } else {
+                            // Local/IndexedDB logic: traverse up
+                            let currPath = item.path;
+                            const wsId = item.workspaceId || item.id;
+                            let found = false;
+                            
+                            // Check item and parents
+                            while (true) {
+                                const uPath = `${wsId}::${currPath}`;
+                                const entry = State.domItemMap.get(uPath);
+                                if (entry && entry.item && entry.item.isGitClone) {
+                                    rootItem = entry.item;
+                                    found = true;
+                                    break;
+                                }
+                                if (currPath === '/' || currPath === '') break;
+                                const lastSlash = currPath.lastIndexOf('/');
+                                currPath = lastSlash <= 0 ? '/' : currPath.substring(0, lastSlash);
+                            }
+                            
+                            // Fallback to workspace
+                            if (!found) {
+                                const ws = State.workspaces.find(w => w.id === wsId);
+                                if (ws && ws.isGitClone) rootItem = { ...ws, path: '/', kind: 'directory' };
+                            }
+                        }
+                        GitManager.showGitUI(rootItem);
+                    }
+                    break;
+
                 case "delete-workspace":
                     if (item && item.path === "/") {
                         const confirmed = await UI.showDialog({
@@ -204,16 +231,92 @@ export const Actions = {
                         }
                     }
                     break;
+                
                 case "refresh":
                     if (item && item.kind === 'directory') {
                         const taskId = `refresh-${Date.now()}`;
-                        UI.startTask(taskId, "Refreshing...");
-                        await Workspaces.refreshNode(item);
-                        UI.endTask(taskId, "success", "Refreshed.");
+                        UI.startTask(taskId, "Annihilating & Refetching...");
+                        
+                        try {
+                            const workspace = State.workspaces.find(ws => ws.id === (item.workspaceId || item.id));
+                            
+                            // B"H - ABSOLUTE REALITY RESET
+                            if (workspace && (workspace.type === 'local' || workspace.type === 'opfs')) {
+                                
+                                // 1. Refresh the Master Key (Root Handle) from IDB
+                                const freshHandle = await IndexedDBProvider.getHandle(workspace.id);
+                                if (freshHandle) {
+                                    workspace.handle = freshHandle;
+                                    
+                                    // B"H - Verify Permission explicitly to avoid silent fail in git check
+                                    if (workspace.type === 'local' && freshHandle.queryPermission) {
+                                        const perm = await freshHandle.queryPermission({ mode: 'read' });
+                                        if (perm !== 'granted') {
+                                            await freshHandle.requestPermission({ mode: 'read' });
+                                        }
+                                    }
+                                }
+                                
+                                // 2. Wipe the Cache Map completely
+                                if (workspace.type === 'local' && FileSystemProvider.Local.clearCache) {
+                                    await FileSystemProvider.Local.clearCache(item, true); // true = BRUTAL
+                                } else if (workspace.type === 'opfs' && FileSystemProvider.OPFS.clearCache) {
+                                    await FileSystemProvider.OPFS.clearCache(item, true);
+                                }
+                                
+                                // B"H - 3. FORCE GIT STATUS CHECK ON TARGET AND ROOT
+                                // We check the specific folder being refreshed to see if it IS a git repo.
+                                const targetGitInfo = await GitMetaProvider.getGitInfoForFolder(item);
+                                if (targetGitInfo) {
+                                    item.isGitClone = true;
+                                    console.log(`[Refresh] Found git repo in ${item.path}`);
+                                    
+                                    // Update DOM for this item to show Git icon
+                                    const uniquePath = getItemUniquePath(item);
+                                    const domEntry = State.domItemMap.get(uniquePath);
+                                    if (domEntry && domEntry.el) {
+                                        const icon = domEntry.el.querySelector('.svg-icon use');
+                                        if (icon) icon.setAttribute('href', '#icon-git-folder');
+                                        // Ensure update in state map too
+                                        domEntry.item.isGitClone = true;
+                                    }
+                                }
+
+                                // Also check Workspace Root
+                                const rootItem = { 
+                                    ...workspace, 
+                                    workspaceId: workspace.id, 
+                                    path: '/', 
+                                    kind: 'directory',
+                                    handle: workspace.handle 
+                                };
+                                const rootGitInfo = await GitMetaProvider.getGitInfoForFolder(rootItem);
+                                const oldRootStatus = workspace.isGitClone;
+                                workspace.isGitClone = !!rootGitInfo;
+                                
+                                // If root status changed, re-render whole workspace
+                                if (oldRootStatus !== workspace.isGitClone) {
+                                    Workspaces.render();
+                                    UI.endTask(taskId, "success", "Git Status Synced.");
+                                    return;
+                                }
+                            }
+                            
+                            // 3. Clean the item to ensure no stale handle is passed to list()
+                            const cleanItem = { ...item };
+                            if(cleanItem.handle) delete cleanItem.handle;
+                            if(cleanItem._treeCache) delete cleanItem._treeCache;
+                            
+                            // 4. Force UI Refresh
+                            await Workspaces.refreshNode(cleanItem);
+                            UI.endTask(taskId, "success", "Reality Synchronized.");
+                        } catch(e) {
+                            UI.endTask(taskId, "error", "Refresh Failed: " + e.message);
+                            console.error(e);
+                        }
                     }
                     break;
 
-                // --- CLIPBOARD ---
                 case "select-all": if (activeTab) DOM.editor.select(); break;
                 case "copy":
                     const selectedText = DOM.editor.value.substring(DOM.editor.selectionStart, DOM.editor.selectionEnd);

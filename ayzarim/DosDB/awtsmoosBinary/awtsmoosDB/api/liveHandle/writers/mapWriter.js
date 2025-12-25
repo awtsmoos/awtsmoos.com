@@ -1,11 +1,15 @@
 
-
-
 // B"H
 const constants = require('../../../constants.js');
 const keyEncoding = require('../../../utils/keyEncoding.js');
 const SmartPointer = require('../../../utils/smartPointer.js');
 
+/**
+ * @class MapWriter
+ * @description
+ *  The Scribe of the B-Tree and Dictionary vessels.
+ *  Handles the manifestation of key-value pairs and structure growth.
+ */
 class MapWriter {
     constructor(common, builder) {
         this.common = common;
@@ -14,6 +18,9 @@ class MapWriter {
         this.handle = common.handle;
     }
 
+    /**
+     * @description Sets a key-value pair in a Map or Dictionary.
+     */
     async set(key, value, options) {
         const isPtr = (options === true) || (options && options.isPtr);
         const skipFree = (options && typeof options === 'object' && options.skipFree) || false;
@@ -23,7 +30,6 @@ class MapWriter {
         
         const path = this.handle.getPath();
         
-        // B"H: Use common helper to skip system paths
         const searchIndexed = await this.common.getSearchIndex(path);
         const vectorIndex = await this.common.getVectorIndex(path);
 
@@ -39,9 +45,7 @@ class MapWriter {
                 try {
                     oldPtr = await map.getPtr(encodedKey);
                     if (oldPtr) {
-                        // Ideally hydrate fully if searching needs content diff
-                        const temp = await SmartPointer.resolve(oldPtr, this.db.allocator);
-                        oldVal = temp; 
+                        oldVal = await SmartPointer.resolve(oldPtr, this.db.allocator);
                     }
                 } catch(e) {}
             }
@@ -62,12 +66,17 @@ class MapWriter {
             return;
         }
 
+        // B"H: Dictionary Path
         const dict = await this.common.getEngine(structPtr, constants.TYPE_DICTIONARY);
         await dict.set(encodedKey, valToSet, { isPtr: true, skipFree });
-        // B"H: FIX - Ensure Dictionary pointer updates propagate (Critical for Root resizing)
+        
+        // B"H: CRITICAL - Always trigger bubbling to propagate changes up the fractal tree
         await this.common.checkAutoCompact(dict, constants.TYPE_DICTIONARY);
     }
 
+    /**
+     * @description Removes a key from the vessel.
+     */
     async delete(key) {
         const encodedKey = keyEncoding.encode(key);
         const structPtr = await this.common.resolveStructPtr();
@@ -79,7 +88,6 @@ class MapWriter {
         if (this.handle.type === constants.TYPE_DICTIONARY) {
             const dict = await this.common.getEngine(structPtr, constants.TYPE_DICTIONARY);
             const res = await dict.delete(encodedKey);
-            // B"H: FIX - Update pointer if dictionary moved/shrank
             await this.common.checkAutoCompact(dict, constants.TYPE_DICTIONARY);
             return res;
         }
@@ -97,45 +105,39 @@ class MapWriter {
                 }
                 
                 await this.common.checkGraphCleanup(res.deletedPtr);
-                
                 if (vectorIndex) await this.db.vector.delete(path, key);
-                
                 await this.db.allocator.free(res.deletedPtr);
             }
             
             await this.common.checkAutoCompact(map, constants.TYPE_MAP);
             return res.success;
         }
+        return false;
     }
 
+    /**
+     * @description Creates a nested structure (Map or Dictionary) at the specified key.
+     */
     async createStructure(key, type) {
         const structPtr = await this.common.resolveStructPtr();
         if (!structPtr) {
-             throw new Error(`B"H: Cannot create '${key}' because parent '${this.handle.getPath()}' is not resolved (ptr is null).`);
+             throw new Error(`B"H Fatal: Cannot create structure at '${key}' - unresolved parent.`);
         }
 
         let newPtr;
-        
+        let finalType;
         if (type === 'map') {
             const map = new (require('../../../structure/map/index.js'))(this.db.allocator);
             newPtr = await map.create();
+            finalType = constants.TYPE_MAP;
         } else {
             const dict = new (require('../../../structure/dictionary/index.js'))(this.db.allocator);
             newPtr = await dict.create();
+            finalType = constants.TYPE_DICTIONARY;
         }
 
-        const encodedKey = keyEncoding.encode(key);
-        
-        if (this.handle.type === constants.TYPE_MAP) {
-            const mapEngine = await this.common.getEngine(structPtr, constants.TYPE_MAP);
-            await mapEngine.set(encodedKey, newPtr, { isPtr: true });
-            await this.common.checkAutoCompact(mapEngine, constants.TYPE_MAP);
-        } else {
-            const dictEngine = await this.common.getEngine(structPtr, constants.TYPE_DICTIONARY);
-            await dictEngine.set(encodedKey, newPtr, { isPtr: true });
-            // B"H: FIX - Update pointer for dictionary
-            await this.common.checkAutoCompact(dictEngine, constants.TYPE_DICTIONARY);
-        }
+        await this.set(key, newPtr, { isPtr: true });
+        return this.handle[key];
     }
 }
 
