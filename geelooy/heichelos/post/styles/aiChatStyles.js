@@ -39,7 +39,6 @@ export function injectAIChatCSS() {
             height: 100%;
             font-family: 'Quicksand', sans-serif;
             background: #ffffff;
-            /* Cyber-Spiritual Background */
             background: radial-gradient(circle at top left, #f8f9ff 0%, #ffffff 50%, #fdfbfb 100%);
             position: relative;
             overflow: hidden;
@@ -118,16 +117,6 @@ export function injectAIChatCSS() {
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(167, 119, 227, 0.5);
         }
-        
-        .ai-save-btn::after {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(rgba(255,255,255,0.2), rgba(255,255,255,0));
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-        .ai-save-btn:hover::after { opacity: 1; }
 
         /* --- Messages Area --- */
         .ai-messages {
@@ -139,6 +128,8 @@ export function injectAIChatCSS() {
             gap: 25px;
             z-index: 1;
             scroll-behavior: smooth;
+            user-select: text !important;
+            -webkit-user-select: text !important;
         }
 
         .ai-message {
@@ -152,13 +143,10 @@ export function injectAIChatCSS() {
             animation: messageSlideIn 0.5s cubic-bezier(0.16, 1, 0.3, 1);
             box-shadow: 0 5px 20px rgba(0,0,0,0.05);
             transition: transform 0.2s;
+            user-select: text !important;
+            -webkit-user-select: text !important;
         }
         
-        .ai-message:hover {
-            transform: translateY(-1px);
-        }
-
-        /* User Message Style */
         .ai-message.user {
             align-self: flex-end;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -167,7 +155,6 @@ export function injectAIChatCSS() {
             box-shadow: 0 8px 25px rgba(118, 75, 162, 0.35);
         }
 
-        /* AI Message Style */
         .ai-message.ai, .ai-message.model {
             align-self: flex-start;
             background: rgba(255, 255, 255, 0.95);
@@ -177,28 +164,37 @@ export function injectAIChatCSS() {
             border: 1px solid rgba(255,255,255,0.8);
             box-shadow: 0 5px 25px rgba(0,0,0,0.04);
         }
-        
-        /* Markdown in AI Messages */
-        .ai-message.ai strong { color: #553c9a; }
-        .ai-message.ai em { color: #805ad5; }
-        
-        .ai-message.ai code { 
-            background: #2d3748; 
-            color: #81e6d9; 
-            padding: 3px 6px; 
-            border-radius: 6px; 
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.9em;
+
+        /* --- Embedded View Adjustment (Inline/Thread) --- */
+        .ai-chat-embedded {
+            border: 1px solid rgba(167, 119, 227, 0.2);
+            border-radius: 16px;
+            overflow: hidden;
+            background: #ffffff;
+            margin: 10px 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
         }
         
-        .ai-message.ai pre { 
-            background: #1a202c; 
-            color: #e2e8f0; 
-            padding: 15px; 
-            border-radius: 12px; 
-            overflow-x: auto; 
-            margin: 15px 0;
-            border: 1px solid #4a5568;
+        .ai-chat-embedded .ai-messages {
+            padding: 12px;
+            gap: 12px;
+            max-height: 400px; /* Prevent huge inline chats */
+        }
+        
+        .ai-chat-embedded .ai-message {
+            font-size: 14px;
+            padding: 12px 16px;
+            max-width: 92%;
+            border-radius: 16px;
+        }
+        
+        .ai-chat-embedded .ai-message.user {
+            border-bottom-right-radius: 4px;
+        }
+        
+        .ai-chat-embedded .ai-message.ai, .ai-chat-embedded .ai-message.model {
+            border-bottom-left-radius: 4px;
+            background: #f9f9f9;
         }
 
         /* --- Input Area --- */
@@ -240,8 +236,6 @@ export function injectAIChatCSS() {
             height: 50px;
             border-radius: 50%;
             background: linear-gradient(135deg, #6e8efb, #a777e3);
-            background-size: 200% 200%;
-            animation: bgGradient 5s ease infinite;
             color: white;
             border: none;
             cursor: pointer;
@@ -255,32 +249,6 @@ export function injectAIChatCSS() {
 
         .ai-send-btn:hover {
             transform: scale(1.15) rotate(-5deg);
-        }
-        
-        .ai-send-btn:active {
-            transform: scale(0.95);
-        }
-
-        /* --- Embedded View Adjustment --- */
-        .ai-chat-embedded {
-            border: 2px solid rgba(167, 119, 227, 0.1);
-            border-radius: 16px;
-            overflow: hidden;
-            background: #fff;
-        }
-        
-        .ai-chat-embedded .ai-messages {
-            padding: 15px;
-        }
-        
-        .ai-chat-embedded .ai-message {
-            font-size: 14px;
-            padding: 12px 16px;
-        }
-
-        /* Typing Indicator */
-        .typing-indicator span {
-            background: linear-gradient(135deg, #6e8efb, #a777e3);
         }
     `;
     document.head.appendChild(style);

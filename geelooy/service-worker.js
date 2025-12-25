@@ -1,3 +1,4 @@
+//B"H
 /**
  * B"H
  *
@@ -11,11 +12,13 @@
  * 5. If the metadata response is invalid, fails, or is not in the expected format for ANY reason,
  *    the entire strategy is aborted, and a fresh, NORMAL network request for the original file is made.
  * 6. Under NO circumstances will a response with the 'Awtsmoos-File-Status' header be returned to the client.
+ *
+ * B"H - REVISION: Excluded /api/ calls from caching logic to ensure real-time database results.
  */
 
 // Incrementing the version is crucial to force the browser to update the worker.
-const CACHE_NAME = 'awtsmoos-cache-v19';
-const DB_NAME = 'awtsmoos-metadata-v19';
+const CACHE_NAME = 'awtsmoos-cache-v20';
+const DB_NAME = 'awtsmoos-metadata-v20';
 const STATUS_HEADER = 'Awtsmoos-File-Status';
 
 // --- IndexedDB Helper (Robust Version) ---
@@ -209,14 +212,16 @@ self.addEventListener('fetch', (event) => {
     const { request } = event;
 
     // --- PRIMARY GUARDS ---
-    if (request.method !== 'GET' || !request.url.startsWith(self.location.origin)) {
-        // Ignore non-GET requests and requests to other origins.
+    if (
+        request.method !== 'GET' || 
+        !request.url.startsWith(self.location.origin) ||
+        request.url.includes('/api/') // B"H - Never cache dynamic API wisdom
+    ) {
+        // Ignore non-GET requests, other origins, or dynamic API calls.
         return;
     }
     if (request.headers.has(STATUS_HEADER)) {
-        // This is a sanity check. A request from the browser should never have this header.
-        // If it does, do not handle it with our logic; just pass it to the network.
-        console.warn('[SW] Request from client unexpectedly had status header. Passing through to network.');
+        // Sanity check: do not handle status checks with status checks
         return;
     }
 
@@ -253,9 +258,6 @@ async function handleFetch(request) {
 
         // --- STEP 3.25: CHECK FOR EXPLICIT REDIRECT INSTRUCTION ---
         if (serverMeta && serverMeta.redirect) {
-            // The server is telling us this path should be redirected.
-            // We construct a manual 301 response.
-            // Explicitly set Content-Length to 0 to prevent hangs.
             return new Response(null, {
                 status: 301,
                 statusText: "Moved Permanently",
@@ -284,10 +286,8 @@ async function handleFetch(request) {
                         (serverMeta.stateHash !== localMeta.stateHash);
 
         if (isStale) {
-            // console.log(`[SW] Stale. Fetching live: ${request.url}`);
             return fetchAndUpdateMetadata(request, serverMeta);
         } else {
-            // console.log(`[SW] Fresh. Serving cache: ${request.url}`);
             const cachedResponse = await caches.match(request.url); 
             return cachedResponse || fetchAndUpdateMetadata(request, serverMeta);
         }
@@ -312,7 +312,7 @@ function createStatusRequest(request) {
     return new Request(request.url, {
         method: 'GET',
         headers: newHeaders,
-        redirect: 'manual', // We must not follow redirects automatically for status checks
+        redirect: 'manual', 
         credentials: request.credentials,
     });
 }
@@ -321,17 +321,12 @@ function createStatusRequest(request) {
  * SAFE FALLBACK: Fetches LIVE resource using STRING URL.
  */
 async function fetchAndCache(request) {
-    // FIX: Pass request.url (String) and manually include credentials.
-    // Do NOT pass the 'request' object directly.
     const networkResponse = await fetch(request.url, { 
         cache: 'reload',
         credentials: 'include' 
     });
 
     if (networkResponse) {
-        // IMPORTANT: If the network followed a redirect (e.g. 301 from /games to /games/), 
-        // we must tell the browser to redirect too, otherwise the URL bar stays wrong 
-        // and relative links break.
         if (networkResponse.redirected && networkResponse.url !== request.url) {
              return new Response(null, {
                 status: 301,
@@ -345,7 +340,6 @@ async function fetchAndCache(request) {
 
         if (networkResponse.ok && !networkResponse.headers.has(STATUS_HEADER)) {
             const cache = await caches.open(CACHE_NAME);
-            // Key by URL String
             await cache.put(request.url, networkResponse.clone());
         }
     }
@@ -356,14 +350,12 @@ async function fetchAndCache(request) {
  * PRIMARY UPDATE: Fetches LIVE resource using STRING URL.
  */
 async function fetchAndUpdateMetadata(request, metadata) {
-    // FIX: Pass request.url (String) and manually include credentials.
     const networkResponse = await fetch(request.url, { 
         cache: 'reload',
         credentials: 'include' 
     });
 
     if (networkResponse) {
-        // Handle redirect enforcement here as well
         if (networkResponse.redirected && networkResponse.url !== request.url) {
              return new Response(null, {
                 status: 301,
@@ -377,22 +369,14 @@ async function fetchAndUpdateMetadata(request, metadata) {
 
         if (networkResponse.ok && !networkResponse.headers.has(STATUS_HEADER)) {
             const cache = await caches.open(CACHE_NAME);
-            
-            // 1. Save Content keyed by URL String
             await cache.put(request.url, networkResponse.clone());
-            
-            // 2. Save Metadata keyed by URL String
             await MetadataDB.set({ url: request.url, ...metadata });
         }
     }
     return networkResponse;
 }
 
-// B"H
-// Add to service-worker.js
 self.addEventListener('push', (event) => {
-    // 1. Wake Up! We received a signal.
-    // 2. Fetch the actual content securely
     event.waitUntil(
         fetch('/api/social/mail/notify/getLatest')
             .then(res => res.json())
@@ -401,8 +385,8 @@ self.addEventListener('push', (event) => {
 
                 const options = {
                     body: data.body,
-                    icon: '/favicon.ico', // Ensure this exists
-                    data: data.data, // Store metadata for the reply
+                    icon: '/favicon.ico', 
+                    data: data.data, 
                     actions: [
                         {
                             action: 'reply',
@@ -424,11 +408,7 @@ self.addEventListener('notificationclick', (event) => {
     const replyText = event.reply;
 
     if (action === 'reply' && replyText) {
-        // Send the reply
         const msgData = notification.data;
-        
-        // Construct the API call to your existing sendMail function
-        // We assume the user has a cookie, so we just hit the endpoint
         const promise = fetch(`/api/social/mail/sendTo/${encodeURIComponent(msgData.correspondent)}/from/me`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },

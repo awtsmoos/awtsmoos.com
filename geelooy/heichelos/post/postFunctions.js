@@ -6,10 +6,12 @@ import { injectPostTabsCSS } from "./styles/tabs.js";
 import { injectPostContentCSS } from "./styles/content.js";
 
 // Re-export functions from sub-modules for backward compatibility
+// NOTE: explicit exports prevent 'export *' from triggering immediate loading of all dependencies (like Highlighter)
 export * from "./functions/utils.js";
 export * from "./functions/ui.js";
-export * from "./functions/interaction.js";
 export * from "./functions/logic.js";
+// Explicitly export interaction functions needed by core logic, but avoid wildcards that might trip up on missing files
+export { scrollToActiveEl, weaveDropdownFromAwtsmoos, initializeFootnotes } from "./functions/interaction.js";
 
 // Inject Split Styles
 injectPostLayoutCSS();
@@ -25,7 +27,8 @@ export function addTab({
         man = new TabManager({
             parent: rootParent,
             onclose() {
-                window?.commentaryBtn?.dispatchEvent(new CustomEvent("click",{}))
+                const btn = document.getElementById("commentaryBtn");
+                if(btn) btn.dispatchEvent(new CustomEvent("click",{}));
             }
         });
         window.tabManager = man;

@@ -1,244 +1,209 @@
 //B"H
+/**
+ * Content Styling for the Holy Post.
+ * Re-imagined for high contrast, deep readability, and radiant active states.
+ * Hardened to reflect the Divine Light of the Torah.
+ */
 export function injectPostContentCSS() {
-    const id = "BH-postContentStyles";
+    const id = "BH-postContentStyles-V8-Polished";
     if (document.getElementById(id)) return;
     
     const style = document.createElement("style");
     style.id = id;
     style.textContent = /*css*/`
-        /* --- Comments Styling --- */
-        .commentors {
-            padding: 15px;
-            background-color: #fcfcfc;
-            min-height: 100%;
-        }
-
-        .comment-content {
-            background: #fff;
-            border-radius: 12px;
-            padding: 16px;
-            margin-bottom: 16px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.03), 0 1px 1px rgba(0,0,0,0.02);
-            border: 1px solid #f0f0f0;
-            transition: transform 0.2s, box-shadow 0.2s;
+        /* --- Base Text Section --- */
+        .section {
+            margin-bottom: 6em;
             position: relative;
-        }
-
-        .comment-content:hover {
-            box-shadow: 0 8px 16px rgba(0,0,0,0.06);
-            transform: translateY(-1px);
-        }
-
-        .commentTitle {
-            font-weight: 700;
-            font-size: 1.1em;
-            margin-bottom: 8px;
-            color: #1c1e21;
-            letter-spacing: -0.01em;
-        }
-
-        .comment-text {
-            font-size: 15px;
-            line-height: 1.6;
-            color: #050505;
-            word-wrap: break-word;
+            padding: 40px 50px;
+            border-radius: 24px;
+            transition: all 0.7s cubic-bezier(0.19, 1, 0.22, 1);
+            border: 2px solid transparent;
+            background-color: transparent;
+            box-sizing: border-box;
+            scroll-margin-top: 15vh; 
         }
         
-        .awtsmoos-comment-section {
-            margin-top: 12px;
-            padding-top: 12px;
-            border-top: 1px dashed #eee;
-            font-size: 0.95em;
-            color: #444;
+        .section.active {
+            background-color: #ffffff !important;
+            border-color: rgba(255, 214, 0, 0.4) !important; 
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.04);
+            z-index: 10;
         }
 
-        /* --- Comment Menu --- */
-        .menu-container {
-            position: absolute;
-            top: 12px;
-            right: 12px;
+        .toichen {
+            display: block;
+            font-size: 24px !important;
+            color: #1a202c;
+            line-height: 2.2;
+            font-family: 'SBL Hebrew', 'Georgia', serif;
         }
 
-        .menu-button {
+        /* --- Comment Indicators (The Illuminator) --- */
+        .awtsmoos-comment-indicator {
+            margin: 15px 0;
             cursor: pointer;
-            padding: 4px 6px;
-            font-size: 18px;
-            color: #aaa;
-            border-radius: 4px;
-            transition: all 0.2s;
-            line-height: 1;
-        }
-        
-        .menu-button:hover { 
-            background: #f0f2f5; 
-            color: #333;
-        }
-
-        .menu-options {
-            position: absolute;
-            right: 0;
-            top: 25px;
-            background: #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            border: 1px solid #ebebeb;
-            min-width: 140px;
-            z-index: 100;
-            display: none;
-            overflow: hidden;
-            animation: fadeInMenu 0.1s ease-out;
-        }
-        
-        @keyframes fadeInMenu {
-            from { opacity: 0; transform: scale(0.95); }
-            to { opacity: 1; transform: scale(1); }
-        }
-
-        .menu-item {
-            padding: 10px 16px;
-            font-size: 14px;
-            color: #333;
-            cursor: pointer;
-            transition: background 0.2s;
+            opacity: 0;
+            transform: scale(0.5);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
             display: flex;
             align-items: center;
-        }
-        
-        .menu-item:hover { background: #f7f7f7; }
-
-        /* --- Inline Comments in Main Text --- */
-        .commentator.inline {
-            background-color: #fffcf5;
-            border-left: 3px solid #ffcc00;
-            padding: 12px 16px;
-            margin: 20px 0;
-            border-radius: 0 8px 8px 0;
-            font-family: 'Segoe UI', sans-serif;
-            font-size: 0.95rem;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
-        }
-
-        .alias-name {
-            font-weight: 700;
-            margin-bottom: 8px;
-            color: #333;
-            font-size: 0.9em;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-        
-        .alias-name a { text-decoration: none; color: #d35400; }
-        .alias-name a:hover { text-decoration: underline; }
-
-        .inline-comment {
-            background: white;
-            padding: 12px;
-            border-radius: 8px;
-            margin-top: 8px;
-            border: 1px solid #eee;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
-        }
-
-        /* --- Text Sections & Verses --- */
-        .section {
-            margin-bottom: 1.8em;
+            justify-content: flex-start;
+            width: fit-content;
+            height: 28px;
+            pointer-events: auto;
             position: relative;
         }
 
+        .awtsmoos-comment-indicator.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .awtsmoos-comment-indicator.sub-indicator {
+            margin-top: 10px;
+            margin-bottom: 5px;
+            z-index: 100;
+        }
+
+        .awtsmoos-flame {
+            font-size: 18px;
+            filter: drop-shadow(0 0 5px rgba(255, 214, 0, 0.8));
+            animation: flamePulse 2s infinite ease-in-out;
+        }
+
+        .awtsmoos-flame.small {
+            font-size: 14px;
+        }
+
+        @keyframes flamePulse {
+            0% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.2); opacity: 1; }
+            100% { transform: scale(1); opacity: 0.8; }
+        }
+
+        /* --- Sub-sections --- */
+        .sub-awtsmoos { 
+            display: block; 
+            margin: 1.8em 0; 
+            padding: 20px 30px;
+            border-left: 4px solid #f0f0f0; 
+            background: rgba(250, 250, 250, 0.3);
+            border-radius: 14px;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            opacity: 0.85;
+            scroll-margin-top: 15vh;
+        }
+        
+        .sub-awtsmoos.active {
+            background-color: #ffffff !important;
+            border-left-color: #ffd600 !important; 
+            border-left-width: 6px !important;
+            transform: translateX(10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            z-index: 20;
+            opacity: 1;
+        }
+
+        /* --- Hebrew Hardening --- */
+        .toichen.heb {
+            direction: rtl !important;
+            text-align: right !important;
+        }
+
+        .toichen.heb .sub-awtsmoos {
+            direction: rtl !important;
+            text-align: right !important;
+            border-left: none !important;
+            border-right: 4px solid #f0f0f0 !important;
+        }
+
+        .toichen.heb .sub-awtsmoos.active {
+            border-right-color: #ffd600 !important;
+            border-right-width: 6px !important;
+            transform: translateX(-10px); 
+        }
+
+        .toichen.heb .awtsmoos-comment-indicator {
+            justify-content: flex-start;
+        }
+
+        /* --- Verse Badges --- */
         .awtsmoos-section-header {
-            display: inline-block;
-            margin-right: 8px;
-            vertical-align: middle;
-            position: relative;
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+            height: 40px;
+            pointer-events: none;
         }
 
         .awtsmoos-verse-number {
-            display: inline-block;
-            background: #f0f0f0;
-            color: #777;
-            font-size: 0.75em;
-            padding: 2px 6px;
-            border-radius: 4px;
-            margin-right: 4px;
-            vertical-align: super;
-            cursor: pointer;
-            user-select: none;
-            transition: all 0.2s;
-        }
-        
-        .awtsmoos-verse-number:hover { 
-            background: #333; 
-            color: #fff; 
-        }
-        
-        .awtsmoos-verse-number.hidden { display: none; }
-
-        .toichen { display: inline; }
-        
-        .sub-awtsmoos { 
-            display: block; 
-            margin-top: 0.8em; 
-            padding-left: 1.2em; 
-            border-left: 3px solid #f5f5f5; 
-            margin-left: 0.5em;
-        }
-
-        /* --- Post Info & Navigation --- */
-        .post-info-container {
-            padding: 25px;
-            font-family: 'Segoe UI', sans-serif;
-            color: #444;
-            background: #fff;
-        }
-        
-        .post-info-container .label {
-            font-weight: 700;
-            color: #999;
-            font-size: 11px;
-            text-transform: uppercase;
-            margin-bottom: 4px;
-            letter-spacing: 0.05em;
-        }
-        
-        .post-info-container .value {
-            margin-bottom: 20px;
-            font-size: 15px;
-            color: #222;
-        }
-        
-        .post-navigation-container {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-            margin-top: 20px;
-            flex-wrap: wrap;
-        }
-        
-        .nav-button {
+            pointer-events: auto;
             display: inline-flex;
             align-items: center;
-            padding: 8px 16px;
-            background: #007bff;
-            color: white;
-            text-decoration: none;
+            justify-content: center;
+            background: #2d3748;
+            color: #fff;
+            font-size: 13px;
+            font-weight: 800;
+            min-width: 34px;
+            height: 28px;
+            padding: 0 8px;
             border-radius: 6px;
-            font-size: 14px;
-            font-weight: 600;
-            transition: background 0.2s;
+            cursor: pointer;
+            font-family: 'JetBrains Mono', monospace;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
         
-        .nav-button:hover { background: #0056b3; }
-        .nav-button.prev::before { content: "←"; margin-right: 5px; }
-        .nav-button.next::after { content: "→"; margin-left: 5px; }
+        .awtsmoos-verse-number:hover {
+            background: #ffd600;
+            color: #000;
+            transform: scale(1.15) translateY(-2px);
+        }
 
-        .series-chapter-select {
-            padding: 8px 12px;
-            border-radius: 6px;
-            border: 1px solid #ccc;
-            font-size: 14px;
-            margin: 5px 0;
-            max-width: 100%;
-            background-color: #f8f9fa;
+        .awtsmoos-verse-number.hidden { display: none; }
+        
+        /* Scroll Selection Highlight */
+        .highlight-new-comment {
+            animation: highlightGlow 2s ease;
+        }
+        
+        @keyframes highlightGlow {
+            0% { background-color: rgba(255, 214, 0, 0.2); }
+            100% { background-color: transparent; }
+        }
+
+        /* --- Scrollbar Customization --- */
+        #realPost::-webkit-scrollbar { width: 10px; }
+        #realPost::-webkit-scrollbar-track { background: #fff; }
+        #realPost::-webkit-scrollbar-thumb {
+            background: #e2e8f0;
+            border-radius: 10px;
+            border: 3px solid #fff;
+        }
+        #realPost::-webkit-scrollbar-thumb:hover { background: #cbd5e0; }
+
+        /* --- Inline Comment Polishing --- */
+        .inline-comment {
+            position: relative;
+            padding: 10px 15px;
+            background: #fdfdfd;
+            border: 1px solid #eee;
+            border-radius: 12px;
+            margin: 10px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+        }
+        .inline-comment .awtsmoosTooltip {
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            z-index: 5;
+        }
+        .heb .inline-comment .awtsmoosTooltip {
+            right: auto;
+            left: 10px;
         }
     `;
     document.head.appendChild(style);
