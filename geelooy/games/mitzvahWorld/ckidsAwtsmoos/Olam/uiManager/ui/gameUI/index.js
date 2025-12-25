@@ -1,8 +1,7 @@
 
 // B"H
 /**
- * B"H
- * UI components that involve the in game experience
+ * Master UI Index - Aggregating the spiritual vessels of interaction.
  */
 import shlichusUI from "../shlichusUI.js";
 import joystick from "../joystick.js";
@@ -12,17 +11,18 @@ import storeScreen from "../screens/storeScreen.js";
 import effectsOverlay from "../components/effectsOverlay.js";
 import questLog from "../screens/questLog.js";
 import saveGameScreen from "../screens/saveGame.js";
+import constructionScreen from "./constructionScreen.js"; 
+import inputModal from "./inputModal.js";
+import CommandConsole from "./CommandConsole.js"; 
+import lavaMenu from "./lavaMenu.js"; // B"H: Added Lava Menu
 
 import initDragSystem from "./dragSystem.js";
 import topMenu from "./topMenu.js";
 import dialogues from "./dialogues.js";
 import { Saving, DragGhost, Tooltips, QuantityModal } from "./general.js";
 import actionBar from "./actionBar.js";
-
-// B"H: Updated Inventory Import
 import inventoryScreen from "./inventory/index.js";
 
-// Initialize drag listeners globally
 initDragSystem();
 
 var ui = [
@@ -39,7 +39,11 @@ var ui = [
     storeScreen, 
     effectsOverlay, 
     questLog,
-    saveGameScreen
+    saveGameScreen,
+    constructionScreen,
+    inputModal,
+    CommandConsole,
+    lavaMenu // B"H
 ].concat(shlichusUI);
 
 if (navigator.userAgent.includes("Mobile")) {
@@ -47,3 +51,4 @@ if (navigator.userAgent.includes("Mobile")) {
 }
 
 export default ui;
+        

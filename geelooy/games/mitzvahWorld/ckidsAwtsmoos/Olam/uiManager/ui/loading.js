@@ -1,8 +1,8 @@
+
 /**
  * B"H
- * The laoding screen to 
- * display while the game components
- * are loading.
+ * The loading screen to display while the game components are loading.
+ * Radial Design with Detailed Text and Error Handling.
  */
 
 export default {
@@ -10,68 +10,81 @@ export default {
     className: "loading hidden",
     children: [
         {
-            shaym:"loadingContent",
-            className:"loadingContent",
-            children:[
+            shaym: "loadingContent",
+            className: "loadingContent",
+            children: [
                 {
-                    shaym: "main loading area",
-                    className: "mainLoadingArea",
+                    className: "radial-loader-container",
                     children: [
                         {
-                        
-                            className:"barLoading",
+                            shaym: "radial-progress",
+                            className: "radial-progress",
                             children: [
-                                {
-                                    shaym:"bar background",
-                                    className: "bck",
-                                    child: {
-                                        shaym: "loading bar",
-                                        className: "barMitzvah",
-                                        child: {
-                                            shaym: "svgHolder",
-                                            className: "svgHolderLoad",
-                                            innerHTML: /*html*/`
-                                            <svg xmlns="http://www.w3.org/2000/svg"  >
-                                                <ellipse cx="3.29199" cy="3.5693" rx="3.29199" ry="3.5693" transform="matrix(0.894366 0.447337 -0.142088 0.989854 24.4194 -2.85715)" fill="white" fill-opacity="0.25"/>
-                                                <ellipse cx="7.63345" cy="6.16451" rx="7.63345" ry="6.16451" transform="matrix(0.963104 0.269131 -0.0799401 0.9968 17.8784 -2.62991)" fill="white" fill-opacity="0.15"/>
-                                                <path d="M33.8217 14.9121C33.1408 23.4027 25.3164 28.2535 16.3455 25.7467C7.3745 23.2398 0.6541 14.3246 1.33502 5.83399C2.32989 -6.57142 12.6909 -2.28571 22.4868 -2.28571C31.4577 0.221141 34.5026 6.4215 33.8217 14.9121Z" fill="white" fill-opacity="0.15"/>
-                                            </svg>
-                                            `
-                                        }
-                                    }
-                                },
-                                
+                                { className: "radial-inner" },
+                                { 
+                                    className: "radial-text-container",
+                                    children: [
+                                        { tag: "span", className: "loading-aleph", textContent: "א" },
+                                        { shaym: "loading-percent-text", className: "loading-percent", textContent: "0%" }
+                                    ]
+                                }
                             ]
-                        },
-                        {
-                            tag:"h2",
-                            className:"txtLoad",
-                            innerHTML: "Loading..."
-                        },
-                    ],
+                        }
+                    ]
                 },
-                
                 {
-                    className: "secondaryLoadingArea",
+                    className: "loading-info-container",
                     children: [
                         {
-                            tag:"h3",
-                            className: "txtLoad info",
-                            innerHTML:"Getting ready to load...",
-                            shaym: "action loading"
+                            tag: "h2",
+                            shaym: "action loading",
+                            className: "loading-title",
+                            textContent: "Initializing Olam..."
                         },
                         {
-                            tag:"h4",
-                            className: "txtLoad info secondary",
-                            innerHTML:"",
-                            shaym: "sub action loading"
-                        },
+                            tag: "h4",
+                            shaym: "sub action loading",
+                            className: "loading-subtitle",
+                            textContent: "Preparing Vessels"
+                        }
                     ]
                 }
-                
-            
-            ],
-            
+            ]
+        },
+        // B"H: Error Modal
+        {
+            shaym: "loading-error-modal",
+            className: "loading-error-modal hidden",
+            children: [
+                {
+                    className: "error-content",
+                    children: [
+                        { tag: "h2", shaym: "error-title", textContent: "Critical Error" },
+                        { tag: "p", shaym: "error-message", textContent: "Something went wrong." },
+                        { tag: "pre", shaym: "error-details", textContent: "Details..." },
+                        {
+                            tag: "div",
+                            className: "error-actions",
+                            children: [
+                                {
+                                    tag: "button",
+                                    textContent: "Dismiss & Continue",
+                                    onclick(e, $, ui) {
+                                        $("loading-error-modal").classList.add("hidden");
+                                    }
+                                },
+                                {
+                                    tag: "button",
+                                    textContent: "Reload Page",
+                                    onclick(e, $, ui) {
+                                        location.reload();
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
         }
     ]
 }

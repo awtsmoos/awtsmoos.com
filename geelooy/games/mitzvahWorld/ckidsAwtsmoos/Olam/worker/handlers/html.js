@@ -123,10 +123,16 @@ export default function htmlHandlers(manager) {
             if(!obj) return;
             
             // B"H: Forward generic HTML peulas directly to the Olam event system
-            // instead of trying to run them as HTML actions.
-            // This allows Dialogue.js to listen for "htmlPeula toggleToOption".
             for(var k in obj) {
                  manager.olam.ayshPeula("htmlPeula " + k, obj[k]);
+            }
+            
+            // B"H: Specialized Hook for Construction Preview
+            if (obj.updateConstructionPreview) {
+                 // Forward to Chai's updatePreview method
+                 if (manager.olam.player && manager.olam.player.updatePreviewGhost) {
+                     manager.olam.player.updatePreviewGhost(obj.updateConstructionPreview);
+                 }
             }
         },
 

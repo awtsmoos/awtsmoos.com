@@ -17,14 +17,12 @@ self.onerror = function(msg, url, lineNo, columnNo, error) {
         type: "Global Worker Error"
     };
     
-    // Attempt to send to main thread
     try {
         self.postMessage({ error: errorInfo });
     } catch(e) {
         console.error("B\"H - Failed to report error to main thread:", e);
     }
-    
-    return false; // Allow default browser error logging
+    return false; 
 };
 
 // 2. Trap unhandled promises
@@ -39,7 +37,6 @@ self.addEventListener('unhandledrejection', function(event) {
 });
 
 // 3. Async Bootstrap
-// We wrap everything in an async function to use try/catch with dynamic imports.
 (async function bootstrapWorker() {
     console.log("B\"H - Worker Bootstrap Starting...");
 
@@ -48,24 +45,23 @@ self.addEventListener('unhandledrejection', function(event) {
     // A. Load Core Dependencies
     try {
         // Load Utils
-        // Note: Dynamic import paths are relative to this file
         var utilsModule = await import("../../utils.js").catch(e => {
             throw new Error("Failed to load Utils.js: " + e.message);
         });
         Utils = utilsModule.default;
         
         // Load Three.js
-        // We use the absolute path provided in your setup. 
-        // If this 404s, the catch block will now catch it instead of the worker crashing silently.
         var threeModule = await import('/games/scripts/build/three.module.js').catch(e => {
-            throw new Error("Failed to load THREE.js from /games/scripts/build/three.module.js. Check file path. Details: " + e.message);
+            throw new Error("Failed to load THREE.js: " + e.message);
         });
         THREE = threeModule;
-        self.THREE = THREE; // Make available globally in worker scope
+        self.THREE = THREE; 
 
         // Load Olam Core
+        // B"H: If this fails with "Unexpected string", it's a syntax error in Olam/index.js (imports)
         var olamModule = await import("../index.js").catch(e => {
-            throw new Error("Failed to load Olam Core: " + e.message);
+            console.error("B\"H - Olam Core Load Error Detail:", e);
+            throw new Error(`Failed to load Olam Core (../index.js). Likely Syntax Error in imports. Details: ${e.message}`);
         });
         OlamClass = olamModule.default;
         self.Olam = OlamClass;
@@ -73,15 +69,15 @@ self.addEventListener('unhandledrejection', function(event) {
         console.log("B\"H - Core Dependencies Loaded Successfully.");
 
     } catch (e) {
-        console.error("B\"H - Bootstrap Import Error:", e);
+        console.trace("B\"H - Bootstrap Import Error:", e);
         self.postMessage({
             error: {
-                message: "Worker Bootstrap Failed during imports: " + e.message,
+                message: "Worker Bootstrap Failed: " + e.message,
                 stack: e.stack,
                 type: "Import Error"
             }
         });
-        return; // Stop execution if core deps fail
+        return; 
     }
 
     // B. Initialize Logic
@@ -114,7 +110,6 @@ async function startWorkerLogic(OlamClass, Utils) {
     };
 
     // C. Load Methods Dynamically
-    // We load each module file individually so we know exactly which one fails.
     var tawfkeedeem = {};
     var methodModules = {
         inventory: "./methods/inventory.js",
@@ -129,7 +124,6 @@ async function startWorkerLogic(OlamClass, Utils) {
         try {
             var mod = await import(path);
             if (mod.default) {
-                // Determine how to call the module factory
                 if (name === 'world') {
                     Object.assign(tawfkeedeem, mod.default(me, OlamClass));
                 } else {
@@ -146,7 +140,6 @@ async function startWorkerLogic(OlamClass, Utils) {
                     type: "Module Load Error"
                 }
             });
-            // We continue loading other modules so the worker remains partially alive for debugging
         }
     }
 

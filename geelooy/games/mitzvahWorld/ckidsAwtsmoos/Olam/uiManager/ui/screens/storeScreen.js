@@ -1,5 +1,4 @@
 
-
 // B"H
 // Store Screen Logic
 
@@ -11,13 +10,13 @@ export default {
     npcId: null,
     
     on: {
+        // ... (Existing Open/Update/Close methods preserved)
         open(e, $, ui) {
             const data = e.detail; 
             const store = $("storeScreen");
             store.classList.remove("hidden");
             store.npcId = data.entityId;
             
-            // B"H: Hide interaction prompts when store opens
             ui.htmlAction({
                 shaym: "approach npc msg",
                 methods: { classList: { add: "hidden" } }
@@ -44,7 +43,7 @@ export default {
         close(e, $, ui) {
             $("storeScreen").classList.add("hidden");
         },
-        
+
         render(e, $, ui) {
             const store = $("storeScreen");
             const grid = store.querySelector(".store-grid");
@@ -66,10 +65,6 @@ export default {
             } else if (store.activeTab === 'sell') {
                 if (store.playerItems) {
                     store.playerItems.forEach((itm, idx) => {
-                        // B"H: Ensure we check for item existence and sellValue
-                        // Even if sellValue isn't explicitly > 0, if it's an item, show it?
-                        // Let's stick to items with value for now, but ensure properties exist.
-                        // We filter nulls (empty slots).
                         if(itm && itm.sellValue > 0 && itm.className !== 'Coin') {
                             itemsToRender.push({
                                 ...itm, 
@@ -87,11 +82,9 @@ export default {
                  grid.innerHTML = `<div style='grid-column: 1/-1; text-align:center; padding:20px; color:#aaa;'>${msg}</div>`;
             } else {
                 itemsToRender.forEach(item => {
-                    // B"H: Icon rendering logic
                     let iconStyle = {};
                     let textIcon = null;
                     
-                    // Fallback default icon if missing
                     if(!item.icon) item.icon = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48Y2lyY2xlIGN4PSI1MCIgY3k9IjUwIiByPSI0MCIgZmlsbD0iIzQ0NCIgc3Ryb2tlPSIjODg4IiBzdHJva2Utd2lkdGg9IjUiLz48dGV4dCB4PSI1MCIgeT0iNjUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiNmZmYiIGZvbnQtc2l6ZT0iNDAiPj88L3RleHQ+PC9zdmc+";
 
                     if (item.icon && (item.icon.includes('/') || item.icon.includes('data:'))) {
@@ -122,7 +115,6 @@ export default {
                         textIcon = item.icon;
                         iconStyle = { display: 'flex', justifyContent: 'center', alignItems: 'center', fontSize: '30px' };
                     } else {
-                         // Fallback Text Icon
                          textIcon = (item.name || "?").charAt(0);
                          iconStyle = { display: 'flex', justifyContent: 'center', alignItems: 'center', fontSize: '30px', background: "#555", borderRadius: "50%", width:"50px", height:"50px", margin: "10px auto" };
                     }
@@ -154,11 +146,17 @@ export default {
             const details = $("storeScreen").querySelector(".store-details");
             details.innerHTML = "";
             
-            // Icon for details
+            // B"H: Calculate Tax
+            // Default 10% tax for display purposes
+            const price = item.price;
+            const tax = Math.ceil(price * 0.1); 
+            const total = item.type === 'buy' ? price + tax : price; 
+
+            // Icon for details logic...
+            // (Same icon logic as before)
             let iconStyle = {};
             let textIcon = null;
              if (item.icon && (item.icon.includes('/') || item.icon.includes('data:'))) {
-                 // Simplified for details: just image if not complex
                   if (item.isTintable && item.customData && item.customData.color) {
                        iconStyle = {
                             backgroundColor: item.customData.color,
@@ -194,8 +192,10 @@ export default {
                     { textContent: item.description || "No description available." },
                     { 
                         tag: "div", 
-                        style: { fontSize: "18px", color: "#ffd700", margin: "10px 0" },
-                        textContent: item.type === 'buy' ? `Cost: ${item.price} Perutahs` : `Value: ${item.price} Perutahs` 
+                        style: { fontSize: "18px", color: "#ffd700", margin: "10px 0", textAlign: "left", width: "100%", padding: "0 20px" },
+                        innerHTML: item.type === 'buy' ? 
+                            `Base: ${price}<br><span style='color:#ff9999'>Tax (10%): +${tax}</span><br><strong>Total: ${total}</strong>` : 
+                            `Value: ${price}<br><span style='color:#99ff99'>Tax Deduction: -${tax}</span><br><strong>Receive: ${price-tax}</strong>`
                     },
                     {
                         tag: "button",
@@ -225,6 +225,7 @@ export default {
         }
     },
     
+    // ... (Children structure remains the same)
     children: [
         {
             className: "store-header",

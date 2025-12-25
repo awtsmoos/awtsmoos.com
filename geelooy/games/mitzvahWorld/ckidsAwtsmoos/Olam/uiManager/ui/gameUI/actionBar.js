@@ -8,6 +8,7 @@
 
 
 
+
 // B"H
 import startSlotsConfig from "../startSlotsConfig.js";
 
@@ -37,7 +38,9 @@ export default {
             
             // B"H FIX: Ensure Bag Slot (Index 0/First Child) exists
             // If the container is empty (first load or wiped), recreate the bag slot.
-            const slotConfig = $("action bar").startSlotsConfig;
+            const actionBarEl = $("action bar");
+            const slotConfig = (actionBarEl && actionBarEl.startSlotsConfig) ? actionBarEl.startSlotsConfig : startSlotsConfig;
+            
             const bagSlotInfo = slotConfig && slotConfig.slots ? slotConfig.slots[0] : null;
 
             if (slotsContainer.children.length === 0 && bagSlotInfo) {

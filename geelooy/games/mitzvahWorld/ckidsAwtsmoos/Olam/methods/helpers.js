@@ -193,11 +193,11 @@ export default class {
                     q?.asset
                 );
             }
-            if(!nivra) return resolve({error: "No nivra found"});
+            if(!nivra) return resolve(null);
             var a = nivra.asset;
-            if(!a) return resolve({error: "No asset nivra"});
+            if(!a) return resolve(null);
             var loader = nivra?.asset?.parser?.textureLoader;
-            if(!loader) return resolve({error: "No texture loader"})
+            if(!loader) return resolve(null)
             loader.load(
                 // resource URL
                 url,

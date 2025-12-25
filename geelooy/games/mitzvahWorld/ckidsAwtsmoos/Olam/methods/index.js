@@ -1,3 +1,4 @@
+
 /**
  * B"H
  * 
@@ -13,15 +14,12 @@ import boyrayNivra from "./boyrayNivra.js";
 import helpers from "./helpers.js"
 import loadNivrayim from "./loadNivrayim.js";
 import tzimtzum from "./tzimtzum.js";
-import placeholderAndEntities
-from "./placeholderAndEntities.js";
-
+import placeholderAndEntities from "./placeholderAndEntities.js"; // B"H: Fixed line break
 import hoyseef from "./hoyseef.js";
 import sealayk from "./sealayk.js"
 
-
-import properties from "./properties.js";
-
+// B"H: Properties are now handled in Olam constructor statically
+// import properties from "./properties.js"; 
 
 export default async function() {
     var classTransfer = (classDef) => {
@@ -52,13 +50,14 @@ export default async function() {
 
     /**
      * transfer properties by making new instance
+     * B"H: Removed as it's done in Olam constructor now
      */
+    /*
     var inst = new properties();
     Object.getOwnPropertyNames(inst)
     .forEach(w => {
         this[w] = inst[w];
     });
-
-    
+    */
     
 }

@@ -17,6 +17,7 @@ import characterDesignerStyle from "./characterDesignerStyle.js";
 import store from "./store.js";
 import effects from "./effects.js";
 import saveGameStyle from "./saveGameStyle.js";
+import constructionStyle from "./constructionStyle.js";
 
 export default /*css*/`
     /*B"H*/
@@ -44,4 +45,6 @@ export default /*css*/`
     ${effects}
 
     ${saveGameStyle}
+    
+    ${constructionStyle}
 `;

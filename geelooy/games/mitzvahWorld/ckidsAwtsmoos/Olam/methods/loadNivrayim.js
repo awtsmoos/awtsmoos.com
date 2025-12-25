@@ -78,6 +78,7 @@ export default class {
             var nivrayimMade = [];
             var ent = Object.entries(nivrayim);
             
+            // 1. Instantiation Phase
             for (var [type, nivraOptions] of ent) {
                 var ar;
                 var isAr = false;
@@ -110,7 +111,6 @@ export default class {
                         evaledObject = Utils.evalStringifiedFunctions(options);
                         var c = AWTSMOOS[type];
                         if (c && typeof(c) == "function") {
-                            // console.log(`B"H - Instantiating ${type}: ${name}`);
                             nivra = new c({
                                 name,
                                 ...evaledObject
@@ -123,97 +123,108 @@ export default class {
                     }
 
                     if (!nivra) continue;
-
                     nivrayimMade.push(nivra);
-                    
-                    this.ayshPeula(
-                        "increase loading percentage", {
-                            amount: (100) / (nivrayimMade.length),
-                            nivra,
-                            action: "initting " + name
-                        }
-                    );
                 }
             }
 
-            var sizes = [];
+            // 2. Size Calculation Phase
             var totalSize = 0;
             for(var nivra of nivrayimMade) {
                 nivra.olam = this;
                 var s = await nivra.getSize();
-                sizes.push({
-                    nivra,
-                    size:s
-                })
                 totalSize += s;
                 nivra.size = s;
             }
             this.totalSize = totalSize;
 
-            console.log("B\"H - Initialization Phase (heescheel) starting for " + nivrayimMade.length + " entities.");
+            console.log(`B"H - Initialization Phase (heescheel) starting for ${nivrayimMade.length} entities.`);
             
-            for (var nivra of nivrayimMade) {
-                if (nivra.heescheel && typeof(nivra.heescheel) === "function") {
-                    try {
-                        console.log(`B"H - heescheel: ${nivra.name} (${nivra.type})`);
-                        await nivra.heescheel(this, {
-                            nivrayimMade
-                        });
-                        console.log(`B"H - heescheel done: ${nivra.name}`);
-                    } catch(e) {
-                        console.error(`B"H - problem loading nivra ${nivra.name}`, e);
+            // B"H: TIME-SLICED PROCESSING for strict memory/performance management
+            // Instead of batching by count, we batch by *time* to ensure the frame never hangs.
+            
+            const TIME_SLICE_MS = 12; // 12ms per frame allowed for loading (leaves 4ms for rendering at 60fps)
+            let currentIndex = 0;
+            const totalEntities = nivrayimMade.length;
+
+            while (currentIndex < totalEntities) {
+                const frameStart = performance.now();
+                
+                // Process as many as possible in this frame
+                while (currentIndex < totalEntities && (performance.now() - frameStart) < TIME_SLICE_MS) {
+                    const nivra = nivrayimMade[currentIndex];
+                    if (nivra.heescheel && typeof(nivra.heescheel) === "function") {
+                        try {
+                            await nivra.heescheel(this, { nivrayimMade });
+                        } catch(e) {
+                            console.error(`B"H - Problem loading nivra ${nivra.name}`, e);
+                            
+                            // B"H: Trigger Error UI
+                            this.ayshPeula("increase loading percentage", {
+                                error: {
+                                    title: "Creation Error",
+                                    message: `Failed to manifest ${nivra.name} (${nivra.constructor.name})`,
+                                    details: e.message || e.toString()
+                                }
+                            });
+                        }
                     }
-                    this.ayshPeula("increase loading percentage", {
-                        amount:(100) / (nivrayimMade.length),
-                        nivra,
-                        action: "Setting up " + nivra.name,
-                        info: { nivra }
-                    });
+                    currentIndex++;
                 }
+
+                // Update UI
+                const percent = (currentIndex / totalEntities) * 100;
+                // Get name of last processed entity for display
+                const currentName = nivrayimMade[Math.max(0, currentIndex - 1)]?.name || "Entity";
+
+                this.ayshPeula("increase loading percentage", {
+                    amount: percent,
+                    reset: true, // Force the bar to jump to this exact percent
+                    action: `Manifesting Reality...`,
+                    subAction: `Creating: ${currentName} (${Math.round(percent)}%)`
+                });
+
+                // Yield to the main thread to prevent hanging and allow GC
+                await new Promise(r => setTimeout(r, 0));
             }
             
             console.log("B\"H - madeAll Phase");
-            
             for (var nivra of nivrayimMade) {
-                if (nivra.madeAll) {
-                    await nivra.madeAll(this);
-                }
+                if (nivra.madeAll) await nivra.madeAll(this);
             }
             
             console.log("B\"H - Placeholder/Entity Logic Phase");
-            
             for (var nivra of nivrayimMade) {
                 await this.doPlaceholderAndEntityLogic(nivra);
             }
 
             console.log("B\"H - Ready Phase");
-
             for (var nivra of nivrayimMade) {
-                if (nivra.ready) {
-                    await nivra.ready();
-                }
+                if (nivra.ready) await nivra.ready();
             }
 
             console.log("B\"H - AfterBriyah Phase");
-            
 			for(var nivra of nivrayimMade) {
-				if(nivra.afterBriyah) {
-					await nivra.afterBriyah();
-				}
+				if(nivra.afterBriyah) await nivra.afterBriyah();
 			}
 
             this.ayshPeula("updateProgress",{
                 loadedNivrayim: Date.now()
             })
 
-            console.log("B\"H - Adding Lights (Ohr)");
-            
-            if(!this.enlightened)
-                this.ohr();
+            console.log("B\"H - Adding Lights (Ohr)"); 
+            if(!this.enlightened) this.ohr();
                 
             return nivrayimMade;
         } catch (error) {
             console.error("B\"H - CRITICAL ERROR in loadNivrayim: ", error);
+             // B"H: Trigger Error UI
+             this.ayshPeula("increase loading percentage", {
+                error: {
+                    title: "World Load Failed",
+                    message: "A critical error occurred while loading the world.",
+                    details: error.message || error.toString()
+                }
+            });
         }
     }
 }
