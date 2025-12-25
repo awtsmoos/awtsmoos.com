@@ -3,21 +3,21 @@ import { getCommentsOfAlias } from "/scripts/awtsmoos/api/utils.js";
 import { updateQueryStringParameter } from "/heichelos/post/postFunctions.js";
 
 // Import from new modules
-import { invalidateVerseCache, currentVerse, currentSub, setCurrentVerse, setCurrentSub, loadedInlineVerses } from "./comments/state.js";
+import { invalidateVerseCache, currentVerse, currentSub, setCurrentVerse, setCurrentSub, loadedInlineVerses, getCurrentVerse, getCurrentSub } from "./comments/state.js";
 import { makeCommentatorList, loadRootComments, openCommentsPanelToAlias, openCommentsOfAlias, updateCommentHeader, getAndSaveAliases } from "./comments/panel.js";
 import { addCommentsInline, getInlineAliases, isAliasInline } from "./comments/inline.js";
 
 // Re-export for compatibility
 export { loadRootComments } from "./comments/panel.js";
 
-function getIdx() {
+export function getIdx() {
 	var s = new URLSearchParams(location.search);
 	var idx = s.get("idx");
 	if(idx === null) return null;
 	return parseInt(idx);
 }
 
-function getSub() {
+export function getSub() {
     var s = new URLSearchParams(location.search);
 	var sub = s.get("sub");
 	if(sub === null) return null;
@@ -154,7 +154,13 @@ export async function handleNewComment({ aliasId, verseSection, commentId, newCo
     }
 }
 
-window.commentLogic = { handleNewComment };
+// B"H - Correctly exposing getters so aiThread.js can access them
+window.commentLogic = { 
+    handleNewComment,
+    reloadRoot,
+    getCurrentVerse,
+    getCurrentSub
+};
 
 removeEventListener("awtsmoos index", indexSwitch);
 addEventListener("awtsmoos index" , indexSwitch);

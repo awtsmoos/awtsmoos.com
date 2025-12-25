@@ -22,6 +22,10 @@ export async function loadRootComments({ parent, tab }) {
 	await makeCommentatorList(parent, tab);
 }
 
+/**
+ * @method getAndSaveAliases
+ * @description Retrieves list of aliases commenting on the current section.
+ */
 export async function getAndSaveAliases(full = false, forceFresh = false, forcedIdx = null, forcedSub = undefined, allowFallback = true) {
     if (!window.post || !window.post.heichel) return [];
     
@@ -31,16 +35,19 @@ export async function getAndSaveAliases(full = false, forceFresh = false, forced
     let subSection = forcedSub !== undefined ? forcedSub : s.get("sub");
     if(subSection === null) subSection = undefined; 
 
-    const fetchAliases = async (vs, ss) => {
-        const cacheKey = `${vs}-${ss ?? 'all'}-${allowFallback}`;
+    // 1. Fetch ALL aliases for the VERSE
+    const fetchVerseAliases = async (vs) => {
+        const cacheKey = `${vs}-verse-all`;
         if (!forceFresh && data.aliases?.[cacheKey]) {
             return data.aliases[cacheKey].aliases;
         }
-
         try {
             const result = await getCommentsByAlias({
-                seriesId: window.post.parentSeriesId, postId: window.post.id, heichelId: window.post.heichel.id,
-                fromCache: !forceFresh, get: { verseSection: vs, subSection: ss, map: true }
+                seriesId: window.post.parentSeriesId, 
+                postId: window.post.id, 
+                heichelId: window.post.heichel.id,
+                fromCache: !forceFresh, 
+                get: { verseSection: vs, map: true } 
             });
             if (Array.isArray(result)) {
                 if (!data.aliases) data.aliases = {};
@@ -51,19 +58,69 @@ export async function getAndSaveAliases(full = false, forceFresh = false, forced
         return [];
     };
 
-    let aliases = await fetchAliases(verseSection, subSection);
+    let verseAliases = await fetchVerseAliases(verseSection);
 
-    if (allowFallback && aliases.length === 0 && subSection !== undefined) {
-        aliases = await fetchAliases(verseSection, null);
+    // 2. If a sub-section IS active, filter the verse aliases
+    if (subSection !== undefined) {
+        const filteredAliases = [];
+        const checks = verseAliases.map(async (aliasId) => {
+            try {
+                const comments = await getCommentsOfAlias({
+                    seriesId: window.post.parentSeriesId,
+                    postId: window.post.id,
+                    heichelId: window.post.heichel.id,
+                    aliasId: aliasId,
+                    fromCache: true,
+                    get: { verseSection: verseSection, map: true }
+                });
+                
+                if (Array.isArray(comments)) {
+                    const hasSubComment = comments.some(c => String(c?.dayuh?.subSection) === String(subSection));
+                    if (hasSubComment) return aliasId;
+                }
+            } catch(e) {}
+            return null;
+        });
+        
+        const results = await Promise.all(checks);
+        const activeInSub = results.filter(Boolean);
+        
+        if (activeInSub.length > 0) {
+            return full ? activeInSub : activeInSub; 
+        }
+        
+        // 3. Fallback
+        if (allowFallback) {
+            const generalChecks = verseAliases.map(async (aliasId) => {
+                 const comments = await getCommentsOfAlias({
+                    seriesId: window.post.parentSeriesId, postId: window.post.id, heichelId: window.post.heichel.id,
+                    aliasId: aliasId, fromCache: true, get: { verseSection: verseSection, map: true }
+                });
+                if(Array.isArray(comments)) {
+                    const hasGeneral = comments.some(c => 
+                        c.dayuh?.subSection === undefined || 
+                        c.dayuh?.subSection === null || 
+                        c.dayuh?.subSection === 'main' || 
+                        c.dayuh?.subSection === 'root'
+                    );
+                    if(hasGeneral) return aliasId;
+                }
+                return null;
+            });
+            const generalAliases = (await Promise.all(generalChecks)).filter(Boolean);
+            return full ? generalAliases : generalAliases;
+        }
+        
+        return [];
     }
 
-    return full ? aliases : aliases.map(w => w?.id || w);
+    return full ? verseAliases : verseAliases;
 }
 
 export async function updateCommentHeader() {
     const s = new URLSearchParams(location.search);
     const sub = s.get("sub");
-	var aliases = await getAndSaveAliases();
+	var aliases = await getAndSaveAliases(false, false, null, undefined, false); 
 	var cv = getCurrentVerse();
 	var curVerseDisplay = cv === "root" ? "Post" : +cv + 1;
     
@@ -89,22 +146,17 @@ export function makeAddCommentSection(par) {
 }
 
 export async function makeCommentatorList(actualTab, tabObj, forceFresh = false) {
-    // B"H - Clear immediately to prevent stale state visuals
     actualTab.innerHTML = "";
     
     makeAddCommentSection(actualTab);
 
+    // B"H - Simplified AI Card (Just a clean list item)
     const aiRow = document.createElement("div");
     aiRow.className = "awtsmoos-list-item ai-card";
     aiRow.innerHTML = `
-        <div style="display:flex; flex-direction:column;">
-            <span style="font-weight:700; font-size:16px; color:#007bff; display:flex; align-items:center; gap:6px;">
-                ✨ Ask Awtsmoos AI
-            </span>
-            <span style="font-weight:400; font-size:12px; color:#666; margin-top:4px;">
-                Explore deeper meaning with AI
-            </span>
-        </div>
+        <span style="font-weight:600; display:flex; align-items:center; gap:8px;">
+            ✨ Ask Awtsmoos AI
+        </span>
         <span class="awtsmoos-list-item-arrow">&#8250;</span>
     `;
     aiRow.onclick = () => {
@@ -120,13 +172,11 @@ export async function makeCommentatorList(actualTab, tabObj, forceFresh = false)
 
     var commentorList = document.createElement("div");
     commentorList.className = "commentors-list";
-    // Add loading indicator
     commentorList.innerHTML = `<div style="padding:20px; text-align:center; color:#999;">Loading...</div>`;
     actualTab.appendChild(commentorList);
     
     var aliases = await getAndSaveAliases(false, forceFresh, null, undefined, false);
     
-    // Clear loading
     commentorList.innerHTML = "";
 
     if (!aliases || !Array.isArray(aliases) || aliases.length === 0) {
@@ -139,9 +189,7 @@ export async function makeCommentatorList(actualTab, tabObj, forceFresh = false)
         empty.style.color = "#999";
         empty.style.fontStyle = "italic";
         empty.innerHTML = `
-            <div style="font-size: 40px; margin-bottom: 10px; opacity: 0.5;">📖</div>
-            ${hasSub ? "No commentaries on this paragraph." : "No commentaries found here."} <br>
-            ${hasSub ? "" : "Be the first to illuminate this path! B\"H."}
+            ${hasSub ? "No commentaries on this paragraph." : "No commentaries found here."}
         `;
         
         if (hasSub) {
@@ -150,9 +198,9 @@ export async function makeCommentatorList(actualTab, tabObj, forceFresh = false)
             btn.style.marginTop = "15px";
             btn.innerText = "Show All Verse Comments";
             btn.onclick = async () => {
-                const verseAliases = await getAndSaveAliases(false, false, null, null, false);
-                if(verseAliases && verseAliases.length > 0) {
-                    renderAliasesList(verseAliases, commentorList);
+                const allVerse = await getAndSaveAliases(false, false, null, null, false);
+                if(allVerse && allVerse.length > 0) {
+                    renderAliasesList(allVerse, commentorList);
                 } else {
                     btn.innerText = "No verse comments either";
                     btn.disabled = true;
@@ -177,15 +225,14 @@ function renderAliasesList(aliases, container) {
         row.innerHTML = `
             <div style="display:flex; align-items:center; gap:12px;">
                 <div style="
-                    width:36px; height:36px; 
-                    background:linear-gradient(135deg, #e0e0e0, #f5f5f5); 
+                    width:32px; height:32px; 
+                    background:#f3f4f6; 
                     border-radius:50%; display:flex; align-items:center; justify-content:center;
-                    font-weight:bold; color:#555; font-size:14px;
-                    border:1px solid #ddd;
+                    font-weight:600; color:#555; font-size:13px;
+                    border:1px solid #e5e7eb;
                 ">${initial}</div>
                 <div style="display:flex; flex-direction:column;">
-                    <span style="color:#333; font-weight:700;">@${alias}</span>
-                    <span style="font-size:11px; color:#888;">Tap to view comments</span>
+                    <span style="color:#333; font-weight:500; font-size:14px;">@${alias}</span>
                 </div>
             </div>
             <span class="awtsmoos-list-item-arrow">&#8250;</span>
@@ -241,7 +288,6 @@ export async function showAllComments({ alias, post, tab, withCurrentVerse = tru
 	if (!Array.isArray(coms) || coms.length === 0) {
         let contextMsg = (cs !== null && cs !== undefined) ? "this paragraph" : "this verse";
 		tab.innerHTML = `<div style="padding:40px 20px; text-align:center; color:#888;">
-            <div style="font-size: 30px; margin-bottom: 10px; opacity: 0.5;">⚖️</div>
             No comments from @${alias} on ${contextMsg}.
         </div>`;
         

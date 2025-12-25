@@ -1,66 +1,25 @@
 //B"H
 import { isFirstCharacterHebrew } from "/heichelos/post/postFunctions.js";
-import { markdownToHtml } from "/heichelos/post/parsing.js";
 import { openCommentsPanelToAlias } from "./panel.js";
 import { handleMenuOption } from "./actions.js";
-import { injectAIChatCSS } from "../styles/aiChatStyles.js";
 
-export function sanitizeComment(cnt) {
-	try {
-		var p = new DOMParser();
-		var dc = p.parseFromString(cnt, "text/html")
-		var cl = dc.querySelector(".links_in_title");
-		if(!cl) return cnt;
-		return dc.body.innerHTML
-	} catch(e) { return cnt; }
-}
+// Import from new modules
+import { renderBranchingThread } from "./render/aiThread.js";
+import { renderStandardComment } from "./render/standard.js";
+import { makeTitleDiv } from "./render/utils.js";
 
-export function addImageGallery(images, parent) {
-	if (images && Array.isArray(images)) {
-		const imageGallery = document.createElement("div");
-		imageGallery.className = "image-gallery";
-		images.forEach(image => {
-		    const img = document.createElement("img");
-		    img.src = image.medium || image.img || image;
-		    img.alt = "Comment Image";
-		    img.onclick = () => window.open(image.img || "", "_blank");
-		    imageGallery.appendChild(img);
-		});
-		parent.appendChild(imageGallery);
-	}
-}
-
-export function makeTitleDiv(title) {
-	var commentTitle = document.createElement("div");
-	commentTitle.className="commentTitle"
-	commentTitle.innerHTML = title
-	if(isFirstCharacterHebrew(title)) commentTitle.classList.add("heb");
-	return commentTitle
-}
-
-export function makeTooltip(msg=null) {
-	var toolTip = document.createElement("div")
-	toolTip.classList.add("awtsmoosTooltip")
-	var icon = document.createElement("div")
-	icon.textContent = "i"
-	toolTip.appendChild(icon)
-	icon.classList.add("tooltipIcon")
-	if(msg) {
-		var m = document.createElement("div")
-		m.textContent = msg
-		toolTip.appendChild(m)
-		m.classList.add("tooltipContent")
-	}
-	return toolTip;
-}
+// Re-export utils for compatibility if needed elsewhere
+export { sanitizeComment, addImageGallery, makeTitleDiv } from "./render/utils.js";
 
 /**
  * @method populateCommentElement
- * @description B"H - Polished to handle Saved Chat conversations with refined CSS and responsiveness.
+ * @description B"H - Route to AI renderer or Standard renderer.
  */
 export function populateCommentElement(comment, parentElement) {
     parentElement.innerHTML = '';
     let normalizedComment = JSON.parse(JSON.stringify(comment));
+    
+    // Normalization logic
     if (normalizedComment?.content?.title) normalizedComment.dayuh.title = normalizedComment.content.title;
     if (Array.isArray(normalizedComment?.content?.text)) normalizedComment.content = normalizedComment.content.text;
     if (Array.isArray(normalizedComment.content)) {
@@ -71,78 +30,14 @@ export function populateCommentElement(comment, parentElement) {
 
     if (normalizedComment?.dayuh?.title) parentElement.appendChild(makeTitleDiv(normalizedComment.dayuh.title));
     
-    // Check for Saved Chat Conversation
+    // Branch Logic
     if (normalizedComment.dayuh?.conversation && Array.isArray(normalizedComment.dayuh.conversation)) {
-        injectAIChatCSS();
-        
-        const titleText = normalizedComment.content || "Saved Chat";
-        const titleDiv = document.createElement("div");
-        titleDiv.className = "commentTitle";
-        titleDiv.innerHTML = markdownToHtml(sanitizeComment(titleText));
-        parentElement.appendChild(titleDiv);
-
-        // "Continue Chat" Button (Only for Author)
-        if (window.curAlias && window.curAlias === comment.author) {
-             const continueBtn = document.createElement("button");
-             continueBtn.className = "continue-chat-btn";
-             continueBtn.innerHTML = "Continue Chat ➤";
-             continueBtn.onclick = async (e) => {
-                 e.stopPropagation();
-                 const chatModule = await import("../ai/chat.js");
-                 chatModule.loadChat(normalizedComment.dayuh.conversation, comment.id, titleText);
-             };
-             parentElement.appendChild(continueBtn);
-        }
-
-        const chatContainer = document.createElement("div");
-        chatContainer.className = "ai-chat-embedded";
-        
-        const messagesDiv = document.createElement("div");
-        messagesDiv.className = "ai-messages";
-        
-        normalizedComment.dayuh.conversation.forEach(msg => {
-            const msgDiv = document.createElement("div");
-            msgDiv.className = `ai-message ${msg.role === 'model' ? 'model' : msg.role}`;
-            
-            const content = document.createElement("div");
-            content.className = "content";
-            content.innerHTML = msg.role === "user" 
-                ? msg.text.replace(/\n/g, "<br>") 
-                : markdownToHtml(msg.text);
-            
-            msgDiv.appendChild(content);
-            messagesDiv.appendChild(msgDiv);
-        });
-        
-        chatContainer.appendChild(messagesDiv);
-        parentElement.appendChild(chatContainer);
-        
+        renderBranchingThread(parentElement, normalizedComment, comment.id);
     } else {
-        // Standard Text Content
-        if (normalizedComment.content) {
-            const textDiv = document.createElement("div");
-            textDiv.innerHTML = markdownToHtml(sanitizeComment(normalizedComment.content));
-            parentElement.appendChild(textDiv);
-        }
+        renderStandardComment(parentElement, normalizedComment);
     }
 
-    if (Array.isArray(normalizedComment.dayuh?.sections)) {
-        normalizedComment.dayuh.sections.forEach(sectionData => {
-            const txt = sectionData?.text || (typeof sectionData === 'string' ? sectionData : "");
-            if (!txt && !sectionData?.title) return;
-            const sec = document.createElement("div");
-            sec.className = "awtsmoos-comment-section";
-            if (sectionData?.title) sec.appendChild(makeTitleDiv(sectionData.title));
-            if (txt) {
-                const textDiv = document.createElement('div');
-                textDiv.innerHTML = markdownToHtml(sanitizeComment(txt));
-                sec.appendChild(textDiv);
-            }
-            parentElement.appendChild(sec);
-        });
-    }
-    addImageGallery(normalizedComment?.dayuh?.images, parentElement);
-
+    // Language Direction
     const topLevelContainer = parentElement.closest('.comment-content, .inline-comment');
     if (topLevelContainer) {
         topLevelContainer.classList.remove("heb", "en");
@@ -159,11 +54,55 @@ export async function makeHTMLFromComment({ comment, aliasId, tab }) {
         cmCont.style.position = "relative"; 
         tab.appendChild(cmCont);
 
+        // B"H - Main Text
         var commentText = document.createElement("div");
         commentText.className = "comment-text";
         cmCont.appendChild(commentText);
         populateCommentElement(comment, commentText);
         
+        // B"H - Standard Comment Toolbar (Visible Actions)
+        var standardToolbar = document.createElement("div");
+        standardToolbar.className = "comment-toolbar";
+        
+        // 1. Reply Button (Visible)
+        var replyBtn = document.createElement("button");
+        replyBtn.className = "comment-tool-btn reply";
+        replyBtn.innerHTML = "↩ Reply";
+        replyBtn.onclick = (e) => {
+            e.stopPropagation();
+            handleMenuOption("Reply", comment, cmCont);
+        };
+        standardToolbar.appendChild(replyBtn);
+
+        // 2. Collapse Below Button (Visible)
+        var collapseBelowBtn = document.createElement("button");
+        collapseBelowBtn.className = "comment-tool-btn collapse-below";
+        collapseBelowBtn.innerHTML = "▼";
+        collapseBelowBtn.title = "Collapse/Expand all comments below";
+        
+        let isBelowCollapsed = false;
+        collapseBelowBtn.onclick = (e) => {
+            e.stopPropagation();
+            isBelowCollapsed = !isBelowCollapsed;
+            
+            // Iterate siblings following this comment
+            let sibling = cmCont.nextElementSibling;
+            while(sibling) {
+                if(sibling.classList.contains('comment-content')) {
+                    if(isBelowCollapsed) sibling.style.display = 'none';
+                    else sibling.style.display = 'block'; // Or whatever flex/etc
+                }
+                sibling = sibling.nextElementSibling;
+            }
+            
+            collapseBelowBtn.innerHTML = isBelowCollapsed ? "▲" : "▼";
+            collapseBelowBtn.title = isBelowCollapsed ? "Expand Below" : "Collapse Below";
+        };
+        standardToolbar.appendChild(collapseBelowBtn);
+
+        cmCont.appendChild(standardToolbar);
+
+        // B"H - Hidden Menu (Existing Logic)
         var menuContainer = document.createElement("div");
         menuContainer.className = "menu-container";
         cmCont.appendChild(menuContainer);
@@ -178,11 +117,12 @@ export async function makeHTMLFromComment({ comment, aliasId, tab }) {
         menuOptions.style.display = "none";
         menuContainer.appendChild(menuOptions);
 
-        var opts = ["Reply", "Copy"];
+        var opts = ["Copy"]; // Reply removed from here as it's now primary
         if(window?.curAlias == comment.author) opts = opts.concat(["Edit", "Add Audio", "Delete"]);
         if(comment?.dayuh?.transcripted) {
             if(window?.curAlias == comment.author) opts.push("Add Timesheet");
             opts.push("Play");
+            // Audio setup
             var audio = document.createElement("audio");
             audio.controls = true; 
             audio.src = `https://${comment.dayuh.transcripted.bucket}.awtsmoos.com/${comment.dayuh.transcripted.path}`;
@@ -225,21 +165,52 @@ export async function makeHTMLFromComment({ comment, aliasId, tab }) {
 
 /**
  * @method makeInlineComment
- * @description B"H - Polished inline comment element. Ensures the tooltip icon is discrete.
+ * @description B"H - Creates a compact inline comment wrapper.
  */
 export function makeInlineComment(alias, comment) {
     var incom = document.createElement("div");
     incom.className = "inline-comment";
+    incom.style.position = "relative";
     
-    var tool = makeTooltip("Open Comment");
-    tool.addEventListener("click", async () => {
+    // Action Button (Expand to sidebar)
+    var actionBtn = document.createElement("div");
+    actionBtn.className = "inline-action-btn";
+    actionBtn.innerHTML = "&#8599;"; // North East Arrow
+    actionBtn.title = "Open Full Comment";
+    
+    actionBtn.style.position = "absolute";
+    actionBtn.style.top = "8px";
+    actionBtn.style.right = "8px";
+    actionBtn.style.width = "24px";
+    actionBtn.style.height = "24px";
+    actionBtn.style.display = "flex";
+    actionBtn.style.alignItems = "center";
+    actionBtn.style.justifyContent = "center";
+    actionBtn.style.cursor = "pointer";
+    actionBtn.style.borderRadius = "50%";
+    actionBtn.style.background = "#f0f0f0";
+    actionBtn.style.color = "#666";
+    actionBtn.style.fontSize = "14px";
+    actionBtn.style.transition = "all 0.2s";
+    
+    actionBtn.onmouseover = () => { actionBtn.style.background = "#0066cc"; actionBtn.style.color = "white"; };
+    actionBtn.onmouseout = () => { actionBtn.style.background = "#f0f0f0"; actionBtn.style.color = "#666"; };
+
+    actionBtn.onclick = async (e) => {
+        e.stopPropagation();
         var c = await openCommentsPanelToAlias(alias);
         if (!c) return;
-        var con = c.querySelector(`.comment-content[data-cid="${comment.id}"]`);
-        if (con) con.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    });
+        setTimeout(() => {
+            var con = c.querySelector(`.comment-content[data-cid="${comment.id}"]`);
+            if (con) {
+                con.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                con.classList.add('highlight-flash'); 
+                setTimeout(()=>con.classList.remove('highlight-flash'), 1000);
+            }
+        }, 300);
+    };
     
-    incom.appendChild(tool); // Positioned via absolute CSS relative to incom
+    incom.appendChild(actionBtn); 
     
     var comContent = document.createElement("div");
     incom.appendChild(comContent);
@@ -247,20 +218,12 @@ export function makeInlineComment(alias, comment) {
     return incom;
 }
 
-/**
- * @method makeInlineCommentHolder
- * @description Creates the wrapper for inline comments.
- * B"H - CHANGED: Does NOT append to parent automatically anymore. Returns the element for manual placement.
- */
 export function makeInlineCommentHolder(alias, parent, idx) {
 	var inlineHolder = document.createElement("div")
 	inlineHolder.classList.add("commentator","inline");
 	inlineHolder.dataset.alias = alias;
 	inlineHolder.dataset.idx = idx;
     
-    // B"H - Allow passing null parent if handled externally
-	// if (parent) parent.appendChild(inlineHolder); // REMOVED to prevent race condition placement
-
 	var inHeader = document.createElement("div")
 	var a = document.createElement("a")
 	a.href = "/@"+alias;
@@ -274,5 +237,5 @@ export function makeInlineCommentHolder(alias, parent, idx) {
 	commentHolder.classList.add("comments-holder-inline");
 	inlineHolder.appendChild(commentHolder);
 	
-    return inlineHolder; // Returns the wrapper
+    return inlineHolder; 
 }

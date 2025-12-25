@@ -1,29 +1,30 @@
 //B"H
 /**
  * Injecting the Layout CSS.
- * This restores the Split-Pane architecture where the main content div (#realPost)
- * is the actual scroll container. This is CRITICAL for the Highlighter script.
- * Refined for the Essence of the Creator.
+ * Extreme Edition: Zero waste, hard edges.
  */
 export function injectPostLayoutCSS() {
-    const id = "BH-postLayoutStyles-Refined-V5-Locked";
+    const id = "BH-postLayoutStyles-Pro-V3";
     if (document.getElementById(id)) return;
     
     const style = document.createElement("style");
     style.id = id;
     style.textContent = /*css*/`
-        /* --- Root Lock: Ensures #realPost is the only scroller --- */
+        /* --- Root Reset --- */
         html, body {
             overflow: hidden !important;
             height: 100% !important;
             margin: 0 !important;
             padding: 0 !important;
-            /* Prevent pull-to-refresh on mobile which breaks dragging */
-            overscroll-behavior-y: contain; 
+            background-color: #f4f4f0;
+            font-family: "Courier New", Courier, monospace;
         }
 
         :root {
-            --awtsmoos-font-size: 18px;
+            --sidebar-width: 350px;
+            --sidebar-bg: #ffffff;
+            --sidebar-border: #000000;
+            --header-height: 64px;
         }
 
         .all.awtsmoospage {
@@ -34,155 +35,107 @@ export function injectPostLayoutCSS() {
 
         .main {
             flex: 1;
-            overflow: hidden;
+            overflow: hidden; 
             display: flex;
             flex-direction: column;
             position: relative;
         }
 
-        /* --- Post Frame Layout --- */
+        /* --- Post Frame --- */
         .post-frame {
             display: flex;
             flex-direction: row;
             flex: 1;
+            height: 100%;
             position: relative;
-            background: #fff;
+            background: #f4f4f0;
             overflow: hidden; 
         }
 
-        /* Main Content Scroll Container */
+        /* --- Main Content Area --- */
         div#realPost {
             flex: 1;
             height: 100%;
-            overflow-y: scroll !important; 
+            overflow-y: auto !important; 
             -webkit-overflow-scrolling: touch;
-            scroll-behavior: smooth;
-            padding: 80px 12% 60vh 12%; 
-            line-height: 2;
-            color: #1a1a1a;
-            background-color: #ffffff;
-            font-family: 'Georgia', 'Times New Roman', serif;
-            font-size: var(--awtsmoos-font-size); 
+            /* Reduced padding significantly to remove "extra space" */
+            padding: 10px; /* Tight padding */
+            background-color: #f4f4f0;
             box-sizing: border-box;
             position: relative;
             z-index: 1;
+            /* Scrollbar styling */
+            scrollbar-color: #000 #f4f4f0;
+            scrollbar-width: thin;
         }
 
-        /* --- Sidebar Base (Shared Properties) --- */
+        /* --- Sidebar Container --- */
         .sidebar {
-            background: #fdfdfd;
+            width: var(--sidebar-width);
+            min-width: 300px;
+            max-width: 60vw;
+            height: 100% !important;
+            background: var(--sidebar-bg);
+            border-left: 3px solid var(--sidebar-border);
             display: flex;
             flex-direction: column;
-            
-            /* CRITICAL: Must be visible to catch handle clicks */
-            overflow: visible !important;
-            
-            box-shadow: -5px 0 25px rgba(0,0,0,0.03);
-            z-index: 100;
-            
             position: relative;
-            /* No transition by default to keep resizing snappy */
-            transition: none !important; 
-            will-change: width, flex-basis, height;
+            z-index: 100;
+            flex-shrink: 0; 
         }
 
-        /* --- Desktop Layout (Isolated) --- */
+        /* --- Hidden Sidebar --- */
         @media only screen and (min-width: 901px) {
-            .sidebar {
-                width: 450px;
-                min-width: 280px;
-                height: 100% !important;
-                border-left: 1px solid #e0e0e0;
-                top: 0 !important;
-                bottom: 0 !important;
-                /* Ensure the sidebar doesn't shrink on its own */
-                flex: 0 0 auto !important;
-            }
-            
             .sidebar.hidden-comments {
-                display: none !important;
+                margin-right: calc(var(--sidebar-width) * -1); 
+                display: none !important; 
             }
         }
 
-        /* --- Sidebar Resizer (Desktop Only) --- */
+        /* --- Resizer --- */
         .awtsmoos-sidebar-resizer {
             position: absolute;
-            left: -10px; /* Sits exactly on the border */
+            left: -5px;
             top: 0;
             bottom: 0;
-            width: 20px; /* Generous hit area */
-            cursor: ew-resize; 
-            /* Subtle visual hint */
-            background: rgba(0,0,0,0.01); 
-            z-index: 2147483647 !important; 
-            touch-action: none;
-            user-select: none;
-            -webkit-user-select: none;
+            width: 10px;
+            cursor: ew-resize;
+            z-index: 200;
+            background: transparent;
         }
-        
-        .awtsmoos-sidebar-resizer::after {
-            content: '';
-            position: absolute;
-            left: 50%;
-            top: 0;
-            bottom: 0;
-            width: 1px;
-            background: rgba(0,0,0,0.05);
-            transition: background 0.2s;
-        }
-        
-        .awtsmoos-sidebar-resizer:hover::after {
-            background: rgba(0, 123, 255, 0.5);
-            width: 2px;
+        .awtsmoos-sidebar-resizer:hover {
+            background: rgba(0, 0, 0, 0.1);
         }
 
-        /* --- Mobile Layout (Isolated) --- */
+        /* --- Mobile --- */
         @media only screen and (max-width: 900px) {
             .post-frame {
                 flex-direction: column;
             }
 
             div#realPost {
-                padding: 40px 20px 50vh 20px;
+                padding: 10px 10px 80px 10px;
             }
 
             .sidebar {
-                width: 100% !important; 
-                flex: none !important;
-                
-                /* B"H - Defaulting to 66vh (2/3rds) as requested */
-                height: 66vh !important; 
-                
+                width: 100% !important;
+                max-width: 100%;
+                height: 80vh !important; 
                 position: fixed;
-                bottom: 0 !important;
-                left: 0 !important;
-                top: auto !important; 
-                
-                border-left: none !important;
-                border-top: 1px solid #ccc;
-                box-shadow: 0 -10px 40px rgba(0,0,0,0.2);
-                z-index: 99999; 
-                
-                border-top-left-radius: 20px;
-                border-top-right-radius: 20px;
-                
-                /* Transition only for hiding/showing, not dragging */
-                transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+                bottom: 0;
+                left: 0;
+                top: auto;
+                border-left: none;
+                border-top: 3px solid #000;
+                box-shadow: 0 -4px 0px rgba(0,0,0,0.1);
+                border-radius: 0;
+                z-index: 9999;
+                transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
             }
             
-            .sidebar.is-dragging {
-                transition: none !important;
-            }
-            
-            /* Hidden State on Mobile: Slide down out of view */
-            .sidebar.hidden-comments { 
+            .sidebar.hidden-comments {
                 display: flex !important; 
                 transform: translateY(100%) !important;
-                pointer-events: none;
-            }
-            
-            .awtsmoos-sidebar-resizer {
-                display: none !important;
             }
         }
     `;

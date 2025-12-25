@@ -29,9 +29,7 @@ export function startHighlighting(elId, { onSection, onParagraph } = {}) {
         {
             deselectEnabled: true,
             onDeselectCallback: () => {
-                // B"H - When no paragraph is active, clear the sub parameter
-                // This ensures the sidebar refreshes to show empty or verse-level state
-                // rather than getting stuck on the last paragraph.
+                // B"H - Only clear 'sub', preserve other params if they exist
                 updateQueryStringParameter("sub", null);
                 window.dispatchEvent(new CustomEvent("awtsmoos index", {
                     detail: { sub: null }
@@ -46,12 +44,14 @@ export function startHighlighting(elId, { onSection, onParagraph } = {}) {
 
 /**
  * Scrolls to the coordinate defined in the URL with retry logic.
+ * Also handles deep linking to comments/messages.
  * @method scrollToActiveEl
  */
 export function scrollToActiveEl() {
     const params = new URLSearchParams(location.search);
     const idx = params.get("idx");
     const sub = params.get("sub");
+    // const cid = params.get("cid"); // Handled by inline.js
 
     if (idx === null) return;
 
@@ -73,7 +73,7 @@ export function scrollToActiveEl() {
             // Found it! Scroll and highlight.
             target.scrollIntoView({ behavior: 'smooth', block: 'start' });
             
-            // Optional: Flash the element to show it was selected
+            // Flash
             target.style.transition = "background-color 0.5s";
             const originalBg = target.style.backgroundColor;
             target.style.backgroundColor = "rgba(255, 214, 0, 0.2)";
@@ -81,7 +81,7 @@ export function scrollToActiveEl() {
                 target.style.backgroundColor = originalBg;
             }, 1000);
             
-            return; // Stop polling
+            return; 
         }
 
         attempts++;
@@ -90,7 +90,6 @@ export function scrollToActiveEl() {
         }
     };
 
-    // Start polling
     setTimeout(tryScroll, 100);
 }
 

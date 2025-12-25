@@ -7,10 +7,21 @@ import { injectInlineThreadCSS } from "../styles/inlineThreadStyles.js";
 
 var inlineComments = {};
 
+// B"H - Global Access for Refresher
+window.awtsmoosInline = {
+    refreshSectionCommentary: async (idx, sub) => {
+        const subKey = (sub !== null && sub !== undefined) ? sub : 'main';
+        const threadId = `${idx}-${subKey}`;
+        const container = document.querySelector(`.awtsmoos-inline-thread[data-unique-thread="${threadId}"]`);
+        if (container) {
+            await renderThreadContent(container, idx, sub);
+        }
+    }
+};
+
 /**
  * @method manifestCommentIndicators
- * @description B"H - Lights the flames. Note: Currently, backend aliases are verse-level.
- * We manifest indicators, but strict filtering happens on click to save bandwidth.
+ * @description B"H - Lights the flames. Also checks for Deep Links on load.
  */
 export async function manifestCommentIndicators() {
     const post = window.post;
@@ -19,6 +30,12 @@ export async function manifestCommentIndicators() {
     const { getAndSaveAliases } = await import("./panel.js");
     const sections = document.querySelectorAll('.section');
     
+    // Check URL for Deep Link
+    const urlParams = new URLSearchParams(window.location.search);
+    const targetIdx = urlParams.get('idx');
+    const targetSub = urlParams.get('sub');
+    const targetCid = urlParams.get('cid'); // Comment ID
+
     for (const section of sections) {
         const idx = section.dataset.awtsmoosIdx;
         
@@ -31,6 +48,9 @@ export async function manifestCommentIndicators() {
                 indicatorSlot.classList.add('visible');
                 indicatorSlot.onclick = (e) => {
                     e.stopPropagation();
+                    // Update URL params without wiping CID unless we are changing context
+                    updateQueryStringParameter("idx", idx);
+                    updateQueryStringParameter("sub", null);
                     showSectionCommentaryInline(idx, null, section);
                 };
             }
@@ -48,10 +68,25 @@ export async function manifestCommentIndicators() {
                     subIndicator.classList.add('visible');
                     subIndicator.onclick = (e) => {
                         e.stopPropagation();
+                        updateQueryStringParameter("idx", idx);
+                        updateQueryStringParameter("sub", subIdx);
                         showSectionCommentaryInline(idx, subIdx, subEl);
                     };
                 }
             }
+        }
+    }
+
+    // B"H - Auto-open if deep linked
+    if (targetCid && targetIdx !== null) {
+        const targetElSelector = targetSub !== null 
+            ? `.sub-awtsmoos[data-awtsmoos-sub='${targetSub}']` 
+            : `.section[data-awtsmoos-idx='${targetIdx}']`;
+        
+        const el = document.querySelector(targetElSelector);
+        if(el) {
+            // Slight delay to ensure layout
+            setTimeout(() => showSectionCommentaryInline(targetIdx, targetSub, el), 500);
         }
     }
 }
@@ -120,9 +155,9 @@ export function addCommentsInline(comments, alias) {
             let parentElement = targetSectionElement;
             let isParagraph = false;
             
-            // B"H - Enhanced check: ensure '0' is captured as valid.
-            // Also coerce to string for selector compatibility.
-            if (subIdx !== undefined && subIdx !== null && subIdx !== 'main' && subIdx !== 'root') {
+            const hasSub = (subIdx !== undefined && subIdx !== null && subIdx !== 'main' && subIdx !== 'root');
+            
+            if (hasSub) {
                 const subStr = String(subIdx);
                 const subEl = targetSectionElement.querySelector(`.sub-awtsmoos[data-awtsmoos-sub='${subStr}']`);
                 if (subEl) {
@@ -144,7 +179,6 @@ export function addCommentsInline(comments, alias) {
                              parentElement.appendChild(wrapper);
                          }
                      } else {
-                         // Verse level fallback
                          const textContentEl = parentElement.querySelector('.toichen');
                          if (textContentEl && parentElement.contains(textContentEl)) {
                              textContentEl.after(wrapper);
@@ -166,73 +200,55 @@ export function addCommentsInline(comments, alias) {
     }
 }
 
-export async function showSectionCommentaryInline(idx, sub, targetEl) {
-    injectInlineThreadCSS();
+/**
+ * @method renderThreadContent
+ * @description B"H - Internal logic to populate the inline thread container. Reusable for refreshing.
+ */
+async function renderThreadContent(threadContainer, idx, sub) {
+    // Show local loader
+    threadContainer.innerHTML = `<div class="thread-loading">Gathering revelations...</div>`;
     
-    // Fallback: If targetEl isn't passed or invalid, try to find it.
-    if (!targetEl || !targetEl.querySelector) {
-        const sel = (sub !== null && sub !== undefined) 
-            ? `.sub-awtsmoos[data-awtsmoos-sub='${sub}']` 
-            : `.section[data-awtsmoos-idx='${idx}']`;
-        targetEl = document.querySelector(sel);
-        if (!targetEl) return console.error("Target element not found for candle");
-    }
+    // Add Close Button (always needed)
+    const addControls = () => {
+        const closeBtn = document.createElement('button');
+        closeBtn.className = 'thread-close-btn';
+        closeBtn.innerHTML = '&times;';
+        closeBtn.onclick = () => {
+            threadContainer.style.opacity = '0';
+            setTimeout(() => threadContainer.remove(), 300);
+            updateQueryStringParameter("cid", null);
+            updateQueryStringParameter("mid", null);
+        };
+        threadContainer.appendChild(closeBtn);
 
-    const subKey = (sub !== null && sub !== undefined) ? sub : 'main';
-    
-    // Check if thread exists near this target (sibling check)
-    // We check parent's children to see if our thread is already there
-    const parent = targetEl.parentNode; // Usually .toichen or .section
-    let existing = null;
-    if(parent) {
-        // We look for a thread that follows our target
-        // This is a heuristic. A robust way is to query by ID or data attr globally within the section
-        const sectionContainer = targetEl.closest('.section');
-        if(sectionContainer) {
-             existing = sectionContainer.querySelector(`.awtsmoos-inline-thread[data-unique-thread="${idx}-${subKey}"]`);
+        // B"H - Add "Start New Thread" Button for this section
+        if(window.curAlias) {
+            const newThreadBtn = document.createElement("button");
+            newThreadBtn.className = "btn primary small";
+            newThreadBtn.innerText = "Start New Thread";
+            newThreadBtn.style.margin = "0 0 15px 15px";
+            newThreadBtn.onclick = async () => {
+                const { openAIChat } = await import("../ai/chat.js");
+                // Set URL context first
+                updateQueryStringParameter("idx", idx);
+                if(sub !== null) updateQueryStringParameter("sub", sub);
+                openAIChat(); 
+            };
+            threadContainer.appendChild(newThreadBtn);
         }
-    }
-
-    if (existing) {
-        existing.remove();
-        return;
-    }
-
-    const threadContainer = document.createElement('div');
-    threadContainer.className = 'awtsmoos-inline-thread';
-    threadContainer.dataset.uniqueThread = `${idx}-${subKey}`;
-    const label = (sub !== null && sub !== undefined) ? `Paragraph ${parseInt(sub) + 1}` : `Verse ${parseInt(idx) + 1}`;
-    threadContainer.innerHTML = `<div class="thread-loading">Gathering revelations for ${label}...</div>`;
-    
-    // B"H - Placement Logic
-    if (sub !== null && sub !== undefined) {
-        // Paragraph level: Place after the flame inside the sub-awtsmoos div
-        const indicatorEl = targetEl.querySelector('.awtsmoos-comment-indicator');
-        if (indicatorEl) indicatorEl.after(threadContainer);
-        else targetEl.appendChild(threadContainer);
-    } else {
-        // Verse level: Place after .toichen content inside .section
-        const textContentEl = targetEl.querySelector('.toichen');
-        if (textContentEl) textContentEl.after(threadContainer);
-        else targetEl.appendChild(threadContainer);
-    }
+    };
 
     const { getAndSaveAliases } = await import("./panel.js");
-    // Strict fetch: false fallback
+    // Force fresh fetch (true) to see new comments immediately
     let aliases = await getAndSaveAliases(false, true, idx, sub, false); 
 
+    threadContainer.innerHTML = ""; 
+    addControls();
+
     if (!aliases || aliases.length === 0) {
-        threadContainer.innerHTML = `<div class="thread-empty">No commentaries found here. B"H.</div>`;
-        setTimeout(() => { if(threadContainer.parentNode) threadContainer.remove(); }, 3000);
+        threadContainer.innerHTML += `<div class="thread-empty">No commentaries found here. Start one?</div>`;
         return;
     }
-
-    threadContainer.innerHTML = ""; 
-    const closeBtn = document.createElement('button');
-    closeBtn.className = 'thread-close-btn';
-    closeBtn.innerHTML = '&times;';
-    closeBtn.onclick = () => threadContainer.remove();
-    threadContainer.appendChild(closeBtn);
 
     let foundAny = false;
     for (const alias of aliases) {
@@ -244,21 +260,19 @@ export async function showSectionCommentaryInline(idx, sub, targetEl) {
                 <div style="font-size:12px; color:#666; padding: 5px; font-style:italic;">
                     (Currently reading inline below)
                 </div>
-                <button class="btn secondary" style="font-size:11px; padding:2px 6px;" onclick="
-                    var el = document.querySelector('.commentator.inline[data-alias=\\'${alias}\\']');
-                    if(el) el.scrollIntoView({behavior:'smooth', block:'center'});
-                ">Go to comments</button>
             `;
             threadContainer.appendChild(aliasGroup);
             foundAny = true;
             continue;
         }
 
+        // Force fresh comments fetch
         const allVerseComments = await getCommentsOfAlias({
             seriesId: window?.post?.parentSeriesId,
             postId: window?.post?.id,
             heichelId: window?.post?.heichel.id,
             aliasId: alias,
+            fromCache: false, // B"H - Important for immediate refresh
             get: { verseSection: idx, map: true } 
         });
         
@@ -288,8 +302,52 @@ export async function showSectionCommentaryInline(idx, sub, targetEl) {
     }
     
     if (!foundAny) {
-        threadContainer.innerHTML = `<div class="thread-empty">No commentaries specifically on this section.</div>`;
+        threadContainer.innerHTML += `<div class="thread-empty">No commentaries specifically on this section.</div>`;
     }
+}
+
+export async function showSectionCommentaryInline(idx, sub, targetEl) {
+    injectInlineThreadCSS();
+    
+    if (!targetEl || !targetEl.querySelector) {
+        const sel = (sub !== null && sub !== undefined) 
+            ? `.sub-awtsmoos[data-awtsmoos-sub='${sub}']` 
+            : `.section[data-awtsmoos-idx='${idx}']`;
+        targetEl = document.querySelector(sel);
+        if (!targetEl) return console.error("Target element not found for candle");
+    }
+
+    const subKey = (sub !== null && sub !== undefined) ? sub : 'main';
+    const threadId = `${idx}-${subKey}`;
+    
+    const parentContainer = targetEl.parentNode;
+    const existing = parentContainer ? parentContainer.querySelector(`.awtsmoos-inline-thread[data-unique-thread="${threadId}"]`) : null;
+
+    if (existing) {
+        existing.style.opacity = '0';
+        existing.style.transform = 'translateY(-10px) scale(0.98)';
+        setTimeout(() => existing.remove(), 250); 
+        // B"H - Clear Deep Link if closed
+        updateQueryStringParameter("cid", null);
+        updateQueryStringParameter("mid", null);
+        return;
+    }
+
+    const threadContainer = document.createElement('div');
+    threadContainer.className = 'awtsmoos-inline-thread';
+    threadContainer.dataset.uniqueThread = threadId;
+    
+    if (sub !== null && sub !== undefined) {
+        const indicatorEl = targetEl.querySelector('.awtsmoos-comment-indicator');
+        if (indicatorEl) indicatorEl.after(threadContainer);
+        else targetEl.appendChild(threadContainer);
+    } else {
+        const textContentEl = targetEl.querySelector('.toichen');
+        if (textContentEl) textContentEl.after(threadContainer);
+        else targetEl.appendChild(threadContainer);
+    }
+
+    await renderThreadContent(threadContainer, idx, sub);
 }
 
 export function getInlineAliases() {

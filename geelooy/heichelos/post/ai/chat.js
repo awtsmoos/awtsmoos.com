@@ -205,6 +205,7 @@ export function openAIChat() {
     if(window.openPanel) window.openPanel();
     window.tabManager.addTab({
         header: "Awtsmoos AI",
+        content: "",
         async onopen({ actualTab }) {
             renderAIChat({ tab: actualTab });
         }
@@ -257,48 +258,107 @@ function constructPrompt(currentMsg, context, hist) {
     return prompt;
 }
 
+// B"H - Updated Helper for robust handling of chunk extraction including JSONL
 function extractTextFromChunk(chunk) {
-    const data = Array.isArray(chunk) ? chunk[0] : chunk;
-    return data?.candidates?.[0]?.content?.parts?.[0]?.text || "";
+    if (typeof chunk === 'object') {
+        // Direct object (from some stream parsers)
+        return chunk?.candidates?.[0]?.content?.parts?.[0]?.text || "";
+    }
+    
+    if (typeof chunk !== 'string') return "";
+
+    // 1. Try simple JSON parse
+    try {
+        const d = JSON.parse(chunk);
+        const txt = d?.candidates?.[0]?.content?.parts?.[0]?.text;
+        if(txt) return txt;
+    } catch(e) {}
+
+    // 2. Try parsing as JSONL (newline separated JSONs) or multiple concatenated JSONs
+    // Since streams might emit partial chunks, this attempts to salvage complete JSON lines.
+    let extractedText = "";
+    
+    // Split by possible json end/start boundaries or newlines if it looks like JSONL
+    // Note: Simple split by \n is risky if content has \n, but stream chunks usually escape them in JSON strings.
+    const lines = chunk.split('\n');
+    
+    for(const line of lines) {
+        const trimmed = line.trim();
+        if(!trimmed) continue;
+        
+        try {
+            // Remove potential leading/trailing brackets if it's an array wrapper from Gemini
+            let cleanLine = trimmed;
+            if(cleanLine.startsWith(',')) cleanLine = cleanLine.substring(1);
+            if(cleanLine.startsWith('[')) cleanLine = cleanLine.substring(1);
+            if(cleanLine.endsWith(']')) cleanLine = cleanLine.substring(0, cleanLine.length - 1);
+            
+            const d = JSON.parse(cleanLine);
+            const txt = d?.candidates?.[0]?.content?.parts?.[0]?.text;
+            if(txt) extractedText += txt;
+        } catch(e) {
+            // Not valid JSON line
+        }
+    }
+    
+    if(extractedText) return extractedText;
+
+    // 3. Fallback: If awtsmoosAi already extracted text and passed it as a string
+    // assume the string IS the text.
+    return chunk; 
 }
 
 async function saveChat(chatHistory, verseSection) {
     if (!chatHistory || chatHistory.length === 0) {
         return AwtsmoosPrompt.go({ isAlert: true, headerTxt: "Chat is empty!" });
     }
-    if (!window.curAlias) {
+    const currentAlias = window.currentAlias || window.curAlias;
+    if (!currentAlias) {
         return AwtsmoosPrompt.go({ isAlert: true, headerTxt: "You must be logged in with an alias to save comments." });
     }
     try {
+        const s = new URLSearchParams(location.search);
+        const sub = s.get("sub");
+        
         const heichelId = window.post?.heichel?.id;
         const postId = window.post?.id;
+        
         const dayuhObject = {
             conversation: chatHistory,
             verseSection: verseSection === "root" ? "root" : parseInt(verseSection)
         };
+        
+        // B"H - Capture sub-section if present to associate chat with paragraph
+        if (sub !== null && sub !== undefined) {
+            dayuhObject.subSection = parseInt(sub);
+        }
+
         const content = chatTitle || "Chat with Awtsmoos AI";
         const method = activeCommentId ? "PUT" : "POST";
         const bodyParams = {
-            aliasId: window.curAlias,
+            aliasId: currentAlias,
             seriesId: window?.post?.parentSeriesId,
             dayuh: JSON.stringify(dayuhObject),
             content: content
         };
+        
         if (activeCommentId) {
             bodyParams.commentId = activeCommentId;
             bodyParams.verseSection = verseSection === "root" ? "root" : parseInt(verseSection);
         }
+        
         const response = await fetch(location.origin + `/api/social/heichelos/${heichelId}/post/${postId}/comments/`, {
             method: method,
             body: new URLSearchParams(bodyParams),
         });
         const json = await response.json();
+        
         if (json.success) {
             const newCommentId = json.details?.id || activeCommentId;
             activeCommentId = newCommentId; 
-            const newCommentData = { id: newCommentId, author: window.curAlias, content: content, dayuh: dayuhObject };
+            const newCommentData = { id: newCommentId, author: currentAlias, content: content, dayuh: dayuhObject };
             await window.commentLogic.handleNewComment({
-                aliasId: window.curAlias,
+                aliasId: currentAlias,
                 verseSection: verseSection,
                 commentId: newCommentId,
                 newCommentData: newCommentData

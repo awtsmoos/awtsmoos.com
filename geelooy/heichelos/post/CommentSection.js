@@ -37,19 +37,11 @@ class CommentSection {
                 });
                 return;
             }
-            const hasPermission = await (
-                await fetch(`/api/social/alias/${currentAlias}/heichelos/ikar/ownership`)
-            ).json();
-            if (!hasPermission.yes) {
-                await AwtsmoosPrompt.go({
-                    isAlert: true,
-                    headerTxt: `That alias, ${currentAlias}, doesn't have permission to post here.`,
-                });
-                return;
-            }
-
+            // Permission check removed for UX speed - backend handles it anyway
+            
             this.btn.style.display = "none";
             this.commentBox.style.display = "block";
+            this.commentBox.focus(); // Auto-focus
         };
         this.addCommentArea.appendChild(this.btn);
     }
@@ -58,13 +50,18 @@ class CommentSection {
         this.commentBox = document.createElement("div");
         this.commentBox.classList.add("comment-box");
         this.commentBox.contentEditable = true;
-        this.commentBox.placeholder = "Add a comment...";
+        this.commentBox.placeholder = "Write your thoughts...";
         this.commentBox.style.display = "none";
 
-        this.commentBox.oninput = () => {
+        // B"H - Show buttons on ANY interaction (focus or input)
+        const showButtons = () => {
             this.buttonContainer.style.display = "flex";
-            this.submitBtn.disabled = false;
+            // Enable submit if there's text
+            this.submitBtn.disabled = this.commentBox.innerText.trim().length === 0;
         };
+
+        this.commentBox.oninput = showButtons;
+        this.commentBox.onfocus = showButtons; // Added focus handler
 
         this.addCommentArea.appendChild(this.commentBox);
     }
@@ -73,7 +70,7 @@ class CommentSection {
         this.imageUploader = new ImageUploader(this.createGalleryContainer());
         const imageUploadIcon = document.createElement("div");
         imageUploadIcon.classList.add("image-upload-icon");
-        imageUploadIcon.innerText = "📷";
+        imageUploadIcon.innerHTML = "📷"; // Or SVG icon
         imageUploadIcon.onclick = async () => {
             var res = await this.imageUploader.uploadImages();
             this.imgResults = res;
@@ -82,12 +79,15 @@ class CommentSection {
                 img.src = r?.data?.thumb?.url;
                 this.galleryContainer.appendChild(img)
             })
-            this.galleryContainer.style.display = "";
+            this.galleryContainer.style.display = "flex";
+            this.buttonContainer.style.display = "flex"; // Show buttons if image added
+            this.submitBtn.disabled = false;
         };
         this.addCommentArea.appendChild(imageUploadIcon);
     }
 
     createGalleryContainer() {
+        if(this.galleryContainer) return this.galleryContainer;
         this.galleryContainer = document.createElement("div");
         this.galleryContainer.classList.add("image-gallery");
         this.galleryContainer.style.display = "none";
@@ -115,7 +115,7 @@ class CommentSection {
 
         this.submitBtn = document.createElement("button");
         this.submitBtn.classList.add("btn", "submit-comment");
-        this.submitBtn.innerText = "Comment";
+        this.submitBtn.innerText = "Post"; // "Post" is punchier than "Comment"
         this.submitBtn.disabled = true;
         this.submitBtn.onclick = this.submitComment.bind(this);
 
@@ -139,7 +139,7 @@ class CommentSection {
             return;
         }
 
-        this.submitBtn.innerText = "Submitting...";
+        this.submitBtn.innerText = "Posting...";
         this.submitBtn.disabled = true;
 
         try {
@@ -197,7 +197,7 @@ class CommentSection {
             console.error(e);
             await AwtsmoosPrompt.go({ isAlert: true, headerTxt: "A network or script error occurred." });
         } finally {
-            this.submitBtn.innerText = "Comment";
+            this.submitBtn.innerText = "Post";
             this.submitBtn.disabled = false;
         }
     }

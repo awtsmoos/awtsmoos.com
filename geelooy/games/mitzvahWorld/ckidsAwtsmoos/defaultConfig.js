@@ -7,7 +7,12 @@
 export default {
     components: {
         // --- B"H NATURE ASSETS ---
-        
+        "awduhm": "https://awtsmoos.com/api/social/aliases/awtsmoos/fileSystem/readFile?path=desktop.folder%2Fgame+data.folder%2Fmodels.folder%2Fchossid.glb",
+		"grassTexture": "https://www.awtsmoos.com/api/social/aliases/awtsmoos/fileSystem/readFile?path=desktop.folder%2Fgame+data.folder%2Ftextures.folder%2Fgrass1.jpg",
+		"dirtTexture": "https://www.awtsmoos.com/api/social/aliases/awtsmoos/fileSystem/readFile?path=desktop.folder%2Fgame+data.folder%2Ftextures.folder%2Fdirt+smaller.png",
+		"brickTexture": "https://www.awtsmoos.com/api/social/aliases/awtsmoos/fileSystem/readFile?path=desktop.folder%2Fgame+data.folder%2Ftextures.folder%2Fbrick.jpg",
+		"world": "https://www.awtsmoos.com/api/social/aliases/awtsmoos/fileSystem/readFile?path=desktop.folder%2Fgame+data.folder%2Fworlds.folder%2Fland.glb",
+	
         // --- BARK TEXTURES ---
         // Oak
         "barkTextureOak": "https://awtsmoos.com/api/social/aliases/awtsmoos/fileSystem/readFile?path=desktop.folder%2Fgame+data.folder%2Ftextures.folder%2Fbark%2Foak_color_1k.jpg",

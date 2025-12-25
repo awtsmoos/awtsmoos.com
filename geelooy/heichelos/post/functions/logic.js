@@ -72,7 +72,6 @@ export async function interpretPostDayuh(post) {
         await inlineModule.manifestCommentIndicators();
     }
 
-    // Refresh highlighters once content is fully manifested
     if (window.chai) window.chai.updateParagraphs();
     if (window.subChai) window.subChai.updateParagraphs();
 }
@@ -158,6 +157,20 @@ export async function generateSection({sectionText, sectionId, dynamic=null, dat
             // B"H - Sub-indicator: Manifest BENEATH the text content
             const subIndicator = document.createElement("div");
             subIndicator.className = "awtsmoos-comment-indicator sub-indicator";
+            
+            // --- INSTANT COMMENT BUTTON ---
+            const quickBtn = document.createElement("span");
+            quickBtn.className = "awtsmoos-quick-comment-btn";
+            quickBtn.innerHTML = "+";
+            quickBtn.title = "Instant Comment";
+            quickBtn.onclick = async (e) => {
+                e.stopPropagation();
+                // Import dynamic to avoid circle deps
+                const { showSectionCommentaryInline } = await import("../comments/inline.js");
+                await showSectionCommentaryInline(i, localSubCount, subS);
+            };
+            subIndicator.appendChild(quickBtn);
+            
             subS.appendChild(subIndicator);
 
             sectionDiv.appendChild(subS);

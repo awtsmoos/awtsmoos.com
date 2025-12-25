@@ -15,13 +15,10 @@ export function appendHTML(html, par) {
 export function appendWithSubChildren(node, parent, array) {
     if (node.tagName === "SCRIPT" && !node.src) {
         try { 
-            // Basic heuristic to avoid running obviously broken regex snippets often found in raw dumps
             if(!node.innerHTML.includes("var x = /")) {
                 eval(node.innerHTML); 
             }
         } catch (error) { 
-            // Suppress error log for known noise, or log concisely
-            // console.warn("Script injection skipped:", error.message); 
         }
     } else {
         var result = null;
@@ -49,13 +46,13 @@ export function appendWithSubChildren(node, parent, array) {
     }
 }
 
-export function adjustFontSize(action) {
+// B"H - Exposed to Global Scope for HTML Buttons
+window.adjustFontSize = function(action) {
     const root = document.documentElement;
-    // Get current size from variable or fallback to 18
-    let current = parseFloat(getComputedStyle(root).getPropertyValue('--awtsmoos-font-size')) || 18;
-    const MAX_FONT_SIZE = 72;
+    let current = parseFloat(getComputedStyle(root).getPropertyValue('--awtsmoos-font-size')) || 16;
+    const MAX_FONT_SIZE = 48;
     const MIN_FONT_SIZE = 12;
-    const FONT_SIZE_INCREMENT = 1; // Finer control
+    const FONT_SIZE_INCREMENT = 2; 
 
     if (action == 'increase' && current < MAX_FONT_SIZE) {
         current += FONT_SIZE_INCREMENT;
@@ -65,6 +62,7 @@ export function adjustFontSize(action) {
     
     root.style.setProperty('--awtsmoos-font-size', current + 'px');
     localStorage.currentFontSize = current + 'px';
+    console.log("B\"H - Font size adjusted to:", current); // Debug
 }
 
 export function loadFontSize() {
@@ -73,7 +71,7 @@ export function loadFontSize() {
     if (fs) {
         root.style.setProperty('--awtsmoos-font-size', fs);
     } else {
-        root.style.setProperty('--awtsmoos-font-size', '18px'); // New Default
+        root.style.setProperty('--awtsmoos-font-size', '16px'); 
     }
 }
 
@@ -81,11 +79,6 @@ export function isHebrewWord(word) {
     return /^[א-ת\u0590-\u05FF]+$/.test(word);
 }
 
-/**
- * Robust Hebrew detection.
- * Scans the first 100 characters for any Hebrew glyphs, 
- * bypassing numbers and punctuation that often start Torah sections.
- */
 export function isFirstCharacterHebrew(str) {
     if(!str) return false;
     const sample = str.substring(0, 100);
@@ -111,9 +104,6 @@ export function copyToClipboard({ text, successMsg }, makeToast) {
     });
 }
 
-/**
- * Updates a URL query parameter without a full page reload.
- */
 export function updateQueryStringParameter(key, value) {
     const url = new URL(window.location);
     if(value === null || value === undefined) {
@@ -121,7 +111,6 @@ export function updateQueryStringParameter(key, value) {
     } else {
         url.searchParams.set(key, value);
     }
-    // Update the browser's address bar
     window.history.replaceState({ path: url.href }, '', url.href);
 }
 

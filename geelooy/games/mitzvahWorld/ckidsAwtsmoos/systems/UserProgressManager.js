@@ -1,119 +1,99 @@
-
 // B"H
+/**
+ * UserProgressManager - The Zikaron (Memory) of the player's journey.
+ * Ensures that no spark of effort is lost, bridging worker logic and physical storage.
+ */
 import Utils from "../utils.js";
 
 export default class UserProgressManager {
     constructor(olam) {
         this.olam = olam;
-        // Default Data Structure
+        this.LOCAL_KEY = "AWTSMOOS_WORLD_SAVE_";
         this.data = {
-            inventory: { slots: [], equipment: {} },
-            questHistory: {}, // { questId: { status, timestamp, count } }
+            inventory: { slots: [], actionSlots: [], equipment: {} },
+            questHistory: {},
             unlockedRecipes: [],
-            stats: { coinsCollected: 0 }
+            stats: { coinsCollected: 0 },
+            lastSave: 0
         };
         
         this._saveTimeout = null;
         this.load();
     }
 
+    /**
+     * Gathers the fragments of the past.
+     */
     load() {
-        // B"H: Load from playerSettings passed during Olam initialization
-        // This data originates from worldManager.js via systemInfo.set.playerSettings
-        if (this.olam && this.olam.playerSettings) {
-            try {
-                // Merge loaded settings with default structure to ensure robustness
-                // We use deep merge logic if needed, but for now top-level merge is okay 
-                // provided we check sub-objects.
-                const loaded = this.olam.playerSettings;
-                
-                if(loaded.inventory) this.data.inventory = loaded.inventory;
-                if(loaded.questHistory) this.data.questHistory = loaded.questHistory;
-                if(loaded.stats) this.data.stats = loaded.stats;
-                
-                console.log("B\"H UserProgressManager: Loaded settings from Olam.");
-            } catch (e) {
-                console.warn("B\"H UserProgressManager: Error merging settings", e);
+        if (this.olam.playerSettings) {
+            const cloud = this.olam.playerSettings;
+            if (cloud.lastSave > (this.data.lastSave || 0)) {
+                Object.assign(this.data, cloud);
+                console.log("B\"H: Synced progress from World Manager.");
             }
-        } else {
-             console.log("B\"H UserProgressManager: No saved settings found, starting fresh.");
         }
     }
 
+    /**
+     * Seals the current state into the physical storage.
+     */
     save() {
-        // B"H: Debounce save to prevent network spam (e.g. "makeFile" flooding)
-        if (this._saveTimeout) {
-            clearTimeout(this._saveTimeout);
-        }
+        if (this._saveTimeout) clearTimeout(this._saveTimeout);
 
         this._saveTimeout = setTimeout(() => {
             this._performSave();
-        }, 2000); // Save at most once every 2 seconds
+        }, 1500);
     }
 
     async _performSave() {
-        // 1. Sync live inventory state to local data object
         if (this.olam.player && this.olam.player.inventory) {
+            const inv = this.olam.player.inventory;
             this.data.inventory = {
-                slots: this.olam.player.inventory.slots,
-                actionSlots: this.olam.player.inventory.actionSlots,
-                equipment: this.olam.player.inventory.equipment
+                slots: inv.slots,
+                actionSlots: inv.actionSlots,
+                equipment: inv.equipment
             };
         }
 
-        // 2. Persist to Server if Logged In
-        const alias = this.olam.curAlias;
-        if (alias) {
-            try {
-                const settingsPath = "desktop.folder/game data.folder/playerData.json";
-                const fileContent = JSON.stringify(this.data, null, 2);
+        this.data.lastSave = Date.now();
+        
+        // Notify the bridge
+        this.olam.ayshPeula("updateProgress", this.data);
 
-                // Fire and forget save
-                fetch(`/api/social/aliases/${alias}/fileSystem/makeFile`, {
+        // Spiritual Cloud Save (if applicable)
+        if (this.olam.curAlias) {
+            const serialized = JSON.stringify(this.data);
+            const settingsPath = "desktop.folder/game data.folder/playerData.json";
+            try {
+                await fetch(`/api/social/aliases/${this.olam.curAlias}/fileSystem/makeFile`, {
                     method: "POST",
-                    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                    body: new URLSearchParams({
-                        path: settingsPath,
-                        value: fileContent
-                    })
-                }).then(res => {
-                   if(!res.ok) console.warn("B\"H Auto-Save Failed", res.status);
-                }).catch(e => console.warn("B\"H Auto-Save Error", e));
-                
+                    body: new URLSearchParams({ path: settingsPath, value: serialized })
+                });
             } catch (e) {
-                console.error("B\"H Error saving progress:", e);
+                console.warn("B\"H: Cloud sync failed.");
             }
         }
     }
-
-    // --- Quest Persistence ---
     
-    getQuestState(questId) {
-        return this.data.questHistory[questId] || null;
+    getQuestState(id) {
+        if(!this.data.questHistory) this.data.questHistory = {};
+        return this.data.questHistory[id];
     }
-
-    updateQuestState(questId, stateData) {
-        if (!this.data.questHistory[questId]) {
-            this.data.questHistory[questId] = { count: 0 };
-        }
-        
-        const entry = this.data.questHistory[questId];
-        Object.assign(entry, stateData);
-        entry.lastUpdated = Date.now();
-        
-        if (stateData.status === 'COMPLETED') {
-            entry.count = (entry.count || 0) + 1;
-            entry.lastCompleted = Date.now();
-        }
-        
+    
+    updateQuestState(id, stateObj) {
+        if(!this.data.questHistory) this.data.questHistory = {};
+        this.data.questHistory[id] = { 
+            ...this.data.questHistory[id], 
+            ...stateObj,
+            lastUpdate: Date.now()
+        };
         this.save();
     }
-
-    checkCooldown(questId, cooldownMinutes) {
-        const entry = this.data.questHistory[questId];
-        if (!entry || !entry.lastCompleted) return true; // Available
-        
-        const diff = Date.now() - entry.lastCompleted;
+    
+    checkCooldown(id, cooldownMinutes) {
+        const q = this.getQuestState(id);
+        if(!q || !q.lastUpdate) return true;
+        const diff = Date.now() - q.lastUpdate;
         return diff > (cooldownMinutes * 60 * 1000);
     }
 }
