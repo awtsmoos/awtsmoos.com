@@ -30,12 +30,15 @@ class GraphManager {
     }
 
     _getId(handle) {
+        // B"H: Identity check for already hydrated nodes or custom instances
+        if (handle && handle.__className__) return this._getIdFromPtr(handle.ptr);
+        
         const h = HandleRegistry.getSoul(handle);
         if (!h) return null;
         
         // B"H: Optimization - Check Cache
         if (h.ptr) {
-            const ptrHex = h.ptr.toString('hex');
+            const ptrHex = Buffer.isBuffer(h.ptr) ? h.ptr.toString('hex') : `${h.ptr.blockId}_${h.ptr.offset || 0}`;
             if (this._idCache.has(ptrHex)) return this._idCache.get(ptrHex);
             
             const id = this._getIdFromPtr(h.ptr);
@@ -50,6 +53,11 @@ class GraphManager {
 
     _getIdFromPtr(ptrBuf) {
         if (!ptrBuf) return null;
+        // B"H: Handle structure descriptors
+        if (ptrBuf.isStructure) {
+             return `${ptrBuf.blockId}_${ptrBuf.offset || 0}`;
+        }
+
         const decoded = SmartPointer.decode(ptrBuf);
         if (decoded) {
             if (decoded.mode === constants.MODE_BLOCK) {
@@ -89,7 +97,9 @@ class GraphManager {
             const edge = { 
                 targetId, sourceId, label, props, timestamp: Date.now(),
                 sourcePtr: src.ptr,
-                targetPtr: tgt.ptr
+                targetPtr: tgt.ptr,
+                sourceType: src.type,
+                targetType: tgt.type
             };
             
             // B"H: Optimization - Parallel Edge Write
@@ -149,8 +159,11 @@ class GraphManager {
     async deleteNode(nodeIdentifier) {
         await this._init();
         let nodeId;
-        if (Buffer.isBuffer(nodeIdentifier)) nodeId = this._getIdFromPtr(nodeIdentifier);
-        else nodeId = this._getId(nodeIdentifier) || String(nodeIdentifier);
+        if (Buffer.isBuffer(nodeIdentifier) || (nodeIdentifier && nodeIdentifier.isStructure)) {
+            nodeId = this._getIdFromPtr(nodeIdentifier);
+        } else {
+            nodeId = this._getId(nodeIdentifier) || String(nodeIdentifier);
+        }
         
         if (!nodeId) return;
 
@@ -267,25 +280,42 @@ class GraphManager {
 
     async _hydrateEdge(edge, dir) {
         const ptrBuf = (dir === 'out') ? edge.targetPtr : edge.sourcePtr;
-        if (ptrBuf) {
-            const otherNode = this._hydrateNodeHandleFromPtr(ptrBuf);
-            return { node: otherNode, label: edge.label, props: edge.props, direction: dir, _raw: edge };
-        }
-        const otherId = (dir === 'out') ? edge.targetId : edge.sourceId;
-        const otherNode = this._hydrateNodeHandleFromId(otherId);
+        const type = (dir === 'out') ? edge.targetType : edge.sourceType;
+        const id = (dir === 'out') ? edge.targetId : edge.sourceId;
+
+        // B"H: Reconstruct handle from whatever spark we have
+        const otherNode = this._hydrateNodeHandleFromWhatever(ptrBuf, type, id);
         return { node: otherNode, label: edge.label, props: edge.props, direction: dir, _raw: edge };
     }
 
-    _hydrateNodeHandleFromPtr(ptrBuf) {
-        const decoded = SmartPointer.decode(ptrBuf);
-        return HandleRegistry.createHandle(this.db, ptrBuf, decoded.type, null);
+    _hydrateNodeHandleFromWhatever(ptrMaybe, typeMaybe, idMaybe) {
+        // 1. If it's already a Proxy Handle, return it
+        if (HandleRegistry.isHandle(ptrMaybe)) return ptrMaybe;
+        
+        // 2. Extract reliable type
+        const type = typeMaybe || constants.TYPE_DICTIONARY;
+        
+        // 3. Reconstruct Pointer Buffer
+        let buf = null;
+        if (Buffer.isBuffer(ptrMaybe) && ptrMaybe.length === 16) {
+             buf = ptrMaybe;
+        } else if (ptrMaybe && ptrMaybe.isStructure) {
+             buf = SmartPointer.block(ptrMaybe.type || type, ptrMaybe.blockId, ptrMaybe.length, ptrMaybe.isChain, ptrMaybe.offset);
+        } else if (idMaybe) {
+             const [blockStr, offStr] = idMaybe.split('_');
+             buf = SmartPointer.block(type, parseInt(blockStr), 0, false, parseInt(offStr||0));
+        }
+
+        if (!buf) return ptrMaybe; // Impossible fallback
+        
+        return HandleRegistry.createHandle(this.db, buf, type, null);
     }
 
-    _hydrateNodeHandleFromId(id) {
+    _hydrateNodeHandleFromId(id, type = constants.TYPE_DICTIONARY) {
         const [blockStr, offStr] = id.split('_');
         const blockId = parseInt(blockStr);
-        const ptr = SmartPointer.block(constants.TYPE_DICTIONARY, blockId, 0, false, parseInt(offStr||0)); 
-        return HandleRegistry.createHandle(this.db, ptr, constants.TYPE_DICTIONARY, null);
+        const ptr = SmartPointer.block(type, blockId, 0, false, parseInt(offStr||0)); 
+        return HandleRegistry.createHandle(this.db, ptr, type, null);
     }
 
     async projectGraph() {
