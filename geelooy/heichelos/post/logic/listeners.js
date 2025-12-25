@@ -1,3 +1,4 @@
+
 //B"H
 import { updateQueryStringParameter } from "../functions/utils.js";
 
@@ -77,7 +78,7 @@ export function setupUIListeners() {
  */
 export async function setupHighlightingLogic() {
     try {
-        const { startHighlighting } = await import("../functions/interaction.js");
+        const { startHighlighting, syncFootnotesInSidebar } = await import("../functions/interaction.js");
         startHighlighting("realPost", {
             onSection: (section) => {
                 if (!section) return;
@@ -91,6 +92,9 @@ export async function setupHighlightingLogic() {
                 window.dispatchEvent(new CustomEvent("awtsmoos index", {
                     detail: { idx, sub }
                 }));
+
+                // B"H - Sync footnotes if any present in this section
+                syncFootnotesInSidebar(section);
             },
             onParagraph: (paragraph) => {
                 if (!paragraph) return;
@@ -100,6 +104,9 @@ export async function setupHighlightingLogic() {
                 window.dispatchEvent(new CustomEvent("awtsmoos index", {
                     detail: { sub }
                 }));
+
+                // B"H - Sync footnotes specific to this paragraph
+                syncFootnotesInSidebar(paragraph);
             }
         });
     } catch(e) {

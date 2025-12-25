@@ -1,8 +1,6 @@
 
 // B"H
 (function(root) {
-    // Ensure Namespace
-    // B"H - Capture existing object which might contain 'Thread' if loaded first
     const previousNamespace = root.MerkavaVM || {};
     
     class MerkavaVM {
@@ -12,21 +10,19 @@
             this.context = context;
             this.importResolver = importResolver;
             this.threads = [];
-            this.pendingAsyncCount = 0; // B"H - Tracks active async tasks (Workers, etc.)
+            this.pendingAsyncCount = 0; 
+            this.cycleCount = 0;
+            this.MAX_THREADS = 128; // B"H - Expanded for density
         }
 
         spawn(codeObject) {
-            // B"H - Create the Main Thread
-            // Pass the VM instance, the Code Object, and the Context
-            
-            // B"H - Safe Thread Resolution
-            // We check root.MerkavaVM.Thread (Static property on the class)
-            // Or fallback to MerkavaVM.Thread if accessible in scope
-            const ThreadClass = root.MerkavaVM.Thread || MerkavaVM.Thread;
-            
-            if (!ThreadClass) {
-                throw new Error("MerkavaVM.Thread is not defined. Check module load order.");
+            if (this.threads.length >= this.MAX_THREADS) {
+                console.warn(`[MerkavaVM] Thread limit reached (${this.MAX_THREADS}). Emanation suppressed.`);
+                return { status: 'SUPPRESSED' };
             }
+
+            const ThreadClass = root.MerkavaVM.Thread || MerkavaVM.Thread;
+            if (!ThreadClass) throw new Error("MerkavaVM.Thread is not defined.");
 
             const thread = new ThreadClass(this, codeObject, this.context);
             thread.status = 'RUNNING';
@@ -35,42 +31,39 @@
         }
 
         run(cycles = 1000) {
-            // B"H - Run logic
-            for (let i = 0; i < cycles; i++) {
-                let active = false;
-                // Round-robin execution of threads
+            let totalStepsInRun = 0;
+            
+            // B"H - Distributed Cycle Allocation
+            while (totalStepsInRun < cycles) {
+                let ranSomething = false;
                 for (const thread of this.threads) {
                     if (thread.status === 'RUNNING') {
                         thread.step();
-                        active = true;
+                        totalStepsInRun++;
+                        this.cycleCount++;
+                        ranSomething = true;
+                        // Yield if we hit the budget, but ensure the next loop starts from current position
+                        if (totalStepsInRun >= cycles) break;
                     }
                 }
-                // If no threads were running this cycle, break the cycle loop
-                // (to avoid busy-waiting if all are WAITING)
-                if (!active) break;
+                if (!ranSomething) break;
             }
 
-            // B"H - Return TRUE if any thread is still ALIVE (RUNNING, WAITING, BLOCKED, etc.)
-            // OR if there are pending async operations (like Workers/Timers) keeping the VM alive.
-            const hasActiveThreads = this.threads.some(t => {
+            // B"H - Efficient Thread Reaping
+            this.threads = this.threads.filter(t => {
                 const s = t.status;
-                // B"H - Explicitly check for all non-terminal states, including READY/YIELDED
                 return s === 'RUNNING' || s === 'READY' || s === 'YIELDED' || s === 'AWAITING' || s === 'SUSPENDED';
             });
 
-            return hasActiveThreads || this.pendingAsyncCount > 0;
+            return this.threads.length > 0 || this.pendingAsyncCount > 0;
         }
     }
 
-    // B"H - Restore properties (like Thread) to the new Class Object
-    // This ensures that if Thread was defined before this file ran, it is re-attached to the Class.
     for (let key in previousNamespace) {
         if (Object.prototype.hasOwnProperty.call(previousNamespace, key)) {
             MerkavaVM[key] = previousNamespace[key];
         }
     }
 
-    // Export
     root.MerkavaVM = MerkavaVM;
-
 })(typeof self !== 'undefined' ? self : this);

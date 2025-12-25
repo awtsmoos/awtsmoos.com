@@ -1,3 +1,4 @@
+
 // B"H
 (function(root) {
     root.MerkavaCompiler = root.MerkavaCompiler || {};
@@ -31,13 +32,14 @@
             const loop = { breaks: [], continues: [] };
             this.loops.push(loop);
             this._visit(node.body);
+            const continueAddr = this.buffer.currentAddress;
             this.buffer.write8(this.OPCODES.JUMP);
             const backOffset = startAddr - (this.buffer.currentAddress + 2);
             this.buffer.write16(backOffset); 
             const endAddr = this.buffer.currentAddress;
             this.buffer.patch16(endJump, endAddr - endJump - 2);
             loop.breaks.forEach(b => this.buffer.patch16(b, endAddr - b - 2));
-            loop.continues.forEach(c => this.buffer.patch16(c, startAddr - c - 2));
+            loop.continues.forEach(c => this.buffer.patch16(c, continueAddr - c - 2));
             this.loops.pop();
         },
 
@@ -70,7 +72,11 @@
             this.loops.push(loop);
             this._visit(node.body);
             const continueAddr = this.buffer.currentAddress;
-            if (node.update) this._visit(node.update);
+            if (node.update) {
+                this._visit(node.update);
+                // B"H - TIKKUN: Pop the update expression's result to maintain stack integrity
+                this.buffer.write8(this.OPCODES.POP); 
+            }
             this.buffer.write8(this.OPCODES.JUMP);
             const backOffset = startAddr - (this.buffer.currentAddress + 2);
             this.buffer.write16(backOffset);
@@ -85,37 +91,45 @@
             this._visit(node.right);
             this.buffer.write8(this.OPCODES.GET_ITERATOR);
             const startAddr = this.buffer.currentAddress;
-            this.buffer.write8(this.OPCODES.DUP);
+            
+            this.buffer.write8(this.OPCODES.DUP); 
             this.buffer.write8(this.OPCODES.ITERATOR_NEXT);
             this.buffer.write8(this.OPCODES.DUP);
             this.buffer.write8(this.OPCODES.ITERATOR_DONE);
             this.buffer.write8(this.OPCODES.JUMP_IF_TRUE);
             const endJump = this.buffer.write16(0);
+            
             this.buffer.write8(this.OPCODES.ITERATOR_VALUE);
             
+            // Store value into loop variable
             if (node.left.type === 'VariableDeclaration') {
                 const decl = node.left.declarations[0];
                 if (decl.id.type === 'Identifier') {
                     if (this.scope.depth > 0) this.scope.declare(decl.id.name);
                     this._visitIdentifier(decl.id, 'STORE');
                 }
-                this.buffer.write8(this.OPCODES.POP); 
             } else {
                 this._visitIdentifier(node.left, 'STORE');
-                this.buffer.write8(this.OPCODES.POP);
             }
+
+            // B"H - TIKKUN: Pop the 'result' object left by ITERATOR_NEXT
+            this.buffer.write8(this.OPCODES.POP);
 
             const loop = { breaks: [], continues: [] };
             this.loops.push(loop);
             this._visit(node.body);
+            
             this.buffer.write8(this.OPCODES.JUMP);
             const backOffset = startAddr - (this.buffer.currentAddress + 2);
             this.buffer.write16(backOffset);
+            
             const endAddr = this.buffer.currentAddress;
             this.buffer.patch16(endJump, endAddr - endJump - 2);
-            this.buffer.write8(this.OPCODES.POP); // value
-            this.buffer.write8(this.OPCODES.POP); // done
-            this.buffer.write8(this.OPCODES.POP); // iter
+            
+            // Cleanup on exit
+            this.buffer.write8(this.OPCODES.POP); // result object
+            this.buffer.write8(this.OPCODES.POP); // iterator itself
+            
             loop.breaks.forEach(b => this.buffer.patch16(b, endAddr - b - 2));
             loop.continues.forEach(c => this.buffer.patch16(c, startAddr - c - 2));
             this.loops.pop();
@@ -125,6 +139,7 @@
             this._visit(node.right);
             this.buffer.write8(this.OPCODES.ENUMERATE); 
             const startAddr = this.buffer.currentAddress;
+            
             this.buffer.write8(this.OPCODES.DUP);
             this.buffer.write8(this.OPCODES.ITERATOR_NEXT);
             this.buffer.write8(this.OPCODES.DUP);
@@ -139,23 +154,25 @@
                     if (this.scope.depth > 0) this.scope.declare(decl.id.name);
                     this._visitIdentifier(decl.id, 'STORE');
                 }
-                this.buffer.write8(this.OPCODES.POP);
             } else {
                 this._visitIdentifier(node.left, 'STORE');
-                this.buffer.write8(this.OPCODES.POP);
             }
             
+            this.buffer.write8(this.OPCODES.POP);
+
             const loop = { breaks: [], continues: [] };
             this.loops.push(loop);
             this._visit(node.body);
             this.buffer.write8(this.OPCODES.JUMP);
             const backOffset = startAddr - (this.buffer.currentAddress + 2);
             this.buffer.write16(backOffset);
+            
             const endAddr = this.buffer.currentAddress;
             this.buffer.patch16(endJump, endAddr - endJump - 2);
-            this.buffer.write8(this.OPCODES.POP); 
-            this.buffer.write8(this.OPCODES.POP);
-            this.buffer.write8(this.OPCODES.POP);
+            
+            this.buffer.write8(this.OPCODES.POP); // result
+            this.buffer.write8(this.OPCODES.POP); // iterator
+            
             loop.breaks.forEach(b => this.buffer.patch16(b, endAddr - b - 2));
             loop.continues.forEach(c => this.buffer.patch16(c, startAddr - c - 2));
             this.loops.pop();

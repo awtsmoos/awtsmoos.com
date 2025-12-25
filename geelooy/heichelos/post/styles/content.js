@@ -1,89 +1,75 @@
+
 //B"H
 export function injectPostContentCSS() {
-    const id = "BH-postContentStyles-Pro-V4";
+    const id = "BH-postContentStyles-Pro-V5";
     if (document.getElementById(id)) return;
     
     const style = document.createElement("style");
     style.id = id;
     style.textContent = /*css*/`
         /* Scope scaling to the reading area - 100% Ratio */
-        #realPost, .comment-content, .ai-block-content {
-            font-size: var(--awtsmoos-font-size, 18px);
+        #realPost {
+            /* The parent uses the global variable, so we use ems/rems to scale relative to it */
+            font-size: 1rem; 
+            max-width: 900px;
+            margin: 0 auto;
         }
 
         /* --- Base Text Section --- */
         .section {
-            margin-bottom: 2em;
+            margin-bottom: 2.5rem;
             position: relative;
-            padding: 1.5em;
-            background: #fff;
-            border: 3px solid #000; /* Thicker, bolder border */
-            box-shadow: 8px 8px 0px #000; /* Hard, deep shadow */
-            transition: transform 0.1s, box-shadow 0.1s;
-        }
-        
-        .section:hover {
-            transform: translate(-2px, -2px);
-            box-shadow: 10px 10px 0px #000;
+            padding: 0 0 2rem 0; /* Cleaner look, no box */
+            background: transparent;
+            border-bottom: 1px solid #e0e0e0;
+            transition: opacity 0.2s;
         }
         
         /* Highlighted State */
         .section.active {
-            background-color: #fff9c4; /* Intense yellow tint */
-            border-color: #000;
-            box-shadow: 8px 8px 0px #000; /* Keep shadow black for contrast */
+            background: linear-gradient(to right, rgba(255, 249, 196, 0.3), transparent);
+            border-left: 4px solid #ffcc00;
+            padding-left: 1rem;
         }
 
+        /* The Main Content Text */
         .toichen {
             display: block;
-            font-size: 1em; /* Scales 1:1 with #realPost */
-            color: #000;
-            line-height: 1.6;
-            font-family: 'Courier New', Courier, monospace; /* Brutalist choice */
+            font-size: 1.25em; /* 25% larger than base UI for readability */
+            color: #111;
+            line-height: 1.7;
+            font-family: var(--font-content, serif); 
             word-wrap: break-word;
-            font-weight: 500;
+            font-weight: 400;
         }
         
-        /* B"H - CRITICAL FIX: Ensure parsed elements inherit font size recursively */
-        .toichen p, .toichen li, .toichen blockquote, .toichen pre, .toichen code, 
-        .toichen h1, .toichen h2, .toichen h3, .toichen h4, .toichen h5, .toichen h6,
-        .ai-block-content p, .ai-block-content li, .ai-block-content code {
-            font-size: inherit;
-            line-height: 1.6;
-            margin-bottom: 1em;
-        }
+        /* Ensure inner elements scale with .toichen */
+        .toichen p { margin-bottom: 1em; font-size: inherit; }
         
         /* --- Verse Header & Number --- */
         .awtsmoos-section-header {
             display: flex;
             align-items: center;
-            margin-bottom: 1em;
-            border-bottom: 2px solid #000;
-            padding-bottom: 0.5em;
-            background: #f0f0f0;
-            margin: -1.5em -1.5em 1em -1.5em; /* Flush with border */
-            padding: 0.5em 1.5em;
+            margin-bottom: 0.8rem;
+            font-family: var(--font-ui);
+            font-size: 0.9rem; /* Keep metadata small */
+            color: #888;
         }
 
         .awtsmoos-verse-number {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            background: #000;
-            color: #fff;
-            font-size: 0.8em;
-            font-weight: 900;
-            padding: 0.3em 0.8em;
+            font-weight: 700;
+            margin-right: 10px;
+            color: #aaa;
             cursor: pointer;
             user-select: none;
-            box-shadow: 3px 3px 0 rgba(0,0,0,0.2);
+            transition: color 0.2s;
         }
         
         .awtsmoos-verse-number:hover {
-            background: #ffcc00;
             color: #000;
-            box-shadow: 1px 1px 0 #000;
-            transform: translate(2px, 2px);
         }
         
         .awtsmoos-verse-number.hidden { display: none; }
@@ -92,13 +78,20 @@ export function injectPostContentCSS() {
         .awtsmoos-comment-indicator {
             margin-left: auto;
             cursor: pointer;
-            font-size: 1.2em;
-            color: #000;
+            font-size: 1.2rem;
+            color: #ddd;
+            transition: all 0.2s;
+            opacity: 0; /* Hidden until hover or active */
+        }
+        
+        .section:hover .awtsmoos-comment-indicator,
+        .awtsmoos-comment-indicator.visible {
+            opacity: 1;
         }
         
         .awtsmoos-comment-indicator:hover {
             color: #ffcc00;
-            text-shadow: 2px 2px 0 #000;
+            transform: scale(1.2);
         }
 
         /* --- Sub-sections (Paragraphs) --- */
@@ -106,13 +99,21 @@ export function injectPostContentCSS() {
             display: block; 
             margin: 1.5em 0; 
             padding: 1em;
-            border-left: 6px solid #000; /* Distinct marker */
-            background: #fafafa;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+            border: 1px solid transparent;
+            transition: all 0.2s;
+        }
+        
+        .sub-awtsmoos:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            border-color: #eee;
         }
         
         .sub-awtsmoos.active {
-            background-color: #ffff00; /* Highlight yellow */
-            border-left-color: #000;
+            background-color: #fffde7; 
+            border-color: #ffcc00;
             color: #000;
         }
 
@@ -120,64 +121,70 @@ export function injectPostContentCSS() {
         .toichen.heb {
             direction: rtl;
             text-align: right;
-            font-family: 'David', 'Courier New', serif;
-            font-size: 1.2em;
+            font-family: 'David', serif;
+            font-size: 1.35em; /* Hebrew needs to be slightly larger */
+            line-height: 1.5;
         }
-
-        .toichen.heb .sub-awtsmoos {
-            border-left: none;
-            border-right: 6px solid #000;
-        }
+        
+        .toichen.heb p { font-size: inherit; }
 
         /* --- Markdown Elements --- */
         .toichen h1, .toichen h2, .toichen h3 { 
-            font-family: "Courier New", monospace;
+            font-family: var(--font-ui);
             color: #000;
-            font-weight: 900;
-            text-transform: uppercase;
-            border-bottom: 4px solid #000;
-            padding-bottom: 0.2em;
+            font-weight: 800;
             margin-top: 1.5em;
-            font-size: 1.4em; /* Relative scale */
+            margin-bottom: 0.5em;
+            line-height: 1.2;
         }
+        .toichen h1 { font-size: 1.8em; border-bottom: 2px solid #000; padding-bottom: 0.2em; }
+        .toichen h2 { font-size: 1.5em; }
+        .toichen h3 { font-size: 1.3em; }
         
         .toichen blockquote {
-            border: 2px solid #000;
-            background: #fff;
-            padding: 1em;
+            border-left: 4px solid #000;
+            background: #f9f9f9;
+            padding: 0.5em 1em;
             margin: 1em 0;
             font-style: italic;
-            box-shadow: 4px 4px 0 #ccc;
+            color: #555;
         }
         
         .toichen pre {
-            background: #000;
-            color: #0f0;
+            background: #2d2d2d;
+            color: #f8f8f2;
             padding: 1em;
-            border: 2px solid #000;
+            border-radius: 4px;
             overflow-x: auto;
-            font-family: "Courier New", monospace;
-            box-shadow: 6px 6px 0 #888;
-        }
-
-        .toichen ul, .toichen ol {
-            padding-inline-start: 1.5em;
+            font-family: monospace;
+            font-size: 0.85em; /* Code usually looks huge if 1em */
         }
 
         .toichen a {
-            color: #000;
+            color: #0066cc;
             text-decoration: none;
-            border-bottom: 2px solid #000;
-            font-weight: 900;
-            background: rgba(255, 204, 0, 0.3);
+            border-bottom: 1px solid rgba(0,102,204,0.3);
+            font-weight: 600;
         }
         .toichen a:hover {
-            background: #ffcc00;
+            background: rgba(0, 102, 204, 0.1);
+            border-bottom-color: #0066cc;
         }
         
+        /* Flash Animation for Scrolling to Footnote */
+        @keyframes flash-yellow {
+            0% { background-color: #ffff00; transform: scale(1.5); }
+            50% { background-color: #ff0000; transform: scale(1.2); color: white; }
+            100% { background-color: transparent; transform: scale(1); }
+        }
+        
+        .highlight-flash {
+            animation: flash-yellow 1.5s ease-out;
+        }
+
         @media (max-width: 768px) {
-            .section { padding: 1em; margin-bottom: 1em; box-shadow: 4px 4px 0 #000; }
-            .awtsmoos-section-header { margin: -1em -1em 1em -1em; padding: 0.5em 1em; }
+            .section { margin-bottom: 1.5rem; }
+            .toichen { font-size: 1.1em; } /* Slightly smaller on mobile */
         }
     `;
     document.head.appendChild(style);

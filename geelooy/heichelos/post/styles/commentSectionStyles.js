@@ -1,3 +1,4 @@
+
 //B"H
 export function injectCommentSectionCSS() {
     var id = "BH-awtsmooStylification";
@@ -187,28 +188,31 @@ export function injectCommentSectionCSS() {
 
         /* --- Intense Reply Box Styles --- */
         .awtsmoos-reply-box {
-            margin-top: 15px;
-            margin-left: 20px;
-            padding: 10px;
+            margin: 15px 0 15px 15px; /* Offset slightly */
+            padding: 15px;
             background: #000;
             border: 2px solid #00ff00; /* Neon Green */
-            box-shadow: 4px 4px 0 #005500;
+            border-left-width: 6px;
+            box-shadow: 6px 6px 0 rgba(0, 255, 0, 0.2);
             color: #00ff00;
-            font-family: monospace;
+            font-family: 'Courier New', monospace;
             position: relative;
             animation: slideDown 0.2s ease-out;
-            font-size: 1em; /* B"H - Inherit */
+            font-size: 1rem;
+            z-index: 100;
         }
 
         .reply-header {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 8px;
-            font-size: 0.8em;
+            align-items: center;
+            margin-bottom: 12px;
+            font-size: 0.85em;
             text-transform: uppercase;
             font-weight: bold;
             border-bottom: 1px dashed #00ff00;
-            padding-bottom: 4px;
+            padding-bottom: 8px;
+            letter-spacing: 1px;
         }
 
         .reply-input {
@@ -216,42 +220,72 @@ export function injectCommentSectionCSS() {
             background: #111;
             color: #fff;
             border: 1px solid #333;
-            padding: 8px;
+            padding: 12px;
             box-sizing: border-box;
-            min-height: 60px;
+            min-height: 80px;
             font-family: inherit;
             resize: vertical;
             font-size: 1em;
+            line-height: 1.5;
         }
         
         .reply-input:focus {
             outline: none;
             border-color: #00ff00;
+            background: #000;
+        }
+        
+        .reply-input::placeholder {
+            color: #444;
         }
 
         .reply-submit {
-            margin-top: 8px;
+            margin-top: 12px;
             background: #00ff00;
             color: #000;
             border: none;
-            padding: 6px 12px;
-            font-weight: bold;
+            padding: 8px 16px;
+            font-weight: 900;
             cursor: pointer;
             text-transform: uppercase;
             width: 100%;
             font-size: 1em;
+            transition: all 0.1s;
+            box-shadow: 0 2px 0 #005500;
         }
         .reply-submit:hover {
             background: #fff;
+            color: #000;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 0 #005500;
+        }
+        .reply-submit:active {
+            transform: translateY(1px);
+            box-shadow: 0 1px 0 #005500;
         }
 
         .close-reply {
-            background: transparent;
-            border: none;
+            background: #222;
+            border: 1px solid #ff0000;
             color: #ff0000;
             cursor: pointer;
             font-weight: bold;
             font-size: 1.2em;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+        .close-reply:hover {
+            background: #ff0000;
+            color: #000;
+        }
+        
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
     `;
     document.head.appendChild(style);

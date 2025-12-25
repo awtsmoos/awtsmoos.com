@@ -14,9 +14,23 @@
     };
     H[0x12] = (t) => { const a = t.pop(), b = t.pop(); t.push(a); t.push(b); }; // SWAP
     
+    // B"H - DUP2: [a, b] -> [a, b, a, b]
+    H[0x1A] = (t) => {
+        const b = t.pop(), a = t.pop();
+        t.push(a); t.push(b);
+        t.push(a); t.push(b);
+    };
+
+    // B"H - SWAP2: [a, b, c, d] -> [c, d, a, b]
+    H[0x1B] = (t) => {
+        const d = t.pop(), c = t.pop(), b = t.pop(), a = t.pop();
+        t.push(c); t.push(d);
+        t.push(a); t.push(b);
+    };
+
     // --- CONSTANTS ---
     H[0x13] = (t) => { // PUSH_CONST
-        const idx = t.read16();
+        const idx = t.readU16();
         t.push((idx >= 0 && idx < t.constants.length) ? t.constants[idx] : undefined);
     };
     H[0x14] = (t) => t.push(undefined);
@@ -32,15 +46,12 @@
     // --- VARIABLES (LOCAL) ---
     H[0x20] = (t) => { // LOAD_LOCAL
         const idx = t.read8();
-        const val = t.currentScope[idx];
-        // if (val === undefined) console.warn(`[VM] LOAD_LOCAL[${idx}] is UNDEFINED`);
-        t.push(val);
+        t.push(t.currentScope[idx]);
     }; 
     H[0x21] = (t) => { // STORE_LOCAL
         if(!t.currentScope) t.currentScope={};
         const idx = t.read8();
-        const val = t.pop();
-        t.currentScope[idx] = val;
+        t.currentScope[idx] = t.pop();
     };
 
     // --- VARIABLES (UPVALUE) ---
@@ -55,21 +66,29 @@
         let scope = t.currentUpvalues;
         for (let i = 1; i < depth; i++) if (scope) scope = scope.__parent;
         if (scope) scope[idx] = val;
-        else console.error(`[VM] STORE_UPVALUE Failed: Depth ${depth}`);
     };
 
     // --- VARIABLES (GLOBAL) ---
     H[0x22] = (t) => { // LOAD_GLOBAL
-        const name = t.constants[t.read16()];
+        const name = t.constants[t.readU16()];
         let val, found = false;
+        
+        // 1. Resolve 'exports' vessel with extreme priority
+        if (name === 'exports') {
+            if (t.currentScope && t.currentScope.exports) { t.push(t.currentScope.exports); return; }
+            if (t.environment && t.environment.exports) { t.push(t.environment.exports); return; }
+        }
+
+        // 2. Resolve via 'with' stack
         if (t.withStack?.length) {
             for (let i = t.withStack.length - 1; i >= 0; i--) {
                 if (name in t.withStack[i]) { t.push(t.withStack[i][name]); found = true; break; }
             }
         }
+        
+        // 3. Final fallback to environment and host
         if (!found) {
-            if (name === 'exports' && t.currentScope?.exports) val = t.currentScope.exports;
-            else if (t.environment && name in t.environment) val = t.environment[name];
+            if (t.environment && name in t.environment) val = t.environment[name];
             else {
                 val = t.vm.memory.getGlobal(name);
                 if (val === undefined && t.vm.context && name in t.vm.context) val = t.vm.context[name];
@@ -79,7 +98,7 @@
     };
     
     H[0x23] = (t) => { // STORE_GLOBAL
-        const name = t.constants[t.read16()], val = t.pop();
+        const name = t.constants[t.readU16()], val = t.pop();
         let stored = false;
         if (t.withStack?.length) {
             for (let i = t.withStack.length - 1; i >= 0; i--) {

@@ -19,29 +19,63 @@
         }
 
         read8() {
-            if (this.ip >= this.bytecode.length) { 
-                this.status = 'COMPLETED'; 
-                return 0; 
-            }
+            if (this.ip >= this.bytecode.length) { this.status = 'COMPLETED'; return 0; }
             return this.bytecode[this.ip++];
         }
 
         read16() {
-            if (this.ip + 1 >= this.bytecode.length) { 
-                this.status = 'COMPLETED'; 
-                return 0; 
-            }
+            if (this.ip + 1 >= this.bytecode.length) { this.status = 'COMPLETED'; return 0; }
             const low = this.bytecode[this.ip++];
             const high = this.bytecode[this.ip++];
-            // B"H - Ensure valid integer math
             let val = (high << 8) | low;
             if (val >= 0x8000) val = val - 0x10000;
             return val;
         }
 
+        readU16() {
+            if (this.ip + 1 >= this.bytecode.length) { this.status = 'COMPLETED'; return 0; }
+            const low = this.bytecode[this.ip++];
+            const high = this.bytecode[this.ip++];
+            return (high << 8) | low;
+        }
+
         push(val) { this.stack.push(val); }
         pop() { return this.stack.pop(); }
         peek() { return this.stack[this.stack.length - 1]; }
+
+        /**
+         * B"H - getDivineTrace
+         * Reconstructs the spiritual path taken by this thread.
+         * It traverses the frames of logic to reveal the call stack of the VM itself.
+         */
+        getDivineTrace() {
+            const lines = [];
+            lines.push(`%c[Divine Trace] Thread #${this.id} - Status: ${this.status}`, "color: #66fcf1; font-weight: bold;");
+            
+            const findName = (bytecode) => {
+                if (!this.environment) return "anonymous";
+                // Reflect on the environment to find the spark
+                try {
+                    const keys = Object.keys(this.environment);
+                    for (let k of keys) {
+                        const v = this.environment[k];
+                        if (v && v.type === 'CLOSURE' && v.code && v.code.bytecode === bytecode) return k;
+                    }
+                } catch(e) {}
+                return "anonymous";
+            };
+
+            // Current Frame
+            lines.push(`  at %c${findName(this.bytecode)}%c (IP: ${this.ip}, Bytecode: ${this.bytecode.length} bytes)`);
+
+            // Previous Frames
+            for (let i = this.frames.length - 1; i >= 0; i--) {
+                const f = this.frames[i];
+                lines.push(`  at %c${findName(f.bytecode)}%c (IP: ${f.ip}, Bytecode: ${f.bytecode.length} bytes)`);
+            }
+            
+            return lines;
+        }
 
         step() {
             if (this.status !== 'RUNNING') return false;
@@ -51,63 +85,22 @@
                     return false;
                 }
 
-                // B"H - Fetch Phase
                 const op = this.read8();
-                const ipAfterFetch = this.ip;
-
-                // B"H - Resolve Executor Dynamically
-                let executor = root.MerkavaExecutor;
-                if (!executor && root.MerkavaVM) executor = root.MerkavaVM.Executor;
+                let executor = root.MerkavaExecutor || (root.MerkavaVM && root.MerkavaVM.Executor);
                 
                 if (!executor) {
-                    console.error("[Thread] Executor not found! Critical Failure.");
                     this.status = 'CRASHED';
-                    return false;
+                    throw new Error("[VM Critical] Executor missing from the Palace.");
                 }
 
-                // B"H - Execute Phase
-                const result = executor.exec(op, this, null);
+                const result = executor.exec(op, this);
                 
-                // B"H - ALIGNMENT GUARD (Scorched Earth Policy)
-                // Determine if this opcode requires operands and if IP moved.
-                // 0x13 (PUSH_CONST), 0x22 (LOAD_GLOBAL), 0x23 (STORE_GLOBAL) all take 2 bytes.
-                let requiredArgs = 0;
-                if (op === 0x23 || op === 0x22 || op === 0x13) requiredArgs = 2;
-                
-                if (requiredArgs > 0) {
-                    const expectedIP = ipAfterFetch + requiredArgs;
-                    if (this.ip < expectedIP) {
-                        console.warn(`[Thread] GUARD: Fixed alignment for Op 0x${op.toString(16)}. IP ${this.ip} -> ${expectedIP}`);
-                        this.ip = expectedIP;
-                    }
-                }
-                
-                // B"H - Handle Result
                 if (result === 'HALT' || result === 'COMPLETED') {
                     this.status = 'COMPLETED';
                     return false;
                 }
                 
                 if (result === 'UNKNOWN_OP') {
-                    const badIP = this.ip - 1;
-                    
-                    // B"H - Self-Healing for 0x0a (Operand Interpretation Error)
-                    if (op === 0x0a) {
-                         console.warn(`[Thread] Healing: Skipped interpreted operand 0x0a at IP ${badIP}`);
-                         // Treat as NOP, continue.
-                         return true;
-                    }
-
-                    // Debug Context
-                    const context = [];
-                    for(let i = Math.max(0, badIP-5); i < Math.min(this.bytecode.length, badIP+5); i++) {
-                        const b = this.bytecode[i];
-                        context.push(b !== undefined ? b.toString(16).padStart(2,'0') : '??');
-                    }
-                    
-                    console.error(`[Thread] Halted. Unknown Opcode 0x${op.toString(16)} at IP ${badIP}`);
-                    console.error(`[Thread] Context: [ ${context.join(' ')} ]`);
-                    
                     this.status = 'CRASHED';
                     return false;
                 }
@@ -119,8 +112,30 @@
                     this.push(e.vmValue || e.message || e);
                     return true;
                 } else {
-                    console.error("VM Exception:", e);
                     this.status = 'CRASHED';
+                    console.group("%cB\"H - THE VESSELS HAVE SHATTERED", "color: #ff6b6b; font-weight: bold; font-size: 1.2rem;");
+                    console.error("Error Soul:", e.message || e);
+                    
+                    const trace = this.getDivineTrace();
+                    trace.forEach(line => {
+                        if (line.includes("%c")) {
+                            const parts = line.split("%c");
+                            console.log(line, "color: #45a29e; font-weight: bold;", "color: inherit;", "color: #45a29e; font-weight: bold;", "color: inherit;");
+                        } else {
+                            console.log(line);
+                        }
+                    });
+
+                    console.log("%c[The Stack of Creation]", "color: #66fcf1; font-weight: bold;");
+                    const stackView = {};
+                    this.stack.slice(-15).reverse().forEach((v, i) => {
+                        stackView[`TOP - ${i}`] = { 
+                            type: typeof v, 
+                            value: (v && v.type === 'CLOSURE') ? `[Closure: ${v.code.bytecode.length} bytes]` : v 
+                        };
+                    });
+                    console.table(stackView);
+                    console.groupEnd();
                     return false;
                 }
             }
@@ -128,12 +143,6 @@
         }
     }
     
-    // B"H - Robust Attachment
-    if (root.MerkavaVM) {
-        root.MerkavaVM.Thread = Thread;
-    } else {
-        root.MerkavaVM = { Thread: Thread };
-    }
-    
-    console.log("[MerkavaVM] Thread Class Reloaded V5 (Scorched Earth Guard).");
+    root.MerkavaVM.Thread = Thread;
+    console.log("[MerkavaVM] Thread Class Refined (Tracing Engaged).");
 })(typeof self !== 'undefined' ? self : this);

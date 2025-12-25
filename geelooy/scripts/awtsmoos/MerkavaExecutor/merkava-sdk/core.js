@@ -3,59 +3,79 @@
 (function(root) {
     const Internal = root.MerkavaSDK_Internal = root.MerkavaSDK_Internal || {};
 
-    // --- CONTEXT BUILDER (Merged for Stability) ---
     Internal.ContextBuilder = {
+        /**
+         * B"H
+         * Constructs the sacred environment for the VM.
+         * The 'exports' vessel is now pre-manifested and globally accessible.
+         */
         build(options, memory) {
             const base = options.context || {};
             const overrides = {};
             const vmRef = { current: null };
 
-            // 1. Built-in Globals
-            // B"H - Extended list to support complex apps (Blob, URL, Canvas, etc.)
             const builtIns = [
                 'Object','Array','String','Number','Boolean','Date','Math','JSON','Promise',
                 'RegExp','Error','Map','Set','WeakMap','WeakSet','Symbol','Proxy','Reflect',
                 'parseInt','parseFloat','isNaN','isFinite','console','EventTarget','atob','btoa',
                 'Blob', 'URL', 'TextEncoder', 'TextDecoder', 'ImageBitmap', 'OffscreenCanvas',
                 'MessageChannel', 'MessagePort', 'ImageData', 'performance', 'setTimeout', 'setInterval',
-                'clearTimeout', 'clearInterval', 'requestAnimationFrame', 'cancelAnimationFrame'
+                'clearTimeout', 'clearInterval', 'requestAnimationFrame', 'cancelAnimationFrame',
+                'ArrayBuffer', 'Uint8Array', 'Int8Array', 'Uint16Array', 'Int16Array', 
+                'Uint32Array', 'Int32Array', 'Float32Array', 'Float64Array', 'Uint8ClampedArray',
+                'DataView', 'SharedArrayBuffer', 'Atomics', 'crypto'
             ];
             builtIns.forEach(k => { if(self[k]) overrides[k] = self[k]; });
 
-            // 2. Scheduler Bridge
+            // B"H - Initialize the Root Export Vessel
+            overrides.exports = {};
+
+            const traps = ['onmessage', 'onerror', 'onclose', 'onload'];
+            traps.forEach(k => { overrides[k] = null; });
+
+            const captureEvent = (arg) => {
+                if (arg && (arg instanceof Event || (arg.constructor && arg.constructor.name.includes('Event')))) {
+                    const copy = {};
+                    const props = [
+                        'key', 'code', 'clientX', 'clientY', 'offsetX', 'offsetY',
+                        'target', 'type', 'button', 'buttons', 'shiftKey', 'ctrlKey', 
+                        'altKey', 'metaKey', 'detail', 'deltaX', 'deltaY', 'deltaZ'
+                    ];
+                    props.forEach(k => { if (arg[k] !== undefined) copy[k] = arg[k]; });
+                    copy.preventDefault = () => { try { arg.preventDefault(); } catch(e) {} };
+                    copy.stopPropagation = () => { try { arg.stopPropagation(); } catch(e) {} };
+                    return copy;
+                }
+                return arg;
+            };
+
             const bridge = (cb) => {
                 if (cb && cb.type === 'CLOSURE') {
-                    // B"H - Must be a regular function to capture 'this' correctly for constructors
                     return function(...args) {
                         if (!vmRef.current) return;
+                        const safeArgs = args.map(captureEvent);
                         const t = vmRef.current.spawn(cb.code);
+                        if (!t || t.status === 'SUPPRESSED') return;
+                        
                         t.currentUpvalues = cb.upvalues;
                         t.environment = cb.environment || t.environment;
-                        
-                        // Use the 'this' from the call site (important for 'new Bridge()')
-                        // If 'this' is the global object/overrides, fallback to base/context
-                        const ctx = (this === overrides || this === self || this === undefined) ? base : this;
-                        
-                        t.currentScope = { 'this': ctx, 'arguments': args };
-                        args.forEach((a,i)=>t.currentScope[i]=a);
+                        const ctx = (this === overrides || this === self || this === undefined) ? overrides.self : this;
+                        t.currentScope = { 'this': ctx, 'arguments': safeArgs };
+                        safeArgs.forEach((a, i) => t.currentScope[i] = a);
                         if (vmRef.current.wake) vmRef.current.wake();
                     };
                 }
                 return cb;
             };
 
-            // Bridge specific timing functions that take callbacks
             ['requestAnimationFrame','setTimeout','setInterval'].forEach(k => {
                 if (typeof self[k] === 'function') overrides[k] = (cb, ...args) => self[k](bridge(cb), ...args);
             });
-            // These don't take callbacks, just IDs
             ['cancelAnimationFrame','clearTimeout','clearInterval'].forEach(k => {
                 if(self[k]) overrides[k] = self[k];
             });
 
-            // 3. Worker & System
             if (Internal.WorkerProxy) {
-                // B"H - Must be a regular function to support 'new Worker(...)' usage
                 overrides.Worker = function(u) { 
                     return new Internal.WorkerProxy(u, vmRef.current, options); 
                 };
@@ -65,23 +85,36 @@
                 if (vmRef.current && vmRef.current.importScripts) await vmRef.current.importScripts(...urls);
             };
 
-            // 4. Document Proxy
             Object.defineProperty(overrides, 'document', {
                 get() {
                     const doc = base.document || self.document;
                     return new Proxy(doc, {
                         get(t, p) {
-                            if (p === 'getElementById') return (id) => t.getElementById(id);
+                            if (p === 'getElementById') {
+                                return (id) => {
+                                    const el = t.getElementById(id);
+                                    if (!el) return null;
+                                    return new Proxy(el, {
+                                        get(target, prop) {
+                                            if (prop === 'addEventListener') return (ev, l, o) => target.addEventListener(ev, bridge(l), o);
+                                            const val = target[prop];
+                                            if (typeof val === 'function') return val.bind(target);
+                                            return val;
+                                        }
+                                    });
+                                };
+                            }
                             if (p === 'addEventListener') return (ev, l, o) => t.addEventListener(ev, bridge(l), o);
                             const v = t[p];
                             return typeof v === 'function' ? v.bind(t) : v;
-                        }
+                        },
+                        ownKeys(t) { return Reflect.ownKeys(t); },
+                        getOwnPropertyDescriptor(t, p) { return Reflect.getOwnPropertyDescriptor(t, p); }
                     });
                 },
                 configurable: true
             });
 
-            // 5. Global Proxy
             Object.defineProperty(overrides, '__vmRef', { value: vmRef });
             
             const ctx = new Proxy(overrides, {
@@ -90,11 +123,17 @@
                     return base[p];
                 },
                 set(t, p, v) {
-                    if (p in t) { t[p] = v; return true; }
+                    if (p in t) { t[p] = (v && v.type === 'CLOSURE') ? bridge(v) : v; return true; }
                     base[p] = (v && v.type === 'CLOSURE') ? bridge(v) : v;
                     return true;
                 },
-                has(t, p) { return p in t || p in base; }
+                has(t, p) { return p in t || p in base; },
+                ownKeys(t) {
+                    return Array.from(new Set([...Reflect.ownKeys(t), ...Reflect.ownKeys(base)]));
+                },
+                getOwnPropertyDescriptor(t, p) {
+                    return Reflect.getOwnPropertyDescriptor(t, p) || Reflect.getOwnPropertyDescriptor(base, p);
+                }
             });
             
             overrides.self = overrides.window = overrides.globalThis = ctx;
@@ -103,6 +142,10 @@
     };
 
     class MerkavaCore {
+        /**
+         * B"H
+         * The Main Execution Loop. Ignites the soul of the VM.
+         */
         async run(source, options = {}) {
             const Parser = self.MerkavahParser;
             if (!Parser) throw new Error("Parser not loaded.");
@@ -128,16 +171,15 @@
                 if(!memory.setGlobal) { memory._g={}; memory.setGlobal=(k,v)=>memory._g[k]=v; memory.getGlobal=(k)=>memory._g[k]; }
                 if (memory.nextPtr === 1) memory.allocate({});
 
-                // B"H - Safe Context Build
-                if (!Internal.ContextBuilder) throw new Error("ContextBuilder failed to initialize.");
                 const context = Internal.ContextBuilder.build(options, memory);
-                
                 vm = new self.MerkavaVM(memory, options.hostAPI, context, options.importResolver);
                 if (context.__vmRef) context.__vmRef.current = vm;
                 
+                vm._moduleCache = {};
+                vm.importModule = async (url) => this._importModule(vm, url, options);
                 vm.importScripts = async (...urls) => this._handleImportScripts(vm, urls, options);
                 
-                this._initDriver(vm);
+                this._initDriver(vm, options);
             }
 
             const thread = vm.spawn(codeObject);
@@ -147,13 +189,18 @@
                 vm, memory, 
                 stop: () => {
                     if (vm._driver) vm._driver.running = false;
-                    vm.threads = []; // Kill all threads
+                    vm.threads = []; 
                 },
                 done: new Promise((res, rej) => {
                     const mon = () => {
                         if (thread.status === 'COMPLETED') res({ status: 'COMPLETED', value: thread.stack.length ? thread.peek() : undefined });
-                        else if (thread.status === 'CRASHED') rej(thread.stack.length ? thread.stack[thread.stack.length-1] : "Error");
-                        else if (vm._driver && !vm._driver.running && vm.threads.length === 0) res({ status: 'TERMINATED' }); // Handle stop()
+                        else if (thread.status === 'CRASHED') {
+                            const trace = thread.getDivineTrace ? thread.getDivineTrace() : ["Trace unavailable."];
+                            const msg = `[Merkava SDK] VM Shattered.\n${trace.join('\n')}`;
+                            if (options.hostAPI && options.hostAPI[0]) options.hostAPI[0]("[CRASH]", msg);
+                            rej(new Error(msg));
+                        }
+                        else if (vm._driver && !vm._driver.running && vm.threads.length === 0) res({ status: 'TERMINATED' });
                         else setTimeout(mon, 50);
                     };
                     mon();
@@ -161,44 +208,82 @@
             };
         }
 
-        initWorkerEnv(options) { return this; }
-        
-        _initDriver(vm) {
-            vm._driver = { running: false, kick: () => {
-                if (vm._driver.running) return;
-                vm._driver.running = true;
-                const loop = () => {
-                    if (!vm._driver.running) return;
-                    try { if (vm.run(1000)) setTimeout(loop, 10); else vm._driver.running = false; }
-                    catch (e) { console.error("[VM] Driver Crash", e); vm._driver.running = false; }
+        /**
+         * B"H
+         * The Module Loading Alchemist.
+         * Spawns a sandboxed thread to resolve and execute ES modules.
+         */
+        async _importModule(vm, url, options) {
+            if (vm._moduleCache[url]) return vm._moduleCache[url];
+            
+            const Compiler = self.MerkavaCompiler.Compiler;
+            const Parser = self.MerkavahParser;
+            
+            let code;
+            if (options.importResolver) {
+                const res = await options.importResolver(url);
+                code = res?.code || res;
+            }
+            if (!code) {
+                const r = await fetch(url);
+                if (r.ok) code = await r.text();
+            }
+            if (!code) throw new Error(`Could not resolve module: ${url}`);
+            
+            const ast = new Parser(code).parse();
+            const codeObj = new Compiler().compile(ast);
+            
+            const exports = {};
+            // B"H - IMPORTANT: We use vm.context directly (the proxy) to ensure the module sees the real global world.
+            const thread = vm.spawn(codeObj);
+            thread.environment = vm.context;
+            thread.currentScope = { 'this': vm.context, 'exports': exports };
+            
+            if (vm.wake) vm.wake();
+            
+            await new Promise((resolve, reject) => {
+                const check = () => {
+                    if (thread.status === 'COMPLETED') resolve();
+                    else if (thread.status === 'CRASHED') reject(new Error("Module execution failed: " + url));
+                    else setTimeout(check, 10);
                 };
-                setTimeout(loop, 0);
-            }};
-            vm.wake = () => vm._driver.kick();
+                check();
+            });
+            
+            vm._moduleCache[url] = exports;
+            return exports;
         }
 
+        /**
+         * B"H
+         * The Sequential Inhaler.
+         * Pulls external logic into the current context using the shared 'exports' vessel.
+         */
         async _handleImportScripts(vm, urls, options) {
              const Compiler = self.MerkavaCompiler.Compiler;
              const Parser = self.MerkavahParser;
+             const sharedExports = vm.context.exports;
+
              for (const url of urls) {
+                 if (vm._moduleCache[url]) continue; // Skip already loaded scripts
+
                  let code;
                  if (options.importResolver) {
-                     const res = await options.importResolver(url).catch(e => console.warn(e));
+                     const res = await options.importResolver(url).catch(e => null);
                      if (res) code = res.code || res;
                  }
                  if (!code) {
-                     const r = await fetch(url).catch(e => console.warn(e));
+                     const r = await fetch(url).catch(e => null);
                      if (r && r.ok) code = await r.text();
                  }
                  if (code) {
                      const ast = new Parser(code).parse();
                      const thread = vm.spawn(new Compiler().compile(ast));
+                     // B"H - Ensure scripts inherit the global environment correctly
+                     thread.environment = vm.context;
+                     thread.currentScope = { 'this': vm.context, 'exports': sharedExports };
                      
-                     // B"H - WAIT FOR THREAD COMPLETION
-                     // Prevent race conditions by ensuring the script is fully executed
-                     // (and has defined its globals) before resolving the await.
-                     if (vm.wake) vm.wake(); // Ensure VM driver picks up the new thread
-                     
+                     if (vm.wake) vm.wake();
                      await new Promise(resolve => {
                          const check = () => {
                              if (thread.status === 'COMPLETED' || thread.status === 'CRASHED') resolve();
@@ -206,10 +291,40 @@
                          };
                          check();
                      });
+                     vm._moduleCache[url] = sharedExports;
                  }
              }
         }
+
+        initWorkerEnv(options) { return this; }
+        
+        _initDriver(vm, options) {
+            vm._driver = { running: false, kick: () => {
+                if (vm._driver.running) return;
+                vm._driver.running = true;
+                
+                const loop = () => {
+                    if (!vm._driver.running) return;
+                    try { 
+                        const active = vm.run(60000); 
+                        if (active) {
+                            requestAnimationFrame(loop);
+                        } else {
+                            if (vm.threads.some(t => t.status === 'RUNNING' || t.status === 'READY')) {
+                                requestAnimationFrame(loop);
+                            } else {
+                                vm._driver.running = false; 
+                            }
+                        }
+                    } catch (e) { 
+                        console.error("[VM] Driver Pulse Stopped:", e); 
+                        vm._driver.running = false; 
+                    }
+                };
+                requestAnimationFrame(loop);
+            }};
+            vm.wake = () => vm._driver.kick();
+        }
     }
     Internal.Core = new MerkavaCore();
-    console.log("[MerkavaSDK] Core Initialized with ContextBuilder.");
 })(typeof self !== 'undefined' ? self : this);

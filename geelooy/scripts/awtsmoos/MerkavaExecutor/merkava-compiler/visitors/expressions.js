@@ -9,24 +9,23 @@
             if (['&&', '||', '??'].includes(node.operator)) return this._visitLogical(node);
             this._visit(node.left);
             this._visit(node.right);
-            const map = {
-                '+': this.OPCODES.ADD, '-': this.OPCODES.SUB, '*': this.OPCODES.MUL,
-                '/': this.OPCODES.DIV, '%': this.OPCODES.MOD,
-                '==': this.OPCODES.EQ, '===': this.OPCODES.STRICT_EQ,
-                '!=': this.OPCODES.NEQ, '!==': this.OPCODES.STRICT_NEQ,
-                '<': this.OPCODES.LT, '<=': this.OPCODES.LTE,
-                '>': this.OPCODES.GT, '>=': this.OPCODES.GTE,
-                'in': this.OPCODES.IN, 'instanceof': this.OPCODES.INSTANCEOF,
-                '**': this.OPCODES.POW,
-                '&': this.OPCODES.BIT_AND, '|': this.OPCODES.BIT_OR, '^': this.OPCODES.BIT_XOR,
-                '<<': this.OPCODES.SHL, '>>': this.OPCODES.SHR, '>>>': this.OPCODES.USHR
-            };
-            
+            const map = this._binaryOpMap();
             const op = map[node.operator];
-            if (op === undefined) {
-                throw new Error(`[Compiler] Unknown/Unmapped Binary Operator: ${node.operator}`);
-            }
+            if (op === undefined) throw new Error(`[Compiler] Unknown Binary Operator: ${node.operator}`);
             this.buffer.write8(op);
+        },
+
+        _binaryOpMap() {
+            return {
+                '+': this.OPCODES.ADD, '-': this.OPCODES.SUB, '*': this.OPCODES.MUL,
+                '/': this.OPCODES.DIV, '%': this.OPCODES.MOD, '==': this.OPCODES.EQ, 
+                '===': this.OPCODES.STRICT_EQ, '!=': this.OPCODES.NEQ, '!==': this.OPCODES.STRICT_NEQ,
+                '<': this.OPCODES.LT, '<=': this.OPCODES.LTE, '>': this.OPCODES.GT, 
+                '>=': this.OPCODES.GTE, 'in': this.OPCODES.IN, 'instanceof': this.OPCODES.INSTANCEOF,
+                '**': this.OPCODES.POW, '&': this.OPCODES.BIT_AND, '|': this.OPCODES.BIT_OR, 
+                '^': this.OPCODES.BIT_XOR, '<<': this.OPCODES.SHL, '>>': this.OPCODES.SHR, 
+                '>>>': this.OPCODES.USHR
+            };
         },
 
         _visitLogical(node) {
@@ -46,10 +45,6 @@
                 this.buffer.write8(this.OPCODES.PUSH_UNDEFINED);
                 return;
             }
-
-            // B"H - CRITICAL GLOBAL GUARD
-            // Prevents local variables from shadowing these core primitives, 
-            // ensuring opcode LOAD_GLOBAL is always used.
             const criticalGlobals = ['Object', 'Array', 'String', 'Number', 'console', 'window', 'document', 'Math', 'JSON', 'Symbol', 'Error', 'Promise'];
             if (criticalGlobals.includes(node.name)) {
                 const nameIdx = this._addConstant(node.name);
@@ -57,7 +52,6 @@
                 this.buffer.write16(nameIdx);
                 return;
             }
-
             const res = this.scope.resolve(node.name);
             if (res && res.type === 'LOCAL') {
                 this.buffer.write8(mode === 'LOAD' ? this.OPCODES.LOAD_LOCAL : this.OPCODES.STORE_LOCAL);
@@ -76,18 +70,12 @@
         _visitCall(node) {
             if (node.callee.type === 'Identifier' && node.callee.name === 'syscall') {
                 const idArg = node.arguments[0];
-                if (!idArg || idArg.type !== 'Literal') {
-                    throw new Error("Syscall ID must be a literal number (e.g., syscall(0, ...))");
-                }
-                for (let i = 1; i < node.arguments.length; i++) {
-                    this._visit(node.arguments[i]);
-                }
+                for (let i = 1; i < node.arguments.length; i++) this._visit(node.arguments[i]);
                 this.buffer.write8(this.OPCODES.SYSCALL);
                 this.buffer.write8(idArg.value);
                 this.buffer.write8(node.arguments.length - 1); 
                 return;
             }
-
             if (node.callee.type === 'MemberExpression') {
                  this._visit(node.callee.object);
                  this.buffer.write8(this.OPCODES.DUP);
@@ -100,16 +88,9 @@
                  this.buffer.write8(this.OPCODES.SWAP);
             }
             node.arguments.forEach(arg => this._visit(arg));
-            
-            let callOp = this.OPCODES.CALL;
-            if (callOp === undefined) callOp = 0x71; 
-            
-            this.buffer.write8(callOp);
+            this.buffer.write8(this.OPCODES.CALL || 0x71);
             this.buffer.write8(node.arguments.length);
-
-            if (node.callee.type === 'Identifier' && node.callee.name === 'importScripts') {
-                this.buffer.write8(this.OPCODES.AWAIT); 
-            }
+            if (node.callee.type === 'Identifier' && node.callee.name === 'importScripts') this.buffer.write8(this.OPCODES.AWAIT); 
         },
 
         _visitMember(node) {
@@ -120,16 +101,32 @@
         },
 
         _visitAssignment(node) {
+            const op = node.operator;
+            const isCompound = op !== '=';
+            const binaryOp = isCompound ? op.slice(0, -1) : null;
+            const binCode = isCompound ? this._binaryOpMap()[binaryOp] : null;
+
             if (node.left.type === 'Identifier') {
+                if (isCompound) this._visitIdentifier(node.left, 'LOAD');
                 this._visit(node.right);
+                if (isCompound) this.buffer.write8(binCode);
                 this.buffer.write8(this.OPCODES.DUP);
                 this._visitIdentifier(node.left, 'STORE');
             } else if (node.left.type === 'MemberExpression') {
-                this._visit(node.left.object);
-                if (node.left.computed) this._visit(node.left.property);
+                this._visit(node.left.object); // [obj]
+                if (node.left.computed) this._visit(node.left.property); // [obj, key]
                 else this._emitConstant(node.left.property.name);
-                this._visit(node.right);
-                this.buffer.write8(this.OPCODES.SET_PROP);
+                
+                if (isCompound) {
+                    this.buffer.write8(0x1A); // DUP2 -> [obj, key, obj, key]
+                    this.buffer.write8(this.OPCODES.GET_PROP); // [obj, key, currentVal]
+                    this._visit(node.right); // [obj, key, currentVal, right]
+                    this.buffer.write8(binCode); // [obj, key, newVal]
+                    this.buffer.write8(this.OPCODES.SET_PROP); // [newVal]
+                } else {
+                    this._visit(node.right); // [obj, key, val]
+                    this.buffer.write8(this.OPCODES.SET_PROP); // [val]
+                }
             }
         },
         
@@ -140,9 +137,7 @@
                     if (node.argument.computed) this._visit(node.argument.property);
                     else this._emitConstant(node.argument.property.name);
                     this.buffer.write8(this.OPCODES.DELETE_PROP);
-                } else {
-                    this.buffer.write8(this.OPCODES.PUSH_TRUE); 
-                }
+                } else this.buffer.write8(this.OPCODES.PUSH_TRUE); 
                 return;
             }
             this._visit(node.argument);
@@ -157,11 +152,33 @@
             if (node.argument.type === 'Identifier') {
                 this._visitIdentifier(node.argument, 'LOAD');
                 if (!node.prefix) this.buffer.write8(this.OPCODES.DUP); 
-                this.buffer.write8(this.OPCODES.PUSH_CONST);
-                this.buffer.write16(this._addConstant(1));
+                this._emitConstant(1);
                 this.buffer.write8(node.operator === '++' ? this.OPCODES.ADD : this.OPCODES.SUB);
                 if (node.prefix) this.buffer.write8(this.OPCODES.DUP);
                 this._visitIdentifier(node.argument, 'STORE');
+            } else if (node.argument.type === 'MemberExpression') {
+                this._visit(node.argument.object);
+                if (node.argument.computed) this._visit(node.argument.property);
+                else this._emitConstant(node.argument.property.name);
+                this.buffer.write8(0x1A); // DUP2 -> [obj, key, obj, key]
+                this.buffer.write8(this.OPCODES.GET_PROP); // [obj, key, oldVal]
+
+                if (node.prefix) {
+                    this._emitConstant(1);
+                    this.buffer.write8(node.operator === '++' ? this.OPCODES.ADD : this.OPCODES.SUB);
+                    this.buffer.write8(this.OPCODES.SET_PROP);
+                } else {
+                    this.buffer.write8(this.OPCODES.DUP); // [obj, key, oldVal, oldVal]
+                    this._emitConstant(1);
+                    this.buffer.write8(node.operator === '++' ? this.OPCODES.ADD : this.OPCODES.SUB);
+                    this.buffer.write8(this.OPCODES.SWAP); 
+                    this.buffer.write8(0x1B); // SWAP2
+                    this.buffer.write8(this.OPCODES.SWAP); 
+                    this.buffer.write8(0x1B); // SWAP2
+                    this.buffer.write8(this.OPCODES.SWAP); 
+                    this.buffer.write8(this.OPCODES.SET_PROP); 
+                    this.buffer.write8(this.OPCODES.POP); 
+                }
             }
         }, 
 
@@ -172,9 +189,7 @@
             this.buffer.write8(node.arguments.length);
         },
 
-        _visitArrowFunctionExpression(node) {
-            this._visitFuncExpr(node, true);
-        },
+        _visitArrowFunctionExpression(node) { this._visitFuncExpr(node, true); },
 
         _visitSequence(node) {
             node.expressions.forEach((expr, index) => {
@@ -197,10 +212,7 @@
             this.buffer.patch16(endJump, endAddr - endJump - 2);
         },
 
-        _visitAwait(node) {
-            this._visit(node.argument);
-            this.buffer.write8(this.OPCODES.AWAIT);
-        },
+        _visitAwait(node) { this._visit(node.argument); this.buffer.write8(this.OPCODES.AWAIT); },
 
         _visitYield(node) {
             if (node.argument) this._visit(node.argument);
@@ -218,55 +230,25 @@
         },
 
         _visitClassExpr(node) {
-            // 1. SuperClass (or null)
             if (node.superClass) this._visit(node.superClass);
             else this.buffer.write8(this.OPCODES.PUSH_NULL);
-
-            // 2. Compile Constructor
             const ctor = node.body.body.find(m => m.kind === 'constructor');
-            if (ctor) {
-                this._visitFuncExpr(ctor.value); 
-            } else {
-                this.buffer.write8(this.OPCODES.PUSH_NULL);
-            }
-
-            // 3. Make Class (Links prototype chain)
-            // Stack: [Super, ConstructorClosure] -> [ClassClosure]
+            if (ctor) this._visitFuncExpr(ctor.value); 
+            else this.buffer.write8(this.OPCODES.PUSH_NULL);
             this.buffer.write8(this.OPCODES.MAKE_CLASS);
             this.buffer.write16(0); 
-
-            // 4. Define Methods
             node.body.body.forEach(method => {
                 if (method.kind === 'constructor') return;
-
-                this.buffer.write8(this.OPCODES.DUP); // Keep Class on Stack (Stack: [Class, Class])
-                
-                // Target: Class (static) or Class.prototype (instance)
+                this.buffer.write8(this.OPCODES.DUP);
                 if (!method.static) {
                     this._emitConstant('prototype');
                     this.buffer.write8(this.OPCODES.GET_PROP); 
-                    // Stack: [Class, Prototype]
                 }
-
-                // Key
                 if (method.computed) this._visit(method.key);
                 else this._emitConstant(method.key.name);
-
-                // Value (Closure)
                 this._visitFuncExpr(method.value);
-                // Stack: [Class, Target, Key, Value]
-
-                // Assign: target[key] = value
                 this.buffer.write8(this.OPCODES.SET_PROP); 
-                // SET_PROP consumes [Target, Key, Value] and pushes [Value]
-                // Stack: [Class, Value]
-                
-                this.buffer.write8(this.OPCODES.POP); // Pop the value result of SET_PROP
-                // Stack: [Class]
-                
-                // B"H - BUG FIX (Fix 34): 
-                // Removed extra POP. SET_PROP already consumed the target (Prototype/Class copy).
-                // If we pop again, we lose the Class for the next iteration!
+                this.buffer.write8(this.OPCODES.POP);
             });
         },
         
@@ -280,13 +262,7 @@
             }
         },
         
-        _visitImportExpression(node) {
-            this._visit(node.source);
-            this.buffer.write8(this.OPCODES.IMPORT);
-        },
-        
-        _visitChain(node) {
-            this._visit(node.expression); 
-        }
+        _visitImportExpression(node) { this._visit(node.source); this.buffer.write8(this.OPCODES.IMPORT); },
+        _visitChain(node) { this._visit(node.expression); }
     };
 })(typeof self !== 'undefined' ? self : this);

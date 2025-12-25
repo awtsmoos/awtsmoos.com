@@ -17,9 +17,6 @@
     H[0x02] = (t) => { // RETURN
         const retVal = t.pop();
         
-        // Debug return value
-        // if (retVal === undefined) console.warn("[VM] Returning UNDEFINED at IP:", t.ip);
-        
         if (t.frames.length > 0) {
             const frame = t.frames.pop();
             t.ip = frame.ip; t.bytecode = frame.bytecode; t.constants = frame.constants;
@@ -32,9 +29,7 @@
                  }
             }
             
-            // Stack correction
             while (t.stack.length > frame.stackSize) t.stack.pop();
-            
             t.push(actualRet);
         } else {
             t.push(retVal); t.status = 'COMPLETED'; return 'COMPLETED';
@@ -64,7 +59,17 @@
     H[0x92] = (t) => t.catchStack.push(t.ip + t.read16()); // ENTER_TRY
     H[0x93] = (t) => t.catchStack.pop(); // EXIT_TRY
     
-    H[0x95] = (t) => { t.pop(); t.push(Promise.resolve({})); }; // IMPORT (Stub)
+    H[0x95] = (t) => { t.pop(); t.push(Promise.resolve({})); }; // IMPORT (Dynamic import placeholder)
+    
+    H[0x96] = (t) => { // IMPORT_MODULE (ES Module Resolution)
+        const specifier = t.pop();
+        if (t.vm.importModule) {
+            t.push(t.vm.importModule(specifier));
+        } else {
+            console.warn("[VM] importModule bridge not found. Returning empty vessel.");
+            t.push(Promise.resolve({}));
+        }
+    };
     
     // --- ADVANCED FLOW ---
     H[0xA0] = (t) => { // GET_ITERATOR

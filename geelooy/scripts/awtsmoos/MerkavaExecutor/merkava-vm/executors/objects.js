@@ -10,7 +10,12 @@
     
     H[0x32] = (t) => { // GET_PROP
         const k = t.pop(), o = t.pop();
-        if (o == null) { console.warn(`[VM] GET_PROP '${k}' on null/undefined`); t.push(undefined); return; }
+        if (o == null) { 
+            // B"H - No more lying. If it's null, we warn and push undefined.
+            console.warn(`[VM] Access Violation: GET_PROP '${k}' on null/undefined target.`); 
+            t.push(undefined); 
+            return; 
+        }
         
         let val = o[k];
         
@@ -18,22 +23,30 @@
             val = self.Object[k];
         }
         
-        // B"H - Native Binding Fix
-        // Ensure functions from native objects (like WebGL context) are bound to the object.
-        // We check if it's a native function by looking for [native code] in toString, 
-        // or just bind all functions that don't look like classes.
-        if (typeof val === 'function' && !val.prototype && !val.name.startsWith('bound ')) {
-            try { 
-                // Only bind if it's not already bound or a constructor
-                val = val.bind(o); 
+        if (typeof val === 'function' && !val._merkavaClosure) {
+            const isNative = val.toString().includes('[native code]');
+            const isBound = val.name.startsWith('bound ');
+            
+            let isConstructor = false;
+            try {
+                const desc = val.prototype ? Object.getOwnPropertyDescriptor(val, 'prototype') : null;
+                isConstructor = !!desc && desc.writable === false;
             } catch(e) {}
+
+            if (isNative && !isBound && !isConstructor) {
+                try { 
+                    val = val.bind(o); 
+                } catch(e) {}
+            }
         }
         t.push(val);
     };
 
     H[0x33] = (t) => { // SET_PROP
         const v = t.pop(), k = t.pop(), o = t.pop();
-        if (o != null) {
+        if (o == null) {
+            console.error(`[VM] Segmentation Fault: SET_PROP '${k}' on null/undefined target.`);
+        } else {
             let val = v;
             if (v && v.type === 'CLOSURE' && (typeof k === 'string' && k.startsWith('on'))) {
                  val = function(...args) {
@@ -61,7 +74,7 @@
     H[0xB4] = (t) => { const src = t.pop(), arr = t.peek(); if(Array.isArray(arr) && src && src[Symbol.iterator]) arr.push(...src); };
     H[0xB5] = (t) => { const src = t.pop(), tgt = t.peek(); if(src != null) Object.assign(tgt, src); };
     
-    H[0xB6] = (t) => { // OBJECT_REST
+    H[0xB6] = (t) => { 
         const keys = t.pop(), src = t.pop(), rest = {};
         if (src != null) {
             const exclude = new Set(Array.isArray(keys) ? keys.map(String) : []);
@@ -70,13 +83,13 @@
         t.push(rest);
     };
     
-    H[0xA4] = (t) => { // ENUMERATE
+    H[0xA4] = (t) => { 
         const o = t.pop(), keys = [];
         for(const k in o) keys.push(k);
         t.push(keys[Symbol.iterator]());
     };
     
-    H[0xA6] = (t) => { if(!t.withStack) t.withStack=[]; t.withStack.push(t.pop()); }; // WITH_ENTER
-    H[0xA7] = (t) => t.withStack.pop(); // WITH_EXIT
+    H[0xA6] = (t) => { if(!t.withStack) t.withStack=[]; t.withStack.push(t.pop()); }; 
+    H[0xA7] = (t) => t.withStack.pop(); 
 
 })(typeof self !== 'undefined' ? self : this);

@@ -6,7 +6,7 @@
     const H = root.MerkavaVM.OpHandlers;
 
     H[0x70] = (t) => { // CLOSURE
-        const code = t.constants[t.read16()], flags = t.read8();
+        const code = t.constants[t.readU16()], flags = t.read8();
         if (t.currentScope && !t.currentScope.__parent) t.currentScope.__parent = t.currentUpvalues;
         const cls = { 
             type: 'CLOSURE', code, 
@@ -40,6 +40,20 @@
         finalArgs.forEach((a, i) => t.currentScope[i] = a);
     };
 
+    const captureEvent = (e) => {
+        if (!e || !(e instanceof Event || (e.constructor && e.constructor.name.includes('Event')))) return e;
+        const copy = {};
+        const props = [
+            'key', 'code', 'clientX', 'clientY', 'offsetX', 'offsetY',
+            'target', 'type', 'button', 'buttons', 'shiftKey', 'ctrlKey', 
+            'altKey', 'metaKey', 'detail', 'deltaX', 'deltaY', 'deltaZ'
+        ];
+        props.forEach(k => { if (e[k] !== undefined) copy[k] = e[k]; });
+        copy.preventDefault = () => { try { e.preventDefault(); } catch(err) {} };
+        copy.stopPropagation = () => { try { e.stopPropagation(); } catch(err) {} };
+        return copy;
+    };
+
     H[0x71] = (t) => { // CALL
         const count = t.read8();
         const args = []; for(let i=0; i<count; i++) args.unshift(t.pop());
@@ -51,34 +65,40 @@
             if (callee.boundThis === undefined && !callee.isArrow) callee.boundThis = ctx;
             runClosure(t, callee, args, false);
         } else if (typeof callee === 'function') {
-            args.forEach((a, i) => { 
-                if (a && a.type === 'CLOSURE') {
-                    args[i] = function(...inner) {
-                        const nt = t.vm.spawn(a.code);
-                        nt.currentUpvalues = a.upvalues;
-                        nt.environment = a.environment || nt.environment;
-                        const fArgs = (a.boundArgs||[]).concat(inner);
+            const wrappedCache = new WeakMap();
+            const wrapForHost = (v) => {
+                if (!v || typeof v !== 'object') return v;
+                if (wrappedCache.has(v)) return wrappedCache.get(v);
+
+                if (v.type === 'CLOSURE') {
+                    const wrapped = function(...inner) {
+                        const safeInner = inner.map(captureEvent);
+                        const nt = t.vm.spawn(v.code);
+                        nt.currentUpvalues = v.upvalues;
+                        nt.environment = v.environment || nt.environment;
+                        const fArgs = (v.boundArgs || []).concat(safeInner);
                         nt.currentScope = { 'this': this, 'arguments': fArgs };
-                        fArgs.forEach((v,k)=>nt.currentScope[k]=v);
-                        if(t.vm.wake) t.vm.wake();
+                        fArgs.forEach((val, k) => nt.currentScope[k] = val);
+                        if (t.vm.wake) t.vm.wake();
                     };
-                    args[i]._merkavaClosure = a;
+                    wrapped._merkavaClosure = v;
+                    wrappedCache.set(v, wrapped);
+                    return wrapped;
                 }
-            });
+                return v;
+            };
+
+            const hostArgs = args.map(wrapForHost);
             try {
-                // B"H - Context Fallback for Native Calls
-                // If ctx is undefined, default to globalThis (window/self) to prevent 'Illegal invocation'
-                const safeCtx = ctx || (typeof globalThis !== 'undefined' ? globalThis : (typeof self !== 'undefined' ? self : window));
-                t.push(callee.apply(safeCtx, args));
+                const globalObj = (typeof globalThis !== 'undefined' ? globalThis : (typeof self !== 'undefined' ? self : window));
+                const safeCtx = (ctx === undefined || ctx === null) ? globalObj : ctx;
+                t.push(callee.apply(safeCtx, hostArgs));
             } catch(e) {
                 console.error("[VM] Native Call Error:", e);
-                console.error("Callee:", callee);
-                console.error("Context:", ctx);
-                console.error("Args:", args);
                 throw e; 
             }
         } else {
-            throw new TypeError(`[VM] Call Error: ${typeof callee} is not a function`);
+            throw new TypeError(`[VM] Call Error: ${typeof callee} is not a function.`);
         }
     };
 
@@ -87,17 +107,15 @@
         const args = []; for(let i=0; i<count; i++) args.unshift(t.pop());
         let callee = t.pop();
         if (typeof callee === 'function' && callee._merkavaClosure) callee = callee._merkavaClosure;
-
         if (callee && callee.type === 'CLOSURE') runClosure(t, callee, args, true);
         else if (typeof callee === 'function') t.push(new callee(...args));
         else throw new TypeError(`[VM] New Error: ${typeof callee} is not a constructor`);
     };
 
     H[0x73] = (t) => { // MAKE_CLASS
-        t.read16(); 
+        t.readU16(); 
         const ctor = t.pop(), sup = t.pop();
         let final = ctor || { type: 'CLOSURE', code: { bytecode: [0x02], constants: [] }, upvalues: t.currentScope, prototype: {} };
-
         if (sup) {
             final.prototype = Object.create(sup.prototype || {});
             final.prototype.constructor = final;

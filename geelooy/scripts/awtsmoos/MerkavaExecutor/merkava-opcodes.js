@@ -2,7 +2,7 @@
 // B"H
 /**
  * @file merkava-opcodes.js
- * @version 2.4.0 - Divine Decree
+ * @version 2.4.1 - Divine Pairs
  */
 
 (function(root, factory) {
@@ -43,6 +43,8 @@
         PUSH_FALSE: 0x17,
         PUSH_THIS: 0x18,
         PUSH_META: 0x19,
+        DUP2: 0x1A,    // New: DUP top 2
+        SWAP2: 0x1B,   // New: SWAP top 2 pairs
 
         // Variables
         LOAD_LOCAL: 0x20,

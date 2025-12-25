@@ -1,8 +1,10 @@
+
 //B"H
 import { getHeichelDetails, getAliasName } from "/scripts/awtsmoos/api/utils.js";
 import { addTab, makeInfoHTML, makeNavBars, interpretPostDayuh, appendHTML } from "/heichelos/post/postFunctions.js"
 import { loadRootComments, init } from "/heichelos/post/commentLogic.js"
 import { loadInitial, fetchAwtsmoos } from "./api.js";
+import { renderFootnotesPanel } from "/heichelos/post/comments/panel/footnotes.js";
 
 export async function hasHeichelAuthority(heichel, alias) {
 	return !!(await (await fetch(`/api/social/alias/${alias}/heichelos/${heichel}/ownership`)).json()).yes
@@ -83,6 +85,24 @@ export async function startItAll() {
                         window.commentTab.open();
                     };
                     actualTab.appendChild(btn);
+
+                    // 3. Navigation to Footnotes (Only if they exist)
+                    if(window.post?.dayuh?.footnotes?.length) {
+                        const ftBtn = document.createElement("button");
+                        ftBtn.className = "awtsmoos-hero-btn";
+                        ftBtn.style.marginTop = "10px";
+                        ftBtn.innerHTML = `<span>📖 View Footnotes</span>`;
+                        ftBtn.onclick = () => {
+                            window.tabManager.addTab({
+                                header: "Footnotes",
+                                name: "footnotes",
+                                onopen({ actualTab }) {
+                                    renderFootnotesPanel(actualTab);
+                                }
+                            }).open();
+                        };
+                        actualTab.appendChild(ftBtn);
+                    }
                 }
             });
             

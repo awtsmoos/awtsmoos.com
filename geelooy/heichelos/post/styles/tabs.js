@@ -1,88 +1,12 @@
+
 //B"H
 export function injectPostTabsCSS() {
-    const id = "BH-postTabsStyles-Pro-V7";
+    const id = "BH-postTabsStyles-Pro-V8";
     if (document.getElementById(id)) return;
     
     const style = document.createElement("style");
     style.id = id;
     style.textContent = /*css*/`
-        .sidebar {
-            display: flex;
-            flex-direction: column;
-            overflow: hidden; 
-            height: 100% !important;
-            /* DAMPENED RATIO: Base 13px + 50% of the variance from 16px */
-            /* If Main=16, Sidebar=13. If Main=26, Sidebar=18. */
-            font-size: calc(13px + (var(--awtsmoos-font-size) - 16px) * 0.5);
-        }
-        
-        .awtsmoos-sidebar-header {
-            background: #000; 
-            color: #fff;
-            border-bottom: 3px solid #000;
-            display: flex;
-            flex-direction: column;
-            flex-shrink: 0;
-            position: relative;
-            z-index: 20;
-            padding: 0; 
-            /* Header stays slightly larger but fixed relative to sidebar base */
-            font-size: 1.1em; 
-        }
-
-        .awtsmoos-drag-handle {
-            width: 40px; 
-            height: 6px;
-            background-color: #555;
-            margin: 6px auto; 
-            cursor: grab;
-            display: none; 
-        }
-
-        .awtsmoos-nav-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 10px;
-            gap: 10px;
-        }
-        
-        .awtsmoos-nav-title {
-            font-size: 1em;
-            font-weight: 900;
-            color: #fff;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            flex: 1;
-            text-align: center;
-        }
-
-        button.awtsmoos-nav-back, 
-        .awtsmoos-close-sidebar-btn {
-            background: #fff;
-            border: 2px solid #fff;
-            width: 2em;
-            height: 2em;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1em;
-            color: #000;
-            cursor: pointer;
-            font-weight: bold;
-            box-shadow: 2px 2px 0 #555;
-        }
-        
-        button.awtsmoos-nav-back:hover, 
-        .awtsmoos-close-sidebar-btn:hover {
-            background-color: #ffcc00; 
-            border-color: #ffcc00;
-            box-shadow: 1px 1px 0 #555;
-            transform: translate(1px, 1px);
-        }
-        
-        button.awtsmoos-nav-back.hidden { visibility: hidden; pointer-events: none; }
-
         .awtsmoos-tab-pane-container {
             flex: 1;
             position: relative;
@@ -211,6 +135,15 @@ export function injectPostTabsCSS() {
             border-bottom-color: #000;
         }
 
+        /* AI Card Styling */
+        .ai-card {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e6f2ff 100%);
+            border-left: 4px solid #00d2ff;
+        }
+        .ai-card:hover {
+            background: #e1f5fe;
+        }
+
         .awtsmoos-list-item span {
             font-weight: 700;
             font-size: 1em;
@@ -235,10 +168,6 @@ export function injectPostTabsCSS() {
             background-color: #333; 
             box-shadow: 3px 3px 0 #888;
             transform: translate(3px, 3px);
-        }
-
-        @media (max-width: 900px) {
-            .awtsmoos-drag-handle { display: block; }
         }
     `;
     document.head.appendChild(style);

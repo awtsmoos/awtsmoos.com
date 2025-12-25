@@ -21,10 +21,9 @@
                 
                 // --- SYSCALL BRIDGE (EARLY) ---
                 
-                // B"H - Safe Serializer to prevent DataCloneError on Transferables (Canvas, etc.)
+                // B"H - Safe Serializer to prevent DataCloneError on Transferables
                 const safeSerialize = (arg) => {
                     if (typeof arg === 'object' && arg !== null) {
-                        // Check for OffscreenCanvas
                         if (arg[Symbol.toStringTag] === 'OffscreenCanvas' || (arg.getContext && arg.transferToImageBitmap)) {
                             return '[OffscreenCanvas]';
                         }
@@ -65,7 +64,6 @@
                 const pendingResolves = new Map();
                 const bridgedImportResolver = async (url) => {
                     const id = Math.random().toString(36).substr(2);
-                    logToParent('sys', 'Requesting Import:', url, id);
                     return new Promise((resolve) => {
                         pendingResolves.set(id, resolve);
                         self.postMessage({ type: 'RESOLVE_FILE', id: id, url: url });
@@ -74,51 +72,52 @@
 
                 // Load SDK
                 try {
-                    logToParent('sys', 'Loading SDK from:', "${sdkUrl}");
                     importScripts("${sdkUrl}");
-                    logToParent('sys', 'SDK Loaded.');
                 } catch(e) {
                     logToParent('err', 'SDK Load Failed:', e.message);
                     self.postMessage({ type: 'ERROR', payload: "SDK Load Failed: " + e.message });
                 }
 
                 if (typeof Merkava !== 'undefined') {
-                    logToParent('sys', 'Initializing Merkava Worker Env...');
                     Merkava.initWorker({ 
                         isWorker: true, 
                         ramLimit: 500000,
                         importResolver: bridgedImportResolver
                     }).then(adapter => {
-                        logToParent('sys', 'Merkava Worker Env Ready.');
-                        
                         let realVM = null;
                         let msgQueue = [];
                         let isRunning = false;
 
                         const driveVM = () => {
-                            if (!realVM) return;
-                            if (isRunning) return; 
+                            if (!realVM || isRunning) return; 
                             isRunning = true;
-                            const loop = () => {
+                            
+                            const pulse = () => {
                                 try {
-                                    const active = realVM.run(100);
-                                    if (active) setTimeout(loop, 10);
-                                    else isRunning = false;
+                                    // B"H - Full power cycle surge
+                                    const active = realVM.run(60000); 
+                                    if (active) {
+                                        if (self.requestAnimationFrame) requestAnimationFrame(pulse);
+                                        else setTimeout(pulse, 0);
+                                    } else {
+                                        isRunning = false;
+                                    }
                                 } catch (e) {
-                                    console.error("[InnerWorker] VM Crash:", e);
+                                    console.error("[InnerWorker] VM Pulse Shattered:", e);
                                     isRunning = false;
                                 }
                             };
-                            loop();
+                            
+                            if (self.requestAnimationFrame) requestAnimationFrame(pulse);
+                            else pulse();
                         };
 
                         const processQueue = () => {
-                            if (!realVM) return;
-                            
-                            // B"H - CRITICAL: Handler Detection
-                            // We need to find the USER'S onmessage handler.
-                            // 1. Check Global Memory (Highest Priority - StoreGlobal Opcode writes here)
-                            // 2. Check Context Proxy (Fallback)
+                            // B"H - Resilient Queue: Wait for the VM to ignite
+                            if (!realVM) {
+                                if (msgQueue.length > 0) setTimeout(processQueue, 100);
+                                return;
+                            }
                             
                             let handler = null;
                             if (realVM.memory.getGlobal) {
@@ -127,89 +126,48 @@
                             
                             if (!handler && realVM.context) {
                                 handler = realVM.context.onmessage;
-                                
-                                // B"H - SYSTEM PROTECTION
-                                // If the handler found via Context Proxy is strictly equal to the
-                                // System Bootstrap Router (self.onmessage), it means the user hasn't 
-                                // assigned their own handler yet (or the Proxy fell through to Native).
-                                // We MUST ignore this to prevent the system from cannibalizing the message.
-                                if (handler === self.onmessage) {
-                                    // logToParent('sys', 'Queue Waiting: Handler is System Router.');
-                                    handler = null;
-                                }
                             }
 
                             if (!handler) {
-                                if (msgQueue.length > 0) {
-                                    setTimeout(processQueue, 50);
-                                }
+                                if (msgQueue.length > 0) setTimeout(processQueue, 100);
                                 return;
                             }
                             
                             while (msgQueue.length > 0) {
                                 const payload = msgQueue.shift();
-                                logToParent('sys', 'Processing Message (Payload Safe):', payload);
-
                                 if (handler.type === 'CLOSURE') {
                                     const t = realVM.spawn(handler.code);
-                                    // B"H - Restore Closure State
                                     t.currentUpvalues = handler.upvalues;
                                     t.environment = handler.environment || t.environment;
-                                    
-                                    // Set Arguments
                                     t.currentScope = { 
                                         'this': realVM.context,
                                         'arguments': [{ data: payload }],
                                         0: { data: payload }
                                     };
-                                    
-                                    logToParent('sys', 'Spawning Handler Thread.');
                                     driveVM(); 
                                 } else if (typeof handler === 'function') {
-                                    logToParent('sys', 'Invoking Native Handler.');
-                                    try {
-                                        handler({ data: payload });
-                                    } catch(e) {
-                                        logToParent('err', 'Native Handler Failed:', e.message);
-                                    }
+                                    try { handler({ data: payload }); } catch(e) {}
                                 }
                             }
                         };
                         
-                        if (realVM && !realVM.wake) {
-                             realVM.wake = () => {
-                                 if (!isRunning) driveVM();
-                             };
-                        }
-
                         self.onmessage = function(e) {
                             const msg = e.data;
                             if (msg.type === 'EXEC_CODE') {
-                                 logToParent('sys', 'Executing User Code...');
                                  const runOptions = {
                                      context: self,
                                      importResolver: bridgedImportResolver,
-                                     hostAPI: {
-                                         0: (...args) => {
-                                             self.postMessage({ type: 'SYSCALL', args });
-                                         }
-                                     }
+                                     hostAPI: { 0: (...args) => self.postMessage({ type: 'SYSCALL', args }) }
                                  };
                                  adapter.run(msg.code, runOptions).then(res => {
-                                     logToParent('sys', 'User Code Compiled & Running.');
                                      realVM = res.vm;
-                                     realVM.wake = () => { if (!isRunning) driveVM(); };
+                                     realVM.wake = () => driveVM();
                                      processQueue();
-                                 }).catch(err => {
-                                     logToParent('err', 'Run Failed:', err.message);
-                                     self.postMessage({ type: 'ERROR', payload: err.message });
                                  });
                             } else if (msg.type === 'USER_MSG') {
-                                 logToParent('sys', 'Received USER_MSG (Safe)', msg.payload);
                                  msgQueue.push(msg.payload);
                                  processQueue();
                             } else if (msg.type === 'RESOLVE_FILE_RESULT') {
-                                logToParent('sys', 'File Resolved:', msg.id, msg.found);
                                 const resolve = pendingResolves.get(msg.id);
                                 if (resolve) {
                                     resolve(msg.found ? { code: msg.code } : null);
@@ -219,13 +177,7 @@
                         };
                         
                         self.postMessage({ type: 'READY' });
-                    }).catch(err => {
-                        logToParent('err', 'Init Failed:', err.message);
-                        self.postMessage({ type: 'ERROR', payload: "Init Failed: " + err.message });
                     });
-                } else {
-                    logToParent('err', 'Merkava Global Missing');
-                    self.postMessage({ type: 'ERROR', payload: "Merkava SDK Missing" });
                 }
             `;
         }

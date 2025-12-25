@@ -1,3 +1,4 @@
+
 // B"H
 import Highlighter from "/api/nav/highlighter.js";
 import { makeToast } from "./ui.js";
@@ -97,13 +98,78 @@ export function scrollToActiveEl() {
  * Footnote Logic & Interactions
  */
 export function initializeFootnotes() {
-    document.querySelectorAll('.footnote-ref').forEach(ref => {
+    // B"H - Attach click listeners to all sup tags that look like footnotes
+    document.querySelectorAll('sup, .footnote-ref').forEach(ref => {
+        ref.style.cursor = "pointer";
+        
+        // B"H - Robust ID Extraction
+        // 1. Remove brackets [ ] 
+        // 2. Trim whitespace
+        let id = ref.innerText.replace(/[\[\]]/g, '').trim();
+        
+        // If empty (e.g. just brackets), fallback to original text or skip
+        if(!id) id = ref.innerText.trim();
+        if(!id) return;
+
+        // Assign data attribute for reverse-lookup
+        ref.dataset.footnoteId = id;
+        ref.classList.add('active-footnote-ref');
+
         ref.onclick = (e) => {
             e.preventDefault();
-            const content = ref.dataset.content;
+            e.stopPropagation();
+            
+            let content = ref.dataset.content;
+            
+            if(!content) {
+                const footnotes = window.post?.dayuh?.footnotes;
+                if(footnotes && Array.isArray(footnotes)) {
+                    // Loose matching to handle string/number differences
+                    const note = footnotes.find(f => String(f.id) === String(id));
+                    if(note) content = note.content;
+                }
+            }
+
             if (content) createFootnoteOverlay(content);
+            else console.warn("Footnote content not found for ID:", id);
         };
     });
+}
+
+/**
+ * B"H - Highlights footnotes in the sidebar based on the current text view.
+ * @param {HTMLElement} containerElement - The section or paragraph currently in view.
+ */
+export function syncFootnotesInSidebar(containerElement) {
+    if (!containerElement) return;
+
+    const refs = containerElement.querySelectorAll('[data-footnote-id]');
+    const activeIds = Array.from(refs).map(el => el.dataset.footnoteId);
+
+    const sidebarList = document.querySelector('.footnotes-list');
+    if (!sidebarList) return; 
+
+    // Clear previous active states
+    const previouslyActive = sidebarList.querySelectorAll('.footnote-item.active');
+    previouslyActive.forEach(el => el.classList.remove('active'));
+
+    if (activeIds.length === 0) return;
+
+    let firstActive = null;
+    const activeIdSet = new Set(activeIds);
+
+    Array.from(sidebarList.children).forEach(item => {
+        const itemId = item.dataset.footnoteId;
+        // Check if ID is in the set of active IDs found in the text
+        if(activeIdSet.has(itemId)) {
+             item.classList.add('active');
+             if (!firstActive) firstActive = item;
+        }
+    });
+
+    if (firstActive) {
+        firstActive.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
 }
 
 const atzilusActions = {
@@ -148,11 +214,10 @@ export function createFootnoteOverlay(content) {
     if (existing) existing.remove();
     const overlay = document.createElement('div');
     overlay.id = 'footnote-overlay';
-    const box = document.createElement('div');
-    box.className = "awtsmoosFootnote";
-    box.innerHTML = content;
+    
+    // Allow HTML in footnotes (like bold/links)
+    overlay.innerHTML = content;
+    
     overlay.onclick = () => overlay.remove();
-    box.onclick = (e) => e.stopPropagation();
-    overlay.appendChild(box);
     document.body.appendChild(overlay);
 }
