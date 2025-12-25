@@ -1,4 +1,9 @@
 // B"H
+/**
+ * @file controls.js
+ * Camera control methods.
+ * Purified of redundant conversions to ensure smooth rotation.
+ */
 export default {
     lerp(start, end, percent) {
         return (start + percent*(end - start));
@@ -7,25 +12,13 @@ export default {
     lerpAngle(start, end, percent) {
         let difference = Math.abs(end - start);
         if (difference > 180) {
-            // We need to add on to one of the values.
-            if (end > start) {
-                // We'll add it on to start...
-                start += 360;
-            } else {
-                // Add it on to end.
-                end += 360;
-            }
+            if (end > start) start += 360;
+            else end += 360;
         }
 
-        // Interpolate it.
         let value = (start + ((end - start) * percent));
-
-        // Wrap it..
         let rangeZero = 360;
-
-        if (value >= 0 && value <= 360)
-            return value;
-
+        if (value >= 0 && value <= 360) return value;
         return (value % rangeZero);
     },
 
@@ -35,32 +28,27 @@ export default {
     },
 
     panDown(amount) {
-        this.userInputPhi += amount || this.panAmount
+        this.userInputPhi += amount || this.panAmount;
     },
 
     panUp(amount) {
-        this.userInputPhi -= amount || this.panAmount
+        this.userInputPhi -= amount || this.panAmount;
     },
 
+    /**
+     * B"H: Rotate around target.
+     * dx and dy are normalized screen movement.
+     * We keep the internal accumulators in DEGREES.
+     */
     rotateAroundTarget(dx, dy) {
-        this.newMovement=true
-        // Convert degrees to radians
-        var degreeToRadian = Math.PI / 180;
-        // Update the theta and phi values based on the mouse movement
-        this.userInputTheta += dx * this.xSpeed * degreeToRadian;
-        this.userInputPhi -= dy * this.ySpeed * degreeToRadian;
+        this.newMovement = true;
+        this.userInputTheta += dx * this.xSpeed;
+        this.userInputPhi -= dy * this.ySpeed;
     },
 
-    
     onMouseDown(event) {
-        if (event.button === 0) {
-            this.mouseIsDown  = true;
-        }
-
-        if(event.button == 2) {
-            this.rightMouseIsDown = true;
-        }
-
+        if (event.button === 0) this.mouseIsDown = true;
+        if (event.button === 2) this.rightMouseIsDown = true;
     },
 
     onRightMouseDown() {
@@ -68,31 +56,20 @@ export default {
     },
 
     onRightMouseUp() {
-        this.rightMouseIsDown = true;
+        this.rightMouseIsDown = false;
     },
 
     onMouseMove(event) {
-        
-        if(
-            (this.mouseIsDown || this.rightMouseIsDown)
-            && 
-            (event.movementX !== 0 || event.movementY !== 0)
-        ) {
+        if ((this.mouseIsDown || this.rightMouseIsDown) && 
+            (event.movementX !== 0 || event.movementY !== 0)) {
             let dx = event.movementX * (this.xSpeed / this.width);
             let dy = event.movementY * (this.ySpeed / this.height);
-            
-            
             this.rotateAroundTarget(dx, dy);
         }
     },
 
     onMouseUp(event) {
-        if (event.button === 0) {
-            this.mouseIsDown = false;
-        }
-
-        if(event.button == 2) {
-            this.rightMouseIsDown = false;
-        }
+        if (event.button === 0) this.mouseIsDown = false;
+        if (event.button === 2) this.rightMouseIsDown = false;
     }
 };

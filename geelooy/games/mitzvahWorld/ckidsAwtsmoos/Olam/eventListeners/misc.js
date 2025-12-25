@@ -1,3 +1,4 @@
+
 /**
  * B"H
  * 
@@ -56,40 +57,36 @@ export default function() {
     var lastAction;
     var lastTime = Date.now();
     this.on("increase loading percentage", async ({
-        amount, action, info, subAction
+        amount, action, info, subAction, reset, error
     }) => {
         if(!info) info = {};
         var {
             nivra
         } = info;
-        var reset = false;
-        if(lastAction != action) {
-            lastTime = Date.now();
-            this.currentLoadingPercentage = 0;
-            //this.ayshPeula("reset loading percentage")
-            reset = true;
-        }
-        this.currentLoadingPercentage += amount;
         
+        // B"H: Logic to reset percentage if action changes OR if explicitly requested
+        var shouldReset = reset || (lastAction != action);
+        
+        if (shouldReset) {
+            lastTime = Date.now();
+            // If explicit reset with amount (e.g. "jump to 50%"), use it. Otherwise reset to 0.
+            this.currentLoadingPercentage = reset ? amount : 0;
+        } else {
+            this.currentLoadingPercentage += amount;
+        }
 
         if(this.currentLoadingPercentage > 100) {
             this.currentLoadingPercentage = 100;
         }
-        else {
-            /*this.ayshPeula(
-                "finished loading", ({
-                    amount,  action,
-                    total: this.currentLoadingPercentage 
-                })
-            )*/
-        }
+        
+        // B"H: IMPORTANT - Pass the 'error' object through to the next event
         this.ayshPeula("increased percentage", ({
             amount, action, subAction,
             total: this.currentLoadingPercentage,
-            reset
+            reset: shouldReset,
+            error: error 
         }))
         
         lastAction = action;
-        
     });
 }

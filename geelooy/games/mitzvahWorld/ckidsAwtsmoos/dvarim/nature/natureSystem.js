@@ -1,8 +1,7 @@
-
+//B"H
 /**
- * B"H
- * Nature System - Manages Instanced Mesh painting
- * Refactored to use modular generators and preserve multi-materials.
+ * Nature System - Manages Instanced Mesh painting.
+ * Hardened against multi-material hazards and missing vessels.
  */
 import * as THREE from '/games/scripts/build/three.module.js';
 import * as BufferGeometryUtils from '/games/scripts/jsm/utils/BufferGeometryUtils.js';
@@ -18,6 +17,7 @@ export default class NatureSystem {
         this.rayDown = new THREE.Vector3(0, -1, 0);
         this.loadingPools = new Set();
         this.colorHelper = new THREE.Color();
+        this.fallbackMaterial = new THREE.MeshLambertMaterial({ color: 0x228B22 });
         
         this.olam.on("heesHawvoos", (dt) => this.update(dt));
     }
@@ -26,15 +26,13 @@ export default class NatureSystem {
         if (this.pools[type]) return this.pools[type];
         if (this.loadingPools.has(type)) return null;
 
-        console.log(`B"H Nature Log: initPool called for '${type}'`);
         this.loadingPools.add(type);
         
         try {
             let geometry = null;
             let material = null;
-            let baseColor = new THREE.Color(0xffffff); // Default white (no tint)
+            let baseColor = new THREE.Color(0xffffff);
 
-            // B"H: Flower Logic - STRICTLY EXTERNAL MODEL WITH MULTI-MATERIAL SUPPORT
             if (type.includes('flower')) {
                 let modelPath = "awtsmoos://flowerBlue";
                 if (type.includes('yellow')) modelPath = "awtsmoos://flowerYellow";
@@ -54,64 +52,48 @@ export default class NatureSystem {
                                     const g = c.geometry.clone();
                                     g.applyMatrix4(c.matrixWorld);
                                     
-                                    // Handle Material Groups
-                                    let matIndex = materials.indexOf(c.material);
+                                    // B"H: Safety guard for material absence
+                                    const sourceMat = c.material || this.fallbackMaterial;
+                                    let matIndex = materials.indexOf(sourceMat);
                                     if (matIndex === -1) {
-                                        // Clone material to ensure we can modify it for instancing (wind) without affecting original
-                                        const mClone = c.material.clone();
-                                        // Ensure double sided for flowers
+                                        const mClone = sourceMat.clone();
                                         mClone.side = THREE.DoubleSide; 
-                                        // Inject wind
                                         MaterialGenerator.injectWind(mClone);
-                                        
                                         materials.push(mClone);
                                         matIndex = materials.length - 1;
                                     }
                                     
-                                    // Assign group index to all vertices of this geometry segment
-                                    const count = g.attributes.position.count;
                                     g.clearGroups();
                                     g.addGroup(0, Infinity, matIndex);
-                                    
-                                    // Trick: BufferGeometryUtils.mergeGeometries respects groups if useGroups is true
                                     geometries.push(g);
                                 }
                             });
 
                             if(geometries.length > 0) {
-                                // Merge with groups enabled
                                 geometry = BufferGeometryUtils.mergeGeometries(geometries, true);
-                                material = materials; // Array of materials
+                                material = materials;
                             }
                         }
-                    } catch(e) {
-                        console.warn("B\"H: Flower load failed", e);
-                    }
+                    } catch(e) { console.warn("B\"H: Flower load failed", e); }
                 }
-            } 
-            // B"H: Rocks and Grass - STRICTLY PROCEDURAL (Improved)
-            else {
+            } else {
                 geometry = GeometryGenerator.get(type);
                 material = MaterialGenerator.get(type);
                 if(type.includes('grass')) baseColor.setHex(0x44aa44);
                 else if(type.includes('rock')) baseColor.setHex(0x888888);
             }
 
-            // Fallback
             if (!geometry) {
-                console.warn(`B"H: Fallback geometry for ${type}`);
                 geometry = new THREE.BoxGeometry(0.5, 0.5, 0.5);
-                material = new THREE.MeshBasicMaterial({ color: 0xff00ff });
+                material = this.fallbackMaterial;
             }
 
-            // Normalize Geometry (Center pivot at bottom)
             geometry.computeBoundingBox();
             const box = geometry.boundingBox;
             const size = new THREE.Vector3();
             box.getSize(size);
             const height = size.y;
             
-            // Scaling logic
             let targetHeight = 0.5;
             if (type.includes('rock')) targetHeight = 0.6;
             else if (type.includes('grass')) targetHeight = 0.6;
@@ -127,16 +109,14 @@ export default class NatureSystem {
             geometry.boundingBox.getCenter(center);
             geometry.translate(-center.x, -geometry.boundingBox.min.y, -center.z);
 
-            // Create InstancedMesh
             const instancedMesh = new THREE.InstancedMesh(geometry, material, maxInstances);
             instancedMesh.count = 0;
             instancedMesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
             if(instancedMesh.instanceColor) instancedMesh.instanceColor.setUsage(THREE.DynamicDrawUsage);
             
-            // Shadows
             instancedMesh.receiveShadow = true;
             instancedMesh.castShadow = true;
-            instancedMesh.frustumCulled = false; 
+            instancedMesh.frustumCulled = false;
             
             this.olam.scene.add(instancedMesh);
             
@@ -157,7 +137,8 @@ export default class NatureSystem {
     }
     
     paint(type, centerPosition) {
-        // Resolve generic types
+        if (!centerPosition || isNaN(centerPosition.x)) return;
+
         let actualType = type;
         if (type === 'grass') actualType = 'grass_field'; 
         else if (type === 'rock') {
@@ -170,9 +151,7 @@ export default class NatureSystem {
 
         const pool = this.pools[actualType];
         if(!pool) {
-            if (!this.loadingPools.has(actualType)) {
-                this.initPool(actualType);
-            }
+            if (!this.loadingPools.has(actualType)) this.initPool(actualType);
             return;
         }
         
@@ -195,58 +174,28 @@ export default class NatureSystem {
             }
             
             this.dummy.position.set(targetX, yPos, targetZ);
-            
-            // Random Rotation
-            this.dummy.rotation.set(
-                (Math.random() - 0.5) * 0.1, // Slight tilt X
-                Math.random() * Math.PI * 2, // Full rotation Y
-                (Math.random() - 0.5) * 0.1  // Slight tilt Z
-            );
+            this.dummy.rotation.set((Math.random() - 0.5) * 0.2, Math.random() * Math.PI * 2, (Math.random() - 0.5) * 0.2);
             
             let scale = 1;
-            
-            // B"H: Apply Base Color First
-            if(pool.baseColor) {
-                this.colorHelper.copy(pool.baseColor);
-            } else {
-                this.colorHelper.setHex(0xffffff);
-            }
+            this.colorHelper.copy(pool.baseColor || new THREE.Color(0xffffff));
 
             if (actualType.includes('grass')) {
                  scale = 0.8 + Math.random() * 0.6;
                  this.dummy.scale.set(scale, scale * (0.8 + Math.random() * 0.5), scale);
-                 
-                 // Grass Color Variation (Green shift)
-                 const h = (Math.random() - 0.5) * 0.08;
-                 const s = (Math.random() - 0.5) * 0.1; 
-                 const l = (Math.random() - 0.5) * 0.15;
-                 this.colorHelper.offsetHSL(h, s, l);
-                 
+                 this.colorHelper.offsetHSL((Math.random() - 0.5) * 0.08, (Math.random() - 0.5) * 0.1, (Math.random() - 0.5) * 0.15);
             } else if (actualType.includes('rock')) {
                  scale = 0.8 + Math.random() * 0.8;
                  this.dummy.scale.set(scale, scale * 0.8, scale);
-
-                 // Rock Color Variation (Grey shift)
-                 const l = (Math.random() - 0.5) * 0.2; 
-                 this.colorHelper.offsetHSL(0, 0, l);
-
+                 this.colorHelper.offsetHSL(0, 0, (Math.random() - 0.5) * 0.2);
             } else if (actualType.includes('flower')) {
                  scale = 0.8 + Math.random() * 0.6;
                  this.dummy.scale.set(scale, scale * (0.8 + Math.random() * 0.5), scale);
-                 
-                 // Flowers stay WHITE (baseColor) but vary brightness slightly
-                 const l = (Math.random() - 0.5) * 0.1;
-                 this.colorHelper.offsetHSL(0, 0, l);
+                 this.colorHelper.offsetHSL(0, 0, (Math.random() - 0.5) * 0.1);
             }
             
             this.dummy.updateMatrix();
             pool.mesh.setMatrixAt(pool.count, this.dummy.matrix);
-            
-            // Apply Instance Color
-            if (pool.mesh.setColorAt) {
-                pool.mesh.setColorAt(pool.count, this.colorHelper);
-            }
-            
+            if (pool.mesh.setColorAt) pool.mesh.setColorAt(pool.count, this.colorHelper);
             pool.count++;
         }
         
@@ -256,18 +205,20 @@ export default class NatureSystem {
     }
     
     update(dt) {
+        let playerPos = null;
+        if(this.olam.chossid && this.olam.chossid.mesh) playerPos = this.olam.chossid.mesh.position;
+
         for(const key in this.pools) {
             const material = this.pools[key].material;
-            // Handle both single material and array of materials
-            if (Array.isArray(material)) {
-                material.forEach(mat => {
-                    if(mat && mat.userData.shader) {
-                        mat.userData.shader.uniforms.uTime.value += dt;
-                    }
-                });
-            } else if (material && material.userData.shader) {
-                material.userData.shader.uniforms.uTime.value += dt;
-            }
+            const updateMat = (mat) => {
+                if(mat && mat.userData.shader) {
+                    const uniforms = mat.userData.shader.uniforms;
+                    if(uniforms.uTime) uniforms.uTime.value += dt;
+                    if(uniforms.uPlayerPosition && playerPos) uniforms.uPlayerPosition.value.copy(playerPos);
+                }
+            };
+            if (Array.isArray(material)) material.forEach(updateMat);
+            else updateMat(material);
         }
     }
 }

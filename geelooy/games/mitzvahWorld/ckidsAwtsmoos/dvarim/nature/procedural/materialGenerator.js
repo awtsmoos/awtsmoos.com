@@ -108,34 +108,115 @@ export default {
         
         material.onBeforeCompile = (shader) => {
             shader.uniforms.uTime = { value: 0 };
+            shader.uniforms.uPlayerPosition = { value: new THREE.Vector3(0, -1000, 0) }; // Default far away
             
+            // B"H: Simplex Noise GLSL
+            const noiseGLSL = `
+                vec3 mod289(vec3 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
+                vec2 mod289(vec2 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
+                vec3 permute(vec3 x) { return mod289(((x*34.0)+1.0)*x); }
+
+                float snoise(vec2 v) {
+                    const vec4 C = vec4(0.211324865405187, 0.366025403784439, -0.577350269189626, 0.024390243902439);
+                    vec2 i  = floor(v + dot(v, C.yy) );
+                    vec2 x0 = v - i + dot(i, C.xx);
+                    vec2 i1;
+                    i1 = (x0.x > x0.y) ? vec2(1.0, 0.0) : vec2(0.0, 1.0);
+                    vec4 x12 = x0.xyxy + C.xxzz;
+                    x12.xy -= i1;
+                    i = mod289(i);
+                    vec3 p = permute( permute( i.y + vec3(0.0, i1.y, 1.0 )) + i.x + vec3(0.0, i1.x, 1.0 ));
+                    vec3 m = max(0.5 - vec3(dot(x0,x0), dot(x12.xy,x12.xy), dot(x12.zw,x12.zw)), 0.0);
+                    m = m*m ;
+                    m = m*m ;
+                    vec3 x = 2.0 * fract(p * C.www) - 1.0;
+                    vec3 h = abs(x) - 0.5;
+                    vec3 ox = floor(x + 0.5);
+                    vec3 a0 = x - ox;
+                    m *= 1.79284291400159 - 0.85373472095314 * ( a0.x * a0.x + h.x * h.x + h.y * h.y + h.z * h.z ); // Normalise gradients
+                    vec3 g;
+                    g.x  = a0.x  * x0.x  + h.x  * x0.y;
+                    g.yz = a0.yz * x12.xz + h.yz * x12.yw;
+                    return 130.0 * dot(m, g);
+                }
+            `;
+
             shader.vertexShader = `
                 uniform float uTime;
+                uniform vec3 uPlayerPosition;
+                ${noiseGLSL}
             ` + shader.vertexShader;
 
             shader.vertexShader = shader.vertexShader.replace(
                 '#include <project_vertex>', 
                 `
+                // 1. Get World Position of Instance
+                vec4 worldInstancePos = instanceMatrix * vec4(0.0, 0.0, 0.0, 1.0);
                 vec4 mvPosition = instanceMatrix * vec4(transformed, 1.0);
                 
-                // Simple sway based on Y height (uv.y or position.y)
-                float h = position.y; 
-                // Since our grass geometry is normalized around Y=0 to H, just use position.y
-                if (h < 0.1) h = 0.0; // Anchor bottom
+                // 2. Geometry Factors
+                float h = position.y; // Normalized height (0 to 1 approx)
+                if (h < 0.1) h = 0.0; // Anchor bottom vertices completely
+
+                // 3. Wind Sway
+                // Use World X/Z for noise coordinate to make wind consistent across field
+                float noiseVal = snoise(vec2(worldInstancePos.x * 0.05 + uTime * 0.2, worldInstancePos.z * 0.05 + uTime * 0.2));
+                // Add higher frequency jitter
+                float jitter = snoise(vec2(worldInstancePos.x * 0.5 + uTime, worldInstancePos.z * 0.5));
                 
-                float swayStrength = 0.15;
-                float swaySpeed = 1.5;
-                float swayPhase = mvPosition.x * 0.5 + mvPosition.z * 0.3;
+                float leanStrength = 0.2 + (noiseVal * 0.1); 
+                float bendX = (noiseVal + jitter * 0.2) * leanStrength * h;
+                float bendZ = (cos(uTime * 0.5 + worldInstancePos.x) * 0.1) * h;
+
+                mvPosition.x += bendX;
+                mvPosition.z += bendZ;
+
+                // 4. Player Interaction (Bending)
+                float dist = distance(uPlayerPosition, worldInstancePos.xyz);
+                float radius = 1.5;
+                if (dist < radius) {
+                    float power = 1.0 - (dist / radius);
+                    power = pow(power, 2.0); // Curve the falloff
+                    
+                    vec3 pushDir = normalize(worldInstancePos.xyz - uPlayerPosition);
+                    pushDir.y = 0.0; // Keep push horizontal
+                    
+                    // Bend away from player
+                    mvPosition.x += pushDir.x * power * 1.0 * h;
+                    mvPosition.z += pushDir.z * power * 1.0 * h;
+                    // Squish down slightly when stepped on
+                    mvPosition.y -= power * 0.3 * h; 
+                }
+
+                // 5. LOD (Distance Scaling)
+                // Calculate distance from camera to the instance (not the vertex)
+                // We use 'modelViewMatrix' to get camera relative position of the instance center
+                // Actually 'worldInstancePos' is world space. We need camera world pos.
+                // In Three.js, cameraPosition is available in vertex shader.
                 
-                float sway = sin(uTime * swaySpeed + swayPhase) * swayStrength * h;
+                float camDist = distance(cameraPosition, worldInstancePos.xyz);
+                float lodStart = 60.0;
+                float lodEnd = 80.0;
+                float lodScale = 1.0 - smoothstep(lodStart, lodEnd, camDist);
                 
-                mvPosition.x += sway;
-                mvPosition.z += cos(uTime * swaySpeed * 0.8 + swayPhase) * swayStrength * 0.5 * h;
+                // Collapse to zero if too far
+                if(lodScale < 0.01) lodScale = 0.0;
                 
-                mvPosition = modelViewMatrix * mvPosition;
+                // Apply scaling relative to instance center
+                // Since mvPosition is already transformed, we need to scale relative to the instance origin
+                vec3 instanceCenter = worldInstancePos.xyz;
+                vec3 offset = mvPosition.xyz - instanceCenter;
+                mvPosition.xyz = instanceCenter + offset * lodScale;
+
+                mvPosition = modelViewMatrix * vec4(mvPosition.xyz, 1.0); // Convert back to view space for projection
+                
+                // Standard Projection
                 gl_Position = projectionMatrix * mvPosition;
                 `
             );
+            
+            // Bypass standard modelView transform since we did it manually
+            shader.vertexShader = shader.vertexShader.replace('#include <begin_vertex>', '');
             
             material.userData.shader = shader;
         };

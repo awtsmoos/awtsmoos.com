@@ -1,3 +1,4 @@
+
 /**
  * B"H
  * 
@@ -54,6 +55,11 @@ export default class {
             devicePixelRatio
         )
         
+        // B"H: Synchronize Olam dimensions with the actual Canvas dimensions immediately
+        if (canvas.width && canvas.height) {
+            this.setSize(canvas.width, canvas.height);
+        }
+
         var renderer = this.renderer
 
         this.ayshPeula("canvased")

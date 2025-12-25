@@ -56,8 +56,8 @@ export default {
         try {
             base = await self.olam.loadTexture({ url: baseTexture, shouldRepeat: true, repeatX, repeatY, nivra: self });
             overlay =  await self.olam.loadTexture({ url: overlayTexture, shouldRepeat: true, repeatX, repeatY, nivra: self });
-            base.wrapS = base.wrapT = THREE.RepeatWrapping;
-            overlay.wrapS = overlay.wrapT = THREE.RepeatWrapping;
+            if(base) base.wrapS = base.wrapT = THREE.RepeatWrapping;
+            if(overlay) overlay.wrapS = overlay.wrapT = THREE.RepeatWrapping;
         } catch(e) { console.log("Issue loading!",e); return; }
        
         var targetChild = null;
@@ -145,8 +145,12 @@ export default {
             ` + shader.fragmentShader;
             
             var fragmentLogic = `
-                vec4 dirtColor = texture2D(baseTexture, (vWorldPosition.xz * textureScale) * repeatVector);
-                vec4 grassColor = texture2D(overlayTexture, (vWorldPosition.xz * textureScale) * repeatVector);
+                vec4 dirtColor = vec4(1.0);
+                if(true) dirtColor = texture2D(baseTexture, (vWorldPosition.xz * textureScale) * repeatVector);
+                
+                vec4 grassColor = vec4(0.5, 0.8, 0.5, 1.0);
+                if(true) grassColor = texture2D(overlayTexture, (vWorldPosition.xz * textureScale) * repeatVector);
+
                 float mixFactor = 0.0;
                 if (usePathMixing && numPathSegments > 0) {
                     float minDistance = 1e38;

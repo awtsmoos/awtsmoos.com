@@ -1,357 +1,118 @@
-
-
+// B"H
 /**
- * B"H
  * @file physics.js
- * @description The 'Kav' (Line) of physics that maintains order in the Olam.
- * Handles the main update loop (heesHawvoos), collision resolution, and ground detection.
+ * Handles the main update loop (heesHawvoos), collision resolution, ground detection, and WATER PHYSICS.
+ * Now incorporates Gematria weight into jump and gravity logic.
  */
 import * as THREE from '/games/scripts/build/three.module.js';
-import Utils from "../../../utils.js";
+import ProceduralGenerators from "../../../Olam/math/ProceduralGenerators.js";
 import Tzomayach from "../../tzomayach.js";
 
 const _ground_check_ray = new THREE.Ray();
+const _water_check_ray = new THREE.Ray(); 
 
 export default {
     
     setPosition(vec3) {
-        if (!vec3 || isNaN(vec3.x) || isNaN(vec3.y) || isNaN(vec3.z)) {
-            console.warn("B\"H: Attempted to set invalid position. Ignoring.");
-            return;
-        }
-        this.collider.start.set(
-            vec3.x, 
-            vec3.y + this.height / 2, 
-            vec3.z
-        );
-        this.collider.end.set(
-            vec3.x, 
-            vec3.y + this.height, 
-            vec3.z
-        );
+        if (!vec3 || isNaN(vec3.x)) return;
+        this.collider.start.set(vec3.x, vec3.y + this.height / 2, vec3.z);
+        this.collider.end.set(vec3.x, vec3.y + this.height, vec3.z);
         this.collider.radius = this.radius;
         this.isTeleporting = true;
+        this.velocity.set(0, 0, 0);
     },
 
     collisions() {
-        if (!this.olam.worldOctree) return; // B"H: Safety check
+        if (!this.olam.worldOctree) return; 
         const result = this.olam.worldOctree.capsuleIntersect(this.collider);
         if (result) {
             this.collider.translate(result.normal.multiplyScalar(result.depth));
-            this.velocity.addScaledVector(result.normal, -result.normal.dot(this.velocity));
-        }
-    },
-
-    async calculateOffset() {
-        if (!this.onFloor) return;
-    
-        await new Promise(resolve => requestAnimationFrame(resolve));
-    
-        const raycaster = new THREE.Raycaster();
-        raycaster.set(this.collider.start, new THREE.Vector3(0, -1, 0));
-    
-        const intersects = raycaster.intersectObjects(this.olam.scene.children, true);
-        if (intersects.length > 0) {
-            this.offset = intersects[0].distance;
-        }
-    },
-
-    getCapsule() {
-        if(!this.collider) return null;
-        const radius = this.collider.radius;
-        const height = this.collider.end.y - this.collider.start.y;
-        return {radius, height}
-    },
-
-    // The Great Pulse of Life
-    heesHawvoos(dt) {
-        const deltaTime = Math.min(dt, 0.1);
-        
-        if (this.isTeleporting) {
-            this.isTeleporting = false;
-            return;
-        }
-        
-        // B"H: NaN Protection / Auto-Reset
-        if (isNaN(this.mesh.position.x) || isNaN(this.mesh.position.y) || isNaN(this.mesh.position.z)) {
-            console.warn("B\"H: Player position became NaN! Resetting to safe default.", {
-                was: this.mesh.position.clone()
-            });
-            this.velocity.set(0, 0, 0);
-            this.setPosition(new THREE.Vector3(0, 15, 0)); // Drop from sky
-            // Ensure camera doesn't get stuck
-            if(this.olam && this.olam.ayin) {
-                this.olam.ayin.currentDistance = 5;
+            const velocityAlongNormal = result.normal.dot(this.velocity);
+            if(velocityAlongNormal < 0) {
+                 this.velocity.addScaledVector(result.normal, -velocityAlongNormal);
             }
-            return;
+        }
+    },
+
+    heesHawvoos(dt) {
+        const deltaTime = Math.min(Math.max(dt, 0.0001), 0.1);
+        if (this.isTeleporting) { this.isTeleporting = false; return; }
+        if (isNaN(this.mesh.position.x)) { this.setPosition(new THREE.Vector3(0, 20, 0)); return; }
+
+        // B"H: Gematria Weight calculation
+        if (this._gematriaWeight === undefined) {
+            const gem = ProceduralGenerators.calculateGematria(this.name || "אדם");
+            // Higher gematria = heavier. Normal is ~50-100.
+            this._gematriaWeight = Math.max(0.5, Math.min(2.5, 100 / gem)); 
         }
 
-        // Updates from other modules
-        this.updateRayColor();      
-        this.updateHandState();     
-        this.updateBlockHighlight();
-        this.updateParticles(deltaTime);
+        this.updateRayColor(); this.updateHandState(); this.updateBlockHighlight(); this.updateParticles(deltaTime);
+        this.checkWaterPhysics(deltaTime);
 
-        // B"H: Animate Ghost if it has a mixer (e.g. falling NPC)
-        if (this.activeObject && this.activeObject.mesh && this.activeObject.mesh.userData.onUpdate) {
-            this.activeObject.mesh.userData.onUpdate(deltaTime);
-        }
-        
-        // B"H: Check if World is still loading physics
-        const isWorldBusy = this.olam.worldOctree ? this.olam.worldOctree.isProcessing : true;
-
-        // --- 1. GROUND CHECK ---
         const steepSlopeAngle = Math.cos(THREE.MathUtils.degToRad(50));
         _ground_check_ray.origin.copy(this.collider.start);
         _ground_check_ray.direction.set(0, -1, 0);
-        
-        // B"H FIX: Safety check for worldOctree availability
-        let groundHit = false;
-        if(this.olam.worldOctree) {
-            groundHit = this.olam.worldOctree.rayIntersect(_ground_check_ray);
-        }
-        
+        let groundHit = this.olam.worldOctree ? this.olam.worldOctree.rayIntersect(_ground_check_ray) : false;
         this.onFloor = groundHit && groundHit.normal.y > steepSlopeAngle && groundHit.distance <= this.radius + 0.25;
 
-        // --- 2. PHYSICS FORCES ---
         let damping = Math.exp(-20 * deltaTime) - 1;
-        
-        if (!this.onFloor) {
-            // B"H FIX: Only apply gravity if world is done building.
-            // If world is busy building, suspend player in air to prevent falling into abyss.
-            if (!isWorldBusy) {
-                this.velocity.y -= this.olam.GRAVITY * deltaTime;
-            } else {
-                 this.velocity.y = 0; // Hover
-            }
-            
-            const airDamping = damping * 0.1;
-            this.velocity.x += this.velocity.x * airDamping;
-            this.velocity.z += this.velocity.z * airDamping;
+        if (!this.onFloor && !this.isSwimming) {
+             this.velocity.y -= this.olam.GRAVITY * deltaTime;
+             this.velocity.x += this.velocity.x * damping * 0.1;
+             this.velocity.z += this.velocity.z * damping * 0.1;
+        } else if (this.isSwimming) {
+             this.velocity.addScaledVector(this.velocity, Math.exp(-3 * deltaTime) - 1);
         } else {
             this.velocity.addScaledVector(this.velocity, damping);
         }
         
-        // Terminal velocity cap to prevent explosion
-        this.velocity.y = Math.max(this.velocity.y, -50); 
-
         var speedDelta = deltaTime * (this.onFloor ? (this.speed * this.speedScale) : 8);
-        if (!this.moving.running) {
-            speedDelta *= 0.5;
-        }
+        if (!this.moving.running) speedDelta *= 0.5;
 
         let combinedVector = new THREE.Vector3();
-        var isWalking = false;
-        var isWalkingForward = false;
-        var isWalkingBack = false;
-        var isTurning = false;
+        if (this.moving.forward || this.movingAutomatically) combinedVector.add(this.getForwardVector().multiplyScalar(speedDelta));
+        else if (this.moving.backward) combinedVector.add(this.getForwardVector().multiplyScalar(-speedDelta));
 
-        if (this.moving.forward || this.movingAutomatically) {
-            isWalking = true;
-            isWalkingForward = true;
-            combinedVector.add(this.getForwardVector().multiplyScalar(speedDelta));
-            this.targetRotateOffset = 0;
-        } else if (this.moving.backward) {
-            isWalking = true;
-            isWalkingBack = true;
-            combinedVector.add(this.getForwardVector().multiplyScalar(-speedDelta));
-            this.targetRotateOffset = -Math.PI;
-        }
+        if (this.moving.stridingLeft) combinedVector.add(this.worldSideDirectionVector.multiplyScalar(-speedDelta));
+        else if (this.moving.stridingRight) combinedVector.add(this.worldSideDirectionVector.multiplyScalar(speedDelta));
 
-        if (this.moving.stridingLeft) {
-            isWalking = true;
-            combinedVector.add(Utils.getSideVector(this.nonRotatingEmptyForMovement, this.worldSideDirectionVector).multiplyScalar(-speedDelta));
-            this.targetRotateOffset = Math.PI / 2;
-            if (isWalkingForward) this.targetRotateOffset -= Math.PI / 4;
-            else if (isWalkingBack) this.targetRotateOffset += Math.PI / 4;
-        } else if (this.moving.stridingRight) {
-            isWalking = true;
-            combinedVector.add(Utils.getSideVector(this.nonRotatingEmptyForMovement, this.worldSideDirectionVector).multiplyScalar(speedDelta));
-            this.targetRotateOffset = -Math.PI / 2;
-            if (isWalkingForward) this.targetRotateOffset += Math.PI / 4;
-            else if (isWalkingBack) this.targetRotateOffset -= Math.PI / 4;
-        }
+        this.velocity.x += combinedVector.x; this.velocity.z += combinedVector.z;
 
-        let totalMagnitude = combinedVector.length();
-        let maxMagnitude = Math.abs(speedDelta);
-        let scalingFactor = (totalMagnitude > maxMagnitude) ? (maxMagnitude / totalMagnitude) : 1;
-        combinedVector.multiplyScalar(scalingFactor);
+        // B"H: Jump height is amplified by Gematria Lightness
+        if (this.onFloor && this.moving.jump && !this.isSwimming) {
+            this.velocity.y = this.jumpHeight * this._gematriaWeight;
+            if (!this.didJump) { this.didJump = true; this.ayshPeula("jumped", this); }
+        } else if (this.didJump) this.didJump = false;
 
-        this.velocity.x += combinedVector.x;
-        this.velocity.z += combinedVector.z;
-
-        // --- 3. JUMP ---
-        if (this.onFloor && this.moving.jump) {
-            this.jumped = true;
-            this.velocity.y = this.jumpHeight;
-            if (!this.didJump) {
-                this.didJump = true;
-                this.ayshPeula("jumped", this);
-            }
-        } else {
-            if (this.didJump) {
-                this.didJump = false;
-            }
-        }
-
-        // --- 4. MOVEMENT EXECUTION ---
         const deltaPosition = this.velocity.clone().multiplyScalar(deltaTime);
-        
-        const capsule = this.collider;
-        // B"H FIX: Clamp numSteps to prevent freezing if physics blows up or radius is tiny
-        let numSteps = Math.ceil(deltaPosition.length() / (capsule.radius * 0.5));
-        if (numSteps > 10) numSteps = 10; // Safety clamp harder
+        this.collider.translate(deltaPosition);
+        this.collisions();
 
-        if(this.olam.worldOctree) {
-            if (numSteps > 1) {
-                const stepDelta = deltaPosition.clone().divideScalar(numSteps);
-                for (let i = 0; i < numSteps; i++) {
-                    capsule.translate(stepDelta);
-                    this.collisions();
-                }
-            } else {
-                capsule.translate(deltaPosition);
-                this.collisions();
-            }
-        }
-
-        // --- 5. GROUND STICKING ---
-        let finalGroundHit = false;
-        if(this.olam.worldOctree) {
-            finalGroundHit = this.olam.worldOctree.rayIntersect(_ground_check_ray);
-        }
-        this.onFloor = finalGroundHit && finalGroundHit.normal.y > steepSlopeAngle && finalGroundHit.distance <= this.radius + 0.25;
-
-        if (this.onFloor && this.velocity.y <= 0) {
-            const penetrationDepth = this.radius - finalGroundHit.distance;
-            if (penetrationDepth > 0) {
-                this.collider.translate(finalGroundHit.normal.clone().multiplyScalar(penetrationDepth));
-            }
-
-            this.velocity.projectOnPlane(finalGroundHit.normal);
-
-            if (!isWalking && !this.moving.jump) {
-                this.velocity.x = 0;
-                this.velocity.z = 0;
-            }
-            this.velocity.y = 0;
-        }
-        
-        // B"H: Abyss Check - Respawn if fallen too far
-        if (this.collider.start.y < -100) {
-            console.log("B\"H: Player fell into abyss. Respawning.");
-            this.velocity.set(0, 0, 0);
-            this.setPosition(new THREE.Vector3(0, 10, 0));
-        }
-
-        // --- 6. ANIMATION STATE ---
-        var rotationSpeed = this.rotationSpeed * deltaTime;
-        if (this.moving.turningLeft) {
-            if (!isWalking && this.onFloor) {
-                this.playChaweeyoos(this.getChaweeyoos("left turn"));
-                isTurning = true;
-            }
-            this.rotation.y += rotationSpeed;
-            this.ayshPeula("rotate", this.rotation.y);
-        } else if (this.moving.turningRight) {
-            if (!isWalking && this.onFloor) {
-                this.playChaweeyoos(this.getChaweeyoos("right turn"));
-                isTurning = true;
-            }
-            this.rotation.y -= rotationSpeed;
-            this.ayshPeula("rotate", this.rotation.y);
-        }
-
-        if (this.onFloor) {
-            if (this.jumped && !this.moving.jump) {
-                this.jumped = false;
-                if (!this.hitFloor) {
-                    this.hitFloor = true;
-                    this.ayshPeula("hit floor", this);
-                }
-            }
-            if (isWalking) {
-                this.playChaweeyoos(this.getChaweeyoos("run"));
-                if (!this.startedWalking) {
-                    this.startedWalking = true;
-                    this.ayshPeula("started walking", this);
-                }
-            } else if (!isTurning) {
-                this.playChaweeyoos(this.getChaweeyoos("idle"));
-            }
-            
-            if (!isWalking) {
-                if (this.startedWalking) {
-                    this.startedWalking = false;
-                    this.ayshPeula("stopped walking", this);
-                }
-            }
-            this.fallingFrames = 0;
-        } else {
-            if (this.startedWalking) {
-                this.startedWalking = false;
-                this.ayshPeula("stopped walking", this);
-            }
-            if (this.velocity.y > 0 && this.jumped) {
-                this.fallingFrames = 0;
-                this.playChaweeyoos(this.getChaweeyoos("jump"), { loop: false });
-            } else if (this.jumped && this.velocity.y < -9) {
-                this.playChaweeyoos(this.getChaweeyoos("falling"));
-                this.fallingFrames = 0;
-            } else if (!this.jumped && this.velocity.y < -3) {
-                if (++this.fallingFrames > 14) {
-                    this.playChaweeyoos(this.getChaweeyoos("falling"));
-                }
-            }
-        }
-
-        // --- 7. MESH SYNC ---
         this.mesh.position.copy(this.collider.start);
         this.mesh.position.y -= this.radius;
         this.mesh.rotation.y = this.rotation.y;
         
-        if (this?.emptyCopy?.rotation) this.emptyCopy.rotation.copy(this.mesh.rotation);
-        if (this?.nonRotatingEmptyForMovement?.rotation) this.nonRotatingEmptyForMovement.rotation.copy(this.mesh.rotation);
-
-        // Rotate Offset smoothing
-        let angularDistance = this.targetRotateOffset - this.rotateOffset;
-        if (angularDistance > Math.PI) angularDistance -= 2 * Math.PI;
-        else if (angularDistance < -Math.PI) angularDistance += 2 * Math.PI;
-        if (Math.abs(angularDistance - Math.PI) < 0.01) angularDistance = -Math.PI;
-        
-        this.rotateOffset += angularDistance * this.lerpTurnSpeed;
-        if (this.rotateOffset > Math.PI) this.rotateOffset -= 2 * Math.PI;
-        else if (this.rotateOffset < -Math.PI) this.rotateOffset += 2 * Math.PI;
-
         if (this.modelMesh) {
             this.modelMesh.rotation.y = this.rotation.y + this.rotateOffset;
-            if (this.lastRotateOffset !== this.rotateOffset) {
-                this.ayshPeula("rotate", this.modelMesh.rotation.y);
-                this.lastRotateOffset = this.rotateOffset;
-            }
             this.modelMesh.position.copy(this.mesh.position);
         }
         
-        this.emptyCopy.position.copy(this.mesh.position);
-        this.nonRotatingEmptyForMovement.position.copy(this.mesh.position);
-        this.emptyCopy.rotation.copy(this.modelMesh.rotation);
-
-        // FPS Anchor
-        if (this.activeRay && this.olam.ayin.isFPS) {
-            const camera = this.olam.ayin.camera;
-            this.rayAnchor.position.copy(camera.position);
-            const cameraEuler = new THREE.Euler().setFromQuaternion(camera.quaternion, 'YXZ');
-            this.rayAnchor.rotation.y = cameraEuler.y;
-        }
-        
-        this.updateSpheres(deltaTime);
-        
-        if (this.activeObject) {
-            this.alignObject();
-        }
-
-        // B"H: Ensure inheritance logic runs!
-        // This is critical for interactions (Tzomayach proximity checks) and animation updates (Domem)
         Tzomayach.prototype.heesHawvoos.call(this, deltaTime);
+    },
+
+    checkWaterPhysics(dt) {
+        _water_check_ray.origin.copy(this.mesh.position).setY(this.mesh.position.y + 20);
+        _water_check_ray.direction.set(0, -1, 0);
+        const hit = this.olam.worldOctree.rayIntersect(_water_check_ray);
+        let waterLevel = -Infinity;
+        if(hit && hit.object && hit.object.userData.isWater) waterLevel = hit.point.y;
+
+        if (this.mesh.position.y < waterLevel) {
+            this.inWater = true;
+            const sub = Math.max(0, Math.min(1, (waterLevel - this.mesh.position.y) / this.height));
+            if (sub > 0.5 && !this.isSwimming) this.isSwimming = true;
+            this.velocity.y += 25.0 * sub * dt;
+            this.velocity.addScaledVector(this.velocity, Math.exp(-3.0 * dt) - 1);
+        } else { this.inWater = false; this.isSwimming = false; }
     }
 };

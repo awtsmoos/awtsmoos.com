@@ -9,6 +9,7 @@ import { UI } from './ui.js';
 import { FileOperations } from './file-operations.js'; 
 import { Tabs } from './tabs.js';
 import { WorkspaceTreeRenderer } from './workspaces/tree-rendering.js'; 
+import { GitMetaProvider } from './git/meta.js'; // B"H
 
 export const getItemUniquePath = (item) => {
     if (item.type === 'zip-entry') {
@@ -23,14 +24,24 @@ export const getItemUniquePath = (item) => {
 };
 
 export const Workspaces = {
-    render() {
+    async render() {
         DOM.workspacesContainer.innerHTML = '';
         State.domItemMap.clear();
         if (State.workspaces.length === 0) {
             DOM.workspacesContainer.innerHTML = `<div style="padding: 20px; text-align: center; color: var(--color-text-secondary);">Add a workspace to begin.</div>`;
             return;
         }
-        State.workspaces.forEach(ws => this.renderWorkspace(ws, DOM.workspacesContainer));
+        
+        // B"H - Ensure metadata is fresh for all workspaces
+        for (const ws of State.workspaces) {
+            if (ws.type === 'local' || ws.type === 'indexeddb' || ws.type === 'opfs') {
+                if (ws.isGitClone === undefined) {
+                    const info = await GitMetaProvider.getGitInfoForFolder({ ...ws, path: '/' });
+                    ws.isGitClone = !!info;
+                }
+            }
+            this.renderWorkspace(ws, DOM.workspacesContainer);
+        }
     },
 
     add(ws, shouldSave = true) {
@@ -43,6 +54,15 @@ export const Workspaces = {
         const newWs = { id: isNew ? State.nextWorkspaceId++ : ws.id, ...ws };
         
         State.workspaces.push(newWs);
+        
+        // B"H - Check git status immediately if not known
+        if (newWs.isGitClone === undefined && (newWs.type === 'local' || newWs.type === 'indexeddb' || newWs.type === 'opfs')) {
+             GitMetaProvider.getGitInfoForFolder({ ...newWs, path: '/' }).then(info => {
+                 newWs.isGitClone = !!info;
+                 // Re-render specifically this workspace header if it changed? 
+                 // Easier to just let next render handle it, or force update if crucial.
+             });
+        }
         
         if (shouldSave) {
             this.renderWorkspace(newWs, DOM.workspacesContainer);
@@ -224,21 +244,24 @@ export const Workspaces = {
 
         const directoryElement = entry.el;
         
-        if (State.expandedFolders.has(uniquePath)) {
-            directoryElement.classList.add('expanded');
-            
-            let childrenContainer = directoryElement.querySelector('ul');
-            if (childrenContainer) {
-                childrenContainer.remove();
-            }
-            
-            childrenContainer = document.createElement('ul');
-            const isRoot = directoryElement.classList.contains('workspace-root');
-            if (isRoot) childrenContainer.className = 'workspace-tree';
-            directoryElement.appendChild(childrenContainer);
-            
-            const depth = isRoot ? 1 : (item.path.match(/\//g) || []).length + 1;
-            await WorkspaceTreeRenderer.renderTree(childrenContainer, item, depth);
+        // B"H - Force expansion during refresh to show the new reality
+        // We do this by ensuring the class 'expanded' is present and State tracks it.
+        if (!State.expandedFolders.has(uniquePath)) {
+            State.expandedFolders.add(uniquePath);
         }
+        directoryElement.classList.add('expanded');
+        
+        let childrenContainer = directoryElement.querySelector('ul');
+        if (childrenContainer) {
+            childrenContainer.remove();
+        }
+        
+        childrenContainer = document.createElement('ul');
+        const isRoot = directoryElement.classList.contains('workspace-root');
+        if (isRoot) childrenContainer.className = 'workspace-tree';
+        directoryElement.appendChild(childrenContainer);
+        
+        const depth = isRoot ? 1 : (item.path.match(/\//g) || []).length + 1;
+        await WorkspaceTreeRenderer.renderTree(childrenContainer, item, depth);
     }
 };

@@ -1,5 +1,4 @@
 
-
 /**
  * B"H
  * @file customNpc.js
@@ -34,7 +33,6 @@ export default class CustomNpc extends Medabeir {
         op.path = customData.modelPath || "awtsmoos://awduhm";
         op.heesHawveh = true;
         
-        // B"H: CRITICAL FIX - Set Default Proximity to enable interaction loop
         if(op.proximity === undefined) op.proximity = 3.5;
 
         // B"H: Pass olam to super
@@ -44,17 +42,16 @@ export default class CustomNpc extends Medabeir {
         if(!this.id) this.id = op.id || Utils.generateID();
         
         this.customData = customData;
-        this.quests = customData.quests || []; // List of quest definitions
+        this.quests = customData.quests || []; 
 
-        // ... existing properties ...
         this.shopInventory = customData.shopInventory || [];
         this.balance = customData.balance || 0;
         
-        // B"H: Pre-enrich shop items if possible to ensure class names
+        // B"H: Pre-enrich shop items
         if (this.shopInventory) {
             this.shopInventory.forEach(item => {
-                if (!item.className) item.className = "Brick"; // Default fallback
-                if (!item.icon) item.icon = ""; // Prevent undefined
+                if (!item.className) item.className = "Brick"; 
+                if (!item.icon) item.icon = ""; 
             });
         }
         
@@ -122,10 +119,9 @@ export default class CustomNpc extends Medabeir {
                          baseResponses.push({
                              text: "Can I browse your shop meanwhile?",
                              action: (me) => {
-                                 // B"H: Use enriched items for consistent icon rendering
+                                 // B"H: Enrich Items!
                                  const rawPlayerItems = me.olam.player.inventory.slots;
                                  const enrichedPlayerItems = rawPlayerItems.map(s => s ? me.olam.player.inventory.enrichItemData(s) : null);
-                                 
                                  const enrichedShopItems = this.shopInventory.map(s => me.olam.player.inventory.enrichItemData(s));
                                  
                                  me.olam.ayshPeula("ui event", "storeScreen", {
@@ -151,31 +147,23 @@ export default class CustomNpc extends Medabeir {
              // --- 4. Default Dialogue + Shop Injection ---
              let tree = this.customData.dialogueTree;
              
-             // Fallback if empty or malformed
              if (!tree || !Array.isArray(tree) || tree.length === 0) {
                  tree = [{ message: "Shalom! How can I help you?", responses: [] }];
              }
 
-             // B"H: Deep copy tree to avoid modifying the template permanently in memory
              const activeTree = JSON.parse(JSON.stringify(tree));
              
-             // Inject Store Option into the root message (index 0) if shop exists
              if (this.shopInventory && this.shopInventory.length > 0) {
                  const rootMsg = activeTree[0];
                  if (rootMsg) {
-                     // Ensure responses array exists
                      if (!rootMsg.responses) rootMsg.responses = [];
                      
-                     // Check if "Browse Wares" already exists to avoid dupes
                      const hasShop = rootMsg.responses.some(r => r.text && r.text.toLowerCase().includes("shop"));
                      
                      if (!hasShop) {
                          rootMsg.responses.push({
                              text: "I'd like to browse your wares.",
-                             // B"H: Using action function instead of type 'store' for robustness
                              action: (me) => {
-                                 console.log("B\"H Opening Store for", this.name);
-                                 // B"H: Enrich Items!
                                  const rawPlayerItems = me.olam.player.inventory.slots;
                                  const enrichedPlayerItems = rawPlayerItems.map(s => s ? me.olam.player.inventory.enrichItemData(s) : null);
                                  const enrichedShopItems = this.shopInventory.map(s => me.olam.player.inventory.enrichItemData(s));
@@ -195,7 +183,6 @@ export default class CustomNpc extends Medabeir {
                  }
              }
              
-             // Ensure at least one exit option
              if (activeTree[0].responses.length === 0) {
                  activeTree[0].responses.push({ text: "Goodbye.", type: "close" });
              }
@@ -224,17 +211,12 @@ export default class CustomNpc extends Medabeir {
         
         if (this.iconState !== state) {
             this.iconState = state;
-            // Update Minimap Icon
-            this.iconPath = iconUrl ? "custom_icon" : "chossid.svg"; // Use fallback if null
+            this.iconPath = iconUrl ? "custom_icon" : "chossid.svg"; 
             this.iconType = iconUrl ? "url" : "centered";
             
-            // Send update to Minimap system
-            // We use a property bag that Minimap checks, or trigger a refresh
             if (this.olam.minimap) {
-                 // Hack: remove and re-add to refresh icon
                  this.olam.minimap.removeMinimapItem(this, "npcs");
                  if (iconUrl) {
-                     // Monkey-patch getIcon for this instance to return the Data URI
                      this.getIcon = async () => `<img src="${iconUrl}" style="width:100%;height:100%;" />`;
                      this.olam.minimap.setMinimapItem(this, "npcs");
                  }

@@ -1,6 +1,6 @@
-
 // B"H
 import * as THREE from '/games/scripts/build/three.module.js';
+import HoleManager from "../../HoleManager.js";
 
 const _v1 = new THREE.Vector3();
 const _v2 = new THREE.Vector3();
@@ -10,6 +10,18 @@ const _line2 = new THREE.Line3();
 const _temp_triangle = new THREE.Triangle();
 
 export default {
+    /**
+     * B"H: Checks if a point is inside any manifested hole.
+     */
+    _isInsideHole(point) {
+        for (const hole of HoleManager.holes) {
+            if (point.distanceTo(hole.position) < hole.radius) {
+                return true;
+            }
+        }
+        return false;
+    },
+
     getCapsuleTriangles(capsule, triangles) {
 		for (const subTree of this.subTrees) {
 			if (capsule.intersectsBox(subTree.box)) {
@@ -17,8 +29,6 @@ export default {
 			}
 		}
 		
-		// This part is now safe, because it will only run on leaf nodes
-		// that actually contain the triangles for that specific area.
 		for (const index of this.triangles) {
 			if (triangles.indexOf(index) === -1) {
 				triangles.push(index);
@@ -41,113 +51,108 @@ export default {
 	},
 
 	capsuleIntersect(capsule) {
-    if (!this.isBuilt) this.build();
-    if (this.box.isEmpty() || !capsule.intersectsBox(this.box)) return false;
+        if (!this.isBuilt) this.build();
+        if (this.box.isEmpty() || !capsule.intersectsBox(this.box)) return false;
 
-    const resultCapsule = capsule.clone();
-    let hit = false;
-    
-    const trianglesToCheck = [];
-    this.getCapsuleTriangles(capsule, trianglesToCheck); 
-    
-    // CHECK 1: Static geometry
-    for (const index of trianglesToCheck) {
-        // --- B"H FIX: IGNORE DELETED ---
-        const source = this.allTriangles[index] ? this.allTriangles[index].sourceMesh : null;
-        if (source && !source.parent) continue; 
-        // -------------------------------
+        const resultCapsule = capsule.clone();
+        let hit = false;
+        
+        const trianglesToCheck = [];
+        this.getCapsuleTriangles(capsule, trianglesToCheck); 
+        
+        for (const index of trianglesToCheck) {
+            const source = this.allTriangles[index] ? this.allTriangles[index].sourceMesh : null;
+            // B"H: Strict manifestation check - ignore objects removed from scene
+            if (source && !source.parent) continue; 
 
-        const tri = this._getTriangle(index, _temp_triangle);
-        const result = this._triangleCapsuleIntersect(resultCapsule, tri);
-        if (result) {
-            hit = true;
-            resultCapsule.translate(result.normal.multiplyScalar(result.depth));
+            const tri = this._getTriangle(index, _temp_triangle);
+            const result = this._triangleCapsuleIntersect(resultCapsule, tri);
+            
+            if (result) {
+                if (this._isInsideHole(result.point)) continue;
+
+                hit = true;
+                resultCapsule.translate(result.normal.multiplyScalar(result.depth));
+            }
         }
-    }
 
-    // CHECK 2: Dynamic triangles
-    const dynamicTris = [];
-    this._getDynamicCapsuleTriangles(capsule, dynamicTris);
-    for (const tri of dynamicTris) {
-        // --- B"H FIX: IGNORE DELETED ---
-        if (tri.sourceMesh && !tri.sourceMesh.parent) continue;
-        // -------------------------------
+        const dynamicTris = [];
+        this._getDynamicCapsuleTriangles(capsule, dynamicTris);
+        for (const tri of dynamicTris) {
+            if (tri.sourceMesh && !tri.sourceMesh.parent) continue;
 
-        const result = this._triangleCapsuleIntersect(resultCapsule, tri);
-        if (result) {
-            hit = true;
-            resultCapsule.translate(result.normal.multiplyScalar(result.depth));
+            const result = this._triangleCapsuleIntersect(resultCapsule, tri);
+            if (result) {
+                if (this._isInsideHole(result.point)) continue;
+                hit = true;
+                resultCapsule.translate(result.normal.multiplyScalar(result.depth));
+            }
         }
-    }
 
-    if (hit) {
-        const collisionVector = resultCapsule.getCenter(_v1).sub(capsule.getCenter(_v2));
-        if (collisionVector.lengthSq() > 1e-10) {
-            const depth = collisionVector.length();
-            return { normal: collisionVector.normalize(), depth: depth };
+        if (hit) {
+            const collisionVector = resultCapsule.getCenter(_v1).sub(capsule.getCenter(_v2));
+            if (collisionVector.lengthSq() > 1e-10) {
+                const depth = collisionVector.length();
+                return { normal: collisionVector.normalize(), depth: depth };
+            }
         }
-    }
-    return false;
-},
+        return false;
+    },
 
-_getDynamicCapsuleTriangles(capsule, triangles) {
-    for (const subTree of this.subTrees) {
-        if (capsule.intersectsBox(subTree.box)) {
-            subTree._getDynamicCapsuleTriangles(capsule, triangles);
+    _getDynamicCapsuleTriangles(capsule, triangles) {
+        for (const subTree of this.subTrees) {
+            if (capsule.intersectsBox(subTree.box)) {
+                subTree._getDynamicCapsuleTriangles(capsule, triangles);
+            }
         }
-    }
-    // This is a leaf node, add its dynamic triangles
-    triangles.push(...this.dynamicTriangles);
-},
+        triangles.push(...this.dynamicTriangles);
+    },
 
 	rayIntersect(ray) {
-    if (!this.isBuilt) this.build();
-    if (this.box.isEmpty() || !ray.intersectsBox(this.box)) return false;
+        if (!this.isBuilt) this.build();
+        if (this.box.isEmpty() || !ray.intersectsBox(this.box)) return false;
 
-    const trianglesToCheck = { staticIndices: new Set(), dynamicTris: new Set() };
-    let closestResult = false;
-    this._getHybridRayTriangles(ray, trianglesToCheck);
+        const trianglesToCheck = { staticIndices: new Set(), dynamicTris: new Set() };
+        let closestResult = false;
+        this._getHybridRayTriangles(ray, trianglesToCheck);
 
-    // Check against STATIC triangles
-    for (const index of trianglesToCheck.staticIndices) {
-        const triangle = this._getTriangle(index, _temp_triangle);
+        for (const index of trianglesToCheck.staticIndices) {
+            const triangle = this._getTriangle(index, _temp_triangle);
+            const source = this.allTriangles[index] ? this.allTriangles[index].sourceMesh : null;
+            // B"H: Filter out non-manifested vessels
+            if (source && !source.parent) continue; 
+
+            const result = ray.intersectTriangle(triangle.a, triangle.b, triangle.c, false, _v1);
+            if (result) {
+                if (this._isInsideHole(result)) continue;
+
+                const distSq = ray.origin.distanceToSquared(result);
+                if (!closestResult || distSq < closestResult.distance * closestResult.distance) {
+                    const hitNormal = new THREE.Vector3();
+                    triangle.getNormal(hitNormal);
+                    closestResult = { distance: Math.sqrt(distSq), triangle: triangle.clone(), position: result.clone(), normal: hitNormal, object: source };
+                }
+            }
+        }
         
-        // --- B"H FIX: INSTANTLY IGNORE REMOVED OBJECTS ---
-        // We check the master list for the source mesh. If it has no parent, it's deleted.
-        const source = this.allTriangles[index] ? this.allTriangles[index].sourceMesh : null;
-        if (source && !source.parent) continue; 
-        // ------------------------------------------------
+        for (const triangle of trianglesToCheck.dynamicTris) {
+            // B"H: Filter out non-manifested vessels
+            if (triangle.sourceMesh && !triangle.sourceMesh.parent) continue;
 
-        const result = ray.intersectTriangle(triangle.a, triangle.b, triangle.c, false, _v1);
-        if (result) {
-            const distSq = ray.origin.distanceToSquared(result);
-            if (!closestResult || distSq < closestResult.distance * closestResult.distance) {
-                const hitNormal = new THREE.Vector3();
-                triangle.getNormal(hitNormal);
-                closestResult = { distance: Math.sqrt(distSq), triangle: triangle.clone(), position: result.clone(), normal: hitNormal, object: source };
+            const result = ray.intersectTriangle(triangle.a, triangle.b, triangle.c, false, _v1);
+            if (result) {
+                if (this._isInsideHole(result)) continue;
+                const distSq = ray.origin.distanceToSquared(result);
+                if (!closestResult || distSq < closestResult.distance * closestResult.distance) {
+                    const hitNormal = new THREE.Vector3();
+                    triangle.getNormal(hitNormal);
+                    closestResult = { distance: Math.sqrt(distSq), triangle: triangle.clone(), position: result.clone(), normal: hitNormal, object: triangle.sourceMesh };
+                }
             }
         }
-    }
-    
-    // Check against DYNAMIC triangles
-    for (const triangle of trianglesToCheck.dynamicTris) {
-        // --- B"H FIX: INSTANTLY IGNORE REMOVED OBJECTS ---
-        if (triangle.sourceMesh && !triangle.sourceMesh.parent) continue;
-        // ------------------------------------------------
 
-        const result = ray.intersectTriangle(triangle.a, triangle.b, triangle.c, false, _v1);
-        if (result) {
-            const distSq = ray.origin.distanceToSquared(result);
-            if (!closestResult || distSq < closestResult.distance * closestResult.distance) {
-                const hitNormal = new THREE.Vector3();
-                triangle.getNormal(hitNormal);
-                closestResult = { distance: Math.sqrt(distSq), triangle: triangle.clone(), position: result.clone(), normal: hitNormal, object: triangle.sourceMesh };
-            }
-        }
-    }
-
-    return closestResult;
-},
+        return closestResult;
+    },
 	
 	_getHybridRayTriangles(ray, result) {
 	    for (const subTree of this.subTrees) {
@@ -164,7 +169,12 @@ _getDynamicCapsuleTriangles(capsule, triangles) {
 		const d1 = _plane.distanceToPoint(capsule.start) - capsule.radius;
 		const d2 = _plane.distanceToPoint(capsule.end) - capsule.radius;
 		if ((d1 > 0 && d2 > 0) || (d1 < -capsule.radius && d2 < -capsule.radius)) return false;
-		const delta = Math.abs(d1 / (Math.abs(d1) + Math.abs(d2)));
+		
+        // B"H: Prevent division by zero if d1 and d2 are both extremely small (0/0 = NaN)
+        const denom = Math.abs(d1) + Math.abs(d2);
+        if (denom < 1e-9) return false;
+
+		const delta = Math.abs(d1 / denom);
 		const intersectPoint = _v1.copy(capsule.start).lerp(capsule.end, delta);
 		if (triangle.containsPoint(intersectPoint)) {
 			return { normal: _plane.normal.clone(), point: intersectPoint.clone(), depth: Math.abs(Math.min(d1, d2)) };
@@ -182,11 +192,6 @@ _getDynamicCapsuleTriangles(capsule, triangles) {
 		return false;
 	},
 	
-	/**
-	 * B"H
-	 * Diagnostic helper to count all triangles this octree and its subtrees are managing.
-	 * @returns {number}
-	 */
 	getTotalTriangleCount() {
 	    let count = this.triangles.length;
 	    for (const subTree of this.subTrees) {
@@ -199,22 +204,10 @@ _getDynamicCapsuleTriangles(capsule, triangles) {
 	
 	_getTriangle(index, target) {
 		const base = index * 9;
+        if (!this.worldTrianglesData) return target;
 		target.a.fromArray(this.worldTrianglesData, base);
 		target.b.fromArray(this.worldTrianglesData, base + 3);
 		target.c.fromArray(this.worldTrianglesData, base + 6);
 		return target;
-	},
-	
-	/**
-	 * B"H
-	 * Diagnostic helper to count all triangles this octree and its subtrees are managing.
-	 * @returns {number}
-	 */
-	getTotalTriangleCount() {
-	    let count = this.triangles.length;
-	    for (const subTree of this.subTrees) {
-	        count += subTree.getTotalTriangleCount();
-	    }
-	    return count;
 	}
 };

@@ -64,8 +64,10 @@ export class OctreeWorld {
         // Lag Prevention Valve.
         let totalTriangles = 0;
         for(const mesh of node.physicsMeshGroup.children) {
+             // B"H: Guard against missing geometry
+             if (!mesh.geometry) continue;
              const geo = mesh.geometry;
-             const count = geo.index ? geo.index.count : geo.attributes.position.count;
+             const count = geo.index ? geo.index.count : (geo.attributes.position ? geo.attributes.position.count : 0);
              totalTriangles += (count / 3);
         }
 
@@ -91,26 +93,30 @@ export class OctreeWorld {
     }
     
     #synchronouslyRebuildNode(node, newMesh) {
+        if (!newMesh.geometry) return;
+        
         const geometry = (newMesh.geometry.index) ? newMesh.geometry.toNonIndexed() : newMesh.geometry;
         const positionAttribute = geometry.getAttribute('position');
+        
+        if (!positionAttribute) return;
+
         const v1 = new Vector3();
         const v2 = new Vector3();
         const v3 = new Vector3();
 
-        if (positionAttribute) {
-            for (let i = 0; i < positionAttribute.count; i += 3) {
-                v1.fromBufferAttribute(positionAttribute, i).applyMatrix4(newMesh.matrixWorld);
-                v2.fromBufferAttribute(positionAttribute, i + 1).applyMatrix4(newMesh.matrixWorld);
-                v3.fromBufferAttribute(positionAttribute, i + 2).applyMatrix4(newMesh.matrixWorld);
-                
-                const newTriangle = new Triangle(v1.clone(), v2.clone(), v3.clone());
-                
-                if(!node.box.intersectsTriangle(newTriangle)) continue;
+        for (let i = 0; i < positionAttribute.count; i += 3) {
+            v1.fromBufferAttribute(positionAttribute, i).applyMatrix4(newMesh.matrixWorld);
+            v2.fromBufferAttribute(positionAttribute, i + 1).applyMatrix4(newMesh.matrixWorld);
+            v3.fromBufferAttribute(positionAttribute, i + 2).applyMatrix4(newMesh.matrixWorld);
+            
+            const newTriangle = new Triangle(v1.clone(), v2.clone(), v3.clone());
+            
+            if(!node.box.intersectsTriangle(newTriangle)) continue;
 
-                newTriangle.sourceMesh = newMesh; 
-                node.physics.addDynamicTriangle(newTriangle);
-            }
+            newTriangle.sourceMesh = newMesh; 
+            node.physics.addDynamicTriangle(newTriangle);
         }
+        
         if(newMesh.geometry.index) geometry.dispose();
     }
     
@@ -144,9 +150,13 @@ export class OctreeWorld {
         if (!this.#root) return;
         this.#processIntakeQueue();
 
-        const foci = Array.isArray(focus) ? focus : [{ position: focus, velocity }];
+        const rawFoci = Array.isArray(focus) ? focus : [{ position: focus, velocity }];
+        
+        // B"H: Filter out invalid foci to prevent crash
+        const foci = rawFoci.filter(f => f && f.position && !isNaN(f.position.x));
+        
         if (foci.length === 0) return;
-
+        
         const needsUpdate = foci.some(f => f.position.distanceToSquared(this.#lastUpdateCenter) > this.#safeRadiusSq);
         
         if (!needsUpdate) {
@@ -213,6 +223,7 @@ export class OctreeWorld {
             if (job.group) {
                 const meshes = [];
                 job.group.traverse(obj => {
+                    // B"H: Ensure object has geometry before treating as mesh
                     if (obj.isMesh && obj.geometry && !obj.userData.notSolid) {
                         meshes.push(obj);
                     }
@@ -224,6 +235,9 @@ export class OctreeWorld {
 
             const { mesh } = this.#intakeQueue.shift();
             
+            // B"H: Final safety check for geometry
+            if (!mesh.geometry) continue;
+
             const clone = new Mesh(mesh.geometry.clone()); 
             mesh.getWorldPosition(clone.position);
             mesh.getWorldQuaternion(clone.quaternion);

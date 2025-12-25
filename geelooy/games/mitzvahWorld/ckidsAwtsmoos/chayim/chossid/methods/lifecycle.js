@@ -1,13 +1,5 @@
-
-
-
-
-
-
-
-
+//B"H
 /**
- * B"H
  * @file lifecycle.js
  * Initialization logic for the player.
  */
@@ -43,6 +35,7 @@ export default {
         this.olam.player = this;
         this.olam.ayin.target = this;
         
+        // Load items from memory
         this.inventory.hydrateItems();
         
         if(this.optionsSpeed) {
@@ -51,18 +44,10 @@ export default {
 
         var self = this;
         
-        // B"H: The EXACT names provided by the user
         const targetGarments = [
-            "jacket",
-            "jacket-teffilin",
-            "outer-shirt",
-            "teffilin-arm-straps",
-            "glasses",
-            "head-teffilin-straps",
-            "teffilin-head-box",
-            "top-hat",
-            "teffiln-arm-box",
-            "yamulka" // Adding this just in case
+            "jacket", "jacket-teffilin", "outer-shirt",
+            "teffilin-arm-straps", "glasses", "head-teffilin-straps",
+            "teffilin-head-box", "top-hat", "teffiln-arm-box", "yamulka"
         ];
 
         if (self.modelMesh) {
@@ -76,24 +61,15 @@ export default {
                     self.olam.ayin.target = self;
 	            }
 
-                // B"H: Explicit Registration
                 if (targetGarments.includes(child.name)) {
                     self.garments[child.name] = child;
-                    // Default to hidden to let updateAppearance handle it
                     child.visible = false; 
                 }
             });
 
-            // B"H: Force an update now that we have the meshes
-            // If default equipment exists (like a jacket), this will show it.
-            if (!self.inventory.equipment.jacket && self.garments["jacket"]) {
-                // If nothing equipped, maybe default to jacket?
-                // Or rely on inventory saving.
-            }
-            
-            // This call is crucial to set initial state correctly
+            // Initial manifest
             self.updateAppearance();
-            self.inventory.updateUI();
+            this.inventory.updateUI();
         }
     },
 
@@ -144,10 +120,7 @@ export default {
     async started() {
         this.iconPath = "chossid.svg";
         this.iconType = "centered";
-        
         await this.olam?.minimap?.setMinimapItems?.([this], "chossid");
-        
-        // B"H: Initialize Inventory via the dedicated module
         if (typeof this.setupDefaultInventory === 'function') {
             this.setupDefaultInventory();
         }

@@ -1,30 +1,9 @@
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//B"H
 /**
  * B"H
  * @file visuals.js
  * Visual representation logic: Garments, Body Parts (Goof), and Mood.
+ * Features Emotion Sparks and Procedural Head Tracking.
  */
 import * as THREE from '/games/scripts/build/three.module.js';
 
@@ -34,278 +13,140 @@ export default {
         jacket: true,
         "top-hat": false,
     },
-
-    wear(name) {
-        if (!this.garments) return;
-        const mesh = this.garments[name];
-        if (mesh) {
-            mesh.visible = true;
-            mesh.traverse(child => {
-                child.visible = true;
-            });
-        }
-    },
-
-    takeOff(name) {
-        if (!this.garments) return;
-        const mesh = this.garments[name];
-        if (mesh) {
-            mesh.visible = false;
-            mesh.traverse(child => {
-                child.visible = false;
-            });
-        }
-    },
     
-    // B"H: Helper for setting shape keys - Updated to traverse children
-    setMorphInfluence(object, name, value) {
-        if (!object) return;
-
-        const apply = (mesh) => {
-            if (mesh.morphTargetDictionary && mesh.morphTargetInfluences) {
-                const index = mesh.morphTargetDictionary[name];
-                if (index !== undefined) {
-                    mesh.morphTargetInfluences[index] = value;
-                }
-            }
-        };
-
-        // Check the object itself
-        apply(object);
-
-        // Check all children (crucial if 'outer-shirt' is a Group)
-        object.traverse((child) => {
-            if (child.isMesh) {
-                apply(child);
-            }
-        });
-    },
+    // --- B"H: Procedural Appearance & Chayus ---
     
-    // B"H: New Helper to set color on a specific named material
-    setSmartMaterialColor(materialName, colorHex) {
+    randomizeAppearance() {
         if (!this.materials) return;
-        const mat = this.materials[materialName];
-        if (mat) {
-             // B"H: We should ideally check if we need to clone to avoid affecting other instances,
-             // but since we aggregated materials in lifecycle per-instance, modifying 'mat' is generally safe
-             // for this specific entity instance if loader handled cloning correctly.
-             mat.color.set(colorHex);
-        }
-    },
-
-    updateAppearance() {
-        if (!this.inventory) return;
-
-        const MESHES = {
-            JACKET: "jacket",
-            JACKET_TEFFILIN: "jacket-teffilin", 
-            OUTER_SHIRT: "outer-shirt",
-            TEFFILIN_ARM_STRAPS: "teffilin-arm-straps",
-            TEFFILIN_ARM_BOX: "teffiln-arm-box", 
-            TEFFILIN_HEAD_STRAPS: "head-teffilin-straps",
-            TEFFILIN_HEAD_BOX: "teffilin-head-box",
-            GLASSES: "glasses",
-            TOP_HAT: "top-hat",
-            YAMULKA: "yamulka" 
-        };
-
-        const getItem = (slot) => {
-            const ref = this.inventory.equipment[slot];
-            if (!ref) return null;
-            
-            if (ref.id && ref.className) return ref; 
-            
-            if (ref.sourceType === 'action') return this.inventory.actionSlots ? this.inventory.actionSlots[ref.index] : null;
-            if (ref.sourceType === 'inventory') return this.inventory.slots ? this.inventory.slots[ref.index] : null;
-            
-            if (ref.sourceType === 'container') {
-                const containerId = ref.containerId;
-                
-                // 1. Try Active Container
-                if (this.inventory.activeContainer && this.inventory.activeContainer.id === containerId) {
-                     return this.inventory.activeContainer.customData.slots[ref.index];
-                }
-                
-                // 2. Scan Inventory for Closed Bag
-                if (this.inventory.slots) {
-                    for(const s of this.inventory.slots) {
-                        if (s && s.id === containerId && s.customData && s.customData.slots) {
-                             return s.customData.slots[ref.index];
-                        }
-                    }
-                }
-            }
-            return null;
-        };
-
-        const jacketItem = getItem('jacket');
-        const headItem = getItem('head');
-        const shirtItem = getItem('shirt'); 
-        const legsItem = getItem('legs'); // Pants
-        const feetItem = getItem('feet'); // Shoes
-        const leftHandItem = getItem('leftHand');
-        const rightHandItem = getItem('rightHand'); 
-        
-        const isTeffilin = (item) => item && item.id && item.id.toLowerCase().includes("teffilin");
-        
-        const hasArmTeffilin = isTeffilin(leftHandItem) || isTeffilin(rightHandItem);
-        const hasHeadTeffilin = isTeffilin(headItem);
-        const hasJacket = !!jacketItem;
-
-        // --- MATERIAL COLOR OVERRIDES (B"H) ---
-        // 1. Shoes
-        if (feetItem && feetItem.customData?.color) {
-            this.setSmartMaterialColor("shoes", feetItem.customData.color);
-        } else {
-            this.setSmartMaterialColor("shoes", "#111111"); // Default Black Leather
-        }
-
-        // 2. Pants
-        if (legsItem && legsItem.customData?.color) {
-            this.setSmartMaterialColor("pants", legsItem.customData.color);
-        } else {
-            this.setSmartMaterialColor("pants", "#222222"); // Default Dark Grey
-        }
-
-        // 3. Inner Shirt
-        if (shirtItem && shirtItem.customData?.color) {
-            this.setSmartMaterialColor("shirt", shirtItem.customData.color);
-        } else {
-            this.setSmartMaterialColor("shirt", "#FFFFFF"); // Default White
-        }
-
-
-        // --- OUTER SHIRT MESH Logic ---
-        const outerShirtMesh = this.garments[MESHES.OUTER_SHIRT];
-        
-        if (shirtItem) {
-            // If shirt is equipped, show the OUTER layer as well (assuming it represents the same item)
-            // Or if you want separate items, you can filter by ID. For now, any shirt item shows the mesh.
-            this.wear(MESHES.OUTER_SHIRT);
-            
-            if (outerShirtMesh) {
-                // Apply Shirt Color to Outer Mesh
-                const color = shirtItem.customData?.color;
-                if (color) this.applyMaterialColor(outerShirtMesh, color);
-                
-                // Apply Rolled-Up Shape Key if Arm Teffilin is worn
-                const influence = hasArmTeffilin ? 1 : 0;
-                this.setMorphInfluence(outerShirtMesh, "rolled-up", influence);
-            }
-        } else {
-            // If no shirt equipped, hide the outer layer (showing inner skin/shirt material)
-            this.takeOff(MESHES.OUTER_SHIRT);
-            
-            if (outerShirtMesh) {
-                this.setMorphInfluence(outerShirtMesh, "rolled-up", 0);
-            }
-        }
-
-        // --- JACKET Logic ---
-        if (hasJacket) {
-            const color = jacketItem.customData?.color || "#FFFFFF";
-            
-            if (hasArmTeffilin) {
-                this.takeOff(MESHES.JACKET);
-                this.wear(MESHES.JACKET_TEFFILIN);
-                if(this.garments[MESHES.JACKET_TEFFILIN]) {
-                    this.applyMaterialColor(this.garments[MESHES.JACKET_TEFFILIN], color);
-                }
-            } else {
-                this.wear(MESHES.JACKET);
-                this.takeOff(MESHES.JACKET_TEFFILIN);
-                if(this.garments[MESHES.JACKET]) {
-                    this.applyMaterialColor(this.garments[MESHES.JACKET], color);
-                }
-            }
-        } else {
-            this.takeOff(MESHES.JACKET);
-            this.takeOff(MESHES.JACKET_TEFFILIN);
-        }
-
-        // --- ARM TEFFILIN ---
-        if (hasArmTeffilin) {
-            this.wear(MESHES.TEFFILIN_ARM_STRAPS);
-            this.wear(MESHES.TEFFILIN_ARM_BOX);
-        } else {
-            this.takeOff(MESHES.TEFFILIN_ARM_STRAPS);
-            this.takeOff(MESHES.TEFFILIN_ARM_BOX);
-        }
-
-        // --- HEAD TEFFILIN ---
-        if (hasHeadTeffilin) {
-            this.wear(MESHES.TEFFILIN_HEAD_STRAPS);
-            this.wear(MESHES.TEFFILIN_HEAD_BOX);
-            this.takeOff(MESHES.TOP_HAT);
-            this.takeOff(MESHES.YAMULKA);
-        } else {
-            this.takeOff(MESHES.TEFFILIN_HEAD_STRAPS);
-            this.takeOff(MESHES.TEFFILIN_HEAD_BOX);
-
-            if (headItem) {
-                const color = headItem.customData?.color;
-                if (headItem.id.includes("hat") || headItem.id.includes("fedora")) {
-                    this.wear(MESHES.TOP_HAT);
-                    this.takeOff(MESHES.YAMULKA);
-                    if(color && this.garments[MESHES.TOP_HAT]) this.applyMaterialColor(this.garments[MESHES.TOP_HAT], color);
-                } else if (headItem.id.includes("yarmulke") || headItem.id.includes("kippah")) {
-                    this.takeOff(MESHES.TOP_HAT);
-                    this.wear(MESHES.YAMULKA);
-                    if(color && this.garments[MESHES.YAMULKA]) this.applyMaterialColor(this.garments[MESHES.YAMULKA], color);
-                }
-            } else {
-                this.takeOff(MESHES.TOP_HAT);
-                this.wear(MESHES.YAMULKA); 
-            }
-        }
-
-        this.wear(MESHES.GLASSES);
-    },
-
-    applyMaterialColor(object3D, colorHex) {
-        if (!object3D) return;
-        
-        object3D.traverse((child) => {
-            if (child.isMesh) {
-                const materials = Array.isArray(child.material) ? child.material : [child.material];
-                
-                materials.forEach((mat, index) => {
-                    if (!child.userData.hasClonedMaterial) {
-                         if(Array.isArray(child.material)) {
-                             child.material = child.material.map(m => m.clone());
-                         } else {
-                             child.material = child.material.clone();
-                         }
-                         child.userData.hasClonedMaterial = true;
-                    }
-
-                    const currentMats = Array.isArray(child.material) ? child.material : [child.material];
-                    const targetMat = currentMats[index];
-                    
-                    if (targetMat) {
-                        targetMat.color.set(colorHex);
-                        targetMat.needsUpdate = true; 
-                    }
-                });
-            }
+        Object.values(this.materials).forEach(mat => {
+            if (!mat.name) return;
+            const lower = mat.name.toLowerCase();
+            if (lower.includes('skin')) mat.color.setHSL(0.08, 0.5 + Math.random() * 0.2, 0.4 + Math.random() * 0.4);
+            else if (lower.includes('shirt')) mat.color.setHSL(Math.random(), 0.7, 0.5);
         });
     },
+    
+    updateAutonomic(dt) {
+        // 1. Blinking
+        if (this.nextBlinkTime === undefined) this.nextBlinkTime = Math.random() * 3 + 2;
+        this.nextBlinkTime -= dt;
+        if (this.nextBlinkTime <= 0) {
+            this.blink();
+            this.nextBlinkTime = Math.random() * 4 + 2;
+        }
 
-    adjustDOF() { },
-    initializeEyelid(ref) { },
+        // 2. Breathing
+        if (this._cachedSpine) {
+             const t = Date.now() * 0.002;
+             const breath = 1.0 + Math.sin(t) * 0.02;
+             this._cachedSpine.scale.set(breath, breath, breath);
+        } else { this._findSpine(); }
 
+        // 3. Emotion Sparks
+        if (this.lev && Math.random() < 0.1) {
+            this.emitEmotionSparks();
+        }
+    },
+
+    emitEmotionSparks() {
+        if (!this.lev || !this.mesh) return;
+        let color = 0xFFD700; // Gold (Joy)
+        let count = 0;
+
+        if (this.lev.kaas > 0.6) {
+            color = 0xFF4500; // Red (Anger)
+            count = Math.floor(this.lev.kaas * 3);
+        } else if (this.lev.simcha > 0.7) {
+            count = Math.floor(this.lev.simcha * 5);
+        }
+
+        if (count > 0) {
+            this.spawnHebrewParticles(this.mesh.position.clone().add(new THREE.Vector3(0, this.height, 0)), count);
+        }
+    },
+    
+    _findSpine() {
+        if(!this.mesh) return;
+        this.mesh.traverse(c => { if(c.isBone && c.name.toLowerCase().includes("spine")) this._cachedSpine = c; });
+    },
+
+    blink() {
+        if (this._cachedLeftEye && this._cachedRightEye) {
+             const originalScale = this._cachedLeftEye.scale.y;
+             this._cachedLeftEye.scale.y = 0.1;
+             this._cachedRightEye.scale.y = 0.1;
+             setTimeout(() => {
+                 if(this._cachedLeftEye) this._cachedLeftEye.scale.y = originalScale;
+                 if(this._cachedRightEye) this._cachedRightEye.scale.y = originalScale;
+             }, 150);
+        } else {
+            if(!this._checkedForEyes && this.boneChildren) {
+                this._checkedForEyes = true;
+                const keys = Object.keys(this.boneChildren);
+                const left = keys.find(k => k.toLowerCase().includes("eye") && k.toLowerCase().includes("l"));
+                const right = keys.find(k => k.toLowerCase().includes("eye") && k.toLowerCase().includes("r"));
+                if(left && right) { this._cachedLeftEye = this.boneChildren[left]; this._cachedRightEye = this.boneChildren[right]; }
+            }
+        }
+    },
+
+    updateHeadTracking(dt) {
+        if(!this._cachedHead) {
+             if(!this._checkedForHead && this.boneChildren) {
+                 this._checkedForHead = true;
+                 const headKey = Object.keys(this.boneChildren).find(k => k.toLowerCase() === "head");
+                 if(headKey) this._cachedHead = this.boneChildren[headKey];
+             }
+             return;
+        }
+
+        const headBone = this._cachedHead;
+        let targetPos = null;
+
+        if (this.olam.player && this.olam.player.mesh) {
+            const dist = this.mesh.position.distanceTo(this.olam.player.mesh.position);
+            if (dist < 10) { // Range
+                targetPos = this.olam.player.mesh.position.clone();
+                targetPos.y += this.olam.player.height * 0.8; 
+            }
+        }
+
+        if (targetPos) {
+            const localTarget = this.mesh.worldToLocal(targetPos.clone());
+            const angleY = Math.atan2(localTarget.x, localTarget.z);
+            const clampedY = THREE.MathUtils.clamp(angleY, -1.0, 1.0);
+            this.currentHeadY = THREE.MathUtils.lerp(this.currentHeadY || 0, clampedY, dt * 5);
+            this.proceduralHeadRot = { y: this.currentHeadY, x: 0 };
+        } else {
+            this.currentHeadY = THREE.MathUtils.lerp(this.currentHeadY || 0, 0, dt * 2);
+            this.proceduralHeadRot = { y: this.currentHeadY, x: 0 };
+        }
+    },
+    
+    wear(name) { if (this.garments && this.garments[name]) this.garments[name].visible = true; },
+    takeOff(name) { if (this.garments && this.garments[name]) this.garments[name].visible = false; },
+    
+    setSmartMaterialColor(materialName, colorHex) {
+        if (this.materials && this.materials[materialName]) this.materials[materialName].color.set(colorHex);
+    },
+
+    updateJobAppearance() {
+        if (!this.jobState || !this.garments) return;
+        const job = this.jobState.currentJob;
+        if (job === "BUILD") { this.wear("jacket"); this.setSmartMaterialColor("jacket", 0xFFA500); this.wear("top-hat"); } 
+        else if (job === "CHOP") { this.takeOff("jacket"); this.wear("outer-shirt"); } 
+        else { this.wear("jacket"); this.takeOff("top-hat"); }
+    },
+
+    updateAppearance() { this.updateJobAppearance(); },
+    
     setupGoof() {
         if(this.goofParts && this.mesh) {
             this.goof = {}
             Object.keys(this.goofParts).forEach(q => {
-                this.mesh.traverse(child => {
-                    if(child.isMesh && child.name == q) {
-                        this.goof[this.goofParts[q]] = child;
-                    }
-                })
+                this.mesh.traverse(child => { if(child.isMesh && child.name == q) this.goof[this.goofParts[q]] = child; })
             });
-            delete this.goofOptions;
-            delete this.goofParts;
         }
+        if (this.type === 'medabeir' && !this.customData) this.randomizeAppearance();
     }
 };
