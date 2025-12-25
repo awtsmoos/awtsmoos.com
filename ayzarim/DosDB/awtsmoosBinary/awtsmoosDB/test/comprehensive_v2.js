@@ -31,7 +31,7 @@ async function runTest() {
     if (fs.existsSync(DB_PATH + '.wal')) fs.unlinkSync(DB_PATH + '.wal');
 
     // B"H: Enabled Debug to see the light move
-    const db = new AwtsmoosDB(DB_PATH, { debug: false }); // Disabled debug for cleaner output unless failing
+    const db = new AwtsmoosDB(DB_PATH, { debug: true}); // Disabled debug for cleaner output unless failing
     await db.open();
 
     try {

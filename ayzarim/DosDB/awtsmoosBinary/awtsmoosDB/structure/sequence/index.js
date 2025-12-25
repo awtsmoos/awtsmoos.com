@@ -1,36 +1,27 @@
-
 // B"H
+/**
+ * @file index.js
+ * @description
+ *  The Sefirah of Tiferet - The Sequence Engine.
+ *  Uses delayed requires to ensure perfect rehydration during resurrection.
+ */
+
 const constants = require('../../constants.js');
-const SmartPointer = require('../../utils/smartPointer.js');
-const { readPointer48 } = require('../../utils/binaryHelpers.js');
 const SequenceNode = require('./node.js');
 const SequenceOps = require('./ops.js');
-const DATA_OFFSET = 23; 
 
 class SequenceEngine {
     constructor(allocator, ptr = null) {
         this.allocator = allocator;
-        if (ptr && typeof ptr === 'object') {
-            this.ptr = ptr;
-        } else if (typeof ptr === 'number') {
-            this.ptr = { blockId: ptr, offset: 0, length: constants.BLOCK_SIZE, isChain: false };
-        } else {
-            this.ptr = null;
-        }
-        
-        this.cache = new Map();
+        this.ptr = ptr || null;
         this.nodeIO = new SequenceNode(allocator, this);
         this.ops = new SequenceOps(this);
         this.MAX_DEPTH = 100;
     }
 
-    log(msg) {
-        if (this.allocator.v1.db.debug) console.log(`\x1b[32m[SeqEngine:B${this.ptr ? this.ptr.blockId : 'null'}]\x1b[0m ${msg}`);
-    }
-
     async create(options = {}) {
-        const isWeak = options.isWeak || false;
-        const root = await this.nodeIO.create(true, isWeak);
+        const SmartPointer = require('../../utils/smartPointer.js');
+        const root = await this.nodeIO.create(true, options.isWeak);
         this.ptr = root.ptr;
         await this.nodeIO.save(root);
         return SmartPointer.block(constants.TYPE_SEQUENCE, this.ptr.blockId, this.ptr.length, this.ptr.isChain, this.ptr.offset);
@@ -44,21 +35,18 @@ class SequenceEngine {
     async _destroyNode(ptr, depth) {
         if (depth > this.MAX_DEPTH) return;
         const node = await this.nodeIO.load(ptr);
-        
+        const SmartPointer = require('../../utils/smartPointer.js');
         if (node.isLeaf) {
             if (!node.isWeak) {
                 for(let i=0; i<node.itemCount; i++) {
-                    const ptrOffset = DATA_OFFSET + (i * 16);
-                    const ptrBuf = node.buffer.subarray(ptrOffset, ptrOffset+16);
-                    try { await this.allocator.free(ptrBuf); } catch(e) {}
+                    const off = 23 + (i * 16);
+                    await this.allocator.free(node.buffer.subarray(off, off + 16));
                 }
             }
         } else {
              for(let i=0; i<node.itemCount; i++) {
-                 const ptrOffset = DATA_OFFSET + (i * 20);
-                 const ptrBuf = node.buffer.subarray(ptrOffset, ptrOffset+16);
-                 const childPtr = this._decodePtrBuf(ptrBuf);
-                 await this._destroyNode(childPtr, depth + 1);
+                 const off = 23 + (i * 20);
+                 await this._destroyNode(this._decodePtrBuf(node.buffer.subarray(off, off + 16)), depth + 1);
              }
         }
         await this.allocator.v1.free(ptr);
@@ -66,171 +54,77 @@ class SequenceEngine {
 
     async length() {
         if (!this.ptr) return 0;
-        const root = await this.nodeIO.load(this.ptr);
-        return root.totalCount;
-    }
-    
-    async byteSize() {
-        if (!this.ptr) return 0;
-        const root = await this.nodeIO.load(this.ptr);
-        return root.totalBytes;
-    }
-
-    async stats() {
-        if (!this.ptr) return { count: 0, size: 0, capacity: 0, fragmentation: 0 };
-        const root = await this.nodeIO.load(this.ptr);
-        const frag = root.totalCapacity > 0 ? (1 - (root.totalBytes / root.totalCapacity)) : 0;
-        return { count: root.totalCount, size: root.totalBytes, capacity: root.totalCapacity, fragmentation: frag };
+        return (await this.nodeIO.load(this.ptr)).totalCount;
     }
 
     async push(value) {
-        let ptr;
-        if (Buffer.isBuffer(value) && value.length === 16) ptr = value;
-        else ptr = await this.allocator.save(value);
-        
+        const ptr = (Buffer.isBuffer(value) && value.length === 16) ? value : await this.allocator.save(value);
         await this.ops.append(ptr);
     }
 
     async splice(start, deleteCount, ...items) {
         const newPtrs = [];
-        for(const item of items) {
-            if (Buffer.isBuffer(item) && item.length === 16) newPtrs.push(item);
-            else newPtrs.push(await this.allocator.save(item));
-        }
+        for(const item of items) newPtrs.push((Buffer.isBuffer(item) && item.length === 16) ? item : await this.allocator.save(item));
         await this.ops.splice(start, deleteCount, newPtrs);
     }
 
-    async set(index, value, options = {}) {
-        let ptr;
-        if (Buffer.isBuffer(value) && value.length === 16) ptr = value;
-        else ptr = await this.allocator.save(value);
-        
-        await this.ops.replace(index, ptr, options);
-    }
-
     async get(index, context) {
+        const SmartPointer = require('../../utils/smartPointer.js');
         const ptr = await this.getPtr(index);
-        if (!ptr) return undefined;
-        return SmartPointer.resolve(ptr, this.allocator, context);
+        return ptr ? SmartPointer.resolve(ptr, this.allocator, context) : undefined;
     }
 
     async getPtr(index) {
-        if (!this.ptr) return undefined;
-
         let currPtr = this.ptr;
-        let localIndex = index;
-        let depth = 0;
-        
-        while(true) {
-            if (depth++ > this.MAX_DEPTH) throw new Error("B\"H: Sequence Max Depth Exceeded");
-            
+        let localIdx = index;
+        for (let d = 0; d < this.MAX_DEPTH; d++) {
+            if (!currPtr) return undefined;
             const node = await this.nodeIO.load(currPtr);
-
-            if (localIndex >= node.totalCount) {
-                return undefined;
-            }
-
+            if (localIdx >= node.totalCount) return undefined;
             if (node.isLeaf) {
-                if (localIndex >= node.itemCount) return undefined;
-                const offset = DATA_OFFSET + (localIndex * 16);
                 const ptr = Buffer.allocUnsafe(16);
-                node.buffer.copy(ptr, 0, offset, offset + 16);
+                node.buffer.copy(ptr, 0, 23 + (localIdx * 16), 39 + (localIdx * 16));
                 return ptr;
-            } else {
-                let offset = DATA_OFFSET;
-                let foundChild = false;
-                
-                for(let i=0; i<node.itemCount; i++) {
-                    const childCount = node.buffer.readUInt32BE(offset + 16);
-                    if (localIndex < childCount) {
-                        const childPtrBuf = node.buffer.subarray(offset, offset + 16);
-                        currPtr = this._decodePtrBuf(childPtrBuf);
-                        foundChild = true;
-                        break; 
-                    }
-                    localIndex -= childCount;
-                    offset += 20;
-                }
-                if (!foundChild) return undefined;
+            }
+            let off = 23;
+            for(let i=0; i<node.itemCount; i++) {
+                const childCount = node.buffer.readUInt32BE(off + 16);
+                if (localIdx < childCount) { currPtr = this._decodePtrBuf(node.buffer.subarray(off, off + 16)); break; }
+                localIdx -= childCount; off += 20;
             }
         }
+        return undefined;
     }
 
-    async slice(start, end) {
-        const len = await this.length();
-        if (end === undefined) end = len;
-        if (start < 0) start = Math.max(0, len + start);
-        if (end < 0) end = Math.max(0, len + end);
-        if (start > len) start = len;
-        if (end > len) end = len;
-        if (start > end) start = end;
-
-        const res = [];
-        for(let i=start; i<end; i++) res.push(await this.get(i));
-        return res;
+    _decodePtrBuf(buf) {
+        const SmartPointer = require('../../utils/smartPointer.js');
+        return { blockId: SmartPointer.getBlockId(buf), length: SmartPointer.getLength(buf), offset: SmartPointer.getOffset(buf), isChain: SmartPointer.isChain(buf) };
     }
-
-    async compact() {
-        const len = await this.length();
-        const newSeq = new SequenceEngine(this.allocator);
-        await newSeq.create();
-        for(let i=0; i<len; i++) {
-            const val = await this.get(i);
-            if (val && val.isStructure) await newSeq.push(SmartPointer.block(val.type, val.blockId, val.length, val.isChain, val.offset));
-            else await newSeq.push(val);
-        }
-        this.ptr = newSeq.ptr;
-    }
-
-    async concat(otherSeq) {
-        if (!otherSeq || !otherSeq.ptr) return;
-        const myRoot = await this.nodeIO.load(this.ptr);
-        const otherRoot = await this.nodeIO.load(otherSeq.ptr);
-        
-        const newRoot = await this.nodeIO.create(false, myRoot.isWeak);
-        
-        const leftPtr = SmartPointer.block(constants.TYPE_SEQUENCE, this.ptr.blockId, this.ptr.length, this.ptr.isChain, this.ptr.offset);
-        const rightPtr = SmartPointer.block(constants.TYPE_SEQUENCE, otherSeq.ptr.blockId, otherSeq.ptr.length, otherSeq.ptr.isChain, otherSeq.ptr.offset);
-        const leftData = Buffer.alloc(20); leftPtr.copy(leftData, 0); leftData.writeUInt32BE(myRoot.totalCount, 16);
-        const rightData = Buffer.alloc(20); rightPtr.copy(rightData, 0); rightData.writeUInt32BE(otherRoot.totalCount, 16);
-        newRoot.buffer.set(leftData, DATA_OFFSET); newRoot.buffer.set(rightData, DATA_OFFSET + 20);
-        newRoot.itemCount = 2;
-        newRoot.totalCount = myRoot.totalCount + otherRoot.totalCount;
-        newRoot.totalBytes = myRoot.totalBytes + otherRoot.totalBytes;
-        await this.nodeIO.save(newRoot);
-        this.ptr = newRoot.ptr;
-    }
-
+    
+    // B"H: Iterator for Indexing
     async* iterateRaw() {
         yield* this._iterateNodeRaw(this.ptr);
     }
 
     async* _iterateNodeRaw(ptr) {
+        if (!ptr) return;
         const node = await this.nodeIO.load(ptr);
+        
         if (node.isLeaf) {
             for(let i=0; i<node.itemCount; i++) {
-                const offset = DATA_OFFSET + (i * 16);
-                const valPtr = node.buffer.subarray(offset, offset + 16);
-                const val = await SmartPointer.resolve(valPtr, this.allocator);
-                yield { ptr: valPtr, value: val };
+                const off = 23 + (i * 16);
+                const p = Buffer.allocUnsafe(16);
+                node.buffer.copy(p, 0, off, off + 16);
+                yield { ptr: p };
             }
         } else {
-            for(let i=0; i<node.itemCount; i++) {
-                const offset = DATA_OFFSET + (i * 20);
-                const childPtrBuf = node.buffer.subarray(offset, offset + 16);
-                const childPtr = this._decodePtrBuf(childPtrBuf);
-                yield* this._iterateNodeRaw(childPtr);
-            }
+             for(let i=0; i<node.itemCount; i++) {
+                 const off = 23 + (i * 20);
+                 const childPtrBuf = node.buffer.subarray(off, off+16);
+                 const childPtr = this._decodePtrBuf(childPtrBuf);
+                 yield* this._iterateNodeRaw(childPtr);
+             }
         }
-    }
-
-    _decodePtrBuf(buf) {
-        return {
-            blockId: SmartPointer.getBlockId(buf),
-            length: SmartPointer.getLength(buf),
-            offset: SmartPointer.getOffset(buf),
-            isChain: SmartPointer.isChain(buf)
-        };
     }
 }
 module.exports = SequenceEngine;

@@ -1,5 +1,6 @@
+
 //B"H
-import { deleteComment, AwtsmoosPrompt } from "/scripts/awtsmoos/api/utils.js";
+import { deleteComment, AwtsmoosPrompt, makePost } from "/scripts/awtsmoos/api/utils.js";
 import playText from "/heichelos/post/playText.js";
 import { sendIt } from "/scripts/awtsmoos/api/helperScripts/s3-manager.js";
 
@@ -19,11 +20,16 @@ export async function handleMenuOption(option, comment, el) {
 					seriesId: series.id, postId: post.id, aliasId: window.curAlias, commentId: comment.id
 				});
 				await AwtsmoosPrompt.go({ isAlert: true, headerTxt: "Successfully deleted that comment" });
+                // Remove from DOM if present
+                const domEl = document.querySelector(`.comment-content[data-cid="${comment.id}"]`);
+                if(domEl) domEl.remove();
 			} catch(e) {
 				await AwtsmoosPrompt.go({ isAlert: true, headerTxt: "Issue deleting: " + e.stack });
 			}
 		break;
-		case "Reply": alert("Coming soon iyh!"); break;
+		case "Reply": 
+            handleReply(comment, el.closest('.comment-content')); 
+            break;
 		case "Play":
 			var aud = document.querySelector("audio[data-awtsmoos-audio='" + comment.id + "'");
 			if(!aud) return alert("Issue");
@@ -66,6 +72,98 @@ export async function handleMenuOption(option, comment, el) {
 			try { navigator.clipboard.writeText(comment?.content); } catch(e) { alert("Issue copying"); }
 		break;
 	}
+}
+
+/**
+ * B"H - Handles the creation of a reply UI and submission.
+ * Opens a new thread (comment) referencing the target.
+ */
+function handleReply(originalComment, containerElement) {
+    if (!window.curAlias) {
+        return AwtsmoosPrompt.go({ isAlert: true, headerTxt: "Log in to reply!" });
+    }
+
+    // Check if reply box already exists
+    if (containerElement.querySelector('.awtsmoos-reply-box')) return;
+
+    const replyContainer = document.createElement("div");
+    replyContainer.className = "awtsmoos-reply-box";
+    
+    // Quote preview
+    const snippet = originalComment.content ? originalComment.content.substring(0, 100).replace(/\n/g, ' ') : "Media content";
+    const quoteHeader = `Replying to @${originalComment.author}: "${snippet}..."`;
+    
+    replyContainer.innerHTML = `
+        <div class="reply-header">
+            <span>↱ ${quoteHeader}</span>
+            <button class="close-reply">&times;</button>
+        </div>
+        <textarea class="reply-input" placeholder="Transmit your response..."></textarea>
+        <button class="reply-submit">TRANSMIT REPLY</button>
+    `;
+
+    const textarea = replyContainer.querySelector('textarea');
+    const submitBtn = replyContainer.querySelector('.reply-submit');
+    const closeBtn = replyContainer.querySelector('.close-reply');
+
+    // Close logic
+    closeBtn.onclick = () => replyContainer.remove();
+
+    // Submit logic
+    submitBtn.onclick = async () => {
+        const text = textarea.value.trim();
+        if (!text) return;
+
+        submitBtn.disabled = true;
+        submitBtn.innerText = "Transmitting...";
+
+        // Construct Markdown Quote
+        // We create a NEW comment that references the old one in text.
+        // This keeps the "Verse" structure flat but logically threaded via content.
+        const replyContent = `> [Reply to @${originalComment.author}](#comment-${originalComment.id}):\n> *${snippet}*\n\n${text}`;
+        
+        // Preserve verse/sub context
+        const verseSection = originalComment.dayuh?.verseSection ?? "root";
+        const subSection = originalComment.dayuh?.subSection;
+
+        const dayuh = {
+            verseSection,
+            ...(subSection !== undefined ? { subSection } : {}),
+            replyToId: originalComment.id
+        };
+
+        try {
+            const res = await makePost({
+                aliasId: window.curAlias,
+                heichelId: window.post.heichel.id,
+                parentSeriesId: window.post.parentSeriesId,
+                title: `Reply to ${originalComment.author}`, // Title isn't used for comments really
+                content: replyContent,
+                dayuh: dayuh,
+                // Special params for comment helper
+                isComment: true,
+                parentId: window.post.id, // Parent is the POST, creating a new thread
+                postId: window.post.id
+            });
+
+            if (res.success) {
+                replyContainer.remove();
+                if (window.reloadRoot) await window.reloadRoot();
+                AwtsmoosPrompt.go({ isAlert: true, headerTxt: "Reply Transmitted!" });
+            } else {
+                alert("Failed to reply: " + (res.error || "Unknown"));
+                submitBtn.disabled = false;
+                submitBtn.innerText = "TRANSMIT REPLY";
+            }
+        } catch (e) {
+            console.error(e);
+            alert("Network error.");
+            submitBtn.disabled = false;
+        }
+    };
+
+    containerElement.appendChild(replyContainer);
+    textarea.focus();
 }
 
 async function handleUpload(comment, type) {

@@ -1,5 +1,12 @@
-
 // B"H
+/**
+ * @file hnsw.js
+ * @description
+ *  Hierarchical Navigable Small World (HNSW) implementation.
+ *  The Sefirah of Netzach - The Victory of navigation in the infinite.
+ *  Uses pure binary storage for vector nodes.
+ */
+
 const VectorStorage = require('./storage.js');
 const { getMetric } = require('./math.js');
 const SmartPointer = require('../../utils/smartPointer.js');
@@ -7,6 +14,8 @@ const BinaryHeap = require('../../utils/binaryHeap.js');
 const Sequence = require('../../structure/sequence/index.js');
 const { readPointer48 } = require('../../utils/binaryHelpers.js');
 const ReadWriteLock = require('../../core/concurrency.js'); 
+const HandleRegistry = require('../../core/handleRegistry.js');
+const constants = require('../../constants.js');
 
 const M = 12; 
 const M_MAX0 = 24; 
@@ -14,10 +23,19 @@ const EF_CONSTRUCTION = 100;
 const ML = 1 / Math.log(M);
 
 class HNSW {
+    /**
+     * @description
+     *  Constructs the HNSW engine. Unwraps proxies to access internal state safely.
+     */
     constructor(db, registry, keyMap, meta) {
         this.db = db;
-        this.registryHandle = registry; 
-        this.keyMap = keyMap;     
+        // B"H: The Vessels must be unwrapped to see the Light.
+        this.registryHandle = registry; // Keep proxy for high-level ops (splice/length)
+        this.registrySoul = HandleRegistry.getSoul(registry); // For internal property access
+        
+        this.keyMap = keyMap; 
+        this.keyMapSoul = HandleRegistry.getSoul(keyMap);
+        
         this.meta = meta; 
         this.storage = new VectorStorage(db.allocator);
         this.metric = getMetric(meta.metric || 'cosine');
@@ -32,15 +50,21 @@ class HNSW {
         this.dirtyRegistryMax = -1;
         
         this.lock = new ReadWriteLock();
-        this.onEntryPointChanged = null; // Callback
+        this.onEntryPointChanged = null; 
         
-        // B"H: Direct Engine Access for speed
         this.registrySequence = null;
     }
 
+    /**
+     * @description
+     *  Ensures the in-memory cache of the registry is synchronized with the DB state.
+     */
     async _initRegistryCache() {
-        await this.registryHandle.ensureResolved(true);
-        const currentPtr = this.registryHandle.ptr;
+        if (!this.registrySoul) return;
+        
+        // B"H: Use Soul to ensure we have the latest pointer without navigation proxy interference
+        await this.registrySoul.ensureResolved(true);
+        const currentPtr = this.registrySoul.ptr;
         
         if (this.registrySequence && currentPtr && this.registrySequence.ptr) {
             if (this._ptrsEqual(this.registrySequence.ptr, currentPtr)) {
@@ -62,15 +86,29 @@ class HNSW {
         this._registryInitialized = true;
     }
     
+    /**
+     * @description
+     *  Authoritatively compares two pointer vessels.
+     */
     _ptrsEqual(p1, p2) {
         if (!p1 || !p2) return false;
+        
+        // Unwrapping veil if p2 is a Proxy
+        const soul = HandleRegistry.getSoul(p2);
+        const actualP2 = soul ? soul.ptr : p2;
+
         if (p1.blockId !== undefined) {
-            const decoded = SmartPointer.decode(p2);
+            const decoded = SmartPointer.decode(actualP2);
             if (!decoded) return false;
             const blockId = readPointer48(decoded.payload, 0);
             const offset = decoded.payload.readUInt32BE(10);
             return p1.blockId === blockId && p1.offset === offset;
         }
+        
+        if (Buffer.isBuffer(p1) && Buffer.isBuffer(actualP2)) {
+            return p1.compare(actualP2) === 0;
+        }
+        
         return false;
     }
 
@@ -102,7 +140,7 @@ class HNSW {
     }
 
     async _flushRegistry() {
-        if (this.dirtyRegistryMax === -1) return;
+        if (this.dirtyRegistryMax === -1 || !this.registrySoul) return;
 
         await this.db.batch(async () => {
             const start = this.dirtyRegistryMin;
@@ -111,20 +149,20 @@ class HNSW {
             this.dirtyRegistryMin = Infinity;
             this.dirtyRegistryMax = -1;
 
-            const currentLen = await this.registryHandle.length;
+            const currentLen = await this.registrySoul.reader.length();
             
             if (start >= currentLen) {
                 const items = this.registryPtrs.slice(start, end + 1);
                 const validItems = items.map(x => x || Buffer.alloc(16)); 
-                await this.registryHandle.splice(currentLen, 0, ...validItems, { isPtr: true, _isAwtsmoosOptions: true });
+                await this.registrySoul.writer.splice(currentLen, 0, ...validItems, { isPtr: true, _isAwtsmoosOptions: true });
             } else {
                 for(let i = start; i <= end; i++) {
                     if (this.registryPtrs[i]) {
                         const ptr = this.registryPtrs[i];
-                        if (i >= await this.registryHandle.length) {
-                             await this.registryHandle.push(ptr, { isPtr: true });
+                        if (i >= await this.registrySoul.reader.length()) {
+                             await this.registrySoul.writer.push(ptr, { isPtr: true });
                         } else {
-                             await this.registryHandle.set(i, ptr, { isPtr: true });
+                             await this.registrySoul.writer.set(i, ptr, { isPtr: true });
                         }
                     }
                 }
@@ -143,7 +181,6 @@ class HNSW {
         if (!ptr) return null;
         
         const node = await this.storage.loadNode(ptr);
-        // B"H: If corrupt/null, do not cache, do not return
         if (!node) return null;
         
         this._cacheNode(nodeId, node);
@@ -170,6 +207,8 @@ class HNSW {
     }
 
     async insertBatch(items) {
+        if (!this.registrySoul || !this.keyMapSoul) return;
+
         return this.lock.runWrite(async () => {
             await this._initRegistryCache();
             
@@ -178,7 +217,7 @@ class HNSW {
             for(const item of items) {
                 const { key, vector, payload } = item;
                 
-                const existingNodeID = await this.keyMap.get(String(key));
+                const existingNodeID = await this.keyMapSoul.reader.getItem(String(key));
                 if (existingNodeID !== undefined) {
                     const oldNode = await this._getNode(existingNodeID);
                     if (oldNode) {
@@ -192,7 +231,7 @@ class HNSW {
                 
                 const newNodePtr = await this.storage.createNode(vector, level, payload, nodeId);
                 await this._setRegistryPtr(nodeId, newNodePtr);
-                await this.keyMap.set(String(key), nodeId); 
+                await this.keyMapSoul.writer.set(String(key), nodeId); 
                 
                 const newNode = await this.storage.loadNode(newNodePtr); 
                 this.nodeCache.set(nodeId, newNode);
@@ -304,7 +343,8 @@ class HNSW {
     }
 
     async delete(key) {
-        const nodeId = await this.keyMap.get(String(key));
+        if (!this.keyMapSoul) return;
+        const nodeId = await this.keyMapSoul.reader.getItem(String(key));
         if (nodeId === undefined) return;
         const node = await this._getNode(nodeId);
         if (node) {
@@ -314,7 +354,7 @@ class HNSW {
                 await this._findNewEntryPoint(node);
             }
         }
-        await this.keyMap.delete(String(key));
+        await this.keyMapSoul.writer.delete(String(key));
         await this.flushCache(); 
     }
     

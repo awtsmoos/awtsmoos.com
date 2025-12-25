@@ -1,4 +1,3 @@
-
 // B"H
 module.exports = {
     // --- Allocation & Block Constants (Physical Layer) ---
@@ -120,6 +119,7 @@ module.exports.VAL_TYPE = {
     BIGINT_NEG: module.exports.TYPE_BIGINT_NEG,
     SYMBOL: module.exports.TYPE_SYMBOL,
     TYPED_ARRAY: module.exports.TYPE_TYPED_ARRAY,
+    CUSTOM_INSTANCE: module.exports.TYPE_CUSTOM_INSTANCE, // B"H: Added Missing Mapping
     
     // Numeric Optimization Aliases
     UINT8: module.exports.TYPE_UINT8,

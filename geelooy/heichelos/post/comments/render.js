@@ -1,6 +1,6 @@
+
 //B"H
-import { isFirstCharacterHebrew } from "/heichelos/post/postFunctions.js";
-import { openCommentsPanelToAlias } from "./panel.js";
+import { isFirstCharacterHebrew } from "../functions/utils.js";
 import { handleMenuOption } from "./actions.js";
 
 // Import from new modules
@@ -73,6 +73,7 @@ export async function makeHTMLFromComment({ comment, aliasId, tab }) {
         replyBtn.innerHTML = "↩ Reply";
         replyBtn.onclick = (e) => {
             e.stopPropagation();
+            // Use the closest comment content to append the reply box
             handleMenuOption("Reply", comment, cmCont);
         };
         standardToolbar.appendChild(replyBtn);
@@ -88,12 +89,12 @@ export async function makeHTMLFromComment({ comment, aliasId, tab }) {
             e.stopPropagation();
             isBelowCollapsed = !isBelowCollapsed;
             
-            // Iterate siblings following this comment
+            // Iterate siblings following this comment in the same container
             let sibling = cmCont.nextElementSibling;
             while(sibling) {
                 if(sibling.classList.contains('comment-content')) {
                     if(isBelowCollapsed) sibling.style.display = 'none';
-                    else sibling.style.display = 'block'; // Or whatever flex/etc
+                    else sibling.style.display = 'block'; 
                 }
                 sibling = sibling.nextElementSibling;
             }
@@ -159,6 +160,14 @@ export async function makeHTMLFromComment({ comment, aliasId, tab }) {
             }
         });
 
+        // B"H - Children Slot for Threading
+        var childrenSlot = document.createElement("div");
+        childrenSlot.className = "children-slot";
+        childrenSlot.style.marginLeft = "20px";
+        childrenSlot.style.borderLeft = "2px solid #eee";
+        childrenSlot.style.paddingLeft = "10px";
+        cmCont.appendChild(childrenSlot);
+
     } catch(e) {
         console.error("%c B\"H - Error in makeHTMLFromComment:", "color: red;", e);
     }
@@ -201,16 +210,22 @@ export function makeInlineComment(alias, comment) {
 
     actionBtn.onclick = async (e) => {
         e.stopPropagation();
-        var c = await openCommentsPanelToAlias(alias);
-        if (!c) return;
-        setTimeout(() => {
-            var con = c.querySelector(`.comment-content[data-cid="${comment.id}"]`);
-            if (con) {
-                con.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                con.classList.add('highlight-flash'); 
-                setTimeout(()=>con.classList.remove('highlight-flash'), 1000);
-            }
-        }, 300);
+        
+        // B"H - Broken static cycle; using window global exposed by commentLogic.js
+        if(window.openCommentsPanelToAlias) {
+            var c = await window.openCommentsPanelToAlias(alias);
+            if (!c) return;
+            setTimeout(() => {
+                var con = c.querySelector(`.comment-content[data-cid="${comment.id}"]`);
+                if (con) {
+                    con.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    con.classList.add('highlight-flash'); 
+                    setTimeout(()=>con.classList.remove('highlight-flash'), 1000);
+                }
+            }, 300);
+        } else {
+            console.error("Comments panel logic not ready.");
+        }
     };
     
     incom.appendChild(actionBtn); 
@@ -218,6 +233,18 @@ export function makeInlineComment(alias, comment) {
     var comContent = document.createElement("div");
     incom.appendChild(comContent);
     populateCommentElement(comment, comContent);
+    
+    // B"H - Inline Reply Capability
+    var inlineReply = document.createElement("button");
+    inlineReply.className = "comment-tool-btn reply";
+    inlineReply.innerHTML = "↩ Reply";
+    inlineReply.style.marginTop = "5px";
+    inlineReply.onclick = (e) => {
+        e.stopPropagation();
+        handleMenuOption("Reply", comment, incom);
+    };
+    incom.appendChild(inlineReply);
+
     return incom;
 }
 

@@ -1,36 +1,27 @@
-
 // B"H
+/**
+ * @file index.js
+ * @description
+ *  The Sefirah of Hod - The B-Tree Engine.
+ *  Uses delayed requires for SmartPointer to destroy circular dependency loops.
+ */
+
 const constants = require('../../constants.js');
-const SmartPointer = require('../../utils/smartPointer.js');
-const { readPointer48 } = require('../../utils/binaryHelpers.js');
 const MapNode = require('./node.js');
 const MapOps = require('./ops.js');
-const keyEncoding = require('../../utils/keyEncoding.js');
 
 class MapEngine {
     constructor(allocator, ptr = null) {
         this.allocator = allocator;
-        if (ptr && typeof ptr === 'object') {
-            this.ptr = ptr;
-        } else if (typeof ptr === 'number') {
-            this.ptr = { blockId: ptr, offset: 0, length: constants.BLOCK_SIZE, isChain: false };
-        } else {
-            this.ptr = null;
-        }
-        
+        this.ptr = ptr || null;
         this.cache = new Map();
-        this.CACHE_LIMIT = 200;
-
         this.nodeIO = new MapNode(allocator, this); 
         this.ops = new MapOps(this);
         this.MAX_DEPTH = 100;
     }
 
-    log(msg) {
-        // console.log(`[TRACE MapEngine] ${msg}`);
-    }
-
     async create() {
+        const SmartPointer = require('../../utils/smartPointer.js');
         const node = { isLeaf: true, keys: [], values: [], children: [], next: 0, totalCount: 0, totalBytes: 0 };
         const ptr = await this.nodeIO.save(node);
         this.ptr = ptr;
@@ -44,22 +35,18 @@ class MapEngine {
 
     async _destroyNode(ptr, depth) {
         if (depth > this.MAX_DEPTH) return;
-        if (this.cache.has(ptr.blockId)) this.cache.delete(ptr.blockId);
-
         const node = await this.nodeIO.load(ptr);
+        const SmartPointer = require('../../utils/smartPointer.js');
         if (node.isLeaf) {
-            for(const valPtr of node.values) {
-                try { await this.allocator.free(valPtr); } catch(e) {}
-            }
+            for(const valPtr of node.values) await this.allocator.free(valPtr);
         } else {
             for(const childPtrBuf of node.children) {
-                // B"H: Optimization - direct read
-                const blockId = SmartPointer.getBlockId(childPtrBuf);
-                const len = SmartPointer.getLength(childPtrBuf);
-                const off = SmartPointer.getOffset(childPtrBuf);
-                const isChain = SmartPointer.isChain(childPtrBuf);
-                
-                const childPtr = { blockId, length: len, offset: off, isChain };
+                const childPtr = {
+                    blockId: SmartPointer.getBlockId(childPtrBuf),
+                    length: SmartPointer.getLength(childPtrBuf),
+                    offset: SmartPointer.getOffset(childPtrBuf),
+                    isChain: SmartPointer.isChain(childPtrBuf)
+                };
                 await this._destroyNode(childPtr, depth + 1);
             }
         }
@@ -73,44 +60,35 @@ class MapEngine {
     }
 
     async set(key, value, options = {}) {
-        const isPtr = (options === true) || (options && options.isPtr);
-        const skipFree = (options && typeof options === 'object' && options.skipFree) || false;
-
-        const valPtr = isPtr ? value : ((Buffer.isBuffer(value) && value.length === 16) ? value : await this.allocator.save(value));
-        
+        const SmartPointer = require('../../utils/smartPointer.js');
+        const valPtr = (options.isPtr) ? value : await this.allocator.save(value);
         const keyBuf = Buffer.isBuffer(key) ? key : Buffer.from(String(key), 'utf8');
 
         let root = await this.nodeIO.load(this.ptr);
-        const res = await this.ops.insert(root, keyBuf, valPtr, { skipFree });
+        const res = await this.ops.insert(root, keyBuf, valPtr, options);
         
         if (res && res.split) {
             const split = res.split;
-            const leftChildPtr = split.nodePtr || this.ptr;
-            
             const newRoot = {
                 isLeaf: false, keys: [split.key], 
                 children: [
-                    SmartPointer.block(constants.TYPE_MAP, leftChildPtr.blockId, leftChildPtr.length, leftChildPtr.isChain, leftChildPtr.offset),
+                    SmartPointer.block(constants.TYPE_MAP, (split.nodePtr || this.ptr).blockId, (split.nodePtr || this.ptr).length, (split.nodePtr || this.ptr).isChain, (split.nodePtr || this.ptr).offset),
                     split.ptr
                 ],
-                values: [], next: 0, totalCount: root.totalCount + res.split.totalCount, totalBytes: root.totalBytes + res.split.totalBytes 
+                values: [], next: 0
             };
-            
-            const leftNode = await this.nodeIO.load(leftChildPtr);
-            const rightNodePtr = this._decodePtrBuf(split.ptr);
-            const rightNode = await this.nodeIO.load(rightNodePtr);
-            
+            const leftNode = await this.nodeIO.load(split.nodePtr || this.ptr);
+            const rightNode = await this.nodeIO.load(this._decodePtrBuf(split.ptr));
             newRoot.totalCount = leftNode.totalCount + rightNode.totalCount;
             newRoot.totalBytes = leftNode.totalBytes + rightNode.totalBytes;
-
-            const newPtr = await this.nodeIO.save(newRoot);
-            this.ptr = newPtr;
+            this.ptr = await this.nodeIO.save(newRoot);
         } else if (res && res.newPtr) {
             this.ptr = res.newPtr;
         }
     }
 
     async get(key, context) {
+        const SmartPointer = require('../../utils/smartPointer.js');
         const ptr = await this.getPtr(key);
         if (!ptr) return undefined;
         return SmartPointer.resolve(ptr, this.allocator, context);
@@ -118,126 +96,66 @@ class MapEngine {
 
     async getPtr(key) {
         let currPtr = this.ptr;
-        let depth = 0;
         const keyBuf = Buffer.isBuffer(key) ? key : Buffer.from(String(key), 'utf8');
-        
-        while (true) {
-            if (depth++ > this.MAX_DEPTH) throw new Error("B\"H: Map Max Depth Exceeded");
+        for (let d = 0; d < this.MAX_DEPTH; d++) {
             if (!currPtr || currPtr.blockId === 0) return undefined;
-            
             const node = await this.nodeIO.load(currPtr);
             let low = 0, high = node.keys.length - 1, idx = node.keys.length;
-            
             while (low <= high) {
                 const mid = (low + high) >>> 1;
                 const cmp = keyBuf.compare(node.keys[mid]);
                 if (cmp === 0) { idx = mid + 1; break; }
-                if (cmp < 0) { idx = mid; high = mid - 1; }
-                else { low = mid + 1; }
+                if (cmp < 0) { idx = mid; high = mid - 1; } else low = mid + 1;
             }
-            
-            if (node.isLeaf) {
-                if (idx > 0 && node.keys[idx - 1].compare(keyBuf) === 0) {
-                    return node.values[idx - 1];
-                }
-                return undefined;
-            } else {
-                if (idx >= node.children.length) return undefined;
-                const childPtrBuf = node.children[idx];
-                currPtr = this._decodePtrBuf(childPtrBuf);
-            }
+            if (node.isLeaf) return (idx > 0 && node.keys[idx - 1].compare(keyBuf) === 0) ? node.values[idx - 1] : undefined;
+            currPtr = this._decodePtrBuf(node.children[idx]);
         }
+        throw new Error("B\"H: Map Max Depth Exceeded");
     }
 
-    // B"H: Returns object { success, deletedPtr }
     async delete(key) {
         let root = await this.nodeIO.load(this.ptr);
-        const keyBuf = Buffer.isBuffer(key) ? key : Buffer.from(String(key), 'utf8');
-        
-        const res = await this.ops.delete(root, keyBuf);
-        
-        if (res.success) {
-            // B"H: Update root pointer if it moved
-            if (res.newPtr) {
-                this.ptr = res.newPtr;
-            }
-            if (res.deletedPtr) {
-                return { success: true, deletedPtr: res.deletedPtr };
-            }
-            return { success: true };
-        }
-        
-        return { success: false };
+        const res = await this.ops.delete(root, Buffer.isBuffer(key) ? key : Buffer.from(String(key), 'utf8'));
+        if (res.success && res.newPtr) this.ptr = res.newPtr;
+        return res;
     }
 
     async* range(start, end) {
-        for await (const item of this.iterateRaw(start, end)) {
-            const val = await SmartPointer.resolve(item.ptr, this.allocator);
-            const keyStr = item.key.toString('utf8');
-            yield { key: keyStr, value: val };
-        }
+        const startBuf = start ? Buffer.from(String(start)) : null;
+        const endBuf = end ? Buffer.from(String(end)) : null;
+        yield* this._iterateNode(this.ptr, startBuf, endBuf, 0);
     }
-
-    async* iterateRaw(start, end) {
-        let currPtr = this.ptr;
-        const startBuf = start ? (Buffer.isBuffer(start) ? start : Buffer.from(start)) : null;
-        const endBuf = end ? (Buffer.isBuffer(end) ? end : Buffer.from(end)) : null;
-        yield* this._iterateNode(currPtr, startBuf, endBuf, 0);
+    
+    // B"H: Alias for Indexer
+    async* iterateRaw() {
+        yield* this.range(null, null);
     }
     
     async* _iterateNode(ptr, start, end, depth) {
-        if (depth > this.MAX_DEPTH) throw new Error("B\"H: Map Max Depth Exceeded");
+        const SmartPointer = require('../../utils/smartPointer.js');
         const node = await this.nodeIO.load(ptr);
-        
         if (node.isLeaf) {
             for(let i=0; i<node.keys.length; i++) {
                 const k = node.keys[i];
-                if (!start || k.compare(start) >= 0) {
-                    if (end && k.compare(end) > 0) return;
-                    yield { key: k, ptr: node.values[i] };
+                if ((!start || k.compare(start) >= 0) && (!end || k.compare(end) <= 0)) {
+                    yield { key: k, value: await SmartPointer.resolve(node.values[i], this.allocator), ptr: node.values[i] };
                 }
             }
         } else {
-            let idx = 0;
-            if (start) {
-                let low = 0, high = node.keys.length - 1;
-                idx = node.keys.length; 
-                while (low <= high) {
-                    const mid = (low + high) >>> 1;
-                    if (node.keys[mid].compare(start) >= 0) {
-                        idx = mid; high = mid - 1;
-                    } else {
-                        low = mid + 1;
-                    }
-                }
-            }
-            
-            for(let i=idx; i<node.children.length; i++) {
-                if (end && i > 0 && i <= node.keys.length && node.keys[i-1].compare(end) > 0) return;
-
-                const childPtrBuf = node.children[i];
-                const childPtr = this._decodePtrBuf(childPtrBuf);
-                
-                yield* this._iterateNode(childPtr, start, end, depth + 1);
+            for(let i=0; i<node.children.length; i++) {
+                if (end && i > 0 && node.keys[i-1].compare(end) > 0) return;
+                yield* this._iterateNode(this._decodePtrBuf(node.children[i]), start, end, depth + 1);
             }
         }
     }
     
     _decodePtrBuf(buf) {
+        const SmartPointer = require('../../utils/smartPointer.js');
         return {
             blockId: SmartPointer.getBlockId(buf),
             length: SmartPointer.getLength(buf),
             offset: SmartPointer.getOffset(buf),
             isChain: SmartPointer.isChain(buf)
-        };
-    }
-    
-    _decodePtr(payload) {
-        return {
-            blockId: readPointer48(payload, 0),
-            length: payload.readUInt32BE(6),
-            offset: payload.readUInt32BE(10),
-            isChain: payload.readUInt8(14) === 1
         };
     }
 }

@@ -2,6 +2,7 @@
 /**
  * B"H
  * the method to load Nivrayim
+ * RESTORED & OPTIMIZED: Sequential, Reliable, No Size Pre-calc.
  */
 
 import Utils from '../../utils.js'
@@ -9,7 +10,7 @@ import * as AWTSMOOS from '../../awtsmoosCkidsGames.js';
 
 export default class {
 
-	async addObject(type, options) {
+    async addObject(type, options) {
         if (!AWTSMOOS[type]) {
             console.error(`B"H - Olam.addObject: Type "${type}" does not exist.`);
             return;
@@ -23,7 +24,7 @@ export default class {
             mesh.name = nivra.name;
             nivra.mesh = mesh;
             mesh.nivraAwtsmoos = nivra;
-		    if(!mesh.userData) mesh.userData = {};
+            if(!mesh.userData) mesh.userData = {};
             
             if (options.position) mesh.position.copy(options.position);
             if (options.rotation) mesh.rotation.copy(options.rotation); 
@@ -62,8 +63,10 @@ export default class {
             }
             
         } else if (options.path) {
-            console.error(`B"H - addObject requires 'golem' for dynamic objects currently.`);
-            return;
+             let res = await this.boyrayNivra(nivra);
+             if (res) {
+                 await this.hoyseef(nivra);
+             }
         }
         
         this.nivrayim.push(nivra);
@@ -74,151 +77,110 @@ export default class {
 
     async loadNivrayim(nivrayim) {
         try {
-            console.log("B\"H - loadNivrayim started");
+            console.log("B\"H - loadNivrayim started (Fast Mode)");
             var nivrayimMade = [];
             var ent = Object.entries(nivrayim);
             
-            // 1. Instantiation Phase
+            // --- 1. Instantiation Phase ---
             for (var [type, nivraOptions] of ent) {
-                var ar;
-                var isAr = false;
-                if (Array.isArray(nivraOptions)) {
-                    ar = nivraOptions;
-                    isAr = true;
-                } else {
-                    ar = Object.entries(nivraOptions);
-                }
-
+                var ar = Array.isArray(nivraOptions) ? nivraOptions : Object.entries(nivraOptions);
+                
                 for (var entry of ar) {
-                    var name = null;
-                    var options = null;
-                    if (isAr) {
-                        options = entry;
-                        name = options.name;
-                    } else {
-                        name = entry[0];
-                        options = entry[1];
-                    }
+                    var name = null, options = null;
+                    if (Array.isArray(nivraOptions)) { options = entry; name = options.name; } 
+                    else { name = entry[0]; options = entry[1]; }
 
                     if (type === "Chossid" && this.playerSettings && this.playerSettings.inventory) {
                         options.inventory = this.playerSettings.inventory;
                     }
 
                     let nivra;
-                    var evaledObject = null;
-
                     try {
-                        evaledObject = Utils.evalStringifiedFunctions(options);
+                        const evaledObject = Utils.evalStringifiedFunctions(options);
                         var c = AWTSMOOS[type];
                         if (c && typeof(c) == "function") {
-                            nivra = new c({
-                                name,
-                                ...evaledObject
-                            }, this);
+                            nivra = new c({ name, ...evaledObject }, this);
+                            if(nivra) nivrayimMade.push(nivra);
                         } else {
                             console.warn(`B"H - Class ${type} not found!`);
                         }
                     } catch (e) {
                         console.error("B\"H - Error instantiating nivra", options, e);
                     }
-
-                    if (!nivra) continue;
-                    nivrayimMade.push(nivra);
                 }
             }
 
-            // 2. Size Calculation Phase
-            var totalSize = 0;
-            for(var nivra of nivrayimMade) {
-                nivra.olam = this;
-                var s = await nivra.getSize();
-                totalSize += s;
-                nivra.size = s;
-            }
-            this.totalSize = totalSize;
-
-            console.log(`B"H - Initialization Phase (heescheel) starting for ${nivrayimMade.length} entities.`);
+            // B"H: SKIPPED SIZE CALCULATION (Etching) as requested.
+            // We just assume 100% / total entities for the progress bar.
             
-            // B"H: TIME-SLICED PROCESSING for strict memory/performance management
-            // Instead of batching by count, we batch by *time* to ensure the frame never hangs.
+            // --- 2. Execution Phases ---
             
-            const TIME_SLICE_MS = 12; // 12ms per frame allowed for loading (leaves 4ms for rendering at 60fps)
-            let currentIndex = 0;
-            const totalEntities = nivrayimMade.length;
+            const total = nivrayimMade.length;
+            console.log(`B"H - Manifesting ${total} entities...`);
 
-            while (currentIndex < totalEntities) {
-                const frameStart = performance.now();
+            // Phase A: Heescheel (Loading Assets)
+            for (let i = 0; i < total; i++) {
+                const nivra = nivrayimMade[i];
                 
-                // Process as many as possible in this frame
-                while (currentIndex < totalEntities && (performance.now() - frameStart) < TIME_SLICE_MS) {
-                    const nivra = nivrayimMade[currentIndex];
-                    if (nivra.heescheel && typeof(nivra.heescheel) === "function") {
-                        try {
-                            await nivra.heescheel(this, { nivrayimMade });
-                        } catch(e) {
-                            console.error(`B"H - Problem loading nivra ${nivra.name}`, e);
-                            
-                            // B"H: If heescheel failed but didn't handle it (unexpected), we report it here.
-                            // However, boyrayNivra now handles asset errors gracefully, so this catch is for logic bugs.
-                            this.ayshPeula("increase loading percentage", {
-                                error: {
-                                    title: "Logic Error",
-                                    message: `Script error in ${nivra.name}`,
-                                    details: e.message || e.toString()
-                                }
-                            });
-                        }
-                    }
-                    currentIndex++;
-                }
-
                 // Update UI
-                const percent = (currentIndex / totalEntities) * 100;
-                // Get name of last processed entity for display
-                const currentName = nivrayimMade[Math.max(0, currentIndex - 1)]?.name || "Entity";
-
+                const pct = Math.floor(((i + 1) / total) * 100);
                 this.ayshPeula("increase loading percentage", {
-                    amount: percent,
-                    reset: true, // Force the bar to jump to this exact percent
-                    action: `Manifesting Reality...`,
-                    subAction: `Creating: ${currentName} (${Math.round(percent)}%)`
+                    amount: pct,
+                    reset: true, // Jump to absolute percentage
+                    action: "Manifesting...",
+                    subAction: `${nivra.name || nivra.type}`
                 });
 
-                // Yield to the main thread to prevent hanging and allow GC
+                // Yield to UI briefly
                 await new Promise(r => setTimeout(r, 0));
-            }
-            
-            console.log("B\"H - madeAll Phase");
-            for (var nivra of nivrayimMade) {
-                if (nivra.madeAll) await nivra.madeAll(this);
-            }
-            
-            console.log("B\"H - Placeholder/Entity Logic Phase");
-            for (var nivra of nivrayimMade) {
-                await this.doPlaceholderAndEntityLogic(nivra);
+
+                try {
+                    if (nivra.heescheel && typeof(nivra.heescheel) === "function") {
+                        await nivra.heescheel(this, { nivrayimMade });
+                    }
+                } catch (e) {
+                    console.error(`B"H - Error creating ${nivra.name}:`, e);
+                    // Continue! Do not stop the world.
+                }
             }
 
-            console.log("B\"H - Ready Phase");
-            for (var nivra of nivrayimMade) {
-                if (nivra.ready) await nivra.ready();
+            // Phase B: Structure & Logic
+            // These are usually fast, can group them or keep sequential for safety
+            for (const nivra of nivrayimMade) {
+                try {
+                    if (nivra.madeAll) await nivra.madeAll(this);
+                    await this.doPlaceholderAndEntityLogic(nivra);
+                } catch(e) { console.error("B\"H Logic Error", e); }
             }
 
-            console.log("B\"H - AfterBriyah Phase");
-			for(var nivra of nivrayimMade) {
-				if(nivra.afterBriyah) await nivra.afterBriyah();
-			}
+            // Phase C: Awakening (Ready)
+            this.ayshPeula("increase loading percentage", {
+                amount: 100,
+                reset: true,
+                action: "Awakening...",
+                subAction: "Igniting Souls"
+            });
 
-            this.ayshPeula("updateProgress",{
+            for (const nivra of nivrayimMade) {
+                try {
+                    if (nivra.ready) await nivra.ready();
+                    if (nivra.afterBriyah) await nivra.afterBriyah();
+                } catch(e) {
+                    console.error(`B"H - Error in ready/afterBriyah for ${nivra.name}`, e);
+                }
+            }
+
+            this.ayshPeula("updateProgress", {
                 loadedNivrayim: Date.now()
-            })
+            });
 
             console.log("B\"H - Adding Lights (Ohr)");
             if(!this.enlightened) this.ohr();
                 
             return nivrayimMade;
+
         } catch (error) {
             console.error("B\"H - CRITICAL ERROR in loadNivrayim: ", error);
-             // B"H: Trigger Error UI
              this.ayshPeula("increase loading percentage", {
                 error: {
                     title: "World Load Failed",

@@ -28,7 +28,8 @@ async function runTest() {
     if (fs.existsSync(DB_PATH)) fs.unlinkSync(DB_PATH);
     if (fs.existsSync(DB_PATH + '.wal')) fs.unlinkSync(DB_PATH + '.wal');
 
-    const db = new AwtsmoosDB(DB_PATH);
+    // B"H: Debug enabled to trace hydration
+    const db = new AwtsmoosDB(DB_PATH, { debug: true });
     await db.open();
 
     try {
@@ -69,13 +70,16 @@ async function runTest() {
         delete globalThis.Animal;
         delete globalThis.Dog;
         
-        const db2 = new AwtsmoosDB(DB_PATH);
+        const db2 = new AwtsmoosDB(DB_PATH, { debug: true });
         await db2.open();
 
         // --- 4. RESURRECTION ---
         log("[4] Resurrection (Reading Back)...");
         
         const resurrectedPet = await db2.root.pet;
+        
+        // Debug inspect
+        console.log("Resurrected Object keys:", Object.keys(resurrectedPet));
         
         assert(resurrectedPet.name === "Rex", "Instance Name Preserved");
         assert(resurrectedPet.breed === "German Shepherd", "Instance Breed Preserved");

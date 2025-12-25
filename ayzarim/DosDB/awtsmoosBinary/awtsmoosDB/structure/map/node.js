@@ -67,13 +67,18 @@ class MapNode {
 
         let ptr;
         
+        // B"H: Safer Allocation Strategy
+        // To avoid potential corruption where trailing data from a larger previous block
+        // confuses the parser (if the new data is smaller), we ALWAYS allocate fresh 
+        // if the size is different, or force a clean write.
+        
         if (existingPtr && existingPtr.blockId) {
             if (existingPtr.length === raw.length) {
+                 // Perfect fit, reuse
                  await this.allocator.v1.db._writeChainSafe(existingPtr, raw);
                  ptr = existingPtr;
             } else {
-                 // Relocation: Clear old cache entry
-                 this.db.evictStructure(existingPtr);
+                 // Size changed. Free and re-alloc to be safe.
                  await this.allocator.v1.free(existingPtr);
                  ptr = await this.allocator.v1.allocate(raw.length);
                  await this.allocator.v1.db._writeChainSafe(ptr, raw);
@@ -91,7 +96,9 @@ class MapNode {
         };
         
         node.selfPtr = finalPtr;
-        this.db.cacheStructure(finalPtr, node);
+        
+        // Ensure cache points to this object
+        this.db.cacheStructure(finalPtr.blockId, node);
         
         return finalPtr;
     }
@@ -100,35 +107,60 @@ class MapNode {
         if (!ptr || !ptr.blockId) throw new Error("B\"H: MapNode Load Failed - Null Pointer");
         
         const cached = this.db.getCachedStructure(ptr);
-        if (cached) return cached; 
+        if (cached) {
+            return cached; 
+        }
         
         let block;
         if (ptr.isChain) {
             block = await this.allocator.v1.db._readChainSafe(ptr);
         } else {
+            // B"H: CRITICAL FIX - Must set noCopy=false to ensure we own the buffer.
             block = await this.allocator.v1.readBlockLocked(ptr.blockId, false); 
-            if (ptr.offset) block = block.subarray(ptr.offset, ptr.offset + ptr.length);
+            
+            // If offset is used, slice it based on expected length.
+            // WARNING: If ptr.length is stale (smaller than actual data), this slice truncates data.
+            if (ptr.offset !== undefined) block = block.subarray(ptr.offset, ptr.offset + ptr.length);
         }
         
         if (!block) throw new Error(`B"H: MapNode Load Failed - Block ${ptr.blockId} Empty`);
 
         try {
             const node = this._parse(block, ptr);
-            this.db.cacheStructure(ptr, node);
+            this.db.cacheStructure(ptr.blockId, node);
             return node;
         } catch (e) {
-            if (e.message.startsWith("B\"H MapNode Corruption") && ptr.length < constants.BLOCK_SIZE && !ptr.isChain) {
-                const fullPtr = { ...ptr, length: constants.BLOCK_SIZE };
-                const fullBlock = await this.allocator.v1.db._readChainSafe(fullPtr);
-                const node = this._parse(fullBlock, ptr);
-                this.db.cacheStructure(ptr, node);
-                return node;
+            // B"H: Auto-Healing for Stale Length / Corruption
+            // If we hit RangeError (stale length) or Corruption, AND it's a standard block node,
+            // retry by reading the FULL block to see if valid data exists beyond the stale length.
+            const isRangeError = e instanceof RangeError || e.code === 'ERR_OUT_OF_RANGE';
+            const isCorruption = e.message.startsWith("B\"H MapNode Corruption");
+            
+            if ((isRangeError || isCorruption) && !ptr.isChain) {
+                if (this.db.debug) console.warn(`B"H [Healing] Retrying MapNode B${ptr.blockId} with full block read... (${e.message})`);
+                
+                // Read full 4KB block without slicing by ptr.length
+                const fullBlock = await this.allocator.v1.readBlockLocked(ptr.blockId, false);
+                
+                // Apply offset only (assume length extends to end of block)
+                const offset = ptr.offset || 0;
+                const safeBlock = fullBlock.subarray(offset); 
+                
+                try {
+                    const node = this._parse(safeBlock, ptr);
+                    // Update cache. Note: The pointer in node.selfPtr might still report old length until next save.
+                    this.db.cacheStructure(ptr.blockId, node);
+                    return node;
+                } catch (e2) {
+                    throw e; // Original error (or new one) if healing failed
+                }
             }
             throw e;
         }
     }
 
     _parse(block, ptr) {
+        // B"H: Optimized parser to minimize object allocation
         const magic = block.toString('utf8', 0, 4);
         if (magic !== constants.MAGIC_MAP_NODE) {
              return { selfPtr: ptr, isLeaf: true, keys: [], values: [], children: [], totalCount: 0, totalBytes: 0, next: 0 };
@@ -137,29 +169,39 @@ class MapNode {
         let offset = 4;
         const isLeaf = block[offset] === 1; offset++;
         
+        // Read VarInt Inline
         let count = 0;
         let shift = 0;
         while (true) {
+            if (offset >= block.length) throw new Error(`B"H MapNode Corruption (Header Truncated) at B${ptr.blockId}`);
             const b = block[offset++];
             count |= (b & 0x7F) << shift;
             if ((b & 0x80) === 0) break;
             shift += 7;
         }
         
+        if (offset + 10 > block.length) throw new Error(`B"H MapNode Corruption (Stats Truncated) at B${ptr.blockId}`);
+
         const totalCount = block.readUInt32BE(offset);
         const totalBytes = readPointer48(block, offset + 4); offset += 10;
 
         const keys = new Array(count);
         for(let i=0; i<count; i++) {
             if (offset >= block.length) break;
+            
+            // Read Buffer VarInt Inline
             let len = 0;
             let s = 0;
             while (true) {
+                if (offset >= block.length) throw new Error(`B"H MapNode Corruption (KeyLen Truncated) at B${ptr.blockId}`);
                 const b = block[offset++];
                 len |= (b & 0x7F) << s;
                 if ((b & 0x80) === 0) break;
                 s += 7;
             }
+            
+            if (offset + len > block.length) throw new Error(`B"H MapNode Corruption (Key Data Truncated) at B${ptr.blockId}`);
+
             const k = block.subarray(offset, offset + len);
             keys[i] = k;
             offset += len;
@@ -167,9 +209,10 @@ class MapNode {
         
         const ptrCount = isLeaf ? count : count + 1;
         const requiredSpace = ptrCount * 16;
+        
+        // B"H: Strict check before loop
         if (offset + requiredSpace > block.length) {
-             if (count > 0) throw new Error(`B"H MapNode Corruption at B${ptr.blockId}`);
-             return { selfPtr: ptr, isLeaf, keys, values: [], children: [], totalCount, totalBytes, next: 0 };
+             throw new Error(`B"H MapNode Corruption (Pointers Truncated) at B${ptr.blockId} (Needed ${offset+requiredSpace}, Got ${block.length})`);
         }
 
         const ptrs = new Array(ptrCount);
@@ -181,7 +224,9 @@ class MapNode {
         }
         
         let next = 0;
-        if (offset + 6 <= block.length) next = readPointer48(block, offset);
+        if (offset + 6 <= block.length) {
+            next = readPointer48(block, offset);
+        }
         
         return { selfPtr: ptr, isLeaf, keys, values: isLeaf ? ptrs : [], children: isLeaf ? [] : ptrs, totalCount, totalBytes, next };
     }

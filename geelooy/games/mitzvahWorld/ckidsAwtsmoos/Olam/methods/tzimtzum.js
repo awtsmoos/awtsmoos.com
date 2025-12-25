@@ -18,6 +18,12 @@ export default class {
         
         if (typeof worldDayuhURL == "string") {
             try {
+                this.ayshPeula("increase loading percentage", {
+                    amount: 5,
+                    action: "World Gen",
+                    subAction: "Importing World Data..."
+                });
+                
                 var f = await import(worldDayuhURL);
                 if (f?.default) {
                     Object.assign(info, f.default);

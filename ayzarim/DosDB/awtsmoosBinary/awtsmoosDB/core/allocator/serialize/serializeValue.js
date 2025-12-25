@@ -1,45 +1,43 @@
-
 // B"H
 // Full-Featured Serializer: Handles Infinity, NaN, Negatives, TypedArrays, Date, RegExp, Map, Set, BigInt.
+// NO JSON.stringify ALLOWED.
 
 const { packTypeAndLengthSize, writeConditionalTo } = require("../../../utils/binaryHelpers.js");
 const constants = require("../../../constants.js");
 const floatHandler = require("../../../utils/floatHandler.js");
 const stringPacker = require("../../../utils/stringPacker.js");
 const bigIntUtils = require("../../../utils/bigIntUtils.js");
+const { writeVarInt, getVarIntSize, writeStringTo } = require("../../../utils/serializer.js");
 
 let serializeArray_fn = null;
 let serializeJSON_fn = null;
 
-// B"H: Optimization - Global Scratch Buffer to avoid allocations for small primitives
 const SCRATCH_BUFFER = Buffer.allocUnsafe(65536);
 
 function hasDecimal(num) {
     return num % 1 !== 0;
 }
 
+/**
+ * @description
+ *  The Scribe of the Essence. Translates JS values into binary sparks.
+ *  Uses pure binary formats for all types. Purged of JSON abomination.
+ */
 function serializeValue(value, fullBuffer = true) {
     if (!serializeArray_fn) serializeArray_fn = require("./array.js");
     if (!serializeJSON_fn) serializeJSON_fn = require("./obj.js");
     
-    if (Array.isArray(value) && typeof serializeArray_fn !== 'function') {
-        serializeArray_fn = require("./array.js");
-    }
-
     let type = 0;
     let data; 
     let usingScratch = false;
     let scratchLen = 0;
 
-    // --- Special Values ---
     if (value === null) type = constants.VAL_TYPE.NULL;
     else if (value === undefined) type = constants.VAL_TYPE.UNDEFINED;
     else if (value === true) type = constants.VAL_TYPE.BOOLEAN_TRUE;
     else if (value === false) type = constants.VAL_TYPE.BOOLEAN_FALSE;
     
-    // --- Primitives ---
     else if (typeof value === 'bigint') {
-        // B"H: New Optimized Binary BigInt
         const { buffer, isNegative } = bigIntUtils.toBuffer(value);
         data = buffer;
         type = isNegative ? constants.VAL_TYPE.BIGINT_NEG : constants.VAL_TYPE.BIGINT_POS;
@@ -52,16 +50,13 @@ function serializeValue(value, fullBuffer = true) {
         } else if (value === -Infinity) {
             type = constants.VAL_TYPE.NEG_INFINITY;
         } else {
-            // Integers & Floats
             const isNeg = value < 0;
             const absValue = Math.abs(value);
             
             if (!hasDecimal(value) && absValue <= Number.MAX_SAFE_INTEGER) {
-                // Optimize: Write to Scratch
                 usingScratch = true;
                 const size = writeConditionalTo(SCRATCH_BUFFER, 0, absValue);
                 scratchLen = size;
-                
                 if (!isNeg) {
                     if (size === 1) type = constants.VAL_TYPE.UINT8;
                     else if (size === 2) type = constants.VAL_TYPE.UINT16;
@@ -79,7 +74,6 @@ function serializeValue(value, fullBuffer = true) {
                     usingScratch = true;
                     const size = writeConditionalTo(SCRATCH_BUFFER, 0, encoded);
                     scratchLen = size;
-                    
                     if (!isNeg) {
                         if (size === 1) type = constants.VAL_TYPE.FLOAT_1;
                         else if (size === 2) type = constants.VAL_TYPE.FLOAT_2;
@@ -98,7 +92,6 @@ function serializeValue(value, fullBuffer = true) {
         }
     } 
     
-    // --- Universal JS Objects ---
     else if (value instanceof Date) {
         type = constants.VAL_TYPE.DATE;
         data = Buffer.allocUnsafe(8);
@@ -108,8 +101,7 @@ function serializeValue(value, fullBuffer = true) {
         type = constants.VAL_TYPE.REGEXP;
         const sourceBuf = Buffer.from(value.source, 'utf8');
         const flagsBuf = Buffer.from(value.flags, 'utf8');
-        const { writeVarInt } = require("../../../utils/serializer.js");
-        data = Buffer.concat([writeVarInt(sourceBuf.length), sourceBuf, flagsBuf]);
+        data = Buffer.concat([writeVarInt(sourceBuf.length), sourceBuf, writeVarInt(flagsBuf.length), flagsBuf]);
     }
     else if (value instanceof Map) {
         type = constants.VAL_TYPE.MAP;
@@ -121,13 +113,30 @@ function serializeValue(value, fullBuffer = true) {
     }
     else if (value instanceof Error) {
         type = constants.VAL_TYPE.ERROR;
-        const msg = value.message || "";
+        // B"H: PURE BINARY ERROR PACKING
         const name = value.name || "Error";
+        const message = value.message || "";
         const stack = value.stack || "";
-        data = serializeJSON_fn({ name, message: msg, stack });
+        const isAggregate = value instanceof AggregateError;
+        
+        const subErrors = isAggregate ? (value.errors || []).map(e => ({ name: e.name || "Error", message: e.message || String(e) })) : [];
+        
+        const buffers = [
+            Buffer.from([isAggregate ? 1 : 0]),
+            writeVarInt(Buffer.byteLength(name)), Buffer.from(name),
+            writeVarInt(Buffer.byteLength(message)), Buffer.from(message),
+            writeVarInt(Buffer.byteLength(stack)), Buffer.from(stack)
+        ];
+        
+        if (isAggregate) {
+            buffers.push(writeVarInt(subErrors.length));
+            for (const sub of subErrors) {
+                buffers.push(writeVarInt(Buffer.byteLength(sub.name)), Buffer.from(sub.name));
+                buffers.push(writeVarInt(Buffer.byteLength(sub.message)), Buffer.from(sub.message));
+            }
+        }
+        data = Buffer.concat(buffers);
     }
-    
-    // --- Standard Complex Types ---
     else if (typeof value === 'function') {
         type = constants.VAL_TYPE.FUNCTION;
         data = Buffer.from(value.toString());
@@ -145,80 +154,44 @@ function serializeValue(value, fullBuffer = true) {
         data = serializeJSON_fn(value);
     }
     else if (typeof value === 'string') {
-        // 1. Try RLE
         const rleBuf = stringPacker.packRLE(value);
-        if (rleBuf) {
-            type = constants.VAL_TYPE.STRING_RLE || constants.VAL_TYPE.STRING; // Fallback if RLE const missing
-            data = rleBuf;
-        } 
+        if (rleBuf) { type = constants.VAL_TYPE.STRING_RLE || 4; data = rleBuf; } 
         else {
-            // 2. Try Hebrew Packing
             const hebrewBuf = stringPacker.packHebrew(value);
-            if (hebrewBuf) {
-                type = constants.VAL_TYPE.STRING_HEBREW || constants.VAL_TYPE.STRING;
-                data = hebrewBuf;
-            } else {
-                // 3. Fallback to Standard UTF-8
-                type = constants.VAL_TYPE.STRING;
-                data = Buffer.from(value, 'utf8');
-            }
+            if (hebrewBuf) { type = constants.VAL_TYPE.STRING_HEBREW || 4; data = hebrewBuf; } 
+            else { type = constants.VAL_TYPE.STRING; data = Buffer.from(value, 'utf8'); }
         }
     }
 
-    // Final Assembly
     if (usingScratch) {
         const lenInfoSize = writeConditionalTo(SCRATCH_BUFFER, scratchLen, scratchLen);
         const typeLengthByte = packTypeAndLengthSize(type, lenInfoSize);
-        
         if (!fullBuffer) {
-            const realData = Buffer.allocUnsafe(scratchLen);
-            SCRATCH_BUFFER.copy(realData, 0, 0, scratchLen);
-            const lenBuf = Buffer.allocUnsafe(lenInfoSize);
-            SCRATCH_BUFFER.copy(lenBuf, 0, scratchLen, scratchLen + lenInfoSize);
-            
+            const realData = Buffer.allocUnsafe(scratchLen); SCRATCH_BUFFER.copy(realData, 0, 0, scratchLen);
+            const lenBuf = Buffer.allocUnsafe(lenInfoSize); SCRATCH_BUFFER.copy(lenBuf, 0, scratchLen, scratchLen + lenInfoSize);
             return { type, data: realData, valueLengthInfo: { buffer: lenBuf, size: lenInfoSize }, typeLengthByte };
         }
-        
-        const totalSize = 1 + lenInfoSize + scratchLen;
-        const result = Buffer.allocUnsafe(totalSize);
-        
+        const result = Buffer.allocUnsafe(1 + lenInfoSize + scratchLen);
         result[0] = typeLengthByte;
-        SCRATCH_BUFFER.copy(result, 1, scratchLen, scratchLen + lenInfoSize); // Copy Len
-        SCRATCH_BUFFER.copy(result, 1 + lenInfoSize, 0, scratchLen); // Copy Data
-        
+        SCRATCH_BUFFER.copy(result, 1, scratchLen, scratchLen + lenInfoSize);
+        SCRATCH_BUFFER.copy(result, 1 + lenInfoSize, 0, scratchLen);
         return result;
     } 
     
-    // Normal Path (Buffers/Strings/Objects)
     if (!data) data = Buffer.alloc(0);
-    
-    // For Booleans, Nulls, Undefined, Type holds the value/type, data is empty.
-    // If TYPE_BOOLEAN (2), we need payload 1 or 0 if we follow AllocatorV2 style.
-    // BUT serializeValue uses VAL_TYPE.BOOLEAN_TRUE (2) / FALSE (2).
-    // If data is empty, SmartPointer.decodeValue needs to know if it's true or false.
-    // Solution: If Boolean, write 1 byte payload.
-    if (type === constants.VAL_TYPE.BOOLEAN_TRUE) {
-        data = Buffer.from([1]);
-        type = constants.VAL_TYPE.BOOLEAN_TRUE; // = 2
-    } else if (type === constants.VAL_TYPE.BOOLEAN_FALSE) {
-        data = Buffer.from([0]);
-        type = constants.VAL_TYPE.BOOLEAN_FALSE; // = 2
-    }
+    if (type === constants.VAL_TYPE.BOOLEAN_TRUE) data = Buffer.from([1]);
+    else if (type === constants.VAL_TYPE.BOOLEAN_FALSE) data = Buffer.from([0]);
     
     const lenInfoSize = writeConditionalTo(SCRATCH_BUFFER, 0, data.length);
     const typeLengthByte = packTypeAndLengthSize(type, lenInfoSize);
-
     if (!fullBuffer) {
-        const lenBuf = Buffer.allocUnsafe(lenInfoSize);
-        SCRATCH_BUFFER.copy(lenBuf, 0, 0, lenInfoSize);
+        const lenBuf = Buffer.allocUnsafe(lenInfoSize); SCRATCH_BUFFER.copy(lenBuf, 0, 0, lenInfoSize);
         return { type, data, valueLengthInfo: { buffer: lenBuf, size: lenInfoSize }, typeLengthByte };
     }
-
     const wrapper = Buffer.allocUnsafe(1 + lenInfoSize + data.length);
     wrapper[0] = typeLengthByte;
     SCRATCH_BUFFER.copy(wrapper, 1, 0, lenInfoSize);
     data.copy(wrapper, 1 + lenInfoSize);
-    
     return wrapper;
 }
 
