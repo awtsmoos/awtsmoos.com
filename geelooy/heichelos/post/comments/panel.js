@@ -1,178 +1,331 @@
 //B"H
 import { getCommentsByAlias, getCommentsOfAlias } from "/scripts/awtsmoos/api/utils.js";
-import { addTab } from "/heichelos/post/postFunctions.js";
 import { CommentSection } from "/heichelos/post/CommentSection.js";
 import { makeHTMLFromComment } from "./render.js";
 import { isAliasInline, toggleInlineForComments } from "./inline.js";
-import { getCurrentVerse, data } from "./state.js";
+import { getCurrentVerse, getCurrentSub, data } from "./state.js";
 import { indexSwitch, reloadRoot } from "/heichelos/post/commentLogic.js";
 import { renderAIChat } from "../ai/chat.js";
 
 var curTab = null;
 
 export async function loadRootComments({ parent, tab }) {
+    console.log("B\"H - loadRootComments called");
 	window.tabComment = tab;
 	window.tabParent = parent;
 	window.rootLevelCommentatorTab = tab;
+    
+    tab.awtsmoosType = "main commentator list";
+
 	parent.innerHTML = "";
 	await updateCommentHeader();
-	await makeCommentatorList(tabParent, rootLevelCommentatorTab);
+	await makeCommentatorList(parent, tab);
 }
 
-export async function getAndSaveAliases(full = false, forceFresh = false) {
+export async function getAndSaveAliases(full = false, forceFresh = false, forcedIdx = null, forcedSub = undefined, allowFallback = true) {
     if (!window.post || !window.post.heichel) return [];
     
-    var s = new URLSearchParams(location.search);
-    var verseSection = s.get("idx") ? parseInt(s.get("idx")) : "root";
+    const s = new URLSearchParams(location.search);
+    const verseSection = forcedIdx !== null ? forcedIdx : (s.get("idx") ?? "root");
+    
+    let subSection = forcedSub !== undefined ? forcedSub : s.get("sub");
+    if(subSection === null) subSection = undefined; 
 
-    if (!data.aliases) data.aliases = {};
-    if (!forceFresh && data.aliases[verseSection]) {
-        const cachedData = data.aliases[verseSection].aliases;
-        if (Array.isArray(cachedData)) return full ? cachedData : cachedData.map(w => w?.id || w);
+    const fetchAliases = async (vs, ss) => {
+        const cacheKey = `${vs}-${ss ?? 'all'}-${allowFallback}`;
+        if (!forceFresh && data.aliases?.[cacheKey]) {
+            return data.aliases[cacheKey].aliases;
+        }
+
+        try {
+            const result = await getCommentsByAlias({
+                seriesId: window.post.parentSeriesId, postId: window.post.id, heichelId: window.post.heichel.id,
+                fromCache: !forceFresh, get: { verseSection: vs, subSection: ss, map: true }
+            });
+            if (Array.isArray(result)) {
+                if (!data.aliases) data.aliases = {};
+                data.aliases[cacheKey] = { aliases: result, lastModified: Date.now() };
+                return result;
+            }
+        } catch (e) { console.error("Error fetching aliases:", e); }
+        return [];
+    };
+
+    let aliases = await fetchAliases(verseSection, subSection);
+
+    if (allowFallback && aliases.length === 0 && subSection !== undefined) {
+        aliases = await fetchAliases(verseSection, null);
     }
 
-    var aliases = [];
-    try {
-        const result = await getCommentsByAlias({
-            seriesId: window.post.parentSeriesId, postId: window.post.id, heichelId: window.post.heichel.id,
-            fromCache: false, get: { verseSection, map: true }
-        });
-        if (Array.isArray(result)) aliases = result;
-    } catch (error) { console.error("Error fetching aliases:", error); }
-
-    data.aliases[verseSection] = { aliases, lastModified: Date.now() };
     return full ? aliases : aliases.map(w => w?.id || w);
 }
 
 export async function updateCommentHeader() {
+    const s = new URLSearchParams(location.search);
+    const sub = s.get("sub");
 	var aliases = await getAndSaveAliases();
 	var cv = getCurrentVerse();
 	var curVerseDisplay = cv === "root" ? "Post" : +cv + 1;
-	window?.tabComment?.onUpdateHeader((aliases.length) + " Commentators for verse: " + (curVerseDisplay));
+    
+    let headerText = (aliases.length) + " Commentators (Verse " + (curVerseDisplay) + ")";
+    if (sub !== null) {
+        headerText = (aliases.length) + " Commentators (Verse " + (curVerseDisplay) + ", Para " + (+sub + 1) + ")";
+    }
+
+    if(window.tabComment && window.tabComment.onUpdateHeader) {
+	    window.tabComment.onUpdateHeader(headerText);
+    }
 }
 
 export function makeAddCommentSection(par) {
 	var div = document.createElement("div");
 	div.classList.add("comment-section");
+    div.style.margin = "0";
+    div.style.borderBottom = "1px solid #eee";
+    div.style.borderRadius = "0";
+    div.style.boxShadow = "none";
 	par.appendChild(div);
 	new CommentSection(div);
 }
 
-export async function makeCommentatorList(actualTab, tab) {
+export async function makeCommentatorList(actualTab, tabObj, forceFresh = false) {
+    // B"H - Clear immediately to prevent stale state visuals
     actualTab.innerHTML = "";
     
-    // AI Chat Button
-    var aiBtn = document.createElement("div");
-    aiBtn.className = "btn add-comment";
-    aiBtn.style.marginBottom = "10px";
-    aiBtn.style.width = "calc(100% - 40px)";
-    aiBtn.style.marginLeft = "20px";
-    aiBtn.style.marginRight = "20px";
-    aiBtn.style.textAlign = "center";
-    aiBtn.style.background = "linear-gradient(135deg, #6e8efb, #a777e3)";
-    aiBtn.style.color = "white";
-    aiBtn.style.fontWeight = "bold";
-    aiBtn.style.cursor = "pointer";
-    aiBtn.style.boxShadow = "0 4px 15px rgba(0,0,0,0.1)";
-    aiBtn.innerText = "✨ Ask Awtsmoos AI";
-    aiBtn.onclick = () => {
-        addTab({
+    makeAddCommentSection(actualTab);
+
+    const aiRow = document.createElement("div");
+    aiRow.className = "awtsmoos-list-item ai-card";
+    aiRow.innerHTML = `
+        <div style="display:flex; flex-direction:column;">
+            <span style="font-weight:700; font-size:16px; color:#007bff; display:flex; align-items:center; gap:6px;">
+                ✨ Ask Awtsmoos AI
+            </span>
+            <span style="font-weight:400; font-size:12px; color:#666; margin-top:4px;">
+                Explore deeper meaning with AI
+            </span>
+        </div>
+        <span class="awtsmoos-list-item-arrow">&#8250;</span>
+    `;
+    aiRow.onclick = () => {
+        window.tabManager.addTab({
             header: "Awtsmoos AI",
-            btnParent: tab.awtsTabBtn.parentNode, // Ensure it's in the same tab list
-            parent: window.mainParent,
-            tabParent: tab,
+            content: "",
             async onopen({ actualTab: chatTab }) {
-                curTab = tab; // Keep context
                 renderAIChat({ tab: chatTab });
-            },
-            async onclose() {
-                // Return to list
             }
         }).open();
     };
-    actualTab.appendChild(aiBtn);
-
-    makeAddCommentSection(actualTab);
+    actualTab.appendChild(aiRow);
 
     var commentorList = document.createElement("div");
-    commentorList.classList.add("commentors");
+    commentorList.className = "commentors-list";
+    // Add loading indicator
+    commentorList.innerHTML = `<div style="padding:20px; text-align:center; color:#999;">Loading...</div>`;
     actualTab.appendChild(commentorList);
     
-    var aliases = await getAndSaveAliases();
-    curTab = tab; window.curTab = curTab;
-	curTab.awtsmoosType = "main commentator list";
-	
+    var aliases = await getAndSaveAliases(false, forceFresh, null, undefined, false);
+    
+    // Clear loading
+    commentorList.innerHTML = "";
+
     if (!aliases || !Array.isArray(aliases) || aliases.length === 0) {
-        commentorList.innerHTML = "Be the first to comment on this verse!";
-        return [];
+        const s = new URLSearchParams(location.search);
+        const hasSub = s.get("sub") !== null;
+        
+        const empty = document.createElement("div");
+        empty.style.padding = "40px 20px";
+        empty.style.textAlign = "center";
+        empty.style.color = "#999";
+        empty.style.fontStyle = "italic";
+        empty.innerHTML = `
+            <div style="font-size: 40px; margin-bottom: 10px; opacity: 0.5;">📖</div>
+            ${hasSub ? "No commentaries on this paragraph." : "No commentaries found here."} <br>
+            ${hasSub ? "" : "Be the first to illuminate this path! B\"H."}
+        `;
+        
+        if (hasSub) {
+            const btn = document.createElement("button");
+            btn.className = "btn secondary";
+            btn.style.marginTop = "15px";
+            btn.innerText = "Show All Verse Comments";
+            btn.onclick = async () => {
+                const verseAliases = await getAndSaveAliases(false, false, null, null, false);
+                if(verseAliases && verseAliases.length > 0) {
+                    renderAliasesList(verseAliases, commentorList);
+                } else {
+                    btn.innerText = "No verse comments either";
+                    btn.disabled = true;
+                }
+            };
+            empty.appendChild(btn);
+        }
+        
+        commentorList.appendChild(empty);
+        return;
     }
 
-    var tabs = [];
+    renderAliasesList(aliases, commentorList);
+}
+
+function renderAliasesList(aliases, container) {
+    container.innerHTML = "";
     aliases.forEach(alias => {
-        var newTab = addTab({
-            header: "@" + alias,
-            btnParent: commentorList,
-			parent: window.mainParent,
-			tabParent: tab,
-			content: `<div class="center loading"><div class="loading-circle"></div></div>`,
-			async onopen({ actualTab: aliasContentArea }) { 
-				curTab = newTab; window.curTab = curTab;
-				curTab.awtsmoosType = "specific alias comments";
-				window.currentAliasTabContainer = aliasContentArea; 
-				window.currentAliasBeingViewed = alias;
-				openCommentsOfAlias({ alias: window.currentAliasBeingViewed, actualTab: window.currentAliasTabContainer, post: window.post });
-			},
-			async onclose() {
-				window.currentAliasTabContainer = null;
-				await makeCommentatorList(window.tabParent, window.rootLevelCommentatorTab);
-			}
-        });
-        tabs.push(newTab);
+        const row = document.createElement("div");
+        row.className = "awtsmoos-list-item";
+        const initial = alias.charAt(0).toUpperCase();
+        row.innerHTML = `
+            <div style="display:flex; align-items:center; gap:12px;">
+                <div style="
+                    width:36px; height:36px; 
+                    background:linear-gradient(135deg, #e0e0e0, #f5f5f5); 
+                    border-radius:50%; display:flex; align-items:center; justify-content:center;
+                    font-weight:bold; color:#555; font-size:14px;
+                    border:1px solid #ddd;
+                ">${initial}</div>
+                <div style="display:flex; flex-direction:column;">
+                    <span style="color:#333; font-weight:700;">@${alias}</span>
+                    <span style="font-size:11px; color:#888;">Tap to view comments</span>
+                </div>
+            </div>
+            <span class="awtsmoos-list-item-arrow">&#8250;</span>
+        `;
+        row.onclick = () => {
+            window.tabManager.addTab({
+                header: "@" + alias,
+                content: `<div class="center loading" style="padding:20px;">Loading comments...</div>`,
+                async onopen({ actualTab: aliasContentArea, tab }) { 
+                    tab.awtsmoosType = "specific alias comments";
+                    window.currentAliasTabContainer = aliasContentArea; 
+                    window.currentAliasBeingViewed = alias;
+                    await openCommentsOfAlias({ 
+                        alias: alias, 
+                        actualTab: aliasContentArea, 
+                        post: window.post 
+                    });
+                }
+            }).open();
+        };
+        container.appendChild(row);
     });
-    return tabs;
 }
 
 export async function openCommentsOfAlias({ alias, actualTab, post, all=false }) {
-	var commentors = actualTab.querySelector(".commentors");
-	if(commentors) actualTab = commentors;
 	await showAllComments({ tab: actualTab, post, alias, withCurrentVerse: !all });
-	var ld = actualTab.querySelector(".loading");
-	if(ld) ld.parentNode.removeChild(ld);
 }
 
 export async function showAllComments({ alias, post, tab, withCurrentVerse = true }) {
 	var cv = getCurrentVerse();
-	var s = new URLSearchParams(location.search);
-	var subSec = s.get("sub") ? parseInt(s.get("sub")) : null;
-	var coms = await getCommentsOfAlias({
-		seriesId: window?.post?.parentSeriesId, postId: post.id, heichelId: post.heichel.id, aliasId: alias,
-		fromCache: true, get: { verseSection: cv, map: true }
-	});
+    var cs = getCurrentSub();
+	
+    const fetchComs = async () => {
+        const allVerseComments = await getCommentsOfAlias({
+            seriesId: window?.post?.parentSeriesId, postId: post.id, heichelId: post.heichel.id, aliasId: alias,
+            fromCache: true, get: { verseSection: cv, map: true }
+        });
+        
+        if (!Array.isArray(allVerseComments)) return [];
 
+        return allVerseComments.filter(c => {
+            const cSub = c.dayuh?.subSection;
+            if (cs === null || cs === undefined) {
+                return cSub === undefined || cSub === null || cSub === 'main' || cSub === 'root';
+            } else {
+                return String(cSub) === String(cs);
+            }
+        });
+    };
+
+    let coms = await fetchComs();
+    
 	if (!Array.isArray(coms) || coms.length === 0) {
-		tab.innerHTML = "No comments yet from this user on this verse.";
+        let contextMsg = (cs !== null && cs !== undefined) ? "this paragraph" : "this verse";
+		tab.innerHTML = `<div style="padding:40px 20px; text-align:center; color:#888;">
+            <div style="font-size: 30px; margin-bottom: 10px; opacity: 0.5;">⚖️</div>
+            No comments from @${alias} on ${contextMsg}.
+        </div>`;
+        
+        if (cs !== null && cs !== undefined) {
+            const btn = document.createElement("button");
+            btn.className = "btn secondary";
+            btn.style.marginTop = "10px";
+            btn.innerText = "Check Entire Verse";
+            btn.onclick = async () => {
+                const verseComsRaw = await getCommentsOfAlias({
+                    seriesId: window?.post?.parentSeriesId, postId: post.id, heichelId: post.heichel.id, aliasId: alias,
+                    fromCache: true, get: { verseSection: cv, map: true }
+                });
+                
+                const verseComs = Array.isArray(verseComsRaw) 
+                    ? verseComsRaw.filter(c => {
+                        const cSub = c.dayuh?.subSection;
+                        return cSub === undefined || cSub === null || cSub === 'main' || cSub === 'root';
+                    })
+                    : [];
+
+                if(verseComs && verseComs.length > 0) {
+                    tab.innerHTML = "";
+                    renderControlsAndComments(verseComs, alias, tab);
+                } else {
+                    btn.innerText = "No verse comments either";
+                    btn.disabled = true;
+                }
+            };
+            tab.lastChild.appendChild(btn);
+        }
 		return;
 	}
 
-	tab.innerHTML = "";
-	var ri = document.createElement("div");
-	ri.className = "btn";
-	ri.textContent = isAliasInline(alias) ? "Hide inline" : "Read inline";
+    renderControlsAndComments(coms, alias, tab);
+}
+
+function renderControlsAndComments(coms, alias, tab) {
+    tab.innerHTML = "";
+	var controls = document.createElement("div");
+    controls.style.padding = "10px";
+    controls.style.borderBottom = "1px solid #eee";
+    controls.style.textAlign = "right";
+
+	var ri = document.createElement("button");
+	ri.className = "btn secondary";
+    ri.style.padding = "4px 8px";
+    ri.style.fontSize = "12px";
+	ri.textContent = isAliasInline(alias) ? "Hide Inline" : "Read Inline";
 	ri.onclick = () => {
 		toggleInlineForComments(coms, alias);
-		ri.textContent = isAliasInline(alias) ? "Hide inline" : "Read inline";
+		ri.textContent = isAliasInline(alias) ? "Hide Inline" : "Read Inline";
 	};
-	tab.appendChild(ri);
-
+    controls.appendChild(ri);
+	tab.appendChild(controls);
+    
     coms.forEach(c => makeHTMLFromComment({ comment: c, aliasId: alias, tab }));
 }
 
 export async function openCommentsPanelToAlias(alias, open=true) {
-	await reloadRoot(); 
-	var tabs = window.tabManager.getTabs();
-    var tab = tabs.find(q => q.awtsHeader.textContent.trim().substring(1) == alias);
-	if(!tab) return null;
-	tab?.open();
-	if(open && window.openPanel) window.openPanel();
-	return tab;
+    await reloadRoot(); 
+    if(open && window.openPanel) window.openPanel();
+    
+    const tabs = window.tabManager.getTabs();
+    if(tabs.length === 1) {
+        return new Promise(resolve => {
+            window.tabManager.addTab({
+                header: "@" + alias,
+                content: "Loading...",
+                async onopen({actualTab, tab}) {
+                     tab.awtsmoosType = "specific alias comments";
+                     window.currentAliasTabContainer = actualTab; 
+                     window.currentAliasBeingViewed = alias;
+                     await openCommentsOfAlias({ alias, actualTab, post: window.post });
+                     resolve(actualTab);
+                }
+            }).open();
+        });
+    }
+    
+    const current = window.tabManager.getCurrent();
+    if(current && window.currentAliasBeingViewed === alias) {
+         await openCommentsOfAlias({ alias, actualTab: current.actual, post: window.post });
+         return current.actual;
+    }
+	return null; 
 }

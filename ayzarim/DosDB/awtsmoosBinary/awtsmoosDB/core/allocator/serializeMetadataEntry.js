@@ -1,6 +1,7 @@
+
 // B"H
 // Updated to use binaryHelpers
-const { packTypeAndLengthSize, writeConditional, packedLength } = require("../utils/binaryHelpers.js");
+const { packTypeAndLengthSize, writeConditional, packedLength } = require("../../../utils/binaryHelpers.js");
 
 function entryToBuffer(entry) {
     let { key, valueType, valueLength, offsetOfValueInMain, valueLengthInfo, typeLengthByte } = entry;

@@ -37,6 +37,7 @@ class AllocatorV2 {
             // B"H: New Optimized Binary BigInt for Heap/Block storage
             const { buffer, isNegative } = bigIntUtils.toBuffer(val);
             data = buffer;
+            // Explicitly set type from constants
             type = isNegative ? constants.TYPE_BIGINT_NEG : constants.TYPE_BIGINT_POS;
         }
         else if (typeof val === 'symbol') {

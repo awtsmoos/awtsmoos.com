@@ -2,11 +2,11 @@
 // B"H
 // Full-Featured Serializer: Handles Infinity, NaN, Negatives, TypedArrays, Date, RegExp, Map, Set, BigInt.
 
-const { packTypeAndLengthSize, writeConditionalTo } = require("../utils/binaryHelpers.js");
-const constants = require("../constants.js");
-const floatHandler = require("../utils/floatHandler.js");
-const stringPacker = require("../utils/stringPacker.js");
-const bigIntUtils = require("../utils/bigIntUtils.js");
+const { packTypeAndLengthSize, writeConditionalTo } = require("../../../utils/binaryHelpers.js");
+const constants = require("../../../constants.js");
+const floatHandler = require("../../../utils/floatHandler.js");
+const stringPacker = require("../../../utils/stringPacker.js");
+const bigIntUtils = require("../../../utils/bigIntUtils.js");
 
 let serializeArray_fn = null;
 let serializeJSON_fn = null;
@@ -108,7 +108,7 @@ function serializeValue(value, fullBuffer = true) {
         type = constants.VAL_TYPE.REGEXP;
         const sourceBuf = Buffer.from(value.source, 'utf8');
         const flagsBuf = Buffer.from(value.flags, 'utf8');
-        const { writeVarInt } = require("../utils/serializer.js");
+        const { writeVarInt } = require("../../../utils/serializer.js");
         data = Buffer.concat([writeVarInt(sourceBuf.length), sourceBuf, flagsBuf]);
     }
     else if (value instanceof Map) {
@@ -145,25 +145,25 @@ function serializeValue(value, fullBuffer = true) {
         data = serializeJSON_fn(value);
     }
     else if (typeof value === 'string') {
-	    // 1. Try RLE
-	    const rleBuf = stringPacker.packRLE(value);
-	    if (rleBuf) {
-	        type = constants.VAL_TYPE.STRING_RLE;
-	        data = rleBuf;
-	    } 
-	    else {
-	        // 2. Try Hebrew Packing
-	        const hebrewBuf = stringPacker.packHebrew(value);
-	        if (hebrewBuf) {
-	            type = constants.VAL_TYPE.STRING_HEBREW;
-	            data = hebrewBuf;
-	        } else {
-	            // 3. Fallback to Standard UTF-8
-	            type = constants.VAL_TYPE.STRING;
-	            data = Buffer.from(value, 'utf8');
-	        }
-	    }
-	}
+        // 1. Try RLE
+        const rleBuf = stringPacker.packRLE(value);
+        if (rleBuf) {
+            type = constants.VAL_TYPE.STRING_RLE || constants.VAL_TYPE.STRING; // Fallback if RLE const missing
+            data = rleBuf;
+        } 
+        else {
+            // 2. Try Hebrew Packing
+            const hebrewBuf = stringPacker.packHebrew(value);
+            if (hebrewBuf) {
+                type = constants.VAL_TYPE.STRING_HEBREW || constants.VAL_TYPE.STRING;
+                data = hebrewBuf;
+            } else {
+                // 3. Fallback to Standard UTF-8
+                type = constants.VAL_TYPE.STRING;
+                data = Buffer.from(value, 'utf8');
+            }
+        }
+    }
 
     // Final Assembly
     if (usingScratch) {
@@ -191,6 +191,19 @@ function serializeValue(value, fullBuffer = true) {
     
     // Normal Path (Buffers/Strings/Objects)
     if (!data) data = Buffer.alloc(0);
+    
+    // For Booleans, Nulls, Undefined, Type holds the value/type, data is empty.
+    // If TYPE_BOOLEAN (2), we need payload 1 or 0 if we follow AllocatorV2 style.
+    // BUT serializeValue uses VAL_TYPE.BOOLEAN_TRUE (2) / FALSE (2).
+    // If data is empty, SmartPointer.decodeValue needs to know if it's true or false.
+    // Solution: If Boolean, write 1 byte payload.
+    if (type === constants.VAL_TYPE.BOOLEAN_TRUE) {
+        data = Buffer.from([1]);
+        type = constants.VAL_TYPE.BOOLEAN_TRUE; // = 2
+    } else if (type === constants.VAL_TYPE.BOOLEAN_FALSE) {
+        data = Buffer.from([0]);
+        type = constants.VAL_TYPE.BOOLEAN_FALSE; // = 2
+    }
     
     const lenInfoSize = writeConditionalTo(SCRATCH_BUFFER, 0, data.length);
     const typeLengthByte = packTypeAndLengthSize(type, lenInfoSize);

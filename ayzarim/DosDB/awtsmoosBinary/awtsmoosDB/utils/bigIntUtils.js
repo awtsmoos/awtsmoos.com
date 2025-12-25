@@ -23,6 +23,8 @@ module.exports = {
     fromBuffer(buffer, isNegative) {
         if (!buffer || buffer.length === 0) return 0n;
         const hex = buffer.toString('hex');
+        // Handle empty or invalid hex
+        if (!hex) return 0n;
         let val = BigInt('0x' + hex);
         return isNegative ? -val : val;
     }

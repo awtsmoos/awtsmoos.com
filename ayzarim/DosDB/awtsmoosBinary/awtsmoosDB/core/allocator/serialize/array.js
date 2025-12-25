@@ -1,7 +1,8 @@
+
 // B"H
-const constants = require("../constants.js");
+const constants = require("../../../constants.js");
 const serializeValue = require("./serializeValue.js");
-const { writeConditional } = require("../utils/binaryHelpers.js");
+const { writeConditional } = require("../../../utils/binaryHelpers.js");
 
 function serializeArray(arr) {
     // 1. Header

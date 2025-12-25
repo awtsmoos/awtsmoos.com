@@ -1,6 +1,4 @@
 
-
-
 // B"H
 const constants = require('../../constants.js');
 const SmartPointer = require('../../utils/smartPointer.js');
@@ -20,6 +18,10 @@ class DictionaryEngine {
         this.map = null;
         this.seq = null;
         this.isDirty = false; 
+        
+        // B"H: Stale Check
+        this.lastDbMutation = -1;
+        this.db = allocator.v1.db;
     }
 
     async create() {
@@ -39,6 +41,7 @@ class DictionaryEngine {
         await this.allocator.v1.db._writeChainSafe(ptr, dictData);
         
         this.ptr = ptr;
+        this.lastDbMutation = this.db.mutationCount;
         
         return SmartPointer.block(constants.TYPE_DICTIONARY, this.ptr.blockId, this.ptr.length, this.ptr.isChain, this.ptr.offset);
     }
@@ -46,8 +49,11 @@ class DictionaryEngine {
     async _init(force = false) {
         if (!this.ptr) return;
         
-        if (!force && this.map && this.seq) return;
-        if (!force && this.isDirty && this.map && this.seq) return;
+        // B"H: Auto-refresh if DB mutated since last load
+        const currentMutation = this.db.mutationCount || 0;
+        if (!force && this.map && this.seq && !this.isDirty && this.lastDbMutation === currentMutation) {
+            return;
+        }
 
         const readLen = 36;
         const ptrToRead = { ...this.ptr, length: readLen };
@@ -78,6 +84,7 @@ class DictionaryEngine {
             }
         }
         
+        this.lastDbMutation = currentMutation;
         if (force) this.isDirty = false;
     }
 
@@ -101,6 +108,7 @@ class DictionaryEngine {
         
         await this.allocator.v1.db._writeChainSafe(this.ptr, dictData);
         this.isDirty = false;
+        this.lastDbMutation = this.db.mutationCount;
     }
 
     async set(key, value, options = {}) {

@@ -1,3 +1,4 @@
+
 // B"H
 const constants = require('../../constants.js');
 const SmartPointer = require('../../utils/smartPointer.js');
@@ -155,8 +156,15 @@ class MapEngine {
         
         const res = await this.ops.delete(root, keyBuf);
         
-        if (res.success && res.deletedPtr) {
-            return { success: true, deletedPtr: res.deletedPtr };
+        if (res.success) {
+            // B"H: Update root pointer if it moved
+            if (res.newPtr) {
+                this.ptr = res.newPtr;
+            }
+            if (res.deletedPtr) {
+                return { success: true, deletedPtr: res.deletedPtr };
+            }
+            return { success: true };
         }
         
         return { success: false };

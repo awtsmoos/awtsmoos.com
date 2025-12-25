@@ -127,9 +127,11 @@ class MapOps {
                 const deletedPtr = removedVals[0];
                 
                 node.totalCount -= 1; node.totalBytes += deltaBytes;
-                await this.nodeIO.save(node, node.selfPtr);
                 
-                return { success: true, deletedPtr, deltaCount: -1, deltaBytes };
+                // B"H: Capture new pointer if node moved
+                const newPtr = await this.nodeIO.save(node, node.selfPtr);
+                
+                return { success: true, deletedPtr, deltaCount: -1, deltaBytes, newPtr };
             }
             return { success: false };
         } else {
@@ -148,7 +150,18 @@ class MapOps {
             if (res.success) {
                 node.totalCount += res.deltaCount;
                 node.totalBytes += res.deltaBytes;
-                await this.nodeIO.save(node, node.selfPtr);
+                
+                // B"H: Update parent pointer if child moved
+                if (res.newPtr) {
+                    const newChildBuf = SmartPointer.block(
+                        constants.TYPE_MAP, res.newPtr.blockId, res.newPtr.length, res.newPtr.isChain, res.newPtr.offset
+                    );
+                    node.children[idx] = newChildBuf;
+                }
+                
+                // B"H: Save self and capture new pointer
+                const newPtr = await this.nodeIO.save(node, node.selfPtr);
+                return { ...res, newPtr };
             }
             return res;
         }

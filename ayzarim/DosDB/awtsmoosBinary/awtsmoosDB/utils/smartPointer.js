@@ -5,6 +5,7 @@ const { writePointer48, readPointer48 } = require('./binaryHelpers.js');
 const serializer = require('./serializer.js');
 const keyEncoding = require('./keyEncoding.js');
 const bigIntUtils = require('./bigIntUtils.js');
+const floatHandler = require('./floatHandler.js');
 
 const AwtsmoosClassRegistry = new Map();
 
@@ -124,12 +125,13 @@ class SmartPointer {
             if (context.has(blockId)) {
                 return context.get(blockId);
             }
-
-            if (ptr.type === constants.TYPE_BUFFER || ptr.type === constants.TYPE_STRING || ptr.type === constants.TYPE_JSON || 
-                ptr.type === constants.TYPE_DATE || ptr.type === constants.TYPE_REGEXP || ptr.type === constants.TYPE_ERROR ||
-                ptr.type === constants.TYPE_BIGINT || ptr.type === constants.TYPE_BIGINT_POS || ptr.type === constants.TYPE_BIGINT_NEG ||
-                ptr.type === constants.TYPE_SYMBOL || ptr.type === constants.TYPE_TYPED_ARRAY ||
-                ptr.type === constants.TYPE_FUNCTION || ptr.type === constants.TYPE_CUSTOM_INSTANCE) {
+            
+            // Allow all types to flow to decodeValue if they are not strictly structure types
+            // This includes BigInts, Floats, Strings, Buffers etc.
+            if (ptr.type !== constants.TYPE_SEQUENCE && 
+                ptr.type !== constants.TYPE_MAP && 
+                ptr.type !== constants.TYPE_DICTIONARY &&
+                ptr.type !== constants.TYPE_SET) {
                 
                 const raw = await allocator.v1.db._readChainSafe({ blockId, length, isChain, offset });
                 if (!raw) return undefined;
@@ -153,21 +155,53 @@ class SmartPointer {
 
     static async decodeValue(type, buffer, allocator, context, blockId) {
         if (!buffer) return undefined;
+        
+        // --- Core Primitives ---
         if (type === constants.TYPE_STRING) return buffer.toString('utf8');
         if (type === constants.TYPE_BUFFER) return buffer;
         if (type === constants.TYPE_NUMBER) return parseFloat(buffer.toString());
         if (type === constants.TYPE_JSON) return JSON.parse(buffer.toString('utf8'));
         
+        // --- BigInt ---
         if (type === constants.TYPE_BIGINT) return BigInt(buffer.toString('utf8')); // Legacy
         if (type === constants.TYPE_BIGINT_POS) return bigIntUtils.fromBuffer(buffer, false);
         if (type === constants.TYPE_BIGINT_NEG) return bigIntUtils.fromBuffer(buffer, true);
         
+        // --- Symbols & Functions ---
         if (type === constants.TYPE_SYMBOL) return Symbol.for(buffer.toString('utf8'));
+        if (type === constants.TYPE_FUNCTION) return buffer.toString('utf8');
         
-        if (type === constants.TYPE_FUNCTION) {
-            return buffer.toString('utf8');
-        }
+        // --- Special Values ---
+        if (type === constants.TYPE_NAN) return NaN;
+        if (type === constants.TYPE_INFINITY) return Infinity;
+        if (type === constants.TYPE_NEG_INFINITY) return -Infinity;
+        if (type === constants.TYPE_BOOLEAN) return buffer[0] === 1;
+        if (type === constants.TYPE_NULL) return null;
+        if (type === constants.TYPE_UNDEFINED) return undefined;
+
+        // --- Numeric Optimizations ---
+        if (type === constants.TYPE_UINT8) return buffer.readUInt8(0);
+        if (type === constants.TYPE_UINT16) return buffer.readUInt16BE(0);
+        if (type === constants.TYPE_UINT32) return buffer.readUInt32BE(0);
+        if (type === constants.TYPE_UINT64) return Number(buffer.readBigUInt64BE(0));
         
+        if (type === constants.TYPE_INT8_NEG) return -1 * buffer.readUInt8(0);
+        if (type === constants.TYPE_INT16_NEG) return -1 * buffer.readUInt16BE(0);
+        if (type === constants.TYPE_INT32_NEG) return -1 * buffer.readUInt32BE(0);
+        if (type === constants.TYPE_INT64_NEG) return -1 * Number(buffer.readBigUInt64BE(0));
+        
+        if (type === constants.TYPE_DOUBLE_POS) return buffer.readDoubleBE(0);
+        if (type === constants.TYPE_DOUBLE_NEG) return -1 * buffer.readDoubleBE(0);
+        
+        if (type === constants.TYPE_FLOAT_1) return floatHandler.decodeEncodedFloat(buffer.readUInt8(0), 1);
+        if (type === constants.TYPE_FLOAT_2) return floatHandler.decodeEncodedFloat(buffer.readUInt16BE(0), 2);
+        if (type === constants.TYPE_FLOAT_4) return floatHandler.decodeEncodedFloat(buffer.readUInt32BE(0), 4);
+        
+        if (type === constants.TYPE_FLOAT_NEG_1) return -1 * floatHandler.decodeEncodedFloat(buffer.readUInt8(0), 1);
+        if (type === constants.TYPE_FLOAT_NEG_2) return -1 * floatHandler.decodeEncodedFloat(buffer.readUInt16BE(0), 2);
+        if (type === constants.TYPE_FLOAT_NEG_4) return -1 * floatHandler.decodeEncodedFloat(buffer.readUInt32BE(0), 4);
+        
+        // --- Complex Objects ---
         if (type === constants.TYPE_CUSTOM_INSTANCE) {
             let offset = 0;
             const nameInfo = serializer.readString(buffer, offset);
@@ -194,7 +228,6 @@ class SmartPointer {
             }
 
             const Dictionary = require('../structure/dictionary/index.js');
-            // Decode ptr for dictionary manually to avoid circular ref issues or extra alloc
             const dictBlockId = SmartPointer.getBlockId(dictPtr);
             const dictLength = SmartPointer.getLength(dictPtr);
             const dictOffset = SmartPointer.getOffset(dictPtr);
@@ -263,7 +296,6 @@ class SmartPointer {
                 } else {
                     e = new Error(obj.message);
                 }
-                
                 e.name = obj.name; 
                 if(obj.stack) e.stack = obj.stack; 
                 if(obj.cause) e.cause = obj.cause;

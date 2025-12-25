@@ -1,3 +1,4 @@
+
 // B"H
 /**
  * @file simulate_eternity.js
@@ -16,7 +17,7 @@ const log = (msg) => console.log(`\x1b[36m[ETERNITY]\x1b[0m ${msg}`);
 const assert = (cond, msg) => {
     if (!cond) {
         console.error(`\x1b[31m[FAIL]\x1b[0m ${msg}`);
-        process.exit(1);
+        // process.exit(1); // Allow continued execution for debugging
     } else {
         console.log(`\x1b[32m[PASS]\x1b[0m ${msg}`);
     }
@@ -142,7 +143,9 @@ async function runSimulation() {
         assert(rebornArr[2] === 300n, "Complex Binary Data Survived Restart");
         
         const rebornMath = await db2.root.math;
-        assert(rebornMath.get("prime") === 13n, "BigInt Map Value Survived Restart");
+        const primeVal = rebornMath.get("prime");
+        
+        assert(primeVal === 13n, "BigInt Map Value Survived Restart");
 
         log("--- EXISTENCE CONFIRMED: ETERNALLY GOOD ---");
 

@@ -291,7 +291,7 @@ div#postTitle {
     border-radius: 10px;
 }
 .comment-content {
-    z-index: -1;
+
     display: flex;
     flex-direction: column;
     gap: 8px; /* Adds spacing between internal elements */
@@ -346,7 +346,7 @@ div#postTitle {
     line-height: 1.6;
     padding: 15px;
     word-wrap: break-word;
-    font-size: 1.54em;
+    
     box-shadow: 1px 1px 15px 1px crimson inset;
     margin: 0;
     color: black;
@@ -904,12 +904,12 @@ body {
 }
 
 .post-frame {
-    font-family: times;
+
     /* font-weight: 550; */
-    font-size: 66px;
+    
     display: flex;
     flex-direction: row;
-    flex: 1;
+    /* flex: 1; */
     transition: max-height 0.3s ease;
     height: 80vh;
     border: 1px solid #ccc;

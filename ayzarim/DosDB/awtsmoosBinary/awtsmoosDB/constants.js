@@ -62,67 +62,80 @@ module.exports = {
     TYPE_BIGINT_POS: 19,
     TYPE_BIGINT_NEG: 20,
 
-    // --- Value Type Constants for Serializer (Internal) ---
-    VAL_TYPE: {
-        NULL: 0,
-        UNDEFINED: 1,
-        BOOLEAN_TRUE: 2,
-        BOOLEAN_FALSE: 3,
-        NAN: 4,
-        INFINITY: 5,
-        NEG_INFINITY: 6,
-        
-        // Integers (Variable Width)
-        UINT8: 7,
-        UINT16: 8,
-        UINT32: 9,
-        UINT64: 10,
-        
-        INT8_NEG: 11,
-        INT16_NEG: 12,
-        INT32_NEG: 13,
-        INT64_NEG: 14,
-        
-        // Floats
-        DOUBLE_POS: 15,
-        DOUBLE_NEG: 16,
-        
-        // Compact Floats (1, 2, 4 bytes)
-        FLOAT_1: 17,
-        FLOAT_2: 18,
-        FLOAT_4: 19,
-        FLOAT_NEG_1: 20,
-        FLOAT_NEG_2: 21,
-        FLOAT_NEG_4: 22,
-        
-        // Containers
-        STRING: 23,
-        BUFFER: 24,
-        ARRAY: 25,
-        OBJECT: 26,
-        
-        // Complex
-        DATE: 27,
-        JS_BIGINT: 28, // Generic
-        REGEXP: 29,
-        MAP: 30,
-        SET: 31,
-        ERROR: 32,
-        FUNCTION: 33,
-        SYMBOL: 34,
-        TYPED_ARRAY: 35,
-        
-        // String Optimizations
-        STRING_RLE: 36,
-        STRING_HEBREW: 37,
-        
-        // B"H: New Optimized BigInts
-        BIGINT_POS: 38,
-        BIGINT_NEG: 39
-    },
+    // B"H: Smart Binary Types (Inline TOC)
+    TYPE_SMART_OBJECT: 21,
+    TYPE_SMART_ARRAY: 22,
+    
+    // Float Optimizations
+    TYPE_FLOAT_1: 23,
+    TYPE_FLOAT_2: 24,
+    TYPE_FLOAT_4: 25,
+    TYPE_FLOAT_NEG_1: 26,
+    TYPE_FLOAT_NEG_2: 27,
+    TYPE_FLOAT_NEG_4: 28,
+    
+    // Int Optimizations
+    TYPE_UINT8: 29,
+    TYPE_UINT16: 30,
+    TYPE_UINT32: 31,
+    TYPE_UINT64: 32,
+    TYPE_INT8_NEG: 33,
+    TYPE_INT16_NEG: 34,
+    TYPE_INT32_NEG: 35,
+    TYPE_INT64_NEG: 36,
+    
+    TYPE_DOUBLE_POS: 37,
+    TYPE_DOUBLE_NEG: 38,
+    
+    TYPE_NAN: 39,
+    TYPE_INFINITY: 40,
+    TYPE_NEG_INFINITY: 41,
 
     // --- Internal Access Symbol ---
     SYMBOLS: {
         INTERNALS: Symbol.for('Awtsmoos.Internals')
     }
+};
+
+// B"H: Map VAL_TYPE for compatibility with serializeValue.js
+module.exports.VAL_TYPE = {
+    NULL: module.exports.TYPE_NULL,
+    UNDEFINED: module.exports.TYPE_UNDEFINED,
+    BOOLEAN_TRUE: module.exports.TYPE_BOOLEAN, // Handled with payload 1
+    BOOLEAN_FALSE: module.exports.TYPE_BOOLEAN, // Handled with payload 0
+    NAN: module.exports.TYPE_NAN,
+    INFINITY: module.exports.TYPE_INFINITY,
+    NEG_INFINITY: module.exports.TYPE_NEG_INFINITY,
+    STRING: module.exports.TYPE_STRING,
+    FUNCTION: module.exports.TYPE_FUNCTION,
+    DATE: module.exports.TYPE_DATE,
+    REGEXP: module.exports.TYPE_REGEXP,
+    ERROR: module.exports.TYPE_ERROR,
+    MAP: module.exports.TYPE_MAP,
+    SET: module.exports.TYPE_SET,
+    ARRAY: module.exports.TYPE_SEQUENCE, // Default to Sequence for Arrays
+    OBJECT: module.exports.TYPE_DICTIONARY, // Default to Dictionary for Objects
+    BUFFER: module.exports.TYPE_BUFFER,
+    BIGINT_POS: module.exports.TYPE_BIGINT_POS,
+    BIGINT_NEG: module.exports.TYPE_BIGINT_NEG,
+    SYMBOL: module.exports.TYPE_SYMBOL,
+    TYPED_ARRAY: module.exports.TYPE_TYPED_ARRAY,
+    
+    // Numeric Optimization Aliases
+    UINT8: module.exports.TYPE_UINT8,
+    UINT16: module.exports.TYPE_UINT16,
+    UINT32: module.exports.TYPE_UINT32,
+    UINT64: module.exports.TYPE_UINT64,
+    INT8_NEG: module.exports.TYPE_INT8_NEG,
+    INT16_NEG: module.exports.TYPE_INT16_NEG,
+    INT32_NEG: module.exports.TYPE_INT32_NEG,
+    INT64_NEG: module.exports.TYPE_INT64_NEG,
+    FLOAT_1: module.exports.TYPE_FLOAT_1,
+    FLOAT_2: module.exports.TYPE_FLOAT_2,
+    FLOAT_4: module.exports.TYPE_FLOAT_4,
+    FLOAT_NEG_1: module.exports.TYPE_FLOAT_NEG_1,
+    FLOAT_NEG_2: module.exports.TYPE_FLOAT_NEG_2,
+    FLOAT_NEG_4: module.exports.TYPE_FLOAT_NEG_4,
+    DOUBLE_POS: module.exports.TYPE_DOUBLE_POS,
+    DOUBLE_NEG: module.exports.TYPE_DOUBLE_NEG
 };

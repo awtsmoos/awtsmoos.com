@@ -1,10 +1,11 @@
+
 // B"H
-const constants = require("../constants.js");
+const constants = require("../../../constants.js");
 const serializeValue = require("./serializeValue.js");
-const { writeConditional, packedLength, hashKey } = require("../utils/binaryHelpers.js");
+const { writeConditional, packedLength, hashKey } = require("../../../utils/binaryHelpers.js");
 // B"H:
 // Added writeVarInt to match Parser expectation
-const { writeVarInt } = require("../utils/serializer.js");
+const { writeVarInt } = require("../../../utils/serializer.js");
 
 function serializeJSON(json) {
     let header = [Buffer.from(constants.MAGIC_JSON)];

@@ -68,21 +68,21 @@ class MapNode {
 
         let ptr;
         
+        // B"H: Safer Allocation Strategy
+        // To avoid potential corruption where trailing data from a larger previous block
+        // confuses the parser (if the new data is smaller), we ALWAYS allocate fresh 
+        // if the size is different, or force a clean write.
+        
         if (existingPtr && existingPtr.blockId) {
-            // B"H: Optimization - Keep cache. Since we rebuilt 'raw', we need to ensure cache is updated if logic requires it.
-            // But MapNode is usually re-read to parse keys. 
-            // Actually, MapOps modifies `node` in place (the object). 
-            // So the cached `node` object is ALREADY up to date.
-            // We just need to persist `raw`.
-            // this.db.structureCache.delete(existingPtr.blockId);
-
-            if (existingPtr.length >= raw.length) {
-                await this.allocator.v1.db._writeChainSafe(existingPtr, raw);
-                ptr = existingPtr;
+            if (existingPtr.length === raw.length) {
+                 // Perfect fit, reuse
+                 await this.allocator.v1.db._writeChainSafe(existingPtr, raw);
+                 ptr = existingPtr;
             } else {
-                await this.allocator.v1.free(existingPtr);
-                ptr = await this.allocator.v1.allocate(raw.length);
-                await this.allocator.v1.db._writeChainSafe(ptr, raw);
+                 // Size changed. Free and re-alloc to be safe.
+                 await this.allocator.v1.free(existingPtr);
+                 ptr = await this.allocator.v1.allocate(raw.length);
+                 await this.allocator.v1.db._writeChainSafe(ptr, raw);
             }
         } else {
             ptr = await this.allocator.v1.allocate(raw.length);
@@ -112,14 +112,17 @@ class MapNode {
             return cached; 
         }
         
-        // B"H: Optimized to assume single block for small nodes unless marked Chain
-        // For traversal, reading directly from cache without copying is key.
         let block;
         if (ptr.isChain) {
             block = await this.allocator.v1.db._readChainSafe(ptr);
         } else {
-            block = await this.allocator.v1.readBlockLocked(ptr.blockId, true); // Zero Copy
-            // If offset is used, slice it. Subarray is O(1).
+            // B"H: CRITICAL FIX - Must set noCopy=false to ensure we own the buffer.
+            // If we use true (Zero Copy), we get a reference to the Pager's buffer/ActivePage.
+            // Since we cache the 'node' (and its keys which are subarrays of 'block'),
+            // if the Pager recycles that buffer later, our cached keys become corrupt.
+            block = await this.allocator.v1.readBlockLocked(ptr.blockId, false); 
+            
+            // If offset is used, slice it.
             if (ptr.offset) block = block.subarray(ptr.offset, ptr.offset + ptr.length);
         }
         
@@ -131,6 +134,7 @@ class MapNode {
             return node;
         } catch (e) {
             if (e.message.startsWith("B\"H MapNode Corruption") && ptr.length < constants.BLOCK_SIZE && !ptr.isChain) {
+                // Retry with full block if partial read failed (alignment issue?)
                 const fullPtr = { ...ptr, length: constants.BLOCK_SIZE };
                 const fullBlock = await this.allocator.v1.db._readChainSafe(fullPtr);
                 const node = this._parse(fullBlock, ptr);
@@ -178,13 +182,6 @@ class MapNode {
                 s += 7;
             }
             
-            // B"H: Use subarray instead of alloc+copy for zero-allocation parsing
-            // This references the underlying buffer memory (from Pager cache or Allocator copy).
-            // This is safe because even if the Pager buffer is reused (unlikely given Allocator read pattern),
-            // we should be hitting the structure cache anyway for subsequent accesses.
-            // If the buffer is from readBlockLocked(..., true), it might be the Pager's pooled buffer.
-            // However, Pager doesn't recycle read buffers explicitly.
-            // So subarray is safe and efficient.
             const k = block.subarray(offset, offset + len);
             keys[i] = k;
             offset += len;

@@ -1,174 +1,167 @@
+
 /**
  * B"H
  */
+import LocalDatabase from "../../../utils/LocalDatabase.js";
 
 export default {
     shaym: "custom world",
     className: "customWorldScreen hidden",
+    style: {
+        position: "absolute", top: "0", left: "0", width: "100%", height: "100%",
+        background: "linear-gradient(135deg, #1a0b2e 0%, #000000 100%)",
+        color: "white", fontFamily: "Fredoka, sans-serif",
+        display: "flex", flexDirection: "column", alignItems: "center",
+        zIndex: "5000", overflowY: "auto"
+    },
+    
+    on: {
+        awtsmoosRevealed(e, $, ui) {
+            ui.peula($("custom world"), { refreshLocalList: true });
+        },
+        async refreshLocalList(e, $, ui) {
+            const listContainer = $("local-worlds-list");
+            if(!listContainer) return;
+            
+            listContainer.innerHTML = "<div style='color:white; padding:10px;'>Loading local worlds...</div>";
+            
+            try {
+                const worlds = await LocalDatabase.getWorlds();
+                listContainer.innerHTML = "";
+                
+                if (worlds.length === 0) {
+                    listContainer.innerHTML = "<div style='color:#ccc; padding:20px; text-align:center;'>No local worlds found.<br>Save a world in-game to see it here.</div>";
+                    return;
+                }
+
+                worlds.forEach(w => {
+                    ui.html({
+                        parent: listContainer,
+                        className: "cw-card",
+                        style: {
+                            background: "rgba(255,255,255,0.1)", margin: "10px", padding: "15px",
+                            borderRadius: "10px", border: "1px solid #FFD700", cursor: "pointer",
+                            display: "flex", justifyContent: "space-between", alignItems: "center",
+                            width: "80%", maxWidth: "600px"
+                        },
+                        onclick: async () => {
+                            try {
+                                const content = await LocalDatabase.loadWorld(w.id);
+                                if(content) {
+                                    const blobUrl = URL.createObjectURL(new Blob([content], { type: "application/javascript" }));
+                                    const ikar = $("ikar");
+                                    const mm = $("main menu");
+                                    
+                                    if(ikar && mm) {
+                                        ikar.dispatchEvent(new CustomEvent("start", {
+                                            detail: { worldDayuhURL: blobUrl, gameUiHTML: window.awtsmoosGameUI }
+                                        }));
+                                        
+                                        $("custom world").classList.add("hidden");
+                                        mm.classList.add("hidden");
+                                        const ld = $("loading");
+                                        if(ld) ld.classList.remove("hidden");
+                                    }
+                                }
+                            } catch(err) {
+                                alert("Failed to load local world.");
+                                console.error(err);
+                            }
+                        },
+                        children: [
+                            {
+                                style: { textAlign: "left" },
+                                children: [
+                                    { tag: "h3", textContent: w.name, style: { margin: "0 0 5px 0", color: "#FFD700" } },
+                                    { textContent: new Date(w.date).toLocaleString(), style: { fontSize: "12px", color: "#ccc" } },
+                                    { textContent: w.description || "No description", style: { fontSize: "14px", fontStyle: "italic", marginTop: "5px" } }
+                                ]
+                            },
+                            {
+                                tag: "button",
+                                textContent: "Delete",
+                                style: { background: "#ff4757", color: "white", border: "none", borderRadius: "5px", padding: "8px 15px", cursor: "pointer", fontWeight: "bold" },
+                                onclick: async (ev) => {
+                                    ev.stopPropagation();
+                                    if(confirm(`Are you sure you want to delete "${w.name}"?`)) {
+                                        await LocalDatabase.deleteWorld(w.id);
+                                        ui.peula($("custom world"), { refreshLocalList: true });
+                                    }
+                                }
+                            }
+                        ]
+                    });
+                });
+            } catch(e) {
+                console.error(e);
+                listContainer.innerHTML = "<div style='color:red; padding:10px;'>Error loading worlds.</div>";
+            }
+        }
+    },
+
     children: [
         {
-            tag: "style",
-            innerHTML:/*css*/`
-.customWorldScreen {
-    text-align: center;
-    padding: 50px;
-    border: 5px solid #ffcc00;
-    border-radius: 15px;
-    background: linear-gradient(135deg, #ff007f, #00ff7f);
-    box-shadow: 0 0 20px rgba(255, 0, 127, 0.5), 0 0 30px rgba(0, 255, 127, 0.5);
-    transition: transform 0.3s ease;
-}
-
-
-.customWorldScreen button {
-    background-color: #ffcc00;
-    color: #1c1c1c;
-    border: none;
-    padding: 15px 30px;
-    font-size: 20px;
-    cursor: pointer;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(255, 204, 0, 0.5);
-    transition: all 0.3s ease;
-    margin: 10px;
-}
-
-.customWorldScreen button:hover {
-    background-color: #ffd700;
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(255, 204, 0, 0.7);
-}
-
-.customWorldScreen .hdr1 {
-    font-size: 32px;
-    margin: 20px 0;
-    text-shadow: 2px 2px 5px rgba(255, 0, 127, 0.5);
-}
-
-.customWorldScreen a {
-    color: #00ff7f;
-    font-size: 18px;
-    text-decoration: none;
-    transition: color 0.3s ease;
-    display: inline-block;
-    margin: 10px 0;
-}
-
-.customWorldScreen a:hover {
-    color: #ff007f;
-    text-shadow: 1px 1px 3px rgba(255, 0, 127, 0.5);
-}
-            `
-        },
-        {
-            tag: "button",
-            textContent: "Back",
-            onclick(e, $, ui) {
-                var mm = $("main menu");
-                if(!mm) {
-                    alert("Can't go back!")
-                    return;
-                }
-                mm.classList.remove("hidden");
-                var cw = $("custom world");
-                cw.classList.add("hidden")
-            }
-        },
-        {
-            textContent: "Load a custom world",
-            className: "hdr1"
-        },
-        {
-            textContent:"Example world code, you can download it and modify it",
-            tag:"a",
-            target:"blank",
-            href:"https://github.com/ymerkos/awtsfaria/blob/main/geelooy/games/mitzvahWorld/tochen/worlds/2.js"
-        },
-        {
-            tag:"br"
-        },
-        {
-            textContent: "Documentation",
-            target:"blank",
-            href:"./documentation",
-            tag: "a"
-        },
-        {
-            tag:"br"
-        },
-        {
-            tag: "Button",
-            textContent: "Click to import world file (.js module)",
-            onclick(e, $, ui) {
-                var ikar = $("ikar");
-                var mm = $("main menu");
-                
-                if(!ikar || !mm) {
-                    alert("Can't do something, contact Coby")
-                    return;
-                }
-                var inp = ui.html({
-                    tag: "input",
-                    type: "file",
-                    className:"hidden",
-                    async onchange(e) {
-                        if(!e.target.files[0]) {
-                            alert("No file selected!")
-                            return;
-                        }
-                        var lvl = await new Promise(async (r,j) => {
-                            var req = await fetch(URL.createObjectURL(
-                                e.target.files[0])
-                            );
-                            var txt = await req.text();
-                            r(txt);
-                        });
-                        var bl =  URL.createObjectURL(
-                            new Blob([
-                                lvl
-                            ], {
-                                type: "application/javascript"
-                            })
-                        );
-                 
-                        
-                        
-                        try {
-                            ikar.dispatchEvent(
-                                new CustomEvent("start", {
-                                    detail: {
-                                        worldDayuhURL: 
-                                        bl,
-                                        /*dayuhOfOlam
-                                            .default,*/
-                                        gameUiHTML:
-                                        mm.gameUiHTML
-                                    }
-                                })
-                            );
-                            var cw = $("custom world");
-                            cw.classList.add("hidden")
-
-                            var ld = $("loading");
-
-                            mm.classList.add("hidden")
-                            mm.isGoing = false;
-
-                            if(!ld) return;
-                            ld.classList.remove("hidden");
-                        } catch(e) {
-                            alert("Couldn't load it")
-                            console.log(e);
-                        }
-                        
-
-                       
-                        
-                        
+            style: { width: "100%", padding: "20px", display: "flex", justifyContent: "space-between", alignItems: "center", background: "rgba(0,0,0,0.5)" },
+            children: [
+                { 
+                    tag: "button", 
+                    className: "awtsmoosBtn", 
+                    textContent: "Back",
+                    onclick(e, $) {
+                        $("custom world").classList.add("hidden");
+                        const mm = $("main menu");
+                        if(mm) mm.classList.remove("hidden");
                     }
-                });
-                inp.click();
-            }
+                },
+                { tag: "h1", textContent: "Saved Worlds", style: { margin: 0, color: "#FFD700" } },
+                { style: { width: "100px" } } // Spacer
+            ]
+        },
+        {
+            shaym: "local-worlds-list",
+            style: { flex: 1, width: "100%", display: "flex", flexDirection: "column", alignItems: "center", padding: "20px" }
+        },
+        {
+            style: { padding: "30px", width: "100%", textAlign: "center", borderTop: "1px solid #444", background: "rgba(0,0,0,0.8)" },
+            children: [
+                { tag: "h3", textContent: "Import World File (.js)", style: { color: "#4cc9f0", marginBottom: "15px" } },
+                {
+                    tag: "button",
+                    className: "awtsmoosBtn",
+                    textContent: "Select File...",
+                    onclick(e, $, ui) {
+                        const input = ui.html({
+                            tag: "input", type: "file", accept: ".js", style: { display: "none" },
+                            parent: $("custom world"),
+                            onchange: async (ev) => {
+                                const file = ev.target.files[0];
+                                if(!file) return;
+                                
+                                const reader = new FileReader();
+                                reader.onload = (e) => {
+                                    const content = e.target.result;
+                                    const blobUrl = URL.createObjectURL(new Blob([content], { type: "application/javascript" }));
+                                    const ikar = $("ikar");
+                                    const mm = $("main menu");
+                                    
+                                    if(ikar && mm) {
+                                        ikar.dispatchEvent(new CustomEvent("start", {
+                                            detail: { worldDayuhURL: blobUrl, gameUiHTML: window.awtsmoosGameUI }
+                                        }));
+                                        
+                                        $("custom world").classList.add("hidden");
+                                        mm.classList.add("hidden");
+                                        const ld = $("loading");
+                                        if(ld) ld.classList.remove("hidden");
+                                    }
+                                };
+                                reader.readAsText(file);
+                            }
+                        });
+                        input.click();
+                    }
+                }
+            ]
         }
     ]
 };
