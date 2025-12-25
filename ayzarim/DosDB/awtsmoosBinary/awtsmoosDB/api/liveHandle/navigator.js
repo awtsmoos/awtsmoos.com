@@ -1,4 +1,12 @@
-// B"H
+//B"H
+
+/**
+ * @file navigator.js
+ * @description
+ *  The Sefirah of Chokhmah - The Spark of Discovery.
+ *  Navigates the database structures to find specific keys and indices.
+ */
+
 const constants = require('../../constants.js');
 const SmartPointer = require('../../utils/smartPointer.js');
 const Dictionary = require('../../structure/dictionary/index.js');
@@ -8,7 +16,6 @@ const keyEncoding = require('../../utils/keyEncoding.js');
 const { readPointer48 } = require('../../utils/binaryHelpers.js');
 const serializer = require('../../utils/serializer.js');
 const SmartBinary = require('../../utils/smartBinary.js');
-const HandleRegistry = require('../../core/handleRegistry.js');
 
 class Navigator {
     constructor(handle) {
@@ -16,7 +23,13 @@ class Navigator {
         this.db = handle.db;
     }
 
+    /**
+     * @description
+     *  Synchronously creates a deferred handle. The physical pointer 
+     *  is resolved lazily when the handle is first used.
+     */
     navigate(key) {
+        const HandleRegistry = require('../../core/handleRegistry.js');
         return HandleRegistry.createHandle(this.db, null, null, { parent: this.handle.self, key });
     }
 
@@ -26,6 +39,10 @@ class Navigator {
         return buf;
     }
 
+    /**
+     * @description
+     *  Resolves a key within the current structure into its physical pointer and type.
+     */
     async resolveKey(key) {
         await this.handle.ensureResolved();
         

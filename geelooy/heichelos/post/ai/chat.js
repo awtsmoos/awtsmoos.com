@@ -1,9 +1,10 @@
+
 //B"H
 import { injectAIChatCSS } from "../styles/aiChatStyles.js";
 import { markdownToHtml } from "../parsing.js";
 import { stripTags } from "../functions/utils.js";
 import { AwtsmoosPrompt } from "/scripts/awtsmoos/api/utils.js";
-import { addTab } from "/heichelos/post/postFunctions.js";
+import { addTab } from "/heichelos/post/functions/tabs.js";
 
 var history = [];
 var activeCommentId = null; 

@@ -1,6 +1,7 @@
+
 //B"H
 import { getCommentsOfAlias } from "/scripts/awtsmoos/api/utils.js";
-import { updateQueryStringParameter } from "/heichelos/post/postFunctions.js";
+import { updateQueryStringParameter } from "./functions/utils.js";
 
 // Import from new modules
 import { invalidateVerseCache, currentVerse, currentSub, setCurrentVerse, setCurrentSub, loadedInlineVerses, getCurrentVerse, getCurrentSub } from "./comments/state.js";

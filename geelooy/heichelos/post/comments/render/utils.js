@@ -1,5 +1,6 @@
+
 //B"H
-import { isFirstCharacterHebrew } from "/heichelos/post/postFunctions.js";
+import { isFirstCharacterHebrew } from "../../functions/utils.js";
 
 export function sanitizeComment(cnt) {
 	try {
