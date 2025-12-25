@@ -32,6 +32,7 @@ class AllocatorV2 {
         // Max payload is 15 bytes.
         
         // 1. Variable Length Types: Must use Byte 0 for Length (Max data 14 bytes)
+        // B"H: Ensure BigInt is treated as variable length!
         const variableLengthTypes = [
             T.STRING, T.BUFFER, T.TYPED_ARRAY, T.SYMBOL, 
             T.BIGINT_POS, T.BIGINT_NEG

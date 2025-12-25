@@ -25,7 +25,12 @@ module.exports = {
         const hex = buffer.toString('hex');
         // Handle empty or invalid hex
         if (!hex) return 0n;
-        let val = BigInt('0x' + hex);
-        return isNegative ? -val : val;
+        // B"H: BigInt constructor handles '0x' prefix correctly
+        try {
+            let val = BigInt('0x' + hex);
+            return isNegative ? -val : val;
+        } catch (e) {
+            return 0n;
+        }
     }
 };

@@ -1,3 +1,4 @@
+
 // B"H
 module.exports = {
     // --- Allocation & Block Constants (Physical Layer) ---
@@ -6,8 +7,8 @@ module.exports = {
     UNIT_SIZE: 32,
     POINTER_SIZE: 16,
     
-    BITMAP_OFFSET: 4, // After Type (4 bytes)
-    BITMAP_SIZE: 16,  // (4096-64)/32 = 126 bits -> 16 bytes
+    BITMAP_OFFSET: 4, 
+    BITMAP_SIZE: 16, 
     
     // --- Magic Signatures ---
     MAGIC_JSON: "AwtsmoosJSON",
@@ -21,11 +22,11 @@ module.exports = {
     // --- Block Types ---
     BLOCK_TYPE: {
         FREE: 0,
-        PAGE: 1,        // Shared Small Blocks (Heap)
-        BTREE_NODE: 2,  // Legacy
-        COLLECTION_HEADER: 3, // Legacy
-        COLLECTION_PAGE: 4, // Legacy
-        OVERFLOW: 5,    // Large Data Chain
+        PAGE: 1,       
+        BTREE_NODE: 2, 
+        COLLECTION_HEADER: 3,
+        COLLECTION_PAGE: 4, 
+        OVERFLOW: 5,   
         META: 6
     },
 
@@ -50,7 +51,7 @@ module.exports = {
     TYPE_REGEXP: 11,
     TYPE_ERROR: 12,
     
-    TYPE_BIGINT: 13, // Legacy / Generic
+    TYPE_BIGINT: 13, // Legacy
     TYPE_SYMBOL: 14,
     TYPE_SET: 15,
     TYPE_TYPED_ARRAY: 16,
@@ -61,7 +62,7 @@ module.exports = {
     TYPE_BIGINT_POS: 19,
     TYPE_BIGINT_NEG: 20,
 
-    // B"H: Smart Binary Types (Inline TOC)
+    // B"H: Smart Binary Types
     TYPE_SMART_OBJECT: 21,
     TYPE_SMART_ARRAY: 22,
     
@@ -96,12 +97,12 @@ module.exports = {
     }
 };
 
-// B"H: Map VAL_TYPE for compatibility with serializeValue.js
+// B"H: Map VAL_TYPE for compatibility
 module.exports.VAL_TYPE = {
     NULL: module.exports.TYPE_NULL,
     UNDEFINED: module.exports.TYPE_UNDEFINED,
-    BOOLEAN_TRUE: module.exports.TYPE_BOOLEAN, // Handled with payload 1
-    BOOLEAN_FALSE: module.exports.TYPE_BOOLEAN, // Handled with payload 0
+    BOOLEAN_TRUE: module.exports.TYPE_BOOLEAN, 
+    BOOLEAN_FALSE: module.exports.TYPE_BOOLEAN, 
     NAN: module.exports.TYPE_NAN,
     INFINITY: module.exports.TYPE_INFINITY,
     NEG_INFINITY: module.exports.TYPE_NEG_INFINITY,
@@ -112,14 +113,14 @@ module.exports.VAL_TYPE = {
     ERROR: module.exports.TYPE_ERROR,
     MAP: module.exports.TYPE_MAP,
     SET: module.exports.TYPE_SET,
-    ARRAY: module.exports.TYPE_SEQUENCE, // Default to Sequence for Arrays
-    OBJECT: module.exports.TYPE_DICTIONARY, // Default to Dictionary for Objects
+    ARRAY: module.exports.TYPE_SEQUENCE, 
+    OBJECT: module.exports.TYPE_DICTIONARY, 
     BUFFER: module.exports.TYPE_BUFFER,
     BIGINT_POS: module.exports.TYPE_BIGINT_POS,
     BIGINT_NEG: module.exports.TYPE_BIGINT_NEG,
     SYMBOL: module.exports.TYPE_SYMBOL,
     TYPED_ARRAY: module.exports.TYPE_TYPED_ARRAY,
-    CUSTOM_INSTANCE: module.exports.TYPE_CUSTOM_INSTANCE, // B"H: Added Missing Mapping
+    CUSTOM_INSTANCE: module.exports.TYPE_CUSTOM_INSTANCE,
     
     // Numeric Optimization Aliases
     UINT8: module.exports.TYPE_UINT8,

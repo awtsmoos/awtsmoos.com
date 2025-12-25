@@ -1,3 +1,4 @@
+
 // B"H
 const SYMB_GL_PREFIX = "@@SYMB_GL:";
 const SYMB_UN_PREFIX = "@@SYMB_UN:";
@@ -12,8 +13,15 @@ module.exports = {
         return String(key);
     },
 
-    decode(keyStr) {
+    decode(keyInput) {
+        // B"H: Auto-convert Buffer keys to string for JS Map compatibility
+        let keyStr = keyInput;
+        if (Buffer.isBuffer(keyInput)) {
+            keyStr = keyInput.toString('utf8');
+        }
+        
         if (typeof keyStr !== 'string') return keyStr;
+        
         if (keyStr.startsWith(SYMB_GL_PREFIX)) {
             return Symbol.for(keyStr.substring(SYMB_GL_PREFIX.length));
         }

@@ -212,8 +212,12 @@
          * The Module Loading Alchemist.
          * Creates a dedicated vessel for each module's truth.
          */
-        async _importModule(vm, url, options) {
-            if (vm._moduleCache[url]) return vm._moduleCache[url];
+        async _importModule(vm, url, options, targetExports = null) {
+            if (vm._moduleCache[url]) {
+                const cached = vm._moduleCache[url];
+                if (targetExports) Object.assign(targetExports, cached);
+                return cached;
+            }
             
             const Compiler = self.MerkavaCompiler.Compiler;
             const Parser = self.MerkavahParser;
@@ -232,7 +236,8 @@
             const ast = new Parser(code).parse();
             const codeObj = new Compiler().compile(ast);
             
-            const exports = {};
+            // B"H - Direct vessel grafting
+            const exports = targetExports || {};
             const thread = vm.spawn(codeObj);
             thread.environment = vm.context;
             thread.currentScope = { 'this': vm.context, 'exports': exports };
@@ -248,6 +253,7 @@
                 check();
             });
             
+            // Committal to registry before resolution
             vm._moduleCache[url] = exports;
             return exports;
         }
@@ -255,17 +261,12 @@
         /**
          * B"H
          * The Script Inhaler.
-         * Leverages the Module Alchemist to populate the global exports vessel.
+         * Leverages the Module Alchemist to populate the global exports vessel directly.
          */
         async _handleImportScripts(vm, urls, options) {
              const sharedExports = vm.context.exports;
-
              for (const url of urls) {
-                 const moduleExports = await this._importModule(vm, url, options);
-                 // B"H - Synchronize module exports with the global vessel
-                 if (moduleExports && typeof moduleExports === 'object') {
-                     Object.assign(sharedExports, moduleExports);
-                 }
+                 await this._importModule(vm, url, options, sharedExports);
              }
         }
 

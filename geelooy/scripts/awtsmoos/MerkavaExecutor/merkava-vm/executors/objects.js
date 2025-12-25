@@ -11,7 +11,7 @@
     H[0x32] = (t) => { // GET_PROP
         const k = t.pop(), o = t.pop();
         if (o == null) { 
-            console.warn(`[VM] Access Violation: GET_PROP '${k}' on null/undefined target. Current Thread: ${t.id}`); 
+            console.warn(`[VM] Access Violation: GET_PROP '${k}' on null/undefined target. Thread: ${t.id}, IP: ${t.ip}`); 
             t.push(undefined); 
             return; 
         }
@@ -44,7 +44,7 @@
     H[0x33] = (t) => { // SET_PROP
         const v = t.pop(), k = t.pop(), o = t.pop();
         if (o == null) {
-            console.error(`[VM] Segmentation Fault: SET_PROP '${k}' on null/undefined target. Current Thread: ${t.id}`);
+            console.error(`[VM] Segmentation Fault: SET_PROP '${k}' on null/undefined target. Thread: ${t.id}`);
         } else {
             let val = v;
             if (v && v.type === 'CLOSURE' && (typeof k === 'string' && k.startsWith('on'))) {

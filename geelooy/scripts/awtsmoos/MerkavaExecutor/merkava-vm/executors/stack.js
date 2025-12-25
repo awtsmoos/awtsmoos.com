@@ -72,12 +72,12 @@
     H[0x22] = (t) => { // LOAD_GLOBAL
         const name = t.constants[t.readU16()];
         
-        // 1. Infallible 'exports' resolution
+        // 1. Supreme Priority 'exports' resolution
         if (name === 'exports') {
             if (t.currentScope && t.currentScope.exports) { t.push(t.currentScope.exports); return; }
             if (t.environment && t.environment.exports) { t.push(t.environment.exports); return; }
             if (t.vm.context && t.vm.context.exports) { t.push(t.vm.context.exports); return; }
-            t.push({}); return; // Last resort
+            t.push({}); return; 
         }
 
         // 2. Resolve via 'with' stack

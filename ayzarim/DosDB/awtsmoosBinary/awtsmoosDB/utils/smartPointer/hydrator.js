@@ -48,7 +48,6 @@ module.exports = {
 
         let raw;
         if (ptr.mode === constants.MODE_HEAP) {
-             // B"H: FIX - Force copy (noCopy=false) to prevent Pager buffer recycling corruption
              const block = await allocator.readBlock(blockId, false); 
              if (!block) return undefined;
              
@@ -167,7 +166,16 @@ module.exports = {
         // Container Rehydration from Heap/Blobs
         if (type === T.MAP) {
             const parsed = parser.parse(buffer);
-            return Array.isArray(parsed) ? new Map(parsed) : new Map();
+            // B"H: Convert Buffer keys to Strings if parsed returns array of [key, val]
+            if (Array.isArray(parsed)) {
+                for(let i=0; i<parsed.length; i++) {
+                    if (Array.isArray(parsed[i]) && Buffer.isBuffer(parsed[i][0])) {
+                        parsed[i][0] = parsed[i][0].toString('utf8');
+                    }
+                }
+                return new Map(parsed);
+            }
+            return new Map();
         }
         if (type === T.SET) {
             const parsed = parser.parse(buffer);
