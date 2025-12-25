@@ -23,6 +23,28 @@ function parseStatement(parser) {
     }
 
     if (t.type === TOKENS.KEYWORD) {
+        if (t.value === 'if') {
+            parser.consume();
+            parser.expect(TOKENS.PUNCT, '(');
+            const cond = parseExpression(parser);
+            parser.expect(TOKENS.PUNCT, ')');
+            const then = parseStatement(parser);
+            let alt = null;
+            if (parser.peek().value === 'else') {
+                parser.consume();
+                alt = parseStatement(parser);
+            }
+            return { type: 'If', cond, then, alt };
+        }
+        if (t.value === 'return') {
+            parser.consume();
+            let expr = null;
+            if (parser.peek().value !== ';') {
+                expr = parseExpression(parser);
+            }
+            parser.expect(TOKENS.PUNCT, ';');
+            return { type: 'Return', expr };
+        }
         if (t.value === 'while') {
             parser.consume();
             parser.expect(TOKENS.PUNCT, '(');
@@ -31,7 +53,8 @@ function parseStatement(parser) {
             const body = parseStatement(parser);
             return { type: 'While', cond, body };
         }
-        if (['int','float'].includes(t.value)) {
+        // B"H: Added char, void, double to allowed declaration types
+        if (['int','float','char','void','double'].includes(t.value)) {
             return parseDeclaration(parser);
         }
     }

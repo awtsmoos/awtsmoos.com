@@ -3,8 +3,14 @@
 const { TOKENS } = require('../lexer.js');
 
 const PRECEDENCE = {
-    '<': 10, '>': 10, '<=': 10, '>=': 10, '==': 9, '!=': 9,
-    '+': 20, '-': 20, '*': 30, '/': 30
+    '*': 30, '/': 30, '%': 30,
+    '+': 20, '-': 20,
+    '<<': 15, '>>': 15,
+    '<': 10, '>': 10, '<=': 10, '>=': 10,
+    '==': 9, '!=': 9,
+    '&': 8,
+    '^': 7,
+    '|': 6
 };
 
 function parseExpression(parser) {
@@ -41,6 +47,21 @@ function parseUnary(parser) {
         parser.consume();
         const target = parseUnary(parser);
         return { type: 'ArrayAccess', target, index: { type: 'Literal', value: '0' } };
+    }
+    if (t.value === '-') {
+        parser.consume();
+        return { type: 'Unary', op: '-', argument: parseUnary(parser) };
+    }
+    // C-style Type Casting
+    if (t.value === '(') {
+        const next = parser.peek(1);
+        // B"H: Expanded type check
+        if (next.type === TOKENS.KEYWORD && ['int', 'float', 'char', 'void', 'double'].includes(next.value)) {
+            parser.consume(); // (
+            const type = parser.parseType();
+            parser.expect(TOKENS.PUNCT, ')');
+            return { type: 'Cast', targetType: type, argument: parseUnary(parser) };
+        }
     }
     return parsePostfix(parser);
 }

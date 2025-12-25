@@ -1,44 +1,56 @@
+//B"H
 // File: /BH/awtsmoos.com/ayzarim/DosDB/awtsmoosBinary/awtsmoosDB/api/ai/index.js
 
 const DirectEngine = require('./direct/index.js');
 const AwtsmoosBrain = require('./brain.js');
+const ModelImporter = require('./importer.js');
 
 class AIManager {
     constructor(db) {
         this.db = db;
+        this.importer = new ModelImporter(db);
     }
 
     /**
-     * Loads a model and attaches a Brain.
-     * @param {string} ggufPath 
-     * @param {object} options
+     * @description Loads a model from FILE or DB and attaches a Brain.
      */
-    async loadBrain(ggufPath, options = {}) {
-        const engine = new DirectEngine(ggufPath, options);
+    async loadBrain(source, options = {}) {
+        if (typeof source === 'string' && !source.endsWith('.gguf') && !require('fs').existsSync(source)) {
+             if (await this.hasModel(source)) {
+                 source = this.db.root.ai.models[source];
+             } else {
+                 throw new Error(`B"H Error: Model source '${source}' not found on disk or in DB registry.`);
+             }
+        }
+        
+        const engine = new DirectEngine(source, options);
+        engine.setGraphContext(this.db.graph); 
         await engine.init();
         
         const brain = new AwtsmoosBrain(this.db, engine);
         await brain.init();
-        
         return brain;
     }
-
-    /**
-     * Low-level model load (no memory/DB connection)
-     * @param {string} ggufPath 
-     * @param {object} options
-     */
-    async loadModel(ggufPath, options = {}) {
-        const engine = new DirectEngine(ggufPath, options);
-        await engine.init();
-        return engine;
-    } 
     
+    async importModel(filePath, name) {
+        return this.importer.importGGUF(filePath, name);
+    }
+
     async hasModel(modelName = 'default') {
-        if(!this.db.root.ai) return false;
-        const models = await this.db.root.ai.models;
-        if (!models) return false;
-        return await this.db.has(models, modelName);
+        // B"H: Use the DB's portals to check handle existence
+        if (!await this.db.has(this.db.root, 'ai')) return false;
+        
+        const aiRoot = this.db.root.ai;
+        if (!await this.db.has(aiRoot, 'models')) return false;
+
+        const modelsHandle = aiRoot.models;
+        return await this.db.has(modelsHandle, modelName);
+    }
+    
+    async tokenize(text, engine) {
+        if (!engine || !engine.tokenizer) throw new Error("B\"H: Initialized Engine required");
+        const tokens = await engine.tokenizer.tokenize(text);
+        return new Int32Array(tokens);
     }
 }
 

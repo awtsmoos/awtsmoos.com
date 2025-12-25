@@ -7,6 +7,7 @@ const Dictionary = require('../../structure/dictionary/index.js');
 const MapEngine = require('../../structure/map/index.js');
 const keyEncoding = require('../../utils/keyEncoding.js');
 const { readPointer48 } = require('../../utils/binaryHelpers.js');
+const SmartBinary = require('../../utils/smartBinary.js');
 
 class Reader {
     constructor(handle) {
@@ -14,7 +15,6 @@ class Reader {
         this.db = handle.db;
     }
 
-    // B"H: Helper to get the underlying structure pointer
     async _resolveStructPtr() {
         if (this.handle.ptr) {
             return await SmartPointer.resolve(this.handle.ptr, this.db.allocator);
@@ -33,6 +33,32 @@ class Reader {
     async resolveSelf() {
         return this.db.read(async () => {
             await this.handle.ensureResolved();
+
+            // --- Smart Binary (Inline) ---
+            const decoded = SmartPointer.decode(this.handle.ptr);
+            if (decoded && decoded.mode === constants.MODE_INLINE) {
+                if (decoded.type === constants.TYPE_SMART_OBJECT) {
+                    const keys = SmartBinary.getObjectKeys(decoded.payload);
+                    const obj = {};
+                    for(const k of keys) {
+                        const valBuf = SmartBinary.getObjectProperty(decoded.payload, k);
+                        // Recursively resolve the value (it's a pointer buffer)
+                        obj[k] = await SmartPointer.resolve(valBuf, this.db.allocator);
+                    }
+                    return obj;
+                }
+                if (decoded.type === constants.TYPE_SMART_ARRAY) {
+                    const count = decoded.payload.readUInt32BE(4);
+                    const arr = [];
+                    for(let i=0; i<count; i++) {
+                        const valBuf = SmartBinary.getArrayIndex(decoded.payload, i);
+                        arr.push(await SmartPointer.resolve(valBuf, this.db.allocator));
+                    }
+                    return arr;
+                }
+                // Other inline types
+                return SmartPointer.decodeInline(decoded.type, decoded.payload);
+            }
 
             const context = new Map();
             if (!this.handle.ptr || (this.handle.type === constants.TYPE_DICTIONARY && !this.handle.ptr)) {
@@ -146,153 +172,35 @@ class Reader {
         return val;
     }
 
-    async getItem(index) {
-        return this.db.read(async () => {
-            await this.handle.ensureResolved();
-            if (!this.handle.ptr) return undefined;
-
-            const res = await SmartPointer.resolve(this.handle.ptr, this.db.allocator);
-            const seq = new Sequence(this.db.allocator, res);
-            const val = await seq.get(index);
-            
-            if (val && val.isStructure && val.type === constants.TYPE_DICTIONARY) {
-                return await this._hydrateStructure(val, new Map());
-            }
-
-            if (val && val.isStructure) {
-                 const buf = SmartPointer.block(val.type, val.blockId, val.length, val.isChain, val.offset);
-                 const LH = require('./index.js');
-                 return new LH(this.db, buf, val.type, { parent: this.handle, key: index });
-            }
-            return val;
-        });
-    }
-
-    async slice(start, end) {
-        return this.db.read(async () => {
-            await this.handle.ensureResolved();
-            if (!this.handle.ptr) return [];
-
-            const res = await SmartPointer.resolve(this.handle.ptr, this.db.allocator);
-            const seq = new Sequence(this.db.allocator, res);
-            const rawItems = await seq.slice(start, end);
-            
-            const processed = [];
-            for (let item of rawItems) {
-                if (item && item.isStructure && item.type === constants.TYPE_DICTIONARY) {
-                     processed.push(await this._hydrateStructure(item, new Map()));
-                } else {
-                     processed.push(this._wrapIfNeeded(item));
-                }
-            }
-            return processed;
-        });
-    }
-
-    async length() {
-        return this.db.read(async () => {
-            await this.handle.ensureResolved();
-            if (!this.handle.ptr) return 0;
-
-            const res = await SmartPointer.resolve(this.handle.ptr, this.db.allocator);
-            
-            if (this.handle.type === constants.TYPE_SEQUENCE || this.handle.type === constants.TYPE_SET) {
-                const seq = new Sequence(this.db.allocator, res);
-                return seq.length();
-            } else if (this.handle.type === constants.TYPE_MAP) {
-                const map = new MapEngine(this.db.allocator, res);
-                const s = await map.stats();
-                return s.count;
-            } else if (this.handle.type === constants.TYPE_DICTIONARY) {
-                const dict = new Dictionary(this.db.allocator, res);
-                const s = await dict.stats();
-                return s.count;
-            }
-            
-            // B"H: Primitives Support (Strings, Buffers, Arrays)
-            if (res && (typeof res === 'string' || Buffer.isBuffer(res) || Array.isArray(res))) {
-                return res.length;
-            }
-            if (res && res.size !== undefined) { // JS Set/Map
-                return res.size;
-            }
-            
-            return 0;
-        });
-    }
-
-    async byteSize() {
-        return this.db.read(async () => {
-            await this.handle.ensureResolved();
-            let structPtr = await this._resolveStructPtr();
-            
-            if (this.handle.type === constants.TYPE_SEQUENCE || this.handle.type === constants.TYPE_SET) {
-                const seq = new Sequence(this.db.allocator, structPtr);
-                return seq.byteSize();
-            }
-            if (this.handle.type === constants.TYPE_DICTIONARY) {
-                const dict = new Dictionary(this.db.allocator, structPtr);
-                const stats = await dict.stats();
-                return stats.size;
-            }
-            if (this.handle.type === constants.TYPE_MAP) {
-                const map = new MapEngine(this.db.allocator, structPtr);
-                const stats = await map.stats();
-                return stats.size;
-            }
-            
-            const val = await SmartPointer.resolve(this.handle.ptr, this.db.allocator);
-            if (Buffer.isBuffer(val)) return val.length;
-            if (typeof val === 'string') return Buffer.byteLength(val, 'utf8');
-            return 8; 
-        });
-    }
-
-    async stats() {
-        return this.db.read(async () => {
-            await this.handle.ensureResolved();
-            let structPtr = await this._resolveStructPtr();
-
-            if (this.handle.type === constants.TYPE_SEQUENCE) {
-                const seq = new Sequence(this.db.allocator, structPtr);
-                return seq.stats();
-            } 
-            else if (this.handle.type === constants.TYPE_DICTIONARY) {
-                const dict = new Dictionary(this.db.allocator, structPtr);
-                return dict.stats();
-            }
-            else if (this.handle.type === constants.TYPE_MAP) {
-                const map = new MapEngine(this.db.allocator, structPtr);
-                return map.stats();
-            }
-            return { error: "Stats not available for this type" };
-        });
-    }
-
-    async *range(start, end) {
-        await this.handle.ensureResolved();
-        let structPtr = await this._resolveStructPtr();
-
-        if (this.handle.type === constants.TYPE_MAP) {
-            const map = new MapEngine(this.db.allocator, structPtr);
-            for await (const item of map.range(start, end)) {
-                const realKey = keyEncoding.decode(item.key);
-                let val = item.value;
-                if (val && val.isStructure && val.type === constants.TYPE_DICTIONARY) {
-                    val = await this._hydrateStructure(val, new Map());
-                } else {
-                    val = this._wrapIfNeeded(val);
-                }
-                yield { key: realKey, value: val };
-            }
-        }
-    }
-
+    // --- Iteration for Smart Types ---
     async *iterator() {
         await this.handle.ensureResolved();
-        let structPtr = await this._resolveStructPtr();
         
-        // B"H: Explicitly check handle type after resolution
+        // Smart Binary
+        const decoded = SmartPointer.decode(this.handle.ptr);
+        if (decoded && decoded.mode === constants.MODE_INLINE) {
+             if (decoded.type === constants.TYPE_SMART_OBJECT) {
+                 const keys = SmartBinary.getObjectKeys(decoded.payload);
+                 for (const k of keys) {
+                     const valBuf = SmartBinary.getObjectProperty(decoded.payload, k);
+                     const val = await SmartPointer.resolve(valBuf, this.db.allocator);
+                     yield [k, val];
+                 }
+                 return;
+             }
+             if (decoded.type === constants.TYPE_SMART_ARRAY) {
+                 const count = decoded.payload.readUInt32BE(4);
+                 for (let i = 0; i < count; i++) {
+                     const valBuf = SmartBinary.getArrayIndex(decoded.payload, i);
+                     const val = await SmartPointer.resolve(valBuf, this.db.allocator);
+                     yield val;
+                 }
+                 return;
+             }
+        }
+
+        // Heavy Block Types (Existing Logic)
+        let structPtr = await this._resolveStructPtr();
         const type = this.handle.type;
 
         if (type === constants.TYPE_DICTIONARY) {
@@ -313,10 +221,7 @@ class Reader {
                 } else {
                     wrappedVal = this._wrapIfNeeded(val);
                 }
-                const realKey = keyEncoding.decode(k);
-                
-                // B"H: Standard Iteration: Yield [Key, Value] array only. No extra props.
-                yield [realKey, wrappedVal];
+                yield [keyEncoding.decode(k), wrappedVal];
             }
         } 
         else if (type === constants.TYPE_MAP) {
@@ -329,7 +234,6 @@ class Reader {
                 } else {
                     val = this._wrapIfNeeded(val);
                 }
-                // B"H: Standard Iteration: Yield [Key, Value]
                 yield [realKey, val];
             }
         }
@@ -349,18 +253,33 @@ class Reader {
                 } else {
                     wrappedVal = this._wrapIfNeeded(val);
                 }
-                // B"H: Standard Array Iteration: Yield Value only
                 yield wrappedVal;
             }
         }
     }
-
+    
+    // Pass-through for other methods like keys(), values() which depend on iterator()
     async *keys() {
-        await this.handle.ensureResolved();
-        let structPtr = await this._resolveStructPtr();
-        const type = this.handle.type;
-
-        if (type === constants.TYPE_DICTIONARY) {
+         await this.handle.ensureResolved();
+         const decoded = SmartPointer.decode(this.handle.ptr);
+         
+         if (decoded && decoded.mode === constants.MODE_INLINE) {
+             if (decoded.type === constants.TYPE_SMART_OBJECT) {
+                 const k = SmartBinary.getObjectKeys(decoded.payload);
+                 for(const key of k) yield key;
+                 return;
+             }
+             if (decoded.type === constants.TYPE_SMART_ARRAY) {
+                 const count = decoded.payload.readUInt32BE(4);
+                 for(let i=0; i<count; i++) yield i;
+                 return;
+             }
+         }
+         
+         // Fallback to Heavy Block logic
+         let structPtr = await this._resolveStructPtr();
+         const type = this.handle.type;
+         if (type === constants.TYPE_DICTIONARY) {
             const dict = new Dictionary(this.db.allocator, structPtr);
             for await (const k of dict.keys()) yield keyEncoding.decode(k);
         } else if (type === constants.TYPE_MAP) {
@@ -374,35 +293,171 @@ class Reader {
     }
 
     async *values() {
-        // B"H: FIX - Ensure type is resolved BEFORE creating iterator
-        await this.handle.ensureResolved();
-        const type = this.handle.type;
-        const iterator = this.iterator();
-        
-        for await (const entry of iterator) {
-            if (Array.isArray(entry) && entry.length === 2 && (type === constants.TYPE_DICTIONARY || type === constants.TYPE_MAP)) {
-                yield entry[1];
-            } else {
-                yield entry;
-            }
+        for await (const entry of this.iterator()) {
+            if (Array.isArray(entry) && entry.length === 2) yield entry[1];
+            else yield entry;
         }
     }
 
     async *entries() { 
         await this.handle.ensureResolved();
-        // B"H: Grab type immediately after resolution to avoid race/stale props
         const type = this.handle.type;
+        const decoded = SmartPointer.decode(this.handle.ptr);
         
-        if (type === constants.TYPE_SEQUENCE) {
+        if (decoded && decoded.mode === constants.MODE_INLINE && decoded.type === constants.TYPE_SMART_ARRAY) {
+             let i=0;
+             for await (const val of this.iterator()) yield [i++, val];
+        } else if (type === constants.TYPE_SEQUENCE) {
             let i = 0;
-            // Directly call iterator, which for sequence yields ONLY values
-            for await (const val of this.iterator()) {
-                yield [i++, val];
-            }
+            for await (const val of this.iterator()) yield [i++, val];
         } else {
-            // For Map/Dict, iterator already yields [key, val]
             yield* this.iterator(); 
         }
+    }
+    
+    // Add slice() and length() overrides for Smart Types
+    async length() {
+        await this.handle.ensureResolved();
+        const decoded = SmartPointer.decode(this.handle.ptr);
+        if (decoded && decoded.mode === constants.MODE_INLINE) {
+             if (decoded.type === constants.TYPE_SMART_ARRAY) return decoded.payload.readUInt32BE(4);
+             if (decoded.type === constants.TYPE_SMART_OBJECT) return decoded.payload.readUInt16BE(4);
+             if (typeof decoded.payload === 'string') return decoded.payload.length;
+             return 0;
+        }
+        
+        // Block Logic
+        return this.db.read(async () => {
+             let structPtr = await this._resolveStructPtr();
+             if (this.handle.type === constants.TYPE_SEQUENCE || this.handle.type === constants.TYPE_SET) {
+                const seq = new Sequence(this.db.allocator, structPtr);
+                return seq.length();
+            } else if (this.handle.type === constants.TYPE_MAP) {
+                const map = new MapEngine(this.db.allocator, structPtr);
+                const s = await map.stats();
+                return s.count;
+            } else if (this.handle.type === constants.TYPE_DICTIONARY) {
+                const dict = new Dictionary(this.db.allocator, structPtr);
+                const s = await dict.stats();
+                return s.count;
+            }
+             // Primitives
+            const res = await SmartPointer.resolve(this.handle.ptr, this.db.allocator);
+            if (res && (typeof res === 'string' || Buffer.isBuffer(res) || Array.isArray(res))) return res.length;
+            if (res && res.size !== undefined) return res.size;
+            return 0;
+        });
+    }
+    
+    async slice(start, end) {
+        return this.db.read(async () => {
+            await this.handle.ensureResolved();
+            
+            const decoded = SmartPointer.decode(this.handle.ptr);
+            if (decoded && decoded.mode === constants.MODE_INLINE && decoded.type === constants.TYPE_SMART_ARRAY) {
+                const count = decoded.payload.readUInt32BE(4);
+                let s = start === undefined ? 0 : start;
+                let e = end === undefined ? count : end;
+                if (s < 0) s = Math.max(0, count + s);
+                if (e < 0) e = Math.max(0, count + e);
+                if (s > count) s = count;
+                if (e > count) e = count;
+                if (s > e) s = e;
+                
+                const arr = [];
+                const context = new Map();
+                for(let i=s; i<e; i++) {
+                    const valBuf = SmartBinary.getArrayIndex(decoded.payload, i);
+                    const val = await SmartPointer.resolve(valBuf, this.db.allocator, context);
+                    if (val && val.isStructure) {
+                        arr.push(await this._hydrateStructure(val, context));
+                    } else {
+                        arr.push(val);
+                    }
+                }
+                return arr;
+            }
+
+            let structPtr = await this._resolveStructPtr();
+            if (this.handle.type === constants.TYPE_SEQUENCE) {
+                const seq = new Sequence(this.db.allocator, structPtr);
+                const rawSlice = await seq.slice(start, end);
+                const hydratedSlice = [];
+                const context = new Map();
+                for(const val of rawSlice) {
+                     if (val && val.isStructure) {
+                         hydratedSlice.push(await this._hydrateStructure(val, context));
+                     } else {
+                         hydratedSlice.push(val);
+                     }
+                }
+                return hydratedSlice;
+            }
+            return [];
+        });
+    }
+
+    async getItem(index) {
+         await this.handle.ensureResolved();
+         const decoded = SmartPointer.decode(this.handle.ptr);
+         if (decoded && decoded.mode === constants.MODE_INLINE && decoded.type === constants.TYPE_SMART_ARRAY) {
+             const valBuf = SmartBinary.getArrayIndex(decoded.payload, index);
+             return await SmartPointer.resolve(valBuf, this.db.allocator);
+         }
+         
+         // Block Logic
+         return this.db.read(async () => {
+            if (!this.handle.ptr) return undefined;
+            const res = await SmartPointer.resolve(this.handle.ptr, this.db.allocator);
+            const seq = new Sequence(this.db.allocator, res);
+            const val = await seq.get(index);
+            if (val && val.isStructure && val.type === constants.TYPE_DICTIONARY) {
+                return await this._hydrateStructure(val, new Map());
+            }
+            if (val && val.isStructure) {
+                 const buf = SmartPointer.block(val.type, val.blockId, val.length, val.isChain, val.offset);
+                 const LH = require('./index.js');
+                 return new LH(this.db, buf, val.type, { parent: this.handle, key: index });
+            }
+            return val;
+        });
+    }
+
+    async *range(start, end) {
+        await this.handle.ensureResolved();
+        
+        let structPtr = await this._resolveStructPtr();
+        
+        if (this.handle.type === constants.TYPE_MAP) {
+            const map = new MapEngine(this.db.allocator, structPtr);
+            for await (const item of map.range(start, end)) {
+                let val = item.value;
+                if (val && val.isStructure && val.type === constants.TYPE_DICTIONARY) {
+                    val = await this._hydrateStructure(val, new Map());
+                } else {
+                    val = this._wrapIfNeeded(val);
+                }
+                yield { key: item.key, value: val };
+            }
+        }
+    }
+
+    async stats() {
+        await this.handle.ensureResolved();
+        let structPtr = await this._resolveStructPtr();
+        return this.db.read(async () => {
+             if (this.handle.type === constants.TYPE_SEQUENCE) {
+                 const seq = new Sequence(this.db.allocator, structPtr);
+                 return seq.stats();
+             } else if (this.handle.type === constants.TYPE_MAP) {
+                 const map = new MapEngine(this.db.allocator, structPtr);
+                 return map.stats();
+             } else if (this.handle.type === constants.TYPE_DICTIONARY) {
+                 const dict = new Dictionary(this.db.allocator, structPtr);
+                 return dict.stats();
+             }
+             return { count: 0, size: 0, capacity: 0 };
+        });
     }
 }
 module.exports = Reader;

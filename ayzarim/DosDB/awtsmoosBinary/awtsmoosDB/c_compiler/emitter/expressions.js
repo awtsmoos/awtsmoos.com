@@ -1,142 +1,225 @@
+
 // B"H
 const { WASM, Encoder } = require('./wasm_defs.js');
 
-/**
- * Generates WASM instructions for an expression.
- * Returns the resulting WASM type (I32 or F32).
- */
-function generateExpr(ctx, expr) {
-    if (expr.type === 'Literal') {
-        if (expr.value.includes('.') || expr.value.includes('e') || expr.value.includes('E')) {
-            ctx.code.push(WASM.F32_CONST, ...Encoder.ieee754(parseFloat(expr.value)));
+function generateExpr(ctx, node) {
+    if (!node) return WASM.VOID;
+
+    if (node.type === 'Literal') {
+        const val = node.value;
+        if (val.includes('.') || val.toLowerCase().includes('e') || val.toLowerCase().endsWith('f')) {
+            const f = parseFloat(val);
+            ctx.code.push(WASM.F32_CONST, ...Encoder.ieee754(f));
             return WASM.F32;
+        } else {
+            const i = parseInt(val);
+            ctx.code.push(WASM.I32_CONST, ...Encoder.toLEB128(i));
+            return WASM.I32;
         }
-        ctx.code.push(WASM.I32_CONST, ...Encoder.toLEB128(parseInt(expr.value)));
-        return WASM.I32;
     }
-    
-    if (expr.type === 'Identifier') {
-        const v = ctx.resolveVar(expr.name);
-        if (!v) throw new Error(`Undefined variable: ${expr.name}`);
+
+    if (node.type === 'Identifier') {
+        const v = ctx.resolveVar(node.name);
+        if (!v) throw new Error(`B"H Error: Identifier '${node.name}' not found.`);
         ctx.code.push(WASM.LOCAL_GET, ...Encoder.toLEB128(v.index));
         return v.type;
     }
-    
-    if (expr.type === 'Unary') {
-        const type = generateExpr(ctx, expr.argument);
-        if (expr.op === '-') {
-            if (type === WASM.F32) ctx.code.push(0x8C); // f32.neg
-            else { 
-                // i32.neg (0 - x)
-                ctx.code.push(WASM.I32_CONST, 0, 0x6B); // i32.sub
+
+    if (node.type === 'Unary') {
+        const type = generateExpr(ctx, node.argument);
+        if (node.op === '-') {
+            if (type === WASM.F32) {
+                ctx.code.push(WASM.F32_NEG);
+                return WASM.F32;
+            } else {
+                ctx.code.push(WASM.I32_CONST, ...Encoder.toLEB128(-1));
+                ctx.code.push(WASM.I32_MUL);
+                return WASM.I32;
             }
         }
         return type;
     }
-    
-    if (expr.type === 'Cast') {
-        const srcType = generateExpr(ctx, expr.argument);
-        const targetType = (expr.targetType.base === 'float' && expr.targetType.pointers === 0) ? WASM.F32 : WASM.I32;
-        if (srcType === targetType) return srcType;
+
+    if (node.type === 'ArrayAccess') {
+        // B"H: Determine pointer stride and alignment based on C-Type
+        let stride = 2; // Default float/int (shift 2 = 4 bytes)
+        let loadOp = WASM.F32_LOAD;
+        let retType = WASM.F32;
+        let alignment = 2; // Default 4-byte alignment
+
+        if (node.target.type === 'Identifier') {
+            const v = ctx.resolveVar(node.target.name);
+            if (v && v.cType) {
+                if (v.cType.base === 'char') {
+                    stride = 0; // 1 byte (shift 0)
+                    loadOp = WASM.I32_LOAD8_U;
+                    retType = WASM.I32;
+                    alignment = 0; 
+                } else if (v.cType.base === 'int') {
+                    stride = 2; // 4 bytes
+                    loadOp = WASM.I32_LOAD;
+                    retType = WASM.I32;
+                    alignment = 2; 
+                } else if (v.cType.base === 'float') {
+                    stride = 2; // 4 bytes
+                    loadOp = WASM.F32_LOAD;
+                    retType = WASM.F32;
+                    alignment = 2;
+                }
+            }
+        }
+
+        // B"H: OPTIMIZATION - Immediate Offset
+        // If index is a literal, bake it into the LOAD offset to save instructions
+        if (node.index.type === 'Literal') {
+            const idxVal = parseInt(node.index.value);
+            const byteOffset = idxVal << stride;
+            
+            // Emit target pointer only
+            generateExpr(ctx, node.target);
+            
+            // LOAD with offset
+            ctx.code.push(loadOp, ...Encoder.toLEB128(alignment), ...Encoder.toLEB128(byteOffset));
+            return retType;
+        }
+
+        // Standard Dynamic Access
+        const targetType = generateExpr(ctx, node.target);
+        generateExpr(ctx, node.index);
         
-        if (srcType === WASM.F32 && targetType === WASM.I32) {
-            ctx.code.push(0xA8); // i32.trunc_f32_s
-        } else if (srcType === WASM.I32 && targetType === WASM.F32) {
-            ctx.code.push(0xB2); // f32.convert_i32_s
+        if (stride > 0) {
+            ctx.code.push(WASM.I32_CONST, ...Encoder.toLEB128(stride));
+            ctx.code.push(WASM.I32_SHL);
         }
-        return targetType;
+        
+        ctx.code.push(WASM.I32_ADD);
+        ctx.code.push(loadOp, ...Encoder.toLEB128(alignment), ...Encoder.toLEB128(0));
+        return retType;
     }
-    
-    if (expr.type === 'Call') {
-        for (const arg of expr.args) {
-            generateExpr(ctx, arg);
-            // B"H: Basic calls assume float args for math libs. 
-            // In a fuller compiler, we'd check parameter types.
+
+    if (node.type === 'Assignment') {
+        if (node.left.type === 'ArrayAccess') {
+            // Determine Stride/Op
+            let stride = 2; 
+            let storeOp = WASM.F32_STORE;
+            let alignment = 2;
+            
+            if (node.left.target.type === 'Identifier') {
+                const v = ctx.resolveVar(node.left.target.name);
+                if (v && v.cType) {
+                    if (v.cType.base === 'char') { 
+                        stride = 0; 
+                        storeOp = WASM.I32_STORE8; 
+                        alignment = 0; 
+                    }
+                    else if (v.cType.base === 'int') { 
+                        stride = 2; 
+                        storeOp = WASM.I32_STORE; 
+                        alignment = 2;
+                    }
+                }
+            }
+
+            // B"H: Store Optimization - Immediate Offset
+            if (node.left.index.type === 'Literal') {
+                const idxVal = parseInt(node.left.index.value);
+                const byteOffset = idxVal << stride;
+                
+                generateExpr(ctx, node.left.target); // Pointer
+                generateExpr(ctx, node.right);       // Value
+                
+                ctx.code.push(storeOp, ...Encoder.toLEB128(alignment), ...Encoder.toLEB128(byteOffset));
+                return WASM.VOID;
+            }
+
+            generateExpr(ctx, node.left.target);
+            generateExpr(ctx, node.left.index);
+            if (stride > 0) {
+                ctx.code.push(WASM.I32_CONST, ...Encoder.toLEB128(stride));
+                ctx.code.push(WASM.I32_SHL);
+            }
+            ctx.code.push(WASM.I32_ADD); 
+            
+            const valType = generateExpr(ctx, node.right);
+            ctx.code.push(storeOp, ...Encoder.toLEB128(alignment), ...Encoder.toLEB128(0));
+            return WASM.VOID;
+        } else {
+            const v = ctx.resolveVar(node.left.name);
+            const valType = generateExpr(ctx, node.right);
+            if (valType === WASM.I32 && v.type === WASM.F32) ctx.code.push(WASM.F32_CONVERT_I32_S);
+            else if (valType === WASM.F32 && v.type === WASM.I32) ctx.code.push(WASM.I32_TRUNC_F32_S);
+            ctx.code.push(WASM.LOCAL_SET, ...Encoder.toLEB128(v.index));
+            return WASM.VOID;
         }
-        if (expr.name === '__builtin_sqrtf') {
-            ctx.code.push(0x8F); // f32.sqrt
+    }
+
+    if (node.type === 'Binary') {
+        const leftT = generateExpr(ctx, node.left);
+        const rightT = generateExpr(ctx, node.right);
+        const isFloat = (leftT === WASM.F32 || rightT === WASM.F32);
+        
+        if (isFloat) {
+            if (leftT === WASM.I32) ctx.code.push(WASM.F32_CONVERT_I32_S);
+            if (rightT === WASM.I32) ctx.code.push(WASM.F32_CONVERT_I32_S);
+            
+            switch(node.op) {
+                case '+': ctx.code.push(WASM.F32_ADD); break;
+                case '-': ctx.code.push(WASM.F32_SUB); break;
+                case '*': ctx.code.push(WASM.F32_MUL); break;
+                case '/': ctx.code.push(WASM.F32_DIV); break;
+                case '==': ctx.code.push(WASM.F32_EQ); break;
+                case '!=': ctx.code.push(WASM.F32_NE); break;
+                case '<': ctx.code.push(WASM.F32_LT); break;
+                case '>': ctx.code.push(WASM.F32_GT); break;
+                case '<=': ctx.code.push(WASM.F32_LE); break;
+                case '>=': ctx.code.push(WASM.F32_GE); break;
+            }
+            return (['==','!=','<','>','<=','>='].includes(node.op)) ? WASM.I32 : WASM.F32;
+        } else {
+            switch(node.op) {
+                case '+': ctx.code.push(WASM.I32_ADD); break;
+                case '-': ctx.code.push(WASM.I32_SUB); break;
+                case '*': ctx.code.push(WASM.I32_MUL); break;
+                case '/': ctx.code.push(WASM.I32_DIV_S); break;
+                case '<': ctx.code.push(WASM.I32_LT_S); break;
+                case '<=': ctx.code.push(WASM.I32_LE_S); break;
+                case '>': ctx.code.push(WASM.I32_GT_S); break;
+                case '>=': ctx.code.push(WASM.I32_GE_S); break;
+                case '==': ctx.code.push(WASM.I32_EQ); break;
+                case '!=': ctx.code.push(WASM.I32_NE); break;
+                // Bitwise
+                case '&': ctx.code.push(WASM.I32_AND); break;
+                case '|': ctx.code.push(WASM.I32_OR); break;
+                case '^': ctx.code.push(WASM.I32_XOR); break;
+                case '<<': ctx.code.push(WASM.I32_SHL); break;
+                case '>>': ctx.code.push(WASM.I32_SHR_U); break; 
+            }
+            return WASM.I32;
+        }
+    }
+
+    if (node.type === 'Call') {
+        if (node.name === 'sqrt' || node.name === '__builtin_sqrtf') {
+            generateExpr(ctx, node.args[0]);
+            ctx.code.push(WASM.F32_SQRT);
             return WASM.F32;
         }
-        ctx.code.push(0x10, ...Encoder.toLEB128(ctx.resolveFuncIndex(expr.name)));
-        return WASM.F32; // Standard math return
-    }
-    
-    if (expr.type === 'Binary') {
-        const t1 = generateExpr(ctx, expr.left);
-        const t2 = generateExpr(ctx, expr.right);
-        const isF = (t1 === WASM.F32 || t2 === WASM.F32);
-        
-        // Coercion for Binary Ops (Limited to converting top or using temp)
-        if (t1 === WASM.I32 && t2 === WASM.F32) {
-            // [i32, f32] -> swap -> convert -> swap
-            const tmpF = ctx.getOrDeclareLocal('__tmp_f_bin', WASM.F32);
-            ctx.code.push(WASM.LOCAL_SET, ...Encoder.toLEB128(tmpF.index)); // [i32]
-            ctx.code.push(0xB2); // convert to f32. [f32]
-            ctx.code.push(WASM.LOCAL_GET, ...Encoder.toLEB128(tmpF.index)); // [f32, f32]
-        } else if (t1 === WASM.F32 && t2 === WASM.I32) {
-            ctx.code.push(0xB2); // convert top i32 to f32. [f32, f32]
-        }
 
-        const ops = {
-            '+': isF ? 0x92 : 0x6A, '-': isF ? 0x93 : 0x6B, '*': isF ? 0x94 : 0x6C, '/': isF ? 0x95 : 0x6D,
-            '==': isF ? 0x5B : 0x46, '!=': isF ? 0x5C : 0x47, '<': isF ? 0x5D : 0x48, '>': isF ? 0x5E : 0x4A,
-            '<=': isF ? 0x5F : 0x4C, '>=': isF ? 0x60 : 0x4E
-        };
-        ctx.code.push(ops[expr.op]);
-        return ['+','-','*','/'].includes(expr.op) ? (isF ? WASM.F32 : WASM.I32) : WASM.I32;
-    }
-    
-    if (expr.type === 'Assignment') {
-        if (expr.left.type === 'Identifier') {
-            const v = ctx.resolveVar(expr.left.name);
-            const valType = generateExpr(ctx, expr.right);
-            
-            // Implicit Coercion
-            if (valType === WASM.I32 && v.type === WASM.F32) {
-                ctx.code.push(0xB2); // f32.convert_i32_s
-            } else if (valType === WASM.F32 && v.type === WASM.I32) {
-                ctx.code.push(0xA8); // i32.trunc_f32_s
-            }
-            
-            ctx.code.push(WASM.LOCAL_SET, ...Encoder.toLEB128(v.index));
-        } else if (expr.left.type === 'ArrayAccess') {
-            generateAddr(ctx, expr.left);
-            generateExpr(ctx, expr.right);
-            // ArrayAccess assumes float pointers (f32.store)
-            ctx.code.push(WASM.F32_STORE, 2, 0);
-        }
+        const idx = ctx.resolveFuncIndex(node.name);
+        for(const arg of node.args) generateExpr(ctx, arg);
+        ctx.code.push(WASM.CALL, ...Encoder.toLEB128(idx));
         return WASM.VOID;
     }
-    
-    if (expr.type === 'ArrayAccess') {
-        generateAddr(ctx, expr);
-        ctx.code.push(WASM.F32_LOAD, 2, 0);
-        return WASM.F32;
-    }
-    
-    if (expr.type === 'UpdateExpression') {
-        const v = ctx.resolveVar(expr.argument.name);
-        ctx.code.push(WASM.LOCAL_GET, ...Encoder.toLEB128(v.index));
-        ctx.code.push(WASM.LOCAL_GET, ...Encoder.toLEB128(v.index));
-        
-        if (v.type === WASM.F32) {
-            ctx.code.push(WASM.F32_CONST, ...Encoder.ieee754(1.0));
-            ctx.code.push(expr.op === '++' ? 0x92 : 0x93);
-        } else {
-            ctx.code.push(WASM.I32_CONST, 1, expr.op === '++' ? 0x6A : 0x6B);
-        }
-        ctx.code.push(WASM.LOCAL_SET, ...Encoder.toLEB128(v.index));
-        return v.type;
-    }
-}
 
-/**
- * Calculates the memory address of an array access.
- */
-function generateAddr(ctx, expr) {
-    generateExpr(ctx, expr.target); // Ptr (I32)
-    generateExpr(ctx, expr.index);  // Index (I32)
-    ctx.code.push(WASM.I32_CONST, 2, WASM.I32_SHL, WASM.I32_ADD);
+    if (node.type === 'Cast') {
+        const sourceT = generateExpr(ctx, node.argument);
+        const targetT = (node.targetType.base === 'float') ? WASM.F32 : WASM.I32;
+        if (sourceT === WASM.I32 && targetT === WASM.F32) ctx.code.push(WASM.F32_CONVERT_I32_S);
+        else if (sourceT === WASM.F32 && targetT === WASM.I32) ctx.code.push(WASM.I32_TRUNC_F32_S);
+        return targetT;
+    }
+
+    return WASM.VOID;
 }
 
 module.exports = { generateExpr };

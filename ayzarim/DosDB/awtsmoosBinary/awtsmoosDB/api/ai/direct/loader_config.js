@@ -1,3 +1,4 @@
+
 // B"H
 const Logger = require('../utils/logger.js');
 
@@ -17,7 +18,8 @@ function inferParams(metadata, tensorMap) {
 
     const p = {
         n_embd: 0, n_layer: 0, n_head: 0, n_head_kv: 0, head_dim: 0,
-        norm_eps: 1e-6, rope_freq: 10000.0, rope_freq_local: 0.0,
+        n_ctx: 0, // B"H: Initialized
+        norm_eps: 1e-5, rope_freq: 10000.0, rope_freq_local: 0.0,
         rope_scale: 1.0,
         arch: 'llama',
         useEmbScale: false, attn_soft_cap: 0.0, final_soft_cap: 0.0,
@@ -25,7 +27,7 @@ function inferParams(metadata, tensorMap) {
         query_pre_attn_scalar: 0,
         act_fn: 'silu',
         rope_is_neox: false,
-        norm_offset: 0.0 
+        norm_offset: 0.0 // B"H: Matches browser unitOffset = 0.0
     };
 
     // 1. Architecture Identification
@@ -37,6 +39,7 @@ function inferParams(metadata, tensorMap) {
     if (isGemma) {
         p.act_fn = 'gelu';
         p.rope_is_neox = true; 
+        p.norm_offset = 0.0;
     }
 
     // 2. Structural Dimensions
@@ -46,7 +49,7 @@ function inferParams(metadata, tensorMap) {
     const qInfo = tensorMap.get('blk.0.attn_q.weight') || tensorMap.get('model.layers.0.self_attn.q_proj.weight');
     const kInfo = tensorMap.get('blk.0.attn_k.weight') || tensorMap.get('model.layers.0.self_attn.k_proj.weight');
 
-    // Head Dim - Preference for explicit keys or derived from q_proj rows
+    // Head Dim
     let metaHeadDim = findVal('.attention.key_length') || findVal('.attention.head_dim');
     
     if (metaHeadDim) {
@@ -77,7 +80,7 @@ function inferParams(metadata, tensorMap) {
     }
     
     // 3. Normalization Epsilon
-    p.norm_eps = findVal('.attention.layer_norm_rms_epsilon') || (isGemma ? 1e-6 : 1e-5); 
+    p.norm_eps = findVal('.attention.layer_norm_rms_epsilon') || 1e-5; 
     
     // 4. RoPE Frequency
     p.rope_freq = findVal('.rope.freq_base') || 10000.0;
@@ -94,7 +97,10 @@ function inferParams(metadata, tensorMap) {
         p.rope_freq_local = p.rope_freq;
     }
     
-    // 5. Architecture-Specific logic
+    // 5. Context Length (B"H: Critical Fix)
+    p.n_ctx = findVal('.context_length') || 4096;
+    
+    // 6. Architecture-Specific logic
     if (isGemma) {
         p.useEmbScale = true; 
         
@@ -110,7 +116,7 @@ function inferParams(metadata, tensorMap) {
         p.final_soft_cap = findVal('final_logit_softcapping') || 0.0;
     } 
     
-    // 6. Layer Count
+    // 7. Layer Count
     let l = 0;
     while(tensorMap.has(`blk.${l}.attn_q.weight`) || tensorMap.has(`model.layers.${l}.self_attn.q_proj.weight`)) l++;
     p.n_layer = l;
@@ -118,7 +124,7 @@ function inferParams(metadata, tensorMap) {
     p.q_dim = p.n_head * p.head_dim;
     p.kv_dim = p.n_head_kv * p.head_dim;
     
-    Logger.log(`[CONFIG] ${p.arch} | L:${p.n_layer} | Emb:${p.n_embd} | Heads:${p.n_head}/${p.n_head_kv} | Dim:${p.head_dim} | Eps:${p.norm_eps}`);
+    Logger.log(`[CONFIG] ${p.arch} | L:${p.n_layer} | Ctx:${p.n_ctx} | Emb:${p.n_embd} | Heads:${p.n_head}/${p.n_head_kv} | Dim:${p.head_dim} | Eps:${p.norm_eps}`);
     
     return p;
 }

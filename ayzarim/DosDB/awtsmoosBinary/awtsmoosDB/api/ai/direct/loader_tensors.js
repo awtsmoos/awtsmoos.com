@@ -1,8 +1,9 @@
+
 // B"H
-const { dequantize } = require('../math/quant.js');
+const { dequantize, F16_TABLE } = require('../math/quant.js');
 const { getByteSize, GGML_TYPE } = require('../math/types.js');
 
-// GLOBAL WEIGHT CACHE (Map<StringName, Float32Array>)
+// GLOBAL WEIGHT CACHE (Map<StringName, Float32Array | Object>)
 const tensorCache = new Map();
 
 function mapWeights(tensorMap) {
@@ -40,7 +41,7 @@ function mapWeights(tensorMap) {
     return { layerTensorMap, globalTensorMap };
 }
 
-// B"H: 5 Arguments (Standard)
+// B"H: Standard file reader
 function readTensor(buffer, baseOffset, info, sliceStart = 0, sliceLength = null) {
     if (!info) return null;
 
@@ -48,42 +49,85 @@ function readTensor(buffer, baseOffset, info, sliceStart = 0, sliceLength = null
     if (isFullRead && tensorCache.has(info.name)) {
         return tensorCache.get(info.name);
     }
-
-    const numElements = info.dims.reduce((a, b) => a * b, 1);
-    const readLen = sliceLength !== null ? sliceLength : numElements;
+    
+    // Calculate bytes
     const type = info.type;
     const { blockElements, blockSize } = getByteSize(type);
+    
+    const numElements = info.dims.reduce((a, b) => a * b, 1);
+    const readLen = sliceLength !== null ? sliceLength : numElements;
     
     const blockIndexStart = Math.floor(sliceStart / blockElements);
     const byteStart = baseOffset + info.dataOffset + (blockIndexStart * blockSize);
     const byteLength = Math.ceil(readLen / blockElements) * blockSize;
     
-    if (byteStart >= buffer.byteLength) return new Float32Array(readLen);
-
     let safeByteLength = byteLength;
     if (byteStart + byteLength > buffer.byteLength) {
          safeByteLength = buffer.byteLength - byteStart;
     }
 
-    // Direct View
     const rawView = new Uint8Array(buffer.buffer, buffer.byteOffset + byteStart, safeByteLength);
-
-    // Dequantize (Always Float32)
+    
+    // Dequantize
     const fullResult = dequantize(rawView, type, safeByteLength / blockSize * blockElements);
     
+    // Subarray if needed (logic matches slice requirements)
     const relativeStart = sliceStart - (blockIndexStart * blockElements);
     let final;
-    
     if (relativeStart === 0 && readLen === fullResult.length) final = fullResult;
     else final = fullResult.subarray(relativeStart, relativeStart + readLen);
 
-    // B"H: OPTIMIZATION - Cache ALL tensors regardless of size.
-    // The cost of re-dequantizing 500MB+ Output Tensors per token is far higher than RAM cost.
-    if (isFullRead) {
-        tensorCache.set(info.name, final);
-    }
-    
+    if (isFullRead) tensorCache.set(info.name, final);
     return final;
 }
 
-module.exports = { mapWeights, readTensor };
+// B"H: New function for DB mode - accepts raw buffer directly
+function dequantizeSingle(rawBuffer, type) {
+    const { blockElements, blockSize } = getByteSize(type);
+    const numElements = (rawBuffer.length / blockSize) * blockElements;
+    return dequantize(rawBuffer, type, numElements);
+}
+
+// B"H: Special Q4_0 Loader for Hyper-Kernel (File Mode)
+function readQuantizedTensor(buffer, baseOffset, info) {
+    if (!info || info.type !== GGML_TYPE.Q4_0) return null;
+    if (tensorCache.has(info.name + "_QUANT")) return tensorCache.get(info.name + "_QUANT");
+
+    const numElements = info.dims.reduce((a, b) => a * b, 1);
+    const { blockSize } = getByteSize(info.type); // 18 bytes
+    const blockCount = numElements / 32;
+    const byteLength = blockCount * blockSize;
+    const byteStart = baseOffset + info.dataOffset;
+    
+    const rawData = new Uint8Array(buffer.buffer, buffer.byteOffset + byteStart, byteLength);
+    
+    const res = parseQuantizedBuffer(rawData, numElements);
+    tensorCache.set(info.name + "_QUANT", res);
+    return res;
+}
+
+// B"H: Logic split for DB/File reuse
+function parseQuantizedBuffer(rawData, numElementsOverride = null) {
+    // 18 bytes per block (32 elements)
+    const blockCount = rawData.length / 18; 
+    const numElements = numElementsOverride || (blockCount * 32);
+
+    const scales = new Float32Array(blockCount);
+    const quants = new Uint8Array(blockCount * 16);
+    
+    let rawIdx = 0;
+    let qIdx = 0;
+    
+    for (let i = 0; i < blockCount; i++) {
+        const f16 = rawData[rawIdx] | (rawData[rawIdx+1] << 8);
+        scales[i] = F16_TABLE[f16];
+        rawIdx += 2;
+        for(let j=0; j<16; j++) {
+            quants[qIdx++] = rawData[rawIdx++];
+        }
+    }
+    
+    return { scales, quants, n_out: numElements, n_in: numElements, type: 'Q4_0' };
+}
+
+module.exports = { mapWeights, readTensor, readQuantizedTensor, dequantizeSingle, parseQuantizedBuffer };

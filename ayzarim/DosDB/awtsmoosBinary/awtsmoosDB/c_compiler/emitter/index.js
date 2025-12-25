@@ -14,13 +14,20 @@ class Emitter {
 
     emit(ast) {
         const funcs = ast.body.filter(n => n.type === 'Function');
-        funcs.forEach((f, i) => this.funcTable.set(f.name, i));
+        
+        // B"H: Populate function table with metadata before emitting bodies
+        funcs.forEach((f, i) => {
+            const retT = (f.retType.base === 'void') ? WASM.VOID : 
+                         ((f.retType.base === 'float' && f.retType.pointers === 0) ? WASM.F32 : WASM.I32);
+            this.funcTable.set(f.name, { index: i, retType: retT });
+        });
 
         const funcBodies = funcs.map(f => this._emitFunc(f));
 
         const typePayloads = funcs.map(f => {
             const pt = f.params.map(p => (p.type.base === 'float' && p.type.pointers === 0) ? WASM.F32 : WASM.I32);
-            return [0x60, ...Encoder.vec(pt), ...Encoder.vec([])];
+            const rt = (f.retType.base === 'void') ? [] : [(f.retType.base === 'float' && f.retType.pointers === 0) ? WASM.F32 : WASM.I32];
+            return [0x60, ...Encoder.vec(pt), ...Encoder.vec(rt)];
         });
         const typeSec = Encoder.section(1, Encoder.vec(typePayloads));
         const funcSec = Encoder.section(3, Encoder.vec(funcs.map((_, i) => i)));
@@ -38,7 +45,8 @@ class Emitter {
         this.code = []; this.locals.clear(); this.params.clear(); this.localCount = 0;
         f.params.forEach(p => {
             const t = (p.type.base === 'float' && p.type.pointers === 0) ? WASM.F32 : WASM.I32;
-            this.params.set(p.name, { index: this.localCount++, type: t });
+            // B"H: Track C-Type for pointer arithmetic logic
+            this.params.set(p.name, { index: this.localCount++, type: t, cType: p.type });
         });
         f.body.body.forEach(s => generateStmt(this, s));
         
@@ -57,10 +65,17 @@ class Emitter {
     }
 
     resolveVar(name) { return this.locals.get(name) || this.params.get(name); }
-    resolveFuncIndex(name) { return this.funcTable.get(name) || 0; }
-    getOrDeclareLocal(name, type) {
+    resolveFuncIndex(name) { 
+        const info = this.funcTable.get(name);
+        return info ? info.index : 0; 
+    }
+    
+    getOrDeclareLocal(name, type, cType = null) {
         let v = this.resolveVar(name);
-        if (!v) { v = { index: this.localCount++, type }; this.locals.set(name, v); }
+        if (!v) { 
+            v = { index: this.localCount++, type, cType }; 
+            this.locals.set(name, v); 
+        }
         return v;
     }
 }

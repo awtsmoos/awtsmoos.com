@@ -7,6 +7,8 @@ const MapWriter = require('./writers/mapWriter.js');
 const SequenceWriter = require('./writers/sequenceWriter.js');
 const Sequence = require('../../structure/sequence/index.js'); // For concat
 const SmartPointer = require('../../utils/smartPointer.js'); // For concat
+const Dictionary = require('../../structure/dictionary/index.js');
+const keyEncoding = require('../../utils/keyEncoding.js');
 
 class Writer {
     constructor(handle) {
@@ -28,19 +30,20 @@ class Writer {
 
     async _setRaw(key, value, options = {}) {
         // B"H: CRITICAL FIX - Force resolution to ensure we have the latest pointer
-        // This is necessary because another concurrent write might have updated the parent's pointer for this handle.
         await this.handle.ensureResolved(true);
         
         if (!this.handle.ptr && this.handle !== this.db.root) {
              if(!this.handle.ptr) throw new Error(`Cannot set '${String(key)}' on undefined path.`);
         }
-
-        // B"H: If type is unknown (null), we try to assume based on parent or context,
-        // but often if it's null it means we need to resolve it first. 
-        // ensureResolved above should have fixed it if it exists. 
-        // If it still doesn't exist, we can't set on it directly without creating it.
-        // But here we are setting a PROPERTY on the handle.
         
+        // B"H: Promote Smart Types on Write
+        if (this.handle.type === constants.TYPE_SMART_ARRAY) {
+             await this._promoteSmartArray();
+        }
+        if (this.handle.type === constants.TYPE_SMART_OBJECT) {
+             await this._promoteSmartObject();
+        }
+
         if (this.handle.type === constants.TYPE_SEQUENCE) {
             await this.seqWriter.set(key, value, options);
         } else {
@@ -48,11 +51,51 @@ class Writer {
             await this.mapWriter.set(key, value, options);
         }
     }
+    
+    async _promoteSmartArray() {
+        const arr = await this.handle.reader.resolveSelf(); 
+        const seq = new Sequence(this.db.allocator);
+        await seq.create();
+        
+        // Push resolved items. StructureBuilder handles re-serialization.
+        for(const item of arr) {
+            const ptr = await this.builder.build(item);
+            await seq.push(ptr);
+        }
+        
+        const newPtr = SmartPointer.block(constants.TYPE_SEQUENCE, seq.ptr.blockId, seq.ptr.length, seq.ptr.isChain, seq.ptr.offset);
+        await this.handle._updatePointer(newPtr);
+    }
+    
+    async _promoteSmartObject() {
+        const obj = await this.handle.reader.resolveSelf();
+        const dict = new Dictionary(this.db.allocator);
+        await dict.create();
+        
+        for(const k in obj) {
+             const ptr = await this.builder.build(obj[k]);
+             const encodedKey = keyEncoding.encode(k);
+             await dict.set(encodedKey, ptr, { isPtr: true });
+        }
+        
+        // B"H: Fix - dict.create() returns a Buffer, but we need properties from dict.ptr
+        const newPtr = SmartPointer.block(
+            constants.TYPE_DICTIONARY, 
+            dict.ptr.blockId, 
+            dict.ptr.length, 
+            dict.ptr.isChain, 
+            dict.ptr.offset
+        );
+        await this.handle._updatePointer(newPtr);
+    }
 
     async createMap(key) {
         return this.db.execute(async () => {
             this.common.invalidateEngine();
             await this.handle.ensureResolved(true);
+            if (this.handle.type === constants.TYPE_SMART_ARRAY) await this._promoteSmartArray();
+            if (this.handle.type === constants.TYPE_SMART_OBJECT) await this._promoteSmartObject();
+
             if (this.handle.type === constants.TYPE_SEQUENCE) {
                 await this.seqWriter.createStructureInList(key, 'map');
             } else {
@@ -65,6 +108,9 @@ class Writer {
         return this.db.execute(async () => {
             this.common.invalidateEngine();
             await this.handle.ensureResolved(true);
+            if (this.handle.type === constants.TYPE_SMART_ARRAY) await this._promoteSmartArray();
+            if (this.handle.type === constants.TYPE_SMART_OBJECT) await this._promoteSmartObject();
+
             if (this.handle.type === constants.TYPE_SEQUENCE) {
                 await this.seqWriter.createStructureInList(key, 'object');
             } else {
@@ -83,6 +129,9 @@ class Writer {
             await this.handle.ensureResolved(true);
             if (!this.handle.ptr) return false;
             
+            if (this.handle.type === constants.TYPE_SMART_ARRAY) await this._promoteSmartArray();
+            if (this.handle.type === constants.TYPE_SMART_OBJECT) await this._promoteSmartObject();
+            
             if (this.handle.type === constants.TYPE_SEQUENCE) {
                 return await this.seqWriter.delete(key);
             } else {
@@ -94,6 +143,8 @@ class Writer {
     async push(value, options = {}) {
         return this.db.execute(async () => {
             await this.handle.ensureResolved(true);
+            if (this.handle.type === constants.TYPE_SMART_ARRAY) await this._promoteSmartArray();
+            
             if (this.handle.type !== constants.TYPE_SEQUENCE) throw new Error("Not a sequence");
             await this.seqWriter.push(value, options);
         });
@@ -102,6 +153,8 @@ class Writer {
     async splice(start, deleteCount, ...args) {
         return this.db.execute(async () => {
             await this.handle.ensureResolved(true);
+            if (this.handle.type === constants.TYPE_SMART_ARRAY) await this._promoteSmartArray();
+            
             if (this.handle.type !== constants.TYPE_SEQUENCE) throw new Error("Not a sequence");
             await this.seqWriter.splice(start, deleteCount, ...args);
         });
@@ -110,6 +163,9 @@ class Writer {
     async compact() {
         return this.db.execute(async () => {
             await this.handle.ensureResolved(true);
+            if (this.handle.type === constants.TYPE_SMART_ARRAY) return true; // Already compact
+            if (this.handle.type === constants.TYPE_SMART_OBJECT) return true;
+
             let structPtr = await this.common.resolveStructPtr();
             if (!structPtr) return false;
 
@@ -131,9 +187,20 @@ class Writer {
         return this.db.execute(async () => {
             this.common.invalidateEngine();
             await this.handle.ensureResolved(true);
+            if (this.handle.type === constants.TYPE_SMART_ARRAY) await this._promoteSmartArray();
+            
             if (this.handle.type !== constants.TYPE_SEQUENCE) throw new Error("Not a sequence");
             if (otherHandle.ensureResolved) await otherHandle.ensureResolved();
             if (!otherHandle.ptr) return; 
+            
+            // Promote other if needed to append efficiently? 
+            // Or Reader handles read. Sequence concat expects another Sequence Engine.
+            // If other is SmartArray, resolve it and push items.
+            if (otherHandle.type === constants.TYPE_SMART_ARRAY) {
+                 const otherArr = await otherHandle.reader.resolveSelf();
+                 for(const item of otherArr) await this.push(item);
+                 return;
+            }
 
             const structPtr = await this.common.resolveStructPtr();
             const seq = await this.common.getEngine(structPtr, constants.TYPE_SEQUENCE);

@@ -5,100 +5,65 @@ const Matrix = require('../math/matrix.js');
 const Act = require('../math/act.js');
 const Layers = require('./layers.js');
 const Wasm = require('../math/wasm_jit.js');
+const Tensors = require('./loader_tensors.js');
 
-/**
- * B"H
- * The Model Vessel.
- * Coordinates the flow of light through the layers.
- */
 class Model {
     constructor(engine) {
         this.engine = engine;
         this.layers = new Layers(engine);
         this.pointer_cache = new Map();
-        this.shared_input_ptr = -1;
-        this.shared_input_size = 0;
     }
 
-    /**
-     * B"H
-     * Debug Helper - Ensures the signal hasn't collapsed into the void of NaN.
-     */
-    debugCheck(name, tensor) {
-        if (!tensor) return;
-        let data = tensor;
-        if (tensor._wasmPtr !== undefined) {
-            data = Wasm.copyOut(tensor);
-        }
-        
-        for(let i=0; i<data.length; i++) {
-            if (!Number.isFinite(data[i])) { 
-                const msg = `B"H [CRITICAL] ${name}: Signal Collapse (NaN/Inf) at index ${i}!`;
-                console.error(msg);
-                throw new Error(msg); 
-            }
-        }
-    }
-
-    /**
-     * B"H
-     * Measures the time of creation for a specific operation.
-     */
-    trace(opName, fn) {
+    async trace(opName, fn) {
+        if (!this.engine.options.verbose) return await fn();
         const start = process.hrtime.bigint();
-        const res = fn();
+        const res = await fn();
         const end = process.hrtime.bigint();
-        if (this.engine.options.verbose) {
-            console.log(`    [Math] ${opName.padEnd(28)} | ${(Number(end - start) / 1e6).toFixed(3).padStart(8)}ms`);
-        }
+        console.log(`    [Math] ${opName.padEnd(28)} | ${(Number(end - start) / 1e6).toFixed(3).padStart(8)}ms`);
         return res;
     }
 
-    /**
-     * B"H
-     * Propagates a single token through the entire network.
-     */
     async forward(token_id, pos) {
         const params = this.engine.params;
         const loader = this.engine.loader;
 
-        let x = this.trace(`Embedding [Token:${token_id}]`, () => {
+        if (Wasm.exports) Wasm.resetScratch();
+
+        let x = await this.trace(`Embedding [Token:${token_id}]`, async () => {
             const embInfo = loader.tensorMap.get('token_embd.weight') || loader.tensorMap.get('model.embed_tokens.weight');
-            // B"H - CRITICAL: Never modify weights in-place. Copy them into a fresh vessel.
-            const rawVec = loader.getTensor(embInfo.name, token_id * params.n_embd, params.n_embd);
-            const vec = new Float32Array(rawVec); 
+            
+            // B"H: DB/File Agnostic Fetch
+            // Fallback: getTensor returns FULL tensor.
+            const fullEmb = await loader.getTensor(embInfo.name);
+            const offset = token_id * params.n_embd;
+            
+            // B"H: FIX - fullEmb is ALREADY a Float32Array from dequantize.
+            // Do NOT re-interpret buffer with length/4, or you truncate the vector!
+            const vec = fullEmb.subarray(offset, offset + params.n_embd);
+            
+            const out = new Float32Array(vec); // Copy to detach from huge buffer
             
             if (params.useEmbScale) {
                 const embScale = Math.sqrt(params.n_embd);
-                for(let i=0; i<vec.length; i++) vec[i] *= embScale;
+                for(let i=0; i<out.length; i++) out[i] *= embScale;
             }
-            return vec;
+            return out;
         });
 
         for (let l = 0; l < params.n_layer; l++) {
-            x = this.layers.forward(x, l, pos, this.trace.bind(this));
-            
-            // B"H: If x is a Wasm view, we must copy it out to ensure subsequent 
-            // Wasm memory growth doesn't detach the view.
-            if (x._wasmPtr !== undefined) {
-                 x = Wasm.copyOut(x);
-            }
+            // Layers.forward needs to be async now
+            x = await this.layers.forward(x, l, pos, this.trace.bind(this));
         }
 
-        // Final normalization and projection
-        x = this.trace("Final LayerNorm", () => {
-            let w_norm = loader.getTensor(loader.globalTensorMap.output_norm);
+        x = await this.trace("Final LayerNorm", async () => {
+            let w_norm = await loader.getTensor(loader.globalTensorMap.output_norm);
             const res = w_norm ? Stats.rmsNorm(x, w_norm, params.norm_eps, params.norm_offset) : x;
-            return (res._wasmPtr !== undefined) ? Wasm.copyOut(res) : res;
+            return res;
         });
         
         return x;
     }
 
-    /**
-     * B"H
-     * Bridges the JS hidden state to the Wasm matVecMul kernel.
-     */
     computeWasm(x, w, n_out, cacheKey) {
         if (!w) throw new Error(`B"H Model Error: Weights missing for ${cacheKey}`);
         
@@ -109,7 +74,7 @@ class Model {
         let entry = this.pointer_cache.get(cacheKey);
         if (!entry) {
             const w_ptr = Wasm.uploadF32(w);
-            const out_ptr = Wasm.alloc(n_out * 4);
+            const out_ptr = Wasm.allocPermanent(n_out * 4);
             entry = { w_ptr, out_ptr };
             this.pointer_cache.set(cacheKey, entry);
         }
@@ -121,28 +86,56 @@ class Model {
             x_ptr = x.byteOffset;
         } else {
             const needed = n_in * 4;
-            if (this.shared_input_ptr === -1 || this.shared_input_size < needed) {
-                this.shared_input_ptr = Wasm.alloc(needed + 256);
-                this.shared_input_size = needed + 256;
-            }
-            Wasm.copyIn(this.shared_input_ptr, x);
-            x_ptr = this.shared_input_ptr;
+            x_ptr = Wasm.allocScratch(needed);
+            Wasm.copyIn(x_ptr, x);
         }
 
         Wasm.exports.matVecMul(entry.out_ptr, x_ptr, entry.w_ptr, n_out, n_in);
+        
+        // B"H: ADAPTER INJECTION POINT
+        // If we had adapters:
+        // const adapterA = ...
+        // const adapterB = ...
+        // lora_delta = (x * A) * B
+        // Wasm.exports.add_inplace(entry.out_ptr, lora_delta)
+        
         return Wasm.view(entry.out_ptr, n_out);
     }
 
-    /**
-     * B"H
-     * Converts the final hidden state into probabilities over the vocabulary.
-     */
-    computeLogits(hidden) {
-        return this.trace("Output Logit Projection", () => {
+    async computeLogits(hidden) {
+        return await this.trace("Output Logit Projection", async () => {
             const loader = this.engine.loader;
             const w_out_name = loader.globalTensorMap.output || loader.globalTensorMap.embed;
-            const logits = this.computeWasm(hidden, loader.getTensor(w_out_name), this.engine.vocab.length, 'FINAL_LOGITS');
+            const info = loader.tensorMap.get(w_out_name);
             
+            // Use specialized Q4_0 loader that works for both DB and File
+            if (Wasm.exports && info.type === 2) { 
+                const qTensor = await loader.getQuantizedTensor(w_out_name);
+                if (qTensor) {
+                    let entry = this.pointer_cache.get('FINAL_LOGITS_Q');
+                    if (!entry) {
+                        const s_ptr = Wasm.uploadF32(qTensor.scales);
+                        const q_ptr = Wasm.uploadU8(qTensor.quants);
+                        const out_ptr = Wasm.allocPermanent(qTensor.n_out * 4);
+                        entry = { s_ptr, q_ptr, out_ptr, n_out: qTensor.n_out, n_blocks: qTensor.n_in / 32 };
+                        this.pointer_cache.set('FINAL_LOGITS_Q', entry);
+                    }
+                    
+                    let x_ptr;
+                    if (hidden._wasmPtr !== undefined) x_ptr = hidden._wasmPtr;
+                    else {
+                        x_ptr = Wasm.allocScratch(hidden.length * 4);
+                        Wasm.copyIn(x_ptr, hidden);
+                    }
+                    
+                    Wasm.exports.matVecMul_q4_0(entry.out_ptr, x_ptr, entry.q_ptr, entry.s_ptr, entry.n_out, entry.n_blocks);
+                    const logits = Wasm.view(entry.out_ptr, entry.n_out);
+                    return (this.engine.params.final_soft_cap > 0) ? Act.softCap(logits, this.engine.params.final_soft_cap) : logits;
+                }
+            }
+
+            const w = await loader.getTensor(w_out_name);
+            const logits = this.computeWasm(hidden, w, this.engine.vocab.length, 'FINAL_LOGITS');
             const capped = (this.engine.params.final_soft_cap > 0) ? Act.softCap(logits, this.engine.params.final_soft_cap) : logits;
             return capped;
         });
