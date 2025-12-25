@@ -158,11 +158,12 @@ export default class {
                         } catch(e) {
                             console.error(`B"H - Problem loading nivra ${nivra.name}`, e);
                             
-                            // B"H: Trigger Error UI
+                            // B"H: If heescheel failed but didn't handle it (unexpected), we report it here.
+                            // However, boyrayNivra now handles asset errors gracefully, so this catch is for logic bugs.
                             this.ayshPeula("increase loading percentage", {
                                 error: {
-                                    title: "Creation Error",
-                                    message: `Failed to manifest ${nivra.name} (${nivra.constructor.name})`,
+                                    title: "Logic Error",
+                                    message: `Script error in ${nivra.name}`,
                                     details: e.message || e.toString()
                                 }
                             });
@@ -211,7 +212,7 @@ export default class {
                 loadedNivrayim: Date.now()
             })
 
-            console.log("B\"H - Adding Lights (Ohr)"); 
+            console.log("B\"H - Adding Lights (Ohr)");
             if(!this.enlightened) this.ohr();
                 
             return nivrayimMade;

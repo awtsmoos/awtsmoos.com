@@ -1,4 +1,3 @@
-
 // B"H
 // FILE: js/actions/index.js
 
@@ -180,21 +179,16 @@ export const Actions = {
                 case "commit-changes": App.commitAllChanges(); break;
                 case "switch-branch": if (item) GitManager.switchBranch(item); break;
                 
-                // B"H - Correctly handle Git Actions from context menu
                 case "git-actions":
                     if (item) {
-                        // Find the root repo for this item
                         let rootItem = item;
                         if (item.type === 'github') {
                             const ws = State.workspaces.find(w => w.id === (item.workspaceId || item.id));
                             rootItem = ws || item;
                         } else {
-                            // Local/IndexedDB logic: traverse up
                             let currPath = item.path;
                             const wsId = item.workspaceId || item.id;
                             let found = false;
-                            
-                            // Check item and parents
                             while (true) {
                                 const uPath = `${wsId}::${currPath}`;
                                 const entry = State.domItemMap.get(uPath);
@@ -207,8 +201,6 @@ export const Actions = {
                                 const lastSlash = currPath.lastIndexOf('/');
                                 currPath = lastSlash <= 0 ? '/' : currPath.substring(0, lastSlash);
                             }
-                            
-                            // Fallback to workspace
                             if (!found) {
                                 const ws = State.workspaces.find(w => w.id === wsId);
                                 if (ws && ws.isGitClone) rootItem = { ...ws, path: '/', kind: 'directory' };
@@ -248,7 +240,6 @@ export const Actions = {
                                 if (freshHandle) {
                                     workspace.handle = freshHandle;
                                     
-                                    // B"H - Verify Permission explicitly to avoid silent fail in git check
                                     if (workspace.type === 'local' && freshHandle.queryPermission) {
                                         const perm = await freshHandle.queryPermission({ mode: 'read' });
                                         if (perm !== 'granted') {
@@ -264,41 +255,51 @@ export const Actions = {
                                     await FileSystemProvider.OPFS.clearCache(item, true);
                                 }
                                 
-                                // B"H - 3. FORCE GIT STATUS CHECK ON TARGET AND ROOT
-                                // We check the specific folder being refreshed to see if it IS a git repo.
-                                const targetGitInfo = await GitMetaProvider.getGitInfoForFolder(item);
-                                if (targetGitInfo) {
-                                    item.isGitClone = true;
-                                    console.log(`[Refresh] Found git repo in ${item.path}`);
-                                    
-                                    // Update DOM for this item to show Git icon
-                                    const uniquePath = getItemUniquePath(item);
-                                    const domEntry = State.domItemMap.get(uniquePath);
-                                    if (domEntry && domEntry.el) {
-                                        const icon = domEntry.el.querySelector('.svg-icon use');
-                                        if (icon) icon.setAttribute('href', '#icon-git-folder');
-                                        // Ensure update in state map too
-                                        domEntry.item.isGitClone = true;
-                                    }
-                                }
-
-                                // Also check Workspace Root
-                                const rootItem = { 
-                                    ...workspace, 
-                                    workspaceId: workspace.id, 
-                                    path: '/', 
-                                    kind: 'directory',
-                                    handle: workspace.handle 
-                                };
-                                const rootGitInfo = await GitMetaProvider.getGitInfoForFolder(rootItem);
-                                const oldRootStatus = workspace.isGitClone;
-                                workspace.isGitClone = !!rootGitInfo;
+                                // B"H - 3. Recursive Git Check (The "Renewal")
+                                // We scan from the refreshed folder UP to the root
+                                let pointerPath = item.path;
+                                let limit = 20; // Safety
+                                const wsId = workspace.id;
                                 
-                                // If root status changed, re-render whole workspace
-                                if (oldRootStatus !== workspace.isGitClone) {
-                                    Workspaces.render();
-                                    UI.endTask(taskId, "success", "Git Status Synced.");
-                                    return;
+                                while (limit-- > 0) {
+                                    const tempItem = { 
+                                        ...workspace, 
+                                        workspaceId: wsId, 
+                                        path: pointerPath, 
+                                        kind: 'directory',
+                                        handle: workspace.handle 
+                                    };
+                                    
+                                    // Quietly check for git repo
+                                    const gitInfo = await GitMetaProvider.getGitInfoForFolder(tempItem);
+                                    
+                                    const uniquePath = getItemUniquePath(tempItem);
+                                    const domEntry = State.domItemMap.get(uniquePath);
+                                    
+                                    if (gitInfo) {
+                                        // Found a repo!
+                                        if (domEntry && domEntry.item) {
+                                            domEntry.item.isGitClone = true;
+                                            const icon = domEntry.el.querySelector('.svg-icon use');
+                                            if (icon) icon.setAttribute('href', '#icon-git-folder');
+                                        }
+                                        if (pointerPath === '/') workspace.isGitClone = true;
+                                    } else {
+                                        // Update state if we thought it was a repo but it isn't
+                                        if (domEntry && domEntry.item) {
+                                            domEntry.item.isGitClone = false;
+                                            // Reset icon to folder if it was git-folder
+                                            const icon = domEntry.el.querySelector('.svg-icon use');
+                                            if (icon && icon.getAttribute('href').includes('git-folder')) {
+                                                icon.setAttribute('href', '#icon-folder');
+                                            }
+                                        }
+                                        if (pointerPath === '/') workspace.isGitClone = false;
+                                    }
+
+                                    if (pointerPath === '/') break;
+                                    const lastSlash = pointerPath.lastIndexOf('/');
+                                    pointerPath = lastSlash <= 0 ? '/' : pointerPath.substring(0, lastSlash);
                                 }
                             }
                             

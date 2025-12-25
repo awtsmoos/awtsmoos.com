@@ -88,10 +88,16 @@ export default class {
 
     /**
      * @property components
-     * components are raw bytes
-     * of data loaded from fines
+     * components are raw bytes (Blob URLs) of data loaded from files
      */
     components = {};
+    
+    /**
+     * @property componentSourceUrls
+     * B"H: Maps component name (e.g., 'world') -> Original Source URL (e.g., 'https://.../land.glb').
+     * Essential for debugging and cache invalidation.
+     */
+    componentSourceUrls = {};
 
     vars = {};
 

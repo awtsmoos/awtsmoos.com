@@ -68,18 +68,36 @@ export default class Olam extends AWTSMOOS.Nivra {
      */
     async init() { 
         console.log("B\"H - Olam.init() starting dynamic module load...");
+        this.ayshPeula("increase loading percentage", {
+            amount: 0,
+            reset: true,
+            action: "Booting System...",
+            subAction: "Loading Core Logic"
+        });
+
         try {
             // 1. Load Init Helper
             const initFn = await import("./init.js");
-            
+            this.ayshPeula("increase loading percentage", { amount: 5 });
+
             // 2. Load Methods (Logic)
+            this.ayshPeula("increase loading percentage", { 
+                amount: 0, 
+                subAction: "Loading Methods..." 
+            });
             const methodsModule = await import("./methods/index.js");
             // Bind methods to this instance
             await methodsModule.default.bind(this)();
+            this.ayshPeula("increase loading percentage", { amount: 5 });
 
             // 3. Load Event Listeners
+            this.ayshPeula("increase loading percentage", { 
+                amount: 0, 
+                subAction: "Connecting Listeners..." 
+            });
             const listenersModule = await import("./eventListeners/index.js");
             listenersModule.default.bind(this)();
+            this.ayshPeula("increase loading percentage", { amount: 5 });
 
             // 4. Initialize Systems that rely on methods
             this.startShlichusHandler(); // Now safe to call
@@ -88,6 +106,11 @@ export default class Olam extends AWTSMOOS.Nivra {
             await initFn.default(this);
             
             console.log("B\"H - Olam logic modules loaded successfully.");
+            this.ayshPeula("increase loading percentage", { 
+                amount: 0, 
+                subAction: "System Ready." 
+            });
+
         } catch(e) {
             console.error("B\"H - CRITICAL: Failed to load Olam logic modules!", e);
             this.ayshPeula("error", {

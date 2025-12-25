@@ -65,7 +65,10 @@ export const LocalProvider = {
                 }
             } catch (e) {
                 // If we hit a snag, clear intermediate cache for this path and re-throw
-                console.error(`[LocalProvider] Failed to get handle for part: "${part}" in path: "${path}"`, e);
+                // B"H - Silence is golden for "not found" checks during scans
+                if (e.name !== 'NotFoundError' && e.name !== 'TypeMismatchError') {
+                     console.warn(`[LocalProvider] Handle retrieval issue for part "${part}" in "${path}":`, e);
+                }
                 cache.delete(cacheKey);
                 throw e;
             }
@@ -141,20 +144,23 @@ export const LocalProvider = {
         try {
             // Using a simple array push via for-await prevents some generator weirdness
             for await (const [name, entry] of dirHandle.entries()) {
-                entries.push({ 
-                    name: name, 
-                    kind: entry.kind, 
-                    path: `${path === '/' ? '' : path}/${name}`,
-                    workspaceId: workspaceId,
-                    size: 0, 
-                    lastModified: 0 
-                });
+                // B"H - Individual entry protection to prevent full list failure
+                try {
+                    entries.push({ 
+                        name: name, 
+                        kind: entry.kind, 
+                        path: `${path === '/' ? '' : path}/${name}`,
+                        workspaceId: workspaceId,
+                        size: 0, 
+                        lastModified: 0 
+                    });
+                } catch(entryErr) {
+                    console.warn("Skipping problematic entry:", name, entryErr);
+                }
             }
         } catch (iteratorError) {
             console.error(`Failed to fully iterate directory ${path}:`, iteratorError);
             // If the iterator fails but gave us partials, we return them.
-            // We do NOT re-throw because a partial list is better than nothing,
-            // and the user can try refreshing again.
         }
         return entries;
     },

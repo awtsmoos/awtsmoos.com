@@ -14,6 +14,7 @@ export { sanitizeComment, addImageGallery, makeTitleDiv } from "./render/utils.j
 /**
  * @method populateCommentElement
  * @description B"H - Route to AI renderer or Standard renderer.
+ * Now accepts `branches` to pass down for tree rendering.
  */
 export function populateCommentElement(comment, parentElement) {
     parentElement.innerHTML = '';
@@ -32,7 +33,9 @@ export function populateCommentElement(comment, parentElement) {
     
     // Branch Logic
     if (normalizedComment.dayuh?.conversation && Array.isArray(normalizedComment.dayuh.conversation)) {
-        renderBranchingThread(parentElement, normalizedComment, comment.id);
+        // Pass the original comment's branches (which were attached in panel.js) 
+        // to the renderer. JSON.stringify above wiped custom props, so use `comment`.
+        renderBranchingThread(parentElement, normalizedComment, comment.id, comment.branches);
     } else {
         renderStandardComment(parentElement, normalizedComment);
     }

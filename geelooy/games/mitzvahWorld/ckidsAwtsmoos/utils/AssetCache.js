@@ -80,4 +80,29 @@ export default class AssetCache {
             }
         });
     }
+
+    static async delete(url) {
+        await this.init();
+        if (!this.db) return;
+
+        return new Promise((resolve) => {
+            try {
+                const tx = this.db.transaction(this.STORE_NAME, 'readwrite');
+                const store = tx.objectStore(this.STORE_NAME);
+                const req = store.delete(url);
+                
+                req.onsuccess = () => {
+                    console.log(`B"H - AssetCache: Deleted ${url}`);
+                    resolve();
+                };
+                req.onerror = (e) => {
+                    console.warn("B\"H - AssetCache Delete Error:", e);
+                    resolve();
+                };
+            } catch(e) {
+                console.warn("B\"H - AssetCache Delete Exception:", e);
+                resolve();
+            }
+        });
+    }
 }

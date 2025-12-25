@@ -8,162 +8,226 @@ class AppendOps {
         this.nodeIO = sequence.nodeIO;
     }
 
-    /**
-     * @description The Divine Append Operation.
-     * Adds a spark (pointer) to the end of the vessel.
-     */
+    log(msg) {
+        if(this.nodeIO.db.debug) console.log(`[AppendOps] ${msg}`);
+    }
+
     async append(itemPtr) {
-        const cacheKey = this.seq.ptr.blockId + ':' + (this.seq.ptr.offset || 0);
-        this.nodeIO.allocator.v1.db.structureCache.delete(cacheKey);
-        
+        // B"H: Force reload from disk to ensure no stale state
+        this.nodeIO.allocator.v1.db.structureCache.delete(this.seq.ptr.blockId);
         const root = await this.nodeIO.load(this.seq.ptr);
+        
+        // B"H: Sanity Check Root - Self Heal before operation
+        if (root.isLeaf && root.itemCount > 200) {
+             console.error(`B"H CORRUPTION: Root B${root.ptr.blockId} has ${root.itemCount} items (Max 200). Truncating.`);
+             root.itemCount = 200; 
+             root.totalCount = 200;
+             await this.nodeIO.save(root);
+        }
+
         const res = await this._appendRecursive(root, itemPtr);
         
         if (res.splitNode) {
-            // Root has split. A new level of the hierarchy manifests.
             await Utils.handleRootSplit(this.nodeIO, this.seq, root, [res.splitNode]);
         }
     }
 
-    /**
-     * @description Descends the fractal tree to find the rightmost dwelling.
-     */
     async _appendRecursive(node, itemPtr) {
         if (node.isLeaf) {
             if (node.itemCount < 200) {
-                // The leaf has room for more light.
                 const offset = Utils.DATA_OFFSET + (node.itemCount * Utils.POINTER_SIZE);
+                
+                // Panic check for buffer overflow
+                if (offset + 16 > node.buffer.length) {
+                     throw new Error(`B"H FATAL: Buffer Overflow in Leaf B${node.ptr.blockId} at index ${node.itemCount}`);
+                }
+
                 itemPtr.copy(node.buffer, offset);
+                
                 const addedBytes = Utils.getPtrSize(itemPtr);
                 node.itemCount++;
-                node.totalCount = node.itemCount; 
+                node.totalCount = node.itemCount; // Strict sync for leaf
                 node.totalBytes += addedBytes;
+                
                 await this.nodeIO.save(node);
                 return { deltaCount: 1, deltaBytes: addedBytes, splitNode: null };
             } else {
-                // The leaf is full. It must divide to grow.
-                return await this._splitLeafAndInsert(node, itemPtr);
+                return this._splitLeafAndInsert(node, itemPtr);
             }
         } else {
-            // Internal node. Navigate to the last child.
+            // Internal Node
             const lastIdx = node.itemCount - 1;
+            
+            if (lastIdx < 0) {
+                 // Empty internal node
+                 const newLeaf = await this.nodeIO.create(true, node.isWeak);
+                 const leafRes = await this._appendRecursive(newLeaf, itemPtr);
+                 
+                 const entry = Buffer.alloc(20);
+                 Utils.encodePtr(newLeaf.ptr).copy(entry, 0);
+                 entry.writeUInt32BE(newLeaf.totalCount, 16);
+                 
+                 entry.copy(node.buffer, Utils.DATA_OFFSET);
+                 node.itemCount = 1;
+                 node.totalCount = newLeaf.totalCount;
+                 node.totalBytes = newLeaf.totalBytes;
+                 
+                 await this.nodeIO.save(node);
+                 return { deltaCount: 1, deltaBytes: leafRes.deltaBytes, splitNode: null };
+            }
+            
             const entryOffset = Utils.DATA_OFFSET + (lastIdx * Utils.ENTRY_SIZE);
             const childPtrBuf = node.buffer.subarray(entryOffset, entryOffset + 16);
             const childPtr = Utils.decodePtr(childPtrBuf);
             
-            // Ensure no stale visions in the cache.
-            const childKey = childPtr.blockId + ':' + (childPtr.offset || 0);
-            this.nodeIO.allocator.v1.db.structureCache.delete(childKey);
+            // B"H: Force fresh load of child
+            this.nodeIO.allocator.v1.db.structureCache.delete(childPtr.blockId);
             const childNode = await this.nodeIO.load(childPtr);
             
+            // Recursive Step
             const res = await this._appendRecursive(childNode, itemPtr);
             
-            // Update child stats in the current node's buffer immediately.
+            // B"H: CRITICAL UPDATE - Update the count of the child in the parent's buffer immediately.
+            // Verify child count matches what we are writing
+            if (childNode.totalCount !== childNode.itemCount && childNode.isLeaf) {
+                 // console.error(`B"H ANOMALY: Child B${childNode.ptr.blockId} Leaf mismatch. Total:${childNode.totalCount} Item:${childNode.itemCount}`);
+                 childNode.totalCount = childNode.itemCount; // Force fix
+            }
+            
             node.buffer.writeUInt32BE(childNode.totalCount, entryOffset + 16);
             
             if (res.splitNode) {
                 if (node.itemCount < 200) {
-                    // Room for the new sibling in the current vessel.
+                    // Room to add right sibling
                     const newEntryOff = Utils.DATA_OFFSET + (node.itemCount * Utils.ENTRY_SIZE);
                     const snPtr = Utils.encodePtr(res.splitNode.ptr);
                     snPtr.copy(node.buffer, newEntryOff);
                     node.buffer.writeUInt32BE(res.splitNode.totalCount, newEntryOff + 16);
+                    
                     node.itemCount++;
-                    node.totalCount = this._recalcTotalCountSync(node);
+                    
+                    // B"H: RECALCULATE TOTAL FROM SCRATCH to prevent drift
+                    node.totalCount = await this._recalcTotalCount(node);
                     node.totalBytes += res.deltaBytes;
+
                     await this.nodeIO.save(node);
                     return { deltaCount: res.deltaCount, deltaBytes: res.deltaBytes, splitNode: null };
                 } else {
-                    // Internal node overflow. Division is necessary.
-                    node.totalCount = this._recalcTotalCountSync(node);
+                    // Parent full, split parent
+                    // Ensure current parent is saved with updated child count first
+                    node.totalCount = await this._recalcTotalCount(node);
                     node.totalBytes += res.deltaBytes;
-                    const resSplit = await this._splitInternalAndInsert(node, res.splitNode);
-                    return { ...resSplit, deltaCount: res.deltaCount, deltaBytes: res.deltaBytes };
+                    await this.nodeIO.save(node); 
+                    
+                    return this._splitInternalAndInsert(node, res.splitNode);
                 }
             } else {
-                // Bubbling up the changes without a split.
-                node.totalCount = this._recalcTotalCountSync(node);
+                // No split, just propagate stats
+                // B"H: Paranoid Recalc
+                node.totalCount = await this._recalcTotalCount(node);
                 node.totalBytes += res.deltaBytes;
+                
                 await this.nodeIO.save(node);
                 return res;
             }
         }
     }
     
-    /**
-     * @description Sums the total counts of all children.
-     */
-    _recalcTotalCountSync(node) {
+    async _recalcTotalCount(node) {
         if (node.isLeaf) return node.itemCount;
         let sum = 0;
         let off = Utils.DATA_OFFSET;
         for(let i=0; i<node.itemCount; i++) {
-            sum += node.buffer.readUInt32BE(off + 16);
+            const c = node.buffer.readUInt32BE(off + 16);
+            sum += c;
             off += Utils.ENTRY_SIZE;
         }
         return sum;
     }
 
-    /**
-     * @description Splits a full leaf, birthing a new node for the overflow.
-     */
     async _splitLeafAndInsert(node, itemPtr) {
-        // Save the original leaf first to ensure its current state is on disk.
+        // B"H: Left Node (Original)
+        if (node.itemCount > 200) node.itemCount = 200;
+        node.totalCount = node.itemCount;
+        
+        // Update header in buffer immediately
+        node.buffer.writeUInt16BE(node.itemCount, 5);
+        node.buffer.writeUInt32BE(node.totalCount, 7);
+
+        // Zero out potential garbage
+        const endOfData = Utils.DATA_OFFSET + (200 * 16);
+        node.buffer.fill(0, endOfData);
+
         await this.nodeIO.save(node);
 
+        // B"H: Right Node (New)
         const newLeaf = await this.nodeIO.create(true, node.isWeak);
-        itemPtr.copy(newLeaf.buffer, Utils.DATA_OFFSET);
+        const offset = Utils.DATA_OFFSET;
+        itemPtr.copy(newLeaf.buffer, offset);
+        
         const addedBytes = Utils.getPtrSize(itemPtr);
-        newLeaf.itemCount = 1; 
-        newLeaf.totalCount = 1; 
+        newLeaf.itemCount = 1;
+        newLeaf.totalCount = 1;
         newLeaf.totalBytes = addedBytes;
+        
         await this.nodeIO.save(newLeaf);
         
         return { deltaCount: 1, deltaBytes: addedBytes, splitNode: newLeaf };
     }
 
-    /**
-     * @description Splits a full internal node into two balanced vessels.
-     */
     async _splitInternalAndInsert(node, siblingNode) {
+        const newInternal = await this.nodeIO.create(false, node.isWeak);
+        
+        // Extract all entries including new sibling
         const entries = [];
         for(let i=0; i<node.itemCount; i++) {
             const off = Utils.DATA_OFFSET + (i * Utils.ENTRY_SIZE);
-            const e = Buffer.alloc(Utils.ENTRY_SIZE);
-            node.buffer.copy(e, 0, off, off + Utils.ENTRY_SIZE);
+            const e = Buffer.alloc(20);
+            node.buffer.copy(e, 0, off, off + 20);
             entries.push(e);
         }
         
-        // Add the new child entry to the pool.
-        const newEntry = Buffer.alloc(Utils.ENTRY_SIZE);
-        Utils.encodePtr(siblingNode.ptr).copy(newEntry, 0);
-        newEntry.writeUInt32BE(siblingNode.totalCount, 16);
-        entries.push(newEntry);
+        const sibEntry = Buffer.alloc(20);
+        Utils.encodePtr(siblingNode.ptr).copy(sibEntry, 0);
+        sibEntry.writeUInt32BE(siblingNode.totalCount, 16);
+        entries.push(sibEntry);
         
         const mid = Math.floor(entries.length / 2);
         const leftEntries = entries.slice(0, mid);
         const rightEntries = entries.slice(mid);
         
-        // Update the current node as the Left vessel.
+        // Update Left
         node.itemCount = leftEntries.length;
-        node.buffer.fill(0, Utils.DATA_OFFSET);
-        let loff = Utils.DATA_OFFSET;
-        for(const e of leftEntries) { e.copy(node.buffer, loff); loff += Utils.ENTRY_SIZE; }
-        node.totalCount = leftEntries.reduce((acc, e) => acc + e.readUInt32BE(16), 0);
+        let off = Utils.DATA_OFFSET;
+        let leftTotal = 0;
+        
+        for(const e of leftEntries) {
+            e.copy(node.buffer, off);
+            off += 20;
+            leftTotal += e.readUInt32BE(16);
+        }
+        node.totalCount = leftTotal;
         node.totalBytes = await Utils.sumChildrenBytes(this.nodeIO, leftEntries);
+        
+        // Clean remaining buffer
+        node.buffer.fill(0, off);
+        
         await this.nodeIO.save(node);
         
-        // Create a new node as the Right vessel.
-        const newInternal = await this.nodeIO.create(false, node.isWeak);
+        // Update Right
         newInternal.itemCount = rightEntries.length;
-        let roff = Utils.DATA_OFFSET;
-        for(const e of rightEntries) { e.copy(newInternal.buffer, roff); roff += Utils.ENTRY_SIZE; }
-        newInternal.totalCount = rightEntries.reduce((acc, e) => acc + e.readUInt32BE(16), 0);
+        off = Utils.DATA_OFFSET;
+        let rightTotal = 0;
+        for(const e of rightEntries) {
+            e.copy(newInternal.buffer, off);
+            off += 20;
+            rightTotal += e.readUInt32BE(16);
+        }
+        newInternal.totalCount = rightTotal;
         newInternal.totalBytes = await Utils.sumChildrenBytes(this.nodeIO, rightEntries);
         await this.nodeIO.save(newInternal);
         
-        return { splitNode: newInternal };
+        return { deltaCount: 0, deltaBytes: 0, splitNode: newInternal };
     }
 }
-
 module.exports = AppendOps;

@@ -6,247 +6,311 @@ export function injectAIChatCSS() {
     const style = document.createElement("style");
     style.id = id;
     style.textContent = /*css*/`
-        /* --- General Layout --- */
+        /* --- GLOBAL RESET & INHERITANCE --- */
         .ai-chat-container {
             display: flex;
             flex-direction: column;
-            height: 100%;
-            font-size: 1em; 
-            background: #ffffff;
-            overflow: hidden;
-            font-family: "Courier New", Courier, monospace;
-        }
-        
-        .ai-message, .ai-block-content {
-            font-size: inherit; /* B"H - Force Inherit */
+            gap: 0;
+            background-color: #f4f4f0;
+            font-family: 'Courier New', Courier, monospace;
+            padding: 10px;
         }
 
-        /* --- Thread Wrapper --- */
+        .ai-chat-container * {
+            font-size: inherit !important; /* CRITICAL: Force font scaling from parent */
+            box-sizing: border-box;
+        }
+
+        /* --- THREAD WRAPPER --- */
         .ai-thread-wrapper {
-            margin-top: 15px;
             border: 3px solid #000;
             background: #fff;
-            box-shadow: 6px 6px 0 #ccc;
-            font-size: inherit;
+            margin-bottom: 20px;
+            box-shadow: 6px 6px 0px #000;
         }
 
         .ai-thread-header {
             background: #000;
             color: #fff;
-            padding: 8px 12px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            font-weight: bold;
-            font-size: 0.9em;
-            text-transform: uppercase;
-        }
-        
-        /* Fork Banner (Only at very top if viewed via Deep Link) */
-        .ai-fork-banner {
-            background: #2a0a29; 
-            color: #ffcc00;
-            padding: 8px 12px;
-            font-size: 0.85em;
-            display: flex;
-            align-items: center;
-            border-bottom: 2px solid #ffcc00;
-            justify-content: space-between;
-        }
-
-        /* --- Timeline & Tree Structure --- */
-        .ai-thread-timeline {
-            padding: 10px 10px 10px 10px;
-            position: relative;
-            background: #f4f4f0;
-        }
-        
-        /* Nested Timeline (The Branch) */
-        .ai-nested-thread {
-            margin-left: 20px; /* Indent */
-            margin-top: 15px;
-            border-left: 3px solid #ccc;
-            padding-left: 10px;
-            position: relative;
-        }
-        
-        /* Visual connector for nest */
-        .ai-nested-thread::before {
-            content: '';
-            position: absolute;
-            top: -10px; /* Connect to parent above */
-            left: -3px; /* Align with border */
-            width: 15px;
-            height: 25px;
-            border-bottom: 3px solid #ccc;
-            border-left: 3px solid #ccc;
-            border-bottom-left-radius: 8px;
-            z-index: 0;
-        }
-
-        .ai-nested-header {
-            font-size: 0.85em;
-            color: #555;
-            background: #e9e9e9;
-            padding: 4px 8px;
-            display: inline-block;
-            margin-bottom: 5px;
-            border: 1px solid #ccc;
-            position: relative;
-            z-index: 1;
-        }
-
-        /* --- Blocks --- */
-        .ai-thread-block {
-            margin-bottom: 15px;
-            position: relative;
-        }
-
-        .ai-msg-controls {
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-            gap: 10px;
-            background: #000;
-            color: #fff;
-            padding: 4px 8px;
-            border: 2px solid #000;
-            border-bottom: none;
-            font-size: 0.8em;
-            font-weight: bold;
-            text-transform: uppercase;
-        }
-        
-        .ai-role-label {
-            margin-right: auto; 
-            color: #ffcc00;
-        }
-        
-        .ai-msg-branch, .ai-msg-toggle {
-            background: #333;
-            color: #fff;
-            border: 1px solid #555;
-            padding: 2px 6px;
-            cursor: pointer;
-            font-size: 1em;
-        }
-        .ai-msg-branch:hover { background: #0f0; color: #000; }
-        .ai-msg-toggle:hover { background: #fff; color: #000; }
-
-        .ai-block-content {
-            background: #fff;
-            border: 2px solid #000;
-            padding: 12px;
-            font-size: inherit; /* B"H - Force Inherit */
-            box-shadow: 4px 4px 0 rgba(0,0,0,1);
-            position: relative;
-            cursor: text;
-            overflow: hidden;
-            transition: max-height 0.3s ease;
-        }
-        
-        .ai-block-content.collapsed {
-            max-height: 40px; 
-            cursor: pointer;
-            opacity: 0.7;
-        }
-        .ai-block-content.collapsed::after {
-            content: '...';
-            position: absolute;
-            bottom: 5px;
-            right: 10px;
-            font-weight: bold;
-            background: #fff;
-        }
-
-        .ai-thread-block.model .ai-block-content {
-            background: #fffae0; 
-        }
-
-        /* --- Branching Input --- */
-        .ai-branch-input-area {
-            margin-top: 10px;
-            margin-left: 20px;
             padding: 10px;
-            background: #000;
-            border: 2px solid #0f0;
-            position: relative;
-            font-size: 0.9em;
-        }
-        
-        .ai-branch-input-area textarea {
-            width: 100%;
-            background: #111;
-            color: #0f0;
-            border: 1px solid #0f0;
-            padding: 8px;
-            font-family: monospace;
-            box-sizing: border-box;
-            resize: vertical;
-            font-size: 1em;
-            min-height: 60px;
-        }
-        
-        .ai-branch-input-area button {
-            margin-top: 5px;
-            padding: 5px 10px;
-            font-weight: bold;
-            cursor: pointer;
+            font-weight: 900;
             text-transform: uppercase;
-            font-size: 0.9em;
-        }
-        
-        .fork-btn { background: #0f0; color: #000; border: none; }
-        .cancel-btn { background: #333; color: #fff; border: 1px solid #555; }
-
-        /* --- Terminal --- */
-        .ai-inline-terminal {
-            margin-top: 20px;
-            border-top: 2px dashed #000;
-            padding-top: 15px;
             display: flex;
-            gap: 10px;
-            align-items: flex-end;
-            font-size: inherit;
-        }
-        
-        .ai-inline-terminal textarea {
-            flex: 1;
-            background: #fff;
-            border: 2px solid #000;
-            padding: 10px;
-            font-family: inherit;
-            resize: none;
-            box-shadow: inset 2px 2px 5px rgba(0,0,0,0.1);
-            font-size: inherit;
-        }
-        
-        .ai-inline-terminal button {
-            background: #000;
-            color: #fff;
-            border: 2px solid #000;
-            width: 40px;
-            height: 40px;
-            font-size: 1.2em;
-            cursor: pointer;
-            display: flex;
+            justify-content: space-between;
             align-items: center;
-            justify-content: center;
+            border-bottom: 3px solid #000;
         }
 
         .ai-header-btn {
             background: #fff;
-            border: 1px solid #fff;
             color: #000;
-            padding: 2px 8px;
-            cursor: pointer;
+            border: 2px solid #fff;
             font-weight: bold;
-            font-size: 0.8em;
-            margin-left: 5px;
+            padding: 2px 6px;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: all 0.1s;
         }
         .ai-header-btn:hover {
-            background: #ffcc00;
+            background: #ffcc00; /* Yellow */
             border-color: #ffcc00;
+            transform: translate(2px, 2px);
+            box-shadow: none;
+        }
+
+        /* --- TIMELINE RAIL --- */
+        .ai-thread-timeline {
+            padding: 20px 10px 20px 20px;
+            position: relative;
+        }
+        
+        /* Continuous Vertical Rail for Main Thread */
+        .ai-thread-timeline::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            bottom: 20px;
+            left: 20px; /* Align with bubbles */
+            width: 2px;
+            background: repeating-linear-gradient(to bottom, #000 0, #000 4px, transparent 4px, transparent 8px);
+            z-index: 0;
+        }
+
+        /* --- MESSAGE BLOCK --- */
+        .ai-thread-block {
+            position: relative;
+            margin-bottom: 20px;
+            padding-left: 20px; /* Space from rail */
+            z-index: 1;
+        }
+
+        /* Connector Dot */
+        .ai-thread-block::before {
+            content: '';
+            position: absolute;
+            left: -6px; /* Center on rail (20px padding - 6px shift approx) */
+            top: 15px;
+            width: 12px;
+            height: 12px;
+            background: #000;
+            border: 2px solid #fff;
+            border-radius: 50%;
+            z-index: 2;
+        }
+
+        /* --- MESSAGE CONTENT BUBBLE --- */
+        .ai-main-body {
+            display: flex;
+            flex-direction: column;
+            max-width: 100%;
+        }
+
+        .ai-msg-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 4px;
+            font-size: 0.8em !important;
+            font-weight: bold;
+            text-transform: uppercase;
+            background: #000;
+            color: #fff;
+            padding: 4px 8px;
+            border: 2px solid #000;
+            display: inline-flex; /* Shrink to fit */
+            width: fit-content;
+        }
+        
+        .ai-role-label {
+            margin-right: 10px;
+            color: #ffcc00;
+        }
+
+        .ai-block-content {
+            border: 2px solid #000;
+            padding: 15px;
+            position: relative;
+            box-shadow: 4px 4px 0px #000;
+            background: #fff;
+            transition: transform 0.1s;
+        }
+        
+        .ai-block-content:hover {
+            transform: translate(-1px, -1px);
+            box-shadow: 5px 5px 0px #000;
+        }
+
+        /* User Specifics */
+        .ai-thread-block.user .ai-block-content {
+            background: #fff;
+        }
+
+        /* AI Specifics */
+        .ai-thread-block.model .ai-block-content {
+            background: #fffae0; /* Light Yellow */
+        }
+        
+        /* Markdown Content Styling */
+        .ai-content-text {
+            line-height: 1.6;
+            overflow-wrap: break-word;
+        }
+        .ai-content-text code {
+            background: #eee;
+            padding: 2px 4px;
+            border: 1px solid #ccc;
+        }
+        .ai-content-text pre {
+            background: #000;
+            color: #0f0;
+            padding: 10px;
+            overflow-x: auto;
+            border: 1px solid #0f0;
+        }
+
+        /* --- CONTROLS --- */
+        .ai-msg-actions {
+            margin-top: 5px;
+            display: flex;
+            gap: 10px;
+            opacity: 0; /* Hidden until hover */
+            transition: opacity 0.2s;
+        }
+        .ai-thread-block:hover .ai-msg-actions {
+            opacity: 1;
+        }
+
+        .ai-action-btn {
+            background: transparent;
+            border: none;
+            color: #555;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-size: 0.75em !important;
+            padding: 0;
+            text-decoration: underline;
+        }
+        .ai-action-btn:hover {
+            color: #000;
+            background: #ffcc00;
+            text-decoration: none;
+        }
+
+        /* --- NESTED BRANCHES --- */
+        .ai-branch-container {
+            margin-top: 15px;
+            /* No left padding here, handled by nested-thread */
+        }
+
+        .ai-nested-thread {
+            position: relative;
+            margin-left: 20px; /* Indent the whole branch */
+            border-left: 4px solid #ffcc00; /* Distinct Branch Rail */
+            padding-left: 15px;
+            background: rgba(0,0,0,0.02); /* Slight dim for depth */
+            margin-bottom: 20px;
+        }
+        
+        .ai-nested-header {
+            background: #ffcc00;
+            color: #000;
+            padding: 5px 10px;
+            font-weight: bold;
+            font-size: 0.8em !important;
+            display: inline-block;
+            margin-bottom: 10px;
+            border: 2px solid #000;
+            box-shadow: 2px 2px 0 #000;
+        }
+        
+        .branch-icon {
+            font-size: 1.2em !important;
+            margin-right: 5px;
+        }
+
+        /* --- INPUT AREAS --- */
+        .ai-branch-input-area {
+            background: #000;
+            padding: 15px;
+            margin-top: 10px;
+            border: 2px solid #ffcc00;
+        }
+        
+        .ai-branch-input-area textarea {
+            width: 100%;
+            background: #222;
+            color: #0f0;
+            font-family: monospace;
+            border: 1px solid #555;
+            padding: 10px;
+            min-height: 80px;
+        }
+        
+        .ai-input-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .ai-btn {
+            border: 2px solid #fff;
+            padding: 5px 15px;
+            font-weight: bold;
+            text-transform: uppercase;
+            cursor: pointer;
+        }
+        
+        .ai-btn-primary {
+            background: #0f0;
+            color: #000;
+            border-color: #0f0;
+        }
+        
+        .ai-btn-secondary {
+            background: transparent;
+            color: #fff;
+        }
+
+        /* --- TERMINAL (ROOT INPUT) --- */
+        .ai-inline-terminal {
+            margin-top: 20px;
+            border: 3px solid #000;
+            background: #eee;
+            padding: 10px;
+            display: flex;
+            gap: 10px;
+            align-items: flex-end;
+        }
+        
+        .ai-inline-terminal textarea {
+            flex: 1;
+            border: 2px solid #000;
+            padding: 10px;
+            font-family: inherit;
+            resize: none;
+            background: #fff;
+            color: #000;
+        }
+        
+        .ai-send-icon-btn {
+            background: #000;
+            color: #ffcc00;
+            border: 2px solid #000;
+            width: 45px;
+            height: 45px;
+            font-size: 1.5em !important;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.1s;
+        }
+        .ai-send-icon-btn:hover {
+            background: #ffcc00;
+            color: #000;
+            transform: translate(2px, 2px);
         }
     `;
     document.head.appendChild(style);

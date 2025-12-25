@@ -31,7 +31,7 @@ async function runTest() {
     if (fs.existsSync(DB_PATH + '.wal')) fs.unlinkSync(DB_PATH + '.wal');
 
     // B"H: Enabled Debug to see the light move
-    const db = new AwtsmoosDB(DB_PATH, { debug: true });
+    const db = new AwtsmoosDB(DB_PATH, { debug: false }); // Disabled debug for cleaner output unless failing
     await db.open();
 
     try {
@@ -67,6 +67,9 @@ async function runTest() {
         await db.waitForIdle();
         
         const deepCheck = await db.root.fractal.node_1[0];
+        if (deepCheck.meta.active !== true) {
+             console.error("Deep Check State:", JSON.stringify(deepCheck, null, 2));
+        }
         assert(deepCheck.meta.active === true, "Deep nested modification persisted");
 
         // --- TEST 3: Infinite Sequence Stress (Cross-Page) ---

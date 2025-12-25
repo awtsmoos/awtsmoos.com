@@ -20,7 +20,7 @@ class SequenceNode {
         buf.fill(0);
         
         const node = { ptr, buffer: buf, isLeaf, isWeak, itemCount: 0, totalCount: 0, totalBytes: 0, totalCapacity: constants.BLOCK_SIZE };
-        this.db.cacheStructure(ptr, node);
+        this.db.cacheStructure(ptr.blockId, node);
         return node;
     }
 
@@ -68,18 +68,31 @@ class SequenceNode {
             let totalCapacity = readPointer48(buf, 17);
             const isLeaf = (flags & 1) === 1;
 
+            // B"H: Safety Cap for Leaves
+            if (isLeaf) {
+                if (itemCount > 200) { 
+                    itemCount = 200;
+                }
+                if (totalCount !== itemCount) {
+                    totalCount = itemCount;
+                }
+            }
+
             node = { 
                 ptr, buffer: buf, isLeaf, isWeak: (flags & 2) === 2, 
                 itemCount, totalCount, totalBytes, totalCapacity
             };
         }
         
-        this.db.cacheStructure(ptr, node);
+        this.db.cacheStructure(ptr.blockId, node);
         return node;
     }
 
     async save(node) {
-        if (node.isLeaf) node.totalCount = node.itemCount;
+        if (node.isLeaf) {
+            if (node.itemCount > 200) node.itemCount = 200;
+            node.totalCount = node.itemCount;
+        }
         
         node.buffer.write(constants.MAGIC_SEQ_NODE, 0);
         let flags = node.isLeaf ? 1 : 0;
@@ -90,9 +103,20 @@ class SequenceNode {
         writePointer48(node.buffer, node.totalBytes || 0, 11);
         writePointer48(node.buffer, node.totalCapacity, 17);
         
-        // B"H: Relocation Logic Mirroring MapNode
-        // Sequence nodes are currently 4096 bytes, but this ensures robustness if they vary.
+        // Zero out unused data area to prevent garbage
+        const startOfData = 23; 
+        const itemSize = node.isLeaf ? 16 : 20;
+        const usedSize = node.itemCount * itemSize;
+        const endOfData = startOfData + usedSize;
+        if (endOfData < node.buffer.length) {
+            node.buffer.fill(0, endOfData);
+        }
+        
+        // B"H: Capture old pointer to check if this node IS the engine root
+        const oldPtr = node.ptr;
+        
         let finalPtr = node.ptr;
+        // Check for resizing (unlikely for fixed block nodes, but good for robustness)
         if (node.ptr && !node.ptr.isChain && node.buffer.length !== node.ptr.length) {
              await this.allocator.v1.free(node.ptr);
              const newPtr = await this.allocator.v1.allocate(node.buffer.length);
@@ -102,10 +126,10 @@ class SequenceNode {
 
         await this.allocator.v1.db._writeChainSafe(node.ptr, node.buffer);
         // B"H: Update cache with potentially new pointer
-        this.db.cacheStructure(node.ptr, node);
+        this.db.cacheStructure(node.ptr.blockId, node);
         
         // Update engine root if this was the root node
-        if (this.engine.ptr && this.engine.ptr.blockId === finalPtr.blockId && this.engine.ptr.offset === finalPtr.offset) {
+        if (this.engine.ptr && oldPtr && this.engine.ptr.blockId === oldPtr.blockId && this.engine.ptr.offset === oldPtr.offset) {
             this.engine.ptr = finalPtr;
         }
         

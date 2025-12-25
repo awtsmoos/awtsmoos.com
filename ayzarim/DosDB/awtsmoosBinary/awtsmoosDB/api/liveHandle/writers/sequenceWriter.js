@@ -39,7 +39,7 @@ class SequenceWriter {
         }
 
         // B"H: If this is a bubbling update and the pointer is identical, 
-        // we skip the sequence modification but STILL bubble the spark.
+        // we skip the sequence modification but STILL bubble the spark to ensure parent invalidation.
         if (isPtr && index < len) {
             const currentPtr = await seq.getPtr(index);
             if (currentPtr && currentPtr.compare(valToSet) === 0) {

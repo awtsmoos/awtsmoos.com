@@ -1,3 +1,4 @@
+
 // B"H
 const constants = require('../../constants.js');
 const SmartPointer = require('../../utils/smartPointer.js');
@@ -28,7 +29,6 @@ class DictionaryEngine {
         this.seq = new Sequence(this.allocator);
         const seqPtr = await this.seq.create();
         
-        // B"H: Optimization - Use small block allocation for header (36 bytes)
         const ptr = await this.allocator.v1.allocate(36);
         
         const dictData = Buffer.alloc(36);
@@ -48,6 +48,7 @@ class DictionaryEngine {
         if (!this.ptr) return;
         
         const currentMutation = this.db.mutationCount || 0;
+        // B"H: If force is true, or internal engines missing, or mutation count shifted - we must re-read.
         if (!force && this.map && this.seq && !this.isDirty && this.lastDbMutation === currentMutation) {
             return;
         }
@@ -71,6 +72,7 @@ class DictionaryEngine {
 
         const mapRes = await SmartPointer.resolve(block.subarray(4, 20), this.allocator);
         if (mapRes) {
+            // Re-create or update the Map Engine pointer
             if (!this.map || this.map.ptr.blockId !== mapRes.blockId || this.map.ptr.offset !== mapRes.offset) {
                 this.map = new MapEngine(this.allocator, { blockId: mapRes.blockId, offset: mapRes.offset, length: mapRes.length, isChain: mapRes.isChain });
             }
@@ -78,6 +80,7 @@ class DictionaryEngine {
         
         const seqRes = await SmartPointer.resolve(block.subarray(20, 36), this.allocator);
         if (seqRes) {
+            // Re-create or update the Sequence Engine pointer
             if (!this.seq || this.seq.ptr.blockId !== seqRes.blockId || this.seq.ptr.offset !== seqRes.offset) {
                 this.seq = new Sequence(this.allocator, { blockId: seqRes.blockId, offset: seqRes.offset, length: seqRes.length, isChain: seqRes.isChain });
             }
@@ -88,7 +91,7 @@ class DictionaryEngine {
 
     async destroy() {
         if (!this.ptr) return;
-        try { await this._init(); } catch(e) { 
+        try { await this._init(true); } catch(e) { 
             await this.allocator.v1.free(this.ptr);
             return;
         }

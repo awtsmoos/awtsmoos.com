@@ -4,6 +4,7 @@
  * @file boyrayNivra.js
  * Olam method for "creating" a nivra (Entity Creation)
  * Hardened to ensure 100% visibility for raycasting across all hierarchies.
+ * Now with Graceful Fallback for missing assets AND Self-Healing Cache.
  */
 
 import Utils from '../../utils.js'
@@ -11,8 +12,21 @@ import * as THREE from '/games/scripts/build/three.module.js';
 import generateThreeJsMesh from './helpers/generateMesh.js';
 import * as SkeletonUtils from '/games/scripts/jsm/utils/SkeletonUtils.js';
 import HoleManager from '../math/HoleManager.js';
+import AssetCache from '../../utils/AssetCache.js'; // B"H: Needed for self-healing
 
 export default class {
+    // Helper to create a fallback vessel when the intended one fails
+    createPlaceholderMesh(nivra) {
+        const geo = new THREE.BoxGeometry(1, 1, 1);
+        const mat = new THREE.MeshBasicMaterial({ color: 0xff0000, wireframe: true });
+        const mesh = new THREE.Mesh(geo, mat);
+        mesh.name = nivra.name + "_fallback";
+        mesh.nivraAwtsmoos = nivra;
+        nivra.mesh = mesh;
+        this.objectsInScene.push(mesh);
+        return mesh;
+    }
+
     async boyrayNivra(nivra, info) {
         try {
             let threeObj = null;
@@ -20,35 +34,122 @@ export default class {
             // --- 1. Vessel Manifestation ---
             if(nivra.path && typeof(nivra.path) == "string") {
                 let derech = nivra.path;
+                let originalDerech = derech; // B"H: Preserve original config path (e.g. awtsmoos://world)
+                
                 if (derech.startsWith('awtsmoos://')) {
                     const comp = this.getComponent(derech);
                     if (!comp) {
-                        throw new Error(`B"H - Component not found for path: ${derech}. Check defaultConfig or world file.`);
+                        console.error(`B"H - Component not found: ${originalDerech}`);
+                        // Notify User
+                        this.ayshPeula("increase loading percentage", {
+                            error: {
+                                title: "Missing Component",
+                                message: `Could not find definition for: ${originalDerech}`,
+                                details: `The entity '${nivra.name}' will appear as a placeholder.`
+                            }
+                        });
+                        return this.createPlaceholderMesh(nivra);
                     }
                     derech = comp;
                 }
     
                 let gltfAsset = this.$ga("GLTF/" + derech);
                 if(!gltfAsset) { 
-                    gltfAsset = await new Promise((resolve, reject) => {
-                        this.loader.load(
-                            derech, 
-                            resolve, 
-                            undefined, 
-                            (e) => resolve(null) // Resolve null instead of reject to handle gracefully
-                        );
-                    });
-                    
-                    if(gltfAsset) {
-                        this.setAsset("GLTF/" + derech, gltfAsset);
-                    } else {
-                        // B"H: Descriptive error for the UI
-                        throw new Error(`Failed to load GLTF from URL: ${derech}`);
+                    try {
+                        gltfAsset = await new Promise((resolve, reject) => {
+                            this.loader.load(
+                                derech, 
+                                resolve, 
+                                undefined, 
+                                (e) => reject(e) // B"H: Properly reject to catch below
+                            );
+                        });
+                        
+                        if(gltfAsset) {
+                            this.setAsset("GLTF/" + derech, gltfAsset);
+                        }
+                    } catch (loadErr) {
+                         // B"H: CRITICAL ERROR HANDLED GRACEFULLY
+                         console.group(`B"H - ASSET LOAD FAILED for Entity: ${nivra.name}`);
+                         
+                         // 1. Resolve TRUE SOURCE URL
+                         let rawSourceUrl = "Unknown";
+                         if (originalDerech.startsWith('awtsmoos://')) {
+                             // Extract key from awtsmoos://key/subpath
+                             const key = originalDerech.slice(11).split('/')[0];
+                             if (this.componentSourceUrls && this.componentSourceUrls[key]) {
+                                 rawSourceUrl = this.componentSourceUrls[key];
+                             }
+                         }
+
+                         console.error(`Original Config Path: ${originalDerech}`);
+                         console.error(`Resolved Blob Path: ${derech}`);
+                         console.error(`TRUE SOURCE URL: ${rawSourceUrl}`);
+                         console.error(`Error Details:`, loadErr);
+                         console.error(`Stack Trace:`, loadErr.stack); // B"H: Explicit Stack Trace
+                         
+                         let diag = "Unknown file type.";
+                         let shouldPurge = false;
+
+                         // B"H: Forensics - Inspect the file header
+                         try {
+                             if(derech && (derech.startsWith("blob:") || derech.startsWith("http"))) {
+                                const response = await fetch(derech);
+                                const buf = await response.arrayBuffer();
+                                const headerBytes = new Uint8Array(buf.slice(0, 16));
+                                const headerHex = Array.from(headerBytes).map(b => b.toString(16).padStart(2,'0')).join(' ');
+                                const headerStr = new TextDecoder().decode(headerBytes);
+                                console.error(`File Header Hex: ${headerHex}`);
+                                console.error(`File Header Text: ${headerStr}`);
+                                
+                                if(headerStr.includes("glTF")) diag = "Valid GLTF Header found (Corruption elsewhere?)";
+                                else if(headerStr.includes("Exif") || headerHex.startsWith("ff d8")) { diag = "It looks like a JPEG Image, NOT a 3D Model!"; shouldPurge = true; }
+                                else if(headerStr.includes("PNG")) { diag = "It looks like a PNG Image, NOT a 3D Model!"; shouldPurge = true; }
+                                else if(headerStr.includes("<!DOCT") || headerStr.includes("<html")) { diag = "It looks like HTML (probably a 404 or Auth page)!"; shouldPurge = true; }
+                                else if(headerStr.includes("ID3")) { diag = "It looks like an MP3 Audio file!"; shouldPurge = true; }
+                                
+                                console.error(`B"H DIAGNOSIS: ${diag}`);
+                                
+                                // Update error message for UI
+                                loadErr.message += `\n[DIAGNOSIS: ${diag}]`;
+                             }
+                         } catch(forensicErr) {
+                             console.error("Could not analyze file header:", forensicErr);
+                         }
+
+                         // B"H: SELF-HEALING LOGIC
+                         // Delete the ORIGINAL SOURCE URL from cache, not the blob URL
+                         if (shouldPurge) {
+                             if (rawSourceUrl && rawSourceUrl !== "Unknown") {
+                                 console.warn(`B"H - PURGING CORRUPTED ASSET FROM CACHE: ${rawSourceUrl}`);
+                                 AssetCache.delete(rawSourceUrl);
+                                 loadErr.message += `\n[ACTION: Cache Cleared for ${rawSourceUrl}. Please Reload Page.]`;
+                             } else {
+                                 console.warn("B\"H - Could not determine original source URL for cache deletion. Try clearing browser cache manually.");
+                             }
+                         }
+
+                         console.groupEnd();
+                         
+                         // 1. Alert the User (Huge Interrupt)
+                         this.ayshPeula("increase loading percentage", {
+                            error: {
+                                title: "Asset Manifestation Failed",
+                                message: `Failed to load model for '${nivra.name}'`,
+                                details: `Path: ${originalDerech}\nSource: ${rawSourceUrl}\nError: ${loadErr.message || loadErr}`
+                            }
+                        });
+
+                        // 2. Return Fallback (Still Continue)
+                        return this.createPlaceholderMesh(nivra);
                     }
                 }
                 
                 const uniqueScene = SkeletonUtils.clone(gltfAsset.scene);
-                if(!uniqueScene) throw new Error("SkeletonUtils failed to clone scene.");
+                if(!uniqueScene) {
+                    console.error("SkeletonUtils clone failed.");
+                    return this.createPlaceholderMesh(nivra);
+                }
 
                 const boneChildren = {}, garments = {}, bodyParts = {};
                 const materials = [];
@@ -89,7 +190,10 @@ export default class {
             } else {
                 // --- Golem Path ---
                 const mesh = await generateThreeJsMesh(nivra.golem || {}, this);
-                if(!mesh) throw new Error("generateThreeJsMesh returned null.");
+                if(!mesh) {
+                     console.error("generateThreeJsMesh failed.");
+                     return this.createPlaceholderMesh(nivra);
+                }
 
                 mesh.name = nivra.name;
                 mesh.nivraAwtsmoos = nivra;
@@ -145,14 +249,16 @@ export default class {
                     }
                 }
             } else {
-                throw new Error("Nivra mesh was not created.");
+                // If we got here with no mesh, make a placeholder
+                return this.createPlaceholderMesh(nivra);
             }
 
             return threeObj;
 
         } catch(e) { 
             console.error(`B"H Critical Error in boyrayNivra for entity '${nivra.name}':`, e);
-            throw e; // Rethrow to be caught by loadNivrayim
+            // Even if unexpected logic error, return placeholder so world loads
+            return this.createPlaceholderMesh(nivra);
         }
     }
 }

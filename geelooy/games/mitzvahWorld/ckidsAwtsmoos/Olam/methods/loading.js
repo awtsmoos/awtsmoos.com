@@ -17,6 +17,11 @@ export default class {
             return shaym;
         }
 
+        // B"H: Track source URL for cache invalidation logic
+        // This is crucial: 'shaym' is the key (e.g., 'world'), 'url' is the http source.
+        if(!this.componentSourceUrls) this.componentSourceUrls = {};
+        this.componentSourceUrls[shaym] = url;
+
         let blob = null;
         
         // 1. Try Cache
@@ -28,6 +33,7 @@ export default class {
 
         // 2. Network Fetch if miss
         if (!blob) {
+            console.log(`B"H - Fetching ${shaym} from ${url}`);
             const response = await fetch(url);
             if (!response.ok) {
                 throw new Error(`Failed to fetch "${url}" (Status: ${response.status})`);
@@ -35,9 +41,9 @@ export default class {
             blob = await response.blob();
             
             // 3. Cache for Future
-            // We don't await the put to speed up current load, unless we want strict consistency
-            // Awaiting is safer to prevent race conditions in IDB if many writes happen
             await AssetCache.put(url, blob);
+        } else {
+            console.log(`B"H - Loaded ${shaym} from Cache`);
         }
 
         // 4. Create Blob URL
@@ -108,30 +114,37 @@ export default class {
         const total = ent.length;
         let loadedCount = 0;
         
+        console.log(`B"H - Starting load of ${total} components.`);
+
         // B"H: Parallel Load Logic with Individual Error Handling
         const loadPromises = ent.map(async ([shaym, url]) => {
+             // B"H: Notify Start of individual load
+             this.ayshPeula("increase loading percentage", {
+                amount: 0,
+                action: "Initializing World Assets...",
+                subAction: `Fetching: ${shaym}`
+            });
+            
             try {
                 await this.loadComponent(shaym, url);
             } catch(e) {
                 console.error(`B"H - Failed to load component ${shaym}:`, e);
-                // We proceed without this component, but maybe log it to UI
+                // We proceed without this component, but log it to UI
                  this.ayshPeula("increase loading percentage", {
                     amount: 0,
                     error: {
                         title: "Asset Load Warning",
                         message: `Failed to load asset: ${shaym}`,
-                        details: e.message
+                        details: `${e.message}\nURL: ${url}`
                     }
                 });
             } finally {
                 loadedCount++;
                 // B"H: Vivid Progress Update
-                // We update the UI for EVERY file to show "Specific loading".
-                // We calculate a global percentage based on file count.
                 const percent = (loadedCount / total) * 100;
                 
                 this.ayshPeula("increase loading percentage", {
-                    amount: (100 / total), // Increment by slice
+                    amount: (100 / total), 
                     reset: true, // Use calculated total instead of additive
                     total: percent,
                     action: "Initializing World Assets...",
@@ -181,10 +194,7 @@ export default class {
     async getModule(href, {others, name}) {
         if(typeof(href) != "string") return;
         
-        // B"H: Modules are code, we import them directly.
-        // Caching module code via Blob is complex due to relative imports.
-        // We rely on browser cache for JS files.
-        
+        console.log(`B"H - Loading Module: ${name} from ${href}`);
         this.ayshPeula("increase loading percentage", {
             amount: 0,
             action: "Loading Modules...",
@@ -197,7 +207,7 @@ export default class {
             if(!ob.default) return;
             return ob.default;
         } catch(e) {
-            console.log(e);
+            console.error(`B"H - Failed to load module ${name}:`, e);
             return null;
         }
     }
@@ -210,7 +220,7 @@ export default class {
         return this.getAsset(shaym);
     }
 
-    getAsset(shaym) { 
+    getAsset(shaym) {
         return this.assets[shaym] || null;
     }
 
