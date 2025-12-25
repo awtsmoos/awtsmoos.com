@@ -18,7 +18,6 @@ function inferParams(metadata, tensorMap) {
 
     const p = {
         n_embd: 0, n_layer: 0, n_head: 0, n_head_kv: 0, head_dim: 0,
-        n_ctx: 0, // B"H: Initialized
         norm_eps: 1e-5, rope_freq: 10000.0, rope_freq_local: 0.0,
         rope_scale: 1.0,
         arch: 'llama',
@@ -39,6 +38,7 @@ function inferParams(metadata, tensorMap) {
     if (isGemma) {
         p.act_fn = 'gelu';
         p.rope_is_neox = true; 
+        // B"H: Mirror browser default (model_block.js, Line 8)
         p.norm_offset = 0.0;
     }
 
@@ -49,7 +49,7 @@ function inferParams(metadata, tensorMap) {
     const qInfo = tensorMap.get('blk.0.attn_q.weight') || tensorMap.get('model.layers.0.self_attn.q_proj.weight');
     const kInfo = tensorMap.get('blk.0.attn_k.weight') || tensorMap.get('model.layers.0.self_attn.k_proj.weight');
 
-    // Head Dim
+    // Head Dim - Preference for explicit keys or derived from q_proj rows
     let metaHeadDim = findVal('.attention.key_length') || findVal('.attention.head_dim');
     
     if (metaHeadDim) {
@@ -97,10 +97,7 @@ function inferParams(metadata, tensorMap) {
         p.rope_freq_local = p.rope_freq;
     }
     
-    // 5. Context Length (B"H: Critical Fix)
-    p.n_ctx = findVal('.context_length') || 4096;
-    
-    // 6. Architecture-Specific logic
+    // 5. Architecture-Specific logic
     if (isGemma) {
         p.useEmbScale = true; 
         
@@ -116,7 +113,7 @@ function inferParams(metadata, tensorMap) {
         p.final_soft_cap = findVal('final_logit_softcapping') || 0.0;
     } 
     
-    // 7. Layer Count
+    // 6. Layer Count
     let l = 0;
     while(tensorMap.has(`blk.${l}.attn_q.weight`) || tensorMap.has(`model.layers.${l}.self_attn.q_proj.weight`)) l++;
     p.n_layer = l;
@@ -124,7 +121,7 @@ function inferParams(metadata, tensorMap) {
     p.q_dim = p.n_head * p.head_dim;
     p.kv_dim = p.n_head_kv * p.head_dim;
     
-    Logger.log(`[CONFIG] ${p.arch} | L:${p.n_layer} | Ctx:${p.n_ctx} | Emb:${p.n_embd} | Heads:${p.n_head}/${p.n_head_kv} | Dim:${p.head_dim} | Eps:${p.norm_eps}`);
+    Logger.log(`[CONFIG] ${p.arch} | L:${p.n_layer} | Emb:${p.n_embd} | Heads:${p.n_head}/${p.n_head_kv} | Dim:${p.head_dim} | Eps:${p.norm_eps} | Offset:${p.norm_offset}`);
     
     return p;
 }

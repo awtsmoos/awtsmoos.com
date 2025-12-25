@@ -4,6 +4,7 @@
 const DirectEngine = require('./direct/index.js');
 const AwtsmoosBrain = require('./brain.js');
 const ModelImporter = require('./importer.js');
+const HandleRegistry = require('../../core/handleRegistry.js');
 
 class AIManager {
     constructor(db) {
@@ -15,15 +16,18 @@ class AIManager {
      * @description Loads a model from FILE or DB and attaches a Brain.
      */
     async loadBrain(source, options = {}) {
+        let actualSource = source;
+        
+        // B"H: If source is a string name, look it up in the registry
         if (typeof source === 'string' && !source.endsWith('.gguf') && !require('fs').existsSync(source)) {
              if (await this.hasModel(source)) {
-                 source = this.db.root.ai.models[source];
+                 actualSource = this.db.root.ai.models[source];
              } else {
                  throw new Error(`B"H Error: Model source '${source}' not found on disk or in DB registry.`);
              }
         }
         
-        const engine = new DirectEngine(source, options);
+        const engine = new DirectEngine(actualSource, options);
         engine.setGraphContext(this.db.graph); 
         await engine.init();
         
@@ -37,7 +41,7 @@ class AIManager {
     }
 
     async hasModel(modelName = 'default') {
-        // B"H: Use the DB's portals to check handle existence
+        // B"H: Use the DB's portals to check handle existence via registry
         if (!await this.db.has(this.db.root, 'ai')) return false;
         
         const aiRoot = this.db.root.ai;

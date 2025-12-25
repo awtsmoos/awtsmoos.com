@@ -1,4 +1,3 @@
-
 // B"H
 const constants = require('../../constants.js');
 const SmartPointer = require('../../utils/smartPointer.js');
@@ -9,6 +8,7 @@ const keyEncoding = require('../../utils/keyEncoding.js');
 const { readPointer48 } = require('../../utils/binaryHelpers.js');
 const serializer = require('../../utils/serializer.js');
 const SmartBinary = require('../../utils/smartBinary.js');
+const HandleRegistry = require('../../core/handleRegistry.js');
 
 class Navigator {
     constructor(handle) {
@@ -16,14 +16,8 @@ class Navigator {
         this.db = handle.db;
     }
 
-    log(msg) {
-        // console.log(`[TRACE Navigator] ${msg}`);
-    }
-
-    // B"H: Synchronous - Returns a Deferred Handle immediately
     navigate(key) {
-        const LH = require('./index.js');
-        return new LH(this.db, null, null, { parent: this.handle, key });
+        return HandleRegistry.createHandle(this.db, null, null, { parent: this.handle.self, key });
     }
 
     _encodeNumber(num) {
@@ -32,18 +26,13 @@ class Navigator {
         return buf;
     }
 
-    // B"H: Asynchronous - Actually looks up the key in the Structure
     async resolveKey(key) {
-        const path = this.handle.getPath();
         await this.handle.ensureResolved();
         
-        if (!this.handle.ptr && this.handle !== this.db.root) {
-            this.log(`resolveKey [${path}] Parent Unresolved (Null Pointer). Cannot find '${key}'.`);
+        if (!this.handle.ptr && (this.handle.context !== null && this.handle.self !== this.db.root)) {
             return null;
         }
 
-        // --- 1. Smart Binary (Inline) Handling ---
-        // If the handle points to a Smart Object/Array (Inline Buffer), we resolve purely in memory.
         const ptrInfo = SmartPointer.decode(this.handle.ptr);
         if (ptrInfo && ptrInfo.mode === constants.MODE_INLINE) {
              const payload = ptrInfo.payload;
@@ -51,14 +40,6 @@ class Navigator {
              if (ptrInfo.type === constants.TYPE_SMART_OBJECT) {
                  const resultBuf = SmartBinary.getObjectProperty(payload, String(key));
                  if (resultBuf) {
-                     // Found! Return as a LiveHandle pointing to this buffer
-                     // NOTE: We wrap it as an INLINE pointer? 
-                     // Wait, resultBuf might be *another* encoded value.
-                     // SmartBinary stores raw serialized values.
-                     // We need to decode it to check if it's another structure or primitive?
-                     // But LiveHandle expects a Pointer Buffer.
-                     // Since `resultBuf` comes from `serializeValue`, it IS a pointer (Inline or Block).
-                     // Perfect.
                      const decodedSub = SmartPointer.decode(resultBuf);
                      return { ptr: resultBuf, type: decodedSub ? decodedSub.type : constants.TYPE_BUFFER };
                  }
@@ -83,7 +64,6 @@ class Navigator {
              }
         }
 
-        // --- 2. Block Structure Handling ---
         let structPtr = null;
         
         if (this.handle.ptr) {
@@ -104,7 +84,7 @@ class Navigator {
                      isHeap: true
                  };
              }
-        } else if (this.handle === this.db.root && this.db.rootPtrRaw) {
+        } else if ((this.handle.context === null || this.handle.self === this.db.root) && this.db.rootPtrRaw) {
              const decoded = SmartPointer.decode(this.db.rootPtrRaw);
              structPtr = {
                  blockId: readPointer48(decoded.payload, 0),
@@ -114,25 +94,20 @@ class Navigator {
              };
         }
 
-        if (!structPtr) {
-             return null;
-        }
+        if (!structPtr) return null;
 
         let valPtr;
         
-        // --- Dictionary Lookup ---
         if (this.handle.type === constants.TYPE_DICTIONARY) {
             let dict = await this.handle.writer.common.getEngine(structPtr, constants.TYPE_DICTIONARY);
             if (!dict) dict = new Dictionary(this.db.allocator, structPtr);
             const encodedKey = keyEncoding.encode(key);
             valPtr = await dict.getPtr(encodedKey);
         } 
-        // --- Custom Instance Lookup ---
         else if (this.handle.type === constants.TYPE_CUSTOM_INSTANCE) {
-            // (Existing Logic)
             let blockData;
             if (structPtr.isHeap) {
-                const blk = await this.db.allocator.readBlock(structPtr.blockId);
+                const blk = await this.db.allocator.v1.readBlockLocked(structPtr.blockId);
                 blockData = blk ? blk.subarray(structPtr.offset, structPtr.offset + structPtr.length) : null;
             } else {
                 blockData = await this.db._readChainSafe(structPtr);
@@ -162,7 +137,6 @@ class Navigator {
                 }
             }
         }
-        // --- Map Lookup ---
         else if (this.handle.type === constants.TYPE_MAP) {
             if (key === 'size') {
                 let map = await this.handle.writer.common.getEngine(structPtr, constants.TYPE_MAP);
@@ -176,7 +150,6 @@ class Navigator {
             const encodedKey = keyEncoding.encode(key);
             valPtr = await map.getPtr(encodedKey);
         }
-        // --- Sequence Lookup ---
         else if (this.handle.type === constants.TYPE_SEQUENCE) {
             let seq = await this.handle.writer.common.getEngine(structPtr, constants.TYPE_SEQUENCE);
             if (!seq) seq = new Sequence(this.db.allocator, structPtr);

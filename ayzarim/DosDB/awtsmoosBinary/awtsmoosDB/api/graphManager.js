@@ -1,8 +1,8 @@
-
 // B"H
 const constants = require('../constants.js');
 const SmartPointer = require('../utils/smartPointer.js');
 const { readPointer48 } = require('../utils/binaryHelpers.js');
+const HandleRegistry = require('../core/handleRegistry.js');
 
 class GraphManager {
     constructor(db) {
@@ -16,7 +16,7 @@ class GraphManager {
     async _init() {
         if (this.graphRoot) {
             // Verify it's still valid (e.g. if db was closed/reopened or root changed)
-            const h = this.graphRoot[constants.SYMBOLS.INTERNALS] || this.graphRoot;
+            const h = HandleRegistry.getSoul(this.graphRoot);
             await h.ensureResolved();
             if (h.ptr) return;
         }
@@ -30,7 +30,8 @@ class GraphManager {
     }
 
     _getId(handle) {
-        const h = handle && handle[constants.SYMBOLS.INTERNALS] ? handle[constants.SYMBOLS.INTERNALS] : handle;
+        const h = HandleRegistry.getSoul(handle);
+        if (!h) return null;
         
         // B"H: Optimization - Check Cache
         if (h.ptr) {
@@ -70,9 +71,8 @@ class GraphManager {
         await this.db.batch(async () => {
             await this._init();
             
-            // B"H: Robust unwrapping (handle might be Proxy or Internal)
-            const src = sourceHandle && sourceHandle[constants.SYMBOLS.INTERNALS] ? sourceHandle[constants.SYMBOLS.INTERNALS] : sourceHandle;
-            const tgt = targetHandle && targetHandle[constants.SYMBOLS.INTERNALS] ? targetHandle[constants.SYMBOLS.INTERNALS] : targetHandle;
+            const src = HandleRegistry.getSoul(sourceHandle);
+            const tgt = HandleRegistry.getSoul(targetHandle);
             
             // Parallel resolve
             await Promise.all([src.ensureResolved(), tgt.ensureResolved()]);
@@ -99,26 +99,21 @@ class GraphManager {
     }
 
     async _ensureNode(nodeId) {
-        // B"H: Optimization - Check existence first to avoid costly createMap call overhead if not needed
-        // Assuming graphRoot is loaded.
-        
-        // Unwrap proxy to get internal handle
-        let rootInt = this.graphRoot[constants.SYMBOLS.INTERNALS] || this.graphRoot;
+        let rootInt = HandleRegistry.getSoul(this.graphRoot);
         await rootInt.ensureResolved();
         
-        // B"H: Self-Healing - If graphRoot lost its pointer (e.g. during heavy batch reclamation or race), recover it.
+        // B"H: Self-Healing - If graphRoot lost its pointer, recover it.
         if (!rootInt.ptr) {
-            if (this.db.debug) console.warn("B\"H GraphManager: graphRoot ptr lost, re-initializing...");
             this.graphRoot = null;
             await this._init();
-            rootInt = this.graphRoot[constants.SYMBOLS.INTERNALS] || this.graphRoot;
+            rootInt = HandleRegistry.getSoul(this.graphRoot);
             await rootInt.ensureResolved(true);
             if (!rootInt.ptr) throw new Error("B\"H Fatal: Could not resolve Graph Root.");
         }
         
         // Use internal navigator directly
         const nodeEntry = rootInt.nav.navigate(nodeId);
-        const internal = nodeEntry[constants.SYMBOLS.INTERNALS] || nodeEntry;
+        const internal = HandleRegistry.getSoul(nodeEntry);
         
         await internal.ensureResolved();
         
@@ -126,26 +121,24 @@ class GraphManager {
             await this.db.createMap(this.graphRoot, nodeId);
             // Re-resolve
             await internal.ensureResolved(true);
-            const newNode = this.graphRoot[nodeId]; // Proxy access for creating children
+            const newNode = this.graphRoot[nodeId]; 
             await this.db.createMap(newNode, "in");
             await this.db.createMap(newNode, "out");
         }
     }
 
     async _addEdge(nodeId, dir, label, edge) {
-        // B"H: FIX - Bracket access for all levels
         const nodeEntry = this.graphRoot[nodeId];
         const dirMap = nodeEntry[dir]; 
         const labelList = dirMap[label]; 
         
-        const listInt = labelList[constants.SYMBOLS.INTERNALS] || labelList;
+        const listInt = HandleRegistry.getSoul(labelList);
         await listInt.ensureResolved();
         
         if (!listInt.ptr) {
             await this.db.createList(dirMap, label);
-            // Re-get to ensure we have the new pointer/handle state
             const newList = dirMap[label];
-            const newListInt = newList[constants.SYMBOLS.INTERNALS] || newList;
+            const newListInt = HandleRegistry.getSoul(newList);
             await newListInt.ensureResolved();
             await newList.push(edge);
         } else {
@@ -157,19 +150,18 @@ class GraphManager {
         await this._init();
         let nodeId;
         if (Buffer.isBuffer(nodeIdentifier)) nodeId = this._getIdFromPtr(nodeIdentifier);
-        else nodeId = String(nodeIdentifier);
+        else nodeId = this._getId(nodeIdentifier) || String(nodeIdentifier);
         
         if (!nodeId) return;
 
-        // B"H: FIX - Bracket access
         const nodeEntry = this.graphRoot[nodeId];
-        const nodeInt = nodeEntry[constants.SYMBOLS.INTERNALS] || nodeEntry;
+        const nodeInt = HandleRegistry.getSoul(nodeEntry);
         await nodeInt.ensureResolved();
         
         if (!nodeInt.ptr) return;
 
         const inMap = nodeEntry["in"];
-        const inMapInt = inMap[constants.SYMBOLS.INTERNALS] || inMap;
+        const inMapInt = HandleRegistry.getSoul(inMap);
         await inMapInt.ensureResolved();
         
         if (inMapInt.ptr) {
@@ -184,7 +176,7 @@ class GraphManager {
         }
 
         const outMap = nodeEntry["out"];
-        const outMapInt = outMap[constants.SYMBOLS.INTERNALS] || outMap;
+        const outMapInt = HandleRegistry.getSoul(outMap);
         await outMapInt.ensureResolved();
         
         if (outMapInt.ptr) {
@@ -201,15 +193,14 @@ class GraphManager {
     }
 
     async _removeEdgeFromOther(otherId, dir, label, targetNodeIdToRemove) {
-        // B"H: FIX - Bracket access
         const otherNode = this.graphRoot[otherId];
-        const otherInt = otherNode[constants.SYMBOLS.INTERNALS] || otherNode;
+        const otherInt = HandleRegistry.getSoul(otherNode);
         await otherInt.ensureResolved();
         if (!otherInt.ptr) return;
 
         const dirMap = otherNode[dir];
         const list = dirMap[label];
-        const listInt = list[constants.SYMBOLS.INTERNALS] || list;
+        const listInt = HandleRegistry.getSoul(list);
         await listInt.ensureResolved();
         if (!listInt.ptr) return;
 
@@ -226,8 +217,7 @@ class GraphManager {
 
     async getRelationships(handle, direction = 'BOTH', label = null) {
         await this._init();
-        // B"H: Robust unwrapping
-        const h = handle && handle[constants.SYMBOLS.INTERNALS] ? handle[constants.SYMBOLS.INTERNALS] : handle;
+        const h = HandleRegistry.getSoul(handle);
         await h.ensureResolved();
         const nodeId = this._getId(h);
         if (!nodeId) return [];
@@ -240,21 +230,20 @@ class GraphManager {
         if (direction === 'OUT' || direction === 'BOTH') dirs.push('out');
         if (direction === 'IN' || direction === 'BOTH') dirs.push('in');
 
-        // B"H: FIX - Bracket access
         const nodeEntry = this.graphRoot[nodeId]; 
-        const nodeInt = nodeEntry[constants.SYMBOLS.INTERNALS] || nodeEntry;
+        const nodeInt = HandleRegistry.getSoul(nodeEntry);
         await nodeInt.ensureResolved();
         if (!nodeInt.ptr) return [];
 
         for (const dir of dirs) {
             const dirMap = nodeEntry[dir]; 
-            const dirInt = dirMap[constants.SYMBOLS.INTERNALS] || dirMap;
+            const dirInt = HandleRegistry.getSoul(dirMap);
             await dirInt.ensureResolved();
             if (!dirInt.ptr) continue;
 
             if (label) {
                 const list = dirMap[label]; 
-                const listInt = list[constants.SYMBOLS.INTERNALS] || list;
+                const listInt = HandleRegistry.getSoul(list);
                 await listInt.ensureResolved();
                 if (listInt.ptr) {
                     const edges = await list; 
@@ -289,44 +278,38 @@ class GraphManager {
 
     _hydrateNodeHandleFromPtr(ptrBuf) {
         const decoded = SmartPointer.decode(ptrBuf);
-        const LiveHandle = require('./liveHandle/index.js');
-        return new LiveHandle(this.db, ptrBuf, decoded.type, null);
+        return HandleRegistry.createHandle(this.db, ptrBuf, decoded.type, null);
     }
 
     _hydrateNodeHandleFromId(id) {
         const [blockStr, offStr] = id.split('_');
         const blockId = parseInt(blockStr);
         const ptr = SmartPointer.block(constants.TYPE_DICTIONARY, blockId, 0, false, parseInt(offStr||0)); 
-        const LiveHandle = require('./liveHandle/index.js');
-        return new LiveHandle(this.db, ptr, constants.TYPE_DICTIONARY, null);
+        return HandleRegistry.createHandle(this.db, ptr, constants.TYPE_DICTIONARY, null);
     }
 
-    // --- ALGORITHMS (Neo4j-Lite) ---
-
-    // 1. Graph Projection (In-Memory Topology)
     async projectGraph() {
         await this._init();
-        const adjList = new Map(); // NodeID -> Array<NeighborID>
-        const reverseAdj = new Map(); // NodeID -> Array<SourceID>
+        const adjList = new Map(); 
+        const reverseAdj = new Map(); 
         const nodes = new Set();
 
         const nodeKeys = await this.db.keys(this.graphRoot);
         for (const nodeKey of nodeKeys) {
             nodes.add(nodeKey);
-            // B"H: FIX - Bracket access
             const nodeEntry = this.graphRoot[nodeKey];
             const outMap = nodeEntry['out'];
-            const outInt = outMap[constants.SYMBOLS.INTERNALS] || outMap;
+            const outInt = HandleRegistry.getSoul(outMap);
             await outInt.ensureResolved();
             
             if (outInt.ptr) {
                 const labels = await this.db.keys(outMap);
                 for (const label of labels) {
                     const list = outMap[label];
-                    const edges = await list; // Resolve array
+                    const edges = await list; 
                     for(const e of edges) {
                         const target = e.targetId;
-                        nodes.add(target); // Ensure target exists in set
+                        nodes.add(target); 
                         
                         if(!adjList.has(nodeKey)) adjList.set(nodeKey, []);
                         adjList.get(nodeKey).push(target);
@@ -340,7 +323,6 @@ class GraphManager {
         return { nodes: Array.from(nodes), adjList, reverseAdj };
     }
 
-    // 2. PageRank
     async pageRank(options = {}) {
         const damping = options.damping || 0.85;
         const iterations = options.iterations || 20;
@@ -377,13 +359,12 @@ class GraphManager {
         return sorted.map(([id, score]) => ({ id, score }));
     }
 
-    // 3. Community Detection (Label Propagation)
     async communityDetection(options = {}) {
         const iterations = options.iterations || 10;
         const { nodes, adjList, reverseAdj } = await this.projectGraph();
         
         const labels = new Map();
-        nodes.forEach((n, i) => labels.set(n, i)); // Init unique labels
+        nodes.forEach((n, i) => labels.set(n, i)); 
         
         const shuffled = [...nodes];
         
@@ -436,7 +417,6 @@ class GraphManager {
         return Array.from(communities.values());
     }
 
-    // 4. Centrality (Degree)
     async centrality() {
         const { nodes, adjList, reverseAdj } = await this.projectGraph();
         return nodes.map(n => ({
@@ -450,9 +430,8 @@ class GraphManager {
     async shortestPath(startHandle, endHandle, options = {}) {
         await this._init();
         
-        // B"H: Robust unwrapping
-        const s = startHandle && startHandle[constants.SYMBOLS.INTERNALS] ? startHandle[constants.SYMBOLS.INTERNALS] : startHandle;
-        const e = endHandle && endHandle[constants.SYMBOLS.INTERNALS] ? endHandle[constants.SYMBOLS.INTERNALS] : endHandle;
+        const s = HandleRegistry.getSoul(startHandle);
+        const e = HandleRegistry.getSoul(endHandle);
         
         await s.ensureResolved();
         await e.ensureResolved();
@@ -476,8 +455,7 @@ class GraphManager {
             const edges = await this._getEdgesFromId(id, direction, label);
             for(const edgeObj of edges) {
                 const neighborHandle = edgeObj.node;
-                const nh = neighborHandle[constants.SYMBOLS.INTERNALS] || neighborHandle;
-                const neighborId = this._getId(nh);
+                const neighborId = this._getId(neighborHandle);
                 if (neighborId === endId) return [...path, { edge: edgeObj, node: neighborHandle }];
                 if (!visited.has(neighborId)) {
                     visited.add(neighborId);
@@ -491,8 +469,7 @@ class GraphManager {
     async traverse(startHandle, visitor, options = {}) {
         await this._init();
         
-        // B"H: Robust unwrapping
-        const s = startHandle && startHandle[constants.SYMBOLS.INTERNALS] ? startHandle[constants.SYMBOLS.INTERNALS] : startHandle;
+        const s = HandleRegistry.getSoul(startHandle);
         await s.ensureResolved();
 
         const startId = this._getId(s);
@@ -512,8 +489,7 @@ class GraphManager {
             const edges = await this._getEdgesFromId(current.id, direction, null);
             for(const edge of edges) {
                 const neighborHandle = edge.node;
-                const nh = neighborHandle[constants.SYMBOLS.INTERNALS] || neighborHandle;
-                const neighborId = this._getId(nh);
+                const neighborId = this._getId(neighborHandle);
                 if (!visited.has(neighborId)) {
                     visited.add(neighborId);
                     stack.push({ id: neighborId, handle: neighborHandle, depth: current.depth + 1 });
