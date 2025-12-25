@@ -26,7 +26,7 @@
             ];
             builtIns.forEach(k => { if(self[k]) overrides[k] = self[k]; });
 
-            // B"H - Initialize the Root Export Vessel
+            // B"H - Root Export Vessel
             overrides.exports = {};
 
             const traps = ['onmessage', 'onerror', 'onclose', 'onload'];
@@ -174,7 +174,7 @@
                 vm = new self.MerkavaVM(memory, options.hostAPI, context, options.importResolver);
                 if (context.__vmRef) context.__vmRef.current = vm;
                 
-                vm._moduleCache = {};
+                vm._moduleCache = new Map();
                 vm.importModule = async (url) => this._importModule(vm, url, options);
                 vm.importScripts = async (...urls) => this._handleImportScripts(vm, urls, options);
                 
@@ -210,15 +210,26 @@
         /**
          * B"H
          * The Module Loading Alchemist.
-         * Creates a dedicated vessel for each module's truth.
+         * Creates a dedicated vessel for each module's truth and registers it immediately.
          */
         async _importModule(vm, url, options, targetExports = null) {
-            if (vm._moduleCache[url]) {
-                const cached = vm._moduleCache[url];
-                if (targetExports) Object.assign(targetExports, cached);
-                return cached;
+            // 1. Check for Manifested Essence
+            if (vm._moduleCache.has(url)) {
+                const entry = vm._moduleCache.get(url);
+                if (options.hostAPI && options.hostAPI[0]) {
+                    options.hostAPI[0]("[SDK]", `[Module Cache Hit] URL: ${url}`);
+                }
+                if (targetExports && entry.exports !== targetExports) {
+                    Object.assign(targetExports, entry.exports);
+                }
+                await entry.promise;
+                return entry.exports;
             }
             
+            if (options.hostAPI && options.hostAPI[0]) {
+                options.hostAPI[0]("[SDK]", `[Inhaling Module] URL: ${url}`);
+            }
+
             const Compiler = self.MerkavaCompiler.Compiler;
             const Parser = self.MerkavahParser;
             
@@ -236,26 +247,31 @@
             const ast = new Parser(code).parse();
             const codeObj = new Compiler().compile(ast);
             
-            // B"H - Direct vessel grafting
+            // B"H - Immediate Registry Tikkun
             const exports = targetExports || {};
             const thread = vm.spawn(codeObj);
             thread.environment = vm.context;
             thread.currentScope = { 'this': vm.context, 'exports': exports };
             
-            if (vm.wake) vm.wake();
-            
-            await new Promise((resolve, reject) => {
+            const completionPromise = new Promise((resolve, reject) => {
                 const check = () => {
-                    if (thread.status === 'COMPLETED') resolve();
+                    if (thread.status === 'COMPLETED') {
+                        if (options.hostAPI && options.hostAPI[0]) {
+                             options.hostAPI[0]("[SDK]", `[Module Manifested] URL: ${url}`);
+                        }
+                        resolve(exports);
+                    }
                     else if (thread.status === 'CRASHED') reject(new Error("Module execution failed: " + url));
                     else setTimeout(check, 10);
                 };
                 check();
             });
+
+            // Commit to cache BEFORE resolution to catch recursive imports
+            vm._moduleCache.set(url, { exports, promise: completionPromise });
             
-            // Committal to registry before resolution
-            vm._moduleCache[url] = exports;
-            return exports;
+            if (vm.wake) vm.wake();
+            return completionPromise;
         }
 
         /**
@@ -265,8 +281,14 @@
          */
         async _handleImportScripts(vm, urls, options) {
              const sharedExports = vm.context.exports;
+             if (options.hostAPI && options.hostAPI[0]) {
+                 options.hostAPI[0]("[SDK]", `[importScripts Started] Count: ${urls.length}`);
+             }
              for (const url of urls) {
                  await this._importModule(vm, url, options, sharedExports);
+             }
+             if (options.hostAPI && options.hostAPI[0]) {
+                 options.hostAPI[0]("[SDK]", `[importScripts Complete]`);
              }
         }
 

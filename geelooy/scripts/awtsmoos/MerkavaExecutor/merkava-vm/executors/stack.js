@@ -72,7 +72,7 @@
     H[0x22] = (t) => { // LOAD_GLOBAL
         const name = t.constants[t.readU16()];
         
-        // 1. Supreme Priority 'exports' resolution
+        // 1. Resolve 'exports' vessel with supreme priority
         if (name === 'exports') {
             if (t.currentScope && t.currentScope.exports) { t.push(t.currentScope.exports); return; }
             if (t.environment && t.environment.exports) { t.push(t.environment.exports); return; }
@@ -92,7 +92,9 @@
             t.push(t.environment[name]);
         } else {
             let val = t.vm.memory.getGlobal(name);
-            if (val === undefined && t.vm.context && name in t.vm.context) val = t.vm.context[name];
+            if (val === undefined && t.vm.context && name in t.vm.context) {
+                val = t.vm.context[name];
+            }
             t.push(val);
         }
     };

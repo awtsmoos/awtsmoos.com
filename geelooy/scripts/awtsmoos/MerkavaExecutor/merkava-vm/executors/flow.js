@@ -43,7 +43,7 @@
             t.status = 'AWAITING';
             p.then(
                 v => { t.push(v); t.status = 'RUNNING'; if(t.vm.wake) t.vm.wake(); },
-                e => { console.error("[VM] Await:", e); t.push(undefined); t.status = 'RUNNING'; if(t.vm.wake) t.vm.wake(); }
+                e => { console.error("[VM] Await Error:", e); t.push(undefined); t.status = 'RUNNING'; if(t.vm.wake) t.vm.wake(); }
             );
         } else t.push(p);
     };
@@ -66,7 +66,7 @@
         if (t.vm.importModule) {
             t.push(t.vm.importModule(specifier));
         } else {
-            console.warn("[VM] importModule bridge not found. Returning empty vessel.");
+            console.warn("[VM] importModule bridge not found.");
             t.push(Promise.resolve({}));
         }
     };
