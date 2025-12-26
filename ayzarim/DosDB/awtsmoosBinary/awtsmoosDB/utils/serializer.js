@@ -2,21 +2,22 @@
 /**
  * @module serializer
  * @description
- *  Shared serialization primitives used by Parser, LiveHandle, and Structures.
+ *  Shared serialization primitives used by Parser, LiveHandle, and OmniCompressor.
  */
 
-// Writes a Variable Integer (1-9 bytes)
+/**
+ * @description Writes a Variable Integer (1-9 bytes) into a new Buffer.
+ */
 function writeVarInt(value) {
     let size = 0;
-    let v = value;
+    let v = Math.abs(value);
     do {
         size++;
         v = Math.floor(v / 128);
     } while (v > 0);
 
-    // B"H: Optimization - allocUnsafe
     const buf = Buffer.allocUnsafe(size);
-    let temp = value;
+    let temp = Math.abs(value);
     for (let i = 0; i < size - 1; i++) {
         buf.writeUInt8((temp & 0x7F) | 0x80, i);
         temp = Math.floor(temp / 128);
@@ -25,10 +26,12 @@ function writeVarInt(value) {
     return buf;
 }
 
-// B"H: Zero-Alloc version
+/**
+ * @description Zero-Allocation version of writeVarInt.
+ */
 function writeVarIntTo(buf, offset, value) {
     let size = 0;
-    let temp = value;
+    let temp = Math.abs(value);
     let currentOffset = offset;
     
     do {
@@ -45,7 +48,7 @@ function writeVarIntTo(buf, offset, value) {
 
 function getVarIntSize(value) {
     let size = 0;
-    let v = value;
+    let v = Math.abs(value);
     do {
         size++;
         v = Math.floor(v / 128);
@@ -53,37 +56,28 @@ function getVarIntSize(value) {
     return size;
 }
 
-// Writes a string prefixed by VarInt Length
-function writeString(str) {
-    const strBuf = Buffer.from(str, 'utf8');
-    const lenBuf = writeVarInt(strBuf.length);
-    return Buffer.concat([lenBuf, strBuf]);
-}
-
-// B"H: Zero-Alloc version
-function writeStringTo(buf, offset, str) {
-    const strByteLen = Buffer.byteLength(str, 'utf8');
-    const lenSize = writeVarIntTo(buf, offset, strByteLen);
-    const written = buf.write(str, offset + lenSize, 'utf8');
-    return lenSize + written;
-}
-
-// Reads a Variable Integer
+/**
+ * @description Reads a Variable Integer (LEB128) from a Buffer.
+ */
 function readVarInt(buf, offset) {
     let value = 0;
     let bytesRead = 0;
+    let multiplier = 1;
     
     while (true) {
         if (offset + bytesRead >= buf.length) break;
         const b = buf.readUInt8(offset + bytesRead);
-        value += (b & 0x7F) * Math.pow(128, bytesRead); 
+        value += (b & 0x7F) * multiplier; 
         bytesRead++;
         if ((b & 0x80) === 0) break;
+        multiplier *= 128;
     }
     return { value, bytesRead };
 }
 
-// Reads a string prefixed by VarInt Length
+/**
+ * @description Reads a string prefixed by VarInt Length.
+ */
 function readString(buf, offset) {
     const len = readVarInt(buf, offset);
     const start = offset + len.bytesRead;
@@ -103,8 +97,6 @@ module.exports = {
     writeVarIntTo,
     getVarIntSize,
     readVarInt,
-    writeString,
-    writeStringTo,
     readString,
     readBuffer
 };

@@ -44,7 +44,6 @@ export default class ShlichusHandler {
         this.notifyUpdate();
     }
     
-    // B"H: New Method for finding quests by name/shaym (Loose Coupling)
     getShlichusByShaym(shaym) {
         for (const q of this.activeQuests.values()) {
             if (q.title === shaym || q.id === shaym) return q;
@@ -75,7 +74,6 @@ export default class ShlichusHandler {
         const q = this.activeQuests.get(questId);
         if (q && q.state === QUEST_STATE.AVAILABLE) {
             q.activate();
-            // B"H: Hook for custom onStart logic defined in quest file
             if (q.onStart) q.onStart(q);
         }
     }

@@ -4,7 +4,7 @@
  * Item manipulation logic for InventoryManager.
  * Decoupled from Class Definitions to prevent circular dependency loops.
  */
-import { CurrencySystem } from "../../../dvarim/coin.js";
+import { CurrencySystem } from "../../../dvarim/currencySystem.js";
 import { ITEM_REGISTRY } from "../data/registry.js";
 
 export default {

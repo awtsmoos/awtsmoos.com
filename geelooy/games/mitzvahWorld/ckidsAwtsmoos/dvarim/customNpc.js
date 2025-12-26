@@ -6,7 +6,6 @@
 
 import Medabeir from "../chayim/medabeir/index.js";
 import Utils from "../utils.js";
-// B"H: Direct import to avoid circular dependency
 import { QUEST_STATE } from "../systems/quests/Shlichus.js";
 
 // B"H: Icon SVG Data URIs

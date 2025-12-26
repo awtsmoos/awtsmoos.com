@@ -1,6 +1,6 @@
 
 // B"H
-import { CurrencySystem } from "../../../dvarim/coin.js";
+import { CurrencySystem } from "../../../dvarim/currencySystem.js";
 
 export const ITEM_REGISTRY = {
     "Brick": { isBuildable: true, stackSize: 1024, icon: "/games/mitzvahWorld/icons/items/brick.svg", name: "Brick", description: "A sturdy building block." },

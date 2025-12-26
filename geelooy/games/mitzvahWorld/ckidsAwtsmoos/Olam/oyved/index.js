@@ -1,150 +1,31 @@
+
 /**
  * B"H
- * Olam Worker Entry Point - Absolute Safety Edition
- * NO STATIC IMPORTS ALLOWED HERE.
+ * Olam Worker Entry Point
  */
+import Utils from "../../utils.js";
+import * as THREE from '/games/scripts/build/three.module.js';
 
-// 1. Trap global errors immediately
-self.onerror = function(msg, url, lineNo, columnNo, error) {
-    var errorInfo = {
-        message: msg,
-        filename: url,
-        lineno: lineNo,
-        colno: columnNo,
-        error: error ? error.toString() : "N/A",
-        stack: error ? error.stack : "No stack trace available",
-        type: "Global Worker Error"
-    };
-    
-    // Log to console in worker as well
-    console.error("B\"H WORKER ERROR CAUGHT:", errorInfo);
-    
+import inventoryMethods from "./methods/inventory.js";
+import worldMethods from "./methods/world.js";
+import uiMethods from "./methods/ui.js";
+import inputMethods from "./methods/input.js";
+import canvasMethods from "./methods/canvas.js";
+
+import("../index.js").then(async r => {
+    self.Olam = r.default;
     try {
-        self.postMessage({ error: errorInfo });
+        await go(r.default);
     } catch(e) {
-        console.error("B\"H - Failed to report error to main thread:", e);
+        console.log("Issue in Worker Start",e)
     }
-    return false; 
-};
+}).catch(e=> {
+    console.log("Failed to load Olam module",e)
+})
 
-// 2. Trap unhandled promises
-self.addEventListener('unhandledrejection', function(event) {
-    console.error("B\"H WORKER UNHANDLED REJECTION:", event.reason);
-    self.postMessage({
-        error: {
-            message: "Unhandled Promise Rejection: " + event.reason,
-            stack: event.reason ? event.reason.stack : null,
-            type: "Promise Rejection"
-        }
-    });
-});
-
-// 3. Async Bootstrap
-(async function bootstrapWorker() {
-    console.log("B\"H - Worker Bootstrap Starting... Diagnostic Mode Enabled.");
-
-    var Utils, THREE, OlamClass;
-
-    // A. Load Core Dependencies Individually
-    try {
-        console.log("B\"H - 1. Loading Utils.js...");
-        // Path: ../../utils.js (relative to ckidsAwtsmoos/Olam/oyved/index.js)
-        var utilsModule = await import("../../utils.js").catch(e => {
-            throw new Error("Failed to load Utils.js: " + e.message);
-        });
-        Utils = utilsModule.default;
-        console.log("B\"H - Utils.js Loaded.");
-
-        console.log("B\"H - 2. Loading THREE.js...");
-        var threeModule = await import('/games/scripts/build/three.module.js').catch(e => {
-            throw new Error("Failed to load THREE.js: " + e.message);
-        });
-        THREE = threeModule;
-        self.THREE = THREE; 
-        console.log("B\"H - THREE.js Loaded.");
-
-        // B"H - 3. Diagnostic Load of Olam Dependencies
-        // These paths must be relative to THIS file (ckidsAwtsmoos/Olam/oyved/index.js)
-        console.log("B\"H - 3a. Checking Olam Dependencies...");
-        
-        try {
-            console.log("B\"H - 3a.1. Checking ../../chayim/nivra.js...");
-            await import("../../chayim/nivra.js");
-            console.log("B\"H - 3a.1. OK.");
-        } catch(e) { throw new Error("Failed Olam Dependency: nivra.js. " + e.message); }
-
-        try {
-             console.log("B\"H - 3a.2. Checking ../camera/index.js...");
-             await import("../camera/index.js");
-             console.log("B\"H - 3a.2. OK.");
-        } catch(e) { throw new Error("Failed Olam Dependency: camera/index.js. " + e.message); }
-
-        try {
-             console.log("B\"H - 3a.3. Checking ../../systems/UserProgressManager.js...");
-             await import("../../systems/UserProgressManager.js");
-             console.log("B\"H - 3a.3. OK.");
-        } catch(e) { throw new Error("Failed Olam Dependency: UserProgressManager.js. " + e.message); }
-
-        try {
-             console.log("B\"H - 3a.4. Checking ../methods/environment.js...");
-             await import("../methods/environment.js");
-             console.log("B\"H - 3a.4. OK.");
-        } catch(e) { throw new Error("Failed Olam Dependency: methods/environment.js. " + e.message); }
-        
-        try {
-             console.log("B\"H - 3a.5. Checking ../methods/properties.js...");
-             await import("../methods/properties.js");
-             console.log("B\"H - 3a.5. OK.");
-        } catch(e) { throw new Error("Failed Olam Dependency: methods/properties.js. " + e.message); }
-
-        try {
-             console.log("B\"H - 3a.6. Checking ../materials/Grass.js...");
-             await import("../materials/Grass.js");
-             console.log("B\"H - 3a.6. OK.");
-        } catch(e) { throw new Error("Failed Olam Dependency: materials/Grass.js. " + e.message); }
-
-
-        console.log("B\"H - 3. Loading Olam Core (../index.js)...");
-        // Load Olam Core
-        var olamModule = await import("../index.js").catch(e => {
-            console.error("B\"H - Olam Core Load Error Detail:", e);
-            throw new Error(`Failed to load Olam Core (../index.js). Likely Syntax Error in imports. Details: ${e.message}`);
-        });
-        OlamClass = olamModule.default;
-        self.Olam = OlamClass;
-
-        console.log("B\"H - Core Dependencies Loaded Successfully.");
-
-    } catch (e) {
-        console.trace("B\"H - Bootstrap Import Error:", e);
-        self.postMessage({
-            error: {
-                message: "Worker Bootstrap Failed: " + e.message,
-                stack: e.stack,
-                type: "Import Error"
-            }
-        });
-        return; 
-    }
-
-    // B. Initialize Logic
-    try {
-        console.log("B\"H - 4. Starting Worker Logic...");
-        await startWorkerLogic(OlamClass, Utils);
-        console.log("B\"H - 4. Worker Logic Started.");
-    } catch (e) {
-         self.postMessage({
-            error: {
-                message: "Worker Initialization Logic Failed: " + e.message,
-                stack: e.stack
-            }
-        });
-    }
-
-})();
-
-async function startWorkerLogic(OlamClass, Utils) {
+async function go(OlamClass) {
     var promiseMap = new Map();
+    var off = "official";
 
     function registerPromise(id) {
         return new Promise((resolve, reject) => {
@@ -156,50 +37,23 @@ async function startWorkerLogic(OlamClass, Utils) {
         olam: null,
         promiseMap,
         registerPromise
-    };
-
-    // C. Load Methods Dynamically
-    var tawfkeedeem = {};
-    var methodModules = {
-        inventory: "./methods/inventory.js",
-        world: "./methods/world.js",
-        ui: "./methods/ui.js",
-        input: "./methods/input.js",
-        canvas: "./methods/canvas.js"
-    };
-
-    for (var name in methodModules) {
-        var path = methodModules[name];
-        try {
-            var mod = await import(path);
-            if (mod.default) {
-                if (name === 'world') {
-                    Object.assign(tawfkeedeem, mod.default(me, OlamClass));
-                } else {
-                    Object.assign(tawfkeedeem, mod.default(me));
-                }
-            }
-        } catch (e) {
-            console.error(`B"H - Failed to load module '${name}' from ${path}:`, e);
-            self.postMessage({
-                error: {
-                    message: `Failed to load worker module '${name}': ${e.message}`,
-                    filename: path,
-                    stack: e.stack,
-                    type: "Module Load Error"
-                }
-            });
-        }
     }
 
-    // D. Setup Message Listener
+    // Aggregating methods
+    var tawfkeedeem = {
+        ...inventoryMethods(me),
+        ...worldMethods(me, OlamClass),
+        ...uiMethods(me),
+        ...inputMethods(me),
+        ...canvasMethods(me)
+    };
+
     addEventListener("message", async e => {
         var dayuh = e.data;
         if(typeof(dayuh) == "object") {
             try {
                 for(var q of Object.keys(dayuh)) {
                     var tawfeek = tawfkeedeem[q];
-                    
                     if(typeof(tawfeek) == "function") {
                         var result = await tawfeek(dayuh[q]);
                         
@@ -215,19 +69,12 @@ async function startWorkerLogic(OlamClass, Utils) {
                         }, shouldITransfer ? [tawch] : undefined)
                     }
                 }
-            } catch(err) {
-                console.error("B\"H - Runtime Error processing message:", err);
-                self.postMessage({
-                    error: {
-                        message: "Runtime Error: " + err.message,
-                        stack: err.stack,
-                        command: Object.keys(dayuh)[0]
-                    }
-                });
+            } catch(e) {
+                console.log("Error executing task:", e);
             }
         }
     });
 
-    console.log("B\"H - Olam Worker Fully Initialized and Listening.");
+    console.log("Olam Worker Ready");
     postMessage({ pawsawch: true });
 }

@@ -4,19 +4,9 @@
  * 
  * methods related to initally setting up the main (and/or minimap) canvas(es)
  */
-/*
-import PostProcessingManager from 
-"../../postProcessing/postProcessing.js";
-*/
-//import Environment from "../../postProcessing/environment.js";
-
 import * as THREE from '/games/scripts/build/three.module.js';
 
 export default class {
-
-	
-    
-
 
     /** 
      * In the tale of Ayin's quest to illuminate the world,
@@ -27,119 +17,89 @@ export default class {
      */
     takeInCanvas(canvas, devicePixelRatio = 1) {
        
-        // B"H - SIMPLIFIED AND CORRECTED LOGIC
-        // The modern THREE.WebGLRenderer handles both WebGL2 and WebGL1 contexts automatically.
-        // We only need to check if the main constructor exists.
-
+        // B"H - SIMPLIFIED AND ROBUST LOGIC
         if (!THREE.WebGLRenderer) {
             console.error("B\"H: Critical Error - THREE.WebGLRenderer is not available. Check Three.js import.");
             this.ayshPeula("error", {
                 message: "THREE.WebGLRenderer could not be found in the worker. The game cannot start."
             });
-            return; // Stop execution if Three.js isn't loaded properly
+            return; 
         }
 
-        // This single line will create a WebGL2 renderer if possible, or fall back to WebGL1.
-        this.renderer = new THREE.WebGLRenderer({ 
-			antialias: true, canvas,
-			logarithmicDepthBuffer: true
-		});
-		
-        if(!this.renderer.compute) this.renderer.compute = () => {}
-        if(!this.renderer.renderAsync) {
-		    this.renderer.clearAsync=this.renderer.clear;
-            this.renderer.renderAsync = this.renderer.render;
-        }
+        // B"H: Do NOT call getContext() manually. It 'consumes' the context configuration.
+        // Let Three.js handle the OffscreenCanvas context creation internally.
         
-        this.renderer.setPixelRatio(
-            devicePixelRatio
-        )
-        
-        // B"H: Synchronize Olam dimensions with the actual Canvas dimensions immediately
-        if (canvas.width && canvas.height) {
-            this.setSize(canvas.width, canvas.height);
+        try {
+            this.renderer = new THREE.WebGLRenderer({ 
+                antialias: true, 
+                canvas: canvas,
+                logarithmicDepthBuffer: true,
+                alpha: false // Opaque background usually safer for 3D worlds
+            });
+            
+            if(!this.renderer.compute) this.renderer.compute = () => {}
+            if(!this.renderer.renderAsync) {
+                this.renderer.clearAsync = this.renderer.clear;
+                this.renderer.renderAsync = this.renderer.render;
+            }
+            
+            this.renderer.setPixelRatio(devicePixelRatio);
+            
+            // Sync size immediately if dimensions exist
+            if (canvas.width && canvas.height) {
+                this.renderer.setSize(canvas.width, canvas.height, false);
+                this.width = canvas.width;
+                this.height = canvas.height;
+            }
+
+            console.log("B\"H - WebGL Renderer Initialized Successfully");
+            this.ayshPeula("canvased");
+
+        } catch(e) {
+            console.error("B\"H - FATAL: Could not create WebGL Renderer.", e);
+             this.ayshPeula("error", {
+                message: "Failed to initialize WebGL Graphics.",
+                details: e.toString()
+            });
         }
-
-        var renderer = this.renderer
-
-        this.ayshPeula("canvased")
     }
 
     postprocessingSetup() {
-        if(!this.postprocessing)
-           /* this.postprocessing = new PostProcessingManager({
-                camera: this.camera,
-                scene: this.scene,
-                renderer: this.renderer,
-                width: this.width,
-                height: this.height
-            });*/
-        this.postprocessing.postprocessingSetup();
-        
+        if(this.postprocessing && this.postprocessing.postprocessingSetup) {
+             this.postprocessing.postprocessingSetup();
+        }
     }
 
     postprocessingRender() {
-        if(!this.postprocessing)
-            return;
-
-        var rend = this.postprocessing.postprocessingRender();
-     
-        return rend
-
+        if(!this.postprocessing) return;
+        return this.postprocessing.postprocessingRender();
     }
 
     adjustPostProcessing() {
-        if(!this.postprocessing)
-            return;
+        if(!this.postprocessing) return;
 
         this.postprocessing.setSize({
             width: this.width,
             height: this.height
         })
     }
-    /** 
-     * As the eyes grow wider, or squint in the light,
-     * Our view changes size, adjusting to the sight.
-     * @param {Number|Object} vOrWidth - The width of the canvas or an object containing width and height.
-     * @param {Number} [height] - The height of the canvas.
-     * @example
-     * setSize(800, 600);
-     * // or 
-     * setSize({width: 800, height: 600});
-     */
+    
     async setSize(vOrWidth={}, height, sameAspect = false) {
         let width;
 
-        // If we're given a number, it's simple, it's plain,
-        // That's our width, assigned without pain.
         if(typeof vOrWidth === "number") {
             width = vOrWidth;
-        } 
-        // If instead we're given an object, never fear,
-        // Destructure its properties, making width and height clear.
-        else if (typeof vOrWidth === "object") {
+        } else if (typeof vOrWidth === "object") {
             ({width, height} = vOrWidth);
         }
 
-        /**
-         * Calculate aspect
-         * ratio to keep canvas
-         * resized at specific ratio
-         * so camera angles
-         * don't get messed up.
-         */
-
         var desiredAspectRatio = this.ASPECT_X / this.ASPECT_Y;
        
-        // Calculate new width and height
         let newWidth = width;
         let newHeight = height;
-        //console.log("Aspect ratio",width,height,width/height,desiredAspectRatio,ASPECT_X)
+        
         if (width / height > desiredAspectRatio) {
-           
-            // total width is wider than desired aspect ratio
-            if(sameAspect)
-                newWidth = height * desiredAspectRatio;
+            if(sameAspect) newWidth = height * desiredAspectRatio;
             if(this.rendered) {
                 await this.ayshPeula("htmlAction", {
                     shaym: "main av",
@@ -163,47 +123,26 @@ export default class {
                     }
                 });
             }
-            // total width is taller than desired aspect ratio
-            if(sameAspect)
-                newHeight = width / desiredAspectRatio;
+            if(sameAspect) newHeight = width / desiredAspectRatio;
         }
 
         this.width = newWidth;
         this.height = newHeight;
 		
-	
         width = newWidth;
         height = newHeight;
-        this.ayshPeula("alert", "size setting in function actually",width,height)
-        // When both dimensions are numbers, the world is alright,
-        // We can set our renderer's size, aligning the sight.
+        
         if(typeof width === "number" && typeof height === "number" ) {
-            
             if(this.renderer) {
-                this.ayshPeula(
-                    "alert", 
-                    "set size of renderer ",width,height
-                )
-                // console.log("About to set size",width,height)
-                // Updates the size of the renderer context in pixels and let the canvas's style width and height be managed by CSS (the third parameter, false).
                 this.renderer.setSize(width, height, false);
-            } else {
-                this.ayshPeula("alert", "didnt set renderer!")
             }
             
-            await this.updateHtmlOverlaySize(
-                width, height, 
-                desiredAspectRatio
-            );
-
-            await this.getBoundingRect()
-            //console.log("RESIZE info",info)
-
+            await this.updateHtmlOverlaySize(width, height, desiredAspectRatio);
+            await this.getBoundingRect();
             this.adjustPostProcessing();
-            
         }
 
-        this.refreshCameraAspect()
+        this.refreshCameraAspect();
     }
 
     async getBoundingRect() {
@@ -214,26 +153,16 @@ export default class {
             }
         });
 
-        // B"H: Safety check for undefined info array
         if(info && info[0]) {
-            var rect = info[0]
-                ?.methodsCalled
-                ?.getBoundingClientRect;
+            var rect = info[0]?.methodsCalled?.getBoundingClientRect;
             if(rect) {
                 this.boundingRect = rect;
             }
-
         }
     }
+    
     async updateHtmlOverlaySize(width, height) {
-        
-        
-		var differenceFromOriginalX = width / this.ASPECT_X;
-		var difFromOriginalY = this.ASPECT_Y / height;
-
-        await this.ayshPeula(
-            "htmlAction", 
-            {
+        await this.ayshPeula("htmlAction", {
                 shaym: `main av`,
                 properties: {
                     style: {
@@ -241,34 +170,18 @@ export default class {
                         height:height+"px"
                     }
                 }
-            }
-        );
-        // Set the overlay's style to match the canvas's dimensions and position
-        if(this.rendered) 
-            /*await this.ayshPeula(
-                "htmlAction", {
-                    shaym: `ikarGameMenu`,
-                    properties: {
-                        style: {
-                            transform: `scale(${
-                                differenceFromOriginalX
-                            })`
-                        }
+        });
+        
+        if(this.rendered) {
+            await this.ayshPeula("htmlAction", {
+                shaym: `av`,
+                properties: {
+                    style: {
+                        width:width+'px',
+                        height:height+'px'
                     }
                 }
-            );*/
-
-        this.rendered
-            await this.ayshPeula(
-                "htmlAction", {
-                    shaym: `av`,
-                    properties: {
-                        style: {
-                            width:width+'px',
-                            height:height+'px'
-                        }
-                    }
-                }
-            );
+            });
+        }
     }
 }

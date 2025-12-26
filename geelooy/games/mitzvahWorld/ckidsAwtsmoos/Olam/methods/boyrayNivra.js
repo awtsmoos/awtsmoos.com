@@ -8,7 +8,6 @@ import Utils from '../../utils.js'
 import * as THREE from '/games/scripts/build/three.module.js';
 import { Octree } from '../math/AwtsmoosOctree/index.js';
 import generateThreeJsMesh from './helpers/generateMesh.js';
-import processChild from './helpers/processChild.js';
 
 export default class {
    
@@ -61,7 +60,7 @@ export default class {
                 var gltf = null;
                 var gltfAsset = this.$ga("GLTF/" + derech);
                 
-                if(!gltfAsset) { 
+                if(0&&gltfAsset) { } else { 
                     try {
                         console.log(`B"H - Loading Model: ${derech}`);
                         gltf = await new Promise((r,j) => {
@@ -71,41 +70,98 @@ export default class {
                             }
 
                             this.loader.load(derech, onloadParsed => { r(onloadParsed) },
-                            async progress => {}, 
-                            error => { 
+                            async progress => {
+                                var { loaded, total } = progress;
+                                // Optional verbose progress logging
+                            }, error => { 
                                 console.error(`B"H - Error loading ${derech}:`, error); 
-                                r(null); 
+                                r(null); // Resolve null to prevent hang
                             });
                         })
                         console.log(`B"H - Model Loaded: ${derech}`);
                     } catch(e) { throw e; }
-                } else {
-                    gltf = gltfAsset;
                 }
                 
                 if(!gltf) {
                      console.warn("B\"H - Failed to load model for", nivra.name);
+                     // Return empty object or fallback mesh?
+                     // For now, throw to trigger fallback logic if wrapped, or return null
                      throw "Couldn't load model!";
                 }
                 
                 if(!gltfAsset) this.setAsset("GLTF/"+derech, gltf);
                 
                 nivra.asset = gltf;
-                
-                // Collections for traverser
                 var placeholders = {};
                 var thingsToRemove = [];
                 var materials = [];
+                var totalChildren = 0;
+    
+                gltf.scene.traverse(child => { totalChildren++ });
                 var boneChildren = {}, garments= {}, bodyParts = {};
-                
-                const collections = { placeholders, thingsToRemove, materials, boneChildren, garments, bodyParts };
-                
+                nivra.boneChildren = boneChildren;
+                var currentChild = 0;
+
                 gltf.scene.traverse(child => {
-                    processChild(child, nivra, this, collections);
+                    if(child.type == "Bone") boneChildren[child.name] = child;
+                    if(child?.userData?.garment) garments[child.userData.garment] = child;
+                    if(child?.userData?.["body-part"]) bodyParts[child.userData["body-part"]] = child;
+                    
+                    currentChild++;
+
+                    child.nivraAwtsmoos = nivra;
+                    
+                    if(child.userData && child.userData.water) {
+                        child.isWater = true;
+                        this.ayshPeula("start water", child);
+                    }
+    
+                    if(child.userData.meen == "land") {
+                        if(!nivra.lands) nivra.lands = [];
+                        nivra.lands.push(child)
+                    }
+    
+                    if(child.userData && child.userData.action) {
+                        var ac = this.actions[child.userData.action];
+                        if(ac) {
+                            if(!nivra.childrenWithActions) nivra.childrenWithActions = [];
+                            nivra.childrenWithActions.push(ac);
+                            child.awtsmoosAction = (player, nivra) => ac(player, nivra, this);
+                        }
+                    }
+
+                    if(typeof(child.userData.placeholder) == "string") {
+                        var { position, rotation, scale } = this.getTransformation(child);
+                        if(!placeholders[child.userData.placeholder]) placeholders[child.userData.placeholder] = [];
+                        var shlichus = child.userData.shlichus;
+                        placeholders[child.userData.placeholder].push({
+                            position, rotation, scale, mesh: child, addedTo: false,
+                            ...(shlichus ? { shlichus } : {})
+                        });
+                        thingsToRemove.push(child);
+                    }
+    
+                    if(typeof(child.userData.entity) == "string") {
+                        this.saveEntityInNivra(child.userData.entity, nivra, child)
+                        if(nivra.isSolid) child.isSolid = true;
+                        child.isMesh = true;
+                    }
+    
+                    if (child.isMesh && !child.isAwduhm && !child.isWater) {
+                        this.objectsInScene.push(child);
+                    } else if(child.isWater) {
+                        this.water = child;
+                        if(!this.waters) this.waters = [];
+                        this.waters.push(child);
+                    }
+    
+                    if(child.material) {
+                        Utils.replaceMaterialWithLambert(child);
+                        materials.push(child.material);
+                        if(child.userData.invisible) child.material.visible = false;
+                    }
                 });
                 
-                // Assign gathered data
-                nivra.boneChildren = boneChildren;
                 if(Object.keys(bodyParts).length) nivra.bodyParts = bodyParts;
                 if(Object.keys(garments).length) nivra.garments = garments;
                 if(nivra.entities) this.nivrayimWithEntities.push(nivra);

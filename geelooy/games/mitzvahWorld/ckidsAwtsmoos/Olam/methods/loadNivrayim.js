@@ -2,30 +2,38 @@
 /**
  * B"H
  * the method to load Nivrayim
- * RESTORED & OPTIMIZED: Sequential, Reliable, No Size Pre-calc.
- * Dynamic import of AWTSMOOS to prevent cycles.
+ * Using ClassMap registry to prevent circular dependencies.
  */
 
 import Utils from '../../utils.js'
+import ClassMap from '../../registry/classMap.js';
 
 export default class {
 
     async addObject(type, options) {
         
-        let AWTSMOOS;
+        const path = ClassMap[type];
+        if (!path) {
+            console.error(`B"H - Olam.addObject: Type "${type}" is not registered in ClassMap.`);
+            return;
+        }
+
+        let Module;
         try {
-            AWTSMOOS = await import('../../awtsmoosCkidsGames.js');
+            Module = await import(path);
         } catch(e) {
-            console.error("B\"H [addObject] CRITICAL IMPORT ERROR: awtsmoosCkidsGames.js failed to load!", e);
+            console.error(`B"H [addObject] CRITICAL IMPORT ERROR: Failed to load module for ${type} at ${path}`, e);
             return;
         }
 
-        if (!AWTSMOOS[type]) {
-            console.error(`B"H - Olam.addObject: Type "${type}" does not exist in AWTSMOOS library.`);
+        if (!Module || !Module.default) {
+            console.error(`B"H - Olam.addObject: Module for "${type}" does not export default.`);
             return;
         }
 
-        const nivra = new AWTSMOOS[type](options, this);
+        const EntityClass = Module.default;
+        const nivra = new EntityClass(options, this);
+        
         let mesh;
 
         if (options.golem) {
@@ -85,29 +93,31 @@ export default class {
     }
 
     async loadNivrayim(nivrayim) {
-        console.log("B\"H [loadNivrayim] STARTING.");
+        console.log("B\"H [loadNivrayim] STARTING via ClassMap.");
         
-        let AWTSMOOS;
         try {
-            AWTSMOOS = await import('../../awtsmoosCkidsGames.js');
-        } catch(e) {
-            console.error("B\"H [loadNivrayim] CRITICAL: Failed to load Game Library.", e);
-            this.ayshPeula("error", {
-                code: "GAME_LIB_IMPORT_FAIL",
-                message: "Failed to load game entity library.",
-                details: e.toString()
-            });
-            throw e;
-        }
-
-        try {
-            console.log("B\"H [loadNivrayim] Processing entities list...");
             var nivrayimMade = [];
             var ent = Object.entries(nivrayim);
             
             // --- 1. Instantiation Phase ---
             for (var [type, nivraOptions] of ent) {
                 
+                const path = ClassMap[type];
+                if(!path) {
+                    console.warn(`B"H [loadNivrayim] Class ${type} not found in Registry! Skipping.`);
+                    continue;
+                }
+
+                let Module;
+                try {
+                    Module = await import(path);
+                } catch(e) {
+                    console.error(`B"H [loadNivrayim] Failed to import ${type} from ${path}`, e);
+                    continue;
+                }
+                
+                const EntityClass = Module.default;
+
                 var ar = Array.isArray(nivraOptions) ? nivraOptions : Object.entries(nivraOptions);
                 
                 for (var entry of ar) {
@@ -122,12 +132,9 @@ export default class {
                     let nivra;
                     try {
                         const evaledObject = Utils.evalStringifiedFunctions(options);
-                        var c = AWTSMOOS[type];
-                        if (c && typeof(c) == "function") {
-                            nivra = new c({ name, ...evaledObject }, this);
+                        if (EntityClass) {
+                            nivra = new EntityClass({ name, ...evaledObject }, this);
                             if(nivra) nivrayimMade.push(nivra);
-                        } else {
-                            console.warn(`B"H [loadNivrayim] Class ${type} not found in AWTSMOOS library!`);
                         }
                     } catch (e) {
                         console.error(`B"H [loadNivrayim] Error instantiating ${type} (${name})`, options, e);
@@ -136,7 +143,6 @@ export default class {
             }
 
             // --- 2. Execution Phases ---
-            
             const total = nivrayimMade.length;
             console.log(`B"H - Manifesting ${total} entities...`);
 
@@ -144,11 +150,10 @@ export default class {
             for (let i = 0; i < total; i++) {
                 const nivra = nivrayimMade[i];
                 
-                // Update UI
                 const pct = Math.floor(((i + 1) / total) * 100);
                 this.ayshPeula("increase loading percentage", {
                     amount: pct,
-                    reset: true, // Jump to absolute percentage
+                    reset: true, 
                     action: "Manifesting...",
                     subAction: `${nivra.name || nivra.type}`
                 });
@@ -162,7 +167,6 @@ export default class {
                     }
                 } catch (e) {
                     console.error(`B"H - Error creating ${nivra.name}:`, e);
-                    // Continue! Do not stop the world.
                 }
             }
 

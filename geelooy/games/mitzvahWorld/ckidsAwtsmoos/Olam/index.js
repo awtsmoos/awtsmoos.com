@@ -10,9 +10,8 @@ import init from "./init.js"
 import GrassMaterial from "./materials/Grass.js"
 import * as THREE from '/games/scripts/build/three.module.js';
 
-// B"H: DIRECT IMPORT OF NIVRA to avoid circular dependency with awtsmoosCkidsGames.js
-// We DO NOT import the bundle here.
-import Nivra from "../chayim/nivra.js"; 
+// B"H: Direct import to break circular dependency
+import Nivra from "../chayim/nivra.js";
 
 import Ayin from "./camera/index.js";
 import UserProgressManager from "../systems/UserProgressManager.js"; 

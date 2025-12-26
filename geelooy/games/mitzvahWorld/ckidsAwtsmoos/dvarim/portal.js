@@ -1,10 +1,10 @@
+
 /**
  * B"H
  * 
  */
-
 import Tzomayach from "../chayim/tzomayach.js";
-import Interaction from "../../tochen/helpers/tzomayachInteraction.js";
+import Interaction from "../tochen/helpers/tzomayachInteraction.js";
 
 export default class Portal extends Tzomayach {
     constructor(opts) {

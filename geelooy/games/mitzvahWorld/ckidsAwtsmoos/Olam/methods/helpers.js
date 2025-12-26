@@ -3,7 +3,8 @@
 import * as THREE from '/games/scripts/build/three.module.js';
 import Utils from '../../utils.js'
 import { GLTFLoader } from '/games/scripts/jsm/loaders/GLTFLoader.js';
-import ShlichusHandler from "../../shleechoosHandler.js";
+import ShlichusHandler from "../../systems/quests/ShlichusHandler.js";
+import { ITEM_REGISTRY } from '../../systems/inventory/data/registry.js';
 
 export default class {
     
@@ -133,32 +134,23 @@ export default class {
     }
 
     async getIconFromType(type) {
-        var icon;
         try {
-            // B"H: Dynamic import removes the initialization bottleneck
-            const AWTSMOOS = await import('../../awtsmoosCkidsGames.js');
-            
             if(type && typeof(type) == "string") {
-                var collectableItem = AWTSMOOS[type];
-                if(collectableItem) {
-                    var ty = collectableItem.iconId;
-                    if(ty) {
-                        icon = ty;
-                    }
+                const itemData = ITEM_REGISTRY[type];
+                if(itemData && itemData.icon) {
+                     // Check if it's a data URI or SVG string
+                     if (itemData.icon.startsWith("data:") || itemData.icon.startsWith("<svg")) {
+                         return itemData.icon;
+                     }
+                     // If it's a path to a module (legacy), try to load default export
+                     if (itemData.icon.endsWith(".js")) {
+                         const mod = await import(itemData.icon);
+                         return mod.default;
+                     }
+                     return itemData.icon;
                 }
             }
-            var iconData = null;
-            if(typeof(icon) == "string") {
-                try {
-                    var iconic = await import("../../../icons/items/"+ icon+".js")
-                    if(iconic && iconic.default) {
-                        iconData = iconic.default
-                    }
-                } catch(e){
-                    return null;
-                }
-            }
-            return iconData
+            return null;
         } catch(e) {
             console.error("B\"H Error loading icon type:", e);
             return null;
