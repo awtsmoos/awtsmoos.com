@@ -1,12 +1,9 @@
-
 //B"H
 import { markdownToHtml } from "/heichelos/post/parsing.js";
 
 /**
  * Creates the visual message block.
  * @param {Object} msg - { role: 'user'|'model', text: '...', name: 'optionalAlias' }
- * @param {number} index - Index in the thread history
- * @param {Object} options - { onFork, onCollapse, onCollapseBelow, isOwner, canInteract }
  */
 export function createMessageNode(msg, index, options = {}) {
     const { onFork, isOwner, canInteract } = options;
@@ -24,12 +21,11 @@ export function createMessageNode(msg, index, options = {}) {
     metaHeader.className = "ai-msg-meta";
     
     const roleSpan = document.createElement("span");
+    roleSpan.className = "ai-role-tag";
     if(msg.role === 'model') {
         roleSpan.innerHTML = "✨ AI";
     } else {
-        // Display specific alias if available, otherwise generic
         roleSpan.innerHTML = msg.name ? `@${msg.name}` : "USER";
-        roleSpan.style.fontWeight = "bold";
     }
     
     // Mini Toolbar
@@ -39,17 +35,16 @@ export function createMessageNode(msg, index, options = {}) {
     const minBtn = document.createElement("button");
     minBtn.className = "ai-btn-mini";
     minBtn.innerText = "_";
-    minBtn.title = "Minimize Message Content";
     minBtn.onclick = (e) => {
         e.stopPropagation();
-        block.classList.toggle("collapsed");
-        minBtn.innerText = block.classList.contains("collapsed") ? "+" : "_";
+        const isCollapsed = !block.classList.contains("collapsed");
+        block.classList.toggle("collapsed", isCollapsed);
+        minBtn.innerText = isCollapsed ? "..." : "_";
     };
 
     const collapseBelowBtn = document.createElement("button");
     collapseBelowBtn.className = "ai-btn-mini";
     collapseBelowBtn.innerText = "▼";
-    collapseBelowBtn.title = "Hide messages below";
     
     collapseBelowBtn.onclick = (e) => {
         e.stopPropagation();
@@ -58,24 +53,13 @@ export function createMessageNode(msg, index, options = {}) {
         
         let next = block.nextElementSibling;
         while(next) {
-            if(next.nodeType === 1) { // Element node
-                if(isHidden) {
-                    next.dataset.originalDisplay = next.style.display;
-                    next.style.display = 'none';
-                } else {
-                     next.style.display = next.dataset.originalDisplay || '';
-                }
+            if(next.nodeType === 1) { 
+                next.style.display = isHidden ? 'none' : '';
             }
             next = next.nextElementSibling;
         }
 
-        if(isHidden) {
-            collapseBelowBtn.innerText = "▲";
-            collapseBelowBtn.title = "Show messages below";
-        } else {
-            collapseBelowBtn.innerText = "▼";
-            collapseBelowBtn.title = "Hide messages below";
-        }
+        collapseBelowBtn.innerText = isHidden ? "..." : "▼";
     };
 
     toolbar.appendChild(minBtn);
@@ -93,16 +77,12 @@ export function createMessageNode(msg, index, options = {}) {
         : markdownToHtml(msg.text);
     content.appendChild(textDiv);
     
-    // Actions (Reply/Fork)
-    // Allow if user is logged in (canInteract)
     if (canInteract) {
         const actionsDiv = document.createElement("div");
         actionsDiv.className = "ai-msg-actions";
-        
         const forkBtn = document.createElement("button");
         forkBtn.className = "ai-action-btn";
-        forkBtn.innerHTML = "⑂ Reply / Branch"; 
-        forkBtn.title = "Reply to this message (Creates a branch)";
+        forkBtn.innerHTML = "Branch"; 
         forkBtn.onclick = (e) => {
             e.stopPropagation();
             const slot = block.querySelector(".ai-forks-slot");
@@ -114,7 +94,6 @@ export function createMessageNode(msg, index, options = {}) {
 
     block.appendChild(content);
 
-    // --- Fork Slot ---
     const forksSlot = document.createElement("div");
     forksSlot.className = "ai-forks-slot";
     block.appendChild(forksSlot);

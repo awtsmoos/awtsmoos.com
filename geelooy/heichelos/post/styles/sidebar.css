@@ -1,59 +1,98 @@
-/* B"H - Localized Sidebar Architecture */
-.sidebar {
-    font-family: 'Space Grotesk', monospace;
-    color: #000;
+/* B"H - Insight Sidebar Stack Engine */
+
+.sidebar .awtsmoos-sidebar-header {
+    background: #000 !important;
+    color: #fff !important;
+    flex-shrink: 0 !important;
+    border-bottom: 5px solid #000 !important;
 }
 
-.awtsmoos-sidebar-header {
-    background: #000;
-    color: #fff;
-    padding: 0;
-    border-bottom: 6px solid #000;
+/* Stack Breadcrumb Path (Small UI Scale) */
+.sidebar .awtsmoos-breadcrumb-trail {
+    padding: 8px 1.5rem !important;
+    background: #111 !important;
+    font-size: 11px !important;
+    text-transform: uppercase !important;
+    letter-spacing: 2px !important;
+    color: #666 !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+    font-family: 'Space Grotesk', monospace !important;
 }
 
-.awtsmoos-nav-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 1.8rem;
-    gap: 1.5rem;
+.sidebar .awtsmoos-breadcrumb-trail span {
+    cursor: pointer !important;
+    transition: color 0.1s !important;
 }
 
-.awtsmoos-nav-title {
-    font-size: 1.2rem;
-    font-weight: 900;
-    text-transform: uppercase;
-    letter-spacing: 0.25em;
-    text-align: center;
-    flex: 1;
+.sidebar .awtsmoos-breadcrumb-trail span:hover {
+    color: var(--color-accent) !important;
 }
 
-.awtsmoos-nav-back, .awtsmoos-close-sidebar-btn {
-    background: var(--accent);
-    border: 4px solid #000;
-    width: 50px;
-    height: 50px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.8rem;
-    color: #000;
-    cursor: pointer;
-    box-shadow: 6px 6px 0 #fff;
-    transition: all 0.1s;
+.sidebar .awtsmoos-nav-row {
+    display: flex !important;
+    align-items: center !important;
+    padding: 1rem 1.5rem !important;
+    height: 65px !important; 
+    box-sizing: border-box !important;
 }
 
-.awtsmoos-nav-back:hover, .awtsmoos-close-sidebar-btn:hover {
-    background: #fff;
-    transform: translate(3px, 3px);
-    box-shadow: 1px 1px 0 #000;
+.sidebar .awtsmoos-nav-title {
+    flex: 1 !important;
+    text-align: center !important;
+    font-weight: 800 !important;
+    text-transform: uppercase !important;
+    font-size: 0.95rem !important;
+    letter-spacing: 0.15em !important;
 }
 
-.awtsmoos-drag-handle {
-    width: 120px;
-    height: 12px;
-    background: #555;
-    margin: 20px auto 0;
-    border-radius: 6px;
-    cursor: grab;
+/* VIEWPORT CONTAINER */
+.sidebar .awtsmoos-tab-pane-container {
+    flex: 1 !important;
+    position: relative !important; 
+    overflow: hidden !important; 
+    background: #fff !important;
+}
+
+/* INDIVIDUAL SLIDING TAB */
+.sidebar .awtsmoos-individual-tab {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    background: #fff !important;
+    overflow-y: auto !important; 
+    padding: 2rem !important; 
+    box-sizing: border-box !important;
+    font-size: 13px !important;
+    transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s !important;
+}
+
+/* Animation States */
+.sidebar .awtsmoos-individual-tab.active { transform: translateX(0) !important; opacity: 1 !important; z-index: 10 !important; }
+.sidebar .awtsmoos-individual-tab.next-page { transform: translateX(100%) !important; opacity: 0 !important; z-index: 1 !important; }
+.sidebar .awtsmoos-individual-tab.slide-out-left { transform: translateX(-35%) !important; opacity: 0 !important; }
+
+/* Buttons */
+.sidebar .awtsmoos-nav-back {
+    background: var(--color-accent) !important;
+    border: 3px solid #000 !important;
+    width: 38px !important;
+    height: 38px !important;
+    cursor: pointer !important;
+    margin-right: 12px !important;
+    box-shadow: 4px 4px 0 #fff !important;
+    font-size: 16px !important;
+}
+
+.sidebar .awtsmoos-close-sidebar-btn {
+    background: #ff4747 !important;
+    border: 3px solid #000 !important;
+    width: 38px !important;
+    height: 38px !important;
+    cursor: pointer !important;
+    box-shadow: 4px 4px 0 #fff !important;
+    font-size: 22px !important;
 }

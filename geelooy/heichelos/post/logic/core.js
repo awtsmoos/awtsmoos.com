@@ -46,10 +46,18 @@ export async function startItAll() {
                         actualTab.innerHTML = "";
                         actualTab.appendChild(makeInfoHTML());
                         
-                        const btn = document.createElement("button");
-                        btn.className = "awtsmoos-hero-btn";
-                        btn.innerHTML = `<span>💬 View Comments</span>`;
-                        btn.onclick = () => {
+                        const actionsArea = document.createElement("div");
+                        actionsArea.className = "post-root-actions";
+                        actionsArea.style.marginTop = "2rem";
+                        actionsArea.style.display = "flex";
+                        actionsArea.style.flexDirection = "column";
+                        actionsArea.style.gap = "12px";
+
+                        // View Comments
+                        const commentBtn = document.createElement("button");
+                        commentBtn.className = "awtsmoos-hero-btn";
+                        commentBtn.innerHTML = `💬 View Comments`;
+                        commentBtn.onclick = () => {
                             addTab({
                                 header: "Comments",
                                 name: "comments",
@@ -60,7 +68,31 @@ export async function startItAll() {
                                 }
                             }).open();
                         };
-                        actualTab.appendChild(btn);
+                        actionsArea.appendChild(commentBtn);
+
+                        // View Footnotes
+                        if (post.dayuh?.footnotes && post.dayuh.footnotes.length > 0) {
+                            const fnBtn = document.createElement("button");
+                            fnBtn.className = "awtsmoos-hero-btn";
+                            fnBtn.innerHTML = `📜 View Footnotes`;
+                            
+                            window.openFootnotesPanel = async () => {
+                                if (window.openPanel) window.openPanel();
+                                addTab({
+                                    header: "Footnotes",
+                                    name: "footnotes",
+                                    async onopen({ actualTab: fnTab }) {
+                                        const { renderFootnotesPanel } = await import("../comments/panel/rendering.js");
+                                        renderFootnotesPanel(fnTab);
+                                    }
+                                }).open();
+                            };
+                            
+                            fnBtn.onclick = window.openFootnotesPanel;
+                            actionsArea.appendChild(fnBtn);
+                        }
+
+                        actualTab.appendChild(actionsArea);
                     }
                 });
                 rootTab.open();

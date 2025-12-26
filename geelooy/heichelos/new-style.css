@@ -1,323 +1,78 @@
 /* B"H
-   Divine Neo-Brutalism
-   Stark. Intense. Absolute.
+   Divine Neo-Brutalism - Sovereignty Edition
+   No Bloat. No Header Bar. Just Function.
 */
 
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Syne:wght@400;700;800&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700;900&family=Syne:wght@400;700;800&family=Crimson+Pro:ital,wght@0,400;0,500;0,700;1,400&display=swap');
 
-:root {
-    --bg-page: #f0f0f0;
+.post-reader-localized-context {
+    --bg-page: #ffffff;
     --bg-surface: #ffffff;
     --color-ink: #000000;
-    --color-primary: #000000;
-    --color-accent: #2b00ff; /* Electric Blue */
-    --color-highlight: #ccff00; /* Neon Yellow */
-    --color-danger: #ff0055;
+    --color-primary: #2b00ff;
+    --color-accent: #ccff00;
     
-    --border-thick: 3px solid var(--color-ink);
-    --border-thin: 1px solid var(--color-ink);
-    --shadow-hard: 5px 5px 0px 0px var(--color-ink);
-    --shadow-hover: 2px 2px 0px 0px var(--color-ink);
+    --border-ui: 2px solid #000;
+    --shadow-ui: 3px 3px 0px 0px #000;
     
-    --font-heading: 'Syne', 'Impact', sans-serif;
+    --font-heading: 'Syne', sans-serif;
     --font-ui: 'Space Grotesk', monospace;
     --font-content: 'Crimson Pro', serif;
     
-    --header-height: 70px;
-    --sidebar-width: 350px;
-    
-    /* Global Font Control - Updated by JS */
-    --awtsmoos-font-size: 18px; 
-}
-
-* { box-sizing: border-box; }
-
-html, body {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    font-family: var(--font-ui);
-    background-color: var(--bg-page);
-    color: var(--color-ink);
-    overflow: hidden; /* App-like feel */
-    font-size: 16px; /* Base for REM */
-}
-
-/* Ensure typography inherits correctly */
-button, input, textarea, select { font-family: inherit; }
-
-/* --- Global Resize Cursors --- */
-body.is-resizing { cursor: col-resize !important; user-select: none; }
-body.is-dragging { cursor: row-resize !important; user-select: none; }
-
-/* --- Layout Shell --- */
-.all.awtsmoospage {
-    height: 100%;
     display: flex;
     flex-direction: column;
-}
-
-.main {
-    flex: 1;
-    display: flex;
-    overflow: hidden;
-    position: relative;
-}
-
-/* --- Header --- */
-.post-header, .heichel-header {
-    height: var(--header-height);
-    background: var(--bg-surface);
-    border-bottom: var(--border-thick);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 2rem;
-    z-index: 100;
-    flex-shrink: 0;
-}
-
-.post-title, h1#heichel-main-title {
-    font-family: var(--font-heading);
-    font-weight: 800;
-    font-size: 1.5rem;
-    text-transform: uppercase;
-    letter-spacing: -0.02em;
-    margin: 0;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-}
-
-/* --- Buttons --- */
-button, .btn {
-    background: var(--bg-surface);
-    border: var(--border-thick);
-    color: var(--color-ink);
-    font-family: var(--font-ui);
-    font-weight: 700;
-    text-transform: uppercase;
-    padding: 0.6rem 1.2rem;
-    cursor: pointer;
-    box-shadow: var(--shadow-hard);
-    transition: transform 0.1s, box-shadow 0.1s;
-    font-size: 0.9rem;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    user-select: none;
-}
-
-button:hover, .btn:hover {
-    transform: translate(2px, 2px);
-    box-shadow: var(--shadow-hover);
-    background: var(--color-highlight);
-}
-
-button:active, .btn:active {
-    transform: translate(5px, 5px);
-    box-shadow: none;
-}
-
-button.primary {
-    background: var(--color-ink);
-    color: var(--bg-surface);
-}
-button.primary:hover {
-    background: var(--color-accent);
-    color: var(--bg-surface);
-}
-
-button.danger, .btn.danger {
-    border-color: var(--color-danger);
-    color: var(--color-danger);
-}
-button.danger:hover {
-    background: var(--color-danger);
-    color: var(--bg-surface);
-}
-
-/* --- Inputs --- */
-input, textarea, select {
-    border: var(--border-thick);
-    padding: 12px;
-    font-family: var(--font-ui);
-    font-size: 1rem;
-    background: var(--bg-surface);
+    height: 100vh;
     width: 100%;
-    outline: none;
-    box-shadow: 4px 4px 0 rgba(0,0,0,0.1);
-    transition: box-shadow 0.2s, border-color 0.2s;
-    border-radius: 0; /* Strict square */
-}
-input:focus, textarea:focus {
-    box-shadow: var(--shadow-hard);
-    border-color: var(--color-accent);
+    overflow: hidden;
+    font-family: var(--font-ui);
+    color: var(--color-ink);
 }
 
-/* --- Cards / Grid Items --- */
-.grid-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 20px;
-    padding: 20px;
-    overflow-y: auto;
-    height: 100%;
+/* 
+   --- THE SACRED RATIO: UI COMPACTION ---
+   UI text is locked at 11px to ensure it never overcrowds the Revelation.
+*/
+.post-reader-localized-context :where(.awtsmoos-floating-controls, .post-details, .sidebar) button,
+.post-reader-localized-context :where(.awtsmoos-floating-controls, .post-details, .sidebar) .btn {
+    font-family: var(--font-ui) !important;
+    background: #fff !important;
+    border: var(--border-ui) !important;
+    color: #000 !important;
+    font-weight: 900 !important;
+    text-transform: uppercase !important;
+    padding: 6px 12px !important;
+    cursor: pointer !important;
+    box-shadow: var(--shadow-ui) !important;
+    transition: all 0.1s !important;
+    font-size: 11px !important; /* MINIMIZED */
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    user-select: none !important;
+    border-radius: 0 !important;
 }
 
-.card-wrapper {
-    position: relative;
-    transition: transform 0.2s;
+.post-reader-localized-context :where(.awtsmoos-floating-controls, .post-details, .sidebar) button:hover {
+    transform: translate(-1px, -1px) !important;
+    box-shadow: 5px 5px 0 #000 !important;
+    background: var(--color-accent) !important;
 }
 
-.post-card {
-    background: var(--bg-surface);
-    border: var(--border-thick);
-    padding: 20px;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    box-shadow: 4px 4px 0 #000;
+.post-reader-localized-context :where(.awtsmoos-floating-controls, .post-details, .sidebar) button:active,
+.post-reader-localized-context :where(.awtsmoos-floating-controls, .post-details, .sidebar) button.pushed {
+    transform: translate(2px, 2px) !important;
+    box-shadow: 0px 0px 0 #000 !important;
+    background: var(--color-accent) !important;
 }
 
-.card-wrapper:hover .post-card {
-    box-shadow: 8px 8px 0 var(--color-accent);
-    transform: translate(-2px, -2px);
-}
-
-.post-card h2 {
-    font-family: var(--font-heading);
-    font-size: 1.4rem;
-    margin-top: 0;
-    margin-bottom: 10px;
-    line-height: 1.1;
-}
-
-.post-preview {
-    font-family: var(--font-content);
-    font-size: 1rem;
-    color: #444;
-    flex: 1;
-}
-
-/* --- Selection Mode --- */
-.card-wrapper.selected .post-card {
-    background: var(--color-highlight);
-    border-color: var(--color-ink);
-    box-shadow: 8px 8px 0 var(--color-ink);
-}
-
-/* --- Sidebar (Legacy Heichel Page) --- */
-.heichel-sidebar {
-    width: var(--sidebar-width);
-    background: var(--bg-surface);
-    border-left: var(--border-thick);
-    padding: 20px;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    z-index: 90;
-}
-
-/* --- Tabs --- */
-nav {
-    display: flex;
-    border-bottom: var(--border-thick);
-    flex-shrink: 0;
-}
-nav button.tab {
-    flex: 1;
-    border: none;
-    border-right: var(--border-thick);
-    background: #e0e0e0;
-    box-shadow: none;
-    border-bottom: none;
-    border-radius: 0;
-    margin: 0;
-    padding: 15px;
-    font-weight: 900;
-    letter-spacing: 1px;
-}
-nav button.tab.Active {
-    background: var(--bg-surface);
-    color: var(--color-accent);
-    box-shadow: inset 0 -4px 0 var(--color-accent);
-}
-
-/* --- The Divine Loader --- */
-.awtsmoos-loader {
-    width: 60px;
-    height: 60px;
-    margin: 40px auto;
-    border: 5px solid #000;
-    position: relative;
-    animation: loader-spin 2s infinite ease-in-out;
-}
-.awtsmoos-loader::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: var(--color-highlight);
-    animation: loader-pulse 1s infinite alternate;
-}
-
-@keyframes loader-spin {
-    0% { transform: rotate(0deg); }
-    25% { transform: rotate(90deg); }
-    50% { transform: rotate(180deg); }
-    75% { transform: rotate(270deg); }
-    100% { transform: rotate(360deg); }
-}
-@keyframes loader-pulse {
-    0% { transform: scale(0.2); opacity: 0.5; }
-    100% { transform: scale(0.8); opacity: 1; }
-}
-
-.loading-spinner.hidden { display: none; }
-
-/* --- Toast --- */
-#toast-container {
-    position: fixed;
-    bottom: 20px;
-    left: 20px;
-    z-index: 9999;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    pointer-events: none;
-}
-.toast {
-    background: var(--color-ink);
-    color: var(--bg-surface);
-    padding: 15px 25px;
-    border: 2px solid var(--bg-surface);
-    font-weight: 700;
-    box-shadow: 5px 5px 0 rgba(0,0,0,0.5);
-    animation: slideUp 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
-    pointer-events: auto;
-}
-.toast.error { background: var(--color-danger); border-color: #fff; }
-.toast.success { background: #00aa00; border-color: #fff; }
-
-@keyframes slideUp { from { transform: translateY(100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-
-/* --- Scrollbars (Intense) --- */
-::-webkit-scrollbar { width: 12px; height: 12px; background: var(--bg-page); }
-::-webkit-scrollbar-thumb { background: var(--color-ink); border: 2px solid var(--bg-page); }
-::-webkit-scrollbar-thumb:hover { background: var(--color-accent); }
-
-/* --- Mobile --- */
-@media (max-width: 900px) {
-    .main { flex-direction: column; }
-    .heichel-sidebar {
-        width: 100%;
-        height: auto;
-        border-left: none;
-        border-top: var(--border-thick);
-        order: 2;
-    }
-    .post-header { padding: 0 1rem; }
-    .awtsmoos-loader { width: 40px; height: 40px; border-width: 3px; }
+/* Localized Inputs for Sidebar */
+.post-reader-localized-context :where(.sidebar) input, 
+.post-reader-localized-context :where(.sidebar) textarea {
+    border: 2px solid #000 !important;
+    padding: 8px !important;
+    font-family: var(--font-ui) !important;
+    background: #fff !important;
+    outline: none !important;
+    box-shadow: 2px 2px 0 rgba(0,0,0,0.05) !important;
+    font-size: 12px !important;
 }

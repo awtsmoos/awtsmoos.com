@@ -47,18 +47,23 @@ export function appendWithSubChildren(node, parent, array) {
 }
 
 /**
- * B"H - Adjusts font size STRICTLY within the #realPost element.
- * Does not affect global headers, sidebars, or navigation.
+ * B"H - Adjusts font size STRICTLY within the #realPost element via CSS variable.
+ * This prevents scaling of global headers, sidebars, or static UI buttons.
  */
 window.adjustFontSize = function(action) {
     const contentArea = document.getElementById('realPost');
     if (!contentArea) return;
 
-    let current = parseFloat(window.getComputedStyle(contentArea).fontSize) || 18;
+    // Pull current value localized to this container
+    let currentStr = contentArea.style.getPropertyValue('--post-text-size') || 
+                     window.getComputedStyle(contentArea).getPropertyValue('--post-text-size') || 
+                     '24px';
+                     
+    let current = parseFloat(currentStr);
     
-    const MAX_FONT_SIZE = 72;
+    const MAX_FONT_SIZE = 120;
     const MIN_FONT_SIZE = 12;
-    const FONT_SIZE_INCREMENT = 2; 
+    const FONT_SIZE_INCREMENT = 4; 
 
     if (action == 'increase' && current < MAX_FONT_SIZE) {
         current += FONT_SIZE_INCREMENT;
@@ -66,19 +71,20 @@ window.adjustFontSize = function(action) {
         current -= FONT_SIZE_INCREMENT;
     }
     
-    contentArea.style.fontSize = current + 'px';
-    localStorage.currentFontSize = current + 'px';
+    // Setting the variable localized to #realPost container ONLY
+    contentArea.style.setProperty('--post-text-size', current + 'px');
+    localStorage.currentPostFontSize = current + 'px';
 }
 
 export function loadFontSize() {
-    const fs = localStorage.currentFontSize;
+    const fs = localStorage.currentPostFontSize;
     const contentArea = document.getElementById('realPost');
     if (!contentArea) return;
 
     if (fs) {
-        contentArea.style.fontSize = fs;
+        contentArea.style.setProperty('--post-text-size', fs);
     } else {
-        contentArea.style.fontSize = '18px'; 
+        contentArea.style.setProperty('--post-text-size', '24px'); 
     }
 }
 

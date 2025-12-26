@@ -21,67 +21,47 @@
 
     <link rel="stylesheet" href="/style/home/main.css">
 
-	 <title>Loading Post... @Awtsmoos </title>
+	 <title>Awtsmoos | Torah Revelation </title>
 </head>
 
 <body>
     
-    <div class="all awtsmoospage">
+    <div class="all awtsmoospage post-reader-localized-context">
+        <!-- GLOBAL SERVER HEADER (PERFECT AS IS) -->
         <?<script> return $a("nav/header.html") 
         </script>?>
-	    <div class="post-header">
-                
-                <div class="post-title" id="postTitle">
-                   
-                </div>
-                <div class="controls btns">
+        
+        <!-- B"H - SOVEREIGN FLOATING CONTROLS (NO BAR) -->
+	    <div class="awtsmoos-floating-controls">
+            <button id="minMax" title="Typography">A</button>
+            <button id="commentaryBtn" title="Insights">i</button>
+        </div>
 
-                    <button id="minMax" class="button primary">A</button>
-
-                    <button id="commentaryBtn" class="button third">i</button>
+        <!-- Typography Dropdown -->
+        <div class="post-details hidden-details" id="postDetails">
+            <div class="settings">
+                <div class="text-controls" style="display:flex; flex-direction:column; gap:12px;">
+                    <span style="font-weight:900; text-transform:uppercase; font-size:10px; color:#000; letter-spacing:1px; border-bottom:1px solid #000; padding-bottom:4px;">Text Display</span>
+                    <button onclick="adjustFontSize('increase')">Scale Up +</button>
+                    <button onclick="adjustFontSize('decrease')">Scale Down -</button>
                 </div>
-                <div class="post-details hidden-details" id="postDetails">
-
-                    
-                    <div class="settings"> <!-- Controls for Text Size -->
-                        <div class="text-controls">
-                            <button onclick="adjustFontSize('increase')" class="button secondary">Increase Text Size</button>
-                            <button onclick="adjustFontSize('decrease')" class="button secondary">Decrease Text Size</button>
-                        </div>
-                    </div>
-                    
-                </div>
-                
-                
-                    
             </div>
- <div class="main">
+        </div>
 
-            
-            
-            
-            <div id="postFrame" class="post-frame">
+        <div class="main">
+            <div id="postFrame" class="post-frame" style="width:100%; display:flex;">
                 <div class="content" id="realPost">
                     <?<script>
-						return $a("loading.html")
-					</script>?>
+                        return $a("loading.html")
+                    </script>?>
                 </div>
                 <div class="sidebar hidden-comments">
-                    <!--<div class="tab-buttons">
-                          </div>
-                    <div class="all-tabs">
-                        
-                    </div>-->
+                    <!-- Managed by TabManager.js -->
                 </div>
+            </div>
         </div>
-            
-            
-            <script type="module" src="/heichelos/post/postLogic.js"></script>
-
-    
-  
+        
+        <script type="module" src="/heichelos/post/postLogic.js"></script>
     </div>
-</div>
 </body>
-
 </html>

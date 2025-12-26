@@ -1,145 +1,96 @@
-/* B"H - Localized Content Typography */
-/* These styles scale relative to #realPost's adjusted font-size */
+/* B"H - Divine Content Typography (Localized) */
 
 #realPost {
-    line-height: 1.8;
-    font-family: 'Crimson Pro', serif;
-    color: #111;
+    font-family: 'Crimson Pro', serif !important;
+    line-height: 1.7 !important;
+    color: #111 !important;
 }
 
-/* --- The Title Block --- */
+/* Titles that scale with --post-text-size */
 #realPost .post-title {
-    font-family: 'Syne', sans-serif;
-    font-weight: 800;
-    font-size: 5.5em;
-    line-height: 0.75;
-    text-transform: uppercase;
-    letter-spacing: -0.07em;
-    margin-bottom: 2.2em;
-    padding-bottom: 0.8em;
-    border-bottom: 20px solid #000;
-    color: #000;
+    font-family: 'Syne', sans-serif !important;
+    font-weight: 800 !important;
+    font-size: calc(var(--post-text-size) * 3) !important;
+    line-height: 0.9 !important;
+    letter-spacing: -0.05em !important;
+    margin-bottom: 1em !important;
+    padding-bottom: 0.4em !important;
+    border-bottom: 10px solid #000 !important;
+    text-transform: uppercase !important;
 }
 
 #realPost .series-name {
-    display: block;
-    font-family: 'Space Grotesk', monospace;
-    font-size: 0.25em;
-    color: var(--primary);
-    letter-spacing: 0.4em;
-    font-weight: 700;
-    text-decoration: none;
-    margin-bottom: 1.2em;
+    display: block !important;
+    font-family: 'Space Grotesk', monospace !important;
+    font-size: 0.35em !important;
+    color: var(--color-primary) !important;
+    letter-spacing: 0.4em !important;
+    font-weight: 700 !important;
+    text-decoration: none !important;
+    margin-bottom: 0.5em !important;
 }
 
-/* --- Post Sections --- */
-#realPost .section {
-    margin-bottom: 10em;
-    position: relative;
-    transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+/* UI COMPONENT: Alias Pill (@awtsmoos) - Small UI Scale */
+#realPost a[href^="/@"] {
+    display: inline-flex !important;
+    align-items: center !important;
+    background: #000 !important;
+    color: #fff !important;
+    padding: 1px 10px !important;
+    border-radius: 4px !important;
+    font-family: 'Space Grotesk', monospace !important;
+    font-size: 12px !important; /* FIXED UI SCALE */
+    font-weight: 700 !important;
+    text-decoration: none !important;
+    border: 1px solid #000 !important;
+    box-shadow: 2px 2px 0 var(--color-accent) !important;
+    margin: 0 4px !important;
+    vertical-align: middle !important;
 }
 
-#realPost .awtsmoos-section-header {
-    display: flex;
-    align-items: center;
-    margin-bottom: 3em;
+/* Revelation Text Baseline */
+#realPost .toichen, #realPost p {
+    font-size: var(--post-text-size) !important;
+    margin: 1.2em 0 !important;
 }
+
+/* SUB-TEXT: Mathematical Depth */
+#realPost .sub-awtsmoos {
+    background: #fff !important;
+    border: 4px solid #000 !important;
+    padding: 2.5rem !important;
+    margin: 3rem 0 !important;
+    box-shadow: 10px 10px 0 #000 !important;
+}
+
+#realPost .sub-toichen {
+    font-size: calc(var(--post-text-size) * 1.2) !important; 
+    font-weight: 500 !important;
+    color: #000 !important;
+}
+
+/* Sovereign Direction Engines */
+#realPost .heb { direction: rtl !important; text-align: right !important; font-family: 'David Libre', serif !important; }
+#realPost .eng { direction: ltr !important; text-align: left !important; font-family: 'Crimson Pro', serif !important; }
 
 #realPost .awtsmoos-verse-number {
-    background: #000;
-    color: #fff;
-    font-family: 'Space Grotesk', monospace;
-    font-weight: 900;
-    padding: 18px 28px;
-    font-size: 1.6em;
-    box-shadow: 12px 12px 0 var(--accent);
-    cursor: pointer;
-    transition: all 0.1s;
-    border: 3px solid #000;
+    background: #000 !important;
+    color: #fff !important;
+    font-family: 'Space Grotesk', monospace !important;
+    font-weight: 900 !important;
+    padding: 8px 14px !important;
+    font-size: 14px !important; /* FIXED UI SCALE */
+    box-shadow: 4px 4px 0 var(--color-accent) !important;
+    cursor: pointer !important;
+    border: 2px solid #000 !important;
 }
 
-#realPost .awtsmoos-verse-number:hover {
-    transform: translate(-5px, -5px);
-    box-shadow: 18px 18px 0 var(--primary);
-}
-
-#realPost .awtsmoos-verse-number:active {
-    transform: translate(6px, 6px);
-    box-shadow: 2px 2px 0 #000;
-}
-
-/* --- Interactive Sub-Sections --- */
-#realPost .sub-awtsmoos {
-    background: #fff;
-    border: 5px solid #000;
-    padding: 5em;
-    margin: 5em 0;
-    box-shadow: 18px 18px 0 rgba(0,0,0,1);
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-#realPost .sub-awtsmoos:hover {
-    box-shadow: 30px 30px 0 var(--accent);
-    transform: translate(-10px, -10px);
-}
-
-#realPost .sub-awtsmoos.active {
-    border-color: var(--primary);
-    box-shadow: 30px 30px 0 var(--primary);
-}
-
-#realPost .toichen {
-    font-size: 1em; /* Primary scaling point */
-}
-
-/* --- Hebrew Localization --- */
-#realPost .toichen.heb,
-#realPost .sub-toichen.heb {
-    direction: rtl;
-    text-align: right;
-    font-family: 'David Libre', serif;
-    font-size: 1.5em;
-    line-height: 1.4;
-}
-
-/* --- Unified Links --- */
-#realPost a {
-    color: var(--primary);
-    text-decoration: none;
-    border-bottom: 6px solid var(--primary);
-    font-weight: 900;
-    transition: all 0.1s;
-}
-
-#realPost a:hover {
-    background: var(--accent);
-    color: #000;
-    border-bottom-color: #000;
-}
-
-/* --- Footer Nav --- */
 #realPost .nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 15em;
-    padding-top: 8em;
-    border-top: 15px solid #000;
-    font-family: 'Space Grotesk', monospace;
-}
-
-#realPost .nav a.button {
-    background: #000;
-    color: #fff;
-    border: none;
-    padding: 30px 60px;
-    font-weight: 900;
-    font-size: 1.4em;
-    text-transform: uppercase;
-    box-shadow: 15px 15px 0 var(--accent);
-}
-
-@media (max-width: 768px) {
-    #realPost .post-title { font-size: 3.5em; }
-    #realPost .sub-awtsmoos { padding: 2.5em; border-width: 4px; }
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    margin-top: 8rem !important;
+    padding-top: 4rem !important;
+    border-top: 10px solid #000 !important;
+    font-family: 'Space Grotesk', monospace !important;
 }

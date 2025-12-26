@@ -4,7 +4,6 @@ import { weaveDropdownFromAwtsmoos, initializeFootnotes } from "./interaction.js
 
 /**
  * Interprets the dayuh (data) of a post and generates the DOM.
- * Dedicated to the Awtsmoos who reveals the depth of every letter.
  */
 export async function interpretPostDayuh(post) {
     const dayuh = post?.dayuh;
@@ -58,15 +57,12 @@ export async function interpretPostDayuh(post) {
             data: sectionRaw 
         });
 
-        if (generated) {
-            visibleSectionCount++;
-        }
+        if (generated) visibleSectionCount++;
     }
     
     window.sections = Array.from(document.querySelectorAll(".section"));
     initializeFootnotes();
     
-    // B"H - Discovery Phase: Must await the manifestation of flames.
     const inlineModule = await import("../comments/inline.js");
     if (inlineModule.manifestCommentIndicators) {
         await inlineModule.manifestCommentIndicators();
@@ -77,12 +73,10 @@ export async function interpretPostDayuh(post) {
 }
 
 /**
- * Generates a specific section of the post.
- * @method generateSection
+ * Generates a specific section with AUTOMATIC direction detection.
  */
 export async function generateSection({sectionText, sectionId, dynamic=null, data}) {
     const hasText = typeof sectionText === 'string' && sectionText.trim().length > 0;
-    
     const hasDynamic = dynamic && (
         (Array.isArray(dynamic) && dynamic.length > 0) ||
         (Array.isArray(dynamic.paragraphs) && dynamic.paragraphs.length > 0) || 
@@ -94,18 +88,13 @@ export async function generateSection({sectionText, sectionId, dynamic=null, dat
     const i = sectionId;
     const vs = data?.verseSection;
     
-    const sectionInfo = {
-        sectionId: i,
-        verseSection: vs,
-        hideVerseNumber: data?.hideVerseNumber,
-        hasVerseNumber: (vs !== undefined && vs !== null)
-    };
-    
-    window.sectionData[i] = sectionInfo;
-    
     const el = document.createElement("div");
     el.className = "section";
     el.dataset.awtsmoosIdx = i; 
+
+    // B"H - First Character Audit
+    const sample = sectionText || (Array.isArray(dynamic) ? (typeof dynamic[0] === 'string' ? dynamic[0] : dynamic[0]?.text) : null) || "";
+    el.classList.add(isFirstCharacterHebrew(sample) ? "heb" : "eng");
 
     const hdr = document.createElement("div");
     hdr.className = "awtsmoos-section-header";
@@ -113,15 +102,12 @@ export async function generateSection({sectionText, sectionId, dynamic=null, dat
 
     const nm = document.createElement("div");
     nm.className = "awtsmoos-verse-number";
-    if (data?.hideVerseNumber) {
-        nm.classList.add("hidden");
-    } else {
+    if (!data?.hideVerseNumber) {
         nm.addEventListener('click', () => weaveDropdownFromAwtsmoos(hdr));
-    }
+    } else nm.classList.add("hidden");
     nm.textContent = (vs !== undefined && vs !== null) ? vs : (i + 1);
     hdr.appendChild(nm);
 
-    // B"H - Indicator for Verse-level comments
     const indicator = document.createElement("div");
     indicator.className = "awtsmoos-comment-indicator";
     indicator.dataset.idx = i;
@@ -131,7 +117,6 @@ export async function generateSection({sectionText, sectionId, dynamic=null, dat
     contentArea.classList.add("toichen");
     
     if (hasText) {
-        if (isFirstCharacterHebrew(sectionText)) contentArea.classList.add("heb");
         appendHTML(sanitizeContent(sectionText), contentArea);
         window.sectionDayuh[i] = sectionText;
     }
@@ -148,29 +133,25 @@ export async function generateSection({sectionText, sectionId, dynamic=null, dat
             
             subS.dataset.awtsmoosSub = localSubCount;
             subS.classList.add("sub-awtsmoos");
-            
+            subS.classList.add(isFirstCharacterHebrew(txt) ? "heb" : "eng");
+
             const subTextContent = document.createElement("div");
             subTextContent.className = "sub-toichen";
             appendHTML(sanitizeContent(txt), subTextContent);
             subS.appendChild(subTextContent);
 
-            // B"H - Sub-indicator: Manifest BENEATH the text content
             const subIndicator = document.createElement("div");
             subIndicator.className = "awtsmoos-comment-indicator sub-indicator";
             
-            // --- INSTANT COMMENT BUTTON ---
             const quickBtn = document.createElement("span");
             quickBtn.className = "awtsmoos-quick-comment-btn";
             quickBtn.innerHTML = "+";
-            quickBtn.title = "Instant Comment";
             quickBtn.onclick = async (e) => {
                 e.stopPropagation();
-                // Import dynamic to avoid circle deps
                 const { showSectionCommentaryInline } = await import("../comments/inline.js");
                 await showSectionCommentaryInline(i, localSubCount, subS);
             };
             subIndicator.appendChild(quickBtn);
-            
             subS.appendChild(subIndicator);
 
             sectionDiv.appendChild(subS);
@@ -178,25 +159,13 @@ export async function generateSection({sectionText, sectionId, dynamic=null, dat
             localSubCount++;
         };
 
-        if (Array.isArray(dynamic)) {
-            dynamic.forEach(processSub);
-        } else {
+        if (Array.isArray(dynamic)) dynamic.forEach(processSub);
+        else {
             if (Array.isArray(dynamic.paragraphs)) dynamic.paragraphs.forEach(processSub);
             if (Array.isArray(dynamic.subSections)) dynamic.subSections.forEach(processSub);
         }
-
         contentArea.appendChild(sectionDiv);
-        
-        if (window.sectionDayuh[i]) {
-            const current = Array.isArray(window.sectionDayuh[i]) ? window.sectionDayuh[i] : [window.sectionDayuh[i]];
-            window.sectionDayuh[i] = [...current, ...secInternalText];
-        } else {
-            window.sectionDayuh[i] = secInternalText;
-        }
-        
-        if (isFirstCharacterHebrew(contentArea.innerText)) {
-            contentArea.classList.add("heb");
-        }
+        window.sectionDayuh[i] = secInternalText;
     }
 
     el.appendChild(contentArea);

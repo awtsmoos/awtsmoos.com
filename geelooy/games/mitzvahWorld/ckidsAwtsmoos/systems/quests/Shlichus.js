@@ -1,8 +1,8 @@
+
 // B"H
 /**
  * @file Shlichus.js
  * Represents a single mission/quest instance.
- * Refined to be 100% Backwards Compatible with legacy mission data and event listeners.
  */
 import Utils from "../../utils.js";
 
@@ -59,15 +59,10 @@ export default class Shlichus {
         this.state = QUEST_STATE.AVAILABLE;
     }
 
-    /**
-     * B"H: Legacy API Support.
-     * Called by world events to increment progress.
-     */
     collectItem() {
         if (this.state !== QUEST_STATE.ACTIVE) return;
         this.collected++;
         
-        // Legacy callback support
         if (typeof(this.on.progress) === 'function') {
             this.on.progress(this.collected, this);
         }
@@ -75,9 +70,6 @@ export default class Shlichus {
         this.checkProgress();
     }
 
-    /**
-     * B"H: Backwards compatibility for Olam event listeners.
-     */
     initiate() {
         this.activate();
     }
@@ -90,11 +82,9 @@ export default class Shlichus {
         this.handler.progressManager.updateQuestState(this.id, { status: this.state, startTime: this.startTime });
         this.handler.notifyUpdate();
         
-        // B"H: Legacy callback support
         if (typeof(this.on.creation) === 'function') {
             this.on.creation(this);
         } else {
-            // Modular Feedback
             this.olam.ayshPeula("ui event", "effectsOverlay", { 
                 text: "MISSION BEGUN: " + this.title, 
                 color: this.priority >= 2 ? "#FFD700" : "#4cc9f0"
@@ -126,6 +116,7 @@ export default class Shlichus {
                 setTimeout(() => this.checkProgress(), 100);
             };
             
+            // Use Olam's addObject which handles dynamic import internally
             this.olam.addObject(itemDef.className || 'CollectableItem', opts).then(nivra => {
                 if (nivra) this._spawnedInstances.push(nivra);
             });
@@ -152,7 +143,6 @@ export default class Shlichus {
             }
             isComplete = hasAll;
         } 
-        // B"H: Legacy Compatibility - Default check for any non-gather mission
         else {
             if (this.totalCollectedObjects > 0 && this.collected >= this.totalCollectedObjects) {
                 isComplete = true;
@@ -163,7 +153,6 @@ export default class Shlichus {
             this.state = QUEST_STATE.READY_TO_TURN_IN;
             this.handler.notifyUpdate();
             
-            // Modular Feedback
             this.olam.ayshPeula("ui event", "effectsOverlay", { 
                 text: "MISSION READY FOR REDEMPTION", 
                 color: "#00FF00" 
@@ -173,9 +162,6 @@ export default class Shlichus {
         return isComplete;
     }
 
-    /**
-     * B"H: Backwards compatibility for Olam event listeners.
-     */
     finish() {
         this.complete();
     }
@@ -185,7 +171,6 @@ export default class Shlichus {
         this.state = QUEST_STATE.COMPLETED;
         this.despawnWorldItems();
         
-        // Give Rewards
         if (this.rewards) {
             this.rewards.forEach(r => {
                 this.olam.player.inventory.addItem(r);
@@ -195,7 +180,6 @@ export default class Shlichus {
         this.handler.progressManager.updateQuestState(this.id, { status: this.state });
         this.handler.notifyUpdate();
 
-        // B"H: Legacy Callback
         if (typeof(this.on.complete) === 'function') {
             this.on.complete(this);
         } else if (typeof(this.on.finish) === 'function') {
