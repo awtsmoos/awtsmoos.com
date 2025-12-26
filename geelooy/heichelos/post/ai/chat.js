@@ -1,6 +1,8 @@
-
 //B"H
-import { injectAIChatCSS } from "../styles/aiChatStyles.js";
+/**
+ * AI Chat Logic.
+ * Purged of obsolete JS-based CSS injectors.
+ */
 import { markdownToHtml } from "../parsing.js";
 import { stripTags } from "../functions/utils.js";
 import { AwtsmoosPrompt } from "/scripts/awtsmoos/api/utils.js";
@@ -16,9 +18,8 @@ var currentTab = null;
  * @description B"H - Renders the AI Chat with dynamic context refreshing.
  */
 export function renderAIChat({ tab }) {
-    injectAIChatCSS();
     currentTab = tab;
-    tab.awtsmoosType = "ai chat"; // B"H - Allow indexSwitch to identify us
+    tab.awtsmoosType = "ai chat"; 
     tab.innerHTML = "";
     
     const container = document.createElement("div");
@@ -46,10 +47,6 @@ export function renderAIChat({ tab }) {
     contextLabel.htmlFor = "ai-context-toggle";
     contextLabel.className = "ai-context-label";
     
-    /**
-     * @method updateLabels
-     * @description Updates context labels without clearing the chat history.
-     */
     function updateLabels() {
         const s = new URLSearchParams(location.search);
         const idx = s.get("idx");
@@ -73,7 +70,6 @@ export function renderAIChat({ tab }) {
         }
     }
     
-    // Register global refresher for indexSwitch
     window.refreshAIChatContext = updateLabels;
     updateLabels();
     contextCheckbox.onchange = updateLabels;
@@ -259,53 +255,32 @@ function constructPrompt(currentMsg, context, hist) {
     return prompt;
 }
 
-// B"H - Updated Helper for robust handling of chunk extraction including JSONL
 function extractTextFromChunk(chunk) {
     if (typeof chunk === 'object') {
-        // Direct object (from some stream parsers)
         return chunk?.candidates?.[0]?.content?.parts?.[0]?.text || "";
     }
-    
     if (typeof chunk !== 'string') return "";
-
-    // 1. Try simple JSON parse
     try {
         const d = JSON.parse(chunk);
         const txt = d?.candidates?.[0]?.content?.parts?.[0]?.text;
         if(txt) return txt;
     } catch(e) {}
-
-    // 2. Try parsing as JSONL (newline separated JSONs) or multiple concatenated JSONs
-    // Since streams might emit partial chunks, this attempts to salvage complete JSON lines.
-    let extractedText = "";
-    
-    // Split by possible json end/start boundaries or newlines if it looks like JSONL
-    // Note: Simple split by \n is risky if content has \n, but stream chunks usually escape them in JSON strings.
     const lines = chunk.split('\n');
-    
+    let extractedText = "";
     for(const line of lines) {
         const trimmed = line.trim();
         if(!trimmed) continue;
-        
         try {
-            // Remove potential leading/trailing brackets if it's an array wrapper from Gemini
             let cleanLine = trimmed;
             if(cleanLine.startsWith(',')) cleanLine = cleanLine.substring(1);
             if(cleanLine.startsWith('[')) cleanLine = cleanLine.substring(1);
             if(cleanLine.endsWith(']')) cleanLine = cleanLine.substring(0, cleanLine.length - 1);
-            
             const d = JSON.parse(cleanLine);
             const txt = d?.candidates?.[0]?.content?.parts?.[0]?.text;
             if(txt) extractedText += txt;
-        } catch(e) {
-            // Not valid JSON line
-        }
+        } catch(e) {}
     }
-    
     if(extractedText) return extractedText;
-
-    // 3. Fallback: If awtsmoosAi already extracted text and passed it as a string
-    // assume the string IS the text.
     return chunk; 
 }
 
@@ -320,20 +295,15 @@ async function saveChat(chatHistory, verseSection) {
     try {
         const s = new URLSearchParams(location.search);
         const sub = s.get("sub");
-        
         const heichelId = window.post?.heichel?.id;
         const postId = window.post?.id;
-        
         const dayuhObject = {
             conversation: chatHistory,
             verseSection: verseSection === "root" ? "root" : parseInt(verseSection)
         };
-        
-        // B"H - Capture sub-section if present to associate chat with paragraph
         if (sub !== null && sub !== undefined) {
             dayuhObject.subSection = parseInt(sub);
         }
-
         const content = chatTitle || "Chat with Awtsmoos AI";
         const method = activeCommentId ? "PUT" : "POST";
         const bodyParams = {
@@ -342,18 +312,15 @@ async function saveChat(chatHistory, verseSection) {
             dayuh: JSON.stringify(dayuhObject),
             content: content
         };
-        
         if (activeCommentId) {
             bodyParams.commentId = activeCommentId;
             bodyParams.verseSection = verseSection === "root" ? "root" : parseInt(verseSection);
         }
-        
         const response = await fetch(location.origin + `/api/social/heichelos/${heichelId}/post/${postId}/comments/`, {
             method: method,
             body: new URLSearchParams(bodyParams),
         });
         const json = await response.json();
-        
         if (json.success) {
             const newCommentId = json.details?.id || activeCommentId;
             activeCommentId = newCommentId; 

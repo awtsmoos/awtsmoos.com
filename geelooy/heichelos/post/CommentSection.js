@@ -1,7 +1,10 @@
 //B"H
+/**
+ * Comment Section Component.
+ * Purged of obsolete JS-based CSS injectors.
+ */
 import { AwtsmoosPrompt } from "/scripts/awtsmoos/api/utils.js";
 import { ImageUploader } from "./ImageUploader.js";
-import { injectCommentSectionCSS } from "./styles/commentSectionStyles.js";
 
 class CommentSection {
     imgResults = [];
@@ -21,7 +24,6 @@ class CommentSection {
         this.createImageUploadIcon();
         this.createGalleryContainer();
         this.createButtons();
-        this.injectCSS();
     }
 
     createInitialButton() {
@@ -37,11 +39,9 @@ class CommentSection {
                 });
                 return;
             }
-            // Permission check removed for UX speed - backend handles it anyway
-            
             this.btn.style.display = "none";
             this.commentBox.style.display = "block";
-            this.commentBox.focus(); // Auto-focus
+            this.commentBox.focus(); 
         };
         this.addCommentArea.appendChild(this.btn);
     }
@@ -53,16 +53,13 @@ class CommentSection {
         this.commentBox.placeholder = "Write your thoughts...";
         this.commentBox.style.display = "none";
 
-        // B"H - Show buttons on ANY interaction (focus or input)
         const showButtons = () => {
             this.buttonContainer.style.display = "flex";
-            // Enable submit if there's text
             this.submitBtn.disabled = this.commentBox.innerText.trim().length === 0;
         };
 
         this.commentBox.oninput = showButtons;
-        this.commentBox.onfocus = showButtons; // Added focus handler
-
+        this.commentBox.onfocus = showButtons; 
         this.addCommentArea.appendChild(this.commentBox);
     }
 
@@ -70,7 +67,7 @@ class CommentSection {
         this.imageUploader = new ImageUploader(this.createGalleryContainer());
         const imageUploadIcon = document.createElement("div");
         imageUploadIcon.classList.add("image-upload-icon");
-        imageUploadIcon.innerHTML = "📷"; // Or SVG icon
+        imageUploadIcon.innerHTML = "📷"; 
         imageUploadIcon.onclick = async () => {
             var res = await this.imageUploader.uploadImages();
             this.imgResults = res;
@@ -80,7 +77,7 @@ class CommentSection {
                 this.galleryContainer.appendChild(img)
             })
             this.galleryContainer.style.display = "flex";
-            this.buttonContainer.style.display = "flex"; // Show buttons if image added
+            this.buttonContainer.style.display = "flex"; 
             this.submitBtn.disabled = false;
         };
         this.addCommentArea.appendChild(imageUploadIcon);
@@ -115,7 +112,7 @@ class CommentSection {
 
         this.submitBtn = document.createElement("button");
         this.submitBtn.classList.add("btn", "submit-comment");
-        this.submitBtn.innerText = "Post"; // "Post" is punchier than "Comment"
+        this.submitBtn.innerText = "Post"; 
         this.submitBtn.disabled = true;
         this.submitBtn.onclick = this.submitComment.bind(this);
 
@@ -173,37 +170,29 @@ class CommentSection {
             if (json.success && json.details?.id) {
                 const newCommentId = json.details.id;
                 const newCommentData = { id: newCommentId, author: currentAlias, content: content, dayuh: dayuhObject };
-                
                 await window.commentLogic.handleNewComment({
                     aliasId: currentAlias,
                     verseSection: verseSection,
                     commentId: newCommentId,
                     newCommentData: newCommentData
                 });
-                
-                // Reset form
                 this.commentBox.innerText = "";
                 this.galleryContainer.innerHTML = "";
                 this.galleryContainer.style.display = "none";
                 this.commentBox.style.display = "none";
                 this.buttonContainer.style.display = "none";
                 this.btn.style.display = "block";
-                
             } else {
-                const errorMessage = json.error || "An unknown error occurred on the server.";
+                const errorMessage = json.error || "An unknown error occurred.";
                 await AwtsmoosPrompt.go({ isAlert: true, headerTxt: "Submission failed: " + errorMessage });
             }
         } catch (e) {
             console.error(e);
-            await AwtsmoosPrompt.go({ isAlert: true, headerTxt: "A network or script error occurred." });
+            await AwtsmoosPrompt.go({ isAlert: true, headerTxt: "A network error occurred." });
         } finally {
             this.submitBtn.innerText = "Post";
             this.submitBtn.disabled = false;
         }
-    }
-
-    injectCSS() {
-        injectCommentSectionCSS();
     }
 }
 

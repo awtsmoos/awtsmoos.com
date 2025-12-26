@@ -46,11 +46,17 @@ export function appendWithSubChildren(node, parent, array) {
     }
 }
 
-// B"H - Exposed to Global Scope for HTML Buttons
+/**
+ * B"H - Adjusts font size STRICTLY within the #realPost element.
+ * Does not affect global headers, sidebars, or navigation.
+ */
 window.adjustFontSize = function(action) {
-    const root = document.documentElement;
-    let current = parseFloat(getComputedStyle(root).getPropertyValue('--awtsmoos-font-size')) || 16;
-    const MAX_FONT_SIZE = 48;
+    const contentArea = document.getElementById('realPost');
+    if (!contentArea) return;
+
+    let current = parseFloat(window.getComputedStyle(contentArea).fontSize) || 18;
+    
+    const MAX_FONT_SIZE = 72;
     const MIN_FONT_SIZE = 12;
     const FONT_SIZE_INCREMENT = 2; 
 
@@ -60,18 +66,19 @@ window.adjustFontSize = function(action) {
         current -= FONT_SIZE_INCREMENT;
     }
     
-    root.style.setProperty('--awtsmoos-font-size', current + 'px');
+    contentArea.style.fontSize = current + 'px';
     localStorage.currentFontSize = current + 'px';
-    console.log("B\"H - Font size adjusted to:", current); // Debug
 }
 
 export function loadFontSize() {
     const fs = localStorage.currentFontSize;
-    const root = document.documentElement;
+    const contentArea = document.getElementById('realPost');
+    if (!contentArea) return;
+
     if (fs) {
-        root.style.setProperty('--awtsmoos-font-size', fs);
+        contentArea.style.fontSize = fs;
     } else {
-        root.style.setProperty('--awtsmoos-font-size', '16px'); 
+        contentArea.style.fontSize = '18px'; 
     }
 }
 

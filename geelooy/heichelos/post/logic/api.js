@@ -1,24 +1,34 @@
 //B"H
+/**
+ * API endpoints and initial data loading for the Post Reader.
+ * Dedicated to the Awtsmoos who provides the flow of information.
+ */
+
 export async function fetchAwtsmoos(url) {
-	return await (await fetch(url)).json()
+    const response = await fetch(url);
+    if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
+    return await response.json();
 }
 
 export async function loadInitial() {
-	var myPath = location.pathname.split("/").filter(Boolean)
-	var seriesId = myPath[myPath.length - 2];
-	var postIdx = myPath[myPath.length - 1];
-	var heichel = myPath[1];
-	var series = await fetchAwtsmoos(`/api/social/heichelos/${heichel}/series/${seriesId}/details`);
-	var postId  = series.posts[postIdx]
-	var post = await fetchAwtsmoos(`/api/social/heichelos/${heichel}/series/${seriesId}/post/${postId}`);
-	
-	window.post = post;
-	window.series = series;
+    const myPath = location.pathname.split("/").filter(Boolean);
+    const seriesId = myPath[myPath.length - 2];
+    const postIdx = myPath[myPath.length - 1];
+    const heichel = myPath[1];
+    
+    const series = await fetchAwtsmoos(`/api/social/heichelos/${heichel}/series/${seriesId}/details`);
+    const postId = series.posts[postIdx];
+    const post = await fetchAwtsmoos(`/api/social/heichelos/${heichel}/series/${seriesId}/post/${postId}`);
+    
+    window.post = post;
+    window.series = series;
 
-	var breadcrumb = await fetchAwtsmoos(`/api/social/heichelos/${heichel}/series/${seriesId}/breadcrumb`);
-	window.breadcrumb = breadcrumb;
-	var t = document.querySelector("title")
-	if(t) t.innerText = series.prateem.name + " | "+post.title
+    const breadcrumb = await fetchAwtsmoos(`/api/social/heichelos/${heichel}/series/${seriesId}/breadcrumb`);
+    window.breadcrumb = breadcrumb;
+    
+    if (document.querySelector("title")) {
+        document.querySelector("title").innerText = `${series.prateem.name} | ${post.title}`;
+    }
     
     return { post, series, heichel, seriesId, indexInSeries: parseInt(postIdx) };
 }

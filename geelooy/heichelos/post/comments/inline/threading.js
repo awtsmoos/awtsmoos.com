@@ -1,22 +1,21 @@
-
 //B"H
+/**
+ * Inline Threading Logic.
+ * Purged of obsolete JS-based CSS injectors.
+ */
 import { updateQueryStringParameter } from "../../functions/utils.js";
 import { makeInlineComment } from "../render.js";
 import { getCommentsOfAlias } from "/scripts/awtsmoos/api/utils.js";
-import { injectInlineThreadCSS } from "../../styles/inlineThreadStyles.js";
 import { isAliasInline } from "./state.js";
 import { registerFork } from "../render/ai/structure.js"; 
 
 /**
  * @method renderThreadContent
  * @description B"H - Populates the inline thread container.
- * STRICT MODE: Forks are ignored based on property AND content check.
  */
 export async function renderThreadContent(threadContainer, idx, sub) {
-    // Show local loader
     threadContainer.innerHTML = `<div class="thread-loading">Gathering revelations...</div>`;
     
-    // Add Close Button (always needed)
     const addControls = () => {
         const closeBtn = document.createElement('button');
         closeBtn.className = 'thread-close-btn';
@@ -29,7 +28,6 @@ export async function renderThreadContent(threadContainer, idx, sub) {
         };
         threadContainer.appendChild(closeBtn);
 
-        // B"H - Add "Start New Thread" Button for this section
         if(window.curAlias) {
             const newThreadBtn = document.createElement("button");
             newThreadBtn.className = "btn primary small";
@@ -37,7 +35,6 @@ export async function renderThreadContent(threadContainer, idx, sub) {
             newThreadBtn.style.margin = "0 0 15px 15px";
             newThreadBtn.onclick = async () => {
                 const { openAIChat } = await import("../../ai/chat.js");
-                // Set URL context first
                 updateQueryStringParameter("idx", idx);
                 if(sub !== null) updateQueryStringParameter("sub", sub);
                 openAIChat(); 
@@ -47,7 +44,6 @@ export async function renderThreadContent(threadContainer, idx, sub) {
     };
 
     const { getAndSaveAliases } = await import("../panel.js");
-    // Force fresh fetch (true) to see new comments immediately
     let aliases = await getAndSaveAliases(false, true, idx, sub, false); 
 
     threadContainer.innerHTML = ""; 
@@ -74,13 +70,12 @@ export async function renderThreadContent(threadContainer, idx, sub) {
             continue;
         }
 
-        // Force fresh comments fetch
         const allVerseComments = await getCommentsOfAlias({
             seriesId: window?.post?.parentSeriesId,
             postId: window?.post?.id,
             heichelId: window?.post?.heichel.id,
             aliasId: alias,
-            fromCache: false, // B"H - Important for immediate refresh
+            fromCache: false, 
             get: { verseSection: idx, map: true } 
         });
         
@@ -88,7 +83,6 @@ export async function renderThreadContent(threadContainer, idx, sub) {
         if (Array.isArray(allVerseComments)) {
             relevant = allVerseComments.filter(c => {
                 let d = c.dayuh || {};
-                
                 const cSub = d.subSection;
                 if (sub === null || sub === undefined) {
                     return cSub === undefined || cSub === null || cSub === 'main' || cSub === 'root';
@@ -109,22 +103,12 @@ export async function renderThreadContent(threadContainer, idx, sub) {
 
             relevant.forEach(c => {
                 c.id = String(c.id);
-                // B"H - No string check, direct object access
                 let d = c.dayuh || {};
                 c.dayuh = d;
-
                 const contentStr = (typeof c.content === 'string') ? c.content.trim() : "";
-
-                // B"H - NUCLEAR FORK DETECTION
-                const isFork = !!(
-                    c.forkedFrom || 
-                    d.forkedFrom || 
-                    contentStr.startsWith("Fork from") || 
-                    contentStr.startsWith("Branch:")
-                );
+                const isFork = !!(c.forkedFrom || d.forkedFrom || contentStr.startsWith("Fork from") || contentStr.startsWith("Branch:"));
 
                 if (isFork) {
-                    // Normalization
                     if(!c.dayuh.forkedFrom && c.forkedFrom) c.dayuh.forkedFrom = c.forkedFrom;
                     forks.push(c);
                 } else {
@@ -132,17 +116,11 @@ export async function renderThreadContent(threadContainer, idx, sub) {
                 }
             });
 
-            // 1. Render Roots
             roots.forEach(c => {
                 const incom = makeInlineComment(alias, c);
                 aliasGroup.appendChild(incom);
             });
-
-            // 2. Register Forks
-            forks.forEach(c => {
-                registerFork(c);
-            });
-
+            forks.forEach(c => registerFork(c));
             threadContainer.appendChild(aliasGroup);
         }
     }
@@ -153,8 +131,6 @@ export async function renderThreadContent(threadContainer, idx, sub) {
 }
 
 export async function showSectionCommentaryInline(idx, sub, targetEl) {
-    injectInlineThreadCSS();
-    
     if (!targetEl || !targetEl.querySelector) {
         const sel = (sub !== null && sub !== undefined) 
             ? `.sub-awtsmoos[data-awtsmoos-sub='${sub}']` 
@@ -165,7 +141,6 @@ export async function showSectionCommentaryInline(idx, sub, targetEl) {
 
     const subKey = (sub !== null && sub !== undefined) ? sub : 'main';
     const threadId = `${idx}-${subKey}`;
-    
     const parentContainer = targetEl.parentNode;
     const existing = parentContainer ? parentContainer.querySelector(`.awtsmoos-inline-thread[data-unique-thread="${threadId}"]`) : null;
 
@@ -173,7 +148,6 @@ export async function showSectionCommentaryInline(idx, sub, targetEl) {
         existing.style.opacity = '0';
         existing.style.transform = 'translateY(-10px) scale(0.98)';
         setTimeout(() => existing.remove(), 250); 
-        // B"H - Clear Deep Link if closed
         updateQueryStringParameter("cid", null);
         updateQueryStringParameter("mid", null);
         return;
