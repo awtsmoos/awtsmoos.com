@@ -1,138 +1,72 @@
+
 // B"H
 /**
- * @module binaryHelpers
- * @description
- *  Low-level binary manipulation for AwtsmoosDB.
- *  Handles 48-bit pointers, variable integer packing, and conditional field sizing.
+ * @file binaryHelpers.js
+ * @description Essential tools for manifesting precise binary offsets.
  */
-const crypto = require('crypto');
 
-// Writes a 48-bit pointer (Block ID) to a buffer
-function writePointer48(buf, value, offset) {
-    if (value > 0xFFFFFFFFFFFF) throw new Error("Pointer exceeds 48 bits");
-    // Write high 16 bits
-    buf.writeUInt16BE(Math.floor(value / 0x100000000), offset);
-    // Write low 32 bits
-    // Bitwise operators in JS treat numbers as 32-bit signed ints, so modulo is safer for large numbers
-    buf.writeUInt32BE(value % 0x100000000, offset + 2);
-}
-
-// Reads a 48-bit pointer from a buffer
-function readPointer48(buf, offset) {
-    if (offset + 6 > buf.length) return 0; // B"H: Safety Check
-    const high = buf.readUInt16BE(offset);
-    const low = buf.readUInt32BE(offset + 2);
-    // B"H: Correct multiplication factor for 2^32
+function readPointer48(buffer, offset) {
+    const high = buffer.readUInt16BE(offset);
+    const low = buffer.readUInt32BE(offset + 2);
     return (high * 0x100000000) + low;
 }
 
-// Determines the number of bytes needed to store a length
-function packedLength(size) {
-    if (size === 1) return 0; // 00
-    if (size === 2) return 1; // 01
-    if (size === 4) return 2; // 10
-    if (size === 8) return 3; // 11
-    return 0;
+function writePointer48(buffer, value, offset) {
+    const high = Math.floor(value / 0x100000000);
+    const low = value % 0x100000000;
+    buffer.writeUInt16BE(high, offset);
+    buffer.writeUInt32BE(low, offset + 2);
 }
 
-// Unpacks the 2-bit code to byte size
-function unpackLength(bits) {
-    if (bits === 0) return 1;
-    if (bits === 1) return 2;
-    if (bits === 2) return 4;
-    if (bits === 3) return 8;
-    return 1;
+function packTypeAndLengthSize(type, lenSize) {
+    const sizeCode = lenSize === 1 ? 0 : lenSize === 2 ? 1 : lenSize === 4 ? 2 : 3;
+    return (type & 0x3F) | (sizeCode << 6);
 }
 
-// Packs Type ID and Length Size into a single byte
-// Type: 6 bits, LengthSize: 2 bits
-function packTypeAndLengthSize(type, lengthSize) {
-    const lenBits = packedLength(lengthSize);
-    return (type << 2) | lenBits;
-}
-
-// Unpacks the byte back to Type and Length Size
 function unpackTypeAndLengthSize(byte) {
-    const type = byte >> 2;
-    const lenBits = byte & 0b11;
-    const lengthSize = [1, 2, 4, 8][lenBits];
+    const type = byte & 0x3F;
+    const sizeCode = (byte >> 6) & 0x03;
+    const lengthSize = [1, 2, 4, 8][sizeCode];
     return { type, lengthSize };
 }
 
-// Returns buffer and size for a number (1, 2, 4, or 8 bytes)
-function writeConditional(num) {
-    let size = 1;
-    if (num >= 256) size = 2;
-    if (num >= 65536) size = 4;
-    if (num >= 4294967296) size = 8; 
-
-    const buf = Buffer.alloc(size);
-    if (size === 1) buf.writeUInt8(num, 0);
-    else if (size === 2) buf.writeUInt16BE(num, 0);
-    else if (size === 4) buf.writeUInt32BE(num, 0);
-    else buf.writeBigUInt64BE(BigInt(num), 0);
-
-    return { buffer: buf, size };
+function writeConditional(value) {
+    if (value < 256) {
+        const b = Buffer.allocUnsafe(1);
+        b.writeUInt8(value, 0);
+        return { buffer: b, size: 1 };
+    }
+    if (value < 65536) {
+        const b = Buffer.allocUnsafe(2);
+        b.writeUInt16BE(value, 0);
+        return { buffer: b, size: 2 };
+    }
+    const b = Buffer.allocUnsafe(4);
+    b.writeUInt32BE(value, 0);
+    return { buffer: b, size: 4 };
 }
 
-// B"H: Zero-Allocation version
-function writeConditionalTo(buf, offset, num) {
-    let size = 1;
-    if (num >= 256) size = 2;
-    if (num >= 65536) size = 4;
-    if (num >= 4294967296) size = 8;
-
-    if (size === 1) buf.writeUInt8(num, offset);
-    else if (size === 2) buf.writeUInt16BE(num, offset);
-    else if (size === 4) buf.writeUInt32BE(num, offset);
-    else buf.writeBigUInt64BE(BigInt(num), offset);
-
-    return size;
-}
-
-function getConditionalSize(num) {
-    if (num < 256) return 1;
-    if (num < 65536) return 2;
-    if (num < 4294967296) return 4;
-    return 8;
-}
-
-// Reads a number of `size` bytes
-function readConditional(buf, offset, size) {
-    if (offset + size > buf.length) return 0; // B"H: Safety Check
-    if (size === 1) return buf.readUInt8(offset);
-    if (size === 2) return buf.readUInt16BE(offset);
-    if (size === 4) return buf.readUInt32BE(offset);
-    if (size === 8) return Number(buf.readBigUInt64BE(offset));
+function readConditional(buffer, offset, size) {
+    if (size === 1) return buffer.readUInt8(offset);
+    if (size === 2) return buffer.readUInt16BE(offset);
+    if (size === 4) return buffer.readUInt32BE(offset);
+    if (size === 8) return Number(buffer.readBigUInt64BE(offset));
     return 0;
 }
 
-// Writes data to a buffer at specific index/size
-function writeToBuffer(buf, value, size, offset) {
-    if (size === 1) buf.writeUInt8(value, offset);
-    else if (size === 2) buf.writeUInt16BE(value, offset);
-    else if (size === 4) buf.writeUInt32BE(value, offset);
-    else buf.writeBigUInt64BE(BigInt(value), offset);
-}
-
-// Simple hash for hash tables
-function hashKey(key, tableSize) {
-    const hash = crypto.createHash('sha1').update(key).digest();
-    const idx = hash.readUInt32BE(0);
-    return idx % tableSize;
+function packedLength(size) {
+    if (size === 1) return 0;
+    if (size === 2) return 1;
+    if (size === 4) return 2;
+    return 3;
 }
 
 module.exports = {
-    writePointer48,
     readPointer48,
-    packedLength,
-    unpackLength,
+    writePointer48,
     packTypeAndLengthSize,
     unpackTypeAndLengthSize,
     writeConditional,
-    writeConditionalTo,
-    getConditionalSize,
     readConditional,
-    writeToBuffer,
-    hashKey
+    packedLength
 };

@@ -3,55 +3,55 @@
 /**
  * @file background.js
  * @description
- *  Manages asynchronous background tasks, indexing updates, and batch write atomicity.
+ *  Manages strictly synchronous batch boundaries and background task flushing.
  */
 
 module.exports = {
     /**
-     * @description Executes a function within a batch boundary, ensuring background tasks are flushed at the end.
+     * @description Executes a function within a synchronous batch boundary.
      */
-    batch: async (db, fn) => {
-        return db.lock.runWrite(async () => {
+    batch(db, fn) {
+        return db.lock.runWrite(() => {
             const isNested = db.pager.isBatching;
-            if (!isNested) db.pager.startBatch();
-            try { return await fn(); } finally {
+            if (!isNested) db.pager.startBatch ? db.pager.startBatch() : null;
+            try { return fn(); } finally {
                 if (!isNested) {
-                    await db._flushBackgroundTasks();
-                    if (db.allocator) await db.allocator.flushHeap();
-                    await db.pager.endBatch();
+                    this.flushBackgroundTasks(db);
+                    if (db.allocator) db.allocator.flushHeap();
+                    db.pager.endBatch ? db.pager.endBatch() : null;
                 }
             }
         });
     },
 
     /**
-     * @description Awaits all pending background operations and syncs to physical storage.
+     * @description Synchronously syncs all pending data to physical storage.
      */
-    waitForIdle: async (db) => {
-        return db.lock.runWrite(async () => {
-            await db._flushBackgroundTasks();
+    waitForIdle(db) {
+        return db.lock.runWrite(() => {
+            this.flushBackgroundTasks(db);
             if (db.allocator) {
-                await db.allocator.flushHeap();
-                await db.allocator.v1.flush(); 
+                db.allocator.flushHeap();
+                db.allocator.v1.flush(); 
             }
-            await db.pager.sync();
+            db.pager.fsync ? db.pager.fsync() : null;
         });
     },
 
     /**
-     * @description Processes the queue of pending indexing and system operations.
+     * @description Processes the queue of pending indexing and system operations immediately.
      */
-    flushBackgroundTasks: async (db) => {
+    flushBackgroundTasks(db) {
         if (db._isFlushing) return;
         db._isFlushing = true;
         try {
             while (db._pendingIndexOps.length > 0) {
                 const tasks = db._pendingIndexOps;
                 db._pendingIndexOps = [];
-                for (const task of tasks) await task();
+                for (const task of tasks) task();
             }
-            await db.search.flush();
-            if (db._pendingIndexOps.length > 0) await db._flushBackgroundTasks();
+            if (db.search && db.search.flush) db.search.flush();
+            if (db._pendingIndexOps.length > 0) this.flushBackgroundTasks(db);
         } finally {
             db._isFlushing = false;
         }

@@ -42,25 +42,27 @@ class AllocatorV2 {
 
         if (typeof val === 'string') {
             const compressed = omni.pack(val);
-            const originalLen = Buffer.byteLength(val, 'utf8');
-            const finalType = (compressed.length < originalLen) ? T.STRING_OMNI : T.STRING;
+            const originalBuf = Buffer.from(val, 'utf8');
+            
+            // B"H: FIX - Ensure type and data are matched.
+            const useCompressed = compressed.length < originalBuf.length;
+            const finalType = useCompressed ? T.STRING_OMNI : T.STRING;
+            const dataToSave = useCompressed ? compressed : originalBuf;
 
-            if (compressed.length <= 14) {
+            if (dataToSave.length <= 14) {
                 const p = Buffer.alloc(15).fill(0);
-                p[0] = compressed.length; 
-                compressed.copy(p, 1);
+                p[0] = dataToSave.length; 
+                dataToSave.copy(p, 1);
                 return SmartPointer.encode(finalType, constants.MODE_INLINE, p);
             }
-            const loc = this.heap.allocate(compressed);
+            const loc = this.heap.allocate(dataToSave);
             return SmartPointer.heap(finalType, loc.blockId, loc.offset, loc.length);
         }
 
-        // Handle complex objects and marker classes synchronously
         if (typeof val === 'object' && !Buffer.isBuffer(val)) {
             return this.builder.build(val);
         }
 
-        // Fallback for raw Buffers or pre-serialized bits
         const data = (Buffer.isBuffer(val) && val.length !== 16) ? val : require('./allocator/serialize/serializeValue.js')(val, true);
         if (data.length <= 1024) {
             const loc = this.heap.allocate(data);

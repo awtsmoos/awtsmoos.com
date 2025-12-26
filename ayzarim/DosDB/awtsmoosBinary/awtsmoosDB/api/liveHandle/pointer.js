@@ -4,8 +4,6 @@
  * @file pointer.js
  * @description
  *  The Sefirah of Netzach - The Persistence of the Pointer.
- *  This module manages the physical pointer updates and the mystical 
- *  bubbling process where changes flow upward to the super-block.
  */
 
 const SmartPointer = require('../../utils/smartPointer.js');
@@ -14,10 +12,9 @@ const constants = require('../../constants.js');
 module.exports = {
     /**
      * @description
-     *  Updates the internal pointer and bubbles the change up to parents,
-     *  ensuring the entire branch of the fractal tree is updated.
+     *  Updates the internal pointer and bubbles the change up to parents synchronously.
      */
-    updatePointer: async (state, newPtrBuffer) => {
+    updatePointer(state, newPtrBuffer) {
         if (!newPtrBuffer) return;
         
         const oldPtr = state.ptr;
@@ -37,14 +34,11 @@ module.exports = {
             db.mutationCount = (db.mutationCount || 0) + 1;
             state.lastMutationCount = db.mutationCount; 
             
-            // B"H: Graph Relocation Hook
-            // If the graph manager is active and the pointer changed, 
-            // relocate the node metadata to the new physical ID.
             if (db.graph && oldPtr) {
                 const oldId = db.graph.utils.getIdFromPtr(oldPtr);
                 const newId = db.graph.utils.getIdFromPtr(newPtrBuffer);
                 if (oldId && newId && oldId !== newId) {
-                    await db.graph._relocateNode(oldId, newId);
+                    db.graph._relocateNode(oldId, newId);
                 }
             }
         }
@@ -53,8 +47,8 @@ module.exports = {
             if (state.context && state.context.parent) {
                 const HandleRegistry = require('../../core/handleRegistry.js');
                 const parentH = HandleRegistry.getSoul(state.context.parent);
-                await parentH.ensureResolved(true);
-                await parentH.writer._setRaw(state.context.key, newPtrBuffer, { isPtr: true, skipFree: true });
+                parentH.ensureResolved(true);
+                parentH.writer.set(state.context.key, newPtrBuffer, { isPtr: true, skipFree: true });
                 if (parentH.ptr) state.lastParentPtrHash = parentH.ptr.toString('hex');
             } else if (db.root && (require('../../core/handleRegistry.js').getSoul(db.root) === state)) {
                 if (decoded && decoded.mode === constants.MODE_BLOCK) {
@@ -65,7 +59,7 @@ module.exports = {
                     const isChain = decoded.payload.readUInt8(14) === 1;
                     
                     db.rootPtrRaw = newPtrBuffer;
-                    await db.allocator.v1.updateSuperBlock((sb) => {
+                    db.allocator.v1.updateSuperBlock((sb) => {
                         writePointer48(sb, blockId, 64);
                         sb.writeUInt32BE(len, 70);
                         sb.writeUInt32BE(off, 74);

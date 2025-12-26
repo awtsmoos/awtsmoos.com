@@ -14,10 +14,17 @@ const SmartPointer = require('../../utils/smartPointer.js');
 class MapEngine {
     constructor(allocator, ptr = null) {
         this.allocator = allocator;
-        this.ptr = ptr || null;
+        this.db = allocator.v1.db;
+        
+        // B"H: Normalizing Pointer instantly.
+        if (Buffer.isBuffer(ptr) && ptr.length === 16) {
+            this.ptr = SmartPointer.resolve(ptr, allocator);
+        } else {
+            this.ptr = ptr || null;
+        }
+        
         this.nodeIO = new MapNode(allocator, this); 
         this.ops = new MapOps(this);
-        this.db = allocator.v1.db;
     }
 
     create() {
@@ -46,8 +53,8 @@ class MapEngine {
             };
             const leftNode = this.nodeIO.load(split.nodePtr || this.ptr);
             const rightNode = this.nodeIO.load(this._decodePtrBuf(split.ptr));
-            newRoot.totalCount = leftNode.totalCount + rightNode.totalCount;
-            newRoot.totalBytes = leftNode.totalBytes + rightNode.totalBytes;
+            newRoot.totalCount = (leftNode.totalCount || 0) + (rightNode.totalCount || 0);
+            newRoot.totalBytes = (leftNode.totalBytes || 0) + (rightNode.totalBytes || 0);
             this.ptr = this.nodeIO.save(newRoot);
         } else if (res && res.newPtr) {
             this.ptr = res.newPtr;

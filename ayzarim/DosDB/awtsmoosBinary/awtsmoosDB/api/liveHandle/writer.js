@@ -19,10 +19,12 @@ class Writer {
         const structPtr = this.handle.nav.resolveStructPtr();
         let engine;
         
-        if (this.handle.type === constants.VAL_TYPE.SEQUENCE) {
+        const type = this.handle.type || constants.VAL_TYPE.DICTIONARY;
+
+        if (type === constants.VAL_TYPE.SEQUENCE) {
             engine = new Sequence(this.db.allocator, structPtr);
             engine.set(key, value, options);
-        } else if (this.handle.type === constants.VAL_TYPE.MAP) {
+        } else if (type === constants.VAL_TYPE.MAP) {
             engine = new MapEngine(this.db.allocator, structPtr);
             engine.set(key, value, options);
         } else {
@@ -31,7 +33,7 @@ class Writer {
         }
         
         const SmartPointer = require('../../utils/smartPointer.js');
-        const newPtr = SmartPointer.block(this.handle.type, engine.ptr.blockId, engine.ptr.length, engine.ptr.isChain, engine.ptr.offset);
+        const newPtr = SmartPointer.block(type, engine.ptr.blockId, engine.ptr.length, engine.ptr.isChain, engine.ptr.offset);
         this.handle._updatePointer(newPtr);
     }
 
@@ -41,20 +43,21 @@ class Writer {
         engine.push(value);
         
         const SmartPointer = require('../../utils/smartPointer.js');
-        const newPtr = SmartPointer.block(this.handle.type, engine.ptr.blockId, engine.ptr.length, engine.ptr.isChain, engine.ptr.offset);
+        const newPtr = SmartPointer.block(constants.VAL_TYPE.SEQUENCE, engine.ptr.blockId, engine.ptr.length, engine.ptr.isChain, engine.ptr.offset);
         this.handle._updatePointer(newPtr);
     }
 
     delete(key) {
         const structPtr = this.handle.nav.resolveStructPtr();
         let engine;
-        if (this.handle.type === constants.VAL_TYPE.SEQUENCE) engine = new Sequence(this.db.allocator, structPtr);
-        else if (this.handle.type === constants.VAL_TYPE.MAP) engine = new MapEngine(this.db.allocator, structPtr);
+        const type = this.handle.type || constants.VAL_TYPE.DICTIONARY;
+        if (type === constants.VAL_TYPE.SEQUENCE) engine = new Sequence(this.db.allocator, structPtr);
+        else if (type === constants.VAL_TYPE.MAP) engine = new MapEngine(this.db.allocator, structPtr);
         else engine = new Dictionary(this.db.allocator, structPtr);
         
         engine.delete(key);
         const SmartPointer = require('../../utils/smartPointer.js');
-        const newPtr = SmartPointer.block(this.handle.type, engine.ptr.blockId, engine.ptr.length, engine.ptr.isChain, engine.ptr.offset);
+        const newPtr = SmartPointer.block(type, engine.ptr.blockId, engine.ptr.length, engine.ptr.isChain, engine.ptr.offset);
         this.handle._updatePointer(newPtr);
     }
 }

@@ -4,8 +4,6 @@
  * @file resolver.js
  * @description
  *  The Sefirah of Binah - The Logic of Resolution.
- *  This module handles the complex task of ensuring a handle's pointer 
- *  is current and synchronized with its parent in the fractal tree.
  */
 
 const SmartPointer = require('../../utils/smartPointer.js');
@@ -14,17 +12,15 @@ const constants = require('../../constants.js');
 module.exports = {
     /**
      * @description
-     *  Ensures the handle's pointer is valid and synchronized with the latest
-     *  mutations in the database. If a parent node has moved or changed, 
-     *  this method re-navigates to find the current pointer.
+     *  Ensures the handle's pointer is valid and synchronized synchronously.
      */
-    ensureResolved: async (state, force = false) => {
+    ensureResolved(state, force = false) {
         if (state.isUpdatingPointer) return;
         const db = state.db;
         const gc = db.mutationCount || 0;
         if (!force && state.ptr && state.lastMutationCount === gc) return;
 
-        return db.read(async () => {
+        return db.read(() => {
             const gcLock = db.mutationCount || 0;
             if (!force && state.ptr && state.lastMutationCount === gcLock) return;
 
@@ -32,11 +28,9 @@ module.exports = {
             let parentH = null;
 
             if (state.context && state.context.parent) {
-                // Access internal state safely to avoid proxy loops
                 const HandleRegistry = require('../../core/handleRegistry.js');
                 parentH = HandleRegistry.getSoul(state.context.parent);
-                
-                await parentH.ensureResolved(force);
+                parentH.ensureResolved(force);
                 
                 const currentParentHash = parentH.ptr ? parentH.ptr.toString('hex') : 'null';
                 if (state.lastParentPtrHash !== currentParentHash) {
@@ -45,7 +39,6 @@ module.exports = {
                 }
             }
 
-            // Root check
             const isRoot = (db.root && (state === (require('../../core/handleRegistry.js').getSoul(db.root))));
             
             if (isRoot) {
@@ -54,7 +47,7 @@ module.exports = {
                         state.ptr = db.rootPtrRaw;
                         const decoded = SmartPointer.decode(state.ptr);
                         if (decoded) state.type = decoded.type;
-                        state.writer.common.invalidateEngine();
+                        if (state.writer && state.writer.common) state.writer.common.invalidateEngine();
                     }
                 }
                 state.lastMutationCount = gcLock;
@@ -62,20 +55,16 @@ module.exports = {
             }
 
             if (parentH) {
-                let result = await parentH.nav.resolveKey(state.context.key);
-                
-                // Retry if parent moved
+                let result = parentH.nav.resolveKey(state.context.key);
                 if (!result && (force || parentChanged) && (parentH.type === constants.TYPE_DICTIONARY || parentH.type === constants.TYPE_MAP)) {
-                    parentH.writer.common.invalidateEngine();
-                    result = await parentH.nav.resolveKey(state.context.key);
+                    if (parentH.writer && parentH.writer.common) parentH.writer.common.invalidateEngine();
+                    result = parentH.nav.resolveKey(state.context.key);
                 }
 
                 if (result) {
                     state.ptr = result.ptr;
                     state.type = result.type;
-                    if (state.writer && state.writer.common) {
-                        state.writer.common.invalidateEngine();
-                    }
+                    if (state.writer && state.writer.common) state.writer.common.invalidateEngine();
                 } else {
                     state.ptr = null;
                     state.type = null; 
@@ -85,11 +74,7 @@ module.exports = {
         });
     },
 
-    /**
-     * @description
-     *  Constructs the logical path from root to this handle.
-     */
-    getPath: (state) => {
+    getPath(state) {
         const parts = [];
         let curr = state.context;
         const HandleRegistry = require('../../core/handleRegistry.js');

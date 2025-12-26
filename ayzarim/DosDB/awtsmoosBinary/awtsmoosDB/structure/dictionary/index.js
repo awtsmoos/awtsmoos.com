@@ -12,10 +12,17 @@ const Sequence = require('../sequence/index.js');
 class DictionaryEngine {
     constructor(allocator, ptr = null) {
         this.allocator = allocator;
-        this.ptr = ptr;
+        this.db = allocator.v1.db;
+
+        // B"H: Pointer Normalization.
+        if (Buffer.isBuffer(ptr) && ptr.length === 16) {
+            this.ptr = SmartPointer.resolve(ptr, allocator);
+        } else {
+            this.ptr = ptr || null;
+        }
+        
         this.map = null;
         this.seq = null;
-        this.db = allocator.v1.db;
     }
 
     create() {
@@ -36,11 +43,12 @@ class DictionaryEngine {
     }
 
     _init() {
-        if (!this.ptr) return;
+        if (!this.ptr || this.map) return;
         const block = this.db._readChainSafe(this.ptr);
         const mapPtrBuf = block.subarray(4, 20);
         const seqPtrBuf = block.subarray(20, 36);
 
+        // Synchronous resolution of pointers inside the Dictionary header.
         const mapRes = SmartPointer.resolve(mapPtrBuf, this.allocator);
         const seqRes = SmartPointer.resolve(seqPtrBuf, this.allocator);
 

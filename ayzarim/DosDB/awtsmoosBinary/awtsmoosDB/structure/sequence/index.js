@@ -14,7 +14,15 @@ const SmartPointer = require('../../utils/smartPointer.js');
 class SequenceEngine {
     constructor(allocator, ptr = null) {
         this.allocator = allocator;
-        this.ptr = ptr || null;
+        this.db = allocator.v1.db;
+        
+        // B"H: Pointer Normalization.
+        if (Buffer.isBuffer(ptr) && ptr.length === 16) {
+            this.ptr = SmartPointer.resolve(ptr, allocator);
+        } else {
+            this.ptr = ptr || null;
+        }
+        
         this.nodeIO = new SequenceNode(allocator, this);
         this.ops = new SequenceOps(this);
     }
